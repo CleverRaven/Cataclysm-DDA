@@ -129,6 +129,18 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
     }
 }
 
+static bool assign_coverage_from_json( const JsonObject &jo, const std::string &key,
+                                       cata::optional<body_part_set> &parts )
+{
+    body_part_set temp;
+    if( assign_coverage_from_json( jo, key, temp ) ) {
+        parts = temp;
+        return true;
+    }
+
+    return false;
+}
+
 static bool is_physical( const itype &type )
 {
     return !type.has_flag( flag_AURA ) &&
@@ -1040,6 +1052,7 @@ void Item_factory::init()
     add_iuse( "WATER_PURIFIER", &iuse::water_purifier );
     add_iuse( "WEAK_ANTIBIOTIC", &iuse::weak_antibiotic );
     add_iuse( "WEATHER_TOOL", &iuse::weather_tool );
+    add_iuse( "SEXTANT", &iuse::sextant );
     add_iuse( "WEED_CAKE", &iuse::weed_cake );
     add_iuse( "XANAX", &iuse::xanax );
     add_iuse( "BREAK_STICK", &iuse::break_stick );
@@ -1678,6 +1691,7 @@ void islot_ammo::load( const JsonObject &jo )
     // Damage instance assign reader handles pierce and prop_damage
     assign( jo, "damage", damage, strict );
     assign( jo, "range", range, strict, 0 );
+    assign( jo, "range_multiplier", range_multiplier, strict, 1.0f );
     assign( jo, "dispersion", dispersion, strict, 0 );
     assign( jo, "recoil", recoil, strict, 0 );
     assign( jo, "count", def_charges, strict, 1 );
@@ -1906,84 +1920,24 @@ std::string enum_to_string<layer_level>( layer_level data )
 }
 } // namespace io
 
+void armor_portion_data::deserialize( JsonIn &jsin )
+{
+    const JsonObject &jo = jsin.get_object();
+
+    assign_coverage_from_json( jo, "covers", covers );
+    optional( jo, false, "coverage", coverage, 0 );
+
+    if( jo.has_array( "encumbrance" ) ) {
+        encumber = jo.get_array( "encumbrance" ).get_int( 0 );
+        max_encumber = jo.get_array( "encumbrance" ).get_int( 1 );
+    } else {
+        optional( jo, false, "encumbrance", encumber, 0 );
+    }
+}
+
 void islot_armor::load( const JsonObject &jo )
 {
-    if( jo.has_array( "armor_portion_data" ) || jo.has_array( "armor" ) ) {
-        const JsonArray &arr = jo.has_array( "armor" ) ? jo.get_array( "armor" ) :
-                               jo.get_array( "armor_portion_data" );
-
-        data.clear();
-        for( const JsonObject obj : arr ) {
-            armor_portion_data tempData;
-            body_part_set temp_cover_data;
-            assign_coverage_from_json( obj, "covers", temp_cover_data );
-            tempData.covers = temp_cover_data;
-
-            if( obj.has_array( "encumbrance" ) ) {
-                tempData.encumber = obj.get_array( "encumbrance" ).get_int( 0 );
-                tempData.max_encumber = obj.get_array( "encumbrance" ).get_int( 1 );
-            } else if( obj.has_int( "encumbrance" ) ) {
-                tempData.encumber = obj.get_int( "encumbrance" );
-                tempData.max_encumber = -1;
-            }
-            if( obj.has_int( "coverage" ) ) {
-                tempData.coverage = obj.get_int( "coverage" );
-            }
-            data.push_back( tempData );
-
-            // TODO: Not currently supported, we still use flags for this
-            //if( obj.has_string( "layer" ) ) {
-            //    for( auto &piece : data ) {
-            //        layer_level layer;
-            //        obj.read( "layer", layer );
-            //    }
-            //} else {
-            //    for( armor_portion_data &piece : data ) {
-            //        piece.layer = layer_level::REGULAR;
-            //    }
-            //}
-        }
-    } else {
-        if( data.empty() ) { // Loading item does not have copy-from
-            data.emplace_back();
-            optional( jo, was_loaded, "encumbrance", data[0].encumber, 0 );
-            // Default max_encumbrance will be set to a reasonable value in finalize_post
-            optional( jo, was_loaded, "max_encumbrance", data[0].max_encumber, -1 );
-            optional( jo, was_loaded, "coverage", data[0].coverage, 0 );
-            body_part_set temp_cover_data;
-            assign_coverage_from_json( jo, "covers", temp_cover_data );
-            data[0].covers = temp_cover_data;
-        } else { // This item has copy-from and already has taken data from parent
-            armor_portion_data child_data;
-            if( jo.has_int( "encumbrance" ) ) {
-                child_data.encumber = jo.get_int( "encumbrance" );
-            }
-            if( jo.has_int( "max_encumbrance" ) ) {
-                child_data.max_encumber = jo.get_int( "max_encumbrance" );
-            } else {
-                child_data.max_encumber = -1;
-            }
-            if( jo.has_int( "coverage" ) ) {
-                child_data.coverage = jo.get_int( "coverage" );
-            }
-            // If child item contains data, use that data, otherwise use parents data
-            if( child_data.encumber != data[0].encumber && child_data.encumber != 0 ) {
-                data[0].encumber = child_data.encumber;
-            }
-            if( child_data.max_encumber != data[0].max_encumber && child_data.max_encumber != -1 ) {
-                data[0].max_encumber = child_data.max_encumber;
-            }
-            if( child_data.coverage != data[0].coverage && child_data.coverage != 0 ) {
-                data[0].coverage = child_data.coverage;
-            }
-            body_part_set temp_cover_data;
-            assign_coverage_from_json( jo, "covers", temp_cover_data );
-            if( temp_cover_data.any() ) {
-                data[0].covers = temp_cover_data;
-            }
-        }
-    }
-
+    optional( jo, was_loaded, "armor", data );
     optional( jo, was_loaded, "sided", sided, false );
 
     optional( jo, was_loaded, "material_thickness", thickness, 0.0f );
@@ -2348,6 +2302,7 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
     assign( jo, "aim_speed", slot.aim_speed, strict, -1 );
     assign( jo, "handling_modifier", slot.handling, strict );
     assign( jo, "range_modifier", slot.range );
+    assign( jo, "range_multiplier", slot.range_multiplier );
     assign( jo, "consume_chance", slot.consume_chance );
     assign( jo, "consume_divisor", slot.consume_divisor );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );

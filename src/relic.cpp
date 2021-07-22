@@ -425,7 +425,8 @@ void relic::try_recharge( item &parent, Character *carrier, const tripoint &pos 
 {
     if( charge.regenerate_ammo && item_can_not_load_ammo( parent ) ) {
         return;
-    } else if( !charge.regenerate_ammo && charge.charges >= charge.max_charges ) {
+    }
+    if( !charge.regenerate_ammo && charge.charges >= charge.max_charges ) {
         return;
     }
 

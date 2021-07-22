@@ -1520,32 +1520,38 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
 {
     const int previous_zoom = g->get_zoom();
     g->set_zoom( overmap_zoom_level );
-    on_out_of_scope reset_zoom( [&]() {
-        overmap_zoom_level = g->get_zoom();
-        g->set_zoom( previous_zoom );
-    } );
 
     background_pane bg_pane;
 
-    ui_adaptor ui;
-    ui.on_screen_resize( []( ui_adaptor & ui ) {
+    shared_ptr_fast<ui_adaptor> ui = make_shared_fast<ui_adaptor>();
+    ui->on_screen_resize( []( ui_adaptor & ui ) {
         /**
          * Handle possibly different overmap font size
          */
         OVERMAP_LEGEND_WIDTH = clamp( TERMX / 5, 28, 55 );
         OVERMAP_WINDOW_HEIGHT = TERMY;
         OVERMAP_WINDOW_WIDTH = TERMX - OVERMAP_LEGEND_WIDTH;
+        OVERMAP_WINDOW_TERM_WIDTH = OVERMAP_WINDOW_WIDTH;
+        OVERMAP_WINDOW_TERM_HEIGHT = OVERMAP_WINDOW_HEIGHT;
+
         to_overmap_font_dimension( OVERMAP_WINDOW_WIDTH, OVERMAP_WINDOW_HEIGHT );
 
-        /* please do not change point( TERMX - OVERMAP_LEGEND_WIDTH, 0 ) to point( OVERMAP_WINDOW_WIDTH, 0 ) */
-        /* because overmap legend will be absent */
-        g->w_omlegend = catacurses::newwin( TERMY, OVERMAP_LEGEND_WIDTH,
-                                            point( TERMX - OVERMAP_LEGEND_WIDTH, 0 ) );
+        g->w_omlegend = catacurses::newwin( OVERMAP_WINDOW_TERM_HEIGHT, OVERMAP_LEGEND_WIDTH,
+                                            point( OVERMAP_WINDOW_TERM_WIDTH, 0 ) );
         g->w_overmap = catacurses::newwin( OVERMAP_WINDOW_HEIGHT, OVERMAP_WINDOW_WIDTH, point_zero );
 
         ui.position_from_window( catacurses::stdscr );
     } );
-    ui.mark_resize();
+    ui->mark_resize();
+
+    weak_ptr_fast<ui_adaptor> main_ui = ui;
+    g->swap_main_ui_adaptor( main_ui );
+
+    on_out_of_scope reset_main_ui( [&]() {
+        overmap_zoom_level = g->get_zoom();
+        g->swap_main_ui_adaptor( main_ui );
+        g->set_zoom( previous_zoom );
+    } );
 
     tripoint_abs_omt ret = overmap::invalid_tripoint;
     tripoint_abs_omt curs( orig );
@@ -1597,7 +1603,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     cata::optional<tripoint> mouse_pos;
     std::chrono::time_point<std::chrono::steady_clock> last_blink = std::chrono::steady_clock::now();
 
-    ui.on_redraw( [&]( const ui_adaptor & ) {
+    ui->on_redraw( [&]( const ui_adaptor & ) {
         draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays,
               show_explored, fast_scroll, &ictxt, data );
     } );
@@ -1741,11 +1747,11 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
         } else if( action == "TOGGLE_FOREST_TRAILS" ) {
             uistate.overmap_show_forest_trails = !uistate.overmap_show_forest_trails;
         } else if( action == "SEARCH" ) {
-            if( !search( ui, curs, orig ) ) {
+            if( !search( *ui, curs, orig ) ) {
                 continue;
             }
         } else if( action == "PLACE_TERRAIN" || action == "PLACE_SPECIAL" ) {
-            place_ter_or_special( ui, curs, action );
+            place_ter_or_special( *ui, curs, action );
         } else if( action == "MISSIONS" ) {
             g->list_missions();
         }

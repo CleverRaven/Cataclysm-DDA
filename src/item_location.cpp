@@ -552,7 +552,7 @@ class item_location::impl::item_in_container : public item_location::impl
                 }
                 idx++;
             }
-            if( container->contents.empty() ) {
+            if( container->empty() ) {
                 return -1;
             }
             return idx;
@@ -574,7 +574,7 @@ class item_location::impl::item_in_container : public item_location::impl
         }
 
         item *unpack( int idx ) const override {
-            if( idx < 0 || static_cast<size_t>( idx ) >= target()->contents.num_item_stacks() ) {
+            if( idx < 0 || static_cast<size_t>( idx ) >= target()->num_item_stacks() ) {
                 return nullptr;
             }
             std::list<const item *> all_items = container->all_items_ptr();
@@ -654,7 +654,7 @@ class item_location::impl::item_in_container : public item_location::impl
                 obj = *target();
             }
 
-            const int container_mv = container->contents.obtain_cost( *target() );
+            const int container_mv = container->obtain_cost( *target() );
             if( container_mv == 0 ) {
                 debugmsg( "ERROR: %s does not contain %s", container->tname(), target()->tname() );
                 return 0;
@@ -939,4 +939,24 @@ units::volume item_location::volume_capacity() const
 units::mass item_location::weight_capacity() const
 {
     return ptr->weight_capacity();
+}
+
+bool item_location::protected_from_liquids() const
+{
+    // check if inside a watertight which is not an open_container
+    if( has_parent() ) {
+        item_location parent = parent_item();
+
+        // parent can protect the item against water
+        if( parent->is_watertight_container() && !parent->will_spill() ) {
+            return true;
+        }
+
+        // check the parent's parent
+        return parent.protected_from_liquids();
+    }
+
+    // we recursively checked all containers
+    // none are closed watertight containers
+    return false;
 }

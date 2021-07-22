@@ -218,7 +218,6 @@
     "type": "overmap_terrain",
     "id": "forest_trail",
     "name": "forest trail",
-    "sym": "T",
     "color": "green",
     "mapgen_straight": [ { "method": "builtin", "name": "forest_trail_straight" } ],
     "mapgen_curved": [ { "method": "builtin", "name": "forest_trail_curved" } ],

@@ -77,8 +77,6 @@ static const efftype_id effect_zapped( "zapped" );
 
 static const species_id species_ROBOT( "ROBOT" );
 
-static const proficiency_id proficiency_prof_spotting( "prof_spotting" );
-
 const std::map<std::string, creature_size> Creature::size_map = {
     {"TINY",   creature_size::tiny},
     {"SMALL",  creature_size::small},
@@ -245,7 +243,7 @@ bool Creature::sees( const Creature &critter ) const
 
     map &here = get_map();
     // player can use mirrors, so `has_potential_los` cannot be used
-    if( !is_player() && !here.has_potential_los( pos(), critter.pos() ) ) {
+    if( !is_avatar() && !here.has_potential_los( pos(), critter.pos() ) ) {
         return false;
     }
 
@@ -253,7 +251,7 @@ bool Creature::sees( const Creature &critter ) const
         // hallucinations are imaginations of the player character, npcs or monsters don't hallucinate.
         // Invisible hallucinations would be pretty useless (nobody would see them at all), therefor
         // the player will see them always.
-        return is_player();
+        return is_avatar();
     }
 
     if( !fov_3d && posz() != critter.posz() ) {
@@ -628,7 +626,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         stab_moves *= 1.5;
     }
     if( stab_moves >= 150 && !is_immune_effect( effect_downed ) ) {
-        if( is_player() ) {
+        if( is_avatar() ) {
             source->add_msg_if_npc( m_bad, _( "<npcname> forces you to the ground!" ) );
         } else {
             source->add_msg_player_or_npc( m_good, _( "You force %s to the ground!" ),
@@ -724,7 +722,7 @@ void projectile::apply_effects_damage( Creature &target, Creature *source,
             time_duration duration = rng( 6_turns, 8_turns );
             target.add_effect( effect_source( source ), effect_stunned, duration );
             target.add_effect( effect_source( source ), effect_sensor_stun, duration );
-            add_msg( source->is_player() ?
+            add_msg( source->is_avatar() ?
                      _( "You land a clean shot on the %1$s sensors, stunning it." ) :
                      _( "The %1$s is stunned!" ),
                      target.disp_name( true ) );
@@ -856,7 +854,7 @@ void Creature::messaging_projectile_attack( const Creature *source,
     if( u_see_this ) {
         if( hit_selection.damage_mult == 0 ) {
             if( source != nullptr ) {
-                add_msg( source->is_player() ? _( "You miss!" ) : _( "The shot misses!" ) );
+                add_msg( source->is_avatar() ? _( "You miss!" ) : _( "The shot misses!" ) );
             }
         } else if( total_damage == 0 ) {
             //~ 1$ - monster name, 2$ - character's bodypart or monster's skin/armor
@@ -864,14 +862,14 @@ void Creature::messaging_projectile_attack( const Creature *source,
                      is_monster() ?
                      skin_name() :
                      body_part_name_accusative( hit_selection.bp_hit ) );
-        } else if( is_player() ) {
+        } else if( is_avatar() ) {
             //monster hits player ranged
             //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
             add_msg_if_player( m_bad, _( "You were hit in the %1$s for %2$d damage." ),
                                body_part_name_accusative( hit_selection.bp_hit ),
                                total_damage );
         } else if( source != nullptr ) {
-            if( source->is_player() ) {
+            if( source->is_avatar() ) {
                 //player hits monster ranged
                 SCT.add( point( posx(), posy() ),
                          direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
@@ -1223,7 +1221,7 @@ void Creature::add_effect( const effect_source &source, const efftype_id &eff_id
         ( *effects )[eff_id][bp] = e;
         if( Character *ch = as_character() ) {
             get_event_bus().send<event_type::character_gains_effect>( ch->getID(), eff_id );
-            if( is_player() && !type.get_apply_message().empty() ) {
+            if( is_avatar() && !type.get_apply_message().empty() ) {
                 add_msg( type.gain_game_message_type(), type.get_apply_message() );
             }
         }
@@ -1282,7 +1280,7 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_id &bp )
     const effect_type &type = eff_id.obj();
 
     if( Character *ch = as_character() ) {
-        if( is_player() ) {
+        if( is_avatar() ) {
             if( !type.get_remove_message().empty() ) {
                 add_msg( type.lose_game_message_type(), type.get_remove_message() );
             }
@@ -1427,7 +1425,7 @@ void Creature::process_effects()
             effect &e = _it.second;
             const int prev_int = e.get_intensity();
             // Run decay effects, marking effects for removal as necessary.
-            e.decay( rem_ids, rem_bps, calendar::turn, is_player() );
+            e.decay( rem_ids, rem_bps, calendar::turn, is_avatar() );
 
             if( e.get_intensity() != prev_int && e.get_duration() > 0_turns ) {
                 on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );
@@ -1436,7 +1434,7 @@ void Creature::process_effects()
             const bool reduced = resists_effect( e );
             if( e.kill_roll( reduced ) ) {
                 add_msg_if_player( m_bad, e.get_death_message() );
-                if( is_player() ) {
+                if( is_avatar() ) {
                     std::map<std::string, cata_variant> event_data;
                     std::pair<std::string, cata_variant> data_obj( "character",
                             cata_variant::make<cata_variant_type::character_id>( as_player()->getID() ) );
@@ -2442,7 +2440,7 @@ void Creature::process_damage_over_time()
 void Creature::check_dead_state()
 {
     if( is_dead_state() ) {
-        die( nullptr );
+        die( killer );
     }
 }
 
@@ -2522,11 +2520,6 @@ void Creature::add_msg_if_player( const game_message_params &params, const trans
     return add_msg_if_player( params, msg.translated() );
 }
 
-void Creature::add_msg_debug_if_player( debugmode::debug_filter type, const translation &msg ) const
-{
-    return add_msg_debug_if_player( type, msg.translated() );
-}
-
 void Creature::add_msg_if_npc( const translation &msg ) const
 {
     return add_msg_if_npc( msg.translated() );
@@ -2535,11 +2528,6 @@ void Creature::add_msg_if_npc( const translation &msg ) const
 void Creature::add_msg_if_npc( const game_message_params &params, const translation &msg ) const
 {
     return add_msg_if_npc( params, msg.translated() );
-}
-
-void Creature::add_msg_debug_if_npc( debugmode::debug_filter type, const translation &msg ) const
-{
-    return add_msg_debug_if_npc( type, msg.translated() );
 }
 
 void Creature::add_msg_player_or_npc( const translation &pc, const translation &npc ) const

@@ -303,6 +303,18 @@
   },
   {
     "type": "effect_type",
+    "id": "natures_commune",
+    "name": [ "Nature's Commune" ],
+    "desc": [ "You can feel Mother Nature welcoming you, revitalizing your body and calming the natural fauna around you." ],
+    "apply_message": "A warm embrace surrounds you, like that of a mother with her child.",
+    "remove_message": "Your commune with Mother Nature fades.",
+    "rating": "good",
+    "max_duration": "20 m",
+    "//": "No morale_mod is currently possible in effects, but this effect should give +5/+10 morale whenever that it's implemented.",
+    "base_mods": { "health_min": [ 1 ], "health_chance": [ 40 ], "h_mod_min": [ 1 ], "h_mod_chance": [ 80 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "cold_heart_effect",
     "name": [ "Cold Heart" ],
     "desc": [ "Full of chilled blood, the heart slows as it grows cold." ],

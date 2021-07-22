@@ -606,7 +606,7 @@ void vpart_info::finalize()
 
 static bool type_can_contain( const itype &container, const itype_id &containee )
 {
-    return item( &container ).can_contain( item( containee ) );
+    return item( &container ).can_contain( item( containee ) ).success();
 }
 
 void vpart_info::check()

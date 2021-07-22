@@ -24,7 +24,8 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 12 ] }, { "item": "splinter", "count": 1 } ]
-    }
+    },
+    "shoot": { "reduce_damage": [ 5, 20 ], "reduce_damage_laser": [ 5, 20 ], "destroy_damage": [ 15, 45 ] }
   },
   {
     "type": "furniture",

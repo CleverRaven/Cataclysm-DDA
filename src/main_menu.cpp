@@ -142,7 +142,6 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
 
     switch( current_holiday ) {
         case holiday::new_year:
-            break;
         case holiday::easter:
             break;
         case holiday::halloween:
@@ -151,9 +150,7 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
                                  25, 0, c_white, halloween_graves() );
             break;
         case holiday::thanksgiving:
-            break;
         case holiday::christmas:
-            break;
         case holiday::none:
         case holiday::num_holiday:
         default:
@@ -412,9 +409,7 @@ void main_menu::display_text( const std::string &text, const std::string &title,
     const auto vFolded = foldstring( text, width );
     int iLines = vFolded.size();
 
-    if( selected < 0 ) {
-        selected = 0;
-    } else if( iLines < height ) {
+    if( selected < 0 || iLines < height ) {
         selected = 0;
     } else if( selected >= iLines - height ) {
         selected = iLines - height;

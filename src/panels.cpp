@@ -777,7 +777,7 @@ static std::string morale_emotion( const int morale_cur, const face_type face,
             } else if( morale_cur >= -200 ) {
                 return "XvX";
             } else {
-                return "@v@";
+                return "@^@";
             }
         } else if( morale_cur >= 200 ) {
             return "@U@";
@@ -1132,7 +1132,7 @@ static void draw_time_graphic( const catacurses::window &w )
     bool bAddTrail = false;
 
     for( int i = 0; i < 14; i += 2 ) {
-        if( iHour >= 8 + i && iHour <= 13 + ( i / 2 ) ) {
+        if( iHour >= 8 + i && iHour <= 13 + ( i / 2 ) ) { // NOLINT(bugprone-branch-clone)
             wputch( w, hilite( c_white ), ' ' );
 
         } else if( iHour >= 6 + i && iHour <= 7 + i ) {

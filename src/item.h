@@ -735,6 +735,17 @@ class item : public visitable
         /** Whether this is container. Note that container does not necessarily means it's
          * suitable for liquids. */
         bool is_container() const;
+        // whether the contents has a pocket with the associated type
+        bool has_pocket_type( item_pocket::pocket_type pk_type ) const;
+        bool has_any_with( const std::function<bool( const item & )> &filter,
+                           item_pocket::pocket_type pk_type ) const;
+
+        /** True if every pocket is rigid or we have no pockets */
+        bool all_pockets_rigid() const;
+
+        // gets all pockets contained in this item
+        ret_val<std::vector<const item_pocket *>> get_all_contained_pockets() const;
+        ret_val<std::vector<item_pocket *>> get_all_contained_pockets();
 
         /**
          * Updates the pockets of this item to be correct based on the mods that are installed.
@@ -789,6 +800,17 @@ class item : public visitable
         // recursive function that checks pockets for remaining free space
         units::volume check_for_free_space() const;
         units::volume get_selected_stack_volume( const std::map<const item *, int> &without ) const;
+        units::volume get_contents_volume_with_tweaks( const std::map<const item *, int> &without ) const;
+        units::volume get_nested_content_volume_recursive( const std::map<const item *, int> &without )
+        const;
+
+        // what will the move cost be of taking @it out of this container?
+        // should only be used from item_location if possible, to account for
+        // player inventory handling penalties from traits
+        int obtain_cost( const item &it ) const;
+        // what will the move cost be of storing @it into this container? (CONTAINER pocket type)
+        int insert_cost( const item &it ) const;
+
         /**
          * Puts the given item into this one.
          */
@@ -1237,6 +1259,9 @@ class item : public visitable
         bool is_faulty() const;
         bool is_irremovable() const;
 
+        /** Returns true if the item is broken and can't be activated or used in crafting */
+        bool is_broken() const;
+
         bool is_unarmed_weapon() const; //Returns true if the item should be considered unarmed
 
         bool has_temperature() const;
@@ -1277,12 +1302,12 @@ class item : public visitable
          * For example, airtight for gas, acidproof for acid etc.
          */
         /*@{*/
-        bool can_contain( const item &it ) const;
+        ret_val<bool> can_contain( const item &it ) const;
         bool can_contain( const itype &tp ) const;
         bool can_contain_partial( const item &it ) const;
         /*@}*/
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
-                bool allow_sealed = false, bool ignore_settings = false );
+                bool allow_sealed = false, bool ignore_settings = false, bool nested = false );
 
         units::length max_containable_length() const;
         units::volume max_containable_volume() const;
@@ -1347,6 +1372,9 @@ class item : public visitable
          * @return If the item is now empty.
          */
         bool spill_contents( const tripoint &pos );
+        bool spill_open_pockets( Character &guy, const item *avoid = nullptr );
+        // spill items that don't fit in the container
+        void overflow( const tripoint &pos );
 
         /** Checks if item is a holster and currently capable of storing obj
          *  @param obj object that we want to holster
@@ -1833,41 +1861,52 @@ class item : public visitable
         /** Quantity of energy currently loaded in tool or battery */
         units::energy energy_remaining() const;
 
-        /** Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod */
-        int ammo_remaining() const;
+        /**
+         * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod. Can include UPS and bionic
+         * If UPS/bionic power does not matter then the carrier can be nullptr
+         * @param carrier is used for UPS and bionic power
+         */
+        int ammo_remaining( const Character *carrier = nullptr ) const;
+
         /**
          * ammo capacity for a specific ammo
          */
         int ammo_capacity( const ammotype &ammo ) const;
+
         /**
          * how much more ammo can fit into this item
          * if this item is not loaded, gives remaining capacity of its default ammo
          */
         int remaining_ammo_capacity() const;
+
         /** Quantity of ammunition consumed per usage of tool or with each shot of gun */
         int ammo_required() const;
 
         /**
          * Check if sufficient ammo is loaded for given number of uses.
-         *
          * Check if there is enough ammo loaded in a tool for the given number of uses
-         * or given number of gun shots.  Using this function for this check is preferred
+         * or given number of gun shots.
+         * If carrier is provides then UPS and bionic may be also used as ammo
+         * Using this function for this check is preferred
          * because we expect to add support for items consuming multiple ammo types in
          * the future.  Users of this function will not need to be refactored when this
          * happens.
          *
-         * @param[in] qty Number of uses
+         * @param carrier who holds the item. Needed for UPS/bionic
+         * @param qty Number of uses
          * @returns true if ammo sufficient for number of uses is loaded, false otherwise
          */
-        bool ammo_sufficient( int qty = 1 ) const;
+        bool ammo_sufficient( const Character *carrier, int qty = 1 ) const;
 
         /**
          * Consume ammo (if available) and return the amount of ammo that was consumed
+         * Consume order: loaded items, UPS, bionic
          * @param qty maximum amount of ammo that should be consumed
          * @param pos current location of item, used for ejecting magazines and similar effects
+         * @param carrier holder of the item, used for getting UPS and bionic power
          * @return amount of ammo consumed which will be between 0 and qty
          */
-        int ammo_consume( int qty, const tripoint &pos );
+        int ammo_consume( int qty, const tripoint &pos, Character *carrier );
 
         /** Specific ammo data, returns nullptr if item is neither ammo nor loaded with any */
         const itype *ammo_data() const;
@@ -2266,6 +2305,33 @@ class item : public visitable
         /** returns a list of pointers to all items inside recursively */
         std::list<item *> all_items_ptr( item_pocket::pocket_type pk_type );
 
+        void clear_items();
+        bool empty() const;
+        // ignores all pockets except CONTAINER pockets to check if this contents is empty.
+        bool empty_container() const;
+
+        // gets the item contained IFF one item is contained (CONTAINER pocket), otherwise a null item reference
+        item &only_item();
+        const item &only_item() const;
+
+        /**
+         * returns the number of items stacks in contents
+         * each item that is not count_by_charges,
+         * plus whole stacks of items that are
+         */
+        size_t num_item_stacks() const;
+        /**
+         * This function is to aid migration to using nested containers.
+         * The call sites of this function need to be updated to search the
+         * pockets of the item, or not assume there is only one pocket or item.
+         */
+        item &legacy_front();
+        const item &legacy_front() const;
+
+        /**
+         * Open a menu for the player to set pocket favorite settings for the pockets in this item_contents
+         */
+        void favorite_settings_menu( const std::string &item_name );
 
     private:
         /** migrates an item into this item. */
@@ -2359,6 +2425,11 @@ class item : public visitable
         // Select a random variant from the possibilities
         // Intended to be called when no explicit variant is set
         void select_gun_variant();
+
+        bool can_have_gun_variant() const;
+
+        // Does this have a variant with this id?
+        bool possible_gun_variant( const std::string &test ) const;
 
         // If the item has a gun variant, this points to it
         const gun_variant_data *_gun_variant = nullptr;

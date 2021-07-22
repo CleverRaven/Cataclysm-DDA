@@ -29,8 +29,8 @@ TEST_CASE( "map_memory_keeps_region", "[map_memory]" )
     CHECK( memory.prepare_region( p1, p4 ) );
     CHECK( !memory.prepare_region( p2, p3 ) );
     CHECK( memory.prepare_region(
-               tripoint( p2.x, p2.y, -p2.z ),
-               tripoint( p3.x, p3.y, -p3.z )
+               tripoint( p2.xy(), -p2.z ),
+               tripoint( p3.xy(), -p3.z )
            ) );
 }
 
@@ -64,6 +64,13 @@ TEST_CASE( "map_memory_overwrites", "[map_memory]" )
     memory.memorize_symbol( p2, 3 );
     CHECK( memory.get_symbol( p1 ) == 1 );
     CHECK( memory.get_symbol( p2 ) == 3 );
+}
+
+TEST_CASE( "map_memory_forgets", "[map_memory]" )
+{
+    map_memory memory;
+    memory.memorize_symbol( tripoint_zero, 1 );
+    memory.memorize_symbol( p3, 1 );
 }
 
 // TODO: map memory save / load

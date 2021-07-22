@@ -824,12 +824,10 @@ void monster::move()
     optional_vpart_position vp = here.veh_at( pos() );
     bool harness_part = static_cast<bool>( here.veh_at( pos() ).part_with_feature( "ANIMAL_CTRL",
                                            true ) );
-    if( friendly != 0 && vp && vp->vehicle().is_moving() &&
-        vp->vehicle().get_monster( vp->part_index() ) ) {
-        moves = 0;
-        return;
-        // Don't move if harnessed, even if vehicle is stationary
-    } else if( vp && has_effect( effect_harnessed ) ) {
+    if( vp && ( ( friendly != 0 && vp->vehicle().is_moving() &&
+                  vp->vehicle().get_monster( vp->part_index() ) ) ||
+                // Don't move if harnessed, even if vehicle is stationary
+                has_effect( effect_harnessed ) ) ) {
         moves = 0;
         return;
         // If harnessed monster finds itself moved from the harness point, the harness probably broke!
@@ -1011,12 +1009,14 @@ void monster::move()
                     moved = true;
                     next_step = candidate_abs;
                     break;
-                } else if( att == Attitude::FRIENDLY && ( target->is_player() || target->is_npc() ||
-                           target->has_flag( MF_QUEEN ) ) ) {
+                }
+                if( att == Attitude::FRIENDLY && ( target->is_avatar() || target->is_npc() ||
+                                                   target->has_flag( MF_QUEEN ) ) ) {
                     // Friendly firing the player or an NPC is illegal for gameplay reasons.
                     // Monsters should instinctively avoid attacking queens that regenerate their own population.
                     continue;
-                } else if( !has_flag( MF_ATTACKMON ) && !has_flag( MF_PUSH_MON ) ) {
+                }
+                if( !has_flag( MF_ATTACKMON ) && !has_flag( MF_PUSH_MON ) ) {
                     // Bail out if there's a non-hostile monster in the way and we're not pushy.
                     continue;
                 }
@@ -1752,6 +1752,12 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
             if( fstr >= 2 ) {
                 here.add_field( sludge_p, fd_sludge, fstr );
             }
+        }
+    }
+
+    if( has_flag( MF_SMALLSLUDGETRAIL ) ) {
+        if( one_in( 2 ) ) {
+            here.add_field( pos(), fd_sludge, 1 );
         }
     }
 
