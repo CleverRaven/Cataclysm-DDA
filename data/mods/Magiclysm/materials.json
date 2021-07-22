@@ -237,5 +237,22 @@
     "name": "Mana",
     "copy-from": "pseudo_fuel",
     "fuel_data": { "energy": 500, "perpetual": true }
+  },
+  {
+    "type": "material",
+    "id": "concentrated_mana",
+    "name": "Concentrated Mana",
+    "density": 38,
+    "reinforces": false,
+    "bash_resist": 8,
+    "cut_resist": 13,
+    "bullet_resist": 7,
+    "acid_resist": 12,
+    "fire_resist": 20,
+    "elec_resist": 20,
+    "chip_resist": 15,
+    "dmg_adj": [ "scratched", "cut", "shredded", "tattered" ],
+    "bash_dmg_verb": "ripped",
+    "cut_dmg_verb": "sliced"
   }
 ]
