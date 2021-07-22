@@ -2154,12 +2154,6 @@ class item : public visitable
         int units_remaining( const Character &ch, int limit = INT_MAX ) const;
 
         /**
-         * Check if item has sufficient units (ammo or charges) remaining
-         * @param ch Character to check (used if ammo is UPS charges)
-         * @param qty units required, if unspecified use item default
-         */
-        bool units_sufficient( const Character &ch, int qty = -1 ) const;
-        /**
          * Returns name of deceased being if it had any or empty string if not
          **/
         std::string get_corpse_name() const;

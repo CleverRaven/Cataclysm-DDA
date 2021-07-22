@@ -8651,15 +8651,6 @@ int item::units_remaining( const Character &ch, int limit ) const
     return std::min( ammo_remaining( &ch ), limit );
 }
 
-bool item::units_sufficient( const Character &ch, int qty ) const
-{
-    if( qty < 0 ) {
-        qty = count_by_charges() ? 1 : ammo_required();
-    }
-
-    return units_remaining( ch, qty ) == qty;
-}
-
 item::reload_option::reload_option( const reload_option & ) = default;
 
 item::reload_option &item::reload_option::operator=( const reload_option & ) = default;
