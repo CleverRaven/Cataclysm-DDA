@@ -2300,6 +2300,14 @@ class item : public visitable
         // inherited from visitable
         VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const
         override;
+        /**
+         * @relates visitable
+         * NOTE: upon expansion, this may need to be filtered by type enum depending on accessibility
+         */
+        VisitResponse visit_contents( const std::function<VisitResponse( item *, item * )> &func,
+                                      item *parent = nullptr );
+        void remove_internal( const std::function<bool( item & )> &filter,
+                              int &count, std::list<item> &res );
         std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
                                            int count = INT_MAX ) override;
 

@@ -11114,6 +11114,12 @@ int item::get_recursive_disassemble_moves( const Character &guy ) const
     return moves;
 }
 
+void item::remove_internal( const std::function<bool( item & )> &filter,
+                            int &count, std::list<item> &res )
+{
+    contents.remove_internal( filter, count, res );
+}
+
 std::list<const item *> item::all_items_top() const
 {
     return contents.all_items_top();
