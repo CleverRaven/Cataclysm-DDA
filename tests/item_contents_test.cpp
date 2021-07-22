@@ -71,7 +71,7 @@ TEST_CASE( "item_contents" )
     // overflow should only spill items if they can't fit
     CHECK( tool_belt.num_item_stacks() == 4 );
 
-    tool_belt.contents.remove_items_if( []( item & it ) {
+    tool_belt.remove_items_with( []( const item & it ) {
         return it.typeId() == itype_id( "crowbar" );
     } );
     // check to see that removing an item works

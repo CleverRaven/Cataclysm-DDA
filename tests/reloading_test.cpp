@@ -373,7 +373,7 @@ TEST_CASE( "reload_liquid_container", "[reload],[liquid]" )
         g->reload_wielded();
         REQUIRE( dummy.activity );
         process_activity( dummy );
-        CHECK( dummy.weapon.contents.remaining_container_capacity() == units::volume() );
+        CHECK( dummy.weapon.get_total_capacity() == dummy.weapon.total_contained_volume() );
         CHECK( ammo_jug.total_contained_volume() +
                dummy.weapon.total_contained_volume() == ammo_volume );
     }
