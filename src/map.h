@@ -318,7 +318,9 @@ class map
         explicit map( bool zlev ) : map( MAPSIZE, zlev ) { }
         virtual ~map();
 
-        map &operator=( map && ) = default;
+        map &operator=( const map & ) = delete;
+        // NOLINTNEXTLINE(performance-noexcept-move-constructor)
+        map &operator=( map && );
 
         /**
          * Tinymaps will ocassionally need to skip npc rotation in map::rotate

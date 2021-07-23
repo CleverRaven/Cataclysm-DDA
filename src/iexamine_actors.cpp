@@ -7,6 +7,7 @@
 #include "mapgen_functions.h"
 #include "map_iterator.h"
 #include "messages.h"
+#include "mtype.h"
 #include "output.h"
 #include "player.h"
 
