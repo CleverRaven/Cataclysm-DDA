@@ -155,6 +155,7 @@
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
+      "PERMEABLE",
       "WINDOW"
     ],
     "close": "t_window_no_curtains",
@@ -259,6 +260,7 @@
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
+      "PERMEABLE",
       "WINDOW"
     ],
     "curtain_transform": "t_window_no_curtains_open",
@@ -395,6 +397,7 @@
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
+      "PERMEABLE",
       "WINDOW"
     ],
     "bash": {
@@ -430,7 +433,7 @@
       "ter_set": "t_window_empty",
       "items": [ { "item": "glass_shard", "count": [ 6, 10 ] } ]
     },
-    "flags": [ "TRANSPARENT", "SHARP", "FLAMMABLE", "NOITEM", "MOUNTABLE", "CONNECT_TO_WALL", "SMALL_PASSAGE", "WINDOW" ]
+    "flags": [ "TRANSPARENT", "SHARP", "FLAMMABLE", "NOITEM", "MOUNTABLE", "CONNECT_TO_WALL", "SMALL_PASSAGE", "PERMEABLE", "WINDOW" ]
   },
   {
     "type": "terrain",
@@ -470,7 +473,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "CONNECT_TO_WALL", "BLOCK_WIND", "PERMEABLE", "WINDOW" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
       "items": [ { "item": "2x4", "count": [ 3, 4 ] }, { "item": "nail", "charges": [ 6, 8 ] } ]
@@ -521,7 +524,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "PERMEABLE", "WINDOW" ],
     "deconstruct": {
       "ter_set": "t_window_empty",
       "items": [ { "item": "2x4", "count": [ 6, 8 ] }, { "item": "nail", "charges": [ 12, 16 ] } ]
@@ -577,7 +580,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
+    "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "PERMEABLE", "WINDOW" ],
     "deconstruct": {
       "ter_set": "t_window_reinforced_noglass",
       "items": [
@@ -882,7 +885,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
+    "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "REDUCE_SCENT", "PERMEABLE", "WINDOW" ],
     "curtain_transform": "t_metal_grate_window",
     "examine_action": "curtains",
     "close": "t_metal_grate_window_with_curtain",
@@ -911,7 +914,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "BARRICADABLE_WINDOW", "THIN_OBSTACLE", "WINDOW" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "BARRICADABLE_WINDOW", "THIN_OBSTACLE", "PERMEABLE", "WINDOW" ],
     "bash": {
       "str_min": 50,
       "str_max": 75,
@@ -936,7 +939,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "WINDOW" ],
+    "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "PERMEABLE", "WINDOW" ],
     "curtain_transform": "t_metal_grate_window_noglass",
     "examine_action": "curtains",
     "open": "t_metal_grate_window_with_curtain_open_noglass",
@@ -964,7 +967,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "BARRICADABLE_WINDOW_CURTAINS", "THIN_OBSTACLE", "WINDOW" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "BARRICADABLE_WINDOW_CURTAINS", "THIN_OBSTACLE", "PERMEABLE", "WINDOW" ],
     "curtain_transform": "t_metal_grate_window_noglass",
     "examine_action": "curtains",
     "close": "t_metal_grate_window_with_curtain_noglass",
@@ -1053,6 +1056,7 @@
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
+      "PERMEABLE",
       "WINDOW"
     ],
     "close": "t_single_pane_glass",
@@ -1175,6 +1179,7 @@
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
+      "PERMEABLE",
       "WINDOW"
     ],
     "curtain_transform": "t_single_pane_glass",
@@ -1262,6 +1267,7 @@
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
+      "PERMEABLE",
       "WINDOW"
     ],
     "close": "t_reinforced_single_pane_glass",
@@ -1394,6 +1400,7 @@
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
+      "PERMEABLE",
       "WINDOW"
     ],
     "curtain_transform": "t_reinforced_single_pane_glass",
@@ -1488,6 +1495,7 @@
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
+      "PERMEABLE",
       "WINDOW"
     ],
     "close": "t_double_pane_glass",
@@ -1631,6 +1639,7 @@
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
+      "PERMEABLE",
       "WINDOW"
     ],
     "curtain_transform": "t_double_pane_glass",
@@ -1723,6 +1732,7 @@
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
+      "PERMEABLE",
       "WINDOW"
     ],
     "close": "t_reinforced_double_pane_glass",
@@ -1812,6 +1822,7 @@
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
+      "PERMEABLE",
       "WINDOW"
     ],
     "curtain_transform": "t_reinforced_double_pane_glass",
@@ -1861,6 +1872,7 @@
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
+      "PERMEABLE",
       "WINDOW"
     ],
     "curtain_transform": "t_reinforced_double_pane_glass",
@@ -1949,6 +1961,7 @@
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
+      "PERMEABLE",
       "WINDOW"
     ],
     "close": "t_triple_pane_glass",
@@ -2081,6 +2094,7 @@
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
+      "PERMEABLE",
       "WINDOW"
     ],
     "curtain_transform": "t_triple_pane_glass",
@@ -2176,6 +2190,7 @@
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
+      "PERMEABLE",
       "WINDOW"
     ],
     "close": "t_reinforced_triple_pane_glass",
@@ -2271,7 +2286,6 @@
       "BARRICADABLE_WINDOW_CURTAINS",
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
-      "SMALL_PASSAGE",
       "WINDOW"
     ],
     "curtain_transform": "t_reinforced_triple_pane_glass",
@@ -2323,6 +2337,7 @@
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
+      "PERMEABLE",
       "WINDOW"
     ],
     "curtain_transform": "t_reinforced_triple_pane_glass",
@@ -2561,6 +2576,7 @@
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
+      "PERMEABLE",
       "WINDOW"
     ],
     "curtain_transform": "t_quadruple_pane_glass",
@@ -2658,6 +2674,7 @@
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
+      "PERMEABLE",
       "WINDOW"
     ],
     "close": "t_reinforced_quadruple_pane_glass",
@@ -2753,7 +2770,6 @@
       "BARRICADABLE_WINDOW_CURTAINS",
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
-      "SMALL_PASSAGE",
       "WINDOW"
     ],
     "curtain_transform": "t_reinforced_quadruple_pane_glass",
@@ -2805,6 +2821,7 @@
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
+      "PERMEABLE",
       "WINDOW"
     ],
     "curtain_transform": "t_reinforced_quadruple_pane_glass",
@@ -2897,6 +2914,7 @@
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
+      "PERMEABLE",
       "WINDOW"
     ],
     "close": "t_plastic_window",
@@ -3026,6 +3044,7 @@
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
+      "PERMEABLE",
       "WINDOW"
     ],
     "curtain_transform": "t_plastic_window",
@@ -3122,6 +3141,7 @@
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
+      "PERMEABLE",
       "WINDOW"
     ],
     "close": "t_reinforced_plastic_window",
@@ -3273,6 +3293,7 @@
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
+      "PERMEABLE",
       "WINDOW"
     ],
     "curtain_transform": "t_reinforced_plastic_window",
@@ -3395,6 +3416,7 @@
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
+      "PERMEABLE",
       "WINDOW"
     ],
     "close": "t_tempered_glass_window",
@@ -3538,6 +3560,7 @@
       "CONNECT_TO_WALL",
       "THIN_OBSTACLE",
       "SMALL_PASSAGE",
+      "PERMEABLE",
       "WINDOW"
     ],
     "curtain_transform": "t_tempered_glass_window",
