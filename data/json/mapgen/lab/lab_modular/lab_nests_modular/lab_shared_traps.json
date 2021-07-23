@@ -1,0 +1,40 @@
+[
+  {
+    "type": "trap",
+    "id": "tr_concrete_wall_door_lab_res_8_NW",
+    "name": "door",
+    "color": "light_gray",
+    "symbol": "+",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "action": "map_regen",
+    "map_regen": "concrete_wall_o_lab_res_8_NW",
+    "benign": false
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "concrete_wall_o_lab_res_8_NW",
+    "method": "json",
+    "object": { "place_terrain": [ { "ter": "t_thconc_floor", "x": 11, "y": 15 }, { "ter": "t_thconc_floor", "x": 11, "y": 16 } ] }
+  },
+  {
+    "type": "trap",
+    "id": "tr_concrete_wall_door_lab_res_8_NE",
+    "name": "door",
+    "color": "light_gray",
+    "symbol": "+",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "action": "map_regen",
+    "map_regen": "concrete_wall_o_lab_res_8_NE",
+    "benign": false
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "concrete_wall_o_lab_res_8_NE",
+    "method": "json",
+    "object": { "place_terrain": [ { "ter": "t_thconc_floor", "x": 12, "y": 15 }, { "ter": "t_thconc_floor", "x": 12, "y": 16 } ] }
+  }
+]
