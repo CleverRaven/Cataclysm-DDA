@@ -1,0 +1,47 @@
+[
+  {
+    "type": "mod_tileset",
+    "compatibility": [ "UNDEAD_PEOPLE_BASE", "UNDEAD_PEOPLE", "MshockXottoplus" ],
+    "tiles-new": [
+      {
+        "file": "32x32.png",
+		"sprite_width":32,
+		"sprite_height":32,
+        "tiles": [
+		  {"id": "f_dryer", "fg": 0, "rotates": false},
+		  {"id": "f_dryer_o", "fg": 1, "rotates": false},
+		  {"id": "f_glass_fridge", "fg": 2, "rotates": false},
+		  {"id": "f_glass_fridge_o", "fg": 3, "rotates": false},
+		  {"id": "f_washer", "fg": 4, "rotates": false},
+		  {"id": "f_washer_o", "fg": 5, "rotates": false},
+		  {"id": "f_oven", "fg": 6, "rotates": false},
+		  {"id": "f_oven_o", "fg": 7, "rotates": false},
+		  {"id": "f_shredder", "fg": 8, "rotates": false},
+		  {"id": "f_shredder_o", "fg": 9, "rotates": false},
+		  {"id": "f_sample_freezer", "fg": 10, "rotates": false},
+		  {"id": "f_sample_freezer_o", "fg": 11, "rotates": false},
+		  {"id": "f_cardboard_box", "fg": 12, "rotates": false},
+		  {"id": "f_cardboard_box_o", "fg": 13, "rotates": false},
+		  {"id": "f_dresser", "fg": 14, "rotates": false},
+		  {"id": "f_dresser_o", "fg": 15, "rotates": false},
+		  {"id": "f_glass_cabinet", "fg": 16, "rotates": false},
+		  {"id": "f_glass_cabinet_o", "fg": 17, "rotates": false},
+		  {"id": "f_locker", "fg": 18, "rotates": false},
+		  {"id": "f_locker_o", "fg": 19, "rotates": false},
+		  {"id": "f_recycle_bin", "fg": 20, "rotates": false},
+		  {"id": "f_recycle_bin_o", "fg": 21, "rotates": false},
+		  {"id": "f_trashcan", "fg": 22, "rotates": false},
+		  {"id": "f_trashcan_o", "fg": 23, "rotates": false},
+		  {"id": "f_wardrobe", "fg": 24, "rotates": false},
+		  {"id": "f_wardrobe_o", "fg": 25, "rotates": false},
+		  {"id": "f_filing_cabinet", "fg": 26, "rotates": false},
+		  {"id": "f_filing_cabinet_o", "fg": 27, "rotates": false},
+		  {"id": "f_dumpster", "fg": 28, "rotates": false},
+		  {"id": "f_dumpster_o", "fg": 29, "rotates": false},
+		  {"id": "f_cupboard", "fg": 30, "rotates": false},
+		  {"id": "f_cupboard", "fg": 31, "rotates": false}
+        ]
+      }
+	]
+  }
+]
