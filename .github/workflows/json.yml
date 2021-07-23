@@ -14,7 +14,6 @@ jobs:
         uses: fkirc/skip-duplicate-actions@master
         with:
           cancel_others: 'true'
-          concurrent_skipping: 'outdated_runs'
           paths: '["**.json"]'
   style-json:
     name: JSON style check
