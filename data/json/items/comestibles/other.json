@@ -86,6 +86,23 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "honeydew",
+    "name": { "str": "honeydew" },
+    "description": "A sugar-rich sticky substance, produced by aphids from plant sap.  Ants and bees love it.",
+    "weight": "22 g",
+    "color": "green",
+    "symbol": "~",
+    "material": [ "honey" ],
+    "quench": 4,
+    "calories": 67,
+    "charges": 16,
+    "fun": 2,
+    "comestible_type": "FOOD",
+    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "volume": "250 ml"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "marloss_berry",
     "name": { "str": "marloss berry", "str_pl": "marloss berries" },
     "weight": "177 g",
