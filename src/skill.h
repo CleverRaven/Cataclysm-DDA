@@ -118,6 +118,7 @@ class SkillLevel
         time_point _lastPracticed = calendar::turn;
         bool _isTraining = true;
         int _highestLevel = 0;
+        int _highestExperience = 0;
 
     public:
         SkillLevel() = default;
@@ -143,6 +144,10 @@ class SkillLevel
 
         int highestLevel() const {
             return _highestLevel;
+        }
+
+        int highestExperience() const {
+            return _highestExperience;
         }
 
         int exercise( bool raw = false ) const {
