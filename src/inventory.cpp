@@ -969,8 +969,6 @@ int inventory::count_item( const itype_id &item_type ) const
 
 void inventory::assign_empty_invlet( item &it, const Character &p, const bool force )
 {
-	printf(" inventory::assign_empty_invlet force %d [%c] %s\n", force, !it.invlet ? '0' : it.invlet, it.tname().data());
-	
     const std::string auto_setting = get_option<std::string>( "AUTO_INV_ASSIGN" );
     if( auto_setting == "disabled" || ( ( auto_setting == "favorites" ) && !it.is_favorite ) ) {
         return;
@@ -981,7 +979,6 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
     for( const auto &iter : assigned_invlet ) {
         if( iter.second == target_type && !cur_inv[iter.first] ) {
             it.invlet = iter.first;
-            printf("  assigned_invlet [%c]\n", !it.invlet ? '0' : it.invlet);
             return;
         }
     }
@@ -1001,7 +998,6 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
             }
             if( !cur_inv[inv_char] ) {
                 it.invlet = inv_char;
-                printf("  new key [%c]\n", !it.invlet ? '0' : it.invlet);
                 return;
             }
         }
@@ -1016,7 +1012,6 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
         if( o.invlet != 0 ) {
             it.invlet = o.invlet;
             o.invlet = 0;
-            printf("  reuse [%c]\n", !it.invlet ? '0' : it.invlet);
             return;
         }
     }
@@ -1037,21 +1032,16 @@ void inventory::reassign_item( item &it, char invlet, bool remove_old )
 
 void inventory::update_invlet( item &newit, bool assign_invlet, const item *ignore_invlet_collision_with )
 {
-	printf("inventory::update_invlet [%c] %s\n", !newit.invlet ? '0' : newit.invlet, newit.tname().data());
-    
     if( newit.invlet ) {
         // Avoid letters that have been manually assigned to other things.
         if( assigned_invlet.find( newit.invlet ) != assigned_invlet.end() ) {
-            
             if( assigned_invlet[newit.invlet] != newit.typeId() ) {
                 newit.invlet = '\0';
-                printf(" clear invlet: collision in assigned_invlet\n");
             }
 
         // Remove letters that are not in the favorites cache
         } else if( !invlet_cache.contains( newit.invlet, newit.typeId() ) ) {
             newit.invlet = '\0';
-            printf(" clear invlet: not in invlet_cache\n");
         }
     }
 
@@ -1062,10 +1052,8 @@ void inventory::update_invlet( item &newit, bool assign_invlet, const item *igno
         newit.invlet = '\0';
         item *collidingItem = player_character.invlet_to_item( tmp_invlet );
         
-        if (collidingItem == nullptr || collidingItem == ignore_invlet_collision_with) { 
+        if( collidingItem == nullptr || collidingItem == ignore_invlet_collision_with ) { 
             newit.invlet = tmp_invlet;
-        }else {
-            printf(" clear invlet: collision in inventory\n");
         }
     }
 
@@ -1073,15 +1061,11 @@ void inventory::update_invlet( item &newit, bool assign_invlet, const item *igno
         // Assign a cached letter to the item
         if( !newit.invlet ) {
             newit.invlet = find_usable_cached_invlet( newit.typeId() );
-            if (newit.invlet) {
-            	printf(" assign cached [%c]\n", !newit.invlet ? '0' : newit.invlet);
-            }
         }
 
         // Give the item an invlet if it has none
         if( !newit.invlet ) {
             assign_empty_invlet( newit, player_character );
-            printf(" assign empty [%c]\n", !newit.invlet ? '0' : newit.invlet);
         }
     }
 }
