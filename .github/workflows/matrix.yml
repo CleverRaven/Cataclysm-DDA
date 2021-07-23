@@ -126,7 +126,7 @@ jobs:
         TEST_STAGE: ${{ matrix.test-stage }}
         LDFLAGS: ${{ matrix.ldflags }}
         EXTRA_TEST_OPTS: --error-format=github-action
-        NUM_JOBS: ${{ num_jobs }}
+        NUM_JOBS: ${{ matrix.num_jobs }}
         NATIVE: ${{ matrix.native }}
         GOLD: ${{ matrix.gold }}
         LTO: ${{ matrix.lto }}
