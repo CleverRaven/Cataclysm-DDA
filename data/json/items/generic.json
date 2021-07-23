@@ -947,6 +947,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "household_water_heater",
+    "symbol": "0",
+    "color": "white",
+    "name": { "str": "household water heater" },
+    "description": "A large metal tank with a water faucet attached to it, primarily used to store and heat water.",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "steel" ],
+    "weight": "54431 g",
+    "volume": "240 L",
+    "bashing": 5,
+    "to_hit": -5,
+    "use_action": { "type": "deploy_furn", "furn_type": "f_water_heater" }
+  },
+  {
+    "type": "GENERIC",
     "id": "television",
     "symbol": ";",
     "color": "dark_gray",
