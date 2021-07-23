@@ -272,7 +272,7 @@ TEST_CASE( "character height should increase with their body size",
     DummyMap dummies_min_height = create_dummies_of_all_sizes( Character::min_init_height );
     DummyMap dummies_max_height = create_dummies_of_all_sizes( Character::max_init_height );
 
-    auto test_absoulte_heights = []( DummyMap & dummies ) {
+    auto test_absolute_heights = []( DummyMap & dummies ) {
         CHECK( dummies[creature_size::tiny]->height() < dummies[creature_size::small]->height() );
         CHECK( dummies[creature_size::small]->height() < dummies[creature_size::medium]->height() );
         CHECK( dummies[creature_size::medium]->height() < dummies[creature_size::large]->height() );
@@ -280,13 +280,13 @@ TEST_CASE( "character height should increase with their body size",
     };
 
     GIVEN( "default height character" ) {
-        test_absoulte_heights( dummies_default_height );
+        test_absolute_heights( dummies_default_height );
     }
     GIVEN( "min height character" ) {
-        test_absoulte_heights( dummies_min_height );
+        test_absolute_heights( dummies_min_height );
     }
     GIVEN( "max height character" ) {
-        test_absoulte_heights( dummies_max_height );
+        test_absolute_heights( dummies_max_height );
     }
 }
 
@@ -347,6 +347,9 @@ TEST_CASE( "default character (175 cm) bodyweights at various BMIs", "[biometric
 {
     avatar dummy;
     clear_character( dummy );
+
+    // Body weight is calculated as ( BMI * (height/100)^2 ). At any given height, body weight
+    // varies based on body mass index (which in turn depends on the amount of stored calories).
 
     GIVEN( "character height started at 175cm" ) {
         dummy.mod_base_height( 175 - dummy.base_height() );
