@@ -743,8 +743,8 @@
       "WINDOW"
     ],
     "bash": {
-      "str_min": 100,
-      "str_max": 400,
+      "str_min": 5,
+      "str_max": 8,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
       "ter_set": "t_rock_floor",
@@ -772,8 +772,8 @@
       "WINDOW"
     ],
     "bash": {
-      "str_min": 100,
-      "str_max": 400,
+      "str_min": 5,
+      "str_max": 8,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
       "ter_set": "t_rock_floor",
@@ -801,8 +801,8 @@
       "WINDOW"
     ],
     "bash": {
-      "str_min": 100,
-      "str_max": 400,
+      "str_min": 5
+      "str_max": 8,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
       "ter_set": "t_rock_floor",
