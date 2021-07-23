@@ -17,7 +17,6 @@
 #include "flag.h"
 #include "iexamine.h"
 #include "inventory_ui.h" // auto inventory blocking
-#include "item_contents.h"
 #include "item_pocket.h"
 #include "item_stack.h"
 #include "map.h"

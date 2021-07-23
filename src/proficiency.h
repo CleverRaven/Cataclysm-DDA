@@ -119,7 +119,7 @@ class proficiency_set
         std::vector<proficiency_id> learning_profs() const;
 
         float get_proficiency_bonus( const std::string &category,
-                                     proficiency_bonus_type proficiency_bonus ) const;
+                                     proficiency_bonus_type prof_bonus ) const;
 
         void serialize( JsonOut &jsout ) const;
         void deserialize( JsonIn &jsin );

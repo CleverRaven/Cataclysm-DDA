@@ -11,7 +11,6 @@
 #include "cata_assert.h"
 #include "flag.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_pocket.h"
 #include "item_search.h"
 #include "make_static.h"

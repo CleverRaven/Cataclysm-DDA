@@ -14,7 +14,6 @@
 #include "flag.h"
 #include "game.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_pocket.h"
 #include "itype.h"
 #include "map.h"
