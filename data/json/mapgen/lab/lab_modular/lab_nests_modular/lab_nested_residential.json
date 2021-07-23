@@ -1,0 +1,119 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for small residential areas. Entrance can be East or West center tile.",
+    "nested_mapgen_id": "lab_residential_13x13_EW",
+    "object": {
+      "mapgensize": [ 13, 13 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "T@@s |D|BB  8",
+        " @@  + |    S",
+        "     |||t   8",
+        "     |w|||+||",
+        "E d y|+|¶¶¶¶ ",
+        "|||+||  ¶hh¶ ",
+        "        ¶ff¶ ",
+        "        ¶hh¶ ",
+        "||| |   ¶¶¶¶ ",
+        "7   JA  H l x",
+        "5   JA  H l x",
+        "4           y",
+        "F1O32     E R"
+      ],
+      "palettes": [ "lab_common_palette", "lab_residential_palette" ],
+      "terrain": { "h": "t_carpet_concrete_yellow", "f": "t_carpet_concrete_yellow" },
+      "place_loot": [ { "item": "television", "x": 12, "y": 10, "chance": 40 }, { "item": "stereo", "x": 12, "y": 9, "chance": 40 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for small residential areas. Entrance can be East or West center tile.",
+    "nested_mapgen_id": "lab_residential_13x13_EW",
+    "object": {
+      "mapgensize": [ 13, 13 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "F1O32     E R",
+        "4       y   y",
+        "5   JA  H l x",
+        "7   JA  H l x",
+        "||| |   ¶¶¶¶ ",
+        "Y       ¶hh¶ ",
+        "        ¶ff¶ ",
+        "|||+||  ¶hh¶ ",
+        "E d  |+|¶¶¶¶ ",
+        "     |w|||+||",
+        "     |||t   8",
+        " @@  + |    S",
+        "T@@s |D|BB  8"
+      ],
+      "palettes": [ "lab_common_palette", "lab_residential_palette" ],
+      "terrain": { "h": "t_carpet_concrete_purple", "f": "t_carpet_concrete_purple", "¶": "t_carpet_concrete_purple" },
+      "place_loot": [ { "item": "television", "x": 12, "y": 2, "chance": 40 }, { "item": "stereo", "x": 12, "y": 3, "chance": 40 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for small residential areas. Entrance can be East or West center tile.",
+    "nested_mapgen_id": "lab_residential_13x13_EW",
+    "object": {
+      "mapgensize": [ 13, 13 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "BB S|D|s@@  d",
+        "t  8| + @@   ",
+        "||+||||  ¶HHs",
+        "13  JJJ  ¶¶¶¶",
+        "F        yxxT",
+        "||||||+||||||",
+        "             ",
+        "||||||+||||||",
+        "F         xxT",
+        "13  JJJ  ¶¶¶¶",
+        "||+||||  ¶HHs",
+        "t  8| + @@   ",
+        "BB S|D|y@@  d"
+      ],
+      "palettes": [ "lab_common_palette", "lab_residential_palette" ],
+      "terrain": { "s": "t_carpet_concrete_red", "H": "t_carpet_concrete_red", "¶": "t_carpet_concrete_red" },
+      "place_loot": [
+        { "item": "television", "x": 10, "y": 4, "chance": 40 },
+        { "item": "stereo", "x": 11, "y": 4, "chance": 40 },
+        { "item": "television", "x": 10, "y": 8, "chance": 40 },
+        { "item": "stereo", "x": 11, "y": 8, "chance": 40 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for small residential areas. Entrance can be East or West center tile.",
+    "nested_mapgen_id": "lab_residential_13x13_EW",
+    "object": {
+      "mapgensize": [ 13, 13 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "@@ꞝhd|  RxxR ",
+        "@@ꞝꞝy|  ¶¶¶¶H",
+        "|||  +  ¶¶¶¶H",
+        "S |+||   HHHs",
+        "t   9|  ꞝꞝꞝꞝ ",
+        "||||||  ꞝhhꞝ ",
+        "        ꞝffꞝ ",
+        "||||||  ꞝhhꞝ ",
+        "t   9|  ꞝꞝꞝꞝA",
+        "S |+||  JJJJJ",
+        "|||  +   A  5",
+        "@@ꞝꞝ |      1",
+        "@@ꞝhd|F123O47"
+      ],
+      "palettes": [ "lab_common_palette", "lab_residential_palette" ],
+      "terrain": { "f": "t_carpet_concrete_green", "h": "t_carpet_concrete_green" },
+      "place_loot": [ { "item": "television", "x": 10, "y": 0, "chance": 40 }, { "item": "stereo", "x": 9, "y": 0, "chance": 40 } ]
+    }
+  }
+]

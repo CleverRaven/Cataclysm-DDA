@@ -36,7 +36,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
-#include "item_contents.h"
 #include "itype.h"
 #include "level_cache.h"
 #include "line.h"
@@ -331,9 +330,8 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
                 const auto &neigh = neighs[i].second;
                 if( ( neigh.pos_.x != remove_tile.pos_.x && neigh.pos_.y != remove_tile.pos_.y ) ||
                     ( neigh.pos_.x != remove_tile2.pos_.x && neigh.pos_.y != remove_tile2.pos_.y ) ||
-                    ( neigh.pos_.x != remove_tile3.pos_.x && neigh.pos_.y != remove_tile3.pos_.y ) ) {
-                    neighbour_vec.push_back( i );
-                } else if( x_in_y( 1, std::max( 2, windpower ) ) ) {
+                    ( neigh.pos_.x != remove_tile3.pos_.x && neigh.pos_.y != remove_tile3.pos_.y ) ||
+                    x_in_y( 1, std::max( 2, windpower ) ) ) {
                     neighbour_vec.push_back( i );
                 }
             }
@@ -1113,9 +1111,8 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
         const auto &neigh = neighs[i].second;
         if( ( neigh.pos().x != remove_tile.pos().x && neigh.pos().y != remove_tile.pos().y ) ||
             ( neigh.pos().x != remove_tile2.pos().x && neigh.pos().y != remove_tile2.pos().y ) ||
-            ( neigh.pos().x != remove_tile3.pos().x && neigh.pos().y != remove_tile3.pos().y ) ) {
-            neighbour_vec.push_back( i );
-        } else if( x_in_y( 1, std::max( 2, windpower ) ) ) {
+            ( neigh.pos().x != remove_tile3.pos().x && neigh.pos().y != remove_tile3.pos().y ) ||
+            x_in_y( 1, std::max( 2, windpower ) ) ) {
             neighbour_vec.push_back( i );
         }
     }
@@ -1630,7 +1627,7 @@ void map::player_in_field( player &u )
             // Assume the rift is on the ground for now to prevent issues with the player being unable access vehicle controls on the same tile due to teleportation.
             if( !u.in_vehicle ) {
                 // Teleports you... somewhere.
-                if( rng( 0, 2 ) < cur.get_field_intensity() && u.is_player() ) {
+                if( rng( 0, 2 ) < cur.get_field_intensity() && u.is_avatar() ) {
                     add_msg( m_bad, _( "You're violently teleported!" ) );
                     u.hurtall( cur.get_field_intensity(), nullptr );
                     teleport::teleport( u );

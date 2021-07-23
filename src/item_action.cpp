@@ -40,12 +40,6 @@ class Character;
 
 static const std::string errstring( "ERROR" );
 
-static const bionic_id bio_tools( "bio_tools" );
-static const bionic_id bio_claws( "bio_claws" );
-static const bionic_id bio_claws_weapon( "bio_claws_weapon" );
-
-static const itype_id itype_UPS( "UPS" );
-
 struct tripoint;
 
 static item_action nullaction;
@@ -157,9 +151,7 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
                    func->get_actor_ptr()->can_use( p, *actual_item, false, p.pos() ).success() ) ) {
                 continue;
             }
-            if( !actual_item->ammo_sufficient() &&
-                ( !actual_item->has_flag( STATIC( flag_id( "USE_UPS" ) ) ) ||
-                  p.charges_of( itype_UPS ) < actual_item->ammo_required() ) ) {
+            if( !actual_item->ammo_sufficient( &p ) ) {
                 continue;
             }
 
@@ -254,17 +246,12 @@ void game::item_action_menu()
     const auto &gen = item_action_generator::generator();
     const action_map &item_actions = gen.get_item_action_map();
 
-    // HACK: A bit of a hack for now. If more pseudos get implemented, this should be un-hacked
+    std::vector<item> pseudo_items = get_player_character().get_pseudo_items();
     std::vector<item *> pseudos;
-    item toolset( "toolset", calendar::turn );
-    if( u.has_active_bionic( bio_tools ) ) {
-        pseudos.push_back( &toolset );
+    pseudos.reserve( pseudo_items.size() );
+    for( item &pseudo : pseudo_items ) {
+        pseudos.push_back( &pseudo );
     }
-    item bio_claws_item( static_cast<std::string>( bio_claws_weapon ), calendar::turn );
-    if( u.has_active_bionic( bio_claws ) ) {
-        pseudos.push_back( &bio_claws_item );
-    }
-
     item_action_map iactions = gen.map_actions_to_items( u, pseudos );
     if( iactions.empty() ) {
         popup( _( "You don't have any items with registered uses" ) );

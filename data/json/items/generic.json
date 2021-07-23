@@ -810,6 +810,7 @@
     "weight": "10 g",
     "volume": "25 ml",
     "to_hit": -5,
+    "milling": { "into": "meal_bone_tainted", "conversion_rate": 0.16 },
     "qualities": [ [ "COOK", 1 ] ]
   },
   {
@@ -2784,52 +2785,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "id_science",
-    "symbol": ",",
-    "color": "blue",
-    "name": { "str": "science ID card" },
-    "description": "This ID card once belonged to a scientist.  The reverse side describes protocol for using it; this could grant access at one control panel, if you can find one.",
-    "price": 60000,
-    "flags": [ "SCIENCE_CARD" ],
-    "price_postapoc": 250,
-    "material": [ "plastic" ],
-    "weight": "6 g",
-    "volume": "15 ml",
-    "to_hit": -3
-  },
-  {
-    "type": "GENERIC",
-    "id": "id_military",
-    "symbol": ",",
-    "color": "green",
-    "name": { "str": "military ID card" },
-    "description": "This ID card once belonged to a military officer.  The reverse side describes protocol for using it; this could grant access at one control panel, if you can find one.",
-    "price": 120000,
-    "flags": [ "MILITARY_CARD" ],
-    "price_postapoc": 500,
-    "material": [ "plastic" ],
-    "weight": "6 g",
-    "volume": "5 ml",
-    "to_hit": -3
-  },
-  {
-    "type": "GENERIC",
-    "id": "id_industrial",
-    "looks_like": "id_science",
-    "symbol": ",",
-    "color": "green",
-    "name": { "str": "industrial ID card" },
-    "description": "This ID card once belonged to a high level technician.  The reverse side describes protocol for using it; this could grant access at one control panel, if you can find one.",
-    "price": 120000,
-    "flags": [ "INDUSTRIAL_CARD" ],
-    "price_postapoc": 100,
-    "material": [ "plastic" ],
-    "weight": "6 g",
-    "volume": "5 ml",
-    "to_hit": -3
-  },
-  {
-    "type": "GENERIC",
     "id": "neoprene",
     "symbol": ",",
     "color": "dark_gray",
@@ -3025,7 +2980,7 @@
     "id": "disassembly",
     "symbol": "%",
     "color": "white",
-    "name": { "str": "in progress disassembly" },
+    "name": { "str": "in progress disassembly", "str_pl": "in progress disassemblies" },
     "description": "This is an in progress disassembly.",
     "price": 0,
     "price_postapoc": 0,
@@ -3390,9 +3345,6 @@
     "volume": "500 ml",
     "bashing": 1,
     "to_hit": -1,
-    "covers": [ "torso" ],
-    "encumbrance": 2,
-    "coverage": 10,
     "material_thickness": 2,
     "pocket_data": [
       {
@@ -3413,7 +3365,8 @@
           "robofac_test_data"
         ]
       }
-    ]
+    ],
+    "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "id": "lanyard",
@@ -3432,8 +3385,6 @@
     "longest_side": "5 cm",
     "bashing": 1,
     "to_hit": -1,
-    "covers": [ "torso" ],
-    "encumbrance": 0,
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -3460,10 +3411,23 @@
           "money_one",
           "money_ten",
           "money_twenty",
-          "condom"
+          "condom",
+          "id_science_visitor_1",
+          "id_science_transport_1",
+          "id_science_maintenance_green",
+          "id_science_maintenance_yellow",
+          "id_science_maintenance_blue",
+          "id_science_security_yellow",
+          "id_science_security_magenta",
+          "id_science_security_black",
+          "id_science_mutagen_green",
+          "id_science_mutagen_pink",
+          "id_science_mutagen_cyan",
+          "id_science_medical_red"
         ]
       }
-    ]
+    ],
+    "armor": [ { "encumbrance": 0, "covers": [ "torso" ] } ]
   },
   {
     "type": "GENERIC",

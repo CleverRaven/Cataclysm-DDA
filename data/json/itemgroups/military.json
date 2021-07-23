@@ -20,7 +20,10 @@
     "type": "item_group",
     "id": "military_standard_shotguns",
     "subtype": "distribution",
-    "entries": [ { "item": "m1014", "prob": 60, "charges": [ 0, 8 ] }, { "item": "mossberg_590", "prob": 40, "charges": [ 0, 9 ] } ]
+    "entries": [
+      { "item": "mossberg_930", "variant": "m1014", "prob": 60, "charges": [ 0, 8 ] },
+      { "item": "mossberg_590", "prob": 40, "charges": [ 0, 9 ] }
+    ]
   },
   {
     "type": "item_group",
@@ -58,7 +61,7 @@
     "id": "military_patrol_food",
     "subtype": "collection",
     "entries": [
-      { "group": "MRE", "count": [ 1, 3 ], "prob": 70 },
+      { "group": "any_MRE", "count": [ 1, 3 ], "prob": 70 },
       { "item": "chocolate", "prob": 20, "charges": [ 1, 3 ] },
       { "item": "neccowafers", "prob": 20 },
       { "item": "water_clean", "container-item": "canteen", "prob": 80, "charges": [ 0, 6 ] }
@@ -190,7 +193,7 @@
       { "item": "p226_9mm", "prob": 1 },
       { "item": "sp2022", "prob": 1 },
       { "item": "nato_assault_rifle", "variant": "h&k416a5", "prob": 7 },
-      { "item": "m1014", "prob": 2 },
+      { "item": "mossberg_930", "variant": "m1014", "prob": 2 },
       { "item": "nato_assault_rifle", "variant": "scar_l", "prob": 6 },
       { "item": "scar_h", "prob": 5 },
       { "item": "sig_mcx_rattler_sbr", "prob": 1 },
@@ -549,8 +552,7 @@
       { "item": "v8_combustion", "prob": 10 },
       { "item": "extinguisher", "prob": 20, "charges": 100 },
       { "item": "radio", "prob": 20, "charges": [ 0, 100 ] },
-      { "item": "UPS_off", "prob": 5, "charges": [ 0, 1000 ] },
-      { "item": "adv_UPS_off", "prob": 3 },
+      { "item": "UPS_off", "prob": 8, "charges": [ 0, 1000 ] },
       { "item": "tacvest", "prob": 10 },
       { "item": "molle_pack", "prob": 8 },
       { "item": "legrig", "prob": 10 },

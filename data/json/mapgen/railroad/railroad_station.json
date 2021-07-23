@@ -142,7 +142,7 @@
     ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_rock",
+      "fill_ter": "t_soil",
       "rows": [
         "                                                ",
         "                                                ",

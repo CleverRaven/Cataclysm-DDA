@@ -26,7 +26,6 @@
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
@@ -1550,7 +1549,7 @@ bool vehicle::can_close( int part_index, Character &who )
         for( auto const &partID : vec ) {
             const Creature *const mon = g->critter_at( global_part_pos3( parts[partID] ) );
             if( mon ) {
-                if( mon->is_player() ) {
+                if( mon->is_avatar() ) {
                     who.add_msg_if_player( m_info, _( "There's some buffoon in the way!" ) );
                 } else if( mon->is_monster() ) {
                     // TODO: Houseflies, mosquitoes, etc shouldn't count
@@ -2170,9 +2169,10 @@ void vehicle::interact_with( const vpart_position &vp )
     auto tool_wants_battery = []( const itype_id & type ) {
         item tool( type, calendar::turn_zero );
         item mag( tool.magazine_default() );
-        mag.contents.clear_items();
+        mag.clear_items();
 
-        return tool.contents.insert_item( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() &&
+        return tool.can_contain( mag ).success() &&
+               tool.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() &&
                tool.ammo_capacity( ammotype( "battery" ) ) > 0;
     };
 
@@ -2188,7 +2188,7 @@ void vehicle::interact_with( const vpart_position &vp )
         }
         // TODO: Figure out this comment: Pseudo items don't have a magazine in it, and they don't need it anymore.
         item pseudo_magazine( pseudo.magazine_default() );
-        pseudo_magazine.contents.clear_items(); // no initial ammo
+        pseudo_magazine.clear_items(); // no initial ammo
         pseudo.put_in( pseudo_magazine, item_pocket::pocket_type::MAGAZINE_WELL );
         const int capacity = pseudo.ammo_capacity( ammotype( "battery" ) );
         const int qty = capacity - discharge_battery( capacity );

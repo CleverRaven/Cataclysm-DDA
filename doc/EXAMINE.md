@@ -120,7 +120,7 @@ What message to print when attempting to activate the cardreader after it has al
   "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
   "furn_changes": { "f_crate_c": "f_crate_o" },
   "query": true,
-  "query_msg": "Are you sure you want to open this door?"
+  "query_msg": "Are you sure you want to open this door?",
   "success_msg": "You opened the door!",
   "redundant_msg": "The door is already open."
 }

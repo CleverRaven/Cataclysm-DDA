@@ -216,7 +216,7 @@ struct armor_portion_data {
     int encumber = 0;
 
     // When storage is full, how much it encumbers the player.
-    int max_encumber = 0;
+    int max_encumber = -1;
 
     // Percentage of the body part that this item covers.
     // This determines how likely it is to hit the item instead of the player.
@@ -228,6 +228,8 @@ struct armor_portion_data {
     // What layer does it cover if any
     // TODO: Not currently supported, we still use flags for this
     //cata::optional<layer_level> layer;
+
+    void deserialize( JsonIn &jsin );
 };
 
 struct islot_armor {
@@ -424,6 +426,10 @@ struct common_ranged_data {
      * Range bonus from gun.
      */
     int range = 0;
+    /**
+     * Range multiplier from gunmods or ammo.
+     */
+    float range_multiplier = 1.0;
     /**
      * Dispersion "bonus" from gun.
      */
@@ -848,6 +854,8 @@ struct itype {
         friend class Item_factory;
 
         using FlagsSetType = std::set<flag_id>;
+
+        std::vector<std::pair<itype_id, mod_id>> src;
 
         /**
          * Slots for various item type properties. Each slot may contain a valid pointer or null, check

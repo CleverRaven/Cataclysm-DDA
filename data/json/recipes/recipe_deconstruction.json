@@ -119,7 +119,7 @@
     "difficulty": 1,
     "time": "2 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "scrap_copper", 10 ] ], [ [ "scrap", 3 ] ] ]
+    "components": [ [ [ "scrap_copper", 12 ] ], [ [ "scrap", 3 ] ] ]
   },
   {
     "result": "copper_ring",
@@ -1934,6 +1934,13 @@
     "components": [ [ [ "jug_plastic", 1 ] ], [ [ "rag", 4 ] ] ]
   },
   {
+    "result": "char_purifier_clay",
+    "type": "uncraft",
+    "time": "5 m",
+    "activity_level": "LIGHT_EXERCISE",
+    "components": [ [ [ "clay_hydria", 1 ] ], [ [ "rag", 4 ] ] ]
+  },
+  {
     "result": "clock",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -3068,7 +3075,7 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "copper_scrap_equivalent", 16, "LIST" ] ] ]
+    "components": [ [ [ "copper_scrap_equivalent", 20, "LIST" ] ] ]
   },
   {
     "result": "potato_masher",
@@ -3122,7 +3129,7 @@
     "difficulty": 1,
     "time": "3 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "scrap_copper", 5 ] ], [ [ "scrap", 1 ] ] ]
+    "components": [ [ [ "scrap_copper", 6 ] ], [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "power_armor_basic",
@@ -5025,6 +5032,26 @@
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "material_rocksalt", 10 ] ] ]
+  },
+  {
+    "result": "broketent",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "time": "10 m",
+    "difficulty": 1,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "tarp", 1 ] ], [ [ "tent_pole", 2 ] ], [ [ "plastic_sheet", 1 ] ], [ [ "bag_plastic", 1 ] ] ]
+  },
+  {
+    "result": "largebroketent",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "time": "30 m",
+    "difficulty": 1,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "tarp", 4 ] ], [ [ "tent_pole", 5 ] ], [ [ "plastic_sheet", 3 ] ], [ [ "bag_plastic", 3 ] ] ]
   },
   {
     "result": "knife_butter",

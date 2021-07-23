@@ -9,6 +9,7 @@
 
 #include "debug.h"
 #include "enum_conversions.h"
+#include "generic_factory.h"
 #include "json.h"
 #include "options.h"
 #include "output.h"
@@ -436,9 +437,9 @@ void load_region_settings( const JsonObject &jo )
         jo.throw_error( "No 'id' field." );
     }
     bool strict = new_region.id == "default";
-    if( !jo.read( "default_oter", new_region.default_oter ) && strict ) {
-        jo.throw_error( "default_oter required for default ( though it should probably remain 'field' )" );
-    }
+    mandatory( jo, false, "default_oter", new_region.default_oter );
+    // So the data definition goes from z = OVERMAP_HEIGHT to z = OVERMAP_DEPTH
+    std::reverse( new_region.default_oter.begin(), new_region.default_oter.end() );
     if( !jo.read( "river_scale", new_region.river_scale ) && strict ) {
         jo.throw_error( "river_scale required for default" );
     }

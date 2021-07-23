@@ -40,7 +40,6 @@
 #include "flag.h"
 #include "game.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_group.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -3306,8 +3305,8 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
         const vehicle_part &part = parts[i];
         if( part.ammo_current() != ftype ||
             // don't count frozen liquid
-            ( !part.base.contents.empty() && part.is_tank() &&
-              part.base.contents.legacy_front().made_of( phase_id::SOLID ) ) ) {
+            ( !part.base.empty() && part.is_tank() &&
+              part.base.legacy_front().made_of( phase_id::SOLID ) ) ) {
             continue;
         }
         fl += part.ammo_remaining();
@@ -3380,9 +3379,9 @@ float vehicle::fuel_specific_energy( const itype_id &ftype ) const
     float total_mass = 0.0f;
     for( const vehicle_part &vp : parts ) {
         if( vp.is_tank() && vp.ammo_current() == ftype &&
-            vp.base.contents.legacy_front().made_of( phase_id::LIQUID ) ) {
-            float energy = vp.base.contents.legacy_front().specific_energy;
-            float mass = to_gram( vp.base.contents.legacy_front().weight() );
+            vp.base.legacy_front().made_of( phase_id::LIQUID ) ) {
+            float energy = vp.base.legacy_front().specific_energy;
+            float mass = to_gram( vp.base.legacy_front().weight() );
             total_energy += energy * mass;
             total_mass += mass;
         }
@@ -4426,17 +4425,15 @@ bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
         }
     }
     // the vehicle is yours, that's fine.
-    if( is_owned_by_player ) {
+    if( is_owned_by_player ) { // NOLINT(bugprone-branch-clone)
         return true;
         // if There is no owner
         // handle transfer of ownership
-    } else if( !has_owner() ) {
-        set_owner( p.get_faction()->id );
-        remove_old_owner();
-        return true;
-        // if there is a marker for having been stolen, but 15 minutes have passed, then officially transfer ownership
-    } else if( witnesses.empty() && has_old_owner() && !is_old_owner( p ) && theft_time &&
-               calendar::turn - *theft_time > 15_minutes ) {
+    } else if( !has_owner() ||
+               // if there is a marker for having been stolen, but 15 minutes have passed, then
+               // officially transfer ownership
+               ( witnesses.empty() && has_old_owner() && !is_old_owner( p ) && theft_time &&
+                 calendar::turn - *theft_time > 15_minutes ) ) {
         set_owner( p.get_faction()->id );
         remove_old_owner();
         return true;
@@ -5206,11 +5203,6 @@ void vehicle::idle( bool on_map )
         if( idle_rate < 10 ) {
             idle_rate = 10;    // minimum idle is 1% of full throttle
         }
-        // helicopters use basically nearly all of their power just to hover.
-        // it becomes more efficient the closer they reach their safe cruise speed.
-        if( is_rotorcraft() && is_flying_in_air() ) {
-            idle_rate = 1000;
-        }
         if( has_engine_type_not( fuel_type_muscle, true ) ) {
             consume_fuel( idle_rate, true );
         }
@@ -5412,7 +5404,7 @@ cata::optional<vehicle_stack::iterator> vehicle::add_item( int part, const item 
     if( itm_copy.is_bucket_nonempty() ) {
         // this is a vehicle, so there is only one pocket.
         // so if it will spill, spill all of it
-        itm_copy.contents.spill_contents( global_part_pos3( part ) );
+        itm_copy.spill_contents( global_part_pos3( part ) );
     }
 
     const vehicle_stack::iterator new_pos = p.items.insert( itm_copy );
@@ -6851,9 +6843,10 @@ std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &
     const auto tool_wants_battery = []( const itype_id & type ) {
         item tool( type, calendar::turn_zero );
         item mag( tool.magazine_default() );
-        mag.contents.clear_items();
+        mag.clear_items();
 
-        return tool.contents.insert_item( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() &&
+        return tool.can_contain( mag ).success() &&
+               tool.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() &&
                tool.ammo_capacity( ammotype( "battery" ) ) > 0;
     };
 

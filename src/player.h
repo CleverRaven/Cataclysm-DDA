@@ -24,6 +24,7 @@
 #include "ret_val.h"
 #include "type_id.h"
 
+class craft_command;
 class JsonIn;
 class JsonObject;
 class JsonOut;
@@ -90,9 +91,6 @@ class player : public Character
 
         void normalize() override;
 
-        bool is_player() const override {
-            return true;
-        }
         player *as_player() override {
             return this;
         }
@@ -112,11 +110,6 @@ class player : public Character
 
         /** Handles and displays detailed character info for the '@' screen */
         void disp_info();
-
-        /**Estimate effect duration based on player relevant skill*/
-        time_duration estimate_effect_dur( const skill_id &relevant_skill, const efftype_id &effect,
-                                           const time_duration &error_magnitude,
-                                           int threshold, const Creature &target ) const;
 
         /** Resets movement points and applies other non-idempotent changes */
         void process_turn() override;
@@ -213,12 +206,12 @@ class player : public Character
         /** Used for eating object at a location. Removes item if all of it was consumed.
         *   @returns trinary enum NONE, SOME or ALL amount consumed.
         */
-        trinary consume( item_location loc, bool force = false );
+        trinary consume( item_location loc, bool force = false, bool refuel = false );
 
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  @returns trinary enum NONE, SOME or ALL (doesn't remove).
          */
-        trinary consume( item &target, bool force = false );
+        trinary consume( item &target, bool force = false, bool refuel = false );
 
         int get_lift_assist() const;
 

@@ -150,6 +150,8 @@ extern int FULL_SCREEN_WIDTH; // width of "full screen" popups
 extern int FULL_SCREEN_HEIGHT; // height of "full screen" popups
 extern int OVERMAP_WINDOW_WIDTH; // width of overmap window
 extern int OVERMAP_WINDOW_HEIGHT; // height of overmap window
+extern int OVERMAP_WINDOW_TERM_WIDTH; // width of the overmap window in terminal characters
+extern int OVERMAP_WINDOW_TERM_HEIGHT; // same for height
 extern int OVERMAP_LEGEND_WIDTH; // width of overmap window legend
 
 nc_color msgtype_to_color( game_message_type type, bool bOldMsg = false );
@@ -344,6 +346,7 @@ void insert_table( const catacurses::window &w, int pad, int line, int columns,
                    const nc_color &FG, const std::string &divider, bool r_align,
                    const std::vector<std::string> &data );
 std::string satiety_bar( int calpereffv );
+std::string healthy_bar( int healthy );
 void scrollable_text( const std::function<catacurses::window()> &init_window,
                       const std::string &title, const std::string &text );
 std::string name_and_value( const std::string &name, int value, int field_width );
@@ -672,7 +675,8 @@ inline std::string get_labeled_bar( const double val, const int width, const std
 enum class enumeration_conjunction : int {
     none,
     and_,
-    or_
+    or_,
+    arrow
 };
 
 /**
@@ -692,9 +696,20 @@ std::string enumerate_as_string( const _Container &values,
                 return ( values.size() > 2 ? _( ", and " ) : _( " and " ) );
             case enumeration_conjunction::or_:
                 return ( values.size() > 2 ? _( ", or " ) : _( " or " ) );
+            case enumeration_conjunction::arrow:
+                return _( " > " );
         }
         debugmsg( "Unexpected conjunction" );
         return _( ", " );
+    }
+    ();
+    const std::string separator = [&conj]() {
+        switch( conj ) {
+            case enumeration_conjunction::arrow:
+                return _( " > " );
+            default:
+                return _( ", " );
+        }
     }
     ();
     std::string res;
@@ -703,7 +718,7 @@ std::string enumerate_as_string( const _Container &values,
             if( std::next( iter ) == values.end() ) {
                 res += final_separator;
             } else {
-                res += _( ", " );
+                res += separator;
             }
         }
         res += *iter;

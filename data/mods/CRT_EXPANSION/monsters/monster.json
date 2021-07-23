@@ -26,7 +26,6 @@
     "armor_bullet": 13,
     "harvest": "zombie",
     "special_attacks": [ [ "TENTACLE", 2 ], [ "scratch", 10 ] ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "HEARS", "GOODHEARING", "WARM", "CLIMBS", "NOHEAD", "POISON", "NO_BREATHE" ]
   },
   {
@@ -55,7 +54,6 @@
     "armor_cut": 40,
     "harvest": "zombie",
     "special_attacks": [ [ "TENTACLE", 7 ], [ "scratch", 8 ] ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "WARM", "CLIMBS", "NOHEAD", "POISON", "NO_BREATHE" ]
   }
 ]

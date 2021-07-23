@@ -8,6 +8,8 @@
       [ "chisel", 90 ],
       [ "crucible", 30 ],
       [ "swage", 60 ],
+      [ "drift", 70 ],
+      [ "hotcut", 90 ],
       [ "tongs", 90 ],
       [ "hammer", 90 ],
       [ "sandpaper", 90 ]
@@ -56,6 +58,7 @@
       { "item": "misc_repairkit", "prob": 25, "charges-min": 0 },
       [ "pliers", 60 ],
       [ "saw", 60 ],
+      { "item": "bow_saw", "prob": 50 },
       [ "screwdriver", 100 ],
       [ "screwdriver_set", 50 ],
       [ "wrench", 40 ],
@@ -110,6 +113,7 @@
       [ "sandpaper", 65 ],
       [ "hacksaw", 30 ],
       [ "saw", 65 ],
+      { "item": "bow_saw", "prob": 40 },
       [ "pin_reamer", 18 ],
       [ "clamp", 30 ],
       [ "boxcutter", 20 ],
@@ -302,7 +306,8 @@
       { "item": "polisher", "prob": 70, "charges": [ 0, 100 ] },
       { "item": "angle_grinder", "prob": 5, "charges": [ 0, 500 ] },
       { "item": "welder", "prob": 10, "charges": [ 0, 500 ] },
-      [ "clamp", 10 ]
+      [ "clamp", 10 ],
+      [ "goggles_welding", 80 ]
     ]
   },
   {
@@ -540,6 +545,7 @@
       { "item": "geiger_off", "prob": 3, "charges": [ 0, 100 ] },
       [ "hygrometer", 3 ],
       [ "barometer", 3 ],
+      [ "sextant", 1 ],
       { "item": "camera", "prob": 3, "charges": [ 0, 150 ] },
       [ "flask_glass", 10 ],
       [ "bottle_glass", 10 ],
@@ -642,6 +648,7 @@
       [ "wrench", 50 ],
       [ "hammer", 40 ],
       [ "saw", 50 ],
+      { "item": "bow_saw", "prob": 40 },
       [ "ax", 20 ],
       [ "hacksaw", 50 ],
       [ "chipper", 60 ],
@@ -673,6 +680,7 @@
       [ "ax", 100 ],
       { "item": "chainsaw_off", "prob": 80, "charges": [ 0, 400 ] },
       [ "saw", 100 ],
+      { "item": "bow_saw", "prob": 80 },
       { "item": "circsaw_off", "prob": 50, "charges": [ 0, 500 ] },
       [ "circsaw_blade", 10 ],
       { "item": "elec_chainsaw_off", "prob": 35, "charges": [ 0, 500 ] }

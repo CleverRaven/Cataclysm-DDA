@@ -64,6 +64,8 @@
     "symbol": "+",
     "color": "cyan",
     "move_cost": 0,
+    "lockpick_result": "t_chaingate_c",
+    "lockpick_message": "With a satisfying click, the lock on the gate opens.",
     "flags": [ "TRANSPARENT", "PERMEABLE", "LOCKED", "PICKABLE", "THIN_OBSTACLE", "BURROWABLE" ],
     "connects_to": "CHAINFENCE",
     "examine_action": "locked_object_pickable",
@@ -139,6 +141,8 @@
     "flags": [ "TRANSPARENT", "PERMEABLE", "LOCKED", "PICKABLE", "THIN_OBSTACLE" ],
     "connects_to": "WALL",
     "examine_action": "locked_object_pickable",
+    "lockpick_result": "t_retractable_gate_c",
+    "lockpick_message": "With a satisfying click, the lock on the gate opens.",
     "bash": {
       "str_min": 17,
       "str_max": 175,

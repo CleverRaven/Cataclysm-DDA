@@ -25,7 +25,7 @@
     "harvest": "human",
     "vision_day": 30,
     "vision_night": 3,
-    "path_settings": { "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 30, "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
     "starting_ammo": { "rock": 6 },
     "special_attacks": [
       {
@@ -44,7 +44,6 @@
       }
     ],
     "death_drops": "feral_humans_death_drops_pipe",
-    "death_function": [ "NORMAL" ],
     "zombify_into": "mon_zombie",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "flags": [
@@ -59,6 +58,26 @@
       "PATH_AVOID_DANGER_1",
       "DROPS_AMMO"
     ]
+  },
+  {
+    "id": "mon_chud",
+    "type": "MONSTER",
+    "name": { "str": "feral troglobite" },
+    "description": "One of the still-living crazed humans, changed by something they are exposed to down here.  Their face is dominated by unnaturally large, faintly glowing eyes and needle-sharp teeth poking through their lips.  They remind you of something out of a campy monster movie - and of the good times when underground cannibals were less of a real concern.",
+    "copy-from": "mon_feral_human_pipe",
+    "looks_like": "mon_zombie_runner",
+    "symbol": "@",
+    "color": "white",
+    "melee_skill": 6,
+    "melee_dice": 2,
+    "melee_dice_sides": 4,
+    "melee_cut": 3,
+    "dodge": 4,
+    "vision_night": 15,
+    "special_attacks": [ { "id": "scratch", "min_mul": 0.5, "cooldown": 10 }, { "type": "bite", "min_mul": 0.7, "cooldown": 15 } ],
+    "death_drops": "default_zombie_death_drops",
+    "zombify_into": "mon_zombie_shady",
+    "extend": { "flags": [ "FILTHY" ] }
   },
   {
     "id": "mon_feral_human_crowbar",
@@ -102,12 +121,11 @@
     "melee_dice_sides": 3,
     "melee_cut": 2,
     "dodge": 1,
-    "harvest": "CBM_SCI_FERAL",
+    "harvest": "human",
     "path_settings": { "max_dist": 10 },
     "vision_day": 50,
     "vision_night": 3,
     "death_drops": "feral_scientists_death_drops_scalpel",
-    "death_function": [ "NORMAL" ],
     "zombify_into": "mon_zombie_scientist",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT", "PLAYER_CLOSE" ],
     "flags": [
@@ -172,7 +190,6 @@
       }
     ],
     "death_drops": "feral_security_death_drops_9mm",
-    "death_function": [ "NORMAL" ],
     "zombify_into": "mon_zombie_labsecurity",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT", "PLAYER_WEAK" ],
     "flags": [

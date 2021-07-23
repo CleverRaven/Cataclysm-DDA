@@ -395,20 +395,6 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
         if( other.coords.empty() || other.coords[0] != coords[0] ) {
             return false;
         }
-    } else if( id() == activity_id( "ACT_READ" ) ) {
-        // Return false if any NPCs joined or left the study session
-        // the vector {1, 2} != {2, 1}, so we'll have to check manually
-        if( values.size() != other.values.size() ) {
-            return false;
-        }
-        for( int foo : other.values ) {
-            if( std::find( values.begin(), values.end(), foo ) == values.end() ) {
-                return false;
-            }
-        }
-        if( targets.empty() || other.targets.empty() || targets[0] != other.targets[0] ) {
-            return false;
-        }
     } else if( id() == activity_id( "ACT_VEHICLE" ) ) {
         if( values != other.values || str_values != other.str_values ) {
             return false;

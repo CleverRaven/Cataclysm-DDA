@@ -21,7 +21,8 @@
     "type": "palette",
     "id": "subway_underground",
     "terrain": {
-      "#": "t_rock",
+      "#": "t_soil",
+      "0": "t_rock",
       "R": "t_rock_red",
       "G": "t_rock_green",
       "B": "t_rock_blue",

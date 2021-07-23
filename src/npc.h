@@ -35,6 +35,7 @@
 #include "line.h"
 #include "lru_cache.h"
 #include "memory_fast.h"
+#include "npc_attack.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player.h"
@@ -573,6 +574,9 @@ struct npc_short_term_cache {
     cata::optional<tripoint> guard_pos;
     double my_weapon_value = 0;
 
+    npc_attack_rating current_attack_evaluation;
+    std::shared_ptr<npc_attack> current_attack;
+
     // Use weak_ptr to avoid circular references between Creatures
     // attitude of creatures the npc can see
     std::vector<weak_ptr_fast<Creature>> hostile_guys;
@@ -582,9 +586,10 @@ struct npc_short_term_cache {
     std::map<direction, float> threat_map;
     // Cache of locations the NPC has searched recently in npc::find_item()
     lru_cache<tripoint, int> searched_tiles;
-    // returns the value of the distance between a friendly creature and the closest enemy to that friendly creature.
-    // returns -1 if not applicable
-    int closest_enemy_to_friendly_distance() const;
+    // returns the value of the distance between a friendly creature and the closest enemy to that
+    // friendly creature.
+    // returns nullopt if not applicable
+    cata::optional<int> closest_enemy_to_friendly_distance() const;
 };
 
 // DO NOT USE! This is old, use strings as talk topic instead, e.g. "TALK_AGREE_FOLLOW" instead of
@@ -767,13 +772,13 @@ class npc : public player
         npc &operator=( npc && ) noexcept( list_is_noexcept );
         ~npc() override;
 
-        bool is_player() const override {
+        bool is_avatar() const override {
             return false;
         }
         bool is_npc() const override {
             return true;
         }
-        const npc *as_npc() override {
+        npc *as_npc() override {
             return this;
         }
         const npc *as_npc() const override {
@@ -926,8 +931,6 @@ class npc : public player
         int value( const item &it ) const;
         int value( const item &it, int market_price ) const;
         bool wear_if_wanted( const item &it, std::string &reason );
-        void start_read( item &chosen, player *pl );
-        void finish_read( item &book );
         bool can_read( const item &book, std::vector<std::string> &fail_reasons );
         int time_to_read( const item &book, const player &reader ) const;
         void do_npc_read();
@@ -1068,6 +1071,10 @@ class npc : public player
         // Functions which choose an action for a particular goal
         npc_action method_of_fleeing();
         npc_action method_of_attack();
+        // among the different attack methods the npc has available, what's the best one in the current situation?
+        // picks among melee, guns, spells, etc.
+        // updates the ai_cache
+        void evaluate_best_weapon( const Creature *target );
 
         static std::array<std::pair<std::string, overmap_location_str_id>, npc_need::num_needs> need_data;
 
@@ -1261,7 +1268,7 @@ class npc : public player
         cata::optional<tripoint_abs_omt> assigned_camp = cata::nullopt;
 
         // accessors to ai_cache functions
-        int closest_enemy_to_friendly_distance() const;
+        cata::optional<int> closest_enemy_to_friendly_distance() const;
 
     private:
         npc_attitude attitude = NPCATT_NULL; // What we want to do to the player
@@ -1281,6 +1288,9 @@ class npc : public player
 
         npc_short_term_cache ai_cache;
     public:
+        const std::shared_ptr<npc_attack> &get_current_attack() const {
+            return ai_cache.current_attack;
+        }
         /**
          * Global position, expressed in map square coordinate system
          * (the most detailed coordinate system), used by the @ref map.

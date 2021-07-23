@@ -41,7 +41,7 @@ class item_contents
           * only checks CONTAINER pocket type
           */
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
-                bool nested, bool allow_sealed = false );
+                bool nested, bool allow_sealed = false, bool ignore_settings = false );
 
         units::length max_containable_length() const;
         units::volume max_containable_volume() const;
@@ -199,14 +199,8 @@ class item_contents
 
         // returns true if any pocket was sealed
         bool seal_all_pockets();
-
-        enum class sealed_summary {
-            unsealed,
-            part_sealed,
-            all_sealed,
-        };
-        sealed_summary get_sealed_summary() const;
-
+        bool all_pockets_sealed() const;
+        bool any_pockets_sealed() const;
         // heats up the contents if they have temperature
         void heat_up();
         // returns amount of ammo consumed

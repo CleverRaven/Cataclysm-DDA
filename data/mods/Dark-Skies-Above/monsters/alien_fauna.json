@@ -29,13 +29,12 @@
       [ "GRAB_DRAG", 3 ],
       {
         "type": "bite",
-        "no_infection_chance": 2,
+        "infection_chance": 98,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_multiplier": 0.8 } ],
         "cooldown": 10
       }
     ],
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC", "POISON", "HARDTOSHOOT" ]
   },
   {
@@ -76,7 +75,6 @@
       }
     ],
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC", "POISON" ]
   },
   {
@@ -112,7 +110,6 @@
     "anger_triggers": [ "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "placate_triggers": [ "MEAT", "PLAYER_WEAK" ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -157,7 +154,6 @@
     "anger_triggers": [ "PLAYER_CLOSE", "FRIEND_ATTACKED", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "placate_triggers": [ "MEAT" ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "HEARS",
@@ -193,7 +189,7 @@
     "morale": 0,
     "dodge": 4,
     "fear_triggers": [ "SOUND", "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "death_function": [ "MELT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "//": "will want sweets instead of birdfood if/when we can define animal food",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "FLIES", "BIRDFOOD", "SWARMS" ]
   },
@@ -224,7 +220,6 @@
     "harvest": "mutant_meatslug",
     "special_attacks": [ [ "ACID_BARF", 10 ] ],
     "anger_triggers": [ "PLAYER_WEAK" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "KEENNOSE", "HEARS", "SMELLS", "BASHES", "DESTROYS", "ACIDPROOF", "CAN_DIG", "ARTHROPOD_BLOOD" ]
   }
 ]

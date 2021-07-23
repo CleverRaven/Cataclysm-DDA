@@ -20,8 +20,6 @@
 #include "creature.h"
 #include "damage.h"
 #include "enums.h"
-#include "item.h"
-#include "mtype.h"
 #include "optional.h"
 #include "point.h"
 #include "type_id.h"
@@ -34,6 +32,7 @@ class JsonObject;
 class JsonOut;
 class effect;
 class effect_source;
+class item;
 class player;
 namespace catacurses
 {
@@ -125,6 +124,7 @@ class monster : public Creature
         int get_hp_max( const bodypart_id & ) const override;
         int get_hp_max() const override;
         int hp_percentage() const override;
+        int get_eff_per() const override;
 
         float get_mountable_weight_ratio() const;
 
@@ -167,6 +167,8 @@ class monster : public Creature
         bool made_of( const material_id &m ) const override; // Returns true if it's made of m
         bool made_of_any( const std::set<material_id> &ms ) const override;
         bool made_of( phase_id p ) const; // Returns true if its phase is p
+
+        bool shearable() const;
 
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 
@@ -314,6 +316,9 @@ class monster : public Creature
         bool is_elec_immune() const override;
         bool is_immune_effect( const efftype_id & ) const override;
         bool is_immune_damage( damage_type ) const override;
+
+        void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
+                         int intensity = 1, bool permanent = false, bool force = false, bool defferred = false ) override;
 
         void absorb_hit( const bodypart_id &bp, damage_instance &dam ) override;
         bool block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &d ) override;
