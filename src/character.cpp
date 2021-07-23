@@ -2904,7 +2904,7 @@ item *Character::try_add( item it, const item *avoid, const bool allow_wield )
         // this will set ret to either it, or to stack where it was placed
         pocket.second->add( it, &ret );
         if( !keep_invlet && ( !it.count_by_charges() || it.charges == ret->charges ) ) {
-            inv->update_invlet( *ret );
+            inv->update_invlet( *ret, true, avoid );
         }
         pocket.first.on_contents_changed();
         pocket.second->on_contents_changed();
