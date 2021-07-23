@@ -983,17 +983,6 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
     return needed_things.obj().can_make_with_inventory( temp_inv, is_crafting_component );
 }
 
-static bool has_skill_for_vehicle_work( const std::map<skill_id, int> &required_skills, player &p )
-{
-    for( const auto &e : required_skills ) {
-        bool hasSkill = p.get_skill_level( e.first ) >= e.second;
-        if( !hasSkill ) {
-            return false;
-        }
-    }
-    return true;
-}
-
 static activity_reason_info can_do_activity_there( const activity_id &act, player &p,
         const tripoint &src_loc, const int distance = ACTIVITY_SEARCH_DISTANCE )
 {
@@ -1062,7 +1051,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     continue;
                 }
                 // don't have skill to remove it
-                if( !has_skill_for_vehicle_work( vpinfo.removal_skills, p ) ) {
+                if( !p.meets_skill_requirements( vpinfo.removal_skills ) ) {
                     continue;
                 }
                 item base( vpinfo.base_item );
@@ -1110,7 +1099,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     continue;
                 }
                 // don't have skill to repair it
-                if( !has_skill_for_vehicle_work( vpinfo.repair_skills, p ) ) {
+
+                if( !p.meets_skill_requirements( vpinfo.repair_skills ) ) {
                     continue;
                 }
                 const requirement_data &reqs = vpinfo.repair_requirements();
