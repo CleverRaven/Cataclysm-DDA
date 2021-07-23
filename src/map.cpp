@@ -6770,6 +6770,7 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
     static const oter_str_id rock( "empty_rock" );
     static const oter_str_id air( "open_air" );
     static const oter_str_id earth( "solid_earth" );
+    static const oter_str_id deep_rock( "deep_rock" );
     static const ter_str_id t_soil( "t_soil" );
 
     dbg( D_INFO ) << "map::loadn(game[" << g.get() << "], worldx[" << abs_sub.x
@@ -6800,7 +6801,7 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
         // TODO: Replace with json mapgen functions.
         if( terrain_type == air ) {
             generate_uniform( grid_abs_sub_rounded, t_open_air );
-        } else if( terrain_type == rock ) {
+        } else if( terrain_type == rock || terrain_type == deep_rock ) {
             generate_uniform( grid_abs_sub_rounded, t_rock );
         } else if( terrain_type == earth ) {
             generate_uniform( grid_abs_sub_rounded, t_soil );
