@@ -801,7 +801,7 @@
       "WINDOW"
     ],
     "bash": {
-      "str_min": 5
+      "str_min": 5,
       "str_max": 8,
       "sound": "glass breaking!",
       "sound_fail": "whack!",
