@@ -20,7 +20,7 @@ struct point;
 namespace base_camps
 {
 enum tab_mode : int;
-}
+} // namespace base_camps
 
 enum class farm_ops : int {
     plow = 1,
