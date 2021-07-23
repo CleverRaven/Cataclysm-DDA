@@ -85,6 +85,7 @@ jobs:
             sanitize: address
             release: 1
             title: GCC 8, Ubuntu, Tiles, ASan, Release
+            num_test_jobs: 1
 
           - compiler: clang++-6.0
             os: ubuntu-18.04
@@ -125,6 +126,7 @@ jobs:
         TEST_STAGE: ${{ matrix.test-stage }}
         LDFLAGS: ${{ matrix.ldflags }}
         EXTRA_TEST_OPTS: --error-format=github-action
+        NUM_TEST_JOBS: ${{ matrix.num_test_jobs }}
         NATIVE: ${{ matrix.native }}
         GOLD: ${{ matrix.gold }}
         LTO: ${{ matrix.lto }}
