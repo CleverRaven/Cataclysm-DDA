@@ -5,7 +5,7 @@
 echo "Using bash version $BASH_VERSION"
 set -exo pipefail
 
-num_jobs=3
+[ -z $NUM_JOBS ] && num_jobs=3 || num_jobs=$NUM_JOBS
 
 # We might need binaries installed via pip, so ensure that our personal bin dir is on the PATH
 export PATH=$HOME/.local/bin:$PATH
