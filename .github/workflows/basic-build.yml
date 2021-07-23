@@ -20,7 +20,6 @@ jobs:
         uses: fkirc/skip-duplicate-actions@master
         with:
           cancel_others: 'true'
-          concurrent_skipping: 'outdated_runs'
           paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**"]'
   basic-build:
     needs: skip-duplicates
