@@ -206,17 +206,13 @@ bool Skill::is_contextual_skill() const
 void SkillLevel::train( int amount, bool skip_scaling )
 {
     int catchup_amount = amount;
-
-    for( int levelcount = 0; : levelcount <= _highestLevel ) {
-        int current_level_exp += levelcount * levelcount * 10000;
-        levelcount += 1;
-    }
+    int highest_level_exp = _highestLevel * _highestLevel * 10000;
 
     // Working off rust to regain levels goes twice as fast as reaching levels in the first place, and 1.5x as fast to regain your last place in the level.
     if( _level < _highestLevel ) {
         catchup_amount *= 2;
         amount *= 1.1;
-    } else if( _exercise + current_level_exp < _highestExperience ) {
+    } else if( _exercise + highest_level_exp < _highestExperience ) {
         catchup_amount *= 1.5;
         amount *= 1.1;
     }
@@ -245,11 +241,12 @@ void SkillLevel::train( int amount, bool skip_scaling )
         xp_to_level = 100 * 100 * ( _level + 1 ) * ( _level + 1 );
     }
 
-    if( _level == _highestLevel && _exercise + current_level_exp > _highestExperience ) {
-        _highestExperience = _exercise + current_level_experience;
+    if( _level == _highestLevel && _exercise + highest_level_exp > _highestExperience ) {
+        _highestExperience = _exercise + highest_level_exp;
     }
 
     if( _highestExperience >= 10000 * ( _highestLevel + 1 ) * ( _highestLevel + 1 ) ) {
+        _highestExperience = 0;
         ++_highestLevel;
     }
 
