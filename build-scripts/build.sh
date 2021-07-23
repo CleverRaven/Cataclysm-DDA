@@ -130,14 +130,17 @@ then
         cd ..
         ln -s build/compile_commands.json
 
+        ./build-scripts/files_changed
+
         # We want to first analyze all files that changed in this PR, then as
         # many others as possible, in a random order.
         set +x
         all_cpp_files="$( \
             grep '"file": "' build/compile_commands.json | \
             sed "s+.*$PWD/++;s+\"$++")"
+        changed_files="$( ./build-scripts/files_changed || echo unknown )"
         changed_cpp_files="$( \
-            ./build-scripts/files_changed | grep -F "$all_cpp_files" || true )"
+            echo "$changed_files" | grep -F "$all_cpp_files" || true )"
         if [ -n "$changed_cpp_files" ]
         then
             remaining_cpp_files="$( \
@@ -160,8 +163,15 @@ then
         echo "Analyzing changed files"
         analyze_files_in_random_order "$changed_cpp_files"
 
-        echo "Analyzing remaining files"
-        analyze_files_in_random_order "$remaining_cpp_files"
+        # Check for changes to any files that would require us to run clang-tidy across everything
+        changed_global_files="$( \
+            echo "$changed_files" | egrep -i "\.h$|clang-tidy-plugin|cmake|unknown" || true )"
+        if [ -n "$changed_global_files" ]
+        then
+            first_changed_file="$(echo "$changed_global_files" | head -n 1)"
+            echo "Analyzing remaining files because $first_changed_file was changed"
+            analyze_files_in_random_order "$remaining_cpp_files"
+        fi
         set -x
     else
         # Regular build
