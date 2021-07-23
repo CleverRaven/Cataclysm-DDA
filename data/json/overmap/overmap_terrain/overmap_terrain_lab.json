@@ -307,6 +307,7 @@
       "lab_surface_brick_blockE1"
     ],
     "name": "parking lot",
+    "//": "parking lot attached to Research facility.",
     "sym": "_",
     "color": "dark_gray",
     "spawns": { "group": "GROUP_LAB_SURFACE", "population": [ 5, 20 ], "chance": 50 },
@@ -331,6 +332,7 @@
       "lab_surface_parking_blockE1"
     ],
     "name": "parking lot",
+    "//": "parking lot attached to modular mutagen lab.",
     "sym": "_",
     "color": "dark_gray",
     "spawns": { "group": "GROUP_VANILLA", "population": [ 5, 20 ], "chance": 30 },
@@ -512,5 +514,57 @@
     "sym": "l",
     "color": "dark_gray",
     "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "lab_security_z-1",
+      "lab_security_z-2",
+      "lab_security_z-3",
+      "lab_security_z-4",
+      "lab_security_z-5",
+      "lab_security_z-6_final_flr"
+    ],
+    "name": "Lab Security Zone",
+    "sym": "S",
+    "//": "6 underground levels for a modular security tower.",
+    "color": "yellow",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 1, 4 ], "chance": 30 },
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lab_2x1_CORE_-1W", "lab_2x1_CORE_-1E" ],
+    "name": "Lab Cargo Zone",
+    "sym": "C",
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "lab_res_8_SWD_ground",
+      "lab_res_8_SED_ground",
+      "lab_res_8_SWU_ground",
+      "lab_res_8_SEU_ground",
+      "lab_CORE_2x1_SED_ground",
+      "lab_CORE_2x1_SWD_ground",
+      "lab_CORE_2x1_NED_ground",
+      "lab_CORE_2x1_NWD_ground",
+      "lab_CORE_2x1_WC_ground",
+      "lab_CORE_2x1_EC_ground",
+      "lab_security_z0",
+      "lab_security_z0N",
+      "lab_security_z0S"
+    ],
+    "name": "Trans-Coast Logistics",
+    "sym": "F",
+    "//": "Front/Fake company entrance for a lab.  Includes main and auxillary entrances including the start of the security tower.",
+    "color": "light_gray",
+    "see_cost": 5,
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 5, 15 ], "chance": 30 },
+    "flags": [ "RISK_HIGH" ]
   }
 ]

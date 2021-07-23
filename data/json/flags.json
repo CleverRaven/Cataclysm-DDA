@@ -1988,5 +1988,77 @@
     "id": "HARD",
     "type": "json_flag",
     "context": [  ]
+  },
+  {
+    "id": "SCIENCE_CARD_VISITOR",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a science facility."
+  },
+  {
+    "id": "SCIENCE_CARD_MAINTENANCE_GREEN",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a science facility."
+  },
+  {
+    "id": "SCIENCE_CARD_MAINTENANCE_YELLOW",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secured maintence area."
+  },
+  {
+    "id": "SCIENCE_CARD_MAINTENANCE_BLUE",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secured maintence area."
+  },
+  {
+    "id": "SCIENCE_CARD_TRANSPORT_1",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a science facility."
+  },
+  {
+    "id": "SCIENCE_CARD_SECURITY_YELLOW",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secured law enforcement area."
+  },
+  {
+    "id": "SCIENCE_CARD_SECURITY_MAGENTA",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secured law enforcement area."
+  },
+  {
+    "id": "SCIENCE_CARD_SECURITY_BLACK",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secured  area."
+  },
+  {
+    "id": "SCIENCE_CARD_MUTAGEN_GREEN",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to access a secure zone of a facility."
+  },
+  {
+    "id": "SCIENCE_CARD_MUTAGEN_PINK",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to access a secure zone of a facility."
+  },
+  {
+    "id": "SCIENCE_CARD_MUTAGEN_CYAN",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to access a secure zone of a facility."
+  },
+  {
+    "id": "SCIENCE_CARD_MEDICAL_RED",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to access a secure zone of a facility."
   }
 ]
