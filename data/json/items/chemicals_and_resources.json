@@ -226,7 +226,7 @@
     "weight": "138 g",
     "color": "white",
     "use_action": [ "BLECH" ],
-    "flags": [ "CORROSIVE" ],
+    "flags": [ "CORROSIVE", "NUTRIENT_OVERRIDE" ],
     "container": "jug_plastic",
     "sealed": false,
     "comestible_type": "DRINK",
