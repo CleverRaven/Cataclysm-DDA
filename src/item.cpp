@@ -8055,8 +8055,8 @@ int item::ammo_remaining( const Character *carrier ) const
         ret += units::to_kilojoule( carrier->get_power_level() );
     }
 
-    // Weird non-item charges. Not sure if used by anything in this context
-    if( is_tool() && ammo_types().empty() ) {
+    // Non ammo using item that uses charges
+    if( ammo_types().empty() ) {
         ret += charges;
     }
 
