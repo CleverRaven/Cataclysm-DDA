@@ -222,8 +222,8 @@ void SkillLevel::train( int amount, bool skip_scaling )
     } else {
         const double scaling = get_option<float>( "SKILL_TRAINING_SPEED" );
         if( scaling > 0.0 ) {
-            _exercise += std::max( final_amount * scaling, 1 );
-            _highestExperience += std::max( amount * scaling, 1 );
+            _exercise += std::ceil( final_amount * scaling );
+            _highestExperience += std::ceil( amount * scaling );
         }
     }
 
