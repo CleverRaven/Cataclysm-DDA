@@ -319,7 +319,8 @@ class map
         virtual ~map();
 
         map &operator=( const map & ) = delete;
-        map &operator=( map && ) noexcept;
+        // NOLINTNEXTLINE(performance-noexcept-move-constructor)
+        map &operator=( map && );
 
         /**
          * Tinymaps will ocassionally need to skip npc rotation in map::rotate
