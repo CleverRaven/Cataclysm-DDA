@@ -2327,8 +2327,10 @@ void talk_effect_fun_t::set_add_morale( const JsonObject &jo, const std::string 
     std::string new_type = jo.get_string( member );
     int bonus = jo.get_int( "bonus" );
     int max_bonus = jo.get_int( "max_bonus", 0 );
-    time_duration duration = time_duration::from_seconds( jo.get_int( "duration", 3600 ) );
-    time_duration decay_start = time_duration::from_seconds( jo.get_int( "decay_start", 1800 ) );
+    time_duration duration;
+    time_duration decay_start;
+    optional( jo, "false", "duration",duration, 1_hours);
+    optional( jo, "false", "decay_start", decay_start, 30_minutes);
     const bool capped = jo.get_bool( "capped", false );
     function = [is_npc, new_type, bonus, max_bonus, duration, decay_start,
             capped]( const dialogue & d ) {
