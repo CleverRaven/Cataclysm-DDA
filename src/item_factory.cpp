@@ -1940,6 +1940,9 @@ void islot_armor::load( const JsonObject &jo )
     optional( jo, was_loaded, "armor", data );
     optional( jo, was_loaded, "sided", sided, false );
 
+    optional( jo, was_loaded, "wear_cost", wear_cost, cata::nullopt );
+    optional( jo, was_loaded, "takeoff_cost", takeoff_cost, cata::nullopt );
+
     optional( jo, was_loaded, "material_thickness", thickness, 0.0f );
     optional( jo, was_loaded, "environmental_protection", env_resist, 0 );
     optional( jo, was_loaded, "environmental_protection_with_filter", env_resist_w_filter, 0 );

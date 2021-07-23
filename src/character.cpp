@@ -2731,7 +2731,15 @@ cata::optional<std::list<item>::iterator> Character::wear_item( const item &to_w
             _( "You put on your %s." ),
             _( "<npcname> puts on their %s." ),
             to_wear.tname() );
-        moves -= item_wear_cost( to_wear );
+
+        cata::optional<int> cost_overwrite = to_wear.get_wear_cost();
+        int cost;
+        if( !cost_overwrite ) {
+            cost = item_wear_cost( to_wear );
+        } else {
+            cost = *cost_overwrite;
+        }
+        moves -= cost;
 
         for( const bodypart_id &bp : get_all_body_parts() ) {
             if( to_wear.covers( bp ) && encumb( bp ) >= 40 ) {

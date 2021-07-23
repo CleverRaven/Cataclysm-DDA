@@ -1961,8 +1961,14 @@ bool player::takeoff( item_location loc, std::list<item> *res )
                            _( "<npcname> takes off their %s." ),
                            takeoff_copy.tname() );
 
-    // TODO: Make this variable
-    mod_moves( -250 );
+    int cost;
+    cata::optional<int> cost_overwrite = takeoff_copy.get_takeoff_cost();
+    if( cost_overwrite ) {
+        cost = *cost_overwrite;
+    } else {
+        cost = item_wear_cost( takeoff_copy );
+    }
+    mod_moves( cost );
 
     recalc_sight_limits();
     calc_encumbrance();

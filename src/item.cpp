@@ -6189,6 +6189,26 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
     return encumber;
 }
 
+cata::optional<int> item::get_wear_cost() const
+{
+    const islot_armor *t = find_armor_data();
+    if( !t ) {
+        return 0;
+    }
+
+    return t->wear_cost;
+}
+
+cata::optional<int> item::get_takeoff_cost() const
+{
+    const islot_armor *t = find_armor_data();
+    if( !t ) {
+        return 0;
+    }
+
+    return t->takeoff_cost;
+}
+
 layer_level item::get_layer() const
 {
     if( type->armor ) {

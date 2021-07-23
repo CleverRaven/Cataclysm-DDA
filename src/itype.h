@@ -267,6 +267,14 @@ struct islot_armor {
      */
     bool power_armor = false;
     /**
+     * If non-null, this value overrides how long it takes to wear the item
+     */
+    cata::optional<int> wear_cost;
+    /**
+     * If non-null, this value overrides how long it takes to take off the item
+     */
+    cata::optional<int> takeoff_cost;
+    /**
      * Whitelisted clothing mods.
      * Restricted clothing mods must be listed here by id to be compatible.
      */

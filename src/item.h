@@ -1717,6 +1717,16 @@ class item : public visitable
                           encumber_flags = encumber_flags::none ) const;
 
         /**
+         * Get the wear cost (in moves) override of this item (if it has one)
+         */
+        cata::optional<int> get_wear_cost() const;
+
+        /**
+         * Get the takeoff cost (in moves) override of this item (if it has one)
+         */
+        cata::optional<int> get_takeoff_cost() const;
+
+        /**
          * Returns the weight capacity modifier (@ref islot_armor::weight_capacity_modifier) that this item provides when worn.
          * For non-armor it returns 1. The modifier is multiplied with the weight capacity of the character that wears the item.
          */
