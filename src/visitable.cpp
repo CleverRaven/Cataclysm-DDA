@@ -344,7 +344,7 @@ static VisitResponse visit_internal( const std::function<VisitResponse( item *, 
             return VisitResponse::ABORT;
 
         case VisitResponse::NEXT:
-            if( m_node->contents.visit_contents( func, m_node ) == VisitResponse::ABORT ) {
+            if( m_node->visit_contents( func, m_node ) == VisitResponse::ABORT ) {
                 return VisitResponse::ABORT;
             }
         /* intentional fallthrough */
@@ -355,6 +355,12 @@ static VisitResponse visit_internal( const std::function<VisitResponse( item *, 
 
     /* never reached but suppresses GCC warning */
     return VisitResponse::ABORT;
+}
+
+VisitResponse item::visit_contents( const std::function<VisitResponse( item *, item * )>
+                                    &func, item *parent )
+{
+    return contents.visit_contents( func, parent );
 }
 
 VisitResponse item_contents::visit_contents( const std::function<VisitResponse( item *, item * )>
@@ -555,7 +561,7 @@ std::list<item> inventory::remove_items_with( const
                 }
 
             } else {
-                istack_iter->contents.remove_internal( filter, count, res );
+                istack_iter->remove_internal( filter, count, res );
                 ++istack_iter;
             }
         }
@@ -600,7 +606,7 @@ std::list<item> Character::remove_items_with( const
                 return res;
             }
         } else {
-            iter->contents.remove_internal( filter, count, res );
+            iter->remove_internal( filter, count, res );
             if( count == 0 ) {
                 return res;
             }
@@ -613,7 +619,7 @@ std::list<item> Character::remove_items_with( const
         res.push_back( remove_weapon() );
         count--;
     } else {
-        weapon.contents.remove_internal( filter, count, res );
+        weapon.remove_internal( filter, count, res );
     }
 
     return res;
@@ -657,7 +663,7 @@ std::list<item> map_cursor::remove_items_with( const
                 return res;
             }
         } else {
-            iter->contents.remove_internal( filter, count, res );
+            iter->remove_internal( filter, count, res );
             if( count == 0 ) {
                 return res;
             }
@@ -712,7 +718,7 @@ std::list<item> vehicle_cursor::remove_items_with( const
                 return res;
             }
         } else {
-            iter->contents.remove_internal( filter, count, res );
+            iter->remove_internal( filter, count, res );
             if( count == 0 ) {
                 return res;
             }

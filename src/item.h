@@ -732,6 +732,9 @@ class item : public visitable
 
         // seal the item's pockets. used for crafting and spawning items.
         bool seal();
+
+        bool all_pockets_sealed() const;
+        bool any_pockets_sealed() const;
         /** Whether this is container. Note that container does not necessarily means it's
          * suitable for liquids. */
         bool is_container() const;
@@ -790,6 +793,9 @@ class item : public visitable
                                                std::string *err = nullptr ) const;
         int get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
                                                std::string *err = nullptr ) const;
+
+        units::volume total_contained_volume() const;
+
         /**
          * It returns the maximum volume of any contents, including liquids,
          * ammo, magazines, weapons, etc.
@@ -816,6 +822,7 @@ class item : public visitable
          */
         ret_val<bool> put_in( const item &payload, item_pocket::pocket_type pk_type,
                               bool unseal_pockets = false );
+        void force_insert_item( const item &it, item_pocket::pocket_type pk_type );
 
         /**
          * Returns this item into its default container. If it does not have a default container,
@@ -1881,6 +1888,16 @@ class item : public visitable
 
         /** Quantity of ammunition consumed per usage of tool or with each shot of gun */
         int ammo_required() const;
+        // gets the first ammo in all magazine pockets
+        // does not support multiple magazine pockets!
+        item &first_ammo();
+        // gets the first ammo in all magazine pockets
+        // does not support multiple magazine pockets!
+        const item &first_ammo() const;
+        // spills liquid and other contents from the container. contents may remain
+        // in the container if the player cancels spilling. removing liquid from
+        // a magazine requires unload logic.
+        void handle_liquid_or_spill( Character &guy, const item *avoid = nullptr );
 
         /**
          * Check if sufficient ammo is loaded for given number of uses.
@@ -2283,6 +2300,14 @@ class item : public visitable
         // inherited from visitable
         VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const
         override;
+        /**
+         * @relates visitable
+         * NOTE: upon expansion, this may need to be filtered by type enum depending on accessibility
+         */
+        VisitResponse visit_contents( const std::function<VisitResponse( item *, item * )> &func,
+                                      item *parent = nullptr );
+        void remove_internal( const std::function<bool( item & )> &filter,
+                              int &count, std::list<item> &res );
         std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
                                            int count = INT_MAX ) override;
 
@@ -2313,6 +2338,7 @@ class item : public visitable
         // gets the item contained IFF one item is contained (CONTAINER pocket), otherwise a null item reference
         item &only_item();
         const item &only_item() const;
+        item *get_item_with( const std::function<bool( const item & )> &filter );
 
         /**
          * returns the number of items stacks in contents
@@ -2332,6 +2358,8 @@ class item : public visitable
          * Open a menu for the player to set pocket favorite settings for the pockets in this item_contents
          */
         void favorite_settings_menu( const std::string &item_name );
+
+        void combine( const item_contents &read_input, bool convert = false );
 
     private:
         /** migrates an item into this item. */
@@ -2404,12 +2432,12 @@ class item : public visitable
         static const int INFINITE_CHARGES;
 
         const itype *type;
-        item_contents contents;
         std::list<item> components;
         /** What faults (if any) currently apply to this item */
         std::set<fault_id> faults;
 
     private:
+        item_contents contents;
         /** `true` if item has any of the flags that require processing in item::process_internal.
          * This flag is reset to `true` if item tags are changed.
          */

@@ -12,7 +12,6 @@
 #include "character.h"
 #include "flag.h"
 #include "item.h"
-#include "item_contents.h"
 #include "iteminfo_query.h"
 #include "itype.h"
 #include "options_helpers.h"

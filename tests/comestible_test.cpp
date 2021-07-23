@@ -11,7 +11,6 @@
 #include "cata_catch.h"
 #include "character.h"
 #include "item.h"
-#include "item_contents.h"
 #include "itype.h"
 #include "make_static.h"
 #include "output.h"

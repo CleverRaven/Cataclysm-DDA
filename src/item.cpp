@@ -478,7 +478,7 @@ item &item::convert( const itype_id &new_type )
     item temp( *this );
     temp.contents = item_contents( type->pockets );
     for( const item *it : contents.mods() ) {
-        if( !temp.contents.insert_item( *it, item_pocket::pocket_type::MOD ).success() ) {
+        if( !temp.put_in( *it, item_pocket::pocket_type::MOD ).success() ) {
             debugmsg( "failed to insert mod" );
         }
     }
@@ -1188,6 +1188,11 @@ ret_val<bool> item::put_in( const item &payload, item_pocket::pocket_type pk_typ
     } else {
         return ret_val<bool>::make_failure( result.str() );
     }
+}
+
+void item::force_insert_item( const item &it, item_pocket::pocket_type pk_type )
+{
+    contents.force_insert_item( it, pk_type );
 }
 
 void item::set_var( const std::string &name, const int value )
@@ -5020,15 +5025,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         // in their name, also food is active while it rots.
         tagtext += _( " (active)" );
     }
-    switch( contents.get_sealed_summary() ) {
-        case item_contents::sealed_summary::unsealed:
-            break;
-        case item_contents::sealed_summary::part_sealed:
-            tagtext += _( " (part sealed)" );
-            break;
-        case item_contents::sealed_summary::all_sealed:
-            tagtext += _( " (sealed)" );
-            break;
+
+    if( all_pockets_sealed() ) {
+        tagtext += _( " (sealed)" );
+    } else if( any_pockets_sealed() ) {
+        tagtext += _( " (part sealed)" );
     }
 
     if( is_favorite ) {
@@ -7234,6 +7235,16 @@ bool item::seal()
     }
 }
 
+bool item::all_pockets_sealed() const
+{
+    return contents.all_pockets_sealed();
+}
+
+bool item::any_pockets_sealed() const
+{
+    return contents.any_pockets_sealed();
+}
+
 bool item::is_container() const
 {
     return contents.has_pocket_type( item_pocket::pocket_type::CONTAINER );
@@ -8054,6 +8065,21 @@ int item::ammo_required() const
     return 0;
 }
 
+item &item::first_ammo()
+{
+    return contents.first_ammo();
+}
+
+const item &item::first_ammo() const
+{
+    return contents.first_ammo();
+}
+
+void item::handle_liquid_or_spill( Character &guy, const item *avoid )
+{
+    contents.handle_liquid_or_spill( guy, avoid );
+}
+
 bool item::ammo_sufficient( const Character *carrier, int qty ) const
 {
     if( ammo_required() ) {
@@ -8665,7 +8691,7 @@ bool item::reload( Character &u, item_location ammo, int qty )
     if( ammo->has_flag( flag_SPEEDLOADER ) ) {
         container = ammo;
         // if the thing passed in is a speed loader, we want the ammo
-        ammo = item_location( ammo, &ammo->contents.first_ammo() );
+        ammo = item_location( ammo, &ammo->first_ammo() );
     }
 
     if( !is_reloadable_with( ammo->typeId() ) ) {
@@ -8701,9 +8727,9 @@ bool item::reload( Character &u, item_location ammo, int qty )
 
         if( ammo->has_flag( flag_SPEEDLOADER ) ) {
             // sets curammo to one of the ammo types contained
-            curammo = ammo->contents.first_ammo().type;
+            curammo = ammo->first_ammo().type;
             qty = std::min( qty, ammo->ammo_remaining() );
-            item ammo_copy( ammo->contents.first_ammo() );
+            item ammo_copy( ammo->first_ammo() );
             ammo_copy.charges = qty;
             put_in( ammo_copy, item_pocket::pocket_type::MAGAZINE );
             ammo->ammo_consume( qty, tripoint_zero, &u );
@@ -9008,6 +9034,11 @@ int item::get_remaining_capacity_for_liquid( const item &liquid, const Character
     }
 
     return res;
+}
+
+units::volume item::total_contained_volume() const
+{
+    return contents.total_contained_volume();
 }
 
 bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
@@ -11083,6 +11114,12 @@ int item::get_recursive_disassemble_moves( const Character &guy ) const
     return moves;
 }
 
+void item::remove_internal( const std::function<bool( item & )> &filter,
+                            int &count, std::list<item> &res )
+{
+    contents.remove_internal( filter, count, res );
+}
+
 std::list<const item *> item::all_items_top() const
 {
     return contents.all_items_top();
@@ -11176,6 +11213,11 @@ const item &item::only_item() const
     return contents.only_item();
 }
 
+item *item::get_item_with( const std::function<bool( const item & )> &filter )
+{
+    return contents.get_item_with( filter );
+}
+
 size_t item::num_item_stacks() const
 {
     return contents.num_item_stacks();
@@ -11194,4 +11236,9 @@ const item &item::legacy_front() const
 void item::favorite_settings_menu( const std::string &item_name )
 {
     contents.favorite_settings_menu( item_name );
+}
+
+void item::combine( const item_contents &read_input, bool convert )
+{
+    contents.combine( read_input, convert );
 }
