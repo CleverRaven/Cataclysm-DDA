@@ -712,12 +712,32 @@ void Item_factory::finalize_item_blacklist()
 
     // Construct a map for batch item replace
     std::unordered_map<itype_id, itype_id> replacements;
-    for( const std::pair<const itype_id, migration> &migrate : migrations ) {
-        if( m_templates.count( migrate.second.replace ) == 0 ) {
+    for( const std::pair<const itype_id, std::vector<migration>> &migrate : migrations ) {
+        // The valid migration entry
+        const migration *valid = nullptr;
+        for( const migration &cand : migrate.second ) {
+            // This can only be applied to items, not itypes
+            if( cand.from_variant ) {
+                continue;
+            }
+            // There can only be one migration entry
+            if( valid == nullptr ) {
+                valid = &cand;
+            } else {
+                valid = nullptr;
+                break;
+            }
+        }
+        // Either there are no migrations, or too many migrations
+        // Errors are reported below
+        if( valid == nullptr ) {
+            continue;
+        }
+        if( m_templates.count( valid->replace ) == 0 ) {
             // Errors for missing item templates will be reported below
             continue;
         }
-        replacements[migrate.first] = migrate.second.replace;
+        replacements[migrate.first] = valid->replace;
     }
     // Replace items in item template groups
     for( std::pair<const item_group_id, std::unique_ptr<Item_spawn_data>> &g : m_template_groups ) {
@@ -728,10 +748,22 @@ void Item_factory::finalize_item_blacklist()
         const_cast<requirement_data &>( r.second ).replace_items( replacements );
     }
 
-    for( const std::pair<const itype_id, migration> &migrate : migrations ) {
-        if( m_templates.count( migrate.second.replace ) == 0 ) {
-            debugmsg( "Replacement item for migration %s does not exist", migrate.first.c_str() );
-            continue;
+    for( const std::pair<const itype_id, std::vector<migration>> &migrate : migrations ) {
+        const migration *parent = nullptr;
+        for( const migration &migrant : migrate.second ) {
+            if( m_templates.count( migrant.replace ) == 0 ) {
+                debugmsg( "Replacement item for migration %s does not exist", migrate.first.c_str() );
+                continue;
+            }
+            // The rest of this only applies to blanket migrations
+            // Not migrations looking for a particular variant
+            if( migrant.from_variant ) {
+                continue;
+            }
+            if( parent != nullptr ) {
+                debugmsg( "Multiple non-variant migrations specified for %s", migrate.first.str() );
+            }
+            parent = &migrant;
         }
 
         // remove any recipes used to craft the migrated item
@@ -746,24 +778,24 @@ void Item_factory::finalize_item_blacklist()
         auto maybe_ammo = m_templates.find( migrate.first );
         // If the itype_id is valid and the itype has ammo data
         if( maybe_ammo != m_templates.end() && maybe_ammo->second.ammo ) {
-            auto replacement = m_templates.find( migrate.second.replace );
+            auto replacement = m_templates.find( parent->replace );
             if( replacement->second.ammo ) {
                 migrated_ammo.emplace( std::make_pair( migrate.first, replacement->second.ammo->type ) );
             } else {
                 debugmsg( "Replacement item %s for migrated ammo %s is not ammo.",
-                          migrate.second.replace.str(), migrate.first.str() );
+                          parent->replace.str(), migrate.first.str() );
             }
         }
 
         // migrate magazines as well
         auto maybe_mag = m_templates.find( migrate.first );
         if( maybe_mag != m_templates.end() && maybe_mag->second.magazine ) {
-            auto replacement = m_templates.find( migrate.second.replace );
+            auto replacement = m_templates.find( parent->replace );
             if( replacement->second.magazine ) {
-                migrated_magazines.emplace( std::make_pair( migrate.first, migrate.second.replace ) );
+                migrated_magazines.emplace( std::make_pair( migrate.first, parent->replace ) );
             } else {
                 debugmsg( "Replacement item %s for migrated magazine %s is not a magazine.",
-                          migrate.second.replace.str(), migrate.first.str() );
+                          parent->replace.str(), migrate.first.str() );
             }
         }
     }
@@ -771,11 +803,33 @@ void Item_factory::finalize_item_blacklist()
         vehicle_prototype &prototype = const_cast<vehicle_prototype &>( vid.obj() );
         for( vehicle_item_spawn &vis : prototype.item_spawns ) {
             for( itype_id &type_to_spawn : vis.item_ids ) {
-                std::map<itype_id, migration>::iterator replacement =
-                    migrations.find( type_to_spawn );
-                if( replacement != migrations.end() ) {
-                    type_to_spawn = replacement->second.replace;
+                std::map<itype_id, std::vector<migration>>::iterator replacement =
+                        migrations.find( type_to_spawn );
+                if( replacement == migrations.end() ) {
+                    continue;
                 }
+                const migration *parent = nullptr;
+                for( const migration &migrant : replacement->second ) {
+                    if( m_templates.count( migrant.replace ) == 0 ) {
+                        // Error reported above
+                        continue;
+                    }
+                    // The rest of this only applies to blanket migrations
+                    // Not migrations looking for a particular variant
+                    if( migrant.from_variant ) {
+                        continue;
+                    }
+                    if( parent != nullptr ) {
+                        // Error reported above
+                        parent = nullptr;
+                        break;
+                    }
+                    parent = &migrant;
+                }
+                if( parent == nullptr ) {
+                    continue;
+                }
+                type_to_spawn = parent->replace;
             }
         }
     }
@@ -1528,12 +1582,14 @@ void Item_factory::check_definitions() const
         debugmsg( "warnings for type %s:\n%s", type->id.c_str(), msg );
     }
     for( const auto &e : migrations ) {
-        if( !m_templates.count( e.second.replace ) ) {
-            debugmsg( "Invalid migration target: %s", e.second.replace.c_str() );
-        }
-        for( const auto &c : e.second.contents ) {
-            if( !m_templates.count( c.id ) ) {
-                debugmsg( "Invalid migration contents: %s", c.id.str() );
+        for( const migration &m : e.second ) {
+            if( !m_templates.count( m.replace ) ) {
+                debugmsg( "Invalid migration target: %s", m.replace.c_str() );
+            }
+            for( const auto &c : m.contents ) {
+                if( !m_templates.count( c.id ) ) {
+                    debugmsg( "Invalid migration contents: %s", c.id.str() );
+                }
             }
         }
     }
@@ -3072,11 +3128,33 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     }
 }
 
+void Item_factory::add_migration( const migration &m )
+{
+    auto it = migrations.find( m.id );
+    if( it == migrations.end() ) {
+        migrations[m.id] = {m};
+        return;
+    }
+
+    for( migration &old : it->second ) {
+        if( old.from_variant ) {
+            continue;
+        }
+        // If we find one that isn't from variant, overwrite it
+        old = m;
+        return;
+    }
+
+    // Otherwise, we're specifying a new one.
+    it->second.push_back( m );
+}
+
 void Item_factory::load_migration( const JsonObject &jo )
 {
     migration m;
     assign( jo, "replace", m.replace );
     assign( jo, "variant", m.variant );
+    assign( jo, "from_variant", m.from_variant );
     assign( jo, "flags", m.flags );
     assign( jo, "charges", m.charges );
     assign( jo, "contents", m.contents );
@@ -3084,13 +3162,21 @@ void Item_factory::load_migration( const JsonObject &jo )
 
     if( jo.has_string( "id" ) ) {
         jo.read( "id", m.id, true );
-        migrations[ m.id ] = m;
+        if( m.from_variant ) {
+            migrations[ m.id ].push_back( m );
+        } else {
+            add_migration( m );
+        }
     } else if( jo.has_array( "id" ) ) {
         std::vector<itype_id> ids;
         jo.read( "id", ids, true );
         for( const itype_id &id : ids ) {
             m.id = id;
-            migrations[ m.id ] = m;
+            if( m.from_variant ) {
+                migrations[ m.id ].push_back( m );
+            } else {
+                add_migration( m );
+            }
         }
     } else {
         jo.throw_error( "`id` of `MIGRATION` is neither string nor array" );
@@ -3112,39 +3198,78 @@ void migration::content::deserialize( JsonIn &jsin )
 itype_id Item_factory::migrate_id( const itype_id &id )
 {
     auto iter = migrations.find( id );
-    return iter != migrations.end() ? iter->second.replace : id;
+    if( iter == migrations.end() ) {
+        return id;
+    }
+    const migration *parent = nullptr;
+    for( const migration &m : iter->second ) {
+        // from-variant migrations do not apply to itypes
+        if( m.from_variant ) {
+            continue;
+        }
+        parent = &m;
+        break;
+    }
+    return parent != nullptr ? parent->replace : id;
 }
 
 void Item_factory::migrate_item( const itype_id &id, item &obj )
 {
     auto iter = migrations.find( id );
-    if( iter != migrations.end() ) {
-        for( const std::string &f : iter->second.flags ) {
-            obj.set_flag( flag_id( f ) );
+    if( iter == migrations.end() ) {
+        return;
+    }
+    bool convert = false;
+    const migration *migrant = nullptr;
+    for( const migration &m : iter->second ) {
+        if( m.from_variant && obj.has_gun_variant() && obj.gun_variant().id == *m.from_variant ) {
+            migrant = &m;
+            // This is not the variant that the item has already been convert to
+            // So we'll convert it again.
+            convert = true;
+            break;
         }
-        if( iter->second.charges > 0 ) {
-            obj.charges = iter->second.charges;
+        // When we find a migration that doesn't care about variants, keep it around
+        if( !m.from_variant ) {
+            migrant = &m;
         }
+    }
+    if( migrant == nullptr ) {
+        return;
+    }
 
-        obj.set_gun_variant( iter->second.variant );
+    if( convert ) {
+        obj.convert( migrant->replace );
+    }
 
-        for( const migration::content &it : iter->second.contents ) {
-            int count = it.count;
-            item content( it.id, obj.birthday(), 1 );
-            if( content.count_by_charges() ) {
-                content.charges = count;
-                count = 1;
+    for( const std::string &f : migrant->flags ) {
+        obj.set_flag( flag_id( f ) );
+    }
+    if( migrant->charges > 0 ) {
+        obj.charges = migrant->charges;
+    }
+
+    if( migrant->from_variant ) {
+        obj.clear_gun_variant();
+    }
+    obj.set_gun_variant( migrant->variant );
+
+    for( const migration::content &it : migrant->contents ) {
+        int count = it.count;
+        item content( it.id, obj.birthday(), 1 );
+        if( content.count_by_charges() ) {
+            content.charges = count;
+            count = 1;
+        }
+        for( ; count > 0; --count ) {
+            if( !obj.put_in( content, item_pocket::pocket_type::CONTAINER ).success() ) {
+                obj.put_in( content, item_pocket::pocket_type::MIGRATION );
             }
-            for( ; count > 0; --count ) {
-                if( !obj.put_in( content, item_pocket::pocket_type::CONTAINER ).success() ) {
-                    obj.put_in( content, item_pocket::pocket_type::MIGRATION );
-                }
-            }
         }
+    }
 
-        if( !iter->second.contents.empty() && iter->second.sealed ) {
-            obj.seal();
-        }
+    if( !migrant->contents.empty() && migrant->sealed ) {
+        obj.seal();
     }
 }
 

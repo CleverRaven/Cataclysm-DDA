@@ -1863,9 +1863,6 @@ class item : public visitable
          */
         void set_gun_variant( const std::string &variant );
 
-        /**
-         * For debug use only
-         */
         void clear_gun_variant();
 
         /** Quantity of energy currently loaded in tool or battery */
