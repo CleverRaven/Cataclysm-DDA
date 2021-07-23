@@ -6,6 +6,7 @@ echo "Using bash version $BASH_VERSION"
 set -exo pipefail
 
 num_jobs=3
+[ -z $NUM_TEST_JOBS ] && num_test_jobs=3 || num_test_jobs=$NUM_TEST_JOBS
 
 # We might need binaries installed via pip, so ensure that our personal bin dir is on the PATH
 export PATH=$HOME/.local/bin:$PATH
@@ -189,10 +190,10 @@ else
 
     export ASAN_OPTIONS=detect_odr_violation=1
     export UBSAN_OPTIONS=print_stacktrace=1
-    parallel --verbose --linebuffer "run_test './tests/cata_test' {} '('{}')=> '" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
+    parallel -j "$num_test_jobs" --verbose --linebuffer "run_test './tests/cata_test' {} '('{}')=> '" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
     if [ -n "$MODS" ]
     then
-        parallel --verbose --linebuffer "run_test './tests/cata_test --user-dir=modded '$(printf %q "${MODS}") {} 'Mods-('{}')=> '" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
+        parallel -j "$num_test_jobs" --verbose --linebuffer "run_test './tests/cata_test --user-dir=modded '$(printf %q "${MODS}") {} 'Mods-('{}')=> '" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
     fi
 
     if [ -n "$TEST_STAGE" ]

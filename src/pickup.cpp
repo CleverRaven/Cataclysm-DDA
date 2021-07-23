@@ -716,7 +716,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                     nc_color icolor;
                     if( this_item.is_food_container() && !this_item.is_craft() &&
                         this_item.num_item_stacks() == 1 ) {
-                        icolor = this_item.contents.all_items_top().front()->color_in_inventory();
+                        icolor = this_item.all_items_top().front()->color_in_inventory();
                     } else {
                         icolor = this_item.color_in_inventory();
                     }

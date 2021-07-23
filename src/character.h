@@ -35,7 +35,6 @@
 #include "flat_set.h"
 #include "game_constants.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "magic_enchantment.h"

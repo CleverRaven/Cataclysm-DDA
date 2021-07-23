@@ -53,7 +53,6 @@
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "iteminfo_query.h"
@@ -1796,7 +1795,7 @@ cata::optional<int> iuse::remove_all_mods( player *p, item *, bool, const tripoi
     }
 
     if( !loc->ammo_remaining() || p->unload( loc ) ) {
-        item *mod = loc->contents.get_item_with(
+        item *mod = loc->get_item_with(
         []( const item & e ) {
             return e.is_toolmod() && !e.is_irremovable();
         } );
@@ -7838,7 +7837,7 @@ cata::optional<int> iuse::foodperson( player *p, item *it, bool t, const tripoin
 cata::optional<int> iuse::radiocar( player *p, item *it, bool, const tripoint & )
 {
     int choice = -1;
-    item *bomb_it = it->contents.get_item_with( []( const item & c ) {
+    item *bomb_it = it->get_item_with( []( const item & c ) {
         return c.has_flag( flag_RADIOCARITEM );
     } );
     if( bomb_it == nullptr ) {
@@ -7955,7 +7954,7 @@ static void sendRadioSignal( player &p, const flag_id &signal )
                     it.type->invoke( p, it, loc );
                 }
             } else if( !it.empty_container() ) {
-                item *itm = it.contents.get_item_with( [&signal]( const item & c ) {
+                item *itm = it.get_item_with( [&signal]( const item & c ) {
                     return c.has_flag( signal );
                 } );
 
@@ -8047,7 +8046,7 @@ cata::optional<int> iuse::radiocontrol( player *p, item *it, bool t, const tripo
 
         if( !radio_containers.empty() ) {
             for( item *items : radio_containers ) {
-                item *itm = items->contents.get_item_with( [&]( const item & c ) {
+                item *itm = items->get_item_with( [&]( const item & c ) {
                     return c.has_flag( flag_BOMB ) && c.has_flag( signal );
                 } );
 
@@ -8313,7 +8312,7 @@ cata::optional<int> iuse::autoclave( player *p, item *it, bool t, const tripoint
             it->active = false;
             it->erase_var( "CYCLETIME" );
             it->unset_flag( flag_NO_UNLOAD );
-            item *cbm = it->contents.get_item_with( []( const item & it ) {
+            item *cbm = it->get_item_with( []( const item & it ) {
                 return it.is_bionic() && !it.has_flag( flag_NO_PACKED );
             } );
             cbm->unset_flag( flag_NO_STERILE );
@@ -8327,7 +8326,7 @@ cata::optional<int> iuse::autoclave( player *p, item *it, bool t, const tripoint
         }
 
         bool empty = true;
-        item *clean_cbm = it->contents.get_item_with(
+        item *clean_cbm = it->get_item_with(
         []( const item & it ) {
             return it.is_bionic();
         } );
@@ -8484,7 +8483,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
         uilist menu;
         menu.text = _( "Welcome to the RobotChef3000.  Choose option:" );
 
-        item *dish_it = it->contents.get_item_with(
+        item *dish_it = it->get_item_with(
         []( const item & it ) {
             return !( it.is_toolmod() || it.is_magazine() );
         } );
@@ -8578,7 +8577,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
 
         // Empty the cooker before it can be activated.
         if( mc_empty == choice ) {
-            it->contents.handle_liquid_or_spill( *p );
+            it->handle_liquid_or_spill( *p );
         }
 
         if( mc_start == choice ) {

@@ -39,6 +39,7 @@
 #include "mapdata.h"
 #include "memory_fast.h"
 #include "monster.h"
+#include "mtype.h"
 #include "npc.h"
 #include "omdata.h"
 #include "output.h"

@@ -38,7 +38,6 @@
 #include "gun_mode.h"
 #include "input.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -1087,7 +1086,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // Item will burst upon landing, destroying the item, and spilling its contents
     const bool burst = thrown.has_property( "burst_when_filled" ) && thrown.is_container() &&
                        thrown.get_property_int64_t( "burst_when_filled" ) <= static_cast<double>
-                       ( thrown.contents.total_contained_volume().value() ) / thrown.get_total_capacity().value() *
+                       ( thrown.total_contained_volume().value() ) / thrown.get_total_capacity().value() *
                        100;
 
     // Add some flags to the projectile
@@ -1707,8 +1706,8 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
     if( !!ammo->ammo->casing ) {
         const itype_id casing = *ammo->ammo->casing;
         if( weap.has_flag( flag_RELOAD_EJECT ) ) {
-            weap.contents.force_insert_item( item( casing ).set_flag( flag_CASING ),
-                                             item_pocket::pocket_type::MAGAZINE );
+            weap.force_insert_item( item( casing ).set_flag( flag_CASING ),
+                                    item_pocket::pocket_type::MAGAZINE );
             weap.on_contents_changed();
         } else {
             if( brass_catcher && brass_catcher->can_contain( casing.obj() ) ) {
