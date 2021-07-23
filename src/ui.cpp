@@ -248,6 +248,7 @@ void uilist::init()
     ret = UILIST_WAIT_INPUT;
     text.clear();          // header text, after (maybe) folding, populates:
     textformatted.clear(); // folded to textwidth
+    lasttextformatted.clear(); // matching textformatted
     textwidth = MENU_AUTOASSIGN; // if unset, folds according to w_width
     title.clear();         // Makes use of the top border, no folding, sets min width if w_width is auto
     ret_evt = input_event(); // last input event
@@ -654,6 +655,12 @@ void uilist::show()
 {
     if( !started ) {
         setup();
+    }
+
+    // If textformatted hasn't changed since last refresh, ignore update
+    if( std::equal( textformatted.begin(), textformatted.end(), lasttextformatted.begin(),
+                    lasttextformatted.end() ) ) {
+        return;
     }
 
     werase( window );
