@@ -1704,13 +1704,18 @@ void talk_effect_fun_t::set_add_var( const JsonObject &jo, const std::string &me
 {
     const std::string var_name = get_talk_varname( jo, member );
     const bool time_check = jo.has_member( "time" ) && jo.get_bool( "time" );
-    const std::string &value = time_check ? "" : jo.get_string( "value" );
-    function = [is_npc, var_name, value, time_check]( const dialogue & d ) {
+    std::vector<std::string> possible_values = jo.get_string_array( "possible_values" );
+    if( possible_values.empty() ) {
+        const std::string value = time_check ? "" : jo.get_string( "value" );
+        possible_values.push_back( value );
+    }
+    function = [is_npc, var_name, possible_values, time_check ]( const dialogue & d ) {
         talker *actor = d.actor( is_npc );
         if( time_check ) {
             actor->set_value( var_name, string_format( "%d", to_turn<int>( calendar::turn ) ) );
         } else {
-            actor->set_value( var_name, value );
+            int index = rng( 0, possible_values.size() - 1 );
+            actor->set_value( var_name, possible_values[index] );
         }
     };
 }
