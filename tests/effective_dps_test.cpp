@@ -252,16 +252,8 @@ static void make_experienced_tester( avatar &test_guy )
  * of range without anyone noticing them and adjusting them.
  * Used expected_dps(), which should make actual dps because of the calculations above.
  */
-TEST_CASE( "expected weapon dps", "[expected][dps]" )
+static void check_staves( const std::function<Approx( const std::string & )> &calc_expected_dps )
 {
-    avatar &test_guy = get_avatar();
-    make_experienced_tester( test_guy );
-
-    const auto calc_expected_dps = [&test_guy]( const std::string & weapon_id ) {
-        item weapon( weapon_id );
-        return Approx( test_guy.melee_value( weapon ) ).margin( 0.5 );
-    };
-
     SECTION( "staves" ) { // typical value around 18
         CHECK( calc_expected_dps( "i_staff" ) == 22.75 );
         CHECK( calc_expected_dps( "staff_sling" ) == 15 );
@@ -273,6 +265,10 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         CHECK( calc_expected_dps( "pool_cue" ) == 10.0 );
         CHECK( calc_expected_dps( "broom" ) == 3.25 );
     }
+}
+
+static void check_spears( const std::function<Approx( const std::string & )> &calc_expected_dps )
+{
     SECTION( "spears" ) { // typical value around 24
         CHECK( calc_expected_dps( "spear_steel" ) == 24.5 );
         CHECK( calc_expected_dps( "pike" ) == 23.0 );
@@ -290,6 +286,10 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         CHECK( calc_expected_dps( "spear_forked" ) == 14.0 );
         CHECK( calc_expected_dps( "pike_fake" ) == 10.0 );
     }
+}
+
+static void check_polearms( const std::function<Approx( const std::string & )> &calc_expected_dps )
+{
     SECTION( "polearms" ) { // typical value around 35
         CHECK( calc_expected_dps( "halberd" ) == 36.0 );
         CHECK( calc_expected_dps( "halberd_fake" ) == 15.0 );
@@ -307,6 +307,11 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         CHECK( calc_expected_dps( "scythe_war" ) == 30.5 );
         CHECK( calc_expected_dps( "makeshift_scythe_war" ) == 24.5 );
     }
+}
+
+static void check_two_handed_axes( const std::function<Approx( const std::string & )>
+                                   &calc_expected_dps )
+{
     SECTION( "two-handed axes" ) { // typical value around 29
         CHECK( calc_expected_dps( "battleaxe" ) == 29.0 );
         CHECK( calc_expected_dps( "battleaxe_fake" ) == 11.0 );
@@ -328,17 +333,32 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         CHECK( calc_expected_dps( "cs_lajatang_off" ) == 2.5 );
         CHECK( calc_expected_dps( "circsaw_off" ) == 1.25 );
     }
+}
+
+static void check_two_handed_clubs_hammers( const std::function<Approx( const std::string & )>
+        &calc_expected_dps )
+{
     SECTION( "two-handed clubs/hammers" ) { // expected value ideally around 28
         CHECK( calc_expected_dps( "warhammer" ) == 28.0 );
         CHECK( calc_expected_dps( "hammer_sledge" ) == 20.0 );
         CHECK( calc_expected_dps( "halligan" ) == 16.5 );
         CHECK( calc_expected_dps( "stick_long" ) == 6.0 );
     }
+}
+
+static void check_two_handed_flails( const std::function<Approx( const std::string & )>
+                                     &calc_expected_dps )
+{
     SECTION( "two-handed flails" ) { // expected value ideally around 20
         CHECK( calc_expected_dps( "2h_flail_steel" ) == 21.0 );
         CHECK( calc_expected_dps( "2h_flail_wood" ) == 20.0 );
         CHECK( calc_expected_dps( "homewrecker" ) == 13.0 );
     }
+}
+
+static void check_fist_weapons( const std::function<Approx( const std::string & )>
+                                &calc_expected_dps )
+{
     SECTION( "fist weapons" ) { // expected value around 10 but wide variation
         CHECK( calc_expected_dps( "bio_claws_weapon" ) == 16.5 ); // basically a knife
         CHECK( calc_expected_dps( "bagh_nakha" ) == 14.0 );
@@ -349,6 +369,10 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         CHECK( calc_expected_dps( "knuckle_nail" ) == 4.0 );
         CHECK( calc_expected_dps( "cestus" ) == 3.0 );
     }
+}
+
+static void check_axes( const std::function<Approx( const std::string & )> &calc_expected_dps )
+{
     SECTION( "axes" ) { // expected value around 27 but no dedicated weapons
         CHECK( calc_expected_dps( "hatchet" ) == 24.0 );
         CHECK( calc_expected_dps( "crash_axe" ) == 24.0 );
@@ -361,6 +385,10 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         CHECK( calc_expected_dps( "makeshift_axe" ) == 10.0 ); // chunk of sharp steel
         CHECK( calc_expected_dps( "hand_axe" ) == 8.5 ); // chunk of sharp rock
     }
+}
+
+static void check_clubs( const std::function<Approx( const std::string & )> &calc_expected_dps )
+{
     SECTION( "clubs" ) { // expected value around 24 but most aren't dedicated weapons
         CHECK( calc_expected_dps( "mace" ) == 24.0 );
         CHECK( calc_expected_dps( "morningstar" ) == 23.0 );
@@ -401,6 +429,11 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         CHECK( calc_expected_dps( "heavy_flashlight" ) == 7.5 );
         CHECK( calc_expected_dps( "rock" ) == 6.0 );
     }
+}
+
+static void check_two_handed_swords( const std::function<Approx( const std::string & )>
+                                     &calc_expected_dps )
+{
     SECTION( "two-handed swords" ) { // expected value around 27, 25 for long swords
         CHECK( calc_expected_dps( "nodachi" ) == 26.5 );
         CHECK( calc_expected_dps( "zweihander" ) == 27.0 );
@@ -418,6 +451,10 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         CHECK( calc_expected_dps( "nodachi_fake" ) == 9.0 );
         CHECK( calc_expected_dps( "katana_fake" ) == 8.0 );
     }
+}
+
+static void check_swords( const std::function<Approx( const std::string & )> &calc_expected_dps )
+{
     SECTION( "swords" ) { // expected value 24, does not include shortswords
         CHECK( calc_expected_dps( "broadsword" ) == 24.0 );
         CHECK( calc_expected_dps( "rapier" ) == 24.0 );
@@ -433,6 +470,11 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         CHECK( calc_expected_dps( "glass_macuahuitl" ) == 11.0 );
         CHECK( calc_expected_dps( "blade_scythe" ) == 5.25 );
     }
+}
+
+static void check_shortswords( const std::function<Approx( const std::string & )>
+                               &calc_expected_dps )
+{
     SECTION( "shortswords" ) { // expected value 22
         CHECK( calc_expected_dps( "scimitar" ) == 22.0 );
         CHECK( calc_expected_dps( "butterfly_swords" ) == 22.0 );
@@ -461,6 +503,10 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         CHECK( calc_expected_dps( "fencing_sabre" ) == 4.0 );
         CHECK( calc_expected_dps( "fencing_foil" ) == 2.0 );
     }
+}
+
+static void check_knives( const std::function<Approx( const std::string & )> &calc_expected_dps )
+{
     SECTION( "knives" ) { // expected value 19
         CHECK( calc_expected_dps( "bio_blade_weapon" ) == 24.5 ); // much better than any other knife
         CHECK( calc_expected_dps( "knife_combat" ) == 19.0 );
@@ -486,4 +532,29 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         CHECK( calc_expected_dps( "kris_fake" ) == 2.5 );
         CHECK( calc_expected_dps( "primitive_knife" ) == 2.5 );
     }
+}
+
+TEST_CASE( "expected weapon dps", "[expected][dps]" )
+{
+    avatar &test_guy = get_avatar();
+    make_experienced_tester( test_guy );
+
+    const auto calc_expected_dps = [&test_guy]( const std::string & weapon_id ) {
+        item weapon( weapon_id );
+        return Approx( test_guy.melee_value( weapon ) ).margin( 0.5 );
+    };
+
+    check_staves( calc_expected_dps );
+    check_spears( calc_expected_dps );
+    check_polearms( calc_expected_dps );
+    check_two_handed_axes( calc_expected_dps );
+    check_two_handed_clubs_hammers( calc_expected_dps );
+    check_two_handed_flails( calc_expected_dps );
+    check_fist_weapons( calc_expected_dps );
+    check_axes( calc_expected_dps );
+    check_clubs( calc_expected_dps );
+    check_two_handed_swords( calc_expected_dps );
+    check_swords( calc_expected_dps );
+    check_shortswords( calc_expected_dps );
+    check_knives( calc_expected_dps );
 }
