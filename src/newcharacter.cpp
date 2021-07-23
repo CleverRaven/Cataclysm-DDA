@@ -2061,7 +2061,7 @@ tab_direction set_skills( avatar &u, points_left &points )
                 with_prof_skills.has_recipe_requirements( r ) ) {
 
                 recipes[r.skill_used->name()].emplace_back(
-                    r.result_name(),
+                    r.result_name( /*decorated=*/true ),
                     ( skill > 0 ) ? skill : r.difficulty
                 );
             }

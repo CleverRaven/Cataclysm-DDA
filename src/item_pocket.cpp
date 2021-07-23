@@ -19,7 +19,6 @@
 #include "handle_liquid.h"
 #include "item.h"
 #include "item_category.h"
-#include "item_contents.h"
 #include "item_factory.h"
 #include "item_location.h"
 #include "itype.h"
@@ -1169,7 +1168,7 @@ bool item_pocket::remove_internal( const std::function<bool( item & )> &filter,
                 return true;
             }
         } else {
-            it->contents.remove_internal( filter, count, res );
+            it->remove_internal( filter, count, res );
             ++it;
         }
     }
@@ -1196,7 +1195,7 @@ void item_pocket::overflow( const tripoint &pos )
 
     // overflow recursively
     for( item &it : contents ) {
-        it.contents.overflow( pos );
+        it.overflow( pos );
     }
 
     map &here = get_map();

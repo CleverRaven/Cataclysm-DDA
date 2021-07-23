@@ -3087,7 +3087,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
         if( pl != nullptr ) {
             draw_entity_with_overlays( *pl, p, ll, height_3d );
             result = true;
-            if( pl->is_player() ) {
+            if( pl->is_avatar() ) {
                 is_player = true;
             } else {
                 sees_player = pl->sees( you );

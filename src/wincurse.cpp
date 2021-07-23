@@ -1,6 +1,7 @@
 #if !defined(TILES) && defined(_WIN32)
 #define UNICODE 1
 #ifndef CMAKE
+#pragma GCC diagnostic ignored "-Wunused-macros"
 #define _UNICODE 1
 #endif
 #include "cursesport.h" // IWYU pragma: associated

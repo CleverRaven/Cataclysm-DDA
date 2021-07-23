@@ -53,7 +53,6 @@
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "iteminfo_query.h"
@@ -193,6 +192,7 @@ static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_run( "run" );
 static const efftype_id effect_sad( "sad" );
 static const efftype_id effect_monster_saddled( "monster_saddled" );
+static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_sap( "sap" );
 static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
@@ -225,8 +225,6 @@ static const efftype_id effect_weak_antibiotic_visible( "weak_antibiotic_visible
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
 
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
-static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_advanced_ecig( "advanced_ecig" );
 static const itype_id itype_afs_atomic_smartphone( "afs_atomic_smartphone" );
 static const itype_id itype_afs_atomic_smartphone_music( "afs_atomic_smartphone_music" );
@@ -292,7 +290,6 @@ static const itype_id itype_string_36( "string_36" );
 static const itype_id itype_thermometer( "thermometer" );
 static const itype_id itype_towel( "towel" );
 static const itype_id itype_towel_wet( "towel_wet" );
-static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_water( "water" );
 static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_wax( "wax" );
@@ -1090,12 +1087,15 @@ cata::optional<int> iuse::blech( player *p, item *it, bool, const tripoint & )
                             it->get_comestible()->healthy * multiplier );
         p->add_morale( MORALE_FOOD_BAD, it->get_comestible_fun() * multiplier, 60, 1_hours, 30_minutes,
                        false, it->type );
-    } else {
+    } else if( it->has_flag( flag_ACID ) || it->has_flag( flag_CORROSIVE ) ) {
         p->add_msg_if_player( m_bad, _( "Blech, that burns your throat!" ) );
         p->mod_pain( rng( 32, 64 ) );
         p->add_effect( effect_poison, 1_hours );
         p->apply_damage( nullptr, bodypart_id( "torso" ), rng( 4, 12 ) );
         p->vomit();
+    } else {
+        p->add_msg_if_player( m_bad, _( "Blech, you don't feel you can stomach much of that." ) );
+        p->add_effect( effect_nausea, 3_minutes );
     }
     return it->type->charges_to_use();
 }
@@ -1795,7 +1795,7 @@ cata::optional<int> iuse::remove_all_mods( player *p, item *, bool, const tripoi
     }
 
     if( !loc->ammo_remaining() || p->unload( loc ) ) {
-        item *mod = loc->contents.get_item_with(
+        item *mod = loc->get_item_with(
         []( const item & e ) {
             return e.is_toolmod() && !e.is_irremovable();
         } );
@@ -1940,7 +1940,7 @@ cata::optional<int> iuse::fish_trap( player *p, item *it, bool t, const tripoint
             }
 
             if( fishes == 0 ) {
-                it->ammo_consume( it->ammo_remaining(), pos );
+                it->ammo_consume( it->ammo_remaining(), pos, p );
                 p->practice( skill_survival, rng( 5, 15 ) );
 
                 return 0;
@@ -1981,7 +1981,7 @@ cata::optional<int> iuse::fish_trap( player *p, item *it, bool t, const tripoint
                     }
                 }
             }
-            it->ammo_consume( bait_consumed, pos );
+            it->ammo_consume( bait_consumed, pos, p );
         }
         return 0;
     }
@@ -1989,7 +1989,7 @@ cata::optional<int> iuse::fish_trap( player *p, item *it, bool t, const tripoint
 
 cata::optional<int> iuse::extinguisher( player *p, item *it, bool, const tripoint & )
 {
-    if( !it->ammo_sufficient() ) {
+    if( !it->ammo_sufficient( p ) ) {
         return cata::nullopt;
     }
     // If anyone other than the player wants to use one of these,
@@ -2045,7 +2045,7 @@ cata::optional<int> iuse::extinguisher( player *p, item *it, bool, const tripoin
 cata::optional<int> iuse::rm13armor_off( player *p, item *it, bool, const tripoint & )
 {
     // This allows it to turn on for a turn, because ammo_sufficient assumes non-tool non-weapons need zero ammo, for some reason.
-    if( !it->ammo_sufficient() ) {
+    if( !it->ammo_sufficient( p ) ) {
         p->add_msg_if_player( m_info, _( "The RM13 combat armor's fuel cells are dead." ) );
         return cata::nullopt;
     } else {
@@ -2302,8 +2302,7 @@ cata::optional<int> iuse::radio_on( player *p, item *it, bool t, const tripoint 
         }
     } else { // Activated
         int ch = 1;
-        if( it->ammo_remaining() > 0 || ( it->has_flag( flag_USE_UPS ) &&
-                                          p->has_enough_charges( *it, false ) ) ) {
+        if( it->ammo_sufficient( p ) ) {
             ch = uilist( _( "Radio:" ), {
                 _( "Scan" ), _( "Turn off" )
             } );
@@ -3235,7 +3234,7 @@ static int toolweapon_on( player &p, item &it, const bool t,
         "_off";
     if( t ) { // Effects while simply on
         if( double_charge_cost && it.units_sufficient( p ) ) {
-            it.ammo_consume( 1, p.pos() );
+            it.ammo_consume( 1, p.pos(), &p );
         }
         if( !works_underwater && p.is_underwater() ) {
             p.add_msg_if_player( _( "Your %s gurgles in the water and stops." ), tname );
@@ -3329,7 +3328,7 @@ cata::optional<int> iuse::jackhammer( player *p, item *it, bool, const tripoint 
 {
     // use has_enough_charges to check for UPS availability
     // p is assumed to exist for iuse cases
-    if( !p->has_enough_charges( *it, false ) ) {
+    if( !it->ammo_sufficient( p ) ) {
         return cata::nullopt;
     }
     if( p->is_mounted() ) {
@@ -3596,7 +3595,7 @@ cata::optional<int> iuse::teleport( player *p, item *it, bool, const tripoint & 
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return cata::nullopt;
     }
-    if( !it->ammo_sufficient() ) {
+    if( !it->ammo_sufficient( p ) ) {
         return cata::nullopt;
     }
     p->moves -= to_moves<int>( 1_seconds );
@@ -4012,7 +4011,7 @@ cata::optional<int> iuse::mininuke( player *p, item *it, bool, const tripoint & 
 
 cata::optional<int> iuse::portal( player *p, item *it, bool, const tripoint & )
 {
-    if( !it->ammo_sufficient() ) {
+    if( !it->ammo_sufficient( p ) ) {
         return cata::nullopt;
     }
     if( p->is_mounted() ) {
@@ -4096,8 +4095,7 @@ cata::optional<int> iuse::tazer( player *p, item *it, bool, const tripoint &pos 
 
 cata::optional<int> iuse::tazer2( player *p, item *it, bool b, const tripoint &pos )
 {
-    if( it->ammo_remaining() >= 100 || ( it->has_flag( flag_USE_UPS ) &&
-                                         p->charges_of( itype_UPS ) >= 100 ) ) {
+    if( it->ammo_remaining( p ) >= 100 ) {
         // Instead of having a ctrl+c+v of the function above, spawn a fake tazer and use it
         // Ugly, but less so than copied blocks
         item fake( "tazer", calendar::turn_zero );
@@ -4121,8 +4119,7 @@ cata::optional<int> iuse::shocktonfa_off( player *p, item *it, bool t, const tri
             return iuse::tazer2( p, it, t, pos );
         }
         case 1: {
-            if( !it->units_sufficient( *p ) && !( it->has_flag( flag_USE_UPS ) &&
-                                                  p->has_enough_charges( *it, false ) ) ) {
+            if( !it->units_sufficient( *p ) ) {
                 p->add_msg_if_player( m_info, _( "The batteries are dead." ) );
                 return cata::nullopt;
             } else {
@@ -4140,8 +4137,7 @@ cata::optional<int> iuse::shocktonfa_on( player *p, item *it, bool t, const trip
     if( t ) { // Effects while simply on
 
     } else {
-        if( !it->units_sufficient( *p ) && !( it->has_flag( flag_USE_UPS ) &&
-                                              p->has_enough_charges( *it, false ) ) ) {
+        if( !it->units_sufficient( *p ) ) {
             p->add_msg_if_player( m_info, _( "Your tactical tonfa is out of power." ) );
             it->convert( itype_shocktonfa_off ).active = false;
         } else {
@@ -4166,8 +4162,7 @@ cata::optional<int> iuse::shocktonfa_on( player *p, item *it, bool t, const trip
 cata::optional<int> iuse::mp3( player *p, item *it, bool, const tripoint & )
 {
     // TODO: avoid item id hardcoding to make this function usable for pure json-defined devices.
-    if( !it->units_sufficient( *p ) && !( it->has_flag( flag_USE_UPS ) &&
-                                          p->has_enough_charges( *it, false ) ) ) {
+    if( !it->units_sufficient( *p ) ) {
         p->add_msg_if_player( m_info, _( "The device's batteries are dead." ) );
     } else if( p->has_active_item( itype_mp3_on ) || p->has_active_item( itype_smartphone_music ) ||
                p->has_active_item( itype_afs_atomic_smartphone_music ) ||
@@ -4400,7 +4395,7 @@ cata::optional<int> iuse::gasmask( player *p, item *it, bool t, const tripoint &
                 }
             }
             if( it->get_var( "gas_absorbed", 0 ) >= 100 ) {
-                it->ammo_consume( 1, p->pos() );
+                it->ammo_consume( 1, p->pos(), p );
                 it->set_var( "gas_absorbed", 0 );
             }
             if( it->ammo_remaining() == 0 ) {
@@ -5215,7 +5210,6 @@ cata::optional<int> iuse::boltcutters( player *p, item *it, bool, const tripoint
         return cata::nullopt;
     }
     const tripoint &pnt = *pnt_;
-    const ter_id type = here.ter( pnt );
     if( !f( pnt ) ) {
         if( pnt == p->pos() ) {
             p->add_msg_if_player( m_info,
@@ -5226,29 +5220,8 @@ cata::optional<int> iuse::boltcutters( player *p, item *it, bool, const tripoint
         return cata::nullopt;
     }
 
-    if( type == t_chaingate_l ) {
-        p->moves -= to_moves<int>( 1_seconds );
-        here.ter_set( pnt, t_chaingate_c );
-        sounds::sound( pnt, 5, sounds::sound_t::combat, _( "Gachunk!" ), true, "tool", "boltcutters" );
-        here.spawn_item( point( p->posx(), p->posy() ), "scrap", 3 );
-    } else if( type == t_chainfence ) {
-        p->moves -= to_moves<int>( 5_seconds );
-        here.ter_set( pnt, t_chainfence_posts );
-        sounds::sound( pnt, 5, sounds::sound_t::combat, _( "Snick, snick, gachunk!" ), true, "tool",
-                       "boltcutters" );
-        here.spawn_item( pnt, "wire", 20 );
-    } else if( type == t_fence_barbed ) {
-        p->moves -= to_moves<int>( 10_seconds );
-        here.ter_set( pnt, t_fence_post );
-        sounds::sound( pnt, 5, sounds::sound_t::combat, _( "Snick, snick, gachunk!" ), true, "tool",
-                       "boltcutters" );
-        here.spawn_item( pnt, "wire_barbed", 2 );
-
-    } else {
-        return cata::nullopt;
-    }
-
-    return it->type->charges_to_use();
+    p->assign_activity( player_activity( boltcutting_activity_actor( pnt, item_location{*p, it} ) ) );
+    return cata::nullopt;
 }
 
 cata::optional<int> iuse::mop( player *p, item *it, bool, const tripoint & )
@@ -5616,7 +5589,7 @@ cata::optional<int> iuse::adrenaline_injector( player *p, item *it, bool, const 
 
 cata::optional<int> iuse::jet_injector( player *p, item *it, bool, const tripoint & )
 {
-    if( !it->ammo_sufficient() ) {
+    if( !it->ammo_sufficient( p ) ) {
         p->add_msg_if_player( m_info, _( "The jet injector is empty." ) );
         return cata::nullopt;
     } else {
@@ -5644,7 +5617,7 @@ cata::optional<int> iuse::stimpack( player *p, item *it, bool, const tripoint & 
         return cata::nullopt;
     }
 
-    if( !it->ammo_sufficient() ) {
+    if( !it->ammo_sufficient( p ) ) {
         p->add_msg_if_player( m_info, _( "The stimulant delivery system is empty." ) );
         return cata::nullopt;
     } else {
@@ -5864,8 +5837,7 @@ cata::optional<int> iuse::toolmod_attach( player *p, item *it, bool, const tripo
     auto filter = [&it]( const item & e ) {
         // don't allow ups battery mods on a UPS or UPS-powered tools
         if( it->has_flag( flag_USE_UPS ) &&
-            ( e.typeId() == itype_UPS_off || e.typeId() == itype_adv_UPS_off ||
-              e.has_flag( flag_USE_UPS ) ) ) {
+            ( e.has_flag( flag_IS_UPS ) || e.has_flag( flag_USE_UPS ) ) ) {
             return false;
         }
 
@@ -6310,11 +6282,9 @@ cata::optional<int> iuse::einktabletpc( player *p, item *it, bool t, const tripo
 {
     if( t ) {
         if( !it->get_var( "EIPC_MUSIC_ON" ).empty() &&
-            ( it->ammo_remaining() > 0  || ( it->has_flag( flag_USE_UPS ) &&
-                                             p->has_enough_charges( *it, false ) ) ) ) {
+            it->ammo_sufficient( p ) ) {
             if( calendar::once_every( 5_minutes ) ) {
-                //it->ammo_consume( 1, p->pos() );
-                p->consume_charges( *it, 1 );
+                it->ammo_consume( 1, p->pos(), p );
             }
 
             //the more varied music, the better max mood.
@@ -6491,7 +6461,7 @@ cata::optional<int> iuse::einktabletpc( player *p, item *it, bool t, const tripo
 
                 const auto &recipe = *candidate_recipes.back();
                 if( recipe ) {
-                    rmenu.addentry( k++, true, -1, recipe.result_name() );
+                    rmenu.addentry( k++, true, -1, recipe.result_name( /*decorated=*/true ) );
                 }
             }
 
@@ -7867,7 +7837,7 @@ cata::optional<int> iuse::foodperson( player *p, item *it, bool t, const tripoin
 cata::optional<int> iuse::radiocar( player *p, item *it, bool, const tripoint & )
 {
     int choice = -1;
-    item *bomb_it = it->contents.get_item_with( []( const item & c ) {
+    item *bomb_it = it->get_item_with( []( const item & c ) {
         return c.has_flag( flag_RADIOCARITEM );
     } );
     if( bomb_it == nullptr ) {
@@ -7884,7 +7854,7 @@ cata::optional<int> iuse::radiocar( player *p, item *it, bool, const tripoint & 
     }
 
     if( choice == 0 ) { //Turn car ON
-        if( !it->ammo_sufficient() ) {
+        if( !it->ammo_sufficient( p ) ) {
             p->add_msg_if_player( _( "The RC car's batteries seem to be dead." ) );
             return cata::nullopt;
         }
@@ -7948,7 +7918,7 @@ cata::optional<int> iuse::radiocaron( player *p, item *it, bool t, const tripoin
         sounds::sound( pos, 6, sounds::sound_t::movement, _( "buzzz…" ), true, "misc", "rc_car_drives" );
 
         return it->type->charges_to_use();
-    } else if( !it->ammo_sufficient() ) {
+    } else if( !it->ammo_sufficient( p ) ) {
         // Deactivate since other mode has an iuse too.
         it->active = false;
         return 0;
@@ -7983,8 +7953,8 @@ static void sendRadioSignal( player &p, const flag_id &signal )
                     // Invoke to transform a radio-modded explosive into its active form
                     it.type->invoke( p, it, loc );
                 }
-            } else if( !it.contents.empty_container() ) {
-                item *itm = it.contents.get_item_with( [&signal]( const item & c ) {
+            } else if( !it.empty_container() ) {
+                item *itm = it.get_item_with( [&signal]( const item & c ) {
                     return c.has_flag( signal );
                 } );
 
@@ -8076,7 +8046,7 @@ cata::optional<int> iuse::radiocontrol( player *p, item *it, bool t, const tripo
 
         if( !radio_containers.empty() ) {
             for( item *items : radio_containers ) {
-                item *itm = items->contents.get_item_with( [&]( const item & c ) {
+                item *itm = items->get_item_with( [&]( const item & c ) {
                     return c.has_flag( flag_BOMB ) && c.has_flag( signal );
                 } );
 
@@ -8342,7 +8312,7 @@ cata::optional<int> iuse::autoclave( player *p, item *it, bool t, const tripoint
             it->active = false;
             it->erase_var( "CYCLETIME" );
             it->unset_flag( flag_NO_UNLOAD );
-            item *cbm = it->contents.get_item_with( []( const item & it ) {
+            item *cbm = it->get_item_with( []( const item & it ) {
                 return it.is_bionic() && !it.has_flag( flag_NO_PACKED );
             } );
             cbm->unset_flag( flag_NO_STERILE );
@@ -8356,7 +8326,7 @@ cata::optional<int> iuse::autoclave( player *p, item *it, bool t, const tripoint
         }
 
         bool empty = true;
-        item *clean_cbm = it->contents.get_item_with(
+        item *clean_cbm = it->get_item_with(
         []( const item & it ) {
             return it.is_bionic();
         } );
@@ -8376,8 +8346,7 @@ cata::optional<int> iuse::autoclave( player *p, item *it, bool t, const tripoint
         //Using power_draw seem to consume random amount of battery so +100 to be safe
         static const int power_need = ( ( it->type->tool->power_draw / 1000 ) * to_seconds<int>
                                         ( 90_minutes ) ) / 1000 + 100;
-        if( power_need > it->ammo_remaining() && !( it->has_flag( flag_USE_UPS ) &&
-                p->charges_of( itype_UPS ) >= power_need ) ) {
+        if( power_need > it->ammo_remaining( p ) ) {
             popup( _( "The autoclave doesn't have enough battery for one cycle.  You need at least %s charges." ),
                    power_need );
             return cata::nullopt;
@@ -8429,13 +8398,12 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
 
     if( t ) {
         //stop action before power runs out and iuse deletes the cooker
-        if( !( it->ammo_remaining() >= charge_buffer ) && !( it->has_flag( flag_USE_UPS ) &&
-                p->charges_of( itype_UPS ) >= charge_buffer ) ) {
+        if( it->ammo_remaining( p ) < charge_buffer ) {
             it->active = false;
             it->erase_var( "RECIPE" );
             it->convert( itype_multi_cooker );
             //drain the buffer amount given at activation
-            it->ammo_consume( charge_buffer, pos );
+            it->ammo_consume( charge_buffer, pos, p );
             p->add_msg_if_player( m_info,
                                   _( "Batteries low, entering standby mode.  With a low buzzing sound the multi-cooker shuts down." ) );
             return 0;
@@ -8466,7 +8434,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
             it->active = false;
             it->erase_var( "COOKTIME" );
             it->convert( itype_multi_cooker );
-            if( it->can_contain( meal ) ) {
+            if( it->can_contain( meal ).success() ) {
                 it->put_in( meal, item_pocket::pocket_type::CONTAINER );
             } else {
                 add_msg( m_info,
@@ -8515,7 +8483,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
         uilist menu;
         menu.text = _( "Welcome to the RobotChef3000.  Choose option:" );
 
-        item *dish_it = it->contents.get_item_with(
+        item *dish_it = it->get_item_with(
         []( const item & it ) {
             return !( it.is_toolmod() || it.is_magazine() );
         } );
@@ -8524,8 +8492,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
             menu.addentry( mc_stop, true, 's', _( "Stop cooking" ) );
         } else {
             if( dish_it == nullptr ) {
-                if( it->ammo_remaining() < charges_to_start && !( it->has_flag( flag_USE_UPS ) &&
-                        p->charges_of( itype_UPS ) >= charges_to_start ) ) {
+                if( it->ammo_remaining( p ) < charges_to_start ) {
                     p->add_msg_if_player( _( "Batteries are low." ) );
                     return 0;
                 }
@@ -8610,7 +8577,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
 
         // Empty the cooker before it can be activated.
         if( mc_empty == choice ) {
-            it->contents.handle_liquid_or_spill( *p );
+            it->handle_liquid_or_spill( *p );
         }
 
         if( mc_start == choice ) {
@@ -8639,7 +8606,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
                     const bool can_make = r->deduped_requirements().can_make_with_inventory(
                                               crafting_inv, r->get_component_filter() );
 
-                    dmenu.addentry( counter++, can_make, -1, r->result_name() );
+                    dmenu.addentry( counter++, can_make, -1, r->result_name( /*decorated=*/true ) );
                 }
             }
 
@@ -8661,8 +8628,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
                 const int all_charges = charges_to_start + ( ( mealtime / 100 ) * ( it->type->tool->power_draw /
                                         1000 ) ) / 1000;
 
-                if( it->ammo_remaining() < all_charges && !( it->has_flag( flag_USE_UPS ) &&
-                        p->charges_of( itype_UPS ) >= all_charges ) ) {
+                if( it->ammo_remaining( p ) < all_charges ) {
 
                     p->add_msg_if_player( m_warning,
                                           _( "The multi-cooker needs %d charges to cook this dish." ),
@@ -8690,7 +8656,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
                                       _( "The screen flashes blue symbols and scales as the multi-cooker begins to shake." ) );
 
                 it->convert( itype_multi_cooker_filled ).active = true;
-                it->ammo_consume( charges_to_start - charge_buffer, pos );
+                it->ammo_consume( charges_to_start - charge_buffer, pos, p );
 
                 p->practice( skill_cooking, meal->difficulty * 3 ); //little bonus
 
@@ -8906,7 +8872,7 @@ cata::optional<int> iuse::cable_attach( player *p, item *it, bool, const tripoin
     const bool has_solar_pack = p->worn_with_flag( flag_SOLARPACK );
     const bool has_solar_pack_on = p->worn_with_flag( flag_SOLARPACK_ON );
     const bool wearing_solar_pack = has_solar_pack || has_solar_pack_on;
-    const bool has_ups = p->has_charges( itype_UPS_off, 1 ) || p->has_charges( itype_adv_UPS_off, 1 );
+    const bool has_ups = !( p->all_items_with_flag( flag_IS_UPS ) ).empty();
 
     item_location loc;
     avatar *you = p->as_avatar();
@@ -9149,7 +9115,7 @@ cata::optional<int> iuse::shavekit( player *p, item *it, bool, const tripoint & 
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return cata::nullopt;
     }
-    if( !it->ammo_sufficient() ) {
+    if( !it->ammo_sufficient( p ) ) {
         p->add_msg_if_player( _( "You need soap to use this." ) );
     } else {
         p->assign_activity( player_activity( shave_activity_actor() ) );
@@ -9231,6 +9197,25 @@ cata::optional<int> iuse::weather_tool( player *p, item *it, bool, const tripoin
                 player_local_temp ) );
         std::string dirstring = get_dirstring( g->weather.winddirection );
         p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), dirstring );
+    }
+
+    return 0;
+}
+
+cata::optional<int> iuse::sextant( player *p, item *, bool, const tripoint &pos )
+{
+    const std::pair<units::angle, units::angle> sun_position = sun_azimuth_altitude( calendar::turn );
+    const float altitude = to_degrees( sun_position.second );
+    if( debug_mode ) {
+        // Debug mode always shows all sun angles
+        const float azimuth = to_degrees( sun_position.first );
+        p->add_msg_if_player( m_neutral, "Sun altitude %.1f°, azimuth %.1f°", altitude, azimuth );
+    } else if( g->is_sheltered( pos ) ) {
+        p->add_msg_if_player( m_neutral, _( "You can't see the Sun from here." ) );
+    } else if( altitude > 0 ) {
+        p->add_msg_if_player( m_neutral, _( "The Sun is at an altitude of %.1f°." ), altitude );
+    } else {
+        p->add_msg_if_player( m_neutral, _( "The Sun is below the horizon." ) );
     }
 
     return 0;
@@ -9802,6 +9787,9 @@ ret_val<bool> use_function::can_call( const Character &p, const item &it, bool t
 {
     if( actor == nullptr ) {
         return ret_val<bool>::make_failure( _( "You can't do anything interesting with your %s." ),
+                                            it.tname() );
+    } else if( it.is_broken() ) {
+        return ret_val<bool>::make_failure( _( "Your %s is broken and won't activate." ),
                                             it.tname() );
     }
 

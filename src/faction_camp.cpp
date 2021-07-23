@@ -35,7 +35,6 @@
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_group.h"
 #include "item_pocket.h"
 #include "item_stack.h"
@@ -2255,7 +2254,7 @@ void basecamp::start_crafting( const std::string &cur_id, const point &cur_dir,
         string_input_popup popup_input;
         int batch_max = recipe_batch_max( making );
         const std::string title = string_format( _( "Batch crafting %s [MAX: %d]: " ),
-                                  making.result_name(), batch_max );
+                                  making.result_name( /*decorated=*/true ), batch_max );
         popup_input.title( title ).edit( batch_size );
 
         if( popup_input.canceled() || batch_size <= 0 ) {
@@ -3431,7 +3430,7 @@ int om_carry_weight_to_trips( const std::vector<item *> &itms, const npc_ptr &co
     }
     units::mass max_m = comp ? comp->weight_capacity() - comp->weight_carried() : 30_kilogram;
     //Assume an additional pack will be carried in addition to normal gear
-    units::volume sack_v = item( itype_id( "makeshift_sling" ) ).contents.total_container_capacity();
+    units::volume sack_v = item( itype_id( "makeshift_sling" ) ).get_total_capacity();
     units::volume max_v = comp ? comp->free_space() : sack_v;
     max_v += sack_v;
     return om_carry_weight_to_trips( total_m, total_v, max_m, max_v );

@@ -85,7 +85,7 @@
     "id": "AEA_TELEPORT",
     "name": { "str": "Artifact Teleport" },
     "description": "Randomly teleports you a short distance.",
-    "effect": "teleport_random",
+    "effect": "short_range_teleport",
     "shape": "blast",
     "valid_targets": [ "self" ],
     "flags": [ "NO_HANDS", "SILENT", "NO_LEGS", "UNSAFE_TELEPORT" ],

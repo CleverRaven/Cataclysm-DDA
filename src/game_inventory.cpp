@@ -31,7 +31,6 @@
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -562,18 +561,8 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "JOY" ) );
 
             append_cell( []( const item_location & loc ) {
-                const int health = loc->is_comestible() ? loc->get_comestible()->healthy : 0;
-                if( health > 3 ) {
-                    return "<good>+++</good>";
-                } else if( health > 0 ) {
-                    return "<good>+</good>";
-                } else if( health < -3 ) {
-                    return "<bad>!!!</bad>";
-                } else if( health < 0 ) {
-                    return "<bad>-</bad>";
-                } else {
-                    return "";
-                }
+                const int healthy = loc->is_comestible() ? loc->get_comestible()->healthy : 0;
+                return healthy_bar( healthy );
             }, _( "HEALTH" ) );
 
             append_cell( []( const item_location & loc ) {
@@ -1139,7 +1128,11 @@ class activatable_inventory_preset : public pickup_inventory_preset
                 return _( "Your biology is not compatible with that item." );
             }
 
-            if( !p.has_enough_charges( it, false ) ) {
+            if( it.is_broken() ) {
+                return string_format( _( "Your %s was broken and won't turn on." ), it.tname() );
+            }
+
+            if( !it.ammo_sufficient( &p ) ) {
                 return string_format(
                            ngettext( "Needs at least %d charge",
                                      "Needs at least %d charges", loc->ammo_required() ),
@@ -1401,7 +1394,7 @@ class read_inventory_preset: public pickup_inventory_preset
 
 item_location game_menus::inv::read( player &pl )
 {
-    const std::string msg = pl.is_player() ? _( "You have nothing to read." ) :
+    const std::string msg = pl.is_avatar() ? _( "You have nothing to read." ) :
                             string_format( _( "%s has nothing to read." ), pl.disp_name() );
     return inv_internal( pl, read_inventory_preset( pl ), _( "Read" ), 1, msg );
 }

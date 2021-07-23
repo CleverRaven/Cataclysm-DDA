@@ -127,27 +127,82 @@
   {
     "type": "recipe",
     "activity_level": "fake",
+    "result": "cordage_6",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "time": "5 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "withered", 1 ], [ "straw_pile", 1 ], [ "tanbark", 1 ], [ "willowbark", 1 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_fibers" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "cordage_36",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "time": "30 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "withered", 6 ], [ "straw_pile", 6 ], [ "tanbark", 6 ], [ "willowbark", 6 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_fibers" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "cordage_36",
+    "id_suffix": "from_cordage_6",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "time": "2 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "cordage_6", 6 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_fibers" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
     "result": "rope_makeshift_6",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",
-    "time": "1 h",
+    "time": "30 m",
     "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_fibers" }, { "proficiency": "prof_fibers_rope" } ],
-    "components": [ [ [ "cordage_36", 6 ], [ "plant_cordage", 36, "LIST" ] ] ]
+    "components": [ [ [ "cordage_36", 6 ], [ "cordage_6", 36 ] ] ]
   },
   {
     "type": "recipe",
     "activity_level": "fake",
     "result": "rope_makeshift_30",
+    "id_suffix": "from_cordage",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "survival",
-    "time": "2 h",
+    "time": "2h 30 m",
     "reversible": true,
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_fibers" }, { "proficiency": "prof_fibers_rope" } ],
-    "components": [ [ [ "rope_makeshift_6", 5 ], [ "cordage_36", 30 ], [ "plant_cordage", 180, "LIST" ] ] ]
+    "components": [ [ [ "cordage_6", 150 ], [ "cordage_36", 30 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "rope_makeshift_30",
+    "id_suffix": "from_rope_makeshift_6",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
+    "time": "10 m",
+    "reversible": true,
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_fibers" }, { "proficiency": "prof_fibers_rope" } ],
+    "components": [ [ [ "rope_makeshift_6", 5 ] ] ]
   }
 ]

@@ -1028,7 +1028,7 @@
     "qualities": [ [ "HAMMER", 1 ] ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "use_action": [ "TAZER" ],
-    "flags": [ "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "flags": [ "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

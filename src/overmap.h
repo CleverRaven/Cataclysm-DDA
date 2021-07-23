@@ -26,7 +26,6 @@
 #include "optional.h"
 #include "overmap_types.h" // IWYU pragma: keep
 #include "point.h"
-#include "regional_settings.h"
 #include "rng.h"
 #include "type_id.h"
 
@@ -37,6 +36,7 @@ class character_id;
 class map_extra;
 class npc;
 class overmap_connection;
+struct regional_settings;
 
 namespace pf
 {
@@ -310,7 +310,7 @@ class overmap
 
         // TODO: Should depend on coordinates
         const regional_settings &get_settings() const {
-            return settings;
+            return *settings;
         }
 
         void clear_mon_groups();
@@ -368,7 +368,7 @@ class overmap
         // Records location where mongroups are not allowed to spawn during worldgen.
         std::unordered_set<tripoint_om_omt> safe_at_worldgen;
 
-        regional_settings settings;
+        pimpl<regional_settings> settings;
 
         oter_id get_default_terrain( int z ) const;
 

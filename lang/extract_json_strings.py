@@ -1306,6 +1306,15 @@ def extract(item, infilename):
                 writestr(outfile, cname["name"], comment=c,
                          format_strings=True, pl_fmt=True, **kwargs)
                 wrote = True
+        if "death_function" in item:
+            if "message" in item["death_function"]:
+                if singular_name:
+                    c = "Death function message for {}".format(singular_name)
+                else:
+                    c = None
+                writestr(outfile, item["death_function"]["message"],
+                         comment=c, **kwargs)
+                wrote = True
         if "description" in item:
             if name:
                 c = "Description for {}".format(singular_name)
