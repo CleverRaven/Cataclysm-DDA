@@ -169,18 +169,21 @@
   {
     "type": "MONSTER",
     "id": "mon_zianzhousaurus",
-    "name": { "str": "Qianzhousaurus zombie" },
+    "name": { "str": "Qianz zombie" },
     "copy-from": "mon_zyrannosaurus",
     "looks_like": "mon_zyrannosaurus",
     "volume": "550 L",
     "weight": "770 kg",
     "speed": 60,
-    "melee_dice_sides": 4,
+    "melee_skill": 10,
+    "melee_dice": 4,
+    "melee_dice_sides": 7,
+    "melee_cut": 6,
     "armor_bash": 5,
     "armor_cut": 5,
     "armor_bullet": 3,
     "hp": 230,
-    "description": "Massive, long jaws drooling black liquid, lifted by a huge but shuffling dinosaur corpse.",
+    "description": "An undead Qianzhousaurus, looking at you with a furious rage in its eyes and seeming intent on eating you.",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zianzhousaurus_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
   },
@@ -225,7 +228,7 @@
       "WARM"
     ],
     "vision_night": 3,
-    "harvest": "zed_dino_feather",
+    "harvest": "zed_dino_leather",
     "categories": [ "DINOSAUR", "CLASSIC" ]
   },
   {
@@ -896,14 +899,6 @@
       "FILTHY",
       "HIT_AND_RUN"
     ]
-  },
-  {
-    "type": "MONSTER",
-    "id": "mon_zamargasaurus_juvenile",
-    "name": { "str": "juvenile sauropod zombie" },
-    "copy-from": "mon_zapatosaurus_juvenile",
-    "looks_like": "mon_apatosaurus",
-    "upgrades": { "half_life": 14, "into": "mon_zamargasaurus" }
   },
   {
     "type": "MONSTER",
