@@ -212,7 +212,7 @@ void SkillLevel::train( int amount, bool skip_scaling )
     if( _level < _highestLevel ) {
         catchup_amount *= 2;
         amount *= 1.1;
-    } else if( _exercise + highest_level_exp < _highestExperience ) {
+    } else if( _exercise < _highestExperience - amount * 1.5 ) {
         catchup_amount *= 1.5;
         amount *= 1.1;
     }
