@@ -433,7 +433,17 @@
       "ter_set": "t_window_empty",
       "items": [ { "item": "glass_shard", "count": [ 6, 10 ] } ]
     },
-    "flags": [ "TRANSPARENT", "SHARP", "FLAMMABLE", "NOITEM", "MOUNTABLE", "CONNECT_TO_WALL", "SMALL_PASSAGE", "PERMEABLE", "WINDOW" ]
+    "flags": [
+      "TRANSPARENT",
+      "SHARP",
+      "FLAMMABLE",
+      "NOITEM",
+      "MOUNTABLE",
+      "CONNECT_TO_WALL",
+      "SMALL_PASSAGE",
+      "PERMEABLE",
+      "WINDOW"
+    ]
   },
   {
     "type": "terrain",
@@ -885,7 +895,16 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "REDUCE_SCENT", "PERMEABLE", "WINDOW" ],
+    "flags": [
+      "NOITEM",
+      "CONNECT_TO_WALL",
+      "THIN_OBSTACLE",
+      "BARRICADABLE_WINDOW_CURTAINS",
+      "BLOCK_WIND",
+      "REDUCE_SCENT",
+      "PERMEABLE",
+      "WINDOW"
+    ],
     "curtain_transform": "t_metal_grate_window",
     "examine_action": "curtains",
     "close": "t_metal_grate_window_with_curtain",
