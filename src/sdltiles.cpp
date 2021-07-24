@@ -1138,7 +1138,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         }
     }
 
-    SDL_RenderSetClipRect( renderer.get(), nullptr );
+    printErrorIf( SDL_RenderSetClipRect( renderer.get(), nullptr ) != 0,
+                  "SDL_RenderSetClipRect failed" );
 }
 
 static bool draw_window( Font_Ptr &font, const catacurses::window &w, const point &offset )
