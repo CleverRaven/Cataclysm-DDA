@@ -78,10 +78,7 @@
   {
     "type": "vehicle_group",
     "id": "lake",
-    "vehicles": [
-      [ "DUKW", 250 ],
-      [ "cabin_cruiser_wood", 1500 ]
-    ]
+    "vehicles": [ [ "DUKW", 250 ], [ "cabin_cruiser_wood", 1500 ] ]
   },
   {
     "type": "vehicle_group",
