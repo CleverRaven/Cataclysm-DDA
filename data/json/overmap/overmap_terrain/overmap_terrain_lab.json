@@ -603,7 +603,7 @@
     "id": [ "lab_maintenance_z-2&3_B", "lab_maintenance_z-2&3_A" ],
     "name": "Lab Maintenance Zone",
     "sym": "M",
-    "color": "cyalight_green",
+    "color": "cyan",
     "see_cost": 5,
     "flags": [ "RISK_HIGH" ]
   }
