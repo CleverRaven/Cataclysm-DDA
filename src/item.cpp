@@ -8783,7 +8783,7 @@ bool item::reload( Character &u, item_location ammo, int qty )
             u.invalidate_weight_carried_cache();
         }
         if( magazine_removed.type != nullitem() ) {
-            u.i_add( magazine_removed, true, nullptr, true, allow_wield );
+            u.i_add( magazine_removed, true, nullptr, nullptr, true, allow_wield );
         }
         return true;
     }
