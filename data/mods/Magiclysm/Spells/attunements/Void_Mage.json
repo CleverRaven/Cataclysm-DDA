@@ -82,14 +82,16 @@
   },
   {
     "abstract": "horizon_vortex_abstract",
+	"name": "Horizon Vortex abstract",
     "type": "SPELL",
     "description": "Give some random damage for Horizon Vortex spell.  Subspell; you aren't allowed to see it except in debug mode.",
     "valid_targets": [ "hostile" ],
     "flags": [ "NO_PROJECTILE", "LOUD", "RANDOM_TARGET" ],
+	"message": "",
     "effect": "attack",
     "shape": "blast",
     "min_damage": 20,
-    "max_damage": 100,
+    "max_damage": 80,
     "damage_increment": 2,
     "min_range": 10,
     "range_increment": 0.4,
@@ -98,6 +100,7 @@
   {
     "id": "horizon_vortex_fire",
     "copy-from": "horizon_vortex_abstract",
+	"type": "SPELL",
     "name": "Horizon Vortex heat damage",
     "extend": { "flags": [ "RANDOM_DAMAGE" ] },
     "damage_type": "heat"
@@ -105,6 +108,7 @@
   {
     "id": "horizon_vortex_acid",
     "copy-from": "horizon_vortex_abstract",
+	"type": "SPELL",
     "name": "Horizon Vortex acid damage",
     "extend": { "flags": [ "RANDOM_DAMAGE" ] },
     "damage_type": "acid"
@@ -112,6 +116,7 @@
   {
     "id": "horizon_vortex_bash",
     "copy-from": "horizon_vortex_abstract",
+	"type": "SPELL",
     "name": "Horizon Vortex bash damage",
     "extend": { "flags": [ "RANDOM_DAMAGE" ] },
     "damage_type": "bash"
@@ -119,6 +124,7 @@
   {
     "id": "horizon_vortex_pure",
     "copy-from": "horizon_vortex_abstract",
+	"type": "SPELL",
     "name": "Horizon Vortex pure damage",
     "extend": { "flags": [ "RANDOM_DAMAGE" ] },
     "damage_type": "pure"
@@ -126,6 +132,7 @@
   {
     "id": "horizon_vortex_cold",
     "copy-from": "horizon_vortex_abstract",
+	"type": "SPELL",
     "name": "Horizon Vortex cold damage",
     "damage_type": "cold",
     "max_level": 40
@@ -133,6 +140,7 @@
   {
     "id": "horizon_vortex_cut",
     "copy-from": "horizon_vortex_abstract",
+	"type": "SPELL",
     "name": "Horizon Vortex cut damage",
     "damage_type": "cut",
     "max_level": 40
@@ -140,6 +148,7 @@
   {
     "id": "horizon_vortex_electric",
     "copy-from": "horizon_vortex_abstract",
+	"type": "SPELL",
     "name": "Horizon Vortex electric damage",
     "damage_type": "electric",
     "max_level": 40
@@ -147,6 +156,7 @@
   {
     "id": "horizon_vortex_stab",
     "copy-from": "horizon_vortex_abstract",
+	"type": "SPELL",
     "name": "Horizon Vortex stab damage",
     "damage_type": "stab",
     "max_level": 40
