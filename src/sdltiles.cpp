@@ -1011,7 +1011,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     // draw nearby seen npcs
     for( const shared_ptr_fast<npc> &guy : overmap_buffer.get_npcs_near_player( sight_points ) ) {
         const tripoint_abs_omt &guy_loc = guy->global_omt_location();
-        if( overmap_buffer.seen( guy_loc ) ) {
+        if( overmap_buffer.seen( guy_loc ) && guy_loc.z() == center_abs_omt.z() ) {
             draw_entity_with_overlays( *guy, global_omt_to_draw_position( guy_loc ), lit_level::LIT,
                                        height_3d );
         }
