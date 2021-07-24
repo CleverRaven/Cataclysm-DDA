@@ -4440,10 +4440,9 @@ const std::string &item::symbol() const
     return type->sym;
 }
 
-nc_color item::color_in_inventory() const
+nc_color item::color_in_inventory( const Character *const ch ) const
 {
-    // TODO: make a const reference
-    avatar &player_character = get_avatar();
+    const Character &player_character = ch ? *ch : get_player_character();
 
     // Only item not otherwise colored gets colored as favorite
     nc_color ret = is_favorite ? c_white : c_light_gray;

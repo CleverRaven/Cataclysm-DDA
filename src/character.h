@@ -1311,7 +1311,7 @@ class Character : public Creature, public visitable
         /** Is this bionic elligible to be installed in the player? */
         // Should be ret_val<void>, but ret_val.h doesn't like it
         ret_val<bool> is_installable( const item_location &loc, bool by_autodoc ) const;
-        std::map<bodypart_id, int> bionic_installation_issues( const bionic_id &bioid );
+        std::map<bodypart_id, int> bionic_installation_issues( const bionic_id &bioid ) const;
         /** Initialize all the values needed to start the operation player_activity */
         bool install_bionics( const itype &type, player &installer, bool autodoc = false,
                               int skill_level = -1 );

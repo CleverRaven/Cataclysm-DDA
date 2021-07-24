@@ -1370,6 +1370,10 @@ class read_inventory_preset: public pickup_inventory_preset
             return base_sort;
         }
 
+        nc_color get_color( const inventory_entry &entry ) const override {
+            return entry.is_item() ? entry.any_item()->color_in_inventory( &p ) : c_magenta;
+        }
+
     private:
         const islot_book &get_book( const item_location &loc ) const {
             return *loc->type->book;
