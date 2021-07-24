@@ -773,7 +773,7 @@
         "description": "You maintain the momentum from your last strike to move more quickly",
         "melee_allowed": true,
         "skill_requirements": [ { "name": "melee", "level": 2 } ],
-        "buff_duration": 1,
+        "buff_duration": 2,
         "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
       }
     ],
