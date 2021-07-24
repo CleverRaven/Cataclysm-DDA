@@ -48,7 +48,7 @@
     "id": "voidmage_horizon_vortex",
     "name": "Horizon Vortex",
     "description": "Creates a chaotic energy field, that shutter enemies inside it. Its pretty random, and can either kill everyone in area or produce almost nothing.",
-    "//": "how spell work: you spawn the virtual point (X), that start randomly spam random spells from `extra_effects` list, increasing level decrease casting time and mana cost, and damage of half extra effects (cause it will be totally awful if damage was at 100% random) - another half have random damage from 20 to 70, number of spell that X can cast also totally random. So using this spell surrounded by zombie crowd is like playing russian roulette - it can kill all mobs near you, but also can kill almost no one. Average it can be enough good in save situations",
+    "//": "how spell work: you spawn the virtual point (X), that start randomly spam random spells from `extra_effects` list, increasing level decrease casting time and mana cost, and damage of half extra effects (cause it will be totally awful if damage was at 100% random) - another half have random damage from 22 to 82, number of spell that X can cast also totally random. So using this spell surrounded by zombie crowd is like playing russian roulette - it can kill all mobs near you, but also can kill almost no one. Average it can be enough good in save situations",
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile", "ground" ],
