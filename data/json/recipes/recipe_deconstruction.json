@@ -1934,6 +1934,13 @@
     "components": [ [ [ "jug_plastic", 1 ] ], [ [ "rag", 4 ] ] ]
   },
   {
+    "result": "char_purifier_clay",
+    "type": "uncraft",
+    "time": "5 m",
+    "activity_level": "LIGHT_EXERCISE",
+    "components": [ [ [ "clay_hydria", 1 ] ], [ [ "rag", 4 ] ] ]
+  },
+  {
     "result": "clock",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
