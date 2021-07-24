@@ -39,7 +39,7 @@
     "min_range": 6,
     "max_range": 20,
     "range_increment": 0.35,
-    "max_level": 40,
+    "max_level": 35,
     "difficulty": 10,
     "spell_class": "ICE_ELEMENTAL",
     "base_casting_time": 150,
