@@ -92,7 +92,7 @@
     "min_damage": -20,
     "max_damage": -120,
     "damage_increment": -2.5,
-    "max_level": 40,
+    "max_level": 35,
     "extra_effects": [ { "id": "cleansingflame_hermes_burn" }, { "id": "pain_split" } ],
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "LOUD" ]
   },
