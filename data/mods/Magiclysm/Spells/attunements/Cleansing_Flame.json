@@ -83,7 +83,6 @@
     "name": "Hermes Reborn",
     "description": "In the sea without lees\nStandeth the bird of Hermes\nEating his wings variable\nAnd maketh himself yet full stable",
 	"//": "Well thats too edgy now, need to replase it.",
-    "name": [ "Biomantic Venom" ],
     "valid_targets": [ "self" ],
     "effect": "attack",
     "shape": "blast",
