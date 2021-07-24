@@ -698,7 +698,8 @@ static cata::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arro
         return std::make_pair( mission_target, mission_arrow_variant );
     }
 
-    const std::vector<tripoint> mission_trajectory = line_to( center.raw(), mission_target.raw() );
+    const std::vector<tripoint> mission_trajectory = line_to( center.raw(),
+            tripoint( mission_target.raw().xy(), center.raw().z ) );
 
     cata::optional<tripoint> prev;
     int z = 0;
@@ -1078,6 +1079,66 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             if( overmap_buffer.seen( camp_center ) && overmap_area.contains( camp_center.raw() ) ) {
                 label_bg( camp.abs_sm_pos, camp.camp->name );
             }
+        }
+    }
+
+    std::vector<std::pair<nc_color, std::string>> notes_window_text;
+
+    if( uistate.overmap_show_map_notes ) {
+        const std::string &note_text = overmap_buffer.note( center_abs_omt );
+        if( !note_text.empty() ) {
+            const std::tuple<char, nc_color, size_t> note_info = overmap_ui::get_note_display_info(
+                        note_text );
+            const size_t pos = std::get<2>( note_info );
+            if( pos != std::string::npos ) {
+                notes_window_text.emplace_back( std::get<1>( note_info ), note_text.substr( pos ) );
+            }
+            if( overmap_buffer.is_marked_dangerous( center_abs_omt ) ) {
+                notes_window_text.emplace_back( c_red, _( "DANGEROUS AREA!" ) );
+            }
+        }
+    }
+
+    for( const auto &npc : overmap_buffer.get_npcs_near_omt( center_abs_omt, 0 ) ) {
+        if( !npc->marked_for_death ) {
+            notes_window_text.emplace_back( npc->basic_symbol_color(), npc->name );
+        }
+    }
+
+    for( auto &v : overmap_buffer.get_vehicle( center_abs_omt ) ) {
+        notes_window_text.emplace_back( c_white, v.name );
+    }
+
+    if( !notes_window_text.empty() ) {
+        constexpr int padding = 2;
+
+        const auto note_bg = [&]( const point & draw_pos, const std::string & name, nc_color & color ) {
+            const int name_length = name.length();
+            SDL_Rect clipRect = { draw_pos.x - padding, draw_pos.y - padding, name_length *fontwidth + padding * 2, fontheight + padding * 2};
+            printErrorIf( SDL_RenderSetClipRect( renderer.get(), &clipRect ) != 0,
+                          "SDL_RenderSetClipRect failed" );
+
+            geometry->rect( renderer, clipRect, SDL_Color{0, 0, 0, 175} );
+
+            const point label_pos( draw_pos + point( -( name.length() * fontwidth / 2 ), 0 ) );
+            char note_fg_color = color == c_yellow ? 11 :
+                                 cata_cursesport::colorpairs[color.to_color_pair_index()].FG;
+            map_font->OutputChar( renderer, geometry, name, label_pos, note_fg_color );
+        };
+
+        auto center_sm = coords::project_to<coords::sm>( tripoint_abs_omt( center_abs_omt.x() + 1,
+                         center_abs_omt.y(), center_abs_omt.z() ) );
+        const tripoint tile_draw_pos = global_omt_to_draw_position( project_to<coords::omt>
+                                       ( center_sm ) ) - o;
+        point draw_point( tile_draw_pos.x * width / max_col, tile_draw_pos.y * height / max_row );
+        draw_point.x += width / max_col;
+
+        nc_color header_color = c_white;
+        note_bg( draw_point, "Notes:", header_color );
+        draw_point.y += fontheight + padding * 2;
+        for( auto &line : notes_window_text ) {
+            note_bg( draw_point, line.second, line.first );
+            draw_point.y += fontheight + padding;
         }
     }
 }
