@@ -1529,7 +1529,7 @@ class Character : public Creature, public visitable
         item &i_add( item it, bool should_stack = true, const item *avoid = nullptr, const item *original_inventory_item = nullptr, bool allow_drop = true,
                      bool allow_wield = true );
         /** tries to add to the character's inventory without a popup. returns nullptr if it fails. */
-        item *try_add( item it, const item *avoid, const item *original_inventory_item = nullptr, bool allow_wield = true );
+        item *try_add( item it, const item *avoid = nullptr, const item *original_inventory_item = nullptr, bool allow_wield = true );
 
         /**
          * Try to pour the given liquid into the given container/vehicle. The transferred charges are
