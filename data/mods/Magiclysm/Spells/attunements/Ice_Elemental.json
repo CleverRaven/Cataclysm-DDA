@@ -60,7 +60,7 @@
     "effect": "attack",
     "shape": "blast",
     "effect_str": "cold_heart_effect",
-    "max_level": 40,
+    "max_level": 35,
     "flags": [ "SILENT" ],
     "min_duration": 6000,
     "max_duration": 60000,

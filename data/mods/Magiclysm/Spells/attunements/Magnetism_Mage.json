@@ -234,7 +234,7 @@
     "min_range": 6,
     "max_range": 26,
     "range_increment": 0.5,
-    "max_level": 40,
+    "max_level": 35,
     "difficulty": 9,
     "spell_class": "MAGNETISM_MAGE",
     "base_casting_time": 250,
