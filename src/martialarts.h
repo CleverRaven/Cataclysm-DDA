@@ -259,6 +259,7 @@ class martialart
         bool leg_block_with_bio_armor_legs = false;
         std::set<matec_id> techniques; // all available techniques
         std::set<itype_id> weapons; // all style weapons
+        std::set<std::string> weapon_category; // all style weapon categories
         bool strictly_unarmed = false; // Punch daggers etc.
         bool strictly_melee = false; // Must have a weapon.
         bool allow_melee = false; // Can use unarmed or with ANY weapon
