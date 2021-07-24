@@ -115,5 +115,55 @@
       "terrain": { "f": "t_carpet_concrete_green", "h": "t_carpet_concrete_green" },
       "place_loot": [ { "item": "television", "x": 10, "y": 0, "chance": 40 }, { "item": "stereo", "x": 9, "y": 0, "chance": 40 } ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for small residential areas. For extra population.",
+    "nested_mapgen_id": "lab_residential_12x12_small_rooms_A",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "@@ d|||d @@|",
+        "s   +,+   s|",
+        "T  R|,|R  T|",
+        "|||||,||||||",
+        "    +,+    |",
+        "9|St|,|tS|9|",
+        "|||||,||||||",
+        "@s R|,|R s@|",
+        "@   +,+   @|",
+        "T  d|,|d  T|",
+        "|||||,||||||",
+        "U+,,,,,,,+w|"
+      ],
+      "palettes": [ "lab_common_palette", "lab_residential_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for small residential areas. For extra population.",
+    "nested_mapgen_id": "lab_residential_12x12_small_rooms_B",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|@@ d|||d @@",
+        "|s   +,+   s",
+        "|T  R|,|R  T",
+        "||||||,|||||",
+        "|    +,+    ",
+        "|9|St|,|tS|9",
+        "||||||,|||||",
+        "|@s R|,|R s@",
+        "|@   +,+   @",
+        "|T  d|,|d  T",
+        "||||||,|||||",
+        "|U+,,,,,,,+w"
+      ],
+      "palettes": [ "lab_common_palette", "lab_residential_palette" ]
+    }
   }
 ]

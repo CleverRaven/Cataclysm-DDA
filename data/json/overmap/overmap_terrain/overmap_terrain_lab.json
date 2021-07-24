@@ -517,6 +517,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "lab_CORE_2x1_1UP", "lab_CORE_2x1_2UP", "lab_CORE_2x1_1DN", "lab_CORE_2x1_2DN" ],
+    "name": "Lab Recreation Zone",
+    "sym": "X",
+    "color": "white",
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "lab_security_z-1",
       "lab_security_z-2",
@@ -535,7 +544,20 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "lab_2x1_CORE_-1W", "lab_2x1_CORE_-1E" ],
+    "id": [
+      "lab_2x1_CORE_-1W",
+      "lab_2x1_CORE_-1E",
+      "underground_lab_cargo_stationA",
+      "underground_lab_cargo_stationB",
+      "underground_lab_central_-5E",
+      "underground_lab_central_-5W",
+      "underground_lab_central_-6W",
+      "underground_lab_central_-6E",
+      "lab_2x2_cargo_NW",
+      "lab_2x2_cargo_NE",
+      "lab_2x2_cargo_SW",
+      "lab_2x2_cargo_SE"
+    ],
     "name": "Lab Cargo Zone",
     "sym": "C",
     "color": "white",
