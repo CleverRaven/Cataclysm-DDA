@@ -1415,7 +1415,7 @@
       [ [ "gun_module", 3 ] ],
       [ [ "flamethrower", 1 ] ],
       [ [ "tazer", 1 ] ],
-      [ [ "nato_assault_rifle", 1 ] ],
+      [ [ "m4_carbine", 1 ] ],
       [ [ "pamd68", 1 ] ],
       [ [ "power_supply", 20 ] ],
       [ [ "amplifier", 5 ] ],
@@ -1932,13 +1932,6 @@
     "time": "5 m",
     "activity_level": "LIGHT_EXERCISE",
     "components": [ [ [ "jug_plastic", 1 ] ], [ [ "rag", 4 ] ] ]
-  },
-  {
-    "result": "char_purifier_clay",
-    "type": "uncraft",
-    "time": "5 m",
-    "activity_level": "LIGHT_EXERCISE",
-    "components": [ [ [ "clay_hydria", 1 ] ], [ [ "rag", 4 ] ] ]
   },
   {
     "result": "clock",
