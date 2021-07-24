@@ -1360,14 +1360,14 @@
   {
     "id": "migo_bio_tech",
     "type": "TOOL",
-    "name": { "str_sp": "Migo Bio Tech" },
+    "name": { "str_sp": "Mi-go Biotech" },
     "conditional_names": [
       { "type": "VAR", "condition": "npctalk_var_DISPLAY_NAME_MORALE", "name": { "str_sp": "%s (happy)" } },
       { "type": "VAR", "condition": "npctalk_var_DISPLAY_NAME_FOCUS", "name": { "str_sp": "%s (focus)" } },
       { "type": "VAR", "condition": "npctalk_var_DISPLAY_NAME_PAIN", "name": { "str_sp": "%s (pain relief)" } },
       { "type": "VAR", "condition": "npctalk_var_DISPLAY_NAME_FATIGUE", "name": { "str_sp": "%s (wake up)" } }
     ],
-    "description": "A piece of migo bio technology.",
+    "description": "A piece of mi-go biotechnology.",
     "weight": "1 g",
     "volume": "250 ml",
     "price": 3000,
@@ -1382,7 +1382,7 @@
           "id": "EOC_MIGO_BIO_TECH_INTEREST",
           "condition": { "not": { "one_in_chance": 3 } },
           "effect": [
-            { "message": "You feel a little watched" },
+            { "message": "You have a slight feeling of being watched." },
             { "u_adjust_var": "migo_interest", "type": "migo_interest", "context": "interest", "adjustment": 1 }
           ]
         },
@@ -1390,7 +1390,7 @@
           "id": "EOC_MIGO_BIO_TECH_INTEREST",
           "condition": { "not": { "one_in_chance": 100 } },
           "effect": [
-            { "message": "You feel a lot watched" },
+            { "message": "You have an intense feeling of being watched." },
             { "u_adjust_var": "migo_interest", "type": "migo_interest", "context": "interest", "adjustment": 10 }
           ]
         },
@@ -1426,7 +1426,7 @@
           "id": "EOC_MIGO_BIO_TECH_FOCUS",
           "condition": { "npc_has_var": "function", "type": "migo_bio_tech", "context": "bio_tech", "value": "focus" },
           "effect": [
-            { "message": "You feel incredibily focused!" },
+            { "message": "You feel incredibly focused!" },
             { "u_mod_focus": 30 },
             { "npc_add_var": "FOCUS", "type": "DISPLAY", "context": "NAME", "value": "" }
           ]
@@ -1444,7 +1444,7 @@
           "id": "EOC_MIGO_BIO_TECH_FATIGUE",
           "condition": { "npc_has_var": "function", "type": "migo_bio_tech", "context": "bio_tech", "value": "fatigue" },
           "effect": [
-            { "message": "You feel more awake than a moment ago!" },
+            { "message": "You instantly feel more awake!" },
             { "u_mod_fatigue": -30 },
             { "npc_add_var": "FATIGUE", "type": "DISPLAY", "context": "NAME", "value": "" }
           ]
