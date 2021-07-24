@@ -223,15 +223,14 @@
   {
     "type": "COMESTIBLE",
     "id": "pumpkin_candy",
-    "name": "candy pumpkin",
-    "looks_like": "pumpkin"
-    "copy_from": "pumpkin_candy",
-    "symbol": "%",
+    "name": { "str_sp": "Candy Pumpkin" },
+    "looks_like": "pumpkin",
+    "copy-from": "pumpkin_candy",
     "rot_spawn": "GROUP_EGG_PUMPKIN",
     "rot_spawn_chance": 100,
     "container": "null",
     "color": "yellow",
-    "description": "A candy pumpkin typically sold around halloween, out of the corner of your eye, you think you see it move, how strange... "
+    "description": " A candy pumpkin typically sold around halloween, out of the corner of your eye, you think you see it move, how strange... "
   },
   {
     "type": "COMESTIBLE",
