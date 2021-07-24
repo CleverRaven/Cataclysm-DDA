@@ -4240,6 +4240,15 @@ int Character::get_skill_level( const skill_id &ident, const item &context ) con
     return _skills->get_skill_level( ident, context );
 }
 
+int Character::get_theory_skill_level( const skill_id &ident ) const
+{
+    return _skills->get_theory_skill_level( ident );
+}
+
+int Character::get_theory_skill_level( const skill_id &ident, const item &context ) const
+{
+    return _skills->get_theory_skill_level( ident, context );
+}
 void Character::set_skill_level( const skill_id &ident, const int level )
 {
     get_skill_level_object( ident ).level( level );

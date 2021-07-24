@@ -395,6 +395,17 @@ int SkillLevelMap::get_skill_level( const skill_id &ident, const item &context )
     return get_skill_level( id );
 }
 
+int SkillLevelMap::get_theory_skill_level( const skill_id &ident ) const
+{
+    return get_skill_level_object( ident ).theoryLevel();
+}
+
+int SkillLevelMap::get_theory_skill_level( const skill_id &ident, const item &context ) const
+{
+    const auto id = context.is_null() ? ident : context.contextualize_skill( ident );
+    return get_theory_skill_level( id );
+}
+
 bool SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req ) const
 {
     return meets_skill_requirements( req, item() );
@@ -405,7 +416,9 @@ bool SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req
 {
     return std::all_of( req.begin(), req.end(),
     [this, &context]( const std::pair<skill_id, int> &pr ) {
-        return get_skill_level( pr.first, context ) >= pr.second;
+        // Whether or not you meet skill requirements should be based on your level of theory training,
+        // not practical experience.
+        return get_theory_skill_level( pr.first, context ) >= pr.second;
     } );
 }
 

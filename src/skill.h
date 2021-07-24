@@ -142,7 +142,7 @@ class SkillLevel
             return plevel;
         }
 
-        int highestLevel() const {
+        int theoryLevel() const {
             return _theoryLevel;
         }
 
@@ -219,6 +219,9 @@ class SkillLevelMap : public std::map<skill_id, SkillLevel>
         void mod_skill_level( const skill_id &ident, int delta );
         int get_skill_level( const skill_id &ident ) const;
         int get_skill_level( const skill_id &ident, const item &context ) const;
+        
+        int get_theory_skill_level( const skill_id &ident ) const;
+        int get_theory_skill_level( const skill_id &ident, const item &context ) const;
 
         bool meets_skill_requirements( const std::map<skill_id, int> &req ) const;
         bool meets_skill_requirements( const std::map<skill_id, int> &req,
