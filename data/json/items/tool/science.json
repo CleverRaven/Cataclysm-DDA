@@ -621,8 +621,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
-    "initial_charges": 2000,
-    "max_charges": 2000,
     "charges_per_use": 1,
     "pocket_data": [
       {
