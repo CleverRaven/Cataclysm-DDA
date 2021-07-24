@@ -61,8 +61,6 @@ int OVERMAP_WINDOW_TERM_HEIGHT;
 
 int OVERMAP_LEGEND_WIDTH;
 
-static std::string rm_prefix( std::string str, char c1 = '<', char c2 = '>' );
-
 scrollingcombattext SCT;
 
 // utf8 version
@@ -162,9 +160,9 @@ std::string remove_color_tags( const std::string &s )
     return ret;
 }
 
-static color_tag_parse_result::tag_type update_color_stack(
+color_tag_parse_result::tag_type update_color_stack(
     std::stack<nc_color> &color_stack, const std::string &seg,
-    const report_color_error color_error = report_color_error::yes )
+    const report_color_error color_error )
 {
     color_tag_parse_result tag = get_color_from_tag( seg, color_error );
     switch( tag.type ) {

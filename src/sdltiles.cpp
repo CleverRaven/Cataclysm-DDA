@@ -19,6 +19,7 @@
 #include <map>
 #include <memory>
 #include <set>
+#include <stack>
 #include <stdexcept>
 #include <type_traits>
 #include <vector>
@@ -1109,18 +1110,16 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     if( !notes_window_text.empty() ) {
         constexpr int padding = 2;
 
-        const auto note_bg = [&]( const point & draw_pos, const std::string & name, nc_color & color ) {
+        const auto draw_note_text = [&]( const point & draw_pos, const std::string & name,
+        nc_color & color ) {
             const int name_length = name.length();
-            SDL_Rect clipRect = { draw_pos.x - padding, draw_pos.y - padding, name_length *fontwidth + padding * 2, fontheight + padding * 2};
-
-            geometry->rect( renderer, clipRect, SDL_Color{0, 0, 0, 175} );
-
             const point label_pos( draw_pos + point( -( name.length() * fontwidth / 2 ), 0 ) );
             char note_fg_color = color == c_yellow ? 11 :
                                  cata_cursesport::colorpairs[color.to_color_pair_index()].FG;
             map_font->OutputChar( renderer, geometry, name, label_pos, note_fg_color );
         };
 
+        // Find screen coordinates to the right of the center tile
         auto center_sm = coords::project_to<coords::sm>( tripoint_abs_omt( center_abs_omt.x() + 1,
                          center_abs_omt.y(), center_abs_omt.z() ) );
         const tripoint tile_draw_pos = global_omt_to_draw_position( project_to<coords::omt>
@@ -1128,11 +1127,55 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         point draw_point( tile_draw_pos.x * width / max_col, tile_draw_pos.y * height / max_row );
         draw_point.x += width / max_col;
 
+        // Draw notes header. Very simple label at the moment
         nc_color header_color = c_white;
-        note_bg( draw_point, "Notes:", header_color );
+        const std::string header_string = "-- Notes: --";
+        SDL_Rect header_background_rect = { draw_point.x - padding, draw_point.y - padding, fontwidth *static_cast<int>( header_string.length() ) + padding * 2, fontheight + padding * 2 };
+        geometry->rect( renderer, header_background_rect, SDL_Color{ 0, 0, 0, 175 } );
+        draw_note_text( draw_point, "header_string", header_color );
         draw_point.y += fontheight + padding * 2;
+
+        const int starting_x = draw_point.x;
+
         for( auto &line : notes_window_text ) {
-            note_bg( draw_point, line.second, line.first );
+            const auto color_segments = split_by_color( line.second );
+            std::stack<nc_color> color_stack;
+            nc_color default_color = std::get<0>( line );
+            color_stack.push( default_color );
+            std::vector<std::tuple<nc_color, std::string>> colored_lines;
+
+            draw_point.x = starting_x;
+
+            int line_length = 0;
+            for( auto seg : color_segments ) {
+                if( seg.empty() ) {
+                    continue;
+                }
+
+                if( seg[0] == '<' ) {
+                    const color_tag_parse_result::tag_type type = update_color_stack(
+                                color_stack, seg, report_color_error::no );
+                    if( type != color_tag_parse_result::non_color_tag ) {
+                        seg = rm_prefix( seg );
+                    }
+                }
+
+                nc_color &color = color_stack.empty() ? default_color : color_stack.top();
+                colored_lines.emplace_back( color, seg );
+                line_length += seg.length();
+            }
+
+            // Draw background first for the whole line
+            SDL_Rect background_rect = { draw_point.x - padding, draw_point.y - padding, fontwidth *line_length + padding * 2, fontheight + padding * 2 };
+            geometry->rect( renderer, background_rect, SDL_Color{ 0, 0, 0, 175 } );
+
+            // Draw colored text segments
+            for( auto &colored_line : colored_lines ) {
+                std::string &text = std::get<1>( colored_line );
+                draw_note_text( draw_point, text, std::get<0>( colored_line ) );
+                draw_point.x += fontwidth * text.length();
+            }
+
             draw_point.y += fontheight + padding;
         }
     }
