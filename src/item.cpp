@@ -3532,7 +3532,15 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         info.emplace_back( "DESCRIPTION",
                            _( "* This tool <info>runs on bionic power</info>." ) );
     } else if( has_flag( flag_BURNOUT ) && parts->test( iteminfo_parts::TOOL_BURNOUT ) ) {
-        int percent_left = 100 * ammo_remaining() / type->maximum_charges();
+        int percent_left;
+        if( type->maximum_charges() == 0 ) {
+            // Candle items that use ammo instead of charges
+            percent_left = 100 * ammo_remaining() / ammo_capacity( ammo_data()->ammo->type );
+        } else {
+            // Candle items that use charges instead of ammo
+            percent_left = 100 * ammo_remaining() / type->maximum_charges();
+        }
+
         std::string feedback;
         if( percent_left == 100 ) {
             feedback = _( "It's new, and ready to burn." );

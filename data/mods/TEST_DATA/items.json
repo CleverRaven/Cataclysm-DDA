@@ -495,6 +495,7 @@
     "bashing": 4,
     "to_hit": -2,
     "qualities": [ [ "JACK", 4 ] ]
+  },
   {
     "id": "test_smart_phone",
     "type": "TOOL",
