@@ -17,6 +17,12 @@
   },
   {
     "type": "recipe",
+    "result": "mutant_brain_cooked",
+    "copy-from": "brain_cooked",
+    "components": [ [ [ "mutant_brain", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "brain_cooked",
     "result": "lung_cooked",
@@ -220,7 +226,7 @@
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 45, "LIST" ] ] ],
     "components": [
-      [ [ "brain", 2 ] ],
+      [ [ "meat_brain", 2, "LIST" ] ],
       [ [ "eggs_bird", 1, "LIST" ] ],
       [ [ "batter", 3, "LIST" ] ],
       [ [ "salt", 1 ] ],
@@ -357,7 +363,7 @@
     "components": [
       [ [ "meat_lung", 4, "LIST" ] ],
       [ [ "kidney", 4 ] ],
-      [ [ "brain", 4 ] ],
+      [ [ "meat_brain", 4, "LIST" ] ],
       [ [ "onion", 3 ], [ "irradiated_onion", 3 ] ],
       [ [ "any_butter", 4, "LIST" ] ],
       [ [ "salt", 6 ] ],
@@ -385,7 +391,7 @@
     "components": [
       [ [ "eggs_bird", 3, "LIST" ] ],
       [ [ "garlic_clove", 2 ] ],
-      [ [ "brain", 4 ] ],
+      [ [ "meat_brain", 4, "LIST" ] ],
       [ [ "batter", 4, "LIST" ] ],
       [ [ "onion", 1 ], [ "irradiated_onion", 1 ] ],
       [ [ "any_butter", 4, "LIST" ] ],

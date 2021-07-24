@@ -45,6 +45,50 @@
   },
   {
     "type": "snippet",
+    "category": "mutant_brain_desc",
+    "text": [
+      {
+        "id": "mutant_brain_1",
+        "text": "The brain of a heavily mutated animal.  A thick net of interlocking veins coccoons it, and the surface has a rainbow sheen like an oil slick.  When you move to touch it the whole thing starts shuddering and it comes loose from the spinal cord, like it's trying to escape."
+      },
+      {
+        "id": "mutant_brain_2",
+        "text": "The brain of a heavily mutated animal.  Shining white in color, and brittle to the touch like hard cheese you can hardly believe it was a living organ moments before.  On the base the pure whiteness is broken up by a huge, spastic artery filled with yellow gunk."
+      },
+      {
+        "id": "mutant_brain_3",
+        "text": "The brain of a heavily mutated animal.  Vestigal, still-twitching eyes are strewn across its surface, each with a different pupil.  Hidden between the hemispheres you find an embryonic copy of the creature's face, eyes darting around in a mad spasm."
+      },
+      {
+        "id": "mutant_brain_4",
+        "text": "What probably was the brain of a heavily mutated animal.  The spinal cord gives way to a chaotic tangle of loose neural fibers without any of semblance of a solid anatomy, and the whole mess is visibly shrinking now that you got it out of the creature's liquor."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "cooked_mutant_brain_desc",
+    "text":[
+      {
+        "id": "cooked_mutant_brain_1",
+        "text": "This is a piece of cooked brain from a mutated animal.  Whatever gave its surface the oily sheen coagulated into bluish clumps of goo settled into the gyri.  You try to scrape them off, but they seem fused with the tissue beneath."
+      },
+      {
+        "id": "cooked_mutant_brain_2",
+        "text": "A piece of cooked brain from a heavily mutated animal.  A vein at the base of it burst while cooking, slathering the whole thing in faintly citrus-smelling yellow liquid.  While the smell would be almost appetizing, the faint taste of ammonia is anything but."
+      },
+      {
+        "id": "cooked_mutant_brain_3",
+        "text": "A piece of cooked brain from a mutant.  The eyes jutting out of the surface have grown milky, and a good few of them fell off, each revealing a small depression dominated by a short root of veins and nerve.  Judging by the spongy texture, some remain buried in the deeper tissue."
+      },
+      {
+        "id": "cooked_mutant_brain_4",
+        "text": "A cooked piece of what passes for a brain in mutant animals.  The whole thing came apart into a coarse jelly interspersed with hair-thin, branching nerves that seem move slightly.  The texture is horrible, but it tastes better than starvation."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "bug_organs_desc",
     "text": [
       {
@@ -75,14 +119,14 @@
   },
   {
     "type": "snippet",
-    "category": "mutant_lung_desc",
+    "category": "mutant_bug_lung_desc",
     "text": [
       {
-        "id": "mutant_lung_1",
+        "id": "mutant_bug_lung_1",
         "text": "You're pretty sure this is lung tissue.  It looks like a lung from a larger mammal, like a dog, but instead of a few distinct lobes, it has dozens of lobes arranged in sheets.  Strange spindles and gnarled tumescences dot the surface."
       },
       {
-        "id": "mutant_lung_2",
+        "id": "mutant_bug_lung_2",
         "text": "You're pretty sure this is lung tissue.  It has a vaguely wing-like shape, with a series of nodules around what would be the trailing edge of the 'wing'.  A cluster of quills in each corner of the organ held it to the bug's carapace like clasps."
       }
     ]
