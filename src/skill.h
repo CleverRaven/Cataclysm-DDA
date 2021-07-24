@@ -236,6 +236,7 @@ class SkillLevelMap : public std::map<skill_id, SkillLevel>
         std::map<skill_id, int> compare_skill_requirements(
             const std::map<skill_id, int> &req ) const;
         int exceeds_recipe_requirements( const recipe &rec ) const;
+        bool theoretical_recipe_requirements( const recipe &rec ) const;
         bool has_recipe_requirements( const recipe &rec ) const;
 };
 

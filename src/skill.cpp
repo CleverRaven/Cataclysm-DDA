@@ -452,9 +452,19 @@ int SkillLevelMap::exceeds_recipe_requirements( const recipe &rec ) const
     return over;
 }
 
+bool SkillLevelMap::theoretical_recipe_requirements( const recipe &rec ) const
+{
+    // Regardless of your current practical skill, do you know the theory of how to make this thing?
+    int knowhow = rec.skill_used ? get_theory_skill_level( rec.skill_used ) - rec.difficulty : 0;
+    for( const auto &elem : compare_skill_requirements( rec.required_skills ) ) {
+        knowhow = std::min( knowhow, elem.second );
+    }
+    return ( knowhow > 0 );
+}
+
 bool SkillLevelMap::has_recipe_requirements( const recipe &rec ) const
 {
-    return exceeds_recipe_requirements( rec ) >= 0;
+    return ( exceeds_recipe_requirements( rec ) >= 0 || theoretical_recipe_requirements( rec ) );
 }
 
 // Actually take the difference in social skill between the two parties involved
