@@ -165,5 +165,158 @@
       ],
       "palettes": [ "lab_common_palette", "lab_residential_palette" ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for small residential areas. Door orientation to the west.",
+    "nested_mapgen_id": "lab_residential_6x6_W",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " RRRR ",
+        "      ",
+        " hsh R",
+        " hsh R",
+        " hsh R",
+        "  h   "
+      ],
+      "palettes": [ "lab_common_palette", "lab_residential_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for small residential areas. Door orientation to the west.",
+    "nested_mapgen_id": "lab_residential_6x6_W",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " ssssT",
+        "      ",
+        " ee AJ",
+        " ee  J",
+        " ee AJ",
+        "A     "
+      ],
+      "palettes": [ "lab_common_palette", "lab_residential_palette" ],
+      "items": { "J": { "item": "wetbar_stack", "chance": 30 }, "s": { "item": "office_paper", "chance": 30 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for small residential areas. Door orientation to the west.",
+    "nested_mapgen_id": "lab_residential_6x6_W",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " ssssT",
+        "      ",
+        " ee AJ",
+        " ee  J",
+        " ee AJ",
+        "A     "
+      ],
+      "palettes": [ "lab_common_palette", "lab_residential_palette" ],
+      "items": {
+        "s": { "item": "wetbar_stack", "chance": 30 },
+        "S": { "item": "office_paper", "chance": 30 },
+        "Y": { "item": "trash", "chance": 20, "repeat": [ 2, 4 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_residential_6x6_W",
+    "//": "A nested map for small residential areas. Door orientation to the west.",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " ÆsØ  ",
+        "A     ",
+        "     !",
+        "     x",
+        "Hl   !",
+        "HHH   "
+      ],
+      "palettes": [ "lab_common_palette", "lab_residential_palette" ],
+      "furniture": { "!": "f_speaker_cabinet" },
+      "place_loot": [ { "item": "stereo", "x": 5, "y": 3, "chance": 100 }, { "item": "laptop", "x": 1, "y": 4, "chance": 60 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_residential_6x6_W",
+    "//": "A nested map for small residential areas. Door orientation to the west.",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " EsE R",
+        "     R",
+        "     _",
+        "     a",
+        "Hll  _",
+        "HHH  R"
+      ],
+      "palettes": [ "lab_common_palette", "lab_residential_palette" ],
+      "furniture": { "!": "f_speaker_cabinet" },
+      "place_loot": [ { "group": "games", "x": 2, "y": 0, "chance": 100 }, { "item": "laptop", "x": 1, "y": 4, "chance": 60 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "lab_residential_6x6_W",
+    "//": "A nested map for small residential areas. Door orientation to the west.",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        " EsE R",
+        "     R",
+        " eee _",
+        " eee a",
+        "     _",
+        " EsE R"
+      ],
+      "palettes": [ "lab_common_palette", "lab_residential_palette" ],
+      "furniture": { "!": "f_speaker_cabinet" },
+      "place_loot": [
+        { "group": "games", "x": 2, "y": 0, "chance": 100 },
+        { "group": "games", "x": 2, "y": 5, "chance": 100 },
+        { "item": "laptop", "x": 1, "y": 4, "chance": 60 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "5x5_dojo",
+    "//": "A nested map for small recreational/fitness areas.",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "!!!!!",
+        "!!!!!",
+        "!!!!!",
+        "!!!!!",
+        "yyÿyy"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "furniture": { "!": "f_tatami", "ÿ": "f_coffee_table" },
+      "place_loot": [
+        { "group": "dojo_manuals", "x": 2, "y": 4, "chance": 100 },
+        { "item": "candle", "x": 2, "y": 4, "chance": 100, "repeat": [ 1, 2 ] }
+      ]
+    }
   }
 ]
