@@ -650,7 +650,7 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return p.can_consume_as_is( *loc );
+            return loc->is_comestible() && p.can_consume_as_is( *loc );
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -858,7 +858,14 @@ class fuel_inventory_preset : public inventory_selector_preset
                 return _( "Can't use spilt liquids." );
             }
 
-            if( p.get_fuel_capacity( loc->get_base_material().id ) <= 0 ) {
+            std::string item_name = loc->tname();
+            material_id mat_type = loc->get_base_material().id;
+            if( loc->type->magazine ) {
+                const item ammo = item( loc->ammo_current() );
+                item_name = ammo.tname();
+                mat_type = ammo.get_base_material().id;
+            }
+            if( p.get_fuel_capacity( mat_type ) <= 0 ) {
                 return ( _( "No space to store more" ) );
             }
 
@@ -987,21 +994,6 @@ class comestible_filtered_inventory_preset : public comestible_inventory_preset
         bool( *predicate )( const item &it );
 };
 
-class fuel_filtered_inventory_preset : public fuel_inventory_preset
-{
-    public:
-        fuel_filtered_inventory_preset( const player &p, bool( *predicate )( const item &it ) ) :
-            fuel_inventory_preset( p ), predicate( predicate ) {}
-
-        bool is_shown( const item_location &loc ) const override {
-            return fuel_inventory_preset::is_shown( loc ) &&
-                   predicate( *loc );
-        }
-
-    private:
-        bool( *predicate )( const item &it );
-};
-
 item_location game_menus::inv::consume_food( player &p )
 {
     Character &player_character = get_player_character();
@@ -1060,11 +1052,9 @@ item_location game_menus::inv::consume_fuel( player &p )
     }
     std::string none_message = player_character.activity.str_values.size() == 2 ?
                                _( "You have no more fuel to consume." ) : _( "You have no fuel to consume." );
-    return inv_internal( p, fuel_filtered_inventory_preset( p, []( const item & it ) {
-        return it.is_fuel();
-    } ),
-    _( "Consume fuel" ), 1,
-    none_message );
+    return inv_internal( p, fuel_inventory_preset( p ),
+                         _( "Consume fuel" ), 1,
+                         none_message );
 }
 
 class activatable_inventory_preset : public pickup_inventory_preset
