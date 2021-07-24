@@ -41,14 +41,14 @@
         "L": { "item": "oa_ig_rd_lockers", "chance": 90 }
       },
       "place_vehicles": [
-        { "vehicle": "flatbed_truck", "x": 8, "y": 9, "rotation": 180, "chance": 10 },
-        { "vehicle": "flatbed_truck", "x": 14, "y": 7, "rotation": 0, "chance": 10 },
-        { "vehicle": "flatbed_truck", "x": 8, "y": 15, "rotation": 180, "chance": 10 },
-        { "vehicle": "flatbed_truck", "x": 14, "y": 13, "rotation": 0, "chance": 10 },
-        { "vehicle": "flatbed_truck", "x": 8, "y": 21, "rotation": 180, "chance": 10 },
-        { "vehicle": "flatbed_truck", "x": 14, "y": 19, "rotation": 0, "chance": 10 },
-        { "vehicle": "flatbed_truck", "x": 37, "y": 21, "rotation": 180, "chance": 10 },
-        { "vehicle": "flatbed_truck", "x": 43, "y": 19, "rotation": 0, "chance": 10 }
+        { "vehicle": "waste_collection", "x": 8, "y": 9, "rotation": 180, "chance": 10 },
+        { "vehicle": "waste_collection", "x": 14, "y": 7, "rotation": 0, "chance": 10 },
+        { "vehicle": "waste_collection", "x": 8, "y": 15, "rotation": 180, "chance": 10 },
+        { "vehicle": "waste_collection", "x": 14, "y": 13, "rotation": 0, "chance": 10 },
+        { "vehicle": "waste_collection", "x": 8, "y": 21, "rotation": 180, "chance": 10 },
+        { "vehicle": "waste_collection", "x": 14, "y": 19, "rotation": 0, "chance": 10 },
+        { "vehicle": "waste_collection", "x": 37, "y": 21, "rotation": 180, "chance": 10 },
+        { "vehicle": "waste_collection", "x": 43, "y": 19, "rotation": 0, "chance": 10 }
       ],
       "place_monsters": [
         { "monster": "DUMP_ANIMALS", "x": 12, "y": 12 },
@@ -106,17 +106,17 @@
         "w": { "item": "oa_ig_rd_metal_trash", "chance": 45 }
       },
       "place_vehicles": [
-        { "vehicle": "flatbed_truck", "x": 8, "y": 3, "rotation": 180, "chance": 10 },
-        { "vehicle": "flatbed_truck", "x": 14, "y": 1, "rotation": 0, "chance": 10 },
-        { "vehicle": "flatbed_truck", "x": 8, "y": 9, "rotation": 180, "chance": 10 },
-        { "vehicle": "flatbed_truck", "x": 14, "y": 7, "rotation": 0, "chance": 10 },
-        { "vehicle": "flatbed_truck", "x": 15, "y": 16, "rotation": 0, "chance": 100 },
-        { "vehicle": "flatbed_truck", "x": 20, "y": 20, "rotation": 0, "chance": 100 },
+        { "vehicle": "waste_collection", "x": 8, "y": 3, "rotation": 180, "chance": 10 },
+        { "vehicle": "waste_collection", "x": 14, "y": 1, "rotation": 0, "chance": 10 },
+        { "vehicle": "waste_collection", "x": 8, "y": 9, "rotation": 180, "chance": 10 },
+        { "vehicle": "waste_collection", "x": 14, "y": 7, "rotation": 0, "chance": 10 },
+        { "vehicle": "waste_collection", "x": 15, "y": 16, "rotation": 0, "chance": 100 },
+        { "vehicle": "waste_collection", "x": 20, "y": 20, "rotation": 0, "chance": 100 },
         { "vehicle": "oa_vg_wreck", "x": 17, "y": 20, "rotation": 180, "chance": 100 },
-        { "vehicle": "flatbed_truck", "x": 37, "y": 3, "rotation": 180, "chance": 10 },
-        { "vehicle": "flatbed_truck", "x": 43, "y": 1, "rotation": 0, "chance": 10 },
-        { "vehicle": "flatbed_truck", "x": 37, "y": 9, "rotation": 180, "chance": 10 },
-        { "vehicle": "flatbed_truck", "x": 43, "y": 7, "rotation": 0, "chance": 10 }
+        { "vehicle": "waste_collection", "x": 37, "y": 3, "rotation": 180, "chance": 10 },
+        { "vehicle": "waste_collection", "x": 43, "y": 1, "rotation": 0, "chance": 10 },
+        { "vehicle": "waste_collection", "x": 37, "y": 9, "rotation": 180, "chance": 10 },
+        { "vehicle": "waste_collection", "x": 43, "y": 7, "rotation": 0, "chance": 10 }
       ],
       "place_monsters": [
         { "monster": "DUMP_ANIMALS", "x": 12, "y": 12 },

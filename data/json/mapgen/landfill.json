@@ -22,6 +22,7 @@
           { "item": "tools_home", "chance": 1 }
         ]
       },
+      "place_vehicles": [ { "chance": 30, "fuel": 0, "rotation": 270, "status": -1, "vehicle": "waste_collection", "x": 5, "y": 3 } ],
       "rows": [
         "...._____...............",
         "..4._____.4..4..4..4..4.",
@@ -82,6 +83,7 @@
           { "item": "tools_home", "chance": 1 }
         ]
       },
+      "place_vehicles": [ { "chance": 30, "fuel": 0, "rotation": 270, "status": -1, "vehicle": "waste_collection", "x": 17, "y": 3 } ],
       "rows": [
         "_______________......___",
         "______________P......___",
@@ -143,7 +145,10 @@
           { "item": "tools_home", "chance": 1 }
         ]
       },
-      "place_vehicles": [ { "chance": 40, "fuel": 0, "rotation": 90, "status": -1, "vehicle": "excavator", "x": 4, "y": 14 } ],
+      "place_vehicles": [
+        { "chance": 30, "fuel": 0, "rotation": 270, "status": -1, "vehicle": "waste_collection", "x": 11, "y": 3 },
+        { "chance": 40, "fuel": 0, "rotation": 90, "status": -1, "vehicle": "excavator", "x": 4, "y": 14 }
+      ],
       "rows": [
         "_________......_________",
         "_7_sss_7_......_7_sss_7_",
@@ -204,7 +209,10 @@
           { "item": "tools_home", "chance": 1 }
         ]
       },
-      "place_vehicles": [ { "chance": 40, "fuel": 0, "rotation": 180, "status": -1, "vehicle": "excavator", "x": 18, "y": 7 } ],
+      "place_vehicles": [
+        { "chance": 30, "fuel": 0, "rotation": 270, "status": -1, "vehicle": "waste_collection", "x": 10, "y": 3 },
+        { "chance": 40, "fuel": 0, "rotation": 180, "status": -1, "vehicle": "excavator", "x": 18, "y": 7 }
+      ],
       "rows": [
         ".........______.........",
         ".........______.........",
@@ -266,10 +274,11 @@
           { "item": "tools_home", "chance": 1 }
         ]
       },
+      "place_vehicles": [ { "chance": 30, "fuel": 0, "rotation": 270, "status": -1, "vehicle": "waste_collection", "x": 11, "y": 3 } ],
       "rows": [
         ".........______.........",
         ".........______.........",
-        ".||||||||______||||||||.",
+        ".||||||||______.|||||||.",
         ".|......________......|.",
         ".|....____________....|.",
         ".|...______________...|.",

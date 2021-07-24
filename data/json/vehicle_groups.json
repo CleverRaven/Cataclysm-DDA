@@ -38,6 +38,10 @@
       [ "pickup", 800 ],
       [ "road_roller", 200 ],
       [ "autosweeper", 200 ],
+      [ "garbage_truck_fl", 120 ],
+      [ "garbage_truck_rl", 150 ],
+      [ "garbage_truck_sl", 140 ],
+      [ "garbage_truck_rsplit", 120 ],
       [ "hippie_van", 1000 ],
       [ "cube_van_cheap", 400 ],
       [ "cube_van", 300 ],
@@ -347,6 +351,8 @@
       [ "autosweeper", 20 ],
       [ "excavator", 120 ],
       [ "flatbed_truck", 40 ],
+      [ "garbage_truck_fl", 10 ],
+      [ "garbage_truck_rl", 10 ],
       [ "pickup", 20 ],
       [ "road_roller", 80 ],
       [ "tatra_truck", 20 ],
@@ -812,5 +818,15 @@
     "id": "wagons_all",
     "type": "vehicle_group",
     "vehicles": [ [ "gig_carriage", 100 ], [ "stagecoach", 100 ], [ "covered_wagon", 100 ], [ "uncovered_wagon", 100 ] ]
+  },
+  {
+    "id": "waste_collection",
+    "type": "vehicle_group",
+    "vehicles": [
+      [ "garbage_truck_fl", 100 ],
+      [ "garbage_truck_rl", 150 ],
+      [ "garbage_truck_sl", 125 ],
+      [ "garbage_truck_rsplit", 100 ]
+    ]
   }
 ]
