@@ -588,5 +588,14 @@
     "see_cost": 5,
     "spawns": { "group": "GROUP_VANILLA", "population": [ 5, 15 ], "chance": 30 },
     "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lab_health_z-2_A", "lab_health_z-3_A", "lab_health_z-2_B", "lab_health_z-3_B" ],
+    "name": "Lab Health Clinic",
+    "sym": "M",
+    "color": "red",
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   }
 ]

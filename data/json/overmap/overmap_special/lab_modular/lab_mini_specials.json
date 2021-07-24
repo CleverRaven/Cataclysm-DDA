@@ -112,5 +112,20 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 1, 16 ],
     "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "//": "A 2 z level medical clinic. This is self-contained and designed for regular healthcare needs.  Includes possible maintenance access points.",
+    "id": "Lab_MEDICAL_2x1x2",
+    "overmaps": [
+      { "point": [ 2, 0, -2 ], "overmap": "lab_health_z-2_A_north" },
+      { "point": [ 3, 0, -2 ], "overmap": "lab_health_z-2_B_north" },
+      { "point": [ 2, 0, -3 ], "overmap": "lab_health_z-3_A_north" },
+      { "point": [ 3, 0, -3 ], "overmap": "lab_health_z-3_B_north" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 3, -1 ],
+    "city_sizes": [ 1, 16 ],
+    "occurrences": [ 0, 0 ]
   }
 ]
