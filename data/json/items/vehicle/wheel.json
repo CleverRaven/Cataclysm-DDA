@@ -166,6 +166,32 @@
     "description": "A wide, studded, bicycle wheel intended for off-road biking."
   },
   {
+    "id": "wheel_bicycle_pair",
+    "type": "WHEEL",
+    "category": "veh_parts",
+    "name": { "str": "pair of bicycle wheels", "str_pl": "pairs of bicycle wheels" },
+    "description": "A pair of bicycle wheels.",
+    "weight": "3000 g",
+    "volume": "14 L",
+    "longest_side": "686 mm",
+    "price": 8000,
+    "price_postapoc": 500,
+    "bashing": 8,
+    "to_hit": -1,
+    "material": [ "steel", "rubber" ],
+    "symbol": "]",
+    "color": "dark_gray",
+    "diameter": 27,
+    "width": 3
+  },
+  {
+    "id": "wheel_bicycle_or_pair",
+    "copy-from": "wheel_bicycle_pair",
+    "type": "WHEEL",
+    "name": { "str": "pair of off-road bicycle wheels", "str_pl": "pairs of off-road bicycle wheels" },
+    "description": "A pair of off-road bicycle wheels."
+  },
+  {
     "id": "wheel_caster",
     "category": "veh_parts",
     "type": "WHEEL",

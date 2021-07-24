@@ -1121,10 +1121,10 @@
         { "vehicle": "wood_rowboat_double", "x": 9, "y": 2, "chance": 50, "rotation": 90, "status": 0 },
         { "vehicle": "boat_motor_single", "x": 17, "y": 4, "chance": 50, "rotation": 270, "status": 0 },
         { "vehicle": "motorcycle_cross", "x": 26, "y": 2, "chance": 50, "rotation": 90, "status": 0 },
-        { "vehicle": "bicycle_electric", "x": 28, "y": 2, "chance": 50, "rotation": 90, "status": 0 },
+        { "vehicle": "mall_bike_electric", "x": 28, "y": 2, "chance": 50, "rotation": 90, "status": 0 },
         { "vehicle": "motorcycle_enduro", "x": 30, "y": 2, "chance": 50, "rotation": 90, "status": 0 },
         { "vehicle": "scooter_electric", "x": 32, "y": 2, "chance": 50, "rotation": 90, "status": 0 },
-        { "vehicle": "tandem", "x": 34, "y": 2, "chance": 50, "rotation": 90, "status": 0 },
+        { "vehicle": "mall_bike", "x": 34, "y": 2, "chance": 50, "rotation": 90, "status": 0 },
         { "vehicle": "tricycle", "x": 36, "y": 6, "chance": 50, "rotation": 0, "status": 0 },
         { "vehicle": "unicycle", "x": 36, "y": 8, "chance": 50, "rotation": 0, "status": 0 },
         { "vehicle": "golf_cart", "x": 27, "y": 7, "chance": 50, "rotation": 90, "status": 0 },
@@ -2051,5 +2051,15 @@
         { "vehicle": "car", "x": 210, "y": 17, "chance": 35, "rotation": 270 }
       ]
     }
+  },
+  {
+    "id": "mall_bike_electric",
+    "type": "vehicle_group",
+    "vehicles": [ [ "bicycle_electric", 30 ], [ "tricycle_electric", 20 ] ]
+  },
+  {
+    "id": "mall_bike",
+    "type": "vehicle_group",
+    "vehicles": [ [ "tandem", 35 ], [ "tricycle_adult", 15 ] ]
   }
 ]
