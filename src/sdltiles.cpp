@@ -1132,7 +1132,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         const std::string header_string = "-- Notes: --";
         SDL_Rect header_background_rect = { draw_point.x - padding, draw_point.y - padding, fontwidth *static_cast<int>( header_string.length() ) + padding * 2, fontheight + padding * 2 };
         geometry->rect( renderer, header_background_rect, SDL_Color{ 0, 0, 0, 175 } );
-        draw_note_text( draw_point, "header_string", header_color );
+        draw_note_text( draw_point, header_string, header_color );
         draw_point.y += fontheight + padding * 2;
 
         const int starting_x = draw_point.x;
