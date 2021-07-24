@@ -1051,8 +1051,6 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             const int name_length = name.length();
             const point draw_pos = abs_sm_to_draw_label( pos, name_length );
             SDL_Rect clipRect = { draw_pos.x, draw_pos.y, name_length * fontwidth, fontheight };
-            printErrorIf( SDL_RenderSetClipRect( renderer.get(), &clipRect ) != 0,
-                          "SDL_RenderSetClipRect failed" );
 
             geometry->rect( renderer, clipRect, SDL_Color() );
 
@@ -1115,8 +1113,6 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         const auto note_bg = [&]( const point & draw_pos, const std::string & name, nc_color & color ) {
             const int name_length = name.length();
             SDL_Rect clipRect = { draw_pos.x - padding, draw_pos.y - padding, name_length *fontwidth + padding * 2, fontheight + padding * 2};
-            printErrorIf( SDL_RenderSetClipRect( renderer.get(), &clipRect ) != 0,
-                          "SDL_RenderSetClipRect failed" );
 
             geometry->rect( renderer, clipRect, SDL_Color{0, 0, 0, 175} );
 
