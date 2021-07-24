@@ -458,7 +458,7 @@
       ],
       "place_nested": [ { "chunks": [ [ "lab_16x1_bash", 80 ], [ "null", 20 ] ], "x": 0, "y": 0 } ],
       "terrain": { ".": "t_gelatinous_groundcover", "6": "t_gelatinous_groundcover", "|": "t_concrete_wall", "X": "t_laminated_glass" },
-      "furniture": { "d": "f_crystaline_flower", "6": "f_fog_breather" },
+      "furniture": { "d": "f_crystalline_flower", "6": "f_fog_breather" },
       "place_monsters": [ { "monster": "GROUP_BREATHER", "x": [ 0, 15 ], "y": [ 2, 15 ], "density": 2.5, "repeat": 5 } ]
     }
   },

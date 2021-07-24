@@ -624,9 +624,9 @@
   },
   {
     "type": "furniture",
-    "id": "f_crystaline_flower",
-    "name": "crystaline flower",
-    "description": "A crystaline structure that resembles a plant.",
+    "id": "f_crystalline_flower",
+    "name": "crystalline flower",
+    "description": "A crystalline structure that resembles a plant.",
     "symbol": "f",
     "color": "light_green",
     "move_cost_mod": 0,
