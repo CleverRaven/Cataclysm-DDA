@@ -22,7 +22,7 @@
           { "item": "tools_home", "chance": 1 }
         ]
       },
-	  "place_vehicles": [ { "chance": 30, "fuel": 0, "rotation": 270, "status": -1, "vehicle": "waste_collection", "x": 5, "y": 3 } ],
+      "place_vehicles": [ { "chance": 30, "fuel": 0, "rotation": 270, "status": -1, "vehicle": "waste_collection", "x": 5, "y": 3 } ],
       "rows": [
         "...._____...............",
         "..4._____.4..4..4..4..4.",
@@ -83,7 +83,7 @@
           { "item": "tools_home", "chance": 1 }
         ]
       },
-	  "place_vehicles": [ { "chance": 30, "fuel": 0, "rotation": 270, "status": -1, "vehicle": "waste_collection", "x": 17, "y": 3 } ],
+      "place_vehicles": [ { "chance": 30, "fuel": 0, "rotation": 270, "status": -1, "vehicle": "waste_collection", "x": 17, "y": 3 } ],
       "rows": [
         "_______________......___",
         "______________P......___",
@@ -274,7 +274,7 @@
           { "item": "tools_home", "chance": 1 }
         ]
       },
-	  "place_vehicles": [ { "chance": 30, "fuel": 0, "rotation": 270, "status": -1, "vehicle": "waste_collection", "x": 11, "y": 3 } ],
+      "place_vehicles": [ { "chance": 30, "fuel": 0, "rotation": 270, "status": -1, "vehicle": "waste_collection", "x": 11, "y": 3 } ],
       "rows": [
         ".........______.........",
         ".........______.........",
