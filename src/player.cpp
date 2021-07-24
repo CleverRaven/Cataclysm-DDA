@@ -42,7 +42,6 @@
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -93,12 +92,9 @@ static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
 
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_large_repairkit( "large_repairkit" );
 static const itype_id itype_small_repairkit( "small_repairkit" );
-static const itype_id itype_UPS( "UPS" );
-static const itype_id itype_UPS_off( "UPS_off" );
 
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
@@ -522,20 +518,6 @@ void player::mod_stat( const std::string &stat, float modifier )
         // Fall through to the creature method.
         Character::mod_stat( stat, modifier );
     }
-}
-
-time_duration player::estimate_effect_dur( const skill_id &relevant_skill,
-        const efftype_id &target_effect, const time_duration &error_magnitude,
-        int threshold, const Creature &target ) const
-{
-    const time_duration zero_duration = 0_turns;
-
-    int skill_lvl = get_skill_level( relevant_skill );
-
-    time_duration estimate = std::max( zero_duration, target.get_effect_dur( target_effect ) +
-                                       rng( -1, 1 ) * error_magnitude *
-                                       rng( 0, std::max( 0, threshold - skill_lvl ) ) );
-    return estimate;
 }
 
 std::list<item *> player::get_radio_items()
@@ -978,11 +960,11 @@ int player::impact( const int force, const tripoint &p )
         }
     }
 
-    if( total_dealt > 0 && is_player() ) {
+    if( total_dealt > 0 && is_avatar() ) {
         // "You slam against the dirt" is fine
         add_msg( m_bad, _( "You are slammed against %1$s for %2$d damage." ),
                  target_name, total_dealt );
-    } else if( is_player() && shock_absorbers ) {
+    } else if( is_avatar() && shock_absorbers ) {
         add_msg( m_bad, _( "You are slammed against %s!" ),
                  target_name, total_dealt );
         add_msg( m_good, _( "…but your shock absorbers negate the damage!" ) );
@@ -1166,18 +1148,7 @@ void player::process_items()
     }
 
     // Active item processing done, now we're recharging.
-    int ch_UPS = 0;
-    const auto inv_is_ups = items_with( []( const item & itm ) {
-        return itm.has_flag( flag_IS_UPS );
-    } );
-    for( const auto &it : inv_is_ups ) {
-        itype_id identifier = it->type->get_id();
-        if( identifier == itype_UPS_off ) {
-            ch_UPS += it->ammo_remaining();
-        } else if( identifier == itype_adv_UPS_off ) {
-            ch_UPS += it->ammo_remaining() / 0.6;
-        }
-    }
+
     bool update_required = get_check_encumbrance();
     for( item &w : worn ) {
         if( !update_required && w.encumbrance_update_ ) {
@@ -1189,34 +1160,32 @@ void player::process_items()
         calc_encumbrance();
         set_check_encumbrance( false );
     }
-    if( has_active_bionic( bionic_id( "bio_ups" ) ) ) {
-        ch_UPS += units::to_kilojoule( get_power_level() );
-    }
-    int ch_UPS_used = 0;
 
     // Load all items that use the UPS to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
     const auto inv_use_ups = items_with( []( const item & itm ) {
         return itm.has_flag( flag_USE_UPS );
     } );
-    for( const auto &it : inv_use_ups ) {
-        // For powered armor, an armor-powering bionic should always be preferred over UPS usage.
-        if( it->is_power_armor() && can_interface_armor() && has_power() ) {
-            // Bionic power costs are handled elsewhere
-            continue;
-            //this is for UPS-modded items with no battery well
-        } else if( it->active && !it->ammo_sufficient() &&
-                   ( ch_UPS_used >= ch_UPS ||
-                     it->ammo_required() > ch_UPS - ch_UPS_used ) ) {
-            it->deactivate();
-        } else if( ch_UPS_used < ch_UPS &&
-                   it->ammo_remaining() < it->ammo_capacity( ammotype( "battery" ) ) ) {
-            ch_UPS_used++;
-            it->ammo_set( itype_battery, it->ammo_remaining() + 1 );
+    if( !inv_use_ups.empty() ) {
+        const int available_charges = available_ups();
+        int ups_used = 0;
+        for( const auto &it : inv_use_ups ) {
+            // For powered armor, an armor-powering bionic should always be preferred over UPS usage.
+            if( it->is_power_armor() && can_interface_armor() && has_power() ) {
+                // Bionic power costs are handled elsewhere
+                continue;
+            } else if( it->active && !it->ammo_sufficient( this ) ) {
+                it->deactivate();
+            } else if( ups_used < available_charges &&
+                       it->ammo_remaining() < it->ammo_capacity( ammotype( "battery" ) ) ) {
+                // Charge the battery in the UPS modded tool
+                ups_used++;
+                it->ammo_set( itype_battery, it->ammo_remaining() + 1 );
+            }
         }
-    }
-    if( ch_UPS_used > 0 ) {
-        use_charges( itype_UPS, ch_UPS_used );
+        if( ups_used > 0 ) {
+            consume_ups( ups_used );
+        }
     }
 }
 
@@ -1236,7 +1205,7 @@ bool player::add_faction_warning( const faction_id &id )
         warning_record[id] = std::make_pair( 1, calendar::turn );
     }
     faction *fac = g->faction_manager_ptr->get( id );
-    if( fac != nullptr && is_player() && fac->id != faction_id( "no_faction" ) ) {
+    if( fac != nullptr && is_avatar() && fac->id != faction_id( "no_faction" ) ) {
         fac->likes_u -= 1;
         fac->respects_u -= 1;
     }
@@ -1300,7 +1269,7 @@ item::reload_option player::select_ammo( const item &base,
         } else if( e.ammo->is_watertight_container() ||
                    ( e.ammo->is_ammo_container() && is_worn( *e.ammo ) ) ) {
             // worn ammo containers should be named by their ammo contents with their location also updated below
-            return e.ammo->contents.first_ammo().display_name();
+            return e.ammo->first_ammo().display_name();
 
         } else {
             return ( ammo_location && ammo_location == e.ammo ? "* " : "" ) + e.ammo->display_name();
@@ -1361,7 +1330,7 @@ item::reload_option player::select_ammo( const item &base,
         row += string_format( " %-7d ", sel.moves() );
 
         if( base.is_gun() || base.is_magazine() ) {
-            const itype *ammo = sel.ammo->is_ammo_container() ? sel.ammo->contents.first_ammo().ammo_data() :
+            const itype *ammo = sel.ammo->is_ammo_container() ? sel.ammo->first_ammo().ammo_data() :
                                 sel.ammo->ammo_data();
             if( ammo ) {
                 const damage_instance &dam = ammo->ammo->damage;
@@ -1390,7 +1359,7 @@ item::reload_option player::select_ammo( const item &base,
     }
 
     for( int i = 0; i < static_cast<int>( opts.size() ); ++i ) {
-        const item &ammo = opts[ i ].ammo->is_ammo_container() ? opts[ i ].ammo->contents.first_ammo() :
+        const item &ammo = opts[ i ].ammo->is_ammo_container() ? opts[ i ].ammo->first_ammo() :
                            *opts[ i ].ammo;
 
         char hotkey = -1;
@@ -1485,7 +1454,7 @@ item::reload_option player::select_ammo( const item &base,
     const item_location &sel = opts[ menu.ret ].ammo;
     uistate.lastreload[ base_ammotype ] = sel->is_ammo_container() ?
                                           // get first item in all magazine pockets
-                                          sel->contents.first_ammo().typeId() :
+                                          sel->first_ammo().typeId() :
                                           sel->typeId();
     return opts[ menu.ret ];
 }
@@ -1529,7 +1498,7 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
                   e->ammo_remaining() < ammo->ammo_remaining() ||
                   e->loaded_ammo().stacks_with( *ammo ) ||
                   ( ammo->made_of_from_type( phase_id::LIQUID ) &&
-                    e->contents.remaining_capacity_for_liquid( *ammo ) > 0 ) ) ) {
+                    e->get_remaining_capacity_for_liquid( *ammo ) > 0 ) ) ) {
                 ammo_list.emplace_back( this, e, &base, std::move( ammo ) );
             }
         }
@@ -1555,7 +1524,7 @@ item::reload_option player::select_ammo( const item &base, bool prompt, bool emp
                 if( base.ammo_data() ) {
                     name = base.ammo_data()->nname( 1 );
                 } else if( base.is_watertight_container() ) {
-                    name = base.is_container_empty() ? "liquid" : base.contents.legacy_front().tname();
+                    name = base.is_container_empty() ? "liquid" : base.legacy_front().tname();
                 } else {
                     const std::set<ammotype> types_of_ammo = base.ammo_types();
                     name = enumerate_as_string( types_of_ammo.begin(),
@@ -2047,7 +2016,7 @@ void player::use( item_location loc, int pre_obtain_moves )
     } else if( used.type->can_use( "DOGFOOD" ) ||
                used.type->can_use( "CATFOOD" ) ||
                used.type->can_use( "BIRDFOOD" ) ||
-               used.type->can_use( "CATTLEFODDER" ) ) {
+               used.type->can_use( "CATTLEFODDER" ) ) { // NOLINT(bugprone-branch-clone)
         invoke_item( &used, loc.position(), pre_obtain_moves );
 
     } else if( !used.is_craft() && ( used.is_medication() || ( !used.type->has_use() &&
@@ -2074,9 +2043,7 @@ void player::use( item_location loc, int pre_obtain_moves )
     } else if( used.is_book() ) {
         // TODO: Handle this with dynamic dispatch.
         if( avatar *u = as_avatar() ) {
-            if( !u->read( used ) ) {
-                moves = pre_obtain_moves;
-            }
+            u->read( loc );
         }
     } else if( used.type->has_use() ) {
         invoke_item( &used, loc.position(), pre_obtain_moves );
@@ -2603,7 +2570,7 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
     const player *reader = nullptr;
 
     if( !book.is_book() ) {
-        reasons.push_back( is_player() ? string_format( _( "Your %s is not good reading material." ),
+        reasons.push_back( is_avatar() ? string_format( _( "Your %s is not good reading material." ),
                            book.tname() ) :
                            string_format( _( "The %s is not good reading material." ), book.tname() )
                          );
@@ -2623,13 +2590,13 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
     }
     if( !fun_to_read( book ) && !has_morale_to_read() && has_identified( book.typeId() ) ) {
         // Low morale still permits skimming
-        reasons.emplace_back( is_player() ?
+        reasons.emplace_back( is_avatar() ?
                               _( "What's the point of studying?  (Your morale is too low!)" )  :
                               string_format( _( "What's the point of studying?  (%s)'s morale is too low!)" ), disp_name() ) );
         return nullptr;
     }
     if( get_book_mastery( book ) == book_mastery::CANT_UNDERSTAND ) {
-        reasons.push_back( is_player() ? string_format( _( "%s %d needed to understand.  You have %d" ),
+        reasons.push_back( is_avatar() ? string_format( _( "%s %d needed to understand.  You have %d" ),
                            book_skill->name(), book_skill_requirement, get_skill_level( book_skill ) ) :
                            string_format( _( "%s %d needed to understand.  %s has %d" ), book_skill->name(),
                                           book_skill_requirement, disp_name(), get_skill_level( book_skill ) ) );
@@ -2638,13 +2605,13 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
 
     // Check for conditions that disqualify us only if no NPCs can read to us
     if( book_requires_intelligence && has_trait( trait_ILLITERATE ) ) {
-        reasons.emplace_back( is_player() ? _( "You're illiterate!" ) : string_format(
+        reasons.emplace_back( is_avatar() ? _( "You're illiterate!" ) : string_format(
                                   _( "%s is illiterate!" ), disp_name() ) );
     } else if( has_trait( trait_HYPEROPIC ) &&
                !worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
                !has_effect( effect_contacts ) &&
                !has_flag( STATIC( json_character_flag( "ENHANCED_VISION" ) ) ) ) {
-        reasons.emplace_back( is_player() ? _( "Your eyes won't focus without reading glasses." ) :
+        reasons.emplace_back( is_avatar() ? _( "Your eyes won't focus without reading glasses." ) :
                               string_format( _( "%s's eyes won't focus without reading glasses." ), disp_name() ) );
     } else if( fine_detail_vision_mod() > 4 ) {
         // Too dark to read only applies if the player can read to himself
@@ -2654,7 +2621,7 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
         return this;
     }
 
-    if( ! is_player() ) {
+    if( ! is_avatar() ) {
         // NPCs are too proud to ask for help, perhaps someday they will not be
         return nullptr;
     }

@@ -7,11 +7,15 @@
 #include "mapgen_functions.h"
 #include "map_iterator.h"
 #include "messages.h"
+#include "mtype.h"
 #include "output.h"
 #include "player.h"
 
 void cardreader_examine_actor::consume_card( player &guy ) const
 {
+    if( !consume ) {
+        return;
+    }
     std::vector<itype_id> cards;
     for( const flag_id &flag : allowed_flags ) {
         for( const item *it : guy.all_items_with_flag( flag ) ) {

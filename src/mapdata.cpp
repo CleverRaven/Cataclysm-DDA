@@ -158,7 +158,6 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "NO_SIGHT",                 TFLAG_NO_SIGHT },       // Sight reduced to 1 on this tile
         { "FLAMMABLE_ASH",            TFLAG_FLAMMABLE_ASH },  // oh hey fire. again.
         { "WALL",                     TFLAG_WALL },           // connects to other walls
-        { "NO_SHOOT",                 TFLAG_NO_SHOOT },       // terrain cannot be damaged by ranged attacks
         { "NO_SCENT",                 TFLAG_NO_SCENT },       // cannot have scent values, which prevents scent diffusion through this tile
         { "DEEP_WATER",               TFLAG_DEEP_WATER },     // Deep enough to submerge things
         { "SHALLOW_WATER",            TFLAG_SHALLOW_WATER },  // Water, but not deep enough to submerge the player
@@ -298,6 +297,32 @@ bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string &mem
 
     drop_group = item_group::load_item_group( j.get_member( "items" ), "collection",
                  "map_deconstruct_info for " + context );
+    return true;
+}
+
+bool map_shoot_info::load( const JsonObject &jsobj, const std::string &member, bool was_loaded )
+{
+    JsonObject j = jsobj.get_object( member );
+
+    optional( j, was_loaded, "chance_to_hit", chance_to_hit, 100 );
+
+    std::pair<int, int> reduce_damage;
+    std::pair<int, int> reduce_damage_laser;
+    std::pair<int, int> destroy_damage;
+
+    mandatory( j, was_loaded, "reduce_damage", reduce_damage );
+    mandatory( j, was_loaded, "reduce_damage_laser", reduce_damage_laser );
+    mandatory( j, was_loaded, "destroy_damage", destroy_damage );
+
+    reduce_dmg_min = reduce_damage.first;
+    reduce_dmg_max = reduce_damage.second;
+    reduce_dmg_min_laser = reduce_damage_laser.first;
+    reduce_dmg_max_laser = reduce_damage_laser.second;
+    destroy_dmg_min = destroy_damage.first;
+    destroy_dmg_max = destroy_damage.second;
+
+    optional( j, was_loaded, "no_laser_destroy", no_laser_destroy, false );
+
     return true;
 }
 
@@ -1216,6 +1241,11 @@ void map_data_common_t::load( const JsonObject &jo, const std::string & )
 
     mandatory( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "curtain_transform", curtain_transform );
+
+    if( jo.has_object( "shoot" ) ) {
+        shoot = cata::make_value<map_shoot_info>();
+        shoot->load( jo, "shoot", was_loaded );
+    }
 }
 
 void ter_t::load( const JsonObject &jo, const std::string &src )

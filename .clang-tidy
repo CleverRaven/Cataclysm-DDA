@@ -46,7 +46,6 @@ modernize-*,\
 performance-*,\
 readability-*,\
 -readability-braces-around-statements,\
--bugprone-branch-clone,\
 -bugprone-infinite-loop,\
 -bugprone-misplaced-widening-cast,\
 -bugprone-narrowing-conversions,\

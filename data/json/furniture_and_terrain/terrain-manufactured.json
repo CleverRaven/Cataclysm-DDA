@@ -624,7 +624,8 @@
       "sound_fail_vol": 12,
       "ter_set": "t_floor",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "scrap", "count": [ 0, 2 ] } ]
-    }
+    },
+    "shoot": { "chance_to_hit": 50, "reduce_damage": [ 50, 70 ], "reduce_damage_laser": [ 2, 12 ], "destroy_damage": [ 5, 30 ] }
   },
   {
     "type": "terrain",

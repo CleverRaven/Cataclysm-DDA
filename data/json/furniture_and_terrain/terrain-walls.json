@@ -694,7 +694,8 @@
         { "item": "nail", "charges": [ 4, 10 ] },
         { "item": "splinter", "count": [ 1, 5 ] }
       ]
-    }
+    },
+    "shoot": { "chance_to_hit": 25, "reduce_damage": [ 20, 40 ], "reduce_damage_laser": [ 10, 30 ], "destroy_damage": [ 30, 100 ] }
   },
   {
     "type": "terrain",
@@ -778,7 +779,8 @@
       "sound_fail": "whump!",
       "ter_set": "t_null",
       "items": [ { "item": "splinter", "count": [ 10, 20 ] } ]
-    }
+    },
+    "shoot": { "chance_to_hit": 25, "reduce_damage": [ 20, 50 ], "reduce_damage_laser": [ 10, 40 ], "destroy_damage": [ 40, 120 ] }
   },
   {
     "type": "terrain",
@@ -838,6 +840,7 @@
       "sound_fail": "whump!",
       "items": [ { "item": "2x4", "count": [ 0, 3 ] }, { "item": "splinter", "count": [ 3, 6 ] } ]
     },
+    "shoot": { "chance_to_hit": 25, "reduce_damage": [ 20, 40 ], "reduce_damage_laser": [ 20, 50 ], "destroy_damage": [ 30, 100 ] },
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "NOITEM", "SUPPORTS_ROOF", "REDUCE_SCENT", "PERMEABLE", "CONNECT_TO_WALL" ]
   },
   {
@@ -973,7 +976,8 @@
       "sound_fail_vol": 10,
       "ter_set": "t_floor",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
-    }
+    },
+    "shoot": { "reduce_damage": [ 1, 8 ], "reduce_damage_laser": [ 0, 5 ], "destroy_damage": [ 2, 8 ], "no_laser_destroy": true }
   },
   {
     "type": "terrain",
@@ -996,7 +1000,8 @@
       "sound_fail_vol": 10,
       "ter_set": "t_floor",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
-    }
+    },
+    "shoot": { "reduce_damage": [ 1, 8 ], "reduce_damage_laser": [ 0, 5 ], "destroy_damage": [ 2, 8 ], "no_laser_destroy": true }
   },
   {
     "type": "terrain",
@@ -1019,7 +1024,8 @@
       "sound_fail_vol": 14,
       "ter_set": "t_floor",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
-    }
+    },
+    "shoot": { "reduce_damage": [ 2, 12 ], "reduce_damage_laser": [ 0, 7 ], "destroy_damage": [ 40, 120 ], "no_laser_destroy": true }
   },
   {
     "type": "terrain",
@@ -1042,6 +1048,12 @@
       "sound_fail_vol": 14,
       "ter_set": "t_floor",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] } ]
+    },
+    "shoot": {
+      "reduce_damage": [ 30, 60 ],
+      "reduce_damage_laser": [ 0, 10 ],
+      "destroy_damage": [ 80, 200 ],
+      "no_laser_destroy": true
     }
   },
   {
@@ -1064,6 +1076,12 @@
       "sound_fail_vol": 14,
       "ter_set": "t_floor",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "wire", "prob": 20 } ]
+    },
+    "shoot": {
+      "reduce_damage": [ 15, 30 ],
+      "reduce_damage_laser": [ 0, 10 ],
+      "destroy_damage": [ 60, 160 ],
+      "no_laser_destroy": true
     }
   },
   {
@@ -1091,6 +1109,12 @@
         { "item": "wire", "prob": 20 },
         { "item": "scrap", "count": [ 3, 5 ] }
       ]
+    },
+    "shoot": {
+      "reduce_damage": [ 20, 40 ],
+      "reduce_damage_laser": [ 15, 25 ],
+      "destroy_damage": [ 60, 160 ],
+      "no_laser_destroy": true
     }
   },
   {
@@ -1118,6 +1142,12 @@
         { "item": "wire", "prob": 20 },
         { "item": "scrap", "count": [ 3, 5 ] }
       ]
+    },
+    "shoot": {
+      "reduce_damage": [ 20, 40 ],
+      "reduce_damage_laser": [ 15, 25 ],
+      "destroy_damage": [ 60, 160 ],
+      "no_laser_destroy": true
     }
   },
   {
@@ -1161,7 +1191,8 @@
       "sound_vol": 8,
       "sound_fail_vol": 4,
       "ter_set": "t_floor_paper"
-    }
+    },
+    "shoot": { "reduce_damage": [ 2, 12 ], "reduce_damage_laser": [ 4, 16 ], "destroy_damage": [ 10, 40 ] }
   },
   {
     "type": "terrain",
@@ -1178,7 +1209,8 @@
       "sound_vol": 8,
       "sound_fail_vol": 4,
       "ter_set": "t_floor_paper_noroof"
-    }
+    },
+    "shoot": { "reduce_damage": [ 2, 12 ], "reduce_damage_laser": [ 4, 16 ], "destroy_damage": [ 10, 40 ] }
   },
   {
     "type": "terrain",
@@ -1198,7 +1230,8 @@
       "sound_vol": 20,
       "sound_fail_vol": 10,
       "ter_set": "t_floor_paper_hard"
-    }
+    },
+    "shoot": { "reduce_damage": [ 2, 12 ], "reduce_damage_laser": [ 4, 16 ], "destroy_damage": [ 10, 40 ] }
   },
   {
     "type": "terrain",

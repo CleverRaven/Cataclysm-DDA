@@ -189,7 +189,7 @@ npc_attack_rating npc_attack_melee::evaluate_critter( const npc &source,
 void npc_attack_gun::use( npc &source, const tripoint &location ) const
 {
     const item &weapon = *gunmode;
-    if( !weapon.ammo_sufficient() ) {
+    if( !weapon.ammo_sufficient( &source ) ) {
         source.do_reload( weapon );
         add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is reloading %s", source.disp_name(),
                        weapon.display_name() );
@@ -223,7 +223,7 @@ int npc_attack_gun::base_time_penalty( const npc &source ) const
         time_penalty += npc_attack_constants::base_time_penalty;
     }
     // we want the need to reload a gun cumulative with needing to wield the gun
-    if( !weapon.ammo_sufficient() ) {
+    if( !weapon.ammo_sufficient( &source ) ) {
         time_penalty += npc_attack_constants::base_time_penalty;
     }
     int recoil_penalty = 0;
@@ -306,8 +306,10 @@ npc_attack_rating npc_attack_gun::evaluate_tripoint(
         // if friendly fire is on, we don't care too much, though if an available hit doesn't damage them it would be better.
         attitude_mult = npc_attack_constants::attitude_multiplier.at( Creature::Attitude::NEUTRAL );
     }
-    const int distance_penalty = std::max( distance_to_me - 1,
-                                           ( source.closest_enemy_to_friendly_distance() - 1 ) * 2 );
+    int distance_penalty = distance_to_me - 1;
+    if( cata::optional<int> closest_enemy_friend = source.closest_enemy_to_friendly_distance() ) {
+        distance_penalty = std::max( distance_penalty, ( *closest_enemy_friend - 1 ) * 2 );
+    }
     double potential = damage * attitude_mult - distance_penalty;
     if( damage >= critter->get_hp() ) {
         potential *= npc_attack_constants::kill_modifier;
@@ -499,8 +501,10 @@ npc_attack_rating npc_attack_throw::evaluate_tripoint(
     const int damage = source.thrown_item_total_damage_raw( single_item );
     float dps = damage / throw_mult;
     const int distance_to_me = rl_dist( location, source.pos() );
-    const int distance_penalty = std::max( distance_to_me - 1,
-                                           ( source.closest_enemy_to_friendly_distance() - 1 ) * 2 );
+    int distance_penalty = distance_to_me - 1;
+    if( cata::optional<int> closest_enemy_friend = source.closest_enemy_to_friendly_distance() ) {
+        distance_penalty = std::max( distance_penalty, ( *closest_enemy_friend - 1 ) * 2 );
+    }
 
     double potential = dps * attitude_mult - distance_penalty;
     if( critter && damage >= critter->get_hp() ) {

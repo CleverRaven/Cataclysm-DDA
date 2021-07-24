@@ -3,16 +3,17 @@
 #include "player_helpers.h"
 #include "activity_scheduling_helper.h"
 
-#include "map.h"
-#include "character.h"
-#include "monster.h"
+#include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "calendar.h"
-#include "iuse_actor.h"
-#include "game.h"
+#include "character.h"
 #include "flag.h"
+#include "game.h"
+#include "itype.h"
+#include "iuse_actor.h"
+#include "map.h"
+#include "monster.h"
 #include "point.h"
-#include "activity_actor_definitions.h"
 
 static const activity_id ACT_NULL( "ACT_NULL" );
 static const activity_id ACT_SHEARING( "ACT_SHEARING" );
@@ -23,7 +24,6 @@ static const efftype_id effect_tied( "tied" );
 static const itype_id itype_test_battery_disposable( "test_battery_disposable" );
 static const itype_id itype_test_shears( "test_shears" );
 static const itype_id itype_test_shears_off( "test_shears_off" );
-static const itype_id itype_test_shears_on( "test_shears_on" );
 
 static const mtype_id mon_test_shearable( "mon_test_shearable" );
 static const mtype_id mon_test_non_shearable( "mon_test_non_shearable" );
