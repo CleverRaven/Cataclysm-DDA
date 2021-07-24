@@ -2454,17 +2454,22 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
         }
     }
     if( amount > 0 && level.isTraining() ) {
-        int oldLevel = get_skill_level( id );
+        int old_practical_level = get_skill_level( id );
+        int old_theoretical_level = get_theory_skill_level( id );
         get_skill_level_object( id ).train( amount );
-        int newLevel = get_skill_level( id );
+        int new_practical_level = get_skill_level( id );
+        int new_theoretical_level = get_theory_skill_level( id );
         std::string skill_name = skill.name();
-        if( newLevel > oldLevel ) {
-            get_event_bus().send<event_type::gains_skill_level>( getID(), id, newLevel );
+        if( new_practical_level > old_practical_level ) {
+            get_event_bus().send<event_type::gains_skill_level>( getID(), id, new_practical_level );
         }
-        if( is_avatar() && newLevel > oldLevel ) {
-            add_msg( m_good, _( "Your skill in %s has increased to %d!" ), skill_name, newLevel );
+        if( is_avatar() && new_practical_level > old_practical_level ) {
+            add_msg( m_good, _( "Your practical skill in %s has increased to %d!" ), skill_name, new_practical_level );
         }
-        if( is_avatar() && newLevel > cap ) {
+        if( is_avatar() && new_theoretical_level > old_theoretical_level ) {
+            add_msg( m_good, _( "Your theoretical understanding of %s has increased to %d!" ), skill_name, new_theoretical_level );
+        }
+        if( is_avatar() && new_practical_level > cap ) {
             //inform player immediately that the current recipe can't be used to train further
             add_msg( m_info, _( "You feel that %s tasks of this level are becoming trivial." ),
                      skill_name );

@@ -1263,25 +1263,25 @@ bool read_activity_actor::player_read( avatar &you )
         }
 
         if( skill &&
-            learner->get_skill_level( skill ) < islotbook->level &&
+            learner->get_theory_skill_level( skill ) < islotbook->level &&
             learner->get_skill_level_object( skill ).can_train() ) {
 
             SkillLevel &skill_level = learner->get_skill_level_object( skill );
             std::string skill_name = skill.obj().name();
-            const int originalSkillLevel = skill_level.level();
+            const int originalSkillLevel = skill_level.theoryLevel();
 
             read_book( *learner, islotbook, skill_level, penalty );
 
             // levels up the skill
             if( skill_level != originalSkillLevel ) {
                 get_event_bus().send<event_type::gains_skill_level>(
-                    learner->getID(), skill, skill_level.level() );
+                    learner->getID(), skill, skill_level.theoryLevel() );
 
                 if( learner->is_avatar() ) {
-                    add_msg( m_good, _( "You increase %s to level %d." ), skill.obj().name(),
+                    add_msg( m_good, _( "You theoretical knowledge of %s increases to level %d." ), skill.obj().name(),
                              originalSkillLevel + 1 );
                 } else {
-                    add_msg( m_good, _( "%s increases their %s level." ), learner->disp_name(),
+                    add_msg( m_good, _( "%s increases their %s theory." ), learner->disp_name(),
                              skill.obj().name() );
                 }
 
