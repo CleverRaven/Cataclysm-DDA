@@ -414,9 +414,9 @@ void SkillLevel::deserialize( JsonIn &jsin )
         _lastPracticed = calendar::start_of_cataclysm + time_duration::from_hours(
                              get_option<int>( "INITIAL_TIME" ) );
     }
-    data.read( "highestlevel", _highestLevel );
-    if( _highestLevel < _level ) {
-        _highestLevel = _level;
+    data.read( "highestlevel", _theoryLevel );
+    if( _theoryLevel < _level ) {
+        _theoryLevel = _level;
     }
 }
 

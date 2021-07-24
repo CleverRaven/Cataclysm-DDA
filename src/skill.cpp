@@ -206,25 +206,25 @@ bool Skill::is_contextual_skill() const
 void SkillLevel::train( int amount, bool skip_scaling )
 {
     int catchup_amount = amount;
-    int highest_level_exp = _highestLevel * _highestLevel * 10000;
+    int highest_level_exp = _theoryLevel * _theoryLevel * 10000;
 
     // Working off rust to regain levels goes twice as fast as reaching levels in the first place, and 1.5x as fast to regain your last place in the level.
-    if( _level < _highestLevel ) {
+    if( _level < _theoryLevel ) {
         catchup_amount *= 2;
         amount *= 1.1;
-    } else if( _exercise < _highestExperience - amount * 1.5 ) {
+    } else if( _exercise < _theoryExperience - amount * 1.5 ) {
         catchup_amount *= 1.5;
         amount *= 1.1;
     }
 
     if( skip_scaling ) {
         _exercise += catchup_amount;
-        _highestExperience += amount;
+        _theoryExperience += amount;
     } else {
         const double scaling = get_option<float>( "SKILL_TRAINING_SPEED" );
         if( scaling > 0.0 ) {
             _exercise += std::ceil( catchup_amount * scaling );
-            _highestExperience += std::ceil( amount * scaling );
+            _theoryExperience += std::ceil( amount * scaling );
         }
     }
 
@@ -234,20 +234,20 @@ void SkillLevel::train( int amount, bool skip_scaling )
     while( _exercise >= xp_to_level ) {
         _exercise -= xp_to_level;
         ++_level;
-        if( _level > _highestLevel ) {
-            _highestLevel = _level;
+        if( _level > _theoryLevel ) {
+            _theoryLevel = _level;
         }
         // Recalculate xp to level now that we have levelled up
         xp_to_level = 100 * 100 * ( _level + 1 ) * ( _level + 1 );
     }
 
-    if( _level == _highestLevel && _exercise + highest_level_exp > _highestExperience ) {
-        _highestExperience = _exercise + highest_level_exp;
+    if( _level == _theoryLevel && _exercise + highest_level_exp > _theoryExperience ) {
+        _theoryExperience = _exercise + highest_level_exp;
     }
 
-    if( _highestExperience >= 10000 * ( _highestLevel + 1 ) * ( _highestLevel + 1 ) ) {
-        _highestExperience = 0;
-        ++_highestLevel;
+    if( _theoryExperience >= 10000 * ( _theoryLevel + 1 ) * ( _theoryLevel + 1 ) ) {
+        _theoryExperience = 0;
+        ++_theoryLevel;
     }
 
 }
@@ -257,17 +257,17 @@ void SkillLevel::theory_train( int amount, bool skip_scaling )
 {
 
     if( skip_scaling ) {
-        _highestExperience += amount;
+        _theoryExperience += amount;
     } else {
         const double scaling = get_option<float>( "SKILL_TRAINING_SPEED" );
         if( scaling > 0.0 ) {
-            _highestExperience += std::ceil( amount * scaling );
+            _theoryExperience += std::ceil( amount * scaling );
         }
     }
 
-    if( _highestExperience >= 10000 * ( _highestLevel + 1 ) * ( _highestLevel + 1 ) ) {
-        _highestExperience = 0;
-        ++_highestLevel;
+    if( _theoryExperience >= 10000 * ( _theoryLevel + 1 ) * ( _theoryLevel + 1 ) ) {
+        _theoryExperience = 0;
+        ++_theoryLevel;
     }
 
 }

@@ -117,8 +117,8 @@ class SkillLevel
         int _exercise = 0;
         time_point _lastPracticed = calendar::turn;
         bool _isTraining = true;
-        int _highestLevel = 0;
-        int _highestExperience = 0;
+        int _theoryLevel = 0;
+        int _theoryExperience = 0;
 
     public:
         SkillLevel() = default;
@@ -136,18 +136,18 @@ class SkillLevel
         }
         int level( int plevel ) {
             _level = plevel;
-            if( _level > _highestLevel ) {
-                _highestLevel = _level;
+            if( _level > _theoryLevel ) {
+                _theoryLevel = _level;
             }
             return plevel;
         }
 
         int highestLevel() const {
-            return _highestLevel;
+            return _theoryLevel;
         }
 
         int highestExperience() const {
-            return _highestExperience;
+            return _theoryExperience;
         }
 
         int exercise( bool raw = false ) const {
