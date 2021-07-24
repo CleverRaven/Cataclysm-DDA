@@ -99,8 +99,6 @@ static const int npm_width = 3;
 /** Note preview map height without borders. Odd number. */
 static const int npm_height = 3;
 
-static bool creating_note = false;
-
 namespace overmap_ui
 {
 // {note symbol, note color, offset to text}
@@ -1146,9 +1144,10 @@ void draw(
     } else {
 #ifdef TILES
         cata_cursesport::WINDOW *const win = w.get<cata_cursesport::WINDOW>();
-        if( !creating_note ) {
-            tilecontext->draw_om( win->pos, center, blink );
-        }
+        tilecontext->draw_om( win->pos, center, blink );
+        ui_manager::invalidate( rectangle<point>( win->pos, point( win->pos.x + win->width,
+                                win->pos.y + win->height ) ), false );
+
 #endif // TILES
     }
 }
@@ -1187,8 +1186,7 @@ void create_note( const tripoint_abs_omt &curs )
     catacurses::window w_preview_map;
     std::tuple<catacurses::window *, catacurses::window *, catacurses::window *> preview_windows;
 
-    ui_adaptor ui;
-    creating_note = true;
+    ui_adaptor ui( ui_adaptor::disable_uis_below{} );
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
         w_preview = catacurses::newwin( npm_height + 2,
                                         max_note_display_length - npm_width - 1,
@@ -1238,7 +1236,6 @@ void create_note( const tripoint_abs_omt &curs )
     } else if( !esc_pressed && old_note != new_note ) {
         overmap_buffer.add_note( curs, new_note );
     }
-    creating_note = false;
 }
 
 // if false, search yielded no results
