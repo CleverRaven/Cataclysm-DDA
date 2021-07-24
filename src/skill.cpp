@@ -267,10 +267,21 @@ time_duration rustRate( int level )
 }
 } //namespace
 
+/*
+for n = 0 the returned duration is time_duration::from_turns( 2 to the power of (15 - 0 + 1) -1 )
+which is time_duration::from_turns( 2 to the power of 15 )
+*/
+
 bool SkillLevel::isRusting() const
 {
+    const time_duration skill_rate = rustRate( _level );
+
+    if( _level < _highestlevel ) {
+        skill_rate *= _exercise / _highestExperience
+    }
+
     return get_option<std::string>( "SKILL_RUST" ) != "off" && ( _level > 0 ) &&
-           calendar::turn - _lastPracticed > rustRate( _level );
+           calendar::turn - _lastPracticed > skill_rate;
 }
 
 bool SkillLevel::rust( int rust_resist, int character_rate )
@@ -278,165 +289,154 @@ bool SkillLevel::rust( int rust_resist, int character_rate )
     const time_duration delta = calendar::turn - _lastPracticed;
     const float char_rate = character_rate / 100.0f;
     const time_duration skill_rate = rustRate( _level );
-    if( to_turns<int>( skill_rate ) * char_rate <= 0 || delta <= 0_turns ||
+
+    if( _level == _highestlevel && _highestExperience > 0 ) {
+        skill_rate *= _exercise / _highestExperience
+
+                      if( to_turns<int>( skill_rate ) * char_rate <= 0 || delta <= 0_turns ||
         delta % ( skill_rate * char_rate ) != 0_turns ) {
+            return false;
+        }
+
+        if( rust_resist > 0 ) {
+            return x_in_y( rust_resist, 100 );
+        }
+
+        _exercise -= _level * 100;
+        const std::string &rust_type = get_option<std::string>( "SKILL_RUST" );
+        if( _exercise < 0 ) {
+            if( rust_type == "vanilla" || rust_type == "int" ) {
+                _exercise = ( 100 * 100 * _level * _level ) - 1;
+                --_level;
+            } else {
+                _exercise = 0;
+            }
+        }
+
         return false;
     }
 
-    if( rust_resist > 0 ) {
-        return x_in_y( rust_resist, 100 );
+    void SkillLevel::practice() {
+        _lastPracticed = calendar::turn;
     }
 
-    _exercise -= _level * 100;
-    const std::string &rust_type = get_option<std::string>( "SKILL_RUST" );
-    if( _exercise < 0 ) {
-        if( rust_type == "vanilla" || rust_type == "int" ) {
-            _exercise = ( 100 * 100 * _level * _level ) - 1;
-            --_level;
-        } else {
-            _exercise = 0;
+    void SkillLevel::readBook( int minimumGain, int maximumGain, int maximumLevel ) {
+        if( _level < maximumLevel || maximumLevel < 0 ) {
+            theory_train( ( _level + 1 ) * rng( minimumGain, maximumGain ) * 100 );
         }
+
+        practice();
     }
 
-    return false;
-}
-
-void SkillLevel::practice()
-{
-    _lastPracticed = calendar::turn;
-}
-
-void SkillLevel::readBook( int minimumGain, int maximumGain, int maximumLevel )
-{
-    if( _level < maximumLevel || maximumLevel < 0 ) {
-        train( ( _level + 1 ) * rng( minimumGain, maximumGain ) * 100 );
+    bool SkillLevel::can_train() const {
+        return get_option<float>( "SKILL_TRAINING_SPEED" ) > 0.0;
     }
 
-    practice();
-}
+    const SkillLevel &SkillLevelMap::get_skill_level_object( const skill_id & ident ) const {
+        static const SkillLevel null_skill{};
 
-bool SkillLevel::can_train() const
-{
-    return get_option<float>( "SKILL_TRAINING_SPEED" ) > 0.0;
-}
+        if( ident && ident->is_contextual_skill() ) {
+            debugmsg( "Skill \"%s\" is context-dependent.  It cannot be assigned.", ident.str() );
+            return null_skill;
+        }
 
-const SkillLevel &SkillLevelMap::get_skill_level_object( const skill_id &ident ) const
-{
-    static const SkillLevel null_skill{};
+        const auto iter = find( ident );
 
-    if( ident && ident->is_contextual_skill() ) {
-        debugmsg( "Skill \"%s\" is context-dependent.  It cannot be assigned.", ident.str() );
+        if( iter != end() ) {
+            return iter->second;
+        }
+
         return null_skill;
     }
 
-    const auto iter = find( ident );
+    SkillLevel &SkillLevelMap::get_skill_level_object( const skill_id & ident ) {
+        static SkillLevel null_skill;
 
-    if( iter != end() ) {
-        return iter->second;
-    }
-
-    return null_skill;
-}
-
-SkillLevel &SkillLevelMap::get_skill_level_object( const skill_id &ident )
-{
-    static SkillLevel null_skill;
-
-    if( ident && ident->is_contextual_skill() ) {
-        debugmsg( "Skill \"%s\" is context-dependent.  It cannot be assigned.", ident.str() );
-        return null_skill;
-    }
-
-    return ( *this )[ident];
-}
-
-void SkillLevelMap::mod_skill_level( const skill_id &ident, int delta )
-{
-    SkillLevel &obj = get_skill_level_object( ident );
-    obj.level( obj.level() + delta );
-}
-
-int SkillLevelMap::get_skill_level( const skill_id &ident ) const
-{
-    return get_skill_level_object( ident ).level();
-}
-
-int SkillLevelMap::get_skill_level( const skill_id &ident, const item &context ) const
-{
-    const auto id = context.is_null() ? ident : context.contextualize_skill( ident );
-    return get_skill_level( id );
-}
-
-bool SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req ) const
-{
-    return meets_skill_requirements( req, item() );
-}
-
-bool SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req,
-        const item &context ) const
-{
-    return std::all_of( req.begin(), req.end(),
-    [this, &context]( const std::pair<skill_id, int> &pr ) {
-        return get_skill_level( pr.first, context ) >= pr.second;
-    } );
-}
-
-std::map<skill_id, int> SkillLevelMap::compare_skill_requirements(
-    const std::map<skill_id, int> &req ) const
-{
-    return compare_skill_requirements( req, item() );
-}
-
-std::map<skill_id, int> SkillLevelMap::compare_skill_requirements(
-    const std::map<skill_id, int> &req, const item &context ) const
-{
-    std::map<skill_id, int> res;
-
-    for( const auto &elem : req ) {
-        const int diff = get_skill_level( elem.first, context ) - elem.second;
-        if( diff != 0 ) {
-            res[elem.first] = diff;
+        if( ident && ident->is_contextual_skill() ) {
+            debugmsg( "Skill \"%s\" is context-dependent.  It cannot be assigned.", ident.str() );
+            return null_skill;
         }
+
+        return ( *this )[ident];
     }
 
-    return res;
-}
-
-int SkillLevelMap::exceeds_recipe_requirements( const recipe &rec ) const
-{
-    int over = rec.skill_used ? get_skill_level( rec.skill_used ) - rec.difficulty : 0;
-    for( const auto &elem : compare_skill_requirements( rec.required_skills ) ) {
-        over = std::min( over, elem.second );
+    void SkillLevelMap::mod_skill_level( const skill_id & ident, int delta ) {
+        SkillLevel &obj = get_skill_level_object( ident );
+        obj.level( obj.level() + delta );
     }
-    return over;
-}
 
-bool SkillLevelMap::has_recipe_requirements( const recipe &rec ) const
-{
-    return exceeds_recipe_requirements( rec ) >= 0;
-}
+    int SkillLevelMap::get_skill_level( const skill_id & ident ) const {
+        return get_skill_level_object( ident ).level();
+    }
 
-// Actually take the difference in social skill between the two parties involved
-// Caps at 200% when you are 5 levels ahead, int comparison is handled in npctalk.cpp
-double price_adjustment( int barter_skill )
-{
-    if( barter_skill <= 0 ) {
-        return 1.0;
+    int SkillLevelMap::get_skill_level( const skill_id & ident, const item & context ) const {
+        const auto id = context.is_null() ? ident : context.contextualize_skill( ident );
+        return get_skill_level( id );
     }
-    if( barter_skill >= 5 ) {
-        return 2.0;
+
+    bool SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req ) const {
+        return meets_skill_requirements( req, item() );
     }
-    switch( barter_skill ) {
-        case 1:
-            return 1.05;
-        case 2:
-            return 1.15;
-        case 3:
-            return 1.30;
-        case 4:
-            return 1.65;
-        default:
-            // Should never occur
+
+    bool SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req,
+            const item & context ) const {
+        return std::all_of( req.begin(), req.end(),
+        [this, &context]( const std::pair<skill_id, int> &pr ) {
+            return get_skill_level( pr.first, context ) >= pr.second;
+        } );
+    }
+
+    std::map<skill_id, int> SkillLevelMap::compare_skill_requirements(
+        const std::map<skill_id, int> &req ) const {
+        return compare_skill_requirements( req, item() );
+    }
+
+    std::map<skill_id, int> SkillLevelMap::compare_skill_requirements(
+        const std::map<skill_id, int> &req, const item & context ) const {
+        std::map<skill_id, int> res;
+
+        for( const auto &elem : req ) {
+            const int diff = get_skill_level( elem.first, context ) - elem.second;
+            if( diff != 0 ) {
+                res[elem.first] = diff;
+            }
+        }
+
+        return res;
+    }
+
+    int SkillLevelMap::exceeds_recipe_requirements( const recipe & rec ) const {
+        int over = rec.skill_used ? get_skill_level( rec.skill_used ) - rec.difficulty : 0;
+        for( const auto &elem : compare_skill_requirements( rec.required_skills ) ) {
+            over = std::min( over, elem.second );
+        }
+        return over;
+    }
+
+    bool SkillLevelMap::has_recipe_requirements( const recipe & rec ) const {
+        return exceeds_recipe_requirements( rec ) >= 0;
+    }
+
+    // Actually take the difference in social skill between the two parties involved
+    // Caps at 200% when you are 5 levels ahead, int comparison is handled in npctalk.cpp
+    double price_adjustment( int barter_skill ) {
+        if( barter_skill <= 0 ) {
             return 1.0;
+        }
+        if( barter_skill >= 5 ) {
+            return 2.0;
+        }
+        switch( barter_skill ) {
+            case 1:
+                return 1.05;
+            case 2:
+                return 1.15;
+            case 3:
+                return 1.30;
+            case 4:
+                return 1.65;
+            default:
+                // Should never occur
+                return 1.0;
+        }
     }
-}

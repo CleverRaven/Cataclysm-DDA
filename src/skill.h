@@ -159,6 +159,7 @@ class SkillLevel
         }
 
         void train( int amount, bool skip_scaling = false );
+        void theory_train( int amount, bool skip_scaling = false );
         bool isRusting() const;
         bool rust( int rust_resist, int character_rate );
         void practice();
