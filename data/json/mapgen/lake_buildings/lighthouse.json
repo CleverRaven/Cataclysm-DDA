@@ -466,11 +466,7 @@
         { "vehicle": "lake", "x": 2, "y": 21, "rotation": 270, "chance": 20, "status": 3 },
         { "vehicle": "lake", "x": 18, "y": 21, "rotation": 270, "chance": 20, "status": 3 }
       ],
-      "terrain": {
-        " ": "t_floor",
-        "~": "t_water_dp",
-        "-": "t_water_sh"
-      }
+      "terrain": { " ": "t_floor", "~": "t_water_dp", "-": "t_water_sh" }
     }
   }
 ]
