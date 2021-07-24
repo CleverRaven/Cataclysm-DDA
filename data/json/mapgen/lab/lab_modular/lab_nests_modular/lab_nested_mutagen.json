@@ -208,7 +208,10 @@
       "terrain": { "|": "t_wall_metal" },
       "furniture": { "^": "f_vent_cold_air2_blast", "%": "f_standing_tank" },
       "liquids": { "%": { "liquid": "purifier", "amount": [ 2, 20 ] } },
-      "place_loot": [ { "item": "purifier_smart_shot", "x": 5, "y": 1, "chance": 100 }, { "item": "purifier_smart_shot", "x": 5, "y": 6, "chance": 100 } ],
+      "place_loot": [
+        { "item": "purifier_smart_shot", "x": 5, "y": 1, "chance": 100 },
+        { "item": "purifier_smart_shot", "x": 5, "y": 6, "chance": 100 }
+      ],
       "computers": {
         "θ": {
           "name": "Advanced PE012 Samples",
@@ -426,7 +429,6 @@
     "nested_mapgen_id": "lab_16x1_bash",
     "object": { "mapgensize": [ 16, 16 ], "set": [ { "point": "bash", "x": [ 1, 15 ], "y": 1 } ] }
   },
-
   {
     "type": "mapgen",
     "method": "json",
@@ -455,14 +457,9 @@
         "................"
       ],
       "place_nested": [ { "chunks": [ [ "lab_16x1_bash", 80 ], [ "null", 20 ] ], "x": 0, "y": 0 } ],
-      "terrain": {
-        ".": "t_gelatinous_groundcover",
-        "6": "t_gelatinous_groundcover",
-        "|": "t_concrete_wall",
-        "X": "t_laminated_glass"
-      },
+      "terrain": { ".": "t_gelatinous_groundcover", "6": "t_gelatinous_groundcover", "|": "t_concrete_wall", "X": "t_laminated_glass" },
       "furniture": { "d": "f_crystaline_flower", "6": "f_fog_breather" },
-      "place_monsters": [ { "monster": "GROUP_BREATHER", "x": [ 0, 15 ], "y": [ 2, 15 ], "density": 2.5, "repeat": 5  } ]
+      "place_monsters": [ { "monster": "GROUP_BREATHER", "x": [ 0, 15 ], "y": [ 2, 15 ], "density": 2.5, "repeat": 5 } ]
     }
   },
   {
