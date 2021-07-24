@@ -1137,6 +1137,8 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
             draw_point.y += fontheight + padding;
         }
     }
+
+    SDL_RenderSetClipRect( renderer.get(), nullptr );
 }
 
 static bool draw_window( Font_Ptr &font, const catacurses::window &w, const point &offset )
