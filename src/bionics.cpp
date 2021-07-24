@@ -299,7 +299,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "fuel_efficiency", fuel_efficiency, 0 );
     optional( jsobj, was_loaded, "passive_fuel_efficiency", passive_fuel_efficiency, 0 );
 
-    optional( jsobj, was_loaded, "fake_item", fake_item, itype_id() );
+    optional( jsobj, was_loaded, "fake_item", fake_item, cata::nullopt );
 
     optional( jsobj, was_loaded, "spell_on_activation", spell_on_activate );
 
@@ -424,14 +424,15 @@ void bionic_data::check_bionic_consistency()
             debugmsg( "Bionic %s specified as both gun and weapon bionic", bio.id.c_str() );
         }
         if( ( bio.has_flag( json_flag_BIONIC_GUN ) || bio.has_flag( json_flag_BIONIC_WEAPON ) ) &&
-            bio.fake_item.is_empty() ) {
+            !bio.fake_item ) {
             debugmsg( "Bionic %s specified as gun or weapon bionic is missing its fake_item id",
                       bio.id.c_str() );
         }
-        if( !bio.fake_item.is_empty() &&
-            !item::type_is_defined( bio.fake_item ) ) {
+        if( bio.fake_item && ( !item::type_is_defined( *bio.fake_item ) || !bio.fake_item->is_valid() ) ) {
             debugmsg( "Bionic %s has unknown fake_item %s",
-                      bio.id.c_str(), bio.fake_item.c_str() );
+                      bio.id.c_str(), bio.fake_item->c_str() );
+            // Not pretty but casting away the const is what's suggested in generic_factory::obj
+            const_cast<bionic_data *>( &bio )->fake_item = cata::nullopt;
         }
         for( const trait_id &mid : bio.canceled_mutations ) {
             if( !mid.is_valid() ) {
@@ -520,13 +521,12 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
     bionic &bio = ( *my_bionics )[index];
 
     if( bio.info().has_flag( json_flag_BIONIC_GUN ) ) {
-        if( !bio.info().fake_item.is_valid() ) {
-            debugmsg( "tried to activate gun bionic \"%s\" with invalid fake_item \"%s\"", bio.info().id.str(),
-                      bio.info().fake_item.str() );
+        if( !bio.info().fake_item ) {
+            debugmsg( "tried to activate gun bionic \"%s\" with invalid fake_item", bio.info().id.str() );
             return;
         }
 
-        const item cbm_weapon = item( bio.info().fake_item );
+        const item cbm_weapon = item( *bio.info().fake_item );
         bool not_allowed = !rules.has_flag( ally_rule::use_guns ) ||
                            ( rules.has_flag( ally_rule::use_silent ) && !cbm_weapon.is_silent() );
         if( is_player_ally() && not_allowed ) {
@@ -547,9 +547,9 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
         }
     } else if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) && !weapon.has_flag( flag_NO_UNWIELD ) &&
                free_power > bio.info().power_activate ) {
-        if( !bio.info().fake_item.is_valid() ) {
-            debugmsg( "tried to activate weapon bionic \"%s\" with invalid fake_item \"%s\"",
-                      bio.info().id.str(), bio.info().fake_item.str() );
+        if( !bio.info().fake_item ) {
+            debugmsg( "tried to activate weapon bionic \"%s\" with invalid fake_item",
+                      bio.info().id.str() );
             return;
         }
 
@@ -559,7 +559,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
         add_msg_if_player_sees( pos(), m_info, _( "%s activates their %s." ),
                                 disp_name(), bio.info().name );
 
-        weapon = item( bio.info().fake_item );
+        weapon = item( *bio.info().fake_item );
         mod_power_level( -bio.info().power_activate );
         bio.powered = true;
         cbm_weapon_index = index;
@@ -640,9 +640,9 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
     map &here = get_map();
     // On activation effects go here
     if( bio.info().has_flag( json_flag_BIONIC_GUN ) ) {
-        if( !bio.info().fake_item.is_valid() ) {
-            debugmsg( "tried to activate gun bionic \"%s\" with invalid fake_item \"%s\"",
-                      bio.info().id.str(), bio.info().fake_item.str() );
+        if( !bio.info().fake_item ) {
+            debugmsg( "tried to activate gun bionic \"%s\" with invalid fake_item",
+                      bio.info().id.str() );
             return false;
         }
 
@@ -651,12 +651,12 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         if( close_bionics_ui ) {
             *close_bionics_ui = true;
         }
-        avatar_action::fire_ranged_bionic( player_character, item( bio.info().fake_item ),
+        avatar_action::fire_ranged_bionic( player_character, item( *bio.info().fake_item ),
                                            bio.info().power_activate );
     } else if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) ) {
-        if( !bio.info().fake_item.is_valid() ) {
-            debugmsg( "tried to activate weapon bionic \"%s\" with invalid fake_item \"%s\"",
-                      bio.info().id.str(), bio.info().fake_item.str() );
+        if( !bio.info().fake_item ) {
+            debugmsg( "tried to activate weapon bionic \"%s\" with invalid fake_item",
+                      bio.info().id.str() );
             return false;
         }
 
@@ -686,7 +686,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         }
 
         add_msg_activate();
-        weapon = item( bio.info().fake_item );
+        weapon = item( *bio.info().fake_item );
         weapon.invlet = '#';
         if( bio.ammo_count > 0 ) {
             weapon.ammo_set( bio.ammo_loaded, bio.ammo_count );
@@ -1071,7 +1071,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
     reset();
 
     // Also reset crafting inventory cache if this bionic spawned a fake item
-    if( !bio.info().fake_item.is_empty() ) {
+    if( bio.info().fake_item ) {
         invalidate_crafting_inventory();
     }
 
@@ -1087,7 +1087,7 @@ cata::optional<int> Character::active_bionic_weapon_index() const
     for( int i = 0; i < static_cast<int>( my_bionics->size() ); i++ ) {
         const bionic &bio = ( *my_bionics )[ i ];
         if( bio.powered && bio.info().has_flag( json_flag_BIONIC_WEAPON ) &&
-            weapon.typeId() == bio.info().fake_item ) {
+            weapon.typeId() == *bio.info().fake_item ) {
             return i;
         }
     }
@@ -1151,7 +1151,7 @@ bool Character::deactivate_bionic( int b, bool eff_only )
 
     // Deactivation effects go here
     if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) ) {
-        if( weapon.typeId() == bio.info().fake_item ) {
+        if( weapon.typeId() == *bio.info().fake_item ) {
             add_msg_if_player( _( "You withdraw your %s." ), weapon.tname() );
             if( get_player_view().sees( pos() ) ) {
                 if( male ) {
@@ -1187,7 +1187,7 @@ bool Character::deactivate_bionic( int b, bool eff_only )
     }
 
     // Also reset crafting inventory cache if this bionic spawned a fake item
-    if( !bio.info().fake_item.is_empty() ) {
+    if( bio.info().fake_item ) {
         invalidate_crafting_inventory();
     }
 
@@ -2862,11 +2862,11 @@ bool bionic::has_flag( const std::string &flag ) const
 int bionic::get_quality( const quality_id &quality ) const
 {
     const bionic_data &i = info();
-    if( i.fake_item.is_empty() ) {
+    if( !i.fake_item ) {
         return INT_MIN;
     }
 
-    return item( i.fake_item ).get_quality( quality );
+    return item( *i.fake_item ).get_quality( quality );
 }
 
 bool bionic::is_this_fuel_powered( const material_id &this_fuel ) const

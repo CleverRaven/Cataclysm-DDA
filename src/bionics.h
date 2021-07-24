@@ -113,7 +113,7 @@ struct bionic_data {
      * Fake item created for crafting with this bionic available.
      * Also the item used for gun bionics.
      */
-    itype_id fake_item;
+    cata::optional<itype_id> fake_item;
     /**
      * Mutations/trait that are removed upon installing this CBM.
      * E.g. enhanced optic bionic may cancel HYPEROPIC trait.

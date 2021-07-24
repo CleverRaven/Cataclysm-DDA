@@ -564,8 +564,8 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
     for( const bionic &bio : *my_bionics ) {
         const bionic_data &bio_data = bio.info();
         if( ( !bio_data.activated || bio.powered ) &&
-            !bio_data.fake_item.is_empty() ) {
-            *crafting_cache.crafting_inventory += item( bio.info().fake_item,
+            bio_data.fake_item ) {
+            *crafting_cache.crafting_inventory += item( *bio.info().fake_item,
                                                   calendar::turn, units::to_kilojoule( get_power_level() ) );
         }
     }

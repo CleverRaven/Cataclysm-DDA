@@ -2260,8 +2260,8 @@ std::vector<item> Character::get_pseudo_items() const
     std::vector<item> result;
     for( const bionic &bio : *my_bionics ) {
         const bionic_data &bid = bio.info();
-        if( ( !bid.activated || bio.powered ) && bid.fake_item.is_valid() ) {
-            result.emplace_back( item( bid.fake_item ) );
+        if( ( !bid.activated || bio.powered ) && bid.fake_item ) {
+            result.emplace_back( item( *bid.fake_item ) );
         }
     }
     return result;
@@ -11380,7 +11380,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
     }
     for( const auto &bio : *this->my_bionics ) {
         const bionic_data &bid = bio.info();
-        if( bid.fake_item == what && ( !bid.activated || bio.powered ) ) {
+        if( *bid.fake_item == what && ( !bid.activated || bio.powered ) ) {
             mod_power_level( units::from_kilojoule( -qty ) );
             return res;
         }
@@ -11455,10 +11455,10 @@ item Character::find_firestarter_with_charges( const int quantity ) const
     }
     for( const auto &bio : *this->my_bionics ) {
         const bionic_data &bid = bio.info();
-        if( bid.fake_item.is_valid() && ( !bid.has_flag( json_flag_BIONIC_TOGGLED ) || ( !bid.activated ||
-                                          bio.powered ) )  && get_power_level() > quantity * 5_kJ ) {
-            item fake( bid.fake_item );
-            if( !fake.is_null() && bid.fake_item->has_flag( flag_FIRESTARTER ) ) {
+        if( bid.fake_item && ( !bid.has_flag( json_flag_BIONIC_TOGGLED ) || ( !bid.activated ||
+                               bio.powered ) )  && get_power_level() > quantity * 5_kJ ) {
+            item fake( *bid.fake_item );
+            if( !fake.is_null() && ( *bid.fake_item )->has_flag( flag_FIRESTARTER ) ) {
                 return fake;
             }
         }
