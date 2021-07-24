@@ -10,7 +10,7 @@
     "difficulty": 99,
     "action": "map_regen",
     "map_regen": "concrete_wall_o_lab_res_8_NW",
-    "benign": false
+    "benign": true
   },
   {
     "type": "mapgen",
@@ -29,7 +29,7 @@
     "difficulty": 99,
     "action": "map_regen",
     "map_regen": "concrete_wall_o_lab_res_8_NE",
-    "benign": false
+    "benign": true
   },
   {
     "type": "mapgen",
@@ -48,7 +48,7 @@
     "difficulty": 99,
     "action": "map_regen",
     "map_regen": "light_on_res_8_NW",
-    "benign": false
+    "benign": true
   },
   {
     "type": "mapgen",
@@ -73,7 +73,7 @@
     "difficulty": 99,
     "action": "map_regen",
     "map_regen": "light_on_res_8_NE",
-    "benign": false
+    "benign": true
   },
   {
     "type": "mapgen",
@@ -98,7 +98,7 @@
     "difficulty": 99,
     "action": "map_regen",
     "map_regen": "light_on_res_8_SW",
-    "benign": false
+    "benign": true
   },
   {
     "type": "mapgen",
@@ -123,7 +123,7 @@
     "difficulty": 99,
     "action": "map_regen",
     "map_regen": "light_on_res_8_SE",
-    "benign": false
+    "benign": true
   },
   {
     "type": "mapgen",
