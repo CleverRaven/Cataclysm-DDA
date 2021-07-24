@@ -8056,7 +8056,7 @@ int item::ammo_remaining( const Character *carrier ) const
     }
 
     // Non ammo using item that uses charges
-    if( ammo_types().empty() ) {
+    if( is_tool() && ammo_types().empty() ) {
         ret += charges;
     }
 
