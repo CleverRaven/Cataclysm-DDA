@@ -305,7 +305,8 @@
       { "x": 0, "y": 1, "parts": [ "xlframe_horizontal", "wheel_mount_light", "wheel_bicycle_rear" ] },
       { "x": 1, "y": 0, "parts": [ "xlframe_vertical" ] },
       { "x": 2, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light_steerable", "wheel_bicycle" ] }
-    ]
+    ],
+    "items": [ { "x": 0, "y": 0, "chance": 20, "items": [ "helmet_bike" ] } ]
   },
   {
     "id": "tricycle_electric",
@@ -335,7 +336,8 @@
       { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light", "wheel_bicycle_or_rear" ] },
       { "x": 1, "y": -1, "parts": [ "xlframe_horizontal", "wheel_mount_light_steerable", "wheel_bicycle_or" ] },
       { "x": 1, "y": 1, "parts": [ "xlframe_horizontal", "wheel_mount_light_steerable", "wheel_bicycle_or" ] }
-    ]
+    ],
+    "items": [ { "x": 0, "y": 0, "chance": 20, "items": [ "helmet_bike" ] } ]
   },
   {
     "id": "unicycle",
