@@ -47,6 +47,17 @@
     ]
   },
   {
+    "id": "draisienne",
+    "type": "vehicle",
+    "name": "Dandy Horse",
+    "blueprint": [ "o#o" ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_wood_handle", "folding_seat" ] },
+      { "x": 1, "y": 0, "parts": [ "folding_wooden_frame", "wheel_mount_wood_steerable", "wheel_wood_b" ] },
+      { "x": -1, "y": 0, "parts": [ "folding_wooden_frame", "wheel_mount_wood", "wheel_wood_b" ] }
+    ]
+  },
+  {
     "id": "motorcycle_cross",
     "type": "vehicle",
     "name": "Motocross Bike",
