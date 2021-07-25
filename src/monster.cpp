@@ -127,6 +127,7 @@ static const trait_id trait_PHEROMONE_INSECT( "PHEROMONE_INSECT" );
 static const trait_id trait_PHEROMONE_MAMMAL( "PHEROMONE_MAMMAL" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+static const trait_id trait_NUMB("NUMB");
 
 struct pathfinding_settings;
 
@@ -1020,11 +1021,6 @@ bool monster::made_of( const material_id &m ) const
 bool monster::made_of_any( const std::set<material_id> &ms ) const
 {
     return type->made_of_any( ms );
-}
-
-bool monster::shearable() const
-{
-    return type->shearing.valid();
 }
 
 bool monster::made_of( phase_id p ) const

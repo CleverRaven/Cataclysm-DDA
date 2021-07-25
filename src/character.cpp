@@ -49,6 +49,7 @@
 #include "handle_liquid.h"
 #include "input.h"
 #include "inventory.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_stack.h"
@@ -256,6 +257,7 @@ static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_FAT( "FAT" );
 static const trait_id trait_FELINE_FUR( "FELINE_FUR" );
 static const trait_id trait_FUR( "FUR" );
+static const trait_id trait_NUMB("NUMB");
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INSOMNIA( "INSOMNIA" );
 static const trait_id trait_LIGHTFUR( "LIGHTFUR" );
@@ -10737,6 +10739,8 @@ void Character::apply_persistent_morale()
         // The penalty starts at 1 at min_time and scales up to max_unhappiness at max_time.
         const float t = ( total_time - min_time ) / ( max_time - min_time );
         const int pen = std::ceil( lerp_clamped( 0, max_unhappiness, t ) );
+        int nomo = -pen;
+        numbfoc(nomo);
         if( pen > 0 ) {
             add_morale( MORALE_PERM_NOMAD, -pen, -pen, 1_minutes, 1_minutes, true );
         }
@@ -10762,14 +10766,19 @@ void Character::apply_persistent_morale()
 
 int Character::get_morale_level() const
 {
-    return morale->get_level();
+        return morale->get_level();
 }
 
 void Character::add_morale( const morale_type &type, int bonus, int max_bonus,
                             const time_duration &duration, const time_duration &decay_start,
                             bool capped, const itype *item_type )
 {
-    morale->add( type, bonus, max_bonus, duration, decay_start, capped, item_type );
+    if(has_trait(trait_NUMB)==false) {
+        morale->add(type, bonus, max_bonus, duration, decay_start, capped, item_type);
+    }
+    else {
+        morale->clear();
+    }
 }
 
 int Character::has_morale( const morale_type &type ) const
@@ -13208,6 +13217,10 @@ int Character::book_fun_for( const item &book, const Character &p ) const
 
     if( fun_bonus > 1 && book.get_chapters() > 0 && book.get_remaining_chapters( p ) == 0 ) {
         fun_bonus /= 2;
+    }
+
+    if (has_trait(trait_NUMB)) {
+        fun_bonus = 0;
     }
 
     return fun_bonus;

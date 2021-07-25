@@ -16,7 +16,6 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
-#include "craft_command.h"
 #include "debug.h"
 #include "effect.h"
 #include "enums.h"
@@ -27,6 +26,7 @@
 #include "game.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_contents.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -36,6 +36,7 @@
 #include "material.h"
 #include "messages.h"
 #include "monster.h"
+#include "morale.h"
 #include "morale_types.h"
 #include "mutation.h"
 #include "npc.h"
@@ -118,6 +119,7 @@ static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_PROJUNK( "PROJUNK" );
 static const trait_id trait_PROJUNK2( "PROJUNK2" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_NUMB("NUMB");
 static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
@@ -229,7 +231,6 @@ static std::map<vitamin_id, int> compute_default_effective_vitamins(
     }
     return res;
 }
-
 // Calculate the effective nutrients for a given item, taking
 // into account character traits but not item components.
 static nutrients compute_default_effective_nutrients( const item &comest,
@@ -381,6 +382,7 @@ int Character::nutrition_for( const item &comest ) const
     return compute_effective_nutrients( comest ).kcal() / islot_comestible::kcal_per_nutr;
 }
 
+int gourm;
 std::pair<int, int> Character::fun_for( const item &comest ) const
 {
     if( !comest.is_comestible() ) {
@@ -461,6 +463,11 @@ std::pair<int, int> Character::fun_for( const item &comest ) const
             fun_max *= 3;
             fun = fun * 3 / 2;
         }
+        if (has_trait(trait_NUMB)) {
+            gourm = fun;
+            fun_max = 0;
+            fun = 0;
+        }
     }
 
     if( has_active_bionic( bio_taste_blocker ) &&
@@ -470,6 +477,9 @@ std::pair<int, int> Character::fun_for( const item &comest ) const
     }
 
     return { static_cast< int >( fun ), static_cast< int >( fun_max ) };
+}
+void numbfoc(int foc) {
+    foc = gourm;
 }
 
 time_duration Character::vitamin_rate( const vitamin_id &vit ) const
@@ -1125,177 +1135,198 @@ void Character::modify_radiation( const islot_comestible &comest )
 void Character::modify_addiction( const islot_comestible &comest )
 {
     add_addiction( comest.add, comest.addict );
-    if( addiction_craving( comest.add ) != MORALE_NULL ) {
+    if( (addiction_craving( comest.add ) != MORALE_NULL) && has_trait(trait_NUMB)  ) {
         rem_morale( addiction_craving( comest.add ) );
     }
 }
 
 void Character::modify_morale( item &food, const int nutr )
 {
-    time_duration morale_time = 2_hours;
-    if( food.has_flag( flag_HOT ) && food.has_flag( flag_EATEN_HOT ) ) {
-        morale_time = 3_hours;
-        int clamped_nutr = std::max( 5, std::min( 20, nutr / 10 ) );
-        add_morale( MORALE_FOOD_HOT, clamped_nutr, 20, morale_time, morale_time / 2 );
-    }
+    while (has_trait(trait_NUMB)==false) {
+        time_duration morale_time = 2_hours;
+        if (food.has_flag(flag_HOT) && food.has_flag(flag_EATEN_HOT)) {
+            morale_time = 3_hours;
+            int clamped_nutr = std::max(5, std::min(20, nutr / 10));
+            add_morale(MORALE_FOOD_HOT, clamped_nutr, 20, morale_time, morale_time / 2);
+        }
 
-    std::pair<int, int> fun = fun_for( food );
-    if( fun.first < 0 ) {
-        add_morale( MORALE_FOOD_BAD, fun.first, fun.second, morale_time, morale_time / 2, false,
-                    food.type );
-    } else if( fun.first > 0 ) {
-        add_morale( MORALE_FOOD_GOOD, fun.first, fun.second, morale_time, morale_time / 2, false,
-                    food.type );
-    }
+        std::pair<int, int> fun = fun_for(food);
+        if (fun.first < 0) {
+            add_morale(MORALE_FOOD_BAD, fun.first, fun.second, morale_time, morale_time / 2, false,
+                food.type);
+        }
+        else if (fun.first > 0) {
+            add_morale(MORALE_FOOD_GOOD, fun.first, fun.second, morale_time, morale_time / 2, false,
+                food.type);
+        }
 
-    // Morale bonus for eating unspoiled food with chair/table nearby
-    // Does not apply to non-ingested consumables like bandages or drugs,
-    // nor to drinks.
-    if( !food.has_flag( flag_NO_INGEST ) &&
-        food.get_comestible()->comesttype != "MED" &&
-        food.get_comestible()->comesttype != comesttype_DRINK ) {
-        map &here = get_map();
-        if( here.has_nearby_chair( pos(), 1 ) && here.has_nearby_table( pos(), 1 ) ) {
-            if( has_trait( trait_TABLEMANNERS ) ) {
-                rem_morale( MORALE_ATE_WITHOUT_TABLE );
-                if( !food.rotten() ) {
-                    add_morale( MORALE_ATE_WITH_TABLE, 3, 3, 3_hours, 2_hours, true );
+        // Morale bonus for eating unspoiled food with chair/table nearby
+        // Does not apply to non-ingested consumables like bandages or drugs,
+        // nor to drinks.
+        if (!food.has_flag(flag_NO_INGEST) &&
+            food.get_comestible()->comesttype != "MED" &&
+            food.get_comestible()->comesttype != comesttype_DRINK) {
+            map& here = get_map();
+            if (here.has_nearby_chair(pos(), 1) && here.has_nearby_table(pos(), 1)) {
+                if (has_trait(trait_TABLEMANNERS)) {
+                    rem_morale(MORALE_ATE_WITHOUT_TABLE);
+                    if (!food.rotten()) {
+                        add_morale(MORALE_ATE_WITH_TABLE, 3, 3, 3_hours, 2_hours, true);
+                    }
                 }
-            } else if( !food.rotten() ) {
-                add_morale( MORALE_ATE_WITH_TABLE, 1, 1, 3_hours, 2_hours, true );
-            }
-        } else {
-            if( has_trait( trait_TABLEMANNERS ) ) {
-                rem_morale( MORALE_ATE_WITH_TABLE );
-                add_morale( MORALE_ATE_WITHOUT_TABLE, -2, -4, 3_hours, 2_hours, true );
-            }
-        }
-    }
-
-    if( food.has_flag( flag_HIDDEN_HALLU ) ) {
-        if( has_trait( trait_SPIRITUAL ) ) {
-            add_morale( MORALE_FOOD_GOOD, 36, 72, 2_hours, 1_hours, false );
-        } else {
-            add_morale( MORALE_FOOD_GOOD, 18, 36, 1_hours, 30_minutes, false );
-        }
-    }
-
-    if( food.has_flag( flag_CANNIBALISM ) ) {
-        // Sapiovores don't recognize humans as the same species.
-        // But let them possibly feel cool about eating sapient stuff - treat like psycho
-        // However, spiritual sapiovores should still recognize humans as having a soul or special for religious reasons
-        const bool cannibal = has_trait( trait_CANNIBAL );
-        const bool psycho = has_trait( trait_PSYCHOPATH );
-        const bool sapiovore = has_trait( trait_SAPIOVORE );
-        const bool spiritual = has_trait( trait_SPIRITUAL );
-        if( ( cannibal || sapiovore ) && psycho && spiritual ) {
-            add_msg_if_player( m_good,
-                               _( "You feast upon the human flesh, and in doing so, devour their spirit." ) );
-            // You're not really consuming anything special; you just think you are.
-            add_morale( MORALE_CANNIBAL, 25, 300 );
-        } else if( cannibal && psycho ) {
-            add_msg_if_player( m_good, _( "You feast upon the human flesh." ) );
-            add_morale( MORALE_CANNIBAL, 15, 200 );
-        } else if( ( cannibal || sapiovore ) && spiritual ) {
-            add_msg_if_player( m_good, _( "You consume the sacred human flesh." ) );
-            // Boosted because you understand the philosophical implications of your actions, and YOU LIKE THEM.
-            add_morale( MORALE_CANNIBAL, 15, 200 );
-        } else if( cannibal ) {
-            add_msg_if_player( m_good, _( "You indulge your shameful hunger." ) );
-            add_morale( MORALE_CANNIBAL, 10, 50 );
-        } else if( ( psycho || sapiovore ) && spiritual ) {
-            add_msg_if_player( _( "You greedily devour the taboo meat." ) );
-            // Small bonus for violating a taboo.
-            add_morale( MORALE_CANNIBAL, 5, 50 );
-        } else if( psycho || sapiovore ) {
-            add_msg_if_player( _( "Meh.  You've eaten worse." ) );
-        } else if( spiritual ) {
-            add_msg_if_player( m_bad,
-                               _( "This is probably going to count against you if there's still an afterlife." ) );
-            add_morale( MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes );
-        } else {
-            add_msg_if_player( m_bad, _( "You feel horrible for eating a person." ) );
-            add_morale( MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes );
-        }
-    }
-
-    // While raw flesh usually means negative morale, carnivores and cullers get a small bonus.
-    // Hunters, predators, and apex predators don't mind raw flesh at all, maybe even like it.
-    // Cooked flesh is unaffected, because people with these traits *prefer* it raw. Fat is unaffected.
-    // Organs are still usually negative due to fun values as low as -35.
-    // The PREDATOR_FUN flag shouldn't be on human flesh, to not interfere with sapiovores/cannibalism.
-    if( food.has_flag( flag_PREDATOR_FUN ) ) {
-        const bool carnivore = has_trait( trait_CARNIVORE );
-        const bool culler = has_trait_flag( json_flag_PRED1 );
-        const bool hunter = has_trait_flag( json_flag_PRED2 );
-        const bool predator = has_trait_flag( json_flag_PRED3 );
-        const bool apex_predator = has_trait_flag( json_flag_PRED4 );
-        if( apex_predator ) {
-            // Largest bonus, balances out to around +5 or +10. Some organs may still be negative.
-            add_morale( MORALE_MEATARIAN, 20, 10 );
-            add_msg_if_player( m_good,
-                               _( "As you tear into the raw flesh, you feel satisfied with your meal." ) );
-        } else if( predator || hunter ) {
-            // Should approximately balance the fun to 0 for normal meat.
-            add_morale( MORALE_MEATARIAN, 15, 5 );
-            add_msg_if_player( m_good,
-                               _( "Raw flesh doesn't taste all that bad, actually." ) );
-        } else if( carnivore || culler ) {
-            // Only a small bonus (+5), still negative fun.
-            add_morale( MORALE_MEATARIAN, 5, 0 );
-            add_msg_if_player( m_bad,
-                               _( "This doesn't taste very good, but meat is meat." ) );
-        }
-    }
-
-    // Allergy check for food that is ingested (not gum)
-    if( !food.has_flag( flag_NO_INGEST ) ) {
-        const auto allergy = allergy_type( food );
-        if( allergy != MORALE_NULL ) {
-            add_msg_if_player( m_bad, _( "Yuck!  How can anybody eat this stuff?" ) );
-            add_morale( allergy, -75, -400, 30_minutes, 24_minutes );
-        }
-        if( food.has_flag( flag_ALLERGEN_JUNK ) ) {
-            if( has_trait( trait_PROJUNK ) ) {
-                add_msg_if_player( m_good, _( "Mmm, junk food." ) );
-                add_morale( MORALE_SWEETTOOTH, 5, 30, 30_minutes, 24_minutes );
-            }
-            if( has_trait( trait_PROJUNK2 ) ) {
-                if( !one_in( 100 ) ) {
-                    add_msg_if_player( m_good, _( "When life's got you down, there's always sugar." ) );
-                } else {
-                    add_msg_if_player( m_good, _( "They may do what they must… you've already won." ) );
+                else if (!food.rotten()) {
+                    add_morale(MORALE_ATE_WITH_TABLE, 1, 1, 3_hours, 2_hours, true);
                 }
-                add_morale( MORALE_SWEETTOOTH, 10, 50, 1_hours, 50_minutes );
             }
-            // Carnivores CAN eat junk food, but they won't like it much.
-            // Pizza-scraping happens in consume_effects.
-            if( has_trait( trait_CARNIVORE ) && !food.has_flag( flag_CARNIVORE_OK ) ) {
-                add_msg_if_player( m_bad, _( "Your stomach begins gurgling and you feel bloated and ill." ) );
-                add_morale( MORALE_NO_DIGEST, -25, -125, 30_minutes, 24_minutes );
+            else {
+                if (has_trait(trait_TABLEMANNERS)) {
+                    rem_morale(MORALE_ATE_WITH_TABLE);
+                    add_morale(MORALE_ATE_WITHOUT_TABLE, -2, -4, 3_hours, 2_hours, true);
+                }
             }
         }
-    }
-    const bool chew = food.get_comestible()->comesttype == comesttype_FOOD ||
-                      food.has_flag( flag_USE_EAT_VERB );
-    if( !food.rotten() && chew && has_trait( trait_SAPROPHAGE ) ) {
-        // It's OK to *drink* things that haven't rotted.  Alternative is to ban water.  D:
-        add_msg_if_player( m_bad, _( "Your stomach begins gurgling and you feel bloated and ill." ) );
-        add_morale( MORALE_NO_DIGEST, -75, -400, 30_minutes, 24_minutes );
-    }
-    if( food.has_flag( flag_URSINE_HONEY ) && ( !crossed_threshold() ||
-            has_trait( trait_THRESH_URSINE ) ) &&
-        mutation_category_level[mutation_category_URSINE] > 40 ) {
-        // Need at least 5 bear mutations for effect to show, to filter out mutations in common with other categories
-        int honey_fun = has_trait( trait_THRESH_URSINE ) ?
-                        std::min( mutation_category_level[mutation_category_URSINE] / 8, 20 ) :
-                        mutation_category_level[mutation_category_URSINE] / 12;
-        if( honey_fun < 10 ) {
-            add_msg_if_player( m_good, _( "You find the sweet taste of honey surprisingly palatable." ) );
-        } else {
-            add_msg_if_player( m_good, _( "You feast upon the sweet honey." ) );
+
+        if (food.has_flag(flag_HIDDEN_HALLU)) {
+            if (has_trait(trait_SPIRITUAL)) {
+                add_morale(MORALE_FOOD_GOOD, 36, 72, 2_hours, 1_hours, false);
+            }
+            else {
+                add_morale(MORALE_FOOD_GOOD, 18, 36, 1_hours, 30_minutes, false);
+            }
         }
-        add_morale( MORALE_HONEY, honey_fun, 100 );
+
+        if (food.has_flag(flag_CANNIBALISM)) {
+            // Sapiovores don't recognize humans as the same species.
+            // But let them possibly feel cool about eating sapient stuff - treat like psycho
+            // However, spiritual sapiovores should still recognize humans as having a soul or special for religious reasons
+            const bool cannibal = has_trait(trait_CANNIBAL);
+            const bool psycho = has_trait(trait_PSYCHOPATH);
+            const bool numb = has_trait(trait_NUMB);
+            const bool sapiovore = has_trait(trait_SAPIOVORE);
+            const bool spiritual = has_trait(trait_SPIRITUAL);
+            if ((cannibal || sapiovore) && psycho && spiritual) {
+                add_msg_if_player(m_good,
+                    _("You feast upon the human flesh, and in doing so, devour their spirit."));
+                // You're not really consuming anything special; you just think you are.
+                add_morale(MORALE_CANNIBAL, 25, 300);
+            }
+            else if (cannibal && psycho) {
+                add_msg_if_player(m_good, _("You feast upon the human flesh."));
+                add_morale(MORALE_CANNIBAL, 15, 200);
+            }
+            else if ((cannibal || sapiovore) && spiritual) {
+                add_msg_if_player(m_good, _("You consume the sacred human flesh."));
+                // Boosted because you understand the philosophical implications of your actions, and YOU LIKE THEM.
+                add_morale(MORALE_CANNIBAL, 15, 200);
+            }
+            else if (cannibal) {
+                add_msg_if_player(m_good, _("You indulge your shameful hunger."));
+                add_morale(MORALE_CANNIBAL, 10, 50);
+            }
+            else if ((psycho || sapiovore) && spiritual) {
+                add_msg_if_player(_("You greedily devour the taboo meat."));
+                // Small bonus for violating a taboo.
+                add_morale(MORALE_CANNIBAL, 5, 50);
+            }
+            else if (psycho || sapiovore) {
+                add_msg_if_player(_("Meh.  You've eaten worse."));
+            }
+            else if (numb) {
+                add_msg_if_player(_("This doesn't bother you."));
+            }
+            else if (spiritual) {
+                add_msg_if_player(m_bad,
+                    _("This is probably going to count against you if there's still an afterlife."));
+                add_morale(MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes);
+            }
+            else {
+                add_msg_if_player(m_bad, _("You feel horrible for eating a person."));
+                add_morale(MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes);
+            }
+        }
+
+        // While raw flesh usually means negative morale, carnivores and cullers get a small bonus.
+        // Hunters, predators, and apex predators don't mind raw flesh at all, maybe even like it.
+        // Cooked flesh is unaffected, because people with these traits *prefer* it raw. Fat is unaffected.
+        // Organs are still usually negative due to fun values as low as -35.
+        // The PREDATOR_FUN flag shouldn't be on human flesh, to not interfere with sapiovores/cannibalism.
+        if (food.has_flag(flag_PREDATOR_FUN)) {
+            const bool carnivore = has_trait(trait_CARNIVORE);
+            const bool culler = has_trait_flag(json_flag_PRED1);
+            const bool hunter = has_trait_flag(json_flag_PRED2);
+            const bool predator = has_trait_flag(json_flag_PRED3);
+            const bool apex_predator = has_trait_flag(json_flag_PRED4);
+            if (apex_predator) {
+                // Largest bonus, balances out to around +5 or +10. Some organs may still be negative.
+                add_morale(MORALE_MEATARIAN, 20, 10);
+                add_msg_if_player(m_good,
+                    _("As you tear into the raw flesh, you feel satisfied with your meal."));
+            }
+            else if (predator || hunter) {
+                // Should approximately balance the fun to 0 for normal meat.
+                add_morale(MORALE_MEATARIAN, 15, 5);
+                add_msg_if_player(m_good,
+                    _("Raw flesh doesn't taste all that bad, actually."));
+            }
+            else if (carnivore || culler) {
+                // Only a small bonus (+5), still negative fun.
+                add_morale(MORALE_MEATARIAN, 5, 0);
+                add_msg_if_player(m_bad,
+                    _("This doesn't taste very good, but meat is meat."));
+            }
+        }
+
+        // Allergy check for food that is ingested (not gum)
+        if (!food.has_flag(flag_NO_INGEST)) {
+            const auto allergy = allergy_type(food);
+            if (allergy != MORALE_NULL) {
+                add_msg_if_player(m_bad, _("Yuck!  How can anybody eat this stuff?"));
+                add_morale(allergy, -75, -400, 30_minutes, 24_minutes);
+            }
+            if (food.has_flag(flag_ALLERGEN_JUNK)) {
+                if (has_trait(trait_PROJUNK)) {
+                    add_msg_if_player(m_good, _("Mmm, junk food."));
+                    add_morale(MORALE_SWEETTOOTH, 5, 30, 30_minutes, 24_minutes);
+                }
+                if (has_trait(trait_PROJUNK2)) {
+                    if (!one_in(100)) {
+                        add_msg_if_player(m_good, _("When life's got you down, there's always sugar."));
+                    }
+                    else {
+                        add_msg_if_player(m_good, _("They may do what they must… you've already won."));
+                    }
+                    add_morale(MORALE_SWEETTOOTH, 10, 50, 1_hours, 50_minutes);
+                }
+                // Carnivores CAN eat junk food, but they won't like it much.
+                // Pizza-scraping happens in consume_effects.
+                if (has_trait(trait_CARNIVORE) && !food.has_flag(flag_CARNIVORE_OK)) {
+                    add_msg_if_player(m_bad, _("Your stomach begins gurgling and you feel bloated and ill."));
+                    add_morale(MORALE_NO_DIGEST, -25, -125, 30_minutes, 24_minutes);
+                }
+            }
+        }
+        const bool chew = food.get_comestible()->comesttype == comesttype_FOOD ||
+            food.has_flag(flag_USE_EAT_VERB);
+        if (!food.rotten() && chew && has_trait(trait_SAPROPHAGE)) {
+            // It's OK to *drink* things that haven't rotted.  Alternative is to ban water.  D:
+            add_msg_if_player(m_bad, _("Your stomach begins gurgling and you feel bloated and ill."));
+            add_morale(MORALE_NO_DIGEST, -75, -400, 30_minutes, 24_minutes);
+        }
+        if (food.has_flag(flag_URSINE_HONEY) && (!crossed_threshold() ||
+            has_trait(trait_THRESH_URSINE)) &&
+            mutation_category_level[mutation_category_URSINE] > 40) {
+            // Need at least 5 bear mutations for effect to show, to filter out mutations in common with other categories
+            int honey_fun = has_trait(trait_THRESH_URSINE) ?
+                std::min(mutation_category_level[mutation_category_URSINE] / 8, 20) :
+                mutation_category_level[mutation_category_URSINE] / 12;
+            if (honey_fun < 10) {
+                add_msg_if_player(m_good, _("You find the sweet taste of honey surprisingly palatable."));
+            }
+            else {
+                add_msg_if_player(m_good, _("You feast upon the sweet honey."));
+            }
+            add_morale(MORALE_HONEY, honey_fun, 100);
+        }
     }
 }
 
@@ -1758,7 +1789,8 @@ trinary player::consume( item &target, bool force, bool refuel )
     }
 
     if( refuel ) {
-        return fuel_bionic_with( target ) && target.charges <= 0 ? trinary::ALL : trinary::SOME;
+        fuel_bionic_with( target );
+        return target.charges <= 0 ? trinary::ALL : trinary::SOME;
     }
 
     if( consume_med( target, *this ) || eat( target, *this, force ) ) {

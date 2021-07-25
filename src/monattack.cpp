@@ -176,6 +176,7 @@ static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_FAST_REFLEXES( "FAST_REFLEXES" );
+static const trait_id trait_NUMB("NUMB");
 
 static const mtype_id mon_ant_acid_larva( "mon_ant_acid_larva" );
 static const mtype_id mon_ant_acid_queen( "mon_ant_acid_queen" );

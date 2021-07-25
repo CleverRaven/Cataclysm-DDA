@@ -112,7 +112,11 @@ static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
 static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WHISKERS( "WHISKERS" );
 static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
+static const trait_id trait_NUMB("NUMB");
 static const trait_id trait_MASOCHIST( "MASOCHIST" );
+static const trait_id trait_STYLISH("STYLSIH");
+static const trait_id trait_GOURMAND("GOURMAND");
+
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 
@@ -762,6 +766,7 @@ void avatar::disp_morale()
     morale->display( equilibrium, pain_penalty, fatigue_penalty );
 }
 
+
 int avatar::calc_focus_equilibrium( bool ignore_pain ) const
 {
     int focus_equilibrium = 100;
@@ -778,7 +783,15 @@ int avatar::calc_focus_equilibrium( bool ignore_pain ) const
         }
     }
 
-    int eff_morale = get_morale_level();
+    int eff_morale;
+
+    if (has_trait(trait_NUMB)) {
+        eff_morale = 0;
+    }
+    else {
+        eff_morale = get_morale_level();
+    }
+
     // Factor in perceived pain, since it's harder to rest your mind while your body hurts.
     // Cenobites don't mind, though
     if( !ignore_pain && !has_trait( trait_CENOBITE ) ) {
@@ -787,7 +800,16 @@ int avatar::calc_focus_equilibrium( bool ignore_pain ) const
             if( perceived_pain > 20 ) {
                 eff_morale = eff_morale - ( perceived_pain - 20 );
             }
-        } else {
+        }
+        else if (has_trait(trait_NUMB)) {
+            if (perceived_pain > 99) {
+                focus_equilibrium = 1;
+            }
+            else if (perceived_pain < 99) {
+                focus_equilibrium += -perceived_pain;
+            }
+        }
+        else {
             eff_morale = eff_morale - perceived_pain;
         }
     }
@@ -831,7 +853,8 @@ int avatar::calc_focus_equilibrium( bool ignore_pain ) const
     } else if( focus_equilibrium > 400 ) {
         focus_equilibrium = 400;
     }
-    return focus_equilibrium;
+
+        return focus_equilibrium;        
 }
 
 int avatar::calc_focus_change() const
@@ -876,6 +899,8 @@ void avatar::update_mental_focus()
         }
     }
 }
+
+
 
 void avatar::reset_stats()
 {

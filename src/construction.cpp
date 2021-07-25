@@ -88,6 +88,7 @@ static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
+static const trait_id trait_NUMB("NUMB");
 
 static const std::string flag_FLAT( "FLAT" );
 static const std::string flag_INITIAL_PART( "INITIAL_PART" );

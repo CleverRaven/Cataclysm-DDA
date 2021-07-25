@@ -143,6 +143,7 @@ static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const trait_id trait_WINGS_INSECT( "WINGS_INSECT" );
+static const trait_id trait_NUMB("NUMB");
 
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_cop( "mon_zombie_cop" );

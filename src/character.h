@@ -35,6 +35,7 @@
 #include "flat_set.h"
 #include "game_constants.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "magic_enchantment.h"
@@ -405,7 +406,7 @@ class Character : public Creature, public visitable
         int dex_cur;
         int int_cur;
         int per_cur;
-
+       
         // The prevalence of getter, setter, and mutator functions here is partially
         // a result of the slow, piece-wise migration of the player class upwards into
         // the character class. As enough logic is moved upwards to fully separate
@@ -1134,6 +1135,8 @@ class Character : public Creature, public visitable
         void item_encumb( std::map<bodypart_id, encumbrance_data> &vals, const item &new_item ) const;
 
     public:
+
+
         /** Recalculate encumbrance for all body parts. */
         void calc_encumbrance();
         /** Recalculate encumbrance for all body parts as if `new_item` was also worn. */
@@ -1162,8 +1165,6 @@ class Character : public Creature, public visitable
         int mabuff_block_bonus() const;
         /** Returns the speed bonus from martial arts buffs */
         int mabuff_speed_bonus() const;
-        /** Returns the arpen bonus from martial arts buffs*/
-        int mabuff_arpen_bonus( damage_type type ) const;
         /** Returns the damage multiplier to given type from martial arts buffs */
         float mabuff_damage_mult( damage_type type ) const;
         /** Returns the flat damage bonus to given type from martial arts buffs, applied after the multiplier */
@@ -1313,7 +1314,7 @@ class Character : public Creature, public visitable
         /** Is this bionic elligible to be installed in the player? */
         // Should be ret_val<void>, but ret_val.h doesn't like it
         ret_val<bool> is_installable( const item_location &loc, bool by_autodoc ) const;
-        std::map<bodypart_id, int> bionic_installation_issues( const bionic_id &bioid ) const;
+        std::map<bodypart_id, int> bionic_installation_issues( const bionic_id &bioid );
         /** Initialize all the values needed to start the operation player_activity */
         bool install_bionics( const itype &type, player &installer, bool autodoc = false,
                               int skill_level = -1 );
@@ -2002,6 +2003,7 @@ class Character : public Creature, public visitable
         void set_focus( int amount ) {
             focus_pool = amount * 1000;
         }
+       
     protected:
         int focus_pool = 0;
     public:
@@ -2475,6 +2477,7 @@ class Character : public Creature, public visitable
         void modify_morale( item &food, int nutr = 0 );
         // Modified by traits, &c
         int get_morale_level() const;
+        
         void add_morale( const morale_type &type, int bonus, int max_bonus = 0,
                          const time_duration &duration = 1_hours,
                          const time_duration &decay_start = 30_minutes, bool capped = false,
@@ -2893,6 +2896,10 @@ class Character : public Creature, public visitable
          * Used to determine suffering effects of albinism and solar sensitivity.
          */
         std::map<bodypart_id, float> bodypart_exposure();
+
+        // used to give focus bonuses for the stylish and masochistic type mutations
+        void stylbon();
+        void masobon();
     private:
         /** suffer() subcalls */
         void suffer_water_damage( const trait_id &mut_id );
@@ -2980,6 +2987,13 @@ class Character : public Creature, public visitable
         mutable crafting_cache_type crafting_cache;
 
         time_point melee_warning_turn = calendar::turn_zero;
+
+        //Allows the adding of mutation morale gains directly to focus pool as part of the NUMB mutation.
+        void numbfoc(int foc) {
+            focus_pool += foc;
+        }
+        
+        
     protected:
         /** Subset of learned recipes. Needs to be mutable for lazy initialization. */
         mutable pimpl<recipe_subset> learned_recipes;
@@ -2998,13 +3012,14 @@ class Character : public Creature, public visitable
         // is recalculated every turn in Character::recalculate_enchantment_cache
         pimpl<enchantment> enchantment_cache;
 };
-
 Character &get_player_character();
 
 template<>
 struct enum_traits<character_stat> {
     static constexpr character_stat last = character_stat::DUMMY_STAT;
 };
+
+
 /// Get translated name of a stat
 std::string get_stat_name( character_stat Stat );
 #endif // CATA_SRC_CHARACTER_H

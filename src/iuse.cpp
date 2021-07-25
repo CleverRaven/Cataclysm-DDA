@@ -53,6 +53,7 @@
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "iteminfo_query.h"
@@ -328,6 +329,7 @@ static const trait_id trait_MASOCHIST_MED( "MASOCHIST_MED" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
+static const trait_id trait_NUMB("NUMB");
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
@@ -335,7 +337,7 @@ static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
-static const trait_id trait_WAYFARER( "WAYFARER" );
+static const trait_id trait_WAYFARER("WAYFARER");
 
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_DIG( "DIG" );
@@ -1795,7 +1797,7 @@ cata::optional<int> iuse::remove_all_mods( player *p, item *, bool, const tripoi
     }
 
     if( !loc->ammo_remaining() || p->unload( loc ) ) {
-        item *mod = loc->get_item_with(
+        item *mod = loc->contents.get_item_with(
         []( const item & e ) {
             return e.is_toolmod() && !e.is_irremovable();
         } );
@@ -2866,6 +2868,10 @@ cata::optional<int> iuse::dig( player *p, item *it, bool t, const tripoint & )
             p->add_msg_if_player( m_good,
                                   _( "Exhuming a grave is fun now, when there is no one to object." ) );
             p->add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
+        } else if( p->has_trait( trait_NUMB ) ) {
+            p->add_msg_if_player(m_good,
+                                  _("You wonder if you'll find something usefull."));
+            p->add_morale( MORALE_GRAVEDIGGER, 0, 50, 2_hours, 1_hours );
         } else if( !p->has_trait( trait_EATDEAD ) &&
                    !p->has_trait( trait_SAPROVORE ) ) {
             p->add_msg_if_player( m_bad, _( "Exhuming this grave is utterly disgusting!" ) );
@@ -6383,7 +6389,7 @@ cata::optional<int> iuse::einktabletpc( player *p, item *it, bool t, const tripo
 
             p->moves -= to_moves<int>( rng( 3_seconds, 7_seconds ) );
 
-            if( p->has_trait( trait_PSYCHOPATH ) ) {
+            if( p->has_trait( trait_PSYCHOPATH ) || p->has_trait(trait_NUMB) ) {
                 p->add_msg_if_player( m_info, _( "Wasted time.  These pictures do not provoke your senses." ) );
             } else {
                 p->add_morale( MORALE_PHOTOS, rng( 15, 30 ), 100 );
@@ -7837,7 +7843,7 @@ cata::optional<int> iuse::foodperson( player *p, item *it, bool t, const tripoin
 cata::optional<int> iuse::radiocar( player *p, item *it, bool, const tripoint & )
 {
     int choice = -1;
-    item *bomb_it = it->get_item_with( []( const item & c ) {
+    item *bomb_it = it->contents.get_item_with( []( const item & c ) {
         return c.has_flag( flag_RADIOCARITEM );
     } );
     if( bomb_it == nullptr ) {
@@ -7954,7 +7960,7 @@ static void sendRadioSignal( player &p, const flag_id &signal )
                     it.type->invoke( p, it, loc );
                 }
             } else if( !it.empty_container() ) {
-                item *itm = it.get_item_with( [&signal]( const item & c ) {
+                item *itm = it.contents.get_item_with( [&signal]( const item & c ) {
                     return c.has_flag( signal );
                 } );
 
@@ -8046,7 +8052,7 @@ cata::optional<int> iuse::radiocontrol( player *p, item *it, bool t, const tripo
 
         if( !radio_containers.empty() ) {
             for( item *items : radio_containers ) {
-                item *itm = items->get_item_with( [&]( const item & c ) {
+                item *itm = items->contents.get_item_with( [&]( const item & c ) {
                     return c.has_flag( flag_BOMB ) && c.has_flag( signal );
                 } );
 
@@ -8312,7 +8318,7 @@ cata::optional<int> iuse::autoclave( player *p, item *it, bool t, const tripoint
             it->active = false;
             it->erase_var( "CYCLETIME" );
             it->unset_flag( flag_NO_UNLOAD );
-            item *cbm = it->get_item_with( []( const item & it ) {
+            item *cbm = it->contents.get_item_with( []( const item & it ) {
                 return it.is_bionic() && !it.has_flag( flag_NO_PACKED );
             } );
             cbm->unset_flag( flag_NO_STERILE );
@@ -8326,7 +8332,7 @@ cata::optional<int> iuse::autoclave( player *p, item *it, bool t, const tripoint
         }
 
         bool empty = true;
-        item *clean_cbm = it->get_item_with(
+        item *clean_cbm = it->contents.get_item_with(
         []( const item & it ) {
             return it.is_bionic();
         } );
@@ -8483,7 +8489,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
         uilist menu;
         menu.text = _( "Welcome to the RobotChef3000.  Choose option:" );
 
-        item *dish_it = it->get_item_with(
+        item *dish_it = it->contents.get_item_with(
         []( const item & it ) {
             return !( it.is_toolmod() || it.is_magazine() );
         } );
@@ -8577,7 +8583,7 @@ cata::optional<int> iuse::multicooker( player *p, item *it, bool t, const tripoi
 
         // Empty the cooker before it can be activated.
         if( mc_empty == choice ) {
-            it->handle_liquid_or_spill( *p );
+            it->contents.handle_liquid_or_spill( *p );
         }
 
         if( mc_start == choice ) {

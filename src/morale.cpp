@@ -7,8 +7,14 @@
 #include <set>
 #include <string>
 #include <utility>
+#include <algorithm>
+#include <cstdlib>
+#include <functional>
+#include <memory>
+#include <unordered_set>
 
 #include "bodypart.h"
+#include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -33,6 +39,7 @@ static const efftype_id effect_took_prozac( "took_prozac" );
 static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
 
 static const trait_id trait_BADTEMPER( "BADTEMPER" );
+static const trait_id trait_NUMB("NUMB");
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_LEAVES2( "LEAVES2" );
@@ -45,14 +52,16 @@ static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_STYLISH( "STYLISH" );
 
+
 namespace
 {
-
+    
 bool is_permanent_morale( const morale_type &id )
 {
     static const std::set<morale_type> permanent_morale = {{
             MORALE_PERM_OPTIMIST,
             MORALE_PERM_BADTEMPER,
+            MORALE_PERM_NUMB,
             MORALE_PERM_FANCY,
             MORALE_PERM_MASOCHIST,
             MORALE_PERM_CONSTRAINED,
@@ -65,6 +74,7 @@ bool is_permanent_morale( const morale_type &id )
 }
 
 } // namespace
+
 
 // Morale multiplier
 struct morale_mult {
@@ -93,9 +103,10 @@ static inline double operator * ( double morale, const morale_mult &mult )
 
 static inline int operator *= ( int &morale, const morale_mult &mult )
 {
-    morale = morale * mult;
-    return morale;
+        morale = morale * mult;
+        return morale;
 }
+
 
 // Commonly used morale multipliers
 namespace morale_mults
@@ -106,6 +117,8 @@ static const morale_mult optimist( 1.2, 0.8 );
 // Again, those grouchy Bad-Tempered folks always focus on the negative.
 // They can't handle positive things as well.  They're No Fun.  D:
 static const morale_mult badtemper( 0.8, 1.2 );
+//Numb characters can't feel anything at all.
+static const morale_mult numb( 0.0 , 0.0 );
 // Prozac reduces overall negative morale by 75%.
 static const morale_mult prozac( 1.0, 0.25 );
 // The bad prozac effect reduces good morale by 75%.
@@ -251,6 +264,8 @@ player_morale::player_morale() :
                                     _2, nullptr );
     const auto set_badtemper      = std::bind( &player_morale::set_permanent, _1, MORALE_PERM_BADTEMPER,
                                     _2, nullptr );
+    const auto set_numb           = std::bind( &player_morale::set_permanent, _1, MORALE_PERM_NUMB,
+                                    _2, nullptr);
     const auto set_stylish        = std::bind( &player_morale::set_stylish, _1, _2 );
     const auto update_constrained = std::bind( &player_morale::update_constrained_penalty, _1 );
     const auto update_masochist   = std::bind( &player_morale::update_masochist_bonus, _1 );
@@ -261,6 +276,9 @@ player_morale::player_morale() :
     mutations[trait_BADTEMPER]     = mutation_data(
                                          std::bind( set_badtemper, _1, -9 ),
                                          std::bind( set_badtemper, _1, 0 ) );
+    mutations[trait_BADTEMPER]     = mutation_data(
+                                         std::bind(set_badtemper, _1, 0),
+                                         std::bind(set_badtemper, _1, 0));
     mutations[trait_STYLISH]       = mutation_data(
                                          std::bind( set_stylish, _1, true ),
                                          std::bind( set_stylish, _1, false ) );
@@ -359,7 +377,10 @@ morale_mult player_morale::get_temper_mult() const
     if( has( MORALE_PERM_BADTEMPER ) ) {
         mult *= morale_mults::badtemper;
     }
-
+    if (!hasNumb) {
+        mult *= morale_mults::numb;
+        hasNumb = has_mut(trait_NUMB);
+    }
     return mult;
 }
 
@@ -373,9 +394,21 @@ void player_morale::calculate_percentage()
     for( auto &m : points ) {
         const int bonus = m.get_net_bonus( mult );
         if( bonus > 0 ) {
-            sum_of_positive_squares += std::pow( bonus, 2 );
+            if (!hasNumb) {
+                sum_of_positive_squares = 0;
+                hasNumb = has_mut(trait_NUMB);
+            }
+            else {
+                sum_of_positive_squares += std::pow(bonus, 2);
+            }
         } else {
-            sum_of_negative_squares += std::pow( bonus, 2 );
+            if (!hasNumb) {
+                sum_of_negative_squares = 0;
+                hasNumb = has_mut(trait_NUMB);
+            }
+            else {
+                sum_of_negative_squares += std::pow(bonus, 2);
+            }
         }
     }
 
@@ -398,6 +431,10 @@ int player_morale::get_total_negative_value() const
         if( bonus < 0 ) {
             sum += std::pow( bonus, 2 );
         }
+        else if (!hasNumb) {
+            sum = 0;
+            hasNumb = has_mut(trait_NUMB);
+        }
     }
     return std::sqrt( sum );
 }
@@ -416,7 +453,10 @@ int player_morale::get_total_positive_value() const
         if( bonus > 0 ) {
             sum += std::pow( bonus, 2 );
         }
-
+        else if (!hasNumb) {
+            sum = 0;
+            hasNumb = has_mut(trait_NUMB);
+        }
     }
     return std::sqrt( sum );
 }
@@ -449,8 +489,14 @@ int player_morale::get_level() const
 
         level_is_valid = true;
     }
-
-    return level;
+    if (!hasNumb) {
+        level = 0;
+        return level;
+        hasNumb = has_mut(trait_NUMB);
+    }
+    else {
+        return level;
+    }
 }
 
 void player_morale::decay( const time_duration &ticks )
@@ -1000,6 +1046,7 @@ void player_morale::set_stylish( bool new_stylish )
     }
 }
 
+int stylin;
 void player_morale::update_stylish_bonus()
 {
     int bonus = 0;
@@ -1014,9 +1061,21 @@ void player_morale::update_stylish_bonus()
         bonus = std::min( static_cast<int>( 2 * super_fancy_items.size() ) +
                           2 * std::min( static_cast<int>( no_body_part.fancy ), 3 ) + static_cast<int>( tmp_bonus ), 20 );
     }
-    set_permanent( MORALE_PERM_FANCY, bonus );
+    if (stylish && has_mutation(trait_NUMB)) {
+        bonus = stylin;
+        set_permanent(MORALE_PERM_FANCY, 0);
+    }
+    else {
+        set_permanent(MORALE_PERM_FANCY, bonus);
+    }
+    
+    
+}
+void Character::stylbon() {
+    numbfoc(stylin);
 }
 
+int masochistic;
 void player_morale::update_masochist_bonus()
 {
     const bool amateur_masochist = has_mutation( trait_MASOCHIST );
@@ -1035,7 +1094,16 @@ void player_morale::update_masochist_bonus()
             bonus = bonus / 2;
         }
     }
-    set_permanent( MORALE_PERM_MASOCHIST, bonus );
+    if (stylish && has_mutation(trait_NUMB)) {
+        bonus = masochistic;
+        set_permanent(MORALE_PERM_FANCY, 0);
+    }
+    else {
+        set_permanent(MORALE_PERM_FANCY, bonus);
+    }
+}
+void Character::masobon() {
+    numbfoc(masochistic);
 }
 
 void player_morale::update_bodytemp_penalty( const time_duration &ticks )
@@ -1089,4 +1157,9 @@ void player_morale::update_squeamish_penalty()
     }
     penalty += 2 * std::min( static_cast<int>( no_body_part.filthy ), 3 );
     set_permanent( MORALE_PERM_FILTHY, -penalty );
+}
+
+bool has_muta(const trait_id& b)
+{
+    return false;
 }

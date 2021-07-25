@@ -49,6 +49,7 @@
 #include "iexamine.h"
 #include "inventory.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_factory.h"
 #include "item_location.h"
 #include "item_pocket.h"
@@ -224,6 +225,7 @@ static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
+static const json_character_flag json_flag_NUMB("NUMB");
 static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 
@@ -233,6 +235,7 @@ static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
+static const trait_id trait_NUMB("NUMB");
 
 // not to confuse with item flags (json_flag)
 static const std::string flag_AUTODOC( "AUTODOC" );
@@ -603,6 +606,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
                           !corpse.in_species( species_ZOMBIE ) );
     if( is_human && !( u.has_trait_flag( json_flag_CANNIBAL ) ||
                        u.has_trait_flag( json_flag_PSYCHOPATH ) ||
+                       u.has_trait_flag(json_flag_NUMB) ||
                        u.has_trait_flag( json_flag_SAPIOVORE ) ) ) {
 
         if( u.is_avatar() ) {

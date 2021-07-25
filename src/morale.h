@@ -9,12 +9,15 @@
 #include <vector>
 
 #include "calendar.h"
+#include "avatar.h"
 #include "morale_types.h"
 #include "type_id.h"
+#include "character.h"
 
 class JsonIn;
 class JsonObject;
 class JsonOut;
+class Character;
 class item;
 struct itype;
 struct morale_mult;
@@ -23,7 +26,7 @@ class player_morale
 {
     public:
         player_morale();
-
+        
         player_morale( player_morale && ) noexcept = default;
         player_morale( const player_morale & ) = default;
         player_morale &operator =( player_morale && ) = default;
@@ -40,7 +43,7 @@ class player_morale
         /** Removes specified morale */
         void remove( const morale_type &type, const itype *item_type = nullptr );
         /** Clears up all morale points */
-        void clear();
+        void clear();        
         /** Returns overall morale level */
         int get_level() const;
         /** Ticks down morale counters and removes them */
@@ -50,7 +53,6 @@ class player_morale
         /** Returns false whether morale is inconsistent with the argument.
          *  Only permanent morale is checked */
         bool consistent_with( const player_morale &morale ) const;
-
         /**calculates the percentage contribution for each morale point*/
         void calculate_percentage();
 
@@ -72,9 +74,12 @@ class player_morale
 
         void store( JsonOut &jsout ) const;
         void load( const JsonObject &jsin );
-
+        
+        /** Returns true if the player has the entered mutation */
+        bool has_mut(const trait_id& b) const;
+     
     private:
-
+        
         class morale_point
         {
             public:
@@ -136,6 +141,7 @@ class player_morale
                  * Returns normalized bonus if either max_bonus != 0 or capped == true
                  */
                 int normalize_bonus( int bonus, int max_bonus, bool capped ) const;
+                
         };
     protected:
         morale_mult get_temper_mult() const;
@@ -147,7 +153,6 @@ class player_morale
         void set_mutation( const trait_id &mid, bool active );
         bool has_mutation( const trait_id &mid );
         bool has_flag( const json_character_flag &flag );
-
         void remove_if( const std::function<bool( const morale_point & )> &func );
         void remove_expired();
         void invalidate();
@@ -157,6 +162,7 @@ class player_morale
         void update_masochist_bonus();
         void update_bodytemp_penalty( const time_duration &ticks );
         void update_constrained_penalty();
+       
 
     private:
         std::vector<morale_point> points;
@@ -203,11 +209,14 @@ class player_morale
         // Mutability is required for lazy initialization
         mutable int level;
         mutable bool level_is_valid;
-
+        mutable bool hasNumb;
         bool took_prozac;
         bool took_prozac_bad;
         bool stylish;
         int perceived_pain;
 };
+
+
+
 
 #endif // CATA_SRC_MORALE_H

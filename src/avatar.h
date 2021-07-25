@@ -19,6 +19,7 @@
 #include "json.h"
 #include "magic_teleporter_list.h"
 #include "memory_fast.h"
+#include "morale.h"
 #include "player.h"
 #include "point.h"
 #include "type_id.h"
@@ -34,6 +35,7 @@ class monster;
 class nc_color;
 class npc;
 class talker;
+class player_morale;
 struct bionic;
 
 namespace catacurses

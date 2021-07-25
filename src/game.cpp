@@ -91,6 +91,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_stack.h"
@@ -258,6 +259,7 @@ static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_THICKSKIN( "THICKSKIN" );
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 static const trait_id trait_NPC_STARTING_NPC( "NPC_STARTING_NPC" );
+static const trait_id trait_NUMB("NUMB");
 
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 

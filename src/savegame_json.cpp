@@ -1265,7 +1265,7 @@ void avatar::store( JsonOut &json ) const
 
     // misc player specific stuff
     json.member( "focus_pool", focus_pool );
-
+    
     // stats through kills
     json.member( "str_upgrade", std::abs( str_upgrade ) );
     json.member( "dex_upgrade", std::abs( dex_upgrade ) );
@@ -3498,6 +3498,11 @@ void player_morale::load( const JsonObject &jsin )
 {
     jsin.allow_omitted_members();
     jsin.read( "morale", points );
+}
+
+bool player_morale::has_mut(const trait_id& b) const
+{
+    return false;
 }
 
 struct mm_elem {

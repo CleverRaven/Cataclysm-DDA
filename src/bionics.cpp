@@ -183,6 +183,7 @@ static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PROF_AUTODOC( "PROF_AUTODOC" );
 static const trait_id trait_PROF_MED( "PROF_MED" );
 static const trait_id trait_THRESH_MEDICAL( "THRESH_MEDICAL" );
+static const trait_id trait_NUMB("NUMB");
 
 static const json_character_flag json_flag_BIONIC_GUN( "BIONIC_GUN" );
 static const json_character_flag json_flag_BIONIC_NPC_USABLE( "BIONIC_NPC_USABLE" );
@@ -2691,7 +2692,7 @@ int Character::get_used_bionics_slots( const bodypart_id &bp ) const
     return used_slots;
 }
 
-std::map<bodypart_id, int> Character::bionic_installation_issues( const bionic_id &bioid ) const
+std::map<bodypart_id, int> Character::bionic_installation_issues( const bionic_id &bioid )
 {
     std::map<bodypart_id, int> issues;
     if( !get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {

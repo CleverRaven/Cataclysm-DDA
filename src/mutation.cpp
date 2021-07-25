@@ -19,6 +19,7 @@
 #include "field_type.h"
 #include "game.h"
 #include "item.h"
+#include "item_contents.h"
 #include "itype.h"
 #include "magic_enchantment.h"
 #include "make_static.h"
@@ -440,7 +441,7 @@ void Character::mutation_effect( const trait_id &mut, const bool worn_destroyed_
                                    _( "Your %s is destroyed!" ),
                                    _( "<npcname>'s %s is destroyed!" ),
                                    armor.tname() );
-            armor.spill_contents( pos() );
+            armor.contents.spill_contents( pos() );
         } else {
             add_msg_player_or_npc( m_bad,
                                    _( "Your %s is pushed off!" ),
