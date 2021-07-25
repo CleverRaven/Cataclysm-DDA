@@ -2127,9 +2127,9 @@
     "result": "sheet_cotton_patchwork",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
-    "time": "1 m",
+    "time": "1 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 1 ] ], [ [ "scrap_cotton", 20 ] ] ]
+    "components": [ [ [ "rag", 1 ] ] ]
   },
   {
     "result": "sheet_neoprene_patchwork",
