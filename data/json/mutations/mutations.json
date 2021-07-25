@@ -265,7 +265,7 @@
     "description": "Nothing gets you down!  You savor the joys of life, ignore its hardships, and are generally happier than most people.",
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "BADTEMPER" ]
+    "cancels": [ "BADTEMPER", "NUMB" ]
   },
   {
     "type": "mutation",
@@ -737,7 +737,7 @@
     "starting_trait": true,
     "valid": false,
     "social_modifiers": { "intimidate": 5 },
-    "cancels": [ "KILLER", "PACIFIST" ],
+    "cancels": [ "KILLER", "PACIFIST", "NUMB" ],
     "flags": [ "CANNIBAL" ]
   },
   {
@@ -996,7 +996,7 @@
     "points": -2,
     "description": "Things just keep getting you down.  You tend to be unhappy, and it takes some doing to cheer you up.",
     "starting_trait": true,
-    "cancels": [ "OPTIMISTIC" ],
+    "cancels": [ "OPTIMISTIC", "NUMB" ],
     "category": [ "URSINE", "LIZARD", "CHIMERA" ]
   },
   {
@@ -1364,6 +1364,7 @@
     "description": "Your morale will shift up and down at random, often dramatically.",
     "starting_trait": true,
     "valid": false,
+    "cancels":  ["NUMB"],
     "category": [ "MEDICAL", "ELFA" ]
   },
   {
@@ -7043,5 +7044,16 @@
     "description": "You have fast reflexes, allowing you to dodge attacks and grabs more easily.",
     "starting_trait": true,
     "dodge_modifier": 2
+  },
+  {
+    "type": "mutation",
+    "id": "NUMB",
+    "name": { "str": "Numb" },
+    "points": 2,
+    "description": "Ever since the Cataclysm you find yourself incapable of feeling or expressing emotion. As a result, your morale cannot be affected though others may find you uncanny demeanor unsettling.",
+    "starting_trait": true,
+    "category": [ "MEDICAL" ],
+    "cancels": [ "PSYCHOPATH", "OPTIMISTIC", "BADTEMPER", "MOODSWINGS" ],
+    "social_modifiers": { "intimidate": 5 }
   }
 ]
