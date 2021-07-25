@@ -2136,7 +2136,8 @@
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
     "time": "1 s",
-    "components": [ [ [ "rag", 1 ] ] ]
+    "components": [ [ [ "rag", 1 ] ] ],
+    "//": "This is intended to be an interim measure until all recipies can be moved away from using or creating rags. Once that's done this can be considered obsolete"
   },
   {
     "result": "sheet_neoprene_patchwork",
