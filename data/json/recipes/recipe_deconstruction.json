@@ -2137,7 +2137,7 @@
     "activity_level": "NO_EXERCISE",
     "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "cotton_patchwork", 4 ] ], [ [ "filament", 10, "LIST" ] ] ]
+    "components": [ [ [ "cotton_patchwork", 1 ] ], [ [ "filament", 2, "LIST" ] ] ]
   },
   {
     "result": "cotton_patchwork",
