@@ -435,7 +435,7 @@
   },
   {
     "//": "Changed from 'NATO Burst Rifle', as I found that to be too vague.",
-    "id": "m16_burst_rifle",
+    "id": "m16a4",
     "copy-from": "rifle_semi",
     "looks_like": "ar15",
     "type": "GUN",
@@ -512,7 +512,7 @@
   },
   {
     "//": "Decided to give this one a non-brand name, as it is related to the M16. It was made with an open-bolt design, so I figured this name was reasonable.",
-    "id": "m16_open_bolt",
+    "id": "m231pfw",
     "copy-from": "m16_burst_rifle",
     "type": "GUN",
     "name": { "str": "M16 Open-Bolt Rifle" },
