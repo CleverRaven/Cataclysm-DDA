@@ -69,6 +69,7 @@ jobs:
             tiles: 0
             sanitize: address
             gold: 1
+            num_test_jobs: 1
             lto: 1
             title: GCC 11, Ubuntu, Curses, LTO
 
