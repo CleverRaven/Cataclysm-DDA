@@ -375,7 +375,7 @@
     "charges": 4,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "cotton_patchwork", 5 ] ], [ [ "filament", 15, "LIST" ] ] ]
+    "components": [ [ [ "cotton_patchwork", 4 ] ], [ [ "filament", 15, "LIST" ] ] ]
   },
   {
     "result": "sheet_neoprene_patchwork",
