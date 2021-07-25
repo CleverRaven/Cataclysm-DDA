@@ -368,9 +368,9 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "tailor",
-	"//time1": "this time seems excessive to me but I have no actual experience tailoring"
-	"//time2": "also this was probably created originally before the proficiencies system"
-	"//time3": "so that might explain the time, not sure which proficiencies it should use though"
+    "//time1": "this time seems excessive to me but I have no actual experience tailoring",
+    "//time2": "also this was probably created originally before the proficiencies system",
+    "//time3": "so that might explain the time, not sure which proficiencies it should use though",
     "time": "270 m",
     "charges": 4,
     "autolearn": true,
