@@ -234,7 +234,6 @@
     "symbol": ",",
     "color": "light_gray",
     "ammo": [ "tinder" ],
-    "max_charges": 100,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "tinder": 100 } } ],
     "use_action": {
       "target": "tinderbox_on",
@@ -260,7 +259,6 @@
     "symbol": ",",
     "color": "light_gray",
     "ammo": [ "tinder" ],
-    "max_charges": 100,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "tinder": 100 } } ],
     "turns_per_charge": 600,
     "revert_to": "tinderbox",

@@ -99,7 +99,6 @@
     "material": [ "plastic" ],
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "max_charges": 100,
     "use_action": {
       "target": "dab_pen_on",
       "msg": "You turn on the dab pen.",
@@ -136,7 +135,6 @@
     "power_draw": 9000,
     "revert_to": "dab_pen",
     "charges_per_use": 1,
-    "max_charges": 100,
     "use_action": {
       "target": "dab_pen",
       "msg": "You turn off the dab pen.",

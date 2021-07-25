@@ -171,7 +171,6 @@
     "color": "light_gray",
     "ammo": [ "charcoal" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 375 } } ],
-    "max_charges": 375,
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -910,7 +909,6 @@
     "ammo": [ "lamp_oil" ],
     "sub": "hotplate",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 }, "watertight": true, "rigid": true } ],
-    "max_charges": 800,
     "charges_per_use": 1,
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
