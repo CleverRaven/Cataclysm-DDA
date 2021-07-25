@@ -3573,7 +3573,6 @@ bool gamepad_available()
 void rescale_tileset( int size )
 {
     tilecontext->set_draw_scale( size );
-    g->mark_main_ui_adaptor_resize();
 }
 
 static window_dimensions get_window_dimensions( const catacurses::window &win,
