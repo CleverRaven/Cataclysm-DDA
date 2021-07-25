@@ -1043,7 +1043,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         // Draw path for auto-travel
         for( auto &elem : you.omt_path ) {
             tripoint_abs_omt pos( elem.xy(), you.posz() );
-            draw_from_id_string( "cursor", global_omt_to_draw_position( pos ), 0, 0, lit_level::LIT,
+            draw_from_id_string( "highlight", global_omt_to_draw_position( pos ), 0, 0, lit_level::LIT,
                                  false );
         }
 
