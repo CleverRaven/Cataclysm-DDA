@@ -460,7 +460,7 @@
     "variants": [
       {
         "id": "m16a4",
-        "name": { "str": "m16a4" },
+        "name": { "str": "M16A4" },
         "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas operated, rotating bolt rifle known for its accuracy and controllable recoil.",
         "weight": 1
       }
