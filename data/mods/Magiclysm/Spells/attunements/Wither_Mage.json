@@ -61,7 +61,7 @@
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile", "ally" ],
-    "flags": [ "LOUD", "VERBAL", "NO_LEGS", "NO_PROJECTILE", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "flags": [ "LOUD", "VERBAL", "NO_LEGS", "NO_PROJECTILE" ],
     "min_damage": 15,
     "max_damage": 65,
     "damage_increment": 1.5,

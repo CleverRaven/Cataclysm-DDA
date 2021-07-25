@@ -97,7 +97,7 @@
     "final_energy_cost": 700,
     "energy_increment": 10,
     "energy_source": "MANA",
-    "flags": [ "VERBAL", "SOMATIC", "LOUD", "IGNITE_FLAMMABLE", "MUST_HAVE_CLASS_TO_LEARN" ],
+    "flags": [ "VERBAL", "SOMATIC", "LOUD", "IGNITE_FLAMMABLE" ],
     "extra_effects": [ { "id": "vulcanist_pyroclastic_flow_smoke" } ],
     "spell_class": "VULCANIST"
   },
