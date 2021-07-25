@@ -12,6 +12,7 @@
 #include <iosfwd>
 #include <iterator>
 #include <map>
+#include <stack>
 #include <string>
 #include <type_traits>
 #include <utility>
