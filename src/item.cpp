@@ -3535,7 +3535,8 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         int percent_left;
         if( type->maximum_charges() == 0 ) {
             // Candle items that use ammo instead of charges
-            percent_left = 100 * ammo_remaining() / ammo_capacity( ammo_data()->ammo->type );
+            // The capacity should never be zero but clang complains about it
+            percent_left = 100 * ammo_remaining() / std::max( ammo_capacity( ammo_data()->ammo->type ), 1 );
         } else {
             // Candle items that use charges instead of ammo
             percent_left = 100 * ammo_remaining() / type->maximum_charges();
