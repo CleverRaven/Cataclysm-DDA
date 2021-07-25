@@ -849,7 +849,6 @@
     "time": "1 s",
     "autolearn": true,
     "components": [ [ [ "sheet_cotton_patchwork", 1 ] ] ],
-    "//": "This is intended to be an interim measure until all recipies can be moved away from using or creating rags.  Once that's done this can be obsolteted"
+    "//": "This is intended to be an interim measure until all recipies can be moved away from using or creating rags.  Once that's done this can be considered obsolete"
   }
-
 ]
