@@ -2124,6 +2124,14 @@
     "components": [ [ [ "rag", 6 ] ], [ [ "down_feather", 40 ] ] ]
   },
   {
+    "result": "sheet",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 s",
+    "components": [ [ [ "sheet_cotton_patchwork", 6 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "sheet_cotton_patchwork",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",

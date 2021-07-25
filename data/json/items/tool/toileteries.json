@@ -130,7 +130,7 @@
     "id": "cotton_patchwork",
     "type": "TOOL",
     "category": "spare_parts",
-    "name": { "str": "patchwork cotton clothing parts" },
+    "name": { "str_sp": "patchwork cotton clothing parts" },
     "description": "A selection of various clothing parts, could be sewn together in a patchwork fashion.",
     "weight": "100 g",
     "volume": "65 ml",
