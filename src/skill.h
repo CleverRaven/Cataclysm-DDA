@@ -119,6 +119,7 @@ class SkillLevel
         bool _isTraining = true;
         int _theoryLevel = 0;
         int _theoryExperience = 0;
+        int _rustAccumulator = 0;
 
     public:
         SkillLevel() = default;
@@ -146,10 +147,13 @@ class SkillLevel
             return _theoryLevel;
         }
 
-        int highestExperience() const {
+        int theoryExperience() const {
             return _theoryExperience;
         }
 
+        int rustAccumulator() const {
+            return _rustAccumulator;
+        }
         int exercise( bool raw = false ) const {
             return raw ? _exercise : _exercise / ( 100 * ( _level + 1 ) * ( _level + 1 ) );
         }
@@ -219,7 +223,7 @@ class SkillLevelMap : public std::map<skill_id, SkillLevel>
         void mod_skill_level( const skill_id &ident, int delta );
         int get_skill_level( const skill_id &ident ) const;
         int get_skill_level( const skill_id &ident, const item &context ) const;
-        
+
         int get_theory_skill_level( const skill_id &ident ) const;
         int get_theory_skill_level( const skill_id &ident, const item &context ) const;
 

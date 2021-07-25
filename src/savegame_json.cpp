@@ -399,7 +399,7 @@ void SkillLevel::serialize( JsonOut &json ) const
     json.member( "exercise", exercise( true ) );
     json.member( "istraining", isTraining() );
     json.member( "lastpracticed", _lastPracticed );
-    json.member( "highestlevel", highestLevel() );
+    json.member( "theorylevel", theoryLevel() );
     json.end_object();
 }
 
@@ -414,7 +414,7 @@ void SkillLevel::deserialize( JsonIn &jsin )
         _lastPracticed = calendar::start_of_cataclysm + time_duration::from_hours(
                              get_option<int>( "INITIAL_TIME" ) );
     }
-    data.read( "highestlevel", _theoryLevel );
+    data.read( "theorylevel", _theoryLevel );
     if( _theoryLevel < _level ) {
         _theoryLevel = _level;
     }

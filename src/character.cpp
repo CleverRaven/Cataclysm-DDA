@@ -2464,10 +2464,12 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
             get_event_bus().send<event_type::gains_skill_level>( getID(), id, new_practical_level );
         }
         if( is_avatar() && new_practical_level > old_practical_level ) {
-            add_msg( m_good, _( "Your practical skill in %s has increased to %d!" ), skill_name, new_practical_level );
+            add_msg( m_good, _( "Your practical skill in %s has increased to %d!" ), skill_name,
+                     new_practical_level );
         }
         if( is_avatar() && new_theoretical_level > old_theoretical_level ) {
-            add_msg( m_good, _( "Your theoretical understanding of %s has increased to %d!" ), skill_name, new_theoretical_level );
+            add_msg( m_good, _( "Your theoretical understanding of %s has increased to %d!" ), skill_name,
+                     new_theoretical_level );
         }
         if( is_avatar() && new_practical_level > cap ) {
             //inform player immediately that the current recipe can't be used to train further

@@ -219,11 +219,13 @@ void SkillLevel::train( int amount, bool skip_scaling )
 
     if( skip_scaling ) {
         _exercise += catchup_amount;
+        _rustAccumulator -= catchup_amount;
         _theoryExperience += amount;
     } else {
         const double scaling = get_option<float>( "SKILL_TRAINING_SPEED" );
         if( scaling > 0.0 ) {
             _exercise += std::ceil( catchup_amount * scaling );
+            _rustAccumulator -= std::ceil( catchup_amount * scaling );
             _theoryExperience += std::ceil( amount * scaling );
         }
     }
@@ -239,6 +241,10 @@ void SkillLevel::train( int amount, bool skip_scaling )
         }
         // Recalculate xp to level now that we have levelled up
         xp_to_level = 100 * 100 * ( _level + 1 ) * ( _level + 1 );
+    }
+
+    if( _rustAccumulator < 0 ) {
+        _rustAccumulator = 0;
     }
 
     if( _level == _theoryLevel && _exercise + highest_level_exp > _theoryExperience ) {
@@ -305,6 +311,11 @@ bool SkillLevel::rust( int rust_resist, int character_rate )
     const time_duration delta = calendar::turn - _lastPracticed;
     const float char_rate = character_rate / 100.0f;
     const time_duration skill_rate = rustRate( _level );
+    int rust_amount = std::max( _level * 100 - _rustAccumulator / ( _level * 100 ), 0 );
+
+    if( rust_amount <= 0 ) {
+        return false;
+    }
 
     if( to_turns<int>( skill_rate ) * char_rate <= 0 || delta <= 0_turns ||
         delta % ( skill_rate * char_rate ) != 0_turns ) {
@@ -315,7 +326,8 @@ bool SkillLevel::rust( int rust_resist, int character_rate )
         return x_in_y( rust_resist, 100 );
     }
 
-    _exercise -= _level * 100;
+    _rustAccumulator += rust_amount;
+    _exercise -= rust_amount;
     const std::string &rust_type = get_option<std::string>( "SKILL_RUST" );
     if( _exercise < 0 ) {
         if( rust_type == "vanilla" || rust_type == "int" ) {
