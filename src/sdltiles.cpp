@@ -833,10 +833,6 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         geometry->rect( renderer, clipRect, SDL_Color() );
     }
 
-    // color blocks overlay; drawn on top of tiles and on top of overlay strings (if any).
-    color_block_overlay_container color_blocks;
-    // Strings with colors do be drawn with map_font on top of tiles.
-    std::multimap<point, formatted_text> overlay_strings;
     point s;
     get_window_tile_counts( width, height, s.x, s.y );
 
