@@ -1023,10 +1023,12 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         }
     }
 
+    auto npcs_near_player = overmap_buffer.get_npcs_near_player( sight_points );
+
     // draw nearby seen npcs
-    for( const shared_ptr_fast<npc> &guy : overmap_buffer.get_npcs_near_player( sight_points ) ) {
+    for( const shared_ptr_fast<npc> &guy : npcs_near_player ) {
         const tripoint_abs_omt &guy_loc = guy->global_omt_location();
-        if( overmap_buffer.seen( guy_loc ) && guy_loc.z() == center_abs_omt.z() ) {
+        if( guy_loc.z() == center_abs_omt.z() && ( has_debug_vision || overmap_buffer.seen( guy_loc ) ) ) {
             draw_entity_with_overlays( *guy, global_omt_to_draw_position( guy_loc ), lit_level::LIT,
                                        height_3d );
         }
@@ -1038,6 +1040,13 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
                          false );
 
     if( blink ) {
+        // Draw path for auto-travel
+        for( auto &elem : you.omt_path ) {
+            tripoint_abs_omt pos( elem.xy(), you.posz() );
+            draw_from_id_string( "cursor", global_omt_to_draw_position( pos ), 0, 0, lit_level::LIT,
+                                 false );
+        }
+
         // reduce the area where the map cursor is drawn so it doesn't get cut off
         inclusive_cuboid<tripoint> map_cursor_area = overmap_area;
         map_cursor_area.p_max.y--;
@@ -1112,9 +1121,11 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
         }
     }
 
-    for( const auto &npc : overmap_buffer.get_npcs_near_omt( center_abs_omt, 0 ) ) {
-        if( !npc->marked_for_death ) {
-            notes_window_text.emplace_back( npc->basic_symbol_color(), npc->name );
+    if( has_debug_vision || overmap_buffer.seen( center_abs_omt ) ) {
+        for( const auto &npc : npcs_near_player ) {
+            if( !npc->marked_for_death && npc->global_omt_location() == center_abs_omt ) {
+                notes_window_text.emplace_back( npc->basic_symbol_color(), npc->name );
+            }
         }
     }
 
