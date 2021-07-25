@@ -195,7 +195,7 @@
       [
         [ "meat_lung", 4, "LIST" ],
         [ "meat_liver", 4, "LIST" ],
-        [ "kidney", 4 ],
+        [ "meat_kidney", 4, "LIST" ],
         [ "sweetbread", 4 ],
         [ "offal", 1 ],
         [ "mutant_bug_organs", 1 ]
@@ -230,6 +230,11 @@
     "id": "meat_liver",
     "type": "requirement",
     "components": [ [ [ "liver", 1 ], [ "canned_liver", 1 ], [ "mutant_liver", 1 ] ] ]
+  },
+  {
+    "id": "meat_kidney",
+    "type": "requirement",
+    "components": [ [ [ "kidney", 1 ], [ "mutant_kidney", 1] ] ]
   },
   {
     "id": "meat_brain",
@@ -284,7 +289,7 @@
       [
         [ "meat_red", 1, "LIST" ],
         [ "meat_liver", 5, "LIST" ],
-        [ "kidney", 5 ],
+        [ "meat_kidney", 5, "LIST" ],
         [ "meat_lung", 5, "LIST" ],
         [ "sweetbread", 5 ],
         [ "bacon", 4 ],

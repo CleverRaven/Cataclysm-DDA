@@ -181,6 +181,46 @@
   },
   {
     "type": "snippet",
+    "category": "mutant_kidney_desc",
+    "text": [
+      {
+        "id": "mutant_kidney_1",
+        "text": "A piece of kidney from a mutated animal.  Cutting into it your knife slips, opening a large gash on its side from which tiny, beautiful pearls roll out.  Before your eyes they start glistening with humidity and melt, leaving no trace of them."
+      },
+      {
+        "id": "mutant_kidney_2",
+        "text": "A piece of kidney from a mutated animal.  The tissue is broken up by pointy, brittle crystals you need to carefully cut around, lest they embed in your hand.  When you're done about half the meat is gone."
+      },
+      {
+        "id": "mutant_kidney_3",
+        "text": "A piece of kidney from a mutated animal.  Most of the volume is taken up by clear cysts filled with liquid, leaving you to pop them one by one to try and salvage some usable tissue.  The result looks about as appetizing as it sounds, but you suppose it's technically edible."
+      },
+      {
+        "id": "mutant_kidney_4",
+        "text": "A piece of kidney from a mutated animal.  Accessory kidneys bud off the ureter in clumps, like red, slightly quivering grapes.  The main organ continues the same fractal structure, revealing itself to be a collection of smaller instances of each cut."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "cooked_mutant_kidney_desc",
+    "text": [
+      {
+        "id": "cooked_mutant_kidney_1",
+        "text": "A cooked piece of kidney from a mutated animal.  Cooking it exposed myriad tiny, glistening stones embedded into the tissue, making your teeth screech with every bite.  It tastes sickly sweet, and a stinging aftertaste lingers in your mouth for a long time."
+      },
+      {
+        "id": "cooked_mutant_kidney_2",
+        "text": "A cooked piece of kidney from a mutated animal.  Cooking loosened the tissue enough for it to come apart from the lightest pull, while exposing long, off-white strands that connect the different parts together."
+      },
+      {
+        "id": "cooked_mutant_kidney_3",
+        "text": "A cooked piece of kidney from a mutated animal.  You swear it grew new cycts while you were cooking it, each of which sport a different color.  You're not sure you want to know how the dark blue one tastes."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "bug_organs_desc",
     "text": [
       {

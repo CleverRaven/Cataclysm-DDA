@@ -746,6 +746,24 @@
     "parasites": 0
   },
   {
+    "id": "mutant_kidney",
+    "type": "COMESTIBLE",
+    "copy-from": "kidney",
+    "name": { "str_sp": "raw mutant kidney" },
+    "snippet_category": "mutant_kidney_desc",
+    "proportional": { "price_postapoc": 0.5 },
+    "extend":  { "flags": [ "BAD_TASTE"] },
+    "vitamins": [ [ "mutant_toxin", 25 ] ]
+  },
+  {
+    "id": "mutant_kidney_cooked",
+    "type": "COMESTIBLE",
+    "copy-from": "kidney_cooked",
+    "name": { "str_sp": "cooked mutant kidney" },
+    "snippet_category": "cooked_mutant_kidney_desc",
+    "fun": -12
+  },
+  {
     "id": "sweetbread",
     "type": "COMESTIBLE",
     "copy-from": "lung",
