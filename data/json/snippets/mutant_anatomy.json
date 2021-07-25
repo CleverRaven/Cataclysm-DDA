@@ -137,6 +137,50 @@
   },
   {
     "type": "snippet",
+    "category": "mutant_liver_desc",
+    "text": [
+      {
+        "id": "mutant_liver_1",
+        "text": "A chunk of liver from a mutated animal.  The surface is pockmarked by hexagonal scar tissue, and some surprisingly active flatworms still seem to cling to it.  About half of them seem to be in the process of being digested by their meal, instead of the other way around."
+      },
+      {
+        "id": "mutant_liver_2",
+        "text": "A chunk of liver from a mutated animal.  Most of its volume is taken up by a gigantic cyst filled with tiny, crab-like creatures.  Upon opening it the contents spray to the ground, with the suddenly homeless inhabitants scurrying for cover.  The rest of it looks relatively normal, if only in comparison."
+      },
+      {
+        "id": "mutant_liver_3",
+        "text": "A chunk of liver from a mutated animal.  The gall bladder transformed into a bundle of hair and skin, and what appeared to be brownish veins originating from it turn out to be singular, curled hairs crisscrossing beneath the surface of the organ.  At least you can remove them with a gentle pull on the central mass, but the whole liver collapses in a gelatinous heap afterwards."
+      },
+      {
+        "id": "mutant_liver_4",
+        "text": "A chunk of liver from a mutated animal.  The surface is blackened and cracked, exposing a few strips of fresh pink tissue underneath.  After cracking the shell the inner tissue begins swelling at an alarming rate before turning grey and lifeless."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "cooked_mutant_liver_desc",
+    "text": [
+      {
+        "id": "cooked_mutant_liver_1",
+        "text": "A cooked chunk of liver from a mutated animal.  Getting all the parasites off was more effort than this meal is probably worth, and the consistency suffered considerably from having to dig them out from the depth of the organ."
+      },
+      {
+        "id": "cooked_mutant_liver_2",
+        "text": "A cooked chunk of liver from a mutated animal.  Instead of the matte grey-brown of a normal liver, this one turned disconcertingly orange after heating it up, and finger-sized flakes detach themselves from it at the easiest touch.  The taste reminds you of slightly overripe avocado, but that's still better than you expected."
+      },
+      {
+        "id": "cooked_mutant_liver_3",
+        "text": "A cooked chunk of liver from a mutated animal.  The channels left by the hairs you removed fill with an oily black liquid, lending a surprisingly nice look to the cut surface.  Biting into it the fluid hardens unexpectedly, leaving you to chew much longer than you'd like to."
+      },
+      {
+        "id": "cooked_mutant_liver_4",
+        "text": "A cooked chunk of liver from a mutated animal.  The tissue split apart following the veins before hardening, reminding you of a warped grey flower with a sinous vein for a stem.  Surprisingly, it tastes not entirely unlike liver."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "bug_organs_desc",
     "text": [
       {

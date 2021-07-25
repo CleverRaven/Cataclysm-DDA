@@ -595,8 +595,7 @@
     "name": { "str": "cooked piece of lung", "str_pl": "cooked pieces of lung" },
     "description": " Prepared in this way, it's a chewy grayish lump of flavorless connective tissue.  It doesn't look any tastier than it did raw, but the parasites are all cooked out.",
     "parasites": 0,
-    "extend": { "flags": [ "EATEN_HOT" ] },
-    "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] }
+    "extend": { "flags": [ "EATEN_HOT" ] }
   },
   {
     "id": "mutant_lung",
@@ -606,7 +605,7 @@
     "snippet_category": "mutant_lung_desc",
     "fun": -15,
     "proportional": { "price_postapoc": 0.5 },
-    "extend":  { "flags": [ "BAD_TASTE"] },
+    "extend":  { "flags": [ "BAD_TASTE" ] },
     "vitamins": [ [ "mutant_toxin", 10 ] ]
   },
   {
@@ -651,8 +650,26 @@
     "parasites": 0,
     "price_postapoc": 50,
     "fun": -2,
-    "healthy": 0,
-    "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] }
+    "healthy": 0
+  },
+  {
+    "id": "mutant_liver",
+    "type": "COMESTIBLE",
+    "copy-from": "liver",
+    "name": { "str": "mutant liver" },
+    "snippet_category": "mutant_liver_desc",
+    "fun": -12,
+    "proportional": { "price_postapoc": 0.5 },
+    "extend":  { "flags": [ "BAD_TASTE" ] },
+    "vitamins": [ [ "mutant_toxin", 40 ] ]
+  },
+  {
+    "id": "mutant_liver_cooked",
+    "type": "COMESTIBLE",
+    "copy-from": "liver_cooked",
+    "name": { "str": "cooked mutant liver" },
+    "snippet_category": "cooked_mutant_liver_desc",
+    "fun": -8
   },
   {
     "id": "brain",
@@ -681,8 +698,7 @@
     "parasites": 0,
     "healthy": -2,
     "fun": -8,
-    "extend": { "flags": [ "EATEN_HOT" ] },
-    "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] }
+    "extend": { "flags": [ "EATEN_HOT" ] }
   },
   {
     "id": "mutant_brain",
@@ -727,8 +743,7 @@
     "price_postapoc": 25,
     "quench": -2,
     "fun": -3,
-    "parasites": 0,
-    "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] }
+    "parasites": 0
   },
   {
     "id": "sweetbread",
@@ -753,8 +768,7 @@
     "price_postapoc": 50,
     "fun": -1,
     "description": "Normally a delicacy, it needs a little… something.",
-    "parasites": 0,
-    "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] }
+    "parasites": 0
   },
   {
     "type": "COMESTIBLE",

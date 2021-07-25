@@ -906,7 +906,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "char_smoker", 10 ] ], [ [ "funnel", -1 ], [ "makeshift_funnel", -1 ] ] ],
     "components": [
-      [ [ "meat_red", 2, "LIST" ], [ "liver", 10 ], [ "canned_liver", 10 ] ],
+      [ [ "meat_red", 2, "LIST" ], [ "meat_liver", 10, "LIST" ] ],
       [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 4, "LIST" ] ],
       [
         [ "salt", 4 ],
@@ -962,7 +962,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "funnel", -1 ], [ "makeshift_funnel", -1 ] ] ],
     "components": [
-      [ [ "meat_red", 2, "LIST" ], [ "liver", 10 ], [ "canned_liver", 10 ] ],
+      [ [ "meat_red", 2, "LIST" ], [ "meat_liver", 10, "LIST" ] ],
       [ [ "edible_fat", 1, "LIST" ], [ "edible_tallow_lard", 4, "LIST" ] ],
       [
         [ "salt", 4 ],

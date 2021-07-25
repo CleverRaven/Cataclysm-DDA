@@ -194,7 +194,7 @@
     "components": [
       [
         [ "meat_lung", 4, "LIST" ],
-        [ "liver", 4 ],
+        [ "meat_liver", 4, "LIST" ],
         [ "kidney", 4 ],
         [ "sweetbread", 4 ],
         [ "offal", 1 ],
@@ -225,6 +225,11 @@
     "type": "requirement",
     "//": "Anything you might consider raw lung.  About 250mL of lungs.",
     "components": [ [ [ "lung", 1 ], [ "mutant_bug_lungs", 1 ], [ "mutant_lung", 1 ] ] ]
+  },
+  {
+    "id": "meat_liver",
+    "type": "requirement",
+    "components": [ [ [ "liver", 1 ], [ "canned_liver", 1 ], [ "mutant_liver", 1 ] ] ]
   },
   {
     "id": "meat_brain",
@@ -278,7 +283,7 @@
     "components": [
       [
         [ "meat_red", 1, "LIST" ],
-        [ "liver", 5 ],
+        [ "meat_liver", 5, "LIST" ],
         [ "kidney", 5 ],
         [ "meat_lung", 5, "LIST" ],
         [ "sweetbread", 5 ],
