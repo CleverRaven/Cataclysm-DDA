@@ -210,6 +210,11 @@
     "text": "Guilty about Killing"
   },
   {
+    "id": "morale_numb",
+    "type": "morale_type",
+    "text": "Can't feel anything."
+  },
+  {
     "id": "morale_mutilate_corpse",
     "type": "morale_type",
     "text": "Guilty about Mutilating Corpse"
