@@ -224,7 +224,7 @@
     "id": "meat_lung",
     "type": "requirement",
     "//": "Anything you might consider raw lung.  About 250mL of lungs.",
-    "components": [ [ [ "lung", 1 ], [ "mutant_bug_lungs", 1 ] ] ]
+    "components": [ [ [ "lung", 1 ], [ "mutant_bug_lungs", 1 ], [ "mutant_lung", 1 ] ] ]
   },
   {
     "id": "meat_brain",

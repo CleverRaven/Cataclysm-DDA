@@ -595,7 +595,27 @@
     "name": { "str": "cooked piece of lung", "str_pl": "cooked pieces of lung" },
     "description": " Prepared in this way, it's a chewy grayish lump of flavorless connective tissue.  It doesn't look any tastier than it did raw, but the parasites are all cooked out.",
     "parasites": 0,
+    "extend": { "flags": [ "EATEN_HOT" ] },
     "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] }
+  },
+  {
+    "id": "mutant_lung",
+    "type": "COMESTIBLE",
+    "copy-from": "lung",
+    "name": { "str": "piece of raw mutant lung", "str_pl": "pieces of raw mutant lung" },
+    "snippet_category": "mutant_lung_desc",
+    "fun": -15,
+    "proportional": { "price_postapoc": 0.5 },
+    "extend":  { "flags": [ "BAD_TASTE"] },
+    "vitamins": [ [ "mutant_toxin", 10 ] ]
+  },
+  {
+    "id": "mutant_lung_cooked",
+    "type": "COMESTIBLE",
+    "copy-from": "lung_cooked",
+    "name": { "str": "cooked piece of mutant lung", "str_pl": "cooked pieces of mutant lung" },
+    "snippet_category": "cooked_mutant_lung_desc",
+    "fun": -10
   },
   {
     "id": "mutant_bug_lungs",
@@ -661,6 +681,7 @@
     "parasites": 0,
     "healthy": -2,
     "fun": -8,
+    "extend": { "flags": [ "EATEN_HOT" ] },
     "delete": { "flags": [ "RAW", "PREDATOR_FUN" ] }
   },
   {
@@ -676,11 +697,10 @@
   {
     "id": "mutant_brain_cooked",
     "type": "COMESTIBLE",
-    "copy-from": "mutant_brain",
+    "copy-from": "brain_cooked",
     "name": { "str_sp": "cooked mutant brains" },
     "snippet_category": "cooked_mutant_brain_desc",
-    "fun": -12,
-    "flags": [ "EATEN_HOT", "BAD_TASTE" ]
+    "fun": -12
   },
   {
     "id": "kidney",

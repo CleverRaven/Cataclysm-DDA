@@ -28,7 +28,13 @@
     "result": "lung_cooked",
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ [ [ "meat_lung", 1, "LIST" ] ] ]
+    "components": [ [ [ "lung", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "mutant_lung_cooked",
+    "copy-from": "brain_cooked",
+    "components": [ [ [ "mutant_lung", 1 ], [ "mutant_bug_lungs", 1 ] ] ]
   },
   {
     "type": "recipe",

@@ -89,6 +89,54 @@
   },
   {
     "type": "snippet",
+    "category": "mutant_lung_desc",
+    "text": [
+      {
+        "id": "mutant_lung_1",
+        "text": "A piece of lung you removed from a mutated animal.  Strange, swaying tubes filled with a clear liquid emerge from the mostly-normal lung tissue.  Some broke off during the butchery, and the escaped liquid coats your tools, hardening on contact with the air like superglue."
+      },
+      {
+        "id": "mutant_lung_2",
+        "text": "A piece of lung from a heavily mutated animal.  Even after removing the diaphragm, the tissue itself keeps rhytmically expanding and contracting, sending a gurgling whine through the windpipe with each breath.  It takes far too long for it to grow still."
+      },
+      {
+        "id": "mutant_lung_3",
+        "text": "A piece of lung from a heavily mutated animal.  The airways are broken up in regular intervals by what resemble vocal cords, and whenever you push some air through the tissue a cacophony of screams erupt from it."
+      },
+      {
+        "id": "mutant_lung_4",
+        "text": "A piece of lung from a heavily mutated animal.  The whole thing is filled with a foul-smelling, greenish foam bubbling from strange glands lined along the trachea, making you wonder how the creature could breathe at all.  It does explain the attitude, at least."
+      },
+      {
+        "id": "mutant_lung_5",
+        "text": "A piece of lung from a heavily mutated animal.  The airways are lined with rows of tiny, stone-hard barbs, each pointing towards the outside, as if they were made to keep something out."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "cooked_mutant_lung_desc",
+    "text": [
+      {
+        "id": "cooked_mutant_lung_1",
+        "text": "A cooked piece of mutant lung.  With a lot of work you can cut around the hardened shell of translucent gunk, but your only reward is getting to the spongy, grey, mostly-flavorless mass of tissue beneath."
+      },
+      {
+        "id": "cooked_mutant_lung_2",
+        "text": "A cooked piece of mutant lung.  The heat somehow made the tissue swell up, with some alveoles bursting and collapsing on themselves.  The whole thing turned to the consistency of cotton candy, only with a faint taste of yeast replacing the sugary goodness."
+      },
+      {
+        "id": "cooked_mutant_lung_3",
+        "text": "A cooked piece of mutant lung.  Deep within, the extraneus vocal cords you didn't manage to remove turned to chewy morsels.  The taste is almost good enough to make you forget the way they sounded while you were cooking it."
+      },
+      {
+        "id": "cooked_mutant_lung_4",
+        "text": "A cooked piece of mutant lung.  The glands exuding the green foam have solidified, and the foam itself seems to have evaporated without a trace.  The smell is detestable, but the glads have a taste and consistency remarkably like hardboiled egg yolk."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "bug_organs_desc",
     "text": [
       {

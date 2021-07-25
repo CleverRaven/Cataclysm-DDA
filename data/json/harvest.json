@@ -411,7 +411,7 @@
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.28 },
       { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
       { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "mutant_lung", "type": "offal", "mass_ratio": 0.0035 },
       { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
       { "drop": "mutant_brain", "type": "offal", "mass_ratio": 0.005 },
       { "drop": "bone", "type": "bone", "mass_ratio": 0.15 },
@@ -448,7 +448,7 @@
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
       { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
-      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "mutant_lung", "type": "offal", "mass_ratio": 0.0035 },
       { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
       { "drop": "mutant_brain", "type": "offal", "mass_ratio": 0.05 },
       { "drop": "sweetbread", "type": "flesh", "mass_ratio": 0.002 },
@@ -565,7 +565,7 @@
     "entries": [
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
-      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "mutant_lung", "type": "offal", "mass_ratio": 0.0035 },
       { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
       { "drop": "mutant_brain", "type": "offal", "mass_ratio": 0.005 },
@@ -678,7 +678,7 @@
     "entries": [
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
-      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "mutant_lung", "type": "offal", "mass_ratio": 0.0035 },
       { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
       { "drop": "mutant_brain", "type": "offal", "mass_ratio": 0.005 },
@@ -718,7 +718,7 @@
     "entries": [
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
-      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "mutant_lung", "type": "offal", "mass_ratio": 0.0035 },
       { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
       { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "mutant_brain", "type": "offal", "mass_ratio": 0.005 },
@@ -813,7 +813,7 @@
     "entries": [
       { "drop": "mutant_meat", "type": "flesh", "mass_ratio": 0.32 },
       { "drop": "mutant_meat_scrap", "type": "flesh", "mass_ratio": 0.01 },
-      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "mutant_lung", "type": "offal", "mass_ratio": 0.0035 },
       { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
       { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "mutant_brain", "type": "offal", "mass_ratio": 0.005 },
