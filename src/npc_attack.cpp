@@ -52,18 +52,6 @@ static bool can_move_melee( const npc &source )
     return can_move( source ) && source.rules.engagement != combat_engagement::FREE_FIRE;
 }
 
-// TODO: Uncomment when distance checks to allies are added. Clang-tidy doesn't like dead code
-/*static bool enemy_distance_to_ally( const npc &source, const Creature &target )
-{
-    int distance = rl_dist( target.pos(), source.pos() );
-    for( const weak_ptr_fast<Creature> &buddy : source.get_cached_friends() ) {
-        if( !buddy.expired() ) {
-            distance = std::min( distance, rl_dist( target.pos(), buddy.lock()->pos() ) );
-        }
-    }
-    return distance;
-}*/
-
 bool npc_attack_rating::operator>( const npc_attack_rating &rhs ) const
 {
     if( !rhs._value ) {
