@@ -9,6 +9,7 @@
 #include "cata_catch.h"
 #include "creature.h"
 #include "game_constants.h"
+#include "monster.h"
 #include "options.h"
 #include "output.h"
 #include "player.h"
@@ -364,6 +365,57 @@ TEST_CASE( "character's weight should increase with their body size and BMI",
     }
     GIVEN( "max height character" ) {
         test_weights( dummies_max_height );
+    }
+}
+
+TEST_CASE( "riding various creatures at various sizes", "[avatar][bodyweight]" )
+{
+    monster cow( mtype_id( "mon_cow" ) );
+    monster horse( mtype_id( "mon_horse" ) );
+    monster pig( mtype_id( "mon_pig" ) );
+    monster large_dog( mtype_id( "mon_dog_gpyrenees" ) );
+    monster average_dog( mtype_id( "mon_dog_gshepherd" ) );
+
+    using DummyMap = std::map<creature_size, avatar_ptr>;
+    DummyMap dummies_default_height = create_dummies_of_all_sizes( Character::default_height() );
+    DummyMap dummies_min_height = create_dummies_of_all_sizes( Character::min_height() );
+    DummyMap dummies_max_height = create_dummies_of_all_sizes( Character::max_height() );
+
+    auto can_mount = []( avatar_ptr dummy, const monster & steed ) {
+        return dummy->bodyweight() <= steed.get_weight() * steed.get_mountable_weight_ratio();
+    };
+
+    SECTION( "default height character can ride all large steeds but not the small ones" ) {
+        avatar_ptr dummy = dummies_default_height[creature_size::medium];
+        CHECK( can_mount( dummy, cow ) );
+        CHECK( can_mount( dummy, horse ) );
+        CHECK( !can_mount( dummy, pig ) );
+        CHECK( !can_mount( dummy, large_dog ) );
+        CHECK( !can_mount( dummy, average_dog ) );
+    }
+
+    SECTION( "characters of any starting height can ride a horse" ) {
+        CHECK( can_mount( dummies_min_height[creature_size::medium], horse ) );
+        CHECK( can_mount( dummies_default_height[creature_size::medium], horse ) );
+        CHECK( can_mount( dummies_max_height[creature_size::medium], horse ) );
+    }
+
+    SECTION( "huge characters can't ride a horse" ) {
+        CHECK( !can_mount( dummies_min_height[creature_size::huge], horse ) );
+        CHECK( !can_mount( dummies_default_height[creature_size::huge], horse ) );
+        CHECK( !can_mount( dummies_max_height[creature_size::huge], horse ) );
+    }
+
+    SECTION( "only short tiny characters can ride large dogs" ) {
+        CHECK( can_mount( dummies_min_height[creature_size::tiny], large_dog ) );
+        CHECK( !can_mount( dummies_default_height[creature_size::tiny], large_dog ) );
+        CHECK( !can_mount( dummies_max_height[creature_size::tiny], large_dog ) );
+    }
+
+    SECTION( "nobody can ride smaller dogs" ) {
+        CHECK( !can_mount( dummies_min_height[creature_size::tiny], average_dog ) );
+        CHECK( !can_mount( dummies_default_height[creature_size::tiny], average_dog ) );
+        CHECK( !can_mount( dummies_max_height[creature_size::tiny], average_dog ) );
     }
 }
 
