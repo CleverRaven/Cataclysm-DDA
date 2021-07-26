@@ -173,7 +173,7 @@
     ]
   },
   {
-    "id": "mammal_small_wool",
+    "id": "mammal_small_parabolan_wool",
     "//": "does not drop stomach or other small organs",
     "type": "harvest",
     "entries": [
