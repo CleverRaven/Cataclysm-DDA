@@ -24,6 +24,25 @@
   },
   {
     "type": "overmap_special",
+    "id": "Lab_MUTAGEN_2x2x2",
+    "//": "2 z-level mutagen lab research area. This is the final floor version with no access to lower floors.",
+    "overmaps": [
+      { "point": [ 0, 0, -5 ], "overmap": "lab_2x2_MUT_tier_1_NW_north" },
+      { "point": [ 1, 0, -5 ], "overmap": "lab_2x2_MUT_tier_1_NE_north" },
+      { "point": [ 0, 1, -5 ], "overmap": "lab_2x2_MUT_tier_1_SW_north" },
+      { "point": [ 1, 1, -5 ], "overmap": "lab_2x2_MUT_tier_1_SE_north" },
+      { "point": [ 0, 0, -6 ], "overmap": "lab_2x2_MUT_tier_2_NW_final_flr_north" },
+      { "point": [ 1, 0, -6 ], "overmap": "lab_2x2_MUT_tier_2_NE_north" },
+      { "point": [ 0, 1, -6 ], "overmap": "lab_2x2_MUT_tier_2_SW_north" },
+      { "point": [ 1, 1, -6 ], "overmap": "lab_2x2_MUT_tier_2_SE_north" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 3, -1 ],
+    "city_sizes": [ 1, 16 ],
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Lab_CORE_2x1x2",
     "//": "2 z-level central transition area for mutagen labs.  Has a small balcony overlooking a concorse.",
     "overmaps": [
