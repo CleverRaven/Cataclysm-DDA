@@ -2563,6 +2563,11 @@ cata::optional<int> npc::closest_enemy_to_friendly_distance() const
     return ai_cache.closest_enemy_to_friendly_distance();
 }
 
+const std::vector<weak_ptr_fast<Creature>> &npc::get_cached_friends() const
+{
+    return ai_cache.friends;
+}
+
 std::string npc_attitude_name( npc_attitude att )
 {
     switch( att ) {

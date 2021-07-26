@@ -77,8 +77,9 @@ class npc_attack_melee : public npc_attack
 class npc_attack_gun : public npc_attack
 {
         const gun_mode gunmode;
+        item &gun;
     public:
-        explicit npc_attack_gun( const gun_mode &gunmode ) : gunmode( gunmode ) {}
+        explicit npc_attack_gun( item &gun, const gun_mode &gunmode ) : gunmode( gunmode ), gun( gun ) {}
         npc_attack_rating evaluate( const npc &source, const Creature *target ) const override;
         std::vector<npc_attack_rating> all_evaluations( const npc &source,
                 const Creature *target ) const override;
