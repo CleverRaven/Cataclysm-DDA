@@ -537,10 +537,7 @@
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "FOLDABLE", "HANDHELD_BATTERY_MOUNT" ],
-    "breaks_into": [
-      { "item": "power_supply", "prob": 50 },
-      { "item": "scrap", "count": [ 1, 4 ] }
-    ],
+    "breaks_into": [ { "item": "power_supply", "prob": 50 }, { "item": "scrap", "count": [ 1, 4 ] } ],
     "damage_reduction": { "all": 4, "bash": 5 }
   },
   {
