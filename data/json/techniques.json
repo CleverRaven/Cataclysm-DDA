@@ -283,7 +283,8 @@
     "melee_allowed": true,
     "block_counter": true,
     "crit_ok": true,
-    "down_dur": 1
+    "down_dur": 1,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
   },
   {
     "type": "technique",
@@ -299,13 +300,26 @@
   },
   {
     "type": "technique",
+    "id": "tec_bojutsu_rollingstrike",
+    "name": "Rolling Strike",
+    "messages": [ "Using your rolling staff you quickly strike %s" ],
+    "skill_requirements": [ { "name": "melee", "level": 3 } ],
+    "melee_allowed": true,
+    "req_buffs": [ "buff_bojutsu_onmove" ],
+    "weighting": 2,
+    "crit_ok": true,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.75 }, { "stat": "damage", "type": "bash", "scale": 1.5 } ]
+  },
+  {
+    "type": "technique",
     "id": "tec_bojutsu_feint",
     "name": "Feint",
     "messages": [ "You fake a strike at %s", "<npcname> fakes a strike at %s" ],
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
     "defensive": true,
-    "miss_recovery": true
+    "miss_recovery": true,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
   },
   {
     "type": "technique",

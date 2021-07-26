@@ -96,19 +96,25 @@
         "skill_requirements": [ { "name": "melee", "level": 1 } ]
       }
     ],
-    "onpause_buffs": [
+    "onmove_buffs": [
       {
-        "id": "buff_bojutsu_onpause",
+        "id": "buff_bojutsu_onmove",
         "name": "Rolling Staff",
-        "description": "You take a second to rapidly and fluidly roll your staff between your hands.\n\n-20% Move cost, +10% Bash damage.\nLasts for 1 turn.",
+        "description": "As you move you begin to rapidly and fluidly roll your staff between your hands.\n\n+10% Bash damage.\nEnables \"Rolling Strike\" technique.\nLasts for 1 turn.",
         "skill_requirements": [ { "name": "melee", "level": 3 } ],
         "melee_allowed": true,
         "buff_duration": 1,
-        "flat_bonuses": [ { "stat": "movecost", "scale": 0.8 } ],
         "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.1 } ]
       }
     ],
-    "techniques": [ "tec_bojutsu_thrust", "tec_bojutsu_kneestrike", "tec_bojutsu_frontstrike", "tec_bojutsu_feint", "tec_bojutsu_disarm" ],
+    "techniques": [
+      "tec_bojutsu_thrust",
+      "tec_bojutsu_kneestrike",
+      "tec_bojutsu_frontstrike",
+      "tec_bojutsu_rollingstrike",
+      "tec_bojutsu_feint",
+      "tec_bojutsu_disarm"
+    ],
     "weapons": [ "stick_long", "l-stick", "long_pole", "q_staff", "i_staff", "shock_staff" ]
   },
   {
