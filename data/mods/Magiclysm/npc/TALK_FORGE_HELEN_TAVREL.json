@@ -105,7 +105,7 @@
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
       "yes": "I hope you're willing to overlook my past because otherwise you're not buying anything from me.",
-      "no": "A lifetime of plunder has brought me many a strange item.  That you can have for unbeatable prices!"
+      "no": "A lifetime of plunder has brought me many a strange item - that you can have for unbeatable prices!"
     },
     "responses": [ { "text": "Well, shiver me timbers then.", "topic": "TALK_FORGE_LORD_REAGENT" } ]
   }

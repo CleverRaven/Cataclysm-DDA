@@ -105,7 +105,7 @@
     "id": "mon_spirit_vengeance",
     "type": "MONSTER",
     "name": { "str": "vengeance spirit" },
-    "description": "It looks like a will o the wisp, darting back and forth, until it catches sight of its prey.  When the sickly green balefires light up inside the eyeholes of a skull, the mouth opens and a deep moan vibrates up through the legs of those standing nearby.",
+    "description": "It looks like a will-o-the-wisp, darting back and forth, until it catches sight of its prey.  When the sickly green balefires light up inside the eyeholes of a skull, the mouth opens and a deep moan vibrates up through the legs of those standing nearby.",
     "default_faction": "wonder_forge",
     "bodytype": "human",
     "species": [ "ABERRATION" ],

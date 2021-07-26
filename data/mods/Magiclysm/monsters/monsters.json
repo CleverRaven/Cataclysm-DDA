@@ -137,7 +137,7 @@
     "anger_triggers": [  ],
     "harvest": "mammal_small_parabolan_wool",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
-    "upgrades": { "age_grow": 240, "into": "mon_sheep" },
+    "upgrades": { "age_grow": 240, "into": "mon_nightmare_sheep" },
     "//": "Puberty reached in 6-9 months.",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
