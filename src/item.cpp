@@ -1036,6 +1036,11 @@ bool item::same_for_rle( const item &rhs ) const
     if( !contents.empty_real() || !rhs.contents.empty_real() ) {
         return false;
     }
+    if( has_gun_variant( false ) != rhs.has_gun_variant( false ) ||
+        ( has_gun_variant( false ) && rhs.has_gun_variant( false ) &&
+          gun_variant().id != rhs.gun_variant().id ) ) {
+        return false;
+    }
     return stacks_with( rhs, true, false );
 }
 
