@@ -517,6 +517,24 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [
+      "lab_2x2_MUT_tier_1_NW",
+      "lab_2x2_MUT_tier_1_NE",
+      "lab_2x2_MUT_tier_1_SW",
+      "lab_2x2_MUT_tier_1_SE",
+      "lab_2x2_MUT_tier_2_NW_final_flr",
+      "lab_2x2_MUT_tier_2_NE",
+      "lab_2x2_MUT_tier_2_SW",
+      "lab_2x2_MUT_tier_2_SE"
+    ],
+    "name": "Lab Research Zone",
+    "sym": "L",
+    "color": "light_blue",
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "lab_CORE_2x1_1UP", "lab_CORE_2x1_2UP", "lab_CORE_2x1_1DN", "lab_CORE_2x1_2DN" ],
     "name": "Lab Recreation Zone",
     "sym": "X",
@@ -567,6 +585,29 @@
   {
     "type": "overmap_terrain",
     "id": [
+      "lab_1x1_RES_8_bedrooms_maintenance",
+      "lab_1x1_RES_8_bedrooms_security",
+      "lab_1x1_RES_8_commons",
+      "lab_res_8_NW",
+      "lab_res_8_NE",
+      "lab_res_8_SW",
+      "lab_res_8_SE",
+      "lab_res_8_NWD",
+      "lab_res_8_NED",
+      "lab_res_8_SWD",
+      "lab_res_8_SED",
+      "lab_1x1x2_RES_8_apartments_upper",
+      "lab_1x1x2_RES_8_apartments_lower"
+    ],
+    "name": "Lab Residential Zone",
+    "sym": "R",
+    "color": "green",
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
       "lab_res_8_SWD_ground",
       "lab_res_8_SED_ground",
       "lab_res_8_SWU_ground",
@@ -597,5 +638,14 @@
     "color": "red",
     "see_cost": 5,
     "flags": [ "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lab_maintenance_z-2&3_B", "lab_maintenance_z-2&3_A" ],
+    "name": "Lab Maintenance Zone",
+    "sym": "M",
+    "color": "cyan",
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH" ]
   }
 ]
