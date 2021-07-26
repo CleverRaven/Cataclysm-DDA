@@ -1636,6 +1636,15 @@ bool cata_tiles::draw_from_id_string( const std::string &id, const tripoint &pos
                                             rota, ll, apply_night_vision_goggles, height_3d );
 }
 
+bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY category,
+                                      const std::string &subcategory, const tripoint &pos,
+                                      int subtile, int rota, lit_level ll,
+                                      bool apply_night_vision_goggles, int &height_3d )
+{
+    return cata_tiles::draw_from_id_string( id, category, subcategory, pos, subtile, rota, ll,
+                                            apply_night_vision_goggles, height_3d, "" );
+}
+
 cata::optional<tile_lookup_res>
 cata_tiles::find_tile_with_season( const std::string &id ) const
 {
@@ -1653,29 +1662,47 @@ cata_tiles::find_tile_looks_like_by_string_id( const std::string &id, TILE_CATEG
         return cata::nullopt;
     }
     const T &obj = s_id.obj();
-    return find_tile_looks_like( obj.looks_like, category, looks_like_jumps_limit - 1 );
+    return find_tile_looks_like( obj.looks_like, category, "", looks_like_jumps_limit - 1 );
 }
 
 cata::optional<tile_lookup_res>
 cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
+                                  const std::string &variant,
                                   const int looks_like_jumps_limit ) const
 {
     if( id.empty() || looks_like_jumps_limit <= 0 ) {
         return cata::nullopt;
     }
 
-    // Note on memory management:
-    // This method must returns pointers to the objects (std::string *id  and tile_type * tile)
-    // that are valid when this metod returns. Ideally they should have the lifetime
-    // that is equal or exceeds lifetime of `this` or `this::tileset_ptr`.
-    // For example, `id` argument may have shorter lifetime and thus should not be returned!
-    // The result of `find_tile_with_season` is OK to be returned, because it's guaranteed to
-    // return pointers to the keys and values that are stored inside the `tileset_ptr`.
-    const auto tile_with_season = find_tile_with_season( id );
-    if( tile_with_season ) {
-        return tile_with_season;
+    /*
+    *  Note on memory management:
+    *  This method must returns pointers to the objects (std::string *id  and tile_type * tile)
+    *  that are valid when this metod returns. Ideally they should have the lifetime
+    *  that is equal or exceeds lifetime of `this` or `this::tileset_ptr`.
+    *  For example, `id` argument may have shorter lifetime and thus should not be returned!
+    *  The result of `find_tile_with_season` is OK to be returned, because it's guaranteed to
+    *  return pointers to the keys and values that are stored inside the `tileset_ptr`.
+    */
+    // Try the variant first
+    if( !variant.empty() ) {
+        const auto tile_variant_with_season = find_tile_with_season( id + "_var_" + variant );
+        if( tile_variant_with_season ) {
+            return tile_variant_with_season;
+        } else {
+            // Then try the non-variant
+            const auto tile_with_season = find_tile_with_season( id );
+            if( tile_with_season ) {
+                return tile_with_season;
+            }
+        }
+    } else {
+        const auto tile_with_season = find_tile_with_season( id );
+        if( tile_with_season ) {
+            return tile_with_season;
+        }
     }
 
+    // Then do looks_like
     switch( category ) {
         case C_FURNITURE:
             return find_tile_looks_like_by_string_id<furn_t>( id, category, looks_like_jumps_limit );
@@ -1695,7 +1722,7 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
             int jump_limit = looks_like_jumps_limit;
             for( const std::string &looks_like : type_tmp.obj().looks_like ) {
 
-                ret = find_tile_looks_like( looks_like, category, jump_limit - 1 );
+                ret = find_tile_looks_like( looks_like, category, "", jump_limit - 1 );
                 if( ret.has_value() ) {
                     return ret;
                 }
@@ -1718,12 +1745,12 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
             std::string variant_id;
             std::tie( base_vpid, variant_id ) = get_vpart_id_variant( new_vpid );
             if( base_vpid.is_valid() ) {
-                ret = find_tile_looks_like( "vp_" + base_vpid.str(), category, looks_like_jumps_limit - 1 );
+                ret = find_tile_looks_like( "vp_" + base_vpid.str(), category, "", looks_like_jumps_limit - 1 );
             }
             if( !ret.has_value() ) {
                 if( new_vpid.is_valid() ) {
                     const vpart_info &new_vpi = new_vpid.obj();
-                    ret = find_tile_looks_like( "vp_" + new_vpi.looks_like, category, looks_like_jumps_limit - 1 );
+                    ret = find_tile_looks_like( "vp_" + new_vpi.looks_like, category, "", looks_like_jumps_limit - 1 );
                 }
             }
             return ret;
@@ -1733,13 +1760,13 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
             if( !item::type_is_defined( itype_id( id ) ) ) {
                 if( string_starts_with( id, "corpse_" ) ) {
                     return find_tile_looks_like(
-                               "corpse", category, looks_like_jumps_limit - 1
+                               "corpse", category, "", looks_like_jumps_limit - 1
                            );
                 }
                 return cata::nullopt;
             }
             const itype *new_it = item::find_type( itype_id( id ) );
-            return find_tile_looks_like( new_it->looks_like.str(), category, looks_like_jumps_limit - 1 );
+            return find_tile_looks_like( new_it->looks_like.str(), category, "", looks_like_jumps_limit - 1 );
         }
 
         default:
@@ -1795,7 +1822,7 @@ bool cata_tiles::find_overlay_looks_like( const bool male, const std::string &ov
 bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                       const std::string &subcategory, const tripoint &pos,
                                       int subtile, int rota, lit_level ll,
-                                      bool apply_night_vision_goggles, int &height_3d )
+                                      bool apply_night_vision_goggles, int &height_3d, const std::string &variant )
 {
     // If the ID string does not produce a drawable tile
     // it will revert to the "unknown" tile.
@@ -1810,7 +1837,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         return false;
     }
 
-    cata::optional<tile_lookup_res> res = find_tile_looks_like( id, category );
+    cata::optional<tile_lookup_res> res = find_tile_looks_like( id, category, variant );
     const tile_type *tt = nullptr;
     if( res ) {
         tt = &( res -> tile() );
@@ -2830,6 +2857,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
 
         itype_id it_id;
         mtype_id mon_id;
+        std::string variant;
         bool hilite = false;
         const itype *it_type;
         if( it_overridden ) {
@@ -2840,6 +2868,9 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
         } else if( !invisible[0] && here.sees_some_items( p, get_player_character() ) ) {
             const maptile &tile = here.maptile_at( p );
             const item &itm = tile.get_uppermost_item();
+            if( itm.has_gun_variant() ) {
+                variant = itm.gun_variant().id;
+            }
             const mtype *const mon = itm.get_mtype();
             it_id = itm.typeId();
             mon_id = mon ? mon->id : mtype_id::NULL_ID();
@@ -2856,7 +2887,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, const lit_level ll, int 
             const bool nv = it_overridden ? false : nv_goggles_activated;
 
             ret_draw_items = draw_from_id_string( disp_id, C_ITEM, it_category, p, 0, 0, lit,
-                                                  nv, height_3d );
+                                                  nv, height_3d, variant );
             if( ret_draw_items && hilite ) {
                 draw_item_highlight( p );
             }
@@ -3543,7 +3574,8 @@ void cata_tiles::draw_custom_explosion_frame()
 
         const tripoint &p = pr.first;
         std::string explosion_tile_id;
-        if( pr.second.tile_name && find_tile_looks_like( *pr.second.tile_name, TILE_CATEGORY::C_NONE ) ) {
+        if( pr.second.tile_name &&
+            find_tile_looks_like( *pr.second.tile_name, TILE_CATEGORY::C_NONE, "" ) ) {
             explosion_tile_id = *pr.second.tile_name;
         } else if( col == c_red ) {
             explosion_tile_id = exp_strong;
@@ -3971,7 +4003,7 @@ void cata_tiles::lr_generic( Iter begin, Iter end, Func id_func, TILE_CATEGORY c
         const std::string id_string = id_func( begin );
 
         if( !tileset_ptr->find_tile_type( prefix + id_string ) &&
-            !find_tile_looks_like( id_string, category ) ) {
+            !find_tile_looks_like( id_string, category, "" ) ) {
             missing_list.append( id_string + " " );
         } else if( !tileset_ptr->find_tile_type( prefix + id_string ) ) {
             missing_with_looks_like_list.append( id_string + " " );
