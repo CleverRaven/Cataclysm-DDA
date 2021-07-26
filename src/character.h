@@ -1790,7 +1790,7 @@ class Character : public Creature, public visitable
          *
          * Only required for rendering.
          */
-        std::vector<std::string> get_overlay_ids() const;
+        std::vector<std::pair<std::string, std::string>> get_overlay_ids() const;
 
         // --------------- Skill Stuff ---------------
         int get_skill_level( const skill_id &ident ) const;
