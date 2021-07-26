@@ -146,5 +146,20 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 1, 16 ],
     "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Lab_MAINTENANCE_areas",
+    "//": "Lab maintence areas that connect to other lab zones.",
+    "overmaps": [
+      { "point": [ -1, 2, -2 ], "overmap": "lab_maintenance_z-2&3_A_north" },
+      { "point": [ 2, 2, -2 ], "overmap": "lab_maintenance_z-2&3_B_north" },
+      { "point": [ -1, 2, -3 ], "overmap": "lab_maintenance_z-2&3_A_north" },
+      { "point": [ 2, 2, -3 ], "overmap": "lab_maintenance_z-2&3_B_north" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 3, -1 ],
+    "city_sizes": [ 1, 16 ],
+    "occurrences": [ 0, 0 ]
   }
 ]

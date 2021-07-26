@@ -615,5 +615,14 @@
     "color": "red",
     "see_cost": 5,
     "flags": [ "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lab_maintenance_z-2&3_B", "lab_maintenance_z-2&3_A" ],
+    "name": "Lab Maintenance Zone",
+    "sym": "M",
+    "color": "cyan",
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH" ]
   }
 ]
