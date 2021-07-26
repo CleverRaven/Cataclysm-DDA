@@ -633,9 +633,6 @@
   {
     "type": "overmap_terrain",
     "id": [
-      "lab_security_z0",
-      "lab_security_z0N",
-      "lab_security_z0S",
       "full_basic_lab_roof",
       "lab_security_z0S_roof",
       "lab_security_z0N_roof"
