@@ -95,26 +95,10 @@ static int bmr_at_act_level( player &dummy, float activity_level )
     return dummy.get_bmr();
 }
 
-// Return player `height()` with a given base height and size trait (SMALL, MEDIUM, LARGE, HUGE).
-static int height_with_base_and_size( player &dummy, int base_height,
-                                      const std::string &size_trait )
-{
-    clear_character( dummy );
-    dummy.mod_base_height( base_height - dummy.base_height() );
-
-    // MEDIUM is not an actual trait; just ignore it
-    if( size_trait == "SMALL2" || size_trait == "SMALL" || size_trait == "LARGE" ||
-        size_trait == "HUGE" ) {
-        dummy.toggle_trait( trait_id( size_trait ) );
-    }
-
-    return dummy.height();
-}
-
 using avatar_ptr = std::shared_ptr<avatar>;
 
 // Create a map of dummies of all available size categories
-std::map<creature_size, avatar_ptr> create_dummies_of_all_sizes( int init_height )
+static std::map<creature_size, avatar_ptr> create_dummies_of_all_sizes( int init_height )
 {
     const std::map<creature_size, std::string> size_mutations{
         { creature_size::tiny, "SMALL2" },
@@ -148,7 +132,7 @@ std::map<creature_size, avatar_ptr> create_dummies_of_all_sizes( int init_height
     return dummies;
 }
 
-void for_each_size_category( const std::function< void( creature_size ) > &functor )
+static void for_each_size_category( const std::function< void( creature_size ) > &functor )
 {
     for( int i = static_cast< int >( creature_size::tiny );
          i < static_cast< int >( creature_size::num_sizes ); ++i ) {
@@ -291,7 +275,7 @@ TEST_CASE( "character height should increase with their body size",
             CHECK( dummies[size]->height() >= Character::min_height( size ) );
             CHECK( dummies[size]->height() <= Character::max_height( size ) );
             if( size != creature_size::huge ) {
-                auto next_size = static_cast< creature_size >( static_cast< int >( size ) + 1 );
+                creature_size next_size = static_cast< creature_size >( static_cast< int >( size ) + 1 );
                 CHECK( dummies[size]->height() < dummies[next_size]->height() );
             }
         } );
@@ -348,7 +332,7 @@ TEST_CASE( "character's weight should increase with their body size and BMI",
     auto test_weights = []( DummyMap & dummies ) {
         for_each_size_category( [&dummies]( creature_size size ) {
             if( size != creature_size::huge ) {
-                auto next_size = static_cast< creature_size >( static_cast< int >( size ) + 1 );
+                creature_size next_size = static_cast< creature_size >( static_cast< int >( size ) + 1 );
                 CHECK( dummies[size]->bodyweight() < dummies[next_size]->bodyweight() );
             }
             avatar_ptr &dummy = dummies[size];
