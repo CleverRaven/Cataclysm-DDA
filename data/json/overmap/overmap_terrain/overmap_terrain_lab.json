@@ -632,11 +632,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [
-      "full_basic_lab_roof",
-      "lab_security_z0S_roof",
-      "lab_security_z0N_roof"
-    ],
+    "id": [ "full_basic_lab_roof", "lab_security_z0S_roof", "lab_security_z0N_roof" ],
     "name": "Trans-Coast Logistics Roof",
     "sym": "F",
     "color": "light_gray",
