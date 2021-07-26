@@ -27,14 +27,7 @@
       "type": "reveal_map",
       "radius": 90,
       "message": "You add the hidden stations to your map",
-      "terrain": [
-        "subway",
-        "sub_station",
-        "microlab_sub_connector",
-        "microlab_sub_station",
-        "central_lab_train_depot",
-        "lab_train_depot"
-      ]
+      "terrain": [ "lab_subway", "microlab_sub_connector", "microlab_sub_station", "central_lab_train_depot", "lab_train_depot" ]
     }
   },
   {

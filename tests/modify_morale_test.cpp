@@ -9,7 +9,6 @@
 #include "cata_catch.h"
 #include "flag.h"
 #include "item.h"
-#include "item_contents.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "morale_types.h"

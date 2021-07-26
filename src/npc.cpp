@@ -79,6 +79,7 @@
 #include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "name.h"
 
 
 static const efftype_id effect_bouldering( "bouldering" );
@@ -302,15 +303,16 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     idz = tguy.idz;
     myclass = npc_class_id( tguy.myclass );
     randomize( myclass );
+    if( tem.gender_override != npc_template::gender::random ) {
+        male = tem.gender_override == npc_template::gender::male;
+    }
+    name = Name::generate( male );
     if( !tem.name_unique.empty() ) {
         name = tem.name_unique.translated();
     }
     if( !tem.name_suffix.empty() ) {
         //~ %1$s: npc name, %2$s: name suffix
         name = string_format( pgettext( "npc name", "%1$s, %2$s" ), name, tem.name_suffix );
-    }
-    if( tem.gender_override != npc_template::gender::random ) {
-        male = tem.gender_override == npc_template::gender::male;
     }
     fac_id = tguy.fac_id;
     set_fac( fac_id );

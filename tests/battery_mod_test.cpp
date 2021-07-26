@@ -10,7 +10,6 @@
 #include "cata_catch.h"
 #include "debug.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"

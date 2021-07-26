@@ -37,7 +37,6 @@
 #include "handle_liquid.h"
 #include "iexamine.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_group.h"
 #include "item_location.h"
 #include "itype.h"

@@ -254,7 +254,6 @@ static std::string moves_to_string( const int moves )
 
 void spell_type::load( const JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "skill", skill, skill_default );
