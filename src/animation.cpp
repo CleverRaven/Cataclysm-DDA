@@ -605,7 +605,7 @@ void game::draw_hit_player( const Character &p, const int dam )
     static const std::string npc_male      {"npc_male"};
     static const std::string npc_female    {"npc_female"};
 
-    const std::string &type = p.is_player() ? ( p.male ? player_male : player_female )
+    const std::string &type = p.is_avatar() ? ( p.male ? player_male : player_female )
                               : p.male ? npc_male : npc_female;
 
     shared_ptr_fast<draw_callback_t> hit_cb = make_shared_fast<draw_callback_t>( [&]() {

@@ -16,7 +16,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_pocket.h"
 #include "json.h"
 #include "line.h"
@@ -654,7 +653,7 @@ class item_location::impl::item_in_container : public item_location::impl
                 obj = *target();
             }
 
-            const int container_mv = container->contents.obtain_cost( *target() );
+            const int container_mv = container->obtain_cost( *target() );
             if( container_mv == 0 ) {
                 debugmsg( "ERROR: %s does not contain %s", container->tname(), target()->tname() );
                 return 0;
@@ -819,7 +818,7 @@ bool item_location::parents_can_contain_recursive( item *it ) const
     }
 
     item_location parent = parent_item();
-    item_pocket *pocket = parent->contents.contained_where( *get_item() );
+    item_pocket *pocket = parent->contained_where( *get_item() );
 
     if( pocket->can_contain( *it ).success() ) {
         return parent.parents_can_contain_recursive( it );
@@ -835,7 +834,7 @@ int item_location::max_charges_by_parent_recursive( const item &it ) const
     }
 
     item_location parent = parent_item();
-    item_pocket *pocket = parent->contents.contained_where( *get_item() );
+    item_pocket *pocket = parent->contained_where( *get_item() );
 
     return std::min( { it.charges_per_volume( pocket->remaining_volume() ),
                        it.charges_per_weight( pocket->remaining_weight() ),

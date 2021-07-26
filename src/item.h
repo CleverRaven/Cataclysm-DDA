@@ -18,7 +18,6 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "compatibility.h"
-#include "craft_command.h"
 #include "enums.h"
 #include "gun_mode.h"
 #include "io_tags.h"
@@ -55,6 +54,10 @@ struct armor_portion_data;
 struct gun_variant_data;
 struct islot_comestible;
 struct itype;
+struct item_comp;
+template<typename CompType>
+struct comp_selection;
+struct tool_comp;
 struct mtype;
 struct tripoint;
 template<typename T>
@@ -351,7 +354,7 @@ class item : public visitable
          * e.g. differently if it its an unread book or a spoiling food item etc.
          * This should only be used for displaying data, it should not affect game play.
          */
-        nc_color color_in_inventory() const;
+        nc_color color_in_inventory( const Character *ch = nullptr ) const;
         /**
          * Return the (translated) item name.
          * @param quantity used for translation to the proper plural form of the name, e.g.
@@ -732,6 +735,9 @@ class item : public visitable
 
         // seal the item's pockets. used for crafting and spawning items.
         bool seal();
+
+        bool all_pockets_sealed() const;
+        bool any_pockets_sealed() const;
         /** Whether this is container. Note that container does not necessarily means it's
          * suitable for liquids. */
         bool is_container() const;
@@ -790,6 +796,9 @@ class item : public visitable
                                                std::string *err = nullptr ) const;
         int get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
                                                std::string *err = nullptr ) const;
+
+        units::volume total_contained_volume() const;
+
         /**
          * It returns the maximum volume of any contents, including liquids,
          * ammo, magazines, weapons, etc.
@@ -800,11 +809,23 @@ class item : public visitable
         // recursive function that checks pockets for remaining free space
         units::volume check_for_free_space() const;
         units::volume get_selected_stack_volume( const std::map<const item *, int> &without ) const;
+        units::volume get_contents_volume_with_tweaks( const std::map<const item *, int> &without ) const;
+        units::volume get_nested_content_volume_recursive( const std::map<const item *, int> &without )
+        const;
+
+        // what will the move cost be of taking @it out of this container?
+        // should only be used from item_location if possible, to account for
+        // player inventory handling penalties from traits
+        int obtain_cost( const item &it ) const;
+        // what will the move cost be of storing @it into this container? (CONTAINER pocket type)
+        int insert_cost( const item &it ) const;
+
         /**
          * Puts the given item into this one.
          */
         ret_val<bool> put_in( const item &payload, item_pocket::pocket_type pk_type,
                               bool unseal_pockets = false );
+        void force_insert_item( const item &it, item_pocket::pocket_type pk_type );
 
         /**
          * Returns this item into its default container. If it does not have a default container,
@@ -1291,12 +1312,12 @@ class item : public visitable
          * For example, airtight for gas, acidproof for acid etc.
          */
         /*@{*/
-        bool can_contain( const item &it ) const;
+        ret_val<bool> can_contain( const item &it ) const;
         bool can_contain( const itype &tp ) const;
         bool can_contain_partial( const item &it ) const;
         /*@}*/
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
-                bool allow_sealed = false, bool ignore_settings = false );
+                bool allow_sealed = false, bool ignore_settings = false, bool nested = false );
 
         units::length max_containable_length() const;
         units::volume max_containable_volume() const;
@@ -1362,6 +1383,8 @@ class item : public visitable
          */
         bool spill_contents( const tripoint &pos );
         bool spill_open_pockets( Character &guy, const item *avoid = nullptr );
+        // spill items that don't fit in the container
+        void overflow( const tripoint &pos );
 
         /** Checks if item is a holster and currently capable of storing obj
          *  @param obj object that we want to holster
@@ -1848,41 +1871,62 @@ class item : public visitable
         /** Quantity of energy currently loaded in tool or battery */
         units::energy energy_remaining() const;
 
-        /** Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod */
-        int ammo_remaining() const;
+        /**
+         * Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod. Can include UPS and bionic
+         * If UPS/bionic power does not matter then the carrier can be nullptr
+         * @param carrier is used for UPS and bionic power
+         */
+        int ammo_remaining( const Character *carrier = nullptr ) const;
+
         /**
          * ammo capacity for a specific ammo
          */
         int ammo_capacity( const ammotype &ammo ) const;
+
         /**
          * how much more ammo can fit into this item
          * if this item is not loaded, gives remaining capacity of its default ammo
          */
         int remaining_ammo_capacity() const;
+
         /** Quantity of ammunition consumed per usage of tool or with each shot of gun */
         int ammo_required() const;
+        // gets the first ammo in all magazine pockets
+        // does not support multiple magazine pockets!
+        item &first_ammo();
+        // gets the first ammo in all magazine pockets
+        // does not support multiple magazine pockets!
+        const item &first_ammo() const;
+        // spills liquid and other contents from the container. contents may remain
+        // in the container if the player cancels spilling. removing liquid from
+        // a magazine requires unload logic.
+        void handle_liquid_or_spill( Character &guy, const item *avoid = nullptr );
 
         /**
          * Check if sufficient ammo is loaded for given number of uses.
-         *
          * Check if there is enough ammo loaded in a tool for the given number of uses
-         * or given number of gun shots.  Using this function for this check is preferred
+         * or given number of gun shots.
+         * If carrier is provides then UPS and bionic may be also used as ammo
+         * Using this function for this check is preferred
          * because we expect to add support for items consuming multiple ammo types in
          * the future.  Users of this function will not need to be refactored when this
          * happens.
          *
-         * @param[in] qty Number of uses
+         * @param carrier who holds the item. Needed for UPS/bionic
+         * @param qty Number of uses
          * @returns true if ammo sufficient for number of uses is loaded, false otherwise
          */
-        bool ammo_sufficient( int qty = 1 ) const;
+        bool ammo_sufficient( const Character *carrier, int qty = 1 ) const;
 
         /**
          * Consume ammo (if available) and return the amount of ammo that was consumed
+         * Consume order: loaded items, UPS, bionic
          * @param qty maximum amount of ammo that should be consumed
          * @param pos current location of item, used for ejecting magazines and similar effects
+         * @param carrier holder of the item, used for getting UPS and bionic power
          * @return amount of ammo consumed which will be between 0 and qty
          */
-        int ammo_consume( int qty, const tripoint &pos );
+        int ammo_consume( int qty, const tripoint &pos, Character *carrier );
 
         /** Specific ammo data, returns nullptr if item is neither ammo nor loaded with any */
         const itype *ammo_data() const;
@@ -2259,6 +2303,14 @@ class item : public visitable
         // inherited from visitable
         VisitResponse visit_items( const std::function<VisitResponse( item *, item * )> &func ) const
         override;
+        /**
+         * @relates visitable
+         * NOTE: upon expansion, this may need to be filtered by type enum depending on accessibility
+         */
+        VisitResponse visit_contents( const std::function<VisitResponse( item *, item * )> &func,
+                                      item *parent = nullptr );
+        void remove_internal( const std::function<bool( item & )> &filter,
+                              int &count, std::list<item> &res );
         std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
                                            int count = INT_MAX ) override;
 
@@ -2283,6 +2335,13 @@ class item : public visitable
 
         void clear_items();
         bool empty() const;
+        // ignores all pockets except CONTAINER pockets to check if this contents is empty.
+        bool empty_container() const;
+
+        // gets the item contained IFF one item is contained (CONTAINER pocket), otherwise a null item reference
+        item &only_item();
+        const item &only_item() const;
+        item *get_item_with( const std::function<bool( const item & )> &filter );
 
         /**
          * returns the number of items stacks in contents
@@ -2297,6 +2356,13 @@ class item : public visitable
          */
         item &legacy_front();
         const item &legacy_front() const;
+
+        /**
+         * Open a menu for the player to set pocket favorite settings for the pockets in this item_contents
+         */
+        void favorite_settings_menu( const std::string &item_name );
+
+        void combine( const item_contents &read_input, bool convert = false );
 
     private:
         /** migrates an item into this item. */
@@ -2369,12 +2435,12 @@ class item : public visitable
         static const int INFINITE_CHARGES;
 
         const itype *type;
-        item_contents contents;
         std::list<item> components;
         /** What faults (if any) currently apply to this item */
         std::set<fault_id> faults;
 
     private:
+        item_contents contents;
         /** `true` if item has any of the flags that require processing in item::process_internal.
          * This flag is reset to `true` if item tags are changed.
          */

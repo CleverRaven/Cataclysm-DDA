@@ -41,7 +41,6 @@
 #include "handle_liquid.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_stack.h"
@@ -556,7 +555,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
     // vector<const_item_location> in order to get rid of the const_cast here.
     for( const item_location &it : const_cast<Character *>( this )->all_items_loc() ) {
         // can't craft with containers that have items in them
-        if( !it->contents.empty_container() ) {
+        if( !it->empty_container() ) {
             continue;
         }
         crafting_cache.crafting_inventory->add_item( *it );
@@ -1169,7 +1168,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
 
         // Points to newit unless newit is a non-empty container, then it points to newit's contents.
         // Necessary for things like canning soup; sometimes we want to operate on the soup, not the can.
-        item &food_contained = !newit.empty() ? newit.contents.only_item() : newit;
+        item &food_contained = !newit.empty() ? newit.only_item() : newit;
 
         // messages, learning of recipe, food spoilage calculation only once
         if( first ) {
@@ -2561,7 +2560,7 @@ void remove_ammo( std::list<item> &dis_items, Character &p )
 
 void drop_or_handle( const item &newit, Character &p )
 {
-    if( newit.made_of( phase_id::LIQUID ) && p.is_player() ) { // TODO: what about NPCs?
+    if( newit.made_of( phase_id::LIQUID ) && p.is_avatar() ) { // TODO: what about NPCs?
         liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
     } else {
         item tmp( newit );

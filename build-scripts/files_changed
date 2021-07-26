@@ -3,15 +3,39 @@
 # Helper script to get the list of changed files for this build.
 # If a PR it lists the changes from the target branch.
 # If a 'regular' branch build the changes since the last build.
-# https://docs.travis-ci.com/user/environment-variables/
 
-if [ -n $TRAVIS_COMMIT_RANGE ]
+set -e
+
+function files_list
+{
+    git diff --name-only --diff-filter ACMRT "$@"
+}
+
+if [ "$TRAVIS" = "true" ]
 then
-    # If this string is populated, it should work.
-    # But it mught fail, due to e.g. the shallow clone depth missing the
-    # relevant commit, in which case we fail
-    git diff --name-only $TRAVIS_COMMIT_RANGE || exit 1
+    # https://docs.travis-ci.com/user/environment-variables/
+    if [ -n $TRAVIS_COMMIT_RANGE ]
+    then
+        # If this string is populated, it should work.
+        # But it mught fail, due to e.g. the shallow clone depth missing the
+        # relevant commit, in which case we fail
+        files_list $TRAVIS_COMMIT_RANGE || exit 1
+    else
+        # The only time it isn't populated is on a new PR branch, where THIS will work.
+        files_list $TRAVIS_BRANCH
+    fi
+elif [ -n "$GITHUB_BASE_REF" ]
+then
+    base="origin/$GITHUB_BASE_REF"
+    # We need to fetch enough commits to be able to compute the merge-base
+    # between this PR and master
+    commits_to_fetch=10
+    while [ -z "$( git merge-base "$base" HEAD^2 2>/dev/null )" ]
+    do
+        git fetch -q --deepen=$commits_to_fetch origin "$GITHUB_BASE_REF" HEAD
+        (( commits_to_fetch *= 2 ))
+    done
+    files_list "$( git merge-base "$base" HEAD^2 )..HEAD^2"
 else
-    # The only time it isn't populated is on a new PR branch, where THIS will work.
-    git diff --name-only $TRAVIS_BRANCH
+    exit 1
 fi

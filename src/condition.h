@@ -46,7 +46,7 @@ const std::unordered_set<std::string> complex_conds = { {
         "u_compare_time_since_var", "npc_compare_time_since_var", "is_weather", "one_in_chance",
         "is_temperature", "is_windpower", "is_humidity", "is_pressure", "u_is_height", "npc_is_height",
         "u_has_worn_with_flag", "npc_has_worn_with_flag", "u_has_wielded_with_flag", "npc_has_wielded_with_flag",
-        "u_has_pain", "npc_has_pain", "u_has_power", "npc_has_power"
+        "u_has_pain", "npc_has_pain", "u_has_power", "npc_has_power", "u_has_focus", "npc_has_focus", "u_has_morale", "npc_has_morale"
     }
 };
 } // namespace dialogue_data
@@ -156,7 +156,8 @@ struct conditional_t {
         void set_u_know_recipe( const JsonObject &jo, const std::string &member );
         void set_mission_has_generic_rewards();
         void set_can_see( bool is_npc = false );
-
+        void set_has_morale( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_has_focus( const JsonObject &jo, const std::string &member, bool is_npc = false );
         bool operator()( const T &d ) const {
             if( !condition ) {
                 return false;

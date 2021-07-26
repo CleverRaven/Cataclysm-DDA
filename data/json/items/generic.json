@@ -947,6 +947,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "household_water_heater",
+    "symbol": "0",
+    "color": "white",
+    "name": { "str": "household water heater" },
+    "description": "A large metal tank with a water faucet attached to it, primarily used to store and heat water.",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "steel" ],
+    "weight": "54431 g",
+    "volume": "240 L",
+    "bashing": 5,
+    "to_hit": -5,
+    "use_action": { "type": "deploy_furn", "furn_type": "f_water_heater" }
+  },
+  {
+    "type": "GENERIC",
     "id": "television",
     "symbol": ";",
     "color": "dark_gray",
@@ -959,6 +975,22 @@
     "volume": "20 L",
     "bashing": 5,
     "to_hit": -5
+  },
+  {
+    "type": "GENERIC",
+    "id": "household_washing_machine",
+    "symbol": "{",
+    "color": "white",
+    "name": { "str": "household washing machine" },
+    "description": "An appliance used to do laundry, not of much use without power and plumbing.  You could probably scrap it for parts.",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "steel" ],
+    "weight": "31752 g",
+    "volume": "125 L",
+    "bashing": 5,
+    "to_hit": -5,
+    "use_action": { "type": "deploy_furn", "furn_type": "f_washer" }
   },
   {
     "type": "GENERIC",
@@ -2785,52 +2817,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "id_science",
-    "symbol": ",",
-    "color": "blue",
-    "name": { "str": "science ID card" },
-    "description": "This ID card once belonged to a scientist.  The reverse side describes protocol for using it; this could grant access at one control panel, if you can find one.",
-    "price": 60000,
-    "flags": [ "SCIENCE_CARD" ],
-    "price_postapoc": 250,
-    "material": [ "plastic" ],
-    "weight": "6 g",
-    "volume": "15 ml",
-    "to_hit": -3
-  },
-  {
-    "type": "GENERIC",
-    "id": "id_military",
-    "symbol": ",",
-    "color": "green",
-    "name": { "str": "military ID card" },
-    "description": "This ID card once belonged to a military officer.  The reverse side describes protocol for using it; this could grant access at one control panel, if you can find one.",
-    "price": 120000,
-    "flags": [ "MILITARY_CARD" ],
-    "price_postapoc": 500,
-    "material": [ "plastic" ],
-    "weight": "6 g",
-    "volume": "5 ml",
-    "to_hit": -3
-  },
-  {
-    "type": "GENERIC",
-    "id": "id_industrial",
-    "looks_like": "id_science",
-    "symbol": ",",
-    "color": "green",
-    "name": { "str": "industrial ID card" },
-    "description": "This ID card once belonged to a high level technician.  The reverse side describes protocol for using it; this could grant access at one control panel, if you can find one.",
-    "price": 120000,
-    "flags": [ "INDUSTRIAL_CARD" ],
-    "price_postapoc": 100,
-    "material": [ "plastic" ],
-    "weight": "6 g",
-    "volume": "5 ml",
-    "to_hit": -3
-  },
-  {
-    "type": "GENERIC",
     "id": "neoprene",
     "symbol": ",",
     "color": "dark_gray",
@@ -3408,7 +3394,8 @@
           "id_military",
           "id_industrial",
           "fp_loyalty_card",
-          "robofac_test_data"
+          "robofac_test_data",
+          "condom"
         ]
       }
     ],
@@ -3457,7 +3444,19 @@
           "money_one",
           "money_ten",
           "money_twenty",
-          "condom"
+          "condom",
+          "id_science_visitor_1",
+          "id_science_transport_1",
+          "id_science_maintenance_green",
+          "id_science_maintenance_yellow",
+          "id_science_maintenance_blue",
+          "id_science_security_yellow",
+          "id_science_security_magenta",
+          "id_science_security_black",
+          "id_science_mutagen_green",
+          "id_science_mutagen_pink",
+          "id_science_mutagen_cyan",
+          "id_science_medical_red"
         ]
       }
     ],

@@ -85,7 +85,7 @@
       { "group": "gunmod_energy", "prob": 40 },
       { "item": "plut_cell", "prob": 30, "charges": [ 1, 5 ] },
       [ "plasma", 30 ],
-      [ "adv_UPS_off", 20 ]
+      [ "UPS_off", 20 ]
     ]
   },
   {
@@ -1780,6 +1780,7 @@
       [ "thermometer", 3 ],
       [ "hygrometer", 3 ],
       [ "barometer", 3 ],
+      [ "sextant", 2 ],
       [ "badge_doctor", 5 ],
       [ "dnd_handbook", 2 ],
       [ "bodypillow", 1 ],

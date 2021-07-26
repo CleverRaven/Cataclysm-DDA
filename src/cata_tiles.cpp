@@ -1015,10 +1015,8 @@ void tileset_loader::load_tile_spritelists( const JsonObject &entry,
                 else if( vo.has_array( "sprite" ) ) {
                     for( const int entry : vo.get_array( "sprite" ) ) {
                         const int sprite_id = entry + sprite_id_offset;
-                        if( sprite_id >= 0 && sprite_id < size ) {
+                        if( sprite_id >= 0 ) {
                             v.push_back( sprite_id );
-                        } else {
-                            v.push_back( sprite_id + offset );
                         }
                     }
                 }
@@ -3087,7 +3085,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
         if( pl != nullptr ) {
             draw_entity_with_overlays( *pl, p, ll, height_3d );
             result = true;
-            if( pl->is_player() ) {
+            if( pl->is_avatar() ) {
                 is_player = true;
             } else {
                 sees_player = pl->sees( you );

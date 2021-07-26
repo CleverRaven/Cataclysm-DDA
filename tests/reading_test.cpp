@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "activity_actor_definitions.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
@@ -12,6 +13,7 @@
 #include "itype.h"
 #include "morale_types.h"
 #include "player_helpers.h"
+#include "skill.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
@@ -385,8 +387,8 @@ TEST_CASE( "determining book mastery", "[reading][book][mastery]" )
         CHECK( dummy.get_book_mastery( child ) == book_mastery::CANT_DETERMINE );
     }
     GIVEN( "some identified books" ) {
-        dummy.do_read( child );
-        dummy.do_read( alpha );
+        dummy.identify( child );
+        dummy.identify( alpha );
         REQUIRE( dummy.has_identified( child.typeId() ) );
         REQUIRE( dummy.has_identified( alpha.typeId() ) );
 
@@ -409,6 +411,44 @@ TEST_CASE( "determining book mastery", "[reading][book][mastery]" )
             }
             THEN( "you already mastered it if you have too much skill" ) {
                 dummy.set_skill_level( skill_id( "chemistry" ), 7 );
+                CHECK( dummy.get_book_mastery( alpha ) == book_mastery::MASTERED );
+            }
+        }
+    }
+}
+
+TEST_CASE( "reading a book for skill", "[reading][book][skill]" )
+{
+    clear_avatar();
+    Character &dummy = get_avatar();
+    dummy.set_body();
+    dummy.worn.emplace_back( "backpack" );
+
+    item &alpha = dummy.i_add( item( "recipe_alpha" ) );
+    REQUIRE( alpha.is_book() );
+
+    dummy.identify( alpha );
+    REQUIRE( dummy.has_identified( alpha.typeId() ) );
+
+    GIVEN( "a book you can learn from" ) {
+        dummy.set_skill_level( skill_id( "chemistry" ), 6 );
+        REQUIRE( dummy.get_book_mastery( alpha ) == book_mastery::LEARNING );
+
+        dummy.set_focus( 100 );
+        WHEN( "reading the book 100 times" ) {
+            const cata::value_ptr<islot_book> bkalpha_islot = alpha.type->book;
+            SkillLevel &avatarskill = dummy.get_skill_level_object( bkalpha_islot->skill );
+
+            for( int i = 0; i < 100; ++i ) {
+                read_activity_actor::read_book(
+                    *dummy.as_character(),
+                    bkalpha_islot,
+                    avatarskill,
+                    1.0 );
+            }
+
+            THEN( "gained a skill level" ) {
+                CHECK( dummy.get_skill_level( skill_id( "chemistry" ) ) > 6 );
                 CHECK( dummy.get_book_mastery( alpha ) == book_mastery::MASTERED );
             }
         }
