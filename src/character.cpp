@@ -4342,7 +4342,7 @@ bool Character::meets_skill_requirements( const construction &con ) const
 {
     return std::all_of( con.required_skills.begin(), con.required_skills.end(),
     [&]( const std::pair<skill_id, int> &pr ) {
-        return get_skill_level( pr.first ) >= pr.second;
+        return get_theory_skill_level( pr.first ) >= pr.second;
     } );
 }
 
@@ -4459,7 +4459,7 @@ void Character::do_skill_rust()
         }
         const int newSkill = skill_level_obj.level();
         if( newSkill < oldSkillLevel ) {
-            add_msg_if_player( m_bad, _( "Your skill in %s has reduced to %d!" ), aSkill.name(), newSkill );
+            add_msg_if_player( m_bad, _( "Your practical skill in %s may need some refreshing.  It has dropped to %d." ), aSkill.name(), newSkill );
         }
     }
 }
@@ -5785,8 +5785,10 @@ void Character::update_body( const time_point &from, const time_point &to )
     if( is_avatar() && ticks_between( from, to, 24_hours ) > 0 ) {
         as_avatar()->advance_daily_calories();
     }
-
-    do_skill_rust();
+    
+    if( calendar::once_every(24_hours) {
+        do_skill_rust();
+    }
 }
 
 item *Character::best_quality_item( const quality_id &qual )
