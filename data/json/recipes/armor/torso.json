@@ -868,7 +868,7 @@
     "reversible": true,
     "using": [ [ "sewing_standard", 27 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "rag", 19 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
     "result": "sleeveless_duster",
