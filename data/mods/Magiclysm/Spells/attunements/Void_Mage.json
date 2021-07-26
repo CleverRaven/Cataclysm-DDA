@@ -84,7 +84,7 @@
     "abstract": "horizon_vortex_abstract",
     "name": "Horizon Vortex abstract",
     "type": "SPELL",
-    "description": "Causes some damage in the Horizon Vortex spell. Subspell; you aren't allowed to see it except in debug mode.",
+    "description": "Causes some damage in the Horizon Vortex spell.  Subspell; you aren't allowed to see it except in debug mode.",
     "valid_targets": [ "hostile" ],
     "flags": [ "NO_PROJECTILE", "LOUD", "RANDOM_TARGET" ],
     "message": "",
