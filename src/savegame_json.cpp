@@ -400,6 +400,8 @@ void SkillLevel::serialize( JsonOut &json ) const
     json.member( "istraining", isTraining() );
     json.member( "lastpracticed", _lastPracticed );
     json.member( "theorylevel", theoryLevel() );
+    json.member( "theoryexperience", theoryExperience() );
+    json.member( "rustaccumulator", rustAccumulator() );
     json.end_object();
 }
 
@@ -410,6 +412,7 @@ void SkillLevel::deserialize( JsonIn &jsin )
     data.read( "level", _level );
     data.read( "exercise", _exercise );
     data.read( "istraining", _isTraining );
+    data.read( "rustaccumulator", _rustAccumulator );
     if( !data.read( "lastpracticed", _lastPracticed ) ) {
         _lastPracticed = calendar::start_of_cataclysm + time_duration::from_hours(
                              get_option<int>( "INITIAL_TIME" ) );
@@ -417,6 +420,10 @@ void SkillLevel::deserialize( JsonIn &jsin )
     data.read( "theorylevel", _theoryLevel );
     if( _theoryLevel < _level ) {
         _theoryLevel = _level;
+    }
+    data.read( "theoryexperience", _theoryExperience );
+    if( _theoryLevel == _level && _theoryExperience < _exercise ) {
+        _theoryExperience = _exercise;
     }
 }
 

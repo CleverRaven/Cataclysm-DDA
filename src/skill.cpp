@@ -282,28 +282,15 @@ namespace
 {
 time_duration rustRate( int level )
 {
-    // for n = [0, 7]
-    //
-    // 2^18
-    // -------
-    // 2^(18-n)
-
-    unsigned const n = clamp( level, 0, 7 );
-    return time_duration::from_turns( 1 << ( 18 - n ) );
+    unsigned const n = clamp( level, 0, 9 );
+    return time_duration::from_hours( 30 - n );
 }
 } //namespace
 
-/*
-for n = 0 the returned duration is time_duration::from_turns( 2 to the power of (15 - 0 + 1) -1 )
-which is time_duration::from_turns( 2 to the power of 15 )
-*/
-
 bool SkillLevel::isRusting() const
 {
-    const time_duration skill_rate = rustRate( _level );
-
     return get_option<std::string>( "SKILL_RUST" ) != "off" && ( _level > 0 ) &&
-           calendar::turn - _lastPracticed > skill_rate;
+           calendar::turn - _lastPracticed > rustRate( _level );
 }
 
 bool SkillLevel::rust( int rust_resist, int character_rate )
@@ -311,7 +298,7 @@ bool SkillLevel::rust( int rust_resist, int character_rate )
     const time_duration delta = calendar::turn - _lastPracticed;
     const float char_rate = character_rate / 100.0f;
     const time_duration skill_rate = rustRate( _level );
-    int rust_amount = std::max( _level * 100 - _rustAccumulator / ( _level * 100 ), 0 );
+    int rust_amount = std::max( _level * 500 - _rustAccumulator / std::max ( _level * 500, 100 ), 0 );
 
     if( rust_amount <= 0 ) {
         return false;
