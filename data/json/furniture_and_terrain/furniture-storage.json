@@ -724,7 +724,7 @@
       "str_max": 30,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [ { "item": "steel_chunk", "count": [ 12, 24 ] } ]
+      "items": [ { "item": "sheet_metal", "count": [ 1, 2 ] } ]
     }
   },
   {
