@@ -613,8 +613,7 @@
     "type": "COMESTIBLE",
     "copy-from": "lung_cooked",
     "name": { "str": "cooked piece of mutant lung", "str_pl": "cooked pieces of mutant lung" },
-    "snippet_category": "cooked_mutant_lung_desc",
-    "fun": -10
+    "snippet_category": "cooked_mutant_lung_desc"
   },
   {
     "id": "mutant_bug_lungs",
