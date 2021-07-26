@@ -141,6 +141,41 @@ void overmapbuffer::fix_mongroups( overmap &new_overmap )
     }
 }
 
+void overmapbuffer::fix_nemesis( overmap &new_overmap )
+{
+    for( auto it = new_overmap.zg.begin(); it != new_overmap.zg.end(); ) {
+        auto &mg = it->second;
+        
+        //if it's not the nemesis, continue
+        if( mg.horde_behaviour != "nemesis") {
+            ++it;
+            continue;
+        }
+        
+        //if the nemesis's abs coordinates put it in this overmap, it belongs here
+        if( project_to<coords::om>( mg.abs_pos.xy() ) == new_overmap.pos() ) {
+            ++it;
+            continue;
+        }
+
+        point_abs_om omp;
+        point_om_sm sm_rem;
+        std::tie( omp, sm_rem ) = project_remain<coords::om>( mg.abs_pos.xy() );
+        /*if( !has( omp ) ) {
+            // Don't generate new overmaps, as this can be called from the
+            // overmap-generating code.
+            ++it;
+            continue;
+        }*/
+        overmap &om = get( omp );
+        mg.pos = tripoint_om_sm( sm_rem, mg.pos.z() );
+        om.spawn_mon_group( mg );
+        new_overmap.zg.erase( it++ );
+        //there is only one nemesis, we can break after finding it
+        break; 
+    }
+}
+
 void overmapbuffer::fix_npcs( overmap &new_overmap )
 {
     // First step: move all npcs that are located outside of the given overmap
@@ -527,7 +562,7 @@ void overmapbuffer::move_hordes()
     const tripoint_abs_sm center( get_player_character().global_sm_location() );
     for( overmap* om : get_overmaps_near( center, radius ) ) {
         om->move_hordes();
-        fix_mongroups( *om );
+        //fix_mongroups( *om );
     }
 }
 
@@ -536,6 +571,7 @@ void overmapbuffer::move_nemesis()
    for( auto &omp : overmaps ) {
         // Note: this may throw io errors from std::ofstream
         omp.second->move_nemesis();
+        fix_nemesis(*omp.second);
     }
 }
 

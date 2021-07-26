@@ -2144,6 +2144,7 @@ void overmap::move_nemesis()
             movement_chance = 10;
         }
 
+
         if( one_in( movement_chance ) && rng( 0, 200 ) < mg.avg_speed() ) {
             if( mg.abs_pos.x() > mg.nemesis_target.x() ) {
                 mg.abs_pos.x()--;
@@ -2163,6 +2164,8 @@ void overmap::move_nemesis()
             //update the horde's om_sm coords so it can spawn in correctly
             if (project_to<coords::om>( mg.abs_pos ) == project_to<coords::om>( mg.nemesis_target ) ) {
 
+                debugmsg( "nemesis has entered your overmap" );
+
                 point_abs_om omp;
                 tripoint_om_sm local_sm;
                 std::tie( omp, local_sm ) = project_remain<coords::om>( mg.abs_pos );
@@ -2173,17 +2176,27 @@ void overmap::move_nemesis()
                 // Erase the group at it's old location, add the group with the new location
                 tmpzg.insert( std::pair<tripoint_om_sm, mongroup>( mg.pos, mg ) );
                 zg.erase( it++ );
+                
+                add_msg( m_info, _( "distance: %d, %d" ),
+            mg.nemesis_target.x() - mg.abs_pos.x(), mg.nemesis_target.y() - mg.abs_pos.y() );
+        add_msg( m_info, _( "terrain: %s" ), 
+                 walked_into->id.c_str() );
+                
                 //there is only one nemesis horde, so we can stop looping after we move it
                 break;
 
             }
             
-        add_msg( m_info, _( "nemesis moved: %d, %d in abs_SM" ),
-            mg.abs_pos.x(), mg.abs_pos.y() );
-        add_msg( m_info, _( "and: %d, %d in om_SM" ),
-            mg.pos.x(), mg.pos.y() );
+        add_msg( m_info, _( "distance: %d, %d" ),
+            mg.nemesis_target.x() - mg.abs_pos.x(), mg.nemesis_target.y() - mg.abs_pos.y() );
+        add_msg( m_info, _( "terrain: %s" ), 
+                 walked_into->id.c_str() );
+
+        //only one nemesis, so we break after moving it
+        break;
             
         } else {
+        //and we also break if it doesnt move
             break;
         }
     }
@@ -2254,10 +2267,6 @@ void overmap::signal_nemesis( const tripoint_abs_sm p_abs_sm )
             // if the horde is a nemesis, we set its target directly on the player
             mg.set_target( pos_om );
             mg.set_nemesis_target ( p_abs_sm );
-            add_msg( m_info, _( "nemesis signeled to %d, %d in om_SM" ),
-                 pos_om.x(), pos_om.y() );
-            add_msg( m_info, _( "nemesis signeled to %d, %d in abs_SM" ),
-                 p_abs_sm.x(), p_abs_sm.y() );
 
         }
     }
@@ -4564,6 +4573,11 @@ void overmap::place_nemesis( const tripoint_abs_omt p )
             nemesis.horde_behaviour = "nemesis";
             nemesis.abs_pos = pos_sm;
             add_mon_group( nemesis );
+
+            add_msg( m_info, _( "ABS ASSIGNMENT: %d, %d " ),
+            nemesis.abs_pos.x(), nemesis.abs_pos.y() );
+            add_msg( m_info, _( "OM_SM ASSIGNMENT: %d, %d " ),
+            local_sm.x(), local_sm.y() );
 }
 
 point_abs_omt overmap::global_base_point() const

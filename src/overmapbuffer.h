@@ -546,6 +546,11 @@ class overmapbuffer
          */
         void fix_mongroups( overmap &new_overmap );
         /**
+         * Go thorough the monster groups of the overmap to find the nemesis
+         * horde from the "hunted" trait and move it across overmaps.
+         */
+        void fix_nemesis( overmap &new_overmap );
+        /**
          * Moves out-of-bounds NPCs to the overmaps they should be in.
          */
         void fix_npcs( overmap &new_overmap );
