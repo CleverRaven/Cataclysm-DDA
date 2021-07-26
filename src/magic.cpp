@@ -291,7 +291,10 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "effect_str", effect_str, effect_str_default );
 
     std::string field_input;
-    optional( jo, was_loaded, "field_id", field_input, "none" );
+    // Because the field this is loading into is not part of this type,
+    // the default value will not be supplied when using copy-from if we pass was_loaded
+    // So just pass false instead
+    optional( jo, false, "field_id", field_input, "none" );
     if( field_input != "none" ) {
         field = field_type_id( field_input );
     }
