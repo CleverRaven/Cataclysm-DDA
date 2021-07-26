@@ -1466,13 +1466,13 @@ void character_edit_menu()
                 case 2: {
                     string_input_popup popup;
                     popup.title( string_format( _( "Enter height in centimeters.  Minimum %d, maximum %d" ),
-                                                Character::min_init_height,
-                                                Character::max_init_height ) )
+                                                Character::min_height(),
+                                                Character::max_height() ) )
                     .text( string_format( "%d", p.base_height() ) )
                     .only_digits( true );
                     const int result = popup.query_int();
                     if( result != 0 ) {
-                        p.set_base_height( clamp( result, Character::min_init_height, Character::max_init_height ) );
+                        p.set_base_height( clamp( result, Character::min_height(), Character::max_height() ) );
                     }
                 }
                 break;

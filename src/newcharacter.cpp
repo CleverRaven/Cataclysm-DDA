@@ -3136,8 +3136,8 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     int min_allowed_age = 16;
     int max_allowed_age = 55;
 
-    int min_allowed_height = Character::min_init_height;
-    int max_allowed_height = Character::max_init_height;
+    int min_allowed_height = Character::min_height();
+    int max_allowed_height = Character::max_height();
 
     do {
         ui_manager::redraw();

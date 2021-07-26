@@ -2817,13 +2817,13 @@ class Character : public Creature, public visitable
         creature_size size_class = creature_size::medium;
 
         /**
-        * Min and max height available to player at character creation
-        * in centimeters.
+        * Min, max and default heights for each size category of a character in centimeters.
         * minimum is 2 std. deviations below average female height
         */
         /**@{*/
-        static constexpr int min_init_height = 145;
-        static constexpr int max_init_height = 200;
+        static int min_height( creature_size size_category = creature_size::medium );
+        static int default_height( creature_size size_category = creature_size::medium );
+        static int max_height( creature_size size_category = creature_size::medium );
         /**@}*/
 
         // the player's activity level for metabolism calculations

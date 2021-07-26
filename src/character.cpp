@@ -503,7 +503,7 @@ void Character::randomize_height()
     // Height distribution data is taken from CDC distributes statistics for the US population
     // https://github.com/CleverRaven/Cataclysm-DDA/pull/49270#issuecomment-861339732
     const int x = std::round( normal_roll( 168.35, 15.50 ) );
-    init_height = clamp( x, Character::min_init_height, Character::max_init_height );
+    init_height = clamp( x, Character::min_height(), Character::max_height() );
 }
 
 void Character::randomize_blood()
@@ -8381,6 +8381,37 @@ std::string Character::age_string() const
     return string_format( unformatted, age() );
 }
 
+
+struct HeightLimits {
+    int min_height = 0;
+    int base_height = 0;
+    int max_height = 0;
+};
+
+/** Min and max heights in cm for each size category */
+static const std::map<creature_size, HeightLimits> size_category_height_limits {
+    { creature_size::tiny, { 58, 70, 87 } },
+    { creature_size::small, { 88, 122, 144 } },
+    { creature_size::medium, { 145, 175, 200 } }, // minimum is 2 std. deviations below average female height
+    { creature_size::large, { 201, 227, 250 } },
+    { creature_size::huge, { 251, 280, 320 } },
+};
+
+int Character::min_height( creature_size size_category )
+{
+    return size_category_height_limits.at( size_category ).min_height;
+}
+
+int Character::default_height( creature_size size_category )
+{
+    return size_category_height_limits.at( size_category ).base_height;
+}
+
+int Character::max_height( creature_size size_category )
+{
+    return size_category_height_limits.at( size_category ).max_height;
+}
+
 int Character::base_height() const
 {
     return init_height;
@@ -8413,24 +8444,11 @@ std::string Character::height_string() const
 
 int Character::height() const
 {
-    switch( get_size() ) {
-        case creature_size::tiny:
-            return init_height * 0.4;
-        case creature_size::small:
-            return init_height * 0.7;
-        case creature_size::medium:
-            return init_height;
-        case creature_size::large:
-            return init_height * 1.3;
-        case creature_size::huge:
-            return init_height * 1.6;
-        case creature_size::num_sizes:
-            debugmsg( "ERROR: Character has invalid size class." );
-            return 0;
-    }
-
-    debugmsg( "Invalid size class" );
-    abort();
+    const double base_height_deviation = base_height() / static_cast< double >
+                                         ( Character::default_height() );
+    const HeightLimits &limits = size_category_height_limits.at( get_size() );
+    return clamp<int>( base_height_deviation * limits.base_height,
+                       limits.min_height, limits.max_height );
 }
 
 int Character::base_bmr() const
