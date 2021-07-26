@@ -768,11 +768,7 @@
     "material": [ "steel" ],
     "symbol": "[",
     "looks_like": "pot_helmet",
-    "color": "light_gray",
-    "warmth": 5,
-    "material_thickness": 2,
-    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "techniques": [ "WBLOCK_1" ],
+    "copy-from": "pot_helmet",
     "flags": [ "OVERSIZE" ],
     "armor": [ { "encumbrance": 50, "coverage": 55, "covers": [ "head" ] } ]
   }
