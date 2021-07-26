@@ -585,6 +585,29 @@
   {
     "type": "overmap_terrain",
     "id": [
+      "lab_1x1_RES_8_bedrooms_maintenance",
+      "lab_1x1_RES_8_bedrooms_security",
+      "lab_1x1_RES_8_commons",
+      "lab_res_8_NW",
+      "lab_res_8_NE",
+      "lab_res_8_SW",
+      "lab_res_8_SE",
+      "lab_res_8_NWD",
+      "lab_res_8_NED",
+      "lab_res_8_SWD",
+      "lab_res_8_SED",
+      "lab_1x1x2_RES_8_apartments_upper",
+      "lab_1x1x2_RES_8_apartments_lower"
+    ],
+    "name": "Lab Residential Zone",
+    "sym": "R",
+    "color": "green",
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
       "lab_res_8_SWD_ground",
       "lab_res_8_SED_ground",
       "lab_res_8_SWU_ground",

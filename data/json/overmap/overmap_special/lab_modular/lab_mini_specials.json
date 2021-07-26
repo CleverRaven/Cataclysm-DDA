@@ -91,6 +91,64 @@
   },
   {
     "type": "overmap_special",
+    "//": "A 2 z level residential area. This includes segments of cargo/maintenance and retail areas.  This complements the mutagen lab.",
+    "id": "Lab_RES_2x2x2",
+    "overmaps": [
+      { "point": [ 0, 0, -2 ], "overmap": "lab_res_8_NW_north" },
+      { "point": [ 1, 0, -2 ], "overmap": "lab_res_8_NE_north" },
+      { "point": [ 0, 1, -2 ], "overmap": "lab_res_8_SW_north" },
+      { "point": [ 1, 1, -2 ], "overmap": "lab_res_8_SE_north" },
+      { "point": [ 0, 0, -3 ], "overmap": "lab_res_8_NWD_north" },
+      { "point": [ 1, 0, -3 ], "overmap": "lab_res_8_NED_north" },
+      { "point": [ 0, 1, -3 ], "overmap": "lab_res_8_SWD_north" },
+      { "point": [ 1, 1, -3 ], "overmap": "lab_res_8_SED_north" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 3, -1 ],
+    "city_sizes": [ 1, 16 ],
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "//": "A 2 z level residential area. This is self-contained and mimics the apartments in old labs.  Includes possible maintenance access points.",
+    "id": "Lab_APARTMENTS_1x1x2",
+    "overmaps": [
+      { "point": [ 2, -1, -2 ], "overmap": "lab_1x1x2_RES_8_apartments_upper_north" },
+      { "point": [ 2, -1, -3 ], "overmap": "lab_1x1x2_RES_8_apartments_lower_north" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 3, -1 ],
+    "city_sizes": [ 1, 16 ],
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "//": "A 2 z level residential area. This is self-contained and has 9 bedrooms with a common area.  Includes possible maintenance access points.",
+    "id": "Lab_RES_1x1x2_maintenance",
+    "overmaps": [
+      { "point": [ 2, 1, -2 ], "overmap": "lab_1x1_RES_8_bedrooms_maintenance_north" },
+      { "point": [ 2, 1, -3 ], "overmap": "lab_1x1_RES_8_commons_north" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 3, -1 ],
+    "city_sizes": [ 1, 16 ],
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
+    "//": "A 2 z level residential area. This is self-contained and has 9 bedrooms with a common area.  Includes possible maintenance access points.",
+    "id": "Lab_RES_1x1x2_security",
+    "overmaps": [
+      { "point": [ 2, 1, -2 ], "overmap": "lab_1x1_RES_8_bedrooms_security_north" },
+      { "point": [ 2, 1, -3 ], "overmap": "lab_1x1_RES_8_commons_north" }
+    ],
+    "locations": [ "land" ],
+    "city_distance": [ 3, -1 ],
+    "city_sizes": [ 1, 16 ],
+    "occurrences": [ 0, 0 ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Lab_SECURITY_1x1x6",
     "//": "6 z-level security tower. This includes the main lab entrance and security themed floors.",
     "overmaps": [
