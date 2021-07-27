@@ -500,7 +500,7 @@
     ]
   },
   {
-    "//": "Third group, figured having 'm16' in the name would make it more understandable, seeing as I named 2 of the .223 rifle groups/names after it. ACR is grouped with it due to similar length.",
+    "//": "Figured having 'm16' in the name would make it more understandable, seeing as I named 2 of the .223 rifle groups/names after it. ACR is grouped with it due to similar length.",
     "id": "m16_auto_rifle",
     "copy-from": "m16_burst_rifle",
     "type": "GUN",
@@ -522,7 +522,6 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ]
   },
   {
-    "//": "Decided to give this one a non-brand name, as it is related to the M16. It was made with an open-bolt design, so I figured this name was reasonable.",
     "id": "m231pfw",
     "copy-from": "m16_burst_rifle",
     "type": "GUN",
@@ -541,6 +540,7 @@
       }
     ],
     "dispersion": 350,
+    "//": "This weapon has an extremely high rate of fire, due to the open bolt design. This is based on a cyclic rate of fire of 1150 RPM, which is close to 19 rounds per second. 6 rounds is comparable to to other weapons with similar rates, such as the MAC-11.",
     "modes": [ [ "DEFAULT", "auto", 6 ] ]
   },
   {
