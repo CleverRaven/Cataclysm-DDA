@@ -215,17 +215,7 @@
     "//3": "Note the plural books.  Not to be confused with SUS_book_fict_soft_romc",
     "subtype": "collection",
     "entries": [
-      { "item": "novel_romance", "prob": 100 },
-      { "item": "paperback_romance_circuses", "prob": 20 },
-      { "item": "paperback_romance_cloven", "prob": 20 },
-      { "item": "paperback_romance_conq", "prob": 20 },
-      { "item": "paperback_romance_dd", "prob": 20 },
-      { "item": "paperback_romance_diodes", "prob": 20 },
-      { "item": "paperback_romance_envyh", "prob": 20 },
-      { "item": "paperback_romance_grue", "prob": 20 },
-      { "item": "paperback_romance_rider", "prob": 20 },
-      { "item": "paperback_romance_rogue", "prob": 20 },
-      { "item": "paperback_romance_secret", "prob": 20 }
+      { "item": "novel_romance", "prob": 100 }
     ]
   },
   {
@@ -316,14 +306,7 @@
     "//2": "This group is for a single paperback book of the western genre.",
     "subtype": "distribution",
     "entries": [
-      { "item": "novel_western", "prob": 1 },
-      { "item": "book_fict_soft_west_atwixt", "prob": 1 },
-      { "item": "book_fict_soft_west_bart", "prob": 1 },
-      { "item": "book_fict_soft_west_beans", "prob": 1 },
-      { "item": "book_fict_soft_west_calico", "prob": 1 },
-      { "item": "book_fict_soft_west_riot", "prob": 1 },
-      { "item": "book_fict_soft_west_vaq", "prob": 1 },
-      { "item": "book_fict_soft_west_vride", "prob": 1 }
+      { "item": "novel_western", "prob": 1 }
     ]
   },
   {
@@ -368,10 +351,7 @@
     "//2": "This returns a single paperback swashbuckling book.",
     "subtype": "distribution",
     "entries": [
-      { "item": "novel_swash", "prob": 1 },
-      { "item": "book_fict_soft_swash_blkfreight", "prob": 1 },
-      { "item": "book_fict_soft_swash_searovers", "prob": 1 },
-      { "item": "book_fict_soft_swash_buccaneer", "prob": 1 }
+      { "item": "novel_swash", "prob": 1 }
     ]
   },
   {
@@ -382,17 +362,7 @@
     "//3": "This id is book singular.  Not to be confused w the collection item_group plural SUS_books_fict_soft_romc",
     "subtype": "distribution",
     "entries": [
-      { "item": "novel_romance", "prob": 1 },
-      { "item": "paperback_romance_circuses", "prob": 1 },
-      { "item": "paperback_romance_cloven", "prob": 1 },
-      { "item": "paperback_romance_conq", "prob": 1 },
-      { "item": "paperback_romance_dd", "prob": 1 },
-      { "item": "paperback_romance_diodes", "prob": 1 },
-      { "item": "paperback_romance_envyh", "prob": 1 },
-      { "item": "paperback_romance_grue", "prob": 1 },
-      { "item": "paperback_romance_rider", "prob": 1 },
-      { "item": "paperback_romance_rogue", "prob": 1 },
-      { "item": "paperback_romance_secret", "prob": 1 }
+      { "item": "novel_romance", "prob": 1 }
     ]
   },
   {
@@ -421,12 +391,7 @@
     "//2": "returns a single paperback satire novel",
     "subtype": "distribution",
     "entries": [
-      { "item": "novel_satire", "prob": 2 },
-      { "item": "book_fict_soft_satire_hgod", "prob": 1 },
-      { "item": "book_fict_soft_satire_mandm", "prob": 1 },
-      { "item": "book_fict_soft_satire_catch", "prob": 1 },
-      { "item": "book_fict_soft_satire_dust", "prob": 1 },
-      { "item": "book_fict_soft_satire_cats", "prob": 1 }
+      { "item": "novel_satire", "prob": 2 }
     ]
   },
   {
@@ -436,9 +401,7 @@
     "//2": "returns a single paperback spy novel",
     "subtype": "distribution",
     "entries": [
-      { "item": "novel_spy", "prob": 2 },
-      { "item": "novel_spy_comefly", "prob": 1 },
-      { "item": "novel_spy_rocketsci", "prob": 1 }
+      { "item": "novel_spy", "prob": 2 }
     ]
   },
   {

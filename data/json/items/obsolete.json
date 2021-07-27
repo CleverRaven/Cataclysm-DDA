@@ -19,6 +19,217 @@
     "obsolete": true
   },
   {
+    "id": "novel_crime2",
+    "type": "BOOK",
+    "name": { "str": "crime novel" },
+    "copy-from": "novel_crime",
+    "description": "A story about three people in the fictional city of Los Santos, a gangster, an upper-class man, and a psychopath, eventually banding together to pull-off the biggest heist in the city's history",
+    "time": "18 m",
+    "relative": { "chapters": -3 }
+  },
+  {
+    "id": "novel_crime_murdergrape",
+    "type": "BOOK",
+    "name": { "str": "Murdered by the Grapevine", "str_pl": "copies of Murdered by the Grapevine" },
+    "description": "This cheap paperback tells the story of a mob boss done in by mere suspicion.  She never breaks a confidence, never rats out an accomplice, and never turns her back on a friend.  Nonetheless her grip on the reigns of the underworld is eroded by rumor and paranoia.",
+    "copy-from": "book_fict_soft_tpl"
+  },
+  {
+    "id": "novel_crime_midnight",
+    "type": "BOOK",
+    "name": { "str": "Midnight Cop", "str_pl": "copies of Midnight Cop" },
+    "description": "In this bare-knuckled potboiler, a ruthless police detective schemes to shut down local crime lords by pitting them against each other.  When long-simmering resentments finally flare the city learns why they call it \"the dead of night.\"",
+    "time": "24 m",
+    "copy-from": "book_fict_soft_tpl",
+    "relative": { "chapters": -8 }
+  },
+  {
+    "id": "book_fict_soft_west_gore",
+    "type": "BOOK",
+    "name": { "str": "Gore Longtitude", "str_pl": "copies of Gore Longitude" },
+    "description": "Award-winning author Cornac McCaffordy weaves a chilling tale of horror and strife, following the compellingly lucrative, seductively dangerous bounty hunting and scalping trade across the western frontier.",
+    "copy-from": "book_fict_soft_tpl",
+    "intelligence": 6,
+    "time": "25 m",
+    "chapters": 24,
+    "fun": 3
+  },
+  {
+    "id": "book_fict_soft_west_atwixt",
+    "type": "BOOK",
+    "name": { "str": "Atwixt a Brace of Cacti", "str_pl": "copies of Atwixt a Brace of Cacti" },
+    "description": "A grizzled clodhopper interviews a mess of rangehands, flummoxing longhorns and tenderfoot alike in a flusteration of jawing.",
+    "copy-from": "paperback_western_em",
+    "relative": { "price": 400, "intelligence": 4, "fun": 1 }
+  },
+  {
+    "id": "paperback_romance_circuses",
+    "type": "BOOK",
+    "name": { "str": "Love and Circuses", "str_pl": "copies of Love and Circuses" },
+    "description": "The passionate saga of two Boston politicians fiercely battling each other for the mayor's office, and for Lydia's hand in marriage.",
+    "copy-from": "paperback_romance_spb",
+    "relative": { "chapters": 2, "weight": "111 g" }
+  },
+  {
+    "id": "paperback_romance_cloven",
+    "type": "BOOK",
+    "name": { "str": "Cloven Kisses", "str_pl": "copies of Cloven Kisses" },
+    "description": "When the devil falls in love with a warlock, his proposal must be infernally wicked.  Will hooves, horns, and the scent of sulphur condemn love's flames to hellfire?",
+    "copy-from": "paperback_romance_lnl",
+    "relative": { "chapters": -2 }
+  },
+  {
+    "id": "paperback_romance_conq",
+    "type": "BOOK",
+    "name": { "str": "Conquer Me Sweetly", "str_pl": "copies of Conquer Me Sweetly" },
+    "description": "Sweet Providence Books is delighted to offer you this romantic tale of delicious dalliances and daring delights.",
+    "copy-from": "paperback_romance_spb",
+    "relative": { "chapters": -1 }
+  },
+  {
+    "id": "paperback_romance_dd",
+    "type": "BOOK",
+    "name": { "str": "Dubliner's Debutante", "str_pl": "copies of Dubliner's Debutante" },
+    "description": "His love songs were only for me, but I preferred the banjo over bagpipes.  How could I ever love a kilted yankee of foreign breeding?",
+    "copy-from": "paperback_romance_spb"
+  },
+  {
+    "id": "paperback_romance_diodes",
+    "type": "BOOK",
+    "name": { "str": "Blood Diodes", "str_pl": "copies of Blood Diodes" },
+    "description": "He is an automaton, she is a reformed vampire, can love find a way?  In this edgy romance by acclaimed author Kea Dekker, heartbreak is just the beginning.",
+    "copy-from": "paperback_romance_lnl",
+    "relative": { "chapters": 1 }
+  },
+  {
+    "id": "paperback_romance_envyh",
+    "type": "BOOK",
+    "name": { "str": "Envying Heaven", "str_pl": "copies of Envying Heaven" },
+    "description": "When her fiancee names a star for her Wanda begins to wonder if an astronomer's wife can ever compete with the allure of the cosmos.",
+    "copy-from": "paperback_romance_vanilla"
+  },
+  {
+    "id": "paperback_romance_grue",
+    "type": "BOOK",
+    "name": { "str": "Tall, Dark, and Gruesome", "str_pl": "copies of Tall, Dark, and Gruesome" },
+    "description": "Fatima's obsession with the dead threatens to consume her when she falls in love with a restless ghost.  In this provocative romp celebrated author Kea Dekker gently lifts the thin veil separating cold bodies from warm.",
+    "copy-from": "paperback_romance_lnl"
+  },
+  {
+    "id": "paperback_romance_rider",
+    "type": "BOOK",
+    "name": { "str": "Along Came a Rider", "str_pl": "copies of Along Came a Rider" },
+    "description": "When Beth's career as a pro steeplechase jockey threatens to divide her from her lover, Beth has to act fast.  Will she ever find a man that can keep up with her racing heart?",
+    "copy-from": "paperback_romance_vanilla"
+  },
+  {
+    "id": "paperback_romance_rogue",
+    "type": "BOOK",
+    "name": { "str": "Rogue's Virtue", "str_pl": "copies of Rogue's Virtue" },
+    "description": "Can Victoria reform the fugitive from justice who wooed her with false pretenses and true passion?",
+    "copy-from": "paperback_romance_vanilla"
+  },
+  {
+    "id": "paperback_romance_secret",
+    "type": "BOOK",
+    "name": { "str": "The Death of My Secret Life", "str_pl": "copies of The Death of My Secret Life" },
+    "description": "Makeda comes out to her family, but she's still got plenty of skeletons in her closet.  Best selling authoress Kea Dekker breaks all the rules in this macabre story of love and lies.",
+    "copy-from": "paperback_romance_lnl"
+  },
+  {
+    "id": "book_fict_soft_satire_hgod",
+    "type": "BOOK",
+    "name": { "str": "The House of God", "str_pl": "copies of The House of God" },
+    "description": "Set in a lightly disguised Boston hospital of high repute, Samuel Shem’s novel dives deep into the agony of absurdity.",
+    "copy-from": "book_fict_soft_satire_tpl"
+  },
+  {
+    "id": "book_fict_soft_satire_catch",
+    "type": "BOOK",
+    "name": { "str": "Catch-22", "str_pl": "copies of Catch-22" },
+    "description": "There is a short informational forward in this paperback edition of Catch-22.  Apparently the original title for Joseph Heller’s excruciatingly brilliant war satire was \"Catch-11.\"",
+    "weight": "480 g",
+    "copy-from": "book_fict_soft_satire_tpl",
+    "relative": { "chapters": 26 }
+  },
+  {
+    "id": "book_fict_soft_satire_mandm",
+    "type": "BOOK",
+    "name": { "str": "The Master and Margarita", "str_pl": "copies of Master and Margarita" },
+    "description": "Featuring a cast that includes Satan, Pontius Pilate, Jesus Christ, vampires, a talking cat, and the literary elite of Moscow, this novel by Mikhail Bulgakov explores philosophical issues on the nature of good and evil.",
+    "//isbn13": 9780802130112,
+    "weight": "441 g",
+    "volume": "719 ml",
+    "longest_side": "21 cm",
+    "chapters": 32,
+    "copy-from": "book_fict_soft_satire_tpl",
+    "relative": { "fun": 1 }
+  },
+  {
+    "id": "book_fict_soft_satire_dust",
+    "type": "BOOK",
+    "name": { "str": "A Handful of Dust", "str_pl": "copies of A Handful of Dust" },
+    "description": "Laced with cynicism, Evelyn Waugh's \"A Handful of Dust\" satirizes a stratum of characters who have wealth, but lack any other credentials.",
+    "copy-from": "book_fict_soft_satire_tpl"
+  },
+  {
+    "id": "book_fict_soft_satire_cats",
+    "type": "BOOK",
+    "name": { "str": "Cat’s Cradle", "str_pl": "copies of Cat’s Cradle" },
+    "description": "A paperback edition of Kurt Vonnegut's fourth novel, in which the threat of nuclear destruction isn't much of an influence on human nature.",
+    "weight": "360 g",
+    "time": "1 m",
+    "chapters": 127,
+    "fun": 1,
+    "copy-from": "book_fict_soft_satire_tpl"
+  },
+  {
+    "id": "book_fict_soft_west_bart",
+    "type": "BOOK",
+    "name": { "str": "Stinky Bart Puts on Starch", "str_pl": "copies of Stinky Bart Puts on Starch" },
+    "description": "A local bandit, driven by sadistic impulses, begins offering unlicensed dentistry to brave frontiersmen with few options and fewer teeth.",
+    "copy-from": "paperback_western_em"
+  },
+  {
+    "id": "book_fict_soft_west_beans",
+    "type": "BOOK",
+    "name": { "str": "Six Beans in the Wheel", "str_pl": "copies of Six Beans in the Wheel" },
+    "description": "The safety is off in this gun slinging tale of revenge and redemption by acclaimed author El Amor.",
+    "copy-from": "paperback_western_em",
+    "relative": { "chapters": -2, "fun": 1 }
+  },
+  {
+    "id": "book_fict_soft_west_calico",
+    "type": "BOOK",
+    "name": { "str": "Irons at Calico Queen Annex", "str_pl": "copies of Irons at Calico Queen Annex" },
+    "description": "The establishment of a telegraph line into the recently named town of Calico Queen threatens to bring with it the long arm of the law.  A trio of enterprising gunfighters hatches a plan to keep Calico Queen wild by looting the supply wagons.",
+    "copy-from": "paperback_western_em"
+  },
+  {
+    "id": "book_fict_soft_west_riot",
+    "type": "BOOK",
+    "name": { "str": "Riot on the Range", "str_pl": "copies of Riot on the Range" },
+    "description": "Best selling author El Amor paints a visceral study in red with his latest western saga: Riot on the Range.",
+    "copy-from": "paperback_western_em",
+    "relative": { "chapters": -1, "fun": 1 }
+  },
+  {
+    "id": "book_fict_soft_west_vaq",
+    "type": "BOOK",
+    "name": { "str": "Vaquero Sun", "str_pl": "copies of Vaquero Sun" },
+    "description": "Western author El Amor relates the story of a dispossessed young man inspired by a heat stroke delusion to pursue justice against an evil land baron.",
+    "copy-from": "paperback_western_em",
+    "relative": { "chapters": 2, "fun": 1 }
+  },
+  {
+    "id": "book_fict_soft_west_vride",
+    "type": "BOOK",
+    "name": { "str": "The Vendetta Riders", "str_pl": "copies of The Vendetta Riders" },
+    "description": "A wild young man, fast on the draw, who thinks he has nothing to lose, falls in with a group of gun runners.",
+    "copy-from": "paperback_western_em",
+    "relative": { "chapters": -1, "fun": -1 }
+  },
+  {
     "abstract": "mre_box",
     "type": "GENERIC",
     "symbol": ")",

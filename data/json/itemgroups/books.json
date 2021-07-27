@@ -200,7 +200,6 @@
       { "item": "novel_coa", "prob": 5 },
       { "item": "novel_coa2", "prob": 5 },
       { "item": "novel_crime", "prob": 20 },
-      { "item": "novel_crime2", "prob": 20 },
       { "item": "novel_horror", "prob": 18 },
       { "item": "novel_tragedy", "prob": 8 },
       { "item": "survnote", "prob": 1 }
