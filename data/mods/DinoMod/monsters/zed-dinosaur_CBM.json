@@ -19,7 +19,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zachycephalosaurus_bio_op",
-    "name": { "str": "Pachy zombie bio-operator" },
+    "name": { "str": "Pachycephalosaurus zombie bio-operator" },
     "copy-from": "mon_zachycephalosaurus",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
@@ -53,7 +53,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zeinonychus_bio_op",
-    "name": { "str": "Deino zombie bio-operator" },
+    "name": { "str": "Deinonychus zombie bio-operator" },
     "copy-from": "mon_zeinonychus",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
