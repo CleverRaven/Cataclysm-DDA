@@ -41,7 +41,7 @@ function run_test
 {
     set -eo pipefail
     test_exit_code=0 sed_exit_code=0 exit_code=0
-    $WINE $1 --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS "$2" 2>&1 | sed -E 's/^(::(warning|error|debug)[^:]*::)?/\1'"$3"'/' || test_exit_code="${PIPESTATUS[0]}" sed_exit_code="${PIPESTATUS[1]}"
+    $WINE $1 --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS $2 2>&1 | sed -E 's/^(::(warning|error|debug)[^:]*::)?/\1'"$3"'/' || test_exit_code="${PIPESTATUS[0]}" sed_exit_code="${PIPESTATUS[1]}"
     if [ "$test_exit_code" -ne "0" ]
     then
         echo "$3test exited with code $test_exit_code"
