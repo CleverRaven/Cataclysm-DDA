@@ -527,7 +527,7 @@
     "copy-from": "m16_burst_rifle",
     "type": "GUN",
     "name": { "str": "M16 open-bolt rifle" },
-    "description": "The M16 Open-Bolt Rifle is an M16 rifle modified to fire with an open-bolt design. This makes the rifle fire at much higher speeds than most other assault rifles, but at the cost of accuracy.",
+    "description": "The M16 open-bolt rifle is an M16 rifle modified to fire with an open-bolt design.  This makes the rifle fire at much higher speeds than most other assault rifles, but at the cost of accuracy.  It is chambered in 5.56x45mm and accepts STANAG magazines.",
     "weight": "3330 g",
     "volume": "2400 ml",
     "longest_side": "727 mm",
