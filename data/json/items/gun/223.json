@@ -451,7 +451,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "M16 burst rifle" },
-    "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It fires in three round bursts. This ensures the rifle is more accurate, but at the cost of being slower than other assault rifles.",
+    "description": "The M16 is a common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It fires in three round bursts, ensuring the rifle is more accurate, but at the cost of being slower than other assault rifles.  It is chambered in 5.56x45mm rounds, and accepts STANAG magazines.",
     "weight": "3260 g",
     "volume": "5030 ml",
     "longest_side": "1003 mm",
