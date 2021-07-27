@@ -197,7 +197,7 @@
     ]
   },
   {
-    "//": "First group change from 'NATO Assault Rifle'. Groups all 'H&K416' related rifles together, alongside the SCAR-L due to its similar properties. Used M27 due to it being the most popular of the four in the US.",
+    "//": "Groups all 'H&K416' related rifles together, alongside the SCAR-L due to its similar properties. Used M27 due to it being the most popular of the four in the US.",
     "id": "m27_assault_rifle",
     "copy-from": "rifle_auto",
     "looks_like": "ar15",
