@@ -203,7 +203,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "M27 assault rifle" },
-    "description": "Designed to replace the M4 Carbine, the M27 Assault Rifle features most of the former's strengths, while being considerably more durable.",
+    "description": "Designed to replace the M4 Carbine, the M27 assault rifle features most of the former's strengths, while being considerably more durable.  It is chambered in 5.56x45mm and accepts STANAG magazines.",
     "weight": "3490 g",
     "volume": "4957 ml",
     "longest_side": "798 mm",
