@@ -505,7 +505,7 @@
     "copy-from": "m16_burst_rifle",
     "type": "GUN",
     "name": { "str": "M16 auto rifle" },
-    "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  Unlike its more common brother, the M16 Burst Rifle, this one has full-auto capabilities.",
+    "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  Unlike its more common brother, the M16 burst rifle, this one has full-auto capabilities.  It is chambered in 5.56x45mm and accepts STANAG magazines.",
     "variants": [
       {
         "id": "m16a3",
