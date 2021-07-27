@@ -159,7 +159,6 @@ map::map( int mapsize, bool zlev )
 }
 
 map::~map() = default;
-// NOLINTNEXTLINE(performance-noexcept-move-constructor)
 map &map::operator=( map && ) = default;
 
 static submap null_submap;
