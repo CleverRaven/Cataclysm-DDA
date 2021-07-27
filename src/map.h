@@ -319,7 +319,7 @@ class map
         virtual ~map();
 
         map &operator=( const map & ) = delete;
-        map &operator=( map && ) noexcept;
+        map &operator=( map && );
 
         /**
          * Tinymaps will ocassionally need to skip npc rotation in map::rotate
