@@ -270,7 +270,7 @@ bool item_pocket::has_item_stacks_with( const item &it ) const
     return false;
 }
 
-bool item_pocket::better_pocket( const item_pocket &rhs, const item &it ) const
+bool item_pocket::better_pocket( const item_pocket &rhs, const item &it, bool nested ) const
 {
     if( this->settings.priority() != rhs.settings.priority() ) {
         // Priority overrides all other factors.
@@ -301,6 +301,11 @@ bool item_pocket::better_pocket( const item_pocket &rhs, const item &it ) const
         if( data->watertight != rhs.data->watertight ) {
             return !rhs.data->watertight;
         }
+    }
+
+    //Skip irrelevant properties of nested containers
+    if( nested ) {
+        return false;
     }
 
     if( data->rigid != rhs.data->rigid ) {
