@@ -278,39 +278,39 @@ void SkillLevel::theory_train( int amount, bool skip_scaling )
 
 }
 
-namespace
-{
-time_duration rustRate( int level )
-{
-    unsigned const n = clamp( level, 0, 9 );
-    return time_duration::from_hours( 30 - n );
-}
-} //namespace
-
 bool SkillLevel::isRusting() const
 {
-    return get_option<std::string>( "SKILL_RUST" ) != "off" && ( _level > 0 ) &&
-           calendar::turn - _lastPracticed > rustRate( _level );
+    return get_option<std::string>( "SKILL_RUST" ) != "off" && ( 0 < _level < _theoryLevel ) &&
+           _rustAccumulator > 0;
 }
 
 bool SkillLevel::rust( int rust_resist, int character_rate )
 {
-    const time_duration delta = calendar::turn - _lastPracticed;
-    const float char_rate = character_rate / 100.0f;
-    const time_duration skill_rate = rustRate( _level );
-    int rust_amount = std::max( _level * 500 - _rustAccumulator / std::max ( _level * 500, 100 ), 0 );
-
-    if( rust_amount <= 0 ) {
+    
+    if (_level >= MAX_SKILL ) {
+        // don't rust any more once you hit the level cap, at least until we have a way to "pause" rust for a while.
         return false;
     }
+    
+    float level_exp = ( _level * _level * 10000.0f );
+    if ( _rustAccumulator > level_exp * 3 ){
+        // at this point the numbers ahead will be too small to bother.  Just cap it off.
+        return false;
+    }
+    
+    // Future plans: Have rust_slowdown impacted by intelligence and other memory-affecting things
+    float rust_slowdown = std::max( sqrt( _rustAccumulator / level_exp ), 0.04f );
 
-    if( to_turns<int>( skill_rate ) * char_rate <= 0 || delta <= 0_turns ||
-        delta % ( skill_rate * char_rate ) != 0_turns ) {
+    // rust amount starts at 4% of a level's xp, run every 24 hours.
+    // Once the accumulated rust exceeds 16% of a level, rust_amount starts to drop.
+    int rust_amount = _level * _level * 16 / rust_slowdown;
+
+    if( rust_amount < 1 ) {
         return false;
     }
 
     if( rust_resist > 0 ) {
-        return x_in_y( rust_resist, 100 );
+        rust_amount *= std::min( ( 100 - rust_resist ) / 100, 1 );
     }
 
     _rustAccumulator += rust_amount;
