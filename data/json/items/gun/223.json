@@ -527,7 +527,7 @@
     "id": "m231pfw",
     "copy-from": "m16_burst_rifle",
     "type": "GUN",
-    "name": { "str": "M16 Open-Bolt Rifle" },
+    "name": { "str": "M16 open-bolt rifle" },
     "description": "The M16 Open-Bolt Rifle is an M16 rifle modified to fire with an open-bolt design. This makes the rifle fire at much higher speeds than most other assault rifles, but at the cost of accuracy.",
     "weight": "3330 g",
     "volume": "2400 ml",
