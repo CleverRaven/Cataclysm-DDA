@@ -1036,6 +1036,11 @@ bool item::same_for_rle( const item &rhs ) const
     if( !contents.empty_real() || !rhs.contents.empty_real() ) {
         return false;
     }
+    if( has_gun_variant( false ) != rhs.has_gun_variant( false ) ||
+        ( has_gun_variant( false ) && rhs.has_gun_variant( false ) &&
+          gun_variant().id != rhs.gun_variant().id ) ) {
+        return false;
+    }
     return stacks_with( rhs, true, false );
 }
 
@@ -1096,9 +1101,37 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
     }
     // Guns that differ only by dirt/shot_counter can still stack,
     // but other item_vars such as label/note will prevent stacking
-    const std::vector<std::string> ignore_keys = { "dirt", "shot_counter" };
+    const std::vector<std::string> ignore_keys = { "dirt", "shot_counter", "spawn_location_omt" };
     if( map_without_keys( item_vars, ignore_keys ) != map_without_keys( rhs.item_vars, ignore_keys ) ) {
         return false;
+    }
+    const std::string omt_loc_var = "spawn_location_omt";
+    const bool this_has_location = has_var( omt_loc_var );
+    const bool that_has_location = has_var( omt_loc_var );
+    if( this_has_location != that_has_location ) {
+        return false;
+    }
+    if( this_has_location && that_has_location ) {
+        const tripoint_abs_omt this_loc( get_var( "spawn_location_omt", tripoint_zero ) );
+        const tripoint_abs_omt that_loc( rhs.get_var( "spawn_location_omt", tripoint_zero ) );
+        const tripoint_abs_omt player_loc( ms_to_omt_copy( get_map().getabs(
+                                               get_player_character().pos() ) ) );
+        const int this_dist = rl_dist( player_loc, this_loc );
+        const int that_dist = rl_dist( player_loc, that_loc );
+        static const auto get_bucket = []( const int dist ) {
+            if( dist < 1 ) {
+                return 0;
+            } else if( dist < 6 ) {
+                return 1;
+            } else if( dist < 30 ) {
+                return 2;
+            } else {
+                return 3;
+            }
+        };
+        if( get_bucket( this_dist ) != get_bucket( that_dist ) ) {
+            return false;
+        }
     }
     if( goes_bad() && rhs.goes_bad() ) {
         // Stack items that fall into the same "bucket" of freshness.
@@ -4440,10 +4473,9 @@ const std::string &item::symbol() const
     return type->sym;
 }
 
-nc_color item::color_in_inventory() const
+nc_color item::color_in_inventory( const Character *const ch ) const
 {
-    // TODO: make a const reference
-    avatar &player_character = get_avatar();
+    const Character &player_character = ch ? *ch : get_player_character();
 
     // Only item not otherwise colored gets colored as favorite
     nc_color ret = is_favorite ? c_white : c_light_gray;
@@ -4927,6 +4959,20 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         } else if( has_flag( flag_HIDDEN_HALLU ) &&
                    player_character.get_skill_level( skill_survival ) >= 5 ) {
             tagtext += _( " (hallucinogenic)" );
+        }
+    }
+    if( has_var( "spawn_location_omt" ) ) {
+        tripoint_abs_omt loc( get_var( "spawn_location_omt", tripoint_zero ) );
+        tripoint_abs_omt player_loc( ms_to_omt_copy( get_map().getabs( player_character.pos() ) ) );
+        int dist = rl_dist( player_loc, loc );
+        if( dist < 1 ) {
+            tagtext += _( " (from here)" );
+        } else if( dist < 6 ) {
+            tagtext += _( " (from nearby)" );
+        } else if( dist < 30 ) {
+            tagtext += _( " (from this area)" );
+        } else {
+            tagtext += _( " (from far away)" );
         }
     }
     if( ethereal ) {

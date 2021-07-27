@@ -2565,10 +2565,12 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_ZOOM_IN:
             zoom_in();
+            mark_main_ui_adaptor_resize();
             break;
 
         case ACTION_ZOOM_OUT:
             zoom_out();
+            mark_main_ui_adaptor_resize();
             break;
 
         case ACTION_ITEMACTION:

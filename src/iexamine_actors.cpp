@@ -11,34 +11,66 @@
 #include "output.h"
 #include "player.h"
 
-void cardreader_examine_actor::consume_card( player &guy ) const
+void cardreader_examine_actor::consume_card( const std::vector<item_location> &cards ) const
 {
     if( !consume ) {
         return;
     }
-    std::vector<itype_id> cards;
-    for( const flag_id &flag : allowed_flags ) {
-        for( const item *it : guy.all_items_with_flag( flag ) ) {
-            itype_id card_type = it->typeId();
-            if( std::find( cards.begin(), cards.end(), card_type ) == cards.end() ) {
-                cards.push_back( card_type );
-            }
+    std::vector<item_location> opts;
+    for( const item_location &it : cards ) {
+        const auto stacks = [&it]( const item_location & compare ) {
+            return it->stacks_with( *compare );
+        };
+        if( std::any_of( opts.begin(), opts.end(), stacks ) ) {
+            continue;
         }
+        opts.push_back( it );
     }
-    if( cards.size() > 1 ) {
-        uilist query;
-        query.text = _( "Use which item?" );
-        for( size_t i = 0; i < cards.size(); ++i ) {
-            query.entries.emplace_back( static_cast<int>( i ), true, -1, cards[i]->nname( 1 ) );
-        }
-        query.query();
-        while( query.ret == UILIST_CANCEL ) {
-            query.query();
-        }
-        guy.use_amount( cards[query.ret], 1 );
+
+    if( opts.size() == 1 ) {
+        opts[0].remove_item();
         return;
     }
-    guy.use_amount( cards[0], 1 );
+
+    uilist query;
+    query.text = _( "Use which item?" );
+    query.allow_cancel = false;
+    for( size_t i = 0; i < opts.size(); ++i ) {
+        query.entries.emplace_back( static_cast<int>( i ), true, -1, opts[i]->tname() );
+    }
+    query.query();
+    opts[query.ret].remove_item();
+}
+
+std::vector<item_location> cardreader_examine_actor::get_cards( player &guy,
+        const tripoint &examp )const
+{
+    std::vector<item_location> ret;
+
+    for( const item_location &it : guy.all_items_loc() ) {
+        const auto has_card_flag = [&it]( const flag_id & flag ) {
+            return it->has_flag( flag );
+        };
+        if( std::none_of( allowed_flags.begin(), allowed_flags.end(), has_card_flag ) ) {
+            continue;
+        }
+        if( omt_allowed_radius ) {
+            tripoint cardloc = it->get_var( "spawn_location_omt", tripoint_min );
+            // Cards without a location are treated as valid
+            if( cardloc == tripoint_min ) {
+                ret.push_back( it );
+                continue;
+            }
+            int dist = rl_dist( cardloc.xy(), ms_to_omt_copy( get_map().getabs( examp ) ).xy() );
+            if( dist > *omt_allowed_radius ) {
+                continue;
+            }
+        }
+
+        ret.push_back( it );
+    }
+
+    return ret;
 }
 
 bool cardreader_examine_actor::apply( const tripoint &examp ) const
@@ -81,16 +113,9 @@ void cardreader_examine_actor::call( player &guy, const tripoint &examp ) const
     bool open = false;
     map &here = get_map();
 
-    bool has_item = false;
-    for( const flag_id &flag : allowed_flags ) {
-        if( guy.has_item_with_flag( flag ) ) {
-            has_item = true;
-            break;
-        }
-    }
+    std::vector<item_location> cards = get_cards( guy, examp );
 
-
-    if( has_item && query_yn( _( query_msg ) ) ) {
+    if( !cards.empty() && query_yn( _( query_msg ) ) ) {
         guy.mod_moves( -to_moves<int>( 1_seconds ) );
         open = apply( examp );
         for( monster &critter : g->all_monsters() ) {
@@ -106,7 +131,7 @@ void cardreader_examine_actor::call( player &guy, const tripoint &examp ) const
         }
         if( open ) {
             add_msg( _( success_msg ) );
-            consume_card( guy );
+            consume_card( cards );
         } else {
             add_msg( _( redundant_msg ) );
         }
@@ -121,6 +146,7 @@ void cardreader_examine_actor::load( const JsonObject &jo )
     optional( jo, false, "consume_card", consume, true );
     optional( jo, false, "allow_hacking", allow_hacking, true );
     optional( jo, false, "despawn_monsters", despawn_monsters, true );
+    optional( jo, false, "omt_allowed_radius", omt_allowed_radius );
     if( jo.has_string( "mapgen_id" ) ) {
         optional( jo, false, "mapgen_id", mapgen_id );
         map_regen = true;

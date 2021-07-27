@@ -188,6 +188,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": [ "lake_cabin_water" ],
+    "name": "lake",
+    "sym": "#",
+    "color": "blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
     "id": [ "cabin_lake_roof", "lake_cabin_boathouse_roof" ],
     "name": "cabin roof",
     "sym": "C",

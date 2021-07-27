@@ -1758,8 +1758,7 @@ trinary player::consume( item &target, bool force, bool refuel )
     }
 
     if( refuel ) {
-        fuel_bionic_with( target );
-        return target.charges <= 0 ? trinary::ALL : trinary::SOME;
+        return fuel_bionic_with( target ) && target.charges <= 0 ? trinary::ALL : trinary::SOME;
     }
 
     if( consume_med( target, *this ) || eat( target, *this, force ) ) {

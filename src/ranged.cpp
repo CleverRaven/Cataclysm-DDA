@@ -2163,8 +2163,10 @@ target_handler::trajectory target_ui::run()
             shifting_view = !shifting_view;
         } else if( action == "zoom_in" ) {
             g->zoom_in();
+            g->mark_main_ui_adaptor_resize();
         } else if( action == "zoom_out" ) {
             g->zoom_out();
+            g->mark_main_ui_adaptor_resize();
         } else if( action == "QUIT" ) {
             loop_exit_code = ExitCode::Abort;
             break;

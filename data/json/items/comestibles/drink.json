@@ -1049,6 +1049,20 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "tea_willowbark",
+    "copy-from": "tea",
+    "name": { "str_sp": "willowbark tea" },
+    "healthy": -1,
+    "fatigue_mod": 0,
+    "stim": 0,
+    "calories": 0,
+    "description": "A bitter tea made by boiling willow bark in water, used since ancient times as a mild painkiller.",
+    "fun": -2,
+    "delete": { "flags": [ "EATEN_HOT" ] },
+    "use_action": { "type": "consume_drug", "effects": [ { "id": "pkill1", "duration": 90 }, { "id": "nausea", "duration": "5 m" } ] }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "tea_bark",
     "name": { "str": "bark tea" },
     "weight": "251 g",

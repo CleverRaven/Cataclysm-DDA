@@ -293,6 +293,21 @@
     "components": [ [ [ "straw_pile", 5 ], [ "withered", 5 ] ] ]
   },
   {
+    "result": "yarn",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": "30 m",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_spinning" }, { "proficiency": "prof_fibers" } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "tools": [ [ [ "distaff_spindle", -1 ] ] ],
+    "components": [ [ [ "wool_staple", 1 ] ] ]
+  },
+  {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "rag",

@@ -67,7 +67,7 @@
     "copy-from": "id_science",
     "name": { "str": "Maintenance: green zone badge" },
     "description": "This is an employee badge for a maintence worker.  The reverse side describes protocol for using it; this could grant access to green zone card readers.",
-    "flags": [ "SCIENCE_CARD_MAINTENANCE_GREEN" ]
+    "flags": [ "SCIENCE_CARD_MAINTENANCE_GREEN", "PRESERVE_SPAWN_OMT" ]
   },
   {
     "type": "GENERIC",
@@ -76,7 +76,7 @@
     "copy-from": "id_science",
     "name": { "str": "Maintenance: yellow zone badge" },
     "description": "This is an employee badge for a maintence worker.  The reverse side describes protocol for using it; this could grant access to yellow zone card readers.",
-    "flags": [ "SCIENCE_CARD_MAINTENANCE_YELLOW" ]
+    "flags": [ "SCIENCE_CARD_MAINTENANCE_YELLOW", "PRESERVE_SPAWN_OMT" ]
   },
   {
     "type": "GENERIC",
@@ -85,7 +85,7 @@
     "copy-from": "id_science",
     "name": { "str": "Maintenance: blue zone badge" },
     "description": "This is an employee badge for a maintence worker.  The reverse side describes protocol for using it; this could grant access to blue zone card readers.",
-    "flags": [ "SCIENCE_CARD_MAINTENANCE_BLUE" ]
+    "flags": [ "SCIENCE_CARD_MAINTENANCE_BLUE", "PRESERVE_SPAWN_OMT" ]
   },
   {
     "type": "GENERIC",
@@ -103,7 +103,7 @@
     "copy-from": "id_science",
     "name": { "str": "Security: yellow zone badge" },
     "description": "This is an employee badge for a security professional.  The reverse side describes protocol for using it; this could grant access to yellow zone card readers.",
-    "flags": [ "SCIENCE_CARD_SECURITY_YELLOW" ]
+    "flags": [ "SCIENCE_CARD_SECURITY_YELLOW", "PRESERVE_SPAWN_OMT" ]
   },
   {
     "type": "GENERIC",
@@ -112,7 +112,7 @@
     "copy-from": "id_science",
     "name": { "str": "Security: magenta zone badge" },
     "description": "This is an employee badge for a security professional.  The reverse side describes protocol for using it; this could grant access to magenta zone card readers.",
-    "flags": [ "SCIENCE_CARD_SECURITY_MAGENTA" ]
+    "flags": [ "SCIENCE_CARD_SECURITY_MAGENTA", "PRESERVE_SPAWN_OMT" ]
   },
   {
     "type": "GENERIC",
@@ -121,7 +121,7 @@
     "copy-from": "id_science",
     "name": { "str": "Security: black zone badge" },
     "description": "This is an employee badge for a security professional.  The reverse side describes protocol for using it; this could grant access to black zone card readers.",
-    "flags": [ "SCIENCE_CARD_SECURITY_BLACK" ]
+    "flags": [ "SCIENCE_CARD_SECURITY_BLACK", "PRESERVE_SPAWN_OMT" ]
   },
   {
     "type": "GENERIC",
@@ -130,7 +130,7 @@
     "copy-from": "id_science",
     "name": { "str": "Researcher: green zone badge" },
     "description": "This is an employee badge for a research scientist.  The reverse side describes protocol for using it; this could grant access to green zone card readers.",
-    "flags": [ "SCIENCE_CARD_MUTAGEN_GREEN" ]
+    "flags": [ "SCIENCE_CARD_MUTAGEN_GREEN", "PRESERVE_SPAWN_OMT" ]
   },
   {
     "type": "GENERIC",
@@ -139,7 +139,7 @@
     "copy-from": "id_science",
     "name": { "str": "Researcher: pink zone badge" },
     "description": "This is an employee badge for a research scientist.  The reverse side describes protocol for using it; this could grant access to pink zone card readers.",
-    "flags": [ "SCIENCE_CARD_MUTAGEN_PINK" ]
+    "flags": [ "SCIENCE_CARD_MUTAGEN_PINK", "PRESERVE_SPAWN_OMT" ]
   },
   {
     "type": "GENERIC",
@@ -148,7 +148,7 @@
     "copy-from": "id_science",
     "name": { "str": "Researcher: cyan zone badge" },
     "description": "This is an employee badge for a research scientist.  The reverse side describes protocol for using it; this could grant access to cyan zone card readers.",
-    "flags": [ "SCIENCE_CARD_MUTAGEN_CYAN" ]
+    "flags": [ "SCIENCE_CARD_MUTAGEN_CYAN", "PRESERVE_SPAWN_OMT" ]
   },
   {
     "type": "GENERIC",
@@ -157,6 +157,6 @@
     "copy-from": "id_science",
     "name": { "str": "Doctor: red zone badge" },
     "description": "This is an employee badge for a medical doctor.  The reverse side describes protocol for using it; this could grant access to red zone card readers.",
-    "flags": [ "SCIENCE_CARD_MEDICAL_RED" ]
+    "flags": [ "SCIENCE_CARD_MEDICAL_RED", "PRESERVE_SPAWN_OMT" ]
   }
 ]

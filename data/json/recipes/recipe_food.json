@@ -4353,7 +4353,10 @@
         [ "dry_tofu", 2 ],
         [ "mushroom_cooked", 2 ],
         [ "dry_veggy", 2 ],
-        [ "dry_corn", 2 ]
+        [ "dry_corn", 2 ],
+        [ "can_pineapple", 2 ],
+        [ "irradiated_pineapple", 2 ],
+        [ "pineapple", 2 ]
       ],
       [
         [ "sauce_pesto", 1 ],
