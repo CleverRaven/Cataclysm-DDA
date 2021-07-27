@@ -1,0 +1,43 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "lab_security_check",
+    "recurrence_min": 1,
+    "recurrence_max": 1,
+    "condition": {
+      "and": [ { "u_at_om_location": "lab_1x1x2_RES_8_apartments_lower" }, { "not": { "u_has_item": "id_science_medical_red" } } ]
+    },
+    "effect": { "mapgen_update": "release_the_bots", "om_terrain": "lab_health_z-3_A" }
+  },
+  {
+    "//": "Opens bot release if you lack a red science ID card.",
+    "type": "mapgen",
+    "update_mapgen_id": "release_the_bots",
+    "method": "json",
+    "object": { "place_terrain": [ { "ter": "t_metal_floor", "x": 5, "y": 0 } ] }
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "lab_security_check_surface_2",
+    "recurrence_min": 1,
+    "recurrence_max": 1,
+    "condition": {
+      "and": [ { "u_at_om_location": "lab_res_8_SWD_ground" }, { "not": { "u_has_item": "id_science_maintenance_green" } } ]
+    },
+    "effect": { "mapgen_update": "release_the_bots_2", "om_terrain": "lab_res_8_SED_ground" }
+  },
+  {
+    "//": "Opens bot release if you lack a green maintenance ID card.",
+    "type": "mapgen",
+    "update_mapgen_id": "release_the_bots_2",
+    "method": "json",
+    "object": {
+      "place_terrain": [
+        { "ter": "t_metal_floor", "x": 7, "y": 0 },
+        { "ter": "t_metal_floor", "x": 11, "y": 0 },
+        { "ter": "t_metal_floor", "x": 15, "y": 0 },
+        { "ter": "t_metal_floor", "x": 19, "y": 0 }
+      ]
+    }
+  }
+]
