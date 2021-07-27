@@ -446,7 +446,6 @@
     ]
   },
   {
-    "//": "Changed from 'NATO Burst Rifle', as I found that to be too vague.",
     "id": "m16a4",
     "copy-from": "rifle_semi",
     "looks_like": "ar15",
