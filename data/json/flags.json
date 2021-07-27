@@ -851,6 +851,12 @@
     "info": "This item <bad>will get broken</bad> by water."
   },
   {
+    "id": "WATER_BREAK_ACTIVE",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This item <bad>will get broken</bad> by water if it gets <info>submerged while active</info>."
+  },
+  {
     "id": "WATER_DISSOLVE",
     "type": "json_flag",
     "context": [  ],
