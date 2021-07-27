@@ -770,7 +770,7 @@
           "chance": 75,
           "repeat": 8
         },
-        { "item": "m16_auto_rifle", "x": 12, "y": 9, "magazine": 100, "chance": 75, "repeat": 2 },
+        { "item": "m16a4", "x": 12, "y": 9, "magazine": 100, "chance": 75, "repeat": 2 },
         { "item": "stanag30", "x": 12, "y": 12, "chance": 75, "repeat": 80 },
         { "item": "stanag50", "x": 12, "y": 12, "chance": 75, "repeat": 20 },
         { "item": "556", "x": 14, "y": [ 9, 12 ], "chance": 75, "repeat": 150 },
