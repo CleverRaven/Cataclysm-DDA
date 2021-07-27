@@ -384,7 +384,6 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ]
   },
   {
-    "//": "Second group, simply groups the two M4 carbines together.",
     "id": "m4_carbine",
     "copy-from": "rifle_auto",
     "looks_like": "ar15",
