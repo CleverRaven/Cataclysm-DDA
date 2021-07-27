@@ -7,7 +7,7 @@
       { "item": "m4_carbine", "variant": "m4a1", "prob": 88, "charges": [ 0, 30 ] },
       { "item": "m27_assault_rifle", "variant": "m27iar", "prob": 10, "charges": [ 0, 30 ] },
       {
-        "item": "m38_assault_rifle",
+        "item": "m27_assault_rifle",
         "variant": "m38dmr",
         "contents-group": "m38dmr_mods",
         "prob": 1,
