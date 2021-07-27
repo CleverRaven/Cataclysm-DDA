@@ -1292,7 +1292,7 @@ bool read_activity_actor::player_read( avatar &you )
             } else {
                 if( learner->is_avatar() ) {
                     add_msg( m_info, _( "You learn a little about %s!  (%d%%)" ), skill_name,
-                             skill_level.exercise() );
+                             skill_level.theoryExperience() );
                 } else {
                     little_learned.push_back( learner->disp_name() );
                 }
