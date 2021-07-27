@@ -81,10 +81,8 @@ jobs:
 
           - compiler: g++-8
             os: ubuntu-latest
-            sanitize: address
             release: 1
             title: GCC 8, Ubuntu, Tiles, ASan, Release
-            num_test_jobs: 1
 
           - compiler: clang++-6.0
             os: ubuntu-18.04
