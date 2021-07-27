@@ -118,7 +118,7 @@
     "material": [ "flesh" ],
     "symbol": "v",
     "color": "brown",
-    "aggression": 0,
+    "aggression": 1,
     "morale": 15,
     "melee_dice": 1,
     "melee_dice_sides": 1,
