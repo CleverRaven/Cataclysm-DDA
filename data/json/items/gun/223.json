@@ -502,7 +502,7 @@
   {
     "//": "Figured having 'm16' in the name would make it more understandable, seeing as I named 2 of the .223 rifle groups/names after it. ACR is grouped with it due to similar length.",
     "id": "m16_auto_rifle",
-    "copy-from": "m16_burst_rifle",
+    "copy-from": "m16a4",
     "type": "GUN",
     "name": { "str": "M16 auto rifle" },
     "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  Unlike its more common brother, the M16 burst rifle, this one has full-auto capabilities.  It is chambered in 5.56x45mm and accepts STANAG magazines.",
@@ -523,7 +523,7 @@
   },
   {
     "id": "m231pfw",
-    "copy-from": "m16_burst_rifle",
+    "copy-from": "m16a4",
     "type": "GUN",
     "name": { "str": "M16 open-bolt rifle" },
     "description": "The M16 open-bolt rifle is an M16 rifle modified to fire with an open-bolt design.  This makes the rifle fire at much higher speeds than most other assault rifles, but at the cost of accuracy.  It is chambered in 5.56x45mm and accepts STANAG magazines.",
