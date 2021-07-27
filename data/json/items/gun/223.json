@@ -219,6 +219,7 @@
         "id": "m27iar",
         "name": { "str": "M27 IAR" },
         "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
+        "ascii_picture": "m27_iar",
         "weight": 1
       },
       {
