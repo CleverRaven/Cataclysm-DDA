@@ -5786,7 +5786,7 @@ void Character::update_body( const time_point &from, const time_point &to )
         as_avatar()->advance_daily_calories();
     }
     
-    if( calendar::once_every(24_hours) {
+    if( calendar::once_every( 24_hours ) ) {
         do_skill_rust();
     }
 }
