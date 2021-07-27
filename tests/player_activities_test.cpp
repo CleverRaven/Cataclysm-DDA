@@ -3,17 +3,16 @@
 #include "player_helpers.h"
 #include "activity_scheduling_helper.h"
 
-#include "activity_actor_definitions.h"
+#include "map.h"
+#include "character.h"
+#include "monster.h"
 #include "avatar.h"
 #include "calendar.h"
-#include "character.h"
-#include "flag.h"
-#include "game.h"
-#include "itype.h"
 #include "iuse_actor.h"
-#include "map.h"
-#include "monster.h"
+#include "game.h"
+#include "flag.h"
 #include "point.h"
+#include "activity_actor_definitions.h"
 
 static const activity_id ACT_NULL( "ACT_NULL" );
 static const activity_id ACT_SHEARING( "ACT_SHEARING" );

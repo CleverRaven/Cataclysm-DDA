@@ -23,7 +23,6 @@
 #include "map_iterator.h"
 #include "messages.h"
 #include "monster.h"
-#include "mtype.h"
 #include "npc.h"
 #include "player.h"
 #include "point.h"

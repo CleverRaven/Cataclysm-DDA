@@ -16,7 +16,6 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
-#include "craft_command.h"
 #include "debug.h"
 #include "effect.h"
 #include "enums.h"

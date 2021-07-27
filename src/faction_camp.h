@@ -6,6 +6,7 @@
 #include <utility>
 #include <vector>
 
+#include "basecamp.h"
 #include "coordinates.h"
 
 template <typename E> struct enum_traits;
@@ -17,10 +18,6 @@ class window;
 class npc;
 struct mission_entry;
 struct point;
-namespace base_camps
-{
-enum tab_mode : int;
-}
 
 enum class farm_ops : int {
     plow = 1,

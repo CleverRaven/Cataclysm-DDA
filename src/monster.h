@@ -20,6 +20,8 @@
 #include "creature.h"
 #include "damage.h"
 #include "enums.h"
+#include "item.h"
+#include "mtype.h"
 #include "optional.h"
 #include "point.h"
 #include "type_id.h"
@@ -32,7 +34,6 @@ class JsonObject;
 class JsonOut;
 class effect;
 class effect_source;
-class item;
 class player;
 namespace catacurses
 {
@@ -168,7 +169,9 @@ class monster : public Creature
         bool made_of_any( const std::set<material_id> &ms ) const override;
         bool made_of( phase_id p ) const; // Returns true if its phase is p
 
-        bool shearable() const;
+        bool shearable() const {
+            return type->shearing.valid();
+        }
 
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 

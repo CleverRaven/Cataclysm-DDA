@@ -14,6 +14,7 @@
 #include "coordinates.h"
 #include "craft_command.h"
 #include "inventory.h"
+#include "map.h"
 #include "memory_fast.h"
 #include "optional.h"
 #include "point.h"
@@ -31,7 +32,6 @@ enum class farm_ops : int;
 class item;
 class mission_data;
 class recipe;
-class tinymap;
 
 struct expansion_data {
     std::string type;
@@ -54,7 +54,7 @@ class window;
 namespace base_camps
 {
 
-enum tab_mode : int {
+enum tab_mode {
     TAB_MAIN,
     TAB_N,
     TAB_NE,

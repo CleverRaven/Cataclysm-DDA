@@ -24,7 +24,6 @@
 #include "ret_val.h"
 #include "type_id.h"
 
-class craft_command;
 class JsonIn;
 class JsonObject;
 class JsonOut;
