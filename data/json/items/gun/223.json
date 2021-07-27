@@ -275,7 +275,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "G36 assault rifle" },
-    "description": "An assault rifle chamber in 5.56x45mm and accepting G36 magazines.",
+    "description": "An assault rifle chambered in 5.56x45mm and accepting G36 magazines.",
     "weight": "3630 g",
     "volume": "4640 ml",
     "longest_side": "1004 mm",
