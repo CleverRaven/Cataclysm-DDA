@@ -713,7 +713,7 @@
     "copy-from": "rifle_auto",
     "looks_like": "ar15",
     "type": "GUN",
-    "name": { "str": "AUG Assault Rifle" },
+    "name": { "str": "AUG assault rifle" },
     "description": "An assault rifle chambered in 5.56x45mm and accepting AUG magazines",
     "weight": "3500 g",
     "volume": "3520 ml",
