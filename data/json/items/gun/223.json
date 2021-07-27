@@ -661,7 +661,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "SIG assault rifle" },
-    "description": "A compact selective fire automatic rifle designed for the Swiss military.  It features a three-round burst mode and an integrated folding stock.",
+    "description": "A compact selective fire automatic rifle designed for the Swiss military.  It features a three-round burst mode and an integrated folding stock.  It is chambered in 5.56x45mm and accepts STANAG magazines.",
     "weight": "3200 g",
     "volume": "2950 ml",
     "longest_side": "741 mm",
