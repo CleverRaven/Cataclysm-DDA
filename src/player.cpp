@@ -1290,7 +1290,12 @@ item::reload_option player::select_ammo( const item &base,
         }
         return e.ammo.describe( &player_character );
     } );
-
+	// 
+	std::vector<std::string> destination;
+	std::transform( opts.begin(), opts.end(),
+    std::back_inserter( destination ), [&]( const item::reload_option & e ) {
+		return e.target->display_name();
+	});
     // Pads elements to match longest member and return length
     auto pad = []( std::vector<std::string> &vec, int n, int t ) -> int {
         for( const auto &e : vec )
@@ -1313,7 +1318,12 @@ item::reload_option player::select_ammo( const item &base,
     w = pad( where, utf8_width( _( "| Location " ) ) - 3, 6 );
     menu.text += _( "| Location " );
     menu.text += std::string( w + 3 - utf8_width( _( "| Location " ) ), ' ' );
-
+	// Pad the names of target items 
+	w = pad(destination, utf8_width( _( "| Destination " ) ) - 3, 6);
+	menu.text += _( "| Destination " );
+	menu.text += std::string( w + 3 - utf8_width( _( "| Destination " ) ), ' ' );
+	
+	
     menu.text += _( "| Amount  " );
     menu.text += _( "| Moves   " );
 
@@ -1324,7 +1334,7 @@ item::reload_option player::select_ammo( const item &base,
 
     auto draw_row = [&]( int idx ) {
         const auto &sel = opts[ idx ];
-        std::string row = string_format( "%s| %s |", names[ idx ], where[ idx ] );
+        std::string row = string_format( "%s| %s | %s |", names[ idx ], where[ idx ], destination[ idx ] );
         row += string_format( ( sel.ammo->is_ammo() ||
                                 sel.ammo->is_ammo_container() ) ? " %-7d |" : "         |", sel.qty() );
         row += string_format( " %-7d ", sel.moves() );
