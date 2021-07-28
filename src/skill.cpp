@@ -210,19 +210,17 @@ void SkillLevel::train( int amount, float catchup_modifier, float theory_modifie
     int highest_level_exp = _theoryLevel * _theoryLevel * 10000;
 
     // catchup gets faster the higher the level gap gets.
-    float level_gap = std::max( _theoryLevel, 1 ) / std::max( _level, 1 );
+    float level_gap = std::max( _theoryLevel * 1.0f, 1.0 ) / std::max( _level * 1.0f, 1.0 );
     float catchup_amount = amount * catchup_modifier;
     float theory_amount = amount * theory_modifier;
     if( _theoryLevel > _level ) {
         catchup_amount *= level_gap;
-        // theory improvement also improves the bigger the level gap, but the benefits are not as profound and fall off with distance.
-        theory_amount *= ( 1 + ( level_gap - 1 ) / 10.0f );
     }
     if( _theoryLevel == _level && _theoryExperience > _exercise ) {
         // when you're in the same level, the catchup starts to slow down.
-        catchup_amount = std::max( amount * ( catchup_modifier - ( exercise() / theoryExperience() ) ),
+        catchup_amount = std::max( amount * ( catchup_modifier - ( exercise() * 1.0f / theoryExperience() * 1.0f ) ),
                                    amount * 1.0f );
-        theory_amount = std::max( amount * ( theory_modifier - 0.1f * ( exercise() / theoryExperience() ) ),
+        theory_amount = std::max( amount * ( theory_modifier - 0.1f * ( exercise() * 1.0f / theoryExperience() * 1.0f ) ),
                                   amount * 1.0f );
     } else {
         // When your two xp's are equal just do the basic thing.
@@ -283,7 +281,14 @@ void SkillLevel::train( int amount, float catchup_modifier, float theory_modifie
 
 void SkillLevel::theory_train( int amount, bool skip_scaling )
 {
-
+    // when your _level is the same or 1 level below your theory, gain xp at the normal rate.
+    // as your practical knowledge lags behind your theoretical, it gets harder to contextualize that
+    // theoretical knowledge, and your ability to learn the theory gets slower.
+    // Some day this should be affected by json specific to the skill, some skills are more amenable
+    // to book learning.
+    float level_gap = std::max( _theoryLevel * 1.0f - _level * 1.0f, 1.0 );
+    float level_mult = 2.0f / ( level_gap + 1.0f );
+    amount *= level_mult;
     if( skip_scaling ) {
         _theoryExperience += amount;
     } else {
