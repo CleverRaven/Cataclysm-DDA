@@ -56,6 +56,7 @@ jobs:
   varied_builds:
     needs: skip-duplicates
     strategy:
+      max-parallel: 1
       matrix:
         release: [0]
         cmake: [0]
