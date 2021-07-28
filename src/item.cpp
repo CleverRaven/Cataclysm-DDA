@@ -8647,7 +8647,7 @@ int item::reload_option::moves() const
     int mv = ammo.obtain_cost( *who, qty() ) + who->item_reload_cost( *target, *ammo, qty() );
     if( parent != target ) {
         if( parent->is_gun() ) {
-            mv += parent->get_reload_time();
+            mv += parent->get_reload_time()*1.5;
         } else if( parent->is_tool() ) {
             mv += 100;
         }

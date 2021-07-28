@@ -1481,7 +1481,7 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
     }
 
     for( const item *mod : base.gunmods() ) {
-		opts.push_back( std::make_pair( mod, &base ) );
+		opts.push_back( std::make_pair( mod, mod ) );
         if( mod->magazine_current() ) {
             opts.push_back( std::make_pair( mod->magazine_current(), mod ) );
         }

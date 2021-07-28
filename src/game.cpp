@@ -9220,24 +9220,16 @@ void game::reload( item_location &loc, bool prompt, bool empty )
             add_msg( m_warning, _( "You struggle to reload the fouled %s." ), it->tname() );
             moves += 2500;
         }
-		//if ( it)
-
-        std::vector<item_location> targets;
+		std::vector<item_location> targets;
         if( use_loc ) {
-			int i = 0;
-			debugmsg( opt.target->display_name());
 			if ( loc.get_item() == opt.target ){
 				targets.emplace_back( loc );
-				i=1;
 			}
 			else if ( loc.get_item() == opt.getParent() ){
 				targets.emplace_back( loc,  const_cast<item *>( opt.target ) );
-				i=2;
 			}
             else {targets.emplace_back( item_location( loc, const_cast<item *>( opt.getParent() )), const_cast<item *>( opt.target ) );
-				i=3;
 			}
-			debugmsg("i = " + std::to_string(i) );
         } else {
             targets.emplace_back( u, const_cast<item *>( opt.target ) );
         }
