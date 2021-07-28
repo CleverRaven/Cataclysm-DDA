@@ -207,28 +207,24 @@ bool Skill::is_contextual_skill() const
 void SkillLevel::train( int amount, float catchup_modifier, float theory_modifier,
                         bool skip_scaling )
 {
-    int catchup_amount = amount;
+    int level_gap = _theoryLevel/std::max(_level,1);
+    int catchup_amount = amount * catchup_modifier * level_gap;
+    int theory_amount = catchup_amount * theory_modifier * 0.5;
     int highest_level_exp = _theoryLevel * _theoryLevel * 10000;
-
-    // Working off rust to regain levels goes twice as fast as reaching levels in the first place, and 1.5x as fast to regain your last place in the level.
-    if( _level < _theoryLevel ) {
-        catchup_amount *= catchup_modifier;
-        amount *= theory_modifier;
-    } else if( _exercise < _theoryExperience - amount * 2 ) {
-        catchup_amount *= ( catchup_modifier * 0.75 );
-        amount *= theory_modifier;
+    if ( theory_amount > catchup_amount * 0.9 ) { 
+        theory_amount = catchup_amount * 0.9;
     }
 
     if( skip_scaling ) {
         _exercise += catchup_amount;
         _rustAccumulator -= catchup_amount;
-        _theoryExperience += amount;
+        _theoryExperience += theory_amount;
     } else {
         const double scaling = get_option<float>( "SKILL_TRAINING_SPEED" );
         if( scaling > 0.0 ) {
             _exercise += std::ceil( catchup_amount * scaling );
             _rustAccumulator -= std::ceil( catchup_amount * scaling );
-            _theoryExperience += std::ceil( amount * scaling );
+            _theoryExperience += std::ceil( theory_amount * scaling );
         }
     }
 

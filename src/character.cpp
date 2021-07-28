@@ -2412,8 +2412,8 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
     // Your ability to "catch up" practical experience to theory is mostly a function of intelligence,
     // but perception also plays a role, representing both memory/attentiveness and catching on to how
     // the two apply to each other.
-    float catchup_modifier = ( 2.0f * get_int() + get_per() ) / 12.0f; // 2 for an average person
-    float theory_modifier = get_int() / 8.0f + 0.2f; // 1.2 for an average person
+    float catchup_modifier = 1.0f + ( 2.0f * get_int() + get_per() ) / 24.0f; // 2 for an average person
+    float theory_modifier = 1.0f + get_int() / 40.0f; // 1.2 for an average person
 
     const auto highest_skill = [&]() {
         std::pair<skill_id, int> result( skill_id::NULL_ID(), -1 );
