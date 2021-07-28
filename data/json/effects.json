@@ -1955,15 +1955,17 @@
   {
     "type": "effect_type",
     "id": "hypocalcemia",
-    "name": [ "Hypocalcemia", "Weak bones", "Brittle bones" ],
-    "desc": [ "A lack of calcium in your diet will make your bones progressively weaker." ],
-    "apply_message": "Your bones are becoming more brittle.",
-    "remove_message": "Your bones regain their usual strength.",
+    "name": [ "Mild Hypocalcemia", "Hypocalcemia", "Acute Hypocalcemia" ],
+    "desc": [ "A lack of calcium in your diet will cause various neuromuscular symptoms." ],
+    "apply_message": "Your muscles are becoming more stiff.",
+    "remove_message": "Stiffness in your musles passes away.",
     "decay_messages": [
       [ "Your calcium deficiency is nearly resolved.", "good" ],
-      [ "Your bones become stronger as your calcium deficiency improves.", "good" ]
+      [ "Your have better control of your muscles as your calcium deficiency improves.", "good" ]
     ],
     "max_intensity": 3,
+    "base_mods": { "speed_mod": [ -10 ] },
+    "scaling_mods": { "dex_mod": [ -1 ], "speed_mod": [ -15 ] },
     "rating": "bad",
     "blood_analysis_description": "Hypocalcemia"
   },
@@ -2054,21 +2056,45 @@
       [ "Your vision improves as your Vitamin A deficiency improves.", "good" ]
     ],
     "max_intensity": 3,
+    "base_mods": { "per_mod": [ -1 ] },
+    "scaling_mods": { "per_mod": [ -2 ] },
     "rating": "bad",
     "blood_analysis_description": "Vitamin A Deficiency"
   },
   {
     "type": "effect_type",
     "id": "hypovitB",
-    "name": [ "B12 deficiency", "Slow healing", "No healing" ],
-    "desc": [ "A lack of vitamin B12 in your diet will affect your ability to heal." ],
-    "apply_message": "Simple wounds are starting to concern you more than usual.",
-    "remove_message": "Your wounds now heal normally.",
+    "name": [ "B12 deficiency", "B12 anemia", "B12 severe anemia", "B12 dementia" ],
+    "desc": [
+      "A lack of vitamin B12 in your diet causes early symptoms of anemia.",
+      "Prolonged lack of vitamin B12 in your diet causes anemia, loss of taste, problems with focus and fading memory.",
+      "Severe vitamin B12 deficiency causes bad case of anemia, loss of taste, and damaged memory, causing dementia.  Your skills rust."
+    ],
+    "apply_message": "Your skin is more pale then usual.",
+    "remove_message": "Your skin tone comes back to its normal color.",
     "decay_messages": [
       [ "Your vitamin B12 deficiency is starting to resolve.", "good" ],
-      [ "Your ability to heal returns as your Vitamin B12 deficiency improves.", "good" ]
+      [ "Your ability to remember things returns as your Vitamin B12 deficiency improves.", "good" ]
     ],
-    "max_intensity": 3,
+    "max_intensity": 4,
+    "base_mods": {
+      "fatigue_min": [ 5 ],
+      "fatigue_max": [ 10 ],
+      "fatigue_chance": [ 900 ],
+      "h_mod_min": [ -1 ],
+      "h_mod_min_val": [ 0 ],
+      "h_mod_chance": [ 900 ]
+    },
+    "scaling_mods": {
+      "dex_mod": [ -1 ],
+      "int_mod": [ -0.5 ],
+      "per_mod": [ -0.5 ],
+      "str_mod": [ -0.3 ],
+      "speed_mod": [ -2 ],
+      "fatigue_chance": [ -100 ],
+      "h_mod_min": [ -1 ],
+      "h_mod_chance": [ -200 ]
+    },
     "rating": "bad",
     "blood_analysis_description": "Vitamin B Deficiency"
   },
@@ -2084,6 +2110,26 @@
       [ "Your scurvy lessens as your Vitamin C deficiency improves.", "good" ]
     ],
     "max_intensity": 3,
+    "base_mods": {
+      "pain_max_val": [ 35 ],
+      "pain_chance": [ 900 ],
+      "pain_min": [ 1 ],
+      "pain_max": [ 5 ],
+      "fatigue_chance": [ 900 ],
+      "fatigue_min": [ 10 ],
+      "h_mod_min": [ -1 ],
+      "h_mod_min_val": [ 0 ],
+      "h_mod_chance": [ 900 ]
+    },
+    "scaling_mods": {
+      "pain_chance": [ -150 ],
+      "fatigue_chance": [ -200 ],
+      "h_mod_min": [ -1 ],
+      "h_mod_min_val": [ -100 ],
+      "h_mod_chance": [ -300 ],
+      "str_mod": [ -0.5 ],
+      "speed_mod": [ -2 ]
+    },
     "rating": "bad",
     "blood_analysis_description": "Scurvy"
   },
