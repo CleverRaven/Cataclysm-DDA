@@ -830,20 +830,23 @@ static void draw_skills_tab( const catacurses::window &w_skills,
                 mvwprintz( w_skills, point( 1, y_pos ), c_light_gray, std::string( col_width, ' ' ) );
             }
             mvwprintz( w_skills, point( 1, y_pos ), cstatus, "%s:", aSkill->name() );
-            if( aSkill->ident() == skill_id( "dodge" ) && theory_level_num == level_num && exercise == theory_exp_num ) {
+            if( aSkill->ident() == skill_id( "dodge" ) && theory_level_num == level_num &&
+                exercise == theory_exp_num ) {
                 mvwprintz( w_skills, point( 14, y_pos ), cstatus, "%4.1f/%-2d(%2d%%)",
                            you.get_dodge(),
                            level_num,
                            ( exercise < 0 ? 0 : exercise ) );
             }
-            if( aSkill->ident() == skill_id( "dodge" ) && theory_level_num == level_num && exercise != theory_exp_num ) {
+            if( aSkill->ident() == skill_id( "dodge" ) && theory_level_num == level_num &&
+                exercise != theory_exp_num ) {
                 mvwprintz( w_skills, point( 9, y_pos ), cstatus, "%4.1f/%-2d(%2d%%)/(%2d%%)",
                            you.get_dodge(),
                            level_num,
                            ( exercise < 0 ? 0 : exercise ),
                            ( theory_exp_num < 0 ? 0 : theory_exp_num ) );
             }
-            if( aSkill->ident() == skill_id( "dodge" ) && theory_level_num != level_num && exercise != theory_exp_num ) {
+            if( aSkill->ident() == skill_id( "dodge" ) && theory_level_num != level_num &&
+                exercise != theory_exp_num ) {
                 mvwprintz( w_skills, point( 9, y_pos ), cstatus, "%4.1f/%-2d(%2d%%)/%-2d(%2d%%)",
                            you.get_dodge(),
                            level_num,
@@ -851,18 +854,17 @@ static void draw_skills_tab( const catacurses::window &w_skills,
                            theory_level_num,
                            ( theory_exp_num < 0 ? 0 : theory_exp_num ) );
             }
-            if ( theory_level_num == level_num && exercise == theory_exp_num ) {
+            if( theory_level_num == level_num && exercise == theory_exp_num ) {
                 mvwprintz( w_skills, point( 19, y_pos ), cstatus, "%-2d(%2d%%)",
                            level_num,
                            ( exercise < 0 ? 0 : exercise ) );
             }
-            if ( theory_level_num == level_num && exercise != theory_exp_num ) {
+            if( theory_level_num == level_num && exercise != theory_exp_num ) {
                 mvwprintz( w_skills, point( 14, y_pos ), cstatus, "%-2d(%2d%%)/(%2d%%)",
                            level_num,
                            ( exercise < 0 ? 0 : exercise ),
                            ( theory_exp_num < 0 ? 0 : theory_exp_num ) );
-            }
-            else {
+            } else {
                 mvwprintz( w_skills, point( 9, y_pos ), cstatus, "%-2d(%2d%%)/%-2d(%2d%%)",
                            level_num,
                            ( exercise < 0 ? 0 : exercise ),

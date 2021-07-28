@@ -279,7 +279,7 @@ std::string talker_npc::skill_training_text( const talker &student,
     SkillLevel skill_level_obj = pupil->get_skill_level_object( skill );
     const int cur_level = skill_level_obj.level();
     const int cur_level_exercise = skill_level_obj.exercise();
-    skill_level_obj.train( 10000 );
+    skill_level_obj.theory_train( 10000 );
     const int next_level = skill_level_obj.level();
     const int next_level_exercise = skill_level_obj.exercise();
 

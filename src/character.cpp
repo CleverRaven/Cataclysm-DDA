@@ -2408,7 +2408,7 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
         // Leaving as a skill method rather than global for possible future skill cap setting
         return;
     }
-    
+
     // Your ability to "catch up" practical experience to theory is mostly a function of intelligence,
     // but perception also plays a role, representing both memory/attentiveness and catching on to how
     // the two apply to each other.
@@ -2432,8 +2432,8 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
     amount = adjust_for_focus( amount );
 
     if( has_trait( trait_PACIFIST ) && skill.is_combat_skill() ) {
-        catchup_modifier *= 1/3;
-        theory_modifier *= 1/2;
+        catchup_modifier *= 1 / 3;
+        theory_modifier *= 1 / 2;
     }
     if( has_trait_flag( json_flag_PRED2 ) && skill.is_combat_skill() ) {
         catchup_modifier *= 2.0f;
@@ -4427,7 +4427,6 @@ void Character::apply_skill_boost()
 
 void Character::do_skill_rust()
 {
-    const int rust_rate_tmp = rust_rate();
     for( std::pair<const skill_id, SkillLevel> &pair : *_skills ) {
         const Skill &aSkill = *pair.first;
         SkillLevel &skill_level_obj = pair.second;
@@ -4455,14 +4454,16 @@ void Character::do_skill_rust()
 
         const int rust_resist = enchantment_cache->modify_value( enchant_vals::mod::READING_EXP, 0 );
         const int oldSkillLevel = skill_level_obj.level();
-        if( skill_level_obj.rust( rust_resist, rust_rate_tmp ) ) {
+        if( skill_level_obj.rust( rust_resist ) ) {
             add_msg_if_player( m_warning,
                                _( "Your knowledge of %s begins to fade, but your memory banks retain it!" ), aSkill.name() );
             mod_power_level( -bio_memory->power_trigger );
         }
         const int newSkill = skill_level_obj.level();
         if( newSkill < oldSkillLevel ) {
-            add_msg_if_player( m_bad, _( "Your practical skill in %s may need some refreshing.  It has dropped to %d." ), aSkill.name(), newSkill );
+            add_msg_if_player( m_bad,
+                               _( "Your practical skill in %s may need some refreshing.  It has dropped to %d." ), aSkill.name(),
+                               newSkill );
         }
     }
 }
@@ -5788,7 +5789,7 @@ void Character::update_body( const time_point &from, const time_point &to )
     if( is_avatar() && ticks_between( from, to, 24_hours ) > 0 ) {
         as_avatar()->advance_daily_calories();
     }
-    
+
     if( calendar::once_every( 24_hours ) ) {
         do_skill_rust();
     }

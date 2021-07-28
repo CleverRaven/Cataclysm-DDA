@@ -147,8 +147,9 @@ class SkillLevel
             return _theoryLevel;
         }
 
-        int theoryExperience() const {
-            return _theoryExperience;
+        int theoryExperience( bool raw = false ) const {
+            return raw ? _theoryExperience : _theoryExperience / ( 100 * ( _theoryLevel + 1 ) *
+                    ( _theoryLevel + 1 ) );
         }
 
         int rustAccumulator() const {
@@ -162,10 +163,10 @@ class SkillLevel
             return level() * level() * 100 + exercise();
         }
 
-        void train( int amount, bool skip_scaling = false );
+        void train( int amount, float catchup_modifier, float theory_modifier, bool skip_scaling = false );
         void theory_train( int amount, bool skip_scaling = false );
         bool isRusting() const;
-        bool rust( int rust_resist, int character_rate );
+        bool rust( int rust_resist );
         void practice();
         bool can_train() const;
 

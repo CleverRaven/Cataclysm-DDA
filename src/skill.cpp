@@ -8,6 +8,7 @@
 
 #include "cata_utility.h"
 #include "debug.h"
+#include "game_constants.h"
 #include "item.h"
 #include "json.h"
 #include "options.h"
@@ -203,7 +204,8 @@ bool Skill::is_contextual_skill() const
     return _tags.count( contextual_skill ) > 0;
 }
 
-void SkillLevel::train( int amount, float catchup_modifier, float theory_modifier, bool skip_scaling )
+void SkillLevel::train( int amount, float catchup_modifier, float theory_modifier,
+                        bool skip_scaling )
 {
     int catchup_amount = amount;
     int highest_level_exp = _theoryLevel * _theoryLevel * 10000;
@@ -280,24 +282,24 @@ void SkillLevel::theory_train( int amount, bool skip_scaling )
 
 bool SkillLevel::isRusting() const
 {
-    return get_option<std::string>( "SKILL_RUST" ) != "off" && ( 0 < _level < _theoryLevel ) &&
+    return get_option<std::string>( "SKILL_RUST" ) != "off" && ( _level > 0 ) &&
            _rustAccumulator > 0;
 }
 
-bool SkillLevel::rust( int rust_resist, int character_rate, character  )
+bool SkillLevel::rust( int rust_resist )
 {
-    
-    if (_level >= MAX_SKILL ) {
+
+    if( _level >= MAX_SKILL ) {
         // don't rust any more once you hit the level cap, at least until we have a way to "pause" rust for a while.
         return false;
     }
-    
+
     float level_exp = ( _level * _level * 10000.0f );
-    if ( _rustAccumulator > level_exp * 3 ){
+    if( _rustAccumulator > level_exp * 3 ) {
         // at this point the numbers ahead will be too small to bother.  Just cap it off.
         return false;
     }
-    
+
     // Future plans: Have rust_slowdown impacted by intelligence and other memory-affecting things
     float rust_slowdown = std::max( sqrt( _rustAccumulator / level_exp ), 0.04f );
 

@@ -1161,7 +1161,7 @@ void read_activity_actor::read_book( Character &learner,
                                      const cata::value_ptr<islot_book> &islotbook,
                                      SkillLevel &skill_level, double penalty )
 {
-    const int originalSkillLevel = skill_level.level();
+    const int originalSkillLevel = skill_level.theoryLevel();
 
     // Calculate experience gained
     /** @EFFECT_INT increases reading comprehension */
