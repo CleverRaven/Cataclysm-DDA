@@ -120,6 +120,47 @@
     "flags": [ "SEES", "HEARS", "GOODHEARING", "NOHEAD", "NO_BREATHE", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS", "HIT_AND_RUN" ]
   },
   {
+    "id": "mon_exodii_horse",
+    "type": "MONSTER",
+    "name": { "str": "Exodii horse" },
+    "description": "This is a bionically enhanced horse with shining metal armor protecting vital areas.",
+    "default_faction": "exodii",
+    "copy-from": "mon_horse",
+    "volume": "600 L",
+    "weight": "600 kg",
+    "species": [ "CYBORG" ],
+    "material": [ "steel" ],
+    "morale": 90,
+    "aggression": -20,
+    "hp": 125,
+    "color": "light_gray",
+    "melee_skill": 8,
+    "armor_bash": 12,
+    "armor_cut": 28,
+    "armor_acid": 12,
+    "armor_fire": 8,
+    "armor_bullet": 12,
+    "vision_day": 50,
+    "vision_night": 10,
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "harvest": "mon_broken_cyborg",
+    "flags": [
+      "SEES",
+      "HEARS",
+      "BASHES",
+      "PUSH_MON",
+      "ELECTRONIC",
+      "WARM",
+      "STUMBLES",
+      "HUMAN",
+      "PATH_AVOID_DANGER_1",
+      "PRIORITIZE_TARGETS",
+      "CATTLEFODDER",
+      "PET_WONT_FOLLOW",
+      "PET_MOUNTABLE"
+    ]
+  },
+  {
     "id": "mon_exodii_quad",
     "type": "MONSTER",
     "name": { "str": "Exodii quadruped" },
@@ -220,3 +261,4 @@
     ]
   }
 ]
+
