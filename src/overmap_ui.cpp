@@ -1685,7 +1685,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
                 } else if( player_veh->is_rotorcraft() && player_veh->is_flying_in_air() ) {
                     ptype.only_air = true;
                 } else {
-                    ptype.only_road = true;
+                    ptype.road_or_field = true;
                 }
             } else {
                 const oter_id oter = overmap_buffer.ter( curs );

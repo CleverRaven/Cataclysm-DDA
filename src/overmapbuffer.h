@@ -38,6 +38,7 @@ struct path_type {
     bool only_road = false;
     bool only_water = false;
     bool amphibious = false;
+    bool road_or_field = false;
     bool only_air = false;
     bool avoid_danger = false;
     bool only_known_by_player = false;
