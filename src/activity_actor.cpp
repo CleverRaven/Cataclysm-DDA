@@ -3484,7 +3484,7 @@ void disable_activity_actor::finish( player_activity &act, Character &/*who*/ )
 
 bool disable_activity_actor::can_disable_or_reprogram( const monster &monster )
 {
-    if( get_avatar().get_skill_level( skill_electronics ) + get_avatar().get_skill_level(
+    if( get_avatar().get_theory_skill_level( skill_electronics ) + get_avatar().get_theory_skill_level(
             skill_mechanics ) <= 0 ) {
         return false;
     }

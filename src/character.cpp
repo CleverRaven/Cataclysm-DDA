@@ -13374,7 +13374,7 @@ book_mastery Character::get_book_mastery( const item &book ) const
         return book_mastery::MASTERED;
     }
 
-    const int skill_level = get_skill_level( skill );
+    const int skill_level = get_theory_skill_level( skill );
     const int skill_requirement = type->req;
     const int max_skill_learnable = type->level;
 

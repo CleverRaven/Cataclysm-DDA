@@ -207,11 +207,11 @@ bool Skill::is_contextual_skill() const
 void SkillLevel::train( int amount, float catchup_modifier, float theory_modifier,
                         bool skip_scaling )
 {
-    int level_gap = _theoryLevel/std::max(_level,1);
+    int level_gap = _theoryLevel / std::max( _level, 1 );
     int catchup_amount = amount * catchup_modifier * level_gap;
     int theory_amount = catchup_amount * theory_modifier * 0.5;
     int highest_level_exp = _theoryLevel * _theoryLevel * 10000;
-    if ( theory_amount > catchup_amount * 0.9 ) { 
+    if( theory_amount > catchup_amount * 0.9 ) {
         theory_amount = catchup_amount * 0.9;
     }
 

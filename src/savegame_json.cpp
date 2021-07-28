@@ -400,7 +400,7 @@ void SkillLevel::serialize( JsonOut &json ) const
     json.member( "istraining", isTraining() );
     json.member( "lastpracticed", _lastPracticed );
     json.member( "theorylevel", theoryLevel() );
-    json.member( "theoryexperience", theoryExperience() );
+    json.member( "theoryexperience", theoryExperience( true ) );
     json.member( "rustaccumulator", rustAccumulator() );
     json.end_object();
 }
