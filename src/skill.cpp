@@ -207,10 +207,14 @@ bool Skill::is_contextual_skill() const
 void SkillLevel::train( int amount, float catchup_modifier, float theory_modifier,
                         bool skip_scaling )
 {
-    int level_gap = _theoryLevel / std::max( _level, 1 );
-    int catchup_amount = amount * catchup_modifier * level_gap;
-    int theory_amount = catchup_amount * theory_modifier * 0.5;
+    // catchup gets faster the higher the level gap gets.
+    int level_gap = _std::max( _theoryLevel, 1 ) / std::max( _level, 1 );
+    float catchup_amount = amount * catchup_modifier * level_gap;
+    // theory improvement also improves the bigger the level gap, but the benefits are not as profound and fall off with distance.
+    float theory_amount = amount * theory_modifier * ( 1 + ( level_gap - 1 ) / 10.0f);
     int highest_level_exp = _theoryLevel * _theoryLevel * 10000;
+    
+    // Learning theory faster than practical, when you're actually practicing, will generate some annoying problems.
     if( theory_amount > catchup_amount * 0.9 ) {
         theory_amount = catchup_amount * 0.9;
     }
