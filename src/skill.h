@@ -164,7 +164,7 @@ class SkillLevel
         }
 
         void train( int amount, float catchup_modifier, float theory_modifier, bool skip_scaling = false );
-        void theory_train( int amount, bool skip_scaling = false );
+        void theory_train( int amount, int npc_theory = 0, bool skip_scaling = false );
         bool isRusting() const;
         bool rust( int rust_resist );
         void practice();

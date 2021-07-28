@@ -279,16 +279,26 @@ void SkillLevel::train( int amount, float catchup_modifier, float theory_modifie
 }
 
 
-void SkillLevel::theory_train( int amount, bool skip_scaling )
+void SkillLevel::theory_train( int amount, int npc_theory, bool skip_scaling )
 {
+    float level_gap = 1.0;
     // when your _level is the same or 1 level below your theory, gain xp at the normal rate.
     // as your practical knowledge lags behind your theoretical, it gets harder to contextualize that
     // theoretical knowledge, and your ability to learn the theory gets slower.
-    // Some day this should be affected by json specific to the skill, some skills are more amenable
-    // to book learning.
-    float level_gap = std::max( _theoryLevel * 1.0f - _level * 1.0f, 1.0 );
+    
+    // The same formula applies to NPCs teaching you, but in that case the level decreases as their theory
+    // level exceeds your own.  The best teacher is one who is only somewhat more knowledgeable than you.
+    if ( npc_theory > 0 ){
+        // This should later be modified by NPC teaching proficiencies.
+        level_gap = std::max( npc_theory * 1.0f - _theoryLevel * 1.0f, 1.0 );
+    }else {
+        // Some day this should be affected by json specific to the skill, some skills are more amenable
+        // to book learning.
+        level_gap = std::max( _theoryLevel * 1.0f - _level * 1.0f, 1.0 );
+    }
     float level_mult = 2.0f / ( level_gap + 1.0f );
     amount *= level_mult;
+    }
     if( skip_scaling ) {
         _theoryExperience += amount;
     } else {
