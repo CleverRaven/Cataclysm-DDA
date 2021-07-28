@@ -36,6 +36,9 @@ using construction_group_str_id = string_id<construction_group>;
 struct clothing_mod;
 using clothing_mod_id = string_id<clothing_mod>;
 
+struct effect_on_condition;
+using effect_on_condition_id = string_id<effect_on_condition>;
+
 class effect_type;
 using efftype_id = string_id<effect_type>;
 
@@ -210,5 +213,7 @@ using construction_str_id = string_id<construction>;
 
 class json_flag;
 using flag_id = string_id<json_flag>;
+
+using json_character_flag = string_id<json_flag>;
 
 #endif // CATA_SRC_TYPE_ID_H

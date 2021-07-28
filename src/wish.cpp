@@ -1,8 +1,11 @@
+#include "debug_menu.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <cstddef>
 #include <iterator>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
 #include <string>
 #include <utility>
@@ -13,15 +16,14 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
-#include "debug_menu.h" // IWYU pragma: associated
 #include "enums.h"
-#include "flat_set.h"
 #include "game.h"
 #include "input.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
 #include "map.h"
+#include "memory_fast.h"
 #include "monster.h"
 #include "monstergenerator.h"
 #include "mtype.h"
@@ -40,7 +42,6 @@
 #include "uistate.h"
 
 class ui_adaptor;
-template <typename T> class string_id;
 
 class wish_mutate_callback: public uilist_callback
 {
@@ -50,6 +51,7 @@ class wish_mutate_callback: public uilist_callback
         // Feedback message
         std::string msg;
         bool started = false;
+        bool only_active = false;
         std::vector<trait_id> vTraits;
         std::map<trait_id, bool> pTraits;
         player *p;
@@ -64,16 +66,25 @@ class wish_mutate_callback: public uilist_callback
         wish_mutate_callback() = default;
         bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override {
             if( event.get_first_input() == 't' && p->has_trait( vTraits[ entnum ] ) ) {
-                if( p->has_base_trait( vTraits[ entnum ] ) ) {
-                    p->toggle_trait( vTraits[ entnum ] );
+                if( !p->has_base_trait( vTraits[ entnum ] ) ) {
                     p->unset_mutation( vTraits[ entnum ] );
-
-                } else {
-                    p->set_mutation( vTraits[ entnum ] );
-                    p->toggle_trait( vTraits[ entnum ] );
                 }
+
+                p->toggle_trait( vTraits[ entnum ] );
+                p->set_mutation( vTraits[ entnum ] );
+
                 menu->entries[ entnum ].text_color = p->has_trait( vTraits[ entnum ] ) ? c_green : menu->text_color;
                 menu->entries[ entnum ].extratxt.txt = p->has_base_trait( vTraits[ entnum ] ) ? "T" : "";
+                return true;
+            } else if( event.get_first_input() == 'a' ) {
+                only_active = !only_active;
+
+                for( size_t i = 0; i < vTraits.size(); i++ ) {
+                    if( !p->has_trait( vTraits[ i ] ) ) {
+                        menu->entries[ i ].enabled = !only_active;
+                    }
+                }
+
                 return true;
             }
             return false;
@@ -200,12 +211,20 @@ class wish_mutate_callback: public uilist_callback
 
             lastlen = line2 + 1;
 
-            mvwprintz( menu->window, point( startx, menu->w_height - 3 ), c_green, msg );
+            mvwprintz( menu->window, point( startx, menu->w_height - 4 ), c_green, msg );
             msg.clear();
             input_context ctxt( menu->input_category, keyboard_mode::keycode );
-            mvwprintw( menu->window, point( startx, menu->w_height - 2 ),
+            mvwprintw( menu->window, point( startx, menu->w_height - 3 ),
                        _( "[%s] find, [%s] quit, [t] toggle base trait" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
+
+            if( only_active ) {
+                mvwprintz( menu->window, point( startx, menu->w_height - 2 ), c_green,
+                           _( "[a] show active traits (active)" ) );
+            } else {
+                mvwprintz( menu->window, point( startx, menu->w_height - 2 ), c_white,
+                           _( "[a] show active traits" ) );
+            }
 
             wnoutrefresh( menu->window );
         }
@@ -224,10 +243,13 @@ void debug_menu::wishmutate( player *p )
         wmenu.entries[ c ].extratxt.txt.clear();
         wmenu.entries[ c ].extratxt.color = c_light_green;
         if( p->has_trait( traits_iter.id ) ) {
+            wmenu.entries[ c ].txt = string_format( _( "%s (active)" ), traits_iter.name() );
             wmenu.entries[ c ].text_color = c_green;
             if( p->has_base_trait( traits_iter.id ) ) {
                 wmenu.entries[ c ].extratxt.txt = "T";
             }
+        } else {
+            wmenu.entries[ c ].txt = traits_iter.name();
         }
         c++;
     }
@@ -281,17 +303,22 @@ void debug_menu::wishmutate( player *p )
                     uilist_entry &entry = wmenu.entries[ i ];
                     entry.extratxt.txt.clear();
                     if( p->has_trait( cb.vTraits[ i ] ) ) {
+                        entry.txt = string_format( _( "%s (active)" ), cb.vTraits[ i ].obj().name() );
+                        entry.enabled = true;
                         entry.text_color = c_green;
                         cb.pTraits[ cb.vTraits[ i ] ] = true;
                         if( p->has_base_trait( cb.vTraits[ i ] ) ) {
                             entry.extratxt.txt = "T";
                         }
                     } else {
+                        entry.txt = cb.vTraits[ i ].obj().name();
+                        entry.enabled = entry.enabled ? true : !cb.only_active;
                         entry.text_color = wmenu.text_color;
                         cb.pTraits[ cb.vTraits[ i ] ] = false;
                     }
                 }
             }
+            wmenu.filterlist();
         }
     } while( wmenu.ret >= 0 );
 }
@@ -312,7 +339,7 @@ class wish_monster_callback: public uilist_callback
         monster tmp;
         const std::vector<const mtype *> &mtypes;
 
-        wish_monster_callback( const std::vector<const mtype *> &mtypes )
+        explicit wish_monster_callback( const std::vector<const mtype *> &mtypes )
             : mtypes( mtypes ) {
             friendly = false;
             hallucination = false;
@@ -468,8 +495,9 @@ class wish_item_callback: public uilist_callback
         bool spawn_everything;
         std::string msg;
         std::string flags;
+        std::string itype_flags;
         const std::vector<const itype *> &standard_itype_ids;
-        wish_item_callback( const std::vector<const itype *> &ids ) :
+        explicit wish_item_callback( const std::vector<const itype *> &ids ) :
             incontainer( false ), spawn_everything( false ), standard_itype_ids( ids ) {
         }
 
@@ -478,10 +506,12 @@ class wish_item_callback: public uilist_callback
                 return;
             }
             const itype &selected_itype = *standard_itype_ids[menu->selected];
+            // Make liquids "contained" by default (toggled with CONTAINER action)
             incontainer = selected_itype.phase == phase_id::LIQUID;
-
-            // grab default flags for the itype
-            flags = debug_menu::iterable_to_string( selected_itype.get_flags(), " ",
+            // Clear instance flags when switching items
+            flags.clear();
+            // Grab default flags for the itype (added with the FLAG action)
+            itype_flags = debug_menu::iterable_to_string( selected_itype.get_flags(), " ",
             []( const flag_id & f ) {
                 return f.str();
             } );
@@ -496,13 +526,22 @@ class wish_item_callback: public uilist_callback
                 return true;
             }
             if( action == "FLAG" ) {
+                std::string edit_flags;
+                if( flags.empty() ) {
+                    // If this is the first time using the FLAG action on this item, start with itype flags
+                    edit_flags = itype_flags;
+                } else {
+                    // Otherwise, edit the existing list of user-defined instance flags
+                    edit_flags = flags;
+                }
                 string_input_popup popup;
                 popup
                 .title( _( "Flags:" ) )
                 .description( _( "UPPERCASE, no quotes, separate with spaces" ) )
                 .max_length( 100 )
-                .text( flags )
+                .text( edit_flags )
                 .query();
+                // Save instance flags on this item (will be reset when selecting another item)
                 if( popup.confirmed() ) {
                     flags = popup.text();
                     return true;
@@ -562,7 +601,10 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
     }
     std::vector<std::pair<std::string, const itype *>> opts;
     for( const itype *i : item_controller->all() ) {
-        opts.emplace_back( item( i, calendar::turn_zero ).tname( 1, false ), i );
+        item option( i, calendar::turn_zero );
+        // Only display the generic name if it has variants
+        option.clear_gun_variant();
+        opts.emplace_back( option.tname( 1, false ), i );
     }
     std::sort( opts.begin(), opts.end(), localized_compare );
     std::vector<const itype *> itypes;
@@ -803,7 +845,7 @@ void debug_menu::wishproficiency( player *p )
             know_all = player_know;
         }
 
-        sorted_profs.push_back( { cur.prof_id(), player_know } );
+        sorted_profs.emplace_back( cur.prof_id(), player_know );
     }
 
     std::sort( sorted_profs.begin(), sorted_profs.end(), localized_compare );
@@ -859,7 +901,7 @@ void debug_menu::wishproficiency( player *p )
             if( know_prof ) {
                 prmenu.entries[prmenu.selected].txt = string_format( _( "(known) %s" ), cur.first->name() );
                 prmenu.entries[prmenu.selected].text_color = c_yellow;
-                p->add_msg_if_player( m_good, _( "You are now proficient in %s" ), prof->name() );
+                p->add_msg_if_player( m_good, _( "You are now proficient in %s!" ), prof->name() );
                 p->add_proficiency( prof, true );
                 continue;
             }
@@ -867,9 +909,8 @@ void debug_menu::wishproficiency( player *p )
             know_all = false;
             prmenu.entries[prmenu.selected].txt = string_format( "%s", cur.first->name() );
             prmenu.entries[prmenu.selected].text_color = prmenu.text_color;
-            p->add_msg_if_player( m_bad, _( "You are no longer proficient in %s" ), prof->name() );
+            p->add_msg_if_player( m_bad, _( "You are no longer proficient in %s." ), prof->name() );
             p->lose_proficiency( prof, true );
         }
     } while( prmenu.ret != UILIST_CANCEL );
 }
-

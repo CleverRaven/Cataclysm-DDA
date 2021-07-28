@@ -275,6 +275,30 @@
   {
     "type": "recipe",
     "activity_level": "fake",
+    "result": "bio_cold_absorber",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_CBMS",
+    "skill_used": "electronics",
+    "skills_required": [ "firstaid", 5 ],
+    "difficulty": 7,
+    "time": "6 h",
+    "reversible": true,
+    "decomp_learn": 7,
+    "book_learn": [ [ "recipes_cryolab", 5 ] ],
+    "using": [ [ "soldering_standard", 400 ] ],
+    "qualities": [ { "id": "BIONIC_ASSEMBLY", "level": 2 } ],
+    "components": [
+      [ [ "afs_biomaterial_4", 6 ] ],
+      [ [ "afs_material_3", 12 ] ],
+      [ [ "afs_material_2", 2 ] ],
+      [ [ "afs_circuitry_2", 2 ] ],
+      [ [ "afs_neural_io_2", 2 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
     "result": "bio_weight",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_CBMS",

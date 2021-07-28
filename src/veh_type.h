@@ -5,8 +5,10 @@
 #include <algorithm>
 #include <array>
 #include <bitset>
+#include <iosfwd>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
 #include <string>
 #include <utility>
@@ -14,15 +16,14 @@
 
 #include "calendar.h"
 #include "color.h"
+#include "compatibility.h"
 #include "damage.h"
 #include "optional.h"
 #include "point.h"
 #include "requirements.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 
 class JsonObject;
 class player;
@@ -438,9 +439,6 @@ class vpart_info
          */
         int power = 0;
 
-        /** Mechanics skill required to install item */
-        int difficulty = 0;
-
         /** Installation time (in moves) for component (@see install_time), default 1 hour */
         int install_moves = to_moves<int>( 1_hours );
         /** Repair time (in moves) to fully repair a component (@see repair_time) */
@@ -449,7 +447,7 @@ class vpart_info
          *  default is half @ref install_moves */
         int removal_moves = -1;
 
-        /** seatbelt (str), muffler (%), horn (vol), light (intensity), recharing (power) */
+        /** seatbelt (str), muffler (%), horn (vol), light (intensity), recharging (power) */
         int bonus = 0;
 
         /** cargo weight modifier (percentage) */
@@ -477,6 +475,8 @@ struct vehicle_item_spawn {
     /** Chance [0-100%] for items to spawn with their default magazine (if any) */
     int with_magazine = 0;
     std::vector<itype_id> item_ids;
+    // item_ids, but for items with variants specified
+    std::vector<std::pair<itype_id, std::string>> variant_ids;
     std::vector<item_group_id> item_groups;
 };
 
@@ -496,10 +496,10 @@ struct vehicle_prototype {
     };
 
     vehicle_prototype();
-    vehicle_prototype( vehicle_prototype && );
+    vehicle_prototype( vehicle_prototype && ) noexcept;
     ~vehicle_prototype();
 
-    vehicle_prototype &operator=( vehicle_prototype && );
+    vehicle_prototype &operator=( vehicle_prototype && ) noexcept( string_is_noexcept );
 
     translation name;
     std::vector<part_def> parts;

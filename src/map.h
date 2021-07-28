@@ -8,39 +8,41 @@
 #include <cstddef>
 #include <cstdint>
 #include <functional>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
-#include <string>
 #include <tuple>
 #include <utility>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
+#include "cata_assert.h"
 #include "cata_utility.h"
 #include "colony.h"
+#include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "item.h"
 #include "item_stack.h"
+#include "level_cache.h"
 #include "lightmap.h"
 #include "line.h"
 #include "lru_cache.h"
+#include "map_selector.h"
 #include "mapdata.h"
+#include "optional.h"
 #include "point.h"
-#include "rng.h"
-#include "shadowcasting.h"
-#include "string_id.h"
-#include "type_id.h"
-#include "units_fwd.h"
 #include "reachability_cache.h"
+#include "rng.h"
+#include "type_id.h"
+#include "units.h"
+#include "value_ptr.h"
 
 struct scent_block;
-template <typename T> class safe_reference;
-template <typename T> class string_id;
 
 namespace catacurses
 {
@@ -54,7 +56,6 @@ class computer;
 class field;
 class field_entry;
 class item_location;
-class map_cursor;
 class mapgendata;
 class monster;
 class optional_vpart_position;
@@ -66,7 +67,6 @@ class zone_data;
 struct fragment_cloud;
 struct maptile;
 struct partial_con;
-struct rl_vec2d;
 struct spawn_data;
 struct trap;
 template<typename Tripoint>
@@ -80,8 +80,6 @@ struct MonsterGroupResult;
 struct mongroup;
 struct projectile;
 struct veh_collision;
-template<typename T>
-class visitable;
 
 struct wrapped_vehicle {
     tripoint pos;
@@ -96,6 +94,7 @@ struct pathfinding_cache;
 struct pathfinding_settings;
 template<typename T>
 struct weighted_int_list;
+struct field_proc_data;
 
 using relic_procgen_id = string_id<relic_procgen_data>;
 
@@ -158,78 +157,120 @@ struct bash_params {
     bool bashing_from_above = false;
 };
 
-struct level_cache {
-    // Zeros all relevant values
-    level_cache();
-    level_cache( const level_cache &other ) = default;
+/** Draw parameters used by map::drawsq() and similar methods. */
+struct drawsq_params {
+    private:
+        tripoint view_center = tripoint_min;
+        bool do_highlight = false;
+        bool do_show_items = true;
+        bool do_low_light = false;
+        bool do_bright_light = false;
+        bool do_memorize = false;
+        bool do_output = true;
 
-    std::bitset<MAPSIZE *MAPSIZE> transparency_cache_dirty;
-    bool outside_cache_dirty = false;
-    bool floor_cache_dirty = false;
-    bool seen_cache_dirty = false;
-    // This is a single value indicating that the entire level is floored.
-    bool no_floor_gaps = false;
+    public:
+        constexpr drawsq_params() = default;
 
-    four_quadrants lm[MAPSIZE_X][MAPSIZE_Y];
-    float sm[MAPSIZE_X][MAPSIZE_Y];
-    // To prevent redundant ray casting into neighbors: precalculate bulk light source positions.
-    // This is only valid for the duration of generate_lightmap
-    float light_source_buffer[MAPSIZE_X][MAPSIZE_Y];
+        /**
+         * Highlight the tile. On TILES, draws an overlay; on CURSES, inverts color.
+         * Default: false.
+         */
+        //@{
+        constexpr drawsq_params &highlight( bool v ) {
+            do_highlight = v;
+            return *this;
+        }
+        constexpr bool highlight() const {
+            return do_highlight;
+        }
+        //@}
 
-    // if false, means tile is under the roof ("inside"), true means tile is "outside"
-    // "inside" tiles are protected from sun, rain, etc. (see "INDOORS" flag)
-    bool outside_cache[MAPSIZE_X][MAPSIZE_Y];
+        /**
+         * Whether to draw items on the tile.
+         * Default: true.
+         */
+        //@{
+        constexpr drawsq_params &show_items( bool v ) {
+            do_show_items = v;
+            return *this;
+        }
+        constexpr bool show_items() const {
+            return do_show_items;
+        }
+        //@}
 
-    // true when vehicle below has "ROOF" or "OPAQUE" part, furniture below has "SUN_ROOF_ABOVE"
-    //      or terrain doesn't have "NO_FLOOR" flag
-    // false otherwise
-    // i.e. true == has floor
-    bool floor_cache[MAPSIZE_X][MAPSIZE_Y];
+        /**
+         * Whether tile is low light, and should be drawn with muted color.
+         * Default: false.
+         */
+        //@{
+        constexpr drawsq_params &low_light( bool v ) {
+            do_low_light = v;
+            return *this;
+        }
+        constexpr bool low_light() const {
+            return do_low_light;
+        }
+        //@}
 
-    // stores cached transparency of the tiles
-    // units: "transparency" (see LIGHT_TRANSPARENCY_OPEN_AIR)
-    float transparency_cache[MAPSIZE_X][MAPSIZE_Y];
+        /**
+         * Whether tile is in bright light. Affects NV overlay, and nothing else.
+         * Default: false;
+         */
+        //@{
+        constexpr drawsq_params &bright_light( bool v ) {
+            do_bright_light = v;
+            return *this;
+        }
+        constexpr bool bright_light() const {
+            return do_bright_light;
+        }
+        //@}
 
-    // materialized  (transparency_cache[i][j] > LIGHT_TRANSPARENCY_SOLID)
-    // doesn't consider fields (i.e. if tile is covered in thick smoke, it's still
-    // considered transparent for the purpuses of this cache)
-    // true, if tile is not opaque
-    std::array<std::bitset<MAPSIZE_Y>, MAPSIZE_X> transparent_cache_wo_fields;
+        /**
+         * Whether the tile should be memorized. Used only in map::draw().
+         * Default: false.
+         */
+        //@{
+        constexpr drawsq_params &memorize( bool v ) {
+            do_memorize = v;
+            return *this;
+        }
+        constexpr bool memorize() const {
+            return do_memorize;
+        }
+        //@}
 
-    // stores "adjusted transparency" of the tiles
-    // initial values derived from transparency_cache, uses same units
-    // examples of adjustment: changed transparency on player's tile and special case for crouching
-    float vision_transparency_cache[MAPSIZE_X][MAPSIZE_Y];
+        /**
+         * HACK: Whether the tile should be printed. Used only in map::draw()
+         * as a hack for memorizing off-screen tiles.
+         * Default: true.
+         */
+        //@{
+        constexpr drawsq_params &output( bool v ) {
+            do_output = v;
+            return *this;
+        }
+        constexpr bool output() const {
+            return do_output;
+        }
+        //@}
 
-    // stores "visibility" of the tiles to the player
-    // values range from 1 (fully visible to player) to 0 (not visible)
-    float seen_cache[MAPSIZE_X][MAPSIZE_Y];
-
-    // same as `seen_cache` (same units) but contains values for cameras and mirrors
-    // effective "visibility_cache" is calculated as "max(seen_cache, camera_cache)"
-    float camera_cache[MAPSIZE_X][MAPSIZE_Y];
-
-    // reachability caches
-    // Note: indirection here is introduced, because caches are quite large:
-    // at least (MAPSIZE_X * MAPSIZE_Y) * 4 bytes (≈69,696 bytes) each
-    // so having them directly as part of the level_cache interferes with
-    // CPU cache coherency of level_cache
-    cata::value_ptr<reachability_cache_horizontal>r_hor_cache =
-        cata::make_value<reachability_cache_horizontal>();
-    cata::value_ptr<reachability_cache_vertical> r_up_cache =
-        cata::make_value<reachability_cache_vertical>();
-
-    // stores resulting apparent brightness to player, calculated by map::apparent_light_at
-    lit_level visibility_cache[MAPSIZE_X][MAPSIZE_Y];
-    std::bitset<MAPSIZE_X *MAPSIZE_Y> map_memory_seen_cache;
-    std::bitset<MAPSIZE *MAPSIZE> field_cache;
-
-    bool veh_in_active_range = false;
-    bool veh_exists_at[MAPSIZE_X][MAPSIZE_Y];
-    std::map< tripoint, std::pair<vehicle *, int> > veh_cached_parts;
-    std::set<vehicle *> vehicle_list;
-    std::set<vehicle *> zone_vehicles;
-
+        /**
+         * Set view center.
+         * Default: uses avatar's current view center.
+         */
+        //@{
+        constexpr drawsq_params &center( const tripoint &p ) {
+            view_center = p;
+            return *this;
+        }
+        constexpr drawsq_params &center_at_avatar() {
+            view_center = tripoint_min;
+            return *this;
+        }
+        tripoint center() const;
+        //@}
 };
 
 /**
@@ -256,15 +297,38 @@ struct level_cache {
 class map
 {
         friend class editmap;
-        friend class visitable<map_cursor>;
+        friend std::list<item> map_cursor::remove_items_with( const std::function<bool( const item & )> &,
+                int );
+
+        //FIXME some field processor use private methods
+        friend void field_processor_fd_fire( const tripoint &, field_entry &, field_proc_data & );
+        friend void field_processor_spread_gas( const tripoint &, field_entry &, field_proc_data & );
+        friend void field_processor_wandering_field( const tripoint &, field_entry &, field_proc_data & );
+        friend void field_processor_fd_fire_vent( const tripoint &, field_entry &, field_proc_data & );
+        friend void field_processor_fd_flame_burst( const tripoint &, field_entry &, field_proc_data & );
+        friend void field_processor_fd_bees( const tripoint &, field_entry &, field_proc_data & );
+        friend void field_processor_fd_incendiary( const tripoint &, field_entry &, field_proc_data & );
+
+        // for testing
+        friend void clear_fields( int zlevel );
 
     public:
         // Constructors & Initialization
-        map( int mapsize = MAPSIZE, bool zlev = true );
-        map( bool zlev ) : map( MAPSIZE, zlev ) { }
+        explicit map( int mapsize = MAPSIZE, bool zlev = true );
+        explicit map( bool zlev ) : map( MAPSIZE, zlev ) { }
         virtual ~map();
 
-        map &operator=( map && ) = default;
+        map &operator=( const map & ) = delete;
+        // NOLINTNEXTLINE(performance-noexcept-move-constructor)
+        map &operator=( map && );
+
+        /**
+         * Tinymaps will ocassionally need to skip npc rotation in map::rotate
+         * Here's a little trigger for them to opt out. We won't be doing that here, though
+         */
+        virtual bool skip_npc_rotation() const {
+            return false;
+        }
 
         /**
          * Sets a dirty flag on the a given cache.
@@ -382,7 +446,8 @@ class map
                 return cache.r_hor_cache->has_potential_los( from.xy(), to.xy(), cache ) &&
                        cache.r_hor_cache->has_potential_los( to.xy(), from.xy(), cache ) ;
             }
-            tripoint upper, lower;
+            tripoint upper;
+            tripoint lower;
             std::tie( upper, lower ) = from.z > to.z ? std::make_pair( from, to ) : std::make_pair( to, from );
             // z-bounds depend on the invariant that both points are inbounds and their z are different
             return get_cache( lower.z ).r_up_cache->has_potential_los(
@@ -401,7 +466,7 @@ class map
             bool obstructed;
             float apparent_light;
         };
-        /** Helper function for light claculation; exposed here for map editor
+        /** Helper function for light calculation; exposed here for map editor
          */
         static apparent_light_info apparent_light_helper( const level_cache &map_cache,
                 const tripoint &p );
@@ -414,8 +479,6 @@ class map
         lit_level apparent_light_at( const tripoint &p, const visibility_variables &cache ) const;
         visibility_type get_visibility( lit_level ll,
                                         const visibility_variables &cache ) const;
-
-        bool apply_vision_effects( const catacurses::window &w, visibility_type vis ) const;
 
         // See field.cpp
         std::tuple<maptile, maptile, maptile> get_wind_blockers( const int &winddirection,
@@ -434,21 +497,14 @@ class map
          */
         void draw( const catacurses::window &w, const tripoint &center );
 
-        /** Draw the map tile at the given coordinate. Called by `map::draw()`.
-        *
-        * @param w The window we are drawing in
-        * @param u The player
-        * @param p The tile on this map to draw.
-        * @param invert Invert colors if this flag is true
-        * @param show_items Draw items in tile if this flag is true see `center` in `map::draw()`
-        */
-        void drawsq( const catacurses::window &w, player &u, const tripoint &p,
-                     bool invert, bool show_items,
-                     const tripoint &view_center,
-                     bool low_light = false, bool bright_light = false,
-                     bool inorder = false ) const;
-        void drawsq( const catacurses::window &w, player &u, const tripoint &p,
-                     bool invert = false, bool show_items = true ) const;
+        /**
+         * Draw the map tile at the given coordinate. Called by `map::draw()`.
+         *
+         * @param w The window we are drawing in
+         * @param p The tile on this map to draw.
+         * @param params Draw parameters.
+         */
+        void drawsq( const catacurses::window &w, const tripoint &p, const drawsq_params &params ) const;
 
         /**
          * Add currently loaded submaps (in @ref grid) to the @ref mapbuffer.
@@ -659,8 +715,10 @@ class map
         VehicleList get_vehicles();
         void add_vehicle_to_cache( vehicle * );
         void clear_vehicle_point_from_cache( vehicle *veh, const tripoint &pt );
-        void reset_vehicle_cache( int zlev );
-        void clear_vehicle_cache( int zlev );
+        // clears all vehicle level caches
+        void clear_vehicle_level_caches();
+        // clears and build vehicle level caches
+        void rebuild_vehicle_level_caches();
         void clear_vehicle_list( int zlev );
         void update_vehicle_list( const submap *to, int zlev );
         //Returns true if vehicle zones are dirty and need to be recached
@@ -718,7 +776,7 @@ class map
                                          const std::vector<veh_collision> &collisions );
         // Throws vehicle passengers about the vehicle, possibly out of it
         // Returns change in vehicle orientation due to lost control
-        units::angle shake_vehicle( vehicle &veh, int velocity_before, units::angle direction );
+        units::angle shake_vehicle( vehicle &veh, int velocity_before, const units::angle &direction );
 
         // Actually moves the vehicle
         // Unlike displace_vehicle, this one handles collisions
@@ -748,7 +806,11 @@ class map
         furn_id furn( const point &p ) const {
             return furn( tripoint( p, abs_sub.z ) );
         }
-        void furn_set( const tripoint &p, const furn_id &new_furniture );
+        /**
+        * furn_reset should be true if new_furniture is being set to f_null
+        * when the player is grab-moving furniture
+        */
+        void furn_set( const tripoint &p, const furn_id &new_furniture, bool furn_reset = false );
         void furn_set( const point &p, const furn_id &new_furniture ) {
             furn_set( tripoint( p, abs_sub.z ), new_furniture );
         }
@@ -1139,12 +1201,13 @@ class map
         void spawn_item( const tripoint &p, const itype_id &type_id,
                          unsigned quantity = 1, int charges = 0,
                          const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
-                         const std::set<flag_id> &flags = {} );
+                         const std::set<flag_id> &flags = {}, const std::string &variant = "" );
         void spawn_item( const point &p, const itype_id &type_id,
                          unsigned quantity = 1, int charges = 0,
                          const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
-                         const std::set<flag_id> &flags = {} ) {
-            spawn_item( tripoint( p, abs_sub.z ), type_id, quantity, charges, birthday, damlevel, flags );
+                         const std::set<flag_id> &flags = {}, const std::string &variant = "" ) {
+            spawn_item( tripoint( p, abs_sub.z ), type_id, quantity, charges, birthday, damlevel, flags,
+                        variant );
         }
 
         // FIXME: remove these overloads and require spawn_item to take an
@@ -1152,14 +1215,15 @@ class map
         void spawn_item( const tripoint &p, const std::string &type_id,
                          unsigned quantity = 1, int charges = 0,
                          const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
-                         const std::set<flag_id> &flags = {} ) {
-            spawn_item( p, itype_id( type_id ), quantity, charges, birthday, damlevel, flags );
+                         const std::set<flag_id> &flags = {}, const std::string &variant = "" ) {
+            spawn_item( p, itype_id( type_id ), quantity, charges, birthday, damlevel, flags, variant );
         }
         void spawn_item( const point &p, const std::string &type_id,
                          unsigned quantity = 1, int charges = 0,
                          const time_point &birthday = calendar::start_of_cataclysm, int damlevel = 0,
-                         const std::set<flag_id> &flags = {} ) {
-            spawn_item( tripoint( p, abs_sub.z ), type_id, quantity, charges, birthday, damlevel, flags );
+                         const std::set<flag_id> &flags = {}, const std::string &variant = "" ) {
+            spawn_item( tripoint( p, abs_sub.z ), type_id, quantity, charges, birthday, damlevel, flags,
+                        variant );
         }
         units::volume max_volume( const tripoint &p );
         units::volume free_volume( const tripoint &p );
@@ -1221,6 +1285,15 @@ class map
         std::list<item> use_charges( const tripoint &origin, int range, const itype_id &type,
                                      int &quantity, const std::function<bool( const item & )> &filter = return_true<item>,
                                      basecamp *bcp = nullptr );
+
+        /**
+        * Consume UPS from UPS sources from area centered at origin.
+        * @param origin the position of player
+        * @param range how far the UPS can be used from
+        * @return Amount of UPS used which will be between 0 and qty
+        */
+        int consume_ups( const tripoint &origin, int range, int qty );
+
         /*@}*/
         std::list<std::pair<tripoint, item *> > get_rc_items( const tripoint &p = { -1, -1, -1 } );
 
@@ -1286,6 +1359,7 @@ class map
 
         void remove_trap( const tripoint &p );
         const std::vector<tripoint> &get_furn_field_locations() const;
+        const std::vector<tripoint> &get_ter_field_locations() const;
         const std::vector<tripoint> &trap_locations( const trap_id &type ) const;
 
         /**
@@ -1301,8 +1375,6 @@ class map
         // See fields.cpp
         void process_fields();
         void process_fields_in_submap( submap *current_submap, const tripoint &submap_pos );
-        bool process_fire_field_in_submap( maptile &map_tile, const tripoint &p, field_entry &cur,
-                                           const oter_id &om_ter );
         /**
          * Apply field effects to the creature when it's on a square with fields.
          */
@@ -1376,12 +1448,12 @@ class map
 
         // returns true, if there **might** be a field at `p`
         // if false, there's no fields at `p`
-        bool has_field_at( const tripoint &p, bool check_bounds = true );
+        bool has_field_at( const tripoint &p, bool check_bounds = true ) const;
         /**
          * Get field of specific type at point.
          * @return NULL if there is no such field entry at that place.
          */
-        field_entry *get_field( const tripoint &p, const field_type_id &type );
+        field_entry *get_field( const tripoint &p, const field_type_id &type ) const;
         bool dangerous_field_at( const tripoint &p );
         /**
          * Add field entry at point, or set intensity if present
@@ -1393,6 +1465,13 @@ class map
          * Remove field entry at xy, ignored if the field entry is not present.
          */
         void remove_field( const tripoint &p, const field_type_id &field_to_remove );
+
+    private:
+        // Is called when field intensity is changed.
+        // Invalidates relevan map caches, such as transparency cache.
+        void on_field_modified( const tripoint &p, const field_type &fd_type );
+
+    public:
 
         // Splatters of various kind
         void add_splatter( const field_type_id &type, const tripoint &where, int intensity = 1 );
@@ -1487,7 +1566,8 @@ class map
         }
         // 6 liters at 250 ml per charge
         void place_toilet( const point &p, int charges = 6 * 4 );
-        void place_vending( const point &p, const item_group_id &type, bool reinforced = false );
+        void place_vending( const point &p, const item_group_id &type, bool reinforced = false,
+                            bool lootable = false );
         // places an NPC, if static NPCs are enabled or if force is true
         character_id place_npc( const point &p, const string_id<npc_template> &type );
         void apply_faction_ownership( const point &p1, const point &p2, const faction_id &id );
@@ -1683,15 +1763,12 @@ class map
         void copy_grid( const tripoint &to, const tripoint &from );
         void draw_map( mapgendata &dat );
 
-        void draw_office_tower( const mapgendata &dat );
         void draw_lab( mapgendata &dat );
         void draw_temple( const mapgendata &dat );
         void draw_mine( mapgendata &dat );
-        void draw_spiral( const mapgendata &dat );
         void draw_anthill( const mapgendata &dat );
         void draw_slimepit( const mapgendata &dat );
         void draw_spider_pit( const mapgendata &dat );
-        void draw_triffid( const mapgendata &dat );
         void draw_connections( const mapgendata &dat );
 
         // Builds a transparency cache and returns true if the cache was invalidated.
@@ -1803,7 +1880,7 @@ class map
         /**
          * Conditionally invalidates max_pupulated_zlev cache if the submap uniformity change occurs above current
          *  max_pupulated_zlev value
-         * @param zlev zlevel where uniformity change occured
+         * @param zlev zlevel where uniformity change occurred
          */
         void invalidate_max_populated_zlev( int zlev );
 
@@ -1821,21 +1898,13 @@ class map
          * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
          * Returns false if it has drawn all it should, true if `draw_from_above` should be called after.
          */
-        bool draw_maptile( const catacurses::window &w, const player &u, const tripoint &p,
-                           const maptile &tile,
-                           bool invert, bool show_items,
-                           const tripoint &view_center,
-                           bool low_light, bool bright_light, bool inorder ) const;
-        bool draw_maptile_from_memory( const catacurses::window &w, const tripoint &p,
-                                       const tripoint &view_center,
-                                       bool move_cursor = true ) const;
+        bool draw_maptile( const catacurses::window &w, const tripoint &p,
+                           const maptile &tile, const drawsq_params &params ) const;
         /**
          * Draws the tile as seen from above.
          */
-        void draw_from_above( const catacurses::window &w, const player &u, const tripoint &p,
-                              const maptile &tile, bool invert,
-                              const tripoint &view_center,
-                              bool low_light, bool bright_light, bool inorder ) const;
+        void draw_from_above( const catacurses::window &w, const tripoint &p,
+                              const maptile &tile, const drawsq_params &params ) const;
 
         int determine_wall_corner( const tripoint &p ) const;
         // apply a circular light pattern immediately, however it's best to use...
@@ -1901,7 +1970,7 @@ class map
          */
         std::vector<submap *> grid;
         /**
-         * This vector contains an entry for each trap type, it has therefor the same size
+         * This vector contains an entry for each trap type, it has therefore the same size
          * as the traplist vector. Each entry contains a list of all point on the map that
          * contain a trap of that type. The first entry however is always empty as it denotes the
          * tr_null trap.
@@ -1911,6 +1980,10 @@ class map
          * Vector of tripoints containing active field-emitting furniture
          */
         std::vector<tripoint> field_furn_locs;
+        /**
+         * Vector of tripoints containing active field-emitting terrain
+         */
+        std::vector<tripoint> field_ter_locs;
         /**
          * Holds caches for visibility, light, transparency and vehicles
          */
@@ -1987,6 +2060,9 @@ class map
         level_cache &access_cache( int zlev );
         const level_cache &access_cache( int zlev ) const;
         bool dont_draw_lower_floor( const tripoint &p );
+
+        bool has_haulable_items( const tripoint &pos );
+        std::vector<item_location> get_haulable_items( const tripoint &pos );
 };
 
 map &get_map();
@@ -1999,8 +2075,14 @@ class tinymap : public map
 {
         friend class editmap;
     public:
-        tinymap( int mapsize = 2, bool zlevels = false );
+        explicit tinymap( int mapsize = 2, bool zlevels = false );
         bool inbounds( const tripoint &p ) const override;
+
+        /** Sometimes you need to generate and rotate a tinymap without touching npcs */
+        bool skip_npc_rotation() const override {
+            return no_rotate_npcs;
+        }
+        bool no_rotate_npcs = false;
 };
 
 class fake_map : public tinymap

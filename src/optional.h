@@ -59,6 +59,7 @@ class optional
 
     public:
         constexpr optional() noexcept : dummy(), full( false ) { }
+        // NOLINTNEXTLINE(google-explicit-constructor)
         constexpr optional( const nullopt_t ) noexcept : dummy(), full( false ) { }
 
         optional( const optional &other ) : full( false ) {
@@ -85,7 +86,7 @@ class optional
                        !std::is_same<optional<T>, typename std::decay<U>::type>::value &&
                        std::is_constructible < T, U && >::value &&
                        std::is_convertible < U &&, T >::value, bool >::type = true >
-        // NOLINTNEXTLINE(bugprone-forwarding-reference-overload)
+        // NOLINTNEXTLINE(bugprone-forwarding-reference-overload, google-explicit-constructor)
         optional( U && t )
             : optional( in_place, std::forward<U>( t ) ) { }
 

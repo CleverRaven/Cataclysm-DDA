@@ -2,13 +2,12 @@
 #ifndef CATA_SRC_SCENARIO_H
 #define CATA_SRC_SCENARIO_H
 
-#include <algorithm>
+#include <iosfwd>
 #include <set>
 #include <string>
 #include <vector>
 
-#include "pldata.h"
-#include "string_id.h"
+#include "calendar.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -49,7 +48,15 @@ class scenario
         std::string _map_extra;
         std::vector<mission_type_id> _missions;
 
+        bool _custom_initial_date = false;
+        int _initial_hour = 8;
+        int _initial_day = 0;
+        season_type _initial_season = SPRING;
+        int _initial_year = 1;
+
         vproto_id _starting_vehicle = vproto_id::NULL_ID();
+
+        std::vector<std::pair<mongroup_id, float>> _surround_groups;
 
         void load( const JsonObject &jo, const std::string &src );
         bool scenario_traits_conflict_with_profession_traits( const profession &p ) const;
@@ -80,6 +87,15 @@ class scenario
         std::string start_name() const;
         int start_location_count() const;
         int start_location_targets_count() const;
+
+        bool custom_initial_date() const;
+        bool is_random_hour() const;
+        bool is_random_day() const;
+        bool is_random_year() const;
+        int initial_hour() const;
+        int initial_day() const;
+        season_type initial_season() const;
+        int initial_year() const;
 
         vproto_id vehicle() const;
 
@@ -114,6 +130,7 @@ class scenario
         bool can_pick( const scenario &current_scenario, int points ) const;
 
         const std::vector<mission_type_id> &missions() const;
+        const std::vector<std::pair<mongroup_id, float>> &surround_groups() const;
 
 };
 

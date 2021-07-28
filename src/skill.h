@@ -3,6 +3,7 @@
 #define CATA_SRC_SKILL_H
 
 #include <functional>
+#include <iosfwd>
 #include <map>
 #include <set>
 #include <string>
@@ -10,7 +11,6 @@
 #include <vector>
 
 #include "calendar.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -19,7 +19,6 @@ class JsonObject;
 class JsonOut;
 class item;
 class recipe;
-template <typename T> class string_id;
 
 struct time_info_t {
     // Absolute floor on the time taken to attack.
@@ -147,7 +146,7 @@ class SkillLevel
         }
 
         int exercise( bool raw = false ) const {
-            return raw ? _exercise : _exercise / ( ( _level + 1 ) * ( _level + 1 ) );
+            return raw ? _exercise : _exercise / ( 100 * ( _level + 1 ) * ( _level + 1 ) );
         }
 
         int exercised_level() const {
@@ -156,7 +155,7 @@ class SkillLevel
 
         void train( int amount, bool skip_scaling = false );
         bool isRusting() const;
-        bool rust( bool charged_bio_mem, int character_rate );
+        bool rust( int rust_resist, int character_rate );
         void practice();
         bool can_train() const;
 

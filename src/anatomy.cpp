@@ -1,17 +1,19 @@
 #include "anatomy.h"
 
 #include <array>
+#include <cmath>
 #include <cstddef>
 #include <numeric>
+#include <set>
+#include <string>
 #include <unordered_set>
 
 #include "cata_utility.h"
 #include "debug.h"
-#include "enums.h"
 #include "generic_factory.h"
-#include "int_id.h"
 #include "json.h"
 #include "messages.h"
+#include "output.h"
 #include "rng.h"
 #include "type_id.h"
 #include "weighted_list.h"
@@ -179,7 +181,7 @@ bodypart_id anatomy::select_body_part( int size_diff, int hit_roll ) const
 
     // Debug for seeing weights.
     for( const weighted_object<double, bodypart_id> &pr : hit_weights ) {
-        add_msg_debug( "%s = %.3f", pr.obj.obj().name, pr.weight );
+        add_msg_debug( debugmode::DF_ANATOMY_BP, "%s = %.3f", pr.obj.obj().name, pr.weight );
     }
 
     const bodypart_id *ret = hit_weights.pick();
@@ -188,6 +190,6 @@ bodypart_id anatomy::select_body_part( int size_diff, int hit_roll ) const
         return bodypart_str_id::NULL_ID().id();
     }
 
-    add_msg_debug( "selected part: %s", ret->id().obj().name );
+    add_msg_debug( debugmode::DF_ANATOMY_BP, "selected part: %s", ret->id().obj().name );
     return *ret;
 }

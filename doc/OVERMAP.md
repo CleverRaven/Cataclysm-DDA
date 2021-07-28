@@ -49,6 +49,27 @@ It can sometimes be useful to think of the overmap as the outline for the game w
 be filled in as the player explores. The rest of this document is a discussion of how we can create
 that outline.
 
+### Overmap generation
+
+Generating an overmap happens in the following sequence of functions ( see generate::overmap in overmap.cpp ):
+   
+	populate_connections_out_from_neighbors( north, east, south, west );
+    place_rivers( north, east, south, west );
+    place_lakes();
+    place_forests();
+    place_swamps();
+    place_ravines();
+    place_cities();
+    place_forest_trails();
+    place_roads( north, east, south, west );
+    place_specials( enabled_specials );
+    place_forest_trailheads();
+    polish_river();
+    place_mongroups();
+    place_radios();
+
+This has some consequences on overmap special spawning, as discussed in the relevant section.
+
 ## Terminology and Types
 
 First we need to briefly discuss some of the data types used by the
@@ -195,6 +216,8 @@ rotation for the referenced overmap terrains (e.g. the `_north` version for all)
 | `name`            | Name for the location shown in game.                                                             |
 | `sym`             | Symbol used when drawing the location, like `"F"` (or you may use an ASCII value like `70`).     |
 | `color`           | Color to draw the symbol in. See [COLOR.md](COLOR.md).                                           |
+| `looks_like`      | Id of another overmap terrain to be used for the graphical tile, if this doesn't have one.       |
+| `connect_group`   | Specify that this overmap terrain might be graphically connected to its neighbours, should a tileset wish to.  It will connect to any other `overmap_terrain` with the same `connect_group`. |
 | `see_cost`        | Affects player vision on overmap. Higher values obstruct vision more.                            |
 | `travel_cost`     | Affects pathfinding cost. Higher values are harder to travel through (reference: Forest = 10 )   |
 | `extras`          | Reference to a named `map_extras` in region_settings, defines which map extras can be applied.   |
@@ -220,6 +243,7 @@ an exhaustive example...
     "name": "field",
     "sym": ".",
     "color": "brown",
+    "looks_like": "forest",
     "see_cost": 2,
     "extras": "field",
     "mondensity": 2,
@@ -241,16 +265,16 @@ completed--they are the "non-city" counterpart to the **city_building** type. Th
 made up of multiple overmap terrains (though not always), may have overmap connections (e.g. roads,
 sewers, subways), and have JSON-defined rules guiding their placement.
 
-### Mandatory Overmap Specials
+### Special placement
 
-There are a finite number of "slots" in which overmap specials can be placed during overmap
-generation, defined by the width of the overmap, height of the overmap, and an "overmap special
-frequency" (at the time of writing there are 72 "slots" per overmap). As a result, you are
-encouraged to exercise restraint when specifying some attributes of the overmap special, such as
-required minimum occurrences. The game gives precedence to "mandatory overmap specials" (e.g. those
-with a minimum greater than 0) and consequently too many mandatory overmap specials may exhaust the
-number of slots before any optional specials can even attempt placement. As a general rule, the
-minimum should be 0.
+There are a finite number of sectors in which overmap specials can be placed during overmap
+generation, each being a square with side length equal to `OMSPEC_FREQ` (defined in omdata.h; at
+the time of writing `OMSPEC_FREQ`= 15 meaning each overmap has 144 sectors for placing specials). 
+At the beginning of overmap generation, a list of eligable map specials is built 
+(`overmap_special_batch`).  Next, a free sector is chosen where a special will be placed.  A random
+point in that sector is checked against a random rotation of a random special from the special batch 
+to see if it can be placed there. If not, a new random point in the sector is checked against a new 
+special, and so on until a valid spawn is rolled.
 
 ### Rotation
 
@@ -260,6 +284,41 @@ overmap special. A consequence of the relationship between rotating an overmap s
 the underlying overmap terrains that make up the special is that the overmap special should reference
 a specific rotated version of the associated overmap terrain--generally, this is the `_north` rotation
 as it corresponds to the way in which the JSON for mapgen is defined.
+
+### Connections
+
+The overmap special can be connected to the road, subway or sewer networks. Specifying a connection
+point causes the appropriate connection to be automatically generated from the nearest matching terrain
+, unless `existing` is set to true.
+
+Connections with `existing` set to true are used to test the validity of an overmap special's
+placement. Unlike normal connection points these do not have to reference road/tunnel terrain types.
+They will not generate new terrain, and may even be overwritten by the overmap special's terrain.
+However, since the overmap special algorithm considers a limited number of random locations per overmap,
+the use of `existing` connections that target a rare terrain lowers the chances of the special 
+spawning considerably.
+
+### Occurrences (default)
+
+Occurrences is the way to set the baseline rarity of a special. The field can behave in two ways:
+by default, it sets the minimum and maximum occurrences of the special per overmap. Currently all
+overmap specials have a minimum occurrence of 0, to keep the overmaps from being too similar to each
+other. In addition, there are no specials with a maximum occurrence of 1. This is important because 
+each normal special has a very high chance of being placed at least once per overmap, owing to some 
+quirks of the code (most notably, the number of specials is only slightly more than the number of slots per
+overmap, specials that failed placement don't get disqualified and can be rolled for again, and placement iterates
+until all sectors are occupied). For specials that are not common enough to warrant appearing more
+than once per overmap please use the "UNIQUE" flag.
+
+### Occurrences ( UNIQUE )
+
+When the special has the "UNIQUE" flag, instead of defining the minimum and maximum number placed 
+the occurrences field defines the chance of the special to be included in any one given overmap.
+Before any placement rolls, all specials with this flag have to succeed in an x_in_y (first value, second
+value) roll to be included in the `overmap_special_batch` for the currently generated overmap;
+any special that failed this roll will never be considered for placement.  Currently all UNIQUE specials
+use [x, 100] occurrences - percentages - for ease of understanding, but this is not required.
+
 
 ### Locations
 
@@ -271,6 +330,16 @@ locations may instead be specified for the entire special using the top level `l
 value for an individual entry takes precedence over the top level value, so you may define the top
 level value and then only specify it for individual entries that differ.
 
+### City distance and size 
+
+During generation of a new overmap, cities and their connecting roads will be generated before 
+specials are placed. Each city gets assigned a size at generation and will begin its life as a single 
+intersection. The city distance field specifies the minimum and maximum distance the special can be 
+placed from the edge of the urban radius of a city, and not from the center of the city.
+Both city size and city distance requirements are only checked for the "nearest" city, measured from the 
+original intersection.
+
+
 ### Fields
 
 |   Identifier    |                                              Description                                              |
@@ -280,7 +349,7 @@ level value and then only specify it for individual entries that differ.
 | `overmaps`      | List of overmap terrains and their relative `[ x, y, z ]` location within the special.                |
 | `connections`   | List of overmap connections and their relative `[ x, y, z ]` location within the special.             |
 | `locations`     | List of `overmap_location` ids that the special may be placed on.                                     |
-| `city_distance` | Min/max distance from a city that the special may be placed. Use -1 for unbounded.                    |
+| `city_distance` | Min/max distance from a city edge that the special may be placed. Use -1 for unbounded.                    |
 | `city_sizes`    | Min/max city size for a city that the special may be placed near. Use -1 for unbounded.               |
 | `occurrences`   | Min/max number of occurrences when placing the special. If UNIQUE flag is set, becomes X of Y chance. |
 | `flags`         | See `Overmap specials` in [JSON_FLAGS.md](JSON_FLAGS.md).                                             |
@@ -326,6 +395,7 @@ level value and then only specify it for individual entries that differ.
 | `terrain`    | Will go away in favor of `connection` eventually. Use `road`, `subway`, `sewer`, etc.              |
 | `connection` | Id of the `overmap_connection` to build. Optional for now, but you should specify it explicitly.   |
 | `from`       | Optional point `[ x, y, z]` within the special to treat as the origin of the connection.           |
+| `existing`   | Boolean, default false. If the special requires a preexisting terrain to spawn.					|
 
 ## City Building
 

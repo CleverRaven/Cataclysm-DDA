@@ -45,18 +45,6 @@ struct tile_type {
     std::vector<std::string> available_subtiles;
 };
 
-/* Enums */
-enum MULTITILE_TYPE {
-    center,
-    corner,
-    edge,
-    t_connection,
-    end_piece,
-    unconnected,
-    open_,
-    broken,
-    num_multitile_types
-};
 // Make sure to change TILE_CATEGORY_IDS if this changes!
 enum TILE_CATEGORY {
     C_NONE,
@@ -71,6 +59,8 @@ enum TILE_CATEGORY {
     C_BULLET,
     C_HIT_ENTITY,
     C_WEATHER,
+    C_OVERMAP_TERRAIN,
+    C_OVERMAP_NOTE
 };
 
 class tile_lookup_res
@@ -320,6 +310,7 @@ class cata_tiles
         void draw( const point &dest, const tripoint &center, int width, int height,
                    std::multimap<point, formatted_text> &overlay_strings,
                    color_block_overlay_container &color_blocks );
+        void draw_om( const point &dest, const tripoint_abs_omt &center_abs_omt, bool blink );
 
         /** Minimap functionality */
         void draw_minimap( const point &dest, const tripoint &center, int width, int height );
@@ -331,7 +322,7 @@ class cata_tiles
         cata::optional<tile_lookup_res> find_tile_with_season( const std::string &id ) const;
 
         cata::optional<tile_lookup_res>
-        find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
+        find_tile_looks_like( const std::string &id, TILE_CATEGORY category, const std::string &variant,
                               int looks_like_jumps_limit = 10 ) const;
 
         // this templated method is used only from it's own cpp file, so it's ok to declare it here
@@ -354,6 +345,10 @@ class cata_tiles
         bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                   const std::string &subcategory, const tripoint &pos, int subtile, int rota,
                                   lit_level ll, bool apply_night_vision_goggles, int &height_3d );
+        // Add variant argument at end
+        bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
+                                  const std::string &subcategory, const tripoint &pos, int subtile, int rota,
+                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d, const std::string &variant );
         bool draw_sprite_at(
             const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
             const point &, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
@@ -367,7 +362,7 @@ class cata_tiles
 
         /* Tile Picking */
         void get_tile_values( int t, const int *tn, int &subtile, int &rotation );
-        // as get_tile_values, but for unconnected tiles, infer rotation from surrouding walls
+        // as get_tile_values, but for unconnected tiles, infer rotation from surrounding walls
         void get_tile_values_with_ter( const tripoint &p, int t, const int *tn, int &subtile,
                                        int &rotation );
         void get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group,
@@ -441,7 +436,7 @@ class cata_tiles
         void draw_hit_frame();
         void void_hit();
 
-        void draw_footsteps_frame();
+        void draw_footsteps_frame( const tripoint &center );
 
         // pseudo-animated layer, not really though.
         void init_draw_line( const tripoint &p, std::vector<tripoint> trajectory,
@@ -492,7 +487,7 @@ class cata_tiles
         void void_item_override();
 
         void init_draw_vpart_override( const tripoint &p, const vpart_id &id, int part_mod,
-                                       units::angle veh_dir, bool hilite, const point &mount );
+                                       const units::angle &veh_dir, bool hilite, const point &mount );
         void void_vpart_override();
 
         void init_draw_below_override( const tripoint &p, bool draw );
@@ -535,6 +530,9 @@ class cata_tiles
         point player_to_screen( const point & ) const;
         static std::vector<options_manager::id_and_option> build_renderer_list();
         static std::vector<options_manager::id_and_option> build_display_list();
+    private:
+        std::string get_omt_id_rotation_and_subtile(
+            const tripoint_abs_omt &omp, int &rota, int &subtile );
     protected:
         template <typename maptype>
         void tile_loading_report( const maptype &tiletypemap, TILE_CATEGORY category,

@@ -1,8 +1,12 @@
-#include <deque>
-#include "point.h"
-#include "map.h"
-#include "reachability_cache.h"
+#include <algorithm>
+#include <array>
+#include <cstdlib>
+#include <tuple>
+
 #include "cuboid_rectangle.h"
+#include "level_cache.h"
+#include "point.h"
+#include "reachability_cache.h"
 
 //helper functions
 static constexpr half_open_rectangle<point> bounding_rect( point_zero, {MAPSIZE_X, MAPSIZE_Y} );
@@ -56,7 +60,9 @@ void reachability_cache<Horizontal, Types...>::rebuild( Q q,
     static_assert( MAPSIZE_X == SEEX * MAPSIZE, "reachability cache uses outdated map dimensions" );
 
     // start is inclusive, end is exclusive (1 step outside of the range)
-    point dir, start, end;
+    point dir;
+    point start;
+    point end;
 
     if( q == Q::SW || q == Q::NW ) {
         std::tie( dir.x, start.x, end.x ) = std::make_tuple( 1, 0, MAPSIZE_X );
@@ -202,22 +208,20 @@ static int min4( int arg,  int arg2, int arg3, int arg4 )
 bool reachability_cache_specialization<true, level_cache>::dynamic_fun(
     reachability_cache_layer &layer, const point &p, const point &dir, const level_cache &this_lc )
 {
-
     using Layer = reachability_cache_layer;
 
-    if( !transp( this_lc, p ) ) {
-        return layer.update( p, 0 );
-    }
-
-    const Layer::ElType diagonal = layer.get_or( p - dir, 0 );
+    // if point is transparent, returns given prev_value, otherwise returns zero
+    const auto transp_or_zero = [&]( const point & p, int prev_value ) {
+        return prev_value != 0 && !transp( this_lc, p ) ? 0 : prev_value;
+    };
 
     const Layer::ElType v =
         std::min(
             MAX_D,
             max3(
-                diagonal == 0 ? 0 : diagonal + 2,
-                layer.get_or( p - point( dir.x, 0 ), 0 ) + 1,
-                layer.get_or( p - point( 0, dir.y ), 0 ) + 1
+                transp_or_zero( p - dir, layer.get_or( p - dir, 0 ) ) + 2,
+                transp_or_zero( p - point( dir.x, 0 ), layer.get_or( p - point( dir.x, 0 ), 0 ) ) + 1,
+                transp_or_zero( p - point( 0, dir.y ), layer.get_or( p - point( 0, dir.y ), 0 ) ) + 1
             ) );
 
     return layer.update( p, v );
@@ -234,22 +238,21 @@ bool reachability_cache_specialization<false, level_cache, level_cache>::dynamic
     const level_cache &floor_lc )
 {
     using Layer = reachability_cache_layer;
-    if( !transp( this_lc, p ) ) {
-        return layer.update( p, MAX_D );
-    }
 
-    if( !floor_lc.floor_cache[p.x][p.y] ) {
+    if( !floor_lc.floor_cache[p.x][p.y] && transp( this_lc, p ) ) {
         return layer.update( p, 0 );
     }
 
-    const Layer::ElType diagonal = layer.get_or( p - dir, MAX_D );
+    const auto val_if_transp = [&]( const point & p, int prev_v ) {
+        return prev_v >= MAX_D || !transp( this_lc, p ) ? MAX_D : prev_v;
+    };
 
     const Layer::ElType v =
         min4(
             MAX_D,
-            diagonal == MAX_D ? MAX_D : diagonal + 2,
-            layer.get_or( p - point( dir.x, 0 ), MAX_D ) + 1,
-            layer.get_or( p - point( 0, dir.y ), MAX_D ) + 1
+            val_if_transp( p - dir, layer.get_or( p - dir, MAX_D ) ) + 2,
+            val_if_transp( p - point( dir.x, 0 ), layer.get_or( p - point( dir.x, 0 ), MAX_D ) ) + 1,
+            val_if_transp( p - point( 0, dir.y ), layer.get_or( p - point( 0, dir.y ), MAX_D ) ) + 1
         );
 
     return layer.update( p, v );
@@ -262,7 +265,7 @@ bool reachability_cache_specialization<true, level_cache>::test( int d, int cach
     // if tile has direct transparent neighbor, it's value will be "2"
     // d = |dx| + |dy| for such neighbor will be "1"
     // so if d equals or exceeds cache value, it's a "no"
-    return d < cache_v;
+    return d <= cache_v;
 }
 
 bool reachability_cache_specialization<false, level_cache, level_cache>::source_cache_dirty(
@@ -281,7 +284,7 @@ bool reachability_cache_specialization<true, level_cache>::source_cache_dirty(
 bool reachability_cache_specialization<false,  level_cache, level_cache>::test( int d,
         int cache_v )
 {
-    // cache value directly before absent floor is 0
+    // cache value directly below the absent floor is 0
     // direct neighbor will have value of 1, distance is also 1
     // so only if d is strictly smaller than cache value (which is distance to open floor), it's a "no"
     return d < MAX_D && d >= cache_v;

@@ -45,7 +45,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "a180mag" ]
+        "item_restriction": [ "a180mag", "a180mag1", "a180mag2", "a180mag3", "a180mag4" ]
       }
     ]
   },
@@ -231,7 +231,15 @@
     "ammo": [ "22" ],
     "longest_side": "192 mm",
     "clip_size": 8,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "22": 8 } } ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "holster": true,
+        "rigid": true,
+        "ammo_restriction": { "22": 8 },
+        "allowed_speedloaders": [ "22_speedloader8" ]
+      }
+    ]
   },
   {
     "id": "sig_mosquito",

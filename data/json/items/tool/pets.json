@@ -45,7 +45,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "CUT", 1 ], [ "SHEAR", 1 ] ],
+    "qualities": [ [ "CUT", 1 ], [ "SHEAR", 1 ], [ "BUTCHER", 3 ] ],
     "flags": [ "STAB" ]
   },
   {
@@ -64,6 +64,7 @@
     "color": "dark_gray",
     "qualities": [ [ "SHEAR", 3 ] ],
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
     "initial_charges": 100,
     "max_charges": 100,
     "charges_per_use": 25,

@@ -38,5 +38,29 @@
     "stack_size": 3,
     "loudness": 9,
     "effects": [ "NEVER_MISFIRES" ]
+  },
+  {
+    "type": "AMMO",
+    "id": "arrow_nano",
+    "price": 2000,
+    "name": { "str": "nano printed combat arrow" },
+    "symbol": "=",
+    "color": "green",
+    "looks_like": "arrow_fire_hardened_fletched",
+    "description": "Arrows made from nanoprinted materials where each layer of the arrow is designed for improved efficiency.  A layer that provides the least possible air resistance, followed by a layer of armor piercing, then followed by a frangible layer.  However, this makes each arrow single use.",
+    "material": [ "superalloy" ],
+    "volume": "250 ml",
+    "price_postapoc": 10000,
+    "weight": "20 g",
+    "longest_side": "76 cm",
+    "bashing": 1,
+    "ammo_type": "arrow",
+    "damage": { "damage_type": "stab", "constant_damage_multiplier": 3.75 },
+    "range": 6,
+    "dispersion": 20,
+    "loudness": 0,
+    "count": 10,
+    "stack_size": 10,
+    "critical_multiplier": 13
   }
 ]

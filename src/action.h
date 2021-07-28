@@ -3,9 +3,9 @@
 #define CATA_SRC_ACTION_H
 
 #include <functional>
+#include <iosfwd>
 #include <map>
 #include <set>
-#include <string>
 #include <vector>
 
 namespace cata
@@ -13,9 +13,9 @@ namespace cata
 template<typename T>
 class optional;
 } // namespace cata
-struct tripoint;
-struct point;
 struct input_event;
+struct point;
+struct tripoint;
 
 /**
  * Enumerates all discrete actions that can be performed by player
@@ -322,6 +322,7 @@ enum action_id : int {
     ACTION_DISPLAY_TRANSPARENCY,
     /** Toggle reachability zones map */
     ACTION_DISPLAY_REACHABILITY_ZONES,
+    ACTION_DISPLAY_NPC_ATTACK_POTENTIAL,
     /** Toggle timing of the game hours */
     ACTION_TOGGLE_HOUR_TIMER,
     /** Not an action, serves as count of enumerated actions */
@@ -469,7 +470,7 @@ cata::optional<tripoint> choose_direction( const std::string &message,
  * the player to indicate valid squares for a given @ref action_id
  *
  * @param[in] message Message used in assembling the prompt to the player
- * @param[in] failure_message Message used if there is no vaild adjacent tile
+ * @param[in] failure_message Message used if there is no valid adjacent tile
  * @param[in] action An action ID to drive the highlighting output
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
  */
@@ -488,7 +489,7 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
  * function.
  *
  * @param[in] message Message used in assembling the prompt to the player
- * @param[in] failure_message Message used if there is no vaild adjacent tile
+ * @param[in] failure_message Message used if there is no valid adjacent tile
  * @param[in] allowed A function that will be called to determine if a given location is allowed for selection
  * @param[in] allow_vertical Allows direction vector to have vertical component if true
  */

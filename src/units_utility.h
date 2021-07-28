@@ -1,12 +1,11 @@
 #pragma once
+#include <cmath>
+#include <iosfwd>
 #include <type_traits>
 #ifndef CATA_SRC_UNITS_UTILITY_H
 #define CATA_SRC_UNITS_UTILITY_H
 
-#include <string>
-
 #include "units.h"
-#include "units_fwd.h"
 
 /** Divide @p num by @p den, rounding up
  *
@@ -31,6 +30,13 @@ units::quantity<T, U> round_to_multiple_of( units::quantity<T, U> val, units::qu
     int multiple = std::lround( val / of );
     return multiple * of;
 }
+
+struct lat_long {
+    units::angle latitude;
+    units::angle longitude;
+};
+
+constexpr lat_long location_boston{ 42.36_degrees, -71.06_degrees };
 
 /**
  * Create a units label for a weight value.
@@ -82,7 +88,6 @@ std::string length_units( const units::length &length );
 
 /** Convert length to inches or cm. Used in pickup UI */
 double convert_length_cm_in( const units::length &length );
-
 
 /** convert a mass unit to a string readable by a human */
 std::string weight_to_string( const units::mass &weight );

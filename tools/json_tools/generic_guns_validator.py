@@ -18,6 +18,7 @@ AMMO_TYPE_WHITELIST = {
     'BB',
     'blunderbuss',
     'bolt',
+    'cannon',
     'charcoal',
     'chemical_spray',
     'fishspear',

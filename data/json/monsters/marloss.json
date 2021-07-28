@@ -21,12 +21,12 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "dodge": 1,
+    "bleed_rate": 50,
     "harvest": "human",
     "vision_day": 30,
     "vision_night": 3,
     "special_attacks": [ [ "scratch", 15 ] ],
     "death_drops": "marloss_zealot_death_drops",
-    "death_function": [ "NORMAL" ],
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "POISON" ]
   },
@@ -52,12 +52,12 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "dodge": 1,
+    "bleed_rate": 50,
     "harvest": "human",
     "vision_day": 30,
     "vision_night": 3,
     "special_attacks": [ [ "scratch", 15 ] ],
     "death_drops": "marloss_zealot_death_drops",
-    "death_function": [ "NORMAL" ],
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "POISON" ]
   }

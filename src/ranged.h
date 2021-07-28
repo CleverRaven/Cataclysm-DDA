@@ -1,6 +1,7 @@
 #ifndef CATA_SRC_RANGED_H
 #define CATA_SRC_RANGED_H
 
+#include <iosfwd>
 #include <vector>
 
 #include "point.h"
@@ -14,8 +15,6 @@ class player;
 class spell;
 class turret_data;
 class vehicle;
-struct itype;
-struct tripoint;
 struct vehicle_part;
 
 namespace target_handler
@@ -43,6 +42,8 @@ trajectory mode_turrets( avatar &you, vehicle &veh, const std::vector<vehicle_pa
 /** Casting a spell */
 trajectory mode_spell( avatar &you, spell &casting, bool no_fail, bool no_mana );
 } // namespace target_handler
+
+void practice_archery_proficiency( player &p, const item &relevant );
 
 int range_with_even_chance_of_good_hit( int dispersion );
 

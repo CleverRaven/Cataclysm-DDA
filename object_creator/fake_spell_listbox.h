@@ -26,7 +26,7 @@ class fake_spell_listbox : public QListWidget
         }
 
         void set_spells( const std::vector<fake_spell> &spells );
-        std::vector<fake_spell> creator::fake_spell_listbox::get_spells() const;
+        std::vector<fake_spell> get_spells() const;
 
         void setText( const QString &str ) {
             id_label.setText( str );

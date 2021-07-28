@@ -79,7 +79,6 @@
     "broken_color": "red",
     "durability": 100,
     "item": "null",
-    "difficulty": 0,
     "flags": [ "NOINSTALL" ],
     "breaks_into": [  ]
   },
@@ -112,7 +111,17 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "breaks_into": "ig_vp_wood_plate",
-    "flags": [ "ENGINE", "BOARDABLE", "E_STARTS_INSTANTLY", "ANIMAL_CTRL", "HARNESS_any", "STEERABLE", "UNMOUNT_ON_DAMAGE", "WHEEL" ],
+    "flags": [
+      "ENGINE",
+      "BOARDABLE",
+      "E_STARTS_INSTANTLY",
+      "ANIMAL_CTRL",
+      "HARNESS_any",
+      "STEERABLE",
+      "UNMOUNT_ON_DAMAGE",
+      "UNSTABLE_WHEEL",
+      "WHEEL"
+    ],
     "damage_reduction": { "all": 2 }
   },
   {
@@ -192,7 +201,7 @@
     },
     "flags": [ "BED", "BOARDABLE", "CARGO", "MOUNTABLE", "NONBELTABLE" ],
     "breaks_into": "ig_vp_seat",
-    "damage_reduction": { "all": 3 }
+    "damage_reduction": { "all": 3, "bash": 5 }
   },
   {
     "type": "vehicle_part",
@@ -376,7 +385,7 @@
     },
     "flags": [ "ROOF" ],
     "breaks_into": "ig_vp_sheet_metal",
-    "damage_reduction": { "all": 28 }
+    "damage_reduction": { "all": 20 }
   },
   {
     "type": "vehicle_part",
@@ -398,7 +407,7 @@
     },
     "flags": [ "ROOF" ],
     "breaks_into": "ig_vp_steel_plate",
-    "damage_reduction": { "all": 75 }
+    "damage_reduction": { "all": 30 }
   },
   {
     "type": "vehicle_part",
@@ -461,7 +470,6 @@
     "durability": 100,
     "description": "A computer system hooked up to the steering and engine of the vehicle to allow it to follow simple paths.",
     "item": "programmable_autopilot",
-    "difficulty": 5,
     "looks_like": "cam_control",
     "epower": -15,
     "flags": [ "ENABLED_DRAINS_EPOWER", "AUTOPILOT" ],
@@ -506,7 +514,7 @@
       { "item": "steel_chunk", "count": [ 1, 2 ] },
       { "item": "scrap", "count": [ 0, 3 ] }
     ],
-    "damage_reduction": { "all": 8 }
+    "damage_reduction": { "all": 8, "bash": 10 }
   },
   {
     "type": "vehicle_part",
@@ -582,8 +590,8 @@
     "item": "minifridge",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "CARGO", "OBSTACLE", "FRIDGE", "COVERED", "ENABLED_DRAINS_EPOWER" ],
@@ -613,8 +621,8 @@
     "item": "minifreezer",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "CARGO", "OBSTACLE", "FREEZER", "COVERED", "ENABLED_DRAINS_EPOWER" ],
@@ -645,8 +653,8 @@
     "item": "washing_machine",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "CARGO", "OBSTACLE", "WASHING_MACHINE", "COVERED", "ENABLED_DRAINS_EPOWER" ],
@@ -676,8 +684,8 @@
     "location": "center",
     "looks_like": "washing_machine",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "CARGO", "OBSTACLE", "DISHWASHER", "COVERED", "ENABLED_DRAINS_EPOWER" ],
@@ -706,8 +714,8 @@
     "item": "vh_autoclave",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "CARGO", "OBSTACLE", "AUTOCLAVE", "COVERED", "ENABLED_DRAINS_EPOWER" ],
@@ -764,7 +772,7 @@
       "install": { "time": "10 m", "using": [ [ "rope_natural_short", 1 ] ] },
       "repair": { "time": "5 m", "using": [ [ "adhesive", 1 ] ] }
     },
-    "damage_reduction": { "all": 18, "stab": 8, "cut": 8 }
+    "damage_reduction": { "all": 4 }
   },
   {
     "type": "vehicle_part",
@@ -788,7 +796,7 @@
     },
     "flags": [ "CARGO", "BOARDABLE", "COVERED", "LOCKABLE_CARGO" ],
     "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "nail", "charges": [ 10, 15 ] } ],
-    "damage_reduction": { "all": 16, "stab": 6, "cut": 6 }
+    "damage_reduction": { "all": 5 }
   },
   {
     "type": "vehicle_part",
@@ -813,7 +821,7 @@
     },
     "flags": [ "CARGO", "BOARDABLE", "COVERED", "FOLDABLE", "LOCKABLE_CARGO" ],
     "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "nail", "charges": [ 10, 15 ] } ],
-    "damage_reduction": { "all": 10, "stab": 4, "cut": 5 }
+    "damage_reduction": { "all": 4 }
   },
   {
     "type": "vehicle_part",
@@ -831,8 +839,8 @@
     "item": "v_table",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF", "WORKBENCH" ],
@@ -860,8 +868,8 @@
     "item": "w_table",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF", "WORKBENCH" ],
@@ -889,8 +897,8 @@
     "item": "workbench",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "CARGO", "OBSTACLE", "FLAT_SURF", "WORKBENCH" ],
@@ -1129,8 +1137,8 @@
     "location": "engine_block",
     "folded_volume": "500 ml",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m" },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m" },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "6 m" },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "6 m" },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m" }
     },
     "flags": [ "ENGINE", "CONTROLS", "FOLDABLE", "MUSCLE_ARMS", "E_STARTS_INSTANTLY" ],
@@ -1231,7 +1239,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "1 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "30 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "SPACE_HEATER", "EMITTER" ],
+    "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "SPACE_HEATER" ],
     "emissions": [ "emit_heater_vehicle" ],
     "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
     "damage_reduction": { "all": 15 }
@@ -1254,7 +1262,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "1 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "30 s", "using": [ [ "adhesive", 1 ] ] }
     },
-    "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "COOLER", "EMITTER" ],
+    "flags": [ "CTRL_ELECTRONIC", "ENABLED_DRAINS_EPOWER", "COOLER" ],
     "emissions": [ "emit_cooler_vehicle" ],
     "exhaust": [ "emit_heater_vehicle" ],
     "breaks_into": [ { "item": "steel_lump" }, { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 1, 3 ] } ],
@@ -1334,7 +1342,8 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "SEATBELT", "FOLDABLE", "SIMPLE_PART" ],
-    "breaks_into": [ { "item": "string_36", "count": [ 0, 3 ] } ]
+    "breaks_into": [ { "item": "string_36", "count": [ 0, 3 ] } ],
+    "damage_reduction": { "bash": 15 }
   },
   {
     "type": "vehicle_part",
@@ -1420,7 +1429,8 @@
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "SEATBELT", "FOLDABLE", "SIMPLE_PART" ],
-    "breaks_into": [ { "item": "string_36", "count": [ 0, 3 ] } ]
+    "breaks_into": [ { "item": "string_36", "count": [ 0, 3 ] } ],
+    "damage_reduction": { "bash": 15 }
   },
   {
     "type": "vehicle_part",
@@ -1539,8 +1549,8 @@
     "item": "solar_panel",
     "location": "on_roof",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": {
         "skills": [ [ "electronics", 6 ] ],
         "time": "50 m",
@@ -1835,7 +1845,7 @@
       { "item": "scrap", "count": [ 4, 6 ] },
       { "item": "spike", "count": [ 0, 2 ] }
     ],
-    "damage_reduction": { "all": 58 }
+    "damage_reduction": { "all": 48 }
   },
   {
     "type": "vehicle_part",
@@ -1860,7 +1870,7 @@
       { "item": "steel_chunk", "count": [ 4, 6 ] },
       { "item": "scrap", "count": [ 4, 6 ] }
     ],
-    "damage_reduction": { "all": 75 }
+    "damage_reduction": { "all": 70 }
   },
   {
     "type": "vehicle_part",
@@ -1886,7 +1896,7 @@
       { "item": "scrap", "count": [ 4, 6 ] },
       { "item": "ceramic_armor", "count": [ 0, 4 ] }
     ],
-    "damage_reduction": { "all": 70, "cut": 95, "stab": 88 }
+    "damage_reduction": { "all": 60, "bullet": 105 }
   },
   {
     "type": "vehicle_part",
@@ -1994,8 +2004,8 @@
     "item": "frame",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [
@@ -2010,7 +2020,7 @@
       "DOOR"
     ],
     "breaks_into": "ig_vp_frame",
-    "damage_reduction": { "all": 25 }
+    "damage_reduction": { "all": 20 }
   },
   {
     "type": "vehicle_part",
@@ -2028,13 +2038,13 @@
     "item": "hdframe",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "LOW_FINAL_AIR_DRAG", "WINDOW", "SIMPLE_PART", "DOOR" ],
     "breaks_into": "ig_vp_hdframe",
-    "damage_reduction": { "all": 78 }
+    "damage_reduction": { "all": 30 }
   },
   {
     "type": "vehicle_part",
@@ -2052,13 +2062,13 @@
     "item": "sheet_metal",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "OPAQUE", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "SIMPLE_PART", "DOOR" ],
     "breaks_into": "ig_vp_sheet_metal",
-    "damage_reduction": { "all": 24 }
+    "damage_reduction": { "all": 7 }
   },
   {
     "type": "vehicle_part",
@@ -2076,13 +2086,13 @@
     "item": "frame",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "SIMPLE_PART", "DOOR" ],
     "breaks_into": "ig_vp_frame",
-    "damage_reduction": { "all": 26 }
+    "damage_reduction": { "all": 20 }
   },
   {
     "type": "vehicle_part",
@@ -2215,6 +2225,7 @@
     "broken_color": "light_gray",
     "damage_modifier": 0,
     "durability": 60,
+    "damage_reduction": { "bash": 5 },
     "description": "A stereo system.  When turned on, it plays music, improving your mood.",
     "epower": -50,
     "bonus": 80,
@@ -2297,7 +2308,7 @@
   {
     "type": "vehicle_part",
     "id": "hd_tow_cable",
-    "name": "heavy duty tow cable",
+    "name": { "str": "heavy duty tow cable" },
     "symbol": "{",
     "categories": [ "other" ],
     "color": "light_blue",
@@ -2376,6 +2387,15 @@
     "flags": [ "SEAT", "BOARDABLE", "BELTABLE" ],
     "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] } ],
     "damage_reduction": { "all": 8 }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "seat_wood_bench",
+    "name": { "str": "wooden bench" },
+    "copy-from": "seat_wood",
+    "looks_like": "seat_wood",
+    "durability": 150,
+    "description": "A benchlike place to sit."
   },
   {
     "type": "vehicle_part",
@@ -2479,27 +2499,26 @@
     "color": "yellow",
     "broken_symbol": ")",
     "broken_color": "light_gray",
-    "durability": 320,
+    "durability": 200,
     "item": "chitin_plate",
     "location": "armor",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "using": [ [ "rope_natural", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m" },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m" },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "ARMOR" ],
     "breaks_into": [ { "item": "chitin_piece", "count": [ 5, 15 ] } ],
-    "damage_reduction": { "all": 58 }
+    "damage_reduction": { "all": 20 }
   },
   {
     "type": "vehicle_part",
     "id": "plating_acidchitin",
     "copy-from": "plating_chitin",
     "name": { "str": "biosilicified chitin plating" },
-    "proportional": { "durability": 1.5 },
     "item": "acidchitin_plate",
     "breaks_into": [ { "item": "acidchitin_piece", "count": [ 6, 19 ] } ],
-    "damage_reduction": { "all": 72 }
+    "damage_reduction": { "all": 24 }
   },
   {
     "type": "vehicle_part",
@@ -2641,7 +2660,8 @@
       "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "WATCH", "ALARMCLOCK", "FOLDABLE" ],
-    "breaks_into": [ { "item": "scrap", "prob": 50 } ]
+    "breaks_into": [ { "item": "scrap", "prob": 50 } ],
+    "damage_reduction": { "bash": 5 }
   },
   {
     "type": "vehicle_part",
@@ -2933,7 +2953,8 @@
     "bonus": 7,
     "power": -1050,
     "durability": 200,
-    "description": "An automatic reaper.  Use the vehicle controls to turn it on or off.  When turned on, it will stop the vehicle unless it has a strong engine.  When on, it will cut down plants and store them in the vehicle's cargo.  It should be placed in front of any plows in the vehicle for efficient operation.  It has internal cargo space for collecting the harvest.",
+    "//": "No need to mention re drag - already provided by EXTRA_DRAG flag.",
+    "description": "An automatic reaper.  Use the vehicle controls to turn it on or off.  When on, it will cut down plants and store them in the vehicle's cargo.  It should be placed in front of any plows in the vehicle for efficient operation.  It has internal cargo space for collecting the harvest.",
     "item": "v_reaper_item_advanced",
     "location": "under",
     "size": 350,

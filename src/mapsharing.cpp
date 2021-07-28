@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <stdexcept>
+#include <string>
 
 #include "filesystem.h"
 #include "ofstream_wrapper.h"
@@ -105,7 +106,7 @@ void ofstream_wrapper::open( const std::ios::openmode mode )
 {
     // Create a *unique* temporary path. No other running program should
     // use this path. If the file exists, it must be of a *former* program
-    // instance and can savely be deleted.
+    // instance and can safely be deleted.
 #if defined(__linux__)
     temp_path = path + "." + std::to_string( getpid() ) + ".temp";
 

@@ -5,8 +5,8 @@
 #include <iterator>
 #include <list>
 #include <map>
+#include <string>
 #include <tuple>
-#include <type_traits>
 
 #include "basecamp.h"
 #include "calendar.h"
@@ -22,7 +22,6 @@
 #include "filesystem.h"
 #include "game.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "line.h"
 #include "map.h"
 #include "memory_fast.h"
@@ -38,7 +37,6 @@
 #include "rng.h"
 #include "simple_pathfinding.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "vehicle.h"
 
@@ -138,7 +136,7 @@ void overmapbuffer::fix_mongroups( overmap &new_overmap )
         }
         overmap &om = get( omp );
         mg.pos = tripoint_om_sm( sm_rem, mg.pos.z() );
-        om.add_mon_group( mg );
+        om.spawn_mon_group( mg );
         new_overmap.zg.erase( it++ );
     }
 }
@@ -1122,7 +1120,7 @@ std::vector<overmap *> overmapbuffer::get_overmaps_near( const tripoint_abs_sm &
     const point_rel_om offset = end - start;
 
     std::vector<overmap *> result;
-    result.reserve( ( offset.x() + 1 ) * ( offset.y() + 1 ) );
+    result.reserve( static_cast<size_t>( offset.x() + 1 ) * static_cast<size_t>( offset.y() + 1 ) );
 
     for( int x = start.x(); x <= end.x(); ++x ) {
         for( int y = start.y(); y <= end.y(); ++y ) {
@@ -1411,8 +1409,8 @@ void overmapbuffer::spawn_monster( const tripoint_abs_sm &p )
         // The monster position must be local to the main map when added to the game
         const tripoint local = tripoint( here.getlocal( ms ), p.z() );
         cata_assert( here.inbounds( local ) );
-        monster *const placed = g->place_critter_at( make_shared_fast<monster>( this_monster ),
-                                local );
+        monster *const placed = g->place_critter_around( make_shared_fast<monster>( this_monster ),
+                                local, 0, true );
         if( placed ) {
             placed->on_load();
         }

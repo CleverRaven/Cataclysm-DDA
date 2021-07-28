@@ -1,13 +1,29 @@
 # Contribute
 
-**Opening new issue?** Please read [ISSUES.md](../ISSUES.md) first.
+**Opening a new issue?** Please read [ISSUES.md](../ISSUES.md) first.
 
-Contributing to Cataclysm: Dark Days Ahead is easy — simply fork the repository here on GitHub, make your changes, and then send us a pull request.
+**Want an introductory guide for creating game content?** You might want to
+read the [Guide to adding new content to CDDA for first time
+contributors](https://github.com/CleverRaven/Cataclysm-DDA/wiki/Guide-to-adding-new-content-to-CDDA-for-first-time-contributors)
+on the CDDA wiki.
 
 Cataclysm:Dark Days Ahead is released under the Creative Commons Attribution ShareAlike 3.0 license. The code and content of the game is free to use, modify, and redistribute for any purpose whatsoever. See http://creativecommons.org/licenses/by-sa/3.0/ for details.
 This means any contribution you make to the project will also be covered by the same license, and this license is irrevocable.
 
-## Guidelines
+## Using a good text editor
+
+Most of the Cataclysm: Dark Days Ahead game data is defined in JSON files.
+These files are intended to be easy for you to edit, but there are some
+pitfalls.  Using Windows Notepad can get you into trouble, because it likes to
+insert a special character called a BOM at the start of the file, which CDDA
+does not want.
+
+If you're going to be editing JSON files consider getting a more fully-featured
+editor such as [Notepad++](https://notepad-plus-plus.org/).
+
+## Contributing to GitHub
+
+Contributing to Cataclysm: Dark Days Ahead is easy — simply fork the repository here on GitHub, make your changes, and then send us a pull request.
 
 There are a couple of guidelines we suggest sticking to:
 
@@ -95,12 +111,13 @@ Helpful pages:
 
 3. Set commit message template.
 
+        $ cd Cataclysm-DDA
+        # Changes the active directory in the prompt to the newly cloned "Cataclysm-DDA" directory
         $ git config --local commit.template .gitmessage
+        # Set commit message template to the custom one in the repo
 
 4. Add this repository as a remote.
 
-        $ cd Cataclysm-DDA
-        # Changes the active directory in the prompt to the newly cloned "Cataclysm-DDA" directory
         $ git remote add -f upstream https://github.com/CleverRaven/Cataclysm-DDA.git
         # Assigns the original repository to a remote called "upstream"
 
@@ -121,6 +138,9 @@ For further details about commit message guidelines please visit:
         # gets changes from "master" branch on the "upstream" remote
 
  * Note: If this gives you an error, it means you have committed directly to your local `master` branch. [Click here for instructions on how to fix this issue](#why-does-git-pull---ff-only-result-in-an-error).
+ 
+         $ git push origin master
+         # optionally, push the synced master state to your fork
 
 #### Make your changes
 
@@ -138,30 +158,51 @@ For further details about commit message guidelines please visit:
         $ git push origin new_feature
         # origin was automatically set to point to your fork when you cloned it
 
-
 3. Once you're finished working on your branch, and have committed and pushed all your changes, submit a pull request from your `new_feature` branch to this repository's `master` branch.
 
  * Note: any new commits to the `new_feature` branch on GitHub will automatically be included in the pull request, so make sure to only commit related changes to the same branch.
 
-## Pull Request Notes
-If you file a PR but you're still working on it, please add a [WIP] before the title text. This will tell the reviewers that you still intend to add more to the PR and we don't need to review it yet. When it's ready to be reviewed by a merger just edit the title text to remove the [WIP].
+## Drafts
+If you file a PR but you're still working on it, please make it a [Draft](https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork).
 
-If you are also looking for suggestions then mark it with [CR] — "comments requested". You can use both [WIP] and [CR] to indicated that you need opinion/code review/suggestions to continue working (e.g. "[WIP] [CR] Super awesome big feature"). Feel free to remove [CR] when you feel you got enough information to proceed.
+![screenshot](https://docs.github.com/assets/images/help/pull_requests/pullrequest-send.png)
 
-This can help speed up our review process by allowing us to only review the things that are ready for it, and will prevent anything that isn't completely ready from being merged in.
+This will tell the reviewers that you still intend to add more to the PR and we don't need to review it yet. When it's ready to be reviewed for a merger, just click the [`Ready for review`](https://docs.github.com/en/free-pro-team@latest/github/collaborating-with-issues-and-pull-requests/changing-the-stage-of-a-pull-request) button.
+
+![screenshot](https://docs.github.com/assets/images/help/pull_requests/ready-for-review-button.png)
+
+Please convert all your existing PRs with `[WIP]` in the title to Drafts.
+
+![screenshot](https://docs.github.com/assets/images/help/pull_requests/convert-to-draft-link.png)
+
+This can help speed up our review process by allowing us to only review the things that are ready for it, and will help prevent merging in anything that isn't completely ready.
+
+## Comment requests
+If you are also looking for suggestions then add a [CR] before the title text — "comments requested". Feel free to remove [CR] when you feel you got enough information to proceed.
 
 It is not required to solve or reference an open issue to file a PR, however, if you do so, you need to explain the problem your PR is solving in full detail.
 
-### All PRs should have a "Summary" line
+### All PRs should have a "Summary" section with one line
 Summary is a one-line description of your change that will be extracted and added to [the project changelog](../data/changelog.txt).
 
-The format is: ```SUMMARY: Category "description"```
+The format is:
+```
+#### Summary
+Category "description"
+```
 
 The categories to choose from are: Features, Content, Interface, Mods, Balance, Bugfixes, Performance, Infrastructure, Build, I18N.
 
-Example: ```SUMMARY: Content "Adds new mutation category 'Mouse'"```
+Example:
+```
+#### Summary
+Content "Adds new mutation category 'Mouse'"
+```
 Or, if you want it treated as a minor tweak that doesn't appear in the changelog:
-```SUMMARY: None```
+```
+#### Summary
+None
+```
 
 See [the Changelog Guidelines](../doc/CHANGELOG_GUIDELINES.md) for explanations of the categories.
 
@@ -181,6 +222,10 @@ One more thing: when marking your PR as closing, fixing, or resolving issues, pl
 The "???" is the issue number. This automatically closes the issue when the PR is pulled in, and allows merges to work slightly faster. To close multiple issues format it as "XXXX #???, XXXX#???".
 
 See https://help.github.com/articles/closing-issues-using-keywords/ for more.
+
+## Keep your PR description relevant
+
+Make sure your PR description is still relevant every time you change your branch after discussion or additional thought.
 
 ## Tooling support
 
@@ -248,6 +293,8 @@ Running `test/cata_test` with no arguments will run the entire test suite; runni
 I recommend habitually invoking make like ``make YOUR BUILD OPTIONS && make check``.
 
 If you're working with Visual Studio (and don't have `make`), see [Visual Studio-specific advice](../doc/COMPILING/COMPILING-VS-VCPKG.md#running-unit-tests).
+
+If you want/need to add a test, see [TESTING.md](../doc/TESTING.md)
 
 ## In-game testing, test environment and the debug menu
 

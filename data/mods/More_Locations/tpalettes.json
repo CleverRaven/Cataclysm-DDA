@@ -389,7 +389,7 @@
     },
     "toilets": { "&": { "amount": [ 0, 50 ] } },
     "items": {
-      "$": { "item": "bionics_mil", "chance": 100 },
+      "$": { "item": "Zomborg_CBM_harvest_combat", "chance": 100 },
       "b": { "item": "textbooks", "chance": 40 },
       "B": { "item": "bed", "chance": 100 },
       "C": { "item": "hospital_lab", "chance": 30 },
@@ -467,12 +467,8 @@
     "type": "palette",
     "id": "tri_tower_stuff",
     "items": {
-      " ": { "item": "trash", "chance": 1, "damage": [ 0, 2 ] },
-      ".": [
-        { "item": "trash", "chance": 1, "damage": [ 0, 2 ] },
-        { "item": "trash_forest", "chance": 1, "damage": [ 0, 2 ] },
-        { "item": "livingroom", "chance": 1, "damage": [ 0, 2 ] }
-      ],
+      " ": { "item": "trash", "chance": 1 },
+      ".": [ { "item": "trash", "chance": 1 }, { "item": "trash_forest", "chance": 1 }, { "item": "livingroom", "chance": 1 } ],
       "a": { "item": "livingroom", "chance": 20 },
       "A": { "item": "livingroom", "chance": 30 },
       "b": { "item": "homebooks", "chance": 30 },

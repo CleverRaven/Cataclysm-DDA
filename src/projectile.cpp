@@ -2,17 +2,22 @@
 
 #include <algorithm>
 #include <memory>
-#include <utility>
+#include <string>
+#include <type_traits>
 #include <vector>
 
 #include "ammo_effect.h"
+#include "debug.h"
+#include "enums.h"
 #include "explosion.h"
 #include "item.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "mapdata.h"
 #include "messages.h"
 #include "rng.h"
-#include "string_id.h"
+#include "translations.h"
+#include "type_id.h"
 
 projectile::projectile() :
     critical_multiplier( 2.0 ), drop( nullptr ), custom_explosion( nullptr )
@@ -20,7 +25,7 @@ projectile::projectile() :
 
 projectile::~projectile() = default;
 
-projectile::projectile( projectile && ) = default;
+projectile::projectile( projectile && ) noexcept( set_is_noexcept ) = default;
 
 projectile::projectile( const projectile &other )
 {

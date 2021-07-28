@@ -140,6 +140,9 @@ class coord_point
         std::string to_string() const {
             return raw_.to_string();
         }
+        std::string to_string_writable() const {
+            return raw_.to_string_writable();
+        }
 
         void serialize( JsonOut &jsout ) const {
             raw().serialize( jsout );
@@ -331,6 +334,7 @@ struct quotient_remainder_point {
     remainder_type remainder;
 
     // For assigning to std::tie( q, r );
+    // NOLINTNEXTLINE(google-explicit-constructor)
     operator std::tuple<quotient_type &, remainder_type &>() {
         return std::tie( quotient, remainder );
     }
@@ -358,9 +362,11 @@ struct quotient_remainder_tripoint {
     // For assigning to std::tie( q, r );
     // Exactly one of the two resulting types should be a tripoint, so that the
     // z-coordinate doesn't get duplicated.
+    // NOLINTNEXTLINE(google-explicit-constructor)
     operator std::tuple<quotient_type_tripoint &, remainder_type &>() {
         return std::tie( quotient_tripoint, remainder );
     }
+    // NOLINTNEXTLINE(google-explicit-constructor)
     operator std::tuple<quotient_type &, remainder_type_tripoint &>() {
         return std::tie( quotient, remainder_tripoint );
     }
@@ -589,7 +595,7 @@ struct real_coords {
 
     real_coords() = default;
 
-    real_coords( const point &ap ) {
+    explicit real_coords( const point &ap ) {
         fromabs( ap );
     }
 

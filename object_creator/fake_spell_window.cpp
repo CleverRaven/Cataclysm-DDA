@@ -17,7 +17,6 @@ creator::fake_spell_window::fake_spell_window( QWidget *parent, Qt::WindowFlags 
     int row = 0;
     int col = 0;
     int max_row = 0;
-    int max_col = 0;
 
     id_label.setParent( this );
     id_label.setText( QString( "id" ) );

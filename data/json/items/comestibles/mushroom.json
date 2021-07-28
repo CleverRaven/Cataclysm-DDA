@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mushroom_cooked",
-    "name": "cooked mushroom",
+    "name": { "str": "cooked mushroom" },
     "copy-from": "mushroom",
     "spoils_in": "1 day",
     "description": "A tasty cooked wild mushroom.",
@@ -15,7 +15,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mushroom_morel",
-    "name": "morel mushroom",
+    "name": { "str": "morel mushroom" },
     "weight": "78 g",
     "color": "brown",
     "spoils_in": "2 days",
@@ -37,7 +37,7 @@
   {
     "type": "COMESTIBLE",
     "id": "morel_cooked",
-    "name": "cooked morel mushroom",
+    "name": { "str": "cooked morel mushroom" },
     "copy-from": "mushroom_morel",
     "use_action": [  ],
     "spoils_in": "1 day",
@@ -51,7 +51,7 @@
   {
     "type": "COMESTIBLE",
     "id": "morel_fried",
-    "name": "fried morel mushroom",
+    "name": { "str": "fried morel mushroom" },
     "copy-from": "mushroom_morel",
     "use_action": [  ],
     "spoils_in": "1 day 12 hours",
@@ -66,7 +66,7 @@
   {
     "type": "COMESTIBLE",
     "id": "dry_mushroom",
-    "name": "dried mushroom",
+    "name": { "str": "dried mushroom" },
     "weight": "7 g",
     "color": "brown",
     "spoils_in": "360 days",
@@ -87,7 +87,7 @@
   {
     "type": "COMESTIBLE",
     "id": "mushroom",
-    "name": "mushroom",
+    "name": { "str": "mushroom" },
     "weight": "69 g",
     "color": "brown",
     "spoils_in": "2 days",

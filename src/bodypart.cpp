@@ -7,7 +7,6 @@
 #include <utility>
 #include <vector>
 
-#include "anatomy.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "generic_factory.h"
@@ -189,7 +188,7 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "id", id );
 
     mandatory( jo, was_loaded, "name", name );
-    // This is NOT the plural of `name`; it's a name refering to the pair of
+    // This is NOT the plural of `name`; it's a name referring to the pair of
     // bodyparts which this bodypart belongs to, and thus should not be implemented
     // using "ngettext" or "translation::make_plural". Otherwise, in languages
     // without plural forms, translation of this string would indicate it
@@ -450,7 +449,7 @@ int bodypart::get_wetness() const
     return wetness;
 }
 
-int bodypart::get_frotbite_timer() const
+int bodypart::get_frostbite_timer() const
 {
     return frostbite_timer;
 }
@@ -463,6 +462,11 @@ int bodypart::get_temp_cur() const
 int bodypart::get_temp_conv() const
 {
     return temp_conv;
+}
+
+std::array<int, NUM_WATER_TOLERANCE> bodypart::get_mut_drench() const
+{
+    return mut_drench;
 }
 
 void bodypart::set_hp_cur( int set )
@@ -493,6 +497,14 @@ void bodypart::set_damage_disinfected( int set )
 void bodypart::set_encumbrance_data( const encumbrance_data &set )
 {
     encumb_data = set;
+}
+
+void bodypart::set_mut_drench( const std::pair<water_tolerance, int> &set )
+{
+    if( set.first < WT_IGNORED || set.first > NUM_WATER_TOLERANCE ) {
+        debugmsg( "Tried to use invalid water tolerance enum in set_mut_drench()." );
+    }
+    mut_drench[set.first] = set.second;
 }
 
 void bodypart::set_wetness( int set )

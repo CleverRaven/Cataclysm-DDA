@@ -11,6 +11,7 @@
     "volume": "554 ml",
     "longest_side": "250 mm",
     "price": 65000,
+    "price_postapoc": 2500,
     "to_hit": -2,
     "bashing": 8,
     "material": [ "steel", "plastic" ],
@@ -308,11 +309,9 @@
     "dispersion": 520,
     "sight_dispersion": 520,
     "armor_data": {
-      "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
       "sided": true,
-      "coverage": 10,
-      "encumbrance": 30,
-      "material_thickness": 2
+      "material_thickness": 2,
+      "armor": [ { "encumbrance": 30, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
     },
     "flags": [ "OVERSIZE", "RELOAD_EJECT", "BELTED", "RESTRICT_HANDS" ],
     "valid_mod_locations": [  ],
@@ -469,6 +468,7 @@
     "weight": "1070 g",
     "volume": "615 ml",
     "price": 90000,
+    "price_postapoc": 500,
     "pocket_data": [
       {
         "magazine_well": "60 ml",
@@ -537,6 +537,7 @@
     "weight": "3722 g",
     "volume": "2020 ml",
     "price": 90000,
+    "price_postapoc": 1000,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
@@ -589,7 +590,8 @@
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
-      [ "sling", 1 ]
+      [ "sling", 1 ],
+      [ "stock", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [
@@ -648,6 +650,7 @@
     "volume": "520 ml",
     "longest_side": "231 mm",
     "price": 65000,
+    "price_postapoc": 2500,
     "to_hit": -2,
     "bashing": 8,
     "material": [ "plastic", "steel" ],
@@ -850,7 +853,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "tec9mag" ]
+        "item_restriction": [ "tec9mag", "tec9mag_10rd", "tec9mag_20rd", "tec9mag_30rd", "tec9mag_36rd", "tec9mag_50rd", "tec9mag_72rd" ]
       }
     ]
   },
@@ -859,7 +862,7 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
-    "name": { "str_sp": "USP 9mm" },
+    "name": { "str_sp": "USP 9x19mm" },
     "description": "A popular pistol, widely used among law enforcement.  Extensively tested for durability, it has been found to stay accurate even after being subjected to extreme abuse.",
     "weight": "771 g",
     "volume": "460 ml",
@@ -884,7 +887,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "usp9mag" ]
+        "item_restriction": [ "usp9mag", "usp9mag_10rd", "usp9mag_18rd", "usp9mag_20rd", "usp9mag_32rd" ]
       }
     ]
   },
@@ -893,7 +896,7 @@
     "copy-from": "smg_base",
     "looks_like": "hk_mp5",
     "type": "GUN",
-    "name": { "str_sp": "Uzi 9mm" },
+    "name": { "str_sp": "Uzi 9x19mm" },
     "//": "SMGs aren't as commercially traded as rifles/handguns/SGs, so no cite for price points.  Total weight of gun 3500 grams.  Current weight of folding stock 200 grams.",
     "description": "The Uzi 9x19mm has enjoyed immense popularity, selling more units than any other submachine gun.  It is widely used as a personal defense weapon, or as a primary weapon by elite frontline forces.",
     "weight": "3500 g",
@@ -1005,7 +1008,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "kpf9mag" ]
+        "item_restriction": [ "kpf9mag", "kpf9mag_8rd" ]
       }
     ]
   },
@@ -1066,7 +1069,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "p320mag_10rd_9x19mm", "p320mag_17rd_9x19mm", "p320mag_21rd_9x19mm" ]
+        "item_restriction": [ "p320mag_17rd_9x19mm", "p320mag_21rd_9x19mm", "p320mag_10rd_9x19mm" ]
       }
     ]
   },
@@ -1321,7 +1324,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "ccpmag" ]
+        "item_restriction": [ "ccpmag", "ccpmag_9rd" ]
       }
     ]
   },
@@ -1414,7 +1417,14 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "btmp9mag_9x19mm_15", "btmp9mag_9x19mm_20", "btmp9mag_9x19mm_25", "btmp9mag_9x19mm_30" ]
+        "item_restriction": [
+          "btmp9mag_9x19mm_15",
+          "btmp9mag_9x19mm_10rd",
+          "btmp9mag_9x19mm_20",
+          "btmp9mag_9x19mm_25",
+          "btmp9mag_9x19mm_30",
+          "btmp9mag_9x19mm_50rd"
+        ]
       }
     ]
   }

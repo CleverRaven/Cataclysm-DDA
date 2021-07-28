@@ -32,7 +32,7 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING" ]
   },
   {
     "id": "crt_laser_gatling",
@@ -58,7 +58,7 @@
     "modes": [ [ "DEFAULT", "burst", 12 ] ],
     "valid_mod_locations": [ [ "accessories", 1 ], [ "emitter", 1 ], [ "grip", 1 ], [ "lens", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING" ]
   },
   {
     "id": "crt_laser_carbine",
@@ -93,7 +93,7 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING" ]
   },
   {
     "id": "crt_energy_rifle",
@@ -128,7 +128,7 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING" ]
   },
   {
     "id": "crt_cqb_si",
@@ -189,7 +189,7 @@
       [ "underbarrel", 1 ]
     ],
     "ammo_effects": [ "STREAM", "INCENDIARY" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "UNARMED_WEAPON", "DURABLE_MELEE", "NON-FOULING" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "UNARMED_WEAPON", "DURABLE_MELEE", "NON_FOULING" ]
   },
   {
     "id": "pelletgun",
@@ -202,7 +202,7 @@
     "price": 9900,
     "//": "You can get a decent Ruger .177 at walmart for $99",
     "material": [ "steel", "plastic" ],
-    "flags": [ "STR_RELOAD", "NON-FOULING", "NON-FOULING" ],
+    "flags": [ "STR_RELOAD", "NON_FOULING" ],
     "skill": "rifle",
     "ammo": [ "pellets" ],
     "weight": "5023 g",
@@ -245,14 +245,14 @@
     "reload": 170,
     "valid_mod_locations": [ [ "accessories", 1 ], [ "grip", 1 ], [ "sights", 1 ] ],
     "ammo_effects": [ "PLASMA", "INCENDIARY", "DRAW_LASER_BEAM" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING" ],
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON_FOULING" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plasma": 12 } } ]
   },
   {
     "id": "ds_rivet_gun",
     "type": "GUN",
     "name": "Rivet Driver",
-    "description": "Experimental double purpose tool under development in C.R.I.T R&D.  It takes a regular nail and then enlongates it within a fraction of a second before firing it out, upon reaching a target, the fragile stake explodes into shards inside the target.",
+    "description": "Experimental double purpose tool under development in C.R.I.T R&D.  It takes a regular nail and then elongates it within a fraction of a second before firing it out, upon reaching a target, the fragile stake explodes into shards inside the target.",
     "weight": "1650 g",
     "volume": "750 ml",
     "price": 1000000,
@@ -300,7 +300,7 @@
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
     "valid_mod_locations": [ [ "accessories", 1 ], [ "grip", 1 ], [ "sights", 1 ] ],
     "ammo_effects": [ "WIDE", "LASER" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "SLOW_WIELD", "NON-FOULING" ],
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "SLOW_WIELD", "NON_FOULING" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plasma": 5 } } ]
   },
   {
@@ -327,7 +327,7 @@
     "reload": 15,
     "modes": [ [ "BURST", "3 rd.", 3 ] ],
     "valid_mod_locations": [ [ "accessories", 1 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
-    "ammo_effects": [ "NOGIB", "BEANBAG", "NON-FOULING" ],
+    "ammo_effects": [ "NOGIB", "BEANBAG", "NON_FOULING" ],
     "flags": [ "NEVER_JAMS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pulsesb": 175 } } ]
   },
@@ -356,7 +356,7 @@
     "reload": 450,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "REACH", "em field saw", 5, [ "MELEE", "REACH_ATTACK" ] ] ],
     "ammo_effects": [ "LIGHTNING", "MESSY" ],
-    "flags": [ "NEVER_JAMS", "NON-FOULING" ],
+    "flags": [ "NEVER_JAMS", "NON_FOULING" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "pulsesb": 8 } } ]
   }
 ]

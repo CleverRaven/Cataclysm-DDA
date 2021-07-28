@@ -22,7 +22,7 @@
   {
     "type": "TOOL",
     "id": "hd_tow_cable",
-    "name": "heavy duty tow cable",
+    "name": { "str": "heavy duty tow cable" },
     "description": "An extremely heavy duty tow cable made from thick steel wire.  If attached to a vehicle, it could be used to pull another vehicle of any weight.",
     "to_hit": -1,
     "color": "light_blue",

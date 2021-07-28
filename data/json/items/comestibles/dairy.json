@@ -71,7 +71,7 @@
   {
     "type": "COMESTIBLE",
     "id": "yoghurt",
-    "name": "yogurt",
+    "name": { "str": "yogurt" },
     "weight": "238 g",
     "color": "magenta",
     "spoils_in": "20 hours",
@@ -142,12 +142,13 @@
     "description": "Clarified butter, free from milk solids and water.  Will last a very long time.",
     "price": 420,
     "price_postapoc": 50,
+    "material": [ "oil" ],
     "phase": "liquid"
   },
   {
     "type": "COMESTIBLE",
     "id": "pudding",
-    "name": "pudding",
+    "name": { "str": "pudding" },
     "weight": "232 g",
     "color": "light_gray",
     "spoils_in": "7 days 12 hours",
@@ -167,7 +168,7 @@
   {
     "type": "COMESTIBLE",
     "id": "milk_curdled",
-    "name": "curdled milk",
+    "name": { "str": "curdled milk" },
     "weight": "236 g",
     "color": "white",
     "spoils_in": "28 days",
@@ -230,7 +231,7 @@
   {
     "type": "COMESTIBLE",
     "id": "quesadilla_cheese",
-    "name": "quesadilla",
+    "name": { "str": "quesadilla" },
     "weight": "116 g",
     "color": "brown",
     "spoils_in": "20 days",
@@ -270,7 +271,8 @@
     "flags": [ "EDIBLE_FROZEN" ],
     "charges": 4,
     "vitamins": [ [ "vitA", 3 ], [ "vitB", 2 ], [ "vitC", 1 ], [ "calcium", 7 ] ],
-    "fun": -5
+    "fun": -5,
+    "freezing_point": -459
   },
   {
     "type": "COMESTIBLE",
@@ -294,6 +296,28 @@
     "charges": 20,
     "vitamins": [ [ "vitA", 2 ], [ "vitB", 1 ], [ "vitC", 1 ], [ "calcium", 7 ] ],
     "fun": 3
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "milk_cream_whipped",
+    "name": { "str_sp": "whipped cream" },
+    "weight": "120 g",
+    "color": "white",
+    "spoils_in": "1 day",
+    "comestible_type": "FOOD",
+    "symbol": "~",
+    "quench": 3,
+    "calories": 250,
+    "description": "Cream that has been whipped, perfect for frosting cakes and pies.  Either store-bought or homemade.",
+    "price": 70,
+    "price_postapoc": 150,
+    "looks_like": "milk",
+    "material": [ "milk" ],
+    "volume": "250 ml",
+    "phase": "liquid",
+    "vitamins": [ [ "vitA", 2 ], [ "calcium", 7 ] ],
+    "flags": [ "NUTRIENT_OVERRIDE" ],
+    "fun": 4
   },
   {
     "type": "COMESTIBLE",

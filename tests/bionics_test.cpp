@@ -1,14 +1,16 @@
-#include "catch/catch.hpp"
-#include "bionics.h"
-
 #include <climits>
+#include <iosfwd>
 #include <list>
 #include <memory>
 #include <string>
 
 #include "avatar.h"
+#include "bionics.h"
+#include "calendar.h"
+#include "cata_catch.h"
 #include "item.h"
 #include "item_pocket.h"
+#include "npc.h"
 #include "pimpl.h"
 #include "player.h"
 #include "player_helpers.h"
@@ -79,14 +81,13 @@ TEST_CASE( "bionics", "[bionics] [item]" )
     CHECK( !dummy.has_power() );
     REQUIRE( dummy.has_max_power() );
 
-    SECTION( "bio_advreactor" ) {
-        give_and_activate_bionic( dummy, bionic_id( "bio_advreactor" ) );
+    SECTION( "bio_fuel_cell_gasoline" ) {
+        dummy.add_bionic( bionic_id( "bio_fuel_cell_gasoline" ) );
 
         static const std::list<std::string> always = {
-            "plut_cell",  // solid
-            "plut_slurry" // uncontained liquid! not shown in game menu
+            "gasoline"
         };
-        for( auto it : always ) {
+        for( std::string it : always ) {
             test_consumable_charges( dummy, it, true, true );
         }
 
@@ -94,7 +95,7 @@ TEST_CASE( "bionics", "[bionics] [item]" )
             "light_atomic_battery_cell", // TOOLMOD, no ammo actually
             "rm13_armor"      // TOOL_ARMOR
         };
-        for( auto it : never ) {
+        for( std::string it : never ) {
             test_consumable_ammo( dummy, it, false, false );
         }
     }

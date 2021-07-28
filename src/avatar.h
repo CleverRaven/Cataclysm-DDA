@@ -3,6 +3,7 @@
 #define CATA_SRC_AVATAR_H
 
 #include <cstddef>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
@@ -15,17 +16,13 @@
 #include "coordinates.h"
 #include "enums.h"
 #include "game_constants.h"
+#include "json.h"
 #include "magic_teleporter_list.h"
-#include "map_memory.h"
 #include "memory_fast.h"
 #include "player.h"
 #include "point.h"
-#include "string_id.h"
 #include "type_id.h"
 
-class JsonIn;
-class JsonObject;
-class JsonOut;
 class advanced_inv_area;
 class advanced_inv_listitem;
 class advanced_inventory_pane;
@@ -37,11 +34,15 @@ class monster;
 class nc_color;
 class npc;
 class talker;
+struct bionic;
+
 namespace catacurses
 {
 class window;
 } // namespace catacurses
 enum class character_type : int;
+class map_memory;
+struct memorized_terrain_tile;
 
 namespace debug_menu
 {
@@ -60,9 +61,9 @@ struct monster_visible_info {
     // 6 8 2    0-7 are provide by direction_from()
     // 5 4 3    8 is used for local monsters (for when we explain them below)
     std::vector<npc *> unique_types[9];
-    std::vector<const mtype *> unique_mons[9];
+    std::vector<std::pair<const mtype *, int>> unique_mons[9];
 
-    // If the moster visible in this direction is dangerous
+    // If the monster visible in this direction is dangerous
     bool dangerous[8] = {};
 };
 
@@ -70,13 +71,20 @@ class avatar : public player
 {
     public:
         avatar();
+        avatar( const avatar & ) = delete;
+        // NOLINTNEXTLINE(performance-noexcept-move-constructor)
+        avatar( avatar && );
+        ~avatar();
+        avatar &operator=( const avatar & ) = delete;
+        // NOLINTNEXTLINE(performance-noexcept-move-constructor)
+        avatar &operator=( avatar && );
 
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
         void serialize( JsonOut &json ) const override;
         void deserialize( JsonIn &jsin ) override;
-        void serialize_map_memory( JsonOut &jsout ) const;
-        void deserialize_map_memory( JsonIn &jsin );
+        bool save_map_memory();
+        void load_map_memory();
 
         // newcharacter.cpp
         bool create( character_type type, const std::string &tempname = "" );
@@ -97,17 +105,16 @@ class avatar : public player
 
         void toggle_map_memory();
         bool should_show_map_memory();
+        void prepare_map_memory_region( const tripoint &p1, const tripoint &p2 );
         /** Memorizes a given tile in tiles mode; finalize_tile_memory needs to be called after it */
         void memorize_tile( const tripoint &pos, const std::string &ter, int subtile,
                             int rotation );
         /** Returns last stored map tile in given location in tiles mode */
-        memorized_terrain_tile get_memorized_tile( const tripoint &p ) const;
+        const memorized_terrain_tile &get_memorized_tile( const tripoint &p ) const;
         /** Memorizes a given tile in curses mode; finalize_terrain_memory_curses needs to be called after it */
         void memorize_symbol( const tripoint &pos, int symbol );
         /** Returns last stored map tile in given location in curses mode */
         int get_memorized_symbol( const tripoint &p ) const;
-        /** Returns the amount of tiles survivor can remember. */
-        size_t max_memorized_tiles() const;
         void clear_memorized_tile( const tripoint &pos );
 
         nc_color basic_symbol_color() const override;
@@ -124,7 +131,7 @@ class avatar : public player
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
         /** Resets all missions before saving character to template */
-        void reset_all_misions();
+        void reset_all_missions();
 
         std::vector<mission *> get_active_missions() const;
         std::vector<mission *> get_completed_missions() const;
@@ -157,30 +164,18 @@ class avatar : public player
                       bool radio_contact = false );
 
         /**
-         * Helper function for player::read.
-         *
-         * @param book Book to read
-         * @param reasons Starting with g->u, for each player/NPC who cannot read, a message will be pushed back here.
-         * @returns nullptr, if neither the player nor his followers can read to the player, otherwise the player/NPC
-         * who can read and can read the fastest
+         * Try to disarm the NPC. May result in fail attempt, you receiving the weapon and instantly wielding it,
+         * or the weapon falling down on the floor nearby. NPC is always getting angry with you.
+         * @param target Target NPC to disarm
          */
-        const player *get_book_reader( const item &book, std::vector<std::string> &reasons ) const;
-        /**
-         * Helper function for get_book_reader
-         * @warning This function assumes that the everyone is able to read
-         *
-         * @param book The book being read
-         * @param reader the player/NPC who's reading to the caller
-         * @param learner if not nullptr, assume that the caller and reader read at a pace that isn't too fast for him
-         */
-        int time_to_read( const item &book, const player &reader, const player *learner = nullptr ) const;
+        void disarm( npc &target );
+
         /** Handles reading effects and returns true if activity started */
-        bool read( item &it, bool continuous = false );
-        /** Completes book reading action. **/
-        void do_read( item &book );
+        bool read( item_location &book );
         /** Note that we've read a book at least once. **/
         bool has_identified( const itype_id &item_id ) const override;
         void identify( const item &item ) override;
+        void clear_identified();
 
         void wake_up();
         // Grab furniture / vehicle
@@ -229,6 +224,8 @@ class avatar : public player
         void toggle_run_mode();
         // Toggles crouching on/off.
         void toggle_crouch_mode();
+        // Activate crouch mode if not in crouch mode.
+        void activate_crouch_mode();
 
         bool wield( item_location target );
         bool wield( item &target ) override;
@@ -239,9 +236,10 @@ class avatar : public player
                 advanced_inv_area &square );
 
         using Character::invoke_item;
-        bool invoke_item( item *, const tripoint &pt ) override;
+        bool invoke_item( item *, const tripoint &pt, int pre_obtain_moves ) override;
         bool invoke_item( item * ) override;
-        bool invoke_item( item *, const std::string &, const tripoint &pt ) override;
+        bool invoke_item( item *, const std::string &, const tripoint &pt,
+                          int pre_obtain_moves = -1 ) override;
         bool invoke_item( item *, const std::string & ) override;
 
         monster_visible_info &get_mon_visible() {
@@ -297,11 +295,8 @@ class avatar : public player
         std::string total_daily_calories_string() const;
 
     private:
-        map_memory player_map_memory;
+        std::unique_ptr<map_memory> player_map_memory;
         bool show_map_memory;
-        /** Used in max_memorized_tiles to cache memory capacity. **/
-        mutable time_point current_map_memory_turn = calendar::before_time_starts;
-        mutable size_t current_map_memory_capacity = 0;
 
         friend class debug_menu::mission_debug;
         /**
@@ -322,7 +317,7 @@ class avatar : public player
          */
         mission *active_mission;
         /**
-         * The amont of calories spent and gained per day for the last 30 days.
+         * The amount of calories spent and gained per day for the last 30 days.
          * the back is popped off and a new one added to the front at midnight each day
          */
         std::list<daily_calories> calorie_diary;

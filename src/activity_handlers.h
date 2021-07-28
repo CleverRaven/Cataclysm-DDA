@@ -5,6 +5,7 @@
 #include <functional>
 #include <list>
 #include <map>
+#include <new>
 #include <unordered_set>
 #include <vector>
 
@@ -28,6 +29,7 @@ enum class requirement_check_result : int {
 };
 
 enum class butcher_type : int {
+    BLEED,          // bleeding a corpse
     QUICK,          // quick butchery
     FULL,           // full workshop butchery
     FIELD_DRESS,    // field dressing a corpse
@@ -95,7 +97,7 @@ struct activity_reason_info {
     }
 };
 
-int butcher_time_to_cut( const player &u, const item &corpse_item, butcher_type action );
+int butcher_time_to_cut( player &u, const item &corpse_item, butcher_type action );
 
 // activity_item_handling.cpp
 void activity_on_turn_drop();
@@ -105,7 +107,7 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
 void activity_on_turn_fetch( player_activity &, player *p );
 void activity_on_turn_wear( player_activity &act, player &p );
 int get_auto_consume_moves( player &p, bool food );
-void try_fuel_fire( player_activity &act, player &p, bool starting_fire = false );
+bool try_fuel_fire( player_activity &act, player &p, bool starting_fire = false );
 
 enum class item_drop_reason : int {
     deliberate,
@@ -124,6 +126,9 @@ namespace activity_handlers
 {
 
 bool resume_for_multi_activities( player &p );
+void generic_game_turn_handler( player_activity *act, player *p, int morale_bonus,
+                                int morale_max_bonus );
+
 /** activity_do_turn functions: */
 void fill_liquid_do_turn( player_activity *act, player *p );
 void pickaxe_do_turn( player_activity *act, player *p );
@@ -143,6 +148,7 @@ void eat_menu_do_turn( player_activity *act, player *p );
 void consume_food_menu_do_turn( player_activity *act, player *p );
 void consume_drink_menu_do_turn( player_activity *act, player *p );
 void consume_meds_menu_do_turn( player_activity *act, player *p );
+void consume_fuel_menu_do_turn( player_activity *act, player *p );
 void move_items_do_turn( player_activity *act, player *p );
 void multiple_farm_do_turn( player_activity *act, player *p );
 void multiple_fish_do_turn( player_activity *act, player *p );
@@ -155,7 +161,6 @@ void chop_trees_do_turn( player_activity *act, player *p );
 void fetch_do_turn( player_activity *act, player *p );
 void move_loot_do_turn( player_activity *act, player *p );
 void travel_do_turn( player_activity *act, player *p );
-void drive_do_turn( player_activity *act, player *p );
 void adv_inventory_do_turn( player_activity *act, player *p );
 void armor_layers_do_turn( player_activity *act, player *p );
 void atm_do_turn( player_activity *act, player *p );
@@ -177,7 +182,6 @@ void robot_control_do_turn( player_activity *act, player *p );
 void tree_communion_do_turn( player_activity *act, player *p );
 void spellcasting_do_turn( player_activity *act, player *p );
 void study_spell_do_turn( player_activity *act, player *p );
-void read_do_turn( player_activity *act, player *p );
 void wait_stamina_do_turn( player_activity *act, player *p );
 
 // defined in activity_handlers.cpp
@@ -207,15 +211,12 @@ void gunmod_add_finish( player_activity *act, player *p );
 void toolmod_add_finish( player_activity *act, player *p );
 void clear_rubble_finish( player_activity *act, player *p );
 void heat_item_finish( player_activity *act, player *p );
-void meditate_finish( player_activity *act, player *p );
-void read_finish( player_activity *act, player *p );
 void wait_finish( player_activity *act, player *p );
 void wait_weather_finish( player_activity *act, player *p );
 void wait_npc_finish( player_activity *act, player *p );
 void wait_stamina_finish( player_activity *act, player *p );
 void socialize_finish( player_activity *act, player *p );
 void operation_finish( player_activity *act, player *p );
-void disassemble_finish( player_activity *act, player *p );
 void vibe_finish( player_activity *act, player *p );
 void hand_crank_finish( player_activity *act, player *p );
 void atm_finish( player_activity *act, player *p );
@@ -228,9 +229,6 @@ void chop_logs_finish( player_activity *act, player *p );
 void chop_planks_finish( player_activity *act, player *p );
 void jackhammer_finish( player_activity *act, player *p );
 void fill_pit_finish( player_activity *act, player *p );
-void play_with_pet_finish( player_activity *act, player *p );
-void shaving_finish( player_activity *act, player *p );
-void haircut_finish( player_activity *act, player *p );
 void robot_control_finish( player_activity *act, player *p );
 void mind_splicer_finish( player_activity *act, player *p );
 void spellcasting_finish( player_activity *act, player *p );

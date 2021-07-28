@@ -51,7 +51,12 @@ then
     pot_file="lang/po/cataclysm-dda.pot"
     sed -e "1,6d" \
     -e "s/^\"Project-Id-Version:.*\"$/\"Project-Id-Version: $package $version\\\n\"/1" \
-    -e "/\"Plural-Forms:.*\"$/d" $pot_file > $pot_file.temp
+    -e "/\"Plural-Forms:.*\"$/d" \
+    -e "s/^\"PO-Revision-Date:.*\"$/\"PO-Revision-Date: $(date +%Y-%m-%d\\\ %H:%M%z)\\\n\"/1" \
+    -e "s/^\"Last-Translator:.*\"$/\"Last-Translator: None\\\n\"/1" \
+    -e "s/^\"Language-Team:.*\"$/\"Language-Team: None\\\n\"/1" \
+    -e "s/^\"Language:.*\"$/\"Language: en\\\n\"/1" \
+    $pot_file > $pot_file.temp
     mv $pot_file.temp $pot_file
 fi
 
@@ -64,7 +69,8 @@ then
 fi
 
 # convert line endings to unix
-if [[ $(uname -s) =~ ^\(CYGWIN|MINGW\)* ]]
+os="$(uname -s)"
+if (! [ "${os##CYGWIN*}" ]) || (! [ "${os##MINGW*}" ])
 then
     echo "> Converting line endings to Unix"
     if ! sed -i -e 's/\r$//' lang/po/cataclysm-dda.pot

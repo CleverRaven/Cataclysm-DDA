@@ -2,13 +2,14 @@
 #ifndef CATA_SRC_FAULT_H
 #define CATA_SRC_FAULT_H
 
+#include <iosfwd>
 #include <map>
+#include <new>
 #include <set>
 #include <string>
 
 #include "calendar.h"
 #include "optional.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
