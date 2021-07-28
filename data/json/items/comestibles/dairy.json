@@ -164,7 +164,7 @@
     "phase": "liquid",
     "fun": -12
   },
-   {
+  {
     "type": "COMESTIBLE",
     "id": "cheese_hard",
     "name": { "str_sp": "hard cheese" },
