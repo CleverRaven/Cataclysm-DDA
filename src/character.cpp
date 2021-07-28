@@ -2408,6 +2408,12 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
         // Leaving as a skill method rather than global for possible future skill cap setting
         return;
     }
+    
+    // Your ability to "catch up" practical experience to theory is mostly a function of intelligence,
+    // but perception also plays a role, representing both memory/attentiveness and catching on to how
+    // the two apply to each other.
+    float catchup_modifier = ( 2.0f * get_int() + get_per() ) / 12.0f; // 2 for an average person
+    float theory_modifier = get_int() / 8.0f + 0.2f; // 1.2 for an average person
 
     const auto highest_skill = [&]() {
         std::pair<skill_id, int> result( skill_id::NULL_ID(), -1 );
@@ -2426,25 +2432,22 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
     amount = adjust_for_focus( amount );
 
     if( has_trait( trait_PACIFIST ) && skill.is_combat_skill() ) {
-        if( !one_in( 3 ) ) {
-            amount = 0;
-        }
+        catchup_modifier *= 1/3;
+        theory_modifier *= 1/2;
     }
     if( has_trait_flag( json_flag_PRED2 ) && skill.is_combat_skill() ) {
-        if( one_in( 3 ) ) {
-            amount *= 2;
-        }
+        catchup_modifier *= 2.0f;
     }
     if( has_trait_flag( json_flag_PRED3 ) && skill.is_combat_skill() ) {
-        amount *= 2;
+        catchup_modifier *= 2.0f;
     }
 
     if( has_trait_flag( json_flag_PRED4 ) && skill.is_combat_skill() ) {
-        amount *= 3;
+        catchup_modifier *= 3.0f;
     }
 
     if( isSavant && id != savantSkill ) {
-        amount /= 2;
+        catchup_modifier *= 0.5f;
     }
 
     if( amount > 0 && get_skill_level( id ) > cap ) { //blunt grinding cap implementation for crafting
@@ -2456,7 +2459,7 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
     if( amount > 0 && level.isTraining() ) {
         int old_practical_level = get_skill_level( id );
         int old_theoretical_level = get_theory_skill_level( id );
-        get_skill_level_object( id ).train( amount );
+        get_skill_level_object( id ).train( amount, catchup_modifier, theory_modifier );
         int new_practical_level = get_skill_level( id );
         int new_theoretical_level = get_theory_skill_level( id );
         std::string skill_name = skill.name();
