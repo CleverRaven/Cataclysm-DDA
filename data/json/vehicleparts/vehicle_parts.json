@@ -269,7 +269,7 @@
     "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "string_36", "count": [ 10, 15 ] } ],
     "requirements": {
       "install": { "skills": [ [ "fabrication", 0 ] ], "time": "10 m", "using": [ [ "rope_natural_short", 1 ] ] },
-      "repair": { "skills": [ [ "fabrciation", 1 ] ], "time": "5 m", "using": [ [ "adhesive", 1 ] ] }
+      "repair": { "skills": [ [ "fabrication", 1 ] ], "time": "5 m", "using": [ [ "adhesive", 1 ] ] }
     }
   },
   {
@@ -1138,7 +1138,7 @@
     "folded_volume": "500 ml",
     "requirements": {
       "install": { "skills": [ [ "fabrication", 1 ] ], "time": "6 m" },
-      "removal": { "skills": [ [ "fabrciation", 2 ] ], "time": "6 m" },
+      "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "6 m" },
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "60 m" }
     },
     "flags": [ "ENGINE", "CONTROLS", "FOLDABLE", "MUSCLE_ARMS", "E_STARTS_INSTANTLY" ],
