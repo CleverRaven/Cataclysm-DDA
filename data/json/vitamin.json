@@ -4,7 +4,6 @@
     "type": "vitamin",
     "vit_type": "vitamin",
     "name": { "str": "Calcium" },
-    "deficiency": "hypocalcemia",
     "min": -12000,
     "rate": "90 m",
     "disease": [ [ -4800, -5600 ], [ -5601, -6400 ], [ -6401, -12000 ] ]

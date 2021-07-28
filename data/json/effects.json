@@ -1954,23 +1954,6 @@
   },
   {
     "type": "effect_type",
-    "id": "hypocalcemia",
-    "name": [ "Mild Hypocalcemia", "Hypocalcemia", "Acute Hypocalcemia" ],
-    "desc": [ "A lack of calcium in your diet will cause various neuromuscular symptoms." ],
-    "apply_message": "Your muscles are becoming more stiff.",
-    "remove_message": "Stiffness in your musles passes away.",
-    "decay_messages": [
-      [ "Your calcium deficiency is nearly resolved.", "good" ],
-      [ "Your have better control of your muscles as your calcium deficiency improves.", "good" ]
-    ],
-    "max_intensity": 3,
-    "base_mods": { "speed_mod": [ -10 ] },
-    "scaling_mods": { "dex_mod": [ -1 ], "speed_mod": [ -15 ] },
-    "rating": "bad",
-    "blood_analysis_description": "Hypocalcemia"
-  },
-  {
-    "type": "effect_type",
     "id": "anemia",
     "name": [ "Early iron deficiency", "Iron deficiency", "Acute iron deficiency" ],
     "desc": [
