@@ -210,7 +210,7 @@ void SkillLevel::train( int amount, float catchup_modifier, float theory_modifie
     int highest_level_exp = _theoryLevel * _theoryLevel * 10000;
 
     // catchup gets faster the higher the level gap gets.
-    float level_gap = std::max( _theoryLevel * 1.0f, 1.0 ) / std::max( _level * 1.0f, 1.0 );
+    float level_gap = std::max( _theoryLevel * 1.0f, 1.0f ) / std::max( _level * 1.0f, 1.0f );
     float catchup_amount = amount * catchup_modifier;
     float theory_amount = amount * theory_modifier;
     if( _theoryLevel > _level ) {
@@ -281,7 +281,7 @@ void SkillLevel::train( int amount, float catchup_modifier, float theory_modifie
 
 void SkillLevel::theory_train( int amount, int npc_theory, bool skip_scaling )
 {
-    float level_gap = 1.0;
+    float level_gap = 1.0f;
     // when your _level is the same or 1 level below your theory, gain xp at the normal rate.
     // as your practical knowledge lags behind your theoretical, it gets harder to contextualize that
     // theoretical knowledge, and your ability to learn the theory gets slower.
@@ -290,15 +290,15 @@ void SkillLevel::theory_train( int amount, int npc_theory, bool skip_scaling )
     // level exceeds your own.  The best teacher is one who is only somewhat more knowledgeable than you.
     if ( npc_theory > 0 ){
         // This should later be modified by NPC teaching proficiencies.
-        level_gap = std::max( npc_theory * 1.0f - _theoryLevel * 1.0f, 1.0 );
+        level_gap = std::max( npc_theory * 1.0f - _theoryLevel * 1.0f, 1.0f );
     }else {
         // Some day this should be affected by json specific to the skill, some skills are more amenable
         // to book learning.
-        level_gap = std::max( _theoryLevel * 1.0f - _level * 1.0f, 1.0 );
+        level_gap = std::max( _theoryLevel * 1.0f - _level * 1.0f, 1.0f );
     }
     float level_mult = 2.0f / ( level_gap + 1.0f );
     amount *= level_mult;
-    }
+    
     if( skip_scaling ) {
         _theoryExperience += amount;
     } else {
