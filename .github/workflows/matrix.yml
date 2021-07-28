@@ -82,7 +82,7 @@ jobs:
           - compiler: g++-8
             os: ubuntu-latest
             release: 1
-            title: GCC 8, Ubuntu, Tiles, ASan, Release
+            title: GCC 8, Ubuntu, Tiles, Release
 
           - compiler: clang++-6.0
             os: ubuntu-18.04
