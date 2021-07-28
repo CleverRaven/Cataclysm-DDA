@@ -8647,7 +8647,7 @@ int item::reload_option::moves() const
     int mv = ammo.obtain_cost( *who, qty() ) + who->item_reload_cost( *target, *ammo, qty() );
     if( parent != target ) {
         if( parent->is_gun() && !target->is_gunmod() ) {
-            mv += parent->get_reload_time()*1.5;
+            mv += parent->get_reload_time() * 1.5;
         } else if( parent->is_tool() ) {
             mv += 100;
         }
@@ -8700,8 +8700,8 @@ void item::reload_option::qty( int val )
 
 }
 const item *item::reload_option::getParent() const
-{	
-	return parent;
+{
+    return parent;
 }
 
 int item::casings_count() const

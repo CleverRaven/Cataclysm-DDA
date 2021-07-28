@@ -9220,13 +9220,13 @@ void game::reload( item_location &loc, bool prompt, bool empty )
             add_msg( m_warning, _( "You struggle to reload the fouled %s." ), it->tname() );
             moves += 2500;
         }
-		std::vector<item_location> targets;
+        std::vector<item_location> targets;
         if( use_loc ) {
-			// Set parent to be the "base" item.
-				targets.emplace_back( loc,  const_cast<item *>( opt.target ) );
+            // Set parent to be the "base" item.
+            targets.emplace_back( loc,  const_cast<item *>( opt.target ) );
         } else {
-			// The "base" item is held be the player
-            targets.emplace_back( item_location(u, it), const_cast<item *>( opt.target ) );
+            // The "base" item is held be the player
+            targets.emplace_back( item_location( u, it ), const_cast<item *>( opt.target ) );
         }
         targets.push_back( std::move( opt.ammo ) );
 

@@ -1290,13 +1290,16 @@ item::reload_option player::select_ammo( const item &base,
         }
         return e.ammo.describe( &player_character );
     } );
-	// Get destination names
-	std::vector<std::string> destination;
-	std::transform( opts.begin(), opts.end(),
+    // Get destination names
+    std::vector<std::string> destination;
+    std::transform( opts.begin(), opts.end(),
     std::back_inserter( destination ), [&]( const item::reload_option & e ) {
-		if (e.target == e.getParent() )return e.target->display_name();
-		else return e.target->display_name()+" in " + e.getParent()->display_name();
-	});
+        if( e.target == e.getParent() ) {
+            return e.target->display_name();
+        } else {
+            return e.target->display_name() + " in " + e.getParent()->display_name();
+        }
+    } );
     // Pads elements to match longest member and return length
     auto pad = []( std::vector<std::string> &vec, int n, int t ) -> int {
         for( const auto &e : vec )
@@ -1319,13 +1322,13 @@ item::reload_option player::select_ammo( const item &base,
     w = pad( where, utf8_width( _( "| Location " ) ) - 3, 6 );
     menu.text += _( "| Location " );
     menu.text += std::string( w + 3 - utf8_width( _( "| Location " ) ), ' ' );
-	
-	// Pad the names of target 
-	w = pad(destination, utf8_width( _( "| Destination " ) ) - 3, 6);
-	menu.text += _( "| Destination " );
-	menu.text += std::string( w + 3 - utf8_width( _( "| Destination " ) ), ' ' );
-	
-	
+
+    // Pad the names of target
+    w = pad( destination, utf8_width( _( "| Destination " ) ) - 3, 6 );
+    menu.text += _( "| Destination " );
+    menu.text += std::string( w + 3 - utf8_width( _( "| Destination " ) ), ' ' );
+
+
     menu.text += _( "| Amount  " );
     menu.text += _( "| Moves   " );
 
@@ -1473,17 +1476,18 @@ item::reload_option player::select_ammo( const item &base,
 
 bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
                         bool empty ) const
-{	// Associate the destination with "parent"
-	// Useful for handling gun mods with magazines
+{
+    // Associate the destination with "parent"
+    // Useful for handling gun mods with magazines
     std::vector<std::pair<const item *, const item *>> opts;
-    opts.push_back( std::make_pair(&base, &base) );
+    opts.push_back( std::make_pair( &base, &base ) );
 
     if( base.magazine_current() ) {
-        opts.push_back( std::make_pair(base.magazine_current(), &base) );
+        opts.push_back( std::make_pair( base.magazine_current(), &base ) );
     }
 
     for( const item *mod : base.gunmods() ) {
-		opts.push_back( std::make_pair( mod, mod ) );
+        opts.push_back( std::make_pair( mod, mod ) );
         if( mod->magazine_current() ) {
             opts.push_back( std::make_pair( mod->magazine_current(), mod ) );
         }
