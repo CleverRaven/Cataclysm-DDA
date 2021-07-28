@@ -8699,6 +8699,10 @@ void item::reload_option::qty( int val )
     qty_ = std::max( qty_, 1 );
 
 }
+const item* item::reload_option::getParent()
+{	
+	return parent;
+}
 
 int item::casings_count() const
 {
