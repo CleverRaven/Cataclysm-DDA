@@ -2433,7 +2433,7 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
     amount = adjust_for_focus( amount );
 
     if( has_trait( trait_PACIFIST ) && skill.is_combat_skill() ) {
-        amount *= 1 / 3;
+        amount /= 3.0f;
     }
     if( has_trait_flag( json_flag_PRED2 ) && skill.is_combat_skill() ) {
         catchup_modifier *= 2.0f;
