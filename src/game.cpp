@@ -9222,16 +9222,11 @@ void game::reload( item_location &loc, bool prompt, bool empty )
         }
 		std::vector<item_location> targets;
         if( use_loc ) {
-			if ( loc.get_item() == opt.target ){
-				targets.emplace_back( loc );
-			}
-			else if ( loc.get_item() == opt.getParent() ){
+			// Set parent to be the "base" item.
 				targets.emplace_back( loc,  const_cast<item *>( opt.target ) );
-			}
-            else {targets.emplace_back( item_location( loc, const_cast<item *>( opt.getParent() )), const_cast<item *>( opt.target ) );
-			}
         } else {
-            targets.emplace_back( u, const_cast<item *>( opt.target ) );
+			// The "base" item is held be the player
+            targets.emplace_back( item_location(u, it), const_cast<item *>( opt.target ) );
         }
         targets.push_back( std::move( opt.ammo ) );
 

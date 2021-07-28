@@ -8646,7 +8646,7 @@ int item::reload_option::moves() const
 {
     int mv = ammo.obtain_cost( *who, qty() ) + who->item_reload_cost( *target, *ammo, qty() );
     if( parent != target ) {
-        if( parent->is_gun() ) {
+        if( parent->is_gun() && !target->is_gunmod() ) {
             mv += parent->get_reload_time()*1.5;
         } else if( parent->is_tool() ) {
             mv += 100;
@@ -8699,7 +8699,7 @@ void item::reload_option::qty( int val )
     qty_ = std::max( qty_, 1 );
 
 }
-const item* item::reload_option::getParent()
+const item *item::reload_option::getParent() const
 {	
 	return parent;
 }
