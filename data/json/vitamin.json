@@ -6,7 +6,7 @@
     "name": { "str": "Calcium" },
     "deficiency": "hypocalcemia",
     "min": -12000,
-    "rate": "180 m",
+    "rate": "90 m",
     "disease": [ [ -4800, -5600 ], [ -5601, -6400 ], [ -6401, -12000 ] ]
   },
   {
@@ -18,7 +18,7 @@
     "deficiency": "anemia",
     "min": -12000,
     "max": 3600,
-    "rate": "60 m",
+    "rate": "30 m",
     "disease": [ [ -4800, -5600 ], [ -5601, -6400 ], [ -6401, -12000 ] ]
   },
   {
