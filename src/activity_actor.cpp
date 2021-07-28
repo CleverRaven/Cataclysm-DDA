@@ -1409,18 +1409,18 @@ bool read_activity_actor::npc_read( npc &learner )
     book->mark_chapter_as_read( learner );
 
     if( skill &&
-        learner.get_skill_level( skill ) < islotbook->level &&
+        learner.get_theory_skill_level( skill ) < islotbook->level &&
         learner.get_skill_level_object( skill ).can_train() ) {
 
         SkillLevel &skill_level = learner.get_skill_level_object( skill );
         std::string skill_name = skill.obj().name();
-        const int originalSkillLevel = skill_level.level();
+        const int originalSkillLevel = skill_level.theoryLevel();
 
         read_book( learner, islotbook, skill_level, 1.0 );
 
         if( skill_level != originalSkillLevel ) {
             get_event_bus().send<event_type::gains_skill_level>(
-                learner.getID(), skill, skill_level.level() );
+                learner.getID(), skill, skill_level.theoryLevel() );
 
             if( display_messages ) {
                 add_msg( m_good, _( "%s increases their %s level." ), learner.disp_name(),
