@@ -89,7 +89,7 @@
       "P": { "item": "SUS_medicine_bookcase_vandalized", "chance": 60 },
       "A": { "item": "SUS_bushcraft_bookcase_vandalized", "chance": 75 },
       "Q": { "item": "SUS_fiction_bookcase_vandalized", "chance": 70 },
-      "d": { "item": "SUS_office_desk_vandalized", "chance": 70 },
+      "d": { "item": "SUS_office_desk", "chance": 70 },
       "L": { "item": "SUS_janitors_closet", "chance": 100 }
     }
   }
