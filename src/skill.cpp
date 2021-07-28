@@ -218,9 +218,11 @@ void SkillLevel::train( int amount, float catchup_modifier, float theory_modifie
     }
     if( _theoryLevel == _level && _theoryExperience > _exercise ) {
         // when you're in the same level, the catchup starts to slow down.
-        catchup_amount = std::max( amount * ( catchup_modifier - ( exercise() * 1.0f / theoryExperience() * 1.0f ) ),
+        catchup_amount = std::max( amount * ( catchup_modifier - ( exercise() * 1.0f / theoryExperience() *
+                                              1.0f ) ),
                                    amount * 1.0f );
-        theory_amount = std::max( amount * ( theory_modifier - 0.1f * ( exercise() * 1.0f / theoryExperience() * 1.0f ) ),
+        theory_amount = std::max( amount * ( theory_modifier - 0.1f * ( exercise() * 1.0f /
+                                             theoryExperience() * 1.0f ) ),
                                   amount * 1.0f );
     } else {
         // When your two xp's are equal just do the basic thing.
@@ -285,20 +287,20 @@ void SkillLevel::theory_train( int amount, int npc_theory, bool skip_scaling )
     // when your _level is the same or 1 level below your theory, gain xp at the normal rate.
     // as your practical knowledge lags behind your theoretical, it gets harder to contextualize that
     // theoretical knowledge, and your ability to learn the theory gets slower.
-    
+
     // The same formula applies to NPCs teaching you, but in that case the level decreases as their theory
     // level exceeds your own.  The best teacher is one who is only somewhat more knowledgeable than you.
-    if ( npc_theory > 0 ){
+    if( npc_theory > 0 ) {
         // This should later be modified by NPC teaching proficiencies.
         level_gap = std::max( npc_theory * 1.0f - _theoryLevel * 1.0f, 1.0f );
-    }else {
+    } else {
         // Some day this should be affected by json specific to the skill, some skills are more amenable
         // to book learning.
         level_gap = std::max( _theoryLevel * 1.0f - _level * 1.0f, 1.0f );
     }
     float level_mult = 2.0f / ( level_gap + 1.0f );
     amount *= level_mult;
-    
+
     if( skip_scaling ) {
         _theoryExperience += amount;
     } else {
