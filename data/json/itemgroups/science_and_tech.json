@@ -125,6 +125,7 @@
       { "item": "textbook_extraction", "prob": 10 },
       { "item": "recovery_pump", "prob": 5 },
       { "item": "vac_pump", "prob": 5 },
+      { "item": "polycarbonate_sheet", "prob": 30 },
       { "item": "closed_loop_extractor_large", "prob": 2 },
       { "item": "closed_loop_extractor_small", "prob": 2 },
       { "item": "filter_paper_qualitative", "prob": 10 },

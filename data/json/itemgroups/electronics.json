@@ -27,6 +27,7 @@
       [ "radio_book", 16 ],
       [ "advanced_electronics", 6 ],
       [ "small_lcd_screen", 20 ],
+      { "item": "polycarbonate_sheet", "prob": 39 },
       [ "battery_ups", 15 ],
       { "item": "cell_phone", "prob": 15, "charges": [ 0, 150 ] },
       { "item": "smart_phone", "prob": 20, "charges-min": 0 },
