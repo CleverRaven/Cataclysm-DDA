@@ -207,16 +207,36 @@ bool Skill::is_contextual_skill() const
 void SkillLevel::train( int amount, float catchup_modifier, float theory_modifier,
                         bool skip_scaling )
 {
-    // catchup gets faster the higher the level gap gets.
-    int level_gap = _std::max( _theoryLevel, 1 ) / std::max( _level, 1 );
-    float catchup_amount = amount * catchup_modifier * level_gap;
-    // theory improvement also improves the bigger the level gap, but the benefits are not as profound and fall off with distance.
-    float theory_amount = amount * theory_modifier * ( 1 + ( level_gap - 1 ) / 10.0f);
     int highest_level_exp = _theoryLevel * _theoryLevel * 10000;
-    
+
+    // catchup gets faster the higher the level gap gets.
+    float level_gap = std::max( _theoryLevel, 1 ) / std::max( _level, 1 );
+    float catchup_amount = amount * catchup_modifier;
+    float theory_amount = amount * theory_modifier;
+    if( _theoryLevel > _level ) {
+        catchup_amount *= level_gap;
+        // theory improvement also improves the bigger the level gap, but the benefits are not as profound and fall off with distance.
+        theory_amount *= ( 1 + ( level_gap - 1 ) / 10.0f );
+    }
+    if( _theoryLevel == _level && _theoryExperience > _exercise ) {
+        // when you're in the same level, the catchup starts to slow down.
+        catchup_amount = std::max( amount * ( catchup_modifier - ( exercise() / theoryExperience() ) ),
+                                   amount * 1.0f );
+        theory_amount = std::max( amount * ( theory_modifier - 0.1f * ( exercise() / theoryExperience() ) ),
+                                  amount * 1.0f );
+    } else {
+        // When your two xp's are equal just do the basic thing.
+        catchup_amount = amount * 1.0f;
+        theory_amount = amount * 1.0f;
+    }
+
     // Learning theory faster than practical, when you're actually practicing, will generate some annoying problems.
-    if( theory_amount > catchup_amount * 0.9 ) {
-        theory_amount = catchup_amount * 0.9;
+    if( theory_amount > catchup_amount * 0.9f ) {
+        theory_amount = catchup_amount * 0.9f;
+    }
+
+    if( _theoryLevel >= MAX_SKILL ) {
+        theory_amount = 0;
     }
 
     if( skip_scaling ) {
@@ -337,8 +357,8 @@ void SkillLevel::practice()
 
 void SkillLevel::readBook( int minimumGain, int maximumGain, int maximumLevel )
 {
-    if( _level < maximumLevel || maximumLevel < 0 ) {
-        theory_train( ( _level + 1 ) * rng( minimumGain, maximumGain ) * 100 );
+    if( _theoryLevel < maximumLevel || maximumLevel < 0 ) {
+        theory_train( ( _theoryLevel + 1 ) * rng( minimumGain, maximumGain ) * 100 );
     }
 
     practice();

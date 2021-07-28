@@ -2413,7 +2413,8 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
     // but perception also plays a role, representing both memory/attentiveness and catching on to how
     // the two apply to each other.
     float catchup_modifier = 1.0f + ( 2.0f * get_int() + get_per() ) / 24.0f; // 2 for an average person
-    float theory_modifier = 1.0f + get_int() / 40.0f; // 1.2 for an average person, always a bit higher than base amount
+    float theory_modifier = 1.0f + get_int() /
+                            40.0f; // 1.2 for an average person, always a bit higher than base amount
 
     const auto highest_skill = [&]() {
         std::pair<skill_id, int> result( skill_id::NULL_ID(), -1 );
@@ -2432,8 +2433,7 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
     amount = adjust_for_focus( amount );
 
     if( has_trait( trait_PACIFIST ) && skill.is_combat_skill() ) {
-        catchup_modifier *= 1 / 3;
-        theory_modifier *= 1 / 2;
+        amount *= 1 / 3;
     }
     if( has_trait_flag( json_flag_PRED2 ) && skill.is_combat_skill() ) {
         catchup_modifier *= 2.0f;
@@ -2447,7 +2447,7 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
     }
 
     if( isSavant && id != savantSkill ) {
-        catchup_modifier *= 0.5f;
+        amount *= 0.5f;
     }
 
     if( amount > 0 && get_skill_level( id ) > cap ) { //blunt grinding cap implementation for crafting
