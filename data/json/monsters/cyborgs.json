@@ -152,7 +152,6 @@
       "ELECTRONIC",
       "WARM",
       "STUMBLES",
-      "HUMAN",
       "PATH_AVOID_DANGER_1",
       "PRIORITIZE_TARGETS",
       "CATTLEFODDER",
@@ -261,4 +260,3 @@
     ]
   }
 ]
-
