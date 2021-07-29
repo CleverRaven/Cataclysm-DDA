@@ -146,6 +146,10 @@ class SkillLevel
         int knowledgeLevel() const {
             return _knowledgeLevel;
         }
+        int knowledgeLevel( int plevel ) {
+            _knowledgeLevel = plevel;
+            return plevel;
+        }
 
         int knowledgeExperience( bool raw = false ) const {
             return raw ? _knowledgeExperience : _knowledgeExperience / ( 100 * ( _knowledgeLevel + 1 ) *
