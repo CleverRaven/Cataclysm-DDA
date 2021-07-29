@@ -3902,8 +3902,8 @@ std::unique_ptr<activity_actor> haircut_activity_actor::deserialize( JsonIn & )
 
 void pry_nails_activity_actor::start( player_activity &act, Character & )
 {
-    act.moves_total = to_moves<int>( 30_minutes );
-    act.moves_left = act.moves_total;
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
 }
 void pry_nails_activity_actor::do_turn( player_activity &act, Character &who )
 {
@@ -3911,9 +3911,7 @@ void pry_nails_activity_actor::do_turn( player_activity &act, Character &who )
 }
 void pry_nails_activity_actor::finish( player_activity &act, Character &who )
 {
-    const tripoint &pnt = target;
-    map &here = get_map();
-    const ter_id type = here.ter( pnt );
+    const ter_id type = here.ter( target );
 
     int nails = 0;
     int boards = 0;
@@ -3956,24 +3954,26 @@ void pry_nails_activity_actor::finish( player_activity &act, Character &who )
     who.practice( skill_fabrication, 1, 1 );
     here.spawn_item( who.pos(), itype_nail, 0, nails );
     here.spawn_item( who.pos(), itype_2x4, boards );
-    here.ter_set( pnt, newter );
+    here.ter_set( target, newter );
     act.set_to_null();
 }
 void pry_nails_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
+    jsout.member( "moves_total", moves_total );
     jsout.member( "target", target );
 
     jsout.end_object();
 }
 std::unique_ptr<activity_actor> pry_nails_activity_actor::deserialize( JsonIn &jsin )
 {
-    pry_nails_activity_actor actor( tripoint_zero );
+    pry_nails_activity_actor actor( 0, tripoint_zero );
 
     JsonObject data = jsin.get_object();
-
+    data.read( "moves_total", actor.moves_total );
     data.read( "target", actor.target );
+
     return actor.clone();
 }
 namespace activity_actors
@@ -4007,6 +4007,7 @@ deserialize_functions = {
     { activity_id( "ACT_OPEN_GATE" ), &open_gate_activity_actor::deserialize },
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
     { activity_id( "ACT_PLAY_WITH_PET" ), &play_with_pet_activity_actor::deserialize },
+    { activity_id( "ACT_PRY_NAILS" ), &pry_nails_activity_actor::deserialize },
     { activity_id( "ACT_READ" ), &read_activity_actor::deserialize },
     { activity_id( "ACT_RELOAD" ), &reload_activity_actor::deserialize },
     { activity_id( "ACT_SHAVE" ), &shave_activity_actor::deserialize },
@@ -4021,7 +4022,6 @@ deserialize_functions = {
     { activity_id( "ACT_WORKOUT_MODERATE" ), &workout_activity_actor::deserialize },
     { activity_id( "ACT_WORKOUT_LIGHT" ), &workout_activity_actor::deserialize },
     { activity_id( "ACT_FURNITURE_MOVE" ), &move_furniture_activity_actor::deserialize },
-    { activity_id( "ACT_PRY_NAILS" ), &pry_nails_activity_actor::deserialize },
 };
 } // namespace activity_actors
 

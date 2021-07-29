@@ -1285,14 +1285,11 @@ class haircut_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn & );
 };
 
-
 class pry_nails_activity_actor : public activity_actor
 {
-    private:
-        tripoint target;
     public:
-        pry_nails_activity_actor( const tripoint &pnt )
-            : target( pnt ) {}
+        pry_nails_activity_actor( int moves, const tripoint tgt )
+            : moves_total( moves ), target( tgt ) {}
         activity_id get_type() const override {
             return activity_id( "ACT_PRY_NAILS" );
         }
@@ -1306,5 +1303,11 @@ class pry_nails_activity_actor : public activity_actor
         }
         void serialize( JsonOut & ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn & );
+
+    private:
+        int moves_total{};
+        tripoint target;
+        map &here = get_map();
+
 };
 #endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H
