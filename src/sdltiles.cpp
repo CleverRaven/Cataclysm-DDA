@@ -3493,6 +3493,19 @@ void input_manager::set_timeout( const int t )
     inputdelay = t;
 }
 
+void input_manager::pump_events()
+{
+    if( test_mode ) {
+        return;
+    }
+
+    // Handle all events, but ignore any keypress
+    CheckMessages();
+
+    last_input = input_event();
+    previously_pressed_key = 0;
+}
+
 // This is how we're actually going to handle input events, SDL getch
 // is simply a wrapper around this.
 input_event input_manager::get_input_event( const keyboard_mode preferred_keyboard_mode )

@@ -254,6 +254,31 @@ void catacurses::init_interface()
     init_colors();
 }
 
+void input_manager::pump_events()
+{
+    if( test_mode ) {
+        return;
+    }
+
+    // Handle all events, but ignore any keypress
+    int key = ERR;
+    bool resize = false;
+    const int prev_timeout = input_timeout;
+    set_timeout( 0 );
+    do {
+        key = getch();
+        if( key == KEY_RESIZE ) {
+            resize = true;
+        }
+    } while( key != ERR );
+    set_timeout( prev_timeout );
+    if( resize ) {
+        catacurses::resizeterm();
+    }
+
+    previously_pressed_key = 0;
+}
+
 // there isn't a portable way to get raw key code on curses,
 // ignoring preferred keyboard mode
 input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyboard_mode*/ )
