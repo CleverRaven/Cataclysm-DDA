@@ -693,11 +693,11 @@
       { "x": -1, "y": 0, "parts": [ "frame_cross", "trunk", "muffler", "roof" ] },
       { "x": -1, "y": 1, "parts": [ "frame_cross", "trunk", "roof" ] },
       { "x": -1, "y": 2, "parts": [ "frame_vertical_right", "halfboard_vertical_right" ] },
-      { "x": -2, "y": -1, "parts": [ "frame_sw", "halfboard_sw", "wheel_mount_medium" ] },
+      { "x": -2, "y": -1, "parts": [ "frame_sw", "halfboard_hatch_wheel_left", "wheel_mount_medium" ] },
       { "x": -2, "y": -1, "part": "wheel_slick" },
-      { "x": -2, "y": 0, "parts": [ "frame_horizontal_rear", "door_trunk" ] },
-      { "x": -2, "y": 1, "parts": [ "frame_horizontal_rear", "door_trunk" ] },
-      { "x": -2, "y": 2, "parts": [ "frame_se", "halfboard_se", "wheel_mount_medium" ] },
+      { "x": -2, "y": 0, "parts": [ "frame_horizontal_rear", "door_trunk_hatch_wheel_left" ] },
+      { "x": -2, "y": 1, "parts": [ "frame_horizontal_rear", "door_trunk_hatch_wheel_left" ] },
+      { "x": -2, "y": 2, "parts": [ "frame_se", "halfboard_hatch_wheel_right", "wheel_mount_medium" ] },
       { "x": -2, "y": 2, "part": "wheel_slick" }
     ],
     "items": [
@@ -773,9 +773,9 @@
     "parts": [
       { "x": 0, "y": 0, "parts": [ "xlframe_cross", "seat_windshield_leather", "seatbelt", "controls" ] },
       { "x": 0, "y": 0, "parts": [ "stereo", "dashboard", "vehicle_alarm", "horn_car", "roof" ] },
-      { "x": 0, "y": -1, "parts": [ "xlframe_vertical_left", "door_sw" ] },
+      { "x": 0, "y": -1, "parts": [ "xlframe_vertical_left", "door_nw" ] },
       { "x": 0, "y": 1, "parts": [ "xlframe_cross", "seat_windshield_leather", "seatbelt", "roof" ] },
-      { "x": 0, "y": 2, "parts": [ "xlframe_vertical_right", "door_se" ] },
+      { "x": 0, "y": 2, "parts": [ "xlframe_vertical_right", "door_ne" ] },
       { "x": 1, "y": -1, "parts": [ "xlframe_vertical_left", "windshield_wheel_left" ] },
 	  { "x": 1, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel_slick" ] },
       { "x": 1, "y": 0, "parts": [ "xlframe_horizontal_2", "windshield_cover_left" ] },
