@@ -2714,7 +2714,7 @@ static int find_repair_difficulty( const player &pl, const itype_id &id, bool tr
     // If the recipe is not found, this will remain unchanged
     int min = -1;
     for( const auto &e : recipe_dict ) {
-        const recipe r = e.second;
+        const recipe &r = e.second;
         if( id != r.result() ) {
             continue;
         }

@@ -1643,8 +1643,64 @@ item_location game_menus::inv::salvage( player &p, const salvage_actor *actor )
 class repair_inventory_preset: public inventory_selector_preset
 {
     public:
-        repair_inventory_preset( const repair_item_actor *actor, const item *main_tool ) :
-            actor( actor ), main_tool( main_tool ) {
+        repair_inventory_preset( const repair_item_actor *actor, const item *main_tool, const player &p ) :
+            actor( actor ), main_tool( main_tool ), p( p ) {
+
+            _indent_entries = false;
+
+            append_cell( [actor, &p]( const item_location & loc ) {
+                const int comp_needed = std::max<int>( 1,
+                                                       std::ceil( loc->base_volume() / 250_ml * actor->cost_scaling ) );
+                std::set<itype_id> valid_entries = actor->get_valid_repair_materials( *loc );
+                const inventory &crafting_inv = p.crafting_inventory();
+                std::function<bool( const item & )> filter;
+                if( loc->is_filthy() ) {
+                    filter = []( const item & component ) {
+                        return component.allow_crafting_component();
+                    };
+                } else {
+                    filter = is_crafting_component;
+                }
+                std::vector<std::string> material_list;
+                for( const auto &component_id : valid_entries ) {
+                    if( item::count_by_charges( component_id ) ) {
+                        if( crafting_inv.has_charges( component_id, 1 ) ) {
+                            const int num_comp = crafting_inv.charges_of( component_id );
+                            material_list.push_back( colorize( string_format( _( "%s (%d)" ), item::nname( component_id ),
+                                                               num_comp ), num_comp < comp_needed ? c_red : c_unset ) );
+                        }
+                    } else if( crafting_inv.has_amount( component_id, 1, false, filter ) ) {
+                        const int num_comp = crafting_inv.amount_of( component_id, false );
+                        material_list.push_back( colorize( string_format( _( "%s (%d)" ), item::nname( component_id ),
+                                                           num_comp ), num_comp < comp_needed ? c_red : c_unset ) );
+                    }
+                }
+                std::string ret = join( material_list, ", " );
+                if( ret.empty() ) {
+                    ret = "<color_red>NONE</color>";
+                }
+                return ret;
+            },
+            _( "MATERIALS AVALIBLE" ) );
+
+            append_cell( [actor, &p]( const item_location & loc ) {
+                const int level = p.get_skill_level( actor->used_skill );
+                const repair_item_actor::repair_type action_type = actor->default_action( *loc, level );
+                const std::pair<float, float> chance = actor->repair_chance( p, *loc, action_type );
+                return colorize( string_format( "%0.1f%%", 100.0f * chance.first ),
+                                 chance.first == 0 ? c_yellow : ( chance.second == 0 ? c_light_green : c_unset ) );
+            },
+            _( "SUCCESS CHANCE" ) );
+
+            append_cell( [actor, &p]( const item_location & loc ) {
+                const int level = p.get_skill_level( actor->used_skill );
+                const repair_item_actor::repair_type action_type = actor->default_action( *loc, level );
+                const std::pair<float, float> chance = actor->repair_chance( p, *loc, action_type );
+                return colorize( string_format( "%0.1f%%", 100.0f * chance.second ),
+                                 chance.second > chance.first ? c_yellow : ( chance.second == 0 &&
+                                         chance.first > 0 ? c_light_green : c_unset ) );
+            },
+            _( "DAMAGE CHANCE" ) );
         }
 
         bool is_shown( const item_location &loc ) const override {
@@ -1655,15 +1711,27 @@ class repair_inventory_preset: public inventory_selector_preset
     private:
         const repair_item_actor *actor;
         const item *main_tool;
+        const player &p;
 };
+
+static std::string get_repair_hint( player &p, const repair_item_actor *actor,
+                                    const item *main_tool )
+{
+    auto hint = std::string();
+    hint.append( string_format( "Tool: <color_cyan>%s</color>", main_tool->display_name() ) );
+    hint.append( string_format( " %s ", LINE_XOXO_S ) );
+    hint.append( string_format( "Skill Used: <color_cyan>%s (%d)</color>",
+                                actor->used_skill.obj().name(), p.get_skill_level( actor->used_skill ) ) );
+    return hint;
+}
 
 item_location game_menus::inv::repair( player &p, const repair_item_actor *actor,
                                        const item *main_tool )
 {
-    return inv_internal( p, repair_inventory_preset( actor, main_tool ),
+    return inv_internal( p, repair_inventory_preset( actor, main_tool, p ),
                          _( "Repair what?" ), 1,
                          string_format( _( "You have no items that could be repaired with a %s." ),
-                                        main_tool->type_name( 1 ) ) );
+                                        main_tool->type_name( 1 ) ), get_repair_hint( p, actor, main_tool ) );
 }
 
 item_location game_menus::inv::saw_barrel( player &p, item &tool )
