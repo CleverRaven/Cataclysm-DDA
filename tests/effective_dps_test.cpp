@@ -377,14 +377,14 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "shillelagh", 20.0 );
         calc_expected_dps( test_guy, "bokken", 20.0 );
         calc_expected_dps( test_guy, "PR24-extended", 20.0 );
-        calc_expected_dps( test_guy, "mace_inferior", 18.5 );
+        calc_expected_dps( test_guy, "mace_inferior", 17.5 );
         calc_expected_dps( test_guy, "tonfa", 17.0 );
         calc_expected_dps( test_guy, "tonfa_wood", 16.0 );
         calc_expected_dps( test_guy, "shocktonfa_off", 16.0 );
         calc_expected_dps( test_guy, "shocktonfa_on", 16.0 );
         calc_expected_dps( test_guy, "crowbar", 15.0 );
         calc_expected_dps( test_guy, "morningstar_inferior", 15.0 );
-        calc_expected_dps( test_guy, "bokken_inferior", 14.0 );
+        calc_expected_dps( test_guy, "bokken_inferior", 13.0 );
         calc_expected_dps( test_guy, "golf_club", 14.0 );
         calc_expected_dps( test_guy, "mace_fake", 13.0 );
         calc_expected_dps( test_guy, "claw_bar", 11.0 );
