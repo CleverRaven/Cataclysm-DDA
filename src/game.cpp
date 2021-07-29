@@ -9269,6 +9269,7 @@ void game::reload_weapon( bool try_everything )
     // Reload magazines that are compatible with the current gun.
     // Reload other guns in inventory.
     // Reload misc magazines in inventory.
+    debugmsg( "flag" );
     std::vector<item_location> reloadables = u.find_reloadables();
     std::sort( reloadables.begin(), reloadables.end(),
     [this]( const item_location & a, const item_location & b ) {
@@ -9316,7 +9317,7 @@ void game::reload_weapon( bool try_everything )
         std::vector<item_location> targets;
         if( opt ) {
             const int moves = opt.moves();
-            targets.emplace_back( turret.base() );
+            targets.emplace_back( item_location( turret.base(), const_cast<item *>( opt.target ) ) );
             targets.push_back( std::move( opt.ammo ) );
             u.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(), targets ) ) );
         }

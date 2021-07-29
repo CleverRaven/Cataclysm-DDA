@@ -1295,9 +1295,9 @@ item::reload_option player::select_ammo( const item &base,
     std::transform( opts.begin(), opts.end(),
     std::back_inserter( destination ), [&]( const item::reload_option & e ) {
         if( e.target == e.getParent() ) {
-            return e.target->display_name();
+            return e.target->tname( 1, false, 0, false );
         } else {
-            return e.target->display_name() + " in " + e.getParent()->display_name();
+            return e.target->tname( 1, false, 0, false ) + " in " + e.getParent()->tname( 1, false, 0, false );
         }
     } );
     // Pads elements to match longest member and return length
