@@ -869,6 +869,80 @@ void conditional_t<T>::set_is_weather( const JsonObject &jo )
         return get_weather().weather_id == weather;
     };
 }
+
+template<class T>
+void conditional_t<T>::set_compare_int( const JsonObject &jo, const std::string &member )
+{
+    JsonArray objects = jo.get_array( member );
+    if( objects.size() != 2 ) {
+        jo.throw_error( "incorrect number of values.  Expected two in " + jo.str() );
+        condition = []( const T &d ) {
+            return false;
+        };
+        return;
+    }
+    std::function<int( const T & )> get_first_int  = get_get_int( objects.get_object( 0 ) );
+    std::function<int( const T & )> get_second_int = get_get_int( objects.get_object( 1 ) );
+    const std::string &op = jo.get_string( "op" );
+
+    if( op == "==" || op == "=" ) {
+        condition = [get_first_int, get_second_int]( const T &d ) {
+            return get_first_int( d ) == get_second_int( d );
+        };
+    }
+    else if( op == "!=" ) {
+        condition = [get_first_int, get_second_int]( const T &d ) {
+            return get_first_int( d ) != get_second_int( d );
+        };
+    }
+    else if( op == "<=" ) {
+        condition = [get_first_int, get_second_int]( const T &d ) {
+            return get_first_int( d ) <= get_second_int( d );
+        };
+    }
+    else if( op == ">=" ) {
+        condition = [get_first_int, get_second_int]( const T &d ) {
+            return get_first_int( d ) >= get_second_int( d );
+        };
+    }
+    else if( op == "<" ) {
+        condition = [get_first_int, get_second_int]( const T &d ) {
+            return get_first_int( d ) < get_second_int( d );
+        };
+    }
+    else if( op == ">" ) {
+        condition = [get_first_int, get_second_int]( const T &d ) {
+            return get_first_int( d ) > get_second_int( d );
+        };
+    }
+    else {
+        jo.throw_error( "unexpected operator " + jo.get_string( "op" ) + " in " + jo.str() );
+        condition = []( const T &d ) {
+            return false;
+        };
+    }
+}
+
+template<class T>
+std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject &jo )
+{
+    if( jo.has_member( "const" ) ) {
+        const int const_value = jo.get_int( "const" );
+        return [const_value]( const T &d ) {
+            return const_value;
+        };
+    }
+    /*else if (jo.has_member("npc_has_any_trait")) {
+        set_has_any_trait(jo, "npc_has_any_trait", true);
+    }*/
+    else {
+        jo.throw_error( "unrecognized interger sournce in " + jo.str() );
+        return []( const T &d ) {
+            return 0;
+        };
+    }
+}
+
 template<class T>
 void conditional_t<T>::set_u_has_camp()
 {
@@ -1256,6 +1330,8 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_is_in_field( jo, "npc_is_in_field", is_npc );
     } else if( jo.has_string( "is_weather" ) ) {
         set_is_weather( jo );
+    } else if (jo.has_member("compare_int")) {
+        set_compare_int(jo, "compare_int");
     } else {
         for( const std::string &sub_member : dialogue_data::simple_string_conds ) {
             if( jo.has_string( sub_member ) ) {

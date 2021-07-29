@@ -993,3 +993,23 @@ TEST_CASE( "npc_change_topic", "[npc_talk]" )
     CHECK( talker_npc.chatbin.first_topic != original_chat );
     CHECK( talker_npc.chatbin.first_topic == "TALK_TEST_SET_TOPIC" );
 }
+
+TEST_CASE("npc_compare_int", "[npc_talk]")
+{
+    dialogue d;
+    npc& beta = prep_test(d);
+    player& player_character = get_avatar();
+
+    d.add_topic("TALK_TEST_COMPARE_INT_OP");
+    gen_response_lines(d, 10);
+    CHECK( d.responses[ 0 ].text == "Two != five." );
+    CHECK( d.responses[ 1 ].text == "Two <= five." );
+    CHECK( d.responses[ 2 ].text == "Two < five." );
+    CHECK( d.responses[ 3 ].text == "Five = five." );
+    CHECK( d.responses[ 4 ].text == "Five == five." );
+    CHECK( d.responses[ 5 ].text == "Five <= five." );
+    CHECK( d.responses[ 6 ].text == "Five >= five." );
+    CHECK( d.responses[ 7 ].text == "Five != two." );
+    CHECK( d.responses[ 8 ].text == "Five >= two." );
+    CHECK( d.responses[ 9 ].text == "Five > two." );
+}

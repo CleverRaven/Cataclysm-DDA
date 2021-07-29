@@ -873,6 +873,262 @@
     ]
   },
   {
+    "type": "talk_topic",
+    "id": "TALK_TEST_COMPARE_INT_OP",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      {
+        "text": "Two = five.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "const": 2 },
+            { "const": 5 }
+          ],
+          "op": "="
+        }
+      },
+      {
+        "text": "Two == five.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "const": 2 },
+            { "const": 5 }
+          ],
+          "op": "=="
+        }
+      },
+      {
+        "text": "Two != five.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "const": 2 },
+            { "const": 5 }
+          ],
+          "op": "!="
+        }
+      },
+      {
+        "text": "Two <= five.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "const": 2 },
+            { "const": 5 }
+          ],
+          "op": "<="
+        }
+      },
+      {
+        "text": "Two >= five.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "const": 2 },
+            { "const": 5 }
+          ],
+          "op": ">="
+        }
+      },
+      {
+        "text": "Two < five.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "const": 2 },
+            { "const": 5 }
+          ],
+          "op": "<"
+        }
+      },
+      {
+        "text": "Two > five.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "const": 2 },
+            { "const": 5 }
+          ],
+          "op": ">"
+        }
+      },
+      {
+        "text": "Five = five.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "const": 5 },
+            { "const": 5 }
+          ],
+          "op": "="
+        }
+      },
+      {
+        "text": "Five == five.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "const": 5 },
+            { "const": 5 }
+          ],
+          "op": "=="
+        }
+      },
+      {
+        "text": "Five != five.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "const": 5 },
+            { "const": 5 }
+          ],
+          "op": "!="
+        }
+      },
+      {
+        "text": "Five <= five.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "const": 5 },
+            { "const": 5 }
+          ],
+          "op": "<="
+        }
+      },
+      {
+        "text": "Five >= five.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "const": 5 },
+            { "const": 5 }
+          ],
+          "op": ">="
+        }
+      },
+      {
+        "text": "Five < five.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "const": 5 },
+            { "const": 5 }
+          ],
+          "op": "<"
+        }
+      },
+      {
+        "text": "Five > five.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "const": 5 },
+            { "const": 5 }
+          ],
+          "op": ">"
+        }
+      },
+      {
+        "text": "Five = two.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "const": 5 },
+            { "const": 2 }
+          ],
+          "op": "="
+        }
+      },
+      {
+        "text": "Five == two.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "const": 5 },
+            { "const": 2 }
+          ],
+          "op": "=="
+        }
+      },
+      {
+        "text": "Five != two.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "const": 5 },
+            { "const": 2 }
+          ],
+          "op": "!="
+        }
+      },
+      {
+        "text": "Five <= two.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "const": 5 },
+            { "const": 2 }
+          ],
+          "op": "<="
+        }
+      },
+      {
+        "text": "Five >= two.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "const": 5 },
+            { "const": 2 }
+          ],
+          "op": ">="
+        }
+      },
+      {
+        "text": "Five < two.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "const": 5 },
+            { "const": 2 }
+          ],
+          "op": "<"
+        }
+      },
+      {
+        "text": "Five > two.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "const": 5 },
+            { "const": 2 }
+          ],
+          "op": ">"
+        }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TEST_COMPARE_INT",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      {
+        "text": "Two = five.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "const": 2 },
+            { "const": 5 }
+          ],
+          "op": "="
+        }
+      }
+    ]
+  },
+  {
     "type": "npc",
     "id": "test_talker",
     "//": "NPC in unit tests",
