@@ -1480,16 +1480,16 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
     // Associate the destination with "parent"
     // Useful for handling gun mods with magazines
     std::vector<std::pair<const item *, const item *>> opts;
-    opts.push_back( std::make_pair( &base, &base ) );
+    opts.emplace_back( std::make_pair( &base, &base ) );
 
     if( base.magazine_current() ) {
-        opts.push_back( std::make_pair( base.magazine_current(), &base ) );
+        opts.emplace_back( std::make_pair( base.magazine_current(), &base ) );
     }
 
     for( const item *mod : base.gunmods() ) {
-        opts.push_back( std::make_pair( mod, mod ) );
+        opts.emplace_back( std::make_pair( mod, mod ) );
         if( mod->magazine_current() ) {
-            opts.push_back( std::make_pair( mod->magazine_current(), mod ) );
+            opts.emplace_back( std::make_pair( mod->magazine_current(), mod ) );
         }
     }
 
