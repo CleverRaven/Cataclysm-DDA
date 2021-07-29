@@ -27,6 +27,15 @@
     "auto_needs": true
   },
   {
+    "type": "activity_type",
+    "id": "ACT_EBOOKSAVE",
+    "activity_level": "NO_EXERCISE",
+    "verb": "taking pictures of the book",
+    "rooted": true,
+    "based_on": "speed",
+    "auto_needs": true
+  },
+  {
     "id": "ACT_MULTIPLE_CONSTRUCTION",
     "type": "activity_type",
     "activity_level": "BRISK_EXERCISE",
