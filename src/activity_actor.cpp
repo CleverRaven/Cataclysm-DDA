@@ -1544,16 +1544,16 @@ std::string read_activity_actor::get_progress_message( const player_activity & )
     const skill_id &skill = islotbook->skill;
 
     if( skill &&
-        you.get_skill_level( skill ) < islotbook->level &&
+        you.get_theory_skill_level( skill ) < islotbook->level &&
         you.get_skill_level_object( skill ).can_train() &&
         you.has_identified( book->typeId() ) ) {
         const SkillLevel &skill_level = you.get_skill_level_object( skill );
         //~ skill_name current_skill_level -> next_skill_level (% to next level)
         return string_format( pgettext( "reading progress", "%1$s %2$d -> %3$d (%4$d%%)" ),
                               skill.obj().name(),
-                              skill_level.level(),
-                              skill_level.level() + 1,
-                              skill_level.exercise() );
+                              skill_level.theoryLevel(),
+                              skill_level.theoryLevel() + 1,
+                              skill_level.theoryExperience() );
     }
 
     return std::string();

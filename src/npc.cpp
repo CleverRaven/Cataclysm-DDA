@@ -1387,7 +1387,7 @@ std::vector<skill_id> npc::skills_offered_to( const player &p ) const
     std::vector<skill_id> ret;
     for( const auto &pair : *_skills ) {
         const skill_id &id = pair.first;
-        if( p.get_skill_level( id ) < pair.second.level() ) {
+        if( p.get_theory_skill_level( id ) < pair.second.level() ) {
             ret.push_back( id );
         }
     }
@@ -1758,8 +1758,8 @@ int npc::value( const item &it, int market_price ) const
     if( it.is_book() ) {
         auto &book = *it.type->book;
         ret += book.fun;
-        if( book.skill && get_skill_level( book.skill ) < book.level &&
-            get_skill_level( book.skill ) >= book.req ) {
+        if( book.skill && get_theory_skill_level( book.skill ) < book.level &&
+            get_theory_skill_level( book.skill ) >= book.req ) {
             ret += book.level * 3;
         }
     }

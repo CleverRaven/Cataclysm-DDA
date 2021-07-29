@@ -13588,9 +13588,9 @@ const Character *Character::get_book_reader( const item &book,
     }
     if( get_book_mastery( book ) == book_mastery::CANT_UNDERSTAND ) {
         reasons.push_back( is_avatar() ? string_format( _( "%s %d needed to understand.  You have %d" ),
-                           book_skill->name(), book_skill_requirement, get_skill_level( book_skill ) ) :
+                           book_skill->name(), book_skill_requirement, get_theory_skill_level( book_skill ) ) :
                            string_format( _( "%s %d needed to understand.  %s has %d" ), book_skill->name(),
-                                          book_skill_requirement, disp_name(), get_skill_level( book_skill ) ) );
+                                          book_skill_requirement, disp_name(), get_theory_skill_level( book_skill ) ) );
         return nullptr;
     }
 
@@ -13635,7 +13635,7 @@ const Character *Character::get_book_reader( const item &book,
         } else if( elem->get_book_mastery( book ) == book_mastery::CANT_UNDERSTAND ) {
             reasons.push_back( string_format( _( "%s %d needed to understand.  %s has %d" ),
                                               book_skill->name(), book_skill_requirement, elem->disp_name(),
-                                              elem->get_skill_level( book_skill ) ) );
+                                              elem->get_theory_skill_level( book_skill ) ) );
         } else if( elem->has_trait( trait_HYPEROPIC ) &&
                    !elem->worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
                    !elem->has_effect( effect_contacts ) ) {
@@ -13674,7 +13674,7 @@ int Character::time_to_read( const item &book, const Character &reader,
     // The reader's reading speed has an effect only if they're trying to understand the book as they read it
     // Reading speed is assumed to be how well you learn from books (as opposed to hands-on experience)
     const bool try_understand = reader.fun_to_read( book ) ||
-                                reader.get_skill_level( skill ) < type->level;
+                                reader.get_theory_skill_level( skill ) < type->level;
     int reading_speed = try_understand ? std::max( reader.read_speed(), read_speed() ) : read_speed();
     if( learner ) {
         reading_speed = std::max( reading_speed, learner->read_speed() );

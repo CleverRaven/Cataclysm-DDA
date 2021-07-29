@@ -274,8 +274,8 @@ std::string talker_npc::skill_training_text( const talker &student,
         return "";
     }
     const int cost = me_npc->is_ally( *pupil ) ? 0 : 1000 *
-                     ( 1 + pupil->get_skill_level( skill ) ) *
-                     ( 1 + pupil->get_skill_level( skill ) );
+                     ( 1 + pupil->get_theory_skill_level( skill ) ) *
+                     ( 1 + pupil->get_theory_skill_level( skill ) );
     SkillLevel skill_level_obj = pupil->get_skill_level_object( skill );
     SkillLevel teacher_skill_level = me_npc->get_skill_level_object( skill );
     const int cur_level = skill_level_obj.theoryLevel();
