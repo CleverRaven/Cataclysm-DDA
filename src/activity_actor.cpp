@@ -1094,6 +1094,8 @@ void read_activity_actor::start( player_activity &act, Character &who )
         book = item_location( who, book.get_item() );
     }
 
+    using_ereader = !!ereader;
+
     bktype = book->type->use_methods.count( "MA_MANUAL" ) ?
              book_type::martial_art : book_type::normal;
 
@@ -1136,6 +1138,16 @@ void read_activity_actor::do_turn( player_activity &act, Character &who )
         }
     } else {
         who.moves = 0;
+    }
+
+    if( using_ereader && !ereader->ammo_sufficient( &who ) ) {
+        add_msg_if_player_sees(
+            who,
+            _( "%1$s %2$s ran out of batteries." ),
+            who.disp_name( true, true ),
+            item::nname( ereader->typeId() ) );
+        who.cancel_activity();
+        return;
     }
 }
 
@@ -1502,6 +1514,23 @@ void read_activity_actor::finish( player_activity &act, Character &who )
     act.set_to_null();
 }
 
+bool read_activity_actor::can_resume_with_internal( const activity_actor &other,
+        const Character & ) const
+{
+    const read_activity_actor &actor = static_cast<const read_activity_actor &>( other );
+
+    // The ereader gets transformed into the _on version
+    // which means the item_location of the book changes
+    // this check is to prevent a segmentation fault
+    if( !book || !actor.book ) {
+        return false;
+    }
+
+    return continuous == actor.continuous &&
+           learner_id == actor.learner_id &&
+           book->typeId() == actor.book->typeId();
+}
+
 std::string read_activity_actor::get_progress_message( const player_activity & ) const
 {
     Character &you = get_player_character();
@@ -1530,6 +1559,8 @@ void read_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "moves_total", moves_total );
     jsout.member( "book", book );
+    jsout.member( "ereader", ereader );
+    jsout.member( "using_ereader", using_ereader );
     jsout.member( "continuous", continuous );
     jsout.member( "learner_id", learner_id );
 
@@ -1543,6 +1574,8 @@ std::unique_ptr<activity_actor> read_activity_actor::deserialize( JsonIn &jsin )
 
     data.read( "moves_total", actor.moves_total );
     data.read( "book", actor.book );
+    data.read( "ereader", actor.ereader );
+    data.read( "using_ereader", actor.using_ereader );
     data.read( "continuous", actor.continuous );
     data.read( "learner_id", actor.learner_id );
 

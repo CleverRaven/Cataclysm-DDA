@@ -441,8 +441,10 @@ class read_activity_actor : public activity_actor
 
         read_activity_actor() = default;
 
-        read_activity_actor( int moves, item_location &book, bool continuous = false, int learner_id = -1 )
-            : moves_total( moves ), book( book ),
+        explicit read_activity_actor(
+            int moves, item_location &book, item_location &ereader,
+            bool continuous = false, int learner_id = -1 )
+            : moves_total( moves ), book( book ), ereader( ereader ),
               continuous( continuous ), learner_id( learner_id ) {};
 
         activity_id get_type() const override {
@@ -470,6 +472,10 @@ class read_activity_actor : public activity_actor
         item_location book;
         cata::optional<book_type> bktype;
 
+        // Using an electronic book reader
+        item_location ereader;
+        bool using_ereader;
+
         // Read until the learner with this ID gets a level
         bool continuous;
         int learner_id;
@@ -480,12 +486,7 @@ class read_activity_actor : public activity_actor
         bool npc_read( npc &learner );
 
         bool can_resume_with_internal( const activity_actor &other,
-                                       const Character & ) const override {
-            const read_activity_actor &actor = static_cast<const read_activity_actor &>( other );
-            return continuous == actor.continuous &&
-                   learner_id == actor.learner_id &&
-                   book->typeId() == actor.book->typeId();
-        }
+                                       const Character & ) const override;
 };
 
 class move_items_activity_actor : public activity_actor
