@@ -9269,7 +9269,6 @@ void game::reload_weapon( bool try_everything )
     // Reload magazines that are compatible with the current gun.
     // Reload other guns in inventory.
     // Reload misc magazines in inventory.
-    debugmsg( "flag" );
     std::vector<item_location> reloadables = u.find_reloadables();
     std::sort( reloadables.begin(), reloadables.end(),
     [this]( const item_location & a, const item_location & b ) {
