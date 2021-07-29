@@ -2029,60 +2029,6 @@
   },
   {
     "type": "effect_type",
-    "id": "hypovitA",
-    "name": [ "VitA deficiency", "Poor vision", "Night blindness" ],
-    "desc": [ "A lack of vitamin A in your diet will progressively worsen your vision." ],
-    "apply_message": "You start struggling to make out the finer details.",
-    "remove_message": "Your normal visual acuity returns.",
-    "decay_messages": [
-      [ "Your vitamin A deficiency is nearly resolved.", "good" ],
-      [ "Your vision improves as your Vitamin A deficiency improves.", "good" ]
-    ],
-    "max_intensity": 3,
-    "base_mods": { "per_mod": [ -1 ] },
-    "scaling_mods": { "per_mod": [ -2 ] },
-    "rating": "bad",
-    "blood_analysis_description": "Vitamin A Deficiency"
-  },
-  {
-    "type": "effect_type",
-    "id": "hypovitB",
-    "name": [ "B12 deficiency", "B12 anemia", "B12 severe anemia", "B12 dementia" ],
-    "desc": [
-      "A lack of vitamin B12 in your diet causes early symptoms of anemia.",
-      "Prolonged lack of vitamin B12 in your diet causes anemia, loss of taste, problems with focus and fading memory.",
-      "Severe vitamin B12 deficiency causes bad case of anemia, loss of taste, and damaged memory, causing dementia.  Your skills rust."
-    ],
-    "apply_message": "Your skin is more pale then usual.",
-    "remove_message": "Your skin tone comes back to its normal color.",
-    "decay_messages": [
-      [ "Your vitamin B12 deficiency is starting to resolve.", "good" ],
-      [ "Your ability to remember things returns as your Vitamin B12 deficiency improves.", "good" ]
-    ],
-    "max_intensity": 4,
-    "base_mods": {
-      "fatigue_min": [ 5 ],
-      "fatigue_max": [ 10 ],
-      "fatigue_chance": [ 900 ],
-      "h_mod_min": [ -1 ],
-      "h_mod_min_val": [ 0 ],
-      "h_mod_chance": [ 900 ]
-    },
-    "scaling_mods": {
-      "dex_mod": [ -1 ],
-      "int_mod": [ -0.5 ],
-      "per_mod": [ -0.5 ],
-      "str_mod": [ -0.3 ],
-      "speed_mod": [ -2 ],
-      "fatigue_chance": [ -100 ],
-      "h_mod_min": [ -1 ],
-      "h_mod_chance": [ -200 ]
-    },
-    "rating": "bad",
-    "blood_analysis_description": "Vitamin B Deficiency"
-  },
-  {
-    "type": "effect_type",
     "id": "scurvy",
     "name": [ "Early scurvy", "Scurvy", "Bad Scurvy" ],
     "desc": [ "A lack of vitamin C in your diet will result in progressively worse symptoms of scurvy." ],
@@ -2099,6 +2045,7 @@
       "pain_min": [ 1 ],
       "pain_max": [ 5 ],
       "fatigue_chance": [ 900 ],
+      "fatigue_max_val": [ 500, 200 ],
       "fatigue_min": [ 10 ],
       "h_mod_min": [ -1 ],
       "h_mod_min_val": [ 0 ],
