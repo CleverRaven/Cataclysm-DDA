@@ -1256,7 +1256,7 @@ void avatar::store( JsonOut &json ) const
     if( get_scenario() != nullptr ) {
         json.member( "scenario", get_scenario()->ident() );
     }
-    if( hobbies.size() > 0 ) {
+    if( !hobbies.empty() ) {
         json.member( "hobbies" );
         json.start_array();
         for( const profession *hobby : hobbies ) {
