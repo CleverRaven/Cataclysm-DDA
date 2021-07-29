@@ -90,11 +90,11 @@
       { "x": 2, "y": 1, "parts": [ "frame_horizontal_front", "trunk" ] },
       { "x": 2, "y": 1, "part": "tank", "fuel": "gasoline" },
       { "x": 2, "y": 2, "parts": [ "frame_ne", "halfboard_ne", "headlight" ] },
-      { "x": -1, "y": -1, "parts": [ "frame_sw", "halfboard_sw", "wheel_mount_medium", "wheel" ] },
-      { "x": -1, "y": 0, "parts": [ "frame_horizontal_rear", "halfboard_horizontal" ] },
+      { "x": -1, "y": -1, "parts": [ "frame_sw", "halfboard_hatch_wheel_left", "wheel_mount_medium", "wheel" ] },
+      { "x": -1, "y": 0, "parts": [ "frame_horizontal_rear", "halfboard_horizontal_2_rear" ] },
       { "x": -1, "y": 0, "parts": [ "engine_inline4", "alternator_car", "battery_car" ] },
-      { "x": -1, "y": 1, "parts": [ "frame_horizontal_rear", "halfboard_horizontal" ] },
-      { "x": -1, "y": 2, "parts": [ "frame_se", "halfboard_se", "wheel_mount_medium", "wheel" ] }
+      { "x": -1, "y": 1, "parts": [ "frame_horizontal_rear", "halfboard_horizontal_2_rear" ] },
+      { "x": -1, "y": 2, "parts": [ "frame_se", "halfboard_hatch_wheel_right", "wheel_mount_medium", "wheel" ] }
     ],
     "items": [
       { "x": 0, "y": 0, "chance": 8, "item_groups": [ "car_misc" ] },
