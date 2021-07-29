@@ -1282,7 +1282,9 @@
       "prof_fibers_rope",
       "prof_leatherworking_basic",
       "prof_metalworking",
-      "prof_lockpicking"
+      "prof_lockpicking",
+      "prof_bow_basic",
+      "prof_bow_expert"
     ],
     "skills": [
       { "level": 4, "name": "survival" },
@@ -1694,7 +1696,7 @@
     "name": "Bow Hunter",
     "description": "Ever since you were a child you loved hunting, and quickly developed a talent for archery.  Why, if the world ended, there's nothing you'd want at your side more than your trusty bow.  So, when it did, you made sure to bring it along.",
     "points": 2,
-    "proficiencies": [ "prof_bowyery" ],
+    "proficiencies": [ "prof_bow_basic", "prof_bow_expert", "prof_bowyery" ],
     "skills": [ { "level": 2, "name": "archery" } ],
     "items": {
       "both": {
@@ -1725,7 +1727,7 @@
     "name": "Crossbow Hunter",
     "description": "Ever since you were a child you loved hunting, and crossbow hunting was always your favorite.  Why, if the world ended, there's nothing you'd want at your side more than your trusty crossbow.  So, when it did, you made sure to bring it along.",
     "points": 2,
-    "proficiencies": [ "prof_gunsmithing_spring" ],
+    "proficiencies": [ "prof_bow_basic", "prof_gunsmithing_spring" ],
     "skills": [ { "level": 2, "name": "rifle" } ],
     "items": {
       "both": {
@@ -3102,7 +3104,7 @@
       { "level": 2, "name": "chemistry" },
       { "level": 3, "name": "cooking" }
     ],
-    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_knapping", "prof_leatherworking_basic" ],
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_knapping", "prof_leatherworking_basic", "prof_bow_basic" ],
     "items": {
       "both": {
         "items": [

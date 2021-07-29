@@ -235,9 +235,6 @@ class Creature : public location, public viewer
 
         virtual std::vector<std::string> get_grammatical_genders() const;
 
-        virtual bool is_player() const {
-            return false;
-        }
         virtual bool is_avatar() const {
             return false;
         }
@@ -980,7 +977,6 @@ class Creature : public location, public viewer
 
         virtual void add_msg_debug_if_player( debugmode::debug_filter /*type*/,
                                               const std::string &/*msg*/ ) const {}
-        void add_msg_debug_if_player( debugmode::debug_filter /*type*/, const translation &/*msg*/ ) const;
         template<typename ...Args>
         void add_msg_debug_if_player( debugmode::debug_filter type, const char *const msg,
                                       Args &&... args ) const {
@@ -996,17 +992,9 @@ class Creature : public location, public viewer
                 return add_msg_debug_if_player( type, string_format( msg, std::forward<Args>( args )... ) );
             }
         }
-        template<typename ...Args>
-        void add_msg_debug_if_player( debugmode::debug_filter type, const translation &msg,
-                                      Args &&... args ) const {
-            if( debug_mode ) {
-                return add_msg_debug_if_player( type, string_format( msg, std::forward<Args>( args )... ) );
-            }
-        }
 
         virtual void add_msg_debug_if_npc( debugmode::debug_filter /*type*/,
                                            const std::string &/*msg*/ ) const {}
-        void add_msg_debug_if_npc( debugmode::debug_filter /*type*/, const translation &/*msg*/ ) const;
         template<typename ...Args>
         void add_msg_debug_if_npc( debugmode::debug_filter type, const char *const msg,
                                    Args &&... args ) const {
@@ -1017,13 +1005,6 @@ class Creature : public location, public viewer
         }
         template<typename ...Args>
         void add_msg_debug_if_npc( debugmode::debug_filter type, const std::string &msg,
-                                   Args &&... args ) const {
-            if( debug_mode ) {
-                return add_msg_debug_if_npc( type, string_format( msg, std::forward<Args>( args )... ) );
-            }
-        }
-        template<typename ...Args>
-        void add_msg_debug_if_npc( debugmode::debug_filter type, const translation &msg,
                                    Args &&... args ) const {
             if( debug_mode ) {
                 return add_msg_debug_if_npc( type, string_format( msg, std::forward<Args>( args )... ) );
@@ -1049,15 +1030,6 @@ class Creature : public location, public viewer
         template<typename ...Args>
         void add_msg_debug_player_or_npc( debugmode::debug_filter type, const std::string &player_msg,
                                           const std::string &npc_msg, Args &&... args ) const {
-            if( debug_mode ) {
-                return add_msg_debug_player_or_npc( type, string_format( player_msg,
-                                                    std::forward<Args>( args )... ),
-                                                    string_format( npc_msg, std::forward<Args>( args )... ) );
-            }
-        }
-        template<typename ...Args>
-        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const translation &player_msg,
-                                          const translation &npc_msg, Args &&... args ) const {
             if( debug_mode ) {
                 return add_msg_debug_player_or_npc( type, string_format( player_msg,
                                                     std::forward<Args>( args )... ),
@@ -1190,6 +1162,10 @@ class Creature : public location, public viewer
         virtual void on_damage_of_type( int, damage_type, const bodypart_id & ) {}
 
     public:
+        // Keep a count of moves passed in which resets every 100 turns as a result of practicing archery proficiency
+        // This is done this way in order to not destroy focus since `do_aim` is on a per-move basis.
+        int archery_aim_counter = 0;
+
         bodypart_id select_body_part( Creature *source, int hit_roll ) const;
         bodypart_id random_body_part( bool main_parts_only = false ) const;
 

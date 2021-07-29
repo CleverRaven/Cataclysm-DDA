@@ -851,11 +851,13 @@ SOURCES := $(wildcard $(SRC_DIR)/*.cpp)
 HEADERS := $(wildcard $(SRC_DIR)/*.h)
 TESTSRC := $(wildcard tests/*.cpp)
 TESTHDR := $(wildcard tests/*.h)
-JSON_FORMATTER_SOURCES := tools/format/format.cpp tools/format/format_main.cpp src/json.cpp
-CHKJSON_SOURCES := src/chkjson/chkjson.cpp src/json.cpp
+JSON_FORMATTER_SOURCES := $(wildcard tools/format/*.cpp) src/json.cpp
+JSON_FORMATTER_HEADERS := $(wildcard tools/format/*.h)
+CHKJSON_SOURCES := $(wildcard src/chkjson/*.cpp) src/json.cpp
 CLANG_TIDY_PLUGIN_SOURCES := \
   $(wildcard tools/clang-tidy-plugin/*.cpp tools/clang-tidy-plugin/*/*.cpp)
-TOOLHDR := $(wildcard tools/*/*.h)
+CLANG_TIDY_PLUGIN_HEADERS := \
+  $(wildcard tools/clang-tidy-plugin/*.h tools/clang-tidy-plugin/*/*.h)
 # Using sort here because it has the side-effect of deduplicating the list
 ASTYLE_SOURCES := $(sort \
   $(SOURCES) \
@@ -863,9 +865,10 @@ ASTYLE_SOURCES := $(sort \
   $(TESTSRC) \
   $(TESTHDR) \
   $(JSON_FORMATTER_SOURCES) \
+  $(JSON_FORMATTER_HEADERS) \
   $(CHKJSON_SOURCES) \
   $(CLANG_TIDY_PLUGIN_SOURCES) \
-  $(TOOLHDR))
+  $(CLANG_TIDY_PLUGIN_HEADERS))
 
 _OBJS = $(SOURCES:$(SRC_DIR)/%.cpp=%.o)
 ifeq ($(TARGETSYSTEM),WINDOWS)

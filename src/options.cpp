@@ -1493,6 +1493,12 @@ void options_manager::add_options_interface()
     "symbol"
        );
 
+    add( "HIGHLIGHT_UNREAD_RECIPES", "interface",
+         to_translation( "Highlight unread recipes" ),
+         to_translation( "Highlight unread recipes to allow tracking of newly learned recipes." ),
+         true
+       );
+
     add_empty_line();
 
     add( "DIAG_MOVE_WITH_MODIFIERS_MODE", "interface",
@@ -2554,6 +2560,7 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
             //game_ui::init_ui is called when zoom is changed
             g->reset_zoom();
+            g->mark_main_ui_adaptor_resize();
             tilecontext->do_tile_loading_report();
         } catch( const std::exception &err ) {
             popup( _( "Loading the tileset failed: %s" ), err.what() );

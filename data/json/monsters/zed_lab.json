@@ -25,7 +25,7 @@
     "dodge": 1,
     "vision_day": 50,
     "vision_night": 3,
-    "harvest": "CBM_SCI",
+    "harvest": "zombie",
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ [ "scratch", 20 ] ],
     "death_drops": "mon_zombie_scientist_death_drops",

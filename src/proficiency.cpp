@@ -9,6 +9,7 @@
 #include "debug.h"
 #include "generic_factory.h"
 #include "json.h"
+#include "enums.h"
 
 const float book_proficiency_bonus::default_time_factor = 0.5f;
 const float book_proficiency_bonus::default_fail_factor = 0.5f;
@@ -31,9 +32,37 @@ bool proficiency_id::is_valid() const
     return proficiency_factory.is_valid( *this );
 }
 
+namespace io
+{
+template<>
+std::string enum_to_string<proficiency_bonus_type>( const proficiency_bonus_type data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case proficiency_bonus_type::strength: return "strength";
+        case proficiency_bonus_type::dexterity: return "dexterity";
+        case proficiency_bonus_type::intelligence: return "intelligence";
+        case proficiency_bonus_type::perception: return "perception";
+        case proficiency_bonus_type::last: break;
+        // *INDENT-ON*
+    }
+
+    debugmsg( "Invalid proficiency bonus type" );
+    return "";
+}
+} // namespace io
+
 void proficiency::load_proficiencies( const JsonObject &jo, const std::string &src )
 {
     proficiency_factory.load( jo, src );
+}
+
+void proficiency_bonus::deserialize( JsonIn &jsin )
+{
+    const JsonObject &jo = jsin.get_object();
+
+    mandatory( jo, false, "type", type );
+    mandatory( jo, false, "value", value );
 }
 
 void proficiency::reset()
@@ -51,6 +80,8 @@ void proficiency::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "default_fail_multiplier", _default_fail_multiplier );
     optional( jo, was_loaded, "time_to_learn", _time_to_learn );
     optional( jo, was_loaded, "required_proficiencies", _required );
+
+    optional( jo, was_loaded, "bonuses", _bonuses );
 }
 
 const std::vector<proficiency> &proficiency::get_all()
@@ -96,6 +127,15 @@ time_duration proficiency::time_to_learn() const
 std::set<proficiency_id> proficiency::required_proficiencies() const
 {
     return _required;
+}
+
+std::vector<proficiency_bonus> proficiency::get_bonuses( const std::string &category ) const
+{
+    auto bonus_it = _bonuses.find( category );
+    if( bonus_it == _bonuses.end() ) {
+        return std::vector<proficiency_bonus>();
+    }
+    return bonus_it->second;
 }
 
 learning_proficiency &proficiency_set::fetch_learning( const proficiency_id &target )
@@ -330,6 +370,22 @@ std::vector<proficiency_id> proficiency_set::learning_profs() const
         ret.push_back( subject.id );
     }
     return ret;
+}
+
+float proficiency_set::get_proficiency_bonus( const std::string &category,
+        proficiency_bonus_type prof_bonus ) const
+{
+    float stat_bonus = 0;
+
+    for( const proficiency_id &knows : known ) {
+        const std::vector<proficiency_bonus> &prof_bonuses = knows->get_bonuses( category );
+        for( const proficiency_bonus &bonus : prof_bonuses ) {
+            if( bonus.type == prof_bonus ) {
+                stat_bonus += bonus.value;
+            }
+        }
+    }
+    return stat_bonus;
 }
 
 void proficiency_set::serialize( JsonOut &jsout ) const

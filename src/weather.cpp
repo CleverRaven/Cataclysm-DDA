@@ -23,7 +23,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_pocket.h"
 #include "line.h"
 #include "map.h"
@@ -130,7 +129,7 @@ void glare( const weather_type_id &w )
 
 int incident_sunlight( const weather_type_id &wtype, const time_point &t )
 {
-    return std::max<float>( 0.0f, sunlight( t, false ) + wtype->light_modifier );
+    return std::max<float>( 0.0f, sun_light_at( t ) + wtype->light_modifier );
 }
 
 static inline void proc_weather_sum( const weather_type_id &wtype, weather_sum &data,
@@ -922,8 +921,6 @@ const weather_generator &weather_manager::get_cur_weather_gen() const
 
 void weather_manager::update_weather()
 {
-    winddirection = wind_direction_override ? *wind_direction_override : winddirection;
-    windspeed = windspeed_override ? *windspeed_override : windspeed;
     Character &player_character = get_player_character();
     if( weather_id == WEATHER_NULL || calendar::turn >= nextweather ) {
         w_point &w = *weather_precise;
@@ -936,6 +933,8 @@ void weather_manager::update_weather()
                      : weather_override;
         sfx::do_ambient();
         temperature = w.temperature;
+        winddirection = wind_direction_override ? *wind_direction_override : w.winddirection;
+        windspeed = windspeed_override ? *windspeed_override : w.windpower;
         lightning_active = false;
         nextweather = calendar::turn + rng( weather_id->duration_min, weather_id->duration_max );
         map &here = get_map();

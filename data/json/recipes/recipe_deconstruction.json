@@ -1934,6 +1934,13 @@
     "components": [ [ [ "jug_plastic", 1 ] ], [ [ "rag", 4 ] ] ]
   },
   {
+    "result": "char_purifier_clay",
+    "type": "uncraft",
+    "time": "5 m",
+    "activity_level": "LIGHT_EXERCISE",
+    "components": [ [ [ "clay_hydria", 1 ] ], [ [ "rag", 4 ] ] ]
+  },
+  {
     "result": "clock",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -3831,6 +3838,28 @@
     "flags": [ "BLIND_HARD" ]
   },
   {
+    "result": "household_water_heater",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "time": "1 h",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [
+      [ [ "pipe", 1 ] ],
+      [ [ "scrap", 6 ] ],
+      [ [ "steel_chunk", 3 ] ],
+      [ [ "sheet_metal", 6 ] ],
+      [ [ "cable", 15 ] ],
+      [ [ "cu_pipe", 5 ] ],
+      [ [ "hose", 2 ] ],
+      [ [ "pilot_light", 1 ] ],
+      [ [ "thermostat", 1 ] ],
+      [ [ "water_faucet", 1 ] ],
+      [ [ "pipe_fittings", 6 ] ],
+      [ [ "metal_tank", 1 ] ]
+    ]
+  },
+  {
     "result": "television",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -4138,6 +4167,26 @@
       [ [ "power_supply", 4 ] ],
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ]
+    ]
+  },
+  {
+    "result": "household_washing_machine",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "electronics",
+    "time": "2 h",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [
+      [ [ "pipe", 1 ] ],
+      [ [ "scrap", 6 ] ],
+      [ [ "steel_chunk", 3 ] ],
+      [ [ "sheet_metal_small", 4 ] ],
+      [ [ "sheet_metal", 6 ] ],
+      [ [ "cable", 15 ] ],
+      [ [ "hose", 2 ] ],
+      [ [ "pipe_fittings", 6 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "cu_pipe", 5 ] ]
     ]
   },
   {
