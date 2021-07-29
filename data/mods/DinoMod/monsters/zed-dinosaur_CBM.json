@@ -36,7 +36,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zriceratops_bio_op",
-    "name": { "str": "Triceraterror bio-operator" },
+    "name": { "str": "Triceratops zombie bio-operator" },
     "copy-from": "mon_zriceratops",
     "diff": 5,
     "proportional": { "hp": 1.2, "speed": 1.15 },
