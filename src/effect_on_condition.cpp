@@ -90,6 +90,31 @@ void effect_on_conditions::load_new_character()
     }
 }
 
+void effect_on_conditions::load_existing_character()
+{
+    std::map<effect_on_condition_id, bool> new_eocs;
+    for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
+        if( !eoc.activate_only ) {
+            new_eocs[eoc.id] = true;
+        }
+    }
+
+    std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
+    temp_queued_effect_on_conditions( g->queued_effect_on_conditions );
+    while( !temp_queued_effect_on_conditions.empty() ) {
+        new_eocs[temp_queued_effect_on_conditions.top().eoc] = false;
+        temp_queued_effect_on_conditions.pop();
+    }
+    for( const effect_on_condition_id &eoc : g->inactive_effect_on_condition_vector ) {
+        new_eocs[eoc] = false;
+    }
+    for( const std::pair<effect_on_condition_id, bool> &eoc_pair : new_eocs ) {
+        if( eoc_pair.second ) {
+            queue_effect_on_condition( next_recurrence( eoc_pair.first ), eoc_pair.first );
+        }
+    }
+}
+
 void effect_on_conditions::queue_effect_on_condition( time_duration duration,
         effect_on_condition_id eoc )
 {
