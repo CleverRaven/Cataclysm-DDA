@@ -117,8 +117,8 @@ class SkillLevel
         int _exercise = 0;
         time_point _lastPracticed = calendar::turn;
         bool _isTraining = true;
-        int _theoryLevel = 0;
-        int _theoryExperience = 0;
+        int _knowledgeLevel = 0;
+        int _knowledgeExperience = 0;
         int _rustAccumulator = 0;
 
     public:
@@ -137,19 +137,19 @@ class SkillLevel
         }
         int level( int plevel ) {
             _level = plevel;
-            if( _level > _theoryLevel ) {
-                _theoryLevel = _level;
+            if( _level > _knowledgeLevel ) {
+                _knowledgeLevel = _level;
             }
             return plevel;
         }
 
-        int theoryLevel() const {
-            return _theoryLevel;
+        int knowledgeLevel() const {
+            return _knowledgeLevel;
         }
 
-        int theoryExperience( bool raw = false ) const {
-            return raw ? _theoryExperience : _theoryExperience / ( 100 * ( _theoryLevel + 1 ) *
-                    ( _theoryLevel + 1 ) );
+        int knowledgeExperience( bool raw = false ) const {
+            return raw ? _knowledgeExperience : _knowledgeExperience / ( 100 * ( _knowledgeLevel + 1 ) *
+                    ( _knowledgeLevel + 1 ) );
         }
 
         int rustAccumulator() const {
@@ -163,8 +163,9 @@ class SkillLevel
             return level() * level() * 100 + exercise();
         }
 
-        void train( int amount, float catchup_modifier, float theory_modifier, bool skip_scaling = false );
-        void theory_train( int amount, int npc_theory = 0, bool skip_scaling = false );
+        void train( int amount, float catchup_modifier, float knowledge_modifier,
+                    bool skip_scaling = false );
+        void knowledge_train( int amount, int npc_knowledge = 0, bool skip_scaling = false );
         bool isRusting() const;
         bool rust( int rust_resist );
         void practice();
@@ -225,9 +226,9 @@ class SkillLevelMap : public std::map<skill_id, SkillLevel>
         int get_skill_level( const skill_id &ident ) const;
         int get_skill_level( const skill_id &ident, const item &context ) const;
 
-        void mod_theory_skill_level( const skill_id &ident, int delta );
-        int get_theory_skill_level( const skill_id &ident ) const;
-        int get_theory_skill_level( const skill_id &ident, const item &context ) const;
+        void mod_knowledge_level( const skill_id &ident, int delta );
+        int get_knowledge_level( const skill_id &ident ) const;
+        int get_knowledge_level( const skill_id &ident, const item &context ) const;
 
         bool meets_skill_requirements( const std::map<skill_id, int> &req ) const;
         bool meets_skill_requirements( const std::map<skill_id, int> &req,

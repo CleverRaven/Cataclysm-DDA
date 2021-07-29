@@ -796,8 +796,8 @@ static void draw_skills_tab( const catacurses::window &w_skills,
             const bool rusting = level.isRusting();
             int exercise = level.exercise();
             int level_num = level.level();
-            int theory_level_num = level.theoryLevel();
-            int theory_exp_num = level.theoryExperience();
+            int knowledge_level_num = level.knowledgeLevel();
+            int knowledge_exp_num = level.knowledgeExperience();
             bool locked = false;
             if( you.has_active_bionic( bionic_id( "bio_cqb" ) ) && is_cqb_skill( aSkill->ident() ) ) {
                 level_num = 5;
@@ -840,13 +840,13 @@ static void draw_skills_tab( const catacurses::window &w_skills,
                            level_num,
                            ( exercise < 0 ? 0 : exercise ) );
             }
-            // Only bother showing the theory level if it's a higher level, or if there's at least a 25% exp gap
-            if( theory_level_num > level_num || ( theory_level_num == level_num &&
-                                                  theory_exp_num > exercise + 25 ) ) {
+            // Only bother showing the knowledge level if it's a higher level, or if there's at least a 25% exp gap
+            if( knowledge_level_num > level_num || ( knowledge_level_num == level_num &&
+                    knowledge_exp_num > exercise + 25 ) ) {
                 y_pos++;
-                mvwprintz( w_skills, point( 1, y_pos ), cstatus, " - theory:        %-2d(%2d%%)",
-                           theory_level_num,
-                           ( theory_exp_num < 0 ? 0 : theory_exp_num ) );
+                mvwprintz( w_skills, point( 1, y_pos ), cstatus, " - knowledge:     %-2d(%2d%%)",
+                           knowledge_level_num,
+                           ( knowledge_exp_num < 0 ? 0 : knowledge_exp_num ) );
             }
 
         }

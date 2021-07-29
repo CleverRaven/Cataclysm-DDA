@@ -334,7 +334,7 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
         }
 
         THEN( "you cannot read without enough skill to understand the book, even if your practical skill is high" ) {
-            dummy.set_theory_skill_level( skill_id( "chemistry" ), 5 );
+            dummy.set_knowledge_level( skill_id( "chemistry" ), 5 );
             dummy.set_skill_level( skill_id( "chemistry" ), 6 );
 
             CHECK( dummy.get_book_reader( alpha, reasons ) == nullptr );
@@ -406,15 +406,15 @@ TEST_CASE( "determining book mastery", "[reading][book][mastery]" )
             REQUIRE( book_has_skill( alpha ) );
 
             THEN( "you won't understand it if your skills are too low" ) {
-                dummy.set_theory_skill_level( skill_id( "chemistry" ), 5 );
+                dummy.set_knowledge_level( skill_id( "chemistry" ), 5 );
                 CHECK( dummy.get_book_mastery( alpha ) == book_mastery::CANT_UNDERSTAND );
             }
             THEN( "you can learn from it with enough skill" ) {
-                dummy.set_theory_skill_level( skill_id( "chemistry" ), 6 );
+                dummy.set_knowledge_level( skill_id( "chemistry" ), 6 );
                 CHECK( dummy.get_book_mastery( alpha ) == book_mastery::LEARNING );
             }
             THEN( "you already mastered it if you have too much skill" ) {
-                dummy.set_theory_skill_level( skill_id( "chemistry" ), 7 );
+                dummy.set_knowledge_level( skill_id( "chemistry" ), 7 );
                 CHECK( dummy.get_book_mastery( alpha ) == book_mastery::MASTERED );
             }
         }
@@ -435,7 +435,7 @@ TEST_CASE( "reading a book for skill", "[reading][book][skill]" )
     REQUIRE( dummy.has_identified( alpha.typeId() ) );
 
     GIVEN( "a book you can learn from" ) {
-        dummy.set_theory_skill_level( skill_id( "chemistry" ), 6 );
+        dummy.set_knowledge_level( skill_id( "chemistry" ), 6 );
         REQUIRE( dummy.get_book_mastery( alpha ) == book_mastery::LEARNING );
 
         dummy.set_focus( 100 );
@@ -452,7 +452,7 @@ TEST_CASE( "reading a book for skill", "[reading][book][skill]" )
             }
 
             THEN( "gained a skill level" ) {
-                CHECK( dummy.get_theory_skill_level( skill_id( "chemistry" ) ) > 6 );
+                CHECK( dummy.get_knowledge_level( skill_id( "chemistry" ) ) > 6 );
                 CHECK( dummy.get_skill_level( skill_id( "chemistry" ) ) < 6 );
                 CHECK( dummy.get_book_mastery( alpha ) == book_mastery::MASTERED );
             }

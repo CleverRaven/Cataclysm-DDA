@@ -204,51 +204,52 @@ bool Skill::is_contextual_skill() const
     return _tags.count( contextual_skill ) > 0;
 }
 
-void SkillLevel::train( int amount, float catchup_modifier, float theory_modifier,
+void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modifier,
                         bool skip_scaling )
 {
-    int highest_level_exp = _theoryLevel * _theoryLevel * 10000;
+    int highest_level_exp = _knowledgeLevel * _knowledgeLevel * 10000;
 
     // catchup gets faster the higher the level gap gets.
-    float level_gap = std::max( _theoryLevel * 1.0f, 1.0f ) / std::max( _level * 1.0f, 1.0f );
+    float level_gap = std::max( _knowledgeLevel * 1.0f, 1.0f ) / std::max( _level * 1.0f, 1.0f );
     float catchup_amount = amount * catchup_modifier;
-    float theory_amount = amount * theory_modifier;
-    if( _theoryLevel > _level ) {
+    float knowledge_amount = amount * knowledge_modifier;
+    if( _knowledgeLevel > _level ) {
         catchup_amount *= level_gap;
     }
-    if( _theoryLevel == _level && _theoryExperience > _exercise ) {
+    if( _knowledgeLevel == _level && _knowledgeExperience > _exercise ) {
         // when you're in the same level, the catchup starts to slow down.
-        catchup_amount = std::max( amount * ( catchup_modifier - ( exercise() * 1.0f / theoryExperience() *
+        catchup_amount = std::max( amount * ( catchup_modifier - ( exercise() * 1.0f / knowledgeExperience()
+                                              *
                                               1.0f ) ),
                                    amount * 1.0f );
-        theory_amount = std::max( amount * ( theory_modifier - 0.1f * ( exercise() * 1.0f /
-                                             theoryExperience() * 1.0f ) ),
-                                  amount * 1.0f );
+        knowledge_amount = std::max( amount * ( knowledge_modifier - 0.1f * ( exercise() * 1.0f /
+                                                knowledgeExperience() * 1.0f ) ),
+                                     amount * 1.0f );
     } else {
         // When your two xp's are equal just do the basic thing.
         catchup_amount = amount * 1.0f;
-        theory_amount = amount * 1.0f;
+        knowledge_amount = amount * 1.0f;
     }
 
-    // Learning theory faster than practical, when you're actually practicing, will generate some annoying problems.
-    if( theory_amount > catchup_amount * 0.9f ) {
-        theory_amount = catchup_amount * 0.9f;
+    // Learning knowledge faster than skill, when you're actually practicing, will generate some annoying problems.
+    if( knowledge_amount > catchup_amount * 0.9f ) {
+        knowledge_amount = catchup_amount * 0.9f;
     }
 
-    if( _theoryLevel >= MAX_SKILL ) {
-        theory_amount = 0;
+    if( _knowledgeLevel >= MAX_SKILL ) {
+        knowledge_amount = 0;
     }
 
     if( skip_scaling ) {
         _exercise += catchup_amount;
         _rustAccumulator -= catchup_amount;
-        _theoryExperience += theory_amount;
+        _knowledgeExperience += knowledge_amount;
     } else {
         const double scaling = get_option<float>( "SKILL_TRAINING_SPEED" );
         if( scaling > 0.0 ) {
             _exercise += std::ceil( catchup_amount * scaling );
             _rustAccumulator -= std::ceil( catchup_amount * scaling );
-            _theoryExperience += std::ceil( theory_amount * scaling );
+            _knowledgeExperience += std::ceil( knowledge_amount * scaling );
         }
     }
 
@@ -258,8 +259,8 @@ void SkillLevel::train( int amount, float catchup_modifier, float theory_modifie
     while( _exercise >= xp_to_level ) {
         _exercise -= xp_to_level;
         ++_level;
-        if( _level > _theoryLevel ) {
-            _theoryLevel = _level;
+        if( _level > _knowledgeLevel ) {
+            _knowledgeLevel = _level;
         }
         // Recalculate xp to level now that we have levelled up
         xp_to_level = 100 * 100 * ( _level + 1 ) * ( _level + 1 );
@@ -269,50 +270,50 @@ void SkillLevel::train( int amount, float catchup_modifier, float theory_modifie
         _rustAccumulator = 0;
     }
 
-    if( _level == _theoryLevel && _exercise + highest_level_exp > _theoryExperience ) {
-        _theoryExperience = _exercise + highest_level_exp;
+    if( _level == _knowledgeLevel && _exercise + highest_level_exp > _knowledgeExperience ) {
+        _knowledgeExperience = _exercise + highest_level_exp;
     }
 
-    if( _theoryExperience >= 10000 * ( _theoryLevel + 1 ) * ( _theoryLevel + 1 ) ) {
-        _theoryExperience = 0;
-        ++_theoryLevel;
+    if( _knowledgeExperience >= 10000 * ( _knowledgeLevel + 1 ) * ( _knowledgeLevel + 1 ) ) {
+        _knowledgeExperience = 0;
+        ++_knowledgeLevel;
     }
 
 }
 
 
-void SkillLevel::theory_train( int amount, int npc_theory, bool skip_scaling )
+void SkillLevel::knowledge_train( int amount, int npc_knowledge, bool skip_scaling )
 {
     float level_gap = 1.0f;
-    // when your _level is the same or 1 level below your theory, gain xp at the normal rate.
-    // as your practical knowledge lags behind your theoretical, it gets harder to contextualize that
+    // when your _level is the same or 1 level below your knowledge, gain xp at the normal rate.
+    // as your practical skill lags behind your knowledge, it gets harder to contextualize that
     // theoretical knowledge, and your ability to learn the theory gets slower.
 
-    // The same formula applies to NPCs teaching you, but in that case the level decreases as their theory
+    // The same formula applies to NPCs teaching you, but in that case the level decreases as their knowledge
     // level exceeds your own.  The best teacher is one who is only somewhat more knowledgeable than you.
-    if( npc_theory > 0 ) {
+    if( npc_knowledge > 0 ) {
         // This should later be modified by NPC teaching proficiencies.
-        level_gap = std::max( npc_theory * 1.0f - _theoryLevel * 1.0f, 1.0f );
+        level_gap = std::max( npc_knowledge * 1.0f - _knowledgeLevel * 1.0f, 1.0f );
     } else {
         // Some day this should be affected by json specific to the skill, some skills are more amenable
         // to book learning.
-        level_gap = std::max( _theoryLevel * 1.0f - _level * 1.0f, 1.0f );
+        level_gap = std::max( _knowledgeLevel * 1.0f - _level * 1.0f, 1.0f );
     }
     float level_mult = 2.0f / ( level_gap + 1.0f );
     amount *= level_mult;
 
     if( skip_scaling ) {
-        _theoryExperience += amount;
+        _knowledgeExperience += amount;
     } else {
         const double scaling = get_option<float>( "SKILL_TRAINING_SPEED" );
         if( scaling > 0.0 ) {
-            _theoryExperience += std::ceil( amount * scaling );
+            _knowledgeExperience += std::ceil( amount * scaling );
         }
     }
 
-    if( _theoryExperience >= 10000 * ( _theoryLevel + 1 ) * ( _theoryLevel + 1 ) ) {
-        _theoryExperience = 0;
-        ++_theoryLevel;
+    if( _knowledgeExperience >= 10000 * ( _knowledgeLevel + 1 ) * ( _knowledgeLevel + 1 ) ) {
+        _knowledgeExperience = 0;
+        ++_knowledgeLevel;
     }
 
 }
@@ -374,8 +375,8 @@ void SkillLevel::practice()
 
 void SkillLevel::readBook( int minimumGain, int maximumGain, int maximumLevel )
 {
-    if( _theoryLevel < maximumLevel || maximumLevel < 0 ) {
-        theory_train( ( _theoryLevel + 1 ) * rng( minimumGain, maximumGain ) * 100 );
+    if( _knowledgeLevel < maximumLevel || maximumLevel < 0 ) {
+        knowledge_train( ( _knowledgeLevel + 1 ) * rng( minimumGain, maximumGain ) * 100 );
     }
 
     practice();
@@ -422,10 +423,10 @@ void SkillLevelMap::mod_skill_level( const skill_id &ident, int delta )
     obj.level( obj.level() + delta );
 }
 
-void SkillLevelMap::mod_theory_skill_level( const skill_id &ident, int delta )
+void SkillLevelMap::mod_knowledge_level( const skill_id &ident, int delta )
 {
     SkillLevel &obj = get_skill_level_object( ident );
-    obj.theoryLevel( obj.theoryLevel() + delta );
+    obj.knowledgeLevel( obj.knowledgeLevel() + delta );
 }
 
 int SkillLevelMap::get_skill_level( const skill_id &ident ) const
@@ -439,15 +440,15 @@ int SkillLevelMap::get_skill_level( const skill_id &ident, const item &context )
     return get_skill_level( id );
 }
 
-int SkillLevelMap::get_theory_skill_level( const skill_id &ident ) const
+int SkillLevelMap::get_knowledge_level( const skill_id &ident ) const
 {
-    return get_skill_level_object( ident ).theoryLevel();
+    return get_skill_level_object( ident ).knowledgeLevel();
 }
 
-int SkillLevelMap::get_theory_skill_level( const skill_id &ident, const item &context ) const
+int SkillLevelMap::get_knowledge_level( const skill_id &ident, const item &context ) const
 {
     const auto id = context.is_null() ? ident : context.contextualize_skill( ident );
-    return get_theory_skill_level( id );
+    return get_knowledge_level( id );
 }
 
 bool SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req ) const
@@ -462,7 +463,7 @@ bool SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req
     [this, &context]( const std::pair<skill_id, int> &pr ) {
         // Whether or not you meet skill requirements should be based on your level of theory training,
         // not practical experience.
-        return get_theory_skill_level( pr.first, context ) >= pr.second;
+        return get_knowledge_level( pr.first, context ) >= pr.second;
     } );
 }
 
@@ -499,7 +500,7 @@ int SkillLevelMap::exceeds_recipe_requirements( const recipe &rec ) const
 bool SkillLevelMap::theoretical_recipe_requirements( const recipe &rec ) const
 {
     // Regardless of your current practical skill, do you know the theory of how to make this thing?
-    int knowhow = rec.skill_used ? get_theory_skill_level( rec.skill_used ) - rec.difficulty : 0;
+    int knowhow = rec.skill_used ? get_knowledge_level( rec.skill_used ) - rec.difficulty : 0;
     for( const auto &elem : compare_skill_requirements( rec.required_skills ) ) {
         knowhow = std::min( knowhow, elem.second );
     }

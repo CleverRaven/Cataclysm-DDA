@@ -2409,12 +2409,12 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
         return;
     }
 
-    // Your ability to "catch up" practical experience to theory is mostly a function of intelligence,
+    // Your ability to "catch up" skill experience to knowledge is mostly a function of intelligence,
     // but perception also plays a role, representing both memory/attentiveness and catching on to how
     // the two apply to each other.
     float catchup_modifier = 1.0f + ( 2.0f * get_int() + get_per() ) / 24.0f; // 2 for an average person
-    float theory_modifier = 1.0f + get_int() /
-                            40.0f; // 1.2 for an average person, always a bit higher than base amount
+    float knowledge_modifier = 1.0f + get_int() /
+                               40.0f; // 1.2 for an average person, always a bit higher than base amount
 
     const auto highest_skill = [&]() {
         std::pair<skill_id, int> result( skill_id::NULL_ID(), -1 );
@@ -2458,10 +2458,10 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
     }
     if( amount > 0 && level.isTraining() ) {
         int old_practical_level = get_skill_level( id );
-        int old_theoretical_level = get_theory_skill_level( id );
-        get_skill_level_object( id ).train( amount, catchup_modifier, theory_modifier );
+        int old_theoretical_level = get_knowledge_level( id );
+        get_skill_level_object( id ).train( amount, catchup_modifier, knowledge_modifier );
         int new_practical_level = get_skill_level( id );
-        int new_theoretical_level = get_theory_skill_level( id );
+        int new_theoretical_level = get_knowledge_level( id );
         std::string skill_name = skill.name();
         if( new_practical_level > old_practical_level ) {
             get_event_bus().send<event_type::gains_skill_level>( getID(), id, new_practical_level );
@@ -4250,14 +4250,14 @@ int Character::get_skill_level( const skill_id &ident, const item &context ) con
     return _skills->get_skill_level( ident, context );
 }
 
-int Character::get_theory_skill_level( const skill_id &ident ) const
+int Character::get_knowledge_level( const skill_id &ident ) const
 {
-    return _skills->get_theory_skill_level( ident );
+    return _skills->get_knowledge_level( ident );
 }
 
-int Character::get_theory_skill_level( const skill_id &ident, const item &context ) const
+int Character::get_knowledge_level( const skill_id &ident, const item &context ) const
 {
-    return _skills->get_theory_skill_level( ident, context );
+    return _skills->get_knowledge_level( ident, context );
 }
 void Character::set_skill_level( const skill_id &ident, const int level )
 {
@@ -4268,6 +4268,16 @@ void Character::mod_skill_level( const skill_id &ident, const int delta )
 {
     _skills->mod_skill_level( ident, delta );
 }
+void Character::set_knowledge_level( const skill_id &ident, const int level )
+{
+    get_skill_level_object( ident ).knowledgeLevel( level );
+}
+
+void Character::mod_knowledge_level( const skill_id &ident, const int delta )
+{
+    _skills->mod_skill_level( ident, delta );
+}
+
 
 std::string Character::enumerate_unmet_requirements( const item &it, const item &context ) const
 {
@@ -4345,7 +4355,7 @@ bool Character::meets_skill_requirements( const construction &con ) const
 {
     return std::all_of( con.required_skills.begin(), con.required_skills.end(),
     [&]( const std::pair<skill_id, int> &pr ) {
-        return get_theory_skill_level( pr.first ) >= pr.second;
+        return get_knowledge_level( pr.first ) >= pr.second;
     } );
 }
 
@@ -13374,7 +13384,7 @@ book_mastery Character::get_book_mastery( const item &book ) const
         return book_mastery::MASTERED;
     }
 
-    const int skill_level = get_theory_skill_level( skill );
+    const int skill_level = get_knowledge_level( skill );
     const int skill_requirement = type->req;
     const int max_skill_learnable = type->level;
 
@@ -13588,9 +13598,9 @@ const Character *Character::get_book_reader( const item &book,
     }
     if( get_book_mastery( book ) == book_mastery::CANT_UNDERSTAND ) {
         reasons.push_back( is_avatar() ? string_format( _( "%s %d needed to understand.  You have %d" ),
-                           book_skill->name(), book_skill_requirement, get_theory_skill_level( book_skill ) ) :
+                           book_skill->name(), book_skill_requirement, get_knowledge_level( book_skill ) ) :
                            string_format( _( "%s %d needed to understand.  %s has %d" ), book_skill->name(),
-                                          book_skill_requirement, disp_name(), get_theory_skill_level( book_skill ) ) );
+                                          book_skill_requirement, disp_name(), get_knowledge_level( book_skill ) ) );
         return nullptr;
     }
 
@@ -13635,7 +13645,7 @@ const Character *Character::get_book_reader( const item &book,
         } else if( elem->get_book_mastery( book ) == book_mastery::CANT_UNDERSTAND ) {
             reasons.push_back( string_format( _( "%s %d needed to understand.  %s has %d" ),
                                               book_skill->name(), book_skill_requirement, elem->disp_name(),
-                                              elem->get_theory_skill_level( book_skill ) ) );
+                                              elem->get_knowledge_level( book_skill ) ) );
         } else if( elem->has_trait( trait_HYPEROPIC ) &&
                    !elem->worn_with_flag( STATIC( flag_id( "FIX_FARSIGHT" ) ) ) &&
                    !elem->has_effect( effect_contacts ) ) {
@@ -13674,7 +13684,7 @@ int Character::time_to_read( const item &book, const Character &reader,
     // The reader's reading speed has an effect only if they're trying to understand the book as they read it
     // Reading speed is assumed to be how well you learn from books (as opposed to hands-on experience)
     const bool try_understand = reader.fun_to_read( book ) ||
-                                reader.get_theory_skill_level( skill ) < type->level;
+                                reader.get_knowledge_level( skill ) < type->level;
     int reading_speed = try_understand ? std::max( reader.read_speed(), read_speed() ) : read_speed();
     if( learner ) {
         reading_speed = std::max( reading_speed, learner->read_speed() );
