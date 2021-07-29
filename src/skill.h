@@ -225,6 +225,7 @@ class SkillLevelMap : public std::map<skill_id, SkillLevel>
         int get_skill_level( const skill_id &ident ) const;
         int get_skill_level( const skill_id &ident, const item &context ) const;
 
+        void mod_theory_skill_level( const skill_id &ident, int delta );
         int get_theory_skill_level( const skill_id &ident ) const;
         int get_theory_skill_level( const skill_id &ident, const item &context ) const;
 

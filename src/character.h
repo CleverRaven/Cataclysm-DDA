@@ -1834,6 +1834,8 @@ class Character : public Creature, public visitable
 
         void set_skill_level( const skill_id &ident, int level );
         void mod_skill_level( const skill_id &ident, int delta );
+        void set_theory_skill_level( const skill_id &ident, int level );
+        void mod_theory_skill_level( const skill_id &ident, int delta );
         /** Checks whether the character's skills meet the required */
         bool meets_skill_requirements( const std::map<skill_id, int> &req,
                                        const item &context = item() ) const;

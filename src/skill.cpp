@@ -422,6 +422,12 @@ void SkillLevelMap::mod_skill_level( const skill_id &ident, int delta )
     obj.level( obj.level() + delta );
 }
 
+void SkillLevelMap::mod_theory_skill_level( const skill_id &ident, int delta )
+{
+    SkillLevel &obj = get_skill_level_object( ident );
+    obj.theoryLevel( obj.theoryLevel() + delta );
+}
+
 int SkillLevelMap::get_skill_level( const skill_id &ident ) const
 {
     return get_skill_level_object( ident ).level();
