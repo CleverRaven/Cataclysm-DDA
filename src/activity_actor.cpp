@@ -1272,7 +1272,7 @@ bool read_activity_actor::player_read( avatar &you )
 
             read_book( *learner, islotbook, skill_level, penalty );
             const int newSkillLevel = skill_level.theoryLevel();
-        
+
 
             // levels up the skill
             if( newSkillLevel != originalSkillLevel ) {
