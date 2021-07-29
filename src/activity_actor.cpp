@@ -90,11 +90,14 @@ static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_electrohack( "electrohack" );
 static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
+static const itype_id itype_nail( "nail" );
+static const itype_id itype_2x4( "2x4" );
 
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_traps( "traps" );
+static const skill_id skill_fabrication( "fabrication" );
 
 static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
 static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
@@ -3897,6 +3900,82 @@ std::unique_ptr<activity_actor> haircut_activity_actor::deserialize( JsonIn & )
     return haircut_activity_actor().clone();
 }
 
+void pry_nails_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_total = to_moves<int>( 30_minutes );
+    act.moves_left = act.moves_total;
+}
+void pry_nails_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    sfx::play_activity_sound( "tool", "hammer", sfx::get_heard_volume( act.placement ) );
+}
+void pry_nails_activity_actor::finish( player_activity &act, Character &who )
+{
+    const tripoint &pnt = target;
+    map &here = get_map();
+    const ter_id type = here.ter( pnt );
+
+    int nails = 0;
+    int boards = 0;
+    ter_id newter;
+    if( type == t_fence ) {
+        nails = 6;
+        boards = 3;
+        newter = t_fence_post;
+        who.add_msg_if_player( _( "You pry out the fence post." ) );
+    } else if( type == t_window_boarded ) {
+        nails = 8;
+        boards = 4;
+        newter = t_window_frame;
+        who.add_msg_if_player( _( "You pry the boards from the window." ) );
+    } else if( type == t_window_boarded_noglass ) {
+        nails = 8;
+        boards = 4;
+        newter = t_window_empty;
+        who.add_msg_if_player( _( "You pry the boards from the window frame." ) );
+    } else if( type == t_door_boarded || type == t_door_boarded_damaged ||
+               type == t_rdoor_boarded || type == t_rdoor_boarded_damaged ||
+               type == t_door_boarded_peep || type == t_door_boarded_damaged_peep ) {
+        nails = 8;
+        boards = 4;
+        if( type == t_door_boarded ) {
+            newter = t_door_c;
+        } else if( type == t_door_boarded_damaged ) {
+            newter = t_door_b;
+        } else if( type == t_door_boarded_peep ) {
+            newter = t_door_c_peep;
+        } else if( type == t_door_boarded_damaged_peep ) {
+            newter = t_door_b_peep;
+        } else if( type == t_rdoor_boarded ) {
+            newter = t_rdoor_c;
+        } else { // if (type == t_rdoor_boarded_damaged)
+            newter = t_rdoor_b;
+        }
+        who.add_msg_if_player( _( "You pry the boards from the door." ) );
+    }
+    who.practice( skill_fabrication, 1, 1 );
+    here.spawn_item( who.pos(), itype_nail, 0, nails );
+    here.spawn_item( who.pos(), itype_2x4, boards );
+    here.ter_set( pnt, newter );
+    act.set_to_null();
+}
+void pry_nails_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "target", target );
+
+    jsout.end_object();
+}
+std::unique_ptr<activity_actor> pry_nails_activity_actor::deserialize( JsonIn &jsin )
+{
+    pry_nails_activity_actor actor( tripoint_zero );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "target", actor.target );
+    return actor.clone();
+}
 namespace activity_actors
 {
 
@@ -3942,6 +4021,7 @@ deserialize_functions = {
     { activity_id( "ACT_WORKOUT_MODERATE" ), &workout_activity_actor::deserialize },
     { activity_id( "ACT_WORKOUT_LIGHT" ), &workout_activity_actor::deserialize },
     { activity_id( "ACT_FURNITURE_MOVE" ), &move_furniture_activity_actor::deserialize },
+    { activity_id( "ACT_PRY_NAILS" ), &pry_nails_activity_actor::deserialize },
 };
 } // namespace activity_actors
 

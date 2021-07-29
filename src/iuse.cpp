@@ -132,7 +132,6 @@ static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_MIND_SPLICER( "ACT_MIND_SPLICER" );
 static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
-static const activity_id ACT_PRY_NAILS( "ACT_PRY_NAILS" );
 static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
 static const activity_id ACT_VIBE( "ACT_VIBE" );
 static const activity_id ACT_WASH( "ACT_WASH" );
@@ -2437,9 +2436,8 @@ cata::optional<int> iuse::hammer( player *p, item *it, bool, const tripoint & )
         type == t_rdoor_boarded || type == t_rdoor_boarded_damaged ||
         type == t_door_boarded_peep || type == t_door_boarded_damaged_peep ) {
         // pry action
-        player_activity act( ACT_PRY_NAILS, to_moves<int>( 30_seconds ), -1 );
-        act.placement = pnt;
-        p->assign_activity( act );
+
+        p->assign_activity( player_activity( pry_nails_activity_actor( pnt ) ) );
         return it->type->charges_to_use();
     } else {
         return cata::nullopt;

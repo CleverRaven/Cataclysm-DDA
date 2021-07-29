@@ -152,7 +152,6 @@ static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
-static const activity_id ACT_PRY_NAILS( "ACT_PRY_NAILS" );
 static const activity_id ACT_PULP( "ACT_PULP" );
 static const activity_id ACT_QUARTER( "ACT_QUARTER" );
 static const activity_id ACT_REPAIR_ITEM( "ACT_REPAIR_ITEM" );
@@ -286,7 +285,6 @@ activity_handlers::do_turn_functions = {
     { ACT_DISMEMBER, butcher_do_turn },
     { ACT_DISSECT, butcher_do_turn },
     { ACT_HACKSAW, hacksaw_do_turn },
-    { ACT_PRY_NAILS, pry_nails_do_turn },
     { ACT_CHOP_TREE, chop_tree_do_turn },
     { ACT_CHOP_LOGS, chop_tree_do_turn },
     { ACT_TIDY_UP, tidy_up_do_turn },
@@ -349,7 +347,6 @@ activity_handlers::finish_functions = {
     { ACT_CONSUME_FUEL_MENU, eat_menu_finish },
     { ACT_WASH, washing_finish },
     { ACT_HACKSAW, hacksaw_finish },
-    { ACT_PRY_NAILS, pry_nails_finish },
     { ACT_CHOP_TREE, chop_tree_finish },
     { ACT_CHOP_LOGS, chop_logs_finish },
     { ACT_CHOP_PLANKS, chop_planks_finish },
@@ -3547,62 +3544,6 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
 
     p->add_msg_if_player( m_good, _( "You finish cutting the metal." ) );
 
-    act->set_to_null();
-}
-
-void activity_handlers::pry_nails_do_turn( player_activity *act, player * )
-{
-    sfx::play_activity_sound( "tool", "hammer", sfx::get_heard_volume( act->placement ) );
-}
-
-void activity_handlers::pry_nails_finish( player_activity *act, player *p )
-{
-    const tripoint &pnt = act->placement;
-    map &here = get_map();
-    const ter_id type = here.ter( pnt );
-
-    int nails = 0;
-    int boards = 0;
-    ter_id newter;
-    if( type == t_fence ) {
-        nails = 6;
-        boards = 3;
-        newter = t_fence_post;
-        p->add_msg_if_player( _( "You pry out the fence post." ) );
-    } else if( type == t_window_boarded ) {
-        nails = 8;
-        boards = 4;
-        newter = t_window_frame;
-        p->add_msg_if_player( _( "You pry the boards from the window." ) );
-    } else if( type == t_window_boarded_noglass ) {
-        nails = 8;
-        boards = 4;
-        newter = t_window_empty;
-        p->add_msg_if_player( _( "You pry the boards from the window frame." ) );
-    } else if( type == t_door_boarded || type == t_door_boarded_damaged ||
-               type == t_rdoor_boarded || type == t_rdoor_boarded_damaged ||
-               type == t_door_boarded_peep || type == t_door_boarded_damaged_peep ) {
-        nails = 8;
-        boards = 4;
-        if( type == t_door_boarded ) {
-            newter = t_door_c;
-        } else if( type == t_door_boarded_damaged ) {
-            newter = t_door_b;
-        } else if( type == t_door_boarded_peep ) {
-            newter = t_door_c_peep;
-        } else if( type == t_door_boarded_damaged_peep ) {
-            newter = t_door_b_peep;
-        } else if( type == t_rdoor_boarded ) {
-            newter = t_rdoor_c;
-        } else { // if (type == t_rdoor_boarded_damaged)
-            newter = t_rdoor_b;
-        }
-        p->add_msg_if_player( _( "You pry the boards from the door." ) );
-    }
-    p->practice( skill_fabrication, 1, 1 );
-    here.spawn_item( p->pos(), itype_nail, 0, nails );
-    here.spawn_item( p->pos(), itype_2x4, boards );
-    here.ter_set( pnt, newter );
     act->set_to_null();
 }
 
