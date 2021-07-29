@@ -1676,7 +1676,7 @@ void character_edit_menu()
         case D_TELE: {
             if( const cata::optional<tripoint> newpos = g->look_around() ) {
                 p.setpos( *newpos );
-                if( p.is_player() ) {
+                if( p.is_avatar() ) {
                     if( p.is_mounted() ) {
                         p.mounted_creature->setpos( *newpos );
                     }
@@ -1794,7 +1794,7 @@ static void add_header( uilist &mmenu, const std::string &str )
 
 void mission_debug::edit( player &who )
 {
-    if( who.is_player() ) {
+    if( who.is_avatar() ) {
         edit_player();
     } else if( who.is_npc() ) {
         edit_npc( dynamic_cast<npc &>( who ) );
@@ -2356,6 +2356,7 @@ void debug()
             wind_direction_menu.query();
             if( wind_direction_menu.ret == 0 ) {
                 g->weather.wind_direction_override = cata::nullopt;
+                g->weather.set_nextweather( calendar::turn );
             } else if( wind_direction_menu.ret >= 0 && wind_direction_menu.ret < 9 ) {
                 g->weather.wind_direction_override = ( wind_direction_menu.ret - 1 ) * 45;
                 g->weather.set_nextweather( calendar::turn );
@@ -2377,6 +2378,7 @@ void debug()
             wind_speed_menu.query();
             if( wind_speed_menu.ret == 0 ) {
                 g->weather.windspeed_override = cata::nullopt;
+                g->weather.set_nextweather( calendar::turn );
             } else if( wind_speed_menu.ret >= 0 && wind_speed_menu.ret < 12 ) {
                 int selected_wind_speed = ( wind_speed_menu.ret - 1 ) * 10;
                 g->weather.windspeed_override = selected_wind_speed;

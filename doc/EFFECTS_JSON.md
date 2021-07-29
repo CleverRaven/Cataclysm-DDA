@@ -483,6 +483,7 @@ Valid arguments:
 "cough_chance_bot"
 "cough_tick"        - Defaults to every tick
 
+// It is important to not vomit_chance interacts with vomit_multiplier in mutations, and as such is hardcoded. Base vomit chance is intensity/(base vomit chance + scaling vomit chance).
 "vomit_chance"      - Chance to cause vomiting
 "vomit_chance_bot"
 "vomit_tick"        - Defaults to every tick

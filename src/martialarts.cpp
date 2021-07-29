@@ -665,6 +665,10 @@ int ma_buff::block_bonus( const Character &u ) const
 {
     return bonuses.get_flat( u, affected_stat::BLOCK );
 }
+int ma_buff::arpen_bonus( const Character &u, damage_type dt ) const
+{
+    return bonuses.get_flat( u, affected_stat::ARMOR_PENETRATION, dt );
+}
 int ma_buff::block_effectiveness_bonus( const Character &u ) const
 {
     return bonuses.get_flat( u, affected_stat::BLOCK_EFFECTIVENESS );
@@ -1091,6 +1095,14 @@ int Character::mabuff_speed_bonus() const
     int ret = 0;
     accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff & b, const effect & d ) {
         ret += d.get_intensity() * b.speed_bonus( *this );
+    } );
+    return ret;
+}
+int Character::mabuff_arpen_bonus( damage_type type ) const
+{
+    int ret = 0;
+    accumulate_ma_buff_effects( *effects, [&ret, type, this]( const ma_buff & b, const effect & d ) {
+        ret += d.get_intensity() * b.arpen_bonus( *this, type );
     } );
     return ret;
 }

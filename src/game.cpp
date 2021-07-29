@@ -91,7 +91,6 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_stack.h"
@@ -221,13 +220,11 @@ static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
 static const efftype_id effect_onfire( "onfire" );
-static const efftype_id effect_paid( "paid" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
-static const efftype_id effect_sensor_stun( "sensor_stun" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_winded( "winded" );
@@ -566,6 +563,7 @@ void game::reload_tileset()
         popup( _( "Loading the tileset failed: %s" ), err.what() );
     }
     g->reset_zoom();
+    g->mark_main_ui_adaptor_resize();
 #endif // TILES
 }
 
@@ -2118,7 +2116,7 @@ static hint_rating rate_action_use( const avatar &you, const item &it )
     if( it.is_broken() ) {
         return hint_rating::iffy;
     } else if( it.is_tool() ) {
-        return it.ammo_sufficient() ? hint_rating::good : hint_rating::iffy;
+        return it.ammo_sufficient( &you ) ? hint_rating::good : hint_rating::iffy;
     } else if( it.is_gunmod() ) {
         /** @EFFECT_GUN >0 allows rating estimates for gun modifications */
         if( you.get_skill_level( skill_gun ) == 0 ) {
@@ -2380,7 +2378,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     avatar_action::mend( u, locThisItem );
                     break;
                 case 'R':
-                    u.read( oThisItem );
+                    u.read( locThisItem );
                     break;
                 case 'D':
                     u.disassemble( locThisItem, false );
@@ -2399,7 +2397,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     break;
                 case 'v':
                     if( oThisItem.is_container() ) {
-                        oThisItem.contents.favorite_settings_menu( oThisItem.tname( 1, false ) );
+                        oThisItem.favorite_settings_menu( oThisItem.tname( 1, false ) );
                     }
                     break;
                 case 'i':
@@ -3505,11 +3503,6 @@ shared_ptr_fast<ui_adaptor> game::create_or_get_main_ui_adaptor()
     return ui;
 }
 
-void game::swap_main_ui_adaptor( weak_ptr_fast<ui_adaptor> &ui )
-{
-    main_ui_adaptor.swap( ui );
-}
-
 void game::invalidate_main_ui_adaptor() const
 {
     shared_ptr_fast<ui_adaptor> ui = main_ui_adaptor.lock();
@@ -4039,7 +4032,7 @@ float game::natural_light_level( const int zlev ) const
 
     // Sunlight/moonlight related stuff
     if( !weather.lightning_active ) {
-        ret = sunlight( calendar::turn );
+        ret = sun_moon_light_at( calendar::turn );
     } else {
         // Recent lightning strike has lit the area
         ret = default_daylight_level();
@@ -5349,8 +5342,8 @@ bool game::swap_critters( Creature &a, Creature &b )
     // Simplify by "sorting" the arguments
     // Only the first argument can be u
     // If swapping player/npc with a monster, monster is second
-    bool a_first = a.is_player() ||
-                   ( a.is_npc() && !b.is_player() );
+    bool a_first = a.is_avatar() ||
+                   ( a.is_npc() && !b.is_avatar() );
     Creature &first  = a_first ? a : b;
     Creature &second = a_first ? b : a;
     // Possible options:
@@ -5384,7 +5377,7 @@ bool game::swap_critters( Creature &a, Creature &b )
     tripoint temp = second.pos();
     second.setpos( first.pos() );
 
-    if( first.is_player() ) {
+    if( first.is_avatar() ) {
         walk_move( temp );
     } else {
         first.setpos( temp );
@@ -5571,7 +5564,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
         }
         if( npc_or_player->is_npc() && can_see ) {
             add_msg( _( "The %1$s hits the %2$s." ), door_name, npc_or_player->name );
-        } else if( npc_or_player->is_player() ) {
+        } else if( npc_or_player->is_avatar() ) {
             add_msg( m_bad, _( "The %s hits you." ), door_name );
         }
         if( npc_or_player->activity ) {
@@ -7413,10 +7406,12 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             center.x = lp.x;
             center.y = lp.y;
             zoom_in();
+            mark_main_ui_adaptor_resize();
         } else if( action == "zoom_out" ) {
             center.x = lp.x;
             center.y = lp.y;
             zoom_out();
+            mark_main_ui_adaptor_resize();
         }
     } while( action != "QUIT" && action != "CONFIRM" && action != "SELECT" && action != "TRAVEL_TO" &&
              action != "throw_blind" );
@@ -7713,8 +7708,9 @@ void game::reset_item_list_state( const catacurses::window &window, int height, 
 
 void game::list_items_monsters()
 {
-    std::vector<Creature *> mons = u.get_visible_creatures( current_daylight_level( calendar::turn ) );
-    // whole reality bubble
+    // Search whole reality bubble because each function internally verifies
+    // the visibilty of the items / monsters in question.
+    std::vector<Creature *> mons = u.get_visible_creatures( 60 );
     const std::vector<map_item_stack> items = find_nearby_items( 60 );
 
     if( mons.empty() && items.empty() ) {
@@ -8723,12 +8719,12 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
     };
     const bool enough_light = player_character.fine_detail_vision_mod() <= 4;
 
-    const int factor = player_character.max_quality( quality_id( "BUTCHER" ) );
+    const int factor = player_character.max_quality( quality_id( "BUTCHER" ), PICKUP_RANGE );
     const std::string msgFactor = factor > INT_MIN
                                   ? string_format( _( "Your best tool has <color_cyan>%d butchering</color>." ), factor )
                                   :  _( "You have no butchering tool." );
 
-    const int factorD = player_character.max_quality( quality_id( "CUT_FINE" ) );
+    const int factorD = player_character.max_quality( quality_id( "CUT_FINE" ), PICKUP_RANGE );
     const std::string msgFactorD = factorD > INT_MIN
                                    ? string_format( _( "Your best tool has <color_cyan>%d fine cutting</color>." ), factorD )
                                    :  _( "You have no fine cutting tool." );
@@ -8883,8 +8879,8 @@ void game::butcher()
         return;
     }
 
-    const int factor = u.max_quality( quality_id( "BUTCHER" ) );
-    const int factorD = u.max_quality( quality_id( "CUT_FINE" ) );
+    const int factor = u.max_quality( quality_id( "BUTCHER" ), PICKUP_RANGE );
+    const int factorD = u.max_quality( quality_id( "CUT_FINE" ), PICKUP_RANGE );
     const std::string no_knife_msg = _( "You don't have a butchering tool." );
     const std::string no_corpse_msg = _( "There are no corpses here to butcher." );
 
@@ -9206,7 +9202,7 @@ void game::reload( item_location &loc, bool prompt, bool empty )
 
     // for holsters and ammo pouches try to reload any contained item
     if( it->type->can_use( "holster" ) && it->num_item_stacks() == 1 ) {
-        it = &it->contents.only_item();
+        it = &it->only_item();
     }
 
     item::reload_option opt = u.ammo_location && it->can_reload_with( u.ammo_location->typeId() ) ?
@@ -9512,27 +9508,17 @@ bool game::disable_robot( const tripoint &p )
         return false;
     }
     monster &critter = *mon_ptr;
-    if( ( critter.friendly == 0 && !critter.has_effect( effect_sensor_stun ) ) ||
-        critter.has_flag( MF_RIDEABLE_MECH ) ||
-        ( critter.has_flag( MF_PAY_BOT ) && critter.has_effect( effect_paid ) ) ) {
-        // Can only disable / reprogram friendly or stunned monsters
+    if( !disable_activity_actor::can_disable_or_reprogram( critter ) ) {
         return false;
     }
+
     const mtype_id mid = critter.type->id;
     const itype_id mon_item_id = critter.type->revert_to_itype;
     if( !mon_item_id.is_empty() &&
         query_yn( _( "Deactivate the %s?" ), critter.name() ) ) {
 
-        u.moves -= 100;
-        m.add_item_or_charges( p, critter.to_item() );
-        if( !critter.has_flag( MF_INTERIOR_AMMO ) ) {
-            for( std::pair<const itype_id, int> &ammodef : critter.ammo ) {
-                if( ammodef.second > 0 ) {
-                    m.spawn_item( p.xy(), ammodef.first, 1, ammodef.second, calendar::turn );
-                }
-            }
-        }
-        remove_zombie( critter );
+        u.assign_activity( player_activity( disable_activity_actor( p,
+                                            disable_activity_actor::get_disable_turns(), false ) ) );
         return true;
     }
     // Manhacks are special, they have their own menu here.
@@ -9543,25 +9529,10 @@ bool game::disable_robot( const tripoint &p )
         } else {
             choice = uilist( _( "Reprogram the manhack?" ), { _( "Follow me." ) } );
         }
-        switch( choice ) {
-            case 0:
-                if( critter.has_effect( effect_docile ) ) {
-                    critter.remove_effect( effect_docile );
-                    if( one_in( 3 ) ) {
-                        add_msg( _( "The %s hovers momentarily as it surveys the area." ),
-                                 critter.name() );
-                    }
-                } else {
-                    critter.add_effect( effect_docile, 1_turns, true );
-                    if( one_in( 3 ) ) {
-                        add_msg( _( "The %s lets out a whirring noise and starts to follow you." ),
-                                 critter.name() );
-                    }
-                }
-                u.moves -= 100;
-                return true;
-            default:
-                break;
+
+        if( choice == 0 ) {
+            u.assign_activity( player_activity( disable_activity_actor( p,
+                                                disable_activity_actor::get_disable_turns(), true ) ) );
         }
     }
     return false;
@@ -10181,7 +10152,8 @@ point game::place_player( const tripoint &dest_loc )
         }
 
         const std::string pulp_butcher = get_option<std::string>( "AUTO_PULP_BUTCHER" );
-        if( pulp_butcher == "butcher" && u.max_quality( quality_id( "BUTCHER" ) ) > INT_MIN ) {
+        if( pulp_butcher == "butcher" &&
+            u.max_quality( quality_id( "BUTCHER" ), PICKUP_RANGE ) > INT_MIN ) {
             std::vector<item *> corpses;
 
             for( item &it : m.i_at( u.pos() ) ) {
@@ -12195,7 +12167,7 @@ void game::display_visibility()
             creature_menu.addentry( num_creatures++, true, MENU_AUTOASSIGN, "%s", _( "You" ) );
             locations.emplace_back( get_player_character().pos() ); // add player first.
             for( const Creature &critter : g->all_creatures() ) {
-                if( critter.is_player() ) {
+                if( critter.is_avatar() ) {
                     continue;
                 }
                 creature_menu.addentry( num_creatures++, true, MENU_AUTOASSIGN, critter.disp_name() );

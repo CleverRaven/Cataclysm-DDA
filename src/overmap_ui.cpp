@@ -1520,11 +1520,16 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
 {
     const int previous_zoom = g->get_zoom();
     g->set_zoom( overmap_zoom_level );
+    on_out_of_scope reset_zoom( [&]() {
+        overmap_zoom_level = g->get_zoom();
+        g->set_zoom( previous_zoom );
+        g->mark_main_ui_adaptor_resize();
+    } );
 
     background_pane bg_pane;
 
-    shared_ptr_fast<ui_adaptor> ui = make_shared_fast<ui_adaptor>();
-    ui->on_screen_resize( []( ui_adaptor & ui ) {
+    ui_adaptor ui;
+    ui.on_screen_resize( []( ui_adaptor & ui ) {
         /**
          * Handle possibly different overmap font size
          */
@@ -1542,16 +1547,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
 
         ui.position_from_window( catacurses::stdscr );
     } );
-    ui->mark_resize();
-
-    weak_ptr_fast<ui_adaptor> main_ui = ui;
-    g->swap_main_ui_adaptor( main_ui );
-
-    on_out_of_scope reset_main_ui( [&]() {
-        overmap_zoom_level = g->get_zoom();
-        g->swap_main_ui_adaptor( main_ui );
-        g->set_zoom( previous_zoom );
-    } );
+    ui.mark_resize();
 
     tripoint_abs_omt ret = overmap::invalid_tripoint;
     tripoint_abs_omt curs( orig );
@@ -1603,7 +1599,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     cata::optional<tripoint> mouse_pos;
     std::chrono::time_point<std::chrono::steady_clock> last_blink = std::chrono::steady_clock::now();
 
-    ui->on_redraw( [&]( const ui_adaptor & ) {
+    ui.on_redraw( [&]( const ui_adaptor & ) {
         draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays,
               show_explored, fast_scroll, &ictxt, data );
     } );
@@ -1642,8 +1638,10 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
             curs.z() += 1;
         } else if( action == "ZOOM_OUT" ) {
             g->zoom_out();
+            ui.mark_resize();
         } else  if( action == "ZOOM_IN" ) {
             g->zoom_in();
+            ui.mark_resize();
         } else if( action == "CONFIRM" ) {
             ret = curs;
         } else if( action == "QUIT" ) {
@@ -1747,11 +1745,11 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
         } else if( action == "TOGGLE_FOREST_TRAILS" ) {
             uistate.overmap_show_forest_trails = !uistate.overmap_show_forest_trails;
         } else if( action == "SEARCH" ) {
-            if( !search( *ui, curs, orig ) ) {
+            if( !search( ui, curs, orig ) ) {
                 continue;
             }
         } else if( action == "PLACE_TERRAIN" || action == "PLACE_SPECIAL" ) {
-            place_ter_or_special( *ui, curs, action );
+            place_ter_or_special( ui, curs, action );
         } else if( action == "MISSIONS" ) {
             g->list_missions();
         }
