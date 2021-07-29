@@ -2699,7 +2699,6 @@
     "volume": "5 ml",
     "to_hit": -3,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "money": 200000000 } } ],
-    "max_charges": 200000000,
     "rand_charges": [
       0,
       1,
