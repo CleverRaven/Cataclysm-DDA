@@ -8043,7 +8043,9 @@ int item::ammo_remaining( const Character *carrier ) const
     // Magazines and integral magazines on their own
     if( is_magazine() ) {
         for( const item *e : contents.all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
-            ret += e->charges;
+            if( e->is_ammo() ) {
+                ret += e->charges;
+            }
         }
     }
 
