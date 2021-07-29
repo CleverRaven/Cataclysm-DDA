@@ -1271,9 +1271,11 @@ bool read_activity_actor::player_read( avatar &you )
             const int originalSkillLevel = skill_level.theoryLevel();
 
             read_book( *learner, islotbook, skill_level, penalty );
+            const int newSkillLevel = skill_level.theoryLevel();
+        
 
             // levels up the skill
-            if( skill_level != originalSkillLevel ) {
+            if( newSkillLevel != originalSkillLevel ) {
                 get_event_bus().send<event_type::gains_skill_level>(
                     learner->getID(), skill, skill_level.theoryLevel() );
 
@@ -1355,7 +1357,7 @@ bool read_activity_actor::player_readma( avatar &you )
     skill_id skill_used = style_to_learn->primary_skill;
 
     int difficulty = std::max( 1, style_to_learn->learn_difficulty );
-    difficulty = std::max( 1, 20 + difficulty * 2 - you.get_skill_level( skill_used ) * 2 );
+    difficulty = std::max( 1, 20 + difficulty * 2 - you.get_theory_skill_level( skill_used ) * 2 );
     add_msg_debug( debugmode::DF_ACT_READ, "Chance to learn one in: %d", difficulty );
 
     if( one_in( difficulty ) ) {
@@ -1418,7 +1420,8 @@ bool read_activity_actor::npc_read( npc &learner )
 
         read_book( learner, islotbook, skill_level, 1.0 );
 
-        if( skill_level != originalSkillLevel ) {
+        const int newSkillLevel = skill_level.theoryLevel();
+        if( newSkillLevel != originalSkillLevel ) {
             get_event_bus().send<event_type::gains_skill_level>(
                 learner.getID(), skill, skill_level.theoryLevel() );
 
