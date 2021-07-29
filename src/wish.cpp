@@ -848,7 +848,10 @@ void debug_menu::wishproficiency( player *p )
         sorted_profs.emplace_back( cur.prof_id(), player_know );
     }
 
-    std::sort( sorted_profs.begin(), sorted_profs.end(), localized_compare );
+    std::sort( sorted_profs.begin(), sorted_profs.end(), [](
+    const std::pair<proficiency_id, bool> &profA,  const std::pair<proficiency_id, bool> &profB ) {
+        return localized_compare( profA.first->name(), profB.first->name() );
+    } );
 
     for( size_t i = 0; i < sorted_profs.size(); ++i ) {
         if( sorted_profs[i].second ) {
