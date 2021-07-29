@@ -2436,7 +2436,7 @@ cata::optional<int> iuse::hammer( player *p, item *it, bool, const tripoint & )
         type == t_rdoor_boarded || type == t_rdoor_boarded_damaged ||
         type == t_door_boarded_peep || type == t_door_boarded_damaged_peep ) {
         // pry action
-        p->assign_activity( player_activity( pry_nails_activity_actor( to_moves<int>( 30_minutes ),
+        p->assign_activity( player_activity( pry_nails_activity_actor( to_moves<int>( 30_seconds ),
                                              pnt ) ) );
         return it->type->charges_to_use();
     } else {
