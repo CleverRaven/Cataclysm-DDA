@@ -658,10 +658,6 @@
     "name": { "str": "military AR headset (radio on)", "str_pl": "military AR headsets (radio on)" },
     "description": "This military AR headset radio is turned on, and continually draining its batteries.  It is playing the broadcast being sent from any nearby radio towers.",
     "power_draw": 500,
-    "armor": [
-      { "encumbrance": 6, "coverage": 95, "covers": [ "eyes" ] },
-      { "encumbrance": 2, "coverage": 15, "covers": [ "head" ] }
-    ],
     "revert_to": "ar_glasses_t2_mil",
     "use_action": [ "RADIO_ON" ],
     "flags": [
@@ -741,10 +737,6 @@
     "name": { "str": "gaming AR headset (training on)", "str_pl": "gaming AR headsets (training on)" },
     "description": "This gaming AR headset training program is running, and continually draining its batteries.  Virtual ennemies are surimpressed on top of the real world, to train your fighting skills.",
     "power_draw": 20000,
-    "armor": [
-      { "encumbrance": 6, "coverage": 95, "covers": [ "eyes" ] },
-      { "encumbrance": 2, "coverage": 15, "covers": [ "head" ] }
-    ],
     "revert_to": "ar_glasses_gaming",
     "use_action": [
       {
