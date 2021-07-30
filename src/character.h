@@ -2204,6 +2204,12 @@ class Character : public Creature, public visitable
         /** Regenerates stamina */
         void update_stamina( int turns );
 
+        int get_cardio() const;
+
+        int get_cardio_acc() const;
+        void set_cardio_acc( int ncardio_acc );
+        virtual void update_cardio_acc() = 0;
+
     protected:
         void on_damage_of_type( int adjusted_damage, damage_type type, const bodypart_id &bp ) override;
     public:
@@ -2955,6 +2961,8 @@ class Character : public Creature, public visitable
         int hunger;
         int thirst;
         int stamina;
+
+        int cardio_acc;
 
         int fatigue;
         int sleep_deprivation;

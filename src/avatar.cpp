@@ -1367,6 +1367,19 @@ bool avatar::invoke_item( item *used, const std::string &method )
     return Character::invoke_item( used, method );
 }
 
+void avatar::update_cardio_acc()
+{
+    const int prev_cardio_acc = get_cardio_acc();
+    const int last_24h_kcal = calorie_diary.begin()->spent;
+    int adjustment = 0;
+    if( prev_cardio_acc > last_24h_kcal ) {
+        adjustment = std::sqrt( last_24h_kcal - prev_cardio_acc );
+    } else if( last_24h_kcal > prev_cardio_acc ) {
+        adjustment = -std::sqrt( prev_cardio_acc - last_24h_kcal );
+    }
+    set_cardio_acc( prev_cardio_acc + adjustment );
+}
+
 void avatar::advance_daily_calories()
 {
     calorie_diary.push_front( daily_calories{} );

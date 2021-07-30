@@ -466,6 +466,7 @@ Character::Character() :
     healthy_calories = 55'000'000;
     stored_calories = healthy_calories;
     initialize_stomach_contents();
+    set_cardio_acc( get_bmr() / 2 );
 
     name.clear();
     custom_profession.clear();
@@ -5170,17 +5171,16 @@ std::string Character::debug_weary_info() const
     std::string max_act = activity_level_str( maximum_exertion_level() );
     float move_mult = exertion_adjusted_move_multiplier( EXTRA_EXERCISE );
 
-    int bmr = base_bmr();
-    std::string weary_internals = activity_history.debug_weary_info();
+    int cardio_mult = get_cardio();
     int thresh = weary_threshold();
     int current = weariness_level();
     int morale = get_morale_level();
     int weight = units::to_gram<int>( bodyweight() );
     float bmi = get_bmi();
 
-    return string_format( "Weariness: %s Max Full Exert: %s Mult: %g\nBMR: %d %s Thresh: %d At: %d\nCal: %d/%d Fatigue: %d Morale: %d Wgt: %d (BMI %.1f)",
-                          amt, max_act, move_mult, bmr, weary_internals, thresh, current, get_stored_kcal(),
-                          get_healthy_kcal(), fatigue, morale, weight, bmi );
+    return string_format( "Weariness: %s Max Exertion: %s Mult: %g\nCARDIO: %d %s Thresh: %d At: %d\nCalories: %d",
+                          amt, max_act, move_mult, cardio_mult, activity_history.debug_weary_info(), thresh, current,
+                          stored_calories );
 }
 
 void Character::mod_stored_kcal( int nkcal, const bool ignore_weariness )
@@ -5631,7 +5631,7 @@ void Character::update_body( const time_point &from, const time_point &to )
     }
     const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
-        activity_history.try_reduce_weariness( base_bmr(), in_sleep_state() );
+        activity_history.try_reduce_weariness( get_cardio(), in_sleep_state() );
         check_needs_extremes();
         update_needs( five_mins );
         regen( five_mins );
@@ -5677,6 +5677,7 @@ void Character::update_body( const time_point &from, const time_point &to )
     }
 
     if( is_avatar() && ticks_between( from, to, 24_hours ) > 0 ) {
+        update_cardio_acc();
         as_avatar()->advance_daily_calories();
     }
 
@@ -5704,15 +5705,15 @@ int Character::weariness() const
 
 int Character::weary_threshold() const
 {
-    const int bmr = base_bmr();
-    int threshold = bmr * get_option<float>( "WEARY_BMR_MULT" );
+    const int cardio_mult = get_cardio();
+    int threshold = cardio_mult * get_option<float>( "WEARY_BMR_MULT" );
     // reduce by 1% per 14 points of fatigue after 150 points
     threshold *= 1.0f - ( ( std::max( fatigue, -20 ) - 150 ) / 1400.0f );
     // Each 2 points of morale increase or decrease by 1%
     threshold *= 1.0f + ( get_morale_level() / 200.0f );
     // TODO: Hunger effects this
 
-    return std::max( threshold, bmr / 10 );
+    return std::max( threshold, cardio_mult / 10 );
 }
 
 
@@ -8652,12 +8653,14 @@ int Character::get_stamina() const
 
 int Character::get_stamina_max() const
 {
+    // this is now base max stamina, name not changed (for now) to avoid code changes.
     static const std::string player_max_stamina( "PLAYER_MAX_STAMINA" );
+    static const std::string player_cardio_stamina_mod( "PLAYER_CARDIO_STAMINA_SCALING" );
     static const std::string max_stamina_modifier( "max_stamina_modifier" );
-    int maxStamina = get_option< int >( player_max_stamina );
-    maxStamina *= Character::mutation_value( max_stamina_modifier );
-    maxStamina = enchantment_cache->modify_value( enchant_vals::mod::MAX_STAMINA, maxStamina );
-    return maxStamina;
+    int max_stamina = get_option<int>( player_max_stamina ) +
+                      get_option<int>( player_cardio_stamina_mod ) * get_cardio();
+    max_stamina = enchantment_cache->modify_value( enchant_vals::mod::MAX_STAMINA, max_stamina );
+    return max_stamina;
 }
 
 void Character::set_stamina( int new_stamina )
@@ -8722,7 +8725,10 @@ void Character::update_stamina( int turns )
 {
     static const std::string player_base_stamina_regen_rate( "PLAYER_BASE_STAMINA_REGEN_RATE" );
     static const std::string stamina_regen_modifier( "stamina_regen_modifier" );
+    static const std::string stamina_cardio_regen_modifier( "PLAYER_CARDIO_STAMINA_MOD" );
     const float base_regen_rate = get_option<float>( player_base_stamina_regen_rate );
+    const float effective_regen_rate = base_regen_rate + get_bmr() * get_option<float>
+                                       ( stamina_cardio_regen_modifier );
     const int current_stim = get_stim();
     float stamina_recovery = 0.0f;
     // Recover some stamina every turn.
@@ -8732,7 +8738,7 @@ void Character::update_stamina( int turns )
                                mutation_value( stamina_regen_modifier ) + ( mutation_value( "max_stamina_modifier" ) - 1.0f ) );
     // But mouth encumbrance interferes, even with mutated stamina.
     stamina_recovery += stamina_multiplier * std::max( 1.0f,
-                        base_regen_rate - ( encumb( body_part_mouth ) / 5.0f ) );
+                        effective_regen_rate - ( encumb( body_part_mouth ) / 5.0f ) );
     stamina_recovery = enchantment_cache->modify_value( enchant_vals::mod::REGEN_STAMINA,
                        stamina_recovery );
     // TODO: recovering stamina causes hunger/thirst/fatigue.
@@ -8756,7 +8762,7 @@ void Character::update_stamina( int turns )
         int bonus = std::min<int>( units::to_kilojoule( get_power_level() ) / 3,
                                    max_stam - get_stamina() - stamina_recovery * turns );
         // so the effective recovery is up to 5x default
-        bonus = std::min( bonus, 4 * static_cast<int>( base_regen_rate ) );
+        bonus = std::min( bonus, 4 * static_cast<int>( effective_regen_rate ) );
         if( bonus > 0 ) {
             stamina_recovery += bonus;
             bonus /= 10;
@@ -8770,6 +8776,30 @@ void Character::update_stamina( int turns )
                    roll_remainder( stamina_recovery * turns ) );
     // Cap at max
     set_stamina( std::min( std::max( get_stamina(), 0 ), max_stam ) );
+}
+
+int Character::get_cardio() const
+{
+    const int bmr = base_bmr();
+    // THIS WILL BE SKILL_ATHLETICS IN THE NEAR FUTURE
+    const int athletics_mod = get_skill_level( skill_swimming ) * 10;
+    const int health_effect = get_healthy();
+    // Traits now exclusively affect cardio, NOT max_stamina directly. In the future, make cardio_acc also be affected by cardio traits so that they don't become less impactful.
+    const int trait_mod = mutation_value( "max_stamina_modifier" );
+    //WIP. Currently no proficiencies seem suitable as of build 11051
+    const int prof_mod = 0;
+    const int cardio_acc_mod = get_cardio_acc();
+    return ( bmr / 2 + athletics_mod + health_effect + trait_mod + prof_mod + cardio_acc_mod );
+}
+
+int Character::get_cardio_acc() const
+{
+    return cardio_acc;
+}
+
+void Character::set_cardio_acc( int ncardio_acc )
+{
+    cardio_acc = ncardio_acc;
 }
 
 bool Character::invoke_item( item *used )

@@ -1111,6 +1111,8 @@ class npc : public player
 
         bool dispose_item( item_location &&obj, const std::string &prompt = std::string() ) override;
 
+        void update_cardio_acc() override {};
+
         void aim();
         void do_reload( const item &it );
 

@@ -4663,8 +4663,12 @@ void vehicle::consume_fuel( int load, bool idling )
         // But only if the player is actually there!
         int eff_load = load / 10;
         int mod = 4 * st; // strain
-        int base_burn = static_cast<int>( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) ) -
-                        3;
+        const int base_staminaRegen = static_cast<int>
+                                      ( get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" ) );
+        const float staminaRegen_mod = get_option<float>( "PLAYER_CARDIO_STAMINA_MOD" );
+        const int actual_staminaRegen = base_staminaRegen + static_cast<int>
+                                        ( player_character.get_cardio()  * staminaRegen_mod );
+        int base_burn = actual_staminaRegen - 3;
         base_burn = std::max( eff_load / 3, base_burn );
         //charge bionics when using muscle engine
         const item muscle( "muscle" );
