@@ -843,14 +843,10 @@ int Character::charges_of( const itype_id &what, int limit,
                            const std::function<bool( const item & )> &filter,
                            const std::function<void( int )> &visitor ) const
 {
-    const player *p = dynamic_cast<const player *>( this );
-
     for( const auto &bio : *this->my_bionics ) {
         const bionic_data &bid = bio.info();
         if( bid.fake_item == what && ( !bid.activated || bio.powered ) ) {
-            item fake_item = item( bid.fake_item );
-            fake_item.set_flag( STATIC( flag_id( "USES_BIONIC_POWER" ) ) );
-            return std::min( fake_item.ammo_remaining( p ), limit );
+            return std::min( units::to_kilojoule( get_power_level() ), limit );
         }
     }
 
