@@ -616,7 +616,7 @@
     "looks_like": "goggles_nv_on",
     "color": "light_gray",
     "armor": [
-      { "encumbrance": 6, "coverage": 95, "covers": [ "eyes" ] },
+      { "encumbrance": 60, "coverage": 95, "covers": [ "eyes" ] },
       { "encumbrance": 2, "coverage": 15, "covers": [ "head" ] }
     ],
     "warmth": 8,
