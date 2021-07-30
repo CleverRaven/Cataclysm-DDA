@@ -937,13 +937,11 @@ static void draw_speed_tab( const catacurses::window &w_speed,
         }
     }
 
-    float speed_modifier = static_cast<float>( you.enchantment_cache->modify_value(
-                               enchant_vals::mod::SPEED, 1 ) );
+    const int speed_modifier = you.get_enchantment_speed_bonus();
 
-    if( speed_modifier != 1.0f ) {
-        int misc_bonus = static_cast<int>( newmoves - ( newmoves / speed_modifier ) );
+    if( speed_modifier != 0 ) {
         mvwprintz( w_speed, point( 1, line ), c_green,
-                   pgettext( "speed bonus", "Bio/Mut/Effects     +%2d%%" ), misc_bonus );
+                   pgettext( "speed bonus", "Bio/Mut/Effects     +%2d" ), speed_modifier );
         line++;
     }
 
