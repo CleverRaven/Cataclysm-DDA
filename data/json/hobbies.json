@@ -70,7 +70,8 @@
     "name": "Lockpicking",
     "description": "Silently picking people's locks while they were away was a rush for you.  Will you still feel the same thrill now that no one is left to stop you?",
     "points": 1,
-    "proficiencies": [ "prof_lockpicking" ]
+    "proficiencies": [ "prof_lockpicking" ],
+    "skills": [ { "level": 1, "name": "traps" } ]
   },
   {
     "type": "profession",
