@@ -199,6 +199,11 @@ void iuse_transform::load( const JsonObject &obj )
 
 cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const tripoint &pos ) const
 {
+    float scale = 1;
+    auto iter = it.type->ammo_scale.find( type );
+    if( iter != it.type->ammo_scale.end() ) {
+        scale = iter->second;
+    }
     if( t ) {
         return cata::nullopt; // invoked from active item processing, do nothing.
     }
@@ -216,7 +221,9 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
         p.add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
         return cata::nullopt;
     }
+
     if( need_charges && it.ammo_remaining( &p ) < need_charges ) {
+
         if( possess ) {
             p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
         }
@@ -247,7 +254,7 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
     // defined here to allow making a new item assigned to the pointer
     item obj_it;
     if( it.is_tool() ) {
-        result = it.type->charges_to_use();
+        result = int( it.type->charges_to_use() * double( scale ) );
     }
     if( container.is_empty() ) {
         obj = &it.convert( target );
