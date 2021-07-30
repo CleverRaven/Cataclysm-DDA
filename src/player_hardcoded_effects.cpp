@@ -289,7 +289,7 @@ static void eff_fun_bleed( Character &u, effect &it )
 }
 static void eff_fun_virtual_monsters( Character &u, effect & )
 {
-    if( u.is_player() && one_in( 10 ) ) {
+    if( u.is_avatar() && one_in( 10 ) ) {
         if( one_in( 2 ) ) {
             u.add_msg_if_player( m_warning, _( "The world takes on a dreamlike quality." ) );
         } else if( one_in( 5 ) ) {
