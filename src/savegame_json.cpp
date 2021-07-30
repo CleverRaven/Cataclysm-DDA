@@ -1256,6 +1256,15 @@ void avatar::store( JsonOut &json ) const
     if( get_scenario() != nullptr ) {
         json.member( "scenario", get_scenario()->ident() );
     }
+    if( !hobbies.empty() ) {
+        json.member( "hobbies" );
+        json.start_array();
+        for( const profession *hobby : hobbies ) {
+            json.write( hobby->ident() );
+        }
+        json.end_array();
+    }
+
     // someday, npcs may drive
     json.member( "controlling_vehicle", controlling_vehicle );
 
@@ -1333,6 +1342,12 @@ void avatar::load( const JsonObject &data )
     } else {
         //We are likely an older profession which has since been removed so just set to default.  This is only cosmetic after game start.
         prof = profession::generic();
+    }
+
+    std::vector<string_id<profession>> hobby_ids;
+    data.read( "hobbies", hobby_ids );
+    for( const profession_id &hobby : hobby_ids ) {
+        hobbies.insert( hobbies.end(), &hobby.obj() );
     }
 
     data.read( "controlling_vehicle", controlling_vehicle );
