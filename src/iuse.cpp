@@ -225,7 +225,6 @@ static const efftype_id effect_weak_antibiotic_visible( "weak_antibiotic_visible
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
 
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_ar_glasses_gaming( "ar_glasses_gaming" );
 static const itype_id itype_ar_glasses_gaming_on( "ar_glasses_gaming_on" );
 static const itype_id itype_ar_glasses_t0( "ar_glasses_t0" );
@@ -235,7 +234,6 @@ static const itype_id itype_ar_glasses_t2( "ar_glasses_t2" );
 static const itype_id itype_ar_glasses_t2_mil( "ar_glasses_t2_mil" );
 static const itype_id itype_ar_glasses_t2_mil_radio( "ar_glasses_t2_mil_radio" );
 static const itype_id itype_ar_glasses_t2_on( "ar_glasses_t2_on" );
-static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_advanced_ecig( "advanced_ecig" );
 static const itype_id itype_afs_atomic_smartphone( "afs_atomic_smartphone" );
 static const itype_id itype_afs_atomic_smartphone_music( "afs_atomic_smartphone_music" );
