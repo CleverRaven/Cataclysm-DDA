@@ -88,7 +88,7 @@
     "subtype": "hobby",
     "id": "camping",
     "name": "Camping",
-    "description": "You enjoyed camping in the vast wilderness as a means of escaping the pace of modern life.  The wilderness isn't filled with people, so it must be safe...  Right?  It must be.",
+    "description": "You enjoyed camping in the vast wilderness as a means of escaping the pace of modern life.  The wilderness isn't filled with people, so it must be safe.  Right?  It must be.",
     "points": 2,
     "skills": [ { "level": 2, "name": "survival" }, { "level": 2, "name": "firstaid" } ]
   }
