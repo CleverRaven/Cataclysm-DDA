@@ -257,6 +257,84 @@ enum ter_connects : int {
     TERCONN_CANVAS_WALL,
 };
 
+struct activity_byproduct {
+    itype_id item;
+    int count      = 0;
+    int random_min = 0;
+    int random_max = 0;
+
+    int roll() const;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo );
+};
+
+class activity_data_common
+{
+    public:
+        activity_data_common() = default;
+
+        bool valid() const {
+            return valid_;
+        }
+
+        const time_duration &duration() const {
+            return duration_;
+        }
+
+        const translation &message() const {
+            return message_;
+        }
+
+        const translation &sound() const {
+            return sound_;
+        }
+
+        const std::vector<activity_byproduct> &byproducts() const {
+            return byproducts_;
+        }
+
+        bool was_loaded = false;
+        void load( const JsonObject &jo );
+
+    protected:
+        bool valid_ = false;
+        time_duration duration_;
+        translation message_;
+        translation sound_;
+        std::vector<activity_byproduct> byproducts_;
+};
+
+class activity_data_ter : public activity_data_common
+{
+    public:
+        activity_data_ter() = default;
+
+        const ter_str_id &result() const {
+            return result_;
+        }
+
+        void load( const JsonObject &jo );
+
+    private:
+        ter_str_id result_;
+};
+
+class activity_data_furn : public activity_data_common
+{
+    public:
+        activity_data_furn() = default;
+
+        const furn_str_id &result() const {
+            return result_;
+        }
+
+        void load( const JsonObject &jo );
+
+    private:
+        furn_str_id result_;
+};
+
 void init_mapdata();
 
 struct map_data_common_t {
@@ -408,6 +486,8 @@ struct ter_t : map_data_common_t {
     ter_t();
 
     static size_t count();
+
+    bool is_null() const;
 
     void load( const JsonObject &jo, const std::string &src ) override;
     void check() const override;
