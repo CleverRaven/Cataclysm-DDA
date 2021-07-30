@@ -3423,7 +3423,11 @@ void catacurses::init_interface()
     dbg( D_INFO ) << "Initializing SDL Tiles context";
     tilecontext = std::make_unique<cata_tiles>( renderer, geometry );
     try {
-        tilecontext->load_tileset( get_option<std::string>( "TILES" ), true );
+        // Disable UIs below to avoid accessing the tile context during loading.
+        ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
+        tilecontext->load_tileset( get_option<std::string>( "TILES" ),
+                                   /*precheck=*/true, /*force=*/false,
+                                   /*pump_events=*/true );
     } catch( const std::exception &err ) {
         dbg( D_ERROR ) << "failed to check for tileset: " << err.what();
         // use_tiles is the cached value of the USE_TILES option.
