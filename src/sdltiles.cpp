@@ -3462,7 +3462,9 @@ void load_tileset()
     if( !tilecontext || !use_tiles ) {
         return;
     }
-    tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
+    tilecontext->load_tileset( get_option<std::string>( "TILES" ),
+                               /*precheck=*/false, /*force=*/false,
+                               /*pump_events=*/true );
     tilecontext->do_tile_loading_report();
 }
 
