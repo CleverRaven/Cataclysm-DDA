@@ -3421,6 +3421,9 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         if( isWide ) {
             // Load in proficiencies from profession and hobbies
             std::vector<proficiency_id> prof_proficiencies = you.prof->proficiencies();
+            const std::vector<proficiency_id> &known_proficiencies = you._proficiencies->known_profs();
+            prof_proficiencies.insert( prof_proficiencies.end(), known_proficiencies.begin(),
+                                       known_proficiencies.end() );
             for( const profession *profession : you.hobbies ) {
                 for( const proficiency_id &proficiency : profession->proficiencies() ) {
                     // Do not add duplicate proficiencies
