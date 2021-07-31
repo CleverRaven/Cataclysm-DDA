@@ -366,7 +366,7 @@
     "recurrence_min": 15,
     "recurrence_max": 30,
     "condition": { "and": [ { "u_at_om_location": "lab_2x2_MUT_tier_1_NW" }, { "not": { "u_has_item": "id_science_mutagen_pink" } } ] },
-    "effect": [ { "mapgen_update": "release_bots_6", "om_terrain": "lab_2x2_MUT_tier_1_NW_" } ]
+    "effect": [ { "mapgen_update": "release_bots_6", "om_terrain": "lab_2x2_MUT_tier_1_NW" } ]
   },
   {
     "type": "effect_on_condition",
