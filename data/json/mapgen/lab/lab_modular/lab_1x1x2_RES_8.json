@@ -145,7 +145,12 @@
         }
       },
       "palettes": [ "lab_common_palette", "lab_residential_palette", "standard_domestic_lino_bathroom" ],
-      "terrain": { "U": "t_linoleum_gray", "Y": "t_linoleum_gray", "!": { "param": "carpet_type" }, "ÿ": { "param": "floor_type" } },
+      "terrain": {
+        "U": "t_linoleum_gray",
+        "Y": "t_linoleum_gray",
+        "!": { "param": "carpet_type", "fallback": "t_carpet_concrete_yellow" },
+        "ÿ": { "param": "floor_type", "fallback": "t_floor" }
+      },
       "place_nested": [
         {
           "chunks": [
