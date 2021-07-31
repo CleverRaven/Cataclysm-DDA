@@ -242,11 +242,14 @@ static void WinCreate()
     if( get_option<std::string>( "FULLSCREEN" ) == "fullscreen" ) {
         window_flags |= SDL_WINDOW_FULLSCREEN;
         fullscreen = true;
+        // It still minimizes, but the screen size is not set to 0 to cause
+        // division by zero
         SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0" );
     } else if( get_option<std::string>( "FULLSCREEN" ) == "windowedbl" ) {
         window_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
         fullscreen = true;
-        SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0" );
+        // So you can switch to desktop without the game window obscuring it.
+        SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "1" );
     } else if( get_option<std::string>( "FULLSCREEN" ) == "maximized" ) {
         window_flags |= SDL_WINDOW_MAXIMIZED;
     }
