@@ -394,6 +394,7 @@ class item_location::impl::item_on_person : public item_location::impl
             } else {
                 // then we are wearing it
                 mv = who->item_handling_cost( obj, true, INVENTORY_HANDLING_PENALTY / 2 );
+                mv += 250;
             }
 
             if( &ch != who ) {
