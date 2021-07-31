@@ -443,7 +443,7 @@ const
         }
     }
 
-    for( const auto *e : get_pseudo_items() ) {
+    for( const item *e : get_pseudo_items() ) {
         if( visit_internal( func, e ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
@@ -918,7 +918,7 @@ int Character::amount_of( const itype_id &what, bool pseudo, int limit,
                           const std::function<bool( const item & )> &filter ) const
 {
     if( pseudo ) {
-        for( const auto &pseudos : get_pseudo_items() ) {
+        for( const item *pseudos : get_pseudo_items() ) {
             if( pseudos->typeId() == what ) {
                 return 1;
             }

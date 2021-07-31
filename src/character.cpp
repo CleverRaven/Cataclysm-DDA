@@ -2261,9 +2261,9 @@ const std::vector<const item *> Character::get_pseudo_items() const
         pseudo_items.clear();
 
         for( const bionic &bio : *my_bionics ) {
-            auto pseudos = bio.get_available_pseudo_items();
-            for( auto &pseudo : pseudos ) {
-                pseudo_items.emplace_back( const_cast<item *>( pseudo ) );
+            std::vector<const item *> pseudos = bio.get_available_pseudo_items();
+            for( const item *pseudo : pseudos ) {
+                pseudo_items.push_back( pseudo );
             }
         }
 

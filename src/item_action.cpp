@@ -251,8 +251,8 @@ void game::item_action_menu()
     std::vector<item *> pseudos;
     pseudos.reserve( pseudo_items.size() );
     // Ugly const_cast because the menu needs non-const pointers
-    for( auto &pseudo : pseudo_items ) {
-        pseudos.emplace_back( const_cast<item *>( pseudo ) );
+    for( const item *pseudo : pseudo_items ) {
+        pseudos.push_back( const_cast<item *>( pseudo ) );
     }
     item_action_map iactions = gen.map_actions_to_items( u, pseudos );
     if( iactions.empty() ) {

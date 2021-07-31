@@ -227,25 +227,25 @@ void bionic::initialize_pseudo_items()
             }
         }
     } else if( bid.has_flag( json_flag_BIONIC_TOGGLED ) ) {
-        for( const auto &id : bid.toggled_pseudo_items ) {
+        for( const itype_id &id : bid.toggled_pseudo_items ) {
             if( !id.is_empty() && id.is_valid() ) {
                 toggled_pseudo_items.emplace_back( id );
             }
         }
     }
 
-    for( const auto &id : bid.passive_pseudo_items ) {
+    for( const itype_id &id : bid.passive_pseudo_items ) {
         if( !id.is_empty() && id.is_valid() ) {
             passive_pseudo_items.emplace_back( item( id ) );
         }
     }
 
     if( inherit_use_bionic_power ) {
-        for( auto &pseudo : passive_pseudo_items ) {
+        for( item &pseudo : passive_pseudo_items ) {
             pseudo.set_flag( flag_USES_BIONIC_POWER );
         }
 
-        for( auto &pseudo : toggled_pseudo_items ) {
+        for( item &pseudo : toggled_pseudo_items ) {
             pseudo.set_flag( flag_USES_BIONIC_POWER );
         }
     }
@@ -474,7 +474,7 @@ void bionic_data::check_bionic_consistency()
                       bio.id.c_str() );
         }
 
-        for( const auto &pseudo : bio.passive_pseudo_items ) {
+        for( const itype_id &pseudo : bio.passive_pseudo_items ) {
             if( pseudo.is_empty() ) {
                 debugmsg( "Bionic \"%s\" has an empty passive_pseudo_item",
                           bio.id.c_str() );
@@ -484,7 +484,7 @@ void bionic_data::check_bionic_consistency()
             }
         }
 
-        for( const auto &pseudo : bio.toggled_pseudo_items ) {
+        for( const itype_id &pseudo : bio.toggled_pseudo_items ) {
             if( pseudo.is_empty() ) {
                 debugmsg( "Bionic %s has an empty toggled_pseudo_item",
                           bio.id.c_str() );
@@ -515,7 +515,7 @@ void bionic_data::check_bionic_consistency()
                           bid.c_str(), bio.id.c_str() );
             }
         }
-        for( const auto &bid : bio.autodeactivated_bionics ) {
+        for( const bionic_id &bid : bio.autodeactivated_bionics ) {
             if( !bid.is_valid() ) {
                 debugmsg( "Bionic \"%s\" has auto_deactivated bionic with invalid id \"%s\"", bio.id.c_str(),
                           bid.c_str() );
@@ -1112,7 +1112,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
     } else {
         add_msg_activate();
 
-        const auto &deactivated_bionics = bio.info().autodeactivated_bionics;
+        const std::vector<bionic_id> &deactivated_bionics = bio.info().autodeactivated_bionics;
         if( !deactivated_bionics.empty() ) {
             for( bionic &bio : *my_bionics ) {
                 if( std::find( deactivated_bionics.begin(), deactivated_bionics.end(),
@@ -2951,12 +2951,12 @@ void bionic::set_weapon( item &new_weapon )
 std::vector<const item *> bionic::get_available_pseudo_items( bool include_weapon ) const
 {
     std::vector<const item *> ret;
-    for( const auto &pseudo : passive_pseudo_items ) {
+    for( const item &pseudo : passive_pseudo_items ) {
         ret.push_back( &pseudo );
     }
 
     if( powered && info().has_flag( flag_BIONIC_TOGGLED ) ) {
-        for( const auto &pseudo : toggled_pseudo_items ) {
+        for( const item &pseudo : toggled_pseudo_items ) {
             ret.push_back( &pseudo );
         }
 
