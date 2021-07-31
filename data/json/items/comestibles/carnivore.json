@@ -685,7 +685,6 @@
     "color": "light_gray",
     "price_postapoc": 10,
     "quench": 10,
-    "fun": -10,
     "parasites": 15,
     "calories": 78,
     "vitamins": [ [ "vitA", 0 ], [ "vitC", 3 ], [ "calcium", 0 ], [ "iron", 10 ], [ "vitB", 233 ] ]
