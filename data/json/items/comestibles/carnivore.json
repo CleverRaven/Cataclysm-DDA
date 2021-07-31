@@ -673,7 +673,7 @@
     "name": { "str": "cooked mutant liver" },
     "snippet_category": "cooked_mutant_liver_desc",
     "fun": -5,
-    "healthy": -2 
+    "healthy": -2
   },
   {
     "id": "brain",
