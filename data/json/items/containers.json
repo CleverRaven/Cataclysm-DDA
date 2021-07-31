@@ -1894,4 +1894,29 @@
       }
     ]
   }
+  {
+    "id": "factory_pistol_ammo_box",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "factory pistol ammo box" },
+    "description": "carboard box that pistol rounds used to be sold in",
+    "weight": "50 g",
+    "volume": "120 ml",
+    "price": 12000,
+    "price_postapoc": 250,
+    "to_hit": -5,
+    "bashing": 8,
+    "material": [ "wood", "steel" ],
+    "symbol": ")",
+    "color": "brown",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "rigid": true,
+        "max_contains_volume": "100 ml",
+        "max_contains_weight": "4 kg"
+      }
+    ],
+  },
 ]

@@ -24,6 +24,29 @@
   },
   {
     "type": "item_group",
+    "id": "ammo_pistol_common_unused",
+    "//": "Pistol ammo in unopened boxes,commonly owned by citizens and found in many locations.",
+    "subtype": "distribution",
+    "entries": [
+	  { "item": "9mmfmj", "container-item": "factory_pistol_ammo_box", "prob": 100, "charges": [ 50 ] }
+	  { "item": "9mm", "container-item": "factory_pistol_ammo_box", "prob": 100, "charges": [ 50 ] }
+	  { "item": "45_jhp", "container-item": "factory_pistol_ammo_box", "prob": 40, "charges": [ 30 ] }
+	  { "item": "45_acp", "container-item": "factory_pistol_ammo_box", "prob": 40, "charges": [ 30 ] }
+	  { "item": "40sw", "container-item": "factory_pistol_ammo_box", "prob": 40, "charges": [ 40 ] }
+	  { "item": "40fmj", "container-item": "factory_pistol_ammo_box", "prob": 40, "charges": [ 40 ] }
+	  { "item": "357sig_fmj", "container-item": "factory_pistol_ammo_box", "prob": 25, "charges": [ 50 ] }
+	  { "item": "357sig_jhp", "container-item": "factory_pistol_ammo_box", "prob": 25, "charges": [ 50 ] }
+	  { "item": "357mag_jhp", "container-item": "factory_pistol_ammo_box", "prob": 15, "charges": [ 50 ] }
+	  { "item": "357mag_fmj", "container-item": "factory_pistol_ammo_box", "prob": 15, "charges": [ 50 ] }
+	  { "item": "38_special", "container-item": "factory_pistol_ammo_box", "prob": 25, "charges": [ 40 ] }
+	  { "item": "38_fmj", "container-item": "factory_pistol_ammo_box", "prob": 25, "charges": [ 40 ] }
+	  { "item": "380_JHP", "container-item": "factory_pistol_ammo_box", "prob": 20, "charges": [ 50 ] }
+	  { "item": "380_FMJ", "container-item": "factory_pistol_ammo_box", "prob": 25, "charges": [ 50 ] }
+	  { "item": "32_acp", "container-item": "factory_pistol_ammo_box", "prob": 20, "charges": [ 80 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "ammo_pistol_rare",
     "//": "Less common pistol ammo including that only used by police/paramilitary forces.",
     "subtype": "distribution",
