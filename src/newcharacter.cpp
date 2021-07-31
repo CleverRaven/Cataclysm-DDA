@@ -598,7 +598,7 @@ bool avatar::create( character_type type, const std::string &tempname )
     for( const profession *profession : hobbies ) {
         for( const profession::StartingSkill &e : profession->skills() ) {
             // Train our skill
-            int skill_xp_bonus = calculate_cumulative_experience( e.second );
+            const int skill_xp_bonus = calculate_cumulative_experience( e.second );
             get_skill_level_object( e.first ).train( skill_xp_bonus );
         }
     }
