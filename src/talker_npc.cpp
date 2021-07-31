@@ -160,8 +160,8 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
     me_npc->moves -= 100;
 
     if( player_character.is_deaf() ) {
-        if( add_topics.back() == "TALK_MUG" ||
-            add_topics.back() == "TALK_STRANGER_AGGRESSIVE" ) {
+        if( add_topics.back() == me_npc->chatbin.talk_mug ||
+            add_topics.back() == me_npc->chatbin.talk_stranger_aggressive ) {
             me_npc->make_angry();
             add_topics.emplace_back( "TALK_DEAF_ANGRY" );
         } else {
@@ -169,8 +169,8 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
         }
     }
     if( player_character.is_mute() ) {
-        if( add_topics.back() == "TALK_MUG" ||
-            add_topics.back() == "TALK_STRANGER_AGGRESSIVE" ) {
+        if( add_topics.back() == me_npc->chatbin.talk_mug ||
+            add_topics.back() == me_npc->chatbin.talk_stranger_aggressive ) {
             me_npc->make_angry();
             add_topics.emplace_back( "TALK_MUTE_ANGRY" );
         } else {

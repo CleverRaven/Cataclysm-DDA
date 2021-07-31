@@ -257,6 +257,24 @@ void npc_template::load( const JsonObject &jsobj )
     if( jsobj.has_string( "talk_wake_up" ) ) {
         guy.chatbin.talk_wake_up = jsobj.get_string( "talk_wake_up" );
     }
+    if( jsobj.has_string( "talk_mug" ) ) {
+        guy.chatbin.talk_mug = jsobj.get_string( "talk_mug" );
+    }
+    if( jsobj.has_string( "talk_stranger_aggressive" ) ) {
+        guy.chatbin.talk_stranger_aggressive = jsobj.get_string( "talk_stranger_aggressive" );
+    }
+    if( jsobj.has_string( "talk_stranger_scared" ) ) {
+        guy.chatbin.talk_stranger_scared = jsobj.get_string( "talk_stranger_scared" );
+    }
+    if( jsobj.has_string( "talk_stranger_wary" ) ) {
+        guy.chatbin.talk_stranger_wary = jsobj.get_string( "talk_stranger_wary" );
+    }
+    if( jsobj.has_string( "talk_stranger_friendly" ) ) {
+        guy.chatbin.talk_stranger_friendly = jsobj.get_string( "talk_stranger_friendly" );
+    }
+    if( jsobj.has_string( "talk_stranger_neutral" ) ) {
+        guy.chatbin.talk_stranger_neutral = jsobj.get_string( "talk_stranger_neutral" );
+    }
     npc_templates.emplace( string_id<npc_template>( guy.idz ), std::move( tem ) );
 }
 
@@ -339,6 +357,12 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     chatbin.talk_friend = tguy.chatbin.talk_friend;
     chatbin.talk_stole_item = tguy.chatbin.talk_stole_item;
     chatbin.talk_wake_up = tguy.chatbin.talk_wake_up;
+    chatbin.talk_mug = tguy.chatbin.talk_mug;
+    chatbin.talk_stranger_aggressive = tguy.chatbin.talk_stranger_aggressive;
+    chatbin.talk_stranger_scared = tguy.chatbin.talk_stranger_scared;
+    chatbin.talk_stranger_wary = tguy.chatbin.talk_stranger_wary;
+    chatbin.talk_stranger_friendly = tguy.chatbin.talk_stranger_friendly;
+    chatbin.talk_stranger_neutral = tguy.chatbin.talk_stranger_neutral;
     for( const mission_type_id &miss_id : tguy.miss_ids ) {
         add_new_mission( mission::reserve_new( miss_id, getID() ) );
     }
@@ -1294,7 +1318,7 @@ void npc::mutiny()
     if( assigned_camp ) {
         assigned_camp = cata::nullopt;
     }
-    chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
+    chatbin.first_topic = chatbin.talk_stranger_neutral;
     set_attitude( NPCATT_NULL );
     say( _( "<follower_mutiny>  Adios, motherfucker!" ), sounds::sound_t::order );
     if( seen ) {
