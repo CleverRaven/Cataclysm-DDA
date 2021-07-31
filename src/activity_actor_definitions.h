@@ -474,11 +474,11 @@ class read_activity_actor : public activity_actor
 
         // Using an electronic book reader
         item_location ereader;
-        bool using_ereader;
+        bool using_ereader = false;
 
         // Read until the learner with this ID gets a level
-        bool continuous;
-        int learner_id;
+        bool continuous = false;
+        int learner_id = -1;
 
         // Will return true if activity must be set to null
         bool player_read( avatar &you );

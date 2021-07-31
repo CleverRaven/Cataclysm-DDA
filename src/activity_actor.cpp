@@ -2082,7 +2082,8 @@ void ebooksave_activity_actor::start( player_activity &act, Character &/*who*/ )
     const int pages = pages_in_book( book->typeId() );
     const time_duration scanning_time = pages < 1 ? time_per_page : pages * time_per_page;
     add_msg_debug( debugmode::DF_ACT_EBOOK, "ebooksave pages = %d", pages );
-    add_msg_debug( debugmode::DF_ACT_EBOOK, "scanning_time time = %s", to_string( scanning_time ) );
+    add_msg_debug( debugmode::DF_ACT_EBOOK, "scanning_time time = %s",
+                   to_string_writable( scanning_time ) );
     act.moves_total = to_moves<int>( scanning_time );
     act.moves_left = act.moves_total;
 }
