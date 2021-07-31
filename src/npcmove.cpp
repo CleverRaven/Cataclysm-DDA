@@ -1449,6 +1449,9 @@ void npc::evaluate_best_weapon( const Creature *target )
         }
         return VisitResponse::NEXT;
     } );
+    for( const spell_id &sp : magic->spells() ) {
+        compare( std::make_shared<npc_attack_spell>( sp ) );
+    }
 
     ai_cache.current_attack = best_attack;
     ai_cache.current_attack_evaluation = best_evaluated_attack;
