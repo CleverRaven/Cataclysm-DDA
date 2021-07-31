@@ -304,6 +304,43 @@ class hacking_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
 
+class bookbinder_copy_activity_actor: public activity_actor
+{
+    private:
+        item_location book_binder;
+        recipe_id rec_id;
+        int pages = 0;
+
+    public:
+
+        bookbinder_copy_activity_actor() = default;
+        bookbinder_copy_activity_actor(
+            const item_location &book_binder,
+            const recipe_id &rec_id
+        ) : book_binder( book_binder ), rec_id( rec_id ) {};
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_BINDER_COPY_RECIPE" );
+        }
+
+        bool can_resume_with_internal( const activity_actor &other, const Character & ) const override {
+            const bookbinder_copy_activity_actor &act = static_cast<const bookbinder_copy_activity_actor &>
+                    ( other );
+            return rec_id == act.rec_id && book_binder == act.book_binder;
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character &p ) override;
+        void finish( player_activity &act, Character &p ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<bookbinder_copy_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
 class hotwire_car_activity_actor : public activity_actor
 {
     private:

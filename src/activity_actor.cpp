@@ -89,6 +89,7 @@ static const efftype_id effect_tied( "tied" );
 static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_electrohack( "electrohack" );
+static const itype_id itype_paper( "paper" );
 static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
 
 static const skill_id skill_computer( "computer" );
@@ -371,8 +372,7 @@ void aim_activity_actor::unload_RAS_weapon()
 void autodrive_activity_actor::start( player_activity &act, Character &who )
 {
     const bool in_vehicle = who.in_vehicle && who.controlling_vehicle;
-    const map &here = get_map();
-    const optional_vpart_position vp = here.veh_at( who.pos() );
+    const optional_vpart_position vp = get_map().veh_at( who.pos() );
     if( !( vp && in_vehicle ) ) {
         who.cancel_activity();
         return;
@@ -380,38 +380,43 @@ void autodrive_activity_actor::start( player_activity &act, Character &who )
 
     player_vehicle = &vp->vehicle();
     act.moves_left = calendar::INDEFINITELY_LONG;
-    who.moves = 0;
 }
 
 void autodrive_activity_actor::do_turn( player_activity &act, Character &who )
 {
-    if( who.in_vehicle && who.controlling_vehicle && player_vehicle && player_vehicle->is_autodriving &&
-        !who.omt_path.empty() && !player_vehicle->omt_path.empty() ) {
-        player_vehicle->do_autodrive();
-        if( who.global_omt_location() == who.omt_path.back() ) {
-            who.omt_path.pop_back();
+    if( who.in_vehicle && who.controlling_vehicle && player_vehicle ) {
+        if( who.moves <= 0 ) {
+            // out of moves? the driver's not doing anything this turn
+            // (but the vehicle will continue moving)
+            return;
         }
-        who.moves = 0;
+        switch( player_vehicle->do_autodrive( who ) ) {
+            case autodrive_result::ok:
+                if( who.moves > 0 ) {
+                    // if do_autodrive() didn't eat up all our moves, end the turn
+                    // equivalent to player pressing the "pause" button
+                    who.moves = 0;
+                }
+                sounds::reset_markers();
+                break;
+            case autodrive_result::abort:
+                who.cancel_activity();
+                break;
+            case autodrive_result::finished:
+                act.moves_left = 0;
+                break;
+        }
     } else {
         who.cancel_activity();
-        return;
-    }
-    if( player_vehicle->omt_path.empty() ) {
-        act.moves_left = 0;
     }
 }
 
 void autodrive_activity_actor::canceled( player_activity &act, Character &who )
 {
     who.add_msg_if_player( m_info, _( "Auto-drive canceled." ) );
-    if( player_vehicle && !player_vehicle->omt_path.empty() ) {
-        player_vehicle->omt_path.clear();
-    }
-    if( !who.omt_path.empty() ) {
-        who.omt_path.clear();
-    }
+    who.omt_path.clear();
     if( player_vehicle ) {
-        player_vehicle->is_autodriving = false;
+        player_vehicle->stop_autodriving();
     }
     act.set_to_null();
 }
@@ -419,7 +424,7 @@ void autodrive_activity_actor::canceled( player_activity &act, Character &who )
 void autodrive_activity_actor::finish( player_activity &act, Character &who )
 {
     who.add_msg_if_player( m_info, _( "You have reached your destination." ) );
-    player_vehicle->is_autodriving = false;
+    player_vehicle->stop_autodriving();
     act.set_to_null();
 }
 
@@ -842,6 +847,79 @@ void hacking_activity_actor::serialize( JsonOut & ) const {}
 std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonIn & )
 {
     hacking_activity_actor actor;
+    return actor.clone();
+}
+
+void bookbinder_copy_activity_actor::start( player_activity &act, Character & )
+{
+    pages = 1 + rec_id->difficulty / 2;
+    act.moves_total = to_moves<int>( pages * 10_minutes );
+    act.moves_left = to_moves<int>( pages * 10_minutes );
+}
+
+void bookbinder_copy_activity_actor::do_turn( player_activity &, Character &p )
+{
+    if( p.fine_detail_vision_mod() > 4.0f ) {
+        p.cancel_activity();
+        p.add_msg_if_player( m_info, _( "It's too dark to write!" ) );
+        return;
+    }
+}
+
+void bookbinder_copy_activity_actor::finish( player_activity &act, Character &p )
+{
+    if( !book_binder->can_contain( item( itype_paper, calendar::turn, pages ) ).success() ) {
+        debugmsg( "Book binder can not contain '%s' recipe when it should.", rec_id.str() );
+        act.set_to_null();
+        return;
+    }
+
+    const bool rec_added = book_binder->eipc_recipe_add( rec_id );
+    if( rec_added ) {
+        p.add_msg_if_player( m_good, _( "You copy the recipe for %1$s into your recipe book." ),
+                             rec_id->result_name() );
+
+        p.use_charges( itype_paper, pages );
+
+        const std::vector<const item *> writing_tools_filter =
+        p.crafting_inventory().items_with( [&]( const item & it ) {
+            return it.has_flag( flag_WRITE_MESSAGE ) && it.ammo_remaining() >= it.ammo_required() ;
+        } );
+
+        std::vector<tool_comp> writing_tools;
+        writing_tools.reserve( writing_tools_filter.size() );
+        for( const item *tool : writing_tools_filter ) {
+            writing_tools.emplace_back( tool_comp( tool->typeId(), 1 ) );
+        }
+
+        p.consume_tools( writing_tools, pages );
+        book_binder->put_in( item( itype_paper, calendar::turn, pages ),
+                             item_pocket::pocket_type::MAGAZINE );
+    } else {
+        debugmsg( "Recipe book already has '%s' recipe when it should not.", rec_id.str() );
+    }
+
+    act.set_to_null();
+}
+
+void bookbinder_copy_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "book_binder", book_binder );
+    jsout.member( "rec_id", rec_id );
+    jsout.member( "pages", pages );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> bookbinder_copy_activity_actor::deserialize( JsonIn &jsin )
+{
+    bookbinder_copy_activity_actor actor;
+
+    JsonObject jsobj = jsin.get_object();
+    jsobj.read( "book_binder", actor.book_binder );
+    jsobj.read( "rec_id", actor.rec_id );
+    jsobj.read( "pages", actor.pages );
+
     return actor.clone();
 }
 
@@ -3907,6 +3985,7 @@ deserialize_functions = {
     { activity_id( "ACT_AUTODRIVE" ), &autodrive_activity_actor::deserialize },
     { activity_id( "ACT_BIKERACK_RACKING" ), &bikerack_racking_activity_actor::deserialize },
     { activity_id( "ACT_BIKERACK_UNRACKING" ), &bikerack_unracking_activity_actor::deserialize },
+    { activity_id( "ACT_BINDER_COPY_RECIPE" ), &bookbinder_copy_activity_actor::deserialize },
     { activity_id( "ACT_BOLTCUTTING" ), &boltcutting_activity_actor::deserialize },
     { activity_id( "ACT_CONSUME" ), &consume_activity_actor::deserialize },
     { activity_id( "ACT_CRAFT" ), &craft_activity_actor::deserialize },

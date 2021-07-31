@@ -31,6 +31,7 @@
 #include "map_iterator.h"
 #include "mapbuffer.h"
 #include "mapgen.h"
+#include "mapgen_functions.h"
 #include "math_defines.h"
 #include "messages.h"
 #include "mongroup.h"
@@ -403,6 +404,14 @@ void overmap_specials::finalize()
 {
     for( const auto &elem : specials.get_all() ) {
         const_cast<overmap_special &>( elem ).finalize(); // This cast is ugly, but safe.
+    }
+}
+
+void overmap_specials::finalize_mapgen_parameters()
+{
+    for( const auto &elem : specials.get_all() ) {
+        // This cast is ugly, but safe.
+        const_cast<overmap_special &>( elem ).finalize_mapgen_parameters();
     }
 }
 
@@ -892,6 +901,11 @@ bool overmap_special::can_belong_to_city( const tripoint_om_omt &p, const city &
     return city_distance.contains( cit.get_distance_from( p ) - ( cit.size ) );
 }
 
+mapgen_arguments overmap_special::get_args( const mapgendata &md ) const
+{
+    return mapgen_params.get_args( md, mapgen_parameter_scope::overmap_special );
+}
+
 void overmap_special::load( const JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
@@ -972,6 +986,17 @@ void overmap_special::finalize()
                     break;
             }
         }
+    }
+}
+
+void overmap_special::finalize_mapgen_parameters()
+{
+    // Extract all the map_special-scoped params from the constituent terrains
+    // and put them here
+    std::string context = string_format( "overmap_special %s", id.str() );
+    for( overmap_special_terrain &t : terrains ) {
+        std::string mapgen_id = t.terrain->get_mapgen_id();
+        mapgen_params.check_and_merge( get_map_special_params( mapgen_id ), context );
     }
 }
 
@@ -1167,6 +1192,15 @@ const oter_id &overmap::ter( const tripoint_om_omt &p ) const
     }
 
     return layer[p.z() + OVERMAP_DEPTH].terrain[p.x()][p.y()];
+}
+
+cata::optional<mapgen_arguments> *overmap::mapgen_args( const tripoint_om_omt &p )
+{
+    auto it = mapgen_args_index.find( p );
+    if( it == mapgen_args_index.end() ) {
+        return nullptr;
+    }
+    return it->second;
 }
 
 bool &overmap::seen( const tripoint_om_omt &p )
@@ -3804,6 +3838,17 @@ bool overmap::check_overmap_special_type( const overmap_special_id &id,
     return found_id->second == id;
 }
 
+cata::optional<overmap_special_id> overmap::overmap_special_at( const tripoint_om_omt &p ) const
+{
+    auto it = overmap_special_placements.find( p );
+
+    if( it == overmap_special_placements.end() ) {
+        return cata::nullopt;
+    }
+
+    return it->second;
+}
+
 void overmap::good_river( const tripoint_om_omt &p )
 {
     if( !is_ot_match( "river", ter( p ), ot_match_type::prefix ) ) {
@@ -4109,12 +4154,15 @@ void overmap::place_special(
     const bool blob = special.flags.count( "BLOB" ) > 0;
     const bool is_safe_zone = special.flags.count( "SAFE_AT_WORLDGEN" ) > 0;
 
+    cata::optional<mapgen_arguments> *mapgen_args_p = &*mapgen_arg_storage.emplace();
+
     for( const auto &elem : special.terrains ) {
         const tripoint_om_omt location = p + om_direction::rotate( elem.p, dir );
         const oter_id tid = elem.terrain->get_rotated( dir );
 
         overmap_special_placements[location] = special.id;
         ter_set( location, tid );
+        mapgen_args_index.emplace( location, mapgen_args_p );
         if( is_safe_zone ) {
             safe_at_worldgen.emplace( location );
         }
@@ -4232,8 +4280,9 @@ bool overmap::place_special_attempt(
     return false;
 }
 
-void overmap::place_specials_pass( overmap_special_batch &enabled_specials,
-                                   om_special_sectors &sectors, const bool place_optional, const bool must_be_unexplored )
+void overmap::place_specials_pass(
+    overmap_special_batch &enabled_specials, om_special_sectors &sectors,
+    const bool place_optional, const bool must_be_unexplored )
 {
     // Walk over sectors in random order, to minimize "clumping".
     std::shuffle( sectors.sectors.begin(), sectors.sectors.end(), rng_get_engine() );

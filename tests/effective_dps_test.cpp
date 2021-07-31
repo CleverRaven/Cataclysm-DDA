@@ -8,6 +8,7 @@
 #include "melee.h"
 #include "monster.h"
 #include "player_helpers.h"
+#include "sounds.h"
 #include "ret_val.h"
 #include "type_id.h"
 
@@ -34,8 +35,7 @@ static double weapon_dps_trials( avatar &attacker, monster &defender, item &weap
             // Reset and re-wield weapon before each attack to prevent skill-up during trials
             clear_character( attacker );
             attacker.wield( weapon );
-            // Verify that wielding worked (and not e.g. using martial arts
-            // instead)
+            // Verify that wielding worked (and not e.g. using martial arts instead)
             REQUIRE( attacker.used_weapon().type == weapon.type );
 
             int before_moves = attacker.get_moves();
@@ -50,6 +50,10 @@ static double weapon_dps_trials( avatar &attacker, monster &defender, item &weap
             // Tally total damage and moves
             total_damage += std::max( 0, starting_hp - defender.get_hp() );
             total_moves += std::abs( attacker.get_moves() - before_moves );
+
+            // Every hit or miss enqueues a new sound
+            // Ideally, we'd have sound vector get cleared after every test, but it's not easy
+            sounds::reset_sounds();
         }
     }
 

@@ -129,6 +129,9 @@ struct oter_type_t;
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
 
+class overmap_special;
+using overmap_special_id = string_id<overmap_special>;
+
 class profession;
 using profession_id = string_id<profession>;
 
