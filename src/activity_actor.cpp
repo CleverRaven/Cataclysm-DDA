@@ -1717,7 +1717,9 @@ void boltcutting_activity_actor::start( player_activity &act, Character &/*who*/
     if( here.has_furn( target ) ) {
         const furn_id furn_type = here.furn( target );
         if( !furn_type->boltcut->valid() ) {
-            debugmsg( "%s boltcut is invalid", furn_type.id().str() );
+            if( !testing ) {
+                debugmsg( "%s boltcut is invalid", furn_type.id().str() );
+            }
             act.set_to_null();
             return;
         }
@@ -1726,13 +1728,17 @@ void boltcutting_activity_actor::start( player_activity &act, Character &/*who*/
     } else if( !here.ter( target )->is_null() ) {
         const ter_id ter_type = here.ter( target );
         if( !ter_type->boltcut->valid() ) {
-            debugmsg( "%s boltcut is invalid", ter_type.id().str() );
+            if( !testing ) {
+                debugmsg( "%s boltcut is invalid", ter_type.id().str() );
+            }
             act.set_to_null();
             return;
         }
         act.moves_total = to_moves<int>( ter_type->boltcut->duration() );
     } else {
-        debugmsg( "boltcut activity called on invalid terrain" );
+        if( !testing ) {
+            debugmsg( "boltcut activity called on invalid terrain" );
+        }
         act.set_to_null();
         return;
     }
@@ -1764,14 +1770,18 @@ void boltcutting_activity_actor::finish( player_activity &act, Character &who )
     if( here.has_furn( target ) ) {
         const furn_id furn_type = here.furn( target );
         if( !furn_type->boltcut->valid() ) {
-            debugmsg( "%s boltcut is invalid", furn_type.id().str() );
+            if( !testing ) {
+                debugmsg( "%s boltcut is invalid", furn_type.id().str() );
+            }
             act.set_to_null();
             return;
         }
 
         const furn_str_id new_furn = furn_type->boltcut->result();
         if( !new_furn.is_valid() ) {
-            debugmsg( "boltcut furniture: %s invalid furniture", new_furn.str() );
+            if( !testing ) {
+                debugmsg( "boltcut furniture: %s invalid furniture", new_furn.str() );
+            }
             act.set_to_null();
             return;
         }
@@ -1781,14 +1791,18 @@ void boltcutting_activity_actor::finish( player_activity &act, Character &who )
     } else if( !here.ter( target )->is_null() ) {
         const ter_id ter_type = here.ter( target );
         if( !ter_type->boltcut->valid() ) {
-            debugmsg( "%s boltcut is invalid", ter_type.id().str() );
+            if( !testing ) {
+                debugmsg( "%s boltcut is invalid", ter_type.id().str() );
+            }
             act.set_to_null();
             return;
         }
 
         const ter_str_id new_ter = ter_type->boltcut->result();
         if( !new_ter.is_valid() ) {
-            debugmsg( "boltcut terrain: %s invalid terrain", new_ter.str() );
+            if( !testing ) {
+                debugmsg( "boltcut terrain: %s invalid terrain", new_ter.str() );
+            }
             act.set_to_null();
             return;
         }
@@ -1796,7 +1810,9 @@ void boltcutting_activity_actor::finish( player_activity &act, Character &who )
         data = static_cast<const activity_data_common *>( &*ter_type->boltcut );
         here.ter_set( target, new_ter );
     } else {
-        debugmsg( "boltcut activity finished on invalid terrain" );
+        if( !testing ) {
+            debugmsg( "boltcut activity finished on invalid terrain" );
+        }
         act.set_to_null();
         return;
     }

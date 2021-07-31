@@ -583,6 +583,9 @@ class boltcutting_activity_actor : public activity_actor
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 
+        // debugmsg causes a backtrace when fired during cata_test
+        bool testing = false;
+
     private:
         tripoint target;
         item_location tool;
