@@ -41,6 +41,7 @@ extern const flag_id flag_BELT_CLIP;
 extern const flag_id flag_BIO_IMMUNE;
 extern const flag_id flag_BIONIC_GUN;
 extern const flag_id flag_BIONIC_INSTALLATION_DATA;
+extern const flag_id flag_BIONIC_TOGGLED;
 extern const flag_id flag_BIONIC_WEAPON;
 extern const flag_id flag_BIPOD;
 extern const flag_id flag_BIRD;

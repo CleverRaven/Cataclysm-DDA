@@ -2265,9 +2265,7 @@ std::vector<item> &Character::get_pseudo_items() const
                 bid.has_flag( flag_BIONIC_WEAPON ) ) {
                 continue;
             }
-            if( !bid.activated || bio.powered || bid.has_flag( flag_USES_BIONIC_POWER ) ) {
-                /*pseudo_items.emplace_back(item(bid.fake_item,
-                    calendar::turn, units::to_kilojoule(get_power_level())));*/
+            if( !bid.activated || bio.powered || !bid.has_flag( flag_BIONIC_TOGGLED ) ) {
                 item i( bid.fake_item );
                 if( bid.has_flag( flag_USES_BIONIC_POWER ) ) {
                     i.set_flag( flag_USES_BIONIC_POWER );

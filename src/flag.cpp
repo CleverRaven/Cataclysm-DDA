@@ -34,6 +34,7 @@ const flag_id flag_BELT_CLIP( "BELT_CLIP" );
 const flag_id flag_BIO_IMMUNE( "BIO_IMMUNE" );
 const flag_id flag_BIONIC_GUN( "BIONIC_GUN" );
 const flag_id flag_BIONIC_INSTALLATION_DATA( "BIONIC_INSTALLATION_DATA" );
+const flag_id flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 const flag_id flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
 const flag_id flag_BIPOD( "BIPOD" );
 const flag_id flag_BIRD( "BIRD" );
