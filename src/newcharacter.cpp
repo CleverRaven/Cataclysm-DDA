@@ -128,7 +128,7 @@ static tab_direction set_stats( avatar &u, points_left &points );
 static tab_direction set_traits( avatar &u, points_left &points );
 static tab_direction set_scenario( avatar &u, points_left &points, tab_direction direction );
 static tab_direction set_profession( avatar &u, points_left &points, tab_direction direction );
-static tab_direction set_hobbies( avatar &u, points_left &points, tab_direction direction );
+static tab_direction set_hobbies( avatar &u, points_left &points );
 static tab_direction set_skills( avatar &u, points_left &points );
 static tab_direction set_description( avatar &you, bool allow_reroll, points_left &points );
 
@@ -515,7 +515,7 @@ bool avatar::create( character_type type, const std::string &tempname )
                 result = set_profession( *this, points, result );
                 break;
             case 3:
-                result = set_hobbies( *this, points, result );
+                result = set_hobbies( *this, points );
                 break;
             case 4:
                 result = set_stats( *this, points );
@@ -1999,8 +1999,7 @@ tab_direction set_profession( avatar &u, points_left &points,
 }
 
 /** Handle the hobbies tab of the character generation menu */
-tab_direction set_hobbies( avatar &u, points_left &points,
-                           const tab_direction direction )
+tab_direction set_hobbies( avatar &u, points_left &points )
 {
     int cur_id = 0;
     tab_direction retval = tab_direction::NONE;
@@ -2045,12 +2044,7 @@ tab_direction set_hobbies( avatar &u, points_left &points,
     std::string filterstring;
     std::vector<string_id<profession>> sorted_profs;
 
-    if( direction == tab_direction::FORWARD ) {
-        points.skill_points -= u.prof->point_cost();
-    }
-
     int iheight = 0;
-
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
         draw_character_tabs( w, _( "HOBBIES" ) );
@@ -4161,6 +4155,8 @@ void reset_scenario( avatar &u, const scenario *scen )
             u.toggle_trait( t );
         }
     }
+
+    u.hobbies.clear();
     u.clear_mutations();
     u.recalc_hp();
     u.empty_skills();
