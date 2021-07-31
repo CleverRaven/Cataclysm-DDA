@@ -42,6 +42,7 @@
 #include "rng.h"
 #include "translations.h"
 #include "type_id.h"
+#include "ui_manager.h"
 
 class ui_adaptor;
 
@@ -130,6 +131,8 @@ void exit_handler( int s )
         exit( exit_status );
     }
     inp_mngr.set_timeout( old_timeout );
+    ui_manager::redraw_invalidated();
+    catacurses::doupdate();
 }
 
 struct arg_handler {
