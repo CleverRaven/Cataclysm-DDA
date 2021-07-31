@@ -143,7 +143,7 @@
     "subtype": "hobby",
     "id": "knitting",
     "name": "Knitting",
-    "description": "You enjoyed many a day sitting in your rocking chair and knitting mindlessly while watching TV shows.  The TV shows are no more, but you still can enjoy knitting right?",
+    "description": "You enjoyed many a day sitting in your rocking chair and knitting mindlessly while watching TV shows.  The TV shows are no more, but you still can enjoy knitting, right?",
     "points": 1,
     "proficiencies": [ "prof_knitting" ],
     "skills": [ { "level": 2, "name": "tailor" } ]
@@ -176,3 +176,4 @@
     "skills": [ { "level": 3, "name": "cooking" } ]
   }
 ]
+
