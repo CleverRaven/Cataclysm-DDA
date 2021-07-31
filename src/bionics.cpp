@@ -2926,7 +2926,6 @@ bool bionic::has_flag( const std::string &flag ) const
 
 int bionic::get_quality( const quality_id &quality ) const
 {
-    const bionic_data &i = info();
     if( weapon.typeId().is_empty() ) {
         return INT_MIN;
     }
