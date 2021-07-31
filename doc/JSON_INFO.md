@@ -191,7 +191,7 @@ Use the `Home` key to return to the top.
   - [`professions`](#professions)
   - [`map_special`](#map_special)
   - [`missions`](#missions)
-  - [`custom_initial_date`](#custom_initial_date)
+  - [`custom_start_date`](#custom_start_date)
 - [Starting locations](#starting-locations)
   - [`name`](#name-3)
   - [`terrain`](#terrain)
@@ -3860,7 +3860,9 @@ A list of mission ids that will be started and assigned to the player at the sta
 ## `custom_initial_date`
 (optional, object with optional members "hour", "day", "season" and "year")
 
-Allows customizing initial date. If not set - corresponding values from world options are used. Random value is used for each parameter that is not explicitly.
+Allows customizing start date. If `custom_initial_date` is not set the corresponding values from world options are used instead.
+
+If the start date of the scenario is before the date of cataclysm defined by map settings then the scenario date is moved forwards by one year.
 
 ```C++
 "custom_initial_date": { "hour": 3, "day": 10, "season": "winter", "year": 1 }
@@ -3868,10 +3870,10 @@ Allows customizing initial date. If not set - corresponding values from world op
 
  Identifier            | Description
 ---                    | ---
-`hour`                 | (optional, integer) Hour of the day for initial date
-`day`                  | (optional, integer) Day of the season for initial date
-`season`               | (optional, integer) Season for initial date
-`year`                 | (optional, integer) Year for initial date
+`hour`                 | (optional, integer) Hour of the day for initial date. Default 8. -1 randomizes 0-23.
+`day`                  | (optional, integer) Day of the season for initial date. Default 0. -1 randomizes 0-season lenght.
+`season`               | (optional, integer) Season for initial date. Default `SPRING`.
+`year`                 | (optional, integer) Year for initial date. Default 1. -1 randomizes 1-11.
 
 # Starting locations
 
