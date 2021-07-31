@@ -443,7 +443,7 @@ const
         }
     }
 
-    for( const auto &e : pseudo_items ) {
+    for( const auto &e : get_pseudo_items() ) {
         if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
