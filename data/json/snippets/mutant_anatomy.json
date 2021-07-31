@@ -71,7 +71,7 @@
     "text": [
       {
         "id": "cooked_mutant_brain_1",
-        "text": "This is a piece of cooked brain from a mutated animal.  Whatever gave its surface the oily sheen coagulated into bluish clumps of goo settled into the gyri.  You try to scrape them off, but they seem fused with the tissue beneath."
+        "text": "This is a piece of cooked brain from a mutated animal.  Whatever gave its surface an oily sheen has coagulated into bluish clumps of goo settled into the grooves.  You try to scrape them off, but they seem fused with the tissue beneath."
       },
       {
         "id": "cooked_mutant_brain_2",
@@ -149,7 +149,7 @@
       },
       {
         "id": "mutant_liver_3",
-        "text": "A chunk of liver from a mutated animal.  The gall bladder transformed into a bundle of hair and skin, and what appeared to be brownish veins originating from it turn out to be singular, curled hairs crisscrossing beneath the surface of the organ.  At least you can remove them with a gentle pull on the central mass, but the whole liver collapses in a gelatinous heap afterwards."
+        "text": "A chunk of liver from a mutated animal.  The gall bladder has transformed into a bundle of hair and skin, and what appeared to be brownish veins originating from it turn out to be solitary, curled hairs crisscrossing beneath the surface of the organ.  At least you can remove them with a gentle pull on the central mass, but the whole liver collapses in a gelatinous heap afterwards."
       },
       {
         "id": "mutant_liver_4",
@@ -185,7 +185,7 @@
     "text": [
       {
         "id": "mutant_kidney_1",
-        "text": "A piece of kidney from a mutated animal.  Cutting into it your knife slips, opening a large gash on its side from which tiny, beautiful pearls roll out.  Before your eyes they start glistening with humidity and melt, leaving no trace of them."
+        "text": "A piece of kidney from a mutated animal.  Cutting into it your knife slips, opening a large gash on its side from which tiny, beautiful pearls roll out.  Before your eyes they start glistening with humidity and melt, leaving no trace beyond a stingin stench."
       },
       {
         "id": "mutant_kidney_2",
@@ -197,7 +197,7 @@
       },
       {
         "id": "mutant_kidney_4",
-        "text": "A piece of kidney from a mutated animal.  Accessory kidneys bud off the ureter in clumps, like red, slightly quivering grapes.  The main organ continues the same fractal structure, revealing itself to be a collection of smaller instances of each cut."
+        "text": "A piece of kidney from a mutated animal.  Accessory kidneys bud off the ureter in clumps, like red, slightly quivering grapes.  The main organ continues the same fractal structure, fraying  into myriad tiny berries still connected to a stem."
       }
     ]
   },
