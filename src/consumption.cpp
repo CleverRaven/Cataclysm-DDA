@@ -16,6 +16,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
+#include "craft_command.h"
 #include "debug.h"
 #include "effect.h"
 #include "enums.h"
@@ -26,7 +27,6 @@
 #include "game.h"
 #include "item.h"
 #include "item_category.h"
-#include "item_contents.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -886,7 +886,7 @@ static bool eat( item &food, player &you, bool force )
         return false;
     }
 
-    const auto ret = force ? you.can_eat( food ) : you.will_eat( food, you.is_player() );
+    const auto ret = force ? you.can_eat( food ) : you.will_eat( food, you.is_avatar() );
     if( !ret.success() ) {
         return false;
     }
@@ -977,7 +977,7 @@ static bool eat( item &food, player &you, bool force )
                                    food.tname() );
     } else if( drinkable ) {
         if( you.has_trait( trait_SCHIZOPHRENIC ) &&
-            one_in( 50 ) && !spoiled && food.goes_bad() && you.is_player() ) {
+            one_in( 50 ) && !spoiled && food.goes_bad() && you.is_avatar() ) {
 
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
             add_msg( _( "You drink your %s (rotten)." ), food.tname() );
@@ -987,7 +987,7 @@ static bool eat( item &food, player &you, bool force )
         }
     } else if( chew ) {
         if( you.has_trait( trait_SCHIZOPHRENIC ) &&
-            one_in( 50 ) && !spoiled && food.goes_bad() && you.is_player() ) {
+            one_in( 50 ) && !spoiled && food.goes_bad() && you.is_avatar() ) {
 
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
             add_msg( _( "You eat your %s (rotten)." ), food.tname() );
@@ -1478,6 +1478,19 @@ bool Character::consume_effects( item &food )
     if( has_effect( effect_tapeworm ) ) {
         ingested.nutr /= 2;
     }
+    dialogue d;
+    standard_npc default_npc( "Default" );
+    if( avatar *u = as_avatar() ) {
+        d.alpha = get_talker_for( u );
+    } else if( npc *n = as_npc() ) {
+        d.alpha = get_talker_for( n );
+    }
+    item_location loc( *( as_character() ), &food );
+    d.beta = get_talker_for( loc );
+
+    for( const effect_on_condition_id &eoc : comest.consumption_eocs ) {
+        eoc->activate( d );
+    }
 
     // GET IN MAH BELLY!
     stomach.ingest( ingested );
@@ -1730,6 +1743,20 @@ static bool consume_med( item &target, player &you )
         // Take by mouth
         you.consume_effects( target );
     }
+    dialogue d;
+    standard_npc default_npc( "Default" );
+    if( avatar *u = you.as_avatar() ) {
+        d.alpha = get_talker_for( u );
+    } else if( npc *n = you.as_npc() ) {
+        d.alpha = get_talker_for( n );
+    }
+    item_location loc( *( you.as_character() ), &target );
+    d.beta = get_talker_for( loc );
+
+    const auto &comest = *target.get_comestible();
+    for( const effect_on_condition_id &eoc : comest.consumption_eocs ) {
+        eoc->activate( d );
+    }
 
     target.mod_charges( -amount_used );
     return true;
@@ -1753,13 +1780,12 @@ trinary player::consume( item &target, bool force, bool refuel )
         }
         return trinary::NONE;
     }
-    if( is_player() && !query_consume_ownership( target, *this ) ) {
+    if( is_avatar() && !query_consume_ownership( target, *this ) ) {
         return trinary::NONE;
     }
 
     if( refuel ) {
-        fuel_bionic_with( target );
-        return target.charges <= 0 ? trinary::ALL : trinary::SOME;
+        return fuel_bionic_with( target ) && target.charges <= 0 ? trinary::ALL : trinary::SOME;
     }
 
     if( consume_med( target, *this ) || eat( target, *this, force ) ) {

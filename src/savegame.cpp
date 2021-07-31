@@ -536,11 +536,11 @@ void overmap::unserialize( std::istream &fin )
         } else if( name == "region_id" ) {
             std::string new_region_id;
             jsin.read( new_region_id );
-            if( settings.id != new_region_id ) {
+            if( settings->id != new_region_id ) {
                 t_regional_settings_map_citr rit = region_settings_map.find( new_region_id );
                 if( rit != region_settings_map.end() ) {
                     // TODO: optimize
-                    settings = rit->second;
+                    settings = pimpl<regional_settings>( rit->second );
                 }
             }
         } else if( name == "mongroups" ) {
@@ -687,10 +687,12 @@ void overmap::unserialize( std::istream &fin )
             while( !jsin.end_array() ) {
                 jsin.start_object();
                 overmap_special_id s;
+                bool is_safe_zone = false;
                 while( !jsin.end_object() ) {
                     std::string name = jsin.get_member_name();
                     if( name == "special" ) {
                         jsin.read( s );
+                        is_safe_zone = s.obj().flags.count( "SAFE_AT_WORLDGEN" ) > 0;
                     } else if( name == "placements" ) {
                         jsin.start_array();
                         while( !jsin.end_array() ) {
@@ -707,6 +709,9 @@ void overmap::unserialize( std::istream &fin )
                                             if( name == "p" ) {
                                                 jsin.read( p );
                                                 overmap_special_placements[p] = s;
+                                                if( is_safe_zone ) {
+                                                    safe_at_worldgen.emplace( p );
+                                                }
                                             }
                                         }
                                     }
@@ -715,6 +720,15 @@ void overmap::unserialize( std::istream &fin )
                         }
                     }
                 }
+            }
+        } else if( name == "mapgen_arg_storage" ) {
+            jsin.read( mapgen_arg_storage, true );
+        } else if( name == "mapgen_arg_index" ) {
+            std::vector<std::pair<tripoint_om_omt, int>> flat_index;
+            jsin.read( flat_index, true );
+            for( const std::pair<tripoint_om_omt, int> &p : flat_index ) {
+                auto it = mapgen_arg_storage.get_iterator_from_index( p.second );
+                mapgen_args_index.emplace( p.first, &*it );
             }
         }
     }
@@ -996,7 +1010,7 @@ void overmap::serialize( std::ostream &fout ) const
     json.end_array();
 
     // temporary, to allow user to manually switch regions during play until regionmap is done.
-    json.member( "region_id", settings.id );
+    json.member( "region_id", settings->id );
     fout << std::endl;
 
     save_monster_groups( json );
@@ -1111,6 +1125,22 @@ void overmap::serialize( std::ostream &fout ) const
         json.end_object();
         json.end_array();
         json.end_object();
+    }
+    json.end_array();
+    fout << std::endl;
+
+    json.member( "mapgen_arg_storage", mapgen_arg_storage );
+    fout << std::endl;
+    json.member( "mapgen_arg_index" );
+    json.start_array();
+    for( const std::pair<const tripoint_om_omt, cata::optional<mapgen_arguments> *> &p :
+         mapgen_args_index ) {
+        json.start_array();
+        json.write( p.first );
+        auto it = mapgen_arg_storage.get_iterator_from_pointer( p.second );
+        int index = mapgen_arg_storage.get_index_from_iterator( it );
+        json.write( index );
+        json.end_array();
     }
     json.end_array();
     fout << std::endl;

@@ -15,7 +15,6 @@
 #include "flag.h"
 #include "generic_factory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_group.h"
 #include "itype.h"
 #include "json.h"
@@ -234,6 +233,9 @@ void profession::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "traits", _starting_traits, auto_flags_reader<trait_id> {} );
     optional( jo, was_loaded, "forbidden_traits", _forbidden_traits, auto_flags_reader<trait_id> {} );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
+
+    // Flag which denotes if a profession is a hobby
+    optional( jo, was_loaded, "subtype", _subtype, "" );
 }
 
 const profession *profession::generic()
@@ -246,6 +248,25 @@ const profession *profession::generic()
 const std::vector<profession> &profession::get_all()
 {
     return all_profs.get_all();
+}
+
+std::vector<string_id<profession>> profession::get_all_hobbies()
+{
+    std::vector<profession> all = profession::get_all();
+    std::vector<profession_id> ret;
+
+    // remove all non-hobbies from list of professions
+    const auto new_end = std::remove_if( all.begin(),
+    all.end(), [&]( const profession & arg ) {
+        return !arg.is_hobby();
+    } );
+    all.erase( new_end, all.end() );
+
+    // convert to string_id's then return
+    for( const profession &p : all ) {
+        ret.emplace( ret.end(), p.ident() );
+    }
+    return ret;
 }
 
 void profession::reset()
@@ -727,4 +748,9 @@ const
         }
     }
     return ret;
+}
+
+bool profession::is_hobby() const
+{
+    return _subtype == "hobby";
 }

@@ -171,9 +171,7 @@ class avatar : public player
         void disarm( npc &target );
 
         /** Handles reading effects and returns true if activity started */
-        bool read( item &it, bool continuous = false );
-        /** Completes book reading action. **/
-        void do_read( item &book );
+        bool read( item_location &book );
         /** Note that we've read a book at least once. **/
         bool has_identified( const itype_id &item_id ) const override;
         void identify( const item &item ) override;

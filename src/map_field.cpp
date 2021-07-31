@@ -36,7 +36,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
-#include "item_contents.h"
 #include "itype.h"
 #include "level_cache.h"
 #include "line.h"
@@ -1628,7 +1627,7 @@ void map::player_in_field( player &u )
             // Assume the rift is on the ground for now to prevent issues with the player being unable access vehicle controls on the same tile due to teleportation.
             if( !u.in_vehicle ) {
                 // Teleports you... somewhere.
-                if( rng( 0, 2 ) < cur.get_field_intensity() && u.is_player() ) {
+                if( rng( 0, 2 ) < cur.get_field_intensity() && u.is_avatar() ) {
                     add_msg( m_bad, _( "You're violently teleported!" ) );
                     u.hurtall( cur.get_field_intensity(), nullptr );
                     teleport::teleport( u );

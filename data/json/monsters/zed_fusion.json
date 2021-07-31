@@ -271,8 +271,8 @@
     "vision_day": 2,
     "vision_night": 2,
     "harvest": "exempt",
-    "special_attacks": [ [ "RANGED_PULL", 20 ], [ "SMASH", 20 ] ],
     "death_function": { "message": "A %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
+    "special_attacks": [ [ "RANGED_PULL", 20 ], { "id": "smash", "throw_strength": 30 } ],
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "POISON", "CLIMBS", "NO_BREATHE", "IMMOBILE", "RANGED_ATTACKER" ]
   },
   {

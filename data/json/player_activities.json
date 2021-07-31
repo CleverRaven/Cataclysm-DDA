@@ -666,6 +666,13 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_BOLTCUTTING",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "cutting the wire",
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_PRY_NAILS",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
@@ -900,6 +907,14 @@
     "no_resume": true
   },
   {
+    "id": "ACT_BINDER_COPY_RECIPE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "writing",
+    "rooted": true,
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_MIGRATION_CANCEL",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -942,6 +957,14 @@
     "activity_level": "LIGHT_EXERCISE",
     "verb": { "ctxt": "training", "str": "working out" },
     "based_on": "time"
+  },
+  {
+    "id": "ACT_DISABLE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "disabling",
+    "suspendable": false,
+    "based_on": "speed"
   },
   {
     "id": "ACT_FURNITURE_MOVE",

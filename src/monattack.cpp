@@ -2305,7 +2305,7 @@ bool mattack::formblob( monster *z )
             continue;
         }
 
-        if( critter->is_player() || critter->is_npc() ) {
+        if( critter->is_avatar() || critter->is_npc() ) {
             // If we hit the player or some NPC, cover them with slime
             didit = true;
             // TODO: Add some sort of a resistance/dodge roll
@@ -2613,7 +2613,7 @@ bool mattack::ranged_pull( monster *z )
                 here.unboard_vehicle( foe->pos() );
             }
 
-            if( target->is_player() && ( pt.x < HALF_MAPSIZE_X || pt.y < HALF_MAPSIZE_Y ||
+            if( target->is_avatar() && ( pt.x < HALF_MAPSIZE_X || pt.y < HALF_MAPSIZE_Y ||
                                          pt.x >= HALF_MAPSIZE_X + SEEX || pt.y >= HALF_MAPSIZE_Y + SEEY ) ) {
                 g->update_map( pt.x, pt.y );
             }
@@ -2621,7 +2621,7 @@ bool mattack::ranged_pull( monster *z )
 
         target->setpos( pt );
         range--;
-        if( target->is_player() && seen ) {
+        if( target->is_avatar() && seen ) {
             g->invalidate_main_ui_adaptor();
             ui_manager::redraw_invalidated();
             refresh_display();
@@ -2654,6 +2654,11 @@ bool mattack::grab( monster *z )
     }
     Creature *target = z->attack_target();
     if( target == nullptr || !z->is_adjacent( target, false ) ) {
+        return false;
+    }
+
+    // Do not attempt to grab while z is already grabbing target. Do something else
+    if( z->has_effect( effect_grabbing ) && target->has_effect( effect_grabbed ) ) {
         return false;
     }
 
@@ -2738,7 +2743,7 @@ bool mattack::grab_drag( monster *z )
         if( !g->is_empty( zpt ) ) { //Cancel the grab if the space is occupied by something
             return false;
         }
-        if( target->is_player() && ( zpt.x < HALF_MAPSIZE_X ||
+        if( target->is_avatar() && ( zpt.x < HALF_MAPSIZE_X ||
                                      zpt.y < HALF_MAPSIZE_Y ||
                                      zpt.x >= HALF_MAPSIZE_X + SEEX || zpt.y >= HALF_MAPSIZE_Y + SEEY ) ) {
             g->update_map( zpt.x, zpt.y );
@@ -2769,7 +2774,7 @@ bool mattack::gene_sting( monster *z )
 {
     const float range = 7.0f;
     Creature *target = sting_get_target( z, range );
-    if( target == nullptr || !( target->is_player() || target->is_npc() ) ) {
+    if( target == nullptr || !( target->is_avatar() || target->is_npc() ) ) {
         return false;
     }
 
@@ -2841,7 +2846,7 @@ bool mattack::stare( monster *z )
         if( player_character.get_effect_int( effect_taint ) > 2 ) {
             player_character.add_effect( effect_hallu, 30_minutes );
             //Check if target is a player before spawning hallucinations
-            if( player_character.is_player() && one_in( 2 ) ) {
+            if( player_character.is_avatar() && one_in( 2 ) ) {
                 g->spawn_hallucination( player_character.pos() + tripoint( rng( -10, 10 ), rng( -10, 10 ), 0 ) );
             }
             if( one_in( 12 ) ) {
@@ -5162,9 +5167,9 @@ bool mattack::bio_op_takedown( monster *z )
     }
     // Weak kick to start with, knocks you off your footing
 
-    // TODO: Literally "The zombie kicks" vvvvv | Fix message or comment why Literally.
-    //~ 1$s is bodypart name in accusative, 2$d is damage value.
-    target->add_msg_if_player( m_bad, _( "The zombie kicks your %1$s for %2$d damage…" ),
+    //~ 1$s is monster name, 2$s is bodypart name in accusative, 3$d is damage value.
+    target->add_msg_if_player( m_bad, _( "The %1$s kicks your %2$s for %3$d damage…" ),
+                               z->name(),
                                body_part_name_accusative( hit ), dam );
     foe->deal_damage( z,  hit, damage_instance( damage_type::BASH, dam ) );
     // At this point, Judo or Tentacle Bracing can make this much less painful

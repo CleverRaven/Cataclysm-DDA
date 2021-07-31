@@ -348,7 +348,7 @@ static void eff_fun_hallu( Character &u, effect &it )
         u.mod_dex_bonus( -2 );
         u.add_miss_reason( _( "Dancing fractals distract you." ), 2 );
         u.mod_str_bonus( -1 );
-        if( u.is_player() && one_in( 50 ) ) {
+        if( u.is_avatar() && one_in( 50 ) ) {
             g->spawn_hallucination( u.pos() + tripoint( rng( -10, 10 ), rng( -10, 10 ), 0 ) );
         }
     } else if( dur == comedownTime ) {
@@ -497,7 +497,7 @@ static void eff_fun_teleglow( Character &u, effect &it )
     // depending on the source).
     // TODO: Include a chance to teleport to the nether realm.
     // TODO: This with regards to NPCS
-    if( !u.is_player() ) {
+    if( !u.is_avatar() ) {
         // NO, no teleporting around the player because an NPC has teleglow!
         return;
     }
@@ -923,7 +923,7 @@ static void eff_fun_sleep( Character &u, effect &it )
 
     u.set_moves( 0 );
 #if defined(TILES)
-    if( u.is_player() ) {
+    if( u.is_avatar() ) {
         SDL_PumpEvents();
     }
 #endif // TILES
@@ -1097,7 +1097,7 @@ static void eff_fun_sleep( Character &u, effect &it )
                 }
             }
         }
-        if( u.has_trait( trait_SCHIZOPHRENIC ) && one_in( 43200 ) && u.is_player() ) {
+        if( u.has_trait( trait_SCHIZOPHRENIC ) && one_in( 43200 ) && u.is_avatar() ) {
             if( one_in( 2 ) ) {
                 u.sound_hallu();
             } else {

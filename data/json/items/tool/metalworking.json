@@ -67,7 +67,6 @@
     "ammo": [ "charcoal" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 500 } } ],
     "sub": "forge",
-    "max_charges": 500,
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -281,6 +280,22 @@
     "flags": [ "DURABLE_MELEE" ]
   },
   {
+    "id": "drift",
+    "type": "TOOL",
+    "name": { "str": "drift" },
+    "description": "This is a hardened spike like object for metalsmithing.  This is used to make holes in metal in some metalworking fabrication recipes.",
+    "weight": "1200 g",
+    "volume": "750 ml",
+    "price": 2400,
+    "price_postapoc": 40,
+    "to_hit": 1,
+    "bashing": 10,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "flags": [ "DURABLE_MELEE" ]
+  },
+  {
     "id": "tongs",
     "type": "TOOL",
     "name": { "str": "pair of metal tongs", "str_pl": "pairs of metal tongs" },
@@ -307,6 +322,20 @@
     "price": 1600,
     "price_postapoc": 10,
     "material": "paper",
+    "symbol": "`",
+    "color": "brown",
+    "qualities": [ [ "FILE", 1 ] ]
+  },
+  {
+    "id": "leather_filing",
+    "type": "TOOL",
+    "name": { "str": "sandleather" },
+    "description": "A patch of leather with some sand.  Works as a substitute for sandpaper.",
+    "weight": "260 g",
+    "volume": "110 ml",
+    "price": 2000,
+    "price_postapoc": 10,
+    "material": "leather",
     "symbol": "`",
     "color": "brown",
     "qualities": [ [ "FILE", 1 ] ]
