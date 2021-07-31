@@ -106,7 +106,7 @@
     "power": 0,
     "location": "structure",
     "requirements": {
-      "install": { "skills": [ [ "fabriation", 1 ] ], "time": "100 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "install": { "skills": [ [ "fabrication", 1 ] ], "time": "100 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "fabrication", 1 ] ], "time": "100 s", "using": [ [ "vehicle_screw", 1 ] ] },
       "repair": { "skills": [ [ "fabrication", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
     },
