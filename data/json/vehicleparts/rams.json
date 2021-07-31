@@ -127,7 +127,7 @@
     "requirements": {
       "install": { "skills": [ [ "fabrication", 2 ] ], "time": "60 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
       "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "30 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "fabircation", 3 ] ], "time": "60 m", "using": [ [ "adhesive", 2 ] ] }
+      "repair": { "skills": [ [ "fabrication", 3 ] ], "time": "60 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "damage_reduction": { "all": 20, "cut": 10, "stab": 10 }
   },
