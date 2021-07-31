@@ -435,6 +435,18 @@ void avatar::add_profession_items()
     calc_encumbrance();
 }
 
+static int calculate_cumulative_experience( int level )
+{
+    int sum = 0;
+
+    while( level > 0 ) {
+        sum += 10000 * level * level;
+        level--;
+    }
+
+    return sum;
+}
+
 bool avatar::create( character_type type, const std::string &tempname )
 {
     weapon = item();
@@ -586,7 +598,7 @@ bool avatar::create( character_type type, const std::string &tempname )
     for( const profession *profession : hobbies ) {
         for( const profession::StartingSkill &e : profession->skills() ) {
             // Train our skill
-            const int skill_xp_bonus = ( e.second ) * ( e.second ) * 10000;
+            const int skill_xp_bonus = calculate_cumulative_experience( e.second );
             get_skill_level_object( e.first ).train( skill_xp_bonus );
         }
     }
@@ -3357,15 +3369,13 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                     profession::StartingSkillList::iterator i = hobby_skills.begin();
                     while( i != hobby_skills.end() ) {
                         if( i->first == ( elem )->ident() ) {
-                            int skill_exp_bonus = 10000 * ( i->second ) * ( i->second );
+                            int skill_exp_bonus = calculate_cumulative_experience( i->second );
 
                             // Calculate Level up to find final level and remaining exp
-                            if( skill_exp_bonus >= exp_to_level ) {
-                                do {
-                                    level++;
-                                    skill_exp_bonus -= exp_to_level;
-                                    exp_to_level = 10000 * ( level + 1 ) * ( level + 1 );
-                                } while( skill_exp_bonus >= exp_to_level );
+                            while( skill_exp_bonus >= exp_to_level ) {
+                                level++;
+                                skill_exp_bonus -= exp_to_level;
+                                exp_to_level = 10000 * ( level + 1 ) * ( level + 1 );
                             }
                             leftover_exp = skill_exp_bonus;
                             break;
