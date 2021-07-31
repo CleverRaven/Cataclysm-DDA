@@ -190,22 +190,15 @@ npc_attack_rating npc_attack_spell::evaluate_tripoint(
         const int distance_to_me = rl_dist( source.pos(), potential_target );
         const bool friendly_fire = att == Creature::Attitude::FRIENDLY &&
                                    !source.rules.has_flag( ally_rule::avoid_friendly_fire );
-        // the distance penalty if it were an npc. if there's no npc, it's 0
-        int npc_dist = source.closest_enemy_to_friendly_distance();
-        if( npc_dist == INT_MAX ) {
-            npc_dist = 0;
-        } else {
-            npc_dist = ( npc_dist - 1 ) * 2;
-        }
-        // a distance of 1 is melee distance, so we want distance shifted over a bit
-        const int distance_penalty = std::max( distance_to_me - 1, npc_dist );
-        int attitude_mult = npc_attack_constants::attitude_multiplier.at( att );
-        if( friendly_fire ) {
+        int attitude_mult = 3;
+        if( att == Creature::Attitude::FRIENDLY ) {
+            attitude_mult = -10;
+        } else if( att == Creature::Attitude::NEUTRAL || friendly_fire ) {
             // hitting a neutral creature isn't exactly desired, but it's a lot less than a friendly.
             // if friendly fire is on, we don't care too much, though if an available hit doesn't damage them it would be better.
-            attitude_mult = npc_attack_constants::attitude_multiplier.at( Creature::Attitude::NEUTRAL );
+            attitude_mult = -1;
         }
-        int potential = damage * attitude_mult - distance_penalty;
+        int potential = damage * attitude_mult - distance_to_me + 1;
         if( target && &critter == &target ) {
             potential *= npc_attack_constants::target_modifier;
         }
