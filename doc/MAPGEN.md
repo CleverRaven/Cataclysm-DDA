@@ -1054,6 +1054,13 @@ For example, the default value of a parameter, or a terrain id in the
 * A JSON object containing the key `"param"`, whose corresponding value is the
   string name of a parameter as discussed in [Mapgen
   parameters](#mapgen-parameters).  For example, `{ "param": "roof_type" }`.
+  You may be required to also supply a fallback value, such as `{ "param":
+  "roof_type", "fallback": "t_flat_roof" }`.  The fallback is necessary to
+  allow mapgen definitions to change without breaking an ongoing game.
+  Different parts of the same overmap special can be generated at different
+  times, and if a new parameter is added to the definition part way through the
+  generation then the value of that parameter will be missing and the fallback
+  will be used.
 
 
 ## Mapgen parameters
@@ -1061,8 +1068,8 @@ For example, the default value of a parameter, or a terrain id in the
 (Note that this feature is under development and functionality may not line up exactly
 with the documentation.)
 
-Another entry within a mapgen definition can be a `"parameters"` key.  For
-example:
+Another entry within a mapgen definition or palette can be a `"parameters"`
+key.  For example:
 ```
 "parameters": {
   "roof_type": {
@@ -1089,6 +1096,17 @@ you can use a random but consistent choice of roof terrain across your map.
 In contrast, placing the `"distribution"` directly in the `"terrain"` object would
 cause mapgen to choose a terrain at random for each roof tile, leading to a
 mishmash of roof terrains.
+
+By default, the scope of a parameter is the `overmap_special` being generated.
+That is, the parameter will have the same value across the `overmap_special`.
+When a default value is needed, it will be chosen when the first chunk of that
+special is generated, and that value will be saved to be reused for later
+chunks.
+
+If you wish, you may specify `"scope": "omt"` to limit the scope to just a
+single overmap tile.  Then a default value will be chosen independently for
+each OMT.  This has the advantage that you are no longer forced to select a
+`"fallback"` value when using that parameter in mapgen.
 
 
 ## Rotate the map with "rotation"

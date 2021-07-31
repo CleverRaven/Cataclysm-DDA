@@ -2113,7 +2113,7 @@ TEST_CASE( "tool info", "[iteminfo][tool]" )
                "--\n"
                "<color_c_white>Fuel</color>: It's new, and ready to burn.\n" );
 
-        candle.ammo_set( itype_id( "candle_wax" ), ( candle.type->maximum_charges() / 2 ) - 1 );
+        candle.ammo_set( itype_id( "candle_wax" ), 49 );
         CHECK( item_info_str( candle, burnout ) ==
                "--\n"
                "<color_c_white>Fuel</color>: More than half has burned away.\n" );

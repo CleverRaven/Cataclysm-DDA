@@ -508,8 +508,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "initial_charges": 110,
-    "max_charges": 120,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 120 } } ],
     "charges_per_use": 1,
     "use_action": [
       {

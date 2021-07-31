@@ -1665,7 +1665,7 @@
     "color": "light_gray",
     "ammo": [ "gasoline" ],
     "charges_per_use": 5,
-    "max_charges": 450,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 450 } } ],
     "use_action": [ "COMBATSAW_OFF" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "ALWAYS_TWOHAND", "FRAGILE_MELEE" ]
