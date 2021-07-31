@@ -443,8 +443,8 @@ const
         }
     }
 
-    for( const auto &e : get_pseudo_items() ) {
-        if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
+    for( const auto *e : get_pseudo_items() ) {
+        if( visit_internal( func, e ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
     }
@@ -918,9 +918,8 @@ int Character::amount_of( const itype_id &what, bool pseudo, int limit,
                           const std::function<bool( const item & )> &filter ) const
 {
     if( pseudo ) {
-        for( const auto &bio : *this->my_bionics ) {
-            const bionic_data &bid = bio.info();
-            if( bid.fake_item == what && ( !bid.activated || bio.powered ) ) {
+        for( const auto &pseudos : get_pseudo_items() ) {
+            if( pseudos->typeId() == what ) {
                 return 1;
             }
         }

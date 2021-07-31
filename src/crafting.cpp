@@ -561,8 +561,8 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
         crafting_cache.crafting_inventory->add_item( *it );
     }
 
-    for( const item &i : get_pseudo_items() ) {
-        *crafting_cache.crafting_inventory += i;
+    for( const item *i : get_pseudo_items() ) {
+        *crafting_cache.crafting_inventory += *i;
     }
 
     if( has_trait( trait_BURROW ) ) {

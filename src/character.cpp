@@ -2255,24 +2255,18 @@ bool Character::has_any_bionic() const
     return !get_bionics().empty();
 }
 
-std::vector<item> &Character::get_pseudo_items() const
+const std::vector<const item *> Character::get_pseudo_items() const
 {
     if( !pseudo_items_valid ) {
         pseudo_items.clear();
+
         for( const bionic &bio : *my_bionics ) {
-            const bionic_data &bid = bio.info();
-            if( !bid.fake_item.is_valid() || bid.has_flag( flag_BIONIC_GUN ) ||
-                bid.has_flag( flag_BIONIC_WEAPON ) ) {
-                continue;
-            }
-            if( !bid.activated || bio.powered || !bid.has_flag( flag_BIONIC_TOGGLED ) ) {
-                item i( bid.fake_item );
-                if( bid.has_flag( flag_USES_BIONIC_POWER ) ) {
-                    i.set_flag( flag_USES_BIONIC_POWER );
-                }
-                pseudo_items.push_back( i );
+            auto pseudos = bio.get_available_pseudo_items();
+            for( auto &pseudo : pseudos ) {
+                pseudo_items.emplace_back( const_cast<item *>( pseudo ) );
             }
         }
+
         pseudo_items_valid = true;
     }
     return pseudo_items;

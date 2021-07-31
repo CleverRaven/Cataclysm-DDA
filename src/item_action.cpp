@@ -247,11 +247,12 @@ void game::item_action_menu()
     const auto &gen = item_action_generator::generator();
     const action_map &item_actions = gen.get_item_action_map();
 
-    std::vector<item> &pseudo_items = get_player_character().get_pseudo_items();
+    std::vector<const item *> pseudo_items = get_player_character().get_pseudo_items();
     std::vector<item *> pseudos;
     pseudos.reserve( pseudo_items.size() );
-    for( item &pseudo : pseudo_items ) {
-        pseudos.push_back( &pseudo );
+    // Ugly const_cast because the menu needs non-const pointers
+    for( auto &pseudo : pseudo_items ) {
+        pseudos.emplace_back( const_cast<item *>( pseudo ) );
     }
     item_action_map iactions = gen.map_actions_to_items( u, pseudos );
     if( iactions.empty() ) {
