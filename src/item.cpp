@@ -1057,7 +1057,7 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
           gun_variant().id != rhs.gun_variant().id ) ) {
         return false;
     }
-    if( charges != 0 && rhs.charges != 0 && is_money() ) {
+    if( ammo_remaining() != 0 && rhs.ammo_remaining() != 0 && is_money() ) {
         // Dealing with nonempty cash cards
         return true;
     }
