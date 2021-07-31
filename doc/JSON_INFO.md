@@ -3437,6 +3437,27 @@ Movement cost modifier (`-10` = impassable, `0` = no change). This is added to t
 How much light the furniture produces.  10 will light the tile it's on brightly, 15 will light that tile and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the source.
 For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 
+#### `boltcut`
+(Optional) Data for using with an bolt cutter.
+```cpp
+"boltcut": {
+    "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null
+    "duration": "1 seconds", // ( optional ) time required for bolt cutting, default is 1 second
+    "message": "You finish cutting the metal.", // ( optional ) message that will be displayed when finished
+    "sound": "Gachunk!", // ( optional ) description of the sound when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
+
 #### `required_str`
 
 Strength required to move the furniture around. Negative values indicate an unmovable furniture.
@@ -3524,6 +3545,27 @@ For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 For example the terrain `t_pit` has the built-in trap `tr_pit`. Every tile in the game that has the terrain `t_pit` also has, therefore, an implicit trap `tr_pit` on it. The two are inseparable (the player can not deactivate the built-in trap, and changing the terrain will also deactivate the built-in trap).
 
 A built-in trap prevents adding any other trap explicitly (by the player and through mapgen).
+
+#### `boltcut`
+(Optional) Data for using with an bolt cutter.
+```cpp
+"boltcut": {
+    "result": "ter_id", // terrain it will become when done
+    "duration": "1 seconds", // ( optional ) time required for bolt cutting, default is 1 second
+    "message": "You finish cutting the metal.", // ( optional ) message that will be displayed when finished
+    "sound": "Gachunk!", // ( optional ) description of the sound when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
 
 #### `transforms_into`
 
