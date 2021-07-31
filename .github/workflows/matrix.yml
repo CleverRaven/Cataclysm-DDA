@@ -78,6 +78,7 @@ jobs:
           - compiler: g++-7
             os: ubuntu-18.04
             cmake: 1
+            tiles: 1
             sound: 1
             mods: --mods=magiclysm
             localize: 0
@@ -98,6 +99,7 @@ jobs:
             os: macos-10.15
             native: osx
             sanitize: address
+            tiles: 1
             sound: 1
             title: Clang 12, macOS 10.15, Tiles, Sound, ASan
             num_test_jobs: 1
@@ -105,6 +107,7 @@ jobs:
           - compiler: g++
             os: ubuntu-latest
             native:
+            tiles: 1
             sound: 1
             title: GCC, Ubuntu cross-compile to MinGW-Win64, Tiles, Sound
             ldflags: -static-libgcc -static-libstdc++
