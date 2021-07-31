@@ -89,6 +89,7 @@ static const efftype_id effect_tied( "tied" );
 static const itype_id itype_bone_human( "bone_human" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_electrohack( "electrohack" );
+static const itype_id itype_paper( "paper" );
 static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
 
 static const skill_id skill_computer( "computer" );
@@ -842,6 +843,79 @@ void hacking_activity_actor::serialize( JsonOut & ) const {}
 std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonIn & )
 {
     hacking_activity_actor actor;
+    return actor.clone();
+}
+
+void bookbinder_copy_activity_actor::start( player_activity &act, Character & )
+{
+    pages = 1 + rec_id->difficulty / 2;
+    act.moves_total = to_moves<int>( pages * 10_minutes );
+    act.moves_left = to_moves<int>( pages * 10_minutes );
+}
+
+void bookbinder_copy_activity_actor::do_turn( player_activity &, Character &p )
+{
+    if( p.fine_detail_vision_mod() > 4.0f ) {
+        p.cancel_activity();
+        p.add_msg_if_player( m_info, _( "It's too dark to write!" ) );
+        return;
+    }
+}
+
+void bookbinder_copy_activity_actor::finish( player_activity &act, Character &p )
+{
+    if( !book_binder->can_contain( item( itype_paper, calendar::turn, pages ) ).success() ) {
+        debugmsg( "Book binder can not contain '%s' recipe when it should.", rec_id.str() );
+        act.set_to_null();
+        return;
+    }
+
+    const bool rec_added = book_binder->eipc_recipe_add( rec_id );
+    if( rec_added ) {
+        p.add_msg_if_player( m_good, _( "You copy the recipe for %1$s into your recipe book." ),
+                             rec_id->result_name() );
+
+        p.use_charges( itype_paper, pages );
+
+        const std::vector<const item *> writing_tools_filter =
+        p.crafting_inventory().items_with( [&]( const item & it ) {
+            return it.has_flag( flag_WRITE_MESSAGE ) && it.ammo_remaining() >= it.ammo_required() ;
+        } );
+
+        std::vector<tool_comp> writing_tools;
+        writing_tools.reserve( writing_tools_filter.size() );
+        for( const item *tool : writing_tools_filter ) {
+            writing_tools.emplace_back( tool_comp( tool->typeId(), 1 ) );
+        }
+
+        p.consume_tools( writing_tools, pages );
+        book_binder->put_in( item( itype_paper, calendar::turn, pages ),
+                             item_pocket::pocket_type::MAGAZINE );
+    } else {
+        debugmsg( "Recipe book already has '%s' recipe when it should not.", rec_id.str() );
+    }
+
+    act.set_to_null();
+}
+
+void bookbinder_copy_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "book_binder", book_binder );
+    jsout.member( "rec_id", rec_id );
+    jsout.member( "pages", pages );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> bookbinder_copy_activity_actor::deserialize( JsonIn &jsin )
+{
+    bookbinder_copy_activity_actor actor;
+
+    JsonObject jsobj = jsin.get_object();
+    jsobj.read( "book_binder", actor.book_binder );
+    jsobj.read( "rec_id", actor.rec_id );
+    jsobj.read( "pages", actor.pages );
+
     return actor.clone();
 }
 
@@ -3907,6 +3981,7 @@ deserialize_functions = {
     { activity_id( "ACT_AUTODRIVE" ), &autodrive_activity_actor::deserialize },
     { activity_id( "ACT_BIKERACK_RACKING" ), &bikerack_racking_activity_actor::deserialize },
     { activity_id( "ACT_BIKERACK_UNRACKING" ), &bikerack_unracking_activity_actor::deserialize },
+    { activity_id( "ACT_BINDER_COPY_RECIPE" ), &bookbinder_copy_activity_actor::deserialize },
     { activity_id( "ACT_BOLTCUTTING" ), &boltcutting_activity_actor::deserialize },
     { activity_id( "ACT_CONSUME" ), &consume_activity_actor::deserialize },
     { activity_id( "ACT_CRAFT" ), &craft_activity_actor::deserialize },
