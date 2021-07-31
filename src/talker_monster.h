@@ -27,7 +27,7 @@ class monster;
 class talker_monster: public talker
 {
     public:
-        talker_monster( monster *new_me ): me_mon( new_me ) {
+        explicit talker_monster( monster *new_me ): me_mon( new_me ) {
         }
         ~talker_monster() override = default;
 

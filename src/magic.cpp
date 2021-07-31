@@ -349,10 +349,10 @@ void spell_type::load( const JsonObject &jo, const std::string & )
 
     if( jo.has_member( "effect_str" ) ) {
         if( jo.has_string( "effect_str" ) ) {
-            effect_str.push_back( jo.get_string( "effect_str" ) );
+            effect_str.emplace_back( jo.get_string( "effect_str" ) );
         } else if( effect_name == "effect_on_condition" ) {
             for( JsonValue jv : jo.get_array( "effect_str" ) ) {
-                effect_str.push_back( effect_on_conditions::load_inline_eoc( jv, "" ).c_str() );
+                effect_str.emplace_back( effect_on_conditions::load_inline_eoc( jv, "" ).c_str() );
             }
         } else {
             mandatory( jo, was_loaded, "effect_str", effect_str );
