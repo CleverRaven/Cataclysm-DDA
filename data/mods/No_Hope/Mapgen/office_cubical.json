@@ -170,14 +170,14 @@
         "D": "t_door_locked",
         "s": "t_sidewalk",
         "W": [
-        [ "t_window_frame", 70 ],
-        [ "t_window_empty", 20 ],
-        [ "t_window_domestic", 5 ],
-        "t_window_no_curtains",
-        "t_window_open",
-        "t_window_no_curtains_open",
-        [ "t_curtains", 5 ]
-      ],
+          [ "t_window_frame", 70 ],
+          [ "t_window_empty", 20 ],
+          [ "t_window_domestic", 5 ],
+          "t_window_no_curtains",
+          "t_window_open",
+          "t_window_no_curtains_open",
+          [ "t_curtains", 5 ]
+        ],
         "w": [ [ "t_window_frame", 70 ], [ "t_window_empty", 20 ], [ "t_window", 5 ] ],
         "|": "t_wall_w",
         "#": "t_brick_wall",

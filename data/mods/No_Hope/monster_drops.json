@@ -23,10 +23,7 @@
       { "group": "infantry_common_gear", "damage": [ 1, 4 ] },
       { "group": "military_standard_grenades", "count": [ 1, 3 ], "prob": 20 },
       { "group": "military_patrol_food" },
-      {
-        "distribution": [ { "group": "infantry_officer_gear" }, { "group": "infantry_medical_gear" } ],
-        "prob": 25
-      },
+      { "distribution": [ { "group": "infantry_officer_gear" }, { "group": "infantry_medical_gear" } ], "prob": 25 },
       { "item": "cash_card", "prob": 10, "charges": [ 0, 50000 ] },
       { "group": "misc_smoking", "prob": 30 }
     ]

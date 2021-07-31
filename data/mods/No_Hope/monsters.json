@@ -615,7 +615,10 @@
     "luminance": 8,
     "harvest": "zombie",
     "starting_ammo": { "pressurized_tank": 1000 },
-    "death_drops": { "subtype": "collection", "groups": [ [ "mon_zombie_soldier_death_drops_no_hope", 100 ], [ "mon_zombie_flamer", 100 ] ] },
+    "death_drops": {
+      "subtype": "collection",
+      "groups": [ [ "mon_zombie_soldier_death_drops_no_hope", 100 ], [ "mon_zombie_flamer", 100 ] ]
+    },
     "death_function": { "effect": { "id": "death_fireball", "hit_self": true } },
     "burn_into": "mon_zombie_scorched",
     "flags": [

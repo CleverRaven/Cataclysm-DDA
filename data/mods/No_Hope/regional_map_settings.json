@@ -564,7 +564,15 @@
       "marloss": { "chance": 20, "extras": { "mx_marloss_pilgrimage": 100 } },
       "subway": {
         "chance": 75,
-        "extras": { "mx_military": 5, "mx_science": 12, "mx_collegekids": 15, "mx_portal": 7, "mx_portal_in": 3, "mx_casings": 30, "mx_bandits_ambush": 5 }
+        "extras": {
+          "mx_military": 5,
+          "mx_science": 12,
+          "mx_collegekids": 15,
+          "mx_portal": 7,
+          "mx_portal_in": 3,
+          "mx_casings": 30,
+          "mx_bandits_ambush": 5
+        }
       },
       "research_facility_lot": {
         "chance": 3,

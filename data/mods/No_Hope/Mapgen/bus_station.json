@@ -43,11 +43,7 @@
           [ "t_region_shrub_fruit", 10 ]
         ],
         ";": "t_region_tree_shade",
-        "w": [
-          [ "t_window_frame", 70 ],
-          [ "t_window_empty", 20 ],
-          [ "t_window", 5 ]
-        ],
+        "w": [ [ "t_window_frame", 70 ], [ "t_window_empty", 20 ], [ "t_window", 5 ] ],
         "_": "t_pavement",
         "y": "t_pavement_y",
         "s": "t_concrete",

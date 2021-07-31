@@ -1129,7 +1129,7 @@
         "W": [ { "item": "mil_base_iv", "chance": 70 } ],
         "^": [ { "item": "mil_base_iv", "chance": 70 } ]
       },
-	  "gaspumps": { "p": { "fuel": "jp8", "amount": [ 800, 4000 ] } },
+      "gaspumps": { "p": { "fuel": "jp8", "amount": [ 800, 4000 ] } },
       "place_loot": [
         { "group": "mil_base_hmg", "x": 65, "y": 46, "chance": 10, "magazine": 100 },
         { "group": "SUS_janitors_closet", "x": 22, "y": 26, "chance": 90, "repeat": [ 1, 2 ] },

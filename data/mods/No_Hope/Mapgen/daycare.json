@@ -38,14 +38,14 @@
         "-": "t_wall_y",
         ".": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt" ],
         "1": [
-        [ "t_window_frame", 70 ],
-        [ "t_window_empty", 20 ],
-        [ "t_window_domestic", 5 ],
-        "t_window_no_curtains",
-        "t_window_open",
-        "t_window_no_curtains_open",
-        [ "t_curtains", 5 ]
-      ],
+          [ "t_window_frame", 70 ],
+          [ "t_window_empty", 20 ],
+          [ "t_window_domestic", 5 ],
+          "t_window_no_curtains",
+          "t_window_open",
+          "t_window_no_curtains_open",
+          [ "t_curtains", 5 ]
+        ],
         "2": "t_sidewalk",
         "3": "t_tree_young",
         "4": "t_chaingate_l",
@@ -99,10 +99,7 @@
         { "monster": "GROUP_SCHOOL", "x": [ 3, 7 ], "y": [ 12, 16 ] },
         { "monster": "GROUP_SCHOOL", "x": [ 3, 10 ], "y": [ 4, 8 ] }
       ],
-      "place_vehicles": [
-        { "vehicle": "tricycle", "x": 12, "y": 17, "chance": 5 },
-        { "vehicle": "tricycle", "x": 2, "y": 10, "chance": 15 }
-      ]
+      "place_vehicles": [ { "vehicle": "tricycle", "x": 12, "y": 17, "chance": 5 }, { "vehicle": "tricycle", "x": 2, "y": 10, "chance": 15 } ]
     }
   },
   {

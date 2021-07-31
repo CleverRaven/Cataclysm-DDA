@@ -44,14 +44,14 @@
         "p": "t_pavement_y",
         "s": "t_sidewalk",
         "w": [
-        [ "t_window_frame", 70 ],
-        [ "t_window_empty", 20 ],
-        [ "t_window_domestic", 5 ],
-        "t_window_no_curtains",
-        "t_window_open",
-        "t_window_no_curtains_open",
-        [ "t_curtains", 5 ]
-      ],
+          [ "t_window_frame", 70 ],
+          [ "t_window_empty", 20 ],
+          [ "t_window_domestic", 5 ],
+          "t_window_no_curtains",
+          "t_window_open",
+          "t_window_no_curtains_open",
+          [ "t_curtains", 5 ]
+        ],
         "|": "t_wall_w",
         "3": "t_atm",
         "4": "t_gutter_downspout"
