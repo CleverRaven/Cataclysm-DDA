@@ -72,6 +72,7 @@ Field | Default topic ID  | Uses for...
 `talk_stole_item` | `TALK_STOLE_ITEM` | Talk to an NPC that have 18=NPCATT_RECOVER_GOODS
 `talk_wake_up` | `TALK_WAKE_UP` | Talk to a sleeping NPC
 `talk_mug` | `TALK_MUG` | see "success and failure" section
+`talk_friend_guard` | `TALK_FRIEND_GUARD` | Faction camp guard
 `talk_stranger_aggressive` | `TALK_STRANGER_AGGRESSIVE` | see "success and failure" section
 `talk_stranger_scared` | `TALK_STRANGER_SCARED` | see "success and failure" section
 `talk_stranger_wary` | `TALK_STRANGER_WARY` | see "success and failure" section

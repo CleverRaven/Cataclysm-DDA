@@ -275,6 +275,9 @@ void npc_template::load( const JsonObject &jsobj )
     if( jsobj.has_string( "talk_stranger_neutral" ) ) {
         guy.chatbin.talk_stranger_neutral = jsobj.get_string( "talk_stranger_neutral" );
     }
+    if( jsobj.has_string( "talk_friend_guard" ) ) {
+        guy.chatbin.talk_friend_guard = jsobj.get_string( "talk_friend_guard" );
+    }
     npc_templates.emplace( string_id<npc_template>( guy.idz ), std::move( tem ) );
 }
 
@@ -363,6 +366,7 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     chatbin.talk_stranger_wary = tguy.chatbin.talk_stranger_wary;
     chatbin.talk_stranger_friendly = tguy.chatbin.talk_stranger_friendly;
     chatbin.talk_stranger_neutral = tguy.chatbin.talk_stranger_neutral;
+    chatbin.talk_friend_guard = tguy.chatbin.talk_friend_guard;
     for( const mission_type_id &miss_id : tguy.miss_ids ) {
         add_new_mission( mission::reserve_new( miss_id, getID() ) );
     }

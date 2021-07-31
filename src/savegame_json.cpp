@@ -1568,6 +1568,7 @@ void dialogue_chatbin::serialize( JsonOut &json ) const
     json.member( "talk_stranger_wary", talk_stranger_wary );
     json.member( "talk_stranger_friendly", talk_stranger_friendly );
     json.member( "talk_stranger_neutral", talk_stranger_neutral );
+    json.member( "talk_friend_guard", talk_friend_guard);
     if( mission_selected != nullptr ) {
         json.member( "mission_selected", mission_selected->get_id() );
     }
@@ -1601,6 +1602,7 @@ void dialogue_chatbin::deserialize( JsonIn &jsin )
     data.read( "talk_stranger_wary", talk_stranger_wary );
     data.read( "talk_stranger_friendly", talk_stranger_friendly );
     data.read( "talk_stranger_neutral", talk_stranger_neutral );
+    data.read( "talk_friend_guard", talk_friend_guard);
     data.read( "skill", skill );
     data.read( "style", style );
 

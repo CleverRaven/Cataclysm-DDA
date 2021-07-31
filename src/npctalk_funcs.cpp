@@ -347,7 +347,7 @@ void talk_function::goto_location( npc &p )
         return;
     }
     p.set_mission( NPC_MISSION_TRAVELLING );
-    p.chatbin.first_topic = "TALK_FRIEND_GUARD";
+    p.chatbin.first_topic = p.chatbin.talk_friend_guard;
     p.guard_pos = tripoint_min;
     p.set_attitude( NPCATT_NULL );
 }
@@ -365,7 +365,7 @@ void talk_function::assign_guard( npc &p )
     }
     p.set_attitude( NPCATT_NULL );
     p.set_mission( NPC_MISSION_GUARD_ALLY );
-    p.chatbin.first_topic = "TALK_FRIEND_GUARD";
+    p.chatbin.first_topic = p.chatbin.talk_friend_guard;
     p.set_omt_destination();
 }
 
@@ -392,7 +392,7 @@ void talk_function::assign_camp( npc &p )
         if( p.has_player_activity() ) {
             p.revert_after_activity();
         }
-        p.chatbin.first_topic = "TALK_FRIEND_GUARD";
+        p.chatbin.first_topic = p.chatbin.talk_friend_guard;
         p.set_omt_destination();
     }
 }

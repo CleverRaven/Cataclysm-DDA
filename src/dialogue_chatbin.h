@@ -67,7 +67,7 @@ struct dialogue_chatbin {
     std::string talk_stranger_wary = "TALK_STRANGER_WARY";
     std::string talk_stranger_friendly = "TALK_STRANGER_FRIENDLY";
     std::string talk_stranger_neutral = "TALK_STRANGER_NEUTRAL";
-
+    std::string talk_friend_guard = "TALK_FRIEND_GUARD";
 
     dialogue_chatbin() = default;
 
