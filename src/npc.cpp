@@ -242,6 +242,21 @@ void npc_template::load( const JsonObject &jsobj )
             guy.miss_ids.emplace_back( mission_type_id( line ) );
         }
     }
+    if( jsobj.has_string( "talk_radio" ) ) {
+        guy.chatbin.talk_radio = jsobj.get_string( "talk_radio" );
+    }
+    if( jsobj.has_string( "talk_leader" ) ) {
+        guy.chatbin.talk_leader = jsobj.get_string( "talk_leader" );
+    }
+    if( jsobj.has_string( "talk_friend" ) ) {
+        guy.chatbin.talk_friend = jsobj.get_string( "talk_friend" );
+    }
+    if( jsobj.has_string( "talk_stole_item" ) ) {
+        guy.chatbin.talk_stole_item = jsobj.get_string( "talk_stole_item" );
+    }
+    if( jsobj.has_string( "talk_wake_up" ) ) {
+        guy.chatbin.talk_wake_up = jsobj.get_string( "talk_wake_up" );
+    }
     npc_templates.emplace( string_id<npc_template>( guy.idz ), std::move( tem ) );
 }
 
@@ -319,6 +334,11 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     attitude = tguy.attitude;
     mission = tguy.mission;
     chatbin.first_topic = tguy.chatbin.first_topic;
+    chatbin.talk_radio = tguy.chatbin.talk_radio;
+    chatbin.talk_leader = tguy.chatbin.talk_leader;
+    chatbin.talk_friend = tguy.chatbin.talk_friend;
+    chatbin.talk_stole_item = tguy.chatbin.talk_stole_item;
+    chatbin.talk_wake_up = tguy.chatbin.talk_wake_up;
     for( const mission_type_id &miss_id : tguy.miss_ids ) {
         add_new_mission( mission::reserve_new( miss_id, getID() ) );
     }
