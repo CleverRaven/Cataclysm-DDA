@@ -727,9 +727,6 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
                                _( "Your %s issues a low humidity warning.  Efficiency will be reduced." ),
                                bio.info().name );
         }
-    } else if( bio.id == bio_tools ) {
-        add_msg_activate();
-        invalidate_crafting_inventory();
     } else if( bio.id == bio_cqb ) {
         add_msg_activate();
         const avatar *you = as_avatar();
@@ -1072,6 +1069,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
 
     // Also reset crafting inventory cache if this bionic spawned a fake item
     if( !bio.info().fake_item.is_empty() ) {
+        invalidate_pseudo_items();
         invalidate_crafting_inventory();
     }
 
@@ -1175,8 +1173,6 @@ bool Character::deactivate_bionic( int b, bool eff_only )
                    !has_active_item( itype_radiocontrol ) ) {
             set_value( "remote_controlling", "" );
         }
-    } else if( bio.id == bio_tools ) {
-        invalidate_crafting_inventory();
     }
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
@@ -1188,6 +1184,7 @@ bool Character::deactivate_bionic( int b, bool eff_only )
 
     // Also reset crafting inventory cache if this bionic spawned a fake item
     if( !bio.info().fake_item.is_empty() ) {
+        invalidate_pseudo_items();
         invalidate_crafting_inventory();
     }
 

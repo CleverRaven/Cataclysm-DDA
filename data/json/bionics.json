@@ -401,7 +401,12 @@
     "encumbrance": [ [ "arm_r", 2 ] ],
     "act_cost": "50 J",
     "fake_item": "bio_blade_weapon",
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE" ]
+    "flags": [
+      "BIONIC_TOGGLED",
+      "BIONIC_WEAPON",
+      "BIONIC_NPC_USABLE",
+      "USES_BIONIC_POWER"
+    ]
   },
   {
     "id": "bio_shotgun",
@@ -773,7 +778,10 @@
     "description": "One of your fingers has an electrohack surgically embedded in it; an all-purpose hacking unit used to override control panels and the like (but not computers).  Skill in computers is important, and a failed use may damage your circuits.",
     "occupied_bodyparts": [ [ "hand_l", 1 ] ],
     "fake_item": "electrohack",
-    "flags": [ "BIONIC_TOGGLED" ]
+    "flags": [
+      "BIONIC_TOGGLED",
+      "USES_BIONIC_POWER"
+    ]
   },
   {
     "id": "bio_flashbang",
@@ -970,7 +978,10 @@
     "name": { "str": "Finger Lighter" },
     "description": "The index finger of your left hand has a fire starter that can extend from the tip.",
     "occupied_bodyparts": [ [ "hand_l", 1 ] ],
-    "fake_item": "fake_firestarter",
+    "flags": [
+      "USES_BIONIC_POWER"
+    ],
+    "fake_item": "crude_firestarter",
     "act_cost": "1500 J"
   },
   {
@@ -1444,7 +1455,11 @@
     "occupied_bodyparts": [ [ "hand_l", 1 ], [ "hand_r", 1 ], [ "arm_l", 3 ], [ "arm_r", 3 ] ],
     "fake_item": "toolset",
     "included_bionics": [ "bio_tools_extend" ],
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
+    "flags": [
+      "BIONIC_TOGGLED",
+      "BIONIC_NPC_USABLE",
+      "USES_BIONIC_POWER"
+    ]
   },
   {
     "id": "bio_tools_extend",
@@ -1453,7 +1468,11 @@
     "description": "Extend or withdraw your integrated toolset to cut metal, pry things, or other stuff.  This takes up your hands.",
     "fake_item": "toolset_extended",
     "included": true,
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON" ]
+    "flags": [
+      "BIONIC_TOGGLED",
+      "BIONIC_WEAPON",
+      "USES_BIONIC_POWER"
+    ]
   },
   {
     "id": "bio_torsionratchet",

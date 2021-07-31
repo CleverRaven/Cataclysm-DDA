@@ -2255,16 +2255,29 @@ bool Character::has_any_bionic() const
     return !get_bionics().empty();
 }
 
-std::vector<item> Character::get_pseudo_items() const
+std::vector<item> &Character::get_pseudo_items() const
 {
-    std::vector<item> result;
-    for( const bionic &bio : *my_bionics ) {
-        const bionic_data &bid = bio.info();
-        if( ( !bid.activated || bio.powered ) && bid.fake_item.is_valid() ) {
-            result.emplace_back( item( bid.fake_item ) );
+    if( !pseudo_items_valid ) {
+        pseudo_items.clear();
+        for( const bionic &bio : *my_bionics ) {
+            const bionic_data &bid = bio.info();
+            if( !bid.fake_item.is_valid() || bid.has_flag( flag_BIONIC_GUN ) ||
+                bid.has_flag( flag_BIONIC_WEAPON ) ) {
+                continue;
+            }
+            if( !bid.activated || bio.powered || bid.has_flag( flag_USES_BIONIC_POWER ) ) {
+                /*pseudo_items.emplace_back(item(bid.fake_item,
+                    calendar::turn, units::to_kilojoule(get_power_level())));*/
+                item i( bid.fake_item );
+                if( bid.has_flag( flag_USES_BIONIC_POWER ) ) {
+                    i.set_flag( flag_USES_BIONIC_POWER );
+                }
+                pseudo_items.push_back( i );
+            }
         }
+        pseudo_items_valid = true;
     }
-    return result;
+    return pseudo_items;
 }
 
 bionic_id Character::get_remote_fueled_bionic() const
@@ -8803,6 +8816,12 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
                                          "Your %s needs %d charges from some UPS.",
                                          ammo_req ),
                                it_name, ammo_req );
+        } else if( used->has_flag( flag_USES_BIONIC_POWER ) ) {
+            add_msg_if_player( m_info,
+                               ngettext( "Your %s needs %d bionic power.",
+                                         "Your %s needs %d bionic power.",
+                                         ammo_req ),
+                               it_name, ammo_req );
         } else {
             int ammo_rem = used->ammo_remaining();
             add_msg_if_player( m_info,
@@ -11383,13 +11402,6 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
     if( qty <= 0 ) {
         return res;
     }
-    for( const auto &bio : *this->my_bionics ) {
-        const bionic_data &bid = bio.info();
-        if( bid.fake_item == what && ( !bid.activated || bio.powered ) ) {
-            mod_power_level( units::from_kilojoule( -qty ) );
-            return res;
-        }
-    }
 
     if( what == itype_fire ) {
         use_fire( qty );
@@ -11419,7 +11431,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty, const int
     }
     if( qty > 0 ) {
         visit_items( [this, &what, &qty, &res, &del, &filter]( item * e, item * ) {
-            if( e->use_charges( what, qty, res, pos(), filter ) ) {
+            if( e->use_charges( what, qty, res, pos(), filter, this ) ) {
                 del.push_back( e );
             }
             return qty > 0 ? VisitResponse::NEXT : VisitResponse::ABORT;
@@ -11458,16 +11470,7 @@ item Character::find_firestarter_with_charges( const int quantity ) const
             return *i;
         }
     }
-    for( const auto &bio : *this->my_bionics ) {
-        const bionic_data &bid = bio.info();
-        if( bid.fake_item.is_valid() && ( !bid.has_flag( json_flag_BIONIC_TOGGLED ) || ( !bid.activated ||
-                                          bio.powered ) )  && get_power_level() > quantity * 5_kJ ) {
-            item fake( bid.fake_item );
-            if( !fake.is_null() && bid.fake_item->has_flag( flag_FIRESTARTER ) ) {
-                return fake;
-            }
-        }
-    }
+
     return item();
 }
 
@@ -13259,4 +13262,9 @@ time_duration Character::estimate_effect_dur( const skill_id &relevant_skill,
                                        rng_float( -1, 1 ) * ( minimum_error + ( error_magnitude - minimum_error ) *
                                                std::max( 0.0, static_cast<double>( threshold - skill_lvl ) / threshold ) ) );
     return estimate;
+}
+
+void Character::invalidate_pseudo_items()
+{
+    pseudo_items_valid = false;
 }

@@ -15,6 +15,7 @@
 #include "catacharset.h"
 #include "clone_ptr.h"
 #include "debug.h"
+#include "flag.h"
 #include "game.h"
 #include "input.h"
 #include "inventory.h"
@@ -246,7 +247,7 @@ void game::item_action_menu()
     const auto &gen = item_action_generator::generator();
     const action_map &item_actions = gen.get_item_action_map();
 
-    std::vector<item> pseudo_items = get_player_character().get_pseudo_items();
+    std::vector<item> &pseudo_items = get_player_character().get_pseudo_items();
     std::vector<item *> pseudos;
     pseudos.reserve( pseudo_items.size() );
     for( item &pseudo : pseudo_items ) {
@@ -287,7 +288,11 @@ void game::item_action_menu()
     []( const std::pair<item_action_id, item *> &elem ) {
         std::string ss = elem.second->display_name();
         if( elem.second->ammo_required() ) {
-            ss += string_format( "(-%d)", elem.second->ammo_required() );
+            if( elem.second->has_flag( flag_USES_BIONIC_POWER ) ) {
+                ss += string_format( "(%d kJ)", elem.second->ammo_required() );
+            } else {
+                ss += string_format( "(-%d)", elem.second->ammo_required() );
+            }
         }
 
         const use_function *method = elem.second->get_use( elem.first );
