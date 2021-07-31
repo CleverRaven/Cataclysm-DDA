@@ -762,7 +762,8 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
 {
     int qty = 0;
 
-    bool found_tool_with_UPS = false, found_bionic_tool = false;
+    bool found_tool_with_UPS = false;
+    bool found_bionic_tool = false;
     self.visit_items( [&]( const item * e, item * ) {
         if( filter( *e ) && id == e->typeId() && !e->is_broken() ) {
             if( id != itype_UPS_off ) {
@@ -852,8 +853,6 @@ int Character::charges_of( const itype_id &what, int limit,
                            const std::function<bool( const item & )> &filter,
                            const std::function<void( int )> &visitor ) const
 {
-    const player *p = dynamic_cast<const player *>( this );
-
     if( what == itype_UPS ) {
         int ups_power = available_ups();
         if( has_active_bionic( bio_ups ) ) {
