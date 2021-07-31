@@ -91,5 +91,59 @@
     "description": "You enjoyed camping in the vast wilderness as a means of escaping the pace of modern life.  The wilderness isn't filled with people, so it must be safe.  Right?  It must be.",
     "points": 2,
     "skills": [ { "level": 2, "name": "survival" }, { "level": 2, "name": "firstaid" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "painting",
+    "name": "Painting",
+    "description": "You know your way around a canvas and a brush. Fine motor coordination and basic applied chemistry come more naturally to you.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "chemistry" }, { "level": 2, "name": "cutting" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "cinematography",
+    "name": "Cinematography",
+    "description": "For many years you have exercised your usage of the camera. You have a deeper understanding of devices and conveyances.",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "driving" }, { "level": 2, "name": "traps" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "thespian",
+    "name": "Thespian",
+    "description": "Your are something of a local celebrity at the theater. Bonuses to communication.",
+    "points": 2,
+    "skills": [ { "level": 3, "name": "speech" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hacker",
+    "name": "Computer Hacker",
+    "description": "You speak 1337, you have two monitors, and you may not be able to get a job in the industry but you know that you'll be recognized someday as a legend of a hacker. That is, if there's still a future.",
+    "points": 2,
+    "skills": [ { "level": 3, "name": "computer" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "wrestling",
+    "name": "Professional Wrestling",
+    "description": "You've won quite a few matches in your high school gym, and zombies drop just as easily.",
+    "points": 2,
+    "skills": [ { "level": 3, "name": "melee" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "fakewrestling",
+    "name": "\"Professional\" Wrestling",
+    "description": "You've torn off your tank top, knocked out your share of referees, broken those flimsy tables a dozen times, and you've been the heel and the hero.",
+    "points": 2,
+    "skills": [ { "level": 3, "name": "speech" } ]
   }
 ]
