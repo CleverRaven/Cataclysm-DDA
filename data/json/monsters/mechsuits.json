@@ -125,7 +125,7 @@
     "death_function": { "corpse_type": "BROKEN" },
     "special_attacks": [ { "id": "smash", "throw_strength": 96, "cooldown": 40 } ],
     "death_drops": { "groups": [ [ "robots", 20 ] ] },
-    "path_settings": { "max_dist": 10, "avoid_traps": true, "avoid_sharp": true },
+    "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
     "flags": [
       "SEES",
       "HEARS",
