@@ -71,6 +71,8 @@ def write_to_json(pathname: str, data: Union[dict, list]) -> None:
     if os.path.isfile(json_formatter):
         cmd = [json_formatter, pathname]
         subprocess.call(cmd)
+    else:
+        print(f'{json_formatter} not found, continuing')
 
 
 def find_or_make_dir(pathname: str) -> None:

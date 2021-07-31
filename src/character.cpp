@@ -4959,6 +4959,11 @@ static int get_speedydex_bonus( const int dex )
     return modified_dex * get_option<int>( speedydex_dex_speed );
 }
 
+int Character::get_enchantment_speed_bonus() const
+{
+    return enchantment_speed_bonus;
+}
+
 int Character::get_speed() const
 {
     if( has_trait_flag( json_flag_STEADY ) ) {

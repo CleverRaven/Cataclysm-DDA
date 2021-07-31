@@ -15,6 +15,10 @@ template <typename W, typename T> struct weighted_object {
 
     T obj;
     W weight;
+
+    friend bool operator==( const weighted_object &l, const weighted_object &r ) {
+        return l.obj == r.obj && l.weight == r.weight;
+    }
 };
 
 template <typename W, typename T> struct weighted_list {
@@ -177,6 +181,14 @@ template <typename W, typename T> struct weighted_list {
         }
         bool empty() const noexcept {
             return objects.empty();
+        }
+
+        friend bool operator==( const weighted_list &l, const weighted_list &r ) {
+            return l.objects == r.objects;
+        }
+
+        friend bool operator!=( const weighted_list &l, const weighted_list &r ) {
+            return !( l == r );
         }
 
     protected:

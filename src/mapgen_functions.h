@@ -13,6 +13,7 @@
 class map;
 class mapgendata;
 class mission;
+struct mapgen_parameters;
 struct point;
 struct tripoint;
 
@@ -91,6 +92,7 @@ bool run_mapgen_update_func( const std::string &update_mapgen_id, mapgendata &da
 bool run_mapgen_func( const std::string &mapgen_id, mapgendata &dat );
 std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_update(
             const std::string &update_mapgen_id );
+mapgen_parameters get_map_special_params( const std::string &mapgen_id );
 
 void resolve_regional_terrain_and_furniture( const mapgendata &dat );
 

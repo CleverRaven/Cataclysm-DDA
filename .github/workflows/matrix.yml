@@ -61,6 +61,7 @@ jobs:
         release: [0]
         cmake: [0]
         tiles: [1]
+        sound: [0]
         localize: [1]
         native: [linux64]
 
@@ -69,6 +70,7 @@ jobs:
             os: ubuntu-latest
             tiles: 0
             test-stage: 1
+            sanitize: address
             gold: 1
             lto: 1
             title: GCC 11, Ubuntu, Curses, LTO
@@ -76,9 +78,10 @@ jobs:
           - compiler: g++-7
             os: ubuntu-18.04
             cmake: 1
+            sound: 1
             mods: --mods=magiclysm
             localize: 0
-            title: GCC 7, Ubuntu, Tiles, CMake, Release
+            title: GCC 7, Ubuntu, Tiles, Sound, CMake, Release
 
           - compiler: clang++-6.0
             os: ubuntu-18.04
@@ -95,13 +98,15 @@ jobs:
             os: macos-10.15
             native: osx
             sanitize: address
-            title: Clang 12, macOS 10.15, Tiles, ASan
+            sound: 1
+            title: Clang 12, macOS 10.15, Tiles, Sound, ASan
             num_test_jobs: 1
 
           - compiler: g++
             os: ubuntu-latest
             native:
-            title: GCC, Ubuntu cross-compile to MinGW-Win64, Tiles
+            sound: 1
+            title: GCC, Ubuntu cross-compile to MinGW-Win64, Tiles, Sound
             ldflags: -static-libgcc -static-libstdc++
             mxe_target: i686-w64-mingw32.static
             wine: wine
@@ -114,7 +119,7 @@ jobs:
         WINE: ${{ matrix.wine }}
         OS: ${{ matrix.os }}
         TILES: ${{ matrix.tiles }}
-        SOUND: ${{ matrix.tiles }}
+        SOUND: ${{ matrix.sound }}
         LOCALIZE: ${{ matrix.localize }}
         MODS: ${{ matrix.mods }}
         SANITIZE: ${{ matrix.sanitize }}

@@ -464,8 +464,8 @@
     "type": "item_group",
     "items": [
       [ "file", 99 ],
-      [ "paper", 60 ],
       { "item": "laptop", "prob": 2, "charges": [ 0, 500 ] },
+      { "item": "paper", "prob": 60, "count": [ 20, 50 ] },
       { "item": "inhaler", "prob": 1, "charges-min": 10, "charges-max": 100 },
       [ "mbag", 2 ],
       [ "mop", 5 ],
