@@ -227,6 +227,7 @@ void catacurses::resizeterm()
     if( ::is_term_resized( new_x, new_y ) ) {
         game_ui::init_ui();
         ui_manager::screen_resized();
+        catacurses::doupdate();
     }
 }
 
