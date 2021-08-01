@@ -9766,6 +9766,98 @@ cata::optional<int> iuse::magic_8_ball( player *p, item *it, bool, const tripoin
     return 0;
 }
 
+cata::optional<int> iuse::ebooksave( player *p, item *it, bool, const tripoint & )
+{
+    if( !it->is_ebook_storage() ) {
+        debugmsg( "EBOOKSAVE iuse called on item without ebook type pocket" );
+        return cata::nullopt;
+    }
+
+    if( p->is_npc() ) {
+        return cata::nullopt;
+    }
+
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "Unfortunately your device is not waterproof." ) );
+        return cata::nullopt;
+    }
+
+    if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
+        !p->has_effect( effect_contacts ) && !p->has_flag( json_flag_ENHANCED_VISION ) ) {
+        p->add_msg_if_player( m_info,
+                              _( "You'll need to put on reading glasses before you can see the screen." ) );
+        return cata::nullopt;
+    }
+
+    std::set<itype_id> ebooks;
+    for( const item *ebook : it->ebooks() ) {
+        if( !ebook->is_book() ) {
+            debugmsg( "ebook type pocket contains non-book item %s", ebook->typeId().str() );
+            continue;
+        }
+
+        ebooks.insert( ebook->typeId() );
+    }
+
+    const item_location book = game_menus::inv::titled_filter_menu(
+    [&p, &ebooks]( const item & itm ) {
+        return itm.is_book() && p->has_identified( itm.typeId() ) && !ebooks.count( itm.typeId() );
+    },
+    *p->as_avatar(), _( "Scan which book?" ) );
+
+    if( !book ) {
+        p->add_msg_if_player( m_info, _( "Nevermind." ) );
+        return cata::nullopt;
+    }
+
+    p->assign_activity(
+        player_activity( ebooksave_activity_actor( book, item_location( *p, it ) ) ) );
+
+    return cata::nullopt;
+}
+
+cata::optional<int> iuse::ebookread( player *p, item *it, bool, const tripoint & )
+{
+    if( !it->is_ebook_storage() ) {
+        debugmsg( "EBOOKREAD iuse called on item without ebook type pocket" );
+        return cata::nullopt;
+    }
+
+    if( p->is_npc() ) {
+        return cata::nullopt;
+    }
+
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "Unfortunately your device is not waterproof." ) );
+        return cata::nullopt;
+    }
+
+    if( p->has_trait( trait_HYPEROPIC ) && !p->worn_with_flag( flag_FIX_FARSIGHT ) &&
+        !p->has_effect( effect_contacts ) && !p->has_flag( json_flag_ENHANCED_VISION ) ) {
+        p->add_msg_if_player( m_info,
+                              _( "You'll need to put on reading glasses before you can see the screen." ) );
+        return cata::nullopt;
+    }
+
+    if( !it->active && it->is_transformable() ) {
+        const use_function *readinglight = it->type->get_use( "transform" );
+        if( readinglight ) {
+            readinglight->call( *p, *it, it->active, p->pos() );
+        }
+    }
+
+    item_location ereader = item_location( *p, it );
+    item_location book = game_menus::inv::ebookread( *p, ereader );
+
+    if( !book ) {
+        return cata::nullopt;
+    }
+
+    p->as_avatar()->read( book, ereader );
+
+    return cata::nullopt;
+}
+
 cata::optional<int> iuse::binder_add_recipe( player *p, item *binder, bool, const tripoint & )
 {
     if( p->is_mounted() ) {

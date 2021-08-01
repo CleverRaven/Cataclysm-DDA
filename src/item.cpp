@@ -6427,6 +6427,12 @@ bool item::is_software_storage() const
 {
     return contents.has_pocket_type( item_pocket::pocket_type::SOFTWARE );
 }
+
+bool item::is_ebook_storage() const
+{
+    return contents.has_pocket_type( item_pocket::pocket_type::EBOOK );
+}
+
 bool item::count_by_charges() const
 {
     return type->count_by_charges();
@@ -8392,6 +8398,11 @@ std::vector<const item *> item::mods() const
 std::vector<const item *> item::softwares() const
 {
     return contents.softwares();
+}
+
+std::vector<const item *> item::ebooks() const
+{
+    return contents.ebooks();
 }
 
 item *item::gunmod_find( const itype_id &mod )

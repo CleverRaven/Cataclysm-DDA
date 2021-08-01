@@ -1094,6 +1094,8 @@ void read_activity_actor::start( player_activity &act, Character &who )
         book = item_location( who, book.get_item() );
     }
 
+    using_ereader = !!ereader;
+
     bktype = book->type->use_methods.count( "MA_MANUAL" ) ?
              book_type::martial_art : book_type::normal;
 
@@ -1136,6 +1138,16 @@ void read_activity_actor::do_turn( player_activity &act, Character &who )
         }
     } else {
         who.moves = 0;
+    }
+
+    if( using_ereader && !ereader->ammo_sufficient( &who ) ) {
+        add_msg_if_player_sees(
+            who,
+            _( "%1$s %2$s ran out of batteries." ),
+            who.disp_name( true, true ),
+            item::nname( ereader->typeId() ) );
+        who.cancel_activity();
+        return;
     }
 }
 
@@ -1502,6 +1514,23 @@ void read_activity_actor::finish( player_activity &act, Character &who )
     act.set_to_null();
 }
 
+bool read_activity_actor::can_resume_with_internal( const activity_actor &other,
+        const Character & ) const
+{
+    const read_activity_actor &actor = static_cast<const read_activity_actor &>( other );
+
+    // The ereader gets transformed into the _on version
+    // which means the item_location of the book changes
+    // this check is to prevent a segmentation fault
+    if( !book || !actor.book ) {
+        return false;
+    }
+
+    return continuous == actor.continuous &&
+           learner_id == actor.learner_id &&
+           book->typeId() == actor.book->typeId();
+}
+
 std::string read_activity_actor::get_progress_message( const player_activity & ) const
 {
     Character &you = get_player_character();
@@ -1530,6 +1559,8 @@ void read_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "moves_total", moves_total );
     jsout.member( "book", book );
+    jsout.member( "ereader", ereader );
+    jsout.member( "using_ereader", using_ereader );
     jsout.member( "continuous", continuous );
     jsout.member( "learner_id", learner_id );
 
@@ -1543,6 +1574,8 @@ std::unique_ptr<activity_actor> read_activity_actor::deserialize( JsonIn &jsin )
 
     data.read( "moves_total", actor.moves_total );
     data.read( "book", actor.book );
+    data.read( "ereader", actor.ereader );
+    data.read( "using_ereader", actor.using_ereader );
     data.read( "continuous", actor.continuous );
     data.read( "learner_id", actor.learner_id );
 
@@ -2041,6 +2074,66 @@ std::unique_ptr<activity_actor> lockpick_activity_actor::deserialize( JsonIn &js
     data.read( "fake_lockpick", actor.fake_lockpick );
     data.read( "target", actor.target );
 
+    return actor.clone();
+}
+
+void ebooksave_activity_actor::start( player_activity &act, Character &/*who*/ )
+{
+    const int pages = pages_in_book( book->typeId() );
+    const time_duration scanning_time = pages < 1 ? time_per_page : pages * time_per_page;
+    add_msg_debug( debugmode::DF_ACT_EBOOK, "ebooksave pages = %d", pages );
+    add_msg_debug( debugmode::DF_ACT_EBOOK, "scanning_time time = %s",
+                   to_string_writable( scanning_time ) );
+    act.moves_total = to_moves<int>( scanning_time );
+    act.moves_left = act.moves_total;
+}
+
+void ebooksave_activity_actor::do_turn( player_activity &/*act*/, Character &who )
+{
+    // only consume charges every 25 pages
+    if( calendar::once_every( 25 * time_per_page ) ) {
+        if( !ereader->ammo_sufficient( &who ) ) {
+            add_msg_if_player_sees(
+                who,
+                _( "%1$s %2$s ran out of batteries." ),
+                who.disp_name( true, true ),
+                item::nname( ereader->typeId() ) );
+            who.cancel_activity();
+            return;
+        }
+
+        ereader->ammo_consume( ereader->ammo_required(), who.pos(), &who );
+    }
+}
+
+void ebooksave_activity_actor::finish( player_activity &act, Character &who )
+{
+    item book_copy = *book;
+    ereader->put_in( book_copy, item_pocket::pocket_type::EBOOK );
+    if( who.is_avatar() ) {
+        add_msg( m_info, _( "You scan the book into your device." ) );
+    } else { // who.is_npc()
+        add_msg_if_player_sees( who, _( "%s scans the book into their device." ),
+                                who.disp_name( false, true ) );
+    }
+    act.set_to_null();
+}
+
+void ebooksave_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "book", book );
+    jsout.member( "ereader", ereader );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> ebooksave_activity_actor::deserialize( JsonIn &jsin )
+{
+    ebooksave_activity_actor actor = ebooksave_activity_actor( {}, {} );
+
+    JsonObject data = jsin.get_object();
+    data.read( "book", actor.book );
+    data.read( "ereader", actor.ereader );
     return actor.clone();
 }
 
@@ -3994,6 +4087,7 @@ deserialize_functions = {
     { activity_id( "ACT_DISABLE" ), &disable_activity_actor::deserialize },
     { activity_id( "ACT_DISASSEMBLE" ), &disassemble_activity_actor::deserialize },
     { activity_id( "ACT_DROP" ), &drop_activity_actor::deserialize },
+    { activity_id( "ACT_EBOOKSAVE" ), &ebooksave_activity_actor::deserialize },
     { activity_id( "ACT_GUNMOD_REMOVE" ), &gunmod_remove_activity_actor::deserialize },
     { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
     { activity_id( "ACT_HAIRCUT" ), &haircut_activity_actor::deserialize },
