@@ -454,5 +454,114 @@
     "points": 3,
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "tailor" } ],
     "traits": [ "STYLISH" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "socialite",
+    "name": "High Society Social",
+    "description": "You attended some very impressive galas, made some great speeches, and you were always a great host.",
+    "points": 3,
+    "proficiencies": [ "prof_winemaking", "prof_cheesemaking_1" ],
+    "traits": [ "LIAR", "STYLISH" ],
+    "skills": [ { "level": 3, "name": "speech" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "engineering",
+    "name": "Engineering",
+    "description": "You studied as a generalist engineer, and you love to tinker.  Those skills sure are coming in handy during the apocalypse.",
+    "points": 3,
+    "skills": [
+      { "level": 2, "name": "computer" },
+      { "level": 2, "name": "mechanics" },
+      { "level": 2, "name": "chemistry" },
+      { "level": 1, "name": "bashing" }
+    ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "accounting",
+    "name": "Accounting",
+    "description": "You were always good with numbers and you filed your taxes on time each year.  When you were 11, you audited your parents, and they grounded you.",
+    "points": 2,
+    "traits": [ "PACKMULE" ],
+    "skills": [ { "level": 2, "name": "computer" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "theater",
+    "name": "Theater",
+    "description": "You were part of your local theater troupe and performed in a few plays.",
+    "points": 1,
+    "traits": [ "LIAR" ],
+    "skills": [ { "level": 1, "name": "speech" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "mixology",
+    "name": "Mixology",
+    "description": "You dabbled in entertaining guests with your homemade drinks.",
+    "points": 1,
+    "proficiencies": [ "prof_food_prep" ],
+    "skills": [ { "level": 1, "name": "speech" }, { "level": 1, "name": "cooking" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "television",
+    "name": "Television",
+    "description": "You loved to sit at home and binge watch your favorite shows on your couch.",
+    "points": -2,
+    "traits": [ "BADCARDIO", "SMELLY" ],
+    "skills": [ { "level": 1, "name": "computer" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "watchmaking",
+    "name": "Watchmaking",
+    "description": "In your free time, you enjoyed tinkering with watches and pocket watches.",
+    "points": 2,
+    "proficiencies": [ "prof_toolsmithing", "prof_fine_metalsmithing" ],
+    "skills": [ { "level": 2, "name": "mechanics" }, { "level": 2, "name": "fabrication" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "social_media",
+    "name": "Social Media",
+    "description": "You were popular on social media, while there were still people around to appreciate your content.",
+    "points": 1,
+    "traits": [ "PRETTY" ],
+    "skills": [ { "level": 1, "name": "speech" }, { "level": 1, "name": "computer" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "boating",
+    "name": "Boating",
+    "description": "You lived near the beach and would frequently rent a boat for a fun and relaxing afternoon.",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "driving" }, { "level": 1, "name": "swimming" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "traveling",
+    "name": "Traveling",
+    "description": "Whenever you had the opportunity, you would get on a plane to see the world.  Not much out there to see now.",
+    "points": 2,
+    "traits": [ "STRONGSTOMACH" ],
+    "skills": [
+      { "level": 1, "name": "speech" },
+      { "level": 1, "name": "driving" },
+      { "level": 1, "name": "cooking" },
+      { "level": 1, "name": "swimming" }
+    ]
   }
 ]
