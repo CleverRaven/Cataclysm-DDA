@@ -283,7 +283,6 @@ void player_activity::serialize( JsonOut &json ) const
 
     if( !type.is_null() ) {
         json.member( "actor", actor );
-        json.member( "moves_total", moves_total );
         json.member( "moves_left", moves_left );
         json.member( "index", index );
         json.member( "position", position );
@@ -340,7 +339,6 @@ void player_activity::deserialize( JsonIn &jsin )
     }
 
     data.read( "actor", actor );
-    data.read( "moves_total", moves_total );
     data.read( "moves_left", moves_left );
     data.read( "index", index );
     position = tmppos;

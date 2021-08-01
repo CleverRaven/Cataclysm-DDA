@@ -3537,12 +3537,12 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         info.emplace_back( "DESCRIPTION",
                            _( "* This tool <info>runs on bionic power</info>." ) );
     } else if( has_flag( flag_BURNOUT ) && parts->test( iteminfo_parts::TOOL_BURNOUT ) ) {
-        int percent_left = 0;
-        if( ammo_data() != nullptr ) {
+        int percent_left;
+        if( type->maximum_charges() == 0 ) {
             // Candle items that use ammo instead of charges
             // The capacity should never be zero but clang complains about it
             percent_left = 100 * ammo_remaining() / std::max( ammo_capacity( ammo_data()->ammo->type ), 1 );
-        } else if( type->maximum_charges() > 0 ) {
+        } else {
             // Candle items that use charges instead of ammo
             percent_left = 100 * ammo_remaining() / type->maximum_charges();
         }
@@ -5996,42 +5996,44 @@ int item::spoilage_sort_order() const
 
 /**
  * Food decay calculation.
- * Calculate how much food rots per hour, based on 3600 rot/hour at 65 F (18.3 C).
- * Rate of rot doubles every 16 F (~8.8888 C) increase in temperature
- * Rate of rot halves every 16 F decrease in temperature
- * Rot maxes out at 105 F
- * Rot stops below 32 F (0C) and above 145 F (63 C)
+ * Calculate how much food rots per hour, based on 10 = 1 minute of decay @ 65 F.
+ * IRL this tends to double every 10c a few degrees above freezing, but past a certain
+ * point the rate decreases until even extremophiles find it too hot. Here we just stop
+ * further acceleration at 105 F. This should only need to run once when the game starts.
+ * @see calc_rot_array
+ * @see rot_chart
  */
-static float calc_hourly_rotpoints_at_temp( const int temp )
+static int calc_hourly_rotpoints_at_temp( const int temp )
 {
-    const int dropoff = 38;
-    // ~3 C ditch our fancy equation and do a linear approach to 0 rot from 3 C -> 0 C
-    const int max_rot_temp = 105; // ~41 C Maximum rotting rate is at this temperature
-    const int safe_temp = 145; // ~63 C safe temperature above which food stops rotting
+    // default temp = 65, so generic->rotten() assumes 600 decay points per hour
+    const int dropoff = 38;     // ditch our fancy equation and do a linear approach to 0 rot at 31f
+    const int cutoff = 105;     // stop torturing the player at this temperature, which is
+    const int cutoffrot = 21240; // ..almost 6 times the base rate. bacteria hate the heat too
 
-    if( temp <= temperatures::freezing || temp > safe_temp ) {
-        return 0.f;
+    const int dsteps = dropoff - temperatures::freezing;
+    const int dstep = ( 215.46 * std::pow( 2.0, static_cast<float>( dropoff ) / 16.0 ) / dsteps );
+
+    if( temp < temperatures::freezing ) {
+        return 0;
+    } else if( temp > cutoff ) {
+        return cutoffrot;
     } else if( temp < dropoff ) {
-        // Linear progress from 32 F (0 C) to 38 F (3 C)
-        return 600.f * std::exp2( -27.f / 16.f ) * ( temp - temperatures::freezing );
-    } else if( temp < max_rot_temp ) {
-        // Exponential progress from 38 F (3 C) to 105 F (41 C)
-        return 3600.f * std::exp2( ( temp - 65.f ) / 16.f );
+        return ( temp - temperatures::freezing ) * dstep;
     } else {
-        // Constant rot from 105 F (41 C) to 145 F (63 C)
-        // This is approximately 20364.67 rot/hour
-        return 3600.f * std::exp2( ( max_rot_temp - 65.f ) / 16.f );
+        return std::lround( 215.46 * std::pow( 2.0, static_cast<float>( temp ) / 16.0 ) );
     }
 }
 
-static std::vector<float> calc_rot_array()
+/**
+ * Initialize the rot table.
+ * @see rot_chart
+ */
+static std::vector<int> calc_rot_array( const size_t cap )
 {
-    // Array with precalculated rot rates
-    // Includes temperatures from 0 F ( -18C) to 145 F (63 F)
-    std::vector<float> ret;
-    ret.reserve( 146 );
-    for( int i = 0; i < 146; ++i ) {
-        ret.push_back( calc_hourly_rotpoints_at_temp( i ) );
+    std::vector<int> ret;
+    ret.reserve( cap );
+    for( size_t i = 0; i < cap; ++i ) {
+        ret.push_back( calc_hourly_rotpoints_at_temp( static_cast<int>( i ) ) );
     }
     return ret;
 }
@@ -6040,16 +6042,19 @@ static std::vector<float> calc_rot_array()
  * Get the hourly rot for a given temperature from the precomputed table.
  * @see rot_chart
  */
-float item::get_hourly_rotpoints_at_temp( const int temp ) const
+int get_hourly_rotpoints_at_temp( const int temp )
 {
-    if( temp <= 32 || temp > 145 ) {
-        return 0.0;
-    }
-
     /**
      * Precomputed rot lookup table.
      */
-    static const std::vector<float> rot_chart = calc_rot_array();
+    static const std::vector<int> rot_chart = calc_rot_array( 200 );
+
+    if( temp < 0 ) {
+        return 0;
+    }
+    if( temp > 150 ) {
+        return 21240;
+    }
     return rot_chart[temp];
 }
 
@@ -6422,12 +6427,6 @@ bool item::is_software_storage() const
 {
     return contents.has_pocket_type( item_pocket::pocket_type::SOFTWARE );
 }
-
-bool item::is_ebook_storage() const
-{
-    return contents.has_pocket_type( item_pocket::pocket_type::EBOOK );
-}
-
 bool item::count_by_charges() const
 {
     return type->count_by_charges();
@@ -7743,8 +7742,7 @@ void item::mark_chapter_as_read( const Character &u )
     set_var( var, remain );
 }
 
-std::vector<std::pair<const recipe *, int>> item::get_available_recipes(
-            const Character &u ) const
+std::vector<std::pair<const recipe *, int>> item::get_available_recipes( const Character &u ) const
 {
     std::vector<std::pair<const recipe *, int>> recipe_entries;
     if( is_book() ) {
@@ -7762,7 +7760,7 @@ std::vector<std::pair<const recipe *, int>> item::get_available_recipes(
             }
         }
     } else if( has_var( "EIPC_RECIPES" ) ) {
-        // See eipc_recipe_add() in item.cpp where this is set.
+        // See einkpc_download_memory_card() in iuse.cpp where this is set.
         const std::string recipes = get_var( "EIPC_RECIPES" );
         // Capture the index one past the delimiter, i.e. start of target string.
         size_t first_string_index = recipes.find_first_of( ',' ) + 1;
@@ -7774,27 +7772,13 @@ std::vector<std::pair<const recipe *, int>> item::get_available_recipes(
             std::string new_recipe = recipes.substr( first_string_index,
                                      next_string_index - first_string_index );
             const recipe *r = &recipe_id( new_recipe ).obj();
-            recipe_entries.emplace_back( r, r->difficulty );
+            if( u.get_skill_level( r->skill_used ) >= r->difficulty ) {
+                recipe_entries.emplace_back( r, r->difficulty );
+            }
             first_string_index = next_string_index + 1;
         }
     }
     return recipe_entries;
-}
-
-bool item::eipc_recipe_add( const recipe_id &recipe_id )
-{
-    bool recipe_success = false;
-
-    const std::string old_recipes = this->get_var( "EIPC_RECIPES" );
-    if( old_recipes.empty() ) {
-        recipe_success = true;
-        this->set_var( "EIPC_RECIPES", "," + recipe_id.str() + "," );
-    } else if( old_recipes.find( "," + recipe_id.str() + "," ) == std::string::npos ) {
-        recipe_success = true;
-        this->set_var( "EIPC_RECIPES", old_recipes + recipe_id.str() + "," );
-    }
-
-    return recipe_success;
 }
 
 const material_type &item::get_random_material() const
@@ -8394,11 +8378,6 @@ std::vector<const item *> item::mods() const
 std::vector<const item *> item::softwares() const
 {
     return contents.softwares();
-}
-
-std::vector<const item *> item::ebooks() const
-{
-    return contents.ebooks();
 }
 
 item *item::gunmod_find( const itype_id &mod )
