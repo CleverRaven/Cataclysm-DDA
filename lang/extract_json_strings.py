@@ -1360,6 +1360,11 @@ def extract(item, infilename):
             if "sound_fail" in bash:
                 writestr(outfile, bash["sound_fail"], **kwargs)
                 wrote = True
+        if "boltcut" in item and "sound" in item["boltcut"]:
+            comment = "sound of bolt cutting '{}'".format(singular_name)
+            writestr(outfile, item["boltcut"]["sound"], comment=comment,
+                     **kwargs)
+            wrote = True
         if "seed_data" in item:
             seed_data = item["seed_data"]
             writestr(outfile, seed_data["plant_name"], **kwargs)
