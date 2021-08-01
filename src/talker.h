@@ -4,6 +4,7 @@
 
 class faction;
 class item;
+class item_location;
 class mission;
 class npc;
 class player;
@@ -31,6 +32,12 @@ class talker
             return nullptr;
         }
         virtual npc *get_npc() const {
+            return nullptr;
+        }
+        virtual item_location *get_item() {
+            return nullptr;
+        }
+        virtual item_location *get_item() const {
             return nullptr;
         }
 

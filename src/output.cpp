@@ -2075,6 +2075,10 @@ void scrollingcombattext::add( const point &pos, direction p_oDir,
                                const std::string &p_sText2, const game_message_type p_gmt2,
                                const std::string &p_sType )
 {
+    // TODO: A non-hack
+    if( test_mode ) {
+        return;
+    }
     if( get_option<bool>( "ANIMATION_SCT" ) ) {
 
         int iCurStep = 0;

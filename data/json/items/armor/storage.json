@@ -1495,7 +1495,7 @@
     ],
     "warmth": 5,
     "material_thickness": 0.4,
-    "flags": [ "VARSIZE" ],
+    "flags": [ "VARSIZE", "WAIST" ],
     "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 60, "covers": [ "torso" ] } ]
   },
   {

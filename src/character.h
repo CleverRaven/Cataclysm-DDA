@@ -2530,6 +2530,8 @@ class Character : public Creature, public visitable
         const recipe_subset &get_learned_recipes() const;
         /** Returns all recipes that are known from the books (either in inventory or nearby). */
         recipe_subset get_recipes_from_books( const inventory &crafting_inv ) const;
+        /** Returns all recipes that are known from the books inside ereaders (either in inventory or nearby). */
+        recipe_subset get_recipes_from_ebooks( const inventory &crafting_inv ) const;
         /**
           * Returns all available recipes (from books and npc companions)
           * @param crafting_inv Current available items to craft

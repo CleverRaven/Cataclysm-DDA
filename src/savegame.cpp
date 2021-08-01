@@ -721,6 +721,15 @@ void overmap::unserialize( std::istream &fin )
                     }
                 }
             }
+        } else if( name == "mapgen_arg_storage" ) {
+            jsin.read( mapgen_arg_storage, true );
+        } else if( name == "mapgen_arg_index" ) {
+            std::vector<std::pair<tripoint_om_omt, int>> flat_index;
+            jsin.read( flat_index, true );
+            for( const std::pair<tripoint_om_omt, int> &p : flat_index ) {
+                auto it = mapgen_arg_storage.get_iterator_from_index( p.second );
+                mapgen_args_index.emplace( p.first, &*it );
+            }
         }
     }
 }
@@ -1116,6 +1125,22 @@ void overmap::serialize( std::ostream &fout ) const
         json.end_object();
         json.end_array();
         json.end_object();
+    }
+    json.end_array();
+    fout << std::endl;
+
+    json.member( "mapgen_arg_storage", mapgen_arg_storage );
+    fout << std::endl;
+    json.member( "mapgen_arg_index" );
+    json.start_array();
+    for( const std::pair<const tripoint_om_omt, cata::optional<mapgen_arguments> *> &p :
+         mapgen_args_index ) {
+        json.start_array();
+        json.write( p.first );
+        auto it = mapgen_arg_storage.get_iterator_from_pointer( p.second );
+        int index = mapgen_arg_storage.get_index_from_iterator( it );
+        json.write( index );
+        json.end_array();
     }
     json.end_array();
     fout << std::endl;

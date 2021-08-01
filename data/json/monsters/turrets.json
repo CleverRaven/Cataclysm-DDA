@@ -305,7 +305,7 @@
     ],
     "death_drops": {  },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO", "ID_CARD_DESPAWN" ]
   },
   {
     "id": "mon_turret_speaker",
