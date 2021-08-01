@@ -145,5 +145,21 @@
     "description": "You've torn off your tank top, knocked out your share of referees, broken those flimsy tables a dozen times, and you've been the heel and the hero.",
     "points": 2,
     "skills": [ { "level": 3, "name": "speech" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "nose_picker",
+    "name": "Nose Picker",
+    "description": "You have an unseemly tendency to pick your nose. This can be awkward in, well... anything, really.",
+    "points": -2
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "triviality_collector",
+    "name": "Triviality Collector",
+    "description": "You have a lasting interest in collecting things of legitimate use and historical purpose, like stamps, or coins, and keeping them around indefinitely for some goddamn reason. Apparently you, specifically, thought it was cool. You leave them in, like, a box... with glass on it or something. In any case, this new world has no fresh legal tender being made, or stamps being printed; and you must set off to gather the final tokens of the end of history, socially awkward as it may be.",
+    "points": -1
   }
 ]
