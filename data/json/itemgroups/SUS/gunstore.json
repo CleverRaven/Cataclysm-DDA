@@ -6,7 +6,7 @@
     "//2": "This group is for contents of gun store safes",
     "subtype": "collection",
     "entries": [
-     { "item": "factory_pistol_ammo_box", "count": [ 5, 25 ],"contents-item": "ammo_pistol_common_unused", "prob": 80 }
+     { "item": "factory_pistol_ammo_box", "count": [ 5, 25 ],"contents-group": "ammo_pistol_common", "prob": 80 }
     ]
-  },
+  }
 ]
