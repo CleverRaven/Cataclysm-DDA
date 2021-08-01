@@ -219,7 +219,7 @@
       [ "EAT_CROP", 5 ]
     ],
     "harvest": "mammal_large_leather",
-    "upgrades": { "age_grow": 100, "into": "mon_amargasaurus" },
+    "upgrades": { "age_grow": 365, "into": "mon_amargasaurus" },
     "flags": [
       "SEES",
       "HEARS",
