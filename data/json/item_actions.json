@@ -1093,5 +1093,10 @@
     "type": "item_action",
     "id": "SEXTANT",
     "name": { "str": "Measure Sun altitude" }
+  },
+  {
+    "type": "item_action",
+    "id": "LUX_METER",
+    "name": { "str": "Measure light level" }
   }
 ]

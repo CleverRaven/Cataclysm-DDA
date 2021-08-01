@@ -205,6 +205,7 @@ cata::optional<int> water_purifier( player *, item *, bool, const tripoint & );
 cata::optional<int> weak_antibiotic( player *, item *, bool, const tripoint & );
 cata::optional<int> weather_tool( player *, item *, bool, const tripoint & );
 cata::optional<int> sextant( player *, item *, bool, const tripoint & );
+cata::optional<int> lux_meter( player *, item *, bool, const tripoint & );
 
 // MACGUFFINS
 
