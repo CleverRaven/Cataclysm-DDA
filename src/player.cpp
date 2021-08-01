@@ -42,7 +42,6 @@
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -463,11 +462,10 @@ void player::recalc_speed_bonus()
             }
         }
     }
-
-    float speed_modifier = static_cast<float>( enchantment_cache->modify_value(
-                               enchant_vals::mod::SPEED, 1 ) );
-    set_speed_bonus( static_cast<int>( get_speed() * speed_modifier ) - get_speed_base() );
-
+    const int prev_speed_bonus = get_speed_bonus();
+    set_speed_bonus( std::round( enchantment_cache->modify_value( enchant_vals::mod::SPEED,
+                                 get_speed() ) - get_speed_base() ) );
+    enchantment_speed_bonus = get_speed_bonus() - prev_speed_bonus;
     // Speed cannot be less than 25% of base speed, so minimal speed bonus is -75% base speed.
     const int min_speed_bonus = static_cast<int>( -0.75 * get_speed_base() );
     if( get_speed_bonus() < min_speed_bonus ) {
@@ -1270,7 +1268,7 @@ item::reload_option player::select_ammo( const item &base,
         } else if( e.ammo->is_watertight_container() ||
                    ( e.ammo->is_ammo_container() && is_worn( *e.ammo ) ) ) {
             // worn ammo containers should be named by their ammo contents with their location also updated below
-            return e.ammo->contents.first_ammo().display_name();
+            return e.ammo->first_ammo().display_name();
 
         } else {
             return ( ammo_location && ammo_location == e.ammo ? "* " : "" ) + e.ammo->display_name();
@@ -1331,7 +1329,7 @@ item::reload_option player::select_ammo( const item &base,
         row += string_format( " %-7d ", sel.moves() );
 
         if( base.is_gun() || base.is_magazine() ) {
-            const itype *ammo = sel.ammo->is_ammo_container() ? sel.ammo->contents.first_ammo().ammo_data() :
+            const itype *ammo = sel.ammo->is_ammo_container() ? sel.ammo->first_ammo().ammo_data() :
                                 sel.ammo->ammo_data();
             if( ammo ) {
                 const damage_instance &dam = ammo->ammo->damage;
@@ -1360,7 +1358,7 @@ item::reload_option player::select_ammo( const item &base,
     }
 
     for( int i = 0; i < static_cast<int>( opts.size() ); ++i ) {
-        const item &ammo = opts[ i ].ammo->is_ammo_container() ? opts[ i ].ammo->contents.first_ammo() :
+        const item &ammo = opts[ i ].ammo->is_ammo_container() ? opts[ i ].ammo->first_ammo() :
                            *opts[ i ].ammo;
 
         char hotkey = -1;
@@ -1455,7 +1453,7 @@ item::reload_option player::select_ammo( const item &base,
     const item_location &sel = opts[ menu.ret ].ammo;
     uistate.lastreload[ base_ammotype ] = sel->is_ammo_container() ?
                                           // get first item in all magazine pockets
-                                          sel->contents.first_ammo().typeId() :
+                                          sel->first_ammo().typeId() :
                                           sel->typeId();
     return opts[ menu.ret ];
 }
@@ -1499,7 +1497,7 @@ bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo
                   e->ammo_remaining() < ammo->ammo_remaining() ||
                   e->loaded_ammo().stacks_with( *ammo ) ||
                   ( ammo->made_of_from_type( phase_id::LIQUID ) &&
-                    e->contents.remaining_capacity_for_liquid( *ammo ) > 0 ) ) ) {
+                    e->get_remaining_capacity_for_liquid( *ammo ) > 0 ) ) ) {
                 ammo_list.emplace_back( this, e, &base, std::move( ammo ) );
             }
         }
@@ -1962,8 +1960,6 @@ bool player::takeoff( item_location loc, std::list<item> *res )
                            _( "<npcname> takes off their %s." ),
                            takeoff_copy.tname() );
 
-    // TODO: Make this variable
-    mod_moves( -250 );
 
     recalc_sight_limits();
     calc_encumbrance();

@@ -2022,23 +2022,6 @@
     "fear_triggers": [ "HURT", "FIRE" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "LARVA", "STUMBLES", "PATH_AVOID_FIRE" ]
   },
-   {
-    "id": "mon_aphid_small",
-    "type": "MONSTER",
-    "name": { "str": "big aphid" },
-    "description": "This huge aphid is as big as a hamster.  It's not as thirsty as bigger ones, but a herd of these could eat your crops easily.",
-    "copy-from": "mon_aphid",
-    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.5 },
-    "volume": "96 ml",
-    "weight": "96 g",
-    "special_attacks": [ [ "EAT_FOOD", 400 ], [ "EAT_CROP", 600 ] ],
-    "delete": {
-      "reproduction": { "baby_monster": "mon_aphid", "baby_count": 1, "baby_timer": 20 },
-      "baby_flags": [ "SPRING", "SUMMER" ]
-    },
-    "biosignature": { "biosig_item": "honeydew", "biosig_timer": 7000 },
-    "upgrades": { "half_life": 14, "into": "mon_aphid" }
-  },
   {
     "id": "mon_aphid_small",
     "type": "MONSTER",
@@ -2054,7 +2037,7 @@
       "baby_flags": [ "SPRING", "SUMMER" ]
     },
     "biosignature": { "biosig_item": "honeydew", "biosig_timer": 7000 },
-    "upgrades": { "half_life": 14, "into": "mon_aphid" }
+    "upgrades": { "age_grow": 8, "into": "mon_aphid" }
   },
   {
     "id": "mon_aphid",
@@ -2068,6 +2051,7 @@
     "weight": "2080 g",
     "hp": 20,
     "speed": 120,
+    "attack_cost": 360,
     "material": [ "iflesh" ],
     "symbol": "a",
     "color": "light_green",
@@ -2086,10 +2070,9 @@
     "harvest": "arachnid",
     "regen_morale": true,
     "fear_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "FIRE", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 60 ], [ "EAT_CROP", 80 ] ],
     "reproduction": { "baby_monster": "mon_aphid_small", "baby_count": 1, "baby_timer": 20 },
-    "baby_flags": [ "SPRING", "SUMMER"],
+    "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "honeydew", "biosig_timer": 600 },
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL", "SWARMS" ]
   },
@@ -2103,7 +2086,11 @@
     "volume": "60 L",
     "weight": "80 kg",
     "melee_cut": 8,
-    "upgrades": { "half_life": 14, "into": "mon_mantis_giant" }
+    "delete": {
+      "reproduction": { "baby_egg": "egg_mantis", "baby_count": 1, "baby_timer": 30 },
+      "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
+    },
+    "upgrades": { "age_grow": 14, "into": "mon_mantis_giant" }
   },
   {
     "id": "mon_mantis_giant",
@@ -2125,14 +2112,7 @@
     "melee_skill": 8,
     "melee_dice": 1,
     "melee_dice_sides": 6,
-    "melee_damage":
-  [ 
-  {
-    "damage_type": "cut",
-    "amount": 10.0,
-    "armor_penetration": 12
-  }
-  ],
+    "melee_damage": [ { "damage_type": "cut", "amount": 10.0, "armor_penetration": 12 } ],
     "dodge": 3,
     "armor_bash": 10,
     "armor_cut": 16,
@@ -2142,12 +2122,14 @@
     "harvest": "arachnid",
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE", "HURT" ],
-    "death_function": [ "NORMAL" ],
+    "reproduction": { "baby_egg": "egg_mantis", "baby_count": 1, "baby_timer": 30 },
+    "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "special_attacks": [
       [ "RANGED_PULL", 30 ],
       [ "GRAB_DRAG", 10 ],
       { "type": "leap", "cooldown": 8, "max_range": 5, "allow_no_target": false }
     ],
+    "upgrades": { "age_grow": 21, "into": "mon_mantis_mega" },
     "flags": [ "SEES", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
@@ -2162,7 +2144,7 @@
     "color": "red_green",
     "weight": "815 kg",
     "melee_dice": 2,
-    "melee_cut": 20,
+    "melee_damage": [ { "damage_type": "cut", "amount": 15.0, "armor_penetration": 16 } ],
     "dodge": 2,
     "attack_cost": 25,
     "special_attacks": [
@@ -2170,15 +2152,20 @@
         "type": "bite",
         "cooldown": 4,
         "accuracy": 5,
-        "no_infection_chance": 25,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 0.6 } ]
+        "infection_chance": 75,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 18 } ]
       },
       [ "RANGED_PULL", 30 ],
-      [ "GRAB_DRAG", 10 ],
-      { "type": "leap", "cooldown": 8, "max_range": 5, "allow_no_target": false }
+      [ "GRAB_DRAG", 10 ]
     ],
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] },
-    "delete": { "type": "leap", "cooldown": 8, "max_range": 5, "allow_no_target": false }
+    "delete": {
+      "type": "leap",
+      "cooldown": 8,
+      "max_range": 5,
+      "allow_no_target": false,
+      "upgrades": { "age_grow": 21, "into": "mon_mantis_mega" }
+    }
   },
   {
     "id": "mon_mole_cricket",
@@ -2207,17 +2194,18 @@
     "vision_day": 10,
     "vision_night": 15,
     "harvest": "arachnid",
+    "reproduction": { "baby_egg": "egg_mole_cricket", "baby_count": 1, "baby_timer": 20 },
+    "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "special_attacks": [ [ "SHRIEK_ALERT", 10 ], [ "SHRIEK_STUN", 5 ], [ "impale", 15 ] ],
     "anger_triggers": [ "HURT", "SOUND", "STALK" ],
     "fear_triggers": [ "FIRE" ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "BORES", "DESTROYS", "PUSH_VEH", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS" ]
+    "flags": [ "SEES", "BORES", "PUSH_VEH", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS" ]
   },
   {
     "id": "mon_lady_bug_giant",
     "type": "MONSTER",
     "name": { "str": "giant lady bug" },
-    "description": "A lady beetle roughly the size of a horse.  Its forewings are red with black spots, a distinctive appearance traditionally associated with good luck and adored by children.  Despite cute looks it is a ferocious predator capable of killing swarms of ants and aphids.",
+    "description": "This monster was cute with its black spotted red forewings and was adored by children as well as associated with good luck when it was the normal size, but this is clearly a ferocious predator capable of killing swarms of ants and aphids.",
     "default_faction": "ladybug",
     "bodytype": "insect",
     "species": [ "INSECT" ],
@@ -2241,15 +2229,16 @@
     "vision_day": 20,
     "vision_night": 5,
     "harvest": "arachnid",
+    "reproduction": { "baby_egg": "egg_lady_bug", "baby_count": 1, "baby_timer": 30 },
+    "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "fear_triggers": [ "HURT" ],
-    "death_function": [ "NORMAL" ],
     "special_attacks": [
       {
         "type": "bite",
         "cooldown": 4,
         "accuracy": 6,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 0.6 } ]
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 8 } ]
       }
     ],
     "flags": [ "SEES", "HEARS", "SMELLS", "FLIES", "PATH_AVOID_FIRE" ]
@@ -2263,7 +2252,11 @@
     "proportional": { "hp": 0.5, "speed": 1.1 },
     "volume": "750 ml",
     "weight": "1 kg",
-    "upgrades": { "half_life": 7, "into": "mon_mantis_giant" }
+    "delete": {
+      "reproduction": { "baby_egg": "egg_grasshopper", "baby_count": 3, "baby_timer": 15 },
+      "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
+    },
+    "upgrades": { "age_grow": 8, "into": "mon_grasshopper_giant" }
   },
   {
     "id": "mon_grasshopper_giant",
@@ -2277,6 +2270,7 @@
     "weight": "33 kg",
     "hp": 40,
     "speed": 180,
+    "attack_cost": 540,
     "material": [ "iflesh" ],
     "symbol": "g",
     "color": "light_green",
@@ -2292,8 +2286,9 @@
     "vision_day": 20,
     "vision_night": 20,
     "harvest": "arachnid",
+    "reproduction": { "baby_egg": "egg_grasshopper", "baby_count": 3, "baby_timer": 15 },
+    "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "fear_triggers": [ "FIRE", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 60 ], [ "EAT_CROP", 80 ], { "type": "leap", "cooldown": 3, "max_range": 10, "allow_no_target": true } ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FALL", "PATH_AVOID_FIRE" ]
   },
@@ -2324,10 +2319,9 @@
     "vision_day": 8,
     "vision_night": 5,
     "harvest": "arachnid",
-    "upgrades": { "half_life": 12, "into": "mon_antlion_giant" },
+    "upgrades": { "age_grow": 12, "into": "mon_antlion_giant" },
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
-    "death_function": [ "NORMAL" ],
     "special_attacks": [
       [ "RANGED_PULL", 10 ],
       [ "GRAB", 3 ],
@@ -2336,8 +2330,8 @@
         "type": "bite",
         "cooldown": 4,
         "accuracy": 8,
-        "no_infection_chance": 25,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 0.6 } ]
+        "infection_chance": 75,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 12 } ]
       }
     ],
     "flags": [ "SEES", "SMELLS", "IMMOBILE", "DIGS", "RANGED_ATTACKER" ]
@@ -2372,7 +2366,6 @@
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "anger_triggers": [ "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE", "FIRE" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "FLIES", "HEARS", "HIT_AND_RUN", "PATH_AVOID_FIRE" ]
   },
   {
@@ -2384,8 +2377,12 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.5 },
     "volume": "3 L",
     "weight": "4 kg",
-    "melee_cut": 8,
-    "upgrades": { "half_life": 14, "into": "mon_strider_giant" }
+    "melee_cut": 1,
+    "delete": {
+      "reproduction": { "baby_egg": "egg_strider", "baby_count": 3, "baby_timer": 10 },
+      "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
+    },
+    "upgrades": { "age_grow": 7, "into": "mon_strider_giant" }
   },
   {
     "id": "mon_strider_giant",
@@ -2416,9 +2413,10 @@
     "vision_day": 12,
     "vision_night": 5,
     "harvest": "arachnid",
+    "reproduction": { "baby_egg": "egg_strider", "baby_count": 3, "baby_timer": 10 },
+    "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "anger_triggers": [ "PLAYER_WEAK" ],
     "fear_triggers": [ "FIRE", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS" ]
   }
 ]

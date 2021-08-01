@@ -84,6 +84,12 @@ Are defined by adding `_female` or `_male` part to the `overlay_` part of a pref
 
 Are defined by adding `_season_spring`, `_season_summer`, `_season_autumn`, or `_season_winter` suffix to any tile entry `id`. For example `"id": "mon_wolf_season_winter"`.
 
+#### Item variant sprite variants
+
+Are defined by adding `_var_variant_id`, where `variant_id` is replaced by the id of the variant you want to sprite.
+
+e.g. for an item with the id `item1`, with variants `orange` and `pear`, to specify a tile for the item, simply use `item1`. For the variants, use `item1_var_orange` and `item1_var_pear`.
+
 #### Rotations
 
 You can add `"rotates": true` to allow sprites to be rotated by the game automatically. Alternatively, `fg` and `bg` can be an array of 2 or 4 pre-rotated variants, like `"fg": ["mon_dog_left", "mon_dog_right"]` or `"bg": ["t_wall_n", "t_wall_e", "t_wall_s", "t_wall_w"]`.

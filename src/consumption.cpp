@@ -16,6 +16,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
+#include "craft_command.h"
 #include "debug.h"
 #include "effect.h"
 #include "enums.h"
@@ -26,7 +27,6 @@
 #include "game.h"
 #include "item.h"
 #include "item_category.h"
-#include "item_contents.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -1758,8 +1758,7 @@ trinary player::consume( item &target, bool force, bool refuel )
     }
 
     if( refuel ) {
-        fuel_bionic_with( target );
-        return target.charges <= 0 ? trinary::ALL : trinary::SOME;
+        return fuel_bionic_with( target ) && target.charges <= 0 ? trinary::ALL : trinary::SOME;
     }
 
     if( consume_med( target, *this ) || eat( target, *this, force ) ) {

@@ -49,7 +49,6 @@
 #include "handle_liquid.h"
 #include "input.h"
 #include "inventory.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_stack.h"
@@ -2904,6 +2903,9 @@ item *Character::try_add( item it, const item *avoid, const bool allow_wield )
     } else {
         // this will set ret to either it, or to stack where it was placed
         pocket.second->add( it, &ret );
+        if( !keep_invlet && ( !it.count_by_charges() || it.charges == ret->charges ) ) {
+            inv->update_invlet( *ret );
+        }
         pocket.first.on_contents_changed();
         pocket.second->on_contents_changed();
     }
@@ -3314,10 +3316,10 @@ invlets_bitset Character::allocated_invlets() const
 {
     invlets_bitset invlets = inv->allocated_invlets();
 
-    invlets.set( weapon.invlet );
-    for( const auto &w : worn ) {
-        invlets.set( w.invlet );
-    }
+    visit_items( [&invlets]( item * i, item * ) -> VisitResponse {
+        invlets.set( i->invlet );
+        return VisitResponse::NEXT;
+    } );
 
     invlets[0] = false;
 
@@ -4955,6 +4957,11 @@ static int get_speedydex_bonus( const int dex )
     // this is the number to be multiplied by the increment
     const int modified_dex = std::max( dex - get_option<int>( speedydex_min_dex ), 0 );
     return modified_dex * get_option<int>( speedydex_dex_speed );
+}
+
+int Character::get_enchantment_speed_bonus() const
+{
+    return enchantment_speed_bonus;
 }
 
 int Character::get_speed() const
@@ -12443,7 +12450,7 @@ double Character::vomit_mod()
     // If you're already nauseous, any food in your stomach greatly
     // increases chance of vomiting. Liquids don't provoke vomiting, though.
     if( stomach.contains() != 0_ml && has_effect( effect_nausea ) ) {
-        mod *= 5 * get_effect_int( effect_nausea );
+        mod *= get_effect_int( effect_nausea );
     }
     return mod;
 }
@@ -12843,6 +12850,12 @@ std::vector<proficiency_id> Character::known_proficiencies() const
 std::vector<proficiency_id> Character::learning_proficiencies() const
 {
     return _proficiencies->learning_profs();
+}
+
+int Character::get_proficiency_bonus( const std::string &category,
+                                      proficiency_bonus_type prof_bonus ) const
+{
+    return _proficiencies->get_proficiency_bonus( category, prof_bonus );
 }
 
 void Character::set_proficiency_practice( const proficiency_id &id, const time_duration &amount )

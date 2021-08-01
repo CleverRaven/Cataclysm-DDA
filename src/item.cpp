@@ -478,7 +478,7 @@ item &item::convert( const itype_id &new_type )
     item temp( *this );
     temp.contents = item_contents( type->pockets );
     for( const item *it : contents.mods() ) {
-        if( !temp.contents.insert_item( *it, item_pocket::pocket_type::MOD ).success() ) {
+        if( !temp.put_in( *it, item_pocket::pocket_type::MOD ).success() ) {
             debugmsg( "failed to insert mod" );
         }
     }
@@ -1036,6 +1036,11 @@ bool item::same_for_rle( const item &rhs ) const
     if( !contents.empty_real() || !rhs.contents.empty_real() ) {
         return false;
     }
+    if( has_gun_variant( false ) != rhs.has_gun_variant( false ) ||
+        ( has_gun_variant( false ) && rhs.has_gun_variant( false ) &&
+          gun_variant().id != rhs.gun_variant().id ) ) {
+        return false;
+    }
     return stacks_with( rhs, true, false );
 }
 
@@ -1096,9 +1101,37 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
     }
     // Guns that differ only by dirt/shot_counter can still stack,
     // but other item_vars such as label/note will prevent stacking
-    const std::vector<std::string> ignore_keys = { "dirt", "shot_counter" };
+    const std::vector<std::string> ignore_keys = { "dirt", "shot_counter", "spawn_location_omt" };
     if( map_without_keys( item_vars, ignore_keys ) != map_without_keys( rhs.item_vars, ignore_keys ) ) {
         return false;
+    }
+    const std::string omt_loc_var = "spawn_location_omt";
+    const bool this_has_location = has_var( omt_loc_var );
+    const bool that_has_location = has_var( omt_loc_var );
+    if( this_has_location != that_has_location ) {
+        return false;
+    }
+    if( this_has_location && that_has_location ) {
+        const tripoint_abs_omt this_loc( get_var( "spawn_location_omt", tripoint_zero ) );
+        const tripoint_abs_omt that_loc( rhs.get_var( "spawn_location_omt", tripoint_zero ) );
+        const tripoint_abs_omt player_loc( ms_to_omt_copy( get_map().getabs(
+                                               get_player_character().pos() ) ) );
+        const int this_dist = rl_dist( player_loc, this_loc );
+        const int that_dist = rl_dist( player_loc, that_loc );
+        static const auto get_bucket = []( const int dist ) {
+            if( dist < 1 ) {
+                return 0;
+            } else if( dist < 6 ) {
+                return 1;
+            } else if( dist < 30 ) {
+                return 2;
+            } else {
+                return 3;
+            }
+        };
+        if( get_bucket( this_dist ) != get_bucket( that_dist ) ) {
+            return false;
+        }
     }
     if( goes_bad() && rhs.goes_bad() ) {
         // Stack items that fall into the same "bucket" of freshness.
@@ -1188,6 +1221,11 @@ ret_val<bool> item::put_in( const item &payload, item_pocket::pocket_type pk_typ
     } else {
         return ret_val<bool>::make_failure( result.str() );
     }
+}
+
+void item::force_insert_item( const item &it, item_pocket::pocket_type pk_type )
+{
+    contents.force_insert_item( it, pk_type );
 }
 
 void item::set_var( const std::string &name, const int value )
@@ -3499,7 +3537,16 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         info.emplace_back( "DESCRIPTION",
                            _( "* This tool <info>runs on bionic power</info>." ) );
     } else if( has_flag( flag_BURNOUT ) && parts->test( iteminfo_parts::TOOL_BURNOUT ) ) {
-        int percent_left = 100 * ammo_remaining() / type->maximum_charges();
+        int percent_left = 0;
+        if( ammo_data() != nullptr ) {
+            // Candle items that use ammo instead of charges
+            // The capacity should never be zero but clang complains about it
+            percent_left = 100 * ammo_remaining() / std::max( ammo_capacity( ammo_data()->ammo->type ), 1 );
+        } else if( type->maximum_charges() > 0 ) {
+            // Candle items that use charges instead of ammo
+            percent_left = 100 * ammo_remaining() / type->maximum_charges();
+        }
+
         std::string feedback;
         if( percent_left == 100 ) {
             feedback = _( "It's new, and ready to burn." );
@@ -4435,10 +4482,9 @@ const std::string &item::symbol() const
     return type->sym;
 }
 
-nc_color item::color_in_inventory() const
+nc_color item::color_in_inventory( const Character *const ch ) const
 {
-    // TODO: make a const reference
-    avatar &player_character = get_avatar();
+    const Character &player_character = ch ? *ch : get_player_character();
 
     // Only item not otherwise colored gets colored as favorite
     nc_color ret = is_favorite ? c_white : c_light_gray;
@@ -4924,6 +4970,20 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             tagtext += _( " (hallucinogenic)" );
         }
     }
+    if( has_var( "spawn_location_omt" ) ) {
+        tripoint_abs_omt loc( get_var( "spawn_location_omt", tripoint_zero ) );
+        tripoint_abs_omt player_loc( ms_to_omt_copy( get_map().getabs( player_character.pos() ) ) );
+        int dist = rl_dist( player_loc, loc );
+        if( dist < 1 ) {
+            tagtext += _( " (from here)" );
+        } else if( dist < 6 ) {
+            tagtext += _( " (from nearby)" );
+        } else if( dist < 30 ) {
+            tagtext += _( " (from this area)" );
+        } else {
+            tagtext += _( " (from far away)" );
+        }
+    }
     if( ethereal ) {
         tagtext += string_format( _( " (%s turns)" ), get_var( "ethereal" ) );
     } else if( goes_bad() || is_food() ) {
@@ -5020,15 +5080,11 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         // in their name, also food is active while it rots.
         tagtext += _( " (active)" );
     }
-    switch( contents.get_sealed_summary() ) {
-        case item_contents::sealed_summary::unsealed:
-            break;
-        case item_contents::sealed_summary::part_sealed:
-            tagtext += _( " (part sealed)" );
-            break;
-        case item_contents::sealed_summary::all_sealed:
-            tagtext += _( " (sealed)" );
-            break;
+
+    if( all_pockets_sealed() ) {
+        tagtext += _( " (sealed)" );
+    } else if( any_pockets_sealed() ) {
+        tagtext += _( " (part sealed)" );
     }
 
     if( is_favorite ) {
@@ -7234,6 +7290,16 @@ bool item::seal()
     }
 }
 
+bool item::all_pockets_sealed() const
+{
+    return contents.all_pockets_sealed();
+}
+
+bool item::any_pockets_sealed() const
+{
+    return contents.any_pockets_sealed();
+}
+
 bool item::is_container() const
 {
     return contents.has_pocket_type( item_pocket::pocket_type::CONTAINER );
@@ -7694,7 +7760,7 @@ std::vector<std::pair<const recipe *, int>> item::get_available_recipes( const C
             }
         }
     } else if( has_var( "EIPC_RECIPES" ) ) {
-        // See einkpc_download_memory_card() in iuse.cpp where this is set.
+        // See eipc_recipe_add() in item.cpp where this is set.
         const std::string recipes = get_var( "EIPC_RECIPES" );
         // Capture the index one past the delimiter, i.e. start of target string.
         size_t first_string_index = recipes.find_first_of( ',' ) + 1;
@@ -7706,13 +7772,27 @@ std::vector<std::pair<const recipe *, int>> item::get_available_recipes( const C
             std::string new_recipe = recipes.substr( first_string_index,
                                      next_string_index - first_string_index );
             const recipe *r = &recipe_id( new_recipe ).obj();
-            if( u.get_skill_level( r->skill_used ) >= r->difficulty ) {
-                recipe_entries.emplace_back( r, r->difficulty );
-            }
+            recipe_entries.emplace_back( r, r->difficulty );
             first_string_index = next_string_index + 1;
         }
     }
     return recipe_entries;
+}
+
+bool item::eipc_recipe_add( const recipe_id &recipe_id )
+{
+    bool recipe_success = false;
+
+    const std::string old_recipes = this->get_var( "EIPC_RECIPES" );
+    if( old_recipes.empty() ) {
+        recipe_success = true;
+        this->set_var( "EIPC_RECIPES", "," + recipe_id.str() + "," );
+    } else if( old_recipes.find( "," + recipe_id.str() + "," ) == std::string::npos ) {
+        recipe_success = true;
+        this->set_var( "EIPC_RECIPES", old_recipes + recipe_id.str() + "," );
+    }
+
+    return recipe_success;
 }
 
 const material_type &item::get_random_material() const
@@ -7986,7 +8066,9 @@ int item::ammo_remaining( const Character *carrier ) const
     // Magazines and integral magazines on their own
     if( is_magazine() ) {
         for( const item *e : contents.all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
-            ret += e->charges;
+            if( e->is_ammo() ) {
+                ret += e->charges;
+            }
         }
     }
 
@@ -8052,6 +8134,21 @@ int item::ammo_required() const
     }
 
     return 0;
+}
+
+item &item::first_ammo()
+{
+    return contents.first_ammo();
+}
+
+const item &item::first_ammo() const
+{
+    return contents.first_ammo();
+}
+
+void item::handle_liquid_or_spill( Character &guy, const item *avoid )
+{
+    contents.handle_liquid_or_spill( guy, avoid );
 }
 
 bool item::ammo_sufficient( const Character *carrier, int qty ) const
@@ -8665,7 +8762,7 @@ bool item::reload( Character &u, item_location ammo, int qty )
     if( ammo->has_flag( flag_SPEEDLOADER ) ) {
         container = ammo;
         // if the thing passed in is a speed loader, we want the ammo
-        ammo = item_location( ammo, &ammo->contents.first_ammo() );
+        ammo = item_location( ammo, &ammo->first_ammo() );
     }
 
     if( !is_reloadable_with( ammo->typeId() ) ) {
@@ -8701,9 +8798,9 @@ bool item::reload( Character &u, item_location ammo, int qty )
 
         if( ammo->has_flag( flag_SPEEDLOADER ) ) {
             // sets curammo to one of the ammo types contained
-            curammo = ammo->contents.first_ammo().type;
+            curammo = ammo->first_ammo().type;
             qty = std::min( qty, ammo->ammo_remaining() );
-            item ammo_copy( ammo->contents.first_ammo() );
+            item ammo_copy( ammo->first_ammo() );
             ammo_copy.charges = qty;
             put_in( ammo_copy, item_pocket::pocket_type::MAGAZINE );
             ammo->ammo_consume( qty, tripoint_zero, &u );
@@ -9008,6 +9105,11 @@ int item::get_remaining_capacity_for_liquid( const item &liquid, const Character
     }
 
     return res;
+}
+
+units::volume item::total_contained_volume() const
+{
+    return contents.total_contained_volume();
 }
 
 bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
@@ -10883,8 +10985,11 @@ bool item::is_upgrade() const
 
 int item::get_min_str() const
 {
+    const Character &p = get_player_character();
     if( type->gun ) {
         int min_str = type->min_str;
+        min_str -= p.get_proficiency_bonus( "archery", proficiency_bonus_type::strength );
+
         for( const item *mod : gunmods() ) {
             min_str += mod->type->gunmod->min_str_required_mod;
         }
@@ -11080,6 +11185,12 @@ int item::get_recursive_disassemble_moves( const Character &guy ) const
     return moves;
 }
 
+void item::remove_internal( const std::function<bool( item & )> &filter,
+                            int &count, std::list<item> &res )
+{
+    contents.remove_internal( filter, count, res );
+}
+
 std::list<const item *> item::all_items_top() const
 {
     return contents.all_items_top();
@@ -11173,6 +11284,11 @@ const item &item::only_item() const
     return contents.only_item();
 }
 
+item *item::get_item_with( const std::function<bool( const item & )> &filter )
+{
+    return contents.get_item_with( filter );
+}
+
 size_t item::num_item_stacks() const
 {
     return contents.num_item_stacks();
@@ -11191,4 +11307,9 @@ const item &item::legacy_front() const
 void item::favorite_settings_menu( const std::string &item_name )
 {
     contents.favorite_settings_menu( item_name );
+}
+
+void item::combine( const item_contents &read_input, bool convert )
+{
+    contents.combine( read_input, convert );
 }

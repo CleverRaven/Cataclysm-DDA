@@ -94,6 +94,7 @@
     "method": "json",
     "//": "A nested map for lab mutagen research areas. Center of room design.",
     "nested_mapgen_id": "lab_mutagen_8x8_vault_west",
+    "weight": 200,
     "object": {
       "mapgensize": [ 8, 8 ],
       "rotation": [ 0, 3 ],
@@ -117,7 +118,108 @@
           "failures": [ { "action": "damage" }, { "action": "manhacks" }, { "action": "shutdown" } ]
         }
       },
-      "items": { "m": [ { "item": "mut_iv", "chance": 10, "repeat": [ 2, 5 ] } ] }
+      "items": { "m": [ { "item": "mutagens", "chance": 25, "repeat": [ 2, 5 ] } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab mutagen research areas. Center of room design.",
+    "nested_mapgen_id": "lab_mutagen_8x8_vault_west",
+    "weight": 100,
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||||||||",
+        "|mmmmmm|",
+        "|m    ||",
+        "|m JJ = ",
+        "|m JJ |θ",
+        "|m    ||",
+        "|mmmmmm|",
+        "||||||||"
+      ],
+      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ],
+      "terrain": { "|": "t_wall_metal" },
+      "computers": {
+        "θ": {
+          "name": "Advanced PE012 Samples",
+          "security": 3,
+          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 5 } ],
+          "failures": [ { "action": "damage" }, { "action": "secubots" }, { "action": "shutdown" } ]
+        }
+      },
+      "items": { "m": [ { "item": "mut_iv", "chance": 70 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab mutagen research areas. Center of room design.",
+    "nested_mapgen_id": "lab_mutagen_8x8_vault_west",
+    "weight": 100,
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||||||||",
+        "|mmmmmm|",
+        "|m    ||",
+        "|m JJ = ",
+        "|m JJ |θ",
+        "|m    ||",
+        "|mmmmmm|",
+        "||||||||"
+      ],
+      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ],
+      "terrain": { "|": "t_wall_metal" },
+      "computers": {
+        "θ": {
+          "name": "Advanced PE012 Samples",
+          "security": 3,
+          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 5 } ],
+          "failures": [ { "action": "damage" }, { "action": "manhacks" }, { "action": "shutdown" } ]
+        }
+      },
+      "items": { "m": [ { "item": "mutagens", "chance": 70, "repeat": [ 1, 2 ] } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab mutagen research areas. Center of room design.",
+    "nested_mapgen_id": "lab_mutagen_8x8_vault_west",
+    "weight": 50,
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "||||||||",
+        "|JJJXs^|",
+        "|%  X-||",
+        "|%    = ",
+        "|%    |θ",
+        "|%  X-||",
+        "|JJJXs^|",
+        "||||||||"
+      ],
+      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ],
+      "terrain": { "|": "t_wall_metal" },
+      "furniture": { "^": "f_vent_cold_air2_blast", "%": "f_standing_tank" },
+      "liquids": { "%": { "liquid": "purifier", "amount": [ 2, 20 ] } },
+      "place_loot": [
+        { "item": "purifier_smart_shot", "x": 5, "y": 1, "chance": 100 },
+        { "item": "purifier_smart_shot", "x": 5, "y": 6, "chance": 100 }
+      ],
+      "computers": {
+        "θ": {
+          "name": "Advanced PE012 Samples",
+          "security": 3,
+          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 5 } ],
+          "failures": [ { "action": "damage" }, { "action": "manhacks" }, { "action": "shutdown" } ]
+        }
+      }
     }
   },
   {
@@ -287,7 +389,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "A nested map for mutagen research areas.  Animal cages.",
+    "//": "A nested map for mutagen research areas.  Small animals for cages.",
     "nested_mapgen_id": "lab_small_animal_1x1",
     "object": {
       "mapgensize": [ 1, 1 ],
@@ -332,6 +434,40 @@
     "method": "json",
     "//": "A nested map for lab mutagen research areas.",
     "nested_mapgen_id": "lab_mutagen_16x16_animal_pen",
+    "weight": 20,
+    "object": {
+      "mapgensize": [ 16, 16 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "                ",
+        "||XX|||XX|||XX||",
+        "................",
+        "..d.............",
+        "...........6....",
+        "........d.......",
+        "................",
+        "................",
+        "................",
+        "................",
+        "....6d.....d....",
+        "................",
+        "................",
+        ".........d......",
+        "..............6.",
+        "................"
+      ],
+      "place_nested": [ { "chunks": [ [ "lab_16x1_bash", 80 ], [ "null", 20 ] ], "x": 0, "y": 0 } ],
+      "terrain": { ".": "t_gelatinous_groundcover", "6": "t_gelatinous_groundcover", "|": "t_concrete_wall", "X": "t_laminated_glass" },
+      "furniture": { "d": "f_crystalline_flower", "6": "f_fog_breather" },
+      "place_monsters": [ { "monster": "GROUP_BREATHER", "x": [ 0, 15 ], "y": [ 2, 15 ], "density": 2.5, "repeat": 5 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for lab mutagen research areas.",
+    "nested_mapgen_id": "lab_mutagen_16x16_animal_pen",
+    "weight": 200,
     "object": {
       "mapgensize": [ 16, 16 ],
       "rotation": [ 0, 3 ],
@@ -389,6 +525,7 @@
     "method": "json",
     "//": "A nested map for lab mutagen research areas.",
     "nested_mapgen_id": "lab_mutagen_16x16_animal_pen",
+    "weight": 200,
     "object": {
       "mapgensize": [ 16, 16 ],
       "rotation": [ 0, 3 ],
@@ -429,6 +566,7 @@
     "method": "json",
     "//": "A nested map for lab mutagen research areas.",
     "nested_mapgen_id": "lab_mutagen_16x16_animal_pen",
+    "weight": 100,
     "object": {
       "mapgensize": [ 16, 16 ],
       "rotation": [ 0, 3 ],
@@ -481,6 +619,7 @@
     "method": "json",
     "//": "A nested map for lab mutagen research areas.",
     "nested_mapgen_id": "lab_mutagen_16x16_animal_pen",
+    "weight": 200,
     "object": {
       "mapgensize": [ 16, 16 ],
       "rotation": [ 0, 3 ],
@@ -522,6 +661,7 @@
     "method": "json",
     "//": "A nested map for lab mutagen research areas. Zombie shark tank.",
     "nested_mapgen_id": "lab_mutagen_16x16_animal_pen",
+    "weight": 100,
     "object": {
       "mapgensize": [ 16, 16 ],
       "rotation": [ 0, 3 ],
@@ -604,7 +744,6 @@
     "method": "json",
     "//": "A nested map for mutagen lab variety.",
     "nested_mapgen_id": "lab_mutagen_3x3_EW_open",
-    "weight": 5000,
     "object": {
       "mapgensize": [ 3, 3 ],
       "rows": [

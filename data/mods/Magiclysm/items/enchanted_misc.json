@@ -197,8 +197,6 @@
     "symbol": ";",
     "color": "red",
     "ammo": [ "thread" ],
-    "initial_charges": 500,
-    "max_charges": 1000,
     "relic_data": { "charge_info": { "recharge_type": "periodic", "time": "1 h", "regenerate_ammo": true } },
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "thread": 1000 } } ]
   },

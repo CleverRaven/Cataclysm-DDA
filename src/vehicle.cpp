@@ -40,7 +40,6 @@
 #include "flag.h"
 #include "game.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_group.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -5405,7 +5404,7 @@ cata::optional<vehicle_stack::iterator> vehicle::add_item( int part, const item 
     if( itm_copy.is_bucket_nonempty() ) {
         // this is a vehicle, so there is only one pocket.
         // so if it will spill, spill all of it
-        itm_copy.contents.spill_contents( global_part_pos3( part ) );
+        itm_copy.spill_contents( global_part_pos3( part ) );
     }
 
     const vehicle_stack::iterator new_pos = p.items.insert( itm_copy );
@@ -6846,7 +6845,8 @@ std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &
         item mag( tool.magazine_default() );
         mag.clear_items();
 
-        return tool.contents.insert_item( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() &&
+        return tool.can_contain( mag ).success() &&
+               tool.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() &&
                tool.ammo_capacity( ammotype( "battery" ) ) > 0;
     };
 

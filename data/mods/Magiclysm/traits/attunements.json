@@ -173,7 +173,7 @@
     "valid": false,
     "description": "Named for the auroras that grace the poles of the earth, the Boreal mage specializes in auras that protect ethereally.  Boreal mages definitely know their way around cold spells, but their real strength is protection.",
     "prereqs": [ "KELVINIST", "TECHNOMANCER" ],
-    "spells_learned": [ [ "auroral_wave", 5 ] ],
+    "spells_learned": [ [ "auroral_wave", 5 ], [ "borealmage_auroral_guard", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
@@ -424,6 +424,7 @@
     "description": "The Champion of the Earth, Gaia's Chosen is blessed on all things nature, animate and inanimate.",
     "enchantments": [ "GAIAS_CHOSEN" ],
     "prereqs": [ "DRUID", "EARTHSHAPER" ],
+    "spells_learned": [ [ "gaiaschosen_samsara", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
@@ -1030,7 +1031,7 @@
     "prereqs": [ "MAGUS", "KELVINIST" ],
     "passive_mods": { "per_mod": 5 },
     "enchantments": [ "SUN_MAGE" ],
-    "spells_learned": [ [ "solar_beam", 5 ] ],
+    "spells_learned": [ [ "solar_beam", 5 ], [ "sunmage_pocket_sun", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",

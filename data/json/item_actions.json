@@ -351,6 +351,11 @@
   },
   {
     "type": "item_action",
+    "id": "BINDER_ADD_RECIPE",
+    "name": { "str": "Copy a recipe" }
+  },
+  {
+    "type": "item_action",
     "id": "COKE",
     "name": { "str": "Snort coke" }
   },
@@ -1073,5 +1078,10 @@
     "type": "item_action",
     "id": "effect_on_conditions",
     "name": { "str": "Activate item" }
+  },
+  {
+    "type": "item_action",
+    "id": "SEXTANT",
+    "name": { "str": "Measure Sun altitude" }
   }
 ]

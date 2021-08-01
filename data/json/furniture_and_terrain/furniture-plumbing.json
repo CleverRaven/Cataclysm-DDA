@@ -82,7 +82,7 @@
     "type": "furniture",
     "id": "f_toilet",
     "name": "toilet",
-    "symbol": "&",
+    "symbol": "o",
     "color": "white",
     "description": "An invaluable fixture in any home, it would be a miracle to have one that works.  The standing tank may hold a moderate amount of water, but while better than anything that would be in the bowl, it would not be the cleanest.",
     "move_cost_mod": 2,
@@ -109,25 +109,10 @@
     "move_cost_mod": -1,
     "coverage": 55,
     "required_str": -1,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT", "NOITEM", "SEALED" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "LIQUIDCONT", "NOITEM", "SEALED", "EASY_DECONSTRUCT" ],
     "examine_action": "keg",
     "keg_capacity": 240,
-    "deconstruct": {
-      "items": [
-        { "item": "pipe", "count": 1 },
-        { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "count": [ 1, 3 ] },
-        { "item": "sheet_metal", "count": [ 2, 6 ] },
-        { "item": "cable", "charges": [ 1, 15 ] },
-        { "item": "cu_pipe", "count": [ 2, 5 ] },
-        { "item": "hose", "count": [ 0, 2 ] },
-        { "item": "pilot_light", "count": 1 },
-        { "item": "thermostat", "count": 1 },
-        { "item": "water_faucet", "count": 1 },
-        { "item": "pipe_fittings", "count": [ 2, 6 ] },
-        { "item": "metal_tank", "count": 1 }
-      ]
-    },
+    "deconstruct": { "items": [ { "item": "household_water_heater", "count": 1 } ] },
     "bash": {
       "str_min": 18,
       "str_max": 50,

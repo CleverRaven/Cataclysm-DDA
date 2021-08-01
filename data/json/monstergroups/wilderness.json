@@ -3,6 +3,7 @@
     "type": "monstergroup",
     "name": "GROUP_CAVE",
     "default": "mon_null",
+    "//": "Current count is 925.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_bat", "freq": 600, "cost_multiplier": 5, "pack_size": [ 6, 32 ] },
@@ -17,6 +18,7 @@
     "type": "monstergroup",
     "name": "GROUP_FOREST",
     "default": "mon_null",
+    "//": "Current SPRING first DAY count is 513.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "is_animal": true,
     "monsters": [
       {
@@ -1284,12 +1286,6 @@
       },
       {
         "monster": "mon_spider_jumping_small",
-        "freq": 0,
-        "cost_multiplier": 0,
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_spider_jumping_small",
         "freq": 2,
         "cost_multiplier": 0,
         "conditions": [ "DAWN", "DAY", "DUSK", "SPRING", "SUMMER", "AUTUMN" ]
@@ -1307,13 +1303,6 @@
         "cost_multiplier": 0,
         "starts": 24,
         "conditions": [ "DAWN", "DAY", "DUSK", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_spider_jumping_small",
-        "freq": 0,
-        "cost_multiplier": 0,
-        "starts": 72,
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_spider_jumping_small",
@@ -1338,13 +1327,6 @@
       },
       {
         "monster": "mon_spider_jumping_small",
-        "freq": 0,
-        "cost_multiplier": 0,
-        "starts": 168,
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_spider_jumping_small",
         "freq": 2,
         "cost_multiplier": 0,
         "starts": 168,
@@ -1363,13 +1345,6 @@
         "cost_multiplier": 0,
         "starts": 216,
         "conditions": [ "DAWN", "DAY", "DUSK", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_spider_jumping_small",
-        "freq": 0,
-        "cost_multiplier": 0,
-        "starts": 288,
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_spider_jumping_small",
@@ -1394,13 +1369,6 @@
       },
       {
         "monster": "mon_spider_jumping_small",
-        "freq": 0,
-        "cost_multiplier": 0,
-        "starts": 384,
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_spider_jumping_small",
         "freq": 2,
         "cost_multiplier": 0,
         "starts": 384,
@@ -1419,13 +1387,6 @@
         "cost_multiplier": 0,
         "starts": 456,
         "conditions": [ "DAWN", "DAY", "DUSK", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_spider_jumping_small",
-        "freq": 0,
-        "cost_multiplier": 0,
-        "starts": 504,
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_spider_jumping_small",
@@ -1450,13 +1411,6 @@
       },
       {
         "monster": "mon_spider_jumping_small",
-        "freq": 0,
-        "cost_multiplier": 0,
-        "starts": 624,
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_spider_jumping_small",
         "freq": 2,
         "cost_multiplier": 0,
         "starts": 624,
@@ -1475,13 +1429,6 @@
         "cost_multiplier": 0,
         "starts": 672,
         "conditions": [ "DAWN", "DAY", "DUSK", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_spider_jumping_small",
-        "freq": 0,
-        "cost_multiplier": 0,
-        "starts": 720,
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_spider_jumping_small",
@@ -1506,12 +1453,6 @@
       },
       {
         "monster": "mon_spider_wolf_small",
-        "freq": 0,
-        "cost_multiplier": 0,
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_spider_wolf_small",
         "freq": 2,
         "cost_multiplier": 0,
         "conditions": [ "DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
@@ -1529,13 +1470,6 @@
         "cost_multiplier": 0,
         "starts": 24,
         "conditions": [ "DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_spider_wolf_small",
-        "freq": 0,
-        "cost_multiplier": 0,
-        "starts": 72,
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_spider_wolf_small",
@@ -1560,13 +1494,6 @@
       },
       {
         "monster": "mon_spider_wolf_small",
-        "freq": 0,
-        "cost_multiplier": 0,
-        "starts": 168,
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_spider_wolf_small",
         "freq": 2,
         "cost_multiplier": 0,
         "starts": 168,
@@ -1585,13 +1512,6 @@
         "cost_multiplier": 0,
         "starts": 216,
         "conditions": [ "DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_spider_wolf_small",
-        "freq": 0,
-        "cost_multiplier": 0,
-        "starts": 288,
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_spider_wolf_small",
@@ -1616,13 +1536,6 @@
       },
       {
         "monster": "mon_spider_wolf_small",
-        "freq": 0,
-        "cost_multiplier": 0,
-        "starts": 384,
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_spider_wolf_small",
         "freq": 2,
         "cost_multiplier": 0,
         "starts": 384,
@@ -1641,13 +1554,6 @@
         "cost_multiplier": 0,
         "starts": 456,
         "conditions": [ "DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_spider_wolf_small",
-        "freq": 0,
-        "cost_multiplier": 0,
-        "starts": 504,
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_spider_wolf_small",
@@ -1672,13 +1578,6 @@
       },
       {
         "monster": "mon_spider_wolf_small",
-        "freq": 0,
-        "cost_multiplier": 0,
-        "starts": 624,
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_spider_wolf_small",
         "freq": 2,
         "cost_multiplier": 0,
         "starts": 624,
@@ -1697,13 +1596,6 @@
         "cost_multiplier": 0,
         "starts": 672,
         "conditions": [ "DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_spider_wolf_small",
-        "freq": 0,
-        "cost_multiplier": 0,
-        "starts": 720,
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
         "monster": "mon_spider_wolf_small",
@@ -1822,6 +1714,7 @@
     "type": "monstergroup",
     "name": "GROUP_RIVER",
     "default": "mon_null",
+    "//": "Current SPRING first DAY count is 944.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_beaver", "freq": 30, "cost_multiplier": 10, "pack_size": [ 1, 3 ] },
@@ -1915,48 +1808,6 @@
         "cost_multiplier": 5,
         "pack_size": [ 1, 4 ],
         "conditions": [ "DAWN", "DAY", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_sludge_crawler",
-        "freq": 3,
-        "cost_multiplier": 2,
-        "starts": 168,
-        "conditions": [ "DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_sludge_crawler",
-        "freq": 3,
-        "cost_multiplier": 2,
-        "starts": 336,
-        "conditions": [ "DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_sludge_crawler",
-        "freq": 4,
-        "cost_multiplier": 2,
-        "starts": 504,
-        "conditions": [ "DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_sludge_crawler",
-        "freq": 3,
-        "cost_multiplier": 2,
-        "starts": 672,
-        "conditions": [ "DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_sludge_crawler",
-        "freq": 3,
-        "cost_multiplier": 2,
-        "starts": 840,
-        "conditions": [ "DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
-      },
-      {
-        "monster": "mon_sludge_crawler",
-        "freq": 4,
-        "cost_multiplier": 2,
-        "starts": 1008,
-        "conditions": [ "DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
       { "monster": "mon_zhark", "freq": 1, "cost_multiplier": 25, "starts": 24, "pack_size": [ 1, 3 ] },
       { "monster": "mon_zhark", "freq": 2, "cost_multiplier": 25, "starts": 672, "pack_size": [ 1, 3 ] },
@@ -2276,6 +2127,7 @@
     "type": "monstergroup",
     "name": "GROUP_SWAMP",
     "default": "mon_null",
+    "//": "Current SPRING first DAY count is 417.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "is_animal": true,
     "monsters": [
       {
@@ -2734,13 +2586,6 @@
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       {
-        "monster": "mon_sludge_crawler",
-        "freq": 10,
-        "cost_multiplier": 1,
-        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ],
-        "//": "No scaling, since they are more like setpieces"
-      },
-      {
         "monster": "mon_frog_small",
         "freq": 20,
         "cost_multiplier": 2,
@@ -2825,6 +2670,7 @@
     "type": "monstergroup",
     "name": "GROUP_PARK_ANIMAL",
     "default": "mon_null",
+    "//": "Current SPRING first DAY count is 425.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_crow", "freq": 50, "cost_multiplier": 0 },
@@ -2861,6 +2707,7 @@
     "type": "monstergroup",
     "name": "GROUP_ROOF_ANIMAL",
     "default": "mon_null",
+    "//": "Current SPRING first DAY count is 350.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_crow", "freq": 50, "cost_multiplier": 0 },
@@ -2912,6 +2759,7 @@
     "type": "monstergroup",
     "name": "GROUP_POND_ANIMAL",
     "default": "mon_null",
+    "//": "Current count is 150.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_rabbit", "freq": 50, "cost_multiplier": 0 },
@@ -2923,6 +2771,7 @@
     "type": "monstergroup",
     "name": "GROUP_POND_BIRD",
     "default": "mon_null",
+    "//": "Current count is 100.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_duck", "freq": 50, "cost_multiplier": 0 },
@@ -2933,6 +2782,7 @@
     "type": "monstergroup",
     "name": "GROUP_POND_FISH",
     "default": "mon_null",
+    "//": "Current count is 150.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_fish_bluegill", "freq": 50, "cost_multiplier": 0 },

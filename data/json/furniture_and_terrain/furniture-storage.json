@@ -708,6 +708,27 @@
   },
   {
     "type": "furniture",
+    "id": "f_metal_trashcan",
+    "name": "metal trash can",
+    "symbol": "&",
+    "description": "A crude metal bin typically used to dispose of waste.",
+    "//": "The constructed trash can variant, deliberately looks like the original. Does not spawn naturally, although feel free to add it to worldgen.",
+    "color": "light_cyan",
+    "move_cost_mod": 1,
+    "required_str": 5,
+    "max_volume": "20 L",
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "MOUNTABLE", "SHORT" ],
+    "deconstruct": { "items": [ { "item": "sheet_metal", "count": 2 } ] },
+    "bash": {
+      "str_min": 9,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "sheet_metal", "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_wardrobe",
     "name": "wardrobe",
     "looks_like": "f_dresser",

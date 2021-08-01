@@ -240,7 +240,7 @@
     "id": "phase_skulker_teleport",
     "name": { "str": "Phase Skulker Teleport" },
     "description": "Teleports the monster.",
-    "effect": "teleport_random",
+    "effect": "short_range_teleport",
     "shape": "blast",
     "valid_targets": [ "none" ],
     "flags": [ "SOMATIC", "SILENT", "NO_LEGS" ],

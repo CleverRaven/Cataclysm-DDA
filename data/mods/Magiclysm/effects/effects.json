@@ -140,6 +140,16 @@
   },
   {
     "type": "effect_type",
+    "id": "safe_shoppers",
+    "name": [ "Safe Shopping Experience" ],
+    "desc": [ "Magical Store Security" ],
+    "apply_message": "You feel very seen!",
+    "remove_message": "You no longer feel like somebody's watching you.",
+    "rating": "good",
+    "removes_effects": [ "invisibility" ]
+  },
+  {
+    "type": "effect_type",
     "id": "eagles_sight",
     "name": [ "Eagle's Sight" ],
     "desc": [ "You have the perception of an Eagle!" ],

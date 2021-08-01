@@ -91,7 +91,6 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_stack.h"
@@ -564,6 +563,7 @@ void game::reload_tileset()
         popup( _( "Loading the tileset failed: %s" ), err.what() );
     }
     g->reset_zoom();
+    g->mark_main_ui_adaptor_resize();
 #endif // TILES
 }
 
@@ -3501,11 +3501,6 @@ shared_ptr_fast<ui_adaptor> game::create_or_get_main_ui_adaptor()
         ui->mark_resize();
     }
     return ui;
-}
-
-void game::swap_main_ui_adaptor( weak_ptr_fast<ui_adaptor> &ui )
-{
-    main_ui_adaptor.swap( ui );
 }
 
 void game::invalidate_main_ui_adaptor() const
@@ -7411,10 +7406,12 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             center.x = lp.x;
             center.y = lp.y;
             zoom_in();
+            mark_main_ui_adaptor_resize();
         } else if( action == "zoom_out" ) {
             center.x = lp.x;
             center.y = lp.y;
             zoom_out();
+            mark_main_ui_adaptor_resize();
         }
     } while( action != "QUIT" && action != "CONFIRM" && action != "SELECT" && action != "TRAVEL_TO" &&
              action != "throw_blind" );
@@ -12366,25 +12363,31 @@ void game::autosave()
 
 void game::start_calendar()
 {
-    int initial_days = get_option<int>( "INITIAL_DAY" );
-    if( initial_days == -1 ) {
-        // 0 - 363 for a 91 day season
-        initial_days = rng( 0, get_option<int>( "SEASON_LENGTH" ) * 4 - 1 );
+    time_duration initial_days;
+    // Initial day is the time of cataclysm. Limit it to occur on the first year.
+    if( get_option<int>( "INITIAL_DAY" )  == -1 ) {
+        initial_days = 1_days * rng( 0, get_option<int>( "SEASON_LENGTH" ) * 4 - 1 );
+    } else {
+        initial_days = 1_days * std::min( get_option<int>( "INITIAL_DAY" ),
+                                          get_option<int>( "SEASON_LENGTH" ) * 4 );
     }
-    calendar::start_of_cataclysm = calendar::turn_zero + 1_days * initial_days;
-    // Configured starting date overridden by scenario, calendar::start is left as Spring 1
-    calendar::start_of_game = calendar::turn_zero
-                              + 1_hours * scen->initial_hour()
-                              + 1_days * scen->initial_day()
-                              + get_option<int>( "SEASON_LENGTH" ) * 1_days * scen->initial_season()
-                              + 4 * get_option<int>( "SEASON_LENGTH" ) * 1_days * ( scen->initial_year() - 1 );
-    if( calendar::start_of_game < calendar::start_of_cataclysm ) {
-        // Hotfix to prevent game start  from occuring before the cataclysm.
-        // Should be replaced with full refactor of the start date
+    calendar::start_of_cataclysm = calendar::turn_zero + initial_days;
+
+    if( scen->custom_start_date() ) {
+        calendar::start_of_game = calendar::turn_zero
+                                  + 1_hours * scen->start_hour()
+                                  + 1_days * scen->start_day();
+        if( calendar::start_of_game < calendar::start_of_cataclysm ) {
+            // If the cataclysm has been set to happen late or the scenario has random start it may try to start before cataclysm happens.
+            // That is unacceptable. So lets just jump to same day on next year.
+            calendar::start_of_game += calendar::year_length();
+        }
+    } else {
         calendar::start_of_game = calendar::start_of_cataclysm
-                                  + 1_hours * scen->initial_hour();
+                                  + 1_hours * get_option<int>( "INITIAL_TIME" )
+                                  + 1_days * get_option<int>( "SPAWN_DELAY" );
     }
-    calendar::start_of_game += 1_days * get_option<int>( "SPAWN_DELAY" );
+
     calendar::turn = calendar::start_of_game;
     calendar::initial_season = static_cast<season_type>( ( to_days<int>( calendar::start_of_game -
                                calendar::turn_zero ) / get_option<int>( "SEASON_LENGTH" ) ) % 4 );

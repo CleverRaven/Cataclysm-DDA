@@ -35,7 +35,6 @@
 #include "flat_set.h"
 #include "game_constants.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "magic_enchantment.h"
@@ -101,6 +100,7 @@ template <typename E> struct enum_traits;
 enum npc_attitude : int;
 enum action_id : int;
 enum class steed_type : int;
+enum class proficiency_bonus_type : int;
 
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
@@ -428,6 +428,7 @@ class Character : public Creature, public visitable
         virtual int get_int_bonus() const;
 
         int get_speed() const override;
+        int get_enchantment_speed_bonus() const;
         int get_eff_per() const override;
 
         // Penalty modifiers applied for ranged attacks due to low stats
@@ -1162,6 +1163,8 @@ class Character : public Creature, public visitable
         int mabuff_block_bonus() const;
         /** Returns the speed bonus from martial arts buffs */
         int mabuff_speed_bonus() const;
+        /** Returns the arpen bonus from martial arts buffs*/
+        int mabuff_arpen_bonus( damage_type type ) const;
         /** Returns the damage multiplier to given type from martial arts buffs */
         float mabuff_damage_mult( damage_type type ) const;
         /** Returns the flat damage bonus to given type from martial arts buffs, applied after the multiplier */
@@ -1311,7 +1314,7 @@ class Character : public Creature, public visitable
         /** Is this bionic elligible to be installed in the player? */
         // Should be ret_val<void>, but ret_val.h doesn't like it
         ret_val<bool> is_installable( const item_location &loc, bool by_autodoc ) const;
-        std::map<bodypart_id, int> bionic_installation_issues( const bionic_id &bioid );
+        std::map<bodypart_id, int> bionic_installation_issues( const bionic_id &bioid ) const;
         /** Initialize all the values needed to start the operation player_activity */
         bool install_bionics( const itype &type, player &installer, bool autodoc = false,
                               int skill_level = -1 );
@@ -1835,6 +1838,7 @@ class Character : public Creature, public visitable
         std::vector<display_proficiency> display_proficiencies() const;
         std::vector<proficiency_id> known_proficiencies() const;
         std::vector<proficiency_id> learning_proficiencies() const;
+        int get_proficiency_bonus( const std::string &category, proficiency_bonus_type prof_bonus ) const;
 
         // tests only!
         void set_proficiency_practice( const proficiency_id &id, const time_duration &amount );
@@ -2753,7 +2757,7 @@ class Character : public Creature, public visitable
         @param minimum_error Maximum error when skill is >= threshold */
         time_duration estimate_effect_dur( const skill_id &relevant_skill, const efftype_id &effect,
                                            const time_duration &error_magnitude,
-                                           const time_duration &mimimum_error, int threshold, const Creature &target ) const;
+                                           const time_duration &minimum_error, int threshold, const Creature &target ) const;
 
         // inherited from visitable
         bool has_quality( const quality_id &qual, int level = 1, int qty = 1 ) const override;
@@ -2798,6 +2802,8 @@ class Character : public Creature, public visitable
         int dex_bonus = 0;
         int per_bonus = 0;
         int int_bonus = 0;
+        // cached so the display knows how much your bonus is
+        int enchantment_speed_bonus = 0;
 
         /** How healthy the character is. */
         int healthy = 0;

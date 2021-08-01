@@ -66,7 +66,15 @@
     "skill_used": "cooking",
     "time": "9 s",
     "autolearn": true,
-    "tools": [ [ [ "water_purifier", 1 ], [ "fake_water_purifier", 1 ], [ "pur_tablets", 1 ], [ "char_purifier", 1 ] ] ],
+    "tools": [
+      [
+        [ "water_purifier", 1 ],
+        [ "fake_water_purifier", 1 ],
+        [ "pur_tablets", 1 ],
+        [ "char_purifier", 1 ],
+        [ "char_purifier_clay", 1 ]
+      ]
+    ],
     "components": [ [ [ "water", 1 ] ] ]
   },
   {
@@ -4345,7 +4353,10 @@
         [ "dry_tofu", 2 ],
         [ "mushroom_cooked", 2 ],
         [ "dry_veggy", 2 ],
-        [ "dry_corn", 2 ]
+        [ "dry_corn", 2 ],
+        [ "can_pineapple", 2 ],
+        [ "irradiated_pineapple", 2 ],
+        [ "pineapple", 2 ]
       ],
       [
         [ "sauce_pesto", 1 ],
