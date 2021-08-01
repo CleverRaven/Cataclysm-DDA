@@ -199,7 +199,7 @@ npc_attack_rating npc_attack_spell::evaluate_tripoint(
             attitude_mult = -1;
         }
         int potential = damage * attitude_mult - distance_to_me + 1;
-        if( target && &critter == &target ) {
+        if( target && critter == target ) {
             potential *= npc_attack_constants::target_modifier;
         }
         if( damage >= critter->get_hp() ) {
@@ -209,7 +209,7 @@ npc_attack_rating npc_attack_spell::evaluate_tripoint(
                 potential = std::abs( potential );
             }
             const Creature *source_ptr = &source;
-            if( att == Creature::Attitude::FRIENDLY || &critter == &source_ptr ) {
+            if( att == Creature::Attitude::FRIENDLY || critter == source_ptr ) {
                 // however we under no circumstances want to kill an ally (or ourselves!)
                 return npc_attack_rating( cata::nullopt, location );
             }
