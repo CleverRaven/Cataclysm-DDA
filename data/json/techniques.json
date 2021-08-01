@@ -1060,18 +1060,6 @@
   },
   {
     "type": "technique",
-    "id": "tec_swordsmanship_wideswing",
-    "name": "Wide Swing",
-    "messages": [ "You continue your attack with a sweeping cut", "<npcname> continues their attack with a sweeping cut" ],
-    "skill_requirements": [ { "name": "melee", "level": 6 } ],
-    "req_buffs": [ "buff_swordsmanship_onhit" ],
-    "weapon_damage_requirements": [ { "type": "cut", "min": 35 } ],
-    "melee_allowed": true,
-    "crit_ok": true,
-    "aoe": "wide"
-  },
-  {
-    "type": "technique",
     "id": "tec_muay_thai_elbow",
     "name": "Elbow Strike",
     "messages": [ "You slam your elbow into %s", "<npcname> slams their elbow into %s" ],
