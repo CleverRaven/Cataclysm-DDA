@@ -67,8 +67,10 @@ class basic_animation
         void progress() const {
             draw();
 
+            // NOLINTNEXTLINE(cata-no-long): timespec uses long int
             long int remain = delay;
             while( remain > 0 ) {
+                // NOLINTNEXTLINE(cata-no-long): timespec uses long int
                 long int do_sleep = std::min( remain, 100'000'000L );
                 timespec to_sleep = timespec { 0, do_sleep };
                 nanosleep( &to_sleep, nullptr );
@@ -78,6 +80,7 @@ class basic_animation
         }
 
     private:
+        // NOLINTNEXTLINE(cata-no-long): timespec uses long int
         long int delay;
 };
 
