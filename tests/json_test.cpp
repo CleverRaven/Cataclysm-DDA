@@ -140,7 +140,7 @@ TEST_CASE( "spell_type handles all members", "[json]" )
             R"("effect":"attack",)"
             R"("shape":"blast",)"
             R"("valid_targets":["none"],)"
-            R"("effect_str":"string",)"
+            R"("effect_str":"[string]",)"
             R"("skill":"not_spellcraft",)"
             R"("components":"test_components",)"
             R"("message":"test message",)"
