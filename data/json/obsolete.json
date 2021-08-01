@@ -632,7 +632,7 @@
     "reload": 500,
     "built_in_mods": [ "bio_powershot" ],
     "ammo_effects": [ "PLASMA" ],
-    "flags": [ "NEVER_JAMS", "TRADER_AVOID", "ZERO_WEIGHT" ]
+    "flags": [ "NEVER_JAMS", "TRADER_AVOID", "ZERO_WEIGHT", "USES_BIONIC_POWER" ]
   },
   {
     "id": "unbio_blaster_gun",

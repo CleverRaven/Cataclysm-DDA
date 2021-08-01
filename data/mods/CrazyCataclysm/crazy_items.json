@@ -76,7 +76,7 @@
     "loudness": 50,
     "reload": 0,
     "ammo_effects": [ "PLASMA", "EXPLOSIVE_HUGE", "STREAM_BIG", "INCENDIARY", "WIDE" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "TRADER_AVOID" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "TRADER_AVOID", "USES_BIONIC_POWER" ]
   },
   {
     "id": "yeet_cannon",
