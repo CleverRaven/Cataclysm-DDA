@@ -239,6 +239,18 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_antlion",
+    "name": { "str": "antlion egg" },
+    "copy-from": "egg_insect",
+    "color": "yellow",
+    "symbol": "o",
+    "spoils_in": "5 days",
+    "description": "A large white antlion egg.  There is something hard inside.",
+    "rot_spawn": "GROUP_EGG_ANTLION",
+    "rot_spawn_chance": 50
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_wasp",
     "name": { "str": "wasp egg" },
     "copy-from": "egg_insect",

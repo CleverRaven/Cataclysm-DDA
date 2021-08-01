@@ -2270,7 +2270,7 @@
     "weight": "33 kg",
     "hp": 40,
     "speed": 180,
-    "attack_cost": 540
+    "attack_cost": 540,
     "material": [ "iflesh" ],
     "symbol": "g",
     "color": "light_green",
@@ -2331,7 +2331,7 @@
         "cooldown": 4,
         "accuracy": 8,
         "infection_chance": 75,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 0.6 } ]
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 12 } ]
       }
     ],
     "flags": [ "SEES", "SMELLS", "IMMOBILE", "DIGS", "RANGED_ATTACKER" ]
