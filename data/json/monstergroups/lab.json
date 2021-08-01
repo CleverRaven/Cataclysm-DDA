@@ -61,7 +61,7 @@
       { "monster": "mon_mole_cricket", "freq": 20, "cost_multiplier": 3 },
       { "monster": "mon_lab_rat", "freq": 30, "cost_multiplier": 20, "pack_size": [ 4, 8 ] }
     ],
-    "freq_total": 2622
+    "freq_total": 2642
   },
   {
     "type": "monstergroup",

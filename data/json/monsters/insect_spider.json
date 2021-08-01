@@ -2051,6 +2051,7 @@
     "weight": "2080 g",
     "hp": 20,
     "speed": 120,
+    "attack_cost": 360,
     "material": [ "iflesh" ],
     "symbol": "a",
     "color": "light_green",
@@ -2152,7 +2153,7 @@
         "cooldown": 4,
         "accuracy": 5,
         "infection_chance": 75,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 0.6 } ]
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 18 } ]
       },
       [ "RANGED_PULL", 30 ],
       [ "GRAB_DRAG", 10 ]
@@ -2237,7 +2238,7 @@
         "type": "bite",
         "cooldown": 4,
         "accuracy": 6,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 0.6 } ]
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_penetration": 8 } ]
       }
     ],
     "flags": [ "SEES", "HEARS", "SMELLS", "FLIES", "PATH_AVOID_FIRE" ]
@@ -2269,6 +2270,7 @@
     "weight": "33 kg",
     "hp": 40,
     "speed": 180,
+    "attack_cost": 540
     "material": [ "iflesh" ],
     "symbol": "g",
     "color": "light_green",
@@ -2375,7 +2377,7 @@
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.5 },
     "volume": "3 L",
     "weight": "4 kg",
-    "melee_cut": 8,
+    "melee_cut": 1,
     "delete": {
       "reproduction": { "baby_egg": "egg_strider", "baby_count": 3, "baby_timer": 10 },
       "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ]
