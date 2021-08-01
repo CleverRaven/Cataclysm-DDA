@@ -788,13 +788,7 @@
         "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 0.5 }, { "stat": "hit", "scale": -1.0 } ]
       }
     ],
-    "techniques": [
-      "tec_swordsmanship_mastercut",
-      "tec_swordsmanship_feint",
-      "tec_swordsmanship_lethal",
-      "tec_swordsmanship_ringen",
-      "tec_swordsmanship_wideswing"
-    ],
+    "techniques": [ "tec_swordsmanship_mastercut", "tec_swordsmanship_feint", "tec_swordsmanship_lethal", "tec_swordsmanship_ringen" ],
     "weapons": [
       "arming_sword",
       "arming_sword_inferior",
