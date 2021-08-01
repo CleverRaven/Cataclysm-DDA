@@ -1901,7 +1901,7 @@
     "name": { "str": "factory pistol ammo box" },
     "description": "carboard box that pistol rounds used to be sold in",
     "weight": "50 g",
-    "volume": "150 ml",
+    "volume": "120 ml",
     "price": 0,
     "price_postapoc": 0,
     "to_hit": 1,
@@ -1913,7 +1913,7 @@
         "pocket_type": "CONTAINER",
         "watertight": true,
         "rigid": true,
-        "max_contains_volume": "145 ml",
+        "max_contains_volume": "115 ml",
         "max_contains_weight": "4 kg"
       }
     ]

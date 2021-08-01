@@ -5,21 +5,44 @@
     "//": "Pistol ammo commonly owned by citizens and found in many locations.",
     "subtype": "distribution",
     "entries": [
-	   { "item": "9mmfmj", "container-item": "factory_pistol_ammo_box", "prob": 60, "charges-min": 50, "charges-max": 50 },
-	   { "item": "9mm", "container-item": "factory_pistol_ammo_box", "prob": 60,"charges-min": 50, "charges-max": 50 },
-	   { "item": "45_jhp", "container-item": "factory_pistol_ammo_box", "prob": 40, "charges-min": 30, "charges-max": 30 },
-	   { "item": "45_acp", "container-item": "factory_pistol_ammo_box", "charges-min": 30, "charges-max": 30 },
-	   { "item": "40sw", "container-item": "factory_pistol_ammo_box", "prob": 40, "charges-min": 40, "charges-max": 40 },
-	   { "item": "40fmj", "container-item": "factory_pistol_ammo_box", "prob": 40, "charges-min": 40, "charges-max": 40 },
-	   { "item": "357sig_fmj", "container-item": "factory_pistol_ammo_box", "prob": 25, "charges-min": 50, "charges-max": 50 },
-	   { "item": "357sig_jhp", "container-item": "factory_pistol_ammo_box", "prob": 25, "charges-min": 50, "charges-max": 50 },
-	   { "item": "357mag_jhp", "container-item": "factory_pistol_ammo_box", "prob": 15, "charges-min": 50, "charges-max": 50 },
-	   { "item": "357mag_fmj", "container-item": "factory_pistol_ammo_box", "prob": 15, "charges-min": 50, "charges-max": 50 },
-	   { "item": "38_special", "container-item": "factory_pistol_ammo_box", "prob": 25, "charges-min": 40, "charges-max": 40 },
-	   { "item": "38_fmj", "container-item": "factory_pistol_ammo_box", "prob": 25, "charges-min": 40, "charges-max": 40 },
-	   { "item": "380_JHP", "container-item": "factory_pistol_ammo_box", "prob": 20, "charges-min": 50, "charges-max": 50 },
-	   { "item": "380_FMJ", "container-item": "factory_pistol_ammo_box", "prob": 25, "charges-min": 50, "charges-max": 50 },
-	   { "item": "32_acp", "container-item": "factory_pistol_ammo_box", "prob": 20, "charges-min": 80, "charges-max": 80 }
+      { "item": "32_acp", "prob": 20, "charges": [ 1, 80 ] },
+      { "item": "380_FMJ", "prob": 25, "charges": [ 1, 50 ] },
+      { "item": "380_JHP", "prob": 20, "charges": [ 1, 50 ] },
+      { "item": "38_fmj", "prob": 25, "charges": [ 1, 40 ] },
+      { "item": "38_special", "prob": 25, "charges": [ 1, 40 ] },
+      { "item": "357mag_fmj", "prob": 15, "charges": [ 1, 50 ] },
+      { "item": "357mag_jhp", "prob": 15, "charges": [ 1, 50 ] },
+      { "item": "357sig_jhp", "prob": 25, "charges": [ 1, 50 ] },
+      { "item": "357sig_fmj", "prob": 25, "charges": [ 1, 50 ] },
+      { "item": "40sw", "prob": 40, "charges": [ 1, 40 ] },
+      { "item": "40fmj", "prob": 40, "charges": [ 1, 40 ] },
+      { "item": "45_acp", "prob": 40, "charges": [ 1, 30 ] },
+      { "item": "45_jhp", "prob": 40, "charges": [ 1, 30 ] },
+      { "item": "9mm", "prob": 100, "charges": [ 1, 50 ] },
+      { "item": "9mmfmj", "prob": 100, "charges": [ 1, 50 ] }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_pistol_common_unused",
+    "//": "Pistol ammo in unopened boxes,commonly owned by citizens and found in many locations.",
+    "subtype": "distribution",
+    "entries": [
+	    { "item": "9mmfmj", "container-item": "factory_pistol_ammo_box", "prob": 60, "charges": [ 50 ] },
+	    { "item": "9mm", "container-item": "factory_pistol_ammo_box", "prob": 60, "charges": [ 50 ] },
+	    { "item": "45_jhp", "container-item": "factory_pistol_ammo_box", "prob": 40, "charges": [ 30 ] },
+	    { "item": "45_acp", "container-item": "factory_pistol_ammo_box", "prob": 40, "charges": [ 30 ] },
+	    { "item": "40sw", "container-item": "factory_pistol_ammo_box", "prob": 40, "charges": [ 40 ] },
+	    { "item": "40fmj", "container-item": "factory_pistol_ammo_box", "prob": 40, "charges": [ 40 ] },
+	    { "item": "357sig_fmj", "container-item": "factory_pistol_ammo_box", "prob": 25, "charges": [ 50 ] },
+	    { "item": "357sig_jhp", "container-item": "factory_pistol_ammo_box", "prob": 25, "charges": [ 50 ] },
+	    { "item": "357mag_jhp", "container-item": "factory_pistol_ammo_box", "prob": 15, "charges": [ 50 ] },
+	    { "item": "357mag_fmj", "container-item": "factory_pistol_ammo_box", "prob": 15, "charges": [ 50 ] },
+	    { "item": "38_special", "container-item": "factory_pistol_ammo_box", "prob": 25, "charges": [ 40 ] },
+	    { "item": "38_fmj", "container-item": "factory_pistol_ammo_box", "prob": 25, "charges": [ 40 ] },
+	    { "item": "380_JHP", "container-item": "factory_pistol_ammo_box", "prob": 20, "charges": [ 50 ] },
+	    { "item": "380_FMJ", "container-item": "factory_pistol_ammo_box", "prob": 25, "charges": [ 50 ] },
+	    { "item": "32_acp", "container-item": "factory_pistol_ammo_box", "prob": 20, "charges": [ 80 ] }
     ]
   },
   {
@@ -328,8 +351,8 @@
     "entries": [
       { "group": "ammo_pistol_common", "prob": 100 },
       { "group": "ammo_smg_common", "prob": 20 },
-      { "group": "ammo_rifle_common", "prob": 40 },
-      { "group": "ammo_shotgun_common", "prob": 20 }
+      { "group": "ammo_rifle_common", "prob": 50 },
+      { "group": "ammo_shotgun_common", "prob": 50 }
     ]
   },
   {
