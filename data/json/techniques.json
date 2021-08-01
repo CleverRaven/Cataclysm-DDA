@@ -1067,7 +1067,7 @@
     "req_buffs": [ "buff_swordsmanship_onhit" ],
     "weapon_damage_requirements": [ { "type": "cut", "min": 35 } ],
     "melee_allowed": true,
-    "crit_ok": true,
+    "crit_tec": true,
     "aoe": "wide"
   },
   {
