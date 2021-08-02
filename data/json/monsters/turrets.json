@@ -228,7 +228,7 @@
         "ammo_type": "762_51",
         "fake_skills": [ [ "gun", 8 ], [ "rifle", 8 ] ],
         "fake_dex": 12,
-        "ranges": [ [ 0, 50, "DEFAULT" ] ],
+        "ranges": [ [ 0, 60, "DEFAULT" ] ],
         "require_targeting_npc": true,
         "require_targeting_monster": true,
         "laser_lock": false,
