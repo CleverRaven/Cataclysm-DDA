@@ -1223,8 +1223,8 @@ static void mod_stamina_archery( player &p, const item &relevant )
 {
     // Set activity level to 10 * str_ratio, with 10 being max (EXTRA_EXERCISE)
     // This ratio should never be below 0 and above 1
-    const int str_ratio =  relevant.get_min_str() / p.str_cur;
-    p.set_activity_level( 10 * str_ratio );
+    const int scaled_str_ratio =  ( 10 * relevant.get_min_str() ) / p.str_cur;
+    p.set_activity_level( scaled_str_ratio );
 
     // Calculate stamina drain based on archery and athletics skill
     const int archery_skill = p.get_skill_level( skill_archery );
