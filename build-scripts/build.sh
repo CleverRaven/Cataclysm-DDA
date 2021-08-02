@@ -165,7 +165,8 @@ then
 
         # Check for changes to any files that would require us to run clang-tidy across everything
         changed_global_files="$( \
-            echo "$changed_files" | egrep -i "\.h$|clang-tidy-plugin|cmake|unknown" || true )"
+            echo "$changed_files" | \
+            egrep -i "\.h$|clang-tidy|build-scripts|cmake|unknown" || true )"
         if [ -n "$changed_global_files" ]
         then
             first_changed_file="$(echo "$changed_global_files" | head -n 1)"
