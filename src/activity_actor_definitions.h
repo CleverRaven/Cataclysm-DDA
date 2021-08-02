@@ -1229,7 +1229,7 @@ class tent_placement_activity_actor : public activity_actor
         string_id<furn_t> door_closed;
 
     public:
-        tent_placement_activity_actor( int moves_total, tripoint target, int radius, item it,
+        tent_placement_activity_actor( int moves_total, tripoint target, int radius, const item &it,
                                        string_id<furn_t> wall, string_id<furn_t> floor, cata::optional<string_id<furn_t>> floor_center,
                                        string_id<furn_t> door_closed ) : moves_total( moves_total ), target( target ), radius( radius ),
             it( it ), wall( wall ), floor( floor ), floor_center( floor_center ), door_closed( door_closed ) {}
