@@ -18,10 +18,8 @@
       { "item": "40fmj", "prob": 40, "charges": [ 1, 40 ] },
       { "item": "45_acp", "prob": 40, "charges": [ 1, 30 ] },
       { "item": "45_jhp", "prob": 40, "charges": [ 1, 30 ] },
-      { "item": "9mm", "prob": 80, "charges": [ 1, 50 ] },
-      { "item": "9mmfmj", "prob": 75, "charges": [ 1, 50 ] }
-      { "item": "9mm", "prob": 90, "charges": [ 1, 50 ] },
-      { "item": "9mmfmj", "prob": 90, "charges": [ 1, 50 ] }
+      { "item": "9mm", "prob": 100, "charges": [ 1, 50 ] },
+      { "item": "9mmfmj", "prob": 100, "charges": [ 1, 50 ] }
     ]
   },
   {
@@ -156,14 +154,14 @@
     "//": "Rifle ammo commonly owned by citizens and found in many locations.",
     "subtype": "distribution",
     "entries": [
-      { "item": "223", "prob": 90, "charges": [ 1, 30 ] },
+      { "item": "223", "prob": 60, "charges": [ 1, 30 ] },
       { "item": "22_cb", "prob": 30, "charges": [ 1, 100 ] },
       { "item": "22_fmj", "prob": 50, "charges": [ 1, 80 ] },
-      { "item": "22_lr", "prob": 80, "charges": [ 1, 80 ] },
+      { "item": "22_lr", "prob": 100, "charges": [ 1, 80 ] },
       { "item": "22_ratshot", "prob": 30, "charges": [ 1, 100 ] },
       { "item": "270win_jsp", "prob": 25, "charges": [ 1, 20 ] },
       { "item": "3006", "prob": 25, "charges": [ 1, 20 ] },
-      { "item": "308", "prob": 60, "charges": [ 1, 20 ] },
+      { "item": "308", "prob": 25, "charges": [ 1, 20 ] },
       { "item": "762_54R", "prob": 10, "charges": [ 1, 20 ] },
       { "item": "762_m43", "prob": 20, "charges": [ 1, 30 ] }
     ]
@@ -328,10 +326,10 @@
     "//": "Common ammo for guns typically owned by citizens.",
     "subtype": "distribution",
     "entries": [
-      { "group": "ammo_pistol_common", "prob": 60 },
-      { "group": "ammo_smg_common", "prob": 5 },
-      { "group": "ammo_rifle_common", "prob": 30 },
-      { "group": "ammo_shotgun_common", "prob": 40 }
+      { "group": "ammo_pistol_common", "prob": 100 },
+      { "group": "ammo_smg_common", "prob": 20 },
+      { "group": "ammo_rifle_common", "prob": 50 },
+      { "group": "ammo_shotgun_common", "prob": 50 }
     ]
   },
   {
@@ -377,9 +375,9 @@
     "//": "Reloaded ammo balanced according to rarity.",
     "subtype": "distribution",
     "entries": [
-      { "group": "ammo_pistol_reloaded", "prob": 70 },
-      { "group": "ammo_smg_reloaded", "prob": 5 },
-      { "group": "ammo_rifle_reloaded", "prob": 40 },
+      { "group": "ammo_pistol_reloaded", "prob": 90 },
+      { "group": "ammo_smg_reloaded", "prob": 10 },
+      { "group": "ammo_rifle_reloaded", "prob": 100 },
       { "group": "ammo_shotgun_reloaded", "prob": 20 }
     ]
   },

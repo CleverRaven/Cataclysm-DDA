@@ -4105,25 +4105,48 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     bool target_is_valid = false;
     if( spell_being_cast.range() > 0 && !spell_being_cast.is_valid_target( spell_target::none ) &&
         !spell_being_cast.has_flag( spell_flag::RANDOM_TARGET ) ) {
-        do {
-            avatar &you = *p->as_avatar();
-            std::vector<tripoint> trajectory = target_handler::mode_spell( you, spell_being_cast, no_fail,
-                                               no_mana );
-            if( !trajectory.empty() ) {
-                target = trajectory.back();
-                target_is_valid = spell_being_cast.is_valid_target( *p, target );
-                if( !( spell_being_cast.is_valid_target( spell_target::ground ) || p->sees( target ) ) ) {
+        if( p->is_avatar() ) {
+            do {
+                avatar &you = *p->as_avatar();
+                std::vector<tripoint> trajectory = target_handler::mode_spell( you, spell_being_cast, no_fail,
+                                                   no_mana );
+                if( !trajectory.empty() ) {
+                    target = trajectory.back();
+                    target_is_valid = spell_being_cast.is_valid_target( *p, target );
+                    if( !( spell_being_cast.is_valid_target( spell_target::ground ) || p->sees( target ) ) ) {
+                        target_is_valid = false;
+                    }
+                } else {
                     target_is_valid = false;
                 }
+                if( !target_is_valid ) {
+                    if( query_yn( _( "Stop casting spell?  Time spent will be lost." ) ) ) {
+                        return;
+                    }
+                }
+            } while( !target_is_valid );
+        } else {
+            if( act->coords.empty() ) {
+                debugmsg( "ERROR: npc tried to cast a spell without a target." );
             } else {
-                target_is_valid = false;
-            }
-            if( !target_is_valid ) {
-                if( query_yn( _( "Stop casting spell?  Time spent will be lost." ) ) ) {
-                    return;
+                const tripoint local_target = get_map().getlocal( act->coords.front() );
+                if( spell_being_cast.is_valid_target( *p, local_target ) ) {
+                    target = local_target;
+                } else {
+                    npc_attack_spell npc_spell( spell_being_cast.id() );
+                    // recalculate effectiveness because it's been a few turns since the npc started casting.
+                    const npc_attack_rating effectiveness = npc_spell.evaluate( *p->as_npc(),
+                                                            p->last_target.lock().get() );
+                    if( effectiveness < 0 ) {
+                        add_msg_debug( debugmode::debug_filter::DF_NPC, "%s cancels casting %s, target lost",
+                                       p->disp_name(), spell_being_cast.name() );
+                        return;
+                    } else {
+                        target = effectiveness.target();
+                    }
                 }
             }
-        } while( !target_is_valid );
+        }
     } else if( spell_being_cast.has_flag( spell_flag::RANDOM_TARGET ) ) {
         const cata::optional<tripoint> target_ = spell_being_cast.random_valid_target( *p, p->pos() );
         if( !target_ ) {
