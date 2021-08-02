@@ -75,8 +75,6 @@ class mapbuffer
                         const tripoint &om_addr, std::list<tripoint> &submaps_to_delete,
                         bool delete_after_save );
         submap_map_t submaps;
-
-        friend void wipe_map_terrain();
 };
 
 extern mapbuffer MAPBUFFER;

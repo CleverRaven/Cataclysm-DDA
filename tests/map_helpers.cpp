@@ -19,7 +19,6 @@
 #include "location.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "mapbuffer.h"
 #include "mapdata.h"
 #include "npc.h"
 #include "point.h"
@@ -52,20 +51,6 @@ void clear_radiation()
 void wipe_map_terrain()
 {
     map &here = get_map();
-    // To prevent excessive accumulation of submaps, periodically clear the mapbuffer of submaps
-    // that are not currently on the main map.
-    std::vector<tripoint> sm_to_remove;
-    for( std::pair<const tripoint, std::unique_ptr<submap>> &sm_entry : MAPBUFFER ) {
-        if( sm_entry.first.x < here.get_abs_sub().x ||
-            sm_entry.first.y < here.get_abs_sub().y ||
-            sm_entry.first.x > here.get_abs_sub().x + here.getmapsize() ||
-            sm_entry.first.y > here.get_abs_sub().y + here.getmapsize() ) {
-            sm_to_remove.push_back( sm_entry.first );
-        }
-    }
-    for( tripoint &sm_addr : sm_to_remove ) {
-        MAPBUFFER.remove_submap( sm_addr );
-    }
     const int mapsize = here.getmapsize() * SEEX;
     for( int z = -1; z <= OVERMAP_HEIGHT; ++z ) {
         ter_id terrain = z == 0 ? t_grass : z < 0 ? t_rock : t_open_air;
