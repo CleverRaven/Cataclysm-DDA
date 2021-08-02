@@ -69,6 +69,7 @@ jobs:
           - compiler: clang++-12
             os: ubuntu-latest
             sanitize: undefined
+            mods: --mods=magiclysm
             title: Clang 12, Ubuntu, Tiles, UBSan
 
           - compiler: g++-11
