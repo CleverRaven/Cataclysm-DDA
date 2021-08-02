@@ -335,7 +335,10 @@ npc_attack_rating npc_attack_melee::evaluate_critter( const npc &source,
         return npc_attack_rating{};
     }
 
-    const double damage{ weapon.effective_dps( source, *critter ) };
+    // TODO: Give bashing weapons a better
+    // rating against armored targets
+    double damage{ weapon.base_damage_melee().total_damage() };
+    damage *= 100.0 / weapon.attack_time();
     const int reach_range{ weapon.reach_range( source ) };
     const int distance_to_me = clamp( rl_dist( source.pos(), critter->pos() ) - reach_range, 0, 10 );
     // Multiplier of 0.5f to 1.5f based on distance
