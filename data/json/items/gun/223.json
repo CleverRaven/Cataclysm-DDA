@@ -298,10 +298,7 @@
     "dispersion": 150,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "modes": [
-      [ "DEFAULT", "semi-auto", 1 ],
-      [ "AUTO", "auto", 4 ]
-    ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -736,10 +733,7 @@
     "dispersion": 140,
     "durability": 8,
     "min_cycle_recoil": 1350,
-    "modes": [
-      [ "DEFAULT", "semi-auto", 1 ],
-      [ "AUTO", "auto", 4 ]
-    ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
     "built_in_mods": [ "grip" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
