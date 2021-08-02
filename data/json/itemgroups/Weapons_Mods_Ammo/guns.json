@@ -386,7 +386,6 @@
     "id": "guns_rifle_rare_display",
     "//": "Less common rifles found exclusively in gun stores.",
     "items": [
-      { "item": "m16_auto_rifle", "variant": "acr", "prob": 25, "charges-min": 0, "charges-max": 0 },
       { "item": "colt_lightning", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "m249_semi", "prob": 5, "charges-min": 0, "charges-max": 0 },
       { "item": "henry_big_boy", "prob": 10, "charges-min": 0, "charges-max": 0 },
