@@ -5223,7 +5223,7 @@ std::string item::display_name( unsigned int quantity ) const
 
     if( amount || show_amt ) {
         if( is_money() ) {
-            amt = string_format( " $%.2f", amount / 100.0 );
+            amt = format_money( amount );
         } else {
             if( !ammotext.empty() ) {
                 ammotext = " " + ammotext;
