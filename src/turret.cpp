@@ -243,16 +243,15 @@ turret_data::status turret_data::query() const
         if( veh->fuel_left( ammo_current() ) < part->base.ammo_required() ) {
             return status::no_ammo;
         }
-
+    } else if( part->base.get_gun_ups_drain() ) {
+        int ups = part->base.get_gun_ups_drain() * part->base.gun_current_mode().qty;
+        if( ups > veh->fuel_left( fuel_type_battery ) ) {
+            return status::no_power;
+        }
     } else {
         if( !part->base.ammo_sufficient( nullptr ) ) {
             return status::no_ammo;
         }
-    }
-
-    int ups = part->base.get_gun_ups_drain() * part->base.gun_current_mode().qty;
-    if( ups > veh->fuel_left( fuel_type_battery ) ) {
-        return status::no_power;
     }
 
     return status::ready;
