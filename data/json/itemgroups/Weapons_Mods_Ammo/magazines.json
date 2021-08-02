@@ -390,7 +390,7 @@
     "items": [
       { "group": "mags_pistol_common", "prob": 30 },
       { "group": "mags_rifle_common", "prob": 20 },
-      { "group": "mags_smg_common", "prob": 10 },
+      { "group": "mags_smg_common", "prob": 1 },
       { "group": "mags_shotgun_common", "prob": 5 },
       { "group": "mags_other_common", "prob": 5 }
     ]
