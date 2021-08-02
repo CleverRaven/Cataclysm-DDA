@@ -1994,6 +1994,10 @@ void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::stri
     assign( jo, "revert_msg", slot.revert_msg, strict );
     assign( jo, "sub", slot.subtype, strict );
 
+    if( slot.def_charges > slot.max_charges ) {
+        jo.throw_error( "initial_charges is larger than max_charges", "initial_charges" );
+    }
+
     if( jo.has_array( "rand_charges" ) ) {
         if( jo.has_member( "initial_charges" ) ) {
             jo.throw_error( "You can have a fixed initial amount of charges, or randomized.  Not both.",
@@ -2556,11 +2560,6 @@ static bool has_only_special_pockets( const itype &def )
 
 void Item_factory::check_and_create_magazine_pockets( itype &def )
 {
-    if( !has_only_special_pockets( def ) ) {
-        // this means pockets were defined in json already
-        // we assume they're good to go, or error elsewhere
-        return;
-    }
     // the item we're trying to migrate must actually have data for ammo
     if( def.magazines.empty() && !( def.magazine || def.tool ) ) {
         return;
@@ -2571,6 +2570,16 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
     }
     if( def.tool && def.tool->max_charges == 0 && def.magazines.empty() ) {
         // If tool has no charges nor magazines, it needs no magazine.
+        return;
+    }
+    if( !has_only_special_pockets( def ) ) {
+        // this means pockets were defined in json already
+        // we assume they're good to go, or error elsewhere
+        if( def.tool && def.tool->max_charges != 0 ) {
+            // warn about redundant max_charges definition
+            debugmsg( "Redundant max charge value specified for %s with magazine pocket.",
+                      def.get_id().str() );
+        }
         return;
     }
 
@@ -2590,7 +2599,8 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
         if( !default_ammo.is_null() ) {
             auto magazines_for_default_ammo = def.magazines.find( default_ammo );
             if( magazines_for_default_ammo == def.magazines.end() ) {
-                debugmsg( "item %s defines magazines but no magazine for its default ammo type" );
+                debugmsg( "item %s defines magazines but no magazine for its default ammo type",
+                          def.get_id().str() );
             } else {
                 cata_assert( !magazines_for_default_ammo->second.empty() );
                 mag_data.default_magazine = *magazines_for_default_ammo->second.begin();
@@ -2613,6 +2623,8 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
             for( const ammotype &amtype : def.tool->ammo_id ) {
                 mag_data.ammo_restriction.emplace( amtype, def.tool->max_charges );
             }
+            def.tool->max_charges = 0;
+            def.tool->def_charges = 0;
         }
     }
     def.pockets.push_back( mag_data );
@@ -3035,15 +3047,15 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         load_slot( def.mod, jo_gunmod, src );
     }
 
-    assign( jo, "pocket_data", def.pockets );
-    check_and_create_magazine_pockets( def );
-    add_special_pockets( def );
-
     if( jo.has_string( "abstract" ) ) {
         jo.read( "abstract", def.id, true );
     } else {
         jo.read( "id", def.id, true );
     }
+
+    assign( jo, "pocket_data", def.pockets );
+    check_and_create_magazine_pockets( def );
+    add_special_pockets( def );
 
     if( !def.src.empty() && def.src.back().first != def.id ) {
         def.src.clear();
