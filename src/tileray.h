@@ -63,7 +63,7 @@ class tileray
 
         void advance( int num = 1 ); // move to the next tile (calculate last dx, dy)
         void clear_advance(); // clear steps, leftover, last_dx, and last_dy
-        int get_steps() const;  // how many steps we advanced
+        bool end();      // do we reach the end of (dx,dy) defined ray?
 };
 
 #endif // CATA_SRC_TILERAY_H

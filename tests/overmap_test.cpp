@@ -54,7 +54,6 @@ TEST_CASE( "default_overmap_generation_always_succeeds", "[slow]" )
             break;
         }
     }
-    overmap_buffer.clear();
 }
 
 TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[slow]" )
@@ -106,7 +105,6 @@ TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[
 
     INFO( "Failed to place optional special on origin " );
     CHECK( found_optional == true );
-    overmap_buffer.clear();
 }
 
 TEST_CASE( "is_ot_match", "[overmap][terrain]" )

@@ -280,7 +280,6 @@ class JsonIn
         // optionally-fatal reading into values by reference
         // returns true if the data was read successfully, false otherwise
         // if throw_on_error then throws JsonError rather than returning false.
-        bool read_null( bool throw_on_error = false );
         bool read( bool &b, bool throw_on_error = false );
         bool read( char &c, bool throw_on_error = false );
         bool read( signed char &c, bool throw_on_error = false );
@@ -1566,7 +1565,7 @@ void serialize( const cata::optional<T> &obj, JsonOut &jsout )
 template<typename T>
 void deserialize( cata::optional<T> &obj, JsonIn &jsin )
 {
-    if( jsin.read_null() ) {
+    if( jsin.test_null() ) {
         obj.reset();
     } else {
         obj.emplace();

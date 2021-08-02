@@ -259,7 +259,7 @@ void avatar::on_mission_finished( mission &cur_mission )
     }
 }
 
-bool avatar::read( item_location &book, item_location ereader )
+bool avatar::read( item_location &book )
 {
     if( !book ) {
         add_msg( m_info, _( "Never mind." ) );
@@ -300,7 +300,6 @@ bool avatar::read( item_location &book, item_location ereader )
                 read_activity_actor(
                     time_taken,
                     book,
-                    ereader,
                     false
                 ) ) );
 
@@ -534,7 +533,6 @@ bool avatar::read( item_location &book, item_location ereader )
             read_activity_actor(
                 time_taken,
                 book,
-                ereader,
                 continuous,
                 learner_id
             ) ) );
@@ -769,9 +767,9 @@ int avatar::calc_focus_equilibrium( bool ignore_pain ) const
     int focus_equilibrium = 100;
 
     if( activity.id() == ACT_READ ) {
-        const item_location book = activity.targets[0];
-        if( book && book->is_book() ) {
-            const cata::value_ptr<islot_book> &bt = book->type->book;
+        const item *book = activity.targets[0].get_item();
+        if( book && book->is_book() && get_item_position( book ) != INT_MIN ) {
+            auto &bt = book->type->book;
             // apply a penalty when we're actually learning something
             const SkillLevel &skill_level = get_skill_level_object( bt->skill );
             if( skill_level.can_train() && skill_level < bt->level ) {
@@ -868,6 +866,15 @@ void avatar::update_mental_focus()
     // calc_focus_change() returns percentile focus, applying it directly
     // to focus pool is an implicit / 100.
     focus_pool += 10 * calc_focus_change();
+
+    // Moved from calc_focus_equilibrium, because it is now const
+    if( activity.id() == ACT_READ ) {
+        const item *book = activity.targets[0].get_item();
+        if( get_item_position( book ) == INT_MIN || !book->is_book() ) {
+            add_msg_if_player( m_bad, _( "You lost your book!  You stop reading." ) );
+            activity.set_to_null();
+        }
+    }
 }
 
 void avatar::reset_stats()

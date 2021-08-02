@@ -1960,6 +1960,8 @@ bool player::takeoff( item_location loc, std::list<item> *res )
                            _( "<npcname> takes off their %s." ),
                            takeoff_copy.tname() );
 
+    // TODO: Make this variable
+    mod_moves( -250 );
 
     recalc_sight_limits();
     calc_encumbrance();

@@ -94,21 +94,26 @@ void scenario::load( const JsonObject &jo, const std::string & )
 
     if( !was_loaded ) {
         if( jo.has_member( "custom_initial_date" ) ) {
-            _custom_start_date = true;
+            _custom_initial_date = true;
 
             JsonObject jocid = jo.get_member( "custom_initial_date" );
             if( jocid.has_member( "hour" ) ) {
-                optional( jocid, was_loaded, "hour", _start_hour );
+                optional( jocid, was_loaded, "hour", _initial_hour );
             }
             if( jocid.has_member( "day" ) ) {
-                optional( jocid, was_loaded, "day", _start_day );
+                optional( jocid, was_loaded, "day", _initial_day );
             }
             if( jocid.has_member( "season" ) ) {
-                optional( jocid, was_loaded, "season", _start_season );
+                optional( jocid, was_loaded, "season", _initial_season );
             }
             if( jocid.has_member( "year" ) ) {
-                optional( jocid, was_loaded, "year", _start_year );
+                optional( jocid, was_loaded, "year", _initial_year );
             }
+        } else {
+            _initial_hour = get_option<int>( "INITIAL_TIME" );
+            _initial_day = get_option<int>( "INITIAL_DAY" );
+            _initial_season = SPRING;
+            _initial_year = 1;
         }
     }
 
@@ -440,50 +445,51 @@ int scenario::start_location_targets_count() const
     return cnt;
 }
 
-bool scenario::custom_start_date() const
+bool scenario::custom_initial_date() const
 {
-    return _custom_start_date;
+    return _custom_initial_date;
 }
 
 bool scenario::is_random_hour() const
 {
-    return _start_hour == -1;
+    return _initial_hour == -1;
 }
 
 bool scenario::is_random_day() const
 {
-    return _start_day == -1;
+    return _initial_day == -1;
 }
 
 bool scenario::is_random_year() const
 {
-    return _start_year == -1;
+    return _initial_year == -1;
 }
 
-int scenario::start_hour() const
+int scenario::initial_hour() const
 {
-    return _start_hour == -1 ? rng( 0, 23 ) : _start_hour;
+    return _initial_hour == -1 ? rng( 0, 23 ) : _initial_hour;
 }
 
-int scenario::day_of_season() const
+int scenario::initial_day() const
 {
-    return _start_day == -1 ? rng( 0, get_option<int>( "SEASON_LENGTH" ) - 1 ) : _start_day;
+    if( _initial_day == -1 ) {
+        // with custom initial date day is only rolled for the season instead of the year
+        return _custom_initial_date
+               ? rng( 0, get_option<int>( "SEASON_LENGTH" ) - 1 )
+               : rng( 0, get_option<int>( "SEASON_LENGTH" ) * 4 - 1 );
+    } else {
+        return _initial_day;
+    }
 }
 
-int scenario::start_day() const
+season_type scenario::initial_season() const
 {
-    return day_of_season() + get_option<int>( "SEASON_LENGTH" ) * ( start_season() + 4 *
-            ( start_year() - 1 ) );
+    return _initial_season;
 }
 
-season_type scenario::start_season() const
+int scenario::initial_year() const
 {
-    return _start_season;
-}
-
-int scenario::start_year() const
-{
-    return _start_year == -1 ? rng( 1, 11 ) : _start_year;
+    return _initial_year == -1 ? rng( 1, 11 ) : _initial_year;
 }
 
 vproto_id scenario::vehicle() const
