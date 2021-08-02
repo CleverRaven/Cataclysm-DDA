@@ -68,8 +68,8 @@ TEST_CASE( "stacking_cash_cards", "[item]" )
     item cash0( "cash_card", calendar::turn_zero );
     item cash1( "cash_card", calendar::turn_zero );
     item cash2( "cash_card", calendar::turn_zero );
-	cash1.put_in( item("money", calendar::turn_zero, 1), item_pocket::pocket_type::MAGAZINE );
-	cash2.put_in( item("money", calendar::turn_zero, 2), item_pocket::pocket_type::MAGAZINE );
+    cash1.put_in( item( "money", calendar::turn_zero, 1 ), item_pocket::pocket_type::MAGAZINE );
+    cash2.put_in( item( "money", calendar::turn_zero, 2 ), item_pocket::pocket_type::MAGAZINE );
     CHECK( !cash0.stacks_with( cash1 ) );
     CHECK( cash1.stacks_with( cash2 ) );
 }
