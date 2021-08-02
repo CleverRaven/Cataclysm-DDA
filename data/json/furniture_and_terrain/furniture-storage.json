@@ -524,7 +524,8 @@
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] }
       ]
-	      "max_volume": "1750 L",
+	 },
+	"max_volume": "1750 L",
     "bash": {
       "str_min": 10,
       "str_max": 30,
@@ -541,7 +542,7 @@
 	  {
     "type": "furniture",
     "id": "f_rack_l",
-	"looks_like": "f_rack"
+	"looks_like": "f_rack",
     "name": "display rack with locks",
     "description": "A sheet metal shelving unit, with the storage surfaces angled in such a way as to show off the items stored. Metal fasteners with a lock hold the items securly to the rack.",
     "symbol": "{",
@@ -551,7 +552,7 @@
     "required_str": 8,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE", "SEALED", "PICKABLE"  ],
 	"lockpick_result": "f_rack",
-    "lockpick_message": "With a satisfying click, the lock has been picked",
+    "lockpick_message": "With a satisfying click, the lock opens",
     "examine_action": "locked_object_pickable",
     "deconstruct": {
       "items": [
@@ -935,20 +936,9 @@
     "move_cost_mod": 2,
     "coverage": 80,
     "required_str": 9,
-	{
-    "type": "furniture",
-    "id": "f_displaycase",
-    "name": "locked display case",
-    "looks_like": "f_rack",
-    "description": "A secure wooden case at about waist-height, with glass panelling on the top.  Useful for storing valuable things while still showing them off.  Not actually as secure as it looks, as the display windows are easily broken.",
-    "symbol": "#",
-    "color": "light_cyan",
-    "move_cost_mod": 2,
-    "coverage": 80,
-    "required_str": 9,
     "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM", "PICKABLE" ],
 	"lockpick_result": "f_displaycase_o",
-    "lockpick_message": "With a satisfying click, you pick the lock and the case begins to open",
+    "lockpick_message": "With a satisfying click, the lock and the display case opens",
     "examine_action": "locked_object_pickable",
     "bash": {
       "str_min": 6,
@@ -973,32 +963,6 @@
     "coverage": 80,
     "required_str": 9,
     "flags": [ "TRANSPARENT", "PLACE_ITEM" ],
-	"close": "f_display_case_c",
-    "bash": {
-      "str_min": 6,
-      "str_max": 20,
-      "sound": "glass breaking",
-      "sound_fail": "whack!",
-      "sound_vol": 16,
-      "sound_fail_vol": 12,
-      "furn_set": "f_displaycase_b",
-      "items": [ { "item": "glass_shard", "count": [ 25, 50 ] } ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_displaycase_c",
-    "name": "closed display case",
-    "looks_like": "f_rack",
-    "description": "A secure wooden case at about waist-height, with glass panelling on the top.  Useful for storing valuable things while still showing them off.  Not actually as secure as it looks, as the display windows are easily broken. This one is closed and unlocked",
-    "symbol": "#",
-    "color": "light_cyan",
-    "move_cost_mod": 2,
-    "coverage": 80,
-    "required_str": 9,
-    "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM"  ],
-	"open": "f_displaycase_c",
-    "examine_action": "open_displaycase",
     "bash": {
       "str_min": 6,
       "str_max": 20,
