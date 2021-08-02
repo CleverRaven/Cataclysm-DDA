@@ -20,6 +20,8 @@
       { "item": "45_jhp", "prob": 40, "charges": [ 1, 30 ] },
       { "item": "9mm", "prob": 80, "charges": [ 1, 50 ] },
       { "item": "9mmfmj", "prob": 75, "charges": [ 1, 50 ] }
+      { "item": "9mm", "prob": 90, "charges": [ 1, 50 ] },
+      { "item": "9mmfmj", "prob": 90, "charges": [ 1, 50 ] }
     ]
   },
   {
