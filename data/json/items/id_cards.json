@@ -50,7 +50,7 @@
     "id": "id_science_visitor_1",
     "symbol": ",",
     "color": "blue",
-    "name": { "str": "visitor's pass" },
+    "name": { "str": "visitor's pass", "str_pl": "visitor's passes" },
     "description": "This is a visitor's pass.  The reverse side describes protocol for using it; this could grant one-time access to a card reader, if you can find one.",
     "price": 60000,
     "flags": [ "SCIENCE_CARD_VISITOR" ],
