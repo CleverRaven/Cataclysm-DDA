@@ -513,7 +513,7 @@ class item : public visitable
                 explicit operator bool() const {
                     return who && target && ammo && qty_ > 0;
                 }
-
+                const item *getParent() const;
             private:
                 int qty_ = 0;
                 int max_qty = INT_MAX;

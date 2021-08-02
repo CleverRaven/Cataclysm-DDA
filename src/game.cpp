@@ -9227,12 +9227,13 @@ void game::reload( item_location &loc, bool prompt, bool empty )
             add_msg( m_warning, _( "You struggle to reload the fouled %s." ), it->tname() );
             moves += 2500;
         }
-
         std::vector<item_location> targets;
         if( use_loc ) {
-            targets.emplace_back( loc );
+            // Set parent to be the "base" item.
+            targets.emplace_back( loc,  const_cast<item *>( opt.target ) );
         } else {
-            targets.emplace_back( u, const_cast<item *>( opt.target ) );
+            // The "base" item is held be the player
+            targets.emplace_back( item_location( u, it ), const_cast<item *>( opt.target ) );
         }
         targets.push_back( std::move( opt.ammo ) );
 
@@ -9322,7 +9323,7 @@ void game::reload_weapon( bool try_everything )
         std::vector<item_location> targets;
         if( opt ) {
             const int moves = opt.moves();
-            targets.emplace_back( turret.base() );
+            targets.emplace_back( item_location( turret.base(), const_cast<item *>( opt.target ) ) );
             targets.push_back( std::move( opt.ammo ) );
             u.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(), targets ) ) );
         }

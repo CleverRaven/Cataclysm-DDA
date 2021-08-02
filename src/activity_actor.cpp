@@ -3492,30 +3492,38 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     } else {
         add_msg( m_neutral, _( "You reload the %1$s with %2$s." ), reloadable_name, ammo_name );
     }
-    item_location loc = reload_targets[0];
+    // Volume change should only affect container that cantains the "base" item
+    // For example a reloaded gun mod never "spills" from the gun
+    // It just affect the container that cantains the gun
+    if( reload_targets[0].has_parent() ) {
+        item_location loc = reload_targets[0].parent_item();
+        if( loc.volume_capacity() < units::volume() ||
+            loc.weight_capacity() < units::mass() ) {
+            // In player inventory and player is wielding nothing.
+            if( !who.is_armed() && loc.held_by( who ) ) {
+                add_msg( m_neutral, _( "The %s no longer fits in your inventory so you wield it instead." ),
+                         reloadable_name );
+                who.wield( reloadable );
+            } else {
+                // In player inventory and player is wielding something.
+                if( loc.held_by( who ) ) {
+                    add_msg( m_neutral, _( "The %s no longer fits in your inventory so you drop it instead." ),
+                             reloadable_name );
+                    // Default handling message.
+                } else {
+                    add_msg( m_neutral, _( "The %s no longer fits its location so you drop it instead." ),
+                             reloadable_name );
+                }
+                get_map().add_item_or_charges( loc.position(), reloadable );
+                loc.remove_item();
+            }
+        }
+    } else {
+        debugmsg( "item_location of item to be reloaded is not available" );
+    }
     // Reload may have caused the item to increase in size more than the pocket/location can contain.
     // We want to avoid this because items will be deleted on a save/load.
-    if( loc.volume_capacity() < units::volume() ||
-        loc.weight_capacity() < units::mass() ) {
-        // In player inventory and player is wielding nothing.
-        if( !who.is_armed() && loc.held_by( who ) ) {
-            add_msg( m_neutral, _( "The %s no longer fits in your inventory so you wield it instead." ),
-                     reloadable_name );
-            who.wield( reloadable );
-        } else {
-            // In player inventory and player is wielding something.
-            if( loc.held_by( who ) ) {
-                add_msg( m_neutral, _( "The %s no longer fits in your inventory so you drop it instead." ),
-                         reloadable_name );
-                // Default handling message.
-            } else {
-                add_msg( m_neutral, _( "The %s no longer fits its location so you drop it instead." ),
-                         reloadable_name );
-            }
-            get_map().add_item_or_charges( loc.position(), reloadable );
-            loc.remove_item();
-        }
-    }
+
 }
 
 void reload_activity_actor::canceled( player_activity &act, Character &/*who*/ )
