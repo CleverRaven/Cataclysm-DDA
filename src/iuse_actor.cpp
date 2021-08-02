@@ -1470,15 +1470,80 @@ bool salvage_actor::try_to_cut_up( player &p, item &it ) const
 // it cuts
 // cut gets cut
 int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
-{
+{   
+    // What material components can we get back?
+    std::vector<material_id> cut_material_components = cut.get_item()->made_of();
     const bool filthy = cut.get_item()->is_filthy();
     // This is the value that tracks progress, as we cut pieces off, we reduce this number.
     units::mass remaining_weight = cut.get_item()->weight();
+    units::mass max_weight;
+    std::vector<item> stack {*cut.get_item()};
+
+
+    std::map<itype_id, int> salvage_to;
+    // Decompose the item into basic parts 
+    while (!stack.empty()) {
+        item temp = stack.back();
+        stack.pop_back();
+
+        // If it is one of the basic components, add it into the list
+        if (temp.type->is_basic_component()) {
+            if (salvage_to.count(temp.typeId())) {
+                salvage_to[temp.typeId()] ++;
+            }
+            else {
+                salvage_to[temp.typeId()] = 1;
+            }
+            continue;
+        }
+        // Discard invalid component
+        if (!temp.is_salvageable()) {
+            // non-salvageable items are considered as irreducible, count the weight.
+            continue;
+        }
+        if (!temp.made_of_any(std::set<material_id>(cut_material_components.begin(), cut_material_components.end()))) {
+            continue;
+        }
+
+        // No available components
+        if (temp.components.empty()) {
+            // Try to find an available recipe and "restore" its components
+            auto iter = std::find_if(recipe_dict.begin(), recipe_dict.end(), [&]( std::pair<const recipe_id, recipe> curr) {
+                return curr.second.result() == temp.typeId();
+                });
+            if (iter == recipe_dict.end() ) {    
+                // no recipes found
+                continue;
+            }
+            else {
+                // find default components set from recipe, push them into stack
+                const requirement_data requirements = iter->second.simple_requirements();
+           
+                for (const auto& altercomps : requirements.get_components()) {
+                    const item_comp& comp = altercomps.front();
+                    // if count by charges
+                    if (comp.type.obj().count_by_charges()) {
+                        stack.emplace_back(comp.type, calendar::turn, comp.count);
+                    }
+                    else {
+                        for (int i = 0; i < comp.count; i++) {
+                            stack.emplace_back(comp.type, calendar::turn);
+                        }
+                    }
+                }
+            }
+        }
+        // push components into stack
+        else {
+            for (item it : temp.components) {
+                stack.push_back( it );
+            }
+        }
+    }
     // Chance of us losing a material component to entropy.
     /** @EFFECT_FABRICATION reduces chance of losing components when cutting items up */
     int entropy_threshold = std::max( 5, 10 - p.get_skill_level( skill_fabrication ) );
-    // What material components can we get back?
-    std::vector<material_id> cut_material_components = cut.get_item()->made_of();
+   
     // What materials do we salvage (ids and counts).
     std::map<itype_id, int> materials_salvaged;
 
@@ -1514,6 +1579,15 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
         remaining_weight *= component_success_chance;
     }
 
+
+    // Keep the "weight" thing above, use it to calculate component loss
+    // It does not make any remarkable impact anyways
+    for (auto it : salvage_to) {
+        it.second = it.second * remaining_weight / cut.get_item()->weight();
+    }
+
+    /**  obsolet codes
+
     // Essentially we round-robbin through the components subtracting mass as we go.
     std::map<units::mass, itype_id> weight_to_item_map;
     for( const material_id &material : cut_material_components ) {
@@ -1537,7 +1611,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
         }
         weight_to_item_map.erase( std::prev( weight_to_item_map.end() ) );
     }
-
+    */
     add_msg( m_info, _( "You try to salvage materials from the %s." ),
              cut.get_item()->tname() );
 
@@ -1552,7 +1626,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
     p.calc_encumbrance();
 
     map &here = get_map();
-    for( const auto &salvaged : materials_salvaged ) {
+    for( const auto &salvaged : salvage_to) {
         itype_id mat_name = salvaged.first;
         int amount = salvaged.second;
         item result( mat_name, calendar::turn );
