@@ -3036,6 +3036,8 @@ bool game::load( const save_t &name )
         }
     }
 
+    effect_on_conditions::load_existing_character();
+
     return true;
 }
 
