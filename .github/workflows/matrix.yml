@@ -66,6 +66,11 @@ jobs:
         native: [linux64]
 
         include:
+          - compiler: clang++-12
+            os: ubuntu-latest
+            sanitize: undefined
+            title: Clang 12, Ubuntu, Tiles, UBSan
+
           - compiler: g++-11
             os: ubuntu-latest
             tiles: 0
@@ -73,27 +78,7 @@ jobs:
             sanitize: address
             gold: 1
             lto: 1
-            title: GCC 11, Ubuntu, Curses, LTO
-
-          - compiler: g++-7
-            os: ubuntu-18.04
-            cmake: 1
-            tiles: 1
-            sound: 1
-            mods: --mods=magiclysm
-            localize: 0
-            title: GCC 7, Ubuntu, Tiles, Sound, CMake, Release
-
-          - compiler: clang++-6.0
-            os: ubuntu-18.04
-            tiles: 0
-            release: 1
-            title: Clang 6, Ubuntu, Curses, Release
-
-          - compiler: clang++-12
-            os: ubuntu-latest
-            sanitize: undefined
-            title: Clang 12, Ubuntu, Tiles, UBSan
+            title: GCC 11, Ubuntu, Curses, LTO, ASan
 
           - compiler: clang++
             os: macos-10.15
@@ -113,6 +98,22 @@ jobs:
             ldflags: -static-libgcc -static-libstdc++
             mxe_target: i686-w64-mingw32.static
             wine: wine
+
+          - compiler: g++-7
+            os: ubuntu-18.04
+            cmake: 1
+            tiles: 1
+            sound: 1
+            mods: --mods=magiclysm
+            localize: 0
+            title: GCC 7, Ubuntu, Tiles, Sound, CMake, Release
+
+          - compiler: clang++-6.0
+            os: ubuntu-18.04
+            tiles: 0
+            release: 1
+            title: Clang 6, Ubuntu, Curses, Release
+
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}
     env:
