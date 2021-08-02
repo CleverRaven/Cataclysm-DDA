@@ -3,7 +3,7 @@
     "type": "item_group",
     "id": "ammo_pistol_common",
     "//": "Pistol ammo commonly owned by citizens and found in many locations.",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
       { "item": "32_acp", "prob": 20, "charges": [ 1, 80 ] },
       { "item": "380_FMJ", "prob": 25, "charges": [ 1, 50 ] },
@@ -18,15 +18,17 @@
       { "item": "40fmj", "prob": 40, "charges": [ 1, 40 ] },
       { "item": "45_acp", "prob": 40, "charges": [ 1, 30 ] },
       { "item": "45_jhp", "prob": 40, "charges": [ 1, 30 ] },
-      { "item": "9mm", "prob": 100, "charges": [ 1, 50 ] },
-      { "item": "9mmfmj", "prob": 100, "charges": [ 1, 50 ] }
+      { "item": "9mm", "prob": 80, "charges": [ 1, 50 ] },
+      { "item": "9mmfmj", "prob": 75, "charges": [ 1, 50 ] }
+      { "item": "9mm", "prob": 90, "charges": [ 1, 50 ] },
+      { "item": "9mmfmj", "prob": 90, "charges": [ 1, 50 ] }
     ]
   },
   {
     "type": "item_group",
     "id": "ammo_pistol_rare",
     "//": "Less common pistol ammo including that only used by police/paramilitary forces.",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
       { "item": "10mm_fmj", "prob": 15 },
       { "item": "38_super", "prob": 20 },
@@ -46,7 +48,7 @@
     "type": "item_group",
     "id": "ammo_pistol_milspec",
     "//": "Military specification pistol ammo found at military sites.",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
       { "item": "46mm", "prob": 70 },
       { "item": "5x50dart", "prob": 30 },
@@ -58,7 +60,7 @@
     "type": "item_group",
     "id": "ammo_pistol_obscure",
     "//": "Imported or otherwise very obscure pistol ammo.",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
       { "item": "454_Casull", "prob": 100 },
       { "item": "45colt_jhp", "prob": 50 },
@@ -75,7 +77,7 @@
     "type": "item_group",
     "id": "ammo_pistol_reloaded",
     "//": "Reloaded pistol ammo balanced according to rarity.",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
       { "item": "reloaded_10mm_fmj", "prob": 10 },
       { "item": "reloaded_32_acp", "prob": 50 },
@@ -117,51 +119,51 @@
     "type": "item_group",
     "id": "ammo_smg_common",
     "//": "SMG ammo commonly owned by citizens and found in many locations.",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [ { "group": "ammo_pistol_common", "prob": 100 } ]
   },
   {
     "type": "item_group",
     "id": "ammo_smg_rare",
     "//": "Less common SMGs including that only used by police/paramilitary forces.",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [ { "group": "ammo_pistol_rare", "prob": 100 } ]
   },
   {
     "type": "item_group",
     "id": "ammo_smg_milspec",
     "//": "Military specification SMG ammo found at military sites.",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [ { "group": "ammo_pistol_milspec", "prob": 100 } ]
   },
   {
     "type": "item_group",
     "id": "ammo_smg_obscure",
     "//": "Imported or otherwise very obscure SMG ammo.",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [ { "group": "ammo_pistol_obscure", "prob": 100 } ]
   },
   {
     "type": "item_group",
     "id": "ammo_smg_reloaded",
     "//": "Reloaded SMG ammo balanced according to rarity.",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [ { "group": "ammo_pistol_reloaded", "prob": 100 } ]
   },
   {
     "type": "item_group",
     "id": "ammo_rifle_common",
     "//": "Rifle ammo commonly owned by citizens and found in many locations.",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
-      { "item": "223", "prob": 60, "charges": [ 1, 30 ] },
+      { "item": "223", "prob": 90, "charges": [ 1, 30 ] },
       { "item": "22_cb", "prob": 30, "charges": [ 1, 100 ] },
       { "item": "22_fmj", "prob": 50, "charges": [ 1, 80 ] },
-      { "item": "22_lr", "prob": 100, "charges": [ 1, 80 ] },
+      { "item": "22_lr", "prob": 80, "charges": [ 1, 80 ] },
       { "item": "22_ratshot", "prob": 30, "charges": [ 1, 100 ] },
       { "item": "270win_jsp", "prob": 25, "charges": [ 1, 20 ] },
       { "item": "3006", "prob": 25, "charges": [ 1, 20 ] },
-      { "item": "308", "prob": 25, "charges": [ 1, 20 ] },
+      { "item": "308", "prob": 60, "charges": [ 1, 20 ] },
       { "item": "762_54R", "prob": 10, "charges": [ 1, 20 ] },
       { "item": "762_m43", "prob": 20, "charges": [ 1, 30 ] }
     ]
@@ -170,7 +172,7 @@
     "type": "item_group",
     "id": "ammo_rifle_rare",
     "//": "Less common rifle ammo including that only used by police/paramilitary forces.",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
       { "item": "300_winmag", "prob": 40 },
       { "item": "3006fmj", "prob": 50 },
@@ -189,7 +191,7 @@
     "type": "item_group",
     "id": "ammo_rifle_milspec",
     "//": "Military specification rifle ammo found at military sites.",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
       { "item": "12mm", "prob": 40 },
       { "item": "3006_incendiary", "prob": 5 },
@@ -216,14 +218,14 @@
     "type": "item_group",
     "id": "ammo_rifle_obscure",
     "//": "Imported or otherwise very obscure rifle ammo.",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [ { "item": "545", "prob": 150 }, { "item": "545_ap", "prob": 100 }, { "item": "700nx", "prob": 70 } ]
   },
   {
     "type": "item_group",
     "id": "ammo_rifle_reloaded",
     "//": "Reloaded rifle ammo balanced according to rarity.",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
       { "item": "reloaded_223", "prob": 60 },
       { "item": "reloaded_22_fmj", "prob": 20 },
@@ -251,7 +253,7 @@
     "type": "item_group",
     "id": "ammo_shotgun_common",
     "//": "Shotgun ammo commonly owned by citizens and found in many locations.",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
       { "item": "shot_00", "prob": 100, "charges": [ 1, 20 ] },
       { "item": "shot_bird", "prob": 70, "charges": [ 1, 20 ] },
@@ -263,7 +265,7 @@
     "type": "item_group",
     "id": "ammo_shotgun_rare",
     "//": "Less common shotgun ammo including that only used by police/paramilitary forces.",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
       { "item": "20x66_beanbag", "prob": 10 },
       { "item": "20x66_flare", "prob": 10 },
@@ -277,7 +279,7 @@
     "type": "item_group",
     "id": "ammo_shotgun_milspec",
     "//": "Military specification shotgun ammo found at military sites.",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
       { "item": "20x66_exp", "prob": 10 },
       { "item": "20x66_flechette", "prob": 60 },
@@ -290,14 +292,14 @@
     "type": "item_group",
     "id": "ammo_shotgun_obscure",
     "//": "Imported or otherwise very obscure shotgun ammo.",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [  ]
   },
   {
     "type": "item_group",
     "id": "ammo_shotgun_reloaded",
     "//": "Reloaded shotgun ammo balanced according to rarity.",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
       { "item": "reloaded_shot_00", "prob": 200 },
       { "item": "reloaded_shot_bird", "prob": 30 },
@@ -311,7 +313,7 @@
     "type": "item_group",
     "id": "ammo_launcher_grenade",
     "//": "Factory specification grenade launcher ammo intended for military use",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
       { "item": "40x53mm_m1001", "prob": 10 },
       { "item": "40x46mm_m433", "prob": 120 },
@@ -324,11 +326,11 @@
     "type": "item_group",
     "id": "ammo_common",
     "//": "Common ammo for guns typically owned by citizens.",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
-      { "group": "ammo_pistol_common", "prob": 100 },
-      { "group": "ammo_smg_common", "prob": 20 },
-      { "group": "ammo_rifle_common", "prob": 50 },
+      { "group": "ammo_pistol_common", "prob": 70 },
+      { "group": "ammo_smg_common", "prob": 5 },
+      { "group": "ammo_rifle_common", "prob": 60 },
       { "group": "ammo_shotgun_common", "prob": 50 }
     ]
   },
@@ -336,11 +338,11 @@
     "type": "item_group",
     "id": "ammo_rare",
     "//": "Less common ammo including that only used by police/paramilitary forces",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
-      { "group": "ammo_pistol_rare", "prob": 100 },
+      { "group": "ammo_pistol_rare", "prob": 80 },
       { "group": "ammo_smg_rare", "prob": 20 },
-      { "group": "ammo_rifle_rare", "prob": 50 },
+      { "group": "ammo_rifle_rare", "prob": 70 },
       { "group": "ammo_shotgun_rare", "prob": 50 }
     ]
   },
@@ -348,7 +350,7 @@
     "type": "item_group",
     "id": "ammo_milspec",
     "//": "Military specification ammo found at military sites.",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
       { "group": "ammo_pistol_milspec", "prob": 50 },
       { "group": "ammo_smg_milspec", "prob": 20 },
@@ -361,7 +363,7 @@
     "type": "item_group",
     "id": "ammo_obscure",
     "//": "Imported or otherwise very obscure ammo.",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
       { "group": "ammo_pistol_obscure", "prob": 100 },
       { "group": "ammo_smg_obscure", "prob": 100 },
@@ -373,19 +375,19 @@
     "type": "item_group",
     "id": "ammo_reloaded",
     "//": "Reloaded ammo balanced according to rarity.",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
-      { "group": "ammo_pistol_reloaded", "prob": 90 },
-      { "group": "ammo_smg_reloaded", "prob": 10 },
-      { "group": "ammo_rifle_reloaded", "prob": 100 },
-      { "group": "ammo_shotgun_reloaded", "prob": 20 }
+      { "group": "ammo_pistol_reloaded", "prob": 70 },
+      { "group": "ammo_smg_reloaded", "prob": 5 },
+      { "group": "ammo_rifle_reloaded", "prob": 50 },
+      { "group": "ammo_shotgun_reloaded", "prob": 30 }
     ]
   },
   {
     "type": "item_group",
     "id": "ammo_parts",
     "//": "Raw materials for assembling ammo excluding casings.",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
       { "item": "gunpowder_shotgun", "prob": 20 },
       { "item": "gunpowder_pistol", "prob": 105 },
@@ -406,7 +408,7 @@
     "type": "item_group",
     "id": "ammo_cop",
     "//": "Ammo for police issue firearms.",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
       { "item": "223", "prob": 30, "charges": [ 1, 30 ] },
       { "item": "3006", "prob": 10, "charges": [ 1, 20 ] },
@@ -422,7 +424,7 @@
     "type": "item_group",
     "id": "ammo_swat",
     "//": "Ammo issued to paramilitary forces in addition to standard police issue.",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
       { "group": "ammo_cop", "prob": 100 },
       { "item": "300_winmag", "prob": 5, "charges": [ 1, 10 ] },
@@ -435,7 +437,7 @@
   {
     "id": "ammo_casings",
     "type": "item_group",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
       { "item": "10mm_casing", "prob": 60 },
       { "item": "22_casing", "prob": 80 },
@@ -504,7 +506,7 @@
   {
     "id": "ammo_casings_bulk",
     "type": "item_group",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
       { "group": "ammo_casings", "prob": 25, "charges-min": 50, "charges-max": 50 },
       { "group": "ammo_casings", "prob": 10, "charges-min": 100, "charges-max": 100 },
@@ -515,7 +517,7 @@
   {
     "type": "item_group",
     "id": "ammo_light_batteries",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
       { "item": "light_battery_cell", "prob": 25, "charges-min": 0, "charges-max": 100 },
       { "item": "light_minus_battery_cell", "prob": 12, "charges-min": 0, "charges-max": 50 },
@@ -536,7 +538,7 @@
   {
     "type": "item_group",
     "id": "ammo_medium_batteries",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
       { "item": "medium_battery_cell", "prob": 40, "charges-min": 0, "charges-max": 500 },
       { "item": "medium_plus_battery_cell", "prob": 10, "charges-min": 0, "charges-max": 600 },
@@ -546,7 +548,7 @@
   {
     "type": "item_group",
     "id": "ammo_medium_batteries_full",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
       { "item": "medium_battery_cell", "prob": 40, "charges-min": 500, "charges-max": 500 },
       { "item": "medium_plus_battery_cell", "prob": 10, "charges-min": 600, "charges-max": 600 },
@@ -556,7 +558,7 @@
   {
     "type": "item_group",
     "id": "ammo_heavy_batteries",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
       { "item": "heavy_battery_cell", "prob": 40, "charges-min": 0, "charges-max": 1000 },
       { "item": "heavy_plus_battery_cell", "prob": 10, "charges-min": 0, "charges-max": 1250 },
@@ -566,7 +568,7 @@
   {
     "type": "item_group",
     "id": "ammo_heavy_batteries_full",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
       { "item": "heavy_battery_cell", "prob": 40, "charges-min": 1000, "charges-max": 1000 },
       { "item": "heavy_plus_battery_cell", "prob": 10, "charges-min": 1250, "charges-max": 1250 },
@@ -576,7 +578,7 @@
   {
     "type": "item_group",
     "id": "ammo_any_batteries_full",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
       { "group": "ammo_light_batteries_full", "prob": 5 },
       { "group": "ammo_medium_batteries_full", "prob": 5 },
@@ -586,7 +588,7 @@
   {
     "type": "item_group",
     "id": "ammo_any_batteries",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [
       { "group": "ammo_light_batteries", "prob": 5 },
       { "group": "ammo_medium_batteries", "prob": 5 },
@@ -596,19 +598,19 @@
   {
     "type": "item_group",
     "id": "ammo_pocket_batteries",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [ { "group": "ammo_light_batteries", "prob": 10 }, { "group": "ammo_medium_batteries", "prob": 1 } ]
   },
   {
     "type": "item_group",
     "id": "ammo_pocket_batteries_full",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [ { "group": "ammo_light_batteries_full", "prob": 5 }, { "group": "ammo_medium_batteries_full", "prob": 5 } ]
   },
   {
     "type": "item_group",
     "id": "ammo_cannon",
-    "subtype": "distribution",
+    "subtype": "collection",
     "entries": [ { "item": "cannon_shot", "prob": 100 } ]
   }
 ]
