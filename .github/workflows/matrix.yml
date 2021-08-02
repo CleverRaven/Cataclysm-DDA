@@ -105,7 +105,6 @@ jobs:
             cmake: 1
             tiles: 1
             sound: 1
-            mods: --mods=magiclysm
             localize: 0
             title: GCC 7, Ubuntu, Tiles, Sound, CMake, Release
 
