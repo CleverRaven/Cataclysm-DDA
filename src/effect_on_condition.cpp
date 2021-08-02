@@ -108,7 +108,7 @@ void effect_on_conditions::load_existing_character()
     for( const effect_on_condition_id &eoc : g->inactive_effect_on_condition_vector ) {
         new_eocs[eoc] = false;
     }
-    for( const std::pair<effect_on_condition_id, bool> &eoc_pair : new_eocs ) {
+    for( const std::pair<const effect_on_condition_id, bool> &eoc_pair : new_eocs ) {
         if( eoc_pair.second ) {
             queue_effect_on_condition( next_recurrence( eoc_pair.first ), eoc_pair.first );
         }
