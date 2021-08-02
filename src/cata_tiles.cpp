@@ -1771,7 +1771,7 @@ cata_tiles::find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
 }
 
 bool cata_tiles::find_overlay_looks_like( const bool male, const std::string &overlay,
-        std::string &draw_id )
+        const std::string &variant, std::string &draw_id )
 {
     bool exists = false;
 
@@ -1788,6 +1788,12 @@ bool cata_tiles::find_overlay_looks_like( const bool male, const std::string &ov
         looks_like = overlay;
     }
 
+    draw_id.clear();
+    str_append( draw_id,
+                ( male ? "overlay_male_" : "overlay_female_" ), over_type, looks_like, "_var_", variant );
+    if( tileset_ptr->find_tile_type( draw_id ) ) {
+        return true;
+    }
     for( int cnt = 0; cnt < 10 && !looks_like.empty(); cnt++ ) {
         draw_id.clear();
         str_append( draw_id,
@@ -3212,10 +3218,10 @@ void cata_tiles::draw_entity_with_overlays( const Character &ch, const tripoint 
     }
 
     // next up, draw all the overlays
-    std::vector<std::string> overlays = ch.get_overlay_ids();
-    for( const std::string &overlay : overlays ) {
-        std::string draw_id = overlay;
-        if( find_overlay_looks_like( ch.male, overlay, draw_id ) ) {
+    std::vector<std::pair<std::string, std::string>> overlays = ch.get_overlay_ids();
+    for( const std::pair<std::string, std::string> &overlay : overlays ) {
+        std::string draw_id = overlay.first;
+        if( find_overlay_looks_like( ch.male, overlay.first, overlay.second, draw_id ) ) {
             int overlay_height_3d = prev_height_3d;
             if( ch.facing == FacingDirection::RIGHT ) {
                 draw_from_id_string( draw_id, C_NONE, "", p, corner, /*rota:*/ 0, ll, false,

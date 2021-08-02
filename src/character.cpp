@@ -4111,16 +4111,16 @@ item Character::item_worn_with_flag( const flag_id &f ) const
     return it_with_flag;
 }
 
-std::vector<std::string> Character::get_overlay_ids() const
+std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() const
 {
-    std::vector<std::string> rval;
+    std::vector<std::pair<std::string, std::string>> rval;
     std::multimap<int, std::string> mutation_sorting;
     int order;
     std::string overlay_id;
 
     // first get effects
     for( const auto &eff_pr : *effects ) {
-        rval.push_back( "effect_" + eff_pr.first.str() );
+        rval.emplace_back( "effect_" + eff_pr.first.str(), "" );
     }
 
     // then get mutations
@@ -4138,23 +4138,25 @@ std::vector<std::string> Character::get_overlay_ids() const
     }
 
     for( auto &mutorder : mutation_sorting ) {
-        rval.push_back( "mutation_" + mutorder.second );
+        rval.emplace_back( "mutation_" + mutorder.second, "" );
     }
 
     // next clothing
     // TODO: worry about correct order of clothing overlays
     for( const item &worn_item : worn ) {
-        rval.push_back( "worn_" + worn_item.typeId().str() );
+        const std::string variant = worn_item.has_gun_variant() ? worn_item.gun_variant().id : "";
+        rval.emplace_back( "worn_" + worn_item.typeId().str(), variant );
     }
 
     // last weapon
     // TODO: might there be clothing that covers the weapon?
     if( is_armed() ) {
-        rval.push_back( "wielded_" + weapon.typeId().str() );
+        const std::string variant = weapon.has_gun_variant() ? weapon.gun_variant().id : "";
+        rval.emplace_back( "wielded_" + weapon.typeId().str(), variant );
     }
 
     if( !is_walking() ) {
-        rval.push_back( move_mode.str() );
+        rval.emplace_back( move_mode.str(), "" );
     }
 
     return rval;

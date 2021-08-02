@@ -340,7 +340,8 @@ class cata_tiles
         find_tile_looks_like_by_string_id( const std::string &id, TILE_CATEGORY category,
                                            int looks_like_jumps_limit ) const;
 
-        bool find_overlay_looks_like( bool male, const std::string &overlay, std::string &draw_id );
+        bool find_overlay_looks_like( bool male, const std::string &overlay, const std::string &variant,
+                                      std::string &draw_id );
 
         bool draw_from_id_string( const std::string &id, const tripoint &pos, int subtile, int rota,
                                   lit_level ll,
