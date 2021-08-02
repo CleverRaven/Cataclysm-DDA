@@ -383,6 +383,7 @@
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
     "name": "mosasaurus hatchling",
+    "description": "A tiny aquatic reptile hatchling with huge shiny eyes and pointy little teeth.",
     "default_faction": "mosasaurus_hatchling",
     "upgrades": { "age_grow": 30, "into": "mon_mosasaurus_juvenile" },
     "flags": [
