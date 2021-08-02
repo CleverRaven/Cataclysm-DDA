@@ -1,0 +1,99 @@
+[
+  {
+    "id": "calcium",
+    "type": "vitamin",
+    "vit_type": "vitamin",
+    "name": { "str": "Calcium" },
+    "min": -12000,
+    "rate": "15 m",
+    "disease": [ [ -4800, -5600 ], [ -5601, -6400 ], [ -6401, -12000 ] ]
+  },
+  {
+    "id": "iron",
+    "type": "vitamin",
+    "vit_type": "vitamin",
+    "name": { "str": "Iron" },
+    "excess": "hypervitaminosis",
+    "deficiency": "anemia",
+    "min": -12000,
+    "max": 3600,
+    "rate": "15 m",
+    "disease": [ [ -4800, -5600 ], [ -5601, -6400 ], [ -6401, -12000 ] ]
+  },
+  {
+    "id": "vitA",
+    "type": "vitamin",
+    "vit_type": "vitamin",
+    "name": { "str": "Vitamin A" },
+    "excess": "hypervitaminosis",
+    "min": -8400,
+    "max": 3600,
+    "rate": "15 m",
+    "disease": [ [ -2000, -4800 ], [ -4801, -5600 ], [ -5601, -8400 ] ]
+  },
+  {
+    "id": "vitB",
+    "type": "vitamin",
+    "vit_type": "vitamin",
+    "name": { "str": "Vitamin B12" },
+    "min": -5600,
+    "rate": "15 m",
+    "disease": [ [ -2800, -3600 ], [ -3601, -4400 ], [ -4401, -5600 ] ]
+  },
+  {
+    "id": "vitC",
+    "type": "vitamin",
+    "vit_type": "vitamin",
+    "name": { "str": "Vitamin C" },
+    "min": -5600,
+    "rate": "15 m",
+    "disease": [ [ -2800, -3600 ], [ -3601, -4400 ], [ -4401, -5600 ] ]
+  },
+  {
+    "id": "mutant_toxin",
+    "type": "vitamin",
+    "vit_type": "toxin",
+    "name": { "str": "Toxins" },
+    "excess": "toxin_buildup",
+    "min": 0,
+    "max": 1800,
+    "rate": "15 m",
+    "disease_excess": [ [ 500, 949 ], [ 950, 1399 ], [ 1400, 1800 ] ]
+  },
+  {
+    "id": "bad_food",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Disgusting Diet" },
+    "excess": "bad_food_ennui",
+    "min": 0,
+    "max": 40,
+    "rate": "4 h",
+    "flags": [ "NO_DISPLAY" ],
+    "disease_excess": [ [ 10, 19 ], [ 20, 29 ], [ 30, 40 ] ]
+  },
+  {
+    "id": "blood",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Blood" },
+    "deficiency": "hypovolemia",
+    "min": -50000,
+    "max": 0,
+    "rate": "-6 s",
+    "flags": [ "NO_DISPLAY" ],
+    "disease": [ [ -5000, -7500 ], [ -7510, -15000 ], [ -15010, -20000 ], [ -20010, -50000 ] ]
+  },
+  {
+    "id": "redcells",
+    "type": "vitamin",
+    "vit_type": "counter",
+    "name": { "str": "Red Blood Cells" },
+    "deficiency": "redcells_anemia",
+    "min": -50000,
+    "max": 0,
+    "rate": "-12 s",
+    "flags": [ "NO_DISPLAY" ],
+    "disease": [ [ -7510, -20000 ], [ -20010, -35000 ], [ -35010, -50000 ] ]
+  }
+]

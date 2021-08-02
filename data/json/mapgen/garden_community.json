@@ -1,0 +1,183 @@
+[
+  {
+    "method": "json",
+    "om_terrain": "communitygarden",
+    "type": "mapgen",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_dirt",
+      "rows": [
+        "________________________",
+        "________________________",
+        "__|||||||||++P||||||||__",
+        "__|.-----O...........|__",
+        "__|.-ttt-O.......###.|__",
+        "__|.-ddd-........###.|__",
+        "__|..............##..|__",
+        "__|..................|__",
+        "__|.D.D.D.D..D.D.D.D.|__",
+        "__|.D.D.D.D..D.D.D.D.|__",
+        "__P.D.D.D.D..D.D.D.D.|__",
+        "__+..................+__",
+        "__+..................+__",
+        "__|.D.D.D.D..D.D.D.D.P__",
+        "__|.D.D.D.D..D.D.D.D.|__",
+        "__|.D.D.D.D..D.D.D.D.|__",
+        "__|..................|__",
+        "__|.D.D.D.D..D.D.D.D.|__",
+        "__|.D.D.D.D..D.D.D.D.|__",
+        "__|.D.D.D.D..D.D.D.D.|__",
+        "__|..................|__",
+        "__||||||||P++|||||||||__",
+        "________________________",
+        "________________________"
+      ],
+      "terrain": {
+        "#": "t_dirtmound",
+        "+": "t_fencegate_c",
+        "-": "t_wall_wood",
+        "D": "t_dirtmound",
+        ".": [ "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt" ],
+        "P": "t_fence",
+        "_": "t_region_groundcover_urban",
+        "d": "t_dirtfloor",
+        "t": "t_dirtfloor",
+        "|": "t_fence"
+      },
+      "furniture": { "O": "f_standing_tank", "H": "f_standing_tank", "P": "f_sign", "t": "f_table" },
+      "liquids": { "O": { "liquid": "water", "amount": [ 0, 100 ] }, "H": { "liquid": "fertilizer_liquid", "amount": [ 0, 100 ] } },
+      "sealed_item": { "D": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_seedling", "chance": 70 } },
+      "place_items": [
+        { "chance": 35, "repeat": 2, "item": "supplies_farming", "x": 6, "y": 4 },
+        { "chance": 35, "repeat": 2, "item": "garden_shed", "x": 7, "y": 4 },
+        { "chance": 40, "repeat": 2, "item": "garden_shed", "x": 5, "y": 4 }
+      ],
+      "place_signs": [
+        { "signage": "<city> Community Garden", "x": 13, "y": 2 },
+        { "signage": "<city> Community Garden", "x": 2, "y": 10 },
+        { "signage": "<city> Community Garden", "x": 21, "y": 13 },
+        { "signage": "<city> Community Garden", "x": 10, "y": 21 }
+      ]
+    }
+  },
+  {
+    "method": "json",
+    "om_terrain": "communitygarden",
+    "type": "mapgen",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_dirt",
+      "rows": [
+        "________________________",
+        "________________________",
+        "__P__##.##....##.##__P__",
+        "____.##.##....##.##.____",
+        "___..................___",
+        "__##.##.##....##.##.##__",
+        "__##.##.##....##.##.##__",
+        "__....................__",
+        "__##.##.##....##.##.##__",
+        "__##.##.##....##.##.##__",
+        "__....................__",
+        "__.........OO.........__",
+        "__.........HH.........__",
+        "__....................__",
+        "__##.##.##....##.##.##__",
+        "__##.##.##....##.##.##__",
+        "__....................__",
+        "__##.##.##....##.##.##__",
+        "__##.##.##....##.##.##__",
+        "___..................___",
+        "____.##.##....##.##.____",
+        "__P__##.##....##.##__P__",
+        "________________________",
+        "________________________"
+      ],
+      "terrain": {
+        "#": "t_dirtmound",
+        ".": [ "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt" ],
+        "O": "t_dirt",
+        "P": "t_grass",
+        "_": "t_region_groundcover_urban"
+      },
+      "furniture": { "O": "f_standing_tank", "H": "f_standing_tank", "P": "f_sign" },
+      "place_item": [ { "item": "hose", "x": 11, "y": 13 } ],
+      "sealed_item": { "#": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_seedling", "chance": 80 } },
+      "liquids": { "O": { "liquid": "water", "amount": [ 0, 100 ] }, "H": { "liquid": "fertilizer_liquid", "amount": [ 0, 100 ] } },
+      "place_signs": [
+        { "signage": "<city> Community Garden.  Open dawn to dusk.", "x": 2, "y": 2 },
+        { "signage": "<city> Community Garden.  Grow your own food!", "x": 21, "y": 2 },
+        { "signage": "<city> Community Garden.  Grow your own food!", "x": 2, "y": 21 },
+        { "signage": "<city> Community Garden.  Open dawn to dusk.", "x": 21, "y": 21 }
+      ]
+    }
+  },
+  {
+    "method": "json",
+    "om_terrain": "communitygarden",
+    "type": "mapgen",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_dirt",
+      "rows": [
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "_P....................P_",
+        "_|...........DD.DD.DD.|_",
+        "_|..HO................|_",
+        "_|..HO.......DD.DD.DD.|_",
+        "_|...........DD.DD.DD.|_",
+        "_|.wwww...............|_",
+        "_|.wtda......DD.DD.DD.|_",
+        "_|.wttw..OO..DD.DD.DD.|_",
+        "_|.wwww..HH..DD.DD.DD.|_",
+        "_|....................|_",
+        "_|....................|_",
+        "_|.------------------.|_",
+        "_|.-#d#d##d##d##d#d#-.|_",
+        "_|.-#d#d##d##d##d#d#-.|_",
+        "_|.+dddddddddddddddd+.|_",
+        "_|.+dddddddddddddddd+.|_",
+        "_|.-#d#d##d##d##d#d#-.|_",
+        "_|.-#d#d##d##d##d#d#-.|_",
+        "_|.------------------.|_",
+        "_|....................|_",
+        "_||||||||||||||||||||||_",
+        "________________________"
+      ],
+      "terrain": {
+        "#": "t_dirtfloor",
+        "+": "t_reinforced_door_glass_c",
+        "-": "t_wall_glass",
+        ".": [ "t_grass", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt" ],
+        "0": "t_pit_shallow",
+        "D": "t_dirtmound",
+        "O": "t_dirt",
+        "P": "t_grass",
+        "_": "t_region_groundcover_urban",
+        "a": [ "t_door_c", "t_door_o" ],
+        "d": "t_dirtfloor",
+        "t": "t_dirtfloor",
+        "s": "t_sidewalk",
+        "w": "t_wall_wood",
+        "|": "t_fence"
+      },
+      "furniture": { "O": "f_standing_tank", "H": "f_standing_tank", "P": "f_sign", "t": "f_table" },
+      "liquids": { "O": { "liquid": "water", "amount": [ 0, 100 ] }, "H": { "liquid": "fertilizer_liquid", "amount": [ 0, 100 ] } },
+      "sealed_item": {
+        "D": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_plant_seedling", "chance": 80 },
+        "#": { "items": { "item": "farming_seeds", "chance": 100 }, "furniture": "f_planter_mature" }
+      },
+      "place_items": [
+        { "chance": 20, "item": "tools_earthworking", "x": 7, "y": 16 },
+        { "chance": 30, "repeat": 3, "item": "tools_earthworking", "x": 5, "y": 9 },
+        { "chance": 40, "repeat": 2, "item": "supplies_farming", "x": 4, "y": 8 },
+        { "chance": 35, "repeat": 2, "item": "supplies_farming", "x": 4, "y": 9 }
+      ],
+      "place_signs": [
+        { "signage": "<city> Community Garden, sign up for your own plot!", "x": 1, "y": 2 },
+        { "signage": "<city> Community Garden, grow your own vegetables!", "x": 22, "y": 2 }
+      ]
+    }
+  }
+]

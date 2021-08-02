@@ -1,0 +1,32 @@
+[
+  {
+    "type": "region_overlay",
+    "regions": [ "all" ],
+    "city": {
+      "houses": {
+        "urban_19_victorian": 30,
+        "urban_20_duplex": 30,
+        "urban_21_house": 30,
+        "urban_22_house_pool": 30,
+        "urban_40_house": 30
+      },
+      "shops": {
+        "urban_23_dense_office_theater": 100,
+        "urban_24_dense_bank_house": 200,
+        "urban_26_dense_club": 200,
+        "urban_27_dense_barber_apt": 100,
+        "urban_28_dense_cafe_laundry": 200,
+        "urban_30_dense_subway": 300,
+        "urban_31_police_station": 100,
+        "urban_32_fire_station": 100,
+        "urban_33_hotel": 200,
+        "urban_34_school": 100,
+        "urban_36_projects": 400,
+        "urban_37_office_tower_beehive": 100,
+        "urban_38_bar_hardware_house": 300,
+        "urban_39_market_subway_newspaper": 400,
+        "urban_41_library": 200
+      }
+    }
+  }
+]

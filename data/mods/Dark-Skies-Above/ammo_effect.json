@@ -1,0 +1,27 @@
+[
+  {
+    "id": "DKS_NUKEGAS",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_nuke_gas", "intensity_min": 0, "intensity_max": 3 }
+  },
+  {
+    "id": "DKS_RELAXGAS",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_relax_gas", "intensity_min": 0, "intensity_max": 3, "radius": 2 }
+  },
+  {
+    "id": "DKS_RELAXTRAIL",
+    "type": "ammo_effect",
+    "trail": { "field_type": "fd_relax_gas", "intensity_min": 1, "intensity_max": 2, "chance": 75 }
+  },
+  {
+    "id": "DKS_TOXTRAIL",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_toxic_gas", "intensity_min": 0, "intensity_max": 3 }
+  },
+  {
+    "id": "DKS_TOXGAS_BIG",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_toxic_gas", "intensity_min": 3, "intensity_max": 3, "radius": 3 }
+  }
+]

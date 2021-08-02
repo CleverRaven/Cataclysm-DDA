@@ -1,0 +1,58 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "house_library" ],
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "......---......p........",
+        ".##oo##*##oo###########.",
+        ".#y  h  L    y|RRRRvyR#.",
+        ".#            |R     Ho.",
+        ".#r   ff      |R     Ho.",
+        ".#rh  ffh     |  EE  r#.",
+        ".#r  hff     a|a ssT r#^",
+        ".o    ffh     |  EE  r#.",
+        ".oc h      |>>|R     Ho.",
+        ".#|||||||  ||||R     Ho.",
+        ".#y666        |RRR RRR#.",
+        ".#7           ||||+|||#.",
+        ".#4 JA               T#.",
+        ".#O J A   HHHHHs     E#.",
+        ".o1 JA    H ll       so.",
+        ".o5       H          Eo.",
+        ".#23 Y       xxx      #.",
+        ".#||+||||||+||||||+|||#.",
+        ".#B!!Q|TE   ydd|sE  II#.",
+        ".#B!!!+        |y    ho.",
+        ".o!!!S|Ih @@  b|  @@  o.",
+        ".#t!!8|I  @@s D|D @@ d#.",
+        ".#########oo###########.",
+        "............^..........."
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
+        ":": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "&": "t_region_groundcover_urban",
+        "$": "t_railing_h",
+        "_": "t_pavement",
+        "G": "t_concrete",
+        "K": "t_concrete",
+        "~": "t_concrete",
+        "j": "t_concrete",
+        "!": "t_linoleum_gray",
+        "8": "t_linoleum_gray",
+        "t": "t_linoleum_gray",
+        "9": "t_linoleum_gray",
+        "S": "t_linoleum_gray",
+        "Q": "t_linoleum_gray",
+        "[": "t_door_glass_c"
+      },
+      "furniture": { "&": "f_region_flower" },
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 2 } ]
+    }
+  }
+]

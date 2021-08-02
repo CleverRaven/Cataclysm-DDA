@@ -1,0 +1,71 @@
+[
+  {
+    "id": "nailgun",
+    "looks_like": "glock_17",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": { "str": "nail gun" },
+    "description": "A tool used to drive nails into wood or other material.  It could also be used as an ad-hoc weapon.",
+    "weight": "3904 g",
+    "volume": "750 ml",
+    "longest_side": "45 cm",
+    "price": 13000,
+    "price_postapoc": 500,
+    "to_hit": -2,
+    "bashing": 6,
+    "material": [ "plastic", "steel" ],
+    "symbol": "(",
+    "color": "yellow",
+    "ammo": [ "nail" ],
+    "skill": "pistol",
+    "dispersion": 800,
+    "durability": 8,
+    "loudness": 5,
+    "clip_size": 20,
+    "reload": 50,
+    "valid_mod_locations": [ [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "stock mount", 1 ], [ "underbarrel mount", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "nail": 20 } } ]
+  },
+  {
+    "id": "coilgun",
+    "copy-from": "gun_base",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "coilgun" },
+    "//": "Hard to make, plentiful and cheap ammo, and silent - people will want this thing.",
+    "description": "A homemade gun, using electromagnets to accelerate a ferromagnetic projectile to high velocity.  Powered by UPS.",
+    "weight": "2041 g",
+    "volume": "2750 ml",
+    "longest_side": "80 cm",
+    "price": 75000,
+    "price_postapoc": 5000,
+    "to_hit": -2,
+    "bashing": 10,
+    "material": [ "copper", "steel" ],
+    "ammo": [ "nail" ],
+    "skill": "rifle",
+    "range": 12,
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
+    "dispersion": 180,
+    "durability": 5,
+    "ups_charges": 2,
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "nailmag" ]
+      }
+    ]
+  }
+]

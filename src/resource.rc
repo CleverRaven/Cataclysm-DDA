@@ -1,0 +1,6 @@
+#ifndef RESOURCE_RC_INCLUDED
+#define RESOURCE_RC_INCLUDED
+
+0  ICON  "../data/cataicon.ico"
+
+#endif // RESOURCE_RC_INCLUDED

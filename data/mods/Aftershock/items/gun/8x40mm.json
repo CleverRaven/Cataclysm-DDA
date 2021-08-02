@@ -1,0 +1,25 @@
+[
+  {
+    "id": "afs_rm99_pistol",
+    "type": "GUN",
+    "copy-from": "ruger_redhawk",
+    "name": { "str": "RM99 revolver" },
+    "//": "Bear in mind that most revolvers don't reach $1K.  Expensive.",
+    "description": "Considered overkill by some, the Rivtech M99 remains an exceedingly powerful addition to the arsenal of any gunslinger.",
+    "weight": "1204 g",
+    "volume": "750 ml",
+    "longest_side": "20 cm",
+    "price": 210000,
+    "price_postapoc": 8000,
+    "material": [ "superalloy", "ceramic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "8x40mm" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 10 },
+    "dispersion": 175,
+    "durability": 9,
+    "clip_size": 5,
+    "flags": [ "WATERPROOF_GUN", "RELOAD_ONE", "NEVER_JAMS" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "8x40mm": 5 } } ]
+  }
+]

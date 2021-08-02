@@ -1,0 +1,143 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "house_garage4" ],
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        ".%.[p`````%!!%`````.[.%.",
+        ".%...`````%!!%`````...%.",
+        ".%.[.`````%!!%`````.[.%.",
+        ".%...`````%!!%`````...%.",
+        ".%.[.`````%!!%`````.[.%.",
+        ".%...`````%%%%`````...%.",
+        ".%.[.``````````````.[.%.",
+        ".%...``````````````...%.",
+        ".%.[.``````````````.[.%.",
+        ".%...``````````````...%.",
+        ".%.[.``````````````.[.%.",
+        ".%...%%%%%.``.%%%%%...%.",
+        ".#########o**o#########.",
+        ".#B  y|T       AJ  74F#.",
+        ".#B  t|  hfh   AJ    Oo.",
+        ".#    +  hfh   AJ    5o.",
+        "^#8S8Y|           6321#.",
+        ".######|||+||||||+||||#.",
+        ".$    #RRR      +    s#.",
+        "`$   G#R     T|>|s  @@#^",
+        "`]   G#y     H|||E  @@#.",
+        "`$    *   sHHH|D+    d#.",
+        ".$$$$$##oo#######oo####.",
+        "........................"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
+        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "!": "t_region_groundcover_urban",
+        "&": "t_column",
+        "K": "t_thconc_floor",
+        "~": "t_thconc_floor",
+        "`": "t_concrete",
+        "$": "t_screened_porch_wall",
+        "]": "t_screen_door_c"
+      },
+      "furniture": { "!": "f_region_flower" },
+      "place_loot": [ { "group": "guns_pistol_common", "x": [ 21, 21 ], "y": [ 21, 21 ], "chance": 5, "ammo": 90, "magazine": 100 } ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 2 } ],
+      "place_vehicles": [ { "vehicle": "suburban_home", "x": 11, "y": 8, "chance": 10, "rotation": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_garage4_roof",
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " |222222222222222222223 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |.................&..3 ",
+        " 5....................3 ",
+        " |.=..................3 ",
+        " |....................3 ",
+        " |....................5 ",
+        " |.............N......3 ",
+        " |....................3 ",
+        " |--------------------3 ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_garage4_basement",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " |||||||||||||||||||||| ",
+        " |2..........1........| ",
+        " |....................| ",
+        " |....................| ",
+        " |....................| ",
+        " |...................g| ",
+        " |...................U| ",
+        " |.............<.....F| ",
+        " |....................| ",
+        " |...............JJZWJ| ",
+        " |||||||||||||||||||||| ",
+        "                        "
+      ],
+      "palettes": [ "basement_empty" ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "null", 60 ],
+            [ "5x5_holdout_E", 2 ],
+            [ "livingroom_5x5_S_1", 30 ],
+            [ "livingroom_5x5_E_1", 30 ],
+            [ "livingroom_5x5_N_1", 30 ],
+            [ "livingroom_5x5_W_1", 30 ],
+            [ "livingroom_5x5_S_2", 30 ],
+            [ "livingroom_5x5_E_2", 30 ],
+            [ "livingroom_5x5_N_2", 30 ],
+            [ "livingroom_5x5_W_2", 30 ],
+            [ "home_office_4x4_N", 20 ],
+            [ "home_office_4x4_S", 20 ]
+          ]
+        },
+        "2": { "chunks": [ [ "null", 80 ], [ "room_9x9_cellar_E", 20 ], [ "room_9x9_weed_E", 5 ], [ "room_9x9_recroom_E", 20 ] ] }
+      }
+    }
+  }
+]

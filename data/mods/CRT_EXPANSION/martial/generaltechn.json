@@ -1,0 +1,158 @@
+[
+  {
+    "type": "technique",
+    "id": "HOOK",
+    "name": "HOOK",
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.85 },
+      { "stat": "damage", "type": "bash", "scale": 0.88 },
+      { "stat": "damage", "type": "cut", "scale": 0.88 },
+      { "stat": "damage", "type": "stab", "scale": 0.88 }
+    ],
+    "flat_bonuses": [ { "stat": "movecost", "scaling-stat": "str", "scale": -0.25 } ],
+    "down_dur": 2,
+    "messages": [ "Your hooking attack makes %s stagger and fall", "<npcname> hooks %s" ],
+    "description": "85% AP, 88% DMG, Down (2), STR (C) reduces AP cost"
+  },
+  {
+    "type": "technique",
+    "id": "INERTIAL",
+    "name": "INERTIAL SWING",
+    "skill_requirements": [ { "name": "melee", "level": 4 } ],
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "knockback_dist": 1,
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.6 },
+      { "stat": "damage", "type": "bash", "scale": 0.5 },
+      { "stat": "damage", "type": "cut", "scale": 0.5 },
+      { "stat": "damage", "type": "stab", "scale": 0.5 }
+    ],
+    "flat_bonuses": [
+      { "stat": "movecost", "scaling-stat": "str", "scale": -1.0 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.1 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.1 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "str", "scale": 0.1 }
+    ],
+    "messages": [ "Your momentum causes your weapon to glance off of %s", "<npcname> inertially strikes %s" ],
+    "aoe": "wide",
+    "description": "75% AP, 60% DMG, WIDE AOE, STR (S) reduces AP cost, and adds a (C) DMG, melee (4)"
+  },
+  {
+    "type": "technique",
+    "id": "CHOP",
+    "name": "CHOP",
+    "skill_requirements": [ { "name": "melee", "level": 2 } ],
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "crit_tec": true,
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 1.18 },
+      { "stat": "damage", "type": "cut", "scale": 1.25 },
+      { "stat": "damage", "type": "stab", "scale": 1.25 }
+    ],
+    "flat_bonuses": [
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.2 },
+      { "stat": "movecost", "scaling-stat": "per", "scale": -0.125 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "per", "scale": 0.15 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "per", "scale": 0.3 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.15 }
+    ],
+    "messages": [ "You draw back your arm and release a well placed chop %s", "<npcname> chops %s" ],
+    "description": "CRIT!, 118% AP, 125% Cut/Stab, DEX (D) and PER (E) reduces AP cost and adds (B) DMG, melee (2)"
+  },
+  {
+    "type": "technique",
+    "id": "SMASH",
+    "name": "SMASH",
+    "skill_requirements": [ { "name": "melee", "level": 2 } ],
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "crit_tec": true,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 1.11 }, { "stat": "damage", "type": "bash", "scale": 1.2 } ],
+    "flat_bonuses": [
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.2 },
+      { "stat": "movecost", "scaling-stat": "str", "scale": -0.125 },
+      { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.25 }
+    ],
+    "messages": [ "You grip your weapon with two hands and slam it into %s", "<npcname> smashes their weapon onto %s" ],
+    "description": "CRIT!, 110% AP, 120% Bash, DEX (C) and STR (D) reduces AP cost and adds (C) Arpen, melee (2)"
+  },
+  {
+    "type": "technique",
+    "id": "UHAND",
+    "name": "UNDERHAND",
+    "skill_requirements": [ { "name": "melee", "level": 1 } ],
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 1,
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 1.2 },
+      { "stat": "damage", "type": "bash", "scale": 1.25 },
+      { "stat": "damage", "type": "cut", "scale": 1.25 },
+      { "stat": "damage", "type": "stab", "scale": 1.25 }
+    ],
+    "flat_bonuses": [ { "stat": "movecost", "scaling-stat": "str", "scale": -0.8 } ],
+    "messages": [
+      "You lunge forward with all your weight and swing upwards at %s",
+      "<npcname> swings upwards with all their weight at %s"
+    ],
+    "description": "Crit!, 120% AP, 125% damage, Stun (1), STR (A) reduces AP cost, melee (1)"
+  },
+  {
+    "type": "technique",
+    "id": "SHOVE",
+    "name": "SHOVE",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "knockback_dist": 2,
+    "stun_dur": 1,
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.65 },
+      { "stat": "damage", "type": "bash", "scale": 0.5 },
+      { "stat": "damage", "type": "cut", "scale": 0.15 },
+      { "stat": "damage", "type": "stab", "scale": 0.35 }
+    ],
+    "flat_bonuses": [
+      { "stat": "movecost", "scaling-stat": "str", "scale": -0.15 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.1 }
+    ],
+    "messages": [ "You quickly shove %s out of the way", "<npcname> quickly shoves %s" ],
+    "description": "65% AP, REDUCED DMG, knockback (2), stun (1), STR (D) and DEX (E) reduce AP cost"
+  },
+  {
+    "type": "technique",
+    "id": "SSHOVE",
+    "name": "SHIELDED SHOVE",
+    "skill_requirements": [ { "name": "melee", "level": 1 } ],
+    "unarmed_allowed": false,
+    "melee_allowed": true,
+    "knockback_dist": 3,
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.75 },
+      { "stat": "damage", "type": "bash", "scale": 1.1 },
+      { "stat": "damage", "type": "cut", "scale": 1.1 },
+      { "stat": "damage", "type": "stab", "scale": 1.1 }
+    ],
+    "flat_bonuses": [
+      { "stat": "movecost", "scaling-stat": "str", "scale": -0.3 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -0.15 }
+    ],
+    "messages": [ "You quickly shove %s out of the way with your weapon", "<npcname> quickly shoves %s" ],
+    "description": "75% AP, 110% DMG, knockback (3), STR (B) and DEX (C) reduce AP cost, melee (1)"
+  },
+  {
+    "type": "technique",
+    "id": "TEAR",
+    "name": "TEAR",
+    "skill_requirements": [ { "name": "melee", "level": 2 } ],
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "crit_tec": true,
+    "weighting": 2,
+    "mult_bonuses": [ { "stat": "damage", "type": "cut", "scale": 1.1 }, { "stat": "damage", "type": "stab", "scale": 1.15 } ],
+    "messages": [ "You stab into %s and rake your blade out", "<npcname> tears into %s flesh" ],
+    "description": "CRIT!, 115% Cut/Stab, melee (2)"
+  }
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_FARMER_pants_male",
+    "subtype": "distribution",
+    "entries": [ { "item": "jeans", "prob": 70 }, { "item": "pants", "prob": 20 }, { "item": "pants_cargo", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FARMER_pants_female",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "jeans", "prob": 70 },
+      { "item": "pants", "prob": 20 },
+      { "item": "pants_cargo", "prob": 20 },
+      { "item": "skirt", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FARMER_shoes",
+    "subtype": "distribution",
+    "entries": [ { "item": "boots", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FARMER_shirt",
+    "subtype": "distribution",
+    "entries": [ { "item": "tshirt", "prob": 60 }, { "item": "polo_shirt", "prob": 20 }, { "item": "tank_top", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FARMER_gloves",
+    "subtype": "distribution",
+    "entries": [ { "item": "gloves_work", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FARMER_coat",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 20 },
+      { "item": "hoodie", "prob": 20 },
+      { "item": "jacket_light", "prob": 20 },
+      { "item": "jacket_windbreaker", "prob": 10 },
+      { "item": "jacket_leather", "prob": 20 },
+      { "item": "trenchcoat", "prob": 20 },
+      { "item": "jacket_jean", "prob": 60 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FARMER_storage",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 75 }, { "item": "backpack", "prob": 10 }, { "item": "backpack_leather", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FARMER_tools",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 25 }, { "item": "shovel", "prob": 75 }, { "item": "hoe", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_FARMER_hat",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "hat_ball", "prob": 10 },
+      { "item": "hat_boonie", "prob": 10 },
+      { "item": "null", "prob": 10 },
+      { "item": "hat_cotton", "prob": 10 }
+    ]
+  }
+]

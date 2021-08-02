@@ -1,0 +1,44 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_nest_wasp",
+    "object": {
+      "rows": [
+        "                        ",
+        "                        ",
+        "            t           ",
+        "                        ",
+        "              t      t  ",
+        "       t   t----        ",
+        "         ----..-t       ",
+        " t    t---..-..---t  t  ",
+        "       -.-..---..--t    ",
+        "     ---.---.,---.-     ",
+        "    t-.--.,--...-.--    ",
+        "      --...-.--.--.     ",
+        "     -..-,-.8-,-..-t  t ",
+        " t   --....-.-..---     ",
+        "     t---.,.-.---..-    ",
+        "      -.---.---..---    ",
+        "    t  --.---..---t     ",
+        "       t-....---t    t  ",
+        "         -----t         ",
+        "           t            ",
+        "                 t      ",
+        "      t                 ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        "t": [ "t_region_tree", "t_region_groundcover_swamp" ],
+        ",": [ "t_region_tree" ],
+        "-": [ "t_paper" ],
+        ".": [ "t_floor_paper" ],
+        "8": [ "t_floor_paper" ]
+      },
+      "monster": { "8": { "group": "GROUP_WASP_QUEEN" } },
+      "place_monster": [ { "group": "GROUP_WASP_NEST", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 5, 15 ] } ]
+    }
+  }
+]

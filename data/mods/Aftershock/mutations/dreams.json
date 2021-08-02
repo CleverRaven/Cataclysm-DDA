@@ -1,0 +1,71 @@
+[
+  {
+    "type": "dream",
+    "messages": [ "You dream of warm, alien winds.", "You dream of landscapes lit by the light of alien moons." ],
+    "category": "MIGO",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You stand at the edge of a fissure into strange earth.  Mustard brown gasses caress and lift your fronds",
+      "You dream of being vivsected by humans.  One asks if the other thinks you can feel pain."
+    ],
+    "category": "MIGO",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "Trapped in a cage, you mimic the sounds of your guard's spawn.  He threatens you and enters the cage.  He screams, you recall.",
+      "It's your birthday.  But everyone has given you these hideous metal and plastic objects."
+    ],
+    "category": "MIGO",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "The stars await you, your chariot of fire is ready.  The holds are full of slaves.",
+      "You have transitioned from a dying race to a glorious future."
+    ],
+    "category": "MIGO",
+    "strength": 4
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You have a strange dream about thundering ponderously through ancient, brittle tundras that crackle under your thick round feet.",
+      "Your dreams give you a strange, langourous, heavy feeling."
+    ],
+    "category": "MASTODON",
+    "strength": 1
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You dream of swinging your heavy head to shake the clinging snow and ice from your large, limpid brown eyes.  The weight is off, as if you had something… extra on either side of your mouth, and though you are surrounded by snow and bitter pelting winds, you feel confident and toasty-warm beneath your shaggy coat.",
+      "Your dream is a stream of shaggy loam-brown fur trailing into an ocean of punishing, icy white.  Together, you are all strong.  When you look around, you see elephantine faces looking back from all angles and you know they mirror your own.  You just… know."
+    ],
+    "category": "MASTODON",
+    "strength": 2
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "You dream of your usual patient languor being interrupted by a flash of white teeth against a carmine-soaked muzzle.  In an instant a thunderous fury overtakes you and you trumpet your rage… right before you bring that trumpeting snout, bring down those heavy spears of ivory on either side of it, down upon your attacker.  They lie, bones shattered, bleeding out their red into the icy white and causing it to steam  Just like that, your calm is restored.",
+      "You dream of slowly, patiently, plodding through the world to go from goal to goal, unrushed and unworried, for you are far too large and tough to kill for anyone or anything to bother trying to attack.  And if they do… it'll be the last mistake of their life.  Waking up gives you a brief jolt of fear and dysphoria, for your body feels so weak and fragile and incorrect compared to the powerful thing you know you are."
+    ],
+    "category": "MASTODON",
+    "strength": 3
+  },
+  {
+    "type": "dream",
+    "messages": [
+      "Your thoughts within your dream may be slow, and it may take you some time to reach a conclusion, but what's the rush?  What's the hurry?  You are a huge and ancient thing with a pedigree that stretches back to a time before sapient life first had the gall to raise a sharpened stick and call itself superior.  You are huge and powerful and all that work against you shall fall.  You… you have all the time in the world, now.",
+      "Life is lonely without a family of Tusked Ones beside you, thundering as one through this desolate world in search of the hidden places.  Perhaps… perhaps you should start your family."
+    ],
+    "category": "MASTODON",
+    "strength": 4
+  }
+]

@@ -1,0 +1,36 @@
+[
+  {
+    "id": "fn57mag",
+    "looks_like": "glock17_17",
+    "type": "MAGAZINE",
+    "name": { "str": "Five-Seven 20-round magazine" },
+    "description": "A standard capacity magazine for use with the FN Five-Seven.",
+    "weight": "120 g",
+    "volume": "250 ml",
+    "price": 3700,
+    "price_postapoc": 100,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "57" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "57": 20 } } ]
+  },
+  {
+    "id": "fnp90mag",
+    "looks_like": "mp5mag",
+    "type": "MAGAZINE",
+    "name": { "str": "P90 50-round magazine" },
+    "description": "A factory issue translucent polymer box magazine that fits with the frame of the FN P90.",
+    "weight": "300 g",
+    "volume": "500 ml",
+    "price": 5400,
+    "price_postapoc": 100,
+    "material": [ "plastic" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "57" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "57": 50 } } ]
+  }
+]

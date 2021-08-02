@@ -1,0 +1,343 @@
+[
+  {
+    "name": "CAMPERS",
+    "type": "monstergroup",
+    "default": "mon_null",
+    "monsters": [
+      { "monster": "mon_zombie", "freq": 100, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_child", "freq": 100, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_rot", "freq": 100, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_dog", "freq": 200, "cost_multiplier": 1, "pack_size": [ 1, 2 ] }
+    ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "campsite" ],
+    "weight": 500,
+    "object": {
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        ".........###............",
+        "......t..#'#...t........",
+        ".........#+#............",
+        "....###.................",
+        "....#'+....-............",
+        "....###..-ddd-..........",
+        "..........dbd...........",
+        "....###..-ddd-..........",
+        "....#'+....-............",
+        "....###.................",
+        ".........#+#..#+#.......",
+        "....-r-..#'#..#'#.......",
+        "....-r-..###..###.......",
+        "........................",
+        "....-r-...t....t........",
+        "....-r-.............t...",
+        "........................",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "terrain": {
+        "#": "t_grass",
+        "'": "t_grass",
+        "+": "t_grass",
+        "-": "t_dirt",
+        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "b": "t_dirt",
+        "d": "t_dirt",
+        "r": "t_dirt",
+        "t": "t_tree"
+      },
+      "furniture": {
+        "#": "f_canvas_wall",
+        "'": "f_groundsheet",
+        "+": "f_canvas_door",
+        "-": "f_camp_chair",
+        "b": "f_firering",
+        "r": "f_tourist_table"
+      },
+      "place_items": [
+        { "item": "cannedfood", "x": [ 16, 4 ], "y": [ 21, 7 ], "chance": 75 },
+        { "item": "cannedfood", "x": [ 16, 4 ], "y": [ 21, 7 ], "chance": 75 },
+        { "item": "pasta", "x": [ 16, 4 ], "y": [ 21, 7 ], "chance": 75 },
+        { "item": "camping", "x": [ 10, 8 ], "y": [ 15, 13 ], "chance": 75 }
+      ],
+      "place_monsters": [ { "monster": "CAMPERS", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 75, "repeat": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "campsite_cabin_incomplete" ],
+    "weight": 500,
+    "object": {
+      "rows": [
+        "........................",
+        "........................",
+        "..###..........xxwwxx...",
+        "..#'#..........xffffx...",
+        "..#+#............fffx...",
+        "......-r-.........ffx...",
+        "..ddd.............f.....",
+        "..dbd-..................",
+        "..ddd..........k.k.k....",
+        "...............k.k.k....",
+        "...............k.k.k....",
+        "...............k.k.k....",
+        "........................",
+        ".................k......",
+        "..............kkk.......",
+        "....................k...",
+        ".t.................k....",
+        ".....t.............k....",
+        "..........t....t..k.....",
+        ".......t....t.......t...",
+        "...t............t.......",
+        "........t...t...........",
+        ".t................t.....",
+        "........................"
+      ],
+      "terrain": {
+        "#": "t_grass",
+        "'": "t_grass",
+        "+": "t_grass",
+        "-": "t_dirt",
+        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "b": "t_dirt",
+        "d": "t_dirt",
+        "f": "t_floor",
+        "k": "t_trunk",
+        "r": "t_dirt",
+        "t": "t_tree",
+        "w": "t_window",
+        "x": "t_wall_log"
+      },
+      "furniture": {
+        "#": "f_canvas_wall",
+        "'": "f_groundsheet",
+        "+": "f_canvas_door",
+        "-": "f_camp_chair",
+        "b": "f_firering",
+        "r": "f_tourist_table"
+      },
+      "place_items": [
+        { "item": "cannedfood", "x": 2, "y": 3, "chance": 90 },
+        { "item": "cannedfood", "x": 2, "y": 3, "chance": 75 },
+        { "item": "pasta", "x": 2, "y": 3, "chance": 75 },
+        { "item": "camping", "x": 2, "y": 3, "chance": 75 },
+        { "item": "stash_wood", "x": [ 20, 17 ], "y": [ 3, 7 ], "chance": 80 },
+        { "item": "field", "x": [ 15, 3 ], "y": [ 15, 3 ], "chance": 40, "repeat": [ 1, 3 ] }
+      ],
+      "place_monsters": [ { "monster": "CAMPERS", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 40, "repeat": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "campsite_field_biker" ],
+    "weight": 500,
+    "object": {
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        ".........###............",
+        ".........#'#............",
+        ".........#+#r...........",
+        "....###.................",
+        "....#'+.....-...........",
+        "....###...-ddd-.........",
+        "...........dbd..........",
+        "....###...-ddd-...###...",
+        "....#'+.....-.....+'#...",
+        "....###...........###...",
+        ".........#+#r.#+#.......",
+        ".........#'#..#'#.......",
+        ".........###..###.......",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "terrain": {
+        "#": "t_grass",
+        "'": "t_grass",
+        "+": "t_grass",
+        "-": "t_dirt",
+        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "b": "t_dirt",
+        "d": "t_dirt",
+        "r": "t_dirt",
+        "t": "t_tree"
+      },
+      "furniture": {
+        "#": "f_canvas_wall",
+        "'": "f_groundsheet",
+        "+": "f_canvas_door",
+        "-": "f_camp_chair",
+        "b": "f_brazier",
+        "r": "f_tourist_table"
+      },
+      "place_items": [
+        { "item": "cannedfood", "x": [ 7, 18 ], "y": [ 7, 13 ], "chance": 90 },
+        { "item": "cannedfood", "x": [ 7, 18 ], "y": [ 7, 13 ], "chance": 75 },
+        { "item": "pasta", "x": [ 7, 18 ], "y": [ 7, 13 ], "chance": 75 },
+        { "item": "camping", "x": [ 7, 18 ], "y": [ 7, 13 ], "chance": 75 }
+      ],
+      "place_monsters": [ { "monster": "CAMPERS", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 75, "repeat": [ 1, 3 ] } ],
+      "place_vehicles": [
+        { "vehicle": "motorcycle", "x": 3, "y": 3, "chance": 90, "rotation": 0 },
+        { "vehicle": "motorcycle", "x": 17, "y": 3, "chance": 75, "rotation": 180 },
+        { "vehicle": "motorcycle", "x": 17, "y": 5, "chance": 25, "rotation": 180 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "campsite_field_biker_destroyed" ],
+    "weight": 500,
+    "object": {
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "...........#............",
+        ".........#'#............",
+        ".........#+.............",
+        "......#.................",
+        "....#'+.....-...........",
+        "....##....-ddd-.........",
+        "...........dbd..........",
+        "..........-ddd-...###...",
+        "....#'......-......'#...",
+        "....###...........###...",
+        ".................r......",
+        ".........#'#............",
+        ".........###..##........",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "terrain": {
+        "#": "t_grass",
+        "'": "t_grass",
+        "+": "t_grass",
+        "-": "t_dirt",
+        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "b": "t_dirt",
+        "d": "t_dirt",
+        "r": "t_dirt",
+        "t": "t_tree"
+      },
+      "furniture": {
+        "#": "f_canvas_wall",
+        "'": "f_groundsheet",
+        "+": "f_canvas_door",
+        "-": "f_camp_chair",
+        "b": "f_brazier",
+        "r": "f_tourist_table"
+      },
+      "place_items": [
+        { "item": "cannedfood", "x": [ 15, 3 ], "y": [ 20, 8 ], "chance": 90 },
+        { "item": "cannedfood", "x": [ 15, 3 ], "y": [ 20, 8 ], "chance": 75 },
+        { "item": "pasta", "x": [ 15, 3 ], "y": [ 20, 8 ], "chance": 75 },
+        { "item": "map_extra_college_lake", "x": [ 15, 3 ], "y": [ 20, 8 ], "chance": 75, "repeat": [ 3, 5 ] },
+        { "item": "camping", "x": [ 15, 3 ], "y": [ 20, 8 ], "chance": 75 }
+      ],
+      "place_monsters": [ { "monster": "CAMPERS", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 75, "repeat": [ 1, 3 ] } ],
+      "place_vehicles": [
+        { "vehicle": "motorcycle", "x": 3, "y": 3, "chance": 50, "rotation": 0 },
+        { "vehicle": "motorcycle", "x": 17, "y": 3, "chance": 25, "rotation": 180 },
+        { "vehicle": "motorcycle", "x": 17, "y": 7, "chance": 10, "rotation": 180 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "campsite_a" ],
+    "weight": 500,
+    "object": {
+      "rows": [
+        "........................",
+        "........................",
+        "..###..........t..xxx...",
+        "..#'#............|xfx...",
+        "..#+#.-r-........pxDx...",
+        "...-..pppppppppppppp....",
+        "..ddd.###........p..t...",
+        "..dbd-+'#.......p.......",
+        "..ddd.###......p...t....",
+        "..............pp..t..t..",
+        "..#+#........p.pt...j...",
+        "..#'#.......p..p..t..t..",
+        "..###......p...p........",
+        ".iiiiiii..p....piiiiiii.",
+        ".........p.....p........",
+        "........p.......p..###..",
+        ".......p....i....p.#'#..",
+        "......-r-...i..-r-p#+#..",
+        "...-........i.......-...",
+        "..ddd.###...i......ddd..",
+        "..dbd-+'#...i......dbd..",
+        "..ddd.###...i......ddd..",
+        "............i...........",
+        "........................"
+      ],
+      "terrain": {
+        "#": "t_grass",
+        "'": "t_grass",
+        "+": "t_grass",
+        "-": "t_dirt",
+        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        "D": "t_door_c",
+        "b": "t_dirt",
+        "d": "t_dirt",
+        "f": "t_floor",
+        "i": "t_fence_v",
+        "j": "t_covered_well",
+        "k": "t_trunk",
+        "p": "t_dirt",
+        "r": "t_dirt",
+        "t": "t_tree",
+        "w": "t_window",
+        "x": "t_wall_w",
+        "|": "t_dirt"
+      },
+      "furniture": {
+        "#": "f_canvas_wall",
+        "'": "f_groundsheet",
+        "+": "f_canvas_door",
+        "-": "f_camp_chair",
+        "b": "f_firering",
+        "f": "f_toilet",
+        "r": "f_tourist_table",
+        "|": "f_crate_o"
+      },
+      "place_items": [
+        { "item": "cannedfood", "x": 3, "y": 3, "chance": 90 },
+        { "item": "cannedfood", "x": 3, "y": 11, "chance": 90 },
+        { "item": "cannedfood", "x": 7, "y": 7, "chance": 75 },
+        { "item": "pasta", "x": 7, "y": 20, "chance": 75 },
+        { "item": "camping", "x": 20, "y": 16, "chance": 75 }
+      ],
+      "place_item": [ { "item": "log", "x": 17, "y": 3, "amount": [ 3, 8 ] } ],
+      "place_monsters": [ { "monster": "CAMPERS", "x": [ 0, 23 ], "y": [ 0, 23 ], "chance": 40, "repeat": [ 1, 3 ] } ]
+    }
+  }
+]

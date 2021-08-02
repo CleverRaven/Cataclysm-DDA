@@ -1,0 +1,273 @@
+[
+  {
+    "type": "palette",
+    "id": "fbmw_migo_resin_palette",
+    "terrain": {
+      "b": "t_grass",
+      "z": "t_dirt",
+      ".": "t_floor_resin",
+      "r": "t_floor_resin",
+      "a": "t_floor_resin",
+      "B": "t_floor_resin",
+      "M": "t_floor_resin",
+      "k": "t_floor_resin",
+      "c": "t_floor_resin",
+      "h": "t_floor_resin",
+      "t": "t_floor_resin",
+      "x": "t_floor_resin",
+      "Q": "t_floor_resin",
+      "d": "t_resin_hole_c",
+      "o": "t_wall_resin_cage",
+      "w": "t_wall_resin"
+    },
+    "furniture": {
+      "b": "f_bench",
+      "t": "f_table",
+      "z": "f_55gal_firebarrel",
+      "L": "f_locker",
+      "x": "f_kiln_empty",
+      "k": "f_clay_kiln",
+      "f": "f_forge_rock",
+      "c": "f_workbench",
+      "h": "f_stool",
+      "A": "f_anvil",
+      "r": "f_rack_wood",
+      "M": "f_armchair",
+      "B": "f_bookcase",
+      "Q": "f_bellows"
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmw_room0_migo_resin",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "wwwoww",
+        ".....w",
+        ".....o",
+        ".....w",
+        ".....w",
+        ".....w"
+      ],
+      "palettes": [ "fbmw_migo_resin_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_room0_migo_resin_northeast",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmw_room0_migo_resin" ], "x": 15, "y": 3 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmw_room3_migo_resin",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "   wwo",
+        "   wr.",
+        "   w.h",
+        "   d..",
+        "   wr.",
+        "   wr."
+      ],
+      "palettes": [ "fbmw_migo_resin_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_room3_migo_resin_north",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmw_room3_migo_resin" ], "x": 9, "y": 3 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmw_room4_migo_resin",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        ".....d",
+        "....xw",
+        ".....o",
+        ".....w",
+        "....rw",
+        "....rw"
+      ],
+      "palettes": [ "fbmw_migo_resin_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_room4_migo_resin_east",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmw_room4_migo_resin" ], "x": 15, "y": 9 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmw_room5_migo_resin",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "   wr.",
+        "   wt.",
+        "   oM.",
+        "   wB.",
+        "   o..",
+        "   w.."
+      ],
+      "palettes": [ "fbmw_migo_resin_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_room5_migo_resin_center",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmw_room5_migo_resin" ], "x": 9, "y": 9 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmw_room6_migo_resin",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "www   ",
+        "rkr   ",
+        "...   ",
+        "cc.   ",
+        "...   ",
+        "...   "
+      ],
+      "palettes": [ "fbmw_migo_resin_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_room6_migo_resin_north",
+    "method": "json",
+    "object": {
+      "place_nested": [ { "chunks": [ "fbmw_room6_migo_resin" ], "x": 9, "y": 3 } ],
+      "place_loot": [
+        { "item": "tongs", "x": 19, "y": 5, "chance": 100 },
+        { "item": "chisel", "x": 19, "y": 5, "chance": 100 },
+        { "item": "hammer", "x": 19, "y": 5, "chance": 100 },
+        { "item": "swage", "x": 19, "y": 5, "chance": 100 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmw_room7_migo_resin",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "   www",
+        "   wrr",
+        "   wr.",
+        "   d..",
+        "   wr.",
+        "   wr."
+      ],
+      "palettes": [ "fbmw_migo_resin_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmw_room8_migo_resin",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "   wwo",
+        "     b",
+        "      ",
+        "      ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "fbmw_migo_resin_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmw_room9_migo_resin",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "wow   ",
+        "bb    ",
+        "      ",
+        "z     ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "fbmw_migo_resin_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_room7to9_migo_resin_northwest",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmw_room7_migo_resin" ], "x": 3, "y": 3 },
+        { "chunks": [ "fbmw_room8_migo_resin" ], "x": 3, "y": 9 },
+        { "chunks": [ "fbmw_room9_migo_resin" ], "x": 9, "y": 9 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmw_room11_migo_resin",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "....ww",
+        ".....w",
+        "......",
+        ".....w",
+        "......",
+        ".....w"
+      ],
+      "palettes": [ "fbmw_migo_resin_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmw_room12_migo_resin",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "   ww.",
+        "   w..",
+        "   ...",
+        "   w..",
+        "   ...",
+        "   w.."
+      ],
+      "palettes": [ "fbmw_migo_resin_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmw_room11to12_migo_resin_southeast",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbmw_room11_migo_resin" ], "x": 15, "y": 15 },
+        { "chunks": [ "fbmw_room12_migo_resin" ], "x": 9, "y": 15 }
+      ],
+      "place_loot": [ { "item": "wrench", "x": 19, "y": 7, "chance": 100 }, { "item": "pliers", "x": 19, "y": 7, "chance": 100 } ],
+      "set": [ { "point": "furniture", "id": "f_drophammer", "x": 19, "y": 12 } ]
+    }
+  }
+]

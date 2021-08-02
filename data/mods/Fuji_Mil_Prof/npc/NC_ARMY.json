@@ -1,0 +1,189 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_ARMY_pants_male",
+    "subtype": "distribution",
+    "entries": [ { "item": "pants_army", "prob": 90 }, { "item": "pants_cargo", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARMY_pants_female",
+    "subtype": "distribution",
+    "entries": [ { "item": "pants_army", "prob": 90 }, { "item": "pants_cargo", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARMY_shirt_male",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "tshirt", "prob": 20 },
+      { "item": "polo_shirt", "prob": 20 },
+      { "item": "dress_shirt", "prob": 20 },
+      { "item": "tank_top", "prob": 20 },
+      { "item": "longshirt", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARMY_shirt_female",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "tshirt", "prob": 20 },
+      { "item": "polo_shirt", "prob": 20 },
+      { "item": "dress_shirt", "prob": 20 },
+      { "item": "tank_top", "prob": 20 },
+      { "item": "longshirt", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARMY_gloves",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 50 }, { "item": "gloves_tactical", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARMY_coat",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 60 },
+      { "item": "jacket_army", "prob": 40 },
+      { "item": "modularveststeel", "prob": 10 },
+      { "item": "modularvestceramic", "prob": 40 },
+      { "item": "kevlar", "prob": 20 },
+      { "item": "chestrig", "prob": 30 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARMY_shoes",
+    "subtype": "distribution",
+    "entries": [ { "item": "boots_combat", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARMY_masks",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 60 }, { "item": "keffiyeh", "prob": 30 }, { "item": "mask_gas", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARMY_eyes",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 40 }, { "item": "glasses_bal", "prob": 50 }, { "item": "sunglasses", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARMY_hat",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 40 },
+      { "item": "hat_ball", "prob": 10 },
+      { "item": "tac_helmet", "prob": 30 },
+      { "item": "helmet_army", "prob": 10 },
+      { "item": "hat_boonie", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARMY_extra",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 30 }, { "item": "rucksack", "prob": 70 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARMY_bashing",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "hammer", "prob": 20 },
+      { "item": "wrench", "prob": 20 },
+      { "item": "hammer_sledge", "prob": 20 },
+      { "item": "pipe", "prob": 20 },
+      { "item": "baton-extended", "prob": 20 },
+      { "item": "crowbar", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARMY_cutting",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "knife_butcher", "prob": 20 },
+      { "item": "hatchet", "prob": 20 },
+      { "item": "knife_combat", "prob": 20 },
+      { "item": "machete", "prob": 20 },
+      { "item": "knife_combat", "prob": 20 },
+      { "item": "diveknife", "prob": 20 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARMY_stabbing",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "spear_knife", "prob": 50 },
+      { "item": "spear_steel", "prob": 10 },
+      { "item": "spear_forked", "prob": 10 },
+      { "item": "spear_rebar", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARMY_throw",
+    "subtype": "distribution",
+    "entries": [ { "item": "throwing_knife", "prob": 50 }, { "item": "throwing_axe", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARMY_archery",
+    "subtype": "distribution",
+    "entries": [ { "item": "crossbow", "prob": 5 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARMY_pistols",
+    "subtype": "distribution",
+    "entries": [ { "item": "m1911", "prob": 30 }, { "item": "m9", "prob": 70 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARMY_shotgun",
+    "subtype": "distribution",
+    "entries": [ { "item": "mossberg_500", "prob": 25 }, { "item": "remington_870", "prob": 25 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARMY_smg",
+    "subtype": "distribution",
+    "entries": [ { "item": "hk_mp5", "prob": 50 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARMY_rifle",
+    "subtype": "distribution",
+    "entries": [ { "item": "m4a1", "prob": 50 }, { "item": "m14ebr", "prob": 35 }, { "item": "m249", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARMY_launcher",
+    "subtype": "distribution",
+    "entries": [ { "item": "mgl", "prob": 10 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARMY_weapon_random",
+    "subtype": "distribution",
+    "entries": [ { "item": "q_staff", "prob": 100 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ARMY_misc",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "grenade", "prob": 40 },
+      { "item": "ref_lighter", "prob": 30 },
+      { "item": "lighter", "prob": 30 },
+      { "item": "matches", "prob": 30 }
+    ]
+  }
+]

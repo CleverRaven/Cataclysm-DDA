@@ -1,0 +1,136 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "microlab_shifting_hall",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "microlab_shifting_hall" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "microlab_shifting_hall_2",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "microlab_shifting_hall_2" ], "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "microlab_shifting_hall",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "|||||||||||||||||||||2||",
+        "|#########|Ty.S....^...Y",
+        "|#########|Ty..........Y",
+        "||||||||||||||||||||||||",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "microlab" ],
+      "terrain": { ".": "t_strconc_floor", "S": "t_strconc_floor" },
+      "traps": { "T": "tr_microlab_shifting_hall_2" },
+      "signs": {
+        "S": {
+          "signage": "Warning:\nHallway dimensionally unstable.\nDo not step beyond yellow line.\n\nRegulation EX-127 applies."
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "microlab_shifting_hall_2",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "||||||2|||||||||||||||||",
+        "YyyyyyyyySyT|###########",
+        "YyyyyyyyyyyT|###########",
+        "||||||||||||||||||||||||",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "microlab" ],
+      "terrain": { ".": "t_strconc_floor", "S": "t_strconc_floor" },
+      "traps": { "T": "tr_microlab_shifting_hall" },
+      "signs": { "S": { "signage": "Warming;\nWallhay dime table.\nDo step on lowland nile.\n\nRation VC+983 appliance." } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "om_terrain": [ [ "microlab_generic" ] ],
+    "method": "json",
+    "object": {
+      "fill_ter": "t_strconc_floor",
+      "rows": [
+        "     | cc |  | cc |     ",
+        "     2    2  2    | c c ",
+        "   F|||||||  |||||||c c ",
+        "   F|0ccc0|22|0ccc0|c c ",
+        "   F|     d        |    ",
+        "|||||c   hd   c c c|  ||",
+        "  66|c    d   c c c|    ",
+        "    |c        c c c|  c ",
+        "  cc|c      c c c c|  c ",
+        "    |  |FFF|      c|    ",
+        "|||||||||||||||||||||2||",
+        "|#########|Ty S    ^   Y",
+        "|#########|Ty          Y",
+        "||||||||||||||||||||||||",
+        "   c|      d6d     |c   ",
+        " c c| d6d   h   d6d|c c ",
+        " c c|  h         h |c c ",
+        "    2              |F   ",
+        "|||||  h       h   |||2|",
+        "c66c|666666  |dd6dd|cc  ",
+        " c c|||||||22|||||||    ",
+        " c cc(ccc |  |FFFF|  cc ",
+        " c        2  ||22||  cc ",
+        "     (    |  |    |     "
+      ],
+      "palettes": [ "microlab" ],
+      "terrain": { "0": "t_vat" },
+      "traps": { "T": "tr_microlab_shifting_hall_2" },
+      "signs": {
+        "S": {
+          "signage": "Warning:\nHallway dimensionally unstable.\nDo not step beyond yellow line.\n\nRegulation EX-127 applies."
+        }
+      }
+    }
+  }
+]

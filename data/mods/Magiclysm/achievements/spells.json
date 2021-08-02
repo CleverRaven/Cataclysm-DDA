@@ -1,0 +1,94 @@
+[
+  {
+    "id": "achievement_learn_any_spell",
+    "type": "achievement",
+    "name": "Would-be Wizard",
+    "requirements": [ { "event_statistic": "num_spells_learned", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_learn_any_spell_3",
+    "hidden_by": [ "achievement_learn_any_spell" ],
+    "type": "achievement",
+    "name": "Wizard's Apprentice",
+    "requirements": [ { "event_statistic": "num_spells_learned", "is": ">=", "target": 3 } ]
+  },
+  {
+    "id": "achievement_learn_any_spell_10",
+    "hidden_by": [ "achievement_learn_any_spell_3" ],
+    "type": "achievement",
+    "name": "Journeyman Wizard",
+    "description": "You have learned enough spells that in more reasonable times you would have graduated from your apprenticeship.",
+    "requirements": [ { "event_statistic": "num_spells_learned", "is": ">=", "target": 10 } ]
+  },
+  {
+    "id": "achievement_learn_any_spell_20",
+    "hidden_by": [ "achievement_learn_any_spell_10" ],
+    "type": "achievement",
+    "name": "Archmage",
+    "description": "You have learned a large number of spells, and would be qualified for the Archmage title.",
+    "requirements": [ { "event_statistic": "num_spells_learned", "is": ">=", "target": 20 } ]
+  },
+  {
+    "id": "achievement_learn_any_spell_50",
+    "hidden_by": [ "achievement_learn_any_spell_20" ],
+    "type": "achievement",
+    "name": "Master Archmage",
+    "description": "You have learned so many spells, that you would have been a major source of knowledge for many wizards.  Also known as a Sage, Master Archmages enjoy a wide variety of perks due to their lifelong commitment to learning and helping others learn.",
+    "requirements": [ { "event_statistic": "num_spells_learned", "is": ">=", "target": 50 } ]
+  },
+  {
+    "id": "achievement_forget_any_spell",
+    "type": "achievement",
+    "name": "Senile Wizard",
+    "requirements": [ { "event_statistic": "num_spells_forgotten", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_max_spell_level_1",
+    "type": "achievement",
+    "name": "Cast a Spell",
+    "description": "The first great milestone to becoming a full-fledged wizard is to cast a spell.  Some mages simply study the spell in the spellbook until they think they understand it as well as they can, but you can't beat practice over theory.",
+    "requirements": [ { "event_statistic": "avatar_max_spell_level", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_max_spell_level_5",
+    "hidden_by": [ "achievement_max_spell_level_1" ],
+    "type": "achievement",
+    "name": "Spell Level 5",
+    "requirements": [ { "event_statistic": "avatar_max_spell_level", "is": ">=", "target": 5 } ]
+  },
+  {
+    "id": "achievement_max_spell_level_10",
+    "hidden_by": [ "achievement_max_spell_level_5" ],
+    "type": "achievement",
+    "name": "Spell Level 10",
+    "requirements": [ { "event_statistic": "avatar_max_spell_level", "is": ">=", "target": 10 } ]
+  },
+  {
+    "id": "achievement_max_spell_level_15",
+    "hidden_by": [ "achievement_max_spell_level_10" ],
+    "type": "achievement",
+    "name": "Spell Level 15",
+    "requirements": [ { "event_statistic": "avatar_max_spell_level", "is": ">=", "target": 15 } ]
+  },
+  {
+    "id": "achievement_max_spell_level_20",
+    "hidden_by": [ "achievement_max_spell_level_15" ],
+    "type": "achievement",
+    "name": "Spell Level 20",
+    "requirements": [ { "event_statistic": "avatar_max_spell_level", "is": ">=", "target": 20 } ]
+  },
+  {
+    "id": "achievement_max_spell_level_25",
+    "hidden_by": [ "achievement_max_spell_level_20" ],
+    "type": "achievement",
+    "name": "Spell Level 25",
+    "requirements": [ { "event_statistic": "avatar_max_spell_level", "is": ">=", "target": 25 } ]
+  },
+  {
+    "id": "achievement_max_spell_level_30",
+    "hidden_by": [ "achievement_max_spell_level_25" ],
+    "type": "achievement",
+    "name": "Spell Level 30",
+    "requirements": [ { "event_statistic": "avatar_max_spell_level", "is": ">=", "target": 30 } ]
+  }
+]

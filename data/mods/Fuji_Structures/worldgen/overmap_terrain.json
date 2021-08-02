@@ -1,0 +1,78 @@
+[
+  {
+    "type": "overmap_terrain",
+    "id": "s_gas_g1",
+    "name": "gas station",
+    "sym": "g",
+    "color": "light_blue",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2,
+    "land_use_code": "commercial"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gas_g0",
+    "name": "gas station",
+    "sym": "g",
+    "color": "light_blue",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ],
+    "land_use_code": "commercial"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gas_b11",
+    "name": "reception",
+    "sym": "R",
+    "color": "red",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gas_b20",
+    "name": "bunker",
+    "sym": "B",
+    "color": "red",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gas_b21",
+    "name": "bunker",
+    "sym": "B",
+    "color": "red",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_bunker_shop_g",
+    "name": "derelict property",
+    "sym": "^",
+    "color": "white",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_bunker_shop_b",
+    "name": "scavenger bunker",
+    "sym": "B",
+    "color": "light_green",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  }
+]

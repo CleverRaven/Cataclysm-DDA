@@ -1,0 +1,16 @@
+[
+  {
+    "id": "lobotomizer",
+    "copy-from": "lobotomizer",
+    "type": "TOOL",
+    "name": { "str": "lobotomizer" },
+    "description": "This is a hand-forged collapsible tool that has two axe heads and sharp shovel-like tip on one end.  It can be used as a shovel, or you could chop an enemy up with it instead."
+  },
+  {
+    "id": "spear_spike",
+    "copy-from": "spear_spike",
+    "type": "TOOL",
+    "name": { "str": "spike on a stick" },
+    "description": "A flimsy pole made of wood with a basic metal spike tied to it.  It's barely sharp, and crudely constructed, but it will keep an enemy out of arm's reach until you can find something better."
+  }
+]

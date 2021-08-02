@@ -1,0 +1,19 @@
+[
+  {
+    "id": "m2010mag",
+    "looks_like": "stanag30",
+    "type": "MAGAZINE",
+    "name": { "str": "M2010 5-round magazine" },
+    "description": "A 5-round box magazine used by M2010 ESR sniper rifle.",
+    "weight": "78 g",
+    "volume": "250 ml",
+    "price": 3500,
+    "price_postapoc": 100,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "300" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "300": 5 } } ]
+  }
+]

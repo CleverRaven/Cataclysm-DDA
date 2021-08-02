@@ -1,0 +1,83 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE",
+    "monsters": [
+      { "monster": "mon_zombie_skeltal", "freq": 1, "cost_multiplier": 60 },
+      { "monster": "mon_zombie_skeltal", "freq": 1, "cost_multiplier": 30, "conditions": [ "AUTUMN" ] }
+    ],
+    "//": "Autumn is halloween"
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_HOSPITAL",
+    "monsters": [
+      { "monster": "mon_zombie_skeltal", "freq": 1, "cost_multiplier": 60 },
+      { "monster": "mon_zombie_skeltal", "freq": 1, "cost_multiplier": 30, "conditions": [ "AUTUMN" ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GROCERY",
+    "monsters": [
+      { "monster": "mon_zombie_skeltal", "freq": 1, "cost_multiplier": 60 },
+      { "monster": "mon_zombie_skeltal", "freq": 1, "cost_multiplier": 30, "conditions": [ "AUTUMN" ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_HOUSE",
+    "monsters": [
+      { "monster": "mon_zombie_skeltal", "freq": 1, "cost_multiplier": 60 },
+      { "monster": "mon_zombie_skeltal", "freq": 1, "cost_multiplier": 30, "conditions": [ "AUTUMN" ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FOREST",
+    "monsters": [
+      {
+        "monster": "mon_bear_smoky",
+        "freq": 1,
+        "cost_multiplier": 0,
+        "starts": 672,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SWAMP",
+    "monsters": [
+      {
+        "monster": "mon_bear_smoky",
+        "freq": 1,
+        "cost_multiplier": 0,
+        "starts": 672,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_RIVER",
+    "monsters": [
+      {
+        "monster": "mon_bear_smoky",
+        "freq": 1,
+        "cost_multiplier": 0,
+        "starts": 672,
+        "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
+      }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CAVE",
+    "monsters": [
+      { "monster": "mon_bear_smoky", "freq": 10, "cost_multiplier": 0, "starts": 672 },
+      { "monster": "mon_bear_smoky", "freq": 100, "cost_multiplier": 0, "conditions": [ "WINTER" ] }
+    ],
+    "//": "Additional bears during winter, when they hibernate."
+  }
+]

@@ -1,0 +1,54 @@
+[
+  {
+    "type": "palette",
+    "id": "miniature_railway_palette",
+    "terrain": {
+      ".": "t_region_groundcover_urban",
+      "u": [ [ "t_region_groundcover", 50 ], [ "t_region_shrub", 4 ], [ "t_region_tree", 5 ] ],
+      "w": "t_region_groundcover_urban",
+      "_": [ "t_door_locked" ],
+      "@": [ "t_pavement" ],
+      "X": [ "t_railroad_track_small_d" ],
+      "=": [ "t_railroad_track_small" ],
+      "H": [ "t_wall" ],
+      "*": [ "t_wall_glass" ],
+      "%": [ "t_fence" ],
+      "|": [ "t_floor" ],
+      "d": [ "t_floor" ],
+      "h": [ "t_floor" ],
+      "D": [ "t_floor" ],
+      "7": [ "t_floor" ],
+      "l": [ "t_floor" ],
+      "s": [ "t_floor" ],
+      "V": [ "t_floor" ],
+      "t": [ "t_floor" ],
+      "p": [ "t_sidewalk" ],
+      "W": [ "t_sidewalk" ],
+      "5": [ "t_wall_wood" ],
+      ":": [ "t_open_air" ],
+      "r": [ "t_flat_roof" ],
+      "`": [ "t_pavement_y" ]
+    },
+    "furniture": {
+      "h": [ "f_chair" ],
+      "d": [ "f_desk" ],
+      "s": [ "f_utility_shelf" ],
+      "l": [ "f_locker" ],
+      "W": [ "f_bench" ],
+      "w": [ "f_bench" ],
+      "D": [ "f_vending_c" ],
+      "V": [ "f_vending_c" ],
+      "7": [ "f_filing_cabinet" ]
+    },
+    "items": {
+      "d": { "item": "office", "chance": 30 },
+      "s": { "item": "metal_workshop", "chance": 10 },
+      "l": { "item": "metal_workshop", "chance": 10 },
+      "W": [ { "item": "snacks", "chance": 10 }, { "item": "novels", "chance": 10 }, { "item": "alcohol", "chance": 5 } ],
+      "w": [ { "item": "snacks", "chance": 10 }, { "item": "novels", "chance": 10 }, { "item": "alcohol", "chance": 5 } ],
+      "7": { "item": "office_paper", "chance": 30 }
+    },
+    "toilets": { "t": {  } },
+    "vendingmachines": { "D": { "item_group": "vending_drink" }, "V": { "item_group": "vending_food" } }
+  }
+]

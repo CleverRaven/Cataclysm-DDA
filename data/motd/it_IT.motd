@@ -1,0 +1,19 @@
+# Una riga può avere fino a 78 caratteri, riferirsi alla riga successiva
+# Longer lines will be automatically folded
+##############################################################################
+Contenuti principali in v0.C Cooper:
+* I mostri si combattono tra loro.
+* Rivisitazione del sistema di mira.
+* Miglioramenti nel controllo delle torrette.
+* Modifiche per i vestiti.
+* Tanti nuovi oggetti da creare: ceramiche, esplosivi, oggetti di metallo, vestiti e cibi.
+* Nuovo menu azioni per attivare gli oggetti.
+* Miglioramenti nel sistema dei layers e dell'ingombro.
+* Enorme miglioramento della performance in presenza di molti oggetti vicini.
+* Retrocompatibilità con i salvataggi della versione 0.A e 0.B.
+
+Per le ultime discussioni e notizie su DDA, si prega di visitare:
+Pagina principale: https://cataclysmdda.org
+Wiki: https://cddawiki.chezzo.com/cdda_wiki
+
+Mentre giochi puoi modificare le opzioni tramite il menù di aiuto (?2)

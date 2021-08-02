@@ -1,0 +1,74 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "newest_newspaper",
+    "category": "books",
+    "copy-from": "newest_newspaper",
+    "name": { "str": "newspaper page" },
+    "snippet_category": "dks_newest_news",
+    "description": "A single sheet of newspaper broadsheet.  Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly - some things from before the Cataclysm, and some even after."
+  },
+  {
+    "type": "GENERIC",
+    "id": "many_years_old_newspaper",
+    "category": "books",
+    "copy-from": "many_years_old_newspaper",
+    "name": { "str": "newspaper page" },
+    "snippet_category": "dks_many_years_old_news",
+    "description": "A single sheet of newspaper broadsheet.  It seems to date from several years ago, and you've NO idea how it lasted this long.  Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly."
+  },
+  {
+    "type": "GENERIC",
+    "id": "years_old_newspaper",
+    "category": "books",
+    "copy-from": "years_old_newspaper",
+    "name": { "str": "newspaper page" },
+    "snippet_category": "dks_years_old_news",
+    "description": "A single sheet of newspaper broadsheet.  It seems to date from a few years ago--amazing it has lasted this long.  Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly."
+  },
+  {
+    "type": "GENERIC",
+    "id": "one_year_old_newspaper",
+    "copy-from": "one_year_old_newspaper",
+    "category": "books",
+    "name": { "str": "newspaper page" },
+    "snippet_category": "dks_one_year_old_news",
+    "description": "A single sheet of newspaper broadsheet.  It was printed more than a year ago.  Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly."
+  },
+  {
+    "type": "GENERIC",
+    "id": "months_old_newspaper",
+    "category": "books",
+    "copy-from": "months_old_newspaper",
+    "name": { "str": "newspaper page" },
+    "snippet_category": "dks_months_old_news",
+    "description": "A single sheet of newspaper broadsheet.  It was printed in the months leading up to the Cataclysm.  Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly."
+  },
+  {
+    "type": "GENERIC",
+    "id": "weeks_old_newspaper",
+    "category": "books",
+    "copy-from": "weeks_old_newspaper",
+    "name": { "str": "newspaper page" },
+    "snippet_category": "dks_weeks_old_news",
+    "description": "A single sheet of newspaper broadsheet.  It was printed in the weeks leading up to the Cataclysm.  Most of the information on there is terribly trivial, or out of date, but one thing catches your eye briefly."
+  },
+  {
+    "type": "GENERIC",
+    "id": "survnote",
+    "category": "books",
+    "copy-from": "survnote",
+    "name": { "str": "survivor's note" },
+    "snippet_category": "dks_note",
+    "description": "A scrap of paper.  Something's written on it, scrawled in bad handwriting."
+  },
+  {
+    "type": "GENERIC",
+    "id": "flyer",
+    "category": "books",
+    "copy-from": "flyer",
+    "name": { "str": "flyer" },
+    "snippet_category": "dks_flier",
+    "description": "A scrap of paper."
+  }
+]

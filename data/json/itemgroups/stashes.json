@@ -1,0 +1,72 @@
+[
+  {
+    "type": "item_group",
+    "id": "stash_food",
+    "items": [
+      [ "water_clean", 90 ],
+      [ "water_mineral", 5 ],
+      { "group": "softdrinks_canned", "prob": 380 },
+      { "group": "salty_snacks", "prob": 135 },
+      { "item": "cola", "prob": 25, "container-item": "bottle_glass" },
+      { "item": "creamsoda", "prob": 25, "container-item": "bottle_glass" },
+      { "item": "lemonlime", "prob": 25, "container-item": "bottle_glass" },
+      { "item": "orangesoda", "prob": 25, "container-item": "bottle_glass" },
+      { "item": "colamdew", "prob": 25, "container-item": "bottle_glass" },
+      [ "salted_fish", 35 ],
+      [ "ravioli", 25 ],
+      [ "cheese_hard", 15 ],
+      [ "can_beans", 40 ],
+      [ "pork_beans", 40 ],
+      [ "can_corn", 35 ],
+      [ "cooked_pumpkin", 20 ],
+      [ "can_spam", 30 ],
+      [ "salt", 10 ],
+      [ "seasoning_salt", 5 ],
+      [ "vinegar", 10 ],
+      { "item": "veggy_pickled", "prob": 30, "charges": 2, "container-item": "jar_glass_sealed" },
+      { "item": "sauerkraut", "prob": 20, "charges": 4, "container-item": "jar_glass_sealed" },
+      [ "con_milk", 10 ],
+      [ "milk_evap", 10 ],
+      [ "instant_coffee", 25 ],
+      { "item": "fish_pickled", "prob": 26, "charges": 2, "container-item": "jar_glass_sealed" },
+      [ "lutefisk", 1 ],
+      [ "pemmican", 10 ],
+      { "item": "meat_pickled", "prob": 20, "charges": 2, "container-item": "jar_glass_sealed" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "stash_wood",
+    "items": [ [ "stick", 95 ], [ "ax", 8 ], [ "saw", 15 ], [ "2x4", 60 ], [ "log", 20 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "stash_drugs",
+    "items": [
+      { "item": "pills_sleep", "prob": 15, "charges": [ 1, 10 ] },
+      { "item": "melatonin_tablet", "prob": 5, "charges": [ 1, 30 ] },
+      { "item": "oxycodone", "prob": 4, "charges": [ 1, 10 ] },
+      { "item": "morphine", "prob": 4, "charges": [ 1, 4 ] },
+      { "item": "xanax", "prob": 10, "charges": [ 1, 10 ] },
+      { "item": "adderall", "prob": 10, "charges": [ 1, 10 ] },
+      [ "pipe_tobacco", 2 ],
+      { "item": "tobacco", "prob": 2, "charges": [ 1, 20 ] },
+      [ "adrenaline_injector", 2 ],
+      { "item": "weed", "prob": 50, "charges": [ 1, 5 ] },
+      [ "joint", 10 ],
+      [ "seed_weed", 35 ],
+      [ "seed_tobacco", 15 ],
+      [ "rolling_paper", 9 ],
+      [ "pipe_glass", 17 ],
+      { "item": "coke", "prob": 8, "charges": [ 1, 8 ] },
+      { "item": "meth", "prob": 2, "charges": [ 1, 6 ] },
+      { "item": "heroin", "prob": 1, "charges": [ 1, 4 ] },
+      { "item": "crack", "prob": 4, "charges": [ 1, 4 ] },
+      [ "crackpipe", 7 ],
+      { "item": "antifungal", "prob": 1, "charges": [ 1, 5 ] },
+      { "item": "antiparasitic", "prob": 2, "charges": [ 1, 10 ] },
+      { "item": "diazepam", "prob": 1, "charges": [ 1, 10 ] },
+      { "item": "lsd", "prob": 6, "charges": [ 1, 5 ] }
+    ]
+  }
+]

@@ -1,0 +1,15 @@
+[
+  {
+    "id": "afs_landfall_kit_2",
+    "type": "TOOL",
+    "name": { "str": "Type II. landfall survival kit" },
+    "description": "This is a metal box containing survival supplies, often found within ships and their escape pods.  Its cyan highlights indicate that it's a simpler Type II kit, and that it would only be helpful in a planet whose atmosphere and gravity are within two deviations from Earth's.",
+    "weight": "1022 g",
+    "volume": "22 L",
+    "price_postapoc": 3000,
+    "to_hit": -2,
+    "symbol": ",",
+    "color": "red",
+    "pocket_data": [ { "max_contains_volume": "20 L", "max_contains_weight": "40 kg", "max_item_length": "133 cm", "rigid": true } ]
+  }
+]

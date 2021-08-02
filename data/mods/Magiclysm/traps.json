@@ -1,0 +1,29 @@
+[
+  {
+    "type": "trap",
+    "id": "tr_bear",
+    "name": "bear trap",
+    "color": "blue",
+    "symbol": "^",
+    "action": "spell",
+    "visibility": 2,
+    "trap_radius": 2,
+    "avoidance": 99,
+    "difficulty": 99,
+    "spell_data": { "id": "bear_trap" }
+  },
+  {
+    "type": "trap",
+    "id": "tr_forge_vault",
+    "name": "summon hounds",
+    "color": "brown",
+    "symbol": ".",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "trap_radius": 2,
+    "action": "spell",
+    "spell_data": { "id": "forge_trap" },
+    "benign": false
+  }
+]

@@ -1,0 +1,593 @@
+[
+  {
+    "id": "nato_assault_rifle",
+    "copy-from": "rifle_auto",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "NATO assault rifle" },
+    "description": "An assault rifle used by a NATO member state.  As per NATO's STANAG agreement, it is chambered in 5.56x45mm.",
+    "//": "Weight, description, length modeled off of m4a1, price and gun stats average of some nato guns",
+    "weight": "2880g",
+    "volume": "3310 ml",
+    "longest_side": "758 mm",
+    "price": "325 USD",
+    "price_postapoc": "48 USD",
+    "variants": [
+      {
+        "id": "acr",
+        "name": { "str": "Remington ACR" },
+        "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing .223 carbines."
+      },
+      {
+        "id": "h&k416a5",
+        "name": { "str": "HK416 A5" },
+        "description": "Designed to replace the M4A1, the Heckler and Koch 416A5 features most of the former's strengths, while being considerably more durable."
+      },
+      {
+        "id": "m27iar",
+        "name": { "str": "M27 IAR" },
+        "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
+        "ascii_picture": "m27_iar"
+      },
+      {
+        "id": "m4a1",
+        "name": { "str": "M4A1" },
+        "description": "A popular carbine, long used by the US military.  Though accurate, small, and lightweight, it is infamous for its unreliability when not properly maintained.",
+        "ascii_picture": "m4a1",
+        "weight": 1
+      },
+      {
+        "id": "m16a3",
+        "name": { "str": "M16A3" },
+        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas operated, rotating bolt rifle known for its accuracy and controllable recoil.  This one is a relatively rare M16A3, with full auto capability."
+      },
+      {
+        "id": "scar_l",
+        "name": { "str": "FN SCAR-L" },
+        "description": "A highly accurate and modular assault rifle specially designed for the United States Special Operations Command.  The 'L' in its name stands for light, as it uses the lightweight .223 round.",
+        "ascii_picture": "scar-L"
+      },
+      {
+        "id": "m38dmr",
+        "name": { "str": "M38 DMR" },
+        "description": "The M38 Designated Marksman Rifle is an M27 IAR, itself derived from a H&K416, selected for accuracy, and outfitted with a variable power scope and a QDSS suppressor."
+      },
+      {
+        "id": "m4_cqbr",
+        "name": { "str": "MK 18 CQBR" },
+        "description": "This is a shorter M4 carbine with a 10.3 inch barrel, intended for confined spaces and close quarters battle situations."
+      }
+    ],
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "223" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
+    "dispersion": 160,
+    "durability": 8,
+    "min_cycle_recoil": 1350,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "barrel_volume": "250 ml",
+    "built_in_mods": [ "folding_stock" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ar15",
+    "copy-from": "rifle_semi",
+    "type": "GUN",
+    "name": { "str": "AR-15" },
+    "//": "This is assumed to be the standard model matching the (currently not in-game) M16. Tileset whitelist for rifles",
+    "description": "This ubiquitous rifle is the forefather of M16 rifle series.  It is lightweight and accurate, but will malfunction if not properly maintained.  This one is a semi-automatic civilian version.",
+    "weight": "3170 g",
+    "volume": "3100 ml",
+    "longest_side": "930 mm",
+    "price": 125000,
+    "price_postapoc": 4000,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "223" ],
+    "dispersion": 150,
+    "durability": 7,
+    "min_cycle_recoil": 1350,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ar_pistol",
+    "copy-from": "rifle_semi",
+    "looks_like": "skorpion_61",
+    "type": "GUN",
+    "name": { "str": "AR pistol" },
+    "description": "A compact, 7.5 inch barrel version of the classic AR-15 design, commercially marketed as a home defense weapon.",
+    "weight": "2267 g",
+    "volume": "1758 ml",
+    "longest_side": "584 mm",
+    "price": 91400,
+    "price_postapoc": 3500,
+    "to_hit": -2,
+    "bashing": 9,
+    "material": [ "steel", "aluminum" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "223" ],
+    "skill": "pistol",
+    "range": -6,
+    "ranged_damage": { "damage_type": "bullet", "amount": -9 },
+    "dispersion": 380,
+    "durability": 6,
+    "min_cycle_recoil": 1350,
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "magazine", 1 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 2 ],
+      [ "sights", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "famas",
+    "copy-from": "rifle_auto",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str_sp": "MAS .223" },
+    "description": "A bullpup assault rifle that was used by French armed forces only until recently.  While the FAMAS was famous for its high fire rate, the MAS .223 is a semi-auto only variation imported to the US in the late eighties.  It retains the integral bipod, though.",
+    "weight": "3610 g",
+    "volume": "3429 ml",
+    "longest_side": "759 mm",
+    "price": 2800000,
+    "price_postapoc": 2500,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "223" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
+    "dispersion": 180,
+    "durability": 8,
+    "min_cycle_recoil": 1350,
+    "built_in_mods": [ "bipod" ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip mount", 1 ],
+      [ "mechanism", 4 ],
+      [ "magazine", 1 ],
+      [ "muzzle", 1 ],
+      [ "sights mount", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel mount", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "famasmag" ]
+      }
+    ]
+  },
+  {
+    "id": "fs2000",
+    "copy-from": "rifle_semi",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "FS2000" },
+    "description": "A sleek bullpup carbine designed by FN Herstal, complete with an integrated sight accessory rail.  The forward ejecting action and ambidextrous controls make firing comfortable for both left and right-handed shooting.  The whole rifle is well sealed from mud and dust for reliability, but this makes it incompatible with many aftermarket magazines.",
+    "weight": "3319 g",
+    "volume": "7986 ml",
+    "longest_side": "740 mm",
+    "price": 125000,
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "223" ],
+    "ranged_damage": { "damage_type": "stab", "amount": -2 },
+    "dispersion": 150,
+    "durability": 9,
+    "min_cycle_recoil": 1350,
+    "default_mods": [ "factory_handguard" ],
+    "//": "Forward ejection port would require a different brass catcher design, so there is no slot for it. Bullpup design requires the factory stock to function.",
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "muzzle", 1 ],
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "stanag30" ]
+      }
+    ]
+  },
+  {
+    "id": "hk_g36",
+    "copy-from": "nato_assault_rifle",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "G36 assault rifle" },
+    "description": "An assault rifle chamber in 5.56x45mm and accepting G36 magazines.",
+    "variants": [
+      {
+        "id": "hk_g36",
+        "name": { "str": "H&K G36" },
+        "description": "Designed as a replacement for the early H&K G3 battle rifle, the G36 is more accurate, and uses the much-lighter .223 round, allowing for a higher ammo capacity.",
+        "weight": 1
+      }
+    ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "g36mag_30rd", "g36mag_100rd" ]
+      }
+    ]
+  },
+  {
+    "id": "m249",
+    "copy-from": "rifle_auto",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "M249" },
+    "description": "The M249 is a mountable machine gun used by the US military and SWAT teams.  Quite inaccurate and difficult to control, the M249 is designed to fire many rounds very quickly.",
+    "ascii_picture": "m249_saw",
+    "weight": "7500 g",
+    "volume": "10610 ml",
+    "longest_side": "1035 mm",
+    "price": 750000,
+    "price_postapoc": 8000,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "223" ],
+    "dispersion": 200,
+    "durability": 7,
+    "min_cycle_recoil": 1350,
+    "reload": 400,
+    "modes": [ [ "DEFAULT", "burst", 4 ] ],
+    "built_in_mods": [ "bipod" ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
+          "belt223",
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "m249_semi",
+    "type": "GUN",
+    "copy-from": "m249",
+    "name": { "str": "M249S" },
+    "description": "This is a semi-automatic civilian variant of the M249 machine gun, manufactured for sport shooting and collectors market.  Notably, it retains the ability to be belt fed, an uncommon feature in civilian firearms.",
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ]
+  },
+  {
+    "id": "m16a4",
+    "copy-from": "nato_assault_rifle",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "NATO burst rifle" },
+    "description": "An assault rifle used by a NATO member state.  Unlike other assault rifles, this one does not have an auto-fire mode, and instead has a burst fire mode.  As per NATO's STANAG agreement, it is chambered in 5.56x45mm.",
+    "variants": [
+      {
+        "id": "m16a4",
+        "name": { "str": "M16A4" },
+        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas operated, rotating bolt rifle known for its accuracy and controllable recoil.",
+        "weight": 1
+      }
+    ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ] ]
+  },
+  {
+    "id": "m231pfw",
+    "copy-from": "m16a4",
+    "type": "GUN",
+    "name": { "str": "M231 Port Firing Weapon" },
+    "description": "The M231 PFW is an adaptation of the M16 assault rifle, designed to be used in the firing ports of the M2 Bradley Infantry Fighting Vehicle.  It does not have a buttstock or front sight post, and the smooth front hand guard makes it slighly less ergonomic.  It fires from an open bolt.  The fire selector says only 'SAFE' and 'AUTO'.  You can't help but wonder which one is preferable.",
+    "weight": "3330 g",
+    "volume": "2400 ml",
+    "longest_side": "727 mm",
+    "price": 90000,
+    "price_postapoc": 3500,
+    "dispersion": 350,
+    "//": "This weapon has an extremely high rate of fire, due to the open bolt design. This is based on a cyclic rate of fire of 1150 RPM, which is close to 19 rounds per second. 6 rounds is comparable to to other weapons with similar rates, such as the MAC-11.",
+    "modes": [ [ "DEFAULT", "auto", 6 ] ]
+  },
+  {
+    "id": "oa93",
+    "copy-from": "rifle_semi",
+    "looks_like": "skorpion_61",
+    "type": "GUN",
+    "name": { "str": "OA-93" },
+    "description": "An AR-15 derivative pistol manufactured by Olympic Arms in the nineties.  The main difference compared to the AR-15 is that the recoil spring has been moved to the top of the gun, circumventing the necessity for a solid buttstock.",
+    "weight": "2023 g",
+    "volume": "2135 ml",
+    "longest_side": "456 mm",
+    "price": 125000,
+    "price_postapoc": 5500,
+    "to_hit": -2,
+    "bashing": 9,
+    "material": [ "steel", "aluminum" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "223" ],
+    "skill": "pistol",
+    "range": -6,
+    "ranged_damage": { "damage_type": "bullet", "amount": -11 },
+    "dispersion": 380,
+    "durability": 6,
+    "min_cycle_recoil": 1350,
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "magazine", 1 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 2 ],
+      [ "sights", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ruger_mini",
+    "copy-from": "rifle_semi",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "Ruger Mini-14" },
+    "description": "A small, lightweight semi-auto carbine designed for civilian and police use.  Its superb accuracy and low recoil makes it more suitable than full-auto rifles for some situations.",
+    "ascii_picture": "mini-14",
+    "weight": "3180 g",
+    "volume": "2900 ml",
+    "longest_side": "977 mm",
+    "price": 92100,
+    "price_postapoc": 3750,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "wood" ],
+    "symbol": "(",
+    "color": "brown",
+    "ammo": [ "223" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
+    "dispersion": 100,
+    "durability": 8,
+    "min_cycle_recoil": 1350,
+    "barrel_volume": "500 ml",
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "ruger20", "ruger5", "ruger10", "ruger30", "ruger90", "ruger100", "ruger_makeshiftmag" ]
+      }
+    ]
+  },
+  {
+    "id": "sig552",
+    "copy-from": "nato_assault_rifle",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "//": "This could use a better name, I just wanted to differentiate it from assault rifles, as it also has a burst mode",
+    "name": { "str": "NATO assault rifle with burst", "str_pl": "NATO assault rifles with burst" },
+    "description": "An assault rifle used by a NATO member state.  Unlike other assault rifles, this one has a burst fire mode in addition to semi-automatic and fully-automatic modes.  As per NATO's STANAG agreement, it is chambered in 5.56x45mm.",
+    "variants": [
+      {
+        "id": "sig552",
+        "name": { "str": "SIG 552" },
+        "description": "A compact selective fire automatic rifle designed for the Swiss military.  It features a three-round burst mode and an integrated folding stock.",
+        "weight": 1
+      }
+    ],
+    "built_in_mods": [ "folding_stock" ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ]
+  },
+  {
+    "id": "steyr_aug",
+    "copy-from": "nato_assault_rifle",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "AUG assault rifle" },
+    "description": "An assault rifle chambered in 5.56x45mm and accepting AUG magazines",
+    "variants": [
+      {
+        "id": "steyr_aug",
+        "name": { "str": "Steyr AUG" },
+        "description": "The Steyr AUG is an Austrian assault rifle that uses a bullpup design.  It is used in the armed forces and police forces of many nations, and enjoys low recoil and high accuracy.",
+        "weight": 1
+      }
+    ],
+    "built_in_mods": [ "grip" ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "magazine", 1 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "augmag_30rd", "augmag_10rd", "augmag_42rd", "augmag_100rd" ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,201 @@
+[
+  {
+    "abstract": "base_board_abstract",
+    "type": "vehicle_part",
+    "location": "center",
+    "categories": [ "hull" ],
+    "standard_symbols": true,
+    "symbols": {
+      "horizontal_front": "h",
+      "horizontal_rear": "h",
+      "horizontal_2_front": "=",
+      "horizontal_2_rear": "=",
+      "vertical_left": "j",
+      "vertical_right": "j",
+      "vertical_T_left": "[",
+      "vertical_T_right": "]",
+      "vertical_2_left": "H",
+      "vertical_2_right": "H"
+    },
+    "flags": [ "OBSTACLE", "NO_ROOF_NEEDED" ]
+  },
+  {
+    "abstract": "board_abstract",
+    "copy-from": "base_board_abstract",
+    "type": "vehicle_part",
+    "item": "sheet_metal",
+    "durability": 120,
+    "breaks_into": "ig_vp_sheet_metal",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "damage_reduction": { "all": 7 }
+  },
+  {
+    "id": "board",
+    "type": "vehicle_part",
+    "copy-from": "board_abstract",
+    "name": { "str": "board" },
+    "description": "A metal wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
+    "extend": { "flags": [ "OPAQUE", "FULL_BOARD" ] }
+  },
+  {
+    "id": "halfboard",
+    "copy-from": "board_abstract",
+    "type": "vehicle_part",
+    "name": { "str": "quarterpanel" },
+    "description": "A half-height metal wall.  Keeps zombies outside the vehicle but allows people to see over it.",
+    "proportional": { "durability": 0.8 },
+    "extend": { "flags": [ "HALF_BOARD" ] }
+  },
+  {
+    "abstract": "clothboard_abstract",
+    "copy-from": "base_board_abstract",
+    "type": "vehicle_part",
+    "item": "sheet",
+    "broken_color": "dark_gray",
+    "durability": 15,
+    "folded_volume": "3750 ml",
+    "breaks_into": "ig_vp_cloth",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+    },
+    "damage_reduction": { "all": 0, "bash": 3 }
+  },
+  {
+    "id": "clothboard",
+    "copy-from": "clothboard_abstract",
+    "type": "vehicle_part",
+    "name": { "str": "cloth board" },
+    "description": "A cloth wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
+    "extend": { "flags": [ "OPAQUE", "FULL_BOARD" ] }
+  },
+  {
+    "abstract": "cloth_halfboard",
+    "copy-from": "clothboard_abstract",
+    "type": "vehicle_part",
+    "name": { "str": "cloth quarterpanel" },
+    "description": "A half-height cloth wall.  Keeps zombies outside the vehicle but allows people to see over it.",
+    "proportional": { "durability": 0.8 },
+    "extend": { "flags": [ "HALF_BOARD" ] }
+  },
+  {
+    "id": "stowboard",
+    "type": "vehicle_part",
+    "copy-from": "base_board_abstract",
+    "name": { "str": "stow board" },
+    "item": "sheet_metal",
+    "color": "white",
+    "broken_symbol": "#",
+    "broken_color": "light_gray",
+    "durability": 80,
+    "description": "A metal wall with a storage locker.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
+    "size": 250,
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "extend": { "categories": [ "cargo" ], "flags": [ "OPAQUE", "CARGO", "COVERED", "FULL_BOARD", "LOCKABLE_CARGO" ] },
+    "damage_reduction": { "all": 7 }
+  },
+  {
+    "id": "hdstowboard",
+    "copy-from": "stowboard",
+    "type": "vehicle_part",
+    "name": { "str": "heavy duty stow board" },
+    "item": "steel_plate",
+    "color": "brown",
+    "broken_color": "dark_gray",
+    "proportional": { "durability": 4.15, "size": 0.76 },
+    "damage_reduction": { "all": 20 }
+  },
+  {
+    "abstract": "hdboard_abstract",
+    "type": "vehicle_part",
+    "copy-from": "base_board_abstract",
+    "item": "steel_plate",
+    "color": "dark_gray",
+    "durability": 450,
+    "description": "A strong metal wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
+    "breaks_into": "ig_vp_steel_plate",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "damage_reduction": { "all": 20 }
+  },
+  {
+    "id": "hdboard",
+    "type": "vehicle_part",
+    "copy-from": "hdboard_abstract",
+    "name": { "str": "heavy duty board" },
+    "description": "A strong metal wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
+    "extend": { "flags": [ "OPAQUE", "FULL_BOARD" ] }
+  },
+  {
+    "id": "hdhalfboard",
+    "copy-from": "hdboard_abstract",
+    "type": "vehicle_part",
+    "name": { "str": "heavy duty quarterpanel" },
+    "description": "A half-height strong metal wall.  Keeps zombies outside the vehicle but allows people to see over it.",
+    "proportional": { "durability": 0.8 },
+    "extend": { "flags": [ "HALF_BOARD" ] }
+  },
+  {
+    "abstract": "woodboard_abstract",
+    "type": "vehicle_part",
+    "copy-from": "base_board_abstract",
+    "item": "wood_plate",
+    "color": "brown",
+    "broken_color": "brown",
+    "durability": 100,
+    "breaks_into": "ig_vp_wood_plate",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+    },
+    "damage_reduction": { "all": 5 }
+  },
+  {
+    "id": "woodboard",
+    "type": "vehicle_part",
+    "copy-from": "woodboard_abstract",
+    "name": { "str": "wooden board" },
+    "description": "A wooden wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
+    "extend": { "flags": [ "OPAQUE", "FULL_BOARD" ] }
+  },
+  {
+    "id": "woodhalfboard",
+    "copy-from": "woodboard_abstract",
+    "type": "vehicle_part",
+    "name": { "str": "wooden quarterpanel" },
+    "description": "A half-height wooden wall.  Keeps zombies outside the vehicle but allows people to see over it.",
+    "proportional": { "durability": 0.8 },
+    "extend": { "flags": [ "HALF_BOARD" ] }
+  },
+  {
+    "id": "xlhalfboard",
+    "type": "vehicle_part",
+    "copy-from": "base_board_abstract",
+    "name": { "str": "extra light quarterpanel" },
+    "item": "pipe",
+    "looks_like": "halfboard",
+    "durability": 96,
+    "description": "A half-height thin metal wall.  Keeps zombies outside the vehicle but allows people to see over it.",
+    "breaks_into": [ { "item": "pipe", "prob": 50 } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_weld_removal", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "extend": { "flags": [ "HALF_BOARD" ] },
+    "damage_reduction": { "all": 5 }
+  }
+]

@@ -1,0 +1,23 @@
+[
+  {
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "sourdough_starter",
+    "time": "1 m",
+    "components": [ [ [ "jar_glass_sealed", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "sourdough_split",
+    "time": "1 m",
+    "components": [ [ [ "jar_glass_sealed", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "sourdough_young",
+    "time": "1 m",
+    "components": [ [ [ "jar_glass_sealed", 1 ] ] ]
+  }
+]

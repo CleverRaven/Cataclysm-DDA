@@ -1,0 +1,260 @@
+[
+  {
+    "abstract": "fake_item",
+    "type": "GENERIC",
+    "name": { "str": "fake item" },
+    "description": "Dummy item.  If you see this, then something went wrong.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "@",
+    "color": "red"
+  },
+  {
+    "id": "arcfurnace",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "arc furnace" }
+  },
+  {
+    "id": "fake_burrowing",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str_sp": "teeth and claws" },
+    "flags": [ "TRADER_AVOID" ],
+    "use_action": [ "DIG" ],
+    "qualities": [ [ "DIG", 2 ] ]
+  },
+  {
+    "id": "toolset",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "integrated toolset" },
+    "flags": [ "TRADER_AVOID", "FIRESTARTER", "USES_BIONIC_POWER" ],
+    "use_action": [ "HAMMER", "CROWBAR" ],
+    "qualities": [
+      [ "HAMMER", 3 ],
+      [ "HAMMER_FINE", 1 ],
+      [ "SAW_W", 1 ],
+      [ "SAW_M", 2 ],
+      [ "SAW_M_FINE", 1 ],
+      [ "WRENCH", 2 ],
+      [ "WRENCH_FINE", 1 ],
+      [ "WHEEL_FAST", 1 ],
+      [ "SCREW", 1 ],
+      [ "SCREW_FINE", 1 ],
+      [ "CUT", 1 ],
+      [ "PRY", 1 ],
+      [ "DRILL", 3 ],
+      [ "BUTCHER", -38 ]
+    ]
+  },
+  {
+    "id": "fake_goggles",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str_sp": "bionic goggles" },
+    "qualities": [ [ "GLARE", 2 ] ]
+  },
+  {
+    "id": "bio_scalpel",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str_sp": "autonomous surgical scalpels" },
+    "description": "A system of surgical grade scalpels.  They allow you to make precise cuts and can also be used as a high-quality butchering tool.",
+    "to_hit": 2,
+    "cutting": 8,
+    "techniques": [ "PRECISE" ],
+    "flags": [ "TRADER_AVOID", "NO_UNWIELD", "UNBREAKABLE_MELEE", "SPEAR" ],
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 5 ], [ "BUTCHER", 50 ] ]
+  },
+  {
+    "id": "fake_razor",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "bionic razor" },
+    "qualities": [ [ "BUTCHER", 8 ] ]
+  },
+  {
+    "id": "acid_spit",
+    "type": "GUN",
+    "copy-from": "fake_item",
+    "name": { "str": "acid spit gun" },
+    "description": "Fake gun that fires acid globs.",
+    "flags": [ "NEVER_JAMS" ],
+    "ammo_effects": [ "BLINDS_EYES", "NEVER_MISFIRES", "NO_DAMAGE_SCALING", "NO_PENETRATE_OBSTACLES" ],
+    "skill": "rifle",
+    "durability": 10,
+    "range": 100,
+    "dispersion": 1000,
+    "ranged_damage": { "damage_type": "acid", "amount": 4 }
+  },
+  {
+    "id": "reach_bow",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "yellow",
+    "name": { "str": "reach bow" },
+    "description": "A test item that is both a ranged weapon and a reach weapon",
+    "price": 16000,
+    "material": [ "steel" ],
+    "flags": [ "REACH_ATTACK", "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "ammo_effects": [ "NEVER_MISFIRES" ],
+    "skill": "archery",
+    "ammo": [ "arrow" ],
+    "weight": "340 g",
+    "volume": "1500 ml",
+    "bashing": 6,
+    "ranged_damage": { "damage_type": "stab", "amount": 3 },
+    "range": 5,
+    "dispersion": 210,
+    "durability": 6,
+    "clip_size": 1,
+    "reload": 60,
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
+  },
+  {
+    "id": "boulder_anvil",
+    "type": "TOOL",
+    "copy-from": "fake_item",
+    "name": { "str": "boulder anvil" },
+    "qualities": [ [ "ANVIL", 1 ] ]
+  },
+  {
+    "id": "fake_milling_item",
+    "copy-from": "fake_item",
+    "type": "GENERIC",
+    "name": { "str_sp": "semi ground grains" },
+    "description": "A paste of half-finished milled grains, not yet flour.",
+    "flags": [ "TRADER_AVOID", "FAKE_MILL" ]
+  },
+  {
+    "id": "fake_smoke_plume",
+    "copy-from": "fake_item",
+    "type": "GENERIC",
+    "name": { "str_sp": "smoldering embers" },
+    "description": "A handful of smoldering embers emitting smoke.  They are fading away even when you look at them.",
+    "emits": [ "emit_small_smoke_plume" ],
+    "flags": [ "TRADER_AVOID", "FAKE_SMOKE" ]
+  },
+  {
+    "id": "fake_firestarter",
+    "copy-from": "fake_item",
+    "type": "TOOL",
+    "name": { "str": "bionic firestarter" },
+    "flags": [ "FIRESTARTER", "USES_BIONIC_POWER" ]
+  },
+  {
+    "id": "migo_bio_gun",
+    "type": "GUN",
+    "copy-from": "fake_item",
+    "name": { "str": "mi-go bio-gun" },
+    "description": "Fake gun that fires some sort of solidified organic matter at very high speed by unknown means of propulsion.",
+    "flags": [ "NEVER_JAMS" ],
+    "ammo_effects": [ "NEVER_MISFIRES", "NO_PENETRATE_OBSTACLES" ],
+    "skill": "rifle",
+    "durability": 10,
+    "range": 100,
+    "dispersion": 1000,
+    "ranged_damage": { "damage_type": "stab", "amount": 30 }
+  },
+  {
+    "id": "pseudo_char_smoker",
+    "type": "TOOL",
+    "name": { "str": "smoking rack" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": [ "charcoal" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 2000 } } ],
+    "sub": "char_smoker",
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "fake_power_tool",
+    "type": "TOOL",
+    "copy-from": "fake_item",
+    "name": { "str": "fake power tool" },
+    "ammo": [ "battery" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "USE_UPS" ]
+  },
+  {
+    "id": "fake_arc_furnace",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "electric arc furnace" }
+  },
+  {
+    "id": "fake_drill_press",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "drill press", "str_pl": "drill presses" }
+  },
+  {
+    "id": "fake_tablesaw",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "tablesaw" }
+  },
+  {
+    "id": "fake_mitresaw",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "mitresaw" }
+  },
+  {
+    "id": "fake_bandsaw",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "bandsaw" }
+  },
+  {
+    "id": "fake_router_table",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "router table" }
+  },
+  {
+    "id": "fake_planer",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "planer" }
+  },
+  {
+    "id": "fake_jointer",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "jointer" }
+  },
+  {
+    "id": "fake_hydraulic_press",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "hydraulic press", "str_pl": "hydraulic presses" }
+  },
+  {
+    "id": "fake_power_lathe",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "power lathe" }
+  },
+  {
+    "id": "fake_air_compressor",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "air compressor" }
+  },
+  {
+    "id": "fake_oven",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "oven" }
+  },
+  {
+    "id": "fake_water_purifier",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "stationary water purifier" }
+  }
+]

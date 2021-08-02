@@ -1,0 +1,427 @@
+[
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_MUTANT_LIZARD",
+    "name": "Lizard Mutant",
+    "job_description": "I'm looking for lizard mutagen… this world is no place for humans anymore, and I don't plan to keep being one.",
+    "skills": [
+      { "skill": "dodge", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } }
+    ],
+    "bonus_str": 4,
+    "bonus_dex": 2,
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "BG_survival_story_MUTANTS" },
+      { "group": "trait_group_lizard" },
+      { "distribution": [ { "group": "trait_group_lizard_nonthres" }, { "group": "trait_group_lizard_postthres" } ] }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_MUTANT_MEDICAL",
+    "name": "Medical Mutant",
+    "job_description": "I'm looking for medical mutagen… this world is no place for humans anymore, and I don't plan to keep being one.",
+    "skills": [
+      { "skill": "dodge", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } }
+    ],
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "BG_survival_story_MUTANTS" },
+      { "group": "trait_group_medical" },
+      {
+        "distribution": [ { "group": "trait_group_medical_nonthres" }, { "group": "trait_group_medical_postthres" } ]
+      }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_MUTANT_BIRD",
+    "name": "Bird Mutant",
+    "job_description": "I'm looking for bird mutagen… this world is no place for humans anymore, and I don't plan to keep being one.",
+    "skills": [
+      { "skill": "dodge", "bonus": { "rng": [ 4, 8 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } }
+    ],
+    "bonus_dex": 4,
+    "bonus_per": 7,
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "BG_survival_story_MUTANTS" },
+      { "group": "trait_group_bird" },
+      { "distribution": [ { "group": "trait_group_bird_nonthres" }, { "group": "trait_group_bird_postthres" } ] }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_MUTANT_FISH",
+    "name": "Fish Mutant",
+    "job_description": "I'm looking for fish mutagen… this world is no place for humans anymore, and I don't plan to keep being one.",
+    "skills": [
+      { "skill": "dodge", "bonus": { "rng": [ 4, 8 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "swimming", "bonus": { "rng": [ 5, 15 ] } }
+    ],
+    "bonus_dex": 7,
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "BG_survival_story_MUTANTS" },
+      { "group": "trait_group_fish" },
+      { "distribution": [ { "group": "trait_group_fish_nonthres" }, { "group": "trait_group_fish_postthres" } ] }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_MUTANT_BEAST",
+    "name": "Beast Mutant",
+    "job_description": "I'm looking for beast mutagen… this world is no place for humans anymore, and I don't plan to keep being one.",
+    "skills": [
+      { "skill": "dodge", "bonus": { "rng": [ 4, 8 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 4, 8 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 4, 8 ] } }
+    ],
+    "bonus_str": 7,
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "BG_survival_story_MUTANTS" },
+      { "group": "trait_group_beast" },
+      { "distribution": [ { "group": "trait_group_beast_nonthres" }, { "group": "trait_group_beast_postthres" } ] }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_MUTANT_URSINE",
+    "name": "Ursine Mutant",
+    "job_description": "I'm looking for ursine mutagen… this world is no place for humans anymore, and I don't plan to keep being one.",
+    "skills": [
+      { "skill": "dodge", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } }
+    ],
+    "bonus_str": 11,
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "BG_survival_story_MUTANTS" },
+      { "group": "trait_group_ursine" },
+      { "distribution": [ { "group": "trait_group_ursine_nonthres" }, { "group": "trait_group_ursine_postthres" } ] }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_MUTANT_FELINE",
+    "name": "Feline Mutant",
+    "job_description": "I'm looking for feline mutagen… this world is no place for humans anymore, and I don't plan to keep being one.",
+    "skills": [
+      { "skill": "dodge", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } }
+    ],
+    "bonus_dex": 4,
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "BG_survival_story_MUTANTS" },
+      { "group": "trait_group_feline" },
+      { "distribution": [ { "group": "trait_group_feline_nonthres" }, { "group": "trait_group_feline_postthres" } ] }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_MUTANT_LUPINE",
+    "name": "Lupine Mutant",
+    "job_description": "I'm looking for lupine mutagen… this world is no place for humans anymore, and I don't plan to keep being one.",
+    "skills": [
+      { "skill": "dodge", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } }
+    ],
+    "bonus_str": 4,
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "trait_group_lupine" },
+      { "group": "BG_survival_story_MUTANTS" },
+      { "distribution": [ { "group": "trait_group_lupine_nonthres" }, { "group": "trait_group_lupine_postthres" } ] }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_MUTANT_CATTLE",
+    "name": "Cattle Mutant",
+    "job_description": "I'm looking for cattle mutagen… this world is no place for humans anymore, and I don't plan to keep being one.",
+    "skills": [
+      { "skill": "dodge", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } }
+    ],
+    "bonus_str": 6,
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "BG_survival_story_MUTANTS" },
+      { "group": "trait_group_cattle" },
+      { "distribution": [ { "group": "trait_group_cattle_nonthres" }, { "group": "trait_group_cattle_postthres" } ] }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_MUTANT_INSECT",
+    "name": "Insect Mutant",
+    "job_description": "I'm looking for insect mutagen… this world is no place for humans anymore, and I don't plan to keep being one.",
+    "skills": [
+      { "skill": "dodge", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } }
+    ],
+    "bonus_str": 1,
+    "bonus_dex": 1,
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "BG_survival_story_MUTANTS" },
+      { "group": "trait_group_insect" },
+      { "distribution": [ { "group": "trait_group_insect_nonthres" }, { "group": "trait_group_insect_postthres" } ] }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_MUTANT_PLANT",
+    "name": "Plant Mutant",
+    "job_description": "I'm looking for plant mutagen… this world is no place for humans anymore, and I don't plan to keep being one.",
+    "skills": [
+      { "skill": "dodge", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } }
+    ],
+    "bonus_str": 2,
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "BG_survival_story_MUTANTS" },
+      { "group": "trait_group_plant" },
+      { "distribution": [ { "group": "trait_group_plant_nonthres" }, { "group": "trait_group_plant_postthres" } ] }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_MUTANT_SLIME",
+    "name": "Slime Mutant",
+    "job_description": "I'm looking for slime mutagen… this world is no place for humans anymore, and I don't plan to keep being one.",
+    "skills": [
+      { "skill": "dodge", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 2, 4 ] } }
+    ],
+    "bonus_str": -4,
+    "bonus_dex": 5,
+    "bonus_int": 10,
+    "bonus_per": 5,
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "BG_survival_story_MUTANTS" },
+      { "group": "trait_group_slime" },
+      { "distribution": [ { "group": "trait_group_slime_nonthres" }, { "group": "trait_group_slime_postthres" } ] }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_MUTANT_TROGLOBITE",
+    "name": "Troglobite Mutant",
+    "job_description": "I'm looking for troglobite mutagen… this world is no place for humans anymore, and I don't plan to keep being one.",
+    "skills": [
+      { "skill": "dodge", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 4, 8 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 4, 8 ] } }
+    ],
+    "bonus_str": 6,
+    "bonus_dex": -2,
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "BG_survival_story_MUTANTS" },
+      { "group": "trait_group_troglobite" },
+      {
+        "distribution": [ { "group": "trait_group_troglobite_nonthres" }, { "group": "trait_group_troglobite_postthres" } ]
+      }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_MUTANT_CEPHALOPOD",
+    "name": "Cephalopod Mutant",
+    "job_description": "I'm looking for cephalopod mutagen… this world is no place for humans anymore, and I don't plan to keep being one.",
+    "skills": [
+      { "skill": "dodge", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "swimming", "bonus": { "rng": [ 3, 6 ] } }
+    ],
+    "bonus_dex": 7,
+    "bonus_int": 7,
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "BG_survival_story_MUTANTS" },
+      { "group": "trait_group_cephalopod" },
+      {
+        "distribution": [ { "group": "trait_group_cephalopod_nonthres" }, { "group": "trait_group_cephalopod_postthres" } ]
+      }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_MUTANT_SPIDER",
+    "name": "Spider Mutant",
+    "job_description": "I'm looking for spider mutagen… this world is no place for humans anymore, and I don't plan to keep being one.",
+    "skills": [
+      { "skill": "dodge", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } }
+    ],
+    "bonus_dex": 2,
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "BG_survival_story_MUTANTS" },
+      { "group": "trait_group_spider" },
+      { "distribution": [ { "group": "trait_group_spider_nonthres" }, { "group": "trait_group_spider_postthres" } ] }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_MUTANT_RAT",
+    "name": "Rat Mutant",
+    "job_description": "I'm looking for rat mutagen… this world is no place for humans anymore, and I don't plan to keep being one.",
+    "skills": [
+      { "skill": "dodge", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } }
+    ],
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "BG_survival_story_MUTANTS" },
+      { "group": "trait_group_rat" },
+      { "distribution": [ { "group": "trait_group_rat_nonthres" }, { "group": "trait_group_rat_postthres" } ] }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_MUTANT_MOUSE",
+    "name": "Mouse Mutant",
+    "job_description": "I'm looking for mouse mutagen… this world is no place for humans anymore, and I don't plan to keep being one.",
+    "skills": [
+      { "skill": "dodge", "bonus": { "rng": [ 4, 7 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 2, 5 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 2, 5 ] } }
+    ],
+    "bonus_dex": 6,
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "BG_survival_story_MUTANTS" },
+      { "group": "trait_group_mouse" },
+      { "distribution": [ { "group": "trait_group_mouse_nonthres" }, { "group": "trait_group_mouse_postthres" } ] }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_MUTANT_ALPHA",
+    "name": "Alpha Mutant",
+    "job_description": "I'm looking for alpha mutagen… this world is no place for humans anymore, and I don't plan to keep being one.",
+    "skills": [
+      { "skill": "dodge", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 3, 6 ] } }
+    ],
+    "bonus_str": 5,
+    "bonus_dex": 5,
+    "bonus_int": 5,
+    "bonus_per": 5,
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "BG_survival_story_MUTANTS" },
+      { "group": "trait_group_alpha" },
+      { "distribution": [ { "group": "trait_group_alpha_nonthres" }, { "group": "trait_group_alpha_postthres" } ] }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_MUTANT_ELFA",
+    "name": "Elfa Mutant",
+    "job_description": "I'm looking for elfa mutagen… this world is no place for humans anymore, and I don't plan to keep being one.",
+    "skills": [
+      { "skill": "dodge", "bonus": { "rng": [ 4, 8 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 2, 4 ] } }
+    ],
+    "bonus_str": 1,
+    "bonus_dex": 5,
+    "bonus_int": 4,
+    "bonus_per": 4,
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "BG_survival_story_MUTANTS" },
+      { "group": "trait_group_elfa" },
+      { "distribution": [ { "group": "trait_group_elfa_nonthres" }, { "group": "trait_group_elfa_postthres" } ] }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_MUTANT_CHIMERA",
+    "name": "Chimera Mutant",
+    "job_description": "I'm looking for chimera mutagen… this world is no place for humans anymore, and I don't plan to keep being one.",
+    "skills": [
+      { "skill": "dodge", "bonus": { "rng": [ 4, 8 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 4, 8 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 4, 8 ] } }
+    ],
+    "bonus_str": 4,
+    "bonus_dex": 2,
+    "bonus_per": 2,
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "BG_survival_story_MUTANTS" },
+      { "group": "trait_group_chimera" },
+      {
+        "distribution": [ { "group": "trait_group_chimera_nonthres" }, { "group": "trait_group_chimera_postthres" } ]
+      }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_MUTANT_RAPTOR",
+    "name": "Raptor Mutant",
+    "job_description": "I'm looking for raptor mutagen… this world is no place for humans anymore, and I don't plan to keep being one.",
+    "skills": [
+      { "skill": "dodge", "bonus": { "rng": [ 6, 10 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 6, 10 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 6, 10 ] } }
+    ],
+    "bonus_str": 1,
+    "bonus_dex": 2,
+    "bonus_per": 4,
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "BG_survival_story_MUTANTS" },
+      { "group": "trait_group_raptor" },
+      { "distribution": [ { "group": "trait_group_raptor_nonthres" }, { "group": "trait_group_raptor_postthres" } ] },
+      { "group": "trait_group_raptor" },
+      { "distribution": [ { "group": "trait_group_raptor_nonthres" }, { "group": "trait_group_raptor_postthres" } ] }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_NPC_MUTANT_MASTODON",
+    "name": "Mastodon Uplift",
+    "job_description": "Humans created me.  Let's see what I can be on my own.",
+    "skills": [
+      { "skill": "survival", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 6, 10 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 6, 10 ] } }
+    ],
+    "bonus_str": 3,
+    "traits": [
+      { "group": "trait_mutant_npc_common" },
+      { "group": "trait_group_mastodon" },
+      {
+        "distribution": [ { "group": "trait_group_mastodon_nonthres" }, { "group": "trait_group_mastodon_postthres" } ]
+      }
+    ]
+  }
+]

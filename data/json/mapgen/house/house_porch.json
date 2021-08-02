@@ -1,0 +1,144 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "house_porch" ],
+    "weight": 200,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        ".....:--p......!!!!!!!..",
+        "......--.......!!!!!!!..",
+        ".....:--:......!!!!!!!..",
+        "......--:......!!!!!!!..",
+        ".....:---------!!!!!!!..",
+        ".%%%%%--%%%%%..!!!!!!!..",
+        ".$___$~~$___$..!!!!!!!..",
+        "._~~~~~~~~~~_..!!!!!!!..",
+        "._GKG~~~~jj~_..!!!!!!!..",
+        ".##o##**##o##..!!!!!!!..",
+        ".#ssxx  y  y#..!!!!!!!..",
+        ".#          #^.%%%%%%%..",
+        ".#         a##oo###oo##.",
+        ".#HHsE          AJ347F#.",
+        ".#r      hfh    AJ   Oo.",
+        ".#rA     hfh         5o.",
+        ".#r  Y          66Y 12#.",
+        ".##oo## |||||||+|||+||#.",
+        ".....^# |@@ d|t(S|d  s#.",
+        "...:..+ +  AI|8(9|b @@#.",
+        "......# |   I|||||R @@#.",
+        "......#>|RR  +D|D+   s#.",
+        "......#o##oo#######oo##.",
+        "........................"
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        "~": "t_thconc_floor",
+        "j": "t_thconc_floor",
+        "G": "t_thconc_floor",
+        "K": "t_thconc_floor",
+        "!": "t_concrete",
+        ":": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "_": "t_railing",
+        "%": "t_region_groundcover_urban",
+        "9": "t_linoleum_gray",
+        "t": "t_linoleum_gray",
+        "S": "t_linoleum_gray",
+        "8": "t_linoleum_gray",
+        "(": "t_linoleum_gray",
+        "$": "t_column",
+        "f": "t_carpet_red",
+        "h": "t_carpet_red"
+      },
+      "furniture": { "%": "f_region_flower" },
+      "place_loot": [
+        { "group": "alcohol", "x": [ 2, 2 ], "y": [ 8, 8 ], "chance": 15 },
+        { "item": "television", "x": [ 4, 4 ], "y": [ 10, 10 ], "chance": 75 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_porch_roof",
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " ............           ",
+        " ............           ",
+        " ............           ",
+        " |22222222223           ",
+        " |..........3           ",
+        " |..........3           ",
+        " |.........~52222222223 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |....................3 ",
+        " |.............=......3 ",
+        " |----5...............3 ",
+        "      |...............3 ",
+        "      |.....&.........3 ",
+        "      |...............3 ",
+        "      |...............3 ",
+        "      |---------------3 ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "house_porch_basement",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " ||||||||||||           ",
+        " |1......%St|           ",
+        " |.......%..|           ",
+        " |.......%+%||||||||||| ",
+        " |...........2........| ",
+        " |....................| ",
+        " |....................| ",
+        " |....................| ",
+        " ||||||...............| ",
+        "      |Z..............| ",
+        "      |W..............| ",
+        "      |J..............| ",
+        "      |<.F.g..........| ",
+        "      ||||||||||||||||| ",
+        "                        "
+      ],
+      "palettes": [ "basement_empty" ],
+      "nested": {
+        "1": {
+          "chunks": [
+            [ "null", 70 ],
+            [ "room_7x7_recroom_E", 30 ],
+            [ "room_7x7_wine_cellar_E", 30 ],
+            [ "7x7_tent_indoors", 10 ],
+            [ "7x7_band_practice_open", 30 ]
+          ]
+        },
+        "2": { "chunks": [ [ "null", 75 ], [ "room_9x9_cellar_W", 20 ], [ "room_9x9_weed_W", 5 ] ] }
+      }
+    }
+  }
+]

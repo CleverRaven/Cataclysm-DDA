@@ -1,0 +1,98 @@
+[
+  {
+    "type": "rotatable_symbol",
+    "tuple": [ "<", "^", ">", "v" ]
+  },
+  {
+    "type": "rotatable_symbol",
+    "tuple": [ "┘", "└", "┌", "┐" ]
+  },
+  {
+    "type": "rotatable_symbol",
+    "tuple": [ "│", "─" ]
+  },
+  {
+    "type": "rotatable_symbol",
+    "tuple": [ "├", "┬", "┤", "┴" ]
+  },
+  {
+    "type": "rotatable_symbol",
+    "tuple": [ "╝", "╚", "╔", "╗" ]
+  },
+  {
+    "type": "rotatable_symbol",
+    "tuple": [ "║", "═" ]
+  },
+  {
+    "type": "rotatable_symbol",
+    "tuple": [ "╠", "╦", "╣", "╩" ]
+  },
+  {
+    "type": "rotatable_symbol",
+    "tuple": [ "╛", "╘", "╒", "╕" ]
+  },
+  {
+    "type": "rotatable_symbol",
+    "tuple": [ "╫", "╪" ]
+  },
+  {
+    "type": "rotatable_symbol",
+    "tuple": [ "╞", "╤", "╡", "╧" ]
+  },
+  {
+    "type": "rotatable_symbol",
+    "tuple": [ "╜", "╙", "╓", "╖" ]
+  },
+  {
+    "type": "rotatable_symbol",
+    "tuple": [ "╟", "╥", "╢", "╨" ]
+  },
+  {
+    "type": "rotatable_symbol",
+    "tuple": [ "┃", "━" ]
+  },
+  {
+    "type": "rotatable_symbol",
+    "tuple": [ "┆", "┄" ]
+  },
+  {
+    "type": "rotatable_symbol",
+    "tuple": [ "┇", "┅" ]
+  },
+  {
+    "type": "rotatable_symbol",
+    "tuple": [ "┊", "┈" ]
+  },
+  {
+    "type": "rotatable_symbol",
+    "tuple": [ "┋", "┉" ]
+  },
+  {
+    "type": "rotatable_symbol",
+    "tuple": [ "╎", "╌" ]
+  },
+  {
+    "type": "rotatable_symbol",
+    "tuple": [ "╏", "╍" ]
+  },
+  {
+    "type": "rotatable_symbol",
+    "tuple": [ "╯", "╰", "╭", "╮" ]
+  },
+  {
+    "type": "rotatable_symbol",
+    "tuple": [ "▟", "▙", "▛", "▜" ]
+  },
+  {
+    "type": "rotatable_symbol",
+    "tuple": [ "▚", "▞" ]
+  },
+  {
+    "type": "rotatable_symbol",
+    "tuple": [ "▘", "▝", "▗", "▖" ]
+  },
+  {
+    "type": "rotatable_symbol",
+    "tuple": [ "▁", "▏", "▔", "▕" ]
+  }
+]

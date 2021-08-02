@@ -1,0 +1,225 @@
+[
+  {
+    "method": "json",
+    "om_terrain": "rural_house1",
+    "type": "mapgen",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "...._......__.__........",
+        ".....[..[..__.__..[.....",
+        "!..[.......__.___.%._.%.",
+        "_.%....[...__.__.....[..",
+        ".%[....%..___.__....%%.[",
+        "..._.[....._____..[._.!.",
+        "..%.....[..__.__.....[..",
+        ".[..%......__.__..%.....",
+        ".......%...__.___._....!",
+        "._....._..___.__.....%..",
+        "..!........__.__.....[._",
+        "..........p__.__.%.....[",
+        ".[.%%%!%...______.[.%...",
+        ".##o######.______...[%..",
+        "_#s@|FO51o._______..%...",
+        ".# @|4  7#..______....[.",
+        "[# d|6  2#!._______.....",
+        ".#y +  hro.________.....",
+        ".#|||T  r#._________....",
+        "^#t +  y##.________.._[%",
+        "!#9S|E  *---_______.....",
+        ".####  so...______...%..",
+        "..%[#HHR#....____...%[..",
+        ".._%##o##.........._..!."
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
+        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "!": "t_region_groundcover_urban",
+        "`": "t_concrete",
+        "#": "t_rock_wall",
+        "_": "t_dirt"
+      },
+      "furniture": { "!": "f_region_flower" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "rural_house1_roof",
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " |22222223              ",
+        " |.......3              ",
+        " |.......3              ",
+        " |.....N.3              ",
+        " |.......3              ",
+        " |.&.....3              ",
+        " 5......33              ",
+        " |......3               ",
+        " |---.=.3               ",
+        "    |...3               ",
+        "    |---3               "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  },
+  {
+    "method": "json",
+    "om_terrain": "rural_house2",
+    "type": "mapgen",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "........._.__.__..._....",
+        "..[..!.[..p__.__...[%...",
+        "._.........__.__........",
+        "...%%!!%_..__.__..[...[.",
+        "..####o##..__.__....%.._",
+        "_.#>R|bd#..__.__.%.[....",
+        ".%#  +  o..__.___..%.%[.",
+        "._o y|@@#%.__..__...._%.",
+        "..#  |||#%._______......",
+        ".%#  + t#j.________..!..",
+        "%%# R|S9#j.X________....",
+        ".%# R|||#!!!_______...[.",
+        "..#     *---._______....",
+        "..# AA L####._______.%_.",
+        "..#6JJ  Yrr#..______.[%.",
+        ".%#7      ho..______..%.",
+        "_%#2   TE y#%.______%...",
+        ".%#1 4|Hl  o%._____.%.._",
+        ".^#FO5|Hl k#...____.....",
+        "..##o#######._...__._.!.",
+        "....._.!%%%.............",
+        "..u.%%.%.[...%........%[",
+        "_%%[%...%.[...%_..%.....",
+        "...%...._...%[........%."
+      ],
+      "palettes": [ "standard_domestic_palette" ],
+      "terrain": {
+        "%": [ "t_region_shrub", "t_region_shrub_fruit", "t_region_shrub_decorative" ],
+        "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
+        "!": "t_region_groundcover_urban",
+        "`": "t_concrete",
+        "_": "t_dirt"
+      },
+      "furniture": { "!": "f_region_flower" },
+      "place_items": [
+        { "chance": 55, "item": "knifeblock", "x": 4, "y": 18 },
+        { "chance": 55, "item": "book_survival", "x": 3, "y": 15 },
+        { "chance": 35, "item": "misc_smoking", "x": 9, "y": 17 },
+        { "chance": 35, "item": "misc_smoking", "x": 10, "y": 14 }
+      ],
+      "place_monsters": [ { "monster": "GROUP_DOGS", "x": 5, "y": 14 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "rural_house2_roof",
+    "object": {
+      "fill_ter": "t_shingle_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  |222223               ",
+        "  |.....3               ",
+        "  |.....3               ",
+        "  |.....3               ",
+        "  |.....3               ",
+        "  |..=..3               ",
+        "  |.....3               ",
+        "  |.....3               ",
+        "  |.....3               ",
+        "  |.....3223            ",
+        "  |........3            ",
+        "  |.....N..3            ",
+        "  |........3            ",
+        "  |........3            ",
+        "  5...&....3            ",
+        "  |--------3            ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ".": "t_shingle_flat_roof" }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "rural_house2_basement",
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "  |||||||               ",
+        "  |<..zz|               ",
+        "  |....z|               ",
+        "  |....z|               ",
+        "  |2....|               ",
+        "  |.....|               ",
+        "  |.....|               ",
+        "  |.....|               ",
+        "  |.....|               ",
+        "  |g....||||            ",
+        "  ||..1....|            ",
+        "  |W.......|            ",
+        "  |Z.......|            ",
+        "  |........|            ",
+        "  |FJJ.....|            ",
+        "  ||||||||||            ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "basement_empty" ],
+      "nested": {
+        "1": { "chunks": [ [ "null", 70 ], [ "5x5_holdout_W", 10 ], [ "5x5_sauna_W", 20 ] ] },
+        "2": {
+          "chunks": [
+            [ "null", 80 ],
+            [ "5x5_gym_N", 20 ],
+            [ "5x5_gym_S", 20 ],
+            [ "5x5_gym_E", 20 ],
+            [ "5x5_gym_W", 20 ],
+            [ "livingroom_5x5_S_1", 30 ],
+            [ "livingroom_5x5_E_1", 30 ],
+            [ "livingroom_5x5_N_1", 30 ],
+            [ "livingroom_5x5_W_1", 30 ],
+            [ "livingroom_5x5_S_2", 30 ],
+            [ "livingroom_5x5_E_2", 30 ],
+            [ "livingroom_5x5_N_2", 30 ],
+            [ "livingroom_5x5_W_2", 30 ]
+          ]
+        }
+      }
+    }
+  }
+]

@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "national_guard_camp",
+    "name": "Beta National Guard Camp",
+    "authors": [ "acidia" ],
+    "description": "Help test the national guard camp before inclusion into the base game.  Provide feedback in the thread under 'The Lab'",
+    "category": "buildings",
+    "dependencies": [ "dda" ],
+    "obsolete": true
+  }
+]
