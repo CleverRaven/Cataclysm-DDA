@@ -21,7 +21,7 @@
     "id": "afs_welcome1_book",
     "type": "BOOK",
     "name": { "str": "Unofficial History of Salus IV Vol. 1", "str_pl": "copies of Unofficial History of Salus IV Vol. 1" },
-    "description": "Welcome to Frozen Hell, an unofficial history of Salus IV by Bette Lapin.  Salus IV was founded in the early days of the Hyperspace Era by the interstellar Soviet community.  At its height several hundred years ago Salus IV had just over one billion sentient citizens, but that population had begun to decline even before the Discontinuity as people migrated to planets that while more hostile to life during the earliest colonization phases than Salus IV were much simpler to terraform into a place more enjoyable by human and uplift citizens.",
+    "description": "Welcome to Frozen Hell, an unofficial history of Salus IV by Bette Lapin.  Salus IV was founded in the early days of the Hyperspace Era as a joint venture between Mercurial Genomics and a Soviet Design Bureau.  At its height several hundred years ago Salus IV had just over 110 million citizens (including both uplifts and humans). However, that population had begun to decline even before the Discontinuity as people migrated to planets that, while more hostile to life during the earliest colonization phases than Salus IV, were much simpler to terraform into a place more enjoyable by human and uplift citizens.",
     "weight": "700 g",
     "volume": "750 ml",
     "price": 5000,
@@ -39,7 +39,7 @@
     "id": "afs_welcome2_book",
     "type": "BOOK",
     "name": { "str": "Unofficial History of Salus IV Vol. 2", "str_pl": "copies of Unofficial History of Salus IV Vol. 2" },
-    "description": "Even during the Discontinuity Salus IV's population continued to drop as there were easier places to live even in the Salus system, from honeycombed asteroid habitats, to domed cities with gorgeous views.  As with many other governments during the Discontinuity the Interstellar Soviet collapsed into a vipers pit of microstates, solar corporations and other forms of self governance.  During this time Mercurial Genomics a corporation specializing in Uplifts successfully laid claim to Salus IV in the court system set up by ESCA.  The Whately family, which runs Mercurial Genomics begins leasing development and exploitation permits and allows the establishment of minor UICA outposts within Salus IV.  There is an official citizen count of less than fifty thousand sentient beings mostly in orbit of Salus IV.  It is believed however that there are at least that many non-citizen sentients spread amongst squatter, smuggler, pirate, and feral uplift communities.",
+    "description": "Even during the Discontinuity Salus IV's population continued to drop as there were easier places to live even in the Salus system - from honeycombed asteroid habitats to domed cities with gorgeous views.  Mercurial Genomics was an early member of the nascent post-Discontinuity government efforts.  As a result of this membership, they have successfully reclaimed Salus IV in the court system set up by ESCA.  The Whately family, which runs Mercurial Genomics, began leasing development and exploitation permits and allows the establishment of minor UICA outposts within Salus IV.  There is an official citizen count of less than twenty thousand sentient beings, albeit mostly in orbit.  It is believed, however, that there are at least that many non-citizen sentients spread amongst squatter, smuggler, pirate, and feral uplift communities.",
     "copy-from": "afs_welcome1_book"
   },
   {

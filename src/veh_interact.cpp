@@ -37,7 +37,6 @@
 #include "game_constants.h"
 #include "handle_liquid.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_group.h"
 #include "itype.h"
 #include "line.h"

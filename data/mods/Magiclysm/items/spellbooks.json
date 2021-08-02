@@ -14,6 +14,7 @@
       "spells": [
         "debug_hp",
         "debug_stamina",
+        "debug_teleport_to",
         "example_template",
         "debug_bionic",
         "pain_split",

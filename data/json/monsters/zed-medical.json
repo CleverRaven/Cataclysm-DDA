@@ -19,12 +19,22 @@
     "color": "blue"
   },
   {
+    "id": "mon_zombie_medical_regenerating",
+    "type": "MONSTER",
+    "name": { "str": "regenerating zombie medic" },
+    "description": "This hairless corpse is dressed like a medical professional.  Its pale pinkish flesh appears to be squirming and moving across its body, quickly covering and fixing any wounds received.",
+    "copy-from": "mon_zombie_regenerating",
+    "death_drops": "mon_zombie_medical_death_drops",
+    "upgrades": { "half_life": 14, "into_group": "GROUP_MEDICAL_CRAWLER_UPGRADE" }
+  },
+  {
     "id": "mon_skeleton_medical",
     "type": "MONSTER",
     "name": { "str_sp": "sawbones" },
     "description": "An overgrowth of ossified tissue has replaced this former medical professional's rotting skin with an organic armor of dense bone.  Large clumps of black goo seep from its joints as it shambles aimlessly, with sickening crackling sounds filling the surrounding air.",
     "copy-from": "mon_skeleton",
-    "death_drops": "zombie_medical_clothes"
+    "death_drops": "zombie_medical_clothes",
+    "color": "blue"
   },
   {
     "id": "mon_zombie_medical_acidic",

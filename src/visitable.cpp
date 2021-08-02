@@ -38,7 +38,6 @@
 #include "vehicle_selector.h"
 
 static const itype_id itype_apparatus( "apparatus" );
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
 
@@ -345,7 +344,7 @@ static VisitResponse visit_internal( const std::function<VisitResponse( item *, 
             return VisitResponse::ABORT;
 
         case VisitResponse::NEXT:
-            if( m_node->contents.visit_contents( func, m_node ) == VisitResponse::ABORT ) {
+            if( m_node->visit_contents( func, m_node ) == VisitResponse::ABORT ) {
                 return VisitResponse::ABORT;
             }
         /* intentional fallthrough */
@@ -356,6 +355,12 @@ static VisitResponse visit_internal( const std::function<VisitResponse( item *, 
 
     /* never reached but suppresses GCC warning */
     return VisitResponse::ABORT;
+}
+
+VisitResponse item::visit_contents( const std::function<VisitResponse( item *, item * )>
+                                    &func, item *parent )
+{
+    return contents.visit_contents( func, parent );
 }
 
 VisitResponse item_contents::visit_contents( const std::function<VisitResponse( item *, item * )>
@@ -556,7 +561,7 @@ std::list<item> inventory::remove_items_with( const
                 }
 
             } else {
-                istack_iter->contents.remove_internal( filter, count, res );
+                istack_iter->remove_internal( filter, count, res );
                 ++istack_iter;
             }
         }
@@ -601,7 +606,7 @@ std::list<item> Character::remove_items_with( const
                 return res;
             }
         } else {
-            iter->contents.remove_internal( filter, count, res );
+            iter->remove_internal( filter, count, res );
             if( count == 0 ) {
                 return res;
             }
@@ -614,7 +619,7 @@ std::list<item> Character::remove_items_with( const
         res.push_back( remove_weapon() );
         count--;
     } else {
-        weapon.contents.remove_internal( filter, count, res );
+        weapon.remove_internal( filter, count, res );
     }
 
     return res;
@@ -658,7 +663,7 @@ std::list<item> map_cursor::remove_items_with( const
                 return res;
             }
         } else {
-            iter->contents.remove_internal( filter, count, res );
+            iter->remove_internal( filter, count, res );
             if( count == 0 ) {
                 return res;
             }
@@ -713,7 +718,7 @@ std::list<item> vehicle_cursor::remove_items_with( const
                 return res;
             }
         } else {
-            iter->contents.remove_internal( filter, count, res );
+            iter->remove_internal( filter, count, res );
             if( count == 0 ) {
                 return res;
             }
@@ -753,35 +758,39 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
 
     bool found_tool_with_UPS = false;
     self.visit_items( [&]( const item * e, item * ) {
-        if( !e->is_broken() && filter( *e ) ) {
-            if( e->is_tool() ) {
-                if( e->typeId() == id ) {
-                    // includes charges from any included magazine.
-                    qty = sum_no_wrap( qty, e->ammo_remaining() );
-                    if( e->has_flag( STATIC( flag_id( "USE_UPS" ) ) ) ) {
-                        found_tool_with_UPS = true;
-                    }
-                }
-                if( !e->is_container() ) {
-                    return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
-                }
-
-            } else if( e->count_by_charges() ) {
-                if( e->typeId() == id ) {
+        if( filter( *e ) && id == e->typeId() && !e->is_broken() ) {
+            if( id != itype_UPS_off ) {
+                if( e->count_by_charges() ) {
                     qty = sum_no_wrap( qty, e->charges );
+                } else {
+                    qty = sum_no_wrap( qty, e->ammo_remaining() );
                 }
-                // items counted by charges are not themselves expected to be containers
-                return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
+                if( e->has_flag( STATIC( flag_id( "USE_UPS" ) ) ) ) {
+                    found_tool_with_UPS = true;
+                }
+                if( e->has_flag( STATIC( flag_id( "USES_BIONIC_POWER" ) ) ) ) {
+                    qty = sum_no_wrap( qty, units::to_kilojoule( get_player_character().get_power_level() ) );
+                }
+            } else if( id == itype_UPS_off && e->has_flag( STATIC( flag_id( "IS_UPS" ) ) ) ) {
+                qty = sum_no_wrap( qty, e->ammo_remaining() );
             }
         }
-        // recurse through any nested containers
-        return qty < limit ? VisitResponse::NEXT : VisitResponse::ABORT;
+        if( qty >= limit ) {
+            return VisitResponse::ABORT;
+        }
+        // recurse through nested containers if any
+        return e->is_container() ? VisitResponse::NEXT : VisitResponse::SKIP;
     } );
 
+    if( found_tool_with_UPS && qty < limit && get_player_character().has_active_bionic( bio_ups ) ) {
+        qty = sum_no_wrap( qty, units::to_kilojoule( get_player_character().get_power_level() ) );
+    }
+
     if( qty < limit && found_tool_with_UPS ) {
-        qty += main.charges_of( itype_UPS, limit - qty );
+        int used_ups = main.charges_of( itype_UPS, limit - qty );
+        qty += used_ups;
         if( visitor ) {
-            visitor( qty );
+            visitor( used_ups );
         }
     }
 
@@ -796,7 +805,6 @@ int read_only_visitable::charges_of( const itype_id &what, int limit,
     if( what == itype_UPS ) {
         int qty = 0;
         qty = sum_no_wrap( qty, charges_of( itype_UPS_off ) );
-        qty = sum_no_wrap( qty, static_cast<int>( charges_of( itype_adv_UPS_off ) / 0.6 ) );
         return std::min( qty, limit );
     }
 
@@ -811,10 +819,10 @@ int inventory::charges_of( const itype_id &what, int limit,
     if( what == itype_UPS ) {
         int qty = 0;
         qty = sum_no_wrap( qty, charges_of( itype_UPS_off ) );
-        qty = sum_no_wrap( qty, static_cast<int>( charges_of( itype_adv_UPS_off ) / 0.6 ) );
         return std::min( qty, limit );
     }
-    const auto &binned = get_binned_items();
+
+    const itype_bin &binned = get_binned_items();
     const auto iter = binned.find( what );
     if( iter == binned.end() ) {
         return 0;
@@ -840,26 +848,17 @@ int Character::charges_of( const itype_id &what, int limit,
     for( const auto &bio : *this->my_bionics ) {
         const bionic_data &bid = bio.info();
         if( bid.fake_item == what && ( !bid.activated || bio.powered ) ) {
-            return std::min( units::to_kilojoule( p->get_power_level() ), limit );
+            return std::min( item( bid.fake_item ).ammo_remaining( p ), limit );
         }
     }
 
     if( what == itype_UPS ) {
-        int qty = 0;
-        qty = sum_no_wrap( qty, charges_of( itype_UPS_off ) );
-        qty = sum_no_wrap( qty, static_cast<int>( charges_of( itype_adv_UPS_off ) / 0.6 ) );
-        if( p && p->has_active_bionic( bio_ups ) ) {
-            qty = sum_no_wrap( qty, units::to_kilojoule( p->get_power_level() ) );
+        int ups_power = available_ups();
+        if( has_active_bionic( bio_ups ) ) {
+            ups_power -= units::to_kilojoule( get_power_level() );
         }
-        if( p && p->is_mounted() ) {
-            const auto *mons = p->mounted_creature.get();
-            if( mons->has_flag( MF_RIDEABLE_MECH ) && mons->battery_item ) {
-                qty = sum_no_wrap( qty, mons->battery_item->ammo_remaining() );
-            }
-        }
-        return std::min( qty, limit );
+        return std::min( ups_power, limit );
     }
-
     return charges_of_internal( *this, *this, what, limit, filter, visitor );
 }
 

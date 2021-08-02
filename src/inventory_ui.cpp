@@ -13,7 +13,6 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
-#include "item_contents.h"
 #include "item_pocket.h"
 #include "item_search.h"
 #include "item_stack.h"
@@ -1398,6 +1397,18 @@ void inventory_selector::add_contained_items( item_location &container, inventor
             nat_category = naturalize_category( *custom_category, child.position() );
         }
         add_entry( column, std::vector<item_location>( 1, child ), nat_category );
+    }
+}
+
+void inventory_selector::add_contained_ebooks( item_location &container )
+{
+    if( !container->is_ebook_storage() ) {
+        return;
+    }
+
+    for( item *it : container->get_contents().ebooks() ) {
+        item_location child( container, it );
+        add_entry( own_inv_column, std::vector<item_location>( 1, child ) );
     }
 }
 

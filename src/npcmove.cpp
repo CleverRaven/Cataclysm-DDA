@@ -38,7 +38,6 @@
 #include "gates.h"
 #include "gun_mode.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_factory.h"
 #include "itype.h"
 #include "iuse.h"
@@ -125,7 +124,6 @@ static const itype_id itype_lsd( "lsd" );
 static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 static const itype_id itype_thorazine( "thorazine" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
-static const itype_id itype_UPS( "UPS" );
 
 static const material_id material_battery( "battery" );
 static const material_id material_chem_ethanol( "chem_ethanol" );
@@ -1430,7 +1428,7 @@ void npc::evaluate_best_weapon( const Creature *target )
 
     // punching things is always available
     compare( std::make_shared<npc_attack_melee>( null_item_reference() ) );
-    const int ups_charges = charges_of( itype_UPS );
+    const int ups_charges = available_ups();
     visit_items( [&compare, &ups_charges, this]( item * it, item * ) {
         // you can theoretically melee with anything.
         compare( std::make_shared<npc_attack_melee>( *it ) );
@@ -1445,12 +1443,15 @@ void npc::evaluate_best_weapon( const Creature *target )
                        !can_use( *mode.second.target ) || mode.second->get_gun_ups_drain() > ups_charges ||
                        ( rules.has_flag( ally_rule::use_silent ) && is_player_ally() &&
                          !mode.second->is_silent() ) ) ) {
-                    compare( std::make_shared<npc_attack_gun>( mode.second ) );
+                    compare( std::make_shared<npc_attack_gun>( *it, mode.second ) );
                 }
             }
         }
         return VisitResponse::NEXT;
     } );
+    for( const spell_id &sp : magic->spells() ) {
+        compare( std::make_shared<npc_attack_spell>( sp ) );
+    }
 
     ai_cache.current_attack = best_attack;
     ai_cache.current_attack_evaluation = best_evaluated_attack;
@@ -3331,7 +3332,7 @@ bool npc::wield_better_weapon()
     item *best = &weapon;
     double best_value = -100.0;
 
-    const int ups_charges = charges_of( itype_UPS );
+    const int ups_charges = available_ups();
 
     const auto compare_weapon =
     [this, &best, &best_value, ups_charges, can_use_gun, use_silent]( const item & it ) {
@@ -3623,7 +3624,7 @@ void npc::heal_self()
         const auto filter_use = [this]( const std::string & filter ) -> std::vector<item *> {
             const auto inv_filtered = items_with( [&filter]( const item & itm )
             {
-                return ( itm.type->get_use( filter ) != nullptr ) && ( itm.ammo_sufficient() );
+                return ( itm.type->get_use( filter ) != nullptr ) && ( itm.ammo_sufficient( nullptr ) );
             } );
             return inv_filtered;
         };
@@ -3640,7 +3641,7 @@ void npc::heal_self()
         }
         if( treatment != nullptr ) {
             treatment->get_use( iusage )->call( *this, *treatment, treatment->active, pos() );
-            treatment->ammo_consume( treatment->ammo_required(), pos() );
+            treatment->ammo_consume( treatment->ammo_required(), pos(), this );
             return;
         }
     }

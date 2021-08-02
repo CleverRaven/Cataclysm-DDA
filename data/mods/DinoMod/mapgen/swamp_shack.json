@@ -1,0 +1,125 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "hunter_shack" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "       -----------      ",
+        "       -CSn.....d-      ",
+        "       -....---+--      ",
+        "       -B..D-@..d-      ",
+        "       -B...-@..d-      ",
+        "       -bbTc-s.ss-      ",
+        "       ---o---+---      ",
+        "        =V,,^,,,,,      ",
+        "       ,,,,,,,,X=       ",
+        "       ,=&&,xxXX=       ",
+        "        =========       ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "swamp_background" ],
+      "mapping": {
+        "B": { "items": [ { "item": "novels", "chance": 50 }, { "item": "textbooks", "chance": 25 } ] },
+        "C": { "items": [ { "item": "kitchen", "chance": 50 }, { "item": "fridge", "chance": 50 } ] },
+        "D": { "items": { "item": "dresser", "chance": 75 } },
+        "X": { "items": [ { "item": "hardware", "chance": 30 }, { "item": "mischw", "chance": 30 } ] },
+        "b": { "items": { "item": "bed", "chance": 60 } },
+        "d": { "items": { "item": "NC_HUNTER_misc", "chance": 50 } },
+        "s": { "items": { "item": "traveler", "chance": 15 } },
+        "x": { "items": [ { "item": "cleaning", "chance": 30 }, { "item": "hardware_plumbing", "chance": 30 } ] }
+      },
+      "place_loot": [ { "item": "net", "x": 11, "y": 14, "chance": 100 }, { "item": "stepladder", "x": 11, "y": 16, "chance": 50 } ],
+      "terrain": {
+        "&": "t_dirt",
+        "+": "t_door_c",
+        ",": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
+        "-": "t_wall_wood",
+        ".": "t_floor",
+        "=": "t_dirt",
+        "V": "t_dirt",
+        "X": "t_dirt",
+        "^": "t_dirt",
+        "o": "t_window_domestic",
+        "x": "t_dirt"
+      },
+      "furniture": {
+        "&": "f_kiln_empty",
+        "=": "f_sandbag_wall",
+        "@": "f_smoking_rack",
+        "B": "f_bookcase",
+        "C": "f_cupboard",
+        "D": "f_dresser",
+        "S": "f_woodstove",
+        "T": "f_table",
+        "V": "f_fvat_empty",
+        "X": "f_crate_c",
+        "^": "f_bulletin",
+        "b": "f_makeshift_bed",
+        "c": "f_chair",
+        "d": "f_rack",
+        "n": "f_counter",
+        "s": "f_counter",
+        "x": "f_crate_o"
+      },
+      "place_nested": [
+        { "chunks": [ "cattail", "null" ], "x": [ 0, 6 ], "y": [ 0, 6 ], "neighbors": { "north": "forest_water" } },
+        {
+          "chunks": [ "cattail", "null" ],
+          "x": [ 7, 17 ],
+          "y": [ 0, 6 ],
+          "neighbors": { "north": "forest_water" },
+          "repeat": 4
+        },
+        { "chunks": [ "cattail", "null" ], "x": [ 18, 23 ], "y": [ 0, 6 ], "neighbors": { "north": "forest_water" } },
+        { "chunks": [ "cattail", "null" ], "x": [ 18, 23 ], "y": [ 0, 6 ], "neighbors": { "east": "forest_water" } },
+        {
+          "chunks": [ "cattail", "null" ],
+          "x": [ 18, 23 ],
+          "y": [ 7, 17 ],
+          "neighbors": { "east": "forest_water" },
+          "repeat": 4
+        },
+        { "chunks": [ "cattail", "null" ], "x": [ 18, 23 ], "y": [ 18, 23 ], "neighbors": { "east": "forest_water" } },
+        { "chunks": [ "cattail", "null" ], "x": [ 0, 6 ], "y": [ 18, 23 ], "neighbors": { "south": "forest_water" } },
+        {
+          "chunks": [ "cattail", "null" ],
+          "x": [ 7, 17 ],
+          "y": [ 18, 23 ],
+          "neighbors": { "south": "forest_water" },
+          "repeat": 4
+        },
+        {
+          "chunks": [ "cattail", "null" ],
+          "x": [ 18, 23 ],
+          "y": [ 18, 23 ],
+          "neighbors": { "south": "forest_water" }
+        },
+        { "chunks": [ "cattail", "null" ], "x": [ 0, 6 ], "y": [ 0, 6 ], "neighbors": { "west": "forest_water" } },
+        {
+          "chunks": [ "cattail", "null" ],
+          "x": [ 0, 6 ],
+          "y": [ 7, 17 ],
+          "neighbors": { "west": "forest_water" },
+          "repeat": 4
+        },
+        { "chunks": [ "cattail", "null" ], "x": [ 0, 6 ], "y": [ 18, 23 ], "neighbors": { "west": "forest_water" } },
+        { "chunks": [ "NC_Yoshimi_spawn" ], "x": [ 10 ], "y": [ 9 ] }
+      ]
+    }
+  }
+]

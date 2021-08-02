@@ -79,6 +79,7 @@
 #include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "name.h"
 
 
 static const efftype_id effect_bouldering( "bouldering" );
@@ -96,8 +97,6 @@ static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
-
-static const itype_id itype_UPS_off( "UPS_off" );
 
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_bashing( "bashing" );
@@ -304,15 +303,16 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     idz = tguy.idz;
     myclass = npc_class_id( tguy.myclass );
     randomize( myclass );
+    if( tem.gender_override != npc_template::gender::random ) {
+        male = tem.gender_override == npc_template::gender::male;
+    }
+    name = Name::generate( male );
     if( !tem.name_unique.empty() ) {
         name = tem.name_unique.translated();
     }
     if( !tem.name_suffix.empty() ) {
         //~ %1$s: npc name, %2$s: name suffix
         name = string_format( pgettext( "npc name", "%1$s, %2$s" ), name, tem.name_suffix );
-    }
-    if( tem.gender_override != npc_template::gender::random ) {
-        male = tem.gender_override == npc_template::gender::male;
     }
     fac_id = tguy.fac_id;
     set_fac( fac_id );
@@ -949,6 +949,7 @@ void npc::do_npc_read()
 
         // NPCs can't read to other NPCs yet
         const int time_taken = time_to_read( *book, *this );
+        item_location ereader = {};
 
         // NPCs read until they gain a level
         assign_activity(
@@ -956,6 +957,7 @@ void npc::do_npc_read()
                 read_activity_actor(
                     time_taken,
                     book,
+                    ereader,
                     true,
                     getID().get_value()
                 ) ) );
@@ -1434,8 +1436,7 @@ void npc::decide_needs()
     if( weapon.is_gun() ) {
         int ups_drain = weapon.get_gun_ups_drain();
         if( ups_drain > 0 ) {
-            int ups_charges = charges_of( itype_UPS_off, ups_drain ) +
-                              charges_of( itype_UPS_off, ups_drain );
+            int ups_charges = available_ups();
             needrank[need_ammo] = static_cast<double>( ups_charges ) / ups_drain;
         } else {
             const ammotype ammo_type = weapon.ammo_type();
@@ -2562,6 +2563,11 @@ std::string npc_attitude_id( npc_attitude att )
 cata::optional<int> npc::closest_enemy_to_friendly_distance() const
 {
     return ai_cache.closest_enemy_to_friendly_distance();
+}
+
+const std::vector<weak_ptr_fast<Creature>> &npc::get_cached_friends() const
+{
+    return ai_cache.friends;
 }
 
 std::string npc_attitude_name( npc_attitude att )

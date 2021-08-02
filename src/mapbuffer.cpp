@@ -126,6 +126,7 @@ void mapbuffer::save( bool delete_after_save )
                            num_saved_submaps, num_total_submaps );
             ui_manager::redraw();
             refresh_display();
+            inp_mngr.pump_events();
             last_update = now;
         }
         // Whatever the coordinates of the current submap are,

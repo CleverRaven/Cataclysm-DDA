@@ -42,7 +42,6 @@
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -93,12 +92,9 @@ static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
 
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_large_repairkit( "large_repairkit" );
 static const itype_id itype_small_repairkit( "small_repairkit" );
-static const itype_id itype_UPS( "UPS" );
-static const itype_id itype_UPS_off( "UPS_off" );
 
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
@@ -466,11 +462,10 @@ void player::recalc_speed_bonus()
             }
         }
     }
-
-    float speed_modifier = static_cast<float>( enchantment_cache->modify_value(
-                               enchant_vals::mod::SPEED, 1 ) );
-    set_speed_bonus( static_cast<int>( get_speed() * speed_modifier ) - get_speed_base() );
-
+    const int prev_speed_bonus = get_speed_bonus();
+    set_speed_bonus( std::round( enchantment_cache->modify_value( enchant_vals::mod::SPEED,
+                                 get_speed() ) - get_speed_base() ) );
+    enchantment_speed_bonus = get_speed_bonus() - prev_speed_bonus;
     // Speed cannot be less than 25% of base speed, so minimal speed bonus is -75% base speed.
     const int min_speed_bonus = static_cast<int>( -0.75 * get_speed_base() );
     if( get_speed_bonus() < min_speed_bonus ) {
@@ -1152,18 +1147,7 @@ void player::process_items()
     }
 
     // Active item processing done, now we're recharging.
-    int ch_UPS = 0;
-    const auto inv_is_ups = items_with( []( const item & itm ) {
-        return itm.has_flag( flag_IS_UPS );
-    } );
-    for( const auto &it : inv_is_ups ) {
-        itype_id identifier = it->type->get_id();
-        if( identifier == itype_UPS_off ) {
-            ch_UPS += it->ammo_remaining();
-        } else if( identifier == itype_adv_UPS_off ) {
-            ch_UPS += it->ammo_remaining() / 0.6;
-        }
-    }
+
     bool update_required = get_check_encumbrance();
     for( item &w : worn ) {
         if( !update_required && w.encumbrance_update_ ) {
@@ -1175,34 +1159,32 @@ void player::process_items()
         calc_encumbrance();
         set_check_encumbrance( false );
     }
-    if( has_active_bionic( bionic_id( "bio_ups" ) ) ) {
-        ch_UPS += units::to_kilojoule( get_power_level() );
-    }
-    int ch_UPS_used = 0;
 
     // Load all items that use the UPS to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
     const auto inv_use_ups = items_with( []( const item & itm ) {
         return itm.has_flag( flag_USE_UPS );
     } );
-    for( const auto &it : inv_use_ups ) {
-        // For powered armor, an armor-powering bionic should always be preferred over UPS usage.
-        if( it->is_power_armor() && can_interface_armor() && has_power() ) {
-            // Bionic power costs are handled elsewhere
-            continue;
-            //this is for UPS-modded items with no battery well
-        } else if( it->active && !it->ammo_sufficient() &&
-                   ( ch_UPS_used >= ch_UPS ||
-                     it->ammo_required() > ch_UPS - ch_UPS_used ) ) {
-            it->deactivate();
-        } else if( ch_UPS_used < ch_UPS &&
-                   it->ammo_remaining() < it->ammo_capacity( ammotype( "battery" ) ) ) {
-            ch_UPS_used++;
-            it->ammo_set( itype_battery, it->ammo_remaining() + 1 );
+    if( !inv_use_ups.empty() ) {
+        const int available_charges = available_ups();
+        int ups_used = 0;
+        for( const auto &it : inv_use_ups ) {
+            // For powered armor, an armor-powering bionic should always be preferred over UPS usage.
+            if( it->is_power_armor() && can_interface_armor() && has_power() ) {
+                // Bionic power costs are handled elsewhere
+                continue;
+            } else if( it->active && !it->ammo_sufficient( this ) ) {
+                it->deactivate();
+            } else if( ups_used < available_charges &&
+                       it->ammo_remaining() < it->ammo_capacity( ammotype( "battery" ) ) ) {
+                // Charge the battery in the UPS modded tool
+                ups_used++;
+                it->ammo_set( itype_battery, it->ammo_remaining() + 1 );
+            }
         }
-    }
-    if( ch_UPS_used > 0 ) {
-        use_charges( itype_UPS, ch_UPS_used );
+        if( ups_used > 0 ) {
+            consume_ups( ups_used );
+        }
     }
 }
 
@@ -1286,7 +1268,7 @@ item::reload_option player::select_ammo( const item &base,
         } else if( e.ammo->is_watertight_container() ||
                    ( e.ammo->is_ammo_container() && is_worn( *e.ammo ) ) ) {
             // worn ammo containers should be named by their ammo contents with their location also updated below
-            return e.ammo->contents.first_ammo().display_name();
+            return e.ammo->first_ammo().display_name();
 
         } else {
             return ( ammo_location && ammo_location == e.ammo ? "* " : "" ) + e.ammo->display_name();
@@ -1307,7 +1289,16 @@ item::reload_option player::select_ammo( const item &base,
         }
         return e.ammo.describe( &player_character );
     } );
-
+    // Get destination names
+    std::vector<std::string> destination;
+    std::transform( opts.begin(), opts.end(),
+    std::back_inserter( destination ), [&]( const item::reload_option & e ) {
+        if( e.target == e.getParent() ) {
+            return e.target->tname( 1, false, 0, false );
+        } else {
+            return e.target->tname( 1, false, 0, false ) + " in " + e.getParent()->tname( 1, false, 0, false );
+        }
+    } );
     // Pads elements to match longest member and return length
     auto pad = []( std::vector<std::string> &vec, int n, int t ) -> int {
         for( const auto &e : vec )
@@ -1331,6 +1322,12 @@ item::reload_option player::select_ammo( const item &base,
     menu.text += _( "| Location " );
     menu.text += std::string( w + 3 - utf8_width( _( "| Location " ) ), ' ' );
 
+    // Pad the names of target
+    w = pad( destination, utf8_width( _( "| Destination " ) ) - 3, 6 );
+    menu.text += _( "| Destination " );
+    menu.text += std::string( w + 3 - utf8_width( _( "| Destination " ) ), ' ' );
+
+
     menu.text += _( "| Amount  " );
     menu.text += _( "| Moves   " );
 
@@ -1341,13 +1338,13 @@ item::reload_option player::select_ammo( const item &base,
 
     auto draw_row = [&]( int idx ) {
         const auto &sel = opts[ idx ];
-        std::string row = string_format( "%s| %s |", names[ idx ], where[ idx ] );
+        std::string row = string_format( "%s| %s | %s |", names[ idx ], where[ idx ], destination[ idx ] );
         row += string_format( ( sel.ammo->is_ammo() ||
                                 sel.ammo->is_ammo_container() ) ? " %-7d |" : "         |", sel.qty() );
         row += string_format( " %-7d ", sel.moves() );
 
         if( base.is_gun() || base.is_magazine() ) {
-            const itype *ammo = sel.ammo->is_ammo_container() ? sel.ammo->contents.first_ammo().ammo_data() :
+            const itype *ammo = sel.ammo->is_ammo_container() ? sel.ammo->first_ammo().ammo_data() :
                                 sel.ammo->ammo_data();
             if( ammo ) {
                 const damage_instance &dam = ammo->ammo->damage;
@@ -1376,7 +1373,7 @@ item::reload_option player::select_ammo( const item &base,
     }
 
     for( int i = 0; i < static_cast<int>( opts.size() ); ++i ) {
-        const item &ammo = opts[ i ].ammo->is_ammo_container() ? opts[ i ].ammo->contents.first_ammo() :
+        const item &ammo = opts[ i ].ammo->is_ammo_container() ? opts[ i ].ammo->first_ammo() :
                            *opts[ i ].ammo;
 
         char hotkey = -1;
@@ -1471,7 +1468,7 @@ item::reload_option player::select_ammo( const item &base,
     const item_location &sel = opts[ menu.ret ].ammo;
     uistate.lastreload[ base_ammotype ] = sel->is_ammo_container() ?
                                           // get first item in all magazine pockets
-                                          sel->contents.first_ammo().typeId() :
+                                          sel->first_ammo().typeId() :
                                           sel->typeId();
     return opts[ menu.ret ];
 }
@@ -1479,44 +1476,47 @@ item::reload_option player::select_ammo( const item &base,
 bool player::list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
                         bool empty ) const
 {
-    std::vector<const item *> opts = base.gunmods();
-    opts.push_back( &base );
+    // Associate the destination with "parent"
+    // Useful for handling gun mods with magazines
+    std::vector<std::pair<const item *, const item *>> opts;
+    opts.emplace_back( std::make_pair( &base, &base ) );
 
     if( base.magazine_current() ) {
-        opts.push_back( base.magazine_current() );
+        opts.emplace_back( std::make_pair( base.magazine_current(), &base ) );
     }
 
     for( const item *mod : base.gunmods() ) {
+        opts.emplace_back( std::make_pair( mod, mod ) );
         if( mod->magazine_current() ) {
-            opts.push_back( mod->magazine_current() );
+            opts.emplace_back( std::make_pair( mod->magazine_current(), mod ) );
         }
     }
 
     bool ammo_match_found = false;
     int ammo_search_range = is_mounted() ? -1 : 1;
-    for( const item *e : opts ) {
-        for( item_location &ammo : find_ammo( *e, empty, ammo_search_range ) ) {
+    for( auto  p : opts ) {
+        for( item_location &ammo : find_ammo( *p.first, empty, ammo_search_range ) ) {
 
             itype_id id = ammo->typeId();
             bool speedloader = false;
-            if( e->can_reload_with( id ) ) {
+            if( p.first->can_reload_with( id ) ) {
                 // Record that there's a matching ammo type,
                 // even if something is preventing reloading at the moment.
                 ammo_match_found = true;
-            } else if( ammo->has_flag( flag_SPEEDLOADER ) && e->allows_speedloader( id ) &&
-                       ammo->ammo_remaining() > 1 && e->ammo_remaining() < 1 ) {
+            } else if( ammo->has_flag( flag_SPEEDLOADER ) && p.first->allows_speedloader( id ) &&
+                       ammo->ammo_remaining() > 1 && p.first->ammo_remaining() < 1 ) {
                 id = ammo->ammo_current();
                 // Again, this is "are they compatible", later check handles "can we do it now".
-                ammo_match_found = e->can_reload_with( id );
+                ammo_match_found = p.first->can_reload_with( id );
                 speedloader = true;
             }
-            if( can_reload( *e, id ) &&
-                ( speedloader || e->ammo_remaining() == 0 ||
-                  e->ammo_remaining() < ammo->ammo_remaining() ||
-                  e->loaded_ammo().stacks_with( *ammo ) ||
+            if( can_reload( *p.first, id ) &&
+                ( speedloader || p.first->ammo_remaining() == 0 ||
+                  p.first->ammo_remaining() < ammo->ammo_remaining() ||
+                  p.first->loaded_ammo().stacks_with( *ammo ) ||
                   ( ammo->made_of_from_type( phase_id::LIQUID ) &&
-                    e->contents.remaining_capacity_for_liquid( *ammo ) > 0 ) ) ) {
-                ammo_list.emplace_back( this, e, &base, std::move( ammo ) );
+                    p.first->get_remaining_capacity_for_liquid( *ammo ) > 0 ) ) ) {
+                ammo_list.emplace_back( this, p.first, p.second, std::move( ammo ) );
             }
         }
     }
@@ -1978,8 +1978,6 @@ bool player::takeoff( item_location loc, std::list<item> *res )
                            _( "<npcname> takes off their %s." ),
                            takeoff_copy.tname() );
 
-    // TODO: Make this variable
-    mod_moves( -250 );
 
     recalc_sight_limits();
     calc_encumbrance();

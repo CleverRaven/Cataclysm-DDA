@@ -16,7 +16,6 @@
 #include "flag.h"
 #include "generic_factory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_factory.h"
 #include "item_pocket.h"
 #include "itype.h"

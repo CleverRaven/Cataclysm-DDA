@@ -31,7 +31,6 @@
 #include "inventory.h"
 #include "inventory_ui.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -562,18 +561,8 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "JOY" ) );
 
             append_cell( []( const item_location & loc ) {
-                const int health = loc->is_comestible() ? loc->get_comestible()->healthy : 0;
-                if( health > 3 ) {
-                    return "<good>+++</good>";
-                } else if( health > 0 ) {
-                    return "<good>+</good>";
-                } else if( health < -3 ) {
-                    return "<bad>!!!</bad>";
-                } else if( health < 0 ) {
-                    return "<bad>-</bad>";
-                } else {
-                    return "";
-                }
+                const int healthy = loc->is_comestible() ? loc->get_comestible()->healthy : 0;
+                return healthy_bar( healthy );
             }, _( "HEALTH" ) );
 
             append_cell( []( const item_location & loc ) {
@@ -661,7 +650,7 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         bool is_shown( const item_location &loc ) const override {
-            return p.can_consume_as_is( *loc );
+            return loc->is_comestible() && p.can_consume_as_is( *loc );
         }
 
         std::string get_denial( const item_location &loc ) const override {
@@ -869,7 +858,14 @@ class fuel_inventory_preset : public inventory_selector_preset
                 return _( "Can't use spilt liquids." );
             }
 
-            if( p.get_fuel_capacity( loc->get_base_material().id ) <= 0 ) {
+            std::string item_name = loc->tname();
+            material_id mat_type = loc->get_base_material().id;
+            if( loc->type->magazine ) {
+                const item ammo = item( loc->ammo_current() );
+                item_name = ammo.tname();
+                mat_type = ammo.get_base_material().id;
+            }
+            if( p.get_fuel_capacity( mat_type ) <= 0 ) {
                 return ( _( "No space to store more" ) );
             }
 
@@ -998,21 +994,6 @@ class comestible_filtered_inventory_preset : public comestible_inventory_preset
         bool( *predicate )( const item &it );
 };
 
-class fuel_filtered_inventory_preset : public fuel_inventory_preset
-{
-    public:
-        fuel_filtered_inventory_preset( const player &p, bool( *predicate )( const item &it ) ) :
-            fuel_inventory_preset( p ), predicate( predicate ) {}
-
-        bool is_shown( const item_location &loc ) const override {
-            return fuel_inventory_preset::is_shown( loc ) &&
-                   predicate( *loc );
-        }
-
-    private:
-        bool( *predicate )( const item &it );
-};
-
 item_location game_menus::inv::consume_food( player &p )
 {
     Character &player_character = get_player_character();
@@ -1071,11 +1052,9 @@ item_location game_menus::inv::consume_fuel( player &p )
     }
     std::string none_message = player_character.activity.str_values.size() == 2 ?
                                _( "You have no more fuel to consume." ) : _( "You have no fuel to consume." );
-    return inv_internal( p, fuel_filtered_inventory_preset( p, []( const item & it ) {
-        return it.is_fuel();
-    } ),
-    _( "Consume fuel" ), 1,
-    none_message );
+    return inv_internal( p, fuel_inventory_preset( p ),
+                         _( "Consume fuel" ), 1,
+                         none_message );
 }
 
 class activatable_inventory_preset : public pickup_inventory_preset
@@ -1143,7 +1122,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
                 return string_format( _( "Your %s was broken and won't turn on." ), it.tname() );
             }
 
-            if( !p.has_enough_charges( it, false ) ) {
+            if( !it.ammo_sufficient( &p ) ) {
                 return string_format(
                            ngettext( "Needs at least %d charge",
                                      "Needs at least %d charges", loc->ammo_required() ),
@@ -1381,6 +1360,10 @@ class read_inventory_preset: public pickup_inventory_preset
             return base_sort;
         }
 
+        nc_color get_color( const inventory_entry &entry ) const override {
+            return entry.is_item() ? entry.any_item()->color_in_inventory( &p ) : c_magenta;
+        }
+
     private:
         const islot_book &get_book( const item_location &loc ) const {
             return *loc->type->book;
@@ -1408,6 +1391,32 @@ item_location game_menus::inv::read( player &pl )
     const std::string msg = pl.is_avatar() ? _( "You have nothing to read." ) :
                             string_format( _( "%s has nothing to read." ), pl.disp_name() );
     return inv_internal( pl, read_inventory_preset( pl ), _( "Read" ), 1, msg );
+}
+
+item_location game_menus::inv::ebookread( Character &pl, item_location &ereader )
+{
+    const std::string none_message =
+        pl.is_avatar() ?
+        string_format( _( "%1$s have nothing to read." ), pl.disp_name( false, true ) ) :
+        string_format( _( "%1$s has nothing to read." ), pl.disp_name( false, true ) );
+
+    const read_inventory_preset preset( *pl.as_player() );
+    inventory_pick_selector inv_s( pl, preset );
+
+    inv_s.set_title( _( "Read" ) );
+    inv_s.set_display_stats( false );
+
+    inv_s.clear_items();
+    inv_s.add_contained_ebooks( ereader );
+
+    if( inv_s.empty() ) {
+        popup( none_message, PF_GET_KEY );
+        return item_location();
+    }
+
+    item_location location = inv_s.execute();
+
+    return location;
 }
 
 class steal_inventory_preset : public pickup_inventory_preset

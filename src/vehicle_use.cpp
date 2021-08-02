@@ -26,7 +26,6 @@
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
@@ -586,7 +585,6 @@ void vehicle::toggle_autopilot()
             autopilot_on = false;
             is_patrolling = false;
             is_following = false;
-            is_autodriving = false;
             autodrive_local_target = tripoint_zero;
             stop_engines();
             break;
@@ -594,7 +592,6 @@ void vehicle::toggle_autopilot()
             autopilot_on = true;
             is_following = true;
             is_patrolling = false;
-            is_autodriving = true;
             start_engines();
             refresh();
         default:
@@ -2172,7 +2169,8 @@ void vehicle::interact_with( const vpart_position &vp )
         item mag( tool.magazine_default() );
         mag.clear_items();
 
-        return tool.contents.insert_item( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() &&
+        return tool.can_contain( mag ).success() &&
+               tool.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() &&
                tool.ammo_capacity( ammotype( "battery" ) ) > 0;
     };
 
@@ -2282,7 +2280,7 @@ void vehicle::interact_with( const vpart_position &vp )
             std::vector<item_location> targets;
             if( opt ) {
                 const int moves = opt.moves();
-                targets.emplace_back( turret.base() );
+                targets.emplace_back( item_location( turret.base(), const_cast<item *>( opt.target ) ) );
                 targets.push_back( std::move( opt.ammo ) );
                 player_character.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(),
                                                   targets ) ) );

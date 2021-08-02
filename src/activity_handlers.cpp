@@ -49,7 +49,6 @@
 #include "iexamine.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_factory.h"
 #include "item_location.h"
 #include "item_pocket.h"
@@ -204,7 +203,6 @@ static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_stick_long( "stick_long" );
 static const itype_id itype_steel_chunk( "steel_chunk" );
 static const itype_id itype_steel_plate( "steel_plate" );
-static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_wire( "wire" );
 static const itype_id itype_chain( "chain" );
 
@@ -1696,13 +1694,7 @@ void activity_handlers::generic_game_turn_handler( player_activity *act, player 
     if( calendar::once_every( 1_minutes ) ) {
         if( !act->targets.empty() ) {
             item &game_item = *act->targets.front();
-            const int ammo_required = game_item.ammo_required();
-            bool fail = false;
-            if( game_item.has_flag( flag_USE_UPS ) ) {
-                fail = !p->use_charges_if_avail( itype_UPS, ammo_required );
-            } else {
-                fail = game_item.ammo_consume( ammo_required, p->pos() ) == 0;
-            }
+            bool fail = game_item.ammo_consume( game_item.ammo_required(), tripoint_zero, p ) == 0;
             if( fail ) {
                 act->moves_left = 0;
                 add_msg( m_info, _( "The %s runs out of batteries." ), game_item.tname() );
@@ -1921,9 +1913,8 @@ void activity_handlers::start_fire_finish( player_activity *act, player *p )
         return;
     }
 
-    if( it.type->can_have_charges() ) {
-        p->consume_charges( it, it.type->charges_to_use() );
-    }
+    it.ammo_consume( it.type->charges_to_use(), tripoint_zero, p );
+
     p->practice( skill_survival, act->index, 5 );
 
     firestarter_actor::resolve_firestarter_use( *p, act->placement );
@@ -2131,10 +2122,10 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
     }
 
     if( calendar::once_every( 1_minutes ) ) {
-        if( vibrator_item.ammo_remaining() > 0 ) {
-            vibrator_item.ammo_consume( 1, p->pos() );
+        if( vibrator_item.ammo_remaining( p ) > 0 ) {
+            vibrator_item.ammo_consume( 1, p->pos(), p );
             p->add_morale( MORALE_FEELING_GOOD, 3, 40 );
-            if( vibrator_item.ammo_remaining() == 0 ) {
+            if( vibrator_item.ammo_remaining( p ) == 0 ) {
                 add_msg( m_info, _( "The %s runs out of batteries." ), vibrator_item.tname() );
             }
         } else {
@@ -2235,7 +2226,7 @@ void activity_handlers::oxytorch_do_turn( player_activity *act, player *p )
     // act->values[0] is the number of charges yet to be consumed
     const int charges_used = std::min( act->values[0], it.ammo_required() );
 
-    it.ammo_consume( charges_used, p->pos() );
+    it.ammo_consume( charges_used, p->pos(), p );
     act->values[0] -= static_cast<int>( charges_used );
 
     sfx::play_activity_sound( "tool", "oxytorch", sfx::get_heard_volume( act->placement ) );
@@ -2252,7 +2243,7 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
     const ter_id ter = here.ter( pos );
     const furn_id furn = here.furn( pos );
     // fast players might still have some charges left to be consumed
-    act->targets.front()->ammo_consume( act->values[0], p->pos() );
+    act->targets.front()->ammo_consume( act->values[0], p->pos(), p );
 
     if( furn == f_rack ) {
         here.furn_set( pos, f_null );
@@ -2479,7 +2470,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         const repair_item_actor::attempt_hint attempt = actor->repair( *p, *used_tool, fix_location );
         if( attempt != repair_item_actor::AS_CANT ) {
             if( ploc && ploc->where() == item_location::type::map ) {
-                used_tool->ammo_consume( used_tool->ammo_required(), ploc->position() );
+                used_tool->ammo_consume( used_tool->ammo_required(), ploc->position(), p );
             } else {
                 p->consume_charges( *used_tool, used_tool->ammo_required() );
             }
@@ -2568,10 +2559,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             ammo_name = item::nname( used_tool->ammo_current() );
         }
 
-        int ammo_remaining = used_tool->ammo_remaining();
-        if( used_tool->has_flag( flag_USE_UPS ) ) {
-            ammo_remaining = p->charges_of( itype_UPS );
-        }
+        int ammo_remaining = used_tool->ammo_remaining( p );
 
         std::set<itype_id> valid_entries = actor->get_valid_repair_materials( fix );
         const inventory &crafting_inv = p->crafting_inventory();
@@ -3772,7 +3760,7 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
     act->set_to_null();
     if( !act->targets.empty() ) {
         item &it = *act->targets.front();
-        p->consume_charges( it, it.ammo_required() );
+        it.ammo_consume( it.ammo_required(), tripoint_zero, p );
     } else {
         debugmsg( "jackhammer activity targets empty" );
     }
@@ -4117,25 +4105,48 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     bool target_is_valid = false;
     if( spell_being_cast.range() > 0 && !spell_being_cast.is_valid_target( spell_target::none ) &&
         !spell_being_cast.has_flag( spell_flag::RANDOM_TARGET ) ) {
-        do {
-            avatar &you = *p->as_avatar();
-            std::vector<tripoint> trajectory = target_handler::mode_spell( you, spell_being_cast, no_fail,
-                                               no_mana );
-            if( !trajectory.empty() ) {
-                target = trajectory.back();
-                target_is_valid = spell_being_cast.is_valid_target( *p, target );
-                if( !( spell_being_cast.is_valid_target( spell_target::ground ) || p->sees( target ) ) ) {
+        if( p->is_avatar() ) {
+            do {
+                avatar &you = *p->as_avatar();
+                std::vector<tripoint> trajectory = target_handler::mode_spell( you, spell_being_cast, no_fail,
+                                                   no_mana );
+                if( !trajectory.empty() ) {
+                    target = trajectory.back();
+                    target_is_valid = spell_being_cast.is_valid_target( *p, target );
+                    if( !( spell_being_cast.is_valid_target( spell_target::ground ) || p->sees( target ) ) ) {
+                        target_is_valid = false;
+                    }
+                } else {
                     target_is_valid = false;
                 }
+                if( !target_is_valid ) {
+                    if( query_yn( _( "Stop casting spell?  Time spent will be lost." ) ) ) {
+                        return;
+                    }
+                }
+            } while( !target_is_valid );
+        } else {
+            if( act->coords.empty() ) {
+                debugmsg( "ERROR: npc tried to cast a spell without a target." );
             } else {
-                target_is_valid = false;
-            }
-            if( !target_is_valid ) {
-                if( query_yn( _( "Stop casting spell?  Time spent will be lost." ) ) ) {
-                    return;
+                const tripoint local_target = get_map().getlocal( act->coords.front() );
+                if( spell_being_cast.is_valid_target( *p, local_target ) ) {
+                    target = local_target;
+                } else {
+                    npc_attack_spell npc_spell( spell_being_cast.id() );
+                    // recalculate effectiveness because it's been a few turns since the npc started casting.
+                    const npc_attack_rating effectiveness = npc_spell.evaluate( *p->as_npc(),
+                                                            p->last_target.lock().get() );
+                    if( effectiveness < 0 ) {
+                        add_msg_debug( debugmode::debug_filter::DF_NPC, "%s cancels casting %s, target lost",
+                                       p->disp_name(), spell_being_cast.name() );
+                        return;
+                    } else {
+                        target = effectiveness.target();
+                    }
                 }
             }
-        } while( !target_is_valid );
+        }
     } else if( spell_being_cast.has_flag( spell_flag::RANDOM_TARGET ) ) {
         const cata::optional<tripoint> target_ = spell_being_cast.random_valid_target( *p, p->pos() );
         if( !target_ ) {

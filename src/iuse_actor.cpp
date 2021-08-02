@@ -44,7 +44,6 @@
 #include "generic_factory.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_group.h"
 #include "item_location.h"
 #include "item_pocket.h"
@@ -1241,7 +1240,7 @@ ret_val<bool> firestarter_actor::can_use( const Character &p, const item &it, bo
         return ret_val<bool>::make_failure( _( "You can't do that while underwater." ) );
     }
 
-    if( it.ammo_remaining() < it.ammo_required() ) {
+    if( !it.ammo_sufficient( &p ) ) {
         return ret_val<bool>::make_failure( _( "This tool doesn't have enough charges." ) );
     }
 
@@ -2183,13 +2182,13 @@ void learn_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
                 const spell sp = pc.magic->get_spell( sp_id );
                 spell_text += ": " + string_format( _( "Level %u" ), sp.get_level() );
                 if( sp.is_max_level() ) {
-                    spell_text = "<color_light_green>" + spell_text + _( " (Max)" ) + "</color>";
+                    spell_text = string_format( _( "<color_light_green>%1$s (Max)</color>" ), spell_text );
                 } else {
-                    spell_text = "<color_yellow>" + spell_text + "</color>";
+                    spell_text = string_format( "<color_yellow>%s</color>", spell_text );
                 }
             } else {
                 if( pc.magic->can_learn_spell( pc, sp_id ) ) {
-                    spell_text = "<color_light_blue>" + spell_text + "</color>";
+                    spell_text = string_format( "<color_light_blue>%s</color>", spell_text );
                 }
             }
             dump.emplace_back( "SPELL", spell_text );
@@ -4367,7 +4366,7 @@ cata::optional<int> sew_advanced_actor::use( player &p, item &it, bool, const tr
                 return t;
             };
             // Mod not already present, check if modification is possible
-            if( !it.ammo_sufficient( thread_needed ) ) {
+            if( !it.ammo_sufficient( &p, thread_needed ) ) {
                 //~ %1$s: modification desc, %2$d: number of thread needed
                 prompt = string_format( _( "Can't %1$s (need %2$d thread loaded)" ),
                                         tolower( obj.implement_prompt.translated() ), thread_needed );
@@ -4559,8 +4558,9 @@ cata::optional<int> effect_on_conditons_actor::use( player &p, item &it, bool,
     } else if( npc *n = p.as_npc() ) {
         d.alpha = get_talker_for( n );
     }
-    ///TODO make this talker item
-    d.beta = get_talker_for( default_npc );
+
+    item_location loc( *( p.as_character() ), &it );
+    d.beta = get_talker_for( loc );
 
     for( const effect_on_condition_id &eoc : eocs ) {
         eoc->activate( d );

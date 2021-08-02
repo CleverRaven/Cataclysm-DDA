@@ -23,6 +23,7 @@
 #include "map_iterator.h"
 #include "messages.h"
 #include "monster.h"
+#include "mtype.h"
 #include "npc.h"
 #include "player.h"
 #include "point.h"
@@ -593,7 +594,7 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
         return;
     }
 
-    if( !gun.ammo_sufficient() ) {
+    if( !gun.ammo_sufficient( nullptr ) ) {
         if( !no_ammo_sound.empty() ) {
             sounds::sound( z.pos(), 10, sounds::sound_t::combat, no_ammo_sound );
         }

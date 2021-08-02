@@ -770,7 +770,7 @@
         " |    |       ",
         "||    |       "
       ],
-      "palettes": [ "lab_common_palette", "lab_security_palette" ],
+      "palettes": [ "lab_common_palette" ],
       "place_monster": [
         {
           "monster": [ "mon_secubot", "mon_manhack", "mon_skitterbot", "mon_tazer_hack", "mon_dispatch" ],
@@ -843,7 +843,7 @@
         "    |         ",
         "    ||        "
       ],
-      "palettes": [ "lab_common_palette", "lab_security_palette" ],
+      "palettes": [ "lab_common_palette" ],
       "place_monster": [
         {
           "monster": [ "mon_secubot", "mon_manhack", "mon_skitterbot", "mon_tazer_hack", "mon_dispatch" ],
@@ -879,6 +879,80 @@
       "place_nested": [
         {
           "chunks": [ [ "null", 30 ], [ "lab_security_sandbag_EW_1", 50 ], [ "lab_security_sandbag_EW_2", 50 ] ],
+          "x": [ 0, 2 ],
+          "y": [ 0, 12 ],
+          "repeat": [ 4, 8 ]
+        },
+        {
+          "chunks": [ [ "null", 30 ], [ "lab_security_sandbag_NS_1", 50 ], [ "lab_security_sandbag_NS_2", 50 ] ],
+          "x": [ 0, 2 ],
+          "y": [ 0, 12 ],
+          "repeat": [ 3, 6 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for military lab security areas, really 14x7 for security corridors. ",
+    "nested_mapgen_id": "lab_security_14x14_corridor_1",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "6|    |       ",
+        "||    |       ",
+        "||    |       ",
+        "6|    |       ",
+        "||    |       ",
+        "||    |       ",
+        "6|    |       ",
+        "||    |       ",
+        "||    |       ",
+        "6|    |       ",
+        "||    |       ",
+        "||    |       ",
+        "6|    |       ",
+        "||    |       "
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "furniture": { "6": "f_vent_toxic_belch" },
+      "place_monster": [
+        {
+          "monster": [ "mon_gasbomb_hack", "mon_manhack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "x": 0,
+          "y": 0,
+          "chance": 100
+        },
+        {
+          "monster": [ "mon_gasbomb_hack", "mon_manhack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "x": 0,
+          "y": 3,
+          "chance": 100
+        },
+        {
+          "monster": [ "mon_gasbomb_hack", "mon_manhack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "x": 0,
+          "y": 6,
+          "chance": 100
+        },
+        {
+          "monster": [ "mon_gasbomb_hack", "mon_manhack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "x": 0,
+          "y": 9,
+          "chance": 100
+        },
+        {
+          "monster": [ "mon_gasbomb_hack", "mon_manhack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "x": 0,
+          "y": 12,
+          "chance": 100
+        }
+      ],
+      "place_nested": [
+        {
+          "chunks": [ [ "null", 30 ], [ "lab_security_sandbag_EW_1", 50 ], [ "lab_security_sandbag_EW_2", 50 ] ],
           "x": [ 2, 4 ],
           "y": [ 0, 12 ],
           "repeat": [ 4, 8 ]
@@ -886,6 +960,80 @@
         {
           "chunks": [ [ "null", 30 ], [ "lab_security_sandbag_NS_1", 50 ], [ "lab_security_sandbag_NS_2", 50 ] ],
           "x": [ 2, 4 ],
+          "y": [ 0, 12 ],
+          "repeat": [ 3, 6 ]
+        }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for military lab security areas, really 14x7 for security corridors. ",
+    "nested_mapgen_id": "lab_security_14x14_corridor_2",
+    "object": {
+      "mapgensize": [ 14, 14 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "    |6        ",
+        "    ||        ",
+        "    ||        ",
+        "    |6        ",
+        "    ||        ",
+        "    ||        ",
+        "    |6        ",
+        "    ||        ",
+        "    ||        ",
+        "    |6        ",
+        "    ||        ",
+        "    ||        ",
+        "    |6        ",
+        "    ||        "
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "furniture": { "6": "f_vent_toxic_belch" },
+      "place_monster": [
+        {
+          "monster": [ "mon_gasbomb_hack", "mon_manhack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "x": 5,
+          "y": 0,
+          "chance": 100
+        },
+        {
+          "monster": [ "mon_gasbomb_hack", "mon_manhack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "x": 5,
+          "y": 3,
+          "chance": 100
+        },
+        {
+          "monster": [ "mon_gasbomb_hack", "mon_manhack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "x": 5,
+          "y": 6,
+          "chance": 100
+        },
+        {
+          "monster": [ "mon_gasbomb_hack", "mon_manhack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "x": 5,
+          "y": 9,
+          "chance": 100
+        },
+        {
+          "monster": [ "mon_gasbomb_hack", "mon_manhack", "mon_skitterbot", "mon_tazer_hack", "mon_flashbang_hack" ],
+          "x": 5,
+          "y": 12,
+          "chance": 100
+        }
+      ],
+      "place_nested": [
+        {
+          "chunks": [ [ "null", 30 ], [ "lab_security_sandbag_EW_1", 50 ], [ "lab_security_sandbag_EW_2", 50 ] ],
+          "x": [ 0, 2 ],
+          "y": [ 0, 12 ],
+          "repeat": [ 4, 8 ]
+        },
+        {
+          "chunks": [ [ "null", 30 ], [ "lab_security_sandbag_NS_1", 50 ], [ "lab_security_sandbag_NS_2", 50 ] ],
+          "x": [ 0, 2 ],
           "y": [ 0, 12 ],
           "repeat": [ 3, 6 ]
         }

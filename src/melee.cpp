@@ -35,7 +35,6 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "itype.h"
 #include "line.h"
@@ -254,7 +253,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
     // Preserve item temporarily for component breakdown
     item temp = shield;
 
-    shield.contents.spill_contents( pos() );
+    shield.spill_contents( pos() );
 
     remove_item( shield );
 
@@ -1158,6 +1157,8 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
     bash_mul *= mabuff_damage_mult( damage_type::BASH );
 
     float armor_mult = 1.0f;
+    int arpen = mabuff_arpen_bonus( damage_type::BASH );
+
     // Finally, extra critical effects
     if( crit ) {
         bash_mul *= 1.5f;
@@ -1165,7 +1166,7 @@ void Character::roll_bash_damage( bool crit, damage_instance &di, bool average,
         armor_mult = 0.5f;
     }
 
-    di.add_damage( damage_type::BASH, bash_dam, 0, armor_mult, bash_mul );
+    di.add_damage( damage_type::BASH, bash_dam, arpen, armor_mult, bash_mul );
 }
 
 void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
@@ -1231,6 +1232,8 @@ void Character::roll_cut_damage( bool crit, damage_instance &di, bool average,
         cut_mul *= 0.96 + 0.04 * skill;
     }
 
+    arpen += mabuff_arpen_bonus( damage_type::CUT );
+
     cut_mul *= mabuff_damage_mult( damage_type::CUT );
     if( crit ) {
         cut_mul *= 1.25f;
@@ -1295,7 +1298,7 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average
 
     stab_mul *= mabuff_damage_mult( damage_type::STAB );
     float armor_mult = 1.0f;
-
+    int arpen = mabuff_arpen_bonus( damage_type::STAB );
     if( crit ) {
         // Critical damage bonus for stabbing scales with skill
         stab_mul *= 1.0 + ( skill / 10.0 );
@@ -1303,7 +1306,7 @@ void Character::roll_stab_damage( bool crit, damage_instance &di, bool /*average
         armor_mult = 0.66f;
     }
 
-    di.add_damage( damage_type::STAB, cut_dam, 0, armor_mult, stab_mul );
+    di.add_damage( damage_type::STAB, cut_dam, arpen, armor_mult, stab_mul );
 }
 
 void Character::roll_other_damage( bool /*crit*/, damage_instance &di, bool /*average*/,
@@ -2088,7 +2091,7 @@ std::string Character::melee_special_effects( Creature &t, damage_instance &d, i
         sounds::sound( pos(), 16, sounds::sound_t::combat, "Crack!", true, "smash_success",
                        "smash_glass_contents" );
         // Dump its contents on the ground
-        weap.contents.spill_contents( pos() );
+        weap.spill_contents( pos() );
         // Take damage
         deal_damage( nullptr, bodypart_id( "arm_r" ), damage_instance::physical( 0, rng( 0, vol * 2 ),
                      0 ) );

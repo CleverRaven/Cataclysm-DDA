@@ -33,7 +33,6 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_stack.h"
@@ -340,7 +339,7 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
         if( !active ) {
             thiscolor = norm;
         } else if( it.is_food_container() && !it.is_craft() && it.num_item_stacks() == 1 ) {
-            thiscolor = it.contents.all_items_top().front()->color_in_inventory();
+            thiscolor = it.all_items_top().front()->color_in_inventory();
         } else {
             thiscolor = it.color_in_inventory();
         }
@@ -1347,16 +1346,15 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         exit = true;
 
     } else if( srcarea == AIM_INVENTORY || srcarea == AIM_WORN ) {
-
-        // make sure advanced inventory is reopened after activity completion.
-        do_return_entry();
-
         // if worn, we need to fix with the worn index number (starts at -2, as -1 is weapon)
         int idx = srcarea == AIM_INVENTORY ? sitem->idx : player::worn_position_to_index( sitem->idx ) + 1;
 
         if( srcarea == AIM_WORN && destarea == AIM_INVENTORY ) {
             // this is ok because worn items are never stacked (can't move more than 1).
             player_character.takeoff( idx );
+
+            // make sure advanced inventory is reopened after activity completion.
+            do_return_entry();
 
             // exit so that the action can be carried out
             exit = true;
@@ -1382,6 +1380,9 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
                 player_character.assign_activity( player_activity( drop_activity_actor(
                                                       to_drop, placement, force_ground
                                                   ) ) );
+
+                // make sure advanced inventory is reopened after activity completion.
+                do_return_entry();
 
                 // exit so that the activity can be carried out
                 exit = true;
