@@ -100,6 +100,12 @@ jobs:
             mxe_target: i686-w64-mingw32.static
             wine: wine
 
+          - compiler: clang++-6.0
+            os: ubuntu-18.04
+            tiles: 0
+            release: 1
+            title: Clang 6, Ubuntu, Curses, Release
+
           - compiler: g++-7
             os: ubuntu-18.04
             cmake: 1
@@ -107,12 +113,6 @@ jobs:
             sound: 1
             localize: 0
             title: GCC 7, Ubuntu, Tiles, Sound, CMake, Release
-
-          - compiler: clang++-6.0
-            os: ubuntu-18.04
-            tiles: 0
-            release: 1
-            title: Clang 6, Ubuntu, Curses, Release
 
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}
