@@ -130,7 +130,7 @@ then
         cd ..
         ln -s build/compile_commands.json
 
-        ./build-scripts/files_changed
+        ./build-scripts/files_changed || echo 'Unable to determine changed files'
 
         # We want to first analyze all files that changed in this PR, then as
         # many others as possible, in a random order.

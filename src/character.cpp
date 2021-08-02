@@ -347,7 +347,6 @@ static const trait_id trait_SHOUT2( "SHOUT2" );
 static const trait_id trait_SHOUT3( "SHOUT3" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_SLIMY( "SLIMY" );
-static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
 static const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
 static const trait_id trait_THRESH_INSECT( "THRESH_INSECT" );
 static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
@@ -4111,16 +4110,16 @@ item Character::item_worn_with_flag( const flag_id &f ) const
     return it_with_flag;
 }
 
-std::vector<std::string> Character::get_overlay_ids() const
+std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() const
 {
-    std::vector<std::string> rval;
+    std::vector<std::pair<std::string, std::string>> rval;
     std::multimap<int, std::string> mutation_sorting;
     int order;
     std::string overlay_id;
 
     // first get effects
     for( const auto &eff_pr : *effects ) {
-        rval.push_back( "effect_" + eff_pr.first.str() );
+        rval.emplace_back( "effect_" + eff_pr.first.str(), "" );
     }
 
     // then get mutations
@@ -4138,23 +4137,25 @@ std::vector<std::string> Character::get_overlay_ids() const
     }
 
     for( auto &mutorder : mutation_sorting ) {
-        rval.push_back( "mutation_" + mutorder.second );
+        rval.emplace_back( "mutation_" + mutorder.second, "" );
     }
 
     // next clothing
     // TODO: worry about correct order of clothing overlays
     for( const item &worn_item : worn ) {
-        rval.push_back( "worn_" + worn_item.typeId().str() );
+        const std::string variant = worn_item.has_gun_variant() ? worn_item.gun_variant().id : "";
+        rval.emplace_back( "worn_" + worn_item.typeId().str(), variant );
     }
 
     // last weapon
     // TODO: might there be clothing that covers the weapon?
     if( is_armed() ) {
-        rval.push_back( "wielded_" + weapon.typeId().str() );
+        const std::string variant = weapon.has_gun_variant() ? weapon.gun_variant().id : "";
+        rval.emplace_back( "wielded_" + weapon.typeId().str(), variant );
     }
 
     if( !is_walking() ) {
-        rval.push_back( move_mode.str() );
+        rval.emplace_back( move_mode.str(), "" );
     }
 
     return rval;
@@ -4957,6 +4958,11 @@ static int get_speedydex_bonus( const int dex )
     // this is the number to be multiplied by the increment
     const int modified_dex = std::max( dex - get_option<int>( speedydex_min_dex ), 0 );
     return modified_dex * get_option<int>( speedydex_dex_speed );
+}
+
+int Character::get_enchantment_speed_bonus() const
+{
+    return enchantment_speed_bonus;
 }
 
 int Character::get_speed() const
@@ -7575,8 +7581,6 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
     } else if( eff == effect_corroding ) {
         return is_immune_damage( damage_type::ACID ) || has_trait( trait_SLIMY ) ||
                has_trait( trait_VISCOUS );
-    } else if( eff == effect_nausea ) {
-        return has_trait( trait_STRONGSTOMACH );
     }
 
     return false;

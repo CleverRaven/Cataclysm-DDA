@@ -656,6 +656,7 @@ For information about tools with option to export ASCII art in format ready to b
 | act_cost                    | (_optional_) How many kJ it costs to activate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
 | deact_cost                  | (_optional_) How many kJ it costs to deactivate the bionic.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
 | react_cost                  | (_optional_) How many kJ it costs over time to keep this bionic active, does nothing without a non-zero "time".  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
+| trigger_cost                | (_optional_) How many kJ it costs to trigger special effects for this bionic. This can be a reaction to specific conditions or an action taken while the bionic is active.  Strings can be used "1 kJ"/"1000 J"/"1000000 mJ" (default: `0`)
 | time                        | (_optional_) How long, when activated, between drawing cost. If 0, it draws power once. (default: `0`)
 | upgraded_bionic             | (_optional_) Bionic that can be upgraded by installing this one.
 | available_upgrades          | (_optional_) Upgrades available for this bionic, i.e. the list of bionics having this one referenced by `upgraded_bionic`.
@@ -2640,6 +2641,7 @@ CBMs can be defined like this:
 "fatigue_mod": 3,           // How much fatigue this comestible removes. (Negative values add fatigue)
 "radiation": 8,             // How much radiation you get from this comestible.
 "comestible_type" : "MED",  // Comestible type, used for inventory sorting
+"consumption_effect_on_conditions" : [ "EOC_1" ],  // Effect on conditions to run after consuming.  Inline or string id supported
 "quench" : 0,               // Thirst quenched
 "healthy" : -2,             // Health effects (used for sickness chances)
 "addiction_potential" : 80, // Ability to cause addictions
@@ -3859,7 +3861,9 @@ A list of mission ids that will be started and assigned to the player at the sta
 ## `custom_initial_date`
 (optional, object with optional members "hour", "day", "season" and "year")
 
-Allows customizing initial date. If not set - corresponding values from world options are used. Random value is used for each parameter that is not explicitly.
+Allows customizing start date. If `custom_initial_date` is not set the corresponding values from world options are used instead.
+
+If the start date of the scenario is before the date of cataclysm defined by map settings then the scenario date is moved forwards by one year.
 
 ```C++
 "custom_initial_date": { "hour": 3, "day": 10, "season": "winter", "year": 1 }
@@ -3867,10 +3871,10 @@ Allows customizing initial date. If not set - corresponding values from world op
 
  Identifier            | Description
 ---                    | ---
-`hour`                 | (optional, integer) Hour of the day for initial date
-`day`                  | (optional, integer) Day of the season for initial date
-`season`               | (optional, integer) Season for initial date
-`year`                 | (optional, integer) Year for initial date
+`hour`                 | (optional, integer) Hour of the day for initial date. Default 8. -1 randomizes 0-23.
+`day`                  | (optional, integer) Day of the season for initial date. Default 0. -1 randomizes 0-season lenght.
+`season`               | (optional, integer) Season for initial date. Default `SPRING`.
+`year`                 | (optional, integer) Year for initial date. Default 1. -1 randomizes 1-11.
 
 # Starting locations
 

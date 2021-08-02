@@ -2163,8 +2163,10 @@ target_handler::trajectory target_ui::run()
             shifting_view = !shifting_view;
         } else if( action == "zoom_in" ) {
             g->zoom_in();
+            g->mark_main_ui_adaptor_resize();
         } else if( action == "zoom_out" ) {
             g->zoom_out();
+            g->mark_main_ui_adaptor_resize();
         } else if( action == "QUIT" ) {
             loop_exit_code = ExitCode::Abort;
             break;
@@ -3554,7 +3556,6 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
 
     if( gmode->get_gun_ups_drain() > 0 ) {
         const int ups_drain = gmode->get_gun_ups_drain();
-        const int adv_ups_drain = std::max( 1, ups_drain * 3 / 5 );
         bool is_mech_weapon = false;
         if( you.is_mounted() ) {
             monster *mons = get_player_character().mounted_creature.get();
@@ -3566,7 +3567,7 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
             if( you.available_ups() < ups_drain ) {
                 messages.push_back( string_format(
                                         _( "You need a UPS with at least %2$d charges to fire the %1$s!" ),
-                                        gmode->tname(), ups_drain, adv_ups_drain ) );
+                                        gmode->tname(), ups_drain ) );
                 result = false;
             }
         } else {
@@ -3575,6 +3576,13 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
                                                    gmode->tname() ) );
                 result = false;
             }
+        }
+        // Workaround for guns that use ups and normal ammo at same time.
+        // Remove once guns can support use of multiple ammo at once
+        if( !gmode->ammo_default().is_null() &&
+            gmode->ammo_remaining( nullptr ) < gmode->ammo_required() ) {
+            result = false;
+            messages.push_back( string_format( _( "Your %s is empty!" ), gmode->tname() ) );
         }
     }
 

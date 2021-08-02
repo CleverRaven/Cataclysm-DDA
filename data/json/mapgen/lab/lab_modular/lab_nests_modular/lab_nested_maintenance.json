@@ -72,7 +72,7 @@
         "   ",
         "   "
       ],
-      "palettes": [ "lab_common_palette" ],
+      "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
       "place_loot": [ { "group": "trash", "x": [ 1, 3 ], "y": [ 1, 3 ], "repeat": 3, "chance": 100 } ],
       "place_nested": [ { "chunks": [ [ "sub_fd_shock_vent", 30 ], [ "null", 70 ] ], "x": 1, "y": 1 } ]
     }
@@ -503,6 +503,106 @@
         "⁵⁵  ⁵⁵"
       ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for a 5x9 room, includes door on east wall.",
+    "nested_mapgen_id": "lab_maintenance_9x9_E",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        "A   Q|   ",
+        "NN  Q|   ",
+        "     |   ",
+        "J    #   ",
+        "J A  #   ",
+        "J    |   ",
+        "    Y|   ",
+        "N A Q|   ",
+        "NN  Q|   "
+      ],
+      "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
+      "place_loot": [
+        { "item": "broken_eyebot", "x": 0, "y": 2, "chance": 100 },
+        { "item": "broken_secubot", "x": 0, "y": 6, "chance": 100 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for a 5x9 room, includes door on west wall, possible door on south wall.",
+    "nested_mapgen_id": "lab_maintenance_9x9_W",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        "   |Q  NN",
+        "   |Q  A ",
+        "   |     ",
+        "   #    J",
+        "   #    J",
+        "   |    J",
+        "   |Y    ",
+        "   |Q  NN",
+        "   |Q   A"
+      ],
+      "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
+      "place_loot": [
+        { "item": "broken_skitterbot", "x": 8, "y": 2, "chance": 100 },
+        { "item": "broken_nursebot_defective", "x": 8, "y": 6, "chance": 100 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for a 5x9 room, includes door on east wall.",
+    "nested_mapgen_id": "lab_maintenance_9x9_E",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        "`WWW`|   ",
+        "     |   ",
+        "  s  |   ",
+        "₸ s  #   ",
+        "Z sA #   ",
+        "₸ s  |   ",
+        " As  |   ",
+        "     |   ",
+        "QQ QQ|   "
+      ],
+      "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
+      "place_loot": [
+        { "item": "broken_gasbomb_hack", "x": 0, "y": 0, "chance": 100 },
+        { "item": "broken_EMP_hack", "x": 4, "y": 0, "chance": 100 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for a 5x9 room, includes door on west wall.",
+    "nested_mapgen_id": "lab_maintenance_9x9_W",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        "   |`WWW`",
+        "   |     ",
+        "   |  s  ",
+        "   #  sA₸",
+        "   #  s Z",
+        "   | As ₸",
+        "   |  s  ",
+        "   |     ",
+        "   |QQ QQ"
+      ],
+      "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
+      "place_loot": [
+        { "item": "broken_science_bot", "x": 4, "y": 0, "chance": 100 },
+        { "item": "broken_grenade_hack", "x": 8, "y": 0, "chance": 100 }
+      ]
     }
   }
 ]

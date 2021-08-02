@@ -332,6 +332,7 @@ class player : public Character
         tripoint grab_point;
         int volume = 0;
         const profession *prof;
+        std::set<const profession *> hobbies;
 
         bool random_start_location = true;
         start_location_id start_location;

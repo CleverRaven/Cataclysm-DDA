@@ -340,6 +340,8 @@ class item : public visitable
         bool is_software() const;
         bool is_software_storage() const;
 
+        bool is_ebook_storage() const;
+
         /**
          * Returns a symbol for indicating the current dirt or fouling level for a gun.
          */
@@ -511,7 +513,7 @@ class item : public visitable
                 explicit operator bool() const {
                     return who && target && ammo && qty_ > 0;
                 }
-
+                const item *getParent() const;
             private:
                 int qty_ = 0;
                 int max_qty = INT_MAX;
@@ -861,6 +863,12 @@ class item : public visitable
          * @param mod How many charges should be removed.
          */
         void mod_charges( int mod );
+
+
+        /**
+        * Calculates rot per hour at given temperature.
+        */
+        float get_hourly_rotpoints_at_temp( const int temp ) const;
 
         /**
          * Accumulate rot of the item since last rot calculation.
@@ -1805,6 +1813,13 @@ class item : public visitable
         /*@}*/
 
         /**
+         * Add a recipe to the EIPC_RECIPES variable.
+         *
+         * @return true if the recipe was added, false if it is a duplicate
+         */
+        bool eipc_recipe_add( const recipe_id &recipe_id );
+
+        /**
          * @name Martial art techniques
          *
          * See martialarts.h for further info.
@@ -1863,9 +1878,6 @@ class item : public visitable
          */
         void set_gun_variant( const std::string &variant );
 
-        /**
-         * For debug use only
-         */
         void clear_gun_variant();
 
         /** Quantity of energy currently loaded in tool or battery */
@@ -1994,6 +2006,8 @@ class item : public visitable
         std::vector<const item *> mods() const;
 
         std::vector<const item *> softwares() const;
+
+        std::vector<const item *> ebooks() const;
 
         /** Get first attached gunmod matching type or nullptr if no such mod or item is not a gun */
         item *gunmod_find( const itype_id &mod );
@@ -2512,6 +2526,14 @@ class item : public visitable
         // encumbrance depending on their content.
         // This not part serialized or compared on purpose!
         bool encumbrance_update_ = false;
+
+        item_contents &get_contents() {
+            return contents;
+        };
+
+        const item_contents &get_contents() const {
+            return contents;
+        };
 
     private:
         /**

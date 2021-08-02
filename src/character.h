@@ -428,6 +428,7 @@ class Character : public Creature, public visitable
         virtual int get_int_bonus() const;
 
         int get_speed() const override;
+        int get_enchantment_speed_bonus() const;
         int get_eff_per() const override;
 
         // Penalty modifiers applied for ranged attacks due to low stats
@@ -1790,7 +1791,7 @@ class Character : public Creature, public visitable
          *
          * Only required for rendering.
          */
-        std::vector<std::string> get_overlay_ids() const;
+        std::vector<std::pair<std::string, std::string>> get_overlay_ids() const;
 
         // --------------- Skill Stuff ---------------
         int get_skill_level( const skill_id &ident ) const;
@@ -2529,6 +2530,8 @@ class Character : public Creature, public visitable
         const recipe_subset &get_learned_recipes() const;
         /** Returns all recipes that are known from the books (either in inventory or nearby). */
         recipe_subset get_recipes_from_books( const inventory &crafting_inv ) const;
+        /** Returns all recipes that are known from the books inside ereaders (either in inventory or nearby). */
+        recipe_subset get_recipes_from_ebooks( const inventory &crafting_inv ) const;
         /**
           * Returns all available recipes (from books and npc companions)
           * @param crafting_inv Current available items to craft
@@ -2801,6 +2804,8 @@ class Character : public Creature, public visitable
         int dex_bonus = 0;
         int per_bonus = 0;
         int int_bonus = 0;
+        // cached so the display knows how much your bonus is
+        int enchantment_speed_bonus = 0;
 
         /** How healthy the character is. */
         int healthy = 0;

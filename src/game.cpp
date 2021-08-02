@@ -555,14 +555,19 @@ void game::toggle_pixel_minimap()
 void game::reload_tileset()
 {
 #if defined(TILES)
+    // Disable UIs below to avoid accessing the tile context during loading.
+    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
     try {
         tilecontext->reinit();
-        tilecontext->load_tileset( get_option<std::string>( "TILES" ), false, true );
+        tilecontext->load_tileset( get_option<std::string>( "TILES" ),
+                                   /*precheck=*/false, /*force=*/true,
+                                   /*pump_events=*/true );
         tilecontext->do_tile_loading_report();
     } catch( const std::exception &err ) {
         popup( _( "Loading the tileset failed: %s" ), err.what() );
     }
     g->reset_zoom();
+    g->mark_main_ui_adaptor_resize();
 #endif // TILES
 }
 
@@ -659,9 +664,10 @@ special_game_type game::gametype() const
     return gamemode ? gamemode->id() : special_game_type::NONE;
 }
 
-void game::load_map( const tripoint_abs_sm &pos_sm )
+void game::load_map( const tripoint_abs_sm &pos_sm,
+                     const bool pump_events )
 {
-    m.load( pos_sm, true );
+    m.load( pos_sm, true, pump_events );
 }
 
 // Set up all default values for a new game
@@ -707,7 +713,7 @@ bool game::start_game()
     tripoint_abs_sm lev = project_to<coords::sm>( omtstart );
     // The player is centered in the map, but lev[xyz] refers to the top left point of the map
     lev -= point( HALF_MAPSIZE, HALF_MAPSIZE );
-    load_map( lev );
+    load_map( lev, /*pump_events=*/true );
 
     int level = m.get_abs_sub().z;
     m.invalidate_map_cache( level );
@@ -3030,6 +3036,8 @@ bool game::load( const save_t &name )
         }
     }
 
+    effect_on_conditions::load_existing_character();
+
     return true;
 }
 
@@ -3500,11 +3508,6 @@ shared_ptr_fast<ui_adaptor> game::create_or_get_main_ui_adaptor()
         ui->mark_resize();
     }
     return ui;
-}
-
-void game::swap_main_ui_adaptor( weak_ptr_fast<ui_adaptor> &ui )
-{
-    main_ui_adaptor.swap( ui );
 }
 
 void game::invalidate_main_ui_adaptor() const
@@ -7410,10 +7413,12 @@ look_around_result game::look_around( const bool show_window, tripoint &center,
             center.x = lp.x;
             center.y = lp.y;
             zoom_in();
+            mark_main_ui_adaptor_resize();
         } else if( action == "zoom_out" ) {
             center.x = lp.x;
             center.y = lp.y;
             zoom_out();
+            mark_main_ui_adaptor_resize();
         }
     } while( action != "QUIT" && action != "CONFIRM" && action != "SELECT" && action != "TRAVEL_TO" &&
              action != "throw_blind" );
@@ -9222,12 +9227,13 @@ void game::reload( item_location &loc, bool prompt, bool empty )
             add_msg( m_warning, _( "You struggle to reload the fouled %s." ), it->tname() );
             moves += 2500;
         }
-
         std::vector<item_location> targets;
         if( use_loc ) {
-            targets.emplace_back( loc );
+            // Set parent to be the "base" item.
+            targets.emplace_back( loc,  const_cast<item *>( opt.target ) );
         } else {
-            targets.emplace_back( u, const_cast<item *>( opt.target ) );
+            // The "base" item is held be the player
+            targets.emplace_back( item_location( u, it ), const_cast<item *>( opt.target ) );
         }
         targets.push_back( std::move( opt.ammo ) );
 
@@ -9317,7 +9323,7 @@ void game::reload_weapon( bool try_everything )
         std::vector<item_location> targets;
         if( opt ) {
             const int moves = opt.moves();
-            targets.emplace_back( turret.base() );
+            targets.emplace_back( item_location( turret.base(), const_cast<item *>( opt.target ) ) );
             targets.push_back( std::move( opt.ammo ) );
             u.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(), targets ) ) );
         }
@@ -10892,6 +10898,7 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
         steps++;
         if( animate && ( seen || u.sees( *c ) ) ) {
             invalidate_main_ui_adaptor();
+            inp_mngr.pump_events();
             ui_manager::redraw_invalidated();
             refresh_display();
         }
@@ -12365,25 +12372,31 @@ void game::autosave()
 
 void game::start_calendar()
 {
-    int initial_days = get_option<int>( "INITIAL_DAY" );
-    if( initial_days == -1 ) {
-        // 0 - 363 for a 91 day season
-        initial_days = rng( 0, get_option<int>( "SEASON_LENGTH" ) * 4 - 1 );
+    time_duration initial_days;
+    // Initial day is the time of cataclysm. Limit it to occur on the first year.
+    if( get_option<int>( "INITIAL_DAY" )  == -1 ) {
+        initial_days = 1_days * rng( 0, get_option<int>( "SEASON_LENGTH" ) * 4 - 1 );
+    } else {
+        initial_days = 1_days * std::min( get_option<int>( "INITIAL_DAY" ),
+                                          get_option<int>( "SEASON_LENGTH" ) * 4 );
     }
-    calendar::start_of_cataclysm = calendar::turn_zero + 1_days * initial_days;
-    // Configured starting date overridden by scenario, calendar::start is left as Spring 1
-    calendar::start_of_game = calendar::turn_zero
-                              + 1_hours * scen->initial_hour()
-                              + 1_days * scen->initial_day()
-                              + get_option<int>( "SEASON_LENGTH" ) * 1_days * scen->initial_season()
-                              + 4 * get_option<int>( "SEASON_LENGTH" ) * 1_days * ( scen->initial_year() - 1 );
-    if( calendar::start_of_game < calendar::start_of_cataclysm ) {
-        // Hotfix to prevent game start  from occuring before the cataclysm.
-        // Should be replaced with full refactor of the start date
+    calendar::start_of_cataclysm = calendar::turn_zero + initial_days;
+
+    if( scen->custom_start_date() ) {
+        calendar::start_of_game = calendar::turn_zero
+                                  + 1_hours * scen->start_hour()
+                                  + 1_days * scen->start_day();
+        if( calendar::start_of_game < calendar::start_of_cataclysm ) {
+            // If the cataclysm has been set to happen late or the scenario has random start it may try to start before cataclysm happens.
+            // That is unacceptable. So lets just jump to same day on next year.
+            calendar::start_of_game += calendar::year_length();
+        }
+    } else {
         calendar::start_of_game = calendar::start_of_cataclysm
-                                  + 1_hours * scen->initial_hour();
+                                  + 1_hours * get_option<int>( "INITIAL_TIME" )
+                                  + 1_days * get_option<int>( "SPAWN_DELAY" );
     }
-    calendar::start_of_game += 1_days * get_option<int>( "SPAWN_DELAY" );
+
     calendar::turn = calendar::start_of_game;
     calendar::initial_season = static_cast<season_type>( ( to_days<int>( calendar::start_of_game -
                                calendar::turn_zero ) / get_option<int>( "SEASON_LENGTH" ) ) % 4 );

@@ -949,6 +949,7 @@ void npc::do_npc_read()
 
         // NPCs can't read to other NPCs yet
         const int time_taken = time_to_read( *book, *this );
+        item_location ereader = {};
 
         // NPCs read until they gain a level
         assign_activity(
@@ -956,6 +957,7 @@ void npc::do_npc_read()
                 read_activity_actor(
                     time_taken,
                     book,
+                    ereader,
                     true,
                     getID().get_value()
                 ) ) );
@@ -2561,6 +2563,11 @@ std::string npc_attitude_id( npc_attitude att )
 cata::optional<int> npc::closest_enemy_to_friendly_distance() const
 {
     return ai_cache.closest_enemy_to_friendly_distance();
+}
+
+const std::vector<weak_ptr_fast<Creature>> &npc::get_cached_friends() const
+{
+    return ai_cache.friends;
 }
 
 std::string npc_attitude_name( npc_attitude att )
