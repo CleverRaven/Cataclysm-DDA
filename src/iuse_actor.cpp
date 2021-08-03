@@ -1570,7 +1570,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
                     weight += ( altercomps.front().type->weight ) * altercomps.front().count;
                 }
                 // bad recipe, count weight instead
-                if( weight >= temp.weight() ) {
+                if( weight > temp.weight() ) {
                     for( const auto &type : temp.made_of() ) {
                         mat_to_weight[type] += ( temp.weight() * remaining_weight / temp.made_of().size() );
                     }
