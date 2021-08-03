@@ -123,8 +123,18 @@
 | --- | --- | --- | --- | ---
 | prof_spotting | Spotting and Awareness | You are skilled at spotting things out of the ordinary, like traps or ambushes. | None | True
 
-* Note: Proficiencies from mods are not included.
+## Magiclysm proficiencies
+
+| id | name | description | required_proficiencies | can_learn
+| --- | --- | --- | --- | --- 
+| prof_alchemy | Alchemy | You know the basics of manipulating the mana of objects through application of chemical laws. | None | True
+| prof_almetallurgy | Almetallurgy | The forging of magical alloys is a complex process requiring an understanding of both mundane metals and alchemy. | prof_alchemy | True
+| prof_leatherworking_dragon | Dragon leather working | Working with dragon leather requires a specific set of skills and tools… a set you are familiar with. | prof_leatherworking | True
+| prof_scaleworking_dragon | Dragon scale working | Working with dragon scales requires a specific set of skills and tools… a set you are familiar with. | prof_leatherworking_dragon | True
+| prof_golemancy_basic | Basic Golemancy | Infusing shaped material with your will and the ability to move is hard but you're starting to get it. | None | True
+
 This data was extracted using tools/json_tools/table.py
+
 ```bash
 tools/json_tools/table.py --type=proficiency id name description required_proficiencies can_learn
 ```
