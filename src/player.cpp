@@ -106,7 +106,6 @@ static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
-static const trait_id trait_LIGHTSTEP( "LIGHTSTEP" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_MORE_PAIN( "MORE_PAIN" );
 static const trait_id trait_MORE_PAIN2( "MORE_PAIN2" );
@@ -542,30 +541,6 @@ std::list<item *> player::get_radio_items()
         }
     }
     return rc_items;
-}
-
-bool player::avoid_trap( const tripoint &pos, const trap &tr ) const
-{
-    /** @EFFECT_DEX increases chance to avoid traps */
-
-    /** @EFFECT_DODGE increases chance to avoid traps */
-    int myroll = dice( 3, dex_cur + get_skill_level( skill_dodge ) * 1.5 );
-    int traproll;
-    if( tr.can_see( pos, *this ) ) {
-        traproll = dice( 3, tr.get_avoidance() );
-    } else {
-        traproll = dice( 6, tr.get_avoidance() );
-    }
-
-    if( has_trait( trait_LIGHTSTEP ) ) {
-        myroll += dice( 2, 6 );
-    }
-
-    if( has_trait( trait_CLUMSY ) ) {
-        myroll -= dice( 2, 6 );
-    }
-
-    return myroll >= traproll;
 }
 
 void player::pause()
@@ -1186,55 +1161,6 @@ void player::process_items()
             consume_ups( ups_used );
         }
     }
-}
-
-bool player::add_faction_warning( const faction_id &id )
-{
-    const auto it = warning_record.find( id );
-    if( it != warning_record.end() ) {
-        it->second.first += 1;
-        if( it->second.second - calendar::turn > 5_minutes ) {
-            it->second.first -= 1;
-        }
-        it->second.second = calendar::turn;
-        if( it->second.first > 3 ) {
-            return true;
-        }
-    } else {
-        warning_record[id] = std::make_pair( 1, calendar::turn );
-    }
-    faction *fac = g->faction_manager_ptr->get( id );
-    if( fac != nullptr && is_avatar() && fac->id != faction_id( "no_faction" ) ) {
-        fac->likes_u -= 1;
-        fac->respects_u -= 1;
-    }
-    return false;
-}
-
-int player::current_warnings_fac( const faction_id &id )
-{
-    const auto it = warning_record.find( id );
-    if( it != warning_record.end() ) {
-        if( it->second.second - calendar::turn > 5_minutes ) {
-            it->second.first = std::max( 0,
-                                         it->second.first - 1 );
-        }
-        return it->second.first;
-    }
-    return 0;
-}
-
-bool player::beyond_final_warning( const faction_id &id )
-{
-    const auto it = warning_record.find( id );
-    if( it != warning_record.end() ) {
-        if( it->second.second - calendar::turn > 5_minutes ) {
-            it->second.first = std::max( 0,
-                                         it->second.first - 1 );
-        }
-        return it->second.first > 3;
-    }
-    return false;
 }
 
 item::reload_option player::select_ammo( const item &base,
