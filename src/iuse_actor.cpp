@@ -1587,7 +1587,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
         }
         // push components into stack
         else {
-            for( item it : temp.components ) {
+            for( const item &it : temp.components ) {
                 stack.push_back( it );
             }
         }
