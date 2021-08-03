@@ -567,7 +567,7 @@ Effect | Description
 ---|---
 `sound_effect: sound_effect_id_string`, *optional* `sound_effect_variant: variant_string`, *optional* `outdoor_event: outdoor_event`,*optional* `volume: volume_int`  | Will play a sound effect of id `sound_effect_id_string` and variant `variant_string`. If `volume_int` is defined it will be used otherwise 80 is the default. If `outdoor_event`(defaults to false) is true this will be less likely to play if the player is underground.
 `assign_mission: mission_type_id string` | Will assign mission `mission_type_id` to the player.
-`set_queue_effect_on_condition: effect_on_condition_array`, (*optional* `time_in_future_min: time_in_future_min_int`,`time_in_future_max: time_in_future_max_int` | Will queue up all members of the `effect_on_condition_array`.  Members should either be the id of an effect_on_condition or an inline effect_on_condition. Members will be run between `time_in_future_min_int` and `time_in_future_max_int` seconds in the future. If these are zero(their default value) the eocs will happen instantly.
+`set_queue_effect_on_condition: effect_on_condition_array`, (*optional* `time_in_future_min: time_in_future_min_int`,`time_in_future_max: time_in_future_max_int` | Will queue up all members of the `effect_on_condition_array`.  Members should either be the id of an effect_on_condition or an inline effect_on_condition. Members will be run between `time_in_future_min_int` and `time_in_future_max_int` seconds in the future. If these are zero(their default value) the eocs will happen instantly.  For instant activation eoc's the current u and npc will be used.  For future ones u will be the avatar adn npc will be a default npc.
 #### Deprecated
 
 Effect | Description

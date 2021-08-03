@@ -1515,8 +1515,6 @@ void spell_effect::effect_on_condition( const spell &sp, Creature &caster, const
             continue;
         }
         d.alpha = get_talker_for( g->critter_at<Creature>( potential_target ) );
-        for( const std::string &eoc : sp.effect_data_array() ) {
-            effect_on_condition_id( eoc )->activate( d );
-        }
+        effect_on_condition_id( sp.effect_data() )->activate( d );
     }
 }

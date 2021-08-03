@@ -215,7 +215,7 @@ class spell_type
         // the spell shape found in the json
         spell_shape spell_area = spell_shape::line;
         // extra information about spell effect. allows for combinations for effects
-        std::vector<std::string> effect_str;
+        std::string effect_str;
         // list of additional "spell effects"
         std::vector<fake_spell> additional_spells;
 
@@ -509,8 +509,6 @@ class spell
         std::string effect() const;
         // get spell effect_str data
         std::string effect_data() const;
-        // get the whole effect data array
-        std::vector<std::string> effect_data_array() const;
         // get spell summon vehicle id
         vproto_id summon_vehicle_id() const;
         // name of spell (translated)

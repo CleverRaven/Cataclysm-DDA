@@ -2314,19 +2314,31 @@ void talk_effect_fun_t::set_queue_effect_on_condition( const JsonObject &jo,
     if( time_in_future_max < time_in_future_min ) {
         jo.throw_error( "time_in_future_max cannot be smaller than time_in_future_min." );
     }
-    function = [time_in_future_min, time_in_future_max, eocs]( const dialogue & ) {
+    function = [time_in_future_min, time_in_future_max, eocs]( const dialogue & d ) {
         if( time_in_future_max > 0_seconds ) {
             time_duration time_in_future = rng( time_in_future_min, time_in_future_max );
             for( const effect_on_condition_id &eoc : eocs ) {
                 effect_on_conditions::queue_effect_on_condition( time_in_future, eoc );
             }
         } else {
-            dialogue d;
-            standard_npc default_npc( "Default" );
-            d.alpha = get_talker_for( get_avatar() );
-            d.beta = get_talker_for( default_npc );
+            dialogue newDialog;
+            if( Creature *creature = d.alpha.get()->get_creature() ) {
+                newDialog.alpha = get_talker_for( creature );
+            } else if( item_location *item = d.alpha.get()->get_item() ) {
+                newDialog.alpha = get_talker_for( item );
+            } else {
+                debugmsg( "Invalid alpha talker." );
+            }
+            if( Creature *creature = d.beta.get()->get_creature() ) {
+                newDialog.beta = get_talker_for( creature );
+            } else if( item_location *item = d.beta.get()->get_item() ) {
+                newDialog.beta = get_talker_for( item );
+            } else {
+                debugmsg( "Invalid beta talker." );
+            }
+
             for( const effect_on_condition_id &eoc : eocs ) {
-                eoc->activate( d );
+                eoc->activate( newDialog );
             }
         }
     };
