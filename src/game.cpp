@@ -8584,15 +8584,15 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
 void game::drop()
 {
-    u.assign_activity(player_activity(rummage_pocket_activity_actor(game_menus::inv::multidrop(u),
-        rummage_pocket_activity_actor::action::drop, u.pos())));
+    u.assign_activity( player_activity( rummage_pocket_activity_actor( game_menus::inv::multidrop( u ),
+                                        rummage_pocket_activity_actor::action::drop, u.pos() ) ) );
 }
 
 void game::drop_in_direction()
 {
     if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Drop where?" ) ) ) {
-        u.assign_activity(player_activity(rummage_pocket_activity_actor(game_menus::inv::multidrop(u),
-            rummage_pocket_activity_actor::action::drop, *pnt)));
+        u.assign_activity( player_activity( rummage_pocket_activity_actor( game_menus::inv::multidrop( u ),
+                                            rummage_pocket_activity_actor::action::drop, *pnt ) ) );
     }
 }
 
@@ -9437,13 +9437,12 @@ void game::wield()
     item_location loc = game_menus::inv::wield( u );
 
     if( loc ) {
-        if (loc.where() == item_location::type::container) {
-            u.assign_activity(player_activity(rummage_pocket_activity_actor(
-                loc, rummage_pocket_activity_actor::action::wield
-            )));
-        }
-        else {
-            wield(loc);
+        if( loc.where() == item_location::type::container ) {
+            u.assign_activity( player_activity( rummage_pocket_activity_actor(
+                                                    loc, rummage_pocket_activity_actor::action::wield
+                                                ) ) );
+        } else {
+            wield( loc );
         }
     } else {
         add_msg( _( "Never mind." ) );
