@@ -50,6 +50,7 @@ class gun_modifier_data
         std::set<std::string> flags_;
 
     public:
+        gun_modifier_data() = default;
         gun_modifier_data( const translation &n, const int q, const std::set<std::string> &f ) : name_( n ),
             qty_( q ), flags_( f ) { }
         const translation &name() const {
@@ -580,6 +581,10 @@ struct islot_gun : common_ranged_data {
     int recoil = 0;
 
     int ammo_to_fire = 1;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
 };
 
 /// The type of gun. The second "_type" suffix is only to distinguish it from `item::gun_type`.
