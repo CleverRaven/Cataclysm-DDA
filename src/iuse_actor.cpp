@@ -1553,7 +1553,8 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
             // Try to find an available recipe and "restore" its components
             auto iter = std::find_if( recipe_dict.begin(),
             recipe_dict.end(), [&]( std::pair<const recipe_id, recipe> curr ) {
-                return !curr.second.obsolete && curr.second.result() == temp.typeId();
+                return curr.second.is_reversible() && !curr.second.obsolete &&
+                       curr.second.result() == temp.typeId() && curr.second.makes_amount() <= 1;
             } );
             if( iter == recipe_dict.end() ) {
                 // no recipes found, add weight to materials
@@ -1566,6 +1567,13 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
                 const requirement_data requirements = iter->second.simple_requirements();
                 for( const auto &altercomps : requirements.get_components() ) {
                     const item_comp &comp = altercomps.front();
+                    // more sanity check
+                    if( comp.type.obj().weight >= temp.weight() ) {
+                        for( const auto &type : temp.made_of() ) {
+                            mat_to_weight[type] += ( temp.weight() * remaining_weight / temp.made_of().size() );
+                        }
+                        break;
+                    }
                     // if count by charges
                     if( comp.type.obj().count_by_charges() ) {
                         stack.emplace_back( comp.type, calendar::turn, comp.count );
