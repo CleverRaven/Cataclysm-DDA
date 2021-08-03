@@ -1514,12 +1514,14 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
                 return !curr.second.obsolete && curr.second.result() == temp.typeId();
             } );
             if( iter == recipe_dict.end() ) {
-                // no recipes found
+                // no recipes found, add weight to materials
+                for( auto type : temp.made_of() ) {
+                    mat_to_weight[type] += ( temp.weight() / temp.made_of().size() );
+                }
                 continue;
             } else {
                 // find default components set from recipe, push them into stack
                 const requirement_data requirements = iter->second.simple_requirements();
-                debugmsg( "%s", iter->second.simple_requirements().list_all() );
                 for( const auto &altercomps : requirements.get_components() ) {
                     const item_comp &comp = altercomps.front();
                     // if count by charges
@@ -1541,8 +1543,6 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
         }
     }
     for( auto it : mat_to_weight ) {
-        debugmsg( "number %d, %d", it.second.value(),
-                  it.first.obj().salvaged_into()->obj().weight.value() );
         salvage_to[*( it.first.obj().salvaged_into() )] += ( it.second /
                 it.first.obj().salvaged_into()->obj().weight );
     }
