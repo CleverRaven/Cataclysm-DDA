@@ -76,7 +76,7 @@ jobs:
             ldflags: -static-libgcc -static-libstdc++
             mxe_target: i686-w64-mingw32.static
             wine: wine
-        
+  
           - compiler: clang++-12
             os: ubuntu-latest
             sanitize: address
