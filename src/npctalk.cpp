@@ -2363,7 +2363,7 @@ void talk_effect_fun_t::set_weighted_list_eocs( const JsonObject &jo,
                 eoc = effect_on_conditions::load_inline_eoc( jv, "" );
             }
         }
-        eocs.add( eoc, pair.get_int( 1 ) );
+        eocs.add( eoc, weight );
     }
     function = [&eocs]( const dialogue & ) {
         dialogue d;
