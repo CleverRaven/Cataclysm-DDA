@@ -66,6 +66,17 @@ jobs:
         native: [linux64]
 
         include:
+          - compiler: g++
+            os: ubuntu-latest
+            native:
+            tiles: 1
+            sound: 1
+            test-stage: 1
+            title: GCC, Ubuntu cross-compile to MinGW-Win64, Tiles, Sound
+            ldflags: -static-libgcc -static-libstdc++
+            mxe_target: i686-w64-mingw32.static
+            wine: wine
+        
           - compiler: clang++-12
             os: ubuntu-latest
             sanitize: address
@@ -86,16 +97,6 @@ jobs:
             sound: 1
             title: Clang 12, macOS 10.15, Tiles, Sound, UBSan
             num_test_jobs: 1
-
-          - compiler: g++
-            os: ubuntu-latest
-            native:
-            tiles: 1
-            sound: 1
-            title: GCC, Ubuntu cross-compile to MinGW-Win64, Tiles, Sound
-            ldflags: -static-libgcc -static-libstdc++
-            mxe_target: i686-w64-mingw32.static
-            wine: wine
 
           - compiler: clang++-6.0
             os: ubuntu-18.04
