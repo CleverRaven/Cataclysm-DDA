@@ -2365,7 +2365,7 @@ void talk_effect_fun_t::set_weighted_list_eocs( const JsonObject &jo,
         }
         eocs.add( eoc, pair.get_int( 1 ) );
     }
-    function = [eocs]( const dialogue & ) {
+    function = [&eocs]( const dialogue & ) {
         dialogue d;
         static standard_npc default_npc( "Default" );
         d.alpha = get_talker_for( get_avatar() );
