@@ -163,7 +163,7 @@ bool itype::can_have_charges() const
 bool itype::is_basic_component() const
 {
     for( const auto &mat : materials ) {
-        if( mat->salvaged_into() && mat->salvaged_into()  == get_id() ) {
+        if( mat->salvaged_into() && *mat->salvaged_into() == get_id() ) {
             return true;
         }
     }
