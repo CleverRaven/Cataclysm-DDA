@@ -935,7 +935,7 @@
     "repairs_like": "boots_larmor",
     "type": "ARMOR",
     "name": { "str": "pair of motorcycle police boots", "str_pl": "pairs of motorcycle police boots" },
-    "description": "Custom made knee-high leather boots issued to motor officers. Warm, durable and quite tough.",
+    "description": "Custom made knee-high leather boots issued to motor officers.  Warm, durable and quite tough.",
     "weight": "1520 g",
     "volume": "3750 ml",
     "price": 8000,

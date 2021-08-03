@@ -834,7 +834,7 @@
     "repairs_like": "jeans",
     "type": "ARMOR",
     "name": { "str_sp": "police breeches" },
-    "description": "Pair of tight-fitting police breeches. Offers lots of mobility for motorized officers.",
+    "description": "Pair of tight-fitting police breeches.  Offers lots of mobility for motorized officers.",
     "weight": "560 g",
     "volume": "1500 ml",
     "price": 4900,
