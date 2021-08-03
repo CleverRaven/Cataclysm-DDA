@@ -1364,7 +1364,7 @@ void veh_interact::calc_overview()
 {
     const hotkey_queue &hotkeys = hotkey_queue::alphabets();
 
-    const auto next_hotkey = [&]( const vehicle_part & pt, input_event & evt ) {
+    const auto next_hotkey = [&]( input_event & evt ) {
         const input_event prev = evt;
         evt = main_context.next_unassigned_hotkey( hotkeys, evt );
         return prev;
@@ -1457,7 +1457,7 @@ void veh_interact::calc_overview()
             };
             selectable = is_selectable( vpr.part() );
             overview_opts.emplace_back( "1_ENGINE", &vpr.part(), selectable,
-                                        selectable ? next_hotkey( vpr.part(), hotkey ) : input_event(),
+                                        selectable ? next_hotkey( hotkey ) : input_event(),
                                         details,
                                         msg_cb );
         }
@@ -1515,13 +1515,13 @@ void veh_interact::calc_overview()
 
             selectable = is_selectable( vpr.part() );
             if( vpr.part().is_tank() ) {
-                overview_opts.emplace_back( "2_TANK", &vpr.part(), selectable, selectable ? next_hotkey( vpr.part(),
-                                            hotkey ) : input_event(),
+                overview_opts.emplace_back( "2_TANK", &vpr.part(), selectable, selectable ? next_hotkey(
+                                                hotkey ) : input_event(),
                                             tank_details );
             } else if( vpr.part().is_fuel_store() && !( vpr.part().is_turret() ||
                        vpr.part().is_battery() || vpr.part().is_reactor() ) ) {
-                overview_opts.emplace_back( "2_TANK", &vpr.part(), selectable, selectable ? next_hotkey( vpr.part(),
-                                            hotkey ) : input_event(),
+                overview_opts.emplace_back( "2_TANK", &vpr.part(), selectable, selectable ? next_hotkey(
+                                                hotkey ) : input_event(),
                                             no_tank_details );
             }
         }
@@ -1542,7 +1542,7 @@ void veh_interact::calc_overview()
             };
             selectable = is_selectable( vpr.part() );
             overview_opts.emplace_back( "3_BATTERY", &vpr.part(), selectable,
-                                        selectable ? next_hotkey( vpr.part(), hotkey ) : input_event(), details );
+                                        selectable ? next_hotkey( hotkey ) : input_event(), details );
         }
 
         if( vpr.part().is_reactor() || vpr.part().is_turret() ) {
@@ -1561,12 +1561,12 @@ void veh_interact::calc_overview()
             selectable = is_selectable( vpr.part() );
             if( vpr.part().is_reactor() ) {
                 overview_opts.emplace_back( "4_REACTOR", &vpr.part(), selectable,
-                                            selectable ? next_hotkey( vpr.part(), hotkey ) : input_event(),
+                                            selectable ? next_hotkey( hotkey ) : input_event(),
                                             details_ammo );
             }
             if( vpr.part().is_turret() ) {
                 overview_opts.emplace_back( "5_TURRET", &vpr.part(), selectable,
-                                            selectable ? next_hotkey( vpr.part(), hotkey ) : input_event(),
+                                            selectable ? next_hotkey( hotkey ) : input_event(),
                                             details_ammo );
             }
         }
@@ -1579,8 +1579,8 @@ void veh_interact::calc_overview()
                 }
             };
             selectable = is_selectable( vpr.part() );
-            overview_opts.emplace_back( "6_SEAT", &vpr.part(), selectable, selectable ? next_hotkey( vpr.part(),
-                                        hotkey ) : input_event(), details );
+            overview_opts.emplace_back( "6_SEAT", &vpr.part(), selectable, selectable ? next_hotkey(
+                                            hotkey ) : input_event(), details );
         }
     }
 
