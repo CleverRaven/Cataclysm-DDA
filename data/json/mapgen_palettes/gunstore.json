@@ -54,7 +54,7 @@
         "_": "t_pavement",	
 		"*": "t_pavement_y",
         "<": "t_stairs_up",
-        ";": "t_gutter_downspout"
+        ";": "t_gutter_downspout",
 		"W": "t_strconc_wall",
 		"$": "t_atm",
 		"Z": "t_bars",
@@ -67,26 +67,27 @@
 		"a": "f_stool",
         "?": "f_console_broken",
         "d": "f_displaycase",
-		"//": "for all display rare gun types"
+		"//": "for all display rare gun types",
         "n": "f_table",
 		"E": "t_desk",
 		"^": "t_indoorplant",
         "l": "f_locker",
-		"P": "f_locker"
-		"//": "gunsmith tools and powder"
+		"P": "f_locker",
+		"//": "future gunsmith tools and powder"
         "{": "f_rack",
 		"//": "tactical clothing and bags pool" 
-		"y": "f_rack"
-		"//": "gunsmithing tools pool"
-		"R": "smokeless powder and primer pool",
+		"y": "f_rack",
+		"//": "future gunsmithing tools pool"
+		"R": "f_rack",
+		"//": " future ammo parts pool",
 		"|": "f_rack",
 		"//": "firearm magazine pool",
 		"K": "f_racl",
 		"//": "firearm books pool",
 		"L": "f_rack_l",
-		"//": "all display type common gun types"
+		"//": "all display type common gun types",
 		"G": "f_rack",
-		"//": "bulk casings",	
+		"//": "future bulk casings pool",	
         "q": "f_sink",
         "r": "f_trashcan",
         "s": "f_crate_c",
@@ -94,14 +95,77 @@
         "^": "f_target",
         "w": "f_dumpster",
 		"X": "f_gunsafe_ml",
-		"//": "All common types of ammunition, a small amount of both rare and obscure ammo, as well as cash"
+		"//": "All common types of ammunition, a small amount of both rare and obscure ammo, as well as cash",
 		"O": "f_gunsafe_ml",
-		"//": "rare spawns for obscure/milspec guns that cannot be sold legally but were still legally in the possession of the owner"
+		"//": "rare spawns for obscure/milspec guns that cannot be sold legally but were still legally in the possession of the owner",
         "x": "f_sandbag_wall"
 		"^": "f_target",
 		"g": "sofa",
 		"f": "fridge"
       },
-      "toilets": { "&": {  } }
+    "items": {
+		
+		"X": {
+			"group": {
+			"subtype": "collection",
+				"entries": [
+					{ "group": "ammo_common", "repeat": 30, "chance", 80 },
+					{ "group": "ammo_rare", "repeat": 5, "chance", 60 },
+					{ "group": "ammo_obscure", "repeat": [ 1, 5 ], "chance", 60 }
+				]
+			}
+		},	   
+		"O": {
+			"group": {
+			"subtype": "collection",
+				"entries": [
+					{ "group": "guns_obscure", "repeat": 3, "chance", 80, "ammo", 0 },
+					{ "group": "mags_obscure", "repeat": 10, "chance", 80 },
+					{ "group": "guns_milspec", "repeat": 1, "chance", 60, "ammo", 0 },
+					{ "group": "mags_milspec", "repeat": 4, "chance", 60 }
+				]
+			}
+		},	    
+		"K": {
+			"group": {
+			"subtype": "collection",
+				"entries": [
+					{ "group": "book_gunref", "repeat": 3, "chance", 50 },
+					{ "group": "book_gunmags", "repeat": 5, "chance", 90 }
+				]
+			}
+		},
+		"|": {
+			"group": {
+			"subtype": "collection",
+				"entries": [
+					{ "group": "mags_common", "repeat": 8, "chance", 90, "ammo": 0 },
+					{ "group": "mags_rare", "repeat": 3, "chance", 90, "ammo": 0 }
+				]
+			}
+		},	
+		"{": {
+			"group": {
+			"subtype": "collection",
+				"entries": [
+					{ "group": "clothing_tactical_torso", "repeat": 5, "chance", 60, "ammo": 0 },
+					{ "group": "clothing_tactical_legs", "repeat": 3, "chance", 60, "ammo": 0 },
+					{ "group": "gun_bags", "repeat": 2, "chance", 65, "ammo": 0 }					
+				]
+			}
+		},			
+		{
+			"group": { "guns_common_display", "chance": 75, "repeat": 5, "magazine": 100 }
+		},
+		"d": {
+			"group": { "guns_rare_display", "chance": 65, "repeat": 3, "magazine": 100 }
+		},	
+		"R": {
+			"group": { "guns_common", "chance": 50, "count":, 1, "magazine": 100 }
+		},
+		"r": {
+			"group": { "trash", "chance": 50, "repeat": 8 }
+		},			
+		"toilets": { "&": {  } }
 	}
 ]

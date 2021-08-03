@@ -388,9 +388,9 @@
     "id": "mags_common",
     "//": "Common magazines for guns typically owned by citizens.",
     "items": [
-      { "group": "mags_pistol_common", "prob": 30 },
-      { "group": "mags_rifle_common", "prob": 20 },
-      { "group": "mags_smg_common", "prob": 10 },
+      { "group": "mags_pistol_common", "prob": 70 },
+      { "group": "mags_rifle_common", "prob": 50 },
+	  { "group": "mags_smg_rare", "prob": 5 },
       { "group": "mags_shotgun_common", "prob": 5 },
       { "group": "mags_other_common", "prob": 5 }
     ]
@@ -412,9 +412,9 @@
     "id": "mags_rare",
     "//": "Aftermarket or otherwise uncommon magazines.",
     "items": [
-      { "group": "mags_pistol_rare", "prob": 30 },
-      { "group": "mags_rifle_rare", "prob": 20 },
-      { "group": "mags_smg_rare", "prob": 10 },
+      { "group": "mags_pistol_rare", "prob": 70 },
+      { "group": "mags_rifle_rare", "prob": 50 },
+      { "group": "mags_smg_rare", "prob": 5 },
       { "group": "mags_shotgun_rare", "prob": 5 },
       { "group": "mags_other_rare", "prob": 5 }
     ]

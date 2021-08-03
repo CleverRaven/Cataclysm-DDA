@@ -22,11 +22,11 @@
         ",,#&q-.-lll.AnA.r.sss#__",
         ",,#//D.+...........ss#__",
         ",,#---D-----------.ss#__",
-        ",;#..n..n=.n..n..-.--#__",
-        ",,#..=........=..-.D<#__",
+        ",;#..n..n..n..n..-.--#__",
+        ",,#..............-.D<#__",
         ",,WWWRWWRWWRWWRWWW+###__",
-        ",,W....=...=.....W_www__",
-        ",,W=.............W______",
+        ",,W..............W_www__",
+        ",,W..............W______",
         ",,W..............W______",
         ",,W..T..T..T..T..W______",
         ",,WxxxxxxxxxxxxxxW______",
@@ -162,16 +162,7 @@
         "________________________"
       ]
 	  "palettes": [ "gun_store_palette" ],
-      "furniture": {
-        "V": "f_counter",
-		"//": "^ to allow just vending ammo to spawn, not misc items as well"
-	  },
-      "place_loot": [
-        { "group": "vending_ammo", "x": 8, "y": 17, "chance": 90, "repeat": [ 1, 4 ] },
-        { "group": "vending_ammo", "x": 9, "y": 17, "chance": 90, "repeat": [ 1, 4 ] },
-        { "group": "vending_ammo", "x": 14, "y": 17, "chance": 90, "repeat": [ 1, 4 ] },
-        { "group": "vending_ammo", "x": 15, "y": 17, "chance": 90, "repeat": [ 1, 4 ] }
-      ]
+	  "vendingmachines": { "V": [ "group": "vending_ammo"]}
     }
   },
   {
@@ -329,11 +320,11 @@
         ",u#{.....s-.--D--.nn#,,,",
         "B,#{.sssss-.-&rq-O.H#,,,",
         ",,#--------D--------#,,,",
-        ",u#.nn..=n...n=..nn.#u,,",
-        "Bu#=.=...=.....=...=#u,,",
+        ",u#.nn...n...n...nn.#u,,",
+        "Bu#.................#u,,",
         ",,W.WWRWWWWRWWWWRWW.W,,,",
-        ",,W....=.........=..W,,B",
-        "BuW......=..........Wu,,",
+        ",,W.................W,,B",
+        "BuW.................Wu,,",
         ",,W.................W,,B",
         ",uW.................W,,B",
         "B,W...T....T....T...Wu,,",

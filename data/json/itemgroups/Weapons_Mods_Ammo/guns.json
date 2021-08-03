@@ -674,10 +674,9 @@
     "id": "guns_common_display",
     "//": "Guns of all types commonly owned by citizens and found exclusively in gun stores.",
     "items": [
-      { "group": "guns_pistol_common_display", "prob": 100 },
-      { "group": "guns_rifle_common_display", "prob": 20 },
-      { "group": "guns_smg_common_display", "prob": 5 },
-      { "group": "guns_shotgun_common_display", "prob": 40 }
+      { "group": "guns_pistol_common_display", "prob": 85 },
+      { "group": "guns_rifle_common_display", "prob": 50 },
+      { "group": "guns_shotgun_common_display", "prob": 25 }
     ]
   },
   {
