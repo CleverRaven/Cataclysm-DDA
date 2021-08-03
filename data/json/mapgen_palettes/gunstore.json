@@ -1,0 +1,107 @@
+[
+  {
+    "type": "palette",
+    "id": "gun_store_palette",
+	"//": " Q, H, U, S, m, k, Y, p, z, `, and > are all still available for more terrain or furniture"
+    "terrain": {
+        "-": "t_wall_w",
+        "#": "t_brick_wall",
+		"/": "t_floor",
+		"q": "t_floor",
+		"&": "t_floor",
+        ":": "t_window_bars_alarm",
+        "+": "t_door_metal_pickable",
+		"t": "t_door_locked_alarm"
+        "D": "t_door_c",
+		"e": "t_window_boarded",
+        ",": "t_region_groundcover_urban",
+		"@": "t_region_shrub_decorative",
+		"B": "t_region_groundcover_barren",
+		"u": "t_region_shrub",
+        "`": "t_sidewalk",
+        "h": "t_reinforced_glass",
+        "C": "t_thconc_floor",
+        ".": "t_thconc_floor",
+        "a": "t_thconc_floor",
+        "?": "t_thconc_floor",
+        "l": "t_thconc_floor",
+        "{": "t_thconc_floor",
+        "E": "t_thconc_floor",
+        "d": "t_thconc_floor",
+        "^": "t_thconc_floor",
+        "x": "t_thconc_floor",
+		"X": "t_thconc_floor",
+        "A": "t_thconc_floor",
+        "s": "t_thconc_floor",
+        "r": "t_thconc_floor",
+        "w": "t_thconc_floor",
+		"R": "t_thconc_floor",
+		"=": "t_thconc_floor",
+		"//": "terrain for designating where spent casing should appear on floor nearby shooting ranges",
+		"T": "t_thconc_floor",	
+		"|": "t_thconc_floor",	
+		"M": "t_thconc_floor",
+		"N": "t_thconc_floor",	
+		"?": "t_thconc_floor",
+		"n": "t_thconc_floor",
+		"K": "t_thconc_floor",		
+		"G": "t_thconc_floor",	
+		"g": "t_thconc_floor",
+		"f": "t_thconc_floor",
+		"L": "t_thconc_floor",
+		"y": "t_thconc_floor",		
+		"P": "t_thconc_floor",	
+        "_": "t_pavement",	
+		"*": "t_pavement_y",
+        "<": "t_stairs_up",
+        ";": "t_gutter_downspout"
+		"W": "t_strconc_wall",
+		"$": "t_atm",
+		"Z": "t_bars",
+		"F": "t_door_frame"
+      },
+      "furniture": {
+        "C": "f_counter",
+		"R": "f_counter",
+		"//": "second counter is for shooting range loot pool",
+		"a": "f_stool",
+        "?": "f_console_broken",
+        "d": "f_displaycase",
+		"//": "for all display rare gun types"
+        "n": "f_table",
+		"E": "t_desk",
+		"^": "t_indoorplant",
+        "l": "f_locker",
+		"P": "f_locker"
+		"//": "gunsmith tools and powder"
+        "{": "f_rack",
+		"//": "tactical clothing and bags pool" 
+		"y": "f_rack"
+		"//": "gunsmithing tools pool"
+		"R": "smokeless powder and primer pool",
+		"|": "f_rack",
+		"//": "firearm magazine pool",
+		"K": "f_racl",
+		"//": "firearm books pool",
+		"L": "f_rack_l",
+		"//": "all display type common gun types"
+		"G": "f_rack",
+		"//": "bulk casings",	
+        "q": "f_sink",
+        "r": "f_trashcan",
+        "s": "f_crate_c",
+        "A": "f_chair",
+        "^": "f_target",
+        "w": "f_dumpster",
+		"X": "f_gunsafe_ml",
+		"//": "All common types of ammunition, a small amount of both rare and obscure ammo, as well as cash"
+		"O": "f_gunsafe_ml",
+		"//": "rare spawns for obscure/milspec guns that cannot be sold legally but were still legally in the possession of the owner"
+        "x": "f_sandbag_wall"
+		"^": "f_target",
+		"g": "sofa",
+		"f": "fridge"
+      },
+      "toilets": { "&": {  } }
+	}
+]
