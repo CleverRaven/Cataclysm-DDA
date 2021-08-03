@@ -71,7 +71,7 @@ TEST_CASE( "stacking_cash_cards", "[item]" )
     cash1.put_in( item( "money", calendar::turn_zero, 1 ), item_pocket::pocket_type::MAGAZINE );
     cash2.put_in( item( "money", calendar::turn_zero, 2 ), item_pocket::pocket_type::MAGAZINE );
     CHECK( !cash0.stacks_with( cash1 ) );
-    CHECK( cash1.stacks_with( cash2 ) );
+    //CHECK( cash1.stacks_with( cash2 ) ); Enable this once cash card stacking is brought back.
 }
 
 // second minute hour day week season year

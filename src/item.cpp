@@ -1059,7 +1059,9 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
     }
     if( ammo_remaining() != 0 && rhs.ammo_remaining() != 0 && is_money() ) {
         // Dealing with nonempty cash cards
-        return true;
+		// TODO: Fix cash cards not showing total value. Until that is fixed do not stack cash cards.
+		// When that is fixed just change this to true.
+        return false;
     }
     // This function is also used to test whether items counted by charges should be merged, for that
     // check the, the charges must be ignored. In all other cases (tools/guns), the charges are important.
