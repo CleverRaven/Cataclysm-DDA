@@ -1690,7 +1690,6 @@ void veh_interact::overview( const overview_enable_t &enable,
         }
 
         ui_manager::redraw();
-        const vehicle_part &pt = **( &overview_opts[overview_pos].part );
 
         const std::string input = main_context.handle_input();
         msg.reset();
