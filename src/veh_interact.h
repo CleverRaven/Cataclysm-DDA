@@ -185,17 +185,21 @@ class veh_interact
         void display_details( const vpart_info *part );
 
         struct part_option {
-            part_option( const std::string &key, vehicle_part *part, const input_event &hotkey,
+            part_option( const std::string &key, vehicle_part *part, bool selectable, const input_event &hotkey,
                          std::function<void( const vehicle_part &pt, const catacurses::window &w, int y )> details ) :
-                key( key ), part( part ), hotkey( hotkey ), details( details ) {}
+                key( key ), part( part ), selectable( selectable ), hotkey( hotkey ), details( details ) {}
 
-            part_option( const std::string &key, vehicle_part *part, const input_event &hotkey,
+            part_option( const std::string &key, vehicle_part *part, bool selectable, const input_event &hotkey,
                          std::function<void( const vehicle_part &pt, const catacurses::window &w, int y )> details,
                          std::function<void( const vehicle_part &pt )> message ) :
-                key( key ), part( part ), hotkey( hotkey ), details( details ), message( message ) {}
+                key( key ), part( part ), selectable( selectable ), hotkey( hotkey ), details( details ),
+                message( message ) {}
 
             std::string key;
             vehicle_part *part;
+
+            /** Can the part be selected and used */
+            bool selectable;
 
             /** Can @param action be run for this entry? */
             input_event hotkey;
