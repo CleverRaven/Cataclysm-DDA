@@ -13,7 +13,8 @@
 // https://stackoverflow.com/questions/6563810/m-pi-works-with-math-h-but-not-with-cmath-in-visual-studio/6563891
 
 #define _USE_MATH_DEFINES
-#include <cmath>
+// NOLINTNEXTLINE(modernize-deprecated-headers)
+#include <math.h>
 
 // And on mingw even that doesn't work, so we are forced to have our own
 // fallback definitions.
@@ -27,6 +28,10 @@
 
 #ifndef M_SQRT2
 #define M_SQRT2 1.41421356237309504880
+#endif
+
+#ifndef M_LOG2E
+#define M_LOG2E 1.44269504088896340736
 #endif
 
 #endif // CATA_SRC_MATH_DEFINES_H

@@ -4,6 +4,7 @@
 #include <iterator>
 #include <list>
 #include <memory>
+#include <new>
 #include <set>
 #include <tuple>
 #include <unordered_set>
@@ -13,7 +14,6 @@
 #include "calendar.h"
 #include "catacharset.h"
 #include "clone_ptr.h"
-#include "cursesdef.h"
 #include "debug.h"
 #include "game.h"
 #include "input.h"
@@ -21,10 +21,14 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_factory.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
 #include "json.h"
+#include "make_static.h"
+#include "optional.h"
 #include "output.h"
+#include "pimpl.h"
 #include "player.h"
 #include "ret_val.h"
 #include "string_formatter.h"
@@ -36,18 +40,19 @@ class Character;
 
 static const std::string errstring( "ERROR" );
 
-static const bionic_id bio_tools( "bio_tools" );
-static const bionic_id bio_claws( "bio_claws" );
-static const bionic_id bio_claws_weapon( "bio_claws_weapon" );
-
 struct tripoint;
 
 static item_action nullaction;
 
-static char key_bound_to( const input_context &ctxt, const item_action_id &act )
+static cata::optional<input_event> key_bound_to( const input_context &ctxt,
+        const item_action_id &act )
 {
-    auto keys = ctxt.keys_bound_to( act );
-    return keys.empty() ? '\0' : keys[0];
+    const std::vector<input_event> keys = ctxt.keys_bound_to( act, /*maximum_modifier_count=*/1 );
+    if( keys.empty() ) {
+        return cata::nullopt;
+    } else {
+        return keys.front();
+    }
 }
 
 class actmenu_cb : public uilist_callback
@@ -55,7 +60,7 @@ class actmenu_cb : public uilist_callback
     private:
         const action_map am;
     public:
-        actmenu_cb( const action_map &acm ) : am( acm ) { }
+        explicit actmenu_cb( const action_map &acm ) : am( acm ) { }
         ~actmenu_cb() override = default;
 
         bool key( const input_context &ctxt, const input_event &event, int /*idx*/,
@@ -118,7 +123,7 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
         const std::vector<item *> &pseudos ) const
 {
     std::set< item_action_id > unmapped_actions;
-    for( auto &ia_ptr : item_actions ) { // Get ids of wanted actions
+    for( const auto &ia_ptr : item_actions ) { // Get ids of wanted actions
         unmapped_actions.insert( ia_ptr.first );
     }
 
@@ -146,13 +151,13 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
                    func->get_actor_ptr()->can_use( p, *actual_item, false, p.pos() ).success() ) ) {
                 continue;
             }
-            if( !actual_item->ammo_sufficient() ) {
+            if( !actual_item->ammo_sufficient( &p ) ) {
                 continue;
             }
 
             // Don't try to remove 'irremovable' toolmods
-            if( actual_item->is_toolmod() && use == item_action_id( "TOOLMOD_ATTACH" ) &&
-                actual_item->has_flag( "IRREMOVABLE" ) ) {
+            if( actual_item->is_toolmod() && use == STATIC( item_action_id( "TOOLMOD_ATTACH" ) ) &&
+                actual_item->has_flag( STATIC( flag_id( "IRREMOVABLE" ) ) ) ) {
                 continue;
             }
 
@@ -241,17 +246,12 @@ void game::item_action_menu()
     const auto &gen = item_action_generator::generator();
     const action_map &item_actions = gen.get_item_action_map();
 
-    // HACK: A bit of a hack for now. If more pseudos get implemented, this should be un-hacked
+    std::vector<item> pseudo_items = get_player_character().get_pseudo_items();
     std::vector<item *> pseudos;
-    item toolset( "toolset", calendar::turn );
-    if( u.has_active_bionic( bio_tools ) ) {
-        pseudos.push_back( &toolset );
+    pseudos.reserve( pseudo_items.size() );
+    for( item &pseudo : pseudo_items ) {
+        pseudos.push_back( &pseudo );
     }
-    item bio_claws_item( static_cast<std::string>( bio_claws_weapon ), calendar::turn );
-    if( u.has_active_bionic( bio_claws ) ) {
-        pseudos.push_back( &bio_claws_item );
-    }
-
     item_action_map iactions = gen.map_actions_to_items( u, pseudos );
     if( iactions.empty() ) {
         popup( _( "You don't have any items with registered uses" ) );
@@ -260,8 +260,8 @@ void game::item_action_menu()
     uilist kmenu;
     kmenu.text = _( "Execute which action?" );
     kmenu.input_category = "ITEM_ACTIONS";
-    input_context ctxt( "ITEM_ACTIONS" );
-    for( const auto &id : item_actions ) {
+    input_context ctxt( "ITEM_ACTIONS", keyboard_mode::keycode );
+    for( const std::pair<const item_action_id, item_action> &id : item_actions ) {
         ctxt.register_action( id.first, id.second.name );
         kmenu.additional_actions.emplace_back( id.first, id.second.name );
     }
@@ -290,7 +290,7 @@ void game::item_action_menu()
             ss += string_format( "(-%d)", elem.second->ammo_required() );
         }
 
-        const auto method = elem.second->get_use( elem.first );
+        const use_function *method = elem.second->get_use( elem.first );
         if( method ) {
             return std::make_tuple( method->get_type(), method->get_name(), ss );
         } else {
@@ -301,7 +301,7 @@ void game::item_action_menu()
     sort_menu( menu_items.begin(), menu_items.end() );
     // Add unmapped but binded actions to the menu vector.
     for( const auto &elem : item_actions ) {
-        if( key_bound_to( ctxt, elem.first ) != '\0' && !assigned_action( elem.first ) ) {
+        if( key_bound_to( ctxt, elem.first ).has_value() && !assigned_action( elem.first ) ) {
             menu_items.emplace_back( elem.first, gen.get_action_name( elem.first ), "-" );
         }
     }
@@ -325,7 +325,7 @@ void game::item_action_menu()
         ss += std::get<2>( elem );
         ss += std::string( max_len.second - utf8_width( std::get<2>( elem ), true ), ' ' );
 
-        const char bind = key_bound_to( ctxt, std::get<0>( elem ) );
+        const cata::optional<input_event> bind = key_bound_to( ctxt, std::get<0>( elem ) );
         const bool enabled = assigned_action( std::get<0>( elem ) );
 
         kmenu.addentry( num, enabled, bind, ss );
@@ -342,8 +342,8 @@ void game::item_action_menu()
 
     u.invoke_item( it, action );
 
-    u.inv.restack( u );
-    u.inv.unsort();
+    u.inv->restack( u );
+    u.inv->unsort();
 }
 
 std::string use_function::get_type() const

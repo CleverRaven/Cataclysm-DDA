@@ -141,7 +141,7 @@
         "attack_text_u": "You sink your fangs into %s",
         "attack_text_npc": "%1$s sinks their fangs into %2$s",
         "blocker_mutations": [ "MUZZLE", "MUZZLE_LONG", "MUZZLE_RAT" ],
-        "body_part": "MOUTH",
+        "body_part": "mouth",
         "chance": 20,
         "base_damage": { "damage_type": "stab", "amount": 20 }
       },
@@ -149,7 +149,7 @@
         "attack_text_u": "You sink your fangs into %s",
         "attack_text_npc": "%1$s sinks their fangs into %2$s",
         "required_mutations": [ "MUZZLE" ],
-        "body_part": "MOUTH",
+        "body_part": "mouth",
         "chance": 18,
         "base_damage": { "damage_type": "stab", "amount": 20 }
       },
@@ -157,7 +157,7 @@
         "attack_text_u": "You sink your fangs into %s",
         "attack_text_npc": "%1$s sinks their fangs into %2$s",
         "required_mutations": [ "MUZZLE_LONG" ],
-        "body_part": "MOUTH",
+        "body_part": "mouth",
         "chance": 15,
         "base_damage": { "damage_type": "stab", "amount": 20 }
       },
@@ -165,7 +165,7 @@
         "attack_text_u": "You sink your fangs into %s",
         "attack_text_npc": "%1$s sinks their fangs into %2$s",
         "required_mutations": [ "MUZZLE_RAT" ],
-        "body_part": "MOUTH",
+        "body_part": "mouth",
         "chance": 19,
         "base_damage": { "damage_type": "stab", "amount": 20 }
       }

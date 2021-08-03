@@ -78,10 +78,18 @@ all of the listed effects to the player. The effects are added one after another
 
 ### Max intensity
 ```C++
-    "max_intensity": 3          - Used for many later fields, defaults to 1
-    "max_effective_intensity"   - How many intensity levels will apply effects.
-                                  Other intensity levels will only increase duration.
+    "max_intensity": 6,             - Used for many later fields, defaults to 1
+    "max_effective_intensity": 3    - Maximum intensity level that will accumulate effects.
+                                      Other intensity levels will only increase duration.
 ```
+
+Each effect has an intensity that describes how strong or severe the effect currently is.  Intensity
+levels above 1 can be assigned different names, and multiply any "scaling_mods" (see below).
+
+The "max_intensity" field tells the absolute maximum value intensity can reach.  The related
+"max_effective_intensity" field limits the multiplier effect of "scaling_mods".  By default, the
+multipliers will be applied all the way up to "max_intensity".
+
 
 ### Name
 ```C++
@@ -155,7 +163,7 @@ if it doesn't exist.
 ```C++
     "rating": "good"        - Defaults to "neutral" if missing
 ```
-This is used for how the messages when the effect is applied and removed are displayed.
+This is used for how the messages when the effect is applied and removed are displayed. Also this affects "blood_analysis_description" (see below) field: effects with "good" rating will be colored green, effects with any other rating will be colored red when character conducts a blood analysis through some means.
 Valid entries are:
 ```C++
 "good"
@@ -243,6 +251,11 @@ This can be used to make effects automatically increase or decrease in intensity
 "int_dur_factor" overrides the other three intensities fields, and forces the intensity to be a number defined as
 intensity = duration / "int_dur_factor" rounded up (so from 0 to "int_dur_factor" is intensity 1).
 
+```C++
+    "show_intensity": false     - Defaults to true
+```
+This permits or forbids showing intensity value next to name of a given effect in EFFECTS tab. E.g. show "Weakness [142]" or simply "Weakness" text.
+
 ### Miss messages
 ```C++
     "miss_messages": [["Your blisters distract you", 1]]
@@ -285,6 +298,52 @@ main part (arms, head, legs, etc.).
 "pkill_addict_reduces" makes a player's addiction to painkillers reduce the chance of the effect giving
 them more pkill. "pain_sizing" and "hurt_sizing" cause large/huge mutations to affect the chance of pain
 and hurt effects triggering. "harmful_cough" means that the coughs caused by this effect can hurt the player.
+
+### Flags
+
+"EFFECT_INVISIBLE" Character affected by an effect with this flag are invisible.
+"EFFECT_IMPEDING" Character affected by an effect with this flag can't move until they break free from the effect.  Breaking free requires a strength check: `x_in_y( get_str(), 6 * get_effect_int( eff_id )`
+
+### Vitamin Mods
+
+```json
+    "vitamins": [
+      {
+        "vitamin": "foo",
+        "rate": [ [ 1, 2 ] ],
+        "resist_rate": [ [ 0, 1 ] ],
+        "absorb_mult": [ 0.5 ],
+        "resist_absorb_mult": [ 0.0 ],
+        "tick": [ "2 m" ],
+        "resist_tick": [ "1 s" ],
+      }
+    ],
+```
+- `vitamin` corresponds to the vitamin id that the following effects will be applied to
+- `rate` A randomly generated number between the bounds specified (here, 1 and 2) will added to the vitamin counter of a character with this effect every `tick`.
+- `absorb_mult` metabolically absorbed vitamins will be multiplied by this quantity before being added to the character.
+
+The `resist_` variants of the above keys are the values chosen when the character is resistant to this effect.
+
+All of these members are arrays, with each successive entry corresponding to the intensity level of an effect. If there are more intensity levels to the effect than entries in the array, the last entry in the array will be used.
+
+As defined, this will cause non-resistant characters to gain between 1 and 2 of the vitamin foo every 2 minutes, and half their absorbtion rate of it, and resistant character to gain between 0 and 1 of this vitamin every second, and not absorb any of it from their food.
+
+### Death
+
+```json
+    "chance_kill": [ [ 1, 25 ] ],
+    "chance_kill_resist": [ [ 1, 250 ] ],
+    "death_msg": "You died.",
+    "death_event": "throws_up"
+```
+
+- `chance_kill` A first value in second value chance to kill the creature with this effect each turn.
+- `chance_kill_resist` A first value in second value chance to kill the creature with this effect each turn, if the creature resists this effect.
+- `death_msg` A message added to the log when the player dies from this effect.
+- `death_event` An event that is sent when the player dies from this effect.
+
+For `chance_kill` and `chance_kill_resist`, it accepts an array of arrays in the format described. Each entry in the array will be applied for a successive intensity level of the field. If the intensity level of the field is greater than the number of entries in the array, the last entry will be used.
 
 ### Effect effects
 ```C++
@@ -424,6 +483,7 @@ Valid arguments:
 "cough_chance_bot"
 "cough_tick"        - Defaults to every tick
 
+// It is important to not vomit_chance interacts with vomit_multiplier in mutations, and as such is hardcoded. Base vomit chance is intensity/(base vomit chance + scaling vomit chance).
 "vomit_chance"      - Chance to cause vomiting
 "vomit_chance_bot"
 "vomit_tick"        - Defaults to every tick
@@ -521,3 +581,9 @@ Intensity 4
     -43 + 3 * 21 = 20       "vomit_chance_bot" doesn't exist, so a 1 in 20 chance of vomiting. "vomit_tick" doesn't exist, so it rolls every turn.
     -1003 + 3 * 501 = 500   "sleep_chance_bot" doesn't exist, so a 1 in 500 chance of passing out for rng(2500, 3500) turns. "sleep_tick" doesn't exist, so it rolls every turn.
 ```
+
+### Blood analysis description
+```C++
+    "blood_analysis_description": "Minor Painkiller"
+```
+This description will be displayed for every effect which has this field when character conducts a blood analysis (for example, through Blood Analysis CBM).

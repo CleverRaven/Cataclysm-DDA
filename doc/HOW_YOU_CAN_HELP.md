@@ -1,8 +1,8 @@
 # How You Can Help
 
-If you want to just jump right in, then search for the ["Good First Issue"](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22Good+First+Issue%22) tag.
+If you want to just jump right in, search for the ["Good First Issue"](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22Good+First+Issue%22) tag.
 
-If you wish to find something pertaining to your specialty, then use the more detailed tags, in any combination.
+If you wish to find something pertaining to your specialty, use the more detailed tags, in any combination.
 
 &nbsp;
 
@@ -91,12 +91,12 @@ If you wish to find something pertaining to your specialty, then use the more de
 | [Code: Tests](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22Code%3A+Tests%22)                                                                           | Measurement, self-control, statistics, balancing.
 | [Game: Balance](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22Game%3A+Balance%22)                                                                       | Code that balances in-game features.
 | [Game: Mechanics Change](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22Game%3A+Mechanics+Change%22)                                                     | Code that changes how major features work
-| [Organization: Bounty](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22Organization%3A+Bounty%22)                                                         | Bounties for claim
+| [Organization: Bounty](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22Organization%3A+Bounty%22)                                                         | Bounties for the claiming
 | [Organization: Sites](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22Organization%3A+Sites%22)                                                           | Issues concerning web-sites that relate to Cataclysm
-| [OS: Android](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22OS%3A+Android%22)                                                                           | Issues related to Android operating system
-| [OS: Linux](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22OS%3A+Linux%22)                                                                               | Issues related to Linux operating system
-| [OS: macOS](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22OS%3A+macOS%22)                                                                               | Issues related to macOS operating system
-| [OS: Windows](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22OS%3A+Windows%22)                                                                           | Issues related to Windows operating system
+| [OS: Android](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22OS%3A+Android%22)                                                                           | Issues related to the Android operating system
+| [OS: Linux](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22OS%3A+Linux%22)                                                                               | Issues related to the Linux operating system
+| [OS: macOS](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22OS%3A+macOS%22)                                                                               | Issues related to the macOS operating system
+| [OS: Windows](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22OS%3A+Windows%22)                                                                           | Issues related to the Windows operating system
 | [(P1 - Critical)](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22%28P1+-+Critical%29%22)                                                                 | Highest priority (for ex. crash fixes)
 | [(P2 - High)](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22%28P2+-+High%29%22)                                                                         | High priority (for ex. important bugfixes)
 | [(P3 - Medium)](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22%28P3+-+Medium%29%22)                                                                     | Medium (normal) priority
@@ -105,7 +105,7 @@ If you wish to find something pertaining to your specialty, then use the more de
 | [PUBLIC TEST](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22PUBLIC+TEST%22)                                                                             | </div>
 | [(S1 - Need confirmation)](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22%28S1+-+Need+confirmation%29%22)                                               | Bug waiting on confirmation of reproducibility
 | [(S2 - Confirmed)](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22%28S2+-+Confirmed%29%22)                                                               | Bug that's been confirmed to exist
-| [(S3 - Duplicate)](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22%28S3+-+Duplicate%29%22)                                                               | Bug that is duplicate of another one
+| [(S3 - Duplicate)](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22%28S3+-+Duplicate%29%22)                                                               | Bug that is a duplicate of another one
 | [(S4 - Invalid)](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22%28S4+-+Invalid%29%22)                                                                   | wontfix / can't reproduce
 | [SDL: Tiles / Sound](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3A%22SDL%3A+Tiles+%2F+Sound%22)                                                           | Tiles visual interface and sounds.
 | [stale](https://github.com/CleverRaven/Cataclysm-DDA/issues?q=is%3Aopen+is%3Aissue+label%3Astale)                                                                                               | Closed for lack of activity, but still valid.

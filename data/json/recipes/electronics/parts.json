@@ -2,6 +2,7 @@
   {
     "result": "battery_car",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
@@ -11,19 +12,19 @@
     "reversible": true,
     "decomp_learn": 2,
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 50 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 50 ], [ "plastic_molding", 20 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [
-      [ [ "plastic_chunk", 20 ] ],
       [ [ "scrap", 4 ] ],
       [ [ "lead", 5000 ] ],
-      [ [ "acid", 4 ], [ "fertilizer_liquid", 4 ], [ "fertilizer_commercial", 4 ] ]
+      [ [ "chem_sulphuric_acid", 4 ], [ "fertilizer_liquid", 4 ], [ "fertilizer_commercial", 4 ] ]
     ]
   },
   {
     "result": "battery_motorbike",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
@@ -33,18 +34,18 @@
     "reversible": true,
     "decomp_learn": 2,
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
-    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
+    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ], [ "plastic_molding", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ] ],
     "components": [
-      [ [ "plastic_chunk", 4 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "lead", 1000 ] ],
-      [ [ "acid", 2 ], [ "fertilizer_liquid", 2 ], [ "fertilizer_commercial", 2 ] ]
+      [ [ "chem_sulphuric_acid", 2 ], [ "fertilizer_liquid", 2 ], [ "fertilizer_commercial", 2 ] ]
     ]
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "large_storage_battery",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
@@ -62,6 +63,7 @@
   {
     "result": "light_minus_atomic_battery_cell",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
@@ -77,6 +79,7 @@
   {
     "result": "light_atomic_battery_cell",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
@@ -92,6 +95,7 @@
   {
     "result": "medium_atomic_battery_cell",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
@@ -107,6 +111,7 @@
   {
     "result": "heavy_atomic_battery_cell",
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
@@ -122,6 +127,7 @@
   {
     "result": "solder_wire",
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",

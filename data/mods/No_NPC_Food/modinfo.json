@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "no_npc_food",
+    "id": "no_npc_food",
     "name": "Disable NPC Needs",
     "authors": [ "Coolthulhu" ],
     "maintainers": [ "Coolthulhu" ],

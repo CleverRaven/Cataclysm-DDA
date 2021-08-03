@@ -392,7 +392,7 @@
         { "item": "splinter", "repeat": 1, "x": 16, "y": 4 },
         { "item": "corpse", "repeat": 1, "x": 17, "y": 11 },
         { "item": "splinter", "repeat": 1, "x": 4, "y": 13 },
-        { "item": "rag_bloody", "repeat": 1, "x": 16, "y": 15 },
+        { "item": "rag", "repeat": 1, "x": 16, "y": 15, "custom-flags": [ "FILTHY" ] },
         { "item": "log", "repeat": 1, "x": 20, "y": 16 },
         { "item": "splinter", "repeat": 1, "x": 11, "y": 19 }
       ],
@@ -1336,12 +1336,12 @@
     "object": {
       "place_item": [
         { "item": "corpse", "repeat": 1, "x": 19, "y": 7 },
-        { "item": "rag_bloody", "repeat": 1, "x": 13, "y": 12 },
+        { "item": "rag", "repeat": 1, "x": 13, "y": 12, "custom-flags": [ "FILTHY" ] },
         { "item": "human_flesh", "repeat": 1, "x": 19, "y": 12 },
         { "item": "corpse", "repeat": 1, "x": 13, "y": 14 },
         { "item": "corpse", "repeat": 1, "x": 19, "y": 14 },
         { "item": "corpse", "repeat": 1, "x": 13, "y": 15 },
-        { "item": "rag_bloody", "repeat": 1, "x": 14, "y": 15 }
+        { "item": "rag", "repeat": 1, "x": 14, "y": 15, "custom-flags": [ "FILTHY" ] }
       ],
       "furniture": {
         "#": "f_null",

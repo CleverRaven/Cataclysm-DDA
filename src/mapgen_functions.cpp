@@ -6,19 +6,19 @@
 #include <initializer_list>
 #include <iterator>
 #include <map>
+#include <string>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
 #include "calendar.h"
 #include "character_id.h"
+#include "cuboid_rectangle.h"
 #include "debug.h"
 #include "enums.h"
 #include "field_type.h"
 #include "flood_fill.h"
 #include "game_constants.h"
-#include "int_id.h"
-#include "item.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -31,7 +31,6 @@
 #include "point.h"
 #include "regional_settings.h"
 #include "rng.h"
-#include "string_id.h"
 #include "trap.h"
 #include "vehicle_group.h"
 #include "weighted_list.h"
@@ -41,7 +40,9 @@ static const itype_id itype_jackhammer( "jackhammer" );
 static const itype_id itype_mask_dust( "mask_dust" );
 
 static const mtype_id mon_ant_larva( "mon_ant_larva" );
+static const mtype_id mon_ant_acid_larva( "mon_ant_acid_larva" );
 static const mtype_id mon_ant_queen( "mon_ant_queen" );
+static const mtype_id mon_ant_acid_queen( "mon_ant_acid_queen" );
 static const mtype_id mon_bee( "mon_bee" );
 static const mtype_id mon_beekeeper( "mon_beekeeper" );
 static const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
@@ -103,7 +104,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "road_tee",         &mapgen_road },
             { "road_four_way",    &mapgen_road },
             { "field",            &mapgen_field },
-            { "bridge",           &mapgen_bridge },
             { "highway",          &mapgen_highway },
             { "railroad_straight", &mapgen_railroad },
             { "railroad_curved",   &mapgen_railroad },
@@ -115,7 +115,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "river_curved_not", &mapgen_river_curved_not },
             { "river_straight",   &mapgen_river_straight },
             { "river_curved",     &mapgen_river_curved },
-            { "parking_lot",      &mapgen_parking_lot },
             { "spider_pit", mapgen_spider_pit },
             { "cavern", &mapgen_cavern },
             { "open_air", &mapgen_open_air },
@@ -148,9 +147,12 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "ants_four_way",    &mapgen_ants_four_way },
             { "ants_food", &mapgen_ants_food },
             { "ants_larvae", &mapgen_ants_larvae },
+            { "ants_larvae_acid", &mapgen_ants_larvae_acid },
             { "ants_queen", &mapgen_ants_queen },
+            { "ants_queen_acid", &mapgen_ants_queen_acid },
             { "tutorial", &mapgen_tutorial },
             { "lake_shore", &mapgen_lake_shore },
+            { "ravine_edge", &mapgen_ravine_edge },
         }
     };
     const auto iter = pointers.find( ident );
@@ -175,7 +177,7 @@ ter_id clay_or_sand()
 
 void mapgen_rotate( map *m, oter_id terrain_type, bool north_is_down )
 {
-    const auto dir = terrain_type->get_dir();
+    const om_direction::type dir = terrain_type->get_dir();
     m->rotate( static_cast<int>( north_is_down ? om_direction::opposite( dir ) : dir ) );
 }
 
@@ -216,7 +218,8 @@ void mapgen_crater( mapgendata &dat )
             }
         }
     }
-    m->place_items( "wreckage", 83, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
+    m->place_items( item_group_id( "wreckage" ), 83, point_zero,
+                    point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
 }
 
 // TODO: make void map::ter_or_furn_set(const int x, const int y, const ter_furn_id & tfid);
@@ -264,7 +267,8 @@ void mapgen_field( mapgendata &dat )
     }
 
     // FIXME: take 'rock' out and add as regional biome setting
-    m->place_items( "field", 60, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
+    m->place_items( item_group_id( "field" ), 60, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
+                    true, dat.when() );
 }
 
 void mapgen_hive( mapgendata &dat )
@@ -414,10 +418,11 @@ void mapgen_hive( mapgendata &dat )
                 }
 
                 if( is_center ) {
-                    m->place_items( "hive_center", 90, point( i - 2, j - 2 ), point( i + 2, j + 2 ), false,
-                                    dat.when() );
+                    m->place_items( item_group_id( "hive_center" ), 90, point( i - 2, j - 2 ),
+                                    point( i + 2, j + 2 ), false, dat.when() );
                 } else {
-                    m->place_items( "hive", 80, point( i - 2, j - 2 ), point( i + 2, j + 2 ), false, dat.when() );
+                    m->place_items( item_group_id( "hive" ), 80, point( i - 2, j - 2 ),
+                                    point( i + 2, j + 2 ), false, dat.when() );
                 }
             }
         }
@@ -475,7 +480,8 @@ void mapgen_spider_pit( mapgendata &dat )
             }
         }
     }
-    m->place_items( "forest", 60, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
+    m->place_items( item_group_id( "forest" ), 60, point_zero,
+                    point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
     // Next, place webs and sinkholes
     for( int i = 0; i < 4; i++ ) {
         point p( rng( 3, SEEX * 2 - 4 ), rng( 3, SEEY * 2 - 4 ) );
@@ -501,7 +507,7 @@ int terrain_type_to_nesw_array( oter_id terrain_type, bool array[4] )
     // count and mark which directions the road goes
     const auto &oter( *terrain_type );
     int num_dirs = 0;
-    for( const auto dir : om_direction::all ) {
+    for( const om_direction::type dir : om_direction::all ) {
         num_dirs += ( array[static_cast<int>( dir )] = oter.has_connection( dir ) );
     }
     return num_dirs;
@@ -753,25 +759,21 @@ void mapgen_road( mapgendata &dat )
                 if( sidewalks_neswx[( dir + 3 ) % 4     ] ||   // has_sidewalk west?
                     sidewalks_neswx[( dir + 3 ) % 4 + 4 ] ||   // has_sidewalk northwest?
                     sidewalks_neswx[   dir               ] ) { // has_sidewalk north?
-                    int x1 = 0;
-                    int y1 = 0;
-                    int x2 = 3;
-                    int y2 = SEEY - 1 + dead_end_extension;
-                    coord_rotate_cw( x1, y1, dir );
-                    coord_rotate_cw( x2, y2, dir );
-                    square( m, t_sidewalk, point( x1, y1 ), point( x2, y2 ) );
+                    point p1;
+                    point p2( 3, SEEY - 1 + dead_end_extension );
+                    coord_rotate_cw( p1.x, p1.y, dir );
+                    coord_rotate_cw( p2.x, p2.y, dir );
+                    square( m, t_sidewalk, p1, p2 );
                 }
                 // sidewalk east of north road, etc
                 if( sidewalks_neswx[( dir + 1 ) % 4 ] ||   // has_sidewalk east?
                     sidewalks_neswx[   dir + 4       ] ||  // has_sidewalk northeast?
                     sidewalks_neswx[   dir           ] ) { // has_sidewalk north?
-                    int x1 = SEEX * 2 - 5;
-                    int y1 = 0;
-                    int x2 = SEEX * 2 - 1;
-                    int y2 = SEEY - 1 + dead_end_extension;
-                    coord_rotate_cw( x1, y1, dir );
-                    coord_rotate_cw( x2, y2, dir );
-                    square( m, t_sidewalk, point( x1, y1 ), point( x2, y2 ) );
+                    point p12( SEEX * 2 - 5, 0 );
+                    point p22( SEEX * 2 - 1, SEEY - 1 + dead_end_extension );
+                    coord_rotate_cw( p12.x, p12.y, dir );
+                    coord_rotate_cw( p22.x, p22.y, dir );
+                    square( m, t_sidewalk, p12, p22 );
                 }
             }
         }
@@ -786,17 +788,16 @@ void mapgen_road( mapgendata &dat )
         // also corner pieces to curve towards diagonal neighbors
         for( int dir = 0; dir < 4; dir++ ) {
             if( roads_nesw[dir] ) {
-                int x1 = 4;
-                int y1 = 0;
-                int x2 = SEEX * 2 - 1 - 4;
-                int y2 = SEEY - 1 + dead_end_extension;
-                coord_rotate_cw( x1, y1, dir );
-                coord_rotate_cw( x2, y2, dir );
-                square( m, t_pavement, point( x1, y1 ), point( x2, y2 ) );
+                point p13( 4, 0 );
+                point p23( SEEX * 2 - 1 - 4, SEEY - 1 + dead_end_extension );
+                coord_rotate_cw( p13.x, p13.y, dir );
+                coord_rotate_cw( p23.x, p23.y, dir );
+                square( m, t_pavement, p13, p23 );
                 if( curvedir_nesw[dir] != 0 ) {
                     for( int x = 1; x < 4; x++ ) {
                         for( int y = 0; y < x; y++ ) {
-                            int ty = y, tx = ( curvedir_nesw[dir] == -1 ? x : SEEX * 2 - 1 - x );
+                            int ty = y;
+                            int tx = ( curvedir_nesw[dir] == -1 ? x : SEEX * 2 - 1 - x );
                             coord_rotate_cw( tx, ty, dir );
                             m->ter_set( point( tx, ty ), t_pavement );
                         }
@@ -816,10 +817,9 @@ void mapgen_road( mapgendata &dat )
                 for( int x = SEEX - 1; x <= SEEX; x++ ) {
                     for( int y = 0; y < max_y; y++ ) {
                         if( ( y + ( ( dir + rot ) / 2 % 2 ) ) % 4 ) {
-                            int xn = x;
-                            int yn = y;
-                            coord_rotate_cw( xn, yn, dir );
-                            m->ter_set( point( xn, yn ), t_pavement_y );
+                            point n( x, y );
+                            coord_rotate_cw( n.x, n.y, dir );
+                            m->ter_set( n, t_pavement_y );
                         }
                     }
                 }
@@ -829,6 +829,14 @@ void mapgen_road( mapgendata &dat )
         // draw round pavement for cul de sac late, to overdraw the yellow dots
         if( cul_de_sac ) {
             circle( m, t_pavement, static_cast<double>( SEEX ) - 0.5, static_cast<double>( SEEY ) - 0.5, 11.0 );
+
+            // place streetlights for cul de sacs
+            m->furn_set( point( 0, SEEY ), f_street_light );
+            m->furn_set( point( SEEX * 2 - 1, SEEY ), f_street_light );
+            m->furn_set( point( 3, 4 ), f_street_light );
+            m->furn_set( point( 3, 19 ), f_street_light );
+            m->furn_set( point( 20, 4 ), f_street_light );
+            m->furn_set( point( 20, 19 ), f_street_light );
         }
 
         // overwrite part of intersection with rotary/plaza
@@ -863,6 +871,126 @@ void mapgen_road( mapgendata &dat )
         }
     }
 
+    // place street and traffic lights and draw stop lines
+    if( neighbor_sidewalks ) {
+        if( diag ) { // diagonal roads
+            if( m->ter( point( 12, 12 ) ) == t_sidewalk ) {
+                m->furn_set( point( 12, 12 ), f_street_light );
+            }
+        } else if( num_dirs == 3 ) { // tee-shaped intersections
+            if( m->ter( point( 12, 20 ) ) == t_sidewalk ) {
+                m->furn_set( point( 12, 20 ), f_street_light );
+            }
+        } else if( num_dirs == 2 || num_dirs == 1 ) { // ordinary roads and dead ends
+            if( m->ter( point( 3, 12 ) ) == t_sidewalk ) {
+                m->furn_set( point( 3, 12 ), f_street_light );
+            }
+            if( m->ter( point( 20, 12 ) ) == t_sidewalk ) {
+                m->furn_set( point( 20, 12 ), f_street_light );
+            }
+        }
+
+        // four-way intersections
+        if( num_dirs == 4 ) {
+            if( one_in( 2 ) &&
+                m->ter( point( 3, 1 ) ) == t_sidewalk && m->ter( point( 20, 2 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 11, 1 ), point( 12, 3 ) );
+                for( int i = 4; i < 20; i += 2 ) {
+                    m->ter_set( point( i, 1 ), t_zebra );
+                    m->ter_set( point( i, 2 ), t_zebra );
+                }
+            }
+            if( one_in( 2 ) &&
+                m->ter( point( 21, 3 ) ) == t_sidewalk && m->ter( point( 22, 20 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 20, 11 ), point( 23, 12 ) );
+                for( int i = 4; i < 20; i += 2 ) {
+                    m->ter_set( point( 21, i ), t_zebra );
+                    m->ter_set( point( 22, i ), t_zebra );
+                }
+            }
+            if( one_in( 2 ) &&
+                m->ter( point( 3, 21 ) ) == t_sidewalk && m->ter( point( 20, 22 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 11, 21 ), point( 12, 22 ) );
+                for( int i = 4; i < 20; i += 2 ) {
+                    m->ter_set( point( i, 21 ), t_zebra );
+                    m->ter_set( point( i, 22 ), t_zebra );
+                }
+            }
+            if( one_in( 2 ) &&
+                m->ter( point( 1, 3 ) ) == t_sidewalk && m->ter( point( 2, 20 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 1, 11 ), point( 2, 12 ) );
+                for( int i = 4; i < 20; i += 2 ) {
+                    m->ter_set( point( 1, i ), t_zebra );
+                    m->ter_set( point( 2, i ), t_zebra );
+                }
+            }
+
+            if( one_in( 2 ) ) {
+                m->furn_set( point( 3, 3 ), f_traffic_light );
+                m->furn_set( point( 3, 20 ), f_traffic_light );
+                m->furn_set( point( 20, 3 ), f_traffic_light );
+                m->furn_set( point( 20, 20 ), f_traffic_light );
+
+                line( m, t_pavement_y, point( 4, 0 ), point( 10, 0 ) );
+                line( m, t_pavement_y, point( 23, 4 ), point( 23, 10 ) );
+                line( m, t_pavement_y, point( 13, 23 ), point( 19, 23 ) );
+                line( m, t_pavement_y, point( 0, 13 ), point( 0, 19 ) );
+            }
+
+        }
+
+        // tee-shaped roads
+        if( num_dirs == 3 ) {
+            if( one_in( 2 ) &&
+                m->ter( point( 3, 1 ) ) == t_sidewalk && m->ter( point( 20, 2 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 11, 1 ), point( 12, 3 ) );
+                for( int i = 4; i < 20; i += 2 ) {
+                    m->ter_set( point( i, 1 ), t_zebra );
+                    m->ter_set( point( i, 2 ), t_zebra );
+                }
+            }
+            if( one_in( 2 ) &&
+                m->ter( point( 21, 3 ) ) == t_sidewalk && m->ter( point( 22, 20 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 20, 11 ), point( 23, 13 ) );
+                for( int i = 4; i < 20; i += 2 ) {
+                    m->ter_set( point( 21, i ), t_zebra );
+                    m->ter_set( point( 22, i ), t_zebra );
+                }
+            }
+            if( one_in( 2 ) &&
+                m->ter( point( 1, 3 ) ) == t_sidewalk && m->ter( point( 2, 20 ) ) == t_sidewalk ) {
+                square( m, t_pavement, point( 1, 11 ), point( 2, 13 ) );
+                for( int i = 4; i < 20; i += 2 ) {
+                    m->ter_set( point( 1, i ), t_zebra );
+                    m->ter_set( point( 2, i ), t_zebra );
+                }
+            }
+
+            if( one_in( 2 ) ) {
+                m->furn_set( point( 3, 3 ), f_traffic_light );
+                m->furn_set( point( 20, 3 ), f_traffic_light );
+                m->furn_set( point( 3, 20 ), f_traffic_light );
+
+                line( m, t_pavement_y, point( 23, 4 ), point( 23, 10 ) );
+                line( m, t_pavement_y, point( 4, 0 ), point( 10, 0 ) );
+                line( m, t_pavement_y, point( 0, 13 ), point( 0, 19 ) );
+            }
+        }
+
+        // ordinary straight roads
+        if( num_dirs == 2 && !diag && one_in( 10 ) ) {
+            square( m, t_pavement, point( 4, 12 ), point( 19, 15 ) );
+            for( int i = 4; i < 20; i += 2 ) {
+                m->ter_set( point( i, 13 ), t_zebra );
+                m->ter_set( point( i, 14 ), t_zebra );
+            }
+            if( one_in( 2 ) ) {
+                m->furn_set( point( 3, 12 ), f_traffic_light );
+                m->furn_set( point( 20, 15 ), f_traffic_light );
+            }
+        }
+    }
+
     // spawn some vehicles
     if( plaza_dir != 8 ) {
         vspawn_id( neighbor_sidewalks ? "default_city" : "default_country" ).obj().apply(
@@ -887,8 +1015,8 @@ void mapgen_road( mapgendata &dat )
 
     // add some items
     bool plaza = ( plaza_dir > -1 );
-    m->place_items( plaza ? "trash" : "road", 5, point_zero, point( SEEX * 2 - 1, SEEX * 2 - 1 ), plaza,
-                    dat.when() );
+    m->place_items( item_group_id( plaza ? "trash" : "road" ), 5, point_zero,
+                    point( SEEX * 2 - 1, SEEX * 2 - 1 ), plaza, dat.when() );
 
     // add a manhole if appropriate
     if( dat.terrain_type() == "road_nesw_manhole" ) {
@@ -1267,17 +1395,19 @@ void mapgen_subway( mapgendata &dat )
 
 void mapgen_sewer_straight( mapgendata &dat )
 {
+    static const ter_str_id t_soil( "t_soil" );
     map *const m = &dat.m;
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
             if( i < SEEX - 2 || i > SEEX + 1 ) {
-                m->ter_set( point( i, j ), t_rock );
+                m->ter_set( point( i, j ), t_soil );
             } else {
                 m->ter_set( point( i, j ), t_sewage );
             }
         }
     }
-    m->place_items( "sewer", 10, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
+    m->place_items( item_group_id( "sewer" ), 10, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
+                    true, dat.when() );
     if( dat.terrain_type() == "sewer_ew" ) {
         m->rotate( 1 );
     }
@@ -1285,17 +1415,19 @@ void mapgen_sewer_straight( mapgendata &dat )
 
 void mapgen_sewer_curved( mapgendata &dat )
 {
+    static const ter_str_id t_soil( "t_soil" );
     map *const m = &dat.m;
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
             if( ( i > SEEX + 1 && j < SEEY - 2 ) || i < SEEX - 2 || j > SEEY + 1 ) {
-                m->ter_set( point( i, j ), t_rock );
+                m->ter_set( point( i, j ), t_soil );
             } else {
                 m->ter_set( point( i, j ), t_sewage );
             }
         }
     }
-    m->place_items( "sewer", 18, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
+    m->place_items( item_group_id( "sewer" ), 18, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
+                    true, dat.when() );
     if( dat.terrain_type() == "sewer_es" ) {
         m->rotate( 1 );
     }
@@ -1309,17 +1441,19 @@ void mapgen_sewer_curved( mapgendata &dat )
 
 void mapgen_sewer_tee( mapgendata &dat )
 {
+    static const ter_str_id t_soil( "t_soil" );
     map *const m = &dat.m;
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
             if( i < SEEX - 2 || ( i > SEEX + 1 && ( j < SEEY - 2 || j > SEEY + 1 ) ) ) {
-                m->ter_set( point( i, j ), t_rock );
+                m->ter_set( point( i, j ), t_soil );
             } else {
                 m->ter_set( point( i, j ), t_sewage );
             }
         }
     }
-    m->place_items( "sewer", 23, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
+    m->place_items( item_group_id( "sewer" ), 23, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
+                    true, dat.when() );
     if( dat.terrain_type() == "sewer_esw" ) {
         m->rotate( 1 );
     }
@@ -1333,12 +1467,13 @@ void mapgen_sewer_tee( mapgendata &dat )
 
 void mapgen_sewer_four_way( mapgendata &dat )
 {
+    static const ter_str_id t_soil( "t_soil" );
     map *const m = &dat.m;
     int rn = rng( 0, 3 );
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
             if( ( i < SEEX - 2 || i > SEEX + 1 ) && ( j < SEEY - 2 || j > SEEY + 1 ) ) {
-                m->ter_set( point( i, j ), t_rock );
+                m->ter_set( point( i, j ), t_soil );
             } else {
                 m->ter_set( point( i, j ), t_sewage );
             }
@@ -1353,46 +1488,8 @@ void mapgen_sewer_four_way( mapgendata &dat )
             }
         }
     }
-    m->place_items( "sewer", 28, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
-}
-
-///////////////////
-void mapgen_bridge( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    const auto is_river = [&]( const om_direction::type dir ) {
-        return dat.t_nesw[static_cast<int>( om_direction::add( dir,
-                                            dat.terrain_type()->get_dir() ) )]->is_river();
-    };
-
-    const bool river_west = is_river( om_direction::type::west );
-    const bool river_east = is_river( om_direction::type::east );
-
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( i < 2 ) {
-                m->ter_set( point( i, j ), river_west ? t_water_moving_dp : grass_or_dirt() );
-            } else if( i >= SEEX * 2 - 2 ) {
-                m->ter_set( point( i, j ), river_east ? t_water_moving_dp : grass_or_dirt() );
-            } else if( i == 2 || i == SEEX * 2 - 3 ) {
-                m->ter_set( point( i, j ), t_guardrail_bg_dp );
-            } else if( i == 3 || i == SEEX * 2 - 4 ) {
-                m->ter_set( point( i, j ), t_sidewalk_bg_dp );
-            } else {
-                if( ( i == SEEX - 1 || i == SEEX ) && j % 4 != 0 ) {
-                    m->ter_set( point( i, j ), t_pavement_y_bg_dp );
-                } else {
-                    m->ter_set( point( i, j ), t_pavement_bg_dp );
-                }
-            }
-        }
-    }
-
-    // spawn regular road out of fuel vehicles
-    VehicleSpawn::apply( vspawn_id( "default_bridge" ), *m, "bridge" );
-
-    m->rotate( static_cast<int>( dat.terrain_type()->get_dir() ) );
-    m->place_items( "road", 5, point_zero, point( SEEX * 2 - 1, SEEX * 2 - 1 ), false, dat.when() );
+    m->place_items( item_group_id( "sewer" ), 28, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ),
+                    true, dat.when() );
 }
 
 void mapgen_highway( mapgendata &dat )
@@ -1420,7 +1517,8 @@ void mapgen_highway( mapgendata &dat )
     if( dat.terrain_type() == "hiway_ew" ) {
         m->rotate( 1 );
     }
-    m->place_items( "road", 8, point_zero, point( SEEX * 2 - 1, SEEX * 2 - 1 ), false, dat.when() );
+    m->place_items( item_group_id( "road" ), 8, point_zero, point( SEEX * 2 - 1, SEEX * 2 - 1 ),
+                    false, dat.when() );
 }
 
 // mapgen_railroad
@@ -1871,34 +1969,6 @@ void mapgen_river_curved( mapgendata &dat )
     }
 }
 
-void mapgen_parking_lot( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( ( j == 5 || j == 9 || j == 13 || j == 17 || j == 21 ) &&
-                ( ( i > 1 && i < 8 ) || ( i > 14 && i < SEEX * 2 - 2 ) ) ) {
-                m->ter_set( point( i, j ), t_pavement_y );
-            } else if( ( j < 2 && i > 7 && i < 17 ) || ( j >= 2 && j < SEEY * 2 - 2 && i > 1 &&
-                       i < SEEX * 2 - 2 ) ) {
-                m->ter_set( point( i, j ), t_pavement );
-            } else {
-                m->ter_set( point( i, j ), dat.groundcover() );
-            }
-        }
-    }
-
-    VehicleSpawn::apply( vspawn_id( "default_parkinglot" ), *m, "parkinglot" );
-
-    m->place_items( "road", 8, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), false, dat.when() );
-    for( int i = 1; i < 4; i++ ) {
-        const std::string &id = dat.t_nesw[i].id().str();
-        if( id.size() > 5 && id.find( "road_" ) == 0 ) {
-            m->rotate( i );
-        }
-    }
-}
-
 void mapgen_cavern( mapgendata &dat )
 {
     map *const m = &dat.m;
@@ -1963,7 +2033,8 @@ void mapgen_cavern( mapgendata &dat )
             }
         }
     }
-    m->place_items( "cavern", 60, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), false, dat.when() );
+    m->place_items( item_group_id( "cavern" ), 60, point_zero,
+                    point( SEEX * 2 - 1, SEEY * 2 - 1 ), false, dat.when() );
     if( one_in( 6 ) ) { // Miner remains
         point p2;
         do {
@@ -1981,7 +2052,8 @@ void mapgen_cavern( mapgendata &dat )
         }
         while( !one_in( 3 ) ) {
             for( int i = 0; i < 3; ++i ) {
-                m->put_items_from_loc( "cannedfood", tripoint( p2, m->get_abs_sub().z ), dat.when() );
+                m->put_items_from_loc( item_group_id( "cannedfood" ),
+                                       tripoint( p2, m->get_abs_sub().z ), dat.when() );
             }
         }
     }
@@ -2180,25 +2252,27 @@ void mapgen_hellmouth( mapgendata &dat )
 
 void mapgen_ants_curved( mapgendata &dat )
 {
+    static const ter_str_id t_soil( "t_soil" );
+    static const ter_str_id t_dirt_underground( "t_dirt_underground" );
     map *const m = &dat.m;
     point p( SEEX, 1 );
     int rn = 0;
     // First, set it all to rock
-    fill_background( m, t_rock );
+    fill_background( m, t_soil );
 
     for( int i = SEEX - 2; i <= SEEX + 3; i++ ) {
-        m->ter_set( point( i, 0 ), t_rock_floor );
-        m->ter_set( point( i, 1 ), t_rock_floor );
-        m->ter_set( point( i, 2 ), t_rock_floor );
-        m->ter_set( point( SEEX * 2 - 1, i ), t_rock_floor );
-        m->ter_set( point( SEEX * 2 - 2, i ), t_rock_floor );
-        m->ter_set( point( SEEX * 2 - 3, i ), t_rock_floor );
+        m->ter_set( point( i, 0 ), t_dirt_underground );
+        m->ter_set( point( i, 1 ), t_dirt_underground );
+        m->ter_set( point( i, 2 ), t_dirt_underground );
+        m->ter_set( point( SEEX * 2 - 1, i ), t_dirt_underground );
+        m->ter_set( point( SEEX * 2 - 2, i ), t_dirt_underground );
+        m->ter_set( point( SEEX * 2 - 3, i ), t_dirt_underground );
     }
     do {
         for( int i = p.x - 2; i <= p.x + 3; i++ ) {
             for( int j = p.y - 2; j <= p.y + 3; j++ ) {
                 if( i > 0 && i < SEEX * 2 - 1 && j > 0 && j < SEEY * 2 - 1 ) {
-                    m->ter_set( point( i, j ), t_rock_floor );
+                    m->ter_set( point( i, j ), t_dirt_underground );
                 }
             }
         }
@@ -2220,7 +2294,7 @@ void mapgen_ants_curved( mapgendata &dat )
     for( int i = p.x - 2; i <= p.x + 3; i++ ) {
         for( int j = p.y - 2; j <= p.y + 3; j++ ) {
             if( i > 0 && i < SEEX * 2 - 1 && j > 0 && j < SEEY * 2 - 1 ) {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), t_dirt_underground );
             }
         }
     }
@@ -2238,13 +2312,15 @@ void mapgen_ants_curved( mapgendata &dat )
 
 void mapgen_ants_four_way( mapgendata &dat )
 {
+    static const ter_str_id t_soil( "t_soil" );
+    static const ter_str_id t_dirt_underground( "t_dirt_underground" );
     map *const m = &dat.m;
-    fill_background( m, t_rock );
+    fill_background( m, t_soil );
     int x = SEEX;
     for( int j = 0; j < SEEY * 2; j++ ) {
         for( int i = x - 2; i <= x + 3; i++ ) {
             if( i >= 1 && i < SEEX * 2 - 1 ) {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), t_dirt_underground );
             }
         }
         x += rng( -1, 1 );
@@ -2262,7 +2338,7 @@ void mapgen_ants_four_way( mapgendata &dat )
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = y - 2; j <= y + 3; j++ ) {
             if( j >= 1 && j < SEEY * 2 - 1 ) {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), t_dirt_underground );
             }
         }
         y += rng( -1, 1 );
@@ -2280,13 +2356,15 @@ void mapgen_ants_four_way( mapgendata &dat )
 
 void mapgen_ants_straight( mapgendata &dat )
 {
+    static const ter_str_id t_soil( "t_soil" );
+    static const ter_str_id t_dirt_underground( "t_dirt_underground" );
     map *const m = &dat.m;
     int x = SEEX;
-    fill_background( m, t_rock );
+    fill_background( m, t_soil );
     for( int j = 0; j < SEEY * 2; j++ ) {
         for( int i = x - 2; i <= x + 3; i++ ) {
             if( i >= 1 && i < SEEX * 2 - 1 ) {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), t_dirt_underground );
             }
         }
         x += rng( -1, 1 );
@@ -2307,13 +2385,15 @@ void mapgen_ants_straight( mapgendata &dat )
 
 void mapgen_ants_tee( mapgendata &dat )
 {
+    static const ter_str_id t_soil( "t_soil" );
+    static const ter_str_id t_dirt_underground( "t_dirt_underground" );
     map *const m = &dat.m;
-    fill_background( m, t_rock );
+    fill_background( m, t_soil );
     int x = SEEX;
     for( int j = 0; j < SEEY * 2; j++ ) {
         for( int i = x - 2; i <= x + 3; i++ ) {
             if( i >= 1 && i < SEEX * 2 - 1 ) {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), t_dirt_underground );
             }
         }
         x += rng( -1, 1 );
@@ -2330,7 +2410,7 @@ void mapgen_ants_tee( mapgendata &dat )
     for( int i = SEEX; i < SEEX * 2; i++ ) {
         for( int j = y - 2; j <= y + 3; j++ ) {
             if( j >= 1 && j < SEEY * 2 - 1 ) {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), t_dirt_underground );
             }
         }
         y += rng( -1, 1 );
@@ -2357,14 +2437,16 @@ void mapgen_ants_tee( mapgendata &dat )
 
 static void mapgen_ants_generic( mapgendata &dat )
 {
+    static const ter_str_id t_soil( "t_soil" );
+    static const ter_str_id t_dirt_underground( "t_dirt_underground" );
     map *const m = &dat.m;
 
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
             if( i < SEEX - 4 || i > SEEX + 5 || j < SEEY - 4 || j > SEEY + 5 ) {
-                m->ter_set( point( i, j ), t_rock );
+                m->ter_set( point( i, j ), t_soil );
             } else {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), t_dirt_underground );
             }
         }
     }
@@ -2375,11 +2457,11 @@ static void mapgen_ants_generic( mapgendata &dat )
         do {
             p.x = rng( 1 + cw, SEEX * 2 - 2 - cw );
             p.y = rng( 1 + cw, SEEY * 2 - 2 - cw );
-        } while( m->ter( p ) == t_rock );
+        } while( m->ter( p ) == t_soil );
         for( int i = p.x - cw; i <= p.x + cw; i++ ) {
             for( int j = p.y - cw; j <= p.y + cw; j++ ) {
                 if( trig_dist( p, point( i, j ) ) <= cw ) {
-                    m->ter_set( point( i, j ), t_rock_floor );
+                    m->ter_set( point( i, j ), t_dirt_underground );
                 }
             }
         }
@@ -2388,7 +2470,7 @@ static void mapgen_ants_generic( mapgendata &dat )
         is_ot_match( "ants_lab", dat.north(), ot_match_type::contains ) ) {
         for( int i = SEEX - 2; i <= SEEX + 3; i++ ) {
             for( int j = 0; j <= SEEY; j++ ) {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), t_dirt_underground );
             }
         }
     }
@@ -2396,7 +2478,7 @@ static void mapgen_ants_generic( mapgendata &dat )
         is_ot_match( "ants_lab", dat.east(), ot_match_type::contains ) ) {
         for( int i = SEEX; i <= SEEX * 2 - 1; i++ ) {
             for( int j = SEEY - 2; j <= SEEY + 3; j++ ) {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), t_dirt_underground );
             }
         }
     }
@@ -2404,7 +2486,7 @@ static void mapgen_ants_generic( mapgendata &dat )
         is_ot_match( "ants_lab", dat.south(), ot_match_type::contains ) ) {
         for( int i = SEEX - 2; i <= SEEX + 3; i++ ) {
             for( int j = SEEY; j <= SEEY * 2 - 1; j++ ) {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), t_dirt_underground );
             }
         }
     }
@@ -2412,44 +2494,49 @@ static void mapgen_ants_generic( mapgendata &dat )
         is_ot_match( "ants_lab", dat.west(), ot_match_type::contains ) ) {
         for( int i = 0; i <= SEEX; i++ ) {
             for( int j = SEEY - 2; j <= SEEY + 3; j++ ) {
-                m->ter_set( point( i, j ), t_rock_floor );
+                m->ter_set( point( i, j ), t_dirt_underground );
             }
         }
     }
-    if( dat.terrain_type() == "ants_food" ) {
-        m->place_items( "ant_food", 92, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
-    } else {
-        m->place_items( "ant_egg",  98, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
-    }
-    if( dat.terrain_type() == "ants_queen" ) {
-        m->add_spawn( mon_ant_queen, 1, { SEEX, SEEY, m->get_abs_sub().z } );
-    } else if( dat.terrain_type() == "ants_larvae" ) {
-        m->add_spawn( mon_ant_larva, 10, { SEEX, SEEY, m->get_abs_sub().z } );
-    }
-
 }
 
 void mapgen_ants_food( mapgendata &dat )
 {
     mapgen_ants_generic( dat );
-    dat.m.place_items( "ant_food", 92, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true,
-                       dat.when() );
+    dat.m.place_items( item_group_id( "ant_food" ), 92, point_zero,
+                       point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
 }
 
 void mapgen_ants_larvae( mapgendata &dat )
 {
     mapgen_ants_generic( dat );
-    dat.m.place_items( "ant_egg",  98, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true,
-                       dat.when() );
+    dat.m.place_items( item_group_id( "ant_egg" ), 98, point_zero,
+                       point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
     dat.m.add_spawn( mon_ant_larva, 10, { SEEX, SEEY, dat.m.get_abs_sub().z } );
+}
+
+void mapgen_ants_larvae_acid( mapgendata &dat )
+{
+    mapgen_ants_generic( dat );
+    dat.m.place_items( item_group_id( "ant_egg" ), 98, point_zero,
+                       point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
+    dat.m.add_spawn( mon_ant_acid_larva, 10, { SEEX, SEEY, dat.m.get_abs_sub().z } );
 }
 
 void mapgen_ants_queen( mapgendata &dat )
 {
     mapgen_ants_generic( dat );
-    dat.m.place_items( "ant_egg",  98, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true,
-                       dat.when() );
+    dat.m.place_items( item_group_id( "ant_egg" ), 98, point_zero,
+                       point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
     dat.m.add_spawn( mon_ant_queen, 1, { SEEX, SEEY, dat.m.get_abs_sub().z } );
+}
+
+void mapgen_ants_queen_acid( mapgendata &dat )
+{
+    mapgen_ants_generic( dat );
+    dat.m.place_items( item_group_id( "ant_egg" ), 98, point_zero,
+                       point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
+    dat.m.add_spawn( mon_ant_acid_queen, 1, { SEEX, SEEY, dat.m.get_abs_sub().z } );
 }
 
 void mapgen_tutorial( mapgendata &dat )
@@ -2457,9 +2544,7 @@ void mapgen_tutorial( mapgendata &dat )
     map *const m = &dat.m;
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
-            if( j == 0 || j == SEEY * 2 - 1 ) {
-                m->ter_set( point( i, j ), t_wall );
-            } else if( i == 0 || i == SEEX * 2 - 1 ) {
+            if( j == 0 || j == SEEY * 2 - 1 || i == 0 || i == SEEX * 2 - 1 ) {
                 m->ter_set( point( i, j ), t_wall );
             } else if( j == SEEY ) {
                 if( i % 4 == 2 ) {
@@ -2520,7 +2605,7 @@ void mapgen_forest( mapgendata &dat )
             // to specify biomes in the forest regional settings that are not
             // rendered by this forest map gen method, in order to control
             // how terrains are blended together (e.g. specify roads with an equal
-            // sparsness adjacency factor to forests so that forests don't fade out
+            // sparseness adjacency factor to forests so that forests don't fade out
             // as they transition to roads.
             return 0;
         }
@@ -2558,28 +2643,27 @@ void mapgen_forest( mapgendata &dat )
             return 0;
         }
         std::vector<int> factors;
-        for( auto &b : dat.region.forest_composition.biomes ) {
+        for( const auto &b : dat.region.forest_composition.biomes ) {
             factors.push_back( b.second.sparseness_adjacency_factor );
         }
         return *max_element( std::begin( factors ), std::end( factors ) );
     };
 
-    // Get the sparesness factor for this terrain, and fill it.
+    // Get the sparseness factor for this terrain, and fill it.
     const int factor = get_sparseness_adjacency_factor( dat.terrain_type() );
     fill_adjacency_factor( factor );
 
     const int max_factor = get_max_sparseness_adjacency_factor();
 
     // Our margins for blending divide the overmap terrain into nine sections.
-    static constexpr int margin_x = SEEX * 2 / 3;
-    static constexpr int margin_y = SEEY * 2 / 3;
+    static constexpr point margin( SEEX * 2 / 3, SEEY * 2 / 3 );
 
     const auto get_blended_feature = [&no_ter_furn, &max_factor, &factor,
                   &get_feature_for_neighbor, &dat]( const point & p ) {
         // Pick one random feature from each biome according to the biome defs and save it into a lookup.
         // We'll blend these features together below based on the current and adjacent terrains.
         std::map<oter_id, ter_furn_id> biome_features;
-        for( auto &b : dat.region.forest_composition.biomes ) {
+        for( const auto &b : dat.region.forest_composition.biomes ) {
             biome_features[b.first] = b.second.pick();
         }
 
@@ -2608,25 +2692,25 @@ void mapgen_forest( mapgendata &dat )
         //      ---------------
         //           SOUTH      (SEEX * 2, SEEY * 2)
 
-        const int west_weight = std::max( margin_x - p.x, 0 );
-        const int east_weight = std::max( p.x - ( SEEX * 2 - margin_x ) + 1, 0 );
-        const int north_weight = std::max( margin_y - p.y, 0 );
-        const int south_weight = std::max( p.y - ( SEEY * 2 - margin_y ) + 1, 0 );
+        const int west_weight = std::max( margin.x - p.x, 0 );
+        const int east_weight = std::max( p.x - ( SEEX * 2 - margin.x ) + 1, 0 );
+        const int north_weight = std::max( margin.y - p.y, 0 );
+        const int south_weight = std::max( p.y - ( SEEY * 2 - margin.y ) + 1, 0 );
 
         // We'll build a weighted list of features to pull from at the end.
         weighted_int_list<const ter_furn_id> feature_pool;
 
         // W sections
-        if( p.x < margin_x ) {
+        if( p.x < margin.x ) {
             // NW corner - blend N, W, and self
-            if( p.y < margin_y ) {
+            if( p.y < margin.y ) {
                 feature_pool.add( no_ter_furn, 3 * max_factor - ( dat.n_fac + dat.w_fac + factor * 2 ) );
                 feature_pool.add( self_feature, 1 );
                 feature_pool.add( west_feature, west_weight );
                 feature_pool.add( north_feature, north_weight );
             }
             // SW corner - blend S, W, and self
-            else if( p.y > SEEY * 2 - margin_y ) {
+            else if( p.y > SEEY * 2 - margin.y ) {
                 feature_pool.add( no_ter_furn, 3 * max_factor - ( dat.s_fac + dat.w_fac + factor * 2 ) );
                 feature_pool.add( self_feature, factor );
                 feature_pool.add( west_feature, west_weight );
@@ -2640,16 +2724,16 @@ void mapgen_forest( mapgendata &dat )
             }
         }
         // E sections
-        else if( p.x > SEEX * 2 - margin_x ) {
+        else if( p.x > SEEX * 2 - margin.x ) {
             // NE corner - blend N, E, and self
-            if( p.y < margin_y ) {
+            if( p.y < margin.y ) {
                 feature_pool.add( no_ter_furn, 3 * max_factor - ( dat.n_fac + dat.e_fac + factor * 2 ) );
                 feature_pool.add( self_feature, factor );
                 feature_pool.add( east_feature, east_weight );
                 feature_pool.add( north_feature, north_weight );
             }
             // SE corner - blend S, E, and self
-            else if( p.y > SEEY * 2 - margin_y ) {
+            else if( p.y > SEEY * 2 - margin.y ) {
                 feature_pool.add( no_ter_furn, 3 * max_factor - ( dat.s_fac + dat.e_fac + factor * 2 ) );
                 feature_pool.add( self_feature, factor );
                 feature_pool.add( east_feature, east_weight );
@@ -2665,13 +2749,13 @@ void mapgen_forest( mapgendata &dat )
         // Central sections
         else {
             // N edge - blend N and self
-            if( p.y < margin_y ) {
+            if( p.y < margin.y ) {
                 feature_pool.add( no_ter_furn, 2 * max_factor - ( dat.n_fac + factor * 2 ) );
                 feature_pool.add( self_feature, factor );
                 feature_pool.add( north_feature, north_weight );
             }
             // S edge - blend S, and self
-            else if( p.y > SEEY * 2 - margin_y ) {
+            else if( p.y > SEEY * 2 - margin.y ) {
                 feature_pool.add( no_ter_furn, 2 * max_factor - ( dat.s_fac + factor * 2 ) );
                 feature_pool.add( self_feature, factor );
                 feature_pool.add( south_feature, south_weight );
@@ -2730,7 +2814,7 @@ void mapgen_forest( mapgendata &dat )
 
         if( one_in( tdf.chance ) ) {
             // Pick a furniture and set it on the map right now.
-            const auto fid = tdf.furniture.pick();
+            const furn_id *fid = tdf.furniture.pick();
             m->furn_set( p, *fid );
         }
     };
@@ -2747,8 +2831,8 @@ void mapgen_forest( mapgendata &dat )
 
     // Place items on this terrain as defined in the biome.
     for( int i = 0; i < current_biome_def.item_spawn_iterations; i++ ) {
-        m->place_items( current_biome_def.item_group, current_biome_def.item_group_chance, point_zero,
-                        point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
+        m->place_items( current_biome_def.item_group, current_biome_def.item_group_chance,
+                        point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
     }
 }
 
@@ -2784,8 +2868,8 @@ void mapgen_forest_trail_straight( mapgendata &dat )
         m->rotate( 1 );
     }
 
-    m->place_items( "forest_trail", 75, center + point( -2, -2 ), center + point( 2, 2 ), true,
-                    dat.when() );
+    m->place_items( item_group_id( "forest_trail" ), 75, center + point( -2, -2 ),
+                    center + point( 2, 2 ), true, dat.when() );
 }
 
 void mapgen_forest_trail_curved( mapgendata &dat )
@@ -2828,8 +2912,8 @@ void mapgen_forest_trail_curved( mapgendata &dat )
         m->rotate( 3 );
     }
 
-    m->place_items( "forest_trail", 75, center + point( -2, -2 ), center + point( 2, 2 ), true,
-                    dat.when() );
+    m->place_items( item_group_id( "forest_trail" ), 75, center + point( -2, -2 ),
+                    center + point( 2, 2 ), true, dat.when() );
 }
 
 void mapgen_forest_trail_tee( mapgendata &dat )
@@ -2871,8 +2955,8 @@ void mapgen_forest_trail_tee( mapgendata &dat )
         m->rotate( 3 );
     }
 
-    m->place_items( "forest_trail", 75, center + point( -2, -2 ), center + point( 2, 2 ), true,
-                    dat.when() );
+    m->place_items( item_group_id( "forest_trail" ), 75, center + point( -2, -2 ),
+                    center + point( 2, 2 ), true, dat.when() );
 }
 
 void mapgen_forest_trail_four_way( mapgendata &dat )
@@ -2904,8 +2988,8 @@ void mapgen_forest_trail_four_way( mapgendata &dat )
         }
     }
 
-    m->place_items( "forest_trail", 75, center + point( -2, -2 ), center + point( 2, 2 ), true,
-                    dat.when() );
+    m->place_items( item_group_id( "forest_trail" ), 75, center + point( -2, -2 ),
+                    center + point( 2, 2 ), true, dat.when() );
 }
 
 void mapgen_lake_shore( mapgendata &dat )
@@ -2929,7 +3013,7 @@ void mapgen_lake_shore( mapgendata &dat )
             oter_id match = adjacent;
 
             // Check if this terrain has an alias to something we actually will extend, and if so, use it.
-            for( auto &alias : dat.region.overmap_lake.shore_extendable_overmap_terrain_aliases ) {
+            for( const auto &alias : dat.region.overmap_lake.shore_extendable_overmap_terrain_aliases ) {
                 if( is_ot_match( alias.overmap_terrain, adjacent, alias.match_type ) ) {
                     match = alias.alias;
                     break;
@@ -3235,7 +3319,7 @@ void mapgen_lake_shore( mapgendata &dat )
         line_segments.push_back( { sw, nw } );
     }
 
-    static constexpr inclusive_rectangle map_boundaries( nw_corner, se_corner );
+    static constexpr inclusive_rectangle<point> map_boundaries( nw_corner, se_corner );
 
     // This will draw our shallow water coastline from the "from" point to the "to" point.
     // It buffers the points a bit for a thicker line. It also clears any furniture that might
@@ -3320,6 +3404,99 @@ void mapgen_lake_shore( mapgendata &dat )
     // We previously placed our shallow water but actually did a t_null instead to make sure that we didn't
     // pick up shallow water from our extended terrain. Now turn those nulls into t_water_sh.
     m->translate( t_null, t_water_sh );
+}
+
+void mapgen_ravine_edge( mapgendata &dat )
+{
+    map *const m = &dat.m;
+    if( dat.zlevel() == 0 ) {
+        dat.fill_groundcover();
+    } else {
+        m->draw_fill_background( t_rock );
+    }
+
+    const auto is_ravine = [&]( const oter_id & id ) {
+        return id.obj().is_ravine();
+    };
+
+    const auto is_ravine_edge = [&]( const oter_id & id ) {
+        return id.obj().is_ravine_edge();
+    };
+    // Since this terrain is directionless, we look at its inmediate neighbors to determine whether a straight
+    // or curved ravine edge should be generated. And to then apply the correct rotation.
+    const bool n_ravine  = is_ravine( dat.north() );
+    const bool e_ravine  = is_ravine( dat.east() );
+    const bool s_ravine  = is_ravine( dat.south() );
+    const bool w_ravine  = is_ravine( dat.west() );
+    const bool nw_ravine = is_ravine( dat.nwest() );
+    const bool ne_ravine = is_ravine( dat.neast() );
+    const bool se_ravine = is_ravine( dat.seast() );
+
+    const bool n_ravine_edge = is_ravine_edge( dat.north() );
+    const bool e_ravine_edge = is_ravine_edge( dat.east() );
+    const bool s_ravine_edge = is_ravine_edge( dat.south() );
+    const bool w_ravine_edge = is_ravine_edge( dat.west() );
+
+    const auto any_orthogonal_ravine = [&]() {
+        return ( n_ravine || s_ravine || w_ravine || e_ravine );
+    };
+
+    const bool straight = ( ( n_ravine_edge && s_ravine_edge ) || ( e_ravine_edge &&
+                            w_ravine_edge ) ) && any_orthogonal_ravine();
+    const bool interior_corner = !straight && !any_orthogonal_ravine();
+    const bool exterior_corner = !straight && any_orthogonal_ravine();
+
+    //With that done, we generate the maps.
+    if( straight ) {
+        for( int x = 0; x < SEEX * 2; x++ ) {
+            int ground_edge = 12 + rng( 1, 3 );
+            line( m, t_null, point( x, ++ground_edge ), point( x, SEEY * 2 ) );
+        }
+        if( w_ravine ) {
+            m->rotate( 1 );
+        }
+        if( n_ravine ) {
+            m->rotate( 2 );
+        }
+        if( e_ravine ) {
+            m->rotate( 3 );
+        }
+    } else if( interior_corner ) {
+        for( int x = 0; x < SEEX * 2; x++ ) {
+            int ground_edge = 12 + rng( 1, 3 ) + x;
+            line( m, t_null, point( x, ++ground_edge ), point( x, SEEY * 2 ) );
+        }
+        if( nw_ravine ) {
+            m->rotate( 1 );
+        }
+        if( ne_ravine ) {
+            m->rotate( 2 );
+        }
+        if( se_ravine ) {
+            m->rotate( 3 );
+        }
+    } else if( exterior_corner ) {
+        for( int x = 0; x < SEEX * 2; x++ ) {
+            int ground_edge =  12  + rng( 1, 3 ) - x;
+            line( m, t_null, point( x, --ground_edge ), point( x, SEEY * 2 - 1 ) );
+        }
+        if( w_ravine && s_ravine ) {
+            m->rotate( 1 );
+        }
+        if( w_ravine && n_ravine ) {
+            m->rotate( 2 );
+        }
+        if( e_ravine && n_ravine ) {
+            m->rotate( 3 );
+        }
+    }
+    // The placed t_null terrains are converted into the regional groundcover in the ravine's bottom level,
+    // in the other levels they are converted into open air to generate the cliffside.
+    if( dat.zlevel() == dat.region.overmap_ravine.ravine_depth ) {
+        m->translate( t_null, dat.groundcover() );
+    } else {
+        m->translate( t_null, t_open_air );
+    }
 }
 
 void mremove_trap( map *m, const point &p )

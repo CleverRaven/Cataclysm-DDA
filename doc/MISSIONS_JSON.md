@@ -92,7 +92,7 @@ For "MGOAL_KILL_MONSTER_SPEC" and "MGOAL_KILL_MONSTER_TYPE", sets the number of 
 the player's current kill count that must be killed to complete the mission.
 
 ### goal_condition
-For "MGOAL_CONDITION", defines the condition that must be satisified for the mission to be considered complete.
+For "MGOAL_CONDITION", defines the condition that must be satisfied for the mission to be considered complete.
 Conditions are explained in more detail in [NPCs.md](./NPCs.md), and are used here in exactly the same way.
 
 ### dialogue
@@ -171,7 +171,7 @@ are applied afterwards. The `om_terrain` is the only required field.
 ```
 
 If the `om_terrain` is part of an overmap special, it's essential to specify the `om_special`
-value as well--otherwise, the game will not know how to spawn the entire special.
+value as well--otherwise, the game will not know how to spawn the entire special. If a multitile `om_special` is used it is important to specify the exact `om_terrain` that you would like the target to appear in.  
 
 `om_terrain_match_type` defaults to TYPE if unspecified, and has the following possible values:
 
@@ -196,7 +196,7 @@ overmap special definition, respecting allowed terrains, distance from cities, r
 and so on. Consequently, the more restrictive the rules, the less likely this placement will
 succeed (as it is competing for space with already-spawned specials).
 
-`om_terrain_replace` is only relevent if the `om_terrain` is not part of an overmap special.
+`om_terrain_replace` is only relevant if the `om_terrain` is not part of an overmap special.
 This value is used if the `om_terrain` cannot be found, and will be used as an alternative target
 which will then be replaced with the `om_terrain` value.
 

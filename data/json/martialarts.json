@@ -33,6 +33,8 @@
         "name": "Aikido Stance",
         "description": "By disregarding offensive in favor of self-defense, you are better at protecting.\n\nBlocked damage reduced by 100% of Dexterity.",
         "unarmed_allowed": true,
+        "unarmed_weapons_allowed": false,
+        "melee_allowed": true,
         "flat_bonuses": [ { "stat": "block", "scaling-stat": "dex", "scale": 1.0 } ]
       },
       {
@@ -40,6 +42,8 @@
         "name": "Intermediate Aikido",
         "description": "An intermediate aikido practitioner can protect themselves against multiple opponents.\n\nBlocked Damage reduced by 100% of Dexterity.\n+1 Block attempts, +1 Dodge attempts.",
         "unarmed_allowed": true,
+        "unarmed_weapons_allowed": false,
+        "melee_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 3 } ],
         "bonus_dodges": 1,
         "bonus_blocks": 1,
@@ -50,6 +54,8 @@
         "name": "Advanced Aikido",
         "description": "An advanced aikido practitioner can protect themselves against even more opponents than normal.\n\n+1 Block attempts, +1 Dodge attempts.",
         "unarmed_allowed": true,
+        "unarmed_weapons_allowed": false,
+        "melee_allowed": true,
         "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
         "bonus_dodges": 1,
         "bonus_blocks": 1
@@ -62,7 +68,7 @@
       "tec_aikido_dodgethrow",
       "tec_aikido_blockthrow"
     ],
-    "weapons": [ "bagh_nakha", "bio_claws_weapon", "cestus", "knuckle_brass", "knuckle_nail", "knuckle_steel" ]
+    "weapons": [ "bagh_nakha", "bio_claws_weapon", "cestus", "knuckle_brass", "knuckle_nail", "knuckle_steel", "knuckle_steel_forged" ]
   },
   {
     "type": "martial_art",
@@ -97,7 +103,7 @@
       {
         "id": "buff_boxing_ondodge",
         "name": "Counter Chance",
-        "description": "You've seen your chance. Now strike back!\n\n+25% Bash damage.\nLasts for 1 turn.",
+        "description": "You've seen your chance.  Now strike back!\n\n+25% Bash damage.\nLasts for 1 turn.",
         "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
         "unarmed_allowed": true,
         "buff_duration": 1,
@@ -309,6 +315,7 @@
       "bagh_nakha",
       "baton-extended",
       "bee_sting",
+      "bone_knife",
       "bowling_pin",
       "butterfly_swords",
       "cane",
@@ -319,6 +326,7 @@
       "fighter_sting",
       "glass_shiv",
       "hammer",
+      "knife_baselard",
       "knife_combat",
       "knife_hunting",
       "knife_trench",
@@ -326,6 +334,7 @@
       "knife_rambo",
       "knife_rm42",
       "machete",
+      "machete_gimmick",
       "makeshift_knife",
       "makeshift_machete",
       "pipe",
@@ -399,6 +408,7 @@
     "techniques": [ "tec_fencing_feint", "tec_fencing_lunge", "tec_fencing_riposte", "tec_fencing_compound" ],
     "weapons": [
       "baton-extended",
+      "bio_blade_weapon",
       "broadsword",
       "broadsword_inferior",
       "broadsword_fake",
@@ -510,7 +520,9 @@
       "lucern_hammer",
       "lucern_hammerfake",
       "makeshift_halberd",
+      "makeshift_glaive",
       "pickaxe",
+      "poleaxe",
       "primitive_axe"
     ]
   },
@@ -533,7 +545,7 @@
       }
     ],
     "techniques": [ "tec_judo_backthrow", "tec_judo_counter", "tec_judo_disarm", "tec_judo_break", "tec_judo_throw" ],
-    "weapons": [ "bagh_nakha", "bio_claws_weapon", "cestus", "knuckle_brass", "knuckle_nail", "knuckle_steel" ]
+    "weapons": [ "bagh_nakha", "bio_claws_weapon", "cestus", "knuckle_brass", "knuckle_nail", "knuckle_steel", "knuckle_steel_forged" ]
   },
   {
     "type": "martial_art",
@@ -597,11 +609,13 @@
     ],
     "weapons": [
       "baton-extended",
+      "bone_knife",
       "butterfly_swords",
       "copper_knife",
       "cudgel",
       "diveknife",
       "honey_scraper",
+      "knife_baselard",
       "knife_combat",
       "knife_combat_mod",
       "knife_folding",
@@ -632,10 +646,8 @@
       "hptjhp",
       "m17",
       "m1911",
-      "m1911_MEU",
       "m1911a1_38super",
       "m9",
-      "mk23",
       "needlepistol",
       "sw_22",
       "p226_357sig",
@@ -652,7 +664,7 @@
       "walther_ppq_9mm",
       "walther_ppq_40",
       "walther_ppq_45",
-      "acr",
+      "nato_assault_rifle",
       "acr_300blk",
       "ak47",
       "ak74",
@@ -661,25 +673,22 @@
       "ar15",
       "ar15_retool_300blk",
       "fn_fal",
-      "h&k416a5",
       "hk417_13",
       "hk_g3",
-      "hk_g36",
       "iwi_tavor_x95_300blk",
       "m1a",
       "m110a1",
       "m14ebr",
       "m16a4",
-      "m27iar",
-      "m4a1",
       "rm51_assault_rifle",
       "rm88_battle_rifle",
       "ruger_mini",
-      "scar_l",
       "scar_h",
-      "sig552",
       "sks",
-      "steyr_aug"
+      "steyr_aug",
+      "tanto",
+      "tanto_inferior",
+      "tanto_fake"
     ]
   },
   {
@@ -786,6 +795,7 @@
       "arming_sword",
       "arming_sword_inferior",
       "arming_sword_fake",
+      "bio_blade_weapon",
       "broadsword",
       "broadsword_inferior",
       "broadsword_fake",
@@ -842,7 +852,7 @@
     "id": "style_ninjutsu",
     "name": { "str": "Ninjutsu" },
     "description": "Ninjutsu is a martial art and set of tactics used by ninja in feudal Japan.  It focuses on rapid, precise, silent strikes.  Ninjutsu is almost entirely silent and does extra damage on the first attack.  It also provides small combat bonuses every time you move.",
-    "initiate": [ "You perform a kuji-in mantra with your hands. Rin, Kai, Jin!", "%s performs a series of intricate hand signs." ],
+    "initiate": [ "You perform a kuji-in mantra with your hands.  Rin, Kai, Jin!", "%s performs a series of intricate hand signs." ],
     "learn_difficulty": 6,
     "arm_block": 3,
     "static_buffs": [
@@ -877,9 +887,9 @@
         "melee_allowed": true,
         "buff_duration": 3,
         "mult_bonuses": [
-          { "stat": "damage", "type": "bash", "scale": 0.5 },
-          { "stat": "damage", "type": "cut", "scale": 0.5 },
-          { "stat": "damage", "type": "stab", "scale": 0.5 }
+          { "stat": "damage", "type": "bash", "scale": 0.67 },
+          { "stat": "damage", "type": "cut", "scale": 0.67 },
+          { "stat": "damage", "type": "stab", "scale": 0.67 }
         ]
       }
     ],
@@ -918,6 +928,7 @@
       "bokken",
       "bokken_inferior",
       "bokken_fake",
+      "bone_knife",
       "broadsword",
       "broadsword_inferior",
       "broadsword_fake",
@@ -938,6 +949,7 @@
       "katana_inferior",
       "katana_fake",
       "kirpan",
+      "knife_baselard",
       "knife_combat",
       "knife_hunting",
       "knife_rambo",
@@ -953,12 +965,14 @@
       "l-stick",
       "l-stick_on",
       "machete",
+      "machete_gimmick",
       "makeshift_machete",
       "makeshift_knife",
       "nodachi",
       "nodachi_inferior",
       "nodachi_fake",
       "q_staff",
+      "staff_sling",
       "scimitar",
       "scimitar_fake",
       "scimitar_inferior",
@@ -1018,7 +1032,7 @@
       {
         "id": "buff_niten_onattack",
         "name": "Falling Leaf",
-        "description": "A sharp sword cuts true.\nAlthough, all things fade with time.\nRestraint hones your skills.\n\n-1.0 Dodge skill, -1 bash damage, -1 cut damage.\nLasts 1 turn. Stacks 5 times.",
+        "description": "A sharp sword cuts true.\nAlthough, all things fade with time.\nRestraint hones your skills.\n\n-1.0 Dodge skill, -1 bash damage, -1 cut damage.\nLasts 1 turn.  Stacks 5 times.",
         "melee_allowed": true,
         "buff_duration": 1,
         "max_stacks": 5,
@@ -1051,6 +1065,7 @@
     ],
     "techniques": [ "niten_water_cut", "niten_red_leaf", "niten_stone_cut", "niten_timing_attack", "niten_feint" ],
     "weapons": [
+      "bio_blade_weapon",
       "bokken",
       "bokken_inferior",
       "bokken_fake",
@@ -1153,6 +1168,7 @@
     "techniques": [ "tec_silat_hamstring", "tec_silat_precise", "tec_silat_brutal", "tec_silat_dirty" ],
     "weapons": [
       "baton-extended",
+      "bone_knife",
       "bowling_pin",
       "butterfly_swords",
       "cudgel",
@@ -1164,13 +1180,16 @@
       "javelin",
       "javelin_iron",
       "knife_combat",
+      "knife_baselard",
       "copper_knife",
       "knife_hunting",
       "knife_trench",
       "kris",
       "kris_fake",
       "machete",
+      "machete_gimmick",
       "makeshift_halberd",
+      "makeshift_glaive",
       "makeshift_knife",
       "makeshift_machete",
       "naginata",
@@ -1182,6 +1201,7 @@
       "PR24-extended",
       "primitive_knife",
       "q_staff",
+      "staff_sling",
       "rebar",
       "scimitar",
       "scimitar_inferior",
@@ -1216,7 +1236,10 @@
       "knife_rm42",
       "switchblade",
       "l-stick",
-      "l-stick_on"
+      "l-stick_on",
+      "wakizashi",
+      "wakizashi_inferior",
+      "wakizashi_fake"
     ]
   },
   {
@@ -1299,6 +1322,7 @@
       "naginata_fake",
       "long_pole",
       "makeshift_halberd",
+      "makeshift_glaive",
       "pike",
       "pike_inferior",
       "pike_fake",

@@ -13,9 +13,9 @@ MIN_X = 10000
 MIN_Y = 10000
 OM_SPEC_TYPES = ["overmap_special", "city_building"]
 KEYED_TERMS = [
-    "terrain", "furniture", "fields", "npcs", "signs", "vendingmachines", "toilets", "gaspumps",
-    "items", "monsters", "vehicles", "item", "traps", "monster", "rubble", "liquids",
-    "sealed_item", "graffiti", "mapping"
+    "terrain", "furniture", "fields", "npcs", "signs", "vendingmachines",
+    "toilets", "gaspumps", "items", "monsters", "vehicles", "item", "traps",
+    "monster", "rubble", "liquids", "sealed_item", "graffiti", "mapping"
 ]
 PLACE_TERMS = ["set", "place_groups"]
 MAP_ROTATE = [
@@ -25,7 +25,8 @@ MAP_ROTATE = [
 
 
 def x_y_bucket(x, y):
-    return "{}__{}".format(math.floor((x - MIN_X) / STRIDE_X), math.floor((y - MIN_Y) / STRIDE_Y))
+    return "{}__{}".format(math.floor((x - MIN_X) / STRIDE_X),
+                           math.floor((y - MIN_Y) / STRIDE_Y))
 
 
 def x_y_sub(x, y, is_north):
@@ -36,26 +37,26 @@ def x_y_sub(x, y, is_north):
                                (y - MIN_Y - 1) % STRIDE_Y)
 
 
-
 def x_y_simple(x, y):
     return "{}__{}".format(x, y)
 
 
 def get_data(argsDict, resource_name):
-   resource = []
-   resource_sources = argsDict.get(resource_name, [])
-   if not isinstance(resource_sources, list):
-       resource_sources = [resource_sources]
-   for resource_filename in resource_sources:
-       if resource_filename.endswith(".json"):
-          try:
-              with open(resource_filename) as resource_file:
-                  resource += json.load(resource_file)
-          except FileNotFoundError:
-              exit("Failed: could not find {}".format(resource_filename))
-       else:
-           print("Invalid filename {}".format(resource_filename))
-   return resource
+    resource = []
+    resource_sources = argsDict.get(resource_name, [])
+    if not isinstance(resource_sources, list):
+        resource_sources = [resource_sources]
+    for resource_filename in resource_sources:
+        if resource_filename.endswith(".json"):
+            try:
+                with open(
+                        resource_filename, encoding="utf-8") as resource_file:
+                    resource += json.load(resource_file)
+            except FileNotFoundError:
+                exit("Failed: could not find {}".format(resource_filename))
+        else:
+            print(("Invalid filename {}".format(resource_filename)))
+    return resource
 
 
 def adjacent_to_set(x, y, coord_set):
@@ -79,15 +80,16 @@ def validate_keyed(key_term, old_obj, entry):
     return new_keyset
 
 
-# make sure that all keyed entries have the same key values and the maps have the same weight
-# and fill_ter.  Don't try to resolve them.
+# make sure that all keyed entries have the same key values and the maps have
+# the same weight and fill_ter.  Don't try to resolve them.
 def validate_old_map(old_map, entry):
     old_obj = old_map.get("object", {})
 
-    if entry["weight"] and old_map.get("weight") and entry["weight"] != old_map.get("weight"):
-        return False
+    if entry["weight"] and old_map.get("weight"):
+        if entry["weight"] != old_map.get("weight"):
+            return False
     if entry["object"].get("fill_ter") and old_obj.get("fill_ter") and \
-        entry["object"]["fill_ter"] != old_obj.get("fill_ter"):
+            entry["object"]["fill_ter"] != old_obj.get("fill_ter"):
         return False
 
     new_palettes = entry.get("palettes", {})
@@ -106,7 +108,7 @@ def validate_old_map(old_map, entry):
             keysets[key_term] = new_keyset
         elif new_keyset != {}:
             return False
-             
+
     if not entry["weight"]:
         entry["weight"] = old_map.get("weight", 0)
     if not entry["object"].get("fill_ter"):
@@ -124,10 +126,10 @@ def adjust_place(term, old_obj, offset_x, offset_y):
     def adjust_coord(x_or_y, new_entry, old_entry, offset):
         val = old_entry.get(x_or_y, "False")
         if val == "False":
-             return False
+            return False
         if isinstance(val, list):
-             val[0] += offset
-             val[1] += offset
+            val[0] += offset
+            val[1] += offset
         else:
             val += offset
         new_entry[x_or_y] = val
@@ -145,15 +147,20 @@ def adjust_place(term, old_obj, offset_x, offset_y):
     return results
 
 
-args = argparse.ArgumentParser(description="Merge individual OMT maps into blocks of maps.")
+args = argparse.ArgumentParser(
+    description="Merge individual OMT maps into blocks of maps.")
 args.add_argument("mapgen_sources", action="store", nargs="+",
                   help="specify jsons file to convert to blocks.")
 args.add_argument("specials_sources", action="store", nargs="+",
                   help="specify json file with overmap special data.")
-args.add_argument("--x", dest="stride_x", action="store",
-                  help="number of horizontal maps in each block.  Defaults to {}.".format(STRIDE_X))
-args.add_argument("--y", dest="stride_y", action="store",
-                  help="number of vertictal maps in each block.  Defaults to {}.".format(STRIDE_Y))
+args.add_argument(
+    "--x", dest="stride_x", action="store",
+    help="number of horizontal maps in each block.  "
+         "Defaults to {}.".format(STRIDE_X))
+args.add_argument(
+    "--y", dest="stride_y", action="store",
+    help="number of vertictal maps in each block.  "
+         "Defaults to {}.".format(STRIDE_Y))
 args.add_argument("--output", dest="output_name", action="store",
                   help="Name of output file.  Defaults to the command line.")
 argsDict = vars(args.parse_args())
@@ -201,7 +208,8 @@ for special in specials:
                 z = om_point[2]
                 merge_sets.setdefault(z, {})
                 merge_sets[z].setdefault(x_y_bucket(x, y), {})
-                merge_sets[z][x_y_bucket(x, y)][x_y_sub(x, y, is_north)] = om_map
+                merge_sets[z][x_y_bucket(x, y)][x_y_sub(x, y, is_north)] = \
+                    om_map
 
 # convert the mapgen list into a dictionary for easier access
 map_dict = {}
@@ -240,9 +248,10 @@ basic_entry = {
 # finally start merging maps
 for z, zlevel in merge_sets.items():
     for x_y, mapset in zlevel.items():
-        # first, split the mergeset into chunks with common KEYED_TERMS using a weird floodfill
+        # first, split the mergeset into chunks with common KEYED_TERMS using a
+        # weird floodfill
         chunks = []
-        chunks = [{ "maps": [], "entry": copy.deepcopy(basic_entry)}]
+        chunks = [{"maps": [], "entry": copy.deepcopy(basic_entry)}]
         for y in range(0, STRIDE_Y):
             for x in range(0, STRIDE_X):
                 om_id = mapset.get(x_y_simple(x, y), "")
@@ -253,20 +262,24 @@ for z, zlevel in merge_sets.items():
                     continue
                 validated = False
                 for chunk_data in chunks:
-                    # try to filter out maps that are no longer adjacent to the rest of the
-                    # merge set due to other maps not being valid
-                    if chunk_data["maps"] and not adjacent_to_set(x, y, chunk_data["maps"]):
+                    # try to filter out maps that are no longer adjacent to the
+                    # rest of the merge set due to other maps not being valid
+                    if chunk_data["maps"] and not adjacent_to_set(
+                            x, y, chunk_data["maps"]):
                         continue
-                    # check that this map's keyed terms match the other keyed terms in this chunk
+                    # check that this map's keyed terms match the other keyed
+                    # terms in this chunk
                     if validate_old_map(old_map, chunk_data["entry"]):
                         chunk_data["maps"].append({"x": x, "y": y})
-                        validated = True                            
+                        validated = True
                 if not validated:
                     new_entry = copy.deepcopy(basic_entry)
-                    chunks.append({ "maps": [{"x": x, "y": y}], "entry": new_entry })
+                    chunks.append({"maps": [{"x": x, "y": y}],
+                                   "entry": new_entry})
 
         # then split up any irregular shapes that made it past the screen
-        # T and L shapes are possible because every map is adjacent, for instance
+        # T and L shapes are possible because every map is adjacent, for
+        # instance
         final_chunks = []
         for chunk_data in chunks:
             maps = chunk_data["maps"]
@@ -278,7 +291,7 @@ for z, zlevel in merge_sets.items():
             min_x = maps[0]["x"]
             maps.sort(key=itemgetter("y"))
             max_y = maps[-1]["y"]
-            min_y = maps[0]["y"] 
+            min_y = maps[0]["y"]
             # if this is a line, square, or rectangle, it's continguous
             if len(maps) == ((max_x - min_x + 1) * (max_y - min_y + 1)):
                 final_chunks.append(chunk_data)
@@ -303,7 +316,7 @@ for z, zlevel in merge_sets.items():
             if not maps:
                 continue
             first_x = maps[0]["x"]
-            first_y = maps[0]["y"] 
+            first_y = maps[0]["y"]
             for coords in maps:
                 x = coords["x"]
                 y = coords["y"]
@@ -318,7 +331,8 @@ for z, zlevel in merge_sets.items():
                     if not col_offset:
                         new_rows.append(old_rows[i])
                     else:
-                        new_rows[i + row_offset] = "".join([new_rows[i + row_offset], old_rows[i]])
+                        new_rows[i + row_offset] = \
+                            "".join([new_rows[i + row_offset], old_rows[i]])
                 if len(maps) == 1:
                     entry["om_terrain"] = om_id
                 else:
@@ -326,9 +340,11 @@ for z, zlevel in merge_sets.items():
                         entry["om_terrain"].append([om_id])
                     else:
                         entry["om_terrain"][y - first_y].append(om_id)
-                # adjust the offsets for place_ entries before potentially converting set entries
+                # adjust the offsets for place_ entries before potentially
+                # converting set entries
                 for place_term in PLACE_TERMS:
-                    new_terms = adjust_place(place_term, old_obj, col_offset, row_offset)
+                    new_terms = adjust_place(place_term, old_obj, col_offset,
+                                             row_offset)
                     if new_terms:
                         entry["object"].setdefault(place_term, [])
                         for term_entry in new_terms:
@@ -340,7 +356,7 @@ for z, zlevel in merge_sets.items():
             #print("{}".format(json.dumps(entry, indent=2)))
 
 if output_name:
-    with open(output_name, 'w') as output_file:
+    with open(output_name, 'w', encoding="utf-8") as output_file:
         output_file.write(json.dumps(new_mapgen))
     exit()
 

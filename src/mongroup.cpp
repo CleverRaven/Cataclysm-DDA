@@ -1,6 +1,7 @@
 #include "mongroup.h"
 
 #include <algorithm>
+#include <string>
 #include <utility>
 
 #include "assign.h"
@@ -10,7 +11,6 @@
 #include "mtype.h"
 #include "options.h"
 #include "rng.h"
-#include "string_id.h"
 
 //  Frequency: If you don't use the whole 1000 points of frequency for each of
 //     the monsters, the remaining points will go to the defaultMonster.
@@ -25,7 +25,10 @@ MonsterGroupManager::t_string_set MonsterGroupManager::monster_blacklist;
 MonsterGroupManager::t_string_set MonsterGroupManager::monster_whitelist;
 MonsterGroupManager::t_string_set MonsterGroupManager::monster_categories_blacklist;
 MonsterGroupManager::t_string_set MonsterGroupManager::monster_categories_whitelist;
-bool monster_whitelist_is_exclusive = false;
+MonsterGroupManager::t_string_set MonsterGroupManager::monster_species_blacklist;
+MonsterGroupManager::t_string_set MonsterGroupManager::monster_species_whitelist;
+
+static bool monster_whitelist_is_exclusive = false;
 
 /** @relates string_id */
 template<>
@@ -59,11 +62,11 @@ void mongroup::clear()
 
 float mongroup::avg_speed() const
 {
-    float avg_speed = 0;
+    float avg_speed = 0.0f;
     if( monsters.empty() ) {
         const MonsterGroup &g = type.obj();
         int remaining_frequency = 1000;
-        for( auto &elem : g.monsters ) {
+        for( const MonsterGroupEntry &elem : g.monsters ) {
             avg_speed += elem.frequency * elem.name.obj().speed;
             remaining_frequency -= elem.frequency;
         }
@@ -72,7 +75,7 @@ float mongroup::avg_speed() const
         }
         avg_speed /= 1000;
     } else {
-        for( auto &it : monsters ) {
+        for( const monster &it : monsters ) {
             avg_speed += it.type->speed;
         }
         avg_speed /= monsters.size();
@@ -98,7 +101,7 @@ const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup
 MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
     const mongroup_id &group_name, int *quantity )
 {
-    auto &group = GetUpgradedMonsterGroup( group_name );
+    const MonsterGroup &group = GetUpgradedMonsterGroup( group_name );
     int spawn_chance = rng( 1, group.freq_total ); //Default 1000 unless specified
     //Our spawn details specify, by default, a single instance of the default monster
     MonsterGroupResult spawn_details = MonsterGroupResult( group.defaultMonster, 1, spawn_data() );
@@ -121,17 +124,17 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
         bool season_limited = false;
         bool season_matched = false;
         //Collect the various spawn conditions, and then insure they are met appropriately
-        for( auto &elem : it->conditions ) {
+        for( const std::string &elem : it->conditions ) {
             //Collect valid time of day ranges
             if( elem == "DAY" || elem == "NIGHT" || elem == "DUSK" || elem == "DAWN" ) {
                 if( elem == "DAY" ) {
-                    valid_times_of_day.push_back( std::make_pair( sunrise, sunset ) );
+                    valid_times_of_day.emplace_back( sunrise, sunset );
                 } else if( elem == "NIGHT" ) {
-                    valid_times_of_day.push_back( std::make_pair( sunset, sunrise ) );
+                    valid_times_of_day.emplace_back( sunset, sunrise );
                 } else if( elem == "DUSK" ) {
-                    valid_times_of_day.push_back( std::make_pair( sunset - 1_hours, sunset + 1_hours ) );
+                    valid_times_of_day.emplace_back( sunset - 1_hours, sunset + 1_hours );
                 } else if( elem == "DAWN" ) {
-                    valid_times_of_day.push_back( std::make_pair( sunrise - 1_hours, sunrise + 1_hours ) );
+                    valid_times_of_day.emplace_back( sunrise - 1_hours, sunrise + 1_hours );
                 }
             }
 
@@ -204,7 +207,7 @@ bool MonsterGroup::IsMonsterInGroup( const mtype_id &mtypeid ) const
     if( defaultMonster == mtypeid ) {
         return true;
     }
-    for( auto &m : monsters ) {
+    for( const MonsterGroupEntry &m : monsters ) {
         if( m.name == mtypeid ) {
             return true;
         }
@@ -235,7 +238,7 @@ std::vector<mtype_id> MonsterGroupManager::GetMonstersFromGroup( const mongroup_
 
     monsters.push_back( g.defaultMonster );
 
-    for( auto &elem : g.monsters ) {
+    for( const MonsterGroupEntry &elem : g.monsters ) {
         monsters.push_back( elem.name );
     }
     return monsters;
@@ -266,6 +269,7 @@ void MonsterGroupManager::LoadMonsterBlacklist( const JsonObject &jo )
 {
     add_array_to_set( monster_blacklist, jo, "monsters" );
     add_array_to_set( monster_categories_blacklist, jo, "categories" );
+    add_array_to_set( monster_species_blacklist, jo, "species" );
 }
 
 void MonsterGroupManager::LoadMonsterWhitelist( const JsonObject &jo )
@@ -275,6 +279,8 @@ void MonsterGroupManager::LoadMonsterWhitelist( const JsonObject &jo )
     }
     add_array_to_set( monster_whitelist, jo, "monsters" );
     add_array_to_set( monster_categories_whitelist, jo, "categories" );
+    add_array_to_set( monster_species_whitelist, jo, "species" );
+
 }
 
 bool MonsterGroupManager::monster_is_blacklisted( const mtype_id &m )
@@ -288,8 +294,18 @@ bool MonsterGroupManager::monster_is_blacklisted( const mtype_id &m )
             return false;
         }
     }
+    for( const auto &elem : monster_species_whitelist ) {
+        if( mt.in_species( species_id( elem ) ) ) {
+            return false;
+        }
+    }
     for( const auto &elem : monster_categories_blacklist ) {
         if( mt.categories.count( elem ) > 0 ) {
+            return true;
+        }
+    }
+    for( const auto &elem : monster_species_blacklist ) {
+        if( mt.in_species( species_id( elem ) ) ) {
             return true;
         }
     }
@@ -303,12 +319,12 @@ bool MonsterGroupManager::monster_is_blacklisted( const mtype_id &m )
 
 void MonsterGroupManager::FinalizeMonsterGroups()
 {
-    for( auto &mtid : monster_whitelist ) {
+    for( const std::string &mtid : monster_whitelist ) {
         if( !mtype_id( mtid ).is_valid() ) {
             debugmsg( "monster on whitelist %s does not exist", mtid.c_str() );
         }
     }
-    for( auto &mtid : monster_blacklist ) {
+    for( const std::string &mtid : monster_blacklist ) {
         if( !mtype_id( mtid ).is_valid() ) {
             debugmsg( "monster on blacklist %s does not exist", mtid.c_str() );
         }
@@ -373,7 +389,7 @@ void MonsterGroupManager::LoadMonsterGroup( const JsonObject &jo )
                 const JsonObject &sd = mon.get_object( "spawn_data" );
                 if( sd.has_array( "ammo" ) ) {
                     const JsonArray &ammos = sd.get_array( "ammo" );
-                    for( const JsonObject &adata : ammos ) {
+                    for( const JsonObject adata : ammos ) {
                         data.ammo.emplace( itype_id( adata.get_string( "ammo_id" ) ), jmapgen_int( adata, "qty" ) );
                     }
                 }

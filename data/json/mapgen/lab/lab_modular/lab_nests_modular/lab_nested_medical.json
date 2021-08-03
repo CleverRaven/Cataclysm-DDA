@@ -1,0 +1,334 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for a 9x9 medical room, includes door and south wall.",
+    "nested_mapgen_id": "lab_medical_9x9_S",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        "......|SJ",
+        "......⁸..",
+        "......|.9",
+        "......|⁸|",
+        "......|.L",
+        "......|.L",
+        "|]⁸⁸]||+|",
+        ".........",
+        "........."
+      ],
+      "palettes": [ "lab_common_palette", "lab_medical_palette" ],
+      "place_nested": [ { "chunks": [ [ "lab_medical_6x6_open", 100 ] ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for a 9x9 medical room, includes door and south wall.",
+    "nested_mapgen_id": "lab_medical_9x9_S",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        "Y.....|JJ",
+        "......⁸..",
+        "J..8.A]r.",
+        "V..b..]ɱh",
+        "J.....]r.",
+        "......|..",
+        "||⁸⁸|||+|",
+        ".........",
+        "........."
+      ],
+      "palettes": [ "lab_common_palette", "lab_medical_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for a 6x6 medical room.",
+    "nested_mapgen_id": "lab_medical_6x6_open",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "......",
+        ".7A...",
+        ".oւ..Q",
+        ".....V",
+        "......",
+        "5...Y."
+      ],
+      "palettes": [ "lab_common_palette", "lab_medical_palette" ],
+      "vehicles": { "ւ": { "vehicle": "hospital_bed", "chance": 100, "rotation": 270 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for a 6x6 medical room.",
+    "nested_mapgen_id": "lab_medical_6x6_open",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "......",
+        ".|||..",
+        ".J|J.Q",
+        ".J|k.Q",
+        ".|||..",
+        "......"
+      ],
+      "palettes": [ "lab_common_palette", "lab_medical_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for a 6x6 medical room.",
+    "nested_mapgen_id": "lab_medical_6x6_open",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "QQ..qq",
+        "......",
+        ".J6e.a",
+        "...A..",
+        ".3JJY.",
+        ".A...."
+      ],
+      "palettes": [ "lab_common_palette", "lab_medical_palette" ],
+      "computers": {
+        "6": {
+          "name": "Centrifuge",
+          "options": [ { "name": "Analyze blood", "action": "blood_anal" } ],
+          "failures": [ { "action": "destroy_blood" } ]
+        }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for a 9x9 medical room, includes door and north wall.",
+    "nested_mapgen_id": "lab_medical_9x9_N",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        ".........",
+        ".........",
+        "|]⁸⁸]||+|",
+        "......|.L",
+        "......|.L",
+        "......|+|",
+        "......|.9",
+        "......+..",
+        "......|SJ"
+      ],
+      "palettes": [ "lab_common_palette", "lab_medical_palette" ],
+      "place_nested": [ { "chunks": [ [ "lab_medical_6x6_open", 100 ] ], "x": 0, "y": 3 } ],
+      "items": { "L": [ { "item": "hazmat_masks", "chance": 70 }, { "item": "hazmat_suits", "chance": 70 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for a 9x9 medical room, includes door and north wall.",
+    "nested_mapgen_id": "lab_medical_9x9_N",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        ".........",
+        ".........",
+        "||⁸⁸|||+|",
+        "....A.|.Y",
+        "J.....]r.",
+        "V..b..]ɱh",
+        "J..8..]r.",
+        "Y.....⁸..",
+        "....o.|JJ"
+      ],
+      "palettes": [ "lab_common_palette", "lab_medical_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for a 9x9 medical room, includes door and north wall.",
+    "nested_mapgen_id": "lab_medical_9x9_N",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        ".........",
+        ".ƃ.......",
+        "||||⁸||||",
+        ".h.....5Y",
+        ".........",
+        "ppppppppp",
+        "....p....",
+        "....p....",
+        "VГo.p.ГoV"
+      ],
+      "palettes": [ "lab_common_palette", "lab_medical_palette" ],
+      "vehicles": {
+        "ƃ": { "vehicle": "wheelchair", "chance": 100, "rotation": 90 },
+        "Г": { "vehicle": "hospital_bed", "chance": 100, "rotation": 90 }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for a 9x9 medical room, includes door and north wall.",
+    "nested_mapgen_id": "lab_medical_9x9_S",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        "Vւo.p.ւoV",
+        "....p...A",
+        "A...p....",
+        "ppppppppp",
+        ".........",
+        ".4.....E.",
+        "||||⁸||||",
+        ".........",
+        "........."
+      ],
+      "palettes": [ "lab_common_palette", "lab_medical_palette" ],
+      "vehicles": { "ւ": { "vehicle": "hospital_bed", "chance": 100, "rotation": 270 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for a 9x9 medical room, includes door and north wall.",
+    "nested_mapgen_id": "lab_medical_9x9_N",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        ".........",
+        ".........",
+        "||+|||+||",
+        "...h|...Y",
+        ".ƨ..|J..ƃ",
+        ".ƨ.ƃ|Zh..",
+        ".ƨ..|J.Ƨ.",
+        ".ƨ..|pppp",
+        "..AZ|h..."
+      ],
+      "palettes": [ "lab_common_palette", "lab_medical_palette" ],
+      "furniture": { "Ƨ": [ "f_treadmill", "f_treadmill_mechanical" ] },
+      "vehicles": { "ƃ": { "vehicle": "wheelchair", "chance": 100, "rotation": 90 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for a 9x9 medical room, includes door and north wall.",
+    "nested_mapgen_id": "lab_medical_9x9_S",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        "A...|Z...",
+        "pppp|A.ƨ.",
+        ".ɔ.J|..ƨ.",
+        "ƃ..Z|..ƨ.",
+        "...J|ƃ.ƨ.",
+        ".h.Y|y...",
+        "||+|||+||",
+        ".........",
+        "........."
+      ],
+      "palettes": [ "lab_common_palette", "lab_medical_palette" ],
+      "vehicles": { "ƃ": { "vehicle": "wheelchair", "chance": 100, "rotation": 90 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for a 9x9 medical room, includes door and north wall.",
+    "nested_mapgen_id": "lab_medical_9x9_N",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        ".........",
+        ".........",
+        "||+|||+||",
+        "V..h|...Y",
+        "..o4|ÆJJ.",
+        "...E|.A..",
+        "4..s|ÆJJ.",
+        "E...|A...",
+        "s.o.|JÆJJ"
+      ],
+      "palettes": [ "lab_common_palette", "lab_medical_palette" ],
+      "vehicles": { "ƃ": { "vehicle": "wheelchair", "chance": 100, "rotation": 90 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for a 9x9 medical room, includes door and north wall.",
+    "nested_mapgen_id": "lab_medical_9x9_S",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        "A...|Z...",
+        "pppp|A.ƨ.",
+        ".Ƨ.J|..ƨ.",
+        "ƃ..Z|..ƨ.",
+        "...J|ƃ.ƨ.",
+        ".h.Y|y...",
+        "||+|||+||",
+        ".........",
+        "........."
+      ],
+      "palettes": [ "lab_common_palette", "lab_medical_palette" ],
+      "furniture": { "Ƨ": [ "f_treadmill", "f_treadmill_mechanical" ] },
+      "vehicles": { "ƃ": { "vehicle": "wheelchair", "chance": 100, "rotation": 90 } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for a 9x9 medical room, includes door and south wall.",
+    "nested_mapgen_id": "lab_medical_9x9_S_autodoc",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        "J.o...|SJ",
+        "k.ɔЯ..⁸..",
+        "J.....|.9",
+        "XXXXXX|⁸|",
+        "rrrɱrr|.L",
+        "A..A..|.L",
+        "|]⁸⁸]||+|",
+        "j........",
+        "j........"
+      ],
+      "palettes": [ "lab_common_palette", "lab_medical_palette" ],
+      "place_monster": [ { "monster": [ "mon_nursebot", "mon_nursebot_defective" ], "x": 4, "y": 2, "chance": 100 } ],
+      "items": { "L": [ { "item": "hazmat_masks", "chance": 70 }, { "item": "hazmat_suits", "chance": 70 } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for a 9x9 medical room, includes door and north wall.",
+    "nested_mapgen_id": "lab_medical_9x9_N_autodoc",
+    "object": {
+      "mapgensize": [ 9, 9 ],
+      "rows": [
+        "j........",
+        "j........",
+        "|]⁸⁸]||+|",
+        ".A..A.|.L",
+        "rrrɱrr|.L",
+        "XXXXXX|+|",
+        "J.....|.9",
+        "k.ɔЯ..+..",
+        "J....o|SJ"
+      ],
+      "palettes": [ "lab_common_palette", "lab_medical_palette" ],
+      "place_monster": [ { "monster": [ "mon_nursebot", "mon_nursebot_defective" ], "x": 4, "y": 6, "chance": 100 } ],
+      "items": { "L": [ { "item": "hazmat_masks", "chance": 70 }, { "item": "hazmat_suits", "chance": 70 } ] }
+    }
+  }
+]

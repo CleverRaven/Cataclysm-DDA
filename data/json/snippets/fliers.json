@@ -2,7 +2,6 @@
   {
     "type": "snippet",
     "category": "flier",
-    "//": "Missing flier_ 27, 29, 30",
     "text": [
       {
         "id": "flier_1",
@@ -109,8 +108,20 @@
         "text": "This is an advertisement for Rivtech brand ammunition.  It shows a picture of an armored steel plate with a gaping hole blasted through the middle.  Sitting beside the plate is a block of brightly colored caseless ammunition.  The caption reads:  \"Rivtech 8x40mm caseless.  Nothing else comes close.\""
       },
       {
+        "id": "flier_27",
+        "text": "This is an advertisement for SUDS Laundromat.  It shows words surrounded by bubbles that appear to be floating upward.  It reads: \"Tergitol Tuesdays!  50% off on all washers and driers!\""
+      },
+      {
         "id": "flier_28",
         "text": "This is a propaganda poster showing the Northrop Dispatch's military variant.  It depicts the iconic dark green, arachnoid dispatch, standing before a fence and facing away from the camera as blurring machines rush forward from its back towards black silhouettes menacing on the horizon.  It reads: \"WE ARE HERE TO PROTECT YOU.\""
+      },
+      {
+        "id": "flier_29",
+        "text": "This is an advertisement for Iron Gym.  It shows pictures of people performing various exercises such as running, yoga and weight lifting.  It reads: \"I lift things up and put them down!\""
+      },
+      {
+        "id": "flier_30",
+        "text": "This is an advertisement for Space Time Inc.  It has pictures of astronauts floating around a spaceship with the Moon in the background.  It reads: \"Own your own piece of the Moon!  For only $29.99 a month, you can have prime real estate amongst the stars!\""
       },
       {
         "id": "flier_31",
@@ -274,7 +285,10 @@
       },
       {
         "id": "flier_71",
-        "text": "FEELING BLUE?  Try \"Greens\" for Magazines!  Your local Supermarket!  Nothing cheers you up like a good magazine…  Unless it's JUNK FOOD!  Or why not buy an MP3 PLAYER or a GAME CONSOLE?  Chase those blues away at GREENS Supermarket"
+        "text": {
+          "str": "This letter appears to have been lost before it could be delivered:\n\nDear Brother,\n\nI hope you get this letter before it is too late.  And I hope you understand I am sending this letter out of respect and love and, I'm not ashamed to admit it, fear.  Fear for you and fear for myself.  There is a reason why people are stocking up on guns and flour.\n\nPeople are saying the rioters are merely insane, or under the influence of that new drug, or fever dream sleep walking.  I don't know what's true and I don't care.  They say almost the exact same thing about the eye-witnesses; maybe we're all fever dreaming now.\n\nThis isn't going to be delayed, let alone solved, by rifles or protein rations or military robots authorized to kill.  The writing is on the wall.  I'm not saying that my way is good or holy, and I love and respect you no matter what, but I hope and I pray that you'll join me.\n\nThere isn't much time to decide.  Soon we might be the last folks on earth.  You know where to go.\n\n- Your Devoted Sister",
+          "//NOLINT(cata-text-style)": "intentional format"
+        }
       },
       {
         "id": "flier_72",
@@ -291,6 +305,36 @@
       {
         "id": "flier_75",
         "text": "THE RIPLEY-9k!  Pilot your own cargo exoskeleton now!  Our exoskeletons allow the power of a forklift guided by the strength of your own muscles.  Carry heavy loads over rough terrain, even up stairs!"
+      },
+      {
+        "id": "flier_76",
+        "text": "This is a poster advertising a brand of a hybrid gas-electric vehicle.  Poster claims that hybrid car is the \"best of two worlds\" with the acceleration capabilities of a sport car and fuel consumption of a compact car.  Something called the \"Smart Controller®\" is mentioned several times, which, if you are to believe the poster, it is some kind of military technology adapted for civilian market and it works like magic.  In the bottom there is a slogan: \"Enjoy your optimal ride with the Smart Engine Controller!\""
+      },
+      {
+        "id": "flier_77",
+        "text": "This scrap of paper features a faded ad for Cascade Cola.  \"All the sweet you can stand.  Don't just drink it; let it cascade into you.\""
+      },
+      {
+        "id": "flier_78",
+        "text": {
+          "str": "This ancient missing persons poster is faded and torn.  It features a photo of a stern looking woman in her early fifties.  It reads \"Missing Adult - Prof. Amy Takatoshi - Last Seen Thursday, July 12 - Please contact the Boston Police Missing Persons Unit.\"",
+          "//NOLINT(cata-text-style)": "intentional format"
+        }
+      },
+      {
+        "id": "flier_79",
+        "text": "JOIN THE CONCERNED CONSUMERS OF FOODPEOPLE!  Join the fight to⋯\n - Stop the neutralization of cultural icons.\n - Endow Foodperson with vitals befitting heroics superb.\n - Protect RU-238 and other FRUIT flavors from the threat of prohibition.\n - Inspire future consumers of the superhero genre."
+      },
+      {
+        "id": "flier_80",
+        "text": "This promotional palm card is emblazoned \"DigiMart has E-Ink\" in a garish neon purple typeface.  \"E-Ink Tablets come packed with octo-core cpu, veripixel lenses camera, neoTouch screen, DRM locket, InnerVision ready near field, a free datavault storage plan, wi-fi, and more!\""
+      },
+      {
+        "id": "flier_81",
+        "text": {
+          "str": "What you've got here is an old coupon insert for Marigold Market:\n\n - BOGO!  Cascade Cola six-packs!\n - ATOMIC POWER THIRST!  Now with 20% more FRUIT RU-238!\n - $2 MEAT! Aunt Janice's Pickled Meat now just $2.49!\n - 75% OFF! DaiZoom bars by SoyPelusa.",
+          "//NOLINT(cata-text-style)": "intentional format"
+        }
       }
     ]
   }

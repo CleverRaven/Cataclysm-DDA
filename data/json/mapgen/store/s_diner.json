@@ -54,7 +54,6 @@
         "j": "t_thconc_floor",
         "k": "t_thconc_floor",
         "m": "t_thconc_floor",
-        "n": "t_console_broken",
         "o": "t_thconc_floor",
         "p": "t_thconc_floor",
         "q": "t_thconc_floor",
@@ -65,6 +64,7 @@
         "<": "t_stairs_up"
       },
       "furniture": {
+        "n": "f_console_broken",
         "e": "f_counter",
         "f": "f_table",
         "F": "f_table",

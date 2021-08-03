@@ -5,11 +5,11 @@
 
 #include "debug.h"
 #include "item.h"
+#include "make_static.h"
 #include "player.h"
+#include "recipe.h"
 #include "ret_val.h"
 #include "translations.h"
-
-#include "math_defines.h"
 
 struct tripoint;
 
@@ -17,6 +17,15 @@ std::string gunmod_location::name() const
 {
     // Yes, currently the name is just the translated id.
     return _( _id );
+}
+
+std::string islot_book::recipe_with_description_t::name() const
+{
+    if( optional_name ) {
+        return optional_name->translated();
+    } else {
+        return recipe->result_name( /*decorated=*/true );
+    }
 }
 
 namespace io
@@ -62,6 +71,16 @@ bool itype::has_use() const
     return !use_methods.empty();
 }
 
+bool itype::has_flag( const flag_id &flag ) const
+{
+    return item_tags.count( flag );
+}
+
+const itype::FlagsSetType &itype::get_flags() const
+{
+    return item_tags;
+}
+
 bool itype::can_use( const std::string &iuse_name ) const
 {
     return get_use( iuse_name ) != nullptr;
@@ -78,8 +97,8 @@ int itype::tick( player &p, item &it, const tripoint &pos ) const
     // Note: can go higher than current charge count
     // Maybe should move charge decrementing here?
     int charges_to_use = 0;
-    for( auto &method : use_methods ) {
-        const int val = method.second.call( p, it, true, pos );
+    for( const auto &method : use_methods ) {
+        const int val = method.second.call( p, it, true, pos ).value_or( 0 );
         if( charges_to_use < 0 || val < 0 ) {
             charges_to_use = -1;
         } else {
@@ -90,7 +109,7 @@ int itype::tick( player &p, item &it, const tripoint &pos ) const
     return charges_to_use;
 }
 
-int itype::invoke( player &p, item &it, const tripoint &pos ) const
+cata::optional<int> itype::invoke( player &p, item &it, const tripoint &pos ) const
 {
     if( !has_use() ) {
         return 0;
@@ -98,7 +117,8 @@ int itype::invoke( player &p, item &it, const tripoint &pos ) const
     return invoke( p, it, pos, use_methods.begin()->first );
 }
 
-int itype::invoke( player &p, item &it, const tripoint &pos, const std::string &iuse_name ) const
+cata::optional<int> itype::invoke( player &p, item &it, const tripoint &pos,
+                                   const std::string &iuse_name ) const
 {
     const use_function *use = get_use( iuse_name );
     if( use == nullptr ) {
@@ -107,6 +127,7 @@ int itype::invoke( player &p, item &it, const tripoint &pos, const std::string &
         return 0;
     }
 
+    p.invalidate_weight_carried_cache();
     const auto ret = use->can_call( p, it, false, pos );
 
     if( !ret.success() ) {
@@ -133,7 +154,7 @@ bool itype::can_have_charges() const
     if( gun && gun->clip > 0 ) {
         return true;
     }
-    if( item_tags.count( "CAN_HAVE_CHARGES" ) ) {
+    if( has_flag( STATIC( flag_id( "CAN_HAVE_CHARGES" ) ) ) ) {
         return true;
     }
     return false;

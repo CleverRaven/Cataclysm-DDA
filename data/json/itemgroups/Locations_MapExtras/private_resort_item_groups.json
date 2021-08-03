@@ -148,9 +148,9 @@
     "type": "item_group",
     "items": [
       { "item": "cup_plastic", "prob": 50 },
-      { "item": "cig", "prob": 50 },
-      { "item": "matches", "prob": 50 },
-      { "item": "rolling_paper", "prob": 50 },
+      { "item": "cig", "prob": 50, "charges": [ 1, 20 ] },
+      { "item": "matches", "prob": 50, "charges": [ 1, 20 ] },
+      { "item": "rolling_paper", "prob": 50, "charges": [ 1, 30 ] },
       { "item": "wrapper", "prob": 50 },
       { "item": "news_regional", "prob": 50 },
       { "item": "mag_news", "prob": 50 },
@@ -173,7 +173,7 @@
     "id": "private_resort_sec_weapon",
     "type": "item_group",
     "items": [
-      { "item": "tazer", "prob": 20, "damage": [ 1, 4 ] },
+      { "item": "tazer", "prob": 20, "charges": [ 0, 500 ], "damage": [ 1, 4 ] },
       { "item": "PR24-retracted", "prob": 50 },
       { "item": "shot_beanbag", "prob": 50 }
     ]

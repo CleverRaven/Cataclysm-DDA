@@ -23,11 +23,24 @@
       "TALK_FREE_MERCHANT_STOCKS_BEGGARS",
       "TALK_FREE_MERCHANT_STOCKS_SEALED1",
       "TALK_FREE_MERCHANT_STOCKS_SEALED2",
-      "TALK_FREE_MERCHANT_STOCKS_RANCH"
+      "TALK_FREE_MERCHANT_STOCKS_RANCH",
+      "TALK_FREE_MERCHANT_STOCKS_Boris_Mission_1"
     ],
     "type": "talk_topic",
     "responses": [
       { "text": "I'm here to deliver some food supplies.", "topic": "TALK_FREE_MERCHANT_STOCKS_DELIVER" },
+      {
+        "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you offer any help?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
+            {
+              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_FREE_MERCHANT_STOCKS_Boris_Mission_1"
+      },
       {
         "text": "Are you able to buy some canning supplies?",
         "topic": "TALK_FREE_MERCHANT_STOCKS_JARS",
@@ -102,7 +115,7 @@
     "id": "TALK_FREE_MERCHANT_STOCKS_JARS",
     "dynamic_line": "Yes, I can buy 500 mL or 3 L glass jars at the moment.",
     "repeat_responses": {
-      "for_item": [ "jar_glass", "jar_3l_glass" ],
+      "for_item": [ "jar_glass_sealed", "jar_3l_glass_sealed" ],
       "response": { "text": "Delivering <topic_item>.", "topic": "TALK_DELIVER_ASK" }
     },
     "responses": [
@@ -163,7 +176,7 @@
       "context": "recruit",
       "value": "yes",
       "yes": "I do.  I don't know what you did to convince them to move out, but our supply chain and I both thank you.  I hope it wasn't too unseemly.",
-      "no": "Even once we got things sorted out, there weren't enough beds for everyone, and definitely not enough supplies. These are harsh times.  We're doing what we can for those folks… at least they've got shelter."
+      "no": "Even once we got things sorted out, there weren't enough beds for everyone, and definitely not enough supplies.  These are harsh times.  We're doing what we can for those folks… at least they've got shelter."
     }
   },
   {
@@ -175,7 +188,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_FREE_MERCHANT_STOCKS_SEALED1wrong",
-    "dynamic_line": "We didn't have great organization when we first arrived. A few of the earliest arrivals set up a triage and sorting system, with the sick and infirm getting set aside to wait. It's cruel, but we could see there was only space for so many, and we didn't know what was causing people to turn into zombies at the time, so we were trying to quarantine out infection.  A couple folks died in there, and it escalated.  One of the first people here, Jacob, had taken charge of the whole thing.  When the triage area had to be evacuated he stayed behind to make sure everyone who could get out got out.  It was a hell of a loss.",
+    "dynamic_line": "We didn't have great organization when we first arrived.  A few of the earliest arrivals set up a triage and sorting system, with the sick and infirm getting set aside to wait.  It's cruel, but we could see there was only space for so many, and we didn't know what was causing people to turn into zombies at the time, so we were trying to quarantine out infection.  A couple folks died in there, and it escalated.  One of the first people here, Jacob, had taken charge of the whole thing.  When the triage area had to be evacuated he stayed behind to make sure everyone who could get out got out.  It was a hell of a loss.",
     "speaker_effect": [
       { "effect": { "u_add_var": "told_about_FM_evacuation", "type": "general", "context": "conversation", "value": "yes" } }
     ],
@@ -192,6 +205,11 @@
     "dynamic_line": "I'm so glad we've got that up and running.  One of the people evacuated here had a connection to a functioning ranch, and we got him and a crew out there as quickly as we were able.  We're hoping they'll be able to supply us in enough foodstuffs to make this place self-sufficient and even to trade with other communities as they arise."
   },
   {
+    "id": "TALK_FREE_MERCHANT_STOCKS_Boris_Mission_1",
+    "type": "talk_topic",
+    "dynamic_line": "You'd be better off asking the shopkeeper up front, I'm the quartermaster."
+  },
+  {
     "id": "MISSION_BROKER_1",
     "type": "mission_definition",
     "name": { "str": "In a Pickle Pt. 2" },
@@ -199,7 +217,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,
-    "item": "jar_3l_glass",
+    "item": "jar_3l_glass_sealed",
     "count": 50,
     "end": {
       "effect": [

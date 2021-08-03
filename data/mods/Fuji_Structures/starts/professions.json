@@ -1,7 +1,7 @@
 [
   {
     "type": "profession",
-    "ident": "rookie",
+    "id": "rookie",
     "name": "Rookie",
     "description": "It's been months since the Cataclysm and somehow you're still greener than a tree.  Maybe you're just a slow learner, who knows.",
     "points": 0,
@@ -22,7 +22,7 @@
   },
   {
     "type": "profession",
-    "ident": "novice",
+    "id": "novice",
     "name": "Novice",
     "description": "You're a merely competent survivor so far.  Let's change that, yeah?",
     "points": 1,

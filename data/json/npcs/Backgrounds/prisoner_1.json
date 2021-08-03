@@ -190,7 +190,7 @@
   {
     "id": "BGSS_PRISONER_1_IN_FOR_TAXEVASION",
     "type": "talk_topic",
-    "dynamic_line": "Tax evasion.  I was an accountant, and I helped my boss move a hell of a lot of money in some very clever ways.  Not clever enough, it turns out...",
+    "dynamic_line": "Tax evasion.  I was an accountant, and I helped my boss move a hell of a lot of money in some very clever ways.  Not clever enough, it turns out…",
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   },
   {

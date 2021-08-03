@@ -62,6 +62,7 @@
       "microlab_generic_firebreak",
       "microlab_generic_hallway",
       "microlab_generic_stairs_down",
+      "microlab_generic_edge_room_connector",
       "microlab_generic_isolated_stairs_odd",
       "microlab_generic_isolated_stairs_even",
       "microlab_generic_isolated_stairs_up",
@@ -72,6 +73,15 @@
     "color": "cyan",
     "see_cost": 5,
     "flags": [ "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "microlab_reactor", "microlab_reactor_b" ],
+    "name": "science lab reactor",
+    "sym": "L",
+    "color": "light_red",
+    "see_cost": 5,
+    "flags": [ "RISK_HIGH" ]
   },
   {
     "type": "overmap_terrain",

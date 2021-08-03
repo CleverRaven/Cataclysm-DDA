@@ -68,7 +68,7 @@
         "s": "t_shrub_blueberry",
         "t": "t_tree_dead"
       },
-      "place_signs": [ { "signage": "Cheap lot for sale! Call <given_name> at 555-5151!", "x": 12, "y": 1 } ]
+      "place_signs": [ { "signage": "Cheap lot for sale!  Call <given_name> at 555-5151!", "x": 12, "y": 1 } ]
     },
     "om_terrain": "emptyresidentiallot",
     "type": "mapgen",
@@ -173,7 +173,7 @@
         "..._..._.._...._.._....."
       ],
       "terrain": { ".": "t_grass", "4": "t_tree_pine", "P": "t_grass", "_": "t_dirt", "t": "t_tree_willow" },
-      "place_signs": [ { "signage": "Beautiful lot with some natural privacy! Call <full_name> at 555-3927!", "x": 9, "y": 1 } ]
+      "place_signs": [ { "signage": "Beautiful lot with some natural privacy!  Call <full_name> at 555-3927!", "x": 9, "y": 1 } ]
     },
     "om_terrain": "emptyresidentiallot",
     "type": "mapgen",

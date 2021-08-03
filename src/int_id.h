@@ -13,7 +13,7 @@ class string_id;
  * Just like the @ref string_id, this is a wrapper for int based identifiers.
  * The template parameter T specifies what kind of object it identifies (e.g. a trap type, monster
  * type, ...)
- *
+ * See `string_id` for documentation on usage.
  */
 template<typename T>
 class int_id
@@ -46,6 +46,7 @@ class int_id
          * Construct an id from the matching string based id. This may show a debug message if the
          * string id is invalid.
          */
+        // NOLINTNEXTLINE(google-explicit-constructor)
         int_id( const string_id<T> &id );
 
         /**

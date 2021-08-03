@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_shelter_1_0",
     "description": "We should survey the base site and set up a bulletin board.",
     "category": "CC_BUILDING",
@@ -25,6 +26,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_1_fireplace",
     "description": "We should build a fireplace for cooking and grab a pot.  Let's set up near the working terminal.",
     "category": "CC_BUILDING",
@@ -56,6 +58,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_1_brazier",
     "description": "We should build a brazier for cooking and grab a pot.  Let's set up near the working terminal.",
     "category": "CC_BUILDING",
@@ -89,6 +92,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_1_stove",
     "description": "We should build a wood stove for cooking and grab a pot.  Let's set up near the working terminal.",
     "category": "CC_BUILDING",
@@ -127,6 +131,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_1_well",
     "description": "We should build a well, put it near the terminal.  This will make our future here more secure.",
     "category": "CC_BUILDING",
@@ -150,6 +155,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_1_bed_standard_NW",
     "description": "Let's furnish the southeast bedroom with a regular bed.",
     "category": "CC_BUILDING",
@@ -180,6 +186,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_1_beds_standard_W1",
     "description": "Let's furnish the west bedroom with regular beds.",
     "category": "CC_BUILDING",
@@ -210,6 +217,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_1_beds_standard_W2",
     "description": "Let's furnish the west bedroom with regular beds.",
     "category": "CC_BUILDING",
@@ -240,6 +248,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_1_beds_standard_W3",
     "description": "Let's furnish the west bedroom with regular beds.",
     "category": "CC_BUILDING",
@@ -270,6 +279,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_1_bed_straw_NW",
     "description": "Let's furnish the southeast bedroom with a straw bed.",
     "category": "CC_BUILDING",
@@ -299,6 +309,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_1_beds_straw_W1",
     "description": "Let's furnish the west bedroom with a straw bed.",
     "category": "CC_BUILDING",
@@ -328,6 +339,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_1_beds_straw_W2",
     "description": "Let's furnish the west bedroom with a straw bed.",
     "category": "CC_BUILDING",
@@ -357,6 +369,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_1_beds_straw_W3",
     "description": "Let's furnish the west bedroom with straw beds.",
     "category": "CC_BUILDING",
@@ -386,6 +399,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_1_bed_makeshift_NW",
     "description": "Let's furnish the southeast bedroom with a makeshift bed.",
     "category": "CC_BUILDING",
@@ -404,18 +418,28 @@
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],
         "components": [
-          [ [ "sheet_metal", 2 ] ],
-          [ [ "pipe", 8 ] ],
-          [ [ "lock", 1 ] ],
           [ [ "2x4", 8 ] ],
+          [
+            [ "blanket", 2 ],
+            [ "down_blanket", 2 ],
+            [ "fur_blanket", 2 ],
+            [ "quilt", 2 ],
+            [ "quilt_patchwork", 2 ],
+            [ "sheet", 4 ],
+            [ "sleeping_bag", 2 ],
+            [ "sleeping_bag_fur", 2 ]
+          ],
+          [ [ "lock", 1 ] ],
           [ [ "nail", 12 ] ],
-          [ [ "sheet", 4 ], [ "blanket", 2 ], [ "down_blanket", 2 ], [ "fur_blanket", 2 ] ]
+          [ [ "pipe", 8 ] ],
+          [ [ "sheet_metal", 2 ] ]
         ]
       }
     }
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_1_beds_makeshift_W1",
     "description": "Let's furnish the west bedroom with a makeshift bed.",
     "category": "CC_BUILDING",
@@ -434,18 +458,28 @@
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],
         "components": [
-          [ [ "sheet_metal", 2 ] ],
-          [ [ "pipe", 8 ] ],
-          [ [ "lock", 1 ] ],
           [ [ "2x4", 8 ] ],
+          [
+            [ "blanket", 2 ],
+            [ "down_blanket", 2 ],
+            [ "fur_blanket", 2 ],
+            [ "quilt", 2 ],
+            [ "quilt_patchwork", 2 ],
+            [ "sheet", 4 ],
+            [ "sleeping_bag", 2 ],
+            [ "sleeping_bag_fur", 2 ]
+          ],
+          [ [ "lock", 1 ] ],
           [ [ "nail", 12 ] ],
-          [ [ "sheet", 4 ], [ "blanket", 2 ], [ "down_blanket", 2 ], [ "fur_blanket", 2 ] ]
+          [ [ "pipe", 8 ] ],
+          [ [ "sheet_metal", 2 ] ]
         ]
       }
     }
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_1_beds_makeshift_W2",
     "description": "Let's furnish the west bedroom with a makeshift bed.",
     "category": "CC_BUILDING",
@@ -464,18 +498,28 @@
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],
         "components": [
-          [ [ "sheet_metal", 2 ] ],
-          [ [ "pipe", 8 ] ],
-          [ [ "lock", 1 ] ],
           [ [ "2x4", 8 ] ],
+          [
+            [ "blanket", 2 ],
+            [ "down_blanket", 2 ],
+            [ "fur_blanket", 2 ],
+            [ "quilt", 2 ],
+            [ "quilt_patchwork", 2 ],
+            [ "sheet", 4 ],
+            [ "sleeping_bag", 2 ],
+            [ "sleeping_bag_fur", 2 ]
+          ],
+          [ [ "lock", 1 ] ],
           [ [ "nail", 12 ] ],
-          [ [ "sheet", 4 ], [ "blanket", 2 ], [ "down_blanket", 2 ], [ "fur_blanket", 2 ] ]
+          [ [ "pipe", 8 ] ],
+          [ [ "sheet_metal", 2 ] ]
         ]
       }
     }
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_1_beds_makeshift_W3",
     "description": "Let's furnish the west bedroom with makeshift beds.",
     "category": "CC_BUILDING",
@@ -494,18 +538,28 @@
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],
         "components": [
-          [ [ "sheet_metal", 2 ] ],
-          [ [ "pipe", 8 ] ],
-          [ [ "lock", 1 ] ],
           [ [ "2x4", 8 ] ],
+          [
+            [ "blanket", 2 ],
+            [ "down_blanket", 2 ],
+            [ "fur_blanket", 2 ],
+            [ "quilt", 2 ],
+            [ "quilt_patchwork", 2 ],
+            [ "sheet", 4 ],
+            [ "sleeping_bag", 2 ],
+            [ "sleeping_bag_fur", 2 ]
+          ],
+          [ [ "lock", 1 ] ],
           [ [ "nail", 12 ] ],
-          [ [ "sheet", 4 ], [ "blanket", 2 ], [ "down_blanket", 2 ], [ "fur_blanket", 2 ] ]
+          [ [ "pipe", 8 ] ],
+          [ [ "sheet_metal", 2 ] ]
         ]
       }
     }
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_1_bed_standard_SW",
     "description": "Let's furnish the southwest bedroom with a regular bed.",
     "category": "CC_BUILDING",
@@ -537,6 +591,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_1_bed_straw_SW",
     "description": "Let's furnish the southwest bedroom with a straw bed.",
     "category": "CC_BUILDING",
@@ -568,6 +623,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_1_bed_makeshift_SW",
     "description": "Let's furnish the southwest bedroom with a makeshift bed.",
     "category": "CC_BUILDING",
@@ -586,19 +642,29 @@
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "WRENCH" } ] ],
         "components": [
-          [ [ "sheet_metal", 2 ] ],
-          [ [ "pipe", 8 ] ],
-          [ [ "lock", 1 ] ],
           [ [ "2x4", 12 ] ],
-          [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ],
+          [
+            [ "blanket", 2 ],
+            [ "down_blanket", 2 ],
+            [ "fur_blanket", 2 ],
+            [ "quilt", 2 ],
+            [ "quilt_patchwork", 2 ],
+            [ "sheet", 4 ],
+            [ "sleeping_bag", 2 ],
+            [ "sleeping_bag_fur", 2 ]
+          ],
+          [ [ "lock", 1 ] ],
           [ [ "nail", 20 ] ],
-          [ [ "sheet", 4 ], [ "blanket", 2 ], [ "down_blanket", 2 ], [ "fur_blanket", 2 ] ]
+          [ [ "pipe", 8 ] ],
+          [ [ "sheet_metal", 2 ] ],
+          [ [ "wood_panel", 1 ], [ "wood_sheet", 1 ] ]
         ]
       }
     }
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_1_beds_standard_S1",
     "description": "Let's furnish the southern bedroom with regular beds.",
     "category": "CC_BUILDING",
@@ -630,6 +696,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_1_beds_straw_S1",
     "description": "Let's furnish the southern bedroom with straw beds.",
     "category": "CC_BUILDING",
@@ -661,6 +728,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_1_beds_makeshift_S1",
     "description": "Let's furnish the southern bedroom with makeshift beds.",
     "category": "CC_BUILDING",
@@ -679,19 +747,29 @@
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "WRENCH" } ] ],
         "components": [
-          [ [ "sheet_metal", 4 ] ],
-          [ [ "pipe", 16 ] ],
-          [ [ "lock", 2 ] ],
           [ [ "2x4", 20 ] ],
-          [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ],
+          [
+            [ "blanket", 4 ],
+            [ "down_blanket", 4 ],
+            [ "fur_blanket", 4 ],
+            [ "quilt", 4 ],
+            [ "quilt_patchwork", 4 ],
+            [ "sheet", 8 ],
+            [ "sleeping_bag", 4 ],
+            [ "sleeping_bag_fur", 4 ]
+          ],
+          [ [ "lock", 2 ] ],
           [ [ "nail", 32 ] ],
-          [ [ "sheet", 8 ], [ "blanket", 4 ], [ "down_blanket", 4 ], [ "fur_blanket", 4 ] ]
+          [ [ "pipe", 16 ] ],
+          [ [ "sheet_metal", 4 ] ],
+          [ [ "wood_panel", 1 ], [ "wood_sheet", 1 ] ]
         ]
       }
     }
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_1_beds_standard_S2",
     "description": "Let's furnish the southern bedroom with regular beds.",
     "category": "CC_BUILDING",
@@ -722,6 +800,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_1_beds_straw_S2",
     "description": "Let's furnish the southern bedroom with straw beds.",
     "category": "CC_BUILDING",
@@ -751,6 +830,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_1_beds_makeshift_S2",
     "description": "Let's furnish the southern bedroom with makeshift beds.",
     "category": "CC_BUILDING",
@@ -769,18 +849,28 @@
         "tools": [  ],
         "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH" } ] ],
         "components": [
-          [ [ "sheet_metal", 4 ] ],
-          [ [ "pipe", 16 ] ],
-          [ [ "lock", 2 ] ],
           [ [ "2x4", 16 ] ],
+          [
+            [ "blanket", 4 ],
+            [ "down_blanket", 4 ],
+            [ "fur_blanket", 4 ],
+            [ "quilt", 4 ],
+            [ "quilt_patchwork", 4 ],
+            [ "sheet", 8 ],
+            [ "sleeping_bag", 4 ],
+            [ "sleeping_bag_fur", 4 ]
+          ],
+          [ [ "lock", 2 ] ],
           [ [ "nail", 24 ] ],
-          [ [ "sheet", 8 ], [ "blanket", 4 ], [ "down_blanket", 4 ], [ "fur_blanket", 4 ] ]
+          [ [ "pipe", 16 ] ],
+          [ [ "sheet_metal", 4 ] ]
         ]
       }
     }
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_1_diningroom",
     "description": "Let's make a dining area.",
     "category": "CC_BUILDING",
@@ -804,6 +894,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_1_livingroom",
     "description": "Let's make a living room area.",
     "category": "CC_BUILDING",
@@ -832,6 +923,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_1_pantry",
     "description": "Let's build some pantry storage.",
     "category": "CC_BUILDING",
@@ -855,6 +947,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_1_craftspot",
     "description": "Let's build a work bench.",
     "category": "CC_BUILDING",
@@ -878,6 +971,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_shelter_1_radio",
     "description": "Let's set up a radio tower to improve our recruitment efforts.",
     "category": "CC_BUILDING",

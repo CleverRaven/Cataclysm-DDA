@@ -1,12 +1,17 @@
+#include <iosfwd>
+#include <regex>
 #include <string>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
+#include "calendar.h"
+#include "cata_catch.h"
 #include "creature.h"
 #include "game_constants.h"
 #include "options.h"
+#include "output.h"
 #include "player.h"
 #include "player_helpers.h"
+#include "string_formatter.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -52,7 +57,7 @@ static int kcal_speed_penalty_at_bmi( player &dummy, float bmi )
 static std::string weight_string_at_bmi( player &dummy, float bmi )
 {
     set_player_bmi( dummy, bmi );
-    return dummy.get_weight_string();
+    return remove_color_tags( dummy.get_weight_string() );
 }
 
 // Return `bodyweight` in kilograms for a player at the given body mass index.
@@ -81,7 +86,8 @@ static float metabolic_rate_with_mutation( player &dummy, const std::string &tra
 static int bmr_at_act_level( player &dummy, float activity_level )
 {
     dummy.reset_activity_level();
-    dummy.increase_activity_level( activity_level );
+    dummy.update_body( calendar::turn, calendar::turn );
+    dummy.set_activity_level( activity_level );
 
     return dummy.get_bmr();
 }
@@ -410,92 +416,67 @@ TEST_CASE( "size and height determine body weight", "[biometrics][bodyweight]" )
 
 }
 
-TEST_CASE( "activity level reset, increase and decrease", "[biometrics][activity]" )
+// Return a string with multiple consecutive spaces replaced with a single space
+static std::string condensed_spaces( const std::string &text )
 {
-    // Activity level is a floating-point number, but only set to discrete values:
-    //
-    // NO_EXERCISE = 1.2f;
-    // LIGHT_EXERCISE = 1.375f;
-    // MODERATE_EXERCISE = 1.55f;
-    // ACTIVE_EXERCISE = 1.725f;
-    // EXTRA_EXERCISE = 1.9f;
+    std::regex spaces( " +" );
+    return std::regex_replace( text, spaces, " " );
+}
 
-    // Functions tested:
-    // activity_level_str (return string constant for each range)
-    // reset_activity_level (to NO_EXERCISE)
-    // increase_activity_level (only if greater than current)
-    // decrease_activity_level (only if less than current)
+// Make avatar have a given activity level for a certain time, returning to NO_EXERCISE when done
+static void test_activity_duration( avatar &dummy, const float at_level,
+                                    const time_duration &how_long )
+{
+    // Pass time at this level, updating body each turn
+    for( int turn = 0; turn < to_turns<int>( how_long ); ++turn ) {
+        // Make sure activity level persists (otherwise may be reset after 5 minutes)
+        dummy.set_activity_level( at_level );
+        calendar::turn += 1_turns;
+        dummy.update_body();
+    }
+}
+
+TEST_CASE( "activity levels and calories in daily diary", "[avatar][biometrics][activity][diary]" )
+{
+    // Typical spring start, day 61
+    calendar::turn = calendar::turn_zero + 60_days;
 
     avatar dummy;
+    clear_character( dummy );
 
-    SECTION( "reset activity level to NO_EXERCISE" ) {
-        // Start at no exercise
-        dummy.reset_activity_level();
-        CHECK( dummy.activity_level_str() == "NO_EXERCISE" );
-        // Increase and confirm
-        dummy.increase_activity_level( MODERATE_EXERCISE );
-        CHECK( dummy.activity_level_str() == "MODERATE_EXERCISE" );
-        // Reset back and ensure it worked
-        dummy.reset_activity_level();
-        CHECK( dummy.activity_level_str() == "NO_EXERCISE" );
+    SECTION( "shows all zero at start of day 61" ) {
+        CHECK( condensed_spaces( dummy.total_daily_calories_string() ) ==
+               "<color_c_white> Minutes at each exercise level Calories per day</color>\n"
+               "<color_c_yellow> Day None Light Moderate Brisk Active Extra Gained Spent Total</color>\n"
+               "<color_c_light_gray> 61 0 0 0 0 0 0 0 0</color><color_c_light_gray> 0</color>\n" );
     }
 
-    SECTION( "increase_activity_level" ) {
-        // Start at the lowest level
+    SECTION( "shows time at each activity level for the current day" ) {
         dummy.reset_activity_level();
-        REQUIRE( dummy.activity_level_str() == "NO_EXERCISE" );
+        test_activity_duration( dummy, NO_EXERCISE, 59_minutes );
+        test_activity_duration( dummy, LIGHT_EXERCISE, 45_minutes );
+        test_activity_duration( dummy, MODERATE_EXERCISE, 30_minutes );
+        test_activity_duration( dummy, BRISK_EXERCISE, 20_minutes );
+        test_activity_duration( dummy, ACTIVE_EXERCISE, 15_minutes );
+        test_activity_duration( dummy, EXTRA_EXERCISE, 10_minutes );
+        test_activity_duration( dummy, NO_EXERCISE, 1_minutes );
 
-        // Increase level a couple times
-        dummy.increase_activity_level( LIGHT_EXERCISE );
-        CHECK( dummy.activity_level_str() == "LIGHT_EXERCISE" );
-        dummy.increase_activity_level( MODERATE_EXERCISE );
-        CHECK( dummy.activity_level_str() == "MODERATE_EXERCISE" );
-        // Cannot 'increase' to lower level
-        dummy.increase_activity_level( LIGHT_EXERCISE );
-        CHECK( dummy.activity_level_str() == "MODERATE_EXERCISE" );
-        dummy.increase_activity_level( NO_EXERCISE );
-        CHECK( dummy.activity_level_str() == "MODERATE_EXERCISE" );
-        // Increase to highest level
-        dummy.increase_activity_level( ACTIVE_EXERCISE );
-        CHECK( dummy.activity_level_str() == "ACTIVE_EXERCISE" );
-        dummy.increase_activity_level( EXTRA_EXERCISE );
-        CHECK( dummy.activity_level_str() == "EXTRA_EXERCISE" );
-        // Cannot increase beyond the highest
-        dummy.increase_activity_level( EXTRA_EXERCISE );
-        CHECK( dummy.activity_level_str() == "EXTRA_EXERCISE" );
+        int expect_gained_kcal = 1282;
+        int expect_net_kcal = 552;
+        int expect_spent_kcal = 730;
 
-    }
-
-    SECTION( "decrease_activity_level" ) {
-        // Start at the highest level
-        dummy.reset_activity_level();
-        dummy.increase_activity_level( EXTRA_EXERCISE );
-        REQUIRE( dummy.activity_level_str() == "EXTRA_EXERCISE" );
-
-        // Decrease level a couple times
-        dummy.decrease_activity_level( ACTIVE_EXERCISE );
-        CHECK( dummy.activity_level_str() == "ACTIVE_EXERCISE" );
-        dummy.decrease_activity_level( MODERATE_EXERCISE );
-        CHECK( dummy.activity_level_str() == "MODERATE_EXERCISE" );
-        // Cannot 'decrease' to higher level
-        dummy.decrease_activity_level( EXTRA_EXERCISE );
-        CHECK( dummy.activity_level_str() == "MODERATE_EXERCISE" );
-        dummy.decrease_activity_level( ACTIVE_EXERCISE );
-        CHECK( dummy.activity_level_str() == "MODERATE_EXERCISE" );
-        // Decrease to lowest level
-        dummy.decrease_activity_level( LIGHT_EXERCISE );
-        CHECK( dummy.activity_level_str() == "LIGHT_EXERCISE" );
-        dummy.decrease_activity_level( NO_EXERCISE );
-        CHECK( dummy.activity_level_str() == "NO_EXERCISE" );
-        // Cannot decrease below lowest
-        dummy.decrease_activity_level( NO_EXERCISE );
-        CHECK( dummy.activity_level_str() == "NO_EXERCISE" );
+        CHECK( condensed_spaces( dummy.total_daily_calories_string() ) == string_format(
+                   "<color_c_white> Minutes at each exercise level Calories per day</color>\n"
+                   "<color_c_yellow> Day None Light Moderate Brisk Active Extra Gained Spent Total</color>\n"
+                   "<color_c_light_gray> 61 60 45 30 20 20 5 %d %d</color><color_c_light_blue> %d</color>\n",
+                   expect_gained_kcal, expect_spent_kcal, expect_net_kcal ) );
     }
 }
 
 TEST_CASE( "mutations may affect character metabolic rate", "[biometrics][metabolism]" )
 {
     avatar dummy;
+    dummy.set_body();
 
     // Metabolic base rate uses PLAYER_HUNGER_RATE from game_balance.json, described as "base hunger
     // rate per 5 minutes". With no metabolism-affecting mutations, metabolism should be this value.
@@ -532,6 +513,7 @@ TEST_CASE( "mutations may affect character metabolic rate", "[biometrics][metabo
 TEST_CASE( "basal metabolic rate with various size and metabolism", "[biometrics][bmr]" )
 {
     avatar dummy;
+    dummy.set_body();
 
     // Basal metabolic rate depends on size (height), bodyweight (BMI), and activity level
     // scaled by metabolic base rate. Assume default metabolic rate.
@@ -551,27 +533,27 @@ TEST_CASE( "basal metabolic rate with various size and metabolism", "[biometrics
         REQUIRE( dummy.get_size() == creature_size::medium );
 
         SECTION( "normal metabolism" ) {
-            CHECK( 2087 == bmr_at_act_level( dummy, NO_EXERCISE ) );
-            CHECK( 2696 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
-            CHECK( 3304 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
+            CHECK( 1738 == bmr_at_act_level( dummy, NO_EXERCISE ) );
+            CHECK( 6952 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
+            CHECK( 17380 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
         }
 
         SECTION( "very fast metabolism" ) {
             set_single_trait( dummy, "HUNGER2" );
             REQUIRE( dummy.metabolic_rate_base() == 2.0f );
 
-            CHECK( 4174 == bmr_at_act_level( dummy, NO_EXERCISE ) );
-            CHECK( 5391 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
-            CHECK( 6608 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
+            CHECK( 3476 == bmr_at_act_level( dummy, NO_EXERCISE ) );
+            CHECK( 13904 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
+            CHECK( 34760 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
         }
 
         SECTION( "very slow (cold-blooded) metabolism" ) {
             set_single_trait( dummy, "COLDBLOOD3" );
             REQUIRE( dummy.metabolic_rate_base() == 0.5f );
 
-            CHECK( 1044 == bmr_at_act_level( dummy, NO_EXERCISE ) );
-            CHECK( 1348 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
-            CHECK( 1652 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
+            CHECK( 869 == bmr_at_act_level( dummy, NO_EXERCISE ) );
+            CHECK( 3476 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
+            CHECK( 8690 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
         }
     }
 
@@ -579,18 +561,18 @@ TEST_CASE( "basal metabolic rate with various size and metabolism", "[biometrics
         set_single_trait( dummy, "SMALL" );
         REQUIRE( dummy.get_size() == creature_size::small );
 
-        CHECK( 1262 == bmr_at_act_level( dummy, NO_EXERCISE ) );
-        CHECK( 1630 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
-        CHECK( 1998 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
+        CHECK( 1051 == bmr_at_act_level( dummy, NO_EXERCISE ) );
+        CHECK( 4204 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
+        CHECK( 10510 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
     }
 
     SECTION( "large body size" ) {
         set_single_trait( dummy, "LARGE" );
         REQUIRE( dummy.get_size() == creature_size::large );
 
-        CHECK( 3062 == bmr_at_act_level( dummy, NO_EXERCISE ) );
-        CHECK( 3955 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
-        CHECK( 4848 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
+        CHECK( 2551 == bmr_at_act_level( dummy, NO_EXERCISE ) );
+        CHECK( 10204 == bmr_at_act_level( dummy, MODERATE_EXERCISE ) );
+        CHECK( 25510 == bmr_at_act_level( dummy, EXTRA_EXERCISE ) );
     }
 }
 

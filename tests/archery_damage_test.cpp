@@ -11,15 +11,14 @@
  *
  * The concept is to bracket these threshods with various bows using standard hunting loadouts.
  */
-
+#include <iosfwd>
 #include <memory>
+#include <set>
 #include <string>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "damage.h"
-#include "game.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
@@ -28,25 +27,27 @@
 #include "point.h"
 #include "projectile.h"
 #include "type_id.h"
+#include "value_ptr.h"
 
 // In short, a bow should never destroy a wall, pretty simple.
 static void test_projectile_hitting_wall( const std::string &target_type, bool smashable,
         dealt_projectile_attack &attack, const std::string &weapon_type )
 {
     static const tripoint target_point{ 5, 5, 0 };
+    map &here = get_map();
     for( int i = 0; i < 10; ++i ) {
         projectile projectile_copy = attack.proj;
-        g->m.set( target_point, ter_id( target_type ), furn_id( "f_null" ) );
+        here.set( target_point, ter_id( target_type ), furn_id( "f_null" ) );
         CAPTURE( projectile_copy.impact.total_damage() );
-        g->m.shoot( target_point, projectile_copy, false );
+        here.shoot( target_point, projectile_copy, false );
         CAPTURE( target_type );
         CAPTURE( weapon_type );
         CAPTURE( ter_id( target_type ).obj().name() );
-        CAPTURE( g->m.ter( target_point ).obj().name() );
+        CAPTURE( here.ter( target_point ).obj().name() );
         if( smashable ) {
-            CHECK( g->m.ter( target_point ) != ter_id( target_type ) );
+            CHECK( here.ter( target_point ) != ter_id( target_type ) );
         } else {
-            CHECK( g->m.ter( target_point ) == ter_id( target_type ) );
+            CHECK( here.ter( target_point ) == ter_id( target_type ) );
         }
     }
 }

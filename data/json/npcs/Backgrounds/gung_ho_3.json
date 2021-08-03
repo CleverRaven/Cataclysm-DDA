@@ -24,7 +24,7 @@
   {
     "id": "BGSS_GUNG_HO_3_FEMA1",
     "type": "talk_topic",
-    "dynamic_line": "Lord no.  I'll be fucked if I let a kid in a too-big uniform tell me what the hell to do.  I had my Hummer loaded out and ready to go offroading, I had a ton of gas, and I even had as many rifles as the border was gonna let me bring over.  I didn't know what I was supposed to be running from, but I sure as shit didn't run.  ",
+    "dynamic_line": "Lord no.  I'll be fucked if I let a kid in a too-big uniform tell me what the hell to do.  I had my Hummer loaded out and ready to go offroading, I had a ton of gas, and I even had as many rifles as the border was gonna let me bring over.  I didn't know what I was supposed to be running from, but I sure as shit didn't run.",
     "responses": [
       { "text": "Where did you go then?", "topic": "BGSS_GUNG_HO_3_STORY2" },
       { "text": "Tell me about your son.", "topic": "BGSS_GUNG_HO_3_SON1" },

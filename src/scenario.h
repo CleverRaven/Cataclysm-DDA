@@ -2,19 +2,17 @@
 #ifndef CATA_SRC_SCENARIO_H
 #define CATA_SRC_SCENARIO_H
 
-#include <algorithm>
+#include <iosfwd>
 #include <set>
 #include <string>
 #include <vector>
 
-#include "pldata.h"
-#include "string_id.h"
+#include "calendar.h"
 #include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
 class profession;
-
 template<typename T>
 class generic_factory;
 
@@ -50,7 +48,15 @@ class scenario
         std::string _map_extra;
         std::vector<mission_type_id> _missions;
 
+        bool _custom_start_date = false;
+        int _start_hour = 8;
+        int _start_day = 0;
+        season_type _start_season = SPRING;
+        int _start_year = 1;
+
         vproto_id _starting_vehicle = vproto_id::NULL_ID();
+
+        std::vector<std::pair<mongroup_id, float>> _surround_groups;
 
         void load( const JsonObject &jo, const std::string &src );
         bool scenario_traits_conflict_with_profession_traits( const profession &p ) const;
@@ -81,6 +87,18 @@ class scenario
         std::string start_name() const;
         int start_location_count() const;
         int start_location_targets_count() const;
+
+        bool custom_start_date() const;
+        bool is_random_hour() const;
+        bool is_random_day() const;
+        bool is_random_year() const;
+        int start_hour() const;
+        // Returns day of the season this scenario starts on
+        int day_of_season() const;
+        // Returns the day of the year this scenario starts on
+        int start_day() const;
+        season_type start_season() const;
+        int start_year() const;
 
         vproto_id vehicle() const;
 
@@ -115,6 +133,7 @@ class scenario
         bool can_pick( const scenario &current_scenario, int points ) const;
 
         const std::vector<mission_type_id> &missions() const;
+        const std::vector<std::pair<mongroup_id, float>> &surround_groups() const;
 
 };
 
@@ -128,5 +147,8 @@ struct scen_blacklist {
 };
 
 void reset_scenarios_blacklist();
+
+const scenario *get_scenario();
+void set_scenario( const scenario *new_scenario );
 
 #endif // CATA_SRC_SCENARIO_H

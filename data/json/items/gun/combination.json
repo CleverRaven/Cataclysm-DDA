@@ -16,13 +16,14 @@
     "ammo": [ "3006" ],
     "weight": "4200 g",
     "volume": "3 L",
+    "longest_side": "100 cm",
     "bashing": 12,
     "to_hit": -1,
     "durability": 8,
     "blackpowder_tolerance": 56,
     "clip_size": 1,
     "loudness": 25,
-    "barrel_length": "500 ml",
+    "barrel_volume": "500 ml",
     "built_in_mods": [ "combination_gun_shotgun" ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "valid_mod_locations": [
@@ -38,6 +39,6 @@
       [ "underbarrel", 1 ],
       [ "rail mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 1 } } ]
   }
 ]

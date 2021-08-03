@@ -64,6 +64,18 @@
     "//": "common talk responses",
     "id": [ "TALK_REFUGEE_Stan_2", "TALK_REFUGEE_Stan_Background", "TALK_REFUGEE_Stan_Situation" ],
     "responses": [
+      {
+        "text": "I'm trying to put a cleanup crew together to tidy up the back room.  Can you help?",
+        "condition": {
+          "and": [
+            { "u_has_mission": "MISSION_REFUGEE_Boris_CLEANUP" },
+            {
+              "not": { "npc_has_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" }
+            }
+          ]
+        },
+        "topic": "TALK_REFUGEE_Refuse_Boris_Mission_1"
+      },
       { "text": "Do you want to talk about your story?", "topic": "TALK_REFUGEE_Stan_Background" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Stan_Situation" }
     ]
@@ -76,7 +88,7 @@
       "type": "general",
       "context": "meeting",
       "value": "yes",
-      "yes": [ "Hi.", "Hello.", "Hm?  Oh, hi.", "...Hi." ],
+      "yes": [ "Hi.", "Hello.", "Hm?  Oh, hi.", "…Hi." ],
       "no": "Hello.  I'm sorry, if we've met before, I don't really remember.  I'm… I'm Stan."
     },
     "responses": [

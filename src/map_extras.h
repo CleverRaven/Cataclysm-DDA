@@ -3,6 +3,7 @@
 #define CATA_SRC_MAP_EXTRAS_H
 
 #include <cstdint>
+#include <iosfwd>
 #include <string>
 #include <unordered_map>
 
@@ -14,8 +15,8 @@
 class JsonObject;
 class map;
 struct tripoint;
-template<typename T> struct enum_traits;
 template<typename T> class generic_factory;
+template<typename T> struct enum_traits;
 
 enum class map_extra_method : int {
     null = 0,
@@ -67,6 +68,7 @@ using FunctionMap = std::unordered_map<std::string, map_extra_pointer>;
 
 map_extra_pointer get_function( const std::string &name );
 FunctionMap all_functions();
+std::vector<std::string> get_all_function_names();
 
 void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs_sub );
 void apply_function( const std::string &id, map &m, const tripoint &abs_sub );

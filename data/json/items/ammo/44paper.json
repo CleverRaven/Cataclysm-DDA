@@ -5,7 +5,7 @@
     "name": { "str": ".44 paper cartridge" },
     "description": "A paper cartridge containing a premeasured amount of black powder and a .44 projectile.  Used by the Colt M1860 Army.",
     "weight": "7 g",
-    "volume": "250 ml",
+    "volume": "20 ml",
     "price": 350,
     "price_postapoc": 1000,
     "material": [ "paper", "powder", "lead" ],

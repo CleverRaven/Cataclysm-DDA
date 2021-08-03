@@ -20,15 +20,18 @@
 #    include <SDL_mixer.h>
 #endif
 
+#include "cached_options.h"
 #include "debug.h"
 #include "init.h"
 #include "json.h"
 #include "loading_ui.h"
+#include "messages.h"
 #include "options.h"
 #include "path_info.h"
 #include "rng.h"
 #include "sdl_wrappers.h"
 #include "sounds.h"
+#include "units.h"
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -44,8 +47,8 @@ struct sound_effect_resource {
     std::unique_ptr<Mix_Chunk, deleter> chunk;
 };
 struct sound_effect {
-    int volume;
-    int resource_id;
+    int volume = 0;
+    int resource_id = 0;
 };
 struct sfx_resources_t {
     std::vector<sound_effect_resource> resource;
@@ -134,10 +137,14 @@ void shutdown_sound()
     Mix_CloseAudio();
 }
 
-void musicFinished();
+static void musicFinished();
 
 static void play_music_file( const std::string &filename, int volume )
 {
+    if( test_mode ) {
+        return;
+    }
+
     if( !check_sound( volume ) ) {
         return;
     }
@@ -159,6 +166,10 @@ static void play_music_file( const std::string &filename, int volume )
 /** Callback called when we finish playing music. */
 void musicFinished()
 {
+    if( test_mode ) {
+        return;
+    }
+
     Mix_HaltMusic();
     Mix_FreeMusic( current_music );
     current_music = nullptr;
@@ -224,6 +235,10 @@ void play_music( const std::string &playlist )
 
 void stop_music()
 {
+    if( test_mode ) {
+        return;
+    }
+
     Mix_FreeMusic( current_music );
     Mix_HaltMusic();
     current_music = nullptr;
@@ -235,6 +250,10 @@ void stop_music()
 
 void update_music_volume()
 {
+    if( test_mode ) {
+        return;
+    }
+
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
 
     if( !sounds::sound_enabled ) {
@@ -442,6 +461,12 @@ static Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch )
 
 void sfx::play_variant_sound( const std::string &id, const std::string &variant, int volume )
 {
+    if( test_mode ) {
+        return;
+    }
+
+    add_msg_debug( debugmode::DF_SOUND, "sound id: %s, variant: %s, volume: %d ", id, variant, volume );
+
     if( !check_sound( volume ) ) {
         return;
     }
@@ -464,8 +489,14 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
 }
 
 void sfx::play_variant_sound( const std::string &id, const std::string &variant, int volume,
-                              int angle, double pitch_min, double pitch_max )
+                              units::angle angle, double pitch_min, double pitch_max )
 {
+    if( test_mode ) {
+        return;
+    }
+
+    add_msg_debug( debugmode::DF_SOUND, "sound id: %s, variant: %s, volume: %d ", id, variant, volume );
+
     if( !check_sound( volume ) ) {
         return;
     }
@@ -486,11 +517,19 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
     int channel = Mix_PlayChannel( static_cast<int>( sfx::channel::any ), effect_to_play, 0 );
     bool failed = ( channel == -1 );
     if( !failed && is_pitched ) {
-        failed = ( Mix_RegisterEffect( channel, empty_effect, cleanup_when_channel_finished,
-                                       effect_to_play ) == 0 );
+        if( Mix_RegisterEffect( channel, empty_effect, cleanup_when_channel_finished,
+                                effect_to_play ) == 0 ) {
+            // To prevent use after free, stop the playback right now.
+            failed = true;
+            dbg( D_WARNING ) << "Mix_RegisterEffect failed: " << Mix_GetError();
+            Mix_HaltChannel( channel );
+        }
     }
     if( !failed ) {
-        failed = ( Mix_SetPosition( channel, static_cast<Sint16>( angle ), 1 ) == 0 );
+        if( Mix_SetPosition( channel, static_cast<Sint16>( to_degrees( angle ) ), 1 ) == 0 ) {
+            // Not critical
+            dbg( D_INFO ) << "Mix_SetPosition failed: " << Mix_GetError();
+        }
     }
     if( failed ) {
         dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();
@@ -503,6 +542,9 @@ void sfx::play_variant_sound( const std::string &id, const std::string &variant,
 void sfx::play_ambient_variant_sound( const std::string &id, const std::string &variant, int volume,
                                       channel channel, int fade_in_duration, double pitch, int loops )
 {
+    if( test_mode ) {
+        return;
+    }
     if( !check_sound( volume ) ) {
         return;
     }
@@ -530,8 +572,12 @@ void sfx::play_ambient_variant_sound( const std::string &id, const std::string &
         failed = ( Mix_PlayChannel( ch, effect_to_play, loops ) == -1 );
     }
     if( !failed && is_pitched ) {
-        failed = ( Mix_RegisterEffect( ch, empty_effect, cleanup_when_channel_finished,
-                                       effect_to_play ) == 0 );
+        if( Mix_RegisterEffect( ch, empty_effect, cleanup_when_channel_finished, effect_to_play ) == 0 ) {
+            // To prevent use after free, stop the playback right now.
+            failed = true;
+            dbg( D_WARNING ) << "Mix_RegisterEffect failed: " << Mix_GetError();
+            Mix_HaltChannel( ch );
+        }
     }
     if( failed ) {
         dbg( D_ERROR ) << "Failed to play sound effect: " << Mix_GetError();

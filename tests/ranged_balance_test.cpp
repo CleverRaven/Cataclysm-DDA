@@ -1,6 +1,6 @@
 #include <algorithm>
-#include <array>
 #include <cstdlib>
+#include <functional>
 #include <list>
 #include <memory>
 #include <ostream>
@@ -11,23 +11,27 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "creature.h"
 #include "dispersion.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
 #include "map_helpers.h"
 #include "npc.h"
-#include "player.h"
+#include "pimpl.h"
+#include "player_helpers.h"
 #include "point.h"
+#include "ret_val.h"
 #include "test_statistics.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 
 using firing_statistics = statistics<bool>;
 
@@ -73,62 +77,15 @@ std::ostream &operator<<( std::ostream &stream, const dispersion_sources &source
     return stream;
 }
 
-static void arm_shooter( npc &shooter, const std::string &gun_type,
-                         const std::vector<std::string> &mods = {},
-                         const std::string &ammo_type = "" )
-{
-    shooter.remove_weapon();
-    if( !shooter.is_wearing( itype_id( "backpack" ) ) ) {
-        shooter.worn.push_back( item( "backpack" ) );
-    }
-
-    const itype_id &gun_id{ itype_id( gun_type ) };
-    // Give shooter a loaded gun of the requested type.
-    item &gun = shooter.i_add( item( gun_id ) );
-    itype_id ammo_id;
-    // if ammo is not supplied we want the default
-    if( ammo_type.empty() ) {
-        if( gun.ammo_default().is_null() ) {
-            ammo_id = item( gun.magazine_default() ).ammo_default();
-        } else {
-            ammo_id = gun.ammo_default();
-        }
-    } else {
-        ammo_id = itype_id( ammo_type );
-    }
-    const ammotype &type_of_ammo = item::find_type( ammo_id )->ammo->type;
-    if( gun.magazine_integral() ) {
-        item &ammo = shooter.i_add( item( ammo_id, calendar::turn, gun.ammo_capacity( type_of_ammo ) ) );
-        REQUIRE( gun.is_reloadable_with( ammo_id ) );
-        REQUIRE( shooter.can_reload( gun, ammo_id ) );
-        gun.reload( shooter, item_location( shooter, &ammo ), gun.ammo_capacity( type_of_ammo ) );
-    } else {
-        const itype_id magazine_id = gun.magazine_default();
-        item &magazine = shooter.i_add( item( magazine_id ) );
-        item &ammo = shooter.i_add( item( ammo_id, calendar::turn,
-                                          magazine.ammo_capacity( type_of_ammo ) ) );
-        REQUIRE( magazine.is_reloadable_with( ammo_id ) );
-        REQUIRE( shooter.can_reload( magazine, ammo_id ) );
-        magazine.reload( shooter, item_location( shooter, &ammo ), magazine.ammo_capacity( type_of_ammo ) );
-        gun.reload( shooter, item_location( shooter, &magazine ), magazine.ammo_capacity( type_of_ammo ) );
-    }
-    for( const auto &mod : mods ) {
-        gun.put_in( item( itype_id( mod ) ), item_pocket::pocket_type::MOD );
-    }
-    shooter.wield( gun );
-}
-
 static void equip_shooter( npc &shooter, const std::vector<std::string> &apparel )
 {
     CHECK( !shooter.in_vehicle );
     shooter.worn.clear();
-    shooter.inv.clear();
+    shooter.inv->clear();
     for( const std::string &article : apparel ) {
         shooter.wear_item( item( article ) );
     }
 }
-
-std::array<double, 5> accuracy_levels = {{ accuracy_grazing, accuracy_standard, accuracy_goodhit, accuracy_critical, accuracy_headshot }};
 
 static firing_statistics firing_test( const dispersion_sources &dispersion,
                                       const int range, const Threshold &threshold )
@@ -160,7 +117,8 @@ static std::vector<firing_statistics> firing_test( const dispersion_sources &dis
         const int range, const std::vector< Threshold > &thresholds )
 {
     std::vector<firing_statistics> firing_stats;
-    for( const Threshold pear : thresholds ) {
+    firing_stats.reserve( thresholds.size() );
+    for( const Threshold &pear : thresholds ) {
         firing_stats.push_back( firing_test( dispersion, range, pear ) );
     }
     return firing_stats;
@@ -232,7 +190,7 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
 static void test_fast_shooting( npc &shooter, const int moves, float hit_rate )
 {
     const int fast_shooting_range = 3;
-    const float hit_rate_cap = hit_rate + 0.3;
+    const float hit_rate_cap = hit_rate + 0.3f;
     const dispersion_sources dispersion = get_dispersion( shooter, moves );
     firing_statistics fast_stats = firing_test( dispersion, fast_shooting_range,
                                    Threshold( accuracy_standard, hit_rate ) );
@@ -258,7 +216,7 @@ static void assert_encumbrance( npc &shooter, int encumbrance )
 {
     for( const bodypart_id &bp : shooter.get_all_body_parts() ) {
         INFO( "Body Part: " << body_part_name( bp ) );
-        REQUIRE( shooter.encumb( bp->token ) == encumbrance );
+        REQUIRE( shooter.encumb( bp ) == encumbrance );
     }
 }
 
@@ -268,8 +226,9 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
 {
     clear_map();
     standard_npc shooter( "Shooter", shooter_pos, {}, 0, 8, 8, 8, 7 );
-    shooter.worn.push_back( item( "backpack" ) );
-    equip_shooter( shooter, { "bastsandals", "armguard_chitin", "armor_chitin", "beekeeping_gloves", "fencing_mask" } );
+    shooter.set_body();
+    shooter.worn.emplace_back( "backpack" );
+    equip_shooter( shooter, { "bastsandals", "armguard_chitin", "armor_chitin", "beekeeping_gloves", "mask_guy_fawkes", "cowboy_hat" } );
     assert_encumbrance( shooter, 10 );
 
     SECTION( "an unskilled shooter with an inaccurate pistol" ) {
@@ -308,6 +267,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
 {
     clear_map();
     standard_npc shooter( "Shooter", shooter_pos, {}, 5, 10, 10, 10, 10 );
+    shooter.set_body();
     equip_shooter( shooter, { "cloak_wool", "footrags_wool", "gloves_wraps_fur", "glasses_safety", "balclava" } );
     assert_encumbrance( shooter, 5 );
 
@@ -347,6 +307,7 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
 {
     clear_map();
     standard_npc shooter( "Shooter", shooter_pos, {}, 10, 20, 20, 20, 20 );
+    shooter.set_body();
     equip_shooter( shooter, { } );
     assert_encumbrance( shooter, 0 );
 
@@ -366,7 +327,7 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
         test_fast_shooting( shooter, 50, 0.4 );
     }
     SECTION( "an expert shooter with an excellent shotgun" ) {
-        arm_shooter( shooter, "m1014", { "holo_sight" } );
+        arm_shooter( shooter, "mossberg_930", { "holo_sight" } );
         test_shooting_scenario( shooter, 18, 24, 124 );
         test_fast_shooting( shooter, 60, 0.5 );
     }

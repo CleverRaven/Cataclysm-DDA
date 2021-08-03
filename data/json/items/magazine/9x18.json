@@ -3,8 +3,8 @@
     "id": "makarovmag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Makarov PM magazine" },
-    "description": "The standard magazine for the Pistolet Makarova, holds 8 rounds.",
+    "name": { "str": "PM 8-round magazine" },
+    "description": "A standard 8-round magazine for the Makarov pistol.",
     "weight": "60 g",
     "volume": "250 ml",
     "price": 2300,
@@ -13,15 +13,14 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "9x18" ],
-    "capacity": 8,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9x18": 8 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9x18": 8 } } ]
   },
   {
     "id": "skorpion82mag",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
-    "name": { "str": "Skorpion Vz. 82 magazine" },
+    "name": { "str": "Skorpion Vz. 82 20-round magazine" },
     "description": "A standard 20-round magazine for the Skorpion Vz. 82, in 9x18mm Makarov.",
     "weight": "170 g",
     "volume": "500 ml",
@@ -31,8 +30,7 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "9x18" ],
-    "capacity": 20,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "9x18": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "9x18": 20 } } ]
   }
 ]

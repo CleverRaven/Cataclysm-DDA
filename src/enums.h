@@ -49,6 +49,26 @@ static constexpr aim_entry operator-( const aim_entry &lhs, const I &rhs )
     return static_cast<aim_entry>( static_cast<I>( lhs ) - rhs );
 }
 
+enum class bionic_ui_sort_mode : int {
+    NONE   = 0,
+    POWER  = 1,
+    NAME   = 2,
+    INVLET = 3,
+    nsort  = 4,
+};
+
+template<>
+struct enum_traits<bionic_ui_sort_mode> {
+    static constexpr bionic_ui_sort_mode last = bionic_ui_sort_mode::nsort;
+};
+
+// When bool is not enough. NONE, SOME or ALL
+enum class trinary : int {
+    NONE = 0,
+    SOME = 1,
+    ALL  = 2
+};
+
 enum class holiday : int {
     none = 0,
     new_year,
@@ -271,6 +291,11 @@ enum class layer_level : int {
     NUM_LAYER_LEVELS
 };
 
+template<>
+struct enum_traits<layer_level> {
+    static constexpr layer_level last = layer_level::NUM_LAYER_LEVELS;
+};
+
 inline layer_level &operator++( layer_level &l )
 {
     l = static_cast<layer_level>( static_cast<int>( l ) + 1 );
@@ -325,6 +350,7 @@ enum game_message_flags {
 /** Structure allowing a combination of `game_message_type` and `game_message_flags`.
  */
 struct game_message_params {
+    // NOLINTNEXTLINE(google-explicit-constructor)
     game_message_params( const game_message_type message_type ) : type( message_type ),
         flags( gmf_none ) {}
     game_message_params( const game_message_type message_type,
@@ -334,6 +360,50 @@ struct game_message_params {
     game_message_type type;
     /* Flags pertaining to the message */
     game_message_flags flags;
+};
+
+struct social_modifiers {
+    int lie = 0;
+    int persuade = 0;
+    int intimidate = 0;
+
+    social_modifiers &operator+=( const social_modifiers &other ) {
+        this->lie += other.lie;
+        this->persuade += other.persuade;
+        this->intimidate += other.intimidate;
+        return *this;
+    }
+    bool empty() const {
+        return this->lie != 0 || this->persuade != 0 || this->intimidate != 0;
+    }
+};
+
+enum MULTITILE_TYPE {
+    center,
+    corner,
+    edge,
+    t_connection,
+    end_piece,
+    unconnected,
+    open_,
+    broken,
+    num_multitile_types
+};
+
+enum class reachability_cache_quadrant : int {
+    NE, SE, NW, SW
+};
+
+template<>
+struct enum_traits<reachability_cache_quadrant> {
+    static constexpr reachability_cache_quadrant last = reachability_cache_quadrant::SW;
+    static constexpr int size = static_cast<int>( last ) + 1;
+
+    inline static reachability_cache_quadrant quadrant( bool S, bool W ) {
+        return static_cast<reachability_cache_quadrant>(
+                   ( static_cast<int>( W ) << 1 ) | static_cast<int>( S )
+               );
+    }
 };
 
 enum class monotonically : int {

@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_COMPUTER_SESSION_H
 #define CATA_SRC_COMPUTER_SESSION_H
 
+#include <iosfwd>
 #include <map>
-#include <string>
 #include <utility>
 #include <vector>
 
@@ -15,7 +15,7 @@ class player;
 class computer_session
 {
     public:
-        computer_session( computer &comp );
+        explicit computer_session( computer &comp );
 
         /** Handles player use of a computer */
         void use();
@@ -33,6 +33,13 @@ class computer_session
         /** Returns true if the player successfully hacks the computer. Security = -1 defaults to
          *  the main system security. */
         bool hack_attempt( player &p, int Security = -1 );
+
+        /**
+         * Checks whether the specified action can be activated (has any effect)
+         * @return True for actions that either have an effect or require no special conditions,
+                   otherwise false (e.g. false for COMPACT_UNLOCK if no locked doors are in range).
+        */
+        bool can_activate( computer_action action );
 
         // Called by use()
         void activate_function( computer_action action );

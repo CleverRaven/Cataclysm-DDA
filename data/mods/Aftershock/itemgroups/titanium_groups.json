@@ -1,0 +1,89 @@
+[
+  {
+    "//": "extension of vanilla itemgroups, all adding titanium",
+    "id": "jewelry_accessories",
+    "type": "item_group",
+    "items": [ [ "afs_titanium_watch", 35 ], [ "afs_titanium_tooth", 35 ], [ "afs_titanium_ring", 35 ] ]
+  },
+  {
+    "id": "rings_and_things",
+    "type": "item_group",
+    "items": [ [ "afs_titanium_watch", 35 ], [ "afs_titanium_ring", 35 ] ]
+  },
+  {
+    "id": "jewelry_back",
+    "type": "item_group",
+    "items": [ [ "afs_titanium_watch", 35 ], [ "afs_titanium_ring", 35 ] ]
+  },
+  {
+    "id": "jewelry_front",
+    "type": "item_group",
+    "items": [ [ "afs_titanium_watch", 35 ], [ "afs_titanium_ring", 35 ] ]
+  },
+  {
+    "id": "weapons",
+    "type": "item_group",
+    "items": [ [ "afs_titanium_bat", 40 ] ]
+  },
+  {
+    "id": "allsporting",
+    "type": "item_group",
+    "items": [ [ "afs_titanium_bat", 40 ] ]
+  },
+  {
+    "id": "sports",
+    "type": "item_group",
+    "items": [ [ "afs_titanium_bat", 40 ] ]
+  },
+  {
+    "id": "college_sports",
+    "type": "item_group",
+    "items": [ [ "afs_titanium_bat", 60 ] ]
+  },
+  {
+    "id": "supplies_mechanics",
+    "type": "item_group",
+    "items": [ [ "afs_titanium_frame", 5 ] ]
+  },
+  {
+    "id": "bikeshop_tools",
+    "type": "item_group",
+    "items": [ [ "afs_titanium_frame", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "steel_mill_foundry",
+    "items": [ [ "afs_titanium_small", 5 ], { "item": "afs_scrap_titanium", "prob": 5, "count": [ 1, 4 ] } ]
+  },
+  {
+    "id": "oa_ig_rd_metal_trash",
+    "type": "item_group",
+    "items": [ [ "afs_titanium_frame", 5 ], { "item": "afs_scrap_titanium", "prob": 10, "count": [ 2, 8 ] } ]
+  },
+  {
+    "id": "supplies_metal",
+    "type": "item_group",
+    "items": [
+      { "item": "afs_titanium_frame", "prob": 5 },
+      { "item": "afs_scrap_titanium", "prob": 5, "count": [ 2, 8 ] },
+      [ "afs_titanium_small", 5 ]
+    ]
+  },
+  {
+    "id": "clothing_watch",
+    "type": "item_group",
+    "items": [ { "item": "afs_titanium_watch", "prob": 50 } ]
+  },
+  {
+    "id": "accessory_ring",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ { "item": "afs_titanium_ring", "prob": 50 } ]
+  },
+  {
+    "id": "accessory_teeth",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [ [ "afs_titanium_tooth", 25 ] ]
+  }
+]

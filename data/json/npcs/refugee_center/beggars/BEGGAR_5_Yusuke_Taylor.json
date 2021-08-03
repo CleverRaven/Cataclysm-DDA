@@ -100,7 +100,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_5_FUR",
-    "dynamic_line": "Gross, isn't it? Feels like pubes.  I just started growing it everywhere a little while after the Cataclysm.  No idea what caused it.  I can't blame them for hating it, I hate it.",
+    "dynamic_line": "Gross, isn't it?  Feels like pubes.  I just started growing it everywhere a little while after the Cataclysm.  No idea what caused it.  I can't blame them for hating it, I hate it.",
     "responses": [
       { "text": "Why live out here?", "topic": "TALK_REFUGEE_BEGGAR_5_TALK2" },
       {

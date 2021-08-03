@@ -150,7 +150,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Draco_3",
-    "dynamic_line": "Oh you don't have time for all that, do you?  Well, I'll give you the short version.  I've gotten kinda tired of it in the telling.  Frankly, it's not as heroic, not as inspiring, not as tragic, and certainly not as funny as some of the tales around here.  But it's mine, ya know?  I'm a musician.  Guitar's my baby.  You like folk and the blues, friend?  Well, that was my bag and I sure could please my own ear with em, anyway.  Folks who's bein' generous might also say it pleased theirs.  Problem is, I seem to be between guitars right now, you know? Temporarily guitar-light, if you get my saying.  Problem is, in the run for my life, I had to use old Jasmine as a bit of a billy club.  Had to curb some rowdy dudes on my way here.  It was her or me, you understand?  You wouldn't begrudge a man breakin' his instrument to save his life, would ya?",
+    "dynamic_line": "Oh you don't have time for all that, do you?  Well, I'll give you the short version.  I've gotten kinda tired of it in the telling.  Frankly, it's not as heroic, not as inspiring, not as tragic, and certainly not as funny as some of the tales around here.  But it's mine, ya know?  I'm a musician.  Guitar's my baby.  You like folk and the blues, friend?  Well, that was my bag and I sure could please my own ear with em, anyway.  Folks who's bein' generous might also say it pleased theirs.  Problem is, I seem to be between guitars right now, you know?  Temporarily guitar-light, if you get my saying.  Problem is, in the run for my life, I had to use old Jasmine as a bit of a billy club.  Had to curb some rowdy dudes on my way here.  It was her or me, you understand?  You wouldn't begrudge a man breakin' his instrument to save his life, would ya?",
     "responses": [
       { "text": "I think I would've done the same.  Nobody around here has a guitar?", "topic": "TALK_REFUGEE_Draco_4" },
       { "text": "Yes, yes I would… you monster.", "topic": "TALK_DONE" }
@@ -291,7 +291,7 @@
     "id": "TALK_REFUGEE_Draco_9",
     "dynamic_line": "Say, I don't mean to get you in any trouble or nothing, if any folks still care about that, but you haven't seen any green around town, have ya?",
     "responses": [
-      { "text": "What?.", "topic": "TALK_REFUGEE_Draco_10_question" },
+      { "text": "What?", "topic": "TALK_REFUGEE_Draco_10_question" },
       { "text": "WHAT.", "topic": "TALK_REFUGEE_Draco_10_disapprove" },
       {
         "text": "Oh yeah, some people've been growing it in their basements.",
@@ -438,7 +438,12 @@
     "goal": "MGOAL_FIND_ITEM",
     "item": "acoustic_guitar",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "end": { "effect": { "u_add_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" } },
+    "end": {
+      "effect": [
+        { "u_add_var": "NC_REFUGEE_Draco_has_guitar", "type": "general", "context": "mission", "value": "yes" },
+        { "u_adjust_var": "refugee_happiness", "type": "counter", "context": "refugee_center", "adjustment": 2 }
+      ]
+    },
     "dialogue": {
       "describe": "Yeah, sure, imagine how things would be if we had some live music around here?  I don't know how much I could thank you, though, if you're looking for payment.  You'd sure be improving the mood, though.",
       "offer": "I just want a functional acoustic guitar.  Preferably one that hasn't been used to cave in any zombie skulls.",

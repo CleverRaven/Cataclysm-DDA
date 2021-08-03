@@ -47,7 +47,7 @@
     "responses": [
       {
         "text": "…",
-        "topic": "TALK_LEAVE_NOW",
+        "topic": "TALK_LEAVE_NOW_LUKE",
         "opinion": { "trust": -20, "value": -20 },
         "condition": { "u_is_wearing": "badge_marshal" }
       },
@@ -135,14 +135,14 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_LEAVE_NOW",
+    "id": "TALK_LEAVE_NOW_LUKE",
     "dynamic_line": "You won't find any help here.",
     "responses": [ { "text": "…", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_LUKE_TOPICS",
-    "dynamic_line": "Go on...",
+    "dynamic_line": "Go on…",
     "responses": [
       {
         "text": "Must be tough having the world fall apart when you had you future to look forward to.",

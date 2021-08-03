@@ -1,6 +1,7 @@
 [
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_livestock_0",
     "description": "Survey land for a livestock area.",
     "category": "CC_BUILDING",
@@ -16,6 +17,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_livestock_coop_yard_chickenwire_east",
     "description": "We could use a fence to contain our chickens and other birds, so build a chickenwire fence on the east side of the livestock field.",
     "category": "CC_BUILDING",
@@ -39,6 +41,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_livestock_pasture0_splitrail",
     "description": "We could use paddock for the stable, so build a split-rail fence on the north side of the livestock field.",
     "category": "CC_BUILDING",
@@ -62,6 +65,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_livestock_pasture1_splitrail",
     "description": "We could use paddock for the stable, so build a split-rail fence in the center of the livestock field.",
     "category": "CC_BUILDING",
@@ -85,6 +89,7 @@
   },
   {
     "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_livestock_pasture2_splitrail",
     "description": "We could use paddock for the stable, so build a split-rail fence to close off the south end of the livestock field.",
     "category": "CC_BUILDING",

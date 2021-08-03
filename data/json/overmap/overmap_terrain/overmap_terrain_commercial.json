@@ -60,33 +60,32 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "office_tower_1_entrance", "office_tower_1" ],
+    "id": [ "office_tower_ne" ],
+    "copy-from": "generic_city_building",
     "name": "office tower",
     "sym": "T",
-    "color": "i_light_gray",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK", "NO_ROTATE" ]
+    "color": "i_light_gray"
   },
   {
     "type": "overmap_terrain",
-    "id": "office_tower_1",
+    "id": [ "office_tower_nw", "office_tower_sw", "office_tower_se" ],
+    "copy-from": "generic_city_building",
     "name": "office tower",
     "sym": "t",
-    "color": "i_light_gray",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK", "NO_ROTATE" ]
+    "color": "i_light_gray"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "office_tower_b_entrance", "office_tower_b" ],
+    "id": [
+      "office_tower_underground_nw",
+      "office_tower_underground_ne",
+      "office_tower_underground_sw",
+      "office_tower_underground_se"
+    ],
+    "copy-from": "generic_city_building_no_sidewalk",
     "name": "tower parking",
     "sym": "p",
-    "color": "i_light_gray",
-    "see_cost": 5,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK", "NO_ROTATE" ]
+    "color": "i_light_gray"
   },
   {
     "type": "overmap_terrain",
@@ -387,7 +386,7 @@
     "id": [ "s_teashop", "s_teashop_1" ],
     "copy-from": "generic_city_building",
     "name": "teashop",
-    "color": "c_light_cyan_magenta",
+    "color": "light_cyan_magenta",
     "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_DRINK" ] }
   },
   {
@@ -395,7 +394,7 @@
     "id": [ "s_teashop_roof", "s_teashop_roof_1", "s_teashop_upper_roof_1" ],
     "copy-from": "generic_city_building",
     "name": "teashop roof",
-    "color": "c_light_cyan_magenta"
+    "color": "light_cyan_magenta"
   },
   {
     "type": "overmap_terrain",
@@ -418,6 +417,7 @@
     "copy-from": "generic_city_building",
     "name": "butcher shop",
     "color": "i_red",
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 2, 6 ], "chance": 20 },
     "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_COOKING" ] }
   },
   {
@@ -495,7 +495,7 @@
     "type": "overmap_terrain",
     "id": [ "mil_surplus", "mil_surplus_1", "mil_surplus_2" ],
     "copy-from": "generic_city_building",
-    "name": "mil. surplus",
+    "name": { "str": "mil. surplus", "//NOLINT(cata-text-style)": "not a period" },
     "sym": "M",
     "color": "i_light_gray",
     "extend": { "flags": [ "SOURCE_FOOD", "SOURCE_CLOTHING" ] }
@@ -504,7 +504,7 @@
     "type": "overmap_terrain",
     "id": [ "mil_surplus_roof", "mil_surplus_roof_1", "mil_surplus_roof_2" ],
     "copy-from": "generic_city_building",
-    "name": "mil. surplus roof",
+    "name": { "str": "mil. surplus roof", "//NOLINT(cata-text-style)": "not a period" },
     "sym": "M",
     "color": "i_light_gray"
   },
@@ -853,7 +853,8 @@
     "id": [ "candy_shop", "candy_shop_1" ],
     "copy-from": "generic_city_building",
     "name": "candy shop",
-    "color": "c_red_white",
+    "color": "red_white",
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 2, 6 ], "chance": 20 },
     "extend": { "flags": [ "SOURCE_LUXURY", "SOURCE_FOOD" ] }
   },
   {
@@ -861,14 +862,15 @@
     "id": [ "candy_shop_roof", "candy_shop_roof_1" ],
     "copy-from": "generic_city_building",
     "name": "candy shop roof",
-    "color": "c_red_white"
+    "color": "red_white"
   },
   {
     "type": "overmap_terrain",
     "id": "bakery",
     "name": "bakery",
     "copy-from": "generic_city_building",
-    "color": "c_yellow_white",
+    "color": "yellow_white",
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 2, 6 ], "chance": 20 },
     "extend": { "flags": [ "SOURCE_LUXURY", "SOURCE_FOOD" ] }
   },
   {
@@ -876,21 +878,22 @@
     "id": "bakery_roof",
     "name": "bakery roof",
     "copy-from": "generic_city_building",
-    "color": "c_yellow_white"
+    "color": "yellow_white"
   },
   {
     "type": "overmap_terrain",
     "id": "bakery_upper_roof",
     "name": "bakery roof",
     "copy-from": "generic_city_building",
-    "color": "c_yellow_white"
+    "color": "yellow_white"
   },
   {
     "type": "overmap_terrain",
     "id": "icecream_shop",
     "name": "icecream shop",
     "copy-from": "generic_city_building",
-    "color": "c_blue_white",
+    "color": "blue_white",
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 3, 6 ], "chance": 20 },
     "extend": { "flags": [ "SOURCE_LUXURY", "SOURCE_FOOD" ] }
   },
   {
@@ -898,7 +901,7 @@
     "id": "icecream_shop_roof",
     "name": "icecream shop roof",
     "copy-from": "generic_city_building",
-    "color": "c_blue_white"
+    "color": "blue_white"
   },
   {
     "type": "overmap_terrain",
@@ -1144,7 +1147,7 @@
     "id": "home_improvement",
     "name": "home improvement store",
     "copy-from": "generic_city_building",
-    "color": "c_yellow_green",
+    "color": "yellow_green",
     "extend": { "flags": [ "SOURCE_FABRICATION", "SOURCE_CONSTRUCTION" ] }
   },
   {
@@ -1152,7 +1155,7 @@
     "id": "home_improvement_roof",
     "name": "home improvement store roof",
     "copy-from": "generic_city_building",
-    "color": "c_yellow_green"
+    "color": "yellow_green"
   },
   {
     "type": "overmap_terrain",
@@ -1238,7 +1241,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "craft_shop", "craft_shop_1", "craft_shop_2" ],
+    "id": [ "craft_shop", "craft_shop_1", "craft_shop_2", "craft_shop_3" ],
     "copy-from": "generic_city_building",
     "name": "craft shop",
     "sym": "s",
@@ -1255,7 +1258,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "craft_shop_roof", "craft_shop_roof_1", "craft_shop_roof_2" ],
+    "id": [ "craft_shop_roof", "craft_shop_roof_1", "craft_shop_roof_2", "craft_shop_roof_3" ],
     "copy-from": "generic_city_building",
     "name": "craft shop roof",
     "sym": "s",
@@ -1263,7 +1266,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "craft_shop_2ndfloor_2",
+    "id": [ "craft_shop_2ndfloor_2", "craft_shop_2ndfloor_3" ],
     "name": "craft shop 2nd floor",
     "copy-from": "generic_city_building",
     "sym": "s",
@@ -1520,7 +1523,16 @@
       "city_block2_roof_1",
       "city_block2_roof_2",
       "city_block2_roof_3",
-      "city_block2_roof_4"
+      "city_block2_roof_4",
+      "urban_25_3",
+      "urban_25_4",
+      "urban_25_5",
+      "urban_25_6",
+      "urban_25_7",
+      "urban_25_8",
+      "urban_25_9",
+      "urban_25_10",
+      "urban_25_12"
     ],
     "copy-from": "generic_city_building",
     "name": "urban city block",
@@ -1528,7 +1540,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "urban_14_1", "urban_14_2" ],
+    "id": [ "urban_14_1", "urban_14_2", "urban_25_1", "urban_25_2" ],
     "copy-from": "generic_city_house_basement"
   },
   {

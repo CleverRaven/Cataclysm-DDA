@@ -123,6 +123,7 @@
     "id": "sugar_house",
     "copy-from": "generic_rural_building",
     "name": "sugar house",
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 4 ], "chance": 20 },
     "sym": "S"
   },
   {
@@ -130,6 +131,25 @@
     "id": "sugar_house_roof",
     "copy-from": "sugar_house",
     "name": "sugar house roof"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "pottery_cottage", "pottery_cottage_2nd", "pottery_cottage_roof" ],
+    "copy-from": "generic_rural_building",
+    "name": "potters cottage",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "pottery_cottage_basement", "farm_stills_3_basement", "ranch_camp_68_basement" ],
+    "copy-from": "generic_city_house_basement"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "pottery_cottage_field_2nd", "pottery_cottage_field_roof", "pottery_cottage_field" ],
+    "copy-from": "generic_rural_building",
+    "sym": ".",
+    "color": "green"
   },
   {
     "type": "overmap_terrain",
@@ -144,6 +164,9 @@
       "2farm_2",
       "2farm_5",
       "2farm_6",
+      "2farm_6_1",
+      "2farm_6_2",
+      "2farm_6_3",
       "2farm_9",
       "2farm_roof_15",
       "farm_1",
@@ -222,7 +245,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "2farm_3", "2farm_roof_3", "2farm_4", "2farm_roof_4", "2farm_7", "2farm_8" ],
+    "id": [ "2farm_3", "2farm_roof_3", "2farm_loft_3", "2farm_4", "2farm_roof_4", "2farm_7", "2farm_8" ],
     "copy-from": "generic_rural_building",
     "name": "farm"
   },
@@ -235,6 +258,8 @@
       "farm_isherwood_2",
       "2farm_11",
       "farm_stills_3",
+      "farm_stills_3_2nd",
+      "farm_stills_3_roof",
       "farm_dairy_twd_4",
       "2farm_roof_11"
     ],
@@ -246,11 +271,12 @@
     "type": "overmap_terrain",
     "id": [ "farm_stills_4", "farm_stills_8", "farm_stills_12" ],
     "copy-from": "generic_rural_building",
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 4 ], "chance": 10 },
     "name": "grape farm"
   },
   {
     "type": "overmap_terrain",
-    "id": "farm_stills_7",
+    "id": [ "farm_stills_7", "farm_stills_7_roof" ],
     "copy-from": "generic_rural_building",
     "name": "stills",
     "color": "brown"
@@ -260,6 +286,7 @@
     "id": "farm_stills_11",
     "copy-from": "generic_rural_building",
     "name": "orchard",
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 4 ], "chance": 10 },
     "color": "brown"
   },
   {
@@ -269,6 +296,7 @@
     "name": "apple orchard",
     "sym": "T",
     "color": "light_green",
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 4 ], "chance": 5 },
     "mondensity": 3
   },
   {
@@ -291,9 +319,27 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "orchard_processing_roof",
+    "copy-from": "generic_rural_building",
+    "name": "orchard processing roof",
+    "sym": "T",
+    "color": "i_light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "orchard_stall_roof",
+    "copy-from": "generic_rural_building",
+    "name": "orchard stall roof",
+    "sym": "T",
+    "color": "i_light_green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "dairy_farm_NW",
       "dairy_farm_NE",
+      "dairy_farm_isherwood_NW",
+      "dairy_farm_isherwood_NE",
       "dairy_farm_SE",
       "dairy_farm_SW",
       "dairy_farm_isherwood_W",
@@ -476,6 +522,7 @@
     "copy-from": "generic_rural_building",
     "name": "tree farm",
     "sym": "T",
+    "spawns": { "group": "GROUP_WASP_FORAGER", "population": [ 1, 2 ], "chance": 20 },
     "color": "i_green"
   },
   {
@@ -589,6 +636,8 @@
       "farm_dairy_twd_1",
       "farm_dairy_twd_2",
       "farm_dairy_twd_3",
+      "farm_dairy_twd_3_roof",
+      "farm_dairy_twd_4_roof",
       "farm_dairy_twd_5",
       "farm_dairy_twd_9",
       "farm_dairy_twd_10"

@@ -21,6 +21,7 @@
 #include "pimpl.h"
 #include "point.h"
 #include "sdl_wrappers.h"
+#include "sdl_geometry.h"
 #include "type_id.h"
 #include "weather.h"
 #include "weighted_list.h"
@@ -44,18 +45,6 @@ struct tile_type {
     std::vector<std::string> available_subtiles;
 };
 
-/* Enums */
-enum MULTITILE_TYPE {
-    center,
-    corner,
-    edge,
-    t_connection,
-    end_piece,
-    unconnected,
-    open_,
-    broken,
-    num_multitile_types
-};
 // Make sure to change TILE_CATEGORY_IDS if this changes!
 enum TILE_CATEGORY {
     C_NONE,
@@ -70,6 +59,23 @@ enum TILE_CATEGORY {
     C_BULLET,
     C_HIT_ENTITY,
     C_WEATHER,
+    C_OVERMAP_TERRAIN,
+    C_OVERMAP_NOTE
+};
+
+class tile_lookup_res
+{
+        // references are stored as pointers to support copy assignment of the class
+        const std::string *_id;
+        tile_type *_tile;
+    public:
+        tile_lookup_res( const std::string &id, tile_type &tile ): _id( &id ), _tile( &tile ) {}
+        inline const std::string &id() {
+            return *_id;
+        }
+        inline tile_type &tile() {
+            return *_tile;
+        }
 };
 
 class texture
@@ -101,13 +107,18 @@ class texture
 class tileset
 {
     private:
+        struct season_tile_value {
+            tile_type *default_tile = nullptr;
+            cata::optional<tile_lookup_res> season_tile = cata::nullopt;
+        };
+
         std::string tileset_id;
 
-        int tile_width;
-        int tile_height;
+        int tile_width = 0;
+        int tile_height = 0;
 
         // multiplier for pixel-doubling tilesets
-        float tile_pixelscale;
+        float tile_pixelscale = 1.0f;
 
         std::vector<texture> tile_values;
         std::vector<texture> shadow_tile_values;
@@ -116,6 +127,9 @@ class tileset
         std::vector<texture> memory_tile_values;
 
         std::unordered_map<std::string, tile_type> tile_ids;
+        // caches both "default" and "_season_XXX" tile variants (to reduce the number of lookups)
+        // either variant can be either a `nullptr` or a pointer/reference to the real value (stored inside `tile_ids`)
+        std::unordered_map<std::string, season_tile_value> tile_ids_by_season[season_type::NUM_SEASONS];
 
         static const texture *get_if_available( const size_t index,
                                                 const decltype( shadow_tile_values ) &tiles ) {
@@ -156,6 +170,23 @@ class tileset
 
         tile_type &create_tile_type( const std::string &id, tile_type &&new_tile_type );
         const tile_type *find_tile_type( const std::string &id ) const;
+        /**
+         * Looks up tile by id + season suffix AND just raw id
+         * Example: if id == "t_tree_apple" and season == SPRING
+         *    will first look up "t_tree_apple_season_spring"
+         *    if not found, will look up "t_tree_apple"
+         *    if still nothing is found, will return cata::nullopt
+         * @param id : "raw" tile id (without season suffix)
+         * @param season : season suffix encoded as season_type enum
+         * @return cata::nullopt if no tile is found,
+         *    cata::optional with found id (e.g. "t_tree_apple_season_spring" or "t_tree_apple) and found tile.
+         *
+         * Note: this method is guaranteed to return pointers to the keys and values stored inside the
+         * `tileset::tile_ids` collection. I.e. result of this method call is invalidated when
+         *  the corresponding `tileset` is invalidated.
+         */
+        cata::optional<tile_lookup_res> find_tile_type_by_season( const std::string &id,
+                season_type season ) const;
 };
 
 class tileset_loader
@@ -205,9 +236,12 @@ class tileset_loader
         void load_ascii( const JsonObject &config );
         /** Load tileset, R,G,B, are the color components of the transparent color
          * Returns the number of tiles that have been loaded from this tileset image
+         * @param pump_events Handle window events and refresh the screen when necessary.
+         *        Please ensure that the tileset is not accessed when this method is
+         *        executing if you set it to true.
          * @throw std::exception If the image can not be loaded.
          */
-        void load_tileset( const std::string &path );
+        void load_tileset( const std::string &path, bool pump_events );
         /**
          * Load tiles from json data.This expects a "tiles" array in
          * <B>config</B>. That array should contain all the tile definition that
@@ -222,10 +256,13 @@ class tileset_loader
         void load_tilejson_from_file( const JsonObject &config );
         /**
          * Helper function called by load.
+         * @param pump_events Handle window events and refresh the screen when necessary.
+         *        Please ensure that the tileset is not accessed when this method is
+         *        executing if you set it to true.
          * @throw std::exception On any error.
          */
         void load_internal( const JsonObject &config, const std::string &tileset_root,
-                            const std::string &img_path );
+                            const std::string &img_path, bool pump_events );
     public:
         tileset_loader( tileset &ts, const SDL_Renderer_Ptr &r ) : ts( ts ), renderer( r ) {
         }
@@ -233,8 +270,11 @@ class tileset_loader
          * @throw std::exception On any error.
          * @param tileset_id Ident of the tileset, as it appears in the options.
          * @param precheck If tue, only loads the meta data of the tileset (tile dimensions).
+         * @param pump_events Handle window events and refresh the screen when necessary.
+         *        Please ensure that the tileset is not accessed when this method is
+         *        executing if you set it to true.
          */
-        void load( const std::string &tileset_id, bool precheck );
+        void load( const std::string &tileset_id, bool precheck, bool pump_events = false );
 };
 
 enum class text_alignment : int {
@@ -266,20 +306,20 @@ using color_block_overlay_container = std::pair<SDL_BlendMode, std::multimap<poi
 class cata_tiles
 {
     public:
-        cata_tiles( const SDL_Renderer_Ptr &render );
+        cata_tiles( const SDL_Renderer_Ptr &render, const GeometryRenderer_Ptr &geometry );
         ~cata_tiles();
-    public:
+
         /** Reload tileset, with the given scale. Scale is divided by 16 to allow for scales < 1 without risking
          *  float inaccuracies. */
         void set_draw_scale( int scale );
 
-    public:
         void on_options_changed();
 
         /** Draw to screen */
         void draw( const point &dest, const tripoint &center, int width, int height,
                    std::multimap<point, formatted_text> &overlay_strings,
                    color_block_overlay_container &color_blocks );
+        void draw_om( const point &dest, const tripoint_abs_omt &center_abs_omt, bool blink );
 
         /** Minimap functionality */
         void draw_minimap( const point &dest, const tripoint &center, int width, int height );
@@ -288,20 +328,37 @@ class cata_tiles
         /** How many rows and columns of tiles fit into given dimensions **/
         void get_window_tile_counts( int width, int height, int &columns, int &rows ) const;
 
-        const tile_type *find_tile_with_season( std::string &id );
-        const tile_type *find_tile_looks_like( std::string &id, TILE_CATEGORY category );
-        bool find_overlay_looks_like( bool male, const std::string &overlay, std::string &draw_id );
+        cata::optional<tile_lookup_res> find_tile_with_season( const std::string &id ) const;
 
-        bool draw_from_id_string( std::string id, const tripoint &pos, int subtile, int rota, lit_level ll,
+        cata::optional<tile_lookup_res>
+        find_tile_looks_like( const std::string &id, TILE_CATEGORY category, const std::string &variant,
+                              int looks_like_jumps_limit = 10 ) const;
+
+        // this templated method is used only from it's own cpp file, so it's ok to declare it here
+        template<typename T>
+        cata::optional<tile_lookup_res>
+        find_tile_looks_like_by_string_id( const std::string &id, TILE_CATEGORY category,
+                                           int looks_like_jumps_limit ) const;
+
+        bool find_overlay_looks_like( bool male, const std::string &overlay, const std::string &variant,
+                                      std::string &draw_id );
+
+        bool draw_from_id_string( const std::string &id, const tripoint &pos, int subtile, int rota,
+                                  lit_level ll,
                                   bool apply_night_vision_goggles );
-        bool draw_from_id_string( std::string id, TILE_CATEGORY category,
+        bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                   const std::string &subcategory, const tripoint &pos, int subtile, int rota,
                                   lit_level ll, bool apply_night_vision_goggles );
-        bool draw_from_id_string( std::string id, const tripoint &pos, int subtile, int rota, lit_level ll,
+        bool draw_from_id_string( const std::string &id, const tripoint &pos, int subtile, int rota,
+                                  lit_level ll,
                                   bool apply_night_vision_goggles, int &height_3d );
-        bool draw_from_id_string( std::string id, TILE_CATEGORY category,
+        bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                   const std::string &subcategory, const tripoint &pos, int subtile, int rota,
                                   lit_level ll, bool apply_night_vision_goggles, int &height_3d );
+        // Add variant argument at end
+        bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
+                                  const std::string &subcategory, const tripoint &pos, int subtile, int rota,
+                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d, const std::string &variant );
         bool draw_sprite_at(
             const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
             const point &, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
@@ -315,8 +372,14 @@ class cata_tiles
 
         /* Tile Picking */
         void get_tile_values( int t, const int *tn, int &subtile, int &rotation );
+        // as get_tile_values, but for unconnected tiles, infer rotation from surrounding walls
+        void get_tile_values_with_ter( const tripoint &p, int t, const int *tn, int &subtile,
+                                       int &rotation );
         void get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group,
                                  const std::map<tripoint, ter_id> &ter_override );
+        void get_furn_connect_values( const tripoint &p, int &subtile, int &rotation,
+                                      int connect_group,
+                                      const std::map<tripoint, furn_id> &furn_override );
         void get_terrain_orientation( const tripoint &p, int &rota, int &subtile,
                                       const std::map<tripoint, ter_id> &ter_override,
                                       const bool ( &invisible )[5] );
@@ -383,7 +446,7 @@ class cata_tiles
         void draw_hit_frame();
         void void_hit();
 
-        void draw_footsteps_frame();
+        void draw_footsteps_frame( const tripoint &center );
 
         // pseudo-animated layer, not really though.
         void init_draw_line( const tripoint &p, std::vector<tripoint> trajectory,
@@ -434,7 +497,7 @@ class cata_tiles
         void void_item_override();
 
         void init_draw_vpart_override( const tripoint &p, const vpart_id &id, int part_mod,
-                                       int veh_dir, bool hilite, const point &mount );
+                                       const units::angle &veh_dir, bool hilite, const point &mount );
         void void_vpart_override();
 
         void init_draw_below_override( const tripoint &p, bool draw );
@@ -452,9 +515,13 @@ class cata_tiles
          * @param tileset_id Ident of the tileset, as it appears in the options.
          * @param precheck If true, only loads the meta data of the tileset (tile dimensions).
          * @param force If true, forces loading the tileset even if it is already loaded.
+         * @param pump_events Handle window events and refresh the screen when necessary.
+         *        Please ensure that the tileset is not accessed when this method is
+         *        executing if you set it to true.
          * @throw std::exception On any error.
          */
-        void load_tileset( const std::string &tileset_id, bool precheck = false, bool force = false );
+        void load_tileset( const std::string &tileset_id, bool precheck = false,
+                           bool force = false, bool pump_events = false );
         /**
          * Reinitializes the current tileset, like @ref init, but using the original screen information.
          * @throw std::exception On any error.
@@ -477,6 +544,9 @@ class cata_tiles
         point player_to_screen( const point & ) const;
         static std::vector<options_manager::id_and_option> build_renderer_list();
         static std::vector<options_manager::id_and_option> build_display_list();
+    private:
+        std::string get_omt_id_rotation_and_subtile(
+            const tripoint_abs_omt &omp, int &rota, int &subtile );
     protected:
         template <typename maptype>
         void tile_loading_report( const maptype &tiletypemap, TILE_CATEGORY category,
@@ -498,6 +568,7 @@ class cata_tiles
 
         /** Variables */
         const SDL_Renderer_Ptr &renderer;
+        const GeometryRenderer_Ptr &geometry;
         std::unique_ptr<tileset> tileset_ptr;
 
         int tile_height = 0;
@@ -561,9 +632,9 @@ class cata_tiles
         std::map<tripoint, field_type_id> field_override;
         // bool represents item highlight
         std::map<tripoint, std::tuple<itype_id, mtype_id, bool>> item_override;
-        // int, int, bool represents part_mod, veh_dir, and highlight respectively
+        // int, angle, bool represents part_mod, veh_dir, and highlight respectively
         // point represents the mount direction
-        std::map<tripoint, std::tuple<vpart_id, int, int, bool, point>> vpart_override;
+        std::map<tripoint, std::tuple<vpart_id, int, units::angle, bool, point>> vpart_override;
         std::map<tripoint, bool> draw_below_override;
         // int represents spawn count
         std::map<tripoint, std::tuple<mtype_id, int, bool, Creature::Attitude>> monster_override;

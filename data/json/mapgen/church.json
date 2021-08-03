@@ -33,7 +33,15 @@
         "      ^^    ss    ^^   s ",
         "      ^^    ss    ^^   s "
       ],
-      "terrain": { "p": "t_floor", "W": "t_floor", "<": "t_stairs_up", "y": "t_floor", "r": "t_carpet_red" },
+      "terrain": {
+        "p": "t_floor",
+        "6": "t_floor",
+        "W": "t_floor",
+        "<": "t_stairs_up",
+        "y": "t_floor",
+        "t": "t_carpet_red",
+        "r": "t_carpet_red"
+      },
       "furniture": { "p": "f_piano", "W": "f_wardrobe" },
       "palettes": [ "church" ],
       "mapping": { "b": { "furniture": "f_brazier" } },
@@ -265,6 +273,7 @@
         "<": "t_stairs_up",
         ",": "t_floor",
         "t": "t_floor",
+        "6": "t_floor",
         "y": "t_floor"
       },
       "items": {

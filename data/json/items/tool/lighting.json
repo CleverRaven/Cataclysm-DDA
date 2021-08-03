@@ -101,9 +101,8 @@
     "material": [ "veggy" ],
     "symbol": ",",
     "color": "white",
-    "initial_charges": 100,
-    "max_charges": 100,
     "charges_per_use": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "candle_wax": 100 }, "rigid": true } ],
     "use_action": {
       "target": "candle_lit",
       "msg": "You light the candle.",
@@ -111,30 +110,21 @@
       "need_fire": 1,
       "menu_text": "Light",
       "type": "transform"
-    }
+    },
+    "flags": [ "BURNOUT", "NO_RELOAD", "NO_UNLOAD" ]
   },
   {
     "id": "candle_lit",
     "type": "TOOL",
+    "copy-from": "candle",
     "name": { "str": "candle" },
     "description": "This is a thick candle.  It doesn't provide very much light, but it can burn for quite a long time.  This candle is lit.",
-    "weight": "225 g",
-    "volume": "250 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": -2,
-    "material": [ "veggy" ],
-    "symbol": ",",
-    "color": "white",
-    "initial_charges": 100,
-    "max_charges": 100,
-    "charges_per_use": 1,
     "turns_per_charge": 1350,
     "use_action": [
       { "type": "firestarter", "moves": 100 },
       { "target": "candle", "msg": "The candle winks out.", "menu_text": "Extinguish", "type": "transform" }
     ],
-    "flags": [ "LIGHT_8", "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH", "FIRESTARTER" ]
+    "extend": { "flags": [ "LIGHT_8", "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH", "FIRESTARTER" ] }
   },
   {
     "id": "electric_lantern",
@@ -160,10 +150,11 @@
       "need_charges": 1,
       "need_charges_msg": "The lantern has no batteries."
     },
-    "flags": [ "RADIO_MODABLE", "ALLOWS_REMOTE_USE" ],
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -187,7 +178,7 @@
     "power_draw": 1000,
     "revert_to": "electric_lantern",
     "use_action": { "menu_text": "Turn off", "type": "transform", "target": "electric_lantern", "msg": "You turn the lamp off." },
-    "flags": [ "RADIO_MODABLE", "LIGHT_15", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "LIGHT_15", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "flashlight",
@@ -197,12 +188,14 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "blue",
-    "weight": "400 g",
-    "volume": "500 ml",
+    "weight": "280 g",
+    "volume": "80 ml",
+    "longest_side": "14 cm",
     "price": 500,
     "price_postapoc": 100,
     "charges_per_use": 1,
     "ammo": [ "battery" ],
+    "flags": [ "BELT_CLIP", "WATER_BREAK" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the flashlight on.",
@@ -238,7 +231,7 @@
     "power_draw": 10000,
     "revert_to": "flashlight",
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "You turn the flashlight off.", "target": "flashlight" },
-    "flags": [ "LIGHT_300", "CHARGEDIM", "TRADER_AVOID" ]
+    "flags": [ "LIGHT_300", "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP" ]
   },
   {
     "id": "gasoline_lantern",
@@ -255,8 +248,7 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": [ "gasoline" ],
-    "initial_charges": 500,
-    "max_charges": 500,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "ammo_restriction": { "gasoline": 500 } } ],
     "charges_per_use": 1,
     "use_action": {
       "target": "gasoline_lantern_on",
@@ -293,15 +285,16 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_blue",
-    "initial_charges": 1400,
-    "max_charges": 1400,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "glowstick_juice": 1400 }, "rigid": true } ],
+    "ammo": "glowstick_juice",
     "use_action": {
       "target": "glowstick_lit",
       "msg": "You activate the glowstick.",
       "active": true,
       "menu_text": "Activate",
       "type": "transform"
-    }
+    },
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "glowstick_dead",
@@ -331,12 +324,11 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_blue",
-    "initial_charges": 1400,
-    "max_charges": 1400,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "glowstick_juice": 1400 }, "rigid": true } ],
     "turns_per_charge": 30,
     "revert_to": "glowstick_dead",
     "revert_msg": "The glowstick fades out.",
-    "flags": [ "LIGHT_8", "TRADER_AVOID", "SLEEP_IGNORE" ]
+    "flags": [ "LIGHT_8", "TRADER_AVOID", "SLEEP_IGNORE", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "handflare",
@@ -350,16 +342,16 @@
     "volume": "250 ml",
     "price": 400,
     "price_postapoc": 100,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "flare_nitrate": 300 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "flare_nitrate": 300 }, "rigid": true } ],
     "ammo": "flare_nitrate",
-    "initial_charges": 300,
     "use_action": {
       "menu_text": "Strike the striker",
       "type": "transform",
       "target": "handflare_lit",
       "active": true,
       "msg": "You strike your flare and light it."
-    }
+    },
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "handflare_lit",
@@ -372,15 +364,16 @@
     "revert_to": "handflare_dead",
     "revert_msg": "The flare sputters out",
     "use_action": { "type": "firestarter", "moves": 50 },
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "FIRESTARTER" ]
+    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "FIRESTARTER", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "heavy_flashlight",
     "type": "TOOL",
     "name": { "str": "heavy duty flashlight (off)", "str_pl": "heavy duty flashlights (off)" },
     "description": "This is a heavy duty tubular aluminum LED flashlight as often used by security guards.  Makes for a passable melee weapon.  Using this flashlight will turn it on and provide light, assuming it is charged with batteries.",
-    "weight": "650 g",
-    "volume": "750 ml",
+    "weight": "450 g",
+    "volume": "470 ml",
+    "longest_side": "37 cm",
     "price": 950,
     "price_postapoc": 200,
     "bashing": 8,
@@ -389,6 +382,7 @@
     "color": "blue",
     "charges_per_use": 1,
     "ammo": [ "battery" ],
+    "flags": [ "BELT_CLIP", "WATER_BREAK" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the heavy duty flashlight on.",
@@ -429,7 +423,7 @@
       "msg": "You turn the heavy duty flashlight off.",
       "target": "heavy_flashlight"
     },
-    "flags": [ "LIGHT_500", "CHARGEDIM" ]
+    "flags": [ "LIGHT_500", "CHARGEDIM", "BELT_CLIP" ]
   },
   {
     "abstract": "lightstrip_base",
@@ -475,6 +469,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -505,8 +500,7 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": [ "lamp_oil" ],
-    "initial_charges": 750,
-    "max_charges": 750,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "ammo_restriction": { "lamp_oil": 750 } } ],
     "charges_per_use": 1,
     "use_action": {
       "target": "oil_lamp_on",
@@ -534,7 +528,7 @@
     "id": "oxylamp",
     "type": "TOOL",
     "name": { "str": "acetylene lamp (off)", "str_pl": "acetylene lamps (off)" },
-    "description": "An antique brass lamp designed to run from a pressurized cylinder of acetylene.  It is an efficient, if not somewhat dangerous light source.",
+    "description": "An antique brass lamp designed to run from a pressurized cylinder of acetylene.  It is an efficient, if somewhat dangerous, light source.",
     "weight": "800 g",
     "volume": "500 ml",
     "price": 6500,
@@ -584,6 +578,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "white",
+    "flags": [ "WATER_BREAK" ],
     "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": {
@@ -597,6 +592,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -639,10 +635,11 @@
       "need_charges_msg": "The smart lamp batteries are dead.",
       "type": "transform"
     },
-    "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "RADIO_ACTIVATION", "RADIO_INVOKE_PROC", "RADIOSIGNAL_2", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -666,8 +663,16 @@
     "description": "This is a smart lamp, this smart lamp is turned on.  It can be deactivated remotely.",
     "power_draw": 10000,
     "revert_to": "smart_lamp",
-    "use_action": { "target": "smart_lamp", "msg": "Your smart lamp turned off", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ]
+    "use_action": { "target": "smart_lamp", "msg": "Your smart lamp turned off.", "menu_text": "Turn off", "type": "transform" },
+    "flags": [
+      "ALLOWS_REMOTE_USE",
+      "RADIO_ACTIVATION",
+      "RADIO_INVOKE_PROC",
+      "RADIOSIGNAL_2",
+      "LIGHT_240",
+      "CHARGEDIM",
+      "TRADER_AVOID"
+    ]
   },
   {
     "id": "torch",
@@ -684,9 +689,8 @@
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],
-    "initial_charges": 25,
-    "max_charges": 25,
-    "charges_per_use": 1,
+    "initial_charges": 20,
+    "max_charges": 20,
     "use_action": {
       "target": "torch_lit",
       "msg": "You light the torch.",
@@ -694,7 +698,8 @@
       "need_fire": 1,
       "menu_text": "Light torch",
       "type": "transform"
-    }
+    },
+    "flags": [ "BURNOUT" ]
   },
   {
     "id": "torch_lit",
@@ -710,9 +715,9 @@
     "material": [ "wood" ],
     "symbol": "/",
     "color": "brown",
-    "initial_charges": 75,
-    "max_charges": 75,
-    "turns_per_charge": 40,
+    "initial_charges": 20,
+    "max_charges": 20,
+    "turns_per_charge": 60,
     "revert_to": "torch_done",
     "use_action": [
       { "type": "firestarter", "moves": 30 },
@@ -725,6 +730,6 @@
       }
     ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ]
+    "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "BURNOUT" ]
   }
 ]

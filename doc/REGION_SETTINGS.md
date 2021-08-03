@@ -24,7 +24,7 @@ Note that for the default region, all attributes and sections are required.
 |       Identifier        |                            Description                             |
 | ----------------------- | ------------------------------------------------------------------ |
 | `type`                  | Type identifier. Must be "region_settings".                        |
-| `id`                    | Unique identfier for this region.                                  |
+| `id`                    | Unique identifier for this region.                                  |
 | `default_oter`          | Default overmap terrain for this region.                           |
 | `default_groundcover`   | List of terrain types and weights applied as default ground cover. |
 
@@ -490,10 +490,10 @@ The **weather** section defines the base weather attributes used for the region.
 | `base_temperature`             | Base temperature for the region in degrees Celsius.                   |
 | `base_humidity`                | Base humidity for the region in relative humidity %                   |
 | `base_pressure`                | Base pressure for the region in millibars.                            |
-| `base_acid`                    | Base acid for the region in ? units. Value >= 1 is considered acidic. |
 | `base_wind`                    | Base wind for the region in mph units. Roughly the yearly average.    |
 | `base_wind_distrib_peaks`      | How high the wind peaks can go. Higher values produce windier days.   |
 | `base_wind_season_variation`   | How the wind varies with season. Lower values produce more variation  |
+| `weather_types`				 | Ids of the weather types allowed in this region. When choosing weather they will be iterated over in the order they are listed and the last valid entry will be the weather. |
 
 ### Example
 
@@ -507,7 +507,21 @@ The **weather** section defines the base weather attributes used for the region.
 		"base_wind": 5.7,
 		"base_wind_distrib_peaks": 30,
 		"base_wind_season_variation": 64,
-		"base_acid": 0.0
+		"base_acid": 0.0,
+		"weather_types": [
+			"clear",
+			"sunny",
+			"cloudy",
+			"light_drizzle",
+			"drizzle",
+			"rain",
+			"thunder",
+			"lightning",
+			"flurries",
+			"snowing",
+			"snowstorm"
+      	]
+    	},
 	}
 }
 ```
@@ -550,7 +564,7 @@ those values which should be changed.
 | Identifier |                                         Description                                         |
 | ---------- | ------------------------------------------------------------------------------------------- |
 | `type`     | Type identifier. Must be "region_overlay".                                                  |
-| `id`       | Unique identfier for this region overlay.                                                   |
+| `id`       | Unique identifier for this region overlay.                                                   |
 | `regions`  | A list of regions to which this overlay should be applied. "all" will apply to all regions. |
 
 All additional fields and sections are as defined for a `region_overlay`.

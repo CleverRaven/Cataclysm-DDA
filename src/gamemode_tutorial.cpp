@@ -1,18 +1,18 @@
 #include "gamemode_tutorial.h" // IWYU pragma: associated
 
-#include <array>
 #include <cstdlib>
+#include <iosfwd>
 #include <memory>
-#include <string>
 
 #include "action.h"
 #include "avatar.h"
 #include "calendar.h"
-#include "coordinate_conversions.h"
+#include "character.h"
+#include "colony.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "game.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "map.h"
@@ -22,8 +22,7 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "player.h"
-#include "pldata.h"
+#include "pimpl.h"
 #include "point.h"
 #include "profession.h"
 #include "scent_map.h"
@@ -31,7 +30,6 @@
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
-#include "units.h"
 #include "weather.h"
 
 static const itype_id itype_cig( "cig" );
@@ -111,30 +109,31 @@ bool tutorial_game::init()
     // Start at noon
     calendar::turn = calendar::turn_zero + 12_hours;
     tutorials_seen.clear();
-    g->scent.reset();
-    g->weather.temperature = 65;
+    get_scent().reset();
+    get_weather().temperature = 65;
     // We use a Z-factor of 10 so that we don't plop down tutorial rooms in the
     // middle of the "real" game world
-    g->u.normalize();
-    g->u.str_cur = g->u.str_max;
-    g->u.per_cur = g->u.per_max;
-    g->u.int_cur = g->u.int_max;
-    g->u.dex_cur = g->u.dex_max;
+    avatar &player_character = get_avatar();
+    player_character.normalize();
+    player_character.str_cur = player_character.str_max;
+    player_character.per_cur = player_character.per_max;
+    player_character.int_cur = player_character.int_max;
+    player_character.dex_cur = player_character.dex_max;
 
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        g->u.hp_cur[i] = g->u.hp_max[i];
-    }
+    player_character.set_all_parts_hp_to_max();
 
     const oter_id rock( "rock" );
     //~ default name for the tutorial
-    g->u.name = _( "John Smith" );
-    g->u.prof = profession::generic();
+    player_character.name = _( "John Smith" );
+    player_character.prof = profession::generic();
     // overmap terrain coordinates
-    const tripoint lp( 50, 50, 0 );
-    auto &starting_om = overmap_buffer.get( point_zero );
+    const tripoint_om_omt lp( 50, 50, 0 );
+    // Assume overmap zero
+    const tripoint_abs_omt lp_abs = project_combine( point_abs_om(), lp );
+    auto &starting_om = overmap_buffer.get( point_abs_om() );
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
-            tripoint p( i, j, 0 );
+            tripoint_om_omt p( i, j, 0 );
             starting_om.ter_set( p + tripoint_below, rock );
             // Start with the overmap revealed
             starting_om.seen( p ) = true;
@@ -144,18 +143,18 @@ bool tutorial_game::init()
     starting_om.ter_set( lp + tripoint_below, oter_id( "tutorial" ) );
     starting_om.clear_mon_groups();
 
-    g->u.toggle_trait( trait_QUICK );
-    item lighter( "lighter", 0 );
+    player_character.toggle_trait( trait_QUICK );
+    item lighter( "lighter", calendar::turn_zero );
     lighter.invlet = 'e';
-    g->u.inv.add_item( lighter, true, false );
-    g->u.set_skill_level( skill_gun, 5 );
-    g->u.set_skill_level( skill_melee, 5 );
-    g->load_map( omt_to_sm_copy( lp ) );
-    g->u.setx( 2 );
-    g->u.sety( 4 );
+    player_character.inv->add_item( lighter, true, false );
+    player_character.set_skill_level( skill_gun, 5 );
+    player_character.set_skill_level( skill_melee, 5 );
+    g->load_map( project_to<coords::sm>( lp_abs ) );
+    player_character.setx( 2 );
+    player_character.sety( 4 );
 
     // This shifts the view to center the players pos
-    g->update_map( g->u );
+    g->update_map( player_character );
     return true;
 }
 
@@ -166,24 +165,26 @@ void tutorial_game::per_turn()
     add_message( tut_lesson::LESSON_MOVE );
     add_message( tut_lesson::LESSON_LOOK );
 
-    if( g->light_level( g->u.posz() ) == 1 ) {
-        if( g->u.has_amount( itype_flashlight, 1 ) ) {
+    Character &player_character = get_player_character();
+    if( g->light_level( player_character.posz() ) == 1 ) {
+        if( player_character.has_amount( itype_flashlight, 1 ) ) {
             add_message( tut_lesson::LESSON_DARK );
         } else {
             add_message( tut_lesson::LESSON_DARK_NO_FLASH );
         }
     }
 
-    if( g->u.get_pain() > 0 ) {
+    if( player_character.get_pain() > 0 ) {
         add_message( tut_lesson::LESSON_PAIN );
     }
 
-    if( g->u.recoil >= MAX_RECOIL ) {
+    if( player_character.recoil >= MAX_RECOIL ) {
         add_message( tut_lesson::LESSON_RECOIL );
     }
 
+    map &here = get_map();
     if( !tutorials_seen[tut_lesson::LESSON_BUTCHER] ) {
-        for( const item &it : g->m.i_at( point( g->u.posx(), g->u.posy() ) ) ) {
+        for( const item &it : here.i_at( player_character.pos().xy() ) ) {
             if( it.is_corpse() ) {
                 add_message( tut_lesson::LESSON_BUTCHER );
                 break;
@@ -191,29 +192,29 @@ void tutorial_game::per_turn()
         }
     }
 
-    for( const tripoint &p : g->m.points_in_radius( g->u.pos(), 1 ) ) {
-        if( g->m.ter( p ) == t_door_o ) {
+    for( const tripoint &p : here.points_in_radius( player_character.pos(), 1 ) ) {
+        if( here.ter( p ) == t_door_o ) {
             add_message( tut_lesson::LESSON_OPEN );
             break;
-        } else if( g->m.ter( p ) == t_door_c ) {
+        } else if( here.ter( p ) == t_door_c ) {
             add_message( tut_lesson::LESSON_CLOSE );
             break;
-        } else if( g->m.ter( p ) == t_window ) {
+        } else if( here.ter( p ) == t_window ) {
             add_message( tut_lesson::LESSON_SMASH );
             break;
-        } else if( g->m.furn( p ) == f_rack && !g->m.i_at( p ).empty() ) {
+        } else if( here.furn( p ) == f_rack && !here.i_at( p ).empty() ) {
             add_message( tut_lesson::LESSON_EXAMINE );
             break;
-        } else if( g->m.ter( p ) == t_stairs_down ) {
+        } else if( here.ter( p ) == t_stairs_down ) {
             add_message( tut_lesson::LESSON_STAIRS );
             break;
-        } else if( g->m.ter( p ) == t_water_sh ) {
+        } else if( here.ter( p ) == t_water_sh ) {
             add_message( tut_lesson::LESSON_PICKUP_WATER );
             break;
         }
     }
 
-    if( !g->m.i_at( point( g->u.posx(), g->u.posy() ) ).empty() ) {
+    if( !here.i_at( point( player_character.posx(), player_character.posy() ) ).empty() ) {
         add_message( tut_lesson::LESSON_PICKUP );
     }
 }
@@ -234,12 +235,13 @@ void tutorial_game::pre_action( action_id &act )
 
 void tutorial_game::post_action( action_id act )
 {
+    Character &player_character = get_player_character();
     switch( act ) {
         case ACTION_RELOAD_WEAPON:
-            if( g->u.weapon.is_gun() && !tutorials_seen[tut_lesson::LESSON_GUN_FIRE] ) {
-                g->place_critter_at( mon_zombie, tripoint( g->u.posx(), g->u.posy() - 6, g->u.posz() ) );
-                g->place_critter_at( mon_zombie, tripoint( g->u.posx() + 2, g->u.posy() - 5, g->u.posz() ) );
-                g->place_critter_at( mon_zombie, tripoint( g->u.posx() - 2, g->u.posy() - 5, g->u.posz() ) );
+            if( player_character.weapon.is_gun() && !tutorials_seen[tut_lesson::LESSON_GUN_FIRE] ) {
+                g->place_critter_at( mon_zombie, player_character.pos() + tripoint( 0, -6, 0 ) );
+                g->place_critter_at( mon_zombie, player_character.pos() + tripoint( 2, -5, 0 ) );
+                g->place_critter_at( mon_zombie, player_character.pos() + tripoint( -2, -5, 0 ) );
                 add_message( tut_lesson::LESSON_GUN_FIRE );
             }
             break;
@@ -252,31 +254,33 @@ void tutorial_game::post_action( action_id act )
             add_message( tut_lesson::LESSON_SMASH );
             break;
 
-        case ACTION_USE:
-            if( g->u.has_amount( itype_grenade_act, 1 ) ) {
+        case ACTION_USE: {
+            if( player_character.has_amount( itype_grenade_act, 1 ) ) {
                 add_message( tut_lesson::LESSON_ACT_GRENADE );
             }
-            for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 1 ) ) {
-                if( g->m.tr_at( dest ).id == trap_str_id( "tr_bubblewrap" ) ) {
+            map &here = get_map();
+            for( const tripoint &dest : here.points_in_radius( player_character.pos(), 1 ) ) {
+                if( here.tr_at( dest ).id == trap_str_id( "tr_bubblewrap" ) ) {
                     add_message( tut_lesson::LESSON_ACT_BUBBLEWRAP );
                 }
             }
-            break;
+        }
+        break;
 
         case ACTION_EAT:
-            if( g->u.last_item == itype_codeine ) {
+            if( player_character.last_item == itype_codeine ) {
                 add_message( tut_lesson::LESSON_TOOK_PAINKILLER );
-            } else if( g->u.last_item == itype_cig ) {
+            } else if( player_character.last_item == itype_cig ) {
                 add_message( tut_lesson::LESSON_TOOK_CIG );
-            } else if( g->u.last_item == itype_water ) {
+            } else if( player_character.last_item == itype_water ) {
                 add_message( tut_lesson::LESSON_DRANK_WATER );
             }
             break;
 
         case ACTION_WEAR: {
-            item it( g->u.last_item, 0 );
+            item it( player_character.last_item, calendar::turn_zero );
             if( it.is_armor() ) {
-                if( it.get_coverage() >= 2 || it.get_thickness() >= 2 ) {
+                if( it.get_avg_coverage() >= 2 || it.get_thickness() >= 2 ) {
                     add_message( tut_lesson::LESSON_WORE_ARMOR );
                 }
                 if( it.get_env_resist() >= 2 ) {
@@ -287,7 +291,7 @@ void tutorial_game::post_action( action_id act )
         break;
 
         case ACTION_WIELD:
-            if( g->u.weapon.is_gun() ) {
+            if( player_character.weapon.is_gun() ) {
                 add_message( tut_lesson::LESSON_GUN_LOAD );
             }
             break;
@@ -296,7 +300,7 @@ void tutorial_game::post_action( action_id act )
             add_message( tut_lesson::LESSON_INTERACT );
         /* fallthrough */
         case ACTION_PICKUP: {
-            item it( g->u.last_item, 0 );
+            item it( player_character.last_item, calendar::turn_zero );
             if( it.is_armor() ) {
                 add_message( tut_lesson::LESSON_GOT_ARMOR );
             } else if( it.is_gun() ) {

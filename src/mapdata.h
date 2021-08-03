@@ -5,25 +5,32 @@
 #include <array>
 #include <bitset>
 #include <cstddef>
+#include <iosfwd>
 #include <set>
 #include <string>
 #include <vector>
 
 #include "calendar.h"
+#include "clone_ptr.h"
 #include "color.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
 #include "value_ptr.h"
 
+struct ter_t;
+
+using ter_str_id = string_id<ter_t>;
+
 class JsonObject;
 class player;
+struct iexamine_actor;
 struct furn_t;
 struct itype;
-struct ter_t;
 struct tripoint;
 
 using iexamine_function = void ( * )( player &, const tripoint & );
+using iexamine_function_ref = void( & )( player &, const tripoint & );
 
 struct map_bash_info {
     int str_min;            // min str(*) required to bash
@@ -39,7 +46,7 @@ struct map_bash_info {
     int fd_bash_move_cost = 100; // cost to bash a field
     bool destroy_only;      // Only used for destroying, not normally bashable
     bool bash_below;        // This terrain is the roof of the tile below it, try to destroy that too
-    std::string drop_group; // item group of items that are dropped when the object is bashed
+    item_group_id drop_group; // item group of items that are dropped when the object is bashed
     translation sound;      // sound made on success ('You hear a "smash!"')
     translation sound_fail; // sound  made on fail
     translation field_bash_msg_success; // message upon successfully bashing a field
@@ -54,7 +61,8 @@ struct map_bash_info {
         terrain,
         field
     };
-    bool load( const JsonObject &jsobj, const std::string &member, map_object_type obj_type );
+    bool load( const JsonObject &jsobj, const std::string &member, map_object_type obj_type,
+               const std::string &context );
 };
 struct map_deconstruct_info {
     // Only if true, the terrain/furniture can be deconstructed
@@ -62,11 +70,31 @@ struct map_deconstruct_info {
     // This terrain provided a roof, we need to tear it down now
     bool deconstruct_above;
     // items you get when deconstructing.
-    std::string drop_group;
+    item_group_id drop_group;
     ter_str_id ter_set;    // terrain to set (REQUIRED for terrain))
     furn_str_id furn_set;    // furniture to set (only used by furniture, not terrain)
     map_deconstruct_info();
-    bool load( const JsonObject &jsobj, const std::string &member, bool is_furniture );
+    bool load( const JsonObject &jsobj, const std::string &member, bool is_furniture,
+               const std::string &context );
+};
+struct map_shoot_info {
+    // Base chance to hit the object at all (defaults to 100%)
+    int chance_to_hit = 0;
+    // Minimum damage reduction to apply to shot when hit
+    int reduce_dmg_min = 0;
+    // Maximum damage reduction to apply to shot when hit
+    int reduce_dmg_max = 0;
+    // Minimum damage reduction to apply to laser shots when hit
+    int reduce_dmg_min_laser = 0;
+    // Maximum damage reduction to apply to laser shots when hit
+    int reduce_dmg_max_laser = 0;
+    // Damage required to have a chance to destroy
+    int destroy_dmg_min = 0;
+    // Damage required to guarentee destruction
+    int destroy_dmg_max = 0;
+    // Are lasers incapable of destroying the object (defaults to false)
+    bool no_laser_destroy = false;
+    bool load( const JsonObject &jsobj, const std::string &member, bool was_loaded );
 };
 struct furn_workbench_info {
     // Base multiplier applied for crafting here
@@ -195,6 +223,8 @@ enum ter_bitflags : int {
     TFLAG_GOES_UP,
     TFLAG_NO_FLOOR,
     TFLAG_SEEN_FROM_ABOVE,
+    TFLAG_RAMP_DOWN,
+    TFLAG_RAMP_UP,
     TFLAG_RAMP,
     TFLAG_HIDE_PLACE,
     TFLAG_BLOCK_WIND,
@@ -202,6 +232,9 @@ enum ter_bitflags : int {
     TFLAG_RAIL,
     TFLAG_THIN_OBSTACLE,
     TFLAG_SMALL_PASSAGE,
+    TFLAG_Z_TRANSPARENT,
+    TFLAG_SUN_ROOF_ABOVE,
+    TFLAG_FUNGUS,
 
     NUM_TERFLAGS
 };
@@ -220,11 +253,16 @@ enum ter_connects : int {
     TERCONN_WATER,
     TERCONN_PAVEMENT,
     TERCONN_RAIL,
+    TERCONN_COUNTER,
+    TERCONN_CANVAS_WALL,
 };
+
+void init_mapdata();
 
 struct map_data_common_t {
         map_bash_info        bash;
         map_deconstruct_info deconstruct;
+        cata::value_ptr<map_shoot_info> shoot;
 
     public:
         virtual ~map_data_common_t() = default;
@@ -233,11 +271,23 @@ struct map_data_common_t {
         friend furn_t null_furniture_t();
         friend ter_t null_terrain_t();
         // The (untranslated) plaintext name of the terrain type the user would see (i.e. dirt)
-        std::string name_;
+        translation name_;
+
+        // Hardcoded examination function
+        iexamine_function examine_func; // What happens when the terrain/furniture is examined
+        // Data-driven examine actor
+        cata::clone_ptr<iexamine_actor> examine_actor;
 
     private:
         std::set<std::string> flags;    // string flags which possibly refer to what's documented above.
         std::bitset<NUM_TERFLAGS> bitflags; // bitfield of -certain- string flags which are heavily checked
+
+    public:
+        ter_str_id curtain_transform;
+
+        bool has_curtains() const {
+            return !( curtain_transform.is_empty() || curtain_transform.is_null() );
+        }
 
     public:
         std::string name() const;
@@ -250,9 +300,16 @@ struct map_data_common_t {
         */
         std::array<int, NUM_SEASONS> symbol_;
 
+        bool can_examine() const;
+        bool has_examine( iexamine_function_ref func ) const;
+        bool has_examine( const std::string &action ) const;
+        void set_examine( iexamine_function_ref func );
+        void examine( player &, const tripoint & ) const;
+
         int light_emitted = 0;
         // The amount of movement points required to pass this terrain by default.
         int movecost = 0;
+        int heat_radiation = 0;
         // The coverage percentage of a furniture piece of terrain. <30 won't cover from sight.
         int coverage = 0;
         // Maximal volume of items that can be stored in/on this furniture
@@ -265,8 +322,6 @@ struct map_data_common_t {
         void load_symbol( const JsonObject &jo );
 
         std::string looks_like;
-
-        iexamine_function examine; // What happens when the terrain/furniture is examined
 
         /**
          * When will this terrain/furniture get harvested and what will drop?
@@ -318,11 +373,11 @@ struct map_data_common_t {
         bool was_loaded = false;
 
         bool is_flammable() const {
-            return flags.count( "FLAMMABLE" ) > 0 || flags.count( "FLAMMABLE_ASH" ) > 0 ||
-                   flags.count( "FLAMMABLE_HARD" ) > 0;
+            return has_flag( TFLAG_FLAMMABLE ) || has_flag( TFLAG_FLAMMABLE_ASH ) ||
+                   has_flag( TFLAG_FLAMMABLE_HARD );
         }
 
-        virtual void load( const JsonObject &jo, const std::string &src );
+        virtual void load( const JsonObject &jo, const std::string & );
         virtual void check() const;
 };
 
@@ -331,15 +386,24 @@ struct map_data_common_t {
 * Short for terrain type. This struct defines all of the metadata for a given terrain id (an enum below).
 */
 struct ter_t : map_data_common_t {
+
+    std::vector<std::pair<ter_str_id, mod_id>> src;
+
     ter_str_id id;    // The terrain's ID. Must be set, must be unique.
     ter_str_id open;  // Open action: transform into terrain with matching id
     ter_str_id close; // Close action: transform into terrain with matching id
+
+    ter_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
+    translation lockpick_message; // Lockpick action: message when successfully lockpicked
 
     std::string trap_id_str;     // String storing the id string of the trap.
     ter_str_id transforms_into; // Transform into what terrain?
     ter_str_id roof;            // What will be the floor above this terrain
 
     trap_id trap; // The id of the trap located at this terrain. Limit one trap per tile currently.
+
+    std::set<emit_id> emissions;
+    std::set<itype_id> allowed_template_id;
 
     ter_t();
 
@@ -358,9 +422,14 @@ void reset_furn_ter();
  */
 
 struct furn_t : map_data_common_t {
+
+    std::vector<std::pair<furn_str_id, mod_id>> src;
+
     furn_str_id id;
     furn_str_id open;  // Open action: transform into furniture with matching id
     furn_str_id close; // Close action: transform into furniture with matching id
+    furn_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
+    translation lockpick_message; // Lockpick action: message when successfully lockpicked
     itype_id crafting_pseudo_item;
     units::volume keg_capacity = 0_ml;
     int comfort = 0;
@@ -409,6 +478,7 @@ provided for terrains added by mods. A string equivalent is always present, i.e.
 t_basalt
 "t_basalt"
 */
+// NOLINTNEXTLINE(cata-static-int_id-constants)
 extern ter_id t_null,
        t_hole, // Real nothingness; makes you fall a z-level
        // Ground
@@ -417,7 +487,7 @@ extern ter_id t_null,
        t_rock_floor,
        t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white, t_moss,
        t_metal_floor,
-       t_pavement, t_pavement_y, t_sidewalk, t_concrete,
+       t_pavement, t_pavement_y, t_sidewalk, t_concrete, t_zebra,
        t_thconc_floor, t_thconc_floor_olight, t_strconc_floor,
        t_floor, t_floor_waxed,
        t_dirtfloor,//Dirt floor(Has roof)
@@ -434,6 +504,8 @@ extern ter_id t_null,
        t_wall_half, t_wall_wood, t_wall_wood_chipped, t_wall_wood_broken,
        t_wall, t_concrete_wall, t_brick_wall,
        t_wall_metal,
+       t_scrap_wall,
+       t_scrap_wall_halfway,
        t_wall_glass,
        t_wall_glass_alarm,
        t_reinforced_glass, t_reinforced_glass_shutter, t_reinforced_glass_shutter_open,
@@ -444,6 +516,7 @@ extern ter_id t_null,
        t_door_c, t_door_c_peep, t_door_b, t_door_b_peep, t_door_o, t_door_o_peep,
        t_door_locked_interior, t_door_locked, t_door_locked_peep, t_door_locked_alarm, t_door_frame,
        t_chaingate_l, t_fencegate_c, t_fencegate_o, t_chaingate_c, t_chaingate_o,
+       t_retractable_gate_l, t_retractable_gate_c, t_retractable_gate_o,
        t_door_boarded, t_door_boarded_damaged, t_door_boarded_peep, t_rdoor_boarded,
        t_rdoor_boarded_damaged, t_door_boarded_damaged_peep,
        t_door_metal_c, t_door_metal_o, t_door_metal_locked, t_door_metal_pickable,
@@ -454,6 +527,9 @@ extern ter_id t_null,
        t_curtains, t_window_bars_curtains, t_window_bars_domestic,
        t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded,
        t_window_boarded_noglass, t_window_bars_alarm, t_window_bars,
+       t_metal_grate_window, t_metal_grate_window_with_curtain, t_metal_grate_window_with_curtain_open,
+       t_metal_grate_window_noglass, t_metal_grate_window_with_curtain_noglass,
+       t_metal_grate_window_with_curtain_open_noglass,
        t_window_stained_green, t_window_stained_red, t_window_stained_blue,
        t_window_no_curtains, t_window_no_curtains_open, t_window_no_curtains_taped,
        t_rock, t_fault,
@@ -529,8 +605,9 @@ runtime index: furn_id
 furn_id refers to a position in the furnlist[] where the furn_t struct is stored. See note
 about ter_id above.
 */
+// NOLINTNEXTLINE(cata-static-int_id-constants)
 extern furn_id f_null,
-       f_hay, f_cattails,
+       f_hay, f_cattails, f_lotus, f_lilypad,
        f_rubble, f_rubble_rock, f_wreckage, f_ash,
        f_barricade_road, f_sandbag_half, f_sandbag_wall,
        f_bulletin,
@@ -569,7 +646,9 @@ extern furn_id f_null,
        f_tourist_table,
        f_camp_chair,
        f_sign,
-       f_gunsafe_ml;
+       f_gunsafe_ml, f_gunsafe_mj, f_gun_safe_el,
+       f_street_light, f_traffic_light,
+       f_console, f_console_broken;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.

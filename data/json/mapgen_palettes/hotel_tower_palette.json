@@ -18,7 +18,7 @@
       "S": "f_sink",
       "&": "f_toilet",
       "b": "f_bathtub",
-      "E": [ "f_exercise", "f_ergometer", "f_treadmill" ],
+      "E": [ "f_exercise", "f_ergometer", "f_ergometer_mechanical", "f_treadmill", "f_treadmill_mechanical" ],
       "e": "f_fridge",
       "l": "f_locker",
       "W": "f_washer",
@@ -55,7 +55,7 @@
       "~": "t_thconc_floor",
       "<": "t_stairs_up",
       ">": "t_stairs_down",
-      "#": "t_rock",
+      "#": "t_soil",
       "$": "t_sewage_pipe",
       "4": "t_gutter_downspout",
       "P": "t_sewage_pump"

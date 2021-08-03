@@ -10,6 +10,7 @@
     "price_postapoc": 1900,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "story_book",
     "color": "light_cyan",
     "time": "4 m",
     "chapters": 4,
@@ -26,6 +27,7 @@
     "price_postapoc": 1900,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "story_book",
     "color": "light_blue",
     "intelligence": 6,
     "time": "18 m",
@@ -132,7 +134,7 @@
     "name": { "str": "The Adorkable Girl", "str_pl": "copies of Adorkable" },
     "description": "When a therapist's daughter transfers to a new school, she decides to change her personality type.  As her social life begins to blossom, can she maintain a healthy boundary between her home life and her public persona?",
     "copy-from": "book_fict_soft_ya_quiddity",
-    "relative": { "weight": -75, "chapters": -6 }
+    "relative": { "weight": "-75 g", "chapters": -6 }
   },
   {
     "id": "book_fict_soft_ya_bjak",
@@ -167,7 +169,7 @@
     "id": "book_fict_soft_ya_pbbr",
     "type": "BOOK",
     "name": { "str": "Peanut Butter Bruised", "str_pl": "copies of Peanut Butter Bruised" },
-    "description": "In this work of young adult fiction, a woman raised on food stamps falls in love with a young cook.  More importantly, she falls in love with the idea of become a professional chef.",
+    "description": "In this work of young adult fiction, a woman raised on food stamps falls in love with a young cook.  More importantly, she falls in love with the idea of becoming a professional chef.",
     "copy-from": "book_fict_soft_ya_quiddity"
   },
   {

@@ -16,10 +16,11 @@
     "ammo": [ "battery" ],
     "charges_per_use": 1,
     "power_draw": 7500,
-    "use_action": "ECIG",
+    "use_action": [ "ECIG" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",

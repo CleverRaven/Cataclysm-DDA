@@ -2,24 +2,29 @@
 #ifndef CATA_SRC_MAGIC_ENCHANTMENT_H
 #define CATA_SRC_MAGIC_ENCHANTMENT_H
 
-#include <algorithm>
+#include <iosfwd>
 #include <map>
-#include <string>
+#include <new>
+#include <set>
 #include <utility>
 #include <vector>
 
 #include "calendar.h"
-#include "json.h"
 #include "magic.h"
 #include "optional.h"
 #include "type_id.h"
+#include "units_fwd.h"
 
 class Character;
 class Creature;
+class JsonObject;
+class JsonOut;
 class item;
 
 namespace enchant_vals
 {
+// the different types of values that can be modified by enchantments
+// either the item directly or the Character, whichever is more appropriate
 enum class mod : int {
     // effects for the Character
     STRENGTH,
@@ -38,22 +43,31 @@ enum class mod : int {
     REGEN_STAMINA,
     MAX_HP,        // for all limbs! use with caution
     REGEN_HP,
-    THIRST,        // cost or regen over time
-    FATIGUE,       // cost or regen over time
+    HUNGER,        // hunger rate
+    THIRST,        // thirst rate
+    FATIGUE,       // fatigue rate
     PAIN,          // cost or regen over time
     BONUS_DODGE,
     BONUS_BLOCK,
     BONUS_DAMAGE,
     ATTACK_NOISE,
-    SPELL_NOISE,
     SHOUT_NOISE,
     FOOTSTEP_NOISE,
     SIGHT_RANGE,
     CARRY_WEIGHT,
-    CARRY_VOLUME,
+    WEAPON_DISPERSION,
     SOCIAL_LIE,
     SOCIAL_PERSUADE,
     SOCIAL_INTIMIDATE,
+    SLEEPY,
+    LUMINATION,
+    EFFECTIVE_HEALTH_MOD,
+    MOD_HEALTH,
+    MOD_HEALTH_CAP,
+    MAP_MEMORY,
+    READING_EXP,
+    SKILL_RUST_RESIST,
+    LEARNING_FOCUS,
     ARMOR_BASH,
     ARMOR_CUT,
     ARMOR_STAB,
@@ -64,6 +78,7 @@ enum class mod : int {
     ARMOR_ACID,
     ARMOR_BIO,
     // effects for the item that has the enchantment
+    ITEM_DAMAGE_PURE,
     ITEM_DAMAGE_BASH,
     ITEM_DAMAGE_CUT,
     ITEM_DAMAGE_STAB,
@@ -110,84 +125,20 @@ class enchantment
             ALWAYS,
             UNDERGROUND,
             UNDERWATER,
+            ACTIVE, // the item, mutation, etc. is active
+            INACTIVE, // the item, mutation, etc. is inactive
             NUM_CONDITION
-        };
-        // the different types of values that can be modified by enchantments
-        // either the item directly or the Character, whichever is more appropriate
-        enum mod {
-            // effects for the Character
-            STRENGTH,
-            DEXTERITY,
-            PERCEPTION,
-            INTELLIGENCE,
-            SPEED,
-            ATTACK_COST,
-            ATTACK_SPEED, // affects attack speed of item even if it's not the one you're wielding
-            MOVE_COST,
-            METABOLISM,
-            MAX_MANA,
-            REGEN_MANA,
-            BIONIC_POWER,
-            MAX_STAMINA,
-            REGEN_STAMINA,
-            MAX_HP,        // for all limbs! use with caution
-            REGEN_HP,
-            THIRST,        // cost or regen over time
-            FATIGUE,       // cost or regen over time
-            PAIN,          // cost or regen over time
-            BONUS_DODGE,
-            BONUS_BLOCK,
-            BONUS_DAMAGE,
-            ATTACK_NOISE,
-            SPELL_NOISE,
-            SHOUT_NOISE,
-            FOOTSTEP_NOISE,
-            SIGHT_RANGE,
-            CARRY_WEIGHT,
-            CARRY_VOLUME,
-            SOCIAL_LIE,
-            SOCIAL_PERSUADE,
-            SOCIAL_INTIMIDATE,
-            ARMOR_BASH,
-            ARMOR_CUT,
-            ARMOR_STAB,
-            ARMOR_BULLET,
-            ARMOR_HEAT,
-            ARMOR_COLD,
-            ARMOR_ELEC,
-            ARMOR_ACID,
-            ARMOR_BIO,
-            // effects for the item that has the enchantment
-            ITEM_DAMAGE_BASH,
-            ITEM_DAMAGE_CUT,
-            ITEM_DAMAGE_STAB,
-            ITEM_DAMAGE_BULLET,
-            ITEM_DAMAGE_HEAT,
-            ITEM_DAMAGE_COLD,
-            ITEM_DAMAGE_ELEC,
-            ITEM_DAMAGE_ACID,
-            ITEM_DAMAGE_BIO,
-            ITEM_DAMAGE_AP,      // armor piercing
-            ITEM_ARMOR_BASH,
-            ITEM_ARMOR_CUT,
-            ITEM_ARMOR_STAB,
-            ITEM_ARMOR_BULLET,
-            ITEM_ARMOR_HEAT,
-            ITEM_ARMOR_COLD,
-            ITEM_ARMOR_ELEC,
-            ITEM_ARMOR_ACID,
-            ITEM_ARMOR_BIO,
-            ITEM_WEIGHT,
-            ITEM_ENCUMBRANCE,
-            ITEM_VOLUME,
-            ITEM_COVERAGE,
-            ITEM_ATTACK_SPEED,
-            ITEM_WET_PROTECTION,
-            NUM_MOD
         };
 
         static void load_enchantment( const JsonObject &jo, const std::string &src );
-        void load( const JsonObject &jo, const std::string &src = "" );
+        static void reset();
+        void load( const JsonObject &jo, const std::string &src = "",
+                   const cata::optional<std::string> &inline_id = cata::nullopt );
+
+        // Takes in a JsonValue which can be either a string or an enchantment object and returns the id of the enchantment the caller will use.
+        // If the input is a string return it as an enchantment_id otherwise create an enchantment with id inline_id and return inline_id as an enchantment id
+        static enchantment_id load_inline_enchantment( const JsonValue &jv, const std::string &src,
+                std::string &inline_id );
 
         // attempts to add two like enchantments together.
         // if their conditions don't match, return false. else true.
@@ -196,14 +147,27 @@ class enchantment
         // adds two enchantments together and ignores their conditions
         void force_add( const enchantment &rhs );
 
+        void set_has( has value );
+
+        void add_value_add( enchant_vals::mod value, int add_value );
+        void add_value_mult( enchant_vals::mod value, float mult_value );
+
+        void add_hit_me( const fake_spell &sp );
+        void add_hit_you( const fake_spell &sp );
+
         int get_value_add( enchant_vals::mod value ) const;
         double get_value_multiply( enchant_vals::mod value ) const;
+        // the standard way of modifying a value, adds then multiplies.
+        double modify_value( enchant_vals::mod mod_val, double value ) const;
+        units::energy modify_value( enchant_vals::mod mod_val, units::energy value ) const;
+        units::mass modify_value( enchant_vals::mod mod_val, units::mass value ) const;
 
         // this enchantment has a valid condition and is in the right location
         bool is_active( const Character &guy, const item &parent ) const;
 
         // this enchantment has a valid item independent conditions
-        bool is_active( const Character &guy ) const;
+        // @active means the container for the enchantment is active, for comparison to active flag.
+        bool is_active( const Character &guy, bool active ) const;
 
         // this enchantment is active when wielded.
         // shows total conditional values, so only use this when Character is not available
@@ -222,7 +186,14 @@ class enchantment
         void cast_hit_you( Character &caster, const Creature &target ) const;
         // casts all the hit_me_effects on self or a target depending on the enchantment definition
         void cast_hit_me( Character &caster, const Creature *target ) const;
+
+        const std::set<trait_id> &get_mutations() const {
+            return mutations;
+        }
+
+        bool operator==( const enchantment &rhs ) const;
     private:
+        std::set<trait_id> mutations;
         cata::optional<emit_id> emitter;
         std::map<efftype_id, int> ench_effects;
         // values that add to the base value
@@ -248,6 +219,23 @@ class enchantment
         // performs cooldown and distance checks before casting enchantment spells
         void cast_enchantment_spell( Character &caster, const Creature *target,
                                      const fake_spell &sp ) const;
+};
+
+template <typename E> struct enum_traits;
+
+template<>
+struct enum_traits<enchantment::has> {
+    static constexpr enchantment::has last = enchantment::has::NUM_HAS;
+};
+
+template<>
+struct enum_traits<enchantment::condition> {
+    static constexpr enchantment::condition last = enchantment::condition::NUM_CONDITION;
+};
+
+template<>
+struct enum_traits<enchant_vals::mod> {
+    static constexpr enchant_vals::mod last = enchant_vals::mod::NUM_MOD;
 };
 
 #endif // CATA_SRC_MAGIC_ENCHANTMENT_H

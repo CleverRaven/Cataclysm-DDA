@@ -1,0 +1,28 @@
+[
+  {
+    "id": "BGRS_AFTERLIFE_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "What level of hell is this?  I spent weeks in a sulforous hell being tortured.",
+    "responses": [
+      { "text": "What was that like?", "topic": "BGRS_AFTERLIFE_1_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGRS_AFTERLIFE_1_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "Then they started cutting me open and taking out my organs but adding new ones.",
+    "responses": [
+      { "text": "How did it end?", "topic": "BGRS_AFTERLIFE_1_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGRS_AFTERLIFE_1_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "Now that I finally am able to move and have some freedom, I plan on finding some of these demons and punching through them until I find the devil himself.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]

@@ -1,6 +1,7 @@
 #include "overlay_ordering.h"
 
 #include <set>
+#include <string>
 #include <utility>
 
 #include "json.h"
@@ -18,7 +19,7 @@ void load_overlay_ordering_into_array( const JsonObject &jsobj,
 {
     for( JsonObject ordering : jsobj.get_array( "overlay_ordering" ) ) {
         int order = ordering.get_int( "order" );
-        for( auto &id : ordering.get_tags( "id" ) ) {
+        for( const std::string &id : ordering.get_tags( "id" ) ) {
             orderarray[id] = order;
         }
     }

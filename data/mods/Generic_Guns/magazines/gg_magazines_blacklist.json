@@ -1,7 +1,7 @@
-{
-  "type": "ITEM_BLACKLIST",
-  "whitelist": false,
-  "items": [
-    "m74_clip"
-  ]
-}
+[
+  {
+    "type": "ITEM_BLACKLIST",
+    "whitelist": false,
+    "items": [ "m74_clip" ]
+  }
+]

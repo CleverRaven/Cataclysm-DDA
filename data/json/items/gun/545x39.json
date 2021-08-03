@@ -1,9 +1,9 @@
 [
   {
     "id": "ak74",
+    "copy-from": "rifle_auto",
     "looks_like": "ar15",
     "type": "GUN",
-    "reload_noise_volume": 10,
     "name": { "str": "AK-74M" },
     "//": "AKs likewise aren't commercially traded in the US, plus this is newer.",
     "description": "The successor to the well-known AK-47 rifle.  It combines the reliability of the AK series with the high-velocity, lightweight 5.45x39mm cartridge.",
@@ -15,14 +15,13 @@
     "to_hit": -1,
     "bashing": 11,
     "material": [ "steel", "wood" ],
-    "symbol": "(",
     "color": "brown",
     "ammo": [ "545x39" ],
-    "skill": "rifle",
     "dispersion": 150,
     "durability": 8,
+    "min_cycle_recoil": 1260,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "barrel_length": "250 ml",
+    "barrel_volume": "250 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],

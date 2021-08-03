@@ -1,6 +1,5 @@
 #include "behavior.h"
 
-#include <cassert>
 #include <list>
 #include <set>
 #include <unordered_map>
@@ -8,6 +7,7 @@
 
 #include "behavior_oracle.h"
 #include "behavior_strategy.h"
+#include "cata_assert.h"
 #include "generic_factory.h"
 #include "debug.h"
 #include "json.h"
@@ -36,7 +36,7 @@ behavior_return node_t::tick( const oracle_t *subject ) const
 {
     if( children.empty() ) {
         status_t result = status_t::running;
-        for( std::pair< predicate_type, std::string > predicate_pair : conditions ) {
+        for( const std::pair< predicate_type, std::string > &predicate_pair : conditions ) {
             result = predicate_pair.first( subject, predicate_pair.second );
             if( result != status_t::running ) {
                 break;
@@ -44,9 +44,9 @@ behavior_return node_t::tick( const oracle_t *subject ) const
         }
         return { result, this };
     } else {
-        assert( strategy != nullptr );
+        cata_assert( strategy != nullptr );
         status_t result = status_t::running;
-        for( std::pair< predicate_type, std::string > predicate_pair : conditions ) {
+        for( const std::pair< predicate_type, std::string > &predicate_pair : conditions ) {
             result = predicate_pair.first( subject, predicate_pair.second );
             if( result != status_t::running ) {
                 break;
@@ -135,7 +135,7 @@ void node_t::load( const JsonObject &jo, const std::string & )
             jo.throw_error( "Invalid strategy in behavior." );
         }
     }
-    for( const JsonObject &predicate_object : jo.get_array( "conditions" ) ) {
+    for( const JsonObject predicate_object : jo.get_array( "conditions" ) ) {
         const std::string predicate_id = predicate_object.get_string( "predicate" );
         auto new_predicate = predicate_map.find( predicate_id );
         if( new_predicate == predicate_map.end() ) {

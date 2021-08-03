@@ -78,7 +78,7 @@
       ],
       "palettes": [ "acidia_residential_commercial_palette" ],
       "terrain": { "7": "t_strconc_floor" },
-      "furniture": { "7": "f_treadmill" },
+      "furniture": { "7": [ "f_treadmill", "f_treadmill_mechanical" ] },
       "items": {
         "'": { "item": "cleaning", "chance": 2 },
         "D": { "item": "allclothes", "chance": 60 },

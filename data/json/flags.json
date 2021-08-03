@@ -6,9 +6,14 @@
     "info": "This gear has <info>cloaking tech</info> that will <good>make you invisible</good> when active, at the cost of <info>power from a UPS</info>."
   },
   {
-    "id": "EFFECT_INVISIBLE",
-    "context": [  ],
-    "type": "json_flag"
+    "id": "ALLOWS_TAIL",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "ALLOWS_TALONS",
+    "type": "json_flag",
+    "context": [  ]
   },
   {
     "id": "ALARMCLOCK",
@@ -26,7 +31,7 @@
     "id": "ALLOWS_REMOTE_USE",
     "type": "json_flag",
     "context": [ "TOOL" ],
-    "info": "This item can be activated or reloaded from adjacent tile without picking it up."
+    "info": "This item can be activated or reloaded from an adjacent tile without picking it up."
   },
   {
     "id": "AURA",
@@ -46,7 +51,8 @@
     "id": "BELT_CLIP",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "info": "This item can be clipped on to a <info>belt loop</info> of the appropriate size."
+    "restriction": "Item must clip onto a belt loop",
+    "info": "This item can be <info>clipped onto a belt loop</info> of the appropriate size."
   },
   {
     "id": "BELTED",
@@ -55,6 +61,12 @@
     "//": "Layer for backpacks and things worn over outerwear.",
     "info": "This gear is <info>strapped</info> onto you.",
     "conflicts": [ "OUTER", "SKINTIGHT", "WAIST", "PERSONAL", "AURA" ]
+  },
+  {
+    "id": "BIONIC_INSTALLATION_DATA",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "This item <info>provides</info> instructions and other required data for several bionics, allowing installation of them with <good>minimal failure chance</good>."
   },
   {
     "id": "BIONIC_NPC_USABLE",
@@ -68,11 +80,6 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "//": "Blinds the wearer while worn, and provides nominal protection vs flashbang flashes.",
     "info": "This gear <bad>prevents</bad> you from <info>seeing</info> anything."
-  },
-  {
-    "id": "EFFECT_NIGHT_VISION",
-    "context": [  ],
-    "type": "json_flag"
   },
   {
     "id": "BLOCK_WHILE_WORN",
@@ -126,6 +133,60 @@
     "conflicts": [ "FRAGILE_MELEE" ]
   },
   {
+    "id": "FIELD_DRESS",
+    "type": "json_flag",
+    "context": [ "GENERIC" ]
+  },
+  {
+    "id": "FIELD_DRESS_FAILED",
+    "type": "json_flag",
+    "context": [ "GENERIC" ]
+  },
+  {
+    "id": "QUARTERED",
+    "type": "json_flag",
+    "context": [ "GENERIC" ]
+  },
+  {
+    "id": "SCIENCE_CARD",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secure science facility."
+  },
+  {
+    "id": "MILITARY_CARD",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secure military facility."
+  },
+  {
+    "id": "INDUSTRIAL_CARD",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secure industrial facility."
+  },
+  {
+    "id": "SKINNED",
+    "type": "json_flag",
+    "context": [ "GENERIC" ]
+  },
+  {
+    "id": "BLED",
+    "type": "json_flag",
+    "context": [ "GENERIC" ]
+  },
+  {
+    "id": "CANT_HEAL_EVERYONE",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "info": "This med can't be used by everyone, it requires a special mutation."
+  },
+  {
+    "id": "DIRTY",
+    "type": "json_flag",
+    "context": [ "GENERIC", "COMESTIBLE" ]
+  },
+  {
     "id": "EATEN_COLD",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
@@ -144,16 +205,74 @@
     "info": "This gear <good>completely protects</good> you from <info>electric discharges</info>."
   },
   {
-    "id": "ETHEREAL_ITEM",
+    "id": "BIO_IMMUNE",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
     "type": "json_flag",
-    "context": [  ],
-    "info": "This item disappears as soon as its timer runs out whether it is food or not."
+    "info": "This gear <good>completely protects</good> you from <info>biological damage</info>."
+  },
+  {
+    "id": "BASH_IMMUNE",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "type": "json_flag",
+    "info": "This gear <good>completely protects</good> you from <info>bash damage</info>."
+  },
+  {
+    "id": "CUT_IMMUNE",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "type": "json_flag",
+    "info": "This gear <good>completely protects</good> you from <info>cut damage</info>."
+  },
+  {
+    "id": "BULLET_IMMUNE",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "type": "json_flag",
+    "info": "This gear <good>completely protects</good> you from <info>bullet damage</info>."
+  },
+  {
+    "id": "ACID_IMMUNE",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "type": "json_flag",
+    "info": "This gear <good>completely protects</good> you from <info>acid damage</info>."
+  },
+  {
+    "id": "STAB_IMMUNE",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "type": "json_flag",
+    "info": "This gear <good>completely protects</good> you from <info>stab damage</info>."
+  },
+  {
+    "id": "HEAT_IMMUNE",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "type": "json_flag",
+    "info": "This gear <good>completely protects</good> you from <info>high temperatures</info>."
+  },
+  {
+    "id": "COLD_IMMUNE",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "type": "json_flag",
+    "info": "This gear <good>completely protects</good> you from <info>low temperatures</info>."
+  },
+  {
+    "id": "ACID",
+    "context": [ "COMESTIBLE" ],
+    "type": "json_flag"
+  },
+  {
+    "id": "CORROSIVE",
+    "context": [ "COMESTIBLE" ],
+    "type": "json_flag"
   },
   {
     "id": "ONLY_ONE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "You can wear <info>only one</info>."
+  },
+  {
+    "id": "ONE_PER_LAYER",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "<info>Only one</info> item can be worn on this clothing layer."
   },
   {
     "id": "FANCY",
@@ -214,6 +333,12 @@
     "info": "This clothing <info>prevents going underwater</info> including both <good>drowning</good> and <bad>diving</bad>."
   },
   {
+    "id": "FIN",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This clothing has fins that <good>improve swimming speed</good>, but <bad>reduce movement speed</bad> on land."
+  },
+  {
     "id": "FRAGILE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -244,6 +369,18 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "This gear is equipped with an accurate hygrometer (which is used to measure humidity)."
+  },
+  {
+    "id": "BURNOUT",
+    "type": "json_flag",
+    "context": [ "TOOL" ],
+    "//": "You can visually inspect how much it is burned out (candle, torch)."
+  },
+  {
+    "id": "BRASS_CATCHER",
+    "type": "json_flag",
+    "context": [ "GUNMOD" ],
+    "info": "This gun mod catches ejected casings."
   },
   {
     "id": "IRREMOVABLE",
@@ -288,6 +425,11 @@
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
     "info": "This food <neutral>melts when not in a very cold climate</neutral>, and tastes much <good>better</good> when <color_light_cyan>frozen</color>."
+  },
+  {
+    "id": "MAG_DESTROY",
+    "type": "json_flag",
+    "context": [ "MAGAZINE" ]
   },
   {
     "id": "OUTER",
@@ -339,10 +481,141 @@
     "info": "As a weapon, this item needs considerable space to use properly and does 70% of its normal damage to adjacent enemies."
   },
   {
-    "id": "POWERED",
+    "id": "PREDATOR_FUN",
     "type": "json_flag",
-    "context": [ "TOOL" ],
-    "//": "If turned ON, it uses its own source of power, instead of relying on power of the user."
+    "context": [ "COMESTIBLE" ],
+    "//": "Designates a food that is usually undesirable but gives a morale bonus to characters with predator mutations."
+  },
+  {
+    "id": "PRESERVE_SPAWN_OMT",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "//": "This item will store the OMT it spawned in in the 'spawn_location_omt' var"
+  },
+  {
+    "id": "STAB",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ]
+  },
+  {
+    "id": "SPEAR",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ]
+  },
+  {
+    "id": "PRIMITIVE_RANGED_WEAPON",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ]
+  },
+  {
+    "id": "SOLARPACK_ON",
+    "type": "json_flag",
+    "context": [ "TOOL", "TOOL_ARMOR" ]
+  },
+  {
+    "id": "PSEUDO",
+    "type": "json_flag",
+    "context": [ "GENERIC" ]
+  },
+  {
+    "id": "RADIOSIGNAL_1",
+    "type": "json_flag",
+    "context": [ "TOOL", "TOOL_ARMOR" ]
+  },
+  {
+    "id": "RADIOSIGNAL_2",
+    "type": "json_flag",
+    "context": [ "TOOL", "TOOL_ARMOR" ]
+  },
+  {
+    "id": "RADIOSIGNAL_3",
+    "type": "json_flag",
+    "context": [ "TOOL", "TOOL_ARMOR" ]
+  },
+  {
+    "id": "RADIO_ACTIVATION",
+    "type": "json_flag",
+    "context": [ "TOOL", "TOOL_ARMOR" ]
+  },
+  {
+    "id": "RADIO_MOD",
+    "type": "json_flag",
+    "context": [ "TOOL", "TOOL_ARMOR" ]
+  },
+  {
+    "id": "RADIOCARITEM",
+    "type": "json_flag",
+    "context": [ "TOOL", "TOOL_ARMOR" ]
+  },
+  {
+    "id": "DISCOUNT_VALUE_1",
+    "type": "json_flag",
+    "context": [ "TOOL", "TOOL_ARMOR" ]
+  },
+  {
+    "id": "DISCOUNT_VALUE_2",
+    "type": "json_flag",
+    "context": [ "TOOL", "TOOL_ARMOR" ]
+  },
+  {
+    "id": "DISCOUNT_VALUE_3",
+    "type": "json_flag",
+    "context": [ "TOOL", "TOOL_ARMOR" ]
+  },
+  {
+    "id": "MC_MOBILE",
+    "type": "json_flag",
+    "context": [ "TOOL", "TOOL_ARMOR" ]
+  },
+  {
+    "id": "MC_RANDOM_STUFF",
+    "type": "json_flag",
+    "context": [ "TOOL", "TOOL_ARMOR" ]
+  },
+  {
+    "id": "MC_SCIENCE_STUFF",
+    "type": "json_flag",
+    "context": [ "TOOL", "TOOL_ARMOR" ]
+  },
+  {
+    "id": "MC_USED",
+    "type": "json_flag",
+    "context": [ "TOOL", "TOOL_ARMOR" ]
+  },
+  {
+    "id": "MC_HAS_DATA",
+    "type": "json_flag",
+    "context": [ "TOOL", "TOOL_ARMOR" ]
+  },
+  {
+    "id": "MC_MAY_BE_ENCRYPTED",
+    "type": "json_flag",
+    "context": [ "TOOL", "TOOL_ARMOR" ]
+  },
+  {
+    "id": "MC_ENCRYPTED",
+    "type": "json_flag",
+    "context": [ "TOOL", "TOOL_ARMOR" ]
+  },
+  {
+    "id": "MC_TURN_USED",
+    "type": "json_flag",
+    "context": [ "TOOL", "TOOL_ARMOR" ]
+  },
+  {
+    "id": "NO_PARASITES",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ]
+  },
+  {
+    "id": "MUSHY",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ]
+  },
+  {
+    "id": "FREEZERBURN",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ]
   },
   {
     "id": "PSYSHIELD_PARTIAL",
@@ -369,7 +642,22 @@
     "id": "REQUIRES_BALANCE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
-    "info": "This gear requires careful balance to use. Being hit while wearing it could make you <bad>fall down</bad>."
+    "info": "This gear requires careful balance to use.  Being hit while wearing it could make you <bad>fall down</bad>."
+  },
+  {
+    "id": "ROLLER_ONE",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ]
+  },
+  {
+    "id": "ROLLER_INLINE",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ]
+  },
+  {
+    "id": "ROLLER_QUAD",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ]
   },
   {
     "id": "TWO_WAY_RADIO",
@@ -407,25 +695,36 @@
     "id": "SHEATH_AXE",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "//": "This item can be stored in a sheath of the appropriate size."
+    "restriction": "Item must fit in an axe sheath",
+    "info": "This item can <info>fit in an axe sheath</info> of the appropriate size."
   },
   {
     "id": "SHEATH_KNIFE",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "//": "This item can be stored in a sheath of the appropriate size."
+    "restriction": "Item must fit in a sheath",
+    "info": "This item can <info>fit in a sheath</info> of the appropriate size."
   },
   {
     "id": "SHEATH_SWORD",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "//": "This item can be stored in a scabbard of the appropriate size."
+    "restriction": "Item must fit in a scabbard",
+    "info": "This item can <info>fit in a scabbard</info> of the appropriate size."
   },
   {
     "id": "SHEATH_SPEAR",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL" ],
-    "//": "This item can be stored in a sling of the appropriate size."
+    "restriction": "Item must attach to a spear strap",
+    "info": "This item can <info>attach to a spear strap</info> of the appropriate size."
+  },
+  {
+    "id": "SHEATH_BOW",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL" ],
+    "restriction": "Item must fit in a bow sling",
+    "info": "This item can <info>fit in a bow sling</info> of the appropriate size."
   },
   {
     "id": "SHEATH_GOLF",
@@ -440,6 +739,22 @@
     "//": "Undergarment layer.",
     "info": "This clothing <info>lies close</info> to the skin.",
     "conflicts": [ "BELTED", "OUTER", "WAIST", "PERSONAL", "AURA" ]
+  },
+  {
+    "id": "SLEEP_AID",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "This item provides comfort during sleep."
+  },
+  {
+    "id": "SLEEP_AID_CONTAINER",
+    "type": "json_flag",
+    "context": [ "GENERIC" ]
+  },
+  {
+    "id": "REVIVE_SPECIAL",
+    "type": "json_flag",
+    "context": [ "GENERIC" ]
   },
   {
     "id": "SLOWS_MOVEMENT",
@@ -521,7 +836,30 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "//": "Prevents the item from making the body part count as unfriendly to water and thus causing negative morale from being wet.",
-    "info": "This clothing <good>performs well</good> even when <info>soaking wet</info>. This can feel good."
+    "info": "This clothing <good>performs well</good> even when <info>soaking wet</info>.  This can feel good."
+  },
+  {
+    "id": "ITEM_BROKEN",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This item was broken and <bad>won't activate anymore</bad>."
+  },
+  {
+    "id": "WATER_BREAK",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This item <bad>will get broken</bad> by water."
+  },
+  {
+    "id": "WATER_DISSOLVE",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This item <bad>will get dissolved</bad> in water."
+  },
+  {
+    "id": "WET",
+    "type": "json_flag",
+    "context": [ "GENERIC", "ARMOR", "TOOL_ARMOR" ]
   },
   {
     "id": "POWERARMOR_COMPATIBLE",
@@ -529,6 +867,17 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "//": "Allows power armor to be worn with compatible armors like ear plugs and mouthpieces.",
     "info": "This item can be worn simultaneously with power armor."
+  },
+  {
+    "id": "ZERO_WEIGHT",
+    "type": "json_flag",
+    "context": [ "GENERIC", "AMMO", "TOOL", "GUNMOD", "GUN" ]
+  },
+  {
+    "id": "ZOOM",
+    "type": "json_flag",
+    "context": [ "TOOL", "TOOL_ARMOR" ],
+    "info": "This item can be used to <good>better</good> see <info>things far away</info>."
   },
   {
     "id": "furred",
@@ -614,6 +963,12 @@
     "type": "json_flag",
     "context": [ "SPELL" ],
     "//": "This makes the spell's effects permanent."
+  },
+  {
+    "id": "NO_FAIL",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "//": "Spellcasting never fails for this spell"
   },
   {
     "id": "IGNORE_WALLS",
@@ -706,56 +1061,6 @@
     "//": "This mutation does not count toward thresholds at all."
   },
   {
-    "id": "EFFECT_FEATHER_FALL",
-    "context": [  ],
-    "type": "json_flag"
-  },
-  {
-    "id": "EFFECT_BIO_IMMUNE",
-    "context": [  ],
-    "type": "json_flag"
-  },
-  {
-    "id": "EFFECT_BASH_IMMUNE",
-    "context": [  ],
-    "type": "json_flag"
-  },
-  {
-    "id": "EFFECT_CUT_IMMUNE",
-    "context": [  ],
-    "type": "json_flag"
-  },
-  {
-    "id": "EFFECT_BULLET_IMMUNE",
-    "context": [  ],
-    "type": "json_flag"
-  },
-  {
-    "id": "EFFECT_ACID_IMMUNE",
-    "context": [  ],
-    "type": "json_flag"
-  },
-  {
-    "id": "EFFECT_STAB_IMMUNE",
-    "context": [  ],
-    "type": "json_flag"
-  },
-  {
-    "id": "EFFECT_HEAT_IMMUNE",
-    "context": [  ],
-    "type": "json_flag"
-  },
-  {
-    "id": "EFFECT_COLD_IMMUNE",
-    "context": [  ],
-    "type": "json_flag"
-  },
-  {
-    "id": "ELECTRIC_IMMUNE",
-    "context": [  ],
-    "type": "json_flag"
-  },
-  {
     "id": "HIDDEN_HALLU",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
@@ -782,7 +1087,7 @@
     "id": "RAW",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
-    "//": "Decreases calories as they appear in JSON def by 25%. This penalty is removed if the item is used in a recipe that requires heating.",
+    "//": "Decreases calories as they appear in JSON def by 25%.  This penalty is removed if the item is used in a recipe that requires heating.",
     "info": "This food is <info>raw</info>, and will be <good>more nutritious</good> if cooked."
   },
   {
@@ -796,5 +1101,970 @@
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
     "craft_inherit": true
+  },
+  {
+    "id": "ALLERGEN_EGG",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ]
+  },
+  {
+    "id": "ALLERGEN_FRUIT",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ]
+  },
+  {
+    "id": "ALLERGEN_JUNK",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ]
+  },
+  {
+    "id": "ALLERGEN_MEAT",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ]
+  },
+  {
+    "id": "ALLERGEN_MILK",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ]
+  },
+  {
+    "id": "ALLERGEN_NUT",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ]
+  },
+  {
+    "id": "ALLERGEN_VEGGY",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ]
+  },
+  {
+    "id": "ALLERGEN_WHEAT",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ]
+  },
+  {
+    "id": "ALLERGEN_WOOL",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ]
+  },
+  {
+    "id": "ALWAYS_TWOHAND",
+    "type": "json_flag",
+    "context": [ "TOOL" ]
+  },
+  {
+    "id": "BIPOD",
+    "type": "json_flag",
+    "context": [ "GUNMOD" ]
+  },
+  {
+    "id": "BIRD",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ]
+  },
+  {
+    "id": "BOMB",
+    "type": "json_flag",
+    "context": [ "TOOL" ]
+  },
+  {
+    "id": "BYPRODUCT",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "CABLE_SPOOL",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "CAMERA_PRO",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "CANNIBAL",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "CARNIVORE_OK",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "CASING",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "CATTLE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "CHALLENGE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "CHARGEDIM",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "CITY_START",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "COLD",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "COLLAPSIBLE_STOCK",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "CONDUCTIVE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "CONSUMABLE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "COOKED",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "CORPSE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "CUSTOM_EXPLOSION",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "DANGEROUS",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "DIMENSIONAL_ANCHOR",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "DISABLE_SIGHTS",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "DROP_ACTION_ONLY_IF_LIQUID",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "EDIBLE_FROZEN",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "EFFECT_IMPEDING",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "ENCUMBRANCE_UPDATE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "ETHEREAL_ITEM",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "E_COMBUSTION",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "FAKE_MILL",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "FAKE_SMOKE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "FELINE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "FERTILIZER",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "FISH_GOOD",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "FISH_POOR",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "FIT",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "FLAMING",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "FORAGE_HALLU",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "FORAGE_POISON",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "FROZEN",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "FUNGAL_VECTOR",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "GAS_DISCOUNT",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "GIBBED",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "GNV_EFFECT",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "HELMET_COMPAT",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "HIDDEN_ITEM",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "HOT",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "HURT_WHEN_WIELDED",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "INEDIBLE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "INITIAL_PART",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "INSPIRATIONAL",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "INSTALL_DIFFICULT",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "IR_EFFECT",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "IS_ARMOR",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "IS_PET_ARMOR",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "IS_UPS",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This item provides power to <info>UPS compatible items</info>."
+  },
+  {
+    "id": "LEAK_DAM",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "LITCIG",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "LUPINE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "MAG_BELT",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "MAG_BULKY",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "MAG_EJECT",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "MECH_BAT",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "MESSY",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "MISSION_ITEM",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "MOUNTED_GUN",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "MYCUS_OK",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "NEEDS_NO_LUBE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "NEEDS_UNFOLD",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "NEGATIVE_MONOTONY_OK",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "NEVER_JAMS",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "NONCONDUCTIVE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "NON_FOULING",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "NO_DROP",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "NO_INGEST",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "NO_PACKED",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "NO_RELOAD",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "NO_SALVAGE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "NO_STERILE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "NO_TAKEOFF",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "NO_UNLOAD",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "NO_UNWIELD",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "NPC_ACTIVATE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "NPC_ALT_ATTACK",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "NPC_SAFE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "NPC_THROWN",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "NPC_THROW_NOW",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "ORGANIC",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "PERPETUAL",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "PLACE_RANDOMLY",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "POWERED",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "PROCESSING",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "PROCESSING_RESULT",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "PULPED",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "PUMP_ACTION",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "RADIOACTIVE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "RADIOCAR",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "RADIO_CONTAINER",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "RADIO_INVOKE_PROC",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "RAIN_PROTECT",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "REACH3",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "REACH_ATTACK",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "REBREATHER",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "RECHARGE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "REDUCED_BASHING",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "REDUCED_WEIGHT",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "RELOAD_AND_SHOOT",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "RELOAD_EJECT",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "RELOAD_ONE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "REQUIRES_TINDER",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "SAFECRACK",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "SLEEP_IGNORE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "SLOW_WIELD",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "SMOKABLE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "SMOKED",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "SOLARPACK",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "SPEEDLOADER",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "SPLINT",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "STR_RELOAD",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "TACK",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "TANGLE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "TARDIS",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "TIE_UP",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "TINDER",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "TOBACCO",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "TOURNIQUET",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "TOW_CABLE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "TRADER_AVOID",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "TRADER_KEEP",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "TRADER_KEEP_EQUIPPED",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "UNDERWATER_GUN",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "UNRECOVERABLE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "URSINE_HONEY",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "USES_BIONIC_POWER",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "USE_EAT_VERB",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "USE_PLAYER_ENERGY",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "USE_UPS",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "VEHICLE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "WATER_EXTINGUISH",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "WHIP",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "WIND_EXTINGUISH",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "WRITE_MESSAGE",
+    "type": "json_flag",
+    "context": [ "TOOL" ]
+  },
+  {
+    "id": "MUTE",
+    "type": "json_flag",
+    "context": [ "TOOL_ARMOR" ],
+    "info": "This gear <bad>prevents</bad> you from <info>speaking</info>."
+  },
+  {
+    "id": "NOT_FOOTWEAR",
+    "type": "json_flag",
+    "context": [ "TOOL_ARMOR" ]
+  },
+  {
+    "id": "IRREPLACEABLE_CONSUMABLE",
+    "type": "json_flag",
+    "context": [ "AMMO", "CONSUMABLE" ]
+  },
+  {
+    "id": "ACTIVATE_ON_PLACE",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This item will be activated when it is placed in mapgen."
+  },
+  {
+    "id": "ACT_IN_FIRE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "ACT_ON_RANGED_HIT",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "BACKBLAST",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "CAN_HAVE_CHARGES",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "DETERGENT",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "MODE_BURST",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "FIRE_TWOHAND",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "GRENADE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "JAVELIN",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "LEAK_ALWAYS",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "MAG_COMPACT",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "NOGIB",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "NON-FOULING",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "PUMP_RAIL_COMPATIBLE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "RADIO_MODABLE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "STR_DRAW",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "UNBREAKABLE_MELEE",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "WATERPROOF_GUN",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "no_auto_equip",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "auto_wield",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "SOFT",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "HARD",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "SCIENCE_CARD_VISITOR",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a science facility."
+  },
+  {
+    "id": "SCIENCE_CARD_MAINTENANCE_GREEN",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a science facility."
+  },
+  {
+    "id": "SCIENCE_CARD_MAINTENANCE_YELLOW",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secured maintence area."
+  },
+  {
+    "id": "SCIENCE_CARD_MAINTENANCE_BLUE",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secured maintence area."
+  },
+  {
+    "id": "SCIENCE_CARD_TRANSPORT_1",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a science facility."
+  },
+  {
+    "id": "SCIENCE_CARD_SECURITY_YELLOW",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secured law enforcement area."
+  },
+  {
+    "id": "SCIENCE_CARD_SECURITY_MAGENTA",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secured law enforcement area."
+  },
+  {
+    "id": "SCIENCE_CARD_SECURITY_BLACK",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secured  area."
+  },
+  {
+    "id": "SCIENCE_CARD_MUTAGEN_GREEN",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to access a secure zone of a facility."
+  },
+  {
+    "id": "SCIENCE_CARD_MUTAGEN_PINK",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to access a secure zone of a facility."
+  },
+  {
+    "id": "SCIENCE_CARD_MUTAGEN_CYAN",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to access a secure zone of a facility."
+  },
+  {
+    "id": "SCIENCE_CARD_MEDICAL_RED",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to access a secure zone of a facility."
   }
 ]

@@ -16,7 +16,7 @@
         "mil_cbrn"
       ]
     },
-    "ident": "heli_crash"
+    "id": "heli_crash"
   },
   {
     "copy-from": "overrun",
@@ -35,6 +35,6 @@
         "mil_cbrn"
       ]
     },
-    "ident": "overrun"
+    "id": "overrun"
   }
 ]

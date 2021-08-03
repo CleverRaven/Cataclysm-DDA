@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "Graphical_Overmap_Magiclysm",
+    "id": "Graphical_Overmap_Magiclysm",
     "name": "Graphical Overmap Magiclysm",
     "authors": [ "Nphyx" ],
     "maintainers": [ "Nphyx" ],

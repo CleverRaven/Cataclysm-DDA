@@ -49,7 +49,7 @@ Field | Meaning
 `"id"` | string, unique faction id
 `"name"` | string, the faction's common name
 `"likes_u"` | integer, the faction's starting opinion of the player.  `"likes_u"` can be increased or decreased in play.  If it goes below -10, members of the faction will be hostile.
-`"respects_u"` | integer, the faction's starting opinionof the player.  Has no meaningful effect in  game and may be removed in the future.
+`"respects_u"` | integer, the faction's starting opinion of the player.  Has no meaningful effect in game and may be removed in the future.
 `"known_by_u"` | boolean, whether the player has met members of the faction.  Can be changed in play.  Unknown factions will not be displayed in the faction menu.
 `"size"` | integer, an approximate count of the members of the faction.  Has no effect in play currently.
 `"power"` | integer, an approximation of the faction's power.  Has no effect in play currently.

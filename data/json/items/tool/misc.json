@@ -56,16 +56,15 @@
     "volume": "500 ml",
     "price": 1500,
     "price_postapoc": 250,
-    "initial_charges": 30,
-    "max_charges": 30,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "butane": 30 }, "watertight": true, "rigid": true } ],
     "charges_per_use": 1,
     "material": [ "steel" ],
-    "flags": [ "EXPLOSIVE", "EXPLODES" ],
+    "flags": [  ],
     "explosion": {
       "power": 4503,
       "distance_factor": 0.1,
       "fire": true,
-      "shrapnel": { "casing_mass": 50, "fragment_mass": 0.05, "recovery": 0 }
+      "shrapnel": { "casing_mass": 50, "fragment_mass": 0.025, "recovery": 0 }
     },
     "explode_in_fire": true
   },
@@ -83,7 +82,7 @@
     "material": [ "brass", "wood" ],
     "symbol": ";",
     "color": "brown",
-    "use_action": "BELL"
+    "use_action": [ "BELL" ]
   },
   {
     "type": "TOOL",
@@ -100,7 +99,6 @@
     "material": [ "plastic" ],
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "max_charges": 100,
     "use_action": {
       "target": "dab_pen_on",
       "msg": "You turn on the dab pen.",
@@ -112,6 +110,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -136,7 +135,6 @@
     "power_draw": 9000,
     "revert_to": "dab_pen",
     "charges_per_use": 1,
-    "max_charges": 100,
     "use_action": {
       "target": "dab_pen",
       "msg": "You turn off the dab pen.",
@@ -148,6 +146,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -160,8 +159,9 @@
     "type": "TOOL",
     "name": { "str": "entrenching tool" },
     "description": "This is a stout collapsible spade.  It's commonly used by military forces and favored by hikers for digging.",
-    "weight": "628 g",
+    "weight": "453 g",
     "volume": "1 L",
+    "longest_side": "23 cm",
     "price": 4000,
     "price_postapoc": 500,
     "bashing": 10,
@@ -192,8 +192,9 @@
     "category": "ammo",
     "name": { "str": "flammable arrow" },
     "description": "This arrow has a rag soaked in a flammable liquid wrapped around the shaft near the head.  You need to light it before shooting.",
-    "weight": "150 g",
-    "volume": "250 ml",
+    "weight": "30 g",
+    "volume": "100 ml",
+    "longest_side": "78 cm",
     "price": 3500,
     "price_postapoc": 10,
     "bashing": 2,
@@ -203,7 +204,7 @@
     "initial_charges": 5,
     "max_charges": 5,
     "charges_per_use": 1,
-    "use_action": "ARROW_FLAMABLE"
+    "use_action": [ "ARROW_FLAMABLE" ]
   },
   {
     "id": "fur_rollmat",
@@ -228,13 +229,30 @@
     }
   },
   {
+    "id": "hose_garden",
+    "looks_like": "hose",
+    "type": "TOOL",
+    "name": { "str": "garden hose" },
+    "description": "This is a flexible garden hose.  If you cut it in smaller pieces, it could be used for crafting, or siphoning fuel from a vehicle.",
+    "weight": "1632 g",
+    "volume": "1500 ml",
+    "longest_side": "30 cm",
+    "price": 600,
+    "price_postapoc": 300,
+    "bashing": 5,
+    "material": [ "rubber" ],
+    "symbol": ",",
+    "color": "green",
+    "qualities": [ [ "HOSE", 1 ] ]
+  },
+  {
     "id": "grapnel",
     "type": "GENERIC",
     "category": "tools",
     "name": { "str": "grappling hook" },
     "description": "A folding grappling hook attached to a stout 30-foot long piece of lightweight cord.  Useful for keeping yourself safe from falls.  Can be used in place of a long rope for butchering, in a pinch.",
-    "weight": "760 g",
-    "volume": "750 ml",
+    "weight": "1980 g",
+    "volume": "2500 ml",
     "price_postapoc": 500,
     "to_hit": -2,
     "bashing": 12,
@@ -243,8 +261,9 @@
     "symbol": ";",
     "color": "light_gray",
     "techniques": [ "SPIN", "WRAP" ],
-    "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ]
+    "qualities": [ [ "COOK", 1 ], [ "ROPE", 2 ] ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_rope_up" }
   },
   {
     "type": "TOOL",
@@ -356,7 +375,7 @@
     "symbol": ";",
     "color": "brown",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "use_action": {
       "target": "large_space_heater_on",
       "msg": "You turn on the heater.",
@@ -370,6 +389,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "magazine_well": "2 L",
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
@@ -406,27 +426,7 @@
     "initial_charges": 4000,
     "max_charges": 4000,
     "charges_per_use": 1,
-    "use_action": "WATER_PURIFIER"
-  },
-  {
-    "id": "makeshift_halberd",
-    "type": "GENERIC",
-    "name": { "str": "makeshift glaive" },
-    "//": "Name changed to glaive, but changing the id would break e.g.  tilesets.",
-    "description": "This is a large blade attached to a stout section of tree branch.  It could do a considerable amount of damage.",
-    "weight": "1800 g",
-    "volume": "3 L",
-    "price": 5000,
-    "price_postapoc": 250,
-    "to_hit": 2,
-    "bashing": 13,
-    "cutting": 36,
-    "material": [ "steel", "wood" ],
-    "symbol": "/",
-    "color": "light_gray",
-    "techniques": [ "WBLOCK_1" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -42 ] ],
-    "flags": [ "REACH_ATTACK", "POLEARM", "NONCONDUCTIVE", "SHEATH_SPEAR", "FRAGILE_MELEE" ]
+    "use_action": [ "WATER_PURIFIER" ]
   },
   {
     "type": "GENERIC",
@@ -438,7 +438,7 @@
     "material": [ "plastic" ],
     "price": 12500,
     "price_postapoc": 500,
-    "use_action": "MIND_SPLICER",
+    "use_action": [ "MIND_SPLICER" ],
     "volume": "1 L",
     "weight": "600 g",
     "flags": [ "TRADER_AVOID" ]
@@ -472,29 +472,10 @@
     "material": [ "plastic" ],
     "symbol": ",",
     "color": "dark_gray",
-    "initial_charges": 500,
-    "max_charges": 500,
     "charges_per_use": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "permanent_ink": 500 }, "watertight": true, "rigid": true } ],
     "use_action": { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": true, "material_restricted": false },
-    "flags": [ "WRITE_MESSAGE" ]
-  },
-  {
-    "id": "pheromone",
-    "type": "TOOL",
-    "name": { "str": "zombie pheromone" },
-    "description": "This is a disgusting ball of rotting meat of zombie origin.  Squeezing this gland causes a small cloud of pheromones to spray into the air.  Apparently the foul secretion can change zombies' attitude towards you, and they may ignore you for a short period of time.  Perhaps they briefly consider you as one of them.",
-    "weight": "238 g",
-    "volume": "250 ml",
-    "price": 4000,
-    "price_postapoc": 100,
-    "to_hit": -1,
-    "material": [ "flesh" ],
-    "symbol": "*",
-    "color": "red",
-    "initial_charges": 3,
-    "max_charges": 3,
-    "charges_per_use": 1,
-    "use_action": "PHEROMONE"
+    "flags": [ "WRITE_MESSAGE", "NO_RELOAD", "NO_UNLOAD" ]
   },
   {
     "id": "pocketwatch",
@@ -581,7 +562,7 @@
     "symbol": ";",
     "color": "brown",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "use_action": {
       "target": "small_space_heater_on",
       "msg": "You turn on the heater.",
@@ -595,6 +576,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
@@ -625,11 +607,10 @@
     "material": [ "aluminum" ],
     "symbol": ";",
     "color": "light_gray",
-    "initial_charges": 10,
-    "max_charges": 10,
     "charges_per_use": 1,
-    "use_action": "SPRAY_CAN",
-    "flags": [ "WRITE_MESSAGE" ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "aerosol_paint": 10 }, "watertight": true, "rigid": true } ],
+    "use_action": [ "SPRAY_CAN" ],
+    "flags": [ "WRITE_MESSAGE", "NO_RELOAD", "NO_UNLOAD" ]
   },
   {
     "id": "stepladder",
@@ -645,7 +626,7 @@
     "material": [ "wood" ],
     "symbol": "H",
     "color": "brown",
-    "use_action": "LADDER"
+    "use_action": [ "LADDER" ]
   },
   {
     "id": "survival_marker",
@@ -656,7 +637,7 @@
     "volume": "15 ml",
     "price": 0,
     "price_postapoc": 10,
-    "material": [ "plastic" ],
+    "material": [ "charcoal" ],
     "symbol": ",",
     "color": "dark_gray",
     "initial_charges": 100,
@@ -697,7 +678,7 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "TRADER_AVOID", "BOMB", "GRENADE" ]
+    "flags": [ "TRADER_AVOID", "BOMB", "GRENADE", "ZERO_WEIGHT" ]
   },
   {
     "id": "tear_gas_payload_act",
@@ -720,11 +701,11 @@
       "sound_msg": "Tick.",
       "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead."
     },
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ]
   },
   {
     "id": "teleumbrella",
-    "type": "GENERIC",
+    "type": "ARMOR",
     "category": "tools",
     "name": { "str": "telescoping umbrella" },
     "description": "A telescoping umbrella which collapses down for easy storage, useful for keeping dry when wielded.",
@@ -737,8 +718,12 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "dark_gray",
+    "sided": true,
+    "warmth": 0,
+    "material_thickness": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "RAIN_PROTECT" ]
+    "flags": [ "ALLOWS_NATURAL_ATTACKS", "BELT_CLIP", "BELTED", "FRAGILE", "OVERSIZE", "RAIN_PROTECT" ],
+    "armor": [ { "encumbrance": 40, "coverage": 5, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "testflames",
@@ -764,13 +749,13 @@
     "name": { "str": "Whistle of Tindalos", "str_pl": "Whistles of Tindalos" },
     "description": "Who is this Tindalos guy?",
     "weight": "22 g",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 10000,
     "price_postapoc": 1000,
     "material": [ "superalloy" ],
     "symbol": ";",
     "color": "yellow",
-    "use_action": "CALL_OF_TINDALOS"
+    "use_action": [ "CALL_OF_TINDALOS" ]
   },
   {
     "id": "umbrella",
@@ -786,6 +771,7 @@
     "bashing": 6,
     "cutting": 4,
     "material": [ "plastic", "aluminum" ],
+    "ascii_picture": "umbrella",
     "symbol": "/",
     "color": "magenta",
     "techniques": [ "WBLOCK_1" ],
@@ -807,7 +793,7 @@
     "initial_charges": 1,
     "max_charges": 1,
     "charges_per_use": 1,
-    "use_action": "VORTEX"
+    "use_action": [ "VORTEX" ]
   },
   {
     "id": "sandbox_kit",
@@ -815,7 +801,7 @@
     "name": { "str": "sandbox kit" },
     "description": "A plastic bucket holding a small spade and rake, perfect to build sand castles!",
     "weight": "250 g",
-    "volume": "1 L",
+    "volume": "1050 ml",
     "price": 300,
     "price_postapoc": 3,
     "material": [ "plastic" ],
@@ -825,6 +811,7 @@
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
+        "watertight": true,
         "open_container": true,
         "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg"

@@ -2,6 +2,7 @@
   {
     "result": "broken_afs_mon_migoturret",
     "type": "uncraft",
+    "activity_level": "fake",
     "skill_used": "survival",
     "difficulty": 5,
     "time": "1 h",
@@ -14,6 +15,7 @@
       [ [ "vibrating_blaster", 1 ] ],
       [ [ "acidic_bore", 60 ] ],
       [ [ "humming_heart", 1 ] ],
+      [ [ "afs_neural_io_5", 1 ] ],
       [ [ "sensory_cluster", 1 ] ],
       [ [ "bioweapon_chassis", 1 ] ]
     ]
@@ -21,6 +23,7 @@
   {
     "result": "broken_tankbot",
     "type": "uncraft",
+    "activity_level": "fake",
     "skill_used": "electronics",
     "difficulty": 8,
     "time": "10 h",
@@ -48,6 +51,7 @@
   {
     "result": "broken_chickenbot",
     "type": "uncraft",
+    "activity_level": "fake",
     "skill_used": "electronics",
     "difficulty": 8,
     "time": "10 h",
@@ -72,6 +76,7 @@
   {
     "result": "broken_tripod",
     "type": "uncraft",
+    "activity_level": "fake",
     "skill_used": "electronics",
     "difficulty": 8,
     "time": "5 h",
@@ -96,6 +101,7 @@
   {
     "result": "broken_afs_mon_sentinel_lx",
     "type": "uncraft",
+    "activity_level": "fake",
     "skill_used": "electronics",
     "difficulty": 6,
     "time": "2 h",
@@ -118,8 +124,80 @@
     ]
   },
   {
+    "result": "broken_wraitheon_irradiant",
+    "type": "uncraft",
+    "activity_level": "fake",
+    "skill_used": "electronics",
+    "difficulty": 8,
+    "time": "5 h",
+    "using": [ [ "soldering_standard", 10 ], [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "spidery_legs_big", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "afs_magnet_3", 4 ] ],
+      [ [ "afs_circuitry_3", 1 ] ],
+      [ [ "afs_material_1", 10 ] ],
+      [ [ "afs_material_3", 1 ] ],
+      [ [ "afs_material_4", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "afs_heat_2_salvage", 2 ] ],
+      [ [ "afs_energy_storage_4", 1 ] ],
+      [ [ "flamethrower", 1 ] ]
+    ]
+  },
+  {
+    "result": "broken_wraitheon_isohypsa",
+    "type": "uncraft",
+    "activity_level": "fake",
+    "skill_used": "electronics",
+    "difficulty": 8,
+    "time": "5 h",
+    "using": [ [ "soldering_standard", 10 ], [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 4 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
+      [ [ "sensor_module", 2 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 4 ] ],
+      [ [ "quad_rotors", 5 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "afs_magnet_3", 4 ] ],
+      [ [ "afs_circuitry_4", 1 ] ],
+      [ [ "afs_material_1", 10 ] ],
+      [ [ "afs_material_3", 1 ] ],
+      [ [ "afs_heat_2_salvage", 2 ] ],
+      [ [ "afs_energy_storage_4", 1 ] ]
+    ]
+  },
+  {
+    "result": "broken_wraitheon_kaburaya",
+    "type": "uncraft",
+    "activity_level": "fake",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "time": "10 m",
+    "using": [ [ "soldering_standard", 5 ], [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
+    "components": [
+      [ [ "afs_magnet_1", 1 ] ],
+      [ [ "afs_circuitry_1", 1 ] ],
+      [ [ "afs_material_1", 2 ] ],
+      [ [ "afs_energy_storage_1", 1 ] ]
+    ]
+  },
+  {
     "result": "broken_bloodhound_drone",
     "type": "uncraft",
+    "activity_level": "fake",
     "skill_used": "electronics",
     "difficulty": 4,
     "time": "2 m",
@@ -137,9 +215,21 @@
     ]
   },
   {
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "afs_radiobeacon",
+    "skill_used": "electronics",
+    "difficulty": 1,
+    "time": "15 m",
+    "using": [ [ "soldering_standard", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [ [ [ "afs_energy_storage_2", 1 ] ], [ [ "antenna", 1 ] ], [ [ "afs_material_1", 2 ] ], [ [ "afs_circuitry_1", 1 ] ] ]
+  },
+  {
     "//": "TODO: use copy-from inheritance for solarpack uncrafts -- it is currently not working properly #24702",
     "result": "q_solarpack",
     "type": "uncraft",
+    "activity_level": "fake",
     "skill_used": "electronics",
     "difficulty": 10,
     "skills_required": [ [ "fabrication", 2 ], [ "mechanics", 2 ] ],
@@ -162,6 +252,7 @@
     "//": "TODO: use copy-from inheritance for solarpack uncrafts -- it is currently not working properly #24702",
     "result": "q_solarpack_on",
     "type": "uncraft",
+    "activity_level": "fake",
     "skill_used": "electronics",
     "difficulty": 10,
     "skills_required": [ [ "fabrication", 2 ], [ "mechanics", 2 ] ],
@@ -179,5 +270,12 @@
       [ [ "scrap", 8 ] ],
       [ [ "rope_6", 1 ] ]
     ]
+  },
+  {
+    "result": "afs_heat_2_salvage",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "30 s",
+    "components": [ [ [ "afs_heat_2", 1 ] ] ]
   }
 ]

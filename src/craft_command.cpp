@@ -3,9 +3,12 @@
 #include <algorithm>
 #include <climits>
 #include <cstdlib>
+#include <functional>
 #include <limits>
 #include <list>
+#include <string>
 
+#include "character.h"
 #include "crafting.h"
 #include "debug.h"
 #include "enum_conversions.h"
@@ -14,12 +17,12 @@
 #include "item.h"
 #include "json.h"
 #include "output.h"
-#include "player.h"
 #include "recipe.h"
 #include "requirements.h"
 #include "translations.h"
 #include "type_id.h"
 #include "uistate.h"
+#include "visitable.h"
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
@@ -94,14 +97,17 @@ template void comp_selection<item_comp>::serialize( JsonOut &jsout ) const;
 template void comp_selection<tool_comp>::deserialize( JsonIn &jsin );
 template void comp_selection<item_comp>::deserialize( JsonIn &jsin );
 
-void craft_command::execute( const tripoint &new_loc )
+void craft_command::execute( const cata::optional<tripoint> &new_loc )
+{
+    loc = new_loc;
+
+    execute();
+}
+
+void craft_command::execute()
 {
     if( empty() ) {
         return;
-    }
-
-    if( new_loc != tripoint_zero ) {
-        loc = new_loc;
     }
 
     bool need_selections = true;
@@ -127,6 +133,9 @@ void craft_command::execute( const tripoint &new_loc )
                                   "Start crafting anyway?" ), rec->result_name() ) ) {
                     return;
                 }
+            } else if( !rec->character_has_required_proficiencies( *crafter ) ) {
+                popup( _( "You don't have the required proficiencies to craft this!" ) );
+                return;
             } else {
                 debugmsg( "Tried to start craft without sufficient charges" );
                 return;
@@ -163,7 +172,7 @@ void craft_command::execute( const tripoint &new_loc )
         tool_selections.clear();
         for( const auto &it : needs->get_tools() ) {
             comp_selection<tool_comp> ts = crafter->select_tool_component(
-            it, batch_size, map_inv, DEFAULT_HOTKEYS, true, true, []( int charges ) {
+            it, batch_size, map_inv, true, true, []( int charges ) {
                 return charges / 20 + charges % 20;
             } );
             if( ts.use_from == usage_from::cancel ) {
@@ -283,7 +292,7 @@ skill_id craft_command::get_skill_id()
 }
 
 std::vector<comp_selection<item_comp>> craft_command::check_item_components_missing(
-                                        const inventory &map_inv ) const
+                                        const read_only_visitable &map_inv ) const
 {
     std::vector<comp_selection<item_comp>> missing;
 
@@ -348,7 +357,7 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
 }
 
 std::vector<comp_selection<tool_comp>> craft_command::check_tool_components_missing(
-                                        const inventory &map_inv ) const
+                                        const read_only_visitable &map_inv ) const
 {
     std::vector<comp_selection<tool_comp>> missing;
 

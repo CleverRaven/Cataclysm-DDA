@@ -3,6 +3,7 @@
     "type": "palette",
     "id": "city_block_foundation_palette",
     "furniture": {
+      "?": "f_console_broken",
       "A": "f_stool",
       "B": "f_beaded_door",
       "D": "f_chair",
@@ -68,7 +69,6 @@
       "M": "t_region_shrub_decorative",
       "S": "t_ladder_down",
       "V": "t_ladder_up",
-      "?": "t_console_broken",
       "$": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ]
     },
     "toilets": { "t": {  } },

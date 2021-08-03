@@ -50,7 +50,8 @@
       "w": "f_rack_wood",
       "x": "f_entertainment_center",
       "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
-      "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ]
+      "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ],
+      "?": "f_console_broken"
     },
     "terrain": {
       ".": "t_linoleum_gray",
@@ -69,8 +70,7 @@
       "6": "t_carpet_red",
       "7": "t_carpet_green",
       "8": "t_carpet_purple",
-      "9": "t_carpet_yellow",
-      "?": "t_console_broken"
+      "9": "t_carpet_yellow"
     },
     "toilets": { "t": {  } },
     "liquids": { "g": { "liquid": "water_clean", "amount": [ 0, 100 ] } }

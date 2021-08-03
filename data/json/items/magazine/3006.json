@@ -3,9 +3,9 @@
     "id": "3006_clip",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": ".30-06 clip" },
+    "name": { "str": ".30-06 5-round clip" },
     "//": "Provisional.",
-    "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load a bolt-action rifle.",
+    "description": "A tiny piece of grooved metal designed to allow the shooter to quickly load a compatible weapon.",
     "weight": "40 g",
     "volume": "50ml",
     "price": 500,
@@ -14,15 +14,14 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "3006" ],
-    "capacity": 5,
     "flags": [ "SPEEDLOADER" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 5 } } ]
   },
   {
     "id": "blrmag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "Browning BLR magazine" },
+    "name": { "str": "Browning BLR 4-round magazine" },
     "description": "A compact 4-round box magazine for the Browning BLR.",
     "weight": "40 g",
     "volume": "250 ml",
@@ -32,15 +31,14 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "3006" ],
-    "capacity": 4,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 4 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 4 } } ]
   },
   {
     "id": "garandclip",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "M1 Garand clip" },
+    "name": { "str": "M1 Garand 8-round clip" },
     "description": "A light-weight en-bloc clip for use with the M1 Garand that will be ejected after the last round is fired.",
     "weight": "30 g",
     "volume": "250 ml",
@@ -50,16 +48,15 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "3006" ],
-    "capacity": 8,
     "reload_time": 150,
     "flags": [ "MAG_COMPACT", "MAG_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 8 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 8 } } ]
   },
   {
     "id": "m1918bigmag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "BAR extended magazine" },
+    "name": { "str": "BAR 30-round magazine" },
     "description": "An aftermarket magazine for use with the Browning Automatic Rifle, holds 30 rounds.",
     "weight": "300 g",
     "volume": "750 ml",
@@ -69,17 +66,16 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "3006" ],
-    "capacity": 30,
     "reload_time": 120,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 30 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 30 } } ]
   },
   {
     "id": "m1918mag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "BAR magazine" },
-    "//": "Compatable magazines made for reproductions exist, and the standard-capacity mags are fairly cheap compared to variants.",
+    "name": { "str": "BAR 20-round magazine" },
+    "//": "Compatible magazines made for reproductions exist, and the standard-capacity mags are fairly cheap compared to variants.",
     "description": "A standard capacity magazine for use with the Browning Automatic Rifle, holds 20 rounds.",
     "weight": "200 g",
     "volume": "500 ml",
@@ -89,8 +85,7 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "3006" ],
-    "capacity": 20,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 20 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "3006": 20 } } ]
   }
 ]

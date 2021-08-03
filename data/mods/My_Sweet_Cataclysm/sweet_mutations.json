@@ -35,7 +35,7 @@
     "vitamin_rates": [ [ "vitC", -900 ], [ "vitB", -900 ], [ "vitA", -900 ], [ "iron", -900 ], [ "calcium", -900 ] ],
     "starting_trait": true,
     "healing_awake": 0.0,
-    "healing_resting": 0.0,
+    "healing_resting": -1.0,
     "healthy_rate": 0.0,
     "bleed_resist": 1000,
     "fat_to_max_hp": 0.1,
@@ -49,6 +49,6 @@
         "bash": 5
       }
     ],
-    "flags": [ "NO_THIRST", "NO_DISEASE", "NO_RADIATION" ]
+    "flags": [ "NO_THIRST", "NO_DISEASE", "NO_RADIATION", "NO_MINIMAL_HEALING" ]
   }
 ]

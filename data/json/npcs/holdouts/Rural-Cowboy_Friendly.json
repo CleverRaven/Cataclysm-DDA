@@ -1,0 +1,103 @@
+[
+  {
+    "type": "npc",
+    "id": "RURAL_HOLDOUT_FRIENDLY",
+    "//": "A rural holdout survivor trying to stay safe",
+    "class": "NC_COWBOY",
+    "attitude": 0,
+    "name_suffix": "Survivor cowboy",
+    "mission": 7,
+    "chat": "TALK_COWBOYFR_MAIN",
+    "faction": "no_faction"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COWBOYFR_MAIN",
+    "dynamic_line": {
+      "u_has_var": "talked_to_cowboyfr",
+      "type": "dialogue",
+      "context": "first_meeting",
+      "value": "yes",
+      "yes": "Hello again.",
+      "no": "Ayuh, I was thinkin' it's just another monstah skulkin' about.  Who are you?"
+    },
+    "speaker_effect": { "effect": { "u_add_var": "talked_to_cowboyfr", "type": "dialogue", "context": "first_meeting", "value": "yes" } },
+    "responses": [
+      {
+        "text": "Just a survivor, looking around.  What are you doing here?",
+        "topic": "TALK_COWBOYFR_INTRODUCTION",
+        "condition": { "not": { "u_has_var": "talked_to_cowboyfr", "type": "dialogue", "context": "first_meeting", "value": "yes" } }
+      },
+      {
+        "text": "What did you before all this?",
+        "topic": "TALK_COWBOYFR_BACKGROUND",
+        "condition": { "u_has_var": "talked_to_cowboyfr", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      },
+      {
+        "text": "Is there something I can do for you?",
+        "topic": "TALK_COWBOYFR_HELP",
+        "condition": { "u_has_var": "talked_to_cowboyfr", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      },
+      {
+        "text": "How about we travel together?",
+        "topic": "TALK_COWBOYFR_FOLLOW",
+        "condition": { "u_has_var": "talked_to_cowboyfr", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      },
+      {
+        "text": "What's with the accent?",
+        "topic": "TALK_COWBOYFR_ACCENT",
+        "condition": { "u_has_var": "talked_to_cowboyfr", "type": "dialogue", "context": "first_meeting", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COWBOYFR_BACKGROUND",
+    "dynamic_line": "I worked on a ranch not too fah from here 'fore it all went down.  I'd love ta get back ta what I did - taking care of horses, cows, all sorts of animals, makin' sure the fields stay safe an' all that.  But now?  I dunno, man.  Just tryin' ta survive, I suppose.  Hopefully, tha world will get back togetha' one day and I can put mah skills ta use doin' what I like.",
+    "responses": [ { "text": "Let's hope it will.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COWBOYFR_INTRODUCTION",
+    "dynamic_line": "I was just sort of wanderin' around, hoping ta maybe find some bettah gear.  Decided ta rest up, 'eard someone walkin', and, well, here we are.",
+    "responses": [ { "text": "I see.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COWBOYFR_HELP",
+    "dynamic_line": "Can't say I can think of summin' specific right now.  Gotta say though, maybe it oughta be a good idea for us ta travel togetha' - safety in numbers an' all that.",
+    "responses": [
+      { "text": "I'll think about it.", "topic": "TALK_NONE" },
+      { "text": "Is it a good idea to trust a stranger like me this easily?", "topic": "TALK_COWBOYFR_TRUST" },
+      { "text": "Sounds like a good idea - want to join me, then?", "topic": "TALK_COWBOYFR_FOLLOW" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COWBOYFR_FOLLOW",
+    "dynamic_line": "Wicked.  Been around the old road long enough ta know how ta handle myself in a pinch.  Knew my way around a gun ever since my da taught me when I was a kid, so ya don't have ta worry about me doing my part.",
+    "responses": [
+      { "text": "On a second thought, let me think about it a bit more", "topic": "TALK_DONE" },
+      { "text": "Great!  Let's go.", "topic": "TALK_DONE", "effect": "follow" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COWBOYFR_TRUST",
+    "dynamic_line": "Don't have much of a choice, do I?  On my own, a monstah will get lucky sooner or later, and even if I kill it, bleedin' out in some alley is not summin' I fancy.  Plus, we just had a nice, civil chat where no one tried ta kill the otha', so I reckon we're off to ah' good start, all things considered.",
+    "responses": [
+      { "text": "Fair enough.  Want to travel with me, then?", "topic": "TALK_COWBOYFR_FOLLOW" },
+      { "text": "Can't say I really agree.  I'll be going now.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_COWBOYFR_ACCENT",
+    "dynamic_line": "Wha', nevah been ta Boston 'ave ya?  Hope you're not 'avin a hahd time keepin' up with me, but if ya get used ta it, wicked good fun, let me tell ya.",
+    "responses": [
+      { "text": "I like it.", "topic": "TALK_NONE" },
+      { "text": "I hate it.", "topic": "TALK_NONE" },
+      { "text": "Okay then.", "topic": "TALK_NONE" }
+    ]
+  }
+]

@@ -13,7 +13,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_2_DINO2",
-    "dynamic_line": "I know all kinds of weird useless stuff.  I've seen things at churches, I've seen things on farms, I've seen whole exhibits way out.  Those Swampers, they know what's happening.  They're creatures of light come back to save us all.  Or eat us, I forget.",
+    "dynamic_line": "I know all kinds of weird useless stuff.  I've seen things at churches, I've seen things on farms, I've seen whole exhibits way out.  Those Swampers, they know what's happening.  They're creatures of light come back to save us all.  Or eat us, I forget.  Oh and that Old Guard Repo Man hates them and Red at the train station.",
     "responses": [
       { "text": "What was that about cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD" },
       { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },

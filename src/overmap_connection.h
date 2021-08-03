@@ -2,17 +2,17 @@
 #ifndef CATA_SRC_OVERMAP_CONNECTION_H
 #define CATA_SRC_OVERMAP_CONNECTION_H
 
+#include <iosfwd>
 #include <list>
-#include <vector>
 #include <set>
-#include <string>
+#include <vector>
 
 #include "int_id.h"
 #include "omdata.h"
 #include "string_id.h"
 
-class JsonObject;
 class JsonIn;
+class JsonObject;
 struct overmap_location;
 
 class overmap_connection
@@ -63,7 +63,7 @@ class overmap_connection
         struct cache {
             const subtype *value = nullptr;
             bool assigned = false;
-            operator bool() const {
+            explicit operator bool() const {
                 return assigned;
             }
         };

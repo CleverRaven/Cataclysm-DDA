@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "No_Rail_Stations",
+    "id": "No_Rail_Stations",
     "name": "No Rail Stations",
     "authors": [ "Inglonias" ],
     "description": "Removes above-ground rail stations from the game.",

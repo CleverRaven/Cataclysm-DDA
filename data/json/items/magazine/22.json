@@ -13,15 +13,14 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "22" ],
-    "capacity": 8,
     "flags": [ "SPEEDLOADER" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 8 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 8 } } ]
   },
   {
     "id": "a180mag",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
-    "name": { "str": "A-180 magazine" },
+    "name": { "str": "American-180 165-round magazine" },
     "description": "An unusually shaped pan magazine for the American-180.",
     "weight": "760 g",
     "volume": "500 ml",
@@ -31,10 +30,81 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "22" ],
-    "capacity": 165,
     "reload_time": 150,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 165 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 165 } } ]
+  },
+  {
+    "id": "a180mag1",
+    "looks_like": "mp5mag",
+    "type": "MAGAZINE",
+    "name": { "str": "American-180 Polymer 165-round magazine" },
+    "description": "An unusually shaped pan magazine for the American-180 made of polymer.",
+    "weight": "500 g",
+    "volume": "500 ml",
+    "price": 7300,
+    "price_postapoc": 250,
+    "material": [ "plastic" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "22" ],
+    "reload_time": 150,
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 165 } } ]
+  },
+  {
+    "id": "a180mag2",
+    "looks_like": "mp5mag",
+    "type": "MAGAZINE",
+    "name": { "str": "American-180 177-round magazine" },
+    "description": "An unusually shaped pan magazine for the American-180",
+    "weight": "600 g",
+    "volume": "500 ml",
+    "price": 7500,
+    "price_postapoc": 300,
+    "material": [ "steel" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "22" ],
+    "reload_time": 150,
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 177 } } ]
+  },
+  {
+    "id": "a180mag3",
+    "looks_like": "mp5mag",
+    "type": "MAGAZINE",
+    "name": { "str": "American-180 Polymer 220-round magazine" },
+    "description": "An unusually shaped pan magazine for the American-180 made of polymer.",
+    "weight": "660 g",
+    "volume": "500 ml",
+    "price": 8000,
+    "price_postapoc": 400,
+    "material": [ "plastic" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "22" ],
+    "reload_time": 150,
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 220 } } ]
+  },
+  {
+    "id": "a180mag4",
+    "looks_like": "mp5mag",
+    "type": "MAGAZINE",
+    "name": { "str": "American-180 Polymer 275-round magazine" },
+    "description": "An unusually shaped pan magazine for the American-180 made of polymer.",
+    "weight": "770 g",
+    "volume": "600 ml",
+    "price": 8000,
+    "price_postapoc": 400,
+    "material": [ "plastic" ],
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": [ "22" ],
+    "reload_time": 150,
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 275 } } ]
   },
   {
     "id": "marlin_tubeloader",
@@ -50,15 +120,14 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "22" ],
-    "capacity": 19,
     "flags": [ "SPEEDLOADER" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 19 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 19 } } ]
   },
   {
     "id": "mosquitomag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "SIG Mosquito magazine" },
+    "name": { "str": "SIG Mosquito 10-round magazine" },
     "description": "A factory specification 10-round magazine for the SIG Mosquito.",
     "weight": "60 g",
     "volume": "250 ml",
@@ -68,16 +137,15 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "22" ],
-    "capacity": 10,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 10 } } ]
   },
   {
     "id": "ruger1022bigmag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "Ruger BX-25 magazine" },
-    "description": "Extended 25-round stick magazine for the Ruger 10/22.",
+    "name": { "str": "Ruger 10/22 25-round magazine" },
+    "description": "Extended 25-round stick magazine for the Ruger 10/22, known as BX-25.",
     "weight": "180 g",
     "volume": "500 ml",
     "price": 7900,
@@ -86,15 +154,14 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "22" ],
-    "capacity": 25,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 25 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 25 } } ]
   },
   {
     "id": "ruger1022mag",
     "looks_like": "stanag30",
     "type": "MAGAZINE",
-    "name": { "str": "Ruger 10/22 rotary magazine" },
+    "name": { "str": "Ruger 10/22 10-round rotary magazine" },
     "description": "Removable 10-round rotary magazine for the Ruger 10/22 which allows the magazine to fit flush with the bottom of the stock.",
     "weight": "80 g",
     "volume": "250 ml",
@@ -104,16 +171,15 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "22" ],
-    "capacity": 10,
     "reload_time": 160,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 10 } } ]
   },
   {
     "id": "sw22mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "S&W 22A magazine" },
+    "name": { "str": "22A 10-round magazine" },
     "description": "A standard capacity magazine for the popular S&W 22A pistol.",
     "weight": "70 g",
     "volume": "250 ml",
@@ -123,15 +189,14 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "22" ],
-    "capacity": 10,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 10 } } ]
   },
   {
     "id": "j22mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Jennings J-22 magazine" },
+    "name": { "str": "J-22 6-round magazine" },
     "description": "A cheap 6-round steel box magazine for the Jennings J-22.",
     "weight": "55 g",
     "volume": "27ml",
@@ -141,15 +206,14 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "22" ],
-    "capacity": 6,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 6 } } ]
   },
   {
     "id": "wp22mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "Walther P22 magazine" },
+    "name": { "str": "P22 10-round magazine" },
     "description": "A 10-round box magazine for the Walther P22.",
     "weight": "25 g",
     "volume": "126 ml",
@@ -159,8 +223,7 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "22" ],
-    "capacity": 10,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 10 } } ]
   }
 ]

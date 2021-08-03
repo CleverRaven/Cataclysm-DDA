@@ -51,7 +51,6 @@
     "type": "technique",
     "id": "SPIN",
     "name": "Spinning Strike",
-    "unarmed_allowed": true,
     "melee_allowed": true,
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "crit_tec": true,
@@ -63,7 +62,6 @@
     "type": "technique",
     "id": "WIDE",
     "name": "Wide Strike",
-    "unarmed_allowed": true,
     "melee_allowed": true,
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "crit_tec": true,
@@ -87,7 +85,6 @@
     "type": "technique",
     "id": "BRUTAL",
     "name": "Brutal Strike",
-    "unarmed_allowed": true,
     "melee_allowed": true,
     "crit_tec": true,
     "stun_dur": 1,
@@ -99,7 +96,6 @@
     "type": "technique",
     "id": "RAPID",
     "name": "Rapid Strike",
-    "unarmed_allowed": true,
     "melee_allowed": true,
     "mult_bonuses": [
       { "stat": "movecost", "scale": 0.5 },
@@ -114,14 +110,13 @@
     "type": "technique",
     "id": "VORPAL",
     "name": "Vorpal Strike",
-    "unarmed_allowed": true,
     "melee_allowed": true,
     "mult_bonuses": [ { "stat": "damage", "type": "cut", "scale": 99 } ],
     "crit_tec": true,
     "weighting": -250,
     "messages": [
-      "Snicker-snack! You slice through %s like hot knife slices through butter",
-      "Snicker-snack! <npcname> slices through %s like hot knife slices through butter"
+      "Snicker-snack!  You slice through %s like hot knife slices through butter.",
+      "Snicker-snack!  <npcname> slices through %s like hot knife slices through butter."
     ],
     "description": "Cut damage multiply by 99, crit only"
   },
@@ -129,7 +124,7 @@
     "type": "technique",
     "id": "WRAP",
     "name": "Wrap Attack",
-    "unarmed_allowed": true,
+    "melee_allowed": true,
     "stun_dur": 2,
     "messages": [ "You wrap up %s", "<npcname> wraps up %s" ],
     "description": "Stun 2 turns"
@@ -138,7 +133,7 @@
     "type": "technique",
     "id": "SWEEP",
     "name": "Sweep Attack",
-    "unarmed_allowed": true,
+    "melee_allowed": true,
     "down_dur": 2,
     "messages": [ "You sweep %s", "<npcname> sweeps %s" ],
     "description": "Down 2 turns"
@@ -147,7 +142,6 @@
     "type": "technique",
     "id": "PRECISE",
     "name": "Precise Strike",
-    "unarmed_allowed": true,
     "melee_allowed": true,
     "crit_tec": true,
     "messages": [ "You precisely hit %s", "<npcname> precisely hits %s" ],
@@ -167,17 +161,15 @@
     "type": "technique",
     "id": "tec_counter",
     "name": "Counterattack",
-    "unarmed_allowed": true,
+    "melee_allowed": true,
     "block_counter": true,
     "crit_ok": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.0 } ],
     "messages": [ "You counter-attack %s", "<npcname> counter-attacks %s" ]
   },
   {
     "type": "technique",
     "id": "tec_feint",
     "name": "Feint",
-    "unarmed_allowed": true,
     "melee_allowed": true,
     "defensive": true,
     "miss_recovery": true,
@@ -187,7 +179,6 @@
     "type": "technique",
     "id": "tec_break",
     "name": "Grab Break",
-    "unarmed_allowed": true,
     "melee_allowed": true,
     "defensive": true,
     "grab_break": true,
@@ -197,7 +188,6 @@
     "type": "technique",
     "id": "tec_precise",
     "name": "Precise Strike",
-    "unarmed_allowed": true,
     "melee_allowed": true,
     "crit_tec": true,
     "messages": [ "You jab deftly at %s", "<npcname> jabs deftly at %s" ],
@@ -216,8 +206,7 @@
     "crit_ok": true,
     "disarms": true,
     "down_dur": 1,
-    "knockback_dist": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.0 } ]
+    "knockback_dist": 1
   },
   {
     "type": "technique",
@@ -230,8 +219,7 @@
     "block_counter": true,
     "crit_ok": true,
     "down_dur": 1,
-    "knockback_dist": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.0 } ]
+    "knockback_dist": 1
   },
   {
     "type": "technique",
@@ -245,8 +233,7 @@
     "dodge_counter": true,
     "crit_ok": true,
     "down_dur": 1,
-    "knockback_dist": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.0 } ]
+    "knockback_dist": 1
   },
   {
     "type": "technique",
@@ -261,8 +248,7 @@
     "crit_ok": true,
     "disarms": true,
     "down_dur": 1,
-    "knockback_dist": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.0 } ]
+    "knockback_dist": 1
   },
   {
     "type": "technique",
@@ -300,7 +286,7 @@
     "knockback_spread": 1,
     "stun_dur": 1,
     "down_dur": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.0 }, { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
   },
   {
     "type": "technique",
@@ -355,8 +341,7 @@
     "skill_requirements": [ { "name": "melee", "level": 5 } ],
     "melee_allowed": true,
     "block_counter": true,
-    "crit_ok": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.0 } ]
+    "crit_ok": true
   },
   {
     "type": "technique",
@@ -366,8 +351,7 @@
     "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
     "unarmed_allowed": true,
     "block_counter": true,
-    "crit_ok": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.0 } ]
+    "crit_ok": true
   },
   {
     "type": "technique",
@@ -510,8 +494,7 @@
     "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
     "unarmed_allowed": true,
     "dodge_counter": true,
-    "down_dur": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.0 } ]
+    "down_dur": 1
   },
   {
     "type": "technique",
@@ -546,7 +529,6 @@
     "block_counter": true,
     "down_dur": 1,
     "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.0 },
       { "stat": "damage", "type": "bash", "scale": 0.5 },
       { "stat": "damage", "type": "cut", "scale": 0.5 },
       { "stat": "damage", "type": "stab", "scale": 0.5 }
@@ -563,7 +545,6 @@
     "dodge_counter": true,
     "stun_dur": 1,
     "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.0 },
       { "stat": "damage", "type": "bash", "scale": 0.5 },
       { "stat": "damage", "type": "cut", "scale": 0.5 },
       { "stat": "damage", "type": "stab", "scale": 0.5 }
@@ -709,7 +690,6 @@
     "crit_ok": true,
     "stun_dur": 1,
     "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.0 },
       { "stat": "damage", "type": "bash", "scale": 1.2 },
       { "stat": "damage", "type": "cut", "scale": 1.2 },
       { "stat": "damage", "type": "stab", "scale": 1.2 }
@@ -862,8 +842,7 @@
     "melee_allowed": true,
     "unarmed_weapons_allowed": false,
     "dodge_counter": true,
-    "down_dur": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.0 } ]
+    "down_dur": 1
   },
   {
     "type": "technique",
@@ -873,8 +852,7 @@
     "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
     "unarmed_allowed": true,
     "block_counter": true,
-    "crit_ok": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.0 } ]
+    "crit_ok": true
   },
   {
     "type": "technique",
@@ -982,8 +960,7 @@
     "melee_allowed": true,
     "unarmed_allowed": true,
     "crit_ok": true,
-    "block_counter": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.0 } ]
+    "block_counter": true
   },
   {
     "type": "technique",
@@ -1029,8 +1006,7 @@
     "crit_ok": true,
     "dodge_counter": true,
     "knockback_dist": 1,
-    "knockback_spread": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.0 } ]
+    "knockback_spread": 1
   },
   {
     "type": "technique",
@@ -1042,11 +1018,7 @@
     "crit_ok": true,
     "dodge_counter": true,
     "down_dur": 1,
-    "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.0 },
-      { "stat": "damage", "type": "cut", "scale": 0 },
-      { "stat": "damage", "type": "stab", "scale": 0 }
-    ]
+    "mult_bonuses": [ { "stat": "damage", "type": "cut", "scale": 0 }, { "stat": "damage", "type": "stab", "scale": 0 } ]
   },
   {
     "type": "technique",
@@ -1420,7 +1392,6 @@
     "crit_ok": true,
     "knockback_dist": 1,
     "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.0 },
       { "stat": "damage", "type": "bash", "scale": 0.5 },
       { "stat": "damage", "type": "cut", "scale": 0.5 },
       { "stat": "damage", "type": "stab", "scale": 0.5 }
@@ -1546,7 +1517,7 @@
     "block_counter": true,
     "crit_ok": true,
     "down_dur": 1,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.0 }, { "stat": "damage", "type": "bash", "scale": 1.2 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
   },
   {
     "type": "technique",
@@ -1646,8 +1617,7 @@
     "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
     "unarmed_allowed": true,
     "dodge_counter": true,
-    "crit_ok": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.0 } ]
+    "crit_ok": true
   },
   {
     "type": "technique",
@@ -1667,7 +1637,7 @@
     "unarmed_allowed": true,
     "dodge_counter": true,
     "crit_ok": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.0 }, { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
   },
   {
     "type": "technique",

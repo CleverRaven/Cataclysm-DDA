@@ -25,6 +25,14 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "magic_whiskey",
+    "name": { "str_sp": "whiskey" },
+    "copy-from": "whiskey",
+    "price": 0,
+    "price_postapoc": 0
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_owlbear",
     "name": "owlbear egg yolk",
     "copy-from": "egg_chicken",
@@ -63,7 +71,7 @@
     "id": "scream_mush",
     "type": "COMESTIBLE",
     "copy-from": "mushroom",
-    "name": "scream mushroom",
+    "name": { "str": "scream mushroom" },
     "description": "The mushrooms harvested from a dead shrieker.  Could be used in potions.",
     "price": 1400
   },

@@ -13,9 +13,10 @@
     "symbol": "|",
     "color": "pink",
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
     "charges_per_use": 1,
     "turns_per_charge": 20,
-    "use_action": "DOLLCHAT",
+    "use_action": [ "DOLLCHAT" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -48,9 +49,10 @@
     "symbol": "|",
     "color": "pink",
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
     "charges_per_use": 1,
     "turns_per_charge": 20,
-    "use_action": "DOLLCHAT",
+    "use_action": [ "DOLLCHAT" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -141,9 +143,10 @@
     "price": 3000,
     "price_postapoc": 10,
     "material": [ "ceramic" ],
-    "weight": "2000 g",
-    "volume": "2500 ml",
-    "bashing": 16,
+    "weight": "7257 g",
+    "volume": "5277 ml",
+    "longest_side": "216 mm",
+    "bashing": 18,
     "to_hit": -2
   },
   {

@@ -1,14 +1,16 @@
 #include <algorithm>
 #include <cstdlib>
-#include <memory>
+#include <map>
 #include <vector>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
-#include "game.h"
+#include "cata_catch.h"
+#include "options_helpers.h"
 #include "point.h"
+#include "type_id.h"
 #include "weather.h"
 #include "weather_gen.h"
+#include "weather_type.h"
 
 static double mean_abs_running_diff( std::vector<double> const &v )
 {
@@ -33,7 +35,7 @@ static double mean_pairwise_diffs( std::vector<double> const &a, std::vector<dou
 static double proportion_gteq_x( std::vector<double> const &v, double x )
 {
     int count = 0;
-    for( auto i : v ) {
+    for( double i : v ) {
         count += ( i >= x );
     }
     return static_cast<double>( count ) / v.size();
@@ -49,14 +51,15 @@ TEST_CASE( "weather realism" )
     // Try a few randomly selected seeds.
     const std::vector<unsigned> seeds = {317'024'741, 870'078'684, 1'192'447'748};
 
-    const weather_generator &wgen = g->weather.get_cur_weather_gen();
-    const time_point begin = 0;
+    scoped_weather_override null_weather( WEATHER_NULL );
+    const weather_generator &wgen = get_weather().get_cur_weather_gen();
+    const time_point begin = calendar::turn_zero;
     const time_point end = begin + calendar::year_length();
     const int n_days = to_days<int>( end - begin );
     const int n_hours = to_hours<int>( 1_days );
     const int n_minutes = to_minutes<int>( 1_days );
 
-    for( auto seed : seeds ) {
+    for( unsigned int seed : seeds ) {
         std::vector<std::vector<double>> temperature;
         temperature.resize( n_days, std::vector<double>( n_minutes, 0 ) );
         std::vector<double> hourly_precip;
@@ -64,14 +67,15 @@ TEST_CASE( "weather realism" )
 
         // Collect generated weather data for a single year.
         for( time_point i = begin ; i < end ; i += 1_minutes ) {
-            w_point w = wgen.get_weather( tripoint_zero, to_turn<int>( i ), seed );
+            w_point w = wgen.get_weather( tripoint_zero, i, seed );
             int day = to_days<int>( time_past_new_year( i ) );
             int minute = to_minutes<int>( time_past_midnight( i ) );
             temperature[day][minute] = w.temperature;
             int hour = to_hours<int>( time_past_new_year( i ) );
+            *get_weather().weather_precise = w;
             hourly_precip[hour] +=
                 precip_mm_per_hour(
-                    weather::precip( wgen.get_weather_conditions( w ) ) )
+                    wgen.get_weather_conditions( w )->precip )
                 / 60;
         }
 

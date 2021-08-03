@@ -189,7 +189,11 @@
         "prob": 50
       },
       {
-        "distribution": [ { "item": "lighter", "prob": 40 }, { "item": "ref_lighter", "prob": 40 }, { "item": "matches", "prob": 20 } ],
+        "distribution": [
+          { "item": "lighter", "prob": 100, "charges": [ 0, 100 ] },
+          { "item": "ref_lighter", "prob": 40, "charges": [ 0, 50 ] },
+          { "item": "matches", "prob": 20, "charges": [ 0, 20 ] }
+        ],
         "prob": 30
       },
       { "distribution": [ { "item": "gum" }, { "item": "caff_gum" } ], "prob": 30 },
@@ -204,7 +208,7 @@
       { "item": "mobile_memory_card", "prob": 10 },
       { "item": "flyer", "prob": 30 },
       { "item": "multitool", "prob": 5 },
-      { "item": "permanent_marker", "prob": 10 },
+      { "item": "permanent_marker", "prob": 10, "charges": [ 0, 500 ] },
       { "group": "softdrugs", "prob": 10 },
       { "group": "harddrugs", "prob": 5 },
       { "group": "phones", "prob": 85 },
@@ -237,7 +241,7 @@
     "entries": [
       { "group": "default_zombie_clothes" },
       { "group": "default_zombie_items", "prob": 50 },
-      { "item": "cash_card", "prob": 10, "charges-min": 0, "charges-max": 50000 }
+      { "group": "wallets", "damage": [ 1, 4 ], "prob": 10 }
     ]
   }
 ]

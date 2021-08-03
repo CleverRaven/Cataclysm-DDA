@@ -1,6 +1,7 @@
-#include <utility>
+#include <new>
+#include <type_traits>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "optional.h"
 
 TEST_CASE( "optional_assignment_works", "[optional]" )

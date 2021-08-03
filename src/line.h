@@ -2,40 +2,26 @@
 #ifndef CATA_SRC_LINE_H
 #define CATA_SRC_LINE_H
 
+#include <algorithm>
 #include <cmath>
 #include <functional>
-#include <string>
+#include <iosfwd>
 #include <vector>
-#include <algorithm>
 
-#include "math_defines.h"
 #include "point.h"
+#include "units_fwd.h"
+
+struct rl_vec2d;
 
 extern bool trigdist;
-
-/** Converts degrees to radians */
-constexpr double DEGREES( double v )
-{
-    return v * M_PI / 180;
-}
-
-/** Converts arc minutes to radians */
-constexpr double ARCMIN( double v )
-{
-    return DEGREES( v ) / 60;
-}
 
 /**
  * Calculate base of an isosceles triangle
  * @param distance one of the equal lengths
- * @param vertex the unequal angle expressed in MoA
+ * @param vertex the unequal angle
  * @returns base in equivalent units to distance
  */
-inline double iso_tangent( double distance, double vertex )
-{
-    // we can use the cosine formula (a² = b² + c² - 2bc⋅cosθ) to calculate the tangent
-    return std::sqrt( 2 * std::pow( distance, 2 ) * ( 1 - std::cos( ARCMIN( vertex ) ) ) );
-}
+double iso_tangent( double distance, const units::angle &vertex );
 
 //! This compile-time usable function combines the sign of each (x, y, z) component into a single integer
 //! to allow simple runtime and compile-time mapping of (x, y, z) tuples to @ref direction enumerators.
@@ -194,7 +180,7 @@ struct FastDistanceApproximation {
     private:
         int value;
     public:
-        inline FastDistanceApproximation( int value ) : value( value ) { }
+        explicit inline FastDistanceApproximation( int value ) : value( value ) { }
         template<typename T>
         inline bool operator<=( const T &rhs ) const {
             if( trigdist ) {
@@ -209,7 +195,7 @@ struct FastDistanceApproximation {
             }
             return value >= rhs;
         }
-        inline operator int() const {
+        inline explicit operator int() const {
             if( trigdist ) {
                 return std::sqrt( value );
             }
@@ -219,14 +205,15 @@ struct FastDistanceApproximation {
 
 inline FastDistanceApproximation trig_dist_fast( const tripoint &loc1, const tripoint &loc2 )
 {
-    return ( loc1.x - loc2.x ) * ( loc1.x - loc2.x ) +
-           ( loc1.y - loc2.y ) * ( loc1.y - loc2.y ) +
-           ( loc1.z - loc2.z ) * ( loc1.z - loc2.z );
+    return FastDistanceApproximation(
+               ( loc1.x - loc2.x ) * ( loc1.x - loc2.x ) +
+               ( loc1.y - loc2.y ) * ( loc1.y - loc2.y ) +
+               ( loc1.z - loc2.z ) * ( loc1.z - loc2.z ) );
 }
 inline FastDistanceApproximation square_dist_fast( const tripoint &loc1, const tripoint &loc2 )
 {
     const tripoint d = ( loc1 - loc2 ).abs();
-    return std::max( { d.x, d.y, d.z } );
+    return FastDistanceApproximation( std::max( { d.x, d.y, d.z } ) );
 }
 inline FastDistanceApproximation rl_dist_fast( const tripoint &loc1, const tripoint &loc2 )
 {
@@ -244,9 +231,9 @@ float rl_dist_exact( const tripoint &loc1, const tripoint &loc2 );
 // Sum of distance in both axes
 int manhattan_dist( const point &loc1, const point &loc2 );
 
-// get angle of direction represented by point (in radians or degrees)
-double atan2( const point & );
-double atan2_degrees( const point & );
+// get angle of direction represented by point
+units::angle atan2( const point & );
+units::angle atan2( const rl_vec2d & );
 
 // Get the magnitude of the slope ranging from 0.0 to 1.0
 float get_normalized_angle( const point &start, const point &end );
@@ -255,7 +242,7 @@ std::vector<point> squares_in_direction( const point &p1, const point &p2 );
 // Returns a vector of squares adjacent to @from that are closer to @to than @from is.
 // Currently limited to the same z-level as @from.
 std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &to );
-void calc_ray_end( int angle, int range, const tripoint &p, tripoint &out );
+void calc_ray_end( units::angle, int range, const tripoint &p, tripoint &out );
 /**
  * Calculates the horizontal angle between the lines from (0,0,0) to @p a and
  * the line from (0,0,0) to @p b.
@@ -263,7 +250,7 @@ void calc_ray_end( int angle, int range, const tripoint &p, tripoint &out );
  * Example: if @p a is (0,1) and @p b is (1,0), the result will 90 degree
  * The function currently ignores the z component.
  */
-double coord_to_angle( const tripoint &a, const tripoint &b );
+units::angle coord_to_angle( const tripoint &a, const tripoint &b );
 
 // weird class for 2d vectors where dist is derived from rl_dist
 struct rl_vec2d {
@@ -298,7 +285,10 @@ struct rl_vec3d {
     float z;
 
     explicit rl_vec3d( float x = 0, float y = 0, float z = 0 ) : x( x ), y( y ), z( z ) {}
+    explicit rl_vec3d( const rl_vec2d &xy, float z = 0 ) : x( xy.x ), y( xy.y ), z( z ) {}
     explicit rl_vec3d( const tripoint &p ) : x( p.x ), y( p.y ), z( p.z ) {}
+
+    rl_vec2d xy() const;
 
     float magnitude() const;
     rl_vec3d normalized() const;
@@ -309,13 +299,15 @@ struct rl_vec3d {
     tripoint as_point() const;
 
     // scale.
-    rl_vec3d operator* ( float rhs ) const;
-    rl_vec3d operator/ ( float rhs ) const;
+    rl_vec3d &operator*=( float rhs );
+    rl_vec3d &operator/=( float rhs );
+    rl_vec3d operator*( float rhs ) const;
+    rl_vec3d operator/( float rhs ) const;
     // subtract
-    rl_vec3d operator- ( const rl_vec3d &rhs ) const;
+    rl_vec3d operator-( const rl_vec3d &rhs ) const;
     // unary negation
-    rl_vec3d operator- () const;
-    rl_vec3d operator+ ( const rl_vec3d &rhs ) const;
+    rl_vec3d operator-() const;
+    rl_vec3d operator+( const rl_vec3d &rhs ) const;
 };
 
 #endif // CATA_SRC_LINE_H

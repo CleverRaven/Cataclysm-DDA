@@ -1,0 +1,10 @@
+[
+  {
+    "id": "123ln",
+    "type": "AMMO",
+    "copy-from": "3006",
+    "name": { "str": "12.3ln round" },
+    "description": "The 12.3ln cartridge was introduced in Romania in the wake of the second Carpathian conflict.  The PA md. 71 rifle using this ammunition rapidly gained popularity in the Eastern Union, and from there, the world.  Due to this, the 12.3ln rapidly became the standard combat round in the Eurasian sphere.  It was easily scavenged and stockpiled by the Exodii.  To you, it looks and feels quite similar to a .30-06 Springfield cartridge, but with a slightly sharper taper.",
+    "ammo_type": "123ln"
+  }
+]

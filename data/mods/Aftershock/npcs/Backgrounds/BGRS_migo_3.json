@@ -1,0 +1,28 @@
+[
+  {
+    "id": "BGRS_MIGO_3_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I worked in a top secret lab.  Things kept getting crazier and crazier outside and the scientists inside started making desperate experiments.  They worked on something called interdimensional portals.",
+    "responses": [
+      { "text": "Where are you from?", "topic": "BGRS_MIGO_3_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGRS_MIGO_3_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "The eggheads kept sayig we needed to find a way out of here before everything went sideways.  So we needed to open more portals even if we hadn't had time to take all the precautions.",
+    "responses": [
+      { "text": "What happened next?", "topic": "BGRS_MIGO_3_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGRS_MIGO_2_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "One day they opened a portal trying to find an earthlike planet and suddenly portals were opening all over the lab and these fast and dangerous aliens overwhelmed the lab.  They killed most of the staff and took the rest prisoner.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]

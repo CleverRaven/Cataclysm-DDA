@@ -4,6 +4,7 @@
 
 #include <climits>
 #include <cstddef>
+#include <iosfwd>
 #include <set>
 #include <string>
 #include <unordered_set>
@@ -11,6 +12,7 @@
 
 #include "activity_actor.h"
 #include "clone_ptr.h"
+#include "compatibility.h"
 #include "enums.h"
 #include "item_location.h"
 #include "memory_fast.h"
@@ -33,6 +35,8 @@ class player_activity
         cata::clone_ptr<activity_actor> actor;
 
         std::set<distraction_type> ignored_distractions;
+
+        bool ignoreQuery = false;
 
     public:
         /** Total number of moves required to complete the activity */
@@ -67,20 +71,24 @@ class player_activity
          *  an identical activity. This value is set dynamically.
          */
         bool auto_resume = false;
+        /** Flag that will suppress the relatively expensive fire refueling search process.
+         *  Initially assume there is a fire unless the activity proves not to have one.
+         */
+        bool have_fire = true;
 
         player_activity();
-        // This constructor does not work with activites using the new activity_actor system
+        // This constructor does not work with activities using the new activity_actor system
         // TODO: delete this constructor once migration to the activity_actor system is complete
-        player_activity( activity_id, int turns = 0, int Index = -1, int pos = INT_MIN,
-                         const std::string &name_in = "" );
+        explicit player_activity( activity_id, int turns = 0, int Index = -1, int pos = INT_MIN,
+                                  const std::string &name_in = "" );
         /**
          * Create a new activity with the given actor
          */
-        player_activity( const activity_actor &actor );
+        explicit player_activity( const activity_actor &actor );
 
         player_activity( player_activity && ) noexcept = default;
         player_activity( const player_activity & ) = default;
-        player_activity &operator=( player_activity && ) = default;
+        player_activity &operator=( player_activity && ) noexcept( list_is_noexcept ) = default;
         player_activity &operator=( const player_activity & ) = default;
 
         explicit operator bool() const {
@@ -92,6 +100,11 @@ class player_activity
         bool is_multi_type() const;
         /** This replaces the former usage `act.type = ACT_NULL` */
         void set_to_null();
+
+        // This makes player_activity's activity type inherit activity_actor's activity type,
+        // in order to synchronize both, due to possible variability of actor's activity type
+        // allowed via override of activity_actor::get_type()
+        void synchronize_type_with_actor();
 
         const activity_id &id() const {
             return type;
@@ -158,6 +171,8 @@ class player_activity
         void ignore_distraction( distraction_type );
         void allow_distractions();
         void inherit_distractions( const player_activity & );
+
+        float exertion_level() const;
 };
 
 #endif // CATA_SRC_PLAYER_ACTIVITY_H

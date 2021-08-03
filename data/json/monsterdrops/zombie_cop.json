@@ -20,19 +20,20 @@
         "collection": [ { "item": "badge_deputy", "prob": 100 }, { "item": "badge_detective", "prob": 20 } ],
         "prob": 10
       },
-      { "item": "cash_card", "charges-min": 0, "charges-max": 50000 }
+      { "group": "wallets", "damage": [ 1, 4 ] }
     ]
   },
   {
     "type": "item_group",
     "id": "cop_gear",
     "items": [
-      [ "1st_aid", 30 ],
+      { "group": "full_1st_aid", "prob": 30 },
       [ "armor_riot", 20 ],
       [ "airhorn", 5 ],
-      [ "bandages", 20 ],
+      [ "bandages", 10 ],
+      [ "adhesive_bandages", 10 ],
       [ "tacvest", 5 ],
-      [ "heavy_flashlight", 35 ],
+      { "item": "heavy_flashlight", "prob": 35, "charges": [ 0, 300 ] },
       [ "holster", 25 ],
       [ "kevlar", 35 ],
       [ "armguard_cut_resistant", 2 ],
@@ -105,7 +106,7 @@
       { "group": "clothing_glasses", "prob": 5 },
       { "group": "clothing_watch", "prob": 10 },
       { "item": "badge_swat", "prob": 10 },
-      { "item": "cash_card", "charges-min": 0, "charges-max": 50000, "prob": 50 }
+      { "group": "wallets", "damage": [ 1, 4 ], "prob": 50 }
     ]
   },
   {
@@ -113,14 +114,21 @@
     "id": "swat_zombie_gear",
     "subtype": "collection",
     "entries": [
-      { "collection": [ { "item": "bandages", "prob": 60 }, { "item": "1st_aid", "prob": 20 } ], "prob": 25 },
+      {
+        "collection": [
+          { "item": "adhesive_bandages", "prob": 30 },
+          { "item": "bandages", "prob": 30 },
+          { "group": "full_1st_aid", "prob": 20 }
+        ],
+        "prob": 25
+      },
       {
         "collection": [ { "item": "swat_armor", "prob": 50 }, { "item": "kevlar", "prob": 25 }, { "item": "tacvest", "prob": 5 } ],
         "prob": 75
       },
       {
         "collection": [
-          { "item": "heavy_flashlight", "prob": 20 },
+          { "item": "heavy_flashlight", "prob": 20, "charges": [ 0, 300 ] },
           { "item": "airhorn", "prob": 5 },
           { "item": "two_way_radio", "prob": 30 },
           { "item": "whistle", "prob": 5 },

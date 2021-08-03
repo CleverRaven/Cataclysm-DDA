@@ -44,7 +44,7 @@
       { "item": "null", "prob": 10 },
       { "item": "mask_dust", "prob": 30 },
       { "item": "bandana", "prob": 10 },
-      { "item": "mask_filter", "prob": 30 }
+      { "item": "mask_filter", "prob": 30, "charges-min": 10 }
     ]
   },
   {

@@ -7,12 +7,13 @@
     "description": "A fortune-telling device from the 1950s.  The kind of moral support you didn't know you needed.",
     "weight": "40 g",
     "volume": "250 ml",
+    "longest_side": "12 cm",
     "price": 1000,
     "price_postapoc": 10,
     "material": [ "plastic" ],
     "symbol": "o",
     "color": "white",
-    "use_action": "MAGIC_8_BALL"
+    "use_action": [ "MAGIC_8_BALL" ]
   },
   {
     "id": "deck_of_cards",
@@ -28,7 +29,7 @@
     "symbol": ",",
     "color": "red",
     "flags": [ "NO_REPAIR" ],
-    "use_action": "PLAY_GAME"
+    "use_action": [ "PLAY_GAME" ]
   },
   {
     "id": "coin_quarter",
@@ -43,7 +44,22 @@
     "material": [ "silver" ],
     "symbol": "o",
     "color": "light_gray",
-    "use_action": "COIN_FLIP"
+    "use_action": [ "COIN_FLIP" ]
+  },
+  {
+    "id": "coin_nickel",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "coin" },
+    "description": "An ancient form of currency bearing the inscription \"E PLURIBUS UNUM.\"",
+    "weight": "5 g",
+    "volume": "1 ml",
+    "price": 5,
+    "price_postapoc": 9,
+    "material": [ "copper" ],
+    "symbol": "o",
+    "color": "light_gray",
+    "use_action": [ "COIN_FLIP" ]
   },
   {
     "id": "family_photo",
@@ -61,6 +77,20 @@
     "color": "light_gray"
   },
   {
+    "id": "polaroid_photo",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "polaroid photo" },
+    "description": "A poorly taken polaroid photo of a young man wearing bell-bottoms and a fedora.  It's pretty blurry.",
+    "weight": "1 g",
+    "volume": "5 ml",
+    "price": 100,
+    "price_postapoc": 0,
+    "material": [ "plastic" ],
+    "symbol": "*",
+    "color": "light_gray"
+  },
+  {
     "id": "chess",
     "type": "GENERIC",
     "category": "other",
@@ -74,7 +104,7 @@
     "symbol": "?",
     "color": "brown",
     "flags": [ "NO_REPAIR" ],
-    "use_action": "PLAY_GAME"
+    "use_action": [ "PLAY_GAME" ]
   },
   {
     "id": "checkers",
@@ -90,7 +120,7 @@
     "symbol": "?",
     "color": "brown",
     "flags": [ "NO_REPAIR" ],
-    "use_action": "PLAY_GAME"
+    "use_action": [ "PLAY_GAME" ]
   },
   {
     "id": "cards_magic",
@@ -106,7 +136,7 @@
     "symbol": "?",
     "color": "blue",
     "flags": [ "NO_REPAIR" ],
-    "use_action": "PLAY_GAME"
+    "use_action": [ "PLAY_GAME" ]
   },
   {
     "id": "pictionary",
@@ -122,7 +152,7 @@
     "symbol": "?",
     "color": "yellow",
     "flags": [ "NO_REPAIR" ],
-    "use_action": "PLAY_GAME"
+    "use_action": [ "PLAY_GAME" ]
   },
   {
     "id": "monopoly",
@@ -138,7 +168,7 @@
     "symbol": "?",
     "color": "red",
     "flags": [ "NO_REPAIR" ],
-    "use_action": "PLAY_GAME"
+    "use_action": [ "PLAY_GAME" ]
   },
   {
     "id": "dnd",
@@ -154,7 +184,7 @@
     "symbol": "?",
     "color": "red",
     "flags": [ "NO_REPAIR" ],
-    "use_action": "PLAY_GAME"
+    "use_action": [ "PLAY_GAME" ]
   },
   {
     "id": "g_warhammer",
@@ -170,7 +200,7 @@
     "symbol": "?",
     "color": "yellow",
     "flags": [ "NO_REPAIR" ],
-    "use_action": "PLAY_GAME"
+    "use_action": [ "PLAY_GAME" ]
   },
   {
     "id": "g_warhammer40k",
@@ -186,7 +216,7 @@
     "symbol": "?",
     "color": "yellow",
     "flags": [ "NO_REPAIR" ],
-    "use_action": "PLAY_GAME"
+    "use_action": [ "PLAY_GAME" ]
   },
   {
     "id": "catan",
@@ -202,7 +232,7 @@
     "symbol": "?",
     "color": "light_blue",
     "flags": [ "NO_REPAIR" ],
-    "use_action": "PLAY_GAME"
+    "use_action": [ "PLAY_GAME" ]
   },
   {
     "id": "battleship",
@@ -218,7 +248,7 @@
     "symbol": "?",
     "color": "blue",
     "flags": [ "NO_REPAIR" ],
-    "use_action": "PLAY_GAME"
+    "use_action": [ "PLAY_GAME" ]
   },
   {
     "id": "clue",
@@ -234,6 +264,50 @@
     "symbol": "?",
     "color": "blue",
     "flags": [ "NO_REPAIR" ],
-    "use_action": "PLAY_GAME"
+    "use_action": [ "PLAY_GAME" ]
+  },
+  {
+    "id": "old_key",
+    "type": "GENERIC",
+    "category": "other",
+    "name": { "str": "key" },
+    "description": "This is an old nondescript North American Cylinder key.  Lord knows what lock it goes to; best not to bother with it.",
+    "weight": "8 g",
+    "volume": "2 ml",
+    "price": 750,
+    "price_postapoc": 1,
+    "material": [ "brass" ],
+    "symbol": "p",
+    "color": "dark_gray"
+  },
+  {
+    "id": "xedra_seismograph",
+    "type": "ARMOR",
+    "name": { "str": "portable seismograph" },
+    "description": "A sturdy steel briefcase, containing what appears to be an old-fashioned drum seismograph.  The stencilled acronyms of its outer case imply it was used by XEDRA as some sort of recording device.\n\nThin parallel lines cover both ends of the drum, but as they approach the middle their vibrations intensify, until the ink fuses into thick red stain.",
+    "weight": "5000 g",
+    "volume": "15750 ml",
+    "price": 24000,
+    "price_postapoc": 50,
+    "to_hit": -4,
+    "bashing": 16,
+    "material": [ "steel" ],
+    "symbol": "?",
+    "looks_like": "briefcase",
+    "color": "light_gray",
+    "sided": true,
+    "material_thickness": 2,
+    "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ],
+    "armor": [ { "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "xedra_microphone",
+    "name": { "str": "NRE microphone" },
+    "description": "A squat tripod supports what appears to be a rather long microphone encased within a glass ampoule.  You can't tell whether it's meant to record audio, or something else entirely.",
+    "symbol": "i",
+    "color": "dark_gray",
+    "volume": "2100 ml",
+    "weight": "745 g"
   }
 ]
