@@ -1598,8 +1598,10 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
     }
     // Item loss for weight was applied before(only round once).
     for( const auto &it : mat_to_weight ) {
-        salvage_to[*( it.first.obj().salvaged_into() )] += ( it.second /
-                it.first.obj().salvaged_into()->obj().weight );
+        if( const cata::optional<itype_id> id = it.first.obj().salvaged_into() ) {
+            salvage_to[*id] += ( it.second /
+                                 id->obj().weight );
+        }
     }
 
     add_msg( m_info, _( "You try to salvage materials from the %s." ),
