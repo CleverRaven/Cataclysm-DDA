@@ -98,8 +98,18 @@
 | prof_toolsmithing | Manual Tooling | How to make high-quality tools and parts by hand.  Includes techniques like threading, durable articulation points, and using appropriate metals for appropriate tasks.  Also applies to making blunt instruments that can withstand a severe beating without distortion. | prof_blacksmithing | True
 | prof_wiremaking | Wire Making | How to turn raw ingots and metals into usable wire.  Includes both drawing and extruding. | prof_metalworking | True
 
-* Note mod proficiencies are not included.
+## Magiclysm proficiencies
+
+| id | name | description | required_proficiencies | can_learn
+| --- | --- | --- | --- | --- 
+| prof_alchemy | Alchemy | You know the basics of manipulating the mana of objects through application of chemical laws. | None | True
+| prof_almetallurgy | Almetallurgy | The forging of magical alloys is a complex process requiring an understanding of both mundane metals and alchemy. | prof_alchemy | True
+| prof_leatherworking_dragon | Dragon leather working | Working with dragon leather requires a specific set of skills and tools… a set you are familiar with. | prof_leatherworking | True
+| prof_scaleworking_dragon | Dragon scale working | Working with dragon scales requires a specific set of skills and tools… a set you are familiar with. | prof_leatherworking_dragon | True
+| prof_golemancy_basic | Basic Golemancy | Infusing shaped material with your will and the ability to move is hard but you're starting to get it. | None | True
+
 This data was extracted using tools/json_tools/table.py
+
 ```bash
 tools/json_tools/table.py --type=proficiency id name description required_proficiencies can_learn
 ```
