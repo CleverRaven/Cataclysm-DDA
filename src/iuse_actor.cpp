@@ -1476,40 +1476,41 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
     const bool filthy = cut.get_item()->is_filthy();
     // This is the value that tracks progress, as we cut pieces off, we reduce this number.
     units::mass remaining_weight = cut.get_item()->weight();
-    units::mass max_weight;
+
+
+
+
+    //New way handling outcome
     std::vector<item> stack {*cut.get_item()};
-
-
     std::map<itype_id, int> salvage_to;
-    // Decompose the item into basic parts 
+    std::map<material_id, units::mass> mat_to_weight;
+    // Decompose the item into irreducible parts 
     while (!stack.empty()) {
         item temp = stack.back();
         stack.pop_back();
 
         // If it is one of the basic components, add it into the list
         if (temp.type->is_basic_component()) {
-            if (salvage_to.count(temp.typeId())) {
-                salvage_to[temp.typeId()] ++;
-            }
-            else {
-                salvage_to[temp.typeId()] = 1;
-            }
+            salvage_to[temp.typeId()] ++;
             continue;
         }
         // Discard invalid component
-        if (!temp.is_salvageable()) {
-            // non-salvageable items are considered as irreducible, count the weight.
-            continue;
-        }
         if (!temp.made_of_any(std::set<material_id>(cut_material_components.begin(), cut_material_components.end()))) {
             continue;
         }
-
+        //items count by charges should be even smaller than base materials
+        if (!temp.is_salvageable() || temp.count_by_charges()) {
+            // non-salvageable items but made of appropriate material, disrtibute uniformly in to all materials
+            for (auto type : temp.made_of()) {
+                mat_to_weight[type] += (temp.weight() / temp.made_of().size());
+            }
+            continue;
+        }
         // No available components
         if (temp.components.empty()) {
             // Try to find an available recipe and "restore" its components
             auto iter = std::find_if(recipe_dict.begin(), recipe_dict.end(), [&]( std::pair<const recipe_id, recipe> curr) {
-                return curr.second.result() == temp.typeId();
+                return !curr.second.obsolete &&curr.second.result() == temp.typeId();
                 });
             if (iter == recipe_dict.end() ) {    
                 // no recipes found
@@ -1518,7 +1519,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
             else {
                 // find default components set from recipe, push them into stack
                 const requirement_data requirements = iter->second.simple_requirements();
-           
+                debugmsg("%s", iter->second.simple_requirements().list_all());
                 for (const auto& altercomps : requirements.get_components()) {
                     const item_comp& comp = altercomps.front();
                     // if count by charges
@@ -1540,6 +1541,15 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
             }
         }
     }
+    for (auto it : mat_to_weight) {
+        debugmsg("number %d, %d", it.second.value(), it.first.obj().salvaged_into()->obj().weight.value());
+        salvage_to[*(it.first.obj().salvaged_into())] += (it.second/ it.first.obj().salvaged_into()->obj().weight);
+    }
+
+    // Keep the "weight" thing below, use it to calculate component loss
+    // It does not make any remarkable impact anyways
+
+
     // Chance of us losing a material component to entropy.
     /** @EFFECT_FABRICATION reduces chance of losing components when cutting items up */
     int entropy_threshold = std::max( 5, 10 - p.get_skill_level( skill_fabrication ) );
@@ -1580,13 +1590,12 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
     }
 
 
-    // Keep the "weight" thing above, use it to calculate component loss
-    // It does not make any remarkable impact anyways
+    //calculate final outcome
     for (auto it : salvage_to) {
         it.second = it.second * remaining_weight / cut.get_item()->weight();
     }
 
-    /**  obsolet codes
+    /*  obsolet codes
 
     // Essentially we round-robbin through the components subtracting mass as we go.
     std::map<units::mass, itype_id> weight_to_item_map;
