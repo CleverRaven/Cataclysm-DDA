@@ -1470,7 +1470,7 @@ bool salvage_actor::try_to_cut_up( player &p, item &it ) const
 // it cuts
 // cut gets cut
 int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
-{   
+{
     // What material components can we get back?
     std::vector<material_id> cut_material_components = cut.get_item()->made_of();
     const bool filthy = cut.get_item()->is_filthy();
@@ -1484,51 +1484,51 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
     std::vector<item> stack {*cut.get_item()};
     std::map<itype_id, int> salvage_to;
     std::map<material_id, units::mass> mat_to_weight;
-    // Decompose the item into irreducible parts 
-    while (!stack.empty()) {
+    // Decompose the item into irreducible parts
+    while( !stack.empty() ) {
         item temp = stack.back();
         stack.pop_back();
 
         // If it is one of the basic components, add it into the list
-        if (temp.type->is_basic_component()) {
+        if( temp.type->is_basic_component() ) {
             salvage_to[temp.typeId()] ++;
             continue;
         }
         // Discard invalid component
-        if (!temp.made_of_any(std::set<material_id>(cut_material_components.begin(), cut_material_components.end()))) {
+        if( !temp.made_of_any( std::set<material_id>( cut_material_components.begin(),
+                               cut_material_components.end() ) ) ) {
             continue;
         }
         //items count by charges should be even smaller than base materials
-        if (!temp.is_salvageable() || temp.count_by_charges()) {
+        if( !temp.is_salvageable() || temp.count_by_charges() ) {
             // non-salvageable items but made of appropriate material, disrtibute uniformly in to all materials
-            for (auto type : temp.made_of()) {
-                mat_to_weight[type] += (temp.weight() / temp.made_of().size());
+            for( auto type : temp.made_of() ) {
+                mat_to_weight[type] += ( temp.weight() / temp.made_of().size() );
             }
             continue;
         }
         // No available components
-        if (temp.components.empty()) {
+        if( temp.components.empty() ) {
             // Try to find an available recipe and "restore" its components
-            auto iter = std::find_if(recipe_dict.begin(), recipe_dict.end(), [&]( std::pair<const recipe_id, recipe> curr) {
-                return !curr.second.obsolete &&curr.second.result() == temp.typeId();
-                });
-            if (iter == recipe_dict.end() ) {    
+            auto iter = std::find_if( recipe_dict.begin(),
+            recipe_dict.end(), [&]( std::pair<const recipe_id, recipe> curr ) {
+                return !curr.second.obsolete && curr.second.result() == temp.typeId();
+            } );
+            if( iter == recipe_dict.end() ) {
                 // no recipes found
                 continue;
-            }
-            else {
+            } else {
                 // find default components set from recipe, push them into stack
                 const requirement_data requirements = iter->second.simple_requirements();
-                debugmsg("%s", iter->second.simple_requirements().list_all());
-                for (const auto& altercomps : requirements.get_components()) {
-                    const item_comp& comp = altercomps.front();
+                debugmsg( "%s", iter->second.simple_requirements().list_all() );
+                for( const auto &altercomps : requirements.get_components() ) {
+                    const item_comp &comp = altercomps.front();
                     // if count by charges
-                    if (comp.type.obj().count_by_charges()) {
-                        stack.emplace_back(comp.type, calendar::turn, comp.count);
-                    }
-                    else {
-                        for (int i = 0; i < comp.count; i++) {
-                            stack.emplace_back(comp.type, calendar::turn);
+                    if( comp.type.obj().count_by_charges() ) {
+                        stack.emplace_back( comp.type, calendar::turn, comp.count );
+                    } else {
+                        for( int i = 0; i < comp.count; i++ ) {
+                            stack.emplace_back( comp.type, calendar::turn );
                         }
                     }
                 }
@@ -1536,14 +1536,16 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
         }
         // push components into stack
         else {
-            for (item it : temp.components) {
+            for( item it : temp.components ) {
                 stack.push_back( it );
             }
         }
     }
-    for (auto it : mat_to_weight) {
-        debugmsg("number %d, %d", it.second.value(), it.first.obj().salvaged_into()->obj().weight.value());
-        salvage_to[*(it.first.obj().salvaged_into())] += (it.second/ it.first.obj().salvaged_into()->obj().weight);
+    for( auto it : mat_to_weight ) {
+        debugmsg( "number %d, %d", it.second.value(),
+                  it.first.obj().salvaged_into()->obj().weight.value() );
+        salvage_to[*( it.first.obj().salvaged_into() )] += ( it.second /
+                it.first.obj().salvaged_into()->obj().weight );
     }
 
     // Keep the "weight" thing below, use it to calculate component loss
@@ -1553,7 +1555,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
     // Chance of us losing a material component to entropy.
     /** @EFFECT_FABRICATION reduces chance of losing components when cutting items up */
     int entropy_threshold = std::max( 5, 10 - p.get_skill_level( skill_fabrication ) );
-   
+
     // What materials do we salvage (ids and counts).
     std::map<itype_id, int> materials_salvaged;
 
@@ -1591,7 +1593,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
 
 
     //calculate final outcome
-    for (auto it : salvage_to) {
+    for( auto it : salvage_to ) {
         it.second = it.second * remaining_weight / cut.get_item()->weight();
     }
 
@@ -1635,7 +1637,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
     p.calc_encumbrance();
 
     map &here = get_map();
-    for( const auto &salvaged : salvage_to) {
+    for( const auto &salvaged : salvage_to ) {
         itype_id mat_name = salvaged.first;
         int amount = salvaged.second;
         item result( mat_name, calendar::turn );
