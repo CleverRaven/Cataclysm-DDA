@@ -511,7 +511,7 @@ class item : public visitable
                 explicit operator bool() const {
                     return who && target && ammo && qty_ > 0;
                 }
-
+                const item *getParent() const;
             private:
                 int qty_ = 0;
                 int max_qty = INT_MAX;
@@ -1863,9 +1863,6 @@ class item : public visitable
          */
         void set_gun_variant( const std::string &variant );
 
-        /**
-         * For debug use only
-         */
         void clear_gun_variant();
 
         /** Quantity of energy currently loaded in tool or battery */

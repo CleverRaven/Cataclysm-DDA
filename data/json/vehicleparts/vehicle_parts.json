@@ -1577,7 +1577,7 @@
     "damage_modifier": 10,
     "durability": 15,
     "description": "A small wind turbine.",
-    "epower": 10,
+    "epower": 1,
     "item": "wind_turbine",
     "location": "on_roof",
     "requirements": {
@@ -1606,7 +1606,7 @@
     "damage_modifier": 10,
     "durability": 70,
     "description": "A large wind turbine with stabilizing legs.  Will cause extra drag on the vehicle.",
-    "epower": 30,
+    "epower": 3,
     "item": "xl_wind_turbine",
     "location": "on_roof",
     "power": -3000,
