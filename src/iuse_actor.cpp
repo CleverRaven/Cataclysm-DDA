@@ -1471,7 +1471,6 @@ bool salvage_actor::try_to_cut_up( player &p, item &it ) const
 // cut gets cut
 int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
 {
-    // What material components can we get back?
     std::vector<material_id> cut_material_components = cut.get_item()->made_of();
     const bool filthy = cut.get_item()->is_filthy();
     // This is the value that tracks progress, as we cut pieces off, we reduce this number.
