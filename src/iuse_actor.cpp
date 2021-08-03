@@ -1553,8 +1553,12 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
             // Try to find an available recipe and "restore" its components
             auto iter = std::find_if( recipe_dict.begin(),
             recipe_dict.end(), [&]( std::pair<const recipe_id, recipe> curr ) {
+                units::mass weight = 0_gram;
+                for( const auto &altercomps : curr.second.simple_requirements().get_components() ) {
+                    weight += ( altercomps.front().type->weight ) * altercomps.front().count;
+                }
                 return !curr.second.obsolete && curr.second.result() == temp.typeId() &&
-                       curr.second.makes_amount() <= 1;
+                       curr.second.makes_amount() <= 1 && weight <= temp.weight();
             } );
             if( iter == recipe_dict.end() ) {
                 // no recipes found, add weight to materials
@@ -1564,18 +1568,6 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
                 continue;
             } else {
                 const requirement_data requirements = iter->second.simple_requirements();
-                // more sanity check
-                units::mass weight;
-                for( const auto &altercomps : requirements.get_components() ) {
-                    weight += ( altercomps.front().type->weight ) * altercomps.front().count;
-                }
-                // bad recipe, count weight instead
-                if( weight > temp.weight() ) {
-                    for( const auto &type : temp.made_of() ) {
-                        mat_to_weight[type] += ( temp.weight() * remaining_weight / temp.made_of().size() );
-                    }
-                    continue;
-                }
                 // find default components set from recipe, push them into stack
                 for( const auto &altercomps : requirements.get_components() ) {
                     const item_comp &comp = altercomps.front();
