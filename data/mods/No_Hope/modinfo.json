@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "no_hope",
+    "id": "no_hope",
     "name": "No Hope",
     "authors": [ "Night_Pryanik" ],
     "maintainers": [ "Night_Pryanik" ],
