@@ -75,7 +75,7 @@ jobs:
           - compiler: g++-11
             os: ubuntu-latest
             tiles: 0
-            sanitize: address, undefined
+            sanitize: address,undefined
             title: GCC 11, Ubuntu, Curses, ASan, UBSan
 
           - compiler: clang++
