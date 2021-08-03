@@ -1884,7 +1884,6 @@ class Character : public Creature, public visitable
          */
         const Character *get_book_reader( const item &book, std::vector<std::string> &reasons ) const;
 
-
         /**
          * Helper function for get_book_reader
          * @warning This function assumes that the everyone is able to read
@@ -1895,7 +1894,6 @@ class Character : public Creature, public visitable
          */
         int time_to_read( const item &book, const Character &reader,
                           const Character *learner = nullptr ) const;
-
 
         /** Calls Creature::normalize()
          *  nulls out the player's weapon
