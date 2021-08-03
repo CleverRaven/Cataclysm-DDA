@@ -5155,6 +5155,22 @@ int Character::get_stored_kcal() const
     return stored_calories / 1000;
 }
 
+int Character::kcal_speed_penalty() const
+{
+    static const std::vector<std::pair<float, float>> starv_thresholds = { {
+            std::make_pair( 0.0f, -90.0f ),
+            std::make_pair( character_weight_category::emaciated, -50.f ),
+            std::make_pair( character_weight_category::underweight, -25.0f ),
+            std::make_pair( character_weight_category::normal, 0.0f )
+        }
+    };
+    if( get_kcal_percent() > 0.95f ) {
+        return 0;
+    } else {
+        return std::round( multi_lerp( starv_thresholds, get_bmi() ) );
+    }
+}
+
 std::string Character::activity_level_str( float level ) const
 {
     for( const std::pair<const float, std::string> &member : activity_levels_str_map ) {

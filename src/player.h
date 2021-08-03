@@ -318,7 +318,6 @@ class player : public Character
         bool beyond_final_warning( const faction_id &id );
         /** Returns the effect of pain on stats */
         stat_mod get_pain_penalty() const;
-        int kcal_speed_penalty() const;
         /** Returns the penalty to speed from thirst */
         static int thirst_speed_penalty( int thirst );
 
@@ -327,7 +326,6 @@ class player : public Character
         void process_items();
 
         // ---------------VALUES-----------------
-        tripoint view_offset;
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint grab_point;
         int volume = 0;
@@ -343,11 +341,8 @@ class player : public Character
         item_location ammo_location;
         int scent = 0;
         int cash = 0;
-        int movecounter = 0;
 
         bool manual_examine = false;
-        vproto_id starting_vehicle;
-        std::vector<mtype_id> starting_pets;
 
         std::set<character_id> follower_ids;
         void mod_stat( const std::string &stat, float modifier ) override;

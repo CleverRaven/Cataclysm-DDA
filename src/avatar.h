@@ -294,6 +294,11 @@ class avatar : public player
         void log_activity_level( float level ) override;
         std::string total_daily_calories_string() const;
 
+        int movecounter = 0;
+
+        vproto_id starting_vehicle;
+        std::vector<mtype_id> starting_pets;
+
     private:
         std::unique_ptr<map_memory> player_map_memory;
         bool show_map_memory;
