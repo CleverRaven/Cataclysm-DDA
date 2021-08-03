@@ -8584,13 +8584,15 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
 void game::drop()
 {
-    u.drop( game_menus::inv::multidrop( u ), u.pos() );
+    u.assign_activity(player_activity(rummage_pocket_activity_actor(game_menus::inv::multidrop(u),
+        rummage_pocket_activity_actor::action::drop, u.pos())));
 }
 
 void game::drop_in_direction()
 {
     if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Drop where?" ) ) ) {
-        u.drop( game_menus::inv::multidrop( u ), *pnt );
+        u.assign_activity(player_activity(rummage_pocket_activity_actor(game_menus::inv::multidrop(u),
+            rummage_pocket_activity_actor::action::drop, *pnt)));
     }
 }
 

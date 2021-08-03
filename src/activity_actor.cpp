@@ -4078,48 +4078,61 @@ std::unique_ptr<activity_actor> haircut_activity_actor::deserialize( JsonIn & )
     return haircut_activity_actor().clone();
 }
 
+rummage_pocket_activity_actor::rummage_pocket_activity_actor(const item_location& iloc, const action act_kind, const tripoint& tgt)
+    : kind(act_kind), target(tgt)
+{
+    std::pair<item_location, int> it_loc = std::make_pair(iloc, iloc->count());
+    item_loc.emplace_back(it_loc);
+}
+
 void rummage_pocket_activity_actor::start(player_activity& act, Character& who)
 {
-    //TODO: Items that are in containers not held by character
-    //need to be moved to inventory like item_location::obtain
-    const int moves = item_loc.obtain_cost(who);
+    
+    int moves{};
+
+    for (auto item : item_loc) {
+        moves += item.first.obtain_cost(who);
+    }
     act.moves_total = moves;
     act.moves_left = moves;
 }
 
 void rummage_pocket_activity_actor::do_turn(player_activity&, Character& who)
 {
-    who.add_msg_if_player(_("You rummage your pockets for the item"));
+    who.add_msg_if_player(_("You rummage your pockets"));
 }
 
 void rummage_pocket_activity_actor::finish(player_activity& act, Character& who)
 {
-    who.add_msg_if_player(m_good, _("You rummaged your pockets to find the item"));
     // some function calls in the switch block spawn activities e.g.
     // avatar::read spawns an ACT_READ activity, so we need to set
     // this one to null before calling them
     act.set_to_null();
+    item_location it_loc = item_loc.front().first;
     switch (kind) {
     case action::read: {
-        avatar& u = g->u;
-        if (item_loc->type->can_use("learn_spell")) {
-            item spell_book = *item_loc.get_item();
+        avatar& player_character = get_avatar();
+        if (it_loc->type->can_use("learn_spell")) {
+            item spell_book = *it_loc.get_item();
             spell_book.get_use("learn_spell")->call(
-                u, spell_book, spell_book.active, u.pos());
+                player_character, spell_book, spell_book.active, player_character.pos());
         }
         else {
-            u.read(*item_loc);
+            player_character.read(it_loc);
         }
         return;
     }
     case action::wear: {
-        avatar& u = g->u;
-        u.wear(*item_loc);
+        avatar& player_character = get_avatar();
+        player_character.wear(it_loc);
         return;
     }
     case action::wield:
-        g->wield(item_loc);
+        g->wield(it_loc);
         return;
+
+    case action::drop:
+        who.drop(item_loc, placement);
     default:
         debugmsg("Unexpected action kind in rummage_pocket_activity_actor::finish");
         return;
