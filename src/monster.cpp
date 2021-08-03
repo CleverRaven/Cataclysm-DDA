@@ -2633,7 +2633,7 @@ void monster::process_effects()
 
     Character &player_character = get_player_character();
     //If this monster has the ability to heal in combat, do it now.
-    if( type->regenerates && !has_effect("onfire")){
+    if( type->regenerates && !has_effect( "onfire" ) ) {
         const int healed_amount = heal( type->regenerates );
         if( healed_amount > 0 && one_in( 2 ) ) {
             std::string healing_format_string;
