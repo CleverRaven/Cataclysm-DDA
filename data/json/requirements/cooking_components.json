@@ -73,7 +73,13 @@
         [ "egg_dragonfly", 4 ],
         [ "egg_firefly", 4 ],
         [ "egg_centipede", 2 ],
-        [ "egg_wasp", 4 ]
+        [ "egg_wasp", 4 ],
+        [ "egg_antlion", 2 ],
+        [ "egg_strider", 4 ],
+        [ "egg_grasshopper", 4 ],
+        [ "egg_lady_bug", 4 ],
+        [ "egg_mole_cricket", 4 ],
+        [ "egg_mantis", 4 ]
       ]
     ]
   },
@@ -118,7 +124,8 @@
         [ "beet_syrup", 6 ],
         [ "molasses", 1 ],
         [ "honey_bottled", 4 ],
-        [ "honey_glassed", 1 ]
+        [ "honey_glassed", 1 ],
+        [ "honeydew", 4 ]
       ]
     ]
   },
