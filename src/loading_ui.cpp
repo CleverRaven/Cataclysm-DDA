@@ -87,6 +87,8 @@ void loading_ui::show()
     if( menu != nullptr ) {
         ui_manager::redraw();
         refresh_display();
-        inp_mngr.pump_events();
+#if defined(TILES)
+        SDL_PumpEvents();
+#endif // TILES
     }
 }

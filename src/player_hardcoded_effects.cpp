@@ -922,9 +922,11 @@ static void eff_fun_sleep( Character &u, effect &it )
     map &here = get_map();
 
     u.set_moves( 0 );
+#if defined(TILES)
     if( u.is_avatar() ) {
-        inp_mngr.pump_events();
+        SDL_PumpEvents();
     }
+#endif // TILES
 
     if( intense < 1 ) {
         it.set_intensity( 1 );

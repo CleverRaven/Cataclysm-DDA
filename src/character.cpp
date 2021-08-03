@@ -347,6 +347,7 @@ static const trait_id trait_SHOUT2( "SHOUT2" );
 static const trait_id trait_SHOUT3( "SHOUT3" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_SLIMY( "SLIMY" );
+static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
 static const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
 static const trait_id trait_THRESH_INSECT( "THRESH_INSECT" );
 static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
@@ -4110,16 +4111,16 @@ item Character::item_worn_with_flag( const flag_id &f ) const
     return it_with_flag;
 }
 
-std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() const
+std::vector<std::string> Character::get_overlay_ids() const
 {
-    std::vector<std::pair<std::string, std::string>> rval;
+    std::vector<std::string> rval;
     std::multimap<int, std::string> mutation_sorting;
     int order;
     std::string overlay_id;
 
     // first get effects
     for( const auto &eff_pr : *effects ) {
-        rval.emplace_back( "effect_" + eff_pr.first.str(), "" );
+        rval.push_back( "effect_" + eff_pr.first.str() );
     }
 
     // then get mutations
@@ -4137,25 +4138,23 @@ std::vector<std::pair<std::string, std::string>> Character::get_overlay_ids() co
     }
 
     for( auto &mutorder : mutation_sorting ) {
-        rval.emplace_back( "mutation_" + mutorder.second, "" );
+        rval.push_back( "mutation_" + mutorder.second );
     }
 
     // next clothing
     // TODO: worry about correct order of clothing overlays
     for( const item &worn_item : worn ) {
-        const std::string variant = worn_item.has_gun_variant() ? worn_item.gun_variant().id : "";
-        rval.emplace_back( "worn_" + worn_item.typeId().str(), variant );
+        rval.push_back( "worn_" + worn_item.typeId().str() );
     }
 
     // last weapon
     // TODO: might there be clothing that covers the weapon?
     if( is_armed() ) {
-        const std::string variant = weapon.has_gun_variant() ? weapon.gun_variant().id : "";
-        rval.emplace_back( "wielded_" + weapon.typeId().str(), variant );
+        rval.push_back( "wielded_" + weapon.typeId().str() );
     }
 
     if( !is_walking() ) {
-        rval.emplace_back( move_mode.str(), "" );
+        rval.push_back( move_mode.str() );
     }
 
     return rval;

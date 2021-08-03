@@ -2417,9 +2417,7 @@ static std::set<itype_id> charge_removal_blacklist;
 void load_charge_removal_blacklist( const JsonObject &jo, const std::string &/*src*/ )
 {
     jo.allow_omitted_members();
-    std::set<itype_id> new_blacklist;
-    jo.read( "list", new_blacklist );
-    charge_removal_blacklist.insert( new_blacklist.begin(), new_blacklist.end() );
+    jo.read( "list", charge_removal_blacklist );
 }
 
 template<typename Archive>

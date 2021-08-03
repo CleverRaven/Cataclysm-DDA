@@ -555,13 +555,9 @@ void game::toggle_pixel_minimap()
 void game::reload_tileset()
 {
 #if defined(TILES)
-    // Disable UIs below to avoid accessing the tile context during loading.
-    ui_adaptor ui( ui_adaptor::disable_uis_below {} );
     try {
         tilecontext->reinit();
-        tilecontext->load_tileset( get_option<std::string>( "TILES" ),
-                                   /*precheck=*/false, /*force=*/true,
-                                   /*pump_events=*/true );
+        tilecontext->load_tileset( get_option<std::string>( "TILES" ), false, true );
         tilecontext->do_tile_loading_report();
     } catch( const std::exception &err ) {
         popup( _( "Loading the tileset failed: %s" ), err.what() );
@@ -664,10 +660,9 @@ special_game_type game::gametype() const
     return gamemode ? gamemode->id() : special_game_type::NONE;
 }
 
-void game::load_map( const tripoint_abs_sm &pos_sm,
-                     const bool pump_events )
+void game::load_map( const tripoint_abs_sm &pos_sm )
 {
-    m.load( pos_sm, true, pump_events );
+    m.load( pos_sm, true );
 }
 
 // Set up all default values for a new game
@@ -713,7 +708,7 @@ bool game::start_game()
     tripoint_abs_sm lev = project_to<coords::sm>( omtstart );
     // The player is centered in the map, but lev[xyz] refers to the top left point of the map
     lev -= point( HALF_MAPSIZE, HALF_MAPSIZE );
-    load_map( lev, /*pump_events=*/true );
+    load_map( lev );
 
     int level = m.get_abs_sub().z;
     m.invalidate_map_cache( level );
@@ -3035,8 +3030,6 @@ bool game::load( const save_t &name )
             time_played_at_last_load = time_played_it->second.get<std::chrono::seconds>();
         }
     }
-
-    effect_on_conditions::load_existing_character();
 
     return true;
 }
@@ -9227,13 +9220,12 @@ void game::reload( item_location &loc, bool prompt, bool empty )
             add_msg( m_warning, _( "You struggle to reload the fouled %s." ), it->tname() );
             moves += 2500;
         }
+
         std::vector<item_location> targets;
         if( use_loc ) {
-            // Set parent to be the "base" item.
-            targets.emplace_back( loc,  const_cast<item *>( opt.target ) );
+            targets.emplace_back( loc );
         } else {
-            // The "base" item is held be the player
-            targets.emplace_back( item_location( u, it ), const_cast<item *>( opt.target ) );
+            targets.emplace_back( u, const_cast<item *>( opt.target ) );
         }
         targets.push_back( std::move( opt.ammo ) );
 
@@ -9323,7 +9315,7 @@ void game::reload_weapon( bool try_everything )
         std::vector<item_location> targets;
         if( opt ) {
             const int moves = opt.moves();
-            targets.emplace_back( item_location( turret.base(), const_cast<item *>( opt.target ) ) );
+            targets.emplace_back( turret.base() );
             targets.push_back( std::move( opt.ammo ) );
             u.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(), targets ) ) );
         }
@@ -10898,7 +10890,6 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
         steps++;
         if( animate && ( seen || u.sees( *c ) ) ) {
             invalidate_main_ui_adaptor();
-            inp_mngr.pump_events();
             ui_manager::redraw_invalidated();
             refresh_display();
         }
