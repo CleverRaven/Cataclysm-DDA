@@ -1190,7 +1190,7 @@ bool read_activity_actor::player_read( avatar &you )
     }
 
     std::vector<std::string> fail_messages;
-    const player *reader = you.get_book_reader( *book, fail_messages );
+    const Character *reader = you.get_book_reader( *book, fail_messages );
     if( reader == nullptr ) {
         // We can't read, and neither can our followers
         for( const std::string &reason : fail_messages ) {
@@ -1487,7 +1487,7 @@ void read_activity_actor::finish( player_activity &act, Character &who )
             // check if there can still be a reader before restarting
             // because npcs can move while reading for the player
             std::vector<std::string> fail_messages;
-            const player *reader = who.as_avatar()->get_book_reader( *book, fail_messages );
+            const Character *reader = who.as_avatar()->get_book_reader( *book, fail_messages );
             if( reader == nullptr ) {
                 // We can't read, and neither can our followers
                 for( const std::string &reason : fail_messages ) {

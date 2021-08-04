@@ -1867,6 +1867,35 @@ class Character : public Creature, public visitable
         void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
                          int intensity = 1, bool permanent = false, bool force = false, bool defferred = false ) override;
 
+        /** Called when a player triggers a trap, returns true if they don't set it off */
+        bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
+
+        //returns true if the warning is now beyond final and results in hostility.
+        bool add_faction_warning( const faction_id &id );
+        int current_warnings_fac( const faction_id &id );
+        bool beyond_final_warning( const faction_id &id );
+
+        /**
+         * Helper function for player::read.
+         *
+         * @param book Book to read
+         * @param reasons Starting with g->u, for each player/NPC who cannot read, a message will be pushed back here.
+         * @returns nullptr, if neither the player nor his followers can read to the player, otherwise the player/NPC
+         * who can read and can read the fastest
+         */
+        const Character *get_book_reader( const item &book, std::vector<std::string> &reasons ) const;
+
+        /**
+         * Helper function for get_book_reader
+         * @warning This function assumes that the everyone is able to read
+         *
+         * @param book The book being read
+         * @param reader the player/NPC who's reading to the caller
+         * @param learner if not nullptr, assume that the caller and reader read at a pace that isn't too fast for him
+         */
+        int time_to_read( const item &book, const Character &reader,
+                          const Character *learner = nullptr ) const;
+
         /** Calls Creature::normalize()
          *  nulls out the player's weapon
          *  Should only be called through player::normalize(), not on it's own!

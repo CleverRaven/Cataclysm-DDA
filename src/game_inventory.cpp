@@ -1278,7 +1278,7 @@ class read_inventory_preset: public pickup_inventory_preset
                 }
                 std::vector<std::string> dummy;
 
-                const player *reader = p.get_book_reader( *loc, dummy );
+                const Character *reader = p.get_book_reader( *loc, dummy );
                 if( reader == nullptr ) {
                     return std::string();  // Just to make sure
                 }
