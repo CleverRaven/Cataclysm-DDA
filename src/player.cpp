@@ -83,7 +83,6 @@
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_bleed( "bleed" );
-static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_masked_scent( "masked_scent" );
@@ -99,7 +98,6 @@ static const itype_id itype_small_repairkit( "small_repairkit" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
-static const trait_id trait_CLUMSY( "CLUMSY" );
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
