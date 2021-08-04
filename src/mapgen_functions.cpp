@@ -2637,6 +2637,18 @@ void mapgen_forest( mapgendata &dat )
         return feature->second;
     };
 
+    const auto get_groundcover_for_neighbor = [&dat,
+        &no_ter_furn](const std::map<oter_id, ter_id>& biome_groundcovers,
+            const om_direction::type dir) {
+                const oter_id dir_ot = dat.neighbor_at(dir);
+                const auto feature = biome_groundcovers.find(dir_ot);
+                if (feature == biome_groundcovers.end()) {
+                    // If a biome groundcover is not supplied, use the regional default:
+                    return dat.groundcover();
+                }
+                return feature->second;
+    };
+
     // The max sparseness is calculated across all the possible biomes, not just the adjacent ones.
     const auto get_max_sparseness_adjacency_factor = [&dat]() {
         if( dat.region.forest_composition.biomes.empty() ) {
@@ -2656,17 +2668,21 @@ void mapgen_forest( mapgendata &dat )
     const int max_factor = get_max_sparseness_adjacency_factor();
 
     // Our margins for blending divide the overmap terrain into nine sections.
-    static constexpr point margin( SEEX * 2 / 3, SEEY * 2 / 3 );
+    static constexpr point margin( SEEX * 2 / 3, SEEY * 2 / 3 ); // Margin thickness needs JSON-ification.
 
     const auto get_blended_feature = [&no_ter_furn, &max_factor, &factor,
-                  &get_feature_for_neighbor, &dat]( const point & p ) {
+                  &get_feature_for_neighbor, &get_groundcover_for_neighbor, &dat]( const point & p ) {
         // Pick one random feature from each biome according to the biome defs and save it into a lookup.
         // We'll blend these features together below based on the current and adjacent terrains.
         std::map<oter_id, ter_furn_id> biome_features;
+        std::map<oter_id, ter_id> biome_groundcovers;
         for( const auto &b : dat.region.forest_composition.biomes ) {
+            forest_biome m = b.second;
             biome_features[b.first] = b.second.pick();
+            biome_groundcovers[b.first] = *(b.second.groundcover.pick()); // need null check?
         }
 
+        /*
         // Get a feature for ourself and each of the adjacent overmap terrains.
         const ter_furn_id east_feature = get_feature_for_neighbor( biome_features,
                                          om_direction::type::east );
@@ -2676,7 +2692,7 @@ void mapgen_forest( mapgendata &dat )
                                           om_direction::type::north );
         const ter_furn_id south_feature = get_feature_for_neighbor( biome_features,
                                           om_direction::type::south );
-        const ter_furn_id self_feature = biome_features[dat.terrain_type()];
+        const ter_furn_id self_feature = biome_features[dat.terrain_type()];*/
 
         // We'll use our margins and the four adjacent overmap terrains to pick a blended
         // feature based on the features we picked above and a linear weight as we
@@ -2684,28 +2700,82 @@ void mapgen_forest( mapgendata &dat )
         //
         // (0,0)     NORTH
         //      ---------------
-        //      | NW | W | NE |
+        //      | NW | 1 | NE |
         //      |----|---|----|
-        // WEST | W  |   | E  |  EAST
+        // WEST | 2  | 4 | 0  |  EAST
         //      |----|---|----|
-        //      | SW | S | SE |
+        //      | SW | 3 | SE |
         //      ---------------
         //           SOUTH      (SEEX * 2, SEEY * 2)
 
-        const int west_weight = std::max( margin.x - p.x, 0 );
-        const int east_weight = std::max( p.x - ( SEEX * 2 - margin.x ) + 1, 0 );
-        const int north_weight = std::max( margin.y - p.y, 0 );
-        const int south_weight = std::max( p.y - ( SEEY * 2 - margin.y ) + 1, 0 );
+        weighted_int_list<const int> direction_pool;
+        direction_pool.add(2, std::max(margin.x - p.x, 0));
+        direction_pool.add(0, std::max(p.x - (SEEX * 2 - margin.x) + 1, 0));
+        direction_pool.add(1, std::max(margin.y - p.y, 0));
+        direction_pool.add(3, std::max(p.y - (SEEY * 2 - margin.y) + 1, 0));
+        direction_pool.add(4, factor);
+        // Included to conform to the pattern from the previous generation pattern; would be fine to remove this:
+        direction_pool.add(5, 5 * max_factor - (dat.n_fac + dat.w_fac + dat.e_fac + dat.s_fac + factor));
 
+        // Pick a single feature from the pool we built above and return it.
+        ter_furn_id feature;
+        const int feather_selection = *direction_pool.pick();
+        switch (feather_selection) {
+            case 4:
+                feature = biome_features[dat.terrain_type()];
+                if (feature.ter == no_ter_furn.ter)
+                    feature.ter = biome_groundcovers[dat.terrain_type()];
+                break;
+            case 5: // Again, included to conform to previous generation pattern:
+                feature = no_ter_furn;
+                feature.ter = biome_groundcovers[dat.terrain_type()];
+                break;
+            default:
+                om_direction::type decoded;
+                switch (feather_selection){
+                    case 0:
+                        decoded = om_direction::type::east;
+                        break;
+                    case 1:
+                        decoded = om_direction::type::north;
+                        break;
+                    case 2:
+                        decoded = om_direction::type::west;
+                        break;
+                    default:
+                        decoded = om_direction::type::south;
+                        break;
+                }
+                feature = get_feature_for_neighbor(biome_features, decoded);
+                if (feature.ter == no_ter_furn.ter)
+                    feature.ter = get_groundcover_for_neighbor(biome_groundcovers, decoded);
+                break;
+        }
+
+        /*
         // We'll build a weighted list of features to pull from at the end.
-        weighted_int_list<const ter_furn_id> feature_pool;
+        // weighted_int_list<const ter_furn_id> feature_pool;
+        // const int west_weight = std::max( margin.x - p.x, 0 );
+        // const int east_weight = std::max( p.x - ( SEEX * 2 - margin.x ) + 1, 0 );
+        // const int north_weight = std::max( margin.y - p.y, 0 );
+        // const int south_weight = std::max( p.y - ( SEEY * 2 - margin.y ) + 1, 0 );
+        feature_pool.add(west_feature, west_weight);
+        feature_pool.add(east_feature, east_weight);
+        feature_pool.add(north_feature, north_weight);
+        feature_pool.add(south_feature, south_weight);
+        feature_pool.add(self_feature, factor);
 
+        // Not sure why this is desirable; if anything like this exists, it should just be implemented at the biome or region level.
+        // Kept for sake of old algorithm:
+        feature_pool.add(no_ter_furn, 5 * max_factor - (dat.n_fac + dat.w_fac + dat.e_fac + dat.s_fac + factor));*/
+
+        /*
         // W sections
         if( p.x < margin.x ) {
             // NW corner - blend N, W, and self
             if( p.y < margin.y ) {
                 feature_pool.add( no_ter_furn, 3 * max_factor - ( dat.n_fac + dat.w_fac + factor * 2 ) );
-                feature_pool.add( self_feature, 1 );
+                feature_pool.add( self_feature, 1 ); // the fact that this is 1, not factor, seems to be a bug.
                 feature_pool.add( west_feature, west_weight );
                 feature_pool.add( north_feature, north_weight );
             }
@@ -2765,15 +2835,20 @@ void mapgen_forest( mapgendata &dat )
                 feature_pool.add( no_ter_furn, max_factor - factor * 2 );
                 feature_pool.add( self_feature, factor );
             }
-        }
+        }*/
 
-        // Pick a single feature from the pool we built above and return it.
-        const ter_furn_id *feature = feature_pool.pick();
+        return feature;
+        
+        /*const ter_furn_id* feature = feature_pool.pick();
         if( feature == nullptr ) {
             return no_ter_furn;
         } else {
+            if (feature->ter == (ter_id)0)
+            {
+                // 
+            }
             return *feature;
-        }
+        }*/
     };
 
     // Get the current biome def for this terrain.
@@ -2783,11 +2858,12 @@ void mapgen_forest( mapgendata &dat )
     // and bail--nothing more to be done.
     if( current_biome_def_it == dat.region.forest_composition.biomes.end() ) {
         dat.fill_groundcover();
-        return;
+        return; // seems wrong
     }
 
     const forest_biome current_biome_def = current_biome_def_it->second;
 
+    
     // If this biome does not define its own groundcover, then fill with the region's ground
     // cover. Otherwise, fill with the biome defs groundcover.
     if( current_biome_def.groundcover.empty() ) {
@@ -2824,6 +2900,8 @@ void mapgen_forest( mapgendata &dat )
     for( int x = 0; x < SEEX * 2; x++ ) {
         for( int y = 0; y < SEEY * 2; y++ ) {
             const ter_furn_id feature = get_blended_feature( point( x, y ) );
+            m->ter_set(point(x, y), feature.ter);
+            m->furn_set(point(x, y), feature.furn);
             ter_or_furn_set( m, point( x, y ), feature );
             set_terrain_dependent_furniture( feature.ter, point( x, y ) );
         }
