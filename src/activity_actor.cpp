@@ -4082,16 +4082,15 @@ rummage_pocket_activity_actor::rummage_pocket_activity_actor( const item_locatio
         const action act_kind, const tripoint &tgt )
     : kind( act_kind ), target( tgt )
 {
-    std::pair<item_location, int> it_loc = std::make_pair( iloc, iloc->count() );
-    item_loc.emplace_back( it_loc );
+    item_loc.emplace_back( iloc, iloc->count );
 }
 
 void rummage_pocket_activity_actor::start( player_activity &act, Character &who )
 {
 
-    int moves{};
+    int moves = 0;
 
-    for( auto item : item_loc ) {
+    for( const std::pair<item_location, int> &item : item_loc ) {
         moves += item.first.obtain_cost( who );
     }
     act.moves_total = moves;
