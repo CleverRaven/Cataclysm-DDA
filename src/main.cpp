@@ -679,6 +679,10 @@ int main( int argc, const char *argv[] )
     sigemptyset( &sigIntHandler.sa_mask );
     sigIntHandler.sa_flags = 0;
     sigaction( SIGINT, &sigIntHandler, nullptr );
+    // Initialize the floating point math package.
+    // according to https://blog.zaita.com/mingw64-compiler-bug/ this doen't always happen on
+    // MINGW and is causing floating point math errors. It is harmless otherwise.
+    _fpreset();
 #endif
 
 #if defined(LOCALIZE)
