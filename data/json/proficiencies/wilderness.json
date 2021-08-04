@@ -68,7 +68,7 @@
     "type": "proficiency",
     "id": "prof_bow_master",
     "name": { "str": "Master Archer's Form" },
-    "description": "You have drawn and fired a bow so many times, you probably have a bit of a twist in your spine from it. You've developed what would once have been a world class understanding of the pose and motion of effective archery..",
+    "description": "You have drawn and fired a bow so many times, you probably have a bit of a twist in your spine from it.  You've developed what would once have been a world class understanding of the pose and motion of effective archery.",
     "can_learn": true,
     "time_to_learn": "20 h",
     "default_time_multiplier": 1.5,
