@@ -464,6 +464,7 @@ class Character : public Creature, public visitable
         virtual int get_stored_kcal() const;
         virtual int get_healthy_kcal() const;
         virtual float get_kcal_percent() const;
+        int kcal_speed_penalty() const;
         virtual int get_hunger() const;
         virtual int get_starvation() const;
         virtual int get_thirst() const;
@@ -1967,6 +1968,8 @@ class Character : public Creature, public visitable
         // Means player sit inside vehicle on the tile he is now
         bool in_vehicle = false;
         bool hauling = false;
+
+        tripoint view_offset;
 
         player_activity stashed_outbounds_activity;
         player_activity stashed_outbounds_backlog;

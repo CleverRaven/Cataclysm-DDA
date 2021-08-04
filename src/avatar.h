@@ -296,6 +296,11 @@ class avatar : public player
         //set 0-3 random hobbies, with 1 and 2 being twice as likely as 0 and 3
         int randomize_hobbies();
 
+        int movecounter = 0;
+
+        vproto_id starting_vehicle;
+        std::vector<mtype_id> starting_pets;
+
     private:
         std::unique_ptr<map_memory> player_map_memory;
         bool show_map_memory;
