@@ -2,7 +2,7 @@
 	{
 	"type": "palette",
 	"id": "gun_store_palette",
-	"//": " p, U, S, o, k, z, c, `, and > are all still available for more terrain or furniture",
+	"//": " P, U, S, o, k, z, c, `, and > are all still available for more terrain or furniture",
 	"toilets": { "&": {  } },
 	"terrain": {
 				"-": "t_wall_w",
@@ -14,12 +14,13 @@
 				"+": "t_door_metal_pickable",
 				"t": "t_door_locked_alarm",
 				"D": "t_door_c",
-				"e": "t_window_boarded",
+				"e": "t_mdoor_frame",
 				",": "t_region_groundcover_urban",
 				"@": "t_region_shrub_decorative",
 				"B": "t_region_groundcover_barren",
 				"u": "t_region_shrub",
 				"'": "t_sidewalk",
+				"p": "t_window_empty",
 				"h": "t_reinforced_glass",
 				"C": "t_thconc_floor",
 				".": "t_thconc_floor",
@@ -51,8 +52,13 @@
 				"L": "t_thconc_floor",
 				"y": "t_thconc_floor",	
 				"Y": "t_thconc_floor",				
-				"P": "t_thconc_floor",	
-				"v": "t_thconc_floor",			
+				"v": "t_thconc_floor",		
+				"O": "t_thconc_floor",	
+				"+": "t_thconc_floor",	
+				"t": "t_thconc_floor",		
+				"D": "t_thconc_floor",			
+				"F": "t_thconc_floor",		
+				"=": "t_thconc_floor",					
 				"_": "t_pavement",	
 				"*": "t_pavement_y",
 				"<": "t_stairs_up",
@@ -106,8 +112,8 @@
 						{ "group": "ammo_obscure", "prob": 1 }
 					]
 				},
-				"repeat": [ 15, 100 ],
-				"chance": 80
+				"repeat": 100,
+				"chance": 50
 			},	   
 			"s": {
 				"item": {
@@ -115,36 +121,35 @@
 				"subtype": "distribution",
 					"entries": [
 						{ "group": "ammo_common", "prob": 60 },
-						{ "group": "guns_common_display", "prob": 60 },
-						{ "group": "mags_common", "prob": 60 },
-						{ "group": "clothing_tactical_torso", "prob": 60 },
-						{ "group": "clothing_tactical_leg", "prob": 60 },
-						{ "group": "gun_cases", "prob": 60 },					
-						{ "group": "gunmod_common", "prob": 30 },
+						{ "group": "guns_common_display", "prob": 80 },
+						{ "group": "mags_common", "prob": 80 },
+						{ "group": "clothing_tactical_torso", "prob": 30 },
+						{ "group": "clothing_tactical_leg", "prob": 30 },
+						{ "group": "gun_cases", "prob": 30 },					
+						{ "group": "gunmod_common", "prob": 15 },
 						{ "group": "book_gunmags", "prob": 60 },
 						{ "group": "mil_food_nodrugs", "prob": 60 },
-						{ "group": "ammo_parts", "prob": 60 },
-						{ "item": "gloves_tactical", "prob": 19 },	
+						{ "group": "ammo_parts", "prob": 80 },
+						{ "item": "gloves_tactical", "prob": 5 },	
 						{ "item": "tac_helmet", "prob": 5 },		
 						{ "item": "helmet_army", "prob": 10 },								
-						{ "item": "winter_pants_army", "prob": 60 },	
-						{ "item": "winter_jacket_army", "prob": 60 },	
-						{ "item": "jacket_army", "prob": 60 },		
-						{ "item": "pants_army", "prob": 60 },
-						{ "item": "knee_pads", "prob": 30 },		
+						{ "item": "winter_pants_army", "prob": 30 },	
+						{ "item": "winter_jacket_army", "prob": 30 },	
+						{ "item": "jacket_army", "prob": 30 },		
+						{ "item": "pants_army", "prob": 30 },
+						{ "item": "knee_pads", "prob": 15 },		
 						{ "item": "kevlar", "prob": 10 },
-						{ "item": "elbow_pads", "prob": 30 },
-						{ "item": "holster", "prob": 60 },						
-						{ "item": "sholster", "prob": 20 },
+						{ "item": "elbow_pads", "prob": 15 },
+						{ "item": "holster", "prob": 30 },						
+						{ "item": "sholster", "prob": 10 },
 						{ "item": "boots_combat", "prob": 10 },
 						{ "item": "helmet_liner", "prob": 30 },						
-						{ "item": "mask_gas", "prob": 10 },
+						{ "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
 						{ "item": "knife_combat", "container-item": "sheath", "prob": 60  },
-						{ "item": "mask_filter", "prob": 5 },
 						{ "item": "army_top", "prob": 30 },						
 						{ "item": "beret", "prob": 30 },		
 						{ "item": "beret_wool", "prob": 30 },						
-						{ "item": "bandolier_shotgun", "prob": 60 },
+						{ "item": "bandolier_shotgun", "prob": 30 },
 						{ "item": "goggles_nv", "prob": 1 },
 						{ "item": "goggles_ir", "prob": 1 },
 						{ "item": "bootsheath", "prob": 10 },						
@@ -155,8 +160,8 @@
 						{ "group": "tools_gunsmith", "prob": 5 }
 						]
 					},
-					"repeat": [ 1, 4 ],
-					"chance": 50
+					"repeat":  3,
+					"chance": 75
 				},
 			"m": {
 				"item": {
@@ -186,9 +191,8 @@
 						{ "item": "sholster", "prob": 1 },
 						{ "item": "boots_combat", "prob": 1 },
 						{ "item": "helmet_liner", "prob": 10 },						
-						{ "item": "mask_gas", "prob": 1 },
+						{ "item": "mask_gas", "prob": 1, "charges": [ 0, 100 ] },
 						{ "item": "knife_combat", "container-item": "sheath", "prob": 1  },
-						{ "item": "mask_filter", "prob": 1 },
 						{ "item": "army_top", "prob": 10 },						
 						{ "item": "beret", "prob": 10 },		
 						{ "item": "beret_wool", "prob": 10 },						
@@ -203,8 +207,8 @@
 						{ "group": "tools_gunsmith", "prob": 1 }
 					]
 				},	
-				"repeat": [ 1, 2 ],
-				"chance": 25
+				"repeat": 1,
+				"chance": 10
 			},		
 			"M": {
 				"item": {
@@ -234,9 +238,8 @@
 						{ "item": "sholster", "prob": 1 },
 						{ "item": "boots_combat", "prob": 1 },
 						{ "item": "helmet_liner", "prob": 10 },						
-						{ "item": "mask_gas", "prob": 1 },
+						{ "item": "mask_gas", "prob": 1, "charges": [ 0, 100 ] },
 						{ "item": "knife_combat", "container-item": "sheath", "prob": 1  },
-						{ "item": "mask_filter", "prob": 1 },
 						{ "item": "army_top", "prob": 10 },						
 						{ "item": "beret", "prob": 10 },		
 						{ "item": "beret_wool", "prob": 10 },						
@@ -251,8 +254,8 @@
 						{ "group": "tools_gunsmith", "prob": 1 }
 					]
 				},				
-				"repeat": [ 1, 2 ],
-				"chance": 25
+				"repeat": 1,
+				"chance": 10
 			},			
 			"O": {
 				"item": {
@@ -265,7 +268,7 @@
 						{ "group": "mags_milspec", "prob": 60 }
 					]
 				},
-				"repeat": [ 1, 10 ],
+				"repeat": 10,
 				"chance": 90
 			},	    
 			"K": {
@@ -277,8 +280,8 @@
 						{ "group": "book_gunmags", "prob": 80 }
 					]
 				},
-				"repeat": [ 1, 4 ],
-				"chance": 80
+				"repeat": 4,
+				"chance": 75
 			},
 			"|": {
 				"item": {
@@ -289,8 +292,8 @@
 						{ "group": "mags_rare", "prob": 30 }
 					]
 				},
-				"repeat": [ 1, 10 ],
-				"chance": 80
+				"repeat": 15,
+				"chance": 65
 			},	
 			"Y": {
 				"item": {
@@ -315,9 +318,8 @@
 						{ "item": "sholster", "prob": 20 },
 						{ "item": "boots_combat", "prob": 10 },
 						{ "item": "helmet_liner", "prob": 30 },						
-						{ "item": "mask_gas", "prob": 10 },
+						{ "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
 						{ "item": "knife_combat", "container-item": "sheath", "prob": 70  },
-						{ "item": "mask_filter", "prob": 5 },
 						{ "item": "army_top", "prob": 30 },						
 						{ "item": "beret", "prob": 30 },		
 						{ "item": "beret_wool", "prob": 30 },						
@@ -331,8 +333,8 @@
 						{ "item": "ballistic_vest_empty", "prob": 5 }	
 					]
 				},
-				"repeat": [ 1, 6 ],
-				"chance": 80
+				"repeat": 6,
+				"chance": 75
 			},			
 			"v": {
 				"item": {
@@ -343,8 +345,8 @@
 						{ "group": "gunmod_rare", "prob": 30 }
 					]
 				},
-				"repeat": [ 1, 4 ],
-				"chance": 80
+				"repeat": 6,
+				"chance": 75
 			},	
 			"l": {
 				"item": {
@@ -354,7 +356,7 @@
 						{ "group": "unisex_coat_rack", "prob": 60 }
 					]
 				},
-				"repeat": [ 1, 4 ],
+				"repeat": 2,
 				"chance": 75
 			},		
 			"N": {
@@ -365,8 +367,8 @@
 						{ "group": "ear_protection", "prob": 30 }
 					]
 				},
-				"repeat": [ 1, 8 ],
-				"chance": 80
+				"repeat": 8,
+				"chance": 75
 			},	
 			"y": {
 				"item": {
@@ -377,8 +379,8 @@
 						{ "group": "tools_gunsmith", "prob": 5 }
 					]
 				},
-				"repeat": [ 1, 10 ],
-				"chance": 80
+				"repeat": 5,
+				"chance": 50
 			},			
 			"L": {
 				"item": {
@@ -412,8 +414,8 @@
 					{ "group": "guns_shotgun_rare_display", "prob": 30 }							
 					]
 				},
-				"repeat": 2,
-				"chance": 60
+				"repeat": 3,
+				"chance": 75
 			},	
 			"R": {
 				"item": {
@@ -457,9 +459,20 @@
 					{ "group": "ammo_casings_bulk" }
 					]
 				},
-				"repeat": [ 5, 15 ],
-				"chance": 45
-			},		
+				"repeat": 15,
+				"chance": 35
+			},	
+			"=": { 
+				"item": {
+				"subtype": "collection",	
+				"//": "casings around shooting ranges",
+					"entries": [
+					{ "group": "ammo_casings_bulk" }
+					]
+				},
+				"repeat": 2,
+				"chance": 75
+			},					
 			"C": { 
 				"item": {
 				"subtype": "collection",	
@@ -470,7 +483,7 @@
 					{ "group": "book_gunmags", "prob": 33 }
 					]
 				},
-				"repeat": [ 1, 2 ],
+				"repeat": 2,
 				"chance": 15
 			},	
 			"n": { 
@@ -483,7 +496,7 @@
 					{ "group": "book_gunmags", "prob": 33 }
 					]
 				},
-				"repeat": [ 1, 2 ],
+				"repeat": 2,
 				"chance": 15
 			},			
 			"E": {
@@ -494,7 +507,7 @@
 					{ "group": "office_mess" }
 					]
 				},
-				"repeat": [ 1, 2 ],
+				"repeat": 3,
 				"chance": 45
 			}
 			
