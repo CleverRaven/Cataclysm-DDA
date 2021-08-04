@@ -4112,6 +4112,9 @@ void rummage_pocket_activity_actor::finish( player_activity &act, Character &who
     if( !item_loc.empty() ) {
         item_location it_loc = item_loc.front().first;
         switch( kind ) {
+            case action::activate:
+                avatar_action::use_item( *who.as_avatar(), it_loc );
+                return;
             case action::read: {
                 avatar &player_character = get_avatar();
                 if( it_loc->type->can_use( "learn_spell" ) ) {

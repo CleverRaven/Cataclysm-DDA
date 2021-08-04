@@ -1057,22 +1057,25 @@ static void update_lum( item_location loc, bool add )
 void avatar_action::use_item( avatar &you )
 {
     item_location loc;
-    avatar_action::use_item( you, loc );
+    loc = game_menus::inv::use( you );
+
+    if( !loc ) {
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+
+    if( loc.where_recursive() != item_location::type::character ) {
+        avatar_action::use_item( you, loc );
+    } else {
+        you.assign_activity( player_activity( rummage_pocket_activity_actor( loc,
+                                              rummage_pocket_activity_actor::action::activate ) ) );
+    }
 }
 
 void avatar_action::use_item( avatar &you, item_location &loc )
 {
     // Some items may be used without being picked up first
     bool use_in_place = false;
-
-    if( !loc ) {
-        loc = game_menus::inv::use( you );
-
-        if( !loc ) {
-            add_msg( _( "Never mind." ) );
-            return;
-        }
-    }
     int pre_obtain_moves = you.moves;
     if( loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
         use_in_place = true;
