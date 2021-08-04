@@ -2521,7 +2521,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     const item::sound_data data = ( mod->ammo_required() &&
                                     !mod->ammo_remaining() ) ? tmp.gun_noise( is_default_fire_mode ) : loaded_mod->gun_noise(
                                       is_default_fire_mode );
-    int loudness = data.volume;
+    const int loudness = data.volume;
     info.emplace_back( "GUN", _( "Loudness with current fire mode : " ), "", iteminfo::lower_is_better,
                        loudness );
 
