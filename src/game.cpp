@@ -1493,10 +1493,6 @@ bool game::do_turn()
 
     weather.update_weather();
     reset_light_level();
-    const int levz = m.get_abs_sub().z;
-    // needs light map for correctly resuming crafting after loading.
-    // also needs vision cache for monsters later.
-    m.build_map_cache( levz );
 
     perhaps_add_random_npc();
     process_activity();
@@ -1609,6 +1605,10 @@ bool game::do_turn()
 
     // Apply sounds from previous turn to monster and NPC AI.
     sounds::process_sounds();
+    const int levz = m.get_abs_sub().z;
+    // Update vision caches for monsters. If this turns out to be expensive,
+    // consider a stripped down cache just for monsters.
+    m.build_map_cache( levz, true );
     monmove();
     if( calendar::once_every( 5_minutes ) ) {
         overmap_npc_move();
@@ -3037,6 +3037,8 @@ bool game::load( const save_t &name )
     }
 
     effect_on_conditions::load_existing_character();
+    // recalculate light level for correctly resuming crafting and disassembly
+    m.build_map_cache( m.get_abs_sub().z );
 
     return true;
 }
