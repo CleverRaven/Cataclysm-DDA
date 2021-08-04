@@ -88,8 +88,7 @@
     "can_learn": true,
     "default_time_multiplier": 2,
     "default_fail_multiplier": 1.2,
-    "time_to_learn": "5 h",
-    "required_proficiencies": [ "prof_pottery" ]
+    "time_to_learn": "5 h"
   },
   {
     "type": "proficiency",
