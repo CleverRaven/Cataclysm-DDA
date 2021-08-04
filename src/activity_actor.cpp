@@ -1746,22 +1746,32 @@ std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonIn &jsin
 void boltcutting_activity_actor::start( player_activity &act, Character &/*who*/ )
 {
     const map &here = get_map();
-    const ter_id target_ter = here.ter( target );
 
-    if( target_ter == t_null ) {
-        debugmsg( "ACT_BOLTCUTTING called on t_null" );
-        act.set_to_null();
-        return;
-    }
+    if( here.has_furn( target ) ) {
+        const furn_id furn_type = here.furn( target );
+        if( !furn_type->boltcut->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s boltcut is invalid", furn_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
 
-    if( target_ter == t_chaingate_l ) {
-        act.moves_total = to_moves<int>( 1_seconds );
-    } else if( target_ter == t_chainfence ) {
-        act.moves_total = to_moves<int>( 5_seconds );
-    } else if( target_ter == t_fence_barbed ) {
-        act.moves_total = to_moves<int>( 10_seconds );
+        act.moves_total = to_moves<int>( furn_type->boltcut->duration() );
+    } else if( !here.ter( target )->is_null() ) {
+        const ter_id ter_type = here.ter( target );
+        if( !ter_type->boltcut->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s boltcut is invalid", ter_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+        act.moves_total = to_moves<int>( ter_type->boltcut->duration() );
     } else {
-        debugmsg( "ACT_BOLTCUTTING called on unhandled terrain %s", target_ter.id().str() );
+        if( !testing ) {
+            debugmsg( "boltcut activity called on invalid terrain" );
+        }
         act.set_to_null();
         return;
     }
@@ -1769,45 +1779,101 @@ void boltcutting_activity_actor::start( player_activity &act, Character &/*who*/
     act.moves_left = act.moves_total;
 }
 
-void boltcutting_activity_actor::do_turn( player_activity &act, Character &who )
+void boltcutting_activity_actor::do_turn( player_activity &/*act*/, Character &who )
 {
     if( tool->ammo_sufficient( &who ) ) {
         tool->ammo_consume( tool->ammo_required(), tool.position(), &who );
     } else {
-        add_msg_if_player_sees( who.pos(), _( "%1$s %2$s ran out of charges." ),
-                                who.disp_name( true, true ), tool->display_name() );
-        act.set_to_null();
+        if( who.is_avatar() ) {
+            who.add_msg_if_player( m_bad, _( "Your %1$s ran out of charges." ), tool->tname() );
+        } else { // who.is_npc()
+            add_msg_if_player_sees( who.pos(), _( "%1$s %2$s ran out of charges." ), who.disp_name( false,
+                                    true ), tool->tname() );
+        }
+        who.cancel_activity();
     }
 }
 
 void boltcutting_activity_actor::finish( player_activity &act, Character &who )
 {
     map &here = get_map();
-    const ter_id target_ter = here.ter( target );
+    std::string message;
+    const activity_data_common *data;
 
-    if( target_ter == t_null ) {
-        debugmsg( "ACT_BOLTCUTTING finished but terrain is t_null" );
+    if( here.has_furn( target ) ) {
+        const furn_id furn_type = here.furn( target );
+        if( !furn_type->boltcut->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s boltcut is invalid", furn_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        const furn_str_id new_furn = furn_type->boltcut->result();
+        if( !new_furn.is_valid() ) {
+            if( !testing ) {
+                debugmsg( "boltcut furniture: %s invalid furniture", new_furn.str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        data = static_cast<const activity_data_common *>( &*furn_type->boltcut );
+        here.furn_set( target, new_furn );
+    } else if( !here.ter( target )->is_null() ) {
+        const ter_id ter_type = here.ter( target );
+        if( !ter_type->boltcut->valid() ) {
+            if( !testing ) {
+                debugmsg( "%s boltcut is invalid", ter_type.id().str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        const ter_str_id new_ter = ter_type->boltcut->result();
+        if( !new_ter.is_valid() ) {
+            if( !testing ) {
+                debugmsg( "boltcut terrain: %s invalid terrain", new_ter.str() );
+            }
+            act.set_to_null();
+            return;
+        }
+
+        data = static_cast<const activity_data_common *>( &*ter_type->boltcut );
+        here.ter_set( target, new_ter );
+    } else {
+        if( !testing ) {
+            debugmsg( "boltcut activity finished on invalid terrain" );
+        }
         act.set_to_null();
         return;
     }
 
-    if( target_ter == t_chaingate_l ) {
-        here.ter_set( target, t_chaingate_c );
-        here.spawn_item( who.pos(), "scrap", 3 );
-        sounds::sound( target, 5, sounds::sound_t::combat, _( "Gachunk!" ),
-                       true, "tool", "boltcutters" );
-    } else if( target_ter == t_chainfence ) {
-        here.ter_set( target, t_chainfence_posts );
-        here.spawn_item( who.pos(), "wire", 20 );
-        sounds::sound( target, 5, sounds::sound_t::combat, _( "Snick, snick, gachunk!" ),
-                       true, "tool", "boltcutters" );
-    } else if( target_ter == t_fence_barbed ) {
-        here.ter_set( target, t_fence_post );
-        here.spawn_item( who.pos(), "wire_barbed", 2 );
+    if( data->sound().empty() ) {
         sounds::sound( target, 5, sounds::sound_t::combat, _( "Snick, snick, gachunk!" ),
                        true, "tool", "boltcutters" );
     } else {
-        debugmsg( "ACT_BOLTCUTTING finished on unhandled terrain %s", target_ter.id().str() );
+        sounds::sound( target, 5, sounds::sound_t::combat, data->sound().translated(),
+                       true, "tool", "boltcutters" );
+    }
+
+
+    for( const activity_byproduct &byproduct : data->byproducts() ) {
+        const int amount = byproduct.roll();
+        if( byproduct.item->count_by_charges() ) {
+            item byproduct_item( byproduct.item, calendar::turn, amount );
+            here.add_item_or_charges( target, byproduct_item );
+        } else {
+            item byproduct_item( byproduct.item, calendar::turn );
+            for( int i = 0; i < amount; ++i ) {
+                here.add_item_or_charges( target, byproduct_item );
+            }
+        }
+    }
+
+    if( !data->message().empty() ) {
+        who.add_msg_if_player( m_info, data->message().translated() );
     }
 
     act.set_to_null();
