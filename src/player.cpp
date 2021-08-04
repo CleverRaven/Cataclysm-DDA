@@ -80,21 +80,17 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_downed( "downed" );
-static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_masked_scent( "masked_scent" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_sleep( "sleep" );
-static const efftype_id effect_stunned( "stunned" );
 
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_large_repairkit( "large_repairkit" );
 static const itype_id itype_small_repairkit( "small_repairkit" );
 
-static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
@@ -114,7 +110,6 @@ static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
-static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_swimming( "swimming" );
 
