@@ -2130,11 +2130,14 @@ void overmap::move_nemesis()
         }
 
         
+        point_abs_om omp;
+        tripoint_om_sm local_sm;
+        std::tie( omp, local_sm ) = project_remain<coords::om>( mg.abs_pos );
         
 
 
         // Decrease movement chance according to the terrain we're currently on.
-        const oter_id &walked_into = ter( project_to<coords::omt>( mg.pos ) );
+        const oter_id &walked_into = ter( project_to<coords::omt>( local_sm ) );
         int movement_chance = 1;
         if( walked_into == forest || walked_into == forest_water ) {
             movement_chance = 3;
@@ -2145,6 +2148,7 @@ void overmap::move_nemesis()
         }
 
 
+        //update the nemesis coordinates in abs_sm for movement across overmaps
         if( one_in( movement_chance ) && rng( 0, 200 ) < mg.avg_speed() ) {
             if( mg.abs_pos.x() > mg.nemesis_target.x() ) {
                 mg.abs_pos.x()--;
@@ -2162,13 +2166,10 @@ void overmap::move_nemesis()
             
             //if the nemesis horde is on the same overmap as its target
             //update the horde's om_sm coords so it can spawn in correctly
-            if (project_to<coords::om>( mg.abs_pos ) == project_to<coords::om>( mg.nemesis_target ) ) {
+            if ( project_to<coords::om>( mg.nemesis_target.xy() ) == omp ) {
 
                 debugmsg( "nemesis has entered your overmap" );
 
-                point_abs_om omp;
-                tripoint_om_sm local_sm;
-                std::tie( omp, local_sm ) = project_remain<coords::om>( mg.abs_pos );
 
                 mg.pos.y() = local_sm.y();
                 mg.pos.x() = local_sm.x();
