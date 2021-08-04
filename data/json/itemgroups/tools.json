@@ -437,8 +437,9 @@
       { "group": "tools_common", "prob": 50 },
       { "group": "tools_blacksmith", "prob": 50 },
       { "item": "large_repairkit", "prob": 50, "charges": [ 0, 500 ] },
-      [ "puller", 100 ],
-      [ "press", 100 ]
+	  { "item": "small_repairkit", "prob": 50, "charges": [ 0, 500 ] },
+      [ "puller", 50 ],
+      [ "press", 50 ]
     ]
   },
   {
