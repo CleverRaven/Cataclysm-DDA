@@ -2516,7 +2516,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                            iteminfo::lower_is_better,  mod->get_reload_time() );
     }
 
-    bool is_default_fire_mode = ( loaded_mod->gun_current_mode().tname() == "DEFAULT" );
+    const bool is_default_fire_mode = loaded_mod->gun_current_mode().tname() == "DEFAULT";
     //if empty, use the temporary gun loaded with default ammo
     const item::sound_data data = ( mod->ammo_required() &&
                                     !mod->ammo_remaining() ) ? tmp.gun_noise( is_default_fire_mode ) : loaded_mod->gun_noise(
