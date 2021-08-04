@@ -65,7 +65,7 @@ Must be included, and must be one of these strings:
 
 goal string               | Goal conditions
 ---                       | ---
-`MGOAL_GO_TO`             | Reach a specific overmap tile
+`MGOAL_GO_TO`             | Escort quest. To complete this mission the player has to talk to the NPC that gave it while standing in the destination overmap tile. Note: make sure to set the quest giver to follow the player or the mission will be impossible to complete.
 `MGOAL_GO_TO_TYPE`        | Reach any instance of a specified overmap tile type
 `MGOAL_COMPUTER_TOGGLE`   | Activating the correct terminal will complete the mission
 `MGOAL_FIND_ITEM`         | Find 1 or more items of a given type
