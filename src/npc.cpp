@@ -949,6 +949,7 @@ void npc::do_npc_read()
 
         // NPCs can't read to other NPCs yet
         const int time_taken = time_to_read( *book, *this );
+        item_location ereader = {};
 
         // NPCs read until they gain a level
         assign_activity(
@@ -956,6 +957,7 @@ void npc::do_npc_read()
                 read_activity_actor(
                     time_taken,
                     book,
+                    ereader,
                     true,
                     getID().get_value()
                 ) ) );

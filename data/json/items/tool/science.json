@@ -1340,5 +1340,21 @@
     "symbol": ";",
     "color": "light_gray",
     "use_action": [ "SEXTANT" ]
+  },
+  {
+    "id": "lux_meter",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "lux meter" },
+    "description": "A tool for measuring illuminance.",
+    "weight": "100 g",
+    "volume": "300 ml",
+    "price": 100,
+    "price_postapoc": 10,
+    "to_hit": -3,
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "use_action": [ "LUX_METER" ]
   }
 ]
