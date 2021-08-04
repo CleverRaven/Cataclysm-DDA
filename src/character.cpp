@@ -19,6 +19,7 @@
 #include "activity_handlers.h"
 #include "anatomy.h"
 #include "avatar.h"
+#include "avatar_action.h"
 #include "bionics.h"
 #include "cached_options.h"
 #include "cata_utility.h"
@@ -13931,4 +13932,98 @@ int Character::impact( const int force, const tripoint &p )
     }
 
     return total_dealt;
+}
+
+void Character::knock_back_to( const tripoint &to )
+{
+    if( to == pos() ) {
+        return;
+    }
+
+    // First, see if we hit a monster
+    if( monster *const critter = g->critter_at<monster>( to ) ) {
+        deal_damage( critter, bodypart_id( "torso" ), damage_instance( damage_type::BASH,
+                     static_cast<float>( critter->type->size ) ) );
+        add_effect( effect_stunned, 1_turns );
+        /** @EFFECT_STR_MAX allows knocked back player to knock back, damage, stun some monsters */
+        if( ( str_max - 6 ) / 4 > critter->type->size ) {
+            critter->knock_back_from( pos() ); // Chain reaction!
+            critter->apply_damage( this, bodypart_id( "torso" ), ( str_max - 6 ) / 4 );
+            critter->add_effect( effect_stunned, 1_turns );
+        } else if( ( str_max - 6 ) / 4 == critter->type->size ) {
+            critter->apply_damage( this, bodypart_id( "torso" ), ( str_max - 6 ) / 4 );
+            critter->add_effect( effect_stunned, 1_turns );
+        }
+        critter->check_dead_state();
+
+        add_msg_player_or_npc( _( "You bounce off a %s!" ), _( "<npcname> bounces off a %s!" ),
+                               critter->name() );
+        return;
+    }
+
+    if( npc *const np = g->critter_at<npc>( to ) ) {
+        deal_damage( np, bodypart_id( "torso" ),
+                     damage_instance( damage_type::BASH, static_cast<float>( np->get_size() ) ) );
+        add_effect( effect_stunned, 1_turns );
+        np->deal_damage( this, bodypart_id( "torso" ), damage_instance( damage_type::BASH, 3 ) );
+        add_msg_player_or_npc( _( "You bounce off %s!" ), _( "<npcname> bounces off %s!" ),
+                               np->name );
+        np->check_dead_state();
+        return;
+    }
+
+    map &here = get_map();
+    // If we're still in the function at this point, we're actually moving a tile!
+    if( here.has_flag( "LIQUID", to ) && here.has_flag( TFLAG_DEEP_WATER, to ) ) {
+        if( !is_npc() ) {
+            avatar_action::swim( here, get_avatar(), to );
+        }
+        // TODO: NPCs can't swim!
+    } else if( here.impassable( to ) ) { // Wait, it's a wall
+
+        // It's some kind of wall.
+        // TODO: who knocked us back? Maybe that creature should be the source of the damage?
+        apply_damage( nullptr, bodypart_id( "torso" ), 3 );
+        add_effect( effect_stunned, 2_turns );
+        add_msg_player_or_npc( _( "You bounce off a %s!" ), _( "<npcname> bounces off a %s!" ),
+                               here.obstacle_name( to ) );
+
+    } else { // It's no wall
+        setpos( to );
+    }
+}
+
+int Character::hp_percentage() const
+{
+    const bodypart_id head_id = bodypart_id( "head" );
+    const bodypart_id torso_id = bodypart_id( "torso" );
+    int total_cur = 0;
+    int total_max = 0;
+    // Head and torso HP are weighted 3x and 2x, respectively
+    total_cur = get_part_hp_cur( head_id ) * 3 + get_part_hp_cur( torso_id ) * 2;
+    total_max = get_part_hp_max( head_id ) * 3 + get_part_hp_max( torso_id ) * 2;
+    for( const std::pair< const bodypart_str_id, bodypart> &elem : get_body() ) {
+        total_cur += elem.second.get_hp_cur();
+        total_max += elem.second.get_hp_max();
+    }
+
+    return ( 100 * total_cur ) / total_max;
+}
+
+void Character::siphon( vehicle &veh, const itype_id &desired_liquid )
+{
+    int qty = veh.fuel_left( desired_liquid );
+    if( qty <= 0 ) {
+        add_msg( m_bad, _( "There is not enough %s left to siphon it." ),
+                 item::nname( desired_liquid ) );
+        return;
+    }
+
+    item liquid( desired_liquid, calendar::turn, qty );
+    if( liquid.has_temperature() ) {
+        liquid.set_item_specific_energy( veh.fuel_specific_energy( desired_liquid ) );
+    }
+    if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, &veh ) ) {
+        veh.drain( desired_liquid, qty - liquid.charges );
+    }
 }

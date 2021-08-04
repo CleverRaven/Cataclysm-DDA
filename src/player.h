@@ -128,19 +128,8 @@ class player : public Character
 
         // ranged.cpp
 
-        /** Knocks the player to a specified tile */
-        void knock_back_to( const tripoint &to ) override;
-
-        /** Returns overall % of HP remaining */
-        int hp_percentage() const override;
-
         /** Returns list of rc items in player inventory. **/
         std::list<item *> get_radio_items();
-
-        /** Siphons fuel (if available) from the specified vehicle into container or
-         * similar via @ref game::handle_liquid. May start a player activity.
-         */
-        void siphon( vehicle &veh, const itype_id &desired_liquid );
 
         /** Used for eating object at a location. Removes item if all of it was consumed.
         *   @returns trinary enum NONE, SOME or ALL amount consumed.

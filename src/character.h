@@ -79,6 +79,7 @@ class proficiency_set;
 class recipe_subset;
 class spell;
 class vpart_reference;
+class vehicle;
 struct bionic;
 struct construction;
 struct dealt_projectile_attack;
@@ -1966,6 +1967,15 @@ class Character : public Creature, public visitable
         float fall_damage_mod() const override;
         /** Deals falling/collision damage with terrain/creature at pos */
         int impact( int force, const tripoint &pos ) override;
+        /** Knocks the player to a specified tile */
+        void knock_back_to( const tripoint &to ) override;
+        /** Siphons fuel (if available) from the specified vehicle into container or
+         * similar via @ref game::handle_liquid. May start a player activity.
+         */
+        void siphon( vehicle &veh, const itype_id &desired_liquid );
+
+        /** Returns overall % of HP remaining */
+        int hp_percentage() const override;
 
         /** Returns true if the player has some form of night vision */
         bool has_nv();
