@@ -4099,7 +4099,7 @@ void rummage_pocket_activity_actor::start( player_activity &act, Character &who 
 
 void rummage_pocket_activity_actor::do_turn( player_activity &, Character &who )
 {
-    who.add_msg_if_player( _( "You rummage your pockets" ) );
+    who.add_msg_if_player( _( "You rummage through your pockets" ) );
 }
 
 void rummage_pocket_activity_actor::finish( player_activity &act, Character &who )
