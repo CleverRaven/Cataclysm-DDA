@@ -1137,6 +1137,7 @@ class disassemble_activity_actor : public activity_actor
 {
     private:
         int moves_total;
+        float activity_override = NO_EXERCISE;
 
     public:
         item_location target;
@@ -1150,6 +1151,8 @@ class disassemble_activity_actor : public activity_actor
         void start( player_activity &act, Character & ) override;
         void do_turn( player_activity &, Character & ) override;
         void finish( player_activity &act, Character &who ) override;
+
+        float exertion_level() const override;
 
         std::string get_progress_message( const player_activity & ) const override;
 

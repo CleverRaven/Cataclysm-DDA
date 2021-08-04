@@ -3819,6 +3819,7 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
     }
 
     act.moves_left = calendar::INDEFINITELY_LONG;
+    activity_override = target->get_making().exertion_level();
 }
 
 void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
@@ -3855,6 +3856,11 @@ void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
 void disassemble_activity_actor::finish( player_activity &act, Character & )
 {
     act.set_to_null();
+}
+
+float disassemble_activity_actor::exertion_level() const
+{
+    return activity_override;
 }
 
 std::string disassemble_activity_actor::get_progress_message( const player_activity & ) const
