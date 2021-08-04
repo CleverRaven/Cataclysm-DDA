@@ -17,20 +17,8 @@ JSON_DIR = os.path.join(TOP_DIR, "data")
 TAGS_FILE = os.path.join(TOP_DIR, "tags")
 
 
-def cdda_style_json(v):
-    if type(v) == str:
-        return json.dumps(v)
-    elif type(v) == list:
-        return f'[ {", ".join(cdda_style_json(e) for e in v)} ]'
-    else:
-        raise RuntimeError('Unexpected type')
-
-
-def make_tags_line(id_key, id, full_id, filename):
-    length_limit = 120
-    pattern = f'/"{id_key}": {cdda_style_json(full_id)}/'
-    if len(pattern) > length_limit - 5:
-        pattern = f'/"{id}"/'
+def make_tags_line(id_key, id, filename):
+    pattern = '/"{id_key}": "{id}"/'.format(id_key=id_key, id=id)
     return '\t'.join((id, filename, pattern)).encode('utf-8')
 
 
@@ -48,16 +36,7 @@ def main(args):
     # JSON keys to generate tags for
     id_keys = (
         'id', 'abstract', 'ident',
-        'nested_mapgen_id', 'om_terrain', 'update_mapgen_id', 'result')
-
-    def add_definition(id_key, id, full_id, relative_path):
-        if not id:
-            return
-        if type(id) == str:
-            definitions.append((id_key, id, full_id, relative_path))
-        elif type(id) == list:
-            for i in id:
-                add_definition(id_key, i, full_id, relative_path)
+        'nested_mapgen_id', 'update_mapgen_id', 'result')
 
     for dirpath, dirnames, filenames in os.walk(JSON_DIR):
         for filename in filenames:
@@ -86,7 +65,9 @@ def main(args):
                         for id_key in id_keys:
                             if id_key in obj:
                                 id = obj[id_key]
-                                add_definition(id_key, id, id, relative_path)
+                                if type(id) == str and id:
+                                    definitions.append(
+                                        (id_key, id, relative_path))
 
     json_tags_lines = [make_tags_line(*d) for d in definitions]
     existing_tags_lines = []

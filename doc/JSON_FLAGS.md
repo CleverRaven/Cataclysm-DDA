@@ -163,7 +163,6 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```thrown``` Thrown
 - ```unfinished_char``` Semi-charred fuel
 - ```water``` Water
-- ```paper``` Paper
 
 ### Effects
 
@@ -407,7 +406,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```WASH_HARD_ITEMS``` Wash hard items with FILTHY flag.
 - ```WASH_SOFT_ITEMS``` Wash soft items with FILTHY flag.
 - ```WATER_PURIFIER``` Purify water.
-- ```BINDER_ADD_RECIPE``` Add recipe to a book binder.
 
 
 ## Comestibles

@@ -26,7 +26,6 @@
 #include "ret_val.h"
 #include "safe_reference.h"
 #include "string_formatter.h"
-#include "talker_item.h"
 #include "translations.h"
 #include "units.h"
 #include "vehicle.h"
@@ -395,7 +394,6 @@ class item_location::impl::item_on_person : public item_location::impl
             } else {
                 // then we are wearing it
                 mv = who->item_handling_cost( obj, true, INVENTORY_HANDLING_PENALTY / 2 );
-                mv += 250;
             }
 
             if( &ch != who ) {
@@ -961,13 +959,3 @@ bool item_location::protected_from_liquids() const
     // none are closed watertight containers
     return false;
 }
-
-std::unique_ptr<talker> get_talker_for( item_location &it )
-{
-    return std::make_unique<talker_item>( &it );
-}
-std::unique_ptr<talker> get_talker_for( item_location *it )
-{
-    return std::make_unique<talker_item>( it );
-}
-
