@@ -2710,6 +2710,7 @@ std::unique_ptr<activity_actor> craft_activity_actor::deserialize( JsonIn &jsin 
     data.read( "long", tmp_long );
 
     craft_activity_actor actor = craft_activity_actor( tmp_item_loc, tmp_long );
+    actor.activity_override = actor.craft_item->get_making().exertion_level();
 
     return actor.clone();
 }
@@ -3876,6 +3877,7 @@ void disassemble_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
+    jsout.member( "target", target );
     jsout.member( "moves_total", moves_total );
 
     jsout.end_object();
@@ -3887,7 +3889,9 @@ std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonIn 
 
     JsonObject data = jsin.get_object();
 
+    data.read( "target", actor.target );
     data.read( "moves_total", actor.moves_total );
+    actor.activity_override = actor.target->get_making().exertion_level();
 
     return actor.clone();
 }
