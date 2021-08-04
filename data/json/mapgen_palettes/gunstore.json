@@ -90,144 +90,179 @@
 					"f": "f_fridge"
 				},
 	"items": {
-		
 			"X": {
 				"item": {
+				"//": "contents of locked gunsafes in the FoH, all ammo should be kept in some form of safe",
 				"subtype": "collection",
 					"entries": [
-						{ "group": "ammo_common", "repeat": 30, "prob": 80 },
-						{ "group": "ammo_rare", "repeat": 5, "prob": 60 },
-						{ "group": "ammo_obscure", "repeat": [ 1, 5 ], "prob": 60 }
+						{ "group": "ammo_common", "prob":  90 },
+						{ "group": "ammo_rare", "prob": 30 },
+						{ "group": "ammo_obscure", "prob": 15 }
 					]
-				}
+				},
+				"repeat": [ 30, 40 ],
+				"chance": 80
 			},	   
 			"s": {
 				"item": {
+				"//": "contents of BoH gunstore deliverly crates",	
 				"subtype": "distribution",
 					"entries": [
-						{ "group": "ammo_common", "repeat": 5, "prob": 10 },
-						{ "group": "guns_common_display", "repeat": 2, "prob": 60 },
-						{ "group": "mags_common", "repeat": [ 1, 5 ], "prob": 60 },
-						{ "group": "clothing_tactical_torso", "repeat": 2, "prob": 60 },
-						{ "group": "clothing_tactical_legs", "repeat": 2, "prob": 60 },
-						{ "group": "gun_bags", "repeat": 2, "prob": 30, "ammo": 0 },					
-						{ "group": "gunmod_common", "repeat": 2, "prob": 30 },
-						{ "group": "book_gunmags", "repeat": 5, "prob": 90 },
-						{ "group": "mil_food_nodrugs", "prob": 80, "repeat": [ 1, 8 ] },
-						{ "group": "ammo_parts", "prob": 60, "repeat": [ 10, 20 ] },
-						{ "group": "tools_gunsmith", "prob": 80, "repeat": [ 3, 5 ] }
+						{ "group": "ammo_common", "prob": 10 },
+						{ "group": "guns_common_display", "prob": 60 },
+						{ "group": "mags_common", "prob": 60 },
+						{ "group": "clothing_tactical_torso", "prob": 60 },
+						{ "group": "clothing_tactical_legs", "prob": 60 },
+						{ "group": "gun_bags", "prob": 30 },					
+						{ "group": "gunmod_common", "prob": 30 },
+						{ "group": "book_gunmags", "prob": 90 },
+						{ "group": "mil_food_nodrugs", "prob": 80 },
+						{ "group": "ammo_parts", "prob": 60 },
+						{ "group": "tools_gunsmith", "prob": 80 }
 					]
-				}
+				},
+				"repeat": [ 1, 8 ]
 			},			
 			"O": {
 				"item": {
+				"//": "contents of secondary gun safes which have no ammo but access to non-civilian firearms which are kept in the BoH or an attached residential unit",
 				"subtype": "collection",
 					"entries": [
-						{ "group": "guns_obscure", "repeat": 3, "prob": 80, "ammo": 0 },
-						{ "group": "mags_obscure", "repeat": 10, "prob": 80, "ammo": 0 },
-						{ "group": "guns_milspec", "repeat": 1, "prob": 60, "ammo": 0 },
-						{ "group": "mags_milspec", "repeat": 4, "prob": 60, "ammo": 0 }
+						{ "group": "guns_obscure", "prob": 35 },
+						{ "group": "mags_obscure", "prob": 80 },
+						{ "group": "guns_milspec", "prob": 15 },
+						{ "group": "mags_milspec", "prob": 60 }
 					]
-				}
+				},
+				"repeat": [ 1, 10 ],
+				"chance": 90
 			},	    
 			"K": {
 				"item": {
+				"//": "gun books kept on racks in the FoH",
 				"subtype": "collection",
 					"entries": [
-						{ "group": "book_gunref", "repeat": 3, "prob": 50 },
-						{ "group": "book_gunmags", "repeat": 5, "prob": 90 }
+						{ "group": "book_gunref", "prob": 25 },
+						{ "group": "book_gunmags", "prob": 80 }
 					]
-				}
+				},
+				"repeat": [ 1, 4 ],
+				"chance": 80
 			},
 			"|": {
 				"item": {
+				"//": "civilian magazines kept on racks behind the counter in the FoH",	
 				"subtype": "collection",
 					"entries": [
-						{ "group": "mags_common", "repeat": 8, "prob": 90, "ammo": 0 },
-						{ "group": "mags_rare", "repeat": 3, "prob": 90, "ammo": 0 }
+						{ "group": "mags_common", "prob": 70 },
+						{ "group": "mags_rare", "prob": 30 }
 					]
-				}
+				},
+				"repeat": [ 1, 10 ],
+				"chance": 80
 			},	
 			"Y": {
 				"item": {
+				"//": "clothing and food kept on racks in the FoH",	
 				"subtype": "collection",
 					"entries": [
-						{ "group": "clothing_tactical_torso", "repeat": 5, "prob": 60 },
-						{ "group": "clothing_tactical_legs", "repeat": 3, "prob": 60 },
-						{ "group": "gun_bags", "repeat": 2, "prob": 65 },	
-						{ "item":  "ear_plugs", "prob": 50, "repeat": 5 }, 
-						{ "item":  "powered_earmuffs", "prob": 30, "repeat": 1 },
-						{ "group": "mil_food_nodrugs", "prob": 80, "repeat": 1 }					
+						{ "group": "clothing_tactical_torso", "prob": 65 },
+						{ "group": "clothing_tactical_legs", "prob": 50 },
+						{ "group": "gun_bags", "prob": 45 },	
+						{ "item":  "ear_plugs", "prob": 50 }, 
+						{ "item":  "powered_earmuffs", "prob": 10 },
+						{ "group": "mil_food_nodrugs", "prob": 80 }					
 					]
-				}
+				},
+				"repeat": [ 1, 6 ],
+				"chance": 80
 			},			
 			"v": {
 				"item": {
+				"//": "gun mods kept on racks in the FoH",	
 				"subtype": "collection",
 					"entries": [
-						{ "group": "gunmod_common", "repeat": 5, "prob": 60 },
-						{ "group": "gunmod_rare", "repeat": 2, "prob": 60	}
+						{ "group": "gunmod_common", "prob": 70 },
+						{ "group": "gunmod_rare", "prob": 30 }
 					]
-				}
+				},
+				"repeat": [ 1, 4 ],
+				"chance": 80
 			},	
 			"l": {
 				"item": {
+				"//": "workers items that were placed in lockers before the CATA, kept in the BoH",	
 				"subtype": "collection",
 					"entries": [
 						{ "group": "unisex_coat_rack", "prob": 60 }
 					]
-				}
+				},
+				"repeat": [ 1, 4 ],
+				"chance": 75
 			},		
 			"N": {
 				"item": {
+				"//": "ear protection kept in the proximity of attached gun ranges",
 				"subtype": "collection",
 					"entries": [
-						{ "item": "ear_plugs", "prob": 50, "repeat": [ 3, 9 ] }, 
-						{ "item": "powered_earmuffs", "prob": 30, "repeat": 3 }
+						{ "item": "ear_plugs", "prob": 50 }, 
+						{ "item": "powered_earmuffs", "prob": 30 }
 					]
-				}
+				},
+				"repeat": [ 1, 8 ],
+				"chance": 80
 			},	
 			"y": {
 				"item": {
+				"//": "gunsmithing tools kept on racks",
 				"subtype": "collection",
 					"entries": [
-						{ "group": "ammo_parts", "prob": 80, "repeat": [ 1, 5 ] },
+						{ "group": "ammo_parts", "prob": 80 },
 						{ "group": "tools_gunsmith", "prob": 25 }
 					]
-				}
+				},
+				"repeat": [ 1, 10 ],
+				"chance": 80
 			},			
-			"p": {
-				"item": {
-				"subtype": "collection",
-					"entries": [
-						{ "item": "ear_plugs", "prob": 50, "repeat": 12 }, 
-						{ "item": "powered_earmuffs", "prob": 30, "repeat": 3 }
-					]
-				}
-			},	
 			"L": {
-				 "item": "guns_common_display", "prob": 75, "repeat": 5, "magazine": 100 
+				"//": "locked racks for all common gun type of civilian firearms",
+				 "item": "guns_common_display", "repeat": 5, "chance": 75
 			},
 			"f": {
-				 "item": "fridgesnacks", "prob": 70, "repeat": [ 4, 12 ] 
+				"//": "rec room fridge",
+				 "item": "fridgesnacks", "repeat": [ 4, 12 ],  "chance": 75 
 			},
 			"d": {
-				 "item": "guns_rare_display", "prob": 65, "repeat": 3, "magazine": 100 
+				"//": "display cases for all types of rare civilian firearms",
+				 "item": "guns_rare_display", "repeat": 2, "chance": 75
 			},	
 			"R": {
-				 "item": "guns_common", "prob": 50, "count": 1, "magazine": 100 
+				"item": {
+				"//": "counters used for shooting at the gun range, chance of spawning any loaded common firearm as well as spent brass",
+				 "subtype": "collection",
+					 "entries": [
+					 { "item": "guns_common",  "prob": 25 },
+					 { "item": "ammo_casings_bulk", "prob": 50 }
+					 ]
+				},
+				"repeat": 4,
+				"chance": 80				 
 			},
 			"r": {
-				 "item": "trash", "prob": 50, "repeat": 8 
+				"//": "contents of trashcans in store",
+				 "item": "trash", "repeat": 8, "chance": 75
 			},	
 			"w": {
-				 "item": "trash", "prob": 50, "repeat": 30 
+				"//": "contents of dumpsters",
+				 "item": "trash", "repeat": 30, "chance": 75 
 			},	
 			"Q": { 
-				 "item": "ammo_casings_bulk", "prob": 50, "repeat": [ 5, 15 ] 
+				"//": "bulk casing on racks in the FoH",
+				 "item": "ammo_casings_bulk", "repeat": [ 5, 15 ], "chance": 75 
 			},				
 			"E": {
-				 "item": "office_mess", "chance": 35, "repeat": [ 1, 2 ] 
+				"//": "items on store desks",
+				 "item": "office_mess", "repeat": [ 1, 2 ], "chance": 35 
 			}
 		}
 	}
