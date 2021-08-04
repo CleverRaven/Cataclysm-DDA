@@ -2710,7 +2710,9 @@ std::unique_ptr<activity_actor> craft_activity_actor::deserialize( JsonIn &jsin 
     data.read( "long", tmp_long );
 
     craft_activity_actor actor = craft_activity_actor( tmp_item_loc, tmp_long );
-    actor.activity_override = actor.craft_item->get_making().exertion_level();
+    if( actor.craft_item ) {
+        actor.activity_override = actor.craft_item->get_making().exertion_level();
+    }
 
     return actor.clone();
 }
@@ -3891,7 +3893,9 @@ std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonIn 
 
     data.read( "target", actor.target );
     data.read( "moves_total", actor.moves_total );
-    actor.activity_override = actor.target->get_making().exertion_level();
+    if( actor.target ) {
+        actor.activity_override = actor.target->get_making().exertion_level();
+    }
 
     return actor.clone();
 }
