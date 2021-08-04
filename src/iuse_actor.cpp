@@ -1548,56 +1548,77 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
             }
             continue;
         }
+        //check if there are components defined
+        if( !temp.components.empty() ) {
+            // push components into stack
+            for( const item &iter : temp.components ) {
+                stack.push_back( iter );
+            }
+            continue;
+        }
         // No available components
-        if( temp.components.empty() ) {
-            // Try to find an available recipe and "restore" its components
-            auto iter = std::find_if( recipe_dict.begin(),
-            recipe_dict.end(), [&]( std::pair<const recipe_id, recipe> curr ) {
-                units::mass weight = 0_gram;
-                for( const auto &altercomps : curr.second.simple_requirements().get_components() ) {
-                    weight += ( altercomps.front().type->weight ) * altercomps.front().count;
-                }
-                return !curr.second.obsolete && curr.second.result() == temp.typeId() &&
-                       curr.second.makes_amount() <= 1 && weight <= temp.weight();
-            } );
-            if( iter == recipe_dict.end() ) {
-                // no recipes found, add weight to materials
+        // Try to find an available recipe and "restore" its components
+        recipe un_craft;
+        auto iter = std::find_if( recipe_dict.begin(),
+        recipe_dict.end(), [&]( const std::pair<const recipe_id, recipe> &curr ) {
+            units::mass weight = 0_gram;
+            for( const auto &altercomps : curr.second.simple_requirements().get_components() ) {
+                weight += ( altercomps.front().type->weight ) * altercomps.front().count;
+            }
+            return !curr.second.obsolete && curr.second.result() == temp.typeId() &&
+                   curr.second.makes_amount() <= 1 && weight <= temp.weight();
+        } );
+        // No crafting recipe available
+        if( iter == recipe_dict.end() ) {
+            // Check disassemble recipe too
+            un_craft = recipe_dictionary::get_uncraft( temp.typeId() );
+            if( un_craft.is_null() ) {
+                // No recipes found, count weight and go next
                 for( const auto &type : temp.made_of() ) {
                     mat_to_weight[type] += ( temp.weight() * remaining_weight / temp.made_of().size() );
                 }
                 continue;
-            } else {
-                const requirement_data requirements = iter->second.simple_requirements();
-                // find default components set from recipe, push them into stack
-                for( const auto &altercomps : requirements.get_components() ) {
-                    const item_comp &comp = altercomps.front();
-                    // if count by charges
-                    if( comp.type->count_by_charges() ) {
-                        stack.emplace_back( comp.type, calendar::turn, comp.count );
-                    } else {
-                        for( int i = 0; i < comp.count; i++ ) {
-                            stack.emplace_back( comp.type, calendar::turn );
-                        }
-                    }
-                }
             }
+            // Found disassemble recipe, check if it is valid
+            units::mass weight = 0_gram;
+            for( const auto &altercomps : un_craft.simple_requirements().get_components() ) {
+                weight += ( altercomps.front().type->weight ) * altercomps.front().count;
+            }
+            if( weight > temp.weight() ) {
+                // Bad disassemble recipe.  Count weight and go next
+                for( const auto &type : temp.made_of() ) {
+                    mat_to_weight[type] += ( temp.weight() * remaining_weight / temp.made_of().size() );
+                }
+                continue;
+            }
+        } else {
+            //take the chosen crafting recipe
+            un_craft = iter->second;
         }
-        // push components into stack
-        else {
-            for( const item &it : temp.components ) {
-                stack.push_back( it );
+        // If we get here it means we found a recipe
+        const requirement_data requirements = un_craft.simple_requirements();
+        // find default components set from recipe, push them into stack
+        for( const auto &altercomps : requirements.get_components() ) {
+            const item_comp &comp = altercomps.front();
+            // if count by charges
+            if( comp.type->count_by_charges() ) {
+                stack.emplace_back( comp.type, calendar::turn, comp.count );
+            } else {
+                for( int i = 0; i < comp.count; i++ ) {
+                    stack.emplace_back( comp.type, calendar::turn );
+                }
             }
         }
     }
 
     // Apply propotional item loss.
-    for( auto &it : salvage_to ) {
-        it.second *= remaining_weight;
+    for( auto &iter : salvage_to ) {
+        iter.second *= remaining_weight;
     }
     // Item loss for weight was applied before(only round once).
-    for( const auto &it : mat_to_weight ) {
-        if( const cata::optional<itype_id> id = it.first->salvaged_into() ) {
-            salvage_to[*id] += ( it.second / id->obj().weight );
+    for( const auto &iter : mat_to_weight ) {
+        if( const cata::optional<itype_id> id = iter.first->salvaged_into() ) {
+            salvage_to[*id] += ( iter.second / id->obj().weight );
         }
     }
 
