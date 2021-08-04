@@ -1116,12 +1116,121 @@
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
     "responses": [
       {
-        "text": "Two = five.",
+        "text": "This is a u_adjust_var test response that increments by 1.",
+        "topic": "TALK_DONE",
+        "effect": { "u_adjust_var": "test", "type": "test", "context": "var_compare_test", "adjustment": 1 }
+      },
+      {
+        "text": "This is an npc_adjust_var test response that increments by 2.",
+        "topic": "TALK_DONE",
+        "effect": { "npc_adjust_var": "test", "type": "test", "context": "var_compare_test", "adjustment": 2 }
+      },
+      {
+        "text": "PC strength is five.",
         "topic": "TALK_DONE",
         "condition": {
           "compare_int": [
-            { "const": 2 },
+            { "u_val": "strength" },
             { "const": 5 }
+          ],
+          "op": "="
+        }
+      },
+      {
+        "text": "PC dexterity is six.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "u_val": "dexterity" },
+            { "const": 6 }
+          ],
+          "op": "="
+        }
+      },
+      {
+        "text": "PC intelligence is seven.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "u_val": "intelligence" },
+            { "const": 7 }
+          ],
+          "op": "="
+        }
+      },
+      {
+        "text": "PC perception is eight.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "u_val": "perception" },
+            { "const": 8 }
+          ],
+          "op": "="
+        }
+      },
+      {
+        "text": "NPC strength is nine.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "npc_val": "strength" },
+            { "const": 9 }
+          ],
+          "op": "="
+        }
+      },
+      {
+        "text": "NPC dexterity is ten.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "npc_val": "dexterity" },
+            { "const": 10 }
+          ],
+          "op": "="
+        }
+      },
+      {
+        "text": "NPC intelligence is eleven.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "npc_val": "intelligence" },
+            { "const": 11 }
+          ],
+          "op": "="
+        }
+      },
+      {
+        "text": "NPC perception is twelve.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "npc_val": "perception" },
+            { "const": 12 }
+          ],
+          "op": "="
+        }
+      },
+      {
+        "text": "PC Custom var is one.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "u_val": "var", "var_name": "test", "type": "test", "context": "var_compare_test" },
+            { "const": 1 }
+          ],
+          "op": "="
+        }
+      },
+      {
+        "text": "NPC Custom var is two.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "npc_val": "var", "var_name": "test", "type": "test", "context": "var_compare_test" },
+            { "const": 2 }
           ],
           "op": "="
         }

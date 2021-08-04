@@ -889,33 +889,27 @@ void conditional_t<T>::set_compare_int( const JsonObject &jo, const std::string 
         condition = [get_first_int, get_second_int]( const T &d ) {
             return get_first_int( d ) == get_second_int( d );
         };
-    }
-    else if( op == "!=" ) {
+    } else if( op == "!=" ) {
         condition = [get_first_int, get_second_int]( const T &d ) {
             return get_first_int( d ) != get_second_int( d );
         };
-    }
-    else if( op == "<=" ) {
+    } else if( op == "<=" ) {
         condition = [get_first_int, get_second_int]( const T &d ) {
             return get_first_int( d ) <= get_second_int( d );
         };
-    }
-    else if( op == ">=" ) {
+    } else if( op == ">=" ) {
         condition = [get_first_int, get_second_int]( const T &d ) {
             return get_first_int( d ) >= get_second_int( d );
         };
-    }
-    else if( op == "<" ) {
+    } else if( op == "<" ) {
         condition = [get_first_int, get_second_int]( const T &d ) {
             return get_first_int( d ) < get_second_int( d );
         };
-    }
-    else if( op == ">" ) {
+    } else if( op == ">" ) {
         condition = [get_first_int, get_second_int]( const T &d ) {
             return get_first_int( d ) > get_second_int( d );
         };
-    }
-    else {
+    } else {
         jo.throw_error( "unexpected operator " + jo.get_string( "op" ) + " in " + jo.str() );
         condition = []( const T &d ) {
             return false;
@@ -932,15 +926,41 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             return const_value;
         };
     }
-    /*else if (jo.has_member("npc_has_any_trait")) {
-        set_has_any_trait(jo, "npc_has_any_trait", true);
-    }*/
-    else {
-        jo.throw_error( "unrecognized interger sournce in " + jo.str() );
-        return []( const T &d ) {
-            return 0;
-        };
+    else if ( jo.has_member("u_val") || jo.has_member( "npc_val" ) ) {
+        const bool is_npc = jo.has_member( "npc_val" );
+        const std::string checked_value = is_npc ? jo.get_string( "npc_val" ) : jo.get_string( "u_val" );
+        if( checked_value == "strength" ) {
+            return [is_npc]( const T &d ) {
+                return d.actor( is_npc )->str_cur();
+            };
+        } else if( checked_value == "dexterity" ) {
+            return [is_npc]( const T &d ) {
+                return d.actor( is_npc )->dex_cur();
+            };
+        } else if( checked_value == "intelligence" ) {
+            return [is_npc]( const T &d ) {
+                return d.actor( is_npc )->int_cur();
+            };
+        } else if( checked_value == "perception" ) {
+            return [is_npc]( const T &d ) {
+                return d.actor( is_npc )->per_cur();
+            };
+        } else if( checked_value == "var" ) {
+            const std::string var_name = get_talk_varname( jo, "var_name", false );
+            return [is_npc, var_name]( const T &d ) {
+                int stored_value = 0;
+                const std::string &var = d.actor( is_npc )->get_value( var_name );
+                if( !var.empty() ) {
+                    stored_value = std::stoi( var );
+                }
+                return stored_value;
+            };
+        }
     }
+    jo.throw_error( "unrecognized interger sournce in " + jo.str() );
+    return []( const T &d ) {
+        return 0;
+    };
 }
 
 template<class T>

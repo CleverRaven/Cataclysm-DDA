@@ -994,7 +994,7 @@ TEST_CASE( "npc_change_topic", "[npc_talk]" )
     CHECK( talker_npc.chatbin.first_topic == "TALK_TEST_SET_TOPIC" );
 }
 
-TEST_CASE("npc_compare_int", "[npc_talk]")
+TEST_CASE("npc_compare_int_op", "[npc_talk]")
 {
     dialogue d;
     npc& beta = prep_test(d);
@@ -1012,4 +1012,53 @@ TEST_CASE("npc_compare_int", "[npc_talk]")
     CHECK( d.responses[ 7 ].text == "Five != two." );
     CHECK( d.responses[ 8 ].text == "Five >= two." );
     CHECK( d.responses[ 9 ].text == "Five > two." );
+}
+
+TEST_CASE( "npc_compare_int", "[npc_talk]" )
+{
+    dialogue d;
+    npc &beta = prep_test( d );
+    player &player_character = get_avatar();
+
+    player_character.str_cur = 4;
+    player_character.dex_cur = 4;
+    player_character.int_cur = 4;
+    player_character.per_cur = 4;
+
+    d.add_topic( "TALK_TEST_COMPARE_INT" );
+    gen_response_lines( d, 2 );
+    CHECK( d.responses[ 0 ].text == "This is a u_adjust_var test response that increments by 1." );
+    CHECK( d.responses[ 1 ].text == "This is an npc_adjust_var test response that increments by 2." );
+
+    player_character.str_cur = 5;
+    player_character.dex_cur = 6;
+    player_character.int_cur = 7;
+    player_character.per_cur = 8;
+    beta.str_cur = 9;
+    beta.dex_cur = 10;
+    beta.int_cur = 11;
+    beta.per_cur = 12;
+    // Increment the u var by 1, so that it has a value of 1.
+    talk_effect_t &effects = d.responses[ 0 ].success;
+    effects.apply( d );
+    // Increment the npc var by 2, so that it has a value of 2.
+    effects = d.responses[ 1 ].success;
+    effects.apply( d );
+
+    gen_response_lines( d, 12 );
+    CHECK( d.responses[ 0 ].text == "This is a u_adjust_var test response that increments by 1." );
+    CHECK( d.responses[ 1 ].text == "This is an npc_adjust_var test response that increments by 2." );
+    CHECK( d.responses[ 2 ].text == "PC strength is five." );
+    CHECK( d.responses[ 3 ].text == "PC dexterity is six." );
+    CHECK( d.responses[ 4 ].text == "PC intelligence is seven." );
+    CHECK( d.responses[ 5 ].text == "PC perception is eight." );
+    CHECK( d.responses[ 6 ].text == "NPC strength is nine." );
+    CHECK( d.responses[ 7 ].text == "NPC dexterity is ten." );
+    CHECK( d.responses[ 8 ].text == "NPC intelligence is eleven." );
+    CHECK( d.responses[ 9 ].text == "NPC perception is twelve." );
+    CHECK( d.responses[ 10 ].text == "PC Custom var is one." );
+    CHECK( d.responses[ 11 ].text == "NPC Custom var is two." );
+
+
+
 }
