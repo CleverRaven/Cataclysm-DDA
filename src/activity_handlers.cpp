@@ -2515,7 +2515,11 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     // target selection and validation.
     while( act->targets.size() < 2 ) {
-        item_location item_loc = game_menus::inv::repair( *p, actor, &main_tool );
+        if( !p->is_avatar() ) {
+            debugmsg( "NPC attempting to repair more items via menu selection." );
+            break;
+        }
+        item_location item_loc = game_menus::inv::repair( *p->as_avatar(), actor, &main_tool );
 
         if( item_loc == item_location::nowhere ) {
             p->add_msg_if_player( m_info, _( "Never mind." ) );

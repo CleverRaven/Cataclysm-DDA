@@ -231,11 +231,6 @@ class player : public Character
 
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
         template <typename T> bool can_lift( const T &obj ) const;
-        /**
-         * Check player capable of taking off an item.
-         * @param it Thing to be taken off
-         */
-        ret_val<bool> can_takeoff( const item &it, const std::list<item> *res = nullptr );
 
         /**
          * Attempt to mend an item (fix any current faults)
@@ -288,9 +283,6 @@ class player : public Character
         /** Uses the current wielded weapon */
         void use_wielded();
 
-        /** Reassign letter. */
-        void reassign_item( item &it, int invlet );
-
         /**
          * Starts activity to remove gunmod after unloading any contained ammo.
          * Returns true on success (activity has been started)
@@ -299,9 +291,6 @@ class player : public Character
 
         /** Starts activity to install gunmod having warned user about any risk of failure or irremovable mods s*/
         void gunmod_add( item &gun, item &mod );
-
-        /** @return Odds for success (pair.first) and gunmod damage (pair.second) */
-        std::pair<int, int> gunmod_installation_odds( const item &gun, const item &mod ) const;
 
         /** Starts activity to install toolmod */
         void toolmod_add( item_location tool, item_location mod );
