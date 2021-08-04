@@ -478,5 +478,33 @@
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT" ],
     "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 90, "covers": [ "torso", "arm_l", "arm_r" ] } ]
+  },
+  {
+    "id": "nanomesh_vest",
+    "repairs_like": "chainmail_vest",
+    "type": "ARMOR",
+    "copy-from": "chainmail_vest",
+    "looks_like": "chainmail_vest",
+    "material": "nanoprinted_alloy",
+    "name": { "str": "nanomesh vest" },
+    "description": "A lightweight nanomesh vest designed to face down many of the perils of space travel.  These vests are mass produced and often stacked in starship lockers.",
+    "armor": [ { "encumbrance": 12, "coverage": 95, "covers": [ "torso" ] } ],
+    "price": 40000,
+    "price_postapoc": 40000,
+    "color": "brown"
+  },
+  {
+    "id": "carbide_cuirass",
+    "repairs_like": "cuirass_lightplate",
+    "type": "ARMOR",
+    "copy-from": "cuirass_lightplate",
+    "looks_like": "cuirass_lightplate",
+    "name": { "str": "vacuum cast cuirass" },
+    "description": "This piece of armor harkens back to renaissance designs.  It differs in that it is cast as a single piece in deep space installations where conditions can be controlled absolutely.",
+    "material": "vacuum_carbide",
+    "armor": [ { "encumbrance": 23, "coverage": 95, "covers": [ "torso" ] } ],
+    "price": 300000,
+    "price_postapoc": 300000,
+    "color": "brown"
   }
 ]

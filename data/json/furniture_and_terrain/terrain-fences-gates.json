@@ -66,6 +66,12 @@
     "move_cost": 0,
     "lockpick_result": "t_chaingate_c",
     "lockpick_message": "With a satisfying click, the lock on the gate opens.",
+    "boltcut": {
+      "result": "t_chaingate_c",
+      "duration": "1 seconds",
+      "sound": "Gachunk!",
+      "byproducts": [ { "item": "scrap", "count": 3 } ]
+    },
     "flags": [ "TRANSPARENT", "PERMEABLE", "LOCKED", "PICKABLE", "THIN_OBSTACLE", "BURROWABLE" ],
     "connects_to": "CHAINFENCE",
     "examine_action": "locked_object_pickable",
@@ -506,6 +512,12 @@
     "symbol": "LINE_OXOX",
     "color": "cyan",
     "move_cost": 0,
+    "boltcut": {
+      "result": "t_chainfence_posts",
+      "duration": "5 seconds",
+      "sound": "Snick, snick, gachunk!",
+      "byproducts": [ { "item": "wire", "count": 20 } ]
+    },
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "PERMEABLE", "UNSTABLE", "CLIMBABLE", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
     "connects_to": "CHAINFENCE",
     "examine_action": "chainfence",
@@ -659,6 +671,12 @@
     "symbol": "$",
     "color": "blue",
     "move_cost": 4,
+    "boltcut": {
+      "result": "t_fence_post",
+      "duration": "10 seconds",
+      "sound": "Snick, snick, gachunk!",
+      "byproducts": [ { "item": "wire_barbed", "count": 2 } ]
+    },
     "flags": [ "TRANSPARENT", "SHARP", "THIN_OBSTACLE", "SHORT", "EASY_DECONSTRUCT", "BURROWABLE" ],
     "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "wire_barbed", "count": 2 } ] },
     "bash": {

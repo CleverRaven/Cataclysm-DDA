@@ -541,27 +541,6 @@ TEST_CASE( "character is_immune_effect", "[creature][character][effect][immune]"
             }
         }
     }
-
-    WHEN( "character has Strong Stomach mutation" ) {
-        const trait_id trait_strong_stomach( "STRONGSTOMACH" );
-        const efftype_id effect_nausea( "nausea" );
-
-        dummy.toggle_trait( trait_strong_stomach );
-        REQUIRE( dummy.has_trait( trait_strong_stomach ) );
-
-        THEN( "they are immune to the nausea effect" ) {
-            CHECK( dummy.is_immune_effect( effect_nausea ) );
-        }
-
-        AND_WHEN( "they lose their Strong Stomach mutation" ) {
-            dummy.toggle_trait( trait_strong_stomach );
-            REQUIRE_FALSE( dummy.has_trait( trait_strong_stomach ) );
-
-            THEN( "they are no longer immune to the nausea effect" ) {
-                CHECK_FALSE( dummy.is_immune_effect( effect_nausea ) );
-            }
-        }
-    }
 }
 
 // Creature::resists_effect

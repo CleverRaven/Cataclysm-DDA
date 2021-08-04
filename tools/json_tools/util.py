@@ -362,10 +362,7 @@ class CDDAJSONWriter(object):
                 self.indent_multiplier -= 1
             self.buf.write("\n")
             self.indented_write("]")
-            if lol:
-                self.buf.write(",\n")
-            else:
-                self.buf.write("\n")
+            self.buf.write(",\n" if lol else "\n")
             self.indent_multiplier -= 1
         self.indented_write("]")
 

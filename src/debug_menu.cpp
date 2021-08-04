@@ -138,6 +138,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::SPAWN_NPC: return "SPAWN_NPC";
         case debug_menu::debug_menu_index::SPAWN_MON: return "SPAWN_MON";
         case debug_menu::debug_menu_index::GAME_STATE: return "GAME_STATE";
+        case debug_menu::debug_menu_index::KILL_AREA: return "KILL_AREA";
         case debug_menu::debug_menu_index::KILL_NPCS: return "KILL_NPCS";
         case debug_menu::debug_menu_index::MUTATE: return "MUTATE";
         case debug_menu::debug_menu_index::SPAWN_VEHICLE: return "SPAWN_VEHICLE";
@@ -339,6 +340,7 @@ static int map_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::REVEAL_MAP, true, 'r', _( "Reveal map" ) ) },
+        { uilist_entry( debug_menu_index::KILL_AREA, true, 'a', _( "Kill in Area" ) ) },
         { uilist_entry( debug_menu_index::KILL_NPCS, true, 'k', _( "Kill NPCs" ) ) },
         { uilist_entry( debug_menu_index::MAP_EDITOR, true, 'M', _( "Map editor" ) ) },
         { uilist_entry( debug_menu_index::CHANGE_WEATHER, true, 'w', _( "Change weather" ) ) },
@@ -1676,7 +1678,7 @@ void character_edit_menu()
         case D_TELE: {
             if( const cata::optional<tripoint> newpos = g->look_around() ) {
                 p.setpos( *newpos );
-                if( p.is_player() ) {
+                if( p.is_avatar() ) {
                     if( p.is_mounted() ) {
                         p.mounted_creature->setpos( *newpos );
                     }
@@ -1794,7 +1796,7 @@ static void add_header( uilist &mmenu, const std::string &str )
 
 void mission_debug::edit( player &who )
 {
-    if( who.is_player() ) {
+    if( who.is_avatar() ) {
         edit_player();
     } else if( who.is_npc() ) {
         edit_npc( dynamic_cast<npc &>( who ) );
@@ -1945,6 +1947,7 @@ void draw_benchmark( const int max_difference )
             break;
         }
         g->invalidate_main_ui_adaptor();
+        inp_mngr.pump_events();
         ui_manager::redraw_invalidated();
         refresh_display();
         draw_counter++;
@@ -2260,6 +2263,43 @@ void debug()
             debug_menu_game_state();
             break;
 
+        case debug_menu_index::KILL_AREA: {
+            static_popup popup;
+            popup.on_top( true );
+            popup.message( "%s", _( "Select first point." ) );
+
+            tripoint initial_pos = player_character.pos();
+            const look_around_result first = g->look_around( false, initial_pos, initial_pos,
+                                             false, true, false );
+
+            if( !first.position ) {
+                break;
+            }
+
+            popup.message( "%s", _( "Select second point." ) );
+            const look_around_result second = g->look_around( false, initial_pos, *first.position,
+                                              true, true, false );
+
+            if( !second.position ) {
+                break;
+            }
+
+            const tripoint_range<tripoint> points = get_map().points_in_rectangle(
+                    first.position.value(), second.position.value() );
+
+            std::vector<Creature *> creatures = g->get_creatures_if(
+            [&points]( const Creature & critter ) -> bool {
+                return !critter.is_avatar() && points.is_point_inside( critter.pos() );
+            } );
+
+            for( Creature *critter : creatures ) {
+                critter->die( nullptr );
+            }
+
+            g->cleanup_dead();
+        }
+        break;
+
         case debug_menu_index::KILL_NPCS:
             for( npc &guy : g->all_npcs() ) {
                 add_msg( _( "%s's head implodes!" ), guy.name );
@@ -2356,6 +2396,7 @@ void debug()
             wind_direction_menu.query();
             if( wind_direction_menu.ret == 0 ) {
                 g->weather.wind_direction_override = cata::nullopt;
+                g->weather.set_nextweather( calendar::turn );
             } else if( wind_direction_menu.ret >= 0 && wind_direction_menu.ret < 9 ) {
                 g->weather.wind_direction_override = ( wind_direction_menu.ret - 1 ) * 45;
                 g->weather.set_nextweather( calendar::turn );
@@ -2377,6 +2418,7 @@ void debug()
             wind_speed_menu.query();
             if( wind_speed_menu.ret == 0 ) {
                 g->weather.windspeed_override = cata::nullopt;
+                g->weather.set_nextweather( calendar::turn );
             } else if( wind_speed_menu.ret >= 0 && wind_speed_menu.ret < 12 ) {
                 int selected_wind_speed = ( wind_speed_menu.ret - 1 ) * 10;
                 g->weather.windspeed_override = selected_wind_speed;

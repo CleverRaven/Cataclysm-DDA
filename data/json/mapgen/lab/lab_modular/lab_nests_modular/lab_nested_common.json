@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "A nested map for walls variety.",
+    "//": "A nested map for general lab variety.",
     "nested_mapgen_id": "lab_generic_3x3_EW_open",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -18,7 +18,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "A nested map for walls variety.",
+    "//": "A nested map for general lab variety.",
     "nested_mapgen_id": "lab_generic_3x3_EW_open",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -34,7 +34,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "//": "A nested map for walls variety.",
+    "//": "A nested map for general lab variety.",
     "nested_mapgen_id": "lab_generic_3x3_EW_open",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -284,6 +284,136 @@
         "Y h    "
       ],
       "palettes": [ "lab_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for recreational areas.",
+    "weight": 500,
+    "nested_mapgen_id": "lab_recreational_3x3_open",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "jjj",
+        "fff",
+        "jjj"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "items": {
+        "f": [
+          { "item": "restaurant_mexican_table", "chance": 10 },
+          { "item": "pizza_table", "chance": 10 },
+          { "item": "bar_food", "chance": 10 },
+          { "item": "coffee_counter", "chance": 10 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for recreational areas.",
+    "weight": 300,
+    "nested_mapgen_id": "lab_recreational_3x3_open",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "G G",
+        "K K",
+        "G G"
+      ],
+      "palettes": [ "lab_residential_palette" ],
+      "place_loot": [ { "group": "games", "x": 0, "y": 1, "chance": 25 }, { "group": "games", "x": 2, "y": 1, "chance": 25 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for recreational areas.",
+    "nested_mapgen_id": "lab_recreational_3x3_open",
+    "weight": 300,
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "jjj",
+        "եեե",
+        "jjj"
+      ],
+      "palettes": [ "lab_common_palette", "lab_residential_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for recreational areas.",
+    "nested_mapgen_id": "lab_recreational_3x3_open",
+    "weight": 300,
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "jjj",
+        "jեj",
+        "jjj"
+      ],
+      "palettes": [ "lab_common_palette", "lab_residential_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for recreational areas.",
+    "nested_mapgen_id": "lab_recreational_3x3_open",
+    "weight": 100,
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "jjj",
+        "jcj",
+        "jjj"
+      ],
+      "palettes": [ "lab_common_palette", "lab_residential_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for recreational areas.",
+    "nested_mapgen_id": "lab_recreational_3x3_open",
+    "weight": 50,
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "   ",
+        "   ",
+        "jjj"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "place_vehicles": [ { "vehicle": "ice_cream_cart", "x": 1, "y": 0, "chance": 100, "status": 0, "rotation": 90 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for recreational areas.",
+    "nested_mapgen_id": "lab_recreational_3x3_open",
+    "weight": 50,
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "   ",
+        "   ",
+        "GKG"
+      ],
+      "palettes": [ "lab_residential_palette" ],
+      "place_vehicles": [ { "vehicle": "food_cart", "x": 1, "y": 0, "chance": 100, "status": 0, "rotation": 180 } ]
     }
   }
 ]

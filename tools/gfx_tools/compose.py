@@ -71,6 +71,8 @@ def write_to_json(pathname: str, data: Union[dict, list]) -> None:
     if os.path.isfile(json_formatter):
         cmd = [json_formatter, pathname]
         subprocess.call(cmd)
+    else:
+        print(f'{json_formatter} not found, continuing')
 
 
 def find_or_make_dir(pathname: str) -> None:
@@ -655,9 +657,9 @@ class TileEntry:
                 entry.append(sprite_index)
                 return True
 
-            print(f'Error: sprite {sprite_name} from {self.filepath} '
-                  'has no matching PNG file. It will not be added to '
-                  f'{self.tilesheet.tileset.output_conf_file}')
+            print(f'Error: {sprite_name}.png file for {sprite_name} value '
+                  f'from {self.filepath} was not found. It will not be added '
+                  f'to {self.tilesheet.tileset.output_conf_file}')
             self.tilesheet.tileset.error_logged = True
         return False
 

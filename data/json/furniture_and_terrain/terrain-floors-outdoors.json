@@ -377,5 +377,16 @@
     "looks_like": "t_dirtfloor",
     "flags": [ "TRANSPARENT", "FLAT", "DIGGABLE" ],
     "bash": { "sound": "SMASH!", "ter_set": "t_null", "str_min": 50, "str_max": 400, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_gelatinous_groundcover",
+    "name": "gelatinous ground",
+    "description": "An incursion of a large area of otherwordly substrate, it feels like walking on hardened gelatin.",
+    "symbol": ".",
+    "color": "pink",
+    "move_cost": 5,
+    "flags": [ "TRANSPARENT", "FLAT" ],
+    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
   }
 ]

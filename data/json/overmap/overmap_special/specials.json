@@ -5700,7 +5700,7 @@
     "id": "Lighthouse Island",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lake_surface" },
-      { "point": [ 1, 0, 0 ], "overmap": "lake_surface" },
+      { "point": [ 1, 0, 0 ], "overmap": "lake_cabin_water_north" },
       { "point": [ 2, 0, 0 ], "overmap": "lake_surface" },
       { "point": [ 0, 1, 0 ], "overmap": "lake_surface" },
       { "point": [ 1, 1, 0 ], "overmap": "lighthouse_ground_north" },
@@ -5711,7 +5711,7 @@
       { "point": [ 1, 1, 5 ], "overmap": "lighthouse_z5_north" },
       { "point": [ 1, 1, 6 ], "overmap": "lighthouse_roof_north" },
       { "point": [ 2, 1, 0 ], "overmap": "lake_surface" },
-      { "point": [ 0, 2, 0 ], "overmap": "lake_surface" },
+      { "point": [ 0, 2, 0 ], "overmap": "lake_cabin_water_north" },
       { "point": [ 1, 2, 0 ], "overmap": "lake_surface" },
       { "point": [ 2, 2, 0 ], "overmap": "lake_surface" }
     ],
@@ -5731,7 +5731,7 @@
       { "point": [ 3, 0, 0 ], "overmap": "lake_surface" },
       { "point": [ 4, 0, 0 ], "overmap": "lake_surface" },
       { "point": [ 5, 0, 0 ], "overmap": "lake_surface" },
-      { "point": [ 0, 1, 0 ], "overmap": "lake_surface" },
+      { "point": [ 0, 1, 0 ], "overmap": "lake_cabin_water_north" },
       { "point": [ 1, 1, 0 ], "overmap": "lake_surface" },
       { "point": [ 2, 1, 0 ], "overmap": "lake_surface" },
       { "point": [ 3, 1, 0 ], "overmap": "lake_shore" },

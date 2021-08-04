@@ -69,6 +69,7 @@ extern const flag_id flag_COLLAR;
 extern const flag_id flag_CONDUCTIVE;
 extern const flag_id flag_CONSUMABLE;
 extern const flag_id flag_COOKED;
+extern const flag_id flag_CORROSIVE;
 extern const flag_id flag_CORPSE;
 extern const flag_id flag_CUSTOM_EXPLOSION;
 extern const flag_id flag_CUT_IMMUNE;

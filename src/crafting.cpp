@@ -41,7 +41,6 @@
 #include "handle_liquid.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_stack.h"
@@ -556,7 +555,7 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
     // vector<const_item_location> in order to get rid of the const_cast here.
     for( const item_location &it : const_cast<Character *>( this )->all_items_loc() ) {
         // can't craft with containers that have items in them
-        if( !it->contents.empty_container() ) {
+        if( !it->empty_container() ) {
             continue;
         }
         crafting_cache.crafting_inventory->add_item( *it );
@@ -1169,7 +1168,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
 
         // Points to newit unless newit is a non-empty container, then it points to newit's contents.
         // Necessary for things like canning soup; sometimes we want to operate on the soup, not the can.
-        item &food_contained = !newit.empty() ? newit.contents.only_item() : newit;
+        item &food_contained = !newit.empty() ? newit.only_item() : newit;
 
         // messages, learning of recipe, food spoilage calculation only once
         if( first ) {
@@ -2099,6 +2098,8 @@ item_location Character::create_in_progress_disassembly( item_location target )
     const auto &r = recipe_dictionary::get_uncraft( target->typeId() );
     item &orig_item = *target.get_item();
 
+    item new_disassembly( &r, orig_item );
+
     // Remove any batteries, ammo, contents and mods first
     remove_ammo( orig_item, *this );
     remove_radio_mod( orig_item, *this );
@@ -2110,11 +2111,12 @@ item_location Character::create_in_progress_disassembly( item_location target )
         if( orig_item.is_ammo() && !r.has_flag( "UNCRAFT_BY_QUANTITY" ) ) {
             //subtract selected number of rounds to disassemble
             orig_item.charges -= activity.position;
+            new_disassembly.charges = activity.position;
         } else {
             orig_item.charges -= r.create_result().charges;
+            new_disassembly.charges = r.create_result().charges;
         }
     }
-    item new_disassembly( &r, orig_item );
     // remove the item, except when it's counted by charges and still has some
     if( !orig_item.count_by_charges() || orig_item.charges <= 0 ) {
         target.remove_item();
@@ -2269,12 +2271,17 @@ bool Character::disassemble( item_location target, bool interactive )
                 return false;
             }
         }
-        if( num_dis != 0 ) {
-            new_act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
-                                       recipe_time_flag::ignore_proficiencies ) * num_dis ) );
+        if( obj.typeId() != itype_disassembly ) {
+            if( num_dis != 0 ) {
+                new_act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
+                                           recipe_time_flag::ignore_proficiencies ) * num_dis ) );
+            } else {
+                new_act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
+                                           recipe_time_flag::ignore_proficiencies ) ) );
+            }
         } else {
             new_act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
-                                       recipe_time_flag::ignore_proficiencies ) ) );
+                                       recipe_time_flag::ignore_proficiencies ) * std::max( obj.charges, 1 ) ) );
         }
         new_act.targets.emplace_back( std::move( target ) );
 
@@ -2561,7 +2568,7 @@ void remove_ammo( std::list<item> &dis_items, Character &p )
 
 void drop_or_handle( const item &newit, Character &p )
 {
-    if( newit.made_of( phase_id::LIQUID ) && p.is_player() ) { // TODO: what about NPCs?
+    if( newit.made_of( phase_id::LIQUID ) && p.is_avatar() ) { // TODO: what about NPCs?
         liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
     } else {
         item tmp( newit );
