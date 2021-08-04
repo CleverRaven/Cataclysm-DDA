@@ -1943,8 +1943,34 @@ class Character : public Creature, public visitable
         /** Returns true if the player is immune to throws */
         bool is_throw_immune() const;
 
+        /**
+         * Check if a given body part is immune to a given damage type
+         *
+         * This function checks whether a given body part cannot be damaged by a given
+         * damage_unit.  Note that this refers only to reduction of hp on that part. It
+         * does not account for clothing damage, pain, status effects, etc.
+         *
+         * @param bp: Body part to perform the check on
+         * @param dam: Type of damage to check for
+         * @returns true if given damage can not reduce hp of given body part
+         */
+        bool immune_to( const bodypart_id &bp, damage_unit dam ) const;
+
+        /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
+        void mod_pain( int npain ) override;
+        /** Sets new intensity of pain an reacts to it */
+        void set_pain( int npain ) override;
+        /** Returns perceived pain (reduced with painkillers)*/
+        int get_perceived_pain() const override;
+        /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
+        float fall_damage_mod() const override;
+        /** Deals falling/collision damage with terrain/creature at pos */
+        int impact( int force, const tripoint &pos ) override;
+
         /** Returns true if the player has some form of night vision */
         bool has_nv();
+
+        int get_lift_assist() const;
 
         /**
          * Returns >0 if character is sitting/lying and relatively inactive.
