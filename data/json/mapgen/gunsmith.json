@@ -16,17 +16,17 @@
         "''''''''''''''''''''''''",
         "'##::::##::::##+##:::::'",
         "'#y..KKKKKK...^.^#dddd:'",
-        "':y..............+...e:'",
+        "':y..............D...d:'",
         "':y..vvvvvv...CC.######_",
         "':y..YYYYYY...?a.rrrrr#_",
         "':y...........Cr.....r#_",
         "'#y..QQQQQQ...#VLLLL.r#_",
         "'#----------t-------D-#_",
-        "'#CCCCCCC|<|.|nA..l-.^#_",
-        "'#CA...AC|D|.|nA..l-..:_",
-        "'#...A...+...D.....t..:_",
-        "_#H.CCC.H|s.s|CCfgg-..#_",
-        "_#H.mmm.H##+#######-D-#_",
+        "'#CCCCCCC-<-.-nA..l-.^#_",
+        "'#CA...AC-D-.-nA..l-..:_",
+        "'#...A...D...D.....t..:_",
+        "_#H.CCC.H-ss.-CCfgg-..#_",
+        "_#H.mmm.H###+######-D-#_",
         "_#H.mmm.H#''''___;#r/^#_",
         "_#H.....H#'__*_ww_#q/&#_",
         "_##::#::##'__*_ww_#####_",
@@ -44,10 +44,12 @@
 		],		
 	   "furniture": {
         "V": "f_gunsafe_ml",
-		"//": "Allows the safe to spawn reloaded ammo instead of regular ammo",
 		"H": "f_locker",
 		"m": "f_rack"
 	   },
+	   "items": {
+		  "V": { "item": "ammo_reloaded", "chance": 80, "repeat": [ 15, 30 ] }
+	   },  
       "place_loot": [
         { "group": "tools_common", "x": [ 3, 6 ], "y": 15, "chance": 30, "repeat": [ 3, 6 ] },
         { "group": "tools_blacksmith", "x": [ 5, 6 ], "y": 15, "chance": 60, "repeat": [ 1, 2 ] },
@@ -111,16 +113,9 @@
       "liquids": { "W": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "items": {
 		  "C": { "item": "ammo_common", "chance": 30 }, 
-		  "r": { "item": "tools_blacksmith", "chance": 30 },
-		  ";": [
-			  	{ "group": "guns_obscure", "repeat": 3, "chance": 80, "ammo": 0 },
-				{ "group": "mags_obscure", "repeat": 10, "chance": 80, "ammo": 0 },
-				{ "group": "guns_milspec", "repeat": 1, "chance": 60, "ammo": 0 },
-				{ "group": "mags_milspec", "repeat": 4, "chance": 60, "ammo": 0 }
-		  ]
-		  }
-	  
-    }
+		  "r": { "item": "tools_blacksmith", "chance": 30 }
+	  }
+	}
   },
   {
     "type": "mapgen",

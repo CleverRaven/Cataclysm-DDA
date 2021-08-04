@@ -6,24 +6,24 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        ",,,,,,,,,,,,,,,,,,sss,,,",
-        ",###::##::##::###sssss,,",
-        ";#..............#sssss,,",
-        ",#..............+sssss,,",
-        ",#..##..##..KKvv#sssss,,",
-        ",#..LL..LL..YYYYS#######,",
+        ",,,,,,,,,,,,,,,,,,''',,,",
+        ",###::##::##::###''''',,",
+        ";#..............#''''',,",
+        ",#..............+''''',,",
+        ",#..##..##..KKvv#''''',,",
+        ",#..LL..LL..YYYY##:::##,",
         ",#..LL..LL......#N.n.N#,",
         ",#..LL..LL......D.....#,",
         ",#..LL..LL..CC C#.n.n.#,",
-        ",#..LL..LL..m..|WRWRWRW,",
+        ",#..LL..LL..d..|WRWRWRW,",
         ",#..LL..LL..?a.|W.....W,",
-        ",#..##..##..m..|W.....W,",
-        ",#..........?a.|W.....W,",
-        ",#......... mr.XW.....W,",
+        ",#..##..##..d..|W.....W,",
+        ",#..........?a.|W.....W,",	
+        ",#..........dr.XW.....W,",
         ",#-D--t-------t-W.....W,",
-        ",#r.-..-<-EEeo..D.....W,",
-        ",#..-l.-D-EA...EW^.^.^W,",
-        ",#q&-l...-E.r.AEWxxxxxW,",
+        ",#r.-..-<-EEEO..t.....W,",
+        ",#..-l.-D-EA..rEWT.T.TW,",
+        ",#q&-l...-EA..AEWxxxxxW,",
         ",#---....----D-#WWWWWWW,",
         ",#sss..........#;____ww,",
         ",#......ss.ss..+_____ww,",
@@ -40,7 +40,7 @@
         { "group": "floor_trash", "chance": 50, "repeat": 4, "x": 2, "y": 15 },
         { "group": "office_mess", "chance": 50, "repeat": 4, "x": 15, "y": 15 },
         { "group": "trash", "chance": 50, "repeat": 4, "x": [ 21, 22 ], "y": [ 20, 22 ] },
-        { "group": "floor_trash", "chance": 50, "repeat": 4, "x": 17, "y": 6 },
+        { "group": "floor_trash", "chance": 50, "repeat": 4, "x": 17, "y": 6 }
       ]
     }
   },
@@ -64,8 +64,8 @@
         "~Юx  H A  |____2#.....`~",
         "~#        |Y74O3#.....`~",
         "~#|+||E   ||||||#.....`~",
-        "~#__S|RRL + A  ;#.....`~",
-        "~ЮB_8||||(|NNq ;#^....`~",
+        "~#__S|RRL + A   #.....`~",
+        "~ЮB_8||||(|NNq  #^....`~",
         "~#B__+t|> #######.....`~",
         "~########(#}g.}.......`~",
         "~!....:.:..{..{.......`~",
@@ -111,15 +111,7 @@
         "}": "t_chainfence"
       },
       "furniture": { ":": [ "f_indoor_plant", "f_indoor_plant_y" ], ";": "f_gunsafe_ml", ")": "f_TV_antenna" },
-      "place_loot": [ { "item": "television", "x": 2, "y": 9 }, { "item": "stereo", "x": 2, "y": 10, "chance": 100 } ],
-      "items": {
-        ";": [
-			{ "group": "guns_obscure", "repeat": 3, "chance": 60, "ammo": 0 },
-			{ "group": "mags_obscure", "repeat": 10, "chance": 60, "ammo": 0 },
-			{ "group": "guns_milspec", "repeat": 1, "chance": 40, "ammo": 0 },
-			{ "group": "mags_milspec", "repeat": 4, "chance": 40, "ammo": 0 }
-        ]
-      }
+      "place_loot": [ { "item": "television", "x": 2, "y": 9 }, { "item": "stereo", "x": 2, "y": 10, "chance": 100 } ]
     }
   },
   {
