@@ -1,0 +1,8 @@
+[
+  {
+    "id": "avatar_dino_kills",
+    "type": "event_transformation",
+    "event_transformation": "avatar_species_kills",
+    "value_constraints": { "species": { "equals": [ "species_id", "DINOSAUR" ] } }
+  }
+]
