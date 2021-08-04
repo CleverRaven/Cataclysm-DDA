@@ -1041,7 +1041,7 @@
         "н": [ "t_floor" ],
         "О": [ "t_floor" ],
         "о": [ "t_thconc_floor" ],
-        "П": [ "t_door_boarded" ],
+        "П": [ "t_rdoor_boarded" ],
         "п": [ "t_floor" ]
       },
       "furniture": {
