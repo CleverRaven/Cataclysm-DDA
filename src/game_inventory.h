@@ -124,7 +124,7 @@ item_location take_off( avatar &you );
 /** Item cut up menu. */
 item_location salvage( Character &you, const salvage_actor *actor );
 /** Repair menu. */
-item_location repair( avatar &you, const repair_item_actor *actor, const item *main_tool );
+item_location repair( Character &you, const repair_item_actor *actor, const item *main_tool );
 /** Bionic install menu. */
 item_location install_bionic( Character &you, Character &patient, bool surgeon = false );
 /**Autoclave sterilize menu*/

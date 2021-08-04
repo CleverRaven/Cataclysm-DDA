@@ -1673,7 +1673,7 @@ class repair_inventory_preset: public inventory_selector_preset
         const item *main_tool;
 };
 
-item_location game_menus::inv::repair( avatar &you, const repair_item_actor *actor,
+item_location game_menus::inv::repair( Character &you, const repair_item_actor *actor,
                                        const item *main_tool )
 {
     return inv_internal( you, repair_inventory_preset( actor, main_tool ),
