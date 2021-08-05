@@ -49,7 +49,7 @@
     "name": "Horizon Vortex",
     "description": "Creates a chaotic energy field that disrupts enemies inside it.  It is rather random, and its effects can range from almost nothing to killing all hostiles in the area.",
     "//": "Made half of spell without RANDOM_DAMAGE flag just for making more sence in leveling this spell.",
-	"effect": "attack",
+    "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "SILENT", "SOMATIC", "WONDER", "NO_LEGS", "RANDOM_DAMAGE" ],

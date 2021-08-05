@@ -110,7 +110,7 @@
     "shape": "line",
     "valid_targets": [ "hostile", "ground", "ally" ],
     "field_id": "fd_fog",
-	"max_level": 35,
+    "max_level": 35,
     "min_field_intensity": 1,
     "max_field_intensity": 3,
     "field_intensity_increment": 2,
