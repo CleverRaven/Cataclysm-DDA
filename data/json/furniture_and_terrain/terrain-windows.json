@@ -698,7 +698,7 @@
   },
   {
     "type": "terrain",
-    "id": "t_window_F_domestic",
+    "id": "t_window_bars_domestic",
     "name": "window with metal bars and curtains",
     "description": "A giant sheet of glass inserted into a window with thick security grilles, making it impossible to crawl through.  Typically installed for high-value stores, or at least stores in bad neighborhoods.  This one has been retrofitted with curtains.",
     "symbol": "#",

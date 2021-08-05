@@ -24,6 +24,43 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "damaged_door",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_ter_furn_transforms": [ 
+		{ "transform": [ "t_door_c", "x": 0, "y": 0, "chance": 50, }, 
+		{ "transform": [ "t_door_o", "x": 0, "y": 0, "chance": 50, }, 
+		{ "transform": [ "t_door_locked_interior", "x": 0, "y": 0, "chance": 100, } 
+		],
+      "place_item": [
+	    { "item": "2x4", "x": 0, "y": 0, "prob": 25 },
+        { "item": "wood_panel", "x": 0, "y": 0, "prob": 10 },
+        { "item": "splinter", "x": 0, "y": 0, "count": [ 1, 2 ] },
+        { "item": "nail", "x": 0, "y": 0, "charges": [ 0, 2 ] }
+	  "ter_set": [ "t_door_b", "x": 0, "y": 0 ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "destroyed_door",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_ter_furn_transforms": [ 
+			{ "transform": [ "t_door_b", "x": 0, "y": 0, "chance": 75, }
+		],	
+      "place_item": [
+			{ "item": "2x4", "x": 0, "y": 0, "count": [ 1, 2 ] },
+			{ "item": "nail", "x": 0, "y": 0, "charges": [ 1, 4 ] },
+			{ "item": "splinter", "x": 0, "y": 0, "count": [ 1, 4 ] },
+			{ "item": "hinge", "count": [ 1, 2 ] }
+		],
+	  "ter_set": [ "t_door_frame", "x": 0, "y": 0 ]
+    }
+  },  
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "deployed_small_tent",
     "object": {
       "mapgensize": [ 3, 3 ],
@@ -59,6 +96,17 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "corpse_blood_casings_3x3",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "place_item": [ { "item": "corpse_generic_human", "x": 0, "y": 0, "chance": 100 } ],
+      "place_items": [ { "item": "ammo_casings", "x": [ 0, 2 ], "y": [ 0, 2 ], "chance": 50 } ],
+      "place_fields": [ { "field": "fd_blood", "x": [ 0, 2 ], "y": [ 0, 2 ], "intensity": 1, "age": 10 } ]
+    }
+  }
+ {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "corpse_blood_casings_1x1",
     "object": {
       "mapgensize": [ 3, 3 ],
       "place_item": [ { "item": "corpse_generic_human", "x": 0, "y": 0, "chance": 100 } ],
