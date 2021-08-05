@@ -1880,13 +1880,13 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                active );
             info.emplace_back( "BASE", _( "burn: " ), "", iteminfo::lower_is_better,
                                burnt );
-							   
+
             const std::string tags_listed = enumerate_as_string( item_tags, []( const flag_id & f ) {
                 return f.str();
             }, enumeration_conjunction::none );
             info.emplace_back( "BASE", string_format( _( "tags: %s" ), tags_listed ) );
-			
-			const std::string flags_listed = enumerate_as_string( type->get_flags(), []( const flag_id & f ) {
+
+            const std::string flags_listed = enumerate_as_string( type->get_flags(), []( const flag_id & f ) {
                 return f.str();
             }, enumeration_conjunction::none );
 
