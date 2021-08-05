@@ -194,7 +194,6 @@
       [ "fungicide", 10 ],
       [ "insecticide", 5 ],
       { "item": "oxygen_tank", "prob": 40, "charges": [ 0, 24 ] },
-      { "group": "autoclave_with_pouches", "prob": 30 },
       { "group": "autoclave_pouches", "prob": 30 },
       { "item": "smoxygen_tank", "prob": 10, "charges": [ 0, 12 ] },
       [ "antifungal", 5 ],

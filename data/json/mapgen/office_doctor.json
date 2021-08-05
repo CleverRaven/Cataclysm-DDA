@@ -296,7 +296,15 @@
       ],
       "palettes": [ "office_doctor" ],
       "terrain": { "?": "t_floor", "/": "t_floor", "Y": "t_floor", "A": "t_floor", "R": "t_floor", "'": "t_door_glass_o" },
-      "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch", "Y": "f_sofa", "T": "f_table", "A": "f_armchair", "R": "f_trashcan", "ʘ": "f_autoclave" },
+      "furniture": {
+        "?": "f_autodoc",
+        "/": "f_autodoc_couch",
+        "Y": "f_sofa",
+        "T": "f_table",
+        "A": "f_armchair",
+        "R": "f_trashcan",
+        "ʘ": "f_autoclave"
+      },
       "computers": {
         "5": {
           "name": "Medical Supply Access",

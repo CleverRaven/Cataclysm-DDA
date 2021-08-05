@@ -1937,10 +1937,7 @@
       "rows": [ "X" ],
       "terrain": { "X": "t_null" },
       "furniture": { "X": "f_autoclave" },
-      "items":
-      {
-        "X": { "item": "autoclave_pouches", "chance": 100}
-      }
+      "items": { "X": { "item": "autoclave_pouches", "chance": 100 } }
     }
   },
   {
@@ -1951,7 +1948,7 @@
       "mapgensize": [ 1, 1 ],
       "rows": [ "X" ],
       "terrain": { "X": "t_null" },
-      "furniture": { "X": ["f_console_broken", "f_centrifuge" ] }
+      "furniture": { "X": [ "f_console_broken", "f_centrifuge" ] }
     }
   },
   {

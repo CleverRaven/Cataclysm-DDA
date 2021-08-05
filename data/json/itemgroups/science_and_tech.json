@@ -416,7 +416,6 @@
       [ "scalpel", 48 ],
       [ "syringe", 8 ],
       { "group": "autoclave_pouches", "prob": 45 },
-      { "group": "autoclave_with_pouches", "prob": 5 },
       [ "adrenaline_injector", 2 ],
       [ "gloves_medical", 70 ],
       [ "stethoscope", 30 ],
@@ -485,20 +484,13 @@
     "id": "autoclave_pouches",
     "//": "Group for spawning autoclave pouches",
     "subtype": "collection",
-    "entries":
-    [
-      { "item": "pouch_autoclave", "count": [1, 2] }
-    ]
+    "entries": [ { "item": "pouch_autoclave", "count": [ 1, 2 ] } ]
   },
   {
     "type": "item_group",
     "id": "autoclave_with_pouches",
     "//": "Group for spawning pouches alongside autoclave items",
     "subtype": "collection",
-    "entries":
-    [
-      { "item": "autoclave", "prob": 100 },
-      { "group": "autoclave_pouches", "prob": 100 }
-    ]
+    "entries": [ { "item": "autoclave", "prob": 100 }, { "group": "autoclave_pouches", "prob": 100 } ]
   }
 ]

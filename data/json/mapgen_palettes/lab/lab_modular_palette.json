@@ -119,7 +119,7 @@
         { "item": "SUS_bathroom_medicine", "chance": 20 },
         { "item": "harddrugs", "chance": 2 }
       ],
-      "k": { "item": "autoclave_pouches", "chance": 100}
+      "k": { "item": "autoclave_pouches", "chance": 100 }
     }
   },
   {

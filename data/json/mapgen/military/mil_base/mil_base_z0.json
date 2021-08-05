@@ -1045,7 +1045,7 @@
         "ssssssssssss+........+.....+.....+ss    ss___________________ss    sssssssssssssss     ,, b,,,,x",
         "ssssssssssss|-###-...|.....|....h|ss   sss___________________sss                      ,,, b,,, x",
         "          ss|$th.|...|-----|...---ss   ss_____________________ss      ffff             ,,,b ,, x",
-        "        ssssw........|cccll|...|ssss   ss_______y_____y_______ss     ff;;ffffff       ,,, b ,, x",
+        "        ssssw........|ʘccll|...|ssss   ss_______y_____y_______ss     ff;;ffffff       ,,, b ,, x",
         "        ssss|$$$$|...|.....|...wssss  ss________y_____y________ss     ;;;;;;; ff       ,,,b,,,,x",
         "        ss-------|...+.WM..+...|ss    ss________y_____y________ss        ;;;;;;f       ,,,b ,,,x",
         "        ss|llccuu|...+..M..+...wss    ss________y_____y________ss  ff;;    ;;;;ff     ,,,,b ,,,x",
@@ -1111,6 +1111,7 @@
         "GxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxGxx"
       ],
       "palettes": [ "mil_base_palette" ],
+      "furniture": { "ʘ": "f_autoclave" },
       "items": {
         "M": [ { "item": "mil_base_bed_hospital", "chance": 50, "repeat": [ 1, 2 ] } ],
         "r": [ { "item": "mil_base_bed_hospital", "chance": 50, "repeat": [ 1, 2 ] } ],
@@ -1128,7 +1129,8 @@
           { "item": "bionics_mil", "chance": 50, "repeat": [ 1, 3 ] }
         ],
         "W": [ { "item": "mil_base_iv", "chance": 70 } ],
-        "^": [ { "item": "mil_base_iv", "chance": 70 } ]
+        "^": [ { "item": "mil_base_iv", "chance": 70 } ],
+        "ʘ": [ { "item": "autoclave_pouches", "chance": 100 } ]
       },
       "gaspumps": { "p": { "fuel": "jp8", "amount": [ 200000, 1000000 ] } },
       "place_loot": [
@@ -1165,7 +1167,6 @@
         { "item": "scalpel", "x": 30, "y": 25, "chance": 50, "repeat": [ 1, 20 ] },
         { "item": "scissors", "x": 30, "y": 25, "chance": 50, "repeat": [ 1, 20 ] },
         { "item": "stethoscope", "x": 30, "y": 25, "chance": 50, "repeat": [ 1, 20 ] },
-        { "group": "autoclave_with_pouches", "x": 30, "y": 25, "chance": 50, "repeat": [ 1, 3 ] },
         { "group": "full_1st_aid", "x": 30, "y": 25, "chance": 50, "repeat": [ 1, 20 ] },
         { "item": "gloves_medical", "x": 31, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "item": "mask_dust", "x": 31, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },

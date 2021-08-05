@@ -70,10 +70,7 @@
         "i": "f_sink",
         "l": "f_bookcase"
       },
-      "items":
-      {
-          "ʘ": { "item": "autoclave_pouches", "chance": 100 }
-      },
+      "items": { "ʘ": { "item": "autoclave_pouches", "chance": 100 } },
       "place_signs": [
         {
           "signage": "The mortuary name followed by a hastily written message that reads: 'I am not liable if your loved ones will not stay dead.'",

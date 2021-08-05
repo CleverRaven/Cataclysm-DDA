@@ -72,10 +72,7 @@
       "A": "f_autodoc",
       "?": "f_autodoc_couch"
     },
-    "items":
-    {
-      "ʘ": { "item": "autoclave_pouches", "chance": 100}
-    },
+    "items": { "ʘ": { "item": "autoclave_pouches", "chance": 100 } },
     "toilets": { "&": {  } }
   },
   {
@@ -169,10 +166,7 @@
       "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
       "z": "f_trashcan"
     },
-    "items":
-    {
-      "n": { "item": "autoclave_pouches", "chance": 100}
-    },
+    "items": { "n": { "item": "autoclave_pouches", "chance": 100 } },
     "toilets": { "T": {  } },
     "vehicles": {
       "ɱ": { "vehicle": "laundry_cart", "chance": 100, "rotation": 90 },

@@ -280,7 +280,7 @@
       [ "m1911", 5 ],
       [ "mn_ebr_kit", 1 ],
       [ "match_trigger", 3 ],
-      [ "autoclave", 1 ],
+      { "group": "autoclave_with_pouches", "prob": 1 },
       { "item": "geiger_off", "prob": 8, "charges": [ 0, 100 ] },
       { "item": "rad_monitor", "prob": 1, "charges": [ 0, 50 ] },
       [ "UPS_off", 5 ],
