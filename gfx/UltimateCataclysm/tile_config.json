@@ -8259,15 +8259,15 @@
         },
         {
           "id": "vp_hdhalfboard_se",
-          "fg": [ 5791, 5794, 5793, 5792 ],
+          "fg": [ 5791, 5794, 5793, 5796 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 5907, "bg": [ 5791, 5794, 5793, 5792 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": 5907, "bg": [ 5791, 5794, 5793, 5796 ] } ]
         },
         {
           "id": "vp_hdhalfboard_sw",
-          "fg": [ 5795, 5798, 5797, 5796 ],
+          "fg": [ 5795, 5798, 5797, 5792 ],
           "multitile": true,
-          "additional_tiles": [ { "id": "broken", "fg": 5907, "bg": [ 5795, 5798, 5797, 5796 ] } ]
+          "additional_tiles": [ { "id": "broken", "fg": 5907, "bg": [ 5795, 5798, 5797, 5792 ] } ]
         },
         {
           "id": "vp_hdhalfboard_vertical_left",
