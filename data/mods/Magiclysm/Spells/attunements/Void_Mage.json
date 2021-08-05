@@ -16,17 +16,17 @@
     "damage_type": "pure",
     "min_dot": 5,
     "max_dot": 55,
-    "dot_increment": 1.25,
-    "max_level": 40,
+    "dot_increment": 1.5,
+    "max_level": 35,
     "min_duration": 500,
     "max_duration": 5000,
-    "duration_increment": 115,
+    "duration_increment": 130,
     "spell_class": "VOID_MAGE",
     "base_casting_time": 200,
     "energy_source": "MANA",
     "base_energy_cost": 300,
     "final_energy_cost": 150,
-    "energy_increment": -4,
+    "energy_increment": -5,
     "difficulty": 9,
     "extra_effects": [ { "id": "voidmage_final_grasp_slowdown" } ]
   },
@@ -38,17 +38,18 @@
     "valid_targets": [ "hostile" ],
     "effect": "mod_moves",
     "shape": "blast",
-    "max_level": 40,
+    "max_level": 35,
     "min_damage": -100,
     "max_damage": -3000,
-    "damage_increment": -70
+    "damage_increment": -85
   },
   {
     "type": "SPELL",
     "id": "voidmage_horizon_vortex",
     "name": "Horizon Vortex",
     "description": "Creates a chaotic energy field that disrupts enemies inside it.  It is rather random, and its effects can range from almost nothing to killing all hostiles in the area.",
-    "effect": "attack",
+    "//": "Made half of spell without RANDOM_DAMAGE flag just for making more sence in leveling this spell.",
+	"effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile", "ground" ],
     "flags": [ "SILENT", "SOMATIC", "WONDER", "NO_LEGS", "RANDOM_DAMAGE" ],
@@ -58,7 +59,7 @@
     "min_range": 5,
     "max_range": 20,
     "range_increment": 0.4,
-    "max_level": 40,
+    "max_level": 35,
     "spell_class": "VOID_MAGE",
     "base_casting_time": 1200,
     "final_casting_time": 600,
@@ -93,7 +94,7 @@
     "max_damage": 80,
     "damage_increment": 2,
     "min_range": 10,
-    "range_increment": 0.4,
+    "range_increment": 0.45,
     "max_range": 25
   },
   {
@@ -134,7 +135,7 @@
     "type": "SPELL",
     "name": "Horizon Vortex cold damage",
     "damage_type": "cold",
-    "max_level": 40
+    "max_level": 35
   },
   {
     "id": "horizon_vortex_cut",
@@ -142,7 +143,7 @@
     "type": "SPELL",
     "name": "Horizon Vortex cut damage",
     "damage_type": "cut",
-    "max_level": 40
+    "max_level": 35
   },
   {
     "id": "horizon_vortex_electric",
@@ -150,7 +151,7 @@
     "type": "SPELL",
     "name": "Horizon Vortex electric damage",
     "damage_type": "electric",
-    "max_level": 40
+    "max_level": 35
   },
   {
     "id": "horizon_vortex_stab",
@@ -158,6 +159,6 @@
     "type": "SPELL",
     "name": "Horizon Vortex stab damage",
     "damage_type": "stab",
-    "max_level": 40
+    "max_level": 35
   }
 ]
