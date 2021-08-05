@@ -925,8 +925,38 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
         return [const_value]( const T &d ) {
             return const_value;
         };
-    }
-    else if ( jo.has_member("u_val") || jo.has_member( "npc_val" ) ) {
+    } else if( jo.has_member( "time" ) ) {
+        const int value = to_turns<int>( read_from_json_string<time_duration>( *jo.get_raw( "time" ),
+            time_duration::units ) );
+        return [value]( const T &d ) {
+            return value;
+        };
+    } else if( jo.has_member( "time_since_cataclysm" ) ) {
+        time_duration given_unit = 1_turns;
+        if( jo.has_string( "time_since_cataclysm" ) ) {
+            std::string given_unit_str = jo.get_string( "time_since_cataclysm" );
+            bool found = false;
+            for( const auto &pair : time_duration::units ) {
+                const std::string &unit = pair.first;
+                if( unit == given_unit_str ) {
+                    given_unit = pair.second;
+                    found = true;
+                    break;
+                }
+            }
+            if( !found ) {
+                jo.throw_error( "unrecognized time unit in " + jo.str() );
+            }
+        }
+        return [given_unit]( const T &d ) {
+            return to_turn<int>( calendar::turn ) / to_turns<int>( given_unit );
+        };
+    } else if( jo.has_member( "rand" ) ) {
+        int max_value = jo.get_int( "rand" );
+        return [max_value]( const T &d ) {
+            return rand() % max_value;
+        };
+    } else if ( jo.has_member("u_val") || jo.has_member( "npc_val" ) ) {
         const bool is_npc = jo.has_member( "npc_val" );
         const std::string checked_value = is_npc ? jo.get_string( "npc_val" ) : jo.get_string( "u_val" );
         if( checked_value == "strength" ) {
@@ -954,6 +984,45 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                     stored_value = std::stoi( var );
                 }
                 return stored_value;
+            };
+        } else if( checked_value == "time_since_var" ) {
+            const std::string var_name = get_talk_varname( jo, "var_name", false );
+            return [is_npc, var_name]( const T &d ) {
+                int stored_value = 0;
+                const std::string &var = d.actor( is_npc )->get_value( var_name );
+                if( !var.empty() ) {
+                    stored_value = std::stoi( var );
+                }
+                return to_turn<int>( calendar::turn ) - stored_value;
+            };
+        } else if( checked_value == "allies" ) {
+            if( is_npc ) {
+                jo.throw_error( "allies count not supported for NPCs. In " + jo.str() );
+            } else {
+                return []( const T &d ) {
+                    return g->allies().size();
+                };
+            }
+        } else if( checked_value == "cash" ) {
+            if( is_npc ) {
+                jo.throw_error( "cash count not supported for NPCs. In " + jo.str() );
+            } else {
+                return []( const T &d ) {
+                    return d.alpha->cash();
+                };
+            }
+        } else if( checked_value == "owed" ) {
+            if( is_npc ) {
+                jo.throw_error( "owed ammount not supported for NPCs. In " + jo.str() );
+            } else {
+                return []( const T &d ) {
+                    return d.beta->debt();
+                };
+            }
+        } else if( checked_value == "skill_level" ) {
+            const skill_id skill( jo.get_string( "skill" ) );
+            return [is_npc, skill]( const T &d ) {
+                return d.actor( is_npc )->get_skill_level( skill );
             };
         }
     }

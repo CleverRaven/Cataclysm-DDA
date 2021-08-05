@@ -1024,11 +1024,19 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.dex_cur = 4;
     player_character.int_cur = 4;
     player_character.per_cur = 4;
+    for( npc *guy : g->allies() ) {
+        talk_function::leave( *guy );
+    }
+    player_character.cash = 0;
+    beta.op_of_u.owed = 0;
+    const skill_id skill( "driving" );
+    player_character.set_skill_level( skill, 0 );
 
     d.add_topic( "TALK_TEST_COMPARE_INT" );
-    gen_response_lines( d, 2 );
+    gen_response_lines( d, 3 );
     CHECK( d.responses[ 0 ].text == "This is a u_adjust_var test response that increments by 1." );
     CHECK( d.responses[ 1 ].text == "This is an npc_adjust_var test response that increments by 2." );
+    CHECK( d.responses[ 2 ].text == "This is a u_add_var time test response." );
 
     player_character.str_cur = 5;
     player_character.dex_cur = 6;
@@ -1038,14 +1046,25 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     beta.dex_cur = 10;
     beta.int_cur = 11;
     beta.per_cur = 12;
+    time_point then = calendar::turn;
+    calendar::turn = calendar::turn + time_duration( 4_days );
+    REQUIRE( then < calendar::turn );
     // Increment the u var by 1, so that it has a value of 1.
     talk_effect_t &effects = d.responses[ 0 ].success;
     effects.apply( d );
     // Increment the npc var by 2, so that it has a value of 2.
     effects = d.responses[ 1 ].success;
     effects.apply( d );
+    // Create a u time variable.
+    effects = d.responses[ 2 ].success;
+    effects.apply( d );
+    talk_function::follow( beta );
+    player_character.cash = 13;
+    beta.op_of_u.owed = 14;
+    player_character.set_skill_level( skill, 8 );
 
-    gen_response_lines( d, 12 );
+    CHECK( to_turns<int>( 1_turns ) == 1 );
+    gen_response_lines( d, 19 );
     CHECK( d.responses[ 0 ].text == "This is a u_adjust_var test response that increments by 1." );
     CHECK( d.responses[ 1 ].text == "This is an npc_adjust_var test response that increments by 2." );
     CHECK( d.responses[ 2 ].text == "PC strength is five." );
@@ -1058,7 +1077,19 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     CHECK( d.responses[ 9 ].text == "NPC perception is twelve." );
     CHECK( d.responses[ 10 ].text == "PC Custom var is one." );
     CHECK( d.responses[ 11 ].text == "NPC Custom var is two." );
+    CHECK( d.responses[ 12 ].text == "This is a u_var time test response for > 3_days." );
+    CHECK( d.responses[ 13 ].text == "time_since_cataclysm > 3_days." );
+    CHECK( d.responses[ 14 ].text == "time_since_cataclysm in days > 3" );
+    CHECK( d.responses[ 15 ].text == "Allies equals 1" );
+    CHECK( d.responses[ 16 ].text == "Cash equals 13" );
+    CHECK( d.responses[ 17 ].text == "Owed ammount equals 14" );
+    CHECK( d.responses[ 18 ].text == "Driving skill more than or equal to 5" );
+    // Due to the nature of randomness, the rand function will not be tested here.
 
+    calendar::turn = calendar::turn + time_duration( 4_days );
+    gen_response_lines( d, 20 );
+
+    CHECK( d.responses[ 15 ].text == "This is a time since u_var test response for > 3_days." );
 
 
 }

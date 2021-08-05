@@ -1126,6 +1126,12 @@
         "effect": { "npc_adjust_var": "test", "type": "test", "context": "var_compare_test", "adjustment": 2 }
       },
       {
+        "text": "This is a u_add_var time test response.",
+        "topic": "TALK_DONE",
+        "effect": { "u_add_var": "test", "type": "test", "context": "var_time_test", "time": true },
+        "condition": { "not": { "u_has_var": "test", "type": "test", "context": "var_time_test", "time": true } }
+      },
+      {
         "text": "PC strength is five.",
         "topic": "TALK_DONE",
         "condition": {
@@ -1233,6 +1239,94 @@
             { "const": 2 }
           ],
           "op": "="
+        }
+      },
+      {
+        "text": "This is a u_var time test response for > 3_days.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "u_val": "var", "var_name": "test", "type": "test", "context": "var_time_test" },
+            { "time": "3 days" }
+          ],
+          "op": ">"
+        }
+      },
+      {
+        "text": "time_since_cataclysm > 3_days.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "time_since_cataclysm": "turns" },
+            { "time": "3 days" }
+          ],
+          "op": ">"
+        }
+      },
+      {
+        "text": "time_since_cataclysm in days > 3",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "time_since_cataclysm": "days" },
+            { "const": 3 }
+          ],
+          "op": ">"
+        }
+      },
+      {
+        "text": "This is a time since u_var test response for > 3_days.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "u_val": "time_since_var", "var_name": "test", "type": "test", "context": "var_time_test" },
+            { "time": "3 days" }
+          ],
+          "op": ">"
+        }
+      },
+      {
+        "text": "Allies equals 1",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "u_val": "allies" },
+            { "const": 1 }
+          ],
+          "op": "="
+        }
+      },
+      {
+        "text": "Cash equals 13",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "u_val": "cash" },
+            { "const": 13 }
+          ],
+          "op": "="
+        }
+      },
+      {
+        "text": "Owed ammount equals 14",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "u_val": "owed" },
+            { "const": 14 }
+          ],
+          "op": "="
+        }
+      },
+      {
+        "text": "Driving skill more than or equal to 5",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "u_val": "skill_level", "skill": "driving"},
+            { "const": 5 }
+          ],
+          "op": ">="
         }
       }
     ]
