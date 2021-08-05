@@ -20,6 +20,7 @@
 #include <vector>
 #if defined(_WIN32)
 #include "platform_win.h"
+#include <float.h>
 #else
 #include <csignal>
 #endif
