@@ -6777,6 +6777,11 @@ const std::set<itype_id> &item::repaired_with() const
     return has_flag( flag_NO_REPAIR )  ? no_repair : type->repair;
 }
 
+const int item::repair_cost() const
+{
+    return type->repair_cost;
+}
+
 void item::mitigate_damage( damage_unit &du ) const
 {
     const resistances res = resistances( *this );

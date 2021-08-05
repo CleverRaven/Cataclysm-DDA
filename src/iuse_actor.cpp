@@ -2651,9 +2651,20 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
     //  otherwise number is related to size of item
     // Round up if checking, but roll if actually consuming
     // TODO: should 250_ml be part of the cost_scaling?
-    const int items_needed = std::max<int>( 1, just_check ?
-                                            std::ceil( fix.base_volume() / 250_ml * cost_scaling ) :
-                                            roll_remainder( fix.base_volume() / 250_ml * cost_scaling ) );
+
+    // Determine if type has set repair cost first
+    int items_needed;
+
+    if (fix.repair_cost() > 0)
+    {
+        items_needed = fix.repair_cost();
+    }
+    else
+    {
+        items_needed = std::max<int>(1, just_check ?
+            std::ceil(fix.base_volume() / 250_ml * cost_scaling) :
+            roll_remainder(fix.base_volume() / 250_ml * cost_scaling));
+    }
 
     std::function<bool( const item & )> filter;
     if( fix.is_filthy() ) {

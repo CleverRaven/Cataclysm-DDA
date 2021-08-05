@@ -891,6 +891,9 @@ struct itype {
         // What item this item repairs like if it doesn't have a recipe
         itype_id repairs_like;
 
+        // Amount of materials required for a single repair. -1 indicates an unset value
+        int repair_cost = -1;
+
         std::string snippet_category;
         translation description; // Flavor text
         ascii_art_id picture_id;
