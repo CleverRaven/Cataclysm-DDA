@@ -1704,6 +1704,7 @@
     "type": "json_flag",
     "info": "You could probably use this to access a secure zone of a facility."
   },
+  {
     "id": "BATTERY_LIGHT",
     "type": "json_flag",
     "context": [  ],

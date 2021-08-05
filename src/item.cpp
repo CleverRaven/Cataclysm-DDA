@@ -7751,7 +7751,7 @@ units::volume item::max_containable_volume() const
     return contents.max_containable_volume();
 }
 
-bool item::can_contain( const item &it, const bool ignore_fullness ) const
+ret_val<bool> item::can_contain( const item &it, const bool ignore_fullness ) const
 {
     if( this == &it ) {
         // does the set of all sets contain itself?
