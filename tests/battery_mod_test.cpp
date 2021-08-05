@@ -253,12 +253,15 @@ TEST_CASE( "battery and tool properties", "[battery][tool][properties]" )
         }
 
         SECTION( "has compatible magazines" ) {
-            const std::set<itype_id> mag_compats = flashlight.magazine_compatible();
-            CHECK_FALSE( mag_compats.empty() );
-            CHECK( mag_compats.count( itype_id( "light_battery_cell" ) ) == 1 );
-            CHECK( mag_compats.count( itype_id( "light_disposable_cell" ) ) == 1 );
-            CHECK( mag_compats.count( itype_id( "light_plus_battery_cell" ) ) == 1 );
-            CHECK( mag_compats.count( itype_id( "light_atomic_battery_cell" ) ) == 1 );
+            CHECK( flashlight.can_contain( *itype_id( "light_battery_cell" ) ) );
+            CHECK( flashlight.can_contain( *itype_id( "light_disposable_cell" ) ) );
+            CHECK( flashlight.can_contain( *itype_id( "light_plus_battery_cell" ) ) );
+            CHECK( flashlight.can_contain( *itype_id( "light_atomic_battery_cell" ) ) );
+        }
+
+        SECTION( "Does not fit medium or large magazines" ) {
+            CHECK_FALSE( flashlight.can_contain( *itype_id( "medium_battery_cell" ) ) );
+            CHECK_FALSE( flashlight.can_contain( *itype_id( "heavy_plus_battery_cell" ) ) );
         }
 
         SECTION( "has a default magazine" ) {
@@ -342,7 +345,7 @@ TEST_CASE( "installing battery in tool", "[battery][tool][install]" )
             ret_val<bool> result = flashlight.put_in( med_bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
             CHECK_FALSE( result.success() );
         } );
-        CHECK_THAT( dmsg, Catch::EndsWith( "holster does not accept this item type" ) );
+        CHECK_THAT( dmsg, Catch::EndsWith( "item does not have correct flag" ) );
         CHECK_FALSE( flashlight.magazine_current() );
     }
 }
