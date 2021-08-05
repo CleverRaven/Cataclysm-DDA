@@ -252,7 +252,7 @@
     "color": "dark_gray",
     "name": { "str": "mannequin" },
     "category": "other",
-    "description": "A figure of an adult human, as seen in the display case at the mall. It might be able to fool some zombies if it could attract their attention.",
+    "description": "A figure of an adult human, as seen in the display case at the mall.  It might be able to fool some zombies if it could attract their attention.",
     "price": 15000,
     "price_postapoc": 500,
     "material": [ "wood" ],
@@ -268,7 +268,7 @@
     "color": "light_gray",
     "name": { "str": "mannequin decoy" },
     "category": "other",
-    "description": "A figure of an adult human, as seen in the display case at the mall. This one is cradling a talking doll. It can make sound when powered by batteries and can be used to distract some zombies.",
+    "description": "A figure of an adult human, as seen in the display case at the mall.  This one is cradling a talking doll.  It can make sound when powered by batteries and can be used to distract some zombies.",
     "price": 15000,
     "price_postapoc": 500,
     "material": [ "wood" ],
@@ -298,8 +298,8 @@
     "use_action": {
       "type": "place_monster",
       "monster_id": "mon_mannequin_decoy",
-      "friendly_msg": "You activate the talking doll on the mannequin",
-      "hostile_msg": "Your mannequin seems to have a mind of its own! If you see this, an error has occurred.",
+      "friendly_msg": "You activate the talking doll on the mannequin.",
+      "hostile_msg": "Your mannequin seems to have a mind of its own!  If you see this, an error has occurred.",
       "difficulty": 0,
       "need_charges": 100,
       "moves": 20
