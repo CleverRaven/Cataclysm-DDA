@@ -2212,11 +2212,11 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
 
     const islot_ammo &ammo = *ammo_data()->ammo;
     if( !ammo.damage.empty() || ammo.force_stat_display ) {
-        if( ammo_remaining() > 0 ) {
+        if( is_ammo() ) {
+            info.emplace_back( "AMMO", _( "<bold>Ammunition type</bold>: " ), ammo_type()->name() );
+        } else if( ammo_remaining() > 0 ) {
             info.emplace_back( "AMMO", _( "<bold>Ammunition</bold>: " ),
                                ammo_data()->nname( ammo_remaining() ) );
-        } else if( is_ammo() ) {
-            info.emplace_back( "AMMO", _( "<bold>Ammunition type</bold>: " ), ammo_type()->name() );
         }
 
         const std::string space = "  ";
@@ -8058,7 +8058,7 @@ int item::ammo_remaining( const Character *carrier ) const
     }
 
     // Non ammo using item that uses charges
-    if( !is_ammo() && ammo_types().empty() ) {
+    if( ammo_types().empty() ) {
         ret += charges;
     }
 
