@@ -28,7 +28,7 @@
         "--|------|-++-| H H P|u.",
         ".4|dT~T~L|C  O| H H  |fu",
         "..|d~~~~~*   O| H H  ofu",
-        "..|dT~T~i|C  O|      |fu",
+        "..|dT~Tʘi|C  O|      |fu",
         "..|------|-++-|-o--o-|u.",
         ".........u.,,.u........."
       ],
@@ -45,6 +45,7 @@
         "d": "t_linoleum_white",
         "f": "t_dirt",
         "i": "t_linoleum_white",
+        "ʘ": "t_linoleum_white",
         "o": [ "t_window_domestic", "t_window_open", "t_curtains" ],
         "u": "t_shrub",
         "|": "t_wall_w",
@@ -53,6 +54,7 @@
       },
       "toilets": { "&": {  } },
       "furniture": {
+        "ʘ": "f_autoclave",
         "C": "f_coffin_c",
         "D": "f_desk",
         "H": "f_bench",
@@ -67,6 +69,10 @@
         "f": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ],
         "i": "f_sink",
         "l": "f_bookcase"
+      },
+      "items":
+      {
+          "ʘ": { "item": "autoclave_pouches", "chance": 100 }
       },
       "place_signs": [
         {

@@ -60,7 +60,8 @@
       "x": "f_crate_o",
       "X": "f_crate_c",
       "6": "f_console_broken",
-      "7": "f_centrifuge"
+      "7": "f_centrifuge",
+      "ʘ": "f_autoclave"
     },
     "toilets": { "&": { "amount": [ 0, 50 ] } },
     "items": {
@@ -73,7 +74,8 @@
       "s": { "item": "cleaning", "chance": 15 },
       "S": { "item": "cleaning", "chance": 25 },
       "t": { "item": "trash_cart", "chance": 60, "repeat": [ 1, 4 ] },
-      "U": { "item": "kitchen", "chance": 40, "repeat": [ 1, 3 ] }
+      "U": { "item": "kitchen", "chance": 40, "repeat": [ 1, 3 ] },
+      "ʘ": { "item": "autoclave_pouches", "chance": 100 }
     }
   }
 ]

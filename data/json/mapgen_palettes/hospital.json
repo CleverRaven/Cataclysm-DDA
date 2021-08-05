@@ -34,6 +34,7 @@
       "+": "t_door_c",
       "!": "t_door_locked_interior",
       "*": "t_floor",
+      "ʘ": "t_floor",
       "6": "t_floor",
       "7": "t_floor",
       "S": "t_floor",
@@ -45,6 +46,7 @@
     },
     "furniture": {
       "*": "f_centrifuge",
+      "ʘ": "f_autoclave",
       "6": "f_console",
       "7": "f_console",
       "b": "f_bench",
@@ -69,6 +71,10 @@
       "&": "f_toilet",
       "A": "f_autodoc",
       "?": "f_autodoc_couch"
+    },
+    "items":
+    {
+      "ʘ": { "item": "autoclave_pouches", "chance": 100}
     },
     "toilets": { "&": {  } }
   },
@@ -162,6 +168,10 @@
       "x": "f_table",
       "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
       "z": "f_trashcan"
+    },
+    "items":
+    {
+      "n": { "item": "autoclave_pouches", "chance": 100}
     },
     "toilets": { "T": {  } },
     "vehicles": {

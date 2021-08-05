@@ -166,6 +166,10 @@
       "v": "f_ventilator",
       "o": "f_centrifuge",
       "x": "f_console_broken"
+    },
+    "items":
+    {
+      "a": { "item": "autoclave_pouches", "chance": 100}
     }
   }
 ]
