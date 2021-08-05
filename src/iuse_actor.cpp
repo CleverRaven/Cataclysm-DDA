@@ -875,6 +875,9 @@ void place_monster_iuse::load( const JsonObject &obj )
     obj.read( "moves", moves );
     obj.read( "place_randomly", place_randomly );
     obj.read( "is_pet", is_pet );
+    obj.read( "need_charges", need_charges );
+    need_charges = std::max( need_charges, 0 );
+
     if( obj.has_array( "skills" ) ) {
         JsonArray skills_ja = obj.get_array( "skills" );
         for( JsonValue s : skills_ja ) {
@@ -885,6 +888,11 @@ void place_monster_iuse::load( const JsonObject &obj )
 
 cata::optional<int> place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
 {
+    if( it.ammo_remaining() < need_charges ) {
+        p.add_msg_if_player( m_info, _( "This requires %d charges to activate." ), need_charges );
+        return cata::nullopt;
+    }
+
     shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>( mtypeid );
     monster &newmon = *newmon_ptr;
     newmon.init_from_item( it );

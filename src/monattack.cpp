@@ -5882,3 +5882,11 @@ bool mattack::dsa_drone_scan( monster *z )
     }
     return true;
 }
+
+bool mattack::mannequin_talk( monster *z )
+{
+    const SpeechBubble speech = get_speech( "talking_doll" );
+    sounds::sound( z->pos(), speech.volume, sounds::sound_t::electronic_speech,
+                   speech.text.translated(), true, "speech", "talking_doll" );
+    return true;
+}

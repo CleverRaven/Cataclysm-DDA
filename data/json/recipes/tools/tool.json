@@ -1054,5 +1054,20 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SEW", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_leatherworking_basic" } ],
     "components": [ [ [ "leather", 2 ] ], [ [ "superglue", 1 ] ], [ [ "filament", 40, "LIST" ] ] ]
+  },
+  {
+    "result": "mannequin_decoy",
+    "type": "recipe",
+    "activity_level": "fake",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "time": "10 s",
+    "reversible": true,
+    "autolearn": true,
+    "components": [
+      [ [ "talking_doll", 1 ], [ "creepy_doll", 1 ] ],
+      [ [ "mannequin", 1 ] ]
+    ]
   }
 ]
