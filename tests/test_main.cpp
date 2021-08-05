@@ -21,6 +21,8 @@
 #include "coordinates.h"
 #ifndef _WIN32
 #include <unistd.h>
+#else
+#include <float.h>
 #endif
 
 #include "avatar.h"
@@ -281,6 +283,12 @@ CATCH_REGISTER_LISTENER( CataListener )
 
 int main( int argc, const char *argv[] )
 {
+#ifdef _WIN32
+    // Initialize the floating point math package.
+    // according to https://blog.zaita.com/mingw64-compiler-bug/ this doen't always happen on
+    // MINGW and is causing floating point math errors. It is harmless otherwise.
+    _fpreset();
+#endif
     Catch::Session session;
 
     std::vector<const char *> arg_vec( argv, argv + argc );
