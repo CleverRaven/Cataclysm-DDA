@@ -4082,7 +4082,7 @@ rummage_pocket_activity_actor::rummage_pocket_activity_actor( const item_locatio
         const action act_kind, const tripoint &tgt )
     : kind( act_kind ), target( tgt )
 {
-    item_loc.emplace_back( iloc, iloc->count );
+    item_loc.emplace_back( iloc, iloc->count() );
 }
 
 void rummage_pocket_activity_actor::start( player_activity &act, Character &who )
@@ -4108,11 +4108,21 @@ void rummage_pocket_activity_actor::finish( player_activity &act, Character &who
     // avatar::read spawns an ACT_READ activity, so we need to set
     // this one to null before calling them
     act.set_to_null();
+
     if( !item_loc.empty() ) {
         item_location it_loc = item_loc.front().first;
+        //Adding the moves_total here so that double the cost isn't payed for doing an action
+        // there should be a better way of doing this, but I don't know it.
+        who.moves += act.moves_total;
         switch( kind ) {
-            case action::activate:
+            case action::apply_use:
                 avatar_action::use_item( *who.as_avatar(), it_loc );
+                return;
+            case action::eat:
+                avatar_action::eat( *who.as_avatar(), it_loc );
+                return;
+            case action::plthrow:
+                avatar_action::plthrow( *who.as_avatar(), it_loc );
                 return;
             case action::read: {
                 avatar &player_character = get_avatar();
@@ -4131,9 +4141,8 @@ void rummage_pocket_activity_actor::finish( player_activity &act, Character &who
                 return;
             }
             case action::wield:
-                g->wield( it_loc );
+                who.as_avatar()->wield( it_loc );
                 return;
-
             case action::drop:
                 who.drop( item_loc, target );
                 return;

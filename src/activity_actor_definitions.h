@@ -1367,10 +1367,12 @@ class rummage_pocket_activity_actor : public activity_actor
 {
     public:
         enum class action : int {
-            activate,
+            apply_use,
             drop,
+            eat,
             empty,
             none,
+            plthrow,
             read,
             wear,
             wield,

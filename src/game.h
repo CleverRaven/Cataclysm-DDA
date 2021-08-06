@@ -167,7 +167,6 @@ class game
         friend scent_map &get_scent();
         friend timed_event_manager &get_timed_events();
         friend memorial_logger &get_memorial();
-        friend void rummage_pocket_activity_actor::finish(player_activity&, Character&);
     public:
         game();
         ~game();

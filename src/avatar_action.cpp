@@ -1068,7 +1068,7 @@ void avatar_action::use_item( avatar &you )
         avatar_action::use_item( you, loc );
     } else {
         you.assign_activity( player_activity( rummage_pocket_activity_actor( loc,
-                                              rummage_pocket_activity_actor::action::activate ) ) );
+                                              rummage_pocket_activity_actor::action::apply_use ) ) );
     }
 }
 

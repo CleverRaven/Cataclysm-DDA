@@ -2330,17 +2330,32 @@ int game::inventory_item_menu( item_location locThisItem,
                 case 'a': {
                     contents_change_handler handler;
                     handler.unseal_pocket_containing( locThisItem );
-                    avatar_action::use_item( u, locThisItem );
+                    if( locThisItem.where() == item_location::type::container ) {
+                        u.assign_activity( player_activity( rummage_pocket_activity_actor( locThisItem,
+                                                            rummage_pocket_activity_actor::action::apply_use ) ) );
+                    } else {
+                        avatar_action::use_item( u, locThisItem );
+                    }
                     handler.handle_by( u );
                     break;
                 }
                 case 'E':
-                    avatar_action::eat( u, locThisItem );
+                    if( locThisItem.where() == item_location::type::container ) {
+                        u.assign_activity( player_activity( rummage_pocket_activity_actor( locThisItem,
+                                                            rummage_pocket_activity_actor::action::eat ) ) );
+                    } else {
+                        avatar_action::eat( u, locThisItem );
+                    }
                     break;
                 case 'W': {
                     contents_change_handler handler;
                     handler.unseal_pocket_containing( locThisItem );
-                    u.wear( locThisItem );
+                    if( locThisItem.where() == item_location::type::container ) {
+                        u.assign_activity( player_activity( rummage_pocket_activity_actor( locThisItem,
+                                                            rummage_pocket_activity_actor::action::wear ) ) );
+                    } else {
+                        u.wear( locThisItem );
+                    }
                     handler.handle_by( u );
                     break;
                 }
@@ -2348,7 +2363,12 @@ int game::inventory_item_menu( item_location locThisItem,
                     if( u.can_wield( *locThisItem ).success() ) {
                         contents_change_handler handler;
                         handler.unseal_pocket_containing( locThisItem );
-                        wield( locThisItem );
+                        if( locThisItem.where() == item_location::type::container ) {
+                            u.assign_activity( player_activity( rummage_pocket_activity_actor( locThisItem,
+                                                                rummage_pocket_activity_actor::action::wield ) ) );
+                        } else {
+                            u.wield( locThisItem );
+                        }
                         handler.handle_by( u );
                     } else {
                         add_msg( m_info, "%s", u.can_wield( *locThisItem ).c_str() );
@@ -2357,7 +2377,12 @@ int game::inventory_item_menu( item_location locThisItem,
                 case 't': {
                     contents_change_handler handler;
                     handler.unseal_pocket_containing( locThisItem );
-                    avatar_action::plthrow( u, locThisItem );
+                    if( locThisItem.where() == item_location::type::container ) {
+                        u.assign_activity( player_activity( rummage_pocket_activity_actor( locThisItem,
+                                                            rummage_pocket_activity_actor::action::plthrow ) ) );
+                    } else {
+                        avatar_action::plthrow( u, locThisItem );
+                    }
                     handler.handle_by( u );
                     break;
                 }
@@ -2368,7 +2393,13 @@ int game::inventory_item_menu( item_location locThisItem,
                     u.takeoff( locThisItem );
                     break;
                 case 'd':
-                    u.drop( locThisItem, u.pos() );
+                    if( locThisItem.where() == item_location::type::container ) {
+                        u.assign_activity( player_activity( rummage_pocket_activity_actor( locThisItem,
+                                                            rummage_pocket_activity_actor::action::drop ) ) );
+                    } else {
+                        u.assign_activity( player_activity( rummage_pocket_activity_actor( locThisItem,
+                                                            rummage_pocket_activity_actor::action::drop ) ) );
+                    }
                     break;
                 case 'U':
                     u.unload( locThisItem );
@@ -2383,7 +2414,12 @@ int game::inventory_item_menu( item_location locThisItem,
                     avatar_action::mend( u, locThisItem );
                     break;
                 case 'R':
-                    u.read( locThisItem );
+                    if( locThisItem.where() == item_location::type::container ) {
+                        u.assign_activity( player_activity( rummage_pocket_activity_actor( locThisItem,
+                                                            rummage_pocket_activity_actor::action::read ) ) );
+                    } else {
+                        u.read( locThisItem );
+                    }
                     break;
                 case 'D':
                     u.disassemble( locThisItem, false );
