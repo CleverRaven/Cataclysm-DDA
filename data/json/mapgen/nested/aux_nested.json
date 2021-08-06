@@ -28,11 +28,13 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "place_ter_furn_transforms": [ 
-			{ "transform":  "t_door_b", "x": 0, "y": 0 }
+			{ "transform":  "t_door_o", "x": 0, "y": 0 },
+			{ "transform":  "t_door_c", "x": 0, "y": 0 },
+			{ "transform":  "t_door_locked_interior", "x": 0, "y": 0 }			
 		],
       "place_item": [
-	    { "item": "2x4", "x": 0, "y": 0, "repeat": 25 },
-        { "item": "wood_panel", "x": 0, "y": 0, "repeat": 10 },
+	    { "item": "2x4", "x": 0, "y": 0, "prob": 25 },
+        { "item": "wood_panel", "x": 0, "y": 0, "prob": 10 },
         { "item": "splinter", "x": 0, "y": 0, "repeat": [ 1, 2 ] },
         { "item": "nail", "x": 0, "y": 0, "repeat": [ 0, 2 ] }
 		]
@@ -45,13 +47,61 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "place_ter_furn_transforms": [ 
-			{ "transform":  "t_door_frame", "x": 0, "y": 0 }
+			{ "transform":  "t_door_b", "x": 0, "y": 0 }
 		],	
       "place_item": [
 			{ "item": "2x4", "x": 0, "y": 0, "repeat": [ 1, 2 ] },
 			{ "item": "nail", "x": 0, "y": 0, "repeat": [ 1, 4 ] },
 			{ "item": "splinter", "x": 0, "y": 0, "repeat": [ 1, 4 ] },
 			{ "item": "hinge", "x": 0, "y": 0, "repeat": [ 1, 2 ] }
+		]
+    }
+  }
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "destroyed_metal_door",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_ter_furn_transforms": [ 
+			{ "transform":  "t_door_metal_pickable", "x": 0, "y": 0 },
+			{ "transform":  "t_door_metal_o", "x": 0, "y": 0 },
+			{ "transform":  "t_door_metal c", "x": 0, "y": 0 }			
+		],
+      "place_item": [
+	    { "item": "steel_plate", "x": 0, "y": 0, "chance": 75 },
+        { "item": "hinge", "x": 0, "y": 0, "repeat": [ 1, 3 ] },
+        { "item": "scrap", "x": 0, "y": 0, ,"repeat": [ 12, 24 ]}
+		]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "damaged_window_bars",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_ter_furn_transforms": [ 
+			{ "transform":  "t_window_bars_alarm", "x": 0, "y": 0 }		
+		],
+      "place_item": [
+		{ "item": "glass_shard", "x" 0, "y": 0, "repeat": [ 34, 50 ] }
+		]
+    }
+  },  
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "destroyed_window_bars",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_ter_furn_transforms": [ 
+			{ "transform":  "t_window_bars", "x": 0, "y": 0 }		
+		],
+      "place_item": [
+        { "item": "steel_lump", "chance1": 25 },
+        { "item": "steel_chunk", "repeat": [ 1, 4 ] },
+        { "item": "scrap", "repeat": [ 1, 5 ] }
 		]
     }
   },  
@@ -106,11 +156,11 @@
     "nested_mapgen_id": "corpse_blood_casings_1x1",
     "object": {
       "mapgensize": [ 1, 1 ],
-      "place_item": [ { "item": "corpse_generic_human", "x": 0, "y": 0, "chance": 100, "repeat": [ 2, 4 ] } ],
-      "place_items": [ { "item": "ammo_casings", "x": 0, "y": 0, "repeat": [ 25, 100 ], "chance": 75 } ],
+      "place_item": [ { "item": "corpse_generic_human", "x": 0, "y": 0, "chance": 100, "repeat": [ 1, 2 ] } ],
+      "place_items": [ { "item": "ammo_casings", "x": 0, "y": 0, "repeat": [ 10, 25 ], "chance": 75 } ],
       "place_fields": [ 
-	    { "field": "fd_blood", "x": 0, "y":0 , "repeat": [ 2, 4 ], "intensity": 1, "age": 10 },
-        { "field": "fd_gibs_flesh", "x": 0, "y": 0, "repeat": [ 1, 5 ], "intensity": 2, "age": 10 }
+	    { "field": "fd_blood", "x": 0, "y":0 , "intensity": 1, "age": 10 },
+        { "field": "fd_gibs_flesh", "x": 0, "y": 0 "intensity": 1, "age": 10 }
 		]
     }
   }

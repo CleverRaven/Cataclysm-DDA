@@ -33,6 +33,7 @@
         "__________'__*_ww_______"
       ],
 	  "palettes": [ "gun_store_palette" ],
+      "monster": { "monster": "mon_copbot", "x": 0, "y": 0, "chance": 75 },	  
 	  "terrain": {
 		"V": "t_thconc_floor",
 		"H": "t_thconc_floor",

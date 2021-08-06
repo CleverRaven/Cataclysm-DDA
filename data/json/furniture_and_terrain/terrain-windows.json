@@ -614,7 +614,7 @@
     "id": "t_window_bars",
     "name": "window frame with metal bars",
     "looks_like": "t_bars",
-    "description": "A giant sheet of glass inserted into a window with thick security grilles, making it impossible to crawl through.  Typically installed for high-value stores, or at least stores in bad neighborhoods.",
+    "description": "A window with thick security grilles, making it impossible to crawl through.  Typically installed for high-value stores, or at least stores in bad neighborhoods.",
     "examine_action": "bars",
     "symbol": "#",
     "color": "light_gray",
@@ -630,8 +630,7 @@
       "items": [
         { "item": "steel_lump", "prob": 25 },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 1, 5 ] },
-        { "item": "glass_shard", "count": [ 75, 125 ] }
+        { "item": "scrap", "count": [ 1, 5 ] }
       ]
     }
   },

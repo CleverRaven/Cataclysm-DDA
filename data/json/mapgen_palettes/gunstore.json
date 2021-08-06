@@ -11,16 +11,16 @@
 				"q": "t_thconc_floor",
 				"&": "t_thconc_floor",
 				":": "t_window_bars_alarm",
-				"+": "t_door_metal_pickable",
-				"t": [ [ "t_door_locked_alarm", 70 ], [ "t_door_o", 15 ], [ "t_door_c", 15 ]],
+				"+": [ [ "t_door_metal_pickable", 40 ], [ "t_door_metal_o", 30 ], [ "t_door_metal_c", 30 ]],
+				"t": [ [ "t_door_locked_alarm", 40 ], [ "t_door_o", 30 ], [ "t_door_c", 30 ] ],
 				"D": [ [ "t_door_b", 20 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 13 ] ],
-				"e": "t_mdoor_frame",
+				"e": [ [ "t_door_metal_pickable", 40 ], [ "t_mdoor_frame", 40 ], [ "t_door_metal_o", 30 ], [ "t_door_metal_c", 30 ] ]
 				",": "t_region_groundcover_urban",
 				"@": "t_region_shrub_decorative",
 				"B": "t_region_groundcover_barren",
 				"u": "t_region_shrub",
 				"'": "t_sidewalk",
-				"p": "t_window_empty",
+				"p": [ [ "t_window_empty", 40 ], [ "t_window_bars_alarm", 40 ], [ "t_window_bars", 30 ] ]
 				"h": "t_reinforced_glass",			
 				"C": "t_thconc_floor",
 				"`": "t_thconc_floor",
@@ -162,27 +162,24 @@
 				"//": "items and trash covering floor from looting",	
 				"subtype": "distribution",
 					"entries": [
-						{ "group": "mags_common", "prob": 10, "damage": [ 0, 4 ] },
+						{ "group": "guns_common", "prob": 30, "damage": [ 0, 4 ] },
 						{ "group": "clothing_tactical_torso", "prob": 1, "damage": [ 0, 4 ] },
 						{ "group": "clothing_tactical_leg", "prob": 1, "damage": [ 0, 4 ] },
 						{ "group": "gun_cases", "prob": 10, "damage": [ 0, 4 ] },					
-						{ "group": "gunmod_common", "prob": 5, "damage": [ 0, 4 ] },
-						{ "group": "book_gunmags", "prob": 10, "damage": [ 0, 4 ] },
-						{ "group": "mil_food_nodrugs", "prob": 10, "damage": [ 0, 4 ] },
-						{ "group": "trash", "prob": 30 },
-						{ "item": "winter_pants_army", "prob": 10, "damage": [ 0, 4 ] },	
-						{ "item": "winter_jacket_army", "prob": 10, "damage": [ 0, 4 ] },	
-						{ "item": "jacket_army", "prob": 10, "damage": [ 0, 4 ] },		
-						{ "item": "pants_army", "prob": 10, "damage": [ 0, 4 ] },
-						{ "item": "knee_pads", "prob": 5, "damage": [ 0, 4 ] },		
-						{ "item": "elbow_pads", "prob": 5, "damage": [ 0, 4 ] },
+						{ "group": "book_gunmags", "prob": 25, "damage": [ 0, 4 ] },
+						{ "group": "mil_food_nodrugs", "prob": 20, "damage": [ 0, 4 ] },
+						{ "group": "looted_store", "prob": 75 },						
+						{ "item": "winter_pants_army", "prob": 5, "damage": [ 0, 4 ] },	
+						{ "item": "winter_jacket_army", "prob": 5, "damage": [ 0, 4 ] },	
+						{ "item": "jacket_army", "prob": 5, "damage": [ 0, 4 ] },		
+						{ "item": "pants_army", "prob": 5, "damage": [ 0, 4 ] },
+						{ "item": "knee_pads", "prob": 3, "damage": [ 0, 4 ] },		
+						{ "item": "elbow_pads", "prob": 3, "damage": [ 0, 4 ] },
 						{ "item": "helmet_liner", "prob": 5, "damage": [ 0, 4 ] },						
 						{ "item": "army_top", "prob": 5, "damage": [ 0, 4 ] },						
 						{ "item": "beret", "prob": 5, "damage": [ 0, 4 ] },		
 						{ "item": "beret_wool", "prob": 5, "damage": [ 0, 4 ] },						
 						{ "item": "bootsheath", "prob": 5, "damage": [ 0, 4 ] },							
-						{ "item": "nail", "prob": 10 },
-						{ "item": "splinter", "prob": 10 },
 						{ "item": "hat_boonie", "prob": 5, "damage": [ 0, 4 ] },						
 						{ "item": "balclava", "prob": 5, "damage": [ 0, 4 ] }
 					]
@@ -235,7 +232,7 @@
 					]
 				},	
 				"repeat": 1,
-				"chance": 10
+				"chance": 25
 			},		
 			"M": {
 				"item": {
@@ -282,7 +279,7 @@
 					]
 				},				
 				"repeat": 1,
-				"chance": 10
+				"chance": 25
 			},			
 			"O": {
 				"item": {
@@ -422,7 +419,7 @@
 						{ "group": "guns_common_display" }
 					]
 				},
-				"repeat": [ 2, 3 ],
+				"repeat": [ 1, 2 ],
 				"chance": 80
 			},
 			"f": {
@@ -468,7 +465,7 @@
 						{ "group": "trash" }
 					]
 				},
-				"repeat": 10,
+				"repeat": 5,
 				"chance": 45
 			},	
 			"w": {

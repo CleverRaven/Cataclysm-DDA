@@ -32,6 +32,7 @@
         ",###############_______,"
       ],
 	  "palettes": [ "gun_store_palette" ],
+	  "monster": { "monster": "mon_copbot", "x": 0, "y": 0, "chance": 75 },
 	  "terrain": {	
 			"w": "t_pavement",
 			";": "t_region_groundcover_urban"
@@ -104,7 +105,7 @@
         "{": "t_chaingate_c",
         "}": "t_chainfence"
       },
-      "furniture": { ":": [ "f_indoor_plant", "f_indoor_plant_y" ], ";": "f_gunsafe_ml", ")": "f_TV_antenna" },
+      "furniture": { ":": [ "f_indoor_plant", "f_indoor_plant_y" ], ";": "f_gunsafe_ml", ")": "f_TV_antenna" },	  
       "place_loot": [ { "item": "television", "x": 2, "y": 9 }, { "item": "stereo", "x": 2, "y": 10, "chance": 100 } ]
     }
   },
