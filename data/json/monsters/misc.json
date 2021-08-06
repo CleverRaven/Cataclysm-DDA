@@ -222,13 +222,13 @@
     "species": [ "UNKNOWN" ],
     "volume": "62500 ml",
     "weight": "81500 g",
-    "hp": 100,
+    "hp": 20,
     "speed": 1,
     "symbol": "@",
     "material": [ "wood" ],
     "aggression": -99,
     "morale": 100,
-    "special_attacks": [ [ "MANNEQUIN_TALK", 20 ], [ "DISAPPEAR", 2000 ] ],
+    "special_attacks": [ [ "PARROT", 1 ], [ "DISAPPEAR", 2000 ] ],
     "death_drops": {
       "subtype": "collection",
       "items": [
