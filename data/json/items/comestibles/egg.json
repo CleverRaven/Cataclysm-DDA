@@ -68,6 +68,7 @@
     "copy-from": "egg_chicken",
     "rot_spawn": "GROUP_EGG_MAGPIE"
   },
+  {
     "type": "COMESTIBLE",
     "id": "egg_bluejay",
     "name": { "str": "blue jay egg" },
