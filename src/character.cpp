@@ -10544,31 +10544,30 @@ bool Character::is_wearing_shoes( const side &which_side ) const
             if( part->limb_type != body_part_type::type::foot ) {
                 continue;
             }
-            if( !left_side && ( part->part_side == side::LEFT || part->part_side == side::BOTH ) ) {
+            if( left_side && ( part->part_side == side::LEFT || part->part_side == side::BOTH ) ) {
                 if( worn_item.covers( part ) && not_exempt( worn_item ) ) {
                     left = shoe_status::has_shoe;
-                } else {
+                } else if( left == shoe_status::no_foot ) {
                     left = shoe_status::no_shoe;
                 }
             }
-            if( !right_side && ( part->part_side == side::RIGHT || part->part_side == side::BOTH ) ) {
+            if( right_side && ( part->part_side == side::RIGHT || part->part_side == side::BOTH ) ) {
                 if( worn_item.covers( part ) && not_exempt( worn_item ) ) {
                     right = shoe_status::has_shoe;
-                } else {
+                } else if( right == shoe_status::no_foot ) {
                     right = shoe_status::no_shoe;
                 }
             }
         }
     }
 
-    if( right == shoe_status::has_shoe && left != shoe_status::no_foot ) {
-        left = shoe_status::has_shoe;
+    if( right_side && left_side ) {
+        return left == shoe_status::has_shoe && right == shoe_status::has_shoe;
+    } else if( right_side ) {
+        return right == shoe_status::has_shoe;
+    } else {
+        return left == shoe_status::has_shoe;
     }
-    if( left == shoe_status::has_shoe && right != shoe_status::no_foot ) {
-        right = shoe_status::has_shoe;
-    }
-
-    return left == shoe_status::has_shoe && right == shoe_status::has_shoe;
 }
 
 bool Character::is_wearing_helmet() const
@@ -11948,6 +11947,8 @@ int Character::limb_health_movecost_modifier() const
             if( cur_leg > leg_hi ) {
                 leg_lo = leg_hi;
                 leg_hi = cur_leg;
+            } else if( cur_leg > leg_lo ) {
+                leg_lo = cur_leg;
             }
         }
         if( leg_hi == 1.0f && leg_lo == 1.0f ) {
