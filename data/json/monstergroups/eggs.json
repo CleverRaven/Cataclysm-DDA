@@ -9,6 +9,11 @@
       { "monster": "mon_turkey_chick", "freq": 250, "cost_multiplier": 1 },
       { "monster": "mon_pheasant_chick", "freq": 250, "cost_multiplier": 1 },
       { "monster": "mon_duck_chick", "freq": 150, "cost_multiplier": 1 },
+      { "monster": "mon_crow_chick", "freq": 40, "cost_multiplier": 1 },
+      { "monster": "mon_raven_chick", "freq": 40, "cost_multiplier": 1 },
+      { "monster": "mon_magpie_chick", "freq": 35, "cost_multiplier": 1 },
+      { "monster": "mon_bluejay_chick", "freq": 25, "cost_multiplier": 1 },
+      { "monster": "mon_cardinal_chick", "freq": 25, "cost_multiplier": 1 },
       { "monster": "mon_goose_canadian_chick", "freq": 100, "cost_multiplier": 1 },
       { "monster": "mon_rattlesnake", "freq": 75, "cost_multiplier": 1 }
     ]
