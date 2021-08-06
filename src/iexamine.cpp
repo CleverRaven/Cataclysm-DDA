@@ -1797,7 +1797,7 @@ static bool can_drink_nectar( const player &p )
 /**
  * Consume Nectar. -15 hunger.
  */
-static bool drink_nectar( player &p )
+bool iexamine_helper::drink_nectar( player &p )
 {
     if( can_drink_nectar( p ) ) {
         add_msg( _( "You drink some nectar." ) );
@@ -1812,7 +1812,7 @@ static bool drink_nectar( player &p )
 /**
  * Spawn an item after harvesting the plant
  */
-static void handle_harvest( player &p, const std::string &itemid, bool force_drop )
+void iexamine_helper::handle_harvest( player &p, const std::string &itemid, bool force_drop )
 {
     item harvest = item( itemid );
     if( harvest.has_temperature() ) {
@@ -1885,8 +1885,8 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
 
     here.furn_set( examp, f_null );
 
-    handle_harvest( p, "poppy_bud", false );
-    handle_harvest( p, "withered", false );
+    iexamine_helper::handle_harvest( p, "poppy_bud", false );
+    iexamine_helper::handle_harvest( p, "withered", false );
 }
 
 /**
@@ -1912,8 +1912,8 @@ void iexamine::flower_cactus( player &p, const tripoint &examp )
 
     here.furn_set( examp, f_null );
 
-    handle_harvest( p, "cactus_pad", false );
-    handle_harvest( p, "seed_cactus", false );
+    iexamine_helper::handle_harvest( p, "cactus_pad", false );
+    iexamine_helper::handle_harvest( p, "seed_cactus", false );
 }
 
 /**
@@ -1925,7 +1925,7 @@ void iexamine::flower_dahlia( player &p, const tripoint &examp )
         return;
     }
 
-    if( drink_nectar( p ) ) {
+    if( iexamine_helper::drink_nectar( p ) ) {
         return;
     }
 
@@ -2081,7 +2081,7 @@ void iexamine::flower_marloss( player &p, const tripoint &examp )
     }
     here.furn_set( examp, f_null );
     here.spawn_item( p.pos(), itype_marloss_seed, 1, 3, calendar::turn );
-    handle_harvest( p, "withered", false );
+    iexamine_helper::handle_harvest( p, "withered", false );
 }
 
 /**
@@ -2115,7 +2115,7 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
     int roll = rng( 1, 5 );
     bool drop_eggs = monster_count >= 1;
     for( int i = 0; i < roll; i++ ) {
-        handle_harvest( p, "spider_egg", drop_eggs );
+        iexamine_helper::handle_harvest( p, "spider_egg", drop_eggs );
     }
     if( monster_count == 1 ) {
         add_msg( m_warning, _( "A spiderling bursts from the %s!" ), old_furn_name );
