@@ -480,12 +480,9 @@
     "type": "mission_definition",
     "name": { "str": "Kill doppelganger" },
     "description": "A demonic creature is following your every move. You can outrun but not escape it. To be free, you must destroy it.",
-    "goal": "MGOAL_KILL_MONSTER_SPEC",
-    "monster_species": "NEMESIS",
-    "monster_kill_goal": 1,
+    "goal": "MGOAL_KILL_NEMESIS",
     "difficulty": 5,
     "value": 0,
-    "urgent": true,
     "start": "kill_nemesis",
     "end": { "effect": [ { "u_lose_trait": "HAS_NEMESIS" } ] },
     "origins": [ "ORIGIN_GAME_START" ]
