@@ -76,7 +76,7 @@
     "base_energy_cost": 550,
     "final_energy_cost": 250,
     "energy_increment": -8.6,
-    "difficulty": 10,
+    "difficulty": 7,
     "extra_effects": [ { "id": "life_drain_stamina", "hit_self": true } ]
   },
   {
@@ -90,7 +90,7 @@
     "shape": "blast",
     "min_damage": 500,
     "max_damage": 2500,
-    "damage_increment": 30,
+    "damage_increment": 60,
     "max_level": 35,
     "energy_source": "NONE"
   }
