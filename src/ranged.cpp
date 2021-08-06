@@ -1177,7 +1177,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     return dealt_attack;
 }
 
-void practice_archery_proficiency( player &p, const item &relevant )
+static void practice_archery_proficiency( player &p, const item &relevant )
 {
     // Do nothing, we are not doing archery
     if( relevant.gun_skill() != skill_archery ) {
@@ -1218,6 +1218,23 @@ void practice_archery_proficiency( player &p, const item &relevant )
     }
 }
 
+// Apply stamina cost to archery which decreases due to proficiency
+static void mod_stamina_archery( player &p, const item &relevant )
+{
+    // Set activity level to 10 * str_ratio, with 10 being max (EXTRA_EXERCISE)
+    // This ratio should never be below 0 and above 1
+    const int scaled_str_ratio = ( 10 * relevant.get_min_str() ) / p.str_cur;
+    p.set_activity_level( scaled_str_ratio );
+
+    // Calculate stamina drain based on archery and athletics skill
+    const int archery_skill = p.get_skill_level( skill_archery );
+    const int athletics_skill = p.get_skill_level( skill_archery );
+    const int skill_modifier = ( 2 * archery_skill + athletics_skill ) / 3;
+
+    const int stamina_cost = pow( 20 - skill_modifier, 2 );
+    p.mod_stamina( -stamina_cost );
+}
+
 static void do_aim( player &p, const item &relevant, const double min_recoil )
 {
     const double aim_amount = p.aim_per_move( relevant, p.recoil );
@@ -1229,6 +1246,11 @@ static void do_aim( player &p, const item &relevant, const double min_recoil )
         // Train archery proficiencies if we are doing archery
         if( relevant.gun_skill() == skill_archery ) {
             practice_archery_proficiency( p, relevant );
+
+            // Only drain stamina on initial draw
+            if( p.moves == 1 ) {
+                mod_stamina_archery( p, relevant );
+            }
         }
     } else {
         // If aim is already maxed, we're just waiting, so pass the turn.
