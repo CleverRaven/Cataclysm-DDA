@@ -317,7 +317,7 @@
 				"subtype": "collection",
 					"entries": [
 						{ "group": "mags_common_gunstore", "prob": 70 },
-						{ "group": "mags_rare_pistol_gunstore", "prob": 30 }
+						{ "group": "mags_pistol_rare", "prob": 30 }
 					]
 				},
 				"repeat": 15,
@@ -441,13 +441,12 @@
 				"subtype": "distribution",
 				"//": "display cases for all types of rare civilian firearms",
 					"entries": [
-						{ "group": "guns_rifle_rare_display", "prob": 50 },
-						{ "group": "guns_pistol_rare_display", "prob": 80 },
-						{ "group": "guns_shotgun_rare_display", "prob": 30 }							
+						{ "group": "guns_rifle_rare_display", "prob": 80 },
+						{ "group": "guns_pistol_rare_display", "prob": 40 },
+						{ "group": "guns_shotgun_rare_display", "prob": 20 }							
 					]
 				},
-				"repeat": [ 2, 4 ],
-				"chance": 90
+				"chance": 95
 			},	
 			"R": {
 				"item": {

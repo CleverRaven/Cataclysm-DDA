@@ -662,11 +662,11 @@
 	"subtype": "distribution",	
     "//": "Imported or otherwise very obscure shotguns, unloaded for storage in a gunstore, some violate AWA.",
     "items": [
-      { "item": "saiga_12", "prob": 50 },
+      { "item": "saiga_12", "prob": 25 },
       { "item": "streetsweeper", "prob": 4 },
-	  { "item": "winchester_1887", "prob": 25 },
-      { "item": "winchester_1897", "prob": 25 },
-      { "item": "saiga_410", "prob": 40 }
+	  { "item": "winchester_1887", "prob": 10 },
+      { "item": "winchester_1897", "prob": 20 },
+      { "item": "saiga_410", "prob": 10 }
     ]
   },
   {
@@ -770,6 +770,17 @@
       { "group": "guns_shotgun_rare", "prob": 70 }
     ]
   },
+  {
+    "type": "item_group",
+    "id": "guns_rare_display",
+	"subtype": "distribution",
+    "//": "Less common guns of all types including those only used by police/paramilitary forces.",
+    "items": [
+      { "group": "guns_pistol_rare_display", "prob": 45 },
+      { "group": "guns_rifle_rare_display", "prob": 45 },
+      { "group": "guns_shotgun_rare_display", "prob": 10 }
+    ]
+  }, 
   {
     "type": "item_group",
     "id": "guns_rare_static",
