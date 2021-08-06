@@ -766,6 +766,10 @@ void Item_factory::finalize_item_blacklist()
             }
             parent = &migrant;
         }
+        // Only variant migrations exist, abort
+        if( parent == nullptr ) {
+            continue;
+        }
 
         // remove any recipes used to craft the migrated item
         // if there's a valid recipe, it will be for the replacement

@@ -257,6 +257,84 @@ enum ter_connects : int {
     TERCONN_CANVAS_WALL,
 };
 
+struct activity_byproduct {
+    itype_id item;
+    int count      = 0;
+    int random_min = 0;
+    int random_max = 0;
+
+    int roll() const;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo );
+};
+
+class activity_data_common
+{
+    public:
+        activity_data_common() = default;
+
+        bool valid() const {
+            return valid_;
+        }
+
+        const time_duration &duration() const {
+            return duration_;
+        }
+
+        const translation &message() const {
+            return message_;
+        }
+
+        const translation &sound() const {
+            return sound_;
+        }
+
+        const std::vector<activity_byproduct> &byproducts() const {
+            return byproducts_;
+        }
+
+        bool was_loaded = false;
+        void load( const JsonObject &jo );
+
+    protected:
+        bool valid_ = false;
+        time_duration duration_;
+        translation message_;
+        translation sound_;
+        std::vector<activity_byproduct> byproducts_;
+};
+
+class activity_data_ter : public activity_data_common
+{
+    public:
+        activity_data_ter() = default;
+
+        const ter_str_id &result() const {
+            return result_;
+        }
+
+        void load( const JsonObject &jo );
+
+    private:
+        ter_str_id result_;
+};
+
+class activity_data_furn : public activity_data_common
+{
+    public:
+        activity_data_furn() = default;
+
+        const furn_str_id &result() const {
+            return result_;
+        }
+
+        void load( const JsonObject &jo );
+
+    private:
+        furn_str_id result_;
+};
+
 void init_mapdata();
 
 struct map_data_common_t {
@@ -396,6 +474,8 @@ struct ter_t : map_data_common_t {
     ter_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
     translation lockpick_message; // Lockpick action: message when successfully lockpicked
 
+    cata::value_ptr<activity_data_ter> boltcut; // Bolt cutting action data
+
     std::string trap_id_str;     // String storing the id string of the trap.
     ter_str_id transforms_into; // Transform into what terrain?
     ter_str_id roof;            // What will be the floor above this terrain
@@ -408,6 +488,8 @@ struct ter_t : map_data_common_t {
     ter_t();
 
     static size_t count();
+
+    bool is_null() const;
 
     void load( const JsonObject &jo, const std::string &src ) override;
     void check() const override;
@@ -441,6 +523,8 @@ struct furn_t : map_data_common_t {
     itype_id deployed_item; // item id string used to create furniture
 
     int move_str_req = 0; //The amount of strength required to move through this furniture easily.
+
+    cata::value_ptr<activity_data_furn> boltcut; // Bolt cutting action data
 
     cata::value_ptr<furn_workbench_info> workbench;
 

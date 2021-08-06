@@ -60,6 +60,7 @@
 #include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
+#include "profession.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
@@ -267,7 +268,7 @@ bool avatar::read( item_location &book, item_location ereader )
     }
 
     std::vector<std::string> fail_messages;
-    const player *reader = get_book_reader( *book, fail_messages );
+    const Character *reader = get_book_reader( *book, fail_messages );
     if( reader == nullptr ) {
         // We can't read, and neither can our followers
         for( const std::string &reason : fail_messages ) {
@@ -515,7 +516,7 @@ bool avatar::read( item_location &book, item_location ereader )
     const int intelligence = get_int();
     const bool complex_penalty = type->intel > std::min( intelligence, reader->get_int() ) &&
                                  !reader->has_trait( trait_PROF_DICEMASTER );
-    const player *complex_player = reader->get_int() < intelligence ? reader : this;
+    const Character *complex_player = reader->get_int() < intelligence ? reader : this;
     if( complex_penalty ) {
         add_msg( m_warning,
                  _( "This book is too complex for %s to easily understand.  It will take longer to read." ),
@@ -1594,4 +1595,31 @@ std::string points_left::to_string()
     } else {
         return _( "Freeform" );
     }
+}
+
+int avatar::randomize_hobbies()
+{
+    hobbies.clear();
+    std::vector<profession_id> choices = profession::get_all_hobbies();
+
+    int random = rng( 0, 5 );
+    int points = 0;
+
+    if( random >= 1 ) {
+        const profession_id hobby = random_entry_removed( choices );
+        points += hobby->point_cost();
+        hobbies.insert( &*hobby );
+    }
+    if( random >= 3 ) {
+        const profession_id hobby = random_entry_removed( choices );
+        points += hobby->point_cost();
+        hobbies.insert( &*hobby );
+    }
+    if( random >= 5 ) {
+        const profession_id hobby = random_entry_removed( choices );
+        points += hobby->point_cost();
+        hobbies.insert( &*hobby );
+    }
+
+    return points;
 }
