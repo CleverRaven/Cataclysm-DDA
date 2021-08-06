@@ -56,6 +56,33 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_raven",
+    "name": { "str": "raven egg" },
+    "copy-from": "egg_chicken",
+    "rot_spawn": "GROUP_EGG_RAVEN"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_magpie",
+    "name": { "str": "magpie egg" },
+    "copy-from": "egg_chicken",
+    "rot_spawn": "GROUP_EGG_MAGPIE"
+  },
+    "type": "COMESTIBLE",
+    "id": "egg_bluejay",
+    "name": { "str": "blue jay egg" },
+    "copy-from": "egg_chicken",
+    "rot_spawn": "GROUP_EGG_BLUEJAY"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_cardinal",
+    "name": { "str": "cardinal egg" },
+    "copy-from": "egg_chicken",
+    "rot_spawn": "GROUP_EGG_CARDINAL"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_duck",
     "name": { "str": "duck egg" },
     "copy-from": "egg_chicken",

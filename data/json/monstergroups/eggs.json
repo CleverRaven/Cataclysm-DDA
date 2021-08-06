@@ -32,6 +32,30 @@
     "monsters": [ { "monster": "mon_crow_chick", "freq": 100, "cost_multiplier": 1 } ]
   },
   {
+    "name": "GROUP_EGG_RAVEN",
+    "type": "monstergroup",
+    "default": "mon_raven_chick",
+    "monsters": [ { "monster": "mon_raven_chick", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_MAGPIE",
+    "type": "monstergroup",
+    "default": "mon_magpie_chick",
+    "monsters": [ { "monster": "mon_magpie_chick", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_BLUEJAY",
+    "type": "monstergroup",
+    "default": "mon_bluejay_chick",
+    "monsters": [ { "monster": "mon_bluejay_chick", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
+    "name": "GROUP_EGG_CARDINAL",
+    "type": "monstergroup",
+    "default": "mon_cardinal_chick",
+    "monsters": [ { "monster": "mon_cardinal_chick", "freq": 100, "cost_multiplier": 1 } ]
+  },
+  {
     "name": "GROUP_EGG_DUCK",
     "type": "monstergroup",
     "default": "mon_duck_chick",
