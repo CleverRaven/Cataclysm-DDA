@@ -6836,6 +6836,26 @@
   },
   {
     "type": "mutation",
+    "id": "DEBUG_TAIL",
+    "name": { "str": "Debug Tail" },
+    "points": 99,
+    "valid": false,
+    "description": "Gain a tail bodypart",
+    "enchantments": [ "ENCH_DEBUG_TAIL" ],
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_ONLY_HEAD",
+    "name": { "str": "Debug No Torso" },
+    "points": 99,
+    "valid": false,
+    "description": "They said college costs an arm and a leg, they sure weren't kidding!",
+    "enchantments": [ "ENCH_DEBUG_ONLY_HEAD" ],
+    "debug": true
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_NIGHTVISION",
     "name": { "str": "Debug Night Vision" },
     "points": 99,

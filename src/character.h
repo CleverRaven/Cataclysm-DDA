@@ -658,6 +658,7 @@ class Character : public Creature, public visitable
 
         /** Returns ENC provided by armor, etc. */
         int encumb( const bodypart_id &bp ) const;
+        int avg_encumb_of_limb_type( body_part_type::type part_type ) const;
 
         /** Returns body weight plus weight of inventory and worn/wielded items */
         units::mass get_weight() const override;
@@ -1018,6 +1019,7 @@ class Character : public Creature, public visitable
         int get_working_arm_count() const;
         /** Returns the number of functioning legs */
         int get_working_leg_count() const;
+        bool has_limb( const bodypart_id &limb ) const;
         /** Returns true if the limb is disabled(12.5% or less hp)*/
         bool is_limb_disabled( const bodypart_id &limb ) const;
         /** Returns true if the limb is broken */
@@ -1140,7 +1142,8 @@ class Character : public Creature, public visitable
         void calc_encumbrance();
         /** Recalculate encumbrance for all body parts as if `new_item` was also worn. */
         void calc_encumbrance( const item &new_item );
-
+        // recalculates bodyparts based on enchantments modifying them and the default anatomy.
+        void recalculate_bodyparts();
         // recalculates enchantment cache by iterating through all held, worn, and wielded items
         void recalculate_enchantment_cache();
         // gets add and mult value from enchantment cache
@@ -2931,6 +2934,11 @@ class Character : public Creature, public visitable
          */
         std::map<bodypart_id, float> bodypart_exposure();
     private:
+        /** limb helpers */
+        // movecost addition based on limb breakage and move scores.
+        int limb_health_movecost_modifier() const;
+        //
+        int foot_encumbrance_movecost_modifier() const;
         /** suffer() subcalls */
         void suffer_water_damage( const trait_id &mut_id );
         void suffer_mutation_power( const trait_id &mut_id );

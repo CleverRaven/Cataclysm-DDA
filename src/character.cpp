@@ -1378,9 +1378,20 @@ float Character::stability_roll() const
 
 bool Character::is_dead_state() const
 {
-    return get_part_hp_cur( body_part_head ) <= 0 ||
-           get_part_hp_cur( body_part_torso ) <= 0 ||
-           is_dead;
+    // we want to warn the player with a debug message if they are invincible. this should be unimportant once wounds exist and bleeding is how you die.
+    bool has_vitals = false;
+    for( const bodypart_id &part : get_all_body_parts( get_body_part_flags::only_main ) ) {
+        if( part->is_vital ) {
+            if( get_part_hp_cur( part ) <= 0 ) {
+                return true;
+            }
+            has_vitals = true;
+        }
+    }
+    if( !has_vitals ) {
+        debugmsg( _( "WARNING!  Player has no vital part and is invincible." ) );
+    }
+    return false;
 }
 
 void Character::on_dodge( Creature *source, float difficulty )
@@ -1515,10 +1526,10 @@ int Character::get_working_arm_count() const
     }
 
     int limb_count = 0;
-    if( !is_limb_disabled( body_part_arm_l ) ) {
+    if( has_limb( body_part_arm_l ) && !is_limb_disabled( body_part_arm_l ) ) {
         limb_count++;
     }
-    if( !is_limb_disabled( body_part_arm_r ) ) {
+    if( has_limb( body_part_arm_r ) && !is_limb_disabled( body_part_arm_r ) ) {
         limb_count++;
     }
     if( has_bionic( bio_blaster ) && limb_count > 0 ) {
@@ -1532,13 +1543,23 @@ int Character::get_working_arm_count() const
 int Character::get_working_leg_count() const
 {
     int limb_count = 0;
-    if( !is_limb_broken( body_part_leg_l ) ) {
+    if( has_limb( body_part_leg_l ) && !is_limb_broken( body_part_leg_l ) ) {
         limb_count++;
     }
-    if( !is_limb_broken( body_part_leg_r ) ) {
+    if( has_limb( body_part_leg_r ) && !is_limb_broken( body_part_leg_r ) ) {
         limb_count++;
     }
     return limb_count;
+}
+
+bool Character::has_limb( const bodypart_id &limb ) const
+{
+    for( const bodypart_id &part : get_all_body_parts() ) {
+        if( part == limb ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool Character::is_limb_disabled( const bodypart_id &limb ) const
@@ -2703,8 +2724,10 @@ int Character::get_standard_stamina_cost( const item *thrown_item ) const
     //If the item is thrown, override with the thrown item instead.
     const int weight_cost = ( thrown_item == nullptr ) ? this->weapon.weight() /
                             ( 16_gram ) : thrown_item->weight() / ( 16_gram );
-    const int encumbrance_cost = this->encumb( body_part_arm_l ) + this->encumb(
-                                     body_part_arm_r );
+    int encumbrance_cost = 0;
+    for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::arm ) ) {
+        encumbrance_cost += encumb( part );
+    }
     return ( weight_cost + encumbrance_cost + 50 ) * -1;
 }
 
@@ -4823,8 +4846,27 @@ void Character::item_encumb( std::map<bodypart_id, encumbrance_data> &vals,
     }
 }
 
+int Character::avg_encumb_of_limb_type( body_part_type::type part_type ) const
+{
+    float limb_encumb = 0.0f;
+    int num_limbs = 0;
+    for( const bodypart_id &part : get_all_body_parts_of_type( part_type ) ) {
+        limb_encumb += encumb( part );
+        num_limbs++;
+    }
+    if( num_limbs == 0 ) {
+        return 0;
+    }
+    limb_encumb /= num_limbs;
+    return std::round( limb_encumb );
+}
+
 int Character::encumb( const bodypart_id &bp ) const
 {
+    if( !has_part( bp ) ) {
+        debugmsg( "INFO: Tried to check encumbrance of a bodypart that does not exist." );
+        return 0;
+    }
     return get_part_encumbrance_data( bp ).encumbrance;
 }
 
@@ -6689,36 +6731,8 @@ void Character::update_bodytemp()
         // Loss of blood results in loss of body heat, 1% bodyheat lost per 2% hp lost
         mod_part_temp_conv( bp, - blood_loss( bp ) * get_part_temp_conv( bp ) / 200 );
 
-        // EQUALIZATION
-        static const std::pair<bodypart_str_id, bodypart_str_id> connections[] {
-            {body_part_torso, body_part_arm_l },
-            {body_part_torso, body_part_arm_r },
-            {body_part_torso, body_part_leg_l },
-            {body_part_torso, body_part_leg_r },
-            {body_part_torso, body_part_head },
-            {body_part_head, body_part_mouth },
-            {body_part_arm_l, body_part_hand_l },
-            {body_part_arm_r, body_part_hand_r },
-            {body_part_leg_l, body_part_foot_l },
-            {body_part_leg_r, body_part_foot_r }
-        };
-
-        bool equalized = false;
-        for( const auto &conn : connections ) {
-            if( bp == conn.first ) {
-                temp_equalizer( bp, conn.second );
-                equalized = true;
-            }
-            // connections are defined in one-direction only, but should work in both direction
-            if( bp == conn.second ) {
-                temp_equalizer( conn.second, bp );
-                equalized = true;
-            }
-        }
-        if( !equalized ) {
-            debugmsg( "Wacky body part temperature equalization!  Body part is not handled: %s",
-                      bp.id().str() );
-        }
+        temp_equalizer( bp, bp->connected_to );
+        temp_equalizer( bp, bp->main_part );
 
         // Climate Control eases the effects of high and low ambient temps
         if( has_climate_control ) {
@@ -7221,7 +7235,7 @@ float Character::get_hit_base() const
 
 bodypart_id Character::body_window( const std::string &menu_header,
                                     bool show_all, bool precise,
-                                    int normal_bonus, int head_bonus, int torso_bonus,
+                                    int normal_bonus, int /* head_bonus */, int /* torso_bonus */,
                                     int bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const
 {
     /* This struct establishes some kind of connection between the hp_part (which can be healed and
@@ -7233,17 +7247,12 @@ bodypart_id Character::body_window( const std::string &menu_header,
         std::string name; // Translated name as it appears in the menu.
         int bonus;
     };
-    /* The array of the menu entries show to the player. The entries are displayed in this order,
-     * it may be changed here. */
-    std::array<healable_bp, 6> parts = { {
-            { false, body_part_head,  _( "Head" ), head_bonus },
-            { false, body_part_torso, _( "Torso" ), torso_bonus },
-            { false, body_part_arm_l, _( "Left Arm" ), normal_bonus },
-            { false, body_part_arm_r,  _( "Right Arm" ), normal_bonus },
-            { false, body_part_leg_l,  _( "Left Leg" ), normal_bonus },
-            { false, body_part_leg_r,  _( "Right Leg" ), normal_bonus },
-        }
-    };
+
+    std::vector<healable_bp> parts;
+    for( const bodypart_id &part : this->get_all_body_parts( get_body_part_flags::only_main ) ) {
+        // TODO: figure out how to do head and torso bonus?
+        parts.push_back( { false, part, part->name.translated(), normal_bonus } );
+    }
 
     int max_bp_name_len = 0;
     for( const healable_bp &e : parts ) {
@@ -9023,9 +9032,15 @@ int Character::item_handling_cost( const item &it, bool penalties, int base_cost
 
     // For single handed items use the least encumbered hand
     if( it.is_two_handed( *this ) ) {
-        mv += encumb( body_part_hand_l ) + encumb( body_part_hand_r );
+        for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::hand ) ) {
+            mv += encumb( part );
+        }
     } else {
-        mv += std::min( encumb( body_part_hand_l ), encumb( body_part_hand_r ) );
+        int min_encumb = INT_MAX;
+        for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::hand ) ) {
+            min_encumb = std::min( min_encumb, encumb( part ) );
+        }
+        mv += min_encumb;
     }
 
     return std::max( mv, 0 );
@@ -9443,6 +9458,31 @@ mutation_category_id Character::get_highest_category() const
     return sMaxCat;
 }
 
+void Character::recalculate_bodyparts()
+{
+    body_part_set body_set;
+    for( const bodypart_id &bp : creature_anatomy->get_bodyparts() ) {
+        body_set.set( bp.id() );
+    }
+    body_set = enchantment_cache->modify_bodyparts( body_set );
+    std::vector<bodypart_str_id> remove;
+    // first come up with the bodyparts that need to be removed from body
+    for( auto bp_iter = body.begin(); bp_iter != body.end(); ) {
+        if( !body_set.test( bp_iter->first ) ) {
+            bp_iter = body.erase( bp_iter );
+        } else {
+            ++bp_iter;
+        }
+    }
+    // then add the parts in bodyset that are missing from body
+    for( const bodypart_str_id &bp : body_set ) {
+        if( body.find( bp ) == body.end() ) {
+            body[bp] = bodypart( bp );
+        }
+    }
+    calc_encumbrance();
+}
+
 void Character::recalculate_enchantment_cache()
 {
     // start by resetting the cache to all inventory items
@@ -9479,6 +9519,10 @@ void Character::recalculate_enchantment_cache()
                 enchantment_cache->force_add( ench );
             }
         }
+    }
+
+    if( enchantment_cache->modifies_bodyparts() ) {
+        recalculate_bodyparts();
     }
 }
 
@@ -10479,31 +10523,52 @@ bool Character::wearing_something_on( const bodypart_id &bp ) const
 
 bool Character::is_wearing_shoes( const side &which_side ) const
 {
-    bool left = true;
-    bool right = true;
-    if( which_side == side::LEFT || which_side == side::BOTH ) {
-        left = false;
-        for( const item &worn_item : worn ) {
-            if( worn_item.covers( body_part_foot_l ) && !worn_item.has_flag( flag_BELTED ) &&
-                !worn_item.has_flag( flag_PERSONAL ) && !worn_item.has_flag( flag_AURA ) &&
-                !worn_item.has_flag( flag_SEMITANGIBLE ) && !worn_item.has_flag( flag_SKINTIGHT ) ) {
-                left = true;
-                break;
+    enum class shoe_status {
+        no_foot,
+        no_shoe,
+        has_shoe,
+    };
+
+    shoe_status left = shoe_status::no_foot;
+    shoe_status right = shoe_status::no_foot;
+    const bool left_side = which_side == side::LEFT || which_side == side::BOTH;
+    const bool right_side = which_side == side::RIGHT || which_side == side::BOTH;
+    const auto not_exempt = []( const item & worn_item ) {
+        return !worn_item.has_flag( flag_BELTED ) &&
+               !worn_item.has_flag( flag_PERSONAL ) && !worn_item.has_flag( flag_AURA ) &&
+               !worn_item.has_flag( flag_SEMITANGIBLE ) && !worn_item.has_flag( flag_SKINTIGHT );
+    };
+
+    for( const item &worn_item : worn ) {
+        for( const bodypart_id &part : get_all_body_parts() ) {
+            if( part->limb_type != body_part_type::type::foot ) {
+                continue;
+            }
+            if( !left_side && ( part->part_side == side::LEFT || part->part_side == side::BOTH ) ) {
+                if( worn_item.covers( part ) && not_exempt( worn_item ) ) {
+                    left = shoe_status::has_shoe;
+                } else {
+                    left = shoe_status::no_shoe;
+                }
+            }
+            if( !right_side && ( part->part_side == side::RIGHT || part->part_side == side::BOTH ) ) {
+                if( worn_item.covers( part ) && not_exempt( worn_item ) ) {
+                    right = shoe_status::has_shoe;
+                } else {
+                    right = shoe_status::no_shoe;
+                }
             }
         }
     }
-    if( which_side == side::RIGHT || which_side == side::BOTH ) {
-        right = false;
-        for( const item &worn_item : worn ) {
-            if( worn_item.covers( body_part_foot_r ) && !worn_item.has_flag( flag_BELTED ) &&
-                !worn_item.has_flag( flag_PERSONAL ) && !worn_item.has_flag( flag_AURA ) &&
-                !worn_item.has_flag( flag_SEMITANGIBLE ) && !worn_item.has_flag( flag_SKINTIGHT ) ) {
-                right = true;
-                break;
-            }
-        }
+
+    if( right == shoe_status::has_shoe && left != shoe_status::no_foot ) {
+        left = shoe_status::has_shoe;
     }
-    return ( left && right );
+    if( left == shoe_status::has_shoe && right != shoe_status::no_foot ) {
+        right = shoe_status::has_shoe;
+    }
+
+    return left == shoe_status::has_shoe && right == shoe_status::has_shoe;
 }
 
 bool Character::is_wearing_helmet() const
@@ -11869,6 +11934,73 @@ item &Character::item_with_best_of_quality( const quality_id &qid )
     return null_item_reference();
 }
 
+int Character::limb_health_movecost_modifier() const
+{
+    // the best hp score of all legs. 1 is full health
+    float leg_hi = 0.0f;
+    // the second best hp score of all legs. 1 is full health.
+    float leg_lo = 0.0f;
+
+    for( const bodypart_id &part : get_all_body_parts() ) {
+        if( part->limb_type == body_part_type::type::leg ) {
+            const float cur_leg = static_cast<float>( get_part_hp_cur( part ) ) /
+                                  static_cast<float>( get_part_hp_max( part ) );
+            if( cur_leg > leg_hi ) {
+                leg_lo = leg_hi;
+                leg_hi = cur_leg;
+            }
+        }
+        if( leg_hi == 1.0f && leg_lo == 1.0f ) {
+            break;
+        }
+    }
+
+    return 50 * ( 1 - std::sqrt( leg_hi ) ) +
+           50 * ( 1 - std::sqrt( leg_lo ) );
+}
+
+int Character::foot_encumbrance_movecost_modifier() const
+{
+    // the lowest encumbered leg
+    cata::optional<int> encumb_leg_lo = cata::nullopt;
+    // the second lowest encumbered leg
+    cata::optional<int> encumb_leg_hi = cata::nullopt;
+    // the lowest encumbered foot
+    cata::optional<int> encumb_foot_lo = cata::nullopt;
+    // the second lowest encumbered foot
+    cata::optional<int> encumb_foot_hi = cata::nullopt;
+
+    for( const bodypart_id &part : get_all_body_parts() ) {
+        if( part->limb_type == body_part_type::type::leg ) {
+            const int leg_encumb = encumb( part );
+            if( !encumb_leg_lo ) {
+                encumb_leg_lo = leg_encumb;
+            } else if( *encumb_leg_lo > leg_encumb ) {
+                encumb_leg_hi = encumb_leg_lo;
+                encumb_leg_hi = leg_encumb;
+            }
+        } else if( part->limb_type == body_part_type::type::foot ) {
+            const int foot_encumb = encumb( part );
+            if( !encumb_foot_lo ) {
+                encumb_foot_lo = foot_encumb;
+            } else if( *encumb_foot_lo > foot_encumb ) {
+                encumb_foot_hi = encumb_foot_lo;
+                encumb_foot_hi = foot_encumb;
+            }
+        }
+    }
+
+    /**
+     * since we're doing a min function but still want to zero out encumbrance,
+     * optional seems the easiest way to go here rather than using INT_MAX which
+     * would do the same thing.
+     */
+    const int encumb_feet = encumb_foot_hi.value_or( 0 ) + encumb_foot_lo.value_or( 0 );
+    const int encumb_legs = encumb_leg_hi.value_or( 0 ) + encumb_leg_lo.value_or( 0 );
+
+    return ( encumb_feet * 2.5 + encumb_legs * 1.5 ) / 10;
+}
+
 int Character::run_cost( int base_cost, bool diag ) const
 {
     float movecost = static_cast<float>( base_cost );
@@ -11896,10 +12028,7 @@ int Character::run_cost( int base_cost, bool diag ) const
         }
 
         // Linearly increase move cost relative to individual leg hp.
-        movecost += 50 * ( 1 - std::sqrt( static_cast<float>( get_part_hp_cur( body_part_leg_l ) ) /
-                                          static_cast<float>( get_part_hp_max( body_part_leg_l ) ) ) );
-        movecost += 50 * ( 1 - std::sqrt( static_cast<float>( get_part_hp_cur( body_part_leg_r ) ) /
-                                          static_cast<float>( get_part_hp_max( body_part_leg_r ) ) ) );
+        movecost += limb_health_movecost_modifier();
 
         movecost *= mutation_value( "movecost_modifier" );
         if( flatground ) {
@@ -11941,9 +12070,7 @@ int Character::run_cost( int base_cost, bool diag ) const
             }
         }
 
-        movecost +=
-            ( ( encumb( body_part_foot_l ) + encumb( body_part_foot_r ) ) * 2.5 +
-              ( encumb( body_part_leg_l ) + encumb( body_part_leg_r ) ) * 1.5 ) / 10;
+        movecost += foot_encumbrance_movecost_modifier();
 
         // ROOTS3 does slow you down as your roots are probing around for nutrients,
         // whether you want them to or not.  ROOTS1 is just too squiggly without shoes

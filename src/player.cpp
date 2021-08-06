@@ -594,11 +594,21 @@ void player::pause()
             }
         }
         effect &e = get_effect( effect_bleed, bp_id );
-        time_duration penalty = 1_turns * ( encumb( bodypart_id( "hand_r" ) ) + encumb(
-                                                bodypart_id( "hand_l" ) ) );
+        int total_hand_encumb = 0;
+        for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::hand ) ) {
+            total_hand_encumb += encumb( part );
+        }
+        time_duration penalty = 1_turns * total_hand_encumb;
         time_duration benefit = 5_turns + 10_turns * get_skill_level( skill_firstaid );
 
-        if( is_limb_broken( bodypart_id( "arm_l" ) ) || is_limb_broken( bodypart_id( "arm_r" ) ) ) {
+        bool broken_arm = false;
+        for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::arm ) ) {
+            if( is_limb_broken( part ) ) {
+                broken_arm = true;
+                break;
+            }
+        }
+        if( broken_arm ) {
             add_msg_player_or_npc( m_warning,
                                    _( "Your broken limb significantly hampers your efforts to put pressure on the bleeding wound!" ),
                                    _( "<npcname>'s broken limb significantly hampers their effort to put pressure on the bleeding wound!" ) );

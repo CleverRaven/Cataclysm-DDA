@@ -871,6 +871,32 @@ void avatar::update_mental_focus()
     focus_pool += 10 * calc_focus_change();
 }
 
+int avatar::limb_dodge_encumbrance() const
+{
+    float leg_encumbrance = 0.0f;
+    float torso_encumbrance = 0.0f;
+    const std::vector<bodypart_id> legs =
+        get_all_body_parts_of_type( body_part_type::type::leg );
+    const std::vector<bodypart_id> torsos =
+        get_all_body_parts_of_type( body_part_type::type::torso );
+
+    for( const bodypart_id &leg : legs ) {
+        leg_encumbrance += encumb( leg );
+    }
+    if( !legs.empty() ) {
+        leg_encumbrance /= legs.size() * 10.0f;
+    }
+
+    for( const bodypart_id &torso : torsos ) {
+        torso_encumbrance += encumb( torso );
+    }
+    if( !torsos.empty() ) {
+        torso_encumbrance /= torsos.size() * 10.0f;
+    }
+
+    return std::floor( torso_encumbrance + leg_encumbrance );
+}
+
 void avatar::reset_stats()
 {
     const int current_stim = get_stim();
@@ -982,9 +1008,7 @@ void avatar::reset_stats()
     }
 
     // Dodge-related effects
-    mod_dodge_bonus( mabuff_dodge_bonus() -
-                     ( encumb( bodypart_id( "leg_l" ) ) + encumb( bodypart_id( "leg_r" ) ) ) / 20.0f - encumb(
-                         bodypart_id( "torso" ) ) / 10.0f );
+    mod_dodge_bonus( mabuff_dodge_bonus() - limb_dodge_encumbrance() );
     // Whiskers don't work so well if they're covered
     if( has_trait( trait_WHISKERS ) && !natural_attack_restricted_on( bodypart_id( "mouth" ) ) ) {
         mod_dodge_bonus( 1 );

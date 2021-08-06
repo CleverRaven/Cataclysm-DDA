@@ -302,6 +302,9 @@ class avatar : public player
         std::vector<mtype_id> starting_pets;
 
     private:
+        // the encumbrance on your limbs reducing your dodging ability
+        int limb_dodge_encumbrance() const;
+
         std::unique_ptr<map_memory> player_map_memory;
         bool show_map_memory;
 
