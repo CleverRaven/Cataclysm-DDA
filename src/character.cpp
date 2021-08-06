@@ -11345,7 +11345,7 @@ bool Character::has_item_with_flag( const flag_id &flag, bool need_charges ) con
     return has_item_with( [&flag, &need_charges, this]( const item & it ) {
         if( it.is_tool() && need_charges ) {
             return it.has_flag( flag ) && ( it.type->tool->max_charges == 0 ||
-                                            it.units_remaining( *this ) > 0 );
+                                            it.ammo_remaining( this ) > 0 );
         }
         return it.has_flag( flag );
     } );

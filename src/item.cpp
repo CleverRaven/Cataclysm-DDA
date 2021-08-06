@@ -1057,9 +1057,11 @@ bool item::stacks_with( const item &rhs, bool check_components, bool combine_liq
           gun_variant().id != rhs.gun_variant().id ) ) {
         return false;
     }
-    if( charges != 0 && rhs.charges != 0 && is_money() ) {
+    if( ammo_remaining() != 0 && rhs.ammo_remaining() != 0 && is_money() ) {
         // Dealing with nonempty cash cards
-        return true;
+        // TODO: Fix cash cards not showing total value. Until that is fixed do not stack cash cards.
+        // When that is fixed just change this to true.
+        return false;
     }
     // This function is also used to test whether items counted by charges should be merged, for that
     // check the, the charges must be ignored. In all other cases (tools/guns), the charges are important.
@@ -2211,11 +2213,11 @@ void item::ammo_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
 
     const islot_ammo &ammo = *ammo_data()->ammo;
     if( !ammo.damage.empty() || ammo.force_stat_display ) {
-        if( ammo_remaining() > 0 ) {
+        if( is_ammo() ) {
+            info.emplace_back( "AMMO", _( "<bold>Ammunition type</bold>: " ), ammo_type()->name() );
+        } else if( ammo_remaining() > 0 ) {
             info.emplace_back( "AMMO", _( "<bold>Ammunition</bold>: " ),
                                ammo_data()->nname( ammo_remaining() ) );
-        } else if( is_ammo() ) {
-            info.emplace_back( "AMMO", _( "<bold>Ammunition type</bold>: " ), ammo_type()->name() );
         }
 
         const std::string space = "  ";
@@ -5224,7 +5226,7 @@ std::string item::display_name( unsigned int quantity ) const
 
     if( amount || show_amt ) {
         if( is_money() ) {
-            amt = string_format( " $%.2f", amount / 100.0 );
+            amt = format_money( amount );
         } else {
             if( !ammotext.empty() ) {
                 ammotext = " " + ammotext;
@@ -8056,8 +8058,8 @@ int item::ammo_remaining( const Character *carrier ) const
         ret += units::to_kilojoule( carrier->get_power_level() );
     }
 
-    // Weird non-item charges. Not sure if used by anything in this context
-    if( is_tool() && ammo_types().empty() ) {
+    // Non ammo using item that uses charges
+    if( ammo_types().empty() ) {
         ret += charges;
     }
 
@@ -8160,6 +8162,8 @@ bool item::ammo_sufficient( const Character *carrier, int qty ) const
         return ammo_remaining( carrier ) >= ammo_required() * qty;
     } else if( get_gun_ups_drain() ) {
         return ammo_remaining( carrier ) >= get_gun_ups_drain() * qty;
+    } else if( count_by_charges() ) {
+        return ammo_remaining( carrier ) >= qty;
     }
     return true;
 }
@@ -8641,24 +8645,6 @@ item *item::get_usable_item( const std::string &use_name )
     } );
 
     return ret;
-}
-
-int item::units_remaining( const Character &ch, int limit ) const
-{
-    if( count_by_charges() ) {
-        return std::min( static_cast<int>( charges ), limit );
-    }
-
-    return std::min( ammo_remaining( &ch ), limit );
-}
-
-bool item::units_sufficient( const Character &ch, int qty ) const
-{
-    if( qty < 0 ) {
-        qty = count_by_charges() ? 1 : ammo_required();
-    }
-
-    return units_remaining( ch, qty ) == qty;
 }
 
 item::reload_option::reload_option( const reload_option & ) = default;
