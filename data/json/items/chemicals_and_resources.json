@@ -1709,7 +1709,7 @@
     "id": "acetic_anhydride",
     "type": "COMESTIBLE",
     "category": "chems",
-    "name": { "str": "acetic anhydride" },
+    "name": { "str_sp": "acetic anhydride" },
     "description": "This is a bottle of acetic anhydride, if you have enough chemical knowledge, you could use it to easily convert morphine into heroin.",
     "container": "bottle_glass",
     "weight": "100 g",
