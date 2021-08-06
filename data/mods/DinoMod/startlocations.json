@@ -5,7 +5,7 @@
     "name": "Dinosaur exhibit",
     "terrain": [ "dinoexhibit" ]
   },
-    {
+  {
     "type": "start_location",
     "id": "sloc_dinolab",
     "name": "DinoLab",
