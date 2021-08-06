@@ -1180,7 +1180,7 @@ class item : public visitable
         const std::set<itype_id> &repaired_with() const;
 
         /** What is the material count to repair. -1 if unset */
-        const int repair_cost() const;
+        int repair_cost() const;
 
         /**
          * Check whether the item has been marked (by calling mark_as_used_by_player)
