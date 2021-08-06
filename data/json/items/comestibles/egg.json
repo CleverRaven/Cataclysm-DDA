@@ -84,6 +84,20 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "egg_robin",
+    "name": { "str": "robin egg" },
+    "copy-from": "egg_chicken",
+    "rot_spawn": "GROUP_EGG_ROBIN"
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "egg_sparrow",
+    "name": { "str": "sparrow egg" },
+    "copy-from": "egg_chicken",
+    "rot_spawn": "GROUP_EGG_SPARROW"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_duck",
     "name": { "str": "duck egg" },
     "copy-from": "egg_chicken",

@@ -2680,6 +2680,8 @@
       },
       { "monster": "mon_bluejay", "freq": 25, "cost_multiplier": 0 },
       { "monster": "mon_cardinal", "freq": 25, "cost_multiplier": 0 },
+      { "monster": "mon_robin", "freq": 35, "cost_multiplier": 0 },
+      { "monster": "mon_sparrow", "freq": 25, "cost_multiplier": 0 },
       { "monster": "mon_magpie", "freq": 15, "cost_multiplier": 0 },
       { "monster": "mon_cat", "freq": 50, "cost_multiplier": 0 },
       { "monster": "mon_chipmunk", "freq": 50, "cost_multiplier": 0 },
@@ -2781,11 +2783,13 @@
     "type": "monstergroup",
     "name": "GROUP_BIRDFEEDER",
     "default": "mon_null",
-    "//": "Current count is 125.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
+    "//": "Current count is 225.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "is_animal": true,
     "monsters": [
       { "monster": "mon_bluejay", "freq": 50, "cost_multiplier": 0 },
       { "monster": "mon_cardinal", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_robin", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_sparrow", "freq": 50, "cost_multiplier": 0 },
       { "monster": "mon_squirrel", "freq": 25, "cost_multiplier": 0 }
     ]
   }
