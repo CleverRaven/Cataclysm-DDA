@@ -361,7 +361,7 @@
   {
     "id": "alchemist_mine",
     "type": "TOOL",
-    "name": { "str": "alchemist_mine" },
+    "name": { "str": "alchemical mine" },
     "description": "A pair of stabilized alchemist bombs with concentrated mana linking them.  Any movement in the mana linkage zone provokes an extremely powerful explosion in a small area.",
     "weight": "860 g",
     "volume": "400 ml",
