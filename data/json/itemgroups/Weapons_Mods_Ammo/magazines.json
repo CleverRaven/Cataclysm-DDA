@@ -387,7 +387,7 @@
       { "item": "saiga10mag", "prob": 50 },
       { "item": "saiga30mag", "prob": 10 },
       { "item": "saiga410mag_10rd", "prob": 30 },
-      { "item": "saiga410mag_30rd", "prob": 10 },
+      { "item": "saiga410mag_30rd", "prob": 10 }
     ]
   },
   {
@@ -425,9 +425,9 @@
     "id": "mags_common_gunstore",
     "//": "Common magazines for guns typically owned by citizens.",
     "items": [
-      { "group": "mags_pistol_common_gunstore", "prob": 70 },
+      { "group": "mags_pistol_common", "prob": 70 },
       { "group": "mags_rifle_common_gunstore", "prob": 50 },
-	  { "group": "mags_shotgun_common", "prob": 50 },
+	  { "group": "mags_shotgun_common", "prob": 50 }
 
     ]
   },

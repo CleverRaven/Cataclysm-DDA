@@ -258,7 +258,7 @@
       { "item": "762_m87", "prob": 25 },
       { "item": "8mm_civilian", "prob": 15 },
       { "item": "300blk", "prob": 15 },
-      { "item": "300blk_ss", "prob": 10 }, 
+      { "item": "300blk_ss", "prob": 10 } 
     ]
   },
   {
@@ -320,7 +320,7 @@
     "type": "item_group",
     "id": "ammo_rifle_obscure_collection",
     "//": "Imported or otherwise very obscure rifle ammo.",
-    "subtype": "distribution_collection",
+    "subtype": "collection",
     "entries": [ { "item": "545", "prob": 75 }, { "item": "545_ap", "prob": 50 }, { "item": "700nx", "prob": 35 } ]
   },
   {
@@ -513,8 +513,7 @@
     "subtype": "distribution",
     "entries": [
       { "group": "ammo_pistol_obscure", "prob": 100 },
-      { "group": "ammo_rifle_obscure", "prob": 100 },
-      { "group": "ammo_shotgun_obscure", "prob": 100 }
+      { "group": "ammo_rifle_obscure", "prob": 100 }
     ]
   },
     {
@@ -523,9 +522,8 @@
     "//": "Imported or otherwise very obscure ammo.",
     "subtype": "collection",
     "entries": [
-      { "group": "ammo_pistol_obscure_collection", "prob": 75 },
-      { "group": "ammo_rifle_obscure_collection", "prob": 50 },
-      { "group": "ammo_shotgun_obscure_collection", "prob": 5 }
+      { "group": "ammo_pistol_obscure_collection", "prob": 85 },
+      { "group": "ammo_rifle_obscure_collection", "prob": 25 }
     ]
   },
   {
