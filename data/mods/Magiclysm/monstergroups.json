@@ -16,6 +16,9 @@
       { "monster": "mon_troll", "freq": 3, "cost_multiplier": 10, "conditions": [ "DAY" ] },
       { "monster": "mon_claygolem", "freq": 8, "cost_multiplier": 3 },
       { "monster": "mon_stonegolem", "freq": 4, "cost_multiplier": 5 },
+      { "monster": "mon_yulecat", "freq": 2, "cost_multiplier": 7 },
+      { "monster": "mon_yulecat_cub", "freq": 1, "cost_multiplier": 4 },
+      { "monster": "mon_leprechaun", "freq": 5, "cost_multiplier": 7 },
       {
         "monster": "mon_loup_garou",
         "freq": 4,
@@ -63,6 +66,13 @@
       { "monster": "mon_shadow", "freq": 100, "cost_multiplier": 1 },
       { "monster": "mon_shadow_snake", "freq": 10, "cost_multiplier": 1 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_DOMESTIC",
+    "default": "mon_dog",
+    "is_animal": true,
+    "monsters": [ { "monster": "mon_nightmare_sheep", "freq": 20, "cost_multiplier": 25, "pack_size": [ 1, 12 ] } ]
   },
   {
     "type": "monstergroup",

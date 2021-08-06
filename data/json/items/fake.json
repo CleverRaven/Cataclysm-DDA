@@ -21,16 +21,15 @@
     "type": "TOOL",
     "name": { "str_sp": "teeth and claws" },
     "flags": [ "TRADER_AVOID" ],
-    "use_action": [ "BURROW" ],
-    "qualities": [ [ "DIG", 3 ] ]
+    "use_action": [ "DIG" ],
+    "qualities": [ [ "DIG", 2 ] ]
   },
   {
     "id": "toolset",
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "integrated toolset" },
-    "flags": [ "TRADER_AVOID" ],
-    "max_charges": 10000,
+    "flags": [ "TRADER_AVOID", "FIRESTARTER", "USES_BIONIC_POWER" ],
     "use_action": [ "HAMMER", "CROWBAR" ],
     "qualities": [
       [ "HAMMER", 3 ],
@@ -40,6 +39,7 @@
       [ "SAW_M_FINE", 1 ],
       [ "WRENCH", 2 ],
       [ "WRENCH_FINE", 1 ],
+      [ "WHEEL_FAST", 1 ],
       [ "SCREW", 1 ],
       [ "SCREW_FINE", 1 ],
       [ "CUT", 1 ],
@@ -97,7 +97,8 @@
     "description": "A test item that is both a ranged weapon and a reach weapon",
     "price": 16000,
     "material": [ "steel" ],
-    "flags": [ "REACH_ATTACK" ],
+    "flags": [ "REACH_ATTACK", "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "ammo": [ "arrow" ],
     "weight": "340 g",
@@ -141,7 +142,7 @@
     "copy-from": "fake_item",
     "type": "TOOL",
     "name": { "str": "bionic firestarter" },
-    "flags": [ "FIRESTARTER" ]
+    "flags": [ "FIRESTARTER", "USES_BIONIC_POWER" ]
   },
   {
     "id": "migo_bio_gun",
@@ -168,7 +169,92 @@
     "ammo": [ "charcoal" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 2000 } } ],
     "sub": "char_smoker",
-    "max_charges": 2000,
     "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
+  },
+  {
+    "id": "fake_power_tool",
+    "type": "TOOL",
+    "copy-from": "fake_item",
+    "name": { "str": "fake power tool" },
+    "ammo": [ "battery" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO", "USE_UPS" ]
+  },
+  {
+    "id": "fake_arc_furnace",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "electric arc furnace" }
+  },
+  {
+    "id": "fake_drill_press",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "drill press", "str_pl": "drill presses" }
+  },
+  {
+    "id": "fake_tablesaw",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "tablesaw" }
+  },
+  {
+    "id": "fake_mitresaw",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "mitresaw" }
+  },
+  {
+    "id": "fake_bandsaw",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "bandsaw" }
+  },
+  {
+    "id": "fake_router_table",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "router table" }
+  },
+  {
+    "id": "fake_planer",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "planer" }
+  },
+  {
+    "id": "fake_jointer",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "jointer" }
+  },
+  {
+    "id": "fake_hydraulic_press",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "hydraulic press", "str_pl": "hydraulic presses" }
+  },
+  {
+    "id": "fake_power_lathe",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "power lathe" }
+  },
+  {
+    "id": "fake_air_compressor",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "air compressor" }
+  },
+  {
+    "id": "fake_oven",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "oven" }
+  },
+  {
+    "id": "fake_water_purifier",
+    "type": "TOOL",
+    "copy-from": "fake_power_tool",
+    "name": { "str": "stationary water purifier" }
   }
 ]

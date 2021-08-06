@@ -8,10 +8,14 @@
     "volume": "1ml",
     "price": 3646,
     "symbol": "o",
+    "warmth": 150,
     "color": "green",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ],
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "mutations": [ "AFS_CRYOADAPTATION" ] } ] }
+    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "CLIMATE_CONTROL", "NONCONDUCTIVE" ],
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
   },
   {
     "id": "cold_res_cream_greater",
@@ -22,11 +26,16 @@
     "volume": "1ml",
     "price": 3646,
     "symbol": "o",
+    "warmth": 150,
     "color": "green",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ],
-    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "CLIMATE_CONTROL", "NONCONDUCTIVE" ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_COLD", "multiply": -0.25 } ] } ]
-    }
+    },
+    "armor": [
+      {
+        "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
   }
 ]

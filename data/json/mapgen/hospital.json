@@ -43,12 +43,12 @@
         "#......................x...........l#8....#...#rrr.l#``#l.rrr#...#rrr.l#",
         "#....................../.....A..BT.l#8....!...!....l#``#l....!...!....l#",
         "#....................../.....?..B..r#88888#...#rrr.l#``#l.rrr#...#rrr.l#",
-        "#......................x...........r#######///#######``#######///#######",
-        "####################///##############...cT#...#Tc...#``#...cT#...#Tc...#",
-        "###########.......l#...x...........l#BB...+...+...BB#``#BB...+...+...BB#",
-        "###########r.TBBT..#.../.....TBBT...#BB...+...+...BB#``#BB...+...+...BB#",
-        "###########r..BB...#.../......BB...r#....l#...#l....#``#....l#...#l....#",
-        "###########........#...x...........r#######...#######``#######...#######",
+        "#5.....................x...........r#######///#######``#######///#######",
+        "##X#################///##############...cT#...#Tc...#``#...cT#...#Tc...#",
+        "#H.......H#.......l#...x...........l#BB...+...+...BB#``#BB...+...+...BB#",
+        "#H.......H#r.TBBT..#.../.....TBBT...#BB...+...+...BB#``#BB...+...+...BB#",
+        "#H.......H#r..BB...#.../......BB...r#....l#...#l....#``#....l#...#l....#",
+        "#H.......H#........#...x...........r#######...#######``#######...#######",
         "###########xxx//xxx#...##############....l#...#l....#``#....l#...#l....#",
         "#l........x............x...........R#BB...+...+...BB#``#BB...+...+...BB#",
         "#R.TB..A../............/.....6.....R#BB...+...+...BB#``#BB...+...+...BB#",
@@ -85,8 +85,16 @@
         "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx#######################;;#################"
       ],
       "palettes": [ "hospital" ],
-      "vendingmachines": { "D": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
+      "terrain": { "5": "t_floor", "H": "t_floor", "X": "t_door_metal_locked" },
+      "furniture": { "H": "f_locker" },
+      "vendingmachines": { "D": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "computers": {
+        "5": {
+          "name": "Medical Supply Access",
+          "security": 2,
+          "options": [ { "name": "Unlock Door", "action": "unlock" } ],
+          "failures": [ { "action": "shutdown" }, { "action": "alarm" } ]
+        },
         "6": {
           "name": "Centrifuge",
           "options": [ { "name": "Analyze blood", "action": "blood_anal" } ],
@@ -108,8 +116,16 @@
         "9": { "item": "produce", "chance": 40 },
         "T": { "item": "snacks", "chance": 50 },
         "2": { "item": "hospital_samples", "chance": 50 },
-        "k": { "item": "doctors_books", "chance": 60 }
+        "k": { "item": "doctors_books", "chance": 60 },
+        "H": [
+          { "item": "harddrugs", "chance": 60 },
+          { "item": "gear_medical", "chance": 60, "repeat": [ 1, 3 ] },
+          { "item": "drugs_analgesic", "chance": 60, "repeat": [ 1, 3 ] },
+          { "item": "drugs_rare", "chance": 60 },
+          { "item": "surgery", "chance": 60 }
+        ]
       },
+      "place_loot": [ { "group": "autodoc_installation_programs", "x": 1, "y": [ 34, 37 ], "chance": 75, "repeat": 4 } ],
       "place_monsters": [
         { "monster": "GROUP_HOSPITAL", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 0, 3 ], "density": 3 },
         { "monster": "GROUP_HOSPITAL", "x": [ 25, 46 ], "y": [ 1, 22 ], "repeat": [ 0, 3 ], "density": 3 },

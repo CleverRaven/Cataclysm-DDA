@@ -59,8 +59,14 @@ $(TEST_TARGET): $(OBJS) $(CATA_LIB)
 $(PCH_P): $(PCH_H)
 	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -Wno-non-virtual-dtor -Wno-unused-macros -I. -c $(PCH_H) -o $(PCH_P)
 
-# Iterate over all the individual tests.
-check: $(TEST_TARGET)
+TEST_BATCHES = "crafting_skill_gain" "[slow]\ ~crafting_skill_gain" "~[slow]\ ~[.]"
+
+$(TEST_BATCHES): $(TEST_TARGET)
+	cd .. && tests/$(TEST_TARGET) --min-duration 0.2 --rng-seed time $@
+
+check: $(TEST_TARGET) $(TEST_BATCHES)
+
+check-single: $(TEST_TARGET)
 	cd .. && tests/$(TEST_TARGET) --min-duration 0.2 --rng-seed time
 
 clean:
@@ -77,7 +83,7 @@ $(shell mkdir -p $(ODIR))
 $(ODIR)/%.o: %.cpp $(PCH_P)
 	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(subst main-pch,tests-pch,$(PCHFLAGS)) -c ../tests/$< -o $@
 
-.PHONY: clean check tests precompile_header
+.PHONY: clean check check-single tests precompile_header
 
 .SECONDARY: $(OBJS)
 

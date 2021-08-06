@@ -3,12 +3,13 @@
 #define CATA_SRC_GAME_INVENTORY_H
 
 #include <functional>
+#include <iosfwd>
 #include <list>
-#include <string>
 #include <utility>
 
 #include "inventory_ui.h"
 #include "item_location.h"
+#include "type_id.h"
 
 class Character;
 struct tripoint;
@@ -32,7 +33,7 @@ using drop_locations = std::list<drop_location>;
 class inventory_filter_preset : public inventory_selector_preset
 {
     public:
-        inventory_filter_preset( const item_location_filter &filter );
+        explicit inventory_filter_preset( const item_location_filter &filter );
 
         bool is_shown( const item_location &location ) const override;
 
@@ -93,6 +94,8 @@ item_location consume_food( player &p );
 item_location consume_drink( player &p );
 /** Consuming a medication item via a custom menu. */
 item_location consume_meds( player &p );
+/** Consuming fuel item via a custom menu. */
+item_location consume_fuel( player &p );
 /** Choosing a container for liquid. */
 item_location container_for( Character &you, const item &liquid, int radius = 0,
                              const item *avoid = nullptr );
@@ -102,6 +105,8 @@ item_location disassemble( Character &p );
 item_location gun_to_modify( player &p, const item &gunmod );
 /** Book reading menu. */
 item_location read( player &pl );
+/** eBook reading menu. */
+item_location ebookread( Character &pl, item_location &ereader );
 /** Menu for stealing stuff. */
 item_location steal( avatar &you, player &victim );
 /** Item activation menu. */

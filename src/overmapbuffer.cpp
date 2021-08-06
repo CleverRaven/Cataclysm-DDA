@@ -5,8 +5,8 @@
 #include <iterator>
 #include <list>
 #include <map>
+#include <string>
 #include <tuple>
-#include <type_traits>
 
 #include "basecamp.h"
 #include "calendar.h"
@@ -22,7 +22,6 @@
 #include "filesystem.h"
 #include "game.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "line.h"
 #include "map.h"
 #include "memory_fast.h"
@@ -38,7 +37,6 @@
 #include "rng.h"
 #include "simple_pathfinding.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "vehicle.h"
 
@@ -138,7 +136,7 @@ void overmapbuffer::fix_mongroups( overmap &new_overmap )
         }
         overmap &om = get( omp );
         mg.pos = tripoint_om_sm( sm_rem, mg.pos.z() );
-        om.add_mon_group( mg );
+        om.spawn_mon_group( mg );
         new_overmap.zg.erase( it++ );
     }
 }
@@ -666,6 +664,12 @@ void overmapbuffer::ter_set( const tripoint_abs_omt &p, const oter_id &id )
     return om_loc.om->ter_set( om_loc.local, id );
 }
 
+cata::optional<mapgen_arguments> *overmapbuffer::mapgen_args( const tripoint_abs_omt &p )
+{
+    const overmap_with_local_coords om_loc = get_om_global( p );
+    return om_loc.om->mapgen_args( om_loc.local );
+}
+
 bool overmapbuffer::reveal( const point_abs_omt &center, int radius, int z )
 {
     return reveal( tripoint_abs_omt( center, z ), radius );
@@ -869,6 +873,13 @@ bool overmapbuffer::check_overmap_special_type_existing(
         return false;
     }
     return om_loc.om->check_overmap_special_type( id, om_loc.local );
+}
+
+cata::optional<overmap_special_id> overmapbuffer::overmap_special_at(
+    const tripoint_abs_omt &loc )
+{
+    const overmap_with_local_coords om_loc = get_om_global( loc );
+    return om_loc.om->overmap_special_at( om_loc.local );
 }
 
 bool overmapbuffer::check_ot( const std::string &type, ot_match_type match_type,
@@ -1122,7 +1133,7 @@ std::vector<overmap *> overmapbuffer::get_overmaps_near( const tripoint_abs_sm &
     const point_rel_om offset = end - start;
 
     std::vector<overmap *> result;
-    result.reserve( ( offset.x() + 1 ) * ( offset.y() + 1 ) );
+    result.reserve( static_cast<size_t>( offset.x() + 1 ) * static_cast<size_t>( offset.y() + 1 ) );
 
     for( int x = start.x(); x <= end.x(); ++x ) {
         for( int y = start.y(); y <= end.y(); ++y ) {

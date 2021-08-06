@@ -2,19 +2,19 @@
 
 #include <algorithm>
 #include <cmath>
+#include <functional>
 #include <iterator>
 #include <map>
 #include <memory>
 
+#include "game.h"
 #include "addiction.h"
 #include "avatar.h"
 #include "calendar.h"
 #include "debug.h"
 #include "flag.h"
-#include "flat_set.h"
 #include "generic_factory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_group.h"
 #include "itype.h"
 #include "json.h"
@@ -30,7 +30,6 @@
 namespace
 {
 generic_factory<profession> all_profs( "profession" );
-const string_id<profession> generic_profession_id( "unemployed" );
 } // namespace
 
 static class json_item_substitution
@@ -42,7 +41,7 @@ static class json_item_substitution
 
     private:
         struct trait_requirements {
-            trait_requirements( const JsonObject &obj );
+            explicit trait_requirements( const JsonObject &obj );
             trait_requirements() = default;
             std::vector<trait_id> present;
             std::vector<trait_id> absent;
@@ -51,7 +50,7 @@ static class json_item_substitution
         struct substitution {
             trait_requirements trait_reqs;
             struct info {
-                info( const JsonValue &value );
+                explicit info( const JsonValue &value );
                 info() = default;
                 itype_id new_item;
                 double ratio = 1.0; // new charges / old charges
@@ -234,16 +233,40 @@ void profession::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "traits", _starting_traits, auto_flags_reader<trait_id> {} );
     optional( jo, was_loaded, "forbidden_traits", _forbidden_traits, auto_flags_reader<trait_id> {} );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
+
+    // Flag which denotes if a profession is a hobby
+    optional( jo, was_loaded, "subtype", _subtype, "" );
 }
 
 const profession *profession::generic()
 {
+    const string_id<profession> generic_profession_id(
+        get_option<std::string>( "GENERIC_PROFESSION_ID" ) );
     return &generic_profession_id.obj();
 }
 
 const std::vector<profession> &profession::get_all()
 {
     return all_profs.get_all();
+}
+
+std::vector<string_id<profession>> profession::get_all_hobbies()
+{
+    std::vector<profession> all = profession::get_all();
+    std::vector<profession_id> ret;
+
+    // remove all non-hobbies from list of professions
+    const auto new_end = std::remove_if( all.begin(),
+    all.end(), [&]( const profession & arg ) {
+        return !arg.is_hobby();
+    } );
+    all.erase( new_end, all.end() );
+
+    // convert to string_id's then return
+    for( const profession &p : all ) {
+        ret.emplace( ret.end(), p.ident() );
+    }
+    return ret;
 }
 
 void profession::reset()
@@ -333,6 +356,11 @@ void profession::check_definition() const
 
 bool profession::has_initialized()
 {
+    if( !g || g->new_game ) {
+        return false;
+    }
+    const string_id<profession> generic_profession_id(
+        get_option<std::string>( "GENERIC_PROFESSION_ID" ) );
     return generic_profession_id.is_valid();
 }
 
@@ -601,7 +629,7 @@ void json_item_substitution::load( const JsonObject &jo )
             if( check_duplicate_item( old_it ) ) {
                 sub.throw_error( "Duplicate definition of item" );
             }
-            s.trait_reqs.present.push_back( trait_id( jo.get_string( "trait" ) ) );
+            s.trait_reqs.present.emplace_back( jo.get_string( "trait" ) );
             for( const JsonValue info : sub.get_array( "new" ) ) {
                 s.infos.emplace_back( info );
             }
@@ -672,7 +700,7 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
     auto iter = substitutions.find( it.typeId() );
     std::vector<item> ret;
     if( iter == substitutions.end() ) {
-        for( const item *con : it.contents.all_items_top() ) {
+        for( const item *con : it.all_items_top() ) {
             const auto sub = get_substitution( *con, traits );
             ret.insert( ret.end(), sub.begin(), sub.end() );
         }
@@ -720,4 +748,9 @@ const
         }
     }
     return ret;
+}
+
+bool profession::is_hobby() const
+{
+    return _subtype == "hobby";
 }

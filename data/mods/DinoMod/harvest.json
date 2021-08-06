@@ -108,7 +108,7 @@
         "faults": [ "fault_bionic_salvaged" ]
       },
       {
-        "drop": "bionics_op",
+        "drop": "Zomborg_CBM_harvest",
         "type": "bionic_group",
         "flags": [ "NO_STERILE", "NO_PACKED" ],
         "faults": [ "fault_bionic_salvaged" ]
@@ -139,7 +139,7 @@
         "faults": [ "fault_bionic_salvaged" ]
       },
       {
-        "drop": "bionics_op",
+        "drop": "Zomborg_CBM_harvest",
         "type": "bionic_group",
         "flags": [ "NO_STERILE", "NO_PACKED" ],
         "faults": [ "fault_bionic_salvaged" ]
@@ -170,7 +170,7 @@
         "faults": [ "fault_bionic_salvaged" ]
       },
       {
-        "drop": "bionics_op",
+        "drop": "Zomborg_CBM_harvest",
         "type": "bionic_group",
         "flags": [ "NO_STERILE", "NO_PACKED" ],
         "faults": [ "fault_bionic_salvaged" ]
@@ -201,7 +201,7 @@
         "faults": [ "fault_bionic_salvaged" ]
       },
       {
-        "drop": "bionics_op",
+        "drop": "Zomborg_CBM_harvest",
         "type": "bionic_group",
         "flags": [ "NO_STERILE", "NO_PACKED" ],
         "faults": [ "fault_bionic_salvaged" ]
@@ -219,8 +219,7 @@
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "pheromone", "type": "bionic", "max": 1 }
+      { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.02 }
     ]
   },
   {
@@ -234,7 +233,6 @@
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "pheromone", "type": "bionic", "max": 1 },
       { "drop": "feather", "type": "skin", "mass_ratio": 0.0001 }
     ]
   },
@@ -249,7 +247,6 @@
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "pheromone", "type": "bionic", "max": 1 },
       {
         "drop": "bio_power_storage_mkII",
         "type": "bionic",
@@ -257,7 +254,7 @@
         "faults": [ "fault_bionic_salvaged" ]
       },
       {
-        "drop": "bionics_op",
+        "drop": "Zomborg_CBM_harvest",
         "type": "bionic_group",
         "flags": [ "NO_STERILE", "NO_PACKED" ],
         "faults": [ "fault_bionic_salvaged" ]
@@ -275,7 +272,6 @@
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.02 },
-      { "drop": "pheromone", "type": "bionic", "max": 1 },
       {
         "drop": "bio_power_storage_mkII",
         "type": "bionic",
@@ -283,7 +279,7 @@
         "faults": [ "fault_bionic_salvaged" ]
       },
       {
-        "drop": "bionics_op",
+        "drop": "Zomborg_CBM_harvest",
         "type": "bionic_group",
         "flags": [ "NO_STERILE", "NO_PACKED" ],
         "faults": [ "fault_bionic_salvaged" ]

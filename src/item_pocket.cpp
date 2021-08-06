@@ -1,15 +1,16 @@
 #include "item_pocket.h"
 
 #include <algorithm>
-#include <cmath>
 #include <cstdlib>
 #include <memory>
+#include <string>
 #include <utility>
 
 #include "ammo.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "color.h"
 #include "crafting.h"
 #include "debug.h"
 #include "enums.h"
@@ -18,15 +19,14 @@
 #include "handle_liquid.h"
 #include "item.h"
 #include "item_category.h"
-#include "item_contents.h"
 #include "item_factory.h"
 #include "item_location.h"
 #include "itype.h"
 #include "json.h"
 #include "map.h"
+#include "math_defines.h"
 #include "output.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "units.h"
 #include "units_utility.h"
@@ -44,6 +44,7 @@ std::string enum_to_string<item_pocket::pocket_type>( item_pocket::pocket_type d
     case item_pocket::pocket_type::MOD: return "MOD";
     case item_pocket::pocket_type::CORPSE: return "CORPSE";
     case item_pocket::pocket_type::SOFTWARE: return "SOFTWARE";
+    case item_pocket::pocket_type::EBOOK: return "EBOOK";
     case item_pocket::pocket_type::MIGRATION: return "MIGRATION";
     case item_pocket::pocket_type::LAST: break;
     }
@@ -374,7 +375,7 @@ std::list<item *> item_pocket::all_items_ptr( item_pocket::pocket_type pk_type )
     }
     std::list<item *> all_items_top_level{ all_items_top() };
     for( item *it : all_items_top_level ) {
-        std::list<item *> all_items_internal{ it->contents.all_items_ptr( pk_type ) };
+        std::list<item *> all_items_internal{ it->all_items_ptr( pk_type ) };
         all_items_top_level.insert( all_items_top_level.end(), all_items_internal.begin(),
                                     all_items_internal.end() );
     }
@@ -388,7 +389,7 @@ std::list<const item *> item_pocket::all_items_ptr( item_pocket::pocket_type pk_
     }
     std::list<const item *> all_items_top_level{ all_items_top() };
     for( const item *it : all_items_top_level ) {
-        std::list<const item *> all_items_internal{ it->contents.all_items_ptr( pk_type ) };
+        std::list<const item *> all_items_internal{ it->all_items_ptr( pk_type ) };
         all_items_top_level.insert( all_items_top_level.end(), all_items_internal.begin(),
                                     all_items_internal.end() );
     }
@@ -660,8 +661,8 @@ void item_pocket::handle_liquid_or_spill( Character &guy, const item *avoid )
             }
         } else {
             item i_copy( *iter );
-            iter = contents.erase( iter );
             guy.i_add_or_drop( i_copy, 1, avoid );
+            iter = contents.erase( iter );
         }
     }
 }
@@ -767,6 +768,7 @@ bool item_pocket::process( const itype &type, player *carrier, const tripoint &p
             spoil_multiplier = 0.0f;
         }
         if( it->process( carrier, pos, type.insulation_factor * insulation, flag, spoil_multiplier ) ) {
+            it->spill_contents( pos );
             it = contents.erase( it );
             processed = true;
         } else {
@@ -820,7 +822,7 @@ void item_pocket::set_item_defaults()
 static void insert_separation_line( std::vector<iteminfo> &info )
 {
     if( info.empty() || info.back().sName != "--" ) {
-        info.push_back( iteminfo( "DESCRIPTION", "--" ) );
+        info.emplace_back( "DESCRIPTION", "--" );
     }
 }
 
@@ -834,8 +836,8 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
 
     // Show volume/weight for normal containers, or ammo capacity if ammo_restriction is defined
     if( data->ammo_restriction.empty() ) {
-        info.push_back( vol_to_info( "CONTAINER", _( "Volume: " ), volume_capacity() ) );
-        info.push_back( weight_to_info( "CONTAINER", _( "  Weight: " ), weight_capacity() ) );
+        info.push_back( vol_to_info( "CONTAINER", _( "Volume: " ), volume_capacity(), 2, false ) );
+        info.push_back( weight_to_info( "CONTAINER", _( "  Weight: " ), weight_capacity(), 2, false ) );
         info.back().bNewLine = true;
     } else {
         for( const ammotype &at : ammo_types() ) {
@@ -849,10 +851,10 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
 
     if( data->max_item_length != 0_mm ) {
         info.back().bNewLine = true;
-        info.push_back( iteminfo( "BASE", _( "Maximum item length: " ),
-                                  string_format( "<num> %s", length_units( data->max_item_length ) ),
-                                  iteminfo::lower_is_better,
-                                  convert_length( data->max_item_length ) ) );
+        info.emplace_back( "BASE", _( "Maximum item length: " ),
+                           string_format( "<num> %s", length_units( data->max_item_length ) ),
+                           iteminfo::no_flags,
+                           convert_length( data->max_item_length ) );
     }
 
     if( data->min_item_volume > 0_ml ) {
@@ -1004,6 +1006,15 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
         // corpses can't have items stored in them the normal way,
         // we simply don't want them to "spill"
         return ret_val<item_pocket::contain_code>::make_success();
+    }
+
+    if( data->type == item_pocket::pocket_type::EBOOK ) {
+        if( it.is_book() ) {
+            return ret_val<item_pocket::contain_code>::make_success();
+        } else {
+            return ret_val<item_pocket::contain_code>::make_failure(
+                       contain_code::ERR_MOD, _( "only books can go into ebook pocket" ) );
+        }
     }
 
     if( data->type == item_pocket::pocket_type::MOD ) {
@@ -1167,7 +1178,7 @@ bool item_pocket::remove_internal( const std::function<bool( item & )> &filter,
                 return true;
             }
         } else {
-            it->contents.remove_internal( filter, count, res );
+            it->remove_internal( filter, count, res );
             ++it;
         }
     }
@@ -1184,7 +1195,8 @@ cata::optional<item> item_pocket::remove_item( const item_location &it )
 
 void item_pocket::overflow( const tripoint &pos )
 {
-    if( is_type( item_pocket::pocket_type::MOD ) || is_type( item_pocket::pocket_type::CORPSE ) ) {
+    if( is_type( item_pocket::pocket_type::MOD ) || is_type( item_pocket::pocket_type::CORPSE ) ||
+        is_type( item_pocket::pocket_type::EBOOK ) ) {
         return;
     }
     if( empty() ) {
@@ -1194,7 +1206,7 @@ void item_pocket::overflow( const tripoint &pos )
 
     // overflow recursively
     for( item &it : contents ) {
-        it.contents.overflow( pos );
+        it.overflow( pos );
     }
 
     map &here = get_map();
@@ -1210,6 +1222,11 @@ void item_pocket::overflow( const tripoint &pos )
         } else {
             ++iter;
         }
+    }
+
+    if( empty() ) {
+        // we've removed the migration pockets and items that didn't fit
+        return;
     }
 
     if( !data->ammo_restriction.empty() ) {
@@ -1281,6 +1298,10 @@ void item_pocket::on_contents_changed()
 
 bool item_pocket::spill_contents( const tripoint &pos )
 {
+    if( is_type( pocket_type::EBOOK ) ) {
+        return false;
+    }
+
     map &here = get_map();
     for( item &it : contents ) {
         here.add_item_or_charges( pos, it );
@@ -1326,6 +1347,7 @@ void item_pocket::process( player *carrier, const tripoint &pos, float insulatio
         if( iter->process( carrier, pos, insulation, flag,
                            // spoil multipliers on pockets are not additive or multiplicative, they choose the best
                            std::min( spoil_multiplier_parent, spoil_multiplier() ) ) ) {
+            iter->spill_contents( pos );
             iter = contents.erase( iter );
         } else {
             ++iter;
@@ -1597,6 +1619,28 @@ void item_pocket::favorite_settings::clear_item( const itype_id &id )
     item_blacklist.erase( id );
 }
 
+const cata::flat_set<itype_id> &item_pocket::favorite_settings::get_item_whitelist() const
+{
+    return item_whitelist;
+}
+
+const cata::flat_set<itype_id> &item_pocket::favorite_settings::get_item_blacklist() const
+{
+    return item_blacklist;
+}
+
+const cata::flat_set<item_category_id> &
+item_pocket::favorite_settings::get_category_whitelist() const
+{
+    return category_whitelist;
+}
+
+const cata::flat_set<item_category_id> &
+item_pocket::favorite_settings::get_category_blacklist() const
+{
+    return category_blacklist;
+}
+
 void item_pocket::favorite_settings::whitelist_category( const item_category_id &id )
 {
     category_blacklist.clear();
@@ -1669,19 +1713,19 @@ std::string enumerate( cata::flat_set<T> container )
 
 void item_pocket::favorite_settings::info( std::vector<iteminfo> &info ) const
 {
-    info.push_back( iteminfo( "BASE", string_format( "%s %d", _( "Priority:" ), priority_rating ) ) );
-    info.push_back( iteminfo( "BASE", string_format( _( "Item Whitelist: %s" ),
-                              item_whitelist.empty() ? _( "(empty)" ) :
+    info.emplace_back( "BASE", string_format( "%s %d", _( "Priority:" ), priority_rating ) );
+    info.emplace_back( "BASE", string_format( _( "Item Whitelist: %s" ),
+                       item_whitelist.empty() ? _( "(empty)" ) :
     enumerate_as_string( item_whitelist.begin(), item_whitelist.end(), []( const itype_id & id ) {
         return id->nname( 1 );
-    } ) ) ) );
-    info.push_back( iteminfo( "BASE", string_format( _( "Item Blacklist: %s" ),
-                              item_blacklist.empty() ? _( "(empty)" ) :
+    } ) ) );
+    info.emplace_back( "BASE", string_format( _( "Item Blacklist: %s" ),
+                       item_blacklist.empty() ? _( "(empty)" ) :
     enumerate_as_string( item_blacklist.begin(), item_blacklist.end(), []( const itype_id & id ) {
         return id->nname( 1 );
-    } ) ) ) );
-    info.push_back( iteminfo( "BASE", string_format( _( "Category Whitelist: %s" ),
-                              category_whitelist.empty() ? _( "(empty)" ) : enumerate( category_whitelist ) ) ) );
-    info.push_back( iteminfo( "BASE", string_format( _( "Category Blacklist: %s" ),
-                              category_blacklist.empty() ? _( "(empty)" ) : enumerate( category_blacklist ) ) ) );
+    } ) ) );
+    info.emplace_back( "BASE", string_format( _( "Category Whitelist: %s" ),
+                       category_whitelist.empty() ? _( "(empty)" ) : enumerate( category_whitelist ) ) );
+    info.emplace_back( "BASE", string_format( _( "Category Blacklist: %s" ),
+                       category_blacklist.empty() ? _( "(empty)" ) : enumerate( category_blacklist ) ) );
 }

@@ -35,7 +35,7 @@
         "''''''''''''''''''''''''"
       ],
       "palettes": [ "park_scenic_palette" ],
-      "monsters": { "'": { "monster": "GROUP_PARK_PLAYGROUND", "chance": 70 } },
+      "monsters": { "'": { "monster": "GROUP_PARK_PLAYGROUND", "chance": 140 } },
       "vehicles": { "'": { "vehicle": "park_playground_vehicles", "chance": 1 } }
     }
   },
@@ -76,7 +76,7 @@
       ],
       "palettes": [ "park_asphalt_palette" ],
       "monsters": {
-        ".": { "monster": "GROUP_PARK_PLAYGROUND", "chance": 20 },
+        ".": { "monster": "GROUP_PARK_PLAYGROUND", "chance": 40 },
         " ": { "monster": "GROUP_PARK_PLAYGROUND", "chance": 200 }
       }
     }
@@ -117,7 +117,7 @@
         "                        "
       ],
       "palettes": [ "park_asphalt_palette" ],
-      "monsters": { ".": { "monster": "GROUP_PARK_PLAYGROUND", "chance": 50 }, "b": { "monster": "GROUP_PARK_DOG", "chance": 100 } }
+      "monsters": { ".": { "monster": "GROUP_PARK_PLAYGROUND", "chance": 100 }, "b": { "monster": "GROUP_PARK_DOG", "chance": 200 } }
     }
   },
   {
@@ -158,7 +158,7 @@
       "palettes": [ "park_asphalt_palette" ],
       "items": { "b": { "item": "shoes", "chance": 15, "repeat": [ 2, 5 ] } },
       "place_item": [ { "item": "beach_volleyball", "x": 8, "y": 6 }, { "item": "sandbox_kit", "x": 8, "y": 6 } ],
-      "monsters": { "$": { "monster": "GROUP_PARK_SCENIC", "chance": 50 }, " ": { "monster": "GROUP_PARK_PLAYGROUND", "chance": 100 } }
+      "monsters": { "$": { "monster": "GROUP_PARK_SCENIC", "chance": 100 }, " ": { "monster": "GROUP_PARK_PLAYGROUND", "chance": 200 } }
     }
   },
   {
@@ -198,7 +198,7 @@
       ],
       "palettes": [ "park_scenic_palette" ],
       "place_item": [ { "item": "char_smoker", "x": 7, "y": 7 } ],
-      "monsters": { ".": { "monster": "GROUP_PARK_SCENIC", "chance": 20 } },
+      "monsters": { ".": { "monster": "GROUP_PARK_SCENIC", "chance": 40 } },
       "vehicles": { ".": { "vehicle": "park_playground_vehicles", "chance": 1 } }
     }
   },
@@ -238,7 +238,7 @@
         " , ,   z ...... z       "
       ],
       "palettes": [ "park_scenic_palette" ],
-      "monsters": { ".": { "monster": "GROUP_PARK_SCENIC", "chance": 50 }, " ": { "monster": "GROUP_PARK_SCENIC", "chance": 100 } },
+      "monsters": { ".": { "monster": "GROUP_PARK_SCENIC", "chance": 100 }, " ": { "monster": "GROUP_PARK_SCENIC", "chance": 200 } },
       "vehicles": { ".": { "vehicle": "park_playground_vehicles", "chance": 1 } }
     }
   },
@@ -309,7 +309,7 @@
         { "item": "feces_dog", "x": 20, "y": 10, "repeat": [ 1, 10 ] },
         { "item": "feces_dog", "x": 11, "y": 12, "repeat": [ 5, 20 ] }
       ],
-      "monsters": { ",": { "monster": "GROUP_PARK_DOG", "chance": 30 }, " ": { "monster": "GROUP_PARK_DOG", "chance": 60 } }
+      "monsters": { ",": { "monster": "GROUP_PARK_DOG", "chance": 60 }, " ": { "monster": "GROUP_PARK_DOG", "chance": 60 } }
     }
   },
   {
@@ -364,7 +364,7 @@
         { "chance": 10, "item": "field", "x": 2, "y": 16 },
         { "chance": 10, "item": "field", "x": 1, "y": 13 }
       ],
-      "monsters": { "'": { "monster": "GROUP_PARK_SCENIC", "chance": 100 }, "s": { "monster": "GROUP_PARK_SCENIC", "chance": 20 } },
+      "monsters": { "'": { "monster": "GROUP_PARK_SCENIC", "chance": 100 }, "s": { "monster": "GROUP_PARK_SCENIC", "chance": 40 } },
       "vehicles": { "'": { "vehicle": "park_playground_vehicles", "chance": 1 }, "p": { "vehicle": "suburban_home", "chance": 1 } }
     }
   },
@@ -420,7 +420,7 @@
         { "chance": 5, "item": "stoner", "x": 7, "y": 16 },
         { "chance": 5, "item": "forage_mushroom", "x": 3, "y": 21 }
       ],
-      "monsters": { "'": { "monster": "GROUP_PARK_SCENIC", "chance": 100 }, "_": { "monster": "GROUP_PARK_SCENIC", "chance": 20 } },
+      "monsters": { "'": { "monster": "GROUP_PARK_SCENIC", "chance": 200 }, "_": { "monster": "GROUP_PARK_SCENIC", "chance": 40 } },
       "vehicles": { "'": { "vehicle": "park_playground_vehicles", "chance": 1 } }
     }
   },
@@ -469,7 +469,7 @@
         { "chance": 10, "item": "toy_box", "x": 14, "y": 13 }
       ],
       "place_toilets": [ { "x": 21, "y": 3 }, { "x": 21, "y": 5 } ],
-      "monsters": { "'": { "monster": "GROUP_PARK_SCENIC", "chance": 60 }, "g": { "monster": "GROUP_PARK_PLAYGROUND", "chance": 40 } },
+      "monsters": { "'": { "monster": "GROUP_PARK_SCENIC", "chance": 120 }, "g": { "monster": "GROUP_PARK_PLAYGROUND", "chance": 80 } },
       "vehicles": { "'": { "vehicle": "park_playground_vehicles", "chance": 1 } }
     }
   },
@@ -510,9 +510,9 @@
       "palettes": [ "park_scenic_palette" ],
       "items": { "_": { "item": "forest", "chance": 4 } },
       "monsters": {
-        "s": { "monster": "GROUP_PARK_SCENIC", "chance": 40 },
-        ":": { "monster": "GROUP_PARK_SCENIC", "chance": 50 },
-        "'": { "monster": "GROUP_PARK_SCENIC", "chance": 100 }
+        "s": { "monster": "GROUP_PARK_SCENIC", "chance": 80 },
+        ":": { "monster": "GROUP_PARK_SCENIC", "chance": 100 },
+        "'": { "monster": "GROUP_PARK_SCENIC", "chance": 200 }
       },
       "vehicles": { "s": { "vehicle": "park_playground_vehicles", "chance": 1 } }
     }
@@ -554,7 +554,7 @@
       "palettes": [ "park_scenic_palette" ],
       "terrain": { "O": "t_sidewalk" },
       "items": { "|": { "item": "stoner", "chance": 1 } },
-      "monsters": { "s": { "monster": "GROUP_PARK_SCENIC", "chance": 50 }, "'": { "monster": "GROUP_PARK_SCENIC", "chance": 100 } },
+      "monsters": { "s": { "monster": "GROUP_PARK_SCENIC", "chance": 100 }, "'": { "monster": "GROUP_PARK_SCENIC", "chance": 200 } },
       "vehicles": { "s": { "vehicle": "park_playground_vehicles", "chance": 1 } }
     }
   },
@@ -593,12 +593,12 @@
         "'''u'''''''''''''''u''''"
       ],
       "palettes": [ "park_scenic_palette" ],
-      "vendingmachines": { "v": { "item_group": "vending_drink" } },
+      "vendingmachines": { "v": { "item_group": "vending_drink", "lootable": true } },
       "items": { "X": [ { "item": "trash", "chance": 75, "repeat": [ 2, 7 ] }, { "item": "vending_drink_items", "chance": 25 } ] },
       "monsters": {
-        "'": { "monster": "GROUP_PARK_SCENIC", "chance": 100 },
-        ":": { "monster": "GROUP_PARK_SCENIC", "chance": 60 },
-        "s": { "monster": "GROUP_PARK_SCENIC", "chance": 50 }
+        "'": { "monster": "GROUP_PARK_SCENIC", "chance": 200 },
+        ":": { "monster": "GROUP_PARK_SCENIC", "chance": 120 },
+        "s": { "monster": "GROUP_PARK_SCENIC", "chance": 100 }
       },
       "vehicles": { "s": { "vehicle": "park_playground_vehicles", "chance": 1 } }
     }

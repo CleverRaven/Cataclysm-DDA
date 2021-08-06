@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_EVENT_BUS_H
 #define CATA_SRC_EVENT_BUS_H
 
-#include <utility>
+#include <type_traits>
 #include <vector>
 
 #include "event.h"

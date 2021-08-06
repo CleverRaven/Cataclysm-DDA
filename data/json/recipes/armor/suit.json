@@ -1,55 +1,5 @@
 [
   {
-    "result": "aep_suit",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "fabrication",
-    "difficulty": 6,
-    "skills_required": [ "tailor", 5 ],
-    "time": "12 h",
-    "book_learn": [ [ "tailor_portfolio", 7 ], [ "textbook_tailor", 8 ], [ "textbook_fireman", 6 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "welder", 112 ], [ "welder_crude", 168 ], [ "soldering_iron", 168 ], [ "toolset", 168 ] ] ],
-    "proficiencies": [
-      { "proficiency": "prof_closures" },
-      { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_closures_waterproofing" }
-    ],
-    "components": [
-      [ [ "cleansuit", 1 ] ],
-      [ [ "duct_tape", 600 ] ],
-      [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "swat_armor", 1 ], [ "sheet_kevlar_layered", 24 ] ],
-      [ [ "plastic_sheet", 1 ] ]
-    ]
-  },
-  {
-    "result": "anbc_suit",
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "fabrication",
-    "difficulty": 8,
-    "skills_required": [ "tailor", 7 ],
-    "time": "12 h 40 m",
-    "book_learn": [ [ "tailor_portfolio", 7 ], [ "textbook_fireman", 7 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "welder", 112 ], [ "welder_crude", 168 ], [ "soldering_iron", 168 ], [ "toolset", 168 ] ] ],
-    "proficiencies": [
-      { "proficiency": "prof_closures" },
-      { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_closures_waterproofing" }
-    ],
-    "components": [
-      [ [ "hazmat_suit", 1 ] ],
-      [ [ "duct_tape", 800 ] ],
-      [ [ "swat_armor", 1 ], [ "sheet_kevlar_layered", 48 ] ],
-      [ [ "plastic_sheet", 1 ] ]
-    ]
-  },
-  {
     "result": "armor_blarmor",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -208,7 +158,7 @@
     "using": [ [ "blacksmithing_standard", 80 ], [ "steel_standard", 20 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.5, "time_multiplier": 1.1 },
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
       { "proficiency": "prof_closures", "time_multiplier": 1.1 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -282,7 +232,7 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.5, "time_multiplier": 1.1 },
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
       { "proficiency": "prof_closures", "time_multiplier": 1.1 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -338,12 +288,7 @@
     "time": "1 h 20 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 90 ] ],
-    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
-    "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_closures" },
-      { "proficiency": "prof_closures_waterproofing" }
-    ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "components": [
       [ [ "tunic", 1 ] ],
       [ [ "shorts_cargo", 1 ], [ "shorts_denim", 1 ] ],
@@ -366,7 +311,7 @@
     "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], [ "textbook_armwest", 4 ], [ "textbook_armschina", 4 ] ],
     "using": [ [ "sewing_standard", 26 ] ],
     "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.5, "time_multiplier": 1.1 },
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
       { "proficiency": "prof_closures", "time_multiplier": 1.1 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -397,7 +342,7 @@
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.5, "time_multiplier": 1.1 },
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
       { "proficiency": "prof_closures", "time_multiplier": 1.1 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -430,7 +375,7 @@
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.5, "time_multiplier": 1.1 },
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15, "time_multiplier": 1.1 },
       { "proficiency": "prof_closures", "time_multiplier": 1.1 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
@@ -452,7 +397,6 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 90 ], [ "soldering_standard", 18 ] ],
     "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" }
@@ -742,7 +686,6 @@
     "using": [ [ "sewing_standard", 200 ] ],
     "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" }
@@ -793,6 +736,127 @@
     ]
   },
   {
+    "result": "wsurvivor_suit_nofur",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "skills_required": [ "fabrication", 6 ],
+    "time": "12 h",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 200 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_polymerworking" }
+    ],
+    "tools": [ [ [ "welder", 28 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
+    "components": [
+      [ [ "rag", 10 ] ],
+      [ [ "leather", 20 ], [ "tanned_hide", 4 ] ],
+      [ [ "faux_fur", 20 ] ],
+      [ [ "coat_rain", 1 ], [ "jacket_windbreaker", 1 ], [ "jacket_evac", 1 ], [ "coat_gut", 1 ] ],
+      [
+        [ "tacvest", 1 ],
+        [ "legrig", 1 ],
+        [ "vest", 1 ],
+        [ "tool_belt", 1 ],
+        [ "ragpouch", 6 ],
+        [ "leather_pouch", 4 ],
+        [ "dump_pouch", 1 ],
+        [ "purse", 2 ],
+        [ "fanny", 2 ]
+      ],
+      [ [ "duct_tape", 300 ] ],
+      [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "swat_armor", 1 ], [ "sheet_kevlar_layered", 24 ] ]
+    ]
+  },
+  {
+    "result": "xl_wsurvivor_suit_nofur",
+    "copy-from": "wsurvivor_suit_nofur",
+    "time": "18 h",
+    "type": "recipe",
+    "using": [ [ "sewing_standard", 300 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 104 ], [ "soldering_iron", 104 ], [ "toolset", 104 ] ] ],
+    "components": [
+      [ [ "rag", 20 ] ],
+      [ [ "leather", 30 ], [ "tanned_hide", 6 ] ],
+      [ [ "faux_fur", 30 ] ],
+      [ [ "coat_rain", 2 ], [ "jacket_windbreaker", 2 ], [ "jacket_evac", 2 ], [ "coat_gut", 2 ] ],
+      [
+        [ "tacvest", 1 ],
+        [ "legrig", 1 ],
+        [ "vest", 1 ],
+        [ "tool_belt", 1 ],
+        [ "ragpouch", 6 ],
+        [ "leather_pouch", 4 ],
+        [ "dump_pouch", 1 ],
+        [ "purse", 2 ],
+        [ "fanny", 2 ]
+      ],
+      [ [ "duct_tape", 400 ] ],
+      [ [ "kevlar", 2 ], [ "ballistic_vest_empty", 2 ], [ "swat_armor", 2 ], [ "sheet_kevlar_layered", 48 ] ]
+    ]
+  },
+  {
+    "result": "mask_wsurvivor_nofur",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "skills_required": [ "tailor", 7 ],
+    "time": "4 h",
+    "autolearn": true,
+    "using": [ [ "adhesive", 1 ], [ "sewing_standard", 10 ] ],
+    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "components": [
+      [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
+      [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
+      [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 4 ] ],
+      [ [ "faux_fur", 6 ], [ "tanned_pelt", 1 ] ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_plasticworking" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_polymerworking" }
+    ]
+  },
+  {
+    "result": "mask_wsurvivorxl_nofur",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "skills_required": [ "tailor", 7 ],
+    "time": "4 h",
+    "autolearn": true,
+    "using": [ [ "adhesive", 1 ], [ "sewing_standard", 20 ] ],
+    "tools": [ [ [ "welder", 56 ], [ "welder_crude", 84 ], [ "soldering_iron", 84 ], [ "toolset", 84 ] ] ],
+    "components": [
+      [ [ "mask_filter", 2 ], [ "mask_gas", 1 ], [ "mask_bunker", 1 ] ],
+      [ [ "glasses_safety", 2 ], [ "glasses_bal", 1 ] ],
+      [ [ "mask_bal", 1 ], [ "sheet_kevlar_layered", 4 ] ],
+      [ [ "faux_fur", 12 ], [ "tanned_pelt", 2 ] ]
+    ],
+    "proficiencies": [
+      { "proficiency": "prof_plasticworking" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_closures_waterproofing" },
+      { "proficiency": "prof_polymerworking" }
+    ]
+  },
+  {
     "result": "gambeson",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -827,7 +891,6 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 200 ] ],
     "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" }
@@ -960,7 +1023,6 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 100 ] ],
     "proficiencies": [
-      { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" },
       { "proficiency": "prof_polymerworking" }

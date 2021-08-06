@@ -3,7 +3,7 @@
     "type": "terrain",
     "id": "t_tree_worm",
     "name": "leviathan annelids",
-    "description": "Several massive protusions emerge from the ground, coiled together into a tower.  At the top, blue and purple tentacles sway in the wind.",
+    "description": "Several massive protrusions emerge from the ground, coiled together into a tower.  At the top, blue and purple tentacles sway in the wind.",
     "symbol": "I",
     "color": "magenta",
     "move_cost": 0,
@@ -82,9 +82,7 @@
     "coverage": 20,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DIGGABLE", "FLAT", "THIN_OBSTACLE" ],
     "examine_action": "harvest_ter_nectar",
-    "harvest_by_season": [
-      { "seasons": [ "spring", "summer", "autumn", "winter" ], "entries": [ { "drop": "yum_lichen", "base_num": [ 1, 4 ] } ] }
-    ],
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn", "winter" ], "id": "yum_lichen_harv" } ],
     "transforms_into": "t_lichen_harvested",
     "bash": {
       "str_min": 2,

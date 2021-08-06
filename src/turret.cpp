@@ -1,12 +1,14 @@
+#include "vehicle.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <memory>
+#include <string>
 
 #include "avatar.h"
 #include "character.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
-#include "game.h"
 #include "gun_mode.h"
 #include "item.h"
 #include "itype.h"
@@ -20,7 +22,6 @@
 #include "ui.h"
 #include "value_ptr.h"
 #include "veh_type.h"
-#include "vehicle.h" // IWYU pragma: associated
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
@@ -242,16 +243,15 @@ turret_data::status turret_data::query() const
         if( veh->fuel_left( ammo_current() ) < part->base.ammo_required() ) {
             return status::no_ammo;
         }
-
+    } else if( part->base.get_gun_ups_drain() ) {
+        int ups = part->base.get_gun_ups_drain() * part->base.gun_current_mode().qty;
+        if( ups > veh->fuel_left( fuel_type_battery ) ) {
+            return status::no_power;
+        }
     } else {
-        if( !part->base.ammo_sufficient() ) {
+        if( !part->base.ammo_sufficient( nullptr ) ) {
             return status::no_ammo;
         }
-    }
-
-    int ups = part->base.get_gun_ups_drain() * part->base.gun_current_mode().qty;
-    if( ups > veh->fuel_left( fuel_type_battery ) ) {
-        return status::no_power;
     }
 
     return status::ready;

@@ -2,13 +2,12 @@
 #ifndef CATA_SRC_IUSE_SOFTWARE_KITTEN_H
 #define CATA_SRC_IUSE_SOFTWARE_KITTEN_H
 
-#include <string>
+#include <iosfwd>
+#include <vector>
 
 #include "color.h"
 #include "cursesdef.h"
 #include "point.h"
-
-class ui_adaptor;
 
 struct kobject {
     point pos;

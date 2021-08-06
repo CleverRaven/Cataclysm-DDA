@@ -33,6 +33,13 @@ struct half_open_rectangle : rectangle<Point> {
         return Traits::x( p ) >= Traits::x( p_min ) && Traits::x( p ) < Traits::x( p_max ) &&
                Traits::y( p ) >= Traits::y( p_min ) && Traits::y( p ) < Traits::y( p_max );
     }
+    constexpr bool overlaps( const rectangle<Point> &r ) const {
+        using Traits = point_traits<Point>;
+        return !( Traits::x( r.p_min ) >= Traits::x( p_max ) ||
+                  Traits::y( r.p_min ) >= Traits::y( p_max ) ||
+                  Traits::x( p_min ) >= Traits::x( r.p_max ) ||
+                  Traits::y( p_min ) >= Traits::y( r.p_max ) );
+    }
 };
 
 template<typename Point, decltype( std::declval<rectangle<Point>>(), int() ) = 0>
@@ -46,6 +53,13 @@ struct inclusive_rectangle : rectangle<Point> {
         using Traits = point_traits<Point>;
         return Traits::x( p ) >= Traits::x( p_min ) && Traits::x( p ) <= Traits::x( p_max ) &&
                Traits::y( p ) >= Traits::y( p_min ) && Traits::y( p ) <= Traits::y( p_max );
+    }
+    constexpr bool overlaps( const rectangle<Point> &r ) const {
+        using Traits = point_traits<Point>;
+        return !( Traits::x( r.p_min ) > Traits::x( p_max ) ||
+                  Traits::y( r.p_min ) > Traits::y( p_max ) ||
+                  Traits::x( p_min ) > Traits::x( r.p_max ) ||
+                  Traits::y( p_min ) > Traits::y( r.p_max ) );
     }
 };
 

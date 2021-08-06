@@ -12,9 +12,6 @@
     "symbol": "[",
     "looks_like": "leather_belt",
     "color": "dark_gray",
-    "covers": [ "torso" ],
-    "coverage": 10,
-    "encumbrance": 1,
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -42,7 +39,8 @@
         "moves": 20
       }
     ],
-    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE", "FANCY" ]
+    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ],
+    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "id": "bandolier_rifle",
@@ -57,9 +55,6 @@
     "symbol": "[",
     "looks_like": "leather_belt",
     "color": "dark_gray",
-    "covers": [ "torso" ],
-    "coverage": 10,
-    "encumbrance": 1,
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -83,7 +78,8 @@
         "moves": 20
       }
     ],
-    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
+    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ],
+    "armor": [ { "encumbrance": 1, "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "id": "bandolier_shotgun",
@@ -98,12 +94,10 @@
     "symbol": "[",
     "looks_like": "leather_belt",
     "color": "dark_gray",
-    "covers": [ "torso" ],
-    "coverage": 10,
-    "encumbrance": 2,
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "410shot": 25, "shot": 25, "20x66mm": 25, "signal_flare": 25 }, "moves": 25 } ],
-    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
+    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ],
+    "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "id": "torso_bandolier_grenade",
@@ -128,12 +122,10 @@
     "symbol": "[",
     "looks_like": "leather_belt",
     "color": "dark_gray",
-    "covers": [ "torso" ],
-    "coverage": 12,
-    "encumbrance": 3,
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "410shot": 50, "shot": 50, "20x66mm": 50, "signal_flare": 50 }, "moves": 35 } ],
-    "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "OVERSIZE", "BELTED" ],
+    "armor": [ { "encumbrance": 3, "coverage": 12, "covers": [ "torso" ] } ]
   },
   {
     "id": "flintlock_pouch",
@@ -148,9 +140,6 @@
     "symbol": "[",
     "looks_like": "ammo_pouch",
     "color": "dark_gray",
-    "covers": [ "torso" ],
-    "coverage": 10,
-    "encumbrance": 2,
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -158,7 +147,8 @@
         "moves": 20
       }
     ],
-    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ]
+    "flags": [ "WATER_FRIENDLY", "WAIST", "OVERSIZE" ],
+    "armor": [ { "encumbrance": 2, "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "id": "bandolier_wrist",
@@ -173,10 +163,7 @@
     "symbol": "[",
     "looks_like": "leather_belt",
     "color": "dark_gray",
-    "covers": [ "hand_l", "hand_r" ],
     "sided": true,
-    "coverage": 5,
-    "encumbrance": 1,
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -200,7 +187,8 @@
         "moves": 20
       }
     ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
+    "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "grenade_pouch",
@@ -215,13 +203,11 @@
     "symbol": "[",
     "looks_like": "ammo_satchel",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r" ],
     "sided": true,
-    "coverage": 10,
-    "encumbrance": 4,
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "40x46mm": 4, "40x53mm": 4 }, "moves": 20 } ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
+    "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "stone_pouch",
@@ -236,13 +222,11 @@
     "symbol": "[",
     "looks_like": "ammo_satchel",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r" ],
     "sided": true,
-    "coverage": 10,
-    "encumbrance": 4,
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "rock": 10 }, "moves": 20 } ],
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
+    "armor": [ { "encumbrance": 4, "coverage": 10, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "grenadebandolier",
@@ -257,8 +241,6 @@
     "symbol": "[",
     "looks_like": "leather_belt",
     "color": "dark_gray",
-    "covers": [ "torso" ],
-    "coverage": 15,
     "material_thickness": 2,
     "pocket_data": [
       {
@@ -291,6 +273,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash grenades", "holster_msg": "You stash your %s." },
-    "flags": [ "WATER_FRIENDLY", "BELTED" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED" ],
+    "armor": [ { "coverage": 15, "covers": [ "torso" ] } ]
   }
 ]

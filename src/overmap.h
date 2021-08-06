@@ -10,7 +10,6 @@
 #include <iosfwd>
 #include <iterator>
 #include <map>
-#include <memory>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -20,6 +19,7 @@
 #include "coordinates.h"
 #include "enums.h"
 #include "game_constants.h"
+#include "mapgendata.h"
 #include "memory_fast.h"
 #include "mongroup.h"
 #include "monster.h"
@@ -27,9 +27,7 @@
 #include "optional.h"
 #include "overmap_types.h" // IWYU pragma: keep
 #include "point.h"
-#include "regional_settings.h"
 #include "rng.h"
-#include "string_id.h"
 #include "type_id.h"
 
 class JsonIn;
@@ -37,9 +35,9 @@ class JsonObject;
 class JsonOut;
 class character_id;
 class map_extra;
-class monster;
 class npc;
 class overmap_connection;
+struct regional_settings;
 
 namespace pf
 {
@@ -52,9 +50,9 @@ struct city {
     point_om_omt pos;
     int size;
     std::string name;
-    city( const point_om_omt &P = point_om_omt(), int S = -1 );
+    explicit city( const point_om_omt &P = point_om_omt(), int S = -1 );
 
-    operator bool() const {
+    explicit operator bool() const {
         return size >= 0;
     }
 
@@ -95,8 +93,8 @@ struct radio_tower {
     radio_type type;
     std::string message;
     int frequency;
-    radio_tower( const point_om_sm &p, int S = -1, const std::string &M = "",
-                 radio_type T = radio_type::MESSAGE_BROADCAST ) :
+    explicit radio_tower( const point_om_sm &p, int S = -1, const std::string &M = "",
+                          radio_type T = radio_type::MESSAGE_BROADCAST ) :
         pos( p ), strength( S ), type( T ), message( M ) {
         frequency = rng( 0, INT_MAX );
     }
@@ -125,7 +123,7 @@ struct overmap_special_placement {
 class overmap_special_batch
 {
     public:
-        overmap_special_batch( const point_abs_om &origin ) : origin_overmap( origin ) {}
+        explicit overmap_special_batch( const point_abs_om &origin ) : origin_overmap( origin ) {}
         overmap_special_batch( const point_abs_om &origin,
                                const std::vector<const overmap_special *> &specials ) :
             origin_overmap( origin ) {
@@ -140,7 +138,13 @@ class overmap_special_batch
         std::vector<overmap_special_placement>::iterator begin() {
             return placements.begin();
         }
+        std::vector<overmap_special_placement>::const_iterator begin() const {
+            return placements.begin();
+        }
         std::vector<overmap_special_placement>::iterator end() {
+            return placements.end();
+        }
+        std::vector<overmap_special_placement>::const_iterator end() const {
             return placements.end();
         }
         std::vector<overmap_special_placement>::iterator erase(
@@ -204,7 +208,7 @@ class overmap
     public:
         overmap( const overmap & ) = default;
         overmap( overmap && ) = default;
-        overmap( const point_abs_om &p );
+        explicit overmap( const point_abs_om &p );
         ~overmap();
 
         overmap &operator=( const overmap & ) = default;
@@ -241,6 +245,7 @@ class overmap
 
         void ter_set( const tripoint_om_omt &p, const oter_id &id );
         const oter_id &ter( const tripoint_om_omt &p ) const;
+        cata::optional<mapgen_arguments> *mapgen_args( const tripoint_om_omt & );
         bool &seen( const tripoint_om_omt &p );
         bool seen( const tripoint_om_omt &p ) const;
         bool &explored( const tripoint_om_omt &p );
@@ -307,7 +312,7 @@ class overmap
 
         // TODO: Should depend on coordinates
         const regional_settings &get_settings() const {
-            return settings;
+            return *settings;
         }
 
         void clear_mon_groups();
@@ -362,8 +367,16 @@ class overmap
         // can be used after placement to lookup whether a given location was created
         // as part of a special.
         std::unordered_map<tripoint_om_omt, overmap_special_id> overmap_special_placements;
+        // Records location where mongroups are not allowed to spawn during worldgen.
+        std::unordered_set<tripoint_om_omt> safe_at_worldgen;
 
-        regional_settings settings;
+        // Records mapgen parameters required at the overmap special level
+        // These are lazily evaluated; empty optional means that they have yet
+        // to be evaluated.
+        cata::colony<cata::optional<mapgen_arguments>> mapgen_arg_storage;
+        std::unordered_map<tripoint_om_omt, cata::optional<mapgen_arguments> *> mapgen_args_index;
+
+        pimpl<regional_settings> settings;
 
         oter_id get_default_terrain( int z ) const;
 
@@ -434,8 +447,9 @@ class overmap
                                 om_direction::type dir, const city &town, int block_width = 2 );
         bool build_lab( const tripoint_om_omt &p, int s, std::vector<point_om_omt> *lab_train_points,
                         const std::string &prefix, int train_odds );
-        void build_anthill( const tripoint_om_omt &p, int s );
-        void build_tunnel( const tripoint_om_omt &p, int s, om_direction::type dir );
+        void build_anthill( const tripoint_om_omt &p, int s, bool ordinary_ants = true );
+        void build_tunnel( const tripoint_om_omt &p, int s, om_direction::type dir,
+                           bool ordinary_ants = true );
         bool build_slimepit( const tripoint_om_omt &origin, int s );
         void build_mine( const tripoint_om_omt &origin, int s );
         void place_ravines();
@@ -461,6 +475,7 @@ class overmap
                        const tripoint_om_omt &p ) const;
         bool check_overmap_special_type( const overmap_special_id &id,
                                          const tripoint_om_omt &location ) const;
+        cata::optional<overmap_special_id> overmap_special_at( const tripoint_om_omt &p ) const;
         void chip_rock( const tripoint_om_omt &p );
 
         void polish_river();
@@ -505,6 +520,8 @@ class overmap
         void place_radios();
 
         void add_mon_group( const mongroup &group );
+        // Spawns a new mongroup (to be called by worldgen code)
+        void spawn_mon_group( const mongroup &group );
 
         void load_monster_groups( JsonIn &jsin );
         void load_legacy_monstergroups( JsonIn &jsin );

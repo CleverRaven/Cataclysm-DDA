@@ -1,16 +1,18 @@
-#include "catch/catch.hpp"
-
-#include <cstdlib>
 #include <map>
 #include <utility>
+#include <vector>
 
+#include "bodypart.h"
+#include "cata_catch.h"
 #include "character.h"
 #include "creature.h"
+#include "enum_traits.h"
 #include "monster.h"
 #include "mtype.h"
-#include "stringmaker.h"
+#include "player_helpers.h"
+#include "rng.h"
 #include "test_statistics.h"
-#include "bodypart.h"
+#include "type_id.h"
 
 static float expected_weights_base[][12] = { { 20, 0,   0,   0, 15, 15, 0, 0, 25, 25, 0, 0 },
     { 33.33, 2.33, 0.33, 0, 20, 20, 0, 0, 12, 12, 0, 0 },
@@ -35,10 +37,9 @@ static void calculate_bodypart_distribution( const creature_size asize, const cr
     atype.size = asize;
     monster attacker;
     attacker.type = &atype;
-    mtype dtype;
-    dtype.size = dsize;
-    monster defender;
-    defender.type = &dtype;
+    npc &defender = spawn_npc( point_zero, "thug" );
+    clear_character( defender );
+    defender.size_class = dsize;
 
     const int num_tests = 15000;
 

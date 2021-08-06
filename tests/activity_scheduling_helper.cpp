@@ -1,7 +1,17 @@
 #include "activity_scheduling_helper.h"
 
-#include "player_helpers.h"
+#include <climits>
+#include <cstdlib>
+#include <list>
+
+#include "avatar.h"
+#include "debug.h"
+#include "item.h"
 #include "map_helpers.h"
+#include "player_activity.h"
+#include "player_helpers.h"
+#include "stomach.h"
+#include "string_formatter.h"
 
 void activity_schedule::setup( avatar &guy ) const
 {
@@ -9,7 +19,7 @@ void activity_schedule::setup( avatar &guy ) const
     // This may be longer than the interval, which means that we
     // never finish this task
     if( actor ) {
-        guy.assign_activity( *actor, false );
+        guy.assign_activity( player_activity( *actor ), false );
     } else {
         guy.assign_activity( player_activity( act, calendar::INDEFINITELY_LONG, -1, INT_MIN,
                                               "" ), false );
@@ -93,14 +103,14 @@ weariness_events do_activity( tasklist tasks )
         // How many turn's we've been at it
         time_duration turns = 0_seconds;
         while( turns <= task.interval && !task.instantaneous() ) {
-            // Start each turn with a fresh set of moves
-            guy.moves = 100;
-            task.do_turn( guy );
             // Advance a turn
             calendar::turn += 1_turns;
             turns += 1_seconds;
             // Consume food, become weary, etc
             guy.update_body();
+            // Start each turn with a fresh set of moves
+            guy.moves = 100;
+            task.do_turn( guy );
         }
         // Cancel our activity, now that we're done
         guy.cancel_activity();
@@ -196,6 +206,17 @@ int weariness_events::transition_minutes( const int from, const int to,
         }
     }
     return ret.first;
+}
+
+bool weariness_events::have_weary_decrease() const
+{
+    for( const weary_transition &change : transitions ) {
+        if( change.from > change.to ) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 std::string weariness_events::summarize() const

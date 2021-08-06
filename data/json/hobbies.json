@@ -1,0 +1,95 @@
+[
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "heroin_addict",
+    "name": "Heroin Addict",
+    "description": "The last thing you remember was meeting God behind the local Foodplace.  Then people started eating each other.  This doesn't feel like a fever dream.",
+    "points": -3,
+    "addictions": [ { "intensity": 40, "type": "opiate" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "smoker",
+    "name": "Chain Smoker",
+    "description": "Your coworkers always muttered when you had to duck outside every hour for a smoke, but it ended up saving your life when things got bad.  Now you're down to your last pack.  You start out with a strong nicotine addiction.",
+    "points": -1,
+    "addictions": [ { "intensity": 10, "type": "nicotine" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "crackhead",
+    "name": "Crackhead",
+    "description": "Cocaine.  It is, indeed, a helluva drug.  You blew your money on some dust, and before you knew it you were turning tricks behind the local CVS just to score one more line.  Where are you going to get your next fix now?",
+    "points": -1,
+    "addictions": [ { "intensity": 20, "type": "crack" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "tweaker",
+    "name": "Tweaker",
+    "description": "You're not entirely sure what happened last night, but you woke up on the floor and everything has gone completely to shit.  The only thing running through your head, though, is where you're gonna find your next hit.",
+    "points": -2,
+    "addictions": [ { "intensity": 30, "type": "amphetamine" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "pillhead",
+    "name": "Pillhead",
+    "description": "After an accident in your youth, you got addicted to the opiates treating your pain.  With the pharmacies shut down and your dealers turned undead, satisfying those cravings just got a lot more difficult.",
+    "points": -1,
+    "addictions": [ { "intensity": 20, "type": "opiate" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "alcoholic",
+    "name": "Alcoholic",
+    "description": "You found solace in the bottom of a bottle.  God-damn, you need a drink.",
+    "points": -1,
+    "addictions": [ { "intensity": 20, "type": "alcohol" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "cosplay",
+    "name": "Cosplay",
+    "description": "You liked to make your own costumes and wore them to various conventions.  Now that everyone is dead or dying, maybe this will be useful for something else.",
+    "points": 1,
+    "skills": [ { "level": 1, "name": "tailor" } ],
+    "proficiencies": [ "prof_closures", "prof_leatherworking_basic" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "lockpicking",
+    "name": "Lockpicking",
+    "description": "Silently picking people's locks while they were away was a rush for you.  Will you still feel the same thrill now that no one is left to stop you?",
+    "points": 1,
+    "proficiencies": [ "prof_lockpicking" ],
+    "skills": [ { "level": 1, "name": "traps" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "parkour",
+    "name": "Parkour",
+    "description": "You've practiced parkour for many years, and made the world your playground.  It wouldn't be a lie to say that running is your life.  Which is good, because now that the end has come, you're running for your life.",
+    "points": 2,
+    "traits": [ "PARKOUR" ],
+    "skills": [ { "level": 1, "name": "swimming" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "camping",
+    "name": "Camping",
+    "description": "You enjoyed camping in the vast wilderness as a means of escaping the pace of modern life.  The wilderness isn't filled with people, so it must be safe.  Right?  It must be.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "survival" }, { "level": 2, "name": "firstaid" } ]
+  }
+]

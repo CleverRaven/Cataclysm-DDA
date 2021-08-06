@@ -4,10 +4,8 @@
 #include <array>
 #include <memory>
 #include <set>
-#include <string>
 #include <vector>
 
-#include "activity_actor.h"
 #include "activity_actor_definitions.h"
 #include "avatar.h"
 #include "character.h"
@@ -18,7 +16,6 @@
 #include "game.h" // TODO: This is a circular dependency
 #include "generic_factory.h"
 #include "iexamine.h"
-#include "int_id.h"
 #include "item.h"
 #include "json.h"
 #include "map.h"
@@ -27,11 +24,9 @@
 #include "optional.h"
 #include "player_activity.h"
 #include "point.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "vehicle.h"
 #include "viewer.h"
 #include "vpart_position.h"
@@ -260,7 +255,7 @@ void doors::close_door( map &m, Creature &who, const tripoint &closep )
 
     const Creature *const mon = g->critter_at( closep );
     if( mon ) {
-        if( mon->is_player() ) {
+        if( mon->is_avatar() ) {
             who.add_msg_if_player( m_info, _( "There's some buffoon in the way!" ) );
         } else if( mon->is_monster() ) {
             // TODO: Houseflies, mosquitoes, etc shouldn't count

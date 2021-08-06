@@ -2,12 +2,12 @@
 #ifndef CATA_SRC_BODYPART_H
 #define CATA_SRC_BODYPART_H
 
-#include <algorithm>
 #include <array>
-#include <bitset>
 #include <cstddef>
 #include <initializer_list>
+#include <iosfwd>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "enums.h"
@@ -19,9 +19,8 @@
 class JsonIn;
 class JsonObject;
 class JsonOut;
-template <typename E> struct enum_traits;
-
 struct body_part_type;
+template <typename E> struct enum_traits;
 
 using bodypart_str_id = string_id<body_part_type>;
 using bodypart_id = int_id<body_part_type>;
@@ -108,6 +107,37 @@ struct stat_hp_mods {
 
 struct body_part_type {
     public:
+        /**
+         * the different types of body parts there are.
+         * this allows for the ability to group limbs or determine a limb of a certain type
+         */
+        enum class type {
+            // this is where helmets go, and is a vital part.
+            head,
+            // the torso is generally the center of mass of a creature
+            torso,
+            // provides sight
+            sensor,
+            // you eat and scream with this
+            mouth,
+            // may manipulate objects to some degree, is a main part
+            arm,
+            // manipulates objects. usually is not a main part.
+            hand,
+            // provides motive power
+            leg,
+            // helps with balance. usually is not a main part
+            foot,
+            // may reduce fall damage
+            wing,
+            // may provide balance or manipulation
+            tail,
+            // more of a general purpose limb, such as horns.
+            other,
+            num_types
+        };
+
+
         bodypart_str_id id;
         bool was_loaded = false;
 
@@ -145,6 +175,7 @@ struct body_part_type {
         bodypart_str_id opposite_part;
         // Parts with no opposites have BOTH here
         side part_side = side::BOTH;
+        body_part_type::type limb_type = body_part_type::type::num_types;
 
         float smash_efficiency = 0.5f;
 
@@ -159,6 +190,8 @@ struct body_part_type {
         int base_hp = 60;
         stat_hp_mods hp_mods;
 
+        // if a limb is vital and at 0 hp, you die.
+        bool is_vital = false;
         bool is_limb = false;
 
         int drench_max = 0;
@@ -185,6 +218,11 @@ struct body_part_type {
         }
     private:
         int bionic_slots_ = 0;
+};
+
+template<>
+struct enum_traits<body_part_type::type> {
+    static constexpr body_part_type::type last = body_part_type::type::num_types;
 };
 
 struct layer_details {
@@ -249,8 +287,8 @@ class bodypart
         std::array<int, NUM_WATER_TOLERANCE> mut_drench;
 
     public:
-        bodypart(): id( bodypart_str_id::NULL_ID() ), hp_cur( 0 ), hp_max( 0 ), mut_drench() {}
-        bodypart( bodypart_str_id id ): id( id ), hp_cur( id->base_hp ), hp_max( id->base_hp ),
+        bodypart(): id( bodypart_str_id::NULL_ID() ), mut_drench() {}
+        explicit bodypart( bodypart_str_id id ): id( id ), hp_cur( id->base_hp ), hp_max( id->base_hp ),
             mut_drench() {}
 
         bodypart_id get_id() const;
@@ -287,7 +325,7 @@ class bodypart
 
         void set_encumbrance_data( const encumbrance_data &set );
 
-        void set_mut_drench( std::pair<water_tolerance, int> set );
+        void set_mut_drench( const std::pair<water_tolerance, int> &set );
 
         void mod_hp_cur( int mod );
         void mod_hp_max( int mod );

@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_PROFESSION_H
 #define CATA_SRC_PROFESSION_H
 
-#include <algorithm>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <set>
@@ -11,17 +11,15 @@
 #include <vector>
 
 #include "pldata.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
-template<typename T>
-class generic_factory;
-
-class item;
 class JsonObject;
 class avatar;
+class item;
 class player;
+template<typename T>
+class generic_factory;
 
 class profession
 {
@@ -33,7 +31,8 @@ class profession
             /** Snippet id, @see snippet_library. */
             snippet_id snip_id;
             // compatible with when this was just a std::string
-            itypedec( const std::string &t ) : type_id( t ), snip_id( snippet_id::NULL_ID() ) {
+            explicit itypedec( const std::string &t ) :
+                type_id( t ), snip_id( snippet_id::NULL_ID() ) {
             }
             itypedec( const std::string &t, const snippet_id &d ) : type_id( t ), snip_id( d ) {
             }
@@ -73,6 +72,8 @@ class profession
         std::set<std::string> flags; // flags for some special properties of the profession
         StartingSkillList  _starting_skills;
 
+        std::string _subtype;
+
         void check_item_definitions( const itypedecvec &items ) const;
 
         void load( const JsonObject &jo, const std::string &src );
@@ -87,6 +88,7 @@ class profession
         // these should be the only ways used to get at professions
         static const profession *generic(); // points to the generic, default profession
         static const std::vector<profession> &get_all();
+        static std::vector<string_id<profession>> get_all_hobbies();
 
         static bool has_initialized();
         // clear profession map, every profession pointer becomes invalid!
@@ -129,6 +131,8 @@ class profession
         bool is_forbidden_trait( const trait_id &trait ) const;
         std::vector<trait_id> get_locked_traits() const;
         std::set<trait_id> get_forbidden_traits() const;
+
+        bool is_hobby() const;
 };
 
 #endif // CATA_SRC_PROFESSION_H

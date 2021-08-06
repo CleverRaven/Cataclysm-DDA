@@ -1,8 +1,10 @@
-#include "catch/catch.hpp"
-
+#include <functional>
+#include <iosfwd>
 #include <string>
 #include <vector>
 
+#include "calendar.h"
+#include "cata_catch.h"
 #include "character.h"
 #include "inventory.h"
 #include "item.h"
@@ -14,6 +16,7 @@
 #include "requirements.h"
 #include "ret_val.h"
 #include "type_id.h"
+#include "units.h"
 #include "veh_type.h"
 #include "vehicle.h"
 

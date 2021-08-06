@@ -117,5 +117,20 @@
     "type": "recipe",
     "result": "purifier_smart_shot",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "afs_metal_rig",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "afs_kitchen_rig",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "afs_cooking_rig",
+    "obsolete": true
   }
 ]

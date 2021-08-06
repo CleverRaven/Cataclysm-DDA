@@ -78,7 +78,7 @@
     "id": "dks_powercell",
     "category": "spare_parts",
     "name": { "str": "alien power cell" },
-    "description": "A fist-sized, cylindrical canister that makes you feel a bit tingly when you hold it.  Its center houses a faintly glowing red core of some sort.  Though fundementally incompatable with earthly technologies, it still might be useful in crafting.",
+    "description": "A fist-sized, cylindrical canister that makes you feel a bit tingly when you hold it.  Its center houses a faintly glowing red core of some sort.  Though fundamentally incompatible with earthly technologies, it still might be useful in crafting.",
     "weight": "80 g",
     "volume": "30 ml",
     "price": 15000,

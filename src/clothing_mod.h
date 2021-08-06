@@ -2,13 +2,11 @@
 #ifndef CATA_SRC_CLOTHING_MOD_H
 #define CATA_SRC_CLOTHING_MOD_H
 
-#include <algorithm>
 #include <array>
 #include <cstddef>
-#include <string>
+#include <iosfwd>
 #include <vector>
 
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 

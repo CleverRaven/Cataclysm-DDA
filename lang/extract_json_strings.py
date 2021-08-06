@@ -106,7 +106,6 @@ ignorable = {
     "overmap_location",
     "overmap_special",
     "profession_item_substitutions",
-    "palette",
     "region_overlay",
     "region_settings",
     "relic_procgen_data",
@@ -154,7 +153,6 @@ automatically_convertible = {
     "json_flag",
     "keybinding",
     "LOOT_ZONE",
-    "MAGAZINE",
     "map_extra",
     "MOD_INFO",
     "MONSTER",
@@ -267,6 +265,13 @@ def extract_construction(item):
     outfile = get_outfile("construction")
     if "pre_note" in item:
         writestr(outfile, item["pre_note"])
+
+
+def extract_effect_on_condition(item):
+    outfile = get_outfile("effect_on_condition")
+    extract_talk_effects(item["effect"], outfile)
+    if "false_effect" in item:
+        extract_talk_effects(item["false_effect"], outfile)
 
 
 def extract_harvest(item):
@@ -441,6 +446,15 @@ def extract_effect_type(item):
             comment = "Speed name of effect(s) '{}'.".format(', '.join(name))
             writestr(outfile, item.get("speed_name"), comment=comment)
 
+    # death_msg
+    if "death_msg" in item:
+        if not name:
+            writestr(outfile, item.get("death_msg"))
+        else:
+            comment = "Death message of effect(s) '{}'."
+            comment.format(', '.json(name))
+            writestr(outfile, item.get("death_msg"), comment=comment)
+
     # apply and remove memorial messages.
     msg = item.get("apply_memorial_log")
     if not name:
@@ -477,6 +491,12 @@ def extract_gun(item):
     if "description" in item:
         description = item.get("description")
         writestr(outfile, description)
+    if "variants" in item:
+        for variant in item.get("variants"):
+            vname = variant.get("name")
+            writestr(outfile, vname, pl_fmt=True)
+            vdesc = variant.get("description")
+            writestr(outfile, vdesc)
     if "modes" in item:
         modes = item.get("modes")
         for fire_mode in modes:
@@ -491,6 +511,29 @@ def extract_gun(item):
     if "reload_noise" in item:
         item_reload_noise = item.get("reload_noise")
         writestr(outfile, item_reload_noise)
+
+
+def extract_magazine(item):
+    outfile = get_outfile("magazine")
+    if "name" in item:
+        item_name = item.get("name")
+        if item["type"] in needs_plural:
+            writestr(outfile, item_name, pl_fmt=True)
+        else:
+            writestr(outfile, item_name)
+    if "description" in item:
+        description = item.get("description")
+        writestr(outfile, description)
+    if "variants" in item:
+        for variant in item.get("variants"):
+            vname = variant.get("name")
+            writestr(outfile, vname, pl_fmt=True)
+            vdesc = variant.get("description")
+            writestr(outfile, vdesc)
+    if "use_action" in item:
+        use_action = item.get("use_action")
+        item_name = item.get("name")
+        extract_use_action_msgs(outfile, use_action, item_name, {})
 
 
 def extract_gunmod(item):
@@ -595,6 +638,14 @@ def extract_mapgen(item):
                              comment="Computer access denied warning")
 
 
+def extract_palette(item):
+    outfile = get_outfile("palette")
+    if "signs" in item:
+        for (k, v) in items_sorted_by_key(item["signs"]):
+            sign = v.get("signage", None)
+            writestr(outfile, sign, comment="Sign")
+
+
 def extract_monster_attack(item):
     outfile = get_outfile("monster_attack")
     if "hit_dmg_u" in item:
@@ -681,6 +732,8 @@ def extract_talk_effects(effects, outfile):
                 comment = "Nickname for creature '{}'".format(
                     eff["u_buy_monster"])
                 writestr(outfile, eff["name"], comment=comment)
+            if "message" in eff:
+                writestr(outfile, eff["message"])
 
 
 def extract_talk_response(response, outfile):
@@ -711,6 +764,14 @@ def extract_talk_topic(item):
     if "responses" in item:
         for r in item["responses"]:
             extract_talk_response(r, outfile)
+    if "repeat_responses" in item:
+        rr = item["repeat_responses"]
+        if type(rr) is dict and "response" in rr:
+            extract_talk_response(rr["response"], outfile)
+        elif type(rr) is list:
+            for r in rr:
+                if "response" in r:
+                    extract_talk_response(r["response"], outfile)
     if "effect" in item:
         extract_talk_effects(item["effect"], outfile)
 
@@ -801,6 +862,14 @@ def extract_mutation(item):
 
     if "ranged_mutation" in item:
         writestr(outfile, item.get("ranged_mutation").get("message"))
+
+    if "transform" in item:
+        writestr(outfile, item.get("transform").get("msg_transform"))
+
+    for trigger in item.get("triggers", []):
+        for entry in trigger:
+            writestr(outfile, entry.get("msg_on", {}).get("text"))
+            writestr(outfile, entry.get("msg_off", {}).get("text"))
 
 
 def extract_mutation_category(item):
@@ -952,11 +1021,13 @@ extract_specials = {
     "clothing_mod": extract_clothing_mod,
     "conduct": extract_achievement,
     "construction": extract_construction,
+    "effect_on_condition": extract_effect_on_condition,
     "effect_type": extract_effect_type,
     "fault": extract_fault,
     "GUN": extract_gun,
     "GUNMOD": extract_gunmod,
     "harvest": extract_harvest,
+    "MAGAZINE": extract_magazine,
     "mapgen": extract_mapgen,
     "martial_art": extract_martial_art,
     "material": extract_material,
@@ -965,6 +1036,7 @@ extract_specials = {
     "movement_mode": extract_move_mode,
     "mutation": extract_mutation,
     "mutation_category": extract_mutation_category,
+    "palette": extract_palette,
     "profession": extract_professions,
     "recipe_category": extract_recipe_category,
     "recipe": extract_recipes,
@@ -990,7 +1062,6 @@ directories = {os.path.normpath(i) for i in {
     "data/json",
     "data/mods",
     "data/core",
-    "data/legacy",
     "data/help",
 }}
 to_dir = os.path.normpath("lang/json")
@@ -1208,6 +1279,10 @@ def extract(item, infilename):
         else:
             writestr(outfile, name, **kwargs)
         wrote = True
+        if type(name) is dict and "str" in name:
+            singular_name = name["str"]
+        else:
+            singular_name = name
 
     def do_extract(item):
         wrote = False
@@ -1222,7 +1297,7 @@ def extract(item, infilename):
             wrote = True
         if "use_action" in item:
             extract_use_action_msgs(outfile, item["use_action"],
-                                    item.get("name"), kwargs)
+                                    singular_name, kwargs)
             wrote = True
         if "conditional_names" in item:
             for cname in item["conditional_names"]:
@@ -1231,9 +1306,18 @@ def extract(item, infilename):
                 writestr(outfile, cname["name"], comment=c,
                          format_strings=True, pl_fmt=True, **kwargs)
                 wrote = True
+        if "death_function" in item:
+            if "message" in item["death_function"]:
+                if singular_name:
+                    c = "Death function message for {}".format(singular_name)
+                else:
+                    c = None
+                writestr(outfile, item["death_function"]["message"],
+                         comment=c, **kwargs)
+                wrote = True
         if "description" in item:
             if name:
-                c = "Description for {}".format(name)
+                c = "Description for {}".format(singular_name)
             else:
                 c = None
             if object_type in needs_plural_desc:
@@ -1275,6 +1359,19 @@ def extract(item, infilename):
                 wrote = True
             if "sound_fail" in bash:
                 writestr(outfile, bash["sound_fail"], **kwargs)
+                wrote = True
+        if "boltcut" in item:
+            boltcut = item["boltcut"]
+            if "sound" in boltcut:
+                comment = "sound of bolt cutting '{}'".format(singular_name)
+                writestr(outfile, boltcut["sound"], comment=comment,
+                         **kwargs)
+                wrote = True
+            if "message" in boltcut:
+                comment = "message when finished bolt cutting '{}'".format(
+                          singular_name)
+                writestr(outfile, boltcut["sound"], comment=comment,
+                         **kwargs)
                 wrote = True
         if "seed_data" in item:
             seed_data = item["seed_data"]
@@ -1323,6 +1420,14 @@ def extract(item, infilename):
                                 special_attack.get("spell_id")))
                     writestr(outfile, special_attack["monster_message"],
                              format_strings=True, comment=comment, **kwargs)
+                    wrote = True
+                if "targeting_sound" in special_attack:
+                    writestr(outfile, special_attack["targeting_sound"],
+                             **kwargs)
+                    wrote = True
+                if "no_ammo_sound" in special_attack:
+                    writestr(outfile, special_attack["no_ammo_sound"],
+                             **kwargs)
                     wrote = True
         if "footsteps" in item:
             writestr(outfile, item["footsteps"], **kwargs)

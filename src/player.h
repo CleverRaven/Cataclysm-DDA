@@ -2,24 +2,17 @@
 #ifndef CATA_SRC_PLAYER_H
 #define CATA_SRC_PLAYER_H
 
-#include <climits>
-#include <functional>
+#include <iosfwd>
 #include <list>
 #include <map>
-#include <memory>
 #include <set>
-#include <string>
 #include <type_traits>
 #include <utility>
 #include <vector>
 
-#include "bodypart.h"
-#include "cata_utility.h"
 #include "character.h"
 #include "character_id.h"
 #include "creature.h"
-#include "cursesdef.h"
-#include "damage.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "item.h"
@@ -27,43 +20,27 @@
 #include "item_pocket.h"
 #include "memory_fast.h"
 #include "optional.h"
-#include "pimpl.h"
-#include "player_activity.h"
-#include "pldata.h"
 #include "point.h"
 #include "ret_val.h"
-#include "string_id.h"
 #include "type_id.h"
-#include "weighted_list.h"
 
+class craft_command;
 class JsonIn;
 class JsonObject;
 class JsonOut;
-class basecamp;
-class dispersion_sources;
-class effect;
-class faction;
-class inventory;
-class ma_technique;
-class map;
-class monster;
 class nc_color;
-class npc;
 class profession;
-class recipe;
-class recipe_subset;
 class time_duration;
+class time_point;
 class vehicle;
-struct bionic;
+
+namespace catacurses
+{
+class window;
+}  // namespace catacurses
 struct damage_unit;
 struct dealt_projectile_attack;
-struct item_comp;
-struct itype;
-struct pathfinding_settings;
-struct requirement_data;
-struct tool_comp;
 struct trap;
-struct w_point;
 
 enum action_id : int;
 enum game_message_type : int;
@@ -103,10 +80,10 @@ class player : public Character
     public:
         player();
         player( const player & ) = delete;
-        player( player && );
+        player( player && ) noexcept( map_is_noexcept );
         ~player() override;
         player &operator=( const player & ) = delete;
-        player &operator=( player && );
+        player &operator=( player && ) noexcept( list_is_noexcept );
 
         /** Calls Character::normalize()
          *  normalizes HP and body temperature
@@ -114,9 +91,6 @@ class player : public Character
 
         void normalize() override;
 
-        bool is_player() const override {
-            return true;
-        }
         player *as_player() override {
             return this;
         }
@@ -137,18 +111,10 @@ class player : public Character
         /** Handles and displays detailed character info for the '@' screen */
         void disp_info();
 
-        /**Estimate effect duration based on player relevant skill*/
-        time_duration estimate_effect_dur( const skill_id &relevant_skill, const efftype_id &effect,
-                                           const time_duration &error_magnitude,
-                                           int threshold, const Creature &target ) const;
-
         /** Resets movement points and applies other non-idempotent changes */
         void process_turn() override;
         /** Calculates the various speed bonuses we will get from mutations, etc. */
         void recalc_speed_bonus();
-
-        /** Called when a player triggers a trap, returns true if they don't set it off */
-        bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 
         void pause(); // '.' command; pauses & resets recoil
 
@@ -237,12 +203,12 @@ class player : public Character
         /** Used for eating object at a location. Removes item if all of it was consumed.
         *   @returns trinary enum NONE, SOME or ALL amount consumed.
         */
-        trinary consume( item_location loc, bool force = false );
+        trinary consume( item_location loc, bool force = false, bool refuel = false );
 
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  @returns trinary enum NONE, SOME or ALL (doesn't remove).
          */
-        trinary consume( item &target, bool force = false );
+        trinary consume( item &target, bool force = false, bool refuel = false );
 
         int get_lift_assist() const;
 
@@ -259,6 +225,9 @@ class player : public Character
 
         /** Select ammo from the provided options */
         item::reload_option select_ammo( const item &base, std::vector<item::reload_option> opts ) const;
+
+        /** returns players strength adjusted by any traits that affect strength during lifting jobs */
+        int get_lift_str() const;
 
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
         template <typename T> bool can_lift( const T &obj ) const;
@@ -287,8 +256,9 @@ class player : public Character
         wear( item_location item_wear, bool interactive = true );
 
         /** Takes off an item, returning false on fail. The taken off item is processed in the interact */
-        bool takeoff( item &it, std::list<item> *res = nullptr );
+        bool takeoff( item_location loc, std::list<item> *res = nullptr );
         bool takeoff( int pos );
+
 
         /**
          * Try to wield a contained item consuming moves proportional to weapon skill and volume.
@@ -314,7 +284,7 @@ class player : public Character
         /** Uses a tool */
         void use( int inventory_position );
         /** Uses a tool at location */
-        void use( item_location loc );
+        void use( item_location loc, int pre_obtain_moves = -1 );
         /** Uses the current wielded weapon */
         void use_wielded();
 
@@ -339,13 +309,8 @@ class player : public Character
         /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
         void try_to_sleep( const time_duration &dur );
 
-        //returns true if the warning is now beyond final and results in hostility.
-        bool add_faction_warning( const faction_id &id );
-        int current_warnings_fac( const faction_id &id );
-        bool beyond_final_warning( const faction_id &id );
         /** Returns the effect of pain on stats */
         stat_mod get_pain_penalty() const;
-        int kcal_speed_penalty() const;
         /** Returns the penalty to speed from thirst */
         static int thirst_speed_penalty( int thirst );
 
@@ -354,11 +319,11 @@ class player : public Character
         void process_items();
 
         // ---------------VALUES-----------------
-        tripoint view_offset;
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint grab_point;
         int volume = 0;
         const profession *prof;
+        std::set<const profession *> hobbies;
 
         bool random_start_location = true;
         start_location_id start_location;
@@ -369,11 +334,8 @@ class player : public Character
         item_location ammo_location;
         int scent = 0;
         int cash = 0;
-        int movecounter = 0;
 
         bool manual_examine = false;
-        vproto_id starting_vehicle;
-        std::vector<mtype_id> starting_pets;
 
         std::set<character_id> follower_ids;
         void mod_stat( const std::string &stat, float modifier ) override;
@@ -386,11 +348,17 @@ class player : public Character
         using Character::add_msg_if_player;
         void add_msg_if_player( const std::string &msg ) const override;
         void add_msg_if_player( const game_message_params &params, const std::string &msg ) const override;
+        using Character::add_msg_debug_if_player;
+        void add_msg_debug_if_player( debugmode::debug_filter type,
+                                      const std::string &msg ) const override;
         using Character::add_msg_player_or_npc;
         void add_msg_player_or_npc( const std::string &player_msg,
                                     const std::string &npc_str ) const override;
         void add_msg_player_or_npc( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
+        using Character::add_msg_debug_player_or_npc;
+        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const std::string &player_msg,
+                                          const std::string &npc_msg ) const override;
         using Character::add_msg_player_or_say;
         void add_msg_player_or_say( const std::string &player_msg,
                                     const std::string &npc_speech ) const override;

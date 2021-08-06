@@ -1,15 +1,14 @@
 #include "ammo.h"
 
+#include <string>
 #include <unordered_map>
+#include <utility>
 
 #include "debug.h"
 #include "item.h"
 #include "json.h"
 #include "translations.h"
-#include "string_id.h"
 #include "type_id.h"
-
-static const itype_id itype_UPS( "UPS" );
 
 namespace
 {
@@ -68,7 +67,7 @@ void ammunition_type::check_consistency()
         const auto &at = ammo.second.default_ammotype_;
 
         // TODO: these ammo types should probably not have default ammo at all.
-        if( at == itype_UPS || at.str() == "components" || at.str() == "thrown" ) {
+        if( at.str() == "components" || at.str() == "thrown" ) {
             continue;
         }
 

@@ -100,7 +100,6 @@
       "CLEANSING_FLAME",
       "EARTH_ELEMENTAL",
       "FIRE_ELEMENTAL",
-      "FORCE_MAGE",
       "GAIAS_CHOSEN",
       "GLACIER_MAGE",
       "GOLEMANCER",
@@ -174,6 +173,7 @@
     "valid": false,
     "description": "Named for the auroras that grace the poles of the earth, the Boreal mage specializes in auras that protect ethereally.  Boreal mages definitely know their way around cold spells, but their real strength is protection.",
     "prereqs": [ "KELVINIST", "TECHNOMANCER" ],
+    "spells_learned": [ [ "auroral_wave", 5 ], [ "borealmage_auroral_guard", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
@@ -213,6 +213,7 @@
     "purifiable": false,
     "valid": false,
     "description": "The Cleansing Flame is the fire that burns away the chaff, in preparation for the regrowth of new life.",
+    "spells_learned": [ [ "immolate", 5 ], [ "cleansingflame_hermes_heal", 5 ] ],
     "prereqs": [ "DRUID", "KELVINIST" ],
     "cancels": [
       "ARTIFICER",
@@ -254,6 +255,7 @@
     "valid": false,
     "description": "The Crusader attunement is a clashing dichotomy of Man and Nature.  Utilizing man's propensity for tools and nature's resilience, the Crusader is a juggernaut in armed combat.",
     "prereqs": [ "DRUID", "TECHNOMANCER" ],
+    "spells_learned": [ [ "holy_shield", 5 ] ],
     "passive_mods": { "dex_mod": 5 },
     "hp_modifier": 1,
     "cancels": [
@@ -380,7 +382,6 @@
     "description": "Force = Mass x Acceleration.  This is the typical thing that people think of nowadays when the word is used, but Force Mages have a different meaning, coming from traditional roots: untyped magical damage appears to be a ghostly \"force.\"  This might be the effect of the attunement, but the cause is even more intriguing: they appear to turn Newton's Third Law on its head.  Magical scholars of the 21st century have theorized that this isn't really the case; instead of the opposite reaction happening on this plane of existence, a Force Mage uses the Aetherium's alternate Laws to rebound the force back upon itself, effectively doubling the force in the same direction instead.  However this ability comes with limitations, as the Force Mage can only do this for melee damage.",
     "prereqs": [ "MAGUS", "STORMSHAPER" ],
     "spells_learned": [ [ "force_blade", 5 ], [ "force_magical_armor", 5 ] ],
-    "speed_modifier": 1.2,
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
@@ -409,7 +410,8 @@
       "SOULFIRE",
       "WITHER_MAGE"
     ],
-    "flags": [ "ATTUNEMENT" ]
+    "flags": [ "ATTUNEMENT" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.2 } ] } ]
   },
   {
     "id": "GAIAS_CHOSEN",
@@ -422,6 +424,7 @@
     "description": "The Champion of the Earth, Gaia's Chosen is blessed on all things nature, animate and inanimate.",
     "enchantments": [ "GAIAS_CHOSEN" ],
     "prereqs": [ "DRUID", "EARTHSHAPER" ],
+    "spells_learned": [ [ "gaiaschosen_samsara", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
@@ -460,7 +463,7 @@
     "valid": false,
     "description": "The power of a Glacier Mage is backed by a thousand tons of ice and snow, with a brutal might in their spells.  While they are skilled with cold spells, their greatest strength is in offense.",
     "prereqs": [ "EARTHSHAPER", "KELVINIST" ],
-    "spells_learned": [ [ "ice_clave", 5 ] ],
+    "spells_learned": [ [ "ice_clave", 5 ], [ "frozen_winds", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
@@ -501,7 +504,7 @@
     "valid": false,
     "description": "The Golemancer is the ancient myth of the clay golem, made reality from constant use of Animist summons and Earthshaper self-strengthening spells.  Takes some traits from the golems they create, such as immunity to slowing effects.",
     "prereqs": [ "ANIMIST", "EARTHSHAPER" ],
-    "spells_learned": [ [ "golem_push", 5 ] ],
+    "spells_learned": [ [ "golem_push", 5 ], [ "summon_golem_clay", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
@@ -540,6 +543,7 @@
     "valid": false,
     "description": "The fundamental Laws of the universe are thought of as the end-all-be-all in magical circles, and the Gravity Mage is a result of mages mucking around with those laws.  Unfortunately, this attunement does not give supreme control over gravity as a fundamental force, though the affinity is prominent and comes with some non-negligible benefits.",
     "prereqs": [ "MAGUS", "EARTHSHAPER" ],
+    "spells_learned": [ [ "gravitymage_graviton", 5 ] ],
     "weight_capacity_modifier": 2,
     "cancels": [
       "ARTIFICER",
@@ -621,7 +625,7 @@
     "valid": false,
     "description": "Through your power in Biomancy, you have changed your body towards your Kelvinist affinity for ice.  Extreme cold has less effect on you, and your superchilled skin causes frostbite when touching others.  You're also starting to research more magic that focuses on your body's inherent ice affinity.",
     "enchantments": [ "ICE_ELEMENTAL" ],
-    "spells_learned": [ [ "summon_subzero_talons", 5 ] ],
+    "spells_learned": [ [ "summon_subzero_talons", 5 ], [ "cold_heart", 5 ] ],
     "prereqs": [ "BIOMANCER", "KELVINIST" ],
     "cancels": [
       "ARTIFICER",
@@ -702,7 +706,7 @@
     "valid": false,
     "description": "",
     "prereqs": [ "STORMSHAPER", "EARTHSHAPER" ],
-    "spells_learned": [ [ "railgun", 5 ] ],
+    "spells_learned": [ [ "railgun", 5 ], [ "magnetismmage_electrolaser", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",
@@ -1027,7 +1031,7 @@
     "prereqs": [ "MAGUS", "KELVINIST" ],
     "passive_mods": { "per_mod": 5 },
     "enchantments": [ "SUN_MAGE" ],
-    "spells_learned": [ [ "solar_beam", 5 ] ],
+    "spells_learned": [ [ "solar_beam", 5 ], [ "sunmage_pocket_sun", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "AURA_MAGE",

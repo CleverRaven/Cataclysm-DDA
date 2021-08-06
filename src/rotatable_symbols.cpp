@@ -4,7 +4,7 @@
 #include <array>
 #include <cstdint>
 #include <cstdlib>
-#include <cmath>
+#include <string>
 #include <vector>
 
 #include "catacharset.h"
