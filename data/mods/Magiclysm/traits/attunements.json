@@ -48,7 +48,7 @@
     "starting_trait": false,
     "purifiable": false,
     "valid": false,
-    "description": "Mix of worlds life energy from animist and technomancer's slant of work create an alchemist.  It requires magical talent and lots of time, but is invaluable for creating powerful magical effects in a storable, accessible form.",
+    "description": "The alchemist comes from the technomancer's skills with unliving matter combined with the animist's grasp on the ambient ley lines.  It requires magical talent and lots of time, but is invaluable for creating powerful magical effects in a storable, accessible form.",
     "prereqs": [ "ANIMIST", "TECHNOMANCER" ],
     "spells_learned": [ [ "alchemist_make_potion_bomb", 5 ], [ "alchemist_make_potion_trap", 5 ] ],
     "cancels": [
