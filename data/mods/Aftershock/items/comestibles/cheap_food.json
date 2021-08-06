@@ -58,11 +58,8 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You take a swig, it tastes like it was distilled in a hyperspace engine.",
-      "effects": [
-        { "id": "pkill1", "duration": "60 m" },
-        { "id": "pkill2", "duration": "30 m" },
-        { "id": "high", "duration": "15 m" }
-      ],
+      "effects": [ { "id": "pkill1", "duration": "60 m" }, { "id": "pkill2", "duration": "30 m" }, { "id": "high", "duration": "15 m" } ]
+    },
     "comestible_type": "DRINK",
     "symbol": "~",
     "calories": 163,
