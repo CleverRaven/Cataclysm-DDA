@@ -1278,7 +1278,7 @@ class read_inventory_preset: public pickup_inventory_preset
                 }
                 std::vector<std::string> dummy;
 
-                const player *reader = p.get_book_reader( *loc, dummy );
+                const Character *reader = p.get_book_reader( *loc, dummy );
                 if( reader == nullptr ) {
                     return std::string();  // Just to make sure
                 }
@@ -1391,6 +1391,32 @@ item_location game_menus::inv::read( player &pl )
     const std::string msg = pl.is_avatar() ? _( "You have nothing to read." ) :
                             string_format( _( "%s has nothing to read." ), pl.disp_name() );
     return inv_internal( pl, read_inventory_preset( pl ), _( "Read" ), 1, msg );
+}
+
+item_location game_menus::inv::ebookread( Character &pl, item_location &ereader )
+{
+    const std::string none_message =
+        pl.is_avatar() ?
+        string_format( _( "%1$s have nothing to read." ), pl.disp_name( false, true ) ) :
+        string_format( _( "%1$s has nothing to read." ), pl.disp_name( false, true ) );
+
+    const read_inventory_preset preset( *pl.as_player() );
+    inventory_pick_selector inv_s( pl, preset );
+
+    inv_s.set_title( _( "Read" ) );
+    inv_s.set_display_stats( false );
+
+    inv_s.clear_items();
+    inv_s.add_contained_ebooks( ereader );
+
+    if( inv_s.empty() ) {
+        popup( none_message, PF_GET_KEY );
+        return item_location();
+    }
+
+    item_location location = inv_s.execute();
+
+    return location;
 }
 
 class steal_inventory_preset : public pickup_inventory_preset

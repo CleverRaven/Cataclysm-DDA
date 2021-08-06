@@ -116,9 +116,6 @@ class player : public Character
         /** Calculates the various speed bonuses we will get from mutations, etc. */
         void recalc_speed_bonus();
 
-        /** Called when a player triggers a trap, returns true if they don't set it off */
-        bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
-
         void pause(); // '.' command; pauses & resets recoil
 
         // melee.cpp
@@ -312,13 +309,8 @@ class player : public Character
         /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
         void try_to_sleep( const time_duration &dur );
 
-        //returns true if the warning is now beyond final and results in hostility.
-        bool add_faction_warning( const faction_id &id );
-        int current_warnings_fac( const faction_id &id );
-        bool beyond_final_warning( const faction_id &id );
         /** Returns the effect of pain on stats */
         stat_mod get_pain_penalty() const;
-        int kcal_speed_penalty() const;
         /** Returns the penalty to speed from thirst */
         static int thirst_speed_penalty( int thirst );
 
@@ -327,7 +319,6 @@ class player : public Character
         void process_items();
 
         // ---------------VALUES-----------------
-        tripoint view_offset;
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint grab_point;
         int volume = 0;
@@ -343,11 +334,8 @@ class player : public Character
         item_location ammo_location;
         int scent = 0;
         int cash = 0;
-        int movecounter = 0;
 
         bool manual_examine = false;
-        vproto_id starting_vehicle;
-        std::vector<mtype_id> starting_pets;
 
         std::set<character_id> follower_ids;
         void mod_stat( const std::string &stat, float modifier ) override;
@@ -385,27 +373,6 @@ class player : public Character
 
         using Character::query_yn;
         bool query_yn( const std::string &mes ) const override;
-
-        /**
-         * Helper function for player::read.
-         *
-         * @param book Book to read
-         * @param reasons Starting with g->u, for each player/NPC who cannot read, a message will be pushed back here.
-         * @returns nullptr, if neither the player nor his followers can read to the player, otherwise the player/NPC
-         * who can read and can read the fastest
-         */
-        const player *get_book_reader( const item &book, std::vector<std::string> &reasons ) const;
-
-
-        /**
-         * Helper function for get_book_reader
-         * @warning This function assumes that the everyone is able to read
-         *
-         * @param book The book being read
-         * @param reader the player/NPC who's reading to the caller
-         * @param learner if not nullptr, assume that the caller and reader read at a pace that isn't too fast for him
-         */
-        int time_to_read( const item &book, const player &reader, const player *learner = nullptr ) const;
 
     protected:
 

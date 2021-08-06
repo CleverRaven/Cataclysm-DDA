@@ -60,6 +60,7 @@
 #include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
+#include "profession.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "skill.h"
@@ -259,7 +260,7 @@ void avatar::on_mission_finished( mission &cur_mission )
     }
 }
 
-bool avatar::read( item_location &book )
+bool avatar::read( item_location &book, item_location ereader )
 {
     if( !book ) {
         add_msg( m_info, _( "Never mind." ) );
@@ -267,7 +268,7 @@ bool avatar::read( item_location &book )
     }
 
     std::vector<std::string> fail_messages;
-    const player *reader = get_book_reader( *book, fail_messages );
+    const Character *reader = get_book_reader( *book, fail_messages );
     if( reader == nullptr ) {
         // We can't read, and neither can our followers
         for( const std::string &reason : fail_messages ) {
@@ -300,6 +301,7 @@ bool avatar::read( item_location &book )
                 read_activity_actor(
                     time_taken,
                     book,
+                    ereader,
                     false
                 ) ) );
 
@@ -514,7 +516,7 @@ bool avatar::read( item_location &book )
     const int intelligence = get_int();
     const bool complex_penalty = type->intel > std::min( intelligence, reader->get_int() ) &&
                                  !reader->has_trait( trait_PROF_DICEMASTER );
-    const player *complex_player = reader->get_int() < intelligence ? reader : this;
+    const Character *complex_player = reader->get_int() < intelligence ? reader : this;
     if( complex_penalty ) {
         add_msg( m_warning,
                  _( "This book is too complex for %s to easily understand.  It will take longer to read." ),
@@ -533,6 +535,7 @@ bool avatar::read( item_location &book )
             read_activity_actor(
                 time_taken,
                 book,
+                ereader,
                 continuous,
                 learner_id
             ) ) );
@@ -767,9 +770,9 @@ int avatar::calc_focus_equilibrium( bool ignore_pain ) const
     int focus_equilibrium = 100;
 
     if( activity.id() == ACT_READ ) {
-        const item *book = activity.targets[0].get_item();
-        if( book && book->is_book() && get_item_position( book ) != INT_MIN ) {
-            auto &bt = book->type->book;
+        const item_location book = activity.targets[0];
+        if( book && book->is_book() ) {
+            const cata::value_ptr<islot_book> &bt = book->type->book;
             // apply a penalty when we're actually learning something
             const SkillLevel &skill_level = get_skill_level_object( bt->skill );
             if( skill_level.can_train() && skill_level < bt->level ) {
@@ -866,15 +869,32 @@ void avatar::update_mental_focus()
     // calc_focus_change() returns percentile focus, applying it directly
     // to focus pool is an implicit / 100.
     focus_pool += 10 * calc_focus_change();
+}
 
-    // Moved from calc_focus_equilibrium, because it is now const
-    if( activity.id() == ACT_READ ) {
-        const item *book = activity.targets[0].get_item();
-        if( get_item_position( book ) == INT_MIN || !book->is_book() ) {
-            add_msg_if_player( m_bad, _( "You lost your book!  You stop reading." ) );
-            activity.set_to_null();
-        }
+int avatar::limb_dodge_encumbrance() const
+{
+    float leg_encumbrance = 0.0f;
+    float torso_encumbrance = 0.0f;
+    const std::vector<bodypart_id> legs =
+        get_all_body_parts_of_type( body_part_type::type::leg );
+    const std::vector<bodypart_id> torsos =
+        get_all_body_parts_of_type( body_part_type::type::torso );
+
+    for( const bodypart_id &leg : legs ) {
+        leg_encumbrance += encumb( leg );
     }
+    if( !legs.empty() ) {
+        leg_encumbrance /= legs.size() * 10.0f;
+    }
+
+    for( const bodypart_id &torso : torsos ) {
+        torso_encumbrance += encumb( torso );
+    }
+    if( !torsos.empty() ) {
+        torso_encumbrance /= torsos.size() * 10.0f;
+    }
+
+    return std::floor( torso_encumbrance + leg_encumbrance );
 }
 
 void avatar::reset_stats()
@@ -988,9 +1008,7 @@ void avatar::reset_stats()
     }
 
     // Dodge-related effects
-    mod_dodge_bonus( mabuff_dodge_bonus() -
-                     ( encumb( bodypart_id( "leg_l" ) ) + encumb( bodypart_id( "leg_r" ) ) ) / 20.0f - encumb(
-                         bodypart_id( "torso" ) ) / 10.0f );
+    mod_dodge_bonus( mabuff_dodge_bonus() - limb_dodge_encumbrance() );
     // Whiskers don't work so well if they're covered
     if( has_trait( trait_WHISKERS ) && !natural_attack_restricted_on( bodypart_id( "mouth" ) ) ) {
         mod_dodge_bonus( 1 );
@@ -1601,4 +1619,31 @@ std::string points_left::to_string()
     } else {
         return _( "Freeform" );
     }
+}
+
+int avatar::randomize_hobbies()
+{
+    hobbies.clear();
+    std::vector<profession_id> choices = profession::get_all_hobbies();
+
+    int random = rng( 0, 5 );
+    int points = 0;
+
+    if( random >= 1 ) {
+        const profession_id hobby = random_entry_removed( choices );
+        points += hobby->point_cost();
+        hobbies.insert( &*hobby );
+    }
+    if( random >= 3 ) {
+        const profession_id hobby = random_entry_removed( choices );
+        points += hobby->point_cost();
+        hobbies.insert( &*hobby );
+    }
+    if( random >= 5 ) {
+        const profession_id hobby = random_entry_removed( choices );
+        points += hobby->point_cost();
+        hobbies.insert( &*hobby );
+    }
+
+    return points;
 }

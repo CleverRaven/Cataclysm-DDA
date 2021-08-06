@@ -128,7 +128,7 @@ static tab_direction set_stats( avatar &u, points_left &points );
 static tab_direction set_traits( avatar &u, points_left &points );
 static tab_direction set_scenario( avatar &u, points_left &points, tab_direction direction );
 static tab_direction set_profession( avatar &u, points_left &points, tab_direction direction );
-static tab_direction set_hobbies( avatar &u, points_left &points, tab_direction direction );
+static tab_direction set_hobbies( avatar &u, points_left &points );
 static tab_direction set_skills( avatar &u, points_left &points );
 static tab_direction set_description( avatar &you, bool allow_reroll, points_left &points );
 
@@ -218,6 +218,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     }
 
     prof = get_scenario()->weighted_random_profession();
+    int hobby_point_cost = randomize_hobbies();
     random_start_location = true;
 
     str_max = rng( 6, HIGH_STAT - 2 );
@@ -225,7 +226,8 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     int_max = rng( 6, HIGH_STAT - 2 );
     per_max = rng( 6, HIGH_STAT - 2 );
     points.stat_points = points.stat_points - str_max - dex_max - int_max - per_max;
-    points.skill_points = points.skill_points - prof->point_cost() - get_scenario()->point_cost();
+    points.skill_points = points.skill_points - prof->point_cost() - get_scenario()->point_cost() -
+                          hobby_point_cost;
     // The default for each stat is 8, and that default does not cost any points.
     // Values below give points back, values above require points. The line above has removed
     // to many points, therefore they are added back.
@@ -527,7 +529,7 @@ bool avatar::create( character_type type, const std::string &tempname )
                 result = set_profession( *this, points, result );
                 break;
             case 3:
-                result = set_hobbies( *this, points, result );
+                result = set_hobbies( *this, points );
                 break;
             case 4:
                 result = set_stats( *this, points );
@@ -2011,8 +2013,7 @@ tab_direction set_profession( avatar &u, points_left &points,
 }
 
 /** Handle the hobbies tab of the character generation menu */
-tab_direction set_hobbies( avatar &u, points_left &points,
-                           const tab_direction direction )
+tab_direction set_hobbies( avatar &u, points_left &points )
 {
     int cur_id = 0;
     tab_direction retval = tab_direction::NONE;
@@ -2057,12 +2058,7 @@ tab_direction set_hobbies( avatar &u, points_left &points,
     std::string filterstring;
     std::vector<string_id<profession>> sorted_profs;
 
-    if( direction == tab_direction::FORWARD ) {
-        points.skill_points -= u.prof->point_cost();
-    }
-
     int iheight = 0;
-
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
         draw_character_tabs( w, _( "HOBBIES" ) );
@@ -4171,6 +4167,8 @@ void reset_scenario( avatar &u, const scenario *scen )
             u.toggle_trait( t );
         }
     }
+
+    u.hobbies.clear();
     u.clear_mutations();
     u.recalc_hp();
     u.empty_skills();

@@ -21,7 +21,7 @@
 #include "units_utility.h"
 
 /** How much light moon provides per lit-up quarter (Full-moon light is four times this value) */
-static constexpr double moonlight_per_quarter = 2.25;
+static constexpr double moonlight_per_quarter = 1.5;
 
 // Divided by 100 to prevent overflowing when converted to moves
 const int calendar::INDEFINITELY_LONG( std::numeric_limits<int>::max() / 100 );
@@ -36,17 +36,10 @@ time_point calendar::turn = calendar::turn_zero;
 season_type calendar::initial_season = SPRING;
 
 // The solar altitudes at which light changes in various ways
-static constexpr units::angle min_sun_angle_for_day = -12_degrees;
-static constexpr units::angle max_sun_angle_for_night = 0_degrees;
-static constexpr units::angle min_sun_angle_for_twilight = -18_degrees;
-static constexpr units::angle max_sun_angle_for_twilight = 1_degrees;
-
-static_assert( min_sun_angle_for_day <= max_sun_angle_for_night, "day and night must overlap" );
-static_assert( min_sun_angle_for_day <= max_sun_angle_for_twilight,
-               "day and twilight must overlap" );
-static_assert( min_sun_angle_for_twilight <= max_sun_angle_for_night,
-               "twilight and night must overlap" );
-static_assert( min_sun_angle_for_twilight <= max_sun_angle_for_twilight, "twilight must exist" );
+static constexpr units::angle astronomical_dawn = -18_degrees;
+static constexpr units::angle nautical_dawn = -12_degrees;
+static constexpr units::angle civil_dawn = -6_degrees;
+static constexpr units::angle sunrise_angle = -1_degrees;
 
 double default_daylight_level()
 {
@@ -234,7 +227,7 @@ cata::optional<rl_vec2d> sunlight_angle( const time_point &t )
     units::angle azimuth;
     units::angle altitude;
     std::tie( azimuth, altitude ) = sun_azimuth_altitude( t );
-    if( altitude <= 0_degrees ) {
+    if( altitude <= sunrise_angle ) {
         // Sun below horizon
         return cata::nullopt;
     }
@@ -305,38 +298,38 @@ static time_point sun_at_altitude( const units::angle altitude, const units::ang
 
 time_point sunrise( const time_point &p )
 {
-    return sun_at_altitude( 0_degrees, location_boston.longitude, p, false );
+    return sun_at_altitude( sunrise_angle, location_boston.longitude, p, false );
 }
 
 time_point sunset( const time_point &p )
 {
-    return sun_at_altitude( 0_degrees, location_boston.longitude, p, true );
+    return sun_at_altitude( sunrise_angle, location_boston.longitude, p, true );
 }
 
 time_point night_time( const time_point &p )
 {
-    return sun_at_altitude( min_sun_angle_for_day, location_boston.longitude, p, true );
+    return sun_at_altitude( civil_dawn, location_boston.longitude, p, true );
 }
 
 time_point daylight_time( const time_point &p )
 {
-    return sun_at_altitude( min_sun_angle_for_day, location_boston.longitude, p, false );
+    return sun_at_altitude( civil_dawn, location_boston.longitude, p, false );
 }
 
 bool is_night( const time_point &p )
 {
-    return sun_altitude( p ) <= min_sun_angle_for_day;
+    return sun_altitude( p ) <= nautical_dawn;
 }
 
 bool is_day( const time_point &p )
 {
-    return sun_altitude( p ) >= 0_degrees;
+    return sun_altitude( p ) >= sunrise_angle;
 }
 
 static bool is_twilight( const time_point &p )
 {
     units::angle altitude = sun_altitude( p );
-    return altitude >= min_sun_angle_for_twilight && altitude <= max_sun_angle_for_twilight;
+    return altitude >= astronomical_dawn && altitude <= sunrise_angle;
 }
 
 bool is_dusk( const time_point &p )
@@ -364,21 +357,23 @@ static float moon_light_at( const time_point &p )
 float sun_light_at( const time_point &p )
 {
     const units::angle solar_alt = sun_altitude( p );
-    // For ~Boston: solstices are +/- 25% sunlight intensity from equinoxes.
-    // These values yield roughly that range (see sun_test.cpp)
-    static constexpr double light_at_zero_altitude = 60;
-    static constexpr double max_light = 125;
 
-    if( solar_alt < min_sun_angle_for_twilight ) {
+    if( solar_alt < astronomical_dawn ) {
         return 0;
-    } else if( solar_alt <= max_sun_angle_for_night ) {
-        // Sunlight rises exponentially from 0 to 60 as sun rises from -18° to 0°
-        return light_at_zero_altitude *
-               ( std::exp2( 1 - solar_alt / min_sun_angle_for_twilight ) - 1 );
+    } else if( solar_alt <= nautical_dawn ) {
+        // Sunlight rises exponentially from 0 to 3.7f as sun rises from -18° to -12°
+        return 3.7f * ( std::exp2( to_degrees( solar_alt - astronomical_dawn ) / 6.f ) - 1 );
+    } else if( solar_alt <= civil_dawn ) {
+        // Sunlight rises exponentially from 3.7f to 5.0f as sun rises from -12° to -6°
+        return ( 5.0f - 3.7f ) * ( std::exp2( to_degrees( solar_alt - nautical_dawn ) / 6.f ) - 1 ) + 3.7f;
+    } else if( solar_alt <= sunrise_angle ) {
+        // Sunlight rises exponentially from 5.0f to 60 as sun rises from -6° to -1°
+        return ( 60 - 5.0f ) * ( std::exp2( to_degrees( solar_alt - civil_dawn ) / 5.f ) - 1 ) + 5.0f;
+    } else if( solar_alt <= 60_degrees ) {
+        // Linear increase from -1° to 60° degrees light increases from 60 to 125 brightness.
+        return ( 65.f / 61 ) * to_degrees( solar_alt ) + 65.f / 61  + 60;
     } else {
-        // Linear increase from 0° to 70° degrees light increases from 60 to 125 brightness.
-        const double lerp_param = solar_alt / 70_degrees;
-        return lerp_clamped( light_at_zero_altitude, max_light, lerp_param );
+        return 125.f;
     }
 }
 
