@@ -55,12 +55,14 @@
     "time": "6 h",
     "book_learn": [ [ "recipe_labchem", 6 ] ],
     "batch_time_factors": [ 30, 5 ],
-    "qualities": [ { "id": "CHEM", "level": 3 }, {"id": "SEPARATE", "level": 1} ],
-    "components": [ [ [ "dayquil", 15 ] ], 
-		[ [ "iodine_crystal", 15 ] ],
-		[ [ "red_phosphorous", 15 ] ],
-		[ [ "chem_acetone", 150] ],
-		[ [ "chem_methanol", 3 ] ],
-		[ [ "lye_powder", 5 ] ] ]
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 } ],
+    "components": [
+      [ [ "dayquil", 15 ] ],
+      [ [ "iodine_crystal", 15 ] ],
+      [ [ "red_phosphorous", 15 ] ],
+      [ [ "chem_acetone", 150 ] ],
+      [ [ "chem_methanol", 3 ] ],
+      [ [ "lye_powder", 5 ] ]
+    ]
   }
 ]
