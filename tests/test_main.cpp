@@ -28,6 +28,7 @@
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "color.h"
+#include "compatibility.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
@@ -281,6 +282,7 @@ CATCH_REGISTER_LISTENER( CataListener )
 
 int main( int argc, const char *argv[] )
 {
+    reset_floating_point_mode();
     Catch::Session session;
 
     std::vector<const char *> arg_vec( argv, argv + argc );

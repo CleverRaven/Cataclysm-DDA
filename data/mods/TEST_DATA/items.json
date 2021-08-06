@@ -1386,6 +1386,34 @@
     "material": [ "steel" ]
   },
   {
+    "type": "TOOL",
+    "id": "test_boltcutter",
+    "name": { "str": "test pair of bolt cutters" },
+    "description": "Test bolt cutters.",
+    "weight": "1 kg",
+    "volume": "1 L",
+    "symbol": ";"
+  },
+  {
+    "type": "TOOL",
+    "id": "test_boltcutter_elec",
+    "copy-from": "test_boltcutter",
+    "name": { "str": "test electric pair of bolt cutters" },
+    "description": "Test bolt cutters which uses batteries.",
+    "charges_per_use": 1,
+    "ammo": [ "battery" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "test_battery_disposable" ]
+      }
+    ]
+  },
+  {
     "id": "test_crafted_suppressor",
     "type": "GUNMOD",
     "name": { "str": "test suppressor" },

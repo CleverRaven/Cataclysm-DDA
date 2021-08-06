@@ -578,8 +578,8 @@ static std::pair<nc_color, int> morale_stat( const avatar &u )
 
 static std::pair<bodypart_id, bodypart_id> temp_delta( const avatar &u )
 {
-    bodypart_id current_bp_extreme( "torso" );
-    bodypart_id conv_bp_extreme( "torso" );
+    bodypart_id current_bp_extreme = u.get_all_body_parts().front();
+    bodypart_id conv_bp_extreme = current_bp_extreme;
     for( const bodypart_id &bp : u.get_all_body_parts() ) {
         if( std::abs( u.get_part_temp_cur( bp ) - BODYTEMP_NORM ) >
             std::abs( u.get_part_temp_cur( current_bp_extreme ) - BODYTEMP_NORM ) ) {

@@ -575,7 +575,7 @@ class boltcutting_activity_actor : public activity_actor
         }
 
         void start( player_activity &act, Character &/*who*/ ) override;
-        void do_turn( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &/*act*/, Character &who ) override;
         void finish( player_activity &act, Character &who ) override;
 
         std::unique_ptr<activity_actor> clone() const override {
@@ -584,6 +584,9 @@ class boltcutting_activity_actor : public activity_actor
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+
+        // debugmsg causes a backtrace when fired during cata_test
+        bool testing = false;
 
     private:
         tripoint target;
