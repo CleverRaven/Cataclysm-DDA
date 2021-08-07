@@ -1066,27 +1066,31 @@
     "skills_required": [ [ "mechanics", 5 ], [ "electronics", 3 ] ],
     "time": "4 h",
     "autolearn": [ [ "mechanics", 5 ], [ "electronics", 3 ] ],
-    "book_learn": [ 
-      [ "manual_mechanics", 3 ], 
-      [ "textbook_mechanics", 2 ], 
-      [ "advanced_electronics", 4 ], 
-      [ "textbook_electronics", 4 ], 
-      [ "textbook_carpentry", 5 ] ],
+    "book_learn": [
+      [ "manual_mechanics", 3 ],
+      [ "textbook_mechanics", 2 ],
+      [ "advanced_electronics", 4 ],
+      [ "textbook_electronics", 4 ],
+      [ "textbook_carpentry", 5 ]
+    ],
     "using": [ [ "welding_standard", 10 ], [ "soldering_standard", 20 ] ],
-    "proficiencies": [ 
+    "proficiencies": [
       { "proficiency": "prof_elec_soldering" },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
-      { "proficiency": "prof_welding" } ],
-    "qualities": [ 
-      { "id": "HAMMER", "level": 2 }, 
-      { "id": "SAW_M", "level": 1 }, 
-      { "id": "WRENCH", "level": 1 }, 
-      { "id": "SCREW", "level": 1} ],
-    "components": [ 
+      { "proficiency": "prof_welding" }
+    ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "components": [
       [ [ "circsaw_off", 1 ] ],
-      [ [ "1cyl_combustion_small", 1 ] ], 
-      [ [ "metal_tank_little", 1 ] ], 
-      [ [ "steel_chunk", 6 ], [ "steel_lump", 2 ] ] ]
+      [ [ "1cyl_combustion_small", 1 ] ],
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "steel_chunk", 6 ], [ "steel_lump", 2 ] ]
+    ]
   }
 ]

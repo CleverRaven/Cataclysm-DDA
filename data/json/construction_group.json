@@ -1173,7 +1173,7 @@
     "type": "construction_group",
     "id": "remove_empty_window",
     "name": "Remove an empty window frame"
-},
+  },
   {
     "type": "construction_group",
     "id": "remove_linoleum_tiles",

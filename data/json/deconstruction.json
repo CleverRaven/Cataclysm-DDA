@@ -7,15 +7,14 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "60 m",
-    "qualities": [ 
+    "qualities": [
       [ { "id": "HAMMER", "level": 2 } ],
-      [ { "id": "CHISEL", "level": 2 } ], 
-      [ { "id": "SAW_MASONRY", "level": 2 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 2 } ] ],
-    "byproducts": [ 
-      { "item": "2x4", "count": [ 7, 15 ] }, 
-      { "item": "nail", "charges": [15, 30] } ],
+      [ { "id": "CHISEL", "level": 2 } ],
+      [ { "id": "SAW_MASONRY", "level": 2 } ],
+      [ { "id": "GRIND", "level": 2 } ],
+      [ { "id": "PRY", "level": 2 } ]
+    ],
+    "byproducts": [ { "item": "2x4", "count": [ 7, 15 ] }, { "item": "nail", "charges": [ 15, 30 ] } ],
     "pre_terrain": "t_window_empty",
     "post_terrain": "t_floor"
   },
@@ -27,15 +26,14 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "60 m",
-    "qualities": [ 
+    "qualities": [
       [ { "id": "HAMMER", "level": 2 } ],
-      [ { "id": "CHISEL", "level": 2 } ], 
-      [ { "id": "SAW_MASONRY", "level": 2 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 2 } ] ],
-    "byproducts": [ 
-      { "item": "spike", "count": [ 3, 6 ] }, 
-      { "item": "scrap", "charges": [6, 8] } ],
+      [ { "id": "CHISEL", "level": 2 } ],
+      [ { "id": "SAW_MASONRY", "level": 2 } ],
+      [ { "id": "GRIND", "level": 2 } ],
+      [ { "id": "PRY", "level": 2 } ]
+    ],
+    "byproducts": [ { "item": "spike", "count": [ 3, 6 ] }, { "item": "scrap", "charges": [ 6, 8 ] } ],
     "pre_terrain": "t_m_frame",
     "post_terrain": "t_floor"
   },
@@ -48,17 +46,19 @@
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "120 m",
     "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ] ],
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
-      [ { "id": "SAW_MASONRY", "level": 4 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "rock", "count": [ 5, 10 ] }, 
-      { "item": "scrap", "count": [ 5, 8 ] }, 
-      { "item": "rebar", "count": [ 0, 2 ] }, 
-      { "item": "material_sand", "charges": [ 50, 125 ] } ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
+      [ { "id": "SAW_MASONRY", "level": 4 } ],
+      [ { "id": "GRIND", "level": 2 } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [
+      { "item": "rock", "count": [ 5, 10 ] },
+      { "item": "scrap", "count": [ 5, 8 ] },
+      { "item": "rebar", "count": [ 0, 2 ] },
+      { "item": "material_sand", "charges": [ 50, 125 ] }
+    ],
     "pre_terrain": "t_concrete",
     "post_terrain": "t_pit_shallow"
   },
@@ -71,17 +71,19 @@
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "120 m",
     "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ] ],
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
-      [ { "id": "SAW_MASONRY", "level": 4 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "rock", "count": [ 5, 10 ] }, 
-      { "item": "scrap", "count": [ 5, 8 ] }, 
-      { "item": "rebar", "count": [ 0, 2 ] }, 
-      { "item": "material_sand", "charges": [ 50, 125 ] } ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
+      [ { "id": "SAW_MASONRY", "level": 4 } ],
+      [ { "id": "GRIND", "level": 2 } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [
+      { "item": "rock", "count": [ 5, 10 ] },
+      { "item": "scrap", "count": [ 5, 8 ] },
+      { "item": "rebar", "count": [ 0, 2 ] },
+      { "item": "material_sand", "charges": [ 50, 125 ] }
+    ],
     "pre_terrain": "t_thconc_floor",
     "post_terrain": "t_pit_shallow"
   },
@@ -94,17 +96,19 @@
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "120 m",
     "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ] ],
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
-      [ { "id": "SAW_MASONRY", "level": 4 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "rock", "count": [ 5, 10 ] }, 
-      { "item": "scrap", "count": [ 5, 8 ] }, 
-      { "item": "rebar", "count": [ 0, 2 ] }, 
-      { "item": "material_sand", "charges": [ 50, 125 ] } ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
+      [ { "id": "SAW_MASONRY", "level": 4 } ],
+      [ { "id": "GRIND", "level": 2 } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [
+      { "item": "rock", "count": [ 5, 10 ] },
+      { "item": "scrap", "count": [ 5, 8 ] },
+      { "item": "rebar", "count": [ 0, 2 ] },
+      { "item": "material_sand", "charges": [ 50, 125 ] }
+    ],
     "pre_terrain": "t_thconc_y",
     "post_terrain": "t_pit_shallow"
   },
@@ -117,17 +121,19 @@
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "120 m",
     "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ] ],
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
-      [ { "id": "SAW_MASONRY", "level": 4 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "rock", "count": [ 5, 10 ] }, 
-      { "item": "scrap", "count": [ 5, 8 ] }, 
-      { "item": "rebar", "count": [ 0, 2 ] }, 
-      { "item": "material_sand", "charges": [ 50, 125 ] } ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
+      [ { "id": "SAW_MASONRY", "level": 4 } ],
+      [ { "id": "GRIND", "level": 2 } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [
+      { "item": "rock", "count": [ 5, 10 ] },
+      { "item": "scrap", "count": [ 5, 8 ] },
+      { "item": "rebar", "count": [ 0, 2 ] },
+      { "item": "material_sand", "charges": [ 50, 125 ] }
+    ],
     "pre_terrain": "t_thconc_r",
     "post_terrain": "t_pit_shallow"
   },
@@ -140,17 +146,19 @@
     "required_skills": [ [ "fabrication", 7 ] ],
     "time": "180 m",
     "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ] ],
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
-      [ { "id": "SAW_MASONRY", "level": 4 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "rock", "count": [ 10, 22 ] }, 
-      { "item": "scrap", "count": [ 10, 12 ] }, 
-      { "item": "rebar", "count": [ 0, 4 ] }, 
-      { "item": "material_sand", "charges": [ 50, 125 ] } ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
+      [ { "id": "SAW_MASONRY", "level": 4 } ],
+      [ { "id": "GRIND", "level": 2 } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [
+      { "item": "rock", "count": [ 10, 22 ] },
+      { "item": "scrap", "count": [ 10, 12 ] },
+      { "item": "rebar", "count": [ 0, 4 ] },
+      { "item": "material_sand", "charges": [ 50, 125 ] }
+    ],
     "pre_terrain": "t_strconc_floor",
     "post_terrain": "t_pit"
   },
@@ -163,17 +171,19 @@
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "80 m",
     "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ] ],
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
-      [ { "id": "SAW_MASONRY", "level": 4 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "rock", "count": [ 5, 15 ] }, 
-      { "item": "scrap", "count": [ 10, 12 ] }, 
-      { "item": "rebar", "count": [ 0, 4 ] }, 
-      { "item": "material_sand", "charges": [ 50, 125 ] } ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
+      [ { "id": "SAW_MASONRY", "level": 4 } ],
+      [ { "id": "GRIND", "level": 2 } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [
+      { "item": "rock", "count": [ 5, 15 ] },
+      { "item": "scrap", "count": [ 10, 12 ] },
+      { "item": "rebar", "count": [ 0, 4 ] },
+      { "item": "material_sand", "charges": [ 50, 125 ] }
+    ],
     "pre_terrain": "t_strconc_floor_halfway",
     "post_terrain": "t_pit"
   },
@@ -185,13 +195,8 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "10 m",
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
-      [ { "id": "PRY", "level": 2 } ] ],
-    "byproducts": [ 
-      { "item": "splinter", "count": [ 0, 3 ] }, 
-      { "item": "nail", "count": [ 8, 15 ] } ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "CHISEL", "level": 2 } ], [ { "id": "PRY", "level": 2 } ] ],
+    "byproducts": [ { "item": "splinter", "count": [ 0, 3 ] }, { "item": "nail", "count": [ 8, 15 ] } ],
     "pre_terrain": "t_linoleum_white",
     "post_terrain": "t_thconc_floor"
   },
@@ -203,13 +208,8 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "10 m",
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
-      [ { "id": "PRY", "level": 2 } ] ],
-    "byproducts": [ 
-      { "item": "splinter", "count": [ 0, 3 ] }, 
-      { "item": "nail", "count": [ 8, 15 ] } ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "CHISEL", "level": 2 } ], [ { "id": "PRY", "level": 2 } ] ],
+    "byproducts": [ { "item": "splinter", "count": [ 0, 3 ] }, { "item": "nail", "count": [ 8, 15 ] } ],
     "pre_terrain": "t_linoleum_gray",
     "post_terrain": "t_thconc_floor"
   },
@@ -221,14 +221,13 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "30 m",
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 2 } ] ],
-    "byproducts": [ 
-      { "item": "2x4", "count": [ 5, 10 ] }, 
-      { "item": "splinter", "count": [ 10, 20 ] } ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
+      [ { "id": "GRIND", "level": 2 } ],
+      [ { "id": "PRY", "level": 2 } ]
+    ],
+    "byproducts": [ { "item": "2x4", "count": [ 5, 10 ] }, { "item": "splinter", "count": [ 10, 20 ] } ],
     "pre_terrain": "t_floor",
     "post_terrain": "t_dirt"
   },
@@ -240,14 +239,13 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "30 m",
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 2 } ] ],
-    "byproducts": [ 
-      { "item": "2x4", "count": [ 5, 10 ] }, 
-      { "item": "splinter", "count": [ 10, 20 ] } ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
+      [ { "id": "GRIND", "level": 2 } ],
+      [ { "id": "PRY", "level": 2 } ]
+    ],
+    "byproducts": [ { "item": "2x4", "count": [ 5, 10 ] }, { "item": "splinter", "count": [ 10, 20 ] } ],
     "pre_terrain": "t_floor_waxed_y",
     "post_terrain": "t_dirt"
   },
@@ -259,14 +257,13 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "30 m",
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 2 } ] ],
-    "byproducts": [ 
-      { "item": "2x4", "count": [ 5, 10 ] }, 
-      { "item": "splinter", "count": [ 10, 20 ] } ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
+      [ { "id": "GRIND", "level": 2 } ],
+      [ { "id": "PRY", "level": 2 } ]
+    ],
+    "byproducts": [ { "item": "2x4", "count": [ 5, 10 ] }, { "item": "splinter", "count": [ 10, 20 ] } ],
     "pre_terrain": "t_floor_waxed",
     "post_terrain": "t_dirt"
   },
@@ -278,14 +275,15 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "120 m",
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ], ["hammer_sledge", -1 ] ] ],
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ], [ "hammer_sledge", -1 ] ] ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
       [ { "id": "DRILL", "level": 3 } ],
-      [ { "id": "SAW_MASONRY", "level": 4 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
+      [ { "id": "SAW_MASONRY", "level": 4 } ],
+      [ { "id": "GRIND", "level": 2 } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
     "byproducts": [ { "item": "rock", "count": [ 20, 44 ] } ],
     "pre_terrain": "t_concrete_wall",
     "post_terrain": "t_thconc_floor"
@@ -298,14 +296,15 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "120 m",
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ], ["hammer_sledge", -1 ] ] ],
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ], [ "hammer_sledge", -1 ] ] ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
       [ { "id": "DRILL", "level": 3 } ],
-      [ { "id": "SAW_MASONRY", "level": 4 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
+      [ { "id": "SAW_MASONRY", "level": 4 } ],
+      [ { "id": "GRIND", "level": 2 } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
     "byproducts": [ { "item": "rock", "count": [ 20, 44 ] } ],
     "pre_terrain": "t_sconc_wall",
     "post_terrain": "t_thconc_floor"
@@ -318,14 +317,15 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "50 m",
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ], ["hammer_sledge", -1 ] ] ],
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ], [ "hammer_sledge", -1 ] ] ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
       [ { "id": "DRILL", "level": 3 } ],
-      [ { "id": "SAW_MASONRY", "level": 4 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
+      [ { "id": "SAW_MASONRY", "level": 4 } ],
+      [ { "id": "GRIND", "level": 2 } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
     "byproducts": [ { "item": "rock", "count": [ 15, 30 ] } ],
     "pre_terrain": "t_sconc_wall_halfway",
     "post_terrain": "t_thconc_floor"
@@ -338,15 +338,20 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "50 m",
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ], ["hammer_sledge", -1 ] ] ],
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ], [ "hammer_sledge", -1 ] ] ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
       [ { "id": "DRILL", "level": 3 } ],
-      [ { "id": "SAW_MASONRY", "level": 4 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ { "item": "rock", "count": [ 8, 15 ] }, { "item": "rebar", "count": [ 6, 12 ] }, { "item": "scrap", "count": [ 15, 40 ] } ],
+      [ { "id": "SAW_MASONRY", "level": 4 } ],
+      [ { "id": "GRIND", "level": 2 } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [
+      { "item": "rock", "count": [ 8, 15 ] },
+      { "item": "rebar", "count": [ 6, 12 ] },
+      { "item": "scrap", "count": [ 15, 40 ] }
+    ],
     "pre_terrain": "t_strconc_wall_halfway",
     "post_terrain": "t_thconc_floor"
   },
@@ -358,15 +363,20 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "120 m",
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ], ["hammer_sledge", -1 ] ] ],
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ], [ "hammer_sledge", -1 ] ] ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
       [ { "id": "DRILL", "level": 3 } ],
-      [ { "id": "SAW_MASONRY", "level": 4 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ { "item": "rock", "count": [ 15, 30 ] }, { "item": "rebar", "count": [ 6, 12 ] }, { "item": "scrap", "count": [ 15, 40 ] } ],
+      [ { "id": "SAW_MASONRY", "level": 4 } ],
+      [ { "id": "GRIND", "level": 2 } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [
+      { "item": "rock", "count": [ 15, 30 ] },
+      { "item": "rebar", "count": [ 6, 12 ] },
+      { "item": "scrap", "count": [ 15, 40 ] }
+    ],
     "pre_terrain": "t_strconc_wall",
     "post_terrain": "t_thconc_floor"
   },
@@ -378,20 +388,22 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "90 m",
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "rock", "count": [ 0, 4 ] }, 
-      { "item": "nail", "charges": [ 8, 32 ] }, 
-      { "item": "wood_panel", "count": [ 0, 2 ] }, 
-      { "item": "splinter", "count": [ 0, 4 ] }, 
-      { "item": "2x4", "count":[ 1, 3 ] }, 
-      { "item": "pipe", "count": [ 0, 2 ] }, 
-      { "item": "cu_pipe", "count": [ 0, 2 ] }, 
-      { "item": "cable", "charges": [ 0, 200 ] } ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
+      [ { "id": "GRIND", "level": 2 } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [
+      { "item": "rock", "count": [ 0, 4 ] },
+      { "item": "nail", "charges": [ 8, 32 ] },
+      { "item": "wood_panel", "count": [ 0, 2 ] },
+      { "item": "splinter", "count": [ 0, 4 ] },
+      { "item": "2x4", "count": [ 1, 3 ] },
+      { "item": "pipe", "count": [ 0, 2 ] },
+      { "item": "cu_pipe", "count": [ 0, 2 ] },
+      { "item": "cable", "charges": [ 0, 200 ] }
+    ],
     "pre_terrain": "t_wall_r",
     "post_terrain": "t_floor"
   },
@@ -403,20 +415,22 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "90 m",
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "rock", "count": [ 0, 4 ] }, 
-      { "item": "nail", "charges": [ 8, 32 ] }, 
-      { "item": "wood_panel", "count": [ 0, 2 ] }, 
-      { "item": "splinter", "count": [ 0, 4 ] }, 
-      { "item": "2x4", "count":[ 1, 3 ] }, 
-      { "item": "pipe", "count": [ 0, 2 ] }, 
-      { "item": "cu_pipe", "count": [ 0, 2 ] }, 
-      { "item": "cable", "charges": [ 0, 200 ] } ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
+      [ { "id": "GRIND", "level": 2 } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [
+      { "item": "rock", "count": [ 0, 4 ] },
+      { "item": "nail", "charges": [ 8, 32 ] },
+      { "item": "wood_panel", "count": [ 0, 2 ] },
+      { "item": "splinter", "count": [ 0, 4 ] },
+      { "item": "2x4", "count": [ 1, 3 ] },
+      { "item": "pipe", "count": [ 0, 2 ] },
+      { "item": "cu_pipe", "count": [ 0, 2 ] },
+      { "item": "cable", "charges": [ 0, 200 ] }
+    ],
     "pre_terrain": "t_wall_w",
     "post_terrain": "t_floor"
   },
@@ -428,20 +442,22 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "90 m",
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "rock", "count": [ 0, 4 ] }, 
-      { "item": "nail", "charges": [ 8, 32 ] }, 
-      { "item": "wood_panel", "count": [ 0, 2 ] }, 
-      { "item": "splinter", "count": [ 0, 4 ] }, 
-      { "item": "2x4", "count":[ 1, 3 ] }, 
-      { "item": "pipe", "count": [ 0, 2 ] }, 
-      { "item": "cu_pipe", "count": [ 0, 2 ] }, 
-      { "item": "cable", "charges": [ 0, 200 ] } ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
+      [ { "id": "GRIND", "level": 2 } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [
+      { "item": "rock", "count": [ 0, 4 ] },
+      { "item": "nail", "charges": [ 8, 32 ] },
+      { "item": "wood_panel", "count": [ 0, 2 ] },
+      { "item": "splinter", "count": [ 0, 4 ] },
+      { "item": "2x4", "count": [ 1, 3 ] },
+      { "item": "pipe", "count": [ 0, 2 ] },
+      { "item": "cu_pipe", "count": [ 0, 2 ] },
+      { "item": "cable", "charges": [ 0, 200 ] }
+    ],
     "pre_terrain": "t_wall_b",
     "post_terrain": "t_floor"
   },
@@ -453,20 +469,22 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "90 m",
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "rock", "count": [ 0, 4 ] }, 
-      { "item": "nail", "charges": [ 8, 32 ] }, 
-      { "item": "wood_panel", "count": [ 0, 2 ] }, 
-      { "item": "splinter", "count": [ 0, 4 ] }, 
-      { "item": "2x4", "count":[ 1, 3 ] }, 
-      { "item": "pipe", "count": [ 0, 2 ] }, 
-      { "item": "cu_pipe", "count": [ 0, 2 ] }, 
-      { "item": "cable", "charges": [ 0, 200 ] } ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
+      [ { "id": "GRIND", "level": 2 } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [
+      { "item": "rock", "count": [ 0, 4 ] },
+      { "item": "nail", "charges": [ 8, 32 ] },
+      { "item": "wood_panel", "count": [ 0, 2 ] },
+      { "item": "splinter", "count": [ 0, 4 ] },
+      { "item": "2x4", "count": [ 1, 3 ] },
+      { "item": "pipe", "count": [ 0, 2 ] },
+      { "item": "cu_pipe", "count": [ 0, 2 ] },
+      { "item": "cable", "charges": [ 0, 200 ] }
+    ],
     "pre_terrain": "t_wall_g",
     "post_terrain": "t_floor"
   },
@@ -478,20 +496,22 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "90 m",
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "rock", "count": [ 0, 4 ] }, 
-      { "item": "nail", "charges": [ 8, 32 ] }, 
-      { "item": "wood_panel", "count": [ 0, 2 ] }, 
-      { "item": "splinter", "count": [ 0, 4 ] }, 
-      { "item": "2x4", "count":[ 1, 3 ] }, 
-      { "item": "pipe", "count": [ 0, 2 ] }, 
-      { "item": "cu_pipe", "count": [ 0, 2 ] }, 
-      { "item": "cable", "charges": [ 0, 200 ] } ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
+      [ { "id": "GRIND", "level": 2 } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [
+      { "item": "rock", "count": [ 0, 4 ] },
+      { "item": "nail", "charges": [ 8, 32 ] },
+      { "item": "wood_panel", "count": [ 0, 2 ] },
+      { "item": "splinter", "count": [ 0, 4 ] },
+      { "item": "2x4", "count": [ 1, 3 ] },
+      { "item": "pipe", "count": [ 0, 2 ] },
+      { "item": "cu_pipe", "count": [ 0, 2 ] },
+      { "item": "cable", "charges": [ 0, 200 ] }
+    ],
     "pre_terrain": "t_wall_y",
     "post_terrain": "t_floor"
   },
@@ -503,20 +523,22 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "90 m",
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "rock", "count": [ 0, 4 ] }, 
-      { "item": "nail", "charges": [ 8, 32 ] }, 
-      { "item": "wood_panel", "count": [ 0, 2 ] }, 
-      { "item": "splinter", "count": [ 0, 4 ] }, 
-      { "item": "2x4", "count":[ 1, 3 ] }, 
-      { "item": "pipe", "count": [ 0, 2 ] }, 
-      { "item": "cu_pipe", "count": [ 0, 2 ] }, 
-      { "item": "cable", "charges": [ 0, 200 ] } ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
+      [ { "id": "GRIND", "level": 2 } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [
+      { "item": "rock", "count": [ 0, 4 ] },
+      { "item": "nail", "charges": [ 8, 32 ] },
+      { "item": "wood_panel", "count": [ 0, 2 ] },
+      { "item": "splinter", "count": [ 0, 4 ] },
+      { "item": "2x4", "count": [ 1, 3 ] },
+      { "item": "pipe", "count": [ 0, 2 ] },
+      { "item": "cu_pipe", "count": [ 0, 2 ] },
+      { "item": "cable", "charges": [ 0, 200 ] }
+    ],
     "pre_terrain": "t_wall_P",
     "post_terrain": "t_floor"
   },
@@ -528,20 +550,22 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "90 m",
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "rock", "count": [ 0, 4 ] }, 
-      { "item": "nail", "charges": [ 8, 32 ] }, 
-      { "item": "wood_panel", "count": [ 0, 2 ] }, 
-      { "item": "splinter", "count": [ 0, 4 ] }, 
-      { "item": "2x4", "count":[ 1, 3 ] }, 
-      { "item": "pipe", "count": [ 0, 2 ] }, 
-      { "item": "cu_pipe", "count": [ 0, 2 ] }, 
-      { "item": "cable", "charges": [ 0, 200 ] } ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
+      [ { "id": "GRIND", "level": 2 } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [
+      { "item": "rock", "count": [ 0, 4 ] },
+      { "item": "nail", "charges": [ 8, 32 ] },
+      { "item": "wood_panel", "count": [ 0, 2 ] },
+      { "item": "splinter", "count": [ 0, 4 ] },
+      { "item": "2x4", "count": [ 1, 3 ] },
+      { "item": "pipe", "count": [ 0, 2 ] },
+      { "item": "cu_pipe", "count": [ 0, 2 ] },
+      { "item": "cable", "charges": [ 0, 200 ] }
+    ],
     "pre_terrain": "t_wall_p",
     "post_terrain": "t_floor"
   },
@@ -553,17 +577,16 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "120 m",
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ], ["hammer_sledge", -1 ] ] ],
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ], [ "hammer_sledge", -1 ] ] ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
       [ { "id": "DRILL", "level": 3 } ],
-      [ { "id": "SAW_MASONRY", "level": 4 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "rock", "count": [ 4, 8 ] }, 
-      { "item": "brick", "count": [ 4, 12 ] } ],
+      [ { "id": "SAW_MASONRY", "level": 4 } ],
+      [ { "id": "GRIND", "level": 2 } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [ { "item": "rock", "count": [ 4, 8 ] }, { "item": "brick", "count": [ 4, 12 ] } ],
     "pre_terrain": "t_brick_wall",
     "post_terrain": "t_thconc_floor"
   },
@@ -575,16 +598,15 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "120 m",
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ], ["hammer_sledge", -1 ] ] ],
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
-      [ { "id": "SAW_MASONRY", "level": 4 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "rock", "count": [ 4, 8 ] }, 
-      { "item": "brick", "count": [ 4, 8 ] } ],
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ], [ "hammer_sledge", -1 ] ] ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
+      [ { "id": "SAW_MASONRY", "level": 4 } ],
+      [ { "id": "GRIND", "level": 2 } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [ { "item": "rock", "count": [ 4, 8 ] }, { "item": "brick", "count": [ 4, 8 ] } ],
     "pre_terrain": "t_brick_wall_halfway",
     "post_terrain": "t_thconc_floor"
   },
@@ -596,17 +618,16 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "120 m",
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ], ["hammer_sledge", -1 ] ] ],
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ], [ "hammer_sledge", -1 ] ] ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
       [ { "id": "DRILL", "level": 3 } ],
-      [ { "id": "SAW_MASONRY", "level": 4 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "material_soil", "count": [ 8, 20 ] }, 
-      { "item": "adobe_brick", "count": [ 4, 12 ] } ],
+      [ { "id": "SAW_MASONRY", "level": 4 } ],
+      [ { "id": "GRIND", "level": 2 } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [ { "item": "material_soil", "count": [ 8, 20 ] }, { "item": "adobe_brick", "count": [ 4, 12 ] } ],
     "pre_terrain": "t_adobe_brick_wall",
     "post_terrain": "t_thconc_floor"
   },
@@ -618,16 +639,15 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "120 m",
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ], ["hammer_sledge", -1 ] ] ],
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
-      [ { "id": "SAW_MASONRY", "level": 4 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "material_soil", "count": [ 8, 20 ] }, 
-      { "item": "adobe_brick", "count": [ 4, 8 ] } ],
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ], [ "hammer_sledge", -1 ] ] ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
+      [ { "id": "SAW_MASONRY", "level": 4 } ],
+      [ { "id": "GRIND", "level": 2 } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [ { "item": "material_soil", "count": [ 8, 20 ] }, { "item": "adobe_brick", "count": [ 4, 8 ] } ],
     "pre_terrain": "t_adobe_brick_wall_halfway",
     "post_terrain": "t_thconc_floor"
   },
@@ -639,16 +659,18 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "90 m",
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
-      [ { "id": "SAW_MASONRY", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "nail", "charges": [ 2, 10 ] }, 
-      { "item": "wood_panel", "count": [ 1, 4 ] }, 
-      { "item": "splinter", "count": [ 0, 2 ] }, 
-      { "item": "2x4", "count":[ 1, 5 ] } ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
+      [ { "id": "SAW_MASONRY", "level": 2 } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [
+      { "item": "nail", "charges": [ 2, 10 ] },
+      { "item": "wood_panel", "count": [ 1, 4 ] },
+      { "item": "splinter", "count": [ 0, 2 ] },
+      { "item": "2x4", "count": [ 1, 5 ] }
+    ],
     "pre_terrain": "t_wall_wood",
     "post_terrain": "t_floor"
   },
@@ -660,15 +682,17 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "40 m",
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
-      [ { "id": "SAW_MASONRY", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
+      [ { "id": "SAW_MASONRY", "level": 2 } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [
       { "item": "nail", "charges": [ 2, 10 ] },
-      { "item": "splinter", "count": [ 0, 2 ] }, 
-      { "item": "2x4", "count":[ 1, 5 ] } ],
+      { "item": "splinter", "count": [ 0, 2 ] },
+      { "item": "2x4", "count": [ 1, 5 ] }
+    ],
     "pre_terrain": "t_wall_half",
     "post_terrain": "t_floor"
   },
@@ -680,14 +704,13 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "90 m",
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
-      [ { "id": "SAW_MASONRY", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "nail", "charges": [ 5, 10 ] }, 
-      { "item": "splinter", "count": [ 20, 40 ] } ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
+      [ { "id": "SAW_MASONRY", "level": 2 } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [ { "item": "nail", "charges": [ 5, 10 ] }, { "item": "splinter", "count": [ 20, 40 ] } ],
     "pre_terrain": "t_wall_log",
     "post_terrain": "t_pit_shallow"
   },
@@ -699,14 +722,13 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "30 m",
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
-      [ { "id": "SAW_MASONRY", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "nail", "charges": [ 5, 10 ] }, 
-      { "item": "splinter", "count": [ 20, 40 ] } ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
+      [ { "id": "SAW_MASONRY", "level": 2 } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [ { "item": "nail", "charges": [ 5, 10 ] }, { "item": "splinter", "count": [ 20, 40 ] } ],
     "pre_terrain": "t_wall_log_half",
     "post_terrain": "t_pit_shallow"
   },
@@ -718,20 +740,22 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "120 m",
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "rock", "count": [ 0, 4 ] }, 
-      { "item": "nail", "charges": [ 8, 32 ] }, 
-      { "item": "wood_panel", "count": [ 0, 2 ] }, 
-      { "item": "splinter", "count": [ 0, 4 ] }, 
-      { "item": "2x4", "count":[ 1, 3 ] }, 
-      { "item": "pipe", "count": [ 0, 2 ] }, 
-      { "item": "cu_pipe", "count": [ 0, 2 ] }, 
-      { "item": "cable", "charges": [ 0, 200 ] } ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
+      [ { "id": "GRIND", "level": 2 } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [
+      { "item": "rock", "count": [ 0, 4 ] },
+      { "item": "nail", "charges": [ 8, 32 ] },
+      { "item": "wood_panel", "count": [ 0, 2 ] },
+      { "item": "splinter", "count": [ 0, 4 ] },
+      { "item": "2x4", "count": [ 1, 3 ] },
+      { "item": "pipe", "count": [ 0, 2 ] },
+      { "item": "cu_pipe", "count": [ 0, 2 ] },
+      { "item": "cable", "charges": [ 0, 200 ] }
+    ],
     "pre_terrain": "t_wall",
     "post_terrain": "t_floor"
   },
@@ -744,13 +768,12 @@
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "120 m",
     "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ] ],
-    "qualities": [ 
-      [ { "id": "SAW_MASONRY", "level": 4 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "rock", "count": [ 10, 30 ] }, 
-      { "item": "pebble", "count": [ 50, 200 ] }, 
-      { "item": "material_sand", "charges": [ 50, 400 ] } ],
+    "qualities": [ [ { "id": "SAW_MASONRY", "level": 4 } ], [ { "id": "PRY", "level": 3 } ] ],
+    "byproducts": [
+      { "item": "rock", "count": [ 10, 30 ] },
+      { "item": "pebble", "count": [ 50, 200 ] },
+      { "item": "material_sand", "charges": [ 50, 400 ] }
+    ],
     "pre_terrain": "t_sidewalk",
     "post_terrain": "t_pit_shallow"
   },
@@ -763,13 +786,12 @@
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "30 m",
     "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ] ],
-    "qualities": [ 
-      [ { "id": "SAW_MASONRY", "level": 4 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "rock", "count": [ 10, 30 ] }, 
-      { "item": "pebble", "count": [ 50, 200 ] }, 
-      { "item": "material_sand", "charges": [ 50, 400 ] } ],
+    "qualities": [ [ { "id": "SAW_MASONRY", "level": 4 } ], [ { "id": "PRY", "level": 3 } ] ],
+    "byproducts": [
+      { "item": "rock", "count": [ 10, 30 ] },
+      { "item": "pebble", "count": [ 50, 200 ] },
+      { "item": "material_sand", "charges": [ 50, 400 ] }
+    ],
     "pre_terrain": "t_pavement",
     "post_terrain": "t_pit_shallow"
   },
@@ -782,13 +804,12 @@
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "30 m",
     "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ] ],
-    "qualities": [ 
-      [ { "id": "SAW_MASONRY", "level": 4 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "rock", "count": [ 10, 30 ] }, 
-      { "item": "pebble", "count": [ 50, 200 ] }, 
-      { "item": "material_sand", "charges": [ 50, 400 ] } ],
+    "qualities": [ [ { "id": "SAW_MASONRY", "level": 4 } ], [ { "id": "PRY", "level": 3 } ] ],
+    "byproducts": [
+      { "item": "rock", "count": [ 10, 30 ] },
+      { "item": "pebble", "count": [ 50, 200 ] },
+      { "item": "material_sand", "charges": [ 50, 400 ] }
+    ],
     "pre_terrain": "t_pavement_y",
     "post_terrain": "t_pit_shallow"
   },
@@ -801,13 +822,12 @@
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "30 m",
     "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ] ],
-    "qualities": [ 
-      [ { "id": "SAW_MASONRY", "level": 4 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "rock", "count": [ 10, 30 ] }, 
-      { "item": "pebble", "count": [ 50, 200 ] }, 
-      { "item": "material_sand", "charges": [ 50, 400 ] } ],
+    "qualities": [ [ { "id": "SAW_MASONRY", "level": 4 } ], [ { "id": "PRY", "level": 3 } ] ],
+    "byproducts": [
+      { "item": "rock", "count": [ 10, 30 ] },
+      { "item": "pebble", "count": [ 50, 200 ] },
+      { "item": "material_sand", "charges": [ 50, 400 ] }
+    ],
     "pre_terrain": "t_zebra",
     "post_terrain": "t_pit_shallow"
   },
@@ -819,14 +839,12 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "15 m",
-    "qualities": [ 
-      [ { "id": "SAW_M", "level": 1 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "scrap", "count": [ 15, 30 ] }, 
-      { "item": "sheet_metal", "count": [ 4, 8 ] }, 
-      { "item": "hinge", "count": [ 0, 1 ] } ],
+    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GRIND", "level": 2 } ], [ { "id": "PRY", "level": 3 } ] ],
+    "byproducts": [
+      { "item": "scrap", "count": [ 15, 30 ] },
+      { "item": "sheet_metal", "count": [ 4, 8 ] },
+      { "item": "hinge", "count": [ 0, 1 ] }
+    ],
     "pre_terrain": "t_mdoor_frame",
     "post_terrain": "t_floor"
   },
@@ -838,14 +856,12 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "10 m",
-    "qualities": [ 
-      [ { "id": "SAW_M", "level": 1 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "scrap", "count": [ 15, 30 ] }, 
-      { "item": "sheet_metal", "count": [ 4, 8 ] }, 
-      { "item": "hinge", "count": [ 0, 1 ] } ],
+    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GRIND", "level": 2 } ], [ { "id": "PRY", "level": 3 } ] ],
+    "byproducts": [
+      { "item": "scrap", "count": [ 15, 30 ] },
+      { "item": "sheet_metal", "count": [ 4, 8 ] },
+      { "item": "hinge", "count": [ 0, 1 ] }
+    ],
     "pre_terrain": "t_door_metal_c",
     "post_terrain": "t_mdoor_frame"
   },
@@ -857,15 +873,13 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "10 m",
-    "qualities": [ 
-      [ { "id": "SAW_M", "level": 1 } ], 
-      [ { "id": "GRIND", "level": 2 } ],
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "scrap", "count": [ 15, 30 ] }, 
+    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GRIND", "level": 2 } ], [ { "id": "PRY", "level": 3 } ] ],
+    "byproducts": [
+      { "item": "scrap", "count": [ 15, 30 ] },
       { "item": "sheet_metal", "count": [ 4, 8 ] },
       { "item": "peephole", "count": [ 0, 1 ] },
-      { "item": "hinge", "count": [ 0, 1 ] } ],
+      { "item": "hinge", "count": [ 0, 1 ] }
+    ],
     "pre_terrain": "t_door_metal_c_peep",
     "post_terrain": "t_mdoor_frame"
   },
@@ -877,14 +891,12 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "10 m",
-    "qualities": [ 
-      [ { "id": "SAW_M", "level": 1 } ], 
-      [ { "id": "GRIND", "level": 2 } ],
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "scrap", "count": [ 15, 30 ] }, 
+    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GRIND", "level": 2 } ], [ { "id": "PRY", "level": 3 } ] ],
+    "byproducts": [
+      { "item": "scrap", "count": [ 15, 30 ] },
       { "item": "sheet_metal", "count": [ 4, 8 ] },
-      { "item": "hinge", "count": [ 0, 1 ] } ],
+      { "item": "hinge", "count": [ 0, 1 ] }
+    ],
     "pre_terrain": "t_door_metal_locked",
     "post_terrain": "t_mdoor_frame"
   },
@@ -896,14 +908,12 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "10 m",
-    "qualities": [ 
-      [ { "id": "SAW_M", "level": 1 } ], 
-      [ { "id": "GRIND", "level": 2 } ],
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "scrap", "count": [ 15, 30 ] }, 
+    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GRIND", "level": 2 } ], [ { "id": "PRY", "level": 3 } ] ],
+    "byproducts": [
+      { "item": "scrap", "count": [ 15, 30 ] },
       { "item": "sheet_metal", "count": [ 4, 8 ] },
-      { "item": "hinge", "count": [ 0, 1 ] } ],
+      { "item": "hinge", "count": [ 0, 1 ] }
+    ],
     "pre_terrain": "t_door_metal_lab_c",
     "post_terrain": "t_mdoor_frame"
   },
@@ -915,12 +925,8 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "20 m",
-    "qualities": [ 
-      [ { "id": "SAW_M", "level": 1 } ], 
-      [ { "id": "GRIND", "level": 2 } ],
-      [ { "id": "PRY", "level": 2 } ] ],
-    "byproducts": [ 
-      { "item": "rebar", "count": [ 8, 16 ] } ],
+    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GRIND", "level": 2 } ], [ { "id": "PRY", "level": 2 } ] ],
+    "byproducts": [ { "item": "rebar", "count": [ 8, 16 ] } ],
     "pre_terrain": "t_reb_cage",
     "post_terrain": "t_pit"
   },
@@ -932,15 +938,13 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "20 m",
-    "qualities": [ 
-      [ { "id": "SAW_M", "level": 1 } ], 
-      [ { "id": "GRIND", "level": 2 } ],
-      [ { "id": "PRY", "level": 2 } ] ],
-    "byproducts": [ 
-      { "item": "rebar", "count": [ 6, 12 ] }, 
-      { "item": "2x4", "count": [ 6, 12 ] }, 
-      { "item": "pipe", "count": [ 2, 4 ] }, 
-      { "item": "scrap", "count": [ 5, 15 ] } ],
+    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "GRIND", "level": 2 } ], [ { "id": "PRY", "level": 2 } ] ],
+    "byproducts": [
+      { "item": "rebar", "count": [ 6, 12 ] },
+      { "item": "2x4", "count": [ 6, 12 ] },
+      { "item": "pipe", "count": [ 2, 4 ] },
+      { "item": "scrap", "count": [ 5, 15 ] }
+    ],
     "pre_terrain": "t_ov_reb_cage",
     "post_terrain": "t_pit"
   },
@@ -952,17 +956,16 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "40 m",
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ], ["hammer_sledge", -1 ] ] ],
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
-      [ { "id": "SAW_MASONRY", "level": 4 } ], 
-      [ { "id": "SAW_M", "level": 1 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "rebar", "count": [ 8, 16 ] }, 
-      { "item": "rock", "count": [ 5, 10 ] } ],
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ], [ "hammer_sledge", -1 ] ] ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
+      [ { "id": "SAW_MASONRY", "level": 4 } ],
+      [ { "id": "SAW_M", "level": 1 } ],
+      [ { "id": "GRIND", "level": 2 } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [ { "item": "rebar", "count": [ 8, 16 ] }, { "item": "rock", "count": [ 5, 10 ] } ],
     "pre_terrain": "t_column_halfway",
     "post_terrain": "t_thconc_floor"
   },
@@ -974,17 +977,16 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "70 m",
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ], ["hammer_sledge", -1 ] ] ],
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
-      [ { "id": "SAW_MASONRY", "level": 4 } ], 
-      [ { "id": "SAW_M", "level": 1 } ], 
-      [ { "id": "GRIND", "level": 2 } ], 
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "rebar", "count": [ 8, 16 ] },
-      { "item": "rock", "count": [ 15, 30 ] } ],
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ], [ "hammer_sledge", -1 ] ] ],
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
+      [ { "id": "SAW_MASONRY", "level": 4 } ],
+      [ { "id": "SAW_M", "level": 1 } ],
+      [ { "id": "GRIND", "level": 2 } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [ { "item": "rebar", "count": [ 8, 16 ] }, { "item": "rock", "count": [ 15, 30 ] } ],
     "pre_terrain": "t_column",
     "post_terrain": "t_thconc_floor"
   },
@@ -996,13 +998,13 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "10 m",
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
       [ { "id": "GRIND", "level": 2 } ],
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "reinforced_glass_sheet", "count": [ 1, 1 ] } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [ { "item": "reinforced_glass_sheet", "count": [ 1, 1 ] } ],
     "pre_terrain": "t_reinforced_glass",
     "post_terrain": "t_m_frame"
   },
@@ -1014,13 +1016,13 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "10 m",
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
       [ { "id": "GRIND", "level": 2 } ],
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "glass_sheet", "count": [ 1, 1 ] } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [ { "item": "glass_sheet", "count": [ 1, 1 ] } ],
     "pre_terrain": "t_wall_glass",
     "post_terrain": "t_floor"
   },
@@ -1032,13 +1034,13 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "10 m",
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
       [ { "id": "GRIND", "level": 2 } ],
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "glass_sheet", "count": [ 1, 2 ] } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [ { "item": "glass_sheet", "count": [ 1, 2 ] } ],
     "pre_terrain": "t_door_glass_c",
     "post_terrain": "t_floor"
   },
@@ -1050,13 +1052,13 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "10 m",
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
       [ { "id": "GRIND", "level": 2 } ],
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "glass_sheet", "count": [ 1, 2 ] } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [ { "item": "glass_sheet", "count": [ 1, 2 ] } ],
     "pre_terrain": "t_door_glass_frosted_c",
     "post_terrain": "t_floor"
   },
@@ -1068,13 +1070,13 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "10 m",
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
       [ { "id": "GRIND", "level": 2 } ],
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "glass_sheet", "count": [ 1, 2 ] } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [ { "item": "glass_sheet", "count": [ 1, 2 ] } ],
     "pre_terrain": "t_door_glass_lab_c",
     "post_terrain": "t_floor"
   },
@@ -1086,13 +1088,13 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "10 m",
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
       [ { "id": "GRIND", "level": 2 } ],
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "glass_sheet", "count": [ 1, 2 ] } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [ { "item": "glass_sheet", "count": [ 1, 2 ] } ],
     "pre_terrain": "t_door_glass_frosted_lab_c",
     "post_terrain": "t_floor"
   },
@@ -1104,13 +1106,13 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "10 m",
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
       [ { "id": "GRIND", "level": 2 } ],
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "reinforced_glass_sheet", "count": [ 1, 2 ] } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [ { "item": "reinforced_glass_sheet", "count": [ 1, 2 ] } ],
     "pre_terrain": "t_reinforced_door_glass_c",
     "post_terrain": "t_floor"
   },
@@ -1122,13 +1124,13 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "10 m",
-    "qualities": [ 
-      [ { "id": "HAMMER", "level": 2 } ], 
-      [ { "id": "CHISEL", "level": 2 } ], 
+    "qualities": [
+      [ { "id": "HAMMER", "level": 2 } ],
+      [ { "id": "CHISEL", "level": 2 } ],
       [ { "id": "GRIND", "level": 2 } ],
-      [ { "id": "PRY", "level": 3 } ] ],
-    "byproducts": [ 
-      { "item": "reinforced_glass_sheet", "count": [ 1, 2 ] } ],
+      [ { "id": "PRY", "level": 3 } ]
+    ],
+    "byproducts": [ { "item": "reinforced_glass_sheet", "count": [ 1, 2 ] } ],
     "pre_terrain": "t_reinforced_door_glass_lab_c",
     "post_terrain": "t_floor"
   }
