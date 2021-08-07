@@ -181,6 +181,9 @@ struct body_part_type {
         float manipulator_score = 0.0f;
         float manipulator_max = 0.0f;
 
+        // modifier for lifting strength
+        float lifting_score = 0.0f;
+
         float smash_efficiency = 0.5f;
 
         //Morale parameters
@@ -312,6 +315,7 @@ class bodypart
         float get_encumb_adjusted_manipulator_score() const;
         float get_wound_adjusted_manipulator_score() const;
         float get_manipulator_max() const;
+        float get_lifting_score() const;
 
         int get_hp_cur() const;
         int get_hp_max() const;

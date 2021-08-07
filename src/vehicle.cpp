@@ -3263,7 +3263,7 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
                 if( ( part_info( p ).has_flag( "MUSCLE_LEGS" ) &&
                       ( player_character.get_working_leg_count() >= 2 ) ) ||
                     ( part_info( p ).has_flag( "MUSCLE_ARMS" ) &&
-                      ( player_character.get_working_arm_count() >= 2 ) ) ) {
+                      ( player_character.has_two_arms_lifting() ) ) ) {
                     fl += 10;
                 }
             }

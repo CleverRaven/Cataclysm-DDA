@@ -1516,11 +1516,8 @@ void Character::handle_skill_warning( const skill_id &id, bool force_warning )
     }
 }
 
-/** Returns true if the character has two functioning arms */
-bool Character::has_two_arms() const
 float Character::manipulator_score() const
 {
-    return get_working_arm_count() >= 2;
     std::map<body_part_type::type, std::vector<bodypart>> bodypart_groups;
     std::vector<float> score_groups;
     for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
@@ -1545,31 +1542,30 @@ float Character::manipulator_score() const
     }
 }
 
-// working is defined here as not disabled which means arms can be not broken
-// and still not count if they have low enough hitpoints
-int Character::get_working_arm_count() const
 {
-    if( has_active_mutation( trait_SHELL2 ) ) {
-        return 0;
     }
 
-    int limb_count = 0;
-    if( has_limb( body_part_arm_l ) && !is_limb_disabled( body_part_arm_l ) ) {
-        limb_count++;
+float Character::lifting_score( const body_part_type::type &bp ) const
+{
+    float total = 0.0f;
+    for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
+        if( id.first->limb_type == bp ) {
+            total += id.second.get_lifting_score();
+        }
     }
-    if( has_limb( body_part_arm_r ) && !is_limb_disabled( body_part_arm_r ) ) {
-        limb_count++;
-    }
-    if( has_bionic( bio_blaster ) && limb_count > 0 ) {
-        limb_count--;
-    }
+    return std::max( 0.0f, total );
+}
 
-    return limb_count;
 bool Character::has_min_manipulators() const
 {
     return manipulator_score() > MIN_MANIPULATOR_SCORE;
 }
 
+/** Returns true if the character has two functioning arms */
+bool Character::has_two_arms_lifting() const
+{
+    // 0.5f is one "standard" arm, so if you have more than that you barely qualify.
+    return lifting_score( body_part_type::type::arm ) > 0.5f;
 }
 
 // working is defined here as not broken
@@ -9919,7 +9915,8 @@ ret_val<bool> Character::can_wield( const item &it ) const
                                             weapname(), it.tname() );
     }
     monster *mount = mounted_creature.get();
-    if( it.is_two_handed( *this ) && ( !has_two_arms() || worn_with_flag( flag_RESTRICT_HANDS ) ) &&
+    if( it.is_two_handed( *this ) && ( !has_two_arms_lifting() ||
+                                       worn_with_flag( flag_RESTRICT_HANDS ) ) &&
         !( is_mounted() && mount->has_flag( MF_RIDEABLE_MECH ) &&
            mount->type->mech_weapon && it.typeId() == mount->type->mech_weapon ) ) {
         if( worn_with_flag( flag_RESTRICT_HANDS ) ) {

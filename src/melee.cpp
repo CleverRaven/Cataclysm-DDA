@@ -2145,7 +2145,8 @@ static damage_instance hardcoded_mutation_attack( const Character &u, const trai
             num_attacks = 7;
         }
         // Note: we're counting arms, so we want wielded item here, not weapon used for attack
-        if( u.weapon.is_two_handed( u ) || !u.has_two_arms() || u.worn_with_flag( flag_RESTRICT_HANDS ) ) {
+        if( u.weapon.is_two_handed( u ) || !u.has_two_arms_lifting() ||
+            u.worn_with_flag( flag_RESTRICT_HANDS ) ) {
             num_attacks--;
         }
 

@@ -4676,7 +4676,7 @@ bool mattack::riotbot( monster *z )
     //already arrested?
     //and yes, if the player has no hands, we are not going to arrest him.
     if( foe != nullptr &&
-        ( foe->weapon.typeId() == itype_e_handcuffs || !foe->has_two_arms() ) ) {
+        ( foe->weapon.typeId() == itype_e_handcuffs || !foe->has_two_arms_lifting() ) ) {
         z->anger = 0;
 
         if( calendar::once_every( 25_turns ) ) {
