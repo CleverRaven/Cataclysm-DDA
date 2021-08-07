@@ -561,6 +561,7 @@ class Character : public Creature, public visitable
         float melee_thrown_move_modifier_torso() const;
         float melee_stamina_cost_modifier() const;
         float reloading_move_modifier() const;
+        float thrown_dex_modifier() const;
 
         /* Gun stuff */
         /**

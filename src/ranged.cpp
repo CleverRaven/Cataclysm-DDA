@@ -915,7 +915,7 @@ int throw_cost( const Character &c, const item &to_throw )
     return std::max( 25, move_cost );
 }
 
-int Character::throw_dispersion_per_dodge( bool add_encumbrance ) const
+int Character::throw_dispersion_per_dodge( bool /* add_encumbrance */ ) const
 {
     // +200 per dodge point at 0 dexterity
     // +100 at 8, +80 at 12, +66.6 at 16, +57 at 20, +50 at 24

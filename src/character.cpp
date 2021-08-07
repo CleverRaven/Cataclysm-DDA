@@ -759,6 +759,11 @@ float Character::reloading_move_modifier() const
     }
 }
 
+float Character::thrown_dex_modifier() const
+{
+    return manipulator_score();
+}
+
 double Character::aim_cap_from_volume( const item &gun ) const
 {
     skill_id gun_skill = gun.gun_skill();
