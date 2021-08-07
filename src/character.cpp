@@ -2902,7 +2902,7 @@ std::pair<item_location, item_pocket *> Character::best_pocket( const item &it, 
     return ret;
 }
 
-item *Character::try_add( item it, const item *avoid, const bool allow_wield )
+item *Character::try_add( item it, const item *avoid, const item *original_inventory_item, const bool allow_wield )
 {
     invalidate_inventory_validity_cache();
     itype_id item_type_id = it.typeId();
@@ -2930,7 +2930,7 @@ item *Character::try_add( item it, const item *avoid, const bool allow_wield )
         // this will set ret to either it, or to stack where it was placed
         pocket.second->add( it, &ret );
         if( !keep_invlet && ( !it.count_by_charges() || it.charges == ret->charges ) ) {
-            inv->update_invlet( *ret );
+            inv->update_invlet( *ret, true, original_inventory_item );
         }
         pocket.first.on_contents_changed();
         pocket.second->on_contents_changed();
@@ -2944,11 +2944,11 @@ item *Character::try_add( item it, const item *avoid, const bool allow_wield )
     return ret;
 }
 
-item &Character::i_add( item it, bool /* should_stack */, const item *avoid, const bool allow_drop,
+item &Character::i_add( item it, bool /* should_stack */, const item *avoid, const item *original_inventory_item, const bool allow_drop,
                         const bool allow_wield )
 {
     invalidate_inventory_validity_cache();
-    item *added = try_add( it, avoid, /*allow_wield=*/allow_wield );
+    item *added = try_add( it, avoid, original_inventory_item, allow_wield );
     if( added == nullptr ) {
         if( !allow_wield || !wield( it ) ) {
             if( allow_drop ) {
@@ -3096,7 +3096,7 @@ void Character::i_rem_keep_contents( const item *const it )
     i_rem( it ).spill_contents( pos() );
 }
 
-bool Character::i_add_or_drop( item &it, int qty, const item *avoid )
+bool Character::i_add_or_drop( item &it, int qty, const item *avoid, const item *original_inventory_item )
 {
     bool retval = true;
     bool drop = it.made_of( phase_id::LIQUID );
@@ -3108,7 +3108,7 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid )
         if( drop ) {
             retval &= !here.add_item_or_charges( pos(), it ).is_null();
         } else if( add ) {
-            i_add( it, true, avoid, /*allow_drop=*/true, /*allow_wield=*/!has_wield_conflicts( it ) );
+            i_add( it, true, avoid, original_inventory_item, /*allow_drop=*/true, /*allow_wield=*/!has_wield_conflicts( it ) );
         }
     }
 
@@ -8903,7 +8903,7 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
             }
 
             moves -= item_handling_cost( *obj );
-            this->i_add( *obj, true, &*obj );
+            this->i_add( *obj, true, &*obj, &*obj );
             obj.remove_item();
             return true;
         }
@@ -11071,7 +11071,7 @@ void Character::migrate_items_to_storage( bool disintegrate )
 {
     inv->visit_items( [&]( const item * it, item * ) {
         if( disintegrate ) {
-            if( try_add( *it ) == nullptr ) {
+            if( try_add( *it, /*avoid=*/nullptr, it ) == nullptr ) {
                 std::string profession_id = "<none>";
                 if( const player *me = as_player() ) {
                     profession_id = me->prof->ident().str();
@@ -11082,7 +11082,7 @@ void Character::migrate_items_to_storage( bool disintegrate )
                 return VisitResponse::ABORT;
             }
         } else {
-            item &added = i_add( *it, true, /*avoid=*/nullptr,
+            item &added = i_add( *it, true, /*avoid=*/nullptr, it,
                                  /*allow_drop=*/false, /*allow_wield=*/!has_wield_conflicts( *it ) );
             if( added.is_null() ) {
                 put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { *it } );
@@ -13029,7 +13029,7 @@ bool Character::defer_move( const tripoint &next )
     return true;
 }
 
-bool Character::add_or_drop_with_msg( item &it, const bool /*unloading*/, const item *avoid )
+bool Character::add_or_drop_with_msg( item &it, const bool /*unloading*/, const item *avoid, const item *original_inventory_item )
 {
     if( it.made_of( phase_id::LIQUID ) ) {
         liquid_handler::consume_liquid( it, 1, avoid );
@@ -13051,7 +13051,7 @@ bool Character::add_or_drop_with_msg( item &it, const bool /*unloading*/, const 
         }
         const bool allow_wield = !wielded_has_it && weapon.magazine_current() != &it;
         const int prev_charges = it.charges;
-        auto &ni = this->i_add( it, true, avoid, /*allow_drop=*/false, /*allow_wield=*/allow_wield );
+        auto &ni = this->i_add( it, true, avoid, original_inventory_item, /*allow_drop=*/false, /*allow_wield=*/allow_wield );
         if( ni.is_null() ) {
             // failed to add
             put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { it } );
@@ -13169,7 +13169,7 @@ bool Character::unload( item_location &loc, bool bypass_activity )
         return true;
 
     } else if( target->magazine_current() ) {
-        if( !this->add_or_drop_with_msg( *target->magazine_current(), true ) ) {
+        if( !this->add_or_drop_with_msg( *target->magazine_current(), true, nullptr, target->magazine_current() ) ) {
             return false;
         }
         // Eject magazine consuming half as much time as required to insert it

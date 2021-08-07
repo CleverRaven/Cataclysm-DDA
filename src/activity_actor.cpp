@@ -2498,7 +2498,7 @@ void unload_activity_actor::unload( Character &who, item_location &target )
         bool changed = false;
         for( item *contained : it.all_items_top() ) {
             int old_charges = contained->charges;
-            const bool consumed = who.add_or_drop_with_msg( *contained, true, &it );
+            const bool consumed = who.add_or_drop_with_msg( *contained, true, &it, contained );
             if( consumed || contained->charges != old_charges ) {
                 changed = true;
                 handler.unseal_pocket_containing( item_location( target, contained ) );
@@ -2521,7 +2521,7 @@ void unload_activity_actor::unload( Character &who, item_location &target )
         if( contained->ammo_type() == ammotype( "plutonium" ) ) {
             contained->charges /= PLUTONIUM_CHARGES;
         }
-        if( who.as_player()->add_or_drop_with_msg( *contained, true, &it ) ) {
+        if( who.as_player()->add_or_drop_with_msg( *contained, true, &it, contained ) ) {
             qty += contained->charges;
             remove_contained.push_back( contained );
             actually_unloaded = true;

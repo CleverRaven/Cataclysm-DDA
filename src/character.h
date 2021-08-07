@@ -1530,12 +1530,13 @@ class Character : public Creature, public visitable
 
         /**
          * Adds the item to the character's worn items or wields it, or prompts if the Character cannot pick it up.
+         * @original_inventory_item set if the item was already in the characters inventory (wielded, worn, in different pocket) and is being moved.
          * @avoid is the item to not put @it into
          */
-        item &i_add( item it, bool should_stack = true, const item *avoid = nullptr, bool allow_drop = true,
+        item &i_add( item it, bool should_stack = true, const item *avoid = nullptr, const item *original_inventory_item = nullptr, bool allow_drop = true,
                      bool allow_wield = true );
         /** tries to add to the character's inventory without a popup. returns nullptr if it fails. */
-        item *try_add( item it, const item *avoid = nullptr, bool allow_wield = true );
+        item *try_add( item it, const item *avoid = nullptr, const item *original_inventory_item = nullptr, bool allow_wield = true );
 
         /**
          * Try to pour the given liquid into the given container/vehicle. The transferred charges are
@@ -1560,8 +1561,10 @@ class Character : public Creature, public visitable
         item i_rem( const item *it );
         void i_rem_keep_contents( const item *it );
         /** Sets invlet and adds to inventory if possible, drops otherwise, returns true if either succeeded.
-         *  An optional qty can be provided (and will perform better than separate calls). */
-        bool i_add_or_drop( item &it, int qty = 1, const item *avoid = nullptr );
+         *  An optional qty can be provided (and will perform better than separate calls).
+         *  @original_inventory_item set if the item was already in the characters inventory (wielded, worn, in different pocket) and is being moved.
+         */
+        bool i_add_or_drop( item &it, int qty = 1, const item *avoid = nullptr, const item *original_inventory_item = nullptr );
 
         /**
          * Check any already unsealed pockets in items pointed to by `containers`
@@ -1629,8 +1632,9 @@ class Character : public Creature, public visitable
         /**
           * So far only called by unload() from game.cpp
           * @avoid - do not put @it into @avoid
+         * @original_inventory_item set if the item was already in the characters inventory (wielded, worn, in different pocket) and is being moved.
           */
-        bool add_or_drop_with_msg( item &it, bool unloading = false, const item *avoid = nullptr );
+        bool add_or_drop_with_msg( item &it, bool unloading = false, const item *avoid = nullptr, const item *original_inventory_item = nullptr );
         /**
          * Unload item.
          * @param bypass_activity If item requires an activity for its unloading, unload item immediately instead.
