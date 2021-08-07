@@ -336,7 +336,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
             }
         // Intentional fallthrough
         case STASH: {
-            item &added_it = player_character.i_add( newit, true, nullptr, /*allow_drop=*/false,
+            item &added_it = player_character.i_add( newit, true, nullptr, &it, /*allow_drop=*/false,
                              !newit.count_by_charges() );
             if( added_it.is_null() ) {
                 // failed to add, fill pockets if it's a stack
