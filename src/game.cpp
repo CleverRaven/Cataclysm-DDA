@@ -9408,7 +9408,7 @@ void game::wield( item_location loc )
                     std::advance( it, worn_index );
                     u.worn.insert( it, to_wield );
                 } else {
-                    u.i_add( to_wield );
+                    u.i_add( to_wield, true, nullptr, loc.get_item() );
                 }
                 break;
             case item_location::type::map:
