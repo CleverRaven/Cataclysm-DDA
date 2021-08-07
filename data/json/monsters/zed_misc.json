@@ -445,8 +445,8 @@
   {
     "id": "mon_zombie_nemesis",
     "type": "MONSTER",
-    "name": { "str": "doppelganger" },
-    "description": "A repulsive humanoid, its grotesque muscles throb with an infernal energy. In its twisted visage, which has haunted your dreams since childhood, you can see the demonic reflection of your own face.",
+    "name": { "str": "nemesis zombie" },
+    "description": "An enormous repulsive humanoid, its inky black eyes are locked on you. No matter how far you run, it always seems to find you.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN", "NEMESIS" ],
