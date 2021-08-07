@@ -831,6 +831,40 @@ class try_sleep_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
 
+class safecracking_activity_actor : public activity_actor
+{
+    public:
+        explicit safecracking_activity_actor( const tripoint &safe ) : safe( safe ) {};
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_CRACKING" );
+        }
+
+        static time_duration safecracking_time( const Character &who );
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<safecracking_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+
+    private:
+        tripoint safe;
+        int exp_step = 0;
+
+        bool can_resume_with_internal( const activity_actor &other,
+                                       const Character &/*who*/ ) const override {
+            const safecracking_activity_actor &actor = static_cast<const safecracking_activity_actor &>
+                    ( other );
+            return actor.safe == safe;
+        }
+};
+
 class unload_activity_actor : public activity_actor
 {
     private:

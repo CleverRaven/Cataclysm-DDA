@@ -117,7 +117,6 @@ static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_CONSUME_FUEL_MENU( "ACT_CONSUME_FUEL_MENU" );
-static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
 static const activity_id ACT_DISSECT( "ACT_DISSECT" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
@@ -214,8 +213,6 @@ static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 
-static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
-
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
 
@@ -225,7 +222,6 @@ static const species_id species_ZOMBIE( "ZOMBIE" );
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
-static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
@@ -273,7 +269,6 @@ activity_handlers::do_turn_functions = {
     { ACT_ADV_INVENTORY, adv_inventory_do_turn },
     { ACT_ARMOR_LAYERS, armor_layers_do_turn },
     { ACT_ATM, atm_do_turn },
-    { ACT_CRACKING, cracking_do_turn },
     { ACT_FISH, fish_do_turn },
     { ACT_REPAIR_ITEM, repair_item_do_turn },
     { ACT_BLEED, butcher_do_turn },
@@ -327,7 +322,6 @@ activity_handlers::finish_functions = {
     { ACT_START_ENGINES, start_engines_finish },
     { ACT_OXYTORCH, oxytorch_finish },
     { ACT_PULP, pulp_finish },
-    { ACT_CRACKING, cracking_finish },
     { ACT_REPAIR_ITEM, repair_item_finish },
     { ACT_HEATING, heat_item_finish },
     { ACT_MEND_ITEM, mend_item_finish },
@@ -2317,16 +2311,6 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
     }
 }
 
-void activity_handlers::cracking_finish( player_activity *act, player *guy )
-{
-    guy->add_msg_if_player( m_good, _( "With a satisfying click, the lock on the safe opens!" ) );
-    if( !guy->has_proficiency( proficiency_prof_safecracking ) ) {
-        guy->practice_proficiency( proficiency_prof_safecracking, 60_minutes );
-    }
-    get_map().furn_set( act->placement, f_safe_c );
-    act->set_to_null();
-}
-
 enum class repeat_type : int {
     // INIT should be zero. In some scenarios (vehicle welder), activity value default to zero.
     INIT = 0,    // Haven't found repeat value yet.
@@ -2970,19 +2954,6 @@ void activity_handlers::fish_finish( player_activity *act, player *p )
     if( !p->backlog.empty() && p->backlog.front().id() == ACT_MULTIPLE_FISH ) {
         p->backlog.clear();
         p->assign_activity( ACT_TIDY_UP );
-    }
-}
-
-void activity_handlers::cracking_do_turn( player_activity *act, player *p )
-{
-    auto cracking_tool = p->crafting_inventory().items_with( []( const item & it ) -> bool {
-        item temporary_item( it.type );
-        return temporary_item.has_flag( flag_SAFECRACK );
-    } );
-    if( cracking_tool.empty() && !p->has_flag( json_flag_SUPER_HEARING ) ) {
-        // We lost our cracking tool somehow, bail out.
-        act->set_to_null();
-        return;
     }
 }
 

@@ -106,7 +106,6 @@
 static const activity_id ACT_ATM( "ACT_ATM" );
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
-static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
@@ -129,6 +128,7 @@ static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 
 static const json_character_flag json_flag_ATTUNEMENT( "ATTUNEMENT" );
+static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_arm_splint( "arm_splint" );
@@ -170,7 +170,6 @@ static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
 
 static const proficiency_id proficiency_prof_disarming( "prof_disarming" );
-static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
 
@@ -1424,13 +1423,11 @@ void iexamine::slot_machine( player &p, const tripoint & )
  */
 void iexamine::safe( player &guy, const tripoint &examp )
 {
-    auto cracking_tool = guy.crafting_inventory().items_with( []( const item & it ) -> bool {
-        item temporary_item( it.type );
-        return temporary_item.has_flag( flag_SAFECRACK );
-    } );
+    bool has_cracking_tool = guy.has_flag( json_flag_SUPER_HEARING );
+    // short-circuit to avoid the more expensive iteration over items
+    has_cracking_tool = has_cracking_tool || guy.has_item_with_flag( flag_SAFECRACK );
 
-    if( !( !cracking_tool.empty() ||
-           guy.has_flag( STATIC( json_character_flag( "IMMUNE_HEARING_DAMAGE" ) ) ) ) ) {
+    if( !has_cracking_tool ) {
         guy.moves -= to_moves<int>( 10_seconds );
         // Assume a 3 digit 100-number code. Many safes allow adjacent + 1 dial locations to match,
         // so 1/20^3, or 1/8,000 odds.
@@ -1457,20 +1454,7 @@ void iexamine::safe( player &guy, const tripoint &examp )
         add_msg( m_info, _( "You can't crack a safe while listening to music!" ) );
         return;
     } else if( query_yn( _( "Attempt to crack the safe?" ) ) ) {
-        add_msg( m_info, _( "You start cracking the safe." ) );
-        // 150 minutes +/- 20 minutes per devices point away from 3 +/- 10 minutes per
-        // perception point away from 8; capped at 30 minutes minimum. Multiply by 3 if you
-        // don't have safecracking proficiency.
-
-        time_duration time_base = std::max( 150_minutes - 20_minutes * ( guy.get_skill_level(
-                                                skill_traps ) - 3 ) - 10_minutes * ( guy.get_per() - 8 ), 30_minutes );
-        int time = to_moves<int>( time_base );
-        if( !guy.has_proficiency( proficiency_prof_safecracking ) ) {
-            time = time * 3;
-        }
-        guy.assign_activity( ACT_CRACKING, time );
-        guy.activity.placement = examp;
-
+        guy.assign_activity( player_activity( safecracking_activity_actor( examp ) ) );
     }
 }
 

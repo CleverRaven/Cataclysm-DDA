@@ -92,6 +92,8 @@ static const itype_id itype_electrohack( "electrohack" );
 static const itype_id itype_paper( "paper" );
 static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
 
+static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
+
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_mechanics( "mechanics" );
@@ -99,6 +101,7 @@ static const skill_id skill_traps( "traps" );
 
 static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
 static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
+static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
 
 
 static const mtype_id mon_manhack( "mon_manhack" );
@@ -2475,6 +2478,108 @@ std::unique_ptr<activity_actor> try_sleep_activity_actor::deserialize( JsonIn &j
     return actor.clone();
 }
 
+time_duration safecracking_activity_actor::safecracking_time( const Character &who )
+{
+    time_duration cracking_time = 150_minutes;
+    /** @EFFECT_DEVICES decreases time needed for safe cracking */
+    cracking_time -= 20_minutes * ( who.get_skill_level( skill_traps ) - 3 ) ;
+    /** @EFFECT_PER decreases time needed for safe cracking */
+    cracking_time -= 10_minutes * ( who.get_per() - 8 );
+    cracking_time = std::max( 30_minutes, cracking_time );
+
+    if( !who.has_proficiency( proficiency_prof_safecracking ) ) {
+        cracking_time *= 3;
+    }
+
+    return cracking_time;
+}
+
+void safecracking_activity_actor::start( player_activity &act, Character &who )
+{
+    time_duration cracking_time = safecracking_time( who );
+
+    if( who.is_avatar() ) {
+        add_msg( m_info, _( "You start cracking the safe." ) );
+    } else { // who.is_npc
+        // npcs can't crack safes yet, this is for when they are able to
+        add_msg_if_player_sees( who, _( "%1$s starts cracking the safe." ), who.disp_name() );
+    }
+
+    add_msg_debug( debugmode::DF_ACT_SAFECRACKING, "safecracking time = %s",
+                   to_string_writable( cracking_time ) );
+
+    act.moves_total = to_moves<int>( cracking_time );
+    act.moves_left = act.moves_total;
+}
+
+void safecracking_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    bool can_crack = who.has_flag( json_flag_SUPER_HEARING );
+    // short-circuit to avoid the more expensive iteration over items
+    can_crack = can_crack || who.has_item_with_flag( flag_SAFECRACK );
+
+    if( !can_crack ) {
+        // We lost our cracking tool somehow, bail out.
+        act.set_to_null();
+        return;
+    }
+
+    if( calendar::once_every( 5_minutes ) ) {
+        add_msg_debug( debugmode::DF_ACT_SAFECRACKING, "safecracking time left = %s",
+                       to_string_writable( time_duration::from_moves( act.moves_left ) ) );
+    }
+
+    /* Split experience gain in 20 parts, each giving 5% of the total*/
+    const int current_step =
+        ( 100 * ( act.moves_total - act.moves_left ) / act.moves_total ) / 5;
+    const int difference = current_step - exp_step ;
+    if( difference > 0 ) {
+        exp_step += difference;
+        if( !who.has_proficiency( proficiency_prof_safecracking ) ) {
+            who.practice_proficiency( proficiency_prof_safecracking, 3_minutes * difference );
+            // player gained the proficiency mid-way through cracking
+            if( who.has_proficiency( proficiency_prof_safecracking ) ) {
+                int new_time = to_moves<int>( safecracking_time( who ) );
+                act.moves_total = act.moves_total > new_time ? new_time : act.moves_total;
+                act.moves_left = act.moves_left > new_time ? new_time : act.moves_left;
+            }
+        }
+
+        const int skill_level = who.get_skill_level( skill_traps );
+        who.practice( skill_traps, std::max( 1,  skill_level / 2 ) );
+        if( who.get_skill_level( skill_traps ) > skill_level ) {
+            int new_time = to_moves<int>( safecracking_time( who ) );
+            act.moves_total = act.moves_total > new_time ? new_time : act.moves_total;
+            act.moves_left = act.moves_left > new_time ? new_time : act.moves_left;
+        }
+    }
+}
+
+void safecracking_activity_actor::finish( player_activity &act, Character &who )
+{
+    who.add_msg_if_player( m_good, _( "With a satisfying click, the lock on the safe opens!" ) );
+    get_map().furn_set( safe, f_safe_c );
+    act.set_to_null();
+}
+
+void safecracking_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "safe", safe );
+    jsout.member( "exp_step", exp_step );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> safecracking_activity_actor::deserialize( JsonIn &jsin )
+{
+    safecracking_activity_actor actor = safecracking_activity_actor( {} );
+
+    JsonObject data = jsin.get_object();
+    data.read( "safe", actor.safe );
+    data.read( "exp_step", actor.exp_step );
+    return actor.clone();
+}
+
 void unload_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_left = moves_total;
@@ -4156,6 +4261,7 @@ deserialize_functions = {
     { activity_id( "ACT_BINDER_COPY_RECIPE" ), &bookbinder_copy_activity_actor::deserialize },
     { activity_id( "ACT_BOLTCUTTING" ), &boltcutting_activity_actor::deserialize },
     { activity_id( "ACT_CONSUME" ), &consume_activity_actor::deserialize },
+    { activity_id( "ACT_CRACKING" ), &safecracking_activity_actor::deserialize },
     { activity_id( "ACT_CRAFT" ), &craft_activity_actor::deserialize },
     { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },
     { activity_id( "ACT_DIG_CHANNEL" ), &dig_channel_activity_actor::deserialize },
