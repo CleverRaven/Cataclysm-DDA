@@ -764,6 +764,16 @@ float Character::thrown_dex_modifier() const
     return manipulator_score();
 }
 
+float Character::ranged_dispersion_modifier() const
+{
+    if( manipulator_score() == 0.0f ) {
+        return 1000.0f;
+    } else {
+        return std::min( 1000.0f,
+                         ( 22.8f / manipulator_score() ) - 22.8f );
+    }
+}
+
 double Character::aim_cap_from_volume( const item &gun ) const
 {
     skill_id gun_skill = gun.gun_skill();
