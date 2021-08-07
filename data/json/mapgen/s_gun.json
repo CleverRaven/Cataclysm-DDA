@@ -266,17 +266,10 @@
 		"D": { "chunks": [ [ "damaged_door_nested", 50 ], [ "destroyed_door_nested", 100 ], [ "null", 75 ] ] },
 		":": { "chunks": [ [ "damaged_window_bars_nested", 75 ], [ "destroyed_window_bars_nested", 25 ], [ "null", 75 ] ] },	
 		"+": { "chunks": [ [ "destroyed_metal_door_nested", 90 ], [ "null", 75 ] ] },		
-		"`": { "chunks": [ ["corpse_blood_casings_1x1", 1 ], [ "null", 20 ] ] }
+		"`": { "chunks": [ ["corpse_blood_casings_1x1", 4 ], [ "null", 20 ] ] }
 	  },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 11, 13 ], "y": [ 17, 19 ], "density": 0.08 },
-        { "monster": "GROUP_ZOMBIE", "x": 18, "y": [ 14, 15 ], "density": 0.08 }
-		],
 	  "place_monster": [		
 		{ "monster": "mon_zombie_cop", "x": 18, "y": 14 }
-      ],
-      "place_loot": [
-        { "item":  "copbot", "x": 12, "y": 15, "chance": 100 }
       ]
     }
   },
