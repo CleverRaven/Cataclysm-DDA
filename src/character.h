@@ -1056,10 +1056,11 @@ class Character : public Creature, public visitable
 
         bool is_deaf() const;
         bool is_mute() const;
-        /** Returns true if the player has two functioning arms */
-        bool has_two_arms() const;
         /** Returns the number of functioning arms */
         int get_working_arm_count() const;
+        // the total of the manipulator score in the best limb group
+        float manipulator_score() const;
+        bool has_min_manipulators() const;
         /** Returns the number of functioning legs */
         int get_working_leg_count() const;
         bool has_limb( const bodypart_id &limb ) const;

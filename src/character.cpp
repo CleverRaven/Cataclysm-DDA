@@ -278,7 +278,6 @@ static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
 static const bionic_id bio_ads( "bio_ads" );
-static const bionic_id bio_blaster( "bio_blaster" );
 static const bionic_id bio_voice( "bio_voice" );
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
@@ -1519,8 +1518,31 @@ void Character::handle_skill_warning( const skill_id &id, bool force_warning )
 
 /** Returns true if the character has two functioning arms */
 bool Character::has_two_arms() const
+float Character::manipulator_score() const
 {
     return get_working_arm_count() >= 2;
+    std::map<body_part_type::type, std::vector<bodypart>> bodypart_groups;
+    std::vector<float> score_groups;
+    for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
+        bodypart_groups[id.first->limb_type].emplace_back( id.second );
+    }
+    for( std::pair<const body_part_type::type, std::vector<bodypart>> &part : bodypart_groups ) {
+        float total = 0.0f;
+        std::sort( part.second.begin(), part.second.end(),
+        []( const bodypart & a, const bodypart & b ) {
+            return a.get_manipulator_max() < b.get_manipulator_max();
+        } );
+        for( const bodypart &id : part.second ) {
+            total = std::min( total + id.get_encumb_adjusted_manipulator_score(), id.get_manipulator_max() );
+        }
+        score_groups.emplace_back( total );
+    }
+    const auto score_groups_max = std::max_element( score_groups.begin(), score_groups.end() );
+    if( score_groups_max == score_groups.end() ) {
+        return 0.0f;
+    } else {
+        return std::max( 0.0f, *score_groups_max );
+    }
 }
 
 // working is defined here as not disabled which means arms can be not broken
@@ -1543,6 +1565,11 @@ int Character::get_working_arm_count() const
     }
 
     return limb_count;
+bool Character::has_min_manipulators() const
+{
+    return manipulator_score() > MIN_MANIPULATOR_SCORE;
+}
+
 }
 
 // working is defined here as not broken
@@ -3928,7 +3955,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         }
     }
 
-    if( it.has_flag( flag_RESTRICT_HANDS ) && !has_two_arms() ) {
+    if( it.has_flag( flag_RESTRICT_HANDS ) && !has_min_manipulators() ) {
         return ret_val<bool>::make_failure( ( is_avatar() ? _( "You don't have enough arms to wear that." )
                                               : string_format( _( "%s doesn't have enough arms to wear that." ), name ) ) );
     }
@@ -9879,9 +9906,9 @@ ret_val<bool> Character::can_wield( const item &it ) const
     if( has_effect( effect_incorporeal ) ) {
         return ret_val<bool>::make_failure( _( "You can't wield anything while incorporeal." ) );
     }
-    if( get_working_arm_count() <= 0 ) {
+    if( !has_min_manipulators() ) {
         return ret_val<bool>::make_failure(
-                   _( "You need at least one arm to even consider wielding something." ) );
+                   _( "You need at least one arm available to even consider wielding something." ) );
     }
     if( it.made_of_from_type( phase_id::LIQUID ) ) {
         return ret_val<bool>::make_failure( _( "Can't wield spilt liquids." ) );

@@ -155,6 +155,8 @@ static constexpr int SPRING_TEMPERATURE = 65;
 */
 constexpr int SIMPLEX_NOISE_RANDOM_SEED_LIMIT = 32768;
 
+constexpr float MIN_MANIPULATOR_SCORE = 0.1f;
+
 /**
  * activity levels, used for BMR.
  * these levels are normally used over the length of
