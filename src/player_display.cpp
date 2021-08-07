@@ -256,8 +256,8 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
             s += string_format( _( "Dexterity when throwing items: <color_white>%+.1f</color>\n" ),
                                 -( eff_encumbrance / 10.0f ) );
             s += melee_cost_text( eff_encumbrance / 2 );
-            s += string_format( _( "Reduced gun aim speed: <color_white>%.1f</color>" ),
-                                p.aim_speed_encumbrance_modifier() );
+            s += string_format( _( "Gun aim speed modifier: <color_white>x%.2f</color>" ),
+                                p.aim_speed_modifier() );
             break;
         case bp_leg_l:
         case bp_leg_r:

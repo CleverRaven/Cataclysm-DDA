@@ -716,9 +716,9 @@ double Character::aim_speed_dex_modifier() const
     return get_dex() - 8;
 }
 
-double Character::aim_speed_encumbrance_modifier() const
+float Character::aim_speed_modifier() const
 {
-    return ( encumb( body_part_hand_l ) + encumb( body_part_hand_r ) ) / 10.0;
+    return manipulator_score();
 }
 
 double Character::aim_cap_from_volume( const item &gun ) const
@@ -778,8 +778,7 @@ double Character::aim_per_move( const item &gun, double recoil ) const
     // Range [0 - 10]
     aim_speed += sight_speed_modifier;
 
-    // Each 5 points (combined) of hand encumbrance decreases aim speed by one unit.
-    aim_speed -= aim_speed_encumbrance_modifier();
+    aim_speed *= aim_speed_modifier();
 
     aim_speed = std::min( aim_speed, aim_cap_from_volume( gun ) );
 

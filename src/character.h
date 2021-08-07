@@ -550,8 +550,12 @@ class Character : public Creature, public visitable
         int get_most_accurate_sight( const item &gun ) const;
         double aim_speed_skill_modifier( const skill_id &gun_skill ) const;
         double aim_speed_dex_modifier() const;
-        double aim_speed_encumbrance_modifier() const;
         double aim_cap_from_volume( const item &gun ) const;
+
+        // multiplicative modifiers
+
+        // modifier to aim speed based on manipulator score
+        float aim_speed_modifier() const;
 
         /* Gun stuff */
         /**
