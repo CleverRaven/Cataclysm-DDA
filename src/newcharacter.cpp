@@ -3974,7 +3974,7 @@ void Character::add_traits( points_left &points )
 trait_id Character::random_good_trait()
 {
     return get_random_trait( []( const mutation_branch & mb ) {
-        return mb.points >= 0;
+        return mb.points > 0;
     } );
 }
 
