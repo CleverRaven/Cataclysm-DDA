@@ -42,6 +42,26 @@
 class basecamp;
 class recipe;
 
+struct int_or_var {
+    cata::optional<int> int_val;
+    cata::optional<std::string> var_val;
+    cata::optional<int> default_val;
+    int evaluate( talker *talk ) const {
+        if( int_val.has_value() ) {
+            return int_val.value();
+        } else if( var_val.has_value() ) {
+            std::string val = talk->get_value( var_val.value() );
+            if( !val.empty() ) {
+                return std::stoi( val );
+            }
+            return default_val.value();
+        } else {
+            debugmsg( "No valid value." );
+            return 0;
+        }
+    }
+};
+
 static const efftype_id effect_currently_busy( "currently_busy" );
 
 // throws an error on failure, so no need to return
@@ -56,6 +76,20 @@ std::string get_talk_varname( const JsonObject &jo, const std::string &member, b
     const std::string &type_var = jo.get_string( "type" );
     const std::string &var_context = jo.get_string( "context" );
     return "npctalk_var_" + type_var + "_" + var_context + "_" + var_basename;
+}
+
+int_or_var get_variable_or_int( const JsonObject &jo, std::string member )
+{
+    int_or_var ret_val;
+    if( jo.has_int( member ) ) {
+        ret_val.int_val = jo.get_int( member );
+    } else if( jo.has_object( member ) ) {
+        ret_val.var_val = get_talk_varname( jo.get_object( member ), "name", false );
+        ret_val.default_val = jo.get_int( "default" );
+    } else {
+        jo.throw_error( "No valid value for ", member );
+    }
+    return ret_val;
 }
 
 template<class T>
@@ -171,9 +205,9 @@ template<class T>
 void conditional_t<T>::set_has_strength( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    const int min_strength = jo.get_int( member );
-    condition = [min_strength, is_npc]( const T & d ) {
-        return d.actor( is_npc )->str_cur() >= min_strength;
+    int_or_var iov = get_variable_or_int( jo, member );
+    condition = [iov, is_npc]( const T & d ) {
+        return d.actor( is_npc )->str_cur() >= iov.evaluate( d.actor( is_npc ) );
     };
 }
 
@@ -1050,7 +1084,7 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_is_riding( is_npc );
     } else if( jo.has_string( "u_has_mission" ) ) {
         set_u_has_mission( jo );
-    } else if( jo.has_int( "u_has_strength" ) ) {
+    } else if( jo.has_int( "u_has_strength" ) || jo.has_object( "u_has_strength" ) ) {
         set_has_strength( jo, "u_has_strength" );
     } else if( jo.has_int( "npc_has_strength" ) ) {
         set_has_strength( jo, "npc_has_strength", is_npc );
