@@ -35,6 +35,7 @@
 #include "gates.h"
 #include "gun_mode.h"
 #include "handle_liquid.h"
+#include "harvest.h"
 #include "iexamine.h"
 #include "item.h"
 #include "item_group.h"
@@ -97,6 +98,7 @@ static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
 
 static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
@@ -3248,6 +3250,101 @@ std::unique_ptr<activity_actor> drop_activity_actor::deserialize( JsonIn &jsin )
     return actor.clone();
 }
 
+void harvest_activity_actor::start( player_activity &act, Character &who )
+{
+    map &here = get_map();
+
+    if( here.has_furn( target ) ) {
+        const furn_id furn = here.furn( target );
+
+        if( furn->has_examine( iexamine::harvest_furn ) ) {
+            exam_furn = true;
+        } else if( furn->has_examine( iexamine::harvest_furn_nectar ) )  {
+            exam_furn = true;
+            nectar = true;
+        }
+    }
+
+    const harvest_id harvest = here.get_harvest( target );
+    if( harvest.is_null() || harvest->empty() ) {
+        if( !auto_forage ) {
+            who.add_msg_if_player( m_info,
+                                   _( "Nothing can be harvested from this plant in current season." ) );
+        }
+
+        if( who.as_player()->manual_examine ) {
+            iexamine::none( *who.as_player(), target );
+        }
+
+        act.set_to_null();
+        return;
+    }
+
+    const time_duration forage_time = rng( 5_seconds, 15_seconds );
+    add_msg_debug( debugmode::DF_ACT_HARVEST, "harvest time: %s", to_string_writable( forage_time ) );
+    act.moves_total = to_moves<int>( forage_time );
+    act.moves_left = act.moves_total;
+}
+
+void harvest_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+
+    map &here = get_map();
+
+    // If nothing can be harvested, neither can nectar
+    // Incredibly low priority TODO: Allow separating nectar seasons
+    if( nectar && iexamine_helper::drink_nectar( *who.as_player() ) ) {
+        return;
+    }
+
+    const int survival_skill = who.get_skill_level( skill_survival );
+    bool got_anything = false;
+    for( const harvest_entry &entry : here.get_harvest( target ).obj() ) {
+        const float min_num = entry.scale_num.first * survival_skill + entry.base_num.first;
+        const float max_num = entry.scale_num.second * survival_skill + entry.base_num.second;
+        const int roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
+        got_anything = roll > 0;
+        for( int i = 0; i < roll; i++ ) {
+            iexamine_helper::handle_harvest( *who.as_player(), entry.drop, false );
+        }
+    }
+
+    if( !got_anything ) {
+        who.add_msg_if_player( m_bad, _( "You couldn't harvest anything." ) );
+    }
+
+    if( exam_furn ) {
+        here.furn_set( target, f_null );
+    } else {
+        here.ter_set( target, here.get_ter_transforms_into( target ) );
+    }
+
+    iexamine::practice_survival_while_foraging( who.as_player() );
+}
+
+void harvest_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "target", target );
+    jsout.member( "exam_furn", exam_furn );
+    jsout.member( "nectar", nectar );
+    jsout.member( "auto_forage", auto_forage );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> harvest_activity_actor::deserialize( JsonIn &jsin )
+{
+    harvest_activity_actor actor( tripoint_zero );
+
+    JsonObject jsobj = jsin.get_object();
+    jsobj.read( "target", actor.target );
+    jsobj.read( "exam_furn", actor.exam_furn );
+    jsobj.read( "nectar", actor.nectar );
+    jsobj.read( "auto_forage", actor.auto_forage );
+    return actor.clone();
+}
+
 static void stash_on_pet( const std::list<item> &items, monster &pet, Character &who )
 {
     units::volume remaining_volume = pet.storage_item->get_total_capacity() - pet.get_carried_volume();
@@ -4272,6 +4369,7 @@ deserialize_functions = {
     { activity_id( "ACT_GUNMOD_REMOVE" ), &gunmod_remove_activity_actor::deserialize },
     { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
     { activity_id( "ACT_HAIRCUT" ), &haircut_activity_actor::deserialize },
+    { activity_id( "ACT_HARVEST" ), &harvest_activity_actor::deserialize},
     { activity_id( "ACT_HOTWIRE_CAR" ), &hotwire_car_activity_actor::deserialize },
     { activity_id( "ACT_INSERT_ITEM" ), &insert_item_activity_actor::deserialize },
     { activity_id( "ACT_LOCKPICK" ), &lockpick_activity_actor::deserialize },
