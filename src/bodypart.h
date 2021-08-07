@@ -184,6 +184,10 @@ struct body_part_type {
         // modifier for lifting strength
         float lifting_score = 0.0f;
 
+        // ability to block using martial arts
+        // each whole number is a block
+        float blocking_score = 0.0f;
+
         float smash_efficiency = 0.5f;
 
         //Morale parameters
@@ -315,6 +319,7 @@ class bodypart
         float get_encumb_adjusted_manipulator_score() const;
         float get_wound_adjusted_manipulator_score() const;
         float get_manipulator_max() const;
+        float get_blocking_score() const;
         float get_lifting_score() const;
 
         int get_hp_cur() const;

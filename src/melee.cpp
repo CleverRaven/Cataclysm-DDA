@@ -660,7 +660,7 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
 
         // if you have two broken arms you aren't doing any martial arts
         // and your hits are not going to hurt very much
-        if( get_working_arm_count() < 1 ) {
+        if( blocking_score( body_part_type::type::arm ) < 1.0f ) {
             technique_id = tec_none;
             d.mult_damage( 0.1 );
         }

@@ -969,7 +969,7 @@ bool character_martial_arts::can_arm_block( const Character &owner ) const
     }
 
     // Success conditions.
-    if( owner.get_working_arm_count() >= 1 ) {
+    if( owner.blocking_score( body_part_type::type::arm ) >= 1.0f ) {
         if( unarmed_skill >= ma.arm_block ) {
             return true;
         }

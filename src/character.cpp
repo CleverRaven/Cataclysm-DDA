@@ -1542,8 +1542,16 @@ float Character::manipulator_score() const
     }
 }
 
+float Character::blocking_score( const body_part_type::type &bp ) const
 {
+    float total = 0.0f;
+    for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
+        if( id.first->limb_type == bp ) {
+            total += id.second.get_blocking_score();
+        }
     }
+    return std::max( 0.0f, total );
+}
 
 float Character::lifting_score( const body_part_type::type &bp ) const
 {

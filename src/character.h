@@ -1058,6 +1058,7 @@ class Character : public Creature, public visitable
         bool is_mute() const;
         // the total of the manipulator score in the best limb group
         float manipulator_score() const;
+        float blocking_score( const body_part_type::type &bp ) const;
         float lifting_score( const body_part_type::type &bp ) const;
         bool has_min_manipulators() const;
         // technically this is "has more than one arm"
