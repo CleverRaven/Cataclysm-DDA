@@ -417,6 +417,7 @@ class overmap
         void signal_nemesis( const tripoint_abs_sm p );
         void process_mongroups();
         void move_hordes();
+        // moves the nemesis horde from the 'hunted' trait
         void move_nemesis();
 
         static bool obsolete_terrain( const std::string &ter );

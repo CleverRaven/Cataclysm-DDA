@@ -2158,12 +2158,9 @@ void overmap::move_nemesis()
             continue;
         }
 
-        
         point_abs_om omp;
         tripoint_om_sm local_sm;
         std::tie( omp, local_sm ) = project_remain<coords::om>( mg.abs_pos );
-        
-
 
         // Decrease movement chance according to the terrain we're currently on.
         const oter_id &walked_into = ter( project_to<coords::omt>( local_sm ) );
@@ -2175,7 +2172,6 @@ void overmap::move_nemesis()
         } else if( walked_into == river_center ) {
             movement_chance = 10;
         }
-
 
         //update the nemesis coordinates in abs_sm for movement across overmaps
         if( one_in( movement_chance ) && rng( 0, 200 ) < mg.avg_speed() ) {
@@ -2192,9 +2188,8 @@ void overmap::move_nemesis()
                 mg.abs_pos.y()++;
             }
 
-            
             //if the nemesis horde is on the same overmap as its target
-            //update the horde's om_sm coords so it can spawn in correctly
+            //update the horde's om_sm coords from the abs_sm so it can spawn in correctly
             if ( project_to<coords::om>( mg.nemesis_target.xy() ) == omp ) {
 
                 debugmsg( "nemesis has entered your overmap" );
@@ -2208,8 +2203,8 @@ void overmap::move_nemesis()
                 zg.erase( it++ );
                 
                 add_msg( m_info, _( "distance: %d, %d" ),
-            mg.nemesis_target.x() - mg.abs_pos.x(), mg.nemesis_target.y() - mg.abs_pos.y() );
-        add_msg( m_info, _( "terrain: %s" ), 
+                mg.nemesis_target.x() - mg.abs_pos.x(), mg.nemesis_target.y() - mg.abs_pos.y() );
+                add_msg( m_info, _( "terrain: %s" ), 
                  walked_into->id.c_str() );
                 
                 //there is only one nemesis horde, so we can stop looping after we move it
@@ -2217,9 +2212,9 @@ void overmap::move_nemesis()
 
             }
             
-        add_msg( m_info, _( "distance: %d, %d" ),
+            add_msg( m_info, _( "distance: %d, %d" ),
             mg.nemesis_target.x() - mg.abs_pos.x(), mg.nemesis_target.y() - mg.abs_pos.y() );
-        add_msg( m_info, _( "terrain: %s" ), 
+            add_msg( m_info, _( "terrain: %s" ), 
                  walked_into->id.c_str() );
 
         //only one nemesis, so we break after moving it

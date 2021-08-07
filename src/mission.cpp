@@ -151,7 +151,7 @@ void mission::on_creature_death( Creature &poor_dead_dude )
             //the nemesis monster doesn't have a mission attached bc it's an overmap horde
             //so we loop to find the appropriate mission and complete it
             avatar &player_character = get_avatar();
-            for( auto &e : world_missions ) {
+            for( std::pair<const int, mission> &e : world_missions ) {
                 mission &i = e.second;
 
                 if( i.type->goal == MGOAL_KILL_NEMESIS && player_character.getID() == i.player_id ) { 

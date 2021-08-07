@@ -158,20 +158,16 @@ void overmapbuffer::fix_nemesis( overmap &new_overmap )
             continue;
         }
 
+        //otherwise, place it in the overmap that corresponds to its abs_sm coords
         point_abs_om omp;
         point_om_sm sm_rem;
         std::tie( omp, sm_rem ) = project_remain<coords::om>( mg.abs_pos.xy() );
-        /*if( !has( omp ) ) {
-            // Don't generate new overmaps, as this can be called from the
-            // overmap-generating code.
-            ++it;
-            continue;
-        }*/
+
         overmap &om = get( omp );
         mg.pos = tripoint_om_sm( sm_rem, mg.pos.z() );
         om.spawn_mon_group( mg );
         new_overmap.zg.erase( it++ );
-        //there is only one nemesis, we can break after finding it
+        //there should only be one nemesis, so we can break after finding it
         break; 
     }
 }
@@ -526,7 +522,7 @@ void overmapbuffer::signal_hordes( const tripoint_abs_sm &center, const int sig_
 void overmapbuffer::signal_nemesis( const tripoint_abs_sm p )
 {
 
-    for( auto &omp : overmaps ) {
+    for( std::pair<const point_abs_om, std::unique_ptr<overmap>> &omp : overmaps ) {
         // Note: this may throw io errors from std::ofstream
         omp.second->signal_nemesis( p );
     }
@@ -568,7 +564,7 @@ void overmapbuffer::move_hordes()
 
 void overmapbuffer::move_nemesis()
 {
-   for( auto &omp : overmaps ) {
+   for( std::pair<const point_abs_om, std::unique_ptr<overmap>> &omp : overmaps ) {
         // Note: this may throw io errors from std::ofstream
         omp.second->move_nemesis();
         fix_nemesis(*omp.second);

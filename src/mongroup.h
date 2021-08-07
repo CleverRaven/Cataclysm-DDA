@@ -86,7 +86,7 @@ struct mongroup {
     // Note: position is not saved as such in the json
     // Instead, a vector of positions is saved for
     tripoint_om_sm pos;
-    tripoint_abs_sm abs_pos;
+    tripoint_abs_sm abs_pos; // position of the mongroup in absolute submap coordinates
     unsigned int radius = 1;
     unsigned int population = 1;
     tripoint_om_sm target; // location the horde is interested in.
