@@ -863,7 +863,7 @@ bool game::start_game()
     }
 
     // Assign nemesis kill mission if character has the 'hunted' trait
-    if( u.has_trait( trait_id( "HAS_NEMESIS" ) ) ) {
+    if( u.has_trait( trait_HAS_NEMESIS ) ) {
         const auto mission = mission::reserve_new( mission_type_id( "MISSION_KILL_NEMESIS" ), 
                                                     character_id() );
         mission->assign( u );
@@ -1483,7 +1483,9 @@ bool game::do_turn()
     // Move hordes every 2.5 min
     if( calendar::once_every( time_duration::from_minutes( 2.5 ) ) ) {
         overmap_buffer.move_hordes();
-        overmap_buffer.move_nemesis();
+        if( u.has_trait( trait_HAS_NEMESIS ) ) {
+            overmap_buffer.move_nemesis();
+        }
         // Hordes that reached the reality bubble need to spawn,
         // make them spawn in invisible areas only.
         m.spawn_monsters( false );
