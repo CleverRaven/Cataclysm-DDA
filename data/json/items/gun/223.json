@@ -386,7 +386,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "M4 carbine" },
-    "description": "A popular carbine, long used by the US military.  Though accurate, small, and lightweight, it is infamous for its unreliability when not properly maintained. It is chambered in 5.56x45mm and accepts STANAG magazines.",
+    "description": "A popular carbine, long used by the US military.  Though accurate, small, and lightweight, it is infamous for its unreliability when not properly maintained.  It is chambered in 5.56x45mm and accepts STANAG magazines.",
     "ascii_picture": "m4a1",
     "weight": "2880 g",
     "volume": "3310 ml",
