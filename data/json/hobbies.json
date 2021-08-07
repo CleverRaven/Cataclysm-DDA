@@ -614,5 +614,23 @@
     "points": 1,
     "skills": [ { "level": 1, "name": "survival" }, { "level": 1, "name": "tailor" } ],
     "proficiencies": [ "prof_fibers", "prof_fibers_rope" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "underweight",
+    "name": "Extreme Dieting",
+    "description": "You lost an awful lot of weight before the Cataclysm.  Now that food is not always close at hand, your skeletal figure presents an additional danger.  You need to gain weight or die trying.",
+    "points": -1,
+    "traits": [ "XS" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "obese",
+    "name": "Binge Eating",
+    "description": "You gained an awful lot of weight before the Cataclysm.  Now that mobility is key to survival, your bloated figure presents an additional danger.  You need to lose weight or die trying.",
+    "points": -1,
+    "traits": [ "XXXL" ]
   }
 ]
