@@ -2299,8 +2299,27 @@ tab_direction set_hobbies( avatar &u, points_left &points )
                 desc_offset++;
             }
         } else if( action == "CONFIRM" ) {
-            // Toggle hobby
+            // Do not allow selection of hobby if there's a trait conflict
             const profession *prof = &sorted_profs[cur_id].obj();
+            bool conflict_found = false;
+            for( const trait_id &new_trait : prof->get_locked_traits() ) {
+                if( u.has_conflicting_trait( new_trait ) ) {
+                    for( const profession *hobby : u.hobbies ) {
+                        for( const trait_id &suspect_trait : hobby->get_locked_traits() ) {
+                            if( are_conflicting_traits( new_trait, suspect_trait ) ) {
+                                conflict_found = true;
+                                popup( _( "The trait [%1$s] conflicts with hobby [%2$s]'s trait [%3$s]." ), new_trait->name(),
+                                       hobby->gender_appropriate_name( u.male ), suspect_trait->name() );
+                            }
+                        }
+                    }
+                }
+            }
+            if( conflict_found ) {
+                continue;
+            }
+
+            // Toggle hobby
             if( u.hobbies.count( prof ) == 0 ) {
                 // Add hobby, and decrement point cost
                 u.hobbies.insert( prof );
@@ -2314,20 +2333,6 @@ tab_direction set_hobbies( avatar &u, points_left &points )
             // Add or remove traits from hobby
             for( const trait_id &trait : prof->get_locked_traits() ) {
                 u.toggle_trait( trait );
-            }
-
-            // Remove pre-selected traits that conflict with the new hobby's traits
-            for( const trait_id &new_trait : u.prof->get_locked_traits() ) {
-                if( u.has_conflicting_trait( new_trait ) ) {
-                    for( const trait_id &suspect_trait : u.get_mutations() ) {
-                        if( are_conflicting_traits( new_trait, suspect_trait ) ) {
-                            u.toggle_trait( suspect_trait );
-                            points.trait_points += suspect_trait->points;
-                            popup( _( "Your trait %1$s has been removed since it conflicts with the %2$s's %3$s trait." ),
-                                   suspect_trait->name(), u.prof->gender_appropriate_name( u.male ), new_trait->name() );
-                        }
-                    }
-                }
             }
 
         } else if( action == "CHANGE_GENDER" ) {
