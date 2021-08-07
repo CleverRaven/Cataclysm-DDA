@@ -186,9 +186,9 @@ static std::string melee_cost_text( float moves )
     return string_format(
                _( "Melee and thrown attack movement point modifier: <color_white>x%.2f</color>\n" ), moves );
 }
-static std::string melee_stamina_cost_text( int cost )
+static std::string melee_stamina_cost_text( float cost )
 {
-    return string_format( _( "Melee stamina cost: <color_white>%+d</color>\n" ), cost );
+    return string_format( _( "Melee stamina cost: <color_white>x%.2f</color>\n" ), cost );
 }
 static std::string mouth_stamina_cost_text( int cost )
 {
@@ -246,8 +246,8 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
         case bp_arm_l:
         case bp_arm_r:
             s += _( "<color_magenta>Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons.</color>\n" );
-            s += melee_stamina_cost_text( eff_encumbrance );
             s += ranged_cost_text( eff_encumbrance / 5.0 );
+            s += melee_stamina_cost_text( p.melee_stamina_cost_modifier() );
             break;
         case bp_hand_l:
         case bp_hand_r:

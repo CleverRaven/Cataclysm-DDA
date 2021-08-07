@@ -741,6 +741,15 @@ float Character::melee_thrown_move_modifier_torso() const
     }
 }
 
+float Character::melee_stamina_cost_modifier() const
+{
+    if( lifting_score( body_part_type::type::arm ) == 0.0f ) {
+        return MAX_MOVECOST_MODIFIER;
+    } else {
+        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / lifting_score( body_part_type::type::arm ) );
+    }
+}
+
 double Character::aim_cap_from_volume( const item &gun ) const
 {
     skill_id gun_skill = gun.gun_skill();
@@ -2790,11 +2799,7 @@ int Character::get_standard_stamina_cost( const item *thrown_item ) const
     //If the item is thrown, override with the thrown item instead.
     const int weight_cost = ( thrown_item == nullptr ) ? this->weapon.weight() /
                             ( 16_gram ) : thrown_item->weight() / ( 16_gram );
-    int encumbrance_cost = 0;
-    for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::arm ) ) {
-        encumbrance_cost += encumb( part );
-    }
-    return ( weight_cost + encumbrance_cost + 50 ) * -1;
+    return ( weight_cost + 50 ) * -1 * melee_stamina_cost_modifier();
 }
 
 cata::optional<std::list<item>::iterator> Character::wear_item( const item &to_wear,
