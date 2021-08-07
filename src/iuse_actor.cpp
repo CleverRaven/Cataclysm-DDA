@@ -217,7 +217,7 @@ cata::optional<int> iuse_transform::use( player &p, item &it, bool t, const trip
         p.add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
         return cata::nullopt;
     }
-    if( need_charges && it.units_remaining( p ) < need_charges ) {
+    if( need_charges && it.ammo_remaining( &p ) < need_charges ) {
         if( possess ) {
             p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
         }
@@ -1839,7 +1839,7 @@ ret_val<bool> cauterize_actor::can_use( const Character &p, const item &it, bool
                        _( "You need a source of flame (4 charges worth) before you can cauterize yourself." ) );
         }
     } else {
-        if( !it.units_sufficient( p ) ) {
+        if( !it.ammo_sufficient( &p ) ) {
             return ret_val<bool>::make_failure( _( "You need at least %d charges to cauterize wounds." ),
                                                 it.ammo_required() );
         }
@@ -2550,7 +2550,7 @@ bool repair_item_actor::can_use_tool( const player &p, const item &tool, bool pr
         }
         return false;
     }
-    if( !tool.units_sufficient( p ) ) {
+    if( !tool.ammo_sufficient( &p ) ) {
         if( print_msg ) {
             p.add_msg_if_player( m_info, _( "Your tool does not have enough charges to do that." ) );
         }

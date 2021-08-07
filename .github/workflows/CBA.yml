@@ -4,29 +4,13 @@ on:
   push:
     branches:
     - master
-  pull_request:
-    branches:
-    - master
+  workflow_dispatch:
 
+# Mixing in event_name so that a master push and a workflow dispatch can run at the same time.
+concurrency: clang_build_analyzer-${{ github.event_name }}
 
 jobs:
-  skip-duplicates:
-    continue-on-error: true
-    runs-on: ubuntu-latest
-    # Map a step output to a job output
-    outputs:
-      should_skip: ${{ steps.skip_check.outputs.should_skip }}
-    steps:
-      - id: skip_check
-        uses: fkirc/skip-duplicate-actions@master
-        with:
-          cancel_others: 'true'
-          paths: '[ "**.cpp", "**.h", "**.c", "**/CMakeLists.txt", "**/Makefile", "**.hpp", "**.cmake", ".github/workflows/CBA.yml" ]'
-
   build:
-    needs: skip-duplicates
-    if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' }}
-
     runs-on: ubuntu-latest    
     steps:
     - name: checkout repository
