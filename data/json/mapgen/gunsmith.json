@@ -21,7 +21,7 @@
         "':y..YYYYYY...?a.|||||#_",
         "':y...........Cr.....|#_",
         "'#y..QQQQQQ...#VLLLL.|#_",
-        "'#----------t-------t-#_",
+        "'#----------D-------D-#_",
         "'#CCCCCCC-<-.-nA^.l-.s#_",
         "'#CA...AC-D-.-nA..l-.s:_",
         "'+...A...D...D.....D.s:_",
@@ -33,7 +33,7 @@
         "__________'__*_ww_______"
       ],
 	  "palettes": [ "gun_store_palette" ],
-      "monster": { "monster": "mon_copbot", "x": 0, "y": 0, "chance": 75 },	  
+	  "place_monster": [  { "monster": "mon_copbot", "x": 11, "y": 10, "chance": 75 } ],
 	  "terrain": {
 		"V": "t_thconc_floor",
 		"H": "t_thconc_floor",

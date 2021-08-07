@@ -20,8 +20,8 @@
         ",#..##..##..d..|W=====W,",
         ",#..........?a.|W.....W,",	
         ",#..........dr.XW.....W,",
-        ",#-D--t-------t-W.....W,",
-        ",#r.-..-<-EEEO..t.....W,",
+        ",#-D--D-------D-W.....W,",
+        ",#r.-..-<-EEEO..D.....W,",
         ",#^.-l.-D-EA..rEWT.T.TW,",
         ",#q&-l...-EA..AEWxxxxxW,",
         ",#---....----D-#WWWWWWW,",
@@ -32,7 +32,7 @@
         ",###############_______,"
       ],
 	  "palettes": [ "gun_store_palette" ],
-	  "monster": { "monster": "mon_copbot", "x": 0, "y": 0, "chance": 75 },
+	  "place_monster": [  { "monster": "mon_copbot", "x": 10, "y": 10, "chance": 75 } ],
 	  "terrain": {	
 			"w": "t_pavement",
 			";": "t_region_groundcover_urban"

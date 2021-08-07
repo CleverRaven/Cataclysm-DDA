@@ -104,8 +104,7 @@
       { "item": "sw629", "prob": 40, "charges-min": 0, "charges-max": 0 },
 	  { "item": "cop_38", "prob": 65, "charges-min": 0, "charges-max": 0 },
       { "item": "TDI_10", "prob": 1, "charges-min": 0, "charges-max": 0 },
-      { "item": "makarov", "prob": 55, "charges-min": 0, "charges-max": 0  },	  
-      { "item": "draco", "prob": 30, "charges-min": 0, "charges-max": 0 },	  
+      { "item": "makarov", "prob": 55, "charges-min": 0, "charges-max": 0  },	    
       { "item": "walther_p22", "prob": 13, "charges-min": 0, "charges-max": 0 }
     ]
   },
@@ -142,8 +141,7 @@
       { "item": "m1911a1_38super", "prob": 25, "charges-min": 0, "charges-max": 0 },
       { "item": "fn57", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "m1911-460", "prob": 20, "charges-min": 0, "charges-max": 0 },
-      { "item": "TDI_10", "prob": 1, "charges-min": 0, "charges-max": 0 },
-      { "item": "draco", "prob": 30, "charges-min": 0, "charges-max": 0 }
+      { "item": "TDI_10", "prob": 1, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
@@ -208,6 +206,7 @@
       { "item": "af2011a1_38super", "prob": 25 },
       { "item": "colt_saa", "prob": 35 },
       { "item": "lemat_revolver", "prob": 35 },
+      { "item": "draco", "prob": 30, "charges-min": 0, "charges-max": 0 },	  
       { "group": "guns_pistol_collectible", "prob": 1 }
     ]
   },
