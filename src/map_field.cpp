@@ -318,11 +318,11 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
             gas_spread_to( cur, n.second, n.first );
         } else {
             std::vector<size_t> neighbour_vec;
-            auto maptiles = get_wind_blockers(winddirection, p);
+            auto maptiles = get_wind_blockers( winddirection, p );
             // Three map tiles that are facing the wind direction.
-            const maptile &remove_tile = std::get<0>(maptiles);
-            const maptile &remove_tile2 = std::get<1>(maptiles);
-            const maptile &remove_tile3 = std::get<2>(maptiles);
+            const maptile &remove_tile = std::get<0>( maptiles );
+            const maptile &remove_tile2 = std::get<1>( maptiles );
+            const maptile &remove_tile3 = std::get<2>( maptiles );
             for( const auto &i : spread ) {
                 const auto &neigh = neighs[i].second;
                 if( ( neigh.pos_ != remove_tile.pos_ &&
