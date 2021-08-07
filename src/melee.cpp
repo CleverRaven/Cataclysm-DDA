@@ -103,6 +103,7 @@ static const efftype_id effect_venom_player1( "venom_player1" );
 static const efftype_id effect_venom_player2( "venom_player2" );
 
 static const json_character_flag json_flag_CBQ_LEARN_BONUS( "CBQ_LEARN_BONUS" );
+static const json_character_flag json_flag_HARDTOHIT( "HARDTOHIT" );
 static const json_character_flag json_flag_NEED_ACTIVE_TO_MELEE( "NEED_ACTIVE_TO_MELEE" );
 static const json_character_flag json_flag_UNARMED_BONUS( "UNARMED_BONUS" );
 
@@ -1042,6 +1043,10 @@ float Character::get_dodge() const
 
 float Character::dodge_roll() const
 {
+    if( has_trait_flag( json_flag_HARDTOHIT ) ) {
+        // two chances at rng!
+        return std::max( get_dodge(), get_dodge() ) * 5;
+    }
     return get_dodge() * 5;
 }
 
