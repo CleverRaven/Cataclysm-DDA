@@ -61,11 +61,13 @@
     "default": "mon_cardinal_chick",
     "monsters": [ { "monster": "mon_cardinal_chick", "freq": 100, "cost_multiplier": 1 } ]
   },
+  {
     "name": "GROUP_EGG_ROBIN",
     "type": "monstergroup",
     "default": "mon_robin_chick",
     "monsters": [ { "monster": "mon_robin_chick", "freq": 100, "cost_multiplier": 1 } ]
   },
+  {
     "name": "GROUP_EGG_SPARROW",
     "type": "monstergroup",
     "default": "mon_sparrow_chick",
