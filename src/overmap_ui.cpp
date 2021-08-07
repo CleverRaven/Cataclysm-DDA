@@ -979,7 +979,7 @@ static void draw_om_sidebar(
     const int sight_points = !has_debug_vision ?
                              player_character.overmap_sight_range( g->light_level( player_character.posz() ) ) :
                              100;
-    oter_id ccur_ter = overmap_buffer.ter( center ).id().id();
+    const bool center_seen = has_debug_vision || overmap_buffer.seen( center );
     const tripoint_abs_omt target = player_character.get_active_mission_target();
     const bool has_target = target != overmap::invalid_tripoint;
     const bool viewing_weather = uistate.overmap_debug_weather || uistate.overmap_visible_weather;
@@ -1009,7 +1009,7 @@ static void draw_om_sidebar(
 
     // Draw text describing the overmap tile at the cursor position.
     int lines = 1;
-    if( ( has_debug_vision || overmap_buffer.seen( center ) ) && !viewing_weather ) {
+    if( center_seen && !viewing_weather ) {
         if( !mgroups.empty() ) {
             int line_number = 6;
             for( const auto &mgroup : mgroups ) {
@@ -1028,7 +1028,7 @@ static void draw_om_sidebar(
                            c_red, "x" );
             }
         } else {
-            const auto &ter = ccur_ter.obj();
+            const oter_t &ter = overmap_buffer.ter( center ).obj();
             const auto sm_pos = project_to<coords::sm>( center );
 
             // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -1053,10 +1053,11 @@ static void draw_om_sidebar(
         mvwprintz( wbar, point( 1, 1 ), c_dark_gray, _( "# Unexplored" ) );
     }
 
-    if( data.debug_editor ) {
-        mvwprintz( wbar, point( 1, ++lines ), c_white, _( "oter: %s" ), ccur_ter.id().str() );
+    if( data.debug_editor && center_seen ) {
+        const oter_t &oter = overmap_buffer.ter( center ).obj();
+        mvwprintz( wbar, point( 1, ++lines ), c_white, _( "oter: %s" ), oter.id.str() );
         mvwprintz( wbar, point( 1, ++lines ), c_white,
-                   _( "oter_type: %s" ), ccur_ter->get_type_id().str() );
+                   _( "oter_type: %s" ), oter.get_type_id().str() );
     }
 
     if( has_target ) {
