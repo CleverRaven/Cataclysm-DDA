@@ -916,7 +916,9 @@ vehicle *game::place_vehicle_nearby(
 void game::load_npcs()
 {
     const int radius = HALF_MAPSIZE - 1;
-    const tripoint abs_sub = get_map().get_abs_sub();
+    const tripoint_abs_sm abs_sub( get_map().get_abs_sub() );
+    const half_open_rectangle<point_abs_sm> map_bounds( abs_sub.xy(), abs_sub.xy() + point( MAPSIZE,
+            MAPSIZE ) );
     // uses submap coordinates
     std::vector<shared_ptr_fast<npc>> just_added;
     for( const auto &temp : overmap_buffer.get_npcs_near_player( radius ) ) {
@@ -935,17 +937,15 @@ void game::load_npcs()
             continue;
         }
 
-        const tripoint sm_loc = temp->global_sm_location();
+        const tripoint_abs_sm sm_loc = temp->global_sm_location();
         // NPCs who are out of bounds before placement would be pushed into bounds
         // This can cause NPCs to teleport around, so we don't want that
-        if( sm_loc.x < abs_sub.x || sm_loc.x >= abs_sub.x + MAPSIZE ||
-            sm_loc.y < abs_sub.y || sm_loc.y >= abs_sub.y + MAPSIZE ||
-            ( sm_loc.z != abs_sub.z && !m.has_zlevels() ) ) {
+        if( !map_bounds.contains( sm_loc.xy() ) || ( sm_loc.z() != abs_sub.z() && !m.has_zlevels() ) ) {
             continue;
         }
 
-        add_msg_debug( debugmode::DF_NPC, "game::load_npcs: Spawning static NPC, %d:%d:%d (%d:%d:%d)",
-                       abs_sub.x, abs_sub.y, abs_sub.z, sm_loc.x, sm_loc.y, sm_loc.z );
+        add_msg_debug( debugmode::DF_NPC, "game::load_npcs: Spawning static NPC, %s %s",
+                       abs_sub.to_string_writable(), sm_loc.to_string_writable() );
         temp->place_on_map();
         if( !m.inbounds( temp->pos() ) ) {
             continue;
@@ -1000,7 +1000,7 @@ void game::create_starting_npcs()
     shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
     tmp->normalize();
     tmp->randomize( one_in( 2 ) ? NC_DOCTOR : NC_NONE );
-    tmp->spawn_at_precise( get_map().get_abs_sub().xy(), u.pos() - point_south_east );
+    tmp->spawn_at_precise( u.global_square_location() - point_south_east );
     overmap_buffer.insert_npc( tmp );
     tmp->form_opinion( u );
     tmp->set_attitude( NPCATT_NULL );
@@ -4511,7 +4511,7 @@ bool game::spawn_hallucination( const tripoint &p )
         shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
         tmp->normalize();
         tmp->randomize( NC_HALLU );
-        tmp->spawn_at_precise( get_map().get_abs_sub().xy(), p );
+        tmp->spawn_at_precise( tripoint_abs_ms( get_map().getabs( p ) ) );
         if( !critter_at( p, true ) ) {
             overmap_buffer.insert_npc( tmp );
             load_npcs();
@@ -4708,7 +4708,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
         shared_ptr_fast<npc> tmp = make_shared_fast<npc>();
         tmp->normalize();
         tmp->load_npc_template( npc_cyborg );
-        tmp->spawn_at_precise( get_map().get_abs_sub().xy(), couch_pos );
+        tmp->spawn_at_precise( tripoint_abs_ms( get_map().getabs( couch_pos ) ) );
         overmap_buffer.insert_npc( tmp );
         tmp->hurtall( dmg_lvl * 10, nullptr );
         tmp->add_effect( effect_downed, rng( 1_turns, 4_turns ), false, 0, true );
@@ -11076,6 +11076,7 @@ void game::perhaps_add_random_npc()
         const tripoint_abs_omt u_omt = u.global_omt_location();
         spawn_point = u_omt + point( rng( -radius_spawn_range, radius_spawn_range ),
                                      rng( -radius_spawn_range, radius_spawn_range ) );
+        // Only spawn random NPCs on z-level 0
         spawn_point.z() = 0;
         const oter_id oter = overmap_buffer.ter( spawn_point );
         // shouldn't spawn on lakes or rivers.
@@ -11094,10 +11095,7 @@ void game::perhaps_add_random_npc()
                             faction_id( "no_faction" ) );
     tmp->set_fac( new_solo_fac ? new_solo_fac->id : faction_id( "no_faction" ) );
     // adds the npc to the correct overmap.
-    // Only spawn random NPCs on z-level 0
-    // TODO: fix point types
-    tripoint submap_spawn = omt_to_sm_copy( spawn_point.raw() );
-    tmp->spawn_at_sm( tripoint( submap_spawn.xy(), 0 ) );
+    tmp->spawn_at_omt( spawn_point );
     overmap_buffer.insert_npc( tmp );
     tmp->form_opinion( u );
     tmp->mission = NPC_MISSION_NULL;
