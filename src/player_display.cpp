@@ -181,10 +181,10 @@ static std::string reload_cost_text( int moves )
     return string_format( _( "Reloading movement point cost: <color_white>%+d</color>\n" ), moves );
 }
 
-static std::string melee_cost_text( int moves )
+static std::string melee_cost_text( float moves )
 {
     return string_format(
-               _( "Melee and thrown attack movement point cost: <color_white>%+d</color>\n" ), moves );
+               _( "Melee and thrown attack movement point modifier: <color_white>x%.2f</color>\n" ), moves );
 }
 static std::string melee_stamina_cost_text( int cost )
 {
@@ -226,7 +226,7 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
             s += dodge_skill_text( -( eff_encumbrance / 10.0 ) );
             s += swim_cost_text( ( eff_encumbrance / 10.0 ) * ( 80 - p.get_skill_level(
                                      skill_swimming ) * 3 ) );
-            s += melee_cost_text( eff_encumbrance );
+            s += melee_cost_text( p.melee_thrown_move_modifier_torso() );
             break;
         }
         case bp_head:
@@ -255,7 +255,7 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
             s += reload_cost_text( ( eff_encumbrance / 10 ) * 15 );
             s += string_format( _( "Dexterity when throwing items: <color_white>%+.1f</color>\n" ),
                                 -( eff_encumbrance / 10.0f ) );
-            s += melee_cost_text( eff_encumbrance / 2 );
+            s += melee_cost_text( p.melee_thrown_move_modifier_hands() );
             s += string_format( _( "Gun aim speed modifier: <color_white>x%.2f</color>" ),
                                 p.aim_speed_modifier() );
             break;

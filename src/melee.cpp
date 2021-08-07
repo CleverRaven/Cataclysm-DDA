@@ -2449,8 +2449,6 @@ int Character::attack_speed( const item &weap ) const
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 15 - melee_skill ) / 15 ) );
     /** @EFFECT_DEX increases attack speed */
     const int dexbonus = dex_cur / 2;
-    const int encumbrance_penalty = avg_encumb_of_limb_type( body_part_type::type::torso ) +
-                                    avg_encumb_of_limb_type( body_part_type::type::hand );
     const int ma_move_cost = mabuff_attack_cost_penalty();
     const float stamina_ratio = static_cast<float>( get_stamina() ) / static_cast<float>
                                 ( get_stamina_max() );
@@ -2458,9 +2456,9 @@ int Character::attack_speed( const item &weap ) const
     const float stamina_penalty = 1.0 + std::max( ( 0.25f - stamina_ratio ) * 4.0f, 0.0f );
     const float ma_mult = mabuff_attack_cost_mult();
 
-    int move_cost = base_move_cost;
-    // Stamina penalty only affects base/2 and encumbrance parts of the cost
-    move_cost += encumbrance_penalty;
+    double move_cost = base_move_cost;
+    move_cost *= melee_thrown_move_modifier_hands();
+    move_cost *= melee_thrown_move_modifier_torso();
     move_cost *= stamina_penalty;
     move_cost += skill_cost;
     move_cost -= dexbonus;
@@ -2472,11 +2470,11 @@ int Character::attack_speed( const item &weap ) const
 
     move_cost *= mutation_value( "attackcost_modifier" );
 
-    if( move_cost < 25 ) {
+    if( move_cost < 25.0 ) {
         return 25;
     }
 
-    return move_cost;
+    return std::round( move_cost );
 }
 
 double Character::weapon_value( const item &weap, int ammo ) const

@@ -721,6 +721,26 @@ float Character::aim_speed_modifier() const
     return manipulator_score();
 }
 
+float Character::melee_thrown_move_modifier_hands() const
+{
+    if( manipulator_score() == 0.0f ) {
+        return MAX_MOVECOST_MODIFIER;
+    } else {
+        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / manipulator_score() );
+    }
+}
+
+float Character::melee_thrown_move_modifier_torso() const
+{
+    const bodypart *torso = get_part( body_part_torso );
+    // TODO: make this "balance" perhaps?
+    if( torso == nullptr || torso->encumb_adjusted_limb_value( 1.0f ) == 0.0f ) {
+        return MAX_MOVECOST_MODIFIER;
+    } else {
+        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / torso->encumb_adjusted_limb_value( 1.0f ) );
+    }
+}
+
 double Character::aim_cap_from_volume( const item &gun ) const
 {
     skill_id gun_skill = gun.gun_skill();

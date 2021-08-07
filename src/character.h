@@ -557,6 +557,9 @@ class Character : public Creature, public visitable
         // modifier to aim speed based on manipulator score
         float aim_speed_modifier() const;
 
+        float melee_thrown_move_modifier_hands() const;
+        float melee_thrown_move_modifier_torso() const;
+
         /* Gun stuff */
         /**
          * Check whether the player has a gun that uses the given type of ammo.
