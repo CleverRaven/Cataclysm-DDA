@@ -9123,6 +9123,23 @@ void Character::cough( bool harmful, int loudness )
 
 void Character::wake_up()
 {
+    if( is_avatar() && has_effect( effect_sleep ) ) {
+        if( calendar::turn - get_effect( effect_sleep ).get_start_time() > 2_hours ) {
+            print_health();
+        }
+        // alarm was set and player hasn't slept through the alarm.
+        if( has_effect( effect_alarm_clock ) && !has_effect( effect_slept_through_alarm ) ) {
+            add_msg( _( "It looks like you woke up before your alarm." ) );
+            remove_effect( effect_alarm_clock );
+        } else if( has_effect( effect_slept_through_alarm ) ) {
+            if( has_flag( json_flag_ALARMCLOCK ) ) {
+                add_msg( m_warning, _( "It looks like you've slept through your internal alarm…" ) );
+            } else {
+                add_msg( m_warning, _( "It looks like you've slept through the alarm…" ) );
+            }
+        }
+    }
+
     //Can't wake up if under anesthesia
     if( has_effect( effect_narcosis ) ) {
         return;
