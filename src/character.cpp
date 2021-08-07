@@ -750,6 +750,15 @@ float Character::melee_stamina_cost_modifier() const
     }
 }
 
+float Character::reloading_move_modifier() const
+{
+    if( manipulator_score() == 0.0f ) {
+        return MAX_MOVECOST_MODIFIER;
+    } else {
+        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / manipulator_score() );
+    }
+}
+
 double Character::aim_cap_from_volume( const item &gun ) const
 {
     skill_id gun_skill = gun.gun_skill();
@@ -13390,7 +13399,7 @@ int Character::item_reload_cost( const item &it, const item &ammo, int qty ) con
         mv -= get_str() * 20;
     }
 
-    return std::max( mv, 25 );
+    return std::max( static_cast<int>( std::round( mv * reloading_move_modifier() ) ), 25 );
 }
 
 book_mastery Character::get_book_mastery( const item &book ) const

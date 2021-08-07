@@ -176,9 +176,9 @@ static std::string run_cost_text( int moves )
     return string_format( _( "Movement point cost: <color_white>%+d</color>\n" ), moves );
 }
 
-static std::string reload_cost_text( int moves )
+static std::string reload_cost_text( float moves )
 {
-    return string_format( _( "Reloading movement point cost: <color_white>%+d</color>\n" ), moves );
+    return string_format( _( "Reloading movement point cost: <color_white>x%.2f</color>\n" ), moves );
 }
 
 static std::string melee_cost_text( float moves )
@@ -252,9 +252,9 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
         case bp_hand_l:
         case bp_hand_r:
             s += _( "<color_magenta>Reduces the speed at which you can handle or manipulate items.</color>\n\n" );
-            s += reload_cost_text( ( eff_encumbrance / 10 ) * 15 );
             s += string_format( _( "Dexterity when throwing items: <color_white>%+.1f</color>\n" ),
                                 -( eff_encumbrance / 10.0f ) );
+            s += reload_cost_text( p.reloading_move_modifier() );
             s += melee_cost_text( p.melee_thrown_move_modifier_hands() );
             s += string_format( _( "Gun aim speed modifier: <color_white>x%.2f</color>" ),
                                 p.aim_speed_modifier() );
