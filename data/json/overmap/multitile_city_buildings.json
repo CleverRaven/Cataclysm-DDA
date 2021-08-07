@@ -1090,6 +1090,12 @@
   },
   {
     "type": "city_building",
+    "id": "s_gun_l",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_gun_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_gun_roof_north" } ]
+  },  
+  {
+    "type": "city_building",
     "id": "s_gun_1",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_gun_1_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_gun_roof_1_north" } ]

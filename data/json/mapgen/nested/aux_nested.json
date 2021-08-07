@@ -98,6 +98,57 @@
     }
   }, 
   {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "looted_gunsafe_nested",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_ter_furn_transforms": [ 
+			{ "transform":  "looted_gunsafe", "x": 0, "y": 0 }		
+		],
+      "place_item": [
+			{ "group": "ammo_common_collection", "repeat": [ 10, 15 ], "prob": 85 },
+			{ "group": "ammo_rare_collection", "prob": 20 },
+			{ "group": "ammo_obscure_collection", "prob": 10 },
+			{ "group": "guns_rare_display", "prob": 5 }
+		]
+    }
+  }, 
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "jammed_gunsafe_nested",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_ter_furn_transforms": [ 
+			{ "transform":  "jammed_gunsafe", "x": 0, "y": 0 }		
+		],
+      "place_item": [
+			{ "group": "ammo_common_collection", "prob": 85, "repeat": [ 25, 50 ] },
+			{ "group": "ammo_rare_collection", "prob": 20, "repeat": [ 25, 50 ] },
+			{ "group": "ammo_obscure_collection", "prob": 10, "repeat": [ 25, 50 ] },
+			{ "group": "guns_rare_display", "prob": 5, "repeat": [ 25, 50 ] }
+		]
+    }
+  }, 
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "open_gunsafe_nested",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_ter_furn_transforms": [ 
+			{ "transform":  "open_gunsafe", "x": 0, "y": 0 }		
+		],
+      "place_item": [
+			{ "group": "ammo_common_collection", "prob": 85, "repeat": [ 25, 50 ] },
+			{ "group": "ammo_rare_collection", "prob": 20, "repeat": [ 25, 50 ] },
+			{ "group": "ammo_obscure_collection", "prob": 10, "repeat": [ 25, 50 ] },
+			{ "group": "guns_rare_display", "prob": 5, "repeat": [ 25, 50 ] }
+		]
+    }
+  },   
+  {
 	"type": "ter_furn_transform",
 	"id": "damaged_door",
 	"terrain": [ { "result": "t_door_b", "valid_terrain": [ "t_door_c", "t_door_o", "t_door_locked_interior" ] } ]
@@ -121,7 +172,22 @@
 	"type": "ter_furn_transform",
 	"id": "destroyed_window_bars",
 	"terrain": [ { "result": "t_window_empty", "valid_terrain": [ "t_window_bars", "t_window_bars_alarm" ] } ]
-  },	  
+  },
+  {
+	"type": "ter_furn_transform",
+	"id": "looted_gunsafe",
+	"furniture": [ { "result": "f_gunsafe_o", "valid_furniture": [ "t_gunsafe_ml" ] } ]
+  },
+  {
+	"type": "ter_furn_transform",
+	"id": "jammed_gunsafe",
+	"furniture": [ { "result": "f_gunsafe_mj", "valid_furniture": [ "t_gunsafe_ml" ] } ]
+  },
+  {
+	"type": "ter_furn_transform",
+	"id": "open_gunsafe",
+	"furniture": [ { "result": "f_gunsafe_o", "valid_furniture": [ "t_gunsafe_ml" ] } ]
+  }, 
   {
     "type": "mapgen",
     "method": "json",
