@@ -9123,6 +9123,11 @@ void Character::cough( bool harmful, int loudness )
 
 void Character::wake_up()
 {
+    //Can't wake up if under anesthesia
+    if( has_effect( effect_narcosis ) ) {
+        return;
+    }
+
     if( is_avatar() && has_effect( effect_sleep ) ) {
         if( calendar::turn - get_effect( effect_sleep ).get_start_time() > 2_hours ) {
             print_health();
@@ -9138,11 +9143,6 @@ void Character::wake_up()
                 add_msg( m_warning, _( "It looks like you've slept through the alarm…" ) );
             }
         }
-    }
-
-    //Can't wake up if under anesthesia
-    if( has_effect( effect_narcosis ) ) {
-        return;
     }
 
     // Do not remove effect_sleep or effect_alarm_clock now otherwise it invalidates an effect
