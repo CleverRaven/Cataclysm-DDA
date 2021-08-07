@@ -97,11 +97,11 @@
       { "monster": "mon_zombear", "freq": 3, "cost_multiplier": 10, "starts": 672 },
       { "monster": "mon_zombear", "freq": 4, "cost_multiplier": 10, "starts": 2160 },
       { "monster": "mon_bobcat", "freq": 7, "cost_multiplier": 2 },
-      { "monster": "mon_bobcat", "freq": 13, "cost_multiplier": 2, "conditions": [ "DAWN", "DUSK" ] },
+      { "monster": "mon_bobcat", "freq": 12, "cost_multiplier": 2, "conditions": [ "DAWN", "DUSK" ] },
       { "monster": "mon_boar_wild", "freq": 2, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
       { "monster": "mon_boar_wild", "freq": 4, "cost_multiplier": 2, "pack_size": [ 1, 4 ], "conditions": [ "DAY" ] },
       { "monster": "mon_cat", "freq": 10, "cost_multiplier": 1 },
-      { "monster": "mon_cat", "freq": 15, "cost_multiplier": 1, "conditions": [ "DAWN", "DUSK" ] },
+      { "monster": "mon_cat", "freq": 14, "cost_multiplier": 1, "conditions": [ "DAWN", "DUSK" ] },
       { "monster": "mon_cat", "freq": 1, "cost_multiplier": 1, "pack_size": [ 2, 8 ] },
       {
         "monster": "mon_cat",
@@ -174,7 +174,7 @@
         "starts": 180,
         "conditions": [ "AUTUMN", "WINTER" ]
       },
-      { "monster": "mon_deer", "freq": 16, "cost_multiplier": 2, "pack_size": [ 1, 5 ], "conditions": [ "DAY" ] },
+      { "monster": "mon_deer", "freq": 15, "cost_multiplier": 2, "pack_size": [ 1, 5 ], "conditions": [ "DAY" ] },
       { "monster": "mon_zeer", "freq": 4, "cost_multiplier": 10, "pack_size": [ 1, 5 ], "starts": 72 },
       { "monster": "mon_zeer", "freq": 4, "cost_multiplier": 10, "pack_size": [ 1, 5 ], "starts": 168 },
       { "monster": "mon_zeer", "freq": 4, "cost_multiplier": 10, "pack_size": [ 1, 5 ], "starts": 672 },

@@ -238,9 +238,9 @@
     "default": "mon_null",
     "monsters": [
       { "monster": "mon_fly", "freq": 100, "cost_multiplier": 1 },
-      { "monster": "mon_crow", "freq": 100, "cost_multiplier": 1 },
-      { "monster": "mon_raven", "freq": 100, "cost_multiplier": 1 },
-      { "monster": "mon_magpie", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_crow", "freq": 80, "cost_multiplier": 1 },
+      { "monster": "mon_raven", "freq": 80, "cost_multiplier": 1 },
+      { "monster": "mon_magpie", "freq": 40, "cost_multiplier": 1 },
       {
         "monster": "mon_pigeon",
         "freq": 100,
