@@ -1449,6 +1449,12 @@ bool read_activity_actor::npc_read( npc &learner )
 
 void read_activity_actor::finish( player_activity &act, Character &who )
 {
+    if( !book ) {
+        debugmsg( "%s lost book item_location while reading", who.disp_name() );
+        act.set_to_null();
+        return;
+    }
+
     const bool is_mabook = bktype.value() == book_type::martial_art;
     if( who.is_avatar() ) {
         get_event_bus().send<event_type::reads_book>( who.getID(), book->typeId() );
