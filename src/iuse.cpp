@@ -6059,7 +6059,7 @@ static void init_memory_card_with_random_stuff( item &it )
         int recipe_retry = 5;
 
         //add someone's personal photos
-        if( one_in( photo_chance ) || ( encrypted && one_in( photo_rety ) ) ) {
+        if( one_in( photo_chance ) || ( encrypted && one_in( photo_retry ) ) ) {
             const int duckfaces_count = rng( 5, 30 );
             it.set_var( "MC_PHOTOS", duckfaces_count );
         }
