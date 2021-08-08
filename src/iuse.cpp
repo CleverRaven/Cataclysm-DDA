@@ -6049,9 +6049,9 @@ static void init_memory_card_with_random_stuff( item &it )
         }
 
         //chance for data
-        int photo_chance = 5;
-        int music_chance = 5;
-        int recipe_chance = 5;
+        const int photo_chance = 5;
+        const int music_chance = 5;
+        const int recipe_chance = 5;
 
         //encryption allows for a retry for data
         int photo_rety = 5;
