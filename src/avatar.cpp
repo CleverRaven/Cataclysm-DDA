@@ -1404,7 +1404,6 @@ void avatar::toggle_prone_mode()
         set_movement_mode( move_mode_id( "prone" ) );
     }
 }
-  
 void avatar::activate_crouch_mode()
 {
     if( !is_crouching() ) {
