@@ -151,7 +151,7 @@
     "starting_ammo": { "123ln": 3000 },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [
-      { "type": "spell", "spell_data": { "id": "exodii_weapon_pod", "min_level": 3 }, "cooldown": 200 }
+      { "type": "spell", "spell_data": { "id": "exodii_weapon_pod", "min_level": 3 }, "cooldown": 200 },
       {
         "type": "gun",
         "cooldown": 1,
