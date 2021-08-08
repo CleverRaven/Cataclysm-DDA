@@ -611,6 +611,14 @@ class Character : public Creature, public visitable
           * Handles passive regeneration of pain and maybe hp.
           */
         void regen( int rate_multiplier );
+        /**
+         * Check player capable of taking off an item.
+         * @param it Thing to be taken off
+         */
+        ret_val<bool> can_takeoff( const item &it, const std::list<item> *res = nullptr );
+
+        /** @return Odds for success (pair.first) and gunmod damage (pair.second) */
+        std::pair<int, int> gunmod_installation_odds( const item &gun, const item &mod ) const;
         /// called once per 24 hours to enforce the minimum of 1 hp healed per day
         /// @todo Move to Character once heal() is moved
         void enforce_minimum_healing();
@@ -1287,7 +1295,7 @@ class Character : public Creature, public visitable
         int get_free_bionics_slots( const bodypart_id &bp ) const;
 
         /**Has enough anesthetic for surgery*/
-        bool has_enough_anesth( const itype &cbm, player &patient );
+        bool has_enough_anesth( const itype &cbm, Character &patient );
         bool has_enough_anesth( const itype &cbm );
         void consume_anesth_requirement( const itype &cbm, player &patient );
         /**Has the required equipment for manual installation*/

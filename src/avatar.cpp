@@ -107,6 +107,7 @@ static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_STIMBOOST( "STIMBOOST" );
 static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
@@ -1646,4 +1647,65 @@ int avatar::randomize_hobbies()
     }
 
     return points;
+}
+
+void avatar::reassign_item( item &it, int invlet )
+{
+    bool remove_old = true;
+    if( invlet ) {
+        item *prev = invlet_to_item( invlet );
+        if( prev != nullptr ) {
+            remove_old = it.typeId() != prev->typeId();
+            inv->reassign_item( *prev, it.invlet, remove_old );
+        }
+    }
+
+    if( !invlet || inv_chars.valid( invlet ) ) {
+        const auto iter = inv->assigned_invlet.find( it.invlet );
+        bool found = iter != inv->assigned_invlet.end();
+        if( found ) {
+            inv->assigned_invlet.erase( iter );
+        }
+        if( invlet && ( !found || it.invlet != invlet ) ) {
+            inv->assigned_invlet[invlet] = it.typeId();
+        }
+        inv->reassign_item( it, invlet, remove_old );
+    }
+}
+
+void avatar::add_pain_msg( int val, const bodypart_id &bp ) const
+{
+    if( has_trait( trait_NOPAIN ) ) {
+        return;
+    }
+    if( bp == bodypart_id( "bp_null" ) ) {
+        if( val > 20 ) {
+            add_msg_if_player( _( "Your body is wracked with excruciating pain!" ) );
+        } else if( val > 10 ) {
+            add_msg_if_player( _( "Your body is wracked with terrible pain!" ) );
+        } else if( val > 5 ) {
+            add_msg_if_player( _( "Your body is wracked with pain!" ) );
+        } else if( val > 1 ) {
+            add_msg_if_player( _( "Your body pains you!" ) );
+        } else {
+            add_msg_if_player( _( "Your body aches." ) );
+        }
+    } else {
+        if( val > 20 ) {
+            add_msg_if_player( _( "Your %s is wracked with excruciating pain!" ),
+                               body_part_name_accusative( bp ) );
+        } else if( val > 10 ) {
+            add_msg_if_player( _( "Your %s is wracked with terrible pain!" ),
+                               body_part_name_accusative( bp ) );
+        } else if( val > 5 ) {
+            add_msg_if_player( _( "Your %s is wracked with pain!" ),
+                               body_part_name_accusative( bp ) );
+        } else if( val > 1 ) {
+            add_msg_if_player( _( "Your %s pains you!" ),
+                               body_part_name_accusative( bp ) );
+        } else {
+            add_msg_if_player( _( "Your %s aches." ),
+                               body_part_name_accusative( bp ) );
+        }
+    }
 }

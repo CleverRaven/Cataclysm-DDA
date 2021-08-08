@@ -1414,7 +1414,7 @@ class item : public visitable
         /**
          * Calculate (but do not deduct) the number of moves required to wield this weapon
          */
-        int on_wield_cost( const player &p ) const;
+        int on_wield_cost( const Character &you ) const;
 
         /**
          * Callback when a player starts wielding the item. The item is already in the weapon

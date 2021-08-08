@@ -190,6 +190,8 @@ class avatar : public player
          * @param target Target NPC to steal from
          */
         void steal( npc &target );
+        /** Reassign letter. */
+        void reassign_item( item &it, int invlet );
 
         teleporter_list translocators;
 

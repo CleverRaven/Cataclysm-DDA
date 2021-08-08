@@ -1044,43 +1044,6 @@ void player::siphon( vehicle &veh, const itype_id &desired_liquid )
     }
 }
 
-void avatar::add_pain_msg( int val, const bodypart_id &bp ) const
-{
-    if( has_trait( trait_NOPAIN ) ) {
-        return;
-    }
-    if( bp == bodypart_id( "bp_null" ) ) {
-        if( val > 20 ) {
-            add_msg_if_player( _( "Your body is wracked with excruciating pain!" ) );
-        } else if( val > 10 ) {
-            add_msg_if_player( _( "Your body is wracked with terrible pain!" ) );
-        } else if( val > 5 ) {
-            add_msg_if_player( _( "Your body is wracked with pain!" ) );
-        } else if( val > 1 ) {
-            add_msg_if_player( _( "Your body pains you!" ) );
-        } else {
-            add_msg_if_player( _( "Your body aches." ) );
-        }
-    } else {
-        if( val > 20 ) {
-            add_msg_if_player( _( "Your %s is wracked with excruciating pain!" ),
-                               body_part_name_accusative( bp ) );
-        } else if( val > 10 ) {
-            add_msg_if_player( _( "Your %s is wracked with terrible pain!" ),
-                               body_part_name_accusative( bp ) );
-        } else if( val > 5 ) {
-            add_msg_if_player( _( "Your %s is wracked with pain!" ),
-                               body_part_name_accusative( bp ) );
-        } else if( val > 1 ) {
-            add_msg_if_player( _( "Your %s pains you!" ),
-                               body_part_name_accusative( bp ) );
-        } else {
-            add_msg_if_player( _( "Your %s aches." ),
-                               body_part_name_accusative( bp ) );
-        }
-    }
-}
-
 void player::on_worn_item_transform( const item &old_it, const item &new_it )
 {
     morale->on_worn_item_transform( old_it, new_it );
@@ -1840,30 +1803,6 @@ bool player::can_lift( const T &obj ) const
 template bool player::can_lift<item>( const item &obj ) const;
 template bool player::can_lift<vehicle>( const vehicle &obj ) const;
 
-ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res )
-{
-    auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item & wit ) {
-        return &it == &wit;
-    } );
-
-    if( iter == worn.end() ) {
-        return ret_val<bool>::make_failure( !is_npc() ? _( "You are not wearing that item." ) :
-                                            _( "<npcname> is not wearing that item." ) );
-    }
-
-    if( res == nullptr && !get_dependent_worn_items( it ).empty() ) {
-        return ret_val<bool>::make_failure( !is_npc() ?
-                                            _( "You can't take off power armor while wearing other power armor components." ) :
-                                            _( "<npcname> can't take off power armor while wearing other power armor components." ) );
-    }
-    if( it.has_flag( flag_NO_TAKEOFF ) ) {
-        return ret_val<bool>::make_failure( !is_npc() ?
-                                            _( "You can't take that item off." ) :
-                                            _( "<npcname> can't take that item off." ) );
-    }
-    return ret_val<bool>::make_success();
-}
-
 bool player::takeoff( item_location loc, std::list<item> *res )
 {
     item &it = *loc;
@@ -1992,30 +1931,6 @@ void player::use( item_location loc, int pre_obtain_moves )
     }
 }
 
-void player::reassign_item( item &it, int invlet )
-{
-    bool remove_old = true;
-    if( invlet ) {
-        item *prev = invlet_to_item( invlet );
-        if( prev != nullptr ) {
-            remove_old = it.typeId() != prev->typeId();
-            inv->reassign_item( *prev, it.invlet, remove_old );
-        }
-    }
-
-    if( !invlet || inv_chars.valid( invlet ) ) {
-        const auto iter = inv->assigned_invlet.find( it.invlet );
-        bool found = iter != inv->assigned_invlet.end();
-        if( found ) {
-            inv->assigned_invlet.erase( iter );
-        }
-        if( invlet && ( !found || it.invlet != invlet ) ) {
-            inv->assigned_invlet[invlet] = it.typeId();
-        }
-        inv->reassign_item( it, invlet, remove_old );
-    }
-}
-
 bool player::gunmod_remove( item &gun, item &mod )
 {
     std::vector<item *> mods = gun.gunmods();
@@ -2042,39 +1957,6 @@ bool player::gunmod_remove( item &gun, item &mod )
         player_activity(
             gunmod_remove_activity_actor( moves, gun_loc, static_cast<int>( gunmod_idx ) ) ) );
     return true;
-}
-
-std::pair<int, int> player::gunmod_installation_odds( const item &gun, const item &mod ) const
-{
-    // Mods with INSTALL_DIFFICULT have a chance to fail, potentially damaging the gun
-    if( !mod.has_flag( flag_INSTALL_DIFFICULT ) || has_trait( trait_DEBUG_HS ) ) {
-        return std::make_pair( 100, 0 );
-    }
-
-    int roll = 100; // chance of success (%)
-    int risk = 0;   // chance of failure (%)
-    int chances = 1; // start with 1 in 6 (~17% chance)
-
-    for( const auto &e : mod.type->min_skills ) {
-        // gain an additional chance for every level above the minimum requirement
-        skill_id sk = e.first.str() == "weapon" ? gun.gun_skill() : e.first;
-        chances += std::max( get_skill_level( sk ) - e.second, 0 );
-    }
-    // cap success from skill alone to 1 in 5 (~83% chance)
-    roll = std::min( static_cast<double>( chances ), 5.0 ) / 6.0 * 100;
-    // focus is either a penalty or bonus of at most +/-10%
-    roll += ( std::min( std::max( get_focus(), 140 ), 60 ) - 100 ) / 4;
-    // dexterity and intelligence give +/-2% for each point above or below 12
-    roll += ( get_dex() - 12 ) * 2;
-    roll += ( get_int() - 12 ) * 2;
-    // each level of damage to the base gun reduces success by 10%
-    roll -= std::max( gun.damage_level(), 0 ) * 10;
-    roll = std::min( std::max( roll, 0 ), 100 );
-
-    // risk of causing damage on failure increases with less durable guns
-    risk = ( 100 - roll ) * ( ( 10.0 - std::min( gun.type->gun->durability, 9 ) ) / 10.0 );
-
-    return std::make_pair( roll, risk );
 }
 
 void player::gunmod_add( item &gun, item &mod )

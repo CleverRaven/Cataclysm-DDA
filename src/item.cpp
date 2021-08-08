@@ -4745,16 +4745,16 @@ void item::on_takeoff( Character &p )
     }
 }
 
-int item::on_wield_cost( const player &p ) const
+int item::on_wield_cost( const Character &you ) const
 {
     int mv = 0;
     // weapons with bayonet/bipod or other generic "unhandiness"
     if( has_flag( flag_SLOW_WIELD ) && !is_gunmod() ) {
         float d = 32.0f; // arbitrary linear scaling factor
         if( is_gun() ) {
-            d /= std::max( p.get_skill_level( gun_skill() ), 1 );
+            d /= std::max( you.get_skill_level( gun_skill() ), 1 );
         } else if( is_melee() ) {
-            d /= std::max( p.get_skill_level( melee_skill() ), 1 );
+            d /= std::max( you.get_skill_level( melee_skill() ), 1 );
         }
 
         int penalty = get_var( "volume", volume() / units::legacy_volume_factor ) * d;
@@ -4765,9 +4765,9 @@ int item::on_wield_cost( const player &p ) const
     if( has_flag( flag_NEEDS_UNFOLD ) && !is_gunmod() ) {
         int penalty = 50; // 200-300 for guns, 50-150 for melee, 50 as fallback
         if( is_gun() ) {
-            penalty = std::max( 0, 300 - p.get_skill_level( gun_skill() ) * 10 );
+            penalty = std::max( 0, 300 - you.get_skill_level( gun_skill() ) * 10 );
         } else if( is_melee() ) {
-            penalty = std::max( 0, 150 - p.get_skill_level( melee_skill() ) * 10 );
+            penalty = std::max( 0, 150 - you.get_skill_level( melee_skill() ) * 10 );
         }
 
         mv += penalty;
