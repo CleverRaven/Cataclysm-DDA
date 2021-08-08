@@ -6065,7 +6065,7 @@ static void init_memory_card_with_random_stuff( item &it )
         }
 
         //add some songs
-        if( one_in( music_chance ) || ( encrypted && one_in( music_rety ) ) ) {
+        if( one_in( music_chance ) || ( encrypted && one_in( music_retry ) ) ) {
             const int new_songs_count = rng( 5, 15 );
             it.set_var( "MC_MUSIC", new_songs_count );
         }
