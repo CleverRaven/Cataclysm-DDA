@@ -194,7 +194,7 @@
         "5": {
           "name": "NEPowerOS",
           "security": 4,
-          "options": [ { "name": "Initiate Tremors", "action": "amigara_start" } ],
+          "options": [ { "name": "Activate Seismic Source", "action": "amigara_start" } ],
           "failures": [ { "action": "amigara" } ]
         }
       }
