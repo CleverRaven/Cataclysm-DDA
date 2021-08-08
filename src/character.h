@@ -566,7 +566,6 @@ class Character : public Creature, public visitable
         bool uncanny_dodge() override;
         float get_hit_base() const override;
 
-        const tripoint &pos() const override;
         /** Returns the player's sight range */
         int sight_range( int light_level ) const override;
         /** Returns the player maximum vision range factoring in mutations, diseases, and other effects */
@@ -1087,15 +1086,6 @@ class Character : public Creature, public visitable
         bool made_of( const material_id &m ) const override;
         bool made_of_any( const std::set<material_id> &ms ) const override;
 
-        inline int posx() const override {
-            return position.x;
-        }
-        inline int posy() const override {
-            return position.y;
-        }
-        inline int posz() const override {
-            return position.z;
-        }
         inline void setx( int x ) {
             setpos( tripoint( x, position.y, position.z ) );
         }
@@ -1105,11 +1095,7 @@ class Character : public Creature, public visitable
         inline void setz( int z ) {
             setpos( tripoint( position.xy(), z ) );
         }
-        inline void setpos( const tripoint &p ) override {
-            position = p;
-            // In case we've moved out of range of lifting assist.
-            invalidate_weight_carried_cache();
-        }
+        void setpos( const tripoint &p ) override;
 
     private:
         /** Retrieves a stat mod of a mutation. */
@@ -2876,9 +2862,6 @@ class Character : public Creature, public visitable
             void serialize( JsonOut &json ) const;
             void deserialize( JsonIn &jsin );
         };
-
-        // The player's position on the local map.
-        tripoint position;
 
         /** Bonuses to stats, calculated each turn */
         int str_bonus = 0;

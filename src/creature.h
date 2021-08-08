@@ -281,6 +281,19 @@ class Creature : public location, public viewer
         virtual bool is_fake() const;
         /** Sets a Creature's fake boolean. */
         virtual void set_fake( bool fake_value );
+        inline const tripoint &pos() const override {
+            return position;
+        }
+        inline int posx() const override {
+            return position.x;
+        }
+        inline int posy() const override {
+            return position.y;
+        }
+        inline int posz() const override {
+            return position.z;
+        }
+        void setpos( const tripoint &p ) override;
 
         /** Recreates the Creature from scratch. */
         virtual void normalize();
@@ -659,6 +672,8 @@ class Creature : public location, public viewer
         }
 
     protected:
+        /** The creature's position on the local map */
+        tripoint position;
         /**anatomy is the plan of the creature's body*/
         anatomy_id creature_anatomy = anatomy_id( "default_anatomy" );
         /**this is the actual body of the creature*/
