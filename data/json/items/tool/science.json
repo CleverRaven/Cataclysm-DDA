@@ -1382,7 +1382,7 @@
           "id": "EOC_MIGO_BIO_TECH_INTEREST",
           "condition": { "not": { "one_in_chance": 3 } },
           "effect": [
-            { "message": "You have a slight feeling of being watched." },
+            { "u_message": "You have a slight feeling of being watched." },
             { "u_adjust_var": "migo_interest", "type": "migo_interest", "context": "interest", "adjustment": 1 }
           ]
         },
@@ -1390,7 +1390,7 @@
           "id": "EOC_MIGO_BIO_TECH_INTEREST",
           "condition": { "not": { "one_in_chance": 100 } },
           "effect": [
-            { "message": "You have an intense feeling of being watched." },
+            { "u_message": "You have an intense feeling of being watched." },
             { "u_adjust_var": "migo_interest", "type": "migo_interest", "context": "interest", "adjustment": 10 }
           ]
         },
@@ -1411,7 +1411,7 @@
           "id": "EOC_MIGO_BIO_TECH_MORALE",
           "condition": { "npc_has_var": "function", "type": "migo_bio_tech", "context": "bio_tech", "value": "morale" },
           "effect": [
-            { "message": "You feel amazing!" },
+            { "u_message": "You feel amazing!" },
             {
               "u_add_morale": "morale_migo_bio_tech",
               "bonus": 30,
@@ -1426,7 +1426,7 @@
           "id": "EOC_MIGO_BIO_TECH_FOCUS",
           "condition": { "npc_has_var": "function", "type": "migo_bio_tech", "context": "bio_tech", "value": "focus" },
           "effect": [
-            { "message": "You feel incredibly focused!" },
+            { "u_message": "You feel incredibly focused!" },
             { "u_mod_focus": 30 },
             { "npc_add_var": "FOCUS", "type": "DISPLAY", "context": "NAME", "value": "" }
           ]
@@ -1435,7 +1435,7 @@
           "id": "EOC_MIGO_BIO_TECH_PAIN",
           "condition": { "npc_has_var": "function", "type": "migo_bio_tech", "context": "bio_tech", "value": "pain" },
           "effect": [
-            { "message": "You feel your aches and pains fade away!" },
+            { "u_message": "You feel your aches and pains fade away!" },
             { "u_mod_pain": -30 },
             { "npc_add_var": "PAIN", "type": "DISPLAY", "context": "NAME", "value": "" }
           ]
@@ -1444,7 +1444,7 @@
           "id": "EOC_MIGO_BIO_TECH_FATIGUE",
           "condition": { "npc_has_var": "function", "type": "migo_bio_tech", "context": "bio_tech", "value": "fatigue" },
           "effect": [
-            { "message": "You instantly feel more awake!" },
+            { "u_message": "You instantly feel more awake!" },
             { "u_mod_fatigue": -30 },
             { "npc_add_var": "FATIGUE", "type": "DISPLAY", "context": "NAME", "value": "" }
           ]
