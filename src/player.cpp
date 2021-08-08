@@ -450,7 +450,7 @@ void player::recalc_speed_bonus()
     }
 }
 
-double player::recoil_vehicle() const
+double Character::recoil_vehicle() const
 {
     // TODO: vary penalty dependent upon vehicle part on which player is boarded
 
@@ -462,7 +462,7 @@ double player::recoil_vehicle() const
     return 0;
 }
 
-double player::recoil_total() const
+double Character::recoil_total() const
 {
     return recoil + recoil_vehicle();
 }

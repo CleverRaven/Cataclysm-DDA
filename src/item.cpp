@@ -8000,7 +8000,7 @@ damage_instance item::gun_damage( bool with_ammo ) const
     return ret;
 }
 
-int item::gun_recoil( const player &p, bool bipod ) const
+int item::gun_recoil( const Character &p, bool bipod ) const
 {
     if( !is_gun() || ( ammo_required() && !ammo_remaining() ) ) {
         return 0;
@@ -8055,7 +8055,7 @@ int item::gun_range( bool with_ammo ) const
     return std::min( std::max( 0, ret ), RANGE_HARD_CAP );
 }
 
-int item::gun_range( const player *p ) const
+int item::gun_range( const Character *p ) const
 {
     int ret = gun_range( true );
     if( p == nullptr ) {

@@ -127,7 +127,7 @@ static int time_to_attack( const Character &p, const itype &firing );
 * @param pos    Character position.
 */
 static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos );
-static void make_gun_sound_effect( const player &p, bool burst, item *weapon );
+static void make_gun_sound_effect( const Character &p, bool burst, item *weapon );
 
 class target_ui
 {
@@ -518,7 +518,7 @@ int range_with_even_chance_of_good_hit( int dispersion )
     return even_chance_range;
 }
 
-int player::gun_engagement_moves( const item &gun, int target, int start ) const
+int Character::gun_engagement_moves( const item &gun, int target, int start ) const
 {
     int mv = 0;
     double penalty = start;
@@ -535,7 +535,7 @@ int player::gun_engagement_moves( const item &gun, int target, int start ) const
     return mv;
 }
 
-bool player::handle_gun_damage( item &it )
+bool Character::handle_gun_damage( item &it )
 {
     // Below item (maximum dirt possible) should be greater than or equal to dirt range in item_group.cpp. Also keep in mind that monster drops can have specific ranges and these should be below the max!
     const double dirt_max_dbl = 10000;
@@ -717,12 +717,12 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
     }
 }
 
-int player::fire_gun( const tripoint &target, int shots )
+int Character::fire_gun( const tripoint &target, int shots )
 {
     return fire_gun( target, shots, weapon );
 }
 
-int player::fire_gun( const tripoint &target, int shots, item &gun )
+int Character::fire_gun( const tripoint &target, int shots, item &gun )
 {
     if( !gun.is_gun() ) {
         debugmsg( "%s tried to fire non-gun (%s).", name, gun.tname() );
@@ -877,7 +877,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     return curshot;
 }
 
-int throw_cost( const player &c, const item &to_throw )
+int throw_cost( const Character &c, const item &to_throw )
 {
     // Very similar to player::attack_speed
     // TODO: Extract into a function?
@@ -1043,7 +1043,7 @@ int Character::thrown_item_total_damage_raw( const item &thrown ) const
     return total_damage;
 }
 
-dealt_projectile_attack player::throw_item( const tripoint &target, const item &to_throw,
+dealt_projectile_attack Character::throw_item( const tripoint &target, const item &to_throw,
         const cata::optional<tripoint> &blind_throw_from_pos )
 {
     // Copy the item, we may alter it before throwing
@@ -1177,7 +1177,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     return dealt_attack;
 }
 
-static void practice_archery_proficiency( player &p, const item &relevant )
+void practice_archery_proficiency( Character &p, const item &relevant )
 {
     // Do nothing, we are not doing archery
     if( relevant.gun_skill() != skill_archery ) {
@@ -1760,7 +1760,7 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
     }
 }
 
-void make_gun_sound_effect( const player &p, bool burst, item *weapon )
+void make_gun_sound_effect( const Character &p, bool burst, item *weapon )
 {
     const item::sound_data data = weapon->gun_noise( burst );
     if( data.volume > 0 ) {
