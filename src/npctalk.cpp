@@ -2322,16 +2322,16 @@ void talk_effect_fun_t::set_queue_effect_on_condition( const JsonObject &jo,
             }
         } else {
             dialogue newDialog;
-            if( Creature *creature = d.alpha.get()->get_creature() ) {
+            if( Creature *creature = d.alpha->get_creature() ) {
                 newDialog.alpha = get_talker_for( creature );
-            } else if( item_location *item = d.alpha.get()->get_item() ) {
+            } else if( item_location *item = d.alpha->get_item() ) {
                 newDialog.alpha = get_talker_for( item );
             } else {
                 debugmsg( "Invalid alpha talker." );
             }
-            if( Creature *creature = d.beta.get()->get_creature() ) {
+            if( Creature *creature = d.beta->get_creature() ) {
                 newDialog.beta = get_talker_for( creature );
-            } else if( item_location *item = d.beta.get()->get_item() ) {
+            } else if( item_location *item = d.beta->get_item() ) {
                 newDialog.beta = get_talker_for( item );
             } else {
                 debugmsg( "Invalid beta talker." );
