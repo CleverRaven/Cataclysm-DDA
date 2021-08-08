@@ -32,6 +32,7 @@
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": { "half_life": 15, "into": "mon_skeleton_brute" },
     "death_drops": "default_zombie_clothes",
+    "fungalize_into": "mon_skeleton_fungus",
     "flags": [ "SEES", "HEARS", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
   },
   {
@@ -66,11 +67,12 @@
     "vision_night": 3,
     "harvest": "mr_bones",
     "special_attacks": [
-      [ "SMASH", 45 ],
+      { "id": "smash", "throw_strength": 56, "cooldown": 45 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 15, "armor_multiplier": 0.6 } ] }
     ],
     "upgrades": { "half_life": 12, "into": "mon_skeleton_hulk" },
     "death_drops": "default_zombie_clothes",
+    "fungalize_into": "mon_skeleton_brute_fungus",
     "flags": [ "SEES", "HEARS", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
   },
   {
@@ -107,6 +109,7 @@
     "harvest": "mr_bones",
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 }, [ "SHOCKSTORM", 25 ] ],
     "death_drops": "default_zombie_clothes",
+    "fungalize_into": "mon_skeleton_fungus",
     "flags": [ "SEES", "HEARS", "ELECTRIC", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
   },
   {
@@ -139,7 +142,7 @@
     "vision_night": 4,
     "harvest": "mr_bones",
     "special_attacks": [
-      [ "SMASH", 20 ],
+      { "id": "smash", "throw_strength": 54 },
       { "id": "stretch_attack" },
       { "id": "longswipe" },
       { "id": "cut_throat" },
@@ -147,6 +150,7 @@
     ],
     "death_drops": "mon_zombie_hulk_death_drops",
     "burn_into": "mon_zombie_fiend",
+    "fungalize_into": "mon_skeleton_hulk_fungus",
     "flags": [
       "SEES",
       "HEARS",

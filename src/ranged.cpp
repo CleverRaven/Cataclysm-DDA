@@ -38,7 +38,6 @@
 #include "gun_mode.h"
 #include "input.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -85,14 +84,11 @@ static const itype_id itype_40x46mm( "40x46mm" );
 static const itype_id itype_40x53mm( "40x53mm" );
 static const itype_id itype_66mm( "66mm" );
 static const itype_id itype_84x246mm( "84x246mm" );
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_arrow( "arrow" );
 static const itype_id itype_bolt( "bolt" );
 static const itype_id itype_flammable( "flammable" );
 static const itype_id itype_m235( "m235" );
 static const itype_id itype_metal_rail( "metal_rail" );
-static const itype_id itype_UPS( "UPS" );
-static const itype_id itype_UPS_off( "UPS_off" );
 
 static const trap_str_id tr_practice_target( "tr_practice_target" );
 
@@ -105,9 +101,13 @@ static const skill_id skill_driving( "driving" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_launcher( "launcher" );
 static const skill_id skill_throw( "throw" );
+static const skill_id skill_archery( "archery" );
 
 static const bionic_id bio_railgun( "bio_railgun" );
-static const bionic_id bio_ups( "bio_ups" );
+
+static const proficiency_id proficiency_prof_bow_basic( "prof_bow_basic" );
+static const proficiency_id proficiency_prof_bow_expert( "prof_bow_expert" );
+static const proficiency_id proficiency_prof_bow_master( "prof_bow_master" );
 
 static const std::string flag_MOUNTABLE( "MOUNTABLE" );
 
@@ -703,7 +703,7 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
     }
     while( curshot != shots ) {
         const int required = gun.ammo_required();
-        if( gun.ammo_consume( required, pos() ) != required ) {
+        if( gun.ammo_consume( required, pos(), this ) != required ) {
             debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
             break;
         }
@@ -740,7 +740,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
 
     // cap our maximum burst size by the amount of UPS power left
     if( !gun.has_flag( flag_VEHICLE ) && gun.get_gun_ups_drain() > 0 ) {
-        shots = std::min( shots, static_cast<int>( charges_of( itype_UPS ) / gun.get_gun_ups_drain() ) );
+        shots = std::min( shots, static_cast<int>( available_ups() / gun.get_gun_ups_drain() ) );
     }
 
     if( shots <= 0 ) {
@@ -810,7 +810,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         }
 
         const int required = gun.ammo_required();
-        if( gun.ammo_consume( required, pos() ) != required ) {
+        if( gun.ammo_consume( required, pos(), this ) != required ) {
             debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname() );
             break;
         }
@@ -820,7 +820,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         }
 
         if( !gun.has_flag( flag_VEHICLE ) ) {
-            use_charges( itype_UPS, gun.get_gun_ups_drain() );
+            consume_ups( gun.get_gun_ups_drain() );
         }
 
         if( shot.missed_by <= .1 ) {
@@ -1086,7 +1086,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // Item will burst upon landing, destroying the item, and spilling its contents
     const bool burst = thrown.has_property( "burst_when_filled" ) && thrown.is_container() &&
                        thrown.get_property_int64_t( "burst_when_filled" ) <= static_cast<double>
-                       ( thrown.contents.total_contained_volume().value() ) / thrown.get_total_capacity().value() *
+                       ( thrown.total_contained_volume().value() ) / thrown.get_total_capacity().value() *
                        100;
 
     // Add some flags to the projectile
@@ -1177,6 +1177,64 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     return dealt_attack;
 }
 
+static void practice_archery_proficiency( player &p, const item &relevant )
+{
+    // Do nothing, we are not doing archery
+    if( relevant.gun_skill() != skill_archery ) {
+        return;
+    }
+
+    // We are already a master, practice has no effect
+    if( p.has_proficiency( proficiency_prof_bow_master ) ) {
+        return;
+    }
+
+    // Only train archery in multiples of 100 moves (or 1 turn) for performance, focus, and simplifying calculations
+    p.archery_aim_counter++;
+    if( p.archery_aim_counter > 100 ) {
+        // Reset our counter
+        p.archery_aim_counter = 0;
+
+        // Intended to train prof_bow_basic from 0 to 100% in ~200 arrows in 5 hours from max aim, or 90s/arrow.
+        // Additionally, a shortbow is used as the basis for number of moves per max aim shot at ~250 moves.
+        // 90s/arrow / 2.5turns/arrow = 36s/turn. It is important to note, this is 200 arrows pre-focus.
+        time_duration prof_exp = 36_seconds;
+
+        // We don't know how to handle a bow yet
+        if( !p.has_proficiency( proficiency_prof_bow_basic ) ) {
+            p.practice_proficiency( proficiency_prof_bow_basic, prof_exp );
+            return;
+        }
+        // We know how to handle a bow, but we are not an expert yet
+        else if( !p.has_proficiency( proficiency_prof_bow_expert ) ) {
+            p.practice_proficiency( proficiency_prof_bow_expert, prof_exp );
+            return;
+        }
+        // We are an expert, lets practice to become a master
+        else {
+            p.practice_proficiency( proficiency_prof_bow_master, prof_exp );
+            return;
+        }
+    }
+}
+
+// Apply stamina cost to archery which decreases due to proficiency
+static void mod_stamina_archery( player &p, const item &relevant )
+{
+    // Set activity level to 10 * str_ratio, with 10 being max (EXTRA_EXERCISE)
+    // This ratio should never be below 0 and above 1
+    const int scaled_str_ratio = ( 10 * relevant.get_min_str() ) / p.str_cur;
+    p.set_activity_level( scaled_str_ratio );
+
+    // Calculate stamina drain based on archery and athletics skill
+    const int archery_skill = p.get_skill_level( skill_archery );
+    const int athletics_skill = p.get_skill_level( skill_archery );
+    const int skill_modifier = ( 2 * archery_skill + athletics_skill ) / 3;
+
+    const int stamina_cost = pow( 20 - skill_modifier, 2 );
+    p.mod_stamina( -stamina_cost );
+}
+
 static void do_aim( player &p, const item &relevant, const double min_recoil )
 {
     const double aim_amount = p.aim_per_move( relevant, p.recoil );
@@ -1184,6 +1242,16 @@ static void do_aim( player &p, const item &relevant, const double min_recoil )
         // Increase aim at the cost of moves
         p.mod_moves( -1 );
         p.recoil = std::max( min_recoil, p.recoil - aim_amount );
+
+        // Train archery proficiencies if we are doing archery
+        if( relevant.gun_skill() == skill_archery ) {
+            practice_archery_proficiency( p, relevant );
+
+            // Only drain stamina on initial draw
+            if( p.moves == 1 ) {
+                mod_stamina_archery( p, relevant );
+            }
+        }
     } else {
         // If aim is already maxed, we're just waiting, so pass the turn.
         p.set_moves( 0 );
@@ -1660,8 +1728,8 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
     if( !!ammo->ammo->casing ) {
         const itype_id casing = *ammo->ammo->casing;
         if( weap.has_flag( flag_RELOAD_EJECT ) ) {
-            weap.contents.force_insert_item( item( casing ).set_flag( flag_CASING ),
-                                             item_pocket::pocket_type::MAGAZINE );
+            weap.force_insert_item( item( casing ).set_flag( flag_CASING ),
+                                    item_pocket::pocket_type::MAGAZINE );
             weap.on_contents_changed();
         } else {
             if( brass_catcher && brass_catcher->can_contain( casing.obj() ) ) {
@@ -2117,8 +2185,10 @@ target_handler::trajectory target_ui::run()
             shifting_view = !shifting_view;
         } else if( action == "zoom_in" ) {
             g->zoom_in();
+            g->mark_main_ui_adaptor_resize();
         } else if( action == "zoom_out" ) {
             g->zoom_out();
+            g->mark_main_ui_adaptor_resize();
         } else if( action == "QUIT" ) {
             loop_exit_code = ExitCode::Abort;
             break;
@@ -3495,8 +3565,8 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
                             const gun_mode &gmode )
 {
     bool result = true;
-
-    if( !gmode->ammo_sufficient() && !gmode->has_flag( flag_RELOAD_AND_SHOOT ) ) {
+    if( !gmode->ammo_sufficient( &you ) &&
+        !gmode->has_flag( flag_RELOAD_AND_SHOOT ) ) {
         if( !gmode->ammo_remaining() ) {
             messages.push_back( string_format( _( "Your %s is empty!" ), gmode->tname() ) );
         } else {
@@ -3508,7 +3578,6 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
 
     if( gmode->get_gun_ups_drain() > 0 ) {
         const int ups_drain = gmode->get_gun_ups_drain();
-        const int adv_ups_drain = std::max( 1, ups_drain * 3 / 5 );
         bool is_mech_weapon = false;
         if( you.is_mounted() ) {
             monster *mons = get_player_character().mounted_creature.get();
@@ -3517,21 +3586,25 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
             }
         }
         if( !is_mech_weapon ) {
-            if( !( you.has_charges( itype_UPS_off, ups_drain ) ||
-                   you.has_charges( itype_adv_UPS_off, adv_ups_drain ) ||
-                   ( you.has_active_bionic( bio_ups ) &&
-                     you.get_power_level() >= units::from_kilojoule( ups_drain ) ) ) ) {
+            if( you.available_ups() < ups_drain ) {
                 messages.push_back( string_format(
-                                        _( "You need a UPS with at least %2$d charges or an advanced UPS with at least %3$d charges to fire the %1$s!" ),
-                                        gmode->tname(), ups_drain, adv_ups_drain ) );
+                                        _( "You need a UPS with at least %2$d charges to fire the %1$s!" ),
+                                        gmode->tname(), ups_drain ) );
                 result = false;
             }
         } else {
-            if( !you.has_charges( itype_UPS, ups_drain ) ) {
+            if( you.available_ups() < ups_drain ) {
                 messages.push_back( string_format( _( "Your mech has an empty battery, its %s will not fire." ),
                                                    gmode->tname() ) );
                 result = false;
             }
+        }
+        // Workaround for guns that use ups and normal ammo at same time.
+        // Remove once guns can support use of multiple ammo at once
+        if( !gmode->ammo_default().is_null() &&
+            gmode->ammo_remaining( nullptr ) < gmode->ammo_required() ) {
+            result = false;
+            messages.push_back( string_format( _( "Your %s is empty!" ), gmode->tname() ) );
         }
     }
 

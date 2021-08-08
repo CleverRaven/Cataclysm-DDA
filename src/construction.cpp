@@ -1032,7 +1032,7 @@ void complete_construction( player *p )
     award_xp( *p );
     // Friendly NPCs gain exp from assisting or watching...
     // TODO: NPCs watching other NPCs do stuff and learning from it
-    if( p->is_player() ) {
+    if( p->is_avatar() ) {
         for( auto &elem : get_avatar().get_crafting_helpers() ) {
             if( elem->meets_skill_requirements( built ) ) {
                 add_msg( m_info, _( "%s assists you with the work…" ), elem->name );
@@ -1101,7 +1101,7 @@ void complete_construction( player *p )
     // activities
     built.post_special( terp );
     // npcs will automatically resume backlog, players wont.
-    if( p->is_player() && !p->backlog.empty() &&
+    if( p->is_avatar() && !p->backlog.empty() &&
         p->backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
         p->backlog.clear();
         p->assign_activity( ACT_MULTIPLE_CONSTRUCTION );
@@ -1843,6 +1843,7 @@ void finalize_constructions()
 
         requirement_data::save_requirement( requirements_, con.requirements );
         con.reqs_using.clear();
+        inp_mngr.pump_events();
     }
 
     constructions.erase( std::remove_if( constructions.begin(), constructions.end(),

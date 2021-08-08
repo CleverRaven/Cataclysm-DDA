@@ -466,7 +466,7 @@ static void draw_stats_info( const catacurses::window &w_info,
                            "your resistance to many diseases, and the effectiveness of actions which require brute force." ) );
         print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
                             string_format( _( "Base HP: <color_white>%d</color>" ),
-                                           you.get_part_hp_max( bodypart_id( "torso" ) ) ) );
+                                           you.get_part_hp_max( you.get_root_body_part() ) ) );
         print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
                             string_format( _( "Carry weight (%s): <color_white>%.1f</color>" ), weight_units(),
                                            convert_weight( you.weight_capacity() ) ) );
@@ -937,13 +937,11 @@ static void draw_speed_tab( const catacurses::window &w_speed,
         }
     }
 
-    float speed_modifier = static_cast<float>( you.enchantment_cache->modify_value(
-                               enchant_vals::mod::SPEED, 1 ) );
+    const int speed_modifier = you.get_enchantment_speed_bonus();
 
-    if( speed_modifier != 1.0f ) {
-        int misc_bonus = static_cast<int>( newmoves - ( newmoves / speed_modifier ) );
+    if( speed_modifier != 0 ) {
         mvwprintz( w_speed, point( 1, line ), c_green,
-                   pgettext( "speed bonus", "Bio/Mut/Effects     +%2d%%" ), misc_bonus );
+                   pgettext( "speed bonus", "Bio/Mut/Effects     +%2d" ), speed_modifier );
         line++;
     }
 
@@ -1181,16 +1179,19 @@ void player::disp_info()
     std::vector<std::pair<std::string, std::string>> effect_name_and_text;
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
-            const std::string tmp = _effect_it.second.disp_name();
-            if( tmp.empty() ) {
+            const std::string name = _effect_it.second.disp_name();
+            if( name.empty() ) {
                 continue;
             }
-            effect_name_and_text.emplace_back( tmp, _effect_it.second.disp_desc() );
+            effect_name_and_text.emplace_back( name, _effect_it.second.disp_desc() );
         }
     }
     if( get_perceived_pain() > 0 ) {
         const stat_mod ppen = get_pain_penalty();
+        std::pair<std::string, nc_color> pain_desc = get_pain_description();
         std::string pain_text;
+        pain_desc.first = string_format( _( "You are in %s\n" ), pain_desc.first );
+        pain_text += colorize( pain_desc.first, pain_desc.second );
         const auto add_if = [&]( const int amount, const char *const name ) {
             if( amount > 0 ) {
                 pain_text += string_format( name, amount ) + "   ";

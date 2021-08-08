@@ -15,11 +15,11 @@ string operator+( const string &, const string & );
 } // namespace std
 
 // check_clang_tidy uses -nostdinc++, so we add dummy translation interface here instead of including translations.h
-namespace detail {
+namespace detail
+{
 
 template<typename T>
-struct local_translation_cache
-{
+struct local_translation_cache {
     T operator()( T arg );
 };
 

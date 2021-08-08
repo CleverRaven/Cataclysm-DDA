@@ -235,9 +235,6 @@ class Creature : public location, public viewer
 
         virtual std::vector<std::string> get_grammatical_genders() const;
 
-        virtual bool is_player() const {
-            return false;
-        }
         virtual bool is_avatar() const {
             return false;
         }
@@ -660,7 +657,7 @@ class Creature : public location, public viewer
             return false;
         }
 
-    private:
+    protected:
         /**anatomy is the plan of the creature's body*/
         anatomy_id creature_anatomy = anatomy_id( "default_anatomy" );
         /**this is the actual body of the creature*/
@@ -676,6 +673,10 @@ class Creature : public location, public viewer
          */
         std::vector<bodypart_id> get_all_body_parts(
             get_body_part_flags = get_body_part_flags::none ) const;
+        std::vector<bodypart_id> get_all_body_parts_of_type(
+            body_part_type::type part_type,
+            get_body_part_flags flags = get_body_part_flags::none ) const;
+        bodypart_id get_root_body_part() const;
 
         const std::map<bodypart_str_id, bodypart> &get_body() const;
         void set_body();
@@ -1165,6 +1166,10 @@ class Creature : public location, public viewer
         virtual void on_damage_of_type( int, damage_type, const bodypart_id & ) {}
 
     public:
+        // Keep a count of moves passed in which resets every 100 turns as a result of practicing archery proficiency
+        // This is done this way in order to not destroy focus since `do_aim` is on a per-move basis.
+        int archery_aim_counter = 0;
+
         bodypart_id select_body_part( Creature *source, int hit_roll ) const;
         bodypart_id random_body_part( bool main_parts_only = false ) const;
 

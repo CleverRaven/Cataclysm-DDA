@@ -36,7 +36,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
-#include "item_contents.h"
 #include "itype.h"
 #include "level_cache.h"
 #include "line.h"
@@ -299,7 +298,6 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     auto neighs = get_neighbors( p );
     size_t end_it = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
     std::vector<size_t> spread;
-    std::vector<size_t> neighbour_vec;
     // Then, spread to a nearby point.
     // If not possible (or randomly), try to spread up
     // Wind direction will block the field spreading into the wind.
@@ -312,32 +310,30 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
             spread.push_back( i );
         }
     }
-    auto maptiles = get_wind_blockers( winddirection, p );
-    // Three map tiles that are facing the wind direction.
-    const maptile remove_tile = std::get<0>( maptiles );
-    const maptile remove_tile2 = std::get<1>( maptiles );
-    const maptile remove_tile3 = std::get<2>( maptiles );
+
     if( !spread.empty() && ( !zlevels || one_in( spread.size() ) ) ) {
         // Construct the destination from offset and p
         if( sheltered || windpower < 5 ) {
             std::pair<tripoint, maptile> &n = neighs[ random_entry( spread ) ];
             gas_spread_to( cur, n.second, n.first );
         } else {
-            end_it = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
-            // Start at end_it + 1, then wrap around until all elements have been processed.
-            for( size_t i = ( end_it + 1 ) % neighs.size(), count = 0;
-                 count != neighs.size();
-                 i = ( i + 1 ) % neighs.size(), count++ ) {
+            std::vector<size_t> neighbour_vec;
+            auto maptiles = get_wind_blockers( winddirection, p );
+            // Three map tiles that are facing the wind direction.
+            const maptile &remove_tile = std::get<0>( maptiles );
+            const maptile &remove_tile2 = std::get<1>( maptiles );
+            const maptile &remove_tile3 = std::get<2>( maptiles );
+            for( const auto &i : spread ) {
                 const auto &neigh = neighs[i].second;
-                if( ( neigh.pos_.x != remove_tile.pos_.x && neigh.pos_.y != remove_tile.pos_.y ) ||
-                    ( neigh.pos_.x != remove_tile2.pos_.x && neigh.pos_.y != remove_tile2.pos_.y ) ||
-                    ( neigh.pos_.x != remove_tile3.pos_.x && neigh.pos_.y != remove_tile3.pos_.y ) ||
+                if( ( neigh.pos_ != remove_tile.pos_ &&
+                      neigh.pos_ != remove_tile2.pos_ &&
+                      neigh.pos_ != remove_tile3.pos_ ) ||
                     x_in_y( 1, std::max( 2, windpower ) ) ) {
                     neighbour_vec.push_back( i );
                 }
             }
             if( !neighbour_vec.empty() ) {
-                std::pair<tripoint, maptile> &n = neighs[neighbour_vec[rng( 0, neighbour_vec.size() - 1 )]];
+                std::pair<tripoint, maptile> &n = neighs[ random_entry( neighbour_vec ) ];
                 gas_spread_to( cur, n.second, n.first );
             }
         }
@@ -1628,7 +1624,7 @@ void map::player_in_field( player &u )
             // Assume the rift is on the ground for now to prevent issues with the player being unable access vehicle controls on the same tile due to teleportation.
             if( !u.in_vehicle ) {
                 // Teleports you... somewhere.
-                if( rng( 0, 2 ) < cur.get_field_intensity() && u.is_player() ) {
+                if( rng( 0, 2 ) < cur.get_field_intensity() && u.is_avatar() ) {
                     add_msg( m_bad, _( "You're violently teleported!" ) );
                     u.hurtall( cur.get_field_intensity(), nullptr );
                     teleport::teleport( u );

@@ -670,6 +670,27 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_RECIPE_UNREAD",
+    "category": "CRAFTING",
+    "name": "Toggle read/unread",
+    "bindings": [ { "input_method": "keyboard_any", "key": "v" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "MARK_ALL_RECIPES_READ",
+    "category": "CRAFTING",
+    "name": "Mark all recipes as read",
+    "bindings": [ { "input_method": "keyboard_char", "key": "V" }, { "input_method": "keyboard_code", "key": "v", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_UNREAD_RECIPES_FIRST",
+    "category": "CRAFTING",
+    "name": "Show unread recipes on top",
+    "bindings": [ { "input_method": "keyboard_any", "key": "u" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "CYCLE_BATCH",
     "category": "CRAFTING",
     "name": "Batch crafting",

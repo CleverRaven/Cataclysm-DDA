@@ -96,7 +96,7 @@ explosion_data load_explosion_data( const JsonObject &jo )
     // Power is mandatory
     jo.read( "power", ret.power );
     // Rest isn't
-    ret.distance_factor = jo.get_float( "distance_factor", 0.8f );
+    ret.distance_factor = jo.get_float( "distance_factor", 0.75f );
     ret.max_noise = jo.get_int( "max_noise", 90000000 );
     ret.fire = jo.get_bool( "fire", false );
     if( jo.has_int( "shrapnel" ) ) {
@@ -117,7 +117,7 @@ shrapnel_data load_shrapnel_data( const JsonObject &jo )
     // Casing mass is mandatory
     jo.read( "casing_mass", ret.casing_mass );
     // Rest isn't
-    ret.fragment_mass = jo.get_float( "fragment_mass", 0.15 );
+    ret.fragment_mass = jo.get_float( "fragment_mass", 0.08 );
     ret.recovery = jo.get_int( "recovery", 0 );
     ret.drop = itype_id( jo.get_string( "drop", "null" ) );
     return ret;
@@ -128,8 +128,8 @@ namespace explosion_handler
 static int ballistic_damage( float velocity, float mass )
 {
     // Damage is square root of Joules, dividing by 2000 because it's dividing by 2 and
-    // converting mass from grams to kg. 5 is simply a scaling factor.
-    return 2.0 * std::sqrt( ( velocity * velocity * mass ) / 2000.0 );
+    // converting mass from grams to kg. The inital term is simply a scaling factor.
+    return 4.0 * std::sqrt( ( velocity * velocity * mass ) / 2000.0 );
 }
 // Calculate cross-sectional area of a steel sphere in cm^2 based on mass of fragment.
 static float mass_to_area( const float mass )
@@ -430,7 +430,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
             int damaging_hits = 0;
             int non_damaging_hits = 0;
             for( int i = 0; i < hits; ++i ) {
-                frag.missed_by = rng_float( 0.05, 1.0 );
+                frag.missed_by = rng_float( 0.05, 1.0 / critter->ranged_target_size() );
                 critter->deal_projectile_attack( nullptr, frag, false );
                 if( frag.dealt_dam.total_damage() > 0 ) {
                     damaging_hits++;
@@ -463,7 +463,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
                 std::string damage_description = ( damage_taken > 0 ) ?
                                                  string_format( _( "dealing %d damage" ), damage_taken ) :
                                                  _( "but they deal no damage" );
-                if( critter->is_player() ) {
+                if( critter->is_avatar() ) {
                     add_msg( ngettext( "You are hit by %s bomb fragment, %s.",
                                        "You are hit by %s bomb fragments, %s.", total_hits ),
                              impact_count, damage_description );
@@ -482,7 +482,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
         }
         if( here.impassable( target ) ) {
             if( optional_vpart_position vp = here.veh_at( target ) ) {
-                vp->vehicle().damage( vp->part_index(), damage / 100 );
+                vp->vehicle().damage( vp->part_index(), damage / 10 );
             } else {
                 here.bash( target, damage / 100, true );
             }

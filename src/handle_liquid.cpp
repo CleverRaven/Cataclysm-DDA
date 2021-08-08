@@ -23,7 +23,6 @@
 #include "game_inventory.h"
 #include "iexamine.h"
 #include "item.h"
-#include "item_contents.h"
 #include "itype.h"
 #include "line.h"
 #include "map.h"

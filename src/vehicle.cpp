@@ -40,7 +40,6 @@
 #include "flag.h"
 #include "game.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_group.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -763,26 +762,6 @@ static int get_turn_from_angle( const units::angle &angle, const tripoint &vehpo
     return 0;
 }
 
-void vehicle::stop_autodriving()
-{
-    if( !is_autodriving && !is_patrolling && !is_following ) {
-        return;
-    }
-    if( velocity > 0 ) {
-        if( is_patrolling || is_following ) {
-            autodrive( point( 0, 10 ) );
-        } else {
-            pldrive( point( 0, 10 ) );
-        }
-    }
-    is_autodriving = false;
-    is_patrolling = false;
-    is_following = false;
-    autopilot_on = false;
-    autodrive_local_target = tripoint_zero;
-    collision_check_points.clear();
-}
-
 void vehicle::drive_to_local_target( const tripoint &target, bool follow_protocol )
 {
     Character &player_character = get_player_character();
@@ -843,10 +822,6 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
                            string_format( _( "the %s emitting a beep and saying \"Obstacle detected!\"" ),
                                           name ) );
         }
-        if( velocity > 0 ) {
-            follow_protocol ||
-            is_patrolling ? autodrive( point( 0, 10 ) ) : pldrive( point( 0, 10 ) );
-        }
         stop_autodriving();
         return;
     }
@@ -882,8 +857,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
             accel_y = 1;
         }
     }
-    follow_protocol ||
-    is_patrolling ? autodrive( point( turn_x, accel_y ) ) : pldrive( point( turn_x, accel_y ) );
+    selfdrive( point( turn_x, accel_y ) );
 }
 
 units::angle vehicle::get_angle_from_targ( const tripoint &targ )
@@ -898,57 +872,6 @@ units::angle vehicle::get_angle_from_targ( const tripoint &targ )
     double dotx = ( facevec.x * targetvec.x ) + ( facevec.y * targetvec.y );
 
     return units::atan2( crossy, dotx );
-}
-
-void vehicle::do_autodrive()
-{
-    if( omt_path.empty() ) {
-        stop_autodriving();
-    }
-    Character &player_character = get_player_character();
-    map &here = get_map();
-    tripoint vehpos = global_pos3();
-    // TODO: fix point types
-    tripoint_abs_omt veh_omt_pos( ms_to_omt_copy( here.getabs( vehpos ) ) );
-    // we're at or close to the waypoint, pop it out and look for the next one.
-    if( ( is_autodriving && !player_character.omt_path.empty() && !omt_path.empty() ) &&
-        veh_omt_pos == omt_path.back() ) {
-        player_character.omt_path.pop_back();
-        omt_path.pop_back();
-    }
-    if( omt_path.empty() ) {
-        stop_autodriving();
-        return;
-    }
-
-    point_rel_omt omt_diff = omt_path.back().xy() - veh_omt_pos.xy();
-    if( omt_diff.x() > 3 || omt_diff.x() < -3 || omt_diff.y() > 3 || omt_diff.y() < -3 ) {
-        // we've gone walkabout somehow, call off the whole thing
-        stop_autodriving();
-        return;
-    }
-    point side;
-    if( omt_diff.x() > 0 ) {
-        side.x = 2 * SEEX - 1;
-    } else if( omt_diff.x() < 0 ) {
-        side.x = 0;
-    } else {
-        side.x = SEEX;
-    }
-    if( omt_diff.y() > 0 ) {
-        side.y = 2 * SEEY - 1;
-    } else if( omt_diff.y() < 0 ) {
-        side.y = 0;
-    } else {
-        side.y = SEEY;
-    }
-    // get the shared border mid-point of the next path omt
-    tripoint_abs_ms global_a = project_to<coords::ms>( veh_omt_pos );
-    // TODO: fix point types
-    tripoint autodrive_temp_target = ( global_a.raw() + tripoint( side,
-                                       sm_pos.z ) - here.getabs( vehpos ) ) + vehpos;
-    autodrive_local_target = here.getabs( autodrive_temp_target );
-    drive_to_local_target( autodrive_local_target, false );
 }
 
 /**
@@ -3132,14 +3055,6 @@ void vehicle::coord_translate( tileray tdir, const point &pivot, const point &p,
     q.y = tdir.dy() + tdir.ortho_dy( p.y - pivot.y );
 }
 
-point vehicle::rotate_mount( units::angle old_dir, units::angle new_dir, const point &pivot,
-                             const point &p ) const
-{
-    tripoint q;
-    coord_translate( new_dir - old_dir, pivot, p, q );
-    return q.xy();
-}
-
 tripoint vehicle::mount_to_tripoint( const point &mount ) const
 {
     return mount_to_tripoint( mount, point_zero );
@@ -5204,11 +5119,6 @@ void vehicle::idle( bool on_map )
         if( idle_rate < 10 ) {
             idle_rate = 10;    // minimum idle is 1% of full throttle
         }
-        // helicopters use basically nearly all of their power just to hover.
-        // it becomes more efficient the closer they reach their safe cruise speed.
-        if( is_rotorcraft() && is_flying_in_air() ) {
-            idle_rate = 1000;
-        }
         if( has_engine_type_not( fuel_type_muscle, true ) ) {
             consume_fuel( idle_rate, true );
         }
@@ -5410,7 +5320,7 @@ cata::optional<vehicle_stack::iterator> vehicle::add_item( int part, const item 
     if( itm_copy.is_bucket_nonempty() ) {
         // this is a vehicle, so there is only one pocket.
         // so if it will spill, spill all of it
-        itm_copy.contents.spill_contents( global_part_pos3( part ) );
+        itm_copy.spill_contents( global_part_pos3( part ) );
     }
 
     const vehicle_stack::iterator new_pos = p.items.insert( itm_copy );
@@ -6028,10 +5938,10 @@ void vehicle::do_towing_move()
         towed_veh->velocity = reverse ? -velocity : velocity;
     }
     if( towed_veh->tow_data.tow_direction == TOW_FRONT ) {
-        towed_veh->autodrive( point( turn_x, accel_y ) );
+        towed_veh->selfdrive( point( turn_x, accel_y ) );
     } else if( towed_veh->tow_data.tow_direction == TOW_BACK ) {
         accel_y = 10;
-        towed_veh->autodrive( point( turn_x, accel_y ) );
+        towed_veh->selfdrive( point( turn_x, accel_y ) );
     } else {
         towed_veh->skidding = true;
         std::vector<tripoint> lineto = line_to( here.getlocal( towed_tow_point ),
@@ -6851,7 +6761,8 @@ std::list<item> vehicle::use_charges( const vpart_position &vp, const itype_id &
         item mag( tool.magazine_default() );
         mag.clear_items();
 
-        return tool.contents.insert_item( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() &&
+        return tool.can_contain( mag ).success() &&
+               tool.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() &&
                tool.ammo_capacity( ammotype( "battery" ) ) > 0;
     };
 

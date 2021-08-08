@@ -61,8 +61,6 @@ int OVERMAP_WINDOW_TERM_HEIGHT;
 
 int OVERMAP_LEGEND_WIDTH;
 
-static std::string rm_prefix( std::string str, char c1 = '<', char c2 = '>' );
-
 scrollingcombattext SCT;
 
 // utf8 version
@@ -162,9 +160,9 @@ std::string remove_color_tags( const std::string &s )
     return ret;
 }
 
-static color_tag_parse_result::tag_type update_color_stack(
+color_tag_parse_result::tag_type update_color_stack(
     std::stack<nc_color> &color_stack, const std::string &seg,
-    const report_color_error color_error = report_color_error::yes )
+    const report_color_error color_error )
 {
     color_tag_parse_result tag = get_color_from_tag( seg, color_error );
     switch( tag.type ) {
@@ -2009,6 +2007,22 @@ std::string satiety_bar( const int calpereffv )
     return result;
 }
 
+std::string healthy_bar( const int healthy )
+{
+    if( healthy > 3 ) {
+        return "<good>+++</good>";
+    } else if( healthy > 0 ) {
+        return "<good>+</good>";
+    } else if( healthy < -3 ) {
+        return "<bad>!!!</bad>";
+    } else if( healthy < 0 ) {
+        return "<bad>-</bad>";
+    } else {
+        return "";
+    }
+}
+
+
 scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
                                  const std::string &p_sText, const game_message_type p_gmt,
                                  const std::string &p_sText2, const game_message_type p_gmt2,
@@ -2059,6 +2073,10 @@ void scrollingcombattext::add( const point &pos, direction p_oDir,
                                const std::string &p_sText2, const game_message_type p_gmt2,
                                const std::string &p_sType )
 {
+    // TODO: A non-hack
+    if( test_mode ) {
+        return;
+    }
     if( get_option<bool>( "ANIMATION_SCT" ) ) {
 
         int iCurStep = 0;

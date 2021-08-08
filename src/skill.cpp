@@ -219,12 +219,17 @@ void SkillLevel::train( int amount, bool skip_scaling )
         }
     }
 
-    if( _exercise >= 100 * 100 * ( _level + 1 ) * ( _level + 1 ) ) {
-        _exercise = 0;
+    int xp_to_level = 100 * 100 * ( _level + 1 ) * ( _level + 1 );
+
+    // Continue to level up while there is xp to do so
+    while( _exercise >= xp_to_level ) {
+        _exercise -= xp_to_level;
         ++_level;
         if( _level > _highestLevel ) {
             _highestLevel = _level;
         }
+        // Recalculate xp to level now that we have levelled up
+        xp_to_level = 100 * 100 * ( _level + 1 ) * ( _level + 1 );
     }
 }
 
