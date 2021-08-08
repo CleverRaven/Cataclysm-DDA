@@ -2016,7 +2016,7 @@ void overmap::move_hordes()
     //MOVE ZOMBIE GROUPS
     for( auto it = zg.begin(); it != zg.end(); ) {
         mongroup &mg = it->second;
-        if( !mg.horde || mg.horde_behaviour == "nemesis") {
+        if( !mg.horde || mg.horde_behaviour == "nemesis" ) {
             //nemesis hordes have their own move function
             ++it;
             continue;
@@ -2190,7 +2190,7 @@ void overmap::move_nemesis()
 
             //if the nemesis horde is on the same overmap as its target
             //update the horde's om_sm coords from the abs_sm so it can spawn in correctly
-            if ( project_to<coords::om>( mg.nemesis_target.xy() ) == omp ) {
+            if( project_to<coords::om>( mg.nemesis_target.xy() ) == omp ) {
 
                 mg.pos.y() = local_sm.y();
                 mg.pos.x() = local_sm.x();
@@ -2198,17 +2198,17 @@ void overmap::move_nemesis()
                 // Erase the group at it's old location, add the group with the new location
                 tmpzg.insert( std::pair<tripoint_om_sm, mongroup>( mg.pos, mg ) );
                 zg.erase( it++ );
-                
+
                 //there is only one nemesis horde, so we can stop looping after we move it
                 break;
 
             }
 
-        //only one nemesis, so we break after moving it
-        break;
-            
+            //only one nemesis, so we break after moving it
+            break;
+
         } else {
-        //and we also break if it doesnt move
+            //and we also break if it doesnt move
             break;
         }
     }
@@ -2271,14 +2271,14 @@ void overmap::signal_nemesis( const tripoint_abs_sm p_abs_sm )
     std::tie( omp, local_sm ) = project_remain<coords::om>( p_abs_sm );
     // convert tripoint_om_sm to const point_om_sm !!!
     const point_om_sm pos_om = local_sm.xy();
-    
+
     for( std::pair<const tripoint_om_sm, mongroup> &elem : zg ) {
         mongroup &mg = elem.second;
 
         if( mg.horde_behaviour == "nemesis" ) {
             // if the horde is a nemesis, we set its target directly on the player
             mg.set_target( pos_om );
-            mg.set_nemesis_target ( p_abs_sm );
+            mg.set_nemesis_target( p_abs_sm );
 
         }
     }
@@ -4592,16 +4592,16 @@ void overmap::place_mongroups()
 
 void overmap::place_nemesis( const tripoint_abs_omt p )
 {
-            tripoint_abs_sm pos_sm = project_to<coords::sm>( p );
-            point_abs_om omp;
-            tripoint_om_sm local_sm;
-            std::tie( omp, local_sm ) = project_remain<coords::om>( pos_sm );
+    tripoint_abs_sm pos_sm = project_to<coords::sm>( p );
+    point_abs_om omp;
+    tripoint_om_sm local_sm;
+    std::tie( omp, local_sm ) = project_remain<coords::om>( pos_sm );
 
-            mongroup nemesis = mongroup( GROUP_NEMESIS, local_sm, 1, 1 );
-            nemesis.horde = true;
-            nemesis.horde_behaviour = "nemesis";
-            nemesis.abs_pos = pos_sm;
-            add_mon_group( nemesis );
+    mongroup nemesis = mongroup( GROUP_NEMESIS, local_sm, 1, 1 );
+    nemesis.horde = true;
+    nemesis.horde_behaviour = "nemesis";
+    nemesis.abs_pos = pos_sm;
+    add_mon_group( nemesis );
 }
 
 point_abs_omt overmap::global_base_point() const

@@ -855,8 +855,8 @@ bool game::start_game()
 
     // Assign nemesis kill mission if character has the 'hunted' trait
     if( u.has_trait( trait_HAS_NEMESIS ) ) {
-        const auto mission = mission::reserve_new( mission_type_id( "MISSION_KILL_NEMESIS" ), 
-                                                    character_id() );
+        const auto mission = mission::reserve_new( mission_type_id( "MISSION_KILL_NEMESIS" ),
+                             character_id() );
         mission->assign( u );
     }
 

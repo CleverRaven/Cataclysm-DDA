@@ -145,13 +145,13 @@ void overmapbuffer::fix_nemesis( overmap &new_overmap )
 {
     for( auto it = new_overmap.zg.begin(); it != new_overmap.zg.end(); ) {
         auto &mg = it->second;
-        
+
         //if it's not the nemesis, continue
-        if( mg.horde_behaviour != "nemesis") {
+        if( mg.horde_behaviour != "nemesis" ) {
             ++it;
             continue;
         }
-        
+
         //if the nemesis's abs coordinates put it in this overmap, it belongs here
         if( project_to<coords::om>( mg.abs_pos.xy() ) == new_overmap.pos() ) {
             ++it;
@@ -168,7 +168,7 @@ void overmapbuffer::fix_nemesis( overmap &new_overmap )
         om.spawn_mon_group( mg );
         new_overmap.zg.erase( it++ );
         //there should only be one nemesis, so we can break after finding it
-        break; 
+        break;
     }
 }
 
@@ -529,13 +529,13 @@ void overmapbuffer::signal_nemesis( const tripoint_abs_sm p )
 
 }
 
-void overmapbuffer::add_nemesis( const tripoint_abs_omt &p)
+void overmapbuffer::add_nemesis( const tripoint_abs_omt &p )
 {
-    //takes location from kill_nemesis mission and adds a nemesis monstergroup into the overmap 
+    //takes location from kill_nemesis mission and adds a nemesis monstergroup into the overmap
 
     const tripoint_abs_om loc = project_to<coords::om>( p );
     overmap *om = get_existing( loc.xy() );
-    om->place_nemesis(p);
+    om->place_nemesis( p );
 
 }
 
@@ -556,7 +556,7 @@ void overmapbuffer::move_hordes()
     const int radius = MAPSIZE * 2;
     // TODO: fix point types
     const tripoint_abs_sm center( get_player_character().global_sm_location() );
-    for( overmap* om : get_overmaps_near( center, radius ) ) {
+    for( overmap *om : get_overmaps_near( center, radius ) ) {
         om->move_hordes();
         //fix_mongroups( *om );
     }
@@ -564,10 +564,10 @@ void overmapbuffer::move_hordes()
 
 void overmapbuffer::move_nemesis()
 {
-   for( std::pair<const point_abs_om, std::unique_ptr<overmap>> &omp : overmaps ) {
+    for( std::pair<const point_abs_om, std::unique_ptr<overmap>> &omp : overmaps ) {
         // Note: this may throw io errors from std::ofstream
         omp.second->move_nemesis();
-        fix_nemesis(*omp.second);
+        fix_nemesis( *omp.second );
     }
 }
 
@@ -1504,11 +1504,11 @@ void overmapbuffer::despawn_monster( const monster &critter )
     overmap &om = get( omp );
     // Store the monster using coordinates local to the overmap
 
-    if ( critter.is_nemesis() ) {
+    if( critter.is_nemesis() ) {
         //if the monster is the 'hunted' trait's nemesis, it becomes an overmap horde
-        tripoint_abs_omt abs_omt( ms_to_omt_copy(get_map().getabs( critter.pos() ) ) );
+        tripoint_abs_omt abs_omt( ms_to_omt_copy( get_map().getabs( critter.pos() ) ) );
         om.place_nemesis( abs_omt );
-    } else { 
+    } else {
         om.monster_map.insert( std::make_pair( sm, critter ) );
     }
 }
