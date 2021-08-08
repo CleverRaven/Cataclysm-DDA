@@ -7723,22 +7723,6 @@ bool Character::made_of_any( const std::set<material_id> &ms ) const
     } );
 }
 
-tripoint Character::global_square_location() const
-{
-    return get_map().getabs( position );
-}
-
-tripoint Character::global_sm_location() const
-{
-    return ms_to_sm_copy( global_square_location() );
-}
-
-tripoint_abs_omt Character::global_omt_location() const
-{
-    // TODO: fix point types
-    return tripoint_abs_omt( ms_to_omt_copy( global_square_location() ) );
-}
-
 bool Character::is_blind() const
 {
     return ( worn_with_flag( flag_BLIND ) ||

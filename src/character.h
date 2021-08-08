@@ -1093,20 +1093,6 @@ class Character : public Creature, public visitable
             invalidate_weight_carried_cache();
         }
 
-        /**
-         * Global position, expressed in map square coordinate system
-         * (the most detailed coordinate system), used by the @ref map.
-         */
-        virtual tripoint global_square_location() const;
-        /**
-        * Returns the location of the player in global submap coordinates.
-        */
-        tripoint global_sm_location() const;
-        /**
-        * Returns the location of the player in global overmap terrain coordinates.
-        */
-        tripoint_abs_omt global_omt_location() const;
-
     private:
         /** Retrieves a stat mod of a mutation. */
         int get_mod( const trait_id &mut, const std::string &arg ) const;

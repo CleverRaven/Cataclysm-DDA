@@ -12,6 +12,7 @@
 #include <tuple>
 
 #include "anatomy.h"
+#include "avatar.h"
 #include "cached_options.h"
 #include "calendar.h"
 #include "cata_assert.h"
@@ -47,6 +48,11 @@
 #include "point.h"
 #include "projectile.h"
 #include "rng.h"
+#include "talker.h"
+#include "talker_avatar.h"
+#include "talker_character.h"
+#include "talker_npc.h"
+#include "talker_monster.h"
 #include "translations.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -2637,4 +2643,50 @@ void Creature::describe_infrared( std::vector<std::string> &buf ) const
 void Creature::describe_specials( std::vector<std::string> &buf ) const
 {
     buf.emplace_back( _( "You sense a creature here." ) );
+}
+
+tripoint Creature::global_square_location() const
+{
+    return get_map().getabs( pos() );
+}
+
+tripoint Creature::global_sm_location() const
+{
+    return ms_to_sm_copy( global_square_location() );
+}
+
+tripoint_abs_omt Creature::global_omt_location() const
+{
+    // TODO: fix point types
+    return tripoint_abs_omt( ms_to_omt_copy( global_square_location() ) );
+}
+
+std::unique_ptr<talker> get_talker_for( Creature &me )
+{
+    if( me.is_monster() ) {
+        return std::make_unique<talker_monster>( static_cast<monster *>( &me ) );
+    } else if( me.is_npc() ) {
+        return std::make_unique<talker_npc>( static_cast<npc *>( &me ) );
+    } else if( me.is_avatar() ) {
+        return std::make_unique<talker_avatar>( static_cast<avatar *>( &me ) );
+    } else {
+        debugmsg( "Invalid creature type %s.", me.get_name() );
+        standard_npc default_npc( "Default" );
+        return get_talker_for( default_npc );
+    }
+}
+
+std::unique_ptr<talker> get_talker_for( Creature *me )
+{
+    if( me->is_monster() ) {
+        return std::make_unique<talker_monster>( static_cast<monster *>( me ) );
+    } else if( me->is_npc() ) {
+        return std::make_unique<talker_npc>( static_cast<npc *>( me ) );
+    } else if( me->is_avatar() ) {
+        return std::make_unique<talker_avatar>( static_cast<avatar *>( me ) );
+    } else {
+        debugmsg( "Invalid creature type %s.", me->get_name() );
+        standard_npc default_npc( "Default" );
+        return get_talker_for( default_npc );
+    }
 }
