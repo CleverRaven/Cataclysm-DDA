@@ -2429,6 +2429,8 @@ bool game::load( const save_t &name )
     }
 
     effect_on_conditions::load_existing_character();
+    // recalculate light level for correctly resuming crafting and disassembly
+    m.build_map_cache( m.get_abs_sub().z );
 
     return true;
 }

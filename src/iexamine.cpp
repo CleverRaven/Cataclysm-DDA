@@ -5955,7 +5955,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
         vehicle_stack items_at_part = part->vehicle().get_items( part->part_index() );
 
         for( item &it : items_at_part ) {
-            if( it.is_craft() && it.typeId() != itype_disassembly ) {
+            if( it.is_craft() ) {
                 crafts.emplace_back( item_location( vehicle_cursor( part->vehicle(), part->part_index() ), &it ) );
             }
         }
@@ -5969,7 +5969,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
         items_at_loc = !items_at_furn.empty();
 
         for( item &it : items_at_furn ) {
-            if( it.is_craft() && it.typeId() != itype_disassembly ) {
+            if( it.is_craft() ) {
                 crafts.emplace_back( item_location( map_cursor( examp ), &it ) );
             }
         }
@@ -5990,7 +5990,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
     amenu.addentry( start_craft,      true,            '1', _( "Craft items" ) );
     amenu.addentry( repeat_craft,     true,            '2', _( "Recraft last recipe" ) );
     amenu.addentry( start_long_craft, true,            '3', _( "Craft as long as possible" ) );
-    amenu.addentry( work_on_craft,    !crafts.empty(), '4', _( "Work on craft" ) );
+    amenu.addentry( work_on_craft,    !crafts.empty(), '4', _( "Work on craft or disassembly" ) );
     if( !part ) {
         amenu.addentry( get_items,    items_at_loc,    'g', _( "Get items" ) );
     }
@@ -6039,7 +6039,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
                     item_names.emplace_back( it.get_item()->tname() );
                 }
             }
-            uilist amenu2( _( "Which craft to work on?" ), item_names );
+            uilist amenu2( _( "Which craft or disassembly to work on?" ), item_names );
 
             if( amenu2.ret == UILIST_CANCEL ) {
                 break;
@@ -6047,23 +6047,31 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
 
             item *selected_craft = crafts[amenu2.ret].get_item();
 
-            if( !p.can_continue_craft( *selected_craft ) ) {
+            if( !selected_craft ) {
                 break;
             }
-            const recipe &rec = selected_craft->get_making();
-            const inventory &inv = p.crafting_inventory();
-            if( p.has_recipe( &rec, inv, p.get_crafting_helpers() ) == -1 ) {
+
+            if( selected_craft->typeId() == itype_disassembly ) {
+                p.disassemble( crafts[amenu2.ret], true );
+            } else {
+                if( !p.can_continue_craft( *selected_craft ) ) {
+                    break;
+                }
+                const recipe &rec = selected_craft->get_making();
+                const inventory &inv = p.crafting_inventory();
+                if( p.has_recipe( &rec, inv, p.get_crafting_helpers() ) == -1 ) {
+                    p.add_msg_player_or_npc(
+                        _( "You don't know the recipe for the %s and can't continue crafting." ),
+                        _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),
+                        rec.result_name() );
+                    break;
+                }
                 p.add_msg_player_or_npc(
-                    _( "You don't know the recipe for the %s and can't continue crafting." ),
-                    _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),
-                    rec.result_name() );
-                break;
+                    pgettext( "in progress craft", "You start working on the %s." ),
+                    pgettext( "in progress craft", "<npcname> starts working on the %s." ),
+                    selected_craft->tname() );
+                p.assign_activity( player_activity( craft_activity_actor( crafts[amenu2.ret], false ) ) );
             }
-            p.add_msg_player_or_npc(
-                pgettext( "in progress craft", "You start working on the %s." ),
-                pgettext( "in progress craft", "<npcname> starts working on the %s." ),
-                selected_craft->tname() );
-            p.assign_activity( player_activity( craft_activity_actor( crafts[amenu2.ret], false ) ) );
             break;
         }
         case get_items: {
