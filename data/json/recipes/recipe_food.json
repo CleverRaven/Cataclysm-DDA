@@ -6763,7 +6763,7 @@
         [ "seed_dahlia", 60 ],
         [ "seed_flower", 60 ],
         [ "seed_cactus", 60 ],
-        [ "seed_hops", 8 ],
+        [ "seed_hops", 3 ],
         [ "seed_raspberries", 60 ],
         [ "seed_strawberries", 60 ],
         [ "seed_barley", 12 ],
