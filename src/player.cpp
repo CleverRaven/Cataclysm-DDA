@@ -556,7 +556,7 @@ void player::pause()
     if( has_effect( effect_onfire ) ) {
         time_duration total_removed = 0_turns;
         time_duration total_left = 0_turns;
-        bool on_ground = has_effect( effect_downed );
+        bool on_ground = is_prone();
         for( const bodypart_id &bp : get_all_body_parts() ) {
             effect &eff = get_effect( effect_onfire, bp );
             if( eff.is_null() ) {

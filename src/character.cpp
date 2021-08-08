@@ -1029,7 +1029,8 @@ int Character::swim_speed() const
 
 bool Character::is_on_ground() const
 {
-    return get_working_leg_count() < 2 || has_effect( effect_downed );
+    return ( ( get_working_leg_count() < 2 && !weapon.has_flag( flag_CRUTCHES ) ) ) ||
+           has_effect( effect_downed ) || is_prone();
 }
 
 bool Character::can_stash( const item &it )
@@ -1915,6 +1916,11 @@ bool Character::is_walking() const
 bool Character::is_crouching() const
 {
     return move_mode->type() == move_mode_type::CROUCHING;
+}
+
+bool Character::is_prone() const
+{
+    return move_mode->type() == move_mode_type::PRONE;
 }
 
 steed_type Character::get_steed_type() const
@@ -10018,7 +10024,7 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
             source->add_effect( effect_blind, 2_turns );
         }
     }
-    if( worn_with_flag( flag_REQUIRES_BALANCE ) && !has_effect( effect_downed ) ) {
+    if( worn_with_flag( flag_REQUIRES_BALANCE ) && !is_on_ground() ) {
         int rolls = 4;
         if( worn_with_flag( flag_ROLLER_ONE ) ) {
             rolls += 2;
