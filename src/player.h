@@ -107,29 +107,6 @@ class player : public Character
 
         void pause(); // '.' command; pauses & resets recoil
 
-        /** Returns true if a gun misfires, jams, or has other problems, else returns false */
-        bool handle_gun_damage( item &it );
-
-        /** How many moves does it take to aim gun to the target accuracy. */
-        int gun_engagement_moves( const item &gun, int target = 0, int start = MAX_RECOIL ) const;
-
-        /**
-         *  Fires a gun or auxiliary gunmod (ignoring any current mode)
-         *  @param target where the first shot is aimed at (may vary for later shots)
-         *  @param shots maximum number of shots to fire (less may be fired in some circumstances)
-         *  @return number of shots actually fired
-         */
-
-        int fire_gun( const tripoint &target, int shots = 1 );
-        /**
-         *  Fires a gun or auxiliary gunmod (ignoring any current mode)
-         *  @param target where the first shot is aimed at (may vary for later shots)
-         *  @param shots maximum number of shots to fire (less may be fired in some circumstances)
-         *  @param gun item to fire (which does not necessary have to be in the players possession)
-         *  @return number of shots actually fired
-         */
-        int fire_gun( const tripoint &target, int shots, item &gun );
-
         /**
          * Checks both the neighborhoods of from and to for climbable surfaces,
          * returns move cost of climbing from `from` to `to`.
