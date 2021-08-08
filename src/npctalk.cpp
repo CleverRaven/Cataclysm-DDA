@@ -2354,6 +2354,8 @@ void talk_effect_fun_t::set_add_morale( const JsonObject &jo, const std::string 
     std::string new_type = jo.get_string( member );
     int_or_var iov_bonus = get_variable_or_int( jo, "bonus" );
     int_or_var iov_max_bonus = get_variable_or_int( jo, "max_bonus" );
+    time_duration duration;
+    time_duration decay_start;
     optional( jo, "false", "duration", duration, 1_hours );
     optional( jo, "false", "decay_start", decay_start, 30_minutes );
     const bool capped = jo.get_bool( "capped", false );
