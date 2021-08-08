@@ -48,7 +48,8 @@ static const efftype_id effect_currently_busy( "currently_busy" );
 std::string get_talk_varname( const JsonObject &jo, const std::string &member, bool check_value )
 {
     if( !jo.has_string( "type" ) || !jo.has_string( "context" ) ||
-        ( check_value && !( jo.has_string( "value" ) || jo.has_member( "time" ) ) ) ) {
+        ( check_value && !( jo.has_string( "value" ) || jo.has_member( "time" ) ||
+                            jo.has_array( "possible_values" ) ) ) ) {
         jo.throw_error( "invalid " + member + " condition in " + jo.str() );
     }
     const std::string &var_basename = jo.get_string( member );

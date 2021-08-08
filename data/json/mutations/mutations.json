@@ -7054,17 +7054,17 @@
     "type": "mutation",
     "id": "FAST_REFLEXES",
     "name": { "str": "Fast Reflexes" },
-    "points": 3,
-    "description": "You have fast reflexes, allowing you to dodge attacks and grabs more easily.",
+    "points": 2,
+    "description": "You have fast reflexes, allowing you to dodge attacks more easily.",
     "starting_trait": true,
-    "dodge_modifier": 2
+    "dodge_modifier": 3
   },
   {
     "type": "mutation",
     "id": "HAS_NEMESIS",
     "name": { "str": "Hunted" },
     "points": -2,
-    "description": "Since the start of the Cataclysm, something has been hunting you relentlessly. You can outrun it, but it always seems to find you eventually. The only escape is for one of you to die.",
+    "description": "Since the start of the Cataclysm, something has been hunting you relentlessly.  You can outrun it, but it always seems to find you eventually.  The only escape is for one of you to die.",
     "starting_trait": true
   }
 ]

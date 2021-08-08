@@ -2395,10 +2395,12 @@ std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonIn &jsi
     return actor.clone();
 }
 
-void try_sleep_activity_actor::start( player_activity &act, Character &/*who*/ )
+void try_sleep_activity_actor::start( player_activity &act, Character &who )
 {
     act.moves_total = to_moves<int>( duration );
     act.moves_left = act.moves_total;
+    who.set_movement_mode( move_mode_id( "prone" ) );
+    who.add_msg_if_player( _( "You lie down preparing to fall asleep." ) );
 }
 
 void try_sleep_activity_actor::do_turn( player_activity &act, Character &who )
@@ -2429,6 +2431,7 @@ void try_sleep_activity_actor::finish( player_activity &act, Character &who )
     if( !who.has_effect( effect_sleep ) ) {
         who.add_msg_if_player( _( "You try to sleep, but can't." ) );
     }
+    who.set_movement_mode( move_mode_id( "walk" ) );
 }
 
 void try_sleep_activity_actor::query_keep_trying( player_activity &act, Character &who )
@@ -2883,6 +2886,9 @@ std::unique_ptr<activity_actor> craft_activity_actor::deserialize( JsonIn &jsin 
     data.read( "long", tmp_long );
 
     craft_activity_actor actor = craft_activity_actor( tmp_item_loc, tmp_long );
+    if( actor.craft_item ) {
+        actor.activity_override = actor.craft_item->get_making().exertion_level();
+    }
 
     return actor.clone();
 }
@@ -4086,12 +4092,8 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
         return;
     }
 
-    // We already checked if this is nullptr above
-    item *craft = target.get_item();
-    double counter = craft->item_counter;
-
-    act.moves_left = moves_total - ( counter / 10'000'000.0 ) * moves_total;
-    act.moves_total = moves_total;
+    act.moves_left = calendar::INDEFINITELY_LONG;
+    activity_override = target->get_making().exertion_level();
 }
 
 void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
@@ -4102,27 +4104,53 @@ void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
     }
 
     // We already checked if this is nullptr above
-    item *craft = target.get_item();
+    item &craft = *target;
 
-    double moves_left = act.moves_left;
-    double moves_total = act.moves_total;
-    // Current progress as a percent of base_total_moves to 2 decimal places
-    craft->item_counter = std::round( ( moves_total - moves_left ) / moves_total * 10'000'000.0 );
-}
+    const cata::optional<tripoint> location = target.where() == item_location::type::character
+            ? cata::optional<tripoint>() : cata::optional<tripoint>( target.position() );
+    const float crafting_speed = who.crafting_speed_multiplier( craft, location );
 
-void disassemble_activity_actor::finish( player_activity &act, Character &who )
-{
-    if( !check_if_disassemble_okay( target, who ) ) {
-        act.set_to_null();
+    if( crafting_speed <= 0.0f ) {
+        who.cancel_activity();
         return;
     }
-    who.complete_disassemble( target );
+
+    const int spent_moves = who.get_moves() * who.exertion_adjusted_move_multiplier( exertion_level() );
+    craft.item_counter += std::round( spent_moves * crafting_speed * 10'000'000.0 / moves_total );
+    who.set_moves( 0 );
+
+    craft.item_counter = std::min( craft.item_counter, 10'000'000 );
+
+    if( craft.item_counter >= 10'000'000 ) {
+        who.complete_disassemble( target );
+        who.cancel_activity();
+    }
+}
+
+void disassemble_activity_actor::finish( player_activity &act, Character & )
+{
+    act.set_to_null();
+}
+
+float disassemble_activity_actor::exertion_level() const
+{
+    return activity_override;
+}
+
+std::string disassemble_activity_actor::get_progress_message( const player_activity & ) const
+{
+    if( !target ) {
+        // We have somehow lost the disassembly item.  This will be handled in do_turn in the check_if_disassemble_okay call.
+        return "";
+    }
+    return target->tname();
 }
 
 void disassemble_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
+    jsout.member( "target", target );
     jsout.member( "moves_total", moves_total );
 
     jsout.end_object();
@@ -4134,7 +4162,11 @@ std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonIn 
 
     JsonObject data = jsin.get_object();
 
+    data.read( "target", actor.target );
     data.read( "moves_total", actor.moves_total );
+    if( actor.target ) {
+        actor.activity_override = actor.target->get_making().exertion_level();
+    }
 
     return actor.clone();
 }

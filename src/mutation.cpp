@@ -1330,34 +1330,62 @@ bool Character::has_conflicting_trait( const trait_id &flag ) const
              has_same_type_trait( flag ) );
 }
 
+std::unordered_set<trait_id> Character::get_conflicting_traits( const trait_id &flag ) const
+{
+    std::unordered_set<trait_id> traits;
+    return traits
+           << get_opposite_traits( flag )
+           << get_lower_traits( flag )
+           << get_higher_traits( flag )
+           << get_same_type_traits( flag );
+}
+
 bool Character::has_lower_trait( const trait_id &flag ) const
 {
+    return !get_lower_traits( flag ).empty();
+}
+
+std::unordered_set<trait_id> Character::get_lower_traits( const trait_id &flag ) const
+{
+    std::unordered_set<trait_id> traits;
     for( const trait_id &i : flag->prereqs ) {
         if( has_trait( i ) || has_lower_trait( i ) ) {
-            return true;
+            traits.insert( i );
         }
     }
-    return false;
+    return traits;
 }
 
 bool Character::has_higher_trait( const trait_id &flag ) const
 {
-    for( const auto &i : flag->replacements ) {
+    return !get_higher_traits( flag ).empty();
+}
+
+std::unordered_set<trait_id> Character::get_higher_traits( const trait_id &flag ) const
+{
+    std::unordered_set<trait_id> traits;
+    for( const trait_id &i : flag->replacements ) {
         if( has_trait( i ) || has_higher_trait( i ) ) {
-            return true;
+            traits.insert( i );
         }
     }
-    return false;
+    return traits;
 }
 
 bool Character::has_same_type_trait( const trait_id &flag ) const
 {
+    return !get_same_type_traits( flag ).empty();
+}
+
+std::unordered_set<trait_id> Character::get_same_type_traits( const trait_id &flag ) const
+{
+    std::unordered_set<trait_id> traits;
     for( auto &i : get_mutations_in_types( flag->types ) ) {
         if( has_trait( i ) && flag != i ) {
-            return true;
+            traits.insert( i );
         }
     }
-    return false;
+    return traits;
 }
 
 bool Character::purifiable( const trait_id &flag ) const

@@ -118,37 +118,6 @@ class player : public Character
 
         void pause(); // '.' command; pauses & resets recoil
 
-        // melee.cpp
-
-        /** Returns true if a gun misfires, jams, or has other problems, else returns false */
-        bool handle_gun_damage( item &it );
-
-        /** Get maximum recoil penalty due to vehicle motion */
-        double recoil_vehicle() const;
-
-        /** Current total maximum recoil penalty from all sources */
-        double recoil_total() const;
-
-        /** How many moves does it take to aim gun to the target accuracy. */
-        int gun_engagement_moves( const item &gun, int target = 0, int start = MAX_RECOIL ) const;
-
-        /**
-         *  Fires a gun or auxiliary gunmod (ignoring any current mode)
-         *  @param target where the first shot is aimed at (may vary for later shots)
-         *  @param shots maximum number of shots to fire (less may be fired in some circumstances)
-         *  @return number of shots actually fired
-         */
-
-        int fire_gun( const tripoint &target, int shots = 1 );
-        /**
-         *  Fires a gun or auxiliary gunmod (ignoring any current mode)
-         *  @param target where the first shot is aimed at (may vary for later shots)
-         *  @param shots maximum number of shots to fire (less may be fired in some circumstances)
-         *  @param gun item to fire (which does not necessary have to be in the players possession)
-         *  @return number of shots actually fired
-         */
-        int fire_gun( const tripoint &target, int shots, item &gun );
-
         /**
          * Checks both the neighborhoods of from and to for climbable surfaces,
          * returns move cost of climbing from `from` to `to`.
@@ -158,9 +127,6 @@ class player : public Character
         int climbing_cost( const tripoint &from, const tripoint &to ) const;
 
         // ranged.cpp
-        /** Execute a throw */
-        dealt_projectile_attack throw_item( const tripoint &target, const item &to_throw,
-                                            const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
 
         /**
          * Check if a given body part is immune to a given damage type
@@ -231,11 +197,6 @@ class player : public Character
 
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
         template <typename T> bool can_lift( const T &obj ) const;
-        /**
-         * Check player capable of taking off an item.
-         * @param it Thing to be taken off
-         */
-        ret_val<bool> can_takeoff( const item &it, const std::list<item> *res = nullptr );
 
         /**
          * Attempt to mend an item (fix any current faults)
@@ -288,9 +249,6 @@ class player : public Character
         /** Uses the current wielded weapon */
         void use_wielded();
 
-        /** Reassign letter. */
-        void reassign_item( item &it, int invlet );
-
         /**
          * Starts activity to remove gunmod after unloading any contained ammo.
          * Returns true on success (activity has been started)
@@ -299,9 +257,6 @@ class player : public Character
 
         /** Starts activity to install gunmod having warned user about any risk of failure or irremovable mods s*/
         void gunmod_add( item &gun, item &mod );
-
-        /** @return Odds for success (pair.first) and gunmod damage (pair.second) */
-        std::pair<int, int> gunmod_installation_odds( const item &gun, const item &mod ) const;
 
         /** Starts activity to install toolmod */
         void toolmod_add( item_location tool, item_location mod );

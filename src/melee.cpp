@@ -487,6 +487,16 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                                        const matec_id &force_technique,
                                        bool allow_unarmed )
 {
+    if( get_working_leg_count() < 2 ) {
+        if( !movement_mode_is( move_mode_id( "prone" ) ) ) {
+            add_msg_if_player( m_bad, _( "Your broken legs cannot hold you and you fall down." ) );
+            set_movement_mode( move_mode_id( "prone" ) );
+        } else if( is_on_ground() ) {
+            add_msg_if_player( m_warning, _( "You cannot fight while on the ground." ) );
+        }
+        return false;
+    }
+
     melee::melee_stats.attack_count += 1;
     int hit_spread = t.deal_melee_attack( this, hit_roll() );
     if( !t.is_avatar() ) {

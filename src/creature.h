@@ -21,6 +21,7 @@
 #include "location.h"
 #include "pimpl.h"
 #include "string_formatter.h"
+#include "talker.h"
 #include "type_id.h"
 #include "units_fwd.h"
 #include "viewer.h"
@@ -1186,6 +1187,19 @@ class Creature : public location, public viewer
          *
          */
         std::string replace_with_npc_name( std::string input ) const;
+        /**
+         * Global position, expressed in map square coordinate system
+         * (the most detailed coordinate system), used by the @ref map.
+         */
+        virtual tripoint global_square_location() const;
+        /**
+        * Returns the location of the player in global submap coordinates.
+        */
+        tripoint global_sm_location() const;
+        /**
+        * Returns the location of the player in global overmap terrain coordinates.
+        */
+        tripoint_abs_omt global_omt_location() const;
     protected:
         /**
          * These two functions are responsible for storing and loading the members
@@ -1228,5 +1242,6 @@ class Creature : public location, public viewer
         void messaging_projectile_attack( const Creature *source,
                                           const projectile_attack_results &hit_selection, int total_damage ) const;
 };
-
+std::unique_ptr<talker> get_talker_for( Creature &me );
+std::unique_ptr<talker> get_talker_for( Creature *me );
 #endif // CATA_SRC_CREATURE_H
