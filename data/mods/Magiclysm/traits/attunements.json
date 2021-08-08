@@ -586,7 +586,7 @@
     "prereqs": [ "KELVINIST", "TECHNOMANCER" ],
     "passive_mods": { "int_mod": 5 },
     "casting_time_multiplier": 0.75,
-    "spells_learned": [ [ "overaccelerate", 5 ] ],
+    "spells_learned": [ [ "overaccelerate", 5 ], [ "overclocker_drive", 5 ] ],
     "cancels": [
       "ARTIFICER",
       "ALCHEMIST",

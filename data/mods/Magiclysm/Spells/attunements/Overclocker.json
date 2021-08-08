@@ -28,5 +28,26 @@
     "energy_source": "MANA",
     "difficulty": 8,
     "damage_type": "heat"
+  },
+  {
+    "id": "overclocker_drive",
+    "type": "SPELL",
+    "name": "Overdrive",
+    "description": "The powers of the mana flow into the mage, heightening his speed to supernatural levels in selfdestructive way.  A blur is he amongst his enemies, felling the enemies with blows too swift to see.",
+    "valid_targets": [ "self" ],
+    "flags": [ "NO_HANDS", "NO_LEGS", "SILENT" ],
+    "effect": "attack",
+    "shape": "blast",
+    "effect_str": "overclocker_drive_effect",
+    "max_damage": 1,
+    "min_duration": 1000,
+    "max_duration": 150000,
+    "duration_increment": 4300,
+    "spell_class": "OVERCLOCKER",
+    "difficulty": 9,
+    "max_level": 35,
+    "base_casting_time": 600,
+    "base_energy_cost": 900,
+    "energy_source": "MANA"
   }
 ]
