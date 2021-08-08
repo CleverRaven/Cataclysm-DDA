@@ -415,6 +415,9 @@ struct vehicle_part {
         /** parts are considered broken at zero health */
         bool is_broken() const;
 
+        /** Is this an enabled autoclave, dishwasher, or washing machine? */
+        bool is_cleaner_on() const;
+
         /** parts are unavailable if broken or if carried is true, if they have the CARRIED flag */
         bool is_unavailable( bool carried = true ) const;
         /** parts are available if they aren't unavailable */
@@ -456,9 +459,11 @@ struct vehicle_part {
     private:
         /** What type of part is this? */
         vpart_id id;
+    public:
         /** If it's a part with variants, which variant it is */
         std::string variant;
 
+    private:
         /** As a performance optimization we cache the part information here on first lookup */
         mutable const vpart_info *info_cache = nullptr;
 
@@ -605,6 +610,17 @@ struct label : public point {
 
     void deserialize( JsonIn &jsin );
     void serialize( JsonOut &json ) const;
+};
+
+enum class autodrive_result : int {
+    // the driver successfully performed course correction or simply did nothing
+    // in order to keep going forward
+    ok,
+    // something bad happened (navigation error, crash, loss of visibility, or just
+    // couldn't find a way around obstacles) and autodrive cannot continue
+    abort,
+    // arrived at the destination
+    finished
 };
 
 class RemovePartHandler;
@@ -768,8 +784,14 @@ class vehicle
     public:
         explicit vehicle( const vproto_id &type_id, int init_veh_fuel = -1, int init_veh_status = -1 );
         vehicle();
+        vehicle( const vehicle & ) = delete;
         ~vehicle();
+        vehicle &operator=( vehicle && ) = default;
 
+    private:
+        vehicle &operator=( const vehicle & ) = default;
+
+    public:
         /** Disable or enable refresh() ; used to speed up performance when creating a vehicle */
         void suspend_refresh();
         void enable_refresh();
@@ -862,8 +884,10 @@ class vehicle
         tripoint get_autodrive_target() {
             return autodrive_local_target;
         }
-        void do_autodrive();
-        void stop_autodriving();
+        // Drive automatically towards some destination for one turn.
+        autodrive_result do_autodrive( Character &driver );
+        // Stop any kind of automatic vehicle control and apply the brakes.
+        void stop_autodriving( bool apply_brakes = true );
         /**
          *  Operate vehicle controls
          *  @param pos location of physical controls to operate (ignored during remote operation)
@@ -907,7 +931,8 @@ class vehicle
                           const std::string &variant = "", bool force = false );
 
         // find a single tile wide vehicle adjacent to a list of part indices
-        bool try_to_rack_nearby_vehicle( std::vector<std::vector<int>> &list_of_racks );
+        bool try_to_rack_nearby_vehicle( std::vector<std::vector<int>> &list_of_racks,
+                                         bool do_not_rack = false );
         // merge a previously found single tile vehicle into this vehicle
         bool merge_rackable_vehicle( vehicle *carry_veh, const std::vector<int> &rack_parts );
 
@@ -1083,10 +1108,6 @@ class vehicle
         // Translate mount coordinates "p" into tile coordinates "q" using given tileray and anchor
         // should be faster than previous call for repeated translations
         void coord_translate( tileray tdir, const point &pivot, const point &p, tripoint &q ) const;
-
-        // Rotates mount coordinates "p" from old_dir to new_dir along pivot
-        point rotate_mount( units::angle old_dir, units::angle new_dir, const point &pivot,
-                            const point &p ) const;
 
         tripoint mount_to_tripoint( const point &mount ) const;
         tripoint mount_to_tripoint( const point &mount, const point &offset ) const;
@@ -1481,7 +1502,7 @@ class vehicle
         /**
          * vehicle is driving itself
          */
-        void autodrive( const point & );
+        void selfdrive( const point & );
         /**
          * can the helicopter descend/ascend here?
          */
@@ -1493,7 +1514,7 @@ class vehicle
          * @param p direction player is steering
          * @param z for vertical movement - e.g helicopters
          */
-        void pldrive( const point &p, int z = 0 );
+        void pldrive( Character &driver, const point &p, int z = 0 );
 
         // stub for per-vpart limit
         units::volume max_volume( int part ) const;
@@ -1780,6 +1801,7 @@ class vehicle
         void use_dishwasher( int p );
         void use_monster_capture( int part, const tripoint &pos );
         void use_bike_rack( int part );
+        void clear_bike_racks( std::vector<int> &racks );
         void use_harness( int part, const tripoint &pos );
 
         void interact_with( const vpart_position &vp );
@@ -1829,8 +1851,7 @@ class vehicle
         int part_count() const;
         // Returns the vehicle_part with the given part number
         vehicle_part &part( int part_num );
-        // Same as vehicle::part() except with const binding
-        const vehicle_part &cpart( int part_num ) const;
+        const vehicle_part &part( int part_num ) const;
         // Determines whether the given part_num is valid for this vehicle
         bool valid_part( int part_num ) const;
         // Forcibly removes a part from this vehicle. Only exists to support faction_camp.cpp
@@ -1843,7 +1864,6 @@ class vehicle
         // make sure the vehicle is supported across z-levels or on the same z-level
         bool level_vehicle();
 
-        std::vector<tripoint_abs_omt> omt_path; // route for overmap-scale auto-driving
         std::vector<int> alternators;      // List of alternator indices
         std::vector<int> engines;          // List of engine indices
         std::vector<int> reactors;         // List of reactor indices
@@ -1907,6 +1927,8 @@ class vehicle
         mutable point mass_center_precalc;
         mutable point mass_center_no_precalc;
         tripoint autodrive_local_target = tripoint_zero; // current node the autopilot is aiming for
+        class autodrive_controller;
+        std::shared_ptr<autodrive_controller> active_autodrive_controller;
 
     public:
         // Subtract from parts.size() to get the real part count.
@@ -2008,6 +2030,7 @@ class vehicle
 
     public:
         bool is_on_ramp = false;
+        // vehicle being driven by player/npc automatically
         bool is_autodriving = false;
         bool is_following = false;
         bool is_patrolling = false;
@@ -2044,6 +2067,10 @@ class vehicle
 
         // destination for exhaust emissions
         tripoint exhaust_dest( int part ) const;
+
+        // Returns debug data to overlay on the screen, a vector of {map tile position
+        // relative to vehicle pos, color and text}.
+        std::vector<std::tuple<point, int, std::string>> get_debug_overlay_data() const;
 };
 
 #endif // CATA_SRC_VEHICLE_H

@@ -97,7 +97,7 @@ struct activity_reason_info {
     }
 };
 
-int butcher_time_to_cut( const player &u, const item &corpse_item, butcher_type action );
+int butcher_time_to_cut( player &u, const item &corpse_item, butcher_type action );
 
 // activity_item_handling.cpp
 void activity_on_turn_drop();
@@ -148,6 +148,7 @@ void eat_menu_do_turn( player_activity *act, player *p );
 void consume_food_menu_do_turn( player_activity *act, player *p );
 void consume_drink_menu_do_turn( player_activity *act, player *p );
 void consume_meds_menu_do_turn( player_activity *act, player *p );
+void consume_fuel_menu_do_turn( player_activity *act, player *p );
 void move_items_do_turn( player_activity *act, player *p );
 void multiple_farm_do_turn( player_activity *act, player *p );
 void multiple_fish_do_turn( player_activity *act, player *p );
@@ -181,7 +182,6 @@ void robot_control_do_turn( player_activity *act, player *p );
 void tree_communion_do_turn( player_activity *act, player *p );
 void spellcasting_do_turn( player_activity *act, player *p );
 void study_spell_do_turn( player_activity *act, player *p );
-void read_do_turn( player_activity *act, player *p );
 void wait_stamina_do_turn( player_activity *act, player *p );
 
 // defined in activity_handlers.cpp
@@ -211,8 +211,6 @@ void gunmod_add_finish( player_activity *act, player *p );
 void toolmod_add_finish( player_activity *act, player *p );
 void clear_rubble_finish( player_activity *act, player *p );
 void heat_item_finish( player_activity *act, player *p );
-void meditate_finish( player_activity *act, player *p );
-void read_finish( player_activity *act, player *p );
 void wait_finish( player_activity *act, player *p );
 void wait_weather_finish( player_activity *act, player *p );
 void wait_npc_finish( player_activity *act, player *p );
@@ -231,9 +229,6 @@ void chop_logs_finish( player_activity *act, player *p );
 void chop_planks_finish( player_activity *act, player *p );
 void jackhammer_finish( player_activity *act, player *p );
 void fill_pit_finish( player_activity *act, player *p );
-void play_with_pet_finish( player_activity *act, player *p );
-void shaving_finish( player_activity *act, player *p );
-void haircut_finish( player_activity *act, player *p );
 void robot_control_finish( player_activity *act, player *p );
 void mind_splicer_finish( player_activity *act, player *p );
 void spellcasting_finish( player_activity *act, player *p );

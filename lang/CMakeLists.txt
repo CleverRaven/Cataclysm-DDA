@@ -8,7 +8,7 @@ if (NOT GETTEXT_FOUND)
     message(FATAL_ERROR
             "Gettext not found. Install gettext package or disable \
              localization with \"-DLOCALIZE=OFF\". \
-             See INSTALL file for details and more info.")
+             See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
 endif ()
 
 foreach (LANG ${LANGUAGES})

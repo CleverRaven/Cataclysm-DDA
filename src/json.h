@@ -189,18 +189,15 @@ class JsonIn
         shared_ptr_fast<std::string> path;
         bool ate_separator = false;
 
+        void sanity_check_stream();
         void skip_separator();
         void skip_pair_separator();
         void end_value();
 
     public:
-        explicit JsonIn( std::istream &s ) : stream( &s ) {}
-        JsonIn( std::istream &s, const std::string &path )
-            : stream( &s ), path( make_shared_fast<std::string>( path ) ) {}
-        JsonIn( std::istream &s, const json_source_location &loc )
-            : stream( &s ), path( loc.path ) {
-            seek( loc.offset );
-        }
+        explicit JsonIn( std::istream &s );
+        JsonIn( std::istream &s, const std::string &path );
+        JsonIn( std::istream &s, const json_source_location &loc );
         JsonIn( const JsonIn & ) = delete;
         JsonIn &operator=( const JsonIn & ) = delete;
 
@@ -283,6 +280,7 @@ class JsonIn
         // optionally-fatal reading into values by reference
         // returns true if the data was read successfully, false otherwise
         // if throw_on_error then throws JsonError rather than returning false.
+        bool read_null( bool throw_on_error = false );
         bool read( bool &b, bool throw_on_error = false );
         bool read( char &c, bool throw_on_error = false );
         bool read( signed char &c, bool throw_on_error = false );
@@ -466,7 +464,11 @@ class JsonIn
                 while( !end_array() ) {
                     typename T::value_type element;
                     if( read( element, throw_on_error ) ) {
-                        v.insert( std::move( element ) );
+                        if( !v.insert( std::move( element ) ).second ) {
+                            return error_or_false(
+                                       throw_on_error,
+                                       "Duplicate entry in set defined by json array" );
+                        }
                     } else {
                         skip_value();
                     }
@@ -1171,6 +1173,7 @@ class JsonArray
         [[noreturn]] void string_error( const std::string &err, int idx, int offset );
 
         // iterative access
+        JsonValue next();
         bool next_bool();
         int next_int();
         double next_float();
@@ -1441,7 +1444,9 @@ Res JsonArray::get_tags( const size_t index ) const
     }
 
     for( const std::string line : jsin->get_array() ) {
-        res.insert( T( line ) );
+        if( !res.insert( T( line ) ).second ) {
+            jsin->error( "duplicate item in set defined by json array" );
+        }
     }
 
     return res;
@@ -1466,7 +1471,9 @@ Res JsonObject::get_tags( const std::string &name ) const
 
     // otherwise assume it's an array and error if it isn't.
     for( const std::string line : jsin->get_array() ) {
-        res.insert( T( line ) );
+        if( !res.insert( T( line ) ).second ) {
+            jsin->error( "duplicate item in set defined by json array" );
+        }
     }
 
     return res;
@@ -1559,7 +1566,7 @@ void serialize( const cata::optional<T> &obj, JsonOut &jsout )
 template<typename T>
 void deserialize( cata::optional<T> &obj, JsonIn &jsin )
 {
-    if( jsin.test_null() ) {
+    if( jsin.read_null() ) {
         obj.reset();
     } else {
         obj.emplace();

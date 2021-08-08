@@ -7,6 +7,7 @@
 #include "output.h"
 #include "point.h"
 #include "translations.h"
+#include "try_parse_integer.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "uistate.h"
@@ -283,14 +284,31 @@ void string_input_popup::query( const bool loop, const bool draw_only )
     query_string( loop, draw_only );
 }
 
+template<typename T>
+T query_int_impl( string_input_popup &p, const bool loop, const bool draw_only )
+{
+    do {
+        ret_val<T> result = try_parse_integer<T>( p.query_string( loop, draw_only ), true );
+        if( p.canceled() ) {
+            return 0;
+        }
+        if( result.success() ) {
+            return result.value();
+        }
+        popup( result.str() );
+    } while( loop );
+
+    return 0;
+}
+
 int string_input_popup::query_int( const bool loop, const bool draw_only )
 {
-    return std::atoi( query_string( loop, draw_only ).c_str() );
+    return query_int_impl<int>( *this, loop, draw_only );
 }
 
 int64_t string_input_popup::query_int64_t( const bool loop, const bool draw_only )
 {
-    return std::atoll( query_string( loop, draw_only ).c_str() );
+    return query_int_impl<int64_t>( *this, loop, draw_only );
 }
 
 const std::string &string_input_popup::query_string( const bool loop, const bool draw_only )
@@ -421,7 +439,8 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
             } else {
                 _handled = false;
             }
-        } else if( ch == KEY_DOWN || ch == KEY_NPAGE || ch == KEY_PPAGE || ch == KEY_BTAB || ch == 9 ) {
+            // NOLINTNEXTLINE(bugprone-branch-clone)
+        } else if( ch == KEY_NPAGE || ch == KEY_PPAGE || ch == KEY_BTAB || ch == '\t' ) {
             _handled = false;
         } else if( ch == KEY_RIGHT ) {
             if( _position + 1 <= static_cast<int>( ret.size() ) ) {
@@ -535,25 +554,35 @@ void string_input_popup::edit( std::string &value )
     }
 }
 
+template<typename T>
+static void edit_integer( string_input_popup &p, T &value )
+{
+    p.only_digits( true );
+    while( true ) {
+        p.text( std::to_string( value ) );
+        p.query();
+        if( p.canceled() ) {
+            break;
+        }
+        ret_val<T> parsed_val = try_parse_integer<T>( p.text(), true );
+        if( parsed_val.success() ) {
+            value = parsed_val.value();
+            break;
+        } else {
+            popup( parsed_val.str() );
+        }
+    }
+}
+
 // NOLINTNEXTLINE(cata-no-long)
 void string_input_popup::edit( long &value )
 {
-    only_digits( true );
-    text( std::to_string( value ) );
-    query();
-    if( !canceled() ) {
-        value = std::atol( text().c_str() );
-    }
+    edit_integer<long>( *this, value );
 }
 
 void string_input_popup::edit( int &value )
 {
-    only_digits( true );
-    text( std::to_string( value ) );
-    query();
-    if( !canceled() ) {
-        value = std::atoi( text().c_str() );
-    }
+    edit_integer<int>( *this, value );
 }
 
 string_input_popup &string_input_popup::text( const std::string &value )

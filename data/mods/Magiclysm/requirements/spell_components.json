@@ -37,7 +37,7 @@
     "//": "Weapon materials and 1000 energy from blood suitable for the Decaying Boneclub spell",
     "components": [
       [ [ "bone", 3 ], [ "bone_demihuman", 3 ], [ "bone_human", 3 ], [ "bone_tainted", 6 ] ],
-      [ [ "blood", 4 ], [ "tainted_blood", 200 ], [ "dragon_blood", 20 ] ]
+      [ [ "blood", 4 ], [ "blood_tainted", 200 ], [ "dragon_blood", 20 ] ]
     ]
   },
   {
@@ -78,5 +78,20 @@
     "type": "requirement",
     "//": "Empower your chilling touch spell with the power of ice cream!",
     "components": [ [ [ "icecream_choc", 1 ], [ "icecream", 1 ], [ "icecream_fruit", 1 ], [ "icecream_candy", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_manabomb",
+    "type": "requirement",
+    "components": [ [ [ "potion_starter", 3 ] ], [ [ "rune_technomancer", 1 ] ] ]
+  },
+  {
+    "id": "spell_components_manatrap",
+    "type": "requirement",
+    "components": [ [ [ "potion_starter", 6 ], [ "alchemist_bomb", 2 ] ], [ [ "rune_technomancer", 2 ] ] ]
+  },
+  {
+    "id": "spell_components_samsara",
+    "type": "requirement",
+    "components": [ [ [ "rune_druid", 1 ] ] ]
   }
 ]

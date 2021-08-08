@@ -44,6 +44,7 @@ class item_pocket
             MOD, // the gunmods or toolmods
             CORPSE, // the "corpse" pocket - bionics embedded in a corpse
             SOFTWARE, // software put into usb or some such
+            EBOOK, // holds electronic books for a device or usb
             MIGRATION, // this allows items to load contents that are too big, in order to spill them later.
             LAST
         };
@@ -87,6 +88,11 @@ class item_pocket
                 void whitelist_item( const itype_id &id );
                 void blacklist_item( const itype_id &id );
                 void clear_item( const itype_id &id );
+
+                const cata::flat_set<itype_id> &get_item_whitelist() const;
+                const cata::flat_set<itype_id> &get_item_blacklist() const;
+                const cata::flat_set<item_category_id> &get_category_whitelist() const;
+                const cata::flat_set<item_category_id> &get_category_blacklist() const;
 
                 void whitelist_category( const item_category_id &id );
                 void blacklist_category( const item_category_id &id );

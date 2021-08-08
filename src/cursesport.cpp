@@ -233,7 +233,8 @@ static inline int fill( const char *&fmt, int &len, std::string &target )
         if( cw > 0 && dlen > 0 ) {
             // Stop at the *second* non-zero-width character
             break;
-        } else if( cw == -1 && start == fmt ) {
+        }
+        if( cw == -1 && start == fmt ) {
             // First char is a control character: they only disturb the screen,
             // so replace it with a single space (e.g. instead of a '\t').
             // Newlines at the begin of a sequence are handled in printstring

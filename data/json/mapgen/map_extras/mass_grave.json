@@ -35,7 +35,7 @@
         " cccccccccccccccccccccc ",
         "                        "
       ],
-      "terrain": { "a": "t_pit_corpsed", "b": "t_fence_post", "c": "t_fence_barbed" },
+      "terrain": { "a": [ "t_pit_corpsed" ], "b": [ "t_fence_post" ], "c": [ "t_fence_barbed" ] },
       "furniture": {  },
       "place_loot": [
         { "group": "everyday_corpse", "x": [ 4, 4 ], "y": [ 8, 8 ] },

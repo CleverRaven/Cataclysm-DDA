@@ -621,8 +621,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
-    "initial_charges": 2000,
-    "max_charges": 2000,
     "charges_per_use": 1,
     "pocket_data": [
       {
@@ -639,7 +637,7 @@
       "power": 90100,
       "distance_factor": 0.5,
       "fire": true,
-      "shrapnel": { "casing_mass": 200, "fragment_mass": 1, "recovery": 0 }
+      "shrapnel": { "casing_mass": 200, "fragment_mass": 0.5, "recovery": 0 }
     },
     "explode_in_fire": true
   },
@@ -703,8 +701,9 @@
     "type": "TOOL",
     "name": { "str": "oxygen cylinder" },
     "description": "A large steel cylinder used for storing pressurized gas.  It is marked with a faded, but legible O2 symbol.",
-    "weight": "12888 g",
-    "volume": "2500 ml",
+    "weight": "19050 g",
+    "volume": "28000 ml",
+    "longest_side": "92 cm",
     "price": 13400,
     "price_postapoc": 500,
     "to_hit": -4,
@@ -1325,5 +1324,37 @@
     "looks_like": "scrap",
     "symbol": "[",
     "color": "light_gray"
+  },
+  {
+    "id": "sextant",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "sextant" },
+    "description": "A tool for measuring angles of distant objects.  It can be used for measuring the altitude of the Sun.",
+    "weight": "500 g",
+    "volume": "500 ml",
+    "price": 100,
+    "price_postapoc": 10,
+    "to_hit": -3,
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "use_action": [ "SEXTANT" ]
+  },
+  {
+    "id": "lux_meter",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "lux meter" },
+    "description": "A tool for measuring illuminance.",
+    "weight": "100 g",
+    "volume": "300 ml",
+    "price": 100,
+    "price_postapoc": 10,
+    "to_hit": -3,
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "use_action": [ "LUX_METER" ]
   }
 ]
