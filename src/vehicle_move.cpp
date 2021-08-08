@@ -1398,7 +1398,7 @@ void vehicle::pldrive( Character &driver, const point &p, int z )
             cost = std::max( driver.get_speed(), 100 ) * ( 1.0f - ( -penalty / 10.0f ) * 2 / 3 );
         }
 
-        if( penalty > skill || cost > 400 ) {
+        if( penalty > skill || ( penalty > 0 && cost > 400 ) ) {
             driver.add_msg_if_player( m_warning, _( "You fumble with the %s's controls." ), name );
             // Anything from a wasted attempt to 2 turns in the intended direction
             turn_delta *= rng( 0, 2 );

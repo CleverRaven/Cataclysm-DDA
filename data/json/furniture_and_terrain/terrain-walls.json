@@ -571,7 +571,7 @@
       "str_max": 100,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_pit",
+      "ter_set": "t_thconc_floor",
       "items": [ { "item": "scrap", "count": [ 4, 12 ] }, { "item": "rebar", "count": [ 0, 4 ] } ]
     }
   },

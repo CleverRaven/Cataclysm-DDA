@@ -1019,11 +1019,9 @@ static void sleep()
 
     // List all active items, bionics or mutations so player can deactivate them
     std::vector<std::string> active;
-    for( auto &it : player_character.inv_dump() ) {
-        if( it->has_flag( flag_LITCIG ) ||
-            ( it->active && ( it->charges > 0 || it->units_remaining( player_character ) > 0 ) &&
-              it->is_tool() &&
-              !it->has_flag( flag_SLEEP_IGNORE ) ) ) {
+    for( item_location &it : player_character.all_items_loc() ) {
+        if( it->has_flag( flag_LITCIG ) || ( it->active && it->ammo_sufficient( &player_character ) &&
+                                             it->is_tool() && !it->has_flag( flag_SLEEP_IGNORE ) ) ) {
             active.push_back( it->tname() );
         }
     }
@@ -1782,6 +1780,10 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
 
         case ACTION_TOGGLE_CROUCH:
             player_character.toggle_crouch_mode();
+            break;
+
+        case ACTION_TOGGLE_PRONE:
+            player_character.toggle_prone_mode();
             break;
 
         case ACTION_OPEN_MOVEMENT:

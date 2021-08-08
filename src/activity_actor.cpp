@@ -35,6 +35,7 @@
 #include "gates.h"
 #include "gun_mode.h"
 #include "handle_liquid.h"
+#include "harvest.h"
 #include "iexamine.h"
 #include "item.h"
 #include "item_group.h"
@@ -92,13 +93,17 @@ static const itype_id itype_electrohack( "electrohack" );
 static const itype_id itype_paper( "paper" );
 static const itype_id itype_pseudo_bio_picklock( "pseudo_bio_picklock" );
 
+static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
+
 static const skill_id skill_computer( "computer" );
 static const skill_id skill_electronics( "electronics" );
 static const skill_id skill_mechanics( "mechanics" );
+static const skill_id skill_survival( "survival" );
 static const skill_id skill_traps( "traps" );
 
 static const proficiency_id proficiency_prof_lockpicking( "prof_lockpicking" );
 static const proficiency_id proficiency_prof_lockpicking_expert( "prof_lockpicking_expert" );
+static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
 
 
 static const mtype_id mon_manhack( "mon_manhack" );
@@ -2390,10 +2395,12 @@ std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonIn &jsi
     return actor.clone();
 }
 
-void try_sleep_activity_actor::start( player_activity &act, Character &/*who*/ )
+void try_sleep_activity_actor::start( player_activity &act, Character &who )
 {
     act.moves_total = to_moves<int>( duration );
     act.moves_left = act.moves_total;
+    who.set_movement_mode( move_mode_id( "prone" ) );
+    who.add_msg_if_player( _( "You lie down preparing to fall asleep." ) );
 }
 
 void try_sleep_activity_actor::do_turn( player_activity &act, Character &who )
@@ -2424,6 +2431,7 @@ void try_sleep_activity_actor::finish( player_activity &act, Character &who )
     if( !who.has_effect( effect_sleep ) ) {
         who.add_msg_if_player( _( "You try to sleep, but can't." ) );
     }
+    who.set_movement_mode( move_mode_id( "walk" ) );
 }
 
 void try_sleep_activity_actor::query_keep_trying( player_activity &act, Character &who )
@@ -2475,6 +2483,108 @@ std::unique_ptr<activity_actor> try_sleep_activity_actor::deserialize( JsonIn &j
     return actor.clone();
 }
 
+time_duration safecracking_activity_actor::safecracking_time( const Character &who )
+{
+    time_duration cracking_time = 150_minutes;
+    /** @EFFECT_DEVICES decreases time needed for safe cracking */
+    cracking_time -= 20_minutes * ( who.get_skill_level( skill_traps ) - 3 ) ;
+    /** @EFFECT_PER decreases time needed for safe cracking */
+    cracking_time -= 10_minutes * ( who.get_per() - 8 );
+    cracking_time = std::max( 30_minutes, cracking_time );
+
+    if( !who.has_proficiency( proficiency_prof_safecracking ) ) {
+        cracking_time *= 3;
+    }
+
+    return cracking_time;
+}
+
+void safecracking_activity_actor::start( player_activity &act, Character &who )
+{
+    time_duration cracking_time = safecracking_time( who );
+
+    if( who.is_avatar() ) {
+        add_msg( m_info, _( "You start cracking the safe." ) );
+    } else { // who.is_npc
+        // npcs can't crack safes yet, this is for when they are able to
+        add_msg_if_player_sees( who, _( "%1$s starts cracking the safe." ), who.disp_name() );
+    }
+
+    add_msg_debug( debugmode::DF_ACT_SAFECRACKING, "safecracking time = %s",
+                   to_string_writable( cracking_time ) );
+
+    act.moves_total = to_moves<int>( cracking_time );
+    act.moves_left = act.moves_total;
+}
+
+void safecracking_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    bool can_crack = who.has_flag( json_flag_SUPER_HEARING );
+    // short-circuit to avoid the more expensive iteration over items
+    can_crack = can_crack || who.has_item_with_flag( flag_SAFECRACK );
+
+    if( !can_crack ) {
+        // We lost our cracking tool somehow, bail out.
+        act.set_to_null();
+        return;
+    }
+
+    if( calendar::once_every( 5_minutes ) ) {
+        add_msg_debug( debugmode::DF_ACT_SAFECRACKING, "safecracking time left = %s",
+                       to_string_writable( time_duration::from_moves( act.moves_left ) ) );
+    }
+
+    /* Split experience gain in 20 parts, each giving 5% of the total*/
+    const int current_step =
+        ( 100 * ( act.moves_total - act.moves_left ) / act.moves_total ) / 5;
+    const int difference = current_step - exp_step ;
+    if( difference > 0 ) {
+        exp_step += difference;
+        if( !who.has_proficiency( proficiency_prof_safecracking ) ) {
+            who.practice_proficiency( proficiency_prof_safecracking, 3_minutes * difference );
+            // player gained the proficiency mid-way through cracking
+            if( who.has_proficiency( proficiency_prof_safecracking ) ) {
+                int new_time = to_moves<int>( safecracking_time( who ) );
+                act.moves_total = act.moves_total > new_time ? new_time : act.moves_total;
+                act.moves_left = act.moves_left > new_time ? new_time : act.moves_left;
+            }
+        }
+
+        const int skill_level = who.get_skill_level( skill_traps );
+        who.practice( skill_traps, std::max( 1,  skill_level / 2 ) );
+        if( who.get_skill_level( skill_traps ) > skill_level ) {
+            int new_time = to_moves<int>( safecracking_time( who ) );
+            act.moves_total = act.moves_total > new_time ? new_time : act.moves_total;
+            act.moves_left = act.moves_left > new_time ? new_time : act.moves_left;
+        }
+    }
+}
+
+void safecracking_activity_actor::finish( player_activity &act, Character &who )
+{
+    who.add_msg_if_player( m_good, _( "With a satisfying click, the lock on the safe opens!" ) );
+    get_map().furn_set( safe, f_safe_c );
+    act.set_to_null();
+}
+
+void safecracking_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "safe", safe );
+    jsout.member( "exp_step", exp_step );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> safecracking_activity_actor::deserialize( JsonIn &jsin )
+{
+    safecracking_activity_actor actor = safecracking_activity_actor( {} );
+
+    JsonObject data = jsin.get_object();
+    data.read( "safe", actor.safe );
+    data.read( "exp_step", actor.exp_step );
+    return actor.clone();
+}
+
 void unload_activity_actor::start( player_activity &act, Character & )
 {
     act.moves_left = moves_total;
@@ -2498,7 +2608,7 @@ void unload_activity_actor::unload( Character &who, item_location &target )
         bool changed = false;
         for( item *contained : it.all_items_top() ) {
             int old_charges = contained->charges;
-            const bool consumed = who.add_or_drop_with_msg( *contained, true, &it );
+            const bool consumed = who.add_or_drop_with_msg( *contained, true, &it, contained );
             if( consumed || contained->charges != old_charges ) {
                 changed = true;
                 handler.unseal_pocket_containing( item_location( target, contained ) );
@@ -2521,7 +2631,7 @@ void unload_activity_actor::unload( Character &who, item_location &target )
         if( contained->ammo_type() == ammotype( "plutonium" ) ) {
             contained->charges /= PLUTONIUM_CHARGES;
         }
-        if( who.as_player()->add_or_drop_with_msg( *contained, true, &it ) ) {
+        if( who.as_player()->add_or_drop_with_msg( *contained, true, &it, contained ) ) {
             qty += contained->charges;
             remove_contained.push_back( contained );
             actually_unloaded = true;
@@ -2776,6 +2886,9 @@ std::unique_ptr<activity_actor> craft_activity_actor::deserialize( JsonIn &jsin 
     data.read( "long", tmp_long );
 
     craft_activity_actor actor = craft_activity_actor( tmp_item_loc, tmp_long );
+    if( actor.craft_item ) {
+        actor.activity_override = actor.craft_item->get_making().exertion_level();
+    }
 
     return actor.clone();
 }
@@ -3140,6 +3253,101 @@ std::unique_ptr<activity_actor> drop_activity_actor::deserialize( JsonIn &jsin )
     jsobj.read( "placement", actor.placement );
     jsobj.read( "force_ground", actor.force_ground );
 
+    return actor.clone();
+}
+
+void harvest_activity_actor::start( player_activity &act, Character &who )
+{
+    map &here = get_map();
+
+    if( here.has_furn( target ) ) {
+        const furn_id furn = here.furn( target );
+
+        if( furn->has_examine( iexamine::harvest_furn ) ) {
+            exam_furn = true;
+        } else if( furn->has_examine( iexamine::harvest_furn_nectar ) )  {
+            exam_furn = true;
+            nectar = true;
+        }
+    }
+
+    const harvest_id harvest = here.get_harvest( target );
+    if( harvest.is_null() || harvest->empty() ) {
+        if( !auto_forage ) {
+            who.add_msg_if_player( m_info,
+                                   _( "Nothing can be harvested from this plant in current season." ) );
+        }
+
+        if( who.as_player()->manual_examine ) {
+            iexamine::none( *who.as_player(), target );
+        }
+
+        act.set_to_null();
+        return;
+    }
+
+    const time_duration forage_time = rng( 5_seconds, 15_seconds );
+    add_msg_debug( debugmode::DF_ACT_HARVEST, "harvest time: %s", to_string_writable( forage_time ) );
+    act.moves_total = to_moves<int>( forage_time );
+    act.moves_left = act.moves_total;
+}
+
+void harvest_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+
+    map &here = get_map();
+
+    // If nothing can be harvested, neither can nectar
+    // Incredibly low priority TODO: Allow separating nectar seasons
+    if( nectar && iexamine_helper::drink_nectar( *who.as_player() ) ) {
+        return;
+    }
+
+    const int survival_skill = who.get_skill_level( skill_survival );
+    bool got_anything = false;
+    for( const harvest_entry &entry : here.get_harvest( target ).obj() ) {
+        const float min_num = entry.scale_num.first * survival_skill + entry.base_num.first;
+        const float max_num = entry.scale_num.second * survival_skill + entry.base_num.second;
+        const int roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
+        got_anything = roll > 0;
+        for( int i = 0; i < roll; i++ ) {
+            iexamine_helper::handle_harvest( *who.as_player(), entry.drop, false );
+        }
+    }
+
+    if( !got_anything ) {
+        who.add_msg_if_player( m_bad, _( "You couldn't harvest anything." ) );
+    }
+
+    if( exam_furn ) {
+        here.furn_set( target, f_null );
+    } else {
+        here.ter_set( target, here.get_ter_transforms_into( target ) );
+    }
+
+    iexamine::practice_survival_while_foraging( who.as_player() );
+}
+
+void harvest_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "target", target );
+    jsout.member( "exam_furn", exam_furn );
+    jsout.member( "nectar", nectar );
+    jsout.member( "auto_forage", auto_forage );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> harvest_activity_actor::deserialize( JsonIn &jsin )
+{
+    harvest_activity_actor actor( tripoint_zero );
+
+    JsonObject jsobj = jsin.get_object();
+    jsobj.read( "target", actor.target );
+    jsobj.read( "exam_furn", actor.exam_furn );
+    jsobj.read( "nectar", actor.nectar );
+    jsobj.read( "auto_forage", actor.auto_forage );
     return actor.clone();
 }
 
@@ -3884,12 +4092,8 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
         return;
     }
 
-    // We already checked if this is nullptr above
-    item *craft = target.get_item();
-    double counter = craft->item_counter;
-
-    act.moves_left = moves_total - ( counter / 10'000'000.0 ) * moves_total;
-    act.moves_total = moves_total;
+    act.moves_left = calendar::INDEFINITELY_LONG;
+    activity_override = target->get_making().exertion_level();
 }
 
 void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
@@ -3900,27 +4104,53 @@ void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
     }
 
     // We already checked if this is nullptr above
-    item *craft = target.get_item();
+    item &craft = *target;
 
-    double moves_left = act.moves_left;
-    double moves_total = act.moves_total;
-    // Current progress as a percent of base_total_moves to 2 decimal places
-    craft->item_counter = std::round( ( moves_total - moves_left ) / moves_total * 10'000'000.0 );
-}
+    const cata::optional<tripoint> location = target.where() == item_location::type::character
+            ? cata::optional<tripoint>() : cata::optional<tripoint>( target.position() );
+    const float crafting_speed = who.crafting_speed_multiplier( craft, location );
 
-void disassemble_activity_actor::finish( player_activity &act, Character &who )
-{
-    if( !check_if_disassemble_okay( target, who ) ) {
-        act.set_to_null();
+    if( crafting_speed <= 0.0f ) {
+        who.cancel_activity();
         return;
     }
-    who.complete_disassemble( target );
+
+    const int spent_moves = who.get_moves() * who.exertion_adjusted_move_multiplier( exertion_level() );
+    craft.item_counter += std::round( spent_moves * crafting_speed * 10'000'000.0 / moves_total );
+    who.set_moves( 0 );
+
+    craft.item_counter = std::min( craft.item_counter, 10'000'000 );
+
+    if( craft.item_counter >= 10'000'000 ) {
+        who.complete_disassemble( target );
+        who.cancel_activity();
+    }
+}
+
+void disassemble_activity_actor::finish( player_activity &act, Character & )
+{
+    act.set_to_null();
+}
+
+float disassemble_activity_actor::exertion_level() const
+{
+    return activity_override;
+}
+
+std::string disassemble_activity_actor::get_progress_message( const player_activity & ) const
+{
+    if( !target ) {
+        // We have somehow lost the disassembly item.  This will be handled in do_turn in the check_if_disassemble_okay call.
+        return "";
+    }
+    return target->tname();
 }
 
 void disassemble_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
+    jsout.member( "target", target );
     jsout.member( "moves_total", moves_total );
 
     jsout.end_object();
@@ -3932,7 +4162,11 @@ std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonIn 
 
     JsonObject data = jsin.get_object();
 
+    data.read( "target", actor.target );
     data.read( "moves_total", actor.moves_total );
+    if( actor.target ) {
+        actor.activity_override = actor.target->get_making().exertion_level();
+    }
 
     return actor.clone();
 }
@@ -4156,6 +4390,7 @@ deserialize_functions = {
     { activity_id( "ACT_BINDER_COPY_RECIPE" ), &bookbinder_copy_activity_actor::deserialize },
     { activity_id( "ACT_BOLTCUTTING" ), &boltcutting_activity_actor::deserialize },
     { activity_id( "ACT_CONSUME" ), &consume_activity_actor::deserialize },
+    { activity_id( "ACT_CRACKING" ), &safecracking_activity_actor::deserialize },
     { activity_id( "ACT_CRAFT" ), &craft_activity_actor::deserialize },
     { activity_id( "ACT_DIG" ), &dig_activity_actor::deserialize },
     { activity_id( "ACT_DIG_CHANNEL" ), &dig_channel_activity_actor::deserialize },
@@ -4166,6 +4401,7 @@ deserialize_functions = {
     { activity_id( "ACT_GUNMOD_REMOVE" ), &gunmod_remove_activity_actor::deserialize },
     { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
     { activity_id( "ACT_HAIRCUT" ), &haircut_activity_actor::deserialize },
+    { activity_id( "ACT_HARVEST" ), &harvest_activity_actor::deserialize},
     { activity_id( "ACT_HOTWIRE_CAR" ), &hotwire_car_activity_actor::deserialize },
     { activity_id( "ACT_INSERT_ITEM" ), &insert_item_activity_actor::deserialize },
     { activity_id( "ACT_LOCKPICK" ), &lockpick_activity_actor::deserialize },

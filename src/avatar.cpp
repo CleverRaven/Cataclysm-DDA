@@ -107,6 +107,7 @@ static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_STIMBOOST( "STIMBOOST" );
 static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
@@ -871,6 +872,32 @@ void avatar::update_mental_focus()
     focus_pool += 10 * calc_focus_change();
 }
 
+int avatar::limb_dodge_encumbrance() const
+{
+    float leg_encumbrance = 0.0f;
+    float torso_encumbrance = 0.0f;
+    const std::vector<bodypart_id> legs =
+        get_all_body_parts_of_type( body_part_type::type::leg );
+    const std::vector<bodypart_id> torsos =
+        get_all_body_parts_of_type( body_part_type::type::torso );
+
+    for( const bodypart_id &leg : legs ) {
+        leg_encumbrance += encumb( leg );
+    }
+    if( !legs.empty() ) {
+        leg_encumbrance /= legs.size() * 10.0f;
+    }
+
+    for( const bodypart_id &torso : torsos ) {
+        torso_encumbrance += encumb( torso );
+    }
+    if( !torsos.empty() ) {
+        torso_encumbrance /= torsos.size() * 10.0f;
+    }
+
+    return std::floor( torso_encumbrance + leg_encumbrance );
+}
+
 void avatar::reset_stats()
 {
     const int current_stim = get_stim();
@@ -982,9 +1009,7 @@ void avatar::reset_stats()
     }
 
     // Dodge-related effects
-    mod_dodge_bonus( mabuff_dodge_bonus() -
-                     ( encumb( bodypart_id( "leg_l" ) ) + encumb( bodypart_id( "leg_r" ) ) ) / 20.0f - encumb(
-                         bodypart_id( "torso" ) ) / 10.0f );
+    mod_dodge_bonus( mabuff_dodge_bonus() - limb_dodge_encumbrance() );
     // Whiskers don't work so well if they're covered
     if( has_trait( trait_WHISKERS ) && !natural_attack_restricted_on( bodypart_id( "mouth" ) ) ) {
         mod_dodge_bonus( 1 );
@@ -1187,6 +1212,14 @@ void avatar::toggle_crouch_mode()
     }
 }
 
+void avatar::toggle_prone_mode()
+{
+    if( is_prone() ) {
+        set_movement_mode( move_mode_id( "walk" ) );
+    } else {
+        set_movement_mode( move_mode_id( "prone" ) );
+    }
+}
 void avatar::activate_crouch_mode()
 {
     if( !is_crouching() ) {
@@ -1622,4 +1655,65 @@ int avatar::randomize_hobbies()
     }
 
     return points;
+}
+
+void avatar::reassign_item( item &it, int invlet )
+{
+    bool remove_old = true;
+    if( invlet ) {
+        item *prev = invlet_to_item( invlet );
+        if( prev != nullptr ) {
+            remove_old = it.typeId() != prev->typeId();
+            inv->reassign_item( *prev, it.invlet, remove_old );
+        }
+    }
+
+    if( !invlet || inv_chars.valid( invlet ) ) {
+        const auto iter = inv->assigned_invlet.find( it.invlet );
+        bool found = iter != inv->assigned_invlet.end();
+        if( found ) {
+            inv->assigned_invlet.erase( iter );
+        }
+        if( invlet && ( !found || it.invlet != invlet ) ) {
+            inv->assigned_invlet[invlet] = it.typeId();
+        }
+        inv->reassign_item( it, invlet, remove_old );
+    }
+}
+
+void avatar::add_pain_msg( int val, const bodypart_id &bp ) const
+{
+    if( has_trait( trait_NOPAIN ) ) {
+        return;
+    }
+    if( bp == bodypart_id( "bp_null" ) ) {
+        if( val > 20 ) {
+            add_msg_if_player( _( "Your body is wracked with excruciating pain!" ) );
+        } else if( val > 10 ) {
+            add_msg_if_player( _( "Your body is wracked with terrible pain!" ) );
+        } else if( val > 5 ) {
+            add_msg_if_player( _( "Your body is wracked with pain!" ) );
+        } else if( val > 1 ) {
+            add_msg_if_player( _( "Your body pains you!" ) );
+        } else {
+            add_msg_if_player( _( "Your body aches." ) );
+        }
+    } else {
+        if( val > 20 ) {
+            add_msg_if_player( _( "Your %s is wracked with excruciating pain!" ),
+                               body_part_name_accusative( bp ) );
+        } else if( val > 10 ) {
+            add_msg_if_player( _( "Your %s is wracked with terrible pain!" ),
+                               body_part_name_accusative( bp ) );
+        } else if( val > 5 ) {
+            add_msg_if_player( _( "Your %s is wracked with pain!" ),
+                               body_part_name_accusative( bp ) );
+        } else if( val > 1 ) {
+            add_msg_if_player( _( "Your %s pains you!" ),
+                               body_part_name_accusative( bp ) );
+        } else {
+            add_msg_if_player( _( "Your %s aches." ),
+                               body_part_name_accusative( bp ) );
+        }
+    }
 }

@@ -190,6 +190,8 @@ class avatar : public player
          * @param target Target NPC to steal from
          */
         void steal( npc &target );
+        /** Reassign letter. */
+        void reassign_item( item &it, int invlet );
 
         teleporter_list translocators;
 
@@ -224,6 +226,8 @@ class avatar : public player
         void toggle_run_mode();
         // Toggles crouching on/off.
         void toggle_crouch_mode();
+        // Toggles lying down on/off.
+        void toggle_prone_mode();
         // Activate crouch mode if not in crouch mode.
         void activate_crouch_mode();
 
@@ -302,6 +306,9 @@ class avatar : public player
         std::vector<mtype_id> starting_pets;
 
     private:
+        // the encumbrance on your limbs reducing your dodging ability
+        int limb_dodge_encumbrance() const;
+
         std::unique_ptr<map_memory> player_map_memory;
         bool show_map_memory;
 

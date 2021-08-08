@@ -21,6 +21,7 @@
 #include "location.h"
 #include "pimpl.h"
 #include "string_formatter.h"
+#include "talker.h"
 #include "type_id.h"
 #include "units_fwd.h"
 #include "viewer.h"
@@ -657,7 +658,7 @@ class Creature : public location, public viewer
             return false;
         }
 
-    private:
+    protected:
         /**anatomy is the plan of the creature's body*/
         anatomy_id creature_anatomy = anatomy_id( "default_anatomy" );
         /**this is the actual body of the creature*/
@@ -673,6 +674,10 @@ class Creature : public location, public viewer
          */
         std::vector<bodypart_id> get_all_body_parts(
             get_body_part_flags = get_body_part_flags::none ) const;
+        std::vector<bodypart_id> get_all_body_parts_of_type(
+            body_part_type::type part_type,
+            get_body_part_flags flags = get_body_part_flags::none ) const;
+        bodypart_id get_root_body_part() const;
 
         const std::map<bodypart_str_id, bodypart> &get_body() const;
         void set_body();
@@ -1182,6 +1187,19 @@ class Creature : public location, public viewer
          *
          */
         std::string replace_with_npc_name( std::string input ) const;
+        /**
+         * Global position, expressed in map square coordinate system
+         * (the most detailed coordinate system), used by the @ref map.
+         */
+        virtual tripoint global_square_location() const;
+        /**
+        * Returns the location of the player in global submap coordinates.
+        */
+        tripoint global_sm_location() const;
+        /**
+        * Returns the location of the player in global overmap terrain coordinates.
+        */
+        tripoint_abs_omt global_omt_location() const;
     protected:
         /**
          * These two functions are responsible for storing and loading the members
@@ -1224,5 +1242,6 @@ class Creature : public location, public viewer
         void messaging_projectile_attack( const Creature *source,
                                           const projectile_attack_results &hit_selection, int total_damage ) const;
 };
-
+std::unique_ptr<talker> get_talker_for( Creature &me );
+std::unique_ptr<talker> get_talker_for( Creature *me );
 #endif // CATA_SRC_CREATURE_H
