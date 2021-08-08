@@ -68,7 +68,7 @@
     "dodge": 4,
     "harvest": "bird_tiny",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
-    "reproduction": { "baby_egg": "egg_crow", "baby_count": 4, "baby_timer": 8 },
+    "reproduction": { "baby_egg": "egg_crow", "baby_count": 4, "baby_timer": 18 },
     "baby_flags": [ "SPRING" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS" ]
@@ -97,7 +97,7 @@
     "dodge": 4,
     "harvest": "bird_tiny",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
-    "reproduction": { "baby_egg": "egg_raven", "baby_count": 5, "baby_timer": 8 },
+    "reproduction": { "baby_egg": "egg_raven", "baby_count": 5, "baby_timer": 18 },
     "baby_flags": [ "SPRING" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS" ]
@@ -126,7 +126,7 @@
     "dodge": 4,
     "harvest": "bird_tiny",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
-    "reproduction": { "baby_egg": "egg_magpie", "baby_count": 6, "baby_timer": 8 },
+    "reproduction": { "baby_egg": "egg_magpie", "baby_count": 6, "baby_timer": 21 },
     "baby_flags": [ "SPRING" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS" ]
@@ -155,7 +155,7 @@
     "dodge": 4,
     "harvest": "bird_tiny",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
-    "reproduction": { "baby_egg": "egg_bluejay", "baby_count": 5, "baby_timer": 8 },
+    "reproduction": { "baby_egg": "egg_bluejay", "baby_count": 5, "baby_timer": 18 },
     "baby_flags": [ "SPRING" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS" ]
@@ -184,7 +184,7 @@
     "dodge": 4,
     "harvest": "bird_tiny",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
-    "reproduction": { "baby_egg": "egg_cardinal", "baby_count": 3, "baby_timer": 8 },
+    "reproduction": { "baby_egg": "egg_cardinal", "baby_count": 3, "baby_timer": 13 },
     "baby_flags": [ "SPRING" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS" ]
@@ -213,7 +213,7 @@
     "dodge": 4,
     "harvest": "bird_tiny",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
-    "reproduction": { "baby_egg": "egg_robin", "baby_count": 3, "baby_timer": 8 },
+    "reproduction": { "baby_egg": "egg_robin", "baby_count": 3, "baby_timer": 14 },
     "baby_flags": [ "SPRING" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS" ]
@@ -242,7 +242,7 @@
     "dodge": 4,
     "harvest": "bird_tiny",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
-    "reproduction": { "baby_egg": "egg_sparrow", "baby_count": 5, "baby_timer": 8 },
+    "reproduction": { "baby_egg": "egg_sparrow", "baby_count": 5, "baby_timer": 14 },
     "baby_flags": [ "SPRING" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS" ]
@@ -412,55 +412,70 @@
     "type": "MONSTER",
     "copy-from": "mon_chicken_chick",
     "name": { "str": "brown chick" },
-    "upgrades": { "age_grow": 12, "into": "mon_crow" },
+    "description": "A tiny darkly-colored chick, it could be from a number of different species.",
+    "volume": "250 ml",
+    "weight": "50 g",
+    "upgrades": { "age_grow": 36, "into": "mon_crow" },
     "extend": { "flags": [ "BIRDFOOD" ] }
   },
   {
     "id": "mon_raven_chick",
     "type": "MONSTER",
-    "copy-from": "mon_chicken_chick",
+    "copy-from": "mon_crow_chick",
     "name": { "str": "brown chick" },
-    "upgrades": { "age_grow": 12, "into": "mon_raven" },
+    "volume": "750 ml",
+    "weight": "60 g",
+    "upgrades": { "age_grow": 35, "into": "mon_raven" },
     "extend": { "flags": [ "BIRDFOOD" ] }
   },
   {
     "id": "mon_magpie_chick",
     "type": "MONSTER",
-    "copy-from": "mon_chicken_chick",
+    "copy-from": "mon_crow_chick",
     "name": { "str": "brown chick" },
-    "upgrades": { "age_grow": 12, "into": "mon_magpie" },
+    "volume": "250 ml",
+    "weight": "40 g",
+    "upgrades": { "age_grow": 21, "into": "mon_magpie" },
     "extend": { "flags": [ "BIRDFOOD" ] }
   },
   {
     "id": "mon_bluejay_chick",
     "type": "MONSTER",
-    "copy-from": "mon_chicken_chick",
+    "copy-from": "mon_crow_chick",
     "name": { "str": "brown chick" },
-    "upgrades": { "age_grow": 12, "into": "mon_bluejay" },
+    "volume": "250 ml",
+    "weight": "38 g",
+    "upgrades": { "age_grow": 18, "into": "mon_bluejay" },
     "extend": { "flags": [ "BIRDFOOD" ] }
   },
   {
     "id": "mon_cardinal_chick",
     "type": "MONSTER",
-    "copy-from": "mon_chicken_chick",
+    "copy-from": "mon_crow_chick",
     "name": { "str": "brown chick" },
-    "upgrades": { "age_grow": 12, "into": "mon_cardinal" },
+    "volume": "200 ml",
+    "weight": "15 g",
+    "upgrades": { "age_grow": 11, "into": "mon_cardinal" },
     "extend": { "flags": [ "BIRDFOOD" ] }
   },
   {
     "id": "mon_robin_chick",
     "type": "MONSTER",
-    "copy-from": "mon_chicken_chick",
+    "copy-from": "mon_crow_chick",
     "name": { "str": "brown chick" },
-    "upgrades": { "age_grow": 12, "into": "mon_robin" },
+    "volume": "215 ml",
+    "weight": "35 g",
+    "upgrades": { "age_grow": 14, "into": "mon_robin" },
     "extend": { "flags": [ "BIRDFOOD" ] }
   },
   {
     "id": "mon_sparrow_chick",
     "type": "MONSTER",
-    "copy-from": "mon_chicken_chick",
+    "copy-from": "mon_crow_chick",
     "name": { "str": "brown chick" },
-    "upgrades": { "age_grow": 12, "into": "mon_sparrow" },
+    "volume": "175 ml",
+    "weight": "12 g",
+    "upgrades": { "age_grow": 15, "into": "mon_sparrow" },
     "extend": { "flags": [ "BIRDFOOD" ] }
   },
   {
