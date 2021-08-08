@@ -6048,7 +6048,7 @@ static void init_memory_card_with_random_stuff( item &it )
             encrypted = true;
         }
 
-        //chance for data 
+        //chance for data
         int photo_chance = 5;
         int music_chance = 5;
         int recipe_chance = 5;
