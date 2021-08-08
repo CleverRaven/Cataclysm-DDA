@@ -17,8 +17,9 @@
 // Ensure that unifont is always loaded as a fallback font to prevent users from shooting themselves in the foot
 static void ensure_unifont_loaded( std::vector<std::string> &font_list )
 {
-    if( std::find( std::begin( font_list ), std::end( font_list ), "unifont" ) == font_list.end() ) {
-        font_list.emplace_back( PATH_INFO::fontdir() + "unifont.ttf" );
+    const std::string unifont = PATH_INFO::fontdir() + "unifont.ttf";
+    if( std::find( font_list.begin(), font_list.end(), unifont ) == font_list.end() ) {
+        font_list.emplace_back( unifont );
     }
 }
 
