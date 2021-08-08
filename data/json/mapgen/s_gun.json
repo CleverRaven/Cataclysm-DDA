@@ -56,7 +56,7 @@
         ",,*___*___*______*___*,,",
         ",,*___*___*______*___*,,",
         ",,###:::########:::###,,",
-        ",,#|rC``mmmmmm``mmmmm#,,",
+        ",,#|rC``mmmmmm``pppmm#,,",
         ",,#Xa?``````````````m#,,",
         ",,#|`C```````````````+,,",
         ",,#|````mmmmmm``mmmmm#,,",
@@ -88,6 +88,7 @@
         "V": { "chunks": [ [ "destroyed_furniture", 75 ], [ "null", 80 ] ] },
         "A": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
         "E": { "chunks": [ [ "destroyed_furniture", 45 ], [ "null", 90 ] ] },		
+        "p": { "chunks": [ [ "destroyed_furniture", 45 ], [ "null", 90 ] ] },			
         "a": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
         "^": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
         "&": { "chunks": [ [ "destroyed_furniture", 10 ], [ "null", 90 ] ] },
@@ -98,7 +99,7 @@
 		":": { "chunks": [ [ "damaged_window_bars_nested", 75 ], [ "destroyed_window_bars_nested", 25 ], [ "null", 75 ] ] },	
 		"+": { "chunks": [ [ "destroyed_metal_door_nested", 90 ], [ "null", 75 ] ] },		
 		"`": { "chunks": [ ["corpse_blood_casings_1x1", 4 ], [ "null", 20 ] ] }
-	  },
+	  }
     }
   },  
   {
