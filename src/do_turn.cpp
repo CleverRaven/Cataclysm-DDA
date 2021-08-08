@@ -45,6 +45,12 @@ static const itype_id itype_holybook_bible3( "holybook_bible3" );
 
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 
+#if defined(__ANDROID__)
+extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
+extern bool add_best_key_for_action_to_quick_shortcuts( action_id action,
+        const std::string &category, bool back );
+#endif
+
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 namespace turn_handler
