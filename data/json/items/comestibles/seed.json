@@ -40,7 +40,7 @@
     "type": "COMESTIBLE",
     "name": { "str_sp": "hop rhizomes" },
     "description": "Roots of a hop plant, for growing your own.",
-    "weight": "190 mg",
+    "weight": "19 g",
     "price": 160,
     "charges": 2,
     "stack_size": 8,
