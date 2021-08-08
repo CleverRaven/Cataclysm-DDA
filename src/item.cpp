@@ -3400,10 +3400,12 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         }
 
         if( parts->test( iteminfo_parts::BOOK_INCLUDED_RECIPES ) ) {
-            std::vector<std::string> recipe_list;
+            std::vector<std::string> known_recipe_list;
+            std::vector<std::string> learnable_recipe_list;
+            std::vector<std::string> unlearnable_recipe_list;
             for( const islot_book::recipe_with_description_t &elem : book.recipes ) {
                 const bool knows_it = player_character.knows_recipe( elem.recipe );
-                const bool can_learn = player_character.get_skill_level( elem.recipe->skill_used )  >=
+                const bool can_learn = player_character.get_skill_level( elem.recipe->skill_used ) >=
                                        elem.skill_level;
                 // If the player knows it, they recognize it even if it's not clearly stated.
                 if( elem.is_hidden() && !knows_it ) {
@@ -3413,30 +3415,67 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                     // In case the recipe is known, but has a different name in the book, use the
                     // real name to avoid confusing the player.
                     const std::string name = elem.recipe->result_name( /*decorated=*/true );
-                    recipe_list.push_back( "<bold>" + name + "</bold>" );
+                    known_recipe_list.push_back( "<bold>" + name + "</bold>" );
                 } else if( !can_learn ) {
-                    recipe_list.push_back( "<color_brown>" + elem.name() + "</color>" );
+                    unlearnable_recipe_list.push_back( "<color_brown>" + elem.name() + "</color>" );
                 } else {
-                    recipe_list.push_back( "<dark>" + elem.name() + "</dark>" );
+                    learnable_recipe_list.push_back( "<dark>" + elem.name() + "</dark>" );
                 }
             }
 
-            if( !recipe_list.empty() && parts->test( iteminfo_parts::DESCRIPTION_BOOK_RECIPES ) ) {
+            int total_recipes = known_recipe_list.size() + learnable_recipe_list.size() +
+                                unlearnable_recipe_list.size();
+
+            if( ( !known_recipe_list.empty() || !learnable_recipe_list.empty() ||
+                  !unlearnable_recipe_list.empty() ) &&
+                parts->test( iteminfo_parts::DESCRIPTION_BOOK_RECIPES ) ) {
                 std::string recipe_line =
-                    string_format( ngettext( "This book contains %1$d crafting recipe: %2$s",
-                                             "This book contains %1$d crafting recipes: %2$s",
-                                             recipe_list.size() ),
-                                   recipe_list.size(), enumerate_as_string( recipe_list ) );
+                    string_format( ngettext( "This book contains %1$d crafting recipe:",
+                                             "This book contains %1$d crafting recipes:",
+                                             total_recipes ), total_recipes );
 
                 insert_separation_line( info );
-                info.emplace_back( "DESCRIPTION", recipe_line );
+                info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
+
+                if( !known_recipe_list.empty() ) {
+                    std::string recipe_line =
+                        string_format( ngettext( "\nYou already know %1$d recipe:\n%2$s",
+                                                 "\nYou already know %1$d recipes:\n%2$s",
+                                                 known_recipe_list.size() ),
+                                       known_recipe_list.size(),
+                                       enumerate_as_string( known_recipe_list ) );
+
+                    info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
+                }
+
+                if( !learnable_recipe_list.empty() ) {
+                    std::string recipe_line =
+                        string_format( ngettext( "\nYou have the skills to craft %1$d recipe:\n%2$s",
+                                                 "\nYou have the skills to craft %1$d recipes:\n%2$s",
+                                                 learnable_recipe_list.size() ),
+                                       learnable_recipe_list.size(),
+                                       enumerate_as_string( learnable_recipe_list ) );
+
+                    info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
+                }
+
+                if( !unlearnable_recipe_list.empty() ) {
+                    std::string recipe_line =
+                        string_format( ngettext( "\nYou lack the skills to craft %1$d recipe:\n%2$s",
+                                                 "\nYou lack the skills to craft %1$d recipes:\n%2$s",
+                                                 unlearnable_recipe_list.size() ),
+                                       unlearnable_recipe_list.size(),
+                                       enumerate_as_string( unlearnable_recipe_list ) );
+
+                    info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
+                }
             }
 
-            if( recipe_list.size() != book.recipes.size() &&
+            if( total_recipes != static_cast<int>( book.recipes.size() ) &&
                 parts->test( iteminfo_parts::DESCRIPTION_BOOK_ADDITIONAL_RECIPES ) ) {
-                info.emplace_back( "DESCRIPTION",
-                                   _( "It might help you figuring out some <good>more "
-                                      "recipes</good>." ) );
+                info.emplace_back( iteminfo( "DESCRIPTION",
+                                             _( "It might help you figuring out some <good>more "
+                                                "recipes</good>." ) ) );
             }
         }
 
