@@ -713,6 +713,19 @@ std::vector<tripoint_abs_omt> overmapbuffer::get_npc_path( const tripoint_abs_om
     return get_npc_path( src, dest, ptype );
 }
 
+static bool is_road( const oter_id &oter )
+{
+    return is_ot_match( "road", oter, ot_match_type::type ) ||
+           is_ot_match( "rural_road", oter, ot_match_type::type ) ||
+           is_ot_match( "bridge", oter, ot_match_type::type ) ||
+           is_ot_match( "road_nesw_manhole", oter, ot_match_type::type );
+}
+
+static bool is_field( const oter_id &oter )
+{
+    return is_ot_match( "field", oter, ot_match_type::type );
+}
+
 std::vector<tripoint_abs_omt> overmapbuffer::get_npc_path(
     const tripoint_abs_omt &src, const tripoint_abs_omt &dest, path_type &ptype )
 {
@@ -746,15 +759,16 @@ std::vector<tripoint_abs_omt> overmapbuffer::get_npc_path(
         if( ptype.avoid_danger && is_marked_dangerous( convert_result ) ) {
             return pf::rejected;
         }
-        if( ptype.only_road && ( !is_ot_match( "road", oter, ot_match_type::type ) &&
-                                 !is_ot_match( "bridge", oter, ot_match_type::type ) &&
-                                 !is_ot_match( "road_nesw_manhole", oter, ot_match_type::type ) ) ) {
+        if( ptype.only_road && !is_road( oter ) ) {
             return pf::rejected;
         }
         if( ptype.only_water && !is_river_or_lake( oter ) ) {
             return pf::rejected;
         }
         if( ptype.only_air && ( !is_ot_match( "open_air", oter, ot_match_type::type ) ) ) {
+            return pf::rejected;
+        }
+        if( ptype.road_or_field && !is_road( oter ) && !is_field( oter ) ) {
             return pf::rejected;
         }
         if( is_ot_match( "empty_rock", oter, ot_match_type::type ) ) {
@@ -769,9 +783,7 @@ std::vector<tripoint_abs_omt> overmapbuffer::get_npc_path(
             travel_cost = 10;
         } else if( is_ot_match( "forest_water", oter, ot_match_type::type ) ) {
             travel_cost = 15;
-        } else if( is_ot_match( "road", oter, ot_match_type::type ) ||
-                   is_ot_match( "bridge", oter, ot_match_type::type ) ||
-                   is_ot_match( "road_nesw_manhole", oter, ot_match_type::type ) ) {
+        } else if( is_road( oter ) ) {
             travel_cost = 1;
         } else if( is_river_or_lake( oter ) ) {
             if( ptype.amphibious || ptype.only_water ) {
