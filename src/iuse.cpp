@@ -6054,9 +6054,9 @@ static void init_memory_card_with_random_stuff( item &it )
         const int recipe_chance = 5;
 
         //encryption allows for a retry for data
-        int photo_rety = 5;
-        int music_rety = 5;
-        int recipe_retry = 5;
+        const int photo_retry = 5;
+        const int music_retry = 5;
+        const int recipe_retry = 5;
 
         //add someone's personal photos
         if( one_in( photo_chance ) || ( encrypted && one_in( photo_retry ) ) ) {
