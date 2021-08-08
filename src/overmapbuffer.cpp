@@ -143,8 +143,9 @@ void overmapbuffer::fix_mongroups( overmap &new_overmap )
 
 void overmapbuffer::fix_nemesis( overmap &new_overmap )
 {
-    for( auto it = new_overmap.zg.begin(); it != new_overmap.zg.end(); ) {
-        auto &mg = it->second;
+    for( std::multimap<tripoint_om_sm, mongroup>::iterator it = new_overmap.zg.begin();
+         it != new_overmap.zg.end(); ) {
+        mongroup &mg = it->second;
 
         //if it's not the nemesis, continue
         if( mg.horde_behaviour != "nemesis" ) {
