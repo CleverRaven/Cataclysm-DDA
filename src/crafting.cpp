@@ -1220,7 +1220,7 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
             for( item &comp : used ) {
                 // only comestibles have cooks_like.  any other type of item will throw an exception, so filter those out
                 if( comp.is_comestible() && !comp.get_comestible()->cooks_like.is_empty() ) {
-                    auto relative_rot = comp.get_relative_rot();
+                    const double relative_rot = comp.get_relative_rot();
                     comp = item( comp.get_comestible()->cooks_like, comp.birthday(), comp.charges );
                     comp.set_relative_rot( relative_rot );
                 }
