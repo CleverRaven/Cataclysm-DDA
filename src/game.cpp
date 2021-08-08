@@ -257,9 +257,6 @@ static const faction_id faction_your_followers( "your_followers" );
 static const flag_id json_flag_SPLINT( "SPLINT" );
 
 #if defined(__ANDROID__)
-extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
-extern bool add_best_key_for_action_to_quick_shortcuts( action_id action,
-        const std::string &category, bool back );
 extern bool add_key_to_quick_shortcuts( int key, const std::string &category, bool back );
 #endif
 
