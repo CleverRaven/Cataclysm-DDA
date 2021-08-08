@@ -101,7 +101,6 @@ static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_NOMAD( "NOMAD" );
 static const trait_id trait_NOMAD2( "NOMAD2" );
 static const trait_id trait_NOMAD3( "NOMAD3" );
-static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
