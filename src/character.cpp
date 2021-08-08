@@ -305,7 +305,6 @@ static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
 static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
 static const trait_id trait_ELFA_NV( "ELFA_NV" );
-static const trait_id trait_FAST_REFLEXES( "FAST_REFLEXES" );
 static const trait_id trait_FEL_NV( "FEL_NV" );
 static const trait_id trait_GILLS( "GILLS" );
 static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
@@ -10186,9 +10185,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
         if( source->has_flag( MF_GRABS ) && !source->is_hallucination() &&
             !source->has_effect( effect_grabbing ) ) {
             /** @EFFECT_DEX increases chance to avoid being grabbed */
-
-            int reflex_mod = has_trait( trait_FAST_REFLEXES ) ? 2 : 1;
-            const bool dodged_grab = rng( 0, reflex_mod * get_dex() ) > rng( 0, 10 );
+            const bool dodged_grab = rng( 0, get_dex() ) > rng( 0, 10 );
 
             if( has_grab_break_tec() && dodged_grab ) {
                 if( has_effect( effect_grabbed ) ) {
