@@ -151,12 +151,12 @@
     "name": "Semi Truck",
     "blueprint": [
       [ "       o  " ],
-      [ "OO ---+-O-" ],
-      [ "OO=|#|#'|H" ],
-      [ "++-|o|o'|>" ],
-      [ "++-|o+o'|>" ],
-      [ "OO=|#|#'|H" ],
-      [ "OO ---+=O-" ],
+      [ "OO ---+O-" ],
+      [ "OO=|#|#'H" ],
+      [ "++-|o|o'>" ],
+      [ "++-|o+o'>" ],
+      [ "OO=|#|#'H" ],
+      [ "OO ---+O-" ],
       [ "       o  " ]
     ],
     "parts": [
@@ -190,7 +190,7 @@
       { "x": -1, "y": -1, "part": "tank", "fuel": "diesel" },
       { "x": -1, "y": 0, "parts": [ "hdframe_cross", "board_horizontal_front", "roof" ] },
       { "x": -1, "y": 1, "parts": [ "hdframe_cross", "board_horizontal_front", "roof" ] },
-      { "x": -1, "y": 2, "parts": [ "hdframe_cross", "door_front", "roof" ] },
+      { "x": -1, "y": 2, "parts": [ "hdframe_cross", "door_internal_front", "roof" ] },
       { "x": -1, "y": 3, "parts": [ "hdframe_cross", "board_horizontal_front", "roof" ] },
       { "x": -1, "y": 4, "parts": [ "hdframe_vertical_right", "board_ne", "roof" ] },
       { "x": -1, "y": 4, "part": "tank", "fuel": "diesel" },
