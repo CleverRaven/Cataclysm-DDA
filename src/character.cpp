@@ -14254,7 +14254,7 @@ bool Character::takeoff( item_location loc, std::list<item> *res )
     worn.erase( iter );
     takeoff_copy.on_takeoff( *this );
     if( res == nullptr ) {
-        i_add( takeoff_copy, true, &it, true, !has_weapon() );
+        i_add( takeoff_copy, true, &it, &it, true, !has_weapon() );
     } else {
         res->push_back( takeoff_copy );
     }

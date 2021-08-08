@@ -631,10 +631,6 @@ class Character : public Creature, public visitable
         /// called once per 24 hours to enforce the minimum of 1 hp healed per day
         /// @todo Move to Character once heal() is moved
         void enforce_minimum_healing();
-        /** Get maximum recoil penalty due to vehicle motion */
-        double recoil_vehicle() const;
-        /** Current total maximum recoil penalty from all sources */
-        double recoil_total() const;
         /** Calculates the various speed bonuses we will get from mutations, etc. */
         void recalc_speed_bonus();
         void set_underwater( bool );
@@ -645,12 +641,6 @@ class Character : public Creature, public visitable
         stat_mod get_pain_penalty() const;
         /** returns players strength adjusted by any traits that affect strength during lifting jobs */
         int get_lift_str() const;
-        /**
-         * Check player capable of taking off an item.
-         * @param it Thing to be taken off
-         */
-        ret_val<bool> can_takeoff( const item &it, const std::list<item> *res = nullptr );
-
         /** Takes off an item, returning false on fail. The taken off item is processed in the interact */
         bool takeoff( item_location loc, std::list<item> *res = nullptr );
         bool takeoff( int pos );
