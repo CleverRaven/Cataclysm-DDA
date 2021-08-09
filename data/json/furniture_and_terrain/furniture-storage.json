@@ -552,7 +552,7 @@
     "required_str": 8,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE", "SEALED", "PICKABLE"  ],
 	"lockpick_result": "f_rack",
-    "lockpick_message": "With a satisfying click, the lock opens",
+    "lockpick_message": "With a satisfying click, the lock opens.",
     "examine_action": "locked_object_pickable",
     "deconstruct": {
       "items": [
