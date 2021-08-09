@@ -10493,8 +10493,7 @@ bool Character::is_worn_item_visible( std::list<item>::const_iterator worn_item 
     [this, &worn_item]( const bodypart_str_id & bp ) {
         // no need to check items that are worn under worn_item in the armor sort order
         for( auto i = std::next( worn_item ), end = worn.end(); i != end; ++i ) {
-            if( i != worn_item && i->covers( bp ) &&
-                i->get_layer() != layer_level::BELTED &&
+            if( i->covers( bp ) && i->get_layer() != layer_level::BELTED &&
                 i->get_layer() != layer_level::WAIST &&
                 i->get_coverage( bp ) >= worn_item->get_coverage( bp ) ) {
                 return false;
