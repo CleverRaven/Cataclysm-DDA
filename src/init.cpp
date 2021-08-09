@@ -165,6 +165,7 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
                 }
             }
             ++it;
+            inp_mngr.pump_events();
         }
         data.erase( data.begin(), it );
         if( data.size() == n ) {
@@ -180,6 +181,7 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
                         debugmsg( "(json-error)\n%s", err.what() );
                     }
                 }
+                inp_mngr.pump_events();
             }
             data.clear();
             return; // made no progress on this cycle so abort
@@ -511,6 +513,7 @@ void DynamicDataLoader::load_all_from_json( JsonIn &jsin, const std::string &src
         // not an object or an array?
         jsin.error( "expected object or array" );
     }
+    inp_mngr.pump_events();
 }
 
 void DynamicDataLoader::unload_data()
@@ -652,6 +655,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Start locations" ), &start_locations::finalize_all },
             { _( "Vehicle prototypes" ), &vehicle_prototype::finalize },
             { _( "Mapgen weights" ), &calculate_mapgen_weights },
+            { _( "Mapgen parameters" ), &overmap_specials::finalize_mapgen_parameters },
             { _( "Behaviors" ), &behavior::finalize },
             {
                 _( "Monster types" ), []()

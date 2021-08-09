@@ -480,7 +480,7 @@
         "type": "gun",
         "cooldown": 2,
         "move_cost": 150,
-        "gun_type": "acr",
+        "gun_type": "m16_auto_rifle",
         "ammo_type": "556",
         "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
         "fake_dex": 10,

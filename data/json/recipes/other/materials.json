@@ -53,6 +53,7 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "skills_required": [ "survival", 4 ],
+    "charges": 50,
     "difficulty": 5,
     "time": "2 h",
     "autolearn": true,

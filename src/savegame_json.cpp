@@ -283,6 +283,7 @@ void player_activity::serialize( JsonOut &json ) const
 
     if( !type.is_null() ) {
         json.member( "actor", actor );
+        json.member( "moves_total", moves_total );
         json.member( "moves_left", moves_left );
         json.member( "index", index );
         json.member( "position", position );
@@ -339,6 +340,7 @@ void player_activity::deserialize( JsonIn &jsin )
     }
 
     data.read( "actor", actor );
+    data.read( "moves_total", moves_total );
     data.read( "moves_left", moves_left );
     data.read( "index", index );
     position = tmppos;
@@ -1136,7 +1138,9 @@ void player::store( JsonOut &json ) const
     }
     json.end_array();
 
-    json.member( "ammo_location", ammo_location );
+    if( ammo_location ) {
+        json.member( "ammo_location", ammo_location );
+    }
 
     json.member( "camps" );
     json.start_array();
@@ -2418,7 +2422,9 @@ static std::set<itype_id> charge_removal_blacklist;
 void load_charge_removal_blacklist( const JsonObject &jo, const std::string &/*src*/ )
 {
     jo.allow_omitted_members();
-    jo.read( "list", charge_removal_blacklist );
+    std::set<itype_id> new_blacklist;
+    jo.read( "list", new_blacklist );
+    charge_removal_blacklist.insert( new_blacklist.begin(), new_blacklist.end() );
 }
 
 template<typename Archive>

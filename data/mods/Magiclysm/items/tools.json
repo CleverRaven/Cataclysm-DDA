@@ -54,7 +54,6 @@
     "ammo": [ "alumentum" ],
     "sub": "forge",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "alumentum": 500 } } ],
-    "max_charges": 500,
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {

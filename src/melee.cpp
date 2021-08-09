@@ -103,6 +103,7 @@ static const efftype_id effect_venom_player1( "venom_player1" );
 static const efftype_id effect_venom_player2( "venom_player2" );
 
 static const json_character_flag json_flag_CBQ_LEARN_BONUS( "CBQ_LEARN_BONUS" );
+static const json_character_flag json_flag_HARDTOHIT( "HARDTOHIT" );
 static const json_character_flag json_flag_NEED_ACTIVE_TO_MELEE( "NEED_ACTIVE_TO_MELEE" );
 static const json_character_flag json_flag_UNARMED_BONUS( "UNARMED_BONUS" );
 
@@ -325,7 +326,7 @@ float Character::hit_roll() const
         hit *= 0.75f;
     }
 
-    hit *= std::max( 0.25f, 1.0f - encumb( bodypart_id( "torso" ) ) / 100.0f );
+    hit *= std::max( 0.25f, 1.0f - avg_encumb_of_limb_type( body_part_type::type::torso ) / 100.0f );
 
     return melee::melee_hit_range( hit );
 }
@@ -348,7 +349,7 @@ std::string Character::get_miss_reason()
     // in one turn
     add_miss_reason(
         _( "Your torso encumbrance throws you off-balance." ),
-        roll_remainder( encumb( bodypart_id( "torso" ) ) / 10.0 ) );
+        roll_remainder( avg_encumb_of_limb_type( body_part_type::type::torso ) / 10.0 ) );
     const int farsightedness = 2 * ( has_trait( trait_HYPEROPIC ) &&
                                      !worn_with_flag( flag_FIX_FARSIGHT ) &&
                                      !has_effect( effect_contacts ) );
@@ -486,6 +487,16 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
                                        const matec_id &force_technique,
                                        bool allow_unarmed )
 {
+    if( get_working_leg_count() < 2 ) {
+        if( !movement_mode_is( move_mode_id( "prone" ) ) ) {
+            add_msg_if_player( m_bad, _( "Your broken legs cannot hold you and you fall down." ) );
+            set_movement_mode( move_mode_id( "prone" ) );
+        } else if( is_on_ground() ) {
+            add_msg_if_player( m_warning, _( "You cannot fight while on the ground." ) );
+        }
+        return false;
+    }
+
     melee::melee_stats.attack_count += 1;
     int hit_spread = t.deal_melee_attack( this, hit_roll() );
     if( !t.is_avatar() ) {
@@ -1042,6 +1053,10 @@ float Character::get_dodge() const
 
 float Character::dodge_roll() const
 {
+    if( has_trait_flag( json_flag_HARDTOHIT ) ) {
+        // two chances at rng!
+        return std::max( get_dodge(), get_dodge() ) * 5;
+    }
     return get_dodge() * 5;
 }
 
@@ -2435,8 +2450,8 @@ int Character::attack_speed( const item &weap ) const
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 15 - melee_skill ) / 15 ) );
     /** @EFFECT_DEX increases attack speed */
     const int dexbonus = dex_cur / 2;
-    const int encumbrance_penalty = encumb( bodypart_id( "torso" ) ) +
-                                    ( encumb( bodypart_id( "hand_l" ) ) + encumb( bodypart_id( "hand_r" ) ) ) / 2;
+    const int encumbrance_penalty = avg_encumb_of_limb_type( body_part_type::type::torso ) +
+                                    avg_encumb_of_limb_type( body_part_type::type::hand );
     const int ma_move_cost = mabuff_attack_cost_penalty();
     const float stamina_ratio = static_cast<float>( get_stamina() ) / static_cast<float>
                                 ( get_stamina_max() );

@@ -123,7 +123,7 @@
     "id": "mon_exodii_quad",
     "type": "MONSTER",
     "name": { "str": "Exodii quadruped" },
-    "description": "This enormous quadrupedal robot seems to be cobbled together from parts, most of them unfamiliar to you.  It moves with a heavy, oddly graceful gait, its footsteps leaving shallow craters behind.  It bristles with an arsenal of weaponry, but doesn't seem in a particular rush to target you.",
+    "description": "This enormous quadrupedal robot seems to be cobbled together from parts, most of them unfamiliar to you.  It moves with a heavy, oddly graceful gait, its footsteps leaving shallow craters behind.  It bristles with an arsenal of weaponry.  While it doesn't seem to be in a rush to target you, it would be prudent to keep your distance.",
     "default_faction": "exodii",
     "volume": "413 L",
     "weight": "517 kg",
@@ -132,7 +132,7 @@
     "material": [ "steel" ],
     "speed": 110,
     "symbol": "M",
-    "aggression": -5,
+    "aggression": -10,
     "morale": 70,
     "hp": 240,
     "color": "light_gray",
@@ -151,7 +151,7 @@
     "starting_ammo": { "123ln": 3000 },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [
-      [ "FLAMETHROWER", 10 ],
+      { "type": "spell", "spell_data": { "id": "exodii_weapon_pod", "min_level": 3 }, "cooldown": 200 },
       {
         "type": "gun",
         "cooldown": 1,

@@ -5486,7 +5486,7 @@
     "time": "6 m 30 s",
     "autolearn": true,
     "qualities": [ { "id": "COOK", "level": 1 } ],
-    "components": [ [ [ "milk_cream", 1 ] ], [ [ "butter", 16 ] ], [ [ "sugar_standard", 1, "LIST" ] ] ]
+    "components": [ [ [ "milk_cream", 1 ] ], [ [ "any_butter", 16, "LIST" ] ], [ [ "sugar_standard", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",

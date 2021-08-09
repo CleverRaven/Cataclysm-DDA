@@ -77,7 +77,7 @@
       { "item": "bag_canvas_small", "prob": 50 },
       { "item": "box_small", "prob": 40 },
       { "item": "wrapper", "prob": 60 },
-      { "item": "paper", "prob": 10 },
+      { "item": "paper", "prob": 10, "count": [ 5, 10 ] },
       { "item": "cup_plastic", "prob": 10 },
       { "item": "styrofoam_cup", "prob": 10 }
     ]

@@ -29,6 +29,7 @@
 #include "debug.h"
 #include "enums.h"
 #include "faction.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "iexamine.h"
@@ -3812,6 +3813,9 @@ bool basecamp::distribute_food()
         }
         // Stuff like butchery refuse and other disgusting stuff
         if( it.get_comestible_fun() < -6 ) {
+            return false;
+        }
+        if( it.has_flag( flag_INEDIBLE ) ) {
             return false;
         }
         if( it.rotten() ) {
