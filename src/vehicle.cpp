@@ -27,6 +27,7 @@
 #include "clzones.h"
 #include "colony.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
@@ -662,7 +663,7 @@ void vehicle::autopilot_patrol()
     map &here = get_map();
     // if we are close to a waypoint, then return to come back to this function next turn.
     if( autodrive_local_target != tripoint_zero ) {
-        if( rl_dist( here.getabs( global_pos3() ), autodrive_local_target ) <= 3 ) {
+        if( rl_dist( global_square_location().raw(), autodrive_local_target ) <= 3 ) {
             autodrive_local_target = tripoint_zero;
             return;
         }
@@ -676,7 +677,7 @@ void vehicle::autopilot_patrol()
     }
     zone_manager &mgr = zone_manager::get_manager();
     const auto &zone_src_set = mgr.get_near( zone_type_id( "VEHICLE_PATROL" ),
-                               here.getabs( global_pos3() ), 60 );
+                               global_square_location().raw(), 60 );
     if( zone_src_set.empty() ) {
         is_patrolling = false;
         return;
@@ -706,8 +707,8 @@ void vehicle::autopilot_patrol()
                              point_along,
                              min.z );
     tripoint chosen_tri = min_tri;
-    if( rl_dist( max_tri, here.getabs( global_pos3() ) ) >= rl_dist( min_tri,
-            here.getabs( global_pos3() ) ) ) {
+    if( rl_dist( max_tri, global_square_location().raw() ) >= rl_dist( min_tri,
+            global_square_location().raw() ) ) {
         chosen_tri = max_tri;
     }
     autodrive_local_target = chosen_tri;
@@ -771,7 +772,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     }
     refresh();
     map &here = get_map();
-    tripoint vehpos = here.getabs( global_pos3() );
+    tripoint vehpos = global_square_location().raw();
     units::angle angle = get_angle_from_targ( target );
     // now we got the angle to the target, we can work out when we are heading towards disaster.
     // Check the tileray in the direction we need to head towards.
@@ -862,7 +863,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
 
 units::angle vehicle::get_angle_from_targ( const tripoint &targ )
 {
-    tripoint vehpos = get_map().getabs( global_pos3() );
+    tripoint vehpos = global_square_location().raw();
     rl_vec2d facevec = face_vec();
     point rel_pos_target = targ.xy() - vehpos.xy();
     rl_vec2d targetvec = rl_vec2d( rel_pos_target.x, rel_pos_target.y );
@@ -3134,6 +3135,16 @@ monster *vehicle::get_monster( int p ) const
     return nullptr;
 }
 
+tripoint_abs_ms vehicle::global_square_location() const
+{
+    return tripoint_abs_ms( get_map().getabs( global_pos3() ) );
+}
+
+tripoint_abs_omt vehicle::global_omt_location() const
+{
+    return project_to<coords::omt>( global_square_location() );
+}
+
 tripoint vehicle::global_pos3() const
 {
     return sm_to_ms_copy( sm_pos ) + pos;
@@ -3151,13 +3162,12 @@ tripoint vehicle::global_part_pos3( const vehicle_part &pt ) const
 
 void vehicle::set_submap_moved( const tripoint &p )
 {
-    const point old_msp = get_map().getabs( global_pos3().xy() );
+    const point_abs_ms old_msp = global_square_location().xy();
     sm_pos = p;
     if( !tracking_on ) {
         return;
     }
-    // TODO: fix point types
-    overmap_buffer.move_vehicle( this, point_abs_ms( old_msp ) );
+    overmap_buffer.move_vehicle( this, old_msp );
 }
 
 units::mass vehicle::total_mass() const
@@ -4729,9 +4739,7 @@ int vehicle::total_solar_epower_w() const
 int vehicle::total_wind_epower_w() const
 {
     map &here = get_map();
-    // TODO: fix point types
-    const oter_id &cur_om_ter =
-        overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( global_pos3() ) ) ) );
+    const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
     weather_manager &weather = get_weather();
     const w_point weatherPoint = *weather.weather_precise;
     int epower_w = 0;
@@ -5921,7 +5929,7 @@ void vehicle::do_towing_move()
     units::angle towing_veh_angle = towed_veh->get_angle_from_targ( tower_tow_point );
     const bool reverse = towed_veh->tow_data.tow_direction == TOW_BACK;
     int accel_y = 0;
-    tripoint vehpos = here.getabs( towed_veh->global_pos3() );
+    tripoint vehpos = global_square_location().raw();
     int turn_x = get_turn_from_angle( towing_veh_angle, vehpos, tower_tow_point, reverse );
     if( rl_dist( towed_tow_point, tower_tow_point ) < 6 ) {
         accel_y = reverse ? -1 : 1;
@@ -6918,7 +6926,7 @@ void vehicle::update_time( const time_point &update_to )
     }
     // Get one weather data set per vehicle, they don't differ much across vehicle area
     const weather_sum accum_weather = sum_conditions( update_from, update_to,
-                                      here.getabs( global_pos3() ) );
+                                      global_square_location().raw() );
     // make some reference objects to use to check for reload
     const item water( "water" );
     const item water_clean( "water_clean" );

@@ -575,8 +575,7 @@ void overmapbuffer::set_scent( const tripoint_abs_omt &loc, int strength )
 
 void overmapbuffer::move_vehicle( vehicle *veh, const point_abs_ms &old_msp )
 {
-    // TODO: fix point types
-    const point_abs_ms new_msp( get_map().getabs( veh->global_pos3().xy() ) );
+    const point_abs_ms new_msp = veh->global_square_location().xy();
     const point_abs_omt old_omt = project_to<coords::omt>( old_msp );
     const point_abs_omt new_omt = project_to<coords::omt>( new_msp );
     const overmap_with_local_coords old_om_loc = get_om_global( old_omt );
@@ -604,18 +603,23 @@ void overmapbuffer::remove_camp( const basecamp &camp )
 
 void overmapbuffer::remove_vehicle( const vehicle *veh )
 {
-    // TODO: fix point types
-    const point_abs_omt omt( ms_to_omt_copy( get_map().getabs( veh->global_pos3().xy() ) ) );
-    const overmap_with_local_coords om_loc = get_om_global( omt );
+    const tripoint_abs_omt omt = veh->global_omt_location();
+    const overmap_with_local_coords om_loc = get_existing_om_global( omt );
+    if( !om_loc.om ) {
+        debugmsg( "Can't find overmap for vehicle at %s", omt.to_string_writable() );
+        return;
+    }
     om_loc.om->vehicles.erase( veh->om_id );
 }
 
 void overmapbuffer::add_vehicle( vehicle *veh )
 {
-    const point abs_pos = get_map().getabs( veh->global_pos3().xy() );
-    // TODO: fix point types
-    const point_abs_omt omt( ms_to_omt_copy( abs_pos ) );
-    const overmap_with_local_coords om_loc = get_om_global( omt );
+    const tripoint_abs_omt omt = veh->global_omt_location();
+    const overmap_with_local_coords om_loc = get_existing_om_global( omt );
+    if( !om_loc.om ) {
+        debugmsg( "Can't find overmap for vehicle at %s", omt.to_string_writable() );
+        return;
+    }
     int id = om_loc.om->vehicles.size() + 1;
     // this *should* be unique but just in case
     while( om_loc.om->vehicles.count( id ) > 0 ) {
