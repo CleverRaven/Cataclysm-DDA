@@ -2559,6 +2559,12 @@ class Character : public Creature, public visitable
         /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
         bool is_wearing_shoes( const side &which_side = side::BOTH ) const;
 
+        /** Returns true if the worn item is visible (based on layering and coverage) */
+        bool is_worn_item_visible( std::list<item>::const_iterator ) const;
+
+        /** Returns all worn items visible to an outside observer */
+        std::list<item> get_visible_worn_items() const;
+
         /** Swap side on which item is worn; returns false on fail. If interactive is false, don't alert player or drain moves */
         bool change_side( item &it, bool interactive = true );
         bool change_side( item_location &loc, bool interactive = true );

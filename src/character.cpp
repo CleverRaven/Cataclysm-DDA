@@ -8071,9 +8071,13 @@ std::string Character::extended_description() const
 
     ss += "\n";
     ss += _( "Wearing:" ) + std::string( " " );
-    ss += enumerate_as_string( worn.begin(), worn.end(), []( const item & it ) {
+
+    const std::list<item> visible_worn_items = get_visible_worn_items();
+    std::string worn_string = enumerate_as_string( visible_worn_items.begin(), visible_worn_items.end(),
+    []( const item & it ) {
         return it.tname();
     } );
+    ss += !worn_string.empty() ? worn_string : _( "Nothing" );
 
     return replace_colors( ss );
 }
@@ -10572,6 +10576,35 @@ bool Character::is_wearing_shoes( const side &which_side ) const
     }
 }
 
+bool Character::is_worn_item_visible( std::list<item>::const_iterator worn_item ) const
+{
+    const body_part_set worn_item_body_parts = worn_item->get_covered_body_parts();
+    return std::any_of( worn_item_body_parts.begin(), worn_item_body_parts.end(),
+    [this, &worn_item]( const bodypart_str_id & bp ) {
+        // no need to check items that are worn under worn_item in the armor sort order
+        for( auto i = std::next( worn_item ), end = worn.end(); i != end; ++i ) {
+            if( i->covers( bp ) && i->get_layer() != layer_level::BELTED &&
+                i->get_layer() != layer_level::WAIST &&
+                i->get_coverage( bp ) >= worn_item->get_coverage( bp ) ) {
+                return false;
+            }
+        }
+        return true;
+    }
+                      );
+}
+
+std::list<item> Character::get_visible_worn_items() const
+{
+    std::list<item> result;
+    for( auto i = worn.cbegin(), end = worn.cend(); i != end; ++i ) {
+        if( is_worn_item_visible( i ) ) {
+            result.push_back( *i );
+        }
+    }
+    return result;
+}
+
 bool Character::is_wearing_helmet() const
 {
     for( const item &i : worn ) {
@@ -12309,7 +12342,9 @@ std::vector<std::string> Character::short_description_parts() const
     if( is_armed() ) {
         result.push_back( _( "Wielding: " ) + weapon.tname() );
     }
-    const std::string worn_str = enumerate_as_string( worn.begin(), worn.end(),
+    const std::list<item> visible_worn_items = get_visible_worn_items();
+    const std::string worn_str = enumerate_as_string( visible_worn_items.begin(),
+                                 visible_worn_items.end(),
     []( const item & it ) {
         return it.tname();
     } );
