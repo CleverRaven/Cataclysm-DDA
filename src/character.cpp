@@ -12967,13 +12967,17 @@ std::vector<display_proficiency> Character::display_proficiencies() const
 void Character::practice_proficiency( const proficiency_id &prof, const time_duration &amount,
                                       const cata::optional<time_duration> &max )
 {
-    int amt = to_seconds<int>( amount );
+    // Proficiencies can ignore focus using the `ignore_focus` JSON property
+    const bool ignore_focus = prof->ignore_focus();
+    const time_duration &focused_amount = ignore_focus ? amount : time_duration::from_seconds(
+            adjust_for_focus( to_seconds<int>( amount ) ) / 100 );
+
     const float pct_before = _proficiencies->pct_practiced( prof );
-    time_duration focused_amount = time_duration::from_seconds( adjust_for_focus( amt ) / 100 );
     const bool learned = _proficiencies->practice( prof, focused_amount, max );
     const float pct_after = _proficiencies->pct_practiced( prof );
 
-    if( pct_after > pct_before ) {
+    // Drain focus if necessary
+    if( !ignore_focus && pct_after > pct_before ) {
         focus_pool -= focus_pool / 100;
     }
 
