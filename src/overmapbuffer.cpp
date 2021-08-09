@@ -552,16 +552,9 @@ void overmapbuffer::move_hordes()
 {
     // arbitrary radius to include nearby overmaps (aside from the current one)
     const int radius = MAPSIZE * 2;
-<<<<<<< HEAD
-    // TODO: fix point types
-    const tripoint_abs_sm center( get_player_character().global_sm_location() );
-    for( overmap *om : get_overmaps_near( center, radius ) ) {
-=======
     const tripoint_abs_sm center = get_player_character().global_sm_location();
     for( auto &om : get_overmaps_near( center, radius ) ) {
->>>>>>> master
         om->move_hordes();
-        //fix_mongroups( *om );
     }
 }
 
