@@ -4252,8 +4252,18 @@ std::string enum_to_string<rummage_pocket_activity_actor::action>(
     const rummage_pocket_activity_actor::action kind )
 {
     switch( kind ) {
+        case rummage_pocket_activity_actor::action::apply_use:
+            return "apply_use";
+        case rummage_pocket_activity_actor::action::drop:
+            return "drop";
+        case rummage_pocket_activity_actor::action::eat:
+            return "eat";
+        case rummage_pocket_activity_actor::action::empty:
+            return "empty";
         case rummage_pocket_activity_actor::action::none:
             return "none";
+        case rummage_pocket_activity_actor::action::plthrow:
+            return "plthrow";
         case rummage_pocket_activity_actor::action::read:
             return "read";
         case rummage_pocket_activity_actor::action::wear:
