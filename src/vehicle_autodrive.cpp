@@ -1253,7 +1253,7 @@ autodrive_result vehicle::do_autodrive( Character &driver )
         return autodrive_result::abort;
     }
     if( next_step->target_speed_tps == 0 && velocity == 0 ) {
-        stop_autodriving();
+        stop_autodriving( false );
         return autodrive_result::finished;
     }
     cruise_on = true;
