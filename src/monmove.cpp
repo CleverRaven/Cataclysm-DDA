@@ -151,82 +151,6 @@ bool monster::will_move_to( const tripoint &p ) const
         return false; // if a large critter, can't move through tight passages
     }
 
-    // Various avoiding behaviors.
-
-    bool avoid_fire = has_flag( MF_AVOID_FIRE );
-    bool avoid_fall = has_flag( MF_AVOID_FALL );
-    bool avoid_simple = has_flag( MF_AVOID_DANGER_1 );
-    bool avoid_complex = has_flag( MF_AVOID_DANGER_2 );
-    /*
-     * Because some avoidance behaviors are supersets of others,
-     * we can cascade through the implications. Complex implies simple,
-     * and simple implies fire and fall.
-     * unfortunately, fall does not necessarily imply fire, nor the converse.
-     */
-    if( avoid_complex ) {
-        avoid_simple = true;
-    }
-    if( avoid_simple ) {
-        avoid_fire = true;
-        avoid_fall = true;
-    }
-
-    // technically this will shortcut in evaluation from fire or fall
-    // before hitting simple or complex but this is more explicit
-    if( avoid_fire || avoid_fall || avoid_simple || avoid_complex ) {
-        const ter_id target = here.ter( p );
-
-        // Don't enter lava if we have any concept of heat being bad
-        if( avoid_fire && target == t_lava ) {
-            return false;
-        }
-
-        if( avoid_fall ) {
-            // Don't throw ourselves off cliffs if we have a concept of falling
-            if( !here.has_floor( p ) && !flies() ) {
-                return false;
-            }
-
-            // Don't enter open pits ever unless tiny, can fly or climb well
-            if( !( type->size == creature_size::tiny || can_climb() ) &&
-                ( target == t_pit || target == t_pit_spiked || target == t_pit_glass ) ) {
-                return false;
-            }
-        }
-
-        // Some things are only avoided if we're not attacking
-        if( attitude( &get_player_character() ) != MATT_ATTACK ) {
-            // Sharp terrain is ignored while attacking
-            if( avoid_simple && here.has_flag( "SHARP", p ) &&
-                !( type->size == creature_size::tiny || flies() ) ) {
-                return false;
-            }
-        }
-
-        const field &target_field = here.field_at( p );
-
-        // Higher awareness is needed for identifying these as threats.
-        if( avoid_complex ) {
-            // Don't enter any dangerous fields
-            if( is_dangerous_fields( target_field ) ) {
-                return false;
-            }
-            // Don't step on any traps (if we can see)
-            const trap &target_trap = here.tr_at( p );
-            if( has_flag( MF_SEES ) && !target_trap.is_benign() && here.has_floor( p ) ) {
-                return false;
-            }
-        }
-
-        // Without avoid_complex, only fire and electricity are checked for field avoidance.
-        if( avoid_fire && target_field.find_field( fd_fire ) ) {
-            return false;
-        }
-        if( avoid_simple && target_field.find_field( fd_electricity ) ) {
-            return false;
-        }
-    }
-
     return true;
 }
 
@@ -882,7 +806,9 @@ void monster::move()
             if( pf_settings.max_dist >= rl_dist( pos(), goal ) &&
                 ( path.empty() || rl_dist( pos(), path.front() ) >= 2 || path.back() != goal ) ) {
                 // We need a new path
-                path = here.route( pos(), goal, pf_settings, get_path_avoid() );
+                path = here.route( pos(), goal, pf_settings, get_path_avoid(), [this]( const tripoint & p ) {
+                    return move_avoid_cost( p );
+                } );
             }
 
             // Try to respect old paths, even if we can't pathfind at the moment
@@ -2182,4 +2108,85 @@ void monster::shove_vehicle( const tripoint &remote_destination,
             }
         }
     }
+}
+
+int monster::move_avoid_cost( tripoint p ) const
+{
+    map &here = get_map();
+    // Various avoiding behaviors.
+
+    bool avoid_fire = has_flag( MF_AVOID_FIRE );
+    bool avoid_fall = has_flag( MF_AVOID_FALL );
+    bool avoid_simple = has_flag( MF_AVOID_DANGER_1 );
+    bool avoid_complex = has_flag( MF_AVOID_DANGER_2 );
+    /*
+     * Because some avoidance behaviors are supersets of others,
+     * we can cascade through the implications. Complex implies simple,
+     * and simple implies fire and fall.
+     * unfortunately, fall does not necessarily imply fire, nor the converse.
+     */
+    if( avoid_complex ) {
+        avoid_simple = true;
+    }
+    if( avoid_simple ) {
+        avoid_fire = true;
+        avoid_fall = true;
+    }
+
+    // technically this will shortcut in evaluation from fire or fall
+    // before hitting simple or complex but this is more explicit
+    if( avoid_fire || avoid_fall || avoid_simple || avoid_complex ) {
+        const ter_id target = here.ter( p );
+
+        // Don't enter lava if we have any concept of heat being bad
+        if( avoid_fire && target == t_lava ) {
+            return 1000;
+        }
+
+        if( avoid_fall ) {
+            // Don't throw ourselves off cliffs if we have a concept of falling
+            if( !here.has_floor( p ) && !flies() ) {
+                return 500;
+            }
+
+            // Don't enter open pits ever unless tiny, can fly or climb well
+            if( !( type->size == creature_size::tiny || can_climb() ) &&
+                ( target == t_pit || target == t_pit_spiked || target == t_pit_glass ) ) {
+                return 1000;
+            }
+        }
+
+        // Some things are only avoided if we're not attacking
+        if( attitude( &get_player_character() ) != MATT_ATTACK ) {
+            // Sharp terrain is ignored while attacking
+            if( avoid_simple && here.has_flag( "SHARP", p ) &&
+                !( type->size == creature_size::tiny || flies() ) ) {
+                return 200;
+            }
+        }
+
+        const field &target_field = here.field_at( p );
+
+        // Higher awareness is needed for identifying these as threats.
+        if( avoid_complex ) {
+            // Don't enter any dangerous fields
+            if( is_dangerous_fields( target_field ) ) {
+                return 500;
+            }
+            // Don't step on any traps (if we can see)
+            const trap &target_trap = here.tr_at( p );
+            if( has_flag( MF_SEES ) && !target_trap.is_benign() && here.has_floor( p ) ) {
+                return 500;
+            }
+        }
+
+        // Without avoid_complex, only fire and electricity are checked for field avoidance.
+        if( avoid_fire && target_field.find_field( fd_fire ) ) {
+            return 800;
+        }
+        if( avoid_simple && target_field.find_field( fd_electricity ) ) {
+            return 500;
+        }
+    }
+    return 0;
 }

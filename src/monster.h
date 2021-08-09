@@ -598,6 +598,8 @@ class monster : public Creature
 
         /** Processes monster-specific effects of an effect. */
         void process_one_effect( effect &it, bool is_new ) override;
+
+        int move_avoid_cost( tripoint p ) const;
 };
 
 #endif // CATA_SRC_MONSTER_H
