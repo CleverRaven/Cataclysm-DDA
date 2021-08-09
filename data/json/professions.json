@@ -817,7 +817,7 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           {
-            "item": "nato_assault_rifle",
+            "item": "m4_carbine",
             "variant": "m4a1",
             "ammo-item": "556",
             "charges": 30,
@@ -1013,7 +1013,7 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           {
-            "item": "nato_assault_rifle",
+            "item": "m4_carbine",
             "variant": "m4a1",
             "ammo-item": "556",
             "charges": 30,
@@ -1117,7 +1117,7 @@
         "entries": [
           { "item": "knife_combat", "container-item": "sheath" },
           {
-            "item": "nato_assault_rifle",
+            "item": "m4_carbine",
             "variant": "m4a1",
             "ammo-item": "556",
             "charges": 30,
@@ -2982,7 +2982,7 @@
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "nato_assault_rifle", "variant": "m4a1", "ammo-item": "556", "contents-item": "shoulder_strap" },
+          { "item": "m4_carbine", "variant": "m4a1", "ammo-item": "556", "contents-item": "shoulder_strap" },
           {
             "item": "medium_plus_battery_cell",
             "ammo-item": "battery",
@@ -3941,7 +3941,7 @@
           { "item": "stethoscope", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           {
-            "item": "nato_assault_rifle",
+            "item": "m4_carbine",
             "variant": "m4a1",
             "ammo-item": "556",
             "charges": 30,
