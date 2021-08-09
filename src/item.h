@@ -701,7 +701,8 @@ class item : public visitable
          * @return true if this item should be deleted (count-by-charges items with no remaining charges)
          */
         bool use_charges( const itype_id &what, int &qty, std::list<item> &used, const tripoint &pos,
-                          const std::function<bool( const item & )> &filter = return_true<item> );
+                          const std::function<bool( const item & )> &filter = return_true<item>,
+                          Character *carrier = nullptr );
 
         /**
          * Invokes item type's @ref itype::drop_action.

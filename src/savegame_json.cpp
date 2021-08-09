@@ -694,6 +694,7 @@ void Character::load( const JsonObject &data )
     recalculate_size();
 
     data.read( "my_bionics", *my_bionics );
+    invalidate_pseudo_items();
 
     for( auto &w : worn ) {
         w.on_takeoff( *this );

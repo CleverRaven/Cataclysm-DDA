@@ -1229,7 +1229,8 @@ class Character : public Creature, public visitable
         /** Handles bionic activation effects of the entered bionic, returns if anything activated */
         bool activate_bionic( int b, bool eff_only = false, bool *close_bionics_ui = nullptr );
         std::vector<bionic_id> get_bionics() const;
-        std::vector<item> get_pseudo_items() const;
+        std::vector<const item *> get_pseudo_items() const;
+        void invalidate_pseudo_items();
         /** Returns amount of Storage CBMs in the corpse **/
         std::pair<int, int> amount_of_storage_bionics() const;
         /** Returns true if the player has the entered bionic id */
@@ -3096,6 +3097,9 @@ class Character : public Creature, public visitable
         mutable crafting_cache_type crafting_cache;
 
         time_point melee_warning_turn = calendar::turn_zero;
+
+        mutable bool pseudo_items_valid = false;
+        mutable std::vector<const item *> pseudo_items;
     protected:
         /** Subset of learned recipes. Needs to be mutable for lazy initialization. */
         mutable pimpl<recipe_subset> learned_recipes;
