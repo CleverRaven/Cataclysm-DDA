@@ -957,7 +957,7 @@
   {
     "type": "terrain",
     "id": "t_privacy_fencegate_c",
-    "name": "closed wooden split rail gate",
+    "name": "closed wooden privacy gate",
     "description": "A commercial quality gate made of wood with a latch system.",
     "symbol": "+",
     "color": "brown",
@@ -995,7 +995,7 @@
   {
     "type": "terrain",
     "id": "t_privacy_fencegate_o",
-    "name": "open wooden split rail gate",
+    "name": "open wooden privacy gate",
     "description": "A commercial quality gate made of wood with a latch system.  The gate is wide open, allowing anything to travel through.",
     "symbol": ".",
     "color": "brown",

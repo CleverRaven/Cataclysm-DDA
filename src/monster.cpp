@@ -231,7 +231,7 @@ void monster::setpos( const tripoint &p )
 
     bool wandering = wander();
     g->update_zombie_pos( *this, p );
-    position = p;
+    Creature::setpos( p );
     if( has_effect( effect_ridden ) && mounted_player && mounted_player->pos() != pos() ) {
         add_msg_debug( debugmode::DF_MONSTER, "Ridden monster %s moved independently and dumped player",
                        get_name() );

@@ -3,7 +3,7 @@
     "id": "bathroom_scale",
     "type": "TOOL",
     "name": { "str": "bathroom scale" },
-    "symbol": "■",
+    "symbol": "_",
     "color": "light_gray",
     "description": "This is a small bathroom scale, meant to weigh a person while naked.",
     "weight": "1200 g",
