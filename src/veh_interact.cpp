@@ -3256,7 +3256,7 @@ void veh_interact::complete_vehicle( Character &you )
             }
 
             you.add_msg_if_player( m_good, _( "You install a %1$s into the %2$s." ),
-                                 veh->part( partnum ).name(), veh->name );
+                                   veh->part( partnum ).name(), veh->name );
 
             for( const auto &sk : vpinfo.install_skills ) {
                 you.practice( sk.first, veh_utils::calc_xp_gain( vpinfo, sk.first, you ) );
@@ -3291,11 +3291,11 @@ void veh_interact::complete_vehicle( Character &you )
                 if( remaining_ammo_capacity ) {
                     //~ 1$s vehicle name, 2$s tank name
                     you.add_msg_if_player( m_good, _( "You refill the %1$s's %2$s." ),
-                                         veh->name, pt.name() );
+                                           veh->name, pt.name() );
                 } else {
                     //~ 1$s vehicle name, 2$s tank name
                     you.add_msg_if_player( m_good, _( "You completely refill the %1$s's %2$s." ),
-                                         veh->name, pt.name() );
+                                           veh->name, pt.name() );
                 }
 
                 if( contained->charges == 0 ) {
@@ -3314,7 +3314,7 @@ void veh_interact::complete_vehicle( Character &you )
 
                 //~ 1$s vehicle name, 2$s reactor name
                 you.add_msg_if_player( m_good, _( "You refuel the %1$s's %2$s." ),
-                                     veh->name, pt.name() );
+                                       veh->name, pt.name() );
 
                 handler.handle_by( you );
             } else {
@@ -3332,9 +3332,9 @@ void veh_interact::complete_vehicle( Character &you )
                 vehicle_part = veh->get_next_shifted_index( vehicle_part, you );
                 if( vehicle_part == -1 ) {
                     you.add_msg_if_player( m_info,
-                                         //~ 1$s is the vehicle part name
-                                         _( "The %1$s has already been removed by someone else." ),
-                                         vpinfo.name() );
+                                           //~ 1$s is the vehicle part name
+                                           _( "The %1$s has already been removed by someone else." ),
+                                           vpinfo.name() );
                     return;
                 }
             }
@@ -3383,13 +3383,13 @@ void veh_interact::complete_vehicle( Character &you )
 
             if( broken ) {
                 you.add_msg_if_player( _( "You remove the broken %1$s from the %2$s." ),
-                                     veh->part( vehicle_part ).name(), veh->name );
+                                       veh->part( vehicle_part ).name(), veh->name );
             } else if( smash_remove ) {
                 you.add_msg_if_player( _( "You smash the %1$s to bits, removing it from the %2$s." ),
-                                     veh->part( vehicle_part ).name(), veh->name );
+                                       veh->part( vehicle_part ).name(), veh->name );
             } else {
                 you.add_msg_if_player( _( "You remove the %1$s from the %2$s." ),
-                                     veh->part( vehicle_part ).name(), veh->name );
+                                       veh->part( vehicle_part ).name(), veh->name );
             }
 
             if( broken ) {
