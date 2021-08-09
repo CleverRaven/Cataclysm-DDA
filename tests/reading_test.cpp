@@ -333,9 +333,8 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
             CHECK( reasons == expect_reasons );
         }
 
-        THEN( "you cannot read without enough skill to understand the book, even if your practical skill is high" ) {
+        THEN( "you cannot read without enough skill to understand the book" ) {
             dummy.set_knowledge_level( skill_id( "chemistry" ), 5 );
-            dummy.set_skill_level( skill_id( "chemistry" ), 6 );
 
             CHECK( dummy.get_book_reader( alpha, reasons ) == nullptr );
             expect_reasons = { "applied science 6 needed to understand.  You have 5" };
