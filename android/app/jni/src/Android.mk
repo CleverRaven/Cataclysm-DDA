@@ -14,7 +14,7 @@ LOCAL_SHARED_LIBRARIES := libhidapi SDL2 SDL2_mixer SDL2_image SDL2_ttf libintl-
 
 LOCAL_LDLIBS := -lGLESv1_CM -lGLESv2 -llog
 
-LOCAL_CFLAGS += -DTILES=1 -DSDL_SOUND=1 -DBACKTRACE=1 -DLOCALIZE=1 -Wextra -Wall -fsigned-char -ffast-math
+LOCAL_CFLAGS += -DTILES=1 -DSDL_SOUND=1 -DBACKTRACE=1 -DLOCALIZE=1 -Wextra -Wall -fsigned-char
 
 LOCAL_LDFLAGS += $(LOCAL_CFLAGS)
 

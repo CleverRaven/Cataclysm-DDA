@@ -390,7 +390,7 @@
     "category": "books",
     "symbol": ",",
     "color": "white",
-    "name": { "str": "pieces of a book" },
+    "name": { "str_sp": "pieces of books" },
     "description": "Scraps of paper that used to be part of a book.  Completely useless now.",
     "price": 0,
     "price_postapoc": 0,

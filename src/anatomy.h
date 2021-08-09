@@ -35,6 +35,7 @@ class anatomy
         anatomy() = default;
         anatomy( const anatomy & ) = default;
         anatomy &operator=( const anatomy & ) = default;
+        explicit anatomy( const std::vector<bodypart_id> &parts );
 
         /** Returns a random body_part token. main_parts_only will limit it to arms, legs, torso, and head. */
         bodypart_id random_body_part() const;

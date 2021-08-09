@@ -236,7 +236,7 @@ cata::optional<int> handle_ground_graffiti( Character &p, item *it, const std::s
         const tripoint &where );
 
 //helper for lit cigs
-cata::optional<std::string> can_smoke( const player &u );
+cata::optional<std::string> can_smoke( const Character &you );
 } // namespace iuse
 
 void remove_radio_mod( item &it, Character &p );

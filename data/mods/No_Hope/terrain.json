@@ -1,0 +1,246 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_wall",
+    "alias": [ "t_wall_h", "t_wall_v" ],
+    "name": "wall",
+    "description": "The stereotypical wall with wooden support structure filled with insulation and drywalled.  Paint job is the all too common and neutral off-white or cream color, it could use more vibrant paint.",
+    "symbol": "LINE_OXOX",
+    "color": "light_gray",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_flat_roof",
+    "flags": [ "FLAMMABLE_HARD", "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 210,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": "wall_bash_results"
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_r",
+    "alias": [ "t_wall_h_r", "t_wall_v_r" ],
+    "looks_like": "t_wall",
+    "name": "red wall",
+    "description": "Wall painted red.",
+    "symbol": "LINE_OXOX",
+    "color": "red",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_flat_roof",
+    "flags": [
+      "FLAMMABLE_HARD",
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "NO_SCENT",
+      "CHIP",
+      "AUTO_WALL_SYMBOL",
+      "MINEABLE",
+      "BLOCK_WIND"
+    ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 210,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": "wall_bash_results"
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_w",
+    "alias": [ "t_wall_h_w", "t_wall_v_w" ],
+    "looks_like": "t_wall",
+    "name": "white wall",
+    "description": "Wall painted white.",
+    "symbol": "LINE_OXOX",
+    "color": "white",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_flat_roof",
+    "flags": [
+      "FLAMMABLE_HARD",
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "NO_SCENT",
+      "CHIP",
+      "AUTO_WALL_SYMBOL",
+      "MINEABLE",
+      "BLOCK_WIND"
+    ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 210,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": "wall_bash_results"
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_b",
+    "alias": [ "t_wall_h_b", "t_wall_v_b" ],
+    "looks_like": "t_wall",
+    "name": "blue wall",
+    "description": "Wall painted blue.",
+    "symbol": "LINE_OXOX",
+    "color": "blue",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_flat_roof",
+    "flags": [
+      "FLAMMABLE_HARD",
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "NO_SCENT",
+      "CHIP",
+      "AUTO_WALL_SYMBOL",
+      "MINEABLE",
+      "BLOCK_WIND"
+    ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 210,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": "wall_bash_results"
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_g",
+    "alias": [ "t_wall_h_g", "t_wall_v_g" ],
+    "looks_like": "t_wall",
+    "name": "green wall",
+    "description": "Wall painted green.",
+    "symbol": "LINE_OXOX",
+    "color": "green",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_flat_roof",
+    "flags": [
+      "FLAMMABLE_HARD",
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "NO_SCENT",
+      "CHIP",
+      "AUTO_WALL_SYMBOL",
+      "MINEABLE",
+      "BLOCK_WIND"
+    ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 210,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": "wall_bash_results"
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_y",
+    "alias": [ "t_wall_h_y", "t_wall_v_y" ],
+    "looks_like": "t_wall",
+    "name": "yellow wall",
+    "description": "Wall painted yellow.",
+    "symbol": "LINE_OXOX",
+    "color": "yellow",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_flat_roof",
+    "flags": [
+      "FLAMMABLE_HARD",
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "NO_SCENT",
+      "CHIP",
+      "AUTO_WALL_SYMBOL",
+      "MINEABLE",
+      "BLOCK_WIND"
+    ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 210,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": "wall_bash_results"
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_P",
+    "alias": [ "t_wall_h_P", "t_wall_v_P" ],
+    "looks_like": "t_wall",
+    "name": "pink wall",
+    "description": "Wall painted pink.",
+    "symbol": "LINE_OXOX",
+    "color": "pink",
+    "move_cost": 0,
+    "coverage": 100,
+    "flags": [
+      "FLAMMABLE_HARD",
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "NO_SCENT",
+      "CHIP",
+      "AUTO_WALL_SYMBOL",
+      "MINEABLE",
+      "BLOCK_WIND"
+    ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 210,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": "wall_bash_results"
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wall_p",
+    "alias": [ "t_wall_h_p", "t_wall_v_p" ],
+    "looks_like": "t_wall",
+    "name": "purple wall",
+    "description": "Wall painted purple.",
+    "symbol": "LINE_OXOX",
+    "color": "magenta",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_flat_roof",
+    "flags": [
+      "FLAMMABLE_HARD",
+      "NOITEM",
+      "SUPPORTS_ROOF",
+      "WALL",
+      "NO_SCENT",
+      "CHIP",
+      "AUTO_WALL_SYMBOL",
+      "MINEABLE",
+      "BLOCK_WIND"
+    ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 210,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": "wall_bash_results"
+    }
+  }
+]

@@ -211,7 +211,8 @@ class inventory : public visitable
         // Assigns the item with the given invlet, and updates the favorite invlet cache. Does not check for uniqueness
         void reassign_item( item &it, char invlet, bool remove_old = true );
         // Removes invalid invlets, and assigns new ones if assign_invlet is true. Does not update the invlet cache.
-        void update_invlet( item &it, bool assign_invlet = true );
+        void update_invlet( item &it, bool assign_invlet = true,
+                            const item *ignore_invlet_collision_with = nullptr );
 
         invlets_bitset allocated_invlets() const;
 
