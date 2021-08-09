@@ -304,7 +304,7 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
 
     // Unboard all passengers before detaching
     for( auto const &part : veh->get_avail_parts( VPFLAG_BOARDABLE ) ) {
-        player *passenger = part.get_passenger();
+        Character *passenger = part.get_passenger();
         if( passenger ) {
             unboard_vehicle( part, passenger );
         }
@@ -1001,7 +1001,7 @@ void map::board_vehicle( const tripoint &pos, Character *p )
         return;
     }
     if( vp->part().has_flag( vehicle_part::passenger_flag ) ) {
-        player *psg = vp->vehicle().get_passenger( vp->part_index() );
+        Character *psg = vp->vehicle().get_passenger( vp->part_index() );
         debugmsg( "map::board_vehicle: passenger (%s) is already there",
                   psg ? psg->name : "<null>" );
         unboard_vehicle( pos );
@@ -1040,7 +1040,7 @@ void map::unboard_vehicle( const vpart_reference &vp, Character *passenger, bool
 void map::unboard_vehicle( const tripoint &p, bool dead_passenger )
 {
     const cata::optional<vpart_reference> vp = veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, false );
-    player *passenger = nullptr;
+    Character *passenger = nullptr;
     if( !vp ) {
         debugmsg( "map::unboard_vehicle: vehicle not found" );
         // Try and force unboard the player anyway.

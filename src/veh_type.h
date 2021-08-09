@@ -26,7 +26,7 @@
 #include "units.h"
 
 class JsonObject;
-class player;
+class Character;
 class vehicle;
 
 // bitmask backing store of -certain- vpart_info.flags, ones that
@@ -275,13 +275,13 @@ class vpart_info
         requirement_data install_requirements() const;
 
         /** Installation time (in moves) for this component accounting for player skills */
-        int install_time( const player &p ) const;
+        int install_time( const Character &you ) const;
 
         /** Requirements for removal of this component */
         requirement_data removal_requirements() const;
 
         /** Removal time (in moves) for this component accounting for player skills */
-        int removal_time( const player &p ) const;
+        int removal_time( const Character &you ) const;
 
         /** Requirements for repair of this component (per level of damage) */
         requirement_data repair_requirements() const;
@@ -290,7 +290,7 @@ class vpart_info
         bool is_repairable() const;
 
         /** Repair time (in moves) to fully repair this component, accounting for player skills */
-        int repair_time( const player &p ) const;
+        int repair_time( const Character &you ) const;
 
         /**
          * @name Engine specific functions
