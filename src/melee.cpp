@@ -373,7 +373,7 @@ void Character::roll_all_damage( bool crit, damage_instance &di, bool average,
 }
 
 static void melee_train( Character &you, int lo, int hi, const item &weap )
-{    
+{
     you.practice( skill_melee, std::ceil( rng( lo, hi ) / 2.0 ), hi );
 
     // allocate XP proportional to damage stats

@@ -2412,7 +2412,7 @@ void monster::die( Creature *nkiller )
             }
             if( !grabbed ) {
                 you->add_msg_player_or_npc( m_good, _( "The last enemy holding you collapses!" ),
-                                          _( "The last enemy holding <npcname> collapses!" ) );
+                                            _( "The last enemy holding <npcname> collapses!" ) );
                 you->remove_effect( effect_grabbed );
             }
         }
