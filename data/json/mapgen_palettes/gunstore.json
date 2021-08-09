@@ -107,7 +107,7 @@
 						{ "group": "guns_rare_display", "prob": 5 }
 						]		
 					},
-					"repeat": 50,
+					"repeat": 20,
 					"chance": 50
 				},				
 			"s": {
