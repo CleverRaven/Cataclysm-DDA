@@ -1718,8 +1718,12 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
             }
             if( same_path_selected && !player_character.omt_path.empty() ) {
                 std::string confirm_msg;
-                if( player_character.weight_carried() > player_character.weight_capacity() ) {
+                if( !driving && player_character.weight_carried() > player_character.weight_capacity() ) {
                     confirm_msg = _( "You are overburdened, are you sure you want to travel (it may be painful)?" );
+                } else if( !driving && player_character.in_vehicle ) {
+                    confirm_msg = _( "You are in a vehicle but not driving.  Are you sure you want to walk?" );
+                } else if( driving ) {
+                    confirm_msg = _( "Drive to this point?" );
                 } else {
                     confirm_msg = _( "Travel to this point?" );
                 }
