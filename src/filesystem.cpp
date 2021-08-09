@@ -1,11 +1,7 @@
 #include "filesystem.h"
 
-#include <cstddef>
-// IWYU pragma: no_include <sys/dirent.h>
-// IWYU pragma: no_include <sys/errno.h>
-// FILE I/O
-#include <sys/stat.h>
 #include <algorithm>
+#include <cstddef>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -21,15 +17,6 @@
 
 #include "cata_utility.h"
 #include "debug.h"
-
-#if defined(_MSC_VER)
-#   include <direct.h>
-
-#   include "wdirent.h"
-#else
-#   include <dirent.h>
-#   include <unistd.h>
-#endif
 
 #if defined(_WIN32)
 #   include "platform_win.h"
