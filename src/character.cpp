@@ -14219,21 +14219,21 @@ int Character::hp_percentage() const
     return ( 100 * total_cur ) / total_max;
 }
 
-void Character::siphon(vehicle& veh, const itype_id& desired_liquid)
+void Character::siphon( vehicle &veh, const itype_id &desired_liquid )
 {
-    int qty = veh.fuel_left(desired_liquid);
-    if (qty <= 0) {
-        add_msg(m_bad, _("There is not enough %s left to siphon it."),
-            item::nname(desired_liquid));
+    int qty = veh.fuel_left( desired_liquid );
+    if( qty <= 0 ) {
+        add_msg( m_bad, _( "There is not enough %s left to siphon it." ),
+                 item::nname( desired_liquid ) );
         return;
     }
 
-    item liquid(desired_liquid, calendar::turn, qty);
-    if (liquid.has_temperature()) {
-        liquid.set_item_specific_energy(veh.fuel_specific_energy(desired_liquid));
+    item liquid( desired_liquid, calendar::turn, qty );
+    if( liquid.has_temperature() ) {
+        liquid.set_item_specific_energy( veh.fuel_specific_energy( desired_liquid ) );
     }
-    if (liquid_handler::handle_liquid(liquid, nullptr, 1, nullptr, &veh)) {
-        veh.drain(desired_liquid, qty - liquid.charges);
+    if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, &veh ) ) {
+        veh.drain( desired_liquid, qty - liquid.charges );
     }
 }
 
