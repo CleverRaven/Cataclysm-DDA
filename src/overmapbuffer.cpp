@@ -658,6 +658,16 @@ const oter_id &overmapbuffer::ter( const tripoint_abs_omt &p )
     return om_loc.om->ter( om_loc.local );
 }
 
+const oter_id &overmapbuffer::ter_existing( const tripoint_abs_omt &p )
+{
+    static const oter_id ot_null;
+    const overmap_with_local_coords om_loc = get_existing_om_global( p );
+    if( !om_loc.om ) {
+        return ot_null;
+    }
+    return om_loc.om->ter( om_loc.local );
+}
+
 void overmapbuffer::ter_set( const tripoint_abs_omt &p, const oter_id &id )
 {
     const overmap_with_local_coords om_loc = get_om_global( p );

@@ -141,10 +141,15 @@ class overmapbuffer
         void create_custom_overmap( const point_abs_om &, overmap_special_batch &specials );
 
         /**
-         * Uses global overmap terrain coordinates, creates the
-         * overmap if needed.
+         * Returns the overmap terrain at the given OMT coordinates.
+         * Creates a new overmap if necessary.
          */
         const oter_id &ter( const tripoint_abs_omt &p );
+        /**
+         * Returns the overmap terrain at the given OMT coordinates.
+         * Returns ot_null if the point is not in any existing overmap.
+         */
+        const oter_id &ter_existing( const tripoint_abs_omt &p );
         void ter_set( const tripoint_abs_omt &p, const oter_id &id );
         cata::optional<mapgen_arguments> *mapgen_args( const tripoint_abs_omt & );
         /**
