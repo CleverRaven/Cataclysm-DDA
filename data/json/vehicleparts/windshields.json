@@ -7,6 +7,8 @@
     "symbols": {
 	  "cover_left": "h",
       "cover_right": "h",
+	  "full_left": "j",
+      "full_right": "j",
       "nw": "y",
       "ne": "u",
       "sw": "b",
@@ -48,12 +50,6 @@
   {
     "copy-from": "windshield_abstract",
     "id": "windshield",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "windshield_abstract",
-    "id": "windshield_full",
-    "looks_like": "windshield",
     "type": "vehicle_part"
   },
   {
@@ -100,12 +96,6 @@
   {
     "copy-from": "reinforced_windshield_abstract",
     "id": "reinforced_windshield",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "reinforced_windshield_abstract",
-    "id": "reinforced_windshield_full",
-    "looks_like": "reinforced_windshield",
     "type": "vehicle_part"
   }
 ]
