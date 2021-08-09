@@ -145,7 +145,7 @@ struct transform_terrain_data {
 const std::vector<std::pair<std::string, translation>> vpart_variants = {
     { "cover_left", to_translation( "vpart_variants", "Cover Left" ) },
     { "cover_right", to_translation( "vpart_variants", "Cover Right" ) },
-	{ "hatch_wheel_left", to_translation( "vpart_variants", "Hatchback Wheel Left" ) },
+    { "hatch_wheel_left", to_translation( "vpart_variants", "Hatchback Wheel Left" ) },
     { "hatch_wheel_right", to_translation( "vpart_variants", "Hatchback Wheel Right" ) },
     { "wheel_left", to_translation( "vpart_variants", "Wheel Left" ) },
     { "wheel_right", to_translation( "vpart_variants", "Wheel Right" ) },
