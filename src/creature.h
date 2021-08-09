@@ -1191,11 +1191,11 @@ class Creature : public location, public viewer
          * Global position, expressed in map square coordinate system
          * (the most detailed coordinate system), used by the @ref map.
          */
-        virtual tripoint global_square_location() const;
+        virtual tripoint_abs_ms global_square_location() const;
         /**
         * Returns the location of the player in global submap coordinates.
         */
-        tripoint global_sm_location() const;
+        tripoint_abs_sm global_sm_location() const;
         /**
         * Returns the location of the player in global overmap terrain coordinates.
         */

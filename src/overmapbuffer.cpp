@@ -18,6 +18,7 @@
 #include "common_types.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
+#include "cuboid_rectangle.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
@@ -151,9 +152,8 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
         npc &np = **it;
         const tripoint_abs_omt npc_omt_pos = np.global_omt_location();
         const point_abs_om npc_om_pos = project_to<coords::om>( npc_omt_pos.xy() );
-        const point_abs_om loc = new_overmap.pos();
-        if( npc_om_pos == loc ) {
-            // Nothing to do
+        if( npc_om_pos == new_overmap.pos() ) {
+            // NPC is still in the same overmap (common case), nothing to do
             ++it;
             continue;
         }
@@ -173,17 +173,15 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
         const point_abs_om loc = new_overmap.pos();
         if( !has( npc_om_pos ) ) {
             // This can't really happen without save editing
-            // We have no sane option here, just place the NPC on the edge
-            debugmsg( "NPC %s is out of bounds, on non-generated overmap %s",
-                      np.name, loc.to_string() );
-            point_abs_sm npc_sm = project_to<coords::sm>( npc_om_pos );
-            point_abs_sm min = project_to<coords::sm>( loc );
-            point_abs_sm max =
-                project_to<coords::sm>( loc + point_south_east ) - point_south_east;
-            npc_sm.x() = clamp( npc_sm.x(), min.x(), max.x() );
-            npc_sm.y() = clamp( npc_sm.y(), min.y(), max.y() );
-            // TODO: fix point types
-            np.spawn_at_sm( tripoint_abs_sm( npc_sm, np.posz() ).raw() );
+            // Just move the NPC back into the bounds of new_overmap, as close
+            // as possible to where they were supposed to be.
+            debugmsg( "NPC %s is out of bounds at %s, on non-generated overmap %s",
+                      np.name, npc_omt_pos.to_string(), loc.to_string() );
+            // bounding box for new_overmap in omt coords
+            const half_open_rectangle<point_abs_omt> om_bounds( project_to<coords::omt>( loc ),
+                    project_to<coords::omt>( loc + point( 1, 1 ) ) ); // NOLINT(cata-use-named-point-constants)
+            const tripoint_abs_omt adjusted_omt_pos( clamp( npc_omt_pos.xy(), om_bounds ),  npc_omt_pos.z() );
+            np.spawn_at_omt( adjusted_omt_pos );
             new_overmap.npcs.push_back( ptr );
             continue;
         }
@@ -492,8 +490,7 @@ void overmapbuffer::process_mongroups()
 {
     // arbitrary radius to include nearby overmaps (aside from the current one)
     const int radius = MAPSIZE * 2;
-    // TODO: fix point types
-    const tripoint_abs_sm center( get_player_character().global_sm_location() );
+    const tripoint_abs_sm center = get_player_character().global_sm_location();
     for( auto &om : get_overmaps_near( center, radius ) ) {
         om->process_mongroups();
     }
@@ -503,8 +500,7 @@ void overmapbuffer::move_hordes()
 {
     // arbitrary radius to include nearby overmaps (aside from the current one)
     const int radius = MAPSIZE * 2;
-    // TODO: fix point types
-    const tripoint_abs_sm center( get_player_character().global_sm_location() );
+    const tripoint_abs_sm center = get_player_character().global_sm_location();
     for( auto &om : get_overmaps_near( center, radius ) ) {
         om->move_hordes();
     }
@@ -1113,9 +1109,7 @@ shared_ptr_fast<npc> overmapbuffer::remove_npc( const character_id &id )
 
 std::vector<shared_ptr_fast<npc>> overmapbuffer::get_npcs_near_player( int radius )
 {
-    tripoint_abs_omt plpos_omt = get_player_character().global_omt_location();
-    // get_npcs_near needs submap coordinates
-    tripoint_abs_sm plpos = project_to<coords::sm>( plpos_omt );
+    const tripoint_abs_sm plpos = get_player_character().global_sm_location();
     // INT_MIN is a (a bit ugly) way to inform get_npcs_near not to filter by z-level
     const int zpos = get_map().has_zlevels() ? INT_MIN : plpos.z();
     return get_npcs_near( tripoint_abs_sm( plpos.xy(), zpos ), radius );
@@ -1124,12 +1118,15 @@ std::vector<shared_ptr_fast<npc>> overmapbuffer::get_npcs_near_player( int radiu
 std::vector<overmap *> overmapbuffer::get_overmaps_near( const tripoint_abs_sm &location,
         const int radius )
 {
+    return get_overmaps_near( location.xy(), radius );
+}
+
+std::vector<overmap *> overmapbuffer::get_overmaps_near( const point_abs_sm &p, const int radius )
+{
     // Grab the corners of a square around the target location at distance radius.
     // Convert to overmap coordinates and iterate from the minimum to the maximum.
-    const point_abs_om start =
-        project_to<coords::om>( location.xy() + point( -radius, -radius ) );
-    const point_abs_om end =
-        project_to<coords::om>( location.xy() + point( radius, radius ) );
+    const point_abs_om start = project_to<coords::om>( p + point( -radius, -radius ) );
+    const point_abs_om end = project_to<coords::om>( p + point( radius, radius ) );
     const point_rel_om offset = end - start;
 
     std::vector<overmap *> result;
@@ -1144,20 +1141,13 @@ std::vector<overmap *> overmapbuffer::get_overmaps_near( const tripoint_abs_sm &
     }
 
     // Sort the resulting overmaps so that the closest ones are first.
-    const tripoint_abs_om center = project_to<coords::om>( location );
+    const point_abs_om center = project_to<coords::om>( p );
     std::sort( result.begin(), result.end(), [&center]( const overmap * lhs,
     const overmap * rhs ) {
-        const tripoint_abs_om lhs_pos( lhs->pos(), 0 );
-        const tripoint_abs_om rhs_pos( rhs->pos(), 0 );
-        return trig_dist( center, lhs_pos ) < trig_dist( center, rhs_pos );
+        return trig_dist( center, lhs->pos() ) < trig_dist( center, rhs->pos() );
     } );
 
     return result;
-}
-
-std::vector<overmap *> overmapbuffer::get_overmaps_near( const point_abs_sm &p, const int radius )
-{
-    return get_overmaps_near( tripoint_abs_sm( p, 0 ), radius );
 }
 
 std::vector<shared_ptr_fast<npc>> overmapbuffer::get_companion_mission_npcs( int range )
@@ -1180,8 +1170,7 @@ std::vector<shared_ptr_fast<npc>> overmapbuffer::get_npcs_near( const tripoint_a
     for( auto &it : get_overmaps_near( p.xy(), radius ) ) {
         auto temp = it->get_npcs( [&]( const npc & guy ) {
             // Global position of NPC, in submap coordinates
-            // TODO: fix point types
-            const tripoint_abs_sm pos( guy.global_sm_location() );
+            const tripoint_abs_sm pos = guy.global_sm_location();
             if( p.z() != INT_MIN && pos.z() != p.z() ) {
                 return false;
             }
@@ -1222,8 +1211,7 @@ static radio_tower_reference create_radio_tower_reference( const overmap &om, ra
 
 radio_tower_reference overmapbuffer::find_radio_station( const int frequency )
 {
-    // TODO: fix point types
-    const tripoint_abs_sm center( get_player_character().global_sm_location() );
+    const tripoint_abs_sm center = get_player_character().global_sm_location();
     for( auto &om : get_overmaps_near( center, RADIO_MAX_STRENGTH ) ) {
         for( auto &tower : om->radios ) {
             const radio_tower_reference rref = create_radio_tower_reference( *om, tower, center );
@@ -1238,8 +1226,7 @@ radio_tower_reference overmapbuffer::find_radio_station( const int frequency )
 std::vector<radio_tower_reference> overmapbuffer::find_all_radio_stations()
 {
     std::vector<radio_tower_reference> result;
-    // TODO: fix point types
-    const tripoint_abs_sm center( get_player_character().global_sm_location() );
+    const tripoint_abs_sm center = get_player_character().global_sm_location();
     // perceived signal strength is distance (in submaps) - signal strength, so towers
     // further than RADIO_MAX_STRENGTH submaps away can never be received at all.
     const int radius = RADIO_MAX_STRENGTH;

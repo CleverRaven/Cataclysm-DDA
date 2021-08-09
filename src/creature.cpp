@@ -2653,20 +2653,19 @@ void Creature::describe_specials( std::vector<std::string> &buf ) const
     buf.emplace_back( _( "You sense a creature here." ) );
 }
 
-tripoint Creature::global_square_location() const
+tripoint_abs_ms Creature::global_square_location() const
 {
-    return get_map().getabs( pos() );
+    return tripoint_abs_ms( get_map().getabs( pos() ) );
 }
 
-tripoint Creature::global_sm_location() const
+tripoint_abs_sm Creature::global_sm_location() const
 {
-    return ms_to_sm_copy( global_square_location() );
+    return project_to<coords::sm>( global_square_location() );
 }
 
 tripoint_abs_omt Creature::global_omt_location() const
 {
-    // TODO: fix point types
-    return tripoint_abs_omt( ms_to_omt_copy( global_square_location() ) );
+    return project_to<coords::omt>( global_square_location() );
 }
 
 std::unique_ptr<talker> get_talker_for( Creature &me )

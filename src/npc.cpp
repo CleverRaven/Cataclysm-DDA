@@ -705,12 +705,12 @@ void npc::setpos( const tripoint &pos )
     }
 }
 
-void npc::travel_overmap( const tripoint &pos )
+void npc::travel_overmap( const tripoint_abs_omt &pos )
 {
     // TODO: fix point types
-    const point_abs_om pos_om_old( sm_to_om_copy( submap_coords ) );
-    spawn_at_sm( pos );
-    const point_abs_om pos_om_new( sm_to_om_copy( submap_coords ) );
+    const point_abs_om pos_om_old = project_to<coords::om>( global_omt_location().xy() );
+    spawn_at_omt( pos );
+    const point_abs_om pos_om_new = project_to<coords::om>( global_omt_location().xy() );
     if( global_omt_location() == goal ) {
         reach_omt_destination();
     }
@@ -727,24 +727,26 @@ void npc::travel_overmap( const tripoint &pos )
     }
 }
 
-void npc::spawn_at_sm( const tripoint &p )
+void npc::spawn_at_omt( const tripoint_abs_omt &p )
 {
-    spawn_at_precise( p.xy(), tripoint( rng( 0, SEEX - 1 ), rng( 0, SEEY - 1 ), p.z ) );
+    const int max_coord = coords::map_squares_per( coords::omt ) - 1;
+    const point_rel_ms local_pos( rng( 0, max_coord ), rng( 0, max_coord ) );
+    spawn_at_precise( project_to<coords::ms>( p ) + local_pos );
 }
 
-void npc::spawn_at_precise( const point &submap_offset, const tripoint &square )
+void npc::spawn_at_precise( const tripoint_abs_ms &p )
 {
-    submap_coords = submap_offset;
-    submap_coords.x += square.x / SEEX;
-    submap_coords.y += square.y / SEEY;
-    position.x = square.x % SEEX;
-    position.y = square.y % SEEY;
-    position.z = square.z;
+    point_abs_sm quotient;
+    tripoint_sm_ms remainder;
+    std::tie( quotient, remainder ) = project_remain<coords::sm>( p );
+    submap_coords = quotient.raw();
+    position = remainder.raw();
 }
 
-tripoint npc::global_square_location() const
+tripoint_abs_ms npc::global_square_location() const
 {
-    return sm_to_ms_copy( submap_coords ) + tripoint( posx() % SEEX, posy() % SEEY, position.z );
+    return tripoint_abs_ms( project_to<coords::ms>( point_abs_sm( submap_coords ) ),
+                            0 ) + tripoint( posx() % SEEX, posy() % SEEY, posz() );
 }
 
 void npc::place_on_map()

@@ -762,8 +762,7 @@ void overmap_npc_move()
                     elem->goal = npc::no_goal_point;
                 }
             } else {
-                // TODO: fix point types
-                elem->travel_overmap( project_to<coords::sm>( elem->omt_path.back() ).raw() );
+                elem->travel_overmap( elem->omt_path.back() );
                 npcs_need_reload = true;
             }
         }
