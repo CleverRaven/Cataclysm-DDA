@@ -1519,11 +1519,13 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
 static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt dest,
         bool driving )
 {
-    path_type ptype;
-    ptype.only_known_by_player = true;
-    ptype.avoid_danger = true;
-    const avatar &player_character = get_avatar();
+    if( !overmap_buffer.seen( dest ) ) {
+        return {};
+    }
+    const Character &player_character = get_player_character();
     map &here = get_map();
+    const tripoint_abs_omt player_omt_pos = player_character.global_omt_location();
+    overmap_path_params params;
     vehicle *player_veh = nullptr;
     if( driving ) {
         const optional_vpart_position vp = here.veh_at( player_character.pos() );
@@ -1532,32 +1534,37 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
             return {};
         }
         player_veh = &vp->vehicle();
-        if( player_veh->can_float() ) {
-            if( player_veh->valid_wheel_config() ) {
-                ptype.amphibious = true;
-            } else if( player_veh->is_watercraft() && player_veh->is_in_water() ) {
-                ptype.only_water = true;
-            }
-        } else if( player_veh->is_rotorcraft() && player_veh->is_flying_in_air() ) {
-            ptype.only_air = true;
+        // for now we can only handle flyers if already in the air
+        const bool can_fly = player_veh->is_rotorcraft() && player_veh->is_flying_in_air();
+        const bool can_float = player_veh->can_float();
+        const bool can_drive = player_veh->valid_wheel_config();
+        // TODO: check engines/fuel
+        if( can_fly ) {
+            params = overmap_path_params::for_aircraft();
+        } else if( can_float && !can_drive ) {
+            params = overmap_path_params::for_watercraft();
+        } else if( can_drive ) {
+            const float offroad_coeff = player_veh->k_traction( player_veh->wheel_area() *
+                                        player_veh->average_or_rating() );
+            const bool tiny = player_veh->get_points().size() <= 3;
+            params = overmap_path_params::for_land_vehicle( offroad_coeff, tiny, can_float );
         } else {
-            ptype.only_road = true;
+            return {};
         }
     } else {
-        const oter_id oter = overmap_buffer.ter( dest );
-        // going to or coming from a water tile
-        if( is_river_or_lake( oter ) || here.has_flag( "SWIMMABLE", player_character.pos() ) ) {
-            ptype.amphibious = true;
+        params = overmap_path_params::for_player();
+        const oter_id dest_ter = overmap_buffer.ter_existing( dest );
+        // already in water or going to a water tile
+        if( here.has_flag( "SWIMMABLE", player_character.pos() ) || is_river_or_lake( dest_ter ) ) {
+            params.water_cost = 100;
         }
     }
-    const tripoint_abs_omt player_omt_pos = player_character.global_omt_location();
     // literal "edge" case: the vehicle may be in a different OMT than the player
-    const tripoint_abs_omt start_omt_pos = driving ? project_to<coords::omt>
-                                           ( player_veh->global_square_location() ) : player_omt_pos;
+    const tripoint_abs_omt start_omt_pos = driving ? player_veh->global_omt_location() : player_omt_pos;
     if( dest == player_omt_pos || dest == start_omt_pos ) {
         return {};
     } else {
-        return overmap_buffer.get_npc_path( start_omt_pos, dest, ptype );
+        return overmap_buffer.get_travel_path( start_omt_pos, dest, params );
     }
 }
 
