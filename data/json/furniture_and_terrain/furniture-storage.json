@@ -956,7 +956,7 @@
     "id": "f_displaycase_o",
     "name": "open display case",
     "looks_like": "f_rack",
-    "description": "A secure wooden case at about waist-height, with glass panelling on the top.  Useful for storing valuable things while still showing them off.  Not actually as secure as it looks, as the display windows are easily broken. This one has had its lock picked and is open.",
+    "description": "A secure wooden case at about waist-height, with glass panelling on the top.  Useful for storing valuable things while still showing them off.  Not actually as secure as it looks, as the display windows are easily broken.  This one has had its lock picked and is open.",
     "symbol": "#",
     "color": "light_cyan",
     "move_cost_mod": 2,
