@@ -15,6 +15,7 @@
       { "monster": "mon_zothronychus_fungus", "freq": 1, "cost_multiplier": 0, "starts": 72 },
       { "monster": "mon_zeinonychus_fungus", "freq": 1, "cost_multiplier": 0, "starts": 72 },
       { "monster": "mon_zutahraptor_fungus", "freq": 1, "cost_multiplier": 0, "starts": 144 },
+      { "monster": "mon_zamargasaurus_fungus", "freq": 1, "cost_multiplier": 0, "starts": 72 },
       { "monster": "mon_zapatosaurus_fungus", "freq": 1, "cost_multiplier": 0, "starts": 72 },
       { "monster": "mon_zrontosaurus_fungus", "freq": 1, "cost_multiplier": 0, "starts": 72 },
       { "monster": "mon_ziplodocus_fungus", "freq": 1, "cost_multiplier": 0, "starts": 72 },
@@ -36,7 +37,9 @@
       { "monster": "mon_zentaceratops_fungus", "freq": 1, "cost_multiplier": 0, "starts": 72 },
       { "monster": "mon_zosmoceratops_fungus", "freq": 1, "cost_multiplier": 0, "starts": 72 },
       { "monster": "mon_zorosaurus_fungus", "freq": 1, "cost_multiplier": 0, "starts": 72 },
-      { "monster": "mon_zriceratops_fungus", "freq": 1, "cost_multiplier": 0, "starts": 72 }
+      { "monster": "mon_zriceratops_fungus", "freq": 1, "cost_multiplier": 0, "starts": 72 },
+      { "monster": "mon_zteranodon_fungus", "freq": 1, "cost_multiplier": 0, "starts": 72 },
+      { "monster": "mon_zuetzalcoatlus_fungus", "freq": 1, "cost_multiplier": 0, "starts": 72 }
     ]
   },
   {
@@ -55,6 +58,7 @@
       { "monster": "mon_zothronychus_fungus", "freq": 1, "cost_multiplier": 0, "starts": 72 },
       { "monster": "mon_zeinonychus_fungus", "freq": 1, "cost_multiplier": 0, "starts": 72 },
       { "monster": "mon_zutahraptor_fungus", "freq": 1, "cost_multiplier": 0, "starts": 144 },
+      { "monster": "mon_zamargasaurus_fungus", "freq": 1, "cost_multiplier": 0, "starts": 72 },
       { "monster": "mon_zapatosaurus_fungus", "freq": 1, "cost_multiplier": 0, "starts": 72 },
       { "monster": "mon_zrontosaurus_fungus", "freq": 1, "cost_multiplier": 0, "starts": 72 },
       { "monster": "mon_ziplodocus_fungus", "freq": 1, "cost_multiplier": 0, "starts": 72 },
@@ -76,7 +80,9 @@
       { "monster": "mon_zentaceratops_fungus", "freq": 1, "cost_multiplier": 0, "starts": 72 },
       { "monster": "mon_zosmoceratops_fungus", "freq": 1, "cost_multiplier": 0, "starts": 72 },
       { "monster": "mon_zorosaurus_fungus", "freq": 1, "cost_multiplier": 0, "starts": 72 },
-      { "monster": "mon_zriceratops_fungus", "freq": 1, "cost_multiplier": 0, "starts": 72 }
+      { "monster": "mon_zriceratops_fungus", "freq": 1, "cost_multiplier": 0, "starts": 72 },
+      { "monster": "mon_zteranodon_fungus", "freq": 1, "cost_multiplier": 0, "starts": 72 },
+      { "monster": "mon_zuetzalcoatlus_fungus", "freq": 1, "cost_multiplier": 0, "starts": 72 }
     ]
   }
 ]

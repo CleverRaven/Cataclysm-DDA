@@ -208,7 +208,7 @@ void game::unserialize( std::istream &fin, const std::string &path )
             calendar::start_of_game = calendar::start_of_cataclysm;
         }
 
-        load_map( project_combine( com, lev ) );
+        load_map( project_combine( com, lev ), /*pump_events=*/true );
 
         safe_mode = static_cast<safe_mode_type>( tmprun );
         if( get_option<bool>( "SAFEMODE" ) && safe_mode == SAFE_MODE_OFF ) {
@@ -250,8 +250,10 @@ void game::unserialize( std::istream &fin, const std::string &path )
         }
 
         data.read( "player", u );
+        inp_mngr.pump_events();
         data.read( "stats_tracker", *stats_tracker_ptr );
         data.read( "achievements_tracker", *achievements_tracker_ptr );
+        inp_mngr.pump_events();
 
         //load queued_eocs
         for( JsonObject elem : data.get_array( "queued_effect_on_conditions" ) ) {

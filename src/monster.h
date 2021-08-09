@@ -506,18 +506,6 @@ class monster : public Creature
         int fish_population = 1;
 
         void setpos( const tripoint &p ) override;
-        inline const tripoint &pos() const override {
-            return position;
-        }
-        inline int posx() const override {
-            return position.x;
-        }
-        inline int posy() const override {
-            return position.y;
-        }
-        inline int posz() const override {
-            return position.z;
-        }
 
         short ignoring = 0;
         cata::optional<time_point> lastseen_turn;
@@ -567,7 +555,6 @@ class monster : public Creature
         int hp = 0;
         std::map<std::string, mon_special_attack> special_attacks;
         tripoint goal;
-        tripoint position;
         bool dead = false;
         /** Normal upgrades **/
         int next_upgrade_time();

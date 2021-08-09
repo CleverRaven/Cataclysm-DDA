@@ -128,7 +128,7 @@ static tab_direction set_stats( avatar &u, points_left &points );
 static tab_direction set_traits( avatar &u, points_left &points );
 static tab_direction set_scenario( avatar &u, points_left &points, tab_direction direction );
 static tab_direction set_profession( avatar &u, points_left &points, tab_direction direction );
-static tab_direction set_hobbies( avatar &u, points_left &points, tab_direction direction );
+static tab_direction set_hobbies( avatar &u, points_left &points );
 static tab_direction set_skills( avatar &u, points_left &points );
 static tab_direction set_description( avatar &you, bool allow_reroll, points_left &points );
 
@@ -218,6 +218,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     }
 
     prof = get_scenario()->weighted_random_profession();
+    int hobby_point_cost = randomize_hobbies();
     random_start_location = true;
 
     str_max = rng( 6, HIGH_STAT - 2 );
@@ -225,7 +226,8 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     int_max = rng( 6, HIGH_STAT - 2 );
     per_max = rng( 6, HIGH_STAT - 2 );
     points.stat_points = points.stat_points - str_max - dex_max - int_max - per_max;
-    points.skill_points = points.skill_points - prof->point_cost() - get_scenario()->point_cost();
+    points.skill_points = points.skill_points - prof->point_cost() - get_scenario()->point_cost() -
+                          hobby_point_cost;
     // The default for each stat is 8, and that default does not cost any points.
     // Values below give points back, values above require points. The line above has removed
     // to many points, therefore they are added back.
@@ -527,7 +529,7 @@ bool avatar::create( character_type type, const std::string &tempname )
                 result = set_profession( *this, points, result );
                 break;
             case 3:
-                result = set_hobbies( *this, points, result );
+                result = set_hobbies( *this, points );
                 break;
             case 4:
                 result = set_stats( *this, points );
@@ -1476,6 +1478,7 @@ tab_direction set_traits( avatar &u, points_left &points )
 
             // Look through the profession bionics, and see if any of them conflict with this trait
             std::vector<bionic_id> cbms_blocking_trait = bionics_cancelling_trait( u.prof->CBMs(), cur_trait );
+            const std::unordered_set<trait_id> conflicting_traits = u.get_conflicting_traits( cur_trait );
 
             if( u.has_trait( cur_trait ) ) {
 
@@ -1490,7 +1493,6 @@ tab_direction set_traits( avatar &u, points_left &points )
                     popup( _( "Your profession of %s prevents you from removing this trait." ),
                            u.prof->gender_appropriate_name( u.male ) );
                 }
-
                 for( const profession *hobbies : u.hobbies ) {
                     if( hobbies->is_locked_trait( cur_trait ) ) {
                         inc_type = 0;
@@ -1498,8 +1500,14 @@ tab_direction set_traits( avatar &u, points_left &points )
                                hobbies->gender_appropriate_name( u.male ) );
                     }
                 }
-            } else if( u.has_conflicting_trait( cur_trait ) ) {
-                popup( _( "You already picked a conflicting trait!" ) );
+            } else if( !conflicting_traits.empty() ) {
+                std::vector<std::string> conflict_names;
+                conflict_names.reserve( conflicting_traits.size() );
+                for( const trait_id &trait : conflicting_traits ) {
+                    conflict_names.emplace_back( trait->name() );
+                }
+                popup( _( "You already picked some conflicting traits: %s." ),
+                       enumerate_as_string( conflict_names ) );
             } else if( get_scenario()->is_forbidden_trait( cur_trait ) ) {
                 popup( _( "The scenario you picked prevents you from taking this trait!" ) );
             } else if( u.prof->is_forbidden_trait( cur_trait ) ) {
@@ -2011,8 +2019,7 @@ tab_direction set_profession( avatar &u, points_left &points,
 }
 
 /** Handle the hobbies tab of the character generation menu */
-tab_direction set_hobbies( avatar &u, points_left &points,
-                           const tab_direction direction )
+tab_direction set_hobbies( avatar &u, points_left &points )
 {
     int cur_id = 0;
     tab_direction retval = tab_direction::NONE;
@@ -2057,12 +2064,7 @@ tab_direction set_hobbies( avatar &u, points_left &points,
     std::string filterstring;
     std::vector<string_id<profession>> sorted_profs;
 
-    if( direction == tab_direction::FORWARD ) {
-        points.skill_points -= u.prof->point_cost();
-    }
-
     int iheight = 0;
-
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
         draw_character_tabs( w, _( "HOBBIES" ) );
@@ -2303,8 +2305,27 @@ tab_direction set_hobbies( avatar &u, points_left &points,
                 desc_offset++;
             }
         } else if( action == "CONFIRM" ) {
-            // Toggle hobby
+            // Do not allow selection of hobby if there's a trait conflict
             const profession *prof = &sorted_profs[cur_id].obj();
+            bool conflict_found = false;
+            for( const trait_id &new_trait : prof->get_locked_traits() ) {
+                if( u.has_conflicting_trait( new_trait ) ) {
+                    for( const profession *hobby : u.hobbies ) {
+                        for( const trait_id &suspect_trait : hobby->get_locked_traits() ) {
+                            if( are_conflicting_traits( new_trait, suspect_trait ) ) {
+                                conflict_found = true;
+                                popup( _( "The trait [%1$s] conflicts with hobby [%2$s]'s trait [%3$s]." ), new_trait->name(),
+                                       hobby->gender_appropriate_name( u.male ), suspect_trait->name() );
+                            }
+                        }
+                    }
+                }
+            }
+            if( conflict_found ) {
+                continue;
+            }
+
+            // Toggle hobby
             if( u.hobbies.count( prof ) == 0 ) {
                 // Add hobby, and decrement point cost
                 u.hobbies.insert( prof );
@@ -2318,20 +2339,6 @@ tab_direction set_hobbies( avatar &u, points_left &points,
             // Add or remove traits from hobby
             for( const trait_id &trait : prof->get_locked_traits() ) {
                 u.toggle_trait( trait );
-            }
-
-            // Remove pre-selected traits that conflict with the new hobby's traits
-            for( const trait_id &new_trait : u.prof->get_locked_traits() ) {
-                if( u.has_conflicting_trait( new_trait ) ) {
-                    for( const trait_id &suspect_trait : u.get_mutations() ) {
-                        if( are_conflicting_traits( new_trait, suspect_trait ) ) {
-                            u.toggle_trait( suspect_trait );
-                            points.trait_points += suspect_trait->points;
-                            popup( _( "Your trait %1$s has been removed since it conflicts with the %2$s's %3$s trait." ),
-                                   suspect_trait->name(), u.prof->gender_appropriate_name( u.male ), new_trait->name() );
-                        }
-                    }
-                }
             }
 
         } else if( action == "CHANGE_GENDER" ) {
@@ -3977,28 +3984,16 @@ void Character::add_traits( points_left &points )
 
 trait_id Character::random_good_trait()
 {
-    std::vector<trait_id> vTraitsGood;
-
-    for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
-        if( traits_iter.points > 0 && get_scenario()->traitquery( traits_iter.id ) ) {
-            vTraitsGood.push_back( traits_iter.id );
-        }
-    }
-
-    return random_entry( vTraitsGood );
+    return get_random_trait( []( const mutation_branch & mb ) {
+        return mb.points > 0;
+    } );
 }
 
 trait_id Character::random_bad_trait()
 {
-    std::vector<trait_id> vTraitsBad;
-
-    for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
-        if( traits_iter.points < 0 && get_scenario()->traitquery( traits_iter.id ) ) {
-            vTraitsBad.push_back( traits_iter.id );
-        }
-    }
-
-    return random_entry( vTraitsBad );
+    return get_random_trait( []( const mutation_branch & mb ) {
+        return mb.points < 0;
+    } );
 }
 
 trait_id Character::get_random_trait( const std::function<bool( const mutation_branch & )> &func )
@@ -4006,7 +4001,7 @@ trait_id Character::get_random_trait( const std::function<bool( const mutation_b
     std::vector<trait_id> vTraits;
 
     for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
-        if( func( traits_iter ) ) {
+        if( func( traits_iter ) && get_scenario()->traitquery( traits_iter.id ) ) {
             vTraits.push_back( traits_iter.id );
         }
     }
@@ -4171,6 +4166,8 @@ void reset_scenario( avatar &u, const scenario *scen )
             u.toggle_trait( t );
         }
     }
+
+    u.hobbies.clear();
     u.clear_mutations();
     u.recalc_hp();
     u.empty_skills();

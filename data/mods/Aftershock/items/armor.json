@@ -499,7 +499,7 @@
     "type": "ARMOR",
     "copy-from": "cuirass_lightplate",
     "looks_like": "cuirass_lightplate",
-    "name": { "str": "vacuum cast cuirass" },
+    "name": { "str": "vacuum cast cuirass", "str_pl": "vacuum cast cuirasses" },
     "description": "This piece of armor harkens back to renaissance designs.  It differs in that it is cast as a single piece in deep space installations where conditions can be controlled absolutely.",
     "material": "vacuum_carbide",
     "armor": [ { "encumbrance": 23, "coverage": 95, "covers": [ "torso" ] } ],

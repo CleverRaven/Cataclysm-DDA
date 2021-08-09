@@ -960,7 +960,9 @@
         [ "ar15_retool_300blk", -1 ],
         [ "ar_pistol", -1 ],
         [ "oa93", -1 ],
-        [ "nato_assault_rifle", -1 ],
+        [ "m27_assault_rifle", -1 ],
+        [ "m16_auto_rifle", -1 ],
+        [ "m4_carbine", -1 ],
         [ "m16a4", -1 ]
       ],
       [ [ "small_repairkit", 40 ], [ "large_repairkit", 40 ] ]

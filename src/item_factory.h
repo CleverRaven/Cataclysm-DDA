@@ -45,6 +45,7 @@ class migration
     public:
         itype_id id;
         std::string variant;
+        cata::optional<std::string> from_variant;
         itype_id replace;
         std::set<std::string> flags;
         int charges = 0;
@@ -205,6 +206,9 @@ class Item_factory
 
         /** Migrations transform items loaded from legacy saves */
         void load_migration( const JsonObject &jo );
+
+        // Add or overwrite a migration
+        void add_migration( const migration &m );
 
         /** Applies any migration of the item id */
         itype_id migrate_id( const itype_id &id );
@@ -374,7 +378,7 @@ class Item_factory
                        const translation &info );
         void add_actor( std::unique_ptr<iuse_actor> );
 
-        std::map<itype_id, migration> migrations;
+        std::map<itype_id, std::vector<migration>> migrations;
 
         /**
          * Contains the tool subtype mappings for crafting (i.e. mess kit is a hotplate etc.).

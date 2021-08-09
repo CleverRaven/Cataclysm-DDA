@@ -175,7 +175,6 @@ static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
 static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
-static const trait_id trait_FAST_REFLEXES( "FAST_REFLEXES" );
 
 static const mtype_id mon_ant_acid_larva( "mon_ant_acid_larva" );
 static const mtype_id mon_ant_acid_queen( "mon_ant_acid_queen" );
@@ -2623,6 +2622,7 @@ bool mattack::ranged_pull( monster *z )
         range--;
         if( target->is_avatar() && seen ) {
             g->invalidate_main_ui_adaptor();
+            inp_mngr.pump_events();
             ui_manager::redraw_invalidated();
             refresh_display();
         }
@@ -2680,8 +2680,7 @@ bool mattack::grab( monster *z )
     }
 
     ///\EFFECT_DEX increases chance to avoid being grabbed
-    int reflex_mod = pl->has_trait( trait_FAST_REFLEXES ) ? 2 : 1;
-    const bool dodged_grab = rng( 0, reflex_mod * pl->get_dex() ) > rng( 0,
+    const bool dodged_grab = rng( 0, pl->get_dex() ) > rng( 0,
                              z->type->melee_sides + z->type->melee_dice );
 
     const ma_technique grab_break = pl->martial_arts_data->get_grab_break( *pl );
@@ -3320,7 +3319,7 @@ void mattack::rifle( monster *z, Creature *target )
     }
     add_msg_if_player_sees( *z, m_warning, _( "The %s opens up with its rifle!" ), z->name() );
 
-    tmp.weapon = item( "nato_assault_rifle" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
+    tmp.weapon = item( "m4_carbine" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
     int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
     z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * tmp.weapon.ammo_required();

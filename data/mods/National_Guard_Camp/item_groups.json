@@ -153,7 +153,7 @@
       { "item": "storage_battery", "prob": 40, "charges-min": 200, "charges-max": 1000 },
       { "item": "223", "prob": 20, "charges-min": 10, "charges-max": 30 },
       {
-        "item": "nato_assault_rifle",
+        "item": "m27_assault_rifle",
         "variant": "scar_l",
         "prob": 20,
         "damage": [ 1, 2 ],
