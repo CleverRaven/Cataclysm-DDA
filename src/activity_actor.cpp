@@ -384,6 +384,7 @@ void autodrive_activity_actor::start( player_activity &act, Character &who )
     }
 
     player_vehicle = &vp->vehicle();
+    player_vehicle->is_autodriving = true;
     act.moves_left = calendar::INDEFINITELY_LONG;
 }
 

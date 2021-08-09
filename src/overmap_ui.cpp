@@ -1516,6 +1516,47 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
     }
 }
 
+static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt dest,
+        bool driving )
+{
+    path_type ptype;
+    ptype.only_known_by_player = true;
+    ptype.avoid_danger = true;
+    const avatar &player_character = get_avatar();
+    map &here = get_map();
+    vehicle *player_veh = nullptr;
+    if( driving ) {
+        const optional_vpart_position vp = here.veh_at( player_character.pos() );
+        if( !vp.has_value() ) {
+            debugmsg( "Failed to find driven vehicle" );
+            return {};
+        }
+        player_veh = &vp->vehicle();
+        if( player_veh->can_float() ) {
+            if( player_veh->valid_wheel_config() ) {
+                ptype.amphibious = true;
+            } else if( player_veh->is_watercraft() && player_veh->is_in_water() ) {
+                ptype.only_water = true;
+            }
+        } else if( player_veh->is_rotorcraft() && player_veh->is_flying_in_air() ) {
+            ptype.only_air = true;
+        } else {
+            ptype.only_road = true;
+        }
+    } else {
+        const oter_id oter = overmap_buffer.ter( dest );
+        // going to or coming from a water tile
+        if( is_river_or_lake( oter ) || here.has_flag( "SWIMMABLE", player_character.pos() ) ) {
+            ptype.amphibious = true;
+        }
+    }
+    const tripoint_abs_omt player_omt_pos = player_character.global_omt_location();
+    if( dest == player_omt_pos ) {
+        return {};
+    }
+    return overmap_buffer.get_npc_path( player_omt_pos, dest, ptype );
+}
+
 static int overmap_zoom_level = DEFAULT_TILESET_ZOOM;
 
 static tripoint_abs_omt display( const tripoint_abs_omt &orig,
@@ -1662,49 +1703,14 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
                 curs.y() = p.y();
             }
         } else if( action == "CHOOSE_DESTINATION" ) {
-            path_type ptype;
-            ptype.only_known_by_player = true;
-            ptype.avoid_danger = true;
             avatar &player_character = get_avatar();
-            map &here = get_map();
-            bool driving = player_character.in_vehicle && player_character.controlling_vehicle;
-            vehicle *player_veh = nullptr;
-            if( driving ) {
-                const optional_vpart_position vp = here.veh_at( player_character.pos() );
-                if( !vp.has_value() ) {
-                    debugmsg( "Failed to find driven vehicle" );
-                    continue;
-                }
-                player_veh = &vp->vehicle();
-                if( player_veh->can_float() ) {
-                    if( player_veh->valid_wheel_config() ) {
-                        ptype.amphibious = true;
-                    } else if( player_veh->is_watercraft() && player_veh->is_in_water() ) {
-                        ptype.only_water = true;
-                    }
-                } else if( player_veh->is_rotorcraft() && player_veh->is_flying_in_air() ) {
-                    ptype.only_air = true;
-                } else {
-                    ptype.only_road = true;
-                }
-            } else {
-                const oter_id oter = overmap_buffer.ter( curs );
-                // going to or coming from a water tile
-                if( is_river_or_lake( oter ) || here.has_flag( "SWIMMABLE", player_character.pos() ) ) {
-                    ptype.amphibious = true;
-                }
-            }
-            const tripoint_abs_omt player_omt_pos = player_character.global_omt_location();
+            const bool driving = player_character.in_vehicle && player_character.controlling_vehicle;
+            std::vector<tripoint_abs_omt> path = get_overmap_path_to( curs, driving );
             bool same_path_selected = false;
-            if( curs == player_omt_pos ) {
-                player_character.omt_path.clear();
+            if( path == player_character.omt_path ) {
+                same_path_selected = true;
             } else {
-                std::vector<tripoint_abs_omt> new_path = overmap_buffer.get_npc_path( player_omt_pos, curs, ptype );
-                if( new_path == player_character.omt_path ) {
-                    same_path_selected = true;
-                } else {
-                    player_character.omt_path.swap( new_path );
-                }
+                player_character.omt_path.swap( path );
             }
             if( same_path_selected && !player_character.omt_path.empty() ) {
                 std::string confirm_msg;
@@ -1715,7 +1721,6 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
                 }
                 if( query_yn( confirm_msg ) ) {
                     if( driving ) {
-                        player_veh->is_autodriving = true;
                         player_character.assign_activity( player_activity( autodrive_activity_actor() ) );
                     } else {
                         player_character.reset_move_mode();
