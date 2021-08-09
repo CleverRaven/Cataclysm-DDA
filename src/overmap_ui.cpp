@@ -1551,10 +1551,14 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
         }
     }
     const tripoint_abs_omt player_omt_pos = player_character.global_omt_location();
-    if( dest == player_omt_pos ) {
+    // literal "edge" case: the vehicle may be in a different OMT than the player
+    const tripoint_abs_omt start_omt_pos = driving ? project_to<coords::omt>
+                                           ( player_veh->global_square_location() ) : player_omt_pos;
+    if( dest == player_omt_pos || dest == start_omt_pos ) {
         return {};
+    } else {
+        return overmap_buffer.get_npc_path( start_omt_pos, dest, ptype );
     }
-    return overmap_buffer.get_npc_path( player_omt_pos, dest, ptype );
 }
 
 static int overmap_zoom_level = DEFAULT_TILESET_ZOOM;
