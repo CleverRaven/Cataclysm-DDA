@@ -281,6 +281,19 @@ class Creature : public location, public viewer
         virtual bool is_fake() const;
         /** Sets a Creature's fake boolean. */
         virtual void set_fake( bool fake_value );
+        inline const tripoint &pos() const override {
+            return position;
+        }
+        inline int posx() const override {
+            return position.x;
+        }
+        inline int posy() const override {
+            return position.y;
+        }
+        inline int posz() const override {
+            return position.z;
+        }
+        void setpos( const tripoint &p ) override;
 
         /** Recreates the Creature from scratch. */
         virtual void normalize();
@@ -659,6 +672,8 @@ class Creature : public location, public viewer
         }
 
     protected:
+        /** The creature's position on the local map */
+        tripoint position;
         /**anatomy is the plan of the creature's body*/
         anatomy_id creature_anatomy = anatomy_id( "default_anatomy" );
         /**this is the actual body of the creature*/
@@ -1191,11 +1206,11 @@ class Creature : public location, public viewer
          * Global position, expressed in map square coordinate system
          * (the most detailed coordinate system), used by the @ref map.
          */
-        virtual tripoint global_square_location() const;
+        virtual tripoint_abs_ms global_square_location() const;
         /**
         * Returns the location of the player in global submap coordinates.
         */
-        tripoint global_sm_location() const;
+        tripoint_abs_sm global_sm_location() const;
         /**
         * Returns the location of the player in global overmap terrain coordinates.
         */

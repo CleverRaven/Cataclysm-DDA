@@ -650,6 +650,8 @@ Condition | Type | Description
 `"u_is_deaf"`<br/>`"npc_is_deaf"` | int | `true` if the player character or NPC can't hear.
 `"u_has_focus"`<br/>`"npc_has_focus"` | int | `true` if the player character's or NPC's focus is at least the value of `u_has_focus` or `npc_has_focus`.
 `"u_has_morale"`<br/>`"npc_has_morale"` | int | `true` if the player character's or NPC's morale is at least the value of `u_has_morale` or `npc_has_morale`.
+`"u_is_on_terrain"`<br/>`"npc_is_on_terrain"` | string | `true` if the player character or NPC is on terrain named `"u_is_on_terrain"` or `"npc_is_on_terrain"`.
+`"u_is_in_field"`<br/>`"npc_is_in_field"` | string | `true` if the player character or NPC is in a field of type `"u_is_in_field"` or `"npc_is_in_field"`..
 
 #### Player Only conditions
 
