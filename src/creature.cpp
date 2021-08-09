@@ -123,6 +123,11 @@ Creature &Creature::operator=( Creature && ) noexcept = default;
 
 Creature::~Creature() = default;
 
+void Creature::setpos( const tripoint &p )
+{
+    position = p;
+}
+
 std::vector<std::string> Creature::get_grammatical_genders() const
 {
     // Returning empty list means we use the language-specified default

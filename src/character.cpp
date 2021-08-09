@@ -795,11 +795,6 @@ double Character::aim_per_move( const item &gun, double recoil ) const
     return std::min( aim_speed, recoil - limit );
 }
 
-const tripoint &Character::pos() const
-{
-    return position;
-}
-
 int Character::sight_range( int light_level ) const
 {
     if( light_level == 0 ) {
@@ -3597,6 +3592,13 @@ std::vector<item_location> Character::find_reloadables()
         return VisitResponse::NEXT;
     } );
     return reloadables;
+}
+
+void Character::setpos( const tripoint &p )
+{
+    Creature::setpos( p );
+    // In case we've moved out of range of lifting assist.
+    invalidate_weight_carried_cache();
 }
 
 units::mass Character::weight_carried() const

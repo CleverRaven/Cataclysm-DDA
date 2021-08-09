@@ -687,7 +687,7 @@ void npc::set_known_to_u( bool known )
 
 void npc::setpos( const tripoint &pos )
 {
-    position = pos;
+    Character::setpos( pos );
     const point_abs_om pos_om_old( sm_to_om_copy( submap_coords ) );
     submap_coords = get_map().get_abs_sub().xy() + point( pos.x / SEEX, pos.y / SEEY );
     // TODO: fix point types
