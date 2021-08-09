@@ -1423,12 +1423,12 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                 if( source_veh == nullptr ) {
                     throw std::runtime_error( "could not find source vehicle for liquid transfer" );
                 }
-                deserialize( liquid, act_ref.str_values.at( 0 ) );
+                deserialize_from_string( liquid, act_ref.str_values.at( 0 ) );
                 part_num = static_cast<int>( act_ref.values.at( 1 ) );
                 veh_charges = liquid.charges;
                 break;
             case liquid_source_type::INFINITE_MAP:
-                deserialize( liquid, act_ref.str_values.at( 0 ) );
+                deserialize_from_string( liquid, act_ref.str_values.at( 0 ) );
                 liquid.charges = item::INFINITE_CHARGES;
                 break;
             case liquid_source_type::MAP_ITEM:
@@ -1446,7 +1446,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                     debugmsg( "could not find source creature for liquid transfer" );
                     act_ref.set_to_null();
                 }
-                deserialize( liquid, act_ref.str_values.at( 0 ) );
+                deserialize_from_string( liquid, act_ref.str_values.at( 0 ) );
                 liquid.charges = 1;
                 break;
         }
