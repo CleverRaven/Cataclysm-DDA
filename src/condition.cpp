@@ -19,6 +19,7 @@
 #include "coordinates.h"
 #include "debug.h"
 #include "enum_conversions.h"
+#include "field.h"
 #include "game.h"
 #include "item.h"
 #include "item_category.h"
@@ -999,6 +1000,35 @@ void conditional_t<T>::set_is_deaf( bool is_npc )
 }
 
 template<class T>
+void conditional_t<T>::set_is_on_terrain( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    std::string terrain_type = jo.get_string( member );
+    condition = [terrain_type, is_npc]( const T & d ) {
+        map &here = get_map();
+        return here.ter( d.actor( is_npc )->pos() ) == ter_id( terrain_type );
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_is_in_field( const JsonObject &jo, const std::string &member,
+                                        bool is_npc )
+{
+    std::string field_type = jo.get_string( member );
+    condition = [field_type, is_npc]( const T & d ) {
+        map &here = get_map();
+        field_type_id ft = field_type_id( field_type );
+        for( const std::pair<const field_type_id, field_entry> &f : here.field_at( d.actor(
+                    is_npc )->pos() ) ) {
+            if( f.second.get_field_type() == ft ) {
+                return true;
+            }
+        }
+        return false;
+    };
+}
+
+template<class T>
 conditional_t<T>::conditional_t( const JsonObject &jo )
 {
     // improve the clarity of NPC setter functions
@@ -1216,6 +1246,14 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_has_focus( jo, "u_has_focus" );
     } else if( jo.has_int( "npc_has_focus" ) || jo.has_object( "npc_has_focus" ) ) {
         set_has_focus( jo, "npc_has_focus", is_npc );
+    } else if( jo.has_string( "u_is_on_terrain" ) ) {
+        set_is_on_terrain( jo, "u_is_on_terrain" );
+    } else if( jo.has_string( "npc_is_on_terrain" ) ) {
+        set_is_on_terrain( jo, "npc_is_on_terrain", is_npc );
+    } else if( jo.has_string( "u_is_in_field" ) ) {
+        set_is_in_field( jo, "u_is_in_field" );
+    } else if( jo.has_string( "npc_is_in_field" ) ) {
+        set_is_in_field( jo, "npc_is_in_field", is_npc );
     } else if( jo.has_string( "is_weather" ) ) {
         set_is_weather( jo );
     } else {
