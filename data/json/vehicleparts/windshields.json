@@ -5,7 +5,7 @@
     "breaks_into": [ { "count": [ 25, 50 ], "item": "glass_shard" } ],
     "symbol": "\"",
     "symbols": {
-	  "cover_left": "h",
+      "cover_left": "h",
       "cover_right": "h",
       "nw": "y",
       "ne": "u",
@@ -24,7 +24,7 @@
       "horizontal_front_edge": "^",
       "horizontal_rear": "h",
       "horizontal_rear_edge": "=",
-	  "wheel_left": "y",
+      "wheel_left": "y",
       "wheel_right": "u"
     },
     "broken_color": "light_gray",
