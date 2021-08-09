@@ -1064,11 +1064,11 @@ void avatar_action::use_item( avatar &you )
         return;
     }
 
-    if( loc.where_recursive() != item_location::type::character ) {
-        avatar_action::use_item( you, loc );
-    } else {
+    if( loc.where() == item_location::type::container ) {
         you.assign_activity( player_activity( rummage_pocket_activity_actor( loc,
                                               rummage_pocket_activity_actor::action::apply_use ) ) );
+    } else {
+        avatar_action::use_item( you, loc );
     }
 }
 
