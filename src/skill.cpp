@@ -207,8 +207,6 @@ bool Skill::is_contextual_skill() const
 void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modifier,
                         bool skip_scaling )
 {
-    int highest_level_exp = _knowledgeLevel * _knowledgeLevel * 10000;
-
     // catchup gets faster the higher the level gap gets.
     float level_gap = std::max( _knowledgeLevel * 1.0f, 1.0f ) / std::max( _level * 1.0f, 1.0f );
     float catchup_amount = amount * catchup_modifier;
@@ -261,6 +259,7 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
         ++_level;
         if( _level > _knowledgeLevel ) {
             _knowledgeLevel = _level;
+            _knowledgeExperience = 0;
         }
         // Recalculate xp to level now that we have levelled up
         xp_to_level = 100 * 100 * ( _level + 1 ) * ( _level + 1 );
@@ -269,16 +268,14 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
     if( _rustAccumulator < 0 ) {
         _rustAccumulator = 0;
     }
-
-    if( _level == _knowledgeLevel && _exercise + highest_level_exp > _knowledgeExperience ) {
-        _knowledgeExperience = _exercise + highest_level_exp;
+    if( _level == _knowledgeLevel && _exercise > _knowledgeExperience ) {
+        _knowledgeExperience = _exercise;
     }
 
     if( _knowledgeExperience >= 10000 * ( _knowledgeLevel + 1 ) * ( _knowledgeLevel + 1 ) ) {
         _knowledgeExperience = 0;
         ++_knowledgeLevel;
     }
-
 }
 
 
