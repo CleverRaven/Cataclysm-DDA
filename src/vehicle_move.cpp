@@ -29,7 +29,6 @@
 #include "monster.h"
 #include "optional.h"
 #include "options.h"
-#include "player.h"
 #include "rng.h"
 #include "sounds.h"
 #include "translations.h"
@@ -775,7 +774,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     Character &player_character = get_player_character();
     const bool pl_ctrl = player_in_control( player_character );
     Creature *critter = g->critter_at( p, true );
-    player *ph = dynamic_cast<player *>( critter );
+    Character *ph = dynamic_cast<Character *>( critter );
 
     Creature *driver = pl_ctrl ? &player_character : nullptr;
 
@@ -1811,7 +1810,7 @@ vehicle *vehicle::act_on_map()
         for( int boarded : boarded_parts() ) {
             if( part_with_feature( boarded, VPFLAG_CONTROLS, true ) >= 0 ) {
                 controlled = true;
-                player *passenger = get_passenger( boarded );
+                Character *passenger = get_passenger( boarded );
                 if( passenger != nullptr ) {
                     passenger->practice( skill_driving, 1 );
                 }
@@ -2089,7 +2088,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
             continue;
         }
 
-        player *psg = dynamic_cast<player *>( rider );
+        Character *psg = dynamic_cast<Character *>( rider );
         monster *pet = dynamic_cast<monster *>( rider );
 
         bool throw_from_seat = false;
