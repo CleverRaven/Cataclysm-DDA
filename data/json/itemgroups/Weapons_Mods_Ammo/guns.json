@@ -382,7 +382,6 @@
       { "item": "ruger_1022", "prob": 65, "charges-min": 0, "charges-max": 0 },
       { "item": "ruger_mini", "prob": 55, "charges-min": 0, "charges-max": 0 },
       { "item": "bh_m89", "prob": 5 },
-      { "item": "arx160", "prob": 10 },
 	  { "item": "M24", "prob": 15, "charges-min": 0, "charges-max": 5 },
       { "item": "weatherby_5", "prob": 15, "charges-min": 0, "charges-max": 3 },
 	  { "item": "savage_111f", "prob": 15, "charges-min": 0, "charges-max": 3 },
@@ -530,6 +529,7 @@
       { "item": "hk_g36", "prob": 30, "charges-min": 0, "charges-max": 0 },
 	  { "item": "m1918", "prob": 30, "charges-min": 0, "charges-max": 0 },
 	  { "item": "nato_assault_rifle", "prob": 45, "charges-min": 0, "charges-max": 0 }, 
+      { "item": "arx160", "prob": 10 },	  
 	  { "item": "hk417_13", "prob": 40, "charges-min": 0, "charges-max": 0 }
     ]
   },
