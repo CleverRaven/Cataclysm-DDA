@@ -496,10 +496,10 @@ class item : public visitable
                 reload_option( const reload_option & );
                 reload_option &operator=( const reload_option & );
 
-                reload_option( const player *who, const item *target, const item *parent,
+                reload_option( const Character *who, const item *target, const item *parent,
                                const item_location &ammo );
 
-                const player *who = nullptr;
+                const Character *who = nullptr;
                 const item *target = nullptr;
                 item_location ammo;
 

@@ -79,6 +79,7 @@
 static const activity_id ACT_READ( "ACT_READ" );
 
 static const bionic_id bio_cloak( "bio_cloak" );
+static const bionic_id bio_cqb( "bio_cqb" );
 
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_boomered( "boomered" );
@@ -1716,4 +1717,91 @@ void avatar::add_pain_msg( int val, const bodypart_id &bp ) const
                                body_part_name_accusative( bp ) );
         }
     }
+}
+
+// ids of martial art styles that are available with the bio_cqb bionic.
+static const std::vector<matype_id> bio_cqb_styles{ {
+        matype_id{ "style_aikido" },
+        matype_id{ "style_biojutsu" },
+        matype_id{ "style_boxing" },
+        matype_id{ "style_capoeira" },
+        matype_id{ "style_crane" },
+        matype_id{ "style_dragon" },
+        matype_id{ "style_judo" },
+        matype_id{ "style_karate" },
+        matype_id{ "style_krav_maga" },
+        matype_id{ "style_leopard" },
+        matype_id{ "style_muay_thai" },
+        matype_id{ "style_ninjutsu" },
+        matype_id{ "style_pankration" },
+        matype_id{ "style_snake" },
+        matype_id{ "style_taekwondo" },
+        matype_id{ "style_tai_chi" },
+        matype_id{ "style_tiger" },
+        matype_id{ "style_wingchun" },
+        matype_id{ "style_zui_quan" }
+    }};
+
+bool character_martial_arts::pick_style( const avatar &you ) // Style selection menu
+{
+    enum style_selection {
+        KEEP_HANDS_FREE = 0,
+        STYLE_OFFSET
+    };
+
+    // If there are style already, cursor starts there
+    // if no selected styles, cursor starts from no-style
+
+    // Any other keys quit the menu
+    const std::vector<matype_id> &selectable_styles = you.has_active_bionic(
+                bio_cqb ) ? bio_cqb_styles :
+            ma_styles;
+
+    input_context ctxt( "MELEE_STYLE_PICKER", keyboard_mode::keycode );
+    ctxt.register_action( "SHOW_DESCRIPTION" );
+
+    uilist kmenu;
+    kmenu.text = string_format( _( "Select a style.\n"
+                                   "\n"
+                                   "STR: <color_white>%d</color>, DEX: <color_white>%d</color>, "
+                                   "PER: <color_white>%d</color>, INT: <color_white>%d</color>\n"
+                                   "Press [<color_yellow>%s</color>] for more info.\n" ),
+                                you.get_str(), you.get_dex(), you.get_per(), you.get_int(),
+                                ctxt.get_desc( "SHOW_DESCRIPTION" ) );
+    ma_style_callback callback( static_cast<size_t>( STYLE_OFFSET ), selectable_styles );
+    kmenu.callback = &callback;
+    kmenu.input_category = "MELEE_STYLE_PICKER";
+    kmenu.additional_actions.emplace_back( "SHOW_DESCRIPTION", translation() );
+    kmenu.desc_enabled = true;
+    kmenu.addentry_desc( KEEP_HANDS_FREE, true, 'h',
+                         keep_hands_free ? _( "Keep hands free (on)" ) : _( "Keep hands free (off)" ),
+                         _( "When this is enabled, player won't wield things unless explicitly told to." ) );
+
+    kmenu.selected = STYLE_OFFSET;
+
+    for( size_t i = 0; i < selectable_styles.size(); i++ ) {
+        const auto &style = selectable_styles[i].obj();
+        //Check if this style is currently selected
+        const bool selected = selectable_styles[i] == style_selected;
+        std::string entry_text = style.name.translated();
+        if( selected ) {
+            kmenu.selected = i + STYLE_OFFSET;
+            entry_text = colorize( entry_text, c_pink );
+        }
+        kmenu.addentry_desc( i + STYLE_OFFSET, true, -1, entry_text, style.description.translated() );
+    }
+
+    kmenu.query();
+    int selection = kmenu.ret;
+
+    if( selection >= STYLE_OFFSET ) {
+        style_selected = selectable_styles[selection - STYLE_OFFSET];
+        martialart_use_message( you );
+    } else if( selection == KEEP_HANDS_FREE ) {
+        keep_hands_free = !keep_hands_free;
+    } else {
+        return false;
+    }
+
+    return true;
 }

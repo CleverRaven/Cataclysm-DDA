@@ -1367,7 +1367,25 @@ class Character : public Creature, public visitable
         /**When a monster fails the surgery*/
         void bionics_uninstall_failure( monster &installer, Character &patient, int difficulty, int success,
                                         float adjusted_skill );
+        void on_worn_item_transform( const item &old_it, const item &new_it );
 
+        bool list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
+                        bool empty = true ) const;
+        /**
+         * Select suitable ammo with which to reload the item
+         * @param base Item to select ammo for
+         * @param prompt force display of the menu even if only one choice
+         * @param empty allow selection of empty magazines
+         */
+        item::reload_option select_ammo( const item &base, bool prompt = false,
+                                         bool empty = true ) const;
+
+        /** Select ammo from the provided options */
+        item::reload_option select_ammo( const item &base, std::vector<item::reload_option> opts ) const;
+
+        void process_items();
+        /** Search surrounding squares for traps (and maybe other things in the future). */
+        void search_surroundings();
         /**Passively produce power from PERPETUAL fuel*/
         void passive_power_gen( int b );
         /**Find fuel used by remote powered bionic*/
