@@ -107,10 +107,10 @@
 			{ "transform":  "looted_gunsafe", "x": 0, "y": 0 }		
 		],
 		"place_items": [
-				{ "item": "ammo_common_collection", "x": 0, "y": 0, "chance": 85, "repeat": [ 1, 5 ] },
-				{ "item": "ammo_rare_collection", "x": 0, "y": 0, "chance": 20, "repeat": [ 1, 5 ] },
-				{ "item": "ammo_obscure_collection", "x": 0, "y": 0, "chance": 10, "repeat": [ 1, 5 ] },
-				{ "item": "guns_rare_display", "x": 0, "y": 0, "chance": 5, "repeat": [ 1, 5 ] }	
+				{ "item": "ammo_common_collection", "x": 0, "y": 0, "chance": 85, "repeat": [ 1, 2 ] },
+				{ "item": "ammo_rare_collection", "x": 0, "y": 0, "chance": 20, "repeat": [ 1, 2 ] },
+				{ "item": "ammo_obscure_collection", "x": 0, "y": 0, "chance": 10, "repeat": [ 1, 2 ] },
+				{ "item": "guns_rare_display", "x": 0, "y": 0, "chance": 5, "repeat": [ 1, 2 ] }	
 			]
     }
   }, 
@@ -176,17 +176,17 @@
   {
 	"type": "ter_furn_transform",
 	"id": "looted_gunsafe",
-	"furniture": [ { "result": "f_gunsafe_o", "valid_furniture": [ "t_gunsafe_ml" ] } ]
+	"furniture": [ { "result": "f_gunsafe_o", "valid_furniture": [ "f_gunsafe_ml" ] } ]
   },
   {
 	"type": "ter_furn_transform",
 	"id": "jammed_gunsafe",
-	"furniture": [ { "result": "f_gunsafe_mj", "valid_furniture": [ "t_gunsafe_ml" ] } ]
+	"furniture": [ { "result": "f_gunsafe_mj", "valid_furniture": [ "f_gunsafe_ml" ] } ]
   },
   {
 	"type": "ter_furn_transform",
 	"id": "open_gunsafe",
-	"furniture": [ { "result": "f_gunsafe_o", "valid_furniture": [ "t_gunsafe_ml" ] } ]
+	"furniture": [ { "result": "f_gunsafe_o", "valid_furniture": [ "f_gunsafe_ml" ] } ]
   }, 
   {
     "type": "mapgen",
