@@ -57,7 +57,7 @@
 | prof_chain_armour | Chain Garments | Turning sheets of chain links into effective, wearable clothing that doesn't bind up. | None | True
 | --- | --- | --- | --- | ---
 | prof_tanning_basic | Basic Tanning | You're familiar with the theory behind turning raw hides into leather. | None | True
-| prof_tanning | Tanning | You have a lot of practice and experience with processing hides to leather, as well as various similar techniques like making boiled leather. | None | True
+| prof_tanning | Tanning | You have a lot of practice and experience with processing hides to leather, as well as various similar techniques like making boiled leather. | prof_tanning_basic | True
 | --- | --- | --- | --- | ---
 | prof_leatherworking_basic | Principles of Leatherworking | You've got a basic familiarity with how to work with leather, furs, hides, and similar materials. | None | True
 | prof_leatherworking | Leatherworking | Working with leather requires a specific set of skills and tools… a set you are familiar with. | prof_leatherworking_basic | True
@@ -109,7 +109,7 @@
 | prof_handloading | Handloading | You know how to accurately measure powder and projectile weights for reloading firearm cartridges. | None | True
 | prof_gunsmithing_basic | Principles of Gunsmithing | A basic understanding of how guns are put together and what tools and materials are needed for the job. | None | True
 | prof_gunsmithing_improv | Improvised Gunmaking | You've become an expert at putting together guns and launchers from makeshift parts. | None | True
-| prof_gunsmithing_antique | Antique Gunsmithing | You're specifically skilled at building and repairing antique guns. | prof_metalworking | True
+| prof_gunsmithing_antique | Antique Gunsmithing | You're specifically skilled at building and repairing antique guns. | prof_metalworking / prof_gunsmithing_basic | True
 | prof_gunsmithing_spring | Spring-powered Guns and Crossbows | Similar to bowyery, the art of making guns that are powered by elastic mechanisms. | None | True
 | prof_gunsmithing_revolver | Revolver Gunsmithing | You've got the know-how to make a classic Western revolver, and its many variants. | prof_gunsmithing_basic | True
 | --- | --- | --- | --- | ---
@@ -128,12 +128,12 @@
 | id | name | description | required_proficiencies | can_learn
 | --- | --- | --- | --- | --- 
 | prof_alchemy | Alchemy | You know the basics of manipulating the mana of objects through application of chemical laws. | None | True
-| prof_almetallurgy | Almetallurgy | The forging of magical alloys is a complex process requiring an understanding of both mundane metals and alchemy. | prof_alchemy | True
+| prof_almetallurgy | Almetallurgy | The forging of magical alloys is a complex process requiring an understanding of both mundane metals and alchemy. | prof_alchemy / prof_metalworking | True
 | prof_leatherworking_dragon | Dragon leather working | Working with dragon leather requires a specific set of skills and tools… a set you are familiar with. | prof_leatherworking | True
 | prof_scaleworking_dragon | Dragon scale working | Working with dragon scales requires a specific set of skills and tools… a set you are familiar with. | prof_leatherworking_dragon | True
 | prof_golemancy_basic | Basic Golemancy | Infusing shaped material with your will and the ability to move is hard but you're starting to get it. | None | True
 
-This data was extracted using tools/json_tools/table.py
+This data was extracted using tools/json_tools/table.py as follows (then formatted):
 
 ```bash
 tools/json_tools/table.py --type=proficiency id name description required_proficiencies can_learn
