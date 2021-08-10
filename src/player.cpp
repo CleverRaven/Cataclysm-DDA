@@ -116,7 +116,6 @@ static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_soporific( "bio_soporific" );
 
-static const json_character_flag json_flag_FEATHER_FALL( "FEATHER_FALL" );
 
 player::player()
 {
