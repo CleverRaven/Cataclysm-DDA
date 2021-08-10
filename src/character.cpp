@@ -246,6 +246,7 @@ static const trait_id trait_ADRENALINE( "ADRENALINE" );
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_ANTLERS( "ANTLERS" );
 static const trait_id trait_BADBACK( "BADBACK" );
+static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_CF_HAIR( "CF_HAIR" );
 static const trait_id trait_CHITIN_FUR( "CHITIN_FUR" );
 static const trait_id trait_CHITIN_FUR2( "CHITIN_FUR2" );
@@ -261,6 +262,7 @@ static const trait_id trait_FUR( "FUR" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INSOMNIA( "INSOMNIA" );
+static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_LIGHTFUR( "LIGHTFUR" );
 static const trait_id trait_LUPINE_FUR( "LUPINE_FUR" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
@@ -270,6 +272,7 @@ static const trait_id trait_QUILLS( "QUILLS" );
 static const trait_id trait_SAVANT( "SAVANT" );
 static const trait_id trait_SPINES( "SPINES" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
+static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_THORNS( "THORNS" );
 static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
@@ -13669,6 +13672,176 @@ int Character::time_to_read( const item &book, const Character &reader,
     return retval;
 }
 
+int Character::thirst_speed_penalty( int thirst )
+{
+    // We die at 1200 thirst
+    // Start by dropping speed really fast, but then level it off a bit
+    static const std::vector<std::pair<float, float>> thirst_thresholds = {{
+            std::make_pair( 40.0f, 0.0f ),
+            std::make_pair( 300.0f, -25.0f ),
+            std::make_pair( 600.0f, -50.0f ),
+            std::make_pair( 1200.0f, -75.0f )
+        }
+    };
+    return static_cast<int>( multi_lerp( thirst_thresholds, thirst ) );
+}
+
+void Character::recalc_speed_bonus()
+{
+    // Minus some for weight...
+    int carry_penalty = 0;
+    units::mass weight_cap = weight_capacity();
+    if( weight_cap < 1_milligram ) {
+        weight_cap = 1_milligram; //Prevent Clang warning about divide by zero
+    }
+    if( weight_carried() > weight_cap ) {
+        carry_penalty = 25 * ( weight_carried() - weight_cap ) / ( weight_cap );
+    }
+    mod_speed_bonus( -carry_penalty );
+
+    mod_speed_bonus( -get_pain_penalty().speed );
+
+    if( get_thirst() > 40 ) {
+        mod_speed_bonus( thirst_speed_penalty( get_thirst() ) );
+    }
+    // when underweight, you get slower. cumulative with hunger
+    mod_speed_bonus( kcal_speed_penalty() );
+
+    for( const auto &maps : *effects ) {
+        for( const auto &i : maps.second ) {
+            bool reduced = resists_effect( i.second );
+            mod_speed_bonus( i.second.get_mod( "SPEED", reduced ) );
+        }
+    }
+
+    // add martial arts speed bonus
+    mod_speed_bonus( mabuff_speed_bonus() );
+
+    // Not sure why Sunlight Dependent is here, but OK
+    // Ectothermic/COLDBLOOD4 is intended to buff folks in the Summer
+    // Threshold-crossing has its charms ;-)
+    if( g != nullptr ) {
+        if( has_trait( trait_SUNLIGHT_DEPENDENT ) && !g->is_in_sunlight( pos() ) ) {
+            mod_speed_bonus( -( g->light_level( posz() ) >= 12 ? 5 : 10 ) );
+        }
+        const float temperature_speed_modifier = mutation_value( "temperature_speed_modifier" );
+        if( temperature_speed_modifier != 0 ) {
+            const int player_local_temp = get_weather().get_temperature( pos() );
+            if( has_trait( trait_COLDBLOOD4 ) || player_local_temp < 65 ) {
+                mod_speed_bonus( ( player_local_temp - 65 ) * temperature_speed_modifier );
+            }
+        }
+    }
+    const int prev_speed_bonus = get_speed_bonus();
+    set_speed_bonus( std::round( enchantment_cache->modify_value( enchant_vals::mod::SPEED,
+                                 get_speed() ) - get_speed_base() ) );
+    enchantment_speed_bonus = get_speed_bonus() - prev_speed_bonus;
+    // Speed cannot be less than 25% of base speed, so minimal speed bonus is -75% base speed.
+    const int min_speed_bonus = static_cast<int>( -0.75 * get_speed_base() );
+    if( get_speed_bonus() < min_speed_bonus ) {
+        set_speed_bonus( min_speed_bonus );
+    }
+}
+
+double Character::recoil_vehicle() const
+{
+    // TODO: vary penalty dependent upon vehicle part on which player is boarded
+
+    if( in_vehicle ) {
+        if( const optional_vpart_position vp = get_map().veh_at( pos() ) ) {
+            return static_cast<double>( std::abs( vp->vehicle().velocity ) ) * 3 / 100;
+        }
+    }
+    return 0;
+}
+
+double Character::recoil_total() const
+{
+    return recoil + recoil_vehicle();
+}
+
+bool Character::is_hallucination() const
+{
+    return false;
+}
+
+void Character::set_underwater( bool u )
+{
+    if( underwater != u ) {
+        underwater = u;
+        recalc_sight_limits();
+    }
+}
+
+stat_mod Character::get_pain_penalty() const
+{
+    stat_mod ret;
+    int pain = get_perceived_pain();
+    if( pain <= 0 ) {
+        return ret;
+    }
+
+    int stat_penalty = std::floor( std::pow( pain, 0.8f ) / 10.0f );
+
+    bool ceno = has_trait( trait_CENOBITE );
+    if( !ceno ) {
+        ret.strength = stat_penalty;
+        ret.dexterity = stat_penalty;
+    }
+
+    if( !has_trait( trait_INT_SLIME ) ) {
+        ret.intelligence = stat_penalty;
+    } else {
+        ret.intelligence = pain / 5;
+    }
+
+    ret.perception = stat_penalty * 2 / 3;
+
+    ret.speed = std::pow( pain, 0.7f );
+    if( ceno ) {
+        ret.speed /= 2;
+    }
+
+    ret.speed = std::min( ret.speed, 50 );
+    return ret;
+}
+
+std::list<item *> Character::get_radio_items()
+{
+    std::list<item *> rc_items;
+    const invslice &stacks = inv->slice();
+    for( const auto &stack : stacks ) {
+        item &stack_iter = stack->front();
+        if( stack_iter.has_flag( flag_RADIO_ACTIVATION ) ) {
+            rc_items.push_back( &stack_iter );
+        }
+    }
+
+    for( auto &elem : worn ) {
+        if( elem.has_flag( flag_RADIO_ACTIVATION ) ) {
+            rc_items.push_back( &elem );
+        }
+    }
+
+    if( is_armed() ) {
+        if( weapon.has_flag( flag_RADIO_ACTIVATION ) ) {
+            rc_items.push_back( &weapon );
+        }
+    }
+    return rc_items;
+}
+
+int Character::get_lift_str() const
+{
+    int str = get_str();
+    if( has_trait( trait_id( "STRONGBACK" ) ) ) {
+        str *= 1.35;
+    } else if( has_trait( trait_id( "BADBACK" ) ) ) {
+        str /= 1.35;
+    }
+    return str;
+}
+
 ret_val<bool> Character::can_takeoff( const item &it, const std::list<item> *res )
 {
     auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item & wit ) {
@@ -14066,4 +14239,45 @@ void Character::siphon( vehicle &veh, const itype_id &desired_liquid )
     if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, &veh ) ) {
         veh.drain( desired_liquid, qty - liquid.charges );
     }
+}
+
+bool Character::takeoff( item_location loc, std::list<item> *res )
+{
+    item &it = *loc;
+
+
+    const auto ret = can_takeoff( it, res );
+    if( !ret.success() ) {
+        add_msg( m_info, "%s", ret.c_str() );
+        return false;
+    }
+
+    auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item & wit ) {
+        return &it == &wit;
+    } );
+
+    item takeoff_copy( it );
+    worn.erase( iter );
+    takeoff_copy.on_takeoff( *this );
+    if( res == nullptr ) {
+        i_add( takeoff_copy, true, &it, &it, true, !has_weapon() );
+    } else {
+        res->push_back( takeoff_copy );
+    }
+
+    add_msg_player_or_npc( _( "You take off your %s." ),
+                           _( "<npcname> takes off their %s." ),
+                           takeoff_copy.tname() );
+
+
+    recalc_sight_limits();
+    calc_encumbrance();
+
+    return true;
+}
+
+bool Character::takeoff( int pos )
+{
+    item_location loc = item_location( *this, &i_at( pos ) );
+    return takeoff( loc );
 }
