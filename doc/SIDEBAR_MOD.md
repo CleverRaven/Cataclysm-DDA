@@ -26,7 +26,7 @@ character attributes in numeric form, or as a bar graph of arbitrary width. A wi
 layout of other widgets.
 
 Widget instances are defined by JSON data, with the main game sidebar widgets and layouts being in
-`data/json/sidebar.json`. You may customize yours by editing this file, or by loading a mod that
+`data/json/ui/sidebar.json`. You may customize yours by editing this file, or by loading a mod that
 adds or modifies widget definitions.
 
 For example, here is a widget to display the player character's "Focus" attribute as a number:
@@ -310,7 +310,7 @@ Str: 8  Dex: 9  Int: 7  Per: 11
 
 ### Root layouts
 
-There are two important "root layout" widgets defined in `data/json/sidebar.json`:
+There are two important "root layout" widgets defined in `data/json/ui/sidebar.json`:
 
 - Widget id "root_layout_wide" is used for "labels" and "classic" sidebars
 - Widget id "root_layout_narrow" is used for "compact" and "labels narrow" sidebars
