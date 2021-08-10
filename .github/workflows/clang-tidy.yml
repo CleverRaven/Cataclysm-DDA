@@ -4,30 +4,28 @@ on:
   push:
     branches:
     - master
-    - 0.F-dev
-    paths:
-    - '**.cpp'
-    - '**.h'
-    - '**.c'
-    - '**/CMakeLists.txt'
-    - '**/Makefile'
-    - '**.hpp'
-    - '**.cmake'
+
   pull_request:
     branches:
     - master
-    - 0.F-dev
-    paths:
-    - '**.cpp'
-    - '**.h'
-    - '**.c'
-    - '**/CMakeLists.txt'
-    - '**/Makefile'
-    - '**.hpp'
-    - '**.cmake'
 
 jobs:
+  skip-duplicates:
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    # Map a step output to a job output
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@master
+        with:
+          cancel_others: 'true'
+          paths: '[ "**.cpp", "**.h", "**.c", "**/CMakeLists.txt", "**/Makefile", "**.hpp", "**.cmake" ]'
   build:
+    needs: skip-duplicates
+    if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' }}
+
     runs-on: ubuntu-20.04
     env:
         CMAKE: 1

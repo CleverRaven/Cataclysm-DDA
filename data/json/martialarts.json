@@ -664,7 +664,9 @@
       "walther_ppq_9mm",
       "walther_ppq_40",
       "walther_ppq_45",
-      "nato_assault_rifle",
+      "m27_assault_rifle",
+      "m16_auto_rifle",
+      "m4_carbine",
       "acr_300blk",
       "ak47",
       "ak74",
@@ -887,9 +889,9 @@
         "melee_allowed": true,
         "buff_duration": 3,
         "mult_bonuses": [
-          { "stat": "damage", "type": "bash", "scale": 0.5 },
-          { "stat": "damage", "type": "cut", "scale": 0.5 },
-          { "stat": "damage", "type": "stab", "scale": 0.5 }
+          { "stat": "damage", "type": "bash", "scale": 0.67 },
+          { "stat": "damage", "type": "cut", "scale": 0.67 },
+          { "stat": "damage", "type": "stab", "scale": 0.67 }
         ]
       }
     ],
@@ -972,6 +974,7 @@
       "nodachi_inferior",
       "nodachi_fake",
       "q_staff",
+      "staff_sling",
       "scimitar",
       "scimitar_fake",
       "scimitar_inferior",
@@ -1200,6 +1203,7 @@
       "PR24-extended",
       "primitive_knife",
       "q_staff",
+      "staff_sling",
       "rebar",
       "scimitar",
       "scimitar_inferior",

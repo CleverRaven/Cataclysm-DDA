@@ -90,6 +90,7 @@ Monsters may also have any of these optional properties:
 | `harvest`                | (string) ID of a "harvest" type describing what can be harvested from the corpse
 | `zombify_into`           | (string) mtype_id this monster zombifies into after it's death
 | `fungalize_into`         | (string) mtype_id this monster turns into when fungalized by spores
+| `shearing`               | (array of objects) Items produced when the monster is sheared
 
 Properties in the above tables are explained in more detail in the sections below.
 
@@ -340,9 +341,16 @@ Percent multiplier on all bleed effects' duration applied to the monster. Values
 An item group that is used to spawn items when the monster dies. This can be an inlined item group, see [ITEM_SPAWN.md](ITEM_SPAWN.md). The default subtype is "distribution".
 
 ## "death_function"
-(array of strings, optional)
+(object, optional)
 
-How the monster behaves on death. See [JSON_FLAGS.md](JSON_FLAGS.md) for a list of possible functions.
+How the monster behaves on death.
+```cpp
+{
+    "corpse_type": "NORMAL", // can be: BROKEN, NO_CORPSE, NORMAL (default)
+    "message": "The %s dies!", // substitute %s for the monster's name.
+    "effect": { "id": "death_boomer", "hit_self": true }  // the actual effect that gets called when the monster dies.  follows the syntax of fake_spell.
+}
+```
 
 ## "emit_field"
 (array of objects of emit_id and time_duration, optional)
@@ -428,6 +436,33 @@ The monster's reproduction cycle, if any. Supports:
 (Array, optional)
 Designate seasons during which this monster is capable of reproduction. ie: `[ "SPRING", "SUMMER" ]`
 
+## "shearing
+(array of objects, optional)
+
+A set of items that are given to the player when they shear this monster. These entries can be duplicates and are one of these 4 types:
+```json
+"shearing": [
+    {
+        "result": "wool",
+        "amount": 100        // exact amount
+    },
+    {
+        "result": "rags",
+        "amount": [10, 100]  // random number in range ( inclusive )
+    },
+    {
+        "result": "leather",
+        "ratio_mass": 0.25   // amount from percentage of mass ( kilograms )
+    },
+    {
+        "result": "wool",
+        "ratio_volume": 0.60 // amount from percentage of volume ( liters )
+    }
+]
+```
+
+This means that when this monster is sheared, it will give: 100 units of wool, 10 to 100 pieces of rag, 25% of its body mass as leather and 60% of its volume as wool.
+
 ## "special_when_hit"
 (array, optional)
 
@@ -481,13 +516,13 @@ Each element of the array should be an object containing the following members:
 
 Monster's special attacks. This should be an array, each element of it should be an object (new style) or an array (old style).
 
-The old style array should contain 2 elements: the id of the attack (see [JSON_FLAGS.md](JSON_FLAGS.md) for a list) and the cooldown for that attack. Example (grab attack every 10 turns):
+The old style array should contain 2 elements: the id of the attack (see [JSON_FLAGS.md](JSON_FLAGS.md) for a list) and the cooldown for that attack. Example:
 
 ```JSON
 "special_attacks": [ [ "GRAB", 10 ] ]
 ```
 
-The new style object can contain a "type" member (string) - "cooldown" member (integer) pair for the three types listed below, the "id" of an explicitly defined monster attack (from monster_attacks.json) or a spell (see MAGIC.md). It may contain additional members as required by the specific attack. Possible types are listed below. Example:
+The new style object can contain a "type" member (string) - "cooldown" member (integer) pair for the three types listed below, the "id" of an explicitly defined monster attack (from monster_attacks.json) or a spell (see [MAGIC.md]). It may contain additional members as required by the specific attack. Possible types are listed below. Example:
 
 ```JSON
 "special_attacks": [
@@ -502,41 +537,47 @@ In the case of separately defined attacks the object has to contain at least an 
 ]
 ```
 
-
 "special_attacks" may contain any mixture of old and new style entries:
 
 ```JSON
 "special_attacks": [
     [ "GRAB", 10 ],
-    { "type": "leap", "cooldown": 10, "max_range": 4 }
+    { "type": "leap", "cooldown": 8, "max_range": 4 },
+    { "id": "impale", "cooldown": 5, "min_mul": 1, "max_mul": 3 }
 ]
 ```
+This monster can attempt a grab every ten turns, a leap with a maximum range of 4 every eight and an impale attack with 1-3x damage multiplier every five turns.
 
 # Monster special attack types
 The listed attack types can be as monster special attacks (see "special_attacks").
 
 ## "monster_attack"
 
-The common type for JSON-defined attacks. Note, you don't have to declare it in the monster attack data, use the "id" of the desired attack instead.
+The common type for JSON-defined attacks. Note, you don't have to declare it in the monster attack data, use the "id" of the desired attack instead. All fields beyond `id` are optional.
 
 | field                 | description
 | ---                   | ---
 | `cooldown`			| Integer, amount of turns between uses.
 | `damage_max_instance` | Array of objects, see ## "melee_damage" 
 | `min_mul`, `max_mul`  | Sets the bounds on the range of damage done. For each attack, the above defined amount of damage will be multiplied by a 
-|						| randomly rolled mulltiplier between the values min_mul and max_mul. 
-| `move_cost`           | Turns needed to complete special attack. 100 move_cost with 100 speed is equal to 1 second/turn.
+|						| randomly rolled mulltiplier between the values min_mul and max_mul. Default 0.5 and 1.0, meaning each attack will do at least half of the defined damage.
+| `move_cost`           | Integer, moves needed to complete special attack. Default 100.
 | `accuracy`            | Integer, if defined the attack will use a different accuracy from monster's regular melee attack.
 | `body_parts`			| List, If empty the regular melee roll body part selection is used. If non-empty, a body part is selected from the map to be
-|						| targeted.
-|						| with a chance proportional to the value.
+|						| targeted with a chance proportional to the value.
+| `attack_chance`		| Integer, percent chance of the attack being successfully used if a monster attempts it. Default 100.
+| `range`       		| Integer, range of the attack in tiles (Default 1, this equals melee range). Melee attacks require unobstructed straight paths.
+| `no_adjacent`			| Boolean, default false. Attack can't target adjacent creatures.
 | `effects`				| Array, defines additional effects for the attack to add.
+| `throw_strength`		| Integer, if larger than 0 the attack will attempt to throw the target, every 10 strength equals one tile of distance thrown.
 | `miss_msg_u`			| String, message for missed attack against the player.
 | `miss_msg_npc`		| String, message for missed attack against an NPC.
 | `hit_dmg_u`			| String, message for succesful attack against the player.
 | `hit_dmg_npc`			| String, message for succesful attack against an NPC.
 | `no_dmg_msg_u`		| String, message for a 0-damage attack against the player.
 | `no_dmg_msg_npc`		| String, message for a 0-damage attack against an NPC.
+| `throw_msg_u`		    | String, message for a flinging attack against the player.
+| `throw_msg_npc`		| String, message for a flinging attack against an NPC.
 
 ## "bite"
 
@@ -544,7 +585,7 @@ Makes monster use teeth to bite opponent, uses the same fields as "monster_attac
 
 | field                 | description
 | ---                   | ---
-| `no_infection_chance` | Chance to not give infection. The exact chance to infect is 1-in-( no_infection_chance - damage dealt). 
+| `infection_chance`    | Chance to give infection in a percentage. Exact chance is infection_chance / 100. 
 
 
 ## "leap"

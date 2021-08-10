@@ -8,6 +8,7 @@
 #include "calendar.h"
 #include "dialogue.h"
 #include "json.h"
+#include "optional.h"
 #include "type_id.h"
 
 template<typename T>
@@ -64,6 +65,10 @@ void load( const JsonObject &jo, const std::string &src );
 void check_consistency();
 /** Sets up the initial queue for a new character */
 void load_new_character();
+/** Load any new eocs that don't exist in the save. */
+void load_existing_character();
+/** Loads an inline eoc */
+effect_on_condition_id load_inline_eoc( const JsonValue &jv, const std::string &src );
 /** queue an eoc to happen in the future */
 void queue_effect_on_condition( time_duration duration, effect_on_condition_id eoc );
 /** called every turn to process the queued eocs */

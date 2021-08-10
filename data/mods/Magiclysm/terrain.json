@@ -72,7 +72,7 @@
     "color": "light_cyan",
     "move_cost": 0,
     "roof": "t_flat_roof",
-    "flags": [ "TRANSPARENT", "ALARMED", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND", "NO_SHOOT" ],
+    "flags": [ "TRANSPARENT", "ALARMED", "NOITEM", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 200,
       "str_max": 600,
@@ -82,6 +82,12 @@
       "sound_fail_vol": 10,
       "ter_set": "t_floor",
       "items": [ { "item": "glassteel_shard", "count": [ 42, 84 ] } ]
+    },
+    "shoot": {
+      "reduce_damage": [ 300, 400 ],
+      "reduce_damage_laser": [ 200, 300 ],
+      "destroy_damage": [ 400, 500 ],
+      "no_laser_destroy": true
     }
   },
   {
@@ -137,6 +143,7 @@
     "color": "cyan",
     "move_cost": 2,
     "roof": "t_flat_roof",
+    "looks_like": "t_strconc_floor",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
       "sound": "SMASH!",
@@ -175,5 +182,30 @@
       ]
     },
     "emissions": [ "emit_vault_atmosphere" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_safe_shopper",
+    "name": "vault vent",
+    "description": "This concrete flooring has a vent pouring fresh, clean air into the vault.",
+    "looks_like": "t_strconc_floor",
+    "symbol": ".",
+    "color": "cyan",
+    "move_cost": 2,
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 150,
+      "str_max": 400,
+      "str_min_supported": 200,
+      "items": [
+        { "item": "rock", "count": [ 10, 22 ] },
+        { "item": "scrap", "count": [ 10, 12 ] },
+        { "item": "rebar", "count": [ 0, 4 ] }
+      ]
+    },
+    "emissions": [ "emit_safe_shoppers" ]
   }
 ]

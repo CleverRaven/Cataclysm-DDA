@@ -24,7 +24,6 @@
     "armor_bash": 6,
     "bleed_rate": 60,
     "harvest": "arachnid_acid",
-    "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "HEARS", "GOODHEARING", "BASHES", "BORES", "POISON", "SUNDEATH", "ACIDPROOF", "ACIDTRAIL" ]
   },
   {
@@ -53,7 +52,11 @@
     "armor_bullet": 6,
     "bleed_rate": 60,
     "harvest": "meatslug",
-    "death_function": [ "WORM" ],
+    "death_function": {
+      "message": "The %s splits in two!",
+      "effect": { "id": "death_halfworm", "hit_self": true },
+      "corpse_type": "NO_CORPSE"
+    },
     "flags": [ "DIGS", "HEARS", "POISON", "GOODHEARING", "BASHES", "DESTROYS" ]
   },
   {
@@ -79,7 +82,6 @@
     "melee_cut": 0,
     "armor_bash": 2,
     "harvest": "mutant_meatslug",
-    "death_function": [ "NORMAL" ],
     "upgrades": { "age_grow": 10, "into": "mon_worm" },
     "flags": [ "DIGS", "HEARS", "GOODHEARING" ]
   },
@@ -106,7 +108,11 @@
     "melee_cut": 3,
     "armor_bash": 2,
     "harvest": "mutant_meatslug",
-    "death_function": [ "WORM" ],
+    "death_function": {
+      "message": "The %s splits in two!",
+      "effect": { "id": "death_halfworm", "hit_self": true },
+      "corpse_type": "NO_CORPSE"
+    },
     "upgrades": { "half_life": 20, "into": "mon_graboid" },
     "flags": [ "DIGS", "HEARS", "GOODHEARING" ]
   },
@@ -164,7 +170,6 @@
     "biosignature": { "biosig_item": "feces_roach", "biosig_timer": 3 },
     "upgrades": { "age_grow": 7, "into": "mon_plague_vector" },
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
-    "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 60 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "POISON", "STUMBLES", "PATH_AVOID_FIRE" ]
   },
@@ -195,7 +200,6 @@
     "vision_night": 3,
     "harvest": "arachnid_tainted",
     "upgrades": { "age_grow": 7, "into": "mon_skittering_plague" },
-    "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 120 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "POISON", "LARVA", "STUMBLES", "FILTHY", "PATH_AVOID_FIRE" ]
   },
@@ -232,7 +236,6 @@
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_roach", "biosig_timer": 3 },
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
-    "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 40 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "POISON", "STUMBLES", "PATH_AVOID_FIRE" ]
   },
@@ -268,7 +271,6 @@
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_roach", "biosig_timer": 3 },
     "upgrades": { "age_grow": 7, "into": "mon_pregnant_giant_cockroach" },
-    "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 60 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
@@ -298,7 +300,6 @@
     "vision_night": 3,
     "harvest": "arachnid",
     "upgrades": { "age_grow": 7, "into": "mon_giant_cockroach" },
-    "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 120 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "LARVA", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
@@ -334,7 +335,7 @@
     "reproduction": { "baby_egg": "egg_roach", "baby_count": 3, "baby_timer": 7 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_roach", "biosig_timer": 3 },
-    "death_function": [ "NORMAL", "PREG_ROACH" ],
+    "death_function": { "effect": { "id": "death_preg_roach", "hit_self": true } },
     "special_attacks": [ [ "EAT_FOOD", 40 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
@@ -383,7 +384,6 @@
     "harvest": "arachnid_bee",
     "anger_triggers": [ "HURT", "FRIEND_DIED", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 21, "into": "mon_bee_mega" },
     "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE" ]
   },
@@ -470,7 +470,7 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_penetration": 12 } ],
         "min_mul": 1,
         "max_mul": 2.1,
-        "no_infection_chance": 25,
+        "infection_chance": 4,
         "effects": [ { "id": "venom_dmg", "duration": 500, "affect_hit_bp": true } ]
       }
     ],
@@ -485,7 +485,6 @@
     "vision_night": 6,
     "anger_triggers": [ "STALK", "PLAYER_CLOSE" ],
     "harvest": "arachnid_centipede",
-    "death_function": [ "NORMAL" ],
     "upgrades": { "age_grow": 15, "into_group": "GROUP_CENTIPEDE_GIANT" },
     "flags": [ "CLIMBS", "SEES", "SMELLS", "KEENNOSE", "HEARS", "GOODHEARING", "PATH_AVOID_FIRE" ]
   },
@@ -514,7 +513,7 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 10, "armor_penetration": 12 } ],
         "min_mul": 1,
         "max_mul": 2.1,
-        "no_infection_chance": 25,
+        "infection_chance": 4,
         "effects": [ { "id": "venom_dmg", "duration": 500, "affect_hit_bp": true } ]
       },
       {
@@ -564,7 +563,7 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 20, "armor_penetration": 110 } ],
         "min_mul": 0.8,
         "max_mul": 1.1,
-        "no_infection_chance": 30,
+        "infection_chance": 3,
         "effects": [ { "id": "venom_dmg", "duration": 750, "affect_hit_bp": true } ]
       }
     ],
@@ -584,7 +583,7 @@
     "id": "mon_dragonfly_naiad",
     "type": "MONSTER",
     "name": { "str": "huge dragonfly naiad" },
-    "description": "The predatory, aquatic larva of a dragonfly, normally barely a centimeter long and feeding on small fishes, grown to the size of a catfish.  Underneath its sharp mandibles you can see that its folded lower jaw changed into something resemblig a barbed spear.",
+    "description": "The predatory, aquatic larva of a dragonfly, normally barely a centimeter long and feeding on small fishes, grown to the size of a catfish.  Underneath its sharp mandibles you can see that its folded lower jaw changed into something resembling a barbed spear.",
     "species": [ "INSECT" ],
     "bodytype": "insect",
     "material": [ "iflesh" ],
@@ -600,14 +599,24 @@
     "melee_dice": 1,
     "melee_dice_sides": 6,
     "melee_cut": 5,
-    "special_attacks": [ [ "STRETCH_ATTACK", 25 ] ],
+    "special_attacks": [
+      {
+        "id": "stretch_attack",
+        "range": 2,
+        "hit_dmg_u": "The %1$s's mouthpart shoots out at you, and it pierces your %2$s!",
+        "hit_dmg_npc": "The %1$s's mouthpart shoots out at <npcname>, and it pierces their %2$s!",
+        "no_dmg_msg_u": "The %1$s's mouthpart hits your %2$s, but it glances off your armor!",
+        "no_dmg_msg_npc": "The %1$s's mouthpart hits <npcname>'s %2$s, but it glances off their armor!",
+        "miss_msg_u": "The %s thrusts its mouthpart at you, but you dodge!",
+        "miss_msg_npc": "The %s's thrusts its mouthpart at <npcname>, but they dodge!"
+      }
+    ],
     "dodge": 3,
     "vision_day": 10,
     "vision_night": 5,
     "harvest": "arachnid",
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "fear_triggers": [ "HURT" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "AQUATIC", "SEES" ],
     "upgrades": { "age_grow": 21, "into": "mon_dragonfly_giant" }
   },
@@ -651,7 +660,6 @@
     "harvest": "arachnid_flying",
     "anger_triggers": [ "PLAYER_WEAK", "STALK" ],
     "fear_triggers": [ "HURT", "FIRE" ],
-    "death_function": [ "NORMAL" ],
     "upgrades": { "age_grow": 40, "into": "mon_dragonfly_mega" },
     "flags": [ "SWARMS", "HEARS", "SEES", "FLIES", "PATH_AVOID_FIRE" ]
   },
@@ -687,7 +695,6 @@
     "vision_night": 5,
     "harvest": "arachnid_dragonfly_mega",
     "anger_triggers": [ "PLAYER_WEAK", "STALK" ],
-    "death_function": [ "NORMAL" ],
     "reproduction": { "baby_egg": "egg_dragonfly", "baby_count": 3, "baby_timer": 1 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "SWIMS", "BASHES", "PUSH_MON", "PUSH_VEH" ]
@@ -753,7 +760,6 @@
     "vision_night": 5,
     "harvest": "arachnid_flying",
     "fear_triggers": [ "PLAYER_CLOSE", "HURT", "FIRE" ],
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 21, "into": "mon_fly_mega" },
     "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "HIT_AND_RUN", "CANPLAY", "PATH_AVOID_FIRE" ]
   },
@@ -810,7 +816,6 @@
     "vision_night": 5,
     "harvest": "arachnid_flying",
     "fear_triggers": [ "HURT", "FIRE" ],
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 21, "into": "mon_mosquito_mega" },
     "flags": [ "SEES", "SMELLS", "HEARS", "STUMBLES", "VENOM", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE" ]
   },
@@ -870,7 +875,6 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "fungalize_into": "mon_spider_fungus",
     "upgrades": { "half_life": 21, "into": "mon_spider_cellar_mega" },
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON", "PATH_AVOID_FIRE" ],
@@ -920,7 +924,6 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "upgrades": { "age_grow": 40, "into": "mon_spider_cellar_giant" },
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PATH_AVOID_FIRE" ]
   },
@@ -967,7 +970,6 @@
     "harvest": "arachnid",
     "special_attacks": [ { "type": "leap", "cooldown": 2, "max_range": 5, "allow_no_target": true } ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "fungalize_into": "mon_spider_fungus",
     "upgrades": { "half_life": 21, "into": "mon_spider_jumping_mega" },
     "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "CLIMBS", "PATH_AVOID_DANGER_1" ]
@@ -982,7 +984,11 @@
     "volume": "625 L",
     "weight": "815 kg",
     "melee_dice": 2,
-    "death_function": [ "EXPLODE" ],
+    "death_function": {
+      "effect": { "id": "death_explosion_mon_spider_jumping_mega", "hit_self": true },
+      "corpse_type": "NO_CORPSE",
+      "message": "The %s explodes!"
+    },
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH", "FLAMMABLE" ] }
   },
   {
@@ -1025,7 +1031,6 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
-    "death_function": [ "NORMAL" ],
     "fungalize_into": "mon_spider_fungus",
     "upgrades": { "half_life": 21, "into": "mon_spider_trapdoor_mega" },
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "GRABS", "CAN_DIG", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ]
@@ -1085,7 +1090,6 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
-    "death_function": [ "NORMAL" ],
     "fungalize_into": "mon_spider_fungus",
     "upgrades": { "half_life": 21, "into": "mon_spider_web_mega" },
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
@@ -1131,7 +1135,6 @@
     "vision_day": 5,
     "vision_night": 5,
     "harvest": "arachnid",
-    "death_function": [ "NORMAL" ],
     "upgrades": { "age_grow": 40, "into": "mon_spider_web" },
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "STUMBLES", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
@@ -1176,7 +1179,6 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "fungalize_into": "mon_spider_fungus",
     "upgrades": { "half_life": 21, "into": "mon_spider_widow_mega" },
     "flags": [ "SEES", "SMELLS", "HEARS", "BADVENOM", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ]
@@ -1224,7 +1226,6 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "upgrades": { "age_grow": 40, "into": "mon_spider_widow_giant" },
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
@@ -1271,7 +1272,6 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "fungalize_into": "mon_spider_fungus",
     "upgrades": { "half_life": 21, "into": "mon_spider_wolf_mega" },
     "flags": [ "SEES", "SMELLS", "HEARS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
@@ -1304,6 +1304,7 @@
     "volume": "30 L",
     "weight": "35 kg",
     "hp": 35,
+    "harvest": "arachnid",
     "upgrades": { "age_grow": 16, "into": "mon_wasp_pupa" },
     "//": "30 days of development from egg to adult.",
     "flags": [ "IMMOBILE" ]
@@ -1322,6 +1323,7 @@
     "volume": "85 L",
     "weight": "90 kg",
     "hp": 100,
+    "harvest": "arachnid_wasp",
     "upgrades": { "age_grow": 10, "into_group": "GROUP_WASP_PUPA" },
     "flags": [ "IMMOBILE" ]
   },
@@ -1373,7 +1375,6 @@
     "harvest": "arachnid_wasp",
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_CLOSE", "PLAYER_WEAK", "HOSTILE_SEEN" ],
     "fear_triggers": [ "HURT", "FIRE" ],
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 30, "into": "mon_wasp" },
     "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE", "HARDTOSHOOT" ]
   },
@@ -1452,7 +1453,6 @@
     "harvest": "arachnid_wasp",
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_CLOSE", "PLAYER_WEAK", "HOSTILE_SEEN" ],
     "fear_triggers": [ "HURT", "FIRE" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "SWARMS", "GROUP_MORALE", "CANPLAY", "HARDTOSHOOT", "PATH_AVOID_FIRE" ]
   },
   {
@@ -1539,7 +1539,6 @@
     "dodge": 1,
     "harvest": "arachnid",
     "upgrades": { "age_grow": 21, "into": "mon_dermatik" },
-    "death_function": [ "NORMAL" ],
     "flags": [ "HEARS", "SMELLS", "POISON", "CAN_DIG", "LARVA" ]
   },
   {
@@ -1572,7 +1571,6 @@
     "vision_day": 13,
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK" ],
     "fear_triggers": [ "HURT", "FIRE" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "FLIES", "PATH_AVOID_FIRE", "CANPLAY" ]
   },
   {
@@ -1615,7 +1613,6 @@
       }
     ],
     "reproduction": { "baby_monster": "mon_dermatik_larva", "baby_count": 2, "baby_timer": 30 },
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "IMMOBILE", "PACIFIST" ]
   },
   {
@@ -1683,7 +1680,6 @@
     "harvest": "arachnid",
     "upgrades": { "age_grow": 14, "into": "mon_ant_soldier" },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_WEAK" ],
-    "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 30 ] ],
     "fungalize_into": "mon_ant_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
@@ -1729,7 +1725,7 @@
     "upgrades": { "age_grow": 14, "into": "mon_ant_acid_soldier" },
     "special_attacks": [ [ "ACID", 23 ], [ "EAT_FOOD", 30 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
-    "death_function": [ "ACID", "NORMAL" ],
+    "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "harvest": "arachnid_acid",
     "flags": [ "ACIDPROOF", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
@@ -1755,7 +1751,7 @@
     "melee_dice_sides": 3,
     "melee_cut": 0,
     "upgrades": { "age_grow": 3, "into": "mon_ant_acid" },
-    "death_function": [ "ACID", "NORMAL" ],
+    "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "harvest": "arachnid_acid",
     "flags": [ "ACIDPROOF", "LARVA", "POISON", "SMELLS" ]
   },
@@ -1787,7 +1783,6 @@
     "armor_bullet": 13,
     "special_attacks": [ [ "ANTQUEEN", 1 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "harvest": "arachnid_acid_queen",
     "flags": [ "ACIDPROOF", "CLIMBS", "HEARS", "QUEEN", "SEES", "SMELLS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
@@ -1822,7 +1817,7 @@
     "vision_night": 5,
     "special_attacks": [ [ "ACID", 15 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
-    "death_function": [ "ACID", "NORMAL" ],
+    "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "harvest": "arachnid_acid",
     "flags": [ "ACIDPROOF", "SHORTACIDTRAIL", "CLIMBS", "HEARS", "POISON", "SEES", "SMELLS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
@@ -1849,7 +1844,6 @@
     "melee_cut": 0,
     "harvest": "arachnid",
     "upgrades": { "age_grow": 3, "into": "mon_ant" },
-    "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "LARVA" ]
   },
   {
@@ -1879,7 +1873,6 @@
     "harvest": "arachnid",
     "special_attacks": [ [ "ANTQUEEN", 1 ] ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
-    "death_function": [ "NORMAL" ],
     "fungalize_into": "mon_ant_fungus",
     "flags": [ "SMELLS", "QUEEN", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
@@ -1913,7 +1906,6 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "fungalize_into": "mon_ant_fungus",
     "upgrades": { "half_life": 21, "into": "mon_ant_soldier_mega" },
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
@@ -1929,7 +1921,12 @@
     "weight": "815 kg",
     "melee_dice": 2,
     "bleed_rate": 60,
-    "special_attacks": [ [ "SMASH", 30 ], [ "BIO_OP_TAKEDOWN", 20 ], [ "RANGED_PULL", 20 ], [ "GRAB", 5 ] ],
+    "special_attacks": [
+      { "id": "smash", "throw_strength": 48, "cooldown": 30 },
+      [ "BIO_OP_TAKEDOWN", 20 ],
+      [ "RANGED_PULL", 20 ],
+      [ "GRAB", 5 ]
+    ],
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH", "RANGED_ATTACKER" ] }
   },
   {
@@ -1975,7 +1972,6 @@
     "biosignature": { "biosig_item": "feces_roach", "biosig_timer": 3 },
     "anger_triggers": [ "FRIEND_ATTACKED" ],
     "fear_triggers": [ "HURT", "FIRE" ],
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 21, "into": "mon_locust_mega" },
     "special_attacks": [ { "type": "leap", "cooldown": 2, "max_range": 8, "allow_no_target": true }, [ "EAT_CROP", 60 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "STUMBLES", "PATH_AVOID_FIRE" ]
@@ -1990,7 +1986,11 @@
     "volume": "625 L",
     "weight": "815 kg",
     "melee_dice": 2,
-    "special_attacks": [ { "type": "leap", "cooldown": 2, "max_range": 4, "allow_no_target": true }, [ "EAT_CROP", 3 ], [ "SMASH", 30 ] ],
+    "special_attacks": [
+      { "type": "leap", "cooldown": 2, "max_range": 4, "allow_no_target": true },
+      [ "EAT_CROP", 3 ],
+      { "id": "smash", "throw_strength": 36, "cooldown": 30 }
+    ],
     "extend": { "flags": [ "DESTROYS", "PUSH_MON", "PUSH_VEH" ] }
   },
   {
@@ -2018,7 +2018,6 @@
     "vision_day": 10,
     "harvest": "arachnid",
     "upgrades": { "age_grow": 10, "into": "mon_locust" },
-    "death_function": [ "NORMAL" ],
     "special_attacks": [ { "type": "leap", "cooldown": 4, "max_range": 4, "allow_no_target": true }, [ "EAT_CROP", 120 ] ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "LARVA", "STUMBLES", "PATH_AVOID_FIRE" ]

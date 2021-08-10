@@ -23,7 +23,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_pocket.h"
 #include "line.h"
 #include "map.h"
@@ -130,7 +129,7 @@ void glare( const weather_type_id &w )
 
 int incident_sunlight( const weather_type_id &wtype, const time_point &t )
 {
-    return std::max<float>( 0.0f, sunlight( t, false ) + wtype->light_modifier );
+    return std::max<float>( 0.0f, sun_light_at( t ) + wtype->light_modifier );
 }
 
 static inline void proc_weather_sum( const weather_type_id &wtype, weather_sum &data,
@@ -698,31 +697,19 @@ int get_local_windchill( double temperature_f, double humidity, double wind_mph 
 nc_color get_wind_color( double windpower )
 {
     nc_color windcolor;
-    if( windpower < 1 ) {
+    if( windpower < 3 ) {
         windcolor = c_dark_gray;
-    } else if( windpower < 3 ) {
-        windcolor = c_dark_gray;
-    } else if( windpower < 7 ) {
-        windcolor = c_light_gray;
     } else if( windpower < 12 ) {
         windcolor = c_light_gray;
-    } else if( windpower < 18 ) {
-        windcolor = c_blue;
     } else if( windpower < 24 ) {
         windcolor = c_blue;
-    } else if( windpower < 31 ) {
-        windcolor = c_light_blue;
     } else if( windpower < 38 ) {
         windcolor = c_light_blue;
-    } else if( windpower < 46 ) {
-        windcolor = c_cyan;
     } else if( windpower < 54 ) {
         windcolor = c_cyan;
-    } else if( windpower < 63 ) {
-        windcolor = c_light_cyan;
     } else if( windpower < 72 ) {
         windcolor = c_light_cyan;
-    } else if( windpower > 72 ) {
+    } else {
         windcolor = c_white;
     }
     return windcolor;
@@ -934,13 +921,11 @@ const weather_generator &weather_manager::get_cur_weather_gen() const
 
 void weather_manager::update_weather()
 {
-    winddirection = wind_direction_override ? *wind_direction_override : winddirection;
-    windspeed = windspeed_override ? *windspeed_override : windspeed;
     Character &player_character = get_player_character();
     if( weather_id == WEATHER_NULL || calendar::turn >= nextweather ) {
         w_point &w = *weather_precise;
         const weather_generator &weather_gen = get_cur_weather_gen();
-        w = weather_gen.get_weather( player_character.global_square_location(), calendar::turn,
+        w = weather_gen.get_weather( player_character.global_square_location().raw(), calendar::turn,
                                      g->get_seed() );
         weather_type_id old_weather = weather_id;
         weather_id = weather_override == WEATHER_NULL ?
@@ -948,6 +933,8 @@ void weather_manager::update_weather()
                      : weather_override;
         sfx::do_ambient();
         temperature = w.temperature;
+        winddirection = wind_direction_override ? *wind_direction_override : w.winddirection;
+        windspeed = windspeed_override ? *windspeed_override : w.windpower;
         lightning_active = false;
         nextweather = calendar::turn + rng( weather_id->duration_min, weather_id->duration_max );
         map &here = get_map();

@@ -28,9 +28,13 @@
     "vision_day": 50,
     "vision_night": 3,
     "harvest": "zombie",
-    "special_attacks": [ [ "LONGSWIPE", 8 ], { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 21 } ] } ],
+    "special_attacks": [
+      { "id": "longswipe", "cooldown": 8 },
+      { "id": "cut_throat", "cooldown": 8 },
+      { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 21 } ] }
+    ],
     "death_drops": { "groups": [ [ "vault_wanderer", 1 ] ] },
-    "death_function": [ "MELT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "POISON", "FILTHY" ]
   },
   {
@@ -64,7 +68,7 @@
     "harvest": "zombie",
     "special_attacks": [ [ "LUNGE", 20 ] ],
     "death_drops": { "groups": [ [ "vault_wanderer", 3 ] ] },
-    "death_function": [ "MELT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "POISON", "FILTHY" ]
   },
   {
@@ -99,7 +103,7 @@
     "harvest": "zombie",
     "special_attacks": [ [ "LUNGE", 15 ] ],
     "death_drops": { "groups": [ [ "vault_wanderer", 3 ] ] },
-    "death_function": [ "MELT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "POISON", "FILTHY" ]
   },
   {
@@ -134,7 +138,7 @@
     "harvest": "zombie",
     "special_attacks": [ [ "LUNGE", 10 ] ],
     "death_drops": { "groups": [ [ "vault_wanderer", 3 ] ] },
-    "death_function": [ "MELT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "POISON", "FILTHY" ]
   },
   {
@@ -169,7 +173,7 @@
     "harvest": "zombie",
     "special_attacks": [ [ "LUNGE", 5 ] ],
     "death_drops": { "groups": [ [ "vault_wanderer", 3 ] ] },
-    "death_function": [ "MELT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "NOGIB", "POISON", "FILTHY" ]
   }
 ]

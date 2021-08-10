@@ -30,7 +30,6 @@
     "type": "TOOL",
     "name": { "str": "integrated toolset" },
     "flags": [ "TRADER_AVOID", "FIRESTARTER", "USES_BIONIC_POWER" ],
-    "max_charges": 10000,
     "use_action": [ "HAMMER", "CROWBAR" ],
     "qualities": [
       [ "HAMMER", 3 ],
@@ -170,7 +169,6 @@
     "ammo": [ "charcoal" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 2000 } } ],
     "sub": "char_smoker",
-    "max_charges": 2000,
     "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
   },
   {
@@ -191,7 +189,7 @@
     "id": "fake_drill_press",
     "type": "TOOL",
     "copy-from": "fake_power_tool",
-    "name": { "str": "drill press" }
+    "name": { "str": "drill press", "str_pl": "drill presses" }
   },
   {
     "id": "fake_tablesaw",
@@ -233,7 +231,7 @@
     "id": "fake_hydraulic_press",
     "type": "TOOL",
     "copy-from": "fake_power_tool",
-    "name": { "str": "hydraulic press" }
+    "name": { "str": "hydraulic press", "str_pl": "hydraulic presses" }
   },
   {
     "id": "fake_power_lathe",

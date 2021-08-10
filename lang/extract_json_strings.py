@@ -1306,6 +1306,15 @@ def extract(item, infilename):
                 writestr(outfile, cname["name"], comment=c,
                          format_strings=True, pl_fmt=True, **kwargs)
                 wrote = True
+        if "death_function" in item:
+            if "message" in item["death_function"]:
+                if singular_name:
+                    c = "Death function message for {}".format(singular_name)
+                else:
+                    c = None
+                writestr(outfile, item["death_function"]["message"],
+                         comment=c, **kwargs)
+                wrote = True
         if "description" in item:
             if name:
                 c = "Description for {}".format(singular_name)
@@ -1350,6 +1359,19 @@ def extract(item, infilename):
                 wrote = True
             if "sound_fail" in bash:
                 writestr(outfile, bash["sound_fail"], **kwargs)
+                wrote = True
+        if "boltcut" in item:
+            boltcut = item["boltcut"]
+            if "sound" in boltcut:
+                comment = "sound of bolt cutting '{}'".format(singular_name)
+                writestr(outfile, boltcut["sound"], comment=comment,
+                         **kwargs)
+                wrote = True
+            if "message" in boltcut:
+                comment = "message when finished bolt cutting '{}'".format(
+                          singular_name)
+                writestr(outfile, boltcut["sound"], comment=comment,
+                         **kwargs)
                 wrote = True
         if "seed_data" in item:
             seed_data = item["seed_data"]

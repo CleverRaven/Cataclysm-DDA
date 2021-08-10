@@ -34,6 +34,7 @@ void effect_on_conditions::check_consistency()
 
 void effect_on_condition::load( const JsonObject &jo, const std::string & )
 {
+    mandatory( jo, was_loaded, "id", id );
     activate_only = true;
     if( jo.has_member( "recurrence_min" ) || jo.has_member( "recurrence_max" ) ) {
         activate_only = false;
@@ -59,6 +60,21 @@ void effect_on_condition::load( const JsonObject &jo, const std::string & )
     }
 }
 
+effect_on_condition_id effect_on_conditions::load_inline_eoc( const JsonValue &jv,
+        const std::string &src )
+{
+    if( jv.test_string() ) {
+        return effect_on_condition_id( jv.get_string() );
+    } else if( jv.test_object() ) {
+        effect_on_condition inline_eoc;
+        inline_eoc.load( jv.get_object(), src );
+        effect_on_condition_factory.insert( inline_eoc );
+        return inline_eoc.id;
+    } else {
+        jv.throw_error( "effect_on_condition needs to be either a string or an effect_on_condition object." );
+    }
+}
+
 static time_duration next_recurrence( const effect_on_condition_id &eoc )
 {
     return rng( eoc->recurrence_min, eoc->recurrence_max );
@@ -70,6 +86,31 @@ void effect_on_conditions::load_new_character()
         if( !eoc.activate_only ) {
             queued_eoc new_eoc = queued_eoc{ eoc.id, true, calendar::turn + next_recurrence( eoc.id ) };
             g->queued_effect_on_conditions.push( new_eoc );
+        }
+    }
+}
+
+void effect_on_conditions::load_existing_character()
+{
+    std::map<effect_on_condition_id, bool> new_eocs;
+    for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
+        if( !eoc.activate_only ) {
+            new_eocs[eoc.id] = true;
+        }
+    }
+
+    std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
+    temp_queued_effect_on_conditions( g->queued_effect_on_conditions );
+    while( !temp_queued_effect_on_conditions.empty() ) {
+        new_eocs[temp_queued_effect_on_conditions.top().eoc] = false;
+        temp_queued_effect_on_conditions.pop();
+    }
+    for( const effect_on_condition_id &eoc : g->inactive_effect_on_condition_vector ) {
+        new_eocs[eoc] = false;
+    }
+    for( const std::pair<const effect_on_condition_id, bool> &eoc_pair : new_eocs ) {
+        if( eoc_pair.second ) {
+            queue_effect_on_condition( next_recurrence( eoc_pair.first ), eoc_pair.first );
         }
     }
 }

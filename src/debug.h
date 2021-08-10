@@ -162,6 +162,8 @@ enum DebugClass {
     D_NPC     = 1 << 5,
     /** SDL & tiles & anything graphical */
     D_SDL     = 1 << 6,
+    /** Related to tile memory (map_memory.cpp) */
+    D_MMAP    = 1 << 7,
 
     DC_ALL    = ( 1 << 30 ) - 1
 };
@@ -227,7 +229,12 @@ namespace debugmode
 // Please try to keep this alphabetically sorted
 enum debug_filter : int {
     DF_ACT_BUTCHER = 0, // butcher activity handler
+    DF_ACT_EBOOK, // ebook activity actor
+    DF_ACT_HARVEST, // harvest activity actor
     DF_ACT_LOCKPICK, // lockpicking activity actor
+    DF_ACT_READ, // reading activity actor
+    DF_ACT_SAFECRACKING, // safecracking activity actor
+    DF_ACT_SHEARING, // shearing activity actor
     DF_ACT_WORKOUT, // workout activity actor
     DF_ANATOMY_BP, // anatomy::select_body_part()
     DF_AVATAR, // avatar generic

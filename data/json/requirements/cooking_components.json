@@ -84,6 +84,12 @@
     "components": [ [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "milk_UHT", 1 ] ] ]
   },
   {
+    "id": "any_frosting",
+    "type": "requirement",
+    "//": "Frosting for cakes and treats",
+    "components": [ [ [ "buttercream", 2 ], [ "milk_cream_whipped", 2 ] ] ]
+  },
+  {
     "id": "any_butter",
     "type": "requirement",
     "//": "Butter of all types and other future butter substitutes",

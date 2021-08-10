@@ -409,12 +409,10 @@
     "//": "Charcuterie: The Craft of Salting, Smoking, and Curing would be a good book for someone to use for further meat products recipes.",
     "book_learn": [ [ "offalcooking", 3 ] ],
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT_FINE", "level": 1 } ],
-    "tools": [ [ [ "funnel", -1 ] ] ],
     "components": [
-      [ [ "meat_stomach", 1, "LIST" ] ],
+      [ [ "meat_stomach", 1, "LIST" ], [ "bag_plastic", 1 ] ],
       [ [ "salt", 20 ] ],
-      [ [ "water", 2 ], [ "water_clean", 2 ] ],
-      [ [ "bag_plastic", 1 ] ]
+      [ [ "water", 2 ], [ "water_clean", 2 ] ]
     ]
   },
   {
@@ -430,6 +428,7 @@
     "book_learn": [ [ "offalcooking", 3 ] ],
     "batch_time_factors": [ 50, 3 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "funnel", -1 ], [ "makeshift_funnel", -1 ] ] ],
     "components": [
       [ [ "meat_nofish", 2, "LIST" ] ],
       [ [ "sausage_casings", 6 ] ],

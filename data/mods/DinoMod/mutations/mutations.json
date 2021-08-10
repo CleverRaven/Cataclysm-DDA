@@ -220,12 +220,6 @@
   },
   {
     "type": "mutation",
-    "id": "LIZ_EYE",
-    "copy-from": "LIZ_EYE",
-    "extend": { "category": [ "STEGO", "TYRANT" ] }
-  },
-  {
-    "type": "mutation",
     "id": "LIZ_IR",
     "copy-from": "LIZ_IR",
     "extend": { "category": [ "STEGO", "TYRANT" ] }

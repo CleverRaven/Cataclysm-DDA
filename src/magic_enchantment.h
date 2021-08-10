@@ -61,6 +61,13 @@ enum class mod : int {
     SOCIAL_INTIMIDATE,
     SLEEPY,
     LUMINATION,
+    EFFECTIVE_HEALTH_MOD,
+    MOD_HEALTH,
+    MOD_HEALTH_CAP,
+    MAP_MEMORY,
+    READING_EXP,
+    SKILL_RUST_RESIST,
+    LEARNING_FOCUS,
     ARMOR_BASH,
     ARMOR_CUT,
     ARMOR_STAB,
@@ -185,7 +192,24 @@ class enchantment
         }
 
         bool operator==( const enchantment &rhs ) const;
+
+        body_part_set modify_bodyparts( const body_part_set &unmodified ) const;
+        // does the enchantment modify bodyparts?
+        bool modifies_bodyparts() const;
+
+        struct bodypart_changes {
+            bodypart_str_id gain;
+            bodypart_str_id lose;
+
+            bool was_loaded = false;
+
+            void serialize( JsonOut &jsout ) const;
+            void deserialize( JsonIn &jsin );
+            void load( const JsonObject &jo );
+        };
     private:
+        std::vector<bodypart_changes> modified_bodyparts;
+
         std::set<trait_id> mutations;
         cata::optional<emit_id> emitter;
         std::map<efftype_id, int> ench_effects;

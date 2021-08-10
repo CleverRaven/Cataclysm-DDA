@@ -1,0 +1,419 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for general lab variety.",
+    "nested_mapgen_id": "lab_generic_3x3_EW_open",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "UUU",
+        "   ",
+        "UUU"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "items": { "U": [ { "item": "cleaning", "chance": 70, "repeat": [ 1, 3 ] } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for general lab variety.",
+    "nested_mapgen_id": "lab_generic_3x3_EW_open",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "VVV",
+        "   ",
+        "VVV"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "items": { "V": [ { "item": "vitamin_shop", "chance": 70, "repeat": [ 1, 3 ] } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for general lab variety.",
+    "nested_mapgen_id": "lab_generic_3x3_EW_open",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rows": [
+        "PPP",
+        "   ",
+        "PPP"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "items": { "P": [ { "item": "file_room", "chance": 70, "repeat": [ 1, 3 ] } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for general lab security areas.",
+    "nested_mapgen_id": "lab_generic_6x6_open",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "      ",
+        "h h h ",
+        "s s s ",
+        "      ",
+        "  II  ",
+        "  h   "
+      ],
+      "palettes": [ "lab_common_palette", "lab_security_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for general lab security areas.",
+    "nested_mapgen_id": "lab_generic_6x6_open",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "      ",
+        "P sh P",
+        "Phs  P",
+        "P sh P",
+        "h    T",
+        "Y     "
+      ],
+      "palettes": [ "lab_common_palette", "lab_security_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for general lab area.",
+    "nested_mapgen_id": "lab_common_5x5_open",
+    "object": {
+      "mapgensize": [ 5, 5 ],
+      "rows": [
+        " h  y",
+        "rr  P",
+        "    P",
+        "  rr ",
+        "Y  h "
+      ],
+      "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
+      "items": {
+        "r": [ { "item": "office", "chance": 70, "repeat": [ 1, 3 ] } ],
+        "P": [ { "item": "file_room", "chance": 70, "repeat": [ 1, 3 ] } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for general office areas.",
+    "nested_mapgen_id": "lab_generic_7x7_open",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "yh    Y",
+        "       ",
+        "h h h h",
+        "s s s s",
+        "       ",
+        " rrr   ",
+        "  h  RR"
+      ],
+      "palettes": [ "lab_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for general office areas.",
+    "nested_mapgen_id": "lab_generic_7x7_open",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "yh    Y",
+        "    E E",
+        " r     ",
+        "hr  rrr",
+        "    r  ",
+        "h   rh ",
+        "Y     P"
+      ],
+      "palettes": [ "lab_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for general office areas.",
+    "nested_mapgen_id": "lab_generic_7x7_open",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "Y     y",
+        "H     H",
+        "H     H",
+        "s HHH s",
+        "H     H",
+        "H     H",
+        "y     Y"
+      ],
+      "palettes": [ "lab_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for general office areas.",
+    "nested_mapgen_id": "lab_generic_7x7_open",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "       ",
+        "  h   y",
+        "  ff  R",
+        " hffh R",
+        "  ffh h",
+        " hffh  ",
+        "Y h    "
+      ],
+      "palettes": [ "lab_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for general office areas.",
+    "nested_mapgen_id": "lab_generic_7x7_N",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "H     H",
+        "H     H",
+        "y     T",
+        "])]|])]",
+        "E T|E y",
+        "  r|rr ",
+        "Yhr|h Y"
+      ],
+      "palettes": [ "lab_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for general office areas.",
+    "nested_mapgen_id": "lab_generic_7x7_S",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "Yhr|h Y",
+        "  r|rr ",
+        "E T|E y",
+        "])]|])]",
+        "y     T",
+        "H     H",
+        "H     H"
+      ],
+      "palettes": [ "lab_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for general office areas.",
+    "nested_mapgen_id": "lab_generic_7x7_N",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "H     E",
+        "H rr  E",
+        "y  h  Y",
+        "])]||+|",
+        "E  |P P",
+        " rr|P P",
+        " hT|P P"
+      ],
+      "palettes": [ "lab_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for general office areas.",
+    "nested_mapgen_id": "lab_generic_7x7_S",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "Yhr|P P",
+        "  r|P P",
+        "h T|P P",
+        "])]||+|",
+        "   h   ",
+        "E rr  H",
+        "E     H"
+      ],
+      "palettes": [ "lab_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for general office areas.",
+    "nested_mapgen_id": "lab_generic_7x7_open",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "       ",
+        "  h   y",
+        "  ff  x",
+        " hffh x",
+        "  ffh h",
+        " hffh  ",
+        "Y h    "
+      ],
+      "palettes": [ "lab_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for recreational areas.",
+    "weight": 500,
+    "nested_mapgen_id": "lab_recreational_3x3_open",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "jjj",
+        "fff",
+        "jjj"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "items": {
+        "f": [
+          { "item": "restaurant_mexican_table", "chance": 10 },
+          { "item": "pizza_table", "chance": 10 },
+          { "item": "bar_food", "chance": 10 },
+          { "item": "coffee_counter", "chance": 10 }
+        ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for recreational areas.",
+    "weight": 300,
+    "nested_mapgen_id": "lab_recreational_3x3_open",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "G G",
+        "K K",
+        "G G"
+      ],
+      "palettes": [ "lab_residential_palette" ],
+      "place_loot": [ { "group": "games", "x": 0, "y": 1, "chance": 25 }, { "group": "games", "x": 2, "y": 1, "chance": 25 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for recreational areas.",
+    "nested_mapgen_id": "lab_recreational_3x3_open",
+    "weight": 300,
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "jjj",
+        "եեե",
+        "jjj"
+      ],
+      "palettes": [ "lab_common_palette", "lab_residential_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for recreational areas.",
+    "nested_mapgen_id": "lab_recreational_3x3_open",
+    "weight": 300,
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "jjj",
+        "jեj",
+        "jjj"
+      ],
+      "palettes": [ "lab_common_palette", "lab_residential_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for recreational areas.",
+    "nested_mapgen_id": "lab_recreational_3x3_open",
+    "weight": 100,
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "jjj",
+        "jcj",
+        "jjj"
+      ],
+      "palettes": [ "lab_common_palette", "lab_residential_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for recreational areas.",
+    "nested_mapgen_id": "lab_recreational_3x3_open",
+    "weight": 50,
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "   ",
+        "   ",
+        "jjj"
+      ],
+      "palettes": [ "lab_common_palette" ],
+      "place_vehicles": [ { "vehicle": "ice_cream_cart", "x": 1, "y": 0, "chance": 100, "status": 0, "rotation": 90 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for recreational areas.",
+    "nested_mapgen_id": "lab_recreational_3x3_open",
+    "weight": 50,
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "   ",
+        "   ",
+        "GKG"
+      ],
+      "palettes": [ "lab_residential_palette" ],
+      "place_vehicles": [ { "vehicle": "food_cart", "x": 1, "y": 0, "chance": 100, "status": 0, "rotation": 180 } ]
+    }
+  }
+]

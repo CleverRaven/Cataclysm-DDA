@@ -154,10 +154,10 @@ std::vector<const recipe *> recipe_subset::search(
         }
         switch( key ) {
             case search_type::name:
-                return lcmatch( r->result_name(), txt );
+                return lcmatch( r->result_name( /*decorated=*/true ), txt );
 
             case search_type::exclude_name:
-                return !lcmatch( r->result_name(), txt );
+                return !lcmatch( r->result_name( /*decorated=*/true ), txt );
 
             case search_type::skill:
                 return lcmatch( r->required_skills_string( nullptr, true, false ), txt );
@@ -420,6 +420,7 @@ void recipe_dictionary::finalize_internal( std::map<recipe_id, recipe> &obj )
 {
     for( auto &elem : obj ) {
         elem.second.finalize();
+        inp_mngr.pump_events();
     }
     // remove any blacklisted or invalid recipes...
     delete_if( []( const recipe & elem ) {

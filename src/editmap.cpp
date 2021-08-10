@@ -39,6 +39,7 @@
 #include "mapdata.h"
 #include "memory_fast.h"
 #include "monster.h"
+#include "mtype.h"
 #include "npc.h"
 #include "omdata.h"
 #include "output.h"
@@ -121,7 +122,7 @@ void edit_json( SAVEOBJ &it )
         if( tmret == 0 ) {
             try {
                 SAVEOBJ tmp;
-                deserialize( tmp, save1 );
+                deserialize_from_string( tmp, save1 );
                 it = std::move( tmp );
             } catch( const std::exception &err ) {
                 popup( "Error on deserialization: %s", err.what() );
@@ -461,13 +462,13 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
         bool draw_fld=true;
         bool draw_veh=true;
     */
-    bool draw_itm = true;
+
     bool game_map = m == &get_map() || w == g->w_terrain;
     const int msize = MAPSIZE_X;
     if( refresh_mplans ) {
         hilights["mplan"].points.clear();
     }
-    avatar &player_character = get_avatar();
+    drawsq_params params = drawsq_params().center( center );
     for( const tripoint &p : tripoint_range<tripoint>( start, end ) ) {
         int sym = game_map ? '%' : ' ';
         if( p.x >= 0 && p.x < msize && p.y >= 0 && p.y < msize ) {
@@ -476,7 +477,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
                 if( critter != nullptr ) {
                     critter->draw( w, center.xy(), false );
                 } else {
-                    m->drawsq( w, player_character, p, false, draw_itm, center, false, true );
+                    m->drawsq( w, p, params );
                 }
                 if( refresh_mplans ) {
                     monster *mon = dynamic_cast<monster *>( critter );
@@ -487,7 +488,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
                     }
                 }
             } else {
-                m->drawsq( w, player_character, p, false, draw_itm, center, false, true );
+                m->drawsq( w, p, params );
             }
         } else {
             mvwputch( w, p.xy() - start.xy(), c_dark_gray, sym );
@@ -509,8 +510,6 @@ void editmap::do_ui_invalidation()
 void editmap::draw_main_ui_overlay()
 {
     const Creature *critter = g->critter_at( target );
-
-    avatar &player_character = get_avatar();
     map &here = get_map();
 #if !defined( TILES )
     if( uberdraw ) {
@@ -522,7 +521,7 @@ void editmap::draw_main_ui_overlay()
     if( critter != nullptr ) {
         critter->draw( g->w_terrain, target, true );
     } else {
-        here.drawsq( g->w_terrain, player_character, target, true, true, target );
+        here.drawsq( g->w_terrain, target, drawsq_params().highlight( true ).center( target ) );
     }
 #ifdef TILES
     // give some visual indication of different cursor moving modes
@@ -616,6 +615,7 @@ void editmap::draw_main_ui_overlay()
         tinymap &tmpmap = *tmpmap_ptr;
 #ifdef TILES
         if( use_tiles ) {
+            const tripoint &player_location = get_player_location().pos();
             const point origin_p = target.xy() + point( 1 - SEEX, 1 - SEEY );
             for( int x = 0; x < SEEX * 2; x++ ) {
                 for( int y = 0; y < SEEY * 2; y++ ) {
@@ -632,7 +632,7 @@ void editmap::draw_main_ui_overlay()
                     g->draw_trap_override( map_p, tmpmap.tr_at( tmp_p ).loadid );
                     g->draw_field_override( map_p, tmpmap.field_at( tmp_p ).displayed_field_type() );
                     const maptile &tile = tmpmap.maptile_at( tmp_p );
-                    if( tmpmap.sees_some_items( tmp_p, player_character.pos() - origin_p ) ) {
+                    if( tmpmap.sees_some_items( tmp_p, player_location - origin_p ) ) {
                         const item &itm = tile.get_uppermost_item();
                         const mtype *const mon = itm.get_mtype();
                         g->draw_item_override( map_p, itm.typeId(), mon ? mon->id : mtype_id::NULL_ID(),
@@ -687,9 +687,9 @@ void editmap::draw_main_ui_overlay()
         } else {
 #endif
             hilights["mapgentgt"].draw( *this, true );
-            const tripoint center( SEEX - 1, SEEY - 1, target.z );
+            drawsq_params params = drawsq_params().center( tripoint( SEEX - 1, SEEY - 1, target.z ) );
             for( const tripoint &p : tmpmap.points_on_zlevel() ) {
-                tmpmap.drawsq( g->w_terrain, player_character, p, false, true, center, false, true );
+                tmpmap.drawsq( g->w_terrain, p, params );
             }
             tmpmap.rebuild_vehicle_level_caches();
 #ifdef TILES
@@ -744,9 +744,9 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     const std::string u_see_msg = player_character.sees( target ) ? _( "yes" ) : _( "no" );
     mvwprintw( w_info, point( 1, off++ ), _( "dist: %d u_see: %s veh: %s scent: %d" ),
                rl_dist( player_character.pos(), target ), u_see_msg, veh_msg, get_scent().get( target ) );
-    mvwprintw( w_info, point( 1, off++ ), _( "sight_range: %d, daylight_sight_range: %d," ),
+    mvwprintw( w_info, point( 1, off++ ), _( "sight_range: %d, noon_sight_range: %d," ),
                player_character.sight_range( g->light_level( player_character.posz() ) ),
-               player_character.sight_range( current_daylight_level( calendar::turn ) ) );
+               player_character.sight_range( sun_moon_light_at_noon_near( calendar::turn ) ) );
     mvwprintw( w_info, point( 1, off++ ), _( "cache{transp:%.4f seen:%.4f cam:%.4f}" ),
                map_cache.transparency_cache[target.x][target.y],
                map_cache.seen_cache[target.x][target.y],
@@ -1006,7 +1006,6 @@ void apply<ter_t>( const ter_t &t, const shapetype editshape, const tripoint &ta
                    const tripoint &origin, const std::vector<tripoint> &target_list )
 {
     bool isvert = false;
-    bool ishori = false;
     bool doalt = false;
     ter_id teralt = undefined_ter_id;
     int alta = -1;
@@ -1017,7 +1016,6 @@ void apply<ter_t>( const ter_t &t, const shapetype editshape, const tripoint &ta
             isvert = true;
             teralt = get_alt_ter( isvert, sel_ter );
         } else if( t.symbol() == LINE_OXOX || t.symbol() == '-' ) {
-            ishori = true;
             teralt = get_alt_ter( isvert, sel_ter );
         }
         if( teralt != undefined_ter_id ) {
@@ -1036,9 +1034,8 @@ void apply<ter_t>( const ter_t &t, const shapetype editshape, const tripoint &ta
     for( const tripoint &elem : target_list ) {
         ter_id wter = sel_ter;
         if( doalt ) {
-            if( isvert && ( elem.y == alta || elem.y == altb ) ) {
-                wter = teralt;
-            } else if( ishori && ( elem.x == alta || elem.x == altb ) ) {
+            int coord = isvert ? elem.y : elem.x;
+            if( coord == alta || coord == altb ) {
                 wter = teralt;
             }
         }

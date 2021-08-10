@@ -32,7 +32,7 @@
       }
     ],
     "death_drops": {  },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "SEES", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
   },
   {
@@ -74,7 +74,7 @@
     "starting_ammo": { "40x46mm_m433": 100, "556": 1000 },
     "path_settings": { "max_dist": 10 },
     "special_attacks": [ [ "CHICKENBOT", 4 ] ],
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "SEES", "HEARS", "BASHES", "NO_BREATHE", "ELECTRONIC", "PRIORITIZE_TARGETS", "DROPS_AMMO" ]
   },
   {
@@ -106,7 +106,7 @@
     "starting_ammo": { "40x46mm_m433": 200, "556": 3000 },
     "path_settings": { "max_dist": 20 },
     "special_attacks": [ [ "MULTI_ROBOT", 3 ] ],
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [
       "SEES",
       "HEARS",
@@ -167,7 +167,7 @@
       }
     ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "tripod", 1 ] ] },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "SEES", "HEARS", "GOODHEARING", "BASHES", "NO_BREATHE", "ELECTRONIC", "CLIMBS", "PRIORITIZE_TARGETS", "FIREPROOF" ]
   },
   {
@@ -210,7 +210,7 @@
         "targeting_sound": "\"Dispatching hostile with lethal force.\""
       }
     ],
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "death_drops": { "groups": [ [ "mon_afs_sentinel_lx_drops", 1 ] ] },
     "flags": [
       "SEES",
@@ -245,7 +245,7 @@
     "armor_bullet": 6,
     "revert_to_itype": "bot_bloodhound_drone",
     "death_drops": { "groups": [ [ "robots", 4 ], [ "manhack", 1 ], [ "turret_searchlight", 1 ] ] },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "extend": { "flags": [ "HIT_AND_RUN" ] }
   },
   {
@@ -271,7 +271,7 @@
     "armor_fire": 4,
     "armor_acid": 6,
     "vision_day": 50,
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "death_drops": { "groups": [ [ "broken_robots", 3 ] ] },
     "flags": [ "SEES", "HEARS", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
   },
@@ -368,7 +368,7 @@
     "vision_day": 50,
     "special_attacks": [ { "id": "hypo_pkill" } ],
     "anger_triggers": [ "FRIEND_ATTACKED", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "death_drops": { "groups": [ [ "broken_robots", 3 ] ] },
     "flags": [ "SEES", "HEARS", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
   },
@@ -456,7 +456,7 @@
         "type": "gun",
         "move_cost": 150,
         "cooldown": 2,
-        "gun_type": "m1014",
+        "gun_type": "mossberg_930",
         "ammo_type": "shot",
         "fake_skills": [ [ "gun", 2 ], [ "shotgun", 2 ] ],
         "fake_dex": 9,
@@ -480,7 +480,7 @@
         "type": "gun",
         "cooldown": 2,
         "move_cost": 150,
-        "gun_type": "acr",
+        "gun_type": "m16_auto_rifle",
         "ammo_type": "556",
         "fake_skills": [ [ "gun", 5 ], [ "rifle", 5 ] ],
         "fake_dex": 10,

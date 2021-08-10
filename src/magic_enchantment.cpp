@@ -86,6 +86,13 @@ namespace io
             case enchant_vals::mod::SOCIAL_INTIMIDATE: return "SOCIAL_INTIMIDATE";
             case enchant_vals::mod::SLEEPY: return "SLEEPY";
             case enchant_vals::mod::LUMINATION: return "LUMINATION";
+            case enchant_vals::mod::EFFECTIVE_HEALTH_MOD: return "EFFECTIVE_HEALTH_MOD";
+            case enchant_vals::mod::MOD_HEALTH: return "MOD_HEALTH";
+            case enchant_vals::mod::MOD_HEALTH_CAP: return "MOD_HEALTH_CAP";
+            case enchant_vals::mod::MAP_MEMORY: return "MAP_MEMORY";
+            case enchant_vals::mod::READING_EXP: return "READING_EXP";
+            case enchant_vals::mod::SKILL_RUST_RESIST: return "SKILL_RUST_RESIST";
+            case enchant_vals::mod::LEARNING_FOCUS: return "LEARNING_FOCUS";
             case enchant_vals::mod::ARMOR_ACID: return "ARMOR_ACID";
             case enchant_vals::mod::ARMOR_BASH: return "ARMOR_BASH";
             case enchant_vals::mod::ARMOR_BIO: return "ARMOR_BIO";
@@ -233,6 +240,26 @@ void enchantment::add_activation( const time_duration &dur, const fake_spell &fa
     intermittent_activation[dur].emplace_back( fake );
 }
 
+void enchantment::bodypart_changes::load( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "gain", gain );
+    optional( jo, was_loaded, "lose", lose );
+}
+
+void enchantment::bodypart_changes::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    load( jo );
+}
+
+void enchantment::bodypart_changes::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "gain", gain );
+    jsout.member( "lose", lose );
+    jsout.end_object();
+}
+
 void enchantment::load( const JsonObject &jo, const std::string &,
                         const cata::optional<std::string> &inline_id )
 {
@@ -270,6 +297,7 @@ void enchantment::load( const JsonObject &jo, const std::string &,
         ench_effects.emplace( efftype_id( jsobj.get_string( "effect" ) ), jsobj.get_int( "intensity" ) );
     }
 
+    optional( jo, was_loaded, "modified_bodyparts", modified_bodyparts );
     optional( jo, was_loaded, "mutations", mutations );
 
     if( jo.has_array( "values" ) ) {
@@ -340,6 +368,7 @@ void enchantment::serialize( JsonOut &jsout ) const
         jsout.end_array();
     }
 
+    jsout.member( "modified_bodyparts", modified_bodyparts );
     jsout.member( "mutations", mutations );
 
     jsout.member( "values" );
@@ -397,6 +426,10 @@ void enchantment::force_add( const enchantment &rhs )
 
     if( rhs.emitter ) {
         emitter = rhs.emitter;
+    }
+
+    for( const bodypart_changes &bp : rhs.modified_bodyparts ) {
+        modified_bodyparts.emplace_back( bp );
     }
 
     for( const trait_id &branch : rhs.mutations ) {
@@ -480,6 +513,25 @@ units::mass enchantment::modify_value( const enchant_vals::mod mod_val,
 int enchantment::mult_bonus( enchant_vals::mod value_type, int base_value ) const
 {
     return get_value_multiply( value_type ) * base_value;
+}
+
+bool enchantment::modifies_bodyparts() const
+{
+    return !modified_bodyparts.empty();
+}
+
+body_part_set enchantment::modify_bodyparts( const body_part_set &unmodified ) const
+{
+    body_part_set modified( unmodified );
+    for( const enchantment::bodypart_changes &changes : modified_bodyparts ) {
+        if( !changes.gain.is_empty() ) {
+            modified.set( changes.gain );
+        }
+        if( !changes.lose.is_empty() ) {
+            modified.reset( changes.lose );
+        }
+    }
+    return modified;
 }
 
 void enchantment::activate_passive( Character &guy ) const

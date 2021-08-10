@@ -20,9 +20,11 @@
 #include "item_group.h"
 #include "json.h"
 #include "output.h"
+#include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
+#include "type_id.h"
 
 static const std::string flag_DIGGABLE( "DIGGABLE" );
 static const std::string flag_LOCKED( "LOCKED" );
@@ -158,7 +160,6 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "NO_SIGHT",                 TFLAG_NO_SIGHT },       // Sight reduced to 1 on this tile
         { "FLAMMABLE_ASH",            TFLAG_FLAMMABLE_ASH },  // oh hey fire. again.
         { "WALL",                     TFLAG_WALL },           // connects to other walls
-        { "NO_SHOOT",                 TFLAG_NO_SHOOT },       // terrain cannot be damaged by ranged attacks
         { "NO_SCENT",                 TFLAG_NO_SCENT },       // cannot have scent values, which prevents scent diffusion through this tile
         { "DEEP_WATER",               TFLAG_DEEP_WATER },     // Deep enough to submerge things
         { "SHALLOW_WATER",            TFLAG_SHALLOW_WATER },  // Water, but not deep enough to submerge the player
@@ -301,6 +302,32 @@ bool map_deconstruct_info::load( const JsonObject &jsobj, const std::string &mem
     return true;
 }
 
+bool map_shoot_info::load( const JsonObject &jsobj, const std::string &member, bool was_loaded )
+{
+    JsonObject j = jsobj.get_object( member );
+
+    optional( j, was_loaded, "chance_to_hit", chance_to_hit, 100 );
+
+    std::pair<int, int> reduce_damage;
+    std::pair<int, int> reduce_damage_laser;
+    std::pair<int, int> destroy_damage;
+
+    mandatory( j, was_loaded, "reduce_damage", reduce_damage );
+    mandatory( j, was_loaded, "reduce_damage_laser", reduce_damage_laser );
+    mandatory( j, was_loaded, "destroy_damage", destroy_damage );
+
+    reduce_dmg_min = reduce_damage.first;
+    reduce_dmg_max = reduce_damage.second;
+    reduce_dmg_min_laser = reduce_damage_laser.first;
+    reduce_dmg_max_laser = reduce_damage_laser.second;
+    destroy_dmg_min = destroy_damage.first;
+    destroy_dmg_max = destroy_damage.second;
+
+    optional( j, was_loaded, "no_laser_destroy", no_laser_destroy, false );
+
+    return true;
+}
+
 furn_workbench_info::furn_workbench_info() : multiplier( 1.0f ), allowed_mass( units::mass_max ),
     allowed_volume( units::volume_max ) {}
 
@@ -411,7 +438,7 @@ bool map_data_common_t::has_examine( iexamine_function_ref func ) const
 
 bool map_data_common_t::has_examine( const std::string &action ) const
 {
-    return examine_actor->type == action;
+    return examine_actor && examine_actor->type == action;
 }
 
 void map_data_common_t::set_examine( iexamine_function_ref func )
@@ -1216,6 +1243,16 @@ void map_data_common_t::load( const JsonObject &jo, const std::string & )
 
     mandatory( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "curtain_transform", curtain_transform );
+
+    if( jo.has_object( "shoot" ) ) {
+        shoot = cata::make_value<map_shoot_info>();
+        shoot->load( jo, "shoot", was_loaded );
+    }
+}
+
+bool ter_t::is_null() const
+{
+    return id == ter_str_id::NULL_ID();
 }
 
 void ter_t::load( const JsonObject &jo, const std::string &src )
@@ -1252,6 +1289,14 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "close", close, ter_str_id::NULL_ID() );
     optional( jo, was_loaded, "transforms_into", transforms_into, ter_str_id::NULL_ID() );
     optional( jo, was_loaded, "roof", roof, ter_str_id::NULL_ID() );
+
+    optional( jo, was_loaded, "lockpick_result", lockpick_result, ter_str_id::NULL_ID() );
+    optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
+
+    boltcut = cata::make_value<activity_data_ter>();
+    if( jo.has_object( "boltcut" ) ) {
+        boltcut->load( jo.get_object( "boltcut" ) );
+    }
 
     optional( jo, was_loaded, "emissions", emissions );
 
@@ -1393,6 +1438,15 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "open", open, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
     optional( jo, was_loaded, "close", close, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );
 
+    optional( jo, was_loaded, "lockpick_result", lockpick_result, string_id_reader<furn_t> {},
+              furn_str_id::NULL_ID() );
+    optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
+
+    boltcut = cata::make_value<activity_data_furn>();
+    if( jo.has_object( "boltcut" ) ) {
+        boltcut->load( jo.get_object( "boltcut" ) );
+    }
+
     bash.load( jo, "bash", map_bash_info::furniture, "furniture " + id.str() );
     deconstruct.load( jo, "deconstruct", true, "furniture " + id.str() );
 
@@ -1439,6 +1493,58 @@ void furn_t::check() const
                       e.str().c_str() );
         }
     }
+}
+
+int activity_byproduct::roll() const
+{
+    return count + rng( random_min, random_max );
+}
+
+void activity_byproduct::load( const JsonObject &jo )
+{
+    mandatory( jo, was_loaded, "item", item );
+
+    if( jo.has_int( "count" ) ) {
+        mandatory( jo, was_loaded, "count", count );
+        count = std::max( 0, count );
+    } else if( jo.has_array( "count" ) ) {
+        std::vector<int> count_random = jo.get_int_array( "count" );
+        random_min = std::max( 0, count_random[0] );
+        random_max = std::max( 0, count_random[1] );
+        if( random_min > random_max ) {
+            std::swap( random_min, random_max );
+        }
+    }
+}
+
+void activity_data_common::load( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "duration", duration_, 1_seconds );
+    optional( jo, was_loaded, "message", message_ );
+    optional( jo, was_loaded, "sound", sound_ );
+
+    if( jo.has_array( "byproducts" ) ) {
+        std::vector<activity_byproduct> entries;
+        for( JsonObject activity_entry : jo.get_array( "byproducts" ) ) {
+            struct activity_byproduct entry {};
+            entry.load( activity_entry );
+            byproducts_.push_back( entry );
+        }
+    }
+}
+
+void activity_data_ter::load( const JsonObject &jo )
+{
+    mandatory( jo, was_loaded, "result", result_ );
+    activity_data_common::load( jo );
+    valid_ = true;
+}
+
+void activity_data_furn::load( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "result", result_, f_null.id() );
+    activity_data_common::load( jo );
+    valid_ = true;
 }
 
 void check_furniture_and_terrain()

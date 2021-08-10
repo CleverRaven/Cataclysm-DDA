@@ -20,8 +20,6 @@
 #include "creature.h"
 #include "damage.h"
 #include "enums.h"
-#include "item.h"
-#include "mtype.h"
 #include "optional.h"
 #include "point.h"
 #include "type_id.h"
@@ -34,7 +32,7 @@ class JsonObject;
 class JsonOut;
 class effect;
 class effect_source;
-class player;
+class item;
 namespace catacurses
 {
 class window;
@@ -125,6 +123,7 @@ class monster : public Creature
         int get_hp_max( const bodypart_id & ) const override;
         int get_hp_max() const override;
         int hp_percentage() const override;
+        int get_eff_per() const override;
 
         float get_mountable_weight_ratio() const;
 
@@ -167,6 +166,8 @@ class monster : public Creature
         bool made_of( const material_id &m ) const override; // Returns true if it's made of m
         bool made_of_any( const std::set<material_id> &ms ) const override;
         bool made_of( phase_id p ) const; // Returns true if its phase is p
+
+        bool shearable() const;
 
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 
@@ -504,18 +505,6 @@ class monster : public Creature
         int fish_population = 1;
 
         void setpos( const tripoint &p ) override;
-        inline const tripoint &pos() const override {
-            return position;
-        }
-        inline int posx() const override {
-            return position.x;
-        }
-        inline int posy() const override {
-            return position.y;
-        }
-        inline int posz() const override {
-            return position.z;
-        }
 
         short ignoring = 0;
         cata::optional<time_point> lastseen_turn;
@@ -565,7 +554,6 @@ class monster : public Creature
         int hp = 0;
         std::map<std::string, mon_special_attack> special_attacks;
         tripoint goal;
-        tripoint position;
         bool dead = false;
         /** Normal upgrades **/
         int next_upgrade_time();
@@ -587,8 +575,8 @@ class monster : public Creature
         cata::optional<time_duration> summon_time_limit = cata::nullopt;
         int turns_since_target = 0;
 
-        player *find_dragged_foe();
-        void nursebot_operate( player *dragged_foe );
+        Character *find_dragged_foe();
+        void nursebot_operate( Character *dragged_foe );
 
     protected:
         void store( JsonOut &json ) const;

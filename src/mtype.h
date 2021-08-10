@@ -14,9 +14,11 @@
 #include "damage.h"
 #include "enum_bitset.h"
 #include "enums.h"
+#include "magic.h"
 #include "mattack_common.h"
 #include "optional.h"
 #include "pathfinding.h"
+#include "shearing.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h" // IWYU pragma: keep
@@ -98,6 +100,7 @@ enum m_flag : int {
     MF_FIREPROOF,           // Immune to fire
     MF_SLUDGEPROOF,         // Ignores the effect of sludge trails
     MF_SLUDGETRAIL,         // Causes monster to leave a sludge trap trail when moving
+    MF_SMALLSLUDGETRAIL,    // Causes monster to leave a low intensity, 1 tile sludge pool approximately every other tile when moving
     MF_COLDPROOF,           // Immune to cold damage
     MF_FIREY,               // Burns stuff and is immune to fire
     MF_QUEEN,               // When it dies, local populations start to die off too
@@ -177,6 +180,7 @@ enum m_flag : int {
     MF_DROPS_AMMO,          // This monster drops ammo. Should not be set for monsters that use pseudo ammo.
     MF_INSECTICIDEPROOF,    // This monster is immune to insecticide, even though it's made of bug flesh
     MF_RANGED_ATTACKER,     // This monster has any sort of ranged attack
+    MF_CAMOUFLAGE,          // This monster is hard to spot, even in broad daylight
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -198,6 +202,30 @@ struct mon_effect_data {
                      int nchance ) :
         id( nid ), duration( dur ), affect_hit_bp( ahbp ), bp( nbp ), permanent( perm ),
         chance( nchance ) {}
+};
+
+enum class mdeath_type {
+    NORMAL,
+    SPLATTER,
+    BROKEN,
+    NO_CORPSE,
+    LAST
+};
+
+template<>
+struct enum_traits<mdeath_type> {
+    static constexpr mdeath_type last = mdeath_type::LAST;
+};
+
+struct monster_death_effect {
+    bool was_loaded = false;
+    bool has_effect = false;
+    fake_spell sp;
+    translation death_message;
+    mdeath_type corpse_type = mdeath_type::NORMAL;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
 };
 
 struct mtype {
@@ -299,6 +327,7 @@ struct mtype {
 
         damage_instance melee_damage; // Basic melee attack damage
         harvest_id harvest;
+        shearing_data shearing;
         float luminance;           // 0 is default, >0 gives luminance to lightmap
 
         unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
@@ -306,7 +335,7 @@ struct mtype {
         std::map<std::string, mtype_special_attack> special_attacks;
         std::vector<std::string> special_attacks_names; // names of attacks, in json load order
 
-        std::vector<mon_action_death>  dies;       // What happens when this monster dies
+        monster_death_effect mdeath_effect;
 
         // This monster's special "defensive" move that may trigger when the monster is attacked.
         // Note that this can be anything, and is not necessarily beneficial to the monster

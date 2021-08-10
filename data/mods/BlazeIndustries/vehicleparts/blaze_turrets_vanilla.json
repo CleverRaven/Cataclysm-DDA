@@ -12,9 +12,9 @@
     "id": "mounted_nato_assault_rifle",
     "copy-from": "turret",
     "type": "vehicle_part",
-    "name": { "str": "mounted assault rifle" },
-    "item": "nato_assault_rifle",
-    "breaks_into": [ { "item": "nato_assault_rifle", "prob": 50 } ],
+    "name": { "str": "mounted m4 carbine" },
+    "item": "m4_carbine",
+    "breaks_into": [ { "item": "m4_carbine", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 3 ] ] }, "removal": { "skills": [ [ "mechanics", 1 ] ] } }
   },
   {
@@ -240,8 +240,8 @@
     "copy-from": "turret",
     "type": "vehicle_part",
     "name": { "str": "mounted M1014 shotgun" },
-    "item": "m1014",
-    "breaks_into": [ { "item": "m1014", "prob": 50 } ],
+    "item": "mossberg_930",
+    "breaks_into": [ { "item": "mossberg_930", "prob": 50 } ],
     "requirements": { "install": { "skills": [ [ "mechanics", 4 ] ] }, "removal": { "skills": [ [ "mechanics", 2 ] ] } }
   },
   {

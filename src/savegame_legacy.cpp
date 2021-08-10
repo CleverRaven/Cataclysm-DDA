@@ -177,7 +177,7 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
     static const std::vector< activity_id > legacy_map = {
         activity_id::NULL_ID(),
         activity_id( "ACT_RELOAD" ),
-        activity_id( "ACT_READ" ),
+        activity_id::NULL_ID(), // ACT_READ is an actor now
         activity_id( "ACT_GAME" ),
         activity_id( "ACT_WAIT" ),
         activity_id::NULL_ID(), // ACT_CRAFT is an actor now

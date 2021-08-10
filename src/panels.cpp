@@ -578,8 +578,8 @@ static std::pair<nc_color, int> morale_stat( const avatar &u )
 
 static std::pair<bodypart_id, bodypart_id> temp_delta( const avatar &u )
 {
-    bodypart_id current_bp_extreme( "torso" );
-    bodypart_id conv_bp_extreme( "torso" );
+    bodypart_id current_bp_extreme = u.get_all_body_parts().front();
+    bodypart_id conv_bp_extreme = current_bp_extreme;
     for( const bodypart_id &bp : u.get_all_body_parts() ) {
         if( std::abs( u.get_part_temp_cur( bp ) - BODYTEMP_NORM ) >
             std::abs( u.get_part_temp_cur( current_bp_extreme ) - BODYTEMP_NORM ) ) {
@@ -777,7 +777,7 @@ static std::string morale_emotion( const int morale_cur, const face_type face,
             } else if( morale_cur >= -200 ) {
                 return "XvX";
             } else {
-                return "@v@";
+                return "@^@";
             }
         } else if( morale_cur >= 200 ) {
             return "@U@";
@@ -1012,7 +1012,7 @@ static std::pair<translation, nc_color> weariness_description( size_t weariness 
     return weary_descriptions[weariness];
 }
 
-static std::string activity_level_str( float level )
+std::string activity_level::activity_level_str( float level )
 {
     static const std::array<translation, 6> activity_descriptions { {
             to_translation( "activity description", "None" ),
@@ -1074,7 +1074,8 @@ static void draw_stats( avatar &u, const catacurses::window &w )
     mvwprintz( w, point_south, c_light_gray, _( weary_label ) );
     mvwprintz( w, point( wlabel_len + 1, 1 ), weary.second, weary.first.translated() );
     mvwprintz( w, point( act_start, 1 ), c_light_gray, _( activity_label ) );
-    mvwprintz( w, point( act_start + alabel_len + 1, 1 ), act_color, activity_level_str( activity ) );
+    mvwprintz( w, point( act_start + alabel_len + 1, 1 ), act_color,
+               activity_level::activity_level_str( activity ) );
 
     wnoutrefresh( w );
 }
@@ -1131,7 +1132,7 @@ static void draw_time_graphic( const catacurses::window &w )
     bool bAddTrail = false;
 
     for( int i = 0; i < 14; i += 2 ) {
-        if( iHour >= 8 + i && iHour <= 13 + ( i / 2 ) ) {
+        if( iHour >= 8 + i && iHour <= 13 + ( i / 2 ) ) { // NOLINT(bugprone-branch-clone)
             wputch( w, hilite( c_white ), ' ' );
 
         } else if( iHour >= 6 + i && iHour <= 7 + i ) {
@@ -1391,7 +1392,8 @@ static void draw_stat_narrow( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 1, 3 ), c_light_gray, _( weary_label ) );
     mvwprintz( w, point( wlabel_len + 2, 3 ), weary.second, weary.first.translated() );
     mvwprintz( w, point( act_start, 3 ), c_light_gray, _( activity_label ) );
-    mvwprintz( w, point( act_start + alabel_len + 1, 3 ), act_color, activity_level_str( activity ) );
+    mvwprintz( w, point( act_start + alabel_len + 1, 3 ), act_color,
+               activity_level::activity_level_str( activity ) );
 
     wnoutrefresh( w );
 }
@@ -1441,7 +1443,8 @@ static void draw_stat_wide( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 1, 2 ), c_light_gray, _( weary_label ) );
     mvwprintz( w, point( wlabel_len + 2, 2 ), weary.second, weary.first.translated() );
     mvwprintz( w, point( act_start, 2 ), c_light_gray, _( activity_label ) );
-    mvwprintz( w, point( act_start + alabel_len + 1, 2 ), act_color, activity_level_str( activity ) );
+    mvwprintz( w, point( act_start + alabel_len + 1, 2 ), act_color,
+               activity_level::activity_level_str( activity ) );
 
     wnoutrefresh( w );
 }
@@ -2209,7 +2212,8 @@ static void draw_weariness_classic( const avatar &u, const catacurses::window &w
     mvwprintz( w, point_zero, c_light_gray, _( weary_label ) );
     mvwprintz( w, point( wlabel_len + 1, 0 ), weary.second, weary.first.translated() );
     mvwprintz( w, point( act_start, 0 ), c_light_gray, _( activity_label ) );
-    mvwprintz( w, point( act_start + alabel_len + 1, 0 ), act_color, activity_level_str( activity ) );
+    mvwprintz( w, point( act_start + alabel_len + 1, 0 ), act_color,
+               activity_level::activity_level_str( activity ) );
 
     std::pair<int, int> bar = u.weariness_transition_progress();
     std::pair<std::string, nc_color> weary_bar = get_hp_bar( bar.first, bar.second );

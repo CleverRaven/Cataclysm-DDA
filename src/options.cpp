@@ -479,8 +479,8 @@ bool options_manager::cOpt::is_hidden() const
             return false;
 #endif
 
-        case COPT_CURSES_HIDE:
-#if !defined(TILES) // If not defined.  it's curses interface.
+        case COPT_CURSES_HIDE: // NOLINT(bugprone-branch-clone)
+#if !defined(TILES) // If not defined, it's the curses interface.
             return true;
 #else
             return false;
@@ -924,10 +924,8 @@ static std::vector<options_manager::id_and_option> build_resource_list(
                 std::string sOption;
                 fin >> sOption;
 
-                if( sOption.empty() ) {
-                    getline( fin, sOption );    // Empty line, chomp it
-                } else if( sOption[0] == '#' ) { // # indicates a comment
-                    getline( fin, sOption );
+                if( sOption.empty() || sOption[0] == '#' ) {
+                    getline( fin, sOption );    // Empty line or comment, chomp it
                 } else {
                     if( sOption.find( "NAME" ) != std::string::npos ) {
                         resource_name.clear();
@@ -1493,6 +1491,12 @@ void options_manager::add_options_interface()
         { "disable", to_translation( "Disable" ) }
     },
     "symbol"
+       );
+
+    add( "HIGHLIGHT_UNREAD_RECIPES", "interface",
+         to_translation( "Highlight unread recipes" ),
+         to_translation( "Highlight unread recipes to allow tracking of newly learned recipes." ),
+         true
        );
 
     add_empty_line();
@@ -2550,12 +2554,17 @@ void options_manager::add_options_android()
 static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_changed, bool ingame )
 {
     if( used_tiles_changed ) {
+        // Disable UIs below to avoid accessing the tile context during loading.
+        ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
         //try and keep SDL calls limited to source files that deal specifically with them
         try {
             tilecontext->reinit();
-            tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
+            tilecontext->load_tileset( get_option<std::string>( "TILES" ),
+                                       /*precheck=*/false, /*force=*/false,
+                                       /*pump_events=*/true );
             //game_ui::init_ui is called when zoom is changed
             g->reset_zoom();
+            g->mark_main_ui_adaptor_resize();
             tilecontext->do_tile_loading_report();
         } catch( const std::exception &err ) {
             popup( _( "Loading the tileset failed: %s" ), err.what() );
@@ -3164,7 +3173,6 @@ void options_manager::load()
     } );
 
     update_global_locale();
-
     update_options_cache();
 
 #if defined(SDL_SOUND)

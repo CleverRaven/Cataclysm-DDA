@@ -13,6 +13,7 @@
 #include "ammo.h"
 #include "assign.h"
 #include "cata_assert.h"
+#include "character.h"
 #include "color.h"
 #include "debug.h"
 #include "flag.h"
@@ -25,7 +26,6 @@
 #include "itype.h"
 #include "json.h"
 #include "output.h"
-#include "player.h"
 #include "requirements.h"
 #include "ret_val.h"
 #include "string_formatter.h"
@@ -606,7 +606,7 @@ void vpart_info::finalize()
 
 static bool type_can_contain( const itype &container, const itype_id &containee )
 {
-    return item( &container ).can_contain( item( containee ) );
+    return item( &container ).can_contain( item( containee ) ).success();
 }
 
 void vpart_info::check()
@@ -926,38 +926,38 @@ bool vpart_info::is_repairable() const
     return !repair_requirements().is_empty();
 }
 
-static int scale_time( const std::map<skill_id, int> &sk, int mv, const player &p )
+static int scale_time( const std::map<skill_id, int> &sk, int mv, const Character &you )
 {
     if( sk.empty() ) {
         return mv;
     }
 
-    const int lvl = std::accumulate( sk.begin(), sk.end(), 0, [&p]( int lhs,
+    const int lvl = std::accumulate( sk.begin(), sk.end(), 0, [&you]( int lhs,
     const std::pair<skill_id, int> &rhs ) {
-        return lhs + std::max( std::min( p.get_skill_level( rhs.first ), MAX_SKILL ) - rhs.second,
+        return lhs + std::max( std::min( you.get_skill_level( rhs.first ), MAX_SKILL ) - rhs.second,
                                0 );
     } );
     // 10% per excess level (reduced proportionally if >1 skill required) with max 50% reduction
     // 10% reduction per assisting NPC
-    const std::vector<npc *> helpers = p.get_crafting_helpers();
-    const int helpersize = p.get_num_crafting_helpers( 3 );
+    const std::vector<npc *> helpers = you.get_crafting_helpers();
+    const int helpersize = you.get_num_crafting_helpers( 3 );
     return mv * ( 1.0 - std::min( static_cast<double>( lvl ) / sk.size() / 10.0,
                                   0.5 ) ) * ( 1 - ( helpersize / 10.0 ) );
 }
 
-int vpart_info::install_time( const player &p ) const
+int vpart_info::install_time( const Character &you ) const
 {
-    return scale_time( install_skills, install_moves, p );
+    return scale_time( install_skills, install_moves, you );
 }
 
-int vpart_info::removal_time( const player &p ) const
+int vpart_info::removal_time( const Character &you ) const
 {
-    return scale_time( removal_skills, removal_moves, p );
+    return scale_time( removal_skills, removal_moves, you );
 }
 
-int vpart_info::repair_time( const player &p ) const
+int vpart_info::repair_time( const Character &you ) const
 {
-    return scale_time( repair_skills, repair_moves, p );
+    return scale_time( repair_skills, repair_moves, you );
 }
 
 /**
