@@ -91,6 +91,10 @@ class gunmod_location
         bool operator<( const gunmod_location &rhs ) const {
             return _id < rhs._id;
         }
+
+        void deserialize( JsonIn &jsin ) {
+            _id = jsin.get_string();
+        }
 };
 
 struct islot_tool {

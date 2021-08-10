@@ -79,6 +79,7 @@ class proficiency_set;
 class recipe_subset;
 class spell;
 class vpart_reference;
+class vehicle;
 struct bionic;
 struct construction;
 struct dealt_projectile_attack;
@@ -566,7 +567,6 @@ class Character : public Creature, public visitable
         bool uncanny_dodge() override;
         float get_hit_base() const override;
 
-        const tripoint &pos() const override;
         /** Returns the player's sight range */
         int sight_range( int light_level ) const override;
         /** Returns the player maximum vision range factoring in mutations, diseases, and other effects */
@@ -1087,15 +1087,6 @@ class Character : public Creature, public visitable
         bool made_of( const material_id &m ) const override;
         bool made_of_any( const std::set<material_id> &ms ) const override;
 
-        inline int posx() const override {
-            return position.x;
-        }
-        inline int posy() const override {
-            return position.y;
-        }
-        inline int posz() const override {
-            return position.z;
-        }
         inline void setx( int x ) {
             setpos( tripoint( x, position.y, position.z ) );
         }
@@ -1105,11 +1096,7 @@ class Character : public Creature, public visitable
         inline void setz( int z ) {
             setpos( tripoint( position.xy(), z ) );
         }
-        inline void setpos( const tripoint &p ) override {
-            position = p;
-            // In case we've moved out of range of lifting assist.
-            invalidate_weight_carried_cache();
-        }
+        void setpos( const tripoint &p ) override;
 
     private:
         /** Retrieves a stat mod of a mutation. */
@@ -1242,7 +1229,8 @@ class Character : public Creature, public visitable
         /** Handles bionic activation effects of the entered bionic, returns if anything activated */
         bool activate_bionic( int b, bool eff_only = false, bool *close_bionics_ui = nullptr );
         std::vector<bionic_id> get_bionics() const;
-        std::vector<item> get_pseudo_items() const;
+        std::vector<const item *> get_pseudo_items() const;
+        void invalidate_pseudo_items();
         /** Returns amount of Storage CBMs in the corpse **/
         std::pair<int, int> amount_of_storage_bionics() const;
         /** Returns true if the player has the entered bionic id */
@@ -1334,10 +1322,10 @@ class Character : public Creature, public visitable
                                       int success, float adjusted_skill, const tripoint &patient_pos );
 
         /**Is The uninstallation possible*/
-        bool can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
+        bool can_uninstall_bionic( const bionic_id &b_id, Character &installer, bool autodoc = false,
                                    int skill_level = -1 );
         /** Initialize all the values needed to start the operation player_activity */
-        bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
+        bool uninstall_bionic( const bionic_id &b_id, Character &installer, bool autodoc = false,
                                int skill_level = -1 );
         /**Success or failure of removal happens here*/
         void perform_uninstall( const bionic_id &bid, int difficulty, int success,
@@ -1349,10 +1337,10 @@ class Character : public Creature, public visitable
         void roll_critical_bionics_failure( const bodypart_id &bp );
 
         /**Used by monster to perform surgery*/
-        bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
+        bool uninstall_bionic( const bionic &target_cbm, monster &installer, Character &patient,
                                float adjusted_skill );
         /**When a monster fails the surgery*/
-        void bionics_uninstall_failure( monster &installer, player &patient, int difficulty, int success,
+        void bionics_uninstall_failure( monster &installer, Character &patient, int difficulty, int success,
                                         float adjusted_skill );
 
         /**Passively produce power from PERPETUAL fuel*/
@@ -1943,8 +1931,43 @@ class Character : public Creature, public visitable
         /** Returns true if the player is immune to throws */
         bool is_throw_immune() const;
 
+        /**
+         * Check if a given body part is immune to a given damage type
+         *
+         * This function checks whether a given body part cannot be damaged by a given
+         * damage_unit.  Note that this refers only to reduction of hp on that part. It
+         * does not account for clothing damage, pain, status effects, etc.
+         *
+         * @param bp: Body part to perform the check on
+         * @param dam: Type of damage to check for
+         * @returns true if given damage can not reduce hp of given body part
+         */
+        bool immune_to( const bodypart_id &bp, damage_unit dam ) const;
+
+        /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
+        void mod_pain( int npain ) override;
+        /** Sets new intensity of pain an reacts to it */
+        void set_pain( int npain ) override;
+        /** Returns perceived pain (reduced with painkillers)*/
+        int get_perceived_pain() const override;
+        /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
+        float fall_damage_mod() const override;
+        /** Deals falling/collision damage with terrain/creature at pos */
+        int impact( int force, const tripoint &pos ) override;
+        /** Knocks the player to a specified tile */
+        void knock_back_to( const tripoint &to ) override;
+        /** Siphons fuel (if available) from the specified vehicle into container or
+         * similar via @ref game::handle_liquid. May start a player activity.
+         */
+        void siphon( vehicle &veh, const itype_id &desired_liquid );
+
+        /** Returns overall % of HP remaining */
+        int hp_percentage() const override;
+
         /** Returns true if the player has some form of night vision */
         bool has_nv();
+
+        int get_lift_assist() const;
 
         /**
          * Returns >0 if character is sitting/lying and relatively inactive.
@@ -2537,6 +2560,12 @@ class Character : public Creature, public visitable
         /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
         bool is_wearing_shoes( const side &which_side = side::BOTH ) const;
 
+        /** Returns true if the worn item is visible (based on layering and coverage) */
+        bool is_worn_item_visible( std::list<item>::const_iterator ) const;
+
+        /** Returns all worn items visible to an outside observer */
+        std::list<item> get_visible_worn_items() const;
+
         /** Swap side on which item is worn; returns false on fail. If interactive is false, don't alert player or drain moves */
         bool change_side( item &it, bool interactive = true );
         bool change_side( item_location &loc, bool interactive = true );
@@ -2877,9 +2906,6 @@ class Character : public Creature, public visitable
             void deserialize( JsonIn &jsin );
         };
 
-        // The player's position on the local map.
-        tripoint position;
-
         /** Bonuses to stats, calculated each turn */
         int str_bonus = 0;
         int dex_bonus = 0;
@@ -3071,6 +3097,9 @@ class Character : public Creature, public visitable
         mutable crafting_cache_type crafting_cache;
 
         time_point melee_warning_turn = calendar::turn_zero;
+
+        mutable bool pseudo_items_valid = false;
+        mutable std::vector<const item *> pseudo_items;
     protected:
         /** Subset of learned recipes. Needs to be mutable for lazy initialization. */
         mutable pimpl<recipe_subset> learned_recipes;

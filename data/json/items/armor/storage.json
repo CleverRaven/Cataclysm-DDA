@@ -1107,6 +1107,7 @@
   },
   {
     "id": "runner_bag",
+    "repairs_like": "survivor_runner_pack",
     "type": "ARMOR",
     "name": { "str": "runner pack" },
     "description": "The obvious choice for outdoor athletes, this ergonomic backpack is light and easy to wear, ensuring comfort when carrying heavy and bulky items.",

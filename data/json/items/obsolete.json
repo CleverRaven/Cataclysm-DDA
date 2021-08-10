@@ -3324,5 +3324,101 @@
     "initial_charges": 3,
     "max_charges": 3,
     "charges_per_use": 1
+  },
+  {
+    "id": "nato_assault_rifle",
+    "copy-from": "rifle_auto",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "IF YOU SEE THIS IT IS A BUG" },
+    "description": "An assault rifle used by a NATO member state.  As per NATO's STANAG agreement, it is chambered in 5.56x45mm.",
+    "//": "Weight, description, length modeled off of m4a1, price and gun stats average of some nato guns",
+    "weight": "2880g",
+    "volume": "3310 ml",
+    "longest_side": "758 mm",
+    "price": "325 USD",
+    "price_postapoc": "48 USD",
+    "variants": [
+      {
+        "id": "acr",
+        "name": { "str": "IF YOU SEE THIS IT IS A BUG" },
+        "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing .223 carbines."
+      },
+      {
+        "id": "h&k416a5",
+        "name": { "str": "IF YOU SEE THIS IT IS A BUG" },
+        "description": "Designed to replace the M4A1, the Heckler and Koch 416A5 features most of the former's strengths, while being considerably more durable."
+      },
+      {
+        "id": "m27iar",
+        "name": { "str": "IF YOU SEE THIS IT IS A BUG" },
+        "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
+        "ascii_picture": "m27_iar"
+      },
+      {
+        "id": "m4a1",
+        "name": { "str": "IF YOU SEE THIS IT IS A BUG" },
+        "description": "A popular carbine, long used by the US military.  Though accurate, small, and lightweight, it is infamous for its unreliability when not properly maintained.",
+        "ascii_picture": "m4a1",
+        "weight": 1
+      },
+      {
+        "id": "m16a3",
+        "name": { "str": "IF YOU SEE THIS IT IS A BUG" },
+        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas operated, rotating bolt rifle known for its accuracy and controllable recoil.  This one is a relatively rare M16A3, with full auto capability."
+      },
+      {
+        "id": "scar_l",
+        "name": { "str": "IF YOU SEE THIS IT IS A BUG" },
+        "description": "A highly accurate and modular assault rifle specially designed for the United States Special Operations Command.  The 'L' in its name stands for light, as it uses the lightweight .223 round.",
+        "ascii_picture": "scar-L"
+      },
+      {
+        "id": "m38dmr",
+        "name": { "str": "IF YOU SEE THIS IT IS A BUG" },
+        "description": "The M38 Designated Marksman Rifle is an M27 IAR, itself derived from a H&K416, selected for accuracy, and outfitted with a variable power scope and a QDSS suppressor."
+      },
+      {
+        "id": "m4_cqbr",
+        "name": { "str": "IF YOU SEE THIS IT IS A BUG" },
+        "description": "This is a shorter M4 carbine with a 10.3 inch barrel, intended for confined spaces and close quarters battle situations."
+      }
+    ],
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "223" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
+    "dispersion": 160,
+    "durability": 8,
+    "min_cycle_recoil": 1350,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "barrel_volume": "250 ml",
+    "built_in_mods": [ "folding_stock" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ]
   }
 ]

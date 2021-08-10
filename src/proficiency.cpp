@@ -80,6 +80,7 @@ void proficiency::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "default_fail_multiplier", _default_fail_multiplier );
     optional( jo, was_loaded, "time_to_learn", _time_to_learn );
     optional( jo, was_loaded, "required_proficiencies", _required );
+    optional( jo, was_loaded, "ignore_focus", _ignore_focus );
 
     optional( jo, was_loaded, "bonuses", _bonuses );
 }
@@ -92,6 +93,11 @@ const std::vector<proficiency> &proficiency::get_all()
 bool proficiency::can_learn() const
 {
     return _can_learn;
+}
+
+bool proficiency::ignore_focus() const
+{
+    return _ignore_focus;
 }
 
 proficiency_id proficiency::prof_id() const

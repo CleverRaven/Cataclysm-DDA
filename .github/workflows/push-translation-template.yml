@@ -18,6 +18,7 @@ on:
 
 jobs:
   push-template:
+    if: github.repository == CleverRaven
     runs-on: ubuntu-20.04
     steps:
       - name: "Install dependencies"
@@ -30,11 +31,17 @@ jobs:
       - name: "Generate translation template"
         run: |
           lang/update_pot.sh
-      - name: "Push translation template"
-        env:
-          TOKEN: ${{ secrets.TX_TOKEN }}
-        run: |
-          export TX_TOKEN=$TOKEN
-          tx push --source --no-interactive --resource cataclysm-dda.master-cataclysm-dda
-          unset TX_TOKEN
-          unset TOKEN
+      - name: "Push translation template to Transifex server"
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 10
+          max_attempts: 5
+          retry_on: error
+          command: |
+            export TX_TOKEN=$TOKEN
+            tx push --source --no-interactive --resource cataclysm-dda.master-cataclysm-dda
+            unset TX_TOKEN
+            unset TOKEN
+      - name: Sleep for 5 minutes
+        run: sleep 5m
+        shell: bash

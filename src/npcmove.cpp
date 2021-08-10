@@ -251,7 +251,7 @@ tripoint npc::good_escape_direction( bool include_pos )
     map &here = get_map();
     if( path.empty() ) {
         zone_type_id retreat_zone = zone_type_id( "NPC_RETREAT" );
-        const tripoint &abs_pos = global_square_location();
+        const tripoint &abs_pos = global_square_location().raw();
         const zone_manager &mgr = zone_manager::get_manager();
         cata::optional<tripoint> retreat_target = mgr.get_nearest( retreat_zone, abs_pos, 60,
                 fac_id );
@@ -1246,7 +1246,7 @@ void npc::execute_action( npc_action action )
             int my_spot = -1;
             std::vector<std::pair<int, int> > seats;
             for( const vpart_reference &vp : veh->get_avail_parts( VPFLAG_BOARDABLE ) ) {
-                const player *passenger = veh->get_passenger( vp.part_index() );
+                const Character *passenger = veh->get_passenger( vp.part_index() );
                 if( passenger != this && passenger != nullptr ) {
                     continue;
                 }
@@ -2838,7 +2838,7 @@ void npc::find_item()
             continue;
         }
 
-        const tripoint abs_p = global_square_location() - pos() + p;
+        const tripoint abs_p = global_square_location().raw() - pos() + p;
         const int prev_num_items = ai_cache.searched_tiles.get( abs_p, -1 );
         // Prefetch the number of items present so we can bail out if we already checked here.
         const map_stack m_stack = here.i_at( p );
@@ -4144,7 +4144,7 @@ void npc::set_omt_destination()
         goal = overmap_buffer.find_closest( surface_omt_loc, find_params );
         omt_path.clear();
         if( goal != overmap::invalid_tripoint ) {
-            omt_path = overmap_buffer.get_npc_path( surface_omt_loc, goal );
+            omt_path = overmap_buffer.get_travel_path( surface_omt_loc, goal, overmap_path_params::for_npc() );
         }
         if( !omt_path.empty() ) {
             dest_type = overmap_buffer.ter( goal )->get_type_id().str();
@@ -4155,11 +4155,11 @@ void npc::set_omt_destination()
     // couldn't find any places to go, so go somewhere.
     if( goal == overmap::invalid_tripoint || omt_path.empty() ) {
         goal = surface_omt_loc + point( rng( -90, 90 ), rng( -90, 90 ) );
-        omt_path = overmap_buffer.get_npc_path( surface_omt_loc, goal );
+        omt_path = overmap_buffer.get_travel_path( surface_omt_loc, goal, overmap_path_params::for_npc() );
         // try one more time
         if( omt_path.empty() ) {
             goal = surface_omt_loc + point( rng( -90, 90 ), rng( -90, 90 ) );
-            omt_path = overmap_buffer.get_npc_path( surface_omt_loc, goal );
+            omt_path = overmap_buffer.get_travel_path( surface_omt_loc, goal, overmap_path_params::for_npc() );
         }
         if( omt_path.empty() ) {
             goal = no_goal_point;

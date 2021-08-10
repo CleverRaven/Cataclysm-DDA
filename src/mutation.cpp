@@ -1248,14 +1248,25 @@ bool Character::mutate_towards( const trait_id &mut )
         } else {
             rating = m_neutral;
         }
-        //  TODO: Limit this to visible mutations
-        // TODO: In case invisible mutation turns into visible or vice versa
-        //  print only the visible mutation appearing/disappearing
-        add_msg_player_or_npc( rating,
-                               _( "Your %1$s mutation turns into %2$s!" ),
-                               _( "<npcname>'s %1$s mutation turns into %2$s!" ),
-                               replace_mdata.name(), mdata.name() );
-
+        // Both new and old mutation visible
+        if( mdata.player_display && replace_mdata.player_display ) {
+            add_msg_player_or_npc( rating,
+                                   _( "Your %1$s mutation turns into %2$s!" ),
+                                   _( "<npcname>'s %1$s mutation turns into %2$s!" ),
+                                   replace_mdata.name(), mdata.name() );
+        }
+        // New mutation visible, precursor invisible
+        if( mdata.player_display && !replace_mdata.player_display ) {
+            add_msg_player_or_npc( rating,
+                                   _( "You gain a mutation called %s!" ),
+                                   _( "<npcname> gains a mutation called %s!" ),
+                                   mdata.name() );
+        }
+        // Precursor visible, new mutation invisible
+        if( !mdata.player_display && replace_mdata.player_display ) {
+            add_msg_player_or_npc( rating, _( "You lose your %s mutation." ),
+                                   _( "<npcname> loses their %s mutation." ), replace_mdata.name() );
+        }
         get_event_bus().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
         unset_mutation( replacing );
         mutation_replaced = true;
@@ -1271,10 +1282,26 @@ bool Character::mutate_towards( const trait_id &mut )
         } else {
             rating = m_neutral;
         }
-        add_msg_player_or_npc( rating,
-                               _( "Your %1$s mutation turns into %2$s!" ),
-                               _( "<npcname>'s %1$s mutation turns into %2$s!" ),
-                               replace_mdata.name(), mdata.name() );
+        // Both new and old mutation visible
+        if( mdata.player_display && replace_mdata.player_display ) {
+            add_msg_player_or_npc( rating,
+                                   _( "Your %1$s mutation turns into %2$s!" ),
+                                   _( "<npcname>'s %1$s mutation turns into %2$s!" ),
+                                   replace_mdata.name(), mdata.name() );
+        }
+        // New mutation visible, precursor invisible
+        if( mdata.player_display && !replace_mdata.player_display ) {
+            add_msg_player_or_npc( rating,
+                                   _( "You gain a mutation called %s!" ),
+                                   _( "<npcname> gains a mutation called %s!" ),
+                                   mdata.name() );
+        }
+        // Precursor visible, new mutation invisible
+        if( !mdata.player_display && replace_mdata.player_display ) {
+            add_msg_player_or_npc( rating,
+                                   _( "You lose your %s mutation." ),
+                                   _( "<npcname> loses their %s mutation." ), replace_mdata.name() );
+        }
         get_event_bus().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
         unset_mutation( replacing2 );
         mutation_replaced = true;
@@ -1291,10 +1318,17 @@ bool Character::mutate_towards( const trait_id &mut )
             rating = m_neutral;
         }
         // If this new mutation cancels a base trait, remove it and add the mutation at the same time
-        add_msg_player_or_npc( rating,
-                               _( "Your innate %1$s trait turns into %2$s!" ),
-                               _( "<npcname>'s innate %1$s trait turns into %2$s!" ),
-                               cancel_mdata.name(), mdata.name() );
+        if( mdata.player_display ) {
+            add_msg_player_or_npc( rating,
+                                   _( "Your innate %1$s trait turns into %2$s!" ),
+                                   _( "<npcname>'s innate %1$s trait turns into %2$s!" ),
+                                   cancel_mdata.name(), mdata.name() );
+        } else {
+            add_msg_player_or_npc( rating,
+                                   _( "You lose your innate %1$s trait!" ),
+                                   _( "<npcname> loses their innate %1$s trait!" ),
+                                   cancel_mdata.name() );
+        }
         get_event_bus().send<event_type::evolves_mutation>( getID(), cancel_mdata.id, mdata.id );
         unset_mutation( i );
         mutation_replaced = true;
@@ -1309,11 +1343,13 @@ bool Character::mutate_towards( const trait_id &mut )
         } else {
             rating = m_neutral;
         }
-        // TODO: Limit to visible mutations
-        add_msg_player_or_npc( rating,
-                               _( "You gain a mutation called %s!" ),
-                               _( "<npcname> gains a mutation called %s!" ),
-                               mdata.name() );
+        // Only print a message on visible mutations
+        if( mdata.player_display ) {
+            add_msg_player_or_npc( rating,
+                                   _( "You gain a mutation called %s!" ),
+                                   _( "<npcname> gains a mutation called %s!" ),
+                                   mdata.name() );
+        }
         get_event_bus().send<event_type::gains_mutation>( getID(), mdata.id );
     }
 
@@ -1500,6 +1536,10 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
 
     if( replacing ) {
         const auto &replace_mdata = replacing.obj();
+        // Don't print a message if both are invisible
+        if( !mdata.player_display && !replace_mdata.player_display ) {
+            silent = true;
+        }
         if( mdata.mixed_effect || replace_mdata.mixed_effect ) {
             rating = m_mixed;
         } else if( replace_mdata.points - mdata.points > 0 ) {
@@ -1510,16 +1550,37 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
             rating = m_neutral;
         }
         if( !silent ) {
-            add_msg_player_or_npc( rating,
-                                   _( "Your %1$s mutation turns into %2$s." ),
-                                   _( "<npcname>'s %1$s mutation turns into %2$s." ),
-                                   mdata.name(), replace_mdata.name() );
+            // Both visible
+            if( mdata.player_display && replace_mdata.player_display ) {
+                add_msg_player_or_npc( rating,
+                                       _( "Your %1$s mutation turns into %2$s." ),
+                                       _( "<npcname>'s %1$s mutation turns into %2$s." ),
+                                       mdata.name(), replace_mdata.name() );
+            }
+            // Old trait invisible, new visible
+            if( !mdata.player_display && replace_mdata.player_display ) {
+                add_msg_player_or_npc( rating,
+                                       _( "You gain a mutation called %s!" ),
+                                       _( "<npcname> gains a mutation called %s!" ),
+                                       replace_mdata.name() );
+            }
+            // Old trait visible, new invisible
+            if( mdata.player_display && !replace_mdata.player_display ) {
+                add_msg_player_or_npc( rating,
+                                       _( "You lose your %s mutation." ),
+                                       _( "<npcname> loses their %s mutation." ),
+                                       mdata.name() );
+            }
         }
         set_mutation( replacing );
         mutation_replaced = true;
     }
     if( replacing2 ) {
         const auto &replace_mdata = replacing2.obj();
+        // Don't print a message if both are invisible
+        if( !mdata.player_display && !replace_mdata.player_display ) {
+            silent = true;
+        }
         if( mdata.mixed_effect || replace_mdata.mixed_effect ) {
             rating = m_mixed;
         } else if( replace_mdata.points - mdata.points > 0 ) {
@@ -1530,15 +1591,35 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
             rating = m_neutral;
         }
         if( !silent ) {
-            add_msg_player_or_npc( rating,
-                                   _( "Your %1$s mutation turns into %2$s." ),
-                                   _( "<npcname>'s %1$s mutation turns into %2$s." ),
-                                   mdata.name(), replace_mdata.name() );
+            // Both visible
+            if( mdata.player_display && replace_mdata.player_display ) {
+                add_msg_player_or_npc( rating,
+                                       _( "Your %1$s mutation turns into %2$s." ),
+                                       _( "<npcname>'s %1$s mutation turns into %2$s." ),
+                                       mdata.name(), replace_mdata.name() );
+            }
+            // Old trait invisible, new visible
+            if( !mdata.player_display && replace_mdata.player_display ) {
+                add_msg_player_or_npc( rating,
+                                       _( "You gain a mutation called %s!" ),
+                                       _( "<npcname> gains a mutation called %s!" ),
+                                       replace_mdata.name() );
+            }
+            // Old trait visible, new invisible
+            if( mdata.player_display && !replace_mdata.player_display ) {
+                add_msg_player_or_npc( rating,
+                                       _( "You lose your %s mutation." ),
+                                       _( "<npcname> loses their %s mutation." ),
+                                       mdata.name() );
+            }
         }
         set_mutation( replacing2 );
         mutation_replaced = true;
     }
     if( !mutation_replaced ) {
+        if( !mdata.player_display ) {
+            silent = true;
+        }
         if( mdata.mixed_effect ) {
             rating = m_mixed;
         } else if( mdata.points > 0 ) {

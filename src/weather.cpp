@@ -925,7 +925,7 @@ void weather_manager::update_weather()
     if( weather_id == WEATHER_NULL || calendar::turn >= nextweather ) {
         w_point &w = *weather_precise;
         const weather_generator &weather_gen = get_cur_weather_gen();
-        w = weather_gen.get_weather( player_character.global_square_location(), calendar::turn,
+        w = weather_gen.get_weather( player_character.global_square_location().raw(), calendar::turn,
                                      g->get_seed() );
         weather_type_id old_weather = weather_id;
         weather_id = weather_override == WEATHER_NULL ?

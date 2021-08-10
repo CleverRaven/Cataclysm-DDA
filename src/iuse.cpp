@@ -2251,8 +2251,7 @@ cata::optional<int> iuse::directional_antenna( player *p, item *it, bool, const 
         return cata::nullopt;
     }
     // Report direction.
-    // TODO: fix point types
-    const tripoint_abs_sm player_pos( p->global_sm_location() );
+    const tripoint_abs_sm player_pos = p->global_sm_location();
     direction angle = direction_from( player_pos.xy(), tref.abs_sm_pos );
     add_msg( _( "The signal seems strongest to the %s." ), direction_name( angle ) );
     return it->type->charges_to_use();
@@ -9076,7 +9075,7 @@ cata::optional<int> iuse::cable_attach( player *p, item *it, bool, const tripoin
             point vcoords = source_vp->mount();
             vehicle_part source_part( vpid, "", vcoords, item( *it ) );
             source_part.target.first = target_global;
-            source_part.target.second = here.getabs( target_veh->global_pos3() );
+            source_part.target.second = target_veh->global_square_location().raw();
             source_veh->install_part( vcoords, source_part );
 
             vcoords = target_vp->mount();
@@ -9085,7 +9084,7 @@ cata::optional<int> iuse::cable_attach( player *p, item *it, bool, const tripoin
                                     it->get_var( "source_y", 0 ),
                                     it->get_var( "source_z", 0 ) );
             target_part.target.first = source_global;
-            target_part.target.second = here.getabs( source_veh->global_pos3() );
+            target_part.target.second = source_veh->global_square_location().raw();
             target_veh->install_part( vcoords, target_part );
 
             if( p != nullptr && p->has_item( *it ) ) {
@@ -9278,7 +9277,7 @@ bool item::release_monster( const tripoint &target, const int radius )
 {
     shared_ptr_fast<monster> new_monster = make_shared_fast<monster>();
     try {
-        ::deserialize( *new_monster, get_var( "contained_json", "" ) );
+        ::deserialize_from_string( *new_monster, get_var( "contained_json", "" ) );
     } catch( const std::exception &e ) {
         debugmsg( _( "Error restoring monster: %s" ), e.what() );
         return false;

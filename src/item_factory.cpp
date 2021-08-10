@@ -1680,24 +1680,6 @@ void Item_factory::load_slot_optional( cata::value_ptr<SlotType> &slotptr, const
     load_slot( slotptr, slotjo, src );
 }
 
-template<typename E>
-void load_optional_enum_array( std::vector<E> &vec, const JsonObject &jo,
-                               const std::string &member )
-{
-
-    if( !jo.has_member( member ) ) {
-        return;
-    } else if( !jo.has_array( member ) ) {
-        jo.throw_error( "expected array", member );
-    }
-
-    JsonIn &stream = *jo.get_raw( member );
-    stream.start_array();
-    while( !stream.end_array() ) {
-        vec.push_back( stream.get_enum_value<E>() );
-    }
-}
-
 bool Item_factory::load_definition( const JsonObject &jo, const std::string &src, itype &def )
 {
     cata_assert( !frozen );

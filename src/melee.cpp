@@ -53,7 +53,6 @@
 #include "optional.h"
 #include "output.h"
 #include "pimpl.h"
-#include "player.h"
 #include "point.h"
 #include "popup.h"
 #include "projectile.h"
@@ -373,10 +372,9 @@ void Character::roll_all_damage( bool crit, damage_instance &di, bool average,
     roll_other_damage( crit, di, average, weap );
 }
 
-static void melee_train( Character &p, int lo, int hi, const item &weap )
+static void melee_train( Character &you, int lo, int hi, const item &weap )
 {
-    player &u = *p.as_player();
-    u.practice( skill_melee, std::ceil( rng( lo, hi ) / 2.0 ), hi );
+    you.practice( skill_melee, std::ceil( rng( lo, hi ) / 2.0 ), hi );
 
     // allocate XP proportional to damage stats
     // Pure unarmed needs a special case because it has 0 weapon damage
@@ -388,11 +386,11 @@ static void melee_train( Character &p, int lo, int hi, const item &weap )
 
     // Unarmed may deal cut, stab, and bash damage depending on the weapon
     if( weap.is_unarmed_weapon() ) {
-        u.practice( skill_unarmed, std::ceil( 1 * rng( lo, hi ) ), hi );
+        you.practice( skill_unarmed, std::ceil( 1 * rng( lo, hi ) ), hi );
     } else {
-        u.practice( skill_cutting,  std::ceil( cut  / total * rng( lo, hi ) ), hi );
-        u.practice( skill_stabbing, std::ceil( stab / total * rng( lo, hi ) ), hi );
-        u.practice( skill_bashing, std::ceil( bash / total * rng( lo, hi ) ), hi );
+        you.practice( skill_cutting,  std::ceil( cut  / total * rng( lo, hi ) ), hi );
+        you.practice( skill_stabbing, std::ceil( stab / total * rng( lo, hi ) ), hi );
+        you.practice( skill_bashing, std::ceil( bash / total * rng( lo, hi ) ), hi );
     }
 }
 
@@ -1709,29 +1707,29 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         }
     }
 
-    player *p = dynamic_cast<player *>( &t );
+    Character *you = dynamic_cast<Character *>( &t );
 
-    if( technique.take_weapon && !has_weapon() && p != nullptr && p->is_armed() ) {
-        if( p->is_avatar() ) {
+    if( technique.take_weapon && !has_weapon() && you != nullptr && you->is_armed() ) {
+        if( you->is_avatar() ) {
             add_msg_if_npc( _( "<npcname> disarms you and takes your weapon!" ) );
         } else {
             add_msg_player_or_npc( _( "You disarm %s and take their weapon!" ),
                                    _( "<npcname> disarms %s and takes their weapon!" ),
-                                   p->name );
+                                   you->name );
         }
-        item it = p->remove_weapon();
+        item it = you->remove_weapon();
         wield( it );
     }
 
-    if( technique.disarms && p != nullptr && p->is_armed() ) {
-        item weap = p->remove_weapon();
-        here.add_item_or_charges( p->pos(), weap );
-        if( p->is_avatar() ) {
+    if( technique.disarms && you != nullptr && you->is_armed() ) {
+        item weap = you->remove_weapon();
+        here.add_item_or_charges( you->pos(), weap );
+        if( you->is_avatar() ) {
             add_msg_if_npc( _( "<npcname> disarms you!" ) );
         } else {
             add_msg_player_or_npc( _( "You disarm %s!" ),
                                    _( "<npcname> disarms %s!" ),
-                                   p->name );
+                                   you->name );
         }
     }
 
