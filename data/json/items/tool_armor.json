@@ -3119,6 +3119,8 @@
     "name": { "str": "pair of makeshift ear plugs (in)", "str_pl": "pairs of makeshift ear plugs (in)" },
     "description": "A pair of makeshift ear plugs made from lumps of wax on the ends of a piece of string.  They are inside your ears, activate them to take them out.",
     "copy-from": "ear_plugs",
+    "material": [ "beeswax", "cotton" ],
+    "repairs_like": "makeshift_ear_plugs_off",
     "use_action": {
       "type": "transform",
       "msg": "You take the ear plugs out.",
@@ -3130,10 +3132,10 @@
   {
     "id": "makeshift_ear_plugs_off",
     "type": "ARMOR",
-    "repairs_like": "makeshift_ear_plugs_on",
     "name": { "str": "pair of makeshift ear plugs (out)", "str_pl": "pairs of makeshift ear plugs (out)" },
     "description": "A pair of makeshift ear plugs made from lumps of wax on the ends of a piece of string.  They hang around your neck, use them to plug them in.",
-    "copy-from": "makeshift_ear_plugs_on",
+    "copy-from": "ear_plugs",
+    "material": [ "beeswax", "cotton" ],
     "use_action": {
       "type": "transform",
       "msg": "You plug up your ears.",
