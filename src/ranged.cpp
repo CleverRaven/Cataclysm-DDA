@@ -852,6 +852,12 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
             continue; // skip retargeting for launchers
         }
     }
+
+    // Generate a muzzle flash from a shot unless gun has a flash hider or suppressor installed
+    if( gun.gunmod_find_by_flag( json_flag_FLASH_HIDER ) == nullptr && gun.is_firearm() ) {
+        here.add_field( pos(), field_type_id( "fd_muzzle_flash" ), 1 );
+    }
+
     // Use different amounts of time depending on the type of gun and our skill
     moves -= time_to_attack( *this, *gun_id );
 
@@ -885,20 +891,6 @@ int Character::fire_gun( const tripoint &target, int shots, item &gun )
         // Cap
         recoil = std::min( MAX_RECOIL, recoil );
     }
-
-    // Generate a muzzle flash from a shot unless gun has a flash hider or suppressor installed
-    if( gun.gunmod_find_by_flag( json_flag_FLASH_HIDER ) == nullptr && gun.is_firearm() ) {
-        here.add_field( pos(), field_type_id( "fd_muzzle_flash" ), 1 );
-    }
-
-    // Use different amounts of time depending on the type of gun and our skill
-    moves -= time_to_attack( *this, *gun.type );
-
-    // Practice the base gun skill proportionally to number of hits, but always by one.
-    practice( skill_gun, ( hits + 1 ) * 5 );
-    // launchers train weapon skill for both hits and misses.
-    int practice_units = gun.gun_skill() == skill_launcher ? curshot : hits;
-    practice( gun.gun_skill(), ( practice_units + 1 ) * 5 );
 
     return curshot;
 }
