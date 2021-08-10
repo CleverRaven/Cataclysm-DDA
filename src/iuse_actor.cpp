@@ -1092,7 +1092,7 @@ cata::optional<int> deploy_furn_actor::use( player &p, item &it, bool, const tri
     here.furn_set( pnt, furn_type );
     it.spill_contents( pnt );
     p.mod_moves( -to_moves<int>( 2_seconds ) );
-    return 1;
+    return it.type->charges_to_use() != 0 ? it.type->charges_to_use() : 1;
 }
 
 std::unique_ptr<iuse_actor> reveal_map_actor::clone() const

@@ -152,6 +152,16 @@
     "learned_proficiencies": [ "prof_helicopter_pilot" ]
   },
   {
+    "id": "afs_bio_translocator",
+    "type": "bionic",
+    "name": { "str": "Implanted translocator CBM" },
+    "description": "An experimental teleportation system carefully weaved into bone marrow and alongside your skeletal system.  Allows you to safely and readily teleport toward previously activated telepads.",
+    "occupied_bodyparts": [ [ "torso", 10 ], [ "head", 2 ], [ "arm_l", 3 ], [ "arm_r", 3 ], [ "leg_l", 3 ], [ "leg_r", 3 ] ],
+    "act_cost": "12 kJ",
+    "spell_on_activation": { "id": "afs_translocation", "hit_self": true },
+    "time": 5
+  },
+  {
     "id": "afs_bio_cranialbomb",
     "type": "bionic",
     "name": { "str": "Cranium Bomb" },
