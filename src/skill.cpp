@@ -336,7 +336,8 @@ bool SkillLevel::rust( int rust_resist )
     }
 
     // Future plans: Have rust_slowdown impacted by intelligence and other memory-affecting things
-    float rust_slowdown = std::max( sqrt( _rustAccumulator / level_exp ), 0.04f );
+    float rust_slowdown = std::max( static_cast<float>( std::sqrt( _rustAccumulator / level_exp ) ),
+                                    0.04f );
 
     // rust amount starts at 4% of a level's xp, run every 24 hours.
     // Once the accumulated rust exceeds 16% of a level, rust_amount starts to drop.
