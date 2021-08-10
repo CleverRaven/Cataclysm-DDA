@@ -323,13 +323,13 @@ bool SkillLevel::isRusting() const
 
 bool SkillLevel::rust( int rust_resist )
 {
-
     if( _level >= MAX_SKILL ) {
         // don't rust any more once you hit the level cap, at least until we have a way to "pause" rust for a while.
         return false;
     }
 
-    float level_exp = ( _level * _level * 10000.0f );
+    const int level_multiplier = ( _level + 1 ) * ( _level + 1 );
+    float level_exp = level_multiplier * 10000.0f;
     if( _rustAccumulator > level_exp * 3 ) {
         // at this point the numbers ahead will be too small to bother.  Just cap it off.
         return false;
@@ -340,7 +340,7 @@ bool SkillLevel::rust( int rust_resist )
 
     // rust amount starts at 4% of a level's xp, run every 24 hours.
     // Once the accumulated rust exceeds 16% of a level, rust_amount starts to drop.
-    int rust_amount = _level * _level * 16 / rust_slowdown;
+    int rust_amount = level_multiplier * 16 / rust_slowdown;
 
     if( rust_amount < 1 ) {
         return false;
@@ -355,7 +355,7 @@ bool SkillLevel::rust( int rust_resist )
     const std::string &rust_type = get_option<std::string>( "SKILL_RUST" );
     if( _exercise < 0 ) {
         if( rust_type == "vanilla" || rust_type == "int" ) {
-            _exercise = ( 100 * 100 * _level * _level ) - 1;
+            _exercise = ( 100 * 100 * level_multiplier ) - 1;
             --_level;
         } else {
             _exercise = 0;
