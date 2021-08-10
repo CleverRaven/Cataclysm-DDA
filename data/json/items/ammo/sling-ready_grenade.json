@@ -13,8 +13,6 @@
     "material": [ "glass", "cotton" ],
     "symbol": "*",
     "color": "light_gray",
-    "initial_charges": 1,
-    "max_charges": 1,
     "use_action": {
       "need_wielding": true,
       "target": "molotov_lit",
@@ -26,11 +24,43 @@
       "menu_text": "Light rag",
       "type": "transform"
     },
-    "flags": [ "NPC_ACTIVATE", "NO_REPAIR" ]
-    "ammo_type": "sling-ready_grenade",
+    "flags": [ "NPC_ACTIVATE", "NO_REPAIR" ],
+	"//": "As multiple ammo types are not possible setting these as ammo type rock so they will go in sling",
+    "ammo_type": "rock",
     "damage": { "damage_type": "bash", "amount": 5 },
     "range": 10,
     "dispersion": 14,
-    "effects": [ "COOKOFF", "MOLOTOV_LIT", "NEVER_MISFIRES" ]
+    "effects": [ "COOKOFF", "NEVER_MISFIRES", "NON_FOULING", "FLAME" ]
+  },
+  {
+    "type": "AMMO",
+    "id": "sling-ready_grenade",
+    "name": { "str": "sling-ready grenade" },
+    "description": "This is a military-grade fragmentary hand grenade, modified with a retaining fuse for use in a sling.  Use this item to snap the fuse and activate the grenade.  You will then have five seconds before it explodes; throwing it would be a good idea.",
+    "weight": "397 g",
+    "volume": "250 ml",
+    "price": 1500,
+    "price_postapoc": 1000,
+    "to_hit": -1,
+    "bashing": 6,
+    "material": [ "steel", "plastic" ],
+    "symbol": "*",
+    "color": "green",
+    "use_action": {
+      "need_wielding": true,
+      "target": "grenade_act",
+      "msg": "You snap the retaining fuse on the grenade.",
+      "target_charges": 5,
+      "active": true,
+      "menu_text": "Activate grenade",
+      "type": "transform"
+    },
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ],
+	"//": "As multiple ammo types are not possible setting these as ammo type rock so they will go in sling",
+    "ammo_type": "rock",
+    "damage": { "damage_type": "bash", "amount": 6 },
+    "range": 10,
+    "dispersion": 14,
+    "effects": [ "COOKOFF", "NEVER_MISFIRES", "NON_FOULING", "FRAG" ]
   }
 ]
