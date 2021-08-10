@@ -449,7 +449,7 @@
     "description": "An enormous repulsive humanoid, its inky black eyes are locked on you.  No matter how far you run, it always seems to find you.",
     "default_faction": "zombie",
     "bodytype": "human",
-    "species": [ "ZOMBIE", "HUMAN", "NEMESIS" ],
+    "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 5,
     "volume": "875000 ml",
     "weight": "200 kg",

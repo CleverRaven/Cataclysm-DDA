@@ -135,12 +135,6 @@
   },
   {
     "type": "SPECIES",
-    "id": "NEMESIS",
-    "description": "a zombie",
-    "footsteps": "shuffling."
-  },
-  {
-    "type": "SPECIES",
     "id": "ROBOT",
     "description": "a robot",
     "footsteps": "mechanical whirring.",
