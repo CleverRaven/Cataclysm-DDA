@@ -1404,7 +1404,7 @@
     "type": "ARMOR",
     "name": { "str": "leather police jacket" },
     "description": "A thick and heavy leather jacket emblazoned with the insignia of the local police force.",
-	"repairs_like": "jacket_leather",
+    "repairs_like": "jacket_leather",
     "weight": "1450 g",
     "volume": "4500 ml",
     "price": 17900,
