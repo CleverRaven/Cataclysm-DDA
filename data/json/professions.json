@@ -1630,12 +1630,23 @@
     "proficiencies": [ "prof_spotting" ],
     "items": {
       "both": {
-        "items": [ "police_breeches", "socks", "badge_deputy", "sheriffshirt", "undershirt", "police_belt", "motor_police_boots", "whistle", "wristwatch", "leather_police_jacket" ],
+        "items": [
+          "police_breeches",
+          "socks",
+          "badge_deputy",
+          "sheriffshirt",
+          "undershirt",
+          "police_belt",
+          "motor_police_boots",
+          "whistle",
+          "wristwatch",
+          "leather_police_jacket"
+        ],
         "entries": [
           { "group": "charged_cell_phone" },
           { "group": "charged_two_way_radio" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-		  { "item": "gloves_leather", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "gloves_leather", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" }
         ]
