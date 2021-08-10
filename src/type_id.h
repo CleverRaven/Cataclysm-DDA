@@ -36,6 +36,9 @@ using construction_group_str_id = string_id<construction_group>;
 struct clothing_mod;
 using clothing_mod_id = string_id<clothing_mod>;
 
+struct effect_on_condition;
+using effect_on_condition_id = string_id<effect_on_condition>;
+
 class effect_type;
 using efftype_id = string_id<effect_type>;
 
@@ -125,6 +128,9 @@ using oter_str_id = string_id<oter_t>;
 struct oter_type_t;
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
+
+class overmap_special;
+using overmap_special_id = string_id<overmap_special>;
 
 class profession;
 using profession_id = string_id<profession>;

@@ -145,7 +145,7 @@ static tripoint find_potential_computer_point( const tinymap &compmap )
     std::vector<tripoint> potential;
     std::vector<tripoint> last_resort;
     for( const tripoint &p : compmap.points_on_zlevel() ) {
-        if( compmap.ter( p ) == t_console_broken ) {
+        if( compmap.furn( p ) == f_console_broken ) {
             broken.emplace_back( p );
         } else if( broken.empty() && compmap.ter( p ) == t_floor && compmap.furn( p ) == f_null ) {
             for( const tripoint &p2 : compmap.points_in_radius( p, 1 ) ) {
@@ -169,7 +169,7 @@ static tripoint find_potential_computer_point( const tinymap &compmap )
                 }
             }
         } else if( broken.empty() && potential.empty() && p.x >= rng_x_min && p.x <= rng_x_max
-                   && p.y >= rng_y_min && p.y <= rng_y_max && compmap.ter( p ) != t_console ) {
+                   && p.y >= rng_y_min && p.y <= rng_y_max && compmap.furn( p ) != f_console ) {
             last_resort.emplace_back( p );
         }
     }
@@ -202,7 +202,8 @@ void mission_start::place_npc_software( mission *miss )
         miss->item_id = itype_software_hacking;
     } else if( dev->myclass == NC_DOCTOR ) {
         miss->item_id = itype_software_medical;
-        type = "s_pharm";
+        static const std::set<std::string> pharmacies = { "s_pharm", "s_pharm_1" };
+        type = random_entry( pharmacies );
         miss->follow_up = mission_type_id( "MISSION_GET_ZOMBIE_BLOOD_ANAL" );
     } else if( dev->myclass == NC_SCIENTIST ) {
         miss->item_id = itype_software_math;
@@ -225,11 +226,12 @@ void mission_start::place_npc_software( mission *miss )
 
     oter_id oter = overmap_buffer.ter( place );
     if( is_ot_match( "house", oter, ot_match_type::prefix ) ||
-        is_ot_match( "s_pharm", oter, ot_match_type::type ) || oter == "" ) {
+        is_ot_match( "s_pharm", oter, ot_match_type::prefix ) || oter == "" ) {
         comppoint = find_potential_computer_point( compmap );
     }
 
-    compmap.ter_set( comppoint, t_console );
+    compmap.i_clear( comppoint );
+    compmap.furn_set( comppoint, f_console );
     computer *tmpcomp = compmap.add_computer( comppoint, string_format( _( "%s's Terminal" ),
                         dev->name ), 0 );
     tmpcomp->set_mission( miss->get_id() );
@@ -688,8 +690,7 @@ void mission_start::create_hidden_lab_console( mission *miss )
     // Pick a hidden lab entrance.
     tripoint_abs_omt loc = player_character.global_omt_location();
     loc.z() = -1;
-    tripoint_abs_omt place =
-        mission_util::target_om_ter_random( "basement_hidden_lab_stairs", -1, miss, false, 0, loc );
+    tripoint_abs_omt place = overmap_buffer.find_closest( loc, "basement_hidden_lab_stairs", 0, false );
     place.z() = -2;  // then go down 1 z-level to place consoles.
 
     create_lab_consoles( miss, place, "lab", 3, _( "Workstation" ),

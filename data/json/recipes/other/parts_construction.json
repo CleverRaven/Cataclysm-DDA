@@ -12,7 +12,7 @@
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -29,6 +29,20 @@
     "//": "Eventually, smoothing tools should also be required, or we should distinguish between rough-hewn and finished beams",
     "components": [ [ [ "log", 6 ] ] ],
     "//2": "This is a terrible stand-in for the fact that logs are only 10kg chunks and not big enough to hew into an 8' or longer wooden beam."
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "wood_beam",
+    "id_suffix": "with_planer",
+    "category": "CC_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "10 m",
+    "autolearn": true,
+    "byproducts": [ [ "splinter", 20 ] ],
+    "tools": [ [ [ "fake_planer", 250 ] ] ],
+    "components": [ [ [ "log", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -66,6 +80,7 @@
     "skill_used": "fabrication",
     "time": "10 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_carpentry_basic" } ],
     "qualities": [ { "id": "SAW_W", "level": 2 }, { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "2x4", 8 ] ], [ [ "nail", 36 ] ] ]
   },
@@ -81,6 +96,20 @@
     "byproducts": [ [ "splinter", 4 ], [ "2x4", 8 ] ],
     "qualities": [ { "id": "SAW_W", "level": 2 } ],
     "//": "This should eventually require planing tools once implemented, and should replace the ability to turn a small chunk of log into a long wooden plank.",
+    "components": [ [ [ "wood_beam", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "2x4",
+    "id_suffix": "with_power_saw",
+    "category": "CC_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "10 m",
+    "autolearn": true,
+    "using": [ [ "power_saw_long", 5 ] ],
+    "byproducts": [ [ "splinter", 4 ], [ "2x4", 8 ] ],
     "components": [ [ [ "wood_beam", 1 ] ] ]
   },
   {
@@ -121,7 +150,7 @@
     "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -136,7 +165,7 @@
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
     "result": "hinge",
@@ -213,8 +242,8 @@
     "autolearn": true,
     "using": [ [ "welding_standard", 10 ] ],
     "proficiencies": [
-      { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 }
+      { "proficiency": "prof_glassblowing", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.15 },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 }
     ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "reinforced_glass_pane", 4 ] ] ]
@@ -232,7 +261,7 @@
     "using": [ [ "welding_standard", 4 ] ],
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
-      { "proficiency": "prof_welding_basic", "fail_multiplier": 5 },
+      { "proficiency": "prof_welding_basic", "fail_multiplier": 1.5 },
       { "proficiency": "prof_welding" }
     ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
@@ -269,8 +298,8 @@
     "autolearn": true,
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
-    "components": [ [ [ "copper_scrap_equivalent", 7, "LIST" ] ] ]
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
+    "components": [ [ [ "copper_scrap_equivalent", 8, "LIST" ] ] ]
   },
   {
     "type": "recipe",

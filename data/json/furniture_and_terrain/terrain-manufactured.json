@@ -3,14 +3,13 @@
     "type": "terrain",
     "id": "t_recycler",
     "name": "metal compactor",
-    "description": "A hydraulic compactor that can accept items made of various metals, and press them into basic shapes, ready for further crafting.",
+    "description": "A hydraulic machine for squeezing scrap into more compact chunks.  Useless now that there's no power.",
     "looks_like": "f_machinery_heavy",
     "symbol": "&",
     "color": "green",
     "move_cost": 0,
     "max_volume": "2000 L",
     "flags": [ "TRANSPARENT", "REDUCE_SCENT", "PERMEABLE" ],
-    "examine_action": "recycle_compactor",
     "bash": {
       "str_min": 20,
       "str_max": 150,
@@ -185,6 +184,54 @@
     "symbol": "&",
     "color": "light_green",
     "looks_like": "t_diesel_pump_smashed",
+    "move_cost": 0,
+    "coverage": 55,
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "PERMEABLE" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "explosive": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_pavement",
+      "items": [
+        { "item": "steel_lump", "prob": 50 },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "pipe_fittings", "count": [ 2, 6 ] },
+        { "item": "pipe", "count": [ 4, 8 ] },
+        { "item": "scrap", "count": [ 3, 7 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_avgas_pump",
+    "name": "avgas pump",
+    "looks_like": "t_gas_pump",
+    "description": "This pump is filled with avgas.  If this gas dispenser doesn't give up the goods for free, you may have to pay at a nearby terminal.",
+    "symbol": "&",
+    "color": "red",
+    "move_cost": 0,
+    "coverage": 65,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT", "PERMEABLE", "LIQUIDCONT" ],
+    "examine_action": "gaspump",
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "clang!",
+      "ter_set": "t_avgas_pump_smashed",
+      "items": [ { "item": "scrap", "count": 1 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_avgas_pump_smashed",
+    "name": "smashed avgas pump",
+    "description": "You're not getting any avgas out of this pump any time soon.  Some barbarian decided to take their frustration out on it.",
+    "symbol": "&",
+    "color": "light_green",
+    "looks_like": "t_gas_pump_smashed",
     "move_cost": 0,
     "coverage": 55,
     "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "PERMEABLE" ],
@@ -577,7 +624,8 @@
       "sound_fail_vol": 12,
       "ter_set": "t_floor",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "scrap", "count": [ 0, 2 ] } ]
-    }
+    },
+    "shoot": { "chance_to_hit": 50, "reduce_damage": [ 50, 70 ], "reduce_damage_laser": [ 2, 12 ], "destroy_damage": [ 5, 30 ] }
   },
   {
     "type": "terrain",

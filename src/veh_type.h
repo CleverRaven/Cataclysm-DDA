@@ -16,6 +16,7 @@
 
 #include "calendar.h"
 #include "color.h"
+#include "compatibility.h"
 #include "damage.h"
 #include "optional.h"
 #include "point.h"
@@ -25,7 +26,7 @@
 #include "units.h"
 
 class JsonObject;
-class player;
+class Character;
 class vehicle;
 
 // bitmask backing store of -certain- vpart_info.flags, ones that
@@ -274,13 +275,13 @@ class vpart_info
         requirement_data install_requirements() const;
 
         /** Installation time (in moves) for this component accounting for player skills */
-        int install_time( const player &p ) const;
+        int install_time( const Character &you ) const;
 
         /** Requirements for removal of this component */
         requirement_data removal_requirements() const;
 
         /** Removal time (in moves) for this component accounting for player skills */
-        int removal_time( const player &p ) const;
+        int removal_time( const Character &you ) const;
 
         /** Requirements for repair of this component (per level of damage) */
         requirement_data repair_requirements() const;
@@ -289,7 +290,7 @@ class vpart_info
         bool is_repairable() const;
 
         /** Repair time (in moves) to fully repair this component, accounting for player skills */
-        int repair_time( const player &p ) const;
+        int repair_time( const Character &you ) const;
 
         /**
          * @name Engine specific functions
@@ -474,6 +475,8 @@ struct vehicle_item_spawn {
     /** Chance [0-100%] for items to spawn with their default magazine (if any) */
     int with_magazine = 0;
     std::vector<itype_id> item_ids;
+    // item_ids, but for items with variants specified
+    std::vector<std::pair<itype_id, std::string>> variant_ids;
     std::vector<item_group_id> item_groups;
 };
 
@@ -493,10 +496,10 @@ struct vehicle_prototype {
     };
 
     vehicle_prototype();
-    vehicle_prototype( vehicle_prototype && );
+    vehicle_prototype( vehicle_prototype && ) noexcept;
     ~vehicle_prototype();
 
-    vehicle_prototype &operator=( vehicle_prototype && );
+    vehicle_prototype &operator=( vehicle_prototype && ) noexcept( string_is_noexcept );
 
     translation name;
     std::vector<part_def> parts;

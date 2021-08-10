@@ -621,8 +621,6 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "dark_gray",
-    "initial_charges": 2000,
-    "max_charges": 2000,
     "charges_per_use": 1,
     "pocket_data": [
       {
@@ -639,7 +637,7 @@
       "power": 90100,
       "distance_factor": 0.5,
       "fire": true,
-      "shrapnel": { "casing_mass": 200, "fragment_mass": 1, "recovery": 0 }
+      "shrapnel": { "casing_mass": 200, "fragment_mass": 0.5, "recovery": 0 }
     },
     "explode_in_fire": true
   },
@@ -703,8 +701,9 @@
     "type": "TOOL",
     "name": { "str": "oxygen cylinder" },
     "description": "A large steel cylinder used for storing pressurized gas.  It is marked with a faded, but legible O2 symbol.",
-    "weight": "12888 g",
-    "volume": "2500 ml",
+    "weight": "19050 g",
+    "volume": "28000 ml",
+    "longest_side": "92 cm",
     "price": 13400,
     "price_postapoc": 500,
     "to_hit": -4,
@@ -1325,5 +1324,132 @@
     "looks_like": "scrap",
     "symbol": "[",
     "color": "light_gray"
+  },
+  {
+    "id": "sextant",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "sextant" },
+    "description": "A tool for measuring angles of distant objects.  It can be used for measuring the altitude of the Sun.",
+    "weight": "500 g",
+    "volume": "500 ml",
+    "price": 100,
+    "price_postapoc": 10,
+    "to_hit": -3,
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "use_action": [ "SEXTANT" ]
+  },
+  {
+    "id": "lux_meter",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "lux meter" },
+    "description": "A tool for measuring illuminance.",
+    "weight": "100 g",
+    "volume": "300 ml",
+    "price": 100,
+    "price_postapoc": 10,
+    "to_hit": -3,
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "use_action": [ "LUX_METER" ]
+  },
+  {
+    "id": "migo_bio_tech",
+    "type": "TOOL",
+    "name": { "str_sp": "Mi-go Biotech" },
+    "conditional_names": [
+      { "type": "VAR", "condition": "npctalk_var_DISPLAY_NAME_MORALE", "name": { "str_sp": "%s (happy)" } },
+      { "type": "VAR", "condition": "npctalk_var_DISPLAY_NAME_FOCUS", "name": { "str_sp": "%s (focus)" } },
+      { "type": "VAR", "condition": "npctalk_var_DISPLAY_NAME_PAIN", "name": { "str_sp": "%s (pain relief)" } },
+      { "type": "VAR", "condition": "npctalk_var_DISPLAY_NAME_FATIGUE", "name": { "str_sp": "%s (wake up)" } }
+    ],
+    "description": "A piece of mi-go biotechnology.",
+    "weight": "1 g",
+    "volume": "250 ml",
+    "price": 3000,
+    "price_postapoc": 10000,
+    "symbol": "!",
+    "color": "light_red",
+    "use_action": {
+      "type": "effect_on_conditions",
+      "description": "Touch the opening.",
+      "effect_on_conditions": [
+        {
+          "id": "EOC_MIGO_BIO_TECH_INTEREST",
+          "condition": { "not": { "one_in_chance": 3 } },
+          "effect": [
+            { "u_message": "You have a slight feeling of being watched." },
+            { "u_adjust_var": "migo_interest", "type": "migo_interest", "context": "interest", "adjustment": 1 }
+          ]
+        },
+        {
+          "id": "EOC_MIGO_BIO_TECH_INTEREST",
+          "condition": { "not": { "one_in_chance": 100 } },
+          "effect": [
+            { "u_message": "You have an intense feeling of being watched." },
+            { "u_adjust_var": "migo_interest", "type": "migo_interest", "context": "interest", "adjustment": 10 }
+          ]
+        },
+        {
+          "id": "EOC_MIGO_BIO_TECH_SETUP",
+          "condition": { "not": { "npc_has_var": "function_set", "type": "migo_bio_tech", "context": "bio_tech", "value": "yes" } },
+          "effect": [
+            { "npc_add_var": "function_set", "type": "migo_bio_tech", "context": "bio_tech", "value": "yes" },
+            {
+              "npc_add_var": "function",
+              "type": "migo_bio_tech",
+              "context": "bio_tech",
+              "possible_values": [ "morale", "focus", "pain", "fatigue" ]
+            }
+          ]
+        },
+        {
+          "id": "EOC_MIGO_BIO_TECH_MORALE",
+          "condition": { "npc_has_var": "function", "type": "migo_bio_tech", "context": "bio_tech", "value": "morale" },
+          "effect": [
+            { "u_message": "You feel amazing!" },
+            {
+              "u_add_morale": "morale_migo_bio_tech",
+              "bonus": 30,
+              "max_bonus": 50,
+              "duration": "12 hours",
+              "decay_start": "10 hours"
+            },
+            { "npc_add_var": "MORALE", "type": "DISPLAY", "context": "NAME", "value": "" }
+          ]
+        },
+        {
+          "id": "EOC_MIGO_BIO_TECH_FOCUS",
+          "condition": { "npc_has_var": "function", "type": "migo_bio_tech", "context": "bio_tech", "value": "focus" },
+          "effect": [
+            { "u_message": "You feel incredibly focused!" },
+            { "u_mod_focus": 30 },
+            { "npc_add_var": "FOCUS", "type": "DISPLAY", "context": "NAME", "value": "" }
+          ]
+        },
+        {
+          "id": "EOC_MIGO_BIO_TECH_PAIN",
+          "condition": { "npc_has_var": "function", "type": "migo_bio_tech", "context": "bio_tech", "value": "pain" },
+          "effect": [
+            { "u_message": "You feel your aches and pains fade away!" },
+            { "u_mod_pain": -30 },
+            { "npc_add_var": "PAIN", "type": "DISPLAY", "context": "NAME", "value": "" }
+          ]
+        },
+        {
+          "id": "EOC_MIGO_BIO_TECH_FATIGUE",
+          "condition": { "npc_has_var": "function", "type": "migo_bio_tech", "context": "bio_tech", "value": "fatigue" },
+          "effect": [
+            { "u_message": "You instantly feel more awake!" },
+            { "u_mod_fatigue": -30 },
+            { "npc_add_var": "FATIGUE", "type": "DISPLAY", "context": "NAME", "value": "" }
+          ]
+        }
+      ]
+    }
   }
 ]

@@ -115,6 +115,8 @@ struct weariness_events {
         // if around = 0_seconds or equivalent, otherwise return the time closest to around
         int transition_minutes( int from, int to, const time_duration &around ) const;
 
+        bool have_weary_decrease() const;
+
         std::string summarize() const;
 
         bool empty() const;

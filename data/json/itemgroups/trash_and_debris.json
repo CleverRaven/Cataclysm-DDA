@@ -10,7 +10,7 @@
       [ "frame", 20 ],
       [ "hdframe", 20 ],
       [ "cu_pipe", 25 ],
-      [ "scrap_copper", 50 ],
+      [ "scrap_copper", 62 ],
       [ "rock", 40 ],
       [ "survnote", 1 ]
     ]
@@ -83,11 +83,11 @@
     "magazine": 50,
     "items": [
       [ "plastic_shopping_bag", 35 ],
-      [ "iodine", 5 ],
-      [ "prussian_blue", 5 ],
+      { "item": "iodine", "prob": 5, "charges": [ 1, 10 ] },
+      { "item": "prussian_blue", "prob": 5, "charges": [ 1, 10 ] },
       [ "bum_wine", 5 ],
-      [ "meth", 2 ],
-      [ "heroin", 1 ],
+      { "item": "meth", "prob": 2, "charges": [ 1, 6 ] },
+      { "item": "heroin", "prob": 1, "charges": [ 1, 4 ] },
       [ "wrapper", 50 ],
       [ "fp_loyalty_card", 5 ],
       [ "string_6", 2 ],
@@ -138,7 +138,7 @@
       [ "flyer", 10 ],
       [ "scorecard", 10 ],
       [ "talking_doll", 60 ],
-      [ "marble", 65 ],
+      { "item": "marble", "prob": 65, "charges": [ 1, 20 ] },
       [ "handflare_dead", 3 ],
       [ "creepy_doll", 1 ],
       [ "straw_doll", 1 ],

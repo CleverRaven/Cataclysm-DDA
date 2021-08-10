@@ -12,13 +12,11 @@
     "material": [ "steel", "leather" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "eyes", "mouth" ],
-    "coverage": 95,
-    "encumbrance": 10,
     "warmth": 10,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "STURDY" ]
+    "flags": [ "WATER_FRIENDLY", "STURDY" ],
+    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "eyes", "mouth" ] } ]
   },
   {
     "type": "TOOL_ARMOR",
@@ -38,14 +36,12 @@
     "name": { "str": "mask of perfect vision", "str_pl": "masks of perfect vision" },
     "description": "A decidedly steampunk-looking half mask that covers the eye area of the face, it has large lenses that correct and greatly enhance the vision of the wearer.",
     "copy-from": "mmask",
-    "covers": [ "eyes" ],
-    "coverage": 100,
-    "encumbrance": 5,
     "environmental_protection": 6,
     "flags": [ "FANCY", "WATER_FRIENDLY", "SUN_GLASSES", "FIX_NEARSIGHT", "FIX_FARSIGHT", "ZOOM" ],
     "qualities": [ [ "GLARE", 2 ] ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "multiply": 0.25 } ] } ]
-    }
+    },
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "eyes" ] } ]
   }
 ]

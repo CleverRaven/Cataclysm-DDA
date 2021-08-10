@@ -249,6 +249,18 @@
     "entries": [ { "item": "tshirt" } ]
   },
   {
+    "id": "clothing_military_headwear",
+    "type": "item_group",
+    "subtype": "distribution",
+    "//": "add in field caps when they are added to the game.",
+    "items": [
+      { "item": "beret", "prob": 60 },
+      { "item": "hat_boonie", "prob": 38 },
+      { "item": "turban", "prob": 1 },
+      { "item": "headscarf", "prob": 1 }
+    ]
+  },
+  {
     "id": "clothing_outdoor_pants",
     "type": "item_group",
     "//": "Standard (non-winter) pants suitable for wearing outdoors.",
@@ -482,7 +494,7 @@
       [ "boots_steel", 40 ],
       [ "hat_hard", 40 ],
       [ "mask_dust", 30 ],
-      [ "mask_filter", 30 ],
+      { "item": "mask_filter", "prob": 30, "charges": [ 0, 100 ] },
       [ "glasses_safety", 30 ],
       [ "ear_plugs", 35 ],
       [ "apron_cut_resistant", 5 ],
@@ -527,8 +539,7 @@
     "//": "Various types of hazmat suits, without masks",
     "items": [
       { "collection": [ { "item": "cleansuit" }, { "item": "gloves_rubber" }, { "item": "boots_rubber" } ], "prob": 40 },
-      [ "hazmat_suit", 55 ],
-      [ "anbc_suit", 5 ]
+      [ "hazmat_suit", 60 ]
     ]
   },
   {
@@ -544,7 +555,7 @@
     "id": "boxing_clothes",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [
+    "items": [
       { "item": "tank_top", "prob": 40 },
       { "item": "shorts", "prob": 40 },
       { "item": "boxing_gloves", "prob": 50 },
@@ -1937,8 +1948,7 @@
       [ "optical_cloak", 1 ],
       [ "holo_cloak", 1 ],
       [ "backpack", 38 ],
-      [ "UPS_off", 5 ],
-      [ "adv_UPS_off", 3 ],
+      { "item": "UPS_off", "prob": 8, "charges": [ 0, 1000 ] },
       [ "tacvest", 10 ],
       [ "molle_pack", 8 ],
       [ "duffelbag", 15 ],
@@ -1968,18 +1978,17 @@
     "type": "item_group",
     "id": "mil_accessories",
     "items": [
-      [ "mask_gas", 10 ],
+      { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
       [ "duffelbag", 15 ],
       { "item": "goggles_nv", "prob": 1, "charges": [ 0, 100 ] },
       { "item": "goggles_ir", "prob": 1, "charges": [ 0, 100 ] },
       [ "optical_cloak", 1 ],
-      [ "holo_cloak", 1 ],
+      { "item": "holo_cloak", "prob": 1, "charges": [ 0, 1000 ] },
       { "item": "mess_kit", "prob": 9, "charges": [ 0, 500 ] },
       { "item": "mil_mess_kit", "prob": 1, "charges": [ 0, 500 ] },
       [ "backpack", 38 ],
       [ "briefcase", 10 ],
-      [ "UPS_off", 5 ],
-      [ "adv_UPS_off", 3 ],
+      { "item": "UPS_off", "prob": 8, "charges": [ 0, 1000 ] },
       [ "chestguard_hard", 20 ],
       [ "armguard_hard", 20 ],
       [ "legguard_hard", 15 ],
@@ -1999,7 +2008,7 @@
       [ "torso_bandolier_grenade", 8 ],
       [ "solarpack", 5 ],
       [ "chem_hexamine", 3 ],
-      [ "esbit_stove", 6 ],
+      { "item": "esbit_stove", "prob": 6, "charges": [ 0, 50 ] },
       [ "mess_tin", 4 ],
       { "group": "full_survival_kit", "prob": 4 }
     ]
@@ -2075,8 +2084,8 @@
       [ "glasses_bal", 20 ],
       [ "elbow_pads", 40 ],
       [ "knee_pads", 40 ],
-      [ "mask_filter", 30 ],
-      [ "mask_gas", 10 ],
+      { "item": "mask_filter", "prob": 30, "charges": [ 0, 100 ] },
+      { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
       [ "goggles_ski", 30 ],
       [ "helmet_skid", 30 ],
       [ "chestguard_hard", 20 ],
@@ -2100,8 +2109,7 @@
       [ "legpouch_large", 6 ],
       [ "chestpouch", 9 ],
       [ "ammo_satchel", 4 ],
-      [ "UPS_off", 5 ],
-      [ "adv_UPS_off", 3 ],
+      { "item": "UPS_off", "prob": 8, "charges": [ 0, 1000 ] },
       [ "tacvest", 10 ],
       [ "molle_pack", 8 ],
       [ "legrig", 10 ],
@@ -2136,7 +2144,7 @@
       { "item": "glasses_safety", "prob": 40 },
       { "item": "hat_hard", "prob": 50 },
       { "item": "hat_hard_hooded", "prob": 25 },
-      { "item": "wearable_light", "prob": 5 },
+      { "item": "wearable_light", "prob": 5, "charges": [ 0, 100 ] },
       { "item": "ear_plugs", "prob": 50 },
       { "group": "ammo_any_batteries_full", "prob": 50 },
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
@@ -2225,7 +2233,7 @@
   {
     "type": "item_group",
     "id": "hazmat_full",
-    "items": [ [ "hazmat_suit", 80 ], [ "anbc_suit", 20 ] ]
+    "items": [ [ "hazmat_suit", 100 ] ]
   },
   {
     "type": "item_group",
@@ -2258,7 +2266,6 @@
       [ "armor_plarmor", 2 ],
       [ "armor_riot", 10 ],
       [ "swat_armor", 6 ],
-      [ "aep_suit", 4 ],
       [ "armor_scrapsuit", 12 ],
       [ "armor_chitin", 2 ],
       [ "armor_lightplate", 1 ],
@@ -2418,8 +2425,8 @@
       [ "mask_h20survivor", 1 ],
       [ "mask_bal", 14 ],
       [ "mask_hockey", 26 ],
-      [ "mask_gas", 24 ],
-      [ "mask_filter", 12 ],
+      { "item": "mask_gas", "prob": 24, "charges": [ 0, 100 ] },
+      { "item": "mask_filter", "prob": 12, "charges": [ 0, 100 ] },
       [ "mask_bunker", 2 ],
       [ "mask_wsurvivor", 4 ],
       [ "mask_fsurvivor", 2 ],
@@ -2448,7 +2455,7 @@
       [ "bandana", 18 ],
       [ "scarf", 26 ],
       [ "long_knit_scarf", 15 ],
-      [ "mask_gas_xl", 4 ],
+      { "item": "mask_gas_xl", "prob": 4, "charges": [ 0, 100 ] },
       [ "hat_boonie", 16 ],
       [ "beret", 18 ],
       [ "beret_wool", 14 ],
@@ -2462,11 +2469,11 @@
       [ "machete_gimmick", 3 ],
       [ "fungicide", 10 ],
       [ "insecticide", 10 ],
-      [ "antifungal", 1 ],
-      [ "antiparasitic", 5 ],
-      [ "diazepam", 1 ],
+      { "item": "antifungal", "prob": 1, "charges": [ 0, 10 ] },
+      { "item": "antiparasitic", "prob": 5, "charges": [ 0, 10 ] },
+      { "item": "diazepam", "prob": 1, "charges": [ 0, 10 ] },
       [ "throw_extinguisher", 2 ],
-      [ "small_repairkit", 14 ],
+      { "item": "small_repairkit", "prob": 14, "charges": [ 0, 500 ] },
       [ "grapnel", 6 ],
       { "item": "misc_repairkit", "prob": 8, "charges-min": 0 },
       { "distribution": [ { "group": "full_survival_kit" }, { "group": "used_survival_kit" } ], "prob": 3 },
@@ -2782,7 +2789,7 @@
       { "item": "mask_guy_fawkes", "prob": 10 },
       { "item": "mask_hockey", "prob": 15 },
       { "item": "mouthpiece", "prob": 5 },
-      { "item": "mask_filter", "prob": 5 }
+      { "item": "mask_filter", "prob": 5, "charges": [ 0, 100 ] }
     ]
   },
   {
@@ -3015,6 +3022,7 @@
       {
         "distribution": [
           { "item": "case_violin", "prob": 5 },
+          { "item": "bookstrap", "prob": 5 },
           { "item": "quiver", "prob": 20 },
           { "item": "quiver_large", "prob": 15 },
           { "item": "solarpack", "prob": 5 },

@@ -73,7 +73,6 @@ static const itype_id itype_swim_fins( "swim_fins" );
 
 static const skill_id skill_swimming( "swimming" );
 
-static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
@@ -83,6 +82,61 @@ static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
+static bool check_water_affect_items( avatar &you )
+{
+    std::vector<item_location> dissolved;
+    std::vector<item_location> destroyed;
+
+    for( item_location &loc : you.all_items_loc() ) {
+        if( loc->has_flag( flag_WATER_DISSOLVE ) && !loc.protected_from_liquids() ) {
+            dissolved.emplace_back( loc );
+        } else if( loc->has_flag( flag_WATER_BREAK ) && !loc->is_broken()
+                   && !loc.protected_from_liquids() ) {
+            destroyed.emplace_back( loc );
+        }
+    }
+
+    if( dissolved.empty() && destroyed.empty() ) {
+        return query_yn( _( "Dive into the water?" ) );
+    }
+
+    uilist menu;
+    menu.title = _( "Diving will destroy the following items.  Proceed?" );
+    menu.text = _( "These items are not inside a waterproof container." );
+
+    menu.addentry( 0, true, 'N', _( "No" ) );
+    menu.addentry( 1, true, 'Y', _( "Yes" ) );
+
+    auto add_header = [&menu]( const std::string & str ) {
+        menu.addentry( -1, false, -1, "" );
+        uilist_entry header( -1, false, -1, str, c_yellow, c_yellow );
+        header.force_color = true;
+        menu.entries.push_back( header );
+    };
+
+    if( !dissolved.empty() ) {
+        add_header( _( "Will be dissolved:" ) );
+        for( item_location &it : dissolved ) {
+            menu.addentry( -1, false, -1, it->display_name() );
+        }
+    }
+
+    if( !destroyed.empty() ) {
+        add_header( _( "Will be destroyed:" ) );
+        for( item_location &it : destroyed ) {
+            menu.addentry( -1, false, -1, it->display_name() );
+        }
+    }
+
+    menu.query();
+    if( menu.ret != 1 ) {
+        you.add_msg_if_player( _( "You back away from the water." ) );
+        return false;
+    }
+
+    return true;
+}
+
 bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 {
     if( ( !g->check_safe_mode_allowed() ) || you.has_active_mutation( trait_SHELL2 ) ) {
@@ -91,6 +145,15 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         }
         return false;
     }
+
+    // If any leg broken without crutches and not already on the ground topple over
+    if( ( you.get_working_leg_count() < 2 && !you.weapon.has_flag( flag_CRUTCHES ) ) &&
+        !you.is_prone() ) {
+        you.set_movement_mode( move_mode_id( "prone" ) );
+        you.add_msg_if_player( m_bad,
+                               _( "Your broken legs can't hold your weight and you fall down in pain." ) );
+    }
+
     const bool is_riding = you.is_mounted();
     tripoint dest_loc;
     if( d.z == 0 && you.has_effect( effect_stunned ) ) {
@@ -121,7 +184,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         !m.veh_at( dest_loc ) && !you.is_underwater() && !you.has_effect( effect_stunned ) &&
         !is_riding && !you.has_effect( effect_incorporeal ) ) {
         if( you.weapon.has_flag( flag_DIG_TOOL ) ) {
-            if( you.weapon.type->can_use( "JACKHAMMER" ) && you.weapon.ammo_sufficient() ) {
+            if( you.weapon.type->can_use( "JACKHAMMER" ) &&
+                you.weapon.ammo_sufficient( &you ) ) {
                 you.invoke_item( &you.weapon, "JACKHAMMER", dest_loc );
                 // don't move into the tile until done mining
                 you.defer_move( dest_loc );
@@ -133,18 +197,11 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                 return true;
             }
         }
-        if( you.has_trait( trait_BURROW ) ) {
-            item burrowing_item( itype_id( "fake_burrowing" ) );
-            you.invoke_item( &burrowing_item, "BURROW", dest_loc );
-            // don't move into the tile until done mining
-            you.defer_move( dest_loc );
-            return true;
-        }
     }
 
     // by this point we're either walking, running, crouching, or attacking, so update the activity level to match
     if( !is_riding ) {
-        you.increase_activity_level( you.current_movement_mode()->exertion_level() );
+        you.set_activity_level( you.current_movement_mode()->exertion_level() );
     }
 
     // If the player is *attempting to* move on the X axis, update facing direction of their sprite to match.
@@ -358,7 +415,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                 return false;
             }
         }
-        if( ( fromSwimmable && fromDeepWater && !fromBoat ) || query_yn( _( "Dive into the water?" ) ) ) {
+        if( ( fromSwimmable && fromDeepWater && !fromBoat ) ||
+            check_water_affect_items( you ) ) {
             if( ( !fromDeepWater || fromBoat ) && you.swim_speed() < 500 ) {
                 add_msg( _( "You start swimming." ) );
                 add_msg( m_info, _( "%s to dive underwater." ),
@@ -523,6 +581,9 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         add_msg( _( "The water washes off the glowing goo!" ) );
         you.remove_effect( effect_glowing );
     }
+
+    g->water_affect_items( you );
+
     int movecost = you.swim_speed();
     you.practice( skill_swimming, you.is_underwater() ? 2 : 1 );
     if( movecost >= 500 ) {
@@ -606,7 +667,7 @@ void avatar_action::autoattack( avatar &you, map &m )
         if( !c->is_npc() ) {
             return false;
         }
-        return !dynamic_cast<const npc *>( c )->is_enemy();
+        return !dynamic_cast<const npc &>( *c ).is_enemy();
     } ), critters.end() );
     if( critters.empty() ) {
         add_msg( m_info, _( "No hostile creature in reach.  Waiting a turn." ) );
@@ -730,8 +791,7 @@ void avatar_action::fire_wielded_weapon( avatar &you )
         return;
     } else if( !weapon.is_gun() ) {
         return;
-    } else if( weapon.ammo_data() && weapon.type->gun &&
-               !weapon.type->gun->ammo.count( weapon.ammo_data()->ammo->type ) ) {
+    } else if( weapon.ammo_data() && !weapon.ammo_types().count( weapon.loaded_ammo().ammo_type() ) ) {
         add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
                  weapon.tname(), weapon.ammo_current()->nname( 1 ) );
         return;
@@ -839,21 +899,21 @@ bool avatar_action::eat_here( avatar &you )
     return false;
 }
 
-void avatar_action::eat( avatar &you, const item_location &loc )
+void avatar_action::eat( avatar &you, const item_location &loc, bool refuel )
 {
     std::string filter;
     if( !you.activity.str_values.empty() ) {
         filter = you.activity.str_values.back();
     }
     avatar_action::eat( you, loc, you.activity.values, you.activity.targets, filter,
-                        you.activity.id() );
+                        you.activity.id(), refuel );
 }
 
 void avatar_action::eat( avatar &you, const item_location &loc,
                          const std::vector<int> &consume_menu_selections,
                          const std::vector<item_location> &consume_menu_selected_items,
                          const std::string &consume_menu_filter,
-                         activity_id type )
+                         activity_id type, bool refuel )
 {
     if( !loc ) {
         you.cancel_activity();
@@ -861,7 +921,7 @@ void avatar_action::eat( avatar &you, const item_location &loc,
         return;
     }
     you.assign_activity( player_activity( consume_activity_actor( loc, consume_menu_selections,
-                                          consume_menu_selected_items, consume_menu_filter, type ) ) );
+                                          consume_menu_selected_items, consume_menu_filter, type, refuel ) ) );
 }
 
 void avatar_action::plthrow( avatar &you, item_location loc,

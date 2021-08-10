@@ -134,8 +134,7 @@ static tripoint_abs_omt random_house_in_city( const city_reference &cref )
 tripoint_abs_omt mission_util::random_house_in_closest_city()
 {
     Character &player_character = get_player_character();
-    // TODO: fix point types
-    const tripoint_abs_sm center( player_character.global_sm_location() );
+    const tripoint_abs_sm center = player_character.global_sm_location();
     const city_reference cref = overmap_buffer.closest_city( center );
     if( !cref ) {
         debugmsg( "could not find closest city" );
@@ -529,7 +528,7 @@ bool mission_type::parse_funcs( const JsonObject &jo, std::function<void( missio
      * write that code in two places so here it goes.
      */
     talk_effect_t talk_effects;
-    talk_effects.load_effect( jo );
+    talk_effects.load_effect( jo, "effect" );
     phase_func = [ funcs, talk_effects ]( mission * miss ) {
         ::dialogue d;
         npc *beta = g->find_npc( miss->get_npc_id() );

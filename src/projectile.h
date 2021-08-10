@@ -6,6 +6,7 @@
 #include <memory>
 #include <set>
 
+#include "compatibility.h"
 #include "damage.h"
 #include "point.h"
 
@@ -46,7 +47,7 @@ struct projectile {
 
         projectile();
         projectile( const projectile & );
-        projectile( projectile && );
+        projectile( projectile && ) noexcept( set_is_noexcept );
         projectile &operator=( const projectile & );
         ~projectile();
 

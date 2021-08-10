@@ -63,22 +63,12 @@
     "name": { "str": "hurled rubble" },
     "description": "Stone at the ready to crush that which isn't part of the blob.",
     "material": [ "stone" ],
-    "flags": [
-      "PRIMITIVE_RANGED_WEAPON",
-      "NEVER_JAMS",
-      "NONCONDUCTIVE",
-      "NO_REPAIR",
-      "WATERPROOF_GUN",
-      "NO_SALVAGE",
-      "NO_UNLOAD",
-      "WATERPROOF_GUN",
-      "NEVER_JAMS"
-    ],
+    "flags": [ "PRIMITIVE_RANGED_WEAPON", "NEVER_JAMS", "NONCONDUCTIVE", "NO_REPAIR", "WATERPROOF_GUN", "NO_SALVAGE", "NO_UNLOAD" ],
     "skill": "throw",
     "ammo": [ "rock" ],
     "ammo_effects": [ "NO_PENETRATE_OBSTACLES", "NEVER_MISFIRES" ],
+    "ranged_damage": { "damage_type": "bash", "amount": -1 },
     "clip_size": 1,
-    "ranged_damage": { "damage_type": "bash", "amount": 4 },
     "weight": "540 g",
     "volume": "210 ml",
     "longest_side": "75 mm",
@@ -87,7 +77,17 @@
     "loudness": 2,
     "range": 6,
     "dispersion": 150,
-    "durability": 8
+    "durability": 8,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "max_contains_volume": "200 L",
+        "max_contains_weight": "400 kg",
+        "max_item_length": "2000 m",
+        "ammo_restriction": { "rock": 5 }
+      }
+    ]
   },
   {
     "id": "v29_turret",
