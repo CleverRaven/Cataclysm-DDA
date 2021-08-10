@@ -13690,8 +13690,12 @@ void Character::recalc_speed_bonus()
 {
     // Minus some for weight...
     int carry_penalty = 0;
-    if( weight_carried() > weight_capacity() ) {
-        carry_penalty = 25 * ( weight_carried() - weight_capacity() ) / ( weight_capacity() );
+    units::mass weight_cap = weight_capacity();
+    if( weight_cap < 1_milligram ) {
+        weight_cap = 1_milligram; //Prevent Clang warning about divide by zero
+    }
+    if( weight_carried() > weight_cap ) {
+        carry_penalty = 25 * ( weight_carried() - weight_cap ) / ( weight_cap );
     }
     mod_speed_bonus( -carry_penalty );
 
