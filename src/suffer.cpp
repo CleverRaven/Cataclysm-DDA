@@ -331,7 +331,6 @@ void Character::suffer_while_awake( const int current_stim )
         signal_nemesis();
     }
 
-
     if( has_trait( trait_SHOUT1 ) && one_turn_in( 6_hours ) ) {
         shout();
     }
