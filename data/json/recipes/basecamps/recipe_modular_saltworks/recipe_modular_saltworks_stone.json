@@ -84,7 +84,7 @@
     "construction_blueprint": "fbmsw_brewery0_rock_southwest",
     "blueprint_name": "SW stone wall brewery",
     "blueprint_requires": [ { "id": "fbmsw_0" } ],
-    "blueprint_provides": [ { "id": "fbmsw_southwest" }, { "id":"saltworks_recipes_2" }, { "id": "brewery" } ],
+    "blueprint_provides": [ { "id": "fbmsw_southwest" }, { "id": "saltworks_recipes_2" }, { "id": "brewery" } ],
     "blueprint_excludes": [ { "id": "fbmsw_southwest" } ],
     "blueprint_needs": {
       "time": "5 d 17 h 30 m",
