@@ -956,6 +956,25 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
         return [max_value]( const T &d ) {
             return rand() % max_value;
         };
+    } else if( jo.has_member( "weather" ) ) {
+        std::string weather_aspect = jo.get_string( "weather" );
+        if( weather_aspect == "temperature" ) {
+            return []( const T &d ) {
+                return get_weather().weather_precise->temperature;
+            };
+        } else if( weather_aspect == "windpower" ) {
+            return []( const T &d ) {
+                return get_weather().weather_precise->windpower;
+            };
+        } else if( weather_aspect == "humidity" ) {
+            return []( const T &d ) {
+                return get_weather().weather_precise->humidity;
+            };
+        } else if( weather_aspect == "pressure" ) {
+            return []( const T &d ) {
+                return get_weather().weather_precise->pressure;
+            };
+        }
     } else if ( jo.has_member("u_val") || jo.has_member( "npc_val" ) ) {
         const bool is_npc = jo.has_member( "npc_val" );
         const std::string checked_value = is_npc ? jo.get_string( "npc_val" ) : jo.get_string( "u_val" );
@@ -1023,6 +1042,27 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             const skill_id skill( jo.get_string( "skill" ) );
             return [is_npc, skill]( const T &d ) {
                 return d.actor( is_npc )->get_skill_level( skill );
+            };
+        } else if( checked_value == "pos_x" ) {
+            return [is_npc]( const T &d ) {
+                return d.actor( is_npc )->posx();
+            };
+        } else if( checked_value == "pos_y" ) {
+            return [is_npc]( const T &d ) {
+                return d.actor( is_npc )->posy();
+            };
+        } else if( checked_value == "pos_z" ) {
+            return [is_npc]( const T &d ) {
+                return d.actor( is_npc )->posz();
+            };
+        } else if( checked_value == "pain" ) {
+            return [is_npc]( const T &d ) {
+                return d.actor( is_npc )->pain_cur();
+            };
+        } else if( checked_value == "power" ) {
+            return [is_npc]( const T &d ) {
+                // Energy in milijoule
+                return d.actor( is_npc )->power_cur().value();
             };
         }
     }

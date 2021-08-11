@@ -1328,6 +1328,117 @@
           ],
           "op": ">="
         }
+      },
+      {
+        "text": "A random number between 0 and 10 equals 11.",
+        "topic": "TALK_DONE",
+        "//": "Should never be true, kept here to show how the syntax is used.",
+        "condition": {
+          "compare_int": [
+            { "rand": 10 },
+            { "const": 11 }
+          ],
+          "op": "="
+        }
+      },
+      {
+        "text": "Temperature is 21.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "weather": "temperature" },
+            { "const": 21 }
+          ],
+          "op": "="
+        }
+      },
+      {
+        "text": "Windpower is 15.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "weather": "windpower" },
+            { "const": 15 }
+          ],
+          "op": "="
+        }
+      },
+      {
+        "text": "Humidity is 16.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "weather": "humidity" },
+            { "const": 16 }
+          ],
+          "op": "="
+        }
+      },
+      {
+        "text": "Pressure is 17.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "weather": "pressure" },
+            { "const": 17 }
+          ],
+          "op": "="
+        }
+      },
+      {
+        "text": "Pos_x 18.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "u_val": "pos_x" },
+            { "const": 18 }
+          ],
+          "op": "="
+        }
+      },
+      {
+        "text": "Pos_y 19.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "u_val": "pos_y" },
+            { "const": 19 }
+          ],
+          "op": "="
+        }
+      },
+      {
+        "text": "Pos_z 20. This should be cause for alarm.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "u_val": "pos_z" },
+            { "const": 20 }
+          ],
+          "op": "="
+        }
+      },
+      {
+        "text": "Pain level is 21.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "u_val": "pain" },
+            { "const": 21 }
+          ],
+          "op": "="
+        }
+      },
+      {
+        "text": "Bionic power is 22.",
+        "topic": "TALK_DONE",
+        "condition": {
+          "compare_int": [
+            { "u_val": "power" },
+            { "const": 22 }
+          ],
+          "op": "="
+        }
       }
     ]
   },

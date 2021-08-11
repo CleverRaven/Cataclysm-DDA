@@ -1031,6 +1031,10 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     beta.op_of_u.owed = 0;
     const skill_id skill( "driving" );
     player_character.set_skill_level( skill, 0 );
+    
+    get_weather().temperature = 19;
+    get_weather().windspeed = 20;
+    get_weather().clear_temp_cache();
 
     d.add_topic( "TALK_TEST_COMPARE_INT" );
     gen_response_lines( d, 3 );
@@ -1062,9 +1066,18 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.cash = 13;
     beta.op_of_u.owed = 14;
     player_character.set_skill_level( skill, 8 );
+    get_weather().weather_precise->temperature = 21;
+    get_weather().weather_precise->windpower = 15;
+    get_weather().weather_precise->humidity = 16;
+    get_weather().weather_precise->pressure = 17;
+    get_weather().clear_temp_cache();
+    player_character.setpos( tripoint( 18, 19, 20 ) );
+    player_character.set_pain( 21 );
+    player_character.add_bionic( bionic_id( "bio_power_storage" ) );
+    player_character.set_power_level( 22_mJ );
 
-    CHECK( to_turns<int>( 1_turns ) == 1 );
-    gen_response_lines( d, 19 );
+
+    gen_response_lines( d, 28 );
     CHECK( d.responses[ 0 ].text == "This is a u_adjust_var test response that increments by 1." );
     CHECK( d.responses[ 1 ].text == "This is an npc_adjust_var test response that increments by 2." );
     CHECK( d.responses[ 2 ].text == "PC strength is five." );
@@ -1084,10 +1097,19 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     CHECK( d.responses[ 16 ].text == "Cash equals 13" );
     CHECK( d.responses[ 17 ].text == "Owed ammount equals 14" );
     CHECK( d.responses[ 18 ].text == "Driving skill more than or equal to 5" );
-    // Due to the nature of randomness, the rand function will not be tested here.
+    // TODO: Relaibly test the random number generator.
+    CHECK( d.responses[ 19 ].text == "Temperature is 21." );
+    CHECK( d.responses[ 20 ].text == "Windpower is 15." );
+    CHECK( d.responses[ 21 ].text == "Humidity is 16." );
+    CHECK( d.responses[ 22 ].text == "Pressure is 17." );
+    CHECK( d.responses[ 23 ].text == "Pos_x is 18." );
+    CHECK( d.responses[ 24 ].text == "Pos_y is 19." );
+    CHECK( d.responses[ 25 ].text == "Pos_z is 20. This should be cause for alarm." );
+    CHECK( d.responses[ 26 ].text == "Pain level is 21." );
+    CHECK( d.responses[ 27 ].text == "Bionic power is 22." );
 
     calendar::turn = calendar::turn + time_duration( 4_days );
-    gen_response_lines( d, 20 );
+    gen_response_lines( d, 29 );
 
     CHECK( d.responses[ 15 ].text == "This is a time since u_var test response for > 3_days." );
 
