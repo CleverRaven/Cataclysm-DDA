@@ -1226,6 +1226,9 @@ class jmapgen_faction : public jmapgen_piece
                 id = faction_id( jsi.get_string( "id" ) );
             }
         }
+        int phase() const override {
+            return 2;
+        }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
             dat.m.apply_faction_ownership( point( x.val, y.val ), point( x.valmax, y.valmax ), id );
@@ -1844,6 +1847,9 @@ class jmapgen_furniture : public jmapgen_piece
         jmapgen_furniture( const JsonObject &jsi, const std::string &/*context*/ ) :
             jmapgen_furniture( jsi.get_member( "furn" ) ) {}
         explicit jmapgen_furniture( const JsonValue &fid ) : id( furn_id( fid.get_string() ) ) {}
+        int phase() const override {
+            return -1;
+        }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
             dat.m.furn_set( point( x.get(), y.get() ), id );
@@ -1866,6 +1872,9 @@ class jmapgen_terrain : public jmapgen_piece
 
         bool is_nop() const override {
             return id.is_null();
+        }
+        int phase() const override {
+            return -2;
         }
 
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
@@ -2137,6 +2146,9 @@ class jmapgen_translate : public jmapgen_piece
                 to = ter_id( to_id );
             }
         }
+        int phase() const override {
+            return 2;
+        }
         void apply( const mapgendata &dat, const jmapgen_int &/*x*/,
                     const jmapgen_int &/*y*/ ) const override {
             dat.m.translate( from, to );
@@ -2244,6 +2256,9 @@ class jmapgen_nested : public jmapgen_piece
             if( jsi.has_member( "else_chunks" ) ) {
                 load_weighted_list( jsi.get_member( "else_chunks" ), else_entries, 100 );
             }
+        }
+        int phase() const override {
+            return 1;
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
@@ -2886,6 +2901,9 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     objects.load_objects<jmapgen_ter_furn_transform>( jo, "place_ter_furn_transforms", context_ );
     // Needs to be last as it affects other placed items
     objects.load_objects<jmapgen_faction>( jo, "faction_owner", context_ );
+
+    objects.finalize();
+
     if( !mapgen_defer::defer ) {
         is_ready = true; // skip setup attempts from any additional pointers
     }
@@ -2931,6 +2949,14 @@ void mapgen_function_json_base::check_common() const
     }
 
     objects.check( context_, parameters );
+}
+
+void jmapgen_objects::finalize()
+{
+    std::stable_sort( objects.begin(), objects.end(),
+    []( const jmapgen_obj & l, const jmapgen_obj & r ) {
+        return l.second->phase() < r.second->phase();
+    } );
 }
 
 void jmapgen_objects::check( const std::string &context, const mapgen_parameters &parameters ) const
