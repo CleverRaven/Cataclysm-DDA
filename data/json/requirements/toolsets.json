@@ -186,5 +186,16 @@
     "//": "Tools for removing metal / rebar",
     "qualities": [ { "id": "SAW_M", "level": 2 }, { "id": "GLARE", "level": 2 }, { "id": "PRY", "level": 3 } ],
     "tools": [ [ [ "angle_grinder", 200 ], [ "oxy_torch", 20 ] ] ]
+  },
+  {
+    "id": "object_deconstruction_advanced",
+    "type": "requirement",
+    "//": "Tools for doing advanced deconstruction",
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "CHISEL", "level": 2 },
+      { "id": "PRY", "level": 3 },
+      { "id": "SCREW", "level": 1 }
+    ]
   }
 ]

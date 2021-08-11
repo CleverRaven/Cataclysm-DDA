@@ -380,6 +380,32 @@
   },
   {
     "type": "construction",
+    "id": "constr_remove_rock_wall",
+    "group": "remove_rock_wall",
+    "//": "Cuts a segment of rock wall out very neatly, and then breaks it apart for disposal.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+    "time": "120 m",
+    "using": [ [ "concrete_removal_standard", 1 ] ],
+    "byproducts": [ { "item": "rock", "count": [ 15, 20 ] }, { "item": "pebble", "count": [ 20, 30 ] } ],
+    "pre_terrain": "t_rock_wall",
+    "post_terrain": "t_rock_floor"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_rock_wall_halfway",
+    "group": "remove_rock_wall",
+    "//": "Cuts a segment of half complete rock wall out very neatly, and then breaks it apart for disposal.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
+    "time": "120 m",
+    "using": [ [ "half_concrete_removal_standard", 1 ] ],
+    "byproducts": [ { "item": "rock", "count": [ 6, 10 ] }, { "item": "pebble", "count": [ 20, 30 ] } ],
+    "pre_terrain": "t_rock_wall_half",
+    "post_terrain": "t_rock_floor"
+  },
+  {
+    "type": "construction",
     "id": "constr_remove_brick_wall",
     "group": "remove_brick_wall",
     "//": "Cuts a segment of brick wall out very neatly, and then breaks it apart for disposal.",
@@ -781,5 +807,18 @@
     "byproducts": [ { "item": "reinforced_glass_sheet", "count": [ 1, 2 ] } ],
     "pre_terrain": "t_reinforced_door_glass_lab_c",
     "post_terrain": "t_floor"
+  },
+  {
+    "type": "construction",
+    "id": "constr_remove_object_fireplace",
+    "group": "advanced_object_deconstruction",
+    "//": "Breaks a fireplace apart giving you back most of the rocks used in its construction.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "90 m",
+    "using": [ [ "object_deconstruction_advanced", 1 ] ],
+    "byproducts": [ { "item": "rock", "count": [ 35, 40 ] } ],
+    "pre_terrain": "f_fireplace",
+    "post_terrain": "f_null"
   }
 ]

@@ -1181,6 +1181,11 @@
   },
   {
     "type": "construction_group",
+    "id": "advanced_object_deconstruction",
+    "name": "Advanced Object Deconstruction"
+  },
+  {
+    "type": "construction_group",
     "id": "remove_reinforced_concrete_floor",
     "name": "Remove a reinforced concrete floor"
   },
@@ -1213,6 +1218,11 @@
     "type": "construction_group",
     "id": "remove_wall",
     "name": "Remove a wall"
+  },
+  {
+    "type": "construction_group",
+    "id": "remove_rock_wall",
+    "name": "Remove a rock wall"
   },
   {
     "type": "construction_group",
