@@ -81,7 +81,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_1",
     "type": "mission_definition",
-    "name": { "str": "Cut 200 2x4's" },
+    "name": { "str": "Cut 200 planks" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -91,7 +91,7 @@
     "followup": "MISSION_RANCH_FOREMAN_2",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "Our first project is to enclose the barn so that new refugees have a safe place to sleep.  Before we can begin serious improvements we need lumber to work with.  Enclosing the four barn entrances will take nearly 400 2x4's… if you could provide half of that we should be able to take care of the other half and construction.  If you don't have a truck, I'd make finding one your first priority.",
+      "offer": "Our first project is to enclose the barn so that new refugees have a safe place to sleep.  Before we can begin serious improvements we need lumber to work with.  Enclosing the four barn entrances will take nearly 400 planks… if you could provide half of that we should be able to take care of the other half and construction.  If you don't have a truck, I'd make finding one your first priority.",
       "accepted": "The more men we can bring to the camp the quicker improvements can be made.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "Avoid destroying the furniture, we'll be needing it.",
