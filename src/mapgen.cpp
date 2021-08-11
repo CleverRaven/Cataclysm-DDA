@@ -3286,12 +3286,12 @@ void mapgen_function_json_nested::nest( const mapgendata &md, const point &offse
     mapgendata md_with_params( md, get_args( md, mapgen_parameter_scope::nest ) );
 
     for( const jmapgen_setmap &elem : setmap_points ) {
-        elem.apply( md, offset );
+        elem.apply( md_with_params, offset );
     }
 
-    objects.apply( md, offset );
+    objects.apply( md_with_params, offset );
 
-    resolve_regional_terrain_and_furniture( md );
+    resolve_regional_terrain_and_furniture( md_with_params );
 }
 
 /*
