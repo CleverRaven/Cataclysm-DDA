@@ -2841,11 +2841,20 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
             act->set_to_null();
             return;
         }
+        const tripoint_abs_omt next_omt = p->omt_path.back();
+        tripoint_abs_ms waypoint;
+        if( p->omt_path.size() == 1 ) {
+            // if next omt is the final one, target its midpoint
+            waypoint = midpoint( project_bounds<coords::ms>( next_omt ) );
+        } else {
+            // otherwise target the middle of the edge nearest to our current location
+            const tripoint_abs_ms cur_omt_mid = midpoint( project_bounds<coords::ms>
+                                                ( p->global_omt_location() ) );
+            waypoint = clamp( cur_omt_mid, project_bounds<coords::ms>( next_omt ) );
+        }
         map &here = get_map();
         // TODO: fix point types
-        tripoint sm_tri = here.getlocal(
-                              project_to<coords::ms>( p->omt_path.back() ).raw() );
-        tripoint centre_sub = sm_tri + point( SEEX, SEEY );
+        tripoint centre_sub = here.getlocal( waypoint.raw() );
         if( !here.passable( centre_sub ) ) {
             tripoint_range<tripoint> candidates = here.points_in_radius( centre_sub, 2 );
             for( const tripoint &elem : candidates ) {
