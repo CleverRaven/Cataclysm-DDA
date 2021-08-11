@@ -18,7 +18,7 @@
         ",#..LL..LL..d..|WRWRWRW,",
         ",#..LL..LL..?a.|W=====W,",
         ",#..##..##..d..|W=====W,",
-        ",#..........?a.|W.....W,",	
+        ",#..........?a.|W.....W,",
         ",#..........dr.XW.....W,",
         ",#-D--D-------D-W.....W,",
         ",#r.-..-<-EEEO..D.....W,",
@@ -31,12 +31,9 @@
         ",#ssss.........#_______,",
         ",###############_______,"
       ],
-	  "palettes": [ "gun_store_palette" ],
-	  "place_monster": [  { "monster": "mon_copbot", "x": 10, "y": 10, "chance": 15 } ],
-	  "terrain": {	
-			"w": "t_pavement",
-			";": "t_region_groundcover_urban"
-	  }
+      "palettes": [ "gun_store_palette" ],
+      "place_monster": [ { "monster": "mon_copbot", "x": 10, "y": 10, "chance": 15 } ],
+      "terrain": { "w": "t_pavement", ";": "t_region_groundcover_urban" }
     }
   },
   {
@@ -105,7 +102,7 @@
         "{": "t_chaingate_c",
         "}": "t_chainfence"
       },
-      "furniture": { ":": [ "f_indoor_plant", "f_indoor_plant_y" ], ";": "f_gunsafe_ml", ")": "f_TV_antenna" },	  
+      "furniture": { ":": [ "f_indoor_plant", "f_indoor_plant_y" ], ";": "f_gunsafe_ml", ")": "f_TV_antenna" },
       "place_loot": [ { "item": "television", "x": 2, "y": 9 }, { "item": "stereo", "x": 2, "y": 10, "chance": 100 } ]
     }
   },
@@ -163,7 +160,7 @@
         ",#``mm``mm``p``MWCWCWCW,",
         ",#``mm``mm``?a`MW=====W,",
         ",#``##``##``p``MW=====W,",
-        ",#``````````?a`MW.....W,",	
+        ",#``````````?a`MW.....W,",
         ",#``````````pr`eW.....W,",
         ",#-D--D-------D-W.....W,",
         ",#r`-``-<-EEEe..D.....W,",
@@ -176,35 +173,32 @@
         ",#SSSS`````````#_______,",
         ",###############_______,"
       ],
-	  "palettes": [ "gun_store_palette" ],
-	  "terrain": {	
-			"w": "t_pavement",
-			";": "t_region_groundcover_urban"
-	  },
-	  "nested": {
+      "palettes": [ "gun_store_palette" ],
+      "terrain": { "w": "t_pavement", ";": "t_region_groundcover_urban" },
+      "nested": {
         "#": { "chunks": [ [ "general_graffiti", 15 ], [ "null", 75 ] ] },
         "m": { "chunks": [ [ "destroyed_furniture", 40 ], [ "null", 80 ] ] },
-        "$": { "chunks": [ [ "destroyed_furniture", 40 ], [ "null", 80 ] ] },		
+        "$": { "chunks": [ [ "destroyed_furniture", 40 ], [ "null", 80 ] ] },
         "M": { "chunks": [ [ "destroyed_furniture", 50 ], [ "null", 80 ] ] },
         "C": { "chunks": [ [ "destroyed_furniture", 85 ], [ "null", 90 ] ] },
         "A": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
-        "E": { "chunks": [ [ "destroyed_furniture", 45 ], [ "null", 90 ] ] },		
+        "E": { "chunks": [ [ "destroyed_furniture", 45 ], [ "null", 90 ] ] },
         "a": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
         "^": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
-        "n": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },	
-        "p": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },	
-        "S": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },	
+        "n": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "p": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
+        "S": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
         "?": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
-        "T": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },		
+        "T": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
         "&": { "chunks": [ [ "destroyed_furniture", 10 ], [ "null", 90 ] ] },
         "q": { "chunks": [ [ "destroyed_furniture", 20 ], [ "null", 80 ] ] },
-        "r": { "chunks": [ [ "destroyed_furniture", 10 ], [ "null", 90 ] ] },			
-		"D": { "chunks": [ [ "damaged_door_nested", 50 ], [ "destroyed_door_nested", 100 ], [ "null", 100 ] ] },
-		":": { "chunks": [ [ "damaged_window_bars_nested", 75 ], [ "destroyed_window_bars_nested", 25 ], [ "null", 100 ] ] },	
-        "e": { "chunks": [ [ "looted_gunsafe_nested", 25 ], [ "jammed_gunsafe_nested", 75 ], [ "null", 95 ] ] },		
-		"+": { "chunks": [ [ "destroyed_metal_door_nested", 90 ], [ "null", 100 ] ] },		
-		"`": { "chunks": [ ["corpse_blood_casings_1x1", 4 ], [ "null", 20 ] ] }
-	  }	  
+        "r": { "chunks": [ [ "destroyed_furniture", 10 ], [ "null", 90 ] ] },
+        "D": { "chunks": [ [ "damaged_door_nested", 50 ], [ "destroyed_door_nested", 100 ], [ "null", 100 ] ] },
+        ":": { "chunks": [ [ "damaged_window_bars_nested", 75 ], [ "destroyed_window_bars_nested", 25 ], [ "null", 100 ] ] },
+        "e": { "chunks": [ [ "looted_gunsafe_nested", 25 ], [ "jammed_gunsafe_nested", 75 ], [ "null", 95 ] ] },
+        "+": { "chunks": [ [ "destroyed_metal_door_nested", 90 ], [ "null", 100 ] ] },
+        "`": { "chunks": [ [ "corpse_blood_casings_1x1", 4 ], [ "null", 20 ] ] }
+      }
     }
   }
 ]

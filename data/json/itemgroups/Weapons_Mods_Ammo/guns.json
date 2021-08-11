@@ -50,7 +50,7 @@
   },
   {
     "type": "item_group",
-	"subtype": "distribution",
+    "subtype": "distribution",
     "id": "guns_pistol_common_display",
     "//": "Empty pistols found exclusively in gun stores.",
     "items": [
@@ -92,9 +92,9 @@
       { "item": "xd_10", "prob": 3, "charges-min": 0, "charges-max": 0 },
       { "item": "witness_10", "prob": 1, "charges-min": 0, "charges-max": 0 },
       { "item": "walther_ccp", "prob": 8, "charges-min": 0, "charges-max": 0 },
-	  { "item": "usp_45", "prob": 55, "charges-min": 0, "charges-max": 0 },
+      { "item": "usp_45", "prob": 55, "charges-min": 0, "charges-max": 0 },
       { "item": "usp_9mm", "prob": 85, "charges-min": 0, "charges-max": 0 },
-	  { "item": "cop_38", "prob": 65, "charges-min": 0, "charges-max": 0 },
+      { "item": "cop_38", "prob": 65, "charges-min": 0, "charges-max": 0 },
       { "item": "deagle_44", "prob": 20, "charges-min": 0, "charges-max": 0 },
       { "item": "ruger_lcr_22", "prob": 35, "charges-min": 0, "charges-max": 0 },
       { "item": "ruger_redhawk", "prob": 25, "charges-min": 0, "charges-max": 0 },
@@ -102,9 +102,9 @@
       { "item": "sig_p230", "prob": 45, "charges-min": 0, "charges-max": 0 },
       { "item": "sw_500", "prob": 25, "charges-min": 0, "charges-max": 0 },
       { "item": "sw629", "prob": 40, "charges-min": 0, "charges-max": 0 },
-	  { "item": "cop_38", "prob": 65, "charges-min": 0, "charges-max": 0 },
+      { "item": "cop_38", "prob": 65, "charges-min": 0, "charges-max": 0 },
       { "item": "TDI_10", "prob": 1, "charges-min": 0, "charges-max": 0 },
-      { "item": "makarov", "prob": 55, "charges-min": 0, "charges-max": 0  },	    
+      { "item": "makarov", "prob": 55, "charges-min": 0, "charges-max": 0 },
       { "item": "walther_p22", "prob": 13, "charges-min": 0, "charges-max": 0 }
     ]
   },
@@ -133,7 +133,7 @@
   },
   {
     "type": "item_group",
-	"subtype": "distribution",	
+    "subtype": "distribution",
     "id": "guns_pistol_rare_display",
     "//": "Empty uncommon pistols found exclusively at gun stores.",
     "items": [
@@ -170,7 +170,7 @@
       { "item": "raging_bull", "prob": 20 },
       { "item": "raging_judge", "prob": 20 },
       { "item": "tokarev", "prob": 45 },
-      { "item": "walther_ppk", "prob": 10 },	  
+      { "item": "walther_ppk", "prob": 10 },
       { "item": "rm103a_pistol", "prob": 35, "charges-min": 0, "charges-max": 10 }
     ]
   },
@@ -199,14 +199,14 @@
   },
   {
     "type": "item_group",
-	"subtype": "distribution",
+    "subtype": "distribution",
     "id": "guns_pistol_obscure_gunstore",
     "//": "Imported or otherwise very obscure pistols, some violate the AWA.",
     "items": [
       { "item": "af2011a1_38super", "prob": 25 },
       { "item": "colt_saa", "prob": 35 },
       { "item": "lemat_revolver", "prob": 35 },
-      { "item": "draco", "prob": 30, "charges-min": 0, "charges-max": 0 },	  
+      { "item": "draco", "prob": 30, "charges-min": 0, "charges-max": 0 },
       { "group": "guns_pistol_collectible", "prob": 1 }
     ]
   },
@@ -241,7 +241,7 @@
   },
   {
     "type": "item_group",
-	"subtype": "distribution",
+    "subtype": "distribution",
     "id": "guns_smg_common_display",
     "//": "Empty SMGs exclusively found in gun stores.",
     "items": [
@@ -272,7 +272,7 @@
   {
     "type": "item_group",
     "id": "guns_smg_rare_display",
-	"subtype": "distribution",
+    "subtype": "distribution",
     "//": "Less common SMGs found exclusively in gun stores.",
     "items": [
       { "item": "calico", "prob": 30, "charges-min": 0, "charges-max": 0 },
@@ -304,20 +304,20 @@
   {
     "type": "item_group",
     "id": "guns_smg_obscure",
-	"subtype": "distribution",
+    "subtype": "distribution",
     "//": "Imported or otherwise very obscure SMGs.",
     "items": [
-      { "item": "ppsh", "prob": 150, "charges-min": 0, "charges-max": 0  },
+      { "item": "ppsh", "prob": 150, "charges-min": 0, "charges-max": 0 },
       { "item": "hk_mp5_10_semi", "prob": 1, "charges-min": 0, "charges-max": 0 },
-      { "item": "skorpion_61", "prob": 100, "charges-min": 0, "charges-max": 0  },
-      { "item": "skorpion_82", "prob": 100, "charges-min": 0, "charges-max": 0  },
+      { "item": "skorpion_61", "prob": 100, "charges-min": 0, "charges-max": 0 },
+      { "item": "skorpion_82", "prob": 100, "charges-min": 0, "charges-max": 0 },
       { "group": "guns_smg_collectible", "prob": 1 }
     ]
   },
   {
     "type": "item_group",
     "id": "guns_smg_display",
-	"subtype": "distribution",
+    "subtype": "distribution",
     "//": "All variations of smgs weighted for rarity, for use in locked gun-safes",
     "items": [
       { "group": "guns_smg_obscure", "prob": 10 },
@@ -369,7 +369,7 @@
   },
   {
     "type": "item_group",
-	"subtype": "distribution",
+    "subtype": "distribution",
     "id": "guns_rifle_common_display",
     "//": "Empty rifles commonly found in gun stores.",
     "items": [
@@ -382,12 +382,12 @@
       { "item": "ruger_1022", "prob": 65, "charges-min": 0, "charges-max": 0 },
       { "item": "ruger_mini", "prob": 55, "charges-min": 0, "charges-max": 0 },
       { "item": "bh_m89", "prob": 5 },
-	  { "item": "M24", "prob": 15, "charges-min": 0, "charges-max": 5 },
+      { "item": "M24", "prob": 15, "charges-min": 0, "charges-max": 5 },
       { "item": "weatherby_5", "prob": 15, "charges-min": 0, "charges-max": 3 },
-	  { "item": "savage_111f", "prob": 15, "charges-min": 0, "charges-max": 3 },
-	  { "item": "sks", "prob": 20, "charges-min": 0, "charges-max": 0 },
-	  { "item": "m1a", "prob": 20, "charges-min": 0, "charges-max": 0 },	  
-      { "item": "aksemi", "prob": 20, "charges-min": 0, "charges-max": 0 }	  
+      { "item": "savage_111f", "prob": 15, "charges-min": 0, "charges-max": 3 },
+      { "item": "sks", "prob": 20, "charges-min": 0, "charges-max": 0 },
+      { "item": "m1a", "prob": 20, "charges-min": 0, "charges-max": 0 },
+      { "item": "aksemi", "prob": 20, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
@@ -415,13 +415,13 @@
       { "item": "sharps", "prob": 15, "charges-min": 0, "charges-max": 1 },
       { "item": "weatherby_5", "prob": 15, "charges-min": 0, "charges-max": 3 },
       { "item": "hk417_13", "prob": 40, "charges-min": 0, "charges-max": 20 },
-      { "item": "ar15_retool_300blk", "prob": 15, "charges-min": 0, "charges-max": 30 },  
+      { "item": "ar15_retool_300blk", "prob": 15, "charges-min": 0, "charges-max": 30 },
       { "item": "iwi_tavor_x95_300blk", "prob": 10, "charges-min": 0, "charges-max": 30 }
     ]
   },
   {
     "type": "item_group",
-	"subtype": "distribution",	
+    "subtype": "distribution",
     "id": "guns_rifle_rare_display",
     "//": "Less common rifles found exclusively in gun stores.",
     "items": [
@@ -435,17 +435,17 @@
       { "item": "savage_111f", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "sharps", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "weatherby_5", "prob": 15, "charges-min": 0, "charges-max": 0 },
-	  { "item": "acr_300blk", "prob": 15, "charges-min": 0, "charges-max": 30 },
-	  { "item": "iwi_tavor_x95_300blk", "prob": 30 },
+      { "item": "acr_300blk", "prob": 15, "charges-min": 0, "charges-max": 30 },
+      { "item": "iwi_tavor_x95_300blk", "prob": 30 },
       { "item": "ar15_retool_300blk", "prob": 15, "charges-min": 0, "charges-max": 0 },
-	  { "item": "1895sbl", "prob": 1, "charges-min": 0, "charges-max": 0 },
+      { "item": "1895sbl", "prob": 1, "charges-min": 0, "charges-max": 0 },
       { "item": "marlin_9a", "prob": 2, "charges-min": 0, "charges-max": 0 },
       { "item": "mosin44", "prob": 25, "charges-min": 0, "charges-max": 0 },
       { "item": "mosin91_30", "prob": 15, "charges-min": 0, "charges-max": 0 },
-	  { "item": "browning_blr", "prob": 1, "charges-min": 0, "charges-max": 0 },
+      { "item": "browning_blr", "prob": 1, "charges-min": 0, "charges-max": 0 },
       { "item": "garand", "prob": 1, "charges-min": 0, "charges-max": 0 },
-	  { "item": "win70", "prob": 2, "charges-min": 0, "charges-max": 0 },
-	  { "item": "ar_pistol", "prob": 1, "charges-min": 0, "charges-max": 0 }
+      { "item": "win70", "prob": 2, "charges-min": 0, "charges-max": 0 },
+      { "item": "ar_pistol", "prob": 1, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
@@ -472,7 +472,7 @@
       { "item": "nato_assault_rifle", "variant": "scar_l", "prob": 50, "charges-min": 0, "charges-max": 30 },
       { "item": "scar_h", "prob": 50, "charges-min": 0, "charges-max": 20 },
       { "item": "m110a1", "prob": 50, "charges-min": 0, "charges-max": 20 },
-      { "item": "M24", "prob": 15, "charges-min": 0, "charges-max": 0 },	  
+      { "item": "M24", "prob": 15, "charges-min": 0, "charges-max": 0 },
       { "item": "acr_300blk", "prob": 15, "charges-min": 0, "charges-max": 30 }
     ]
   },
@@ -490,7 +490,7 @@
   {
     "type": "item_group",
     "id": "guns_rifle_obscure",
-	"subtype": "distribution",	
+    "subtype": "distribution",
     "//": "Imported or otherwise very obscure rifles.",
     "items": [
       { "item": "ak47", "prob": 100, "charges-min": 0, "charges-max": 30 },
@@ -505,7 +505,7 @@
       { "item": "steyr_aug", "prob": 40, "charges-min": 0, "charges-max": 30 },
       { "item": "trex_gun", "prob": 60 },
       { "item": "arx160", "prob": 40, "charges-min": 0, "charges-max": 30 },
-      { "item": "iwi_tavor_x95_300blk", "prob": 10, "charges-min": 0, "charges-max": 30 },  
+      { "item": "iwi_tavor_x95_300blk", "prob": 10, "charges-min": 0, "charges-max": 30 },
       { "item": "acr_300blk", "prob": 15, "charges-min": 0, "charges-max": 30 }
     ]
   },
@@ -513,24 +513,24 @@
     "type": "item_group",
     "id": "guns_rifle_obscure_display",
     "//": "Imported or otherwise very obscure rifles, unloaded for storage in gunstore, and unavailable for sale due to the AWB.",
-	"subtype": "distribution",
+    "subtype": "distribution",
     "items": [
       { "item": "ak47", "prob": 30, "charges-min": 0, "charges-max": 0 },
-	  { "item": "m249_semi", "prob": 5, "charges-min": 0, "charges-max": 0 },
-	  { "item": "bfg50", "prob": 5, "charges-min": 0, "charges-max": 0 },
+      { "item": "m249_semi", "prob": 5, "charges-min": 0, "charges-max": 0 },
+      { "item": "bfg50", "prob": 5, "charges-min": 0, "charges-max": 0 },
       { "item": "trex_gun", "prob": 5, "charges-min": 0, "charges-max": 0 },
-      { "item": "ak74", "prob": 5, "charges-min": 0, "charges-max": 0  },
+      { "item": "ak74", "prob": 5, "charges-min": 0, "charges-max": 0 },
       { "item": "famas", "prob": 5, "charges-min": 0, "charges-max": 0 },
       { "item": "m60_semi", "prob": 5, "charges-min": 0, "charges-max": 0 },
       { "item": "oa93", "prob": 3, "charges-min": 0, "charges-max": 0 },
       { "item": "steyr_aug", "prob": 5, "charges-min": 0, "charges-max": 0 },
-	  { "item": "fn_fal", "prob": 40, "charges-min": 0, "charges-max": 0 },
-	  { "item": "hk_g3", "prob": 40, "charges-min": 0, "charges-max": 0 },
+      { "item": "fn_fal", "prob": 40, "charges-min": 0, "charges-max": 0 },
+      { "item": "hk_g3", "prob": 40, "charges-min": 0, "charges-max": 0 },
       { "item": "hk_g36", "prob": 30, "charges-min": 0, "charges-max": 0 },
-	  { "item": "m1918", "prob": 30, "charges-min": 0, "charges-max": 0 },
-	  { "item": "nato_assault_rifle", "prob": 45, "charges-min": 0, "charges-max": 0 }, 
-      { "item": "arx160", "prob": 10 },	  
-	  { "item": "hk417_13", "prob": 40, "charges-min": 0, "charges-max": 0 }
+      { "item": "m1918", "prob": 30, "charges-min": 0, "charges-max": 0 },
+      { "item": "nato_assault_rifle", "prob": 45, "charges-min": 0, "charges-max": 0 },
+      { "item": "arx160", "prob": 10 },
+      { "item": "hk417_13", "prob": 40, "charges-min": 0, "charges-max": 0 }
     ]
   },
   {
@@ -558,7 +558,7 @@
   },
   {
     "type": "item_group",
-	"subtype": "distribution",	
+    "subtype": "distribution",
     "id": "guns_shotgun_common_display",
     "//": "Shotguns commonly owned by citizens and found in gun stores.",
     "items": [
@@ -592,7 +592,7 @@
   {
     "type": "item_group",
     "id": "guns_shotgun_rare_display",
-	"subtype": "distribution",	
+    "subtype": "distribution",
     "//": "Uncommon or rare shotguns found in gun stores.",
     "entries": [
       { "item": "ksg", "prob": 50, "charges-min": 0, "charges-max": 0 },
@@ -658,12 +658,12 @@
   {
     "type": "item_group",
     "id": "guns_shotgun_obscure_display",
-	"subtype": "distribution",	
+    "subtype": "distribution",
     "//": "Imported or otherwise very obscure shotguns, unloaded for storage in a gunstore, some violate AWA.",
     "items": [
       { "item": "saiga_12", "prob": 25 },
       { "item": "streetsweeper", "prob": 4 },
-	  { "item": "winchester_1887", "prob": 10 },
+      { "item": "winchester_1887", "prob": 10 },
       { "item": "winchester_1897", "prob": 20 },
       { "item": "saiga_410", "prob": 10 }
     ]
@@ -772,14 +772,14 @@
   {
     "type": "item_group",
     "id": "guns_rare_display",
-	"subtype": "distribution",
+    "subtype": "distribution",
     "//": "Less common guns of all types including those only used by police/paramilitary forces.",
     "items": [
       { "group": "guns_pistol_rare_display", "prob": 45 },
       { "group": "guns_rifle_rare_display", "prob": 45 },
       { "group": "guns_shotgun_rare_display", "prob": 10 }
     ]
-  }, 
+  },
   {
     "type": "item_group",
     "id": "guns_rare_static",
