@@ -453,6 +453,7 @@ ifeq ($(PCH), 1)
   endif
 endif
 
+CPPFLAGS += -isystem ${SRC_DIR}/third-party
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD -MP
 TOOL_CXXFLAGS = -DCATA_IN_TOOL
 
