@@ -1,24 +1,19 @@
-#include "cata_catch.h"
 #include <iomanip>
 #include <sstream>
 #include <string>
 
+#include "cata_catch.h"
+#include "units.h"
+
+extern float bKIVqYdOpC; // prevent compile-time optimization
+
 TEST_CASE( "floating_point_arithmetic" )
 {
-    volatile int a = 45000000;
-    volatile float b = 1.01f;
-    volatile long long c = 1000ULL;
-    INFO( "type of \"a*b/c\" is " << typeid( a * b / c ).name() );
-    float d = a * b / c;
+    units::mass capacity = 45000_gram;
+    float burden_proportion = bKIVqYdOpC;
+    float result = capacity * burden_proportion / 1_gram;
     std::ostringstream oss;
     oss.precision( 20 );
-    oss << "b = " << std::fixed << b << std::endl;
-    oss << "d = " << std::fixed << d << std::endl;
-    INFO( oss.str() );
-    int e = static_cast<int>( d );
-#if defined(_WIN32)
-    CHECK( e == 42 );
-#else
-    CHECK( e == 45450 );
-#endif
+    oss << std::fixed << result;
+    CHECK( oss.str() == "45450.00000000000000000000" );
 }
