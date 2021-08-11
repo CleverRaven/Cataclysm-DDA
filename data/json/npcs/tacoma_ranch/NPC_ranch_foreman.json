@@ -627,7 +627,7 @@
     "followup": "MISSION_RANCH_FOREMAN_12",
     "dialogue": {
       "describe": "We need help…",
-      "offer": "The work you have done has swayed the leaders at the refugee center to send someone out to assist with our medical needs.  The next step is for us to get a sort of chop-shop setup so that we can begin using scrap metal to build fortifications and equipment.  We are going to need a pair of electric welders for our mechanics to use.",
+      "offer": "The work you have done has swayed the leaders at the refugee center to send someone out to assist with our medical needs.  The next step is for us to get a sort of chop-shop setup so that we can begin using scrap metal to build fortifications and equipment.  We are going to need a pair of arc welders for our mechanics to use.",
       "accepted": "With two, we should be able to repair one if it breaks.",
       "rejected": "Come back when you get a chance.  We need skilled survivors.",
       "advice": "The only place I've seen them is garages but I imagine you could find them in some stores.",
