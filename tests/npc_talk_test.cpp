@@ -24,6 +24,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "mission.h"
+#include "morale_types.h"
 #include "npc.h"
 #include "npctalk.h"
 #include "overmapbuffer.h"
@@ -1075,9 +1076,12 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.set_pain( 21 );
     player_character.add_bionic( bionic_id( "bio_power_storage" ) );
     player_character.set_power_level( 22_mJ );
+    player_character.clear_morale();
+    player_character.add_morale( MORALE_HAIRCUT, 23 );
+    player_character.set_focus( 24 );
 
 
-    gen_response_lines( d, 28 );
+    gen_response_lines( d, 30 );
     CHECK( d.responses[ 0 ].text == "This is a u_adjust_var test response that increments by 1." );
     CHECK( d.responses[ 1 ].text == "This is an npc_adjust_var test response that increments by 2." );
     CHECK( d.responses[ 2 ].text == "PC strength is five." );
@@ -1107,9 +1111,11 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     CHECK( d.responses[ 25 ].text == "Pos_z is 20. This should be cause for alarm." );
     CHECK( d.responses[ 26 ].text == "Pain level is 21." );
     CHECK( d.responses[ 27 ].text == "Bionic power is 22." );
+    CHECK( d.responses[ 28 ].text == "Morale is 23." );
+    CHECK( d.responses[ 29 ].text == "Focus is 24." );
 
     calendar::turn = calendar::turn + time_duration( 4_days );
-    gen_response_lines( d, 29 );
+    gen_response_lines( d, 31 );
 
     CHECK( d.responses[ 15 ].text == "This is a time since u_var test response for > 3_days." );
 

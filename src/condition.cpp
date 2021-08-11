@@ -1064,6 +1064,14 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                 // Energy in milijoule
                 return d.actor( is_npc )->power_cur().value();
             };
+        } else if( checked_value == "morale" ) {
+            return [is_npc]( const T &d ) {
+                return d.actor( is_npc )->morale_cur();
+            };
+        } else if( checked_value == "focus" ) {
+            return [is_npc]( const T &d ) {
+                return d.actor( is_npc )->focus_cur();
+            };
         }
     }
     jo.throw_error( "unrecognized interger sournce in " + jo.str() );
