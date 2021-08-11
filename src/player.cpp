@@ -91,18 +91,14 @@ static const itype_id itype_battery( "battery" );
 static const itype_id itype_large_repairkit( "large_repairkit" );
 static const itype_id itype_small_repairkit( "small_repairkit" );
 
-static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
-static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_NOMAD( "NOMAD" );
 static const trait_id trait_NOMAD2( "NOMAD2" );
 static const trait_id trait_NOMAD3( "NOMAD3" );
 static const trait_id trait_SHELL2( "SHELL2" );
-static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
@@ -120,38 +116,6 @@ static const bionic_id bio_cqb( "bio_cqb" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
 static const bionic_id bio_soporific( "bio_soporific" );
 
-stat_mod player::get_pain_penalty() const
-{
-    stat_mod ret;
-    int pain = get_perceived_pain();
-    if( pain <= 0 ) {
-        return ret;
-    }
-
-    int stat_penalty = std::floor( std::pow( pain, 0.8f ) / 10.0f );
-
-    bool ceno = has_trait( trait_CENOBITE );
-    if( !ceno ) {
-        ret.strength = stat_penalty;
-        ret.dexterity = stat_penalty;
-    }
-
-    if( !has_trait( trait_INT_SLIME ) ) {
-        ret.intelligence = stat_penalty;
-    } else {
-        ret.intelligence = pain / 5;
-    }
-
-    ret.perception = stat_penalty * 2 / 3;
-
-    ret.speed = std::pow( pain, 0.7f );
-    if( ceno ) {
-        ret.speed /= 2;
-    }
-
-    ret.speed = std::min( ret.speed, 50 );
-    return ret;
-}
 
 player::player()
 {
@@ -368,103 +332,6 @@ void player::process_turn()
     }
 }
 
-int player::thirst_speed_penalty( int thirst )
-{
-    // We die at 1200 thirst
-    // Start by dropping speed really fast, but then level it off a bit
-    static const std::vector<std::pair<float, float>> thirst_thresholds = {{
-            std::make_pair( 40.0f, 0.0f ),
-            std::make_pair( 300.0f, -25.0f ),
-            std::make_pair( 600.0f, -50.0f ),
-            std::make_pair( 1200.0f, -75.0f )
-        }
-    };
-    return static_cast<int>( multi_lerp( thirst_thresholds, thirst ) );
-}
-
-void player::recalc_speed_bonus()
-{
-    // Minus some for weight...
-    int carry_penalty = 0;
-    if( weight_carried() > weight_capacity() ) {
-        carry_penalty = 25 * ( weight_carried() - weight_capacity() ) / ( weight_capacity() );
-    }
-    mod_speed_bonus( -carry_penalty );
-
-    mod_speed_bonus( -get_pain_penalty().speed );
-
-    if( get_thirst() > 40 ) {
-        mod_speed_bonus( thirst_speed_penalty( get_thirst() ) );
-    }
-    // when underweight, you get slower. cumulative with hunger
-    mod_speed_bonus( kcal_speed_penalty() );
-
-    for( const auto &maps : *effects ) {
-        for( const auto &i : maps.second ) {
-            bool reduced = resists_effect( i.second );
-            mod_speed_bonus( i.second.get_mod( "SPEED", reduced ) );
-        }
-    }
-
-    // add martial arts speed bonus
-    mod_speed_bonus( mabuff_speed_bonus() );
-
-    // Not sure why Sunlight Dependent is here, but OK
-    // Ectothermic/COLDBLOOD4 is intended to buff folks in the Summer
-    // Threshold-crossing has its charms ;-)
-    if( g != nullptr ) {
-        if( has_trait( trait_SUNLIGHT_DEPENDENT ) && !g->is_in_sunlight( pos() ) ) {
-            mod_speed_bonus( -( g->light_level( posz() ) >= 12 ? 5 : 10 ) );
-        }
-        const float temperature_speed_modifier = mutation_value( "temperature_speed_modifier" );
-        if( temperature_speed_modifier != 0 ) {
-            const int player_local_temp = get_weather().get_temperature( pos() );
-            if( has_trait( trait_COLDBLOOD4 ) || player_local_temp < 65 ) {
-                mod_speed_bonus( ( player_local_temp - 65 ) * temperature_speed_modifier );
-            }
-        }
-    }
-    const int prev_speed_bonus = get_speed_bonus();
-    set_speed_bonus( std::round( enchantment_cache->modify_value( enchant_vals::mod::SPEED,
-                                 get_speed() ) - get_speed_base() ) );
-    enchantment_speed_bonus = get_speed_bonus() - prev_speed_bonus;
-    // Speed cannot be less than 25% of base speed, so minimal speed bonus is -75% base speed.
-    const int min_speed_bonus = static_cast<int>( -0.75 * get_speed_base() );
-    if( get_speed_bonus() < min_speed_bonus ) {
-        set_speed_bonus( min_speed_bonus );
-    }
-}
-
-double Character::recoil_vehicle() const
-{
-    // TODO: vary penalty dependent upon vehicle part on which player is boarded
-
-    if( in_vehicle ) {
-        if( const optional_vpart_position vp = get_map().veh_at( pos() ) ) {
-            return static_cast<double>( std::abs( vp->vehicle().velocity ) ) * 3 / 100;
-        }
-    }
-    return 0;
-}
-
-double Character::recoil_total() const
-{
-    return recoil + recoil_vehicle();
-}
-
-bool player::is_hallucination() const
-{
-    return false;
-}
-
-void player::set_underwater( bool u )
-{
-    if( underwater != u ) {
-        underwater = u;
-        recalc_sight_limits();
-    }
-}
-
 void player::mod_stat( const std::string &stat, float modifier )
 {
     if( stat == "thirst" ) {
@@ -479,31 +346,6 @@ void player::mod_stat( const std::string &stat, float modifier )
         // Fall through to the creature method.
         Character::mod_stat( stat, modifier );
     }
-}
-
-std::list<item *> player::get_radio_items()
-{
-    std::list<item *> rc_items;
-    const invslice &stacks = inv->slice();
-    for( const auto &stack : stacks ) {
-        item &stack_iter = stack->front();
-        if( stack_iter.has_flag( flag_RADIO_ACTIVATION ) ) {
-            rc_items.push_back( &stack_iter );
-        }
-    }
-
-    for( auto &elem : worn ) {
-        if( elem.has_flag( flag_RADIO_ACTIVATION ) ) {
-            rc_items.push_back( &elem );
-        }
-    }
-
-    if( is_armed() ) {
-        if( weapon.has_flag( flag_RADIO_ACTIVATION ) ) {
-            rc_items.push_back( &weapon );
-        }
-    }
-    return rc_items;
 }
 
 void player::pause()
@@ -1420,17 +1262,6 @@ player::wear( item_location item_wear, bool interactive )
     return result;
 }
 
-int player::get_lift_str() const
-{
-    int str = get_str();
-    if( has_trait( trait_id( "STRONGBACK" ) ) ) {
-        str *= 1.35;
-    } else if( has_trait( trait_id( "BADBACK" ) ) ) {
-        str /= 1.35;
-    }
-    return str;
-}
-
 template <typename T>
 bool player::can_lift( const T &obj ) const
 {
@@ -1445,48 +1276,6 @@ bool player::can_lift( const T &obj ) const
 }
 template bool player::can_lift<item>( const item &obj ) const;
 template bool player::can_lift<vehicle>( const vehicle &obj ) const;
-
-bool player::takeoff( item_location loc, std::list<item> *res )
-{
-    item &it = *loc;
-
-
-    const auto ret = can_takeoff( it, res );
-    if( !ret.success() ) {
-        add_msg( m_info, "%s", ret.c_str() );
-        return false;
-    }
-
-    auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item & wit ) {
-        return &it == &wit;
-    } );
-
-    item takeoff_copy( it );
-    worn.erase( iter );
-    takeoff_copy.on_takeoff( *this );
-    if( res == nullptr ) {
-        i_add( takeoff_copy, true, &it, &it, true, !has_weapon() );
-    } else {
-        res->push_back( takeoff_copy );
-    }
-
-    add_msg_player_or_npc( _( "You take off your %s." ),
-                           _( "<npcname> takes off their %s." ),
-                           takeoff_copy.tname() );
-
-
-    recalc_sight_limits();
-    calc_encumbrance();
-
-    return true;
-}
-
-
-bool player::takeoff( int pos )
-{
-    item_location loc = item_location( *this, &i_at( pos ) );
-    return takeoff( loc );
-}
 
 void player::use_wielded()
 {

@@ -3432,7 +3432,7 @@ void iexamine::tree_hickory( player &p, const tripoint &examp )
 
     map &here = get_map();
     if( !auto_forage && p.is_avatar() && p.has_quality( qual_DIG ) &&
-        !query_yn( _( "Dig up %s?  This kills the tree!" ), here.tername( examp ) ) ) {
+        query_yn( _( "Dig up %s?  This kills the tree!" ), here.tername( examp ) ) ) {
         digging_up = true;
         /** @EFFECT_SURVIVAL increases hickory root number per tree */
         here.spawn_item( p.pos(), itype_hickory_root, rng( 1, 3 + p.get_skill_level( skill_survival ) ), 0,

@@ -296,6 +296,15 @@ struct consumption_event {
     void deserialize( JsonIn &jsin );
 };
 
+struct stat_mod {
+    int strength = 0;
+    int dexterity = 0;
+    int intelligence = 0;
+    int perception = 0;
+
+    int speed = 0;
+};
+
 inline social_modifiers operator+( social_modifiers lhs, const social_modifiers &rhs )
 {
     lhs += rhs;
@@ -622,6 +631,22 @@ class Character : public Creature, public visitable
         /// called once per 24 hours to enforce the minimum of 1 hp healed per day
         /// @todo Move to Character once heal() is moved
         void enforce_minimum_healing();
+        /** Calculates the various speed bonuses we will get from mutations, etc. */
+        void recalc_speed_bonus();
+        void set_underwater( bool );
+        bool is_hallucination() const override;
+        /** Returns the penalty to speed from thirst */
+        static int thirst_speed_penalty( int thirst );
+        /** Returns the effect of pain on stats */
+        stat_mod get_pain_penalty() const;
+        /** returns players strength adjusted by any traits that affect strength during lifting jobs */
+        int get_lift_str() const;
+        /** Takes off an item, returning false on fail. The taken off item is processed in the interact */
+        bool takeoff( item_location loc, std::list<item> *res = nullptr );
+        bool takeoff( int pos );
+
+        /** Returns list of rc items in player inventory. **/
+        std::list<item *> get_radio_items();
         /** get best quality item that this character has */
         item *best_quality_item( const quality_id &qual );
         /** Handles health fluctuations over time */

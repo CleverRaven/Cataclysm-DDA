@@ -169,6 +169,17 @@ class jmapgen_piece
         virtual bool is_nop() const {
             return false;
         }
+        /** The pieces will be applied in order of phases.  The phases are as
+         * follows:
+         * -2 - terrain
+         * -1 - furniture
+         *  0 - everything else
+         *  1 - nested mapgen
+         *  2 - transforms and faction ownership
+         */
+        virtual int phase() const {
+            return 0;
+        }
         /** Sanity-check this piece */
         virtual void check( const std::string &/*context*/, const mapgen_parameters & ) const { }
         /** Place something on the map from mapgendata &dat, at (x,y). */
@@ -307,6 +318,7 @@ struct jmapgen_objects {
         void load_objects( const JsonObject &jsi, const std::string &member_name,
                            const std::string &context );
 
+        void finalize();
         void check( const std::string &context, const mapgen_parameters & ) const;
 
         void apply( const mapgendata &dat ) const;
