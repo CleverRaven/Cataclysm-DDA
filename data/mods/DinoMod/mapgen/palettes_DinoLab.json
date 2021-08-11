@@ -1,0 +1,11 @@
+[
+  {
+    "type": "palette",
+    "id": "microlab_DinoLab",
+    "copy-from": "microlab",
+    "items": {
+      "d": { "item": "office_DinoLab", "chance": 70, "repeat": [ 1, 3 ] },
+      "B": [ { "item": "textbooks_DinoLab", "chance": 50 }, { "item": "manuals", "chance": 50 } ]
+    }
+  }
+]
