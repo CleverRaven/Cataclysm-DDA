@@ -9,5 +9,24 @@
       [ "mutagen_tyrant", 5 ],
       [ "mutagen_stego", 5 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "office_DinoLab",
+    "ammo": 75,
+    "magazine": 100,
+    "items": [
+      { "group": "office", "prob": 400 },
+      [ "dinomod_newest_news_1", 25 ],
+      [ "dinomod_newest_news_2", 25 ],
+      [ "dinomod_newest_news_3", 25 ],
+      [ "dinomod_newest_news_4", 25 ],
+      [ "egg_dino", 100 ],
+      [ "iv_mutagen_tyrant", 25 ],
+      [ "mutagen_tyrant", 75 ],
+      [ "iv_mutagen_stego", 25 ],
+      [ "mutagen_stego", 75 ],
+      [ "kiernans_notes", 10 ]
+    ]
   }
 ]
