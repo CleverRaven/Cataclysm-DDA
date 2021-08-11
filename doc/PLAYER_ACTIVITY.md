@@ -35,6 +35,8 @@ query to stop the activity, and strings that describe it, for example:
 `"verb": "mining"` or
 `"verb": { "ctxt": "instrument", "str": "playing" }`.
 
+* activity_level: Activity level of the activity, harder activities consume more calories over time. Valid values are, from easiest to most demanding of the body: `NO_EXERCISE`, `LIGHT_EXERCISE`, `MODERATE_EXERCISE`, `BRISK_EXERCISE`, `ACTIVE_EXERCISE`, `EXTRA_EXERCISE`.
+
 * interruptable (true): Can this be interrupted.  If false, then popups related
 to e.g. pain or seeing monsters will be suppressed.
 
