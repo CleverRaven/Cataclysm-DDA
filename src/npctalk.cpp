@@ -2777,7 +2777,7 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
     } else if( jo.has_member( "u_cast_spell" ) ) {
         subeffect_fun.set_cast_spell( jo, "u_cast_spell", false );
     } else if( jo.has_member( "npc_cast_spell" ) ) {
-        subeffect_fun.set_mod_healthy( jo, "npc_cast_spell", true );
+        subeffect_fun.set_cast_spell( jo, "npc_cast_spell", true );
     } else if( jo.has_string( "u_set_spawn_monster" ) ) {
         subeffect_fun.set_spawn_monster( jo, "u_set_spawn_monster", false );
     } else if( jo.has_string( "npc_set_spawn_monster" ) ) {
