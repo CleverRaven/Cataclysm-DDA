@@ -4,6 +4,30 @@
 # this codebase and we do not intend to fix.  The disabled checks appearing
 # thereafter in a separate alphabetical list have yet to be triaged.  We may
 # fix their errors or recategorise them as checks we don't care about.
+#
+# Comments on the checks we have decided are not worthwhile:
+#
+# * cert-dcl21-cpp (postfix operator++ and operator-- should return const objects)
+# This is an unconventional code style, and conflicts with
+# readability-const-return-type.
+#
+# * cert-env33-c (calls to system, popen)
+# Unlikely to catch bugs, and using system is convenient for portability.
+#
+# * cert-err58-cpp (exceptions from static variable declarations)
+# We have lots of memory allocations in static variable declarations, and
+# that's fine.
+#
+# * modernize-use-auto
+# We prefer an almost-always-avoid-auto style.
+#
+# * modernize-use-trailing-return-type
+# An arbitrary style convention we haven't adopted.
+#
+# * readability-braces-around-statements
+# Covered by astyle and buggy in clang-tidy 8.  Can enable once we have a newer
+# clang-tidy.
+
 Checks: "\
 bugprone-*,\
 cata-*,\
@@ -21,34 +45,46 @@ modernize-*,\
 -modernize-use-trailing-return-type,\
 performance-*,\
 readability-*,\
+-readability-braces-around-statements,\
+-bugprone-infinite-loop,\
 -bugprone-misplaced-widening-cast,\
 -bugprone-narrowing-conversions,\
--bugprone-unused-return-value,\
--cert-err34-c,\
--cert-flp30-c,\
--cert-msc30-c,\
--cert-msc32-c,\
--cert-msc50-cpp,\
--cert-msc51-cpp,\
+-bugprone-redundant-branch-condition,\
+-bugprone-reserved-identifier,\
+-bugprone-signed-char-misuse,\
+-bugprone-sizeof-expression,\
+-bugprone-unhandled-self-assignment,\
+-cert-dcl37-c,\
+-cert-dcl51-cpp,\
+-cert-oop54-cpp,\
+-cert-str34-c,\
+-clang-analyzer-core.CallAndMessage,\
+-clang-analyzer-deadcode.DeadStores,\
+-misc-misplaced-const,\
+-misc-no-recursion,\
 -misc-non-private-member-variables-in-classes,\
+-misc-redundant-expression,\
+-modernize-avoid-bind,\
 -modernize-avoid-c-arrays,\
+-modernize-loop-convert,\
 -modernize-pass-by-value,\
 -modernize-return-braced-init-list,\
 -modernize-use-default-member-init,\
--modernize-use-emplace,\
--performance-inefficient-vector-operation,\
--performance-noexcept-move-constructor,\
--performance-implicit-conversion-in-loop,\
--performance-inefficient-string-concatenation,\
--performance-type-promotion-in-math-fn,\
+-modernize-use-override,\
+-performance-no-automatic-move,\
+-performance-trivially-destructible,\
 -performance-unnecessary-value-param,\
--readability-braces-around-statements,\
+-readability-avoid-const-params-in-decls,\
+-readability-convert-member-functions-to-static,\
 -readability-else-after-return,\
--readability-function-size,\
+-readability-function-cognitive-complexity,\
 -readability-implicit-bool-conversion,\
--readability-isolate-declaration,\
 -readability-magic-numbers,\
+-readability-make-member-function-const,\
 -readability-named-parameter,\
+-readability-qualified-auto,\
+-readability-redundant-access-specifiers,\
+-readability-use-anyofallof,\
 "
 WarningsAsErrors: '*'
 HeaderFilterRegex: '(src|test|tools).*'

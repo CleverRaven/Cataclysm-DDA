@@ -27,7 +27,6 @@
     "reproduction": { "baby_egg": "egg_chicken", "baby_count": 1, "baby_timer": 2 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BIRDFOOD", "SWARMS" ]
   },
   {
@@ -69,7 +68,6 @@
     "dodge": 4,
     "harvest": "bird_tiny",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
-    "death_function": [ "NORMAL" ],
     "reproduction": { "baby_egg": "egg_crow", "baby_count": 3, "baby_timer": 8 },
     "baby_flags": [ "SPRING" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
@@ -99,7 +97,6 @@
     "dodge": 4,
     "harvest": "bird_small",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
-    "death_function": [ "NORMAL" ],
     "reproduction": { "baby_egg": "egg_duck", "baby_count": 3, "baby_timer": 5 },
     "baby_flags": [ "SPRING" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 5 },
@@ -149,7 +146,6 @@
     "harvest": "bird_small",
     "vision_day": 50,
     "fear_triggers": [ "PLAYER_CLOSE", "FRIEND_DIED", "FIRE", "HURT" ],
-    "death_function": [ "NORMAL" ],
     "reproduction": { "baby_egg": "egg_turkey", "baby_count": 3, "baby_timer": 12 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
@@ -200,7 +196,6 @@
     "reproduction": { "baby_egg": "egg_cockatrice", "baby_count": 3, "baby_timer": 10 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES" ]
   },
   {
@@ -228,7 +223,6 @@
     "melee_cut": 1,
     "dodge": 1,
     "harvest": "bird_tiny",
-    "death_function": [ "NORMAL" ],
     "upgrades": { "age_grow": 14, "into": "mon_chicken" },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BIRDFOOD", "SWARMS" ]
   },
@@ -310,7 +304,6 @@
     "harvest": "bird_large",
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "special_attacks": [ [ "SHRIEK", 10 ] ],
-    "death_function": [ "NORMAL" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
     "upgrades": { "half_life": 10, "into_group": "GROUP_CROW_MUTANT" },
     "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM", "FLIES" ]
@@ -321,7 +314,7 @@
     "name": { "str": "bloated corvid" },
     "description": "This may have once been a crow or a raven, but now it's a deformed monstrosity nearly the size of a man.  It heaves its sable bulk awkwardly along the ground, too overfed on carrion to fly.",
     "bodytype": "bird",
-    "default_faction": "mutant",
+    "default_faction": "corvid",
     "species": [ "MUTANT" ],
     "diff": 2,
     "volume": "35000 ml",
@@ -340,7 +333,6 @@
     "vision_night": 4,
     "harvest": "bird_large",
     "special_attacks": [ [ "SHRIEK", 10 ], [ "LUNGE", 8 ], { "type": "leap", "cooldown": 10, "max_range": 3 } ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "STUMBLES", "WARM" ]
   },
   {
@@ -367,7 +359,6 @@
     "dodge": 4,
     "harvest": "bird_tiny",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
-    "death_function": [ "NORMAL" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 4 },
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS", "BIRDFOOD" ]
   }

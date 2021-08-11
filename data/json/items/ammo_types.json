@@ -469,12 +469,6 @@
   },
   {
     "type": "ammunition_type",
-    "id": "UPS",
-    "name": "UPS",
-    "default": "UPS"
-  },
-  {
-    "type": "ammunition_type",
     "id": "thrown",
     "name": "throwing weapon",
     "default": "thrown"
@@ -646,6 +640,12 @@
     "id": "nitrox",
     "name": "compressed air",
     "default": "nitrox"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "paper",
+    "name": "paper",
+    "default": "paper"
   },
   {
     "type": "ammunition_type",

@@ -86,7 +86,7 @@
     "looks_like": "recurbow",
     "color": "white",
     "name": { "str": "Alien lune" },
-    "description": "A delicate strand of light links the antipodes of this cresent-shaped device.  If the strand is interrupted, the device clanks and shudders before violently emitting a bolt of plasma from its apex.",
+    "description": "A delicate strand of light links the antipodes of this crescent-shaped device.  If the strand is interrupted, the device clanks and shudders before violently emitting a bolt of plasma from its apex.",
     "price": 1000000,
     "price_postapoc": 20000,
     "material": [ "superalloy", "hardsteel" ],
@@ -138,7 +138,7 @@
   },
   {
     "id": "afs_freeze_gauntlet",
-    "type": "GENERIC",
+    "type": "ARMOR",
     "name": { "str_sp": "psychrophile handling gloves" },
     "description": "These gloves are designed for handling organisms that live in extremely cold temperatures.  They can also be used to freeze your foes to death.",
     "weight": "3778 g",
@@ -151,11 +151,13 @@
     "color": "light_cyan",
     "bashing": 3,
     "relic_data": {
-      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 43 } ] } ]
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_COLD", "add": 17 } ] } ]
     },
     "to_hit": 0,
     "flags": [ "NO_REPAIR", "NONCONDUCTIVE", "SLOW_WIELD", "DURABLE_MELEE", "UNARMED_WEAPON" ],
-    "techniques": [ "WBLOCK_1" ]
+    "techniques": [ "WBLOCK_1" ],
+    "material_thickness": 1,
+    "armor": [ { "encumbrance": 5, "coverage": 100 } ]
   },
   {
     "type": "GENERIC",
@@ -211,19 +213,17 @@
   {
     "type": "GENERIC",
     "id": "afs_titanium_bat",
+    "copy-from": "bat_metal",
+    "looks_like": "bat_metal",
     "name": { "str": "titanium bat" },
     "description": "A luxury baseball bat made out of titanium that was banned from competitive sport due to the increased performance that put defenders at risk.",
     "weight": "680 g",
-    "to_hit": 3,
     "color": "light_gray",
     "symbol": "/",
     "material": [ "titanium" ],
-    "looks_like": "bat_metal",
-    "techniques": [ "WBLOCK_1" ],
-    "flags": [ "DURABLE_MELEE" ],
-    "volume": "1750 ml",
     "bashing": 22,
-    "price": 20000
+    "price": 20000,
+    "price_postapoc": 1750
   },
   {
     "id": "ceramic_knife",
@@ -282,7 +282,7 @@
     "longest_side": "183 cm",
     "price_postapoc": 40000,
     "bashing": 10,
-    "armor_data": { "covers": [ "torso" ], "coverage": 5, "material_thickness": 1, "encumbrance": 20 },
+    "armor_data": { "material_thickness": 1, "armor": [ { "encumbrance": 20, "coverage": 5, "covers": [ "torso" ] } ] },
     "reload_noise_volume": 3,
     "loudness": 8,
     "ranged_damage": { "damage_type": "stab", "amount": 17 },
@@ -320,7 +320,7 @@
     "longest_side": "183 cm",
     "price_postapoc": 40000,
     "bashing": 10,
-    "armor_data": { "covers": [ "torso" ], "coverage": 5, "material_thickness": 1, "encumbrance": 20 },
+    "armor_data": { "material_thickness": 1, "armor": [ { "encumbrance": 20, "coverage": 5, "covers": [ "torso" ] } ] },
     "reload_noise_volume": 3,
     "loudness": 8,
     "ranged_damage": { "damage_type": "stab", "amount": 17 },
@@ -373,7 +373,7 @@
     "longest_side": "152 cm",
     "price_postapoc": 2000,
     "bashing": 12,
-    "armor_data": { "covers": [ "torso" ], "coverage": 5, "material_thickness": 1, "encumbrance": 20 },
+    "armor_data": { "material_thickness": 1, "armor": [ { "encumbrance": 20, "coverage": 5, "covers": [ "torso" ] } ] },
     "reload_noise_volume": 3,
     "loudness": 8,
     "ranged_damage": { "damage_type": "stab", "amount": 12 },

@@ -65,7 +65,6 @@
     "material": [ "plastic" ],
     "symbol": "!",
     "color": "light_blue",
-    "initial_charges": 100,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -75,7 +74,6 @@
         "ammo_restriction": { "albuterol": 100 }
       }
     ],
-    "max_charges": 100,
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "use_action": [ "INHALER" ]
@@ -93,9 +91,7 @@
     "symbol": ",",
     "color": "light_gray",
     "ammo": [ "ampoule" ],
-    "initial_charges": 2,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ampoule": 2 } } ],
-    "max_charges": 2,
     "charges_per_use": 1,
     "use_action": [ "JET_INJECTOR" ]
   },
@@ -133,11 +129,9 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "initial_charges": 12,
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "airtight": true, "watertight": true, "rigid": true, "ammo_restriction": { "oxygen": 12 } }
     ],
-    "max_charges": 12,
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "use_action": [ "OXYGEN_BOTTLE" ]
@@ -189,11 +183,9 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "initial_charges": 24,
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "airtight": true, "watertight": true, "rigid": true, "ammo_restriction": { "oxygen": 24 } }
     ],
-    "max_charges": 24,
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "use_action": [ "OXYGEN_BOTTLE" ]

@@ -57,8 +57,6 @@
     "price": 1500,
     "price_postapoc": 250,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "butane": 30 }, "watertight": true, "rigid": true } ],
-    "initial_charges": 30,
-    "max_charges": 30,
     "charges_per_use": 1,
     "material": [ "steel" ],
     "flags": [  ],
@@ -66,7 +64,7 @@
       "power": 4503,
       "distance_factor": 0.1,
       "fire": true,
-      "shrapnel": { "casing_mass": 50, "fragment_mass": 0.05, "recovery": 0 }
+      "shrapnel": { "casing_mass": 50, "fragment_mass": 0.025, "recovery": 0 }
     },
     "explode_in_fire": true
   },
@@ -101,7 +99,6 @@
     "material": [ "plastic" ],
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "max_charges": 100,
     "use_action": {
       "target": "dab_pen_on",
       "msg": "You turn on the dab pen.",
@@ -138,7 +135,6 @@
     "power_draw": 9000,
     "revert_to": "dab_pen",
     "charges_per_use": 1,
-    "max_charges": 100,
     "use_action": {
       "target": "dab_pen",
       "msg": "You turn off the dab pen.",
@@ -379,7 +375,7 @@
     "symbol": ";",
     "color": "brown",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "use_action": {
       "target": "large_space_heater_on",
       "msg": "You turn on the heater.",
@@ -433,27 +429,6 @@
     "use_action": [ "WATER_PURIFIER" ]
   },
   {
-    "id": "makeshift_halberd",
-    "type": "GENERIC",
-    "name": { "str": "makeshift glaive" },
-    "//": "Name changed to glaive, but changing the id would break e.g.  tilesets.",
-    "description": "This is a large blade attached to a stout section of tree branch.  It could do a considerable amount of damage.",
-    "weight": "1800 g",
-    "volume": "3 L",
-    "longest_side": "180 cm",
-    "price": 5000,
-    "price_postapoc": 250,
-    "to_hit": -1,
-    "bashing": 13,
-    "cutting": 31,
-    "material": [ "steel", "wood" ],
-    "symbol": "/",
-    "color": "light_gray",
-    "techniques": [ "WBLOCK_1" ],
-    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -42 ] ],
-    "flags": [ "REACH_ATTACK", "POLEARM", "NONCONDUCTIVE", "SHEATH_SPEAR", "FRAGILE_MELEE" ]
-  },
-  {
     "type": "GENERIC",
     "id": "mind_splicer",
     "symbol": "o",
@@ -497,8 +472,6 @@
     "material": [ "plastic" ],
     "symbol": ",",
     "color": "dark_gray",
-    "initial_charges": 500,
-    "max_charges": 500,
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "permanent_ink": 500 }, "watertight": true, "rigid": true } ],
     "use_action": { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": true, "material_restricted": false },
@@ -589,7 +562,7 @@
     "symbol": ";",
     "color": "brown",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "use_action": {
       "target": "small_space_heater_on",
       "msg": "You turn on the heater.",
@@ -634,8 +607,6 @@
     "material": [ "aluminum" ],
     "symbol": ";",
     "color": "light_gray",
-    "initial_charges": 10,
-    "max_charges": 10,
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "aerosol_paint": 10 }, "watertight": true, "rigid": true } ],
     "use_action": [ "SPRAY_CAN" ],
@@ -747,14 +718,12 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "dark_gray",
-    "covers": [ "hand_l", "hand_r" ],
     "sided": true,
-    "coverage": 5,
-    "encumbrance": 40,
     "warmth": 0,
     "material_thickness": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "ALLOWS_NATURAL_ATTACKS", "BELT_CLIP", "BELTED", "FRAGILE", "OVERSIZE", "RAIN_PROTECT" ]
+    "flags": [ "ALLOWS_NATURAL_ATTACKS", "BELT_CLIP", "BELTED", "FRAGILE", "OVERSIZE", "RAIN_PROTECT" ],
+    "armor": [ { "encumbrance": 40, "coverage": 5, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "testflames",

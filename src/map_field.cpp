@@ -36,7 +36,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
-#include "item_contents.h"
 #include "itype.h"
 #include "level_cache.h"
 #include "line.h"
@@ -72,8 +71,6 @@ static const itype_id itype_rock( "rock" );
 
 static const species_id species_FUNGUS( "FUNGUS" );
 
-static const bionic_id bio_heatsink( "bio_heatsink" );
-
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_corroding( "corroding" );
@@ -92,6 +89,8 @@ static const trait_id trait_M_SKIN2( "M_SKIN2" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+
+static const json_character_flag json_flag_HEATSINK( "HEATSINK" );
 
 using namespace map_field_processing;
 
@@ -299,7 +298,6 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     auto neighs = get_neighbors( p );
     size_t end_it = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
     std::vector<size_t> spread;
-    std::vector<size_t> neighbour_vec;
     // Then, spread to a nearby point.
     // If not possible (or randomly), try to spread up
     // Wind direction will block the field spreading into the wind.
@@ -312,33 +310,30 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
             spread.push_back( i );
         }
     }
-    auto maptiles = get_wind_blockers( winddirection, p );
-    // Three map tiles that are facing the wind direction.
-    const maptile remove_tile = std::get<0>( maptiles );
-    const maptile remove_tile2 = std::get<1>( maptiles );
-    const maptile remove_tile3 = std::get<2>( maptiles );
+
     if( !spread.empty() && ( !zlevels || one_in( spread.size() ) ) ) {
         // Construct the destination from offset and p
         if( sheltered || windpower < 5 ) {
             std::pair<tripoint, maptile> &n = neighs[ random_entry( spread ) ];
             gas_spread_to( cur, n.second, n.first );
         } else {
-            end_it = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
-            // Start at end_it + 1, then wrap around until all elements have been processed.
-            for( size_t i = ( end_it + 1 ) % neighs.size(), count = 0;
-                 count != neighs.size();
-                 i = ( i + 1 ) % neighs.size(), count++ ) {
+            std::vector<size_t> neighbour_vec;
+            auto maptiles = get_wind_blockers( winddirection, p );
+            // Three map tiles that are facing the wind direction.
+            const maptile &remove_tile = std::get<0>( maptiles );
+            const maptile &remove_tile2 = std::get<1>( maptiles );
+            const maptile &remove_tile3 = std::get<2>( maptiles );
+            for( const auto &i : spread ) {
                 const auto &neigh = neighs[i].second;
-                if( ( neigh.pos_.x != remove_tile.pos_.x && neigh.pos_.y != remove_tile.pos_.y ) ||
-                    ( neigh.pos_.x != remove_tile2.pos_.x && neigh.pos_.y != remove_tile2.pos_.y ) ||
-                    ( neigh.pos_.x != remove_tile3.pos_.x && neigh.pos_.y != remove_tile3.pos_.y ) ) {
-                    neighbour_vec.push_back( i );
-                } else if( x_in_y( 1, std::max( 2, windpower ) ) ) {
+                if( ( neigh.pos_ != remove_tile.pos_ &&
+                      neigh.pos_ != remove_tile2.pos_ &&
+                      neigh.pos_ != remove_tile3.pos_ ) ||
+                    x_in_y( 1, std::max( 2, windpower ) ) ) {
                     neighbour_vec.push_back( i );
                 }
             }
             if( !neighbour_vec.empty() ) {
-                std::pair<tripoint, maptile> &n = neighs[neighbour_vec[rng( 0, neighbour_vec.size() - 1 )]];
+                std::pair<tripoint, maptile> &n = neighs[ random_entry( neighbour_vec ) ];
                 gas_spread_to( cur, n.second, n.first );
             }
         }
@@ -976,10 +971,10 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
             if( destroyed ) {
                 // If we decided the item was destroyed by fire, remove it.
                 // But remember its contents, except for irremovable mods, if any
-                const std::list<item *> content_list = fuel->contents.all_items_top();
+                const std::list<item *> content_list = fuel->all_items_top();
                 for( item *it : content_list ) {
                     if( !it->is_irremovable() ) {
-                        new_content.push_back( item( *it ) );
+                        new_content.emplace_back( *it );
                     }
                 }
                 fuel = items_here.erase( fuel );
@@ -1113,9 +1108,8 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
         const auto &neigh = neighs[i].second;
         if( ( neigh.pos().x != remove_tile.pos().x && neigh.pos().y != remove_tile.pos().y ) ||
             ( neigh.pos().x != remove_tile2.pos().x && neigh.pos().y != remove_tile2.pos().y ) ||
-            ( neigh.pos().x != remove_tile3.pos().x && neigh.pos().y != remove_tile3.pos().y ) ) {
-            neighbour_vec.push_back( i );
-        } else if( x_in_y( 1, std::max( 2, windpower ) ) ) {
+            ( neigh.pos().x != remove_tile3.pos().x && neigh.pos().y != remove_tile3.pos().y ) ||
+            x_in_y( 1, std::max( 2, windpower ) ) ) {
             neighbour_vec.push_back( i );
         }
     }
@@ -1472,7 +1466,7 @@ void map::player_in_field( player &u )
         }
         if( ft == fd_fire ) {
             // Heatsink or suit prevents ALL fire damage.
-            if( !u.has_active_bionic( bio_heatsink ) && !u.is_wearing( itype_rm13_armor_on ) ) {
+            if( !u.has_flag( json_flag_HEATSINK ) && !u.is_wearing( itype_rm13_armor_on ) ) {
 
                 // To modify power of a field based on... whatever is relevant for the effect.
                 int adjusted_intensity = cur.get_field_intensity();
@@ -1516,19 +1510,19 @@ void map::player_in_field( player &u )
                     if( !u.is_on_ground() ) {
                         switch( adjusted_intensity ) {
                             case 3:
-                                parts_burned.push_back( bodypart_id( "hand_l" ) );
-                                parts_burned.push_back( bodypart_id( "hand_r" ) );
-                                parts_burned.push_back( bodypart_id( "arm_l" ) );
-                                parts_burned.push_back( bodypart_id( "arm_r" ) );
+                                parts_burned.emplace_back( "hand_l" );
+                                parts_burned.emplace_back( "hand_r" );
+                                parts_burned.emplace_back( "arm_l" );
+                                parts_burned.emplace_back( "arm_r" );
                             /* fallthrough */
                             case 2:
-                                parts_burned.push_back( bodypart_id( "torso" ) );
+                                parts_burned.emplace_back( "torso" );
                             /* fallthrough */
                             case 1:
-                                parts_burned.push_back( bodypart_id( "foot_l" ) );
-                                parts_burned.push_back( bodypart_id( "foot_r" ) );
-                                parts_burned.push_back( bodypart_id( "leg_l" ) );
-                                parts_burned.push_back( bodypart_id( "leg_r" ) );
+                                parts_burned.emplace_back( "foot_l" );
+                                parts_burned.emplace_back( "foot_r" );
+                                parts_burned.emplace_back( "leg_l" );
+                                parts_burned.emplace_back( "leg_r" );
                         }
                     } else {
                         // Lying in the fire is BAAAD news, hits every body part.
@@ -1587,7 +1581,7 @@ void map::player_in_field( player &u )
             if( !inside ) {
                 // Fireballs can't touch you inside a car.
                 // Heatsink or suit stops fire.
-                if( !u.has_active_bionic( bio_heatsink ) &&
+                if( !u.has_flag( json_flag_HEATSINK ) &&
                     !u.is_wearing( itype_rm13_armor_on ) ) {
                     u.add_msg_player_or_npc( m_bad, _( "You're torched by flames!" ),
                                              _( "<npcname> is torched by flames!" ) );
@@ -1630,7 +1624,7 @@ void map::player_in_field( player &u )
             // Assume the rift is on the ground for now to prevent issues with the player being unable access vehicle controls on the same tile due to teleportation.
             if( !u.in_vehicle ) {
                 // Teleports you... somewhere.
-                if( rng( 0, 2 ) < cur.get_field_intensity() && u.is_player() ) {
+                if( rng( 0, 2 ) < cur.get_field_intensity() && u.is_avatar() ) {
                     add_msg( m_bad, _( "You're violently teleported!" ) );
                     u.hurtall( cur.get_field_intensity(), nullptr );
                     teleport::teleport( u );

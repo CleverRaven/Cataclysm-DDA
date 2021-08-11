@@ -5,7 +5,7 @@
     "copy-from": "evacuee",
     "allowed_locs": [ "sloc_dks_shelter" ],
     "name": "Evacuee",
-    "description": "You have survived the initial wave of panic and managed to avoid being taken to the Designated Living Zones.  You begin in the (relative) safety in one of the many government evac shelters.",
+    "description": "You have survived the initial wave of panic and managed to escape to (relative) safety in one of the many government evac shelters.",
     "blacklist_professions": true,
     "professions": [ "churl" ]
   },

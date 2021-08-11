@@ -157,9 +157,8 @@
   {
     "id": "MISSION_REFUGEE_Uyen_1",
     "type": "mission_definition",
-    "name": {
-      "str": "Find 50 doses of antiseptic for Uyen Tran in the refugee center, in exchange for <reward_count:FMCNote> Merch."
-    },
+    "name": { "str": "Find 50 doses of antiseptic" },
+    "description": "Find 50 doses of antiseptic for Uyen Tran in the refugee center, in exchange for <reward_count:FMCNote> Merch.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 0,
@@ -189,7 +188,8 @@
   {
     "id": "MISSION_REFUGEE_Uyen_2",
     "type": "mission_definition",
-    "name": { "str": "Find 30 bandages for Uyen Tran in the refugee center, in exchange for <reward_count:FMCNote> Merch." },
+    "name": { "str": "Find 30 bandages" },
+    "description": "Find 30 bandages for Uyen Tran in the refugee center, in exchange for <reward_count:FMCNote> Merch.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 0,
@@ -219,7 +219,8 @@
   {
     "id": "MISSION_REFUGEE_Uyen_3",
     "type": "mission_definition",
-    "name": { "str": "Find 6 bottles of Prozac for Uyen Tran in the refugee center, in exchange for <reward_count:FMCNote> Merch." },
+    "name": { "str": "Find 6 bottles of Prozac" },
+    "description": "Find 6 bottles of Prozac for Uyen Tran in the refugee center, in exchange for <reward_count:FMCNote> Merch.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 0,

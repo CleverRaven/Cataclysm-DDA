@@ -10,7 +10,7 @@
     "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "armor_data": { "covers": [ "torso" ], "coverage": 5, "encumbrance": 10 },
+    "armor_data": { "armor": [ { "encumbrance": 10, "coverage": 5, "covers": [ "torso" ] } ] },
     "flags": [ "MAG_BELT", "MAG_DESTROY", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
   }
 ]

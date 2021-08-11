@@ -53,7 +53,7 @@
     "material": [ "steel" ],
     "dispersion": 855,
     "durability": 8,
-    "burst": 6,
+    "modes": [ [ "DEFAULT", "burst", 6 ] ],
     "ups_charges": 1,
     "reload": 200,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "rail mount", 1 ] ],
@@ -74,7 +74,7 @@
     "looks_like": "remington_870",
     "type": "GUN",
     "name": { "str": "handmade lever shotgun" },
-    "description": "A short homemade lever-action shotgun with a small internal tube magazine.  While still a primitive pipe and 2x4 design, it is a formiddable shotgun in its own right with room for improvement.",
+    "description": "A short, homemade lever-action shotgun with a small internal tube magazine.  While still a primitive design - made from a pipe and a plank - it is a formidable shotgun in its own right with room for improvement.",
     "weight": "2311 g",
     "volume": "2 L",
     "longest_side": "85 cm",
@@ -106,35 +106,20 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ]
   },
   {
-    "id": "browning_a5",
-    "copy-from": "shotgun_base",
-    "type": "GUN",
-    "name": { "str": "Browning Auto 5" },
-    "description": "This humble looking shotgun was the earliest successful semi-automatic shotgun, and the second most successful in U.S. history, with over 2.7 million made between 1902 and 1998.  The recoil tuning mechanism under the handguard and long dwell time of the action make for pleasant shooting.",
-    "weight": "3090 g",
-    "volume": "3525 ml",
-    "longest_side": "1263 mm",
-    "looks_like": "remington_870",
-    "price": 80000,
-    "price_postapoc": 2000,
-    "to_hit": -1,
-    "bashing": 12,
-    "material": [ "steel", "wood" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
-    "dispersion": 425,
-    "durability": 6,
-    "min_cycle_recoil": 1250,
-    "clip_size": 5,
-    "extend": { "flags": [ "RELOAD_ONE" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 5 } } ]
-  },
-  {
     "id": "ksg",
     "copy-from": "shotgun_pump",
     "looks_like": "remington_870",
     "type": "GUN",
-    "name": { "str_sp": "Kel-Tec KSG" },
-    "description": "A bullpup pump-action shotgun, the Kel-Tec KSG uses a pair of magazine tubes to increase its capacity.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations.",
+    "name": { "str": "14-round tube shotgun" },
+    "description": "This shotgun uses a system of 2 tube magazines to carry 14 rounds of 12 gauge shot.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations.",
+    "variants": [
+      {
+        "id": "ksg",
+        "name": { "str_sp": "Kel-Tec KSG" },
+        "description": "A bullpup pump-action shotgun, the Kel-Tec KSG uses a pair of magazine tubes to increase its capacity.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations.",
+        "weight": 1
+      }
+    ],
     "ascii_picture": "ksg",
     "weight": "1550 g",
     "volume": "3371 ml",
@@ -170,8 +155,16 @@
     "copy-from": "shotgun_pump",
     "looks_like": "remington_870",
     "type": "GUN",
-    "name": { "str_sp": "Kel-Tec KSG-25" },
-    "description": "A bullpup pump-action shotgun, the Kel-Tec KSG-25 uses a pair of magazine tubes to increase its capacity.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations.  The big brother of the KSG, it has a longer barrel and longer magazine tubes.",
+    "name": { "str": "24-round tube shotgun" },
+    "description": "This shotgun uses a system of 2 tube magazines to carry 24 rounds of 12 gauge shot.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations.",
+    "variants": [
+      {
+        "id": "ksg-25",
+        "name": { "str_sp": "Kel-Tec KSG-25" },
+        "description": "A bullpup pump-action shotgun, the Kel-Tec KSG-25 uses a pair of magazine tubes to increase its capacity.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations.  The big brother of the KSG, it has a longer barrel and longer magazine tubes.",
+        "weight": 1
+      }
+    ],
     "ascii_picture": "ksg-25",
     "weight": "2100 g",
     "volume": "4495 ml",
@@ -203,46 +196,26 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 12 } } ]
   },
   {
-    "id": "m1014",
-    "copy-from": "shotgun_base",
-    "looks_like": "remington_870",
-    "type": "GUN",
-    "name": { "str": "M1014 shotgun" },
-    "description": "Benelli's first gas-operated shotgun, featuring dual pistons for enhanced reliability with various loads and a collapsible buttstock that reduces length by almost 8 inches.  Adopted in 1999 as the M1014 Joint Service Combat Shotgun, the Benelli M4 is one of the finest combat shotguns available.",
-    "weight": "3629 g",
-    "volume": "6302 ml",
-    "longest_side": "1021 mm",
-    "price": 169900,
-    "price_postapoc": 3500,
-    "to_hit": -1,
-    "bashing": 12,
-    "material": [ "steel", "plastic" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
-    "dispersion": 345,
-    "durability": 9,
-    "min_cycle_recoil": 1250,
-    "clip_size": 8,
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "mechanism", 4 ],
-      [ "sling", 1 ],
-      [ "barrel", 1 ],
-      [ "rail mount", 1 ],
-      [ "loading port", 1 ],
-      [ "brass catcher", 1 ],
-      [ "sights", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "flags": [ "RELOAD_ONE", "NEEDS_UNFOLD" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 8 } } ]
-  },
-  {
     "id": "mossberg_500",
     "copy-from": "shotgun_pump_3gun",
     "looks_like": "remington_870",
     "type": "GUN",
-    "name": { "str_sp": "Mossberg 500 Field" },
-    "description": "The Mossberg 500 is a popular series of pump-action shotguns, often acquired for military use.  It is noted for its high durability and low recoil.  This one is fitted with a 28 inch barrel with sight rib.",
+    "name": { "str": "6-round shotgun" },
+    "description": "This is a shotgun with capacity for 6 rounds of 12 gauge shot.",
+    "variants": [
+      {
+        "id": "mossberg_500",
+        "name": { "str_sp": "Mossberg 500 Field" },
+        "description": "The Mossberg 500 is a popular series of pump-action shotguns, often acquired for military use.  It is noted for its high durability and low recoil.  This one is fitted with a 28 inch barrel with sight rib.",
+        "weight": 1
+      },
+      {
+        "id": "mossberg_500_security",
+        "name": { "str_sp": "Mossberg 500 Security" },
+        "description": "The Mossberg 500 is a popular series of pump-action shotguns, often acquired for military use.  It is noted for its high durability and low recoil.  This one is fitted with an 18.5 inch barrel.",
+        "ascii_picture": "mossberg500_sec"
+      }
+    ],
     "ascii_picture": "mossberg500",
     "weight": "3402 g",
     "volume": "2450 ml",
@@ -260,29 +233,24 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ]
   },
   {
-    "id": "mossberg_500_security",
+    "id": "mossberg_590",
     "copy-from": "mossberg_500",
     "type": "GUN",
-    "name": { "str_sp": "Mossberg 500 Security" },
-    "description": "The Mossberg 500 is a popular series of pump-action shotguns, often acquired for military use.  It is noted for its high durability and low recoil.  This one is fitted with an 18.5 inch barrel.",
-    "ascii_picture": "mossberg500_sec",
-    "weight": "3062 g",
-    "volume": "2386 ml",
-    "longest_side": "1016 mm",
-    "looks_like": "mossberg_500",
-    "price": 53800,
-    "price_postapoc": 2250,
-    "bashing": 12,
-    "barrel_volume": "28 ml",
-    "dispersion": 375,
-    "ranged_damage": { "damage_type": "bullet", "amount": 1 }
-  },
-  {
-    "id": "mossberg_590",
-    "copy-from": "mossberg_500_security",
-    "type": "GUN",
-    "name": { "str_sp": "Mossberg 590A1" },
-    "description": "The Mossberg 590A1 is a military and police oriented version of the Mossberg 500.  It features a heavier barrel, a bayonet lug, and a different magazine tube for easier cleaning and maintenance.",
+    "name": { "str": "9-round shotgun" },
+    "description": "This is a shotgun with capacity for 9 rounds of 12 gauge shot",
+    "variants": [
+      {
+        "id": "mossberg_590",
+        "name": { "str_sp": "Mossberg 590A1" },
+        "description": "The Mossberg 590A1 is a military and police oriented version of the Mossberg 500.  It features a heavier barrel, a bayonet lug, and a different magazine tube for easier cleaning and maintenance.",
+        "weight": 1
+      },
+      {
+        "id": "SPAS_12",
+        "name": { "str": "Franchi SPAS-12" },
+        "description": "Mean and intimidating looking, the SPAS 12 has the dubious honor of being declared a destructive device and being banned from import by name, adding to its already considerable appeal.  It is a combination pump-action and semi-automatic firearm, with an arm stabilizing hook for one handed shooting."
+      }
+    ],
     "ascii_picture": "mossberg590",
     "weight": "3289 g",
     "volume": "2548 ml",
@@ -299,13 +267,26 @@
     "id": "mossberg_930",
     "copy-from": "shotgun_base",
     "type": "GUN",
-    "name": { "str": "Mossberg 930 SPX" },
-    "description": "This semi-automatic offering from Mossberg features a recoil reducing gas system, rifle style sights and a factory-installed picatinny rail.  Affordable pricing and decent ergonomics make this a popular entry-level 3-gun shotgun.",
+    "name": { "str": "8-round shotgun" },
+    "description": "This is a shotgun with capacity for 8 rounds of 12 gauge shot",
+    "variants": [
+      {
+        "id": "mossberg_930",
+        "name": { "str": "Mossberg 930 SPX" },
+        "description": "This semi-automatic offering from Mossberg features a recoil reducing gas system, rifle style sights and a factory-installed picatinny rail.  Affordable pricing and decent ergonomics make this a popular entry-level 3-gun shotgun.",
+        "weight": 1
+      },
+      {
+        "id": "m1014",
+        "name": { "str": "M1014 shotgun" },
+        "description": "Benelli's first gas-operated shotgun, featuring dual pistons for enhanced reliability with various loads and a collapsible buttstock that reduces length by almost 8 inches.  Adopted in 1999 as the M1014 Joint Service Combat Shotgun, the Benelli M4 is one of the finest combat shotguns available."
+      }
+    ],
     "ascii_picture": "mossberg930sxp",
     "weight": "3402 g",
     "volume": "2623 ml",
     "longest_side": "994 mm",
-    "looks_like": "m1014",
+    "looks_like": "remington_870",
     "price": 60000,
     "price_postapoc": 2250,
     "to_hit": -1,
@@ -397,8 +378,27 @@
     "copy-from": "shotgun_pump_3gun",
     "//": "Tileset whitelist for shotguns.",
     "type": "GUN",
-    "name": { "str_sp": "Remington 870 Wingmaster" },
-    "description": "With over 10 million made, the Remington 870 is one of the most popular shotguns on the market, and finds use with hunters and law enforcement agencies alike thanks to its high accuracy and muzzle velocity.  This one is a 28 inch barreled model for hunting fowl and game.",
+    "name": { "str": "5-round shotgun" },
+    "description": "This is a shotgun with capacity for 5 rounds of 12 gauge shot.",
+    "variants": [
+      {
+        "id": "remington_870",
+        "name": { "str_sp": "Remington 870 Wingmaster" },
+        "description": "With over 10 million made, the Remington 870 is one of the most popular shotguns on the market, and finds use with hunters and law enforcement agencies alike thanks to its high accuracy and muzzle velocity.  This one is a 28 inch barreled model for hunting fowl and game.",
+        "weight": 1
+      },
+      {
+        "id": "remington_1100",
+        "name": { "str": "Remington 1100 competition" },
+        "description": "This semi-automatic shotgun features a self compensating gas system that will feed a wide array of shells while also reducing recoil.  Introduced in 1963, it is favored by law enforcement, hunters and competition shooters, and has been the best-selling autoloading shotgun in U.S. history.  This is the nickel finished, teflon coated competition model, with a full length magazine tube and 30 inch barrel.",
+        "ascii_picture": "remington1100"
+      },
+      {
+        "id": "browning_a5",
+        "name": { "str": "Browning Auto 5" },
+        "description": "This humble looking shotgun was the earliest successful semi-automatic shotgun, and the second most successful in U.S. history, with over 2.7 million made between 1902 and 1998.  The recoil tuning mechanism under the handguard and long dwell time of the action make for pleasant shooting."
+      }
+    ],
     "ascii_picture": "remington870",
     "weight": "3400 g",
     "volume": "2487 ml",
@@ -419,8 +419,16 @@
     "id": "remington_870_breacher",
     "copy-from": "remington_870",
     "type": "GUN",
-    "name": { "str": "Remington 870 MCS" },
-    "description": "This Remington 870 Modular Combat System shotgun is currently setup for breaching operations, with a 10 inch barrel and no stock.  It is small enough to carry as a secondary weapon, specifically to pop open any pesky doors you might come across.  The grip's design makes for controllable yet unpleasant recoil, and the barrel lacks any sights.",
+    "name": { "str": "breaching shotgun" },
+    "description": "This shotgun has a short barrel and no stock, and is set up for breaching doors.  It is small enough to carry as a secondary weapon, but has fairly unpleasant recoil and no sights.",
+    "variants": [
+      {
+        "id": "remington_870_breacher",
+        "name": { "str": "Remington 870 MCS" },
+        "description": "This Remington 870 Modular Combat System shotgun is currently setup for breaching operations, with a 10 inch barrel and no stock.  It is small enough to carry as a secondary weapon, specifically to pop open any pesky doors you might come across.  The grip's design makes for controllable yet unpleasant recoil, and the barrel lacks any sights.",
+        "weight": 1
+      }
+    ],
     "ascii_picture": "remington870mcs",
     "weight": "2812 g",
     "volume": "1284 ml",
@@ -456,8 +464,16 @@
     "id": "remington_870_express",
     "copy-from": "remington_870",
     "type": "GUN",
-    "name": { "str": "Remington 870 express", "str_pl": "Remington 870 expresses" },
-    "description": "With over 10 million made, the Remington 870 is one of the most popular shotguns on the market, and finds use with hunters and law enforcement agencies alike thanks to its high accuracy and muzzle velocity.  This one is an 18.5 inch barreled defensive model.",
+    "name": { "str": "7-round shotgun" },
+    "description": "This is a shotgun with capacity for 7 rounds of 12 gauge shot.",
+    "variants": [
+      {
+        "id": "remington_870_express",
+        "name": { "str": "Remington 870 express", "str_pl": "Remington 870 expresses" },
+        "description": "With over 10 million made, the Remington 870 is one of the most popular shotguns on the market, and finds use with hunters and law enforcement agencies alike thanks to its high accuracy and muzzle velocity.  This one is an 18.5 inch barreled defensive model.",
+        "weight": 1
+      }
+    ],
     "ascii_picture": "remington870xpress",
     "weight": "3402 g",
     "volume": "2365 ml",
@@ -470,45 +486,6 @@
     "price": 33800,
     "price_postapoc": 2750,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 7 } } ]
-  },
-  {
-    "id": "remington_1100",
-    "copy-from": "shotgun_base",
-    "type": "GUN",
-    "name": { "str": "Remington 1100 competition" },
-    "description": "This semi-automatic shotgun features a self compensating gas system that will feed a wide array of shells while also reducing recoil.  Introduced in 1963, it is favored by law enforcement, hunters and competition shooters, and has been the best-selling autoloading shotgun in U.S. history.  This is the nickel finished, teflon coated competition model, with a full length magazine tube and 30 inch barrel.",
-    "ascii_picture": "remington1100",
-    "weight": "3742 g",
-    "volume": "2626 ml",
-    "longest_side": "1288 mm",
-    "price_postapoc": 3250,
-    "looks_like": "remington_870",
-    "price": 130000,
-    "to_hit": -1,
-    "bashing": 13,
-    "material": [ "steel", "plastic" ],
-    "dispersion": 315,
-    "ranged_damage": { "damage_type": "bullet", "amount": 6 },
-    "durability": 8,
-    "min_cycle_recoil": 1250,
-    "clip_size": 10,
-    "barrel_volume": "299 ml",
-    "built_in_mods": [ "match_trigger" ],
-    "default_mods": [ "recoil_stock" ],
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "sling", 1 ],
-      [ "brass catcher", 1 ],
-      [ "barrel", 1 ],
-      [ "stock", 1 ],
-      [ "mechanism", 4 ],
-      [ "rail mount", 1 ],
-      [ "loading port", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "extend": { "flags": [ "RELOAD_ONE" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 5 } } ]
   },
   {
     "id": "revolver_shotgun",
@@ -549,8 +526,16 @@
     "copy-from": "shotgun_base",
     "looks_like": "remington_870",
     "type": "GUN",
-    "name": { "str": "Saiga-12" },
-    "description": "The Saiga-12 is a semi-automatic shotgun designed on the same Kalashnikov pattern as the AK47 rifle.  It reloads with a magazine, rather than one shell at a time like most shotguns.  It is one of the last designs of Mikhail Kalashnikov, and was popular in open division shotgun competitions prior to its ban from import via executive order.",
+    "name": { "str": "Saiga shotgun" },
+    "description": "This shotgun is chambered in 12 gauge, and accepting Saiga magazines.",
+    "variants": [
+      {
+        "id": "saiga_12",
+        "name": { "str": "Saiga-12" },
+        "description": "The Saiga-12 is a semi-automatic shotgun designed on the same Kalashnikov pattern as the AK47 rifle.  It reloads with a magazine, rather than one shell at a time like most shotguns.  It is one of the last designs of Mikhail Kalashnikov, and was popular in open division shotgun competitions prior to its ban from import via executive order.",
+        "weight": 1
+      }
+    ],
     "weight": "3225 g",
     "volume": "3064 ml",
     "longest_side": "1068 mm",
@@ -653,8 +638,16 @@
     "id": "streetsweeper",
     "copy-from": "shotgun_base",
     "type": "GUN",
-    "name": { "str": "Cobray Streetsweeper" },
-    "description": "Less shotgun and more comically oversized revolver, the Cobray Streetsweeper sold poorly before it was deemed a destructive device.  The cylinder is driven by a clockspring, cannot be indexed by hand, and must be ejected with an ejector rod.  Its unique design allows for all 12 shells to be fired in under 3 seconds, as demonstrated by the ATF technical branch.",
+    "name": { "str": "automatic shotgun" },
+    "description": "This shotgun, deemed a destructive device, resembles a comically oversized revolver.  It can hold 12 rounds of 12 gauge shot, and fire all of them in under 3 seconds",
+    "variants": [
+      {
+        "id": "streetsweeper",
+        "name": { "str": "Cobray Streetsweeper" },
+        "description": "Less shotgun and more comically oversized revolver, the Cobray Streetsweeper sold poorly before it was deemed a destructive device.  The cylinder is driven by a clockspring, cannot be indexed by hand, and must be ejected with an ejector rod.  Its unique design allows for all 12 shells to be fired in under 3 seconds, as demonstrated by the ATF technical branch.",
+        "weight": 1
+      }
+    ],
     "weight": "4200 g",
     "volume": "3193 ml",
     "longest_side": "592 mm",
@@ -689,47 +682,19 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 12 } } ]
   },
   {
-    "id": "SPAS_12",
-    "copy-from": "shotgun_base",
-    "type": "GUN",
-    "name": { "str": "Franchi SPAS-12" },
-    "description": "Mean and intimidating looking, the SPAS 12 has the dubious honor of being declared a destructive device and being banned from import by name, adding to its already considerable appeal.  It is a combination pump-action and semi-automatic firearm, with an arm stabilizing hook for one handed shooting.",
-    "weight": "4400 g",
-    "volume": "2768 ml",
-    "longest_side": "835 mm",
-    "looks_like": "m1014",
-    "price": 180000,
-    "price_postapoc": 4750,
-    "to_hit": -1,
-    "bashing": 12,
-    "material": [ "steel", "wood" ],
-    "dispersion": 380,
-    "durability": 6,
-    "clip_size": 9,
-    "ranged_damage": { "damage_type": "bullet", "amount": 1 },
-    "built_in_mods": [ "wire_stock" ],
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "bore", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip mount", 1 ],
-      [ "mechanism", 2 ],
-      [ "muzzle", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 9 } } ]
-  },
-  {
     "id": "tavor_12",
     "copy-from": "shotgun_base",
     "type": "GUN",
-    "name": { "str": "Tavor TS12" },
-    "description": "This is a triple tube magazine fed, gas-operated bullpup shotgun of Israeli Weapon Industries make.  It is capable of loading 15 shells, all in a relatively small package.  Like many other modern IWI designs, this looks more like a sci-fi prop gun than a firearm.  An integral top rail is provided for mounting sights.",
+    "name": { "str": "15-round tube fed shotgun" },
+    "description": "This shotgun uses a system of 3 tube magazines to hold 15 rounds of 12 gauge shots, in a relatively small firearm.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations.",
+    "variants": [
+      {
+        "id": "tavor_12",
+        "name": { "str": "Tavor TS12" },
+        "description": "This is a triple tube magazine fed, gas-operated bullpup shotgun of Israeli Weapon Industries make.  It is capable of loading 15 shells, all in a relatively small package.  Like many other modern IWI designs, this looks more like a sci-fi prop gun than a firearm.  An integral top rail is provided for mounting sights.",
+        "weight": 1
+      }
+    ],
     "weight": "3429 g",
     "volume": "4040 ml",
     "longest_side": "725 mm",
@@ -765,8 +730,16 @@
     "id": "winchester_1887",
     "copy-from": "shotgun_base",
     "type": "GUN",
-    "name": { "str": "1887 bootleg shotgun" },
-    "description": "One of the first commercially successful repeating shotguns, the Winchester 1887 was specifically made lever-action at Winchester's request.  Though later overshadowed in success by pump designs, the 1887 remains popular today.  This one has a very short barrel, no stock, and would pair nicely with a motorcycle jacket and a Harley Davidson.",
+    "name": { "str": "6-round lever-action shotgun" },
+    "description": "This is a lever-action shotgun with a very short barrel, and no stock, accepting 6 rounds of 12 gauge shot.  It would pair nicely with a motorcycle jacket and a Harley Davidson.",
+    "variants": [
+      {
+        "id": "winchester_1887",
+        "name": { "str": "1887 bootleg shotgun" },
+        "description": "One of the first commercially successful repeating shotguns, the Winchester 1887 was specifically made lever-action at Winchester's request.  Though later overshadowed in success by pump designs, the 1887 remains popular today.  This one has a very short barrel, no stock, and would pair nicely with a motorcycle jacket and a Harley Davidson.",
+        "weight": 1
+      }
+    ],
     "weight": "2994 g",
     "volume": "1127 ml",
     "longest_side": "708 mm",
@@ -801,8 +774,16 @@
     "id": "winchester_1897",
     "copy-from": "shotgun_base",
     "type": "GUN",
-    "name": { "str": "M1897 Trench Gun" },
-    "description": "The Winchester 1897 was one of the first commercially successful pump action shotguns.  In its 'trench' configuraton it has become a heavily romanticized American icon of World War 1.  With its barrel shroud, bayonet lug and 17 inch bayonet, this shotgun is undeniably fearsome in appearance.  There aren't any more trenches to clear, so the next zombie infested town will have to suffice.",
+    "name": { "str": "trench shotgun" },
+    "description": "This shotgun comes attached with a large bayonet, as though it comes straight from the trenches of World War 1.  There aren't any more trenches to clear, so the next zombie-infested town will have to suffice.",
+    "variants": [
+      {
+        "id": "winchester_1897",
+        "name": { "str": "M1897 Trench Gun" },
+        "description": "The Winchester 1897 was one of the first commercially-successful pump-action shotguns.  In its 'trench' configuration it has become a heavily-romanticized American icon of World War 1.  With its barrel shroud, bayonet lug, and 17 inch bayonet, this shotgun is undeniably fearsome in appearance.  There aren't any more trenches to clear, so the next zombie-infested town will have to suffice.",
+        "weight": 1
+      }
+    ],
     "weight": "3629 g",
     "volume": "2564 ml",
     "longest_side": "989 mm",

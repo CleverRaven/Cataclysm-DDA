@@ -262,7 +262,7 @@
     "om_terrain": "farm_isherwood_2_cellar",
     "object": {
       "faction_owner": [ { "id": "isherwood_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_dirt",
       "rows": [
         "                        ",
         "                        ",
@@ -289,7 +289,7 @@
         "                        ",
         "                        "
       ],
-      "terrain": { "<": "t_stairs_up", "#": "t_rock_wall", ".": "t_rock_floor", " ": "t_rock" },
+      "terrain": { "<": "t_stairs_up", "#": "t_rock_wall", ".": "t_dirt", " ": "t_soil" },
       "furniture": {
         "a": "f_rack",
         "r": "f_rack",
@@ -300,7 +300,7 @@
         "X": "f_wood_keg",
         "W": "f_wood_keg"
       },
-      "liquids": { "X": { "liquid": "hb_beer", "amount": [ 100, 1000 ] }, "W": { "liquid": "dandelion_wine", "amount": [ 100, 1000 ] } },
+      "liquids": { "X": { "liquid": "hb_beer", "amount": [ 100, 500 ] }, "W": { "liquid": "dandelion_wine", "amount": [ 100, 500 ] } },
       "items": {
         "a": { "item": "dry_goods", "chance": 50, "repeat": [ 2, 8 ] },
         "r": { "item": "preserved_food", "chance": 50, "repeat": [ 2, 8 ] },

@@ -13,7 +13,6 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
-#include "item_contents.h"
 #include "item_pocket.h"
 #include "item_search.h"
 #include "item_stack.h"
@@ -349,12 +348,12 @@ bool inventory_holster_preset::is_shown( const item_location &contained ) const
     }
     item item_copy( *contained );
     item_copy.charges = 1;
-    if( !holster->contents.can_contain( item_copy ).success() ) {
+    if( !holster->can_contain( item_copy ).success() ) {
         return false;
     }
 
     //only hide if it is in the toplevel of holster (to allow shuffling of items inside a bag)
-    for( const item *it : holster->contents.all_items_top() ) {
+    for( const item *it : holster->all_items_top() ) {
         if( it == contained.get_item() ) {
             return false;
         }
@@ -363,7 +362,7 @@ bool inventory_holster_preset::is_shown( const item_location &contained ) const
     if( contained->is_bucket_nonempty() ) {
         return false;
     }
-    if( !holster->contents.all_pockets_rigid() &&
+    if( !holster->all_pockets_rigid() &&
         !holster.parents_can_contain_recursive( &item_copy ) ) {
         return false;
     }
@@ -1044,8 +1043,8 @@ void inventory_column::draw( const catacurses::window &win, const point &p,
         const int hx_max = p.x + get_width() + contained_offset;
         inclusive_rectangle<point> rect = inclusive_rectangle<point>( point( x1, yy ),
                                           point( hx_max - 1, yy ) );
-        rect_entry_map.push_back( std::pair<inclusive_rectangle<point>, inventory_entry *>( rect,
-                                  &entry ) );
+        rect_entry_map.emplace_back( rect,
+                                     &entry );
 
         if( selected && visible_cells() > 1 ) {
             for( int hx = x1; hx < hx_max; ++hx ) {
@@ -1349,7 +1348,7 @@ void inventory_selector::add_item( inventory_column &target_column,
     add_entry( target_column,
                std::vector<item_location>( 1, location ),
                custom_category );
-    for( item *it : location->contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+    for( item *it : location->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
         add_item( target_column, item_location( location, it ), custom_category );
     }
 }
@@ -1388,7 +1387,7 @@ void inventory_selector::add_contained_items( item_location &container, inventor
         return;
     }
 
-    for( item *it : container->contents.all_items_top() ) {
+    for( item *it : container->all_items_top() ) {
         item_location child( container, it );
         add_contained_items( child, column, custom_category );
         const item_category *nat_category = nullptr;
@@ -1398,6 +1397,18 @@ void inventory_selector::add_contained_items( item_location &container, inventor
             nat_category = naturalize_category( *custom_category, child.position() );
         }
         add_entry( column, std::vector<item_location>( 1, child ), nat_category );
+    }
+}
+
+void inventory_selector::add_contained_ebooks( item_location &container )
+{
+    if( !container->is_ebook_storage() ) {
+        return;
+    }
+
+    for( item *it : container->get_contents().ebooks() ) {
+        item_location child( container, it );
+        add_entry( own_inv_column, std::vector<item_location>( 1, child ) );
     }
 }
 
@@ -2527,7 +2538,7 @@ void inventory_iuse_selector::set_chosen_count( inventory_entry &entry, size_t c
     if( count == 0 ) {
         entry.chosen_count = 0;
         for( const item_location &loc : entry.locations ) {
-            to_use.erase( &loc );
+            temp_use[&loc] = 0;
         }
     } else {
         entry.chosen_count = std::min( std::min( count, max_chosen_count ), entry.get_available_count() );
@@ -2545,9 +2556,13 @@ void inventory_iuse_selector::set_chosen_count( inventory_entry &entry, size_t c
     }
     // Optimisation to reduce the scale of looping if otherwise done in the preceeding code.
     for( auto iter : temp_use ) {
-        for( item_location &x : usable_locs ) {
+        for( const item_location &x : usable_locs ) {
             if( x == *iter.first ) {
-                to_use[&x] = iter.second;
+                if( iter.second > 0 ) {
+                    to_use[&x] = iter.second;
+                } else {
+                    to_use.erase( &x );
+                }
             }
         }
     }
@@ -2605,7 +2620,7 @@ void inventory_drop_selector::deselect_contained_items()
         inventory_items.push_back( loc_front );
     }
     for( item_location loc_container : inventory_items ) {
-        if( !loc_container->contents.empty() ) {
+        if( !loc_container->empty() ) {
             for( inventory_column *col : get_all_columns() ) {
                 for( inventory_entry *selected : col->get_entries( []( const inventory_entry &
                 entry ) {
@@ -2614,7 +2629,7 @@ void inventory_drop_selector::deselect_contained_items()
                     if( !selected->is_item() ) {
                         continue;
                     }
-                    for( item *item_contained : loc_container->contents.all_items_top() ) {
+                    for( item *item_contained : loc_container->all_items_top() ) {
                         for( const item_location &selected_loc : selected->locations ) {
                             if( selected_loc.get_item() == item_contained ) {
                                 set_chosen_count( *selected, 0 );

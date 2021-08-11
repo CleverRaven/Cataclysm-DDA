@@ -64,11 +64,11 @@ void player_activity::migrate_item_position( Character &guy )
         type == ACT_ATM;
 
     if( simple_action_replace ) {
-        targets.push_back( item_location( guy, &guy.i_at( position ) ) );
+        targets.emplace_back( guy, &guy.i_at( position ) );
     } else if( type == ACT_GUNMOD_ADD ) {
         // this activity has two indices; "position" = gun and "values[0]" = mod
-        targets.push_back( item_location( guy, &guy.i_at( position ) ) );
-        targets.push_back( item_location( guy, &guy.i_at( values[0] ) ) );
+        targets.emplace_back( guy, &guy.i_at( position ) );
+        targets.emplace_back( guy, &guy.i_at( values[0] ) );
     }
 }
 
@@ -393,20 +393,6 @@ bool player_activity::can_resume_with( const player_activity &other, const Chara
 
     if( id() == activity_id( "ACT_CLEAR_RUBBLE" ) ) {
         if( other.coords.empty() || other.coords[0] != coords[0] ) {
-            return false;
-        }
-    } else if( id() == activity_id( "ACT_READ" ) ) {
-        // Return false if any NPCs joined or left the study session
-        // the vector {1, 2} != {2, 1}, so we'll have to check manually
-        if( values.size() != other.values.size() ) {
-            return false;
-        }
-        for( int foo : other.values ) {
-            if( std::find( values.begin(), values.end(), foo ) == values.end() ) {
-                return false;
-            }
-        }
-        if( targets.empty() || other.targets.empty() || targets[0] != other.targets[0] ) {
             return false;
         }
     } else if( id() == activity_id( "ACT_VEHICLE" ) ) {

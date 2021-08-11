@@ -96,7 +96,7 @@ explosion_data load_explosion_data( const JsonObject &jo )
     // Power is mandatory
     jo.read( "power", ret.power );
     // Rest isn't
-    ret.distance_factor = jo.get_float( "distance_factor", 0.8f );
+    ret.distance_factor = jo.get_float( "distance_factor", 0.75f );
     ret.max_noise = jo.get_int( "max_noise", 90000000 );
     ret.fire = jo.get_bool( "fire", false );
     if( jo.has_int( "shrapnel" ) ) {
@@ -117,7 +117,7 @@ shrapnel_data load_shrapnel_data( const JsonObject &jo )
     // Casing mass is mandatory
     jo.read( "casing_mass", ret.casing_mass );
     // Rest isn't
-    ret.fragment_mass = jo.get_float( "fragment_mass", 0.15 );
+    ret.fragment_mass = jo.get_float( "fragment_mass", 0.08 );
     ret.recovery = jo.get_int( "recovery", 0 );
     ret.drop = itype_id( jo.get_string( "drop", "null" ) );
     return ret;
@@ -128,8 +128,8 @@ namespace explosion_handler
 static int ballistic_damage( float velocity, float mass )
 {
     // Damage is square root of Joules, dividing by 2000 because it's dividing by 2 and
-    // converting mass from grams to kg. 5 is simply a scaling factor.
-    return 2.0 * std::sqrt( ( velocity * velocity * mass ) / 2000.0 );
+    // converting mass from grams to kg. The inital term is simply a scaling factor.
+    return 4.0 * std::sqrt( ( velocity * velocity * mass ) / 2000.0 );
 }
 // Calculate cross-sectional area of a steel sphere in cm^2 based on mass of fragment.
 static float mass_to_area( const float mass )
@@ -311,7 +311,8 @@ static void do_blast( const tripoint &p, const float power,
             continue;
         }
 
-        add_msg_debug( "Blast hits %s with force %.1f", critter->disp_name(), force );
+        add_msg_debug( debugmode::DF_EXPLOSION, "Blast hits %s with force %.1f", critter->disp_name(),
+                       force );
 
         Character *pl = critter->as_character();
         if( pl == nullptr ) {
@@ -320,7 +321,8 @@ static void do_blast( const tripoint &p, const float power,
             const int actual_dmg = rng_float( dmg * 2, dmg * 3 );
             critter->apply_damage( nullptr, bodypart_id( "torso" ), actual_dmg );
             critter->check_dead_state();
-            add_msg_debug( "Blast hits %s for %d damage", critter->disp_name(), actual_dmg );
+            add_msg_debug( debugmode::DF_EXPLOSION, "Blast hits %s for %d damage", critter->disp_name(),
+                           actual_dmg );
             continue;
         }
 
@@ -354,7 +356,8 @@ static void do_blast( const tripoint &p, const float power,
             const dealt_damage_instance result = pl->deal_damage( nullptr, blp.bp, dmg_instance );
             const int res_dmg = result.total_damage();
 
-            add_msg_debug( "%s for %d raw, %d actual", hit_part_name, part_dam, res_dmg );
+            add_msg_debug( debugmode::DF_EXPLOSION, "%s for %d raw, %d actual", hit_part_name, part_dam,
+                           res_dmg );
             if( res_dmg > 0 ) {
                 pl->add_msg_if_player( m_bad, _( "Your %s is hit for %d damage!" ), hit_part_name, res_dmg );
             }
@@ -427,7 +430,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
             int damaging_hits = 0;
             int non_damaging_hits = 0;
             for( int i = 0; i < hits; ++i ) {
-                frag.missed_by = rng_float( 0.05, 1.0 );
+                frag.missed_by = rng_float( 0.05, 1.0 / critter->ranged_target_size() );
                 critter->deal_projectile_attack( nullptr, frag, false );
                 if( frag.dealt_dam.total_damage() > 0 ) {
                     damaging_hits++;
@@ -435,10 +438,10 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
                 } else {
                     non_damaging_hits++;
                 }
-                add_msg_debug( "Shrapnel hit %s at %d m/s at a distance of %d",
+                add_msg_debug( debugmode::DF_EXPLOSION, "Shrapnel hit %s at %d m/s at a distance of %d",
                                critter->disp_name(),
                                frag.proj.speed, rl_dist( src, target ) );
-                add_msg_debug( "Shrapnel dealt %d damage", frag.dealt_dam.total_damage() );
+                add_msg_debug( debugmode::DF_EXPLOSION, "Shrapnel dealt %d damage", frag.dealt_dam.total_damage() );
                 if( critter->is_dead_state() ) {
                     break;
                 }
@@ -460,7 +463,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
                 std::string damage_description = ( damage_taken > 0 ) ?
                                                  string_format( _( "dealing %d damage" ), damage_taken ) :
                                                  _( "but they deal no damage" );
-                if( critter->is_player() ) {
+                if( critter->is_avatar() ) {
                     add_msg( ngettext( "You are hit by %s bomb fragment, %s.",
                                        "You are hit by %s bomb fragments, %s.", total_hits ),
                              impact_count, damage_description );
@@ -479,7 +482,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
         }
         if( here.impassable( target ) ) {
             if( optional_vpart_position vp = here.veh_at( target ) ) {
-                vp->vehicle().damage( vp->part_index(), damage / 100 );
+                vp->vehicle().damage( vp->part_index(), damage / 10 );
             } else {
                 here.bash( target, damage / 100, true );
             }
@@ -796,8 +799,10 @@ void resonance_cascade( const tripoint &p )
                                                 player_character.pos() ) ) );
         player_character.add_effect( effect_teleglow, rng( minglow, maxglow ) * 100 );
     }
-    int startx = ( p.x < 8 ? 0 : p.x - 8 ), endx = ( p.x + 8 >= SEEX * 3 ? SEEX * 3 - 1 : p.x + 8 );
-    int starty = ( p.y < 8 ? 0 : p.y - 8 ), endy = ( p.y + 8 >= SEEY * 3 ? SEEY * 3 - 1 : p.y + 8 );
+    int startx = ( p.x < 8 ? 0 : p.x - 8 );
+    int endx = ( p.x + 8 >= SEEX * 3 ? SEEX * 3 - 1 : p.x + 8 );
+    int starty = ( p.y < 8 ? 0 : p.y - 8 );
+    int endy = ( p.y + 8 >= SEEY * 3 ? SEEY * 3 - 1 : p.y + 8 );
     tripoint dest( startx, starty, p.z );
     map &here = get_map();
     for( int &i = dest.x; i <= endx; i++ ) {

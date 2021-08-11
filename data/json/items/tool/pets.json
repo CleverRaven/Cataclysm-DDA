@@ -64,8 +64,7 @@
     "color": "dark_gray",
     "qualities": [ [ "SHEAR", 3 ] ],
     "ammo": [ "battery" ],
-    "initial_charges": 100,
-    "max_charges": 100,
+    "flags": [ "WATER_BREAK" ],
     "charges_per_use": 25,
     "pocket_data": [
       {

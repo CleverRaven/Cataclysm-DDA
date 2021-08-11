@@ -33,7 +33,7 @@
     "symbol": "*",
     "color": "red",
     "explode_in_fire": true,
-    "explosion": { "power": 50, "shrapnel": { "casing_mass": 40, "fragment_mass": 1 } },
+    "explosion": { "power": 50, "shrapnel": { "casing_mass": 40, "fragment_mass": 0.5 } },
     "use_action": {
       "need_wielding": true,
       "target": "can_bomb_act",
@@ -57,13 +57,13 @@
     "max_charges": 5,
     "turns_per_charge": 1,
     "explode_in_fire": true,
-    "explosion": { "power": 50, "shrapnel": { "casing_mass": 40, "fragment_mass": 1 } },
+    "explosion": { "power": 50, "shrapnel": { "casing_mass": 40, "fragment_mass": 0.5 } },
     "use_action": {
       "type": "explosion",
       "no_deactivate_msg": "You've already lit the fuse - what are you waiting for?",
       "sound_volume": 0,
       "sound_msg": "ssss…",
-      "explosion": { "power": 50, "shrapnel": { "casing_mass": 40, "fragment_mass": 1 } }
+      "explosion": { "power": 50, "shrapnel": { "casing_mass": 40, "fragment_mass": 0.5 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "NO_REPAIR" ]
   },
@@ -181,7 +181,7 @@
     "looks_like": "fragment_bomb",
     "color": "red",
     "explode_in_fire": true,
-    "explosion": { "power": 938, "shrapnel": { "casing_mass": 1597, "fragment_mass": 1 } },
+    "explosion": { "power": 938, "shrapnel": { "casing_mass": 1597, "fragment_mass": 0.5 } },
     "use_action": {
       "need_wielding": true,
       "target": "dynamite_bomb_act",
@@ -212,13 +212,13 @@
     "color": "red",
     "turns_per_charge": 1,
     "explode_in_fire": true,
-    "explosion": { "power": 938, "shrapnel": { "casing_mass": 1597, "fragment_mass": 1 } },
+    "explosion": { "power": 938, "shrapnel": { "casing_mass": 1597, "fragment_mass": 0.5 } },
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
       "sound_msg": "ssss…",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
-      "explosion": { "power": 938, "shrapnel": { "casing_mass": 1597, "fragment_mass": 1 } }
+      "explosion": { "power": 938, "shrapnel": { "casing_mass": 1597, "fragment_mass": 0.5 } }
     },
     "flags": [ "TRADER_AVOID", "BOMB" ]
   },
@@ -248,7 +248,7 @@
       "menu_text": "Activate bomb",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "WATER_BREAK" ]
   },
   {
     "id": "EMPbomb_act",
@@ -280,7 +280,7 @@
       "explosion": { "power": 600, "shrapnel": { "casing_mass": 3214, "fragment_mass": 0.5 } },
       "no_deactivate_msg": "You've already activated the %s, try throwing it instead."
     },
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "WATER_BREAK" ]
   },
   {
     "id": "primitive_demolition_charge",
@@ -673,7 +673,7 @@
       "sound_volume": 0,
       "sound_msg": "Tick.",
       "no_deactivate_msg": "You've already pulled the %s's pin; try throwing it instead.",
-      "explosion": { "power": 240, "shrapnel": { "casing_mass": 217, "fragment_mass": 0.15 } }
+      "explosion": { "power": 240, "shrapnel": { "casing_mass": 217, "fragment_mass": 0.08 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
   },
@@ -703,7 +703,7 @@
       "menu_text": "Pull pin",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE", "WATER_BREAK" ]
   },
   {
     "id": "grenade_emp_act",
@@ -734,7 +734,7 @@
       "sound_msg": "Tick.",
       "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead."
     },
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "WATER_BREAK" ]
   },
   {
     "id": "grenade_inc",
@@ -1173,7 +1173,7 @@
     "use_action": {
       "type": "explosion",
       "no_deactivate_msg": "You've already pulled the %s pin, try throwing it instead.",
-      "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 1 } }
+      "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 0.5 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
@@ -1194,7 +1194,7 @@
     "symbol": "*",
     "color": "light_gray",
     "explode_in_fire": true,
-    "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 1 } },
+    "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 0.5 } },
     "use_action": {
       "need_wielding": true,
       "target": "improvised_pipebomb_act",
@@ -1226,13 +1226,13 @@
     "max_charges": 6,
     "turns_per_charge": 1,
     "explode_in_fire": true,
-    "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 1 } },
+    "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 0.5 } },
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
       "sound_msg": "ssss…",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
-      "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 1 } }
+      "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 0.5 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
@@ -1253,7 +1253,7 @@
     "symbol": "*",
     "color": "light_gray",
     "explode_in_fire": true,
-    "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 1 } },
+    "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 0.5 } },
     "use_action": {
       "need_wielding": true,
       "target": "primitive_pipebomb_act",
@@ -1286,13 +1286,13 @@
     "max_charges": 6,
     "turns_per_charge": 1,
     "explode_in_fire": true,
-    "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 1 } },
+    "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 0.5 } },
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
       "sound_msg": "ssss…",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
-      "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 1 } }
+      "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 0.5 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
@@ -1419,7 +1419,7 @@
     "use_action": {
       "type": "explosion",
       "no_deactivate_msg": "You've already pulled the pin - run!",
-      "explosion": { "power": 2500, "shrapnel": { "casing_mass": 2000, "fragment_mass": 1, "drop": "scrap", "recovery": 20 } }
+      "explosion": { "power": 2500, "shrapnel": { "casing_mass": 2000, "fragment_mass": 0.5, "drop": "scrap", "recovery": 20 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
   },
@@ -1438,7 +1438,7 @@
     "symbol": "*",
     "color": "red",
     "explode_in_fire": true,
-    "explosion": { "power": 2500, "shrapnel": { "casing_mass": 2000, "fragment_mass": 1, "drop": "scrap", "recovery": 20 } },
+    "explosion": { "power": 2500, "shrapnel": { "casing_mass": 2000, "fragment_mass": 0.5, "drop": "scrap", "recovery": 20 } },
     "use_action": {
       "need_wielding": true,
       "target": "tool_small_improvised_fragmentation_device_act",
@@ -1468,13 +1468,13 @@
     "max_charges": 20,
     "turns_per_charge": 1,
     "explode_in_fire": true,
-    "explosion": { "power": 2500, "shrapnel": { "casing_mass": 2000, "fragment_mass": 1, "drop": "scrap", "recovery": 20 } },
+    "explosion": { "power": 2500, "shrapnel": { "casing_mass": 2000, "fragment_mass": 0.5, "drop": "scrap", "recovery": 20 } },
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
       "sound_msg": "Kshhh.",
       "no_deactivate_msg": "You've already lit the fuse - run!",
-      "explosion": { "power": 2500, "shrapnel": { "casing_mass": 2000, "fragment_mass": 1, "drop": "scrap", "recovery": 20 } }
+      "explosion": { "power": 2500, "shrapnel": { "casing_mass": 2000, "fragment_mass": 0.5, "drop": "scrap", "recovery": 20 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
   },
@@ -1494,7 +1494,7 @@
     "symbol": "*",
     "color": "red",
     "explode_in_fire": true,
-    "explosion": { "power": 2500, "shrapnel": { "casing_mass": 2000, "fragment_mass": 1, "drop": "scrap", "recovery": 20 } },
+    "explosion": { "power": 2500, "shrapnel": { "casing_mass": 2000, "fragment_mass": 0.5, "drop": "scrap", "recovery": 20 } },
     "use_action": {
       "need_wielding": true,
       "target": "tool_small_primitive_fragmentation_device_act",
@@ -1525,13 +1525,13 @@
     "max_charges": 20,
     "turns_per_charge": 1,
     "explode_in_fire": true,
-    "explosion": { "power": 2500, "shrapnel": { "casing_mass": 2000, "fragment_mass": 1, "drop": "scrap", "recovery": 20 } },
+    "explosion": { "power": 2500, "shrapnel": { "casing_mass": 2000, "fragment_mass": 0.5, "drop": "scrap", "recovery": 20 } },
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
       "sound_msg": "Kshhh.",
       "no_deactivate_msg": "You've already lit the fuse - run!",
-      "explosion": { "power": 2500, "shrapnel": { "casing_mass": 2000, "fragment_mass": 1, "drop": "scrap", "recovery": 20 } }
+      "explosion": { "power": 2500, "shrapnel": { "casing_mass": 2000, "fragment_mass": 0.5, "drop": "scrap", "recovery": 20 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
   },
@@ -1552,7 +1552,7 @@
     "symbol": "(",
     "color": "red",
     "explode_in_fire": true,
-    "explosion": { "power": 40000, "shrapnel": { "casing_mass": 12000, "fragment_mass": 1 } },
+    "explosion": { "power": 40000, "shrapnel": { "casing_mass": 12000, "fragment_mass": 0.5 } },
     "use_action": {
       "target": "tool_improvised_barrel_bomb_act",
       "msg": "You light the fuse on the barrel bomb.  Clear the area!",
@@ -1584,13 +1584,13 @@
     "max_charges": 100,
     "turns_per_charge": 1,
     "explode_in_fire": true,
-    "explosion": { "power": 40000, "shrapnel": { "casing_mass": 12000, "fragment_mass": 1 } },
+    "explosion": { "power": 40000, "shrapnel": { "casing_mass": 12000, "fragment_mass": 0.5 } },
     "use_action": {
       "type": "explosion",
       "sound_volume": 0,
       "sound_msg": "Kshhh.",
       "no_deactivate_msg": "You've already lit the fuse - clear the area immediately!",
-      "explosion": { "power": 40000, "shrapnel": { "casing_mass": 12000, "fragment_mass": 1 } }
+      "explosion": { "power": 40000, "shrapnel": { "casing_mass": 12000, "fragment_mass": 0.5 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
   },
@@ -1610,7 +1610,7 @@
     "symbol": "(",
     "color": "red",
     "explode_in_fire": true,
-    "explosion": { "power": 40000, "shrapnel": { "casing_mass": 12000, "fragment_mass": 1 } },
+    "explosion": { "power": 40000, "shrapnel": { "casing_mass": 12000, "fragment_mass": 0.5 } },
     "use_action": {
       "target": "tool_bootleg_barrel_bomb_act",
       "msg": "You activate the fuze on the barrel bomb.  Clear the area!",
@@ -1640,11 +1640,11 @@
     "max_charges": 100,
     "turns_per_charge": 1,
     "explode_in_fire": true,
-    "explosion": { "power": 40000, "shrapnel": { "casing_mass": 12000, "fragment_mass": 1 } },
+    "explosion": { "power": 40000, "shrapnel": { "casing_mass": 12000, "fragment_mass": 0.5 } },
     "use_action": {
       "type": "explosion",
       "no_deactivate_msg": "You've already activated the bomb - clear the area immediately!",
-      "explosion": { "power": 40000, "shrapnel": { "casing_mass": 12000, "fragment_mass": 1 } }
+      "explosion": { "power": 40000, "shrapnel": { "casing_mass": 12000, "fragment_mass": 0.5 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
   },

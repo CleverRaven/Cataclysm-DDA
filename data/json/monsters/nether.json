@@ -29,7 +29,6 @@
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ { "type": "bite", "cooldown": 15 }, [ "impale", 20 ] ],
     "anger_triggers": [ "HURT", "FRIEND_DIED", "FRIEND_ATTACKED" ],
-    "death_function": [ "NORMAL" ],
     "harvest": "bird_large",
     "flags": [ "HEARS", "KEENNOSE", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "SWIMS", "SUNDEATH" ]
   },
@@ -38,7 +37,7 @@
     "type": "MONSTER",
     "name": { "str": "amigara horror" },
     "description": "A hellish, vaguely humanoid horror, two stories tall.  Its face is grotesquely stretched out, its limbs deformed to unrecognizable outgrowths.",
-    "default_faction": "mutant",
+    "default_faction": "amigara",
     "bodytype": "human",
     "species": [ "HORROR" ],
     "diff": 5,
@@ -56,9 +55,11 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "dodge": 2,
+    "bleed_rate": 50,
     "harvest": "human",
     "special_attacks": [ [ "FEAR_PARALYZE", 0 ] ],
-    "death_function": [ "AMIGARA", "NORMAL" ],
+    "death_function": { "effect": { "id": "death_amigara" } },
+    "death_drops": "amigara_drops",
     "flags": [ "SMELLS", "HEARS", "SEES", "STUMBLES", "HARDTOSHOOT" ]
   },
   {
@@ -83,9 +84,8 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "dodge": 1,
-    "harvest": "human",
+    "harvest": "demihuman",
     "special_attacks": [ [ "SHRIEK", 10 ] ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "HEARS", "WARM", "ANIMAL", "PATH_AVOID_DANGER_1", "SUNDEATH", "NO_BREATHE", "HUMAN" ]
   },
   {
@@ -111,7 +111,6 @@
     "harvest": "zombie",
     "special_attacks": [ [ "FEAR_PARALYZE", 0 ], { "type": "bite", "cooldown": 5 } ],
     "death_drops": "default_zombie_clothes",
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "IMMOBILE", "GUILT", "POISON", "REVIVES", "FILTHY" ]
   },
   {
@@ -131,7 +130,7 @@
     "melee_cut": 0,
     "harvest": "exempt",
     "special_attacks": [ [ "BREATHE", 8 ] ],
-    "death_function": [ "MELT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "flags": [ "IMMOBILE", "NOGIB" ]
   },
   {
@@ -151,7 +150,7 @@
     "melee_cut": 0,
     "harvest": "exempt",
     "special_attacks": [ [ "BREATHE", 8 ] ],
-    "death_function": [ "KILL_BREATHERS" ],
+    "death_function": { "effect": { "id": "death_kill_breathers", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "flags": [ "ACIDPROOF", "ACID_BLOOD", "IMMOBILE" ]
   },
   {
@@ -182,7 +181,7 @@
     "luminance": 6,
     "harvest": "exempt",
     "special_attacks": [ [ "DARKMAN", 5 ], [ "scratch", 15 ] ],
-    "death_function": [ "DARKMAN" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away.", "effect": { "id": "death_darkman" } },
     "regenerates_in_dark": true,
     "flags": [ "NOHEAD", "HARDTOSHOOT", "WEBWALK", "FLIES", "PLASTIC", "ELECTRIC", "ACIDPROOF", "SUNDEATH", "NO_BREATHE" ]
   },
@@ -211,7 +210,6 @@
     "harvest": "zombie_leather",
     "special_attacks": [ [ "scratch", 15 ] ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "POISON", "REVIVES", "FILTHY" ]
   },
   {
@@ -238,7 +236,7 @@
     "dodge": 3,
     "harvest": "exempt",
     "special_attacks": [ [ "DOGTHING", 40 ] ],
-    "death_function": [ "THING" ],
+    "death_function": { "effect": { "id": "death_thing", "hit_self": true }, "corpse_type": "NO_CORPSE", "message": "The %s emerges!" },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
   },
   {
@@ -260,12 +258,13 @@
     "melee_cut": 0,
     "dodge": 1,
     "armor_bash": 4,
+    "bleed_rate": 20,
     "vision_day": 50,
     "vision_night": 40,
     "luminance": 25,
     "harvest": "zombie_meatslug",
+    "//": "Add a demihuman alien anatomy for things like flaming eye's and Mi-go, polyps and other lovecraftian horrors from other dimensions",
     "special_attacks": [ [ "STARE", 12 ] ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "WARM", "FLIES", "FIREY", "NO_BREATHE", "NOHEAD" ]
   },
   {
@@ -292,8 +291,9 @@
     "melee_cut": 6,
     "dodge": 7,
     "armor_bash": 8,
+    "bleed_rate": 40,
     "harvest": "exempt",
-    "death_function": [ "MELT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "flags": [
       "SMELLS",
       "HEARS",
@@ -301,11 +301,66 @@
       "NOHEAD",
       "BASHES",
       "FLIES",
-      "ATTACKMON",
+      "PUSH_MON",
+      "PUSH_VEH",
       "PLASTIC",
       "NO_BREATHE",
       "HIT_AND_RUN",
       "NOGIB"
+    ]
+  },
+  {
+    "id": "mon_unseen_hunter",
+    "type": "MONSTER",
+    "name": { "str": "unseen hunter" },
+    "description": "There was nothing here a moment ago, but now you see the faintest outline of an otherworldly creature approaching you with jittery leaps.  Trying to focus on it reveals a pointed beak dripping translucent fluid and rows upon rows of bladed legs grasping the floor, before your eyes begin to burn and your head starts to spin.",
+    "symbol": " ",
+    "color": "light_blue",
+    "default_faction": "nether",
+    "bodytype": "insect",
+    "diff": 15,
+    "volume": "50 L",
+    "weight": "80 kg",
+    "hp": 150,
+    "speed": 100,
+    "aggression": 30,
+    "morale": 25,
+    "regen_morale": true,
+    "regenerates_in_dark": true,
+    "melee_skill": 10,
+    "melee_dice": 4,
+    "melee_dice_sides": 3,
+    "melee_damage": [ { "damage_type": "cut", "amount": 5, "armor_penetration": 10 } ],
+    "dodge": 8,
+    "vision_day": 20,
+    "vision_night": 20,
+    "path_settings": { "allow_open_doors": true, "avoid_traps": true, "avoid_sharp": true },
+    "special_attacks": [
+      [ "RANGED_PULL", 8 ],
+      { "type": "leap", "cooldown": 20, "max_range": 6, "allow_no_target": true },
+      { "id": "hunter_peck" }
+    ],
+    "armor_bash": 5,
+    "armor_cut": 5,
+    "armor_stab": 5,
+    "armor_bullet": 30,
+    "//": "Reduce bullet armor when things are harder to hit or players miss more",
+    "anger_triggers": [ "FIRE" ],
+    "fear_triggers": [ "HURT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "SMELLS",
+      "DESTROYS",
+      "WARM",
+      "CAMOUFLAGE",
+      "FIREPROOF",
+      "NIGHT_INVISIBILITY",
+      "PATH_AVOID_DANGER_1",
+      "HARDTOSHOOT",
+      "HIT_AND_RUN"
     ]
   },
   {
@@ -331,10 +386,10 @@
     "melee_dice_sides": 6,
     "melee_cut": 0,
     "dodge": 4,
+    "bleed_rate": 60,
     "vision_day": 30,
     "harvest": "gozu",
     "special_attacks": [ [ "FEAR_PARALYZE", 20 ] ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "GROUP_BASH", "ANIMAL", "NO_BREATHE", "PATH_AVOID_DANGER_1" ]
   },
   {
@@ -359,9 +414,9 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "dodge": 4,
+    "bleed_rate": 60,
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "harvest": "demihuman",
-    "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "HEARS", "WARM", "NO_BREATHE", "GRABS", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
   },
   {
@@ -388,8 +443,8 @@
     "melee_cut": 0,
     "dodge": 4,
     "harvest": "exempt",
-    "special_attacks": [ [ "TENTACLE", 5 ] ],
-    "death_function": [ "THING" ],
+    "special_attacks": [ { "id": "tentacle" } ],
+    "death_function": { "effect": { "id": "death_thing", "hit_self": true }, "corpse_type": "NO_CORPSE", "message": "The %s emerges!" },
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES" ]
   },
   {
@@ -416,13 +471,14 @@
     "dodge": 5,
     "armor_cut": 50,
     "armor_bullet": 40,
+    "bleed_rate": 20,
     "vision_day": 50,
     "vision_night": 50,
     "harvest": "exempt",
     "special_attacks": [ [ "TINDALOS_TELEPORT", 5 ] ],
     "emit_fields": [ { "emit_id": "emit_tindalos_gas_leak", "delay": "1 s" } ],
     "path_settings": { "max_dist": 10 },
-    "death_function": [ "MELT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "flags": [
       "SEES",
       "SMELLS",
@@ -460,13 +516,14 @@
     "dodge": 5,
     "armor_cut": 50,
     "armor_bullet": 40,
+    "bleed_rate": 0,
     "vision_day": 50,
     "vision_night": 50,
     "harvest": "exempt",
     "special_attacks": [ [ "TINDALOS_TELEPORT", 5 ], [ "DISAPPEAR", 25 ] ],
     "emit_fields": [ { "emit_id": "emit_tindalos_gas_leak", "delay": "1 s" } ],
     "path_settings": { "max_dist": 10 },
-    "death_function": [ "MELT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "flags": [
       "SEES",
       "SMELLS",
@@ -485,7 +542,7 @@
     "type": "MONSTER",
     "name": { "str": "human snail" },
     "description": "An enormous fleshy snail, with an oddly human face.  Eyestalks protrude from where the eyes should be.",
-    "default_faction": "mutant",
+    "default_faction": "mutant_with_vortex",
     "species": [ "ABERRATION" ],
     "diff": 5,
     "volume": "92500 ml",
@@ -503,10 +560,9 @@
     "armor_bash": 6,
     "armor_cut": 12,
     "armor_bullet": 10,
-    "harvest": "human",
+    "harvest": "demihuman",
     "special_attacks": [ [ "ACID", 15 ] ],
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_DIED" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SMELLS", "HEARS", "POISON", "ACIDPROOF", "ACID_BLOOD" ]
   },
   {
@@ -531,7 +587,7 @@
     "dodge": 8,
     "harvest": "exempt",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
-    "death_function": [ "MELT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "flags": [
       "SEES",
       "SMELLS",
@@ -570,10 +626,12 @@
     "dodge": 8,
     "armor_cut": 5,
     "armor_bullet": 4,
+    "bleed_rate": 40,
     "vision_day": 50,
+    "//": "a good candidate for an alien anatomy harvest",
     "harvest": "exempt",
     "path_settings": { "max_dist": 10 },
-    "death_function": [ "MELT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "HIT_AND_RUN", "NO_BREATHE", "NOGIB" ]
   },
   {
@@ -606,7 +664,6 @@
     "vision_night": 15,
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "harvest": "mammal_small_fur",
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "HARDTOSHOOT", "PATH_AVOID_DANGER_1" ]
   },
   {
@@ -634,7 +691,7 @@
     "harvest": "exempt",
     "special_attacks": [ [ "DISAPPEAR", 200 ] ],
     "special_when_hit": [ "ZAPBACK", 100 ],
-    "death_function": [ "MELT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "flags": [
       "SEES",
       "HEARS",
@@ -678,7 +735,7 @@
     "dodge": 1,
     "harvest": "exempt",
     "special_attacks": [ [ "DISAPPEAR", 200 ] ],
-    "death_function": [ "MELT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "flags": [ "SEES", "SMELLS", "WARM", "SWIMS", "PLASTIC", "SUNDEATH", "NOGIB" ]
   },
   {
@@ -708,7 +765,7 @@
     "harvest": "exempt",
     "path_settings": { "max_dist": 5 },
     "special_attacks": [ [ "PARROT", 400 ] ],
-    "death_function": [ "MELT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "regenerates": 50,
     "regen_morale": true,
     "flags": [ "SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACIDPROOF", "NOHEAD", "ABSORBS_SPLITS", "NOGIB" ]
@@ -737,9 +794,10 @@
     "melee_cut": 0,
     "dodge": 2,
     "armor_bash": 8,
+    "bleed_rate": 20,
     "harvest": "exempt",
-    "special_attacks": [ [ "TENTACLE", 5 ] ],
-    "death_function": [ "MELT" ],
+    "special_attacks": [ { "id": "tentacle" } ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "flags": [ "SMELLS", "HEARS", "NOHEAD", "BASHES", "GROUP_BASH", "SWIMS", "ATTACKMON", "PLASTIC", "ACIDPROOF", "NOGIB", "CLIMBS" ]
   },
   {
@@ -747,7 +805,7 @@
     "type": "MONSTER",
     "name": { "str": "twisted body", "str_pl": "twisted bodies" },
     "description": "A human body, but with its limbs, neck, and hair impossibly twisted.  It clambers around swiftly, making awful screeching sounds.",
-    "default_faction": "mutant",
+    "default_faction": "mutant_with_vortex",
     "bodytype": "human",
     "species": [ "HORROR" ],
     "volume": "62500 ml",
@@ -764,8 +822,7 @@
     "melee_dice_sides": 4,
     "melee_cut": 0,
     "dodge": 6,
-    "harvest": "human",
-    "death_function": [ "NORMAL" ],
+    "harvest": "demihuman",
     "flags": [ "SEES", "HEARS", "GOODHEARING", "POISON", "HUMAN", "CLIMBS" ]
   },
   {
@@ -792,9 +849,9 @@
     "melee_cut": 8,
     "dodge": 1,
     "armor_bash": 6,
+    "bleed_rate": 50,
     "harvest": "meatslug",
     "special_attacks": [ [ "GENE_STING", 20 ] ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "DESTROYS", "POISON", "VENOM", "NO_BREATHE", "DIGS" ]
   },
   {
@@ -816,7 +873,7 @@
     "morale": 100,
     "melee_cut": 0,
     "harvest": "exempt",
-    "death_function": [ "MELT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "flags": [ "HEARS", "GOODHEARING", "STUMBLES", "NOHEAD", "HARDTOSHOOT", "FLIES", "PLASTIC", "NO_BREATHE", "NOGIB" ]
   }
 ]

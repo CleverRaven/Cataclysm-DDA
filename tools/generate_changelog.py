@@ -977,7 +977,9 @@ def read_personal_token(filename):
         return None
 
     try:
-        with open(pathlib.Path(str(filename)).expanduser()) as token_file:
+        with open(
+                pathlib.Path(str(filename)).expanduser(),
+                encoding="utf-8") as token_file:
             match = re.search('(?P<token>\\S+)', token_file.read(),
                               flags=re.MULTILINE)
             if match is not None:

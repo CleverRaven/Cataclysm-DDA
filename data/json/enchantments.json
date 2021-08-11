@@ -1,15 +1,24 @@
 [
   {
     "type": "enchantment",
-    "id": "ENCH_INVISIBILITY",
-    "condition": "ACTIVE",
-    "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ]
+    "id": "ENCH_DEBUG_TAIL",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [ { "gain": "debug_tail" } ]
   },
   {
     "type": "enchantment",
-    "id": "ENCH_SHADOW_CLOUD",
-    "condition": "ACTIVE",
-    "ench_effects": [ { "effect": "invisibility", "intensity": 1 } ],
-    "emitter": "emit_shadow_field"
+    "id": "ENCH_DEBUG_ONLY_HEAD",
+    "condition": "ALWAYS",
+    "modified_bodyparts": [
+      { "lose": "torso" },
+      { "lose": "arm_l" },
+      { "lose": "arm_r" },
+      { "lose": "leg_l" },
+      { "lose": "leg_r" },
+      { "lose": "foot_r" },
+      { "lose": "foot_l" },
+      { "lose": "hand_l" },
+      { "lose": "hand_r" }
+    ]
   }
 ]

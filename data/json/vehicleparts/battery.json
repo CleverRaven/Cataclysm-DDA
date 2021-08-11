@@ -22,7 +22,8 @@
       "removal": { "skills": [ [ "mechanics", 0 ] ], "time": "50 s", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
       "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "600 s", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "FOLDABLE" ]
+    "flags": [ "FOLDABLE" ],
+    "damage_reduction": { "bash": 10 }
   },
   {
     "id": "battery_motorbike",
@@ -133,7 +134,8 @@
     "requirements": {
       "install": { "skills": [ [ "mechanics", 2 ] ], "time": "600 s", "using": [ [ "welding_standard", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "300 s", "using": "vehicle_weld_removal" }
-    }
+    },
+    "damage_reduction": { "bash": 10 }
   },
   {
     "id": "storage_battery_removable",

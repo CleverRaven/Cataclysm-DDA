@@ -298,11 +298,7 @@
     "price": 100000000,
     "price_postapoc": 50000,
     "material": [ "superalloy", "kevlar" ],
-    "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "coverage": 100,
     "material_thickness": 2,
-    "encumbrance": 4,
-    "max_encumbrance": 9,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
@@ -320,7 +316,14 @@
       "OUTER",
       "STURDY"
     ],
-    "looks_like": "depowered_armor"
+    "looks_like": "depowered_armor",
+    "armor": [
+      {
+        "encumbrance": [ 4, 9 ],
+        "coverage": 100,
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
   },
   {
     "id": "afs_hev_helmet",
@@ -334,10 +337,7 @@
     "price": 10000000,
     "price_postapoc": 5000,
     "material": [ "superalloy", "plastic" ],
-    "covers": [ "head", "eyes", "mouth" ],
-    "coverage": 100,
     "material_thickness": 2,
-    "encumbrance": 15,
     "warmth": 20,
     "environmental_protection": 11,
     "qualities": [ [ "GLARE", 3 ] ],
@@ -369,7 +369,8 @@
           "light_disposable_cell"
         ]
       }
-    ]
+    ],
+    "armor": [ { "encumbrance": 15, "coverage": 100, "covers": [ "head", "eyes", "mouth" ] } ]
   },
   {
     "id": "afs_hev_helmet_on",
@@ -396,12 +397,10 @@
     "symbol": "[",
     "looks_like": "quiver",
     "color": "dark_gray",
-    "covers": [ "torso" ],
-    "coverage": 20,
-    "encumbrance": 5,
     "material_thickness": 1,
     "pocket_data": [ { "ammo_restriction": { "arrow": 40, "bolt": 40 }, "moves": 20 } ],
-    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "torso" ] } ]
   },
   {
     "id": "afs_survivor_belt",
@@ -430,12 +429,10 @@
     "symbol": "[",
     "looks_like": "armor_blarmor",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 100,
-    "encumbrance": 16,
     "warmth": 25,
     "material_thickness": 3,
-    "flags": [ "RAINPROOF", "STURDY", "OUTER", "ONLY_ONE", "VARSIZE" ]
+    "flags": [ "RAINPROOF", "STURDY", "OUTER", "ONLY_ONE", "VARSIZE" ],
+    "armor": [ { "encumbrance": 16, "coverage": 100, "covers": [ "torso" ] } ]
   },
   {
     "id": "afs_mbr_titanium",
@@ -452,10 +449,6 @@
     "symbol": "[",
     "looks_like": "kevlar",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 85,
-    "encumbrance": 3,
-    "max_encumbrance": 7,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
@@ -463,7 +456,8 @@
     "warmth": 15,
     "material_thickness": 3,
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "STURDY", "OUTER" ]
+    "flags": [ "STURDY", "OUTER" ],
+    "armor": [ { "encumbrance": [ 3, 7 ], "coverage": 85, "covers": [ "torso" ] } ]
   },
   {
     "id": "afs_sunesthesia",
@@ -622,6 +616,15 @@
     "time": "18 m"
   },
   {
+    "id": "afs_bio_wind_turbine",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Wind Turbine CBM" },
+    "description": "Installed on your body is a set of small retractable wind turbines.  When activated, they will deploy and slowly harvest wind power to recharge your power level.",
+    "price": 350000,
+    "difficulty": 4
+  },
+  {
     "id": "afs_brigandine_crafted",
     "type": "ARMOR",
     "name": "crafted brigandine",
@@ -634,12 +637,10 @@
     "symbol": "[",
     "looks_like": "armor_blarmor",
     "color": "white",
-    "covers": [ "torso" ],
-    "coverage": 95,
-    "encumbrance": 14,
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "OUTER", "VARSIZE" ]
+    "flags": [ "OUTER", "VARSIZE" ],
+    "armor": [ { "encumbrance": 14, "coverage": 95, "covers": [ "torso" ] } ]
   },
   {
     "type": "GENERIC",
@@ -672,5 +673,52 @@
     "color": "magenta",
     "name": "broken advanced robot",
     "description": "A broken advanced robot.  This one is armed with an integrated laser-emitter.  Could be stripped for parts."
+  },
+  {
+    "id": "40mm_emp",
+    "type": "AMMO",
+    "name": { "str": "40mm EMP grenade" },
+    "description": "A 40mm grenade with an EMP charge.  It will release an electromagnetic pulse capable of damaging robots and some equipment.",
+    "weight": "230 g",
+    "volume": "250 ml",
+    "price": 40000,
+    "material": [ "steel", "powder" ],
+    "symbol": "=",
+    "color": "yellow",
+    "count": 4,
+    "stack_size": 4,
+    "ammo_type": "40x46mm",
+    "casing": "40x46mm_m118_casing",
+    "range": 40,
+    "bashing": 5,
+    "dispersion": 30,
+    "recoil": 225,
+    "drop": "40mmEMP_act",
+    "effects": [ "COOKOFF", "NEVER_MISFIRES", "NO_EMBED" ]
+  },
+  {
+    "id": "40mmEMP_act",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": "active EMP grenade",
+    "description": "This EMP grenade is active, and will shortly detonate, creating a large EMP field that damages robots and drains bionic energy.  You may not want to be holding it much longer.",
+    "weight": "400 g",
+    "volume": "250 ml",
+    "price": 0,
+    "to_hit": -1,
+    "material": [ "steel", "plastic" ],
+    "symbol": "*",
+    "color": "cyan",
+    "initial_charges": 0,
+    "max_charges": 0,
+    "turns_per_charge": 1,
+    "use_action": {
+      "type": "explosion",
+      "draw_explosion_radius": 8,
+      "draw_explosion_color": "light_blue",
+      "emp_blast_radius": 8,
+      "sound_volume": 0
+    },
+    "flags": [ "TRADER_AVOID" ]
   }
 ]

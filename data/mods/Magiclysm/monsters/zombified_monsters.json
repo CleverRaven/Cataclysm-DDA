@@ -29,7 +29,6 @@
     "harvest": "zombie_fur",
     "special_attacks": [ [ "HOWL", 10 ] ],
     "fear_triggers": [ "FIRE" ],
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 28, "into_group": "GROUP_ZOLF_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
@@ -61,7 +60,6 @@
     "armor_bullet": 23,
     "vision_night": 12,
     "harvest": "orc",
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   }
 ]

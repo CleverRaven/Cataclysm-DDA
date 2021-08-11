@@ -140,7 +140,7 @@ void play_ambient_variant_sound( const std::string &id, const std::string &varia
                                  channel channel, int fade_in_duration, double pitch = -1.0, int loops = -1 );
 void play_activity_sound( const std::string &id, const std::string &variant, int volume );
 void end_activity_sounds();
-void generate_gun_sound( const player &source_arg, const item &firing );
+void generate_gun_sound( const Character &source_arg, const item &firing );
 void generate_melee_sound( const tripoint &source, const tripoint &target, bool hit,
                            bool targ_mon = false, const std::string &material = "flesh" );
 void do_hearing_loss( int turns = -1 );

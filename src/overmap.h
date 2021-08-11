@@ -19,6 +19,7 @@
 #include "coordinates.h"
 #include "enums.h"
 #include "game_constants.h"
+#include "mapgendata.h"
 #include "memory_fast.h"
 #include "mongroup.h"
 #include "monster.h"
@@ -26,7 +27,6 @@
 #include "optional.h"
 #include "overmap_types.h" // IWYU pragma: keep
 #include "point.h"
-#include "regional_settings.h"
 #include "rng.h"
 #include "type_id.h"
 
@@ -37,6 +37,7 @@ class character_id;
 class map_extra;
 class npc;
 class overmap_connection;
+struct regional_settings;
 
 namespace pf
 {
@@ -137,7 +138,13 @@ class overmap_special_batch
         std::vector<overmap_special_placement>::iterator begin() {
             return placements.begin();
         }
+        std::vector<overmap_special_placement>::const_iterator begin() const {
+            return placements.begin();
+        }
         std::vector<overmap_special_placement>::iterator end() {
+            return placements.end();
+        }
+        std::vector<overmap_special_placement>::const_iterator end() const {
             return placements.end();
         }
         std::vector<overmap_special_placement>::iterator erase(
@@ -238,6 +245,7 @@ class overmap
 
         void ter_set( const tripoint_om_omt &p, const oter_id &id );
         const oter_id &ter( const tripoint_om_omt &p ) const;
+        cata::optional<mapgen_arguments> *mapgen_args( const tripoint_om_omt & );
         bool &seen( const tripoint_om_omt &p );
         bool seen( const tripoint_om_omt &p ) const;
         bool &explored( const tripoint_om_omt &p );
@@ -304,7 +312,7 @@ class overmap
 
         // TODO: Should depend on coordinates
         const regional_settings &get_settings() const {
-            return settings;
+            return *settings;
         }
 
         void clear_mon_groups();
@@ -359,8 +367,16 @@ class overmap
         // can be used after placement to lookup whether a given location was created
         // as part of a special.
         std::unordered_map<tripoint_om_omt, overmap_special_id> overmap_special_placements;
+        // Records location where mongroups are not allowed to spawn during worldgen.
+        std::unordered_set<tripoint_om_omt> safe_at_worldgen;
 
-        regional_settings settings;
+        // Records mapgen parameters required at the overmap special level
+        // These are lazily evaluated; empty optional means that they have yet
+        // to be evaluated.
+        cata::colony<cata::optional<mapgen_arguments>> mapgen_arg_storage;
+        std::unordered_map<tripoint_om_omt, cata::optional<mapgen_arguments> *> mapgen_args_index;
+
+        pimpl<regional_settings> settings;
 
         oter_id get_default_terrain( int z ) const;
 
@@ -459,6 +475,7 @@ class overmap
                        const tripoint_om_omt &p ) const;
         bool check_overmap_special_type( const overmap_special_id &id,
                                          const tripoint_om_omt &location ) const;
+        cata::optional<overmap_special_id> overmap_special_at( const tripoint_om_omt &p ) const;
         void chip_rock( const tripoint_om_omt &p );
 
         void polish_river();
@@ -503,6 +520,8 @@ class overmap
         void place_radios();
 
         void add_mon_group( const mongroup &group );
+        // Spawns a new mongroup (to be called by worldgen code)
+        void spawn_mon_group( const mongroup &group );
 
         void load_monster_groups( JsonIn &jsin );
         void load_legacy_monstergroups( JsonIn &jsin );
