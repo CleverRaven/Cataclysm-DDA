@@ -567,6 +567,16 @@ void overmapbuffer::move_nemesis()
     }
 }
 
+void overmapbuffer::remove_nemesis()
+{
+    for( std::pair<const point_abs_om, std::unique_ptr<overmap>> &omp : overmaps ) {
+        bool nemesis_removed = omp.second->remove_nemesis();
+        if( nemesis_removed ) {
+            break;
+        }
+    }
+}
+
 std::vector<mongroup *> overmapbuffer::monsters_at( const tripoint_abs_omt &p )
 {
     // (x,y) are overmap terrain coordinates, they spawn 2x2 submaps,

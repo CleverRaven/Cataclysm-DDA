@@ -58,10 +58,15 @@ namespace turn_handler
 {
 bool cleanup_at_end()
 {
+    avatar &u = get_avatar();
     if( g->uquit == QUIT_DIED || g->uquit == QUIT_SUICIDE ) {
         // Put (non-hallucinations) into the overmap so they are not lost.
         for( monster &critter : g->all_monsters() ) {
             g->despawn_monster( critter );
+        }
+        // if player has "hunted" trait, remove their nemesis monster on death
+        if( u.has_trait( trait_HAS_NEMESIS ) ) {
+            overmap_buffer.remove_nemesis();
         }
         // Reset NPC factions and disposition
         g->reset_npc_dispositions();
@@ -73,7 +78,6 @@ bool cleanup_at_end()
         g->save_maps(); //Omap also contains the npcs who need to be saved.
     }
 
-    avatar &u = get_avatar();
     if( g->uquit == QUIT_DIED || g->uquit == QUIT_SUICIDE ) {
         std::vector<std::string> vRip;
 

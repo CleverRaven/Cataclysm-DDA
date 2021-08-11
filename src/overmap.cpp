@@ -2195,7 +2195,7 @@ void overmap::move_nemesis()
                 mg.pos.y() = local_sm.y();
                 mg.pos.x() = local_sm.x();
 
-                // Erase the group at it's old location, add the group with the new location
+                // Erase the group at its old location, add the group with the new location
                 tmpzg.insert( std::pair<tripoint_om_sm, mongroup>( mg.pos, mg ) );
                 zg.erase( it++ );
 
@@ -2215,6 +2215,20 @@ void overmap::move_nemesis()
     // and now back into the monster group map.
     zg.insert( tmpzg.begin(), tmpzg.end() );
 
+}
+
+bool overmap::remove_nemesis()
+{
+    //cycle through zombie groups, find nemesis horde
+    for( auto it = zg.begin(); it != zg.end(); ) {
+        mongroup &mg = it->second;
+        if( mg.horde_behaviour == "nemesis" ) {
+            zg.erase( it++ );
+            return true;
+        }
+        it++;
+    }
+    return false;
 }
 
 /**
