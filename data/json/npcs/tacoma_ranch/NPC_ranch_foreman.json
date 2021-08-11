@@ -562,7 +562,7 @@
   {
     "id": "MISSION_RANCH_FOREMAN_10_1",
     "type": "mission_definition",
-    "name": { "str": "Gather bandages" },
+    "name": { "str": "Gather 36 bandages" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
