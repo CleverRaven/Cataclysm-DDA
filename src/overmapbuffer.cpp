@@ -810,6 +810,11 @@ static int get_terrain_cost( const tripoint_abs_omt &omt_pos, const overmap_path
         return params.air_cost;
     } else if( is_ot_match( "forest", oter, ot_match_type::type ) ) {
         return params.forest_cost;
+    } else if( is_ot_match( "empty_rock", oter, ot_match_type::type ) ||
+               is_ot_match( "deep_rock", oter, ot_match_type::type ) ||
+               is_ot_match( "solid_earth", oter, ot_match_type::type ) ||
+               is_ot_match( "microlab_rock_border", oter, ot_match_type::type ) ) {
+        return -1;
     } else {
         return params.other_cost;
     }
