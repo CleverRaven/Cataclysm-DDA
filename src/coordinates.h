@@ -565,6 +565,32 @@ midpoint( const coords::coord_point<Point, Origin, Scale> &loc1,
     return coords::coord_point<Point, Origin, Scale>( ( loc1.raw() + loc2.raw() ) / 2 );
 }
 
+template<typename Point>
+Point midpoint( const inclusive_rectangle<Point> &box )
+{
+    constexpr point one( 1, 1 ); // NOLINT(cata-use-named-point-constants)
+    return midpoint( box.p_min, box.p_max + one );
+}
+
+template<typename Point>
+Point midpoint( const half_open_rectangle<Point> &box )
+{
+    return midpoint( box.p_min, box.p_max );
+}
+
+template<typename Tripoint>
+Tripoint midpoint( const inclusive_cuboid<Tripoint> &box )
+{
+    constexpr tripoint one( 1, 1, 1 );
+    return midpoint( box.p_min, box.p_max + one );
+}
+
+template<typename Tripoint>
+Tripoint midpoint( const half_open_cuboid<Tripoint> &box )
+{
+    return midpoint( box.p_min, box.p_max );
+}
+
 template<typename Point, coords::origin Origin, coords::scale Scale>
 std::vector<coords::coord_point<Point, Origin, Scale>>
         closest_points_first( const coords::coord_point<Point, Origin, Scale> &loc,
