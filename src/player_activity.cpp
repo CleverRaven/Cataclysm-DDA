@@ -4,6 +4,7 @@
 #include <memory>
 #include <new>
 
+#include "activity_actor_definitions.h"
 #include "activity_handlers.h"
 #include "activity_type.h"
 #include "avatar.h"
@@ -206,6 +207,9 @@ void player_activity::do_turn( player &p )
     // Specifically call the do turn function for the cancellation activity early
     // This is because the game can get stuck trying to fuel a fire when it's not...
     if( type == activity_id( "ACT_MIGRATION_CANCEL" ) ) {
+        if( !actor ) {
+            actor = migration_cancel_activity_actor().clone();
+        }
         actor->do_turn( *this, p );
         return;
     }
