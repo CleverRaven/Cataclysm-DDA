@@ -59,7 +59,8 @@ std::string get_talk_varname( const JsonObject &jo, const std::string &member, b
     return "npctalk_var_" + type_var + "_" + var_context + "_" + var_basename;
 }
 
-int_or_var get_variable_or_int( const JsonObject &jo, std::string member )
+int_or_var get_variable_or_int( const JsonObject &jo, std::string member, bool required,
+                                int default_val )
 {
     int_or_var ret_val;
     if( jo.has_int( member ) ) {
@@ -68,8 +69,10 @@ int_or_var get_variable_or_int( const JsonObject &jo, std::string member )
         const JsonObject &var_obj = jo.get_object( member );
         ret_val.var_val = get_talk_varname( var_obj, "name", false );
         ret_val.default_val = var_obj.get_int( "default" );
-    } else {
+    } else if( required ) {
         jo.throw_error( "No valid value for ", member );
+    } else {
+        ret_val.int_val = default_val;
     }
     return ret_val;
 }

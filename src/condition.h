@@ -74,7 +74,8 @@ struct int_or_var {
 
 std::string get_talk_varname( const JsonObject &jo, const std::string &member,
                               bool check_value = true );
-int_or_var get_variable_or_int( const JsonObject &jo, std::string member );
+int_or_var get_variable_or_int( const JsonObject &jo, std::string member, bool required = true,
+                                int default_val = 0 );
 // the truly awful declaration for the conditional_t loading helper_function
 template<class T>
 void read_condition( const JsonObject &jo, const std::string &member_name,
