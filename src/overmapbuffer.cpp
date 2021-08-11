@@ -792,7 +792,9 @@ static int get_terrain_cost( const tripoint_abs_omt &omt_pos, const overmap_path
     } else if( is_ot_match( "field", oter, ot_match_type::type ) ) {
         return params.field_cost;
     } else if( is_ot_match( "rural_road", oter, ot_match_type::prefix ) ||
-               is_ot_match( "dirt_road", oter, ot_match_type::prefix ) ) {
+               is_ot_match( "dirt_road", oter, ot_match_type::prefix ) ||
+               is_ot_match( "subway", oter, ot_match_type::type ) ||
+               is_ot_match( "lab_subway", oter, ot_match_type::type ) ) {
         return params.dirt_road_cost;
     } else if( is_ot_match( "forest_trail", oter, ot_match_type::type ) ) {
         return params.trail_cost;
