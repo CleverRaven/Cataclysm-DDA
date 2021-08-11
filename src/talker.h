@@ -208,6 +208,9 @@ class talker
         virtual bool has_amount( const itype_id &, int ) const {
             return false;
         }
+        virtual int get_amount( const itype_id & item_id ) const {
+            return 0;
+        }
         virtual std::list<item> use_amount( const itype_id &, int ) {
             return {};
         }
@@ -322,6 +325,10 @@ class talker
         virtual int get_thirst() const {
             return 0;
         }
+        virtual int get_stored_kcal() const
+        {
+            return 0;
+        }
         virtual bool is_in_control_of( const vehicle & ) const {
             return false;
         }
@@ -355,6 +362,18 @@ class talker
         }
         virtual units::energy power_cur() const {
             return 0_kJ;
+        }
+        virtual units::energy power_max() const
+        {
+            return 0_kJ;
+        }
+        virtual int mana_cur() const
+        {
+            return 0;
+        }
+        virtual int mana_max() const
+        {
+            return 0;
         }
         virtual void mod_healthy_mod( int, int ) {};
         virtual int morale_cur() const {

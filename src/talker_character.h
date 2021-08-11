@@ -63,6 +63,9 @@ class talker_character: public talker
         int per_cur() const override;
         int pain_cur() const override;
         units::energy power_cur() const override;
+        units::energy power_max() const override;
+        int mana_cur() const override;
+        int mana_max() const override;
         bool has_trait( const trait_id &trait_to_check ) const override;
         void set_mutation( const trait_id &new_trait ) override;
         void unset_mutation( const trait_id &old_trait ) override;
@@ -92,6 +95,7 @@ class talker_character: public talker
         bool has_charges( const itype_id &item_id, int count ) const override;
         std::list<item> use_charges( const itype_id &item_name, int count ) override;
         bool has_amount( const itype_id &item_id, int count ) const override;
+        int get_amount( const itype_id & item_id ) const override;
         std::list<item> use_amount( const itype_id &item_name, int count ) override;
         int cash() const override;
         std::vector<item *> items_with( const std::function<bool( const item & )> &filter ) const override;
@@ -111,6 +115,7 @@ class talker_character: public talker
         int get_fatigue() const override;
         int get_hunger() const override;
         int get_thirst() const override;
+        int get_stored_kcal() const override;
         bool is_in_control_of( const vehicle &veh ) const override;
 
         // speaking

@@ -16,11 +16,15 @@
 #include "dialogue.h"
 #include "dialogue_chatbin.h"
 #include "effect.h"
+#include "event.h"
+#include "event_bus.h"
+#include "event_subscriber.h"
 #include "faction.h"
 #include "game.h"
 #include "input.h"
 #include "item.h"
 #include "item_category.h"
+#include "kill_tracker.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "mission.h"
@@ -998,11 +1002,11 @@ TEST_CASE( "npc_change_topic", "[npc_talk]" )
 TEST_CASE("npc_compare_int_op", "[npc_talk]")
 {
     dialogue d;
-    npc& beta = prep_test(d);
-    player& player_character = get_avatar();
+    npc &beta = prep_test( d );
+    player &player_character = get_avatar();
 
-    d.add_topic("TALK_TEST_COMPARE_INT_OP");
-    gen_response_lines(d, 10);
+    d.add_topic( "TALK_TEST_COMPARE_INT_OP" );
+    gen_response_lines( d, 10 );
     CHECK( d.responses[ 0 ].text == "Two != five." );
     CHECK( d.responses[ 1 ].text == "Two <= five." );
     CHECK( d.responses[ 2 ].text == "Two < five." );
@@ -1018,27 +1022,33 @@ TEST_CASE("npc_compare_int_op", "[npc_talk]")
 TEST_CASE( "npc_compare_int", "[npc_talk]" )
 {
     dialogue d;
-    npc &beta = prep_test( d );
-    player &player_character = get_avatar();
+    npc & beta = prep_test( d );
+    player & player_character = get_avatar();
 
     player_character.str_cur = 4;
     player_character.dex_cur = 4;
     player_character.int_cur = 4;
     player_character.per_cur = 4;
-    for( npc *guy : g->allies() ) {
+    for( npc * guy : g->allies() ) {
         talk_function::leave( *guy );
     }
     player_character.cash = 0;
     beta.op_of_u.owed = 0;
     const skill_id skill( "driving" );
     player_character.set_skill_level( skill, 0 );
-    
+
     get_weather().temperature = 19;
     get_weather().windspeed = 20;
     get_weather().clear_temp_cache();
+    player_character.set_stored_kcal( 45000 );
+    player_character.remove_items_with( []( const item & it ) {
+        return it.get_category_shallow().get_id() == item_category_id( "books" ) ||
+            it.get_category_shallow().get_id() == item_category_id( "food" ) ||
+            it.typeId() == itype_id( "bottle_glass" );
+        } );
 
     d.add_topic( "TALK_TEST_COMPARE_INT" );
-    gen_response_lines( d, 3 );
+    gen_response_lines( d, 4 );
     CHECK( d.responses[ 0 ].text == "This is a u_adjust_var test response that increments by 1." );
     CHECK( d.responses[ 1 ].text == "This is an npc_adjust_var test response that increments by 2." );
     CHECK( d.responses[ 2 ].text == "This is a u_add_var time test response." );
@@ -1076,12 +1086,24 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.set_pain( 21 );
     player_character.add_bionic( bionic_id( "bio_power_storage" ) );
     player_character.set_power_level( 22_mJ );
+    player_character.set_max_power_level( 44_mJ );
     player_character.clear_morale();
     player_character.add_morale( MORALE_HAIRCUT, 23 );
     player_character.set_focus( 24 );
+    player_character.magic->set_mana(25);
+    player_character.set_hunger( 26 );
+    player_character.set_thirst( 27 );
+    player_character.set_stored_kcal( 55000 );
+    player_character.worn.emplace_back( "backpack" );
+    player_character.inv->add_item( item( itype_id( "bottle_glass" ) ) );
+    player_character.inv->add_item( item( itype_id( "bottle_glass" ) ) );
+    player_character.inv->add_item( item( itype_id( "bottle_glass" ) ) );
+    cata::event e = cata::event::make<event_type::character_kills_monster>(
+        get_player_character().getID(), mtype_id( "mon_zombie_bio_op" ) );
+    get_event_bus().send( e );
+    CHECK( g->get_kill_tracker().kill_xp() == 35 );
 
-
-    gen_response_lines( d, 30 );
+    gen_response_lines( d, 41 );
     CHECK( d.responses[ 0 ].text == "This is a u_adjust_var test response that increments by 1." );
     CHECK( d.responses[ 1 ].text == "This is an npc_adjust_var test response that increments by 2." );
     CHECK( d.responses[ 2 ].text == "PC strength is five." );
@@ -1111,11 +1133,22 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     CHECK( d.responses[ 25 ].text == "Pos_z is 20. This should be cause for alarm." );
     CHECK( d.responses[ 26 ].text == "Pain level is 21." );
     CHECK( d.responses[ 27 ].text == "Bionic power is 22." );
-    CHECK( d.responses[ 28 ].text == "Morale is 23." );
-    CHECK( d.responses[ 29 ].text == "Focus is 24." );
+    CHECK( d.responses[ 28 ].text == "Bionic power max is 44." );
+    CHECK( d.responses[ 29 ].text == "Bionic power is at 50%." );
+    CHECK( d.responses[ 30 ].text == "Morale is 23." );
+    CHECK( d.responses[ 31 ].text == "Focus is 24." );
+    CHECK( d.responses[ 32 ].text == "Mana is 25." );
+    CHECK( d.responses[ 33 ].text == "Mana max is 1000." );
+    CHECK( d.responses[ 34 ].text == "Mana is at 2%." );
+    CHECK( d.responses[ 35 ].text == "Hunger is 26." );
+    CHECK( d.responses[ 36 ].text == "Thirst is 27." );
+    CHECK( d.responses[ 37 ].text == "Stored kcal is 55'000." );
+    CHECK( d.responses[ 38 ].text == "Stored kcal is at 100% of healthy." );
+    CHECK( d.responses[ 39 ].text == "Has 3 glass bottles." );
+    CHECK( d.responses[ 40 ].text == "Has 35 experience." );
 
     calendar::turn = calendar::turn + time_duration( 4_days );
-    gen_response_lines( d, 31 );
+    gen_response_lines( d, 42 );
 
     CHECK( d.responses[ 15 ].text == "This is a time since u_var test response for > 3_days." );
 

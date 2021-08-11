@@ -212,6 +212,11 @@ bool talker_character::has_amount( const itype_id &item_id, int count ) const
     return me_chr->has_amount( item_id, count );
 }
 
+int talker_character::get_amount( const itype_id & item_id ) const
+{
+    return me_chr->amount_of( item_id );
+}
+
 int talker_character::cash() const
 {
     return me_chr->cash;
@@ -291,6 +296,11 @@ int talker_character::get_thirst() const
     return me_chr->get_thirst();
 }
 
+int talker_character::get_stored_kcal() const
+{
+    return me_chr->get_stored_kcal();
+}
+
 bool talker_character::is_in_control_of( const vehicle &veh ) const
 {
     return veh.player_in_control( *me_chr );
@@ -324,6 +334,21 @@ bool talker_character::wielded_with_flag( const flag_id &flag ) const
 units::energy talker_character::power_cur() const
 {
     return me_chr->get_power_level();
+}
+
+units::energy talker_character::power_max() const
+{
+    return me_chr->get_max_power_level();
+}
+
+int talker_character::mana_cur() const
+{
+    return me_chr->magic->available_mana();
+}
+
+int talker_character::mana_max() const
+{
+    return me_chr->magic->max_mana( *me_chr );
 }
 
 bool talker_character::can_see() const
