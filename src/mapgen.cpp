@@ -1025,7 +1025,10 @@ class mapgen_value
                 if( const distribution_source *other =
                         dynamic_cast<const distribution_source *>( &o ) ) {
                     if( list != other->list ) {
-                        debugmsg( "inconsistent default value distributions for %s", context );
+                        const std::string my_list = list.to_debug_string();
+                        const std::string other_list = other->list.to_debug_string();
+                        debugmsg( "inconsistent default value distributions for %s (%s vs %s)",
+                                  context, my_list, other_list );
                     }
                 } else {
                     debugmsg( "inconsistent default types for %s", context );
