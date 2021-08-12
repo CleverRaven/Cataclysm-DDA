@@ -760,10 +760,11 @@ void talk_function::caravan_depart( npc &p, const std::string &dest, const std::
     popup( _( "The caravan departs with an estimated total travel time of %d hours…" ),
            to_hours<int>( time ) );
 
+    //Adds a 10% error in estimated travel time
+    time_point arrive_at = calendar::turn + time * rng_float( -1.1, 1.1 );
     for( auto &elem : npc_list ) {
         if( elem->companion_mission_time == calendar::before_time_starts ) {
-            //Adds a 10% error in estimated travel time
-            elem->companion_mission_time = calendar::turn + time * rng_float( -1.1, 1.1 );
+            elem->companion_mission_time = arrive_at;
         }
     }
 }
