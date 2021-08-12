@@ -136,5 +136,105 @@
         { "ter": "t_thconc_floor_olight", "x": 3, "y": 11 }
       ]
     }
+  },
+  {
+    "type": "trap",
+    "id": "tr_light_on_lab_security_z0N_A",
+    "name": "overhead light",
+    "color": "white",
+    "symbol": ".",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "action": "map_regen",
+    "map_regen": "light_on_lab_security_z0N_A",
+    "benign": false
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "light_on_lab_security_z0N_A",
+    "method": "json",
+    "object": {
+      "place_terrain": [
+        { "ter": "t_thconc_floor_olight", "x": 4, "y": 3 },
+        { "ter": "t_thconc_floor_olight", "x": 11, "y": 15 },
+        { "ter": "t_thconc_floor_olight", "x": 18, "y": 3 }
+      ]
+    }
+  },
+  {
+    "type": "trap",
+    "id": "tr_light_on_lab_security_z0N_B",
+    "name": "overhead light",
+    "color": "white",
+    "symbol": ".",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "action": "map_regen",
+    "map_regen": "light_on_lab_security_z0N_B",
+    "benign": false
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "light_on_lab_security_z0N_B",
+    "method": "json",
+    "object": {
+      "place_terrain": [
+        { "ter": "t_thconc_floor_olight", "x": 4, "y": 15 },
+        { "ter": "t_thconc_floor_olight", "x": 11, "y": 3 },
+        { "ter": "t_thconc_floor_olight", "x": 18, "y": 15 }
+      ]
+    }
+  },
+  {
+    "type": "trap",
+    "id": "tr_light_on_lab_security_z0S_A",
+    "name": "overhead light",
+    "color": "white",
+    "symbol": ".",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "action": "map_regen",
+    "map_regen": "light_on_lab_security_z0S_A",
+    "benign": false
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "light_on_lab_security_z0S_A",
+    "method": "json",
+    "object": {
+      "place_terrain": [
+        { "ter": "t_thconc_floor_olight", "x": 4, "y": 8 },
+        { "ter": "t_thconc_floor_olight", "x": 11, "y": 20 },
+        { "ter": "t_thconc_floor_olight", "x": 18, "y": 8 }
+      ]
+    }
+  },
+  {
+    "type": "trap",
+    "id": "tr_light_on_lab_security_z0S_B",
+    "name": "overhead light",
+    "color": "white",
+    "symbol": ".",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "action": "map_regen",
+    "map_regen": "light_on_lab_security_z0S_B",
+    "benign": false
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "light_on_lab_security_z0S_B",
+    "method": "json",
+    "object": {
+      "place_terrain": [
+        { "ter": "t_thconc_floor_olight", "x": 4, "y": 20 },
+        { "ter": "t_thconc_floor_olight", "x": 11, "y": 8 },
+        { "ter": "t_thconc_floor_olight", "x": 18, "y": 20 }
+      ]
+    }
   }
 ]
