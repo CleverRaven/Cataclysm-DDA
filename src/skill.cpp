@@ -343,12 +343,16 @@ bool SkillLevel::rust( int rust_resist )
     // Once the accumulated rust exceeds 16% of a level, rust_amount starts to drop.
     int rust_amount = level_multiplier * 16 / rust_slowdown;
 
-    if( rust_amount < 1 ) {
-        return false;
+    if( rust_resist > 0 ) {
+        rust_amount = rust_amount * std::max( ( 100 - rust_resist ), 0 ) / 100;
     }
 
-    if( rust_resist > 0 ) {
-        rust_amount *= std::min( ( 100 - rust_resist ) / 100, 1 );
+    if( _level == 0 ) {
+        rust_amount = std::min( rust_amount, _exercise );
+    }
+
+    if( rust_amount < 1 ) {
+        return false;
     }
 
     _rustAccumulator += rust_amount;

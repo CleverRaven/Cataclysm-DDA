@@ -411,6 +411,10 @@ void SkillLevel::deserialize( JsonIn &jsin )
     data.allow_omitted_members();
     data.read( "level", _level );
     data.read( "exercise", _exercise );
+    if( _level < 0 ) {
+        _level = 0;
+        _exercise = 0;
+    }
     data.read( "istraining", _isTraining );
     data.read( "rustaccumulator", _rustAccumulator );
     if( !data.read( "lastpracticed", _lastPracticed ) ) {
