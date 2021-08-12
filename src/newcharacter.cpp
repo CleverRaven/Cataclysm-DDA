@@ -596,12 +596,17 @@ bool avatar::create( character_type type, const std::string &tempname )
         mod_skill_level( e.first, e.second );
     }
 
+    // 2 for an average person
+    float catchup_modifier = 1.0f + ( 2.0f * get_int() + get_per() ) / 24.0f;
+    // 1.2 for an average person, always a bit higher than base amount
+    float knowledge_modifier = 1.0f + get_int() / 40.0f;
     // Grab skills from hobbies and train
     for( const profession *profession : hobbies ) {
         for( const profession::StartingSkill &e : profession->skills() ) {
             // Train our skill
             const int skill_xp_bonus = calculate_cumulative_experience( e.second );
-            get_skill_level_object( e.first ).train( skill_xp_bonus );
+            get_skill_level_object( e.first ).train( skill_xp_bonus, catchup_modifier,
+                    knowledge_modifier );
         }
     }
 
