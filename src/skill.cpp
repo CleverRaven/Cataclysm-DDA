@@ -328,6 +328,11 @@ bool SkillLevel::rust( int rust_resist )
         return false;
     }
 
+    const std::string &rust_type = get_option<std::string>( "SKILL_RUST" );
+    if( rust_type == "off" ) {
+        return false;
+    }
+    
     const int level_multiplier = ( _level + 1 ) * ( _level + 1 );
     float level_exp = level_multiplier * 10000.0f;
     if( _rustAccumulator > level_exp * 3 ) {
@@ -357,7 +362,6 @@ bool SkillLevel::rust( int rust_resist )
 
     _rustAccumulator += rust_amount;
     _exercise -= rust_amount;
-    const std::string &rust_type = get_option<std::string>( "SKILL_RUST" );
     if( _exercise < 0 ) {
         if( rust_type == "vanilla" || rust_type == "int" ) {
             _exercise = ( 100 * 100 * level_multiplier ) - 1;
