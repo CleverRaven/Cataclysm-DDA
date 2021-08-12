@@ -431,5 +431,19 @@
     "base_faction": "insect",
     "neutral": [ "bot", "insect", "animal", "zombie" ],
     "hate": [ "fish", "zombie_aquatic" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "seweranha",
+    "base_faction": "mutant",
+    "hate": "fish",
+    "neutral": "seweranha"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "sewer_snake",
+    "base_faction": "mutant",
+    "hate": "fish",
+    "neutral": "sewer_snake"
   }
 ]
