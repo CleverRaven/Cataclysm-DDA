@@ -426,7 +426,7 @@
     "items": [
       { "group": "mags_pistol_common", "prob": 70 },
       { "group": "mags_rifle_common_gunstore", "prob": 50 },
-      { "group": "mags_shotgun_common", "prob": 50 }
+      { "group": "mags_shotgun_common", "prob": 10 }
     ]
   },
   {

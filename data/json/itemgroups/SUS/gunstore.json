@@ -19,13 +19,13 @@
     "//2": "This group is for the contents of rare back of house safes, with guns paired with their corresponding magazines",
     "subtype": "collection",
     "entries": [
-      { "group": "guns_pistol_obscure", "prob": 20 },
+      { "group": "guns_pistol_obscure_display", "prob": 20 },
       {
-        "collection": [ { "group": "guns_rifle_obscure" }, { "group": "mags_rifle_rare", "count": [ 1, 6 ] } ],
+        "collection": [ { "group": "guns_rifle_obscure_display" }, { "group": "mags_rifle_rare", "count": [ 1, 6 ] } ],
         "prob": 45
       },
       {
-        "collection": [ { "group": "guns_shotgun_obscure" }, { "group": "mags_shotgun_rare", "count": [ 1, 2 ] } ],
+        "collection": [ { "group": "guns_shotgun_obscure_display" }, { "group": "mags_shotgun_rare", "count": [ 1, 2 ] } ],
         "prob": 10
       },
       {
