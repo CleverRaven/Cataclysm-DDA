@@ -370,8 +370,7 @@
     "type": "item_group",
     "id": "mags_shotgun_common",
     "//": "Factory specification shotgun magazines commonly owned by citizens.",
-    "items": [  [ "shot_speedloader6", 15 ],
-      [ "shot_speedloader8", 15 ] ]
+    "items": [ [ "shot_speedloader6", 15 ], [ "shot_speedloader8", 15 ] ]
   },
   {
     "type": "item_group",
@@ -415,7 +414,7 @@
     "items": [
       { "group": "mags_pistol_common", "prob": 70 },
       { "group": "mags_rifle_common", "prob": 50 },
-	  { "group": "mags_smg_rare", "prob": 5 },
+      { "group": "mags_smg_rare", "prob": 5 },
       { "group": "mags_shotgun_common", "prob": 5 },
       { "group": "mags_other_common", "prob": 5 }
     ]
@@ -427,8 +426,7 @@
     "items": [
       { "group": "mags_pistol_common", "prob": 70 },
       { "group": "mags_rifle_common_gunstore", "prob": 50 },
-	  { "group": "mags_shotgun_common", "prob": 50 }
-
+      { "group": "mags_shotgun_common", "prob": 50 }
     ]
   },
   {
@@ -447,10 +445,7 @@
     "type": "item_group",
     "id": "mags_rare",
     "//": "Aftermarket or otherwise uncommon magazines.",
-    "items": [
-      { "group": "mags_pistol_rare", "prob": 70 },
-      { "group": "mags_rifle_rare", "prob": 20 }
-    ]
+    "items": [ { "group": "mags_pistol_rare", "prob": 70 }, { "group": "mags_rifle_rare", "prob": 20 } ]
   },
   {
     "type": "item_group",
@@ -476,7 +471,7 @@
       [ "tokarevmag", 10 ]
     ]
   },
-    {
+  {
     "type": "item_group",
     "id": "mags_obscure_gunstore",
     "//": "Magazines for imported firearms.",

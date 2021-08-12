@@ -11,11 +11,11 @@
       [ "rifle_scope", 30 ],
       [ "shoulder_strap", 100 ],
       [ "butt_hook", 30 ],
-	  [ "match_trigger", 20 ],
-      [ "offset_sights", 40 ],  
+      [ "match_trigger", 20 ],
+      [ "offset_sights", 40 ],
       [ "cheek_pad", 25 ],
       [ "rail_laser_sight", 40 ],
-      [ "red_dot_sight", 70 ]	  
+      [ "red_dot_sight", 70 ]
     ]
   },
   {
@@ -28,7 +28,7 @@
       [ "bipod", 20 ],
       [ "folding_stock", 60 ],
       [ "grip", 80 ],
-      [ "waterproof_gunmod", 40 ],		  
+      [ "waterproof_gunmod", 40 ],
       [ "gun_crossbow", 20 ],
       [ "stabilizer", 10 ],
       [ "laser_sight", 40 ],
@@ -42,7 +42,7 @@
       [ "recoil_stock", 60 ],
       [ "shot_suppressor", 10 ],
       [ "u_shotgun", 60 ],
-	  [ "suppressor", 60 ],
+      [ "suppressor", 60 ],
       [ "suppressor_compact", 40 ],
       [ "retool_ar15_300blk", 40 ]
     ]

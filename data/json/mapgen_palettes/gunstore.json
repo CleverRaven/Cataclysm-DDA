@@ -2,7 +2,7 @@
   {
     "type": "palette",
     "id": "gun_store_palette",
-    "//": " P, U, S, F, e, o, k, z, c, and > are all still available for more terrain or furniture",
+    "//": " P, U, S, F, e, |, o, k, z, c, and > are all still available for more terrain or furniture",
     "toilets": { "&": {  } },
     "terrain": {
       "-": "t_wall_w",
@@ -25,7 +25,6 @@
       "a": "t_thconc_floor",
       "?": "t_thconc_floor",
       "l": "t_thconc_floor",
-      "{": "t_thconc_floor",
       "E": "t_thconc_floor",
       "d": "t_thconc_floor",
       "^": "t_thconc_floor",
@@ -38,7 +37,6 @@
       "m": "t_thconc_floor",
       "M": "t_thconc_floor",
       "T": "t_thconc_floor",
-      "|": "t_thconc_floor",
       "N": "t_thconc_floor",
       "n": "t_thconc_floor",
       "K": "t_thconc_floor",
@@ -88,281 +86,22 @@
       "T": "f_target",
       "w": "f_dumpster",
       "X": [ [ "f_gunsafe_ml", 90 ], [ "f_gunsafe_o", 10 ] ],
-      "e": "f_gunsafe_ml",
+      "e": "f_gunsafe_o",
       "O": [ [ "f_gunsafe_ml", 90 ], [ "f_gunsafe_o", 10 ] ],
       "x": "f_sandbag_wall",
       "g": "f_sofa",
       "f": "f_fridge"
     },
     "items": {
-      "X": {
-        "item": {
-          "//": "contents of locked gunsafes in the FoH, all ammo should be kept in some form of safe, as well as a rotating supply of rare guns that do not have space in a FoH displaycase",
-          "subtype": "collection",
-          "entries": [
-            { "group": "ammo_common_collection", "prob": 85 },
-            { "group": "ammo_rare_collection", "prob": 20 },
-            { "group": "ammo_obscure_collection", "prob": 10 },
-            { "group": "guns_rare_display", "prob": 5 }
-          ]
-        },
-        "repeat": 20,
-        "chance": 50
-      },
-      "s": {
-        "item": {
-          "//": "contents of BoH gunstore deliverly crates",
-          "subtype": "distribution",
-          "entries": [
-            { "group": "guns_common_display", "prob": 80 },
-            { "group": "mags_common_gunstore", "prob": 80 },
-            { "group": "clothing_tactical_torso", "prob": 30 },
-            { "group": "clothing_tactical_leg", "prob": 30 },
-            { "group": "gun_cases", "prob": 30 },
-            { "group": "gunmod_common", "prob": 15 },
-            { "group": "book_gunmags", "prob": 60 },
-            { "group": "mil_food_nodrugs", "prob": 60 },
-            { "group": "ammo_parts", "prob": 80 },
-            { "item": "gloves_tactical", "prob": 5 },
-            { "item": "tac_helmet", "prob": 5 },
-            { "item": "helmet_army", "prob": 10 },
-            { "item": "winter_pants_army", "prob": 30 },
-            { "item": "winter_jacket_army", "prob": 30 },
-            { "item": "jacket_army", "prob": 30 },
-            { "item": "pants_army", "prob": 30 },
-            { "item": "knee_pads", "prob": 15 },
-            { "item": "kevlar", "prob": 10 },
-            { "item": "elbow_pads", "prob": 15 },
-            { "item": "holster", "prob": 30 },
-            { "item": "sholster", "prob": 10 },
-            { "item": "boots_combat", "prob": 10 },
-            { "item": "helmet_liner", "prob": 30 },
-            { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
-            { "item": "knife_combat", "container-item": "sheath", "prob": 60 },
-            { "item": "army_top", "prob": 30 },
-            { "item": "beret", "prob": 30 },
-            { "item": "beret_wool", "prob": 30 },
-            { "item": "bandolier_shotgun", "prob": 30 },
-            { "item": "goggles_nv", "prob": 1 },
-            { "item": "goggles_ir", "prob": 1 },
-            { "item": "bootsheath", "prob": 10 },
-            { "group": "ear_protection", "prob": 60 },
-            { "item": "hat_boonie", "prob": 30 },
-            { "item": "balclava", "prob": 30 },
-            { "item": "ballistic_vest_empty", "prob": 5 },
-            { "group": "tools_gunsmith", "prob": 5 }
-          ]
-        },
-        "repeat": 2,
-        "chance": 85
-      },
-      "S": {
-        "item": {
-          "//": "contents of BoH gunstore deliverly crates",
-          "subtype": "distribution",
-          "entries": [
-            { "group": "guns_common_display", "prob": 80 },
-            { "group": "mags_common_gunstore", "prob": 80 },
-            { "group": "clothing_tactical_torso", "prob": 30 },
-            { "group": "clothing_tactical_leg", "prob": 30 },
-            { "group": "gun_cases", "prob": 30 },
-            { "group": "gunmod_common", "prob": 15 },
-            { "group": "book_gunmags", "prob": 60 },
-            { "group": "mil_food_nodrugs", "prob": 60 },
-            { "group": "ammo_parts", "prob": 80 },
-            { "item": "gloves_tactical", "prob": 5 },
-            { "item": "tac_helmet", "prob": 5 },
-            { "item": "helmet_army", "prob": 10 },
-            { "item": "winter_pants_army", "prob": 30 },
-            { "item": "winter_jacket_army", "prob": 30 },
-            { "item": "jacket_army", "prob": 30 },
-            { "item": "pants_army", "prob": 30 },
-            { "item": "knee_pads", "prob": 15 },
-            { "item": "kevlar", "prob": 10 },
-            { "item": "elbow_pads", "prob": 15 },
-            { "item": "holster", "prob": 30 },
-            { "item": "sholster", "prob": 10 },
-            { "item": "boots_combat", "prob": 10 },
-            { "item": "helmet_liner", "prob": 30 },
-            { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
-            { "item": "knife_combat", "container-item": "sheath", "prob": 60 },
-            { "item": "army_top", "prob": 30 },
-            { "item": "beret", "prob": 30 },
-            { "item": "beret_wool", "prob": 30 },
-            { "item": "bandolier_shotgun", "prob": 30 },
-            { "item": "goggles_nv", "prob": 1 },
-            { "item": "goggles_ir", "prob": 1 },
-            { "item": "bootsheath", "prob": 10 },
-            { "group": "ear_protection", "prob": 60 },
-            { "item": "hat_boonie", "prob": 30 },
-            { "item": "balclava", "prob": 30 },
-            { "item": "ballistic_vest_empty", "prob": 5 },
-            { "group": "tools_gunsmith", "prob": 5 }
-          ]
-        },
-        "repeat": 3,
-        "chance": 5
-      },
-      "`": {
-        "item": {
-          "//": "items and trash covering floor from looting",
-          "subtype": "distribution",
-          "entries": [
-            { "group": "guns_common", "prob": 30, "damage": [ 0, 4 ] },
-            { "group": "clothing_tactical_torso", "prob": 5, "damage": [ 0, 4 ] },
-            { "group": "clothing_tactical_leg", "prob": 1, "damage": [ 0, 4 ] },
-            { "group": "gun_cases", "prob": 10, "damage": [ 0, 4 ] },
-            { "group": "book_gunmags", "prob": 25, "damage": [ 0, 4 ] },
-            { "group": "mil_food_nodrugs", "prob": 20, "damage": [ 0, 4 ] },
-            { "group": "looted_store", "prob": 75 },
-            { "item": "winter_pants_army", "prob": 5, "damage": [ 0, 4 ] },
-            { "item": "winter_jacket_army", "prob": 5, "damage": [ 0, 4 ] },
-            { "item": "jacket_army", "prob": 5, "damage": [ 0, 4 ] },
-            { "item": "pants_army", "prob": 5, "damage": [ 0, 4 ] },
-            { "item": "army_top", "prob": 5, "damage": [ 0, 4 ] },
-            { "item": "beret", "prob": 5, "damage": [ 0, 4 ] },
-            { "item": "beret_wool", "prob": 5, "damage": [ 0, 4 ] },
-            { "item": "hat_boonie", "prob": 5, "damage": [ 0, 4 ] },
-            { "item": "balclava", "prob": 5, "damage": [ 0, 4 ] }
-          ]
-        },
-        "repeat": 2,
-        "chance": 20
-      },
-      "m": {
-        "item": {
-          "//": "looted racks",
-          "subtype": "distribution",
-          "entries": [
-            { "group": "guns_common_display", "prob": 5, "damage": [ 0, 2 ] },
-            { "group": "mags_common", "prob": 10, "damage": [ 0, 2 ] },
-            { "group": "clothing_tactical_torso", "prob": 10, "damage": [ 0, 2 ] },
-            { "group": "clothing_tactical_leg", "prob": 10, "damage": [ 0, 2 ] },
-            { "group": "gun_cases", "prob": 10, "damage": [ 0, 2 ] },
-            { "group": "gunmod_common", "prob": 5, "damage": [ 0, 2 ] },
-            { "group": "book_gunmags", "prob": 10, "damage": [ 0, 2 ] },
-            { "group": "mil_food_nodrugs", "prob": 10, "damage": [ 0, 2 ] },
-            { "group": "ammo_parts", "prob": 10, "damage": [ 0, 2 ] },
-            { "item": "gloves_tactical", "prob": 1, "damage": [ 0, 2 ] },
-            { "item": "tac_helmet", "prob": 1, "damage": [ 0, 2 ] },
-            { "item": "helmet_army", "prob": 1, "damage": [ 0, 2 ] },
-            { "item": "winter_pants_army", "prob": 10, "damage": [ 0, 2 ] },
-            { "item": "winter_jacket_army", "prob": 10, "damage": [ 0, 2 ] },
-            { "item": "jacket_army", "prob": 10, "damage": [ 0, 2 ] },
-            { "item": "pants_army", "prob": 10, "damage": [ 0, 2 ] },
-            { "item": "knee_pads", "prob": 5, "damage": [ 0, 2 ] },
-            { "item": "kevlar", "prob": 1, "damage": [ 0, 2 ] },
-            { "item": "elbow_pads", "prob": 5, "damage": [ 0, 2 ] },
-            { "item": "holster", "prob": 5, "damage": [ 0, 2 ] },
-            { "item": "sholster", "prob": 1, "damage": [ 0, 2 ] },
-            { "item": "boots_combat", "prob": 1, "damage": [ 0, 2 ] },
-            { "item": "helmet_liner", "prob": 10, "damage": [ 0, 2 ] },
-            { "item": "mask_gas", "prob": 1, "charges": [ 0, 100 ], "damage": [ 0, 2 ] },
-            { "item": "knife_combat", "container-item": "sheath", "prob": 1, "damage": [ 0, 2 ] },
-            { "item": "army_top", "prob": 10, "damage": [ 0, 2 ] },
-            { "item": "beret", "prob": 10, "damage": [ 0, 2 ] },
-            { "item": "beret_wool", "prob": 10, "damage": [ 0, 2 ] },
-            { "item": "bandolier_shotgun", "prob": 10, "damage": [ 0, 2 ] },
-            { "item": "goggles_nv", "prob": 1, "damage": [ 0, 2 ] },
-            { "item": "goggles_ir", "prob": 1, "damage": [ 0, 2 ] },
-            { "item": "bootsheath", "prob": 5, "damage": [ 0, 2 ] },
-            { "group": "ear_protection", "prob": 10, "damage": [ 0, 2 ] },
-            { "item": "hat_boonie", "prob": 10, "damage": [ 0, 2 ] },
-            { "item": "balclava", "prob": 10, "damage": [ 0, 2 ] },
-            { "item": "ballistic_vest_empty", "prob": 1, "damage": [ 0, 2 ] },
-            { "group": "tools_gunsmith", "prob": 1, "damage": [ 0, 2 ] }
-          ]
-        },
-        "repeat": 1,
-        "chance": 25
-      },
-      "p": {
-        "item": {
-          "subtype": "distribution",
-          "//": "looted displayracks",
-          "entries": [
-            { "group": "guns_rifle_rare_display", "prob": 80 },
-            { "group": "guns_pistol_rare_display", "prob": 40 },
-            { "group": "guns_shotgun_rare_display", "prob": 20 }
-          ]
-        },
-        "repeat": 1,
-        "chance": 25
-      },
-      "M": {
-        "item": {
-          "//": "looted lockers",
-          "subtype": "distribution",
-          "entries": [
-            { "group": "guns_common_display", "prob": 5, "damage": [ 0, 2 ] },
-            { "group": "mags_common", "prob": 10, "damage": [ 0, 2 ] },
-            { "group": "clothing_tactical_torso", "prob": 10, "damage": [ 0, 2 ] },
-            { "group": "clothing_tactical_leg", "prob": 10, "damage": [ 0, 2 ] },
-            { "group": "gun_cases", "prob": 10, "damage": [ 0, 2 ] },
-            { "group": "gunmod_common", "prob": 5, "damage": [ 0, 2 ] },
-            { "group": "book_gunmags", "prob": 10, "damage": [ 0, 2 ] },
-            { "group": "mil_food_nodrugs", "prob": 10, "damage": [ 0, 2 ] },
-            { "group": "ammo_parts", "prob": 10, "damage": [ 0, 2 ] },
-            { "item": "gloves_tactical", "prob": 1, "damage": [ 0, 2 ] },
-            { "item": "tac_helmet", "prob": 1, "damage": [ 0, 2 ] },
-            { "item": "helmet_army", "prob": 1, "damage": [ 0, 2 ] },
-            { "item": "winter_pants_army", "prob": 10, "damage": [ 0, 2 ] },
-            { "item": "winter_jacket_army", "prob": 10, "damage": [ 0, 2 ] },
-            { "item": "jacket_army", "prob": 10, "damage": [ 0, 2 ] },
-            { "item": "pants_army", "prob": 10, "damage": [ 0, 2 ] },
-            { "item": "knee_pads", "prob": 5, "damage": [ 0, 2 ] },
-            { "item": "kevlar", "prob": 1, "damage": [ 0, 2 ] },
-            { "item": "elbow_pads", "prob": 5, "damage": [ 0, 2 ] },
-            { "item": "holster", "prob": 5, "damage": [ 0, 2 ] },
-            { "item": "sholster", "prob": 1, "damage": [ 0, 2 ] },
-            { "item": "boots_combat", "prob": 1, "damage": [ 0, 2 ] },
-            { "item": "helmet_liner", "prob": 10, "damage": [ 0, 2 ] },
-            { "item": "mask_gas", "prob": 1, "charges": [ 0, 100 ], "damage": [ 0, 2 ] },
-            { "item": "knife_combat", "container-item": "sheath", "prob": 1, "damage": [ 0, 2 ] },
-            { "item": "army_top", "prob": 10, "damage": [ 0, 2 ] },
-            { "item": "beret", "prob": 10, "damage": [ 0, 2 ] },
-            { "item": "beret_wool", "prob": 10, "damage": [ 0, 2 ] },
-            { "item": "bandolier_shotgun", "prob": 10, "damage": [ 0, 2 ] },
-            { "item": "goggles_nv", "prob": 1, "damage": [ 0, 2 ] },
-            { "item": "goggles_ir", "prob": 1, "damage": [ 0, 2 ] },
-            { "item": "bootsheath", "prob": 5, "damage": [ 0, 2 ] },
-            { "group": "ear_protection", "prob": 10, "damage": [ 0, 2 ] },
-            { "item": "hat_boonie", "prob": 10, "damage": [ 0, 2 ] },
-            { "item": "balclava", "prob": 10, "damage": [ 0, 2 ] },
-            { "item": "ballistic_vest_empty", "prob": 1, "damage": [ 0, 2 ] },
-            { "group": "tools_gunsmith", "prob": 1, "damage": [ 0, 2 ] }
-          ]
-        },
-        "repeat": 1,
-        "chance": 25
-      },
-      "O": {
-        "item": {
-          "//": "contents of secondary gun safes which have no ammo but access to non-civilian AWB violating firearms",
-          "subtype": "distribution",
-          "entries": [
-            { "group": "guns_pistol_obscure", "prob": 20 },
-            {
-              "collection": [ { "group": "guns_rifle_obscure" }, { "group": "mags_rifle_rare", "count": [ 1, 6 ] } ],
-              "prob": 45
-            },
-            {
-              "collection": [ { "group": "guns_shotgun_obscure" }, { "group": "mags_shotgun_rare", "count": [ 1, 2 ] } ],
-              "prob": 10
-            },
-            {
-              "collection": [
-                { "group": "guns_smg_display" },
-                { "group": "mags_smg_common", "count": [ 1, 8 ] },
-                { "group": "mags_smg_rare", "count": [ 1, 8 ] }
-              ],
-              "prob": 45
-            }
-          ]
-        },
-        "repeat": 6,
-        "chance": 75
-      },
+      "X": { "item": "SUS_gunstore_safe", "chance": 50, "repeat": [ 15, 25 ] },
+      "O": { "item": "SUS_gunstore_safe_obscure", "chance": 75, "repeat": [ 3, 6 ] },
+      "s": { "item": "SUS_gunstore_crate", "chance": 75, "repeat": [ 1, 3 ] },
+      "S": { "item": "SUS_gunstore_crate", "chance": 5, "repeat": [ 1, 3 ] },
+      "`": { "item": "SUS_gunstore_looted_floor", "chance": 20, "repeat": [ 1, 2 ] },
+      "m": { "item": "SUS_gunstore_looted_storage", "chance": 20, "repeat": [ 1, 2 ] },
+      "M": { "item": "SUS_gunstore_looted_storage", "chance": 20, "repeat": [ 1, 2 ] },
+      "d": { "item": "SUS_gunstore_displaycase", "chance": 95 },
+      "p": { "item": "SUS_gunstore_displaycase", "chance": 25 },
       "K": {
         "item": {
           "//": "gun books kept on racks in the FoH",
@@ -381,51 +120,7 @@
         "repeat": 15,
         "chance": 65
       },
-      "Y": {
-        "item": {
-          "//": "clothing and food kept on racks in the FoH",
-          "subtype": "distribution",
-          "entries": [
-            { "group": "clothing_tactical_torso", "count": [ 1, 3 ], "prob": 80 },
-            { "group": "clothing_tactical_leg", "count": [ 1, 3 ], "prob": 80 },
-            { "item": "winter_pants_army", "prob": 40 },
-            { "item": "winter_jacket_army", "prob": 40 },
-            { "item": "jacket_army", "prob": 40 },
-            { "item": "pants_army", "prob": 40 },
-            { "group": "gun_cases", "prob": 60 },
-            { "group": "mil_food_nodrugs", "prob": 80 },
-            { "item": "gloves_tactical", "prob": 19 },
-            { "item": "tac_helmet", "prob": 5 },
-            { "item": "helmet_army", "prob": 10 },
-            { "item": "winter_pants_army", "prob": 60 },
-            { "item": "winter_jacket_army", "prob": 60 },
-            { "item": "jacket_army", "prob": 60 },
-            { "item": "pants_army", "prob": 60 },
-            { "item": "knee_pads", "prob": 30 },
-            { "item": "kevlar", "prob": 10 },
-            { "item": "elbow_pads", "prob": 30 },
-            { "item": "holster", "prob": 45 },
-            { "item": "sholster", "prob": 20 },
-            { "item": "boots_combat", "prob": 10 },
-            { "item": "helmet_liner", "prob": 30 },
-            { "item": "mask_gas", "prob": 10, "charges": [ 0, 100 ] },
-            { "item": "knife_combat", "container-item": "sheath", "prob": 45 },
-            { "item": "army_top", "prob": 30 },
-            { "item": "beret", "prob": 30 },
-            { "item": "beret_wool", "prob": 30 },
-            { "item": "bandolier_shotgun", "prob": 15 },
-            { "item": "goggles_nv", "prob": 1 },
-            { "item": "goggles_ir", "prob": 1 },
-            { "item": "bootsheath", "prob": 10 },
-            { "group": "ear_protection", "prob": 45 },
-            { "item": "hat_boonie", "prob": 30 },
-            { "item": "balclava", "prob": 30 },
-            { "item": "ballistic_vest_empty", "prob": 5 }
-          ]
-        },
-        "repeat": [ 1, 4 ],
-        "chance": 75
-      },
+      "Y": { "item": "SUS_gunstore_gear", "chance": 25, "repeat": [ 1, 4 ] },
       "v": {
         "item": {
           "//": "gun mods kept on racks in the FoH",
@@ -475,18 +170,6 @@
         "item": { "//": "rec room fridge", "subtype": "collection", "entries": [ { "group": "fridgesnacks" } ] },
         "repeat": 10,
         "chance": 35
-      },
-      "d": {
-        "item": {
-          "subtype": "distribution",
-          "//": "display cases for all types of rare civilian firearms",
-          "entries": [
-            { "group": "guns_rifle_rare_display", "prob": 80 },
-            { "group": "guns_pistol_rare_display", "prob": 40 },
-            { "group": "guns_shotgun_rare_display", "prob": 20 }
-          ]
-        },
-        "chance": 95
       },
       "R": {
         "item": {

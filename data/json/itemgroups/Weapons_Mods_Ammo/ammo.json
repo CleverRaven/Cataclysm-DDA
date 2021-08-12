@@ -226,7 +226,7 @@
       { "item": "762_m43", "prob": 20, "charges": [ 1, 30 ] }
     ]
   },
-    {
+  {
     "type": "item_group",
     "id": "ammo_rifle_common_collection",
     "//": "Rifle ammo commonly owned by citizens and found in many locations.",
@@ -258,7 +258,7 @@
       { "item": "762_m87", "prob": 25 },
       { "item": "8mm_civilian", "prob": 15 },
       { "item": "300blk", "prob": 15 },
-      { "item": "300blk_ss", "prob": 10 } 
+      { "item": "300blk_ss", "prob": 10 }
     ]
   },
   {
@@ -278,7 +278,7 @@
       { "item": "8mm_civilian", "prob": 15 },
       { "item": "300blk", "prob": 20 },
       { "item": "762_54R", "prob": 35 },
-      { "item": "762_m43", "prob": 20 },	 	  
+      { "item": "762_m43", "prob": 20 },
       { "item": "300blk_ss", "prob": 15 }
     ]
   },
@@ -511,20 +511,14 @@
     "id": "ammo_obscure",
     "//": "Imported or otherwise very obscure ammo.",
     "subtype": "distribution",
-    "entries": [
-      { "group": "ammo_pistol_obscure", "prob": 100 },
-      { "group": "ammo_rifle_obscure", "prob": 100 }
-    ]
+    "entries": [ { "group": "ammo_pistol_obscure", "prob": 100 }, { "group": "ammo_rifle_obscure", "prob": 100 } ]
   },
-    {
+  {
     "type": "item_group",
     "id": "ammo_obscure_collection",
     "//": "Imported or otherwise very obscure ammo.",
     "subtype": "collection",
-    "entries": [
-      { "group": "ammo_pistol_obscure_collection", "prob": 85 },
-      { "group": "ammo_rifle_obscure_collection", "prob": 25 }
-    ]
+    "entries": [ { "group": "ammo_pistol_obscure_collection", "prob": 85 }, { "group": "ammo_rifle_obscure_collection", "prob": 25 } ]
   },
   {
     "type": "item_group",
