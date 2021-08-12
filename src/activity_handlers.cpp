@@ -117,7 +117,6 @@ static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_CONSUME_FUEL_MENU( "ACT_CONSUME_FUEL_MENU" );
-static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
 static const activity_id ACT_DISSECT( "ACT_DISSECT" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
@@ -214,8 +213,6 @@ static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 
-static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
-
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
 
@@ -225,7 +222,6 @@ static const species_id species_ZOMBIE( "ZOMBIE" );
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
-static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
@@ -273,7 +269,6 @@ activity_handlers::do_turn_functions = {
     { ACT_ADV_INVENTORY, adv_inventory_do_turn },
     { ACT_ARMOR_LAYERS, armor_layers_do_turn },
     { ACT_ATM, atm_do_turn },
-    { ACT_CRACKING, cracking_do_turn },
     { ACT_FISH, fish_do_turn },
     { ACT_REPAIR_ITEM, repair_item_do_turn },
     { ACT_BLEED, butcher_do_turn },
@@ -327,7 +322,6 @@ activity_handlers::finish_functions = {
     { ACT_START_ENGINES, start_engines_finish },
     { ACT_OXYTORCH, oxytorch_finish },
     { ACT_PULP, pulp_finish },
-    { ACT_CRACKING, cracking_finish },
     { ACT_REPAIR_ITEM, repair_item_finish },
     { ACT_HEATING, heat_item_finish },
     { ACT_MEND_ITEM, mend_item_finish },
@@ -1429,12 +1423,12 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                 if( source_veh == nullptr ) {
                     throw std::runtime_error( "could not find source vehicle for liquid transfer" );
                 }
-                deserialize( liquid, act_ref.str_values.at( 0 ) );
+                deserialize_from_string( liquid, act_ref.str_values.at( 0 ) );
                 part_num = static_cast<int>( act_ref.values.at( 1 ) );
                 veh_charges = liquid.charges;
                 break;
             case liquid_source_type::INFINITE_MAP:
-                deserialize( liquid, act_ref.str_values.at( 0 ) );
+                deserialize_from_string( liquid, act_ref.str_values.at( 0 ) );
                 liquid.charges = item::INFINITE_CHARGES;
                 break;
             case liquid_source_type::MAP_ITEM:
@@ -1452,7 +1446,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                     debugmsg( "could not find source creature for liquid transfer" );
                     act_ref.set_to_null();
                 }
-                deserialize( liquid, act_ref.str_values.at( 0 ) );
+                deserialize_from_string( liquid, act_ref.str_values.at( 0 ) );
                 liquid.charges = 1;
                 break;
         }
@@ -2006,9 +2000,9 @@ void activity_handlers::train_finish( player_activity *act, player *p )
     if( sk.is_valid() ) {
         const Skill &skill = sk.obj();
         std::string skill_name = skill.name();
-        int old_skill_level = p->get_skill_level( sk );
+        int old_skill_level = p->get_knowledge_level( sk );
         p->practice( sk, 100, old_skill_level + 2 );
-        int new_skill_level = p->get_skill_level( sk );
+        int new_skill_level = p->get_knowledge_level( sk );
         if( old_skill_level != new_skill_level ) {
             add_msg( m_good, _( "You finish training %s to level %d." ),
                      skill_name, new_skill_level );
@@ -2317,16 +2311,6 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
     }
 }
 
-void activity_handlers::cracking_finish( player_activity *act, player *guy )
-{
-    guy->add_msg_if_player( m_good, _( "With a satisfying click, the lock on the safe opens!" ) );
-    if( !guy->has_proficiency( proficiency_prof_safecracking ) ) {
-        guy->practice_proficiency( proficiency_prof_safecracking, 60_minutes );
-    }
-    get_map().furn_set( act->placement, f_safe_c );
-    act->set_to_null();
-}
-
 enum class repeat_type : int {
     // INIT should be zero. In some scenarios (vehicle welder), activity value default to zero.
     INIT = 0,    // Haven't found repeat value yet.
@@ -2478,7 +2462,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
         // TODO: Allow setting this in the actor
         // TODO: Don't use charges_to_use: welder has 50 charges per use, soldering iron has 1
-        if( !used_tool->units_sufficient( *p ) ) {
+        if( !used_tool->ammo_sufficient( p ) ) {
             p->add_msg_if_player( _( "Your %s ran out of charges." ), used_tool->tname() );
             act->set_to_null();
             return;
@@ -2970,19 +2954,6 @@ void activity_handlers::fish_finish( player_activity *act, player *p )
     if( !p->backlog.empty() && p->backlog.front().id() == ACT_MULTIPLE_FISH ) {
         p->backlog.clear();
         p->assign_activity( ACT_TIDY_UP );
-    }
-}
-
-void activity_handlers::cracking_do_turn( player_activity *act, player *p )
-{
-    auto cracking_tool = p->crafting_inventory().items_with( []( const item & it ) -> bool {
-        item temporary_item( it.type );
-        return temporary_item.has_flag( flag_SAFECRACK );
-    } );
-    if( cracking_tool.empty() && !p->has_flag( json_flag_SUPER_HEARING ) ) {
-        // We lost our cracking tool somehow, bail out.
-        act->set_to_null();
-        return;
     }
 }
 
@@ -4105,25 +4076,48 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     bool target_is_valid = false;
     if( spell_being_cast.range() > 0 && !spell_being_cast.is_valid_target( spell_target::none ) &&
         !spell_being_cast.has_flag( spell_flag::RANDOM_TARGET ) ) {
-        do {
-            avatar &you = *p->as_avatar();
-            std::vector<tripoint> trajectory = target_handler::mode_spell( you, spell_being_cast, no_fail,
-                                               no_mana );
-            if( !trajectory.empty() ) {
-                target = trajectory.back();
-                target_is_valid = spell_being_cast.is_valid_target( *p, target );
-                if( !( spell_being_cast.is_valid_target( spell_target::ground ) || p->sees( target ) ) ) {
+        if( p->is_avatar() ) {
+            do {
+                avatar &you = *p->as_avatar();
+                std::vector<tripoint> trajectory = target_handler::mode_spell( you, spell_being_cast, no_fail,
+                                                   no_mana );
+                if( !trajectory.empty() ) {
+                    target = trajectory.back();
+                    target_is_valid = spell_being_cast.is_valid_target( *p, target );
+                    if( !( spell_being_cast.is_valid_target( spell_target::ground ) || p->sees( target ) ) ) {
+                        target_is_valid = false;
+                    }
+                } else {
                     target_is_valid = false;
                 }
+                if( !target_is_valid ) {
+                    if( query_yn( _( "Stop casting spell?  Time spent will be lost." ) ) ) {
+                        return;
+                    }
+                }
+            } while( !target_is_valid );
+        } else {
+            if( act->coords.empty() ) {
+                debugmsg( "ERROR: npc tried to cast a spell without a target." );
             } else {
-                target_is_valid = false;
-            }
-            if( !target_is_valid ) {
-                if( query_yn( _( "Stop casting spell?  Time spent will be lost." ) ) ) {
-                    return;
+                const tripoint local_target = get_map().getlocal( act->coords.front() );
+                if( spell_being_cast.is_valid_target( *p, local_target ) ) {
+                    target = local_target;
+                } else {
+                    npc_attack_spell npc_spell( spell_being_cast.id() );
+                    // recalculate effectiveness because it's been a few turns since the npc started casting.
+                    const npc_attack_rating effectiveness = npc_spell.evaluate( *p->as_npc(),
+                                                            p->last_target.lock().get() );
+                    if( effectiveness < 0 ) {
+                        add_msg_debug( debugmode::debug_filter::DF_NPC, "%s cancels casting %s, target lost",
+                                       p->disp_name(), spell_being_cast.name() );
+                        return;
+                    } else {
+                        target = effectiveness.target();
+                    }
                 }
             }
-        } while( !target_is_valid );
+        }
     } else if( spell_being_cast.has_flag( spell_flag::RANDOM_TARGET ) ) {
         const cata::optional<tripoint> target_ = spell_being_cast.random_valid_target( *p, p->pos() );
         if( !target_ ) {

@@ -45,7 +45,6 @@ class map;
 class monster;
 class nc_color;
 class npc;
-class player;
 class vehicle;
 class vehicle_part_range;
 class vpart_info;
@@ -558,14 +557,14 @@ class turret_data
          * and performs any other actions that must be done before firing a turret.
          * @param p the player that is firing the gun, subject to recoil adjustment.
          */
-        void prepare_fire( player &p );
+        void prepare_fire( Character &you );
 
         /**
          * Reset state after firing a prepared turret, called by the firing function.
          * @param p the player that just fired (or attempted to fire) the turret.
          * @param shots the number of shots fired by the most recent call to turret::fire.
          */
-        void post_fire( player &p, int shots );
+        void post_fire( Character &you, int shots );
 
         /**
          * Fire the turret's gun at a given target.
@@ -610,6 +609,17 @@ struct label : public point {
 
     void deserialize( JsonIn &jsin );
     void serialize( JsonOut &json ) const;
+};
+
+enum class autodrive_result : int {
+    // the driver successfully performed course correction or simply did nothing
+    // in order to keep going forward
+    ok,
+    // something bad happened (navigation error, crash, loss of visibility, or just
+    // couldn't find a way around obstacles) and autodrive cannot continue
+    abort,
+    // arrived at the destination
+    finished
 };
 
 class RemovePartHandler;
@@ -773,8 +783,14 @@ class vehicle
     public:
         explicit vehicle( const vproto_id &type_id, int init_veh_fuel = -1, int init_veh_status = -1 );
         vehicle();
+        vehicle( const vehicle & ) = delete;
         ~vehicle();
+        vehicle &operator=( vehicle && ) = default;
 
+    private:
+        vehicle &operator=( const vehicle & ) = default;
+
+    public:
         /** Disable or enable refresh() ; used to speed up performance when creating a vehicle */
         void suspend_refresh();
         void enable_refresh();
@@ -857,7 +873,7 @@ class vehicle
         bool has_old_owner() const {
             return !old_owner.is_null();
         }
-        bool handle_potential_theft( player &p, bool check_only = false, bool prompt = true );
+        bool handle_potential_theft( Character &you, bool check_only = false, bool prompt = true );
         // project a tileray forward to predict obstacles
         std::set<point> immediate_path( const units::angle &rotate = 0_degrees );
         std::set<point> collision_check_points;
@@ -867,8 +883,10 @@ class vehicle
         tripoint get_autodrive_target() {
             return autodrive_local_target;
         }
-        void do_autodrive();
-        void stop_autodriving();
+        // Drive automatically towards some destination for one turn.
+        autodrive_result do_autodrive( Character &driver );
+        // Stop any kind of automatic vehicle control and apply the brakes.
+        void stop_autodriving( bool apply_brakes = true );
         /**
          *  Operate vehicle controls
          *  @param pos location of physical controls to operate (ignored during remote operation)
@@ -937,7 +955,7 @@ class vehicle
         // than the structure part at exclude
         bool find_and_split_vehicles( int exclude );
         // relocate passengers to the same part on a new vehicle
-        void relocate_passengers( const std::vector<player *> &passengers );
+        void relocate_passengers( const std::vector<Character *> &passengers );
         // remove a bunch of parts, specified by a vector indices, and move them to a new vehicle at
         // the same global position
         // optionally specify the new vehicle position and the mount points on the new vehicle
@@ -1071,7 +1089,7 @@ class vehicle
         // returns indices of all parts in the given location slot
         std::vector<int> all_parts_at_location( const std::string &location ) const;
         // shifts an index to next available of that type for NPC activities
-        int get_next_shifted_index( int original_index, player &p );
+        int get_next_shifted_index( int original_index, Character &you );
         // Given a part and a flag, returns the indices of all contiguously adjacent parts
         // with the same flag on the X and Y Axis
         std::vector<std::vector<int>> find_lines_of_parts( int part, const std::string &flag );
@@ -1089,10 +1107,6 @@ class vehicle
         // Translate mount coordinates "p" into tile coordinates "q" using given tileray and anchor
         // should be faster than previous call for repeated translations
         void coord_translate( tileray tdir, const point &pivot, const point &p, tripoint &q ) const;
-
-        // Rotates mount coordinates "p" from old_dir to new_dir along pivot
-        point rotate_mount( units::angle old_dir, units::angle new_dir, const point &pivot,
-                            const point &p ) const;
 
         tripoint mount_to_tripoint( const point &mount ) const;
         tripoint mount_to_tripoint( const point &mount, const point &offset ) const;
@@ -1140,18 +1154,16 @@ class vehicle
         std::vector<rider_data> get_riders() const;
 
         // get passenger at part p
-        player *get_passenger( int p ) const;
+        Character *get_passenger( int you ) const;
         // get monster on a boardable part at p
         monster *get_monster( int p ) const;
 
         bool enclosed_at( const tripoint &pos ); // not const because it calls refresh_insides
-        /**
-         * Get the coordinates (in map squares) of this vehicle, it's the same
-         * coordinate system that player::posx uses.
-         * Global apparently means relative to the currently loaded map (game::m).
-         * This implies:
-         * <code>g->m.veh_at(this->global_pos3()) == this;</code>
-         */
+        // Returns the location of the vehicle in global map square coordinates.
+        tripoint_abs_ms global_square_location() const;
+        // Returns the location of the vehicle in global overmap terrain coordinates.
+        tripoint_abs_omt global_omt_location() const;
+        // Returns the coordinates (in map squares) of the vehicle relative to the local map.
         tripoint global_pos3() const;
         /**
          * Get the coordinates of the studied part of the vehicle
@@ -1487,7 +1499,7 @@ class vehicle
         /**
          * vehicle is driving itself
          */
-        void autodrive( const point & );
+        void selfdrive( const point & );
         /**
          * can the helicopter descend/ascend here?
          */
@@ -1499,7 +1511,7 @@ class vehicle
          * @param p direction player is steering
          * @param z for vertical movement - e.g helicopters
          */
-        void pldrive( const point &p, int z = 0 );
+        void pldrive( Character &driver, const point &p, int z = 0 );
 
         // stub for per-vpart limit
         units::volume max_volume( int part ) const;
@@ -1849,7 +1861,6 @@ class vehicle
         // make sure the vehicle is supported across z-levels or on the same z-level
         bool level_vehicle();
 
-        std::vector<tripoint_abs_omt> omt_path; // route for overmap-scale auto-driving
         std::vector<int> alternators;      // List of alternator indices
         std::vector<int> engines;          // List of engine indices
         std::vector<int> reactors;         // List of reactor indices
@@ -1913,6 +1924,8 @@ class vehicle
         mutable point mass_center_precalc;
         mutable point mass_center_no_precalc;
         tripoint autodrive_local_target = tripoint_zero; // current node the autopilot is aiming for
+        class autodrive_controller;
+        std::shared_ptr<autodrive_controller> active_autodrive_controller;
 
     public:
         // Subtract from parts.size() to get the real part count.
@@ -2014,6 +2027,7 @@ class vehicle
 
     public:
         bool is_on_ramp = false;
+        // vehicle being driven by player/npc automatically
         bool is_autodriving = false;
         bool is_following = false;
         bool is_patrolling = false;
@@ -2050,6 +2064,10 @@ class vehicle
 
         // destination for exhaust emissions
         tripoint exhaust_dest( int part ) const;
+
+        // Returns debug data to overlay on the screen, a vector of {map tile position
+        // relative to vehicle pos, color and text}.
+        std::vector<std::tuple<point, int, std::string>> get_debug_overlay_data() const;
 };
 
 #endif // CATA_SRC_VEHICLE_H

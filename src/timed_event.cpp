@@ -46,7 +46,7 @@ static const mtype_id mon_sewer_snake( "mon_sewer_snake" );
 static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 
-timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint p )
+timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_sm p )
     : type( e_t )
     , when( w )
     , faction_id( f_id )
@@ -64,14 +64,14 @@ void timed_event::actualize()
             break;
 
         case timed_event_type::ROBOT_ATTACK: {
-            const tripoint u_pos = player_character.global_sm_location();
+            const tripoint_abs_sm u_pos = player_character.global_sm_location();
             if( rl_dist( u_pos, map_point ) <= 4 ) {
                 const mtype_id &robot_type = one_in( 2 ) ? mon_copbot : mon_riotbot;
 
                 get_event_bus().send<event_type::becomes_wanted>( player_character.getID() );
-                point rob( u_pos.x > map_point.x ? 0 - SEEX * 2 : SEEX * 4,
-                           u_pos.y > map_point.y ? 0 - SEEY * 2 : SEEY * 4 );
-                g->place_critter_at( robot_type, tripoint( rob, player_character.posz() ) );
+                point rob( u_pos.x() > map_point.x() ? 0 - SEEX * 2 : SEEX * 4,
+                           u_pos.y() > map_point.y() ? 0 - SEEY * 2 : SEEY * 4 );
+                g->place_critter_at( robot_type, tripoint( rob, u_pos.z() ) );
             }
         }
         break;
@@ -247,19 +247,18 @@ void timed_event::actualize()
         break;
 
         case timed_event_type::DSA_ALRP_SUMMON: {
-            const tripoint u_pos = player_character.global_sm_location();
+            const tripoint_abs_sm u_pos = player_character.global_sm_location();
             if( rl_dist( u_pos, map_point ) <= 4 ) {
-                const tripoint spot = here.getlocal( sm_to_ms_copy( map_point ) );
+                const tripoint spot = here.getlocal( project_to<coords::ms>( map_point ).raw() );
                 monster dispatcher( mon_dsa_alien_dispatch );
                 fake_spell summoning( spell_id( "dks_summon_alrp" ), true, 12 );
                 summoning.get_spell().cast_all_effects( dispatcher, spot );
             } else {
                 tinymap mx_map;
-                tripoint_abs_sm map_pt( map_point );
-                mx_map.load( map_pt, false );
+                mx_map.load( map_point, false );
                 MapExtras::apply_function( "mx_dsa_alrp", mx_map, map_point );
                 g->load_npcs();
-                here.invalidate_map_cache( map_point.z );
+                here.invalidate_map_cache( map_point.z() );
             }
         }
         break;
@@ -338,7 +337,7 @@ void timed_event_manager::add( const timed_event_type type, const time_point &wh
 
 void timed_event_manager::add( const timed_event_type type, const time_point &when,
                                const int faction_id,
-                               const tripoint &where )
+                               const tripoint_abs_sm &where )
 {
     events.emplace_back( type, when, faction_id, where );
 }

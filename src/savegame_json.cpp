@@ -283,6 +283,7 @@ void player_activity::serialize( JsonOut &json ) const
 
     if( !type.is_null() ) {
         json.member( "actor", actor );
+        json.member( "moves_total", moves_total );
         json.member( "moves_left", moves_left );
         json.member( "index", index );
         json.member( "position", position );
@@ -339,6 +340,7 @@ void player_activity::deserialize( JsonIn &jsin )
     }
 
     data.read( "actor", actor );
+    data.read( "moves_total", moves_total );
     data.read( "moves_left", moves_left );
     data.read( "index", index );
     position = tmppos;
@@ -397,7 +399,9 @@ void SkillLevel::serialize( JsonOut &json ) const
     json.member( "exercise", exercise( true ) );
     json.member( "istraining", isTraining() );
     json.member( "lastpracticed", _lastPracticed );
-    json.member( "highestlevel", highestLevel() );
+    json.member( "knowledgeLevel", knowledgeLevel() );
+    json.member( "knowledgeExperience", knowledgeExperience( true ) );
+    json.member( "rustaccumulator", rustAccumulator() );
     json.end_object();
 }
 
@@ -408,13 +412,18 @@ void SkillLevel::deserialize( JsonIn &jsin )
     data.read( "level", _level );
     data.read( "exercise", _exercise );
     data.read( "istraining", _isTraining );
+    data.read( "rustaccumulator", _rustAccumulator );
     if( !data.read( "lastpracticed", _lastPracticed ) ) {
         _lastPracticed = calendar::start_of_cataclysm + time_duration::from_hours(
                              get_option<int>( "INITIAL_TIME" ) );
     }
-    data.read( "highestlevel", _highestLevel );
-    if( _highestLevel < _level ) {
-        _highestLevel = _level;
+    data.read( "knowledgeLevel", _knowledgeLevel );
+    if( _knowledgeLevel < _level ) {
+        _knowledgeLevel = _level;
+    }
+    data.read( "knowledgeExperience", _knowledgeExperience );
+    if( _knowledgeLevel == _level && _knowledgeExperience < _exercise ) {
+        _knowledgeExperience = _exercise;
     }
 }
 
@@ -549,13 +558,6 @@ void Character::load( const JsonObject &data )
     data.allow_omitted_members();
     Creature::load( data );
 
-    if( !data.read( "posx", position.x ) ) {  // uh-oh.
-        debugmsg( "BAD PLAYER/NPC JSON: no 'posx'?" );
-    }
-    data.read( "posy", position.y );
-    if( !data.read( "posz", position.z ) && g != nullptr ) {
-        position.z = get_map().get_abs_sub().z;
-    }
     // stats
     data.read( "str_cur", str_cur );
     data.read( "str_max", str_max );
@@ -699,6 +701,7 @@ void Character::load( const JsonObject &data )
     recalculate_size();
 
     data.read( "my_bionics", *my_bionics );
+    invalidate_pseudo_items();
 
     for( auto &w : worn ) {
         w.on_takeoff( *this );
@@ -940,12 +943,6 @@ void Character::store( JsonOut &json ) const
 {
     Creature::store( json );
 
-    // assumes already in Character object
-    // positional data
-    json.member( "posx", position.x );
-    json.member( "posy", position.y );
-    json.member( "posz", position.z );
-
     // stat
     json.member( "str_cur", str_cur );
     json.member( "str_max", str_max );
@@ -1135,7 +1132,9 @@ void player::store( JsonOut &json ) const
     }
     json.end_array();
 
-    json.member( "ammo_location", ammo_location );
+    if( ammo_location ) {
+        json.member( "ammo_location", ammo_location );
+    }
 
     json.member( "camps" );
     json.start_array();
@@ -1256,6 +1255,15 @@ void avatar::store( JsonOut &json ) const
     if( get_scenario() != nullptr ) {
         json.member( "scenario", get_scenario()->ident() );
     }
+    if( !hobbies.empty() ) {
+        json.member( "hobbies" );
+        json.start_array();
+        for( const profession *hobby : hobbies ) {
+            json.write( hobby->ident() );
+        }
+        json.end_array();
+    }
+
     // someday, npcs may drive
     json.member( "controlling_vehicle", controlling_vehicle );
 
@@ -1333,6 +1341,12 @@ void avatar::load( const JsonObject &data )
     } else {
         //We are likely an older profession which has since been removed so just set to default.  This is only cosmetic after game start.
         prof = profession::generic();
+    }
+
+    std::vector<string_id<profession>> hobby_ids;
+    data.read( "hobbies", hobby_ids );
+    for( const profession_id &hobby : hobby_ids ) {
+        hobbies.insert( hobbies.end(), &hobby.obj() );
     }
 
     data.read( "controlling_vehicle", controlling_vehicle );
@@ -2086,12 +2100,6 @@ void monster::load( const JsonObject &data )
     type = &mtype_id( sidtmp ).obj();
 
     data.read( "unique_name", unique_name );
-    data.read( "posx", position.x );
-    data.read( "posy", position.y );
-    if( !data.read( "posz", position.z ) ) {
-        position.z = get_map().get_abs_sub().z;
-    }
-
     data.read( "provocative_sound", provocative_sound );
     data.read( "wandf", wandf );
     data.read( "wandx", wander_pos.x );
@@ -2247,9 +2255,6 @@ void monster::store( JsonOut &json ) const
     Creature::store( json );
     json.member( "typeid", type->id );
     json.member( "unique_name", unique_name );
-    json.member( "posx", position.x );
-    json.member( "posy", position.y );
-    json.member( "posz", position.z );
     json.member( "wandx", wander_pos.x );
     json.member( "wandy", wander_pos.y );
     json.member( "wandz", wander_pos.z );
@@ -2402,7 +2407,9 @@ static std::set<itype_id> charge_removal_blacklist;
 void load_charge_removal_blacklist( const JsonObject &jo, const std::string &/*src*/ )
 {
     jo.allow_omitted_members();
-    jo.read( "list", charge_removal_blacklist );
+    std::set<itype_id> new_blacklist;
+    jo.read( "list", new_blacklist );
+    charge_removal_blacklist.insert( new_blacklist.begin(), new_blacklist.end() );
 }
 
 template<typename Archive>
@@ -3321,6 +3328,10 @@ void faction::serialize( JsonOut &json ) const
 
 void Creature::store( JsonOut &jsout ) const
 {
+    jsout.member( "posx", position.x );
+    jsout.member( "posy", position.y );
+    jsout.member( "posz", position.z );
+
     jsout.member( "moves", moves );
     jsout.member( "pain", pain );
 
@@ -3368,6 +3379,13 @@ void Creature::store( JsonOut &jsout ) const
 void Creature::load( const JsonObject &jsin )
 {
     jsin.allow_omitted_members();
+    if( !jsin.read( "posx", position.x ) ) {  // uh-oh.
+        debugmsg( "Bad Creature JSON: no 'posx'?" );
+    }
+    jsin.read( "posy", position.y );
+    if( !jsin.read( "posz", position.z ) && g != nullptr ) {
+        position.z = get_map().get_abs_sub().z;
+    }
     jsin.read( "moves", moves );
     jsin.read( "pain", pain );
 

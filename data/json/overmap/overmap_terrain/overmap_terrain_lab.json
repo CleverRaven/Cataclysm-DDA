@@ -580,6 +580,7 @@
     "sym": "C",
     "color": "white",
     "see_cost": 5,
+    "spawns": { "group": "GROUP_VANILLA", "population": [ 3, 15 ], "chance": 70 },
     "flags": [ "RISK_HIGH" ]
   },
   {
@@ -646,6 +647,7 @@
     "sym": "M",
     "color": "red",
     "see_cost": 5,
+    "spawns": { "group": "GROUP_LAB_HOSPTIAL", "population": [ 7, 15 ], "chance": 100 },
     "flags": [ "RISK_HIGH", "SOURCE_CHEMISTRY", "SOURCE_MEDICINE" ]
   },
   {
@@ -655,6 +657,7 @@
     "sym": "M",
     "color": "cyan",
     "see_cost": 5,
+    "spawns": { "group": "GROUP_LAB_MAINTENANCE", "population": [ 5, 10 ], "chance": 100 },
     "flags": [ "RISK_HIGH" ]
   }
 ]

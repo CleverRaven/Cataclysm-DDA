@@ -1478,6 +1478,19 @@ bool Character::consume_effects( item &food )
     if( has_effect( effect_tapeworm ) ) {
         ingested.nutr /= 2;
     }
+    dialogue d;
+    standard_npc default_npc( "Default" );
+    if( avatar *u = as_avatar() ) {
+        d.alpha = get_talker_for( u );
+    } else if( npc *n = as_npc() ) {
+        d.alpha = get_talker_for( n );
+    }
+    item_location loc( *( as_character() ), &food );
+    d.beta = get_talker_for( loc );
+
+    for( const effect_on_condition_id &eoc : comest.consumption_eocs ) {
+        eoc->activate( d );
+    }
 
     // GET IN MAH BELLY!
     stomach.ingest( ingested );
@@ -1569,7 +1582,10 @@ bool Character::can_estimate_rot() const
 
 bool Character::can_consume_as_is( const item &it ) const
 {
-    return it.is_comestible() || can_fuel_bionic_with( it );
+    if( it.is_comestible() ) {
+        return !( it.has_flag( flag_FROZEN ) && !it.has_flag( flag_EDIBLE_FROZEN ) );
+    }
+    return can_fuel_bionic_with( it );
 }
 
 bool Character::can_consume( const item &it ) const
@@ -1729,6 +1745,20 @@ static bool consume_med( item &target, player &you )
     } else {
         // Take by mouth
         you.consume_effects( target );
+    }
+    dialogue d;
+    standard_npc default_npc( "Default" );
+    if( avatar *u = you.as_avatar() ) {
+        d.alpha = get_talker_for( u );
+    } else if( npc *n = you.as_npc() ) {
+        d.alpha = get_talker_for( n );
+    }
+    item_location loc( *( you.as_character() ), &target );
+    d.beta = get_talker_for( loc );
+
+    const auto &comest = *target.get_comestible();
+    for( const effect_on_condition_id &eoc : comest.consumption_eocs ) {
+        eoc->activate( d );
     }
 
     target.mod_charges( -amount_used );

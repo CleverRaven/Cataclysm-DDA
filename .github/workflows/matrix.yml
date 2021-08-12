@@ -61,24 +61,41 @@ jobs:
         release: [0]
         cmake: [0]
         tiles: [1]
+        sound: [0]
         localize: [1]
         native: [linux64]
 
         include:
+          - compiler: clang++-12
+            os: ubuntu-latest
+            sanitize: address
+            mods: --mods=magiclysm
+            title: Clang 12, Ubuntu, Tiles, ASan
+
           - compiler: g++-11
             os: ubuntu-latest
             tiles: 0
-            test-stage: 1
-            gold: 1
-            lto: 1
-            title: GCC 11, Ubuntu, Curses, LTO
+            sanitize: address
+            title: GCC 11, Ubuntu, Curses, ASan
 
-          - compiler: g++-7
-            os: ubuntu-18.04
-            cmake: 1
-            mods: --mods=magiclysm
-            localize: 0
-            title: GCC 7, Ubuntu, Tiles, CMake, Release
+          - compiler: clang++
+            os: macos-10.15
+            native: osx
+            sanitize: undefined
+            tiles: 1
+            sound: 1
+            title: Clang 12, macOS 10.15, Tiles, Sound, UBSan
+
+          - compiler: g++
+            os: ubuntu-latest
+            native:
+            tiles: 1
+            sound: 1
+            test-stage: 1
+            title: GCC, Ubuntu cross-compile to MinGW-Win64, Tiles, Sound
+            ldflags: -static-libgcc -static-libstdc++
+            mxe_target: i686-w64-mingw32.static
+            wine: wine
 
           - compiler: clang++-6.0
             os: ubuntu-18.04
@@ -86,25 +103,14 @@ jobs:
             release: 1
             title: Clang 6, Ubuntu, Curses, Release
 
-          - compiler: clang++-12
-            os: ubuntu-latest
-            sanitize: undefined
-            title: Clang 12, Ubuntu, Tiles, UBSan
+          - compiler: g++-7
+            os: ubuntu-18.04
+            cmake: 1
+            tiles: 1
+            sound: 1
+            localize: 0
+            title: GCC 7, Ubuntu, Tiles, Sound, CMake
 
-          - compiler: clang++
-            os: macos-10.15
-            native: osx
-            sanitize: address
-            title: Clang 12, macOS 10.15, Tiles, ASan
-            num_test_jobs: 1
-
-          - compiler: g++
-            os: ubuntu-latest
-            native:
-            title: GCC, Ubuntu cross-compile to MinGW-Win64, Tiles
-            ldflags: -static-libgcc -static-libstdc++
-            mxe_target: i686-w64-mingw32.static
-            wine: wine
     name: ${{ matrix.title }}
     runs-on: ${{ matrix.os }}
     env:
@@ -114,7 +120,7 @@ jobs:
         WINE: ${{ matrix.wine }}
         OS: ${{ matrix.os }}
         TILES: ${{ matrix.tiles }}
-        SOUND: ${{ matrix.tiles }}
+        SOUND: ${{ matrix.sound }}
         LOCALIZE: ${{ matrix.localize }}
         MODS: ${{ matrix.mods }}
         SANITIZE: ${{ matrix.sanitize }}

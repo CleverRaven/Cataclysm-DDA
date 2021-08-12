@@ -340,6 +340,8 @@ class item : public visitable
         bool is_software() const;
         bool is_software_storage() const;
 
+        bool is_ebook_storage() const;
+
         /**
          * Returns a symbol for indicating the current dirt or fouling level for a gun.
          */
@@ -494,10 +496,10 @@ class item : public visitable
                 reload_option( const reload_option & );
                 reload_option &operator=( const reload_option & );
 
-                reload_option( const player *who, const item *target, const item *parent,
+                reload_option( const Character *who, const item *target, const item *parent,
                                const item_location &ammo );
 
-                const player *who = nullptr;
+                const Character *who = nullptr;
                 const item *target = nullptr;
                 item_location ammo;
 
@@ -511,7 +513,7 @@ class item : public visitable
                 explicit operator bool() const {
                     return who && target && ammo && qty_ > 0;
                 }
-
+                const item *getParent() const;
             private:
                 int qty_ = 0;
                 int max_qty = INT_MAX;
@@ -699,7 +701,8 @@ class item : public visitable
          * @return true if this item should be deleted (count-by-charges items with no remaining charges)
          */
         bool use_charges( const itype_id &what, int &qty, std::list<item> &used, const tripoint &pos,
-                          const std::function<bool( const item & )> &filter = return_true<item> );
+                          const std::function<bool( const item & )> &filter = return_true<item>,
+                          Character *carrier = nullptr );
 
         /**
          * Invokes item type's @ref itype::drop_action.
@@ -861,6 +864,12 @@ class item : public visitable
          * @param mod How many charges should be removed.
          */
         void mod_charges( int mod );
+
+
+        /**
+        * Calculates rot per hour at given temperature.
+        */
+        float get_hourly_rotpoints_at_temp( const int temp ) const;
 
         /**
          * Accumulate rot of the item since last rot calculation.
@@ -1406,7 +1415,7 @@ class item : public visitable
         /**
          * Calculate (but do not deduct) the number of moves required to wield this weapon
          */
-        int on_wield_cost( const player &p ) const;
+        int on_wield_cost( const Character &you ) const;
 
         /**
          * Callback when a player starts wielding the item. The item is already in the weapon
@@ -1805,6 +1814,13 @@ class item : public visitable
         /*@}*/
 
         /**
+         * Add a recipe to the EIPC_RECIPES variable.
+         *
+         * @return true if the recipe was added, false if it is a duplicate
+         */
+        bool eipc_recipe_add( const recipe_id &recipe_id );
+
+        /**
          * @name Martial art techniques
          *
          * See martialarts.h for further info.
@@ -1863,9 +1879,6 @@ class item : public visitable
          */
         void set_gun_variant( const std::string &variant );
 
-        /**
-         * For debug use only
-         */
         void clear_gun_variant();
 
         /** Quantity of energy currently loaded in tool or battery */
@@ -1995,6 +2008,8 @@ class item : public visitable
 
         std::vector<const item *> softwares() const;
 
+        std::vector<const item *> ebooks() const;
+
         /** Get first attached gunmod matching type or nullptr if no such mod or item is not a gun */
         item *gunmod_find( const itype_id &mod );
         const item *gunmod_find( const itype_id &mod ) const;
@@ -2050,7 +2065,7 @@ class item : public visitable
          * @param p The player that uses the weapon, their strength might affect this.
          * It's optional and can be null.
          */
-        int gun_range( const player *p ) const;
+        int gun_range( const Character *p ) const;
         /**
          * Summed range value of a gun, including values from mods. Returns 0 on non-gun items.
          */
@@ -2062,7 +2077,7 @@ class item : public visitable
          *  @param bipod whether any bipods should be considered
          *  @return effective recoil (per shot) or zero if gun uses ammo and none is loaded
          */
-        int gun_recoil( const player &p, bool bipod = false ) const;
+        int gun_recoil( const Character &p, bool bipod = false ) const;
 
         /**
          * Summed ranged damage, armor piercing, and multipliers for both, of a gun, including values from mods.
@@ -2131,20 +2146,6 @@ class item : public visitable
          */
         item *get_usable_item( const std::string &use_name );
 
-        /**
-         * How many units (ammo or charges) are remaining?
-         * @param ch character responsible for invoking the item
-         * @param limit stop searching after this many units found
-         * @note also checks availability of UPS charges if applicable
-         */
-        int units_remaining( const Character &ch, int limit = INT_MAX ) const;
-
-        /**
-         * Check if item has sufficient units (ammo or charges) remaining
-         * @param ch Character to check (used if ammo is UPS charges)
-         * @param qty units required, if unspecified use item default
-         */
-        bool units_sufficient( const Character &ch, int qty = -1 ) const;
         /**
          * Returns name of deceased being if it had any or empty string if not
          **/
@@ -2512,6 +2513,14 @@ class item : public visitable
         // encumbrance depending on their content.
         // This not part serialized or compared on purpose!
         bool encumbrance_update_ = false;
+
+        item_contents &get_contents() {
+            return contents;
+        };
+
+        const item_contents &get_contents() const {
+            return contents;
+        };
 
     private:
         /**

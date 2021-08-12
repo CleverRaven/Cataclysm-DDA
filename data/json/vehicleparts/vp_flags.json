@@ -192,7 +192,7 @@
     "id": "WIND_TURBINE",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
-    "info": "Provides up to <color_green>%sW</color> of electrical power to the vehicle when exposed to the wind."
+    "info": "Provides <color_green>%sW</color> of electrical power to the vehicle for every 1m/s of wind the vehicle is exposed to."
   },
   {
     "id": "WATER_WHEEL",

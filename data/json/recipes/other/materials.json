@@ -53,6 +53,7 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
     "skills_required": [ "survival", 4 ],
+    "charges": 50,
     "difficulty": 5,
     "time": "2 h",
     "autolearn": true,
@@ -638,9 +639,14 @@
     "time": "2 h",
     "charges": 50,
     "autolearn": true,
-    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "DRILL", "level": 1 }, { "id": "FILE", "level": 1 } ],
+    "qualities": [
+      { "id": "SAW_W", "level": 1 },
+      [ { "id": "PUNCH", "level": 1 }, { "id": "DRILL", "level": 1 } ],
+      { "id": "CUT", "level": 1 },
+      { "id": "FILE", "level": 1 }
+    ],
     "proficiencies": [ { "proficiency": "prof_carving", "time_multiplier": 1.25, "fail_multiplier": 1.125 } ],
-    "components": [ [ [ "mop", 1 ], [ "stick", 1 ], [ "broom", 1 ] ], [ [ "wax", 1 ] ] ]
+    "components": [ [ [ "mop", 1 ], [ "stick", 1 ], [ "broom", 1 ] ], [ [ "wax", 1 ], [ "rosin", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -650,12 +656,29 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "1 h 30 m",
-    "charges": 50,
+    "charges": 25,
     "autolearn": true,
-    "qualities": [ { "id": "DRILL", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, [ { "id": "PUNCH", "level": 1 }, { "id": "DRILL", "level": 1 } ] ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "components": [ [ [ "plastic_chunk", 2 ] ] ]
+    "components": [ [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "button_steel",
+    "category": "CC_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "30 m",
+    "batch_time_factors": [ 85, 2 ],
+    "charges": 5,
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 1 ] ],
+    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
+    "qualities": [ { "id": "CHISEL", "level": 3 }, { "id": "FILE", "level": 1 } ],
+    "tools": [ [ [ "hotcut", -1 ] ], [ [ "nail", -1 ] ] ],
+    "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "cannonball_4lb",
