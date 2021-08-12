@@ -17,7 +17,7 @@
     "magazine": 100,
     "items": [
       { "group": "office", "prob": 400 },
-      { "group": "newest_news", "prob": 100 },
+      [ "newest_news", 100 ],
       [ "egg_dino", 100 ],
       [ "iv_mutagen_tyrant", 25 ],
       [ "mutagen_tyrant", 75 ],
