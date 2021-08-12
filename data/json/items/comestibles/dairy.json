@@ -56,7 +56,7 @@
     "id": "milk_UHT",
     "name": { "str_sp": "shelf stable milk" },
     "copy-from": "milk",
-    "spoils_in": "2 d",
+    "spoils_in": "7 d",
     "container": "carton_sealed",
     "description": "This is milk that has been pasteurized at much higher temperatures than normal.  It tastes slightly different, but, unopened, will last far longer than regular milk.",
     "price": 50,

@@ -87,7 +87,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sourdough_bread",
-    "name": { "str": "sourdough bread" },
+    "name": { "str_sp": "sourdough bread" },
     "weight": "56 g",
     "color": "brown",
     "spoils_in": "8 days",
@@ -109,7 +109,7 @@
   {
     "type": "COMESTIBLE",
     "id": "flatbread",
-    "name": { "str": "flatbread" },
+    "name": { "str_sp": "flatbread" },
     "weight": "85 g",
     "color": "brown",
     "spoils_in": "11 days 16 hours",
@@ -129,7 +129,7 @@
   {
     "type": "COMESTIBLE",
     "id": "bread",
-    "name": { "str": "bread" },
+    "name": { "str_sp": "bread" },
     "weight": "60 g",
     "color": "brown",
     "spoils_in": "10 days",
@@ -151,7 +151,7 @@
   {
     "type": "COMESTIBLE",
     "id": "cornbread",
-    "name": { "str": "cornbread" },
+    "name": { "str_sp": "cornbread" },
     "weight": "60 g",
     "color": "yellow",
     "spoils_in": "30 days",
@@ -218,7 +218,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hardtack",
-    "name": { "str": "hardtack" },
+    "name": { "str_sp": "hardtack" },
     "weight": "80 g",
     "color": "white",
     "spoils_in": "360 days",
@@ -261,7 +261,7 @@
   {
     "type": "COMESTIBLE",
     "id": "wastebread",
-    "name": { "str": "wastebread" },
+    "name": { "str_sp": "wastebread" },
     "weight": "60 g",
     "color": "white",
     "spoils_in": 990,

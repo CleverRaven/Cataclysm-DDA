@@ -127,6 +127,7 @@ Use the `Home` key to return to the top.
       - [`lockpick_result`](#lockpick_result)
       - [`lockpick_message`](#lockpick_message)
       - [`light_emitted`](#light_emitted)
+      - [`boltcut`](#boltcut)
       - [`required_str`](#required_str)
       - [`crafting_pseudo_item`](#crafting_pseudo_item)
       - [`workbench`](#workbench)
@@ -140,6 +141,7 @@ Use the `Home` key to return to the top.
       - [`lockpick_result`](#lockpick_result-1)
       - [`lockpick_message`](#lockpick_message-1)
       - [`trap`](#trap)
+      - [`boltcut`](#boltcut-1)
       - [`transforms_into`](#transforms_into)
       - [`harvest_by_season`](#harvest_by_season)
       - [`roof`](#roof)
@@ -2397,6 +2399,10 @@ Armor can be defined like this:
 "type" : "ARMOR",     // Defines this as armor
 ...                   // same entries as above for the generic item.
                       // additional some armor specific entries:
+<<<<<<< Updated upstream
+=======
+"covers" : [ "foot_l", "foot_r" ],  // Where it covers.  Use bodypart_id defined in body_parts.json  Also note that LEG_EITHER ARM_EITHER HAND_EITHER and FOOT_EITHER are allowed.
+>>>>>>> Stashed changes
 "warmth" : 10,        //  (Optional, default = 0) How much warmth clothing provides
 "environmental_protection" : 0,  //  (Optional, default = 0) How much environmental protection it affords
 "encumbrance" : 0,    // Base encumbrance (unfitted value)
@@ -2579,6 +2585,11 @@ The `conditional_names` field allows defining alternate names for items that wil
       "type": "COMPONENT_ID",
       "condition": "mutant",
       "name": { "str_sp": "sinister %s" }
+    },
+    {
+      "type": "VAR",
+      "condition": "npctalk_var_DISPLAY_NAME_MORALE",
+      "name": { "str_sp": "%s (morale)" }
     }
   ]
 }
@@ -2588,6 +2599,7 @@ You can list as many conditional names for a given item as you want. Each condit
 1. The condition type:
     - `COMPONENT_ID` searches all the components of the item (and all of *their* components, and so on) for an item with the condition string in their ID. The ID only needs to *contain* the condition, not match it perfectly (though it is case sensitive). For example, supplying a condition `mutant` would match `mutant_meat`.
     - `FLAG` which checks if an item has the specified flag (exact match).
+    - `VAR` which checks if an item has a variable with the given name (exact match). Variables set with effect_on_conditions will have `npctalk_var_` in front of their name.  So a variable created with: `"npc_add_var": "MORALE", "type": "DISPLAY","context":"NAME", "value": "Felt Great" }` would be named: `npctalk_var_DISPLAY_NAME_MORALE`.
 2. The condition you want to look for.
 3. The name to use if a match is found. Follows all the rules of a standard `name` field, with valid keys being `str`, `str_pl`, and `ctxt`. You may use %s here, which will be replaced by the name of the item. Conditional names defined prior to this one are taken into account.
 

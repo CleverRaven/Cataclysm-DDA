@@ -356,12 +356,34 @@
   {
     "type": "mapgen",
     "method": "json",
+    "//": "A nested map for mutagen research areas.  Dogs for cages.",
+    "nested_mapgen_id": "lab_dog_1x1_MUTANT",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "place_monster": [ { "monster": "mon_dog_mutant_mongrel", "x": 0, "y": 0, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "//": "A nested map for mutagen research areas.  Cats for cages.",
     "nested_mapgen_id": "lab_cats_1x1",
     "object": {
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
       "place_monster": [ { "monster": "mon_cat", "x": 0, "y": 0, "chance": 100 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for mutagen research areas.  Mutant cats for cages.",
+    "nested_mapgen_id": "lab_cats_1x1_MUTANT",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "place_monster": [ { "monster": "mon_cat_mutant_prism", "x": 0, "y": 0, "chance": 100 } ]
     }
   },
   {
@@ -420,6 +442,17 @@
       "mapgensize": [ 1, 1 ],
       "rotation": [ 0, 3 ],
       "place_nested": [ { "chunks": [ [ "lab_cats_1x1", 50 ], [ "lab_dog_1x1", 50 ] ], "x": 0, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "//": "A nested map for mutagen research areas.  mid size animals.",
+    "nested_mapgen_id": "lab_medium_animal_1x1_MUTANT",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "place_nested": [ { "chunks": [ [ "lab_cats_1x1_MUTANT", 50 ], [ "lab_dog_1x1_MUTANT", 50 ] ], "x": 0, "y": 0 } ]
     }
   },
   {

@@ -91,11 +91,8 @@
       "toilets": { "T": { "amount": [ 44, 46 ] } },
       "gaspumps": { "O": { "amount": [ 110, 112 ] } },
       "place_gaspumps": [ { "x": 1, "y": 1, "amount": [ 200, 222 ] } ],
-      "items": { "o": { "item": "clothing_work_set", "chance": 20 }, "s": { "item": "bionics_tech", "chance": 70 } },
-      "place_items": [
-        { "item": "bionics_tech", "x": 1, "y": 3, "chance": 70 },
-        { "item": "clothing_work_set", "x": 2, "y": 3, "chance": 20 }
-      ],
+      "items": { "o": { "item": "clothing_work_set", "chance": 20 }, "s": { "item": "bionics", "chance": 70 } },
+      "place_items": [ { "item": "bionics", "x": 1, "y": 3, "chance": 70 }, { "item": "clothing_work_set", "x": 2, "y": 3, "chance": 20 } ],
       "place_item": [ { "item": "frame", "x": [ 0, 7 ], "y": [ 4, 5 ], "chance": 4, "repeat": 10 } ],
       "item": {
         "t": { "item": "television", "chance": 4 },

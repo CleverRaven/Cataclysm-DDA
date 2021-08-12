@@ -135,7 +135,7 @@
           "fake_dex": 8,
           "fake_per": 8,
           "require_targeting_player": false,
-          "description": "The acid-sniper zombie launches a corrosive dart!",
+          "description": "The %s launches a corrosive dart!",
           "ranges": [ [ 2, 20, "DEFAULT" ] ]
         }
       ],
@@ -171,7 +171,7 @@
           "fake_dex": 8,
           "fake_per": 8,
           "require_targeting_player": false,
-          "description": "The acid-support zombie launches a hail of corrosive darts!",
+          "description": "The %s launches a hail of corrosive darts!",
           "ranges": [ [ 2, 8, "DEFAULT" ] ]
         }
       ],

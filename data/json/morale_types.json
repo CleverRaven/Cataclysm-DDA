@@ -388,5 +388,10 @@
     "id": "morale_nightmare",
     "type": "morale_type",
     "text": "Had a vivid nightmare"
+  },
+  {
+    "id": "morale_migo_bio_tech",
+    "type": "morale_type",
+    "text": "Used mi-go biotech"
   }
 ]

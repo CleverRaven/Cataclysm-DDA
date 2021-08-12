@@ -79,6 +79,7 @@
 static const activity_id ACT_READ( "ACT_READ" );
 
 static const bionic_id bio_cloak( "bio_cloak" );
+static const bionic_id bio_cqb( "bio_cqb" );
 
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_boomered( "boomered" );
@@ -107,6 +108,7 @@ static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
 static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
 static const trait_id trait_INSECT_ARMS_OK( "INSECT_ARMS_OK" );
+static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 static const trait_id trait_STIMBOOST( "STIMBOOST" );
 static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
@@ -385,7 +387,7 @@ bool avatar::read( item_location &book, item_location ereader )
 
         auto get_text =
         [&]( const std::map<npc *, std::string> &m, const std::pair<npc *, std::string> &elem ) {
-            const int lvl = elem.first->get_skill_level( skill );
+            const int lvl = elem.first->get_knowledge_level( skill );
             const std::string lvl_text = skill ? string_format( _( " | current level: %d" ), lvl ) : "";
             const std::string name_text = elem.first->disp_name() + elem.second;
             return string_format( "%s%s", left_justify( name_text, max_length( m ) ), lvl_text );
@@ -406,7 +408,7 @@ bool avatar::read( item_location &book, item_location ereader )
 
         menu.addentry( 0, true, '0', _( "Read once" ) );
 
-        const int lvl = get_skill_level( skill );
+        const int lvl = get_knowledge_level( skill );
         menu.addentry( 2 + getID().get_value(), lvl < type->level, '1',
                        string_format( _( "Read until you gain a level | current level: %d" ), lvl ) );
 
@@ -610,10 +612,10 @@ void avatar::identify( const item &item )
 
     add_msg( _( "You skim %s to find out what's in it." ), book.type_name() );
     if( skill && get_skill_level_object( skill ).can_train() ) {
-        add_msg( m_info, _( "Can bring your %s skill to %d." ),
+        add_msg( m_info, _( "Can bring your %s knowledge to %d." ),
                  skill.obj().name(), reading->level );
         if( reading->req != 0 ) {
-            add_msg( m_info, _( "Requires %s level %d to understand." ),
+            add_msg( m_info, _( "Requires %s knoweldge level %d to understand." ),
                      skill.obj().name(), reading->req );
         }
     }
@@ -1211,6 +1213,14 @@ void avatar::toggle_crouch_mode()
     }
 }
 
+void avatar::toggle_prone_mode()
+{
+    if( is_prone() ) {
+        set_movement_mode( move_mode_id( "walk" ) );
+    } else {
+        set_movement_mode( move_mode_id( "prone" ) );
+    }
+}
 void avatar::activate_crouch_mode()
 {
     if( !is_crouching() ) {
@@ -1646,4 +1656,152 @@ int avatar::randomize_hobbies()
     }
 
     return points;
+}
+
+void avatar::reassign_item( item &it, int invlet )
+{
+    bool remove_old = true;
+    if( invlet ) {
+        item *prev = invlet_to_item( invlet );
+        if( prev != nullptr ) {
+            remove_old = it.typeId() != prev->typeId();
+            inv->reassign_item( *prev, it.invlet, remove_old );
+        }
+    }
+
+    if( !invlet || inv_chars.valid( invlet ) ) {
+        const auto iter = inv->assigned_invlet.find( it.invlet );
+        bool found = iter != inv->assigned_invlet.end();
+        if( found ) {
+            inv->assigned_invlet.erase( iter );
+        }
+        if( invlet && ( !found || it.invlet != invlet ) ) {
+            inv->assigned_invlet[invlet] = it.typeId();
+        }
+        inv->reassign_item( it, invlet, remove_old );
+    }
+}
+
+void avatar::add_pain_msg( int val, const bodypart_id &bp ) const
+{
+    if( has_trait( trait_NOPAIN ) ) {
+        return;
+    }
+    if( bp == bodypart_id( "bp_null" ) ) {
+        if( val > 20 ) {
+            add_msg_if_player( _( "Your body is wracked with excruciating pain!" ) );
+        } else if( val > 10 ) {
+            add_msg_if_player( _( "Your body is wracked with terrible pain!" ) );
+        } else if( val > 5 ) {
+            add_msg_if_player( _( "Your body is wracked with pain!" ) );
+        } else if( val > 1 ) {
+            add_msg_if_player( _( "Your body pains you!" ) );
+        } else {
+            add_msg_if_player( _( "Your body aches." ) );
+        }
+    } else {
+        if( val > 20 ) {
+            add_msg_if_player( _( "Your %s is wracked with excruciating pain!" ),
+                               body_part_name_accusative( bp ) );
+        } else if( val > 10 ) {
+            add_msg_if_player( _( "Your %s is wracked with terrible pain!" ),
+                               body_part_name_accusative( bp ) );
+        } else if( val > 5 ) {
+            add_msg_if_player( _( "Your %s is wracked with pain!" ),
+                               body_part_name_accusative( bp ) );
+        } else if( val > 1 ) {
+            add_msg_if_player( _( "Your %s pains you!" ),
+                               body_part_name_accusative( bp ) );
+        } else {
+            add_msg_if_player( _( "Your %s aches." ),
+                               body_part_name_accusative( bp ) );
+        }
+    }
+}
+
+// ids of martial art styles that are available with the bio_cqb bionic.
+static const std::vector<matype_id> bio_cqb_styles{ {
+        matype_id{ "style_aikido" },
+        matype_id{ "style_biojutsu" },
+        matype_id{ "style_boxing" },
+        matype_id{ "style_capoeira" },
+        matype_id{ "style_crane" },
+        matype_id{ "style_dragon" },
+        matype_id{ "style_judo" },
+        matype_id{ "style_karate" },
+        matype_id{ "style_krav_maga" },
+        matype_id{ "style_leopard" },
+        matype_id{ "style_muay_thai" },
+        matype_id{ "style_ninjutsu" },
+        matype_id{ "style_pankration" },
+        matype_id{ "style_snake" },
+        matype_id{ "style_taekwondo" },
+        matype_id{ "style_tai_chi" },
+        matype_id{ "style_tiger" },
+        matype_id{ "style_wingchun" },
+        matype_id{ "style_zui_quan" }
+    }};
+
+bool character_martial_arts::pick_style( const avatar &you ) // Style selection menu
+{
+    enum style_selection {
+        KEEP_HANDS_FREE = 0,
+        STYLE_OFFSET
+    };
+
+    // If there are style already, cursor starts there
+    // if no selected styles, cursor starts from no-style
+
+    // Any other keys quit the menu
+    const std::vector<matype_id> &selectable_styles = you.has_active_bionic(
+                bio_cqb ) ? bio_cqb_styles :
+            ma_styles;
+
+    input_context ctxt( "MELEE_STYLE_PICKER", keyboard_mode::keycode );
+    ctxt.register_action( "SHOW_DESCRIPTION" );
+
+    uilist kmenu;
+    kmenu.text = string_format( _( "Select a style.\n"
+                                   "\n"
+                                   "STR: <color_white>%d</color>, DEX: <color_white>%d</color>, "
+                                   "PER: <color_white>%d</color>, INT: <color_white>%d</color>\n"
+                                   "Press [<color_yellow>%s</color>] for more info.\n" ),
+                                you.get_str(), you.get_dex(), you.get_per(), you.get_int(),
+                                ctxt.get_desc( "SHOW_DESCRIPTION" ) );
+    ma_style_callback callback( static_cast<size_t>( STYLE_OFFSET ), selectable_styles );
+    kmenu.callback = &callback;
+    kmenu.input_category = "MELEE_STYLE_PICKER";
+    kmenu.additional_actions.emplace_back( "SHOW_DESCRIPTION", translation() );
+    kmenu.desc_enabled = true;
+    kmenu.addentry_desc( KEEP_HANDS_FREE, true, 'h',
+                         keep_hands_free ? _( "Keep hands free (on)" ) : _( "Keep hands free (off)" ),
+                         _( "When this is enabled, player won't wield things unless explicitly told to." ) );
+
+    kmenu.selected = STYLE_OFFSET;
+
+    for( size_t i = 0; i < selectable_styles.size(); i++ ) {
+        const auto &style = selectable_styles[i].obj();
+        //Check if this style is currently selected
+        const bool selected = selectable_styles[i] == style_selected;
+        std::string entry_text = style.name.translated();
+        if( selected ) {
+            kmenu.selected = i + STYLE_OFFSET;
+            entry_text = colorize( entry_text, c_pink );
+        }
+        kmenu.addentry_desc( i + STYLE_OFFSET, true, -1, entry_text, style.description.translated() );
+    }
+
+    kmenu.query();
+    int selection = kmenu.ret;
+
+    if( selection >= STYLE_OFFSET ) {
+        style_selected = selectable_styles[selection - STYLE_OFFSET];
+        martialart_use_message( you );
+    } else if( selection == KEEP_HANDS_FREE ) {
+        keep_hands_free = !keep_hands_free;
+    } else {
+        return false;
+    }
+
+    return true;
 }

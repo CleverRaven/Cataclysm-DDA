@@ -69,7 +69,6 @@
 #include "output.h"
 #include "pathfinding.h"
 #include "pimpl.h"
-#include "player.h"
 #include "point.h"
 #include "projectile.h"
 #include "rng.h"
@@ -175,7 +174,6 @@ static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
 static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
-static const trait_id trait_FAST_REFLEXES( "FAST_REFLEXES" );
 
 static const mtype_id mon_ant_acid_larva( "mon_ant_acid_larva" );
 static const mtype_id mon_ant_acid_queen( "mon_ant_acid_queen" );
@@ -2122,7 +2120,7 @@ bool mattack::dermatik( monster *z )
         return false;
     }
 
-    player *foe = dynamic_cast< player * >( target );
+    Character *foe = dynamic_cast< Character * >( target );
     if( foe == nullptr ) {
         return true; // No implanting monsters for now
     }
@@ -2565,7 +2563,7 @@ bool mattack::ranged_pull( monster *z )
         return false;
     }
 
-    player *foe = dynamic_cast< player * >( target );
+    Character *foe = dynamic_cast< Character * >( target );
     map &here = get_map();
     std::vector<tripoint> line = here.find_clear_path( z->pos(), target->pos() );
     bool seen = get_player_view().sees( *z );
@@ -2675,14 +2673,13 @@ bool mattack::grab( monster *z )
         return true;
     }
 
-    player *pl = dynamic_cast<player *>( target );
+    Character *pl = dynamic_cast<Character *>( target );
     if( pl == nullptr ) {
         return true;
     }
 
     ///\EFFECT_DEX increases chance to avoid being grabbed
-    int reflex_mod = pl->has_trait( trait_FAST_REFLEXES ) ? 2 : 1;
-    const bool dodged_grab = rng( 0, reflex_mod * pl->get_dex() ) > rng( 0,
+    const bool dodged_grab = rng( 0, pl->get_dex() ) > rng( 0,
                              z->type->melee_sides + z->type->melee_dice );
 
     const ma_technique grab_break = pl->martial_arts_data->get_grab_break( *pl );
@@ -2737,7 +2734,7 @@ bool mattack::grab_drag( monster *z )
     const tripoint target_square = z->pos() - ( target->pos() - z->pos() );
     if( z->can_move_to( target_square ) &&
         target->stability_roll() < dice( z->type->melee_sides, z->type->melee_dice ) ) {
-        player *foe = dynamic_cast<player *>( target );
+        Character *foe = dynamic_cast<Character *>( target );
         monster *zz = dynamic_cast<monster *>( target );
         tripoint zpt = z->pos();
         z->move_to( target_square );
@@ -2786,7 +2783,7 @@ bool mattack::gene_sting( monster *z )
     bool hit = sting_shoot( z, target, dam, range );
     if( hit ) {
         //Add checks if previous NPC/player conditions are removed
-        dynamic_cast<player *>( target )->mutate();
+        dynamic_cast<Character *>( target )->mutate();
     }
 
     return true;
@@ -2868,6 +2865,11 @@ bool mattack::fear_paralyze( monster *z )
         // TODO: handle friendly monsters
         return false;
     }
+
+    if( !within_visual_range( z, 10 ) ) {
+        return false;
+    }
+
     Character &player_character = get_player_character();
     if( player_character.sees( *z ) && !player_character.has_effect( effect_fearparalyze ) ) {
         if( player_character.worn_with_flag( flag_PSYSHIELD_PARTIAL ) && one_in( 4 ) ) {
@@ -2887,11 +2889,11 @@ bool mattack::fear_paralyze( monster *z )
 bool mattack::nurse_check_up( monster *z )
 {
     bool found_target = false;
-    player *target = nullptr;
+    Character *target = nullptr;
     tripoint tmp_pos( z->pos() + point( 12, 12 ) );
     map &here = get_map();
     for( Creature *critter : here.get_creatures_in_radius( z->pos(), 6 ) ) {
-        player *tmp_player = dynamic_cast<player *>( critter );
+        Character *tmp_player = dynamic_cast<Character *>( critter );
         if( tmp_player != nullptr && z->sees( *tmp_player ) &&
             here.clear_path( z->pos(), tmp_player->pos(), 10, 0,
                              100 ) ) { // no need to scan players we can't reach
@@ -2939,11 +2941,11 @@ bool mattack::nurse_assist( monster *z )
     }
 
     bool found_target = false;
-    player *target = nullptr;
+    Character *target = nullptr;
     map &here = get_map();
     tripoint tmp_pos( z->pos() + point( 12, 12 ) );
     for( Creature *critter : here.get_creatures_in_radius( z->pos(), 6 ) ) {
-        player *tmp_player = dynamic_cast<player *>( critter );
+        Character *tmp_player = dynamic_cast<Character *>( critter );
         // No need to scan players we can't reach
         if( tmp_player != nullptr && z->sees( *tmp_player ) &&
             here.clear_path( z->pos(), tmp_player->pos(), 10, 0, 100 ) ) {
@@ -2996,11 +2998,11 @@ bool mattack::nurse_operate( monster *z )
     }
 
     bool found_target = false;
-    player *target = nullptr;
+    Character *target = nullptr;
     map &here = get_map();
     tripoint tmp_pos( z->pos() + point( 12, 12 ) );
     for( Creature *critter : here.get_creatures_in_radius( z->pos(), 6 ) ) {
-        player *tmp_player = dynamic_cast< player *>( critter );
+        Character *tmp_player = dynamic_cast< Character *>( critter );
         // No need to scan players we can't reach
         if( tmp_player != nullptr && z->sees( *tmp_player ) &&
             here.clear_path( z->pos(), tmp_player->pos(), 10, 0, 100 ) ) {
@@ -3321,7 +3323,7 @@ void mattack::rifle( monster *z, Creature *target )
     }
     add_msg_if_player_sees( *z, m_warning, _( "The %s opens up with its rifle!" ), z->name() );
 
-    tmp.weapon = item( "nato_assault_rifle" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
+    tmp.weapon = item( "m4_carbine" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
     int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
     z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * tmp.weapon.ammo_required();
@@ -3724,7 +3726,7 @@ bool mattack::copbot( monster *z )
     }
 
     // TODO: Make it recognize zeds as human, but ignore animals
-    player *foe = dynamic_cast<player *>( target );
+    Character *foe = dynamic_cast<Character *>( target );
     bool sees_u = foe != nullptr && z->sees( *foe );
     bool cuffed = foe != nullptr && foe->weapon.typeId() == itype_e_handcuffs;
     // Taze first, then ask questions (simplifies later checks for non-humans)
@@ -4613,7 +4615,7 @@ bool mattack::thrown_by_judo( monster *z )
         return false;
     }
 
-    player *foe = dynamic_cast< player * >( target );
+    Character *foe = dynamic_cast< Character * >( target );
     if( foe == nullptr ) {
         // No mons for now
         return false;
@@ -4664,7 +4666,7 @@ bool mattack::riotbot( monster *z )
         return false;
     }
 
-    player *foe = dynamic_cast<player *>( target );
+    Character *foe = dynamic_cast<Character *>( target );
 
     map &here = get_map();
     if( calendar::once_every( 1_minutes ) ) {
@@ -5087,7 +5089,7 @@ bool mattack::bio_op_random_biojutsu( monster *z )
         return false;
     }
 
-    player *foe = dynamic_cast< player * >( target );
+    Character *foe = dynamic_cast< Character * >( target );
 
     do {
         choice = rng( 1, 3 );
@@ -5130,7 +5132,7 @@ bool mattack::bio_op_takedown( monster *z )
     }
 
     bool seen = get_player_view().sees( *z );
-    player *foe = dynamic_cast< player * >( target );
+    Character *foe = dynamic_cast< Character * >( target );
     if( seen ) {
         add_msg( _( "The %1$s mechanically grabs at %2$s!" ), z->name(),
                  target->disp_name() );
@@ -5220,7 +5222,7 @@ bool mattack::bio_op_impale( monster *z )
     }
 
     const bool seen = get_player_view().sees( *z );
-    player *foe = dynamic_cast< player * >( target );
+    Character *foe = dynamic_cast< Character * >( target );
     if( seen ) {
         add_msg( _( "The %1$s mechanically lunges at %2$s!" ), z->name(),
                  target->disp_name() );
@@ -5297,7 +5299,7 @@ bool mattack::bio_op_disarm( monster *z )
     }
 
     const bool seen = get_player_view().sees( *z );
-    player *foe = dynamic_cast< player * >( target );
+    Character *foe = dynamic_cast< Character * >( target );
 
     // disarm doesn't work on creatures or unarmed targets
     if( foe == nullptr || !foe->is_armed() ) {
