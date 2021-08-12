@@ -40,6 +40,8 @@
       { "monster": "mon_zougar", "freq": 3, "cost_multiplier": 10, "starts": 2160 },
       { "monster": "mon_crow", "freq": 5, "cost_multiplier": 0, "pack_size": [ 1, 14 ] },
       { "monster": "mon_crow", "freq": 25, "cost_multiplier": 0, "pack_size": [ 1, 14 ], "conditions": [ "DAY" ] },
+      { "monster": "mon_raven", "freq": 5, "cost_multiplier": 0, "pack_size": [ 1, 14 ] },
+      { "monster": "mon_raven", "freq": 15, "cost_multiplier": 0, "pack_size": [ 1, 14 ], "conditions": [ "DAY" ] },
       { "monster": "mon_deer", "freq": 4, "cost_multiplier": 2, "pack_size": [ 1, 5 ] },
       { "monster": "mon_deer", "freq": 16, "cost_multiplier": 2, "pack_size": [ 1, 5 ], "conditions": [ "DAY" ] },
       { "monster": "mon_scorpion_giant", "freq": 3, "cost_multiplier": 25 },

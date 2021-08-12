@@ -52,6 +52,7 @@
     "id": "egg_crow",
     "name": { "str": "crow egg" },
     "copy-from": "egg_chicken",
+    "weight": "17 g",
     "rot_spawn": "GROUP_EGG_CROW"
   },
   {
@@ -66,6 +67,7 @@
     "id": "egg_magpie",
     "name": { "str": "magpie egg" },
     "copy-from": "egg_chicken",
+    "weight": "10 g",
     "rot_spawn": "GROUP_EGG_MAGPIE"
   },
   {
@@ -73,6 +75,7 @@
     "id": "egg_bluejay",
     "name": { "str": "blue jay egg" },
     "copy-from": "egg_chicken",
+    "weight": "6 g",
     "rot_spawn": "GROUP_EGG_BLUEJAY"
   },
   {
@@ -80,6 +83,7 @@
     "id": "egg_cardinal",
     "name": { "str": "cardinal egg" },
     "copy-from": "egg_chicken",
+    "weight": "5 g",
     "rot_spawn": "GROUP_EGG_CARDINAL"
   },
   {
@@ -87,6 +91,9 @@
     "id": "egg_robin",
     "name": { "str": "robin egg" },
     "copy-from": "egg_chicken",
+    "description": "Nutritious egg laid by a robin.",
+    "weight": "7 g",
+    "color": "light_blue",
     "rot_spawn": "GROUP_EGG_ROBIN"
   },
   {
@@ -94,6 +101,8 @@
     "id": "egg_sparrow",
     "name": { "str": "sparrow egg" },
     "copy-from": "egg_chicken",
+    "calories": 54,
+    "weight": "3 g",
     "rot_spawn": "GROUP_EGG_SPARROW"
   },
   {
