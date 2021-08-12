@@ -478,7 +478,7 @@
   {
     "id": "MISSION_KILL_NEMESIS",
     "type": "mission_definition",
-    "name": { "str": "Kill nemesis" },
+    "name": { "str": "Kill the relentless hulk" },
     "description": "Since the start of the Cataclysm, something has been hunting you relentlessly.  You can outrun it but never truly escape it.  One of you must die.",
     "goal": "MGOAL_KILL_NEMESIS",
     "difficulty": 5,

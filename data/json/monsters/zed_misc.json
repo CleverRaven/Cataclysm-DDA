@@ -445,8 +445,8 @@
   {
     "id": "mon_zombie_nemesis",
     "type": "MONSTER",
-    "name": { "str": "nemesis zombie" },
-    "description": "An enormous repulsive humanoid, its inky black eyes are locked on you.  No matter how far you run, it always seems to find you.",
+    "name": { "str": "relentless hulk" },
+    "description": "A hulking zombie swollen to the size of six men.  Its inky black eyes are locked on you.  No matter how far you run, it always seems to find you.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
