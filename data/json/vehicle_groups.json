@@ -151,7 +151,7 @@
       [ "hippie_van", 1000 ],
       [ "van_full-size", 600 ],
       [ "van_cargo", 400 ],
-      [ "van_camper", 200 ]
+      [ "van_camper", 200 ],
       [ "rara_x", 800 ],
       [ "apc", 300 ],
       [ "apc-gl", 100 ],
@@ -452,7 +452,7 @@
       [ "beetle", 200 ],
       [ "pickup", 700 ],
       [ "hippie_van", 800 ],
-      [ "van_camper", 200 ]
+      [ "van_camper", 200 ],
       [ "4x4_car", 800 ]
     ]
   },
