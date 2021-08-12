@@ -16,7 +16,7 @@
     "type": "mapgen",
     "update_mapgen_id": "concrete_wall_o_lab_res_8_NW",
     "method": "json",
-    "object": { "place_terrain": [ { "ter": "t_thconc_floor", "x": 11, "y": 15 }, { "ter": "t_thconc_floor", "x": 11, "y": 16 } ] }
+    "object": { "place_terrain": [ { "ter": "t_thconc_r", "x": 11, "y": 15 }, { "ter": "t_thconc_r", "x": 11, "y": 16 } ] }
   },
   {
     "type": "trap",
@@ -35,7 +35,7 @@
     "type": "mapgen",
     "update_mapgen_id": "concrete_wall_o_lab_res_8_NE",
     "method": "json",
-    "object": { "place_terrain": [ { "ter": "t_thconc_floor", "x": 12, "y": 15 }, { "ter": "t_thconc_floor", "x": 12, "y": 16 } ] }
+    "object": { "place_terrain": [ { "ter": "t_thconc_r", "x": 12, "y": 15 }, { "ter": "t_thconc_r", "x": 12, "y": 16 } ] }
   },
   {
     "type": "trap",
