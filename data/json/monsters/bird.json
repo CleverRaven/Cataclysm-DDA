@@ -433,7 +433,7 @@
     "type": "MONSTER",
     "copy-from": "mon_crow_chick",
     "name": { "str": "brown chick" },
-    "volume": "250 ml",
+    "volume": "200 ml",
     "weight": "40 g",
     "upgrades": { "age_grow": 21, "into": "mon_magpie" },
     "extend": { "flags": [ "BIRDFOOD" ] }
@@ -443,7 +443,7 @@
     "type": "MONSTER",
     "copy-from": "mon_crow_chick",
     "name": { "str": "brown chick" },
-    "volume": "250 ml",
+    "volume": "225 ml",
     "weight": "38 g",
     "upgrades": { "age_grow": 18, "into": "mon_bluejay" },
     "extend": { "flags": [ "BIRDFOOD" ] }
