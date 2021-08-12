@@ -2095,6 +2095,8 @@ cata::optional<int> iuse::unpack_item( player *p, item *it, bool, const tripoint
     p->moves -= to_moves<int>( 10_seconds );
     p->add_msg_if_player( _( "You unpack your %s for use." ), it->tname() );
     it->convert( itype_id( oname ) ).active = false;
+    // Check if unpacking led to invalid container state
+    p->invalidate_inventory_validity_cache();
     return 0;
 }
 
@@ -9075,7 +9077,7 @@ cata::optional<int> iuse::cable_attach( player *p, item *it, bool, const tripoin
             point vcoords = source_vp->mount();
             vehicle_part source_part( vpid, "", vcoords, item( *it ) );
             source_part.target.first = target_global;
-            source_part.target.second = here.getabs( target_veh->global_pos3() );
+            source_part.target.second = target_veh->global_square_location().raw();
             source_veh->install_part( vcoords, source_part );
 
             vcoords = target_vp->mount();
@@ -9084,7 +9086,7 @@ cata::optional<int> iuse::cable_attach( player *p, item *it, bool, const tripoin
                                     it->get_var( "source_y", 0 ),
                                     it->get_var( "source_z", 0 ) );
             target_part.target.first = source_global;
-            target_part.target.second = here.getabs( source_veh->global_pos3() );
+            target_part.target.second = source_veh->global_square_location().raw();
             target_veh->install_part( vcoords, target_part );
 
             if( p != nullptr && p->has_item( *it ) ) {

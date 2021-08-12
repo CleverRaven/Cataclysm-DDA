@@ -58,15 +58,6 @@ template<>
 struct ret_val<edible_rating>::default_failure : public
     std::integral_constant<edible_rating, INEDIBLE> {};
 
-struct stat_mod {
-    int strength = 0;
-    int dexterity = 0;
-    int intelligence = 0;
-    int perception = 0;
-
-    int speed = 0;
-};
-
 struct needs_rates {
     float thirst = 0.0f;
     float hunger = 0.0f;
@@ -113,8 +104,6 @@ class player : public Character
 
         /** Resets movement points and applies other non-idempotent changes */
         void process_turn() override;
-        /** Calculates the various speed bonuses we will get from mutations, etc. */
-        void recalc_speed_bonus();
 
         void pause(); // '.' command; pauses & resets recoil
 
@@ -125,11 +114,6 @@ class player : public Character
          * Return value can depend on the orientation of the terrain.
          */
         int climbing_cost( const tripoint &from, const tripoint &to ) const;
-
-        // ranged.cpp
-
-        /** Returns list of rc items in player inventory. **/
-        std::list<item *> get_radio_items();
 
         /** Used for eating object at a location. Removes item if all of it was consumed.
         *   @returns trinary enum NONE, SOME or ALL amount consumed.
@@ -156,9 +140,6 @@ class player : public Character
         /** Select ammo from the provided options */
         item::reload_option select_ammo( const item &base, std::vector<item::reload_option> opts ) const;
 
-        /** returns players strength adjusted by any traits that affect strength during lifting jobs */
-        int get_lift_str() const;
-
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
         template <typename T> bool can_lift( const T &obj ) const;
 
@@ -179,11 +160,6 @@ class player : public Character
         */
         cata::optional<std::list<item>::iterator>
         wear( item_location item_wear, bool interactive = true );
-
-        /** Takes off an item, returning false on fail. The taken off item is processed in the interact */
-        bool takeoff( item_location loc, std::list<item> *res = nullptr );
-        bool takeoff( int pos );
-
 
         /**
          * Try to wield a contained item consuming moves proportional to weapon skill and volume.
@@ -228,11 +204,6 @@ class player : public Character
         /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
         void try_to_sleep( const time_duration &dur );
 
-        /** Returns the effect of pain on stats */
-        stat_mod get_pain_penalty() const;
-        /** Returns the penalty to speed from thirst */
-        static int thirst_speed_penalty( int thirst );
-
         void on_worn_item_transform( const item &old_it, const item &new_it );
 
         void process_items();
@@ -259,8 +230,6 @@ class player : public Character
         std::set<character_id> follower_ids;
         void mod_stat( const std::string &stat, float modifier ) override;
 
-        void set_underwater( bool );
-        bool is_hallucination() const override;
         void environmental_revert_effect();
 
         //message related stuff

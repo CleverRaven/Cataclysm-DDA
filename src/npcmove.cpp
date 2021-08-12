@@ -1246,7 +1246,7 @@ void npc::execute_action( npc_action action )
             int my_spot = -1;
             std::vector<std::pair<int, int> > seats;
             for( const vpart_reference &vp : veh->get_avail_parts( VPFLAG_BOARDABLE ) ) {
-                const player *passenger = veh->get_passenger( vp.part_index() );
+                const Character *passenger = veh->get_passenger( vp.part_index() );
                 if( passenger != this && passenger != nullptr ) {
                     continue;
                 }
@@ -4144,7 +4144,7 @@ void npc::set_omt_destination()
         goal = overmap_buffer.find_closest( surface_omt_loc, find_params );
         omt_path.clear();
         if( goal != overmap::invalid_tripoint ) {
-            omt_path = overmap_buffer.get_npc_path( surface_omt_loc, goal );
+            omt_path = overmap_buffer.get_travel_path( surface_omt_loc, goal, overmap_path_params::for_npc() );
         }
         if( !omt_path.empty() ) {
             dest_type = overmap_buffer.ter( goal )->get_type_id().str();
@@ -4155,11 +4155,11 @@ void npc::set_omt_destination()
     // couldn't find any places to go, so go somewhere.
     if( goal == overmap::invalid_tripoint || omt_path.empty() ) {
         goal = surface_omt_loc + point( rng( -90, 90 ), rng( -90, 90 ) );
-        omt_path = overmap_buffer.get_npc_path( surface_omt_loc, goal );
+        omt_path = overmap_buffer.get_travel_path( surface_omt_loc, goal, overmap_path_params::for_npc() );
         // try one more time
         if( omt_path.empty() ) {
             goal = surface_omt_loc + point( rng( -90, 90 ), rng( -90, 90 ) );
-            omt_path = overmap_buffer.get_npc_path( surface_omt_loc, goal );
+            omt_path = overmap_buffer.get_travel_path( surface_omt_loc, goal, overmap_path_params::for_npc() );
         }
         if( omt_path.empty() ) {
             goal = no_goal_point;

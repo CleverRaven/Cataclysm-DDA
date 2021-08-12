@@ -9437,11 +9437,11 @@ void item::set_countdown( int num_turns )
 }
 
 bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
-                        const tripoint &pos, const std::function<bool( const item & )> &filter )
+                        const tripoint &pos, const std::function<bool( const item & )> &filter, Character *carrier )
 {
     std::vector<item *> del;
 
-    visit_items( [&what, &qty, &used, &pos, &del, &filter]( item * e, item * parent ) {
+    visit_items( [&what, &qty, &used, &pos, &del, &filter, &carrier]( item * e, item * parent ) {
         if( qty == 0 ) {
             // found sufficient charges
             return VisitResponse::ABORT;
@@ -9455,13 +9455,20 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
             if( e->typeId() == what ) {
                 if( ( e->is_magazine() || e->magazine_current() != nullptr )
                     && e->ammo_current() != itype_id::NULL_ID() ) {
-
                     int n = std::min( e->ammo_remaining(), qty );
                     qty -= n;
                     item temp( *e );
                     temp.ammo_set( e->ammo_current(), n );
                     used.push_back( temp );
                     e->ammo_consume( n, pos, nullptr );
+                } else if( carrier && e->has_flag( flag_USES_BIONIC_POWER ) ) {
+                    // TODO: Generalize previous block to avoid code duplication?
+                    int n = std::min( e->ammo_remaining( carrier ), qty );
+                    qty -= n;
+                    item temp( *e );
+                    temp.ammo_set( e->ammo_current(), n );
+                    used.push_back( temp );
+                    e->ammo_consume( n, pos, carrier );
                 }
             }
             return VisitResponse::SKIP;

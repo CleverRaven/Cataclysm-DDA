@@ -561,14 +561,10 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
         crafting_cache.crafting_inventory->add_item( *it );
     }
 
-    for( const bionic &bio : *my_bionics ) {
-        const bionic_data &bio_data = bio.info();
-        if( ( !bio_data.activated || bio.powered ) &&
-            !bio_data.fake_item.is_empty() ) {
-            *crafting_cache.crafting_inventory += item( bio.info().fake_item,
-                                                  calendar::turn, units::to_kilojoule( get_power_level() ) );
-        }
+    for( const item *i : get_pseudo_items() ) {
+        *crafting_cache.crafting_inventory += *i;
     }
+
     if( has_trait( trait_BURROW ) ) {
         *crafting_cache.crafting_inventory += item( "pickaxe", calendar::turn );
         *crafting_cache.crafting_inventory += item( "shovel", calendar::turn );

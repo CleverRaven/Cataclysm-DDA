@@ -362,6 +362,12 @@
     ]
   },
   {
+    "type": "item_group",
+    "id": "nanofab_recipes",
+    "subtype": "distribution",
+    "entries": [ { "item": "afs_archeotech_cartridge", "prob": 10 }, { "item": "afs_translocation_device", "prob": 10 } ]
+  },
+  {
     "id": "SUS_scuba_gear",
     "type": "item_group",
     "//": "This group is for an area storing diving equipment.  SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",

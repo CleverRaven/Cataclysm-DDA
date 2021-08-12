@@ -296,6 +296,15 @@ struct consumption_event {
     void deserialize( JsonIn &jsin );
 };
 
+struct stat_mod {
+    int strength = 0;
+    int dexterity = 0;
+    int intelligence = 0;
+    int perception = 0;
+
+    int speed = 0;
+};
+
 inline social_modifiers operator+( social_modifiers lhs, const social_modifiers &rhs )
 {
     lhs += rhs;
@@ -622,6 +631,22 @@ class Character : public Creature, public visitable
         /// called once per 24 hours to enforce the minimum of 1 hp healed per day
         /// @todo Move to Character once heal() is moved
         void enforce_minimum_healing();
+        /** Calculates the various speed bonuses we will get from mutations, etc. */
+        void recalc_speed_bonus();
+        void set_underwater( bool );
+        bool is_hallucination() const override;
+        /** Returns the penalty to speed from thirst */
+        static int thirst_speed_penalty( int thirst );
+        /** Returns the effect of pain on stats */
+        stat_mod get_pain_penalty() const;
+        /** returns players strength adjusted by any traits that affect strength during lifting jobs */
+        int get_lift_str() const;
+        /** Takes off an item, returning false on fail. The taken off item is processed in the interact */
+        bool takeoff( item_location loc, std::list<item> *res = nullptr );
+        bool takeoff( int pos );
+
+        /** Returns list of rc items in player inventory. **/
+        std::list<item *> get_radio_items();
         /** get best quality item that this character has */
         item *best_quality_item( const quality_id &qual );
         /** Handles health fluctuations over time */
@@ -1229,7 +1254,8 @@ class Character : public Creature, public visitable
         /** Handles bionic activation effects of the entered bionic, returns if anything activated */
         bool activate_bionic( int b, bool eff_only = false, bool *close_bionics_ui = nullptr );
         std::vector<bionic_id> get_bionics() const;
-        std::vector<item> get_pseudo_items() const;
+        std::vector<const item *> get_pseudo_items() const;
+        void invalidate_pseudo_items();
         /** Returns amount of Storage CBMs in the corpse **/
         std::pair<int, int> amount_of_storage_bionics() const;
         /** Returns true if the player has the entered bionic id */
@@ -1321,10 +1347,10 @@ class Character : public Creature, public visitable
                                       int success, float adjusted_skill, const tripoint &patient_pos );
 
         /**Is The uninstallation possible*/
-        bool can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
+        bool can_uninstall_bionic( const bionic_id &b_id, Character &installer, bool autodoc = false,
                                    int skill_level = -1 );
         /** Initialize all the values needed to start the operation player_activity */
-        bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
+        bool uninstall_bionic( const bionic_id &b_id, Character &installer, bool autodoc = false,
                                int skill_level = -1 );
         /**Success or failure of removal happens here*/
         void perform_uninstall( const bionic_id &bid, int difficulty, int success,
@@ -1336,10 +1362,10 @@ class Character : public Creature, public visitable
         void roll_critical_bionics_failure( const bodypart_id &bp );
 
         /**Used by monster to perform surgery*/
-        bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
+        bool uninstall_bionic( const bionic &target_cbm, monster &installer, Character &patient,
                                float adjusted_skill );
         /**When a monster fails the surgery*/
-        void bionics_uninstall_failure( monster &installer, player &patient, int difficulty, int success,
+        void bionics_uninstall_failure( monster &installer, Character &patient, int difficulty, int success,
                                         float adjusted_skill );
 
         /**Passively produce power from PERPETUAL fuel*/
@@ -3098,6 +3124,9 @@ class Character : public Creature, public visitable
         mutable crafting_cache_type crafting_cache;
 
         time_point melee_warning_turn = calendar::turn_zero;
+
+        mutable bool pseudo_items_valid = false;
+        mutable std::vector<const item *> pseudo_items;
     protected:
         /** Subset of learned recipes. Needs to be mutable for lazy initialization. */
         mutable pimpl<recipe_subset> learned_recipes;
