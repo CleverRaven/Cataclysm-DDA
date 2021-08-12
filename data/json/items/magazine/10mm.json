@@ -111,7 +111,7 @@
     "id": "p220_10_mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "SIG pistol 10mm 8-roung magazine" },
+    "name": { "str": "SIG pistol 10mm 8-round magazine" },
     "description": "An 8-round steel box magazine for the SIG pistol",
     "variants": [
       {

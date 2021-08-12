@@ -868,6 +868,7 @@
     "material": [ "steel", "iron" ],
     "weight": "22680 g",
     "volume": "6250 ml",
+    "longest_side": "1 meter",
     "bashing": 6,
     "to_hit": -4
   },
@@ -1311,6 +1312,42 @@
     "cutting": 4,
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "AMMO",
+    "id": "paper",
+    "name": { "str": "paper" },
+    "category": "spare_parts",
+    "weight": "3 g",
+    "color": "white",
+    "symbol": "`",
+    "description": "A piece of paper.  Can be used for fires.",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "paper" ],
+    "volume": "6 ml",
+    "longest_side": "297 mm",
+    "ammo_type": "paper"
+  },
+  {
+    "id": "book_binder",
+    "type": "GENERIC",
+    "category": "books",
+    "use_action": "BINDER_ADD_RECIPE",
+    "symbol": "/",
+    "looks_like": "story_book",
+    "color": "light_gray",
+    "name": { "str": "book binder" },
+    "description": "A book binder.  With a pen and some paper you could copy some recipes from books.",
+    "weight": "200 g",
+    "volume": "640 ml",
+    "material": [ "plastic" ],
+    "bashing": 1,
+    "to_hit": -1,
+    "price": 500,
+    "price_postapoc": 50,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": false, "ammo_restriction": { "paper": 90 } } ]
   },
   {
     "type": "GENERIC",
@@ -2699,7 +2736,6 @@
     "volume": "5 ml",
     "to_hit": -3,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "money": 200000000 } } ],
-    "max_charges": 200000000,
     "rand_charges": [
       0,
       1,

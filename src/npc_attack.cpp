@@ -5,6 +5,8 @@
 #include "flag.h"
 #include "game.h"
 #include "item.h"
+#include "magic.h"
+#include "magic_spell_effect_helpers.h"
 #include "map.h"
 #include "messages.h"
 #include "npc.h"
@@ -85,6 +87,136 @@ npc_attack_rating npc_attack_rating::operator-=( const int rhs )
         *_value -= rhs;
     }
     return *this;
+}
+
+void npc_attack_spell::use( npc &source, const tripoint &location ) const
+{
+    spell &sp = source.magic->get_spell( attack_spell_id );
+    if( source.has_weapon() && !source.weapon.has_flag( flag_id( "MAGIC_FOCUS" ) ) &&
+        !sp.has_flag( spell_flag::NO_HANDS ) ) {
+        source.unwield();
+    }
+    add_msg_debug( debugmode::debug_filter::DF_NPC, "%s is casting %s", source.disp_name(), sp.name() );
+    source.cast_spell( sp, false, location );
+}
+
+npc_attack_rating npc_attack_spell::evaluate( const npc &source,
+        const Creature *target ) const
+{
+    const spell &attack_spell = source.magic->get_spell( attack_spell_id );
+    npc_attack_rating effectiveness;
+    if( !can_use( source ) ) {
+        return effectiveness;
+    }
+    const int time_penalty = base_time_penalty( source );
+    const std::vector<tripoint> targetable_points = attack_spell.targetable_locations( source );
+    for( const tripoint &targetable_point : targetable_points ) {
+        npc_attack_rating effectiveness_at_point = evaluate_tripoint(
+                    source, target, targetable_point );
+        effectiveness_at_point -= time_penalty;
+        if( effectiveness_at_point > effectiveness ) {
+            effectiveness = effectiveness_at_point;
+        }
+    }
+    return effectiveness;
+}
+
+std::vector<npc_attack_rating> npc_attack_spell::all_evaluations( const npc &source,
+        const Creature *target ) const
+{
+    const spell &attack_spell = source.magic->get_spell( attack_spell_id );
+    std::vector<npc_attack_rating> effectiveness;
+    if( !can_use( source ) ) {
+        return effectiveness;
+    }
+    int time_penalty = this->base_time_penalty( source );
+    const std::vector<tripoint> targetable_points = attack_spell.targetable_locations( source );
+    for( const tripoint &targetable_point : targetable_points ) {
+        npc_attack_rating effectiveness_at_point = evaluate_tripoint(
+                    source, target, targetable_point );
+        effectiveness_at_point -= time_penalty;
+        effectiveness.push_back( effectiveness_at_point );
+    }
+    return effectiveness;
+}
+
+bool npc_attack_spell::can_use( const npc &source ) const
+{
+    const spell &attack_spell = source.magic->get_spell( attack_spell_id );
+    // missing components or energy or something
+    return attack_spell.can_cast( source ) &&
+           // use the same rules as silent guns
+           !( source.rules.has_flag( ally_rule::use_silent ) && attack_spell.sound_volume() >= 5 );
+}
+
+int npc_attack_spell::base_time_penalty( const npc &source ) const
+{
+    const spell &attack_spell = source.magic->get_spell( attack_spell_id );
+    int time_penalty = 0;
+    if( source.has_weapon() && !source.weapon.has_flag( flag_id( "MAGIC_FOCUS" ) ) &&
+        !attack_spell.has_flag( spell_flag::NO_HANDS ) ) {
+        time_penalty += npc_attack_constants::base_time_penalty;
+    }
+    // costs a point per second spent.
+    time_penalty += std::round( attack_spell.casting_time( source ) * source.speed_rating() ) / 100.0f;
+    return time_penalty;
+}
+
+npc_attack_rating npc_attack_spell::evaluate_tripoint(
+    const npc &source, const Creature *target, const tripoint &location ) const
+{
+    const spell &attack_spell = source.magic->get_spell( attack_spell_id );
+
+    double total_potential = 0;
+
+    for( const tripoint &potential_target : calculate_spell_effect_area( attack_spell, location,
+            source ) ) {
+        Creature *critter = g->critter_at( potential_target );
+
+        if( !critter ) {
+            // no critter? no damage! however, we assume fields are worth something
+            if( attack_spell_id->field ) {
+                total_potential += static_cast<double>( attack_spell.field_intensity() ) /
+                                   static_cast<double>( attack_spell_id->field_chance ) / 2.0;
+            }
+            continue;
+        }
+
+        const Creature::Attitude att = source.attitude_to( *critter );
+        int damage = 0;
+        if( source.sees( *critter ) ) {
+            damage = attack_spell.dps( source, *critter );
+        }
+        const int distance_to_me = rl_dist( source.pos(), potential_target );
+        const bool friendly_fire = att == Creature::Attitude::FRIENDLY &&
+                                   !source.rules.has_flag( ally_rule::avoid_friendly_fire );
+        int attitude_mult = 3;
+        if( att == Creature::Attitude::FRIENDLY ) {
+            attitude_mult = -10;
+        } else if( att == Creature::Attitude::NEUTRAL || friendly_fire ) {
+            // hitting a neutral creature isn't exactly desired, but it's a lot less than a friendly.
+            // if friendly fire is on, we don't care too much, though if an available hit doesn't damage them it would be better.
+            attitude_mult = -1;
+        }
+        int potential = damage * attitude_mult - distance_to_me + 1;
+        if( target && critter == target ) {
+            potential *= npc_attack_constants::target_modifier;
+        }
+        if( damage >= critter->get_hp() ) {
+            potential *= npc_attack_constants::kill_modifier;
+            if( att == Creature::Attitude::NEUTRAL ) {
+                // we don't care if we kill a neutral creature in one hit
+                potential = std::abs( potential );
+            }
+            const Creature *source_ptr = &source;
+            if( att == Creature::Attitude::FRIENDLY || critter == source_ptr ) {
+                // however we under no circumstances want to kill an ally (or ourselves!)
+                return npc_attack_rating( cata::nullopt, location );
+            }
+        }
+        total_potential += potential;
+    }
+    return npc_attack_rating( std::round( total_potential ), location );
 }
 
 void npc_attack_melee::use( npc &source, const tripoint &location ) const
@@ -203,7 +335,10 @@ npc_attack_rating npc_attack_melee::evaluate_critter( const npc &source,
         return npc_attack_rating{};
     }
 
-    const double damage{ weapon.effective_dps( source, *critter ) };
+    // TODO: Give bashing weapons a better
+    // rating against armored targets
+    double damage{ weapon.base_damage_melee().total_damage() };
+    damage *= 100.0 / weapon.attack_time();
     const int reach_range{ weapon.reach_range( source ) };
     const int distance_to_me = clamp( rl_dist( source.pos(), critter->pos() ) - reach_range, 0, 10 );
     // Multiplier of 0.5f to 1.5f based on distance

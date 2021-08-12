@@ -3,7 +3,7 @@
     "id": "magnetron",
     "type": "GENERIC",
     "category": "spare_parts",
-    "name": { "str": "microwave generator" },
+    "name": { "str": "magnetron" },
     "description": "This electrical component is designed to produce microwaves, for use in your microwave.",
     "weight": "954 g",
     "volume": "4 L",

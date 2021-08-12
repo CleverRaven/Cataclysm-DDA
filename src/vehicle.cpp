@@ -27,6 +27,7 @@
 #include "clzones.h"
 #include "colony.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
@@ -59,7 +60,6 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -662,7 +662,7 @@ void vehicle::autopilot_patrol()
     map &here = get_map();
     // if we are close to a waypoint, then return to come back to this function next turn.
     if( autodrive_local_target != tripoint_zero ) {
-        if( rl_dist( here.getabs( global_pos3() ), autodrive_local_target ) <= 3 ) {
+        if( rl_dist( global_square_location().raw(), autodrive_local_target ) <= 3 ) {
             autodrive_local_target = tripoint_zero;
             return;
         }
@@ -676,7 +676,7 @@ void vehicle::autopilot_patrol()
     }
     zone_manager &mgr = zone_manager::get_manager();
     const auto &zone_src_set = mgr.get_near( zone_type_id( "VEHICLE_PATROL" ),
-                               here.getabs( global_pos3() ), 60 );
+                               global_square_location().raw(), 60 );
     if( zone_src_set.empty() ) {
         is_patrolling = false;
         return;
@@ -706,8 +706,8 @@ void vehicle::autopilot_patrol()
                              point_along,
                              min.z );
     tripoint chosen_tri = min_tri;
-    if( rl_dist( max_tri, here.getabs( global_pos3() ) ) >= rl_dist( min_tri,
-            here.getabs( global_pos3() ) ) ) {
+    if( rl_dist( max_tri, global_square_location().raw() ) >= rl_dist( min_tri,
+            global_square_location().raw() ) ) {
         chosen_tri = max_tri;
     }
     autodrive_local_target = chosen_tri;
@@ -762,26 +762,6 @@ static int get_turn_from_angle( const units::angle &angle, const tripoint &vehpo
     return 0;
 }
 
-void vehicle::stop_autodriving()
-{
-    if( !is_autodriving && !is_patrolling && !is_following ) {
-        return;
-    }
-    if( velocity > 0 ) {
-        if( is_patrolling || is_following ) {
-            autodrive( point( 0, 10 ) );
-        } else {
-            pldrive( point( 0, 10 ) );
-        }
-    }
-    is_autodriving = false;
-    is_patrolling = false;
-    is_following = false;
-    autopilot_on = false;
-    autodrive_local_target = tripoint_zero;
-    collision_check_points.clear();
-}
-
 void vehicle::drive_to_local_target( const tripoint &target, bool follow_protocol )
 {
     Character &player_character = get_player_character();
@@ -791,7 +771,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     }
     refresh();
     map &here = get_map();
-    tripoint vehpos = here.getabs( global_pos3() );
+    tripoint vehpos = global_square_location().raw();
     units::angle angle = get_angle_from_targ( target );
     // now we got the angle to the target, we can work out when we are heading towards disaster.
     // Check the tileray in the direction we need to head towards.
@@ -842,10 +822,6 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
                            string_format( _( "the %s emitting a beep and saying \"Obstacle detected!\"" ),
                                           name ) );
         }
-        if( velocity > 0 ) {
-            follow_protocol ||
-            is_patrolling ? autodrive( point( 0, 10 ) ) : pldrive( point( 0, 10 ) );
-        }
         stop_autodriving();
         return;
     }
@@ -881,13 +857,12 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
             accel_y = 1;
         }
     }
-    follow_protocol ||
-    is_patrolling ? autodrive( point( turn_x, accel_y ) ) : pldrive( point( turn_x, accel_y ) );
+    selfdrive( point( turn_x, accel_y ) );
 }
 
 units::angle vehicle::get_angle_from_targ( const tripoint &targ )
 {
-    tripoint vehpos = get_map().getabs( global_pos3() );
+    tripoint vehpos = global_square_location().raw();
     rl_vec2d facevec = face_vec();
     point rel_pos_target = targ.xy() - vehpos.xy();
     rl_vec2d targetvec = rl_vec2d( rel_pos_target.x, rel_pos_target.y );
@@ -897,57 +872,6 @@ units::angle vehicle::get_angle_from_targ( const tripoint &targ )
     double dotx = ( facevec.x * targetvec.x ) + ( facevec.y * targetvec.y );
 
     return units::atan2( crossy, dotx );
-}
-
-void vehicle::do_autodrive()
-{
-    if( omt_path.empty() ) {
-        stop_autodriving();
-    }
-    Character &player_character = get_player_character();
-    map &here = get_map();
-    tripoint vehpos = global_pos3();
-    // TODO: fix point types
-    tripoint_abs_omt veh_omt_pos( ms_to_omt_copy( here.getabs( vehpos ) ) );
-    // we're at or close to the waypoint, pop it out and look for the next one.
-    if( ( is_autodriving && !player_character.omt_path.empty() && !omt_path.empty() ) &&
-        veh_omt_pos == omt_path.back() ) {
-        player_character.omt_path.pop_back();
-        omt_path.pop_back();
-    }
-    if( omt_path.empty() ) {
-        stop_autodriving();
-        return;
-    }
-
-    point_rel_omt omt_diff = omt_path.back().xy() - veh_omt_pos.xy();
-    if( omt_diff.x() > 3 || omt_diff.x() < -3 || omt_diff.y() > 3 || omt_diff.y() < -3 ) {
-        // we've gone walkabout somehow, call off the whole thing
-        stop_autodriving();
-        return;
-    }
-    point side;
-    if( omt_diff.x() > 0 ) {
-        side.x = 2 * SEEX - 1;
-    } else if( omt_diff.x() < 0 ) {
-        side.x = 0;
-    } else {
-        side.x = SEEX;
-    }
-    if( omt_diff.y() > 0 ) {
-        side.y = 2 * SEEY - 1;
-    } else if( omt_diff.y() < 0 ) {
-        side.y = 0;
-    } else {
-        side.y = SEEY;
-    }
-    // get the shared border mid-point of the next path omt
-    tripoint_abs_ms global_a = project_to<coords::ms>( veh_omt_pos );
-    // TODO: fix point types
-    tripoint autodrive_temp_target = ( global_a.raw() + tripoint( side,
-                                       sm_pos.z ) - here.getabs( vehpos ) ) + vehpos;
-    autodrive_local_target = here.getabs( autodrive_temp_target );
-    drive_to_local_target( autodrive_local_target, false );
 }
 
 /**
@@ -2256,10 +2180,10 @@ bool vehicle::find_and_split_vehicles( int exclude )
     return false;
 }
 
-void vehicle::relocate_passengers( const std::vector<player *> &passengers )
+void vehicle::relocate_passengers( const std::vector<Character *> &passengers )
 {
     const auto boardables = get_avail_parts( "BOARDABLE" );
-    for( player *passenger : passengers ) {
+    for( Character *passenger : passengers ) {
         for( const vpart_reference &vp : boardables ) {
             if( vp.part().passenger_id == passenger->getID() ) {
                 passenger->setpos( vp.pos() );
@@ -2336,7 +2260,7 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
         }
         new_vehicle->last_fluid_check = last_fluid_check;
 
-        std::vector<player *> passengers;
+        std::vector<Character *> passengers;
         for( size_t new_part = 0; new_part < split_parts.size(); new_part++ ) {
             int mov_part = split_parts[ new_part ];
             point cur_mount = parts[ mov_part ].mount;
@@ -2347,7 +2271,7 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
                 new_mount -= mnt_offset;
             }
 
-            player *passenger = nullptr;
+            Character *passenger = nullptr;
             // Unboard any entities standing on any transferred part
             if( part_flag( mov_part, "BOARDABLE" ) ) {
                 passenger = get_passenger( mov_part );
@@ -2878,12 +2802,12 @@ std::vector<int> vehicle::all_parts_at_location( const std::string &location ) c
 // as the part index was first "chosen" before the NPC started traveling here.
 // therefore the part index is now invalid shifted by one or two ( depending on how many other NPCs working on this vehicle )
 // so loop over the part indexes in reverse order to get the next one down that matches the part type we wanted to remove
-int vehicle::get_next_shifted_index( int original_index, player &p )
+int vehicle::get_next_shifted_index( int original_index, Character &you )
 {
     int ret_index = original_index;
     bool found_shifted_index = false;
     for( std::vector<vehicle_part>::reverse_iterator it = parts.rbegin(); it != parts.rend(); ++it ) {
-        if( p.get_value( "veh_index_type" ) == it->info().name() ) {
+        if( you.get_value( "veh_index_type" ) == it->info().name() ) {
             ret_index = index_of_part( &*it );
             found_shifted_index = true;
             break;
@@ -3131,14 +3055,6 @@ void vehicle::coord_translate( tileray tdir, const point &pivot, const point &p,
     q.y = tdir.dy() + tdir.ortho_dy( p.y - pivot.y );
 }
 
-point vehicle::rotate_mount( units::angle old_dir, units::angle new_dir, const point &pivot,
-                             const point &p ) const
-{
-    tripoint q;
-    coord_translate( new_dir - old_dir, pivot, p, q );
-    return q.xy();
-}
-
 tripoint vehicle::mount_to_tripoint( const point &mount ) const
 {
     return mount_to_tripoint( mount, point_zero );
@@ -3200,11 +3116,11 @@ std::vector<rider_data> vehicle::get_riders() const
     return res;
 }
 
-player *vehicle::get_passenger( int p ) const
+Character *vehicle::get_passenger( int you ) const
 {
-    p = part_with_feature( p, VPFLAG_BOARDABLE, false );
-    if( p >= 0 && parts[p].has_flag( vehicle_part::passenger_flag ) ) {
-        return g->critter_by_id<player>( parts[p].passenger_id );
+    you = part_with_feature( you, VPFLAG_BOARDABLE, false );
+    if( you >= 0 && parts[you].has_flag( vehicle_part::passenger_flag ) ) {
+        return g->critter_by_id<Character>( parts[you].passenger_id );
     }
     return nullptr;
 }
@@ -3216,6 +3132,16 @@ monster *vehicle::get_monster( int p ) const
         return g->critter_at<monster>( global_part_pos3( p ), true );
     }
     return nullptr;
+}
+
+tripoint_abs_ms vehicle::global_square_location() const
+{
+    return tripoint_abs_ms( get_map().getabs( global_pos3() ) );
+}
+
+tripoint_abs_omt vehicle::global_omt_location() const
+{
+    return project_to<coords::omt>( global_square_location() );
 }
 
 tripoint vehicle::global_pos3() const
@@ -3235,13 +3161,12 @@ tripoint vehicle::global_part_pos3( const vehicle_part &pt ) const
 
 void vehicle::set_submap_moved( const tripoint &p )
 {
-    const point old_msp = get_map().getabs( global_pos3().xy() );
+    const point_abs_ms old_msp = global_square_location().xy();
     sm_pos = p;
     if( !tracking_on ) {
         return;
     }
-    // TODO: fix point types
-    overmap_buffer.move_vehicle( this, point_abs_ms( old_msp ) );
+    overmap_buffer.move_vehicle( this, old_msp );
 }
 
 units::mass vehicle::total_mass() const
@@ -4414,13 +4339,13 @@ void vehicle::set_owner( const Character &c )
     owner = c.get_faction()->id;
 }
 
-bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
+bool vehicle::handle_potential_theft( Character &you, bool check_only, bool prompt )
 {
-    const bool is_owned_by_player = is_owned_by( p );
+    const bool is_owned_by_player = is_owned_by( you );
     std::vector<npc *> witnesses;
     for( npc &elem : g->all_npcs() ) {
-        if( rl_dist( elem.pos(), p.pos() ) < MAX_VIEW_DISTANCE && has_owner() &&
-            !is_owned_by_player && elem.sees( p.pos() ) ) {
+        if( rl_dist( elem.pos(), you.pos() ) < MAX_VIEW_DISTANCE && has_owner() &&
+            !is_owned_by_player && elem.sees( you.pos() ) ) {
             witnesses.push_back( &elem );
         }
     }
@@ -4432,9 +4357,9 @@ bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
     } else if( !has_owner() ||
                // if there is a marker for having been stolen, but 15 minutes have passed, then
                // officially transfer ownership
-               ( witnesses.empty() && has_old_owner() && !is_old_owner( p ) && theft_time &&
+               ( witnesses.empty() && has_old_owner() && !is_old_owner( you ) && theft_time &&
                  calendar::turn - *theft_time > 15_minutes ) ) {
-        set_owner( p.get_faction()->id );
+        set_owner( you.get_faction()->id );
         remove_old_owner();
         return true;
         // No witnesses? then don't need to prompt, we assume the player is in process of stealing it.
@@ -4463,7 +4388,7 @@ bool vehicle::handle_potential_theft( player &p, bool check_only, bool prompt )
         elem->say( "<witnessed_thievery>", 7 );
     }
     if( !witnesses.empty() ) {
-        if( p.add_faction_warning( get_owner() ) ) {
+        if( you.add_faction_warning( get_owner() ) ) {
             for( npc *elem : witnesses ) {
                 elem->make_angry();
             }
@@ -4813,9 +4738,7 @@ int vehicle::total_solar_epower_w() const
 int vehicle::total_wind_epower_w() const
 {
     map &here = get_map();
-    // TODO: fix point types
-    const oter_id &cur_om_ter =
-        overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( global_pos3() ) ) ) );
+    const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
     weather_manager &weather = get_weather();
     const w_point weatherPoint = *weather.weather_precise;
     int epower_w = 0;
@@ -6005,7 +5928,7 @@ void vehicle::do_towing_move()
     units::angle towing_veh_angle = towed_veh->get_angle_from_targ( tower_tow_point );
     const bool reverse = towed_veh->tow_data.tow_direction == TOW_BACK;
     int accel_y = 0;
-    tripoint vehpos = here.getabs( towed_veh->global_pos3() );
+    tripoint vehpos = global_square_location().raw();
     int turn_x = get_turn_from_angle( towing_veh_angle, vehpos, tower_tow_point, reverse );
     if( rl_dist( towed_tow_point, tower_tow_point ) < 6 ) {
         accel_y = reverse ? -1 : 1;
@@ -6022,10 +5945,10 @@ void vehicle::do_towing_move()
         towed_veh->velocity = reverse ? -velocity : velocity;
     }
     if( towed_veh->tow_data.tow_direction == TOW_FRONT ) {
-        towed_veh->autodrive( point( turn_x, accel_y ) );
+        towed_veh->selfdrive( point( turn_x, accel_y ) );
     } else if( towed_veh->tow_data.tow_direction == TOW_BACK ) {
         accel_y = 10;
-        towed_veh->autodrive( point( turn_x, accel_y ) );
+        towed_veh->selfdrive( point( turn_x, accel_y ) );
     } else {
         towed_veh->skidding = true;
         std::vector<tripoint> lineto = line_to( here.getlocal( towed_tow_point ),
@@ -6886,7 +6809,7 @@ const vpart_info &vpart_reference::info() const
     return part().info();
 }
 
-player *vpart_reference::get_passenger() const
+Character *vpart_reference::get_passenger() const
 {
     return vehicle().get_passenger( part_index() );
 }
@@ -7002,7 +6925,7 @@ void vehicle::update_time( const time_point &update_to )
     }
     // Get one weather data set per vehicle, they don't differ much across vehicle area
     const weather_sum accum_weather = sum_conditions( update_from, update_to,
-                                      here.getabs( global_pos3() ) );
+                                      global_square_location().raw() );
     // make some reference objects to use to check for reload
     const item water( "water" );
     const item water_clean( "water_clean" );
@@ -7123,7 +7046,7 @@ void vehicle::calc_mass_center( bool use_precalc ) const
         m_part += m_part_items;
 
         if( vp.has_feature( VPFLAG_BOARDABLE ) && vp.part().has_flag( vehicle_part::passenger_flag ) ) {
-            const player *p = get_passenger( i );
+            const Character *p = get_passenger( i );
             // Sometimes flag is wrongly set, don't crash!
             m_part += p != nullptr ? p->get_weight() : 0_gram;
         }

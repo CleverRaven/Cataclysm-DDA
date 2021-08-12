@@ -129,8 +129,6 @@
     "symbol": ";",
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 75 } } ],
-    "initial_charges": 75,
-    "max_charges": 75,
     "charges_per_use": 1,
     "use_action": [ "WATER_PURIFIER" ],
     "flags": [ "ALLOWS_REMOTE_USE", "NO_UNLOAD", "NO_RELOAD" ]
@@ -152,8 +150,6 @@
     "symbol": ";",
     "color": "light_gray",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 300 } } ],
-    "initial_charges": 300,
-    "max_charges": 300,
     "charges_per_use": 1,
     "use_action": [ "WATER_PURIFIER" ],
     "flags": [ "ALLOWS_REMOTE_USE", "NO_UNLOAD", "NO_RELOAD" ]
@@ -175,7 +171,6 @@
     "color": "light_gray",
     "ammo": [ "charcoal" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 375 } } ],
-    "max_charges": 375,
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -196,8 +191,6 @@
     "ammo": [ "charcoal" ],
     "sub": "hotplate",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 50 } } ],
-    "initial_charges": 50,
-    "max_charges": 50,
     "charges_per_use": 1,
     "use_action": [ "HOTPLATE" ]
   },
@@ -352,8 +345,6 @@
     "ammo": [ "esbit" ],
     "sub": "hotplate",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "esbit": 50 } } ],
-    "initial_charges": 50,
-    "max_charges": 50,
     "charges_per_use": 1,
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
   },
@@ -430,8 +421,6 @@
     "ammo": [ "gasoline" ],
     "sub": "hotplate",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasoline": 500 }, "watertight": true, "rigid": true } ],
-    "initial_charges": 500,
-    "max_charges": 500,
     "charges_per_use": 1,
     "use_action": [ "HOTPLATE" ]
   },
@@ -729,8 +718,6 @@
     "ammo": [ "lamp_oil" ],
     "sub": "hotplate",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 }, "watertight": true, "rigid": true } ],
-    "initial_charges": 800,
-    "max_charges": 800,
     "charges_per_use": 1,
     "use_action": [ "HOTPLATE" ]
   },
@@ -793,8 +780,6 @@
     "ammo": [ "conc_alcohol" ],
     "sub": "hotplate",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "conc_alcohol": 500 }, "watertight": true, "rigid": true } ],
-    "initial_charges": 500,
-    "max_charges": 500,
     "charges_per_use": 1,
     "use_action": [ "HOTPLATE" ]
   },
@@ -924,7 +909,6 @@
     "ammo": [ "lamp_oil" ],
     "sub": "hotplate",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 }, "watertight": true, "rigid": true } ],
-    "max_charges": 800,
     "charges_per_use": 1,
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ]

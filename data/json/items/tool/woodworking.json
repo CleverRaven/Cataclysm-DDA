@@ -54,7 +54,6 @@
     "ammo": [ "gasoline" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasoline": 450 }, "watertight": true, "rigid": true } ],
     "charges_per_use": 5,
-    "max_charges": 450,
     "techniques": [ "SWEEP" ],
     "use_action": [ "CHAINSAW_OFF" ],
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ]

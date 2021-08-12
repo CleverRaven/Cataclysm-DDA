@@ -27,7 +27,7 @@
       { "item": "bone_human", "count": [ 5, 8 ], "prob": 100 },
       { "item": "human_flesh", "count": [ 5, 8 ], "prob": 100 },
       { "item": "hstomach", "prob": 100 },
-      { "group": "misc_smoking", "prob": 30 }
+      { "group": "misc_smoking_legal", "prob": 30 }
     ]
   },
   {
@@ -71,7 +71,7 @@
           { "item": "two_way_radio", "prob": 50, "charges": [ 0, 100 ] },
           { "item": "grenade", "prob": 5 },
           { "group": "wallets_military", "prob": 5 },
-          { "group": "misc_smoking", "prob": 30 }
+          { "group": "misc_smoking_legal", "prob": 30 }
         ]
       },
       { "item": "bone_human", "count": [ 5, 8 ], "prob": 100 },

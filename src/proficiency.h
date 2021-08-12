@@ -52,6 +52,7 @@ class proficiency
         bool was_loaded = false;
 
         bool _can_learn = false;
+        bool _ignore_focus = false;
 
         translation _name;
         translation _description;
@@ -72,6 +73,7 @@ class proficiency
         static const std::vector<proficiency> &get_all();
 
         bool can_learn() const;
+        bool ignore_focus() const;
         proficiency_id prof_id() const;
         std::string name() const;
         std::string description() const;

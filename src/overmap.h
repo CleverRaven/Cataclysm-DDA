@@ -19,6 +19,7 @@
 #include "coordinates.h"
 #include "enums.h"
 #include "game_constants.h"
+#include "mapgendata.h"
 #include "memory_fast.h"
 #include "mongroup.h"
 #include "monster.h"
@@ -244,6 +245,7 @@ class overmap
 
         void ter_set( const tripoint_om_omt &p, const oter_id &id );
         const oter_id &ter( const tripoint_om_omt &p ) const;
+        cata::optional<mapgen_arguments> *mapgen_args( const tripoint_om_omt & );
         bool &seen( const tripoint_om_omt &p );
         bool seen( const tripoint_om_omt &p ) const;
         bool &explored( const tripoint_om_omt &p );
@@ -368,6 +370,12 @@ class overmap
         // Records location where mongroups are not allowed to spawn during worldgen.
         std::unordered_set<tripoint_om_omt> safe_at_worldgen;
 
+        // Records mapgen parameters required at the overmap special level
+        // These are lazily evaluated; empty optional means that they have yet
+        // to be evaluated.
+        cata::colony<cata::optional<mapgen_arguments>> mapgen_arg_storage;
+        std::unordered_map<tripoint_om_omt, cata::optional<mapgen_arguments> *> mapgen_args_index;
+
         pimpl<regional_settings> settings;
 
         oter_id get_default_terrain( int z ) const;
@@ -467,6 +475,7 @@ class overmap
                        const tripoint_om_omt &p ) const;
         bool check_overmap_special_type( const overmap_special_id &id,
                                          const tripoint_om_omt &location ) const;
+        cata::optional<overmap_special_id> overmap_special_at( const tripoint_om_omt &p ) const;
         void chip_rock( const tripoint_om_omt &p );
 
         void polish_river();

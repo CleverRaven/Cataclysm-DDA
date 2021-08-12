@@ -3,7 +3,7 @@
     "id": "bathroom_scale",
     "type": "TOOL",
     "name": { "str": "bathroom scale" },
-    "symbol": "■",
+    "symbol": "_",
     "color": "light_gray",
     "description": "This is a small bathroom scale, meant to weigh a person while naked.",
     "weight": "1200 g",
@@ -157,8 +157,6 @@
     "color": "white",
     "ammo": [ "soap" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "soap": 10 } } ],
-    "initial_charges": 5,
-    "max_charges": 10,
     "charges_per_use": 1,
     "use_action": [ "SHAVEKIT" ]
   },
@@ -221,7 +219,6 @@
     "color": "brown",
     "ammo": [ "soap" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "soap": 10 } } ],
-    "max_charges": 10,
     "charges_per_use": 1,
     "use_action": [ "SHAVEKIT" ]
   },

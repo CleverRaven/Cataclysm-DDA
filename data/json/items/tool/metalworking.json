@@ -67,7 +67,6 @@
     "ammo": [ "charcoal" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 500 } } ],
     "sub": "forge",
-    "max_charges": 500,
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -323,6 +322,20 @@
     "price": 1600,
     "price_postapoc": 10,
     "material": "paper",
+    "symbol": "`",
+    "color": "brown",
+    "qualities": [ [ "FILE", 1 ] ]
+  },
+  {
+    "id": "leather_filing",
+    "type": "TOOL",
+    "name": { "str": "sandleather" },
+    "description": "A patch of leather with some sand.  Works as a substitute for sandpaper.",
+    "weight": "260 g",
+    "volume": "110 ml",
+    "price": 2000,
+    "price_postapoc": 10,
+    "material": "leather",
     "symbol": "`",
     "color": "brown",
     "qualities": [ [ "FILE", 1 ] ]
