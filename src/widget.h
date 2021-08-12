@@ -10,6 +10,7 @@
 #include "enum_traits.h"
 #include "generic_factory.h"
 #include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 
 // These are the supported data variables for widgets, defined as enum widget_var.
@@ -67,7 +68,7 @@ class widget
         // Display style to indicate the value: "numeric", "graph", "phrases"
         std::string _style;
         // Displayed label in the UI
-        std::string _label;
+        translation _label;
         // Binding variable enum like stamina, bp_hp or stat_dex
         widget_var _var;
         // Minimum var value, optional
@@ -83,7 +84,7 @@ class widget
         // Graph fill style ("bucket" or "pool")
         std::string _fill;
         // String values mapped to numeric values or ranges
-        std::vector<std::string> _strings;
+        std::vector<translation> _strings;
         // Colors mapped to values or ranges
         std::vector<nc_color> _colors;
         // Child widget ids for layout style
