@@ -317,8 +317,7 @@ void SkillLevel::knowledge_train( int amount, int npc_knowledge, bool skip_scali
 
 bool SkillLevel::isRusting() const
 {
-    return get_option<std::string>( "SKILL_RUST" ) != "off" && ( _level > 0 ) &&
-           _rustAccumulator > 0;
+    return _rustAccumulator > 0;
 }
 
 bool SkillLevel::rust( int rust_resist )
