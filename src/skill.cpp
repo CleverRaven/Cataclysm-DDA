@@ -332,7 +332,6 @@ bool SkillLevel::rust( int rust_resist )
     if( rust_type == "off" ) {
         return false;
     }
-    
     const int level_multiplier = ( _level + 1 ) * ( _level + 1 );
     float level_exp = level_multiplier * 10000.0f;
     if( _rustAccumulator > level_exp * 3 ) {
