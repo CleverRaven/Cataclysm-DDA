@@ -1245,7 +1245,7 @@ class read_inventory_preset: public pickup_inventory_preset
                     if( skill.can_train() ) {
                         //~ %1$s: book skill name, %2$d: book skill level, %3$d: player skill level
                         return string_format( pgettext( "skill", "%1$s to %2$d (%3$d)" ), book.skill->name(), book.level,
-                                              skill.level() );
+                                              skill.knowledgeLevel() );
                     }
                 }
                 return std::string();
@@ -1345,8 +1345,8 @@ class read_inventory_preset: public pickup_inventory_preset
                 return static_cast<bool>( book_a.skill );
             }
 
-            const bool train_a = you.get_skill_level( book_a.skill ) < book_a.level;
-            const bool train_b = you.get_skill_level( book_b.skill ) < book_b.level;
+            const bool train_a = you.get_knowledge_level( book_a.skill ) < book_a.level;
+            const bool train_b = you.get_knowledge_level( book_b.skill ) < book_b.level;
 
             if( !train_a || !train_b ) {
                 return ( !train_a && !train_b ) ? base_sort : train_a;

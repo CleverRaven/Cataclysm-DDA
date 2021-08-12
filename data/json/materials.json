@@ -429,8 +429,8 @@
     "fire_resist": 0,
     "elec_resist": 2,
     "chip_resist": 6,
-    "repaired_with": "rag",
-    "salvaged_into": "rag",
+    "repaired_with": "cotton_patchwork",
+    "salvaged_into": "cotton_patchwork",
     "dmg_adj": [ "ripped", "torn", "shredded", "tattered" ],
     "bash_dmg_verb": "ripped",
     "cut_dmg_verb": "cut",
@@ -1237,6 +1237,33 @@
       { "fuel": 300, "smoke": 3, "burn": 1 },
       { "fuel": 600, "smoke": 6, "burn": 2 },
       { "fuel": 900, "smoke": 9, "burn": 3 }
+    ]
+  },
+  {
+    "type": "material",
+    "id": "beeswax",
+    "name": "Beeswax",
+    "density": 1,
+    "//": "https://www.tainstruments.com/pdf/literature/TA405.pdf",
+    "specific_heat_liquid": 2.9,
+    "specific_heat_solid": 3.7,
+    "latent_heat": 210,
+    "edible": true,
+    "bash_resist": 0,
+    "cut_resist": 0,
+    "bullet_resist": 0,
+    "acid_resist": 0,
+    "fire_resist": 0,
+    "elec_resist": 0,
+    "chip_resist": 0,
+    "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
+    "repaired_with": "wax",
+    "bash_dmg_verb": "damaged",
+    "cut_dmg_verb": "damaged",
+    "burn_data": [
+      { "fuel": 150, "smoke": 0, "burn": 1 },
+      { "fuel": 300, "smoke": 0, "burn": 2 },
+      { "fuel": 450, "smoke": 0, "burn": 3 }
     ]
   },
   {

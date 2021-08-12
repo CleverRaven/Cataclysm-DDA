@@ -2865,6 +2865,11 @@ bool mattack::fear_paralyze( monster *z )
         // TODO: handle friendly monsters
         return false;
     }
+
+    if( !within_visual_range( z, 10 ) ) {
+        return false;
+    }
+
     Character &player_character = get_player_character();
     if( player_character.sees( *z ) && !player_character.has_effect( effect_fearparalyze ) ) {
         if( player_character.worn_with_flag( flag_PSYSHIELD_PARTIAL ) && one_in( 4 ) ) {

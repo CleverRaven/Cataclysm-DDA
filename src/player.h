@@ -125,21 +125,6 @@ class player : public Character
          */
         trinary consume( item &target, bool force = false, bool refuel = false );
 
-
-        bool list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
-                        bool empty = true ) const;
-        /**
-         * Select suitable ammo with which to reload the item
-         * @param base Item to select ammo for
-         * @param prompt force display of the menu even if only one choice
-         * @param empty allow selection of empty magazines
-         */
-        item::reload_option select_ammo( const item &base, bool prompt = false,
-                                         bool empty = true ) const;
-
-        /** Select ammo from the provided options */
-        item::reload_option select_ammo( const item &base, std::vector<item::reload_option> opts ) const;
-
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
         template <typename T> bool can_lift( const T &obj ) const;
 
@@ -204,10 +189,6 @@ class player : public Character
         /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
         void try_to_sleep( const time_duration &dur );
 
-        void on_worn_item_transform( const item &old_it, const item &new_it );
-
-        void process_items();
-
         // ---------------VALUES-----------------
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint grab_point;
@@ -253,8 +234,6 @@ class player : public Character
         void add_msg_player_or_say( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_speech ) const override;
 
-        /** Search surrounding squares for traps (and maybe other things in the future). */
-        void search_surroundings();
         // formats and prints encumbrance info to specified window
         void print_encumbrance( const catacurses::window &win, int line = -1,
                                 const item *selected_clothing = nullptr ) const;

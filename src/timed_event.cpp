@@ -30,6 +30,7 @@
 #include "options.h"
 #include "rng.h"
 #include "sounds.h"
+#include "text_snippets.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -297,17 +298,38 @@ void timed_event::per_turn()
                 when -= 1_turns;
                 return;
             }
-            if( calendar::once_every( 3_turns ) && !player_character.is_deaf() ) {
+            if( calendar::once_every( time_duration::from_seconds( rng( 2, 3 ) ) ) &&
+                !player_character.is_deaf() ) {
                 add_msg( m_warning, _( "You hear screeches from the rock above and around you!" ) );
             }
             break;
 
         case timed_event_type::AMIGARA:
-            add_msg( m_warning, _( "The entire cavern shakes!" ) );
+            if( calendar::once_every( time_duration::from_seconds( rng( 2, 3 ) ) ) ) {
+                add_msg( m_warning, _( "The entire cavern shakes!" ) );
+            }
             break;
 
+        case timed_event_type::AMIGARA_WHISPERS: {
+            bool faults = false;
+            for( const tripoint &p : here.points_on_zlevel() ) {
+                if( here.ter( p ) == t_fault ) {
+                    faults = true;
+                    break;
+                }
+            }
+
+            if( calendar::once_every( time_duration::from_seconds( 10 ) ) && faults ) {
+                add_msg( m_info, "You hear someone whispering \"%s\"",
+                         SNIPPET.random_from_category( "amigara_whispers" ).value_or( translation() ) );
+            }
+        }
+        break;
+
         case timed_event_type::TEMPLE_OPEN:
-            add_msg( m_warning, _( "The earth rumbles." ) );
+            if( calendar::once_every( time_duration::from_seconds( rng( 2, 3 ) ) ) ) {
+                add_msg( m_warning, _( "The earth rumbles." ) );
+            }
             break;
 
         default:

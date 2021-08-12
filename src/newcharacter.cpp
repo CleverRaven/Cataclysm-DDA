@@ -596,12 +596,17 @@ bool avatar::create( character_type type, const std::string &tempname )
         mod_skill_level( e.first, e.second );
     }
 
+    // 2 for an average person
+    float catchup_modifier = 1.0f + ( 2.0f * get_int() + get_per() ) / 24.0f;
+    // 1.2 for an average person, always a bit higher than base amount
+    float knowledge_modifier = 1.0f + get_int() / 40.0f;
     // Grab skills from hobbies and train
     for( const profession *profession : hobbies ) {
         for( const profession::StartingSkill &e : profession->skills() ) {
             // Train our skill
             const int skill_xp_bonus = calculate_cumulative_experience( e.second );
-            get_skill_level_object( e.first ).train( skill_xp_bonus );
+            get_skill_level_object( e.first ).train( skill_xp_bonus, catchup_modifier,
+                    knowledge_modifier );
         }
     }
 
@@ -3627,9 +3632,9 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
 
     int min_allowed_age = 16;
     int max_allowed_age = 55;
-    // in centimeters. 2 std. deviations below average female height
-    int min_allowed_height = 145;
-    int max_allowed_height = 200;
+
+    int min_allowed_height = Character::min_height();
+    int max_allowed_height = Character::max_height();
 
     do {
         ui_manager::redraw();
@@ -3839,12 +3844,14 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                     break;
                 }
                 case char_creation::HEIGHT: {
-                    popup.title( _( "Enter height in centimeters.  Minimum 145, maximum 200" ) )
+                    popup.title( string_format( _( "Enter height in centimeters.  Minimum %d, maximum %d" ),
+                                                min_allowed_height,
+                                                max_allowed_height ) )
                     .text( string_format( "%d", you.base_height() ) )
                     .only_digits( true );
                     const int result = popup.query_int();
                     if( result != 0 ) {
-                        you.set_base_height( clamp( result, 145, 200 ) );
+                        you.set_base_height( clamp( result, min_allowed_height, max_allowed_height ) );
                     }
                     break;
                 }
