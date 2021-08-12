@@ -8692,7 +8692,7 @@ item::reload_option::reload_option( const reload_option & ) = default;
 
 item::reload_option &item::reload_option::operator=( const reload_option & ) = default;
 
-item::reload_option::reload_option( const player *who, const item *target, const item *parent,
+item::reload_option::reload_option( const Character *who, const item *target, const item *parent,
                                     const item_location &ammo ) :
     who( who ), target( target ), ammo( ammo ), parent( parent )
 {
