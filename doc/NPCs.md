@@ -573,7 +573,24 @@ Effect | Description
 ---|---
 `sound_effect: sound_effect_id_string`, *optional* `sound_effect_variant: variant_string`, *optional* `outdoor_event: outdoor_event`,*optional* `volume: volume_int`  | Will play a sound effect of id `sound_effect_id_string` and variant `variant_string`. If `volume_int` is defined it will be used otherwise 80 is the default. If `outdoor_event`(defaults to false) is true this will be less likely to play if the player is underground.
 `assign_mission: mission_type_id string` | Will assign mission `mission_type_id` to the player.
-`set_queue_effect_on_condition: effect_on_condition_array`, (*optional* `time_in_future_min: time_in_future_min_int`,`time_in_future_max: time_in_future_max_int` | Will queue up all members of the `effect_on_condition_array`.  Members should either be the id of an effect_on_condition or an inline effect_on_condition. Members will be run between `time_in_future_min_int` and `time_in_future_max_int` seconds in the future. If these are zero(their default value) the eocs will happen instantly.  For instant activation eoc's the current u and npc will be used.  For future ones u will be the avatar adn npc will be a default npc.
+`set_queue_effect_on_condition: effect_on_condition_array`, (*optional* `time_in_future_min: time_in_future_min_int`,`time_in_future_max: time_in_future_max_int` | Will queue up all members of the `effect_on_condition_array`.  Members should either be the id of an effect_on_condition or an inline effect_on_condition. Members will be run between `time_in_future_min_int` and `time_in_future_max_int` seconds in the future. If these are zero(their default value) the eocs will happen instantly.  For instant activation eoc's the current u and npc will be used.  For future ones u will be the avatar and npc will be a default npc.
+`set_weighted_list_eocs: array_array` | Will choose one of a list of eocs to activate based on weight. Members should be an array of first the id of an effect_on_condition or an inline effect_on_condition and second an integer weight. 
+Example: This will cause "EOC_SLEEP" 1/10 as often as it makes a test message appear.
+``` json
+    "effect": [
+      {
+        "set_weighted_list_eocs": [
+          [ "EOC_SLEEP", 1 ],
+          [ { 
+              "id": "eoc_test2", 
+              "effect": [ { "u_message": "A test message appears!", "type": "bad" } ] 
+            }, 10 
+          ]
+        ]
+      }
+    ]
+```
+
 #### Deprecated
 
 Effect | Description

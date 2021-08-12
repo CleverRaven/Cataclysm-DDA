@@ -2348,6 +2348,33 @@ void talk_effect_fun_t::set_queue_effect_on_condition( const JsonObject &jo,
         }
     };
 }
+
+void talk_effect_fun_t::set_weighted_list_eocs( const JsonObject &jo,
+        const std::string &member )
+{
+    weighted_int_list<effect_on_condition_id> eocs;
+    for( JsonArray pair : jo.get_array( member ) ) {
+        effect_on_condition_id eoc;
+        int weight = 1;
+        for( JsonValue jv : pair ) {
+            if( jv.test_int() ) {
+                weight = jv.get_int();
+            } else {
+                eoc = effect_on_conditions::load_inline_eoc( jv, "" );
+            }
+        }
+        eocs.add( eoc, weight );
+    }
+    function = [&eocs]( const dialogue & ) {
+        dialogue d;
+        static standard_npc default_npc( "Default" );
+        d.alpha = get_talker_for( get_avatar() );
+        d.beta = get_talker_for( default_npc );
+        effect_on_condition_id eoc = *eocs.pick();
+        eoc->activate( d );
+    };
+}
+
 void talk_effect_fun_t::set_add_morale( const JsonObject &jo, const std::string &member,
                                         bool is_npc )
 {
@@ -2652,6 +2679,8 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_make_sound( jo, "npc_make_sound", true );
     } else if( jo.has_array( "set_queue_effect_on_condition" ) ) {
         subeffect_fun.set_queue_effect_on_condition( jo, "set_queue_effect_on_condition" );
+    } else if( jo.has_array( "set_weighted_list_eocs" ) ) {
+        subeffect_fun.set_weighted_list_eocs( jo, "set_weighted_list_eocs" );
     } else if( jo.has_member( "u_mod_healthy" ) ) {
         subeffect_fun.set_mod_healthy( jo, "u_mod_healthy", false );
     } else if( jo.has_member( "npc_mod_healthy" ) ) {
