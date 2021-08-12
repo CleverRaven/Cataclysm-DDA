@@ -2452,6 +2452,7 @@ void try_sleep_activity_actor::query_keep_trying( player_activity &act, Characte
         case UILIST_CANCEL:
         case 1:
             act.set_to_null();
+            who.set_movement_mode( move_mode_id( "walk" ) );
             break;
         case 3:
             disable_query = true;
