@@ -740,7 +740,7 @@
     "type": "MONSTER",
     "name": { "str": "seweranha" },
     "description": "A large mutant variety of carp.  It has shimmering green scales and a mouth lined with three jagged rows of razor-sharp teeth.",
-    "default_faction": "mutant",
+    "default_faction": "seweranha",
     "bodytype": "fish",
     "species": [ "FISH" ],
     "volume": "30 L",
