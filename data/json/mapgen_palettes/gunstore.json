@@ -2,12 +2,11 @@
   {
     "type": "palette",
     "id": "gun_store_palette",
-    "//": " P, U, S, F, e, |, o, k, z, c, and > are all still available for more terrain or furniture",
+    "//": " P, U, u, S, h, F, e, |, /, o, k, z, c, and > are all still available for more terrain or furniture",
     "toilets": { "&": {  } },
     "terrain": {
       "-": "t_wall_w",
       "#": "t_brick_wall",
-      "/": "t_floor",
       "q": "t_thconc_floor",
       "&": "t_thconc_floor",
       ":": "t_window_bars_alarm",
@@ -16,9 +15,7 @@
       ",": "t_region_groundcover_urban",
       "@": "t_region_shrub_decorative",
       "B": "t_region_groundcover_barren",
-      "u": "t_region_shrub",
       "'": "t_sidewalk",
-      "h": "t_reinforced_glass",
       "C": "t_thconc_floor",
       "`": "t_thconc_floor",
       ".": "t_thconc_floor",
