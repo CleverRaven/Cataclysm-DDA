@@ -643,7 +643,7 @@
     "id": "carton_2l",
     "type": "GENERIC",
     "category": "container",
-    "name": { "str": "large paper carton" },
+    "name": { "str": "milk carton" },
     "looks_like": "box_small",
     "description": "A half gallon carton constructed of thick, waterproofed paper.  It has a threaded cap to keep liquid from leaking out.",
     "weight": "28 g",
