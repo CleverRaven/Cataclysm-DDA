@@ -386,7 +386,7 @@ bool avatar::read( item_location &book, item_location ereader )
 
         auto get_text =
         [&]( const std::map<npc *, std::string> &m, const std::pair<npc *, std::string> &elem ) {
-            const int lvl = elem.first->get_skill_level( skill );
+            const int lvl = elem.first->get_knowledge_level( skill );
             const std::string lvl_text = skill ? string_format( _( " | current level: %d" ), lvl ) : "";
             const std::string name_text = elem.first->disp_name() + elem.second;
             return string_format( "%s%s", left_justify( name_text, max_length( m ) ), lvl_text );
@@ -407,7 +407,7 @@ bool avatar::read( item_location &book, item_location ereader )
 
         menu.addentry( 0, true, '0', _( "Read once" ) );
 
-        const int lvl = get_skill_level( skill );
+        const int lvl = get_knowledge_level( skill );
         menu.addentry( 2 + getID().get_value(), lvl < type->level, '1',
                        string_format( _( "Read until you gain a level | current level: %d" ), lvl ) );
 
@@ -611,10 +611,10 @@ void avatar::identify( const item &item )
 
     add_msg( _( "You skim %s to find out what's in it." ), book.type_name() );
     if( skill && get_skill_level_object( skill ).can_train() ) {
-        add_msg( m_info, _( "Can bring your %s skill to %d." ),
+        add_msg( m_info, _( "Can bring your %s knowledge to %d." ),
                  skill.obj().name(), reading->level );
         if( reading->req != 0 ) {
-            add_msg( m_info, _( "Requires %s level %d to understand." ),
+            add_msg( m_info, _( "Requires %s knoweldge level %d to understand." ),
                      skill.obj().name(), reading->req );
         }
     }

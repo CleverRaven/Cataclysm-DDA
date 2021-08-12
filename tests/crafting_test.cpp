@@ -135,6 +135,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
         WHEN( "the player has lower skill" ) {
             for( const std::pair<const skill_id, int> &skl : r->required_skills ) {
                 dummy.set_skill_level( skl.first, skl.second - 1 );
+                dummy.set_knowledge_level( skl.first, skl.second - 1 );
             }
 
             THEN( "he can't craft it" ) {
@@ -145,6 +146,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
             dummy.set_skill_level( r->skill_used, r->difficulty );
             for( const std::pair<const skill_id, int> &skl : r->required_skills ) {
                 dummy.set_skill_level( skl.first, skl.second );
+                dummy.set_knowledge_level( skl.first, skl.second );
             }
 
             THEN( "he can craft it now!" ) {
@@ -173,11 +175,11 @@ TEST_CASE( "available_recipes", "[recipes]" )
 
         WHEN( "the player read it and has an appropriate skill" ) {
             dummy.identify( craftbook );
-            dummy.set_skill_level( r->skill_used, 2 );
+            dummy.set_knowledge_level( r->skill_used, 2 );
             // Secondary skills are just set to be what the autolearn requires
             // but the primary is not
             for( const std::pair<const skill_id, int> &skl : r->required_skills ) {
-                dummy.set_skill_level( skl.first, skl.second );
+                dummy.set_knowledge_level( skl.first, skl.second );
             }
 
             AND_WHEN( "he searches for the recipe in the book" ) {
@@ -215,7 +217,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
         REQUIRE_FALSE( dummy.knows_recipe( r2 ) );
 
         WHEN( "the player holds it and has an appropriate skill" ) {
-            dummy.set_skill_level( r2->skill_used, 2 );
+            dummy.set_knowledge_level( r2->skill_used, 2 );
 
             AND_WHEN( "he searches for the recipe in the tablet" ) {
                 THEN( "he finds it!" ) {
@@ -316,10 +318,13 @@ static void grant_skills_to_character( Character &you, const recipe &r )
     // Ensure adequate skill for all "required" skills
     for( const std::pair<const skill_id, int> &skl : r.required_skills ) {
         you.set_skill_level( skl.first, skl.second );
+        you.set_knowledge_level( skl.first, skl.second );
     }
     // and just in case "used" skill difficulty is higher, set that too
     you.set_skill_level( r.skill_used, std::max( r.difficulty,
                          you.get_skill_level( r.skill_used ) ) );
+    you.set_knowledge_level( r.skill_used, std::max( r.difficulty,
+                             you.get_knowledge_level( r.skill_used ) ) );
 }
 
 static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
@@ -777,6 +782,7 @@ static void test_skill_progression( const recipe_id &test_recipe, int expected_t
     }
     SkillLevel &level = you.get_skill_level_object( skill_used );
     int previous_exercise = level.exercise( true );
+    int previous_knowledge = level.knowledgeExperience( true );
     do {
         actual_turns_taken += actually_test_craft( test_recipe, INT_MAX, starting_skill_level );
         if( you.get_skill_level( skill_used ) == starting_skill_level ) {
@@ -784,12 +790,19 @@ static void test_skill_progression( const recipe_id &test_recipe, int expected_t
             REQUIRE( previous_exercise < new_exercise );
             previous_exercise = new_exercise;
         }
+        if( you.get_knowledge_level( skill_used ) == starting_skill_level ) {
+            int new_knowledge = level.knowledgeExperience( true );
+            REQUIRE( previous_knowledge < new_knowledge );
+            previous_knowledge = new_knowledge;
+        }
         give_tools( tools );
     } while( you.get_skill_level( skill_used ) == starting_skill_level );
     CAPTURE( test_recipe.str() );
     CAPTURE( expected_turns_taken );
     CAPTURE( grant_optional_proficiencies );
     CHECK( you.get_skill_level( skill_used ) == starting_skill_level + 1 );
+    // since your knowledge and skill were the same to start, your theory should come out the same as skill in the end.
+    CHECK( you.get_knowledge_level( skill_used ) == you.get_skill_level( skill_used ) );
     CHECK( actual_turns_taken == expected_turns_taken );
 }
 

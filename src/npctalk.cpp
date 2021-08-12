@@ -127,7 +127,7 @@ int calc_skill_training_cost( const npc &p, const skill_id &skill )
         return 0;
     }
 
-    int skill_level = get_player_character().get_skill_level( skill );
+    int skill_level = get_player_character().get_knowledge_level( skill );
     return 1000 * ( 1 + skill_level ) * ( 1 + skill_level );
 }
 

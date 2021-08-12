@@ -3338,7 +3338,7 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                 info.emplace_back( "BOOK", "", fmt, iteminfo::no_flags, book.level );
                 fmt = string_format( _( "Your current <stat>%s skill</stat> is <num>." ),
                                      skill_name );
-                info.emplace_back( "BOOK", "", fmt, iteminfo::no_flags, skill.level() );
+                info.emplace_back( "BOOK", "", fmt, iteminfo::no_flags, skill.knowledgeLevel() );
             }
 
             if( book.req != 0 && parts->test( iteminfo_parts::BOOK_SKILLRANGE_MIN ) ) {
@@ -4665,8 +4665,8 @@ nc_color item::color_in_inventory( const Character *const ch ) const
         if( player_character.has_identified( typeId() ) ) {
             if( tmp.skill && // Book can improve skill: blue
                 player_character.get_skill_level_object( tmp.skill ).can_train() &&
-                player_character.get_skill_level( tmp.skill ) >= tmp.req &&
-                player_character.get_skill_level( tmp.skill ) < tmp.level
+                player_character.get_knowledge_level( tmp.skill ) >= tmp.req &&
+                player_character.get_knowledge_level( tmp.skill ) < tmp.level
               ) { //NOLINT(bugprone-branch-clone)
                 ret = c_light_blue;
             } else if( type->can_use( "MA_MANUAL" ) &&
@@ -4674,7 +4674,7 @@ nc_color item::color_in_inventory( const Character *const ch ) const
                 ret = c_light_blue;
             } else if( tmp.skill && // Book can't improve skill right now, but maybe later: pink
                        player_character.get_skill_level_object( tmp.skill ).can_train() &&
-                       player_character.get_skill_level( tmp.skill ) < tmp.level ) {
+                       player_character.get_knowledge_level( tmp.skill ) < tmp.level ) {
                 ret = c_pink;
             } else if( !player_character.studied_all_recipes(
                            *type ) ) { // Book can't improve skill anymore, but has more recipes: yellow
@@ -7799,7 +7799,7 @@ std::vector<std::pair<const recipe *, int>> item::get_available_recipes(
         }
 
         for( const islot_book::recipe_with_description_t &elem : type->book->recipes ) {
-            if( u.get_skill_level( elem.recipe->skill_used ) >= elem.skill_level ) {
+            if( u.get_knowledge_level( elem.recipe->skill_used ) >= elem.skill_level ) {
                 recipe_entries.emplace_back( elem.recipe, elem.skill_level );
             }
         }
@@ -7816,7 +7816,9 @@ std::vector<std::pair<const recipe *, int>> item::get_available_recipes(
             std::string new_recipe = recipes.substr( first_string_index,
                                      next_string_index - first_string_index );
             const recipe *r = &recipe_id( new_recipe ).obj();
-            recipe_entries.emplace_back( r, r->difficulty );
+            if( u.get_knowledge_level( r->skill_used ) >= r->difficulty ) {
+                recipe_entries.emplace_back( r, r->difficulty );
+            }
             first_string_index = next_string_index + 1;
         }
     }

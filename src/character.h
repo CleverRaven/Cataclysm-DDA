@@ -1825,6 +1825,8 @@ class Character : public Creature, public visitable
         // --------------- Skill Stuff ---------------
         int get_skill_level( const skill_id &ident ) const;
         int get_skill_level( const skill_id &ident, const item &context ) const;
+        int get_knowledge_level( const skill_id &ident ) const;
+        int get_knowledge_level( const skill_id &ident, const item &context ) const;
 
         const SkillLevelMap &get_all_skills() const;
         SkillLevel &get_skill_level_object( const skill_id &ident );
@@ -1832,6 +1834,8 @@ class Character : public Creature, public visitable
 
         void set_skill_level( const skill_id &ident, int level );
         void mod_skill_level( const skill_id &ident, int delta );
+        void set_knowledge_level( const skill_id &ident, int level );
+        void mod_knowledge_level( const skill_id &ident, int delta );
         /** Checks whether the character's skills meet the required */
         bool meets_skill_requirements( const std::map<skill_id, int> &req,
                                        const item &context = item() ) const;
