@@ -606,7 +606,7 @@ bool avatar::create( character_type type, const std::string &tempname )
             // Train our skill
             const int skill_xp_bonus = calculate_cumulative_experience( e.second );
             get_skill_level_object( e.first ).train( skill_xp_bonus, catchup_modifier,
-                    knowledge_modifier );
+                    knowledge_modifier, true );
         }
     }
 

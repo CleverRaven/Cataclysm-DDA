@@ -168,8 +168,8 @@ class SkillLevel
         }
 
         void train( int amount, float catchup_modifier, float knowledge_modifier,
-                    bool skip_scaling = false );
-        void knowledge_train( int amount, int npc_knowledge = 0, bool skip_scaling = false );
+                    bool allow_multilevel = false );
+        void knowledge_train( int amount, int npc_knowledge = 0 );
         bool isRusting() const;
         bool rust( int rust_resist );
         void practice();
