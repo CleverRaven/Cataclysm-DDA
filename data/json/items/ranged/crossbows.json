@@ -410,7 +410,7 @@
     "color": "green",
     "name": { "str": "composite crossbow" },
     "reload_noise_volume": 4,
-    "description": "A modern moderately powerful hunting crossbow with fiberglass limbs.",
+    "description": "A traditionally-constructed crossbow made from wood, bone, and sinew.",
     "//": "160lb draw, 16in powerstroke, 34in limbs, 51J, 0.394 slugs with 30 gram bolt",
     "price": 89000,
     "price_postapoc": 4000,
