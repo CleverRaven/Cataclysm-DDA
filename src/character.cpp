@@ -7,12 +7,14 @@
 #include <cmath>
 #include <cstddef>
 #include <cstdlib>
+#include <functional>
 #include <iterator>
 #include <memory>
 #include <numeric>
 #include <ostream>
 #include <tuple>
 #include <type_traits>
+#include <vector>
 
 #include "action.h"
 #include "activity_actor_definitions.h"
@@ -12010,27 +12012,28 @@ item &Character::item_with_best_of_quality( const quality_id &qid )
 
 int Character::limb_health_movecost_modifier() const
 {
-    // the best hp score of all legs. 1 is full health
-    float leg_hi = 0.0f;
-    // the second best hp score of all legs. 1 is full health.
-    float leg_lo = 0.0f;
-
+    std::vector<float> leg_health;
     for( const bodypart_id &part : get_all_body_parts() ) {
-        if( part->limb_type == body_part_type::type::leg ) {
-            const float cur_leg = static_cast<float>( get_part_hp_cur( part ) ) /
-                                  static_cast<float>( get_part_hp_max( part ) );
-            if( cur_leg > leg_hi ) {
-                leg_lo = leg_hi;
-                leg_hi = cur_leg;
-            } else if( cur_leg > leg_lo ) {
-                leg_lo = cur_leg;
-            }
+        if( part->limb_type != body_part_type::type::leg ) {
+            continue;
         }
-        if( leg_hi == 1.0f && leg_lo == 1.0f ) {
-            break;
-        }
+        const float cur_leg = static_cast<float>( get_part_hp_cur( part ) ) /
+                              static_cast<float>( std::max( 1, get_part_hp_max( part ) ) );
+        leg_health.push_back( cur_leg );
     }
-
+    std::sort( leg_health.begin(), leg_health.end(), std::greater<>() );
+    // the best hp score of all legs. 1 is full health
+    float leg_hi;
+    // the second best hp score of all legs. 1 is full health.
+    float leg_lo;
+    if( leg_health.size() >= 2 ) {
+        leg_hi = leg_health[0];
+        leg_lo = leg_health[1];
+    } else if( leg_health.size() == 1 ) {
+        leg_hi = leg_lo = leg_health[0];
+    } else {
+        leg_hi = leg_lo = 0;
+    }
     return 50 * ( 1 - std::sqrt( leg_hi ) ) +
            50 * ( 1 - std::sqrt( leg_lo ) );
 }
