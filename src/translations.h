@@ -92,12 +92,16 @@ class local_translation_cache<std::string>
         std::string cached_translation;
     public:
         const std::string &operator()( const std::string &arg ) {
+#ifndef CATA_IN_TOOL
             if( cached_lang_version != get_current_language_version() || cached_arg != arg ) {
                 cached_lang_version = get_current_language_version();
                 cached_arg = arg;
                 cached_translation = _translate_internal( arg );
             }
             return cached_translation;
+#else
+            return arg;
+#endif
         }
 };
 
@@ -111,6 +115,7 @@ class local_translation_cache<const char *>
         const char *cached_translation = nullptr;
     public:
         const char *operator()( const char *arg ) {
+#ifndef CATA_IN_TOOL
             if( cached_lang_version != get_current_language_version() || cached_arg != arg ) {
                 cached_lang_version = get_current_language_version();
                 cached_translation = _translate_internal( arg );
@@ -120,6 +125,9 @@ class local_translation_cache<const char *>
             // mimic gettext() behavior: return `arg` if no translation is found
             // `same_as_arg` is needed to ensure that the current `arg` is returned (not a cached one)
             return same_as_arg ? arg : cached_translation;
+#else
+            return arg;
+#endif
         }
 };
 
@@ -137,12 +145,22 @@ static inline local_translation_cache<std::string> get_local_translation_cache(
 
 } // namespace detail
 
+// For code analysis purposes in our clang-tidy plugin we need to be able to
+// detect when something is the argument to a translation function.  The _
+// macro makes this really tricky, so we add an otherwise unnecessary call to
+// this no-op function just so that there's something to detect.
+template<typename T>
+inline const T &translation_argument_identity( const T &t )
+{
+    return t;
+}
+
 // Note: in case of std::string argument, the result is copied, this is intended (for safety)
 #define _( msg ) \
     ( ( []( const auto & arg ) { \
         static auto cache = detail::get_local_translation_cache( arg ); \
         return cache( arg ); \
-    } )( msg ) )
+    } )( translation_argument_identity( msg ) ) )
 
 // ngettext overload taking an unsigned long long so that people don't need
 // to cast at call sites.  This is particularly relevant on 64-bit Windows where

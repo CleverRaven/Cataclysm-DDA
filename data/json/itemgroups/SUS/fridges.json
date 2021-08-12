@@ -39,6 +39,8 @@
       { "item": "yoghurt", "prob": 80 },
       { "item": "butter", "prob": 80 },
       { "item": "pudding", "prob": 30 },
+      { "item": "gelatin_dessert_processed", "prob": 20 },
+      { "item": "egg_bird_unfert", "prob": 85, "count-min": 1, "count-max": 12 },
       { "item": "egg_bird_unfert", "prob": 85, "charges-min": 1, "charges-max": 12, "container-item": "carton_egg" },
       { "item": "bacon", "prob": 25 },
       {
@@ -520,6 +522,8 @@
       { "item": "onion_rings", "charges-min": 1, "prob": 10 },
       { "item": "pizza_veggy", "charges-min": 1, "prob": 20 },
       { "item": "nachosv", "charges-min": 1, "prob": 20 },
+      { "item": "gelatin_dessert_vegan", "prob": 30 },
+      { "item": "gelatin_dessert_vegan_fruit", "prob": 30 },
       {
         "distribution": [
           {
@@ -623,6 +627,8 @@
       { "item": "yoghurt", "prob": 20 },
       { "item": "butter", "prob": 20 },
       { "item": "pudding", "prob": 20 },
+      { "item": "gelatin_dessert_processed", "prob": 10 },
+      { "item": "egg_bird_unfert", "prob": 20, "count-min": 1, "count-max": 12 },
       { "item": "egg_bird_unfert", "prob": 20, "charges-min": 1, "charges-max": 12, "container-item": "carton_egg" },
       { "item": "bacon", "prob": 25 },
       {
@@ -880,6 +886,7 @@
       { "item": "yoghurt", "count": [ 1, 3 ], "prob": 75 },
       { "item": "butter", "prob": 50 },
       { "item": "pudding", "prob": 30 },
+      { "item": "gelatin_dessert_processed", "prob": 10 },
       { "item": "veggy_salad", "charges-min": 1, "prob": 19 },
       { "item": "blt", "charges-min": 1, "prob": 13 },
       { "item": "protein_shake", "charges-min": 1, "prob": 6 },

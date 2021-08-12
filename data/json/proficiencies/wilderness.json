@@ -35,10 +35,49 @@
     "type": "proficiency",
     "id": "prof_tanning",
     "name": { "str": "Tanning" },
-    "description": "You have a lot of practice and experience with processing hides to leather, as well as various similar techniques like making boiled leather.",
+    "description": "You have a lot of practice and experience with processing hides to leather, as well as related techniques like making boiled leather.",
     "can_learn": true,
     "time_to_learn": "8 h",
     "default_time_multiplier": 2,
-    "default_fail_multiplier": 1.2
+    "default_fail_multiplier": 1.2,
+    "required_proficiencies": [ "prof_tanning_basic" ]
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_bow_basic",
+    "name": { "str": "Basic Archer's Form" },
+    "description": "You have grasped some basic understanding on archery, and find handling bows easier.",
+    "can_learn": true,
+    "time_to_learn": "5 h",
+    "default_time_multiplier": 1.5,
+    "default_fail_multiplier": 1.2,
+    "bonuses": { "archery": [ { "type": "strength", "value": 1 } ] },
+    "ignore_focus": true
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_bow_expert",
+    "name": { "str": "Expert Archer's Form" },
+    "description": "After significant practice, you have become an expert in the movements used in drawing and firing a bow, and have strengthened those muscles considerably.",
+    "can_learn": true,
+    "time_to_learn": "10 h",
+    "default_time_multiplier": 1.5,
+    "default_fail_multiplier": 1.2,
+    "required_proficiencies": [ "prof_bow_basic" ],
+    "bonuses": { "archery": [ { "type": "strength", "value": 1 } ] },
+    "ignore_focus": true
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_bow_master",
+    "name": { "str": "Master Archer's Form" },
+    "description": "You have drawn and fired a bow so many times, you probably have a bit of a twist in your spine from it.  You've developed what would once have been a world class understanding of the pose and motion of effective archery.",
+    "can_learn": true,
+    "time_to_learn": "20 h",
+    "default_time_multiplier": 1.5,
+    "default_fail_multiplier": 1.2,
+    "required_proficiencies": [ "prof_bow_expert" ],
+    "bonuses": { "archery": [ { "type": "strength", "value": 1 } ] },
+    "ignore_focus": true
   }
 ]

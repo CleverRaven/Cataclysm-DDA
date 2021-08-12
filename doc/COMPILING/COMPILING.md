@@ -120,6 +120,10 @@ You can get the language ID from the filenames of `*.po` in `lang/po` directory.
 
 Special note for MinGW: due to a [libintl bug](https://savannah.gnu.org/bugs/index.php?58006), using English without a `.mo` file would cause significant slow down on MinGW targets. In such case you can compile a `.mo` file for English using `make LANGUAGES="en"`. `make LANGUAGE="all"` also compiles a `.mo` file for English in addition to other languages.
 
+# Accelerating Linux builds with llama
+
+[llama](https://github.com/nelhage/llama) is a CLI tool for outsourcing computation to AWS Lambda.  If you want your builds to run faster and are willing to pay Amazon for the privilege, then you may be able to use it to accelerate your builds.  See [../../tools/llama/README.md](our llama README) for more details.
+
 # Debian
 
 Instructions for compiling on a Debian-based system. The package names here are valid for Ubuntu 12.10 and may or may not work on your system.
@@ -593,39 +597,24 @@ Clang by default uses MSVC on Windows, but also supports the MinGW64 library. Si
 
 There are reports of CDDA building fine on recent OpenBSD and FreeBSD machines (with appropriately recent compilers), and there is some work being done on making the `Makefile` "just work", however we're far from that and BSDs support is mostly based on user contributions. Your mileage may vary. So far essentially all testing has been on amd64, but there is no (known) reason that other architectures shouldn't work, in principle.
 
-### Building on FreeBSD/amd64 10.1 with the system compiler
+### Building on FreeBSD/amd64 13.0 with the system compiler
 
-FreeBSD uses clang as the default compiler as of 10.0, and combines it with libc++ to provide C++14 support out of the box. You will however need gmake (examples for binary packages):
+FreeBSD uses clang as the default compiler as of 10.0, and combines it with libc++ to provide C++14 support out of the box.
 
-`pkg install gmake`
+Install the following with pkg (or from Ports):
+
+`pkg install gmake libiconv`
 
 Tiles builds will also require SDL2:
 
-`pkg install sdl2 sdl2_image sdl2_mixer sdl2_ttf`
+`pkg install sdl20 sdl2_image sdl2_mixer sdl2_ttf`
 
-Then you should be able to build with something like this (you can of course set CXXFLAGS and LDFLAGS in your .profile or something):
+Then you should be able to build with something like this:
 
 ```
-export CXXFLAGS="-I/usr/local/include" LDFLAGS="-L/usr/local/lib"
-gmake # ncurses builds
-gmake TILES=1 # tiles builds
+gmake RELEASE=1 # ncurses builds
+gmake RELEASE=1 TILES=1 # tiles builds
 ```
-
-The author has not tested tiles builds, as the build VM lacks X; they do at least compile/link successfully.
-
-### Building ncurses version on FreeBSD/amd64 9.3 with GCC 4.8.4 from ports
-
-For ncurses build add to `Makefile`, before `VERSION`:
-
-```Makefile
-OTHERS += -D_GLIBCXX_USE_C99
-CXX = g++48
-CXXFLAGS += -I/usr/local/lib/gcc48/include
-LDFLAGS += -rpath=/usr/local/lib/gcc48
-```
-Note: or you can `setenv` the above (merging `OTHERS` into `CXXFLAGS`), but you knew that.
-
-And then build with `gmake LOCALIZE=0 RELEASE=1`.
 
 ### Building on OpenBSD/amd64 5.8 with GCC 4.9.2 from ports/packages
 

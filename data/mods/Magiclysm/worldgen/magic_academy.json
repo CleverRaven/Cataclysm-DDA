@@ -32,7 +32,7 @@
         "########################"
       ],
       "palettes": [ "standard_domestic_palette" ],
-      "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 1, 3 ] } ],
+      "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 3, 5 ] } ],
       "terrain": {
         "[": [ [ "t_region_tree_fruit", 2 ], [ "t_region_tree_nut", 2 ], "t_region_tree_shade" ],
         " ": "t_floor",
@@ -139,7 +139,7 @@
         "R": [ { "item": "magic_shop_books", "chance": 30 }, { "item": "enchanted_misc", "chance": 1 } ],
         "i": [ { "item": "enchanted_small_items", "chance": 10 }, { "item": "enchanted_combat_items", "chance": 15 } ]
       },
-      "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 2, 3 ] } ]
+      "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 3, 5 ] } ]
     }
   },
   {
@@ -218,7 +218,7 @@
         ],
         "R": [ { "item": "classless_items", "chance": 20 }, { "item": "enchanted_misc", "chance": 1 } ]
       },
-      "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 1, 3 ] } ]
+      "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 3, 5 ] } ]
     }
   },
   {
@@ -260,7 +260,7 @@
         "&": [ { "item": "magic_tools_and_loot", "chance": 35, "repeat": [ 1, 2 ] }, { "item": "magic_shop_potions", "chance": 30 } ],
         "R": [ { "item": "magic_shop_books", "chance": 30 } ]
       },
-      "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 1, 3 ] } ]
+      "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 3, 5 ] } ]
     }
   },
   {
@@ -302,7 +302,7 @@
         "&": [ { "item": "magic_tools_and_loot", "chance": 35 }, { "item": "magic_shop_potions", "chance": 30 } ],
         "R": [ { "item": "magic_shop_books", "chance": 30 } ]
       },
-      "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 1, 3 ] } ]
+      "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 3, 5 ] } ]
     }
   },
   {
@@ -350,7 +350,7 @@
         ],
         "s": [ { "item": "enchanted_small_items", "chance": 10 }, { "item": "enchanted_combat_items", "chance": 1 } ]
       },
-      "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 1, 3 ] } ]
+      "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 3, 5 ] } ]
     }
   },
   {
@@ -396,7 +396,7 @@
         ],
         "R": [ { "item": "magic_shop_books", "chance": 30 } ]
       },
-      "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 1, 3 ] } ]
+      "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 3, 5 ] } ]
     }
   },
   {
@@ -443,7 +443,7 @@
         ],
         "?": [ { "item": "alchemy_items", "chance": 45 }, { "item": "magic_shop_potions", "chance": 30 } ]
       },
-      "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 1, 3 ] } ]
+      "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 3, 5 ] } ]
     }
   },
   {
@@ -489,7 +489,7 @@
         "-": "t_grass_golf"
       },
       "furniture": { "0": "f_orrery", "-": "f_magic_circle" },
-      "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 1, 3 ] } ]
+      "place_monsters": [ { "monster": "GROUP_TOWER_GOLEM", "x": 12, "y": 12, "density": 0.01, "repeat": [ 3, 5 ] } ]
     }
   },
   {

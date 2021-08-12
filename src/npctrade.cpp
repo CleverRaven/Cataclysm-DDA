@@ -384,7 +384,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
             std::string itname = it->display_name();
 
             if( np.will_exchange_items_freely() && ip.loc.where() != item_location::type::character ) {
-                itname = itname + " (" + ip.loc.describe( &player_character ) + ")";
+                itname += " (" + ip.loc.describe( &player_character ) + ")";
                 color = c_light_blue;
             }
 
@@ -719,7 +719,7 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
         npc_trading::transfer_items( trade_win.theirs, np, player_character, from_map, true );
         // Now move items from escrow to the npc. Keep the weapon wielded.
         for( const item &i : escrow ) {
-            np.i_add( i, true, nullptr, true, false );
+            np.i_add( i, true, nullptr, nullptr, true, false );
         }
 
         for( item_location *loc_ptr : from_map ) {

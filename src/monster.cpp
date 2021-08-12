@@ -52,7 +52,6 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
-#include "player.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
@@ -82,11 +81,13 @@ static const efftype_id effect_hit_by_player( "hit_by_player" );
 static const efftype_id effect_in_pit( "in_pit" );
 static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_monster_armor( "monster_armor" );
+static const efftype_id effect_natures_commune( "natures_commune" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_paralyzepoison( "paralyzepoison" );
 static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_tpollen( "tpollen" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_run( "run" );
 static const efftype_id effect_stunned( "stunned" );
@@ -97,6 +98,7 @@ static const efftype_id effect_venom_player1( "venom_player1" );
 static const efftype_id effect_venom_player2( "venom_player2" );
 static const efftype_id effect_venom_weaken( "venom_weaken" );
 static const efftype_id effect_webbed( "webbed" );
+static const efftype_id effect_worked_on( "worked_on" );
 
 static const itype_id itype_corpse( "corpse" );
 static const itype_id itype_milk( "milk" );
@@ -109,7 +111,7 @@ static const species_id species_MAMMAL( "MAMMAL" );
 static const species_id species_MOLLUSK( "MOLLUSK" );
 static const species_id species_NETHER( "NETHER" );
 static const species_id species_ROBOT( "ROBOT" );
-static const species_id species_SPIDER( "SPIDER" );
+static const species_id species_PLANT( "PLANT" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const trait_id trait_ANIMALDISCORD( "ANIMALDISCORD" );
@@ -120,64 +122,10 @@ static const trait_id trait_BEE( "BEE" );
 static const trait_id trait_FLOWERS( "FLOWERS" );
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_MYCUS_FRIEND( "MYCUS_FRIEND" );
-static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PHEROMONE_INSECT( "PHEROMONE_INSECT" );
 static const trait_id trait_PHEROMONE_MAMMAL( "PHEROMONE_MAMMAL" );
 static const trait_id trait_TERRIFYING( "TERRIFYING" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
-
-static const mtype_id mon_ant( "mon_ant" );
-static const mtype_id mon_ant_fungus( "mon_ant_fungus" );
-static const mtype_id mon_ant_queen( "mon_ant_queen" );
-static const mtype_id mon_ant_soldier( "mon_ant_soldier" );
-static const mtype_id mon_beekeeper( "mon_beekeeper" );
-static const mtype_id mon_boomer( "mon_boomer" );
-static const mtype_id mon_boomer_fungus( "mon_boomer_fungus" );
-static const mtype_id mon_boomer_huge( "mon_boomer_huge" );
-static const mtype_id mon_fungaloid( "mon_fungaloid" );
-static const mtype_id mon_skeleton_brute( "mon_skeleton_brute" );
-static const mtype_id mon_skeleton_hulk( "mon_skeleton_hulk" );
-static const mtype_id mon_skeleton_hulk_fungus( "mon_skeleton_hulk_fungus" );
-static const mtype_id mon_spider_fungus( "mon_spider_fungus" );
-static const mtype_id mon_triffid( "mon_triffid" );
-static const mtype_id mon_triffid_queen( "mon_triffid_queen" );
-static const mtype_id mon_triffid_young( "mon_triffid_young" );
-static const mtype_id mon_zombie( "mon_zombie" );
-static const mtype_id mon_zombie_anklebiter( "mon_zombie_anklebiter" );
-static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
-static const mtype_id mon_zombie_brute( "mon_zombie_brute" );
-static const mtype_id mon_zombie_brute_shocker( "mon_zombie_brute_shocker" );
-static const mtype_id mon_zombie_child( "mon_zombie_child" );
-static const mtype_id mon_zombie_child_fungus( "mon_zombie_child_fungus" );
-static const mtype_id mon_zombie_cop( "mon_zombie_cop" );
-static const mtype_id mon_zombie_creepy( "mon_zombie_creepy" );
-static const mtype_id mon_zombie_electric( "mon_zombie_electric" );
-static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
-static const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
-static const mtype_id mon_zombie_fungus( "mon_zombie_fungus" );
-static const mtype_id mon_zombie_gasbag( "mon_zombie_gasbag" );
-static const mtype_id mon_zombie_gasbag_fungus( "mon_zombie_gasbag_fungus" );
-static const mtype_id mon_zombie_grabber( "mon_zombie_grabber" );
-static const mtype_id mon_zombie_hazmat( "mon_zombie_hazmat" );
-static const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
-static const mtype_id mon_zombie_hunter( "mon_zombie_hunter" );
-static const mtype_id mon_zombie_master( "mon_zombie_master" );
-static const mtype_id mon_zombie_necro( "mon_zombie_necro" );
-static const mtype_id mon_zombie_rot( "mon_zombie_rot" );
-static const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
-static const mtype_id mon_zombie_shrieker( "mon_zombie_shrieker" );
-static const mtype_id mon_zombie_shriekling( "mon_zombie_shriekling" );
-static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
-static const mtype_id mon_zombie_smoker_fungus( "mon_zombie_smoker_fungus" );
-static const mtype_id mon_zombie_snotgobbler( "mon_zombie_snotgobbler" );
-static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
-static const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
-static const mtype_id mon_zombie_sproglodyte( "mon_zombie_sproglodyte" );
-static const mtype_id mon_zombie_survivor( "mon_zombie_survivor" );
-static const mtype_id mon_zombie_swimmer( "mon_zombie_swimmer" );
-static const mtype_id mon_zombie_technician( "mon_zombie_technician" );
-static const mtype_id mon_zombie_tough( "mon_zombie_tough" );
-static const mtype_id mon_zombie_waif( "mon_zombie_waif" );
 
 struct pathfinding_settings;
 
@@ -257,7 +205,7 @@ monster::monster( const mtype_id &id ) : monster()
         const itype &type = *item::find_type( mech_bat );
         int max_charge = type.magazine->capacity;
         item mech_bat_item = item( mech_bat, calendar::turn_zero );
-        mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint_zero );
+        mech_bat_item.ammo_consume( rng( 0, max_charge ), tripoint_zero, nullptr );
         battery_item = cata::make_value<item>( mech_bat_item );
     }
 }
@@ -269,10 +217,10 @@ monster::monster( const mtype_id &id, const tripoint &p ) : monster( id )
 }
 
 monster::monster( const monster & ) = default;
-monster::monster( monster && ) = default;
+monster::monster( monster && ) noexcept( map_is_noexcept ) = default;
 monster::~monster() = default;
 monster &monster::operator=( const monster & ) = default;
-monster &monster::operator=( monster && ) = default;
+monster &monster::operator=( monster && ) noexcept( string_is_noexcept ) = default;
 
 void monster::setpos( const tripoint &p )
 {
@@ -282,9 +230,10 @@ void monster::setpos( const tripoint &p )
 
     bool wandering = wander();
     g->update_zombie_pos( *this, p );
-    position = p;
+    Creature::setpos( p );
     if( has_effect( effect_ridden ) && mounted_player && mounted_player->pos() != pos() ) {
-        add_msg_debug( "Ridden monster %s moved independently and dumped player", get_name() );
+        add_msg_debug( debugmode::DF_MONSTER, "Ridden monster %s moved independently and dumped player",
+                       get_name() );
         mounted_player->forced_dismount();
     }
     if( wandering ) {
@@ -1072,6 +1021,11 @@ bool monster::made_of_any( const std::set<material_id> &ms ) const
     return type->made_of_any( ms );
 }
 
+bool monster::shearable() const
+{
+    return type->shearing.valid();
+}
+
 bool monster::made_of( phase_id p ) const
 {
     return type->phase == p;
@@ -1080,6 +1034,16 @@ bool monster::made_of( phase_id p ) const
 void monster::set_goal( const tripoint &p )
 {
     goal = p;
+}
+
+void monster::set_patrol_route( const std::vector<point> &patrol_pts_rel_ms )
+{
+    map &here = get_map();
+    tripoint base_abs_ms( real_coords( here.getabs( pos().xy() ) ).begin_om_pos(), posz() );
+    for( const point &patrol_pt : patrol_pts_rel_ms ) {
+        patrol_route_abs_ms.push_back( base_abs_ms + patrol_pt );
+    }
+    next_patrol_point = 0;
 }
 
 void monster::shift( const point &sm_shift )
@@ -1092,7 +1056,7 @@ void monster::shift( const point &sm_shift )
     }
 }
 
-tripoint monster::move_target()
+tripoint monster::move_target() const
 {
     return goal;
 }
@@ -1139,6 +1103,7 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             // Friendly (to player) monsters are friendly to each other
             // Unfriendly monsters go by faction attitude
             return Attitude::FRIENDLY;
+            // NOLINTNEXTLINE(bugprone-branch-clone)
         } else if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_HATE ) ) {
             // Stuff that hates a specific faction will always attack that faction
             return Attitude::HOSTILE;
@@ -1235,6 +1200,12 @@ monster_attitude monster::attitude( const Character *u ) const
         }
 
         if( has_flag( MF_ANIMAL ) ) {
+            if( u->has_effect( effect_natures_commune ) ) {
+                effective_anger -= 10;
+                if( effective_anger < 10 ) {
+                    effective_morale += 55;
+                }
+            }
             if( u->has_trait( trait_ANIMALEMPATH ) ) {
                 effective_anger -= 10;
                 if( effective_anger < 10 ) {
@@ -1299,12 +1270,21 @@ monster_attitude monster::attitude( const Character *u ) const
         return MATT_FOLLOW;
     }
 
+    if( has_flag( MF_KEEP_DISTANCE ) && rl_dist( pos(), goal ) < type->tracking_distance ) {
+        return MATT_FLEE;
+    }
+
     return MATT_ATTACK;
 }
 
 int monster::hp_percentage() const
 {
     return get_hp( bodypart_id( "torso" ) ) * 100 / get_hp_max();
+}
+
+int monster::get_eff_per() const
+{
+    return std::min( type->vision_night, type->vision_day );
 }
 
 void monster::process_triggers()
@@ -1419,7 +1399,7 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
     }
 
     if( effect == effect_bleed ) {
-        return type->bloodType() == fd_null;
+        return ( type->bloodType() == fd_null || type->bleed_rate == 0 );
     }
 
     if( effect == effect_venom_dmg ||
@@ -1435,6 +1415,10 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
         effect == effect_poison ) {
         return type->in_species( species_ZOMBIE ) || type->in_species( species_NETHER ) ||
                !made_of_any( Creature::cmat_flesh ) || type->in_species( species_LEECH_PLANT );
+    }
+
+    if( effect == effect_tpollen ) {
+        return type->in_species( species_PLANT );
     }
 
     if( effect == effect_stunned ) {
@@ -1453,21 +1437,15 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
 bool monster::is_immune_damage( const damage_type dt ) const
 {
     switch( dt ) {
-        case damage_type::NONE:
-            return true;
         case damage_type::PURE:
-            return false;
-        case damage_type::BIOLOGICAL:
-            // NOTE: Unused
-            return false;
+        case damage_type::BIOLOGICAL: // NOTE: Unused
         case damage_type::BASH:
-            return false;
         case damage_type::CUT:
+        case damage_type::STAB:
+        case damage_type::BULLET:
             return false;
         case damage_type::ACID:
             return has_flag( MF_ACIDPROOF );
-        case damage_type::STAB:
-            return false;
         case damage_type::HEAT:
             // Ugly hardcode - remove later
             return made_of( material_id( "steel" ) ) || made_of( material_id( "stone" ) );
@@ -1477,10 +1455,24 @@ bool monster::is_immune_damage( const damage_type dt ) const
             return type->sp_defense == &mdefense::zapback ||
                    has_flag( MF_ELECTRIC ) ||
                    has_flag( MF_ELECTRIC_FIELD );
-        case damage_type::BULLET:
-            return false;
+        case damage_type::NONE:
         default:
             return true;
+    }
+}
+
+void monster::make_bleed( const effect_source &source, const bodypart_id &bp,
+                          time_duration duration, int intensity, bool permanent, bool force, bool defferred )
+{
+    if( type->bleed_rate == 0 ) {
+        return;
+    }
+
+    duration = ( duration * type->bleed_rate ) / 100;
+    if( type->in_species( species_ROBOT ) ) {
+        add_effect( source, effect_dripping_mechanical_fluid, duration, bp );
+    } else {
+        add_effect( source, effect_bleed, duration, bp, permanent, intensity, force, defferred );
     }
 }
 
@@ -1497,7 +1489,7 @@ bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
 void monster::absorb_hit( const bodypart_id &, damage_instance &dam )
 {
     for( auto &elem : dam.damage_units ) {
-        add_msg_debug( "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
+        add_msg_debug( debugmode::DF_MONSTER, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
                        name_by_dt( elem.type ), elem.res_pen, elem.res_mult );
         elem.amount -= std::min( resistances( *this ).get_effective_resist( elem ) +
                                  get_worn_armor_val( elem.type ), elem.amount );
@@ -1529,7 +1521,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
     }
 
     Character &player_character = get_player_character();
-    if( target.is_player() ||
+    if( target.is_avatar() ||
         ( target.is_npc() && player_character.attitude_to( target ) == Attitude::FRIENDLY ) ) {
         // Make us a valid target for a few turns
         add_effect( effect_hit_by_player, 3_turns );
@@ -1540,6 +1532,8 @@ bool monster::melee_attack( Creature &target, float accuracy )
     }
 
     const bool u_see_me = player_character.sees( *this );
+    const bool u_see_my_spot = player_character.sees( this->pos() );
+    const bool u_see_target = player_character.sees( target );
 
     damage_instance damage = !is_hallucination() ? type->melee_damage : damage_instance();
     if( !is_hallucination() && type->melee_dice > 0 ) {
@@ -1556,32 +1550,32 @@ bool monster::melee_attack( Creature &target, float accuracy )
     if( hitspread < 0 ) {
         bool target_dodging = target.dodge_roll() > 0.0;
         // Miss
-        if( u_see_me && !target.in_sleep_state() ) {
-            if( target.is_player() ) {
+        if( u_see_my_spot && !target.in_sleep_state() ) {
+            if( target.is_avatar() ) {
                 if( target_dodging ) {
-                    add_msg( _( "You dodge %s." ), disp_name() );
+                    add_msg( _( "You dodge %s." ), u_see_me ? disp_name() : "something" );
                 } else {
-                    add_msg( _( "The %s misses you." ), name() );
+                    add_msg( _( "%s misses you." ), u_see_me ? disp_name( false, true ) : "Something" );
                 }
             } else if( target.is_npc() && target_dodging ) {
                 add_msg( _( "%1$s dodges %2$s attack." ),
-                         target.disp_name(), name() );
+                         target.disp_name(), u_see_me ? name() : "something" );
             } else {
-                add_msg( _( "The %1$s misses %2$s!" ),
-                         name(), target.disp_name() );
+                add_msg( _( "%1$s misses %2$s!" ),
+                         u_see_me ? disp_name( false, true ) : "Something", target.disp_name() );
             }
-        } else if( target.is_player() ) {
+        } else if( target.is_avatar() ) {
             add_msg( _( "You dodge an attack from an unseen source." ) );
         }
     } else if( is_hallucination() || total_dealt > 0 ) {
         // Hallucinations always produce messages but never actually deal damage
-        if( u_see_me ) {
-            if( target.is_player() ) {
+        if( u_see_my_spot ) {
+            if( target.is_avatar() ) {
                 sfx::play_variant_sound( "melee_attack", "monster_melee_hit",
                                          sfx::get_heard_volume( target.pos() ) );
-                sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
+                sfx::do_player_death_hurt( dynamic_cast<Character &>( target ), false );
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative.
-                add_msg( m_bad, _( "The %1$s hits your %2$s." ), name(),
+                add_msg( m_bad, _( "%1$s hits your %2$s." ), u_see_me ? disp_name( false, true ) : "Something",
                          body_part_name_accusative( dealt_dam.bp_hit ) );
             } else if( target.is_npc() ) {
                 if( has_effect( effect_ridden ) && has_flag( MF_RIDEABLE_MECH ) &&
@@ -1591,7 +1585,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
                              total_dealt );
                 } else {
                     //~ %1$s: attacker name, %2$s: target NPC name, %3$s: bodypart name in accusative
-                    add_msg( _( "The %1$s hits %2$s %3$s." ), name(),
+                    add_msg( _( "%1$s hits %2$s %3$s." ), u_see_me ? disp_name( false, true ) : "Something",
                              target.disp_name( true ),
                              body_part_name_accusative( dealt_dam.bp_hit ) );
                 }
@@ -1601,28 +1595,35 @@ bool monster::melee_attack( Creature &target, float accuracy )
                     //~ %1$s: name of your mount, %2$s: target creature name, %3$d: damage value
                     add_msg( m_good, _( "Your %1$s hits %2$s for %3$d damage!" ), get_name(), target.disp_name(),
                              total_dealt );
+                }
+                if( !u_see_me && u_see_target ) {
+                    add_msg( _( "Something hits the %1$s!" ), target.disp_name() );
+                } else if( !u_see_target ) {
+                    add_msg( _( "The %1$s hits something!" ), name() );
                 } else {
                     //~ %1$s: attacker name, %2$s: target creature name
                     add_msg( _( "The %1$s hits %2$s!" ), name(), target.disp_name() );
                 }
             }
-        } else if( target.is_player() ) {
+        } else if( target.is_avatar() ) {
             //~ %s is bodypart name in accusative.
             add_msg( m_bad, _( "Something hits your %s." ),
                      body_part_name_accusative( dealt_dam.bp_hit ) );
         }
     } else {
         // No damage dealt
-        if( u_see_me ) {
-            if( target.is_player() ) {
+        if( u_see_my_spot ) {
+            if( target.is_avatar() ) {
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative, 3$s is armor name
-                add_msg( _( "The %1$s hits your %2$s, but your %3$s protects you." ), name(),
+                add_msg( _( "%1$s hits your %2$s, but your %3$s protects you." ), u_see_me ? disp_name( false,
+                         true ) : "Something",
                          body_part_name_accusative( dealt_dam.bp_hit ), target.skin_name() );
             } else if( target.is_npc() ) {
                 //~ $1s is monster name, %2$s is that monster target name,
                 //~ $3s is target bodypart name in accusative, $4s is the monster target name,
                 //~ 5$s is target armor name.
-                add_msg( _( "The %1$s hits %2$s %3$s but is stopped by %4$s %5$s." ), name(),
+                add_msg( _( "%1$s hits %2$s %3$s but is stopped by %4$s %5$s." ), u_see_me ? disp_name( false,
+                         true ) : "Something",
                          target.disp_name( true ),
                          body_part_name_accusative( dealt_dam.bp_hit ),
                          target.disp_name( true ),
@@ -1630,12 +1631,12 @@ bool monster::melee_attack( Creature &target, float accuracy )
             } else {
                 //~ $1s is monster name, %2$s is that monster target name,
                 //~ $3s is target armor name.
-                add_msg( _( "The %1$s hits %2$s but is stopped by its %3$s." ),
-                         name(),
+                add_msg( _( "%1$s hits %2$s but is stopped by its %3$s." ),
+                         u_see_me ? disp_name( false, true ) : "Something",
                          target.disp_name(),
                          target.skin_name() );
             }
-        } else if( target.is_player() ) {
+        } else if( target.is_avatar() ) {
             //~ 1$s is bodypart name in accusative, 2$s is armor name.
             add_msg( _( "Something hits your %1$s, but your %2$s protects you." ),
                      body_part_name_accusative( dealt_dam.bp_hit ), target.skin_name() );
@@ -1926,6 +1927,9 @@ bool monster::move_effects( bool )
                 add_msg( _( "The %s frees itself from the rubble!" ), name() );
             }
         }
+        return false;
+    }
+    if( has_effect( effect_worked_on ) ) {
         return false;
     }
 
@@ -2277,8 +2281,8 @@ void monster::process_turn()
     // Persist grabs as long as there's an adjacent target.
     if( has_effect( effect_grabbing ) ) {
         for( const tripoint &dest : here.points_in_radius( pos(), 1, 0 ) ) {
-            const player *const p = g->critter_at<player>( dest );
-            if( p && p->has_effect( effect_grabbed ) ) {
+            const Character *const you = g->critter_at<Character>( dest );
+            if( you && you->has_effect( effect_grabbed ) ) {
                 add_effect( effect_grabbing, 2_turns );
             }
         }
@@ -2356,22 +2360,19 @@ void monster::die( Creature *nkiller )
     if( death_drops && !no_extra_death_drops ) {
         drop_items_on_death();
     }
-    // TODO: should actually be class Character
-    player *ch = dynamic_cast<player *>( get_killer() );
-    if( !is_hallucination() && ch != nullptr ) {
-        if( ( has_flag( MF_GUILT ) && ch->is_player() ) || ( ch->has_trait( trait_PACIFIST ) &&
-                has_flag( MF_HUMAN ) ) ) {
-            // has guilt flag or player is pacifist && monster is humanoid
-            mdeath::guilt( *this );
-        }
-        get_event_bus().send<event_type::character_kills_monster>( ch->getID(), type->id );
-        if( ch->is_player() && ch->has_trait( trait_KILLER ) ) {
-            if( one_in( 4 ) ) {
-                const translation snip = SNIPPET.random_from_category( "killer_on_kill" ).value_or( translation() );
-                ch->add_msg_if_player( m_good, "%s", snip );
+    if( get_killer() != nullptr ) {
+        // TODO: should actually be class Character
+        Character *ch = get_killer()->as_character();
+        if( !is_hallucination() && ch != nullptr ) {
+            get_event_bus().send<event_type::character_kills_monster>( ch->getID(), type->id );
+            if( ch->is_avatar() && ch->has_trait( trait_KILLER ) ) {
+                if( one_in( 4 ) ) {
+                    const translation snip = SNIPPET.random_from_category( "killer_on_kill" ).value_or( translation() );
+                    ch->add_msg_if_player( m_good, "%s", snip );
+                }
+                ch->add_morale( MORALE_KILLER_HAS_KILLED, 5, 10, 6_hours, 4_hours );
+                ch->rem_morale( MORALE_KILLER_NEED_TO_KILL );
             }
-            ch->add_morale( MORALE_KILLER_HAS_KILLED, 5, 10, 6_hours, 4_hours );
-            ch->rem_morale( MORALE_KILLER_NEED_TO_KILL );
         }
     }
     if( death_drops ) {
@@ -2397,8 +2398,8 @@ void monster::die( Creature *nkiller )
     if( has_effect( effect_grabbing ) ) {
         remove_effect( effect_grabbing );
         for( const tripoint &player_pos : here.points_in_radius( pos(), 1, 0 ) ) {
-            player *p = g->critter_at<player>( player_pos );
-            if( !p || !p->has_effect( effect_grabbed ) ) {
+            Character *you = g->critter_at<Character>( player_pos );
+            if( !you || !you->has_effect( effect_grabbed ) ) {
                 continue;
             }
             bool grabbed = false;
@@ -2410,9 +2411,9 @@ void monster::die( Creature *nkiller )
                 }
             }
             if( !grabbed ) {
-                p->add_msg_player_or_npc( m_good, _( "The last enemy holding you collapses!" ),
-                                          _( "The last enemy holding <npcname> collapses!" ) );
-                p->remove_effect( effect_grabbed );
+                you->add_msg_player_or_npc( m_good, _( "The last enemy holding you collapses!" ),
+                                            _( "The last enemy holding <npcname> collapses!" ) );
+                you->remove_effect( effect_grabbed );
             }
         }
     }
@@ -2438,6 +2439,7 @@ void monster::die( Creature *nkiller )
         }
     }
     mission::on_creature_death( *this );
+
     // Also, perform our death function
     if( is_hallucination() || summon_time_limit ) {
         //Hallucinations always just disappear
@@ -2445,9 +2447,32 @@ void monster::die( Creature *nkiller )
         return;
     }
 
-    //Not a hallucination, go process the death effects.
-    for( const auto &deathfunction : type->dies ) {
-        deathfunction( *this );
+    add_msg_if_player_sees( *this, m_good, type->mdeath_effect.death_message.translated(), name() );
+
+    if( type->mdeath_effect.has_effect ) {
+        //Not a hallucination, go process the death effects.
+        spell death_spell = type->mdeath_effect.sp.get_spell();
+        if( killer != nullptr && type->mdeath_effect.sp.self &&
+            death_spell.is_target_in_range( *this, killer->pos() ) ) {
+            death_spell.cast_all_effects( *this, killer->pos() );
+        } else if( type->mdeath_effect.sp.self ) {
+            death_spell.cast_all_effects( *this, pos() );
+        }
+    }
+
+    // drop a corpse, or not - this needs to happen after the spell, for e.g. revivification effects
+    switch( type->mdeath_effect.corpse_type ) {
+        case mdeath_type::NORMAL:
+            mdeath::normal( *this );
+            break;
+        case mdeath_type::BROKEN:
+            mdeath::broken( *this );
+            break;
+        case mdeath_type::SPLATTER:
+            mdeath::splatter( *this );
+            break;
+        default:
+            break;
     }
 
     // If our species fears seeing one of our own die, process that
@@ -2484,7 +2509,7 @@ bool monster::use_mech_power( int amt )
         return false;
     }
     amt = -amt;
-    battery_item->ammo_consume( amt, pos() );
+    battery_item->ammo_consume( amt, pos(), nullptr );
     return battery_item->ammo_remaining() > 0;
 }
 
@@ -2666,8 +2691,6 @@ bool monster::make_fungus()
     if( is_hallucination() ) {
         return true;
     }
-    char polypick = 0;
-    const mtype_id &tid = type->id;
     if( type->in_species( species_FUNGUS ) ) { // No friendly-fungalizing ;-)
         return true;
     }
@@ -2677,73 +2700,15 @@ bool monster::make_fungus()
         // No fungalizing robots or weird stuff (mi-gos are technically fungi, blobs are goo)
         return true;
     }
-    if( tid == mon_ant || tid == mon_ant_soldier || tid == mon_ant_queen ) {
-        polypick = 1;
-    } else if( tid == mon_zombie || tid == mon_zombie_shrieker || tid == mon_zombie_electric ||
-               tid == mon_zombie_spitter || tid == mon_zombie_brute ||
-               tid == mon_zombie_hulk || tid == mon_zombie_soldier || tid == mon_zombie_tough ||
-               tid == mon_zombie_scientist || tid == mon_zombie_hunter || tid == mon_skeleton_brute ||
-               tid == mon_zombie_bio_op || tid == mon_zombie_survivor || tid == mon_zombie_fireman ||
-               tid == mon_zombie_cop || tid == mon_zombie_fat || tid == mon_zombie_rot ||
-               tid == mon_zombie_swimmer || tid == mon_zombie_grabber || tid == mon_zombie_technician ||
-               tid == mon_zombie_brute_shocker ) {
-        polypick = 2;
-    } else if( tid == mon_zombie_necro || tid == mon_zombie_master || tid == mon_zombie_fireman ||
-               tid == mon_zombie_hazmat || tid == mon_beekeeper ) {
-        // Necro and Master have enough Goo to resist conversion.
-        // Firefighter, hazmat, and scarred/beekeeper have the PPG on.
-        return true;
-    } else if( tid == mon_boomer || tid == mon_boomer_huge ) {
-        polypick = 3;
-    } else if( tid == mon_triffid || tid == mon_triffid_young || tid == mon_triffid_queen ) {
-        polypick = 4;
-    } else if( tid == mon_zombie_anklebiter || tid == mon_zombie_child || tid == mon_zombie_creepy ||
-               tid == mon_zombie_shriekling || tid == mon_zombie_snotgobbler || tid == mon_zombie_sproglodyte ||
-               tid == mon_zombie_waif ) {
-        polypick = 5;
-    } else if( tid == mon_skeleton_hulk ) {
-        polypick = 6;
-    } else if( tid == mon_zombie_smoker ) {
-        polypick = 7;
-    } else if( tid == mon_zombie_gasbag ) {
-        polypick = 8;
-    } else if( type->in_species( species_SPIDER ) && get_size() > creature_size::tiny ) {
-        polypick = 9;
+    if( type->has_flag( MF_NO_FUNG_DMG ) ) {
+        return true; // Retrun true when monster is immune to fungal damage.
+    }
+    if( type->fungalize_into.is_empty() ) {
+        return false;
     }
 
     const std::string old_name = name();
-    switch( polypick ) {
-        case 1:
-            poly( mon_ant_fungus );
-            break;
-        case 2:
-            // zombies, non-boomer
-            poly( mon_zombie_fungus );
-            break;
-        case 3:
-            poly( mon_boomer_fungus );
-            break;
-        case 4:
-            poly( mon_fungaloid );
-            break;
-        case 5:
-            poly( mon_zombie_child_fungus );
-            break;
-        case 6:
-            poly( mon_skeleton_hulk_fungus );
-            break;
-        case 7:
-            poly( mon_zombie_smoker_fungus );
-            break;
-        case 8:
-            poly( mon_zombie_gasbag_fungus );
-            break;
-        case 9:
-            poly( mon_spider_fungus );
-            break;
-        default:
-            return false;
-    }
+    poly( type->fungalize_into );
 
     add_msg_if_player_sees( pos(), m_info, _( "The spores transform %1$s into a %2$s!" ),
                             old_name, name() );
@@ -2824,13 +2789,25 @@ void monster::add_msg_if_npc( const game_message_params &params, const std::stri
     add_msg_if_player_sees( *this, params, replace_with_npc_name( msg ) );
 }
 
+void monster::add_msg_debug_if_npc( debugmode::debug_filter type, const std::string &msg ) const
+{
+    add_msg_debug_if_player_sees( *this, type, replace_with_npc_name( msg ) );
+}
+
 void monster::add_msg_player_or_npc( const game_message_params &params,
                                      const std::string &/*player_msg*/, const std::string &npc_msg ) const
 {
     add_msg_if_player_sees( *this, params, replace_with_npc_name( npc_msg ) );
 }
 
-units::mass monster::get_carried_weight()
+void monster::add_msg_debug_player_or_npc( debugmode::debug_filter type,
+        const std::string &/*player_msg*/,
+        const std::string &npc_msg ) const
+{
+    add_msg_debug_if_player_sees( *this, type, replace_with_npc_name( npc_msg ) );
+}
+
+units::mass monster::get_carried_weight() const
 {
     units::mass total_weight = 0_gram;
     if( tack_item ) {
@@ -2848,7 +2825,7 @@ units::mass monster::get_carried_weight()
     return total_weight;
 }
 
-units::volume monster::get_carried_volume()
+units::volume monster::get_carried_volume() const
 {
     units::volume total_volume = 0_ml;
     for( const item &it : inv ) {
@@ -3006,7 +2983,7 @@ float monster::get_mountable_weight_ratio() const
     return type->mountable_weight_ratio;
 }
 
-void monster::hear_sound( const tripoint &source, const int vol, const int dist )
+void monster::hear_sound( const tripoint &source, const int vol, const int dist, bool provocative )
 {
     if( !can_hear() ) {
         return;
@@ -3016,6 +2993,12 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist 
     const int volume = goodhearing ? 2 * vol - dist : vol - dist;
     // Error is based on volume, louder sound = less error
     if( volume <= 0 ) {
+        return;
+    }
+
+    int tmp_provocative = provocative || volume >= normal_roll( 30, 5 );
+    // already following a more interesting sound
+    if( provocative_sound && !tmp_provocative && wandf > 0 ) {
         return;
     }
 
@@ -3030,19 +3013,23 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist 
         max_error = 1;
     }
 
-    int target_x = source.x + rng( -max_error, max_error );
-    int target_y = source.y + rng( -max_error, max_error );
+    point target( source.xy() + point( rng( -max_error, max_error ), rng( -max_error, max_error ) ) );
     // target_z will require some special check due to soil muffling sounds
 
     int wander_turns = volume * ( goodhearing ? 6 : 1 );
+    // again, already following a more interesting sound
+    if( wander_turns < wandf ) {
+        return;
+    }
     process_trigger( mon_trigger::SOUND, volume );
+    provocative_sound = tmp_provocative;
     if( morale >= 0 && anger >= 10 ) {
         // TODO: Add a proper check for fleeing attitude
         // but cache it nicely, because this part is called a lot
-        wander_to( tripoint( target_x, target_y, source.z ), wander_turns );
+        wander_to( tripoint( target, source.z ), wander_turns );
     } else if( morale < 0 ) {
         // Monsters afraid of sound should not go towards sound
-        wander_to( tripoint( 2 * posx() - target_x, 2 * posy() - target_y, 2 * posz() - source.z ),
+        wander_to( -target + tripoint( 2 * posx(), 2 * posy(), 2 * posz() - source.z ),
                    wander_turns );
     }
 }
@@ -3065,16 +3052,18 @@ bool monster::will_join_horde( int size )
     const monster_horde_attraction mha = get_horde_attraction();
     if( mha == MHA_NEVER ) {
         return false;
-    } else if( mha == MHA_ALWAYS ) {
-        return true;
-    } else if( get_map().has_flag( TFLAG_INDOORS, pos() ) && ( mha == MHA_OUTDOORS ||
-               mha == MHA_OUTDOORS_AND_LARGE ) ) {
-        return false;
-    } else if( size < 3 && ( mha == MHA_LARGE || mha == MHA_OUTDOORS_AND_LARGE ) ) {
-        return false;
-    } else {
+    }
+    if( mha == MHA_ALWAYS ) {
         return true;
     }
+    if( get_map().has_flag( TFLAG_INDOORS, pos() ) &&
+        ( mha == MHA_OUTDOORS || mha == MHA_OUTDOORS_AND_LARGE ) ) {
+        return false;
+    }
+    if( size < 3 && ( mha == MHA_LARGE || mha == MHA_OUTDOORS_AND_LARGE ) ) {
+        return false;
+    }
+    return true;
 }
 
 void monster::on_unload()
@@ -3115,7 +3104,7 @@ void monster::on_load()
         healed_speed = get_speed_base() - old_speed;
     }
 
-    add_msg_debug( "on_load() by %s, %d turns, healed %d hp, %d speed",
+    add_msg_debug( debugmode::DF_MONSTER, "on_load() by %s, %d turns, healed %d hp, %d speed",
                    name(), to_turns<int>( dt ), healed, healed_speed );
 }
 

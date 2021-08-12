@@ -8,9 +8,11 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
+#include "cata_variant.h"
 #include "coordinates.h"
 #include "json.h"
 #include "memory_fast.h"
@@ -20,8 +22,10 @@
 #include "weighted_list.h"
 
 class map;
+template <typename Id> class mapgen_value;
 class mapgendata;
 class mission;
+struct mapgen_arguments;
 
 using building_gen_pointer = void ( * )( mapgendata & );
 
@@ -40,6 +44,9 @@ class mapgen_function
         virtual void setup() { } // throws
         virtual void check() const { }
         virtual void generate( mapgendata & ) = 0;
+        virtual mapgen_parameters get_mapgen_params( mapgen_parameter_scope ) const {
+            return {};
+        }
 };
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -130,6 +137,7 @@ struct jmapgen_setmap {
 
 struct spawn_data {
     std::map<itype_id, jmapgen_int> ammo;
+    std::vector<point> patrol_points_rel_ms;
 };
 
 /**
@@ -158,8 +166,22 @@ class jmapgen_piece
     protected:
         jmapgen_piece() : repeat( 1, 1 ) { }
     public:
+        virtual bool is_nop() const {
+            return false;
+        }
+        /** The pieces will be applied in order of phases.  The phases are as
+         * follows:
+         * -2 - terrain
+         * -1 - furniture
+         *  0 - everything else
+         *  1 - nested mapgen
+         *  2 - transforms and faction ownership
+         */
+        virtual int phase() const {
+            return 0;
+        }
         /** Sanity-check this piece */
-        virtual void check( const std::string &/*context*/ ) const { }
+        virtual void check( const std::string &/*context*/, const mapgen_parameters & ) const { }
         /** Place something on the map from mapgendata &dat, at (x,y). */
         virtual void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                           ) const = 0;
@@ -217,6 +239,9 @@ class mapgen_palette
 {
     public:
         palette_id id;
+
+        mapgen_parameters parameters;
+
         /**
          * The mapping from character (key) to a list of things that should be placed. This is
          * similar to objects, but it uses key to get the actual position where to place things
@@ -225,8 +250,7 @@ class mapgen_palette
         using placing_map =
             std::unordered_map<map_key, std::vector< shared_ptr_fast<const jmapgen_piece>>>;
 
-        std::unordered_map<map_key, ter_id> format_terrain;
-        std::unordered_map<map_key, furn_id> format_furniture;
+        std::unordered_set<map_key> keys_with_terrain;
         placing_map format_placings;
 
         template<typename PieceType>
@@ -241,7 +265,8 @@ class mapgen_palette
         /**
          * Loads a palette object and returns it. Doesn't save it anywhere.
          */
-        static mapgen_palette load_temp( const JsonObject &jo, const std::string &src );
+        static mapgen_palette load_temp( const JsonObject &jo, const std::string &src,
+                                         const std::string &context );
         /**
          * Load a palette object and adds it to the global set of palettes.
          * If "palette" field is specified, those palettes will be loaded recursively.
@@ -257,15 +282,16 @@ class mapgen_palette
 
         static void reset();
     private:
-        static mapgen_palette load_internal( const JsonObject &jo, const std::string &src, bool require_id,
-                                             bool allow_recur );
+        static mapgen_palette load_internal(
+            const JsonObject &jo, const std::string &src, const std::string &context,
+            bool require_id, bool allow_recur );
 
         /**
          * Adds a palette to this one. New values take preference over the old ones.
          *
          */
-        void add( const palette_id &rh );
-        void add( const mapgen_palette &rh );
+        void add( const palette_id &rh, const std::string &context = {} );
+        void add( const mapgen_palette &rh, const std::string &context = {} );
 };
 
 struct jmapgen_objects {
@@ -292,7 +318,8 @@ struct jmapgen_objects {
         void load_objects( const JsonObject &jsi, const std::string &member_name,
                            const std::string &context );
 
-        void check( const std::string &context ) const;
+        void finalize();
+        void check( const std::string &context, const mapgen_parameters & ) const;
 
         void apply( const mapgendata &dat ) const;
         void apply( const mapgendata &dat, const point &offset ) const;
@@ -323,7 +350,6 @@ class mapgen_function_json_base
     private:
         json_source_location jsrcloc;
         std::string context_;
-
     protected:
         mapgen_function_json_base( const json_source_location &jsrcloc, const std::string &context );
         virtual ~mapgen_function_json_base();
@@ -337,17 +363,17 @@ class mapgen_function_json_base
 
         void check_common() const;
 
-        void formatted_set_incredibly_simple( map &m, const point &offset ) const;
+        mapgen_arguments get_args( const mapgendata &md, mapgen_parameter_scope ) const;
 
-        bool do_format;
         bool is_ready;
 
         point mapgensize;
         point m_offset;
-        std::vector<ter_furn_id> format;
         std::vector<jmapgen_setmap> setmap_points;
 
         jmapgen_objects objects;
+
+        mapgen_parameters parameters;
 };
 
 class mapgen_function_json : public mapgen_function_json_base, public virtual mapgen_function
@@ -356,6 +382,7 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
         void setup() override;
         void check() const override;
         void generate( mapgendata & ) override;
+        mapgen_parameters get_mapgen_params( mapgen_parameter_scope ) const override;
         mapgen_function_json( const json_source_location &jsrcloc, int w, const std::string &context,
                               const point &grid_offset = point_zero );
         ~mapgen_function_json() override = default;
@@ -397,7 +424,7 @@ class mapgen_function_json_nested : public mapgen_function_json_base
         mapgen_function_json_nested( const json_source_location &jsrcloc, const std::string &context );
         ~mapgen_function_json_nested() override = default;
 
-        void nest( const mapgendata &dat, const point &offset ) const;
+        void nest( const mapgendata &md, const point &offset ) const;
     protected:
         bool setup_internal( const JsonObject &jo ) override;
 
@@ -458,11 +485,6 @@ enum room_type {
     room_bedroom,
     room_backyard,
     room_study,
-    room_mine_shaft,
-    room_mine_office,
-    room_mine_storage,
-    room_mine_fuel,
-    room_mine_housing,
     room_split
 };
 

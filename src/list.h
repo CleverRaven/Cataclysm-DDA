@@ -495,8 +495,9 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 // In working implementation this cannot throw
                 group_pointer_type get_nearest_freelist_group( const node_pointer_type location_node ) noexcept {
                     const group_pointer_type beyond_end_group = last_endpoint_group + 1;
-                    group_pointer_type left = last_searched_group - 1, right = last_searched_group + 1,
-                                       freelist_group = nullptr;
+                    group_pointer_type left = last_searched_group - 1;
+                    group_pointer_type right = last_searched_group + 1;
+                    group_pointer_type freelist_group = nullptr;
                     bool right_not_beyond_back = ( right < beyond_end_group );
                     bool left_not_beyond_front = ( left >= block_pointer );
 
@@ -510,8 +511,9 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                     } else { // search for the node group which location_node is located within, using last_searched_group as a starting point and searching left and right. Try and find the closest node group with reusable erased-element locations along the way:
                         group_pointer_type closest_freelist_left = ( last_searched_group->free_list_head == nullptr ) ?
                                 nullptr :
-                                last_searched_group, closest_freelist_right = ( last_searched_group->free_list_head == nullptr ) ?
-                                        nullptr : last_searched_group;
+                                last_searched_group;
+                        group_pointer_type closest_freelist_right = ( last_searched_group->free_list_head == nullptr ) ?
+                                nullptr : last_searched_group;
 
                         while( true ) {
                             if( right_not_beyond_back ) {
@@ -653,10 +655,12 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                         std::memcpy( static_cast<void *>( this ), static_cast<void *>( &source ), sizeof( group_vector ) );
                         std::memcpy( static_cast<void *>( &source ), static_cast<void *>( &temp ), sizeof( group_vector ) );
                     } else {
-                        const group_pointer_type swap_last_endpoint_group = last_endpoint_group,
-                                                 swap_block_pointer = block_pointer, swap_last_searched_group = last_searched_group;
-                        const size_type swap_size = size, swap_element_capacity = element_allocator_pair.capacity,
-                                        swap_capacity = group_allocator_pair.capacity;
+                        const group_pointer_type swap_last_endpoint_group = last_endpoint_group;
+                        const group_pointer_type swap_block_pointer = block_pointer;
+                        const group_pointer_type swap_last_searched_group = last_searched_group;
+                        const size_type swap_size = size;
+                        const size_type swap_element_capacity = element_allocator_pair.capacity;
+                        const size_type swap_capacity = group_allocator_pair.capacity;
 
                         last_endpoint_group = source.last_endpoint_group;
                         block_pointer = source.block_pointer;
@@ -2201,11 +2205,11 @@ template <class element_type, class element_allocator_type = std::allocator<elem
                 return;
             }
 
-            node_pointer_type current1 = begin_iterator.node_pointer->next,
-                              current2 = source.begin_iterator.node_pointer->next;
+            node_pointer_type current1 = begin_iterator.node_pointer->next;
+            node_pointer_type current2 = source.begin_iterator.node_pointer->next;
             node_pointer_type previous = source.begin_iterator.node_pointer;
-            const node_pointer_type source_end = source.end_iterator.node_pointer,
-                                    this_end = end_iterator.node_pointer;
+            const node_pointer_type source_end = source.end_iterator.node_pointer;
+            const node_pointer_type this_end = end_iterator.node_pointer;
 
             begin_iterator.node_pointer->next = source.begin_iterator.node_pointer;
             source.begin_iterator.node_pointer->previous = begin_iterator.node_pointer;

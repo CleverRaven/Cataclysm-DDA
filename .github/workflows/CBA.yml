@@ -4,34 +4,14 @@ on:
   push:
     branches:
     - master
-    paths:
-    - '**.cpp'
-    - '**.h'
-    - '**.c'
-    - '**/CMakeLists.txt'
-    - '**/Makefile'
-    - '**.hpp'
-    - '**.cmake'
-    - '.github/workflows/CBA.yml'
-  pull_request:
-    branches:
-    - master
-    paths:
-    - '**.cpp'
-    - '**.h'
-    - '**.c'
-    - '**/CMakeLists.txt'
-    - '**/Makefile'
-    - '**.hpp'
-    - '**.cmake'
-    - '.github/workflows/CBA.yml'
+  workflow_dispatch:
 
+# Mixing in event_name so that a master push and a workflow dispatch can run at the same time.
+concurrency: clang_build_analyzer-${{ github.event_name }}
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
-    
+    runs-on: ubuntu-latest    
     steps:
     - name: checkout repository
       uses: actions/checkout@v1

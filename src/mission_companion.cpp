@@ -154,10 +154,10 @@ void talk_function::scavenger_patrol( mission_data &mission_key, npc &p )
     if( !npc_list.empty() ) {
         entry = _( "Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n\nPatrol Roster:\n" );
         for( auto &elem : npc_list ) {
-            entry = entry + "  " + elem->name + " [" + std::to_string( to_hours<int>( calendar::turn -
-                    elem->companion_mission_time ) ) + _( " hours]\n" );
+            entry += "  " + elem->name + " [" + std::to_string( to_hours<int>( calendar::turn -
+                     elem->companion_mission_time ) ) + _( " hours]\n" );
         }
-        entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
+        entry += _( "\n\nDo you wish to bring your allies back into your party?" );
         mission_key.add( "Retrieve Scavenging Patrol", _( "Retrieve Scavenging Patrol" ), entry );
     }
 }
@@ -176,10 +176,10 @@ void talk_function::scavenger_raid( mission_data &mission_key, npc &p )
         entry = _( "Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n\n"
                    "Raid Roster:\n" );
         for( auto &elem : npc_list ) {
-            entry = entry + "  " + elem->name + " [" + std::to_string( to_hours<int>( calendar::turn -
-                    elem->companion_mission_time ) ) + _( " hours]\n" );
+            entry += "  " + elem->name + " [" + std::to_string( to_hours<int>( calendar::turn -
+                     elem->companion_mission_time ) ) + _( " hours]\n" );
         }
-        entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
+        entry += _( "\n\nDo you wish to bring your allies back into your party?" );
         mission_key.add( "Retrieve Scavenging Raid", _( "Retrieve Scavenging Raid" ), entry );
     }
 }
@@ -194,10 +194,10 @@ void talk_function::commune_menial( mission_data &mission_key, npc &p )
                                "them basic skills and build reputation with the outpost.  Don't expect "
                                "much of a reward though.\n\nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
-            entry = entry + "  " + elem->name + " [" + std::to_string( to_hours<int>( calendar::turn -
-                    elem->companion_mission_time ) ) + _( " hours]\n" );
+            entry += "  " + elem->name + " [" + std::to_string( to_hours<int>( calendar::turn -
+                     elem->companion_mission_time ) ) + _( " hours]\n" );
         }
-        entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
+        entry += _( "\n\nDo you wish to bring your allies back into your party?" );
         mission_key.add( "Recover Ally from Menial Labor", _( "Recover Ally from Menial Labor" ),
                          entry );
     }
@@ -214,10 +214,10 @@ void talk_function::commune_carpentry( mission_data &mission_key, npc &p )
     if( !npc_list.empty() ) {
         entry = _( "Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n\nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
-            entry = entry + "  " + elem->name + " [" + std::to_string( to_hours<int>( calendar::turn -
-                    elem->companion_mission_time ) ) + _( " hours]\n" );
+            entry += "  " + elem->name + " [" + std::to_string( to_hours<int>( calendar::turn -
+                     elem->companion_mission_time ) ) + _( " hours]\n" );
         }
-        entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
+        entry += _( "\n\nDo you wish to bring your allies back into your party?" );
         mission_key.add( "Recover Ally from Carpentry Work",
                          _( "Recover Ally from Carpentry Work" ), entry );
     }
@@ -306,10 +306,10 @@ void talk_function::commune_forage( mission_data &mission_key, npc &p )
     if( !npc_list.empty() ) {
         entry = _( "Profit: $10/hour\nDanger: Low\nTime: 4 hour minimum\n\nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
-            entry = entry + "  " + elem->name + " [" + std::to_string( to_hours<int>( calendar::turn -
-                    elem->companion_mission_time ) ) + _( " hours]\n" );
+            entry += "  " + elem->name + " [" + std::to_string( to_hours<int>( calendar::turn -
+                     elem->companion_mission_time ) ) + _( " hours]\n" );
         }
-        entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
+        entry += _( "\n\nDo you wish to bring your allies back into your party?" );
         mission_key.add( "Recover Ally from Foraging", _( "Recover Ally from Foraging" ), entry );
     }
 }
@@ -333,13 +333,13 @@ void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
                    "\nRoster:\n" );
         for( auto &elem : npc_list ) {
             if( elem->companion_mission_time == calendar::before_time_starts ) {
-                entry = entry + "  " + elem->name + _( " [READY]\n" );
+                entry += "  " + elem->name + _( " [READY]\n" );
                 npc_list_aux.push_back( elem );
             } else if( calendar::turn >= elem->companion_mission_time ) {
-                entry = entry + "  " + elem->name + _( " [COMPLETE]\n" );
+                entry += "  " + elem->name + _( " [COMPLETE]\n" );
             } else {
-                entry = entry + "  " + elem->name + " [" + std::to_string( std::abs( to_hours<int>
-                        ( calendar::turn - elem->companion_mission_time ) ) ) + _( " Hours]\n" );
+                entry += "  " + elem->name + " [" + std::to_string( std::abs( to_hours<int>
+                         ( calendar::turn - elem->companion_mission_time ) ) ) + _( " Hours]\n" );
             }
         }
         if( !npc_list_aux.empty() ) {
@@ -348,7 +348,7 @@ void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
             const std::string entry_suffix = _( " [READY]\n" );
             for( auto &elem : npc_list_aux ) {
                 if( elem->companion_mission_time == calendar::before_time_starts ) {
-                    entry_aux = entry_aux + "  " + elem->name + entry_suffix;
+                    entry_aux += "  " + elem->name + entry_suffix;
                 }
             }
             entry_aux = entry_aux + _( "\n\n"
@@ -357,7 +357,7 @@ void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
             mission_key.add( "Begin Commune-Refugee Center Run",
                              _( "Begin Commune-Refugee Center Run" ), entry );
         }
-        entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
+        entry += _( "\n\nDo you wish to bring your allies back into your party?" );
         mission_key.add( "Recover Commune-Refugee Center", _( "Recover Commune-Refugee Center" ),
                          entry );
     }
@@ -1791,7 +1791,7 @@ std::vector<npc_ptr> talk_function::companion_list( const npc &p, const std::str
     for( const auto &elem : overmap_buffer.get_companion_mission_npcs() ) {
         npc_companion_mission c_mission = elem->get_companion_mission();
         if( c_mission.position == omt_pos && c_mission.mission_id == mission_id &&
-            c_mission.role_id == p.companion_mission_role_id ) {
+            c_mission.role_id == p.companion_mission_role_id ) { // NOLINT(bugprone-branch-clone)
             available.push_back( elem );
         } else if( contains && c_mission.mission_id.find( mission_id ) != std::string::npos ) {
             available.push_back( elem );
@@ -2033,13 +2033,10 @@ npc_ptr talk_function::companion_choose_return( const tripoint_abs_omt &omt_pos,
             ( by_mission && c_mission.mission_id != mission_id ) || c_mission.role_id != role_id ) {
             continue;
         }
-        if( player_character.has_trait( trait_DEBUG_HS ) ) {
-            available.push_back( guy );
-        } else if( deadline == calendar::before_time_starts ) {
-            if( guy->companion_mission_time_ret <= calendar::turn ) {
-                available.push_back( guy );
-            }
-        } else if( guy->companion_mission_time <= deadline ) {
+        if( player_character.has_trait( trait_DEBUG_HS ) ||
+            guy->companion_mission_time <= deadline ||
+            ( deadline == calendar::before_time_starts &&
+              guy->companion_mission_time_ret <= calendar::turn ) ) {
             available.push_back( guy );
         }
     }
@@ -2054,6 +2051,7 @@ npc_ptr talk_function::companion_choose_return( const tripoint_abs_omt &omt_pos,
     }
 
     std::vector<std::string> npcs;
+    npcs.reserve( available.size() );
     for( auto &elem : available ) {
         npcs.push_back( ( elem )->name );
     }

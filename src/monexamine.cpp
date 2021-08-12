@@ -44,8 +44,6 @@ static const quality_id qual_SHEAR( "SHEAR" );
 
 static const efftype_id effect_sheared( "sheared" );
 
-static const activity_id ACT_PLAY_WITH_PET( "ACT_PLAY_WITH_PET" );
-
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_harnessed( "harnessed" );
 static const efftype_id effect_has_bag( "has_bag" );
@@ -145,7 +143,7 @@ bool monexamine::pet_menu( monster &z )
     if( z.has_flag( MF_MILKABLE ) ) {
         amenu.addentry( milk, true, 'm', _( "Milk %s" ), pet_name );
     }
-    if( z.has_flag( MF_SHEARABLE ) ) {
+    if( z.shearable() ) {
         bool available = true;
         if( season_of_year( calendar::turn ) == WINTER ) {
             amenu.addentry( shear, false, 'S',
@@ -159,7 +157,7 @@ bool monexamine::pet_menu( monster &z )
             if( player_character.has_quality( qual_SHEAR, 1 ) ) {
                 amenu.addentry( shear, true, 'S', _( "Shear %s." ), pet_name );
             } else {
-                amenu.addentry( shear, false, 'S', _( "You cannot shear this animal without shears." ) );
+                amenu.addentry( shear, false, 'S', _( "You cannot shear this animal without a shearing tool." ) );
             }
         }
     }
@@ -295,20 +293,20 @@ bool monexamine::pet_menu( monster &z )
 
 void monexamine::shear_animal( monster &z )
 {
-    Character &player_character = get_player_character();
-    const int moves = to_moves<int>( time_duration::from_minutes( 30 / player_character.max_quality(
-                                         qual_SHEAR ) ) );
-
-    player_character.assign_activity( activity_id( "ACT_SHEAR" ), moves, -1 );
-    player_character.activity.coords.push_back( get_map().getabs( z.pos() ) );
-    // pin the sheep in place if it isn't already
-    if( !z.has_effect( effect_tied ) ) {
-        z.add_effect( effect_tied, 1_turns, true );
-        player_character.activity.str_values.push_back( "temp_tie" );
+    Character &guy = get_player_character();
+    if( !guy.has_quality( qual_SHEAR ) ) {
+        add_msg( _( "You don't have a shearing tool." ) );
     }
-    player_character.activity.targets.push_back( item_location( player_character,
-            player_character.best_quality_item( qual_SHEAR ) ) );
-    add_msg( _( "You start shearing the %s." ), z.get_name() );
+
+    // was monster already tied before shearing
+    const bool monster_tied = z.has_effect( effect_tied );
+
+    // tie the critter so it doesn't move while being sheared
+    if( !monster_tied ) {
+        z.add_effect( effect_tied, 1_turns, true );
+    }
+
+    guy.assign_activity( player_activity( shearing_activity_actor( z.pos(), !monster_tied ) ) );
 }
 
 static item_location pet_armor_loc( monster &z )
@@ -747,8 +745,7 @@ void monexamine::play_with( monster &z )
 {
     std::string pet_name = z.get_name();
     Character &player_character = get_player_character();
-    player_character.assign_activity( ACT_PLAY_WITH_PET, rng( 50, 125 ) * 100 );
-    player_character.activity.str_values.push_back( pet_name );
+    player_character.assign_activity( player_activity( play_with_pet_activity_actor( pet_name ) ) );
 }
 
 void monexamine::tie_or_untie( monster &z )
@@ -808,7 +805,7 @@ void monexamine::milk_source( monster &source_mon )
         bool temp_tie = !source_mon.has_effect( effect_tied );
         if( temp_tie ) {
             source_mon.add_effect( effect_tied, 1_turns, true );
-            str_values.push_back( "temp_tie" );
+            str_values.emplace_back( "temp_tie" );
         }
         player_character.assign_activity( player_activity( milk_activity_actor( moves, coords,
                                           str_values ) ) );

@@ -77,7 +77,7 @@
     "ammo": [ "battery" ],
     "charges_per_use": 1,
     "power_draw": 800000,
-    "flags": [ "NONCONDUCTIVE" ],
+    "flags": [ "NONCONDUCTIVE", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -105,7 +105,6 @@
     "color": "dark_gray",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 1000 } } ],
     "ammo": [ "charcoal" ],
-    "max_charges": 1000,
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -132,6 +131,62 @@
     "material": [ "wood" ],
     "symbol": ";",
     "color": "brown"
+  },
+  {
+    "id": "makeshift_vacuum_mold",
+    "type": "TOOL",
+    "name": { "str": "makeshift vacuum mold" },
+    "description": "This is a homemade vacuum forming machine with an air pump.  It's used for creating plastic molds.",
+    "weight": "2000 g",
+    "volume": "5 L",
+    "longest_side": "35 cm",
+    "price": 1000,
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "bashing": 8,
+    "material": [ "plastic", "wood" ],
+    "symbol": ";",
+    "color": "white",
+    "ammo": [ "battery" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
+    ]
+  },
+  {
+    "id": "vac_mold",
+    "type": "TOOL",
+    "name": { "str": "vacuum molder" },
+    "description": "This is a portable vacuum forming machine with an air pump.  It's used for creating plastic molds.",
+    "weight": "1770 g",
+    "volume": "4100 ml",
+    "longest_side": "35 cm",
+    "price": 2500,
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "bashing": 8,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ";",
+    "color": "white",
+    "ammo": [ "battery" ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
+    ]
   },
   {
     "id": "chipper",
@@ -233,6 +288,7 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
     "qualities": [ [ "DRILL", 3 ], [ "SCREW", 1 ] ],
     "pocket_data": [
       {
@@ -280,11 +336,10 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "initial_charges": 3500,
-    "max_charges": 7000,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 7000 } } ],
     "charges_per_use": 3500,
     "use_action": [ "JACKHAMMER" ],
-    "flags": [ "STAB", "DIG_TOOL", "POWERED", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
+    "flags": [ "STAB", "DIG_TOOL", "POWERED", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK" ]
   },
   {
     "id": "hacksaw",
@@ -309,7 +364,7 @@
     "id": "hammer",
     "type": "TOOL",
     "name": { "str": "hammer" },
-    "description": "This is a demagnetized steel claw hammer with a wooden grip.  With a hammer, nails, and two by fours in your inventory, you could board up adjacent doors and windows.  It has myriad other uses as well.",
+    "description": "This is a demagnetized steel claw hammer with a wooden grip.  With a hammer, nails, and planks in your inventory, you could board up adjacent doors and windows.  It has myriad other uses as well.",
     "ascii_picture": "hammer",
     "longest_side": "25 cm",
     "weight": "566 g",
@@ -428,7 +483,6 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "gasoline" ],
-    "max_charges": 400,
     "charges_per_use": 10,
     "use_action": [ "JACKHAMMER" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 400 } } ],
@@ -449,7 +503,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -575,7 +629,6 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "tape" ],
-    "max_charges": 200,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "tape": 200 } } ],
     "charges_per_use": 5,
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 2 ], [ "AXE", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", 7 ] ],
@@ -596,7 +649,7 @@
     "id": "mold_plastic",
     "type": "TOOL",
     "name": { "str": "plastic mold" },
-    "description": "This is a plastic mold.  It could be shaped and used to craft items made of plastic.",
+    "description": "This is a plastic mold.  It can be used to form plastic chunks.",
     "weight": "320 g",
     "volume": "2500 ml",
     "longest_side": "36 cm",
@@ -744,7 +797,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -895,7 +948,7 @@
       },
       { "flame": false, "type": "cauterize" }
     ],
-    "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_REMOTE_USE" ],
+    "flags": [ "SPEAR", "BELT_CLIP", "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -980,7 +1033,6 @@
     "bashing": 3,
     "cutting": 5,
     "flags": [ "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID", "USES_BIONIC_POWER" ],
-    "max_charges": 1000,
     "//": "Charges will exceed max charges since they're always equal to the player's bionic power, but this has no adverse effects.",
     "charges_per_use": 1,
     "use_action": [
@@ -1058,7 +1110,7 @@
         "move_cost": 500
       }
     ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1098,7 +1150,7 @@
         "move_cost": 1000
       }
     ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1211,5 +1263,30 @@
     "color": "light_gray",
     "looks_like": "hand_drill",
     "qualities": [ [ "DRILL", 1 ] ]
+  },
+  {
+    "id": "wire_draw_machine",
+    "type": "TOOL",
+    "name": { "str": "wire draw machine" },
+    "description": "A machine designed specifically for turning metal rods into wire.",
+    "weight": "26 kg",
+    "volume": "20 L",
+    "price": 1000,
+    "price_postapoc": 10,
+    "to_hit": -3,
+    "bashing": 7,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "magazine_well": "200 ml",
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
+    ]
   }
 ]

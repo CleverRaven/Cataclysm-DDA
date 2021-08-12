@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "bodypart.h"
+#include "compatibility.h"
 #include "damage.h"
 #include "debug.h"
 #include "effect_source.h"
@@ -20,6 +21,7 @@
 #include "location.h"
 #include "pimpl.h"
 #include "string_formatter.h"
+#include "talker.h"
 #include "type_id.h"
 #include "units_fwd.h"
 #include "viewer.h"
@@ -44,6 +46,7 @@ class anatomy;
 class avatar;
 class field;
 class field_entry;
+class npc;
 class player;
 class time_duration;
 struct point;
@@ -233,9 +236,6 @@ class Creature : public location, public viewer
 
         virtual std::vector<std::string> get_grammatical_genders() const;
 
-        virtual bool is_player() const {
-            return false;
-        }
         virtual bool is_avatar() const {
             return false;
         }
@@ -263,6 +263,12 @@ class Creature : public location, public viewer
         virtual const avatar *as_avatar() const {
             return nullptr;
         }
+        virtual npc *as_npc() {
+            return nullptr;
+        }
+        virtual const npc *as_npc() const {
+            return nullptr;
+        }
         virtual monster *as_monster() {
             return nullptr;
         }
@@ -275,6 +281,19 @@ class Creature : public location, public viewer
         virtual bool is_fake() const;
         /** Sets a Creature's fake boolean. */
         virtual void set_fake( bool fake_value );
+        inline const tripoint &pos() const override {
+            return position;
+        }
+        inline int posx() const override {
+            return position.x;
+        }
+        inline int posy() const override {
+            return position.y;
+        }
+        inline int posz() const override {
+            return position.z;
+        }
+        void setpos( const tripoint &p ) override;
 
         /** Recreates the Creature from scratch. */
         virtual void normalize();
@@ -430,6 +449,11 @@ class Creature : public location, public viewer
         // accrue? mutates damage and pain
         virtual void deal_damage_handle_type( const effect_source &source, const damage_unit &du,
                                               bodypart_id bp, int &damage, int &pain );
+
+        // Pass handling bleed to creature/character
+        virtual void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
+                                 int intensity = 1, bool permanent = false, bool force = false, bool defferred = false ) = 0;
+
         // directly decrements the damage. ONLY handles damage, doesn't
         // increase pain, apply effects, etc
         virtual void apply_damage( Creature *source, bodypart_id bp, int amount,
@@ -559,7 +583,7 @@ class Creature : public location, public viewer
         int get_effect_int( const efftype_id &eff_id,
                             const bodypart_id &bp = bodypart_str_id::NULL_ID() ) const;
         /** Returns true if the creature resists an effect */
-        bool resists_effect( const effect &e );
+        bool resists_effect( const effect &e ) const;
 
         // Methods for setting/getting misc key/value pairs.
         void set_value( const std::string &key, const std::string &value );
@@ -623,6 +647,7 @@ class Creature : public location, public viewer
         virtual float get_hit() const;
 
         virtual int get_speed() const;
+        virtual int get_eff_per() const;
         virtual creature_size get_size() const = 0;
         virtual int get_hp( const bodypart_id &bp ) const;
         virtual int get_hp() const;
@@ -646,7 +671,9 @@ class Creature : public location, public viewer
             return false;
         }
 
-    private:
+    protected:
+        /** The creature's position on the local map */
+        tripoint position;
         /**anatomy is the plan of the creature's body*/
         anatomy_id creature_anatomy = anatomy_id( "default_anatomy" );
         /**this is the actual body of the creature*/
@@ -662,6 +689,10 @@ class Creature : public location, public viewer
          */
         std::vector<bodypart_id> get_all_body_parts(
             get_body_part_flags = get_body_part_flags::none ) const;
+        std::vector<bodypart_id> get_all_body_parts_of_type(
+            body_part_type::type part_type,
+            get_body_part_flags flags = get_body_part_flags::none ) const;
+        bodypart_id get_root_body_part() const;
 
         const std::map<bodypart_str_id, bodypart> &get_body() const;
         void set_body();
@@ -964,6 +995,68 @@ class Creature : public location, public viewer
                                           string_format( npc_msg, std::forward<Args>( args )... ) );
         }
 
+        virtual void add_msg_debug_if_player( debugmode::debug_filter /*type*/,
+                                              const std::string &/*msg*/ ) const {}
+        template<typename ...Args>
+        void add_msg_debug_if_player( debugmode::debug_filter type, const char *const msg,
+                                      Args &&... args ) const {
+            // expanding for string formatting can be expensive
+            if( debug_mode ) {
+                return add_msg_debug_if_player( type, string_format( msg, std::forward<Args>( args )... ) );
+            }
+        }
+        template<typename ...Args>
+        void add_msg_debug_if_player( debugmode::debug_filter type, const std::string &msg,
+                                      Args &&... args ) const {
+            if( debug_mode ) {
+                return add_msg_debug_if_player( type, string_format( msg, std::forward<Args>( args )... ) );
+            }
+        }
+
+        virtual void add_msg_debug_if_npc( debugmode::debug_filter /*type*/,
+                                           const std::string &/*msg*/ ) const {}
+        template<typename ...Args>
+        void add_msg_debug_if_npc( debugmode::debug_filter type, const char *const msg,
+                                   Args &&... args ) const {
+            // expanding for string formatting can be expensive
+            if( debug_mode ) {
+                return add_msg_debug_if_npc( type, string_format( msg, std::forward<Args>( args )... ) );
+            }
+        }
+        template<typename ...Args>
+        void add_msg_debug_if_npc( debugmode::debug_filter type, const std::string &msg,
+                                   Args &&... args ) const {
+            if( debug_mode ) {
+                return add_msg_debug_if_npc( type, string_format( msg, std::forward<Args>( args )... ) );
+            }
+        }
+
+        virtual void add_msg_debug_player_or_npc( debugmode::debug_filter /*type*/,
+                const std::string &/*player_msg*/,
+                const std::string &/*npc_msg*/ ) const {}
+        void add_msg_debug_player_or_npc( debugmode::debug_filter /*type*/,
+                                          const translation &/*player_msg*/,
+                                          const translation &/*npc_msg*/ ) const;
+        template<typename ...Args>
+        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const char *const player_msg,
+                                          const char *const npc_msg, Args &&... args ) const {
+            // expanding for string formatting can be expensive
+            if( debug_mode ) {
+                return add_msg_debug_player_or_npc( type, string_format( player_msg,
+                                                    std::forward<Args>( args )... ),
+                                                    string_format( npc_msg, std::forward<Args>( args )... ) );
+            }
+        }
+        template<typename ...Args>
+        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const std::string &player_msg,
+                                          const std::string &npc_msg, Args &&... args ) const {
+            if( debug_mode ) {
+                return add_msg_debug_player_or_npc( type, string_format( player_msg,
+                                                    std::forward<Args>( args )... ),
+                                                    string_format( npc_msg, std::forward<Args>( args )... ) );
+            }
+        }
+
         virtual void add_msg_player_or_say( const std::string &/*player_msg*/,
                                             const std::string &/*npc_speech*/ ) const {}
         virtual void add_msg_player_or_say( const game_message_params &/*params*/,
@@ -1078,10 +1171,10 @@ class Creature : public location, public viewer
 
         bool fake = false;
         Creature();
-        Creature( const Creature & ) = default;
-        Creature( Creature && ) = default;
-        Creature &operator=( const Creature & ) = default;
-        Creature &operator=( Creature && ) = default;
+        Creature( const Creature & );
+        Creature( Creature && ) noexcept( map_is_noexcept );
+        Creature &operator=( const Creature & );
+        Creature &operator=( Creature && ) noexcept;
 
     protected:
         virtual void on_stat_change( const std::string &, int ) {}
@@ -1089,6 +1182,10 @@ class Creature : public location, public viewer
         virtual void on_damage_of_type( int, damage_type, const bodypart_id & ) {}
 
     public:
+        // Keep a count of moves passed in which resets every 100 turns as a result of practicing archery proficiency
+        // This is done this way in order to not destroy focus since `do_aim` is on a per-move basis.
+        int archery_aim_counter = 0;
+
         bodypart_id select_body_part( Creature *source, int hit_roll ) const;
         bodypart_id random_body_part( bool main_parts_only = false ) const;
 
@@ -1105,6 +1202,19 @@ class Creature : public location, public viewer
          *
          */
         std::string replace_with_npc_name( std::string input ) const;
+        /**
+         * Global position, expressed in map square coordinate system
+         * (the most detailed coordinate system), used by the @ref map.
+         */
+        virtual tripoint_abs_ms global_square_location() const;
+        /**
+        * Returns the location of the player in global submap coordinates.
+        */
+        tripoint_abs_sm global_sm_location() const;
+        /**
+        * Returns the location of the player in global overmap terrain coordinates.
+        */
+        tripoint_abs_omt global_omt_location() const;
     protected:
         /**
          * These two functions are responsible for storing and loading the members
@@ -1147,5 +1257,6 @@ class Creature : public location, public viewer
         void messaging_projectile_attack( const Creature *source,
                                           const projectile_attack_results &hit_selection, int total_damage ) const;
 };
-
+std::unique_ptr<talker> get_talker_for( Creature &me );
+std::unique_ptr<talker> get_talker_for( Creature *me );
 #endif // CATA_SRC_CREATURE_H

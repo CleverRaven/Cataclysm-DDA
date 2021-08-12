@@ -999,7 +999,7 @@ class saw_barrel_actor : public iuse_actor
         cata::optional<int> use( player &p, item &it, bool t, const tripoint &pnt ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 
-        ret_val<bool> can_use_on( const player &p, const item &it, const item &target ) const;
+        ret_val<bool> can_use_on( const Character &you, const item &it, const item &target ) const;
 };
 
 class install_bionic_actor : public iuse_actor
@@ -1112,5 +1112,24 @@ class sew_advanced_actor : public iuse_actor
         void load( const JsonObject &obj ) override;
         cata::optional<int> use( player &, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
+};
+
+
+/**
+ * Activate an array of effect_on_conditions
+ */
+class effect_on_conditons_actor : public iuse_actor
+{
+    public:
+        std::vector<effect_on_condition_id> eocs;
+        std::string description;
+        explicit effect_on_conditons_actor( const std::string &type = "effect_on_conditions" ) : iuse_actor(
+                type ) {}
+
+        ~effect_on_conditons_actor() override = default;
+        void load( const JsonObject &obj ) override;
+        cata::optional<int> use( player &p, item &it, bool, const tripoint & ) const override;
+        std::unique_ptr<iuse_actor> clone() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
 };
 #endif // CATA_SRC_IUSE_ACTOR_H

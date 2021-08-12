@@ -19,7 +19,6 @@
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "map.h"
 #include "map_selector.h"
 #include "mapdata.h"
@@ -347,8 +346,8 @@ void advanced_inv_area::set_container( const advanced_inv_listitem *advitem )
         uistate.adv_inv_container_in_vehicle = advitem->from_vehicle;
         uistate.adv_inv_container_index = advitem->idx;
         uistate.adv_inv_container_type = it->typeId();
-        uistate.adv_inv_container_content_type = !it->is_container_empty() ?
-                it->contents.legacy_front().typeId() : itype_id::NULL_ID();
+        uistate.adv_inv_container_content_type = !it->is_container_empty() ? it->legacy_front().typeId() :
+                itype_id::NULL_ID();
         set_container_position();
     } else {
         uistate.adv_inv_container_location = -1;
@@ -368,7 +367,7 @@ bool advanced_inv_area::is_container_valid( const item *it ) const
                     return true;
                 }
             } else {
-                if( it->contents.legacy_front().typeId() == uistate.adv_inv_container_content_type ) {
+                if( it->legacy_front().typeId() == uistate.adv_inv_container_content_type ) {
                     return true;
                 }
             }

@@ -9,6 +9,7 @@
 #include <iosfwd>
 #include <list>
 #include <memory>
+#include <queue>
 #include <new>
 #include <set>
 #include <unordered_set>
@@ -20,6 +21,7 @@
 #include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "item_location.h"
@@ -29,6 +31,7 @@
 #include "pimpl.h"
 #include "point.h"
 #include "type_id.h"
+#include "uistate.h"
 #include "units_fwd.h"
 #include "weather.h"
 
@@ -123,6 +126,14 @@ struct look_around_result {
     cata::optional<tripoint> position;
     cata::optional<peek_act> peek_action;
 };
+struct look_around_params {
+    const bool show_window;
+    tripoint &center;
+    const tripoint &start_point;
+    bool has_first_point;
+    bool select_zone;
+    bool peeking;
+};
 
 struct w_map {
     int id;
@@ -132,6 +143,11 @@ struct w_map {
 };
 
 bool is_valid_in_w_terrain( const point &p );
+namespace turn_handler
+{
+bool cleanup_at_end();
+void update_stair_monsters();
+} // namespace turn_handler
 
 // There is only one game instance, so losing a few bytes of memory
 // due to padding is not much of a concern.
@@ -155,6 +171,8 @@ class game
         friend scent_map &get_scent();
         friend timed_event_manager &get_timed_events();
         friend memorial_logger &get_memorial();
+        friend bool do_turn();
+        friend bool turn_handler::cleanup_at_end();
     public:
         game();
         ~game();
@@ -198,7 +216,7 @@ class game
         void setup();
         /** Saving and loading functions. */
         void serialize( std::ostream &fout ); // for save
-        void unserialize( std::istream &fin ); // for load
+        void unserialize( std::istream &fin, const std::string &path ); // for load
         void unserialize_master( std::istream &fin ); // for load
 
         /** write statistics to stdout and @return true if successful */
@@ -210,10 +228,7 @@ class game
         /** Returns a list of currently active character saves. */
         std::vector<std::string> list_active_characters();
         void write_memorial_file( std::string sLastWords );
-        bool cleanup_at_end();
         void start_calendar();
-        /** MAIN GAME LOOP. Returns true if game is over (death, saved, quit, etc.). */
-        bool do_turn();
         shared_ptr_fast<ui_adaptor> create_or_get_main_ui_adaptor();
         void invalidate_main_ui_adaptor() const;
         void mark_main_ui_adaptor_resize() const;
@@ -537,6 +552,9 @@ class game
          */
         std::vector<monster *> get_fishable_monsters( std::unordered_set<tripoint> &fishable_locations );
 
+        /** Destroy / dissolve character items when in water. */
+        void water_affect_items( Character &ch ) const;
+
         /** Flings the input creature in the given direction. */
         void fling_creature( Creature *c, const units::angle &dir, float flvel,
                              bool controlled = false );
@@ -570,6 +588,7 @@ class game
         cata::optional<tripoint> look_around();
         look_around_result look_around( bool show_window, tripoint &center,
                                         const tripoint &start_point, bool has_first_point, bool select_zone, bool peeking );
+        look_around_result look_around( look_around_params );
 
         // Shared method to print "look around" info
         void pre_print_all_tile_info( const tripoint &lp, const catacurses::window &w_info,
@@ -617,6 +636,8 @@ class game
         void zoom_in();
         void zoom_out();
         void reset_zoom();
+        void set_zoom( int level );
+        int get_zoom() const;
         int get_moves_since_last_save() const;
         int get_user_action_counter() const;
 
@@ -630,8 +651,12 @@ class game
         /**
          * Load the main map at given location, see @ref map::load, in global, absolute submap
          * coordinates.
+         * @param pump_events If true, handle window events during loading. If
+         * you set this to true, do ensure that the map is not accessed before
+         * this function returns (for example, UIs that draw the map should be
+         * disabled).
          */
-        void load_map( const tripoint_abs_sm &pos_sm );
+        void load_map( const tripoint_abs_sm &pos_sm, bool pump_events = false );
         /**
          * The overmap which contains the center submap of the reality bubble.
          */
@@ -739,7 +764,7 @@ class game
         bool load( const save_t &name ); // Load a player-specific save file
         void load_master(); // Load the master data file, with factions &c
 #if defined(__ANDROID__)
-        void load_shortcuts( std::istream &fin );
+        void load_shortcuts( std::istream &fin, const std::string &path );
 #endif
         bool start_game(); // Starts a new game in the active world
 
@@ -846,9 +871,6 @@ class game
 
         input_context get_player_input( std::string &action );
 
-        // Map updating and monster spawning
-        void replace_stair_monsters();
-        void update_stair_monsters();
         /**
          * Shift all active monsters, the shift vector is the number of
          * shifted submaps. Monsters that are outside of the reality bubble after
@@ -869,11 +891,9 @@ class game
         void perhaps_add_random_npc();
 
         // Routine loop functions, approximately in order of execution
-        void monmove();          // Monster movement
-        void overmap_npc_move(); // NPC overmap movement
-        void process_activity(); // Processes and enacts the player's activity
-        void handle_key_blocking_activity(); // Abort reading etc.
         void open_consume_item_menu(); // Custom menu for consuming specific group of items
+        bool do_regular_action( action_id &act, avatar &player_character,
+                                const cata::optional<tripoint> &mouse_target );
         bool handle_action();
         bool try_get_right_click_action( action_id &act, const tripoint &mouse_target );
         bool try_get_left_click_action( action_id &act, const tripoint &mouse_target );
@@ -1033,6 +1053,9 @@ class game
         time_duration turnssincelastmon = 0_turns; // needed for auto run mode
 
         weather_manager weather;
+
+        std::vector<effect_on_condition_id> inactive_effect_on_condition_vector;
+        std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare> queued_effect_on_conditions;
 
         int mostseen = 0; // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
     private:

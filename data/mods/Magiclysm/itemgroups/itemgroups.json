@@ -32,7 +32,8 @@
       { "group": "spellbook_loot_1", "prob": 3 },
       { "group": "magic_recipe_basic", "prob": 3 },
       { "group": "magic_recipe_advanced", "prob": 1 },
-      { "group": "dragon_books", "prob": 3 }
+      { "group": "dragon_books", "prob": 3 },
+      { "item": "spellcraft_theory", "prob": 2 }
     ]
   },
   {
@@ -42,13 +43,23 @@
       { "group": "spellbook_loot_0", "prob": 6 },
       { "group": "magic_recipe_basic", "prob": 6 },
       { "group": "magic_recipe_advanced", "prob": 2 },
-      { "group": "dragon_books", "prob": 5 }
+      { "group": "dragon_books", "prob": 5 },
+      { "group": "spellcraft_books", "prob": 4 }
     ]
   },
   {
     "type": "item_group",
     "id": "exotic_books",
-    "items": [ { "group": "spellbook_loot_1", "prob": 3 }, { "group": "dragon_books", "prob": 2 } ]
+    "items": [
+      { "group": "spellbook_loot_1", "prob": 3 },
+      { "group": "dragon_books", "prob": 2 },
+      { "group": "spellcraft_books", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "spellcraft_books",
+    "items": [ { "item": "spellcraft_theory_basic", "prob": 70 }, { "item": "spellcraft_theory", "prob": 30 } ]
   },
   {
     "type": "item_group",
@@ -84,7 +95,7 @@
       [ "cauldron_demon_chitin", 3 ],
       [ "manatouched_serum", 3 ],
       [ "wolfsbane", 2 ],
-      [ "wolfshead_cufflinks", 1 ]
+      [ "wolfshead_cufflinks", 3 ]
     ]
   },
   {
@@ -131,7 +142,8 @@
       { "group": "spell_scroll_tier_1", "prob": 60 },
       { "group": "spell_scroll_tier_2", "prob": 30 },
       { "group": "magic_recipe_basic", "prob": 50 },
-      { "group": "magic_recipe_advanced", "prob": 16 }
+      { "group": "magic_recipe_advanced", "prob": 16 },
+      { "group": "spellcraft_books", "prob": 40 }
     ]
   },
   {
@@ -142,7 +154,8 @@
       { "group": "spellbook_tier_0", "prob": 100 },
       { "group": "spellbook_tier_0", "prob": 80 },
       { "group": "spellbook_tier_0", "prob": 60 },
-      { "group": "spellbook_tier_0", "prob": 20 }
+      { "group": "spellbook_tier_0", "prob": 20 },
+      { "item": "spellcraft_theory_basic", "prob": 10 }
     ]
   },
   {
@@ -216,6 +229,7 @@
         "prob": 15
       },
       { "item": "bone_human", "prob": 60, "count-min": 1, "count-max": 5 },
+      { "item": "denarius", "prob": 40, "count-min": 2, "count-max": 5 },
       [ "cauldron_orichalcum", 10 ],
       { "group": "tools_toolbox", "prob": 10 }
     ]
@@ -231,18 +245,36 @@
       { "group": "enchanted_rings_uncommon", "prob": 5 },
       { "group": "enchanted_combat_items", "prob": 10 },
       { "group": "enchanted_belts", "prob": 2 },
-      { "group": "magical_reagents", "prob": 8 }
+      { "group": "magical_reagents", "prob": 8 },
+      { "item": "denarius", "prob": 40, "count-min": 11, "count-max": 67 }
     ]
   },
   {
     "type": "item_group",
     "id": "magic_shop_clothes",
-    "items": [ [ "cloak", 3 ], [ "cloak_wool", 5 ], [ "jedi_cloak", 3 ], [ "robe", 5 ], [ "tophat", 5 ], [ "leathersandals", 6 ] ]
+    "items": [
+      [ "cloak", 3 ],
+      [ "cloak_wool", 5 ],
+      [ "jedi_cloak", 3 ],
+      [ "robe", 5 ],
+      [ "tophat", 5 ],
+      [ "leathersandals", 6 ],
+      [ "bookstrap", 2 ]
+    ]
   },
   {
     "type": "item_group",
     "id": "wisp_death",
     "items": [ [ "glow_dust", 1 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "pawn",
+    "items": [
+      { "group": "enchanted_wands_lesser", "prob": 3 },
+      { "group": "enchanted_rings_common", "prob": 1 },
+      [ "wolfshead_cufflinks", 10 ]
+    ]
   },
   {
     "type": "item_group",
@@ -270,7 +302,8 @@
     "items": [
       { "group": "jewelry_safe", "prob": 30 },
       { "group": "jewelry_front", "prob": 8 },
-      { "item": "bone_human", "prob": 60, "count-min": 1, "count-max": 5 }
+      { "item": "bone_human", "prob": 60, "count-min": 1, "count-max": 5 },
+      { "item": "denarius", "prob": 40, "count-min": 7, "count-max": 32 }
     ]
   },
   {
@@ -289,7 +322,8 @@
       { "group": "medieval", "prob": 1, "count-min": 1, "count-max": 2 },
       { "group": "medieval", "prob": 1, "count-min": 1, "count-max": 2 },
       { "group": "magical_reagents", "prob": 2 },
-      { "group": "enchanted_combat_items", "prob": 1 }
+      { "group": "enchanted_combat_items", "prob": 1 },
+      { "item": "denarius", "prob": 40, "count-min": 17, "count-max": 53 }
     ]
   },
   {
@@ -315,7 +349,8 @@
       { "group": "enchanted_belts", "prob": 15 },
       { "group": "spellbook_loot_2", "prob": 20 },
       { "group": "enchanted_misc", "prob": 5 },
-      { "group": "enchanted_cloaks_rare", "prob": 10 }
+      { "group": "enchanted_cloaks_rare", "prob": 10 },
+      { "item": "denarius", "prob": 40, "count-min": 27, "count-max": 98 }
     ]
   },
   {
@@ -323,6 +358,7 @@
     "type": "item_group",
     "//": "all enchanted miscellanious items",
     "items": [
+      { "item": "golemcore", "prob": 10 },
       { "item": "heat_cube", "prob": 100 },
       { "item": "mkey_opening", "prob": 100 },
       { "item": "mtorch_everburning", "prob": 100 },
@@ -528,6 +564,7 @@
       { "item": "i_staff_plus_one", "prob": 10 },
       { "item": "longsword_plus_one", "prob": 5 },
       { "item": "sledge_plus_one", "prob": 8 },
+      { "item": "sledge_heavy_plus_one", "prob": 6 },
       { "item": "warhammer_plus_one", "prob": 8 },
       { "item": "bat_plus_one", "prob": 10 },
       { "item": "bat_metal_plus_one", "prob": 8 },
@@ -565,6 +602,7 @@
       { "item": "khopesh_plus_one", "prob": 5 },
       { "item": "sword_xiphos_plus_one", "prob": 5 },
       { "item": "dao_plus_one", "prob": 5 },
+      { "item": "lucerne_plus_one", "prob": 5 },
       { "item": "gunblade", "prob": 5 }
     ]
   },
@@ -578,6 +616,7 @@
       { "item": "i_staff_plus_two", "prob": 10 },
       { "item": "longsword_plus_two", "prob": 5 },
       { "item": "sledge_plus_two", "prob": 8 },
+      { "item": "sledge_heavy_plus_two", "prob": 6 },
       { "item": "warhammer_plus_two", "prob": 8 },
       { "item": "bat_plus_two", "prob": 10 },
       { "item": "bat_metal_plus_two", "prob": 8 },
@@ -614,6 +653,7 @@
       { "item": "zweihander_plus_two", "prob": 5 },
       { "item": "khopesh_plus_two", "prob": 5 },
       { "item": "sword_xiphos_plus_two", "prob": 5 },
+      { "item": "lucerne_plus_two", "prob": 5 },
       { "item": "dao_plus_two", "prob": 5 }
     ]
   },
@@ -646,7 +686,10 @@
     "items": [
       { "group": "enchanted_bracers_lesser", "prob": 25 },
       { "group": "enchanted_boots", "prob": 7 },
-      { "group": "enchanted_belts", "prob": 7 }
+      { "group": "enchanted_belts", "prob": 7 },
+      { "item": "wolfshead_cufflinks", "prob": 1 },
+      { "item": "parabolan_breeches", "prob": 30 },
+      { "item": "parabolan_blouse", "prob": 30 }
     ]
   },
   {
@@ -797,6 +840,7 @@
       },
       {
         "distribution": [
+          { "item": "golemcore", "prob": 20 },
           { "item": "animist_doll_skeleton", "prob": 10 },
           { "item": "animist_doll_zombie", "prob": 20 },
           { "item": "animist_doll_decayed_pouncer", "prob": 3 }
@@ -915,6 +959,7 @@
       },
       {
         "distribution": [
+          { "item": "golemcore", "prob": 10 },
           { "item": "recovery_spellbook", "prob": 5 },
           { "item": "eshaper_spellbook", "prob": 10 },
           { "item": "spell_scroll_recover_stamina", "prob": 50 },
@@ -972,7 +1017,8 @@
           { "item": "spell_scroll_druid_woodshaft", "prob": 30 },
           { "item": "summon_scroll_smudged", "prob": 2 },
           { "item": "spell_scroll_tornskin", "prob": 2 },
-          { "item": "spell_scroll_summon_cats", "prob": 50 }
+          { "item": "spell_scroll_summon_cats", "prob": 50 },
+          { "item": "spell_scroll_seed_of_growth", "prob": 15 }
         ],
         "prob": 45
       },
@@ -998,6 +1044,17 @@
     ]
   },
   {
+    "id": "tools_hunting",
+    "//": "A distribution of magical items for classless themed spaces.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "enchanted_tokens_tool", "prob": 3 },
+      { "group": "enchanted_tokens_weapon", "prob": 2 },
+      { "group": "potions_common", "prob": 12 }
+    ]
+  },
+  {
     "id": "classless_items",
     "//": "A distribution of magical items for classless themed spaces.",
     "type": "item_group",
@@ -1006,6 +1063,7 @@
       { "group": "enchanted_tokens_tool", "prob": 15 },
       { "group": "enchanted_tokens_weapon", "prob": 5 },
       { "group": "potions_common", "prob": 35 },
+      { "group": "spellcraft_books", "prob": 10 },
       {
         "distribution": [
           { "group": "enchanted_wands_lesser", "prob": 15 },
@@ -1036,6 +1094,7 @@
       },
       {
         "distribution": [
+          { "item": "golemcore", "prob": 3 },
           { "item": "light_manipulation_spellbook", "prob": 5 },
           { "item": "translocate_spellbook", "prob": 2 },
           { "item": "spell_scroll_obfuscated_body", "prob": 50 }
@@ -1078,7 +1137,8 @@
       { "group": "trash", "prob": 80 },
       { "group": "trash_forest", "prob": 70 },
       { "group": "trash", "prob": 50 },
-      { "group": "trash_forest", "prob": 25 }
+      { "group": "trash_forest", "prob": 25 },
+      { "item": "denarius", "prob": 15 }
     ]
   },
   {
@@ -1187,6 +1247,7 @@
       { "item": "signed_chit", "prob": 20, "count": [ 12, 39 ] },
       { "item": "icon", "prob": 30, "count": [ 1, 13 ] },
       { "item": "gold_small", "prob": 20, "count": [ 120, 390 ] },
+      { "item": "denarius", "prob": 20, "count": [ 20, 90 ] },
       { "item": "silver_small", "prob": 5, "count": [ 68, 560 ] }
     ]
   },

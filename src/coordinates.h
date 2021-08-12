@@ -7,6 +7,7 @@
 #include <iterator>
 
 #include "coordinate_conversions.h"
+#include "cuboid_rectangle.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "line.h"
@@ -139,6 +140,9 @@ class coord_point
 
         std::string to_string() const {
             return raw_.to_string();
+        }
+        std::string to_string_writable() const {
+            return raw_.to_string_writable();
         }
 
         void serialize( JsonOut &jsout ) const {
@@ -427,6 +431,22 @@ inline auto project_combine(
     return coord_point<PointResult, CoarseOrigin, FineScale>( refined_coarse.raw() + fine.raw() );
 }
 
+template<scale FineScale, origin Origin, scale CoarseScale>
+inline auto project_bounds( const coord_point<point, Origin, CoarseScale> &coarse )
+{
+    constexpr point one( 1, 1 ); // NOLINT(cata-use-named-point-constants)
+    return inclusive_rectangle<coord_point<point, Origin, FineScale>>( project_to<FineScale>( coarse ),
+            project_to<FineScale>( coarse + one ) - one );
+}
+
+template<scale FineScale, origin Origin, scale CoarseScale>
+inline auto project_bounds( const coord_point<tripoint, Origin, CoarseScale> &coarse )
+{
+    constexpr point one( 1, 1 ); // NOLINT(cata-use-named-point-constants)
+    return inclusive_cuboid<coord_point<tripoint, Origin, FineScale>>( project_to<FineScale>( coarse ),
+            project_to<FineScale>( coarse + one ) - one );
+}
+
 } // namespace coords
 
 namespace std
@@ -486,6 +506,7 @@ using tripoint_abs_om = coords::coord_point<tripoint, coords::origin::abs, coord
 using coords::project_to;
 using coords::project_remain;
 using coords::project_combine;
+using coords::project_bounds;
 
 template<typename Point, coords::origin Origin, coords::scale Scale>
 inline int square_dist( const coords::coord_point<Point, Origin, Scale> &loc1,
@@ -542,6 +563,32 @@ midpoint( const coords::coord_point<Point, Origin, Scale> &loc1,
           const coords::coord_point<Point, Origin, Scale> &loc2 )
 {
     return coords::coord_point<Point, Origin, Scale>( ( loc1.raw() + loc2.raw() ) / 2 );
+}
+
+template<typename Point>
+Point midpoint( const inclusive_rectangle<Point> &box )
+{
+    constexpr point one( 1, 1 ); // NOLINT(cata-use-named-point-constants)
+    return midpoint( box.p_min, box.p_max + one );
+}
+
+template<typename Point>
+Point midpoint( const half_open_rectangle<Point> &box )
+{
+    return midpoint( box.p_min, box.p_max );
+}
+
+template<typename Tripoint>
+Tripoint midpoint( const inclusive_cuboid<Tripoint> &box )
+{
+    constexpr tripoint one( 1, 1, 1 );
+    return midpoint( box.p_min, box.p_max + one );
+}
+
+template<typename Tripoint>
+Tripoint midpoint( const half_open_cuboid<Tripoint> &box )
+{
+    return midpoint( box.p_min, box.p_max );
 }
 
 template<typename Point, coords::origin Origin, coords::scale Scale>

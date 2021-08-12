@@ -1,12 +1,12 @@
 {
     "name": "object-creator-vcpkg-dependencies",
-    "version-string": "0.E",
+    "version-string": "0.F",
     "dependencies": [
         "sdl2",
         "sdl2-image",
         {
           "name": "sdl2-mixer",
-          "features": [ "dynamic-load", "libflac", "mpg123", "libmodplug", "libvorbis" ]
+          "features": [ "libflac", "mpg123", "libmodplug", "libvorbis" ]
         },
         "sdl2-ttf",
         "gettext",

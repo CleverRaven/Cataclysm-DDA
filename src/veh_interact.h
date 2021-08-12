@@ -22,7 +22,7 @@
 #include "type_id.h"
 #include "units_fwd.h"
 
-class player;
+class Character;
 class vpart_info;
 struct requirement_data;
 
@@ -57,7 +57,7 @@ class veh_interact
         static vehicle_part &select_part( const vehicle &veh, const part_selector &sel,
                                           const std::string &title = std::string() );
 
-        static void complete_vehicle( player &p );
+        static void complete_vehicle( Character &you );
 
     private:
         explicit veh_interact( vehicle &veh, const point &p = point_zero );
@@ -97,6 +97,7 @@ class veh_interact
         catacurses::window w_details;
         catacurses::window w_name;
 
+        bool ui_hidden = false;
         weak_ptr_fast<ui_adaptor> ui;
 
         cata::optional<std::string> title;
@@ -122,6 +123,7 @@ class veh_interact
         units::mass max_jack;
 
         shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
+        void hide_ui( bool hide );
 
         player_activity serialize_activity();
 
@@ -162,6 +164,7 @@ class veh_interact
         void do_siphon();
         // Returns true if exiting the screen
         bool do_unload();
+        void do_change_shape();
         void do_assign_crew();
         void do_relabel();
         /*@}*/
@@ -239,7 +242,7 @@ class veh_interact
         vehicle_part *get_most_repairable_part() const;
 
         //do_remove supporting operation, writes requirements to ui
-        bool can_remove_part( int idx, const player &p );
+        bool can_remove_part( int idx, const Character &you );
         //do install support, writes requirements to ui
         bool update_part_requirements();
         //true if trying to install foot crank with electric engines for example

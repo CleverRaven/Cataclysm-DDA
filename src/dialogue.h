@@ -99,6 +99,18 @@ struct talk_effect_fun_t {
         void set_remove_effect( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_add_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_message( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_mod_pain( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_add_wet( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_add_power( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_assign_mission( const JsonObject &jo, const std::string &member );
+        void set_make_sound( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_queue_effect_on_condition( const JsonObject &jo, const std::string &member );
+        void set_weighted_list_eocs( const JsonObject &jo, const std::string &member );
+        void set_mod_healthy( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_cast_spell( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_sound_effect( const JsonObject &jo, const std::string &member );
+        void set_mod_fatigue( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_add_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_adjust_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -129,7 +141,9 @@ struct talk_effect_fun_t {
                                 const translation &name );
         void set_u_learn_recipe( const std::string &learned_recipe_id );
         void set_npc_first_topic( const std::string &chat_topic );
-
+        void set_mod_focus( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_add_morale( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_lose_morale( const JsonObject &jo, const std::string &member, bool is_npc );
         void operator()( const dialogue &d ) const {
             if( !function ) {
                 return;
@@ -172,12 +186,12 @@ struct talk_effect_t {
         void set_effect_consequence( const talk_effect_fun_t &fun, dialogue_consequence con );
         void set_effect_consequence( const std::function<void( npc &p )> &ptr, dialogue_consequence con );
 
-        void load_effect( const JsonObject &jo );
+        void load_effect( const JsonObject &jo, const std::string &member_name );
         void parse_sub_effect( const JsonObject &jo );
         void parse_string_effect( const std::string &effect_id, const JsonObject &jo );
 
         talk_effect_t() = default;
-        explicit talk_effect_t( const JsonObject & );
+        explicit talk_effect_t( const JsonObject &, const std::string & );
 
         /**
          * Functions that are called when the response is chosen.

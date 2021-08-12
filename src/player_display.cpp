@@ -466,7 +466,7 @@ static void draw_stats_info( const catacurses::window &w_info,
                            "your resistance to many diseases, and the effectiveness of actions which require brute force." ) );
         print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
                             string_format( _( "Base HP: <color_white>%d</color>" ),
-                                           you.get_part_hp_max( bodypart_id( "torso" ) ) ) );
+                                           you.get_part_hp_max( you.get_root_body_part() ) ) );
         print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
                             string_format( _( "Carry weight (%s): <color_white>%.1f</color>" ), weight_units(),
                                            convert_weight( you.weight_capacity() ) ) );
@@ -796,6 +796,8 @@ static void draw_skills_tab( const catacurses::window &w_skills,
             const bool rusting = level.isRusting();
             int exercise = level.exercise();
             int level_num = level.level();
+            int knowledge_level_num = level.knowledgeLevel();
+            int knowledge_exp_num = level.knowledgeExperience();
             bool locked = false;
             if( you.has_active_bionic( bionic_id( "bio_cqb" ) ) && is_cqb_skill( aSkill->ident() ) ) {
                 level_num = 5;
@@ -830,12 +832,23 @@ static void draw_skills_tab( const catacurses::window &w_skills,
             mvwprintz( w_skills, point( 1, y_pos ), cstatus, "%s:", aSkill->name() );
             if( aSkill->ident() == skill_id( "dodge" ) ) {
                 mvwprintz( w_skills, point( 14, y_pos ), cstatus, "%4.1f/%-2d(%2d%%)",
-                           you.get_dodge(), level_num, exercise < 0 ? 0 : exercise );
+                           you.get_dodge(),
+                           level_num,
+                           ( exercise < 0 ? 0 : exercise ) );
             } else {
                 mvwprintz( w_skills, point( 19, y_pos ), cstatus, "%-2d(%2d%%)",
                            level_num,
                            ( exercise < 0 ? 0 : exercise ) );
             }
+            // Only bother showing the knowledge level if it's a higher level, or if there's at least a 25% exp gap
+            if( knowledge_level_num > level_num || ( knowledge_level_num == level_num &&
+                    knowledge_exp_num > exercise + 25 ) ) {
+                y_pos++;
+                mvwprintz( w_skills, point( 1, y_pos ), cstatus, " - knowledge:     %-2d(%2d%%)",
+                           knowledge_level_num,
+                           ( knowledge_exp_num < 0 ? 0 : knowledge_exp_num ) );
+            }
+
         }
     }
 
@@ -937,20 +950,11 @@ static void draw_speed_tab( const catacurses::window &w_speed,
         }
     }
 
-    int quick_bonus = static_cast<int>( newmoves - ( newmoves / 1.1 ) );
-    int bio_speed_bonus = quick_bonus;
-    if( you.has_trait( trait_id( "QUICK" ) ) && you.has_bionic( bionic_id( "bio_speed" ) ) ) {
-        bio_speed_bonus = static_cast<int>( newmoves / 1.1 - ( newmoves / 1.1 / 1.1 ) );
-        std::swap( quick_bonus, bio_speed_bonus );
-    }
-    if( you.has_trait( trait_id( "QUICK" ) ) ) {
+    const int speed_modifier = you.get_enchantment_speed_bonus();
+
+    if( speed_modifier != 0 ) {
         mvwprintz( w_speed, point( 1, line ), c_green,
-                   pgettext( "speed bonus", "Quick               +%2d%%" ), quick_bonus );
-        line++;
-    }
-    if( you.has_bionic( bionic_id( "bio_speed" ) ) ) {
-        mvwprintz( w_speed, point( 1, line ), c_green,
-                   pgettext( "speed bonus", "Bionic Speed        +%2d%%" ), bio_speed_bonus );
+                   pgettext( "speed bonus", "Bio/Mut/Effects     +%2d" ), speed_modifier );
         line++;
     }
 
@@ -1188,16 +1192,19 @@ void player::disp_info()
     std::vector<std::pair<std::string, std::string>> effect_name_and_text;
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
-            const std::string tmp = _effect_it.second.disp_name();
-            if( tmp.empty() ) {
+            const std::string name = _effect_it.second.disp_name();
+            if( name.empty() ) {
                 continue;
             }
-            effect_name_and_text.push_back( { tmp, _effect_it.second.disp_desc() } );
+            effect_name_and_text.emplace_back( name, _effect_it.second.disp_desc() );
         }
     }
     if( get_perceived_pain() > 0 ) {
         const stat_mod ppen = get_pain_penalty();
+        std::pair<std::string, nc_color> pain_desc = get_pain_description();
         std::string pain_text;
+        pain_desc.first = string_format( _( "You are in %s\n" ), pain_desc.first );
+        pain_text += colorize( pain_desc.first, pain_desc.second );
         const auto add_if = [&]( const int amount, const char *const name ) {
             if( amount > 0 ) {
                 pain_text += string_format( name, amount ) + "   ";
@@ -1208,7 +1215,7 @@ void player::disp_info()
         add_if( ppen.intelligence, _( "Intelligence -%d" ) );
         add_if( ppen.perception, _( "Perception -%d" ) );
         add_if( ppen.speed, _( "Speed -%d %%" ) );
-        effect_name_and_text.push_back( { _( "Pain" ), pain_text } );
+        effect_name_and_text.emplace_back( _( "Pain" ), pain_text );
     }
 
     const float bmi = get_bmi();
@@ -1237,30 +1244,30 @@ void player::disp_info()
                                str_penalty * 50.0f );
         }
 
-        effect_name_and_text.push_back( { starvation_name, starvation_text } );
+        effect_name_and_text.emplace_back( starvation_name, starvation_text );
     }
 
     if( has_trait( trait_id( "TROGLO" ) ) && g->is_in_sunlight( pos() ) &&
         get_weather().weather_id->sun_intensity >= sun_intensity_type::high ) {
-        effect_name_and_text.push_back( { _( "In Sunlight" ),
-                                          _( "The sunlight irritates you.\n"
-                                             "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" )
-                                        } );
+        effect_name_and_text.emplace_back( _( "In Sunlight" ),
+                                           _( "The sunlight irritates you.\n"
+                                              "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" )
+                                         );
     } else if( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) ) {
-        effect_name_and_text.push_back( { _( "In Sunlight" ),
-                                          _( "The sunlight irritates you badly.\n"
-                                             "Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2" )
-                                        } );
+        effect_name_and_text.emplace_back( _( "In Sunlight" ),
+                                           _( "The sunlight irritates you badly.\n"
+                                              "Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2" )
+                                         );
     } else if( has_trait( trait_id( "TROGLO3" ) ) && g->is_in_sunlight( pos() ) ) {
-        effect_name_and_text.push_back( { _( "In Sunlight" ),
-                                          _( "The sunlight irritates you terribly.\n"
-                                             "Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" )
-                                        } );
+        effect_name_and_text.emplace_back( _( "In Sunlight" ),
+                                           _( "The sunlight irritates you terribly.\n"
+                                              "Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" )
+                                         );
     }
 
     for( auto &elem : addictions ) {
         if( elem.sated < 0_turns && elem.intensity >= MIN_ADDICTION_LEVEL ) {
-            effect_name_and_text.push_back( { addiction_name( elem ), addiction_text( elem ) } );
+            effect_name_and_text.emplace_back( addiction_name( elem ), addiction_text( elem ) );
         }
     }
 
