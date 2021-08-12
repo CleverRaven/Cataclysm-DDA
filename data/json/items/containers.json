@@ -639,8 +639,8 @@
       }
     ]
   },
-    {
-    "id": "carton_2l",
+  {
+    "id": "carton_milk",
     "type": "GENERIC",
     "category": "container",
     "name": { "str": "milk carton" },
