@@ -85,8 +85,16 @@
         { "monster": "GROUP_FORGE_STANDARD", "x": [ 24, 47 ], "y": [ 24, 46 ], "density": 0.8, "repeat": [ 5, 8 ] },
         { "monster": "GROUP_FORGE_AUTOMATA", "x": [ 31, 47 ], "y": [ 0, 3 ], "density": 0.1, "repeat": [ 2, 4 ] },
         { "monster": "GROUP_FORGE_DWARVES", "x": [ 77, 82 ], "y": [ 24, 30 ], "density": 0.1, "repeat": [ 3, 6 ] },
-        { "monster": "GROUP_FORGE_DWARVES", "x": [ 24, 47 ], "y": [ 40, 45 ], "density": 0.1, "repeat": [ 3, 6 ] },
-        { "monster": "GROUP_FORGEDEMONS", "x": [ 80, 90 ], "y": [ 8, 14 ], "density": 0.1, "repeat": [ 3, 6 ] }
+        { "monster": "GROUP_FORGE_DWARVES", "x": [ 24, 47 ], "y": [ 40, 45 ], "density": 0.1, "repeat": [ 3, 6 ] }
+      ],
+      "place_monster": [
+        {
+          "monster": "mon_forgedemons",
+          "x": [ 81, 90 ],
+          "y": [ 8, 14 ],
+          "repeat": [ 10, 18 ],
+          "spawn_data": { "patrol": [ { "x": 10, "y": 10 }, { "x": -10, "y": -10 }, { "x": 10, "y":-10 }, { "x": -10, "y": 10 } ] }
+        }
       ]
     }
   },
