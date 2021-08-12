@@ -146,7 +146,7 @@
   {
     "copy-from": "basketsm_abstract",
     "id": "basketsm_wheelchair",
-    "looks_like": "basketlg",
+    "looks_like": "basketsm",
     "symbol": "o",
     "type": "vehicle_part"
   },
