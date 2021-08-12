@@ -538,7 +538,6 @@
       { "item": "hk_g3", "prob": 40, "charges-min": 0, "charges-max": 0 },
       { "item": "hk_g36", "prob": 30, "charges-min": 0, "charges-max": 0 },
       { "item": "m1918", "prob": 30, "charges-min": 0, "charges-max": 0 },
-      { "item": "nato_assault_rifle", "prob": 45, "charges-min": 0, "charges-max": 0 },
       { "item": "m4_carbine", "variant": "m4a1", "prob": 45, "charges-min": 0, "charges-max": 0 },
       { "item": "arx160", "prob": 10 },
       { "item": "m16_auto_rifle", "variant": "acr", "prob": 25, "charges-min": 0, "charges-max": 0 },
