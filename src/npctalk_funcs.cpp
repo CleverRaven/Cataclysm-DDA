@@ -960,7 +960,7 @@ void talk_function::start_training( npc &p )
     int expert_multiplier = 1;
     Character &you = get_player_character();
     if( skill != skill_id() &&
-        you.get_skill_level( skill ) < p.get_skill_level( skill ) ) {
+        you.get_knowledge_level( skill ) < p.get_knowledge_level( skill ) ) {
         cost = calc_skill_training_cost( p, skill );
         time = calc_skill_training_time( p, skill );
         name = skill.str();

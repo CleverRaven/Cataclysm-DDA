@@ -34,28 +34,17 @@
         "|......|;;;|.......X;£;;"
       ],
       "palettes": [ "lab_common_palette", "lab_mutagen_palette" ],
-      "terrain": { "¥": "t_card_science_maintenance_blue" },
+      "terrain": { "¥": "t_card_science_mutagen_cyan" },
       "place_monsters": [
         { "monster": "GROUP_LAB_RESEARCHERS", "x": [ 13, 22 ], "y": [ 7, 22 ], "density": 0.1 },
         { "monster": "GROUP_LAB_RESEARCHERS", "x": [ 1, 4 ], "y": [ 2, 22 ], "density": 0.1 }
       ],
-      "place_traps": [
-        { "trap": "tr_light_on_res_8_NW", "x": [ 8, 10 ], "y": [ 1, 23 ], "repeat": [ 1, 2 ] },
-        { "trap": "tr_concrete_wall_door_lab_res_8_NW", "x": [ 8, 10 ], "y": [ 1, 23 ], "repeat": [ 2, 3 ] }
-      ],
-      "computers": {
-        "6": {
-          "name": "Tier 3 Access",
-          "security": 4,
-          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock", "security": 4 } ],
-          "failures": [ { "action": "damage" }, { "action": "shutdown" }, { "action": "secubots" } ]
-        }
-      },
+      "place_traps": [ { "trap": "tr_light_on_res_8_NW", "x": [ 8, 10 ], "y": [ 1, 23 ], "repeat": [ 1, 2 ] } ],
       "place_nested": [
         { "chunks": [ [ "lab_common_9x9_E", 30 ], [ "lab_mutagen_9x9_E", 70 ] ], "x": 1, "y": 1 },
-        { "chunks": [ [ "lab_medium_animal_1x1", 30 ] ], "x": 15, "y": 15 },
-        { "chunks": [ [ "lab_medium_animal_1x1", 30 ] ], "x": 15, "y": 16 },
-        { "chunks": [ [ "lab_mutagen_8x8_west", 70 ], [ "lab_mutagen_8x8_vault_west", 30 ] ], "x": 12, "y": 6 },
+        { "chunks": [ [ "lab_medium_animal_1x1_MUTANT", 30 ] ], "x": 15, "y": 15 },
+        { "chunks": [ [ "lab_medium_animal_1x1_MUTANT", 30 ] ], "x": 15, "y": 16 },
+        { "chunks": [ [ "lab_mutagen_8x8_vault_west", 100 ] ], "x": 12, "y": 6 },
         { "chunks": [ [ "lab_mutagen_8x8_west", 100 ] ], "x": 12, "y": 18 },
         { "chunks": [ [ "lab_common_6x6", 100 ] ], "x": 1, "y": 11 },
         { "chunks": [ [ "lab_common_6x6", 100 ] ], "x": 1, "y": 18 },
@@ -75,9 +64,7 @@
         { "monster": "mon_skitterbot", "x": 12, "y": 16, "chance": 100 },
         { "monster": "mon_skitterbot", "x": 18, "y": 15, "chance": 100 },
         { "monster": "mon_skitterbot", "x": 18, "y": 16, "chance": 100 }
-      ],
-      "traps": { "(": "tr_rollmat" },
-      "furniture": { "!": "f_exercise", "}": [ "f_ergometer", "f_ergometer_mechanical" ], "{": "f_punching_bag" }
+      ]
     }
   },
   {
@@ -114,10 +101,7 @@
         ";;£;X.......|;;;|......|"
       ],
       "palettes": [ "lab_common_palette", "lab_mutagen_palette" ],
-      "place_traps": [
-        { "trap": "tr_light_on_res_8_NE", "x": [ 13, 15 ], "y": [ 1, 23 ], "repeat": [ 2, 3 ] },
-        { "trap": "tr_concrete_wall_door_lab_res_8_NE", "x": [ 13, 15 ], "y": [ 1, 23 ], "repeat": [ 1, 2 ] }
-      ],
+      "place_traps": [ { "trap": "tr_light_on_res_8_NE", "x": [ 13, 15 ], "y": [ 1, 23 ], "repeat": [ 2, 3 ] } ],
       "place_vehicles": [
         { "vehicle": "cart_animal_compartment", "x": 0, "y": 10, "chance": 30, "status": 0, "rotation": 270 },
         { "vehicle": "cart_livestock_stall", "x": 0, "y": 5, "chance": 30, "status": 0, "rotation": 270 }
@@ -128,8 +112,8 @@
       ],
       "place_nested": [
         { "chunks": [ [ "lab_common_9x9_W", 30 ], [ "lab_mutagen_9x9_W", 70 ] ], "x": 14, "y": 1 },
-        { "chunks": [ [ "lab_medium_animal_1x1", 30 ] ], "x": 8, "y": 15 },
-        { "chunks": [ [ "lab_medium_animal_1x1", 30 ] ], "x": 9, "y": 16 },
+        { "chunks": [ [ "lab_medium_animal_1x1_MUTANT", 30 ] ], "x": 8, "y": 15 },
+        { "chunks": [ [ "lab_medium_animal_1x1_MUTANT", 30 ] ], "x": 9, "y": 16 },
         { "chunks": [ [ "lab_mutagen_8x8_east", 95 ], [ "lab_mutagen_8x8_vault_east", 5 ] ], "x": 4, "y": 6 },
         { "chunks": [ [ "lab_mutagen_8x8_east", 100 ] ], "x": 4, "y": 18 },
         { "chunks": [ [ "lab_common_6x6", 100 ] ], "x": 17, "y": 11 },
@@ -186,10 +170,7 @@
       ],
       "palettes": [ "lab_common_palette", "lab_mutagen_palette" ],
       "terrain": { "~": "t_region_groundcover_urban" },
-      "place_traps": [
-        { "trap": "tr_light_on_res_8_SW_2", "x": [ 7, 10 ], "y": [ 1, 5 ], "repeat": [ 1, 2 ] },
-        { "trap": "tr_concrete_wall_door_lab_MUT_SW", "x": [ 7, 10 ], "y": [ 1, 5 ] }
-      ],
+      "place_traps": [ { "trap": "tr_light_on_res_8_SW_2", "x": [ 7, 10 ], "y": [ 1, 5 ], "repeat": [ 1, 2 ] } ],
       "place_nested": [
         { "chunks": [ [ "lab_mutagen_16x16_animal_pen", 100 ] ], "x": 1, "y": 7 },
         {
@@ -221,31 +202,6 @@
         { "monster": "mon_skitterbot", "x": 12, "y": 3, "chance": 100 },
         { "monster": "mon_skitterbot", "x": 12, "y": 4, "chance": 100 },
         { "monster": "mon_skitterbot", "x": 12, "y": 5, "chance": 100 }
-      ]
-    }
-  },
-  {
-    "type": "trap",
-    "id": "tr_concrete_wall_door_lab_MUT_SW",
-    "name": "door",
-    "color": "light_gray",
-    "symbol": "+",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "map_regen",
-    "map_regen": "concrete_wall_o_lab_MUT_SW",
-    "benign": false
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "concrete_wall_o_lab_MUT_SW",
-    "method": "json",
-    "object": {
-      "place_terrain": [
-        { "ter": "t_strconc_floor", "x": 11, "y": 3 },
-        { "ter": "t_strconc_floor", "x": 11, "y": 4 },
-        { "ter": "t_strconc_floor", "x": 11, "y": 5 }
       ]
     }
   },
@@ -303,10 +259,7 @@
       ],
       "palettes": [ "lab_common_palette", "lab_mutagen_palette" ],
       "terrain": { "~": "t_region_groundcover_urban" },
-      "place_traps": [
-        { "trap": "tr_light_on_MUT_SE_2", "x": [ 13, 16 ], "y": [ 1, 5 ], "repeat": [ 1, 2 ] },
-        { "trap": "tr_concrete_wall_door_lab_MUT_SE", "x": [ 13, 16 ], "y": [ 1, 5 ] }
-      ],
+      "place_traps": [ { "trap": "tr_light_on_MUT_SE_2", "x": [ 13, 16 ], "y": [ 1, 5 ], "repeat": [ 1, 2 ] } ],
       "place_nested": [
         {
           "chunks": [
@@ -338,31 +291,6 @@
         { "monster": "mon_skitterbot", "x": 11, "y": 3, "chance": 100 },
         { "monster": "mon_skitterbot", "x": 11, "y": 4, "chance": 100 },
         { "monster": "mon_skitterbot", "x": 11, "y": 5, "chance": 100 }
-      ]
-    }
-  },
-  {
-    "type": "trap",
-    "id": "tr_concrete_wall_door_lab_MUT_SE",
-    "name": "door",
-    "color": "light_gray",
-    "symbol": "+",
-    "visibility": 99,
-    "avoidance": 99,
-    "difficulty": 99,
-    "action": "map_regen",
-    "map_regen": "concrete_wall_o_lab_MUT_SE",
-    "benign": false
-  },
-  {
-    "type": "mapgen",
-    "update_mapgen_id": "concrete_wall_o_lab_MUT_SE",
-    "method": "json",
-    "object": {
-      "place_terrain": [
-        { "ter": "t_strconc_floor", "x": 12, "y": 3 },
-        { "ter": "t_strconc_floor", "x": 12, "y": 4 },
-        { "ter": "t_strconc_floor", "x": 12, "y": 5 }
       ]
     }
   },
