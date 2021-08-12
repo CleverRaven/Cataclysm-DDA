@@ -6038,8 +6038,10 @@ static void init_memory_card_with_random_stuff( item &it )
 
         bool encrypted = false;
 
+        //encrypted memory cards have a second chance to contain data
         if( it.has_flag( flag_MC_MAY_BE_ENCRYPTED ) && one_in( 8 ) ) {
             it.convert( itype_id( it.typeId().str() + "_encrypted" ) );
+            encrypted = true;
         }
 
         //some special cards can contain "MC_ENCRYPTED" flag
@@ -6047,53 +6049,30 @@ static void init_memory_card_with_random_stuff( item &it )
             encrypted = true;
         }
 
-        int data_chance = 2;
+        //chance for data
+        const int photo_chance = 5;
+        const int music_chance = 5;
+        const int recipe_chance = 5;
 
-        //encrypted memory cards often contain data
-        if( encrypted && !one_in( 3 ) ) {
-            data_chance--;
-        }
-
-        //just empty memory card
-        if( !one_in( data_chance ) ) {
-            return;
-        }
+        //encryption allows for a retry for data
+        const int photo_retry = 5;
+        const int music_retry = 5;
+        const int recipe_retry = 5;
 
         //add someone's personal photos
-        if( one_in( data_chance ) ) {
-
-            //decrease chance to more data
-            data_chance++;
-
-            if( encrypted && one_in( 3 ) ) {
-                data_chance--;
-            }
-
+        if( one_in( photo_chance ) || ( encrypted && one_in( photo_retry ) ) ) {
             const int duckfaces_count = rng( 5, 30 );
             it.set_var( "MC_PHOTOS", duckfaces_count );
         }
-        //decrease chance to music and other useful data
-        data_chance++;
-        if( encrypted && one_in( 2 ) ) {
-            data_chance--;
-        }
 
-        if( one_in( data_chance ) ) {
-            data_chance++;
-
-            if( encrypted && one_in( 3 ) ) {
-                data_chance--;
-            }
-
+        //add some songs
+        if( one_in( music_chance ) || ( encrypted && one_in( music_retry ) ) ) {
             const int new_songs_count = rng( 5, 15 );
             it.set_var( "MC_MUSIC", new_songs_count );
         }
-        data_chance++;
-        if( encrypted && one_in( 2 ) ) {
-            data_chance--;
-        }
 
-        if( one_in( data_chance ) ) {
+        //add random recipes
+        if( one_in( recipe_chance ) || ( encrypted && one_in( recipe_retry ) ) ) {
             it.set_var( "MC_RECIPE", "SIMPLE" );
         }
 
