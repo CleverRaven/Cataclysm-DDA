@@ -69,7 +69,7 @@
     "harvest": "exempt",
     "special_attacks": [ [ "GENERATOR", 1 ] ],
     "death_function": { "effect": { "id": "death_gameover", "hit_self": true } },
-    "flags": [ "NOHEAD", "ACIDPROOF", "IMMOBILE" ]
+    "flags": [ "NOHEAD", "ACIDPROOF", "IMMOBILE", "STUN_IMMUNE" ]
   },
   {
     "id": "mon_hallu_mom",
