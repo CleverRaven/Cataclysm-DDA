@@ -524,8 +524,8 @@
         { "item": "sheet_metal", "count": [ 1, 2 ] },
         { "item": "sheet_metal_small", "count": [ 0, 4 ] }
       ]
-	 },
-	"max_volume": "1750 L",
+    },
+    "max_volume": "1750 L",
     "bash": {
       "str_min": 10,
       "str_max": 30,
@@ -538,11 +538,11 @@
         { "item": "pipe", "count": 1 }
       ]
     }
-    },
-	  {
+  },
+  {
     "type": "furniture",
     "id": "f_rack_l",
-	"looks_like": "f_rack",
+    "looks_like": "f_rack",
     "name": "locked display case",
     "description": "A sheet metal shelving unit, with the storage surfaces angled in such a way as to show off the items stored.  Metal fasteners with a lock hold the items securely to the rack.",
     "symbol": "{",
@@ -550,8 +550,8 @@
     "move_cost_mod": -1,
     "coverage": 70,
     "required_str": 8,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE", "SEALED", "PICKABLE"  ],
-	"lockpick_result": "f_rack",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE", "SEALED", "PICKABLE" ],
+    "lockpick_result": "f_rack",
     "lockpick_message": "With a satisfying click, the lock opens.",
     "examine_action": "locked_object_pickable",
     "deconstruct": {
@@ -937,7 +937,7 @@
     "coverage": 80,
     "required_str": 9,
     "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM", "PICKABLE" ],
-	"lockpick_result": "f_displaycase_o",
+    "lockpick_result": "f_displaycase_o",
     "lockpick_message": "With a satisfying click, the lock and the display case opens",
     "examine_action": "locked_object_pickable",
     "bash": {
