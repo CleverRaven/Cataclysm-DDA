@@ -282,7 +282,7 @@
     "id": "van_full-size",
     "type": "vehicle",
     "name": "Full-size Van",
-	"blueprint": [
+    "blueprint": [
       [ "o--++-o" ],
       [ "+=###'|" ],
       [ "+=###'|" ],
@@ -301,7 +301,11 @@
       { "x": 1, "y": 2, "parts": [ "frame_vertical_T_right", "windshield_ne" ] },
       { "x": 2, "y": -1, "parts": [ "frame_nw", "halfboard_nw", "headlight" ] },
       { "x": 2, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel_wide" ] },
-      { "x": 2, "y": 0, "parts": [ "frame_horizontal_front", "halfboard_horizontal_front", "engine_v6", "alternator_car" ] },
+      {
+        "x": 2,
+        "y": 0,
+        "parts": [ "frame_horizontal_front", "halfboard_horizontal_front", "engine_v6", "alternator_car" ]
+      },
       { "x": 2, "y": 1, "parts": [ "frame_horizontal_front", "halfboard_horizontal_front", "battery_car" ] },
       { "x": 2, "y": 2, "parts": [ "frame_ne", "halfboard_ne", "headlight" ] },
       { "x": 2, "y": 2, "parts": [ "wheel_mount_medium_steerable", "wheel_wide" ] },
@@ -314,24 +318,30 @@
       { "x": -2, "y": 0, "parts": [ "frame_cross", "seat", "seatbelt", "roof" ] },
       { "x": -2, "y": 1, "parts": [ "frame_cross", "seat", "seatbelt", "roof" ] },
       { "x": -2, "y": 2, "parts": [ "frame_vertical_right", "windshield_vertical_right" ] },
-      { "x": -3, "y": -1, "parts": [ "frame_vertical_left", "halfboard_vertical_left", "wheel_mount_medium", "wheel_wide" ] },
+      {
+        "x": -3,
+        "y": -1,
+        "parts": [ "frame_vertical_left", "halfboard_vertical_left", "wheel_mount_medium", "wheel_wide" ]
+      },
       { "x": -3, "y": 0, "parts": [ "frame_cross", "cargo_space", "roof" ] },
       { "x": -3, "y": 1, "parts": [ "frame_cross", "cargo_space", "roof" ] },
-      { "x": -3, "y": 2, "parts": [ "frame_vertical_right", "halfboard_vertical_right", "wheel_mount_medium", "wheel_wide" ] },
+      {
+        "x": -3,
+        "y": 2,
+        "parts": [ "frame_vertical_right", "halfboard_vertical_right", "wheel_mount_medium", "wheel_wide" ]
+      },
       { "x": -4, "y": -1, "parts": [ "frame_sw", "halfboard_sw", "wheel_mount_medium", "wheel_wide" ] },
       { "x": -4, "y": 0, "parts": [ "frame_horizontal_rear", "door_trunk", "muffler" ] },
       { "x": -4, "y": 1, "parts": [ "frame_horizontal_rear", "door_trunk", "door_motor" ] },
       { "x": -4, "y": 2, "parts": [ "frame_se", "halfboard_se" ] }
     ],
-    "items": [
-      { "x": 0, "y": 0, "chance": 10, "items": [ "roadmap" ] }
-    ]
-   },
-   {
+    "items": [ { "x": 0, "y": 0, "chance": 10, "items": [ "roadmap" ] } ]
+  },
+  {
     "id": "van_full-size_hybrid",
     "type": "vehicle",
     "name": "Hybrid Full-size Van",
-	"blueprint": [
+    "blueprint": [
       [ "o--++-o" ],
       [ "+=###'|" ],
       [ "+=###'|" ],
@@ -339,7 +349,11 @@
     ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame_cross", "reclining_seat", "seatbelt", "controls" ] },
-      { "x": 0, "y": 0, "parts": [ "stereo", "dashboard", "vehicle_clock", "vehicle_alarm", "smart_engine_controller" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [ "stereo", "dashboard", "vehicle_clock", "vehicle_alarm", "smart_engine_controller" ]
+      },
       { "x": 0, "y": 0, "parts": [ "horn_car", "roof" ] },
       { "x": 0, "y": -1, "parts": [ "frame_vertical_left", "door_left" ] },
       { "x": 0, "y": 1, "parts": [ "frame_cross", "reclining_seat", "seatbelt", "roof" ] },
@@ -350,7 +364,11 @@
       { "x": 1, "y": 2, "parts": [ "frame_vertical_T_right", "windshield_ne" ] },
       { "x": 2, "y": -1, "parts": [ "frame_nw", "halfboard_nw", "headlight" ] },
       { "x": 2, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel_wide" ] },
-      { "x": 2, "y": 0, "parts": [ "frame_horizontal_front", "halfboard_horizontal_front", "engine_v6", "alternator_truck" ] },
+      {
+        "x": 2,
+        "y": 0,
+        "parts": [ "frame_horizontal_front", "halfboard_horizontal_front", "engine_v6", "alternator_truck" ]
+      },
       { "x": 2, "y": 1, "parts": [ "frame_horizontal_front", "halfboard_horizontal_front", "engine_electric" ] },
       { "x": 2, "y": 2, "parts": [ "frame_ne", "halfboard_ne", "headlight" ] },
       { "x": 2, "y": 2, "parts": [ "wheel_mount_medium_steerable", "wheel_wide" ] },
@@ -364,24 +382,30 @@
       { "x": -2, "y": 1, "parts": [ "frame_cross", "seat", "seatbelt", "roof" ] },
       { "x": -2, "y": 2, "parts": [ "frame_vertical_right", "windshield_vertical_right" ] },
       { "x": -2, "y": 2, "parts": [ "large_storage_battery" ] },
-      { "x": -3, "y": -1, "parts": [ "frame_vertical_left", "halfboard_vertical_left", "wheel_mount_medium", "wheel_wide" ] },
+      {
+        "x": -3,
+        "y": -1,
+        "parts": [ "frame_vertical_left", "halfboard_vertical_left", "wheel_mount_medium", "wheel_wide" ]
+      },
       { "x": -3, "y": 0, "parts": [ "frame_cross", "cargo_space", "roof" ] },
       { "x": -3, "y": 1, "parts": [ "frame_cross", "cargo_space", "roof" ] },
-      { "x": -3, "y": 2, "parts": [ "frame_vertical_right", "halfboard_vertical_right", "wheel_mount_medium", "wheel_wide" ] },
+      {
+        "x": -3,
+        "y": 2,
+        "parts": [ "frame_vertical_right", "halfboard_vertical_right", "wheel_mount_medium", "wheel_wide" ]
+      },
       { "x": -4, "y": -1, "parts": [ "frame_sw", "halfboard_sw", "wheel_mount_medium", "wheel_wide" ] },
       { "x": -4, "y": 0, "parts": [ "frame_horizontal_rear", "door_trunk", "muffler" ] },
       { "x": -4, "y": 1, "parts": [ "frame_horizontal_rear", "door_trunk", "door_motor" ] },
       { "x": -4, "y": 2, "parts": [ "frame_se", "halfboard_se" ] }
     ],
-    "items": [
-      { "x": 0, "y": 0, "chance": 10, "items": [ "roadmap" ] }
-    ]
+    "items": [ { "x": 0, "y": 0, "chance": 10, "items": [ "roadmap" ] } ]
   },
   {
     "id": "van_mini",
     "type": "vehicle",
     "name": "Minivan",
-	"blueprint": [
+    "blueprint": [
       [ "o--++-o" ],
       [ "+=###'|" ],
       [ "+=###'|" ],
@@ -400,7 +424,11 @@
       { "x": 1, "y": 2, "parts": [ "frame_vertical_T_right", "windshield_ne" ] },
       { "x": 2, "y": -1, "parts": [ "frame_nw", "halfboard_nw", "headlight" ] },
       { "x": 2, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel_wide" ] },
-      { "x": 2, "y": 0, "parts": [ "frame_horizontal_front", "halfboard_horizontal_front", "engine_inline4", "alternator_car" ] },
+      {
+        "x": 2,
+        "y": 0,
+        "parts": [ "frame_horizontal_front", "halfboard_horizontal_front", "engine_inline4", "alternator_car" ]
+      },
       { "x": 2, "y": 1, "parts": [ "frame_horizontal_front", "halfboard_horizontal_front", "battery_car" ] },
       { "x": 2, "y": 2, "parts": [ "frame_ne", "halfboard_ne", "headlight" ] },
       { "x": 2, "y": 2, "parts": [ "wheel_mount_medium_steerable", "wheel_wide" ] },
@@ -413,24 +441,30 @@
       { "x": -2, "y": 0, "parts": [ "frame_cross", "seat", "seatbelt", "roof" ] },
       { "x": -2, "y": 1, "parts": [ "frame_cross", "seat", "seatbelt", "roof" ] },
       { "x": -2, "y": 2, "parts": [ "frame_vertical_right", "windshield_vertical_right" ] },
-      { "x": -3, "y": -1, "parts": [ "frame_vertical_left", "halfboard_vertical_left", "wheel_mount_medium", "wheel_wide" ] },
+      {
+        "x": -3,
+        "y": -1,
+        "parts": [ "frame_vertical_left", "halfboard_vertical_left", "wheel_mount_medium", "wheel_wide" ]
+      },
       { "x": -3, "y": 0, "parts": [ "frame_cross", "trunk", "roof" ] },
       { "x": -3, "y": 1, "parts": [ "frame_cross", "trunk", "roof" ] },
-      { "x": -3, "y": 2, "parts": [ "frame_vertical_right", "halfboard_vertical_right", "wheel_mount_medium", "wheel_wide" ] },
+      {
+        "x": -3,
+        "y": 2,
+        "parts": [ "frame_vertical_right", "halfboard_vertical_right", "wheel_mount_medium", "wheel_wide" ]
+      },
       { "x": -4, "y": -1, "parts": [ "frame_sw", "halfboard_sw", "wheel_mount_medium", "wheel_wide" ] },
       { "x": -4, "y": 0, "parts": [ "frame_horizontal_rear", "door_trunk", "muffler" ] },
       { "x": -4, "y": 1, "parts": [ "frame_horizontal_rear", "door_trunk", "door_motor" ] },
       { "x": -4, "y": 2, "parts": [ "frame_se", "halfboard_se" ] }
     ],
-    "items": [
-      { "x": 0, "y": 0, "chance": 10, "items": [ "roadmap" ] }
-    ]
-   },
-   {
+    "items": [ { "x": 0, "y": 0, "chance": 10, "items": [ "roadmap" ] } ]
+  },
+  {
     "id": "van_mini_hybrid",
     "type": "vehicle",
     "name": "Hybrid Minivan",
-	"blueprint": [
+    "blueprint": [
       [ "o--++-o" ],
       [ "+=###'|" ],
       [ "+=###'|" ],
@@ -438,7 +472,11 @@
     ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame_cross", "reclining_seat", "seatbelt", "controls" ] },
-      { "x": 0, "y": 0, "parts": [ "stereo", "dashboard", "vehicle_clock", "vehicle_alarm", "smart_engine_controller" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [ "stereo", "dashboard", "vehicle_clock", "vehicle_alarm", "smart_engine_controller" ]
+      },
       { "x": 0, "y": 0, "parts": [ "horn_car", "roof" ] },
       { "x": 0, "y": -1, "parts": [ "frame_vertical_left", "door_left" ] },
       { "x": 0, "y": 1, "parts": [ "frame_cross", "reclining_seat", "seatbelt", "roof" ] },
@@ -449,7 +487,11 @@
       { "x": 1, "y": 2, "parts": [ "frame_vertical_T_right", "windshield_ne" ] },
       { "x": 2, "y": -1, "parts": [ "frame_nw", "halfboard_nw", "headlight" ] },
       { "x": 2, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel_wide" ] },
-      { "x": 2, "y": 0, "parts": [ "frame_horizontal_front", "halfboard_horizontal_front", "engine_inline4", "alternator_truck" ] },
+      {
+        "x": 2,
+        "y": 0,
+        "parts": [ "frame_horizontal_front", "halfboard_horizontal_front", "engine_inline4", "alternator_truck" ]
+      },
       { "x": 2, "y": 1, "parts": [ "frame_horizontal_front", "halfboard_horizontal_front", "engine_electric" ] },
       { "x": 2, "y": 2, "parts": [ "frame_ne", "halfboard_ne", "headlight" ] },
       { "x": 2, "y": 2, "parts": [ "wheel_mount_medium_steerable", "wheel_wide" ] },
@@ -463,24 +505,30 @@
       { "x": -2, "y": 1, "parts": [ "frame_cross", "seat", "seatbelt", "roof" ] },
       { "x": -2, "y": 2, "parts": [ "frame_vertical_right", "windshield_vertical_right" ] },
       { "x": -2, "y": 2, "parts": [ "large_storage_battery" ] },
-      { "x": -3, "y": -1, "parts": [ "frame_vertical_left", "halfboard_vertical_left", "wheel_mount_medium", "wheel_wide" ] },
+      {
+        "x": -3,
+        "y": -1,
+        "parts": [ "frame_vertical_left", "halfboard_vertical_left", "wheel_mount_medium", "wheel_wide" ]
+      },
       { "x": -3, "y": 0, "parts": [ "frame_cross", "trunk", "roof" ] },
       { "x": -3, "y": 1, "parts": [ "frame_cross", "trunk", "roof" ] },
-      { "x": -3, "y": 2, "parts": [ "frame_vertical_right", "halfboard_vertical_right", "wheel_mount_medium", "wheel_wide" ] },
+      {
+        "x": -3,
+        "y": 2,
+        "parts": [ "frame_vertical_right", "halfboard_vertical_right", "wheel_mount_medium", "wheel_wide" ]
+      },
       { "x": -4, "y": -1, "parts": [ "frame_sw", "halfboard_sw", "wheel_mount_medium", "wheel_wide" ] },
       { "x": -4, "y": 0, "parts": [ "frame_horizontal_rear", "door_trunk", "muffler" ] },
       { "x": -4, "y": 1, "parts": [ "frame_horizontal_rear", "door_trunk", "door_motor" ] },
       { "x": -4, "y": 2, "parts": [ "frame_se", "halfboard_se" ] }
     ],
-    "items": [
-      { "x": 0, "y": 0, "chance": 10, "items": [ "roadmap" ] }
-    ]
+    "items": [ { "x": 0, "y": 0, "chance": 10, "items": [ "roadmap" ] } ]
   },
   {
     "id": "van_cargo",
     "type": "vehicle",
     "name": "Cargo Van",
-	"blueprint": [
+    "blueprint": [
       [ "o---+-o" ],
       [ "+===#'|" ],
       [ "+===#'|" ],
@@ -499,7 +547,11 @@
       { "x": 1, "y": 2, "parts": [ "frame_vertical_T_right", "windshield_ne" ] },
       { "x": 2, "y": -1, "parts": [ "frame_nw", "halfboard_nw", "headlight" ] },
       { "x": 2, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel_wide" ] },
-      { "x": 2, "y": 0, "parts": [ "frame_horizontal_front", "halfboard_horizontal_front", "engine_v6", "alternator_car" ] },
+      {
+        "x": 2,
+        "y": 0,
+        "parts": [ "frame_horizontal_front", "halfboard_horizontal_front", "engine_v6", "alternator_car" ]
+      },
       { "x": 2, "y": 1, "parts": [ "frame_horizontal_front", "halfboard_horizontal_front", "battery_car" ] },
       { "x": 2, "y": 2, "parts": [ "frame_ne", "halfboard_ne", "headlight" ] },
       { "x": 2, "y": 2, "parts": [ "wheel_mount_medium_steerable", "wheel_wide" ] },
@@ -512,24 +564,30 @@
       { "x": -2, "y": 0, "parts": [ "frame_cross", "cargo_space", "roof" ] },
       { "x": -2, "y": 1, "parts": [ "frame_cross", "cargo_space", "roof" ] },
       { "x": -2, "y": 2, "parts": [ "frame_vertical_right", "board_vertical_right" ] },
-      { "x": -3, "y": -1, "parts": [ "frame_vertical_left", "board_vertical_left", "wheel_mount_medium", "wheel_wide" ] },
+      {
+        "x": -3,
+        "y": -1,
+        "parts": [ "frame_vertical_left", "board_vertical_left", "wheel_mount_medium", "wheel_wide" ]
+      },
       { "x": -3, "y": 0, "parts": [ "frame_cross", "cargo_space", "roof" ] },
       { "x": -3, "y": 1, "parts": [ "frame_cross", "cargo_space", "roof" ] },
-      { "x": -3, "y": 2, "parts": [ "frame_vertical_right", "board_vertical_right", "wheel_mount_medium", "wheel_wide" ] },
+      {
+        "x": -3,
+        "y": 2,
+        "parts": [ "frame_vertical_right", "board_vertical_right", "wheel_mount_medium", "wheel_wide" ]
+      },
       { "x": -4, "y": -1, "parts": [ "frame_sw", "board_sw" ] },
       { "x": -4, "y": 0, "parts": [ "frame_horizontal_rear", "door_opaque_rear", "door_motor", "muffler" ] },
       { "x": -4, "y": 1, "parts": [ "frame_horizontal_rear", "door_opaque_rear", "door_motor" ] },
       { "x": -4, "y": 2, "parts": [ "frame_se", "board_se" ] }
     ],
-    "items": [
-      { "x": 0, "y": 0, "chance": 10, "items": [ "roadmap" ] }
-    ]
+    "items": [ { "x": 0, "y": 0, "chance": 10, "items": [ "roadmap" ] } ]
   },
   {
     "id": "van_camper",
     "type": "vehicle",
     "name": "Camper Van",
-	"blueprint": [
+    "blueprint": [
       [ "o---+-o" ],
       [ "+=&&#'|" ],
       [ "+=#=#'|" ],
@@ -548,7 +606,11 @@
       { "x": 1, "y": 2, "parts": [ "frame_vertical_T_right", "windshield_ne", "v_curtain" ] },
       { "x": 2, "y": -1, "parts": [ "frame_nw", "halfboard_nw", "headlight" ] },
       { "x": 2, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel_wide" ] },
-      { "x": 2, "y": 0, "parts": [ "frame_horizontal_front", "halfboard_horizontal_front", "engine_v6", "alternator_car" ] },
+      {
+        "x": 2,
+        "y": 0,
+        "parts": [ "frame_horizontal_front", "halfboard_horizontal_front", "engine_v6", "alternator_car" ]
+      },
       { "x": 2, "y": 1, "parts": [ "frame_horizontal_front", "halfboard_horizontal_front", "battery_car" ] },
       { "x": 2, "y": 2, "parts": [ "frame_ne", "halfboard_ne", "headlight" ] },
       { "x": 2, "y": 2, "parts": [ "wheel_mount_medium_steerable", "wheel_wide" ] },
@@ -562,18 +624,24 @@
       { "x": -2, "y": 1, "parts": [ "frame_cross", "bed", "roof", "solar_panel" ] },
       { "x": -2, "y": 2, "parts": [ "frame_vertical_right", "board_vertical_right" ] },
       { "x": -2, "y": 2, "parts": [ "large_storage_battery" ] },
-      { "x": -3, "y": -1, "parts": [ "frame_vertical_left", "board_vertical_left", "wheel_mount_medium", "wheel_wide" ] },
+      {
+        "x": -3,
+        "y": -1,
+        "parts": [ "frame_vertical_left", "board_vertical_left", "wheel_mount_medium", "wheel_wide" ]
+      },
       { "x": -3, "y": 0, "parts": [ "frame_cross", "cargo_space", "roof", "solar_panel" ] },
       { "x": -3, "y": 1, "parts": [ "frame_cross", "cargo_space", "roof", "solar_panel" ] },
-      { "x": -3, "y": 2, "parts": [ "frame_vertical_right", "board_vertical_right", "wheel_mount_medium", "wheel_wide" ] },
+      {
+        "x": -3,
+        "y": 2,
+        "parts": [ "frame_vertical_right", "board_vertical_right", "wheel_mount_medium", "wheel_wide" ]
+      },
       { "x": -4, "y": -1, "parts": [ "frame_sw", "board_sw" ] },
       { "x": -4, "y": 0, "parts": [ "frame_horizontal_rear", "door_opaque_rear", "door_motor", "muffler" ] },
       { "x": -4, "y": 1, "parts": [ "frame_horizontal_rear", "door_opaque_rear", "door_motor" ] },
       { "x": -4, "y": 2, "parts": [ "frame_se", "board_se" ] }
     ],
-    "items": [
-      { "x": 0, "y": 0, "chance": 10, "items": [ "roadmap" ] }
-    ]
+    "items": [ { "x": 0, "y": 0, "chance": 10, "items": [ "roadmap" ] } ]
   },
   {
     "id": "icecream_truck",
