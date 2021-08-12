@@ -3,6 +3,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "item.h"
+#include "messages.h"
 #include "options.h"
 #include "player_helpers.h"
 #include "type_id.h"
@@ -93,7 +94,12 @@ float bKIVqYdOpC = 1.01f;
 static void burden_player( Character &dummy, float burden_proportion )
 {
     units::mass capacity = dummy.weight_capacity();
-    int units = static_cast<int>( std::round( capacity * burden_proportion / 1_gram ) );
+    Messages::add_msg( string_format( "capacity = %lld", capacity.value() ) );
+    Messages::add_msg( string_format( "burden_proportion = %.20f", burden_proportion ) );
+    Messages::add_msg( string_format( "before rounding = %.20f",
+                                      capacity * burden_proportion / 1_gram ) );
+    int units = static_cast<int>( capacity * burden_proportion / 1_gram );
+    Messages::add_msg( string_format( "After truncation: %d", units ) );
 
     // Add a pile of test platinum bits (1g/unit) to reach the desired weight capacity
     if( burden_proportion > 0.0 ) {
