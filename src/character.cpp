@@ -4280,7 +4280,7 @@ void Character::set_knowledge_level( const skill_id &ident, const int level )
 
 void Character::mod_knowledge_level( const skill_id &ident, const int delta )
 {
-    _skills->mod_skill_level( ident, delta );
+    _skills->mod_knowledge_level( ident, delta );
 }
 
 
