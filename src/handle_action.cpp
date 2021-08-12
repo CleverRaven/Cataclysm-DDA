@@ -2607,6 +2607,7 @@ bool game::handle_action()
             player_character.clear_destination();
             return false;
         }
+        inp_mngr.pump_events();
     } else if( player_character.has_destination_activity() ) {
         // starts destination activity after the player successfully reached his destination
         player_character.start_destination_activity();

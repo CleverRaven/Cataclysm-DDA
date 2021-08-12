@@ -874,7 +874,8 @@ bool do_turn()
                     }
                 }
                 sounds::process_sound_markers( &u );
-                if( !u.activity && !u.has_distant_destination() && g->uquit != QUIT_WATCH ) {
+                if( !u.activity && g->uquit != QUIT_WATCH
+                    && ( !u.has_distant_destination() || calendar::once_every( 10_seconds ) ) ) {
                     g->wait_popup.reset();
                     ui_manager::redraw();
                 }
