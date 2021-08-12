@@ -106,7 +106,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "place_ter_furn_transforms": [ { "transform": "jammed_gunsafe", "x": 0, "y": 0 } ],
-      "place_items": [ { "item": "SUS_gunstore_safe", "x": 0, "y": 0, "repeat": [ 15, 25 ], "chance": 50 } ]
+      "place_items": [ { "item": "SUS_gunstore_safe", "x": 0, "y": 0, "repeat": [ 10, 20 ], "chance": 50 } ]
     }
   },
   {
@@ -116,7 +116,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "place_ter_furn_transforms": [ { "transform": "open_gunsafe", "x": 0, "y": 0 } ],
-      "place_items": [ { "item": "SUS_gunstore_safe", "x": 0, "y": 0, "repeat": [ 15, 25 ], "chance": 50 } ]
+      "place_items": [ { "item": "SUS_gunstore_safe", "x": 0, "y": 0, "repeat": [ 10, 20 ], "chance": 50 } ]
     }
   },
   {
@@ -147,12 +147,12 @@
   {
     "type": "ter_furn_transform",
     "id": "looted_gunsafe",
-    "furniture": [ { "result": "f_gunsafe_o", "valid_furniture": [ "f_gunsafe_ml" ] } ]
+    "furniture": [ { "result": "f_gunsafe_o", "valid_furniture": [ "f_gunsafe_ml", "f_gunsafe_o" ] } ]
   },
   {
     "type": "ter_furn_transform",
     "id": "jammed_gunsafe",
-    "furniture": [ { "result": "f_gunsafe_mj", "valid_furniture": [ "f_gunsafe_ml" ] } ]
+    "furniture": [ { "result": "f_gunsafe_mj", "valid_furniture": [ "f_gunsafe_ml", "f_gunsafe_o" ] } ]
   },
   {
     "type": "ter_furn_transform",

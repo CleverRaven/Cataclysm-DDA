@@ -40,7 +40,7 @@
         { "point": "terrain", "id": "t_tree_apple", "x": 22, "y": [ 1, 4 ], "chance": 30, "repeat": [ 1, 2 ] }
       ],
       "furniture": { "V": "f_gunsafe_ml", "H": "f_locker", "U": "f_rack" },
-      "items": { "V": { "item": "ammo_reloaded", "chance": 80, "repeat": [ 15, 30 ] } },
+      "items": { "V": { "item": "ammo_reloaded", "chance": 80, "repeat": [ 10, 20 ] } },
       "place_loot": [
         { "group": "tools_common", "x": [ 3, 6 ], "y": 15, "chance": 30, "repeat": [ 3, 6 ] },
         { "group": "tools_blacksmith", "x": [ 5, 6 ], "y": 15, "chance": 60, "repeat": [ 1, 2 ] },
