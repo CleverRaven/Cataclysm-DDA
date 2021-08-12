@@ -212,7 +212,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "guns_pistol_obscure_display",
-    "//": "Very obscure pistols, some violate the AWB.",
+    "//": "Very obscure pistols which are illegal to sell.",
     "items": [
       { "item": "af2011a1_38super", "prob": 25 },
       { "item": "draco", "prob": 30, "charges-min": 0, "charges-max": 0 },
@@ -282,7 +282,7 @@
     "type": "item_group",
     "id": "guns_smg_rare_display",
     "subtype": "distribution",
-    "//": "Less common full-auto AWB violating SMGs",
+    "//": "Less common full-auto SMGS which are illegal to sell.",
     "items": [
       { "item": "calico", "prob": 30, "charges-min": 0, "charges-max": 0 },
       { "item": "fn_p90", "prob": 50, "charges-min": 0, "charges-max": 0 },
@@ -522,7 +522,7 @@
   {
     "type": "item_group",
     "id": "guns_rifle_obscure_display",
-    "//": "Imported or otherwise very obscure rifles, unloaded for storage in gunstore, and unavailable for sale due to the AWB.",
+    "//": "Imported or otherwise very obscure rifles, unloaded for storage in gunstore and unavailable for sale",
     "subtype": "distribution",
     "items": [
       { "item": "ak47", "prob": 30, "charges-min": 0, "charges-max": 0 },
