@@ -14882,3 +14882,227 @@ item::reload_option Character::select_ammo( const item &base, bool prompt, bool 
 
     return select_ammo( base, std::move( ammo_list ) );
 }
+
+bool Character::wield_contents( item &container, item *internal_item, bool penalties,
+                                int base_cost )
+{
+    // if index not specified and container has multiple items then ask the player to choose one
+    if( internal_item == nullptr ) {
+        debugmsg( "No valid target for wield contents." );
+        return false;
+    }
+
+    if( !container.has_item( *internal_item ) ) {
+        debugmsg( "Tried to wield non-existent item from container (Character::wield_contents)" );
+        return false;
+    }
+
+    const ret_val<bool> ret = can_wield( *internal_item );
+    if( !ret.success() ) {
+        add_msg_if_player( m_info, "%s", ret.c_str() );
+        return false;
+    }
+
+    int mv = 0;
+
+    if( has_wield_conflicts( *internal_item ) ) {
+        if( !unwield() ) {
+            return false;
+        }
+        inv->unsort();
+    }
+
+    // for holsters, we should not include the cost of wielding the holster itself
+    // The cost of wielding the holster was already added earlier in avatar_action::use_item.
+    // As we couldn't make sure back then what action was going to be used, we remove the cost now.
+    item_location il = item_location( *this, &container );
+    mv -= il.obtain_cost( *this );
+    mv += item_retrieve_cost( *internal_item, container, penalties, base_cost );
+
+    if( internal_item->stacks_with( weapon, true ) ) {
+        weapon.combine( *internal_item );
+    } else {
+        weapon = std::move( *internal_item );
+    }
+    container.remove_item( *internal_item );
+    container.on_contents_changed();
+
+    inv->update_invlet( weapon );
+    inv->update_cache_with_item( weapon );
+    last_item = weapon.typeId();
+
+    moves -= mv;
+
+    weapon.on_wield( *this );
+
+    get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
+
+    return true;
+}
+
+void Character::store( item &container, item &put, bool penalties, int base_cost,
+                       item_pocket::pocket_type pk_type )
+{
+    moves -= item_store_cost( put, container, penalties, base_cost );
+    container.put_in( i_rem( &put ), pk_type );
+    calc_encumbrance();
+}
+
+void Character::use_wielded()
+{
+    use( -1 );
+}
+
+void Character::use( int inventory_position )
+{
+    item &used = i_at( inventory_position );
+    item_location loc = item_location( *this, &used );
+
+    use( loc );
+}
+
+void Character::use( item_location loc, int pre_obtain_moves )
+{
+    // if -1 is passed in we don't want to change moves at all
+    if( pre_obtain_moves == -1 ) {
+        pre_obtain_moves = moves;
+    }
+    if( !loc ) {
+        add_msg( m_info, _( "You do not have that item." ) );
+        moves = pre_obtain_moves;
+        return;
+    }
+
+    item &used = *loc;
+    last_item = used.typeId();
+
+    if( used.is_tool() ) {
+        if( !used.type->has_use() ) {
+            add_msg_if_player( _( "You can't do anything interesting with your %s." ), used.tname() );
+            moves = pre_obtain_moves;
+            return;
+        }
+        invoke_item( &used, loc.position(), pre_obtain_moves );
+
+    } else if( used.type->can_use( "DOGFOOD" ) ||
+               used.type->can_use( "CATFOOD" ) ||
+               used.type->can_use( "BIRDFOOD" ) ||
+               used.type->can_use( "CATTLEFODDER" ) ) { // NOLINT(bugprone-branch-clone)
+        invoke_item( &used, loc.position(), pre_obtain_moves );
+
+    } else if( !used.is_craft() && ( used.is_medication() || ( !used.type->has_use() &&
+                                     used.is_food() ) ) ) {
+
+        if( used.is_medication() && !can_use_heal_item( used ) ) {
+            add_msg_if_player( m_bad, _( "Your biology is not compatible with that healing item." ) );
+            moves = pre_obtain_moves;
+            return;
+        }
+
+        if( avatar *u = as_avatar() ) {
+            const ret_val<edible_rating> ret = u->will_eat( used, true );
+            if( !ret.success() ) {
+                moves = pre_obtain_moves;
+                return;
+            }
+            u->assign_activity( player_activity( consume_activity_actor( item_location( *u, &used ) ) ) );
+        } else  {
+            const time_duration &consume_time = get_consume_time( used );
+            moves -= to_moves<int>( consume_time );
+            consume( used );
+        }
+    } else if( used.is_book() ) {
+        // TODO: Handle this with dynamic dispatch.
+        if( avatar *u = as_avatar() ) {
+            u->read( loc );
+        }
+    } else if( used.type->has_use() ) {
+        invoke_item( &used, loc.position(), pre_obtain_moves );
+    } else if( used.has_flag( flag_SPLINT ) ) {
+        ret_val<bool> need_splint = can_wear( *loc );
+        if( need_splint.success() ) {
+            wear_item( used );
+            loc.remove_item();
+        } else {
+            add_msg( m_info, need_splint.str() );
+        }
+    } else if( used.is_relic() ) {
+        invoke_item( &used, loc.position(), pre_obtain_moves );
+    } else {
+        add_msg( m_info, _( "You can't do anything interesting with your %s." ), used.tname() );
+        moves = pre_obtain_moves;
+    }
+}
+
+cata::optional<std::list<item>::iterator>
+Character::wear( int pos, bool interactive )
+{
+    return wear( item_location( *this, &i_at( pos ) ), interactive );
+}
+
+cata::optional<std::list<item>::iterator>
+Character::wear( item_location item_wear, bool interactive )
+{
+    item to_wear = *item_wear;
+    if( is_worn( to_wear ) ) {
+        if( interactive ) {
+            add_msg_player_or_npc( m_info,
+                                   _( "You are already wearing that." ),
+                                   _( "<npcname> is already wearing that." )
+                                 );
+        }
+        return cata::nullopt;
+    }
+    if( to_wear.is_null() ) {
+        if( interactive ) {
+            add_msg_player_or_npc( m_info,
+                                   _( "You don't have that item." ),
+                                   _( "<npcname> doesn't have that item." ) );
+        }
+        return cata::nullopt;
+    }
+
+    bool was_weapon;
+    item to_wear_copy( to_wear );
+    if( &to_wear == &weapon ) {
+        weapon = item();
+        was_weapon = true;
+    } else if( has_item( to_wear ) ) {
+        remove_item( to_wear );
+        was_weapon = false;
+    } else {
+        // item is on the map if this point is reached.
+        item_wear.remove_item();
+        was_weapon = false;
+    }
+
+    const bool item_one_per_layer = to_wear_copy.has_flag( flag_id( "ONE_PER_LAYER" ) );
+    for( const item &worn_item : worn ) {
+        const cata::optional<side> sidedness_conflict = to_wear_copy.covers_overlaps( worn_item );
+        if( sidedness_conflict && ( item_one_per_layer ||
+                                    worn_item.has_flag( flag_id( "ONE_PER_LAYER" ) ) ) ) {
+            // we can assume both isn't an option because it'll be caught in can_wear
+            if( *sidedness_conflict == side::LEFT ) {
+                to_wear_copy.set_side( side::RIGHT );
+            } else {
+                to_wear_copy.set_side( side::LEFT );
+            }
+        }
+    }
+
+    auto result = wear_item( to_wear_copy, interactive );
+    if( !result ) {
+        if( was_weapon ) {
+            weapon = to_wear_copy;
+        } else {
+            i_add( to_wear_copy );
+        }
+        return cata::nullopt;
+    }
+
+    if( was_weapon ) {
+        get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
+    }
+
+    return result;
+}
