@@ -29,6 +29,7 @@ class SerializeCheck : public ClangTidyCheck
         void check( const ast_matchers::MatchFinder::MatchResult &Result ) override;
         void onEndOfTranslationUnit() override;
     private:
+        const SourceManager *sm_ = nullptr;
         std::unordered_map<const CXXMethodDecl *, std::vector<const FieldDecl *>> mentioned_decls_;
 };
 

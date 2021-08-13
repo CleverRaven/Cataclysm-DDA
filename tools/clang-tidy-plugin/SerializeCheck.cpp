@@ -46,6 +46,7 @@ void SerializeCheck::registerMatchers( MatchFinder *Finder )
 
 void SerializeCheck::check( const MatchFinder::MatchResult &Result )
 {
+    sm_ = Result.SourceManager;
     const FieldDecl *ReferencedMember = Result.Nodes.getNodeAs<FieldDecl>( "member" );
     const CXXMethodDecl *ContainingFunction = Result.Nodes.getNodeAs<CXXMethodDecl>( "function" );
 
@@ -61,6 +62,11 @@ void SerializeCheck::onEndOfTranslationUnit()
     for( std::pair<const CXXMethodDecl *const, std::vector<const FieldDecl *>> &p :
          mentioned_decls_ ) {
         const CXXMethodDecl *method = p.first;
+        CharSourceRange function_range = CharSourceRange::getTokenRange( method->getSourceRange() );
+        StringRef function_text = Lexer::getSourceText( function_range, *sm_, LangOptions() );
+        if( function_text.contains( "CATA_DO_NOT_CHECK_SERIALIZE" ) ) {
+            continue;
+        }
         const CXXRecordDecl *record = method->getParent();
         std::vector<const FieldDecl *> &mentioned_fields = p.second;
         std::sort( mentioned_fields.begin(), mentioned_fields.end() );
