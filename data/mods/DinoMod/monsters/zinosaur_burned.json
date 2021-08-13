@@ -28,7 +28,7 @@
     "id": "mon_zeratosaurus_scorched",
     "name": { "str": "scorched ceratosaurus zombie" },
     "copy-from": "mon_zeratosaurus",
-    "description": "Heavily burned zombie dinosaur predator that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "Heavily-burned zombie dinosaur predator that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
