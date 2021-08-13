@@ -867,7 +867,7 @@ static void draw_skills_info( const catacurses::window &w_info, unsigned int lin
         const SkillLevel &level = get_avatar().get_skill_level_object( selectedSkill->ident() );
         std::string info_text = selectedSkill->description();
         if( level.isRusting() ) {
-            info_text = string_format( _( "%s\n\nTheoretical level: %d (%d%%)" ), info_text,
+            info_text = string_format( _( "%s\n\nKnowledge level: %d (%d%%)" ), info_text,
                                        level.knowledgeLevel(), level.knowledgeExperience() );
         }
         // NOLINTNEXTLINE(cata-use-named-point-constants)
