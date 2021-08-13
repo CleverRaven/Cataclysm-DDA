@@ -680,7 +680,8 @@ class Character : public Creature, public visitable
         bool is_hibernating() const;
         /** Maintains body temperature */
         void update_bodytemp();
-        void update_frostbite( const bodypart_id &bp, int FBwindPower );
+        void update_frostbite( const bodypart_id &bp, int FBwindPower,
+                               const std::map<bodypart_id, int> &warmth_per_bp );
         /** Equalizes heat between body parts */
         void temp_equalizer( const bodypart_id &bp1, const bodypart_id &bp2 );
 
@@ -719,7 +720,8 @@ class Character : public Creature, public visitable
         bool in_climate_control();
 
         /** Returns wind resistance provided by armor, etc **/
-        int get_wind_resistance( const bodypart_id &bp ) const;
+        std::map<bodypart_id, int> get_wind_resistance( const
+                std::map<bodypart_id, std::vector<const item *>> &clothing_map ) const;
 
         /** Returns true if the player isn't able to see */
         bool is_blind() const;
@@ -972,8 +974,9 @@ class Character : public Creature, public visitable
         float bionic_armor_bonus( const bodypart_id &bp, damage_type dt ) const;
         /** Returns the armor bonus against given type from martial arts buffs */
         int mabuff_armor_bonus( damage_type type ) const;
-        /** Returns overall fire resistance for the body part */
-        int get_armor_fire( const bodypart_id &bp ) const;
+        /** Returns overall fire resistance */
+        std::map<bodypart_id, int> get_armor_fire( const std::map<bodypart_id, std::vector<const item *>>
+                &clothing_map ) const;
         // --------------- Mutation Stuff ---------------
         // In newcharacter.cpp
         /** Returns the id of a random starting trait that costs >= 0 points */
@@ -2363,6 +2366,8 @@ class Character : public Creature, public visitable
         int get_armor_acid( bodypart_id bp ) const;
         /** Returns overall resistance to given type on the bod part */
         int get_armor_type( damage_type dt, bodypart_id bp ) const override;
+        std::map<bodypart_id, int> get_all_armor_type( damage_type dt,
+                const std::map<bodypart_id, std::vector<const item *>> &clothing_map ) const;
 
         int get_stim() const;
         void set_stim( int new_stim );
@@ -2524,9 +2529,11 @@ class Character : public Creature, public visitable
         void set_destination_activity( const player_activity &new_destination_activity );
         void clear_destination_activity();
         /** Returns warmth provided by armor, etc. */
-        int warmth( const bodypart_id &bp ) const;
+        std::map<bodypart_id, int> warmth( const std::map<bodypart_id, std::vector<const item *>>
+                                           &clothing_map ) const;
         /** Returns warmth provided by an armor's bonus, like hoods, pockets, etc. */
-        int bonus_item_warmth( const bodypart_id &bp ) const;
+        std::map<bodypart_id, int> bonus_item_warmth( const std::map<bodypart_id, std::vector<const item *>>
+                &clothing_map ) const;
         /** Can the player lie down and cover self with blankets etc. **/
         bool can_use_floor_warmth() const;
         /**

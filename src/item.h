@@ -1302,6 +1302,9 @@ class item : public visitable
 
         void set_last_temp_check( const time_point &pt );
 
+        /** How resistant clothes made of this material are to wind (0-100) */
+        int wind_resist() const;
+
         /** What faults can potentially occur with this item? */
         std::set<fault_id> faults_potential() const;
 
