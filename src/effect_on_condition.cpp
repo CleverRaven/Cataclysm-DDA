@@ -6,7 +6,7 @@
 #include "condition.h"
 #include "game.h"
 #include "generic_factory.h"
-#include "talker.h"
+#include "talker_eoc.h"
 #include "type_id.h"
 
 namespace
@@ -125,13 +125,14 @@ void effect_on_conditions::queue_effect_on_condition( time_duration duration,
 void effect_on_conditions::process_effect_on_conditions()
 {
     dialogue d;
-    standard_npc default_npc( "Default" );
+    std::string eoc_name = "NONE";
     d.alpha = get_talker_for( get_avatar() );
-    d.beta = get_talker_for( default_npc );
+    d.beta = std::make_unique<talker_eoc>( eoc_name );
     std::vector<queued_eoc> eocs_to_queue;
     while( !g->queued_effect_on_conditions.empty() &&
            g->queued_effect_on_conditions.top().time <= calendar::turn ) {
         queued_eoc top = g->queued_effect_on_conditions.top();
+        eoc_name = top.eoc.str();
         bool activated = top.eoc->activate( d );
         if( top.recurring ) {
             if( activated ) { // It worked so add it back
@@ -155,11 +156,6 @@ void effect_on_conditions::process_effect_on_conditions()
 
 void effect_on_conditions::process_reactivate()
 {
-    dialogue d;
-    standard_npc default_npc( "Default" );
-    d.alpha = get_talker_for( get_avatar() );
-    d.beta = get_talker_for( default_npc );
-
     std::vector<effect_on_condition_id> ids_to_reactivate;
     for( const effect_on_condition_id &eoc : g->inactive_effect_on_condition_vector ) {
         if( !eoc->check_deactivate() ) {
@@ -193,9 +189,9 @@ bool effect_on_condition::check_deactivate() const
         return false;
     }
     dialogue d;
-    standard_npc default_npc( "Default" );
+    std::string eoc_name = id.str();
     d.alpha = get_talker_for( get_avatar() );
-    d.beta = get_talker_for( default_npc );
+    d.beta = std::make_unique<talker_eoc>( eoc_name );
     return deactivate_condition( d );
 }
 
