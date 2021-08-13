@@ -560,17 +560,11 @@ void update_stair_monsters()
 
 } // namespace turn_handler
 
-namespace
-{
-void handle_key_blocking_activity();
-void monmove();
-void overmap_npc_move();
-
 void handle_key_blocking_activity()
 {
     avatar &u = get_avatar();
     if( ( u.activity && u.activity.moves_left > 0 ) ||
-        ( u.has_destination() && !u.omt_path.empty() ) ) {
+        u.has_destination() ) {
         input_context ctxt = get_default_mode_input_context();
         const std::string action = ctxt.handle_input( 0 );
         bool refresh = true;
@@ -593,6 +587,11 @@ void handle_key_blocking_activity()
         }
     }
 }
+
+namespace
+{
+void monmove();
+void overmap_npc_move();
 
 void monmove()
 {
