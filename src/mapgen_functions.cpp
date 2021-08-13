@@ -2616,7 +2616,7 @@ void mapgen_forest( mapgendata &dat )
     // Scalar for the amount of space to add between the groundcover and feature margins:
     static constexpr int groundcover_margin = average_depth / 2;
     // Scaling factor to apply to the weighting of the self-terrain over adjacent ones:
-    static constexpr int self_scalar = 3;
+    static constexpr float self_scalar = 3.;
 
     // Adjacency factor is used to weight the frequency of a feature
     // being placed by the relative density of the current terrain to its
@@ -2899,9 +2899,11 @@ void mapgen_forest( mapgendata &dat )
     * @return The groundcover to be placed at the specified point in the forest.
     */
     const auto get_feathered_groundcover = [&no_ter_furn, &max_factor, &factor, &self_biome,
-                  &adjacent_biomes, &nesw_weights, &dat]( const point & p ) {
+                  &adjacent_biomes, &nesw_weights, &unify_all_borders, &dat]( const point & p ) {
         float adj_weights[4];
         float net_weight = nesw_weights( p, factor, adj_weights, -groundcover_margin );
+        float self_weight = self_scalar;
+        unify_all_borders(adj_weights, &self_weight, p);
         static constexpr int no_dir = -1;
         static constexpr int empty = -2;
         weighted_float_list<const int> direction_pool;
@@ -2909,10 +2911,10 @@ void mapgen_forest( mapgendata &dat )
         direction_pool.add( 1, adj_weights[1] );
         direction_pool.add( 2, adj_weights[2] );
         direction_pool.add( 3, adj_weights[3] );
-        direction_pool.add( no_dir, self_scalar );
-        direction_pool.add( empty, ( net_weight + self_scalar ) * max_factor -
+        direction_pool.add( no_dir, self_weight);
+        direction_pool.add( empty, ( net_weight + self_weight ) * max_factor -
                             ( adj_weights[0] * dat.n_fac + adj_weights[1] * dat.e_fac + adj_weights[2] * dat.s_fac +
-                              adj_weights[3] * dat.w_fac + self_scalar * factor ) );
+                              adj_weights[3] * dat.w_fac + self_weight * factor ) );
 
         const int feather_selection = *direction_pool.pick();
         switch( feather_selection ) {
@@ -2940,10 +2942,12 @@ void mapgen_forest( mapgendata &dat )
     * @param p the point to check to place a feature at.
     */
     const auto get_feathered_feature = [&no_ter_furn, &max_factor, &factor, &self_biome,
-                                                      &adjacent_biomes, &nesw_weights, &get_feathered_groundcover, &perimeter_depth,
+                                                      &adjacent_biomes, &nesw_weights, &get_feathered_groundcover, &perimeter_depth, &unify_all_borders,
                   &dat]( const point & p ) {
         float adj_weights[4];
         float net_weight = nesw_weights( p, factor, adj_weights );
+        float self_weight = self_scalar;
+        unify_all_borders(adj_weights, &self_weight, p);
 
         // Pool together all of the biomes which the target point might constitute.
         weighted_float_list<const int>
@@ -2955,10 +2959,10 @@ void mapgen_forest( mapgendata &dat )
         direction_pool.add( 1, adj_weights[1] );
         direction_pool.add( 2, adj_weights[2] );
         direction_pool.add( 3, adj_weights[3] );
-        direction_pool.add( no_dir, self_scalar );
-        direction_pool.add( empty, ( net_weight + self_scalar )* max_factor -
+        direction_pool.add( no_dir, self_weight);
+        direction_pool.add( empty, ( net_weight + self_weight)* max_factor -
                             ( adj_weights[0] * dat.n_fac + adj_weights[1] * dat.e_fac + adj_weights[2] * dat.s_fac +
-                              adj_weights[3] * dat.w_fac + self_scalar * factor ) );
+                              adj_weights[3] * dat.w_fac + self_weight * factor ) );
 
         // Pick from the direction pool, and calculate + return the appropriate terrain:
         ter_furn_id feature;
