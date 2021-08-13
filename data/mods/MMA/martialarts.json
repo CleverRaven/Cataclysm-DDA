@@ -46,6 +46,8 @@
       "mace",
       "mace_inferior",
       "mace_fake",
+      "mace_simple",
+      "mace_trench",
       "scimitar",
       "scimitar_inferior",
       "scimitar_fake",
@@ -581,6 +583,8 @@
       "mace",
       "mace_inferior",
       "mace_fake",
+      "mace_simple",
+      "mace_trench",
       "zweihander",
       "zweihander_inferior",
       "zweihander_fake"
