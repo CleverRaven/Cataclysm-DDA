@@ -1045,7 +1045,7 @@
     "looks_like": "mon_apatosaurus",
     "armor_bash": 7,
     "armor_cut": 9,
-    "description": "The corpse of a small, four-legged, herbivorous dinosaur juvenile, with natural bone armor plates.",
+    "description": "The corpse of a small, four-legged, herbivorous dinosaur juvenile, with cracked bone armor plates.",
     "burn_into": "mon_zalamosaurus_scorched",
     "fungalize_into": "mon_zalamosaurus_fungus",
     "upgrades": { "half_life": 14, "into": "mon_zalamosaurus" }
