@@ -205,24 +205,20 @@ bool Skill::is_contextual_skill() const
 }
 
 void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modifier,
-                        bool skip_scaling )
+                        bool allow_multilevel )
 {
     // catchup gets faster the higher the level gap gets.
-    float level_gap = std::max( _knowledgeLevel * 1.0f, 1.0f ) / std::max( _level * 1.0f, 1.0f );
+    float level_gap = 1.0f * std::max( _knowledgeLevel, 1 ) / std::max( _level, 1 );
     float catchup_amount = amount * catchup_modifier;
     float knowledge_amount = amount * knowledge_modifier;
     if( _knowledgeLevel > _level ) {
         catchup_amount *= level_gap;
-    }
-    if( _knowledgeLevel == _level && _knowledgeExperience > _exercise ) {
+    } else if( _knowledgeLevel == _level && _knowledgeExperience > _exercise ) {
         // when you're in the same level, the catchup starts to slow down.
-        catchup_amount = std::max( amount * ( catchup_modifier - ( exercise() * 1.0f / knowledgeExperience()
-                                              *
-                                              1.0f ) ),
-                                   amount * 1.0f );
-        knowledge_amount = std::max( amount * ( knowledge_modifier - 0.1f * ( exercise() * 1.0f /
-                                                knowledgeExperience() * 1.0f ) ),
-                                     amount * 1.0f );
+        catchup_amount = amount * std::max( catchup_modifier - 1.0f * exercise() / knowledgeExperience(),
+                                            1.0f );
+        knowledge_amount = amount * std::max( knowledge_modifier - 0.1f * exercise() /
+                                              knowledgeExperience(), 1.0f );
     } else {
         // When your two xp's are equal just do the basic thing.
         catchup_amount = amount * 1.0f;
@@ -238,31 +234,25 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
         knowledge_amount = 0;
     }
 
-    if( skip_scaling ) {
-        _exercise += catchup_amount;
-        _rustAccumulator -= catchup_amount;
-        _knowledgeExperience += knowledge_amount;
-    } else {
-        const double scaling = get_option<float>( "SKILL_TRAINING_SPEED" );
-        if( scaling > 0.0 ) {
-            _exercise += std::ceil( catchup_amount * scaling );
-            _rustAccumulator -= std::ceil( catchup_amount * scaling );
-            _knowledgeExperience += std::ceil( knowledge_amount * scaling );
-        }
+    const double scaling = get_option<float>( "SKILL_TRAINING_SPEED" );
+    if( scaling > 0.0 ) {
+        catchup_amount *= scaling;
+        knowledge_amount *= scaling;
     }
+    _exercise += catchup_amount;
+    _rustAccumulator -= catchup_amount;
+    _knowledgeExperience += knowledge_amount;
 
-    int xp_to_level = 100 * 100 * ( _level + 1 ) * ( _level + 1 );
-
-    // Continue to level up while there is xp to do so
-    while( _exercise >= xp_to_level ) {
-        _exercise -= xp_to_level;
+    const auto xp_to_level = [&]() {
+        return 100 * 100 * ( _level + 1 ) * ( _level + 1 );
+    };
+    while( _exercise >= xp_to_level() ) {
+        _exercise = allow_multilevel ? _exercise - xp_to_level() : 0;
         ++_level;
         if( _level > _knowledgeLevel ) {
             _knowledgeLevel = _level;
             _knowledgeExperience = 0;
         }
-        // Recalculate xp to level now that we have levelled up
-        xp_to_level = 100 * 100 * ( _level + 1 ) * ( _level + 1 );
     }
 
     if( _rustAccumulator < 0 ) {
@@ -279,7 +269,7 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
 }
 
 
-void SkillLevel::knowledge_train( int amount, int npc_knowledge, bool skip_scaling )
+void SkillLevel::knowledge_train( int amount, int npc_knowledge )
 {
     float level_gap = 1.0f;
     // when your _level is the same or 1 level below your knowledge, gain xp at the normal rate.
@@ -299,14 +289,11 @@ void SkillLevel::knowledge_train( int amount, int npc_knowledge, bool skip_scali
     float level_mult = 2.0f / ( level_gap + 1.0f );
     amount *= level_mult;
 
-    if( skip_scaling ) {
-        _knowledgeExperience += amount;
-    } else {
-        const double scaling = get_option<float>( "SKILL_TRAINING_SPEED" );
-        if( scaling > 0.0 ) {
-            _knowledgeExperience += std::ceil( amount * scaling );
-        }
+    const double scaling = get_option<float>( "SKILL_TRAINING_SPEED" );
+    if( scaling > 0.0 ) {
+        amount = std::ceil( amount * scaling );
     }
+    _knowledgeExperience += amount;
 
     if( _knowledgeExperience >= 10000 * ( _knowledgeLevel + 1 ) * ( _knowledgeLevel + 1 ) ) {
         _knowledgeExperience = 0;
@@ -317,8 +304,7 @@ void SkillLevel::knowledge_train( int amount, int npc_knowledge, bool skip_scali
 
 bool SkillLevel::isRusting() const
 {
-    return get_option<std::string>( "SKILL_RUST" ) != "off" && ( _level > 0 ) &&
-           _rustAccumulator > 0;
+    return _rustAccumulator > 0;
 }
 
 bool SkillLevel::rust( int rust_resist )
@@ -344,7 +330,7 @@ bool SkillLevel::rust( int rust_resist )
     int rust_amount = level_multiplier * 16 / rust_slowdown;
 
     if( rust_resist > 0 ) {
-        rust_amount = rust_amount * std::max( ( 100 - rust_resist ), 0 ) / 100;
+        rust_amount = std::lround( rust_amount * ( std::max( ( 100 - rust_resist ), 0 ) / 100.0 ) );
     }
 
     if( _level == 0 ) {
@@ -360,7 +346,7 @@ bool SkillLevel::rust( int rust_resist )
     const std::string &rust_type = get_option<std::string>( "SKILL_RUST" );
     if( _exercise < 0 ) {
         if( rust_type == "vanilla" || rust_type == "int" ) {
-            _exercise = ( 100 * 100 * level_multiplier ) - 1;
+            _exercise = ( 100 * 100 * _level * _level ) - 1;
             --_level;
         } else {
             _exercise = 0;

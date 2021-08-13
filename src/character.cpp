@@ -4443,6 +4443,9 @@ void Character::apply_skill_boost()
 
 void Character::do_skill_rust()
 {
+    if( get_option<std::string>( "SKILL_RUST" ) == "off" ) {
+        return;
+    }
     for( std::pair<const skill_id, SkillLevel> &pair : *_skills ) {
         const Skill &aSkill = *pair.first;
         SkillLevel &skill_level_obj = pair.second;
