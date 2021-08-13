@@ -271,7 +271,7 @@
   {
     "id": "Summon_trapspider",
     "type": "SPELL",
-    "name": "summon trapdoor spider" ,
+    "name": "Summon Trapdoor Spider" ,
     "description": "this spell summons hostile trapdoor spiders from the earth",
     "effect": "summon",
     "effect_str": "mon_spider_trapdoor_giant",
