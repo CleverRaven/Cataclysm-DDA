@@ -392,6 +392,8 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         //most cars should have a destroyed alarm
         destroyAlarm = true;
     }
+    // Make engine faults more likely
+    destroyEngine = destroyEngine || one_in( 3 );
 
     //Provide some variety to non-mint vehicles
     if( veh_status != 0 ) {
@@ -534,7 +536,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
                 // If possible set an engine fault rather than destroying the engine outright
                 if( destroyEngine && pt.faults_potential().empty() ) {
                     set_hp( pt, 0 );
-                } else if( destroyEngine || one_in( 3 ) ) {
+                } else if( destroyEngine ) {
                     do {
                         pt.fault_set( random_entry( pt.faults_potential() ) );
                     } while( one_in( 3 ) );
