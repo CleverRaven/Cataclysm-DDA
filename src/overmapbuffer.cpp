@@ -522,7 +522,6 @@ void overmapbuffer::signal_nemesis( const tripoint_abs_sm p )
 {
 
     for( std::pair<const point_abs_om, std::unique_ptr<overmap>> &omp : overmaps ) {
-        // Note: this may throw io errors from std::ofstream
         omp.second->signal_nemesis( p );
     }
 
@@ -561,7 +560,6 @@ void overmapbuffer::move_hordes()
 void overmapbuffer::move_nemesis()
 {
     for( std::pair<const point_abs_om, std::unique_ptr<overmap>> &omp : overmaps ) {
-        // Note: this may throw io errors from std::ofstream
         omp.second->move_nemesis();
         fix_nemesis( *omp.second );
     }

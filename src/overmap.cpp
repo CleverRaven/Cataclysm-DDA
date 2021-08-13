@@ -2151,7 +2151,7 @@ void overmap::move_nemesis()
     // Prevent hordes to be moved twice by putting them in here after moving.
     decltype( zg ) tmpzg;
     //cycle through zombie groups, skip non-nemesis hordes
-    for( auto it = zg.begin(); it != zg.end(); ) {
+    for( std::multimap<tripoint_om_sm, mongroup>::iterator it = zg.begin(); it != zg.end(); ) {
         mongroup &mg = it->second;
         if( !mg.horde || mg.horde_behaviour != "nemesis" ) {
             ++it;
@@ -2220,7 +2220,7 @@ void overmap::move_nemesis()
 bool overmap::remove_nemesis()
 {
     //cycle through zombie groups, find nemesis horde
-    for( auto it = zg.begin(); it != zg.end(); ) {
+    for( std::multimap<tripoint_om_sm, mongroup>::iterator it = zg.begin(); it != zg.end(); ) {
         mongroup &mg = it->second;
         if( mg.horde_behaviour == "nemesis" ) {
             zg.erase( it++ );
