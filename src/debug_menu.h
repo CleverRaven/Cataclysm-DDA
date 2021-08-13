@@ -100,6 +100,7 @@ void teleport_overmap( bool specific_coordinates = false );
 
 void spawn_nested_mapgen();
 void character_edit_menu();
+void wisheffect( Character &p );
 void wishitem( Character *you = nullptr );
 void wishitem( Character *you, const tripoint & );
 void wishmonster( const cata::optional<tripoint> &p );

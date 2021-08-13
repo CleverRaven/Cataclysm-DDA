@@ -177,6 +177,17 @@ struct body_part_type {
         side part_side = side::BOTH;
         body_part_type::type limb_type = body_part_type::type::num_types;
 
+        // fine motor control
+        float manipulator_score = 0.0f;
+        float manipulator_max = 0.0f;
+
+        // modifier for lifting strength
+        float lifting_score = 0.0f;
+
+        // ability to block using martial arts
+        // each whole number is a block
+        float blocking_score = 0.0f;
+
         float smash_efficiency = 0.5f;
 
         //Morale parameters
@@ -286,6 +297,8 @@ class bodypart
 
         std::array<int, NUM_WATER_TOLERANCE> mut_drench;
 
+        // adjust any limb "value" based on how wounded the limb is. scaled to 0-75%
+        float wound_adjusted_limb_value( float val ) const;
     public:
         bodypart(): id( bodypart_str_id::NULL_ID() ), mut_drench() {}
         explicit bodypart( bodypart_str_id id ): id( id ), hp_cur( id->base_hp ), hp_max( id->base_hp ),
@@ -297,6 +310,17 @@ class bodypart
         bool is_at_max_hp() const;
 
         float get_wetness_percentage() const;
+
+        // Same idea as for wounds, though not all scores get this applied. Should be applied after wounds.
+        // TODO: make private when we're done using this as an interim for real scores
+        float encumb_adjusted_limb_value( float val ) const;
+
+        float get_manipulator_score() const;
+        float get_encumb_adjusted_manipulator_score() const;
+        float get_wound_adjusted_manipulator_score() const;
+        float get_manipulator_max() const;
+        float get_blocking_score() const;
+        float get_lifting_score() const;
 
         int get_hp_cur() const;
         int get_hp_max() const;

@@ -978,6 +978,7 @@ Other monster flags.
 - ```SMALLSLUDGETRAIL``` Causes the monster to occasionally leave a 1-tile sludge trail when moving.
 - ```SMELLS``` It can smell you.
 - ```STUMBLES``` Stumbles in its movement.
+- ```STUN_IMMUNE``` - This monster is immune to stun.
 - ```SUNDEATH``` Dies in full sunlight.
 - ```SWARMS``` Groups together and forms loose packs.
 - ```SWIMS``` Treats water as 50 movement point terrain.

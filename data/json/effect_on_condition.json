@@ -27,7 +27,8 @@
     "effect": [
       { "u_message": "A flash of lightning illuminates your surroundings!" },
       { "sound_effect": "thunder_near", "id": "environment" },
-      "lightning"
+      "lightning",
+      { "custom_light_level": 100, "length_min": "1 seconds", "length_max": "1 seconds" }
     ]
   },
   {
