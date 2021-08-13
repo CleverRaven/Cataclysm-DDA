@@ -4824,7 +4824,7 @@ bool Character::in_climate_control()
         if( w.active && w.is_power_armor() ) {
             return true;
         }
-        if( worn_with_flag( flag_CLIMATE_CONTROL ) ) {
+        if( w.has_flag( flag_CLIMATE_CONTROL ) ) {
             return true;
         }
     }
