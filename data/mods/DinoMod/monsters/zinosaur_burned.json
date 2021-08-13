@@ -4,7 +4,7 @@
     "id": "mon_zilophosaurus_scorched",
     "name": { "str": "scorched dilophosaurus zombie" },
     "copy-from": "mon_zilophosaurus",
-    "description": "Heavily burned zombie dinosaur predator that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "Heavily-burned zombie dinosaur predator that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
