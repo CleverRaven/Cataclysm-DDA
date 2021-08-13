@@ -12,6 +12,7 @@
 #include <iosfwd>
 #include <iterator>
 #include <map>
+#include <stack>
 #include <string>
 #include <type_traits>
 #include <utility>
@@ -199,8 +200,21 @@ nc_color msgtype_to_color( game_message_type type, bool bOldMsg = false );
  * color tags. For example `utf8_width("<color_red>text</color>")` would return 23, but
  * `utf8_width("<color_red>text</color>", true)` returns 4 (the length of "text").
  */
-
 /*@{*/
+
+/**
+ * Removes the prefix starting at the first occurrence of c1 until the first occurrence of c2
+ */
+std::string rm_prefix( std::string str, char c1 = '<', char c2 = '>' );
+
+/**
+ * Adds the color represented by the next color tag found in the string to the top of the stack.
+ * If color_error == report_color_error::yes a debugmsg will be shown when the tag is not valid.
+ */
+color_tag_parse_result::tag_type update_color_stack(
+    std::stack<nc_color> &color_stack, const std::string &seg,
+    const report_color_error color_error = report_color_error::yes );
+
 /**
  * Removes the color tags from the input string. This might be required when the string is to
  * be used for functions that don't handle color tags.
@@ -584,8 +598,8 @@ int special_symbol( int sym );
 
 // Remove spaces from the start and the end of a string.
 std::string trim( const std::string &s );
-// Removes punctuation marks from the start and the end of a string.
-std::string trim_punctuation_marks( const std::string &s );
+// Removes trailing periods and exclamation marks.
+std::string trim_trailing_punctuations( const std::string &s );
 // Converts the string to upper case.
 std::string to_upper_case( const std::string &s );
 

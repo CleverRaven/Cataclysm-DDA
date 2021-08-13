@@ -13,6 +13,7 @@
 
 #include "calendar.h"
 #include "catacharset.h"
+#include "character.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -30,7 +31,6 @@
 #include "mutation.h"
 #include "optional.h"
 #include "output.h"
-#include "player.h"
 #include "point.h"
 #include "proficiency.h"
 #include "skill.h"
@@ -54,7 +54,7 @@ class wish_mutate_callback: public uilist_callback
         bool only_active = false;
         std::vector<trait_id> vTraits;
         std::map<trait_id, bool> pTraits;
-        player *p;
+        Character *you;
 
         nc_color mcolor( const trait_id &m ) {
             if( pTraits[ m ] ) {
@@ -65,22 +65,23 @@ class wish_mutate_callback: public uilist_callback
 
         wish_mutate_callback() = default;
         bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override {
-            if( event.get_first_input() == 't' && p->has_trait( vTraits[ entnum ] ) ) {
-                if( !p->has_base_trait( vTraits[ entnum ] ) ) {
-                    p->unset_mutation( vTraits[ entnum ] );
+            if( event.get_first_input() == 't' && you->has_trait( vTraits[ entnum ] ) ) {
+                if( !you->has_base_trait( vTraits[ entnum ] ) ) {
+                    you->unset_mutation( vTraits[ entnum ] );
                 }
 
-                p->toggle_trait( vTraits[ entnum ] );
-                p->set_mutation( vTraits[ entnum ] );
+                you->toggle_trait( vTraits[ entnum ] );
+                you->set_mutation( vTraits[ entnum ] );
 
-                menu->entries[ entnum ].text_color = p->has_trait( vTraits[ entnum ] ) ? c_green : menu->text_color;
-                menu->entries[ entnum ].extratxt.txt = p->has_base_trait( vTraits[ entnum ] ) ? "T" : "";
+                menu->entries[ entnum ].text_color = you->has_trait( vTraits[ entnum ] ) ? c_green :
+                                                     menu->text_color;
+                menu->entries[ entnum ].extratxt.txt = you->has_base_trait( vTraits[ entnum ] ) ? "T" : "";
                 return true;
             } else if( event.get_first_input() == 'a' ) {
                 only_active = !only_active;
 
                 for( size_t i = 0; i < vTraits.size(); i++ ) {
-                    if( !p->has_trait( vTraits[ i ] ) ) {
+                    if( !you->has_trait( vTraits[ i ] ) ) {
                         menu->entries[ i ].enabled = !only_active;
                     }
                 }
@@ -95,7 +96,7 @@ class wish_mutate_callback: public uilist_callback
                 started = true;
                 for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
                     vTraits.push_back( traits_iter.id );
-                    pTraits[traits_iter.id] = p->has_trait( traits_iter.id );
+                    pTraits[traits_iter.id] = you->has_trait( traits_iter.id );
                 }
             }
 
@@ -232,7 +233,7 @@ class wish_mutate_callback: public uilist_callback
         ~wish_mutate_callback() override = default;
 };
 
-void debug_menu::wishmutate( player *p )
+void debug_menu::wishmutate( Character *you )
 {
     uilist wmenu;
     int c = 0;
@@ -242,10 +243,10 @@ void debug_menu::wishmutate( player *p )
         wmenu.entries[ c ].extratxt.left = 1;
         wmenu.entries[ c ].extratxt.txt.clear();
         wmenu.entries[ c ].extratxt.color = c_light_green;
-        if( p->has_trait( traits_iter.id ) ) {
+        if( you->has_trait( traits_iter.id ) ) {
             wmenu.entries[ c ].txt = string_format( _( "%s (active)" ), traits_iter.name() );
             wmenu.entries[ c ].text_color = c_green;
-            if( p->has_base_trait( traits_iter.id ) ) {
+            if( you->has_base_trait( traits_iter.id ) ) {
                 wmenu.entries[ c ].extratxt.txt = "T";
             }
         } else {
@@ -262,7 +263,7 @@ void debug_menu::wishmutate( player *p )
     };
     wmenu.selected = uistate.wishmutate_selected;
     wish_mutate_callback cb;
-    cb.p = p;
+    cb.you = you;
     wmenu.callback = &cb;
     do {
         wmenu.query();
@@ -274,27 +275,27 @@ void debug_menu::wishmutate( player *p )
             const bool profession = mdata.profession;
             // Manual override for the threshold-gaining
             if( threshold || profession ) {
-                if( p->has_trait( mstr ) ) {
+                if( you->has_trait( mstr ) ) {
                     do {
-                        p->remove_mutation( mstr );
+                        you->remove_mutation( mstr );
                         rc++;
-                    } while( p->has_trait( mstr ) && rc < 10 );
+                    } while( you->has_trait( mstr ) && rc < 10 );
                 } else {
                     do {
-                        p->set_mutation( mstr );
+                        you->set_mutation( mstr );
                         rc++;
-                    } while( !p->has_trait( mstr ) && rc < 10 );
+                    } while( !you->has_trait( mstr ) && rc < 10 );
                 }
-            } else if( p->has_trait( mstr ) ) {
+            } else if( you->has_trait( mstr ) ) {
                 do {
-                    p->remove_mutation( mstr );
+                    you->remove_mutation( mstr );
                     rc++;
-                } while( p->has_trait( mstr ) && rc < 10 );
+                } while( you->has_trait( mstr ) && rc < 10 );
             } else {
                 do {
-                    p->mutate_towards( mstr );
+                    you->mutate_towards( mstr );
                     rc++;
-                } while( !p->has_trait( mstr ) && rc < 10 );
+                } while( !you->has_trait( mstr ) && rc < 10 );
             }
             cb.msg = string_format( _( "%s Mutation changes: %d" ), mstr.c_str(), rc );
             uistate.wishmutate_selected = wmenu.selected;
@@ -302,12 +303,12 @@ void debug_menu::wishmutate( player *p )
                 for( size_t i = 0; i < cb.vTraits.size(); i++ ) {
                     uilist_entry &entry = wmenu.entries[ i ];
                     entry.extratxt.txt.clear();
-                    if( p->has_trait( cb.vTraits[ i ] ) ) {
+                    if( you->has_trait( cb.vTraits[ i ] ) ) {
                         entry.txt = string_format( _( "%s (active)" ), cb.vTraits[ i ].obj().name() );
                         entry.enabled = true;
                         entry.text_color = c_green;
                         cb.pTraits[ cb.vTraits[ i ] ] = true;
-                        if( p->has_base_trait( cb.vTraits[ i ] ) ) {
+                        if( you->has_base_trait( cb.vTraits[ i ] ) ) {
                             entry.extratxt.txt = "T";
                         }
                     } else {
@@ -588,14 +589,14 @@ class wish_item_callback: public uilist_callback
         }
 };
 
-void debug_menu::wishitem( player *p )
+void debug_menu::wishitem( Character *you )
 {
-    wishitem( p, tripoint( -1, -1, -1 ) );
+    wishitem( you, tripoint( -1, -1, -1 ) );
 }
 
-void debug_menu::wishitem( player *p, const tripoint &pos )
+void debug_menu::wishitem( Character *you, const tripoint &pos )
 {
-    if( p == nullptr && pos.x <= 0 ) {
+    if( you == nullptr && pos.x <= 0 ) {
         debugmsg( "game::wishitem(): invalid parameters" );
         return;
     }
@@ -652,7 +653,7 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
 
             prev_amount = amount;
             bool canceled = false;
-            if( p != nullptr && !did_amount_prompt ) {
+            if( you != nullptr && !did_amount_prompt ) {
                 string_input_popup popup;
                 popup
                 .title( _( "How many?" ) )
@@ -663,26 +664,26 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
             }
             if( !canceled ) {
                 did_amount_prompt = true;
-                if( p != nullptr ) {
+                if( you != nullptr ) {
                     if( granted.count_by_charges() ) {
                         if( amount > 0 ) {
                             granted.charges = amount;
-                            if( p->can_stash( granted ) ) {
-                                p->i_add( granted );
+                            if( you->can_stash( granted ) ) {
+                                you->i_add( granted );
                             } else {
-                                get_map().add_item_or_charges( p->pos(), granted );
+                                get_map().add_item_or_charges( you->pos(), granted );
                             }
                         }
                     } else {
                         for( int i = 0; i < amount; i++ ) {
-                            if( p->can_stash( granted ) ) {
-                                p->i_add( granted );
+                            if( you->can_stash( granted ) ) {
+                                you->i_add( granted );
                             } else {
-                                get_map().add_item_or_charges( p->pos(), granted );
+                                get_map().add_item_or_charges( you->pos(), granted );
                             }
                         }
                     }
-                    p->invalidate_crafting_inventory();
+                    you->invalidate_crafting_inventory();
                 } else if( pos.x >= 0 && pos.y >= 0 ) {
                     get_map().add_item_or_charges( pos, granted );
                     wmenu.ret = -1;
@@ -707,9 +708,9 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
 }
 
 /*
- * Set skill on any player object; player character or NPC
+ * Set skill on any Character object; player character or NPC
  */
-void debug_menu::wishskill( player *p )
+void debug_menu::wishskill( Character *you )
 {
     const int skoffset = 1;
     uilist skmenu;
@@ -729,7 +730,7 @@ void debug_menu::wishskill( player *p )
     origskills.reserve( sorted_skills.size() );
 
     for( const auto &s : sorted_skills ) {
-        const int level = p->get_skill_level( s->ident() );
+        const int level = you->get_skill_level( s->ident() );
         skmenu.addentry( origskills.size() + skoffset, true, -2, _( "@ %d: %s  " ), level,
                          s->name() );
         origskills.push_back( level );
@@ -746,7 +747,7 @@ void debug_menu::wishskill( player *p )
                                               skmenu.ret_act == "RIGHT" ) ) {
             if( sksel >= 0 && sksel < static_cast<int>( sorted_skills.size() ) ) {
                 skill_id = sksel;
-                skset = p->get_skill_level( sorted_skills[skill_id]->ident() ) +
+                skset = you->get_skill_level( sorted_skills[skill_id]->ident() ) +
                         ( skmenu.ret_act == "LEFT" ? -1 : 1 );
             }
         } else if( skmenu.ret >= 0 && sksel >= 0 &&
@@ -763,7 +764,7 @@ void debug_menu::wishskill( player *p )
                 return std::max( 0, skmenu.w_y + ( skmenu.w_height - height ) / 2 );
             };
             sksetmenu.settext( string_format( _( "Set '%s' to…" ), skill.name() ) );
-            const int skcur = p->get_skill_level( skill.ident() );
+            const int skcur = you->get_skill_level( skill.ident() );
             sksetmenu.selected = skcur;
             for( int i = 0; i < NUM_SKILL_LVL; i++ ) {
                 sksetmenu.addentry( i, true, i + 48, "%d%s", i, skcur == i ? _( " (current)" ) : "" );
@@ -774,15 +775,15 @@ void debug_menu::wishskill( player *p )
 
         if( skill_id >= 0 && skset >= 0 ) {
             const Skill &skill = *sorted_skills[skill_id];
-            p->set_skill_level( skill.ident(), skset );
+            you->set_skill_level( skill.ident(), skset );
             skmenu.textformatted[0] = string_format( _( "%s set to %d             " ),
                                       skill.name(),
-                                      p->get_skill_level( skill.ident() ) ).substr( 0, skmenu.w_width - 4 );
+                                      you->get_skill_level( skill.ident() ) ).substr( 0, skmenu.w_width - 4 );
             skmenu.entries[skill_id + skoffset].txt = string_format( _( "@ %d: %s  " ),
-                    p->get_skill_level( skill.ident() ),
+                    you->get_skill_level( skill.ident() ),
                     skill.name() );
             skmenu.entries[skill_id + skoffset].text_color =
-                p->get_skill_level( skill.ident() ) == origskills[skill_id] ?
+                you->get_skill_level( skill.ident() ) == origskills[skill_id] ?
                 skmenu.text_color : c_yellow;
         } else if( skmenu.ret == 0 && sksel == -1 ) {
             const int ret = uilist( _( "Alter all skill values" ), {
@@ -800,15 +801,15 @@ void debug_menu::wishskill( player *p )
                 }
                 for( size_t skill_id = 0; skill_id < sorted_skills.size(); skill_id++ ) {
                     const Skill &skill = *sorted_skills[skill_id];
-                    int changeto = skmod != 0 ? p->get_skill_level( skill.ident() ) + skmod :
+                    int changeto = skmod != 0 ? you->get_skill_level( skill.ident() ) + skmod :
                                    skset != -1 ? skset : origskills[skill_id];
-                    p->set_skill_level( skill.ident(), std::max( 0, changeto ) );
+                    you->set_skill_level( skill.ident(), std::max( 0, changeto ) );
                     skmenu.entries[skill_id + skoffset].txt = string_format( _( "@ %d: %s  " ),
-                            p->get_skill_level( skill.ident() ),
+                            you->get_skill_level( skill.ident() ),
                             skill.name() );
-                    p->get_skill_level_object( skill.ident() ).practice();
+                    you->get_skill_level_object( skill.ident() ).practice();
                     skmenu.entries[skill_id + skoffset].text_color =
-                        p->get_skill_level( skill.ident() ) == origskills[skill_id] ? skmenu.text_color : c_yellow;
+                        you->get_skill_level( skill.ident() ) == origskills[skill_id] ? skmenu.text_color : c_yellow;
                 }
             }
         }
@@ -816,9 +817,9 @@ void debug_menu::wishskill( player *p )
 }
 
 /*
- * Set proficiency on any player object; player character or NPC
+ * Set proficiency on any Character object; player character or NPC
  */
-void debug_menu::wishproficiency( player *p )
+void debug_menu::wishproficiency( Character *you )
 {
     bool know_all = true;
     const int proffset = 1;
@@ -828,7 +829,7 @@ void debug_menu::wishproficiency( player *p )
     prmenu.allow_anykey = true;
     prmenu.addentry( 0, true, '1', _( "Toggle all proficiencies" ) );
 
-    const std::vector<proficiency_id> &known_profs = p->known_proficiencies();
+    const std::vector<proficiency_id> &known_profs = you->known_proficiencies();
     std::vector<std::pair<proficiency_id, bool>> sorted_profs;
 
     for( const proficiency &cur : proficiency::get_all() ) {
@@ -873,7 +874,7 @@ void debug_menu::wishproficiency( player *p )
                     cur.second = false;
                     prmenu.entries[i + proffset].txt = string_format( "%s",  cur.first->name() );
                     prmenu.entries[i + proffset].text_color = prmenu.text_color;
-                    p->lose_proficiency( cur.first, true );
+                    you->lose_proficiency( cur.first, true );
                 }
                 know_all = false;
             } else {
@@ -884,7 +885,7 @@ void debug_menu::wishproficiency( player *p )
                         cur.second = true;
                         prmenu.entries[i + proffset].txt = string_format( _( "(known) %s" ), cur.first->name() );
                         prmenu.entries[i + proffset].text_color = c_yellow;
-                        p->add_proficiency( cur.first, true );
+                        you->add_proficiency( cur.first, true );
                     }
                 }
                 know_all = true;
@@ -901,16 +902,16 @@ void debug_menu::wishproficiency( player *p )
             if( know_prof ) {
                 prmenu.entries[prmenu.selected].txt = string_format( _( "(known) %s" ), cur.first->name() );
                 prmenu.entries[prmenu.selected].text_color = c_yellow;
-                p->add_msg_if_player( m_good, _( "You are now proficient in %s!" ), prof->name() );
-                p->add_proficiency( prof, true );
+                you->add_msg_if_player( m_good, _( "You are now proficient in %s!" ), prof->name() );
+                you->add_proficiency( prof, true );
                 continue;
             }
 
             know_all = false;
             prmenu.entries[prmenu.selected].txt = string_format( "%s", cur.first->name() );
             prmenu.entries[prmenu.selected].text_color = prmenu.text_color;
-            p->add_msg_if_player( m_bad, _( "You are no longer proficient in %s." ), prof->name() );
-            p->lose_proficiency( prof, true );
+            you->add_msg_if_player( m_bad, _( "You are no longer proficient in %s." ), prof->name() );
+            you->lose_proficiency( prof, true );
         }
     } while( prmenu.ret != UILIST_CANCEL );
 }

@@ -152,7 +152,7 @@ void map::generate( const tripoint &p, const time_point &when )
         if( extra == nullptr ) {
             debugmsg( "failed to pick extra for type %s", terrain_type->get_extras() );
         } else {
-            MapExtras::apply_function( *( ex.values.pick() ), *this, abs_sub );
+            MapExtras::apply_function( *( ex.values.pick() ), *this, tripoint_abs_sm( abs_sub ) );
         }
     }
 
@@ -1226,6 +1226,9 @@ class jmapgen_faction : public jmapgen_piece
                 id = faction_id( jsi.get_string( "id" ) );
             }
         }
+        int phase() const override {
+            return 2;
+        }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
             dat.m.apply_faction_ownership( point( x.val, y.val ), point( x.valmax, y.valmax ), id );
@@ -1476,6 +1479,11 @@ class jmapgen_item_group : public jmapgen_piece
             group_id = item_group::load_item_group( group, "collection",
                                                     "mapgen item group " + context );
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
+        }
+        void check( const std::string &context, const mapgen_parameters & ) const override {
+            if( !group_id.is_valid() ) {
+                debugmsg( "Invalid item_group_id \"%s\" in %s", group_id.str(), context );
+            }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
@@ -1844,6 +1852,9 @@ class jmapgen_furniture : public jmapgen_piece
         jmapgen_furniture( const JsonObject &jsi, const std::string &/*context*/ ) :
             jmapgen_furniture( jsi.get_member( "furn" ) ) {}
         explicit jmapgen_furniture( const JsonValue &fid ) : id( furn_id( fid.get_string() ) ) {}
+        int phase() const override {
+            return -1;
+        }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
             dat.m.furn_set( point( x.get(), y.get() ), id );
@@ -1866,6 +1877,9 @@ class jmapgen_terrain : public jmapgen_piece
 
         bool is_nop() const override {
             return id.is_null();
+        }
+        int phase() const override {
+            return -2;
         }
 
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
@@ -2137,6 +2151,9 @@ class jmapgen_translate : public jmapgen_piece
                 to = ter_id( to_id );
             }
         }
+        int phase() const override {
+            return 2;
+        }
         void apply( const mapgendata &dat, const jmapgen_int &/*x*/,
                     const jmapgen_int &/*y*/ ) const override {
             dat.m.translate( from, to );
@@ -2244,6 +2261,9 @@ class jmapgen_nested : public jmapgen_piece
             if( jsi.has_member( "else_chunks" ) ) {
                 load_weighted_list( jsi.get_member( "else_chunks" ), else_entries, 100 );
             }
+        }
+        int phase() const override {
+            return 1;
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
@@ -2886,6 +2906,9 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
     objects.load_objects<jmapgen_ter_furn_transform>( jo, "place_ter_furn_transforms", context_ );
     // Needs to be last as it affects other placed items
     objects.load_objects<jmapgen_faction>( jo, "faction_owner", context_ );
+
+    objects.finalize();
+
     if( !mapgen_defer::defer ) {
         is_ready = true; // skip setup attempts from any additional pointers
     }
@@ -2931,6 +2954,14 @@ void mapgen_function_json_base::check_common() const
     }
 
     objects.check( context_, parameters );
+}
+
+void jmapgen_objects::finalize()
+{
+    std::stable_sort( objects.begin(), objects.end(),
+    []( const jmapgen_obj & l, const jmapgen_obj & r ) {
+        return l.second->phase() < r.second->phase();
+    } );
 }
 
 void jmapgen_objects::check( const std::string &context, const mapgen_parameters &parameters ) const
@@ -4552,7 +4583,7 @@ void map::draw_mine( mapgendata &dat )
         }
 
         // Not an entrance; maybe some hazards!
-        switch( rng( 0, 6 ) ) {
+        switch( rng( 0, 5 ) ) {
             case 0:
                 break; // Nothing!  Lucky!
 
@@ -4784,42 +4815,26 @@ void map::draw_mine( mapgendata &dat )
                 }
             }
         }
-        std::vector<direction> face; // Which walls are solid, and can be a facing?
+
         // Now draw the entrance(s)
         if( dat.north() == "mine" ) {
             square( this, t_rock_floor, point( SEEX, 0 ), point( SEEX + 1, 3 ) );
-        } else {
-            face.push_back( direction::NORTH );
         }
 
         if( dat.east()  == "mine" ) {
             square( this, t_rock_floor, point( SEEX * 2 - 4, SEEY ), point( EAST_EDGE, SEEY + 1 ) );
-        } else {
-            face.push_back( direction::EAST );
         }
 
         if( dat.south() == "mine" ) {
             square( this, t_rock_floor, point( SEEX, SEEY * 2 - 4 ), point( SEEX + 1, SOUTH_EDGE ) );
-        } else {
-            face.push_back( direction::SOUTH );
         }
 
         if( dat.west()  == "mine" ) {
             square( this, t_rock_floor, point( 0, SEEY ), point( 3, SEEY + 1 ) );
-        } else {
-            face.push_back( direction::WEST );
         }
 
         // Now, pick and generate a type of finale!
-        int rn = 0;
-        if( face.empty() ) {
-            rn = rng( 1, 2 );  // Amigara fault is not valid
-        } else {
-            rn = rng( 1, 3 );
-        }
-
-        computer *tmpcomp = nullptr;
-        switch( rn ) {
+        switch( rng( 1, 2 ) ) {
             case 1: { // Wyrms
                 const point p2( rng( SEEX, SEEX + 1 ), rng( SEEY, SEEY + 1 ) );
                 ter_set( p2, t_pedestal_wyrm );
@@ -4840,39 +4855,7 @@ void map::draw_mine( mapgendata &dat )
                                 relic_procgen_id( "netherum_tunnels" ) );
             }
             break;
-
-            case 3: { // Amigara fault
-                // Construct the fault on the appropriate face
-                switch( random_entry( face ) ) {
-                    case direction::NORTH:
-                        square( this, t_rock, point_zero, point( EAST_EDGE, 4 ) );
-                        line( this, t_fault, point( 4, 4 ), point( SEEX * 2 - 5, 4 ) );
-                        break;
-                    case direction::EAST:
-                        square( this, t_rock, point( SEEX * 2 - 5, 0 ), point( SOUTH_EDGE, EAST_EDGE ) );
-                        line( this, t_fault, point( SEEX * 2 - 5, 4 ), point( SEEX * 2 - 5, SEEY * 2 - 5 ) );
-                        break;
-                    case direction::SOUTH:
-                        square( this, t_rock, point( 0, SEEY * 2 - 5 ), point( EAST_EDGE, SOUTH_EDGE ) );
-                        line( this, t_fault, point( 4, SEEY * 2 - 5 ), point( SEEX * 2 - 5, SEEY * 2 - 5 ) );
-                        break;
-                    case direction::WEST:
-                        square( this, t_rock, point_zero, point( 4, SOUTH_EDGE ) );
-                        line( this, t_fault, point( 4, 4 ), point( 4, SEEY * 2 - 5 ) );
-                        break;
-                    default:
-                        break;
-                }
-
-                furn_set( point( SEEX, SEEY ), furn_str_id( "f_console" ) );
-                tmpcomp = add_computer( tripoint( SEEX,  SEEY, abs_sub.z ), _( "NEPowerOS" ), 0 );
-                tmpcomp->add_option( _( "Read Logs" ), COMPACT_AMIGARA_LOG, 0 );
-                tmpcomp->add_option( _( "Initiate Tremors" ), COMPACT_AMIGARA_START, 4 );
-                tmpcomp->add_failure( COMPFAIL_AMIGARA );
-            }
-            break;
         }
-
     }
 }
 
@@ -5211,7 +5194,7 @@ character_id map::place_npc( const point &p, const string_id<npc_template> &type
     shared_ptr_fast<npc> temp = make_shared_fast<npc>();
     temp->normalize();
     temp->load_npc_template( type );
-    temp->spawn_at_precise( { abs_sub.xy() }, { p, abs_sub.z } );
+    temp->spawn_at_precise( tripoint_abs_ms( getabs( tripoint( p, abs_sub.z ) ) ) );
     temp->toggle_trait( trait_NPC_STATIC_NPC );
     overmap_buffer.insert_npc( temp );
     return temp->getID();
@@ -5573,7 +5556,7 @@ void map::rotate( int turns, const bool setpos_safe )
         if( skip_npc_rotation() ) {
             break;
         }
-        const tripoint sq = np.global_square_location();
+        const tripoint sq = np.global_square_location().raw();
         real_coords np_rc;
         np_rc.fromabs( sq.xy() );
         // Note: We are rotating the entire overmap square (2x2 of submaps)
@@ -5593,7 +5576,7 @@ void map::rotate( int turns, const bool setpos_safe )
             old.y += SEEY;
         }
 
-        const point new_pos = old .rotate( turns, { SEEX * 2, SEEY * 2 } );
+        const point new_pos = old.rotate( turns, { SEEX * 2, SEEY * 2 } );
         if( setpos_safe ) {
             const point local_sq = getlocal( sq ).xy();
             // setpos can't be used during mapgen, but spawn_at_precise clips position
@@ -5606,7 +5589,7 @@ void map::rotate( int turns, const bool setpos_safe )
             // Then we place it back from scratch
             // It could be rewritten to utilize the fact that rotation shouldn't cross overmaps
             shared_ptr_fast<npc> npc_ptr = overmap_buffer.remove_npc( np.getID() );
-            np.spawn_at_precise( { abs_sub.xy() }, { new_pos, abs_sub.z } );
+            np.spawn_at_precise( tripoint_abs_ms( getabs( tripoint( new_pos, abs_sub.z ) ) ) );
             overmap_buffer.insert_npc( npc_ptr );
         }
     }

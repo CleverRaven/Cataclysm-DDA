@@ -9,6 +9,7 @@
 #include <map>
 #include <string> // IWYU pragma: keep
 #include <type_traits>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -390,7 +391,7 @@ inline std::string serialize( const T &obj )
 }
 
 template<typename T>
-inline void deserialize( T &obj, const std::string &data )
+inline void deserialize_from_string( T &obj, const std::string &data )
 {
     deserialize_wrapper( [&obj]( JsonIn & jsin ) {
         obj.deserialize( jsin );
@@ -603,5 +604,24 @@ class restore_on_out_of_scope
         restore_on_out_of_scope &operator=( const restore_on_out_of_scope<T> & ) = delete;
         restore_on_out_of_scope &operator=( restore_on_out_of_scope<T> && ) = delete;
 };
+
+/** Add elements from one set to another */
+template <typename T>
+std::unordered_set<T> &operator<<( std::unordered_set<T> &lhv, const std::unordered_set<T> &rhv )
+{
+    lhv.insert( rhv.begin(), rhv.end() );
+    return lhv;
+}
+
+/** Move elements from one set to another */
+template <typename T>
+std::unordered_set<T> &operator<<( std::unordered_set<T> &lhv, std::unordered_set<T> &&rhv )
+{
+    for( const T &value : rhv ) {
+        lhv.insert( std::move( value ) );
+    }
+    rhv.clear();
+    return lhv;
+}
 
 #endif // CATA_SRC_CATA_UTILITY_H

@@ -466,7 +466,7 @@ static void draw_stats_info( const catacurses::window &w_info,
                            "your resistance to many diseases, and the effectiveness of actions which require brute force." ) );
         print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
                             string_format( _( "Base HP: <color_white>%d</color>" ),
-                                           you.get_part_hp_max( bodypart_id( "torso" ) ) ) );
+                                           you.get_part_hp_max( you.get_root_body_part() ) ) );
         print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
                             string_format( _( "Carry weight (%s): <color_white>%.1f</color>" ), weight_units(),
                                            convert_weight( you.weight_capacity() ) ) );
@@ -796,6 +796,8 @@ static void draw_skills_tab( const catacurses::window &w_skills,
             const bool rusting = level.isRusting();
             int exercise = level.exercise();
             int level_num = level.level();
+            int knowledge_level_num = level.knowledgeLevel();
+            int knowledge_exp_num = level.knowledgeExperience();
             bool locked = false;
             if( you.has_active_bionic( bionic_id( "bio_cqb" ) ) && is_cqb_skill( aSkill->ident() ) ) {
                 level_num = 5;
@@ -830,12 +832,23 @@ static void draw_skills_tab( const catacurses::window &w_skills,
             mvwprintz( w_skills, point( 1, y_pos ), cstatus, "%s:", aSkill->name() );
             if( aSkill->ident() == skill_id( "dodge" ) ) {
                 mvwprintz( w_skills, point( 14, y_pos ), cstatus, "%4.1f/%-2d(%2d%%)",
-                           you.get_dodge(), level_num, exercise < 0 ? 0 : exercise );
+                           you.get_dodge(),
+                           level_num,
+                           ( exercise < 0 ? 0 : exercise ) );
             } else {
                 mvwprintz( w_skills, point( 19, y_pos ), cstatus, "%-2d(%2d%%)",
                            level_num,
                            ( exercise < 0 ? 0 : exercise ) );
             }
+            // Only bother showing the knowledge level if it's a higher level, or if there's at least a 25% exp gap
+            if( knowledge_level_num > level_num || ( knowledge_level_num == level_num &&
+                    knowledge_exp_num > exercise + 25 ) ) {
+                y_pos++;
+                mvwprintz( w_skills, point( 1, y_pos ), cstatus, " - knowledge:     %-2d(%2d%%)",
+                           knowledge_level_num,
+                           ( knowledge_exp_num < 0 ? 0 : knowledge_exp_num ) );
+            }
+
         }
     }
 

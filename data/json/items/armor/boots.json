@@ -106,7 +106,7 @@
     "warmth": 10,
     "material_thickness": 4,
     "environmental_protection": 3,
-    "flags": [ "STURDY" ],
+    "flags": [ "STURDY", "VARSIZE", "WATERPROOF" ],
     "armor": [ { "encumbrance": 14, "coverage": 95, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
@@ -115,7 +115,7 @@
     "name": { "str": "pair of XL chitinous boots", "str_pl": "pairs of XL chitinous boots" },
     "copy-from": "boots_chitin",
     "proportional": { "weight": 1.25, "volume": 1.25 },
-    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE" ]
+    "flags": [ "STURDY", "VARSIZE", "WATERPROOF", "OVERSIZE" ]
   },
   {
     "id": "boots_acidchitin",
@@ -134,7 +134,7 @@
     "name": { "str": "pair of XL biosilicified chitin boots", "str_pl": "pairs of XL biosilicified chitin boots" },
     "copy-from": "boots_acidchitin",
     "proportional": { "weight": 1.25, "volume": 1.25 },
-    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE" ]
+    "flags": [ "STURDY", "VARSIZE", "WATERPROOF", "OVERSIZE" ]
   },
   {
     "id": "boots_combat",

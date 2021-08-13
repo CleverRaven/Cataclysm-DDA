@@ -230,8 +230,10 @@ namespace debugmode
 enum debug_filter : int {
     DF_ACT_BUTCHER = 0, // butcher activity handler
     DF_ACT_EBOOK, // ebook activity actor
+    DF_ACT_HARVEST, // harvest activity actor
     DF_ACT_LOCKPICK, // lockpicking activity actor
     DF_ACT_READ, // reading activity actor
+    DF_ACT_SAFECRACKING, // safecracking activity actor
     DF_ACT_SHEARING, // shearing activity actor
     DF_ACT_WORKOUT, // workout activity actor
     DF_ANATOMY_BP, // anatomy::select_body_part()
