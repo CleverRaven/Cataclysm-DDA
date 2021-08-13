@@ -393,12 +393,16 @@ std::vector<mission *> talker_eoc::available_missions() const
 }
 std::vector<mission *> talker_eoc::assigned_missions() const
 {
-    debugmsg( "talker_eoc '%s' called '%s'", *_eoc_name, __FUNCTION_NAME__ );
+    // Don't complain here - this is always called in dialogue
+    // TODO: Fix that and complain here
+    //debugmsg( "talker_eoc '%s' called '%s'", *_eoc_name, __FUNCTION_NAME__ );
     return {};
 }
 mission *talker_eoc::selected_mission() const
 {
-    debugmsg( "talker_eoc '%s' called '%s'", *_eoc_name, __FUNCTION_NAME__ );
+    // Don't complain here - this is always called in dialogue
+    // TODO: Fix that and complain here
+    //debugmsg( "talker_eoc '%s' called '%s'", *_eoc_name, __FUNCTION_NAME__ );
     return nullptr;
 }
 void talker_eoc::select_mission( mission * )
@@ -445,7 +449,9 @@ bool talker_eoc::is_player_ally()  const
 }
 bool talker_eoc::turned_hostile() const
 {
-    debugmsg( "talker_eoc '%s' called '%s'", *_eoc_name, __FUNCTION_NAME__ );
+    // Don't complain here - this is always called in dialogue
+    // TODO: Fix that and complain here
+    //debugmsg( "talker_eoc '%s' called '%s'", *_eoc_name, __FUNCTION_NAME__ );
     return false;
 }
 bool talker_eoc::is_enemy() const
@@ -557,7 +563,9 @@ std::string talker_eoc::opinion_text() const
 void talker_eoc::add_opinion( int /*trust*/, int /*fear*/, int /*value*/, int /*anger*/,
                               int /*debt*/ )
 {
-    debugmsg( "talker_eoc '%s' called '%s'", *_eoc_name, __FUNCTION_NAME__ );
+    // Don't complain here - this is always called in dialogue
+    // TODO: Fix that and complain here
+    //debugmsg( "talker_eoc '%s' called '%s'", *_eoc_name, __FUNCTION_NAME__ );
 }
 void talker_eoc::set_first_topic( const std::string & )
 {
