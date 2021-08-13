@@ -6811,7 +6811,9 @@ void Character::update_bodytemp()
     std::map<bodypart_id, int> warmth_per_bp = warmth( clothing_map );
     std::map<bodypart_id, int> bonus_warmth_per_bp = bonus_item_warmth( clothing_map );
     std::map<bodypart_id, int> wind_res_per_bp = get_wind_resistance( clothing_map );
-    std::map<bodypart_id, int> fire_armor_per_bp = get_armor_fire( clothing_map );
+    // We might not use this at all, so leave it empty
+    // If we do need to use it, we'll initialize it (once) there
+    std::map<bodypart_id, int> fire_armor_per_bp;
     // Current temperature and converging temperature calculations
     for( const bodypart_id &bp : get_all_body_parts() ) {
 
@@ -6881,7 +6883,13 @@ void Character::update_bodytemp()
         // BLISTERS : Skin gets blisters from intense heat exposure.
         // Fire protection protects from blisters.
         // Heatsinks give near-immunity.
-        if( blister_count - fire_armor_per_bp[bp] - ( has_heatsink ? 20 : 0 ) > 0 ) {
+        if( has_heatsink ) {
+            blister_count -= 20;
+        }
+        if( fire_armor_per_bp.empty() && blister_count > 0 ) {
+            fire_armor_per_bp = get_armor_fire( clothing_map );
+        }
+        if( blister_count - fire_armor_per_bp[bp] > 0 ) {
             add_effect( effect_blisters, 1_turns, bp );
             if( pyromania ) {
                 add_morale( MORALE_PYROMANIA_NEARFIRE, 10, 10, 1_hours,
