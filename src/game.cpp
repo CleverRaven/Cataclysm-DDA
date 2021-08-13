@@ -1145,7 +1145,7 @@ void game::set_driving_view_offset( const point &p )
     u.view_offset.y += driving_view_offset.y;
 }
 
-void game::catch_a_monster( monster *fish, const tripoint &pos, player *p,
+void game::catch_a_monster( monster *fish, const tripoint &pos, Character *p,
                             const time_duration &catch_duration ) // catching function
 {
     //spawn the corpse, rotten by a part of the duration
