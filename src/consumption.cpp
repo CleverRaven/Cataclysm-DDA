@@ -1357,7 +1357,7 @@ int Character::compute_calories_per_effective_volume( const item &food,
     return std::round( kcalories / effective_volume );
 }
 
-void activate_consume_eocs( Character &you, item &target )
+static void activate_consume_eocs( Character &you, item &target )
 {
     Character *char_ptr;
     if( avatar *u = you.as_avatar() ) {
