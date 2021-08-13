@@ -2700,9 +2700,8 @@ void mapgen_forest( mapgendata &dat )
         for( int bd_y = 0; bd_y < 2; bd_y++ ) {
             // Use the corners of the overmap tiles as hash seeds.
             point global_corner = m->getabs( point( bd_x * SEEX * 2, bd_y * SEEY * 2 ) );
-            const int x_crit = global_corner.x;
-            const int y_crit = global_corner.y;
-            uint32_t net_hash = std::hash<uint32_t> {}( x_crit ) ^ ( std::hash<int> {}( y_crit ) << 1 );
+            uint32_t net_hash = std::hash<uint32_t> {}( global_corner.x ) ^ ( std::hash<int> {}( global_corner.y )
+                                << 1 );
             uint32_t h_hash = net_hash;
             uint32_t v_hash = std::hash<uint32_t> {}( net_hash );
             float h_unit_hash = static_cast<float>( h_hash ) / static_cast<float>( UINT32_MAX );
