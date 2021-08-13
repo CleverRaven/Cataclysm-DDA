@@ -125,7 +125,7 @@
           "subtype": "collection",
           "entries": [ { "group": "gunmod_common", "prob": 70 }, { "group": "gunmod_rare", "prob": 30 } ]
         },
-        "repeat": [ 1, 3 ],
+        "repeat": [ 3, 6 ],
         "chance": 60
       },
       "l": {
@@ -161,7 +161,7 @@
           "subtype": "collection",
           "entries": [ { "group": "guns_common_display" } ]
         },
-        "repeat": [ 1, 2 ],
+        "repeat": [ 1, 3 ],
         "chance": 80
       },
       "f": {

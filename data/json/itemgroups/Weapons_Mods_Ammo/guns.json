@@ -606,7 +606,7 @@
     "subtype": "distribution",
     "//": "Uncommon or rare shotguns found in gun stores.",
     "entries": [
-      { "item": "ksg", "prob": 50, "charges-min": 0, "charges-max": 0 },
+      { "item": "ksg", "prob": 25, "charges-min": 0, "charges-max": 0 },
       { "item": "tavor_12", "prob": 5, "charges-min": 0, "charges-max": 0 },
       { "item": "mossberg_930", "variant": "m1014", "prob": 10, "charges-min": 0, "charges-max": 0 },
       { "item": "mossberg_590", "variant": "SPAS_12", "prob": 2, "charges-min": 0, "charges-max": 0 }
