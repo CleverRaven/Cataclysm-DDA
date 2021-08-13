@@ -96,9 +96,15 @@ static void burden_player( Character &dummy, float burden_proportion )
     units::mass capacity = dummy.weight_capacity();
     Messages::add_msg( string_format( "capacity = %lld", capacity.value() ) );
     Messages::add_msg( string_format( "burden_proportion = %.20f", burden_proportion ) );
-    Messages::add_msg( string_format( "before rounding = %.20f",
-                                      capacity * burden_proportion / 1_gram ) );
-    int units = static_cast<int>( capacity * burden_proportion / 1_gram );
+    float before_rounding = capacity * burden_proportion / 1_gram;
+    Messages::add_msg( string_format( "before rounding = %.20f", before_rounding ) );
+    Messages::add_msg( string_format( "before rounding (raw hex) = 0x%x",
+                                      *reinterpret_cast<unsigned int *>( &before_rounding ) ) );
+    float after_rounding = std::round( before_rounding );
+    Messages::add_msg( string_format( "after rounding = %.20f", after_rounding ) );
+    Messages::add_msg( string_format( "after rounding (raw hex) = 0x%x",
+                                      *reinterpret_cast<unsigned int *>( &after_rounding ) ) );
+    int units = static_cast<int>( before_rounding );
     Messages::add_msg( string_format( "After truncation: %d", units ) );
 
     // Add a pile of test platinum bits (1g/unit) to reach the desired weight capacity
