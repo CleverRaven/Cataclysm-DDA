@@ -9,7 +9,7 @@
 
 #include "coordinates.h"
 #include "npc.h"
-#include "talker.h"
+#include "talker_base.h"
 #include "type_id.h"
 
 class item;
@@ -21,7 +21,7 @@ struct tripoint;
  * it's the wrapper class for player
  * Should never be invoked directly.  Only talker_avatar and talker_npc are really valid.
  */
-class talker_item: public talker
+class talker_item: public talker_base
 {
     public:
         explicit talker_item( item_location *new_me ): me_it( new_me ) {

@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "coordinates.h"
-#include "talker.h"
+#include "talker_base.h"
 #include "type_id.h"
 
 class faction;
@@ -24,7 +24,7 @@ class monster;
 /*
  * Talker wrapper class for monster.
  */
-class talker_monster: public talker
+class talker_monster: public talker_base
 {
     public:
         explicit talker_monster( monster *new_me ): me_mon( new_me ) {
