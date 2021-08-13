@@ -249,7 +249,6 @@ static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_THICKSKIN( "THICKSKIN" );
 static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
 static const trait_id trait_NPC_STARTING_NPC( "NPC_STARTING_NPC" );
-static const trait_id trait_HAS_NEMESIS( "HAS_NEMESIS" );
 
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
