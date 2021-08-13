@@ -2705,8 +2705,8 @@ void mapgen_forest( mapgendata &dat )
             uint32_t net_hash = std::hash<uint32_t> {}( x_crit ) ^ ( std::hash<int> {}( y_crit ) << 1 );
             uint32_t h_hash = net_hash;
             uint32_t v_hash = std::hash<uint32_t> {}( net_hash );
-            float h_unit_hash = static_cast<float>( h_hash ) / UINT32_MAX;
-            float v_unit_hash = static_cast<float>( v_hash ) / UINT32_MAX;
+            float h_unit_hash = static_cast<float>( h_hash ) / static_cast<float>( UINT32_MAX );
+            float v_unit_hash = static_cast<float>( v_hash ) / static_cast<float>( UINT32_MAX );
             // Apply the box-muller transform to produce a gaussian distribution with the desired mean and deviation.
             float mag = depth_deviation * sqrt( -2. * log( h_unit_hash ) );
             int h_norm_transform = round( mag * cos( 2 * M_PI * v_unit_hash ) + average_depth );
@@ -2899,8 +2899,8 @@ void mapgen_forest( mapgendata &dat )
     *
     * @return The groundcover to be placed at the specified point in the forest.
     */
-    const auto get_feathered_groundcover = [&no_ter_furn, &max_factor, &factor, &self_biome,
-                  &adjacent_biomes, &nesw_weights, &unify_all_borders, &dat]( const point & p ) {
+    const auto get_feathered_groundcover = [&max_factor, &factor, &self_biome,
+                 &adjacent_biomes, &nesw_weights, &unify_all_borders, &dat]( const point & p ) {
         float adj_weights[4];
         float net_weight = nesw_weights( p, factor, adj_weights, -groundcover_margin );
         float self_weight = self_scalar;
@@ -2943,7 +2943,7 @@ void mapgen_forest( mapgendata &dat )
     * @param p the point to check to place a feature at.
     */
     const auto get_feathered_feature = [&no_ter_furn, &max_factor, &factor, &self_biome,
-                                                      &adjacent_biomes, &nesw_weights, &get_feathered_groundcover, &perimeter_depth, &unify_all_borders,
+                                                      &adjacent_biomes, &nesw_weights, &get_feathered_groundcover, &unify_all_borders,
                   &dat]( const point & p ) {
         float adj_weights[4];
         float net_weight = nesw_weights( p, factor, adj_weights );
