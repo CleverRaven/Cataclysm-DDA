@@ -461,6 +461,23 @@
     "material": [ "plastic" ]
   },
   {
+    "type": "TOOL",
+    "id": "gasket_rubber",
+    "name": { "str": "rubber gasket" },
+    "description": " A single-use rubber gasket.",
+    "symbol": "(",
+    "color": "dark_gray",
+    "looks_like": "gasket_plastic",
+    "weight": "10 g",
+    "volume": "30 ml",
+    "//": "rubber version of plastic gasket.",
+    "price": 150,
+    "price_postapoc": 50,
+    "to_hit": 10,
+    "bashing": 1,
+    "material": [ "rubber" ]
+  },
+  {
     "id": "permanent_marker",
     "type": "TOOL",
     "name": { "str": "permanent marker" },
