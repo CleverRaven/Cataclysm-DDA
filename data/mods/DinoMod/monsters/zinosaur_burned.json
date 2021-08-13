@@ -52,7 +52,7 @@
     "id": "mon_zpinosaurus_scorched",
     "name": { "str": "scorched spinosaurus zombie" },
     "copy-from": "mon_zpinosaurus",
-    "description": "Heavily burned zombie dinosaur predator with a row of charred bone spikes along its spine that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "A heavily-burned zombie dinosaur predator with a row of blackened bone spikes along its spine; it still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -76,7 +76,7 @@
     "id": "mon_zallosaurus_scorched",
     "name": { "str": "scorched allosaurus zombie" },
     "copy-from": "mon_zallosaurus",
-    "description": "Heavily burned zombie dinosaur predator that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "Heavily-burned zombie dinosaur predator that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -100,7 +100,7 @@
     "id": "mon_zacrocanthosaurus_scorched",
     "name": { "str": "scorched acrocanthosaurus zombie" },
     "copy-from": "mon_zacrocanthosaurus",
-    "description": "Heavily burned zombie dinosaur predator that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "Heavily-burned zombie dinosaur predator that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -124,7 +124,7 @@
     "id": "mon_ziats_scorched",
     "name": { "str": "scorched siats zombie" },
     "copy-from": "mon_ziats",
-    "description": "Heavily burned zombie dinosaur predator that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "Heavily-burned zombie dinosaur predator that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -148,7 +148,7 @@
     "id": "mon_zalbertosaurus_scorched",
     "name": { "str": "scorched albertosaurus zombie" },
     "copy-from": "mon_zalbertosaurus",
-    "description": "Heavily burned zombie dinosaur predator that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "Heavily-burned zombie dinosaur predator that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -172,7 +172,7 @@
     "id": "mon_zianzhousaurus_scorched",
     "name": { "str": "scorched qianzhousaurus zombie" },
     "copy-from": "mon_zianzhousaurus",
-    "description": "Heavily burned zombie dinosaur predator that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "Heavily-burned zombie dinosaur predator that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -196,7 +196,7 @@
     "id": "mon_zyrannosaurus_scorched",
     "name": { "str": "scorched tyrannosaurus zombie" },
     "copy-from": "mon_zyrannosaurus",
-    "description": "Heavily burned zombie dinosaur predator that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "Heavily-burned zombie dinosaur predator that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -220,7 +220,7 @@
     "id": "mon_zallimimus_scorched",
     "name": { "str": "scorched gallimimus zombie" },
     "copy-from": "mon_zallimimus",
-    "description": "Heavily-burned zombie dinosaur looking a bit like an overcooked ostrich that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
+    "description": "A heavily-burned zombie dinosaur looking a bit like an overcooked ostrich - it still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -244,7 +244,7 @@
     "id": "mon_zothronychus_scorched",
     "name": { "str": "scorched nothronychus zombie" },
     "copy-from": "mon_zothronychus",
-    "description": "A heavily-burned zombie dinosaur with sharp, curved claws that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
+    "description": "A heavily-burned zombie dinosaur with sharp, curved claws; it still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -268,7 +268,7 @@
     "id": "mon_zeinonychus_scorched",
     "name": { "str": "scorched deinonychus zombie" },
     "copy-from": "mon_zeinonychus",
-    "description": "Heavily burned zombie dinosaur predator that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "Heavily-burned zombie dinosaur predator that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -292,7 +292,7 @@
     "id": "mon_zutahraptor_scorched",
     "name": { "str": "scorched utahraptor zombie" },
     "copy-from": "mon_zutahraptor",
-    "description": "Heavily burned zombie dinosaur predator that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "Heavily-burned zombie dinosaur predator that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -316,7 +316,7 @@
     "id": "mon_zamargasaurus_scorched",
     "name": { "str": "scorched amargasaurus zombie" },
     "copy-from": "mon_zamargasaurus",
-    "description": "Heavily burned zombie dinosaur sauropod that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "Heavily-burned zombie dinosaur sauropod that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -340,7 +340,7 @@
     "id": "mon_zapatosaurus_scorched",
     "name": { "str": "scorched apatosaurus zombie" },
     "copy-from": "mon_zapatosaurus",
-    "description": "Heavily burned zombie dinosaur sauropod that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "Heavily-burned zombie dinosaur sauropod that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -364,7 +364,7 @@
     "id": "mon_zrontosaurus_scorched",
     "name": { "str": "scorched brontosaurus zombie" },
     "copy-from": "mon_zrontosaurus",
-    "description": "Heavily burned zombie dinosaur sauropod that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "Heavily-burned zombie dinosaur sauropod that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -388,7 +388,7 @@
     "id": "mon_ziplodocus_scorched",
     "name": { "str": "scorched diplodocus zombie" },
     "copy-from": "mon_ziplodocus",
-    "description": "Heavily burned zombie dinosaur sauropod that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "Heavily-burned zombie dinosaur sauropod that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -412,7 +412,7 @@
     "id": "mon_zamarasaurus_scorched",
     "name": { "str": "scorched camarasaurus zombie" },
     "copy-from": "mon_zamarasaurus",
-    "description": "Heavily burned zombie dinosaur sauropod that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "Heavily-burned zombie dinosaur sauropod that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -436,7 +436,7 @@
     "id": "mon_zrachiosaurus_scorched",
     "name": { "str": "scorched brachiosaurus zombie" },
     "copy-from": "mon_zrachiosaurus",
-    "description": "Heavily burned zombie dinosaur sauropod that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "Heavily-burned zombie dinosaur sauropod that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -460,7 +460,7 @@
     "id": "mon_zalamosaurus_scorched",
     "name": { "str": "scorched alamosaurus zombie" },
     "copy-from": "mon_zalamosaurus",
-    "description": "Heavily burned zombie dinosaur sauropod that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "Heavily-burned zombie dinosaur sauropod that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -484,7 +484,7 @@
     "id": "mon_ztegosaurus_scorched",
     "name": { "str": "scorched stegosaurus zombie" },
     "copy-from": "mon_ztegosaurus",
-    "description": "Heavily burned zombie dinosaur with prominant bony back plates that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "A heavily-burned zombie dinosaur with prominant bony back plates; it still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -508,7 +508,7 @@
     "id": "mon_zyoplosaurus_scorched",
     "name": { "str": "scorched dyoplosaurus zombie" },
     "copy-from": "mon_zyoplosaurus",
-    "description": "Heavily burned armored zombie dinosaur that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "A heavily-burned, armored zombie dinosaur that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -532,7 +532,7 @@
     "id": "mon_zankylosaurus_scorched",
     "name": { "str": "scorched ankylosaurus zombie" },
     "copy-from": "mon_zankylosaurus",
-    "description": "Heavily burned armored zombie dinosaur that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "A heavily-burned, armored zombie dinosaur that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -556,7 +556,7 @@
     "id": "mon_zodosaurus_scorched",
     "name": { "str": "scorched nodosaurus zombie" },
     "copy-from": "mon_zodosaurus",
-    "description": "Heavily burned armored zombie dinosaur that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "A heavily-burned, armored zombie dinosaur that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -580,7 +580,7 @@
     "id": "mon_zedmontonia_scorched",
     "name": { "str": "scorched edmontonia zombie" },
     "copy-from": "mon_zedmontonia",
-    "description": "Heavily burned armored zombie dinosaur that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "A heavily-burned, armored zombie dinosaur that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -604,7 +604,7 @@
     "id": "mon_zamptosaurus_scorched",
     "name": { "str": "scorched camptosaurus zombie" },
     "copy-from": "mon_zamptosaurus",
-    "description": "Heavily burned zombie dinosaur with a pointed beak that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "A heavily-burned zombie dinosaur with a pointed beak; it still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -628,7 +628,7 @@
     "id": "mon_zaiasaura_scorched",
     "name": { "str": "scorched maiasaura zombie" },
     "copy-from": "mon_zaiasaura",
-    "description": "Heavily burned zombie dinosaur with a pointed beak that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "A heavily-burned zombie dinosaur with a pointed beak; it still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -652,7 +652,7 @@
     "id": "mon_zarasaurolophus_scorched",
     "name": { "str": "scorched parasaurolophus zombie" },
     "copy-from": "mon_zarasaurolophus",
-    "description": "Heavily burned zombie dinosaur with a pointed beak that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "A heavily-burned zombie dinosaur with a pointed beak; it still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -676,7 +676,7 @@
     "id": "mon_zorythosaurus_scorched",
     "name": { "str": "scorched corythosaurus zombie" },
     "copy-from": "mon_zorythosaurus",
-    "description": "Heavily burned zombie dinosaur with a pointed beak and tall head crest that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "A heavily-burned zombie dinosaur with a pointed beak and tall head crest; it still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -700,7 +700,7 @@
     "id": "mon_zedmontosaurus_scorched",
     "name": { "str": "scorched edmontosaurus zombie" },
     "copy-from": "mon_zedmontosaurus",
-    "description": "Heavily burned zombie dinosaur with a pointed beak that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "A heavily-burned zombie dinosaur with a pointed beak; it still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -724,7 +724,7 @@
     "id": "mon_zachycephalosaurus_scorched",
     "name": { "str": "scorched pachycephalosaurus zombie" },
     "copy-from": "mon_zachycephalosaurus",
-    "description": "Heavily burned zombie dinosaur with a domed head that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "A heavily-burned zombie dinosaur with a domed head; it still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -748,7 +748,7 @@
     "id": "mon_zachyrhinosaurus_scorched",
     "name": { "str": "scorched pachyrhinosaurus zombie" },
     "copy-from": "mon_zachyrhinosaurus",
-    "description": "Heavily burned four legged zombie dinosaur with a broad bony nose that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "A heavily-burned, four-legged zombie dinosaur with a broad bony nose; it still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -772,7 +772,7 @@
     "id": "mon_zentaceratops_scorched",
     "name": { "str": "scorched pentaceratops zombie" },
     "copy-from": "mon_zentaceratops",
-    "description": "Heavily burned four legged zombie dinosaur with a four long horns and a short nose horn that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "A heavily-burned, four-legged zombie dinosaur with four long horns and a short nose horn; it still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -796,7 +796,7 @@
     "id": "mon_zosmoceratops_scorched",
     "name": { "str": "scorched kosmoceratops zombie" },
     "copy-from": "mon_zosmoceratops",
-    "description": "Heavily burned four legged zombie dinosaur with a bony crest and two wavy side horns that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "A heavily-burned, four-legged zombie dinosaur with a bony crest and two wavy side horns; it still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -820,7 +820,7 @@
     "id": "mon_zorosaurus_scorched",
     "name": { "str": "scorched torosaurus zombie" },
     "copy-from": "mon_zorosaurus",
-    "description": "Heavily burned four legged zombie dinosaur with a bony crest and two wicked-looking horns that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "A heavily-burned, four-legged zombie dinosaur with a bony crest and two wicked-looking horns; it still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -844,7 +844,7 @@
     "id": "mon_zriceratops_scorched",
     "name": { "str": "scorched triceratops zombie" },
     "copy-from": "mon_zriceratops",
-    "description": "Heavily burned four legged zombie dinosaur with a bony crest and three wicked-looking horns that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "A heavily-burned, four-legged zombie dinosaur with a bony crest and three wicked-looking horns; it still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -868,7 +868,7 @@
     "id": "mon_zteranodon_scorched",
     "name": { "str": "scorched pteranodon zombie" },
     "copy-from": "mon_zteranodon",
-    "description": "Heavily burned birdlike zombie pterosaur that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "A heavily-burned, birdlike zombie pterosaur that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -892,7 +892,7 @@
     "id": "mon_zuetzalcoatlus_scorched",
     "name": { "str": "scorched quetzalcoatlus zombie" },
     "copy-from": "mon_zuetzalcoatlus",
-    "description": "Heavily burned birdlike zombie pterosaur that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "A heavily-burned, birdlike zombie pterosaur that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
@@ -916,7 +916,7 @@
     "id": "mon_zosasaurus_scorched",
     "name": { "str": "scorched mosasaurus zombie" },
     "copy-from": "mon_zosasaurus",
-    "description": "Heavily burned aquatic zombie reptile that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "A heavily-burned, aquatic zombie reptile that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
