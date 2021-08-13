@@ -124,10 +124,7 @@ void effect_on_conditions::queue_effect_on_condition( time_duration duration,
 
 void effect_on_conditions::process_effect_on_conditions()
 {
-    dialogue d;
-    standard_npc default_npc( "Default" );
-    d.alpha = get_talker_for( get_avatar() );
-    d.beta = get_talker_for( default_npc );
+    dialogue d( get_talker_for( get_avatar() ), nullptr );
     std::vector<queued_eoc> eocs_to_queue;
     while( !g->queued_effect_on_conditions.empty() &&
            g->queued_effect_on_conditions.top().time <= calendar::turn ) {
@@ -155,10 +152,7 @@ void effect_on_conditions::process_effect_on_conditions()
 
 void effect_on_conditions::process_reactivate()
 {
-    dialogue d;
-    standard_npc default_npc( "Default" );
-    d.alpha = get_talker_for( get_avatar() );
-    d.beta = get_talker_for( default_npc );
+    dialogue d( get_talker_for( get_avatar() ), nullptr );
 
     std::vector<effect_on_condition_id> ids_to_reactivate;
     for( const effect_on_condition_id &eoc : g->inactive_effect_on_condition_vector ) {
@@ -192,10 +186,7 @@ bool effect_on_condition::check_deactivate() const
     if( !has_deactivate_condition || has_false_effect ) {
         return false;
     }
-    dialogue d;
-    standard_npc default_npc( "Default" );
-    d.alpha = get_talker_for( get_avatar() );
-    d.beta = get_talker_for( default_npc );
+    dialogue d( get_talker_for( get_avatar() ), nullptr );
     return deactivate_condition( d );
 }
 
