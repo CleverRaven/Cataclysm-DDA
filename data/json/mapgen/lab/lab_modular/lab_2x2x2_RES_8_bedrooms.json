@@ -54,8 +54,11 @@
         { "monster": "GROUP_LAB_MAINTENANCE", "x": [ 1, 4 ], "y": [ 2, 22 ], "density": 0.1 }
       ],
       "place_monster": [
+        { "monster": "mon_lab_security_drone_GR", "x": [ 20, 23 ], "y": [ 8, 20 ], "chance": 100 },
         { "monster": "mon_skitterbot", "x": 12, "y": 15, "chance": 100 },
-        { "monster": "mon_skitterbot", "x": 12, "y": 16, "chance": 100 }
+        { "monster": "mon_skitterbot", "x": 12, "y": 16, "chance": 100 },
+        { "monster": "mon_skitterbot", "x": 18, "y": 15, "chance": 100 },
+        { "monster": "mon_skitterbot", "x": 18, "y": 16, "chance": 100 }
       ]
     }
   },
@@ -82,8 +85,8 @@
         "~~%..+.....s|;;;|......|",
         "~~%..|..h.YR|;;;|......|",
         "~~%.|||Trr|||;;;|......|",
-        "~~%.$^|||||;$;;;|......|",
-        "~~%.$^|||||;$;;;|......|",
+        "~~%.|^|||||;$;;;|......|",
+        "~~%.|^|||||;$;;;|......|",
         "~~%.|||Trr|||;;;||||||||",
         "~~%..|..h.YR|;;;|;;;;;;|",
         "~~%h.+.....s|;;;|;;;;;;|",
@@ -114,6 +117,9 @@
         { "monster": "GROUP_LAB_MAINTENANCE", "x": [ 19, 21 ], "y": [ 2, 22 ], "density": 0.1 }
       ],
       "place_monster": [
+        { "monster": "mon_lab_security_drone_GR", "x": [ 0, 4 ], "y": [ 8, 20 ], "chance": 100 },
+        { "monster": "mon_skitterbot", "x": 5, "y": 15, "chance": 100 },
+        { "monster": "mon_skitterbot", "x": 5, "y": 16, "chance": 100 },
         { "monster": "mon_skitterbot", "x": 11, "y": 15, "chance": 100 },
         { "monster": "mon_skitterbot", "x": 11, "y": 16, "chance": 100 }
       ]
