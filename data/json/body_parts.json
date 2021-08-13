@@ -97,6 +97,7 @@
     "hit_size_relative": [ 0, 0, 0 ],
     "hit_difficulty": 1.15,
     "limb_type": "mouth",
+    "breathing_score": 1.0,
     "manipulator_score": 0.05,
     "manipulator_max": 0.2,
     "side": "both",

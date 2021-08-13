@@ -277,6 +277,8 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "blocking_score", blocking_score );
 
+    optional( jo, was_loaded, "breathing_score", breathing_score );
+
     part_side = jo.get_enum_value<side>( "side" );
 }
 
@@ -494,6 +496,11 @@ float bodypart::get_blocking_score() const
 float bodypart::get_lifting_score() const
 {
     return wound_adjusted_limb_value( id->lifting_score );
+}
+
+float bodypart::get_breathing_score() const
+{
+    return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->breathing_score ) );
 }
 
 int bodypart::get_hp_cur() const

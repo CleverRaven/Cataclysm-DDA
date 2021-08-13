@@ -1622,6 +1622,15 @@ float Character::lifting_score( const body_part_type::type &bp ) const
     return std::max( 0.0f, total );
 }
 
+float Character::breathing_score() const
+{
+    float total = 0.0f;
+    for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
+        total += id.second.get_breathing_score();
+    }
+    return std::max( 0.0f, total );
+}
+
 bool Character::has_min_manipulators() const
 {
     return manipulator_score() > MIN_MANIPULATOR_SCORE;
@@ -8975,6 +8984,11 @@ float Character::stamina_move_cost_modifier() const
     return stamina_modifier * move_mode->move_speed_mult();
 }
 
+float Character::stamina_recovery_breathing_modifier() const
+{
+    return breathing_score();
+}
+
 void Character::update_stamina( int turns )
 {
     static const std::string player_base_stamina_regen_rate( "PLAYER_BASE_STAMINA_REGEN_RATE" );
@@ -8989,7 +9003,7 @@ void Character::update_stamina( int turns )
                                mutation_value( stamina_regen_modifier ) + ( mutation_value( "max_stamina_modifier" ) - 1.0f ) );
     // But mouth encumbrance interferes, even with mutated stamina.
     stamina_recovery += stamina_multiplier * std::max( 1.0f,
-                        base_regen_rate - ( encumb( body_part_mouth ) / 5.0f ) );
+                        base_regen_rate * stamina_recovery_breathing_modifier() );
     stamina_recovery = enchantment_cache->modify_value( enchant_vals::mod::REGEN_STAMINA,
                        stamina_recovery );
     // TODO: recovering stamina causes hunger/thirst/fatigue.

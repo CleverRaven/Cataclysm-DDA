@@ -562,6 +562,7 @@ class Character : public Creature, public visitable
         float melee_stamina_cost_modifier() const;
         float reloading_move_modifier() const;
         float thrown_dex_modifier() const;
+        float stamina_recovery_breathing_modifier() const;
         // additive modifier
         float ranged_dispersion_modifier() const;
 
@@ -1075,6 +1076,7 @@ class Character : public Creature, public visitable
         float manipulator_score() const;
         float blocking_score( const body_part_type::type &bp ) const;
         float lifting_score( const body_part_type::type &bp ) const;
+        float breathing_score() const;
         bool has_min_manipulators() const;
         // technically this is "has more than one arm"
         bool has_two_arms_lifting() const;

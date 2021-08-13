@@ -190,9 +190,9 @@ static std::string melee_stamina_cost_text( float cost )
 {
     return string_format( _( "Melee stamina cost: <color_white>x%.2f</color>\n" ), cost );
 }
-static std::string mouth_stamina_cost_text( int cost )
+static std::string mouth_stamina_cost_text( float cost )
 {
-    return string_format( _( "Stamina Regeneration: <color_white>%+d</color>\n" ), cost );
+    return string_format( _( "Stamina Regeneration: <color_white>x%.2f</color>\n" ), cost );
 }
 static std::string ranged_cost_text( double disp )
 {
@@ -241,7 +241,7 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
             break;
         case bp_mouth:
             s += _( "<color_magenta>Covering your mouth will make it more difficult to breathe and catch your breath.</color>\n" );
-            s += mouth_stamina_cost_text( -( eff_encumbrance / 5 ) );
+            s += mouth_stamina_cost_text( p.stamina_recovery_breathing_modifier() );
             break;
         case bp_arm_l:
         case bp_arm_r:
