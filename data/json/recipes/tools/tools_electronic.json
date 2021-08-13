@@ -667,7 +667,7 @@
     "reversible": true,
     "book_learn": [ [ "theater_props", 3 ], [ "manual_mechanics", 5 ], [ "manual_electronics", 5 ] ],
     "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
+    "qualities": [ { "id": "VISE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_W", "level": 1 } ],
     "proficiencies": [
       { "proficiency": "prof_plasticworking" },
       { "proficiency": "prof_elec_soldering" },
@@ -676,7 +676,6 @@
     "components": [
       [ [ "2x4", 4 ] ],
       [ [ "plastic_chunk", 2 ] ],
-      [ [ "clamp", 2 ] ],
       [ [ "vac_pump", 1 ] ],
       [ [ "nail", 16 ] ],
       [ [ "wood_panel", 1 ] ],

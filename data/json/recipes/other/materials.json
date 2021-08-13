@@ -128,23 +128,6 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
-    "result": "polycarbonate_sheet",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MATERIALS",
-    "skill_used": "fabrication",
-    "difficulty": 2,
-    "charges": 1,
-    "time": "10 m",
-    "autolearn": false,
-    "batch_time_factors": [ 50, 2 ],
-    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "book_learn": [ [ "plastics_book", 1 ], [ "textbook_extraction", 2 ], [ "textbook_fabrication", 2 ] ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ], [ [ "sheet_metal", -1 ] ], [ [ "sheet_metal_small", -1 ] ] ],
-    "components": [ [ [ "plastic_chunk", 5 ] ] ]
-  },
-  {
-    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "plastic_chunk",
     "category": "CC_OTHER",

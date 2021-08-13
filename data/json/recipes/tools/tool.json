@@ -874,7 +874,7 @@
     "components": [
       [ [ "pipe", 2 ] ],
       [ [ "hose", 1 ] ],
-      [ [ "gasket_plastic", 2 ], [ "gasket_rubber", 2 ] ],
+      [ [ "gasket_plastic", 2 ] ],
       [ [ "well_pump", 1 ] ],
       [ [ "drivebelt", 1 ], [ "drivebelt_makeshift", 1 ] ]
     ]
@@ -961,33 +961,23 @@
   },
   {
     "type": "recipe",
-    "activity_level": "fake",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "gasket_plastic",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "20 m",
-    "autolearn": false,
+    "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "book_learn": [ [ "plastics_book", 1 ], [ "textbook_extraction", 2 ], [ "textbook_fabrication", 2 ] ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "using": [ [ "plastic_molding", 1 ] ],
+    "qualities": [
+      { "id": "CUT", "level": 1 },
+      { "id": "CUT_FINE", "level": 1 },
+      { "id": "HAMMER", "level": 1 },
+      { "id": "ANVIL", "level": 1 }
+    ],
     "components": [ [ [ "plastic_chunk", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "fake",
-    "result": "gasket_rubber",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "fabrication",
-    "difficulty": 2,
-    "time": "20 m",
-    "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
-    "components": [ [ [ "chunk_rubber", 1 ] ], [ [ "cordage_6", 1 ], [ "string_6", 1 ] ] ]
   },
   {
     "type": "recipe",
