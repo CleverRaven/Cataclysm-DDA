@@ -244,7 +244,7 @@
     "id": "mon_zothronychus_scorched",
     "name": { "str": "scorched nothronychus zombie" },
     "copy-from": "mon_zothronychus",
-    "description": "Heavily burned zombie dinosaur with sharp curved claws that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "A heavily-burned zombie dinosaur with sharp, curved claws that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
