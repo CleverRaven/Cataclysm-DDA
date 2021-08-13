@@ -269,7 +269,7 @@
     "min_duration": 180000
   },
   {
-    "id": "Summon_trapspider",
+    "id": "summon_trapspider",
     "type": "SPELL",
     "name": "Summon Trapdoor Spider" ,
     "description": "this spell summons hostile trapdoor spiders from the earth",
