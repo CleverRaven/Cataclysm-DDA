@@ -2705,9 +2705,8 @@ void mapgen_forest( mapgendata &dat )
             uint32_t net_hash = std::hash<uint32_t> {}( x_crit ) ^ ( std::hash<int> {}( y_crit ) << 1 );
             uint32_t h_hash = net_hash;
             uint32_t v_hash = std::hash<uint32_t> {}( net_hash );
-            // Normalize the hashes.
-            float h_unit_hash = ( double )h_hash / UINT32_MAX;
-            float v_unit_hash = ( double )v_hash / UINT32_MAX;
+            float h_unit_hash = static_cast<float>( h_hash ) / UINT32_MAX;
+            float v_unit_hash = static_cast<float>( v_hash ) / UINT32_MAX;
             // Apply the box-muller transform to produce a gaussian distribution with the desired mean and deviation.
             float mag = depth_deviation * sqrt( -2. * log( h_unit_hash ) );
             int h_norm_transform = round( mag * cos( 2 * M_PI * v_unit_hash ) + average_depth );
@@ -2739,10 +2738,12 @@ void mapgen_forest( mapgendata &dat )
                 4]];
         // Generate critical points in-order displacement-wise.
         for( int ci = 1; ci < interediary_crit_point_count + 1; ci++ ) {
-            critical_point_displacements[ci] = clamp<int>( abs( ( int )round( normal_roll( ( double )(
-                                                   edge_length * ( ci - 1 ) ) / ( interediary_crit_point_count + 2 ), border_deviation ) ) ), 1,
+            critical_point_displacements[ci] = clamp<int>( abs( static_cast<int>( round( normal_roll(
+                                                   static_cast<double>(
+                                                           edge_length * ( ci - 1 ) ) / ( interediary_crit_point_count + 2 ), border_deviation ) ) ) ), 1,
                                                edge_length - 2 );
-            critical_point_depths[ci] = ( int )round( abs( normal_roll( average_depth, depth_deviation ) ) );
+            critical_point_depths[ci] = static_cast<int>( round( abs( normal_roll( average_depth,
+                                        depth_deviation ) ) ) );
             // Ensure order by swapping:
             if( critical_point_displacements[ci] < critical_point_displacements[ci - 1] ) {
                 int buffer = critical_point_displacements[ci];
@@ -2877,12 +2878,12 @@ void mapgen_forest( mapgendata &dat )
                 // Biome-less terrain does not feather on its side, but biome-owning terrain is presumed to.
                 // In order to account for this, the border of the map generation function must be determined
                 // to correspond either to the half-way point between biomes or the end-point of the transition.
-                weights[wi] = pow( ( float )perimeter_depths[wi] / ( point_depths[wi] + 1 ),
+                weights[wi] = pow( static_cast<float>( perimeter_depths[wi] ) / ( point_depths[wi] + 1 ),
                                    biome_transition_abruptness ) * scaling_factor;
                 net_weight += weights[wi];
             } else {
-                weights[wi] = pow( ( float )perimeter_depths[wi] / ( point_depths[wi] + 1 ),
-                                   biome_transition_abruptness ) * scaling_factor / pow( ( float )perimeter_depths[wi],
+                weights[wi] = pow( static_cast<float>( perimeter_depths[wi] ) / ( point_depths[wi] + 1 ),
+                                   biome_transition_abruptness ) * scaling_factor / pow( static_cast<float>( perimeter_depths[wi] ),
                                            biome_transition_abruptness );
                 net_weight += weights[wi];
             }
@@ -2903,7 +2904,7 @@ void mapgen_forest( mapgendata &dat )
         float adj_weights[4];
         float net_weight = nesw_weights( p, factor, adj_weights, -groundcover_margin );
         float self_weight = self_scalar;
-        unify_all_borders(adj_weights, &self_weight, p);
+        unify_all_borders( adj_weights, &self_weight, p );
         static constexpr int no_dir = -1;
         static constexpr int empty = -2;
         weighted_float_list<const int> direction_pool;
@@ -2911,7 +2912,7 @@ void mapgen_forest( mapgendata &dat )
         direction_pool.add( 1, adj_weights[1] );
         direction_pool.add( 2, adj_weights[2] );
         direction_pool.add( 3, adj_weights[3] );
-        direction_pool.add( no_dir, self_weight);
+        direction_pool.add( no_dir, self_weight );
         direction_pool.add( empty, ( net_weight + self_weight ) * max_factor -
                             ( adj_weights[0] * dat.n_fac + adj_weights[1] * dat.e_fac + adj_weights[2] * dat.s_fac +
                               adj_weights[3] * dat.w_fac + self_weight * factor ) );
@@ -2947,7 +2948,7 @@ void mapgen_forest( mapgendata &dat )
         float adj_weights[4];
         float net_weight = nesw_weights( p, factor, adj_weights );
         float self_weight = self_scalar;
-        unify_all_borders(adj_weights, &self_weight, p);
+        unify_all_borders( adj_weights, &self_weight, p );
 
         // Pool together all of the biomes which the target point might constitute.
         weighted_float_list<const int>
@@ -2959,8 +2960,8 @@ void mapgen_forest( mapgendata &dat )
         direction_pool.add( 1, adj_weights[1] );
         direction_pool.add( 2, adj_weights[2] );
         direction_pool.add( 3, adj_weights[3] );
-        direction_pool.add( no_dir, self_weight);
-        direction_pool.add( empty, ( net_weight + self_weight)* max_factor -
+        direction_pool.add( no_dir, self_weight );
+        direction_pool.add( empty, ( net_weight + self_weight )* max_factor -
                             ( adj_weights[0] * dat.n_fac + adj_weights[1] * dat.e_fac + adj_weights[2] * dat.s_fac +
                               adj_weights[3] * dat.w_fac + self_weight * factor ) );
 
