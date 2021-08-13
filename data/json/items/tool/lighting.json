@@ -98,7 +98,7 @@
     "price": 100,
     "price_postapoc": 50,
     "to_hit": -2,
-    "material": [ "veggy" ],
+    "material": [ "beeswax" ],
     "symbol": ",",
     "color": "white",
     "charges_per_use": 1,

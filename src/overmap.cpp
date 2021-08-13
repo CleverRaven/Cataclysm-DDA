@@ -4162,7 +4162,7 @@ void overmap::place_special(
 
         overmap_special_placements[location] = special.id;
         ter_set( location, tid );
-        mapgen_args_index.emplace( location, mapgen_args_p );
+        mapgen_args_index[location] = mapgen_args_p;
         if( is_safe_zone ) {
             safe_at_worldgen.emplace( location );
         }

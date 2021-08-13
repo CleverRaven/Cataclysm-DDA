@@ -171,7 +171,7 @@
     "type": "MONSTER",
     "name": { "str": "sewer snake" },
     "description": "An aggressive mutant variety of the worm snake, turned pale yellow from its underground life.  It swarms beneath the ground and is named for its habit of infesting sewer lines.",
-    "default_faction": "mutant",
+    "default_faction": "sewer_snake",
     "bodytype": "snake",
     "species": [ "REPTILE" ],
     "diff": 2,

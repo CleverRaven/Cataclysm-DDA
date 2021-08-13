@@ -1427,7 +1427,7 @@ void map::player_in_field( player &u )
                     total_damage += burn_body_part( u, cur, bodypart_id( "hand_r" ), 2 );
                     total_damage += burn_body_part( u, cur, bodypart_id( "torso" ), 2 );
                     // Less arms = less ability to keep upright
-                    if( ( !u.has_two_arms() && one_in( 4 ) ) || one_in( 2 ) ) {
+                    if( ( !u.has_two_arms_lifting() && one_in( 4 ) ) || one_in( 2 ) ) {
                         total_damage += burn_body_part( u, cur, bodypart_id( "arm_l" ), 1 );
                         total_damage += burn_body_part( u, cur, bodypart_id( "arm_r" ), 1 );
                         total_damage += burn_body_part( u, cur, bodypart_id( "head" ), 1 );
