@@ -2613,20 +2613,24 @@ tab_direction set_skills( avatar &u, points_left &points )
             }
             currentSkill = sorted_skills[cur_pos];
         } else if( action == "LEFT" ) {
-            const int level = u.get_skill_level( currentSkill->ident() );
+            const skill_id &skill_id = currentSkill->ident();
+            const int level = u.get_skill_level( skill_id );
             if( level > 0 ) {
                 // For balance reasons, increasing a skill from level 0 gives 1 extra level for free, but
                 // decreasing it from level 2 forfeits the free extra level (thus changes it to 0)
-                u.mod_skill_level( currentSkill->ident(), level == 2 ? -2 : -1 );
+                u.mod_skill_level( skill_id, level == 2 ? -2 : -1 );
+                u.set_knowledge_level( skill_id, u.get_skill_level( skill_id ) );
                 // Done *after* the decrementing to get the original cost for incrementing back.
-                points.skill_points += skill_increment_cost( u, currentSkill->ident() );
+                points.skill_points += skill_increment_cost( u, skill_id );
             }
         } else if( action == "RIGHT" ) {
-            const int level = u.get_skill_level( currentSkill->ident() );
+            const skill_id &skill_id = currentSkill->ident();
+            const int level = u.get_skill_level( skill_id );
             if( level < MAX_SKILL ) {
-                points.skill_points -= skill_increment_cost( u, currentSkill->ident() );
+                points.skill_points -= skill_increment_cost( u, skill_id );
                 // For balance reasons, increasing a skill from level 0 gives 1 extra level for free
-                u.mod_skill_level( currentSkill->ident(), level == 0 ? +2 : +1 );
+                u.mod_skill_level( skill_id, level == 0 ? +2 : +1 );
+                u.set_knowledge_level( skill_id, u.get_skill_level( skill_id ) );
             }
         } else if( action == "SCROLL_SKILL_INFO_DOWN" ) {
             selected++;
