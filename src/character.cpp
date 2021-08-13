@@ -4877,18 +4877,7 @@ std::map<bodypart_id, int> Character::get_wind_resistance( const std::map <bodyp
 
         for( const item *it : on_bp.second ) {
             const item &i = *it;
-            if( i.made_of( material_id( "leather" ) ) || i.made_of( material_id( "plastic" ) ) ||
-                i.made_of( material_id( "bone" ) ) ||
-                i.made_of( material_id( "chitin" ) ) || i.made_of( material_id( "nomex" ) ) ) {
-                penalty = 10; // 90% effective
-            } else if( i.made_of( material_id( "cotton" ) ) ) {
-                penalty = 30;
-            } else if( i.made_of( material_id( "wool" ) ) ) {
-                penalty = 40;
-            } else {
-                penalty = 1; // 99% effective
-            }
-
+            penalty = 100 - i.wind_resist();
             coverage = std::max( 0, i.get_coverage( bp ) - penalty );
             totalExposed *= ( 1.0 - coverage / 100.0 ); // Coverage is between 0 and 1?
         }
