@@ -220,7 +220,7 @@
     "id": "mon_zallimimus_scorched",
     "name": { "str": "scorched gallimimus zombie" },
     "copy-from": "mon_zallimimus",
-    "description": "Heavily burned zombie dinosaur shaped something like an overcooked ostrich that still reeks of charred flesh.  Its flesh has mended into a leathery shell.",
+    "description": "Heavily-burned zombie dinosaur looking a bit like an overcooked ostrich that still reeks of charred meat.  Its flesh has mended into a leathery shell.",
     "proportional": { "hp": 0.5, "speed": 0.85 },
     "color": "i_brown",
     "relative": {
