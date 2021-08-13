@@ -550,8 +550,20 @@ class Character : public Creature, public visitable
         int get_most_accurate_sight( const item &gun ) const;
         double aim_speed_skill_modifier( const skill_id &gun_skill ) const;
         double aim_speed_dex_modifier() const;
-        double aim_speed_encumbrance_modifier() const;
         double aim_cap_from_volume( const item &gun ) const;
+
+        // multiplicative modifiers
+
+        // modifier to aim speed based on manipulator score
+        float aim_speed_modifier() const;
+
+        float melee_thrown_move_modifier_hands() const;
+        float melee_thrown_move_modifier_torso() const;
+        float melee_stamina_cost_modifier() const;
+        float reloading_move_modifier() const;
+        float thrown_dex_modifier() const;
+        // additive modifier
+        float ranged_dispersion_modifier() const;
 
         /* Gun stuff */
         /**
@@ -1056,10 +1068,13 @@ class Character : public Creature, public visitable
 
         bool is_deaf() const;
         bool is_mute() const;
-        /** Returns true if the player has two functioning arms */
-        bool has_two_arms() const;
-        /** Returns the number of functioning arms */
-        int get_working_arm_count() const;
+        // the total of the manipulator score in the best limb group
+        float manipulator_score() const;
+        float blocking_score( const body_part_type::type &bp ) const;
+        float lifting_score( const body_part_type::type &bp ) const;
+        bool has_min_manipulators() const;
+        // technically this is "has more than one arm"
+        bool has_two_arms_lifting() const;
         /** Returns the number of functioning legs */
         int get_working_leg_count() const;
         bool has_limb( const bodypart_id &limb ) const;

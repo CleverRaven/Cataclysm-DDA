@@ -282,7 +282,6 @@ static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
 static const bionic_id bio_ads( "bio_ads" );
-static const bionic_id bio_blaster( "bio_blaster" );
 static const bionic_id bio_voice( "bio_voice" );
 static const bionic_id bio_gills( "bio_gills" );
 static const bionic_id bio_ground_sonar( "bio_ground_sonar" );
@@ -723,9 +722,62 @@ double Character::aim_speed_dex_modifier() const
     return get_dex() - 8;
 }
 
-double Character::aim_speed_encumbrance_modifier() const
+float Character::aim_speed_modifier() const
 {
-    return ( encumb( body_part_hand_l ) + encumb( body_part_hand_r ) ) / 10.0;
+    return manipulator_score();
+}
+
+float Character::melee_thrown_move_modifier_hands() const
+{
+    if( manipulator_score() == 0.0f ) {
+        return MAX_MOVECOST_MODIFIER;
+    } else {
+        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / manipulator_score() );
+    }
+}
+
+float Character::melee_thrown_move_modifier_torso() const
+{
+    const bodypart *torso = get_part( body_part_torso );
+    // TODO: make this "balance" perhaps?
+    if( torso == nullptr || torso->encumb_adjusted_limb_value( 1.0f ) == 0.0f ) {
+        return MAX_MOVECOST_MODIFIER;
+    } else {
+        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / torso->encumb_adjusted_limb_value( 1.0f ) );
+    }
+}
+
+float Character::melee_stamina_cost_modifier() const
+{
+    if( lifting_score( body_part_type::type::arm ) == 0.0f ) {
+        return MAX_MOVECOST_MODIFIER;
+    } else {
+        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / lifting_score( body_part_type::type::arm ) );
+    }
+}
+
+float Character::reloading_move_modifier() const
+{
+    if( manipulator_score() == 0.0f ) {
+        return MAX_MOVECOST_MODIFIER;
+    } else {
+        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / manipulator_score() );
+    }
+}
+
+float Character::thrown_dex_modifier() const
+{
+    return manipulator_score();
+}
+
+float Character::ranged_dispersion_modifier() const
+{
+    if( manipulator_score() == 0.0f ) {
+        return 1000.0f;
+    } else {
+        return std::min( 1000.0f,
+                         ( 22.8f / manipulator_score() ) - 22.8f );
+    }
 }
 
 double Character::aim_cap_from_volume( const item &gun ) const
@@ -785,8 +837,7 @@ double Character::aim_per_move( const item &gun, double recoil ) const
     // Range [0 - 10]
     aim_speed += sight_speed_modifier;
 
-    // Each 5 points (combined) of hand encumbrance decreases aim speed by one unit.
-    aim_speed -= aim_speed_encumbrance_modifier();
+    aim_speed *= aim_speed_modifier();
 
     aim_speed = std::min( aim_speed, aim_cap_from_volume( gun ) );
 
@@ -1523,32 +1574,64 @@ void Character::handle_skill_warning( const skill_id &id, bool force_warning )
     }
 }
 
-/** Returns true if the character has two functioning arms */
-bool Character::has_two_arms() const
+float Character::manipulator_score() const
 {
-    return get_working_arm_count() >= 2;
+    std::map<body_part_type::type, std::vector<bodypart>> bodypart_groups;
+    std::vector<float> score_groups;
+    for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
+        bodypart_groups[id.first->limb_type].emplace_back( id.second );
+    }
+    for( std::pair<const body_part_type::type, std::vector<bodypart>> &part : bodypart_groups ) {
+        float total = 0.0f;
+        std::sort( part.second.begin(), part.second.end(),
+        []( const bodypart & a, const bodypart & b ) {
+            return a.get_manipulator_max() < b.get_manipulator_max();
+        } );
+        for( const bodypart &id : part.second ) {
+            total = std::min( total + id.get_encumb_adjusted_manipulator_score(), id.get_manipulator_max() );
+        }
+        score_groups.emplace_back( total );
+    }
+    const auto score_groups_max = std::max_element( score_groups.begin(), score_groups.end() );
+    if( score_groups_max == score_groups.end() ) {
+        return 0.0f;
+    } else {
+        return std::max( 0.0f, *score_groups_max );
+    }
 }
 
-// working is defined here as not disabled which means arms can be not broken
-// and still not count if they have low enough hitpoints
-int Character::get_working_arm_count() const
+float Character::blocking_score( const body_part_type::type &bp ) const
 {
-    if( has_active_mutation( trait_SHELL2 ) ) {
-        return 0;
+    float total = 0.0f;
+    for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
+        if( id.first->limb_type == bp ) {
+            total += id.second.get_blocking_score();
+        }
     }
+    return std::max( 0.0f, total );
+}
 
-    int limb_count = 0;
-    if( has_limb( body_part_arm_l ) && !is_limb_disabled( body_part_arm_l ) ) {
-        limb_count++;
+float Character::lifting_score( const body_part_type::type &bp ) const
+{
+    float total = 0.0f;
+    for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
+        if( id.first->limb_type == bp ) {
+            total += id.second.get_lifting_score();
+        }
     }
-    if( has_limb( body_part_arm_r ) && !is_limb_disabled( body_part_arm_r ) ) {
-        limb_count++;
-    }
-    if( has_bionic( bio_blaster ) && limb_count > 0 ) {
-        limb_count--;
-    }
+    return std::max( 0.0f, total );
+}
 
-    return limb_count;
+bool Character::has_min_manipulators() const
+{
+    return manipulator_score() > MIN_MANIPULATOR_SCORE;
+}
+
+/** Returns true if the character has two functioning arms */
+bool Character::has_two_arms_lifting() const
+{
+    // 0.5f is one "standard" arm, so if you have more than that you barely qualify.
+    return lifting_score( body_part_type::type::arm ) > 0.5f;
 }
 
 // working is defined here as not broken
@@ -2756,11 +2839,7 @@ int Character::get_standard_stamina_cost( const item *thrown_item ) const
     //If the item is thrown, override with the thrown item instead.
     const int weight_cost = ( thrown_item == nullptr ) ? this->weapon.weight() /
                             ( 16_gram ) : thrown_item->weight() / ( 16_gram );
-    int encumbrance_cost = 0;
-    for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::arm ) ) {
-        encumbrance_cost += encumb( part );
-    }
-    return ( weight_cost + encumbrance_cost + 50 ) * -1;
+    return ( weight_cost + 50 ) * -1 * melee_stamina_cost_modifier();
 }
 
 cata::optional<std::list<item>::iterator> Character::wear_item( const item &to_wear,
@@ -3944,7 +4023,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         }
     }
 
-    if( it.has_flag( flag_RESTRICT_HANDS ) && !has_two_arms() ) {
+    if( it.has_flag( flag_RESTRICT_HANDS ) && !has_min_manipulators() ) {
         return ret_val<bool>::make_failure( ( is_avatar() ? _( "You don't have enough arms to wear that." )
                                               : string_format( _( "%s doesn't have enough arms to wear that." ), name ) ) );
     }
@@ -9938,9 +10017,9 @@ ret_val<bool> Character::can_wield( const item &it ) const
     if( has_effect( effect_incorporeal ) ) {
         return ret_val<bool>::make_failure( _( "You can't wield anything while incorporeal." ) );
     }
-    if( get_working_arm_count() <= 0 ) {
+    if( !has_min_manipulators() ) {
         return ret_val<bool>::make_failure(
-                   _( "You need at least one arm to even consider wielding something." ) );
+                   _( "You need at least one arm available to even consider wielding something." ) );
     }
     if( it.made_of_from_type( phase_id::LIQUID ) ) {
         return ret_val<bool>::make_failure( _( "Can't wield spilt liquids." ) );
@@ -9951,7 +10030,8 @@ ret_val<bool> Character::can_wield( const item &it ) const
                                             weapname(), it.tname() );
     }
     monster *mount = mounted_creature.get();
-    if( it.is_two_handed( *this ) && ( !has_two_arms() || worn_with_flag( flag_RESTRICT_HANDS ) ) &&
+    if( it.is_two_handed( *this ) && ( !has_two_arms_lifting() ||
+                                       worn_with_flag( flag_RESTRICT_HANDS ) ) &&
         !( is_mounted() && mount->has_flag( MF_RIDEABLE_MECH ) &&
            mount->type->mech_weapon && it.typeId() == mount->type->mech_weapon ) ) {
         if( worn_with_flag( flag_RESTRICT_HANDS ) ) {
@@ -13394,7 +13474,7 @@ int Character::item_reload_cost( const item &it, const item &ammo, int qty ) con
         mv -= get_str() * 20;
     }
 
-    return std::max( mv, 25 );
+    return std::max( static_cast<int>( std::round( mv * reloading_move_modifier() ) ), 25 );
 }
 
 book_mastery Character::get_book_mastery( const item &book ) const
