@@ -1372,6 +1372,7 @@ void activate_consume_eocs( Character &you, item &target )
         eoc->activate( d );
     }
 }
+
 bool Character::consume_effects( item &food )
 {
     if( !food.is_comestible() ) {
