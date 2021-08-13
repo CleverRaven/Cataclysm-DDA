@@ -47,6 +47,7 @@
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
+#include "mtype.h"
 #include "npc.h"
 #include "npctalk.h"
 #include "npctrade.h"
@@ -65,6 +66,7 @@
 #include "string_input_popup.h"
 #include "talker.h"
 #include "text_snippets.h"
+#include "timed_event.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
@@ -1645,7 +1647,6 @@ void talk_effect_fun_t::set_add_effect( const JsonObject &jo, const std::string 
     bool force = false;
     time_duration duration = 1000_turns;
     int_or_var iov_intensity;
-    iov_intensity.int_val = 0;
     if( jo.has_string( "duration" ) ) {
         const std::string dur_string = jo.get_string( "duration" );
         if( dur_string == "PERMANENT" ) {
@@ -1659,9 +1660,7 @@ void talk_effect_fun_t::set_add_effect( const JsonObject &jo, const std::string 
     } else {
         duration = time_duration::from_turns( jo.get_int( "duration" ) );
     }
-    if( jo.has_int( "intensity" ) || jo.has_object( "intensity" ) ) {
-        iov_intensity = get_variable_or_int( jo, "intensity" );
-    }
+    iov_intensity = get_variable_or_int( jo, "intensity", false, 0 );
     if( jo.has_bool( "force" ) ) {
         force = jo.get_bool( "force" );
     }
@@ -2412,6 +2411,113 @@ void talk_effect_fun_t::set_mod_focus( const JsonObject &jo, const std::string &
     };
 }
 
+void talk_effect_fun_t::set_custom_light_level( const JsonObject &jo, const std::string &member )
+{
+    int_or_var iov = get_variable_or_int( jo, member, true );
+    time_duration length_min;
+    time_duration length_max;
+    optional( jo, false, "length_min", length_min, 0_seconds );
+    optional( jo, false, "length_max", length_max, 0_seconds );
+    function = [length_min, length_max, iov]( const dialogue & d ) {
+        get_timed_events().add( timed_event_type::CUSTOM_LIGHT_LEVEL, calendar::turn + rng( length_min,
+                                length_max ) +
+                                1_seconds/*We add a second here because this will get ticked on the turn its applied before it has an effect*/,
+                                -1, iov.evaluate( d.actor( false ) ) );
+    };
+}
+
+void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    bool group = jo.get_bool( "group", false );
+    mtype_id new_monster;
+    mongroup_id group_id;
+    if( group ) {
+        group_id = mongroup_id( jo.get_string( member ) );
+    } else {
+        new_monster = mtype_id( jo.get_string( member ) );
+    }
+    int_or_var iov_target_range = get_variable_or_int( jo, "target_range", false, 0 );
+    int_or_var iov_hallucination_count = get_variable_or_int( jo, "hallucination_count", false, 0 );
+    int_or_var iov_real_count = get_variable_or_int( jo, "real_count", false, 0 );
+    int_or_var iov_min_radius = get_variable_or_int( jo, "min_radius", false, 1 );
+    int_or_var iov_max_radius = get_variable_or_int( jo, "max_radius", false, 10 );
+
+    const bool outdoor_only = jo.get_bool( "outdoor_only", false );
+    function = [is_npc, new_monster, iov_target_range, iov_hallucination_count, iov_real_count,
+                        iov_min_radius,
+            iov_max_radius, outdoor_only, group_id]( const dialogue & d ) {
+        monster target_monster;
+
+        if( group_id.is_valid() ) {
+            target_monster = monster( MonsterGroupManager::GetRandomMonsterFromGroup( group_id ) );
+        } else if( new_monster.is_empty() ) {
+            int target_range = iov_target_range.evaluate( d.actor( is_npc ) );
+            //grab a random nearby hostile creature to create a hallucination or copy of
+            Creature *copy = g->get_creature_if( [target_range]( const Creature & critter ) -> bool {
+                bool not_self = get_player_character().pos() != critter.pos();
+                bool in_range = std::round( rl_dist_exact( get_player_character().pos(), critter.pos() ) ) <= target_range;
+                bool valid_target = get_player_character().attitude_to( critter ) == Creature::Attitude::HOSTILE;
+                return not_self && in_range && valid_target;
+            } );
+            if( copy == nullptr ) {
+                return;
+            }
+            target_monster = *copy->as_monster();
+        } else {
+            target_monster = monster( new_monster );
+        }
+        int min_radius = iov_min_radius.evaluate( d.actor( is_npc ) );
+        int max_radius = iov_max_radius.evaluate( d.actor( is_npc ) );
+        int real_count = iov_real_count.evaluate( d.actor( is_npc ) );
+        int hallucination_count = iov_hallucination_count.evaluate( d.actor( is_npc ) );
+        for( int i = 0; i < hallucination_count; i++ ) {
+            tripoint spawn_point;
+            if( g->find_nearby_spawn_point( d.actor( is_npc )->pos(), target_monster.type->id, min_radius,
+                                            max_radius, spawn_point, outdoor_only ) ) {
+                g->spawn_hallucination( spawn_point, target_monster.type->id );
+            }
+        }
+        for( int i = 0; i < real_count; i++ ) {
+            tripoint spawn_point;
+            if( g->find_nearby_spawn_point( d.actor( is_npc )->pos(), target_monster.type->id, min_radius,
+                                            max_radius, spawn_point, outdoor_only ) ) {
+                g->place_critter_at( target_monster.type->id, spawn_point );
+            }
+        }
+    };
+}
+
+void talk_effect_fun_t::set_mod_radiation( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    int_or_var iov = get_variable_or_int( jo, member, true );
+    function = [is_npc, iov]( const dialogue & d ) {
+        d.actor( is_npc )->mod_rad( iov.evaluate( d.actor( is_npc ) ) );
+    };
+}
+
+void talk_effect_fun_t::set_field( const JsonObject &jo, const std::string &member, bool is_npc )
+{
+    field_type_str_id new_field = field_type_str_id( jo.get_string( member ) );
+    int_or_var iov_intensity = get_variable_or_int( jo, "intensity", false, 1 );
+    time_duration age = time_duration::from_turns( jo.get_int( "age", 1 ) );
+    int_or_var iov_radius = get_variable_or_int( jo, "radius", false, 10000000 );
+
+    const bool outdoor_only = jo.get_bool( "outdoor_only", false );
+    const bool hit_player = jo.get_bool( "hit_player", true );
+    function = [is_npc, new_field, iov_intensity, age, iov_radius, outdoor_only,
+            hit_player]( const dialogue & d ) {
+        int radius = iov_radius.evaluate( d.actor( is_npc ) );
+        int intensity = iov_intensity.evaluate( d.actor( is_npc ) );
+        for( const tripoint &dest : get_map().points_in_radius( d.actor( is_npc )->pos(), radius ) ) {
+            if( !outdoor_only || get_map().is_outside( dest ) ) {
+                get_map().add_field( dest, new_field, intensity, age, hit_player );
+            }
+        }
+    };
+}
+
 void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun,
         dialogue_consequence con )
 {
@@ -2700,7 +2806,21 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
     } else if( jo.has_member( "u_cast_spell" ) ) {
         subeffect_fun.set_cast_spell( jo, "u_cast_spell", false );
     } else if( jo.has_member( "npc_cast_spell" ) ) {
-        subeffect_fun.set_mod_healthy( jo, "npc_cast_spell", true );
+        subeffect_fun.set_cast_spell( jo, "npc_cast_spell", true );
+    } else if( jo.has_string( "u_set_spawn_monster" ) ) {
+        subeffect_fun.set_spawn_monster( jo, "u_set_spawn_monster", false );
+    } else if( jo.has_string( "npc_set_spawn_monster" ) ) {
+        subeffect_fun.set_spawn_monster( jo, "npc_set_spawn_monster", true );
+    } else if( jo.has_int( "u_mod_radiation" ) || jo.has_object( "u_mod_radiation" ) ) {
+        subeffect_fun.set_mod_radiation( jo, "u_mod_radiation", false );
+    } else if( jo.has_int( "npc_mod_radiation" ) || jo.has_object( "npc_mod_radiation" ) ) {
+        subeffect_fun.set_mod_radiation( jo, "npc_mod_radiation", true );
+    } else if( jo.has_string( "u_set_field" ) ) {
+        subeffect_fun.set_field( jo, "u_set_field", false );
+    } else if( jo.has_string( "npc_set_field" ) ) {
+        subeffect_fun.set_field( jo, "npc_set_field", true );
+    } else if( jo.has_int( "custom_light_level" ) || jo.has_object( "custom_light_level" ) ) {
+        subeffect_fun.set_custom_light_level( jo, "custom_light_level" );
     } else {
         jo.throw_error( "invalid sub effect syntax: " + jo.str() );
     }

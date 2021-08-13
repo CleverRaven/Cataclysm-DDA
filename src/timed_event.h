@@ -22,6 +22,7 @@ enum class timed_event_type : int {
     DIM,
     ARTIFACT_LIGHT,
     DSA_ALRP_SUMMON,
+    CUSTOM_LIGHT_LEVEL,
     NUM_TIMED_EVENT_TYPES
 };
 
@@ -33,8 +34,9 @@ struct timed_event {
     int faction_id = -1;
     /** Where the event happens, in global submap coordinates */
     tripoint_abs_sm map_point = tripoint_abs_sm( tripoint_min );
-
-    timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_sm p );
+    /** How powerful the effect is */
+    int strength = -1;
+    timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_sm p, int s );
 
     // When the time runs out
     void actualize();
@@ -52,13 +54,13 @@ class timed_event_manager
          * Add an entry to the event queue. Parameters are basically passed
          * through to @ref timed_event::timed_event.
          */
-        void add( timed_event_type type, const time_point &when, int faction_id = -1 );
+        void add( timed_event_type type, const time_point &when, int faction_id = -1, int strength = -1 );
         /**
          * Add an entry to the event queue. Parameters are basically passed
          * through to @ref timed_event::timed_event.
          */
         void add( timed_event_type type, const time_point &when, int faction_id,
-                  const tripoint_abs_sm &where );
+                  const tripoint_abs_sm &where, int strength = -1 );
         /// @returns Whether at least one element of the given type is queued.
         bool queued( timed_event_type type ) const;
         /// @returns One of the queued events of the given type, or `nullptr`
