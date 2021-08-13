@@ -18,7 +18,7 @@ on:
 
 jobs:
   push-template:
-    if: github.repository == CleverRaven
+    if: github.repository == 'CleverRaven'
     runs-on: ubuntu-20.04
     steps:
       - name: "Install dependencies"
