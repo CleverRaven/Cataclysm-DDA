@@ -565,6 +565,7 @@ class Character : public Creature, public visitable
         float stamina_recovery_breathing_modifier() const;
         // additive modifier
         float ranged_dispersion_modifier() const;
+        float ranged_dispersion_modifier_vision() const;
 
         /* Gun stuff */
         /**
@@ -1077,6 +1078,7 @@ class Character : public Creature, public visitable
         float blocking_score( const body_part_type::type &bp ) const;
         float lifting_score( const body_part_type::type &bp ) const;
         float breathing_score() const;
+        float vision_score() const;
         bool has_min_manipulators() const;
         // technically this is "has more than one arm"
         bool has_two_arms_lifting() const;

@@ -234,10 +234,8 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
             break;
         case bp_eyes:
             s += string_format(
-                     _( "Perception when checking traps or firing ranged weapons: <color_white>%+d</color>\n"
-                        "Dispersion when throwing items: <color_white>%+d</color>" ),
-                     -( eff_encumbrance / 10 ),
-                     eff_encumbrance * 10 );
+                     _( "Dispersion when throwing or firing: <color_white>x%.2f</color>" ),
+                     p.vision_score() );
             break;
         case bp_mouth:
             s += _( "<color_magenta>Covering your mouth will make it more difficult to breathe and catch your breath.</color>\n" );

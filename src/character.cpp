@@ -655,9 +655,9 @@ int Character::effective_dispersion( int dispersion ) const
     /** @EFFECT_PER penalizes sight dispersion when low. */
     dispersion += ranged_per_mod();
 
-    dispersion += encumb( body_part_eyes ) / 2;
+    dispersion += ranged_dispersion_modifier_vision();
 
-    return std::max( dispersion, 0 );
+    return std::max( static_cast<int>( std::round( dispersion ) ), 0 );
 }
 
 std::pair<int, int> Character::get_fastest_sight( const item &gun, double recoil ) const
@@ -777,6 +777,15 @@ float Character::ranged_dispersion_modifier() const
     } else {
         return std::min( 1000.0f,
                          ( 22.8f / manipulator_score() ) - 22.8f );
+    }
+}
+
+float Character::ranged_dispersion_modifier_vision() const
+{
+    if( vision_score() == 0.0f ) {
+        return 10'000.0f;
+    } else {
+        return std::min( 10'000.0f, ( 30.0f / vision_score() ) - 30.0f );
     }
 }
 
@@ -1631,6 +1640,15 @@ float Character::breathing_score() const
     return std::max( 0.0f, total );
 }
 
+float Character::vision_score() const
+{
+    float total = 0.0f;
+    for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
+        total += id.second.get_vision_score();
+    }
+    return std::max( 0.0f, total );
+}
+
 bool Character::has_min_manipulators() const
 {
     return manipulator_score() > MIN_MANIPULATOR_SCORE;
@@ -2295,12 +2313,7 @@ float Character::get_vision_threshold( float light_level ) const
                                      LIGHT_AMBIENT_MINIMAL ) /
                                      ( LIGHT_AMBIENT_LIT - LIGHT_AMBIENT_MINIMAL ) );
 
-    int eyes_encumb = 0;
-    if( has_part( body_part_eyes ) ) {
-        eyes_encumb = encumb( body_part_eyes );
-    }
-
-    float range = get_per() / 3.0f - eyes_encumb / 10.0f;
+    float range = get_per() / 3.0f;
     if( vision_mode_cache[NV_GOGGLES] || vision_mode_cache[NIGHTVISION_3] ||
         vision_mode_cache[FULL_ELFA_VISION] || vision_mode_cache[CEPH_VISION] ) {
         range += 10;
@@ -2316,7 +2329,7 @@ float Character::get_vision_threshold( float light_level ) const
     }
 
     // Clamp range to 1+, so that we can always see where we are
-    range = std::max( 1.0f, range );
+    range = std::max( 1.0f, range * vision_score() );
 
     return std::min( static_cast<float>( LIGHT_AMBIENT_LOW ),
                      threshold_for_range( range ) * dimming_from_light );
