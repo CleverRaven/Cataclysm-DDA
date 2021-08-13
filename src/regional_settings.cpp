@@ -174,7 +174,7 @@ static void load_forest_mapgen_settings( const JsonObject &jo,
                 std::string first_ter = forest_biome_ter_keys.get_string( 0 );
                 load_forest_biome( forest_biome_jo, forest_mapgen_settings.unfinalized_biomes[first_ter],
                                    overlay );
-                for( int biome_ter_idx = 1; biome_ter_idx < forest_biome_ter_keys.size(); biome_ter_idx++ ) {
+                for( size_t biome_ter_idx = 1; biome_ter_idx < forest_biome_ter_keys.size(); biome_ter_idx++ ) {
                     forest_mapgen_settings.unfinalized_biomes.insert( std::pair<std::string, forest_biome>
                             ( forest_biome_ter_keys.get_string( biome_ter_idx ),
                               forest_mapgen_settings.unfinalized_biomes[first_ter] ) );
