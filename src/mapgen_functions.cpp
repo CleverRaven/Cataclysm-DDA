@@ -2917,8 +2917,9 @@ void mapgen_forest( mapgendata &dat )
         const int feather_selection = *direction_pool.pick();
         switch( feather_selection ) {
             case no_dir:
-            case empty:
                 return *( self_biome.groundcover.pick() );
+            case empty:
+                return *( dat.region.default_groundcover.pick() );
             default:
                 if( adjacent_biomes[feather_selection] != nullptr ) {
                     return *( adjacent_biomes[feather_selection]->groundcover.pick() );
@@ -2944,25 +2945,6 @@ void mapgen_forest( mapgendata &dat )
         float adj_weights[4];
         float net_weight = nesw_weights( p, factor, adj_weights );
 
-        // DEBUG AREA:
-        int point_depths[4];
-        point_depths[0] = p.y;
-        point_depths[1] = SEEX * 2 - p.x - 1;
-        point_depths[2] = SEEY * 2 - p.y - 1;
-        point_depths[3] = p.x;
-        float perimeter_depths[4];
-        perimeter_depths[0] = perimeter_depth[p.x];
-        perimeter_depths[1] = perimeter_depth[SEEX * 2 + p.y];
-        perimeter_depths[2] = perimeter_depth[SEEX * 2 + SEEY * 2 + p.x];
-        perimeter_depths[3] = perimeter_depth[SEEX * 4 + SEEY * 2 + p.y];
-        if( p.y == perimeter_depths[0] || SEEX * 2 - p.x - 1 == perimeter_depths[1] ||
-            SEEY * 2 - p.y - 1 == perimeter_depths[2] || p.x == perimeter_depths[3] ) {
-            ter_furn_id debugid = no_ter_furn;
-            debugid.ter = t_pavement_y; // Yellow pavement, perimeter highlight
-            return debugid;
-        }
-        // END DEBUG AREA
-
         // Pool together all of the biomes which the target point might constitute.
         weighted_float_list<const int>
         direction_pool; // Style guidelines say use int, but it is necessary for this weighting algorithm.
@@ -2984,27 +2966,22 @@ void mapgen_forest( mapgendata &dat )
         switch( feather_selection ) {
             case no_dir:
                 feature = self_biome.pick();
-                feature.ter = t_carpet_purple; // Purple carpet, self
                 break;
             case empty:
                 feature = no_ter_furn;
-                feature.ter = t_carpet_green; // Green carpet, forced sparsity (regional biome)
                 break;
             default:
                 if( adjacent_biomes[feather_selection] != nullptr ) {
                     feature = adjacent_biomes[feather_selection]->pick();
-                    feature.ter = t_carpet_yellow; // Yellow carpet, biome feathering
 
                 } else {
                     feature = no_ter_furn;
-                    feature.ter = t_carpet_red; // Red carpet, biomeless, feathering
                 }
                 break;
         }
         if( feature.ter == no_ter_furn.ter ) {
             feature.ter = get_feathered_groundcover( p );
         }
-        feature.furn = ( furn_id )0;
         return feature;
     };
 
