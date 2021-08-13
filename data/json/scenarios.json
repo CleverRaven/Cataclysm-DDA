@@ -144,7 +144,8 @@
     "points": -2,
     "forced_traits": [ "HAS_NEMESIS" ],
     "description": "Since the start of the Cataclysm, something has been hunting you relentlessly.  You can outrun it, but it always seems to find you eventually.  The only escape is for one of you to die.",
-    "allowed_locs": [ "sloc_house",
+    "allowed_locs": [
+      "sloc_house",
       "sloc_house_boarded",
       "sloc_school",
       "sloc_grocery_store",
@@ -164,7 +165,8 @@
       "sloc_cemetery",
       "sloc_apartments_rooftop",
       "sloc_apartments_rooftop2",
-      "sloc_hospital" ],
+      "sloc_hospital"
+    ],
     "start_name": "In Town",
     "flags": [ "CHALLENGE", "LONE_START" ],
     "missions": [ "MISSION_KILL_NEMESIS" ]
