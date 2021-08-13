@@ -43,3 +43,21 @@ class A1
             jsin.read( b );
         }
 };
+
+struct A2 {
+    int a;
+    int b;
+    // CHECK-MESSAGES: warning: Function 'serialize' appears to be a serialization function for class 'A2' but does not mention field 'b'. [cata-serialize]
+    bool was_loaded = false;
+
+    template<typename T>
+    void serialize( T &out ) const {
+        out.member( "a", a );
+    }
+};
+
+void f2( JsonOut &jsout )
+{
+    A2 a2;
+    a2.serialize( jsout );
+}
