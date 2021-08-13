@@ -7063,8 +7063,10 @@
     "type": "mutation",
     "id": "HAS_NEMESIS",
     "name": { "str": "Hunted" },
-    "points": -2,
+    "points": -1,
     "description": "Since the start of the Cataclysm, something has been hunting you relentlessly.  You can outrun it, but it always seems to find you eventually.  The only escape is for one of you to die.",
-    "starting_trait": true
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false
   }
 ]
