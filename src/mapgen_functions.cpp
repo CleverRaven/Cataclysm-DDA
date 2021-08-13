@@ -2708,8 +2708,8 @@ void mapgen_forest( mapgendata &dat )
             float v_unit_hash = static_cast<float>( v_hash ) / static_cast<float>( UINT32_MAX );
             // Apply the box-muller transform to produce a gaussian distribution with the desired mean and deviation.
             float mag = depth_deviation * sqrt( -2. * log( h_unit_hash ) );
-            int h_norm_transform = round( mag * cos( 2 * M_PI * v_unit_hash ) + average_depth );
-            int v_norm_transform = round( mag * sin( 2 * M_PI * v_unit_hash ) + average_depth );
+            int h_norm_transform = static_cast<int>(clamp(round( mag * cos( 2 * M_PI * v_unit_hash ) + average_depth ), static_cast<double>( INT32_MIN ), static_cast<double>( INT32_MAX )));
+            int v_norm_transform = static_cast<int>(clamp(round( mag * sin( 2 * M_PI * v_unit_hash ) + average_depth ), static_cast<double>( INT32_MIN ), static_cast<double>( INT32_MAX )));
 
             int corner_index = bd_x ? 1 + bd_y : 3 * bd_y; // Counterclockwise labeling.
             border_depth[corner_index] = abs( h_norm_transform );
