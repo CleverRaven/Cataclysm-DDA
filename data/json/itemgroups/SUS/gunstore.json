@@ -61,7 +61,7 @@
     "//2": "This group is for damaged items that can spawn on the floor of looted gunstores",
     "subtype": "distribution",
     "entries": [
-      { "group": "guns_common", "prob": 30, "damage": [ 0, 4 ] },
+      { "group": "guns_common", "prob": 15, "damage": [ 0, 4 ] },
       { "group": "book_gunmags", "prob": 25, "damage": [ 0, 4 ] },
       { "group": "looted_store", "prob": 75 },
       { "group": "ammo_parts", "prob": 5 },
