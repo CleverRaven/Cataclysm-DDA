@@ -1351,7 +1351,9 @@ conditional_t<T>::conditional_t( const std::string &type )
         set_has_reason();
     } else if( type == "mission_has_generic_rewards" ) {
         set_mission_has_generic_rewards();
-    } else if( type == "u_can_see" || type == "npc_can_see" ) {
+    } else if( type == "u_can_see" ) {
+        set_can_see();
+    } else if( type == "npc_can_see" ) {
         set_can_see( is_npc );
     } else if( type == "u_is_deaf" ) {
         set_is_deaf();
