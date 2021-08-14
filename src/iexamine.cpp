@@ -5408,8 +5408,8 @@ static void smoker_load_food( player &p, const tripoint &examp,
     for( const item &m : moved ) {
         here.add_item( examp, m );
         p.mod_moves( -p.item_handling_cost( m ) );
-        add_msg( m_info, _( "You carefully place %s %s in the rack." ), amount,
-                 item::nname( m.typeId(), amount ) );
+        add_msg( m_info, _( "You carefully place %1$d %2$s in the rack." ), m.charges,
+                 m.tname( m.charges ) );
     }
     p.invalidate_crafting_inventory();
 }
@@ -5516,8 +5516,8 @@ static void mill_load_food( player &p, const tripoint &examp,
     for( const item &m : moved ) {
         here.add_item( examp, m );
         p.mod_moves( -p.item_handling_cost( m ) );
-        add_msg( m_info, pgettext( "item amount and name", "You carefully place %s %s in the mill." ),
-                 amount, item::nname( m.typeId(), amount ) );
+        add_msg( m_info, _( "You carefully place %1$d %2$s in the mill." ), m.charges,
+                 m.tname( m.charges ) );
     }
     p.invalidate_crafting_inventory();
 }
@@ -5643,7 +5643,7 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
                                                 c_red ) + "\n";
                         continue;
                     }
-                    pop += "-> " + item::nname( it.typeId(), it.charges ) + " (" + std::to_string( it.charges ) + ")\n";
+                    pop += "-> " + it.display_name() + "\n";
                 }
             }
             popup( pop, PF_NONE );
@@ -5848,7 +5848,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                         pop += "\n" + colorize( _( "You see some smoldering embers there." ), c_red ) + "\n";
                         continue;
                     }
-                    pop += "-> " + item::nname( it.typeId(), it.charges ) + " (" + std::to_string( it.charges ) + ")\n";
+                    pop += "-> " + it.display_name() + "\n";
                 }
             }
             popup( pop, PF_NONE );

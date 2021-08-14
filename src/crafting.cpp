@@ -1228,7 +1228,9 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
             for( item &comp : used ) {
                 // only comestibles have cooks_like.  any other type of item will throw an exception, so filter those out
                 if( comp.is_comestible() && !comp.get_comestible()->cooks_like.is_empty() ) {
+                    const double relative_rot = comp.get_relative_rot();
                     comp = item( comp.get_comestible()->cooks_like, comp.birthday(), comp.charges );
+                    comp.set_relative_rot( relative_rot );
                 }
                 // If this recipe is cooked, components are no longer raw.
                 if( should_heat || remove_raw ) {
@@ -1716,13 +1718,16 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
             ret.splice( ret.end(), tmp );
         }
     }
-    // condense those items into one
+    // Merge charges for items that stack with each other
     if( by_charges && ret.size() > 1 ) {
-        std::list<item>::iterator b = ret.begin();
-        b++;
-        while( ret.size() > 1 ) {
-            ret.front().charges += b->charges;
-            b = ret.erase( b );
+        for( auto outer = std::begin( ret ); outer != std::end( ret ); ++outer ) {
+            for( auto inner = std::next( outer ); inner != std::end( ret ); ) {
+                if( outer->merge_charges( *inner ) ) {
+                    inner = ret.erase( inner );
+                } else {
+                    ++inner;
+                }
+            }
         }
     }
     lastconsumed = selected_comp.type;
