@@ -178,11 +178,11 @@ template<typename T>
 static float lerped_multiplier( const T &value, const T &low, const T &high )
 {
     // No effect if less than allowed value
-    if( value < low ) {
+    if( value <= low ) {
         return 1.0f;
     }
     // Bottom out at 25% speed
-    if( value > high ) {
+    if( value >= high ) {
         return 0.25f;
     }
     // Linear interpolation between high and low
