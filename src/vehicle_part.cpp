@@ -332,7 +332,7 @@ double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )
         if( !charges_to_use ) {
             return 0.0;
         }
-        if( charges_to_use > fuel.charges ) {
+        if( charges_to_use >= fuel.charges ) {
             charges_to_use = fuel.charges;
             base.contents.clear_items();
         } else {
