@@ -92,7 +92,7 @@ void widget::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "width", _width, 1 );
     optional( jo, was_loaded, "symbols", _symbols, "-" );
     optional( jo, was_loaded, "fill", _fill, "bucket" );
-    optional( jo, was_loaded, "label", _label, "" );
+    optional( jo, was_loaded, "label", _label, translation() );
     optional( jo, was_loaded, "style", _style, "number" );
     optional( jo, was_loaded, "arrange", _arrange, "columns" );
     optional( jo, was_loaded, "var_min", _var_min );
@@ -292,7 +292,7 @@ std::string widget::number( int value, int /* value_max */ )
 
 std::string widget::phrase( int value, int /* value_max */ )
 {
-    return _strings.at( value );
+    return _strings.at( value ).translated();
 }
 
 std::string widget::graph( int value, int value_max )
@@ -380,11 +380,12 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width )
     } else {
         // Get displayed value (colorized)
         std::string shown = show( ava );
+        const std::string tlabel = _label.translated();
         // Width used by label, ": " and value, using utf8_width to ignore color tags
-        unsigned int used_width = _label.length() + 2 + utf8_width( shown, true );
+        unsigned int used_width = utf8_width( tlabel, true ) + 2 + utf8_width( shown, true );
 
         // Label first
-        ret += _label;
+        ret += tlabel;
         // then enough padding to fit max_width
         if( used_width < max_width ) {
             ret += std::string( max_width - used_width, ' ' );

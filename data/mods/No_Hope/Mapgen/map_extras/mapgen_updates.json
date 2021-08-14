@@ -470,11 +470,5 @@
       },
       "npcs": { "@": { "class": "raider" } }
     }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "update_mapgen_id": "bandits_rv",
-    "object": { "place_nested": [ { "chunks": [ "bandits_rv" ], "x": 0, "y": 0 } ] }
   }
 ]

@@ -2389,8 +2389,8 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
                          obj.tname(), holster.tname() );
 
     // holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
-    p.store( holster, obj, false, holster.obtain_cost( obj ),
-             item_pocket::pocket_type::CONTAINER );
+    p.as_character()->store( holster, obj, false, holster.obtain_cost( obj ),
+                             item_pocket::pocket_type::CONTAINER );
     return true;
 }
 

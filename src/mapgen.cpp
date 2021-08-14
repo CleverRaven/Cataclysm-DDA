@@ -270,6 +270,11 @@ class mapgen_basic_container
             // Not needed anymore, pointers are now stored in weights_ (or not used at all)
             mapgens_.clear();
         }
+        void finalize_parameters() {
+            for( auto &mapgen_function_ptr : weights_ ) {
+                mapgen_function_ptr.obj->finalize_parameters();
+            }
+        }
         void check_consistency() {
             for( auto &mapgen_function_ptr : weights_ ) {
                 mapgen_function_ptr.obj->check();
@@ -321,8 +326,14 @@ class mapgen_factory
                 omw.second.setup();
                 inp_mngr.pump_events();
             }
-            // Dummy entry, overmap terrain null should never appear and is therefore never generated.
+            // Dummy entry, overmap terrain null should never appear and is
+            // therefore never generated.
             mapgens_.erase( "null" );
+        }
+        void finalize_parameters() {
+            for( std::pair<const std::string, mapgen_basic_container> &omw : mapgens_ ) {
+                omw.second.finalize_parameters();
+            }
         }
         void check_consistency() {
             // Cache all strings that may get looked up here so we don't have to go through
@@ -394,7 +405,21 @@ void calculate_mapgen_weights()   // TODO: rename as it runs jsonfunction setup 
             inp_mngr.pump_events();
         }
     }
-
+    // Having set up all the mapgens we can now perform a second
+    // pass of finalizing their parameters
+    oter_mapgen.finalize_parameters();
+    for( auto &pr : nested_mapgen ) {
+        for( weighted_object<int, std::shared_ptr<mapgen_function_json_nested>> &ptr : pr.second ) {
+            ptr.obj->finalize_parameters();
+            inp_mngr.pump_events();
+        }
+    }
+    for( auto &pr : update_mapgen ) {
+        for( auto &ptr : pr.second ) {
+            ptr->finalize_parameters();
+            inp_mngr.pump_events();
+        }
+    }
 }
 
 void check_mapgen_definitions()
@@ -599,6 +624,13 @@ static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y,
     return true;
 }
 
+void mapgen_function_json_base::merge_non_nest_parameters_into(
+    mapgen_parameters &params, const std::string &outer_context ) const
+{
+    const std::string context = string_format( "%s within %s", context_, outer_context );
+    params.check_and_merge( parameters, context, mapgen_parameter_scope::nest );
+}
+
 bool mapgen_function_json_base::check_inbounds( const jmapgen_int &x, const jmapgen_int &y,
         const JsonObject &jso ) const
 {
@@ -801,6 +833,11 @@ void mapgen_function_json_base::setup_setmap( const JsonArray &parray )
 
 }
 
+void mapgen_function_json_base::finalize_parameters_common()
+{
+    objects.merge_parameters_into( parameters, context_ );
+}
+
 mapgen_arguments mapgen_function_json_base::get_args(
     const mapgendata &md, mapgen_parameter_scope scope ) const
 {
@@ -988,7 +1025,10 @@ class mapgen_value
                 if( const distribution_source *other =
                         dynamic_cast<const distribution_source *>( &o ) ) {
                     if( list != other->list ) {
-                        debugmsg( "inconsistent default value distributions for %s", context );
+                        const std::string my_list = list.to_debug_string();
+                        const std::string other_list = other->list.to_debug_string();
+                        debugmsg( "inconsistent default value distributions for %s (%s vs %s)",
+                                  context, my_list, other_list );
                     }
                 } else {
                     debugmsg( "inconsistent default types for %s", context );
@@ -1111,13 +1151,16 @@ mapgen_arguments mapgen_parameters::get_args(
 }
 
 void mapgen_parameters::check_and_merge( const mapgen_parameters &other,
-        const std::string &context )
+        const std::string &context, mapgen_parameter_scope up_to_scope )
 {
     for( const std::pair<const std::string, mapgen_parameter> &p : other.map ) {
+        const mapgen_parameter &other_param = p.second;
+        if( other_param.scope() >= up_to_scope ) {
+            continue;
+        }
         auto insert_result = map.insert( p );
         if( !insert_result.second ) {
             const std::string &name = p.first;
-            const mapgen_parameter &other_param = p.second;
             const mapgen_parameter &this_param = insert_result.first->second;
             this_param.check_consistent_with(
                 other_param, string_format( "parameter %s in %s", name, context ) );
@@ -1479,6 +1522,11 @@ class jmapgen_item_group : public jmapgen_piece
             group_id = item_group::load_item_group( group, "collection",
                                                     "mapgen item group " + context );
             repeat = jmapgen_int( jsi, "repeat", 1, 1 );
+        }
+        void check( const std::string &context, const mapgen_parameters & ) const override {
+            if( !group_id.is_valid() ) {
+                debugmsg( "Invalid item_group_id \"%s\" in %s", group_id.str(), context );
+            }
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
@@ -2260,6 +2308,31 @@ class jmapgen_nested : public jmapgen_piece
         int phase() const override {
             return 1;
         }
+        void merge_parameters_into( mapgen_parameters &params,
+                                    const std::string &outer_context ) const override {
+            auto merge_from = [&]( const std::string & name ) {
+                if( name == "null" ) {
+                    return;
+                }
+                const auto iter = nested_mapgen.find( name );
+                if( iter == nested_mapgen.end() ) {
+                    debugmsg( "Unknown nested mapgen function id %s", name );
+                    return;
+                }
+                using Obj = weighted_object<int, std::shared_ptr<mapgen_function_json_nested>>;
+                for( const Obj &nested : iter->second ) {
+                    nested.obj->merge_non_nest_parameters_into( params, outer_context );
+                }
+            };
+
+            for( const weighted_object<int, std::string> &name : entries ) {
+                merge_from( name.obj );
+            }
+
+            for( const weighted_object<int, std::string> &name : else_entries ) {
+                merge_from( name.obj );
+            }
+        }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
             const std::string *res = neighbors.test( dat ) ? entries.pick() : else_entries.pick();
@@ -2757,6 +2830,21 @@ void update_mapgen_function_json::setup()
     setup_common();
 }
 
+void mapgen_function_json::finalize_parameters()
+{
+    finalize_parameters_common();
+}
+
+void mapgen_function_json_nested::finalize_parameters()
+{
+    finalize_parameters_common();
+}
+
+void update_mapgen_function_json::finalize_parameters()
+{
+    finalize_parameters_common();
+}
+
 /*
  * Parse json, pre-calculating values for stuff, then cheerfully throw json away. Faster than regular mapf, in theory
  */
@@ -2963,6 +3051,14 @@ void jmapgen_objects::check( const std::string &context, const mapgen_parameters
 {
     for( const jmapgen_obj &obj : objects ) {
         obj.second->check( context, parameters );
+    }
+}
+
+void jmapgen_objects::merge_parameters_into( mapgen_parameters &params,
+        const std::string &outer_context ) const
+{
+    for( const jmapgen_obj &obj : objects ) {
+        obj.second->merge_parameters_into( params, outer_context );
     }
 }
 
@@ -3193,12 +3289,12 @@ void mapgen_function_json_nested::nest( const mapgendata &md, const point &offse
     mapgendata md_with_params( md, get_args( md, mapgen_parameter_scope::nest ) );
 
     for( const jmapgen_setmap &elem : setmap_points ) {
-        elem.apply( md, offset );
+        elem.apply( md_with_params, offset );
     }
 
-    objects.apply( md, offset );
+    objects.apply( md_with_params, offset );
 
-    resolve_regional_terrain_and_furniture( md );
+    resolve_regional_terrain_and_furniture( md_with_params );
 }
 
 /*
@@ -4578,7 +4674,7 @@ void map::draw_mine( mapgendata &dat )
         }
 
         // Not an entrance; maybe some hazards!
-        switch( rng( 0, 6 ) ) {
+        switch( rng( 0, 5 ) ) {
             case 0:
                 break; // Nothing!  Lucky!
 
@@ -4810,42 +4906,26 @@ void map::draw_mine( mapgendata &dat )
                 }
             }
         }
-        std::vector<direction> face; // Which walls are solid, and can be a facing?
+
         // Now draw the entrance(s)
         if( dat.north() == "mine" ) {
             square( this, t_rock_floor, point( SEEX, 0 ), point( SEEX + 1, 3 ) );
-        } else {
-            face.push_back( direction::NORTH );
         }
 
         if( dat.east()  == "mine" ) {
             square( this, t_rock_floor, point( SEEX * 2 - 4, SEEY ), point( EAST_EDGE, SEEY + 1 ) );
-        } else {
-            face.push_back( direction::EAST );
         }
 
         if( dat.south() == "mine" ) {
             square( this, t_rock_floor, point( SEEX, SEEY * 2 - 4 ), point( SEEX + 1, SOUTH_EDGE ) );
-        } else {
-            face.push_back( direction::SOUTH );
         }
 
         if( dat.west()  == "mine" ) {
             square( this, t_rock_floor, point( 0, SEEY ), point( 3, SEEY + 1 ) );
-        } else {
-            face.push_back( direction::WEST );
         }
 
         // Now, pick and generate a type of finale!
-        int rn = 0;
-        if( face.empty() ) {
-            rn = rng( 1, 2 );  // Amigara fault is not valid
-        } else {
-            rn = rng( 1, 3 );
-        }
-
-        computer *tmpcomp = nullptr;
-        switch( rn ) {
+        switch( rng( 1, 2 ) ) {
             case 1: { // Wyrms
                 const point p2( rng( SEEX, SEEX + 1 ), rng( SEEY, SEEY + 1 ) );
                 ter_set( p2, t_pedestal_wyrm );
@@ -4866,39 +4946,7 @@ void map::draw_mine( mapgendata &dat )
                                 relic_procgen_id( "netherum_tunnels" ) );
             }
             break;
-
-            case 3: { // Amigara fault
-                // Construct the fault on the appropriate face
-                switch( random_entry( face ) ) {
-                    case direction::NORTH:
-                        square( this, t_rock, point_zero, point( EAST_EDGE, 4 ) );
-                        line( this, t_fault, point( 4, 4 ), point( SEEX * 2 - 5, 4 ) );
-                        break;
-                    case direction::EAST:
-                        square( this, t_rock, point( SEEX * 2 - 5, 0 ), point( SOUTH_EDGE, EAST_EDGE ) );
-                        line( this, t_fault, point( SEEX * 2 - 5, 4 ), point( SEEX * 2 - 5, SEEY * 2 - 5 ) );
-                        break;
-                    case direction::SOUTH:
-                        square( this, t_rock, point( 0, SEEY * 2 - 5 ), point( EAST_EDGE, SOUTH_EDGE ) );
-                        line( this, t_fault, point( 4, SEEY * 2 - 5 ), point( SEEX * 2 - 5, SEEY * 2 - 5 ) );
-                        break;
-                    case direction::WEST:
-                        square( this, t_rock, point_zero, point( 4, SOUTH_EDGE ) );
-                        line( this, t_fault, point( 4, 4 ), point( 4, SEEY * 2 - 5 ) );
-                        break;
-                    default:
-                        break;
-                }
-
-                furn_set( point( SEEX, SEEY ), furn_str_id( "f_console" ) );
-                tmpcomp = add_computer( tripoint( SEEX,  SEEY, abs_sub.z ), _( "NEPowerOS" ), 0 );
-                tmpcomp->add_option( _( "Read Logs" ), COMPACT_AMIGARA_LOG, 0 );
-                tmpcomp->add_option( _( "Initiate Tremors" ), COMPACT_AMIGARA_START, 4 );
-                tmpcomp->add_failure( COMPFAIL_AMIGARA );
-            }
-            break;
         }
-
     }
 }
 

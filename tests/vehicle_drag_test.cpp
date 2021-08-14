@@ -272,8 +272,8 @@ TEST_CASE( "vehicle_drag", "[vehicle] [engine]" )
     test_vehicle_drag( "military_cargo_truck", 0.840758, 10.714119, 4943.947222, 11407, 13439 );
     test_vehicle_drag( "flatbed_truck", 0.776903, 4.448263, 1991.399432, 10194, 12254 );
     test_vehicle_drag( "pickup", 0.589208, 2.852032, 1153.678571, 11367, 13615 );
-    test_vehicle_drag( "semi_truck", 0.792020, 9.972140, 5761.962500, 11688, 13758 );
-    test_vehicle_drag( "truck_trailer", 1.196475, 13.367675, 5924.600000, 0, 0 );
+    test_vehicle_drag( "semi_truck", 0.778423, 7.637768, 5148.673056, 12051, 14123 );
+    test_vehicle_drag( "truck_trailer", 1.128750, 10.893304, 4827.950000, 0, 0 );
     test_vehicle_drag( "tatra_truck", 0.968468, 8.157085, 4359.472384, 14080, 16428 );
     test_vehicle_drag( "animalctrl", 0.396191, 2.611512, 1056.385714, 12891, 15457 );
     test_vehicle_drag( "autosweeper", 0.986850, 1.844396, 1305.637500, 6884, 7144 );
@@ -285,11 +285,11 @@ TEST_CASE( "vehicle_drag", "[vehicle] [engine]" )
     test_vehicle_drag( "cube_van", 0.518580, 2.591620, 2127.064583, 11877, 14220 );
     test_vehicle_drag( "cube_van_cheap", 0.518580, 2.528161, 2074.981250, 10052, 12064 );
     test_vehicle_drag( "hippie_van", 0.375874, 2.480786, 1003.505357, 11086, 13328 );
-    test_vehicle_drag( "icecream_truck", 0.681673, 2.971394, 2021.317399, 10847, 12988 );
+    test_vehicle_drag( "icecream_truck", 0.681673, 2.161250, 2013.547635, 10986, 13120 );
     test_vehicle_drag( "lux_rv", 1.630929, 3.669265, 2071.093531, 8426, 9792 );
-    test_vehicle_drag( "meth_lab", 0.499230, 3.995749, 2423.521011, 11709, 14096 );
+    test_vehicle_drag( "meth_lab", 0.499230, 3.521548, 2410.633378, 11811, 14195 );
     test_vehicle_drag( "rv", 0.541800, 2.939497, 2012.197473, 11645, 13958 );
-    test_vehicle_drag( "schoolbus", 0.445050, 3.727552, 1688.087610, 12535, 14652 );
+    test_vehicle_drag( "schoolbus", 0.445050, 3.028119, 1709.202741, 12702, 14813 );
     test_vehicle_drag( "security_van", 0.541800, 8.623353, 7077.592708, 10891, 12901 );
     test_vehicle_drag( "wienermobile", 1.281891, 2.237757, 1836.632292, 10612, 12636 );
     test_vehicle_drag( "canoe", 0.609525, 7.741047, 2.191938, 298, 628 );

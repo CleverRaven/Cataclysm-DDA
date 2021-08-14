@@ -45,6 +45,182 @@
   },
   {
     "type": "snippet",
+    "category": "mutant_brain_desc",
+    "text": [
+      {
+        "id": "mutant_brain_1",
+        "text": "The brain of a heavily-mutated animal.  A thick net of interlocking veins cocoons it, and the surface has a rainbow sheen like an oil slick.  When you reach towards it, the whole thing starts shuddering and it comes loose from the spinal cord, as if it's trying to escape."
+      },
+      {
+        "id": "mutant_brain_2",
+        "text": "The brain of a heavily-mutated animal.  Shining white in color and brittle to the touch like hard cheese, you can hardly believe it was a living organ moments before.  On the base the pure whiteness is broken up by a huge, spasming artery filled with yellow gunk."
+      },
+      {
+        "id": "mutant_brain_3",
+        "text": "The brain of a heavily-mutated animal.  Vestigial, still-twitching eyes are strewn across its surface, each with a different-shaped pupil.  Hidden between the hemispheres you find an embryonic copy of the creature's face, eyes darting around in a mad spasm."
+      },
+      {
+        "id": "mutant_brain_4",
+        "text": "Something, probably the brain, from a heavily-mutated animal.  The spinal cord gives way to a chaotic tangle of loose neural fibers without any of semblance of a solid anatomy, and the whole mess is visibly shrinking now that you got it out of the creature's liquor."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "cooked_mutant_brain_desc",
+    "text": [
+      {
+        "id": "cooked_mutant_brain_1",
+        "text": "This is a piece of cooked brain from a mutated animal.  Whatever gave its surface an oily sheen has coagulated into bluish clumps of goo settled into the grooves.  You try to scrape them off, but they seem fused with the tissue beneath."
+      },
+      {
+        "id": "cooked_mutant_brain_2",
+        "text": "A piece of cooked brain from a heavily-mutated animal.  A circulatory vessel at the base of it burst while cooking, slathering the whole thing in faintly citrus-smelling yellow liquid.  While the smell is almost appetizing, the faint taste of ammonia is anything but."
+      },
+      {
+        "id": "cooked_mutant_brain_3",
+        "text": "A piece of cooked brain from a heavily-mutated animal.  The eyes jutting out of the surface have grown milky, and a good few of them fell off, each revealing a small depression dominated by a short root of veins and nerve.  Judging by the spongy texture, some remain buried in the deeper tissues."
+      },
+      {
+        "id": "cooked_mutant_brain_4",
+        "text": "A cooked piece of what passes for a brain in some mutant animals.  The whole thing came apart into a coarse jelly interspersed with hair-thin, branching nerves that seem to move slightly.  The texture is horrible, but it tastes better than starvation."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "mutant_lung_desc",
+    "text": [
+      {
+        "id": "mutant_lung_1",
+        "text": "A piece of lung you removed from a mutated animal.  Strange, transparent, swaying tubes filled with a clear liquid emerge from the mostly-normal lung tissue.  Some broke off during the butchery, and the escaped liquid coats your tools, hardening on contact with the air like superglue."
+      },
+      {
+        "id": "mutant_lung_2",
+        "text": "A piece of lung from a heavily-mutated animal.  Even after removing the diaphragm, the tissue itself keeps rhythmically expanding and contracting, sending a gurgling whine through the truncated windpipe with each breath.  It takes far too long for it to grow still."
+      },
+      {
+        "id": "mutant_lung_3",
+        "text": "A piece of lung from a heavily-mutated animal.  The airways are broken up in regular intervals by what resemble vocal cords, and whenever you push some air through the tissue a cacophony of screams erupts from them."
+      },
+      {
+        "id": "mutant_lung_4",
+        "text": "A piece of lung from a heavily-mutated animal.  The whole thing is filled with a foul-smelling, greenish foam bubbling from strange glands lining the trachea, making you wonder how the creature could breathe at all.  It does explain the attitude, at least."
+      },
+      {
+        "id": "mutant_lung_5",
+        "text": "A piece of lung from a heavily-mutated animal.  The airways are lined with rows of tiny, stone-hard barbs, each pointing towards the outside, as if they were made to keep something out."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "cooked_mutant_lung_desc",
+    "text": [
+      {
+        "id": "cooked_mutant_lung_1",
+        "text": "A cooked piece of a mutant animal's lung.  With a lot of work you can cut around the hardened shell of translucent gunk, but your only reward is getting to the spongy, grey, mostly-flavorless mass of tissue beneath."
+      },
+      {
+        "id": "cooked_mutant_lung_2",
+        "text": "A cooked piece of a mutant animal's lung.  The heat somehow made the tissue swell up, with some alveoli bursting and collapsing on themselves.  The whole thing turned to the consistency of cotton candy, but with a faint taste of yeast replacing the sugary goodness."
+      },
+      {
+        "id": "cooked_mutant_lung_3",
+        "text": "A cooked piece of a mutant animal's lung.  Deep within, the extraneous vocal cords you didn't manage to remove turned to chewy morsels.  The taste is almost good enough to make you forget the way they sounded while you were cooking it."
+      },
+      {
+        "id": "cooked_mutant_lung_4",
+        "text": "A cooked piece of a mutant animal's lung.  The glands exuding the green foam have solidified, and the foam itself seems to have evaporated without a trace.  The smell is detestable, but the glands have a taste and consistency remarkably like hardboiled egg yolk."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "mutant_liver_desc",
+    "text": [
+      {
+        "id": "mutant_liver_1",
+        "text": "A chunk of liver from a mutated animal.  The surface is pockmarked by hexagonal scar tissue, and some surprisingly active flatworms still seem to cling to it.  About half of them seem to be in the process of being digested by their meal, instead of the other way around."
+      },
+      {
+        "id": "mutant_liver_2",
+        "text": "A chunk of liver from a mutated animal.  Most of its volume is taken up by a gigantic cyst filled with tiny, crab-like creatures.  Upon opening it the contents spray to the ground, with the suddenly homeless inhabitants scurrying for cover.  The rest of it looks relatively normal, if only in comparison."
+      },
+      {
+        "id": "mutant_liver_3",
+        "text": "A chunk of liver from a mutated animal.  The gall bladder has transformed into a bundle of hair and skin, and what appeared to be brownish veins originating from it turn out to be solitary, curled hairs crisscrossing beneath the surface of the organ.  At least you can remove them with a gentle pull on the central mass, but the whole liver collapses in a gelatinous heap afterwards."
+      },
+      {
+        "id": "mutant_liver_4",
+        "text": "A chunk of liver from a mutated animal.  The surface is blackened and hard but cracked, exposing a few strips of fresh pink tissue underneath.  After cracking the shell fully open, the inner tissue begins swelling at an alarming rate before turning grey and lifeless."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "cooked_mutant_liver_desc",
+    "text": [
+      {
+        "id": "cooked_mutant_liver_1",
+        "text": "A cooked chunk of liver from a mutated animal.  Getting all the parasites - if that's what they were - off was more effort than this meal is probably worth, and the consistency suffered considerably from having to dig them out from the depth of the organ."
+      },
+      {
+        "id": "cooked_mutant_liver_2",
+        "text": "A cooked chunk of liver from a mutated animal.  Instead of the matte grey-brown of a normal liver, this one turned disconcertingly orange after heating it up, and finger-sized flakes detach themselves from it at the slightest touch.  The taste reminds you of slightly overripe avocado, but that's still better than you expected."
+      },
+      {
+        "id": "cooked_mutant_liver_3",
+        "text": "A cooked chunk of liver from a mutated animal.  The channels left by the hairs you removed have filled with an oily black liquid, lending a surprisingly nice look to the cut surface.  On biting into it the fluid hardens unexpectedly, leaving you to chew much longer than you'd like to."
+      },
+      {
+        "id": "cooked_mutant_liver_4",
+        "text": "A cooked chunk of liver from a mutated animal.  The tissue split apart following the veins before hardening, reminding you of a warped grey flower with a sinuous vein for a stem.  Perhaps surprisingly, it tastes not entirely unlike liver."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "mutant_kidney_desc",
+    "text": [
+      {
+        "id": "mutant_kidney_1",
+        "text": "A piece of kidney from a mutated animal.  Cutting into it your knife slips, opening a large gash on its side from which tiny, beautiful pearls roll out.  Before your eyes they start glistening with humidity and melt, leaving no trace beyond a stingin stench."
+      },
+      {
+        "id": "mutant_kidney_2",
+        "text": "A piece of kidney from a mutated animal.  The tissue is broken up by pointy, brittle crystals you need to carefully cut around, lest they embed in your hand.  When you're done about half the meat is gone."
+      },
+      {
+        "id": "mutant_kidney_3",
+        "text": "A piece of kidney from a mutated animal.  Most of the volume is taken up by clear cysts filled with liquid, leaving you to pop them one by one to try and salvage some usable tissue.  The result looks about as appetizing as it sounds, but you suppose it's technically edible."
+      },
+      {
+        "id": "mutant_kidney_4",
+        "text": "A piece of kidney from a mutated animal.  Accessory kidneys bud off the ureter in clumps, like red, slightly quivering grapes.  The main organ continues the same fractal structure, fraying  into myriad tiny berries still connected to a stem."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "cooked_mutant_kidney_desc",
+    "text": [
+      {
+        "id": "cooked_mutant_kidney_1",
+        "text": "A cooked piece of kidney from a mutated animal.  Cooking it exposed myriad tiny, glistening stones embedded into the tissue, making your teeth screech with every bite despite your care not to crack your teeth.  It tastes sickly sweet, and a stinging aftertaste lingers in your mouth for a long time."
+      },
+      {
+        "id": "cooked_mutant_kidney_2",
+        "text": "A cooked piece of kidney from a mutated animal.  Cooking loosened the tissue enough for it to come apart from the lightest pull, while exposing long, off-white strands that connect the different parts together."
+      },
+      {
+        "id": "cooked_mutant_kidney_3",
+        "text": "A cooked piece of kidney from a mutated animal.  You swear it grew new cysts while you were cooking it, each of which sports a different color.  You're not sure you want to know how the dark blue one tastes."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "bug_organs_desc",
     "text": [
       {
@@ -75,14 +251,14 @@
   },
   {
     "type": "snippet",
-    "category": "mutant_lung_desc",
+    "category": "mutant_bug_lung_desc",
     "text": [
       {
-        "id": "mutant_lung_1",
+        "id": "mutant_bug_lung_1",
         "text": "You're pretty sure this is lung tissue.  It looks like a lung from a larger mammal, like a dog, but instead of a few distinct lobes, it has dozens of lobes arranged in sheets.  Strange spindles and gnarled tumescences dot the surface."
       },
       {
-        "id": "mutant_lung_2",
+        "id": "mutant_bug_lung_2",
         "text": "You're pretty sure this is lung tissue.  It has a vaguely wing-like shape, with a series of nodules around what would be the trailing edge of the 'wing'.  A cluster of quills in each corner of the organ held it to the bug's carapace like clasps."
       }
     ]

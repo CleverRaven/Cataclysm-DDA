@@ -2438,6 +2438,14 @@ void try_sleep_activity_actor::finish( player_activity &act, Character &who )
     who.set_movement_mode( move_mode_id( "walk" ) );
 }
 
+
+void try_sleep_activity_actor::canceled( player_activity &, Character &who )
+{
+    if( who.movement_mode_is( move_mode_id( "prone" ) ) ) {
+        who.set_movement_mode( move_mode_id( "walk" ) );
+    }
+}
+
 void try_sleep_activity_actor::query_keep_trying( player_activity &act, Character &who )
 {
     if( disable_query || !who.is_avatar() ) {
@@ -2455,6 +2463,7 @@ void try_sleep_activity_actor::query_keep_trying( player_activity &act, Characte
         case UILIST_CANCEL:
         case 1:
             act.set_to_null();
+            who.set_movement_mode( move_mode_id( "walk" ) );
             break;
         case 3:
             disable_query = true;
@@ -4119,15 +4128,17 @@ void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
         return;
     }
 
-    const int spent_moves = who.get_moves() * who.exertion_adjusted_move_multiplier( exertion_level() );
-    craft.item_counter += std::round( spent_moves * crafting_speed * 10'000'000.0 / moves_total );
-    who.set_moves( 0 );
-
-    craft.item_counter = std::min( craft.item_counter, 10'000'000 );
+    if( moves_total == 0 ) {
+        craft.item_counter = 10'000'000;
+    } else {
+        const int spent_moves = who.get_moves() * who.exertion_adjusted_move_multiplier( exertion_level() );
+        craft.item_counter += std::round( spent_moves * crafting_speed * 10'000'000.0 / moves_total );
+        craft.item_counter = std::min( craft.item_counter, 10'000'000 );
+        who.set_moves( 0 );
+    }
 
     if( craft.item_counter >= 10'000'000 ) {
         who.complete_disassemble( target );
-        who.cancel_activity();
     }
 }
 

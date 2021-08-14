@@ -184,7 +184,7 @@ TEST_CASE( "widgets", "[widget][graph][color]" )
         widget wid = widget_id( "test_hp_head_graph" ).obj();
         REQUIRE( wid._fill == "bucket" );
 
-        CHECK( wid._label == "HEAD" );
+        CHECK( wid._label.translated() == "HEAD" );
         CHECK( wid.graph( 0 ) == ",,,,," );
         CHECK( wid.graph( 1 ) == "\\,,,," );
         CHECK( wid.graph( 2 ) == "|,,,," );
