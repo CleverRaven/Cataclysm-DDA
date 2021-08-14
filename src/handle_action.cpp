@@ -663,7 +663,7 @@ static void smash()
         }
     }
     const int move_cost = !player_character.is_armed() ? 80 :
-                          player_character.get_wielded_weapon()->attack_time() *
+                          player_character.get_wielded_item()->attack_time() *
                           0.8;
     bool didit = false;
     bool mech_smash = false;
@@ -675,7 +675,7 @@ static void smash()
                      mon->type->melee_sides;
         mech_smash = true;
     } else {
-        smashskill = player_character.str_cur + player_character.get_wielded_weapon()->damage_melee(
+        smashskill = player_character.str_cur + player_character.get_wielded_item()->damage_melee(
                          damage_type::BASH );
     }
 
@@ -797,7 +797,7 @@ static void smash()
     didit = here.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
     // Weariness scaling
     float weary_mult = 1.0f;
-    item *weapon = player_character.get_wielded_weapon();
+    item *weapon = player_character.get_wielded_item();
     if( didit ) {
         if( !mech_smash ) {
             player_character.set_activity_level( MODERATE_EXERCISE );
@@ -1318,7 +1318,7 @@ static void reach_attack( avatar &you )
 {
     g->temp_exit_fullscreen();
 
-    target_handler::trajectory traj = target_handler::mode_reach( you, *you.get_wielded_weapon() );
+    target_handler::trajectory traj = target_handler::mode_reach( you, *you.get_wielded_item() );
 
     if( !traj.empty() ) {
         you.reach_attack( traj.back() );
@@ -1380,7 +1380,7 @@ static void fire()
             }
         }
     }
-    const item *weapon = player_character.get_wielded_weapon();
+    const item *weapon = player_character.get_wielded_item();
     if( weapon->is_gun() && !weapon->gun_current_mode().melee() ) {
         avatar_action::fire_wielded_weapon( player_character );
     } else if( weapon->current_reach_range( player_character ) > 1 ) {
@@ -1470,7 +1470,7 @@ bool Character::cast_spell( spell &sp, bool fake_spell,
                             const cata::optional<tripoint> target = cata::nullopt )
 {
     if( is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) &&
-        !get_wielded_weapon()->has_flag( flag_MAGIC_FOCUS ) && !sp.check_if_component_in_hand( *this ) ) {
+        !get_wielded_item()->has_flag( flag_MAGIC_FOCUS ) && !sp.check_if_component_in_hand( *this ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You need your hands free to cast this spell!" ) );
         return false;
@@ -1749,7 +1749,7 @@ static void do_deathcam_action( const action_id &act, avatar &player_character )
 bool game::do_regular_action( action_id &act, avatar &player_character,
                               const cata::optional<tripoint> &mouse_target )
 {
-    item *weapon = player_character.get_wielded_weapon();
+    item *weapon = player_character.get_wielded_item();
     switch( act ) {
         case ACTION_NULL: // dummy entry
         case NUM_ACTIONS: // dummy entry

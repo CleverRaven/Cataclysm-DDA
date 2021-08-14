@@ -499,7 +499,7 @@ std::string talker_npc::give_item_to( const bool to_use )
     }
     item &given = *loc;
 
-    if( ( &given == player_character.get_wielded_weapon() &&
+    if( ( &given == player_character.get_wielded_item() &&
           given.has_flag( STATIC( flag_id( "NO_UNWIELD" ) ) ) ) ||
         ( player_character.is_worn( given ) &&
           given.has_flag( STATIC( flag_id( "NO_TAKEOFF" ) ) ) ) ) {
@@ -513,7 +513,7 @@ std::string talker_npc::give_item_to( const bool to_use )
 
     bool taken = false;
     std::string reason = _( "Nope." );
-    const item *weapon = me_npc->get_wielded_weapon();
+    const item *weapon = me_npc->get_wielded_item();
     int our_ammo = me_npc->ammo_count_for( *weapon );
     int new_ammo = me_npc->ammo_count_for( given );
     const double new_weapon_value = me_npc->weapon_value( given, new_ammo );

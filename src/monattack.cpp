@@ -796,7 +796,7 @@ bool mattack::pull_metal_weapon( monster *z )
     Character *foe = dynamic_cast< Character * >( target );
     if( foe != nullptr ) {
         // Wielded steel or iron items except for built-in things like bionic claws or monomolecular blade
-        const item *weapon = foe->get_wielded_weapon();
+        const item *weapon = foe->get_wielded_item();
         if( !weapon->has_flag( flag_NO_UNWIELD ) &&
             ( weapon->made_of( material_id( "iron" ) ) ||
               weapon->made_of( material_id( "hardsteel" ) ) ||
@@ -2690,7 +2690,7 @@ bool mattack::grab( monster *z )
             target->add_msg_if_player( m_info, _( "The %s tries to grab you as well, but you bat it away!" ),
                                        z->name() );
         } else if( pl->is_throw_immune() && ( !pl->is_armed() ||
-                                              pl->martial_arts_data->selected_has_weapon( pl->get_wielded_weapon()->typeId() ) ) ) {
+                                              pl->martial_arts_data->selected_has_weapon( pl->get_wielded_item()->typeId() ) ) ) {
             target->add_msg_if_player( m_info, _( "The %s tries to grab you…" ), z->name() );
             thrown_by_judo( z );
         } else {
@@ -3216,7 +3216,7 @@ bool mattack::photograph( monster *z )
         }
     }
 
-    if( z->friendly || player_character.get_wielded_weapon()->typeId() == itype_e_handcuffs ) {
+    if( z->friendly || player_character.get_wielded_item()->typeId() == itype_e_handcuffs ) {
         // Friendly (hacked?) bot ignore the player. Arrested suspect ignored too.
         // TODO: might need to be revisited when it can target npcs.
         return false;
@@ -3234,7 +3234,7 @@ bool mattack::photograph( monster *z )
                    string_format( _( "a robotic voice boom, \"Citizen %s!\"" ), cname ), false, "speech",
                    z->type->id.str() );
 
-    if( player_character.get_wielded_weapon()->is_gun() ) {
+    if( player_character.get_wielded_item()->is_gun() ) {
         sounds::sound( z->pos(), 15, sounds::sound_t::alert, _( "\"Drop your gun!  Now!\"" ) );
     } else if( player_character.is_armed() ) {
         sounds::sound( z->pos(), 15, sounds::sound_t::alert, _( "\"Drop your weapon!  Now!\"" ) );
@@ -3325,10 +3325,10 @@ void mattack::rifle( monster *z, Creature *target )
     add_msg_if_player_sees( *z, m_warning, _( "The %s opens up with its rifle!" ), z->name() );
 
     tmp.set_wielded_weapon( item( "m4_carbine" ).ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
-    int burst = std::max( tmp.get_wielded_weapon()->gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
+    int burst = std::max( tmp.get_wielded_item()->gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
     z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(),
-                                          burst ) * tmp.get_wielded_weapon()->ammo_required();
+                                          burst ) * tmp.get_wielded_item()->ammo_required();
 
     if( target && target->is_avatar() ) {
         z->add_effect( effect_targeted, 3_turns );
@@ -3385,7 +3385,7 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
     add_msg_if_player_sees( *z, m_warning, _( "The %s's grenade launcher fires!" ), z->name() );
 
     tmp.set_wielded_weapon( item( "mgl" ).ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
-    const item *weapon = tmp.get_wielded_weapon();
+    const item *weapon = tmp.get_wielded_item();
     int burst = std::max( weapon->gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
     z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * weapon->ammo_required();
@@ -3443,7 +3443,7 @@ void mattack::tankgun( monster *z, Creature *target )
     }
     add_msg_if_player_sees( *z, m_warning, _( "The %s's 120mm cannon fires!" ), z->name() );
     tmp.set_wielded_weapon( item( "TANK" ).ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
-    const item *weapon = tmp.get_wielded_weapon();
+    const item *weapon = tmp.get_wielded_item();
     int burst = std::max( weapon->gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
     z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * weapon->ammo_required();
@@ -3732,7 +3732,7 @@ bool mattack::copbot( monster *z )
     // TODO: Make it recognize zeds as human, but ignore animals
     Character *foe = dynamic_cast<Character *>( target );
     bool sees_u = foe != nullptr && z->sees( *foe );
-    bool cuffed = foe != nullptr && foe->get_wielded_weapon()->typeId() == itype_e_handcuffs;
+    bool cuffed = foe != nullptr && foe->get_wielded_item()->typeId() == itype_e_handcuffs;
     // Taze first, then ask questions (simplifies later checks for non-humans)
     if( !cuffed && z->is_adjacent( target, true ) ) {
         taze( z, target );
@@ -4685,7 +4685,7 @@ bool mattack::riotbot( monster *z )
     //already arrested?
     //and yes, if the player has no hands, we are not going to arrest him.
     if( foe != nullptr &&
-        ( foe->get_wielded_weapon()->typeId() == itype_e_handcuffs || !foe->has_two_arms_lifting() ) ) {
+        ( foe->get_wielded_item()->typeId() == itype_e_handcuffs || !foe->has_two_arms_lifting() ) ) {
         z->anger = 0;
 
         if( calendar::once_every( 25_turns ) ) {
@@ -5198,7 +5198,7 @@ bool mattack::bio_op_takedown( monster *z )
             foe->add_effect( effect_downed, 3_turns );
         }
     } else if( ( !foe->is_armed() ||
-                 foe->martial_arts_data->selected_has_weapon( foe->get_wielded_weapon()->typeId() ) ) &&
+                 foe->martial_arts_data->selected_has_weapon( foe->get_wielded_item()->typeId() ) ) &&
                !thrown_by_judo( z ) ) {
         // Saved by the tentacle-bracing! :)
         hit = bodypart_id( "torso" );
@@ -5336,7 +5336,7 @@ bool mattack::bio_op_disarm( monster *z )
     their_roll += dice( 3, foe->get_per() );
     their_roll += dice( 3, foe->get_skill_level( skill_melee ) );
 
-    item &it = *foe->get_wielded_weapon();
+    item &it = *foe->get_wielded_item();
 
     target->add_msg_if_player( m_bad, _( "The zombie grabs your %s…" ), it.tname() );
 
@@ -5843,7 +5843,7 @@ bool mattack::dsa_drone_scan( monster *z )
     }
     target->set_value( timestamp_str, string_format( "%d", to_turn<int>( calendar::turn ) ) );
     if( weapons_count < 3 ) {
-        const item *weapon = target->get_wielded_weapon();
+        const item *weapon = target->get_wielded_item();
         if( weapon->is_gun() ) {
             const gun_type_type &guntype = weapon->gun_type();
             if( guntype == gun_type_type( "rifle" ) ||

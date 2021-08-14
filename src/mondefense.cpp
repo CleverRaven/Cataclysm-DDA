@@ -60,7 +60,7 @@ void mdefense::zapback( monster &m, Creature *const source,
             }
         }
         // Players/NPCs can avoid the shock by using non-conductive weapons
-        if( !foe->get_wielded_weapon().conductive() ) {
+        if( !foe->get_wielded_item().conductive() ) {
             if( foe->reach_attacking ) {
                 return;
             }
@@ -108,8 +108,8 @@ void mdefense::acidsplash( monster &m, Creature *const source,
         }
     } else {
         if( const Character *const foe = dynamic_cast<Character *>( source ) ) {
-            if( foe->get_wielded_weapon().is_melee( damage_type::CUT ) ||
-                foe->get_wielded_weapon().is_melee( damage_type::STAB ) ) {
+            if( foe->get_wielded_item().is_melee( damage_type::CUT ) ||
+                foe->get_wielded_item().is_melee( damage_type::STAB ) ) {
                 num_drops += rng( 3, 4 );
             }
             if( foe->unarmed_attack() ) {
@@ -161,7 +161,7 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
     const Character *const foe = dynamic_cast<Character *>( source );
     // No return fire for quiet or completely silent projectiles (bows, throwing etc).
     if( foe == nullptr ||
-        foe->get_wielded_weapon().gun_noise().volume < rl_dist( m.pos(), source->pos() ) ) {
+        foe->get_wielded_item().gun_noise().volume < rl_dist( m.pos(), source->pos() ) ) {
         return;
     }
 
@@ -200,7 +200,7 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
             // ...and weapon, everything based on turret's properties
             tmp.set_wielded_weapon( item( gunactor->gun_type ).ammo_set( gunactor->ammo_type,
                                     m.ammo[ gunactor->ammo_type ] ) );
-            const item *weapon = tmp.get_wielded_weapon();
+            const item *weapon = tmp.get_wielded_item();
             const int burst = std::max( weapon->gun_get_mode( gun_mode_id( "DEFAULT" ) ).qty, 1 );
 
             // Fire the weapon and consume ammo

@@ -602,7 +602,7 @@ void starting_inv( npc &who, const npc_class_id &type )
     }
     res.emplace_back( lighter );
     // If wielding a gun, get some additional ammo for it
-    const item *weapon = who.get_wielded_weapon();
+    const item *weapon = who.get_wielded_item();
     if( weapon->is_gun() ) {
         item ammo;
         if( !weapon->magazine_default().is_null() ) {
@@ -838,7 +838,7 @@ void npc::starting_weapon( const npc_class_id &type )
     } else if( best == skill_rifle ) {
         set_wielded_weapon( random_item_from( type, "rifle", item_group_id( "guns_rifle_common" ) ) );
     }
-    item *weapon = get_wielded_weapon();
+    item *weapon = get_wielded_item();
     if( weapon->is_gun() ) {
         if( !weapon->magazine_default().is_null() ) {
             weapon->ammo_set( weapon->magazine_default()->magazine->default_ammo );
@@ -1079,7 +1079,7 @@ bool npc::wield( item &it )
 
     invalidate_inventory_validity_cache();
     cached_info.erase( "weapon_value" );
-    item *weapon = get_wielded_weapon();
+    item *weapon = get_wielded_item();
     if( has_wield_conflicts( to_wield ) ) {
         stow_item( *weapon );
     }
@@ -1117,7 +1117,7 @@ void npc::drop( const drop_locations &what, const tripoint &target,
 
 void npc::invalidate_range_cache()
 {
-    const item *weapon = get_wielded_weapon();
+    const item *weapon = get_wielded_item();
     if( weapon->is_gun() ) {
         confident_range_cache = confident_shoot_range( *weapon, get_most_accurate_sight( *weapon ) );
     } else {
@@ -1127,7 +1127,7 @@ void npc::invalidate_range_cache()
 
 void npc::form_opinion( const player &u )
 {
-    const item *weapon = get_wielded_weapon();
+    const item *weapon = get_wielded_item();
     // FEAR
     if( weapon->is_gun() ) {
         // TODO: Make bows not guns
@@ -1435,7 +1435,7 @@ std::vector<spell_id> npc::spells_offered_to( player &p )
 
 void npc::decide_needs()
 {
-    const item *weapon = get_wielded_weapon();
+    const item *weapon = get_wielded_item();
     double needrank[num_needs];
     for( auto &elem : needrank ) {
         elem = 20;
@@ -1724,7 +1724,7 @@ int npc::value( const item &it, int market_price ) const
     if( my_fac && my_fac->currency == it.typeId() ) {
         return market_price;
     }
-    const item weapon = get_wielded_weapon();
+    const item weapon = get_wielded_item();
     int ret = 0;
     // TODO: Cache own weapon value (it can be a bit expensive to compute 50 times/turn)
     double weapon_val = weapon_value( it ) - weapon_value( weapon );
@@ -2139,7 +2139,7 @@ void npc::npc_dismount()
     remove_effect( effect_riding );
     if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) &&
         !mounted_creature->type->mech_weapon.is_empty() ) {
-        remove_item( *get_wielded_weapon() );
+        remove_item( *get_wielded_item() );
     }
     mounted_creature->remove_effect( effect_ridden );
     mounted_creature->add_effect( effect_controlled, 5_turns );
@@ -2152,7 +2152,7 @@ int npc::smash_ability() const
 {
     if( !is_hallucination() && ( !is_player_ally() || rules.has_flag( ally_rule::allow_bash ) ) ) {
         ///\EFFECT_STR_NPC increases smash ability
-        return str_cur + get_wielded_weapon().damage_melee( damage_type::BASH );
+        return str_cur + get_wielded_item().damage_melee( damage_type::BASH );
     }
 
     // Not allowed to bash
@@ -2166,7 +2166,7 @@ float npc::danger_assessment()
 
 float npc::average_damage_dealt()
 {
-    return static_cast<float>( melee_value( *get_wielded_weapon() ) );
+    return static_cast<float>( melee_value( *get_wielded_item() ) );
 }
 
 bool npc::bravery_check( int diff )
@@ -2266,7 +2266,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     if( is_armed() ) {
         line += fold_and_print( w, point( column, line ), iWidth, c_red,
                                 std::string( "<color_light_gray>" ) + _( "Wielding: " ) + std::string( "</color>" ) +
-                                get_wielded_weapon().tname() );
+                                get_wielded_item().tname() );
     }
 
     // Worn gear list on following lines.

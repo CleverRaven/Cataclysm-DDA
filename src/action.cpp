@@ -735,7 +735,7 @@ action_id handle_action_menu()
         if( !player_character.controlling_vehicle ) {
             action_weightings[ACTION_CYCLE_MOVE] = 400;
         }
-        const item *weapon = player_character.get_wielded_weapon();
+        const item *weapon = player_character.get_wielded_item();
         // Only prioritize fire weapon options if we're wielding a ranged weapon.
         if( weapon->is_gun() || weapon->has_flag( flag_REACH_ATTACK ) ) {
             action_weightings[ACTION_FIRE] = 350;

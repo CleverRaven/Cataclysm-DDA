@@ -117,7 +117,7 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
         }
     }
 
-    item *weapon = np.get_wielded_weapon();
+    item *weapon = np.get_wielded_item();
     if(
         np.will_exchange_items_freely() &&
         !weapon->is_null() &&
@@ -379,7 +379,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
         for( size_t i = offset; i < list.size() && i < entries_per_page + offset; i++ ) {
             const item_pricing &ip = list[i];
             const item *it = ip.loc.get_item();
-            nc_color color = it == &person.get_wielded_weapon() ? c_yellow : c_light_gray;
+            nc_color color = it == &person.get_wielded_item() ? c_yellow : c_light_gray;
             const int &owner_sells = they ? ip.u_has : ip.npc_has;
             const int &owner_sells_charge = they ? ip.u_charges : ip.npc_charges;
             std::string itname = it->display_name();

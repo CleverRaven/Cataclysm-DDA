@@ -201,7 +201,7 @@ bool monexamine::pet_menu( monster &z )
         }
         amenu.addentry( check_bat, false, 'c', _( "%s battery level is %d%%" ), z.get_name(),
                         static_cast<int>( charge_percent ) );
-        const item *weapon = player_character.get_wielded_weapon();
+        const item *weapon = player_character.get_wielded_item();
         if( weapon->is_null() && z.battery_item ) {
             amenu.addentry( mount, true, 'r', _( "Climb into the mech and take control" ) );
         } else if( !weapon->is_null() ) {

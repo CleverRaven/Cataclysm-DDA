@@ -1295,7 +1295,7 @@ void character_edit_menu()
             } else if( !to_wear.is_null() ) {
                 p.set_wielded_weapon( to_wear );
                 get_event_bus().send<event_type::character_wields_item>( p.getID(),
-                        p.get_wielded_weapon()->typeId() );
+                        p.get_wielded_item()->typeId() );
             }
         }
         break;

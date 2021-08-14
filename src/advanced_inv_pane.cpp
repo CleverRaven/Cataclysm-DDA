@@ -130,7 +130,7 @@ std::vector<advanced_inv_listitem> avatar::get_AIM_inventory( const advanced_inv
             }
         }
     }
-    item *weapon = get_wielded_weapon();
+    item *weapon = get_wielded_item();
     if( weapon->is_container() ) {
         for( const std::vector<item_location> &it_stack : item_list_to_stack(
                  item_location( *this, weapon ),
@@ -165,7 +165,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
         square.volume = 0_ml;
         square.weight = 0_gram;
 
-        item *weapon = u.get_wielded_weapon();
+        item *weapon = u.get_wielded_item();
         if( !weapon->is_null() ) {
             advanced_inv_listitem it( item_location( u, weapon ), 0, 1, square.id, false );
             if( !is_filtered( *it.items.front() ) ) {

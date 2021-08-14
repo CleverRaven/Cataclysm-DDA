@@ -585,7 +585,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
     }
     bionic &bio = ( *my_bionics )[index];
 
-    item *weapon = get_wielded_weapon();
+    item *weapon = get_wielded_item();
     if( bio.info().has_flag( json_flag_BIONIC_GUN ) ) {
         if( !bio.has_weapon() ) {
             debugmsg( "NPC tried to activate gun bionic \"%s\" without fake_weapon",
@@ -642,7 +642,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
 bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
 {
 
-    item *weapon = get_wielded_weapon();
+    item *weapon = get_wielded_item();
     bionic &bio = ( *my_bionics )[b];
     const bool mounted = is_mounted();
     if( bio.incapacitated_time > 0_turns ) {
@@ -758,7 +758,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         add_msg_activate();
 
         set_wielded_weapon( bio.get_weapon() );
-        get_wielded_weapon()->invlet = '#';
+        get_wielded_item()->invlet = '#';
         //if( bio.ammo_count > 0 ) {
         //    weapon.ammo_set( bio.ammo_loaded, bio.ammo_count );
         //    avatar_action::fire_wielded_weapon( player_character );
@@ -1146,7 +1146,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
 
 cata::optional<int> Character::active_bionic_weapon_index() const
 {
-    const item weapon = get_wielded_weapon();
+    const item weapon = get_wielded_item();
     if( weapon.is_null() ) {
         return cata::nullopt;
     }
@@ -1195,7 +1195,7 @@ ret_val<bool> Character::can_deactivate_bionic( int b, bool eff_only ) const
 bool Character::deactivate_bionic( int b, bool eff_only )
 {
     const auto can_deactivate = can_deactivate_bionic( b, eff_only );
-    const item *weapon = get_wielded_weapon();
+    const item *weapon = get_wielded_item();
     if( !can_deactivate.success() ) {
         if( !can_deactivate.str().empty() ) {
             add_msg( m_info,  can_deactivate.str() );
@@ -1216,7 +1216,7 @@ bool Character::deactivate_bionic( int b, bool eff_only )
         bio.powered = false;
         add_msg_if_player( m_neutral, _( "You deactivate your %s." ), bio.info().name );
     }
-    item w_weapon = *get_wielded_weapon();
+    item w_weapon = *get_wielded_item();
     // Deactivation effects go here
     if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) && !bio.info().fake_weapon.is_empty() ) {
         if( w_weapon.typeId() == bio.info().fake_weapon ) {

@@ -289,7 +289,7 @@ item *aim_activity_actor::get_weapon()
     } else {
         // Check for lost gun (e.g. yanked by zombie technician)
         // TODO: check that this is the same gun that was used to start aiming
-        item *weapon = get_player_character().get_wielded_weapon();
+        item *weapon = get_player_character().get_wielded_item();
         return weapon->is_null() ? nullptr : weapon;
     }
 }

@@ -771,7 +771,7 @@ void emp_blast( const tripoint &p )
         }
         // TODO: More effects?
         //e-handcuffs effects
-        item *weapon = player_character.get_wielded_weapon();
+        item *weapon = player_character.get_wielded_item();
         if( weapon->typeId() == itype_e_handcuffs && weapon->charges > 0 ) {
             weapon->unset_flag( STATIC( flag_id( "NO_UNWIELD" ) ) );
             weapon->charges = 0;

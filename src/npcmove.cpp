@@ -207,7 +207,7 @@ bool good_for_pickup( const item &it, npc &who )
         ( ( !whitelisting && who.value( it ) > min_value ) || who.item_whitelisted( it ) ) &&
         ( it.weight() <= weight_allowed ) &&
         ( who.can_stash( it ) ||
-          who.weapon_value( it ) > who.weapon_value( *who.get_wielded_weapon() ) ) ) {
+          who.weapon_value( it ) > who.weapon_value( *who.get_wielded_item() ) ) ) {
         good = true;
     }
 
@@ -687,7 +687,7 @@ bool npc::is_safe() const
 
 float npc::character_danger( const Character &uc ) const
 {
-    const item weapon = get_wielded_weapon();
+    const item weapon = get_wielded_item();
     // TODO: Remove this when possible
     const player &u = dynamic_cast<const player &>( uc );
     float ret = 0.0f;
@@ -741,7 +741,7 @@ void npc::regen_ai_cache()
     ai_cache.can_heal.clear_all();
     ai_cache.danger = 0.0f;
     ai_cache.total_danger = 0.0f;
-    ai_cache.my_weapon_value = weapon_value( *get_wielded_weapon() );
+    ai_cache.my_weapon_value = weapon_value( *get_wielded_item() );
     ai_cache.dangerous_explosives = find_dangerous_explosives();
 
     assess_danger();
@@ -791,7 +791,7 @@ void npc::move()
 
     npc_action action = npc_undecided;
 
-    const item *weapon = get_wielded_weapon();
+    const item *weapon = get_wielded_item();
     static const std::string no_target_str = "none";
     const Creature *target = current_target();
     const std::string &target_name = target != nullptr ? target->disp_name() : no_target_str;
@@ -1049,7 +1049,7 @@ void npc::execute_action( npc_action action )
             worker_downtime();
             break;
         case npc_reload: {
-            do_reload( *get_wielded_weapon() );
+            do_reload( *get_wielded_item() );
         }
         break;
 
@@ -1170,7 +1170,7 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_shoot: {
-            gun_mode mode = get_wielded_weapon()->gun_current_mode();
+            gun_mode mode = get_wielded_item()->gun_current_mode();
             if( !mode ) {
                 debugmsg( "NPC tried to shoot without valid mode" );
                 break;
@@ -1536,7 +1536,7 @@ const item &npc::find_reloadable() const
 
 bool npc::can_reload_current()
 {
-    const item *weapon = get_wielded_weapon();
+    const item *weapon = get_wielded_item();
     if( !weapon->is_gun() || !wants_to_reload( *this, *weapon ) ) {
         return false;
     }
@@ -2119,7 +2119,7 @@ bool npc::enough_time_to_reload( const item &gun ) const
     const float turns_til_reached = distance / target_speed;
     if( target->is_avatar() || target->is_npc() ) {
         const auto &c = dynamic_cast<const Character &>( *target );
-        const item weapon = c.get_wielded_weapon();
+        const item weapon = c.get_wielded_item();
         // TODO: Allow reloading if the player has a low accuracy gun
         if( sees( c ) && weapon.is_gun() && rltime > 200 &&
             weapon.gun_range( true ) > distance + turns_til_reloaded / target_speed ) {
@@ -2134,7 +2134,7 @@ bool npc::enough_time_to_reload( const item &gun ) const
 
 void npc::aim()
 {
-    const item *weapon = get_wielded_weapon();
+    const item *weapon = get_wielded_item();
     double aim_amount = aim_per_move( *weapon, recoil );
     while( aim_amount > 0 && recoil > 0 && moves > 0 ) {
         moves--;
@@ -2371,7 +2371,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
     } else if( !no_bashing && smash_ability() > 0 && here.is_bashable( p ) &&
                here.bash_rating( smash_ability(), p ) > 0 ) {
-        moves -= !is_armed() ? 80 : get_wielded_weapon()->attack_time() * 0.8;
+        moves -= !is_armed() ? 80 : get_wielded_item()->attack_time() * 0.8;
         here.bash( p, smash_ability() );
     } else {
         if( attitude == NPCATT_MUG ||
@@ -2653,7 +2653,7 @@ void npc::move_pause()
     }
     // NPCs currently always aim when using a gun, even with no target
     // This simulates them aiming at stuff just at the edge of their range
-    if( !get_wielded_weapon()->is_gun() ) {
+    if( !get_wielded_item()->is_gun() ) {
         pause();
         return;
     }
@@ -3334,7 +3334,7 @@ bool npc::wield_better_weapon()
     bool can_use_gun = ( !is_player_ally() || rules.has_flag( ally_rule::use_guns ) );
     bool use_silent = ( is_player_ally() && rules.has_flag( ally_rule::use_silent ) );
 
-    item *weapon = get_wielded_weapon();
+    item *weapon = get_wielded_item();
 
     // Check if there's something better to wield
     item *best = weapon;
@@ -3482,7 +3482,7 @@ bool npc::alt_attack()
         used_dangerous = used_dangerous || dangerous;
     };
 
-    check_alt_item( *get_wielded_weapon() );
+    check_alt_item( *get_wielded_item() );
     const auto inv_all = items_with( []( const item & ) {
         return true;
     } );

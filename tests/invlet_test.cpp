@@ -360,7 +360,7 @@ static void move_item( player &p, const int id, const inventory_location from,
                     wear_from_feet( p, id );
                     break;
                 case WIELDED_OR_WORN:
-                    if( p.get_wielded_weapon()->is_null() ) {
+                    if( p.get_wielded_item()->is_null() ) {
                         wield_from_feet( p, id );
                     } else {
                         // since we can only wield one item, wear the item instead
@@ -382,7 +382,7 @@ static void move_item( player &p, const int id, const inventory_location from,
                     p.wear( item_location( *p.as_character(), &item_at( p, id, from ) ), false );
                     break;
                 case WIELDED_OR_WORN:
-                    if( p.get_wielded_weapon()->is_null() ) {
+                    if( p.get_wielded_item()->is_null() ) {
                         p.wield( item_at( p, id, from ) );
                     } else {
                         // since we can only wield one item, wear the item instead

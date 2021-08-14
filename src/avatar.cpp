@@ -1277,7 +1277,7 @@ bool avatar::wield( item &target, const int obtain_cost )
         return true;
     }
 
-    item *weapon = get_wielded_weapon();
+    item *weapon = get_wielded_item();
     if( weapon->has_item( target ) ) {
         add_msg( m_info, _( "You need to put the bag away before trying to wield something from it." ) );
         return false;

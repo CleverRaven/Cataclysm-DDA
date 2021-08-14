@@ -719,7 +719,7 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
 
 int Character::fire_gun( const tripoint &target, int shots )
 {
-    return fire_gun( target, shots, *get_wielded_weapon() );
+    return fire_gun( target, shots, *get_wielded_item() );
 }
 
 int Character::fire_gun( const tripoint &target, int shots, item &gun )
@@ -1554,7 +1554,7 @@ static int print_aim( const player &p, const catacurses::window &w, int line_num
 
     const double min_recoil = calculate_aim_cap( p, pos );
     const double effective_recoil = p.effective_dispersion(
-                                        p.get_wielded_weapon().sight_dispersion() );
+                                        p.get_wielded_item().sight_dispersion() );
     const double min_dispersion = std::max( min_recoil, effective_recoil );
     const double steadiness_range = MAX_RECOIL - min_dispersion;
     // This is a relative measure of how steady the player's aim is,
@@ -2006,7 +2006,7 @@ double Character::gun_value( const item &weap, int ammo ) const
 
     // Penalty for dodging in melee makes the gun unusable in melee
     // Until NPCs get proper kiting, at least
-    int melee_penalty = get_wielded_weapon().volume() / 250_ml - get_skill_level( skill_dodge );
+    int melee_penalty = get_wielded_item().volume() / 250_ml - get_skill_level( skill_dodge );
     if( melee_penalty <= 0 ) {
         // Dispersion matters less if you can just use the gun in melee
         total_dispersion = std::min<int>( total_dispersion / move_cost_factor, total_dispersion );

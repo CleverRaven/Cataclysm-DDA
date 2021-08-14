@@ -525,12 +525,12 @@ void Character::randomize_height()
     init_height = clamp( x, Character::min_height(), Character::max_height() );
 }
 
-const item &Character::get_wielded_weapon() const
+const item &Character::get_wielded_item() const
 {
     return weapon;
 }
 
-item *Character::get_wielded_weapon()
+item *Character::get_wielded_item()
 {
     return &weapon;
 }
@@ -1309,7 +1309,7 @@ bool Character::is_mounted() const
 
 void Character::forced_dismount()
 {
-    item *weapon = get_wielded_weapon();
+    item *weapon = get_wielded_item();
     remove_effect( effect_riding );
     bool mech = false;
     if( mounted_creature ) {
@@ -1421,7 +1421,7 @@ void Character::dismount()
             add_msg( m_warning, _( "You cannot dismount there!" ) );
             return;
         }
-        item *weapon = get_wielded_weapon();
+        item *weapon = get_wielded_item();
         remove_effect( effect_riding );
         monster *critter = mounted_creature.get();
         critter->mounted_player_id = character_id();
@@ -1481,7 +1481,7 @@ void Character::on_dodge( Creature *source, float difficulty )
     // Each avoided hit consumes an available dodge
     // When no more available we are likely to fail player::dodge_roll
     dodges_left--;
-    const item *weapon = get_wielded_weapon();
+    const item *weapon = get_wielded_item();
     // dodging throws of our aim unless we are either skilled at dodging or using a small weapon
     if( is_armed() && weapon->is_gun() ) {
         recoil += std::max( weapon->volume() / 250_ml - get_skill_level( skill_dodge ), 0 ) * rng( 0, 100 );
@@ -2849,7 +2849,7 @@ int Character::get_mod_stat_from_bionic( const character_stat &Stat ) const
 
 int Character::get_standard_stamina_cost( const item *thrown_item ) const
 {
-    const item weapon = get_wielded_weapon();
+    const item weapon = get_wielded_item();
     // Previously calculated as 2_gram * std::max( 1, str_cur )
     // using 16_gram normalizes it to 8 str. Same effort expenditure
     // for each strike, regardless of weight. This is compensated
@@ -2986,7 +2986,7 @@ std::vector<item_location> Character::nearby( const
 
 units::length Character::max_single_item_length() const
 {
-    units::length ret = get_wielded_weapon().max_containable_length();
+    units::length ret = get_wielded_item().max_containable_length();
 
     for( const item &worn_it : worn ) {
         units::length candidate = worn_it.max_containable_length();
@@ -2999,7 +2999,7 @@ units::length Character::max_single_item_length() const
 
 units::volume Character::max_single_item_volume() const
 {
-    units::volume ret = get_wielded_weapon().max_containable_volume();
+    units::volume ret = get_wielded_item().max_containable_volume();
 
     for( const item &worn_it : worn ) {
         units::volume candidate = worn_it.max_containable_volume();
@@ -3012,7 +3012,7 @@ units::volume Character::max_single_item_volume() const
 
 std::pair<item_location, item_pocket *> Character::best_pocket( const item &it, const item *avoid )
 {
-    item *weapon = get_wielded_weapon();
+    item *weapon = get_wielded_item();
     item_location weapon_loc( *this, weapon );
     std::pair<item_location, item_pocket *> ret = std::make_pair( item_location(), nullptr );
     if( weapon != &it && weapon != avoid ) {
@@ -3035,7 +3035,7 @@ std::pair<item_location, item_pocket *> Character::best_pocket( const item &it, 
 item *Character::try_add( item it, const item *avoid, const item *original_inventory_item,
                           const bool allow_wield )
 {
-    item *weapon = get_wielded_weapon();
+    item *weapon = get_wielded_item();
     invalidate_inventory_validity_cache();
     itype_id item_type_id = it.typeId();
     last_item = item_type_id;
@@ -3080,7 +3080,7 @@ item &Character::i_add( item it, bool /* should_stack */, const item *avoid,
                         const item *original_inventory_item, const bool allow_drop,
                         const bool allow_wield )
 {
-    item *weapon = get_wielded_weapon();
+    item *weapon = get_wielded_item();
     invalidate_inventory_validity_cache();
     item *added = try_add( it, avoid, original_inventory_item, allow_wield );
     if( added == nullptr ) {
@@ -3124,7 +3124,7 @@ static void recur_internal_locations( item_location parent, std::vector<item_loc
 
 std::vector<item_location> Character::all_items_loc()
 {
-    item *weapon = get_wielded_weapon();
+    item *weapon = get_wielded_item();
     std::vector<item_location> ret;
     item_location weap_loc( *this, weapon );
     std::vector<item_location> weapon_internal_items;
@@ -3178,7 +3178,7 @@ item *Character::invlet_to_item( const int linvlet )
 const item &Character::i_at( int position ) const
 {
     if( position == -1 ) {
-        return get_wielded_weapon();
+        return get_wielded_item();
     }
     if( position < -1 ) {
         int worn_index = worn_position_to_index( position );
@@ -3199,7 +3199,7 @@ item &Character::i_at( int position )
 
 int Character::get_item_position( const item *it ) const
 {
-    if( get_wielded_weapon().has_item( *it ) ) {
+    if( get_wielded_item().has_item( *it ) ) {
         return -1;
     }
 
@@ -3793,7 +3793,7 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
     }
 
     // Wielded item
-    const item weapon = get_wielded_weapon();
+    const item weapon = get_wielded_item();
     units::mass weaponweight = 0_gram;
     if( !without.count( &weapon ) ) {
         weaponweight += weapon.weight();
@@ -3857,7 +3857,7 @@ units::volume Character::volume_carried_with_tweaks( const item_tweaks &tweaks )
     }
 
     // Wielded item
-    const item weapon = get_wielded_weapon();
+    const item weapon = get_wielded_item();
     if( !without.count( &weapon ) ) {
         ret += weapon.get_contents_volume_with_tweaks( without );
     }
@@ -3905,7 +3905,7 @@ units::mass Character::weight_capacity() const
 
 bool Character::can_pickVolume( const item &it, bool, const item *avoid ) const
 {
-    const item weapon = get_wielded_weapon();
+    const item weapon = get_wielded_item();
     if( weapon.can_contain( it ).success() && ( avoid == nullptr || &weapon != avoid ) ) {
         return true;
     }
@@ -4099,7 +4099,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
 
     // Check if we don't have both hands available before wearing a briefcase, shield, etc. Also occurs if we're already wearing one.
     if( it.has_flag( flag_RESTRICT_HANDS ) && ( worn_with_flag( flag_RESTRICT_HANDS ) ||
-            get_wielded_weapon().is_two_handed( *this ) ) ) {
+            get_wielded_item().is_two_handed( *this ) ) ) {
         return ret_val<bool>::make_failure( ( is_avatar() ? _( "You don't have a hand free to wear that." )
                                               : string_format( _( "%s doesn't have a hand free to wear that." ), name ) ) );
     }
@@ -4213,7 +4213,7 @@ void Character::drop_invalid_inventory()
         add_msg_if_player( m_bad, _( "Liquid from your inventory has leaked onto the ground." ) );
     }
 
-    get_wielded_weapon()->overflow( pos() );
+    get_wielded_item()->overflow( pos() );
     for( item &w : worn ) {
         w.overflow( pos() );
     }
@@ -10131,7 +10131,7 @@ ret_val<bool> Character::can_wield( const item &it ) const
         return ret_val<bool>::make_failure( _( "Can't wield spilt liquids." ) );
     }
 
-    const item weapon = get_wielded_weapon();
+    const item weapon = get_wielded_item();
     if( is_armed() && !can_unwield( weapon ).success() ) {
         return ret_val<bool>::make_failure( _( "The %s is preventing you from wielding the %s." ),
                                             weapname(), it.tname() );
