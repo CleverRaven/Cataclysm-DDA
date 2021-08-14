@@ -92,8 +92,73 @@
           "monster": "mon_forgedemons",
           "x": [ 81, 90 ],
           "y": [ 8, 14 ],
-          "repeat": [ 10, 18 ],
-          "spawn_data": { "patrol": [ { "x": 0, "y": 0 } ] }
+          "repeat": [ 3, 9 ]
+        },
+        {
+          "monster": "mon_forgedemons",
+          "x": [ 81 ],
+          "y": [ 8 ],
+          "spawn_data": { "patrol": [ { "x": 81, "y": 8 } ] }
+        },
+        {
+          "monster": "mon_forgedemons",
+          "x": [ 82 ],
+          "y": [ 13 ],
+          "spawn_data": { "patrol": [ { "x": 82, "y": 13 } ] }
+        },
+        {
+          "monster": "mon_forgedemons",
+          "x": [ 83 ],
+          "y": [ 10 ],
+          "spawn_data": { "patrol": [ { "x": 83, "y": 10 } ] }
+        },
+        {
+          "monster": "mon_forgedemons",
+          "x": [ 84 ],
+          "y": [ 9 ],
+          "spawn_data": { "patrol": [ { "x": 84, "y": 9 } ] }
+        },
+        {
+          "monster": "mon_forgedemons",
+          "x": [ 84 ],
+          "y": [ 14 ],
+          "spawn_data": { "patrol": [ { "x": 84, "y": 14 } ] }
+        },
+        {
+          "monster": "mon_forgedemons",
+          "x": [ 85 ],
+          "y": [ 11 ],
+          "spawn_data": { "patrol": [ { "x": 85, "y": 11 } ] }
+        },
+        {
+          "monster": "mon_forgedemons",
+          "x": [ 86 ],
+          "y": [ 8 ],
+          "spawn_data": { "patrol": [ { "x": 86, "y": 8 } ] }
+        },
+        {
+          "monster": "mon_forgedemons",
+          "x": [ 87 ],
+          "y": [ 10 ],
+          "spawn_data": { "patrol": [ { "x": 87, "y": 10 } ] }
+        },
+        {
+          "monster": "mon_forgedemons",
+          "x": [ 88 ],
+          "y": [ 12 ],
+          "spawn_data": { "patrol": [ { "x": 88, "y": 12 } ] }
+        },
+        {
+          "monster": "mon_forgedemons",
+          "x": [ 89 ],
+          "y": [ 9 ],
+          "spawn_data": { "patrol": [ { "x": 89, "y": 9 } ] }
+        },
+        {
+          "monster": "mon_forgedemons",
+          "x": [ 90 ],
+          "y": [ 13 ],
+          "spawn_data": { "patrol": [ { "x": 90, "y": 13 } ] }
         }
       ]
     }
