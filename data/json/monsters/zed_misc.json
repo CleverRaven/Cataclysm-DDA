@@ -3,7 +3,7 @@
     "id": "mon_frog_mother",
     "type": "MONSTER",
     "name": { "str": "frog mother" },
-    "description": "A large, bulbous creature with an extremely large mouth and small, stubby legs with no feet.  It is covered in an oily greenish-black residue and large, white pustules that seem ready to pop.",
+    "description": "A large, bulbous creature with an extremely large mouth and small, stubby legs with no feet.  Drenched in an oily greenish-black substance, its flesh seems to rapidly decompose and reconstitute itself, and it is covered by large, white pustules that seem ready to pop.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "AMPHIBIAN" ],
     "volume": "240 L",
