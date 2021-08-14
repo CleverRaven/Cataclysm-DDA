@@ -176,7 +176,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
             character.activity.do_turn( *character.as_player() );
         }
 
-        REQUIRE( character.weapon.type->get_id() == recipe.result() );
+        REQUIRE( character.get_wielded_weapon()->type->get_id() == recipe.result() );
     } else {
         REQUIRE_FALSE( can_craft );
     }
