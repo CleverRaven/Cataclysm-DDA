@@ -82,7 +82,7 @@
     "type": "furniture",
     "id": "f_toilet",
     "name": "toilet",
-    "symbol": "&",
+    "symbol": "o",
     "color": "white",
     "description": "An invaluable fixture in any home, it would be a miracle to have one that works.  The standing tank may hold a moderate amount of water, but while better than anything that would be in the bowl, it would not be the cleanest.",
     "move_cost_mod": 2,
