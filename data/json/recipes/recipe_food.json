@@ -4655,7 +4655,7 @@
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
-    "components": [ [ [ "bone_tainted", 1 ] ] ]
+    "components": [ [ [ "bone_tainted", 1 ], [ "skewer_bone", 25 ] ] ]
   },
   {
     "type": "recipe",
@@ -6470,7 +6470,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "tools": [ [ [ "food_processor", 20 ] ] ],
-    "components": [ [ [ "bone_tainted", 1 ] ] ]
+    "components": [ [ [ "bone_tainted", 1 ], [ "skewer_bone", 25 ] ] ]
   },
   {
     "result": "cattlefodder",
@@ -6783,7 +6783,7 @@
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
     "tools": [ [ [ "mortar_pestle", -1 ] ] ],
-    "components": [ [ [ "bone_tainted", 1 ] ] ]
+    "components": [ [ [ "bone_tainted", 1 ], [ "skewer_bone", 25 ] ] ]
   },
   {
     "type": "recipe",

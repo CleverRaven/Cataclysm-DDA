@@ -903,6 +903,7 @@
     "description": "A rotten and brittle bone from some unnatural creature or other.  Could be used to make some stuff, like charcoal or glue.  You could eat it, but it will poison you.",
     "price": 0,
     "price_postapoc": 5,
+    "milling": { "into": "meal_bone_tainted", "conversion_rate": 4 },
     "//": "Not for use in edible recipes, and should require ~200% as much as normal for applicable inedible recipes except for charcoal.",
     "material": [ "bone" ],
     "volume": "250 ml",
