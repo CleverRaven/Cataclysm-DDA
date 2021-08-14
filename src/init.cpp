@@ -730,6 +730,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Martial arts" ), &check_martialarts },
             { _( "Mutations" ), &mutation_branch::check_consistency },
             { _( "Mutation Categories" ), &mutation_category_trait::check_consistency },
+            { _( "Region settings" ), check_region_settings },
             { _( "Overmap land use codes" ), &overmap_land_use_codes::check_consistency },
             { _( "Overmap connections" ), &overmap_connections::check_consistency },
             { _( "Overmap terrain" ), &overmap_terrains::check_consistency },

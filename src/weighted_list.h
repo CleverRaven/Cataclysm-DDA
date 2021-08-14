@@ -145,6 +145,10 @@ template <typename W, typename T> struct weighted_list {
             return total_weight;
         }
 
+        bool is_valid() const {
+            return get_weight() > 0;
+        }
+
         typename std::vector<weighted_object<W, T> >::iterator begin() {
             return objects.begin();
         }
