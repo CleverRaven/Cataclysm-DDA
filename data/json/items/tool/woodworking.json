@@ -129,7 +129,7 @@
     "symbol": ";",
     "color": "light_gray",
     "name": { "str": "hatchet" },
-    "description": "A one-handed hatchet.  Makes a great melee weapon, and is useful both for chopping things and for use as a hammer.",
+    "description": "A one-handed hatchet.  Makes a great melee weapon until the wooden haft breaks, and is useful both for chopping things and for use as a hammer.",
     "price": 2500,
     "price_postapoc": 500,
     "material": [ "steel", "wood" ],
@@ -140,7 +140,7 @@
     "bashing": 17,
     "cutting": 28,
     "to_hit": -2,
-    "flags": [ "DURABLE_MELEE", "BELT_CLIP", "NONCONDUCTIVE", "SHEATH_AXE" ],
+    "flags": [ "BELT_CLIP", "NONCONDUCTIVE", "SHEATH_AXE" ],
     "category": "weapons",
     "qualities": [ [ "AXE", 2 ], [ "CUT", 1 ], [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ], [ "BUTCHER", 16 ] ]
   },
