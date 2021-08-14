@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """
 Creates a map folder with one of every item, furniture, terrain and trap.
+Everything is spawned starting from submap 0,0.
 Run this script with -h for full usage information.
 
 Examples:
 
     %(prog)s data/json save/worldname
-    %(prog)s data/json/mods/Magiclysm .
+    %(prog)s data/mods/Magiclysm .
+    %(prog)s data/mods/Magiclysm data/mods/Aftershock .
     %(prog)s . /tmp
 """
 
@@ -42,33 +44,37 @@ JSON_INFO = {
 }
 
 
-def parse_json(path: str) -> dict:
-    data_folder = pathlib.Path(path)
-    if not data_folder.exists or not data_folder.is_dir:
-        return False
+def parse_json(path: list) -> dict:
+    data_folders = []
+    for data_folder in path:
+        data_folder = pathlib.Path(data_folder)
+        if not data_folder.exists or not data_folder.is_dir:
+            return False
+        data_folders.append(data_folder)
 
     parsed_json = dict()
 
     for _type in JSON_INFO:
         parsed_json[_type] = []
 
-    for file in data_folder.glob("**/*.json"):
-        json_file = None
-        with open(file, 'r') as f:
-            json_file = json.load(f)
+    for data_folder in data_folders:
+        for file in data_folder.glob("**/*.json"):
+            json_file = None
+            with open(file, 'r') as f:
+                json_file = json.load(f)
 
-        if type(json_file) is not list:
-            continue
+            if type(json_file) is not list:
+                continue
 
-        for _type, info in JSON_INFO.items():
-            for entry in json_file:
-                if ("type" not in entry or
-                    # abstract item definitions
-                    "id" not in entry or
-                        entry["type"] not in info["allowed_types"]):
-                    continue
+            for _type, info in JSON_INFO.items():
+                for entry in json_file:
+                    if ("type" not in entry or
+                        # abstract item definitions
+                        "id" not in entry or
+                            entry["type"] not in info["allowed_types"]):
+                        continue
 
-                parsed_json[_type].append(entry["id"])
+                    parsed_json[_type].append(entry["id"])
 
     return parsed_json
 
@@ -317,7 +323,7 @@ class Handler:
             folder = pathlib.Path.joinpath(self.maps_folder,
                                            f"{row//32}.{column//32}.0")
             if not dry_run:
-                folder.mkdir(exist_ok=True)
+                folder.mkdir(parents=True, exist_ok=True)
 
             file_path = folder.joinpath(f"{row}.{column}.0.map")
             if not dry_run:
@@ -335,7 +341,8 @@ if __name__ == "__main__":
         formatter_class=argparse.RawTextHelpFormatter,
     )
 
-    parser.add_argument("data", type=str, help="json files location")
+    parser.add_argument("data", nargs="+", type=str,
+                        help="json files location")
 
     parser.add_argument(
         "path", type=str, help="folder where the maps folder will be created"
