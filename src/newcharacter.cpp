@@ -3486,28 +3486,16 @@ void Character::add_traits( points_left &points )
 
 trait_id Character::random_good_trait()
 {
-    std::vector<trait_id> vTraitsGood;
-
-    for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
-        if( traits_iter.points > 0 && get_scenario()->traitquery( traits_iter.id ) ) {
-            vTraitsGood.push_back( traits_iter.id );
-        }
-    }
-
-    return random_entry( vTraitsGood );
+    return get_random_trait( []( const mutation_branch & mb ) {
+        return mb.points > 0;
+    } );
 }
 
 trait_id Character::random_bad_trait()
 {
-    std::vector<trait_id> vTraitsBad;
-
-    for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
-        if( traits_iter.points < 0 && get_scenario()->traitquery( traits_iter.id ) ) {
-            vTraitsBad.push_back( traits_iter.id );
-        }
-    }
-
-    return random_entry( vTraitsBad );
+    return get_random_trait( []( const mutation_branch & mb ) {
+        return mb.points < 0;
+    } );
 }
 
 trait_id Character::get_random_trait( const std::function<bool( const mutation_branch & )> &func )
@@ -3515,7 +3503,7 @@ trait_id Character::get_random_trait( const std::function<bool( const mutation_b
     std::vector<trait_id> vTraits;
 
     for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
-        if( func( traits_iter ) ) {
+        if( func( traits_iter ) && get_scenario()->traitquery( traits_iter.id ) ) {
             vTraits.push_back( traits_iter.id );
         }
     }
