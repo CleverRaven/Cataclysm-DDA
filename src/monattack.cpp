@@ -3325,10 +3325,11 @@ void mattack::rifle( monster *z, Creature *target )
     add_msg_if_player_sees( *z, m_warning, _( "The %s opens up with its rifle!" ), z->name() );
 
     tmp.set_wielded_item( item( "m4_carbine" ).ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
-    int burst = std::max( tmp.get_wielded_item()->gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
-    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(),
-                                          burst ) * tmp.get_wielded_item()->ammo_required();
+    item *weapon = tmp.get_wielded_item();
+    int burst = std::max( weapon->gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
+
+    z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * weapon->ammo_required();
 
     if( target && target->is_avatar() ) {
         z->add_effect( effect_targeted, 3_turns );

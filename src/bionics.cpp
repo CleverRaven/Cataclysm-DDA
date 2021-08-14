@@ -1195,7 +1195,6 @@ ret_val<bool> Character::can_deactivate_bionic( int b, bool eff_only ) const
 bool Character::deactivate_bionic( int b, bool eff_only )
 {
     const auto can_deactivate = can_deactivate_bionic( b, eff_only );
-    const item *weapon = get_wielded_item();
     if( !can_deactivate.success() ) {
         if( !can_deactivate.str().empty() ) {
             add_msg( m_info,  can_deactivate.str() );
