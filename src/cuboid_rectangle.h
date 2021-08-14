@@ -1,6 +1,7 @@
 #ifndef CATA_SRC_CUBOID_RECTANGLE_H
 #define CATA_SRC_CUBOID_RECTANGLE_H
 
+#include "cata_utility.h"
 #include "point.h"
 #include "point_traits.h"
 
