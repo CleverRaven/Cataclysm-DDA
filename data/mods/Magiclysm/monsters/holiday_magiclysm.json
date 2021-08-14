@@ -93,20 +93,22 @@
     "bodytype": "human",
     "volume": "145 ml",
     "weight": "168 kg",
-    "hp": 125,
+    "hp": 45,
     "speed": 124,
     "material": [ "flesh" ],
     "symbol": "L",
     "color": "green",
     "aggression": 45,
-    "morale": 100,
-    "melee_skill": 6,
-    "melee_dice": 7,
-    "melee_dice_sides": 7,
+    "morale": 5,
+    "melee_skill": 4,
+    "melee_dice": 3,
+    "melee_dice_sides": 2,
     "dodge": 6,
     "harvest": "demihuman",
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM" ]
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "special_attacks": [ { "type": "spell", "spell_data": { "id": "prank", "min_level": 5 }, "cooldown": 80 }, [ "PULL_METAL_WEAPON", 25 ] ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "KEEP_DISTANCE", "WARM", "HIT_AND_RUN" ]
   }
 ]
