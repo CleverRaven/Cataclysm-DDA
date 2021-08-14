@@ -1127,8 +1127,8 @@
     "location": "engine_block",
     "folded_volume": "500 ml",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 m" },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m" },
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "6 m" },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "6 m" },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "60 m" }
     },
     "flags": [ "ENGINE", "CONTROLS", "FOLDABLE", "MUSCLE_ARMS", "E_STARTS_INSTANTLY" ],
