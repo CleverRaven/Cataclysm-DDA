@@ -1136,7 +1136,9 @@ void player::store( JsonOut &json ) const
     }
     json.end_array();
 
-    json.member( "ammo_location", ammo_location );
+    if( ammo_location ) {
+        json.member( "ammo_location", ammo_location );
+    }
 
     json.member( "camps" );
     json.start_array();
