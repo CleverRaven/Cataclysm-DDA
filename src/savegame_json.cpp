@@ -2695,61 +2695,65 @@ void vehicle_part::deserialize( JsonIn &jsin )
     vpart_id pid;
     data.read( "id", pid );
 
-    std::map<std::string, std::pair<std::string, std::string>> deprecated = {
-        { "laser_gun", { "laser_rifle", "none" } },
-        { "seat_nocargo", { "seat", "none" } },
-        { "engine_plasma", { "minireactor", "none" } },
-        { "battery_truck", { "battery_car", "battery" } },
+    std::map<std::string, std::string> deprecated = {
+        { "laser_gun", "laser_rifle" },
+        { "seat_nocargo", "seat" },
+        { "engine_plasma", "minireactor" },
+        { "battery_truck", "battery_car" },
 
-        { "diesel_tank_little", { "tank_little", "diesel" } },
-        { "diesel_tank_small", { "tank_small", "diesel" } },
-        { "diesel_tank_medium", { "tank_medium", "diesel" } },
-        { "diesel_tank", { "tank", "diesel" } },
-        { "external_diesel_tank_small", { "external_tank_small", "diesel" } },
-        { "external_diesel_tank", { "external_tank", "diesel" } },
+        { "diesel_tank_little", "tank_little" },
+        { "diesel_tank_small", "tank_small" },
+        { "diesel_tank_medium", "tank_medium" },
+        { "diesel_tank",  "tank" },
+        { "external_diesel_tank_small", "external_tank_small" },
+        { "external_diesel_tank", "external_tank" },
+        { "gas_tank_little", "tank_little" },
+        { "gas_tank_small", "tank_small" },
+        { "gas_tank_medium", "tank_medium" },
+        { "gas_tank", "tank" },
+        { "external_gas_tank_small", "external_tank_small" },
+        { "external_gas_tank", "external_tank" },
+        { "water_dirty_tank_little", "tank_little" },
+        { "water_dirty_tank_small", "tank_small" },
+        { "water_dirty_tank_medium", "tank_medium" },
+        { "water_dirty_tank", "tank" },
+        { "external_water_dirty_tank_small", "external_tank_small" },
+        { "external_water_dirty_tank", "external_tank" },
+        { "dirty_water_tank_barrel", "tank_barrel" },
+        { "water_tank_little", "tank_little" },
+        { "water_tank_small", "tank_small" },
+        { "water_tank_medium", "tank_medium" },
+        { "water_tank", "tank" },
+        { "external_water_tank_small", "external_tank_small" },
+        { "external_water_tank", "external_tank" },
+        { "water_tank_barrel", "tank_barrel" },
+        { "napalm_tank", "tank" },
+        { "hydrogen_tank", "tank" },
 
-        { "gas_tank_little", { "tank_little", "gasoline" } },
-        { "gas_tank_small", { "tank_small", "gasoline" } },
-        { "gas_tank_medium", { "tank_medium", "gasoline" } },
-        { "gas_tank", { "tank", "gasoline" } },
-        { "external_gas_tank_small", { "external_tank_small", "gasoline" } },
-        { "external_gas_tank", { "external_tank", "gasoline" } },
-
-        { "water_dirty_tank_little", { "tank_little", "water" } },
-        { "water_dirty_tank_small", { "tank_small", "water" } },
-        { "water_dirty_tank_medium", { "tank_medium", "water" } },
-        { "water_dirty_tank", { "tank", "water" } },
-        { "external_water_dirty_tank_small", { "external_tank_small", "water" } },
-        { "external_water_dirty_tank", { "external_tank", "water" } },
-        { "dirty_water_tank_barrel", { "tank_barrel", "water" } },
-
-        { "water_tank_little", { "tank_little", "water_clean" } },
-        { "water_tank_small", { "tank_small", "water_clean" } },
-        { "water_tank_medium", { "tank_medium", "water_clean" } },
-        { "water_tank", { "tank", "water_clean" } },
-        { "external_water_tank_small", { "external_tank_small", "water_clean" } },
-        { "external_water_tank", { "external_tank", "water_clean" } },
-        { "water_tank_barrel", { "tank_barrel", "water_clean" } },
-
-        { "napalm_tank", { "tank", "napalm" } },
-
-        { "hydrogen_tank", { "tank", "none" } }
+        { "wheel_underbody", "wheel_wide" },
+        { "wheel_steerable", "wheel" },
+        { "wheel_slick_steerable", "wheel_slick" },
+        { "wheel_armor_steerable", "wheel_armor" },
+        { "wheel_bicycle_steerable", "wheel_bicycle" },
+        { "wheel_bicycle_or_steerable", "wheel_bicycle_or" },
+        { "wheel_motorbike_steerable", "wheel_motorbike" },
+        { "wheel_motorbike_or_steerable", "wheel_motorbike_or" },
+        { "wheel_small_steerable", "wheel_small" },
+        { "wheel_wide_steerable", "wheel_wide" },
+        { "wheel_wide_or_steerable", "wheel_wide_or" }
     };
 
     auto dep = deprecated.find( pid.str() );
     if( dep != deprecated.end() ) {
-        pid = vpart_id( dep->second.first );
+        DebugLog( D_INFO, D_GAME ) << "Replacing vpart " << pid.str() << " with " << dep->second;
+        pid = vpart_id( dep->second );
     }
 
     std::tie( pid, variant ) = get_vpart_id_variant( pid );
 
     // if we don't know what type of part it is, it'll cause problems later.
     if( !pid.is_valid() ) {
-        if( pid.str() == "wheel_underbody" ) {
-            pid = vpart_id( "wheel_wide" );
-        } else {
-            data.throw_error( "bad vehicle part", "id" );
-        }
+        data.throw_error( "bad vehicle part", "id" );
     }
     id = pid;
     if( variant.empty() ) {
@@ -2953,7 +2957,17 @@ void vehicle::deserialize( JsonIn &jsin )
     }
     data.read( "theft_time", theft_time );
 
-    data.read( "parts", parts );
+    parts.clear();
+    for( const JsonValue val : data.get_array( "parts" ) ) {
+        vehicle_part part;
+        try {
+            val.read( part, true );
+            parts.emplace_back( std::move( part ) );
+        } catch( const JsonError &err ) {
+            debugmsg( err.what() );
+        }
+    }
+
     // we persist the pivot anchor so that if the rules for finding
     // the pivot change, existing vehicles do not shift around.
     // Loading vehicles that predate the pivot logic is a special
@@ -4325,8 +4339,12 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
         jsin.start_array();
         while( !jsin.end_array() ) {
             std::unique_ptr<vehicle> tmp = std::make_unique<vehicle>();
-            jsin.read( *tmp );
-            vehicles.push_back( std::move( tmp ) );
+            try {
+                jsin.read( *tmp, true );
+                vehicles.push_back( std::move( tmp ) );
+            } catch( const JsonError &err ) {
+                debugmsg( err.what() );
+            }
         }
     } else if( member_name == "partial_constructions" ) {
         jsin.start_array();
