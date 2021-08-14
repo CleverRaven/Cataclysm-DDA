@@ -499,14 +499,16 @@
     "material": [ "plastic", "nomex" ],
     "symbol": "[",
     "color": "dark_gray",
-    "armor": [
-      { "covers": [ "head" ], "coverage": 100, "encumbrance": 25 },
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 },
-      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 15 }
-    ],
+    "armor_data": {
+      "material_thickness": 6,
+      "armor": [
+        { "covers": [ "head" ], "coverage": 100, "encumbrance": 25 },
+        { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 },
+        { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 15 }
+      ]
+    },
     "use_action": { "type": "transform", "target": "helmet_motor_raised", "msg": "You raise your visor." },
     "warmth": 30,
-    "material_thickness": 6,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "GLARE", 1 ] ],
@@ -529,10 +531,9 @@
     "material": [ "plastic", "nomex" ],
     "symbol": "[",
     "color": "dark_gray",
-    "armor_portion_data": [ { "covers": [ "head" ], "coverage": 100, "encumbrance": 25 } ],
+    "armor_data": { "material_thickness": 6, "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "head" ] } ] },
     "use_action": { "type": "transform", "target": "helmet_motor", "msg": "You put down your visor." },
     "warmth": 30,
-    "material_thickness": 6,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "WATERPROOF", "STURDY" ]
