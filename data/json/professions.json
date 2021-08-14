@@ -685,7 +685,6 @@
       "both": {
         "items": [
           "pants_cargo",
-          "briefs",
           "cape_fp",
           "dress_shirt",
           "armguard_hard",
@@ -701,7 +700,9 @@
           { "item": "foodplace_snack_bar" },
           { "item": "bat", "custom-flags": [ "auto_wield" ] }
         ]
-      }
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
     }
   },
   {
