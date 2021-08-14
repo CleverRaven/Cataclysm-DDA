@@ -456,7 +456,7 @@
     "//": "gasket sizes range from 1in diameter to 6in.",
     "price": 150,
     "price_postapoc": 50,
-    "to_hit": 10,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "neutral" },
     "bashing": 1,
     "material": [ "plastic" ]
   },

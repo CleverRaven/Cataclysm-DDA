@@ -364,8 +364,8 @@ class game
         /** Spawns a hallucination at a determined position of a given monster. */
         bool spawn_hallucination( const tripoint &p, const mtype_id &mt );
         /** Finds somewhere to spawn a monster. */
-        bool find_nearby_spawn_point( const Character &target, const mtype_id &mt, int min_radius,
-                                      int max_radius, tripoint &point );
+        bool find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, int min_radius,
+                                      int max_radius, tripoint &point, bool outdoor_only );
         /** Swaps positions of two creatures */
         bool swap_critters( Creature &, Creature & );
 

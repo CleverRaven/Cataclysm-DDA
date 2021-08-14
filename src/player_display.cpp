@@ -176,19 +176,19 @@ static std::string run_cost_text( int moves )
     return string_format( _( "Movement point cost: <color_white>%+d</color>\n" ), moves );
 }
 
-static std::string reload_cost_text( int moves )
+static std::string reload_cost_text( float moves )
 {
-    return string_format( _( "Reloading movement point cost: <color_white>%+d</color>\n" ), moves );
+    return string_format( _( "Reloading movement point cost: <color_white>x%.2f</color>\n" ), moves );
 }
 
-static std::string melee_cost_text( int moves )
+static std::string melee_cost_text( float moves )
 {
     return string_format(
-               _( "Melee and thrown attack movement point cost: <color_white>%+d</color>\n" ), moves );
+               _( "Melee and thrown attack movement point modifier: <color_white>x%.2f</color>\n" ), moves );
 }
-static std::string melee_stamina_cost_text( int cost )
+static std::string melee_stamina_cost_text( float cost )
 {
-    return string_format( _( "Melee stamina cost: <color_white>%+d</color>\n" ), cost );
+    return string_format( _( "Melee stamina cost: <color_white>x%.2f</color>\n" ), cost );
 }
 static std::string mouth_stamina_cost_text( int cost )
 {
@@ -226,7 +226,7 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
             s += dodge_skill_text( -( eff_encumbrance / 10.0 ) );
             s += swim_cost_text( ( eff_encumbrance / 10.0 ) * ( 80 - p.get_skill_level(
                                      skill_swimming ) * 3 ) );
-            s += melee_cost_text( eff_encumbrance );
+            s += melee_cost_text( p.melee_thrown_move_modifier_torso() );
             break;
         }
         case bp_head:
@@ -246,18 +246,18 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
         case bp_arm_l:
         case bp_arm_r:
             s += _( "<color_magenta>Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons.</color>\n" );
-            s += melee_stamina_cost_text( eff_encumbrance );
-            s += ranged_cost_text( eff_encumbrance / 5.0 );
+            s += melee_stamina_cost_text( p.melee_stamina_cost_modifier() );
+            s += ranged_cost_text( p.ranged_dispersion_modifier() );
             break;
         case bp_hand_l:
         case bp_hand_r:
             s += _( "<color_magenta>Reduces the speed at which you can handle or manipulate items.</color>\n\n" );
-            s += reload_cost_text( ( eff_encumbrance / 10 ) * 15 );
-            s += string_format( _( "Dexterity when throwing items: <color_white>%+.1f</color>\n" ),
-                                -( eff_encumbrance / 10.0f ) );
-            s += melee_cost_text( eff_encumbrance / 2 );
-            s += string_format( _( "Reduced gun aim speed: <color_white>%.1f</color>" ),
-                                p.aim_speed_encumbrance_modifier() );
+            s += reload_cost_text( p.reloading_move_modifier() );
+            s += string_format( _( "Dexterity when throwing items: <color_white>x%.2f</color>\n" ),
+                                p.thrown_dex_modifier() );
+            s += melee_cost_text( p.melee_thrown_move_modifier_hands() );
+            s += string_format( _( "Gun aim speed modifier: <color_white>x%.2f</color>" ),
+                                p.aim_speed_modifier() );
             break;
         case bp_leg_l:
         case bp_leg_r:
@@ -796,8 +796,6 @@ static void draw_skills_tab( const catacurses::window &w_skills,
             const bool rusting = level.isRusting();
             int exercise = level.exercise();
             int level_num = level.level();
-            int knowledge_level_num = level.knowledgeLevel();
-            int knowledge_exp_num = level.knowledgeExperience();
             bool locked = false;
             if( you.has_active_bionic( bionic_id( "bio_cqb" ) ) && is_cqb_skill( aSkill->ident() ) ) {
                 level_num = 5;
@@ -840,15 +838,6 @@ static void draw_skills_tab( const catacurses::window &w_skills,
                            level_num,
                            ( exercise < 0 ? 0 : exercise ) );
             }
-            // Only bother showing the knowledge level if it's a higher level, or if there's at least a 25% exp gap
-            if( knowledge_level_num > level_num || ( knowledge_level_num == level_num &&
-                    knowledge_exp_num > exercise + 25 ) ) {
-                y_pos++;
-                mvwprintz( w_skills, point( 1, y_pos ), cstatus, " - knowledge:     %-2d(%2d%%)",
-                           knowledge_level_num,
-                           ( knowledge_exp_num < 0 ? 0 : knowledge_exp_num ) );
-            }
-
         }
     }
 
@@ -875,9 +864,14 @@ static void draw_skills_info( const catacurses::window &w_info, unsigned int lin
     werase( w_info );
 
     if( selectedSkill ) {
+        const SkillLevel &level = get_avatar().get_skill_level_object( selectedSkill->ident() );
+        std::string info_text = selectedSkill->description();
+        if( level.isRusting() ) {
+            info_text = string_format( _( "%s\n\nKnowledge level: %d (%d%%)" ), info_text,
+                                       level.knowledgeLevel(), level.knowledgeExperience() );
+        }
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray,
-                        selectedSkill->description() );
+        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray, info_text );
     }
     wnoutrefresh( w_info );
 }
