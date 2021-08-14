@@ -92,7 +92,7 @@ npc_attack_rating npc_attack_rating::operator-=( const int rhs )
 void npc_attack_spell::use( npc &source, const tripoint &location ) const
 {
     spell &sp = source.magic->get_spell( attack_spell_id );
-    if( source.has_weapon() && !source.weapon.has_flag( flag_id( "MAGIC_FOCUS" ) ) &&
+    if( source.has_weapon() && !source.get_wielded_weapon()->has_flag( flag_id( "MAGIC_FOCUS" ) ) &&
         !sp.has_flag( spell_flag::NO_HANDS ) ) {
         source.unwield();
     }
@@ -153,7 +153,7 @@ int npc_attack_spell::base_time_penalty( const npc &source ) const
 {
     const spell &attack_spell = source.magic->get_spell( attack_spell_id );
     int time_penalty = 0;
-    if( source.has_weapon() && !source.weapon.has_flag( flag_id( "MAGIC_FOCUS" ) ) &&
+    if( source.has_weapon() && !source.get_wielded_weapon()->has_flag( flag_id( "MAGIC_FOCUS" ) ) &&
         !attack_spell.has_flag( spell_flag::NO_HANDS ) ) {
         time_penalty += npc_attack_constants::base_time_penalty;
     }

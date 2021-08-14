@@ -3323,9 +3323,6 @@ void mattack::rifle( monster *z, Creature *target )
         return;
     }
     add_msg_if_player_sees( *z, m_warning, _( "The %s opens up with its rifle!" ), z->name() );
-    tmp.set_wielded_weapon( item( "nato_assault_rifle" ).ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
-    const item *weapon = tmp.get_wielded_weapon();
-    int burst = std::max( weapon->gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
     tmp.set_wielded_weapon( item( "m4_carbine" ).ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
     int burst = std::max( tmp.get_wielded_weapon()->gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );

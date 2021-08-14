@@ -785,8 +785,8 @@ static item_location place_craft_or_disassembly(
             amenu.text = string_format( pgettext( "in progress craft", "What to do with the %s?" ),
                                         craft.display_name() );
 
-            amenu.addentry( WIELD_CRAFT, ch.can_unwield( ch.weapon ).success(),
-                            '1', _( "Dispose of your wielded %s and start working." ), ch.weapon.tname() );
+            amenu.addentry( WIELD_CRAFT, ch.can_unwield( *ch.get_wielded_weapon() ).success(),
+                            '1', _( "Dispose of your wielded %s and start working." ), ch.get_wielded_weapon()->tname() );
             amenu.addentry( DROP_CRAFT, true, '2', _( "Put it down and start working." ) );
             const bool can_stash = ch.can_pickVolume( craft ) &&
                                    ch.can_pickWeight( craft, !get_option<bool>( "DANGEROUS_PICKUPS" ) );

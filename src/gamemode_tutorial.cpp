@@ -238,7 +238,8 @@ void tutorial_game::post_action( action_id act )
     Character &player_character = get_player_character();
     switch( act ) {
         case ACTION_RELOAD_WEAPON:
-            if( player_character.get_wielded_weapon()->is_gun() && !tutorials_seen[tut_lesson::LESSON_GUN_FIRE] ) {
+            if( player_character.get_wielded_weapon()->is_gun() &&
+                !tutorials_seen[tut_lesson::LESSON_GUN_FIRE] ) {
                 g->place_critter_at( mon_zombie, player_character.pos() + tripoint( 0, -6, 0 ) );
                 g->place_critter_at( mon_zombie, player_character.pos() + tripoint( 2, -5, 0 ) );
                 g->place_critter_at( mon_zombie, player_character.pos() + tripoint( -2, -5, 0 ) );
