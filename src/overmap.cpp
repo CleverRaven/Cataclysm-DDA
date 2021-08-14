@@ -4373,22 +4373,6 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
 
 void overmap::place_mongroups()
 {
-    // Cities are full of zombies
-    for( city &elem : cities ) {
-        if( get_option<bool>( "WANDER_SPAWNS" ) ) {
-            if( !one_in( 16 ) || elem.size > 5 ) {
-                mongroup m( GROUP_ZOMBIE,
-                            tripoint_om_sm( project_to<coords::sm>( elem.pos ), 0 ),
-                            static_cast<int>( elem.size * 2.5 ),
-                            elem.size * 80 );
-                //                m.set_target( zg.back().posx, zg.back().posy );
-                m.horde = true;
-                m.wander( *this );
-                add_mon_group( m );
-            }
-        }
-    }
-
     if( get_option<bool>( "DISABLE_ANIMAL_CLASH" ) ) {
         // Figure out where swamps are, and place swamp monsters
         for( int x = 3; x < OMAPX - 3; x += 7 ) {
