@@ -895,9 +895,9 @@
         "melee_allowed": true,
         "buff_duration": 3,
         "mult_bonuses": [
-          { "stat": "damage", "type": "bash", "scale": 0.5 },
-          { "stat": "damage", "type": "cut", "scale": 0.5 },
-          { "stat": "damage", "type": "stab", "scale": 0.5 }
+          { "stat": "damage", "type": "bash", "scale": 0.67 },
+          { "stat": "damage", "type": "cut", "scale": 0.67 },
+          { "stat": "damage", "type": "stab", "scale": 0.67 }
         ]
       }
     ],
