@@ -2707,13 +2707,17 @@ void mapgen_forest( mapgendata &dat )
             float h_unit_hash = static_cast<float>( h_hash ) / static_cast<float>( UINT32_MAX );
             float v_unit_hash = static_cast<float>( v_hash ) / static_cast<float>( UINT32_MAX );
             // Apply the box-muller transform to produce a gaussian distribution with the desired mean and deviation.
-            float mag = depth_deviation * sqrt( -2. * log( h_unit_hash ) );
-            int h_norm_transform = static_cast<int>(clamp(round( mag * cos( 2 * M_PI * v_unit_hash ) + average_depth ), static_cast<double>( INT32_MIN ), static_cast<double>( INT32_MAX )));
-            int v_norm_transform = static_cast<int>(clamp(round( mag * sin( 2 * M_PI * v_unit_hash ) + average_depth ), static_cast<double>( INT32_MIN ), static_cast<double>( INT32_MAX )));
+            float mag = depth_deviation * std::sqrt( -2. * log( h_unit_hash ) );
+            int h_norm_transform = static_cast<int>( clamp( std::round( mag * std::cos(
+                                       2 * M_PI * v_unit_hash ) + average_depth ), static_cast<double>( INT32_MIN ),
+                                   static_cast<double>( INT32_MAX ) ) );
+            int v_norm_transform = static_cast<int>( clamp( std::round( mag * std::sin(
+                                       2 * M_PI * v_unit_hash ) + average_depth ), static_cast<double>( INT32_MIN ),
+                                   static_cast<double>( INT32_MAX ) ) );
 
             int corner_index = bd_x ? 1 + bd_y : 3 * bd_y; // Counterclockwise labeling.
-            border_depth[corner_index] = abs( h_norm_transform );
-            border_depth[corner_index + 4] = abs( v_norm_transform );
+            border_depth[corner_index] = std::abs( h_norm_transform );
+            border_depth[corner_index + 4] = std::abs( v_norm_transform );
         }
 
     // Indicies of border_depth accessible by dat.dir() nomenclature, [h_idx 0..4 : v_idx 0..4]:
@@ -2726,7 +2730,7 @@ void mapgen_forest( mapgendata &dat )
     for( int edge = 0; edge < 4; edge++ ) {
         int perimeter_depth_offset = ( SEEX * 2 ) * ( ( edge + 1 ) / 2 ) + ( SEEY * 2 ) * ( edge / 2 );
         int edge_length = edge % 2 == 0 ? SEEX * 2 : SEEY * 2;
-        int interediary_crit_point_count = round( rng_normal( 0, average_extra_critical_points * 2 ) );
+        int interediary_crit_point_count = std::round( rng_normal( 0, average_extra_critical_points * 2 ) );
         int *critical_point_displacements = new int[interediary_crit_point_count + 2];
         int *critical_point_depths = new int[interediary_crit_point_count + 2];
         critical_point_displacements[0] = 0;
@@ -2737,11 +2741,11 @@ void mapgen_forest( mapgendata &dat )
                 4]];
         // Generate critical points in-order displacement-wise.
         for( int ci = 1; ci < interediary_crit_point_count + 1; ci++ ) {
-            critical_point_displacements[ci] = clamp<int>( abs( static_cast<int>( round( normal_roll(
+            critical_point_displacements[ci] = clamp<int>( std::abs( static_cast<int>( std::round( normal_roll(
                                                    static_cast<double>(
                                                            edge_length * ( ci - 1 ) ) / ( interediary_crit_point_count + 2 ), border_deviation ) ) ) ), 1,
                                                edge_length - 2 );
-            critical_point_depths[ci] = static_cast<int>( round( abs( normal_roll( average_depth,
+            critical_point_depths[ci] = static_cast<int>( std::round( abs( normal_roll( average_depth,
                                         depth_deviation ) ) ) );
             // Ensure order by swapping:
             if( critical_point_displacements[ci] < critical_point_displacements[ci - 1] ) {
@@ -2761,9 +2765,12 @@ void mapgen_forest( mapgendata &dat )
                     break;
                 }
             }
-            float w_left = pow( abs( critical_point_displacements[ubidx - 1] - step ) + 1, -border_curviness );
-            float w_right = pow( abs( critical_point_displacements[ubidx] - step ) + 1, -border_curviness );
-            perimeter_depth[perimeter_depth_offset + step] = round( ( w_left * critical_point_depths[ubidx - 1]
+            float w_left = std::pow( std::abs( critical_point_displacements[ubidx - 1] - step ) + 1,
+                                     -border_curviness );
+            float w_right = std::pow( std::abs( critical_point_displacements[ubidx] - step ) + 1,
+                                      -border_curviness );
+            perimeter_depth[perimeter_depth_offset + step] = std::round( ( w_left * critical_point_depths[ubidx
+                    - 1]
                     + w_right * critical_point_depths[ubidx] ) / ( w_left + w_right ) );
 
             if( perimeter_depth[perimeter_depth_offset + step] < 1 ) {
@@ -2877,13 +2884,14 @@ void mapgen_forest( mapgendata &dat )
                 // Biome-less terrain does not feather on its side, but biome-owning terrain is presumed to.
                 // In order to account for this, the border of the map generation function must be determined
                 // to correspond either to the half-way point between biomes or the end-point of the transition.
-                weights[wi] = pow( static_cast<float>( perimeter_depths[wi] ) / ( point_depths[wi] + 1 ),
-                                   biome_transition_abruptness ) * scaling_factor;
+                weights[wi] = std::pow( static_cast<float>( perimeter_depths[wi] ) / ( point_depths[wi] + 1 ),
+                                        biome_transition_abruptness ) * scaling_factor;
                 net_weight += weights[wi];
             } else {
-                weights[wi] = pow( static_cast<float>( perimeter_depths[wi] ) / ( point_depths[wi] + 1 ),
-                                   biome_transition_abruptness ) * scaling_factor / pow( static_cast<float>( perimeter_depths[wi] ),
-                                           biome_transition_abruptness );
+                weights[wi] = std::pow( static_cast<float>( perimeter_depths[wi] ) / ( point_depths[wi] + 1 ),
+                                        biome_transition_abruptness ) * scaling_factor / std::pow( static_cast<float>
+                                                ( perimeter_depths[wi] ),
+                                                biome_transition_abruptness );
                 net_weight += weights[wi];
             }
         return net_weight;
