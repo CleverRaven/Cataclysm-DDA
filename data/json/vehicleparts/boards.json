@@ -6,16 +6,24 @@
     "categories": [ "hull" ],
     "standard_symbols": true,
     "symbols": {
+      "cover_left": "h",
+      "cover_right": "h",
       "horizontal_front": "h",
+      "hatch_wheel_left": "b",
+      "hatch_wheel_right": "n",
       "horizontal_rear": "h",
       "horizontal_2_front": "=",
       "horizontal_2_rear": "=",
+      "nw_edge": "j",
+      "ne_edge": "j",
       "vertical_left": "j",
       "vertical_right": "j",
       "vertical_T_left": "[",
       "vertical_T_right": "]",
       "vertical_2_left": "H",
-      "vertical_2_right": "H"
+      "vertical_2_right": "H",
+      "wheel_left": "j",
+      "wheel_right": "j"
     },
     "flags": [ "OBSTACLE", "NO_ROOF_NEEDED" ]
   },
