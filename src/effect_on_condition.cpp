@@ -152,8 +152,6 @@ void effect_on_conditions::process_effect_on_conditions()
 
 void effect_on_conditions::process_reactivate()
 {
-    dialogue d( get_talker_for( get_avatar() ), nullptr );
-
     std::vector<effect_on_condition_id> ids_to_reactivate;
     for( const effect_on_condition_id &eoc : g->inactive_effect_on_condition_vector ) {
         if( !eoc->check_deactivate() ) {

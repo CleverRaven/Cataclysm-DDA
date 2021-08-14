@@ -249,8 +249,7 @@ struct dialogue {
 
         talk_topic opt( dialogue_window &d_win, const std::string &npc_name, const talk_topic &topic );
         dialogue() = default;
-        explicit dialogue( std::unique_ptr<talker> alpha_in,
-                           std::unique_ptr<talker> beta_in );
+        dialogue( std::unique_ptr<talker> alpha_in, std::unique_ptr<talker> beta_in );
         talker *actor( const bool is_beta ) const;
 
         mutable itype_id cur_item;

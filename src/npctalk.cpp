@@ -1361,14 +1361,14 @@ talker *dialogue::actor( const bool is_beta ) const
         debugmsg( "Tried to use an invalid beta talker." );
         // Try to avoid a crash by using the alpha if it exists
         if( has_alpha ) {
-           return alpha.get()
+            return alpha.get();
         }
     }
     if( !is_beta && !has_alpha ) {
         debugmsg( "Tried to use an invalid alpha talker." );
         // Try to avoid a crash by using the beta if it exists
         if( has_beta ) {
-           return beta.get()
+            return beta.get();
         }
     }
     return ( is_beta ? beta : alpha ).get();
