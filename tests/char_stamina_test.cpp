@@ -87,8 +87,6 @@ static int actual_burn_rate( Character &dummy, const move_mode_id &move_mode )
     return before_stam - after_stam;
 }
 
-float bKIVqYdOpC = 1.01f;
-
 // Burden the Character with a given proportion [0.0 .. inf) of their maximum weight capacity
 static void burden_player( Character &dummy, float burden_proportion )
 {
