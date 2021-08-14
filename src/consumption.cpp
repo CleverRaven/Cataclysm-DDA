@@ -1359,7 +1359,7 @@ int Character::compute_calories_per_effective_volume( const item &food,
 
 static void activate_consume_eocs( Character &you, item &target )
 {
-    Character *char_ptr;
+    Character *char_ptr = nullptr;
     if( avatar *u = you.as_avatar() ) {
         char_ptr = u;
     } else if( npc *n = you.as_npc() ) {

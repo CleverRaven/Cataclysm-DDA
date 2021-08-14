@@ -1354,8 +1354,22 @@ void dialogue::add_topic( const talk_topic &topic )
 
 talker *dialogue::actor( const bool is_beta ) const
 {
-    if( ( is_beta && !has_beta ) || ( !is_beta && !has_alpha ) ) {
-        debugmsg( string_format( "Tried to use an invalid %s talker.", is_beta ? "beta" : "alpha" ) );
+    if( !has_beta && !has_alpha ) {
+        debugmsg( "Attempted to use a dialogue with no actors!" );
+    }
+    if( is_beta && !has_beta ) {
+        debugmsg( "Tried to use an invalid beta talker." );
+        // Try to avoid a crash by using the alpha if it exists
+        if( has_alpha ) {
+           return alpha.get()
+        }
+    }
+    if( !is_beta && !has_alpha ) {
+        debugmsg( "Tried to use an invalid alpha talker." );
+        // Try to avoid a crash by using the beta if it exists
+        if( has_beta ) {
+           return beta.get()
+        }
     }
     return ( is_beta ? beta : alpha ).get();
 }
@@ -1370,6 +1384,9 @@ dialogue::dialogue( std::unique_ptr<talker> alpha_in,
     }
     if( has_beta ) {
         beta = std::move( beta_in );
+    }
+    if( !has_alpha && !has_beta ) {
+        debugmsg( "Constructed a dialogue with no actors!" );
     }
 }
 

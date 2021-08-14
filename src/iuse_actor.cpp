@@ -4552,7 +4552,7 @@ void effect_on_conditons_actor::info( const item &, std::vector<iteminfo> &dump 
 cata::optional<int> effect_on_conditons_actor::use( player &p, item &it, bool,
         const tripoint & ) const
 {
-    Character *char_ptr;
+    Character *char_ptr = nullptr;
     if( avatar *u = p.as_avatar() ) {
         char_ptr = u;
     } else if( npc *n = p.as_npc() ) {
