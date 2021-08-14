@@ -186,7 +186,6 @@
     "symbol": "(",
     "color": "light_gray",
     "ammo": "10mm",
-    "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "dispersion": 480,
     "built_in_mods": [ "match_trigger" ],
     "durability": 6,
