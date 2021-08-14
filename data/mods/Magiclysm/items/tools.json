@@ -54,7 +54,6 @@
     "ammo": [ "alumentum" ],
     "sub": "forge",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "alumentum": 500 } } ],
-    "max_charges": 500,
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -152,6 +151,22 @@
         "clothing_mods": [ "leather_padded", "steel_padded", "kevlar_padded", "furred", "wooled" ]
       }
     ]
+  },
+  {
+    "id": "parabolan_wool_staple",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": { "str": "parabolan wool staple" },
+    "description": "The natural cluster of parabolan wool fibers.  Could be processed to felt patches or yarns.",
+    "weight": "120 g",
+    "volume": "500 ml",
+    "price": 0,
+    "price_postapoc": 10,
+    "to_hit": -4,
+    "material": [ "parabolan_wool" ],
+    "symbol": ",",
+    "color": "white",
+    "flags": [ "NO_SALVAGE" ]
   },
   {
     "type": "TOOL",

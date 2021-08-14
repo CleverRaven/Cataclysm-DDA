@@ -29,13 +29,13 @@
 #include "debug.h"
 #include "enums.h"
 #include "faction.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "iexamine.h"
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_group.h"
 #include "item_pocket.h"
 #include "item_stack.h"
@@ -630,7 +630,7 @@ void talk_function::basecamp_mission( npc &p )
             mgr.cache_vzones();
         }
         tripoint src_loc;
-        const tripoint abspos = p.global_square_location();
+        const tripoint abspos = p.global_square_location().raw();
         if( mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ) {
             const std::unordered_set<tripoint> &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
             const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
@@ -2255,7 +2255,7 @@ void basecamp::start_crafting( const std::string &cur_id, const point &cur_dir,
         string_input_popup popup_input;
         int batch_max = recipe_batch_max( making );
         const std::string title = string_format( _( "Batch crafting %s [MAX: %d]: " ),
-                                  making.result_name(), batch_max );
+                                  making.result_name( /*decorated=*/true ), batch_max );
         popup_input.title( title ).edit( batch_size );
 
         if( popup_input.canceled() || batch_size <= 0 ) {
@@ -2823,8 +2823,7 @@ void basecamp::recruit_return( const std::string &task, int score )
     // Time durations always subtract from camp food supply
     camp_food_supply( 1_days * food_desire );
     avatar &player_character = get_avatar();
-    recruit->spawn_at_precise( get_map().get_abs_sub().xy(),
-                               player_character.pos() + point( -4, -4 ) );
+    recruit->spawn_at_precise( player_character.global_square_location() + point( -4, -4 ) );
     overmap_buffer.insert_npc( recruit );
     recruit->form_opinion( player_character );
     recruit->mission = NPC_MISSION_NULL;
@@ -3813,6 +3812,9 @@ bool basecamp::distribute_food()
         }
         // Stuff like butchery refuse and other disgusting stuff
         if( it.get_comestible_fun() < -6 ) {
+            return false;
+        }
+        if( it.has_flag( flag_INEDIBLE ) ) {
             return false;
         }
         if( it.rotten() ) {

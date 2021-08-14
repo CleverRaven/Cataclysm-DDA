@@ -96,8 +96,8 @@
   },
   {
     "id": "polycarbonate_sheet",
-    "type": "GENERIC",
-    "category": "spare_parts",
+    "type": "AMMO",
+    "ammo_type": "NULL",
     "name": { "str": "polycarbonate sheet" },
     "description": "This is a stack of polycarbonate sheets that can be used for, among other things, vacuum molding.",
     "weight": "250 g",
@@ -106,8 +106,9 @@
     "price_postapoc": 25,
     "material": [ "plastic" ],
     "symbol": ")",
-    "color": "light_blue",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_plastic_groundsheet" }
+    "stack_size": 20,
+    "count": 20,
+    "color": "light_blue"
   },
   {
     "id": "rigid_plastic_sheet",

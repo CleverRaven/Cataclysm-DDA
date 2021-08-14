@@ -85,7 +85,7 @@
     "name": { "str": "bondage mask (zipped)", "str_pl": "bondage masks (zipped)" },
     "description": "A tight mask made of black leather.  The eyes and mouth have been zipped closed.",
     "looks_like": "bondage_mask",
-    "flags": [ "VARSIZE", "BLIND" ],
+    "flags": [ "VARSIZE", "SKINTIGHT", "BLIND" ],
     "use_action": {
       "menu_text": "Unzip",
       "type": "transform",

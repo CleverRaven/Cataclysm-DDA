@@ -79,6 +79,7 @@
 #include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "name.h"
 
 
 static const efftype_id effect_bouldering( "bouldering" );
@@ -96,8 +97,6 @@ static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_pkill3( "pkill3" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
-
-static const itype_id itype_UPS_off( "UPS_off" );
 
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_bashing( "bashing" );
@@ -304,15 +303,16 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     idz = tguy.idz;
     myclass = npc_class_id( tguy.myclass );
     randomize( myclass );
+    if( tem.gender_override != npc_template::gender::random ) {
+        male = tem.gender_override == npc_template::gender::male;
+    }
+    name = Name::generate( male );
     if( !tem.name_unique.empty() ) {
         name = tem.name_unique.translated();
     }
     if( !tem.name_suffix.empty() ) {
         //~ %1$s: npc name, %2$s: name suffix
         name = string_format( pgettext( "npc name", "%1$s, %2$s" ), name, tem.name_suffix );
-    }
-    if( tem.gender_override != npc_template::gender::random ) {
-        male = tem.gender_override == npc_template::gender::male;
     }
     fac_id = tguy.fac_id;
     set_fac( fac_id );
@@ -687,7 +687,7 @@ void npc::set_known_to_u( bool known )
 
 void npc::setpos( const tripoint &pos )
 {
-    position = pos;
+    Character::setpos( pos );
     const point_abs_om pos_om_old( sm_to_om_copy( submap_coords ) );
     submap_coords = get_map().get_abs_sub().xy() + point( pos.x / SEEX, pos.y / SEEY );
     // TODO: fix point types
@@ -705,12 +705,12 @@ void npc::setpos( const tripoint &pos )
     }
 }
 
-void npc::travel_overmap( const tripoint &pos )
+void npc::travel_overmap( const tripoint_abs_omt &pos )
 {
     // TODO: fix point types
-    const point_abs_om pos_om_old( sm_to_om_copy( submap_coords ) );
-    spawn_at_sm( pos );
-    const point_abs_om pos_om_new( sm_to_om_copy( submap_coords ) );
+    const point_abs_om pos_om_old = project_to<coords::om>( global_omt_location().xy() );
+    spawn_at_omt( pos );
+    const point_abs_om pos_om_new = project_to<coords::om>( global_omt_location().xy() );
     if( global_omt_location() == goal ) {
         reach_omt_destination();
     }
@@ -727,24 +727,26 @@ void npc::travel_overmap( const tripoint &pos )
     }
 }
 
-void npc::spawn_at_sm( const tripoint &p )
+void npc::spawn_at_omt( const tripoint_abs_omt &p )
 {
-    spawn_at_precise( p.xy(), tripoint( rng( 0, SEEX - 1 ), rng( 0, SEEY - 1 ), p.z ) );
+    const int max_coord = coords::map_squares_per( coords::omt ) - 1;
+    const point_rel_ms local_pos( rng( 0, max_coord ), rng( 0, max_coord ) );
+    spawn_at_precise( project_to<coords::ms>( p ) + local_pos );
 }
 
-void npc::spawn_at_precise( const point &submap_offset, const tripoint &square )
+void npc::spawn_at_precise( const tripoint_abs_ms &p )
 {
-    submap_coords = submap_offset;
-    submap_coords.x += square.x / SEEX;
-    submap_coords.y += square.y / SEEY;
-    position.x = square.x % SEEX;
-    position.y = square.y % SEEY;
-    position.z = square.z;
+    point_abs_sm quotient;
+    tripoint_sm_ms remainder;
+    std::tie( quotient, remainder ) = project_remain<coords::sm>( p );
+    submap_coords = quotient.raw();
+    position = remainder.raw();
 }
 
-tripoint npc::global_square_location() const
+tripoint_abs_ms npc::global_square_location() const
 {
-    return sm_to_ms_copy( submap_coords ) + tripoint( posx() % SEEX, posy() % SEEY, position.z );
+    return tripoint_abs_ms( project_to<coords::ms>( point_abs_sm( submap_coords ) ),
+                            0 ) + tripoint( posx() % SEEX, posy() % SEEY, posz() );
 }
 
 void npc::place_on_map()
@@ -879,7 +881,7 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
     }
     const auto &type = book.type->book;
     const skill_id &skill = type->skill;
-    const int skill_level = pl->get_skill_level( skill );
+    const int skill_level = pl->get_knowledge_level( skill );
     if( skill && skill_level < type->req ) {
         fail_reasons.push_back( string_format( _( "I'm not smart enough to read this book." ) ) );
         return false;
@@ -911,7 +913,7 @@ int npc::time_to_read( const item &book, const player &reader ) const
     // The reader's reading speed has an effect only if they're trying to understand the book as they read it
     // Reading speed is assumed to be how well you learn from books (as opposed to hands-on experience)
     const bool try_understand = reader.fun_to_read( book ) ||
-                                reader.get_skill_level( skill ) < type->level;
+                                reader.get_knowledge_level( skill ) < type->level;
     int reading_speed = try_understand ? std::max( reader.read_speed(), read_speed() ) : read_speed();
 
     int retval = type->time * reading_speed;
@@ -949,6 +951,7 @@ void npc::do_npc_read()
 
         // NPCs can't read to other NPCs yet
         const int time_taken = time_to_read( *book, *this );
+        item_location ereader = {};
 
         // NPCs read until they gain a level
         assign_activity(
@@ -956,6 +959,7 @@ void npc::do_npc_read()
                 read_activity_actor(
                     time_taken,
                     book,
+                    ereader,
                     true,
                     getID().get_value()
                 ) ) );
@@ -1044,7 +1048,7 @@ void npc::stow_item( item &it )
         // Weapon cannot be worn or wearing was not successful. Store it in inventory if possible,
         // otherwise drop it.
     } else if( can_stash( it ) ) {
-        item &ret = i_add( remove_item( it ), true, nullptr, true, false );
+        item &ret = i_add( remove_item( it ), true, nullptr, nullptr, true, false );
         if( avatar_sees ) {
             add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), ret.tname() );
         }
@@ -1383,7 +1387,7 @@ std::vector<skill_id> npc::skills_offered_to( const player &p ) const
     std::vector<skill_id> ret;
     for( const auto &pair : *_skills ) {
         const skill_id &id = pair.first;
-        if( p.get_skill_level( id ) < pair.second.level() ) {
+        if( p.get_knowledge_level( id ) < pair.second.level() ) {
             ret.push_back( id );
         }
     }
@@ -1434,8 +1438,7 @@ void npc::decide_needs()
     if( weapon.is_gun() ) {
         int ups_drain = weapon.get_gun_ups_drain();
         if( ups_drain > 0 ) {
-            int ups_charges = charges_of( itype_UPS_off, ups_drain ) +
-                              charges_of( itype_UPS_off, ups_drain );
+            int ups_charges = available_ups();
             needrank[need_ammo] = static_cast<double>( ups_charges ) / ups_drain;
         } else {
             const ammotype ammo_type = weapon.ammo_type();
@@ -1755,8 +1758,8 @@ int npc::value( const item &it, int market_price ) const
     if( it.is_book() ) {
         auto &book = *it.type->book;
         ret += book.fun;
-        if( book.skill && get_skill_level( book.skill ) < book.level &&
-            get_skill_level( book.skill ) >= book.req ) {
+        if( book.skill && get_knowledge_level( book.skill ) < book.level &&
+            get_knowledge_level( book.skill ) >= book.req ) {
             ret += book.level * 3;
         }
     }
@@ -2262,7 +2265,9 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     }
 
     // Worn gear list on following lines.
-    const std::string worn_str = enumerate_as_string( worn.begin(), worn.end(), []( const item & it ) {
+    const std::list<item> visible_worn_items = get_visible_worn_items();
+    const std::string worn_str = enumerate_as_string( visible_worn_items.begin(),
+    visible_worn_items.end(), []( const item & it ) {
         return it.tname();
     } );
     if( !worn_str.empty() ) {
@@ -2562,6 +2567,11 @@ std::string npc_attitude_id( npc_attitude att )
 cata::optional<int> npc::closest_enemy_to_friendly_distance() const
 {
     return ai_cache.closest_enemy_to_friendly_distance();
+}
+
+const std::vector<weak_ptr_fast<Creature>> &npc::get_cached_friends() const
+{
+    return ai_cache.friends;
 }
 
 std::string npc_attitude_name( npc_attitude att )

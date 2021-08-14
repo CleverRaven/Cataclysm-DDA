@@ -23,8 +23,8 @@
 #include "map_iterator.h"
 #include "messages.h"
 #include "monster.h"
+#include "mtype.h"
 #include "npc.h"
-#include "player.h"
 #include "point.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -368,7 +368,7 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
     if( target.is_avatar() ) {
         sfx::play_variant_sound( "mon_bite", "bite_hit", sfx::get_heard_volume( z.pos() ),
                                  sfx::get_heard_angle( z.pos() ) );
-        sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
+        sfx::do_player_death_hurt( dynamic_cast<Character &>( target ), false );
     }
     game_message_type msg_type = target.attitude_to( get_player_character() ) ==
                                  Creature::Attitude::FRIENDLY ?
@@ -593,7 +593,7 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
         return;
     }
 
-    if( !gun.ammo_sufficient() ) {
+    if( !gun.ammo_sufficient( nullptr ) ) {
         if( !no_ammo_sound.empty() ) {
             sounds::sound( z.pos(), 10, sounds::sound_t::combat, no_ammo_sound );
         }

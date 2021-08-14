@@ -163,6 +163,7 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```thrown``` Thrown
 - ```unfinished_char``` Semi-charred fuel
 - ```water``` Water
+- ```paper``` Paper
 
 ### Effects
 
@@ -406,6 +407,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```WASH_HARD_ITEMS``` Wash hard items with FILTHY flag.
 - ```WASH_SOFT_ITEMS``` Wash soft items with FILTHY flag.
 - ```WATER_PURIFIER``` Purify water.
+- ```BINDER_ADD_RECIPE``` Add recipe to a book binder.
 
 
 ## Comestibles
@@ -474,6 +476,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ACID``` when consumed using the BLECH function, penalties are reduced if acidproof.
 - ```CARNIVORE_OK``` Can be eaten by characters with the Carnivore mutation.
 - ```CANT_HEAL_EVERYONE``` This med can't be used by everyone, it require a special mutation. See `can_heal_with` in mutation.
+- ```CORROSIVE``` when consumed using the BLECH function, causes the same penalties as ACID but is not affected by acidproof.
 - ```EATEN_COLD``` Morale bonus for eating cold.
 - ```EATEN_HOT``` Morale bonus for eating hot.
 - ```EDIBLE_FROZEN``` Being frozen doesn't prevent eating it. No morale bonus.
@@ -663,6 +666,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```NPC_THROWN``` ... NPCs will throw this item (without activating it first) as an alternative attack.
 - ```NPC_THROW_NOW``` ... NPCs will try to throw this item away, preferably at enemies. Implies "TRADER_AVOID" and "NPC_THROWN".
 - ```PERFECT_LOCKPICK``` ... Item is a perfect lockpick. Takes only 5 seconds to pick a lock and never fails, but using it grants only a small amount of lock picking xp. The item should have "LOCKPICK" quality of at least 1.
+- ```PRESERVE_SPAWN_OMT``` ... This item will store the OMT that it spawns in in the `spawn_location_omt` item var.
 - ```PSEUDO``` ... Used internally to mark items that are referred to in the crafting inventory but are not actually items. They can be used as tools, but not as components. Implies "TRADER_AVOID".
 - ```RADIOACTIVE``` ... Is radioactive (can be used with LEAK_*).
 - ```RAIN_PROTECT``` ... Protects from sunlight and from rain, when wielded.
@@ -683,6 +687,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```UNBREAKABLE_MELEE``` ... Never gets damaged when used as melee weapon.
 - ```UNRECOVERABLE``` ... Cannot be recovered from a disassembly.
 - ```WATER_BREAK``` ... Item is broken in water.
+- ```WATER_BREAK_ACTIVE``` ... Item can get wet and is broken in water if active.
 - ```WATER_DISSOLVE``` ... Item is dissolved in water.
 - ```ZERO_WEIGHT``` Normally items with zero weight will generate an error.
   Use this flag to indicate that zero weight is intentional and suppress that
@@ -971,8 +976,10 @@ Other monster flags.
 - ```SHEARABLE``` This monster can be sheared for wool.
 - ```SLUDGEPROOF``` Ignores the effect of sludge trails.
 - ```SLUDGETRAIL``` Causes the monster to leave a sludge trap trail when moving.
+- ```SMALLSLUDGETRAIL``` Causes the monster to occasionally leave a 1-tile sludge trail when moving.
 - ```SMELLS``` It can smell you.
 - ```STUMBLES``` Stumbles in its movement.
+- ```STUN_IMMUNE``` - This monster is immune to stun.
 - ```SUNDEATH``` Dies in full sunlight.
 - ```SWARMS``` Groups together and forms loose packs.
 - ```SWIMS``` Treats water as 50 movement point terrain.
@@ -1107,6 +1114,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 
 #### Flags
 
+- ```HARDTOHIT``` Whenever something attacks you, RNG gets rolled twice and you get the better result.
 - ```UNARMED_BONUS``` You get a bonus to unarmed bash and cut damage equal to unarmed_skill/2 up to 4.
 
 ### Categories

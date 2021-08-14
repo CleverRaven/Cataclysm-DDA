@@ -144,7 +144,8 @@ class recipe
         }
 
         /// @returns The name (@ref item::nname) of the resulting item (@ref result).
-        std::string result_name() const;
+        /// @param decorated whether the result includes decoration (favorite mark, etc).
+        std::string result_name( bool decorated = false ) const;
 
         std::map<itype_id, int> byproducts;
 

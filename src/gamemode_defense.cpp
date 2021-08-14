@@ -281,6 +281,7 @@ void defense_game::init_map()
                 popup.message( _( "Please wait as the map generates [%2d%%]" ), percent );
                 ui_manager::redraw();
                 refresh_display();
+                inp_mngr.pump_events();
                 old_percent = percent;
             }
             // Round down to the nearest even number

@@ -38,7 +38,6 @@
 #include "gates.h"
 #include "gun_mode.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_factory.h"
 #include "itype.h"
 #include "iuse.h"
@@ -125,7 +124,6 @@ static const itype_id itype_lsd( "lsd" );
 static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
 static const itype_id itype_thorazine( "thorazine" );
 static const itype_id itype_oxygen_tank( "oxygen_tank" );
-static const itype_id itype_UPS( "UPS" );
 
 static const material_id material_battery( "battery" );
 static const material_id material_chem_ethanol( "chem_ethanol" );
@@ -253,7 +251,7 @@ tripoint npc::good_escape_direction( bool include_pos )
     map &here = get_map();
     if( path.empty() ) {
         zone_type_id retreat_zone = zone_type_id( "NPC_RETREAT" );
-        const tripoint &abs_pos = global_square_location();
+        const tripoint &abs_pos = global_square_location().raw();
         const zone_manager &mgr = zone_manager::get_manager();
         cata::optional<tripoint> retreat_target = mgr.get_nearest( retreat_zone, abs_pos, 60,
                 fac_id );
@@ -1248,7 +1246,7 @@ void npc::execute_action( npc_action action )
             int my_spot = -1;
             std::vector<std::pair<int, int> > seats;
             for( const vpart_reference &vp : veh->get_avail_parts( VPFLAG_BOARDABLE ) ) {
-                const player *passenger = veh->get_passenger( vp.part_index() );
+                const Character *passenger = veh->get_passenger( vp.part_index() );
                 if( passenger != this && passenger != nullptr ) {
                     continue;
                 }
@@ -1430,7 +1428,7 @@ void npc::evaluate_best_weapon( const Creature *target )
 
     // punching things is always available
     compare( std::make_shared<npc_attack_melee>( null_item_reference() ) );
-    const int ups_charges = charges_of( itype_UPS );
+    const int ups_charges = available_ups();
     visit_items( [&compare, &ups_charges, this]( item * it, item * ) {
         // you can theoretically melee with anything.
         compare( std::make_shared<npc_attack_melee>( *it ) );
@@ -1445,12 +1443,15 @@ void npc::evaluate_best_weapon( const Creature *target )
                        !can_use( *mode.second.target ) || mode.second->get_gun_ups_drain() > ups_charges ||
                        ( rules.has_flag( ally_rule::use_silent ) && is_player_ally() &&
                          !mode.second->is_silent() ) ) ) {
-                    compare( std::make_shared<npc_attack_gun>( mode.second ) );
+                    compare( std::make_shared<npc_attack_gun>( *it, mode.second ) );
                 }
             }
         }
         return VisitResponse::NEXT;
     } );
+    for( const spell_id &sp : magic->spells() ) {
+        compare( std::make_shared<npc_attack_spell>( sp ) );
+    }
 
     ai_cache.current_attack = best_attack;
     ai_cache.current_attack_evaluation = best_evaluated_attack;
@@ -2837,7 +2838,7 @@ void npc::find_item()
             continue;
         }
 
-        const tripoint abs_p = global_square_location() - pos() + p;
+        const tripoint abs_p = global_square_location().raw() - pos() + p;
         const int prev_num_items = ai_cache.searched_tiles.get( abs_p, -1 );
         // Prefetch the number of items present so we can bail out if we already checked here.
         const map_stack m_stack = here.i_at( p );
@@ -3331,7 +3332,7 @@ bool npc::wield_better_weapon()
     item *best = &weapon;
     double best_value = -100.0;
 
-    const int ups_charges = charges_of( itype_UPS );
+    const int ups_charges = available_ups();
 
     const auto compare_weapon =
     [this, &best, &best_value, ups_charges, can_use_gun, use_silent]( const item & it ) {
@@ -3623,7 +3624,7 @@ void npc::heal_self()
         const auto filter_use = [this]( const std::string & filter ) -> std::vector<item *> {
             const auto inv_filtered = items_with( [&filter]( const item & itm )
             {
-                return ( itm.type->get_use( filter ) != nullptr ) && ( itm.ammo_sufficient() );
+                return ( itm.type->get_use( filter ) != nullptr ) && ( itm.ammo_sufficient( nullptr ) );
             } );
             return inv_filtered;
         };
@@ -3640,7 +3641,7 @@ void npc::heal_self()
         }
         if( treatment != nullptr ) {
             treatment->get_use( iusage )->call( *this, *treatment, treatment->active, pos() );
-            treatment->ammo_consume( treatment->ammo_required(), pos() );
+            treatment->ammo_consume( treatment->ammo_required(), pos(), this );
             return;
         }
     }
@@ -4143,7 +4144,7 @@ void npc::set_omt_destination()
         goal = overmap_buffer.find_closest( surface_omt_loc, find_params );
         omt_path.clear();
         if( goal != overmap::invalid_tripoint ) {
-            omt_path = overmap_buffer.get_npc_path( surface_omt_loc, goal );
+            omt_path = overmap_buffer.get_travel_path( surface_omt_loc, goal, overmap_path_params::for_npc() );
         }
         if( !omt_path.empty() ) {
             dest_type = overmap_buffer.ter( goal )->get_type_id().str();
@@ -4154,11 +4155,11 @@ void npc::set_omt_destination()
     // couldn't find any places to go, so go somewhere.
     if( goal == overmap::invalid_tripoint || omt_path.empty() ) {
         goal = surface_omt_loc + point( rng( -90, 90 ), rng( -90, 90 ) );
-        omt_path = overmap_buffer.get_npc_path( surface_omt_loc, goal );
+        omt_path = overmap_buffer.get_travel_path( surface_omt_loc, goal, overmap_path_params::for_npc() );
         // try one more time
         if( omt_path.empty() ) {
             goal = surface_omt_loc + point( rng( -90, 90 ), rng( -90, 90 ) );
-            omt_path = overmap_buffer.get_npc_path( surface_omt_loc, goal );
+            omt_path = overmap_buffer.get_travel_path( surface_omt_loc, goal, overmap_path_params::for_npc() );
         }
         if( omt_path.empty() ) {
             goal = no_goal_point;

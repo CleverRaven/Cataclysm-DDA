@@ -2237,6 +2237,18 @@
   },
   {
     "type": "construction",
+    "id": "constr_metal_trashcan",
+    "group": "build_metal_trashcan",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 2 } ] ],
+    "components": [ [ [ "sheet_metal", 2 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_metal_trashcan"
+  },
+  {
+    "type": "construction",
     "id": "constr_mailbox",
     "group": "build_mailbox",
     "category": "FURN",

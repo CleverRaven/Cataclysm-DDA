@@ -340,7 +340,8 @@ class translation
         bool needs_translation = false;
         // translation cache. For "plural" translation only latest `num` is optimistically cached
         mutable int cached_language_version = INVALID_LANGUAGE_VERSION;
-        mutable int cached_num = 0; // `num`, which `cached_translation` corresponds to
+        // `num`, which `cached_translation` corresponds to
+        mutable int cached_num = 0;
         mutable cata::value_ptr<std::string> cached_translation;
 };
 

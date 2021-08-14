@@ -130,9 +130,21 @@ static void build_line( spell_detail::line_iterable line, const tripoint &source
 }
 } // namespace spell_detail
 
-void spell_effect::teleport_random( const spell &sp, Creature &caster, const tripoint & )
+void spell_effect::short_range_teleport( const spell &sp, Creature &caster, const tripoint &target )
 {
-    bool safe = !sp.has_flag( spell_flag::UNSAFE_TELEPORT );
+    const bool safe = !sp.has_flag( spell_flag::UNSAFE_TELEPORT );
+    const bool target_teleport = sp.has_flag( spell_flag::TARGET_TELEPORT );
+    if( target_teleport ) {
+        if( sp.aoe() == 0 ) {
+            teleport::teleport_to_point( caster, target, safe, false );
+            return;
+        }
+
+        std::set<tripoint> potential_targets = calculate_spell_effect_area( sp, target, caster );
+        tripoint where = random_entry( potential_targets );
+        teleport::teleport_to_point( caster, where, safe, false );
+        return;
+    }
     const int min_distance = sp.range();
     const int max_distance = sp.range() + sp.aoe();
     if( min_distance > max_distance || min_distance < 0 || max_distance < 0 ) {
@@ -1488,5 +1500,19 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
         // banished monsters take their stuff with them
         mon->death_drops = false;
         mon->die( &caster );
+    }
+}
+
+void spell_effect::effect_on_condition( const spell &sp, Creature &caster, const tripoint &target )
+{
+    const std::set<tripoint> area = spell_effect_area( sp, target, caster );
+
+    for( const tripoint &potential_target : area ) {
+        if( !sp.is_valid_target( caster, potential_target ) ) {
+            continue;
+        }
+        dialogue d( get_talker_for( g->critter_at<Creature>( potential_target ) ),
+                    get_talker_for( caster ) );
+        effect_on_condition_id( sp.effect_data() )->activate( d );
     }
 }

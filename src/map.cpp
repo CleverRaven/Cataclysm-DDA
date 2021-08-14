@@ -47,7 +47,6 @@
 #include "harvest.h"
 #include "iexamine.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_factory.h"
 #include "item_group.h"
 #include "item_location.h"
@@ -160,6 +159,8 @@ map::map( int mapsize, bool zlev )
 }
 
 map::~map() = default;
+// NOLINTNEXTLINE(performance-noexcept-move-constructor)
+map &map::operator=( map && ) = default;
 
 static submap null_submap;
 
@@ -303,7 +304,7 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
 
     // Unboard all passengers before detaching
     for( auto const &part : veh->get_avail_parts( VPFLAG_BOARDABLE ) ) {
-        player *passenger = part.get_passenger();
+        Character *passenger = part.get_passenger();
         if( passenger ) {
             unboard_vehicle( part, passenger );
         }
@@ -567,6 +568,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     units::angle coll_turn = 0_degrees;
     if( impulse > 0 ) {
         coll_turn = shake_vehicle( veh, velocity_before, facing.dir() );
+        veh.stop_autodriving();
         const int volume = std::min<int>( 100, std::sqrt( impulse ) );
         // TODO: Center the sound at weighted (by impulse) average of collisions
         sounds::sound( veh.global_pos3(), volume, sounds::sound_t::combat, _( "crash!" ),
@@ -683,6 +685,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     // But only if the vehicle was seen before or after the move
     if( seen || sees_veh( player_character, veh, true ) ) {
         g->invalidate_main_ui_adaptor();
+        inp_mngr.pump_events();
         ui_manager::redraw_invalidated();
         refresh_display();
     }
@@ -998,7 +1001,7 @@ void map::board_vehicle( const tripoint &pos, Character *p )
         return;
     }
     if( vp->part().has_flag( vehicle_part::passenger_flag ) ) {
-        player *psg = vp->vehicle().get_passenger( vp->part_index() );
+        Character *psg = vp->vehicle().get_passenger( vp->part_index() );
         debugmsg( "map::board_vehicle: passenger (%s) is already there",
                   psg ? psg->name : "<null>" );
         unboard_vehicle( pos );
@@ -1037,7 +1040,7 @@ void map::unboard_vehicle( const vpart_reference &vp, Character *passenger, bool
 void map::unboard_vehicle( const tripoint &p, bool dead_passenger )
 {
     const cata::optional<vpart_reference> vp = veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, false );
-    player *passenger = nullptr;
+    Character *passenger = nullptr;
     if( !vp ) {
         debugmsg( "map::unboard_vehicle: vehicle not found" );
         // Try and force unboard the player anyway.
@@ -3213,9 +3216,9 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         // Blame nearby player
         if( rl_dist( player_character.pos(), p ) <= 3 ) {
             get_event_bus().send<event_type::triggers_alarm>( player_character.getID() );
-            const point abs = ms_to_sm_copy( getabs( p.xy() ) );
+            const tripoint_abs_sm sm_pos = project_to<coords::sm>( tripoint_abs_ms( getabs( p ) ) );
             get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                    tripoint( abs, p.z ) );
+                                    sm_pos );
         }
     }
 
@@ -3682,8 +3685,8 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
                 !get_timed_events().queued( timed_event_type::WANTED ) ) {
                 sounds::sound( p, 40, sounds::sound_t::alarm, _( "an alarm go off!" ),
                                false, "environment", "alarm" );
-                const tripoint abs = ms_to_sm_copy( getabs( p ) );
-                get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0, abs );
+                const tripoint_abs_sm sm_pos = project_to<coords::sm>( tripoint_abs_ms( getabs( p ) ) );
+                get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0, sm_pos );
             }
             return true;
         }
@@ -4320,6 +4323,8 @@ item &map::add_item_or_charges( const tripoint &pos, item obj, bool overflow )
 
 item &map::add_item( const tripoint &p, item new_item )
 {
+    static const flag_id json_flag_PRESERVE_SPAWN_OMT( "PRESERVE_SPAWN_OMT" );
+
     if( item_is_blacklisted( new_item.typeId() ) ) {
         return null_item_reference();
     }
@@ -4359,6 +4364,17 @@ item &map::add_item( const tripoint &p, item new_item )
 
     if( new_item.is_map() && !new_item.has_var( "reveal_map_center_omt" ) ) {
         new_item.set_var( "reveal_map_center_omt", ms_to_omt_copy( getabs( p ) ) );
+    }
+
+    if( new_item.has_flag( json_flag_PRESERVE_SPAWN_OMT ) &&
+        !new_item.has_var( "spawn_location_omt" ) ) {
+        new_item.set_var( "spawn_location_omt", ms_to_omt_copy( getabs( p ) ) );
+    }
+    for( item *const it : new_item.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+        if( it->has_flag( json_flag_PRESERVE_SPAWN_OMT ) &&
+            !it->has_var( "spawn_location_omt" ) ) {
+            it->set_var( "spawn_location_omt", ms_to_omt_copy( getabs( p ) ) );
+        }
     }
 
     if( new_item.has_flag( flag_ACTIVATE_ON_PLACE ) ) {
@@ -5006,6 +5022,30 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
     }
 
     return ret;
+}
+
+int map::consume_ups( const tripoint &origin, const int range, int qty )
+{
+    // populate a grid of spots that can be reached
+    std::vector<tripoint> reachable_pts;
+    reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
+
+    for( const tripoint &p : reachable_pts ) {
+        if( accessible_items( p ) ) {
+
+            map_stack items = i_at( p );
+            for( auto &elem : items ) {
+                if( elem.has_flag( flag_IS_UPS ) ) {
+                    qty -= elem.ammo_consume( qty, p, nullptr );
+                    if( qty == 0 ) {
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    return qty;
 }
 
 std::list<std::pair<tripoint, item *> > map::get_rc_items( const tripoint &p )
@@ -6420,7 +6460,8 @@ void map::save()
     }
 }
 
-void map::load( const tripoint_abs_sm &w, const bool update_vehicle )
+void map::load( const tripoint_abs_sm &w, const bool update_vehicle,
+                const bool pump_events )
 {
     for( auto &traps : traplocs ) {
         traps.clear();
@@ -6434,6 +6475,9 @@ void map::load( const tripoint_abs_sm &w, const bool update_vehicle )
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
             loadn( point( gridx, gridy ), update_vehicle, false );
+            if( pump_events ) {
+                inp_mngr.pump_events();
+            }
         }
     }
     rebuild_vehicle_level_caches();
@@ -6444,6 +6488,9 @@ void map::load( const tripoint_abs_sm &w, const bool update_vehicle )
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
             for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
                 actualize( tripoint( point( gridx, gridy ), gridz ) );
+                if( pump_events ) {
+                    inp_mngr.pump_events();
+                }
             }
         }
     }
@@ -6745,6 +6792,7 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
     static const oter_str_id rock( "empty_rock" );
     static const oter_str_id air( "open_air" );
     static const oter_str_id earth( "solid_earth" );
+    static const oter_str_id deep_rock( "deep_rock" );
     static const ter_str_id t_soil( "t_soil" );
 
     dbg( D_INFO ) << "map::loadn(game[" << g.get() << "], worldx[" << abs_sub.x
@@ -6775,7 +6823,7 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
         // TODO: Replace with json mapgen functions.
         if( terrain_type == air ) {
             generate_uniform( grid_abs_sub_rounded, t_open_air );
-        } else if( terrain_type == rock ) {
+        } else if( terrain_type == rock || terrain_type == deep_rock ) {
             generate_uniform( grid_abs_sub_rounded, t_rock );
         } else if( terrain_type == earth ) {
             generate_uniform( grid_abs_sub_rounded, t_soil );

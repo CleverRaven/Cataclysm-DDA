@@ -482,10 +482,7 @@
         "effect": { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 3 },
         "topic": "TALK_EVAC_MERCHANT_Boris_Mission_1c"
       },
-      {
-        "text": "I might come back with some more Merch then…",
-        "topic": "TALK_EVAC_MERCHANT"
-      }
+      { "text": "I might come back with some more Merch then…", "topic": "TALK_EVAC_MERCHANT" }
     ]
   },
   {

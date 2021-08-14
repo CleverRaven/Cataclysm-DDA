@@ -94,6 +94,9 @@ class item_contents
 
         std::vector<const item *> softwares() const;
 
+        std::vector<item *> ebooks();
+        std::vector<const item *> ebooks() const;
+
         void update_modified_pockets( const cata::optional<const pocket_data *> &mag_or_mag_well,
                                       std::vector<const pocket_data *> container_pockets );
         // all magazines compatible with any pockets.
@@ -199,14 +202,8 @@ class item_contents
 
         // returns true if any pocket was sealed
         bool seal_all_pockets();
-
-        enum class sealed_summary {
-            unsealed,
-            part_sealed,
-            all_sealed,
-        };
-        sealed_summary get_sealed_summary() const;
-
+        bool all_pockets_sealed() const;
+        bool any_pockets_sealed() const;
         // heats up the contents if they have temperature
         void heat_up();
         // returns amount of ammo consumed

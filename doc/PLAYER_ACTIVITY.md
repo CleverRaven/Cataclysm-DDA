@@ -35,14 +35,17 @@ query to stop the activity, and strings that describe it, for example:
 `"verb": "mining"` or
 `"verb": { "ctxt": "instrument", "str": "playing" }`.
 
+* activity_level: Activity level of the activity, harder activities consume more calories over time. Valid values are, from easiest to most demanding of the body: `NO_EXERCISE`, `LIGHT_EXERCISE`, `MODERATE_EXERCISE`, `BRISK_EXERCISE`, `ACTIVE_EXERCISE`, `EXTRA_EXERCISE`.
+
+* interruptable (true): Can this be interrupted.  If false, then popups related
+to e.g. pain or seeing monsters will be suppressed.
+
+* no_resume (false): Rather than resuming, you must always restart the
+activity from scratch.
+
 * suspendable (true): If true, the activity can be continued without
 starting from scratch again. This is only possible if `can_resume_with()`
 returns true.
-
-* rooted (false): If true, then during the activity, recoil is reduced,
-and plant mutants sink their roots into the ground. Should be true if the
-activity lasts longer than a few minutes, and can always be accomplished
-without moving your feet.
 
 * based_on: Can be 'time', 'speed', or 'neither'.
 
@@ -55,20 +58,19 @@ without moving your feet.
     * neither: `moves_left` will not be decremented. Thus you must
     define a do_turn function; otherwise the activity will never end!
 
-* interruptable (true): Can this be interrupted.  If false, then popups related
-to e.g. pain or seeing monsters will be suppressed.
-
-* no_resume (false): Rather than resuming, you must always restart the
-activity from scratch.
-
-* multi_activity(false): This activity will repeat until it cannot do
-any more work, used for NPC and avatar zone activities.
+* rooted (false): If true, then during the activity, recoil is reduced,
+and plant mutants sink their roots into the ground. Should be true if the
+activity lasts longer than a few minutes, and can always be accomplished
+without moving your feet.
 
 * refuel_fires( false ): If true, the character will automatically refuel
 fires during the long activity.
 
 * auto_needs( false ) : If true, the character will automatically eat and
 drink from specific auto_consume zones during long activities.
+
+* multi_activity(false): This activity will repeat until it cannot do
+any more work, used for NPC and avatar zone activities.
 
 ## Termination
 
@@ -114,6 +116,8 @@ across save/load cycles.
 Be careful when storing coordinates as the activity may be carried out
 by NPCS. If its, the coordinates must be absolute not local as local
 coordinates are based on the avatars position.
+
+If in the `activity_actor::finish`, `player_activity::set_to_null()` is not called, the `activity_actor::finish` will be called again, or if you add more moves to `activity_actor::moves_left`, the `activity_actor::do_turn` function will also be called.
 
 ### `activity_actor::start`
 

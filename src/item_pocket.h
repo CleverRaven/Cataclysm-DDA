@@ -44,6 +44,7 @@ class item_pocket
             MOD, // the gunmods or toolmods
             CORPSE, // the "corpse" pocket - bionics embedded in a corpse
             SOFTWARE, // software put into usb or some such
+            EBOOK, // holds electronic books for a device or usb
             MIGRATION, // this allows items to load contents that are too big, in order to spill them later.
             LAST
         };
@@ -313,9 +314,9 @@ class item_pocket
         favorite_settings settings;
     private:
         // the type of pocket, saved to json
-        pocket_type _saved_type = pocket_type::LAST;
-        bool _saved_sealed = false;
-        const pocket_data *data = nullptr;
+        pocket_type _saved_type = pocket_type::LAST; // NOLINT(cata-serialize)
+        bool _saved_sealed = false; // NOLINT(cata-serialize)
+        const pocket_data *data = nullptr; // NOLINT(cata-serialize)
         // the items inside the pocket
         std::list<item> contents;
         bool _sealed = false;

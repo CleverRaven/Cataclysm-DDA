@@ -1,0 +1,18 @@
+[
+  {
+    "type": "MOD_INFO",
+    "id": "no_hope",
+    "name": "No Hope",
+    "authors": [ "Night_Pryanik" ],
+    "maintainers": [ "Night_Pryanik" ],
+    "description": "- No more guaranteed loot spawns anywhere.\n- Loot spawn in buildings is drastically reduced, especially for food, tools, guns etc.\n- Most buildings are destroyed, vandalized, or looted.\n- Most cars are destroyed or at least damaged.  Intact cars are nearly impossible to find.\n- Fuel is much harder to find, almost all cars have no fuel in tanks.\n- Marauders, looters, and bandits everywhere.\n\nSee extended description in README.md.",
+    "category": "content",
+    "dependencies": [ "dda" ],
+    "version": "3.0"
+  },
+  {
+    "type": "monster_adjustment",
+    "species": "ZOMBIE",
+    "flag": { "name": "REVIVES", "value": false }
+  }
+]

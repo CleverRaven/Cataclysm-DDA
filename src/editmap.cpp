@@ -39,6 +39,7 @@
 #include "mapdata.h"
 #include "memory_fast.h"
 #include "monster.h"
+#include "mtype.h"
 #include "npc.h"
 #include "omdata.h"
 #include "output.h"
@@ -121,7 +122,7 @@ void edit_json( SAVEOBJ &it )
         if( tmret == 0 ) {
             try {
                 SAVEOBJ tmp;
-                deserialize( tmp, save1 );
+                deserialize_from_string( tmp, save1 );
                 it = std::move( tmp );
             } catch( const std::exception &err ) {
                 popup( "Error on deserialization: %s", err.what() );
