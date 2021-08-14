@@ -627,7 +627,7 @@ void avatar::identify( const item &item )
         add_msg( m_info, _( "Can bring your %s knowledge to %d." ),
                  skill.obj().name(), reading->level );
         if( reading->req != 0 ) {
-            add_msg( m_info, _( "Requires %s knoweldge level %d to understand." ),
+            add_msg( m_info, _( "Requires %s knowledge level %d to understand." ),
                      skill.obj().name(), reading->req );
         }
     }
