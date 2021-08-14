@@ -285,7 +285,10 @@ bool Creature::sees( const Creature &critter ) const
                ( critter.has_flag( MF_WATER_CAMOUFLAGE ) && critter.is_underwater() &&
                  wanted_range > this->get_eff_per() ) ||
                ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && here.light_at( critter.pos() ) <= lit_level::LOW ) ||
-               ( critter.is_underwater() && !is_underwater() && here.is_divable( critter.pos() ) ) ||
+               ( critter.is_underwater() && !is_underwater() &&
+                 ( ( critter.has_flag( MF_WATER_CAMOUFLAGE ) && here.has_flag( TFLAG_DEEP_WATER, critter.pos() ) ) ||
+                   ( ( posz() != critter.posz() ) && ( critter.has_flag( MF_WATER_CAMOUFLAGE ) ||
+                           here.has_flag( TFLAG_DEEP_WATER, critter.pos() ) ) ) ) ) ||
                ( here.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, critter.pos() ) &&
                  !( std::abs( posx() - critter.posx() ) <= 1 && std::abs( posy() - critter.posy() ) <= 1 &&
                     std::abs( posz() - critter.posz() ) <= 1 ) ) ) {
