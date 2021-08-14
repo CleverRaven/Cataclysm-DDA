@@ -2480,16 +2480,12 @@ void talk_effect_t::set_effect( talkfunction_ptr ptr )
 
 talk_topic talk_effect_t::apply( dialogue &d ) const
 {
-    // Need to get a reference to the mission before effects are applied, because effects can remove the mission
-    mission *miss;
     if( d.has_beta ) {
-        miss = d.actor( true )->selected_mission();
-    }
-
-    for( const talk_effect_fun_t &effect : effects ) {
-        effect( d );
-    }
-    if( d.has_beta ) {
+        // Need to get a reference to the mission before effects are applied, because effects can remove the mission
+        mission *miss = d.actor( true )->selected_mission();
+        for( const talk_effect_fun_t &effect : effects ) {
+            effect( d );
+        }
         d.actor( true )->add_opinion( opinion.trust, opinion.fear, opinion.value, opinion.anger,
                                       opinion.owed );
         if( miss && ( mission_opinion.trust || mission_opinion.fear ||
@@ -2504,6 +2500,10 @@ talk_topic talk_effect_t::apply( dialogue &d ) const
         if( d.actor( true )->turned_hostile() ) {
             d.actor( true )->make_angry();
             return talk_topic( "TALK_DONE" );
+        }
+    } else {
+        for( const talk_effect_fun_t &effect : effects ) {
+            effect( d );
         }
     }
     // TODO: this is a hack, it should be in clear_mission or so, but those functions have
