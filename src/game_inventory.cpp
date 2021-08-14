@@ -1110,18 +1110,12 @@ class read_inventory_preset: public pickup_inventory_preset
                 }
                 std::vector<std::string> dummy;
 
-                // This is terrible and needs to be removed asap when this entire file is refactored
-                // to use the new avatar class
-                const avatar *u = dynamic_cast<const avatar *>( &p );
-                if( !u ) {
-                    return std::string();
-                }
-                const player *reader = u->get_book_reader( *loc, dummy );
+                const player *reader = p.get_book_reader( *loc, dummy );
                 if( reader == nullptr ) {
                     return std::string();  // Just to make sure
                 }
                 // Actual reading time (in turns). Can be penalized.
-                const int actual_turns = u->time_to_read( *loc, *reader ) / to_moves<int>( 1_turns );
+                const int actual_turns = p.time_to_read( *loc, *reader ) / to_moves<int>( 1_turns );
                 // Theoretical reading time (in turns) based on the reader speed. Free of penalties.
                 const int normal_turns = get_book( loc ).time * reader->read_speed() / to_moves<int>( 1_turns );
                 const std::string duration = to_string_approx( time_duration::from_turns( actual_turns ), false );
@@ -1139,15 +1133,8 @@ class read_inventory_preset: public pickup_inventory_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
-            // This is terrible and needs to be removed asap when this entire file is refactored
-            // to use the new avatar class
-            const avatar *u = dynamic_cast<const avatar *>( &p );
-            if( !u ) {
-                return std::string();
-            }
-
             std::vector<std::string> denials;
-            if( u->get_book_reader( *loc, denials ) == nullptr && !denials.empty() &&
+            if( p.get_book_reader( *loc, denials ) == nullptr && !denials.empty() &&
                 !loc->type->can_use( "learn_spell" ) ) {
                 return denials.front();
             }
@@ -1211,12 +1198,7 @@ class read_inventory_preset: public pickup_inventory_preset
         }
 
         bool is_known( const item_location &loc ) const {
-            // This is terrible and needs to be removed asap when this entire file is refactored
-            // to use the new avatar class
-            if( const avatar *u = dynamic_cast<const avatar *>( &p ) ) {
-                return u->has_identified( loc->typeId() );
-            }
-            return false;
+            return get_avatar().has_identified( loc->typeId() );
         }
 
         int get_known_recipes( const islot_book &book ) const {
