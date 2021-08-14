@@ -776,7 +776,7 @@
     "type": "mapgen",
     "method": "json",
     "//": "A nested map for lab mutagen research areas. Shoggoth variant",
-    "weight": 100,
+    "weight": 50,
     "nested_mapgen_id": "lab_mutagen_16x16_animal_pen",
     "object": {
       "mapgensize": [ 16, 16 ],
