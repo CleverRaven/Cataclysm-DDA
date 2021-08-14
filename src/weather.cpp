@@ -1048,8 +1048,6 @@ const weather_generator &weather_manager::get_cur_weather_gen() const
 
 void weather_manager::update_weather()
 {
-    winddirection = wind_direction_override ? *wind_direction_override : winddirection;
-    windspeed = windspeed_override ? *windspeed_override : windspeed;
     Character &player_character = get_player_character();
     if( weather_id == WEATHER_NULL || calendar::turn >= nextweather ) {
         w_point &w = *weather_precise;
@@ -1062,6 +1060,8 @@ void weather_manager::update_weather()
                      : weather_override;
         sfx::do_ambient();
         temperature = w.temperature;
+        winddirection = wind_direction_override ? *wind_direction_override : w.winddirection;
+        windspeed = windspeed_override ? *windspeed_override : w.windpower;
         lightning_active = false;
         next_instance_allowed[weather_id] = calendar::turn + rng( weather_id->time_between_min,
                                             weather_id->time_between_max );

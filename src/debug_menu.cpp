@@ -1615,6 +1615,7 @@ void debug()
             wind_direction_menu.query();
             if( wind_direction_menu.ret == 0 ) {
                 g->weather.wind_direction_override = cata::nullopt;
+                g->weather.set_nextweather( calendar::turn );
             } else if( wind_direction_menu.ret >= 0 && wind_direction_menu.ret < 9 ) {
                 g->weather.wind_direction_override = ( wind_direction_menu.ret - 1 ) * 45;
                 g->weather.set_nextweather( calendar::turn );
@@ -1636,6 +1637,7 @@ void debug()
             wind_speed_menu.query();
             if( wind_speed_menu.ret == 0 ) {
                 g->weather.windspeed_override = cata::nullopt;
+                g->weather.set_nextweather( calendar::turn );
             } else if( wind_speed_menu.ret >= 0 && wind_speed_menu.ret < 12 ) {
                 int selected_wind_speed = ( wind_speed_menu.ret - 1 ) * 10;
                 g->weather.windspeed_override = selected_wind_speed;
