@@ -146,7 +146,7 @@ struct points_left {
     bool is_valid();
 };
 
-const int stat_point_pool = 4 * 8 + 6;
+static const int stat_point_pool = 4 * 8 + 6;
 static int stat_points_used( const avatar &u )
 {
     int used = 0;
@@ -158,7 +158,7 @@ static int stat_points_used( const avatar &u )
     return used;
 }
 
-const int trait_point_pool = 0;
+static const int trait_point_pool = 0;
 static int trait_points_used( const avatar &u )
 {
     int used = 0;
@@ -178,7 +178,7 @@ static int trait_points_used( const avatar &u )
     return used;
 }
 
-const int skill_point_pool = 2;
+static const int skill_point_pool = 2;
 static int skill_points_used( const avatar &u )
 {
     int scenario = get_scenario()->point_cost();
