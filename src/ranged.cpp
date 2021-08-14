@@ -761,6 +761,8 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     double absorb = std::min( get_skill_level( gun.gun_skill() ),
                               MAX_SKILL ) / static_cast<double>( MAX_SKILL * 2 );
 
+    itype_id gun_id = gun.typeId();
+    skill_id gun_skill = gun.gun_skill();
     tripoint aim = target;
     int curshot = 0;
     int hits = 0; // total shots on target
@@ -786,6 +788,27 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         dealt_projectile_attack shot = projectile_attack( make_gun_projectile( gun ), pos(), aim,
                                        dispersion, this, in_veh );
         curshot++;
+        if( shot.hit_critter ) {
+            hits++;
+
+            if( monster *m = shot.hit_critter->as_monster() ) {
+                get_event_bus().send<event_type::character_ranged_attacks_monster>(
+                    getID(), gun_id, m->type->id );
+            } else if( Character *c = shot.hit_critter->as_character() ) {
+                get_event_bus().send<event_type::character_ranged_attacks_character>(
+                    getID(), gun_id, c->getID(), c->get_name() );
+            }
+
+        }
+        if( shot.missed_by <= .1 ) {
+            // TODO: check head existence for headshot
+            get_event_bus().send<event_type::character_gets_headshot>( getID() );
+        }
+
+        if( !gun.is_gun() ) {
+            // If we lose our gun as a side effect of firing it, skip the rest of the loop body.
+            break;
+        }
 
         int qty = gun.gun_recoil( *this, bipod );
         delay  += qty * absorb;
@@ -819,28 +842,24 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
             use_charges( itype_UPS, gun.get_gun_ups_drain() );
         }
 
-        if( shot.missed_by <= .1 ) {
-            // TODO: check head existence for headshot
-            get_event_bus().send<event_type::character_gets_headshot>( getID() );
-        }
-
-        if( shot.hit_critter ) {
-            hits++;
-
-            if( monster *m = shot.hit_critter->as_monster() ) {
-                get_event_bus().send<event_type::character_ranged_attacks_monster>(
-                    getID(), gun.typeId(), m->type->id );
-            } else if( Character *c = shot.hit_critter->as_character() ) {
-                get_event_bus().send<event_type::character_ranged_attacks_character>(
-                    getID(), gun.typeId(), c->getID(), c->get_name() );
-            }
-
-        }
-
-        if( gun.gun_skill() == skill_launcher ) {
+        if( gun_skill == skill_launcher ) {
             continue; // skip retargeting for launchers
         }
     }
+    // Use different amounts of time depending on the type of gun and our skill
+    moves -= time_to_attack( *this, *gun_id );
+
+    // Practice the base gun skill proportionally to number of hits, but always by one.
+    practice( skill_gun, ( hits + 1 ) * 5 );
+    // launchers train weapon skill for both hits and misses.
+    int practice_units = gun_skill == skill_launcher ? curshot : hits;
+    practice( gun_skill, ( practice_units + 1 ) * 5 );
+
+    if( !gun.is_gun() ) {
+        // If we lose our gun as a side effect of firing it, skip the rest of the function.
+        return curshot;
+    }
+
     // apply shot counter to gun and its mods.
     gun.set_var( "shot_counter", gun.get_var( "shot_counter", 0 ) + curshot );
     for( item *mod : gun.gunmods() ) {
@@ -860,15 +879,6 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         // Cap
         recoil = std::min( MAX_RECOIL, recoil );
     }
-
-    // Use different amounts of time depending on the type of gun and our skill
-    moves -= time_to_attack( *this, *gun.type );
-
-    // Practice the base gun skill proportionally to number of hits, but always by one.
-    practice( skill_gun, ( hits + 1 ) * 5 );
-    // launchers train weapon skill for both hits and misses.
-    int practice_units = gun.gun_skill() == skill_launcher ? curshot : hits;
-    practice( gun.gun_skill(), ( practice_units + 1 ) * 5 );
 
     return curshot;
 }
