@@ -266,7 +266,7 @@ class avatar : public player
             int total() const {
                 return gained - spent;
             }
-            std::map<float, int> activity_levels;
+            std::map<float, int> activity_levels; // NOLINT(cata-serialize)
 
             void serialize( JsonOut &json ) const {
                 json.start_object();

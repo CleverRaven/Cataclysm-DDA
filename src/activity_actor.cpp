@@ -251,6 +251,7 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "fake_weapon", fake_weapon );
     jsout.member( "bp_cost_per_shot", bp_cost_per_shot );
+    jsout.member( "fin_trajectory", fin_trajectory );
     jsout.member( "first_turn", first_turn );
     jsout.member( "action", action );
     jsout.member( "aif_duration", aif_duration );
@@ -258,6 +259,8 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "snap_to_target", snap_to_target );
     jsout.member( "shifting_view", shifting_view );
     jsout.member( "initial_view_offset", initial_view_offset );
+    jsout.member( "aborted", aborted );
+    jsout.member( "reload_requested", reload_requested );
 
     jsout.end_object();
 }
@@ -270,6 +273,7 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
 
     data.read( "fake_weapon", actor.fake_weapon );
     data.read( "bp_cost_per_shot", actor.bp_cost_per_shot );
+    data.read( "fin_trajectory", actor.fin_trajectory );
     data.read( "first_turn", actor.first_turn );
     data.read( "action", actor.action );
     data.read( "aif_duration", actor.aif_duration );
@@ -277,6 +281,8 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
     data.read( "snap_to_target", actor.snap_to_target );
     data.read( "shifting_view", actor.shifting_view );
     data.read( "initial_view_offset", actor.initial_view_offset );
+    data.read( "aborted", actor.aborted );
+    data.read( "reload_requested", actor.reload_requested );
 
     return actor.clone();
 }
@@ -2254,6 +2260,8 @@ std::unique_ptr<activity_actor> ebooksave_activity_actor::deserialize( JsonIn &j
     return actor.clone();
 }
 
+constexpr time_duration ebooksave_activity_actor::time_per_page;
+
 void migration_cancel_activity_actor::do_turn( player_activity &act, Character &who )
 {
     // Stop the activity
@@ -2420,6 +2428,8 @@ void consume_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "consume_menu_selected_items", consume_menu_selected_items );
     jsout.member( "consume_menu_filter", consume_menu_filter );
     jsout.member( "canceled", canceled );
+    jsout.member( "type", type );
+    jsout.member( "refuel", refuel );
 
     jsout.end_object();
 }
@@ -2437,6 +2447,8 @@ std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonIn &jsi
     data.read( "consume_menu_selected_items", actor.consume_menu_selected_items );
     data.read( "consume_menu_filter", actor.consume_menu_filter );
     data.read( "canceled", actor.canceled );
+    data.read( "type", actor.type );
+    data.read( "refuel", actor.refuel );
 
     return actor.clone();
 }
@@ -2926,21 +2938,20 @@ void craft_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "craft_loc", craft_item );
     jsout.member( "long", is_long );
+    jsout.member( "activity_override", activity_override );
 
     jsout.end_object();
 }
 
 std::unique_ptr<activity_actor> craft_activity_actor::deserialize( JsonIn &jsin )
 {
-    item_location tmp_item_loc;
-    bool tmp_long;
-
     JsonObject data = jsin.get_object();
 
-    data.read( "craft_loc", tmp_item_loc );
-    data.read( "long", tmp_long );
+    craft_activity_actor actor = craft_activity_actor();
 
-    craft_activity_actor actor = craft_activity_actor( tmp_item_loc, tmp_long );
+    data.read( "craft_loc", actor.craft_item );
+    data.read( "long", actor.is_long );
+
     if( actor.craft_item ) {
         actor.activity_override = actor.craft_item->get_making().exertion_level();
     }
@@ -3572,6 +3583,7 @@ std::unique_ptr<activity_actor> disable_activity_actor::deserialize( JsonIn &jsi
 
     data.read( "target", actor.target );
     data.read( "reprogram", actor.reprogram );
+    data.read( "moves_total", actor.moves_total );
 
     return actor.clone();
 }
@@ -4207,8 +4219,8 @@ void disassemble_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
-    jsout.member( "target", target );
     jsout.member( "moves_total", moves_total );
+    jsout.member( "target", target );
 
     jsout.end_object();
 }
@@ -4221,6 +4233,7 @@ std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonIn 
 
     data.read( "target", actor.target );
     data.read( "moves_total", actor.moves_total );
+
     if( actor.target ) {
         actor.activity_override = actor.target->get_making().exertion_level();
     }
