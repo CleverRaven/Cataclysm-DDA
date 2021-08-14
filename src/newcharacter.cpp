@@ -144,7 +144,6 @@ struct points_left {
     int skill_points_left() const;
     bool is_freeform();
     bool is_valid();
-    bool has_spare();
 };
 
 const int stat_point_pool = 4 * 8 + 6;
@@ -194,6 +193,13 @@ static int skill_points_used( const avatar &u )
         skills += costs.at( u.get_skill_level( sk.ident() ) );
     }
     return scenario + profession_points + hobbies + skills;
+}
+
+static int has_unspent_points( const avatar &u )
+{
+    int used = stat_points_used( u ) + trait_points_used( u ) + skill_points_used( u );
+    int total = stat_point_pool + trait_point_pool + skill_point_pool;
+    return used < total;
 }
 
 std::string pools_to_string( const avatar &u, points_left::point_limit pool )
@@ -285,11 +291,6 @@ bool points_left::is_valid()
     return is_freeform() ||
            ( stat_points_left() >= 0 && trait_points_left() >= 0 &&
              skill_points_left() >= 0 );
-}
-
-bool points_left::has_spare()
-{
-    return !is_freeform() && is_valid() && skill_points_left() > 0;
 }
 
 static tab_direction set_points( avatar &u, points_left &points );
@@ -472,7 +473,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     }
 
     loops = 0;
-    while( points.has_spare() && loops <= 100000 ) {
+    while( has_unspent_points( *this ) && loops <= 100000 ) {
         const bool allow_stats = points.stat_points_left() > 0;
         const bool allow_traits = points.trait_points_left() > 0 && num_gtraits < max_trait_points;
         int r = rng( 1, 9 );
@@ -3818,7 +3819,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                 }
                 continue;
             }
-            if( points.has_spare() &&
+            if( has_unspent_points( you ) && points.limit != points_left::FREEFORM &&
                 !query_yn( _( "Remaining points will be discarded, are you sure you want to proceed?" ) ) ) {
                 continue;
             }
