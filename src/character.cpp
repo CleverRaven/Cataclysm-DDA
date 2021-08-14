@@ -10756,53 +10756,47 @@ bool Character::wearing_something_on( const bodypart_id &bp ) const
     return false;
 }
 
-bool Character::is_wearing_shoes( const side &which_side ) const
+bool Character::is_wearing_shoes( const side &check_side ) const
 {
-    enum class shoe_status {
-        no_foot,
-        no_shoe,
-        has_shoe,
+    bool any_left_foot_is_covered = false;
+    bool any_right_foot_is_covered = false;
+    const auto exempt = []( const item & worn_item ) {
+        return worn_item.has_flag( flag_BELTED ) ||
+               worn_item.has_flag( flag_PERSONAL ) ||
+               worn_item.has_flag( flag_AURA ) ||
+               worn_item.has_flag( flag_SEMITANGIBLE ) ||
+               worn_item.has_flag( flag_SKINTIGHT );
     };
 
-    shoe_status left = shoe_status::no_foot;
-    shoe_status right = shoe_status::no_foot;
-    const bool left_side = which_side == side::LEFT || which_side == side::BOTH;
-    const bool right_side = which_side == side::RIGHT || which_side == side::BOTH;
-    const auto not_exempt = []( const item & worn_item ) {
-        return !worn_item.has_flag( flag_BELTED ) &&
-               !worn_item.has_flag( flag_PERSONAL ) && !worn_item.has_flag( flag_AURA ) &&
-               !worn_item.has_flag( flag_SEMITANGIBLE ) && !worn_item.has_flag( flag_SKINTIGHT );
-    };
-
-    for( const item &worn_item : worn ) {
-        for( const bodypart_id &part : get_all_body_parts() ) {
-            if( part->limb_type != body_part_type::type::foot ) {
+    for( const bodypart_id &part : get_all_body_parts() ) {
+        // Is any right|left foot...
+        if( part->limb_type != body_part_type::type::foot ) {
+            continue;
+        }
+        for( const item &worn_item : worn ) {
+            // ... wearing...
+            if( !worn_item.covers( part ) ) {
                 continue;
             }
-            if( left_side && ( part->part_side == side::LEFT || part->part_side == side::BOTH ) ) {
-                if( worn_item.covers( part ) && not_exempt( worn_item ) ) {
-                    left = shoe_status::has_shoe;
-                } else if( left == shoe_status::no_foot ) {
-                    left = shoe_status::no_shoe;
-                }
+            // ... a shoe?
+            if( exempt( worn_item ) ) {
+                continue;
             }
-            if( right_side && ( part->part_side == side::RIGHT || part->part_side == side::BOTH ) ) {
-                if( worn_item.covers( part ) && not_exempt( worn_item ) ) {
-                    right = shoe_status::has_shoe;
-                } else if( right == shoe_status::no_foot ) {
-                    right = shoe_status::no_shoe;
-                }
-            }
+            any_left_foot_is_covered = part->part_side == side::LEFT ||
+                                       part->part_side == side::BOTH ||
+                                       any_left_foot_is_covered;
+            any_right_foot_is_covered = part->part_side == side::RIGHT ||
+                                        part->part_side == side::BOTH ||
+                                        any_right_foot_is_covered;
         }
     }
-
-    if( right_side && left_side ) {
-        return left == shoe_status::has_shoe && right == shoe_status::has_shoe;
-    } else if( right_side ) {
-        return right == shoe_status::has_shoe;
-    } else {
-        return left == shoe_status::has_shoe;
+    if( !any_left_foot_is_covered && ( check_side == side::LEFT || check_side == side::BOTH ) ) {
+        return false;
     }
+    if( !any_right_foot_is_covered && ( check_side == side::RIGHT || check_side == side::BOTH ) ) {
+        return false;
+    }
+    return true;
 }
 
 bool Character::is_worn_item_visible( std::list<item>::const_iterator worn_item ) const

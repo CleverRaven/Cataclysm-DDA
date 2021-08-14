@@ -2672,7 +2672,7 @@ class Character : public Creature, public visitable
          *  and 0 if on neither */
         double footwear_factor() const;
         /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
-        bool is_wearing_shoes( const side &which_side = side::BOTH ) const;
+        bool is_wearing_shoes( const side &check_side = side::BOTH ) const;
 
         /** Returns true if the worn item is visible (based on layering and coverage) */
         bool is_worn_item_visible( std::list<item>::const_iterator ) const;
