@@ -281,6 +281,19 @@ int Character::max_quality( const quality_id &qual ) const
     return std::max( res, max_quality_internal( *this, qual ) );
 }
 
+int Character::max_quality( const quality_id &qual, int radius )
+{
+    int res = max_quality( qual );
+
+    if( radius > 0 ) {
+        res = std::max( res,
+                        crafting_inventory( tripoint_zero, radius, true )
+                        .max_quality( qual ) );
+    }
+
+    return res;
+}
+
 /** @relates visitable */
 int vehicle_cursor::max_quality( const quality_id &qual ) const
 {

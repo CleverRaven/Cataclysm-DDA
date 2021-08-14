@@ -8627,12 +8627,12 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
     };
     const bool enough_light = player_character.fine_detail_vision_mod() <= 4;
 
-    const int factor = player_character.max_quality( quality_id( "BUTCHER" ) );
+    const int factor = player_character.max_quality( quality_id( "BUTCHER" ), PICKUP_RANGE );
     const std::string msgFactor = factor > INT_MIN
                                   ? string_format( _( "Your best tool has <color_cyan>%d butchering</color>." ), factor )
                                   :  _( "You have no butchering tool." );
 
-    const int factorD = player_character.max_quality( quality_id( "CUT_FINE" ) );
+    const int factorD = player_character.max_quality( quality_id( "CUT_FINE" ), PICKUP_RANGE );
     const std::string msgFactorD = factorD > INT_MIN
                                    ? string_format( _( "Your best tool has <color_cyan>%d fine cutting</color>." ), factorD )
                                    :  _( "You have no fine cutting tool." );
@@ -8787,8 +8787,8 @@ void game::butcher()
         return;
     }
 
-    const int factor = u.max_quality( quality_id( "BUTCHER" ) );
-    const int factorD = u.max_quality( quality_id( "CUT_FINE" ) );
+    const int factor = u.max_quality( quality_id( "BUTCHER" ), PICKUP_RANGE );
+    const int factorD = u.max_quality( quality_id( "CUT_FINE" ), PICKUP_RANGE );
     const std::string no_knife_msg = _( "You don't have a butchering tool." );
     const std::string no_corpse_msg = _( "There are no corpses here to butcher." );
 
@@ -10085,7 +10085,8 @@ point game::place_player( const tripoint &dest_loc )
         }
 
         const std::string pulp_butcher = get_option<std::string>( "AUTO_PULP_BUTCHER" );
-        if( pulp_butcher == "butcher" && u.max_quality( quality_id( "BUTCHER" ) ) > INT_MIN ) {
+        if( pulp_butcher == "butcher" &&
+            u.max_quality( quality_id( "BUTCHER" ), PICKUP_RANGE ) > INT_MIN ) {
             std::vector<item *> corpses;
 
             for( item &it : m.i_at( u.pos() ) ) {

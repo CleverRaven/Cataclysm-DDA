@@ -495,7 +495,8 @@ static void butcher_cbm_group(
 
 static void set_up_butchery( player_activity &act, player &u, butcher_type action )
 {
-    const int factor = u.max_quality( action == butcher_type::DISSECT ? qual_CUT_FINE : qual_BUTCHER );
+    const int factor = u.max_quality( action == butcher_type::DISSECT ? qual_CUT_FINE : qual_BUTCHER,
+                                      PICKUP_RANGE );
 
     const item &corpse_item = *act.targets.back();
     const mtype &corpse = *corpse_item.get_mtype();
@@ -649,10 +650,11 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
     act.index = false;
 }
 
-int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher_type action )
+int butcher_time_to_cut( player &u, const item &corpse_item, const butcher_type action )
 {
     const mtype &corpse = *corpse_item.get_mtype();
-    const int factor = u.max_quality( action == butcher_type::DISSECT ? qual_CUT_FINE : qual_BUTCHER );
+    const int factor = u.max_quality( action == butcher_type::DISSECT ? qual_CUT_FINE : qual_BUTCHER,
+                                      PICKUP_RANGE );
 
     int time_to_cut;
     switch( corpse.size ) {
@@ -1178,12 +1180,12 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
     int skill_level = p->get_skill_level( skill_survival );
     int factor = p->max_quality( action == butcher_type::DISSECT ? qual_CUT_FINE :
-                                 qual_BUTCHER );
+                                 qual_BUTCHER, PICKUP_RANGE );
 
     // DISSECT has special case factor calculation and results.
     if( action == butcher_type::DISSECT ) {
         skill_level = p->get_skill_level( skill_firstaid );
-        skill_level += p->max_quality( qual_CUT_FINE );
+        skill_level += p->max_quality( qual_CUT_FINE, PICKUP_RANGE );
         skill_level += p->get_skill_level( skill_electronics ) / 2;
         add_msg_debug( _( "Skill: %s" ), skill_level );
     }
