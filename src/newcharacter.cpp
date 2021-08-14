@@ -148,7 +148,7 @@ struct points_left {
 };
 
 const int stat_point_pool = 4 * 8 + 6;
-int stat_points_used( const avatar &u )
+static int stat_points_used( const avatar &u )
 {
     int used = 0;
     for( int stat : {
@@ -160,7 +160,7 @@ int stat_points_used( const avatar &u )
 }
 
 const int trait_point_pool = 0;
-int trait_points_used( const avatar &u )
+static int trait_points_used( const avatar &u )
 {
     int used = 0;
     for( trait_id cur_trait : u.get_mutations( true ) ) {
@@ -180,7 +180,7 @@ int trait_points_used( const avatar &u )
 }
 
 const int skill_point_pool = 2;
-int skill_points_used( const avatar &u )
+static int skill_points_used( const avatar &u )
 {
     int scenario = get_scenario()->point_cost();
     int profession_points = u.prof->point_cost();
