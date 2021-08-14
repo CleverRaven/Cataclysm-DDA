@@ -1808,8 +1808,7 @@
     ],
     "material": [ "plastic", "aluminum" ],
     "symbol": ")",
-    "color": "light_gray",
-    "flags": [ "TRADER_AVOID" ]
+    "color": "light_gray"
   },
   {
     "id": "mre_bag",
@@ -1836,8 +1835,7 @@
     ],
     "material": [ "plastic", "aluminum" ],
     "symbol": ")",
-    "color": "light_gray",
-    "flags": [ "TRADER_AVOID" ]
+    "color": "light_gray"
   },
   {
     "id": "mre_package",
@@ -1864,8 +1862,7 @@
     ],
     "material": [ "plastic", "aluminum" ],
     "symbol": ")",
-    "color": "light_gray",
-    "flags": [ "TRADER_AVOID" ]
+    "color": "light_gray"
   },
   {
     "id": "beverage_bag",
