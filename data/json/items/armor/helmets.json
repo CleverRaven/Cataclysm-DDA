@@ -77,10 +77,10 @@
     "category": "armor",
     "name": { "str": "tactical full helmet" },
     "description": "An all-encompassing black helmet that covers your entire face and neck, providing excellent protection from all sorts of damage.",
-    "weight": "1324 g",
-    "volume": "2 L",
-    "price": 50000,
-    "price_postapoc": 1000,
+    "weight": "1594 g",
+    "volume": "2250 ml",
+    "price": 25000,
+    "price_postapoc": 2500,
     "to_hit": -1,
     "bashing": 10,
     "material": [ "kevlar_rigid", "plastic" ],
@@ -89,14 +89,14 @@
     "color": "dark_gray",
     "armor_portion_data": [
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 30 },
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 },
-      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 10 }
+      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 20 },
+      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 15 }
     ],
-    "warmth": 15,
-    "material_thickness": 5,
+    "warmth": 25,
+    "material_thickness": 8,
     "environmental_protection": 2,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "SUN_GLASSES" ]
   },
   {
     "id": "tac_helmet",
@@ -105,10 +105,10 @@
     "category": "armor",
     "name": { "str": "tactical helmet" },
     "description": "A lightweight black helmet that provides excellent protection from all sorts of damage.",
-    "weight": "1110 g",
-    "volume": "2 L",
-    "price": 37000,
-    "price_postapoc": 750,
+    "weight": "1180 g",
+    "volume": "1850 ml",
+    "price": 20000,
+    "price_postapoc": 2000,
     "to_hit": -1,
     "bashing": 10,
     "material": [ "kevlar_rigid", "plastic" ],
@@ -117,11 +117,11 @@
     "color": "dark_gray",
     "covers": [ "head" ],
     "coverage": 95,
-    "encumbrance": 15,
-    "warmth": 10,
-    "material_thickness": 4,
+    "encumbrance": 16,
+    "warmth": 20,
+    "material_thickness": 8,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "WATER_FRIENDLY", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
     "id": "firehelmet",
