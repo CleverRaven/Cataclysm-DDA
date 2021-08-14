@@ -95,7 +95,7 @@ static void burden_player( Character &dummy, float burden_proportion )
 {
 #if defined(__GNUC__)
 #pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Werror-strict-aliasing"
+#pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif
     units::mass capacity = dummy.weight_capacity();
     Messages::add_msg( string_format( "capacity = %lld", capacity.value() ) );
