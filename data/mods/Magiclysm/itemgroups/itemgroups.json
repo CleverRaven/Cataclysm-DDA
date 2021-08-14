@@ -246,6 +246,15 @@
   },
   {
     "type": "item_group",
+    "id": "pawn",
+    "items": [
+      { "group": "enchanted_wands_lesser", "prob": 3 },
+      { "group": "enchanted_rings_common", "prob": 1 },
+      [ "wolfshead_cufflinks", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "basement_utility_closet",
     "//": "Stuff you would find in someone's basement closet.",
     "items": [
@@ -995,6 +1004,17 @@
         ],
         "prob": 10
       }
+    ]
+  },
+  {
+    "id": "tools_hunting",
+    "//": "A distribution of magical items for classless themed spaces.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "enchanted_tokens_tool", "prob": 3 },
+      { "group": "enchanted_tokens_weapon", "prob": 2 },
+      { "group": "potions_common", "prob": 12 }
     ]
   },
   {
