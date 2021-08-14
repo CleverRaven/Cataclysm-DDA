@@ -572,14 +572,13 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "survival",
-    "skills_required": [ "fabrication", 1 ],
-    "difficulty": 2,
-    "time": "15 m",
-    "reversible": true,
-    "autolearn": true,
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 3,
+    "time": "25 m",
+    "autolearn": false,
     "book_learn": [ [ "mag_survival", 2 ], [ "textbook_survival", 1 ], [ "cookbook", 2 ] ],
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "can_food", 2 ], [ "scrap", 4 ] ] ]
+    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "DRILL", "level": 1 }, { "id": "LEATHER_AWL", "level": 2 } ] ],
+    "components": [ [ [ "can_medium", 1 ] ], [ [ "scrap", 3 ] ] ]
   },
   {
     "type": "recipe",
