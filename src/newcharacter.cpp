@@ -4,6 +4,7 @@
 #include <climits>
 #include <cstdlib>
 #include <functional>
+#include <initializer_list>
 #include <iosfwd>
 #include <iterator>
 #include <list>
@@ -122,6 +123,55 @@ enum struct tab_direction {
     BACKWARD,
     QUIT
 };
+
+//const int stat_point_pool = 4 * 8 + 6;
+int stat_points_used( const avatar &u )
+{
+    int used = 0;
+    for( int stat : {
+             u.str_max, u.dex_max, u.int_max, u.per_max
+         } ) {
+        used += stat + std::max( 0, stat - HIGH_STAT );
+    }
+    return used;
+}
+
+//const int trait_point_pool = 0;
+int trait_points_used( const avatar &u )
+{
+    int used = 0;
+    for( trait_id cur_trait : u.get_mutations( true ) ) {
+        bool locked = get_scenario()->is_locked_trait( cur_trait )
+                      || u.prof->is_locked_trait( cur_trait );
+        for( const profession *hobby : u.hobbies ) {
+            locked = locked || hobby->is_locked_trait( cur_trait );
+        }
+        if( locked ) {
+            // The starting traits granted by scenarios, professions and hobbies cost nothing
+            continue;
+        }
+        const mutation_branch &mdata = cur_trait.obj();
+        used += mdata.points;
+    }
+    return used;
+}
+
+//const int skill_point_pool = 2;
+int skill_points_used( const avatar &u )
+{
+    int scenario = get_scenario()->point_cost();
+    int profession_points = u.prof->point_cost();
+    int hobbies = 0;
+    for( const profession *hobby : u.hobbies ) {
+        hobbies += hobby->point_cost();
+    }
+    int skills = 0;
+    for( const Skill &sk : Skill::skills ) {
+        std::vector<int> costs = {0, 1, 1, 2, 4, 6, 9, 12, 16, 20, 25};
+        skills += costs.at( u.get_skill_level( sk.ident() ) );
+    }
+    return scenario + profession_points + hobbies + skills;
+}
 
 struct points_left {
     int stat_points;
