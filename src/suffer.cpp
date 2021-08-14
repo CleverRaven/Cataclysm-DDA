@@ -1507,10 +1507,10 @@ void Character::suffer_from_pain()
 void Character::suffer()
 {
     const int current_stim = get_stim();
-    // TODO: Remove this section and encapsulate hp_cur
-    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
-        if( is_limb_broken( elem.first ) ) {
-            add_effect( effect_disabled, 1_turns, elem.first.id(), true );
+
+    for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
+        if( is_limb_broken( bp ) ) {
+            add_effect( effect_disabled, 1_turns, bp, true );
         }
     }
 
