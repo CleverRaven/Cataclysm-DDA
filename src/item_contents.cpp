@@ -522,7 +522,7 @@ void item_contents::force_insert_item( const item &it, item_pocket::pocket_type 
 }
 
 std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &it,
-        item_location &parent, bool nested, const bool allow_sealed )
+        item_location &parent, bool nested, const bool allow_sealed, const bool ignore_settings )
 {
     if( !can_contain( it ).success() ) {
         return { item_location(), nullptr };
@@ -546,7 +546,7 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
         if( !pocket.can_contain( it ).success() ) {
             continue;
         }
-        if( !pocket.settings.accepts_item( it ) ) {
+        if( !ignore_settings && !pocket.settings.accepts_item( it ) ) {
             // Item forbidden by whitelist / blacklist
             continue;
         }
