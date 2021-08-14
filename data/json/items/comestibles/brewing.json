@@ -434,7 +434,7 @@
     "id": "young_yeast",
     "name": { "str": "growing wild yeast" },
     "description": "Mixture of water, sugar and fruits with some naturally occurring yeast, that will eventually produce a more sizeable yeast culture.",
-    "weight": "250 g",
+    "weight": "16 g",
     "color": "yellow",
     "container": "jug_plastic",
     "sealed": false,
