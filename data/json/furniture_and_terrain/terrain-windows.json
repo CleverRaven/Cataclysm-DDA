@@ -597,15 +597,37 @@
   {
     "type": "terrain",
     "id": "t_window_bars",
-    "name": "window frame with metal bars",
+    "name": "window with metal bars",
     "looks_like": "t_bars",
     "description": "A giant sheet of glass inserted into a window with thick security grilles, making it impossible to crawl through.  Typically installed for high-value stores, or at least stores in bad neighborhoods.",
-    "examine_action": "bars",
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "WINDOW" ],
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_bars_noglass",
+      "items": [ { "item": "glass_shard", "count": [ 34, 50 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_bars_noglass",
+    "name": "window frame with metal bars",
+    "looks_like": "t_bars",
+    "description": "A window frame blocked with thick security grilles, making it impossible to crawl through.  Typically installed for high-value stores, or at least stores in bad neighborhoods.",
+    "examine_action": "bars",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 0,
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "WINDOW", "PERMEABLE" ],
     "bash": {
       "str_min": 60,
       "str_max": 250,
@@ -615,8 +637,7 @@
       "items": [
         { "item": "steel_lump", "prob": 25 },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 1, 5 ] },
-        { "item": "glass_shard", "count": [ 75, 125 ] }
+        { "item": "scrap", "count": [ 1, 5 ] }
       ]
     }
   },
@@ -638,7 +659,7 @@
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 10,
-      "ter_set": "t_window_bars",
+      "ter_set": "t_window_bars_noglass",
       "items": [ { "item": "glass_shard", "count": [ 34, 50 ] } ]
     }
   },
@@ -672,7 +693,7 @@
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 10,
-      "ter_set": "t_window_bars",
+      "ter_set": "t_window_bars_noglass",
       "items": [
         { "item": "glass_shard", "count": [ 34, 50 ] },
         { "item": "sheet", "count": 2 },
@@ -711,7 +732,7 @@
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 10,
-      "ter_set": "t_window_bars",
+      "ter_set": "t_window_bars_noglass",
       "items": [
         { "item": "glass_shard", "count": [ 34, 50 ] },
         { "item": "sheet", "count": 2 },
