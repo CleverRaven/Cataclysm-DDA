@@ -54,6 +54,7 @@ struct damage_unit {
         unconditional_res_mult( unc_arpen_mult ), unconditional_damage_mult( unc_dmg_mult ) { }
 
     bool operator==( const damage_unit &other ) const;
+    damage_unit operator*=( double rhs );
 };
 
 // a single atomic unit of damage from an attack. Can include multiple types
@@ -76,6 +77,7 @@ struct damage_instance {
     std::vector<damage_unit>::const_iterator end() const;
 
     bool operator==( const damage_instance &other ) const;
+    damage_instance operator*=( double rhs );
 
     /**
      * Adds damage to the instance.

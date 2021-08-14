@@ -178,6 +178,20 @@ bool damage_instance::operator==( const damage_instance &other ) const
     return damage_units == other.damage_units;
 }
 
+damage_unit damage_unit::operator*=( const double rhs )
+{
+    amount *= rhs;
+    return *this;
+}
+
+damage_instance damage_instance::operator*=( const double rhs )
+{
+    for( damage_unit &du : damage_units ) {
+        du *= rhs;
+    }
+    return *this;
+}
+
 void damage_instance::deserialize( const JsonValue &jsin )
 {
     // TODO: Clean up
