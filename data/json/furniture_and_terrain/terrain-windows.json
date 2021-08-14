@@ -744,8 +744,8 @@
   {
     "type": "terrain",
     "id": "t_window_stained_green",
-    "name": "high stained glass window",
-    "description": "Breathtaking craftsmanship of stained glass featuring an elegant emerald landscape.",
+    "name": "stone wall with high stained glass window",
+    "description": "A stone wall with a high window containing breathtaking craftsmanship of stained glass featuring an elegant emerald landscape.",
     "symbol": "\"",
     "color": "light_green",
     "move_cost": 0,
@@ -762,19 +762,19 @@
       "WINDOW"
     ],
     "bash": {
-      "str_min": 100,
-      "str_max": 400,
-      "sound": "glass breaking!",
+      "str_min": 80,
+      "str_max": 300,
+      "sound": "a crash and glass breaking!",
       "sound_fail": "whack!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "glass_shard", "count": [ 42, 67 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 42, 67 ] }, { "item": "rock", "count": [ 8, 18 ] } ]
     }
   },
   {
     "type": "terrain",
     "id": "t_window_stained_red",
-    "name": "high stained glass window",
-    "description": "Breathtaking craftsmanship of stained glass featuring an otherworldly radiant ruby flower blooming.",
+    "name": "stone wall with high stained glass window",
+    "description": "A stone wall with a high window containing breathtaking craftsmanship of stained glass featuring an otherworldly radiant ruby flower blooming.",
     "symbol": "\"",
     "color": "light_red",
     "move_cost": 0,
@@ -791,19 +791,19 @@
       "WINDOW"
     ],
     "bash": {
-      "str_min": 100,
-      "str_max": 400,
-      "sound": "glass breaking!",
+      "str_min": 80,
+      "str_max": 300,
+      "sound": "a crash and glass breaking!",
       "sound_fail": "whack!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "glass_shard", "count": [ 42, 67 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 42, 67 ] }, { "item": "rock", "count": [ 8, 18 ] } ]
     }
   },
   {
     "type": "terrain",
     "id": "t_window_stained_blue",
     "name": "high stained glass window",
-    "description": "Breathtaking craftsmanship of stained glass featuring an alluring azure oceanic abyss.",
+    "description": "A stone wall with a high window containing breathtaking craftsmanship of stained glass featuring an alluring azure oceanic abyss.",
     "symbol": "\"",
     "color": "light_blue",
     "move_cost": 0,
@@ -820,12 +820,12 @@
       "WINDOW"
     ],
     "bash": {
-      "str_min": 100,
-      "str_max": 400,
-      "sound": "glass breaking!",
+      "str_min": 80,
+      "str_max": 300,
+      "sound": "a crash and glass breaking!",
       "sound_fail": "whack!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "glass_shard", "count": [ 42, 67 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 42, 67 ] }, { "item": "rock", "count": [ 8, 18 ] } ]
     }
   },
   {
