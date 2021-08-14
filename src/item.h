@@ -2511,6 +2511,7 @@ class item : public visitable
         int mission_id = -1;       // Refers to a mission in game's master list
         int player_id = -1;        // Only give a mission to the right player!
         bool ethereal = false;
+        int wetness = 0;           // Turns until this item is completly dry.
 
         // Set when the item / its content changes. Used for worn item with
         // encumbrance depending on their content.

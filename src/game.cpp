@@ -9975,6 +9975,7 @@ void game::water_affect_items( Character &ch ) const
 {
     std::vector<item_location> dissolved;
     std::vector<item_location> destroyed;
+    std::vector<item_location> wet;
 
     for( item_location &loc : ch.all_items_loc() ) {
         // check flag first because its cheaper
@@ -9983,12 +9984,15 @@ void game::water_affect_items( Character &ch ) const
         } else if( loc->has_flag( flag_WATER_BREAK ) && !loc->is_broken()
                    && !loc.protected_from_liquids() ) {
             destroyed.emplace_back( loc );
+        } else if( loc->has_flag( flag_WATER_BREAK_ACTIVE ) && !loc->is_broken()
+                   && !loc.protected_from_liquids() ) {
+            wet.emplace_back( loc );
         } else if( loc->typeId() == itype_towel && !loc.protected_from_liquids() ) {
             loc->convert( itype_towel_wet );
         }
     }
 
-    if( dissolved.empty() && destroyed.empty() ) {
+    if( dissolved.empty() && destroyed.empty() && wet.empty() ) {
         return;
     }
 
@@ -10003,6 +10007,12 @@ void game::water_affect_items( Character &ch ) const
                                 ch.disp_name( true ), it->display_name() );
         it->deactivate();
         it->set_flag( flag_ITEM_BROKEN );
+    }
+
+    for( item_location &it : wet ) {
+        const int wetness_add = 5100 * std::log10( units::to_milliliter( it->volume() ) );
+        it->wetness += wetness_add;
+        it->wetness = std::min( it->wetness, 5 * wetness_add );
     }
 }
 

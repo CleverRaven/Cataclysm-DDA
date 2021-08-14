@@ -1892,6 +1892,10 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                                   imap.second ) );
             }
 
+            info.emplace_back( "BASE", _( "wetness: " ),
+                               "", iteminfo::lower_is_better,
+                               wetness );
+
             const std::string space = "  ";
             if( goes_bad() ) {
                 info.emplace_back( "BASE", _( "age (turns): " ),
@@ -5117,7 +5121,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         }
     }
 
-    if( has_flag( flag_WET ) ) {
+    if( has_flag( flag_WET ) || wetness ) {
         tagtext += _( " (wet)" );
     }
     if( already_used_by_player( player_character ) ) {
@@ -9799,7 +9803,7 @@ bool item::needs_processing() const
 {
     bool need_process = false;
     visit_items( [&need_process]( const item * it, item * ) {
-        if( it->active || it->ethereal || it->has_flag( flag_RADIO_ACTIVATION ) ||
+        if( it->active || it->ethereal || it->wetness || it->has_flag( flag_RADIO_ACTIVATION ) ||
             it->has_relic_recharge() ) {
             need_process = true;
             return VisitResponse::ABORT;
@@ -10685,8 +10689,17 @@ bool item::process_internal( player *carrier, const tripoint &pos,
     // Otherwise processing continues. This allows items that are processed as
     // food and as litcig and as ...
 
+    if( wetness > 0 ) {
+        wetness -= 1;
+    }
+
     // Remaining stuff is only done for active items.
     if( active ) {
+
+        if( wetness && has_flag( flag_WATER_BREAK ) ) {
+            deactivate();
+            set_flag( flag_ITEM_BROKEN );
+        }
 
         if( !is_food() && item_counter > 0 ) {
             item_counter--;
