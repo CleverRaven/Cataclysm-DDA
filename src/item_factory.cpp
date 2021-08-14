@@ -1158,7 +1158,9 @@ void Item_factory::check_definitions() const
                     for( const bodypart_str_id &bp : *portion.covers ) {
                         if( portion.covers->test( bp ) ) {
                             if( observed_bps.count( bp ) ) {
-                                msg += "multiple portions with same body_part defined\n";
+                                msg += string_format(
+                                           "multiple portions with same body_part %s defined\n",
+                                           bp.str() );
                             }
                             observed_bps.insert( bp );
                         }
