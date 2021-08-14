@@ -202,7 +202,7 @@ static int has_unspent_points( const avatar &u )
     return used < total;
 }
 
-std::string pools_to_string( const avatar &u, points_left::point_limit pool )
+static std::string pools_to_string( const avatar &u, points_left::point_limit pool )
 {
     if( pool == points_left::MULTI_POOL ) {
         int stat_points = stat_point_pool - stat_points_used( u );
