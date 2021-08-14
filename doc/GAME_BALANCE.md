@@ -29,11 +29,11 @@ Maximal skill: 10 (highest for balance purposes; jabberwock, tribot, shoggoth, g
 # Monster HP scaling:
 Minimum HP: 1 (no ability to absorb damage; yellow chick, mosquito)
 
-Average HP: 80 (average critter; most basic zeds, slimes, soldier ants, fungaloids & triffids)
+Average HP: ~100 (average critter; most basic zeds, slimes, soldier ants, fungaloids & triffids)
 
 Notable HP: ~200 (unusually resilient; tiger, zombie master, mi-go)
 
-Very high HP: ~500 (dangerous opponent; zombie hulk, shoggoth, triffid heart, jabberwock)
+Very high HP: ~500 (supernaturally resilient; zombie hulk, shoggoth, triffid heart, jabberwock)
 
 Maximal HP: 800 (highest for balance purposes; wraith)
 
