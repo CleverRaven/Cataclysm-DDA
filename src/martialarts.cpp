@@ -451,13 +451,13 @@ bool ma_requirements::is_valid_character( const Character &u ) const
     bool cqb = u.has_active_bionic( bio_cqb );
     // There are 4 different cases of "armedness":
     // Truly unarmed, unarmed weapon, style-allowed weapon, generic weapon
-    const item *weapon = u.get_wielded_weapon();
+    const item weapon = u.get_wielded_weapon();
     bool melee_style = u.martial_arts_data->selected_strictly_melee();
     bool is_armed = u.is_armed();
     bool unarmed_weapon = is_armed && u.used_weapon().has_flag( json_flag_UNARMED_WEAPON );
     bool forced_unarmed = u.martial_arts_data->selected_force_unarmed();
-    bool weapon_ok = is_valid_weapon( *weapon );
-    bool style_weapon = u.martial_arts_data->selected_has_weapon( weapon->typeId() );
+    bool weapon_ok = is_valid_weapon( weapon );
+    bool style_weapon = u.martial_arts_data->selected_has_weapon( weapon.typeId() );
     bool all_weapons = u.martial_arts_data->selected_allow_melee();
 
     bool unarmed_ok = !is_armed || ( unarmed_weapon && unarmed_weapons_allowed );
@@ -905,7 +905,7 @@ static ma_technique get_valid_technique( const Character &owner, bool ma_techniq
 {
     const auto &ma_data = owner.martial_arts_data;
 
-    for( const matec_id &candidate_id : ma_data->get_all_techniques( *owner.get_wielded_weapon() ) ) {
+    for( const matec_id &candidate_id : ma_data->get_all_techniques( owner.get_wielded_weapon() ) ) {
         ma_technique candidate = candidate_id.obj();
 
         if( candidate.*purpose && candidate.is_valid_character( owner ) ) {
@@ -1240,7 +1240,7 @@ bool Character::can_autolearn( const matype_id &ma_id ) const
 void character_martial_arts::martialart_use_message( const Character &owner ) const
 {
     martialart ma = style_selected.obj();
-    if( ma.force_unarmed || ma.weapon_valid( *owner.get_wielded_weapon() ) ) {
+    if( ma.force_unarmed || ma.weapon_valid( owner.get_wielded_weapon() ) ) {
         owner.add_msg_if_player( m_info, "%s", ma.get_initiate_avatar_message() );
     } else if( ma.strictly_melee && !owner.is_armed() ) {
         owner.add_msg_if_player( m_bad, _( "%s cannot be used unarmed." ), ma.name );
@@ -1248,7 +1248,7 @@ void character_martial_arts::martialart_use_message( const Character &owner ) co
         owner.add_msg_if_player( m_bad, _( "%s cannot be used with weapons." ), ma.name );
     } else {
         owner.add_msg_if_player( m_bad, _( "The %1$s is not a valid %2$s weapon." ),
-                                 owner.get_wielded_weapon()->tname( 1,
+                                 owner.get_wielded_weapon().tname( 1,
                                          false ), ma.name );
     }
 }

@@ -1146,8 +1146,8 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
 
 cata::optional<int> Character::active_bionic_weapon_index() const
 {
-    const item *weapon = get_wielded_weapon();
-    if( weapon->is_null() ) {
+    const item weapon = get_wielded_weapon();
+    if( weapon.is_null() ) {
         return cata::nullopt;
     }
 
@@ -1155,7 +1155,7 @@ cata::optional<int> Character::active_bionic_weapon_index() const
         const bionic &bio = ( *my_bionics )[ i ];
         // TODO: Better match weapons to their CBM
         if( bio.powered && !bio.info().fake_weapon.is_empty() && !bio.info().fake_weapon.is_null() &&
-            get_wielded_weapon()->typeId() == bio.info().fake_weapon ) {
+            weapon.typeId() == bio.info().fake_weapon ) {
             return i;
         }
     }

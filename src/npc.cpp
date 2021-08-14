@@ -1724,10 +1724,10 @@ int npc::value( const item &it, int market_price ) const
     if( my_fac && my_fac->currency == it.typeId() ) {
         return market_price;
     }
-    const item *weapon = get_wielded_weapon();
+    const item weapon = get_wielded_weapon();
     int ret = 0;
     // TODO: Cache own weapon value (it can be a bit expensive to compute 50 times/turn)
-    double weapon_val = weapon_value( it ) - weapon_value( *weapon );
+    double weapon_val = weapon_value( it ) - weapon_value( weapon );
     if( weapon_val > 0 ) {
         ret += weapon_val;
     }
@@ -1749,7 +1749,7 @@ int npc::value( const item &it, int market_price ) const
     }
 
     if( it.is_ammo() ) {
-        if( weapon->is_gun() && weapon->ammo_types().count( it.ammo_type() ) ) {
+        if( weapon.is_gun() && weapon.ammo_types().count( it.ammo_type() ) ) {
             // TODO: magazines - don't count ammo as usable if the weapon isn't.
             ret += 14;
         }
@@ -2152,7 +2152,7 @@ int npc::smash_ability() const
 {
     if( !is_hallucination() && ( !is_player_ally() || rules.has_flag( ally_rule::allow_bash ) ) ) {
         ///\EFFECT_STR_NPC increases smash ability
-        return str_cur + get_wielded_weapon()->damage_melee( damage_type::BASH );
+        return str_cur + get_wielded_weapon().damage_melee( damage_type::BASH );
     }
 
     // Not allowed to bash
@@ -2266,7 +2266,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     if( is_armed() ) {
         line += fold_and_print( w, point( column, line ), iWidth, c_red,
                                 std::string( "<color_light_gray>" ) + _( "Wielding: " ) + std::string( "</color>" ) +
-                                get_wielded_weapon()->tname() );
+                                get_wielded_weapon().tname() );
     }
 
     // Worn gear list on following lines.

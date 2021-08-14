@@ -648,9 +648,9 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
 static float rate_critter( const Creature &c )
 {
     const npc *np = dynamic_cast<const npc *>( &c );
-    const item *weapon = np->get_wielded_weapon();
+    const item weapon = np->get_wielded_weapon();
     if( np != nullptr ) {
-        return np->weapon_value( *weapon );
+        return np->weapon_value( weapon );
     }
 
     const monster *m = dynamic_cast<const monster *>( &c );

@@ -525,9 +525,9 @@ void Character::randomize_height()
     init_height = clamp( x, Character::min_height(), Character::max_height() );
 }
 
-const item *Character::get_wielded_weapon() const
+const item &Character::get_wielded_weapon() const
 {
-    return &weapon;
+    return weapon;
 }
 
 item *Character::get_wielded_weapon()
@@ -535,7 +535,7 @@ item *Character::get_wielded_weapon()
     return &weapon;
 }
 
-void Character::set_wielded_weapon( item to_wield )
+void Character::set_wielded_weapon( const item &to_wield )
 {
     weapon = to_wield;
 }
@@ -2849,13 +2849,13 @@ int Character::get_mod_stat_from_bionic( const character_stat &Stat ) const
 
 int Character::get_standard_stamina_cost( const item *thrown_item ) const
 {
-    const item *weapon = get_wielded_weapon();
+    const item weapon = get_wielded_weapon();
     // Previously calculated as 2_gram * std::max( 1, str_cur )
     // using 16_gram normalizes it to 8 str. Same effort expenditure
     // for each strike, regardless of weight. This is compensated
     // for by the additional move cost as weapon weight increases
     //If the item is thrown, override with the thrown item instead.
-    const int weight_cost = ( thrown_item == nullptr ) ? weapon->weight() /
+    const int weight_cost = ( thrown_item == nullptr ) ? weapon.weight() /
                             ( 16_gram ) : thrown_item->weight() / ( 16_gram );
     return ( weight_cost + 50 ) * -1 * melee_stamina_cost_modifier();
 }
@@ -2986,7 +2986,7 @@ std::vector<item_location> Character::nearby( const
 
 units::length Character::max_single_item_length() const
 {
-    units::length ret = get_wielded_weapon()->max_containable_length();
+    units::length ret = get_wielded_weapon().max_containable_length();
 
     for( const item &worn_it : worn ) {
         units::length candidate = worn_it.max_containable_length();
@@ -2999,7 +2999,7 @@ units::length Character::max_single_item_length() const
 
 units::volume Character::max_single_item_volume() const
 {
-    units::volume ret = get_wielded_weapon()->max_containable_volume();
+    units::volume ret = get_wielded_weapon().max_containable_volume();
 
     for( const item &worn_it : worn ) {
         units::volume candidate = worn_it.max_containable_volume();
@@ -3178,7 +3178,7 @@ item *Character::invlet_to_item( const int linvlet )
 const item &Character::i_at( int position ) const
 {
     if( position == -1 ) {
-        return *get_wielded_weapon();
+        return get_wielded_weapon();
     }
     if( position < -1 ) {
         int worn_index = worn_position_to_index( position );
@@ -3199,7 +3199,7 @@ item &Character::i_at( int position )
 
 int Character::get_item_position( const item *it ) const
 {
-    if( get_wielded_weapon()->has_item( *it ) ) {
+    if( get_wielded_weapon().has_item( *it ) ) {
         return -1;
     }
 
@@ -3793,19 +3793,19 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
     }
 
     // Wielded item
-    const item *weapon = get_wielded_weapon();
+    const item weapon = get_wielded_weapon();
     units::mass weaponweight = 0_gram;
-    if( !without.count( weapon ) ) {
-        weaponweight += weapon->weight();
-        for( const item *i : weapon->all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
+    if( !without.count( &weapon ) ) {
+        weaponweight += weapon.weight();
+        for( const item *i : weapon.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
             if( i->count_by_charges() ) {
                 weaponweight -= get_selected_stack_weight( i, without );
             } else if( without.count( i ) ) {
                 weaponweight -= i->weight();
             }
         }
-    } else if( weapon->count_by_charges() ) {
-        weaponweight += weapon->weight() - get_selected_stack_weight( weapon, without );
+    } else if( weapon.count_by_charges() ) {
+        weaponweight += weapon.weight() - get_selected_stack_weight( &weapon, without );
     }
 
     // Exclude wielded item if using lifting tool
@@ -3857,9 +3857,9 @@ units::volume Character::volume_carried_with_tweaks( const item_tweaks &tweaks )
     }
 
     // Wielded item
-    const item *weapon = get_wielded_weapon();
-    if( !without.count( weapon ) ) {
-        ret += weapon->get_contents_volume_with_tweaks( without );
+    const item weapon = get_wielded_weapon();
+    if( !without.count( &weapon ) ) {
+        ret += weapon.get_contents_volume_with_tweaks( without );
     }
 
     return ret;
@@ -3905,8 +3905,8 @@ units::mass Character::weight_capacity() const
 
 bool Character::can_pickVolume( const item &it, bool, const item *avoid ) const
 {
-    const item *weapon = get_wielded_weapon();
-    if( weapon->can_contain( it ).success() && ( avoid == nullptr || weapon != avoid ) ) {
+    const item weapon = get_wielded_weapon();
+    if( weapon.can_contain( it ).success() && ( avoid == nullptr || &weapon != avoid ) ) {
         return true;
     }
     for( const item &w : worn ) {
@@ -4099,7 +4099,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
 
     // Check if we don't have both hands available before wearing a briefcase, shield, etc. Also occurs if we're already wearing one.
     if( it.has_flag( flag_RESTRICT_HANDS ) && ( worn_with_flag( flag_RESTRICT_HANDS ) ||
-            get_wielded_weapon()->is_two_handed( *this ) ) ) {
+            get_wielded_weapon().is_two_handed( *this ) ) ) {
         return ret_val<bool>::make_failure( ( is_avatar() ? _( "You don't have a hand free to wear that." )
                                               : string_format( _( "%s doesn't have a hand free to wear that." ), name ) ) );
     }
@@ -10131,8 +10131,8 @@ ret_val<bool> Character::can_wield( const item &it ) const
         return ret_val<bool>::make_failure( _( "Can't wield spilt liquids." ) );
     }
 
-    const item *weapon = get_wielded_weapon();
-    if( is_armed() && !can_unwield( *weapon ).success() ) {
+    const item weapon = get_wielded_weapon();
+    if( is_armed() && !can_unwield( weapon ).success() ) {
         return ret_val<bool>::make_failure( _( "The %s is preventing you from wielding the %s." ),
                                             weapname(), it.tname() );
     }
