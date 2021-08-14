@@ -883,6 +883,7 @@
     "material": [ "plastic", "aluminum" ],
     "weight": "1133 g",
     "volume": "2500 ml",
+    "longest_side": "1 meter",
     "bashing": 4,
     "to_hit": -3,
     "flags": [ "TRADER_AVOID" ]
