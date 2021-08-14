@@ -2018,13 +2018,15 @@ void veh_interact::do_relabel()
     }
 
     const vpart_position vp( *veh, cpart );
-    std::string text = string_input_popup()
+    string_input_popup pop;
+    std::string text = pop
                        .title( _( "New label:" ) )
                        .width( 20 )
                        .text( vp.get_label().value_or( "" ) )
                        .query_string();
-    // empty input removes the label
-    vp.set_label( text );
+    if( pop.confirmed() ) {
+        vp.set_label( text );
+    }
 }
 
 
