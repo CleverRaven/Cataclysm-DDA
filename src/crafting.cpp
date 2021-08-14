@@ -2101,6 +2101,8 @@ item_location Character::create_in_progress_disassembly( item_location target )
     const auto &r = recipe_dictionary::get_uncraft( target->typeId() );
     item &orig_item = *target.get_item();
 
+    item new_disassembly( &r, orig_item );
+
     // Remove any batteries, ammo, contents and mods first
     remove_ammo( orig_item, *this );
     remove_radio_mod( orig_item, *this );
@@ -2112,11 +2114,12 @@ item_location Character::create_in_progress_disassembly( item_location target )
         if( orig_item.is_ammo() && !r.has_flag( "UNCRAFT_BY_QUANTITY" ) ) {
             //subtract selected number of rounds to disassemble
             orig_item.charges -= activity.position;
+            new_disassembly.charges = activity.position;
         } else {
             orig_item.charges -= r.create_result().charges;
+            new_disassembly.charges = r.create_result().charges;
         }
     }
-    item new_disassembly( &r, orig_item );
     // remove the item, except when it's counted by charges and still has some
     if( !orig_item.count_by_charges() || orig_item.charges <= 0 ) {
         target.remove_item();
@@ -2271,12 +2274,17 @@ bool Character::disassemble( item_location target, bool interactive )
                 return false;
             }
         }
-        if( num_dis != 0 ) {
-            new_act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
-                                       recipe_time_flag::ignore_proficiencies ) * num_dis ) );
+        if( obj.typeId() != itype_disassembly ) {
+            if( num_dis != 0 ) {
+                new_act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
+                                           recipe_time_flag::ignore_proficiencies ) * num_dis ) );
+            } else {
+                new_act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
+                                           recipe_time_flag::ignore_proficiencies ) ) );
+            }
         } else {
             new_act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
-                                       recipe_time_flag::ignore_proficiencies ) ) );
+                                       recipe_time_flag::ignore_proficiencies ) * obj.charges ) );
         }
         new_act.targets.emplace_back( std::move( target ) );
 
