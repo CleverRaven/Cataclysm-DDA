@@ -2284,7 +2284,7 @@ bool Character::disassemble( item_location target, bool interactive )
             }
         } else {
             new_act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( *this,
-                                       recipe_time_flag::ignore_proficiencies ) * obj.charges ) );
+                                       recipe_time_flag::ignore_proficiencies ) * std::max( obj.charges, 1 ) ) );
         }
         new_act.targets.emplace_back( std::move( target ) );
 
