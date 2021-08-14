@@ -770,7 +770,7 @@ float Character::thrown_dex_modifier() const
     return manipulator_score();
 }
 
-float Character::ranged_dispersion_modifier() const
+float Character::ranged_dispersion_modifier_hands() const
 {
     if( manipulator_score() == 0.0f ) {
         return 1000.0f;

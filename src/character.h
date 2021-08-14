@@ -564,7 +564,7 @@ class Character : public Creature, public visitable
         float thrown_dex_modifier() const;
         float stamina_recovery_breathing_modifier() const;
         // additive modifier
-        float ranged_dispersion_modifier() const;
+        float ranged_dispersion_modifier_hands() const;
         float ranged_dispersion_modifier_vision() const;
 
         /* Gun stuff */
