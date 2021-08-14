@@ -1205,7 +1205,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str": "morphine" },
-    "description": "A very strong semi-synthetic narcotic used to treat intense pain in hospital settings.  This injectable drug is very addictive.",
+    "description": "A very strong, naturally-occurring narcotic used to treat intense pain in hospital settings.  This injectable drug is very addictive.",
     "weight": "1 g",
     "volume": "250 ml",
     "price": 4000,
