@@ -2160,7 +2160,7 @@ class Character : public Creature, public visitable
     public:
         const item &get_wielded_item() const;
         item *get_wielded_item();
-        void set_wielded_weapon( const item &to_wield );
+        void set_wielded_item( const item &to_wield );
 
         int scent = 0;
         pimpl<bionic_collection> my_bionics;

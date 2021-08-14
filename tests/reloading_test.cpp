@@ -176,7 +176,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
         item &ammo = dummy.i_add( item( "40sw", calendar::turn_zero, 100 ) );
         REQUIRE( ammo.is_ammo() );
 
-        dummy.set_wielded_weapon( item( "sw_610", calendar::turn_zero, 0 ) );
+        dummy.set_wielded_item( item( "sw_610", calendar::turn_zero, 0 ) );
         REQUIRE( dummy.get_wielded_item()->ammo_remaining() == 0 );
         REQUIRE( dummy.get_wielded_item()->can_reload_with( ammo.type->get_id() ) );
 
@@ -221,7 +221,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
         REQUIRE( magazine_type->type.count( ammo_type->type ) != 0 );
         REQUIRE( mag.ammo_remaining() == 0 );
 
-        dummy.set_wielded_weapon( item( "glock_19", calendar::turn_zero, 0 ) );
+        dummy.set_wielded_item( item( "glock_19", calendar::turn_zero, 0 ) );
         REQUIRE( dummy.get_wielded_item()->ammo_remaining() == 0 );
 
         WHEN( "the player triggers auto reload" ) {

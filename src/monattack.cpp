@@ -3324,7 +3324,7 @@ void mattack::rifle( monster *z, Creature *target )
     }
     add_msg_if_player_sees( *z, m_warning, _( "The %s opens up with its rifle!" ), z->name() );
 
-    tmp.set_wielded_weapon( item( "m4_carbine" ).ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
+    tmp.set_wielded_item( item( "m4_carbine" ).ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
     int burst = std::max( tmp.get_wielded_item()->gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
     z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(),
@@ -3384,7 +3384,7 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
     }
     add_msg_if_player_sees( *z, m_warning, _( "The %s's grenade launcher fires!" ), z->name() );
 
-    tmp.set_wielded_weapon( item( "mgl" ).ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
+    tmp.set_wielded_item( item( "mgl" ).ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
     const item *weapon = tmp.get_wielded_item();
     int burst = std::max( weapon->gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
@@ -3442,7 +3442,7 @@ void mattack::tankgun( monster *z, Creature *target )
         return;
     }
     add_msg_if_player_sees( *z, m_warning, _( "The %s's 120mm cannon fires!" ), z->name() );
-    tmp.set_wielded_weapon( item( "TANK" ).ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
+    tmp.set_wielded_item( item( "TANK" ).ammo_set( ammo_type, z->ammo[ ammo_type ] ) );
     const item *weapon = tmp.get_wielded_item();
     int burst = std::max( weapon->gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 

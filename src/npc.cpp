@@ -332,7 +332,7 @@ void npc::randomize( const npc_class_id &type )
         setID( g->assign_npc_id() );
     }
 
-    set_wielded_weapon( item( "null", calendar::turn_zero ) );
+    set_wielded_item( item( "null", calendar::turn_zero ) );
     inv->clear();
     personality.aggression = rng( -10, 10 );
     personality.bravery    = rng( -3, 10 );
@@ -812,7 +812,7 @@ int npc::best_skill_level() const
 void npc::starting_weapon( const npc_class_id &type )
 {
     if( item_group::group_is_defined( type->weapon_override ) ) {
-        set_wielded_weapon( item_group::item_from( type->weapon_override, calendar::turn ) );
+        set_wielded_item( item_group::item_from( type->weapon_override, calendar::turn ) );
         return;
     }
 
@@ -820,23 +820,23 @@ void npc::starting_weapon( const npc_class_id &type )
 
     // if NPC has no suitable skills default to stabbing weapon
     if( !best || best == skill_stabbing ) {
-        set_wielded_weapon( random_item_from( type, "stabbing", item_group_id( "survivor_stabbing" ) ) );
+        set_wielded_item( random_item_from( type, "stabbing", item_group_id( "survivor_stabbing" ) ) );
     } else if( best == skill_bashing ) {
-        set_wielded_weapon( random_item_from( type, "bashing", item_group_id( "survivor_bashing" ) ) );
+        set_wielded_item( random_item_from( type, "bashing", item_group_id( "survivor_bashing" ) ) );
     } else if( best == skill_cutting ) {
-        set_wielded_weapon( random_item_from( type, "cutting", item_group_id( "survivor_cutting" ) ) );
+        set_wielded_item( random_item_from( type, "cutting", item_group_id( "survivor_cutting" ) ) );
     } else if( best == skill_throw ) {
-        set_wielded_weapon( random_item_from( type, "throw" ) );
+        set_wielded_item( random_item_from( type, "throw" ) );
     } else if( best == skill_archery ) {
-        set_wielded_weapon( random_item_from( type, "archery" ) );
+        set_wielded_item( random_item_from( type, "archery" ) );
     } else if( best == skill_pistol ) {
-        set_wielded_weapon( random_item_from( type, "pistol", item_group_id( "guns_pistol_common" ) ) );
+        set_wielded_item( random_item_from( type, "pistol", item_group_id( "guns_pistol_common" ) ) );
     } else if( best == skill_shotgun ) {
-        set_wielded_weapon( random_item_from( type, "shotgun", item_group_id( "guns_shotgun_common" ) ) );
+        set_wielded_item( random_item_from( type, "shotgun", item_group_id( "guns_shotgun_common" ) ) );
     } else if( best == skill_smg ) {
-        set_wielded_weapon( random_item_from( type, "smg", item_group_id( "guns_smg_common" ) ) );
+        set_wielded_item( random_item_from( type, "smg", item_group_id( "guns_smg_common" ) ) );
     } else if( best == skill_rifle ) {
-        set_wielded_weapon( random_item_from( type, "rifle", item_group_id( "guns_rifle_common" ) ) );
+        set_wielded_item( random_item_from( type, "rifle", item_group_id( "guns_rifle_common" ) ) );
     }
     item *weapon = get_wielded_item();
     if( weapon->is_gun() ) {
@@ -1085,7 +1085,7 @@ bool npc::wield( item &it )
     }
 
     if( to_wield.is_null() ) {
-        set_wielded_weapon( item() );
+        set_wielded_item( item() );
         get_event_bus().send<event_type::character_wields_item>( getID(), weapon->typeId() );
         return true;
     }
@@ -1094,7 +1094,7 @@ bool npc::wield( item &it )
     if( to_wield.can_combine( *weapon ) ) {
         weapon->combine( to_wield );
     } else {
-        set_wielded_weapon( to_wield );
+        set_wielded_item( to_wield );
     }
 
     get_event_bus().send<event_type::character_wields_item>( getID(), weapon->typeId() );

@@ -535,7 +535,7 @@ item *Character::get_wielded_item()
     return &weapon;
 }
 
-void Character::set_wielded_weapon( const item &to_wield )
+void Character::set_wielded_item( const item &to_wield )
 {
     weapon = to_wield;
 }
@@ -3499,7 +3499,7 @@ bool Character::has_active_item( const itype_id &id ) const
 item Character::remove_weapon()
 {
     const item tmp = weapon;
-    set_wielded_weapon( item() );
+    set_wielded_item( item() );
     get_event_bus().send<event_type::character_wields_item>( getID(), tmp.typeId() );
     cached_info.erase( "weapon_value" );
     return tmp;

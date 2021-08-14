@@ -555,7 +555,7 @@ void npc::discharge_cbm_weapon()
     }
     const bionic &bio = ( *my_bionics )[cbm_weapon_index];
     mod_power_level( -bio.info().power_activate );
-    set_wielded_weapon( real_weapon );
+    set_wielded_item( real_weapon );
     cbm_weapon_index = -1;
 }
 
@@ -609,7 +609,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
 
         if( weapon_value( *weapon, ammo_count ) < weapon_value( cbm_weapon, cbm_ammo ) ) {
             real_weapon = *weapon;
-            set_wielded_weapon( cbm_weapon );
+            set_wielded_item( cbm_weapon );
             cbm_weapon_index = index;
         }
     } else if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) && !weapon->has_flag( flag_NO_UNWIELD ) &&
@@ -627,7 +627,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
         add_msg_if_player_sees( pos(), m_info, _( "%s activates their %s." ),
                                 disp_name(), bio.info().name );
 
-        set_wielded_weapon( bio.get_weapon() );
+        set_wielded_item( bio.get_weapon() );
         mod_power_level( -bio.info().power_activate );
         bio.powered = true;
         cbm_weapon_index = index;
@@ -757,7 +757,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
 
         add_msg_activate();
 
-        set_wielded_weapon( bio.get_weapon() );
+        set_wielded_item( bio.get_weapon() );
         get_wielded_item()->invlet = '#';
         //if( bio.ammo_count > 0 ) {
         //    weapon.ammo_set( bio.ammo_loaded, bio.ammo_count );
@@ -1229,7 +1229,7 @@ bool Character::deactivate_bionic( int b, bool eff_only )
                 }
             }
             bio.set_weapon( w_weapon );
-            set_wielded_weapon( item() );
+            set_wielded_item( item() );
         }
     } else if( bio.id == bio_cqb ) {
         martial_arts_data->selected_style_check();

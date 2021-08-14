@@ -611,7 +611,7 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
         tmp.set_skill_level( pr.first, pr.second );
     }
 
-    tmp.set_wielded_weapon( gun );
+    tmp.set_wielded_item( gun );
     tmp.i_add( item( "UPS_off", calendar::turn, 1000 ) );
 
     add_msg_if_player_sees( z, m_warning, description.translated(), z.name(),

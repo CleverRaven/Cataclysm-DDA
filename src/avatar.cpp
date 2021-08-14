@@ -1316,14 +1316,14 @@ bool avatar::wield( item &target, const int obtain_cost )
         if( combine_stacks ) {
             weapon->combine( removed );
         } else {
-            set_wielded_weapon( removed );
+            set_wielded_item( removed );
 
         }
     } else {
         if( combine_stacks ) {
             weapon->combine( target );
         } else {
-            set_wielded_weapon( target );
+            set_wielded_item( target );
         }
     }
 

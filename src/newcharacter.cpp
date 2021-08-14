@@ -451,7 +451,7 @@ static int calculate_cumulative_experience( int level )
 
 bool avatar::create( character_type type, const std::string &tempname )
 {
-    set_wielded_weapon( item() );
+    set_wielded_item( item() );
 
     prof = profession::generic();
     set_scenario( scenario::generic() );
@@ -588,7 +588,7 @@ bool avatar::create( character_type type, const std::string &tempname )
         scent = 300;
     }
 
-    set_wielded_weapon( item() );
+    set_wielded_item( item() );
 
     // Grab skills from profession and increment level
     // We want to do this before the recipes

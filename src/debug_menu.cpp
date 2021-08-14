@@ -1293,7 +1293,7 @@ void character_edit_menu()
                 p.on_item_wear( to_wear );
                 p.worn.push_back( to_wear );
             } else if( !to_wear.is_null() ) {
-                p.set_wielded_weapon( to_wear );
+                p.set_wielded_item( to_wear );
                 get_event_bus().send<event_type::character_wields_item>( p.getID(),
                         p.get_wielded_item()->typeId() );
             }
