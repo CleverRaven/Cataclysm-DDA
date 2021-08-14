@@ -9399,6 +9399,10 @@ void Character::wake_up()
                            SNIPPET.random_from_category( "nightmares" ).value_or( translation() ) );
         add_morale( morale_nightmare, -15, -30, 30_minutes );
     }
+
+    if( movement_mode_is( move_mode_id( "prone" ) ) ) {
+        set_movement_mode( move_mode_id( "walk" ) );
+    }
 }
 
 int Character::get_shout_volume() const

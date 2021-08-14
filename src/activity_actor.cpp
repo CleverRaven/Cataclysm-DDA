@@ -2438,6 +2438,14 @@ void try_sleep_activity_actor::finish( player_activity &act, Character &who )
     who.set_movement_mode( move_mode_id( "walk" ) );
 }
 
+
+void try_sleep_activity_actor::canceled( player_activity &, Character &who )
+{
+    if( who.movement_mode_is( move_mode_id( "prone" ) ) ) {
+        who.set_movement_mode( move_mode_id( "walk" ) );
+    }
+}
+
 void try_sleep_activity_actor::query_keep_trying( player_activity &act, Character &who )
 {
     if( disable_query || !who.is_avatar() ) {
@@ -2455,6 +2463,7 @@ void try_sleep_activity_actor::query_keep_trying( player_activity &act, Characte
         case UILIST_CANCEL:
         case 1:
             act.set_to_null();
+            who.set_movement_mode( move_mode_id( "walk" ) );
             break;
         case 3:
             disable_query = true;
