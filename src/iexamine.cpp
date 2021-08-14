@@ -5024,7 +5024,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 patient.install_bionics( ( *itemtype ), installer, true, has_install_program ? 10 : -1 );
 
                 if( has_install_program ) {
-                    patient.consume_items( progs );
+                    p.consume_items( progs );
                 }
             }
             break;
