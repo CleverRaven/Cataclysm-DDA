@@ -231,7 +231,7 @@ struct field_type {
         }
         // any_of( intensity_levels::dangerous )
         inline bool is_dangerous() const {
-            return dangerous;
+            return danger_cost > 0;
         }
         // all_of( intensity_levels::transparent )
         inline bool is_transparent() const {

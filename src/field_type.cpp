@@ -323,6 +323,7 @@ void field_type::finalize()
     []( const field_intensity_level & elem ) {
         return elem.dangerous;
     } );
+    danger_cost = dangerous ? 500 : 0;
     transparent = std::all_of( intensity_levels.begin(), intensity_levels.end(),
     []( const field_intensity_level & elem ) {
         return elem.transparent;
