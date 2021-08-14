@@ -36,8 +36,8 @@
     ],
     "hit_dmg_u": "The %1$s claws at you!",
     "hit_dmg_npc": "The %1$s claws at <npcname>!",
-    "no_dmg_msg_u": "The %1$s tries to claw at you, but fails to.",
-    "no_dmg_msg_npc": "The %1$s tries to claw <npcname>, but fails to."
+    "no_dmg_msg_u": "The %1$s claws at your %2$s, but fails to penetrate armor.",
+    "no_dmg_msg_npc": "The %1$s tries to claw at <npcname>, but fails to penetrate armor."
   },
   {
     "type": "monster_attack",
