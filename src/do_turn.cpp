@@ -3,6 +3,7 @@
 #include "action.h"
 #include "avatar.h"
 #include "bionics.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "event_bus.h"
 #include "explosion.h"
@@ -562,6 +563,9 @@ void update_stair_monsters()
 
 void handle_key_blocking_activity()
 {
+    if( test_mode ) {
+        return;
+    }
     avatar &u = get_avatar();
     if( ( u.activity && u.activity.moves_left > 0 ) ||
         u.has_destination() ) {
