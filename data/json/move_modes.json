@@ -52,5 +52,27 @@
     "sound_multiplier": 0.5,
     "move_speed_multiplier": 0.5,
     "swim_speed_mod": 50
-  }
+  },
+  {
+    "type": "movement_mode",
+    "id": "sprint",
+    "character": "s",
+    "panel_char": "S",
+    "name": "run",
+    "panel_color": "green",
+    "symbol_color": "green",
+    "exertion_level": "ACTIVE_EXERCISE",
+    "change_good_none": "You speed up into a sprint.",
+    "change_good_animal": "Your animal charges ahead.",
+    "change_good_mech": "You're unsure if the mech is supposed to run this fast.",
+    "change_bad_none": "You cannot muster the energy to sprint.",
+    "change_bad_animal": "Your steed cannot go into a sprint.",
+    "change_bad_mech": "Your mech's leg servos are unable to operate faster.",
+    "move_type": "sprint",
+    "stop_hauling": true,
+    "sound_multiplier": 2.5,
+    "move_speed_multiplier": 3.0,
+    "stamina_multiplier": 20.0,
+    "swim_speed_mod": -120
+  },
 ]
