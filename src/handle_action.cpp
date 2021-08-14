@@ -107,6 +107,7 @@ static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_relax_gas( "relax_gas" );
+static const efftype_id effect_stunned( "stunned" );
 
 static const itype_id itype_radiocontrol( "radiocontrol" );
 static const itype_id itype_shoulder_strap( "shoulder_strap" );
@@ -1484,6 +1485,12 @@ static bool assign_spellcasting( Character &you, spell &sp, bool fake_spell )
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You don't have enough %s to cast the spell." ),
                  sp.energy_string() );
+        return false;
+    }
+
+    if( !sp.has_flag( spell_flag::NO_HANDS ) && you.has_effect( effect_stunned ) ) {
+        add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
+                 _( "You can't focus enough to cast spell." ) );
         return false;
     }
 
