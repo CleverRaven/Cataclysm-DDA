@@ -1086,11 +1086,31 @@ std::unique_ptr<activity_actor> bikerack_unracking_activity_actor::deserialize( 
     return actor.clone();
 }
 
+static bool is_valid_book( const item_location &book )
+{
+    // If book is invalid, perhaps we lost it during the activity
+    // If book is valid but not a book, it's probably due to a bug where
+    // `item_location` points to the wrong item after a save/load cycle.
+    // In both cases cancel activity to avoid segfault.
+    return book && book->is_book();
+}
+
+static bool cancel_if_book_invalid(
+    player_activity &act, const item_location &book, const Character &who )
+{
+    if( !is_valid_book( book ) ) {
+        who.add_msg_player_or_npc(
+            _( "You no longer have the book!" ),
+            _( "<npcname> no longer has the book!" ) );
+        act.set_to_null();
+        return true;
+    }
+    return false;
+}
+
 void read_activity_actor::start( player_activity &act, Character &who )
 {
-    if( !book->is_book() ) {
-        act.set_to_null();
-        debugmsg( "ACT_READ on a non-book item" );
+    if( cancel_if_book_invalid( act, book, who ) ) {
         return;
     }
 
@@ -1118,6 +1138,10 @@ void read_activity_actor::start( player_activity &act, Character &who )
 
 void read_activity_actor::do_turn( player_activity &act, Character &who )
 {
+    if( cancel_if_book_invalid( act, book, who ) ) {
+        return;
+    }
+
     if( !bktype.has_value() ) {
         bktype = book->type->use_methods.count( "MA_MANUAL" ) ?
                  book_type::martial_art : book_type::normal;
@@ -1146,7 +1170,13 @@ void read_activity_actor::do_turn( player_activity &act, Character &who )
         who.moves = 0;
     }
 
-    if( using_ereader && !ereader->ammo_sufficient( &who ) ) {
+    if( using_ereader && !ereader ) {
+        who.add_msg_player_or_npc(
+            _( "You no longer have the e-book!" ),
+            _( "<npcname> no longer has the e-book!" ) );
+        who.cancel_activity();
+        return;
+    } else if( using_ereader && !ereader->ammo_sufficient( &who ) ) {
         add_msg_if_player_sees(
             who,
             _( "%1$s %2$s ran out of batteries." ),
@@ -1458,6 +1488,10 @@ bool read_activity_actor::npc_read( npc &learner )
 
 void read_activity_actor::finish( player_activity &act, Character &who )
 {
+    if( cancel_if_book_invalid( act, book, who ) ) {
+        return;
+    }
+
     const bool is_mabook = bktype.value() == book_type::martial_art;
     if( who.is_avatar() ) {
         get_event_bus().send<event_type::reads_book>( who.getID(), book->typeId() );
@@ -1531,7 +1565,7 @@ bool read_activity_actor::can_resume_with_internal( const activity_actor &other,
     // The ereader gets transformed into the _on version
     // which means the item_location of the book changes
     // this check is to prevent a segmentation fault
-    if( !book || !actor.book ) {
+    if( !is_valid_book( book ) || !is_valid_book( actor.book ) ) {
         return false;
     }
 
@@ -1542,6 +1576,10 @@ bool read_activity_actor::can_resume_with_internal( const activity_actor &other,
 
 std::string read_activity_actor::get_progress_message( const player_activity & ) const
 {
+    if( !is_valid_book( book ) ) {
+        return std::string();
+    }
+
     Character &you = get_player_character();
     const cata::value_ptr<islot_book> &islotbook = book->type->book;
     const skill_id &skill = islotbook->skill;
@@ -1567,8 +1605,12 @@ void read_activity_actor::serialize( JsonOut &jsout ) const
     jsout.start_object();
 
     jsout.member( "moves_total", moves_total );
-    jsout.member( "book", book );
-    jsout.member( "ereader", ereader );
+    if( is_valid_book( book ) ) {
+        jsout.member( "book", book );
+    }
+    if( ereader ) {
+        jsout.member( "ereader", ereader );
+    }
     jsout.member( "using_ereader", using_ereader );
     jsout.member( "continuous", continuous );
     jsout.member( "learner_id", learner_id );
