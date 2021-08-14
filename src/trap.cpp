@@ -127,6 +127,7 @@ void trap::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "map_regen", map_regen, "none" );
     optional( jo, was_loaded, "benign", benign, false );
+    optional( jo, was_loaded, "danger_cost", danger_cost, benign ? 0 : 500 );
     optional( jo, was_loaded, "always_invisible", always_invisible, false );
     optional( jo, was_loaded, "funnel_radius", funnel_radius_mm, 0 );
     optional( jo, was_loaded, "comfort", comfort, 0 );

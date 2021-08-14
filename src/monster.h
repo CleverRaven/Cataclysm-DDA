@@ -25,6 +25,7 @@
 #include "type_id.h"
 #include "units_fwd.h"
 #include "value_ptr.h"
+#include "pathfinding.h"
 
 class Character;
 class JsonIn;
@@ -559,6 +560,9 @@ class monster : public Creature
         void set_summon_time( const time_duration &length );
         // handles removing the monster if the timer runs out
         void decrement_summon_timer();
+
+        int danger_cost( tripoint p ) const;
+
     private:
         void process_trigger( mon_trigger trig, int amount );
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
@@ -599,7 +603,6 @@ class monster : public Creature
         /** Processes monster-specific effects of an effect. */
         void process_one_effect( effect &it, bool is_new ) override;
 
-        int move_avoid_cost( tripoint p ) const;
 };
 
 #endif // CATA_SRC_MONSTER_H

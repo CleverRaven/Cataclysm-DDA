@@ -133,6 +133,7 @@ struct trap {
         int trap_radius = 0;
         bool benign = false;
         bool always_invisible = false;
+        int danger_cost = 500;
         // a valid overmap id, for map_regen action traps
         std::string map_regen;
         trap_function act;
@@ -211,7 +212,15 @@ struct trap {
          * onto it (e.g. for funnels).
          */
         bool is_benign() const {
-            return benign;
+            return danger_cost == 0;
+        }
+
+        /**
+         * If true, this is not really a trap and there won't be any safety queries before stepping
+         * onto it (e.g. for funnels).
+         */
+        int get_danger_cost() const {
+            return danger_cost;
         }
         /**
          * @return True for traps that can simply be taken down without any skill check or similar.

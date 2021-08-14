@@ -807,7 +807,7 @@ void monster::move()
                 ( path.empty() || rl_dist( pos(), path.front() ) >= 2 || path.back() != goal ) ) {
                 // We need a new path
                 path = here.route( pos(), goal, pf_settings, get_path_avoid(), [this]( const tripoint & p ) {
-                    return move_avoid_cost( p );
+                    return danger_cost( p );
                 } );
             }
 
@@ -2110,27 +2110,54 @@ void monster::shove_vehicle( const tripoint &remote_destination,
     }
 }
 
-int monster::move_avoid_cost( tripoint p ) const
+int monster::danger_cost( tripoint p ) const
 {
     map &here = get_map();
     // Various avoiding behaviors.
+
+    int cost = 0;
 
     bool avoid_fire = has_flag( MF_AVOID_FIRE );
     bool avoid_fall = has_flag( MF_AVOID_FALL );
     bool avoid_simple = has_flag( MF_AVOID_DANGER_1 );
     bool avoid_complex = has_flag( MF_AVOID_DANGER_2 );
     /*
-     * Because some avoidance behaviors are supersets of others,
-     * we can cascade through the implications. Complex implies simple,
-     * and simple implies fire and fall.
-     * unfortunately, fall does not necessarily imply fire, nor the converse.
-     */
+    * Because some avoidance behaviors are supersets of others,
+    * we can cascade through the implications. Complex implies simple,
+    * and simple implies fire and fall.
+    * unfortunately, fall does not necessarily imply fire, nor the converse.
+    */
     if( avoid_complex ) {
         avoid_simple = true;
     }
     if( avoid_simple ) {
         avoid_fire = true;
         avoid_fall = true;
+    }
+
+
+    // TODO: treat fire and electricity the same way as other field types
+    // check fields other than fire and electricity
+    const field &target_field = here.field_at( p );
+    if( avoid_complex && !target_field.find_field( fd_fire ) &&
+        !target_field.find_field( fd_electricity ) ) {
+        cost += get_fields_danger_cost( target_field );
+    } else {
+        // Without avoid_complex, only fire and electricity are checked for field avoidance.
+        if( avoid_fire && target_field.find_field( fd_fire ) ) {
+            return target_field.find_field( fd_fire )->danger_cost();
+        }
+        if( avoid_simple && target_field.find_field( fd_electricity ) ) {
+            return target_field.find_field( fd_electricity )->danger_cost();
+        }
+    }
+
+    // check traps
+    if( has_flag( MF_SEES ) && get_pathfinding_settings().avoid_traps ) {
+        const trap &target_trap = here.tr_at( p );
+        if( !target_trap.is_benign() ) {
+            cost += target_trap.get_danger_cost();
+        }
     }
 
     // technically this will shortcut in evaluation from fire or fall
@@ -2140,13 +2167,14 @@ int monster::move_avoid_cost( tripoint p ) const
 
         // Don't enter lava if we have any concept of heat being bad
         if( avoid_fire && target == t_lava ) {
-            return 1000;
+            // lava already counts as a trap, we just make extra sure not to step into it
+            cost += 500;
         }
 
         if( avoid_fall ) {
             // Don't throw ourselves off cliffs if we have a concept of falling
             if( !here.has_floor( p ) && !flies() ) {
-                return 500;
+                cost += 500;
             }
 
             // Don't enter open pits ever unless tiny, can fly or climb well
@@ -2161,32 +2189,9 @@ int monster::move_avoid_cost( tripoint p ) const
             // Sharp terrain is ignored while attacking
             if( avoid_simple && here.has_flag( "SHARP", p ) &&
                 !( type->size == creature_size::tiny || flies() ) ) {
-                return 200;
+                cost += 200;
             }
-        }
-
-        const field &target_field = here.field_at( p );
-
-        // Higher awareness is needed for identifying these as threats.
-        if( avoid_complex ) {
-            // Don't enter any dangerous fields
-            if( is_dangerous_fields( target_field ) ) {
-                return 500;
-            }
-            // Don't step on any traps (if we can see)
-            const trap &target_trap = here.tr_at( p );
-            if( has_flag( MF_SEES ) && !target_trap.is_benign() && here.has_floor( p ) ) {
-                return 500;
-            }
-        }
-
-        // Without avoid_complex, only fire and electricity are checked for field avoidance.
-        if( avoid_fire && target_field.find_field( fd_fire ) ) {
-            return 800;
-        }
-        if( avoid_simple && target_field.find_field( fd_electricity ) ) {
-            return 500;
         }
     }
-    return 0;
+    return cost;
 }

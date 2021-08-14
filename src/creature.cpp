@@ -232,6 +232,26 @@ bool Creature::is_dangerous_field( const field_entry &entry ) const
     return entry.is_dangerous() && !is_immune_field( entry.get_field_type() );
 }
 
+int Creature::get_fields_danger_cost( const field &fld ) const
+{
+    int danger = 0;
+    // Check each field to see if it's dangerous to us and add up the cost of crossing it
+    for( const auto &dfield : fld ) {
+        danger += get_field_danger_cost( dfield.second );
+    }
+    return danger;
+}
+
+int Creature::get_field_danger_cost( const field_entry &entry ) const
+{
+    // If it's dangerous and we're not immune return cost of crossing it anyway
+    if( is_immune_field( entry.get_field_type() ) ) {
+        return 0;
+    } else {
+        return entry.danger_cost();
+    }
+}
+
 bool Creature::sees( const Creature &critter ) const
 {
     // Creatures always see themselves (simplifies drawing).

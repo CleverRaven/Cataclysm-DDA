@@ -715,7 +715,7 @@ class map
         std::vector<tripoint> route( const tripoint &f, const tripoint &t,
                                      const pathfinding_settings &settings,
         const std::set<tripoint> &pre_closed = {{ }},
-        const std::function<int( const tripoint & )> &opportunity_cost = []( tripoint ) {
+        const std::function<int( const tripoint & )> &danger_cost = []( tripoint ) {
             return 0;
         } ) const;
 

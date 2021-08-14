@@ -485,6 +485,10 @@ class Creature : public location, public viewer
         bool is_dangerous_fields( const field &fld ) const;
         /** Returns true if the given field entry is dangerous to us. */
         bool is_dangerous_field( const field_entry &entry ) const;
+
+        int get_fields_danger_cost( const field &fld ) const;
+        int get_field_danger_cost( const field_entry &entry ) const;
+
         /** Returns true if we are immune to the field type with the given fid. Does not
          *  handle intensity, so this function should only be called through is_dangerous_field().
          */

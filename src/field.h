@@ -79,6 +79,8 @@ class field_entry
 
         std::vector<field_effect> field_effects() const;
 
+        int danger_cost() const;
+
     private:
         // The field identifier.
         field_type_id type;

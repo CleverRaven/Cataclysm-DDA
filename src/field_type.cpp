@@ -192,6 +192,8 @@ void field_type::load( const JsonObject &jo, const std::string & )
                   fallback_intensity_level.transparent );
         optional( jao, was_loaded, "dangerous", intensity_level.dangerous,
                   fallback_intensity_level.dangerous );
+        optional( jao, was_loaded, "danger_cost", intensity_level.danger_cost,
+                  intensity_level.dangerous ? 500 : 0 );
         optional( jao, was_loaded, "move_cost", intensity_level.move_cost,
                   fallback_intensity_level.move_cost );
         optional( jao, was_loaded, "extra_radiation_min", intensity_level.extra_radiation_min,

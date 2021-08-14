@@ -26,7 +26,12 @@ const field_intensity_level &field_entry::get_intensity_level() const
 
 bool field_entry::is_dangerous() const
 {
-    return get_intensity_level().dangerous;
+    return get_intensity_level().danger_cost > 0;
+}
+
+int field_entry::danger_cost() const
+{
+    return get_intensity_level().danger_cost;
 }
 
 field_type_id field_entry::get_field_type() const

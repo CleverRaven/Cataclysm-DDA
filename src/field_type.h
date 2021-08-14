@@ -90,6 +90,7 @@ struct field_intensity_level {
     uint32_t symbol = PERCENT_SIGN_UNICODE;
     nc_color color = c_white;
     bool dangerous = false;
+    int danger_cost = 0;
     bool transparent = true;
     int move_cost = 0;
     int extra_radiation_min = 0;
@@ -214,6 +215,7 @@ struct field_type {
     private:
         // any_of( intensity_levels::dangerous )
         bool dangerous = false;
+        int danger_cost = 0;
         // all_of( intensity_levels::transparent )
         bool transparent = false;
 
