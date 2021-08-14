@@ -765,9 +765,17 @@
     "id": "MARTIAL_ARTS2",
     "name": { "str": "Self-Defense Classes" },
     "points": 2,
-    "description": "You have taken some self-defense classes at a nearby gym.  You start with your choice of Capoeira, Krav Maga, Muay Thai, Ninjutsu, Wing Chun, or Zui Quan.",
+    "description": "You have taken some self-defense classes at a nearby gym.  You start with your choice of Boxing, Capoeira, Krav Maga, Muay Thai, Ninjutsu, Wing Chun, or Zui Quan.",
     "starting_trait": true,
-    "initial_ma_styles": [ "style_krav_maga", "style_muay_thai", "style_ninjutsu", "style_capoeira", "style_zui_quan", "style_wingchun" ],
+    "initial_ma_styles": [
+      "style_krav_maga",
+      "style_muay_thai",
+      "style_ninjutsu",
+      "style_capoeira",
+      "style_zui_quan",
+      "style_wingchun",
+      "style_boxing"
+    ],
     "valid": false
   },
   {
