@@ -3498,11 +3498,11 @@ bool Character::has_active_item( const itype_id &id ) const
 
 item Character::remove_weapon()
 {
-    item *tmp = get_wielded_weapon();
+    const item tmp = weapon;
     set_wielded_weapon( item() );
-    get_event_bus().send<event_type::character_wields_item>( getID(), tmp->typeId() );
+    get_event_bus().send<event_type::character_wields_item>( getID(), tmp.typeId() );
     cached_info.erase( "weapon_value" );
-    return *tmp;
+    return tmp;
 }
 
 void Character::remove_mission_items( int mission_id )
