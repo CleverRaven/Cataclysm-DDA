@@ -1539,6 +1539,11 @@ void reset_effect_types()
     effect_types.clear();
 }
 
+const std::map<efftype_id, effect_type> &get_effect_types()
+{
+    return effect_types;
+}
+
 void effect_type::register_ma_buff_effect( const effect_type &eff )
 {
     if( eff.id.is_valid() ) {

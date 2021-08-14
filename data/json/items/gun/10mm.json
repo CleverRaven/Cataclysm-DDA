@@ -294,12 +294,12 @@
     "copy-from": "pistol_base",
     "looks_like": "glock_19",
     "type": "GUN",
-    "name": { "str": "XD(M) pistol" },
-    "description": "A semi-automatic pistol chambered in 10mm, and accepting XD(M) magazines",
+    "name": { "str": "XD-M pistol" },
+    "description": "A semi-automatic pistol chambered in 10mm, and accepting XD-M magazines",
     "variants": [
       {
         "id": "xd_10",
-        "name": { "str": "XD(M) Competition 10mm" },
+        "name": { "str": "XD-M Competition 10mm" },
         "description": "Designed by HS Produkt in Croatia, the HS2000 has become a commercial success for Springfield Armory, who imports and markets it as the eXtreme Duty.  The XD has since been offered in a variety of chamberings and sizes, including this full-sized match grade variant in 10mm Auto.",
         "weight": 1
       }

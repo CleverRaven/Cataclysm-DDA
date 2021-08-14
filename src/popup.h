@@ -261,17 +261,19 @@ class query_popup
 /**
  * Create a popup on the UI stack that gets displayed but receives no input itself.
  * Call ui_manager::redraw() to redraw the popup along with other UIs on the stack,
- * and refresh_display() to force refresh the display if not receiving input after
- * redraw. The popup stays on the UI stack until its lifetime ends.
+ * and refresh_display() plus inp_mngr.pump_events() to force refresh the display
+ * and handle window events if not receiving input after redraw. The popup stays
+ * on the UI stack until its lifetime ends.
  *
  * Example:
  *
  * if( not_loaded ) {
  *     static_popup popup;
- *     popup.message( "Please wait…" );
  *     while( loading ) {
+ *         popup.message( _( "Please wait…  %d%% complete" ), percentage );
  *         ui_manager::redraw();
  *         refresh_display(); // force redraw since we're not receiving input here
+ *         inp_mngr.pump_events(); // handle window events such as resize
  *         load_part();
  *     }
  * }

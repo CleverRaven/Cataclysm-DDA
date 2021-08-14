@@ -762,6 +762,7 @@ const recipe *select_crafting_recipe( int &batch_size_out )
                     popup.message( _( "Searching… %3.0f%%\n" ), percent );
                     ui_manager::redraw();
                     refresh_display();
+                    inp_mngr.pump_events();
                 };
 
                 std::vector<const recipe *> picking;

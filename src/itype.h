@@ -91,6 +91,10 @@ class gunmod_location
         bool operator<( const gunmod_location &rhs ) const {
             return _id < rhs._id;
         }
+
+        void deserialize( JsonIn &jsin ) {
+            _id = jsin.get_string();
+        }
 };
 
 struct islot_tool {
@@ -163,6 +167,9 @@ struct islot_comestible {
 
         /** freezing point in degrees celsius, below this temperature item can freeze */
         float freeze_point = 0;
+
+        /**effect on conditions to apply on consumption*/
+        std::vector<effect_on_condition_id> consumption_eocs;
 
         /**List of diseases carried by this comestible and their associated probability*/
         std::map<diseasetype_id, int> contamination;
@@ -819,6 +826,7 @@ struct islot_seed {
 enum condition_type {
     FLAG,
     COMPONENT_ID,
+    VAR,
     num_condition_types
 };
 

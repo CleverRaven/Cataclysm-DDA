@@ -978,6 +978,7 @@ Other monster flags.
 - ```SMALLSLUDGETRAIL``` Causes the monster to occasionally leave a 1-tile sludge trail when moving.
 - ```SMELLS``` It can smell you.
 - ```STUMBLES``` Stumbles in its movement.
+- ```STUN_IMMUNE``` - This monster is immune to stun.
 - ```SUNDEATH``` Dies in full sunlight.
 - ```SWARMS``` Groups together and forms loose packs.
 - ```SWIMS``` Treats water as 50 movement point terrain.
@@ -1112,6 +1113,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 
 #### Flags
 
+- ```HARDTOHIT``` Whenever something attacks you, RNG gets rolled twice and you get the better result.
 - ```UNARMED_BONUS``` You get a bonus to unarmed bash and cut damage equal to unarmed_skill/2 up to 4.
 
 ### Categories
