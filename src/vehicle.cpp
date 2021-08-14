@@ -5192,11 +5192,6 @@ void vehicle::idle( bool on_map )
         if( idle_rate < 10 ) {
             idle_rate = 10;    // minimum idle is 1% of full throttle
         }
-        // helicopters use basically nearly all of their power just to hover.
-        // it becomes more efficient the closer they reach their safe cruise speed.
-        if( is_rotorcraft() && is_flying_in_air() ) {
-            idle_rate = 1000;
-        }
         if( has_engine_type_not( fuel_type_muscle, true ) ) {
             consume_fuel( idle_rate, true );
         }
