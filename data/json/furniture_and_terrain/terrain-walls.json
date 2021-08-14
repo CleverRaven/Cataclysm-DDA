@@ -447,6 +447,28 @@
   },
   {
     "type": "terrain",
+    "id": "t_wall_metal_corrugated",
+    "alias": [ "t_wall_metal_corrugated_h", "t_wall_metal_corrugated_v" ],
+    "name": "corrugated metal wall",
+    "description": "A wall made from a thin sheet of corrugated steel held in a frame, weather and wind proof but not very insulating or durable.",
+    "looks_like": "t_metal_wall",
+    "symbol": "LINE_OXOX",
+    "color": "cyan",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_metal_flat_roof",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_null",
+      "items": [ { "item": "steel_chunk", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 3, 12 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_wall_bulkhead",
     "name": "bulkhead",
     "description": "An industrially fabricated thick sheet carefully positioned, this wall is capable of resisting extreme elements as well as hostile forces.",
@@ -571,7 +593,7 @@
       "str_max": 100,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "ter_set": "t_pit",
+      "ter_set": "t_thconc_floor",
       "items": [ { "item": "scrap", "count": [ 4, 12 ] }, { "item": "rebar", "count": [ 0, 4 ] } ]
     }
   },

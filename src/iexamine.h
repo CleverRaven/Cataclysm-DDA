@@ -153,7 +153,13 @@ ret_val<bool> can_fertilize( player &p, const tripoint &tile, const itype_id &fe
 // Skill training common functions
 void practice_survival_while_foraging( player *p );
 
-} //namespace iexamine
+} // namespace iexamine
+
+namespace iexamine_helper
+{
+bool drink_nectar( player &p );
+void handle_harvest( player &p, const std::string &itemid, bool force_drop );
+} // namespace iexamine_helper
 
 using iexamine_function = void ( * )( player &, const tripoint & );
 iexamine_function iexamine_function_from_string( const std::string &function_name );

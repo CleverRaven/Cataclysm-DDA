@@ -28,21 +28,6 @@
   {
     "type": "recipe",
     "activity_level": "fake",
-    "result": "afs_sungel",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_MEDICAL",
-    "skill_used": "firstaid",
-    "difficulty": 2,
-    "time": 20000,
-    "autolearn": true,
-    "batch_time_factors": [ 99, 1 ],
-    "qualities": [ { "id": "CHEM", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "afs_sundew", 1 ] ], [ [ "morphine", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "fake",
     "result": "cream_prot_cold",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_DRUGS",

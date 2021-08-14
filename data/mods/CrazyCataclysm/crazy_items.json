@@ -51,7 +51,7 @@
     "description": "A powerful ion energy generator is implanted on your chest.  Fires a powerful, ever-expanding energy blast.  The resulting blast ignites oxygen creating fires as it moves and an explosion on impact.  Close range use is highly discouraged.",
     "occupied_bodyparts": [ [ "torso", 20 ] ],
     "act_cost": 500,
-    "fake_item": "bio_ion_gun",
+    "fake_weapon": "bio_ion_gun",
     "flags": [ "BIONIC_GUN" ]
   },
   {
@@ -76,7 +76,7 @@
     "loudness": 50,
     "reload": 0,
     "ammo_effects": [ "PLASMA", "EXPLOSIVE_HUGE", "STREAM_BIG", "INCENDIARY", "WIDE" ],
-    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "TRADER_AVOID" ]
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "TRADER_AVOID", "USES_BIONIC_POWER" ]
   },
   {
     "id": "yeet_cannon",

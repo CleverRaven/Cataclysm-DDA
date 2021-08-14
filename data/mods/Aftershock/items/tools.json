@@ -25,6 +25,15 @@
     "flags": [ "WATCH", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
+    "type": "AMMO",
+    "id": "clearcrete_chunk",
+    "copy-from": "rock",
+    "name": { "str": "clearcrete chunk" },
+    "category": "other",
+    "description": "A broken chunk of clearcrete.  Basically a clear rock.",
+    "material": [ "clearcrete" ]
+  },
+  {
     "id": "afs_atomic_smartphone_music",
     "copy-from": "afs_atomic_smartphone",
     "type": "TOOL",

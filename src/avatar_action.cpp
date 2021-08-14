@@ -145,6 +145,15 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         }
         return false;
     }
+
+    // If any leg broken without crutches and not already on the ground topple over
+    if( ( you.get_working_leg_count() < 2 && !you.weapon.has_flag( flag_CRUTCHES ) ) &&
+        !you.is_prone() ) {
+        you.set_movement_mode( move_mode_id( "prone" ) );
+        you.add_msg_if_player( m_bad,
+                               _( "Your broken legs can't hold your weight and you fall down in pain." ) );
+    }
+
     const bool is_riding = you.is_mounted();
     tripoint dest_loc;
     if( d.z == 0 && you.has_effect( effect_stunned ) ) {

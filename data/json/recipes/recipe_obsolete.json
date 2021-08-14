@@ -2942,5 +2942,10 @@
     "type": "recipe",
     "result": "gloves_xlsurvivor",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rope_makeshift_30",
+    "obsolete": true
   }
 ]
