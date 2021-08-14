@@ -2322,7 +2322,11 @@ void talk_effect_fun_t::set_queue_effect_on_condition( const JsonObject &jo,
         if( time_in_future_max > 0_seconds ) {
             time_duration time_in_future = rng( time_in_future_min, time_in_future_max );
             for( const effect_on_condition_id &eoc : eocs ) {
-                effect_on_conditions::queue_effect_on_condition( time_in_future, eoc );
+                if( eoc->activate_only ) {
+                    effect_on_conditions::queue_effect_on_condition( time_in_future, eoc );
+                } else {
+                    debugmsg( "Cannot queue a recurring effect_on_condition." );
+                }
             }
         } else {
             dialogue newDialog;
@@ -2364,7 +2368,11 @@ void talk_effect_fun_t::set_weighted_list_eocs( const JsonObject &jo,
         }
         eocs.add( eoc, weight );
     }
-    function = [&eocs]( const dialogue & ) {
+    function = [eocs]( const dialogue & ) {
+        if( !eocs.is_valid() ) {
+            debugmsg( "Invalid id array." );
+            return;
+        }
         dialogue d;
         static standard_npc default_npc( "Default" );
         d.alpha = get_talker_for( get_avatar() );
