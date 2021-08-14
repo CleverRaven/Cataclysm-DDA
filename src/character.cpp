@@ -5507,7 +5507,7 @@ void Character::update_health( int external_modifiers )
 
     // And healthy_mod decays over time.
     // Slowly near 0, but it's hard to overpower it near +/-100
-    set_healthy_mod( std::round( get_healthy_mod() * 0.95f ) );
+    set_healthy_mod( roll_remainder( get_healthy_mod() * 0.95f ) );
 
     add_msg_debug( "Health: %d, Health mod: %d", get_healthy(), get_healthy_mod() );
 }
