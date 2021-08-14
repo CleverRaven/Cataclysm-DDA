@@ -87,7 +87,17 @@
     "loudness": 2,
     "range": 6,
     "dispersion": 150,
-    "durability": 8
+    "durability": 8,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "rigid": true,
+        "max_contains_volume": "200 L",
+        "max_contains_weight": "400 kg",
+        "max_item_length": "2000 m",
+        "ammo_restriction": { "rock": 5 }
+      }
+    ]
   },
   {
     "id": "v29_turret",
