@@ -1031,6 +1031,10 @@ void Character::store( JsonOut &json ) const
 {
     Creature::store( json );
 
+    if( !weapon.is_null() ) {
+        json.member( "weapon", weapon ); // also saves contents
+    }
+
     // stat
     json.member( "str_cur", str_cur );
     json.member( "str_max", str_max );
