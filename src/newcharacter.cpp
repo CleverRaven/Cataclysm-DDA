@@ -204,31 +204,35 @@ static int has_unspent_points( const avatar &u )
 
 static std::string pools_to_string( const avatar &u, points_left::point_limit pool )
 {
-    if( pool == points_left::MULTI_POOL ) {
-        int stat_points = stat_point_pool - stat_points_used( u );
-        int trait_points = trait_point_pool - trait_points_used( u );
-        int skill_points = skill_point_pool - skill_points_used( u );
-        int stat_points_left = stat_points + std::min( 0, trait_points + std::min( 0, skill_points ) );
-        int trait_points_left = stat_points + trait_points + std::min( 0, skill_points );
-        int skill_points_left = stat_points + trait_points + skill_points;
-        bool is_valid = stat_points_left >= 0 && trait_points_left >= 0 && skill_points_left >= 0;
-        return string_format(
-                   _( "Points left: <color_%s>%d</color>%c<color_%s>%d</color>%c<color_%s>%d</color>=<color_%s>%d</color>" ),
-                   stat_points_left >= 0 ? "light_gray" : "red", stat_points,
-                   trait_points >= 0 ? '+' : '-',
-                   trait_points_left >= 0 ? "light_gray" : "red", std::abs( trait_points ),
-                   skill_points >= 0 ? '+' : '-',
-                   skill_points_left >= 0 ? "light_gray" : "red", std::abs( skill_points ),
-                   is_valid ? "light_gray" : "red", skill_points_left );
-    } else if( pool == points_left::ONE_POOL ) {
-        int used = stat_points_used( u ) + trait_points_used( u ) + skill_points_used( u );
-        int total = stat_point_pool + trait_point_pool + skill_point_pool;
-        return string_format( _( "Points left: %4d" ), total - used );
-    } else if( pool == points_left::TRANSFER ) {
-        return _( "Character Transfer: No changes can be made." );
-    } else {
-        return _( "Freeform" );
+    switch( pool ) {
+        case points_left::MULTI_POOL: {
+            int stat_points = stat_point_pool - stat_points_used( u );
+            int trait_points = trait_point_pool - trait_points_used( u );
+            int skill_points = skill_point_pool - skill_points_used( u );
+            int stat_points_left = stat_points + std::min( 0, trait_points + std::min( 0, skill_points ) );
+            int trait_points_left = stat_points + trait_points + std::min( 0, skill_points );
+            int skill_points_left = stat_points + trait_points + skill_points;
+            bool is_valid = stat_points_left >= 0 && trait_points_left >= 0 && skill_points_left >= 0;
+            return string_format(
+                       _( "Points left: <color_%s>%d</color>%c<color_%s>%d</color>%c<color_%s>%d</color>=<color_%s>%d</color>" ),
+                       stat_points_left >= 0 ? "light_gray" : "red", stat_points,
+                       trait_points >= 0 ? '+' : '-',
+                       trait_points_left >= 0 ? "light_gray" : "red", std::abs( trait_points ),
+                       skill_points >= 0 ? '+' : '-',
+                       skill_points_left >= 0 ? "light_gray" : "red", std::abs( skill_points ),
+                       is_valid ? "light_gray" : "red", skill_points_left );
+        }
+        case points_left::ONE_POOL: {
+            int used = stat_points_used( u ) + trait_points_used( u ) + skill_points_used( u );
+            int total = stat_point_pool + trait_point_pool + skill_point_pool;
+            return string_format( _( "Points left: %4d" ), total - used );
+        }
+        case points_left::TRANSFER:
+            return _( "Character Transfer: No changes can be made." );
+        case points_left::FREEFORM:
+            return _( "Freeform" );
     }
+    return "If you see this, this is a bug";
 }
 
 points_left::points_left()
