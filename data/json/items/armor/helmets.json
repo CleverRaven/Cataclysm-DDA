@@ -520,7 +520,7 @@
     "repairs_like": "nomex_hood",
     "type": "TOOL_ARMOR",
     "category": "armor",
-    "name": { "str": "motorcycle helmet (raised visor)", "str_pl": "motorcycle helmet (raised visor)" },
+    "name": { "str": "motorcycle helmet (raised visor)", "str_pl": "motorcycle helmets (raised visor)" },
     "description": "A helmet with covers for your head and chin, leaving space in-between for you to wear goggles.  The visor is raised.  Activate to put down the visor.",
     "weight": "1587 g",
     "volume": "2250 ml",
