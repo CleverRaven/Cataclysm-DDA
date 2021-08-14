@@ -868,6 +868,7 @@
     "material": [ "steel", "iron" ],
     "weight": "22680 g",
     "volume": "6250 ml",
+    "longest_side": "1 meter",
     "bashing": 6,
     "to_hit": -4
   },
