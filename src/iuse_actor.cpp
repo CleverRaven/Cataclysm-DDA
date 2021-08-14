@@ -2170,8 +2170,29 @@ void learn_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
     }
     dump.emplace_back( "DESCRIPTION", message );
     dump.emplace_back( "DESCRIPTION", _( "Spells Contained:" ) );
-    for( const std::string &sp : spells ) {
-        dump.emplace_back( "SPELL", spell_id( sp ).obj().name.translated() );
+    avatar &pc = get_avatar();
+    std::string spell_text;
+    for( const std::string &sp_id_str : spells ) {
+        const spell_id sp_id( sp_id_str );
+        spell_text = sp_id.obj().name.translated();
+        if( pc.has_trait( trait_id( "ILLITERATE" ) ) ) {
+            dump.emplace_back( "SPELL", spell_text );
+        } else {
+            if( pc.magic->knows_spell( sp_id ) ) {
+                const spell sp = pc.magic->get_spell( sp_id );
+                spell_text += ": " + string_format( _( "Level %u" ), sp.get_level() );
+                if( sp.is_max_level() ) {
+                    spell_text = "<color_light_green>" + spell_text + _( " (Max)" ) + "</color>";
+                } else {
+                    spell_text = "<color_yellow>" + spell_text + "</color>";
+                }
+            } else {
+                if( pc.magic->can_learn_spell( pc, sp_id ) ) {
+                    spell_text = "<color_light_blue>" + spell_text + "</color>";
+                }
+            }
+            dump.emplace_back( "SPELL", spell_text );
+        }
     }
 }
 
