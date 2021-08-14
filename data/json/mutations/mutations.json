@@ -2832,7 +2832,8 @@
     "types": [ "CLAWS" ],
     "prereqs": [ "NAILS" ],
     "cancels": [ "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8" ],
-    "category": [ "LIZARD", "BIRD", "CHIMERA" ]
+    "category": [ "LIZARD", "BIRD", "CHIMERA" ],
+    "allowed_items": [ "ALLOWS_TALONS" ]
   },
   {
     "type": "mutation",

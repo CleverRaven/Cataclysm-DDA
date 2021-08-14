@@ -215,7 +215,7 @@
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ]
   },
   {
     "id": "xl_gauntlets_larmor",
@@ -243,7 +243,7 @@
     "coverage": 70,
     "encumbrance": 7,
     "material_thickness": 0.01,
-    "flags": [ "WATERPROOF", "OVERSIZE", "OUTER" ]
+    "flags": [ "WATERPROOF", "OVERSIZE", "OUTER", "ALLOWS_TALONS" ]
   },
   {
     "id": "gloves_fingerless",
@@ -263,7 +263,7 @@
     "coverage": 50,
     "warmth": 10,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ]
   },
   {
     "id": "gloves_fingerless_mod",
@@ -285,7 +285,7 @@
     "encumbrance": 3,
     "warmth": 5,
     "material_thickness": 0.5,
-    "flags": [ "VARSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "VARSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ]
   },
   {
     "id": "gloves_fsurvivor",
@@ -538,7 +538,7 @@
     "warmth": 12,
     "material_thickness": 2,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ]
   },
   {
     "id": "xl_gloves_survivor_fingerless",
@@ -784,7 +784,7 @@
     "coverage": 50,
     "warmth": 5,
     "material_thickness": 2,
-    "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ]
   },
   {
     "id": "gloves_wraps_fur",
@@ -805,7 +805,7 @@
     "encumbrance": 5,
     "warmth": 20,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ]
   },
   {
     "id": "gloves_wraps_leather",
@@ -826,7 +826,7 @@
     "encumbrance": 5,
     "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ]
   },
   {
     "id": "gloves_wraps_wool",
@@ -847,7 +847,7 @@
     "encumbrance": 2,
     "warmth": 15,
     "material_thickness": 2,
-    "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ]
   },
   {
     "id": "gloves_wsurvivor",
@@ -986,7 +986,7 @@
     "coverage": 40,
     "warmth": 5,
     "material_thickness": 0.2,
-    "flags": [ "VARSIZE", "SKINTIGHT", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "ALLOWS_NATURAL_ATTACKS", "ALLOWS_TALONS" ]
   },
   {
     "id": "stockings_tent_arms",
