@@ -110,10 +110,7 @@ static npc &prep_test( dialogue &d )
     g->faction_manager_ptr->create_if_needed();
 
     npc &beta = create_test_talker();
-
-    d.alpha = get_talker_for( player_character );
-    d.beta = get_talker_for( beta );
-
+    d = dialogue( get_talker_for( player_character ), get_talker_for( beta ) );
     return beta;
 }
 

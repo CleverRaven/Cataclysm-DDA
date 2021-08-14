@@ -1507,14 +1507,12 @@ void spell_effect::effect_on_condition( const spell &sp, Creature &caster, const
 {
     const std::set<tripoint> area = spell_effect_area( sp, target, caster );
 
-    dialogue d;
-    d.beta = get_talker_for( caster );
-
     for( const tripoint &potential_target : area ) {
         if( !sp.is_valid_target( caster, potential_target ) ) {
             continue;
         }
-        d.alpha = get_talker_for( g->critter_at<Creature>( potential_target ) );
+        dialogue d( get_talker_for( g->critter_at<Creature>( potential_target ) ),
+                    get_talker_for( caster ) );
         effect_on_condition_id( sp.effect_data() )->activate( d );
     }
 }

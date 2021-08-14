@@ -530,14 +530,9 @@ bool mission_type::parse_funcs( const JsonObject &jo, std::function<void( missio
     talk_effect_t talk_effects;
     talk_effects.load_effect( jo, "effect" );
     phase_func = [ funcs, talk_effects ]( mission * miss ) {
-        ::dialogue d;
-        npc *beta = g->find_npc( miss->get_npc_id() );
-        standard_npc default_npc( "Default" );
-        if( beta == nullptr ) {
-            beta = &default_npc;
-        }
-        d.alpha = get_talker_for( get_avatar() );
-        d.beta = get_talker_for( beta );
+        npc *beta_npc = g->find_npc( miss->get_npc_id() );
+        ::dialogue d( get_talker_for( get_avatar() ),
+                      beta_npc == nullptr ? nullptr : get_talker_for( beta_npc ) );
         for( const talk_effect_fun_t &effect : talk_effects.effects ) {
             effect( d );
         }

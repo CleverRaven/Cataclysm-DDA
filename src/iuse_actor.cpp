@@ -4552,17 +4552,15 @@ void effect_on_conditons_actor::info( const item &, std::vector<iteminfo> &dump 
 cata::optional<int> effect_on_conditons_actor::use( player &p, item &it, bool,
         const tripoint & ) const
 {
-    dialogue d;
-    standard_npc default_npc( "Default" );
+    Character *char_ptr = nullptr;
     if( avatar *u = p.as_avatar() ) {
-        d.alpha = get_talker_for( u );
+        char_ptr = u;
     } else if( npc *n = p.as_npc() ) {
-        d.alpha = get_talker_for( n );
+        char_ptr = n;
     }
 
     item_location loc( *( p.as_character() ), &it );
-    d.beta = get_talker_for( loc );
-
+    dialogue d( get_talker_for( char_ptr ), get_talker_for( loc ) );
     for( const effect_on_condition_id &eoc : eocs ) {
         eoc->activate( d );
     }
