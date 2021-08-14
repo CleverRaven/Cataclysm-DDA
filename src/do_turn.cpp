@@ -585,6 +585,9 @@ void handle_key_blocking_activity()
             ui_manager::redraw();
             refresh_display();
         }
+    } else {
+        refresh_display();
+        inp_mngr.pump_events();
     }
 }
 
