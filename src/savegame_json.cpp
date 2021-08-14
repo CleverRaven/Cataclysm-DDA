@@ -675,10 +675,10 @@ void Character::load( const JsonObject &data )
         const auto &tid = *it;
         if( tid.is_valid() ) {
             ++it;
-            // Remove after 0.F
-        } else if( tid == trait_id( "PROF_HELI_PILOT" ) ) {
+            // Remove after 0.G
+        } else if( tid == trait_id( "PARKOUR" ) ) {
             it = my_traits.erase( it );
-            add_proficiency( proficiency_id( "prof_helicopter_pilot" ) );
+            add_proficiency( proficiency_id( "prof_parkour" ) );
         } else {
             debugmsg( "character %s has invalid trait %s, it will be ignored", name, tid.c_str() );
             my_traits.erase( it++ );
@@ -693,10 +693,10 @@ void Character::load( const JsonObject &data )
             on_mutation_gain( mid );
             cached_mutations.push_back( &mid.obj() );
             ++it;
-            // Remove after 0.F
-        } else if( mid == trait_id( "PROF_HELI_PILOT" ) ) {
+            // Remove after 0.G
+        } else if( mid == trait_id( "PARKOUR" ) ) {
             it = my_mutations.erase( it );
-            add_proficiency( proficiency_id( "prof_helicopter_pilot" ) );
+            add_proficiency( proficiency_id( "prof_parkour" ) );
         } else {
             debugmsg( "character %s has invalid mutation %s, it will be ignored", name, mid.c_str() );
             it = my_mutations.erase( it );

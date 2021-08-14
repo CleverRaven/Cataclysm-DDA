@@ -345,7 +345,6 @@ static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PADDED_FEET( "PADDED_FEET" );
 static const trait_id trait_PAINRESIST( "PAINRESIST" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
-static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_PAWS( "PAWS" );
 static const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
@@ -425,6 +424,7 @@ static const morale_type morale_nightmare( "morale_nightmare" );
 
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
+static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
 
 namespace io
 {
@@ -12284,6 +12284,11 @@ int Character::run_cost( int base_cost, bool diag ) const
     if( !is_mounted() ) {
         if( movecost > 105 ) {
             movecost *= mutation_value( "movecost_obstacle_modifier" );
+
+            if( has_proficiency( proficiency_prof_parkour ) ) {
+                movecost *= .5;
+            }
+
             if( movecost < 100 ) {
                 movecost = 100;
             }
@@ -14225,7 +14230,7 @@ float Character::fall_damage_mod() const
     // 100% damage at 0, 75% at 10, 50% at 20 and so on
     ret *= ( 100.0f - ( dex_dodge * 4.0f ) ) / 100.0f;
 
-    if( has_trait( trait_PARKOUR ) ) {
+    if( has_proficiency( proficiency_prof_parkour ) ) {
         ret *= 2.0f / 3.0f;
     }
 
