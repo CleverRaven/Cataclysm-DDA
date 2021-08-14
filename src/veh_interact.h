@@ -97,6 +97,7 @@ class veh_interact
         catacurses::window w_details;
         catacurses::window w_name;
 
+        bool ui_hidden = false;
         weak_ptr_fast<ui_adaptor> ui;
 
         cata::optional<std::string> title;
@@ -122,6 +123,7 @@ class veh_interact
         units::mass max_jack;
 
         shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
+        void hide_ui( bool hide );
 
         player_activity serialize_activity();
 

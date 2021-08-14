@@ -362,11 +362,18 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
     if( !current_ui ) {
         ui = current_ui = make_shared_fast<ui_adaptor>();
         current_ui->on_screen_resize( [this]( ui_adaptor & current_ui ) {
+            if( ui_hidden ) {
+                current_ui.position( point_zero, point_zero );
+                return;
+            }
             allocate_windows();
             current_ui.position_from_window( catacurses::stdscr );
         } );
         current_ui->mark_resize();
         current_ui->on_redraw( [this]( const ui_adaptor & ) {
+            if( ui_hidden ) {
+                return;
+            }
             display_grid();
             display_name();
             display_stats();
@@ -425,6 +432,14 @@ shared_ptr_fast<ui_adaptor> veh_interact::create_or_get_ui_adaptor()
         } );
     }
     return current_ui;
+}
+
+void veh_interact::hide_ui( const bool hide )
+{
+    if( hide != ui_hidden ) {
+        ui_hidden = hide;
+        create_or_get_ui_adaptor()->mark_resize();
+    }
 }
 
 void veh_interact::do_main_loop()
@@ -1906,6 +1921,10 @@ void veh_interact::do_siphon()
     };
 
     auto act = [&]( const vehicle_part & pt ) {
+        on_out_of_scope restore_ui( [&]() {
+            hide_ui( false );
+        } );
+        hide_ui( true );
         const item &base = pt.get_base();
         const int idx = veh->find_part( base );
         item liquid( base.contents.legacy_front() );
