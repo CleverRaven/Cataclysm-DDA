@@ -18,7 +18,7 @@
     "qualities": [ [ "PRY", 3 ], [ "HAMMER", 1 ] ],
     "use_action": [ "HAMMER", "CROWBAR" ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "BELT_CLIP" ]
+    "flags": [ "BELT_CLIP", "DURABLE_MELEE" ]
   },
   {
     "id": "crude_picklock",
