@@ -343,6 +343,19 @@
     "looks_like": "leather_belt",
     "color": "yellow",
     "covers": [ "torso" ],
+    "coverage": 5,
+    "material_thickness": 1.5,
+    "pocket_data": [
+      {
+        "holster": true,
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "1000 g",
+        "max_item_length": "70 cm",
+        "moves": 60,
+        "flag_restriction": [ "BELT_CLIP" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Store tool or blade", "holster_msg": "You put your %1$s in your %2$s" },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   }
 ]
