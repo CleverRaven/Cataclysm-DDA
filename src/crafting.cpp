@@ -465,8 +465,8 @@ static std::vector<const item *> get_eligible_containers_recursive( const item &
 std::vector<const item *> Character::get_eligible_containers_for_crafting() const
 {
     std::vector<const item *> conts;
-
-    conts = get_eligible_containers_recursive( weapon, true );
+    const item *weapon = get_wielded_weapon();
+    conts = get_eligible_containers_recursive( *weapon, true );
 
     for( const auto &it : worn ) {
         std::vector<const item *> eligible = get_eligible_containers_recursive( it, false );
@@ -637,13 +637,14 @@ static void set_components( std::list<item> &components, const std::list<item> &
 
 static cata::optional<item_location> wield_craft( Character &p, item &craft )
 {
+    item *weapon = p.get_wielded_weapon();
     if( p.wield( craft ) ) {
-        if( p.weapon.invlet ) {
-            p.add_msg_if_player( m_info, _( "Wielding %c - %s" ), p.weapon.invlet, p.weapon.display_name() );
+        if( weapon->invlet ) {
+            p.add_msg_if_player( m_info, _( "Wielding %c - %s" ), weapon->invlet, weapon->display_name() );
         } else {
-            p.add_msg_if_player( m_info, _( "Wielding - %s" ), p.weapon.display_name() );
+            p.add_msg_if_player( m_info, _( "Wielding - %s" ), weapon->display_name() );
         }
-        return item_location( p, &p.weapon );
+        return item_location( p, weapon );
     }
     return cata::nullopt;
 }
@@ -1660,7 +1661,7 @@ static void empty_buckets( Character &p )
 {
     // First grab (remove) all items that are non-empty buckets and not wielded
     auto buckets = p.remove_items_with( [&p]( const item & it ) {
-        return it.is_bucket_nonempty() && &it != &p.weapon;
+        return it.is_bucket_nonempty() && &it != p.get_wielded_weapon();
     }, INT_MAX );
     for( auto &it : buckets ) {
         for( const item *in : it.all_items_top() ) {

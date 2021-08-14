@@ -2155,7 +2155,12 @@ class Character : public Creature, public visitable
         cata::optional<tripoint> destination_point;
         pimpl<inventory> inv;
         itype_id last_item;
+    private:
         item weapon;
+    public:
+        const item *get_wielded_weapon() const;
+        item *get_wielded_weapon();
+        void set_wielded_weapon( item to_wield );
 
         int scent = 0;
         pimpl<bionic_collection> my_bionics;

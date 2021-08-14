@@ -557,8 +557,8 @@ std::vector<npc_attack_rating> npc_attack_activate_item::all_evaluations( const 
 
 void npc_attack_throw::use( npc &source, const tripoint &location ) const
 {
-    if( !source.is_wielding( source.weapon ) ) {
-        if( !source.wield( source.weapon ) ) {
+    if( !source.is_wielding( *source.get_wielded_weapon() ) ) {
+        if( !source.wield( *source.get_wielded_weapon() ) ) {
             debugmsg( "ERROR: npc tried to equip a weapon it couldn't wield" );
         }
         return;
@@ -576,10 +576,10 @@ void npc_attack_throw::use( npc &source, const tripoint &location ) const
     }
 
     add_msg_debug( debugmode::debug_filter::DF_NPC, "%s throws the %s", source.disp_name(),
-                   source.weapon.display_name() );
-    item thrown( source.weapon );
-    if( source.weapon.count_by_charges() && source.weapon.charges > 1 ) {
-        source.weapon.mod_charges( -1 );
+                   source.get_wielded_weapon()->display_name() );
+    item thrown( *source.get_wielded_weapon() );
+    if( source.get_wielded_weapon()->count_by_charges() && source.get_wielded_weapon()->charges > 1 ) {
+        source.get_wielded_weapon()->mod_charges( -1 );
         thrown.charges = 1;
     } else {
         source.remove_weapon();
