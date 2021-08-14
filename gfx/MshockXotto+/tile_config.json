@@ -5829,6 +5829,96 @@
         { "id": "tr_temple_flood", "fg": 4435 },
         { "id": "tr_tripwire", "bg": 4422, "rotates": false },
         {
+          "id": [ "vp_halfboard_cover_right", "vp_halfboard_cover_left" ],
+          "fg": [ 4485, 4488, 4487, 4486 ],
+          "multitile": true,
+          "additional_tiles": [ { "id": "broken", "fg": 4681, "bg": [ 4485, 4488, 4487, 4486 ] } ]
+        },
+        {
+          "id": "vp_halfboard_hatch_wheel_left",
+          "fg": [ 4505, 4508, 4507, 4506 ],
+          "multitile": true,
+          "additional_tiles": [ { "id": "broken", "fg": 4681, "bg": [ 4505, 4508, 4507, 4506 ] } ]
+        },
+        {
+          "id": "vp_halfboard_hatch_wheel_right",
+          "fg": [ 4501, 4504, 4503, 4502 ],
+          "multitile": true,
+          "additional_tiles": [ { "id": "broken", "fg": 4681, "bg": [ 4501, 4504, 4503, 4502 ] } ]
+        },
+        {
+          "id": "vp_halfboard_wheel_left",
+          "fg": [ 4516, 4518, 4519, 4517 ],
+          "multitile": true,
+          "additional_tiles": [ { "id": "broken", "fg": 4681, "bg": [ 4516, 4518, 4519, 4517 ] } ]
+        },
+        {
+          "id": "vp_halfboard_wheel_right",
+          "fg": [ 4519, 4517, 4516, 4518 ],
+          "multitile": true,
+          "additional_tiles": [ { "id": "broken", "fg": 4681, "bg": [ 4519, 4517, 4516, 4518 ] } ]
+        },
+        {
+          "id": [ "vp_board_wheel_left", "vp_board_nw_edge" ],
+          "fg": [ 4468, 4470, 4471, 4469 ],
+          "multitile": true,
+          "additional_tiles": [ { "id": "broken", "fg": 4681, "bg": [ 4468, 4470, 4471, 4469 ] } ]
+        },
+        {
+          "id": [ "vp_board_wheel_right", "vp_board_ne_edge" ],
+          "fg": [ 4471, 4469, 4468, 4470 ],
+          "multitile": true,
+          "additional_tiles": [ { "id": "broken", "fg": 4681, "bg": [ 4471, 4469, 4468, 4470 ] } ]
+        },
+        {
+          "id": "vp_stowboard_wheel_left",
+          "fg": [ 4638, 4640, 4641, 4639 ],
+          "multitile": true,
+          "additional_tiles": [ { "id": "broken", "fg": 4681, "bg": [ 4638, 4640, 4641, 4639 ] } ]
+        },
+        {
+          "id": "vp_stowboard_wheel_right",
+          "fg": [ 4641, 4639, 4638, 4640 ],
+          "multitile": true,
+          "additional_tiles": [ { "id": "broken", "fg": 4681, "bg": [ 4641, 4639, 4638, 4640 ] } ]
+        },
+        {
+          "id": "vp_windshield_wheel_left",
+          "fg": [ 5091, 5098, 5097, 5096 ],
+          "additional_tiles": [ { "id": "broken", "fg": 4684, "bg": [ 5091, 5098, 5097, 5096 ] } ],
+          "multitile": true
+        },
+        {
+          "id": "vp_windshield_wheel_right",
+          "fg": [ 5083, 5090, 5089, 5088 ],
+          "additional_tiles": [ { "id": "broken", "fg": 4683, "bg": [ 5083, 5090, 5089, 5088 ] } ],
+          "multitile": true
+        },
+        {
+          "id": "vp_windshield_full_wheel_left",
+          "fg": [ 5079, 5082, 5081, 5080 ],
+          "additional_tiles": [ { "id": "broken", "fg": 4683, "bg": [ 5079, 5082, 5081, 5080 ] } ],
+          "multitile": true
+        },
+        {
+          "id": "vp_windshield_full_wheel_right",
+          "fg": [ 5107, 5110, 5109, 5108 ],
+          "additional_tiles": [ { "id": "broken", "fg": 4684, "bg": [ 5107, 5110, 5109, 5108 ] } ],
+          "multitile": true
+        },
+        {
+          "id": "vp_windshield_vertical_2_left",
+          "fg": [ 5079, 5082, 5081, 5080 ],
+          "additional_tiles": [ { "id": "broken", "fg": 4683, "bg": [ 5079, 5082, 5081, 5080 ] } ],
+          "multitile": true
+        },
+        {
+          "id": "vp_windshield_vertical_2_right",
+          "fg": [ 5107, 5110, 5109, 5108 ],
+          "additional_tiles": [ { "id": "broken", "fg": 4684, "bg": [ 5107, 5110, 5109, 5108 ] } ],
+          "multitile": true
+        },
+        {
           "id": [ "vp_seed_drill" ],
           "fg": [ 4447, 4449, 4448, 4446 ],
           "multitile": true,
@@ -9544,6 +9634,10 @@
             { "weight": 25, "sprite": 5332 }
           ]
         },
+        { "id": "s_baseballfield_a1", "fg": [ 5334, 5335, 5337, 5336 ], "rotates": true },
+        { "id": "s_baseballfield_a2", "fg": [ 5335, 5337, 5336, 5334 ], "rotates": true },
+        { "id": "s_baseballfield_b1", "fg": [ 5336, 5334, 5335, 5337 ], "rotates": true },
+        { "id": "s_baseballfield_b2", "fg": [ 5337, 5336, 5334, 5335 ], "rotates": true },
         { "id": "Cave", "fg": 5168 },
         { "id": "campsite_cabin_incomplete", "fg": 5173 },
         { "id": "campsite_field_biker_destroyed", "fg": 5174 },
@@ -9575,7 +9669,7 @@
         { "id": "river_sw", "fg": 5296 },
         { "id": "road_nesw_manhole", "fg": 5309 },
         { "id": "overmap_remembered_vehicle", "fg": 5333 },
-        { "id": "unknown_terrain", "fg": 5334 }
+        { "id": "unknown_terrain", "fg": 5338 }
       ]
     },
     {

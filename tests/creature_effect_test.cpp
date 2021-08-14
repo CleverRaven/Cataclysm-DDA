@@ -222,7 +222,7 @@ TEST_CASE( "has_effect", "[creature][effect][has]" )
 
     // For monster, has_effect is not body-part-specific (uses bp_null)
     SECTION( "monster has_effect" ) {
-        monster mummy( mtype_id( "debug_mon" ) );
+        monster mummy( mtype_id( "mon_hallu_mom" ) );
 
         mummy.clear_effects();
 
@@ -316,7 +316,7 @@ TEST_CASE( "has_effect_with_flag", "[creature][effect][has][flag]" )
     const efftype_id effect_invisibility( "invisibility" );
     const flag_id invisibility_flag( "INVISIBLE" );
 
-    monster mummy( mtype_id( "debug_mon" ) );
+    monster mummy( mtype_id( "mon_hallu_mom" ) );
 
     mummy.clear_effects();
 

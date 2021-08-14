@@ -983,7 +983,7 @@ bool vehicle::start_engine( const int e )
     if( out_of_fuel ) {
         if( einfo.fuel_type == fuel_type_muscle ) {
             // Muscle engines cannot start with broken limbs
-            if( einfo.has_flag( "MUSCLE_ARMS" ) && ( player_character.get_working_arm_count() < 2 ) ) {
+            if( einfo.has_flag( "MUSCLE_ARMS" ) && !player_character.has_two_arms_lifting() ) {
                 add_msg( _( "You cannot use %s with a broken arm." ), eng.name() );
                 return false;
             } else if( einfo.has_flag( "MUSCLE_LEGS" ) && ( player_character.get_working_leg_count() < 2 ) ) {

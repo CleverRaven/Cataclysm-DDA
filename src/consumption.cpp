@@ -1765,7 +1765,7 @@ static bool consume_med( item &target, player &you )
     return true;
 }
 
-trinary player::consume( item &target, bool force, bool refuel )
+trinary Character::consume( item &target, bool force, bool refuel )
 {
     if( target.is_null() ) {
         add_msg_if_player( m_info, _( "You do not have that item." ) );
@@ -1783,7 +1783,7 @@ trinary player::consume( item &target, bool force, bool refuel )
         }
         return trinary::NONE;
     }
-    if( is_avatar() && !query_consume_ownership( target, *this ) ) {
+    if( is_avatar() && !query_consume_ownership( target, *this->as_player() ) ) {
         return trinary::NONE;
     }
 
@@ -1791,7 +1791,7 @@ trinary player::consume( item &target, bool force, bool refuel )
         return fuel_bionic_with( target ) && target.charges <= 0 ? trinary::ALL : trinary::SOME;
     }
 
-    if( consume_med( target, *this ) || eat( target, *this, force ) ) {
+    if( consume_med( target, *this->as_player() ) || eat( target, *this->as_player(), force ) ) {
 
         get_event_bus().send<event_type::character_consumes_item>( getID(), target.typeId() );
 
@@ -1802,7 +1802,7 @@ trinary player::consume( item &target, bool force, bool refuel )
     return trinary::NONE;
 }
 
-trinary player::consume( item_location loc, bool force, bool refuel )
+trinary Character::consume( item_location loc, bool force, bool refuel )
 {
     if( !loc ) {
         debugmsg( "Null loc to consume." );

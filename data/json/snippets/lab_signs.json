@@ -81,5 +81,19 @@
       "<color_yellow_red>Find your spirit animal guide!</color>\n      Group meditation\n      Wednesdays 13:00",
       "<color_white>  Do Not\n   Share\n<color_white_red>Medications</color>"
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "lab_safety_maintenance_snippets",
+    "//": "snippets of pithy safety messages that can be delvivered via sign or drone.",
+    "text": [
+      "There have been\n[4]\ndays without a life-threatening workplace accident",
+      "Be Alert, Don't get Hurt!",
+      "Safety First\nWork Safely",
+      "Report ALL Accidents",
+      "Think!\nDo it the safe way.\nDo it the right way.\nDo it everyday.",
+      "Think Safety First!",
+      "<color_white_red>Always Keep ID visible</color>"
+    ]
   }
 ]

@@ -1274,16 +1274,18 @@ int get_heat_radiation( const tripoint &location, bool direct )
     int best_fire = 0;
     Character &player_character = get_player_character();
     map &here = get_map();
+    // Convert it to an int id once, instead of 139 times per turn
+    const field_type_id fd_fire_int = fd_fire.id();
     for( const tripoint &dest : here.points_in_radius( location, 6 ) ) {
         int heat_intensity = 0;
 
         maptile mt = here.maptile_at( dest );
 
-        int ffire = maptile_field_intensity( mt, fd_fire );
+        int ffire = maptile_field_intensity( mt, fd_fire_int );
         if( ffire > 0 ) {
             heat_intensity = ffire;
         } else  {
-            heat_intensity = here.ter( dest )->heat_radiation;
+            heat_intensity = mt.get_ter()->heat_radiation;
         }
         if( heat_intensity == 0 ) {
             // No heat source here
@@ -3433,13 +3435,7 @@ float game::natural_light_level( const int zlev ) const
     float ret = LIGHT_AMBIENT_MINIMAL;
 
     // Sunlight/moonlight related stuff
-    if( !weather.lightning_active ) {
-        ret = sun_moon_light_at( calendar::turn );
-    } else {
-        // Recent lightning strike has lit the area
-        ret = default_daylight_level();
-    }
-
+    ret = sun_moon_light_at( calendar::turn );
     ret += get_weather().weather_id->light_modifier;
 
     // Artifact light level changes here. Even though some of these only have an effect
@@ -3462,6 +3458,9 @@ float game::natural_light_level( const int zlev ) const
     if( timed_events.queued( timed_event_type::ARTIFACT_LIGHT ) ) {
         // timed_event_type::ARTIFACT_LIGHT causes everywhere to become as bright as day.
         mod_ret = std::max<float>( ret, default_daylight_level() );
+    }
+    if( const timed_event *e = timed_events.get( timed_event_type::CUSTOM_LIGHT_LEVEL ) ) {
+        mod_ret = e->strength;
     }
     // If we had a changed light level due to an artifact event then it overwrites
     // the natural light level.
@@ -4481,18 +4480,18 @@ void game::clear_zombies()
     critter_tracker->clear();
 }
 
-bool game::find_nearby_spawn_point( const Character &target, const mtype_id &mt, int min_radius,
-                                    int max_radius, tripoint &point )
+bool game::find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, int min_radius,
+                                    int max_radius, tripoint &point, bool outdoor_only )
 {
     tripoint target_point;
     //find a legal outdoor place to spawn based on the specified radius,
     //we just try a bunch of random points and use the first one that works, it none do then no spawn
     for( int attempts = 0; attempts < 15; attempts++ ) {
-        target_point = target.pos() + tripoint( rng( -max_radius, max_radius ),
-                                                rng( -max_radius, max_radius ), 0 );
+        target_point = target + tripoint( rng( -max_radius, max_radius ),
+                                          rng( -max_radius, max_radius ), 0 );
         if( can_place_monster( monster( mt->id ), target_point ) &&
-            get_map().is_outside( target_point ) &&
-            rl_dist( target_point, get_player_character().pos() ) > min_radius ) {
+            ( !outdoor_only || get_map().is_outside( target_point ) ) &&
+            rl_dist( target_point, target ) > min_radius ) {
             point = target_point;
             return true;
         }

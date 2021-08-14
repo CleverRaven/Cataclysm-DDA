@@ -144,6 +144,10 @@ struct talk_effect_fun_t {
         void set_mod_focus( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_add_morale( const JsonObject &jo, const std::string &member, bool is_npc );
         void set_lose_morale( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_custom_light_level( const JsonObject &jo, const std::string &member );
+        void set_spawn_monster( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_mod_radiation( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_field( const JsonObject &jo, const std::string &member, bool is_npc );
         void operator()( const dialogue &d ) const {
             if( !function ) {
                 return;

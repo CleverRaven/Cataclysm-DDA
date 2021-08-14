@@ -144,6 +144,13 @@
     "type": "vehicle_part"
   },
   {
+    "copy-from": "basketsm_abstract",
+    "id": "basketsm_wheelchair",
+    "looks_like": "basketsm",
+    "symbol": "o",
+    "type": "vehicle_part"
+  },
+  {
     "id": "basketsm_external",
     "type": "vehicle_part",
     "name": { "str": "external wire bike basket" },

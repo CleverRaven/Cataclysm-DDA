@@ -41,6 +41,7 @@ git_files_list = {os.path.normpath(i) for i in {
 # no warning will be given if an untranslatable object is found in those files
 warning_suppressed_list = {os.path.normpath(i) for i in {
     "data/json/flags.json",
+    "data/json/flags/trap.json",
     "data/json/npcs/npc.json",
     "data/json/overmap_terrain.json",
     "data/json/statistics.json",

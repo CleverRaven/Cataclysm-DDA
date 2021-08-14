@@ -143,13 +143,18 @@ struct transform_terrain_data {
 };
 
 const std::vector<std::pair<std::string, translation>> vpart_variants = {
-    { "cover", to_translation( "vpart_variants", "Cover" ) },
+    { "cover_left", to_translation( "vpart_variants", "Cover Left" ) },
+    { "cover_right", to_translation( "vpart_variants", "Cover Right" ) },
+    { "hatch_wheel_left", to_translation( "vpart_variants", "Hatchback Wheel Left" ) },
+    { "hatch_wheel_right", to_translation( "vpart_variants", "Hatchback Wheel Right" ) },
+    { "wheel_left", to_translation( "vpart_variants", "Wheel Left" ) },
+    { "wheel_right", to_translation( "vpart_variants", "Wheel Right" ) },
     { "cross_unconnected", to_translation( "vpart_variants", "Unconnected Cross" ) },
     { "cross", to_translation( "vpart_variants", "Cross" ) },
-    { "horizontal_front", to_translation( "vpart_variants", "Front Horizontal" ) },
     { "horizontal_front_edge", to_translation( "vpart_variants", "Front Edge Horizontal" ) },
-    { "horizontal_rear", to_translation( "vpart_variants", "Rear Horizontal" ) },
+    { "horizontal_front", to_translation( "vpart_variants", "Front Horizontal" ) },
     { "horizontal_rear_edge", to_translation( "vpart_variants", "Rear Edge Horizontal" ) },
+    { "horizontal_rear", to_translation( "vpart_variants", "Rear Horizontal" ) },
     { "horizontal_2_front", to_translation( "vpart_variants", "Front Thick Horizontal" ) },
     { "horizontal_2_rear", to_translation( "vpart_variants", "Rear Thick Horizontal" ) },
     { "ne_edge", to_translation( "vpart_variants", "Front Right Corner" ) },
@@ -167,6 +172,7 @@ const std::vector<std::pair<std::string, translation>> vpart_variants = {
     { "rear_right", to_translation( "vpart_variants", "Rear Right" ) },
     { "rear_left", to_translation( "vpart_variants", "Rear Left" ) },
     // these have to be last to avoid false positives
+    { "cover", to_translation( "vpart_variants", "Cover" ) },
     { "vertical", to_translation( "vpart_variants", "Vertical" ) },
     { "horizontal", to_translation( "vpart_variants", "Horizontal" ) },
     { "vertical_2", to_translation( "vpart_variants", "Thick Vertical" ) },

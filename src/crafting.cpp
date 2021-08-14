@@ -242,7 +242,8 @@ static float workbench_crafting_speed_multiplier( const item &craft,
 float Character::crafting_speed_multiplier( const recipe &rec, bool in_progress ) const
 {
     const float result = morale_crafting_speed_multiplier( rec ) *
-                         lighting_craft_speed_multiplier( rec );
+                         lighting_craft_speed_multiplier( rec ) *
+                         manipulator_score();
     // Can't start if we'd need 300% time, but we can still finish the job
     if( !in_progress && result < 0.33f ) {
         return 0.0f;
@@ -270,7 +271,8 @@ float Character::crafting_speed_multiplier( const item &craft,
     const float morale_multi = morale_crafting_speed_multiplier( rec );
     const float mut_multi = mutation_value( "crafting_speed_multiplier" );
 
-    const float total_multi = light_multi * bench_multi * morale_multi * mut_multi;
+    const float total_multi = light_multi * bench_multi * morale_multi * mut_multi *
+                              manipulator_score();
 
     if( light_multi <= 0.0f ) {
         add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
@@ -761,7 +763,7 @@ static item_location place_craft_or_disassembly(
 
     // Crafting without a workbench
     if( !target ) {
-        if( !ch.has_two_arms() ) {
+        if( !ch.has_two_arms_lifting() ) {
             craft_in_world = set_item_map_or_vehicle( ch, ch.pos(), craft );
         } else if( !ch.has_wield_conflicts( craft ) ) {
             if( cata::optional<item_location> it_loc = wield_craft( ch, craft ) ) {

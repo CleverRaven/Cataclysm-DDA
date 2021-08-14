@@ -32,6 +32,9 @@ using faction_id = string_id<faction>;
 static const faction_id your_fac( "your_followers" );
 const std::string type_fac_hash_str = "__FAC__";
 
+//Generic activity: maximum search distance for zones, constructions, etc.
+constexpr int ACTIVITY_SEARCH_DISTANCE = 60;
+
 class zone_type
 {
     private:
@@ -343,7 +346,7 @@ class zone_manager
         using ref_const_zone_data = std::reference_wrapper<const zone_data>;
 
     private:
-        static const int MAX_DISTANCE = 10;
+        static const int MAX_DISTANCE = ACTIVITY_SEARCH_DISTANCE;
         std::vector<zone_data> zones;
         //Containers for Revert functionality for Vehicle Zones
         //Pointer to added zone to be removed
