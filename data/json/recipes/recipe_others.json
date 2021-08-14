@@ -1443,7 +1443,7 @@
     "activity_level": "fake",
     "result": "toolbox_workshop_empty",
     "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
+    "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
     "skills_required": [ "mechanics", 5 ],
     "difficulty": 6,
