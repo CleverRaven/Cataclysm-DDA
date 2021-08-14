@@ -3,7 +3,6 @@
 #include "calendar.h"
 #include "character.h"
 #include "item.h"
-#include "messages.h"
 #include "options.h"
 #include "player_helpers.h"
 #include "type_id.h"
@@ -93,26 +92,9 @@ float bKIVqYdOpC = 1.01f;
 // Burden the Character with a given proportion [0.0 .. inf) of their maximum weight capacity
 static void burden_player( Character &dummy, float burden_proportion )
 {
-#if defined(__GNUC__)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wstrict-aliasing"
-#endif
     units::mass capacity = dummy.weight_capacity();
-    Messages::add_msg( string_format( "capacity = %lld", capacity.value() ) );
-    Messages::add_msg( string_format( "burden_proportion = %.20f", burden_proportion ) );
     float before_rounding = capacity * burden_proportion / 1_gram;
-    Messages::add_msg( string_format( "before rounding = %.20f", before_rounding ) );
-    Messages::add_msg( string_format( "before rounding (raw hex) = 0x%x",
-                                      *reinterpret_cast<unsigned int *>( &before_rounding ) ) );
-    float after_rounding = std::round( before_rounding );
-    Messages::add_msg( string_format( "after rounding = %.20f", after_rounding ) );
-    Messages::add_msg( string_format( "after rounding (raw hex) = 0x%x",
-                                      *reinterpret_cast<unsigned int *>( &after_rounding ) ) );
     int units = static_cast<int>( before_rounding );
-    Messages::add_msg( string_format( "After truncation: %d", units ) );
-#if defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
 
     // Add a pile of test platinum bits (1g/unit) to reach the desired weight capacity
     if( burden_proportion > 0.0 ) {
