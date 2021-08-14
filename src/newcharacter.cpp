@@ -124,55 +124,6 @@ enum struct tab_direction {
     QUIT
 };
 
-//const int stat_point_pool = 4 * 8 + 6;
-int stat_points_used( const avatar &u )
-{
-    int used = 0;
-    for( int stat : {
-             u.str_max, u.dex_max, u.int_max, u.per_max
-         } ) {
-        used += stat + std::max( 0, stat - HIGH_STAT );
-    }
-    return used;
-}
-
-//const int trait_point_pool = 0;
-int trait_points_used( const avatar &u )
-{
-    int used = 0;
-    for( trait_id cur_trait : u.get_mutations( true ) ) {
-        bool locked = get_scenario()->is_locked_trait( cur_trait )
-                      || u.prof->is_locked_trait( cur_trait );
-        for( const profession *hobby : u.hobbies ) {
-            locked = locked || hobby->is_locked_trait( cur_trait );
-        }
-        if( locked ) {
-            // The starting traits granted by scenarios, professions and hobbies cost nothing
-            continue;
-        }
-        const mutation_branch &mdata = cur_trait.obj();
-        used += mdata.points;
-    }
-    return used;
-}
-
-//const int skill_point_pool = 2;
-int skill_points_used( const avatar &u )
-{
-    int scenario = get_scenario()->point_cost();
-    int profession_points = u.prof->point_cost();
-    int hobbies = 0;
-    for( const profession *hobby : u.hobbies ) {
-        hobbies += hobby->point_cost();
-    }
-    int skills = 0;
-    for( const Skill &sk : Skill::skills ) {
-        std::vector<int> costs = {0, 1, 1, 2, 4, 6, 9, 12, 16, 20, 25};
-        skills += costs.at( u.get_skill_level( sk.ident() ) );
-    }
-    return scenario + profession_points + hobbies + skills;
-}
-
 struct points_left {
     int stat_points;
     int trait_points;
@@ -194,8 +145,85 @@ struct points_left {
     bool is_freeform();
     bool is_valid();
     bool has_spare();
-    std::string to_string();
 };
+
+const int stat_point_pool = 4 * 8 + 6;
+int stat_points_used( const avatar &u )
+{
+    int used = 0;
+    for( int stat : {
+             u.str_max, u.dex_max, u.int_max, u.per_max
+         } ) {
+        used += stat + std::max( 0, stat - HIGH_STAT );
+    }
+    return used;
+}
+
+const int trait_point_pool = 0;
+int trait_points_used( const avatar &u )
+{
+    int used = 0;
+    for( trait_id cur_trait : u.get_mutations( true ) ) {
+        bool locked = get_scenario()->is_locked_trait( cur_trait )
+                      || u.prof->is_locked_trait( cur_trait );
+        for( const profession *hobby : u.hobbies ) {
+            locked = locked || hobby->is_locked_trait( cur_trait );
+        }
+        if( locked ) {
+            // The starting traits granted by scenarios, professions and hobbies cost nothing
+            continue;
+        }
+        const mutation_branch &mdata = cur_trait.obj();
+        used += mdata.points;
+    }
+    return used;
+}
+
+const int skill_point_pool = 2;
+int skill_points_used( const avatar &u )
+{
+    int scenario = get_scenario()->point_cost();
+    int profession_points = u.prof->point_cost();
+    int hobbies = 0;
+    for( const profession *hobby : u.hobbies ) {
+        hobbies += hobby->point_cost();
+    }
+    int skills = 0;
+    for( const Skill &sk : Skill::skills ) {
+        std::vector<int> costs = {0, 1, 1, 2, 4, 6, 9, 12, 16, 20, 25};
+        skills += costs.at( u.get_skill_level( sk.ident() ) );
+    }
+    return scenario + profession_points + hobbies + skills;
+}
+
+std::string pools_to_string( const avatar &u, points_left::point_limit pool )
+{
+    if( pool == points_left::MULTI_POOL ) {
+        int stat_points = stat_point_pool - stat_points_used( u );
+        int trait_points = trait_point_pool - trait_points_used( u );
+        int skill_points = skill_point_pool - skill_points_used( u );
+        int stat_points_left = stat_points + std::min( 0, trait_points + std::min( 0, skill_points ) );
+        int trait_points_left = stat_points + trait_points + std::min( 0, skill_points );
+        int skill_points_left = stat_points + trait_points + skill_points;
+        bool is_valid = stat_points_left >= 0 && trait_points_left >= 0 && skill_points_left >= 0;
+        return string_format(
+                   _( "Points left: <color_%s>%d</color>%c<color_%s>%d</color>%c<color_%s>%d</color>=<color_%s>%d</color>" ),
+                   stat_points_left >= 0 ? "light_gray" : "red", stat_points,
+                   trait_points >= 0 ? '+' : '-',
+                   trait_points_left >= 0 ? "light_gray" : "red", std::abs( trait_points ),
+                   skill_points >= 0 ? '+' : '-',
+                   skill_points_left >= 0 ? "light_gray" : "red", std::abs( skill_points ),
+                   is_valid ? "light_gray" : "red", skill_points_left );
+    } else if( pool == points_left::ONE_POOL ) {
+        int used = stat_points_used( u ) + trait_points_used( u ) + skill_points_used( u );
+        int total = stat_point_pool + trait_point_pool + skill_point_pool;
+        return string_format( _( "Points left: %4d" ), total - used );
+    } else if( pool == points_left::TRANSFER ) {
+        return _( "Character Transfer: No changes can be made." );
+    } else {
+        return _( "Freeform" );
+    }
+}
 
 points_left::points_left()
 {
@@ -262,26 +290,6 @@ bool points_left::is_valid()
 bool points_left::has_spare()
 {
     return !is_freeform() && is_valid() && skill_points_left() > 0;
-}
-
-std::string points_left::to_string()
-{
-    if( limit == MULTI_POOL ) {
-        return string_format(
-                   _( "Points left: <color_%s>%d</color>%c<color_%s>%d</color>%c<color_%s>%d</color>=<color_%s>%d</color>" ),
-                   stat_points_left() >= 0 ? "light_gray" : "red", stat_points,
-                   trait_points >= 0 ? '+' : '-',
-                   trait_points_left() >= 0 ? "light_gray" : "red", std::abs( trait_points ),
-                   skill_points >= 0 ? '+' : '-',
-                   skill_points_left() >= 0 ? "light_gray" : "red", std::abs( skill_points ),
-                   is_valid() ? "light_gray" : "red", stat_points + trait_points + skill_points );
-    } else if( limit == ONE_POOL ) {
-        return string_format( _( "Points left: %4d" ), skill_points_left() );
-    } else if( limit == TRANSFER ) {
-        return _( "Character Transfer: No changes can be made." );
-    } else {
-        return _( "Freeform" );
-    }
 }
 
 static tab_direction set_points( avatar &u, points_left &points );
@@ -886,11 +894,12 @@ static void draw_character_tabs( const catacurses::window &w, const std::string 
     mvwputch( w, point( TERMX - 1, 4 ), BORDER_COLOR, LINE_XOXX ); // -|
 }
 
-static void draw_points( const catacurses::window &w, points_left &points, int netPointCost = 0 )
+static void draw_points( const catacurses::window &w, points_left &points, const avatar &u,
+                         int netPointCost = 0 )
 {
     // Clear line (except borders)
     mvwprintz( w, point( 2, 3 ), c_black, std::string( getmaxx( w ) - 3, ' ' ) );
-    std::string points_msg = points.to_string();
+    std::string points_msg = pools_to_string( u, points.limit );
     int pMsg_length = utf8_width( remove_color_tags( points_msg ), true );
     nc_color color = c_light_gray;
     print_colored_text( w, point( 2, 3 ), color, c_light_gray, points_msg );
@@ -913,7 +922,7 @@ void draw_sorting_indicator( const catacurses::window &w_sorting, const input_co
     fold_and_print( w_sorting, point_zero, ( TERMX / 2 ), c_light_gray, sort_text );
 }
 
-tab_direction set_points( avatar &, points_left &points )
+tab_direction set_points( avatar &u, points_left &points )
 {
     tab_direction retval = tab_direction::NONE;
 
@@ -970,7 +979,7 @@ tab_direction set_points( avatar &, points_left &points )
 
         const auto &cur_opt = opts[highlighted];
 
-        draw_points( w, points );
+        draw_points( w, points, u );
 
         // Clear the bottom of the screen.
         werase( w_description );
@@ -1039,7 +1048,8 @@ tab_direction set_stats( avatar &u, points_left &points )
     const int max_stat_points = points.is_freeform() ? 20 : MAX_STAT;
 
     unsigned char sel = 1;
-    const int iSecondColumn = std::max( 27, utf8_width( points.to_string(), true ) + 9 );
+    const int iSecondColumn = std::max( 27,
+                                        utf8_width( pools_to_string( u, points.limit ), true ) + 9 );
     input_context ctxt( "NEW_CHAR_STATS" );
     ctxt.register_cardinal();
     ctxt.register_action( "PREV_TAB" );
@@ -1095,7 +1105,7 @@ tab_direction set_stats( avatar &u, points_left &points )
             mvwprintz( w, point( iSecondColumn, i ), c_black, clear_line );
         }
 
-        draw_points( w, points );
+        draw_points( w, points, u );
 
         mvwprintz( w, point( 2, 5 ), c_light_gray, _( "Strength:" ) );
         mvwprintz( w, point( 16, 5 ), c_light_gray, "%2d", u.str_max );
@@ -1432,9 +1442,9 @@ tab_direction set_traits( avatar &u, points_left &points )
         mvwprintz( w, point( getmaxx( w ) - sortstring.size() - 4, getmaxy( w ) - 1 ),
                    c_light_gray, "<%s>", sortstring );
 
-        draw_points( w, points );
+        draw_points( w, points, u );
         int full_string_length = 0;
-        const int remaining_points_length = utf8_width( points.to_string(), true );
+        const int remaining_points_length = utf8_width( pools_to_string( u, points.limit ), true );
         if( !points.is_freeform() ) {
             std::string full_string =
                 string_format( "<color_light_green>%2d/%-2d</color> <color_light_red>%3d/-%-2d</color>",
@@ -1834,7 +1844,7 @@ tab_direction set_profession( avatar &u, points_left &points,
                 pointsForProf *= -1;
             }
             // Draw header.
-            draw_points( w, points, netPointCost );
+            draw_points( w, points, u, netPointCost );
             const char *prof_msg_temp;
             if( negativeProf ) {
                 //~ 1s - profession name, 2d - current character points.
@@ -1848,7 +1858,7 @@ tab_direction set_profession( avatar &u, points_left &points,
                                           pointsForProf );
             }
 
-            int pMsg_length = utf8_width( remove_color_tags( points.to_string() ) );
+            int pMsg_length = utf8_width( remove_color_tags( pools_to_string( u, points.limit ) ) );
             mvwprintz( w, point( pMsg_length + 9, 3 ), can_pick ? c_green : c_light_red, prof_msg_temp,
                        sorted_profs[cur_id]->gender_appropriate_name( u.male ),
                        pointsForProf );
@@ -2255,7 +2265,7 @@ tab_direction set_hobbies( avatar &u, points_left &points )
                 pointsForProf *= -1;
             }
             // Draw header.
-            draw_points( w, points, netPointCost );
+            draw_points( w, points, u, netPointCost );
             const char *prof_msg_temp;
             if( negativeProf ) {
                 //~ 1s - profession name, 2d - current character points.
@@ -2269,7 +2279,7 @@ tab_direction set_hobbies( avatar &u, points_left &points )
                                           pointsForProf );
             }
 
-            int pMsg_length = utf8_width( remove_color_tags( points.to_string() ) );
+            int pMsg_length = utf8_width( remove_color_tags( pools_to_string( u, points.limit ) ) );
             mvwprintz( w, point( pMsg_length + 9, 3 ), can_pick ? c_green : c_light_red, prof_msg_temp,
                        sorted_profs[cur_id]->gender_appropriate_name( u.male ),
                        pointsForProf );
@@ -2586,7 +2596,7 @@ tab_direction set_skills( avatar &u, points_left &points )
     std::copy( pskills.begin(), pskills.end(),
                std::inserter( prof_skills, prof_skills.begin() ) );
 
-    const int remaining_points_length = utf8_width( points.to_string(), true );
+    const int remaining_points_length = utf8_width( pools_to_string( u, points.limit ), true );
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         draw_character_tabs( w, _( "SKILLS" ) );
@@ -2603,7 +2613,7 @@ tab_direction set_skills( avatar &u, points_left &points )
                         ctxt.get_desc( "RIGHT" ), ctxt.get_desc( "LEFT" ),
                         ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "PREV_TAB" ) );
 
-        draw_points( w, points );
+        draw_points( w, points, u );
         // Clear the bottom of the screen.
         werase( w_description );
         mvwprintz( w, point( remaining_points_length + 9, 3 ), c_light_gray,
@@ -2932,7 +2942,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
             }
 
             // Draw header.
-            draw_points( w, points, netPointCost );
+            draw_points( w, points, u, netPointCost );
 
             const char *scen_msg_temp;
             if( isWide ) {
@@ -2957,7 +2967,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
                 }
             }
 
-            int pMsg_length = utf8_width( remove_color_tags( points.to_string() ) );
+            int pMsg_length = utf8_width( remove_color_tags( pools_to_string( u, points.limit ) ) );
             mvwprintz( w, point( pMsg_length + 9, 3 ), can_pick ? c_green : c_light_red, scen_msg_temp,
                        sorted_scens[cur_id]->gender_appropriate_name( u.male ),
                        pointsForScen );
@@ -3446,7 +3456,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     ui.on_redraw( [&]( const ui_adaptor & ) {
         draw_character_tabs( w, _( "DESCRIPTION" ) );
 
-        draw_points( w, points );
+        draw_points( w, points, you );
 
         //Draw the line between editable and non-editable stuff.
         for( int i = 0; i < getmaxx( w ); ++i ) {
