@@ -810,8 +810,15 @@ const recipe *select_crafting_recipe( int &batch_size_out )
 
                 if( subtab.cur() != "CSC_*_RECENT" ) {
                     std::stable_sort( current.begin(), current.end(),
-                    []( const recipe * a, const recipe * b ) {
-                        return b->difficulty < a->difficulty;
+                    [&player_character]( const recipe * a, const recipe * b ) {
+                        if( b->difficulty != a->difficulty ) {
+                            return b->difficulty < a->difficulty;
+                        }
+                        if( a->result_name() != b->result_name() ) {
+                            return localized_compare( a->result_name(), b->result_name() );
+                        }
+                        return b->time_to_craft( player_character ) <
+                               a->time_to_craft( player_character );
                     } );
 
                     std::stable_sort( current.begin(), current.end(),
