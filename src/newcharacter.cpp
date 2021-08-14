@@ -2240,7 +2240,6 @@ tab_direction set_hobbies( avatar &u, points_left &points )
 
     do {
         if( recalc_profs ) {
-            sorted_profs = get_scenario()->permitted_professions();
             sorted_profs = profession::get_all_hobbies();
 
             // Remove items based on filter
