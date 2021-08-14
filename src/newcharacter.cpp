@@ -123,6 +123,117 @@ enum struct tab_direction {
     QUIT
 };
 
+struct points_left {
+    int stat_points;
+    int trait_points;
+    int skill_points;
+
+    enum point_limit : int {
+        FREEFORM = 0,
+        ONE_POOL,
+        MULTI_POOL,
+        TRANSFER,
+    } limit;
+
+    points_left();
+    void init_from_options();
+    // Highest amount of points to spend on stats without points going invalid
+    int stat_points_left() const;
+    int trait_points_left() const;
+    int skill_points_left() const;
+    bool is_freeform();
+    bool is_valid();
+    bool has_spare();
+    std::string to_string();
+};
+
+points_left::points_left()
+{
+    limit = MULTI_POOL;
+    init_from_options();
+}
+
+void points_left::init_from_options()
+{
+    stat_points = get_option<int>( "INITIAL_STAT_POINTS" );
+    trait_points = get_option<int>( "INITIAL_TRAIT_POINTS" );
+    skill_points = get_option<int>( "INITIAL_SKILL_POINTS" );
+}
+
+// Highest amount of points to spend on stats without points going invalid
+int points_left::stat_points_left() const
+{
+    switch( limit ) {
+        case FREEFORM:
+        case ONE_POOL:
+            return stat_points + trait_points + skill_points;
+        case MULTI_POOL:
+            return std::min( trait_points_left(),
+                             stat_points + std::min( 0, trait_points + skill_points ) );
+        case TRANSFER:
+            return 0;
+    }
+
+    return 0;
+}
+
+int points_left::trait_points_left() const
+{
+    switch( limit ) {
+        case FREEFORM:
+        case ONE_POOL:
+            return stat_points + trait_points + skill_points;
+        case MULTI_POOL:
+            return stat_points + trait_points + std::min( 0, skill_points );
+        case TRANSFER:
+            return 0;
+    }
+
+    return 0;
+}
+
+int points_left::skill_points_left() const
+{
+    return stat_points + trait_points + skill_points;
+}
+
+bool points_left::is_freeform()
+{
+    return limit == FREEFORM;
+}
+
+bool points_left::is_valid()
+{
+    return is_freeform() ||
+           ( stat_points_left() >= 0 && trait_points_left() >= 0 &&
+             skill_points_left() >= 0 );
+}
+
+bool points_left::has_spare()
+{
+    return !is_freeform() && is_valid() && skill_points_left() > 0;
+}
+
+std::string points_left::to_string()
+{
+    if( limit == MULTI_POOL ) {
+        return string_format(
+                   _( "Points left: <color_%s>%d</color>%c<color_%s>%d</color>%c<color_%s>%d</color>=<color_%s>%d</color>" ),
+                   stat_points_left() >= 0 ? "light_gray" : "red", stat_points,
+                   trait_points >= 0 ? '+' : '-',
+                   trait_points_left() >= 0 ? "light_gray" : "red", std::abs( trait_points ),
+                   skill_points >= 0 ? '+' : '-',
+                   skill_points_left() >= 0 ? "light_gray" : "red", std::abs( skill_points ),
+                   is_valid() ? "light_gray" : "red", stat_points + trait_points + skill_points );
+    } else if( limit == ONE_POOL ) {
+        return string_format( _( "Points left: %4d" ), skill_points_left() );
+    } else if( limit == TRANSFER ) {
+        return _( "Character Transfer: No changes can be made." );
+    } else {
+        return _( "Freeform" );
+    }
+}
+
 static tab_direction set_points( avatar &u, points_left &points );
 static tab_direction set_stats( avatar &u, points_left &points );
 static tab_direction set_traits( avatar &u, points_left &points );
@@ -4052,6 +4163,16 @@ cata::optional<std::string> query_for_template_name()
     } else {
         return spop.text();
     }
+}
+
+void avatar::character_to_template( const std::string &name )
+{
+    points_left points;
+    points.stat_points = 0;
+    points.trait_points = 0;
+    points.skill_points = 0;
+    points.limit = points_left::TRANSFER;
+    save_template( name, points );
 }
 
 void avatar::save_template( const std::string &name, const points_left &points )

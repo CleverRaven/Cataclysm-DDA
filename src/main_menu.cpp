@@ -1231,15 +1231,9 @@ void main_menu::world_tab()
         ui_manager::redraw();
         if( layer == 4 ) {  //Character to Template
             if( load_character_tab( true ) ) {
-                points_left points;
-                points.stat_points = 0;
-                points.trait_points = 0;
-                points.skill_points = 0;
-                points.limit = points_left::TRANSFER;
-
                 player_character.setID( character_id(), true );
                 player_character.reset_all_missions();
-                player_character.save_template( player_character.name, points );
+                player_character.character_to_template( player_character.name );
 
                 player_character = avatar();
                 MAPBUFFER.clear();

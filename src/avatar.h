@@ -92,6 +92,7 @@ class avatar : public player
         void randomize( bool random_scenario, points_left &points, bool play_now = false );
         bool load_template( const std::string &template_name, points_left &points );
         void save_template( const std::string &name, const points_left &points );
+        void character_to_template( const std::string &name );
 
         bool is_avatar() const override {
             return true;
@@ -350,29 +351,5 @@ class avatar : public player
 avatar &get_avatar();
 std::unique_ptr<talker> get_talker_for( avatar &me );
 std::unique_ptr<talker> get_talker_for( avatar *me );
-
-struct points_left {
-    int stat_points;
-    int trait_points;
-    int skill_points;
-
-    enum point_limit : int {
-        FREEFORM = 0,
-        ONE_POOL,
-        MULTI_POOL,
-        TRANSFER,
-    } limit;
-
-    points_left();
-    void init_from_options();
-    // Highest amount of points to spend on stats without points going invalid
-    int stat_points_left() const;
-    int trait_points_left() const;
-    int skill_points_left() const;
-    bool is_freeform();
-    bool is_valid();
-    bool has_spare();
-    std::string to_string();
-};
 
 #endif // CATA_SRC_AVATAR_H
