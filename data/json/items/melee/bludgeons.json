@@ -535,6 +535,7 @@
     "id": "i_staff",
     "symbol": "/",
     "color": "brown",
+    "looks_like": "q_staff",
     "name": { "str": "ironshod quarterstaff", "str_pl": "ironshod quarterstaves" },
     "description": "A smooth and sturdy staff with a leather-wrapped grip, which has been reinforced with metal bands and caps.  Durable and well-balanced, it is surprisingly easy to handle.",
     "price": 6000,
