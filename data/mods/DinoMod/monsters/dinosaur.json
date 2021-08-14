@@ -32,7 +32,6 @@
       "SEES",
       "SMELLS",
       "HEARS",
-      "GOODHEARING",
       "HIT_AND_RUN",
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
@@ -379,7 +378,6 @@
       "SEES",
       "SMELLS",
       "HEARS",
-      "GOODHEARING",
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
       "PET_MOUNTABLE",
@@ -463,7 +461,6 @@
       "SEES",
       "SMELLS",
       "HEARS",
-      "GOODHEARING",
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
       "PET_MOUNTABLE",
@@ -592,7 +589,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "special_attacks": [ [ "EAT_FOOD", 20 ], { "type": "bite", "cooldown": 10 } ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CLIMBS" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CLIMBS" ],
     "harvest": "mammal_tiny",
     "vision_night": 5,
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FIRE" ],
@@ -632,7 +629,7 @@
     "reproduction": { "baby_egg": "egg_apatosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "PUSH_MON" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "PUSH_MON" ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "fear_triggers": [ "FIRE" ],
@@ -660,7 +657,7 @@
     "zombify_into": "mon_ziplodocus",
     "description": "Huge, long-necked, four-legged dinosaur with a long, whip-like tail.",
     "reproduction": { "baby_egg": "egg_diplodocus", "baby_count": 3, "baby_timer": 24 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM" ]
   },
   {
     "type": "MONSTER",
@@ -722,7 +719,7 @@
     "special_attacks": [ [ "EAT_CROP", 20 ] ],
     "description": "Small, four-legged dinosaur with five rows of protective plates running down its back.",
     "reproduction": { "baby_egg": "egg_scutellosaurus", "baby_count": 3, "baby_timer": 24 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATTLEFODDER" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATTLEFODDER" ]
   },
   {
     "type": "MONSTER",
@@ -759,7 +756,7 @@
     "reproduction": { "baby_egg": "egg_stegosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "CATTLEFODDER" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "CATTLEFODDER" ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "categories": [ "DINOSAUR" ]
@@ -778,7 +775,7 @@
     ],
     "description": "This armored dinosaur looks like a giant prehistoric armadillo.  Its tail ends in a spiked club of bone.",
     "reproduction": { "baby_egg": "egg_dyoplosaurus", "baby_count": 3, "baby_timer": 24 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_MOUNTABLE", "CATTLEFODDER" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_MOUNTABLE", "CATTLEFODDER" ]
   },
   {
     "type": "MONSTER",
@@ -815,18 +812,7 @@
     "reproduction": { "baby_egg": "egg_ankylosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "GOODHEARING",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "BASHES",
-      "WARM",
-      "PET_MOUNTABLE",
-      "CATTLEFODDER"
-    ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "PET_MOUNTABLE", "CATTLEFODDER" ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "categories": [ "DINOSAUR" ]
@@ -844,7 +830,7 @@
     "special_attacks": [ [ "EAT_CROP", 40 ] ],
     "description": "This heavily armored dinosaur looks like a giant prehistoric armadillo.",
     "reproduction": { "baby_egg": "egg_nodosaurus", "baby_count": 3, "baby_timer": 24 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_MOUNTABLE", "CATTLEFODDER" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_MOUNTABLE", "CATTLEFODDER" ]
   },
   {
     "type": "MONSTER",
@@ -860,7 +846,7 @@
     "special_attacks": [ [ "EAT_CROP", 40 ] ],
     "description": "This heavily armored dinosaur looks like a giant prehistoric armadillo with long bony spikes.",
     "reproduction": { "baby_egg": "egg_edmontonia", "baby_count": 3, "baby_timer": 24 },
-    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_MOUNTABLE", "CATTLEFODDER" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "PET_MOUNTABLE", "CATTLEFODDER" ]
   },
   {
     "type": "MONSTER",
@@ -898,7 +884,6 @@
       "SEES",
       "SMELLS",
       "HEARS",
-      "GOODHEARING",
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
       "PET_MOUNTABLE",
@@ -943,7 +928,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "special_attacks": [ [ "EAT_CROP", 10 ] ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "PUSH_MON" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "PUSH_MON" ],
     "harvest": "mammal_large_leather",
     "categories": [ "DINOSAUR" ]
   },
@@ -1016,7 +1001,6 @@
       "SEES",
       "SMELLS",
       "HEARS",
-      "GOODHEARING",
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
       "PET_MOUNTABLE",
@@ -1105,18 +1089,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "special_attacks": [ [ "EAT_CROP", 20 ], { "id": "impale" } ],
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "GOODHEARING",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "PET_MOUNTABLE",
-      "CATTLEFODDER",
-      "BASHES",
-      "WARM"
-    ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "PET_MOUNTABLE", "CATTLEFODDER", "BASHES", "WARM" ],
     "harvest": "mammal_large_leather",
     "anger_triggers": [ "HURT", "FRIEND_ATTACKED" ],
     "categories": [ "DINOSAUR" ]
