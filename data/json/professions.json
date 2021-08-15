@@ -3461,7 +3461,7 @@
     "name": { "male": "Traceur", "female": "Traceuse" },
     "description": "You've practiced parkour for many years, and made the world your playground.  It wouldn't be a lie to say that running is your life.  Which is good, because now that the end has come, you're running for your life.",
     "points": 5,
-    "traits": [ "PARKOUR" ],
+    "proficiencies": [ "prof_parkour" ],
     "skills": [ { "level": 4, "name": "dodge" } ],
     "items": {
       "both": {
