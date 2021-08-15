@@ -91,7 +91,7 @@ static int actual_burn_rate( Character &dummy, const move_mode_id &move_mode )
 static void burden_player( Character &dummy, float burden_proportion )
 {
     units::mass capacity = dummy.weight_capacity();
-    float before_rounding = capacity * burden_proportion / 1_gram;
+    volatile float before_rounding = capacity * burden_proportion / 1_gram;
     int units = static_cast<int>( before_rounding );
 
     // Add a pile of test platinum bits (1g/unit) to reach the desired weight capacity
