@@ -90,12 +90,15 @@ struct draw_data_t {
     int iZoneIndex = -1;
 };
 
+#if defined(TILES)
+struct tiles_redraw_info {
+    tripoint_abs_omt center;
+    bool blink = false;
+};
+extern tiles_redraw_info redraw_info;
+#endif
+
 weather_type_id get_weather_at_point( const tripoint_abs_omt &pos );
 std::tuple<char, nc_color, size_t> get_note_display_info( const std::string &note );
-void draw(
-    const catacurses::window &w, const catacurses::window &wbar, const tripoint_abs_omt &center,
-    const tripoint_abs_omt &orig, bool blink, bool show_explored, bool fast_scroll,
-    input_context *inp_ctxt, const draw_data_t &data );
-void create_note( const tripoint_abs_omt &curs );
 } // namespace overmap_ui
 #endif // CATA_SRC_OVERMAP_UI_H
