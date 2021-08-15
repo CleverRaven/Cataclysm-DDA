@@ -3608,6 +3608,23 @@ pf::path<point_om_omt> overmap::lay_out_connection(
     return pf::find_path( source, dest, point_om_omt( OMAPX, OMAPY ), estimate );
 }
 
+static pf::path<point_om_omt> straight_path( const point_om_omt &source, om_direction::type dir,
+        size_t len )
+{
+    pf::path<point_om_omt> res;
+    if( len == 0 ) {
+        return res;
+    }
+    point_om_omt p = source;
+    res.nodes.reserve( len );
+    for( size_t i = 0; i + 1 < len; ++i ) {
+        res.nodes.emplace_back( p, dir );
+        p += om_direction::displace( dir );
+    }
+    res.nodes.emplace_back( p, om_direction::type::invalid );
+    return res;
+}
+
 pf::path<point_om_omt> overmap::lay_out_street(
     const overmap_connection &connection, const point_om_omt &source, om_direction::type dir,
     size_t len ) const
@@ -3669,7 +3686,7 @@ pf::path<point_om_omt> overmap::lay_out_street(
         }
     }
 
-    return pf::straight_path( source, static_cast<int>( dir ), actual_len );
+    return straight_path( source, dir, actual_len );
 }
 
 void overmap::build_connection(

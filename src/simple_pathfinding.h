@@ -163,30 +163,6 @@ path<Point> find_path( const Point &source,
     return res;
 }
 
-template<typename Point = point>
-inline path<Point> straight_path( const Point &source, int dir, size_t len )
-{
-    path<Point> res;
-
-    if( len == 0 ) {
-        return res;
-    }
-
-    Point p = source;
-
-    res.nodes.reserve( len );
-
-    for( size_t i = 0; i + 1 < len; ++i ) {
-        res.nodes.emplace_back( p, dir );
-
-        p += four_adjacent_offsets[dir];
-    }
-
-    res.nodes.emplace_back( p, -1 );
-
-    return res;
-}
-
 } // namespace pf
 
 #endif // CATA_SRC_SIMPLE_PATHFINDING_H
