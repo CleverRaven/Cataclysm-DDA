@@ -1876,7 +1876,9 @@ void basecamp::job_assignment_ui()
                         break;
                     }
                     if( smenu.ret == 0 ) {
-                        cur_npc->job.clear_all_priorities();
+                        if( query_yn( _( "Are you sure you wish to clear priorities for %s?"),cur_npc->disp_name() ) ) {
+                            cur_npc->job.clear_all_priorities();
+                        }
                     } else if( smenu.ret > 0 && smenu.ret <= static_cast<int>( job_vec.size() ) ) {
                         activity_id sel_job = job_vec[smenu.ret - 1];
                         player_activity test_act = player_activity( sel_job );
