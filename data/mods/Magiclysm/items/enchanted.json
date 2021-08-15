@@ -149,7 +149,11 @@
     "symbol": "[",
     "color": "dark_gray",
     "charges_per_use": 1,
-    "armor_data": { "sided": true, "material_thickness": 1, "armor": [ { "encumbrance": 2, "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ] },
+    "armor_data": {
+      "sided": true,
+      "material_thickness": 1,
+      "armor": [ { "encumbrance": 2, "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
+    },
     "environmental_protection": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "crystallized_mana": 8 } } ],
     "flags": [ "OVERSIZE", "NO_REPAIR", "STURDY", "BELTED", "NO_UNLOAD", "NO_RELOAD" ],
