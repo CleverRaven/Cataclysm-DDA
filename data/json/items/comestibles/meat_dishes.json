@@ -1114,7 +1114,7 @@
     "name": { "str": "deluxe cheeseburger" },
     "weight": "380 g",
     "calories": 500,
-    "description": "A cheeseburgur with more vegetables and condiments, This is the apex of pre-Cataclysm culinary achievement.",
+    "description": "A cheeseburger with more vegetables and condiments, This is the apex of pre-Cataclysm culinary achievement.",
     "price_postapoc": 300,
     "material": [ "flesh", "wheat", "milk", "veggy", "tomato" ],
     "primary_material": "processed_food",
