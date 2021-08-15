@@ -20,7 +20,6 @@
       { "trait": "BGSS_Scavenger_Merc_1" },
       { "trait": "PSYCHOPATH" },
       { "trait": "TOUGH" },
-      { "trait": "PARKOUR" },
       { "trait": "BADTEMPER" },
       { "trait": "SLOWREADER" },
       { "trait": "INSOMNIA" },
@@ -73,7 +72,7 @@
     "subtype": "collection",
     "items": [
       {
-        "item": "nato_assault_rifle",
+        "item": "m4_carbine",
         "variant": "m4a1",
         "ammo-item": "556",
         "charges": 30,

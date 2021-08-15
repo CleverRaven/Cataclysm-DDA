@@ -67,6 +67,44 @@
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_WEAR( "ACT_WEAR" );
 
+namespace io
+{
+
+template<>
+std::string enum_to_string<aim_exit>( const aim_exit v )
+{
+    switch( v ) {
+        // *INDENT-OFF*
+        case aim_exit::none: return "none";
+        case aim_exit::okay: return "okay";
+        case aim_exit::re_entry: return "re_entry";
+        // *INDENT-ON*
+        case aim_exit::last:
+            break;
+    }
+    debugmsg( "Invalid aim_exit" );
+    abort();
+}
+
+template<>
+std::string enum_to_string<aim_entry>( const aim_entry v )
+{
+    switch( v ) {
+        // *INDENT-OFF*
+        case aim_entry::START: return "START";
+        case aim_entry::VEHICLE: return "VEHICLE";
+        case aim_entry::MAP: return "MAP";
+        case aim_entry::RESET: return "RESET";
+        // *INDENT-ON*
+        case aim_entry::last:
+            break;
+    }
+    debugmsg( "Invalid aim_entry" );
+    abort();
+}
+
+} // namespace io
+
 void create_advanced_inv()
 {
     advanced_inventory advinv;
@@ -1346,19 +1384,15 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
         exit = true;
 
     } else if( srcarea == AIM_INVENTORY || srcarea == AIM_WORN ) {
+        // if worn, we need to fix with the worn index number (starts at -2, as -1 is weapon)
+        int idx = srcarea == AIM_INVENTORY ? sitem->idx : player::worn_position_to_index( sitem->idx ) + 1;
 
         // make sure advanced inventory is reopened after activity completion.
         do_return_entry();
 
-        // if worn, we need to fix with the worn index number (starts at -2, as -1 is weapon)
-        int idx = srcarea == AIM_INVENTORY ? sitem->idx : player::worn_position_to_index( sitem->idx ) + 1;
-
         if( srcarea == AIM_WORN && destarea == AIM_INVENTORY ) {
             // this is ok because worn items are never stacked (can't move more than 1).
             player_character.takeoff( idx );
-
-            // exit so that the action can be carried out
-            exit = true;
         } else {
             // important if item is worn
             if( player_character.can_drop( *sitem->items.front() ).success() ) {
@@ -1381,11 +1415,11 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
                 player_character.assign_activity( player_activity( drop_activity_actor(
                                                       to_drop, placement, force_ground
                                                   ) ) );
-
-                // exit so that the activity can be carried out
-                exit = true;
             }
         }
+
+        // exit so that the activity can be carried out
+        exit = true;
     } else {
         bool can_stash = false;
         if( sitem->items.front()->count_by_charges() ) {

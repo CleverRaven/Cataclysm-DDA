@@ -15,9 +15,9 @@
     "item": "bag_canvas",
     "location": "center",
     "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
+      "install": { "skills": [ [ "fabrication", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
+      "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
+      "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "flags": [ "CARGO", "BOARDABLE", "COVERED", "FOLDABLE" ],
     "breaks_into": "ig_vp_cloth"
@@ -139,6 +139,13 @@
   {
     "copy-from": "basketsm_abstract",
     "id": "basketsm_bike_rear",
+    "looks_like": "basketsm",
+    "symbol": "o",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "basketsm_abstract",
+    "id": "basketsm_wheelchair",
     "looks_like": "basketsm",
     "symbol": "o",
     "type": "vehicle_part"

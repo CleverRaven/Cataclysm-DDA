@@ -107,6 +107,37 @@ struct stat_hp_mods {
 
 struct body_part_type {
     public:
+        /**
+         * the different types of body parts there are.
+         * this allows for the ability to group limbs or determine a limb of a certain type
+         */
+        enum class type {
+            // this is where helmets go, and is a vital part.
+            head,
+            // the torso is generally the center of mass of a creature
+            torso,
+            // provides sight
+            sensor,
+            // you eat and scream with this
+            mouth,
+            // may manipulate objects to some degree, is a main part
+            arm,
+            // manipulates objects. usually is not a main part.
+            hand,
+            // provides motive power
+            leg,
+            // helps with balance. usually is not a main part
+            foot,
+            // may reduce fall damage
+            wing,
+            // may provide balance or manipulation
+            tail,
+            // more of a general purpose limb, such as horns.
+            other,
+            num_types
+        };
+
+
         bodypart_str_id id;
         bool was_loaded = false;
 
@@ -144,6 +175,22 @@ struct body_part_type {
         bodypart_str_id opposite_part;
         // Parts with no opposites have BOTH here
         side part_side = side::BOTH;
+        body_part_type::type limb_type = body_part_type::type::num_types;
+
+        // fine motor control
+        float manipulator_score = 0.0f;
+        float manipulator_max = 0.0f;
+
+        // modifier for lifting strength
+        float lifting_score = 0.0f;
+
+        // ability to block using martial arts
+        // each whole number is a block
+        float blocking_score = 0.0f;
+        // how well you can breathe with this part. cumulative.
+        float breathing_score = 0.0f;
+        // how well you can see things. affects things like throwing dispersion. cumulative
+        float vision_score = 0.0f;
 
         float smash_efficiency = 0.5f;
 
@@ -158,6 +205,8 @@ struct body_part_type {
         int base_hp = 60;
         stat_hp_mods hp_mods;
 
+        // if a limb is vital and at 0 hp, you die.
+        bool is_vital = false;
         bool is_limb = false;
 
         int drench_max = 0;
@@ -184,6 +233,11 @@ struct body_part_type {
         }
     private:
         int bionic_slots_ = 0;
+};
+
+template<>
+struct enum_traits<body_part_type::type> {
+    static constexpr body_part_type::type last = body_part_type::type::num_types;
 };
 
 struct layer_details {
@@ -243,10 +297,12 @@ class bodypart
         int damage_bandaged = 0;
         int damage_disinfected = 0;
 
-        encumbrance_data encumb_data;
+        encumbrance_data encumb_data; // NOLINT(cata-serialize)
 
-        std::array<int, NUM_WATER_TOLERANCE> mut_drench;
+        std::array<int, NUM_WATER_TOLERANCE> mut_drench; // NOLINT(cata-serialize)
 
+        // adjust any limb "value" based on how wounded the limb is. scaled to 0-75%
+        float wound_adjusted_limb_value( float val ) const;
     public:
         bodypart(): id( bodypart_str_id::NULL_ID() ), mut_drench() {}
         explicit bodypart( bodypart_str_id id ): id( id ), hp_cur( id->base_hp ), hp_max( id->base_hp ),
@@ -258,6 +314,19 @@ class bodypart
         bool is_at_max_hp() const;
 
         float get_wetness_percentage() const;
+
+        // Same idea as for wounds, though not all scores get this applied. Should be applied after wounds.
+        // TODO: make private when we're done using this as an interim for real scores
+        float encumb_adjusted_limb_value( float val ) const;
+
+        float get_manipulator_score() const;
+        float get_encumb_adjusted_manipulator_score() const;
+        float get_wound_adjusted_manipulator_score() const;
+        float get_manipulator_max() const;
+        float get_blocking_score() const;
+        float get_lifting_score() const;
+        float get_breathing_score() const;
+        float get_vision_score() const;
 
         int get_hp_cur() const;
         int get_hp_max() const;

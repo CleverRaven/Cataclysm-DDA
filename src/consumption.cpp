@@ -1357,6 +1357,22 @@ int Character::compute_calories_per_effective_volume( const item &food,
     return std::round( kcalories / effective_volume );
 }
 
+static void activate_consume_eocs( Character &you, item &target )
+{
+    Character *char_ptr = nullptr;
+    if( avatar *u = you.as_avatar() ) {
+        char_ptr = u;
+    } else if( npc *n = you.as_npc() ) {
+        char_ptr = n;
+    }
+    item_location loc( you, &target );
+    dialogue d( get_talker_for( char_ptr ), get_talker_for( loc ) );
+    const islot_comestible &comest = *target.get_comestible();
+    for( const effect_on_condition_id &eoc : comest.consumption_eocs ) {
+        eoc->activate( d );
+    }
+}
+
 bool Character::consume_effects( item &food )
 {
     if( !food.is_comestible() ) {
@@ -1478,6 +1494,7 @@ bool Character::consume_effects( item &food )
     if( has_effect( effect_tapeworm ) ) {
         ingested.nutr /= 2;
     }
+    activate_consume_eocs( *this, food );
 
     // GET IN MAH BELLY!
     stomach.ingest( ingested );
@@ -1569,7 +1586,10 @@ bool Character::can_estimate_rot() const
 
 bool Character::can_consume_as_is( const item &it ) const
 {
-    return it.is_comestible() || can_fuel_bionic_with( it );
+    if( it.is_comestible() ) {
+        return !( it.has_flag( flag_FROZEN ) && !it.has_flag( flag_EDIBLE_FROZEN ) );
+    }
+    return can_fuel_bionic_with( it );
 }
 
 bool Character::can_consume( const item &it ) const
@@ -1731,11 +1751,13 @@ static bool consume_med( item &target, player &you )
         you.consume_effects( target );
     }
 
+    activate_consume_eocs( you, target );
+
     target.mod_charges( -amount_used );
     return true;
 }
 
-trinary player::consume( item &target, bool force, bool refuel )
+trinary Character::consume( item &target, bool force, bool refuel )
 {
     if( target.is_null() ) {
         add_msg_if_player( m_info, _( "You do not have that item." ) );
@@ -1753,7 +1775,7 @@ trinary player::consume( item &target, bool force, bool refuel )
         }
         return trinary::NONE;
     }
-    if( is_avatar() && !query_consume_ownership( target, *this ) ) {
+    if( is_avatar() && !query_consume_ownership( target, *this->as_player() ) ) {
         return trinary::NONE;
     }
 
@@ -1761,7 +1783,7 @@ trinary player::consume( item &target, bool force, bool refuel )
         return fuel_bionic_with( target ) && target.charges <= 0 ? trinary::ALL : trinary::SOME;
     }
 
-    if( consume_med( target, *this ) || eat( target, *this, force ) ) {
+    if( consume_med( target, *this->as_player() ) || eat( target, *this->as_player(), force ) ) {
 
         get_event_bus().send<event_type::character_consumes_item>( getID(), target.typeId() );
 
@@ -1772,7 +1794,7 @@ trinary player::consume( item &target, bool force, bool refuel )
     return trinary::NONE;
 }
 
-trinary player::consume( item_location loc, bool force, bool refuel )
+trinary Character::consume( item_location loc, bool force, bool refuel )
 {
     if( !loc ) {
         debugmsg( "Null loc to consume." );

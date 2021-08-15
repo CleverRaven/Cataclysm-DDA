@@ -45,7 +45,7 @@
     "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": {  },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO", "STUN_IMMUNE" ]
   },
   {
     "id": "mon_turret_searchlight",
@@ -77,7 +77,7 @@
       "message": "As the final light is destroyed, it erupts in a blinding flare!",
       "corpse_type": "NO_CORPSE"
     },
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "PRIORITIZE_TARGETS" ]
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "PRIORITIZE_TARGETS", "STUN_IMMUNE" ]
   },
   {
     "id": "mon_turret_bmg",
@@ -135,7 +135,8 @@
       "NO_BREATHE",
       "DROPS_AMMO",
       "CONSOLE_DESPAWN",
-      "ID_CARD_DESPAWN"
+      "ID_CARD_DESPAWN",
+      "STUN_IMMUNE"
     ]
   },
   {
@@ -194,7 +195,8 @@
       "NO_BREATHE",
       "DROPS_AMMO",
       "ID_CARD_DESPAWN",
-      "CONSOLE_DESPAWN"
+      "CONSOLE_DESPAWN",
+      "STUN_IMMUNE"
     ]
   },
   {
@@ -253,7 +255,8 @@
       "NO_BREATHE",
       "DROPS_AMMO",
       "ID_CARD_DESPAWN",
-      "CONSOLE_DESPAWN"
+      "CONSOLE_DESPAWN",
+      "STUN_IMMUNE"
     ]
   },
   {
@@ -305,7 +308,17 @@
     ],
     "death_drops": {  },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "COLDPROOF", "IMMOBILE", "NO_BREATHE", "DROPS_AMMO" ]
+    "flags": [
+      "SEES",
+      "NOHEAD",
+      "ELECTRONIC",
+      "COLDPROOF",
+      "IMMOBILE",
+      "NO_BREATHE",
+      "DROPS_AMMO",
+      "ID_CARD_DESPAWN",
+      "STUN_IMMUNE"
+    ]
   },
   {
     "id": "mon_turret_speaker",
@@ -334,7 +347,7 @@
     "special_attacks": [ [ "SPEAKER", 10 ] ],
     "death_function": { "corpse_type": "BROKEN" },
     "death_drops": { "groups": [ [ "turret_speaker", 1 ] ] },
-    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE" ]
+    "flags": [ "SEES", "NOHEAD", "ELECTRONIC", "IMMOBILE", "NO_BREATHE", "STUN_IMMUNE" ]
   },
   {
     "id": "mon_exodii_turret",
@@ -381,6 +394,16 @@
     "special_when_hit": [ "RETURN_FIRE", 100 ],
     "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "NOHEAD", "IMMOBILE", "NO_BREATHE", "PRIORITIZE_TARGETS", "INTERIOR_AMMO" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "NOHEAD",
+      "IMMOBILE",
+      "NO_BREATHE",
+      "PRIORITIZE_TARGETS",
+      "INTERIOR_AMMO",
+      "STUN_IMMUNE"
+    ]
   }
 ]

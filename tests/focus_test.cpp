@@ -99,7 +99,7 @@ TEST_CASE( "focus" )
     SECTION( "time to level" ) {
         REQUIRE( you.get_skill_level( skill_id( "fabrication" ) ) == 0 );
         std::array<int, 11> expected_practice_times = {{
-                0, 173, 2135, 6303, 12136, 19636, 28803, 39636, 52137, 66303, 82136
+                0, 173, 2137, 6303, 12137, 19637, 28803, 39637, 52137, 66303, 82137
             }
         };
         for( int lvl = 1; lvl <= 10; ++lvl ) {

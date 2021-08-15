@@ -202,7 +202,7 @@ inline std::string _translate_internal( const std::string &msg )
 }
 } // namespace detail
 
-#define ngettext(STRING1, STRING2, COUNT) (COUNT < 2 ? _(STRING1) : _(STRING2))
+#define ngettext(STRING1, STRING2, COUNT) ((COUNT) < 2 ? _(STRING1) : _(STRING2))
 #define pgettext(STRING1, STRING2) _(STRING2)
 #define npgettext(STRING0, STRING1, STRING2, COUNT) ngettext(STRING1, STRING2, COUNT)
 
@@ -340,7 +340,8 @@ class translation
         bool needs_translation = false;
         // translation cache. For "plural" translation only latest `num` is optimistically cached
         mutable int cached_language_version = INVALID_LANGUAGE_VERSION;
-        mutable int cached_num = 0; // `num`, which `cached_translation` corresponds to
+        // `num`, which `cached_translation` corresponds to
+        mutable int cached_num = 0;
         mutable cata::value_ptr<std::string> cached_translation;
 };
 

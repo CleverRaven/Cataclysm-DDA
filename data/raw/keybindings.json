@@ -3016,6 +3016,18 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_ENTRY",
+    "category": "INVENTORY",
+    "name": "Mark/unmark selected item",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "." },
+      { "input_method": "keyboard_code", "key": "KEYPAD_PERIOD" },
+      { "input_method": "keyboard_any", "key": "5" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_5" }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "DROP_NON_FAVORITE",
     "category": "INVENTORY",
     "name": "Mark/unmark non-favorite items in multidrop menu",

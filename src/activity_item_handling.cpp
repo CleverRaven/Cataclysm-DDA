@@ -133,9 +133,6 @@ static const std::string flag_PLANTABLE( "PLANTABLE" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 static const std::string flag_TREE( "TREE" );
 
-//Generic activity: maximum search distance for zones, constructions, etc.
-static const int ACTIVITY_SEARCH_DISTANCE = 60;
-
 /** Activity-associated item */
 struct act_item {
     /// inventory item
@@ -612,7 +609,7 @@ static int move_cost( const item &it, const tripoint &src, const tripoint &dest 
 
         if( const cata::optional<vpart_reference> vp = get_map().veh_at(
                     cart_position ).part_with_feature( "CARGO", false ) ) {
-            vehicle veh = vp->vehicle();
+            const vehicle &veh = vp->vehicle();
             size_t vstor = vp->part_index();
             units::volume capacity = veh.free_volume( vstor );
 

@@ -26,7 +26,7 @@
 #include "units.h"
 
 class JsonObject;
-class player;
+class Character;
 class vehicle;
 
 // bitmask backing store of -certain- vpart_info.flags, ones that
@@ -143,13 +143,18 @@ struct transform_terrain_data {
 };
 
 const std::vector<std::pair<std::string, translation>> vpart_variants = {
-    { "cover", to_translation( "vpart_variants", "Cover" ) },
+    { "cover_left", to_translation( "vpart_variants", "Cover Left" ) },
+    { "cover_right", to_translation( "vpart_variants", "Cover Right" ) },
+    { "hatch_wheel_left", to_translation( "vpart_variants", "Hatchback Wheel Left" ) },
+    { "hatch_wheel_right", to_translation( "vpart_variants", "Hatchback Wheel Right" ) },
+    { "wheel_left", to_translation( "vpart_variants", "Wheel Left" ) },
+    { "wheel_right", to_translation( "vpart_variants", "Wheel Right" ) },
     { "cross_unconnected", to_translation( "vpart_variants", "Unconnected Cross" ) },
     { "cross", to_translation( "vpart_variants", "Cross" ) },
-    { "horizontal_front", to_translation( "vpart_variants", "Front Horizontal" ) },
     { "horizontal_front_edge", to_translation( "vpart_variants", "Front Edge Horizontal" ) },
-    { "horizontal_rear", to_translation( "vpart_variants", "Rear Horizontal" ) },
+    { "horizontal_front", to_translation( "vpart_variants", "Front Horizontal" ) },
     { "horizontal_rear_edge", to_translation( "vpart_variants", "Rear Edge Horizontal" ) },
+    { "horizontal_rear", to_translation( "vpart_variants", "Rear Horizontal" ) },
     { "horizontal_2_front", to_translation( "vpart_variants", "Front Thick Horizontal" ) },
     { "horizontal_2_rear", to_translation( "vpart_variants", "Rear Thick Horizontal" ) },
     { "ne_edge", to_translation( "vpart_variants", "Front Right Corner" ) },
@@ -167,6 +172,7 @@ const std::vector<std::pair<std::string, translation>> vpart_variants = {
     { "rear_right", to_translation( "vpart_variants", "Rear Right" ) },
     { "rear_left", to_translation( "vpart_variants", "Rear Left" ) },
     // these have to be last to avoid false positives
+    { "cover", to_translation( "vpart_variants", "Cover" ) },
     { "vertical", to_translation( "vpart_variants", "Vertical" ) },
     { "horizontal", to_translation( "vpart_variants", "Horizontal" ) },
     { "vertical_2", to_translation( "vpart_variants", "Thick Vertical" ) },
@@ -275,13 +281,13 @@ class vpart_info
         requirement_data install_requirements() const;
 
         /** Installation time (in moves) for this component accounting for player skills */
-        int install_time( const player &p ) const;
+        int install_time( const Character &you ) const;
 
         /** Requirements for removal of this component */
         requirement_data removal_requirements() const;
 
         /** Removal time (in moves) for this component accounting for player skills */
-        int removal_time( const player &p ) const;
+        int removal_time( const Character &you ) const;
 
         /** Requirements for repair of this component (per level of damage) */
         requirement_data repair_requirements() const;
@@ -290,7 +296,7 @@ class vpart_info
         bool is_repairable() const;
 
         /** Repair time (in moves) to fully repair this component, accounting for player skills */
-        int repair_time( const player &p ) const;
+        int repair_time( const Character &you ) const;
 
         /**
          * @name Engine specific functions

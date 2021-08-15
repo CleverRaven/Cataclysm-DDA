@@ -38,6 +38,12 @@
         { "trap": "tr_light_on_res_8_NW", "x": [ 8, 10 ], "y": [ 1, 23 ], "repeat": [ 1, 2 ] },
         { "trap": "tr_concrete_wall_door_lab_res_8_NW", "x": [ 8, 10 ], "y": [ 1, 23 ], "repeat": [ 2, 3 ] }
       ],
+      "place_loot": [
+        { "item": "id_science_mutagen_pink", "x": 14, "y": 9, "chance": 25 },
+        { "item": "id_science_mutagen_pink", "x": 14, "y": 11, "chance": 25 },
+        { "item": "id_science_mutagen_pink", "x": 14, "y": 20, "chance": 25 },
+        { "item": "id_science_mutagen_pink", "x": 14, "y": 22, "chance": 25 }
+      ],
       "place_nested": [
         { "chunks": [ [ "lab_cargo_5x5", 100 ] ], "x": 1, "y": 18 },
         { "chunks": [ [ "lab_6x6_shop_backroom", 100 ] ], "x": 1, "y": 11 },
@@ -48,8 +54,11 @@
         { "monster": "GROUP_LAB_MAINTENANCE", "x": [ 1, 4 ], "y": [ 2, 22 ], "density": 0.1 }
       ],
       "place_monster": [
+        { "monster": "mon_lab_security_drone_GR", "x": [ 20, 23 ], "y": [ 8, 20 ], "chance": 100 },
         { "monster": "mon_skitterbot", "x": 12, "y": 15, "chance": 100 },
-        { "monster": "mon_skitterbot", "x": 12, "y": 16, "chance": 100 }
+        { "monster": "mon_skitterbot", "x": 12, "y": 16, "chance": 100 },
+        { "monster": "mon_skitterbot", "x": 18, "y": 15, "chance": 100 },
+        { "monster": "mon_skitterbot", "x": 18, "y": 16, "chance": 100 }
       ]
     }
   },
@@ -76,8 +85,8 @@
         "~~%..+.....s|;;;|......|",
         "~~%..|..h.YR|;;;|......|",
         "~~%.|||Trr|||;;;|......|",
-        "~~%.$^|||||;$;;;|......|",
-        "~~%.$^|||||;$;;;|......|",
+        "~~%.|^|||||;$;;;|......|",
+        "~~%.|^|||||;$;;;|......|",
         "~~%.|||Trr|||;;;||||||||",
         "~~%..|..h.YR|;;;|;;;;;;|",
         "~~%h.+.....s|;;;|;;;;;;|",
@@ -97,11 +106,20 @@
         { "chunks": [ [ "lab_6x6_shop_backroom", 100 ] ], "x": 17, "y": 11 },
         { "chunks": [ [ "lab_maintenance_9x9_W", 100 ] ], "x": 14, "y": 1 }
       ],
+      "place_loot": [
+        { "item": "id_science_mutagen_pink", "x": 9, "y": 9, "chance": 25 },
+        { "item": "id_science_mutagen_pink", "x": 9, "y": 11, "chance": 25 },
+        { "item": "id_science_mutagen_pink", "x": 9, "y": 20, "chance": 25 },
+        { "item": "id_science_mutagen_pink", "x": 9, "y": 22, "chance": 25 }
+      ],
       "place_monsters": [
         { "monster": "GROUP_LAB_RESEARCHERS", "x": [ 1, 8 ], "y": [ 8, 22 ], "density": 0.05 },
         { "monster": "GROUP_LAB_MAINTENANCE", "x": [ 19, 21 ], "y": [ 2, 22 ], "density": 0.1 }
       ],
       "place_monster": [
+        { "monster": "mon_lab_security_drone_GR", "x": [ 0, 4 ], "y": [ 8, 20 ], "chance": 100 },
+        { "monster": "mon_skitterbot", "x": 5, "y": 15, "chance": 100 },
+        { "monster": "mon_skitterbot", "x": 5, "y": 16, "chance": 100 },
         { "monster": "mon_skitterbot", "x": 11, "y": 15, "chance": 100 },
         { "monster": "mon_skitterbot", "x": 11, "y": 16, "chance": 100 }
       ]
@@ -146,7 +164,7 @@
         "U": "t_thconc_floor",
         "Q": "t_thconc_floor",
         "Г": "t_ladder_down",
-        "¥": "t_card_science_maintenance_yellow"
+        "¥": "t_card_science_maintenance_green"
       },
       "place_nested": [
         { "chunks": [ [ "lab_cargo_5x5", 100 ] ], "x": 1, "y": 1 },
