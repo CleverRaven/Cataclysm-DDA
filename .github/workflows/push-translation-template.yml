@@ -31,6 +31,17 @@ jobs:
       - name: "Generate translation template"
         run: |
           lang/update_pot.sh
+      - name: "Set up Transifex token"
+        env: 
+          TX_TOKEN: ${{ secrets.TX_TOKEN }}
+        run: |
+          cat << EOF > ~/.transifexrc
+          [https://www.transifex.com]
+          api_hostname = https://api.transifex.com
+          hostname = https://www.transifex.com
+          password = $TX_TOKEN
+          username = api
+          EOF
       - name: "Push translation template to Transifex server"
         uses: nick-invision/retry@v2
         with:
@@ -38,10 +49,7 @@ jobs:
           max_attempts: 5
           retry_on: error
           command: |
-            export TX_TOKEN=$TOKEN
             tx push --source --no-interactive --resource cataclysm-dda.master-cataclysm-dda
-            unset TX_TOKEN
-            unset TOKEN
       - name: Sleep for 5 minutes
         run: sleep 5m
         shell: bash
