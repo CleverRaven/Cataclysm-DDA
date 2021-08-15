@@ -1097,7 +1097,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 380,
-    "description": "A sandwich of minced meat and cheese with condiments. A simple favorite of the people before the cataclysm.",
+    "description": "A sandwich of minced meat and cheese with condiments.  A simple favorite of the people before the cataclysm.",
     "price": 1000,
     "price_postapoc": 250,
     "material": [ "flesh", "wheat", "milk" ],
