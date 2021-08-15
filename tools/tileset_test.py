@@ -9,7 +9,7 @@ Examples:
     %(prog)s data/json save/worldname
     %(prog)s data/mods/Magiclysm .
     %(prog)s data/mods/Magiclysm data/mods/Aftershock .
-    %(prog)s . /tmp
+    %(prog)s . /tmp -f
 '''
 
 import argparse
@@ -281,12 +281,15 @@ class HandlerUnhandledType(Exception):
 
 class Handler:
 
-    def __init__(self, path: pathlib.Path, parsed_ids: dict):
-        self.maps_folder = pathlib.Path(args.path)
+    def __init__(self, path: pathlib.Path, parsed_ids: dict, dry_run: bool,
+                 force: bool):
+        self.dry_run = dry_run
+        self.force = force
+        self.maps_folder = pathlib.Path(path)
         if not self.maps_folder.exists():
             raise PathNotExist(self.maps_folder)
         self.maps_folder = self.maps_folder.joinpath('maps')
-        if self.maps_folder.exists() and not (args.dry_run or args.force):
+        if self.maps_folder.exists() and not (self.dry_run or self.force):
             raise MapsFolderExists(self.maps_folder)
 
         self._maps = dict()
@@ -321,17 +324,17 @@ class Handler:
 
             square_offset += square_length
 
-    def save_maps(self, dry_run: bool) -> None:
+    def save_maps(self) -> None:
         for _map in self._maps:
             row = int(_map.split('.')[0])
             column = int(_map.split('.')[1])
             folder = pathlib.Path.joinpath(self.maps_folder,
                                            f'{row//32}.{column//32}.0')
-            if not dry_run:
+            if not self.dry_run:
                 folder.mkdir(parents=True, exist_ok=True)
 
             file_path = folder.joinpath(f'{row}.{column}.0.map')
-            if not dry_run:
+            if not self.dry_run:
                 with open(file_path, 'w') as f:
                     f.write(self._maps[_map].__str__())
                     f.write('\n')
@@ -361,5 +364,6 @@ if __name__ == '__main__':
                         help='print to terminal instead of creating files')
 
     args = parser.parse_args()
-    handler = Handler(args.path, parse_json(args.data))
-    handler.save_maps(args.dry_run)
+    handler = Handler(args.path, parse_json(args.data), args.dry_run,
+                      args.force)
+    handler.save_maps()
