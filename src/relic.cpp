@@ -494,8 +494,14 @@ bool relic::can_recharge( item &parent, Character *carrier )
             return carrier->is_wielding( parent );
         }
 
-        return true;
+        case relic_recharge_has::NUM: {
+            return true;
+        }
+
     }
+
+    return true;
+
 
 }
 
