@@ -274,6 +274,11 @@ class MapsFolderExists(Exception):
         super().__init__(f"maps folder already exists: {path}")
 
 
+class HandlerUnhandledType(Exception):
+    def __init__(self, key):
+        super().__init__(f"key not handled by Handler: {key}")
+
+
 class Handler:
 
     def __init__(self, path: pathlib.Path, parsed_ids: dict):
