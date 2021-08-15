@@ -22,7 +22,7 @@
         "5": {
           "name": "West Entrance Gate Controls",
           "security": 1,
-          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open", "security": 3 } ],
+          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open_gate", "security": 3 }, { "name": "EMERGENCY OVERRIDE - CLOSE GATES", "action": "close_gate", "security": 1 } ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
       }
@@ -93,7 +93,7 @@
         "5": {
           "name": "West Entrance Gate Controls",
           "security": 1,
-          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open", "security": 3 } ],
+          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open_gate", "security": 3 }, { "name": "EMERGENCY OVERRIDE - CLOSE GATES", "action": "close_gate", "security": 1 } ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
       }
@@ -155,7 +155,7 @@
         "5": {
           "name": "West Entrance Gate Controls",
           "security": 1,
-          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open", "security": 3 } ],
+          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open_gate", "security": 3 }, { "name": "EMERGENCY OVERRIDE - CLOSE GATES", "action": "close_gate", "security": 1 } ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
       }
@@ -186,7 +186,7 @@
         "5": {
           "name": "South Entrance Gate Controls",
           "security": 1,
-          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open", "security": 3 } ],
+          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open_gate", "security": 3 }, { "name": "EMERGENCY OVERRIDE - CLOSE GATES", "action": "close_gate", "security": 1 } ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
       }
@@ -260,7 +260,7 @@
         "5": {
           "name": "South Entrance Gate Controls",
           "security": 1,
-          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open", "security": 3 } ],
+          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open_gate", "security": 3 }, { "name": "EMERGENCY OVERRIDE - CLOSE GATES", "action": "close_gate", "security": 1 } ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
       }
@@ -317,7 +317,7 @@
         "5": {
           "name": "South Entrance Gate Controls",
           "security": 1,
-          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open", "security": 3 } ],
+          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open_gate", "security": 3 }, { "name": "EMERGENCY OVERRIDE - CLOSE GATES", "action": "close_gate", "security": 1 } ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
       },
@@ -355,7 +355,7 @@
         "5": {
           "name": "East Entrance Gate Controls",
           "security": 1,
-          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open", "security": 3 } ],
+          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open_gate", "security": 3 }, { "name": "EMERGENCY OVERRIDE - CLOSE GATES", "action": "close_gate", "security": 1 } ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
       }
@@ -429,7 +429,7 @@
         "5": {
           "name": "East Entrance Gate Controls",
           "security": 1,
-          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open", "security": 3 } ],
+          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open_gate", "security": 3 }, { "name": "EMERGENCY OVERRIDE - CLOSE GATES", "action": "close_gate", "security": 1 } ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
       }
@@ -493,7 +493,7 @@
         "5": {
           "name": "East Entrance Gate Controls",
           "security": 1,
-          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open", "security": 3 } ],
+          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open_gate", "security": 3 }, { "name": "EMERGENCY OVERRIDE - CLOSE GATES", "action": "close_gate", "security": 1 } ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
       }
@@ -524,7 +524,7 @@
         "5": {
           "name": "North Entrance Gate Controls",
           "security": 1,
-          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open", "security": 3 } ],
+          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open_gate", "security": 3 }, { "name": "EMERGENCY OVERRIDE - CLOSE GATES", "action": "close_gate", "security": 1 } ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
       }
@@ -598,7 +598,7 @@
         "5": {
           "name": "North Entrance Gate Controls",
           "security": 1,
-          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open", "security": 3 } ],
+          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open_gate", "security": 3 }, { "name": "EMERGENCY OVERRIDE - CLOSE GATES", "action": "close_gate", "security": 1 } ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
       }
@@ -662,7 +662,7 @@
         "5": {
           "name": "North Entrance Gate Controls",
           "security": 1,
-          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open", "security": 3 } ],
+          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open_gate", "security": 3 }, { "name": "EMERGENCY OVERRIDE - CLOSE GATES", "action": "close_gate", "security": 1 } ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
       }
@@ -681,7 +681,7 @@
         "5": {
           "name": "Interior Gate Controls",
           "security": 1,
-          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open", "security": 1 } ],
+          "options": [ { "name": "EMERGENCY OVERRIDE - OPEN GATES", "action": "open_gate", "security": 1 } ],
           "failures": [ { "action": "damage" }, { "action": "shutdown" } ]
         }
       }
