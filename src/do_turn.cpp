@@ -597,9 +597,6 @@ void handle_key_blocking_activity()
 
 namespace
 {
-void monmove();
-void overmap_npc_move();
-
 void monmove()
 {
     g->cleanup_dead();
