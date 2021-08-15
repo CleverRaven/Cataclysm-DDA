@@ -5358,8 +5358,7 @@ cata::optional<int> iuse::handle_ground_graffiti( Character &p, item *it, const 
  */
 static bool heat_item( player &p )
 {
-    item_location loc = g->inv_map_splice( []( const item_location &itm )
-    {
+    item_location loc = g->inv_map_splice( []( const item_location & itm ) {
         const item *food = itm->get_food();
         return food && !food->has_own_flag( flag_HOT ) &&
                ( !itm->made_of_from_type( phase_id::LIQUID ) ||
