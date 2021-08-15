@@ -453,6 +453,7 @@
       [ "pickup", 700 ],
       [ "hippie_van", 800 ],
       [ "van_camper", 200 ],
+      [ "van_motorhome", 50 ],
       [ "4x4_car", 800 ]
     ]
   },
@@ -466,6 +467,7 @@
       [ "car_anmlcmpt", 100 ],
       [ "suv", 400 ],
       [ "rv", 200 ],
+      [ "van_motorhome", 50 ],
       [ "car_sports", 300 ],
       [ "car_hybrid", 200 ],
       [ "cube_van_cheap", 200 ],
