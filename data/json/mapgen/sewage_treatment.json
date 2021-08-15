@@ -72,12 +72,12 @@
       "h": "t_thconc_floor",
       "D": "t_thconc_floor",
       "1": "t_thconc_floor",
-      "=": "t_rock_floor",
+      "=": "t_dirt",
       ">": "t_stairs_up",
       "!": "t_bars",
       "~": "t_sewage",
       "`": "t_sewage",
-      "%": "t_rock",
+      "%": "t_soil",
       ".": "t_thconc_floor",
       "^": "t_ladder_up",
       "*": "t_door_bar_locked",
@@ -354,7 +354,7 @@
     ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_dirt",
       "rows": [
         "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%~~~~%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%",
         "%%%%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%%%%",
@@ -471,7 +471,7 @@
     "//": "10% chance of a hidden CHUD lair",
     "weight": 25,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_dirt",
       "rows": [
         "%%%%%~#2%%%%%%%%HHHHHHHH",
         "%%%%%~#2%%%HHHHHHww.....",
@@ -520,7 +520,7 @@
     "//": "Easter egg - TMNT reference",
     "weight": 1,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_dirt",
       "rows": [
         "%%%%%~#2%%%%%%%%HHHHHHHH",
         "%%%%%~#2%%%HHHHHHww.....",

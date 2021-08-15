@@ -4,14 +4,12 @@
 
 #include <algorithm>
 #include <functional>
+#include <iosfwd>
 #include <map>
-#include <string>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
 #include "morale_types.h"
-#include "string_id.h"
 #include "type_id.h"
 
 class JsonIn;
@@ -80,7 +78,7 @@ class player_morale
         class morale_point
         {
             public:
-                morale_point(
+                explicit morale_point(
                     const morale_type &type = MORALE_NULL,
                     const itype *item_type = nullptr,
                     int bonus = 0,
@@ -126,7 +124,7 @@ class player_morale
                 /**
                  *this point's percent contribution to the total positive or total negative morale effect
                  */
-                double percent_contribution = 0;
+                double percent_contribution = 0; // NOLINT(cata-serialize)
 
                 /**
                  * Returns either new_time or remaining time (which one is greater).
@@ -148,6 +146,7 @@ class player_morale
         void set_worn( const item &it, bool worn );
         void set_mutation( const trait_id &mid, bool active );
         bool has_mutation( const trait_id &mid );
+        bool has_flag( const json_character_flag &flag );
 
         void remove_if( const std::function<bool( const morale_point & )> &func );
         void remove_expired();
@@ -183,7 +182,7 @@ class player_morale
         struct mutation_data {
             public:
                 mutation_data() = default;
-                mutation_data( const mutation_handler &on_gain_and_loss ) :
+                explicit mutation_data( const mutation_handler &on_gain_and_loss ) :
                     on_gain( on_gain_and_loss ),
                     on_loss( on_gain_and_loss ) {}
                 mutation_data( const mutation_handler &on_gain, const mutation_handler &on_loss ) :

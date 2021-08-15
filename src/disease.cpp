@@ -2,7 +2,7 @@
 
 #include "debug.h"
 #include "generic_factory.h"
-#include "string_id.h"
+#include "json.h"
 
 namespace
 {

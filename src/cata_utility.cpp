@@ -1,12 +1,13 @@
 #include "cata_utility.h"
 
-#include <algorithm>
 #include <cctype>
+#include <clocale>
+#include <algorithm>
 #include <cmath>
 #include <cstdio>
+#include <exception>
+#include <fstream>
 #include <iterator>
-#include <locale>
-#include <memory>
 #include <sstream>
 #include <stdexcept>
 #include <string>
@@ -211,6 +212,11 @@ double temp_to_celsius( double fahrenheit )
 double temp_to_kelvin( double fahrenheit )
 {
     return temp_to_celsius( fahrenheit ) + 273.15;
+}
+
+double celsius_to_kelvin( double celsius )
+{
+    return celsius + 273.15;
 }
 
 double kelvin_to_fahrenheit( double kelvin )

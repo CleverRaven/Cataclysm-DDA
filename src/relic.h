@@ -2,10 +2,9 @@
 #ifndef CATA_SRC_RELIC_H
 #define CATA_SRC_RELIC_H
 
-#include <algorithm>
 #include <climits>
 #include <cmath>
-#include <string>
+#include <iosfwd>
 #include <utility>
 #include <vector>
 
@@ -13,11 +12,11 @@
 #include "item.h"
 #include "magic.h"
 #include "magic_enchantment.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "weighted_list.h"
 
+class Character;
 class Creature;
 class JsonIn;
 class JsonObject;
@@ -170,7 +169,7 @@ struct relic_charge_info {
 
     // Because multiple different charge types can overlap, cache the power
     // level from the charge type we were generated from here to avoid confusion
-    int power = 0;
+    int power = 0; // NOLINT(cata-serialize)
 
     // accumulates time for charge, and increases charge if it has enough accumulated.
     // assumes exactly one second has passed.
@@ -188,7 +187,7 @@ class relic
         std::vector<enchantment> passive_effects;
 
         // the item's name will be replaced with this if the string is not empty
-        translation item_name_override;
+        translation item_name_override; // NOLINT(cata-serialize)
 
         relic_charge_info charge;
 

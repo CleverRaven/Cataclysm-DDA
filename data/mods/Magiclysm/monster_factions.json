@@ -10,6 +10,11 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "hunllef",
+    "base_faction": "herbivore"
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "ooze",
     "friendly": [ "dragon_black", "lizardfolk", "ooze" ]
   },
@@ -39,5 +44,13 @@
   {
     "type": "MONSTER_FACTION",
     "name": "ogre"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "leprechaun"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "elves"
   }
 ]

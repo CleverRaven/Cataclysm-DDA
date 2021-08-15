@@ -3,7 +3,7 @@
     "id": "8mm_bootleg",
     "copy-from": "8mm_jhp",
     "type": "AMMO",
-    "name": { "str": "bootleg 8x40mm JHP" },
+    "name": { "str_sp": "bootleg 8x40mm JHP" },
     "description": "Bootleg duplicates of Rivtech 8x40mm caseless rounds.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
@@ -36,7 +36,7 @@
     "id": "8mm_civilian",
     "copy-from": "8mm_caseless",
     "type": "AMMO",
-    "name": { "str": "8x40mm sporting" },
+    "name": { "str_sp": "8x40mm sporting" },
     "description": "8x40mm caseless rounds, light sporting load sold for civilian use.  Proprietary ammunition for Rivtech firearms.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] },
     "proportional": { "price": 0.8, "damage": { "damage_type": "bullet", "amount": 0.5 }, "dispersion": 1.2, "recoil": 0.5 }
@@ -45,7 +45,7 @@
     "id": "8mm_fmj",
     "copy-from": "8mm_caseless",
     "type": "AMMO",
-    "name": { "str": "8x40mm FMJ" },
+    "name": { "str_sp": "8x40mm FMJ" },
     "description": "8x40mm caseless rounds, full metal jacket.  Military grade ammunition for Rivtech firearms.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "relative": { "damage": { "damage_type": "bullet", "amount": -5, "armor_penetration": 10 } }
   },
@@ -53,7 +53,7 @@
     "id": "8mm_hvp",
     "copy-from": "8mm_caseless",
     "type": "AMMO",
-    "name": { "str": "8x40mm HVP" },
+    "name": { "str_sp": "8x40mm HVP" },
     "description": "8x40mm caseless rounds, saboted high-velocity penetrator type.  Advanced military grade, armor-piercing ammunition that fires a single depleted uranium flechette.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "price": 2500,
     "price_postapoc": 50000,
@@ -64,7 +64,7 @@
     "id": "8mm_inc",
     "copy-from": "8mm_caseless",
     "type": "AMMO",
-    "name": { "str": "8x40mm tracer" },
+    "name": { "str_sp": "8x40mm tracer" },
     "description": "8x40mm caseless rounds with tracers to help keep the weapon they are fired from on target at the risk of igniting flammable substances.  Military grade ammunition for Rivtech firearms.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "count": 20,
     "proportional": { "dispersion": 0.8 },
@@ -74,7 +74,7 @@
     "id": "8mm_jhp",
     "copy-from": "8mm_caseless",
     "type": "AMMO",
-    "name": { "str": "8x40mm JHP" },
+    "name": { "str_sp": "8x40mm JHP" },
     "description": "8x40mm caseless rounds, jacketed hollowpoint.  Military grade ammunition for Rivtech firearms.  Being caseless rounds, these cannot be disassembled or reloaded.",
     "relative": { "damage": { "damage_type": "bullet", "amount": 5, "armor_penetration": -10 } }
   }

@@ -143,7 +143,7 @@
   {
     "type": "tool_quality",
     "id": "SCREW",
-    "name": "screw driving",
+    "name": { "str": "screw driving" },
     "usages": [ [ 1, [ "REMOVE_ALL_MODS" ] ] ]
   },
   {
@@ -175,6 +175,11 @@
     "type": "tool_quality",
     "id": "PUNCH",
     "name": { "str": "punch" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "WRITE",
+    "name": { "str": "pencil" }
   },
   {
     "type": "tool_quality",
@@ -319,5 +324,11 @@
     "id": "SURFACE",
     "//": "A flat surface, like a table or a mat. 1 would be the size of a cutting board.",
     "name": { "str": "clean surface" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "WHEEL_FAST",
+    "//": "A tool that is capable of manipulating the lug nuts of a vehicle's wheels or smaller to replace or fasten them.",
+    "name": { "str": "wheel fastening" }
   }
 ]

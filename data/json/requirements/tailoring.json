@@ -177,15 +177,23 @@
     "id": "clasps",
     "type": "requirement",
     "//": "All kinds of fasteners for strapped-on objects like belts, per single strap.",
-    "components": [ [ [ "button", 1, "LIST" ], [ "snapfastener_steel", 2 ], [ "touch_fastener", 2 ], [ "string_6", 2 ] ] ]
+    "components": [
+      [
+        [ "button", 1, "LIST" ],
+        [ "snapfastener_steel", 2 ],
+        [ "buckle_steel", 1 ],
+        [ "touch_fastener", 2 ],
+        [ "string_6", 2 ]
+      ]
+    ]
   },
   {
     "id": "plastic_molding",
     "type": "requirement",
-    "//": "Melting and reshaping plastic items, per 70 g of plastic. Usually takes 30 minutes per unit.",
+    "//": "Melting and reshaping plastic items through the use of vacuum forming molds, per 70 g of plastic. Usually takes 30 minutes per unit.",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "plastic_chunk", 1 ] ] ]
+    "tools": [ [ [ "makeshift_vacuum_mold", 4 ], [ "vac_mold", 2 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "polycarbonate_sheet", 1 ] ] ]
   },
   {
     "id": "tailoring_cotton",

@@ -1,5 +1,4 @@
 #MSHOCKXOTTO+ TILESET
-#Update: 21-01-11
 
 #Name of the tileset
 NAME: MshockXottoplus

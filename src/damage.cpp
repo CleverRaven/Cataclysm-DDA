@@ -1,9 +1,10 @@
 #include "damage.h"
 
 #include <algorithm>
-#include <cstddef>
+#include <cstdlib>
 #include <map>
 #include <numeric>
+#include <string>
 #include <utility>
 
 #include "bodypart.h"

@@ -1,14 +1,15 @@
 #include "npctrade.h"
 
 #include <algorithm>
-#include <cmath>
 #include <cstdlib>
+#include <functional>
+#include <iterator>
 #include <list>
-#include <memory>
 #include <ostream>
 #include <set>
 #include <string>
 #include <type_traits>
+#include <utility>
 #include <vector>
 
 #include "avatar.h"
@@ -16,8 +17,8 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "enums.h"
 #include "faction.h"
-#include "game.h"
 #include "game_constants.h"
 #include "input.h"
 #include "item.h"
@@ -66,11 +67,13 @@ std::list<item> npc_trading::transfer_items( std::vector<item_pricing> &stuff, p
 
         // Items are moving to escrow.
         if( use_escrow && ip.charges ) {
+            gift.charges = charges;
             escrow.emplace_back( gift );
         } else if( use_escrow ) {
             std::fill_n( std::back_inserter( escrow ), count, gift );
             // No escrow in use. Items moving from giver to receiver.
         } else if( ip.charges ) {
+            gift.charges = charges;
             receiver.i_add( gift );
         } else {
             for( int i = 0; i < count; i++ ) {
@@ -210,8 +213,12 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         }
     }
 
-    for( vehicle_cursor &cursor : vehicle_selector( seller.pos(), 1 ) ) {
-        buy_helper( cursor, check_item );
+    // Allow direct trade from vehicles, but *not* with allies, as that ends up
+    // with the same item on both sides of the trade panel, and so much clutter.
+    if( ! np.will_exchange_items_freely() ) {
+        for( vehicle_cursor &cursor : vehicle_selector( seller.pos(), 1 ) ) {
+            buy_helper( cursor, check_item );
+        }
     }
 
     const auto cmp = []( const item_pricing & a, const item_pricing & b ) {
@@ -377,7 +384,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
             std::string itname = it->display_name();
 
             if( np.will_exchange_items_freely() && ip.loc.where() != item_location::type::character ) {
-                itname = itname + " (" + ip.loc.describe( &player_character ) + ")";
+                itname += " (" + ip.loc.describe( &player_character ) + ")";
                 color = c_light_blue;
             }
 
@@ -712,7 +719,7 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
         npc_trading::transfer_items( trade_win.theirs, np, player_character, from_map, true );
         // Now move items from escrow to the npc. Keep the weapon wielded.
         for( const item &i : escrow ) {
-            np.i_add( i, true, nullptr, true, false );
+            np.i_add( i, true, nullptr, nullptr, true, false );
         }
 
         for( item_location *loc_ptr : from_map ) {
@@ -747,5 +754,5 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
 // Will the NPC accept the trade that's currently on offer?
 bool trading_window::npc_will_accept_trade( const npc &np ) const
 {
-    return np.will_exchange_items_freely() || your_balance + np.max_credit_extended() > 0;
+    return np.will_exchange_items_freely() || your_balance + np.max_credit_extended() >= 0;
 }

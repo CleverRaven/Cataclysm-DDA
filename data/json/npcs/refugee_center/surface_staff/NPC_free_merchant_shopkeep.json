@@ -469,7 +469,6 @@
     "type": "talk_topic",
     "id": "TALK_EVAC_MERCHANT_Boris_Mission_1",
     "dynamic_line": "Hmm.  Most of the people downstairs aren't willing to come up for things like that.  If you sweeten the pot a bit, we could get a few folks I'm sure.",
-    "speaker_effect": { "effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } },
     "responses": [
       {
         "text": "How about five Merch to do it?",
@@ -482,18 +481,21 @@
         "condition": { "u_has_items": { "item": "FMCNote", "count": 10 } },
         "effect": { "u_adjust_var": "Boris_mission_1", "type": "mission", "context": "cleanup_promises", "adjustment": 3 },
         "topic": "TALK_EVAC_MERCHANT_Boris_Mission_1c"
-      }
+      },
+      { "text": "I might come back with some more Merch then…", "topic": "TALK_EVAC_MERCHANT" }
     ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_EVAC_MERCHANT_Boris_Mission_1b",
-    "dynamic_line": "Sure.  Five Merch is definitely enough to get someone off guard duty to help you out."
+    "dynamic_line": "Sure.  Five Merch is definitely enough to get someone off guard duty to help you out.",
+    "speaker_effect": { "effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } }
   },
   {
     "type": "talk_topic",
     "id": "TALK_EVAC_MERCHANT_Boris_Mission_1c",
-    "dynamic_line": "Woah, you're really intent hey?  Okay, if you feel so strongly, ten Merch is enough to get a couple people out of guard duty to help, and you know what?  If you feel that strongly about it, I'll come help out in my down time too.  I respect someone putting their money where their mouth is."
+    "dynamic_line": "Woah, you're really intent hey?  Okay, if you feel so strongly, ten Merch is enough to get a couple people out of guard duty to help, and you know what?  If you feel that strongly about it, I'll come help out in my down time too.  I respect someone putting their money where their mouth is.",
+    "speaker_effect": { "effect": { "npc_add_var": "cleanup_asked", "type": "mission", "context": "Boris_mission_1", "value": "yes" } }
   },
   {
     "id": "MISSION_FREE_MERCHANTS_EVAC_1",
@@ -631,7 +633,7 @@
     "value": 50000,
     "item": "commune_prospectus",
     "start": {
-      "assign_mission_target": { "om_terrain": "ranch_camp_67", "reveal_radius": 1 },
+      "assign_mission_target": { "om_terrain": "ranch_camp_67", "om_special": "ranch_camp", "reveal_radius": 1, "search_range": 200 },
       "update_mapgen": {
         "place_npcs": [
           { "class": "ranch_foreman", "x": 16, "y": 15, "target": true, "add_trait": "NPC_MISSION_LEV_1" },
@@ -740,10 +742,10 @@
         "om_special": "hub_01",
         "reveal_radius": 1,
         "random": true,
-        "search_range": 280
+        "search_range": 240
       }
     },
-    "goal_condition": { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" },
+    "goal_condition": { "u_has_var": "completed_free_merchants_hub_delivery_1", "type": "dialogue", "context": "intercom", "value": "yes" },
     "value": 5000,
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

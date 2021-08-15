@@ -3,6 +3,7 @@
     "id": "belt_str",
     "copy-from": "leather_belt",
     "type": "ARMOR",
+    "price_postapoc": "1750 USD",
     "name": { "str": "belt of strength +2", "str_pl": "belts of strength +2" },
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 2 } ] } ] }
   },
@@ -10,6 +11,7 @@
     "id": "belt_haste",
     "copy-from": "leather_belt",
     "type": "ARMOR",
+    "price_postapoc": "3500 USD",
     "name": { "str": "belt of haste", "str_pl": "belts of haste" },
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "multiply": 0.15, "add": 5 } ] } ]
@@ -31,6 +33,7 @@
     },
     "weight": "1400 g",
     "volume": "3 L",
+    "longest_side": "170 cm",
     "bashing": 17,
     "category": "weapons",
     "to_hit": 3
@@ -51,6 +54,7 @@
     },
     "weight": "1400 g",
     "volume": "3 L",
+    "longest_side": "170 cm",
     "bashing": 17,
     "category": "weapons",
     "to_hit": 3
@@ -71,6 +75,7 @@
     },
     "weight": "1400 g",
     "volume": "3 L",
+    "longest_side": "170 cm",
     "bashing": 17,
     "category": "weapons",
     "to_hit": 3
@@ -79,23 +84,22 @@
     "id": "wizard_hat",
     "type": "ARMOR",
     "name": "wizard hat",
-    "description": "A blue pointed hat with stars stiched into it.  Wearing it increases your maximum mana.",
+    "description": "A blue pointed hat with stars stitched into it.  Wearing it increases your maximum mana.",
     "weight": "390 g",
     "volume": "2 L",
     "price": 9500,
+    "price_postapoc": "1200 USD",
     "material": [ "cotton" ],
     "symbol": "^",
     "color": "light_blue",
-    "covers": [ "head" ],
-    "coverage": 50,
-    "encumbrance": 12,
     "warmth": 7,
     "material_thickness": 2,
     "environmental_protection": 2,
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_MANA", "multiply": 0.2, "add": 500 } ] } ]
     },
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 12, "coverage": 50, "covers": [ "head" ] } ]
   },
   {
     "id": "debug_fireball_hammer",
@@ -125,13 +129,11 @@
     "material": [ "black_dragon_hide" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "torso", "head", "arm_l", "arm_r", "leg_l", "leg_r" ],
-    "coverage": 85,
-    "encumbrance": 4,
     "warmth": 30,
     "material_thickness": 3,
     "flags": [ "OVERSIZE", "HOOD", "OUTER", "NO_REPAIR", "SUPER_FANCY", "STURDY", "TRADER_KEEP_EQUIPPED" ],
-    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ] }
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ] },
+    "armor": [ { "encumbrance": 4, "coverage": 85, "covers": [ "torso", "head", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "wolfshead_cufflinks",

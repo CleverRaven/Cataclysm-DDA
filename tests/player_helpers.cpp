@@ -1,13 +1,13 @@
-#include "catch/catch.hpp"
-#include "player_helpers.h"
-
 #include <cstddef>
+#include <functional>
 #include <list>
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "avatar.h"
 #include "bionics.h"
+#include "cata_catch.h"
 #include "character.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
@@ -16,11 +16,13 @@
 #include "item.h"
 #include "item_pocket.h"
 #include "itype.h"
+#include "make_static.h"
 #include "map.h"
 #include "npc.h"
 #include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
+#include "player_helpers.h"
 #include "point.h"
 #include "ret_val.h"
 #include "stomach.h"
@@ -66,12 +68,15 @@ void clear_character( player &dummy )
     // contents (needs to happen before clear_morale).
     dummy.stomach.empty();
     dummy.guts.empty();
+    dummy.clear_vitamins();
     item food( "debug_nutrition" );
     dummy.consume( food );
 
     // This sets HP to max, clears addictions and morale,
     // and sets hunger, thirst, fatigue and such to zero
     dummy.environmental_revert_effect();
+    // However, the above does not set stored kcal
+    dummy.set_stored_kcal( dummy.get_healthy_kcal() );
 
     dummy.empty_skills();
     dummy.martial_arts_data->clear_styles();
@@ -84,6 +89,9 @@ void clear_character( player &dummy )
     dummy.set_speed_base( 100 );
     dummy.set_speed_bonus( 0 );
     dummy.set_sleep_deprivation( 0 );
+    for( const proficiency_id &prof : dummy.known_proficiencies() ) {
+        dummy.lose_proficiency( prof, true );
+    }
 
     // Restore all stamina and go to walk mode
     dummy.set_stamina( dummy.get_stamina_max() );
@@ -107,6 +115,52 @@ void clear_character( player &dummy )
 
     const tripoint spot( 60, 60, 0 );
     dummy.setpos( spot );
+}
+
+void arm_shooter( npc &shooter, const std::string &gun_type,
+                  const std::vector<std::string> &mods,
+                  const std::string &ammo_type )
+{
+    shooter.remove_weapon();
+    // XL so arrows can fit.
+    if( !shooter.is_wearing( itype_id( "debug_backpack" ) ) ) {
+        shooter.worn.emplace_back( "debug_backpack" );
+    }
+
+    const itype_id &gun_id{ itype_id( gun_type ) };
+    // Give shooter a loaded gun of the requested type.
+    item &gun = shooter.i_add( item( gun_id ) );
+    itype_id ammo_id;
+    // if ammo is not supplied we want the default
+    if( ammo_type.empty() ) {
+        if( gun.ammo_default().is_null() ) {
+            ammo_id = item( gun.magazine_default() ).ammo_default();
+        } else {
+            ammo_id = gun.ammo_default();
+        }
+    } else {
+        ammo_id = itype_id( ammo_type );
+    }
+    const ammotype &type_of_ammo = item::find_type( ammo_id )->ammo->type;
+    if( gun.magazine_integral() ) {
+        item &ammo = shooter.i_add( item( ammo_id, calendar::turn, gun.ammo_capacity( type_of_ammo ) ) );
+        REQUIRE( gun.is_reloadable_with( ammo_id ) );
+        REQUIRE( shooter.can_reload( gun, ammo_id ) );
+        gun.reload( shooter, item_location( shooter, &ammo ), gun.ammo_capacity( type_of_ammo ) );
+    } else {
+        const itype_id magazine_id = gun.magazine_default();
+        item &magazine = shooter.i_add( item( magazine_id ) );
+        item &ammo = shooter.i_add( item( ammo_id, calendar::turn,
+                                          magazine.ammo_capacity( type_of_ammo ) ) );
+        REQUIRE( magazine.is_reloadable_with( ammo_id ) );
+        REQUIRE( shooter.can_reload( magazine, ammo_id ) );
+        magazine.reload( shooter, item_location( shooter, &ammo ), magazine.ammo_capacity( type_of_ammo ) );
+        gun.reload( shooter, item_location( shooter, &magazine ), magazine.ammo_capacity( type_of_ammo ) );
+    }
+    for( const auto &mod : mods ) {
+        gun.put_in( item( itype_id( mod ) ), item_pocket::pocket_type::MOD );
+    }
+    shooter.wield( gun );
 }
 
 void clear_avatar()
@@ -160,7 +214,7 @@ void give_and_activate_bionic( player &p, bionic_id const &bioid )
     REQUIRE( bio.id == bioid );
 
     // turn on if possible
-    if( bio.id->has_flag( "BIONIC_TOGGLED" ) && !bio.powered ) {
+    if( bio.id->has_flag( STATIC( json_character_flag( "BIONIC_TOGGLED" ) ) ) && !bio.powered ) {
         const std::vector<material_id> fuel_opts = bio.info().fuel_opts;
         if( !fuel_opts.empty() ) {
             p.set_value( fuel_opts.front().str(), "2" );

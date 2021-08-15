@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_PANELS_H
 #define CATA_SRC_PANELS_H
 
-#include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <map>
 #include <string>
 #include <vector>
@@ -15,7 +15,11 @@ class JsonIn;
 class JsonOut;
 class avatar;
 struct point;
-struct tripoint;
+
+namespace activity_level
+{
+std::string activity_level_str( float level );
+} // namespace activity_level
 
 namespace catacurses
 {
@@ -109,8 +113,8 @@ class panel_manager
         void update_offsets( int x );
 
         // The amount of screen space from each edge the sidebar takes up
-        int width_right = 0;
-        int width_left = 0;
+        int width_right = 0; // NOLINT(cata-serialize)
+        int width_left = 0; // NOLINT(cata-serialize)
         std::string current_layout_id;
         std::map<std::string, panel_layout> layouts;
 

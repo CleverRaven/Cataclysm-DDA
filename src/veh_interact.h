@@ -4,6 +4,7 @@
 
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <map>
 #include <memory>
 #include <string>
@@ -19,10 +20,9 @@
 #include "player_activity.h"
 #include "point.h"
 #include "type_id.h"
-#include "units.h"
 #include "units_fwd.h"
 
-class player;
+class Character;
 class vpart_info;
 struct requirement_data;
 
@@ -57,10 +57,10 @@ class veh_interact
         static vehicle_part &select_part( const vehicle &veh, const part_selector &sel,
                                           const std::string &title = std::string() );
 
-        static void complete_vehicle( player &p );
+        static void complete_vehicle( Character &you );
 
     private:
-        veh_interact( vehicle &veh, const point &p = point_zero );
+        explicit veh_interact( vehicle &veh, const point &p = point_zero );
         ~veh_interact();
 
         item_location target;
@@ -97,6 +97,7 @@ class veh_interact
         catacurses::window w_details;
         catacurses::window w_name;
 
+        bool ui_hidden = false;
         weak_ptr_fast<ui_adaptor> ui;
 
         cata::optional<std::string> title;
@@ -122,6 +123,7 @@ class veh_interact
         units::mass max_jack;
 
         shared_ptr_fast<ui_adaptor> create_or_get_ui_adaptor();
+        void hide_ui( bool hide );
 
         player_activity serialize_activity();
 
@@ -162,9 +164,17 @@ class veh_interact
         void do_siphon();
         // Returns true if exiting the screen
         bool do_unload();
+        void do_change_shape();
         void do_assign_crew();
         void do_relabel();
         /*@}*/
+
+        /**
+        * Calculates the lift requirements for a given vehicle_part
+        * @return bool true if lift requirements are fullfilled
+        * @return string msg for the ui to show the lift requirements
+        */
+        std::pair<bool, std::string> calc_lift_requirements( const vpart_info &sel_vpart_info );
 
         void display_grid();
         void display_veh();
@@ -173,7 +183,6 @@ class veh_interact
         void display_mode();
         void display_list( size_t pos, const std::vector<const vpart_info *> &list, int header = 0 );
         void display_details( const vpart_info *part );
-        size_t display_esc( const catacurses::window &win );
 
         struct part_option {
             part_option( const std::string &key, vehicle_part *part, const input_event &hotkey,
@@ -233,7 +242,7 @@ class veh_interact
         vehicle_part *get_most_repairable_part() const;
 
         //do_remove supporting operation, writes requirements to ui
-        bool can_remove_part( int idx, const player &p );
+        bool can_remove_part( int idx, const Character &you );
         //do install support, writes requirements to ui
         bool update_part_requirements();
         //true if trying to install foot crank with electric engines for example

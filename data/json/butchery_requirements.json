@@ -11,7 +11,8 @@
           "DISMEMBER": "field_dress",
           "DISSECT": "dissect_small",
           "FULL": "butchery_small",
-          "QUICK": "butchery_small"
+          "QUICK": "butchery_small",
+          "BLEED": "bleed_small"
         },
         {
           "FIELD_DRESS": "field_dress",
@@ -20,7 +21,8 @@
           "DISMEMBER": "field_dress",
           "DISSECT": "dissect_small",
           "FULL": "butchery_small",
-          "QUICK": "butchery_small"
+          "QUICK": "butchery_small",
+          "BLEED": "bleed_small"
         },
         {
           "FIELD_DRESS": "field_dress",
@@ -29,7 +31,8 @@
           "DISMEMBER": "field_dress",
           "DISSECT": "dissect_small",
           "FULL": "butchery_small",
-          "QUICK": "butchery_small"
+          "QUICK": "butchery_small",
+          "BLEED": "bleed_small"
         },
         {
           "FIELD_DRESS": "field_dress",
@@ -38,7 +41,8 @@
           "DISMEMBER": "field_dress",
           "DISSECT": "dissect_large",
           "FULL": "full_butchery_large",
-          "QUICK": "butchery_large"
+          "QUICK": "butchery_large",
+          "BLEED": "bleed_large"
         },
         {
           "FIELD_DRESS": "field_dress",
@@ -47,7 +51,8 @@
           "DISMEMBER": "field_dress",
           "DISSECT": "dissect_large",
           "FULL": "full_butchery_large",
-          "QUICK": "butchery_large"
+          "QUICK": "butchery_large",
+          "BLEED": "bleed_large"
         }
       ],
       "1.2": [
@@ -58,7 +63,8 @@
           "DISMEMBER": "field_dress_no_surface",
           "DISSECT": "dissect_small_no_surface",
           "FULL": "butchery_small_no_surface",
-          "QUICK": "butchery_small_no_surface"
+          "QUICK": "butchery_small_no_surface",
+          "BLEED": "bleed_small"
         },
         {
           "FIELD_DRESS": "field_dress_no_surface",
@@ -67,7 +73,8 @@
           "DISMEMBER": "field_dress_no_surface",
           "DISSECT": "dissect_small_no_surface",
           "FULL": "butchery_small_no_surface",
-          "QUICK": "butchery_small_no_surface"
+          "QUICK": "butchery_small_no_surface",
+          "BLEED": "bleed_small"
         },
         {
           "FIELD_DRESS": "field_dress_no_surface",
@@ -76,7 +83,8 @@
           "DISMEMBER": "field_dress_no_surface",
           "DISSECT": "dissect_small_no_surface",
           "FULL": "butchery_small_no_surface",
-          "QUICK": "butchery_small_no_surface"
+          "QUICK": "butchery_small_no_surface",
+          "BLEED": "bleed_small"
         },
         {
           "FIELD_DRESS": "field_dress_no_surface",
@@ -85,7 +93,8 @@
           "DISMEMBER": "field_dress_no_surface",
           "DISSECT": "dissect_large_no_surface",
           "FULL": "full_butchery_large_no_surface",
-          "QUICK": "butchery_large_no_surface"
+          "QUICK": "butchery_large_no_surface",
+          "BLEED": "bleed_large"
         },
         {
           "FIELD_DRESS": "field_dress_no_surface",
@@ -94,7 +103,8 @@
           "DISMEMBER": "field_dress_no_surface",
           "DISSECT": "dissect_large_no_surface",
           "FULL": "full_butchery_large_no_surface",
-          "QUICK": "butchery_large_no_surface"
+          "QUICK": "butchery_large_no_surface",
+          "BLEED": "bleed_large"
         }
       ]
     }

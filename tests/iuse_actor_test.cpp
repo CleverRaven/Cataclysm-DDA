@@ -1,23 +1,35 @@
-#include "catch/catch.hpp"
-
-#include <list>
+#include <algorithm>
+#include <functional>
+#include <iosfwd>
 #include <memory>
+#include <new>
+#include <string>
+#include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
+#include "cata_catch.h"
+#include "colony.h"
 #include "game.h"
-#include "inventory.h"
 #include "item.h"
+#include "item_location.h"
+#include "item_pocket.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
 #include "map.h"
 #include "map_helpers.h"
+#include "map_selector.h"
+#include "material.h"
 #include "monster.h"
 #include "mtype.h"
-#include "pimpl.h"
+#include "optional.h"
 #include "player.h"
 #include "player_helpers.h"
 #include "point.h"
+#include "ret_val.h"
 #include "type_id.h"
+#include "units.h"
 
 static monster *find_adjacent_monster( const tripoint &pos )
 {
@@ -78,7 +90,7 @@ TEST_CASE( "tool transform when activated", "[iuse][tool][transform]" )
         REQUIRE( bat_cell.ammo_remaining() == bat_charges );
 
         // Put battery in flashlight
-        REQUIRE( flashlight.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
+        REQUIRE( flashlight.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
         ret_val<bool> result = flashlight.put_in( bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
         REQUIRE( result.success() );
         REQUIRE( flashlight.magazine_current() );
@@ -140,7 +152,6 @@ static void cut_up_yields( const std::string &target )
         salvaged_mass += salvage.weight();
     }
     CHECK( salvaged_mass <= cut_up_target_mass );
-    CHECK( salvaged_mass >= ( cut_up_target_mass * 0.99 ) - smallest_yield_mass );
 }
 
 TEST_CASE( "cut_up_yields" )

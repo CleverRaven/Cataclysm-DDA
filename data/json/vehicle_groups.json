@@ -56,6 +56,7 @@
       [ "humvee_gl", 50 ],
       [ "icecream_truck", 50 ],
       [ "food_truck", 50 ],
+      [ "food_truck_taco", 50 ],
       [ "wienermobile", 5 ],
       [ "tatra_truck", 100 ],
       [ "4x4_car", 500 ],
@@ -73,6 +74,11 @@
       [ "raft", 2000 ],
       [ "wood_rowboat_double", 1500 ]
     ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "lake",
+    "vehicles": [ [ "DUKW", 250 ], [ "cabin_cruiser_wood", 1500 ] ]
   },
   {
     "type": "vehicle_group",

@@ -1,28 +1,32 @@
+#include "player.h" // IWYU pragma: associated
+
 #include <algorithm>
-#include <array>
+#include <climits>
 #include <cstddef>
+#include <functional>
 #include <iterator>
 #include <memory>
+#include <new>
 #include <string>
 #include <vector>
 
+#include "activity_type.h"
 #include "bodypart.h"
 #include "catacharset.h" // used for utf8_width()
 #include "character.h"
 #include "color.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
 #include "flat_set.h"
 #include "game_inventory.h"
 #include "input.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "line.h"
 #include "output.h"
 #include "pimpl.h"
-#include "player.h" // IWYU pragma: associated
 #include "player_activity.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -307,15 +311,15 @@ std::vector<std::string> clothing_protection( const item &worn_item, const int w
     const std::string space = "  ";
     prot.push_back( string_format( "<color_c_green>[%s]</color>", _( "Protection" ) ) );
     prot.push_back( name_and_value( space + _( "Bash:" ),
-                                    string_format( "%3d", static_cast<int>( worn_item.bash_resist() ) ), width ) );
+                                    string_format( "%.2f", worn_item.bash_resist() ), width ) );
     prot.push_back( name_and_value( space + _( "Cut:" ),
-                                    string_format( "%3d", static_cast<int>( worn_item.cut_resist() ) ), width ) );
+                                    string_format( "%.2f", worn_item.cut_resist() ), width ) );
     prot.push_back( name_and_value( space + _( "Ballistic:" ),
-                                    string_format( "%3d", static_cast<int>( worn_item.bullet_resist() ) ), width ) );
+                                    string_format( "%.2f", worn_item.bullet_resist() ), width ) );
     prot.push_back( name_and_value( space + _( "Acid:" ),
-                                    string_format( "%3d", static_cast<int>( worn_item.acid_resist() ) ), width ) );
+                                    string_format( "%.2f", worn_item.acid_resist() ), width ) );
     prot.push_back( name_and_value( space + _( "Fire:" ),
-                                    string_format( "%3d", static_cast<int>( worn_item.fire_resist() ) ), width ) );
+                                    string_format( "%.2f", worn_item.fire_resist() ), width ) );
     prot.push_back( name_and_value( space + _( "Environmental:" ),
                                     string_format( "%3d", static_cast<int>( worn_item.get_env_resist() ) ), width ) );
     return prot;
@@ -326,40 +330,40 @@ std::vector<std::string> clothing_flags_description( const item &worn_item )
     std::vector<std::string> description_stack;
 
     if( worn_item.has_flag( flag_FIT ) ) {
-        description_stack.push_back( _( "It fits you well." ) );
+        description_stack.emplace_back( _( "It fits you well." ) );
     } else if( worn_item.has_flag( flag_VARSIZE ) ) {
-        description_stack.push_back( _( "It could be refitted." ) );
+        description_stack.emplace_back( _( "It could be refitted." ) );
     }
 
     if( worn_item.has_flag( flag_HOOD ) ) {
-        description_stack.push_back( _( "It has a hood." ) );
+        description_stack.emplace_back( _( "It has a hood." ) );
     }
     if( worn_item.has_flag( flag_POCKETS ) ) {
-        description_stack.push_back( _( "It has pockets." ) );
+        description_stack.emplace_back( _( "It has pockets." ) );
     }
     if( worn_item.has_flag( flag_WATERPROOF ) ) {
-        description_stack.push_back( _( "It is waterproof." ) );
+        description_stack.emplace_back( _( "It is waterproof." ) );
     }
     if( worn_item.has_flag( flag_WATER_FRIENDLY ) ) {
-        description_stack.push_back( _( "It is water friendly." ) );
+        description_stack.emplace_back( _( "It is water friendly." ) );
     }
     if( worn_item.has_flag( flag_FANCY ) ) {
-        description_stack.push_back( _( "It looks fancy." ) );
+        description_stack.emplace_back( _( "It looks fancy." ) );
     }
     if( worn_item.has_flag( flag_SUPER_FANCY ) ) {
-        description_stack.push_back( _( "It looks really fancy." ) );
+        description_stack.emplace_back( _( "It looks really fancy." ) );
     }
     if( worn_item.has_flag( flag_FLOTATION ) ) {
-        description_stack.push_back( _( "You will not drown today." ) );
+        description_stack.emplace_back( _( "You will not drown today." ) );
     }
     if( worn_item.has_flag( flag_OVERSIZE ) ) {
-        description_stack.push_back( _( "It is very bulky." ) );
+        description_stack.emplace_back( _( "It is very bulky." ) );
     }
     if( worn_item.has_flag( flag_SWIM_GOGGLES ) ) {
-        description_stack.push_back( _( "It helps you to see clearly underwater." ) );
+        description_stack.emplace_back( _( "It helps you to see clearly underwater." ) );
     }
     if( worn_item.has_flag( flag_SEMITANGIBLE ) ) {
-        description_stack.push_back( _( "It can occupy the same space as other things." ) );
+        description_stack.emplace_back( _( "It can occupy the same space as other things." ) );
     }
 
     return description_stack;
@@ -663,7 +667,8 @@ void player::sort_armor()
         } else if( rightListOffset + rightListLines > rightListSize ) {
             rightListOffset = rightListSize - rightListLines;
         }
-        int pos = 1, curr = 0;
+        int pos = 1;
+        int curr = 0;
         for( const bodypart_id &cover : rl ) {
             if( cover == bodypart_id( "bp_null" ) ) {
                 continue;
@@ -705,7 +710,7 @@ void player::sort_armor()
 
     bool exit = false;
     while( !exit ) {
-        if( is_player() ) {
+        if( is_avatar() ) {
             // Totally hoisted this from advanced_inv
             if( player_character.moves < 0 ) {
                 do_return_entry();
@@ -818,28 +823,34 @@ void player::sort_armor()
         } else if( action == "EQUIP_ARMOR" ) {
             // filter inventory for all items that are armor/clothing
             item_location loc = game_menus::inv::wear( *this );
-
             // only equip if something valid selected!
             if( loc ) {
-                // wear the item
-                cata::optional<std::list<item>::iterator> new_equip_it =
-                    wear( loc.obtain( *this ) );
-                if( new_equip_it ) {
-                    const bodypart_id &bp = armor_cat[ tabindex ];
-                    if( tabindex == num_of_parts || ( **new_equip_it ).covers( bp ) ) {
-                        // Set ourselves up to be pointing at the new item
-                        // TODO: This doesn't work yet because we don't save our
-                        // state through other activities, but that's a thing
-                        // that would be nice to do.
-                        leftListIndex =
-                            std::count_if( worn.begin(), *new_equip_it,
-                        [&]( const item & i ) {
-                            return tabindex == num_of_parts || i.covers( bp );
-                        } );
+                // store the item name just in case obtain() fails
+                const std::string item_name = loc->display_name();
+                item_location obtained = loc.obtain( *this );
+                if( obtained ) {
+                    // wear the item
+                    cata::optional<std::list<item>::iterator> new_equip_it =
+                        wear( obtained );
+                    if( new_equip_it ) {
+                        const bodypart_id &bp = armor_cat[tabindex];
+                        if( tabindex == num_of_parts || ( **new_equip_it ).covers( bp ) ) {
+                            // Set ourselves up to be pointing at the new item
+                            // TODO: This doesn't work yet because we don't save our
+                            // state through other activities, but that's a thing
+                            // that would be nice to do.
+                            leftListIndex =
+                                std::count_if( worn.begin(), *new_equip_it,
+                            [&]( const item & i ) {
+                                return tabindex == num_of_parts || i.covers( bp );
+                            } );
+                        }
+                    } else if( is_npc() ) {
+                        // TODO: Pass the reason here
+                        popup( _( "Can't put this on!" ) );
                     }
-                } else if( is_npc() ) {
-                    // TODO: Pass the reason here
-                    popup( _( "Can't put this on!" ) );
+                } else {
+                    add_msg_if_player( "You chose not to wear the %s.", item_name );
                 }
             }
         } else if( action == "EQUIP_ARMOR_HERE" ) {
@@ -866,8 +877,13 @@ void player::sort_armor()
             if( leftListIndex < leftListSize ) {
                 if( player_character.query_yn( _( "Remove selected armor?" ) ) ) {
                     do_return_entry();
+
+                    //create an item_location for player::takeoff to handle.
+                    item &item_for_takeoff = *tmp_worn[leftListIndex];
+                    item_location loc_for_takeoff = item_location( *this, &item_for_takeoff );
+
                     // remove the item, asking to drop it if necessary
-                    takeoff( *tmp_worn[leftListIndex] );
+                    takeoff( loc_for_takeoff );
                     if( !player_character.has_activity( ACT_ARMOR_LAYERS ) ) {
                         // An activity has been created to take off the item;
                         // we must surrender control until it is done.

@@ -15,7 +15,13 @@ constexpr inline int sgn( const T x )
 enum class aim_exit : int {
     none = 0,
     okay,
-    re_entry
+    re_entry,
+    last
+};
+
+template<>
+struct enum_traits<aim_exit> {
+    static constexpr aim_exit last = aim_exit::last;
 };
 
 // be explicit with the values
@@ -23,7 +29,13 @@ enum class aim_entry : int {
     START     = 0,
     VEHICLE   = 1,
     MAP       = 2,
-    RESET     = 3
+    RESET     = 3,
+    last
+};
+
+template<>
+struct enum_traits<aim_entry> {
+    static constexpr aim_entry last = aim_entry::last;
 };
 
 using I = std::underlying_type_t<aim_entry>;
@@ -350,6 +362,7 @@ enum game_message_flags {
 /** Structure allowing a combination of `game_message_type` and `game_message_flags`.
  */
 struct game_message_params {
+    // NOLINTNEXTLINE(google-explicit-constructor)
     game_message_params( const game_message_type message_type ) : type( message_type ),
         flags( gmf_none ) {}
     game_message_params( const game_message_type message_type,
@@ -359,6 +372,34 @@ struct game_message_params {
     game_message_type type;
     /* Flags pertaining to the message */
     game_message_flags flags;
+};
+
+struct social_modifiers {
+    int lie = 0;
+    int persuade = 0;
+    int intimidate = 0;
+
+    social_modifiers &operator+=( const social_modifiers &other ) {
+        this->lie += other.lie;
+        this->persuade += other.persuade;
+        this->intimidate += other.intimidate;
+        return *this;
+    }
+    bool empty() const {
+        return this->lie != 0 || this->persuade != 0 || this->intimidate != 0;
+    }
+};
+
+enum MULTITILE_TYPE {
+    center,
+    corner,
+    edge,
+    t_connection,
+    end_piece,
+    unconnected,
+    open_,
+    broken,
+    num_multitile_types
 };
 
 enum class reachability_cache_quadrant : int {

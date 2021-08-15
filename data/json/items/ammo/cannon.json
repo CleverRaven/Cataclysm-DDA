@@ -2,7 +2,7 @@
   {
     "id": "cannon_shot",
     "type": "AMMO",
-    "name": { "str": "cannon round shot" },
+    "name": { "str_sp": "cannon round shot" },
     "description": "A bundle of wadding, black gunpowder, and cannonball, ready to be loaded into a cannon.",
     "weight": "2350 g",
     "volume": "1000 ml",

@@ -144,7 +144,8 @@ class CDDAPullRequest(PullRequest):
     "Summary" descriptions"""
 
     SUMMARY_REGEX = re.compile(
-        r'^`*(?i:SUMMARY):\s+(?P<pr_type>\w+)\s*(?:"(?P<pr_desc>.+)")?',
+        r'(?i:####\sSummary)\s*'
+        r'`*(?i:SUMMARY:?\s*)?(?P<pr_type>\w+)\s*(?:"(?P<pr_desc>.+)")?',
         re.MULTILINE)
 
     VALID_SUMMARY_CATEGORIES = (
@@ -163,6 +164,7 @@ class CDDAPullRequest(PullRequest):
 
     EXAMPLE_SUMMARIES_IN_TEMPLATE = (
         ("Category", "description"),
+        ("Category", "Brief description"),
         ("Content", "Adds new mutation category 'Mouse'"),
     )
 
@@ -975,7 +977,9 @@ def read_personal_token(filename):
         return None
 
     try:
-        with open(pathlib.Path(str(filename)).expanduser()) as token_file:
+        with open(
+                pathlib.Path(str(filename)).expanduser(),
+                encoding="utf-8") as token_file:
             match = re.search('(?P<token>\\S+)', token_file.read(),
                               flags=re.MULTILINE)
             if match is not None:
@@ -1026,7 +1030,7 @@ def main_entry(argv):
         if x == '-':
             return sys.stdout
         else:
-            pathlib.Path(x).expanduser().resolve()
+            return pathlib.Path(x).expanduser().resolve()
 
     parser.add_argument(
         '-D', '--by-date',

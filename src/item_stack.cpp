@@ -2,10 +2,13 @@
 
 #include <algorithm>
 
+#include "debug.h"
+#include "enums.h"
 #include "item.h"
 #include "output.h"
 #include "units.h"
-#include "debug.h"
+
+struct tripoint;
 
 size_t item_stack::size() const
 {

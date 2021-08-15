@@ -58,7 +58,7 @@
       ],
       "palettes": [ "helipad_palette" ],
       "toilets": { "&": {  } },
-      "gaspumps": { "$": {  } },
+      "gaspumps": { "$": { "fuel": "jp8", "amount": [ 200000, 1000000 ] } },
       "items": {
         "B": {
           "item": {
@@ -71,7 +71,7 @@
           "item": {
             "subtype": "distribution",
             "entries": [
-              { "group": "military_patrol_food", "prob": 50, "count": [ 3, 5 ] },
+              { "group": "MRE", "prob": 50, "count": [ 3, 5 ] },
               { "group": "infantry_common_gear", "prob": 5, "count": [ 1, 2 ] },
               { "group": "mil_food", "prob": 40, "count": [ 1, 5 ] },
               { "group": "infantry_medical_gear", "prob": 5, "count": [ 1, 2 ] },
@@ -115,7 +115,7 @@
         "H": { "item": "SUS_spice_collection", "chance": 75 },
         "&": { "item": "SUS_toilet", "chance": 50 }
       },
-      "vendingmachines": { "1": { "item_group": "vending_drink" }, "2": { "item_group": "vending_food" } },
+      "vendingmachines": { "1": { "item_group": "vending_drink", "lootable": true }, "2": { "item_group": "vending_food", "lootable": true } },
       "place_monsters": [ { "monster": "GROUP_MIL_STRONG", "x": 36, "y": 15 }, { "monster": "GROUP_MIL_WEAK", "x": 24, "y": 30, "density": 2 } ],
       "monster": { "T": { "monster": "mon_turret_rifle" } },
       "place_vehicles": [

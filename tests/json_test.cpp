@@ -1,7 +1,7 @@
-#include "catch/catch.hpp"
-#include "json.h"
-
+#include <algorithm>
 #include <array>
+#include <functional>
+#include <iterator>
 #include <list>
 #include <map>
 #include <set>
@@ -10,11 +10,22 @@
 #include <utility>
 #include <vector>
 
-#include "mutation.h"
+#include "bodypart.h"
 #include "cached_options.h"
 #include "cata_utility.h"
+#include "cata_catch.h"
 #include "colony.h"
+#include "damage.h"
+#include "debug.h"
+#include "enum_bitset.h"
+#include "item.h"
+#include "json.h"
+#include "magic.h"
+#include "mutation.h"
+#include "optional.h"
+#include "sounds.h"
 #include "string_formatter.h"
+#include "translations.h"
 #include "type_id.h"
 
 template<typename T>
@@ -690,4 +701,137 @@ TEST_CASE( "jsonin_get_string", "[json]" )
             R"(      ^)" "\n"
             R"(       ar")" "\n" ),
         R"("foo\nbar")", 5 );
+}
+
+TEST_CASE( "item_colony_ser_deser", "[json][item]" )
+{
+    // calculates the number of substring (needle) occurrences withing the target string (haystack)
+    // doesn't include overlaps
+    const auto count_occurences = []( const std::string & haystack, const std::string & needle ) {
+        int occurrences = 0;
+        std::string::size_type pos = 0;
+        while( ( pos = haystack.find( needle, pos ) ) != std::string::npos ) {
+            occurrences++;
+            pos += needle.length();
+        }
+        return occurrences;
+    };
+
+    // checks if two colonies are equal using `same_for_rle` for item comparison
+    const auto is_same = []( const cata::colony<item> &a, const cata::colony<item> &b ) {
+        return std::equal( a.begin(), a.end(), b.begin(),
+        []( const item & a, const item & b ) {
+            return a.same_for_rle( b );
+        } );
+    };
+
+    SECTION( "identical items are collapsed" ) {
+        cata::colony<item> col;
+        for( int i = 0; i < 10; ++i ) {
+            // currently tools cannot be stackable
+            col.insert( item( itype_id( "test_rag" ) ) );
+        }
+        REQUIRE( col.size() == 10 );
+        REQUIRE( col.begin()->same_for_rle( *std::next( col.begin() ) ) );
+
+        std::string json;
+        std::ostringstream os;
+        JsonOut jsout( os );
+        jsout.write( col );
+        json = os.str();
+        CAPTURE( json );
+        {
+            INFO( "should be compressed into the single item" );
+            CHECK( count_occurences( json, "\"typeid\":\"test_rag\"" ) == 1 );
+        }
+        {
+            INFO( "should contain the number of items" );
+            CHECK( json.find( "10" ) != std::string::npos );
+        }
+        std::istringstream is( json );
+        JsonIn jsin( is );
+        cata::colony<item> read_val;
+        {
+            INFO( "should be read successfully" );
+            CHECK( jsin.read( read_val ) );
+        }
+        {
+            INFO( "should be identical to the original " );
+            CHECK( is_same( col, read_val ) );
+        }
+    }
+
+    SECTION( "different items are saved individually" ) {
+        cata::colony<item> col;
+        col.insert( item( itype_id( "test_rag" ) ) );
+        col.insert( item( itype_id( "test_rag" ) ) );
+        ( *col.rbegin() ).set_flag( flag_id( "DIRTY" ) );
+
+        REQUIRE( col.size() == 2 );
+        REQUIRE( !col.begin()->same_for_rle( *col.rbegin() ) );
+        REQUIRE( ( *col.rbegin() ).same_for_rle( *col.rbegin() ) );
+
+        std::string json;
+        std::ostringstream os;
+        JsonOut jsout( os );
+        jsout.write( col );
+        json = os.str();
+        CAPTURE( json );
+        {
+            INFO( "should not be compressed" );
+            CHECK( count_occurences( json, "\"typeid\":\"test_rag" ) == 2 );
+        }
+        std::istringstream is( json );
+        JsonIn jsin( is );
+        cata::colony<item> read_val;
+        {
+            INFO( "should be read successfully" );
+            CHECK( jsin.read( read_val ) );
+        }
+        {
+            INFO( "should be identical to the original " );
+            CHECK( is_same( col, read_val ) );
+        }
+    }
+
+    SECTION( "incorrect items in json are skipped" ) {
+        // first item is an array without the run length defined (illegal)
+        std::istringstream is(
+            R"([[{"typeid":"test_rag","item_vars":{"magazine_converted":"1"}}],)" "\n"
+            R"(    {"typeid":"test_rag","item_vars":{"magazine_converted":"1"}}])" );
+        JsonIn jsin( is );
+        cata::colony<item> read_val;
+        {
+            INFO( "should be read successfully" );
+            CHECK( jsin.read( read_val ) );
+        }
+        {
+            INFO( "one item was skipped" );
+            CHECK( read_val.size() == 1 );
+        }
+        {
+            INFO( "item type was read correctly" );
+            CHECK( read_val.begin()->typeId() == itype_id( "test_rag" ) );
+        }
+    }
+}
+
+TEST_CASE( "serialize_optional", "[json]" )
+{
+    SECTION( "simple_empty_optional" ) {
+        cata::optional<int> o;
+        test_serialization( o, "null" );
+    }
+    SECTION( "optional_of_int" ) {
+        cata::optional<int> o( 7 );
+        test_serialization( o, "7" );
+    }
+    SECTION( "vector_of_empty_optional" ) {
+        std::vector<cata::optional<int>> v( 3 );
+        test_serialization( v, "[null,null,null]" );
+    }
+    SECTION( "vector_of_optional_of_int" ) {
+        std::vector<cata::optional<int>> v{ { 1 }, { 2 }, { 3 } };
+        test_serialization( v, "[1,2,3]" );
+    }
 }

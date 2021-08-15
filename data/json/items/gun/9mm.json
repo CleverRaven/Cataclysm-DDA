@@ -309,11 +309,9 @@
     "dispersion": 520,
     "sight_dispersion": 520,
     "armor_data": {
-      "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
       "sided": true,
-      "coverage": 10,
-      "encumbrance": 30,
-      "material_thickness": 2
+      "material_thickness": 2,
+      "armor": [ { "encumbrance": 30, "coverage": 10, "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
     },
     "flags": [ "OVERSIZE", "RELOAD_EJECT", "BELTED", "RESTRICT_HANDS" ],
     "valid_mod_locations": [  ],
@@ -592,7 +590,8 @@
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
-      [ "sling", 1 ]
+      [ "sling", 1 ],
+      [ "stock", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [
@@ -1070,7 +1069,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "p320mag_10rd_9x19mm", "p320mag_17rd_9x19mm", "p320mag_21rd_9x19mm" ]
+        "item_restriction": [ "p320mag_17rd_9x19mm", "p320mag_21rd_9x19mm", "p320mag_10rd_9x19mm" ]
       }
     ]
   },

@@ -2,7 +2,7 @@
   {
     "type": "COMESTIBLE",
     "id": "sauce_red",
-    "name": "red sauce",
+    "name": { "str": "red sauce" },
     "weight": "64 g",
     "color": "red",
     "spoils_in": "3 days",
@@ -11,6 +11,7 @@
     "symbol": "%",
     "healthy": 1,
     "calories": 21,
+    "sealed": true,
     "description": "A minimally seasoned sauce of cooked tomatoes.",
     "price": 4,
     "price_postapoc": 50,
@@ -45,7 +46,7 @@
     "flags": [ "EATEN_COLD", "RAW" ],
     "phase": "liquid",
     "vitamins": [  ],
-    "freezing_point": 30
+    "freezing_point": -1
   },
   {
     "id": "mayonnaise",
@@ -68,14 +69,14 @@
     "fun": -1,
     "flags": [ "FREEZERBURN" ],
     "phase": "liquid",
-    "freezing_point": 25
+    "freezing_point": -4
   },
   {
     "id": "ketchup",
     "type": "COMESTIBLE",
     "symbol": "~",
     "color": "red",
-    "name": "ketchup",
+    "name": { "str": "ketchup" },
     "description": "A viscous paste of tomato, salt, and vinegar.",
     "price": 1875,
     "price_postapoc": 100,
@@ -154,7 +155,7 @@
     "phase": "liquid",
     "charges": 16,
     "fun": -4,
-    "freezing_point": 28
+    "freezing_point": -2
   },
   {
     "type": "COMESTIBLE",
@@ -167,6 +168,7 @@
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": -1,
+    "healthy": -2,
     "calories": 127,
     "description": "Thin yellow vegetable oil used for cooking.",
     "price": 40,
@@ -176,9 +178,10 @@
     "charges": 16,
     "phase": "liquid",
     "fun": -25,
+    "use_action": [ "BLECH" ],
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "vitamins": [  ],
-    "freezing_point": 14
+    "freezing_point": -26
   },
   {
     "type": "COMESTIBLE",
@@ -212,7 +215,7 @@
     "fun": 2,
     "flags": [ "USE_EAT_VERB" ],
     "vitamins": [ [ "calcium", 18 ], [ "iron", 23 ] ],
-    "freezing_point": -20
+    "freezing_point": -29
   },
   {
     "id": "horseradish",
@@ -252,13 +255,14 @@
     "quench": 1,
     "healthy": -1,
     "addiction_potential": 1,
+    "calories": 116,
     "description": "A thick syrup made of water and sugar strained through coffee grounds.  Can be used to flavor many foods and beverages.",
     "price": 800,
     "price_postapoc": 100,
     "material": [ "junk" ],
     "volume": "250 ml",
     "phase": "liquid",
-    "charges": 8,
+    "charges": 3,
     "fun": 6
   }
 ]

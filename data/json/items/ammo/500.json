@@ -26,7 +26,7 @@
     "id": "bp_500_Magnum",
     "copy-from": "500_Magnum",
     "type": "AMMO",
-    "name": { "str": ".500 S&W Magnum, black powder" },
+    "name": { "str_sp": ".500 S&W Magnum, black powder" },
     "proportional": {
       "price": 0.3,
       "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
@@ -40,7 +40,7 @@
     "id": "reloaded_500_Magnum",
     "copy-from": "500_Magnum",
     "type": "AMMO",
-    "name": { "str": ".500 S&W Magnum, reloaded" },
+    "name": { "str_sp": ".500 S&W Magnum, reloaded" },
     "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }

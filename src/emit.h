@@ -2,12 +2,11 @@
 #ifndef CATA_SRC_EMIT_H
 #define CATA_SRC_EMIT_H
 
+#include <iosfwd>
 #include <map>
 #include <string>
 
 #include "field_type.h"
-#include "int_id.h"
-#include "string_id.h"
 #include "type_id.h"
 
 class JsonObject;

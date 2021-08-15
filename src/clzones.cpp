@@ -2,24 +2,27 @@
 
 #include <algorithm>
 #include <climits>
+#include <functional>
 #include <iosfwd>
 #include <iterator>
+#include <new>
 #include <string>
 #include <tuple>
+#include <type_traits>
 
 #include "cata_utility.h"
 #include "character.h"
+#include "colony.h"
 #include "construction.h"
 #include "construction_group.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "faction.h"
-#include "game.h"
 #include "generic_factory.h"
 #include "iexamine.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_pocket.h"
 #include "item_search.h"
 #include "itype.h"
 #include "json.h"
@@ -36,6 +39,7 @@
 #include "ui.h"
 #include "value_ptr.h"
 #include "vehicle.h"
+#include "visitable.h"
 #include "vpart_position.h"
 
 static const item_category_id item_category_food( "food" );
@@ -103,6 +107,17 @@ zone_manager::zone_manager()
                    zone_type( to_translation( "Auto Drink" ),
                               to_translation( "Items in this zone will be automatically consumed during a long activity if you get thirsty." ) ) );
 
+}
+
+void zone_manager::clear()
+{
+    zones.clear();
+    added_vzones.clear();
+    changed_vzones.clear();
+    removed_vzones.clear();
+    // Do not clear types since it is needed for the next games.
+    area_cache.clear();
+    vzone_cache.clear();
 }
 
 std::string zone_type::name() const
@@ -1152,7 +1167,7 @@ void zone_data::serialize( JsonOut &json ) const
     json.member( "is_vehicle", is_vehicle );
     json.member( "start", start );
     json.member( "end", end );
-    get_options().serialize( json );
+    options->serialize( json );
     json.end_object();
 }
 
@@ -1236,7 +1251,7 @@ void zone_manager::zone_edited( zone_data &zone )
             }
         }
         //Add it to the list of changed zones
-        changed_vzones.push_back( std::make_pair( zone_data( zone ), &zone ) );
+        changed_vzones.emplace_back( zone_data( zone ), &zone );
     }
 }
 

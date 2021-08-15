@@ -1,18 +1,19 @@
+#include "vehicle.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <memory>
+#include <string>
 
 #include "avatar.h"
 #include "character.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
-#include "game.h"
 #include "gun_mode.h"
 #include "item.h"
 #include "itype.h"
 #include "messages.h"
 #include "npc.h"
-#include "player.h"
 #include "projectile.h"
 #include "ranged.h"
 #include "string_formatter.h"
@@ -20,7 +21,6 @@
 #include "ui.h"
 #include "value_ptr.h"
 #include "veh_type.h"
-#include "vehicle.h" // IWYU pragma: associated
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
@@ -242,29 +242,28 @@ turret_data::status turret_data::query() const
         if( veh->fuel_left( ammo_current() ) < part->base.ammo_required() ) {
             return status::no_ammo;
         }
-
+    } else if( part->base.get_gun_ups_drain() ) {
+        int ups = part->base.get_gun_ups_drain() * part->base.gun_current_mode().qty;
+        if( ups > veh->fuel_left( fuel_type_battery ) ) {
+            return status::no_power;
+        }
     } else {
-        if( !part->base.ammo_sufficient() ) {
+        if( !part->base.ammo_sufficient( nullptr ) ) {
             return status::no_ammo;
         }
-    }
-
-    int ups = part->base.get_gun_ups_drain() * part->base.gun_current_mode().qty;
-    if( ups > veh->fuel_left( fuel_type_battery ) ) {
-        return status::no_power;
     }
 
     return status::ready;
 }
 
-void turret_data::prepare_fire( player &p )
+void turret_data::prepare_fire( Character &you )
 {
     // prevent turrets from shooting their own vehicles
-    p.add_effect( effect_on_roof, 1_turns );
+    you.add_effect( effect_on_roof, 1_turns );
 
     // turrets are subject only to recoil_vehicle()
-    cached_recoil = p.recoil;
-    p.recoil = 0;
+    cached_recoil = you.recoil;
+    you.recoil = 0;
 
     // set fuel tank fluid as ammo, if appropriate
     if( part->info().has_flag( "USE_TANKS" ) ) {
@@ -275,11 +274,11 @@ void turret_data::prepare_fire( player &p )
     }
 }
 
-void turret_data::post_fire( player &p, int shots )
+void turret_data::post_fire( Character &you, int shots )
 {
     // remove any temporary recoil adjustments
-    p.remove_effect( effect_on_roof );
-    p.recoil = cached_recoil;
+    you.remove_effect( effect_on_roof );
+    you.recoil = cached_recoil;
 
     gun_mode mode = base()->gun_current_mode();
 

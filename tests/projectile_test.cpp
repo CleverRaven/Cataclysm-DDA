@@ -1,12 +1,11 @@
-#include "catch/catch.hpp"
-#include "projectile.h"
-
+#include <iosfwd>
 #include <memory>
 #include <set>
 #include <string>
 #include <vector>
 
 #include "ballistics.h"
+#include "cata_catch.h"
 #include "character.h"
 #include "damage.h"
 #include "dispersion.h"
@@ -17,6 +16,7 @@
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"
+#include "projectile.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "value_ptr.h"

@@ -3,6 +3,7 @@
 #define CATA_SRC_ACTION_H
 
 #include <functional>
+#include <iosfwd>
 #include <map>
 #include <set>
 #include <string>
@@ -13,9 +14,9 @@ namespace cata
 template<typename T>
 class optional;
 } // namespace cata
-struct tripoint;
-struct point;
 struct input_event;
+struct point;
+struct tripoint;
 
 /**
  * Enumerates all discrete actions that can be performed by player
@@ -66,6 +67,8 @@ enum action_id : int {
     ACTION_TOGGLE_RUN,
     /** Toggle crouch on/off */
     ACTION_TOGGLE_CROUCH,
+    /** Toggle lying down on/off */
+    ACTION_TOGGLE_PRONE,
     /** Open movement mode menu */
     ACTION_OPEN_MOVEMENT,
     /**@}*/
@@ -322,6 +325,7 @@ enum action_id : int {
     ACTION_DISPLAY_TRANSPARENCY,
     /** Toggle reachability zones map */
     ACTION_DISPLAY_REACHABILITY_ZONES,
+    ACTION_DISPLAY_NPC_ATTACK_POTENTIAL,
     /** Toggle timing of the game hours */
     ACTION_TOGGLE_HOUR_TIMER,
     /** Not an action, serves as count of enumerated actions */

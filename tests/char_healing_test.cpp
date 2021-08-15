@@ -1,9 +1,8 @@
-#include "catch/catch.hpp"
-
-#include <string>
+#include <iosfwd>
 
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_catch.h"
 #include "character.h"
 #include "options.h"
 #include "player.h"

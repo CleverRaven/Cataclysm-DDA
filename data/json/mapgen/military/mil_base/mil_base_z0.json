@@ -121,8 +121,8 @@
         "%": [ { "item": "mil_base_ash", "chance": 25, "repeat": [ 1, 15 ] } ]
       },
       "place_loot": [
-        { "group": "fuel_diesel", "x": 19, "y": 15, "chance": 75 },
-        { "group": "fuel_diesel", "x": 45, "y": 11, "chance": 75 },
+        { "group": "fuel_jp8", "x": 19, "y": 15, "chance": 75 },
+        { "group": "fuel_jp8", "x": 45, "y": 11, "chance": 75 },
         { "group": "mil_base_hmg", "x": 67, "y": 57, "chance": 10, "magazine": 100 }
       ],
       "place_monsters": [
@@ -732,7 +732,7 @@
         { "item": "tinyweldtank", "x": 71, "y": [ 19, 20 ], "chance": 50, "repeat": [ 5, 10 ] },
         { "item": "tinyweldtank", "x": 72, "y": [ 19, 20 ], "chance": 50, "repeat": [ 5, 10 ] },
         { "item": "motor_oil", "x": 75, "y": [ 17, 18 ], "chance": 50, "repeat": [ 20, 40 ] },
-        { "item": "diesel", "x": 75, "y": 19, "chance": 80, "repeat": [ 1, 10 ] },
+        { "group": "fuel_jp8", "x": 75, "y": 19, "chance": 80, "repeat": [ 1, 10 ] },
         { "item": "jerrycan", "x": 75, "y": 20, "chance": 80, "repeat": [ 1, 10 ] },
         { "group": "supplies_metal", "x": 76, "y": [ 17, 20 ], "chance": 50, "repeat": [ 20, 80 ] },
         { "item": "extinguisher", "x": 69, "y": 23, "chance": 75 },
@@ -752,18 +752,42 @@
         { "item": "m203", "x": 10, "y": 11, "chance": 75, "repeat": 5 },
         { "item": "mgl", "x": 10, "y": 11, "chance": 75, "repeat": 3 },
         { "item": "40x46mm_m433", "x": 10, "y": 12, "chance": 75, "repeat": 20 },
-        { "item": "m4a1", "x": 12, "y": [ 9, 11 ], "magazine": 100, "chance": 75, "repeat": 30 },
-        { "item": "m27iar", "x": 12, "y": 9, "magazine": 100, "chance": 75, "repeat": 8 },
+        {
+          "item": "m4_carbine",
+          "variant": "m4a1",
+          "x": 12,
+          "y": [ 9, 11 ],
+          "magazine": 100,
+          "chance": 75,
+          "repeat": 30
+        },
+        {
+          "item": "m27_assault_rifle",
+          "variant": "m27iar",
+          "x": 12,
+          "y": 9,
+          "magazine": 100,
+          "chance": 75,
+          "repeat": 8
+        },
         { "item": "m16a4", "x": 12, "y": 9, "magazine": 100, "chance": 75, "repeat": 2 },
         { "item": "stanag30", "x": 12, "y": 12, "chance": 75, "repeat": 80 },
         { "item": "stanag50", "x": 12, "y": 12, "chance": 75, "repeat": 20 },
         { "item": "556", "x": 14, "y": [ 9, 12 ], "chance": 75, "repeat": 150 },
-        { "item": "m4a1", "x": 16, "y": [ 9, 11 ], "magazine": 100, "chance": 75, "repeat": 36 },
+        {
+          "item": "m4_carbine",
+          "variant": "m4a1",
+          "x": 16,
+          "y": [ 9, 11 ],
+          "magazine": 100,
+          "chance": 75,
+          "repeat": 36
+        },
         { "item": "stanag30", "x": 16, "y": 12, "chance": 75, "repeat": 100 },
         { "item": "556", "x": 18, "y": [ 9, 12 ], "chance": 75, "repeat": 150 },
         { "item": "m249", "x": 20, "y": 9, "chance": 75, "repeat": 6 },
         { "item": "m240", "x": 20, "y": 9, "chance": 75, "repeat": 4 },
-        { "item": "m1014", "x": 20, "y": 10, "chance": 75, "repeat": 10 },
+        { "item": "mossberg_930", "variant": "m1014", "x": 20, "y": 10, "chance": 75, "repeat": 10 },
         { "item": "mossberg_590", "x": 20, "y": 10, "chance": 75, "repeat": 8 },
         { "item": "m2010", "x": 20, "y": 11, "magazine": 100, "chance": 75, "repeat": 2 },
         { "item": "m110a1", "x": 20, "y": 11, "magazine": 100, "chance": 75, "repeat": 8 },
@@ -1106,7 +1130,7 @@
         "W": [ { "item": "mil_base_iv", "chance": 70 } ],
         "^": [ { "item": "mil_base_iv", "chance": 70 } ]
       },
-      "gaspumps": { "p": { "fuel": "diesel", "amount": [ 200000, 1000000 ] } },
+      "gaspumps": { "p": { "fuel": "jp8", "amount": [ 200000, 1000000 ] } },
       "place_loot": [
         { "group": "mil_base_hmg", "x": 65, "y": 46, "chance": 10, "magazine": 100 },
         { "group": "SUS_janitors_closet", "x": 22, "y": 26, "chance": 90, "repeat": [ 1, 2 ] },
@@ -1126,7 +1150,7 @@
         { "item": "adrenaline_injector", "x": 29, "y": 25, "chance": 50, "repeat": [ 1, 10 ] },
         { "item": "vitamins", "x": 28, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "item": "calcium_tablet", "x": 28, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
-        { "item": "inhaler", "x": 28, "y": 25, "chance": 50, "repeat": [ 1, 10 ] },
+        { "group": "charged_inhaler", "x": 28, "y": 25, "chance": 50, "repeat": [ 1, 10 ] },
         { "item": "bandages", "x": 29, "y": 25, "chance": 30, "repeat": [ 20, 60 ] },
         { "item": "adhesive_bandages", "x": 29, "y": 25, "chance": 30, "repeat": [ 20, 60 ] },
         { "item": "medical_gauze", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
@@ -1158,7 +1182,7 @@
         { "item": "geiger_off", "x": 32, "y": 25, "chance": 50, "repeat": [ 10, 20 ] },
         { "item": "rad_monitor", "x": 32, "y": 25, "chance": 50, "repeat": [ 10, 20 ] },
         { "item": "cleansuit", "x": 32, "y": 25, "chance": 50, "repeat": [ 10, 20 ] },
-        { "item": "aep_suit", "x": 32, "y": 25, "chance": 50, "repeat": [ 5, 10 ] },
+        { "item": "hazmat_suit", "x": 32, "y": 25, "chance": 50, "repeat": [ 5, 10 ] },
         { "item": "oxygen_tank", "x": 32, "y": 25, "chance": 50, "repeat": [ 10, 20 ] },
         { "item": "wrapped_rad_badge", "x": 32, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "item": "prussian_blue", "x": 32, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },

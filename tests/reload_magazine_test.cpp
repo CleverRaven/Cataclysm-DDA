@@ -1,5 +1,4 @@
-#include "catch/catch.hpp"
-
+#include <functional>
 #include <list>
 #include <memory>
 #include <set>
@@ -7,20 +6,21 @@
 
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_catch.h"
 #include "character.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "pimpl.h"
-#include "player.h"
 #include "type_id.h"
 #include "visitable.h"
 
 struct itype;
 
+// NOLINTNEXTLINE(readability-function-size)
 TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
 {
-    const itype_id gun_id( "m4a1" );
+    const itype_id gun_id( "m4_carbine" );
     const ammotype gun_ammo( "223" );
     const itype_id ammo_id( "556" ); // any type of compatible ammo
     const itype_id alt_ammo( "223" ); // any alternative type of compatible ammo
