@@ -2443,7 +2443,7 @@ class Character : public Creature, public visitable
         /** Returns traits that cancel the entered trait */
         std::unordered_set<trait_id> get_opposite_traits( const trait_id &flag ) const;
         /** Removes "sleep" and "lying_down" */
-        void wake_up();
+        virtual void wake_up();
         // how loud a character can shout. based on mutations and clothing
         int get_shout_volume() const;
         // shouts a message
