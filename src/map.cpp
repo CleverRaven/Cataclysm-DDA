@@ -33,6 +33,7 @@
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
+#include "do_turn.h"
 #include "drawing_primitives.h"
 #include "enums.h"
 #include "event.h"
@@ -685,9 +686,8 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     // But only if the vehicle was seen before or after the move
     if( seen || sees_veh( player_character, veh, true ) ) {
         g->invalidate_main_ui_adaptor();
-        inp_mngr.pump_events();
         ui_manager::redraw_invalidated();
-        refresh_display();
+        handle_key_blocking_activity();
     }
     return new_vehicle;
 }

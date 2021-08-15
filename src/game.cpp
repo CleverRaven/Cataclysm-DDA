@@ -1160,8 +1160,12 @@ void game::catch_a_monster( monster *fish, const tripoint &pos, player *p,
 
 static bool cancel_auto_move( player &p, const std::string &text )
 {
-    if( p.has_destination() && query_yn( _( "%s, cancel Auto-move?" ), text ) )  {
-        add_msg( m_warning, _( "%s. Auto-move canceled" ), text );
+    if( !p.has_destination() ) {
+        return false;
+    }
+    g->invalidate_main_ui_adaptor();
+    if( query_yn( _( "%s Cancel auto-move?" ), text ) )  {
+        add_msg( m_warning, _( "%s Auto-move canceled." ), text );
         if( !p.omt_path.empty() ) {
             p.omt_path.clear();
         }
@@ -1222,10 +1226,10 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
 
 bool game::cancel_activity_query( const std::string &text )
 {
-    if( u.has_distant_destination() ) {
+    if( u.has_destination() ) {
         if( cancel_auto_move( u, text ) ) {
             return true;
-        } else {
+        } else if( u.has_distant_destination() ) {
             u.set_destination( u.get_auto_move_route(), player_activity( activity_id( "ACT_TRAVELLING" ) ) );
             return false;
         }
@@ -1233,6 +1237,7 @@ bool game::cancel_activity_query( const std::string &text )
     if( !u.activity ) {
         return false;
     }
+    g->invalidate_main_ui_adaptor();
     if( query_yn( "%s %s", text, u.activity.get_stop_phrase() ) ) {
         u.cancel_activity();
         u.clear_destination();
