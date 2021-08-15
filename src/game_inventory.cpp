@@ -398,6 +398,13 @@ item_location game::inv_map_splice( const item_filter &filter, const std::string
                          title, radius, none_message );
 }
 
+item_location game::inv_map_splice( const item_location_filter &filter, const std::string &title,
+                                    int radius, const std::string &none_message )
+{
+    return inv_internal( u, inventory_filter_preset( filter ),
+                         title, radius, none_message );
+}
+
 class liquid_inventory_selector_preset : public inventory_selector_preset
 {
     public:

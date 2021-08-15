@@ -900,14 +900,13 @@ int throw_cost( const Character &c, const item &to_throw )
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 20 - throw_skill ) / 20 ) );
     ///\EFFECT_DEX increases throwing speed
     const int dexbonus = c.get_dex();
-    const int encumbrance_penalty = c.encumb( bodypart_id( "torso" ) ) +
-                                    ( c.encumb( bodypart_id( "hand_l" ) ) + c.encumb( bodypart_id( "hand_r" ) ) ) / 2;
     const float stamina_ratio = static_cast<float>( c.get_stamina() ) / c.get_stamina_max();
     const float stamina_penalty = 1.0 + std::max( ( 0.25f - stamina_ratio ) * 4.0f, 0.0f );
 
     int move_cost = base_move_cost;
+    move_cost *= c.melee_thrown_move_modifier_hands();
+    move_cost *= c.melee_thrown_move_modifier_torso();
     // Stamina penalty only affects base/2 and encumbrance parts of the cost
-    move_cost += encumbrance_penalty;
     move_cost *= stamina_penalty;
     move_cost += skill_cost;
     move_cost -= dexbonus;
@@ -916,16 +915,14 @@ int throw_cost( const Character &c, const item &to_throw )
     return std::max( 25, move_cost );
 }
 
-int Character::throw_dispersion_per_dodge( bool add_encumbrance ) const
+int Character::throw_dispersion_per_dodge( bool /* add_encumbrance */ ) const
 {
     // +200 per dodge point at 0 dexterity
     // +100 at 8, +80 at 12, +66.6 at 16, +57 at 20, +50 at 24
     // Each 10 encumbrance on either hand is like -1 dex (can bring penalty to +400 per dodge)
-    // Maybe TODO: Only use one hand
-    const int encumbrance = add_encumbrance ? encumb( bodypart_id( "hand_l" ) ) + encumb(
-                                bodypart_id( "hand_r" ) ) : 0;
     ///\EFFECT_DEX increases throwing accuracy against targets with good dodge stat
-    float effective_dex = 2 + get_dex() / 4.0f - ( encumbrance ) / 40.0f;
+    float effective_dex = 2 + get_dex() / 4.0f;
+    effective_dex *= thrown_dex_modifier();
     return static_cast<int>( 100.0f / std::max( 1.0f, effective_dex ) );
 }
 
@@ -1884,15 +1881,7 @@ dispersion_sources Character::get_weapon_dispersion( const item &obj ) const
     dispersion_sources dispersion( weapon_dispersion );
     dispersion.add_range( ranged_dex_mod() );
 
-    int arm_encumb = 0;
-    // Fake turret NPC does not have arms
-    if( has_part( bodypart_id( "arm_l" ) ) ) {
-        arm_encumb += encumb( bodypart_id( "arm_l" ) );
-    }
-    if( has_part( bodypart_id( "arm_r" ) ) ) {
-        arm_encumb += encumb( bodypart_id( "arm_r" ) );
-    }
-    dispersion.add_range( arm_encumb / 5.0 );
+    dispersion.add_range( ranged_dispersion_modifier_hands() );
 
     if( is_driving() ) {
         // get volume of gun (or for auxiliary gunmods the parent gun)
@@ -3561,7 +3550,7 @@ bool gunmode_checks_common( avatar &you, const map &m, std::vector<std::string> 
         result = false;
     }
 
-    if( gmode->has_flag( flag_FIRE_TWOHAND ) && ( !you.has_two_arms() ||
+    if( gmode->has_flag( flag_FIRE_TWOHAND ) && ( !you.has_two_arms_lifting() ||
             you.worn_with_flag( flag_RESTRICT_HANDS ) ) ) {
         messages.push_back( string_format( _( "You need two free hands to fire your %s." ),
                                            gmode->tname() ) );

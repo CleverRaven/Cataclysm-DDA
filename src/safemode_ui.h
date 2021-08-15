@@ -64,7 +64,9 @@ class safemode
          * is added as the key, with rule_state::WHITELISTED or rule_state::BLACKLISTED as the values.
          * safemode_rules[ 'creature name' ][ 'attitude' ].rule_state_class('rule_state', 'proximity')
          */
+        // NOLINTNEXTLINE(cata-serialize)
         std::unordered_map < std::string, std::array < rule_state_class, 3 > > safemode_rules_hostile;
+        // NOLINTNEXTLINE(cata-serialize)
         std::vector < rules_class > safemode_rules_sound;
 
         /**
@@ -85,7 +87,7 @@ class safemode
         void set_rule( const rules_class &rule_in, const std::string &name_in, rule_state rs_in );
 
     public:
-        std::string lastmon_whitelist;
+        std::string lastmon_whitelist; // NOLINT(cata-serialize)
 
         bool has_rule( const std::string &rule_in, Creature::Attitude attitude_in );
         void add_rule( const std::string &rule_in, Creature::Attitude attitude_in,

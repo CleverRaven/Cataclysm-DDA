@@ -47,11 +47,13 @@ static const mtype_id mon_sewer_snake( "mon_sewer_snake" );
 static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 
-timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_sm p )
+timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_sm p,
+                          int s )
     : type( e_t )
     , when( w )
     , faction_id( f_id )
     , map_point( p )
+    , strength( s )
 {
 }
 
@@ -352,16 +354,17 @@ void timed_event_manager::process()
 }
 
 void timed_event_manager::add( const timed_event_type type, const time_point &when,
-                               const int faction_id )
+                               const int faction_id, int strength )
 {
-    add( type, when, faction_id, get_player_character().global_sm_location() );
+    add( type, when, faction_id, get_player_character().global_sm_location(), strength );
 }
 
 void timed_event_manager::add( const timed_event_type type, const time_point &when,
                                const int faction_id,
-                               const tripoint_abs_sm &where )
+                               const tripoint_abs_sm &where,
+                               int strength )
 {
-    events.emplace_back( type, when, faction_id, where );
+    events.emplace_back( type, when, faction_id, where, strength );
 }
 
 bool timed_event_manager::queued( const timed_event_type type ) const

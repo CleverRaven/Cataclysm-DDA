@@ -228,8 +228,8 @@ struct bionic {
         float auto_start_threshold = -1.0f;
         float safe_fuel_threshold = 1.0f;
         item weapon;
-        std::vector<item> toggled_pseudo_items;
-        std::vector<item> passive_pseudo_items;
+        std::vector<item> toggled_pseudo_items; // NOLINT(cata-serialize)
+        std::vector<item> passive_pseudo_items; // NOLINT(cata-serialize)
         void initialize_pseudo_items();
 };
 

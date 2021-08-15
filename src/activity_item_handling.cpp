@@ -133,9 +133,6 @@ static const std::string flag_PLANTABLE( "PLANTABLE" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 static const std::string flag_TREE( "TREE" );
 
-//Generic activity: maximum search distance for zones, constructions, etc.
-static const int ACTIVITY_SEARCH_DISTANCE = 60;
-
 /** Activity-associated item */
 struct act_item {
     /// inventory item

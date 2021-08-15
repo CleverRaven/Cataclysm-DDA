@@ -95,6 +95,11 @@ void game::serialize( std::ostream &fout )
     // Then each monster
     json.member( "active_monsters", *critter_tracker );
     json.member( "stair_monsters", coming_to_stairs );
+    json.member( "monstairz", monstairz );
+
+    json.member( "driving_view_offset", driving_view_offset );
+    json.member( "turnssincelastmon", turnssincelastmon );
+    json.member( "bVMonsterLookFire", bVMonsterLookFire );
 
     // save stats.
     json.member( "kill_tracker", *kill_tracker_ptr );
@@ -231,6 +236,11 @@ void game::unserialize( std::istream &fin, const std::string &path )
             elem.read( stairtmp );
             coming_to_stairs.push_back( stairtmp );
         }
+        data.read( "monstairz", monstairz );
+
+        data.read( "driving_view_offset", driving_view_offset );
+        data.read( "turnssincelastmon", turnssincelastmon );
+        data.read( "bVMonsterLookFire", bVMonsterLookFire );
 
         if( data.has_object( "kill_tracker" ) ) {
             data.read( "kill_tracker", *kill_tracker_ptr );

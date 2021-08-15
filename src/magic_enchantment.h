@@ -214,10 +214,10 @@ class enchantment
         cata::optional<emit_id> emitter;
         std::map<efftype_id, int> ench_effects;
         // values that add to the base value
-        std::map<enchant_vals::mod, int> values_add;
+        std::map<enchant_vals::mod, int> values_add; // NOLINT(cata-serialize)
         // values that get multiplied to the base value
         // multipliers add to each other instead of multiply against themselves
-        std::map<enchant_vals::mod, double> values_multiply;
+        std::map<enchant_vals::mod, double> values_multiply; // NOLINT(cata-serialize)
 
         std::vector<fake_spell> hit_me_effect;
         std::vector<fake_spell> hit_you_effect;

@@ -12,6 +12,7 @@
 #include "NoLongCheck.h"
 #include "NoStaticGettextCheck.h"
 #include "PointInitializationCheck.h"
+#include "SerializeCheck.h"
 #include "SimplifyPointConstructorsCheck.h"
 #include "StaticDeclarationsCheck.h"
 #include "StaticIntIdConstantsCheck.h"
@@ -60,6 +61,7 @@ class CataModule : public ClangTidyModule
             CheckFactories.registerCheck<NoLongCheck>( "cata-no-long" );
             CheckFactories.registerCheck<NoStaticGettextCheck>( "cata-no-static-gettext" );
             CheckFactories.registerCheck<PointInitializationCheck>( "cata-point-initialization" );
+            CheckFactories.registerCheck<SerializeCheck>( "cata-serialize" );
             CheckFactories.registerCheck<SimplifyPointConstructorsCheck>(
                 "cata-simplify-point-constructors" );
             CheckFactories.registerCheck<StaticDeclarationsCheck>( "cata-static-declarations" );

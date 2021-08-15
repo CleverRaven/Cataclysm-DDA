@@ -190,8 +190,20 @@
     "type": "vehicle_part"
   },
   {
+    "copy-from": "seat_abstract",
+    "id": "seat_windshield",
+    "symbol": "#",
+    "type": "vehicle_part"
+  },
+  {
     "copy-from": "seat_leather_abstract",
     "id": "seat_leather",
+    "symbol": "#",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "seat_leather_abstract",
+    "id": "seat_windshield_leather",
     "symbol": "#",
     "type": "vehicle_part"
   },
@@ -202,8 +214,20 @@
     "type": "vehicle_part"
   },
   {
+    "copy-from": "reclining_seat_abstract",
+    "id": "reclining_seat_windshield",
+    "symbol": "#",
+    "type": "vehicle_part"
+  },
+  {
     "copy-from": "reclining_seat_leather_abstract",
     "id": "reclining_seat_leather",
+    "symbol": "#",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "reclining_seat_leather_abstract",
+    "id": "reclining_seat_windshield_leather",
     "symbol": "#",
     "type": "vehicle_part"
   },

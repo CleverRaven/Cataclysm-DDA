@@ -74,7 +74,7 @@ class mapbuffer
         void save_quad( const std::string &dirname, const std::string &filename,
                         const tripoint &om_addr, std::list<tripoint> &submaps_to_delete,
                         bool delete_after_save );
-        submap_map_t submaps;
+        submap_map_t submaps; // NOLINT(cata-serialize)
 };
 
 extern mapbuffer MAPBUFFER;
