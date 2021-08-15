@@ -6,25 +6,21 @@
 #include <climits>
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <map>
+#include <new>
 #include <set>
-#include <string>
 #include <utility>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
 #include "character_id.h"
 #include "color.h"
+#include "compatibility.h"
 #include "creature.h"
-#include "cursesdef.h"
 #include "damage.h"
-#include "effect_source.h"
 #include "enums.h"
-#include "item.h"
-#include "mtype.h"
 #include "optional.h"
-#include "pldata.h"
 #include "point.h"
 #include "type_id.h"
 #include "units_fwd.h"
@@ -35,7 +31,12 @@ class JsonIn;
 class JsonObject;
 class JsonOut;
 class effect;
-class player;
+class effect_source;
+class item;
+namespace catacurses
+{
+class window;
+}  // namespace catacurses
 struct dealt_projectile_attack;
 struct pathfinding_settings;
 struct trap;
@@ -85,13 +86,13 @@ class monster : public Creature
         friend class editmap;
     public:
         monster();
-        monster( const mtype_id &id );
+        explicit monster( const mtype_id &id );
         monster( const mtype_id &id, const tripoint &pos );
         monster( const monster & );
-        monster( monster && );
+        monster( monster && ) noexcept( map_is_noexcept );
         ~monster() override;
         monster &operator=( const monster & );
-        monster &operator=( monster && );
+        monster &operator=( monster && ) noexcept( string_is_noexcept );
 
         bool is_monster() const override {
             return true;
@@ -104,7 +105,7 @@ class monster : public Creature
         }
 
         void poly( const mtype_id &id );
-        bool can_upgrade();
+        bool can_upgrade() const;
         void hasten_upgrade();
         int get_upgrade_time() const;
         void allow_upgrade();
@@ -122,6 +123,7 @@ class monster : public Creature
         int get_hp_max( const bodypart_id & ) const override;
         int get_hp_max() const override;
         int hp_percentage() const override;
+        int get_eff_per() const override;
 
         float get_mountable_weight_ratio() const;
 
@@ -165,17 +167,20 @@ class monster : public Creature
         bool made_of_any( const std::set<material_id> &ms ) const override;
         bool made_of( phase_id p ) const; // Returns true if its phase is p
 
+        bool shearable() const;
+
         bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
 
-        tripoint move_target(); // Returns point at the end of the monster's current plans
+        tripoint move_target() const; // Returns point at the end of the monster's current plans
         Creature *attack_target(); // Returns the creature at the end of plans (if hostile)
 
         // Movement
         void shift( const point &sm_shift ); // Shifts the monster to the appropriate submap
         void set_goal( const tripoint &p );
+        void set_patrol_route( const std::vector<point> &patrol_pts_rel_ms );
         // Updates current pos AND our plans
         bool wander(); // Returns true if we have no plans
 
@@ -311,10 +316,13 @@ class monster : public Creature
         bool is_immune_effect( const efftype_id & ) const override;
         bool is_immune_damage( damage_type ) const override;
 
+        void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
+                         int intensity = 1, bool permanent = false, bool force = false, bool defferred = false ) override;
+
         void absorb_hit( const bodypart_id &bp, damage_instance &dam ) override;
         bool block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &d ) override;
-        void melee_attack( Creature &target );
-        void melee_attack( Creature &target, float accuracy );
+        bool melee_attack( Creature &target );
+        bool melee_attack( Creature &target, float accuracy );
         void melee_attack( Creature &p, bool ) = delete;
         void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
                                      bool print_messages = true ) override;
@@ -366,7 +374,7 @@ class monster : public Creature
         float  get_dodge() const override;       // Natural dodge, or 0 if we're occupied
         float  get_melee() const override; // For determining attack skill when awarding dodge practice.
         float  hit_roll() const override;  // For the purposes of comparing to player::dodge_roll()
-        float  dodge_roll() override;  // For the purposes of comparing to player::hit_roll()
+        float  dodge_roll() const override;  // For the purposes of comparing to player::hit_roll()
 
         int get_grab_strength() const; // intensity of grabbed effect
 
@@ -412,6 +420,7 @@ class monster : public Creature
         /**
          * Makes this monster into a fungus version
          * Returns false if no such monster exists
+         * Returns true if monster is immune or if it got fungalized
          */
         bool make_fungus();
         void make_friendly();
@@ -431,7 +440,7 @@ class monster : public Creature
          * @param vol Volume at the center of the sound source
          * @param distance Distance to sound source (currently just rl_dist)
          */
-        void hear_sound( const tripoint &source, int vol, int distance );
+        void hear_sound( const tripoint &source, int vol, int distance, bool provocative );
 
         bool is_hallucination() const override;    // true if the monster isn't actually real
 
@@ -441,13 +450,19 @@ class monster : public Creature
         using Creature::add_msg_if_npc;
         void add_msg_if_npc( const std::string &msg ) const override;
         void add_msg_if_npc( const game_message_params &params, const std::string &msg ) const override;
+        using Creature::add_msg_debug_if_npc;
+        void add_msg_debug_if_npc( debugmode::debug_filter type, const std::string &msg ) const override;
         using Creature::add_msg_player_or_npc;
         void add_msg_player_or_npc( const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
         void add_msg_player_or_npc( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
+        using Creature::add_msg_debug_player_or_npc;
+        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const std::string &player_msg,
+                                          const std::string &npc_msg ) const override;
         // TEMP VALUES
         tripoint wander_pos; // Wander destination - Just try to move in that direction
+        bool provocative_sound = false; // Are we wandering toward something we think is alive?
         int wandf = 0;       // Urge to wander - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
         Character *mounted_player = nullptr; // player that is mounting this creature
@@ -458,8 +473,8 @@ class monster : public Creature
         cata::value_ptr<item> armor_item; // item of armor the monster may be wearing
         cata::value_ptr<item> storage_item; // storage item for monster carrying items
         cata::value_ptr<item> battery_item; // item to power mechs
-        units::mass get_carried_weight();
-        units::volume get_carried_volume();
+        units::mass get_carried_weight() const;
+        units::volume get_carried_volume() const;
         void move_special_item_to_inv( cata::value_ptr<item> &it );
 
         // DEFINING VALUES
@@ -469,7 +484,9 @@ class monster : public Creature
         // Our faction (species, for most monsters)
         mfaction_id faction;
         // If we're related to a mission
-        int mission_id = 0;
+        std::set<int> mission_ids;
+        // Names of mission monsters fused with this monster
+        std::vector<std::string> mission_fused;
         const mtype *type;
         // If true, don't spawn loot items as part of death.
         bool no_extra_death_drops = false;
@@ -477,6 +494,8 @@ class monster : public Creature
         bool no_corpse_quiet = false;
         // Turned to false for simulating monsters during distant missions so they don't drop in sight.
         bool death_drops = true;
+        // If true, sound and message is suppressed for monster death.
+        bool quiet_death = false;
         bool is_dead() const;
         bool made_footstep = false;
         // If we're unique
@@ -486,18 +505,6 @@ class monster : public Creature
         int fish_population = 1;
 
         void setpos( const tripoint &p ) override;
-        inline const tripoint &pos() const override {
-            return position;
-        }
-        inline int posx() const override {
-            return position.x;
-        }
-        inline int posy() const override {
-            return position.y;
-        }
-        inline int posz() const override {
-            return position.z;
-        }
 
         short ignoring = 0;
         cata::optional<time_point> lastseen_turn;
@@ -521,7 +528,6 @@ class monster : public Creature
          */
         void init_from_item( const item &itm );
 
-        time_point last_updated = calendar::turn_zero;
         /**
          * Do some cleanup and caching as monster is being unloaded from map.
          */
@@ -548,7 +554,6 @@ class monster : public Creature
         int hp = 0;
         std::map<std::string, mon_special_attack> special_attacks;
         tripoint goal;
-        tripoint position;
         bool dead = false;
         /** Normal upgrades **/
         int next_upgrade_time();
@@ -562,12 +567,16 @@ class monster : public Creature
         monster_horde_attraction horde_attraction = MHA_NULL;
         /** Found path. Note: Not used by monsters that don't pathfind! **/
         std::vector<tripoint> path;
+        /** patrol points for monsters that can pathfind and have a patrol route! **/
+        std::vector<tripoint> patrol_route_abs_ms;
+        int next_patrol_point = -1;
+
         std::bitset<NUM_MEFF> effect_cache;
         cata::optional<time_duration> summon_time_limit = cata::nullopt;
         int turns_since_target = 0;
 
-        player *find_dragged_foe();
-        void nursebot_operate( player *dragged_foe );
+        Character *find_dragged_foe();
+        void nursebot_operate( Character *dragged_foe );
 
     protected:
         void store( JsonOut &json ) const;

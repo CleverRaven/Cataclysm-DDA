@@ -245,6 +245,37 @@
     "desc": [ "AI tag used for monsters pushing each other.  This is a bug if you have it." ]
   },
   {
+    "type": "effect_type",
+    "id": "worked_on",
+    "name": [ "Worked On" ],
+    "desc": [ "AI tag used for robots being disabled.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "venom_player1",
+    "name": [ "Weak Player Venom" ],
+    "desc": [ "Don't worry, you shouldn't get this." ],
+    "max_duration": 120,
+    "base_mods": { "hurt_amount": [ 10 ], "hurt_min": [ 1 ], "hurt_chance": [ 2 ] },
+    "//": "10+0,5/s dmg, from max duration avg 70 (range 10-130)"
+  },
+  {
+    "type": "effect_type",
+    "id": "venom_player2",
+    "name": [ "Strong Player Venom" ],
+    "desc": [ "Don't worry, you really shouldn't get this." ],
+    "max_duration": 120,
+    "base_mods": { "hurt_amount": [ 20 ], "hurt_min": [ 4 ], "hurt_chance": [ 2 ], "speed_mod": [ -50 ] },
+    "//": "20+2/s dmg, from max duration avg 260 (range 20-480)"
+  },
+  {
+    "type": "effect_type",
+    "id": "dripping_mechanical_fluid",
+    "name": [ "Mechanical fluid dripping" ],
+    "desc": [ "AI tag used for robot monsters losing mechanical fluid.  This is a bug if you have it." ],
+    "show_in_info": true
+  },
+  {
     "//": "ACTUAL PLAYER EFFECTS START HERE",
     "type": "effect_type",
     "id": "downed",
@@ -427,6 +458,7 @@
     "miss_messages": [ [ "You feel bad inside.", 1 ] ],
     "rating": "bad",
     "resist_traits": [ "POISRESIST" ],
+    "resist_effects": [ "prophylactic_antivenom" ],
     "pain_sizing": true,
     "hurt_sizing": true,
     "main_parts_only": true,
@@ -450,6 +482,7 @@
     "miss_messages": [ [ "You feel bad inside.", 2 ] ],
     "rating": "bad",
     "resist_traits": [ "POISRESIST" ],
+    "resist_effects": [ "prophylactic_antivenom" ],
     "pain_sizing": true,
     "hurt_sizing": true,
     "main_parts_only": true,
@@ -468,6 +501,31 @@
     "blood_analysis_description": "Poison"
   },
   {
+    "type": "effect_type",
+    "id": "tpollen",
+    "name": [ "Hard of Breath" ],
+    "desc": [ "The pollen makes it hard to breathe!" ],
+    "miss_messages": [ [ "You cough out pollen.", 1 ] ],
+    "rating": "bad",
+    "harmful_cough": true,
+    "pain_sizing": true,
+    "hurt_sizing": true,
+    "main_parts_only": true,
+    "base_mods": {
+      "per_mod": [ -2, -1 ],
+      "dex_mod": [ -1, -1 ],
+      "str_mod": [ -2, 0 ],
+      "pain_min": [ 2 ],
+      "pain_chance": [ 150, 900 ],
+      "hurt_min": [ 2 ],
+      "hurt_chance": [ 450, 2700 ],
+      "speed_mod": [ -10 ],
+      "cough_chance": [ 10 ]
+    },
+    "show_in_info": true,
+    "blood_analysis_description": "Unknown Organic Toxin"
+  },
+  {
     "id": "venom_dmg",
     "type": "effect_type",
     "name": [ "Poisoned Wound" ],
@@ -477,6 +535,8 @@
     "show_intensity": false,
     "rating": "bad",
     "resist_traits": [ "POISRESIST" ],
+    "blood_analysis_description": "Necrotizing Venom",
+    "resist_effects": [ "prophylactic_antivenom" ],
     "pain_sizing": true,
     "hurt_sizing": true,
     "main_parts_only": true,
@@ -493,7 +553,7 @@
       "hurt_amount": [ 5, 0 ],
       "hurt_min": [ 2, 1 ],
       "hurt_chance": [ 13, 100 ],
-      "hurt_tick": [ 30 ]
+      "hurt_tick": [ 36 ]
     },
     "scaling_mods": { "pain_min": [ 0.05, 0.01 ], "pain_chance": [ -0.15, -0.8 ], "hurt_chance": [ -0.11, -0.81 ] }
   },
@@ -506,6 +566,9 @@
     "remove_message": "The weight on your chest lessens.",
     "rating": "bad",
     "resist_traits": [ "POISRESIST" ],
+    "blood_analysis_description": "Systemic Inflammatory Agents",
+    "speed_name": "Poisoned",
+    "resist_effects": [ "prophylactic_antivenom" ],
     "max_intensity": 125,
     "max_effective_intensity": 100,
     "max_duration": 18000,
@@ -533,9 +596,29 @@
   },
   {
     "type": "effect_type",
+    "id": "venom_blind",
+    "name": [ "Distracted", "Inattentive", "Dissociated" ],
+    "desc": [
+      "You find it hard to concentrate on your surroundings properly.",
+      "You're not even listening, are you?",
+      "Everything will be fine.  Just ignore all you see, and everything will be fine."
+    ],
+    "apply_message": "Your vision grows blurry.",
+    "miss_messages": [ [ "It was right here, wasn't it?", 2 ], [ "Are you sure there's something there?", 1 ] ],
+    "max_intensity": 3,
+    "int_add_val": 1,
+    "int_decay_step": -1,
+    "int_decay_tick": 90,
+    "resist_traits": [ "ELFA_NV" ],
+    "base_mods": { "per_mod": [ -3, 0 ] },
+    "scaling_mods": { "per_mod": [ -2, -1 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "foodpoison",
     "name": [ "Food Poisoning" ],
-    "desc": [ "Your stomach is extremely upset, and you are quite nauseous." ],
+    "desc": [ "Your stomach is extremely upset, and you are quite nauseated." ],
+    "//": "In formal usage, 'nauseous' technically means 'to cause nausea [in others],' not 'feeling sick.'",
     "miss_messages": [ [ "Your stomach bothers you.", 1 ] ],
     "rating": "bad",
     "resist_traits": [ "POISRESIST" ],
@@ -579,6 +662,7 @@
     "rating": "bad",
     "max_intensity": 20,
     "resist_traits": [ "POISRESIST" ],
+    "resist_effects": [ "prophylactic_antivenom" ],
     "int_add_val": 1,
     "int_decay_tick": 600,
     "base_mods": { "dex_mod": [ -0.34, -0.17 ], "speed_mod": [ -5, -3 ] },
@@ -589,14 +673,14 @@
   {
     "type": "effect_type",
     "id": "nausea",
-    "name": [ "Nausea" ],
-    "desc": [ "You feel nauseous.  Even a thought of food makes you feel sick." ],
+    "name": [ "Slightly Nauseous", "Mildly Nauseous", "Nauseous", "Very Nauseous", "Extremely Nauseous" ],
+    "desc": [ "You are nauseous and may lead to vomiting." ],
     "remove_message": "You no longer feel nauseous.",
     "rating": "bad",
-    "int_dur_factor": "5 m",
-    "max_intensity": 3,
+    "int_dur_factor": "3 m",
+    "max_intensity": 5,
     "max_duration": "15 m",
-    "base_mods": { "vomit_chance": [ 60 ] }
+    "base_mods": { "vomit_chance": [ 500 ] }
   },
   {
     "type": "effect_type",
@@ -616,6 +700,8 @@
     "id": "melatonin",
     "name": [ "Melatonin Supplements" ],
     "desc": [ "You took some melatonin supplements.  These will help with sleep deprivation." ],
+    "max_duration": 100800,
+    "dur_add_perc": 60,
     "rating": "good",
     "blood_analysis_description": "Melatonin"
   },
@@ -652,7 +738,6 @@
     "name": [ "Laser-targeted" ],
     "desc": [ "A laser sight is targeting you!" ],
     "apply_message": "",
-    "max_duration": "5 s",
     "rating": "bad"
   },
   {
@@ -661,7 +746,6 @@
     "name": [ "" ],
     "desc": [ "" ],
     "apply_message": "",
-    "max_duration": "5 s",
     "rating": "bad"
   },
   {
@@ -713,33 +797,40 @@
     "id": "invisibility",
     "name": [ "Invisible" ],
     "desc": [ "You are invisible." ],
-    "flags": [ "EFFECT_INVISIBLE" ]
+    "flags": [ "INVISIBLE" ]
   },
   {
     "type": "effect_type",
     "id": "took_flumed",
     "rating": "good",
-    "blood_analysis_description": "Antihistamines"
+    "blood_analysis_description": "Antihistamines",
+    "max_duration": 57600,
+    "dur_add_perc": 30
   },
   {
     "type": "effect_type",
     "id": "took_xanax",
+    "max_duration": 14400,
     "dur_add_perc": 22,
     "base_mods": { "stim_tick": [ 150 ], "stim_min": [ -1 ], "stim_min_val": [ -1 ] },
     "rating": "good",
-    "blood_analysis_description": "Xanax"
+    "blood_analysis_description": "Fast-acting sedatives"
   },
   {
     "type": "effect_type",
     "id": "took_xanax_visible",
-    "name": [ "Took Xanax" ],
-    "desc": [ "You took a fast-acting sedative some time ago and you might still be under its influence." ]
+    "name": [ "Took fast-acting sedative" ],
+    "desc": [ "You took a fast-acting sedative some time ago and you might still be under its influence." ],
+    "max_duration": 18000,
+    "dur_add_perc": 20
   },
   {
     "type": "effect_type",
     "id": "took_prozac",
     "rating": "good",
-    "blood_analysis_description": "Prozac"
+    "blood_analysis_description": "Antidepressants",
+    "max_duration": 64800,
+    "dur_add_perc": 40
   },
   {
     "type": "effect_type",
@@ -748,8 +839,10 @@
   {
     "type": "effect_type",
     "id": "took_prozac_visible",
-    "name": [ "Took Prozac" ],
-    "desc": [ "You took an antidepressant some time ago and you might still be under its influence." ]
+    "name": [ "Took antidepressant" ],
+    "desc": [ "You took an antidepressant some time ago and you might still be under its influence." ],
+    "max_duration": 72000,
+    "dur_add_perc": 35
   },
   {
     "type": "effect_type",
@@ -762,7 +855,9 @@
     "type": "effect_type",
     "id": "took_thorazine",
     "rating": "good",
-    "blood_analysis_description": "Antipsychotics"
+    "blood_analysis_description": "Antipsychotics",
+    "max_duration": 64800,
+    "dur_add_perc": 50
   },
   {
     "type": "effect_type",
@@ -771,8 +866,10 @@
   {
     "type": "effect_type",
     "id": "took_thorazine_visible",
-    "name": [ "Took Thorazine" ],
-    "desc": [ "You took an antipsychotic some time ago and you might still be under its influence." ]
+    "name": [ "Took antipsychotic" ],
+    "desc": [ "You took an antipsychotic some time ago and you might still be under its influence." ],
+    "max_duration": 72000,
+    "dur_add_perc": 35
   },
   {
     "type": "effect_type",
@@ -821,7 +918,7 @@
     "desc": [ "You are covered in webs!" ],
     "apply_message": "You're covered in webs!",
     "rating": "bad",
-    "miss_messages": [ [ "The webs constrict your movement.", 4 ] ],
+    "miss_messages": [ [ "The webs restrict your movement.", 4 ] ],
     "max_intensity": 3,
     "base_mods": { "speed_mod": [ -20 ] },
     "scaling_mods": { "speed_mod": [ -5 ] },
@@ -832,9 +929,9 @@
     "id": "sludged",
     "name": [ "sludged" ],
     "desc": [ "You're standing in sludge!" ],
-    "apply_message": "You're stepped into some sludge!",
+    "apply_message": "You've stepped into some sludge!",
     "rating": "bad",
-    "miss_messages": [ [ "The sludge constricts your movement.", 4 ] ],
+    "miss_messages": [ [ "The sludge restricts your movement.", 4 ] ],
     "max_intensity": 3,
     "show_in_info": true
   },
@@ -873,23 +970,37 @@
     "int_dur_factor": "8 h",
     "max_intensity": 3,
     "base_mods": {
-      "pain_chance": [ 2, 1 ],
-      "pain_chance_bot": [ 200 ],
-      "pain_min": [ 1 ],
-      "pain_max_val": [ 30, 20 ],
-      "str_mod": [ -1 ],
-      "dex_mod": [ -1 ],
-      "vomit_chance": [ 1000, 1200 ],
-      "fatigue_min": [ 360, 180 ],
-      "fatigue_chance": [ -102 ]
+      "str_mod": [ -2 ],
+      "dex_mod": [ -3 ],
+      "int_mod": [ -2 ],
+      "vomit_chance": [ 900, 1200 ],
+      "vomit_tick": [ 180 ],
+      "thirst_min": [ 2 ],
+      "thirst_chance": [ 10, 100 ],
+      "thirst_tick": [ 30 ],
+      "speed_mod": [ -10, 0 ],
+      "stamina_min": [ -8, -4 ],
+      "stamina_max": [ -50, -20 ],
+      "stamina_chance": [ 3, 10 ],
+      "fatigue_min": [ 2, 0 ],
+      "fatigue_max": [ 10, 5 ],
+      "fatigue_chance": [ 110 ],
+      "fatigue_max_val": [ 700, 250 ],
+      "healing_rate": [ 0.01, 1 ]
     },
     "scaling_mods": {
-      "pain_max_val": [ 30, 20 ],
       "str_mod": [ -1, -0.5 ],
       "dex_mod": [ -1, -0.5 ],
+      "int_mod": [ -3, -1 ],
       "vomit_chance": [ -400 ],
-      "fatigue_chance": [ 101 ]
+      "speed_mod": [ -10, -5 ],
+      "stamina_min": [ -6, -4 ],
+      "stamina_max": [ 15, 4 ],
+      "stamina_chance": [ -1, -2.5 ],
+      "fatigue_chance": [ -50 ],
+      "fatigue_tick": [ 0.5 ]
     },
+    "//": "Stamina regen stops completely at int 3, but no stamina loss from then on",
     "blood_analysis_description": "Bacterial Infection"
   },
   {
@@ -898,22 +1009,38 @@
     "name": [ "Recovering From Infection" ],
     "desc": [ "You are recovering from an infection." ],
     "rating": "bad",
+    "resist_traits": [ "INFRESIST" ],
     "max_intensity": 3,
     "int_dur_factor": "32 h",
     "base_mods": {
-      "pain_chance": [ 100 ],
-      "pain_min": [ 1 ],
-      "pain_max_val": [ 30 ],
       "str_mod": [ -1 ],
       "dex_mod": [ -1 ],
-      "vomit_chance": [ 1000 ],
-      "fatigue_min": [ 360 ],
-      "fatigue_chance": [ -102 ],
-      "fatigue_tick": [ 6 ],
-      "pain_tick": [ 6 ],
-      "vomit_tick": [ 6 ]
+      "int_mod": [ -1 ],
+      "vomit_chance": [ 1200, 1800 ],
+      "vomit_tick": [ 180 ],
+      "thirst_min": [ 1, 0 ],
+      "thirst_max": [ 3, 2 ],
+      "thirst_chance": [ 10, 100 ],
+      "thirst_tick": [ 60 ],
+      "speed_mod": [ -5, 0 ],
+      "stamina_min": [ -8 ],
+      "stamina_chance": [ 10, 20 ],
+      "fatigue_min": [ 1, 0 ],
+      "fatigue_max": [ 5, 3 ],
+      "fatigue_chance": [ 210 ],
+      "fatigue_max_val": [ 500, 125 ],
+      "healing_rate": [ 0.5 ]
     },
-    "scaling_mods": { "pain_max_val": [ 30 ], "str_mod": [ -1 ], "dex_mod": [ -1 ], "vomit_chance": [ -400 ], "fatigue_chance": [ 101 ] }
+    "scaling_mods": {
+      "str_mod": [ -1, -0.5 ],
+      "dex_mod": [ -1, -0.5 ],
+      "int_mod": [ -2, -1 ],
+      "vomit_chance": [ -500 ],
+      "speed_mod": [ -5, -4 ],
+      "stamina_min": [ -6, -3 ],
+      "stamina_chance": [ -1, -2.5 ],
+      "fatigue_chance": [ -60 ]
+    }
   },
   {
     "type": "effect_type",
@@ -964,8 +1091,8 @@
     "apply_memorial_log": "Contracted a fungal infection.",
     "remove_memorial_log": "Cured the fungal infection.",
     "miss_messages": [ [ "You feel sick inside.", 1 ] ],
-    "speed_name": "Fungal infection",
-    "remove_message": "Tingling sensation in your skin fades away.",
+    "speed_name": "Itchy skin",
+    "remove_message": "The itching in your skin fades away.",
     "rating": "bad",
     "max_intensity": 3,
     "int_dur_factor": "6 h",
@@ -1012,7 +1139,7 @@
     "type": "effect_type",
     "id": "rat",
     "name": [ "Ratting" ],
-    "desc": [ "You feel nauseous and rat-like." ],
+    "desc": [ "You feel nauseated and rat-like." ],
     "max_intensity": 100,
     "base_mods": { "int_mod": [ -0.5 ], "str_mod": [ -0.2 ], "per_mod": [ -0.4 ] },
     "scaling_mods": { "int_mod": [ -0.5 ], "str_mod": [ -0.2 ], "per_mod": [ -0.4 ] }
@@ -1021,6 +1148,8 @@
     "type": "effect_type",
     "id": "pblue",
     "base_mods": { "rad_chance": [ 600 ], "rad_min": [ -1 ] },
+    "max_duration": 10800,
+    "dur_add_perc": 35,
     "blood_analysis_description": "Prussian Blue",
     "rating": "good"
   },
@@ -1338,7 +1467,17 @@
     "desc": [ "You have been vaccinated for the flu recently." ],
     "blocks_effects": [ "flu" ],
     "rating": "good",
-    "blood_analysis_description": "Antivirals"
+    "blood_analysis_description": "Antivirals",
+    "max_duration": 14515200,
+    "dur_add_perc": 50
+  },
+  {
+    "type": "effect_type",
+    "id": "prophylactic_antivenom",
+    "name": [ "Antivenom Resistance" ],
+    "desc": [ "You are temporarily resistant to venoms." ],
+    "rating": "good",
+    "blood_analysis_description": "Prophylactic antivenom"
   },
   {
     "type": "effect_type",
@@ -1346,6 +1485,7 @@
     "name": [ "Took antiasthmatic drugs" ],
     "desc": [ "You have taken an antiasthmatic drug recently." ],
     "rating": "good",
+    "max_duration": 86400,
     "blood_analysis_description": "Antiasthmatics"
   },
   {
@@ -1624,7 +1764,9 @@
     "removes_effects": [ "shakes" ],
     "base_mods": { "stim_tick": [ 150 ], "stim_chance": [ 2 ], "stim_min": [ 1 ], "stim_min_val": [ -1 ] },
     "rating": "good",
-    "blood_analysis_description": "Benzodiazepines"
+    "blood_analysis_description": "Benzodiazepines",
+    "max_duration": 64800,
+    "dur_add_perc": 45
   },
   {
     "type": "effect_type",
@@ -1634,7 +1776,9 @@
       "You took anticonvulsant drugs some time ago and you might still be under its influence.\nPrescription note says its effect duration may vary, so your estimate may be inaccurate."
     ],
     "rating": "good",
-    "blood_analysis_description": "Anticonvulsants"
+    "blood_analysis_description": "Anticonvulsants",
+    "max_duration": 64800,
+    "dur_add_perc": 40
   },
   {
     "type": "effect_type",
@@ -1828,14 +1972,14 @@
     "id": "anemia",
     "name": [ "Early iron deficiency", "Iron deficiency", "Acute iron deficiency" ],
     "desc": [
-      "A lack of iron in your diet has hampered efficiency and regeneration of your red blood cells.",
-      "Prolonged lack of iron in your diet has compromised efficiency and regeneration of your red blood cells.",
+      "A lack of iron in your diet has hampered the efficiency and regeneration of your red blood cells.",
+      "Prolonged lack of iron in your diet has compromised the efficiency and regeneration of your red blood cells.",
       "Severe lack of iron in your diet results in your red blood cells dying faster then they are regenerating."
     ],
     "apply_message": "You begin feeling increasingly tired and listless.",
     "remove_message": "You are no longer in risk of becoming anemic.",
     "decay_messages": [
-      [ "Your irom deficiency is nearly resolved.", "good" ],
+      [ "Your iron deficiency is nearly resolved.", "good" ],
       [ "Your feel stronger as your iron deficiency starts to improve.", "good" ]
     ],
     "max_intensity": 3,
@@ -1985,15 +2129,15 @@
     "name": [ "Mild hypovolemic shock", "Moderate hypovolemic shock", "Advanced hypovolemic shock", "Severe hypovolemic shock" ],
     "desc": [
       "You've lost some blood and look somewhat pale.",
-      "You've lost large amount of blood, and you're not feeling well.",
+      "You've lost a large amount of blood, and you're not feeling well.",
       "You've lost an awful lot of blood, and your condition is severe.  Seek medical attention.",
       "You've lost tremendous amount of blood, and you're standing on death's door.  Transfusion might save you."
     ],
-    "apply_message": "You have lost lot of blood, and your condition worsens.",
+    "apply_message": "You have lost a lot of blood, and your condition worsens.",
     "remove_message": "You are no longer in shock.",
     "decay_messages": [
-      [ "Your blood level increase, and you feel better, but still look pale.", "good" ],
-      [ "Your feel stronger as your blood levels starts to improve.", "good" ],
+      [ "Your blood volume increases, and you feel better; but still, you look pale.", "good" ],
+      [ "You feel stronger as your blood volume starts to improve.", "good" ],
       [ "You're not dying from lack of blood, but you're not out of the woods yet.", "good" ]
     ],
     "max_intensity": 4,
@@ -2152,7 +2296,9 @@
     "name": [ "Took weak antibiotic" ],
     "desc": [
       "You consumed mild antibiotic some time ago to fight off infection.\nIf you don't recover you may want to take another dose, but beware overdosage."
-    ]
+    ],
+    "max_duration": 54000,
+    "dur_add_perc": 35
   },
   {
     "type": "effect_type",
@@ -2160,7 +2306,9 @@
     "name": [ "Took antibiotic" ],
     "desc": [
       "You consumed antibiotic some time ago to fight off infection.\nIf you don't recover you may want to take another dose, but beware overdosage."
-    ]
+    ],
+    "max_duration": 54000,
+    "dur_add_perc": 25
   },
   {
     "type": "effect_type",
@@ -2168,25 +2316,33 @@
     "name": [ "Took strong antibiotic" ],
     "desc": [
       "You consumed prescription-grade antibiotic some time ago to fight off infection.\nIf you don't recover you may want to take another dose, but beware overdosage."
-    ]
+    ],
+    "max_duration": 54000,
+    "dur_add_perc": 25
   },
   {
     "type": "effect_type",
     "id": "weak_antibiotic",
     "rating": "good",
-    "blood_analysis_description": "Antibiotics"
+    "blood_analysis_description": "Antibiotics",
+    "max_duration": 43200,
+    "dur_add_perc": 25
   },
   {
     "type": "effect_type",
     "id": "antibiotic",
     "rating": "good",
-    "blood_analysis_description": "Antibiotics"
+    "blood_analysis_description": "Antibiotics",
+    "max_duration": 43200,
+    "dur_add_perc": 25
   },
   {
     "type": "effect_type",
     "id": "strong_antibiotic",
     "rating": "good",
-    "blood_analysis_description": "Antibiotics"
+    "blood_analysis_description": "Antibiotics",
+    "max_duration": 43200,
+    "dur_add_perc": 25
   },
   {
     "type": "effect_type",
@@ -2204,7 +2360,9 @@
     "int_add_val": 1,
     "max_intensity": 3,
     "base_mods": { "vomit_tick": [ 60 ], "health_chance": [ 1500 ], "health_min": [ 1 ] },
-    "scaling_mods": { "health_min": [ -1.5 ], "health_min_val": [ -2 ], "vomit_tick": [ 120 ] }
+    "scaling_mods": { "health_min": [ -1.5 ], "health_min_val": [ -2 ], "vomit_tick": [ 120 ] },
+    "max_duration": 14400,
+    "dur_add_perc": 70
   },
   {
     "type": "effect_type",
@@ -2212,7 +2370,9 @@
     "name": [ "Antifungals" ],
     "desc": [ "You are under the effects of an antifungal medicine or chemicals." ],
     "rating": "good",
-    "blood_analysis_description": "Antifungals"
+    "blood_analysis_description": "Antifungals",
+    "max_duration": 28800,
+    "dur_add_perc": 50
   },
   {
     "//": "This effect is a dummy effect for disabling certain things for a few turns after an electromagnetic pulse and does nothing on its own",
@@ -2323,7 +2483,7 @@
     "type": "effect_type",
     "id": "ignore_fall_damage",
     "//": "Used for translocation via teleporter_list as a way to avoid fall damage by teleporting Z levels",
-    "flags": [ "EFFECT_FEATHER_FALL" ]
+    "flags": [ "FEATHER_FALL" ]
   },
   {
     "type": "effect_type",
@@ -2333,49 +2493,65 @@
     "type": "effect_type",
     "id": "weary_1",
     "name": [ "Lightly Weary" ],
-    "desc": [ "You've been pretty active for a while, operating at the highest levels of activity will be impaired." ]
+    "desc": [
+      "You've been pretty active for a while; operating at the highest levels of activity will be impaired.\nThe following move penalties are applied for the following activity levels:\nExtreme: 1.25x"
+    ]
   },
   {
     "type": "effect_type",
     "id": "weary_2",
     "name": [ "Moderately Weary" ],
-    "desc": [ "You've been quite active for a while, operating at higher levels of activity will be impaired." ]
+    "desc": [
+      "You've been quite active for a while; operating at higher levels of activity will be impaired.\nThe following move penalties are applied for the following activity levels:\nExtreme: 1.67x, Active: 1.33x"
+    ]
   },
   {
     "type": "effect_type",
     "id": "weary_3",
     "name": [ "Weary" ],
-    "desc": [ "You've been very active for a while, and need to slow down for a bit." ]
+    "desc": [
+      "You've been very active for a while, and need to slow down for a bit.\nThe following move penalties are applied for the following activity levels:\nExtreme: 2.5x, Active: 2x, Brisk: 1.5x"
+    ]
   },
   {
     "type": "effect_type",
     "id": "weary_4",
     "name": [ "Very Weary" ],
-    "desc": [ "You've been extremely active for a while, and need to slow down." ]
+    "desc": [
+      "You've been extremely active for a while, and need to slow down.\nThe following move penalties are applied for the following activity levels:\nExtreme: 5x, Active: 4x, Brisk: 3x, Moderate: 2x"
+    ]
   },
   {
     "type": "effect_type",
     "id": "weary_5",
     "name": [ "Extremely Weary" ],
-    "desc": [ "You've been extremely active for a while, and can't take much more activity." ]
+    "desc": [
+      "You've been extremely active for a while, and can't take much more activity.\nThe following move penalties are applied for the following activity levels:\nExtreme: 10x, Active: 8x, Brisk: 6x, Moderate: 4x, Light: 2x"
+    ]
   },
   {
     "type": "effect_type",
     "id": "weary_6",
     "name": [ "Extremely Weary" ],
-    "desc": [ "You've been extremely active for a while, and really need to get some rest." ]
+    "desc": [
+      "You've been extremely active for a while, and really need to get some rest.\nThe following move penalties are applied for the following activity levels:\nExtreme: 10x, Active: 8x, Brisk: 6x, Moderate: 4x, Light: 2x"
+    ]
   },
   {
     "type": "effect_type",
     "id": "weary_7",
     "name": [ "Extremely Weary" ],
-    "desc": [ "You've been extremely active for a while, it's time to stop." ]
+    "desc": [
+      "You've been extremely active for a while; it's time to stop.\nThe following move penalties are applied for the following activity levels:\nExtreme: 10x, Active: 8x, Brisk: 6x, Moderate: 4x, Light: 2x"
+    ]
   },
   {
     "type": "effect_type",
     "id": "weary_8",
     "name": [ "Extremely Weary" ],
-    "desc": [ "You've been extremely active for a while, and can no longer keep pushing." ]
+    "desc": [
+      "You've been extremely active for a while, and can no longer keep pushing.\nThe following move penalties are applied for the following activity levels:\nExtreme: 10x, Active: 8x, Brisk: 6x, Moderate: 4x, Light: 2x"
+    ]
   },
   {
     "type": "effect_type",

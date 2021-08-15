@@ -276,7 +276,7 @@
     "id": "spell_scroll_recover_fatigue",
     "//": "Druid spell",
     "name": { "str": "Scroll of Nature's Trance", "str_pl": "Scrolls of Nature's Trance" },
-    "description": "Your connection to living things allows you to go into a magical trance.  This allows you to recover fatige quickly in exchange for mana.",
+    "description": "Your connection to living things allows you to go into a magical trance.  This allows you to recover fatigue quickly in exchange for mana.",
     "use_action": { "type": "learn_spell", "spells": [ "recover_fatigue" ] }
   },
   {
@@ -287,6 +287,15 @@
     "name": { "str": "Scroll of Bag of Cats", "str_pl": "Scrolls of Bag of Cats" },
     "description": "Are you the crazy cat lady?",
     "use_action": { "type": "learn_spell", "spells": [ "summon_cats" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_summon_wolf",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Summon Wolf", "str_pl": "Scrolls of Summon Wolf" },
+    "description": "Call to the wild for aid from some wolves.",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_wolf_druid" ] }
   },
   {
     "type": "BOOK",
@@ -462,6 +471,15 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_shadow_field",
+    "//": "Magus spell",
+    "name": { "str": "Scroll of Shadow Field", "str_pl": "Scrolls of Shadow Field" },
+    "description": "Cast a field of shadows.",
+    "use_action": { "type": "learn_spell", "spells": [ "shadow_field" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_magic_missile",
     "//": "Magus spell",
     "name": { "str": "Scroll of Magic Missile", "str_pl": "Scrolls of Magic Missile" },
@@ -566,6 +584,15 @@
     "name": { "str": "Scroll of Fox's Cunning", "str_pl": "Scrolls of Fox's Cunning" },
     "description": "You become wily like a fox.",
     "use_action": { "type": "learn_spell", "spells": [ "foxs_cunning" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_shocking_lash",
+    "//": "Stormshaper spell",
+    "name": { "str": "Scroll of Shocking Lash", "str_pl": "Scrolls of Shocking Lash" },
+    "description": "A quick burst of electricity strikes a target and possibly one other nearby.",
+    "use_action": { "type": "learn_spell", "spells": [ "shocking_lash" ] }
   },
   {
     "type": "BOOK",
@@ -768,6 +795,24 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_bleed",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Bleed", "str_pl": "Scrolls of Bleed" },
+    "description": "With a shout and a gesture, the target starts bleeding from old wounds.",
+    "use_action": { "type": "learn_spell", "spells": [ "bleed" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_banishment_lesser",
+    "//": "Animist spell",
+    "name": { "str": "Scroll of Lesser Banishment", "str_pl": "Scrolls of Lesser Banishment" },
+    "description": "Banish a monster to the lesser-known nether dimension.  If a monster is more powerful than you can handle, the spell drains your life force to make up the difference.",
+    "use_action": { "type": "learn_spell", "spells": [ "banishment_lesser" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_acid_resistance",
     "//": "Classless spell, black dragon books",
     "name": { "str": "Scroll of Acid Resistance", "str_pl": "Scrolls of Acid Resistance" },
@@ -954,7 +999,7 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_impactsling",
     "name": { "str": "Scroll of Impact Sling", "str_pl": "Scrolls of Impact Sling" },
-    "description": "Infuse a sling with excess energy, delivering devasting throws before it tears itself apart.",
+    "description": "Infuse a sling with excess energy, delivering devastating throws before it tears itself apart.",
     "use_action": { "type": "learn_spell", "spells": [ "magus_summon_impact_sling" ] }
   },
   {
@@ -972,5 +1017,49 @@
     "name": { "str": "MICE(R) blueprint" },
     "description": "Manafied Infernal Combustion Engine (Rideable)\nDetailed schematics for a motorcycle, that are somehow simultaneously obviously impossible and yet intriguingly intuitive.\nIn one margin, the word 'Mojocycle' has been scrawled in a flowing hand.",
     "use_action": { "type": "learn_spell", "spells": [ "summon_magic_motorcycle" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_nova_flare",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of Nova Flare", "str_pl": "Scrolls of Nova Flare" },
+    "description": "Causes an intense heat at the location, greatly damaging the target.",
+    "use_action": { "type": "learn_spell", "spells": [ "nova_flare" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_force_jar",
+    "name": { "str": "Scroll of Jar of Force", "str_pl": "Scrolls of Jar of Force" },
+    "description": "Summon a jar of force you can use to store liquids in.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_force_jar" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_freezing_touch",
+    "//": "Kelvinist spell",
+    "name": { "str": "Scroll of freezing touch", "str_pl": "Scrolls of freezing touch" },
+    "description": "Your hands freeze anything they touch at temperatures so cold it slows down your foes.",
+    "use_action": { "type": "learn_spell", "spells": [ "freezing_touch" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_natures_commune",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Nature's Commune", "str_pl": "Scrolls of Nature's Commune" },
+    "description": "Your connection with nature allows you to become one with it; you revitalize your body while in communion with the flora and fauna around you.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_natures_commune" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_seed_of_growth",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of seed of growth", "str_pl": "Scrolls of seed of growth" },
+    "description": "Offer some of your life in a ritual to get tokens of growth in return.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_growth" ] }
   }
 ]

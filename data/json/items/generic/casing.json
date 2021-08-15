@@ -40,6 +40,7 @@
     "color": "yellow",
     "description": "An unfired, like-new .22 round casing, with the primer still intact.",
     "material": [ "powder", "brass" ],
+    "stackable": true,
     "volume": "3 ml",
     "weight": "1 g"
   },
@@ -152,6 +153,7 @@
     "weight": "50 g",
     "volume": "55ml",
     "material": [ "steel" ],
+    "stackable": true,
     "symbol": "=",
     "color": "dark_gray"
   },
@@ -164,6 +166,7 @@
     "weight": "50 g",
     "volume": "58ml",
     "material": [ "steel" ],
+    "stackable": true,
     "symbol": "=",
     "color": "dark_gray"
   },
@@ -177,6 +180,7 @@
     "volume": "59ml",
     "material": [ "steel" ],
     "symbol": "=",
+    "stackable": true,
     "color": "dark_gray"
   },
   {
@@ -189,6 +193,7 @@
     "volume": "45ml",
     "material": [ "steel" ],
     "symbol": "=",
+    "stackable": true,
     "color": "dark_gray"
   },
   {
@@ -201,6 +206,7 @@
     "volume": "64ml",
     "material": [ "steel" ],
     "symbol": "=",
+    "stackable": true,
     "color": "dark_gray"
   },
   {

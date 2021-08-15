@@ -2,34 +2,31 @@
 #ifndef CATA_SRC_INVENTORY_UI_H
 #define CATA_SRC_INVENTORY_UI_H
 
-#include <algorithm>
 #include <array>
 #include <climits>
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <limits>
 #include <list>
 #include <map>
 #include <memory>
+#include <new>
 #include <string>
 #include <utility>
 #include <vector>
 
-#include "cata_assert.h"
 #include "color.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "input.h"
-#include "item.h"
 #include "item_category.h"
 #include "item_location.h"
 #include "memory_fast.h"
 #include "optional.h"
 #include "pimpl.h"
-#include "ret_val.h"
 #include "translations.h"
-#include "ui.h"
 #include "units_fwd.h"
 
 class Character;
@@ -66,7 +63,7 @@ class inventory_entry
 
         inventory_entry() = default;
 
-        inventory_entry( const item_category *custom_category ) :
+        explicit inventory_entry( const item_category *custom_category ) :
             custom_category( custom_category )
         {}
 
@@ -77,10 +74,12 @@ class inventory_entry
             this->custom_category = custom_category;
         }
 
-        inventory_entry( const std::vector<item_location> &locations,
-                         const item_category *custom_category = nullptr,
-                         bool enabled = true ) :
+        explicit inventory_entry( const std::vector<item_location> &locations,
+                                  const item_category *custom_category = nullptr,
+                                  bool enabled = true,
+                                  const size_t chosen_count = 0 ) :
             locations( locations ),
+            chosen_count( chosen_count ),
             custom_category( custom_category ),
             enabled( enabled )
         {}
@@ -90,7 +89,7 @@ class inventory_entry
             return !( *this == other );
         }
 
-        operator bool() const {
+        explicit operator bool() const {
             return !is_null();
         }
         /** Whether the entry is null (dummy) */
@@ -235,16 +234,10 @@ class inventory_selector_preset
 class inventory_holster_preset : public inventory_selector_preset
 {
     public:
-        inventory_holster_preset( const item_location &holster ) : holster( holster ) {}
+        explicit inventory_holster_preset( const item_location &holster ) : holster( holster ) {}
 
         /** Does this entry satisfy the basic preset conditions? */
-        bool is_shown( const item_location &contained ) const override {
-            item item_copy( *contained );
-            item_copy.charges = 1;
-            return holster->contents.can_contain( item_copy ).success() && !holster->has_item( *contained ) &&
-                   !contained->is_bucket_nonempty() && ( holster->contents.all_pockets_rigid() ||
-                           holster.parents_can_contain_recursive( &item_copy ) );
-        }
+        bool is_shown( const item_location &contained ) const override;
     private:
         // this is the item that we are putting something into
         item_location holster;
@@ -255,7 +248,8 @@ const inventory_selector_preset default_preset;
 class inventory_column
 {
     public:
-        inventory_column( const inventory_selector_preset &preset = default_preset ) : preset( preset ) {
+        explicit inventory_column( const inventory_selector_preset &preset = default_preset ) : preset(
+                preset ) {
             cells.resize( preset.get_cells_count() );
         }
 
@@ -358,7 +352,7 @@ class inventory_column
          */
         virtual void on_input( const inventory_input &input );
         /** The entry has been changed. */
-        virtual void on_change( const inventory_entry & ) {}
+        virtual void on_change( const inventory_entry &entry );
         /** The column has been activated. */
         virtual void on_activate() {
             active = true;
@@ -372,7 +366,7 @@ class inventory_column
             this->mode = mode;
         }
 
-        void set_filter( const std::string &filter );
+        virtual void set_filter( const std::string &filter );
 
         // whether or not to indent contained entries
         bool indent_entries() const {
@@ -434,7 +428,7 @@ class inventory_column
         bool paging_is_valid = false;
         bool visibility = true;
 
-        size_t selected_index = 0;
+        size_t selected_index = std::numeric_limits<size_t>::max();
         size_t page_offset = 0;
         size_t entries_per_page = std::numeric_limits<size_t>::max();
         size_t height = std::numeric_limits<size_t>::max();
@@ -485,6 +479,8 @@ class selection_column : public inventory_column
             // Intentionally ignore mode change.
         }
 
+        void set_filter( const std::string &filter ) override;
+
     private:
         const pimpl<item_category> selected_cat;
         inventory_entry last_changed;
@@ -493,11 +489,14 @@ class selection_column : public inventory_column
 class inventory_selector
 {
     public:
-        inventory_selector( Character &u, const inventory_selector_preset &preset = default_preset );
+        explicit inventory_selector( Character &u,
+                                     const inventory_selector_preset &preset = default_preset );
         virtual ~inventory_selector();
         /** These functions add items from map / vehicles. */
         void add_contained_items( item_location &container );
-        void add_contained_items( item_location &container, inventory_column &column );
+        void add_contained_items( item_location &container, inventory_column &column,
+                                  const item_category *custom_category = nullptr );
+        void add_contained_ebooks( item_location &container );
         void add_character_items( Character &character );
         void add_map_items( const tripoint &target );
         void add_vehicle_items( const tripoint &target );
@@ -544,7 +543,8 @@ class inventory_selector
 
         void add_entry( inventory_column &target_column,
                         std::vector<item_location> &&locations,
-                        const item_category *custom_category = nullptr );
+                        const item_category *custom_category = nullptr,
+                        size_t chosen_count = 0 );
 
         void add_item( inventory_column &target_column,
                        item_location &&location,
@@ -574,7 +574,8 @@ class inventory_selector
 
         static stats get_weight_and_volume_stats(
             units::mass weight_carried, units::mass weight_capacity,
-            const units::volume &volume_carried, const units::volume &volume_capacity );
+            const units::volume &volume_carried, const units::volume &volume_capacity,
+            const units::length &longest_length, const units::volume &largest_free_volume );
 
         /** Get stats to display in top right.
          *
@@ -602,6 +603,8 @@ class inventory_selector
         /** Highlight parent and contents of selected item.
         */
         void highlight();
+        /** Show detailed item information for selected item. */
+        void action_examine( const item *sitem );
 
     private:
         // These functions are called from resizing/redraw callbacks of ui_adaptor
@@ -717,8 +720,8 @@ inventory_selector::stat display_stat( const std::string &caption, int cur_value
 class inventory_pick_selector : public inventory_selector
 {
     public:
-        inventory_pick_selector( Character &p,
-                                 const inventory_selector_preset &preset = default_preset ) :
+        explicit inventory_pick_selector( Character &p,
+                                          const inventory_selector_preset &preset = default_preset ) :
             inventory_selector( p, preset ) {}
 
         item_location execute();
@@ -727,8 +730,9 @@ class inventory_pick_selector : public inventory_selector
 class inventory_multiselector : public inventory_selector
 {
     public:
-        inventory_multiselector( Character &p, const inventory_selector_preset &preset = default_preset,
-                                 const std::string &selection_column_title = "" );
+        explicit inventory_multiselector( Character &p,
+                                          const inventory_selector_preset &preset = default_preset,
+                                          const std::string &selection_column_title = "" );
     protected:
         void rearrange_columns( size_t client_width ) override;
 
@@ -739,7 +743,7 @@ class inventory_multiselector : public inventory_selector
 class inventory_compare_selector : public inventory_multiselector
 {
     public:
-        inventory_compare_selector( Character &p );
+        explicit inventory_compare_selector( Character &p );
         std::pair<const item *, const item *> execute();
 
     protected:
@@ -767,15 +771,18 @@ class inventory_iuse_selector : public inventory_multiselector
     private:
         GetStats get_stats;
         std::map<const item_location *, int> to_use;
+        std::vector<item_location> usable_locs;
         size_t max_chosen_count;
 };
 
 class inventory_drop_selector : public inventory_multiselector
 {
     public:
-        inventory_drop_selector( Character &p,
-                                 const inventory_selector_preset &preset = default_preset,
-                                 const std::string &selection_column_title = _( "ITEMS TO DROP" ) );
+        explicit inventory_drop_selector(
+            Character &p,
+            const inventory_selector_preset &preset = default_preset,
+            const std::string &selection_column_title = _( "ITEMS TO DROP" ),
+            bool warn_liquid = true );
         drop_locations execute();
     protected:
         stats get_raw_stats() const override;
@@ -787,6 +794,7 @@ class inventory_drop_selector : public inventory_multiselector
         void deselect_contained_items();
         std::vector<std::pair<item_location, int>> dropping;
         size_t max_chosen_count;
+        bool warn_liquid;
 };
 
 #endif // CATA_SRC_INVENTORY_UI_H

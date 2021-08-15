@@ -65,7 +65,6 @@
     "material": [ "plastic" ],
     "symbol": "!",
     "color": "light_blue",
-    "initial_charges": 100,
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE",
@@ -75,7 +74,6 @@
         "ammo_restriction": { "albuterol": 100 }
       }
     ],
-    "max_charges": 100,
     "charges_per_use": 1,
     "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "use_action": [ "INHALER" ]
@@ -93,9 +91,7 @@
     "symbol": ",",
     "color": "light_gray",
     "ammo": [ "ampoule" ],
-    "initial_charges": 2,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ampoule": 2 } } ],
-    "max_charges": 2,
     "charges_per_use": 1,
     "use_action": [ "JET_INJECTOR" ]
   },
@@ -107,6 +103,7 @@
     "ascii_picture": "scalpel",
     "weight": "23 g",
     "volume": "15 ml",
+    "longest_side": "13 cm",
     "price": 1000,
     "price_postapoc": 250,
     "to_hit": -3,
@@ -114,17 +111,17 @@
     "material": [ "steel" ],
     "symbol": ",",
     "color": "light_gray",
-    "techniques": [ "PRECISE" ],
-    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 3 ] ],
-    "flags": [ "SPEAR" ]
+    "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 3 ], [ "BUTCHER", 8 ] ],
+    "flags": [ "FRAGILE_MELEE" ]
   },
   {
     "id": "smoxygen_tank",
     "type": "TOOL",
     "name": { "str": "emergency oxygen pack" },
     "description": "This is a small tank of compressed medical oxygen with a folding regulator and mask.  Commonly used in emergency situations, it provides immediate relief for asthma attacks or smoke inhalation, and can provide a brief burst of energy.",
-    "weight": "1134 g",
-    "volume": "750 ml",
+    "weight": "800 g",
+    "volume": "1100 ml",
+    "longest_side": "22 cm",
     "price": 4000,
     "price_postapoc": 250,
     "to_hit": -3,
@@ -132,12 +129,11 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "initial_charges": 12,
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "airtight": true, "watertight": true, "rigid": true, "ammo_restriction": { "oxygen": 12 } }
     ],
-    "max_charges": 12,
     "charges_per_use": 1,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "use_action": [ "OXYGEN_BOTTLE" ]
   },
   {
@@ -145,8 +141,9 @@
     "type": "TOOL",
     "name": { "str": "syringe" },
     "description": "A medical syringe.  Used for administering intravenous drugs.",
-    "weight": "10 g",
+    "weight": "4240 mg",
     "volume": "10ml",
+    "longest_side": "10 cm",
     "price": 2500,
     "price_postapoc": 10,
     "material": [ "plastic" ],
@@ -176,8 +173,9 @@
     "type": "TOOL",
     "name": { "str": "oxygen tank" },
     "description": "This is tank of compressed medical oxygen with a regulator and mask.  Commonly used in emergency situations, it provides immediate relief for asthma attacks or smoke inhalation, and can provide a brief burst of energy.",
-    "weight": "2268 g",
-    "volume": "1500 ml",
+    "weight": "2721 g",
+    "volume": "3750 ml",
+    "longest_side": "42 cm",
     "price": 6000,
     "price_postapoc": 500,
     "to_hit": -4,
@@ -185,12 +183,11 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "initial_charges": 24,
     "pocket_data": [
       { "pocket_type": "MAGAZINE", "airtight": true, "watertight": true, "rigid": true, "ammo_restriction": { "oxygen": 24 } }
     ],
-    "max_charges": 24,
     "charges_per_use": 1,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "use_action": [ "OXYGEN_BOTTLE" ]
   },
   {
@@ -216,7 +213,7 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "250 ml",
-        "max_contains_weight": "300 g"
+        "max_contains_weight": "500 g"
       }
     ]
   },

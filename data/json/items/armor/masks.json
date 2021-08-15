@@ -12,12 +12,10 @@
     "symbol": "[",
     "looks_like": "hat_cotton",
     "color": "dark_gray",
-    "covers": [ "head", "mouth" ],
-    "coverage": 95,
-    "encumbrance": 5,
     "warmth": 30,
-    "material_thickness": 2,
-    "flags": [ "VARSIZE", "SKINTIGHT" ]
+    "material_thickness": 0.5,
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
+    "armor": [ { "encumbrance": 5, "coverage": 95, "covers": [ "head", "mouth" ] } ]
   },
   {
     "id": "balaclava_cut_resistant",
@@ -31,6 +29,7 @@
   {
     "id": "bandana",
     "type": "TOOL_ARMOR",
+    "category": "clothing",
     "name": { "str": "bandana" },
     "description": "A cotton bandana, worn over the mouth for warmth and minor protection from dust and other contaminants.",
     "weight": "42 g",
@@ -47,12 +46,10 @@
     "symbol": "[",
     "looks_like": "scarf",
     "color": "blue",
-    "covers": [ "mouth" ],
-    "coverage": 95,
-    "encumbrance": 1,
     "warmth": 5,
-    "material_thickness": 1,
-    "environmental_protection": 1
+    "material_thickness": 0.1,
+    "environmental_protection": 1,
+    "armor": [ { "encumbrance": 1, "coverage": 95, "covers": [ "mouth" ] } ]
   },
   {
     "id": "bondage_mask",
@@ -69,11 +66,8 @@
     "symbol": "[",
     "looks_like": "balclava",
     "color": "dark_gray",
-    "covers": [ "head", "eyes", "mouth" ],
-    "coverage": 100,
-    "encumbrance": 30,
     "warmth": 30,
-    "material_thickness": 2,
+    "material_thickness": 0.5,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ],
     "use_action": {
@@ -81,7 +75,8 @@
       "type": "transform",
       "target": "bondage_mask_zipped",
       "msg": "You zip the eyes and mouth of the bondage mask closed."
-    }
+    },
+    "armor": [ { "encumbrance": 30, "coverage": 100, "covers": [ "head", "eyes", "mouth" ] } ]
   },
   {
     "id": "bondage_mask_zipped",
@@ -90,7 +85,7 @@
     "name": { "str": "bondage mask (zipped)", "str_pl": "bondage masks (zipped)" },
     "description": "A tight mask made of black leather.  The eyes and mouth have been zipped closed.",
     "looks_like": "bondage_mask",
-    "flags": [ "VARSIZE", "BLIND" ],
+    "flags": [ "VARSIZE", "SKINTIGHT", "BLIND" ],
     "use_action": {
       "menu_text": "Unzip",
       "type": "transform",
@@ -112,12 +107,12 @@
     "symbol": "[",
     "looks_like": "balclava",
     "color": "dark_gray",
-    "armor_portion_data": [
+    "armor": [
       { "covers": [ "head", "eyes" ], "coverage": 90, "encumbrance": 10 },
       { "covers": [ "mouth" ], "coverage": 90, "encumbrance": 0 }
     ],
     "warmth": 10,
-    "material_thickness": 2
+    "material_thickness": 1
   },
   {
     "id": "mask_bal",
@@ -135,13 +130,11 @@
     "symbol": "[",
     "looks_like": "glasses_bal",
     "color": "dark_gray",
-    "covers": [ "eyes", "mouth" ],
-    "coverage": 95,
-    "encumbrance": 20,
     "warmth": 10,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "STURDY" ]
+    "flags": [ "WATER_FRIENDLY", "STURDY" ],
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "eyes", "mouth" ] } ]
   },
   {
     "id": "mask_dust",
@@ -158,12 +151,10 @@
     "symbol": "[",
     "looks_like": "scarf",
     "color": "white",
-    "covers": [ "mouth" ],
-    "coverage": 100,
-    "encumbrance": 8,
     "warmth": 5,
-    "material_thickness": 1,
-    "environmental_protection": 2
+    "material_thickness": 0.1,
+    "environmental_protection": 2,
+    "armor": [ { "encumbrance": 8, "coverage": 100, "covers": [ "mouth" ] } ]
   },
   {
     "id": "mask_guy_fawkes",
@@ -180,13 +171,11 @@
     "symbol": "[",
     "looks_like": "mask_hockey",
     "color": "white",
-    "covers": [ "eyes", "mouth" ],
-    "coverage": 95,
-    "encumbrance": 10,
     "warmth": 5,
-    "material_thickness": 1,
+    "material_thickness": 0.2,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY" ]
+    "flags": [ "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 10, "coverage": 95, "covers": [ "eyes", "mouth" ] } ]
   },
   {
     "id": "mask_hockey",
@@ -205,13 +194,11 @@
     "symbol": "[",
     "looks_like": "glasses_safety",
     "color": "white",
-    "covers": [ "eyes", "mouth" ],
-    "coverage": 95,
-    "encumbrance": 20,
     "warmth": 5,
-    "material_thickness": 3,
+    "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "STURDY" ]
+    "flags": [ "WATER_FRIENDLY", "STURDY" ],
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "eyes", "mouth" ] } ]
   },
   {
     "id": "mask_rioter",
@@ -227,12 +214,10 @@
     "symbol": "[",
     "looks_like": "scarf",
     "color": "white",
-    "covers": [ "head", "mouth" ],
-    "coverage": 90,
-    "encumbrance": 8,
     "warmth": 10,
-    "material_thickness": 1,
+    "material_thickness": 0.5,
     "environmental_protection": 1,
-    "flags": [ "HELMET_COMPAT" ]
+    "flags": [ "HELMET_COMPAT" ],
+    "armor": [ { "encumbrance": 8, "coverage": 90, "covers": [ "head", "mouth" ] } ]
   }
 ]

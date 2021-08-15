@@ -57,4 +57,8 @@ public class CataclysmDDA extends SDLActivity {
     public boolean getDefaultSetting(final String settingsName, boolean defaultValue) {
         return PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean(settingsName, defaultValue);
     }
+
+    public String getSystemLang() {
+        return getResources().getConfiguration().locale.toLanguageTag().replace('-', '_');
+    }
 }

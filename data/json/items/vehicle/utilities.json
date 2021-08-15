@@ -31,8 +31,7 @@
     "category": "veh_parts",
     "price": 90000,
     "price_postapoc": 5000,
-    "ammo": [ "plutonium" ],
-    "max_charges": 10000
+    "ammo": [ "plutonium" ]
   },
   {
     "type": "GENERIC",
@@ -117,12 +116,12 @@
     "id": "washing_machine",
     "name": { "str": "washing machine" },
     "description": "A very small washing machine designed for use in vehicles.",
-    "weight": "31752 g",
+    "weight": "15000 g",
     "to_hit": -8,
     "color": "light_blue",
-    "symbol": "]",
+    "symbol": "{",
     "material": [ "steel" ],
-    "volume": "125 L",
+    "volume": "20 L",
     "bashing": 8,
     "category": "veh_parts",
     "price": 60000,

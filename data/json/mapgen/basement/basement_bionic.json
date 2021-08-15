@@ -5,7 +5,7 @@
     "om_terrain": [ "basement_bionic" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "                        ",
         "           |----------| ",
@@ -65,13 +65,13 @@
         { "group": "cleaning", "x": [ 11, 12 ], "y": 8, "chance": 70, "repeat": [ 1, 2 ] },
         { "group": "surgery", "x": [ 8, 9 ], "y": 9, "chance": 70, "repeat": [ 1, 2 ] },
         { "group": "bionics_common", "x": 7, "y": 9 },
-        { "item": "anesthetic_kit", "x": 7, "y": 9, "ammo": 100 },
         { "item": "television", "x": 21, "y": 16, "chance": 95 },
         { "item": "soap", "x": 19, "y": 21, "chance": 80 },
         { "item": "towel", "x": 20, "y": 21, "chance": 80 },
         { "item": "towel", "x": 3, "y": 13, "chance": 60 },
         { "item": "stereo", "x": 2, "y": 13, "chance": 50 }
       ],
+      "items": { "?": { "item": "autodoc_supplies", "chance": 100 } },
       "place_monster": [ { "monster": "mon_broken_cyborg", "x": 14, "y": 3, "chance": 100 } ]
     }
   },
@@ -81,7 +81,7 @@
     "om_terrain": [ "basement_bionic_decoy" ],
     "weight": 100,
     "object": {
-      "fill_ter": "t_rock_floor",
+      "fill_ter": "t_thconc_floor",
       "rows": [
         "                        ",
         "           |----------| ",

@@ -1,10 +1,12 @@
 #include "computer_session.h"
 
 #include <algorithm>
-#include <cmath>
 #include <cstdlib>
+#include <functional>
 #include <memory>
+#include <new>
 #include <string>
+#include <type_traits>
 #include <utility>
 
 #include "avatar.h"
@@ -26,9 +28,7 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "input.h"
-#include "int_id.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_factory.h"
 #include "item_location.h"
 #include "item_pocket.h"
@@ -51,7 +51,6 @@
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "text_snippets.h"
 #include "timed_event.h"
 #include "translations.h"
@@ -405,12 +404,21 @@ void computer_session::action_unlock()
     query_any( _( "Lock disabled.  Press any key…" ) );
 }
 
-//Toll is required for the church computer/mechanism to function
+//Toll is required for the church/school computer/mechanism to function
 void computer_session::action_toll()
 {
-    sounds::sound( get_player_character().pos(), 120, sounds::sound_t::music,
-                   //~ the sound of a church bell ringing
-                   _( "Bohm…  Bohm…  Bohm…" ), true, "environment", "church_bells" );
+    if( calendar::turn < comp.next_attempt ) {
+        print_error( _( "[Bellsystem 1.2] is currently in use." ) );
+        query_any( _( "Please wait for at least one minute." ) );
+        reset_terminal();
+    } else {
+        comp.next_attempt = calendar::turn + 1_minutes;
+        sounds::sound( get_player_character().pos(), 120, sounds::sound_t::music,
+                       //~ the sound of a church bell ringing
+                       _( "Bohm…  Bohm…  Bohm…" ), true, "environment", "church_bells" );
+
+        query_any( _( "[Bellsystem 1.2] activated.  Have a nice day." ) );
+    }
 }
 
 void computer_session::action_sample()
@@ -433,7 +441,7 @@ void computer_session::action_sample()
                     continue;
                 }
                 sewage.charges = std::min( sewage.charges, capa );
-                if( elem.can_contain( sewage ) ) {
+                if( elem.can_contain( sewage ).success() ) {
                     elem.put_in( sewage, item_pocket::pocket_type::CONTAINER );
                 }
                 found_item = true;
@@ -688,6 +696,8 @@ void computer_session::action_elevator_on()
 
 void computer_session::action_amigara_log()
 {
+    get_timed_events().add( timed_event_type::AMIGARA_WHISPERS, calendar::turn + 5_minutes );
+
     Character &player_character = get_player_character();
     player_character.moves -= 30;
     reset_terminal();
@@ -744,7 +754,7 @@ void computer_session::action_amigara_log()
 
 void computer_session::action_amigara_start()
 {
-    get_timed_events().add( timed_event_type::AMIGARA, calendar::turn + 1_minutes );
+    get_timed_events().add( timed_event_type::AMIGARA, calendar::turn + 10_seconds );
     // Disable this action to prevent further amigara events, which would lead to
     // further amigara monster, which would lead to further artifacts.
     comp.remove_option( COMPACT_AMIGARA_START );
@@ -771,8 +781,8 @@ void computer_session::action_repeater_mod()
     avatar &player_character = get_avatar();
     if( player_character.has_amount( itype_radio_repeater_mod, 1 ) ) {
         for( mission *miss : player_character.get_active_missions() ) {
-            static const mission_type_id commo_3 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_3" ),
-                                         commo_4 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_4" );
+            static const mission_type_id commo_3 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_3" );
+            static const mission_type_id commo_4 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_4" );
             if( miss->mission_id() == commo_3 || miss->mission_id() == commo_4 ) {
                 miss->step_complete( 1 );
                 print_error( _( "Repeater mod installed…" ) );
@@ -801,7 +811,7 @@ void computer_session::action_download_software()
         get_player_character().moves -= 30;
         item software( miss->get_item_id(), calendar::turn_zero );
         software.mission_id = comp.mission_id;
-        usb->contents.clear_items();
+        usb->clear_items();
         usb->put_in( software, item_pocket::pocket_type::SOFTWARE );
         print_line( _( "Software downloaded." ) );
     } else {
@@ -822,12 +832,12 @@ void computer_session::action_blood_anal()
                 print_error( _( "ERROR: Please place sample in centrifuge." ) );
             } else if( items.size() > 1 ) {
                 print_error( _( "ERROR: Please remove all but one sample from centrifuge." ) );
-            } else if( items.only_item().contents.empty() ) {
+            } else if( items.only_item().empty() ) {
                 print_error( _( "ERROR: Please only use container with blood sample." ) );
-            } else if( items.only_item().contents.legacy_front().typeId() != itype_blood ) {
+            } else if( items.only_item().legacy_front().typeId() != itype_blood ) {
                 print_error( _( "ERROR: Please only use blood samples." ) );
             } else { // Success!
-                const item &blood = items.only_item().contents.legacy_front();
+                const item &blood = items.only_item().legacy_front();
                 const mtype *mt = blood.get_mtype();
                 if( mt == nullptr || mt->id == mtype_id::NULL_ID() ) {
                     print_line( _( "Result: Human blood, no pathogens found." ) );
@@ -841,7 +851,7 @@ void computer_session::action_blood_anal()
                     if( query_bool( _( "Download data?" ) ) ) {
                         if( item *const usb = pick_usb() ) {
                             item software( "software_blood_data", calendar::turn_zero );
-                            usb->contents.clear_items();
+                            usb->clear_items();
                             usb->put_in( software, item_pocket::pocket_type::SOFTWARE );
                             print_line( _( "Software downloaded." ) );
                         } else {
@@ -874,7 +884,7 @@ void computer_session::action_data_anal()
                        items.only_item().typeId() != itype_black_box ) {
                 print_error( _( "ERROR: Memory bank destroyed or not present." ) );
             } else if( items.only_item().typeId() == itype_usb_drive &&
-                       items.only_item().contents.empty() ) {
+                       items.only_item().empty() ) {
                 print_error( _( "ERROR: Memory bank is empty." ) );
             } else { // Success!
                 if( items.only_item().typeId() == itype_black_box ) {
@@ -1019,20 +1029,67 @@ void computer_session::action_srcf_seal()
 void computer_session::action_srcf_elevator()
 {
     Character &player_character = get_player_character();
-    if( !player_character.has_amount( itype_sarcophagus_access_code, 1 ) ) {
-        print_error( _( "Access code required!" ) );
-    } else {
-        player_character.use_amount( itype_sarcophagus_access_code, 1 );
+    map &here = get_map();
+    tripoint surface_elevator;
+    tripoint underground_elevator;
+    bool is_surface_elevator_on = false;
+    bool is_surface_elevator_exist = false;
+    bool is_underground_elevator_on = false;
+    bool is_underground_elevator_exist = false;
+
+    for( const tripoint &p : here.points_on_zlevel( 0 ) ) {
+        if( here.ter( p ) == t_elevator_control_off || here.ter( p ) == t_elevator_control ) {
+            surface_elevator = p;
+            is_surface_elevator_on = here.ter( p ) == t_elevator_control;
+            is_surface_elevator_exist = true;
+        }
+    }
+    for( const tripoint &p : here.points_on_zlevel( -2 ) ) {
+        if( here.ter( p ) == t_elevator_control_off || here.ter( p ) == t_elevator_control ) {
+            underground_elevator = p;
+            is_underground_elevator_on = here.ter( p ) == t_elevator_control;
+            is_underground_elevator_exist = true;
+        }
+    }
+
+    //If some are destroyed
+    if( !is_surface_elevator_exist || !is_underground_elevator_exist ) {
+        reset_terminal();
+        print_error(
+            _( "\nElevator control network unreachable!\n\n" ) );
+    }
+
+    //If both are disabled try to enable
+    else if( !is_surface_elevator_on && !is_underground_elevator_on ) {
+        if( !player_character.has_amount( itype_sarcophagus_access_code, 1 ) ) {
+            print_error( _( "Access code required!\n\n" ) );
+        } else {
+            player_character.use_amount( itype_sarcophagus_access_code, 1 );
+            here.ter_set( surface_elevator, t_elevator_control );
+            is_surface_elevator_on = true;
+            here.ter_set( underground_elevator, t_elevator_control );
+            is_underground_elevator_on = true;
+        }
+    }
+
+    //If only one is enabled, enable the other one. Fix for before this change
+    else if( is_surface_elevator_on && !is_underground_elevator_on && is_underground_elevator_exist ) {
+        here.ter_set( underground_elevator, t_elevator_control );
+        is_underground_elevator_on = true;
+    }
+
+    else if( is_underground_elevator_on && !is_surface_elevator_on && is_surface_elevator_exist ) {
+        here.ter_set( surface_elevator, t_elevator_control );
+        is_surface_elevator_on = true;
+    }
+
+    //If the elevator is working
+    if( is_surface_elevator_on && is_underground_elevator_on ) {
         reset_terminal();
         print_line(
             _( "\nPower:         Backup Only\nRadiation Level:  Very Dangerous\nOperational:   Overridden\n\n" ) );
-        map &here = get_map();
-        for( const tripoint &p : here.points_on_zlevel() ) {
-            if( here.ter( p ) == t_elevator_control_off ) {
-                here.ter_set( p, t_elevator_control );
-            }
-        }
     }
+
     query_any( _( "Press any key…" ) );
 }
 
@@ -1456,9 +1513,9 @@ void computer_session::failure_destroy_blood()
                 print_error( _( "ERROR: Please remove all but one sample from centrifuge." ) );
             } else if( items.only_item().typeId() != itype_vacutainer ) {
                 print_error( _( "ERROR: Please use blood-contained samples." ) );
-            } else if( items.only_item().contents.empty() ) {
+            } else if( items.only_item().empty() ) {
                 print_error( _( "ERROR: Blood draw kit, empty." ) );
-            } else if( items.only_item().contents.legacy_front().typeId() != itype_blood ) {
+            } else if( items.only_item().legacy_front().typeId() != itype_blood ) {
                 print_error( _( "ERROR: Please only use blood samples." ) );
             } else {
                 print_error( _( "ERROR: Blood sample destroyed." ) );
@@ -1482,7 +1539,7 @@ void computer_session::failure_destroy_data()
                 print_error( _( "ERROR: Please only scan one item at a time." ) );
             } else if( items.only_item().typeId() != itype_usb_drive ) {
                 print_error( _( "ERROR: Memory bank destroyed or not present." ) );
-            } else if( items.only_item().contents.empty() ) {
+            } else if( items.only_item().empty() ) {
                 print_error( _( "ERROR: Memory bank is empty." ) );
             } else {
                 print_error( _( "ERROR: Data bank destroyed." ) );

@@ -1,12 +1,11 @@
-#include "catch/catch.hpp"
-#include "item_location.h"
-
+#include <functional>
 #include <functional>
 #include <list>
 
+#include "cata_catch.h"
 #include "character.h"
 #include "item.h"
-#include "item_contents.h"
+#include "item_location.h"
 #include "item_pocket.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -32,7 +31,7 @@ TEST_CASE( "item_location_can_maintain_reference_despite_item_removal", "[item][
     m.add_item( pos, item( "jeans" ) );
     map_cursor cursor( pos );
     item *tshirt = nullptr;
-    cursor.visit_items( [&tshirt]( item * i ) {
+    cursor.visit_items( [&tshirt]( item * i, item * ) {
         if( i->typeId() == itype_id( "tshirt" ) ) {
             tshirt = i;
             return VisitResponse::ABORT;
@@ -85,12 +84,12 @@ TEST_CASE( "item_in_container", "[item][item_location]" )
 
     REQUIRE( dummy.has_item( *backpack_loc ) );
 
-    item_location jeans_loc( backpack_loc, &backpack_loc->contents.only_item() );
+    item_location jeans_loc( backpack_loc, &backpack_loc->only_item() );
 
     REQUIRE( backpack_loc.where() == item_location::type::character );
     REQUIRE( jeans_loc.where() == item_location::type::container );
     const int obtain_cost_calculation = ( backpack_loc.obtain_cost( dummy ) / 2 ) +
-                                        dummy.item_handling_cost( *jeans_loc, true, backpack_loc->contents.obtain_cost( *jeans_loc ) );
+                                        dummy.item_handling_cost( *jeans_loc, true, backpack_loc->obtain_cost( *jeans_loc ) );
     CHECK( obtain_cost_calculation == jeans_loc.obtain_cost( dummy ) );
 
     CHECK( jeans_loc.parent_item() == backpack_loc );

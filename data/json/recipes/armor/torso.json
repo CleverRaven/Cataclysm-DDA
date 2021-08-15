@@ -38,6 +38,18 @@
     ]
   },
   {
+    "result": "xl_armor_lamellar",
+    "type": "recipe",
+    "copy-from": "armor_lamellar",
+    "time": "18 h",
+    "using": [ [ "sewing_standard", 96 ] ],
+    "components": [
+      [ [ "cordage_superior", 6, "LIST" ] ],
+      [ [ "rag", 6 ] ],
+      [ [ "leather", 54 ], [ "tanned_hide", 9 ], [ "fur", 54 ], [ "tanned_pelt", 9 ] ]
+    ]
+  },
+  {
     "result": "bikini_top",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -199,6 +211,14 @@
     ]
   },
   {
+    "result": "xl_coat_fur",
+    "type": "recipe",
+    "copy-from": "coat_fur",
+    "time": "8 h",
+    "using": [ [ "sewing_standard", 40 ], [ "fastener_large", 1 ] ],
+    "components": [ [ [ "rag", 17 ] ], [ [ "fur", 18 ], [ "tanned_pelt", 3 ] ] ]
+  },
+  {
     "result": "coat_faux_fur",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -216,6 +236,14 @@
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_furriery" }
     ]
+  },
+  {
+    "result": "xl_coat_faux_fur",
+    "type": "recipe",
+    "copy-from": "coat_faux_fur",
+    "time": "8 h",
+    "using": [ [ "sewing_standard", 40 ], [ "fastener_large", 1 ] ],
+    "components": [ [ [ "rag", 17 ] ], [ [ "faux_fur", 18 ] ] ]
   },
   {
     "result": "coat_gut",
@@ -248,6 +276,21 @@
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
   },
   {
+    "result": "coat_straw",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "skills_required": [ "survival", 8 ],
+    "time": "8 d",
+    "book_learn": [ [ "tailor_japanese", 6 ] ],
+    "proficiencies": [ { "proficiency": "prof_basketweaving" } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "straw_pile", 40 ] ], [ [ "cordage", 3, "LIST" ] ] ]
+  },
+  {
     "result": "cuirass_lightplate",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
@@ -263,11 +306,21 @@
     "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_armorsmithing" },
-      { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.5 },
+      { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_blacksmithing" },
-      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.5 }
+      { "proficiency": "prof_leatherworking_basic", "fail_multiplier": 1.15 }
     ]
+  },
+  {
+    "result": "xl_cuirass_lightplate",
+    "type": "recipe",
+    "copy-from": "cuirass_lightplate",
+    "time": "12 h",
+    "using": [ [ "blacksmithing_standard", 44 ], [ "steel_standard", 10 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "fur", 12 ], [ "tanned_pelt", 2 ], [ "leather", 12 ], [ "tanned_hide", 2 ] ] ]
   },
   {
     "result": "cuirass_scrap",
@@ -284,9 +337,18 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 80 ] ] ],
     "proficiencies": [
-      { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.5 },
+      { "proficiency": "prof_closures", "time_multiplier": 1.25, "fail_multiplier": 1.15 },
       { "proficiency": "prof_armorsmithing", "required": false, "time_multiplier": 1.5 }
     ]
+  },
+  {
+    "result": "xl_cuirass_scrap",
+    "type": "recipe",
+    "copy-from": "cuirass_scrap",
+    "time": "6 h",
+    "using": [ [ "cordage", 3 ] ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 120 ] ] ]
   },
   {
     "result": "duster",
@@ -302,6 +364,14 @@
     "using": [ [ "sewing_standard", 32 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "rag", 24 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
+  },
+  {
+    "result": "xl_duster",
+    "type": "recipe",
+    "copy-from": "duster",
+    "time": "10 h",
+    "using": [ [ "sewing_standard", 48 ], [ "fastener_large", 1 ] ],
+    "components": [ [ [ "rag", 36 ] ] ]
   },
   {
     "result": "duster_fur",
@@ -325,6 +395,14 @@
     ]
   },
   {
+    "result": "xl_duster_fur",
+    "type": "recipe",
+    "copy-from": "duster_fur",
+    "time": "12 h",
+    "using": [ [ "sewing_standard", 80 ], [ "fastener_large", 1 ] ],
+    "components": [ [ [ "fur", 52 ], [ "tanned_pelt", 9 ] ] ]
+  },
+  {
     "result": "duster_faux_fur",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -343,6 +421,14 @@
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_furriery" }
     ]
+  },
+  {
+    "result": "xl_duster_faux_fur",
+    "type": "recipe",
+    "copy-from": "duster_faux_fur",
+    "time": "12 h",
+    "using": [ [ "sewing_standard", 80 ], [ "fastener_large", 1 ] ],
+    "components": [ [ [ "rag", 25 ] ], [ [ "faux_fur", 30 ] ] ]
   },
   {
     "result": "duster_leather",
@@ -364,6 +450,14 @@
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" }
     ]
+  },
+  {
+    "result": "xl_duster_leather",
+    "type": "recipe",
+    "copy-from": "duster_leather",
+    "time": "12 h",
+    "using": [ [ "sewing_standard", 80 ], [ "fastener_large", 1 ] ],
+    "components": [ [ [ "leather", 41 ], [ "tanned_hide", 7 ] ] ]
   },
   {
     "result": "duster_survivor",
@@ -397,10 +491,33 @@
     ],
     "proficiencies": [
       { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" }
+    ]
+  },
+  {
+    "result": "xl_duster_survivor",
+    "type": "recipe",
+    "copy-from": "duster_survivor",
+    "time": "15 h",
+    "using": [ [ "sewing_standard", 175 ] ],
+    "components": [
+      [ [ "coat_rain", 2 ] ],
+      [ [ "jacket_army", 2 ], [ "xl_duster", 1 ] ],
+      [ [ "kevlar", 2 ], [ "ballistic_vest_empty", 2 ], [ "sheet_kevlar_layered", 32 ] ],
+      [ [ "rag", 26 ] ],
+      [
+        [ "tacvest", 1 ],
+        [ "legrig", 1 ],
+        [ "vest", 1 ],
+        [ "tool_belt", 1 ],
+        [ "ragpouch", 4 ],
+        [ "leather_pouch", 2 ],
+        [ "dump_pouch", 1 ],
+        [ "purse", 2 ],
+        [ "fanny", 2 ]
+      ],
+      [ [ "duct_tape", 200 ] ]
     ]
   },
   {
@@ -624,11 +741,31 @@
       [ [ "duct_tape", 150 ] ],
       [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "swat_armor", 1 ], [ "kevlar_plate", 16 ] ]
     ],
-    "proficiencies": [
-      { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" },
-      { "proficiency": "prof_closures_waterproofing" }
+    "proficiencies": [ { "proficiency": "prof_polymerworking" }, { "proficiency": "prof_closures_waterproofing" } ]
+  },
+  {
+    "result": "xl_lsurvivor_armor",
+    "type": "recipe",
+    "copy-from": "lsurvivor_armor",
+    "time": "19 h",
+    "using": [ [ "sewing_standard", 90 ] ],
+    "tools": [ [ [ "welder", 24 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
+    "components": [
+      [ [ "rag", 22 ] ],
+      [ [ "coat_rain", 2 ] ],
+      [
+        [ "tacvest", 1 ],
+        [ "legrig", 1 ],
+        [ "vest", 1 ],
+        [ "tool_belt", 1 ],
+        [ "ragpouch", 2 ],
+        [ "leather_pouch", 2 ],
+        [ "dump_pouch", 1 ],
+        [ "purse", 1 ],
+        [ "fanny", 1 ]
+      ],
+      [ [ "duct_tape", 225 ] ],
+      [ [ "kevlar", 2 ], [ "ballistic_vest_empty", 2 ], [ "swat_armor", 2 ], [ "kevlar_plate", 32 ] ]
     ]
   },
   {
@@ -675,6 +812,21 @@
     "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
+    "result": "shirt_straw",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "12 h",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_weaving" } ],
+    "tools": [ [ [ "loom_frame", -1 ] ], [ [ "shed_stick", -1 ] ] ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "grass_yarn", 5 ] ] ]
+  },
+  {
     "result": "poncho",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -699,7 +851,6 @@
     "difficulty": 4,
     "time": "5 h",
     "autolearn": true,
-    "qualities": [ { "id": "KNIT", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_knitting" }, { "proficiency": "prof_knitting_speed" } ],
     "using": [ [ "tailoring_wool_knitting", 910 ] ]
   },
@@ -712,12 +863,12 @@
     "//": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "8 h 30 m",
+    "time": "6 h 48 m",
     "autolearn": true,
     "reversible": true,
     "using": [ [ "sewing_standard", 27 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "rag", 19 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ]
+    "proficiencies": [ { "proficiency": "prof_closures" } ]
   },
   {
     "result": "sleeveless_duster",
@@ -745,7 +896,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "survival", 1 ],
-    "time": "10 h 20 m",
+    "time": "8 h 30 m",
     "autolearn": true,
     "reversible": true,
     "using": [ [ "sewing_standard", 50 ], [ "fastener_large", 1 ] ],
@@ -766,10 +917,10 @@
     "//": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "10 h 20 m",
+    "time": "8 h 30 m",
     "reversible": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "tailor_portfolio", 3 ], [ "recipe_fauxfur", 2 ] ],
-    "using": [ [ "sewing_standard", 50, [ "fastener_large", 1 ] ] ],
+    "using": [ [ "sewing_standard", 50 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "rag", 20 ] ], [ [ "faux_fur", 12 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_closures" },
@@ -819,7 +970,7 @@
     "//": "The general guideline for sleeveless dusters is the components, volume, weight, time to craft, and value are 15% lower (rounded down) than the original.  Making it from an original takes 50% the time.",
     "skill_used": "tailor",
     "difficulty": 6,
-    "time": "9 h 20 m",
+    "time": "7 h 39 m",
     "autolearn": true,
     "reversible": true,
     "book_learn": [ [ "textbook_tailor", 4 ], [ "tailor_portfolio", 4 ] ],
@@ -874,7 +1025,7 @@
     "skill_used": "tailor",
     "difficulty": 6,
     "skills_required": [ "fabrication", 5 ],
-    "time": "12 h 30 m",
+    "time": "10 h 20 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 115 ] ],
     "components": [
@@ -897,8 +1048,6 @@
     ],
     "proficiencies": [
       { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" }
     ]
@@ -1081,8 +1230,6 @@
     ],
     "proficiencies": [
       { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" }
     ]
@@ -1201,7 +1348,6 @@
     "time": "6 h",
     "autolearn": true,
     "reversible": true,
-    "qualities": [ { "id": "KNIT", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_knitting" }, { "proficiency": "prof_knitting_speed" } ],
     "using": [ [ "tailoring_wool_knitting", 550 ] ]
   },
@@ -1212,12 +1358,11 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
-    "difficulty": 3,
+    "difficulty": 2,
     "time": "7 h",
     "autolearn": true,
     "reversible": true,
     "book_learn": [ [ "mag_tailor", 1 ], [ "manual_tailor", 1 ], [ "mag_beauty", 1 ] ],
-    "qualities": [ { "id": "KNIT", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_knitting" }, { "proficiency": "prof_knitting_speed" } ],
     "using": [ [ "tailoring_wool_knitting", 620 ] ]
   },
@@ -1228,7 +1373,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
-    "difficulty": 3,
+    "difficulty": 2,
     "time": "5 h",
     "autolearn": true,
     "reversible": true,
@@ -1374,8 +1519,6 @@
     ],
     "proficiencies": [
       { "proficiency": "prof_polymerworking" },
-      { "proficiency": "prof_leatherworking_basic" },
-      { "proficiency": "prof_leatherworking" },
       { "proficiency": "prof_closures" },
       { "proficiency": "prof_closures_waterproofing" }
     ]
@@ -1561,6 +1704,14 @@
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_chain_armour" } ]
   },
   {
+    "result": "xl_chainmail_vest",
+    "type": "recipe",
+    "copy-from": "chainmail_vest",
+    "time": "10 h",
+    "using": [ [ "chainmail_standard", 10 ] ],
+    "components": [ [ [ "link_sheet", 10 ] ], [ [ "chain_link", 210 ] ], [ [ "wire", 2 ] ], [ [ "rag", 9 ] ] ]
+  },
+  {
     "result": "armor_cuirass",
     "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
@@ -1572,6 +1723,14 @@
     "book_learn": [ [ "textbook_armwest", 8 ] ],
     "using": [ [ "forging_standard", 14 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [ [ [ "scrap_bronze", 28 ] ] ],
-    "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ]
+    "proficiencies": [ { "proficiency": "prof_armorsmithing" }, { "proficiency": "prof_redsmithing" } ]
+  },
+  {
+    "result": "xl_armor_cuirass",
+    "type": "recipe",
+    "copy-from": "armor_cuirass",
+    "time": "14 h",
+    "using": [ [ "forging_standard", 20 ], [ "bronzesmithing_tools", 1 ] ],
+    "components": [ [ [ "scrap_bronze", 38 ] ] ]
   }
 ]

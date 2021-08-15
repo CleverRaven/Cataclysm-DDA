@@ -181,7 +181,7 @@
     "id": "t_ramp_down_low",
     "name": "road ramp down (low end)",
     "description": "The lower end of an asphalt ramp leading down.",
-    "connects_to": "PAVEMENT",
+    "connects_to": "WALL",
     "symbol": ">",
     "color": "dark_gray",
     "move_cost": 2,
@@ -191,7 +191,7 @@
     "type": "terrain",
     "id": "t_ramp_up_high",
     "name": "road ramp up (high end)",
-    "connects_to": "PAVEMENT",
+    "connects_to": "WALL",
     "description": "The upper end of an asphalt ramp leading up.",
     "symbol": "<",
     "color": "dark_gray",
@@ -211,8 +211,51 @@
   },
   {
     "type": "terrain",
+    "id": "t_earth_ramp_down_high",
+    "name": "earth ramp down (high end)",
+    "description": "The upper end of an earth ramp leading down.",
+    "symbol": ">",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "Z_TRANSPARENT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_earth_ramp_down_low",
+    "name": "earth ramp down (low end)",
+    "description": "The lower end of an earth ramp leading down.",
+    "connects_to": "WALL",
+    "symbol": ">",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "RAMP_DOWN", "Z_TRANSPARENT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_earth_ramp_up_high",
+    "name": "earth ramp up (high end)",
+    "connects_to": "WALL",
+    "description": "The upper end of an earth ramp leading up.",
+    "symbol": "<",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "RAMP_UP" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_earth_ramp_up_low",
+    "name": "earth ramp up (low end)",
+    "description": "The lower end of an earth ramp leading up.",
+    "symbol": "<",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT" ]
+  },
+  {
+    "type": "terrain",
     "id": "t_sidewalk_ramp_down_high",
     "name": "sidewalk ramp down (high end)",
+    "connects_to": "PAVEMENT",
     "description": "The upper end of a sidewalk ramp leading down.",
     "symbol": ">",
     "color": "light_gray",
@@ -223,6 +266,7 @@
     "type": "terrain",
     "id": "t_sidewalk_ramp_down_low",
     "name": "sidewalk ramp down (low end)",
+    "connects_to": "WALL",
     "description": "The lower end of a sidewalk ramp leading down.",
     "symbol": ">",
     "color": "light_gray",
@@ -233,6 +277,7 @@
     "type": "terrain",
     "id": "t_sidewalk_ramp_up_high",
     "name": "sidewalk ramp up (high end)",
+    "connects_to": "WALL",
     "description": "The upper end of a sidewalk ramp leading up.",
     "symbol": "<",
     "color": "light_gray",
@@ -253,6 +298,7 @@
     "type": "terrain",
     "id": "t_slope_down",
     "name": "downward slope",
+    "connects_to": "PAVEMENT",
     "description": "A downward facing slope.",
     "symbol": ">",
     "color": "brown",
@@ -263,6 +309,7 @@
     "type": "terrain",
     "id": "t_slope_up",
     "name": "upward slope",
+    "connects_to": "WALL",
     "description": "An upward facing slope.",
     "symbol": "<",
     "color": "brown",
@@ -322,5 +369,49 @@
         { "item": "splinter", "count": [ 1, 4 ] }
       ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_railroad_ramp_down_high",
+    "name": "railroad ramp down (high end)",
+    "description": "The upper end of a railroad ramp leading down.",
+    "connects_to": "RAIL",
+    "symbol": ">",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "RAIL", "Z_TRANSPARENT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_railroad_ramp_down_low",
+    "name": "railroad ramp down (low end)",
+    "description": "The lower end of a railroad ramp leading down.",
+    "connects_to": "WALL",
+    "symbol": ">",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "RAIL", "RAMP_DOWN", "Z_TRANSPARENT" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_railroad_ramp_up_high",
+    "name": "railroad ramp up (high end)",
+    "connects_to": "WALL",
+    "description": "The upper end of a railroad ramp leading up.",
+    "symbol": "<",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "RAIL", "RAMP_UP" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_railroad_ramp_up_low",
+    "name": "railroad ramp up (low end)",
+    "connects_to": "RAIL",
+    "description": "The lower end of a railroad ramp leading up.",
+    "symbol": "<",
+    "color": "dark_gray",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "RAIL" ]
   }
 ]

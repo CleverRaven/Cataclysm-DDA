@@ -1,5 +1,5 @@
 // NOLINTNEXTLINE(cata-header-guard)
-// Due to an inability to supress assert popups when building against mingw-w64 and running on wine
+// Due to an inability to suppress assert popups when building against mingw-w64 and running on wine
 // We are wrapping the assert macro so that we can substitute functional behavior with that setup
 
 // This copies the semantics of cassert, re-including the file re-defines the macro.

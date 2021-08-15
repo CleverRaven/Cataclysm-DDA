@@ -1,11 +1,10 @@
-﻿#include "catch/catch.hpp"
-
-#include <algorithm>
+﻿#include <algorithm>
 #include <array>
-#include <string>
+#include <iosfwd>
 #include <utility>
 #include <vector>
 
+#include "cata_catch.h"
 #include "coordinates.h"
 #include "enums.h"
 #include "map.h"
@@ -50,6 +49,7 @@ TEST_CASE( "mx_minefield real spawn", "[map_extra][overmap][!mayfail]" )
 
     // If at least one was generated, that's good enough.
     CHECK( successes > 0 );
+    overmap_buffer.clear();
 }
 
 TEST_CASE( "mx_minefield theoretical spawn", "[map_extra][overmap]" )

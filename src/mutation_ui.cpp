@@ -1,19 +1,22 @@
+#include "character.h" // IWYU pragma: associated
+
 #include <algorithm> //std::min
 #include <cstddef>
-#include <memory>
+#include <functional>
+#include <new>
+#include <string>
 #include <unordered_map>
 
 #include "avatar.h"
 #include "color.h"
+#include "cursesdef.h"
 #include "enums.h"
 #include "input.h"
 #include "inventory.h"
 #include "mutation.h"
 #include "output.h"
-#include "player.h" // IWYU pragma: associated
 #include "popup.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "ui_manager.h"
 

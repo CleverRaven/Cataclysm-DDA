@@ -19,6 +19,281 @@
     "obsolete": true
   },
   {
+    "abstract": "mre_box",
+    "type": "GENERIC",
+    "symbol": ")",
+    "color": "brown",
+    "name": { "str": "MRE" },
+    "category": "food",
+    "description": "A generic MRE box, you shouldn't see this.",
+    "price": 1500,
+    "price_postapoc": 1500,
+    "weight": "725 g",
+    "volume": "750 ml",
+    "material": [ "plastic" ],
+    "looks_like": "mre_beef_box",
+    "use_action": [ "DISASSEMBLE" ]
+  },
+  {
+    "abstract": "mre_smallbox",
+    "type": "GENERIC",
+    "symbol": ")",
+    "color": "brown",
+    "name": { "str": "MRE small box", "str_pl": "MRE small boxes" },
+    "category": "food",
+    "description": "A generic small MRE box, you shouldn't see this",
+    "price": 500,
+    "price_postapoc": 100,
+    "weight": "300 g",
+    "volume": "250 ml",
+    "material": [ "plastic" ],
+    "looks_like": "mre_beef_box",
+    "use_action": [ "DISASSEMBLE" ]
+  },
+  {
+    "id": "mre_accessory",
+    "type": "GENERIC",
+    "copy-from": "mre_smallbox",
+    "name": { "str": "MRE - Accessory Pack", "str_pl": "MREs - Accessory Packs" },
+    "description": "An MRE accessory pack containing a variety of utensils and drinks.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_dessert",
+    "type": "GENERIC",
+    "copy-from": "mre_smallbox",
+    "name": { "str": "MRE - Dessert Pack", "str_pl": "MREs - Dessert Packs" },
+    "description": "A sealed plastic bag containing an array of desserts.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_chilibeans_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Chili & Beans", "str_pl": "MREs - Chili & Beans" },
+    "description": "A 'Meal Ready to Eat' with a chili & beans entree and everything a vegetarian soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_bbqbeef_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - BBQ Beef", "str_pl": "MREs - BBQ Beef" },
+    "description": "A 'Meal Ready to Eat' with a BBQ beef entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_chickennoodle_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Chicken & Noodles", "str_pl": "MREs - Chicken & Noodles" },
+    "description": "A 'Meal Ready to Eat' with a chicken & noodles entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_spaghetti_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Spaghetti", "str_pl": "MREs - Spaghetti" },
+    "description": "A 'Meal Ready to Eat' with a spaghetti entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "looks_like": "mre_veggy_box"
+  },
+  {
+    "id": "mre_chicken_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Chicken Chunks", "str_pl": "MREs - Chicken Chunks" },
+    "description": "A 'Meal Ready to Eat' with a chicken chunk entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_beeftaco_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Beef Taco", "str_pl": "MREs - Beef Taco" },
+    "description": "A 'Meal Ready to Eat' with a beef taco entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_beef_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Beef Brisket", "str_pl": "MREs - Beef Brisket" },
+    "description": "A 'Meal Ready to Eat' with a beef brisket entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_meatball_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Meatballs & Marinara", "str_pl": "MREs - Meatballs & Marinara" },
+    "description": "A 'Meal Ready to Eat' with a meatball entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_beefstew_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Beef Stew", "str_pl": "MREs - Beef Stew" },
+    "description": "A 'Meal Ready to Eat' with a beef stew entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_chilimac_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Chili & Macaroni", "str_pl": "MREs - Chili & Macaroni" },
+    "description": "A 'Meal Ready to Eat' with a chili & macaroni entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "looks_like": "mre_veggy_box"
+  },
+  {
+    "id": "mre_veggy_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Vegetarian Taco", "str_pl": "MREs - Vegetarian Taco" },
+    "description": "A 'Meal Ready to Eat' with a vegetarian taco entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_macaronimarinara_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Macaroni Marinara", "str_pl": "MREs - Macaroni Marinara" },
+    "description": "A 'Meal Ready to Eat' with a macaroni marinara entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "looks_like": "mre_veggy_box"
+  },
+  {
+    "id": "mre_sfettuccine_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Spinach Fettuccine", "str_pl": "MREs - Spinach Fettuccine" },
+    "description": "A 'Meal Ready to Eat' with a creamy spinach fettuccine entree and everything a vegetarian soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "looks_like": "mre_veggy_box"
+  },
+  {
+    "id": "mre_ratatouille_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Ratatouille", "str_pl": "MREs - Ratatouille" },
+    "description": "A 'Meal Ready to Eat' with a ratatouille entree and everything a vegetarian soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "looks_like": "mre_veggy_box"
+  },
+  {
+    "id": "mre_cheesetort_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Cheese Tortellini", "str_pl": "MREs - Cheese Tortellini" },
+    "description": "A 'Meal Ready to Eat' with a cheese tortellini entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "looks_like": "mre_veggy_box"
+  },
+  {
+    "id": "mre_mushroomfettuccine_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Mushroom Fettuccine", "str_pl": "MREs - Mushroom Fettuccine" },
+    "description": "A 'Meal Ready to Eat' with a mushroom fettuccine entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "looks_like": "mre_veggy_box"
+  },
+  {
+    "id": "mre_mexicanchickenstew_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Mexican Chicken Stew", "str_pl": "MREs - Mexican Chicken Stew" },
+    "description": "A 'Meal Ready to Eat' with a Mexican chicken stew entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "looks_like": "mre_beef_box"
+  },
+  {
+    "id": "mre_chickenburritobowl_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Chicken Burrito Bowl", "str_pl": "MREs - Chicken Burrito Bowl" },
+    "description": "A 'Meal Ready to Eat' with a chicken burrito bowl entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_maplesausage_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Maple Sausage", "str_pl": "MREs - Maple Sausage" },
+    "description": "A 'Meal Ready to Eat' with a maple sausage entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_ravioli_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Ravioli", "str_pl": "MREs - Ravioli" },
+    "description": "A 'Meal Ready to Eat' with a ravioli entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_pepperjackbeef_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Pepper Jack Beef", "str_pl": "MREs - Pepper Jack Beef" },
+    "description": "A 'Meal Ready to Eat' with a pepper jack beef entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_hashbrownbacon_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Hash Browns & Bacon", "str_pl": "MREs - Hash Browns & Bacon" },
+    "description": "A 'Meal Ready to Eat' with a hash browns & bacon entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_lemontuna_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Lemon Pepper Tuna", "str_pl": "MREs - Lemon Pepper Tuna" },
+    "description": "A 'Meal Ready to Eat' with a lemon pepper tuna entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_asianbeef_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Asian Beef & Vegetables", "str_pl": "MREs - Asian Beef & Vegetables" },
+    "description": "A 'Meal Ready to Eat' with an asian beef & vegetables entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_chickenpesto_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Chicken Pesto & Pasta", "str_pl": "MREs - Chicken Pesto & Pasta" },
+    "description": "A 'Meal Ready to Eat' with a chicken pesto entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_southwestbeef_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Southwest Beef & Beans", "str_pl": "MREs - Southwest Beef & Beans" },
+    "description": "A 'Meal Ready to Eat' with a southwest beef & beans entree and everything a hungry soldier needs.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents."
+  },
+  {
+    "id": "mre_hotdog_box",
+    "type": "GENERIC",
+    "copy-from": "mre_box",
+    "name": { "str": "MRE - Frankfurters & Beans", "str_pl": "MREs - Frankfurters & Beans" },
+    "description": "A vintage MRE, still perfectly preserved and edible.  The contents will begin to rot once they're removed from this sealed bag.  Activate or disassemble it to get to its contents.",
+    "price": 1000
+  },
+  {
+    "id": "survival_kit",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "survival kit" },
+    "description": "A small box filled with tools and items to help you survive in case of an emergency.  Disassemble to get its content.",
+    "weight": "1612 g",
+    "volume": "1 L",
+    "price": 5000,
+    "price_postapoc": 250,
+    "material": [ "aluminum" ],
+    "symbol": "!",
+    "color": "green",
+    "use_action": [ "DISASSEMBLE" ],
+    "flags": [ "NO_REPAIR" ]
+  },
+  {
+    "id": "premium_survival_kit",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "survival kit" },
+    "description": "The ultimate survival kit purchased either by the wealthy or the dedicated urban survivalist.  It contains tools and items to help you survive in case of an emergency.  Disassemble to get its contents.",
+    "weight": "1612 g",
+    "volume": "1 L",
+    "price": 15000,
+    "material": [ "aluminum" ],
+    "symbol": "!",
+    "color": "green",
+    "use_action": { "type": "unpack", "group": "premium_contents", "items_fit": true, "filthy_volume_threshold": "10 L" },
+    "flags": [ "NO_REPAIR" ]
+  },
+  {
     "id": "radio_car_box",
     "type": "GENERIC",
     "category": "other",
@@ -492,6 +767,86 @@
     "flags": [ "NO_UNLOAD" ]
   },
   {
+    "id": "aep_suit",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "AEP suit" },
+    "description": "An armored environmental protection suit.  Custom-built from a cleansuit and body armor, it provides excellent protection against both physical harm and ambient radiation.",
+    "weight": "7200 g",
+    "volume": "9 L",
+    "price": 140000,
+    "price_postapoc": 6000,
+    "material": [ "kevlar_layered", "plastic" ],
+    "symbol": "[",
+    "looks_like": "hazmat_suit",
+    "color": "light_red",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 10, 15 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 10, 15 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 10, 10 ] }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "18 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "18 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "18 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "18 cm",
+        "moves": 80
+      }
+    ],
+    "warmth": 35,
+    "material_thickness": 7,
+    "environmental_protection": 9,
+    "flags": [ "VARSIZE", "WATERPROOF", "HOOD", "RAINPROOF", "STURDY", "RAD_RESIST", "OUTER" ]
+  },
+  {
+    "id": "anbc_suit",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "ANBC suit" },
+    "description": "An armored, impermeable full-body suit that functions as body armor, as well as protecting from nuclear, biological, and chemical hazards.  It requires a separate gas mask for full protection.",
+    "weight": "8700 g",
+    "volume": "20 L",
+    "price": 400000,
+    "price_postapoc": 9000,
+    "material": [ "kevlar_layered", "plastic" ],
+    "symbol": "[",
+    "looks_like": "hazmat_suit",
+    "color": "light_red",
+    "warmth": 50,
+    "material_thickness": 7,
+    "environmental_protection": 20,
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": 35,
+        "coverage": 100,
+        "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
+  },
+  {
     "id": "armguard_bone",
     "type": "ARMOR",
     "category": "armor",
@@ -504,13 +859,11 @@
     "material": [ "bone", "leather" ],
     "symbol": "[",
     "color": "white",
-    "covers": [ "arm_l", "arm_r" ],
-    "coverage": 95,
-    "encumbrance": 22,
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 1,
-    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
+    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": 22, "coverage": 95, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
     "id": "armor_bone",
@@ -526,12 +879,10 @@
     "material": [ "bone", "leather" ],
     "symbol": "[",
     "color": "white",
-    "covers": [ "torso", "leg_l", "leg_r" ],
-    "coverage": 95,
-    "encumbrance": 24,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 24, "coverage": 95, "covers": [ "torso", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "gauntlets_bone",
@@ -547,13 +898,11 @@
     "material": [ "bone", "leather" ],
     "symbol": "[",
     "color": "white",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 95,
-    "encumbrance": 15,
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 4,
-    "flags": [ "STURDY" ]
+    "flags": [ "STURDY" ],
+    "armor": [ { "encumbrance": 15, "coverage": 95, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "helmet_bone",
@@ -569,13 +918,11 @@
     "material": [ "bone" ],
     "symbol": "[",
     "color": "white",
-    "covers": [ "head", "eyes", "mouth" ],
-    "coverage": 100,
-    "encumbrance": 25,
     "warmth": 10,
     "material_thickness": 5,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
+    "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "head", "eyes", "mouth" ] } ]
   },
   {
     "id": "matchbomb",
@@ -1677,14 +2024,12 @@
     "symbol": "[",
     "looks_like": "helmet_army",
     "color": "dark_gray",
-    "covers": [ "head" ],
-    "coverage": 100,
-    "encumbrance": 25,
     "warmth": 15,
     "material_thickness": 5,
     "environmental_protection": 3,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
+    "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "helmet_xlsurvivor",
@@ -1701,14 +2046,12 @@
     "symbol": "[",
     "looks_like": "helmet_survivor",
     "color": "dark_gray",
-    "covers": [ "head" ],
-    "coverage": 100,
-    "encumbrance": 50,
     "warmth": 15,
     "material_thickness": 4,
     "environmental_protection": 3,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY" ],
+    "armor": [ { "encumbrance": 50, "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "helmet_hsurvivor",
@@ -1725,14 +2068,12 @@
     "symbol": "[",
     "looks_like": "helmet_survivor",
     "color": "dark_gray",
-    "covers": [ "head" ],
-    "coverage": 100,
-    "encumbrance": 40,
     "warmth": 25,
     "material_thickness": 6,
     "environmental_protection": 5,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ],
+    "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "head" ] } ]
   },
   {
     "id": "l_bak_223",
@@ -1847,7 +2188,7 @@
     "mod_targets": [ "rifle", "shotgun", "smg", "crossbow", "launcher" ],
     "gun_data": { "ammo": "flammable", "skill": "launcher", "dispersion": 300, "durability": 10 },
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
-    "flags": [ "FIRE_100", "PUMP_RAIL_COMPATIBLE", "NON-FOULING" ],
+    "flags": [ "PUMP_RAIL_COMPATIBLE", "NON_FOULING" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1939,7 +2280,7 @@
   {
     "type": "GENERIC",
     "id": "solar_panel_v3",
-    "name": "quantum solar panel",
+    "name": { "str": "quantum solar panel" },
     "description": "This solar panel is obviously cutting-edge technology and given where you found it, should probably provide a LOT of power.  It's covered in strange-looking material, but the covering looks rather fragile; it doesn't look like it could support a reinforcing sheet, either.",
     "to_hit": -5,
     "material": [ "glass", "steel" ],
@@ -1960,12 +2301,10 @@
     "material": [ "glass", "steel" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 40,
-    "encumbrance": 12,
     "material_thickness": 3,
     "use_action": [ "SOLARPACK" ],
-    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK" ]
+    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK" ],
+    "armor": [ { "encumbrance": 12, "coverage": 40, "covers": [ "torso" ] } ]
   },
   {
     "id": "q_solarpack_on",
@@ -1981,13 +2320,11 @@
     "material": [ "glass", "steel" ],
     "symbol": "[",
     "color": "blue",
-    "covers": [ "torso" ],
-    "coverage": 40,
-    "encumbrance": 20,
     "material_thickness": 1,
     "use_action": [ "SOLARPACK_OFF" ],
     "solar_efficiency": 0.3,
-    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON" ]
+    "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON" ],
+    "armor": [ { "encumbrance": 20, "coverage": 40, "covers": [ "torso" ] } ]
   },
   {
     "id": "tihar",
@@ -2001,7 +2338,7 @@
     "price": 240000,
     "price_postapoc": 12000,
     "material": [ "steel", "wood" ],
-    "flags": [ "STR_RELOAD", "RELOAD_ONE", "NON-FOULING" ],
+    "flags": [ "STR_RELOAD", "RELOAD_ONE", "NON_FOULING" ],
     "skill": "rifle",
     "ammo": [ "pebble" ],
     "weight": "4211 g",
@@ -2040,7 +2377,7 @@
     "price": 290000,
     "price_postapoc": 12000,
     "material": [ "steel", "wood" ],
-    "flags": [ "RELOAD_ONE", "STR_RELOAD", "NON-FOULING" ],
+    "flags": [ "RELOAD_ONE", "STR_RELOAD", "NON_FOULING" ],
     "skill": "rifle",
     "ammo": [ "bolt" ],
     "weight": "3110 g",
@@ -2077,7 +2414,7 @@
     "description": "A double-barreled pneumatic air shotgun handcrafted from scrap.  Though it's firepower is lacking compared to more conventional shotguns, this thing can still pack quite a punch.  That is, if your target is directly in front of you.",
     "price": 220000,
     "material": [ "steel", "wood" ],
-    "flags": [ "RELOAD_ONE", "STR_RELOAD", "NON-FOULING" ],
+    "flags": [ "RELOAD_ONE", "STR_RELOAD", "NON_FOULING" ],
     "skill": "shotgun",
     "ammo": [ "shotcanister" ],
     "weight": "3410 g",
@@ -2228,7 +2565,8 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "relative": { "weight": "1 kg", "volume": "1500 ml", "range": 3, "ranged_damage": { "damage_type": "stab", "amount": 4 } },
+    "ranged_damage": { "damage_type": "stab", "amount": 4 },
+    "relative": { "weight": "1 kg", "volume": "1500 ml", "range": 3 },
     "proportional": { "price": 3, "dispersion": 0.5 },
     "pocket_data": [
       {
@@ -2285,7 +2623,7 @@
   {
     "type": "COMESTIBLE",
     "id": "taint_tornado",
-    "name": "tainted tornado",
+    "name": { "str": "tainted tornado" },
     "category": "mutagen",
     "weight": "100 g",
     "color": "red",
@@ -2312,7 +2650,7 @@
   {
     "type": "COMESTIBLE",
     "id": "drink_sewerbrew",
-    "name": "sewer brew",
+    "name": { "str": "sewer brew" },
     "weight": "250 g",
     "color": "yellow",
     "addiction_type": "alcohol",
@@ -2351,13 +2689,11 @@
     "symbol": "[",
     "looks_like": "modularvestkevlar",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 85,
-    "encumbrance": 7,
     "warmth": 15,
     "material_thickness": 4,
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "STURDY", "OUTER" ]
+    "flags": [ "STURDY", "OUTER" ],
+    "armor": [ { "encumbrance": 7, "coverage": 85, "covers": [ "torso" ] } ]
   },
   {
     "id": "modularvestceramic",
@@ -2375,13 +2711,11 @@
     "symbol": "[",
     "looks_like": "modularvestkevlar",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 85,
-    "encumbrance": 15,
     "warmth": 15,
     "material_thickness": 9,
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "STURDY", "OUTER" ]
+    "flags": [ "STURDY", "OUTER" ],
+    "armor": [ { "encumbrance": 15, "coverage": 85, "covers": [ "torso" ] } ]
   },
   {
     "id": "modularvesthard",
@@ -2399,13 +2733,11 @@
     "symbol": "[",
     "looks_like": "modularvestkevlar",
     "color": "light_cyan",
-    "covers": [ "torso" ],
-    "coverage": 85,
-    "encumbrance": 25,
     "warmth": 15,
     "material_thickness": 5,
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "STURDY", "OUTER" ]
+    "flags": [ "STURDY", "OUTER" ],
+    "armor": [ { "encumbrance": 25, "coverage": 85, "covers": [ "torso" ] } ]
   },
   {
     "id": "modularvestkevlar",
@@ -2423,13 +2755,11 @@
     "symbol": "[",
     "looks_like": "vest",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 85,
-    "encumbrance": 12,
     "warmth": 15,
     "material_thickness": 6,
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "STURDY", "OUTER" ]
+    "flags": [ "STURDY", "OUTER" ],
+    "armor": [ { "encumbrance": 12, "coverage": 85, "covers": [ "torso" ] } ]
   },
   {
     "id": "modularveststeel",
@@ -2447,13 +2777,11 @@
     "symbol": "[",
     "looks_like": "modularvestkevlar",
     "color": "light_cyan",
-    "covers": [ "torso" ],
-    "coverage": 85,
-    "encumbrance": 20,
     "warmth": 15,
     "material_thickness": 7,
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "STURDY", "OUTER" ]
+    "flags": [ "STURDY", "OUTER" ],
+    "armor": [ { "encumbrance": 20, "coverage": 85, "covers": [ "torso" ] } ]
   },
   {
     "id": "modularvestsuper",
@@ -2471,13 +2799,11 @@
     "symbol": "[",
     "looks_like": "modularvestkevlar",
     "color": "light_cyan",
-    "covers": [ "torso" ],
-    "coverage": 85,
-    "encumbrance": 15,
     "warmth": 15,
     "material_thickness": 6,
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "STURDY", "OUTER" ]
+    "flags": [ "STURDY", "OUTER" ],
+    "armor": [ { "encumbrance": 15, "coverage": 85, "covers": [ "torso" ] } ]
   },
   {
     "type": "AMMO",
@@ -2750,7 +3076,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "ammo_effects": [ "LASER", "INCENDIARY" ],
-    "flags": [ "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
+    "flags": [ "NO_UNLOAD", "NON_FOULING", "NEEDS_NO_LUBE" ]
   },
   {
     "type": "GENERIC",
@@ -2791,7 +3117,17 @@
     "price": 38000,
     "material": [ "steel", "plastic", "wood" ],
     "//": "60in Fiberglass bow at 28in draw with 29in, 52J, 80 lbs draw, 0.6 slugs. bullshit stats, but this is a nonsense bow.",
-    "flags": [ "FIRE_TWOHAND", "STR_DRAW", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
+    "flags": [
+      "FIRE_TWOHAND",
+      "STR_DRAW",
+      "RELOAD_AND_SHOOT",
+      "PRIMITIVE_RANGED_WEAPON",
+      "BELTED",
+      "WATER_FRIENDLY",
+      "WATERPROOF_GUN",
+      "NEVER_JAMS"
+    ],
+    "ammo_effects": [ "NEVER_MISFIRES" ],
     "skill": "archery",
     "min_strength": 11,
     "ammo": [ "arrow" ],
@@ -2799,7 +3135,7 @@
     "volume": "3500 ml",
     "price_postapoc": 5000,
     "bashing": 12,
-    "armor_data": { "covers": [ "torso" ], "coverage": 5, "material_thickness": 1, "encumbrance": 20 },
+    "armor_data": { "material_thickness": 1, "armor": [ { "encumbrance": 20, "coverage": 5, "covers": [ "torso" ] } ] },
     "reload_noise_volume": 3,
     "loudness": 8,
     "ranged_damage": { "damage_type": "stab", "amount": 10 },
@@ -2809,5 +3145,280 @@
     "clip_size": 1,
     "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow": 1 } } ]
+  },
+  {
+    "id": "cs_lajatang_off",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "chainsaw lajatang (off)", "str_pl": "chainsaw lajatangs (off)" },
+    "description": "A long wooden pole with chainsaws impractically attached to both ends.  The product of either genius or insanity, but not both; the weight ensures that only someone both strong and very skilled could possibly hope to use it.",
+    "weight": "14254 g",
+    "volume": "7500 ml",
+    "longest_side": "290 cm",
+    "price": 40000,
+    "price_postapoc": 2000,
+    "to_hit": -2,
+    "bashing": 20,
+    "material": [ "plastic", "steel" ],
+    "symbol": "/",
+    "color": "red",
+    "ammo": [ "gasoline" ],
+    "max_charges": 800,
+    "charges_per_use": 5,
+    "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
+    "use_action": [ "CS_LAJATANG_OFF" ],
+    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE", "ALWAYS_TWOHAND" ]
+  },
+  {
+    "id": "cs_lajatang_on",
+    "copy-from": "cs_lajatang_off",
+    "type": "TOOL",
+    "name": { "str": "chainsaw lajatang (on)", "str_pl": "chainsaw lajatangs (on)" },
+    "description": "A long wooden pole with chainsaws impractically attached to both ends.  They are currently on and draining gasoline; use this item to turn them off.",
+    "bashing": 4,
+    "cutting": 140,
+    "to_hit": -4,
+    "revert_to": "cs_lajatang_off",
+    "use_action": [ "CS_LAJATANG_ON" ],
+    "turns_per_charge": 1,
+    "charges_per_use": 0,
+    "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -250 ] ],
+    "flags": [ "MESSY", "FRAGILE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+  },
+  {
+    "id": "ecs_lajatang_off",
+    "type": "TOOL",
+    "name": { "str": "electric chainsaw lajatang (off)", "str_pl": "electric chainsaw lajatangs (off)" },
+    "description": "A long wooden pole with electric chainsaws impractically attached to both ends.  The product of either genius or insanity, but not both; the weight ensures that only someone both strong and very skilled could possibly hope to use it.",
+    "weight": "14254 g",
+    "volume": "7500 ml",
+    "longest_side": "290 cm",
+    "price": 40000,
+    "price_postapoc": 2000,
+    "to_hit": -2,
+    "bashing": 20,
+    "material": [ "plastic", "steel" ],
+    "symbol": "/",
+    "color": "red",
+    "ammo": [ "battery" ],
+    "charges_per_use": 5,
+    "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
+    "use_action": [ "ECS_LAJATANG_OFF" ],
+    "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE", "ALWAYS_TWOHAND" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "magazine_well": "500 ml",
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
+      }
+    ]
+  },
+  {
+    "id": "ecs_lajatang_on",
+    "copy-from": "ecs_lajatang_off",
+    "type": "TOOL",
+    "name": { "str": "electric chainsaw lajatang (on)", "str_pl": "electric chainsaw lajatangs (on)" },
+    "description": "A long wooden pole with electric chainsaws impractically attached to both ends.  They are currently on and draining power; use this item to turn them off.",
+    "to_hit": -4,
+    "bashing": 4,
+    "cutting": 140,
+    "power_draw": 4000000,
+    "charges_per_use": 0,
+    "revert_to": "ecs_lajatang_off",
+    "use_action": [ "ECS_LAJATANG_ON" ],
+    "flags": [ "MESSY", "FRAGILE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+  },
+  {
+    "id": "USAS_12",
+    "copy-from": "shotgun_base",
+    "type": "GUN",
+    "name": { "str": "USAS 12" },
+    "description": "The USAS 12 looks like a boxy upsized caricature of the M16A2.  Like its Auto Assault-12 predecessor, it is a select-fire shotgun fed from large box or drum magazines.  The in-line recoil system and sheer weight make for pleasant shooting.",
+    "weight": "5450 g",
+    "volume": "4695 ml",
+    "longest_side": "962 mm",
+    "looks_like": "saiga_12",
+    "price": 300000,
+    "price_postapoc": 5000,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "plastic" ],
+    "dispersion": 510,
+    "durability": 6,
+    "min_cycle_recoil": 1250,
+    "barrel_volume": "54 ml",
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "mechanism", 4 ],
+      [ "barrel", 1 ],
+      [ "sling", 1 ],
+      [ "muzzle", 1 ],
+      [ "grip", 1 ],
+      [ "brass catcher", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 5 ] ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "USAS10mag", "USAS20mag" ]
+      }
+    ]
+  },
+  {
+    "id": "USAS10mag",
+    "looks_like": "shotbelt_20",
+    "type": "MAGAZINE",
+    "name": { "str": "USAS-12 10-round magazine" },
+    "description": "A removable plastic magazine for the USAS-12 shotgun.  Holds 10 rounds.",
+    "weight": "750 g",
+    "volume": "360 ml",
+    "price": 4500,
+    "price_postapoc": 100,
+    "material": [ "plastic" ],
+    "symbol": "#",
+    "color": "dark_gray",
+    "ammo_type": [ "shot" ],
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 10 } } ]
+  },
+  {
+    "id": "USAS20mag",
+    "looks_like": "shotbelt_20",
+    "type": "MAGAZINE",
+    "name": { "str": "USAS-12 20-round drum magazine" },
+    "description": "A removable plastic magazine for the USAS-12 shotgun.  Holds 20 rounds.",
+    "weight": "794 g",
+    "volume": "1742 ml",
+    "price": 11000,
+    "price_postapoc": 250,
+    "material": [ "plastic" ],
+    "symbol": "#",
+    "color": "dark_gray",
+    "ammo_type": [ "shot" ],
+    "reload_time": 110,
+    "flags": [ "MAG_BULKY" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 20 } } ]
+  },
+  {
+    "id": "pheromone",
+    "type": "TOOL",
+    "name": { "str": "zombie pheromone" },
+    "description": "This is a disgusting ball of rotting meat of zombie origin.",
+    "weight": "238 g",
+    "volume": "250 ml",
+    "price": 4000,
+    "price_postapoc": 100,
+    "to_hit": -1,
+    "material": [ "flesh" ],
+    "symbol": "*",
+    "color": "red",
+    "initial_charges": 3,
+    "max_charges": 3,
+    "charges_per_use": 1
+  },
+  {
+    "id": "nato_assault_rifle",
+    "copy-from": "rifle_auto",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "IF YOU SEE THIS IT IS A BUG" },
+    "description": "An assault rifle used by a NATO member state.  As per NATO's STANAG agreement, it is chambered in 5.56x45mm.",
+    "//": "Weight, description, length modeled off of m4a1, price and gun stats average of some nato guns",
+    "weight": "2880g",
+    "volume": "3310 ml",
+    "longest_side": "758 mm",
+    "price": "325 USD",
+    "price_postapoc": "48 USD",
+    "variants": [
+      {
+        "id": "acr",
+        "name": { "str": "IF YOU SEE THIS IT IS A BUG" },
+        "description": "This carbine was developed for military use in the early 21st century.  It is damaging and accurate, though its rate of fire is a bit slower than competing .223 carbines."
+      },
+      {
+        "id": "h&k416a5",
+        "name": { "str": "IF YOU SEE THIS IT IS A BUG" },
+        "description": "Designed to replace the M4A1, the Heckler and Koch 416A5 features most of the former's strengths, while being considerably more durable."
+      },
+      {
+        "id": "m27iar",
+        "name": { "str": "IF YOU SEE THIS IT IS A BUG" },
+        "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
+        "ascii_picture": "m27_iar"
+      },
+      {
+        "id": "m4a1",
+        "name": { "str": "IF YOU SEE THIS IT IS A BUG" },
+        "description": "A popular carbine, long used by the US military.  Though accurate, small, and lightweight, it is infamous for its unreliability when not properly maintained.",
+        "ascii_picture": "m4a1",
+        "weight": 1
+      },
+      {
+        "id": "m16a3",
+        "name": { "str": "IF YOU SEE THIS IT IS A BUG" },
+        "description": "The M16 is a very common assault rifle descended from the AR-15, used by militaries across the world for over 50 years.  It is a gas operated, rotating bolt rifle known for its accuracy and controllable recoil.  This one is a relatively rare M16A3, with full auto capability."
+      },
+      {
+        "id": "scar_l",
+        "name": { "str": "IF YOU SEE THIS IT IS A BUG" },
+        "description": "A highly accurate and modular assault rifle specially designed for the United States Special Operations Command.  The 'L' in its name stands for light, as it uses the lightweight .223 round.",
+        "ascii_picture": "scar-L"
+      },
+      {
+        "id": "m38dmr",
+        "name": { "str": "IF YOU SEE THIS IT IS A BUG" },
+        "description": "The M38 Designated Marksman Rifle is an M27 IAR, itself derived from a H&K416, selected for accuracy, and outfitted with a variable power scope and a QDSS suppressor."
+      },
+      {
+        "id": "m4_cqbr",
+        "name": { "str": "IF YOU SEE THIS IT IS A BUG" },
+        "description": "This is a shorter M4 carbine with a 10.3 inch barrel, intended for confined spaces and close quarters battle situations."
+      }
+    ],
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "223" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
+    "dispersion": 160,
+    "durability": 8,
+    "min_cycle_recoil": 1350,
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
+    "barrel_volume": "250 ml",
+    "built_in_mods": [ "folding_stock" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
+          "stanag30",
+          "stanag5",
+          "stanag10",
+          "stanag20",
+          "stanag40",
+          "stanag50",
+          "stanag60",
+          "stanag60drum",
+          "stanag90",
+          "stanag100",
+          "stanag100drum",
+          "stanag150",
+          "survivor223mag"
+        ]
+      }
+    ]
   }
 ]

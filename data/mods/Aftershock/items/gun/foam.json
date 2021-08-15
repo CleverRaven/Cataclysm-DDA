@@ -17,7 +17,7 @@
     "color": "yellow",
     "ammo": [ "afs_foam" ],
     "modes": [ [ "DEFAULT", "1s.", 1 ], [ "MULTI", "3s.", 3 ] ],
-    "flags": [ "NEVER_JAMS", "NON-FOULING", "BELT_CLIP" ],
+    "flags": [ "NEVER_JAMS", "NON_FOULING", "BELT_CLIP" ],
     "skill": "launcher",
     "dispersion": 300,
     "durability": 8,

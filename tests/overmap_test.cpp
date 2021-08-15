@@ -1,16 +1,14 @@
-#include "catch/catch.hpp"
-#include "overmap.h"
-
 #include <memory>
-#include <string>
 #include <vector>
 
 #include "calendar.h"
+#include "cata_catch.h"
 #include "common_types.h"
 #include "coordinates.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "omdata.h"
+#include "overmap.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
 #include "type_id.h"
@@ -56,6 +54,7 @@ TEST_CASE( "default_overmap_generation_always_succeeds", "[slow]" )
             break;
         }
     }
+    overmap_buffer.clear();
 }
 
 TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[slow]" )
@@ -107,6 +106,7 @@ TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[
 
     INFO( "Failed to place optional special on origin " );
     CHECK( found_optional == true );
+    overmap_buffer.clear();
 }
 
 TEST_CASE( "is_ot_match", "[overmap][terrain]" )

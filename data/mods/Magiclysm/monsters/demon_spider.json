@@ -2,6 +2,7 @@
   {
     "type": "SPECIES",
     "id": "DEMON_SPIDER",
+    "description": "a huge spider",
     "anger_triggers": [ "FRIEND_DIED", "HURT", "PLAYER_CLOSE", "PLAYER_WEAK" ]
   },
   {
@@ -54,13 +55,12 @@
     "vision_night": 7,
     "harvest": "demon_spider",
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON" ]
   },
   {
     "id": "mon_demon_spider",
     "type": "MONSTER",
-    "description": "This spider is the size of a car.  Its huge compound eyes seem to be infinite pools of blackness that seem to suck the light out of the air.  Its maroon carapace is studded with wicked-looking spikes that drip with some kind of viscious black liquid that sizzles when it touches the ground.",
+    "description": "This spider is the size of a car.  Its huge compound eyes seem to be infinite pools of blackness that seem to suck the light out of the air.  Its maroon carapace is studded with wicked-looking spikes that drip with some kind of viscous black liquid that sizzles when it touches the ground.",
     "name": "demon spider",
     "default_faction": "demon_spider",
     "bodytype": "spider",
@@ -92,7 +92,6 @@
     "harvest": "demon_spider",
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "burning_hands", "min_level": 4 }, "cooldown": 20 } ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON" ]
   },
   {

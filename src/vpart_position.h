@@ -2,22 +2,27 @@
 #ifndef CATA_SRC_VPART_POSITION_H
 #define CATA_SRC_VPART_POSITION_H
 
-#include <cstddef>
 #include <functional>
-#include <string>
+#include <cstddef>
+#include <iosfwd>
+#include <new>
+#include <type_traits>
 #include <utility>
+#include <vector>
 
 #include "optional.h"
+#include "type_id.h"
 
+class inventory;
+class Character;
 class vehicle;
-struct vehicle_part;
-class player;
 class vpart_info;
+struct vehicle_part;
 
 enum vpart_bitflags : int;
 class vpart_reference;
-struct tripoint;
 struct point;
+struct tripoint;
 
 /**
  * Reference to a position (a point) of the @ref vehicle.
@@ -112,7 +117,8 @@ class vpart_position
 class optional_vpart_position : public cata::optional<vpart_position>
 {
     public:
-        optional_vpart_position( cata::optional<vpart_position> p ) : cata::optional<vpart_position>
+        explicit optional_vpart_position( cata::optional<vpart_position> p ) :
+            cata::optional<vpart_position>
             ( std::move( p ) ) { }
 
         cata::optional<std::string> get_label() const {
@@ -161,7 +167,7 @@ class vpart_reference : public vpart_position
         /**@}*/
 
         /// Returns the passenger in this part, or nullptr if no passenger.
-        player *get_passenger() const;
+        Character *get_passenger() const;
 };
 
 // For legacy code, phase out, don't use in new code.

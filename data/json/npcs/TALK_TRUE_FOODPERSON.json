@@ -129,6 +129,11 @@
         "text": "I am the REAL Foodperson!",
         "topic": "TALK_FOODPERSON_ONLYONE"
       },
+      {
+        "text": "So, you are a REAL FOODPERSON, right?  You know my <name_g> over there?  You know that you ruined his legacy?",
+        "condition": { "u_has_mission": "MISSION_pizzaiolo_2" },
+        "topic": "TALK_TRUE_FOODPERSON_pizzaiolo"
+      },
       { "text": "Nevermind me, I'm just going to leave.", "topic": "TALK_DONE" }
     ]
   },
@@ -544,6 +549,18 @@
         "condition": { "u_has_trait": "PROF_FOODP" },
         "text": "I don't want to fight you.  I'm leaving.",
         "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_TRUE_FOODPERSON_pizzaiolo",
+    "dynamic_line": "Umm, I'm not sure I'm following you…",
+    "responses": [
+      {
+        "text": "You know what, <name_b>, I don't want to talk to you anymore.  <kill_npc> <name_b>!",
+        "topic": "TALK_DONE",
+        "effect": "insult_combat"
       }
     ]
   }

@@ -1,18 +1,19 @@
+#include "vehicle.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <memory>
+#include <string>
 
 #include "avatar.h"
 #include "character.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
-#include "game.h"
 #include "gun_mode.h"
 #include "item.h"
 #include "itype.h"
 #include "messages.h"
 #include "npc.h"
-#include "player.h"
 #include "projectile.h"
 #include "ranged.h"
 #include "string_formatter.h"
@@ -20,7 +21,6 @@
 #include "ui.h"
 #include "value_ptr.h"
 #include "veh_type.h"
-#include "vehicle.h" // IWYU pragma: associated
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
@@ -242,29 +242,28 @@ turret_data::status turret_data::query() const
         if( veh->fuel_left( ammo_current() ) < part->base.ammo_required() ) {
             return status::no_ammo;
         }
-
+    } else if( part->base.get_gun_ups_drain() ) {
+        int ups = part->base.get_gun_ups_drain() * part->base.gun_current_mode().qty;
+        if( ups > veh->fuel_left( fuel_type_battery ) ) {
+            return status::no_power;
+        }
     } else {
-        if( !part->base.ammo_sufficient() ) {
+        if( !part->base.ammo_sufficient( nullptr ) ) {
             return status::no_ammo;
         }
-    }
-
-    int ups = part->base.get_gun_ups_drain() * part->base.gun_current_mode().qty;
-    if( ups > veh->fuel_left( fuel_type_battery ) ) {
-        return status::no_power;
     }
 
     return status::ready;
 }
 
-void turret_data::prepare_fire( player &p )
+void turret_data::prepare_fire( Character &you )
 {
     // prevent turrets from shooting their own vehicles
-    p.add_effect( effect_on_roof, 1_turns );
+    you.add_effect( effect_on_roof, 1_turns );
 
     // turrets are subject only to recoil_vehicle()
-    cached_recoil = p.recoil;
-    p.recoil = 0;
+    cached_recoil = you.recoil;
+    you.recoil = 0;
 
     // set fuel tank fluid as ammo, if appropriate
     if( part->info().has_flag( "USE_TANKS" ) ) {
@@ -275,11 +274,11 @@ void turret_data::prepare_fire( player &p )
     }
 }
 
-void turret_data::post_fire( player &p, int shots )
+void turret_data::post_fire( Character &you, int shots )
 {
     // remove any temporary recoil adjustments
-    p.remove_effect( effect_on_roof );
-    p.recoil = cached_recoil;
+    you.remove_effect( effect_on_roof );
+    you.recoil = cached_recoil;
 
     gun_mode mode = base()->gun_current_mode();
 
@@ -573,6 +572,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
 
     Character &player_character = get_player_character();
     const bool u_see = player_character.sees( pos );
+    const bool u_hear = !player_character.is_deaf();
     // The current target of the turret.
     auto &target = pt.target;
     if( target.first == target.second ) {
@@ -589,16 +589,18 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         if( auto_target == nullptr ) {
             if( boo_hoo ) {
                 cpu.name = string_format( pgettext( "vehicle turret", "The %s" ), pt.name() );
-                if( u_see ) {
+                // check if the player can see or hear then print chooses a message accordingly
+                if( u_see & u_hear ) {
                     add_msg( m_warning, ngettext( "%s points in your direction and emits an IFF warning beep.",
                                                   "%s points in your direction and emits %d annoyed sounding beeps.",
                                                   boo_hoo ),
                              cpu.name, boo_hoo );
-                } else {
-                    add_msg( m_warning, ngettext( "%s emits an IFF warning beep.",
-                                                  "%s emits %d annoyed sounding beeps.",
-                                                  boo_hoo ),
-                             cpu.name, boo_hoo );
+                } else if( !u_see & u_hear ) {
+                    add_msg( m_warning, ngettext( "You hear a warning beep.",
+                                                  "You hear %d annoyed sounding beeps.",
+                                                  boo_hoo ), boo_hoo );
+                } else if( u_see & !u_hear ) {
+                    add_msg( m_warning, _( "%s points in your direction." ), cpu.name );
                 }
             }
             return shots;

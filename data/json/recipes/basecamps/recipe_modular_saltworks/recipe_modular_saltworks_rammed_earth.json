@@ -11,7 +11,7 @@
     "construction_blueprint": "fbmsw_saltpan_rammed_earth_northeast",
     "blueprint_name": "NE rammed earth saltpan",
     "blueprint_requires": [ { "id": "fbmsw_0" } ],
-    "blueprint_provides": [ { "id": "fbmsw_northeast" }, { "id": "Salt_Pan" } ],
+    "blueprint_provides": [ { "id": "fbmsw_northeast" }, { "id": "Salt_Pan" }, { "id": "saltworks_recipes_1" } ],
     "blueprint_excludes": [ { "id": "fbmsw_northeast" } ],
     "blueprint_needs": {
       "time": "6 d 5 h 10 m",

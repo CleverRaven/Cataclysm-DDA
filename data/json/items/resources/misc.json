@@ -137,7 +137,7 @@
     "symbol": "*",
     "color": "light_gray",
     "name": { "str": "flint" },
-    "description": "A rock with sharp edges, that can be used as a butchering tool, if nothing else is available.  Makes a passable melee weapon, and can also make sparks if struck against high-carbon steel.",
+    "description": "A rock with sharp edges.  Makes a passable melee weapon, and can also make sparks if struck against high-carbon steel.",
     "material": [ "stone" ],
     "weight": "500 g",
     "volume": "250 ml",
@@ -234,5 +234,19 @@
     "bashing": 15,
     "to_hit": -5,
     "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "radio_car_wheel",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "RC car wheel set" },
+    "description": "Small set of wheels for a radio controlled car.  Could be improvised with caster wheels if given rubber treads for grip.",
+    "weight": "260 g",
+    "volume": "480 ml",
+    "price": 100,
+    "price_postapoc": 10,
+    "material": [ "rubber", "steel" ],
+    "symbol": "o",
+    "color": "dark_gray"
   }
 ]

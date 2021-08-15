@@ -3,7 +3,7 @@
     "id": "bathroom_scale",
     "type": "TOOL",
     "name": { "str": "bathroom scale" },
-    "symbol": "■",
+    "symbol": "_",
     "color": "light_gray",
     "description": "This is a small bathroom scale, meant to weigh a person while naked.",
     "weight": "1200 g",
@@ -34,6 +34,31 @@
     "color": "light_gray",
     "flags": [ "BELT_CLIP" ],
     "use_action": [ "WASH_HARD_ITEMS" ]
+  },
+  {
+    "id": "dish_towel",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": { "str": "dish towel" },
+    "description": "This is a dish towel, useful for cleaning hard surfaces.",
+    "weight": "80 g",
+    "volume": "250 ml",
+    "price": 200,
+    "price_postapoc": 20,
+    "material": [ "cotton" ],
+    "symbol": ",",
+    "color": "white",
+    "use_action": [ "WASH_HARD_ITEMS" ],
+    "snippet_category": [
+      { "id": "dtowel1", "text": "An elegant, monogrammed dish towel.  Unfortunately, they aren't your initials." },
+      { "id": "dtowel2", "text": "An elegant, monogrammed dish towel.  It even has your initials!" },
+      { "id": "dtowel3", "text": "A well used dish towel, judging by the stains." },
+      { "id": "dtowel4", "text": "A novelty dish towel, featuring a popular children's cartoon character." },
+      { "id": "dtowel5", "text": "A novelty dish towel which reads \"IT'S WINE O CLOCK\"." },
+      { "id": "dtowel6", "text": "A dish towel with a floral pattern." },
+      { "id": "dtowel7", "text": "A dish towel with a gingham pattern." },
+      { "id": "dtowel8", "text": "A dish towel with a cat pattern." }
+    ]
   },
   {
     "id": "elec_hairtrimmer",
@@ -102,6 +127,26 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
+    "id": "cotton_patchwork",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": { "str_sp": "patchwork cotton clothing parts" },
+    "description": "A selection of various clothing parts, could be sewn together in a patchwork fashion.",
+    "weight": "100 g",
+    "volume": "65 ml",
+    "//": "Density of 1.55 grams per mL",
+    "price": 200,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": ",",
+    "color": "white",
+    "use_action": [
+      { "type": "heal", "move_cost": 200, "used_up_item": { "id": "cotton_patchwork", "quantity": 1, "flags": [ "FILTHY" ] } },
+      "WASH_HARD_ITEMS"
+    ],
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
     "type": "GENERIC",
     "id": "razor_blade",
     "symbol": ",",
@@ -132,8 +177,6 @@
     "color": "white",
     "ammo": [ "soap" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "soap": 10 } } ],
-    "initial_charges": 5,
-    "max_charges": 10,
     "charges_per_use": 1,
     "use_action": [ "SHAVEKIT" ]
   },
@@ -196,7 +239,6 @@
     "color": "brown",
     "ammo": [ "soap" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "soap": 10 } } ],
-    "max_charges": 10,
     "charges_per_use": 1,
     "use_action": [ "SHAVEKIT" ]
   },
@@ -205,9 +247,9 @@
     "type": "TOOL",
     "name": { "str": "washboard" },
     "description": "This is a wooden washboard.  You can use it to wash filthy clothing if it's supplied with cleansing agent.",
-    "weight": "786 g",
-    "volume": "1966 ml",
-    "longest_side": "40 cm",
+    "weight": "1160 g",
+    "volume": "900 ml",
+    "longest_side": "50 cm",
     "price": 1000,
     "price_postapoc": 50,
     "to_hit": -1,

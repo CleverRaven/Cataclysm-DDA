@@ -2,14 +2,14 @@
 #ifndef CATA_TESTS_TEST_STATISTICS_H
 #define CATA_TESTS_TEST_STATISTICS_H
 
-#include <cmath>
-#include <limits>
-#include <vector>
 #include <algorithm>
-#include <string>
+#include <cmath>
+#include <iosfwd>
+#include <limits>
 #include <type_traits>
+#include <vector>
 
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 
 // Z-value for confidence interval
 constexpr double Z95 = 1.96;
@@ -43,14 +43,15 @@ class statistics
         int _types;
         int _n;
         double _sum;
-        double _error;
+        mutable double _error;
         const double _Z;
         const double _Zsq;
         T _max;
         T _min;
         std::vector< T > samples;
     public:
-        statistics( const double Z = Z99_9 ) : _types( 0 ), _n( 0 ), _sum( 0 ), _error( invalid_err ),
+        explicit statistics( const double Z = Z99_9 ) :
+            _types( 0 ), _n( 0 ), _sum( 0 ), _error( invalid_err ),
             _Z( Z ),  _Zsq( Z * Z ), _max( std::numeric_limits<T>::min() ),
             _min( std::numeric_limits<T>::max() ) {}
 
@@ -80,7 +81,7 @@ class statistics
         // purposes.
         template<typename U = T>
         typename std::enable_if< std::is_same< U, bool >::value, double >::type
-        margin_of_error() {
+        margin_of_error() const {
             if( _error != invalid_err ) {
                 return _error;
             }
@@ -102,7 +103,7 @@ class statistics
         // https://measuringu.com/ci-five-steps/
         template<typename U = T>
         typename std::enable_if < ! std::is_same< U, bool >::value, double >::type
-        margin_of_error() {
+        margin_of_error() const {
             if( _error != invalid_err ) {
                 return _error;
             }
@@ -116,27 +117,27 @@ class statistics
          *
          * Returns true if the confidence interval partially overlaps the target region.
          */
-        bool uncertain_about( const epsilon_threshold &t ) {
+        bool uncertain_about( const epsilon_threshold &t ) const {
             return !test_threshold( t ) && // Inside target
                    t.midpoint - t.epsilon < upper() && // Below target
                    t.midpoint + t.epsilon > lower(); // Above target
         }
 
-        bool test_threshold( const epsilon_threshold &t ) {
+        bool test_threshold( const epsilon_threshold &t ) const {
             return ( ( t.midpoint - t.epsilon ) < lower() &&
                      ( t.midpoint + t.epsilon ) > upper() );
         }
-        bool test_threshold( const upper_lower_threshold &t ) {
+        bool test_threshold( const upper_lower_threshold &t ) const {
             return ( t.lower_thresh < lower() && t.upper_thresh > upper() );
         }
-        double upper() {
+        double upper() const {
             double result = avg() + margin_of_error();
             if( std::is_same<T, bool>::value ) {
                 result = std::min( result, 1.0 );
             }
             return result;
         }
-        double lower() {
+        double lower() const {
             double result = avg() - margin_of_error();
             if( std::is_same<T, bool>::value ) {
                 result = std::max( result, 0.0 );
@@ -199,7 +200,7 @@ class statistics
         int n() const {
             return _n;
         }
-        std::vector<T> get_samples() {
+        const std::vector<T> &get_samples() const {
             return samples;
         }
 };
@@ -222,7 +223,7 @@ class BinomialMatcher : public Catch::MatcherBase<int>
 // distribution.  Uses a normal approximation to the binomial, and permits a
 // deviation up to max_deviation (measured in standard deviations).
 inline BinomialMatcher IsBinomialObservation(
-    const int num_samples, const double p, const double max_deviation = Z99_99 )
+    const int num_samples, const double p, const double max_deviation = Z99_999 )
 {
     return BinomialMatcher( num_samples, p, max_deviation );
 }

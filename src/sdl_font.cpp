@@ -84,7 +84,7 @@ std::unique_ptr<Font> Font::load_font( SDL_Renderer_Ptr &renderer, SDL_PixelForm
 
 // line_id is one of the LINE_*_C constants
 // FG is a curses color
-void Font::draw_ascii_lines( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &geometry,
+void Font::draw_ascii_lines( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &geometry,
                              unsigned char line_id, const point &p, unsigned char color ) const
 {
     SDL_Color sdl_color = palette[color];
@@ -189,7 +189,7 @@ CachedTTFFont::CachedTTFFont(
 {
     int faceIndex = 0;
     std::vector<std::string> typefaces;
-    std::vector<std::string> known_suffixes = { ".ttf", ".fon" };
+    std::vector<std::string> known_suffixes = { ".ttf", ".otf", ".ttc", ".fon" };
     bool add_suffix = true;
     for( const std::string &ks : known_suffixes ) {
         if( string_ends_with( typeface, ks ) ) {
@@ -248,17 +248,17 @@ CachedTTFFont::CachedTTFFont(
             typefaces.emplace_back( typeface + ( add_suffix ? ks : "" ) );
         }
     }
-    if( typefaces.empty() ) {
+    if( add_suffix ) {
         typefaces.emplace_back( typeface );
     }
     ensure_unifont_loaded( typefaces );
 
     for( const std::string &tf : typefaces ) {
         if( !file_exist( tf ) ) {
-            dbg( D_ERROR ) << "Not found " << tf;
+            dbg( D_INFO ) << "Not found " << tf;
             continue;
         }
-        dbg( D_ERROR ) << "Loading truetype font " << tf;
+        dbg( D_INFO ) << "Loading truetype font " << tf;
         typeface = tf;
         break;
     }
@@ -278,7 +278,8 @@ CachedTTFFont::CachedTTFFont(
     TTF_SetFontStyle( font.get(), TTF_STYLE_NORMAL );
 }
 
-SDL_Texture_Ptr CachedTTFFont::create_glyph( SDL_Renderer_Ptr &renderer, const std::string &ch,
+SDL_Texture_Ptr CachedTTFFont::create_glyph( const SDL_Renderer_Ptr &renderer,
+        const std::string &ch,
         const int color )
 {
     const auto function = fontblending ? TTF_RenderUTF8_Blended : TTF_RenderUTF8_Solid;
@@ -335,7 +336,7 @@ bool CachedTTFFont::isGlyphProvided( const std::string &ch ) const
     return TTF_GlyphIsProvided( font.get(), UTF8_getch( ch ) );
 }
 
-void CachedTTFFont::OutputChar( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &,
+void CachedTTFFont::OutputChar( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &,
                                 const std::string &ch, const point &p,
                                 unsigned char color, const float opacity )
 {
@@ -410,7 +411,8 @@ BitmapFont::BitmapFont(
     }
 }
 
-void BitmapFont::draw_ascii_lines( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &geometry,
+void BitmapFont::draw_ascii_lines( const SDL_Renderer_Ptr &renderer,
+                                   const GeometryRenderer_Ptr &geometry,
                                    unsigned char line_id, const point &p, unsigned char color ) const
 {
     BitmapFont *t = const_cast<BitmapFont *>( this );
@@ -485,7 +487,7 @@ bool BitmapFont::isGlyphProvided( const std::string &ch ) const
     }
 }
 
-void BitmapFont::OutputChar( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &geometry,
+void BitmapFont::OutputChar( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &geometry,
                              const std::string &ch, const point &p,
                              unsigned char color, const float opacity )
 {
@@ -493,7 +495,7 @@ void BitmapFont::OutputChar( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &g
     BitmapFont::OutputChar( renderer, geometry, t, p, color, opacity );
 }
 
-void BitmapFont::OutputChar( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &geometry,
+void BitmapFont::OutputChar( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &geometry,
                              const int t, const point &p,
                              unsigned char color, const float opacity )
 {
@@ -584,7 +586,8 @@ bool FontFallbackList::isGlyphProvided( const std::string & ) const
     return true;
 }
 
-void FontFallbackList::OutputChar( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &geometry,
+void FontFallbackList::OutputChar( const SDL_Renderer_Ptr &renderer,
+                                   const GeometryRenderer_Ptr &geometry,
                                    const std::string &ch, const point &p,
                                    unsigned char color, const float opacity )
 {

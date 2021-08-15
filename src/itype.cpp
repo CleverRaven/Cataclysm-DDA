@@ -1,11 +1,13 @@
 #include "itype.h"
 
 #include <cstdlib>
+#include <utility>
 
 #include "debug.h"
 #include "item.h"
 #include "make_static.h"
 #include "player.h"
+#include "recipe.h"
 #include "ret_val.h"
 #include "translations.h"
 
@@ -22,7 +24,7 @@ std::string islot_book::recipe_with_description_t::name() const
     if( optional_name ) {
         return optional_name->translated();
     } else {
-        return recipe->result_name();
+        return recipe->result_name( /*decorated=*/true );
     }
 }
 
@@ -36,6 +38,8 @@ std::string enum_to_string<condition_type>( condition_type data )
             return "FLAG";
         case condition_type::COMPONENT_ID:
             return "COMPONENT_ID";
+        case condition_type::VAR:
+            return "VAR";
         case condition_type::num_condition_types:
             break;
     }
@@ -96,7 +100,7 @@ int itype::tick( player &p, item &it, const tripoint &pos ) const
     // Maybe should move charge decrementing here?
     int charges_to_use = 0;
     for( const auto &method : use_methods ) {
-        const int val = method.second.call( p, it, true, pos );
+        const int val = method.second.call( p, it, true, pos ).value_or( 0 );
         if( charges_to_use < 0 || val < 0 ) {
             charges_to_use = -1;
         } else {
@@ -107,7 +111,7 @@ int itype::tick( player &p, item &it, const tripoint &pos ) const
     return charges_to_use;
 }
 
-int itype::invoke( player &p, item &it, const tripoint &pos ) const
+cata::optional<int> itype::invoke( player &p, item &it, const tripoint &pos ) const
 {
     if( !has_use() ) {
         return 0;
@@ -115,7 +119,8 @@ int itype::invoke( player &p, item &it, const tripoint &pos ) const
     return invoke( p, it, pos, use_methods.begin()->first );
 }
 
-int itype::invoke( player &p, item &it, const tripoint &pos, const std::string &iuse_name ) const
+cata::optional<int> itype::invoke( player &p, item &it, const tripoint &pos,
+                                   const std::string &iuse_name ) const
 {
     const use_function *use = get_use( iuse_name );
     if( use == nullptr ) {
@@ -153,6 +158,16 @@ bool itype::can_have_charges() const
     }
     if( has_flag( STATIC( flag_id( "CAN_HAVE_CHARGES" ) ) ) ) {
         return true;
+    }
+    return false;
+}
+
+bool itype::is_basic_component() const
+{
+    for( const auto &mat : materials ) {
+        if( mat->salvaged_into() && *mat->salvaged_into() == get_id() ) {
+            return true;
+        }
     }
     return false;
 }

@@ -3,6 +3,8 @@
 #define CATA_SRC_LRU_CACHE_H
 
 #include <list>
+#include <memory>
+#include <string>
 #include <unordered_map>
 #include <utility>
 
