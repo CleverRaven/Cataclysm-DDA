@@ -82,7 +82,14 @@
         "| VVV    "
       ],
       "nested": { "1": { "chunks": [ "arcology_2x2_gate" ] } },
-      "terrain": { " ": "t_floor", "L": "t_carpet_yellow", ".": "t_carpet_yellow", "?": "t_carpet_yellow", "|": "t_wall_p", "1": "t_floor" },
+      "terrain": {
+        " ": "t_floor",
+        "L": "t_carpet_yellow",
+        ".": "t_carpet_yellow",
+        "?": "t_carpet_yellow",
+        "|": "t_wall_p",
+        "1": "t_floor"
+      },
       "furniture": {
         "?": "f_console_broken",
         "L": "f_table",
@@ -405,7 +412,14 @@
         "________________________"
       ],
       "nested": { "1": { "chunks": [ "arcology_2x2_gate" ] } },
-      "terrain": { "_": "t_floor", "L": "t_carpet_yellow", ".": "t_carpet_yellow", "?": "t_carpet_yellow", "|": "t_wall_p", "1": "t_floor" },
+      "terrain": {
+        "_": "t_floor",
+        "L": "t_carpet_yellow",
+        ".": "t_carpet_yellow",
+        "?": "t_carpet_yellow",
+        "|": "t_wall_p",
+        "1": "t_floor"
+      },
       "furniture": {
         "?": "f_console_broken",
         "L": "f_table",
