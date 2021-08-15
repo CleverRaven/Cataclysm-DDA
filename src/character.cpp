@@ -4835,7 +4835,7 @@ bool Character::in_climate_control()
             // TODO: (?) Force player to scrounge together an AC unit
             regulated_area = (
                                  vp->is_inside() &&  // Already checks for opened doors
-                                 vp->vehicle().total_power_w( true ) > 0 // Out of gas? No AC for you!
+                                 vp->vehicle().engine_on
                              );
         }
         // TODO: AC check for when building power is implemented
