@@ -2,7 +2,7 @@
   {
     "type": "AMMO",
     "id": "sling-ready_molotov",
-	"name": { "str": "sling-ready Molotov cocktail" },
+    "name": { "str": "sling-ready Molotov cocktail" },
     "description": "A bottle of flammable liquid with a long fuse inserted ready to be used in a staff sling with a modified cradle.  To throw this item without a sling, use it light the fuse.  You will, of course, need a lighter or matches in your inventory to do this.  After lighting it, throw it to cause fires.",
     "weight": "742 g",
     "volume": "750 ml",
@@ -27,7 +27,8 @@
     "flags": [ "NPC_ACTIVATE", "NO_REPAIR" ],
     "ammo_type": "sling-ready_grenade",
     "damage": { "damage_type": "bash", "amount": 5 },
-    "range": 10,
+    "//": "Total range with staff sling 21 - 5 more than can be thrown by a player with 10 strength",
+    "range": 11,
     "dispersion": 14,
     "effects": [ "COOKOFF", "NEVER_MISFIRES", "NON_FOULING", "FLAME" ]
   },
@@ -54,10 +55,11 @@
       "menu_text": "Activate grenade",
       "type": "transform"
     },
-    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ],
+    "flags": [ "BOMB", "GRENADE" ],
     "ammo_type": "sling-ready_grenade",
     "damage": { "damage_type": "bash", "amount": 6 },
-    "range": 10,
+    "//": "Total range with staff sling 35 - 5 more than can be thrown by a player with 10 strength",
+    "range": 25,
     "dispersion": 14,
     "effects": [ "COOKOFF", "NEVER_MISFIRES", "NON_FOULING", "FRAG" ]
   }

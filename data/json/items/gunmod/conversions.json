@@ -38,7 +38,6 @@
     "location": "bore",
     "mod_targets": [ "staff_sling" ],
     "install_time": "1 m",
-	"pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "sling-ready_grenade": 1 } } ],
     "ammo_modifier": [ "sling-ready_grenade" ]
   }
 ]

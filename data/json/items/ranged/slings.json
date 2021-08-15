@@ -88,7 +88,7 @@
     "durability": 8,
     "clip_size": 1,
     "valid_mod_locations": [ [ "bore", 1 ] ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "rock": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "rock": 1, "sling-ready_grenade": 1 } } ]
   },
   {
     "id": "wristrocket",
