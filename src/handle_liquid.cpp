@@ -99,11 +99,10 @@ namespace liquid_handler
 {
 void handle_all_liquid( item liquid, const int radius, const item *const avoid )
 {
-    while( liquid.charges > 0 ) {
-        // handle_liquid allows to pour onto the ground, which will handle all the liquid and
-        // set charges to 0. This allows terminating the loop.
-        // The result of handle_liquid is ignored, the player *has* to handle all the liquid.
-        handle_liquid( liquid, avoid, radius );
+    // handle_liquid allows to pour onto the ground, which will handle all the liquid and
+    // set charges to 0. This allows terminating the loop.
+    // The result of handle_liquid is ignored, the player *has* to handle all the liquid.
+    while( liquid.charges > 0 && handle_liquid( liquid, avoid, radius ) ) {
     }
 }
 
