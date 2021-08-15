@@ -830,7 +830,6 @@
     "name": { "str": "Weight: XS" },
     "points": -1,
     "description": "You lost an awful lot of weight before the Cataclysm.  Whatever the reason, now that food is not always close at hand, your skeletal figure presents an additional danger.  You need to gain weight or die trying.",
-    "starting_trait": true,
     "purifiable": false,
     "valid": false,
     "cancels": [ "XXXL" ]
@@ -841,7 +840,6 @@
     "name": { "str": "Weight: XXXL" },
     "points": -1,
     "description": "You gained an awful lot of weight before the Cataclysm.  Whatever the reason, now that mobility is key to survival, your bloated figure presents an additional danger.  You need to lose weight or die trying.",
-    "starting_trait": true,
     "purifiable": false,
     "valid": false,
     "cancels": [ "XS" ]
