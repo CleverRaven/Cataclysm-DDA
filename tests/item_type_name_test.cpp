@@ -2,7 +2,7 @@
 #include <string>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "item.h"
 #include "type_id.h"
 

@@ -111,6 +111,7 @@ struct field_intensity_level {
     std::vector<field_effect> field_effects;
 };
 
+// NOLINTNEXTLINE(cata-static-int_id-constants)
 const field_type_id INVALID_FIELD_TYPE_ID = field_type_id( -1 );
 extern const field_type_str_id fd_null;
 extern const field_type_str_id fd_fire;
@@ -159,7 +160,6 @@ extern const field_type_str_id fd_fungicidal_gas;
 extern const field_type_str_id fd_insecticidal_gas;
 extern const field_type_str_id fd_smoke_vent;
 extern const field_type_str_id fd_tindalos_rift;
-extern const field_type_str_id fd_mechanical_fluid;
 
 struct field_type;
 
@@ -213,9 +213,9 @@ struct field_type {
 
     private:
         // any_of( intensity_levels::dangerous )
-        bool dangerous;
+        bool dangerous = false;
         // all_of( intensity_levels::transparent )
-        bool transparent;
+        bool transparent = false;
 
         std::vector<map_field_processing::FieldProcessorPtr> processors;
 

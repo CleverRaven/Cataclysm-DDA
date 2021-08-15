@@ -38,7 +38,7 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "tacvest", "contents-group": "army_mags_300blk" },
           { "item": "knife_rambo", "container-item": "scabbard" },
-          { "item": "holster", "contents-group": "holster_supp_MEU" },
+          { "item": "XL_holster", "contents-group": "holster_supp_MEU" },
           { "item": "legpouch_large", "contents-group": "army_mags_1911" }
         ]
       },
@@ -73,7 +73,7 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "chestrig", "contents-group": "army_mags_m14" },
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "holster", "contents-group": "holster_supp_MEU" },
+          { "item": "XL_holster", "contents-group": "holster_supp_MEU" },
           { "item": "legpouch_large", "contents-group": "army_mags_1911" }
         ]
       },
@@ -122,7 +122,7 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "chestrig", "contents-group": "army_mags_mp7" },
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "holster", "contents-group": "holster_supp_MEU" },
+          { "item": "XL_holster", "contents-group": "holster_supp_MEU" },
           { "item": "legpouch_large", "contents-group": "army_mags_1911" }
         ]
       },
@@ -183,7 +183,7 @@
     "items": {
       "both": {
         "items": [
-          "anbc_suit",
+          "hazmat_suit",
           "pants_cargo",
           "longshirt",
           "dump_pouch",
@@ -196,7 +196,7 @@
           { "item": "hk_mp5", "ammo-item": "9mm", "charges": 30, "contents-item": [ "shoulder_strap", "suppressor" ] },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "tacvest", "contents-group": "army_mags_mp5" },
-          { "item": "holster", "contents-group": "holster_supp_MEU" },
+          { "item": "XL_holster", "contents-group": "holster_supp_MEU" },
           { "item": "legpouch_large", "contents-group": "army_mags_1911" }
         ]
       },

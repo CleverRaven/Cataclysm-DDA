@@ -1,42 +1,10 @@
 [
   {
-    "id": "mon_chud",
-    "type": "MONSTER",
-    "name": { "str": "C.H.U.D." },
-    "description": "The C.H.U.D. or Cannibalistic Humanoid Underground Dweller.  A human being turned pale and mad from years of underground isolation.",
-    "default_faction": "mutant",
-    "bodytype": "human",
-    "species": [ "MUTANT" ],
-    "volume": "62500 ml",
-    "weight": "81500 g",
-    "hp": 60,
-    "speed": 110,
-    "material": [ "flesh" ],
-    "symbol": "@",
-    "color": "white",
-    "aggression": 30,
-    "morale": 30,
-    "melee_skill": 6,
-    "melee_dice": 1,
-    "melee_dice_sides": 6,
-    "melee_cut": 0,
-    "dodge": 3,
-    "harvest": "mutant_human",
-    "path_settings": { "max_dist": 10 },
-    "special_attacks": [ [ "scratch", 15 ] ],
-    "death_drops": {
-      "subtype": "collection",
-      "groups": [ [ "subway", 40 ], [ "sewer", 20 ], [ "trash", 5 ], [ "bedroom", 5 ], [ "dresser", 10 ], [ "ammo", 18 ] ]
-    },
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "FILTHY" ]
-  },
-  {
     "id": "mon_mutant_experimental",
     "type": "MONSTER",
     "name": { "str": "experimental mutant" },
     "description": "A deformed amalgamation of man and animal.  Grotesque humanoid covered in fur and a torn jumpsuit.  The sinister fangs, claws and the look of insanity in his pale yellow eyes are a testament to that he lost all of his humanity.",
-    "default_faction": "factionless",
+    "default_faction": "lab_mutant",
     "bodytype": "human",
     "species": [ "MUTANT" ],
     "volume": "62500 ml",
@@ -55,6 +23,7 @@
     "armor_bash": 5,
     "armor_cut": 5,
     "armor_bullet": 4,
+    "bleed_rate": 75,
     "vision_day": 25,
     "vision_night": 5,
     "harvest": "human_fur",
@@ -66,16 +35,15 @@
         "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_multiplier": 0.7 } ]
       }
     ],
-    "path_settings": { "max_dist": 50 },
+    "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "STALK", "SOUND" ],
     "fear_triggers": [ "HURT" ],
     "placate_triggers": [ "MEAT" ],
-    "death_function": [ "NORMAL" ],
     "death_drops": "mon_mutant_experimental_death_drops",
     "upgrades": { "half_life": 50, "into": "mon_mutant_evolved" },
     "regenerates": 1,
     "regen_morale": true,
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "BASHES", "PATH_AVOID_DANGER_2" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "BASHES" ]
   },
   {
     "id": "mon_mutant_evolved",
@@ -97,11 +65,12 @@
     "armor_bash": 7,
     "armor_cut": 7,
     "armor_bullet": 6,
+    "bleed_rate": 50,
     "vision_night": 15,
     "harvest": "human_large_fur",
     "special_attacks": [
       [ "PARROT", 80 ],
-      [ "SMASH", 20 ],
+      { "id": "smash", "throw_strength": 96 },
       { "type": "leap", "cooldown": 10, "max_range": 5 },
       {
         "type": "bite",
@@ -113,18 +82,7 @@
     "death_drops": "mon_mutant_evolved_death_drops",
     "regenerates": 1,
     "regen_morale": true,
-    "flags": [
-      "SEES",
-      "HEARS",
-      "GOODHEARING",
-      "SMELLS",
-      "KEENNOSE",
-      "WARM",
-      "BASHES",
-      "PATH_AVOID_DANGER_2",
-      "PUSH_MON",
-      "PUSH_VEH"
-    ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "WARM", "BASHES", "PUSH_MON", "PUSH_VEH" ]
   },
   {
     "id": "mon_one_eye",
@@ -153,7 +111,6 @@
       "subtype": "collection",
       "groups": [ [ "subway", 40 ], [ "sewer", 20 ], [ "trash", 5 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ]
     },
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN" ]
   }
 ]

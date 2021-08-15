@@ -91,6 +91,12 @@
         [ "rope_makeshift_6", 1 ],
         [ "towel", 1 ],
         [ "blanket", 1 ],
+        [ "down_blanket", 1 ],
+        [ "fur_blanket", 1 ],
+        [ "electric_blanket", 1 ],
+        [ "quilt", 1 ],
+        [ "quilt_patchwork", 1 ],
+        [ "sheet", 1 ],
         [ "bandana", 1 ],
         [ "cable", 1 ],
         [ "wire", 1 ],
@@ -220,7 +226,7 @@
     "book_learn": [ [ "textbook_firstaid", 3 ], [ "adv_chemistry", 4 ], [ "emergency_book", 4 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
-    "components": [ [ [ "chitin_piece", 6 ], [ "meal_chitin_piece", 6 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ]
+    "components": [ [ [ "meal_chitin_piece", 6 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ]
   },
   {
     "type": "recipe",

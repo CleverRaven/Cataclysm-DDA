@@ -244,7 +244,8 @@ static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
     if( ( must_be_inside && m.is_outside( p ) ) ||
         m.impassable( p ) ||
         m.is_divable( p ) ||
-        checked[p.x][p.y] > 0 ) {
+        checked[p.x][p.y] > 0 ||
+        m.has_flag( TFLAG_NO_FLOOR, p ) ) {
         return 0;
     }
 
@@ -392,8 +393,7 @@ void start_location::add_map_extra( const tripoint_abs_omt &omtstart,
     tinymap m;
     m.load( player_location, false );
 
-    // TODO: fix point types
-    MapExtras::apply_function( map_extra, m, player_location.raw() );
+    MapExtras::apply_function( map_extra, m, player_location );
 
     m.save();
 }

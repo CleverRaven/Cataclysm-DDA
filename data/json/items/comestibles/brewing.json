@@ -18,7 +18,7 @@
     "charges": 5,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "15 hours", "results": [ "wine_mycus", "yeast" ] }
+    "brewable": { "time": "7 days", "results": [ "wine_mycus", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -39,7 +39,7 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "12 hours", "results": [ "wash_whiskey", "yeast" ] }
+    "brewable": { "time": "7 days", "results": [ "wash_whiskey", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -86,7 +86,7 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "24 hours", "results": [ "gin_mash" ] }
+    "brewable": { "time": "7 days", "results": [ "gin_mash" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -133,7 +133,7 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "6 hours", "results": [ "wash_vodka", "yeast" ] }
+    "brewable": { "time": "7 days", "results": [ "wash_vodka", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -180,7 +180,7 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "12 hours", "results": [ "wash_rum", "yeast" ] }
+    "brewable": { "time": "7 days", "results": [ "wash_rum", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -228,7 +228,7 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "12 hours", "results": [ "fruit_wine", "yeast" ] }
+    "brewable": { "time": "7 days", "results": [ "fruit_wine", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -251,7 +251,7 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "5 days", "results": [ "mead", "yeast" ] }
+    "brewable": { "time": "14 days", "results": [ "mead", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -272,7 +272,7 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "1 day 12 hours 40 minutes", "results": [ "dandelion_wine", "yeast" ] }
+    "brewable": { "time": "7 days", "results": [ "dandelion_wine", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -293,7 +293,7 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "1 day 12 hours 40 minutes", "results": [ "burdock_wine", "yeast" ] }
+    "brewable": { "time": "7 days", "results": [ "burdock_wine", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -314,7 +314,7 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "1 day 16 hours 50 minutes", "results": [ "pine_wine", "yeast" ] }
+    "brewable": { "time": "7 days", "results": [ "pine_wine", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -335,7 +335,7 @@
     "price_postapoc": 10,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "9 hours", "results": [ "hb_beer", "yeast" ] }
+    "brewable": { "time": "7 days", "results": [ "hb_beer", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -357,7 +357,7 @@
     "charges": 7,
     "phase": "liquid",
     "comestible_type": "DRINK",
-    "brewable": { "time": "6 hours", "results": [ "wash_moonshine", "yeast" ] }
+    "brewable": { "time": "5 days", "results": [ "wash_moonshine", "yeast" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -411,7 +411,7 @@
     "type": "COMESTIBLE",
     "id": "brew_vinegar",
     "name": { "str": "unfermented vinegar" },
-    "description": "Mixture of water, alcohol and fruit juice that will eventually become vinegar.",
+    "description": "Mixture of water, alcohol and fruit juice that will eventually become vinegar when fermented in a vat.",
     "weight": "15 g",
     "color": "yellow",
     "container": "jug_plastic",
@@ -427,14 +427,14 @@
     "phase": "liquid",
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
-    "brewable": { "time": "7 hours", "results": [ "vinegar" ] }
+    "brewable": { "time": "14 days", "results": [ "vinegar" ] }
   },
   {
     "type": "COMESTIBLE",
     "id": "young_yeast",
     "name": { "str": "growing wild yeast" },
     "description": "Mixture of water, sugar and fruits with some naturally occurring yeast, that will eventually produce a more sizeable yeast culture.",
-    "weight": "250 g",
+    "weight": "16 g",
     "color": "yellow",
     "container": "jug_plastic",
     "sealed": false,
@@ -450,5 +450,103 @@
     "comestible_type": "DRINK",
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "brewable": { "time": "3 days", "results": [ "yeast" ] }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "malting_grain",
+    "name": { "str_sp": "malting grain" },
+    "weight": "211 g",
+    "color": "brown",
+    "comestible_type": "FOOD",
+    "symbol": ",",
+    "quench": -10,
+    "healthy": 1,
+    "calories": 743,
+    "description": "Malting grain that can be used for brewing.",
+    "price": 20,
+    "price_postapoc": 250,
+    "material": [ "veggy" ],
+    "volume": "1 L",
+    "flags": [ "EDIBLE_FROZEN", "RAW" ],
+    "vitamins": [ [ "calcium", 6 ], [ "iron", 29 ] ],
+    "fun": -15,
+    "use_action": {
+      "target": "malted_grain",
+      "msg": "After soaking the grain and waiting, it has finished malting.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 345600,
+      "not_ready_msg": "The grain has not malted yet."
+    }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "malted_grain",
+    "name": { "str_sp": "malted grain" },
+    "weight": "211 g",
+    "color": "brown",
+    "spoils_in": "7 days",
+    "comestible_type": "FOOD",
+    "symbol": ",",
+    "quench": -10,
+    "healthy": 1,
+    "calories": 743,
+    "description": "Grainy cereal used for malting.  A staple of brewing everywhere.  It can also be ground into flour.",
+    "price": 20,
+    "price_postapoc": 250,
+    "material": [ "veggy" ],
+    "volume": "1 L",
+    "flags": [ "EDIBLE_FROZEN", "RAW" ],
+    "vitamins": [ [ "calcium", 6 ], [ "iron", 29 ] ],
+    "fun": -15
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "soaking_dandelion",
+    "name": { "str_sp": "soaking dandelion" },
+    "weight": "308 g",
+    "color": "brown",
+    "comestible_type": "FOOD",
+    "symbol": ",",
+    "quench": -10,
+    "healthy": 1,
+    "calories": 26,
+    "description": "Malting grain that can be used for brewing.",
+    "price": 20,
+    "price_postapoc": 250,
+    "material": [ "veggy" ],
+    "volume": "250 ml",
+    "flags": [ "EDIBLE_FROZEN", "RAW" ],
+    "vitamins": [ [ "calcium", 6 ], [ "iron", 29 ] ],
+    "fun": -15,
+    "use_action": {
+      "target": "soaked_dandelion",
+      "msg": "After soaking the dandelions in boiling water, the juice can be used for making wine.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 7200,
+      "not_ready_msg": "The dandelions need more time."
+    }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "soaked_dandelion",
+    "name": { "str_sp": "soaked dandelion" },
+    "weight": "308 g",
+    "color": "yellow",
+    "spoils_in": "3 days",
+    "comestible_type": "FOOD",
+    "symbol": "~",
+    "quench": 40,
+    "healthy": 1,
+    "calories": 26,
+    "description": "Dandelions soaked in hot water, used for making dandelion wine.",
+    "price": 20,
+    "price_postapoc": 250,
+    "material": [ "veggy" ],
+    "volume": "250 ml",
+    "flags": [ "EDIBLE_FROZEN", "RAW" ],
+    "vitamins": [ [ "vitA", 33 ], [ "vitC", 23 ], [ "calcium", 11 ], [ "iron", 10 ] ],
+    "fun": -4
   }
 ]

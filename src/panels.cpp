@@ -23,7 +23,6 @@
 #include "character_martial_arts.h"
 #include "character_oracle.h"
 #include "color.h"
-#include "compatibility.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -35,6 +34,7 @@
 #include "input.h"
 #include "item.h"
 #include "json.h"
+#include "make_static.h"
 #include "magic.h"
 #include "map.h"
 #include "messages.h"
@@ -57,6 +57,7 @@
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_type.h"
+#include "widget.h"
 
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
@@ -123,7 +124,8 @@ static std::pair<nc_color, std::string> str_string( const avatar &p )
     } else if( p.get_str() < p.get_str_base() ) {
         clr = c_red;
     }
-    return std::make_pair( clr, _( "Str " ) + ( p.get_str() < 100 ? to_string( p.get_str() ) : "++" ) );
+    return std::make_pair( clr, _( "Str " ) + ( p.get_str() < 100 ? std::to_string(
+                               p.get_str() ) : "++" ) );
 }
 
 static std::pair<nc_color, std::string> dex_string( const avatar &p )
@@ -137,7 +139,8 @@ static std::pair<nc_color, std::string> dex_string( const avatar &p )
     } else if( p.get_dex() < p.get_dex_base() ) {
         clr = c_red;
     }
-    return std::make_pair( clr, _( "Dex " ) + ( p.get_dex() < 100 ? to_string( p.get_dex() ) : "++" ) );
+    return std::make_pair( clr, _( "Dex " ) + ( p.get_dex() < 100 ? std::to_string(
+                               p.get_dex() ) : "++" ) );
 }
 
 static std::pair<nc_color, std::string> int_string( const avatar &p )
@@ -151,7 +154,8 @@ static std::pair<nc_color, std::string> int_string( const avatar &p )
     } else if( p.get_int() < p.get_int_base() ) {
         clr = c_red;
     }
-    return std::make_pair( clr, _( "Int " ) + ( p.get_int() < 100 ? to_string( p.get_int() ) : "++" ) );
+    return std::make_pair( clr, _( "Int " ) + ( p.get_int() < 100 ? std::to_string(
+                               p.get_int() ) : "++" ) );
 }
 
 static std::pair<nc_color, std::string> per_string( const avatar &p )
@@ -165,7 +169,8 @@ static std::pair<nc_color, std::string> per_string( const avatar &p )
     } else if( p.get_per() < p.get_per_base() ) {
         clr = c_red;
     }
-    return std::make_pair( clr, _( "Per " ) + ( p.get_per() < 100 ? to_string( p.get_per() ) : "++" ) );
+    return std::make_pair( clr, _( "Per " ) + ( p.get_per() < 100 ? std::to_string(
+                               p.get_per() ) : "++" ) );
 }
 
 static nc_color focus_color( int focus )
@@ -244,8 +249,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
     bool drew_mission = targ == overmap::invalid_tripoint;
     const int start_y = start_input.y;
     const int start_x = start_input.x;
-    const int mid_x = width / 2;
-    const int mid_y = height / 2;
+    const point mid( width / 2, height / 2 );
     map &here = get_map();
 
     for( int i = -( width / 2 ); i <= width - ( width / 2 ) - 1; i++ ) {
@@ -369,9 +373,9 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
             }
             if( i == 0 && j == 0 ) {
                 // Highlight player character position in center of minimap
-                mvwputch_hi( w_minimap, point( mid_x + start_x, mid_y + start_y ), ter_color, ter_sym );
+                mvwputch_hi( w_minimap, mid + point( start_x, start_y ), ter_color, ter_sym );
             } else {
-                mvwputch( w_minimap, point( mid_x + i + start_x, mid_y + j + start_y ), ter_color,
+                mvwputch( w_minimap, mid + point( i + start_x, j + start_y ), ter_color,
                           ter_sym );
             }
         }
@@ -386,37 +390,36 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
         if( std::fabs( slope ) > 12 ) {
             // For any near-vertical slope, center the marker
             if( targ.y() > curs.y() ) {
-                mvwputch( w_minimap, point( mid_x + start_x, height - 1 + start_y ), c_red, '*' );
+                mvwputch( w_minimap, point( mid.x + start_x, height - 1 + start_y ), c_red, '*' );
             } else {
-                mvwputch( w_minimap, point( mid_x + start_x, 1 + start_y ), c_red, '*' );
+                mvwputch( w_minimap, point( mid.x + start_x, 1 + start_y ), c_red, '*' );
             }
         } else {
-            int arrowx = -1;
-            int arrowy = -1;
+            point arrow( point_north_west );
             if( std::fabs( slope ) >= 1. ) {
                 // If target to the north or south, arrow on top or bottom edge of minimap
                 if( targ.y() > curs.y() ) {
-                    arrowx = static_cast<int>( ( 1. + ( 1. / slope ) ) * mid_x );
-                    arrowy = height - 1;
+                    arrow.x = static_cast<int>( ( 1. + ( 1. / slope ) ) * mid.x );
+                    arrow.y = height - 1;
                 } else {
-                    arrowx = static_cast<int>( ( 1. - ( 1. / slope ) ) * mid_x );
-                    arrowy = 0;
+                    arrow.x = static_cast<int>( ( 1. - ( 1. / slope ) ) * mid.x );
+                    arrow.y = 0;
                 }
                 // Clip to left/right edges
-                arrowx = std::max( arrowx, 0 );
-                arrowx = std::min( arrowx, width - 1 );
+                arrow.x = std::max( arrow.x, 0 );
+                arrow.x = std::min( arrow.x, width - 1 );
             } else {
                 // If target to the east or west, arrow on left or right edge of minimap
                 if( targ.x() > curs.x() ) {
-                    arrowx = width - 1;
-                    arrowy = static_cast<int>( ( 1. + slope ) * mid_y );
+                    arrow.x = width - 1;
+                    arrow.y = static_cast<int>( ( 1. + slope ) * mid.y );
                 } else {
-                    arrowx = 0;
-                    arrowy = static_cast<int>( ( 1. - slope ) * mid_y );
+                    arrow.x = 0;
+                    arrow.y = static_cast<int>( ( 1. - slope ) * mid.y );
                 }
                 // Clip to top/bottom edges
-                arrowy = std::max( arrowy, 0 );
-                arrowy = std::min( arrowy, height - 1 );
+                arrow.y = std::max( arrow.y, 0 );
+                arrow.y = std::min( arrow.y, height - 1 );
             }
             char glyph = '*';
             if( targ.z() > you.posz() ) {
@@ -425,7 +428,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                 glyph = 'v';
             }
 
-            mvwputch( w_minimap, point( arrowx + start_x, arrowy + start_y ), c_red, glyph );
+            mvwputch( w_minimap, arrow + point( start_x, start_y ), c_red, glyph );
         }
     }
     avatar &player_character = get_avatar();
@@ -441,7 +444,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
             if( horde_size >= HORDE_VISIBILITY_SIZE ) {
                 if( overmap_buffer.seen( omp )
                     && player_character.overmap_los( omp, sight_points ) ) {
-                    mvwputch( w_minimap, point( i + mid_x, j + mid_y ), c_green,
+                    mvwputch( w_minimap, mid + point( i, j ), c_green,
                               horde_size > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z' );
                 }
             }
@@ -469,7 +472,7 @@ static std::string get_temp( const avatar &u )
 {
     std::string temp;
     if( u.has_item_with_flag( json_flag_THERMOMETER ) ||
-        u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
+        u.has_flag( STATIC( json_character_flag( "THERMOMETER" ) ) ) ) {
         temp = print_temperature( get_weather().get_temperature( u.pos() ) );
     }
     if( temp.empty() ) {
@@ -576,8 +579,8 @@ static std::pair<nc_color, int> morale_stat( const avatar &u )
 
 static std::pair<bodypart_id, bodypart_id> temp_delta( const avatar &u )
 {
-    bodypart_id current_bp_extreme( "torso" );
-    bodypart_id conv_bp_extreme( "torso" );
+    bodypart_id current_bp_extreme = u.get_all_body_parts().front();
+    bodypart_id conv_bp_extreme = current_bp_extreme;
     for( const bodypart_id &bp : u.get_all_body_parts() ) {
         if( std::abs( u.get_part_temp_cur( bp ) - BODYTEMP_NORM ) >
             std::abs( u.get_part_temp_cur( current_bp_extreme ) - BODYTEMP_NORM ) ) {
@@ -775,7 +778,7 @@ static std::string morale_emotion( const int morale_cur, const face_type face,
             } else if( morale_cur >= -200 ) {
                 return "XvX";
             } else {
-                return "@v@";
+                return "@^@";
             }
         } else if( morale_cur >= 200 ) {
             return "@U@";
@@ -832,13 +835,13 @@ static std::pair<nc_color, std::string> power_stat( const avatar &u )
         }
 
         if( u.get_power_level() < 1_J ) {
-            s_pwr = to_string( units::to_millijoule( u.get_power_level() ) ) +
+            s_pwr = std::to_string( units::to_millijoule( u.get_power_level() ) ) +
                     pgettext( "energy unit: millijoule", "mJ" );
         } else if( u.get_power_level() < 1_kJ ) {
-            s_pwr = to_string( units::to_joule( u.get_power_level() ) ) +
+            s_pwr = std::to_string( units::to_joule( u.get_power_level() ) ) +
                     pgettext( "energy unit: joule", "J" );
         } else {
-            s_pwr = to_string( units::to_kilojoule( u.get_power_level() ) ) +
+            s_pwr = std::to_string( units::to_kilojoule( u.get_power_level() ) ) +
                     pgettext( "energy unit: kilojoule", "kJ" );
         }
     }
@@ -858,7 +861,7 @@ static std::pair<nc_color, std::string> mana_stat( const player &u )
         } else if( u.magic->available_mana() >= u.magic->max_mana( u ) / 3 ) {
             c_mana = c_yellow;
         }
-        s_mana = to_string( u.magic->available_mana() );
+        s_mana = std::to_string( u.magic->available_mana() );
     }
     return std::make_pair( c_mana, s_mana );
 }
@@ -1010,7 +1013,7 @@ static std::pair<translation, nc_color> weariness_description( size_t weariness 
     return weary_descriptions[weariness];
 }
 
-static std::string activity_level_str( float level )
+std::string activity_level::activity_level_str( float level )
 {
     static const std::array<translation, 6> activity_descriptions { {
             to_translation( "activity description", "None" ),
@@ -1034,22 +1037,22 @@ static void draw_stats( avatar &u, const catacurses::window &w )
     mvwprintz( w, point_zero, c_light_gray, _( "STR" ) );
     int stat = u.get_str();
     mvwprintz( w, point( stat < 10 ? 5 : 4, 0 ), stat_clr,
-               stat < 100 ? to_string( stat ) : "99+" );
+               stat < 100 ? std::to_string( stat ) : "99+" );
     stat_clr = dex_string( u ).first;
     stat = u.get_dex();
     mvwprintz( w, point( 9, 0 ), c_light_gray, _( "DEX" ) );
     mvwprintz( w, point( stat < 10 ? 14 : 13, 0 ), stat_clr,
-               stat < 100 ? to_string( stat ) : "99+" );
+               stat < 100 ? std::to_string( stat ) : "99+" );
     stat_clr = int_string( u ).first;
     stat = u.get_int();
     mvwprintz( w, point( 17, 0 ), c_light_gray, _( "INT" ) );
     mvwprintz( w, point( stat < 10 ? 22 : 21, 0 ), stat_clr,
-               stat < 100 ? to_string( stat ) : "99+" );
+               stat < 100 ? std::to_string( stat ) : "99+" );
     stat_clr = per_string( u ).first;
     stat = u.get_per();
     mvwprintz( w, point( 25, 0 ), c_light_gray, _( "PER" ) );
     mvwprintz( w, point( stat < 10 ? 30 : 29, 0 ), stat_clr,
-               stat < 100 ? to_string( stat ) : "99+" );
+               stat < 100 ? std::to_string( stat ) : "99+" );
 
     int weariness = u.weariness_level();
     std::pair<translation, nc_color> weary = weariness_description( weariness );
@@ -1072,7 +1075,8 @@ static void draw_stats( avatar &u, const catacurses::window &w )
     mvwprintz( w, point_south, c_light_gray, _( weary_label ) );
     mvwprintz( w, point( wlabel_len + 1, 1 ), weary.second, weary.first.translated() );
     mvwprintz( w, point( act_start, 1 ), c_light_gray, _( activity_label ) );
-    mvwprintz( w, point( act_start + alabel_len + 1, 1 ), act_color, activity_level_str( activity ) );
+    mvwprintz( w, point( act_start + alabel_len + 1, 1 ), act_color,
+               activity_level::activity_level_str( activity ) );
 
     wnoutrefresh( w );
 }
@@ -1093,13 +1097,13 @@ static void draw_stealth( avatar &u, const catacurses::window &w )
     mvwprintz( w, point_zero, c_light_gray, _( "Speed" ) );
     mvwprintz( w, point( 7, 0 ), value_color( u.get_speed() ), "%s", u.get_speed() );
     nc_color move_color = move_mode_color( u );
-    std::string move_string = to_string( u.movecounter ) + move_mode_string( u );
+    std::string move_string = std::to_string( u.movecounter ) + move_mode_string( u );
     mvwprintz( w, point( 15 - utf8_width( move_string ), 0 ), move_color, move_string );
     if( u.is_deaf() ) {
         mvwprintz( w, point( 22, 0 ), c_red, _( "DEAF" ) );
     } else {
         mvwprintz( w, point( 20, 0 ), c_light_gray, _( "Sound:" ) );
-        const std::string snd = to_string( u.volume );
+        const std::string snd = std::to_string( u.volume );
         mvwprintz( w, point( 30 - utf8_width( snd ), 0 ), u.volume != 0 ? c_yellow : c_light_gray, snd );
     }
 
@@ -1109,27 +1113,27 @@ static void draw_stealth( avatar &u, const catacurses::window &w )
 static void draw_time_graphic( const catacurses::window &w )
 {
     std::vector<std::pair<char, nc_color> > vGlyphs;
-    vGlyphs.push_back( std::make_pair( '_', c_red ) );
-    vGlyphs.push_back( std::make_pair( '_', c_cyan ) );
-    vGlyphs.push_back( std::make_pair( '.', c_brown ) );
-    vGlyphs.push_back( std::make_pair( ',', c_blue ) );
-    vGlyphs.push_back( std::make_pair( '+', c_yellow ) );
-    vGlyphs.push_back( std::make_pair( 'c', c_light_blue ) );
-    vGlyphs.push_back( std::make_pair( '*', c_yellow ) );
-    vGlyphs.push_back( std::make_pair( 'C', c_white ) );
-    vGlyphs.push_back( std::make_pair( '+', c_yellow ) );
-    vGlyphs.push_back( std::make_pair( 'c', c_light_blue ) );
-    vGlyphs.push_back( std::make_pair( '.', c_brown ) );
-    vGlyphs.push_back( std::make_pair( ',', c_blue ) );
-    vGlyphs.push_back( std::make_pair( '_', c_red ) );
-    vGlyphs.push_back( std::make_pair( '_', c_cyan ) );
+    vGlyphs.emplace_back( '_', c_red );
+    vGlyphs.emplace_back( '_', c_cyan );
+    vGlyphs.emplace_back( '.', c_brown );
+    vGlyphs.emplace_back( ',', c_blue );
+    vGlyphs.emplace_back( '+', c_yellow );
+    vGlyphs.emplace_back( 'c', c_light_blue );
+    vGlyphs.emplace_back( '*', c_yellow );
+    vGlyphs.emplace_back( 'C', c_white );
+    vGlyphs.emplace_back( '+', c_yellow );
+    vGlyphs.emplace_back( 'c', c_light_blue );
+    vGlyphs.emplace_back( '.', c_brown );
+    vGlyphs.emplace_back( ',', c_blue );
+    vGlyphs.emplace_back( '_', c_red );
+    vGlyphs.emplace_back( '_', c_cyan );
 
     const int iHour = hour_of_day<int>( calendar::turn );
     wprintz( w, c_white, "[" );
     bool bAddTrail = false;
 
     for( int i = 0; i < 14; i += 2 ) {
-        if( iHour >= 8 + i && iHour <= 13 + ( i / 2 ) ) {
+        if( iHour >= 8 + i && iHour <= 13 + ( i / 2 ) ) { // NOLINT(bugprone-branch-clone)
             wputch( w, hilite( c_white ), ' ' );
 
         } else if( iHour >= 6 + i && iHour <= 7 + i ) {
@@ -1155,7 +1159,7 @@ static void draw_time( const avatar &u, const catacurses::window &w )
     werase( w );
     // display date
     mvwprintz( w, point_zero, c_light_gray, calendar::name_season( season_of_year( calendar::turn ) ) );
-    std::string day = to_string( day_of_season<int>( calendar::turn ) + 1 );
+    std::string day = std::to_string( day_of_season<int>( calendar::turn ) + 1 );
     mvwprintz( w, point( 10 - utf8_width( day ), 0 ), c_light_gray, day );
     // display time
     if( u.has_watch() ) {
@@ -1195,7 +1199,7 @@ static void draw_needs_compact( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 17 + utf8_width( pair.second ), 1 ), arrow.first, arrow.second );
 
     mvwprintz( w, point( 17, 2 ), c_light_gray, _( "Focus" ) );
-    mvwprintz( w, point( 24, 2 ), focus_color( u.get_focus() ), to_string( u.get_focus() ) );
+    mvwprintz( w, point( 24, 2 ), focus_color( u.get_focus() ), std::to_string( u.get_focus() ) );
 
     wnoutrefresh( w );
 }
@@ -1389,7 +1393,8 @@ static void draw_stat_narrow( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 1, 3 ), c_light_gray, _( weary_label ) );
     mvwprintz( w, point( wlabel_len + 2, 3 ), weary.second, weary.first.translated() );
     mvwprintz( w, point( act_start, 3 ), c_light_gray, _( activity_label ) );
-    mvwprintz( w, point( act_start + alabel_len + 1, 3 ), act_color, activity_level_str( activity ) );
+    mvwprintz( w, point( act_start + alabel_len + 1, 3 ), act_color,
+               activity_level::activity_level_str( activity ) );
 
     wnoutrefresh( w );
 }
@@ -1439,7 +1444,8 @@ static void draw_stat_wide( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 1, 2 ), c_light_gray, _( weary_label ) );
     mvwprintz( w, point( wlabel_len + 2, 2 ), weary.second, weary.first.translated() );
     mvwprintz( w, point( act_start, 2 ), c_light_gray, _( activity_label ) );
-    mvwprintz( w, point( act_start + alabel_len + 1, 2 ), act_color, activity_level_str( activity ) );
+    mvwprintz( w, point( act_start + alabel_len + 1, 2 ), act_color,
+               activity_level::activity_level_str( activity ) );
 
     wnoutrefresh( w );
 }
@@ -1618,7 +1624,7 @@ static void draw_sound_labels( const avatar &u, const catacurses::window &w )
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Sound:" ) );
     if( !u.is_deaf() ) {
-        mvwprintz( w, point( 8, 0 ), c_yellow, to_string( u.volume ) );
+        mvwprintz( w, point( 8, 0 ), c_yellow, std::to_string( u.volume ) );
     } else {
         mvwprintz( w, point( 8, 0 ), c_red, _( "Deaf!" ) );
     }
@@ -1631,7 +1637,7 @@ static void draw_sound_narrow( const avatar &u, const catacurses::window &w )
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Sound:" ) );
     if( !u.is_deaf() ) {
-        mvwprintz( w, point( 8, 0 ), c_yellow, to_string( u.volume ) );
+        mvwprintz( w, point( 8, 0 ), c_yellow, std::to_string( u.volume ) );
     } else {
         mvwprintz( w, point( 8, 0 ), c_red, _( "Deaf!" ) );
     }
@@ -1675,7 +1681,7 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
                get_wind_desc( windpower ) + " " + get_wind_arrow( g->weather.winddirection ) );
 
     if( u.has_item_with_flag( json_flag_THERMOMETER ) ||
-        u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
+        u.has_flag( STATIC( json_character_flag( "THERMOMETER" ) ) ) ) {
         std::string temp = print_temperature( g->weather.get_temperature( u.pos() ) );
         mvwprintz( w, point( 31 - utf8_width( temp ), 5 ), c_light_gray, temp );
     }
@@ -1738,7 +1744,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     needs_pair = u.get_thirst_description();
     mvwprintz( w, point( 21, 2 ), needs_pair.second, needs_pair.first );
     mvwprintz( w, point( 21, 4 ), c_white, _( "Focus" ) );
-    mvwprintz( w, point( 27, 4 ), c_white, to_string( u.get_focus() ) );
+    mvwprintz( w, point( 27, 4 ), c_white, std::to_string( u.get_focus() ) );
     needs_pair = u.get_fatigue_description();
     mvwprintz( w, point( 21, 3 ), needs_pair.second, needs_pair.first );
     auto pain_pair = u.get_pain_description();
@@ -1782,9 +1788,9 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     // speed
     if( !veh ) {
         mvwprintz( w, point( 21, 5 ), u.get_speed() < 100 ? c_red : c_white,
-                   _( "Spd " ) + to_string( u.get_speed() ) );
+                   _( "Spd " ) + std::to_string( u.get_speed() ) );
         nc_color move_color = move_mode_color( u );
-        std::string move_string = to_string( u.movecounter ) + " " + move_mode_string( u );
+        std::string move_string = std::to_string( u.movecounter ) + " " + move_mode_string( u );
         mvwprintz( w, point( 29, 5 ), move_color, move_string );
     }
 
@@ -1922,6 +1928,35 @@ static void draw_overmap_wide( avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
+// Custom moddable sidebar
+static void draw_mod_sidebar( avatar &u, const catacurses::window &w, const std::string layout_name,
+                              const int width )
+{
+    werase( w );
+
+    // Render each row of the root layout widget
+    widget root = widget_id( layout_name ).obj();
+    int row_num = 0;
+    for( const widget_id &row_wid : root._widgets ) {
+        widget row_widget = row_wid.obj();
+        trim_and_print( w, point( 1, row_num ), width - 1, c_light_gray, _( row_widget.layout( u,
+                        width - 1 ) ) );
+        row_num++;
+    }
+
+    wnoutrefresh( w );
+}
+
+static void draw_mod_sidebar_narrow( avatar &u, const catacurses::window &w )
+{
+    draw_mod_sidebar( u, w, "root_layout_narrow", 31 );
+}
+
+static void draw_mod_sidebar_wide( avatar &u, const catacurses::window &w )
+{
+    draw_mod_sidebar( u, w, "root_layout_wide", 43 );
+}
+
 static void draw_veh_compact( const avatar &u, const catacurses::window &w )
 {
     werase( w );
@@ -2010,7 +2045,7 @@ static void draw_lighting_classic( const avatar &u, const catacurses::window &w 
 
     if( !u.is_deaf() ) {
         mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Sound:" ) );
-        mvwprintz( w, point( 38, 0 ), c_yellow, to_string( u.volume ) );
+        mvwprintz( w, point( 38, 0 ), c_yellow, std::to_string( u.volume ) );
     } else {
         mvwprintz( w, point( 31, 0 ), c_red, _( "Deaf!" ) );
     }
@@ -2043,7 +2078,7 @@ static void draw_time_classic( const avatar &u, const catacurses::window &w )
     // display date
     mvwprintz( w, point_zero, c_white,
                calendar::name_season( season_of_year( calendar::turn ) ) + "," );
-    std::string day = to_string( day_of_season<int>( calendar::turn ) + 1 );
+    std::string day = std::to_string( day_of_season<int>( calendar::turn ) + 1 );
     mvwprintz( w, point( 8, 0 ), c_white, _( "Day " ) + day );
     // display time
     if( u.has_watch() ) {
@@ -2057,7 +2092,7 @@ static void draw_time_classic( const avatar &u, const catacurses::window &w )
     }
 
     if( u.has_item_with_flag( json_flag_THERMOMETER ) ||
-        u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
+        u.has_flag( STATIC( json_character_flag( "THERMOMETER" ) ) ) ) {
         std::string temp = print_temperature( get_weather().get_temperature( u.pos() ) );
         mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Temp : " ) + temp );
     }
@@ -2207,7 +2242,8 @@ static void draw_weariness_classic( const avatar &u, const catacurses::window &w
     mvwprintz( w, point_zero, c_light_gray, _( weary_label ) );
     mvwprintz( w, point( wlabel_len + 1, 0 ), weary.second, weary.first.translated() );
     mvwprintz( w, point( act_start, 0 ), c_light_gray, _( activity_label ) );
-    mvwprintz( w, point( act_start + alabel_len + 1, 0 ), act_color, activity_level_str( activity ) );
+    mvwprintz( w, point( act_start + alabel_len + 1, 0 ), act_color,
+               activity_level::activity_level_str( activity ) );
 
     std::pair<int, int> bar = u.weariness_transition_progress();
     std::pair<std::string, nc_color> weary_bar = get_hp_bar( bar.first, bar.second );
@@ -2240,7 +2276,7 @@ static void print_mana( const player &u, const catacurses::window &w, const std:
                                     colorize( utf8_justify( mana_pair.second, j2 ), mana_pair.first ),
                                     //~ translation should not exceed 9 console cells
                                     utf8_justify( _( "Max Mana" ), j3 ),
-                                    colorize( utf8_justify( to_string( u.magic->max_mana( u ) ), j4 ), c_light_blue ) );
+                                    colorize( utf8_justify( std::to_string( u.magic->max_mana( u ) ), j4 ), c_light_blue ) );
     nc_color gray = c_light_gray;
     print_colored_text( w, point_zero, gray, gray, mana_string );
 
@@ -2311,6 +2347,8 @@ static std::vector<window_panel> initialize_default_classic_panels()
                                     20, 44, false ) );
     ret.emplace_back( window_panel( draw_messages_classic, "Log", to_translation( "Log" ),
                                     -2, 44, true ) );
+    ret.emplace_back( window_panel( draw_mod_sidebar_wide, "Custom", to_translation( "Custom" ),
+                                    8, 44, false ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
                                     -1, 44, true, default_render, true ) );
@@ -2350,6 +2388,8 @@ static std::vector<window_panel> initialize_default_compact_panels()
                                     8, 32, true ) );
     ret.emplace_back( window_panel( draw_overmap_narrow, "Overmap", to_translation( "Overmap" ),
                                     14, 32, false ) );
+    ret.emplace_back( window_panel( draw_mod_sidebar_narrow, "Custom", to_translation( "Custom" ),
+                                    8, 32, false ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
                                     -1, 32, true, default_render, true ) );
@@ -2398,6 +2438,8 @@ static std::vector<window_panel> initialize_default_label_narrow_panels()
                                     8, 32, true ) );
     ret.emplace_back( window_panel( draw_overmap_narrow, "Overmap", to_translation( "Overmap" ),
                                     14, 32, false ) );
+    ret.emplace_back( window_panel( draw_mod_sidebar_narrow, "Custom", to_translation( "Custom" ),
+                                    8, 32, false ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
                                     -1, 32, true, default_render, true ) );
@@ -2450,6 +2492,8 @@ static std::vector<window_panel> initialize_default_label_panels()
                                     8, 44, true ) );
     ret.emplace_back( window_panel( draw_overmap_wide, "Overmap", to_translation( "Overmap" ),
                                     20, 44, false ) );
+    ret.emplace_back( window_panel( draw_mod_sidebar_wide, "Custom", to_translation( "Custom" ),
+                                    8, 44, false ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
                                     -1, 44, true, default_render, true ) );

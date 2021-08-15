@@ -1,0 +1,47 @@
+[
+  {
+    "id": "afs_gibs_shotgun",
+    "looks_like": "m79",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": { "str": "Gibson S86" },
+    "description": "Manufactured by Gibson Armory, the S86 is a light-weight grenade launcher designed to take care of moderately armored opponents.  While the S86 firepower is nothing to truly gawk at, it still packs quite a punch both for the target and user and is usually mounted as it is impossible to fire with average strength.",
+    "weight": "2700 g",
+    "volume": "2800 ml",
+    "longest_side": "736 mm",
+    "price": 550000,
+    "to_hit": -3,
+    "bashing": 10,
+    "material": [ "superalloy", "plastic" ],
+    "symbol": "(",
+    "color": "brown",
+    "min_strength": 18,
+    "ranged_damage": { "damage_type": "bullet", "amount": 10 },
+    "skill": "launcher",
+    "modes": [ [ "DEFAULT", "DOUBLE", 4 ] ],
+    "dispersion": 90,
+    "durability": 6,
+    "ammo": [ "afs_25mm" ],
+    "clip_size": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "afs_25mm_mag" ]
+      }
+    ],
+    "reload": 400,
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "barrel", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
+  }
+]

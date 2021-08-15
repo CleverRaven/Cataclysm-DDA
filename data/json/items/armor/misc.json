@@ -13,13 +13,11 @@
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "pink",
-    "covers": [ "head" ],
-    "coverage": 60,
-    "encumbrance": 5,
     "warmth": 20,
     "material_thickness": 0.2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": [ "VARSIZE" ],
+    "armor": [ { "encumbrance": 5, "coverage": 60, "covers": [ "head" ] } ]
   },
   {
     "id": "clown_nose",
@@ -32,8 +30,7 @@
     "price_postapoc": 10,
     "material": [ "plastic" ],
     "symbol": ".",
-    "color": "red",
-    "flags": [ "FANCY" ]
+    "color": "red"
   },
   {
     "id": "crown_golden",
@@ -48,11 +45,9 @@
     "symbol": "[",
     "looks_like": "hat_cotton",
     "color": "yellow",
-    "covers": [ "head" ],
-    "coverage": 30,
-    "encumbrance": 20,
     "material_thickness": 2,
-    "flags": [ "SUPER_FANCY" ]
+    "flags": [ "SUPER_FANCY" ],
+    "armor": [ { "encumbrance": 20, "coverage": 30, "covers": [ "head" ] } ]
   },
   {
     "id": "crown_golden_survivor",
@@ -67,11 +62,9 @@
     "symbol": "[",
     "looks_like": "crown_golden",
     "color": "yellow",
-    "covers": [ "head" ],
-    "coverage": 30,
-    "encumbrance": 20,
     "material_thickness": 2,
-    "flags": [ "FANCY" ]
+    "flags": [ "FANCY" ],
+    "armor": [ { "encumbrance": 20, "coverage": 30, "covers": [ "head" ] } ]
   },
   {
     "id": "mouthpiece",
@@ -88,10 +81,9 @@
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "yellow",
-    "covers": [ "mouth" ],
-    "coverage": 50,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ]
+    "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "SKINTIGHT", "POWERARMOR_COMPATIBLE" ],
+    "armor": [ { "coverage": 50, "covers": [ "mouth" ] } ]
   },
   {
     "id": "tie_skinny",
@@ -121,12 +113,10 @@
     "symbol": "(",
     "looks_like": "duffelbag",
     "color": "light_red",
-    "covers": [ "torso" ],
-    "coverage": 10,
-    "encumbrance": 20,
     "material_thickness": 4,
     "flags": [ "OVERSIZE", "BELTED" ],
-    "use_action": { "menu_text": "Unroll", "type": "transform", "target": "sleeping_bag", "msg": "You unroll the sleeping bag." }
+    "use_action": { "menu_text": "Unroll", "type": "transform", "target": "sleeping_bag", "msg": "You unroll the sleeping bag." },
+    "armor": [ { "encumbrance": 20, "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "id": "sleeping_bag_fur",
@@ -142,9 +132,6 @@
     "symbol": "[",
     "looks_like": "sleeping_bag",
     "color": "brown",
-    "covers": [ "torso", "head", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "coverage": 100,
-    "encumbrance": 80,
     "warmth": 100,
     "material_thickness": 5,
     "environmental_protection": 1,
@@ -154,7 +141,14 @@
       "type": "transform",
       "target": "sleeping_bag_fur_roll",
       "msg": "You roll up the fur sleeping bag, preparing it for transport."
-    }
+    },
+    "armor": [
+      {
+        "encumbrance": 80,
+        "coverage": 100,
+        "covers": [ "torso", "head", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
   },
   {
     "id": "sleeping_bag_fur_roll",
@@ -170,9 +164,6 @@
     "symbol": "(",
     "looks_like": "sleeping_bag_roll",
     "color": "brown",
-    "covers": [ "torso" ],
-    "coverage": 10,
-    "encumbrance": 20,
     "material_thickness": 5,
     "flags": [ "OVERSIZE", "BELTED" ],
     "use_action": {
@@ -180,7 +171,8 @@
       "type": "transform",
       "target": "sleeping_bag_fur",
       "msg": "You unroll up the fur sleeping bag."
-    }
+    },
+    "armor": [ { "encumbrance": 20, "coverage": 10, "covers": [ "torso" ] } ]
   },
   {
     "id": "tie_bow",
@@ -239,12 +231,10 @@
     "symbol": "[",
     "looks_like": "scarf",
     "color": "white",
-    "covers": [ "eyes", "mouth" ],
-    "coverage": 100,
-    "encumbrance": 5,
     "material_thickness": 0.01,
     "environmental_protection": 1,
-    "flags": [ "SUPER_FANCY", "OUTER", "OVERSIZE" ]
+    "flags": [ "SUPER_FANCY", "OUTER", "OVERSIZE" ],
+    "armor": [ { "encumbrance": 5, "coverage": 100, "covers": [ "eyes", "mouth" ] } ]
   },
   {
     "id": "tarp",
@@ -260,12 +250,16 @@
     "symbol": "[",
     "looks_like": "blanket",
     "color": "light_blue",
-    "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "coverage": 90,
-    "encumbrance": 30,
     "warmth": 10,
     "material_thickness": 0.1,
     "environmental_protection": 1,
-    "flags": [ "OVERSIZE", "OUTER", "WATERPROOF", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "OVERSIZE", "OUTER", "WATERPROOF", "ALLOWS_NATURAL_ATTACKS" ],
+    "armor": [
+      {
+        "encumbrance": 30,
+        "coverage": 90,
+        "covers": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
   }
 ]

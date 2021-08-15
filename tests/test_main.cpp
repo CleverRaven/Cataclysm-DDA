@@ -17,7 +17,7 @@
 #include <vector>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "cata_catch.h"
 #include "coordinates.h"
 #ifndef _WIN32
 #include <unistd.h>
@@ -28,6 +28,7 @@
 #include "cata_assert.h"
 #include "cata_utility.h"
 #include "color.h"
+#include "compatibility.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
@@ -281,6 +282,7 @@ CATCH_REGISTER_LISTENER( CataListener )
 
 int main( int argc, const char *argv[] )
 {
+    reset_floating_point_mode();
     Catch::Session session;
 
     std::vector<const char *> arg_vec( argv, argv + argc );
@@ -298,8 +300,10 @@ int main( int argc, const char *argv[] )
 
     std::string error_fmt = extract_argument( arg_vec, "--error-format=" );
     if( error_fmt == "github-action" ) {
+        // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
         error_log_format = error_log_format_t::github_action;
     } else if( error_fmt == "human-readable" || error_fmt.empty() ) {
+        // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
         error_log_format = error_log_format_t::human_readable;
     } else {
         printf( "Unknown format %s", error_fmt.c_str() );
@@ -321,7 +325,12 @@ int main( int argc, const char *argv[] )
         return result;
     }
 
+    // NOLINTNEXTLINE(cata-tests-must-restore-global-state)
     test_mode = true;
+
+    on_out_of_scope print_newline( []() {
+        printf( "\n" );
+    } );
 
     setupDebug( DebugOutput::std_err );
 
@@ -382,8 +391,6 @@ int main( int argc, const char *argv[] )
         DebugLog( D_INFO, DC_ALL ) << "Treating result as failure due to error logged during tests.";
         return 1;
     }
-
-    printf( "\n" );
 
     return result;
 }

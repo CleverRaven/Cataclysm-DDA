@@ -897,12 +897,12 @@
     "blueprint_provides": [ { "id": "pantry" } ],
     "blueprint_requires": [ { "id": "fbmh_northeast", "amount": 4 }, { "id": "fbmh_fire_northeast" }, { "id": "fbmh_bed2_northeast" } ],
     "blueprint_needs": {
-      "time": "4 h 40 m",
-      "skills": [ [ "fabrication", 4 ], [ "survival", 4 ] ],
+      "time": "7 h 10 m",
+      "skills": [ [ "survival", 4 ], [ "fabrication", 4 ] ],
       "inline": {
-        "tools": [  ],
+        "tools": [ [ [ "elec_jackhammer", 7000 ], [ "jackhammer", 140 ], [ "pickaxe", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-        "components": [ [ [ "rock", 40 ], [ "brick", 40 ] ], [ [ "2x4", 6 ], [ "stick", 6 ] ], [ [ "withered", 12 ], [ "straw_pile", 12 ] ] ]
+        "components": [ [ [ "2x4", 6 ], [ "stick", 6 ] ], [ [ "brick", 40 ], [ "rock", 40 ] ], [ [ "straw_pile", 12 ], [ "withered", 12 ] ] ]
       }
     }
   },

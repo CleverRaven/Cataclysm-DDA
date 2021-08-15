@@ -17,7 +17,6 @@
 #include "clzones.h"
 #include "colony.h"
 #include "color.h"
-#include "compatibility.h"
 #include "debug.h"
 #include "faction_camp.h"
 #include "game.h"
@@ -72,7 +71,7 @@ std::string base_camps::faction_encode_short( const std::string &type )
 
 std::string base_camps::faction_encode_abs( const expansion_data &e, int number )
 {
-    return faction_encode_short( e.type ) + to_string( number );
+    return faction_encode_short( e.type ) + std::to_string( number );
 }
 
 std::string base_camps::faction_decode( const std::string &full_type )
@@ -102,7 +101,7 @@ int base_camps::max_upgrade_by_type( const std::string &type )
     if( max_upgrade_cache.find( type ) == max_upgrade_cache.end() ) {
         int max = -1;
         const std::string faction_base = faction_encode_short( type );
-        while( recipe_id( faction_base + to_string( max + 1 ) ).is_valid() ) {
+        while( recipe_id( faction_base + std::to_string( max + 1 ) ).is_valid() ) {
             max += 1;
         }
         max_upgrade_cache[type] = max;
@@ -220,7 +219,7 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
 
     std::string comp;
     for( auto &elem : component_print_buffer ) {
-        comp = comp + elem + "\n";
+        str_append( comp, elem, "\n" );
     }
     comp = string_format( _( "Notes:\n%s\n\nSkills used: %s\n%s\n" ),
                           making.description, making.required_all_skills_string(), comp );
@@ -558,7 +557,6 @@ comp_list basecamp::get_mission_workers( const std::string &mission_id, bool con
 
 void basecamp::query_new_name()
 {
-    std::string camp_name;
     string_input_popup popup;
     do {
         popup.title( _( "Name this camp" ) )
@@ -568,7 +566,7 @@ void basecamp::query_new_name()
         .query();
     } while( popup.canceled() || popup.text().empty() );
 
-    name = popup.text();;
+    name = popup.text();
 }
 
 void basecamp::set_name( const std::string &new_name )

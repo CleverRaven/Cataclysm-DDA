@@ -104,7 +104,8 @@
       [ "scissors", 5 ],
       [ "screwdriver", 5 ],
       [ "knife_steak", 5 ],
-      [ "knuckle_brass", 5 ],
+      [ "knuckle_brass", 3 ],
+      [ "knuckle_steel_forged", 2 ],
       [ "switchblade", 5 ],
       [ "throwing_knife", 5 ],
       {
@@ -510,7 +511,7 @@
       },
       {
         "text": "Yeah, sure.",
-        "topic": "TALK_MISSION_LIST",
+        "topic": "TALK_MISSION_OFFER",
         "condition": {
           "and": [
             { "not": { "u_has_var": "prisoner_leader_mission", "type": "mission", "context": "military_id", "value": "yes" } },

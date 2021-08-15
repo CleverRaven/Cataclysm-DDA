@@ -12,10 +12,6 @@
     "symbol": "[",
     "looks_like": "quiver_large",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 5,
-    "encumbrance": 3,
-    "max_encumbrance": 15,
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -24,12 +20,13 @@
         "min_item_volume": "1500 ml",
         "max_contains_volume": "9 L",
         "max_contains_weight": "10 kg",
-        "max_item_length": "60 cm",
+        "max_item_length": "133 cm",
         "moves": 150
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "BELTED", "OVERSIZE", "NO_QUICKDRAW" ]
+    "flags": [ "BELTED", "OVERSIZE", "NO_QUICKDRAW" ],
+    "armor": [ { "encumbrance": [ 3, 15 ], "coverage": 5, "covers": [ "torso" ] } ]
   },
   {
     "id": "baldric_holster",
@@ -44,9 +41,6 @@
     "symbol": "[",
     "looks_like": "quiver_large",
     "color": "light_gray",
-    "covers": [ "torso" ],
-    "coverage": 20,
-    "encumbrance": 2,
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -105,7 +99,8 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE" ],
+    "armor": [ { "encumbrance": 2, "coverage": 20, "covers": [ "torso" ] } ]
   },
   {
     "id": "bootstrap",
@@ -120,11 +115,7 @@
     "symbol": "[",
     "looks_like": "holster",
     "color": "brown",
-    "covers": [ "foot_l", "foot_r" ],
     "sided": true,
-    "coverage": 5,
-    "encumbrance": 3,
-    "max_encumbrance": 4,
     "material_thickness": 1,
     "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "NOT_FOOTWEAR" ],
     "pocket_data": [
@@ -138,7 +129,8 @@
         "moves": 150
       }
     ],
-    "use_action": { "type": "holster" }
+    "use_action": { "type": "holster" },
+    "armor": [ { "encumbrance": [ 3, 4 ], "coverage": 5, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
     "id": "bow_sling",
@@ -153,10 +145,6 @@
     "symbol": "[",
     "looks_like": "slingpack",
     "color": "green",
-    "covers": [ "torso" ],
-    "coverage": 5,
-    "encumbrance": 3,
-    "max_encumbrance": 7,
     "material_thickness": 1,
     "flags": [ "OVERSIZE", "WAIST" ],
     "pocket_data": [
@@ -171,7 +159,8 @@
         "flag_restriction": [ "SHEATH_BOW" ]
       }
     ],
-    "use_action": { "type": "holster" }
+    "use_action": { "type": "holster" },
+    "armor": [ { "encumbrance": [ 3, 7 ], "coverage": 5, "covers": [ "torso" ] } ]
   },
   {
     "id": "holster",
@@ -186,11 +175,7 @@
     "symbol": "[",
     "looks_like": "sheath",
     "color": "light_gray",
-    "covers": [ "leg_l", "leg_r" ],
     "sided": true,
-    "coverage": 5,
-    "encumbrance": 3,
-    "max_encumbrance": 4,
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -205,7 +190,8 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "WAIST", "OVERSIZE" ]
+    "flags": [ "WAIST", "OVERSIZE" ],
+    "armor": [ { "encumbrance": [ 3, 4 ], "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "western_holster",
@@ -214,19 +200,19 @@
     "name": { "str": "western holster" },
     "description": "A western style holster as worn by cowboys and gunfighters in the movies and on TV. Has loops across the back to hold spare ammo.  Activate to holster/draw a gun.",
     "price_postapoc": 500,
-    "armor_portion_data": [
+    "sided": true,
+    "armor": [
       { "covers": [ "torso" ], "coverage": 5, "encumbrance": [ 1, 1 ] },
-      { "covers": [ "leg_l", "leg_r" ], "coverage": 5, "encumbrance": [ 2, 3 ] },
-      { "sided": true }
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 5, "encumbrance": [ 2, 3 ] }
     ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "holster": true,
         "min_item_volume": "100 ml",
-        "max_contains_volume": "400 ml",
+        "max_contains_volume": "855 ml",
         "max_contains_weight": "2 kg",
-        "max_item_length": "25 cm",
+        "max_item_length": "38 cm",
         "moves": 30
       },
       {
@@ -266,8 +252,6 @@
     "name": { "str": "fast draw holster" },
     "description": "A comfortable quick draw holster for small guns.  Activate to holster/draw a gun.",
     "price_postapoc": 500,
-    "encumbrance": 1,
-    "max_encumbrance": 2,
     "pocket_data": [
       {
         "magazine_well": "200 ml",
@@ -280,7 +264,8 @@
         "moves": 30
       }
     ],
-    "use_action": { "type": "holster" }
+    "use_action": { "type": "holster" },
+    "armor": [ { "encumbrance": [ 1, 2 ], "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "bholster",
@@ -293,9 +278,6 @@
     "price": 3000,
     "price_postapoc": 500,
     "material": [ "lycra" ],
-    "covers": [ "leg_l", "leg_r" ],
-    "encumbrance": 1,
-    "max_encumbrance": 3,
     "pocket_data": [
       {
         "magazine_well": "150 ml",
@@ -309,7 +291,8 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "SKINTIGHT", "WATER_FRIENDLY" ]
+    "flags": [ "SKINTIGHT", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 1, 3 ], "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "survivor_vest",
@@ -324,16 +307,12 @@
     "symbol": "[",
     "looks_like": "tacvest",
     "color": "green",
-    "covers": [ "torso" ],
-    "coverage": 20,
-    "encumbrance": 4,
-    "max_encumbrance": 12,
     "material_thickness": 2,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "holster": true,
-        "min_item_volume": "1250 ml",
+        "min_item_volume": "1000 ml",
         "max_contains_volume": "8 L",
         "max_contains_weight": "8200 g",
         "max_item_length": "120 cm",
@@ -362,7 +341,8 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "WATER_FRIENDLY", "STURDY", "WAIST" ]
+    "flags": [ "WATER_FRIENDLY", "STURDY", "WAIST" ],
+    "armor": [ { "encumbrance": [ 4, 12 ], "coverage": 20, "covers": [ "torso" ] } ]
   },
   {
     "id": "xl_survivor_vest",
@@ -386,11 +366,7 @@
     "symbol": "[",
     "looks_like": "quiver_large",
     "color": "light_gray",
-    "covers": [ "leg_l", "leg_r" ],
     "sided": true,
-    "coverage": 10,
-    "encumbrance": 2,
-    "max_encumbrance": 7,
     "material_thickness": 1,
     "pocket_data": [
       {
@@ -404,6 +380,7 @@
       }
     ],
     "use_action": { "type": "holster" },
-    "flags": [ "WAIST", "OVERSIZE" ]
+    "flags": [ "WAIST", "OVERSIZE" ],
+    "armor": [ { "encumbrance": [ 2, 7 ], "coverage": 10, "covers": [ "leg_l", "leg_r" ] } ]
   }
 ]

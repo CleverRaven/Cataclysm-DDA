@@ -89,7 +89,7 @@
     "time": "15 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 1 ], [ "book_archery", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_fletching", "learning_time_multiplier": 0.1 }, { "proficiency": "prof_carving" } ],
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ] ]
   },
@@ -331,7 +331,7 @@
     "time": "15 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_arrows", 1 ], [ "book_archery", 1 ] ],
-    "proficiencies": [ { "proficiency": "prof_fletching", "learning_time_multiplier": 0.1 }, { "proficiency": "prof_carving" } ],
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ] ]
   },
@@ -417,15 +417,7 @@
     "book_learn": [ [ "recipe_arrows", 5 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [
-        [ "arrow_field_point_fletched", 5 ],
-        [ "arrow_fire_hardened_fletched", 5 ],
-        [ "arrow_wood", 5 ],
-        [ "arrow_heavy_fire_hardened_fletched", 5 ],
-        [ "arrow_heavy_field_point_fletched", 5 ],
-        [ "arrow_wood_heavy", 5 ],
-        [ "arrow_metal", 5 ]
-      ],
+      [ [ "arrow_field_point_fletched", 5 ] ],
       [ [ "rag", 1, "NO_RECOVER" ] ],
       [
         [ "lamp_oil", 50, "NO_RECOVER" ],
@@ -447,22 +439,22 @@
     "skill_used": "fabrication",
     "skills_required": [ [ "archery", 4 ] ],
     "difficulty": 4,
-    "time": "7 m",
+    "time": "2 m",
     "reversible": true,
     "decomp_learn": 6,
     "//": "you just take the warhead off or put it on, rather than making the warhead",
     "book_learn": [ [ "recipe_arrows", 6 ], [ "textbook_anarch", 4 ], [ "recipe_bullets", 7 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "exploding_arrow_warhead", 5 ] ],
+      [ [ "exploding_arrow_warhead", 1 ] ],
       [
-        [ "arrow_field_point_fletched", 5 ],
-        [ "arrow_fire_hardened_fletched", 5 ],
-        [ "arrow_wood", 5 ],
-        [ "arrow_heavy_fire_hardened_fletched", 5 ],
-        [ "arrow_heavy_field_point_fletched", 5 ],
-        [ "arrow_wood_heavy", 5 ],
-        [ "arrow_metal", 5 ]
+        [ "arrow_field_point_fletched", 1 ],
+        [ "arrow_fire_hardened_fletched", 1 ],
+        [ "arrow_wood", 1 ],
+        [ "arrow_heavy_fire_hardened_fletched", 1 ],
+        [ "arrow_heavy_field_point_fletched", 1 ],
+        [ "arrow_wood_heavy", 1 ],
+        [ "arrow_metal", 1 ]
       ]
     ]
   },
@@ -528,6 +520,7 @@
     "difficulty": 2,
     "time": "5 m",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ], [ [ "scrap", 4 ] ] ]
   },
@@ -556,6 +549,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "gunpowder", 20 ], [ "chem_black_powder", 20 ] ],
       [
@@ -584,6 +578,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "gunpowder", 20 ], [ "chem_black_powder", 20 ] ],
       [ [ "scrap", 1 ], [ "nail", 8 ], [ "copper", 16 ], [ "lead", 16 ] ],
@@ -603,6 +598,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "gunpowder", 20 ], [ "chem_black_powder", 20 ] ],
       [ [ "rebar", 1 ], [ "spear_rebar", 1 ], [ "rebar_rail", 1 ], [ "steel_rail", 1 ], [ "scrap", 1 ] ],
@@ -624,6 +620,7 @@
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "using": [ [ "surface_heat", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "gunpowder", 20 ], [ "chem_black_powder", 20 ] ], [ [ "lead", 24 ] ], [ [ "paper", 1 ], [ "aluminum_foil", 1 ] ] ]
   },
   {
@@ -639,6 +636,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "gunpowder", 20 ], [ "chem_black_powder", 20 ] ],
       [ [ "nail", 8 ], [ "combatnail", 8 ] ],
@@ -659,7 +657,8 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "book_learn": [ [ "plastics_book", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
-    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ] ],
+    "using": [ [ "plastic_molding", 1 ] ],
+    "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
     "components": [
       [ [ "plastic_chunk", 3 ] ],
       [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
@@ -839,7 +838,7 @@
     "book_learn": [ [ "textbook_gaswarfare", 4 ], [ "textbook_chemistry", 4 ], [ "adv_chemistry", 4 ], [ "recipe_labchem", 4 ] ],
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "fungicide", 50 ] ], [ [ "chem_sulphur", 150 ] ] ]
+    "components": [ [ [ "fungicide", 50 ], [ "triffid_fungicide", 1 ] ], [ [ "chem_sulphur", 150 ] ] ]
   },
   {
     "type": "recipe",

@@ -26,7 +26,6 @@ set(CATA_CLANG_TIDY_INCLUDE_DIR "" CACHE STRING
         "Path to internal clang-tidy headers required for plugin (e.g. ClangTidy.h)")
 set(CATA_CHECK_CLANG_TIDY "" CACHE STRING "Path to check_clang_tidy.py for plugin tests")
 set(GIT_BINARY "" CACHE STRING "Git binary name or path.")
-set(PREFIX "" CACHE STRING "Location of Data & GFX directories")
 
 include(CTest)
 
@@ -60,8 +59,10 @@ endif ()
 
 if (${CMAKE_SYSTEM_NAME} MATCHES Darwin)
     set(_OS_DARWIN_ 1)
-    set(LOCALIZE OFF)
-    message(STATUS "Disable internationalization on Darwin as it is not supported")
+    add_definitions(-DMACOSX)
+    if (${TILES})
+        add_definitions(-DOSX_SDL2_LIBS)
+    endif ()
 endif ()
 
 include(CheckCXXCompilerFlag)
@@ -95,7 +96,8 @@ else ()
 endif ()
 
 # System specific actions
-if (${CMAKE_SYSTEM_NAME} MATCHES Linux OR ${CMAKE_SYSTEM_NAME} MATCHES FreeBSD)
+if (${CMAKE_SYSTEM_NAME} MATCHES Linux OR ${CMAKE_SYSTEM_NAME} MATCHES FreeBSD
+    OR ${CMAKE_SYSTEM_NAME} MATCHES Darwin)
     if (NOT DATA_PREFIX)
         set(DATA_PREFIX ${CMAKE_INSTALL_PREFIX}/share/cataclysm-dda)
     endif ()
@@ -151,10 +153,6 @@ else ()
     endif ()
 endif ()
 
-if (PREFIX)
-    add_definitions(-DPREFIX=${PREFIX})
-endif ()
-
 # Can't compile curses and tiles build's at same time
 if (TILES)
     set(CURSES OFF)
@@ -162,6 +160,7 @@ endif ()
 
 # Set build types and display info
 if (CMAKE_BUILD_TYPE STREQUAL Debug)
+    set(RELEASE 0)
     message(STATUS "Build ${PROJECT} in development mode --")
     message(STATUS "Binaries will be located in: " ${CMAKE_SOURCE_DIR})
     set(CMAKE_VERBOSE_MAKEFILE ON)
@@ -172,6 +171,7 @@ if (CMAKE_BUILD_TYPE STREQUAL Debug)
             "Single Directory for all Executables.")
     set(BIN_PREFIX ${CMAKE_SOURCE_DIR})
 else ()
+    set(RELEASE 1)
     message(STATUS "CMAKE_INSTALL_PREFIX          : ${CMAKE_INSTALL_PREFIX}")
     message(STATUS "BIN_PREFIX                    : ${BIN_PREFIX}")
     message(STATUS "DATA_PREFIX                   : ${DATA_PREFIX}")
@@ -183,8 +183,9 @@ else ()
     message(STATUS "PIXMAPS_UNITY_ENTRY_PATH      : ${PIXMAPS_UNITY_ENTRY_PATH}")
     message(STATUS "MANPAGE_ENTRY_PATH            : ${MANPAGE_ENTRY_PATH}")
     add_definitions(-DRELEASE)
-    # Use PREFIX as storage of data,gfx, etc.. Useful only on *nix OS.
-    if (PREFIX AND NOT WIN32)
+    # Use CMAKE_INSTALL_PREFIX as storage of data,gfx, etc.. Useful only on *nix OS.
+    if (CMAKE_INSTALL_PREFIX AND NOT WIN32)
+        add_definitions(-DPREFIX=${CMAKE_INSTALL_PREFIX})
         add_definitions(-DDATA_DIR_PREFIX)
     endif ()
 endif ()
@@ -198,7 +199,7 @@ message(STATUS "BACKTRACE                     : ${BACKTRACE}")
 message(STATUS "LOCALIZE                      : ${LOCALIZE}")
 message(STATUS "USE_HOME_DIR                  : ${USE_HOME_DIR}")
 message(STATUS "LANGUAGES                     : ${LANGUAGES}")
-message(STATUS "See INSTALL file for details and more info --")
+message(STATUS "See doc/COMPILING/COMPILING-CMAKE.md for details and more info --")
 
 if (MSVC)
     if (CMAKE_SIZEOF_VOID_P EQUAL 8)
@@ -237,9 +238,9 @@ set(CMAKE_CXX_STANDARD 14)
 if (${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
     message(FATAL_ERROR
             "This project requires an out of source build. \
-             Remove the file 'CMakeCache.txt' found in this directory before continuing, \
+             Remove the file 'CMakeCache.txt' found in this directory before continuing; \
              create a separate build directory and run 'cmake [options] <srcs>' from there. \
-             See INSTALL file for details and more info.")
+             See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
 endif ()
 
 #set(THREADS_USE_PTHREADS_WIN32 True)
@@ -255,8 +256,8 @@ if (TILES)
         message(FATAL_ERROR
                 "This project requires SDL2 to be installed to compile in graphical mode.  \
                  Please install the SDL2 development libraries, \
-                 or try compiling without the -DTILES=1 for a text only compilation. \
-                 See INSTALL file for details and more info.")
+                 or try compiling without -DTILES=1 for a text-only compilation. \
+                 See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
     endif ()
 
     if (NOT DYNAMIC_LINKING)
@@ -275,8 +276,8 @@ if (TILES)
         message(FATAL_ERROR
                 "This project requires SDL2_ttf to be installed to compile in graphical mode. \
                  Please install the SDL2_ttf development libraries, \
-                 or try compiling without the -DTILES=1 for a text only compilation. \
-                 See INSTALL file for details and more info.")
+                 or try compiling without -DTILES=1 for a text-only compilation. \
+                 See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
     endif ()
 
     message(STATUS "Searching for SDL2_image library --")
@@ -285,8 +286,8 @@ if (TILES)
         message(FATAL_ERROR
                 "This project requires SDL2_image to be installed to compile in graphical mode. \
                  Please install the SDL2_image development libraries, \
-                 or try compiling without the -DTILES=1 for a text only compilation. \
-                 See INSTALL file for details and more info.")
+                 or try compiling without -DTILES=1 for a text-only compilation. \
+                 See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
     endif ()
     add_definitions(-DTILES)
 endif ()
@@ -299,10 +300,10 @@ if (CURSES)
     find_package(Curses)
     if (NOT CURSES_FOUND)
         message(FATAL_ERROR
-                "This project requires ncurses to be installed to be compiled in text only mode. \
+                "This project requires ncurses to be installed to be compiled in text-only mode. \
                  Please install the ncurses development libraries, \
-                 or try compiling with the -DTILES=1 for a graphical compilation. \
-                 See INSTALL file for details and more info")
+                 or try compiling with -DTILES=1 for a graphical compilation. \
+                 See doc/COMPILING/COMPILING-CMAKE.md for details and more info")
     endif ()
 endif ()
 
@@ -312,7 +313,7 @@ if (SOUND)
         message(FATAL_ERROR
                 "You must enable graphical support with -DTILES=1 \
                  to be able to enable sound support. \
-                 See INSTALL file for details and more info.")
+                 See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
     endif ()
 
     # Sound requires SDL_mixer library
@@ -322,7 +323,7 @@ if (SOUND)
         message(FATAL_ERROR
                 "You need the SDL2_mixer development library \
                  to be able to compile with sound enabled. \
-                 See INSTALL file for details and more info.")
+                 See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
     endif ()
 endif ()
 
@@ -335,21 +336,21 @@ endif (BACKTRACE)
 
 # Ok. Now create build and install recipes
 if (LOCALIZE)
-    if (WIN32)
+    if (NOT _OS_LINUX_) # on Linux with glibc, libintl is not required
         find_package(Libintl)
         if (NOT LIBINTL_FOUND)
             message(FATAL_ERROR
                     "You need the libintl development library \
-                     to be able to compile with Localize support. \
-                     See INSTALL file for details and more info.")
+                         to be able to compile with LOCALIZE support. \
+                         See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
         endif ()
-        find_package(Iconv)
-        if (NOT ICONV_FOUND)
-            message(FATAL_ERROR
-                    "You need the iconv development library \
-                     to be able to compile with Localize support. \
-                     See INSTALL file for details and more info.")
-        endif ()
+    endif()
+    find_package(Iconv)
+    if (NOT ICONV_FOUND)
+        message(FATAL_ERROR
+                "You need the iconv development library \
+                     to be able to compile with LOCALIZE support. \
+                     See doc/COMPILING/COMPILING-CMAKE.md for details and more info.")
     endif ()
     add_subdirectory(lang)
     add_definitions(-DLOCALIZE)

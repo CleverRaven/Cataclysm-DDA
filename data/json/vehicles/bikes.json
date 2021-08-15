@@ -42,7 +42,7 @@
         "y": 0,
         "parts": [ "xlframe_vertical", "wheel_mount_light", "wheel_bicycle_rear", "basketsm_bike_rear" ]
       },
-      { "x": 0, "y": 0, "parts": [ "controls", "controls_electronic", "alternator_bicycle" ] },
+      { "x": 0, "y": 0, "parts": [ "controls", "controls_electronic" ] },
       { "x": -1, "y": 0, "parts": [ "small_storage_battery", "engine_electric_tiny" ] }
     ]
   },

@@ -108,18 +108,16 @@ class field
         /**
          * Returns a field entry corresponding to the field_type_id parameter passed in.
          * If no fields are found then nullptr is returned.
+         * @param alive_only if true, returns non-null result only if field is alive
          */
-        field_entry *find_field( const field_type_id &field_type_to_find );
+        field_entry *find_field( const field_type_id &field_type_to_find, bool alive_only = true );
         /**
          * Returns a field entry corresponding to the field_type_id parameter passed in.
          * If no fields are found then nullptr is returned.
+         * @param alive_only if true, returns non-null result only if field is alive
          */
-        const field_entry *find_field_c( const field_type_id &field_type_to_find ) const;
-        /**
-         * Returns a field entry corresponding to the field_type_id parameter passed in.
-         * If no fields are found then nullptr is returned.
-         */
-        const field_entry *find_field( const field_type_id &field_type_to_find ) const;
+        const field_entry *find_field( const field_type_id &field_type_to_find,
+                                       bool alive_only = true ) const;
 
         /**
          * Inserts the given field_type_id into the field list for a given tile if it does not already exist.

@@ -30,9 +30,9 @@
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.8 } ],
     "death_drops": "mon_zombie_soldier_death_drops",
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 28, "into_group": "GROUP_SOLDIER_UPGRADE" },
     "burn_into": "mon_zombie_scorched",
+    "fungalize_into": "mon_zombie_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
@@ -61,6 +61,7 @@
     "armor_bash": 12,
     "armor_cut": 25,
     "armor_bullet": 20,
+    "bleed_rate": 50,
     "vision_day": 30,
     "vision_night": 35,
     "harvest": "zombie",
@@ -72,10 +73,22 @@
       }
     ],
     "death_drops": "mon_zombie_soldier_death_drops",
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 38, "into": "mon_zombie_soldier_blackops_2" },
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "PUSH_MON",
+      "NIGHT_INVISIBILITY",
+      "FILTHY"
+    ]
   },
   {
     "id": "mon_zombie_soldier_blackops_2",
@@ -84,6 +97,7 @@
     "description": "Fragments of visible uniform hint that this monstrosity was once a soldier.  Anything human is invisible, hidden inside a sheath of living shadow.  It moves with preternatural fluidity and grace.",
     "copy-from": "mon_zombie_soldier_blackops_1",
     "looks_like": "mon_zombie_soldier_blackops_1",
+    "bleed_rate": 0,
     "relative": { "hp": 20, "speed": 10, "melee_skill": 1, "dodge": 1, "vision_night": 15 },
     "delete": { "upgrades": { "half_life": 38, "into": "mon_zombie_soldier_blackops_2" } },
     "extend": {
@@ -106,6 +120,7 @@
     "copy-from": "mon_zombie_soldier",
     "looks_like": "mon_zombie_soldier",
     "diff": 20,
+    "bleed_rate": 50,
     "delete": { "upgrades": { "half_life": 28, "into_group": "GROUP_SOLDIER_UPGRADE" } },
     "relative": { "hp": 20, "speed": 10, "melee_skill": 1, "vision_day": 10, "vision_night": 10 },
     "extend": {
@@ -120,11 +135,15 @@
           "fake_dex": 8,
           "fake_per": 8,
           "require_targeting_player": false,
-          "description": "The acid-sniper zombie launches a corrosive dart!",
+          "description": "The %s launches a corrosive dart!",
           "ranges": [ [ 2, 20, "DEFAULT" ] ]
         }
       ],
-      "death_function": [ "ACID" ],
+      "death_function": {
+        "message": "The %s's body dissolves into acid.",
+        "effect": { "id": "death_acid", "hit_self": true },
+        "corpse_type": "NO_CORPSE"
+      },
       "flags": [ "ACIDPROOF", "ACID_BLOOD" ]
     }
   },
@@ -136,6 +155,7 @@
     "copy-from": "mon_zombie_soldier",
     "looks_like": "mon_zombie_soldier",
     "diff": 20,
+    "bleed_rate": 50,
     "delete": { "upgrades": { "half_life": 28, "into_group": "GROUP_SOLDIER_UPGRADE" } },
     "relative": { "hp": 40, "speed": -10, "melee_skill": 2, "armor_bash": 5 },
     "extend": {
@@ -151,11 +171,15 @@
           "fake_dex": 8,
           "fake_per": 8,
           "require_targeting_player": false,
-          "description": "The acid-support zombie launches a hail of corrosive darts!",
+          "description": "The %s launches a hail of corrosive darts!",
           "ranges": [ [ 2, 8, "DEFAULT" ] ]
         }
       ],
-      "death_function": [ "ACID" ],
+      "death_function": {
+        "message": "The %s's body dissolves into acid.",
+        "effect": { "id": "death_acid", "hit_self": true },
+        "corpse_type": "NO_CORPSE"
+      },
       "flags": [ "ACIDPROOF", "ACID_BLOOD" ]
     }
   },
@@ -185,15 +209,15 @@
     "armor_bash": 20,
     "armor_cut": 30,
     "armor_bullet": 24,
+    "bleed_rate": 50,
     "vision_day": 30,
     "vision_night": 5,
     "harvest": "zombie_kevlar",
     "special_attacks": [
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      [ "SMASH", 30 ]
+      { "id": "smash", "throw_strength": 36, "cooldown": 30 }
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",
-    "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 42, "into": "mon_zombie_kevlar_2" },
     "burn_into": "mon_zombie_scorched",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
@@ -224,16 +248,17 @@
     "armor_bash": 30,
     "armor_cut": 50,
     "armor_bullet": 40,
+    "bleed_rate": 0,
     "vision_day": 50,
     "vision_night": 10,
     "harvest": "zombie_kevlar",
     "special_attacks": [
       { "id": "slam", "cooldown": 12, "damage_max_instance": [ { "damage_type": "bash", "amount": 35 } ] },
-      [ "LONGSWIPE", 20 ],
-      [ "SMASH", 20 ]
+      { "id": "longswipe" },
+      { "id": "cut_throat" },
+      { "id": "smash", "throw_strength": 72 }
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
@@ -268,7 +293,6 @@
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "mon_zombie_military_pilot_death_drops",
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",
@@ -286,6 +310,17 @@
     ]
   },
   {
+    "id": "mon_zombie_milbase_personnel",
+    "type": "MONSTER",
+    "name": { "str": "uniformed zombie" },
+    "description": "This undead soldier is adorned in standard military fatigues.  It carries itself rather steadily for a zombie.",
+    "copy-from": "mon_zombie_military_pilot",
+    "looks_like": "mon_zombie",
+    "delete": { "flags": [ "NOHEAD" ] },
+    "upgrades": { "half_life": 18, "into_group": "GROUP_ZOMBIE_UPGRADE" },
+    "death_drops": "mon_zombie_milbase_personnel_death_drops"
+  },
+  {
     "id": "mon_zombie_flamer",
     "type": "MONSTER",
     "name": { "str": "zombie burner" },
@@ -293,6 +328,7 @@
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
+    "diff": 5,
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 100,
@@ -316,7 +352,7 @@
     "harvest": "zombie",
     "starting_ammo": { "pressurized_tank": 1000 },
     "death_drops": { "subtype": "collection", "groups": [ [ "mon_zombie_soldier_death_drops", 100 ], [ "mon_zombie_flamer", 100 ] ] },
-    "death_function": [ "FIREBALL" ],
+    "death_function": { "effect": { "id": "death_fireball", "hit_self": true } },
     "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",
@@ -361,11 +397,11 @@
     "armor_bullet": 51,
     "armor_acid": 20,
     "armor_fire": 20,
+    "bleed_rate": 0,
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "zombie",
     "death_drops": "mon_zombie_armored_death_drops",
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
@@ -373,7 +409,7 @@
     "id": "mon_zombie_bio_op",
     "type": "MONSTER",
     "name": { "str": "zombie bio-operator" },
-    "description": "This armored and augmented soldier's bionics crackle with energy.  Worse, it appears to remember its training.",
+    "description": "This armored soldier appears to have been some sort of special forces agent.  Its malfunctioning equipment sends out occasional series of sparks.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
@@ -399,11 +435,11 @@
     "vision_day": 50,
     "vision_night": 3,
     "luminance": 4,
-    "harvest": "CBM_OP",
+    "harvest": "zombie",
     "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
     "special_when_hit": [ "ZAPBACK", 75 ],
     "death_drops": "mon_zombie_bio_op_death_drops",
-    "death_function": [ "NORMAL" ],
+    "fungalize_into": "mon_zombie_fungus",
     "flags": [
       "SEES",
       "HEARS",
@@ -423,7 +459,7 @@
     "id": "mon_zombie_bio_op2",
     "type": "MONSTER",
     "name": { "str": "elite zombie bio-operator" },
-    "description": "Once a highly trained soldier, various bionics cover this zombie's broken body.  Strangely, it maintains a vague martial arts stance.",
+    "description": "Once a highly trained soldier, this zombie is still in heavy military gear and dangerous physical condition.  Its malfunctioning equipment sends out occasional series of sparks.",
     "copy-from": "mon_zombie_bio_op",
     "looks_like": "mon_zombie_bio_op",
     "diff": 10,
@@ -432,7 +468,7 @@
     "dodge": 4,
     "armor_bash": 15,
     "armor_cut": 27,
-    "harvest": "CBM_OP2",
+    "harvest": "zombie",
     "special_attacks": [ [ "BIO_OP_BIOJUTSU", 15 ] ]
   }
 ]

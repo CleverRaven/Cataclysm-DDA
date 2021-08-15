@@ -496,6 +496,7 @@ class inventory_selector
         void add_contained_items( item_location &container );
         void add_contained_items( item_location &container, inventory_column &column,
                                   const item_category *custom_category = nullptr );
+        void add_contained_ebooks( item_location &container );
         void add_character_items( Character &character );
         void add_map_items( const tripoint &target );
         void add_vehicle_items( const tripoint &target );
@@ -770,6 +771,7 @@ class inventory_iuse_selector : public inventory_multiselector
     private:
         GetStats get_stats;
         std::map<const item_location *, int> to_use;
+        std::vector<item_location> usable_locs;
         size_t max_chosen_count;
 };
 
