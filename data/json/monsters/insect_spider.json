@@ -24,6 +24,7 @@
     "armor_bash": 6,
     "bleed_rate": 60,
     "harvest": "arachnid_acid",
+    "fear_triggers": [ "FIRE" ],
     "flags": [ "SMELLS", "HEARS", "GOODHEARING", "BASHES", "BORES", "POISON", "SUNDEATH", "ACIDPROOF", "ACIDTRAIL" ]
   },
   {

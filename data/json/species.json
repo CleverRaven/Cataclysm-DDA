@@ -43,8 +43,7 @@
   {
     "type": "SPECIES",
     "id": "MUTANT",
-    "description": "a mutant",
-    "fear_triggers": [ "FIRE" ]
+    "description": "a mutant"
   },
   {
     "type": "SPECIES",

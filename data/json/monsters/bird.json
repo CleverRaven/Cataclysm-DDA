@@ -332,6 +332,7 @@
     "melee_cut": 3,
     "vision_night": 4,
     "harvest": "bird_large",
+    "fear_triggers": [ "FIRE" ],
     "special_attacks": [ [ "SHRIEK", 10 ], [ "LUNGE", 8 ], { "type": "leap", "cooldown": 10, "max_range": 3 } ],
     "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "STUMBLES", "WARM" ]
   },
