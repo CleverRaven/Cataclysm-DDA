@@ -186,7 +186,7 @@ class QuarterMap:
             retstr += '\n'
         retstr += identstr + '\t],\n'
 
-        retstr += identstr * ident + '\t"traps" [\n'
+        retstr += identstr * ident + '\t"traps": [\n'
         for key, entry in enumerate(self.traps):
             retstr += identstr
             retstr += "\t\t[ " + \
