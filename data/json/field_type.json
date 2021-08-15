@@ -94,7 +94,7 @@
     ],
     "description_affix": "covered_in",
     "immunity_data": { "traits": [ "WEB_WALKER" ] },
-    "immune_mtypes": [ "mon_spider_web", "mon_spider_web_s" ],
+    "immune_mtypes": [ "mon_spider_web", "mon_spider_web_s", "mon_mutant_arthropod" ],
     "decrease_intensity_on_contact": true,
     "priority": 2,
     "phase": "solid",
