@@ -133,12 +133,18 @@ class relic_procgen_data
         void deserialize( JsonIn &jsin );
 };
 
-enum class relic_recharge : int {
-    none,
-    periodic,
-    solar_sunny,
-    worn,
-    num
+enum class relic_recharge_has : int {
+    WIELD,
+    WORN,
+    HELD,
+    NUM
+};
+
+enum class relic_recharge_type : int {
+    NONE,
+    PERIODIC,
+    SOLAR_SUNNY,
+    NUM
 };
 
 struct relic_charge_template {
@@ -146,7 +152,8 @@ struct relic_charge_template {
     std::pair<int, int> init_charges;
     std::pair<int, int> charges_per_use;
     std::pair<time_duration, time_duration> time;
-    relic_recharge type = relic_recharge::none;
+    relic_recharge_type type = relic_recharge_type::NUM;
+    relic_recharge_has has = relic_recharge_has::NUM;
 
     int power_level = 0;
 
@@ -161,7 +168,8 @@ struct relic_charge_info {
     int charges = 0;
     int charges_per_use = 0;
     int max_charges = 0;
-    relic_recharge type = relic_recharge::num;
+    relic_recharge_type type = relic_recharge_type::NUM;
+    relic_recharge_has has = relic_recharge_has::NUM;
 
     time_duration activation_accumulator = 0_seconds;
     time_duration activation_time = 0_seconds;
@@ -208,6 +216,8 @@ class relic
 
         void try_recharge( item &parent, Character *carrier, const tripoint &pos );
 
+        bool can_recharge( item &parent, Character *carrier );
+
         void load( const JsonObject &jo );
 
         void serialize( JsonOut &jsout ) const;
@@ -235,8 +245,13 @@ struct enum_traits<relic_procgen_data::type> {
 };
 
 template<>
-struct enum_traits<relic_recharge> {
-    static constexpr relic_recharge last = relic_recharge::num;
+struct enum_traits<relic_recharge_type> {
+    static constexpr relic_recharge_type last = relic_recharge_type::NUM;
+};
+
+template<>
+struct enum_traits<relic_recharge_has> {
+    static constexpr relic_recharge_has last = relic_recharge_has::NUM;
 };
 
 #endif // CATA_SRC_RELIC_H
