@@ -27,6 +27,32 @@
   {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
+    "result": "faction_base_modular_hub_mallroof_0",
+    "description": "We should survey the roof top and set up a bulletin board.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "skill_used": "fabrication",
+    "autolearn": false,
+    "never_learn": true,
+    "time": "1 h",
+    "construction_blueprint": "fbmh_0",
+    "blueprint_provides": [
+      { "id": "gathering" },
+      { "id": "primitive_camp_recipes_1" },
+      { "id": "fbmh_0" },
+      { "id": "firewood" },
+      { "id": "foraging" },
+      { "id": "sorting" },
+      { "id": "logging" },
+      { "id": "fbm_no_dig" }
+    ],
+    "blueprint_requires": [ { "id": "not_an_upgrade" } ],
+    "blueprint_name": "basic survey",
+    "check_blueprint_needs": false
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
     "result": "faction_base_modular_hub_fireplace_northeast",
     "description": "Now that we have some cover, we should build a fireplace in the northeast shack.",
     "category": "CC_BUILDING",
