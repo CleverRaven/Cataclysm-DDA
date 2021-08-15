@@ -91,6 +91,8 @@ static int actual_burn_rate( Character &dummy, const move_mode_id &move_mode )
 static void burden_player( Character &dummy, float burden_proportion )
 {
     units::mass capacity = dummy.weight_capacity();
+    // volatile float variable here to workaround a suspected compiler optimization related
+    // issue causing MinGW cross compile test failure
     volatile float before_rounding = capacity * burden_proportion / 1_gram;
     int units = static_cast<int>( before_rounding );
 
