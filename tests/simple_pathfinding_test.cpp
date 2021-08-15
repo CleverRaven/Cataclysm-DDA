@@ -2,38 +2,40 @@
 #include "simple_pathfinding.h"
 
 #include "coordinates.h"
+#include "line.h"
+#include "optional.h"
 #include "point.h"
 
 template<typename Point>
-static void test_path()
+static void test_greedy_line_path()
 {
-    const Point start( 0, 0 );
+    const Point start( 0, 0 ); // NOLINT(cata-use-named-point-constants)
     const Point finish( 3, 0 );
     const Point max( 10, 10 );
 
-    const auto estimate =
-    [&]( const pf::node<Point> &, const pf::node<Point> * ) {
-        return 1;
+    const pf::two_node_scoring_fn<Point> estimate =
+    [&]( pf::directed_node<Point> cur, cata::optional<pf::directed_node<Point>> ) {
+        return pf::node_score( 0, manhattan_dist( cur.pos, finish ) );
     };
 
-    pf::path<Point> pth = pf::find_path( start, finish, max, estimate );
+    const pf::directed_path<Point> pth = pf::greedy_path( start, finish, max, estimate );
     REQUIRE( pth.nodes.size() == 4 );
-    CHECK( pth.nodes[3].pos == Point( 0, 0 ) );
-    CHECK( pth.nodes[2].pos == Point( 1, 0 ) );
+    CHECK( pth.nodes[3].pos == Point( 0, 0 ) ); // NOLINT(cata-use-named-point-constants)
+    CHECK( pth.nodes[2].pos == Point( 1, 0 ) ); // NOLINT(cata-use-named-point-constants)
     CHECK( pth.nodes[1].pos == Point( 2, 0 ) );
     CHECK( pth.nodes[0].pos == Point( 3, 0 ) );
 }
 
-TEST_CASE( "simple_line_path" )
+TEST_CASE( "greedy_simple_line_path", "[pathfinding]" )
 {
-    test_path<point>();
-    test_path<point_abs_omt>();
+    test_greedy_line_path<point>();
+    test_greedy_line_path<point_abs_omt>();
 }
 
 template<typename Point>
 static void test_greedy_u_bend()
 {
-    const Point start( 0, 0 );
+    const Point start( 0, 0 ); // NOLINT(cata-use-named-point-constants)
     const Point finish( 2, 0 );
     const Point max( 3, 3 );
     // Test area and expected path:
@@ -41,33 +43,33 @@ static void test_greedy_u_bend()
     // .x.    5x1
     // ...    432
 
-    const auto estimate =
-    [&]( const pf::node<Point> &cur, const pf::node<Point>* ) {
-        if( cur.pos.x() == 1 && cur.pos.y() != 2) {
-            return pf::rejected;
+    const pf::two_node_scoring_fn<Point> estimate =
+    [&]( pf::directed_node<Point> cur, cata::optional<pf::directed_node<Point>> ) {
+        if( cur.pos.x() == 1 && cur.pos.y() != 2 ) {
+            return pf::node_score::rejected;
         }
-        return manhattan_dist( cur.pos, finish );
+        return pf::node_score( 0, manhattan_dist( cur.pos, finish ) );
     };
 
-    const pf::path<Point> pth = pf::find_path( start, finish, max, estimate );
+    const pf::directed_path<Point> pth = pf::greedy_path( start, finish, max, estimate );
     REQUIRE( pth.nodes.size() == 7 );
-    CHECK( pth.nodes[6].pos == Point( 0, 0 ) );
-    CHECK( pth.nodes[6].dir == -1 /* invalid */ );
-    CHECK( pth.nodes[5].pos == Point( 0, 1 ) );
-    CHECK( pth.nodes[5].dir == 0 /* north */ );
+    CHECK( pth.nodes[6].pos == Point( 0, 0 ) ); // NOLINT(cata-use-named-point-constants)
+    CHECK( pth.nodes[6].dir == om_direction::type::invalid );
+    CHECK( pth.nodes[5].pos == Point( 0, 1 ) ); // NOLINT(cata-use-named-point-constants)
+    CHECK( pth.nodes[5].dir == om_direction::type::north );
     CHECK( pth.nodes[4].pos == Point( 0, 2 ) );
-    CHECK( pth.nodes[4].dir == 0 /* north */ );
+    CHECK( pth.nodes[4].dir == om_direction::type::north );
     CHECK( pth.nodes[3].pos == Point( 1, 2 ) );
-    CHECK( pth.nodes[3].dir == 3 /* west */ );
+    CHECK( pth.nodes[3].dir == om_direction::type::west );
     CHECK( pth.nodes[2].pos == Point( 2, 2 ) );
-    CHECK( pth.nodes[2].dir == 3 /* west */ );
+    CHECK( pth.nodes[2].dir == om_direction::type::west );
     CHECK( pth.nodes[1].pos == Point( 2, 1 ) );
-    CHECK( pth.nodes[1].dir == 2 /* south */ );
+    CHECK( pth.nodes[1].dir == om_direction::type::south );
     CHECK( pth.nodes[0].pos == Point( 2, 0 ) );
-    CHECK( pth.nodes[0].dir == 2 /* south */ );
+    CHECK( pth.nodes[0].dir == om_direction::type::south );
 }
 
-TEST_CASE( "greedy_u_bend" )
+TEST_CASE( "greedy_u_bend", "[pathfinding]" )
 {
     test_greedy_u_bend<point_om_omt>();
 }

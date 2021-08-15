@@ -3087,7 +3087,7 @@ void overmap::build_city_street(
         return;
     }
 
-    const pf::path<point_om_omt> street_path = lay_out_street( connection, p, dir, cs + 1 );
+    const pf::directed_path<point_om_omt> street_path = lay_out_street( connection, p, dir, cs + 1 );
 
     if( street_path.nodes.size() <= 1 ) {
         return; // Don't bother.
@@ -3498,31 +3498,29 @@ void overmap::place_ravines()
 
     // We dont really care about the paths each ravine takes, so this can be whatever
     // The random return value was chosen because it easily produces decent looking windy ravines
-    const auto estimate =
-    [&]( const pf::node<point> &, const pf::node<point> * ) {
-        return rng( 1, 2 );
+    const pf::two_node_scoring_fn<point_om_omt> estimate =
+    [&]( pf::directed_node<point_om_omt>, cata::optional<pf::directed_node<point_om_omt>> ) {
+        return pf::node_score( 0, rng( 1, 2 ) );
     };
     // A path is generated for each of ravine, and all its constituent points are stored within the
     // rift_points set. In the code block below, the set is then used to determine edges and place the
     // actual terrain pieces of the ravine.
     for( int n = 0; n < settings->overmap_ravine.num_ravines; n++ ) {
-        const point offset( rng( -settings->overmap_ravine.ravine_range,
-                                 settings->overmap_ravine.ravine_range ),
-                            rng( -settings->overmap_ravine.ravine_range, settings->overmap_ravine.ravine_range ) );
-        const point origin( rng( 0, OMAPX ), rng( 0, OMAPY ) );
-        const point destination = origin + offset;
-        if( !inbounds( point_om_omt( destination.x, destination.y ),
-                       settings->overmap_ravine.ravine_width * 3 ) ) {
+        const point_rel_omt offset( rng( -settings->overmap_ravine.ravine_range,
+                                         settings->overmap_ravine.ravine_range ),
+                                    rng( -settings->overmap_ravine.ravine_range, settings->overmap_ravine.ravine_range ) );
+        const point_om_omt origin( rng( 0, OMAPX ), rng( 0, OMAPY ) );
+        const point_om_omt destination = origin + offset;
+        if( !inbounds( destination, settings->overmap_ravine.ravine_width * 3 ) ) {
             continue;
         }
-        const auto path = pf::find_path( origin, destination, point( OMAPX, OMAPY ), estimate );
+        const auto path = pf::greedy_path( origin, destination, point_om_omt( OMAPX, OMAPY ), estimate );
         for( const auto &node : path.nodes ) {
-            const point_om_omt p( node.pos.x, node.pos.y );
             for( int i = 1 - settings->overmap_ravine.ravine_width; i < settings->overmap_ravine.ravine_width;
                  i++ ) {
                 for( int j = 1 - settings->overmap_ravine.ravine_width; j < settings->overmap_ravine.ravine_width;
                      j++ ) {
-                    const point_om_omt n = p + point( j, i );
+                    const point_om_omt n = node.pos + point( j, i );
                     if( inbounds( n, 1 ) ) {
                         rift_points.emplace( n );
                     }
@@ -3538,7 +3536,7 @@ void overmap::place_ravines()
         bool edge = false;
         for( int ni = -1; ni <= 1 && !edge; ni++ ) {
             for( int nj = -1; nj <= 1 && !edge; nj++ ) {
-                const point_om_omt n = p + point( ni, nj );
+                const point_om_omt n = p + point_rel_omt( ni, nj );
                 if( rift_points.find( n ) == rift_points.end() || !inbounds( n ) ) {
                     edge = true;
                 }
@@ -3555,18 +3553,18 @@ void overmap::place_ravines()
 
 }
 
-pf::path<point_om_omt> overmap::lay_out_connection(
+pf::directed_path<point_om_omt> overmap::lay_out_connection(
     const overmap_connection &connection, const point_om_omt &source, const point_om_omt &dest,
     int z, const bool must_be_unexplored ) const
 {
-    const auto estimate =
-    [&]( const pf::node<point_om_omt> &cur, const pf::node<point_om_omt> *prev ) {
+    const pf::two_node_scoring_fn<point_om_omt> estimate =
+    [&]( pf::directed_node<point_om_omt> cur, cata::optional<pf::directed_node<point_om_omt>> prev ) {
         const auto &id( ter( tripoint_om_omt( cur.pos, z ) ) );
 
         const overmap_connection::subtype *subtype = connection.pick_subtype_for( id );
 
         if( !subtype ) {
-            return pf::rejected;  // No option for this terrain.
+            return pf::node_score::rejected;  // No option for this terrain.
         }
 
         const bool existing_connection = connection.has( id );
@@ -3579,21 +3577,22 @@ pf::path<point_om_omt> overmap::lay_out_connection(
             // If there is an existing submap, this area has already been explored and this
             // isn't a valid placement.
             if( existing_submap ) {
-                return pf::rejected;
+                return pf::node_score::rejected;
             }
         }
 
-        if( existing_connection && id->is_rotatable() &&
-            !om_direction::are_parallel( id->get_dir(), static_cast<om_direction::type>( cur.dir ) ) ) {
-            return pf::rejected; // Can't intersect.
+        if( existing_connection && id->is_rotatable() && cur.dir != om_direction::type::invalid &&
+            !om_direction::are_parallel( id->get_dir(), cur.dir ) ) {
+            return pf::node_score::rejected; // Can't intersect.
         }
 
-        if( prev && prev->dir != cur.dir ) { // Direction has changed.
+        if( prev && prev->dir != om_direction::type::invalid && prev->dir != cur.dir ) {
+            // Direction has changed.
             const oter_id &prev_id = ter( tripoint_om_omt( prev->pos, z ) );
             const overmap_connection::subtype *prev_subtype = connection.pick_subtype_for( prev_id );
 
             if( !prev_subtype || !prev_subtype->allows_turns() ) {
-                return pf::rejected;
+                return pf::node_score::rejected;
             }
         }
 
@@ -3602,16 +3601,16 @@ pf::path<point_om_omt> overmap::lay_out_connection(
                          trig_dist( dest, cur.pos );
         const int existency_mult = existing_connection ? 1 : 5; // Prefer existing connections.
 
-        return existency_mult * dist + subtype->basic_cost;
+        return pf::node_score( subtype->basic_cost, existency_mult * dist );
     };
 
-    return pf::find_path( source, dest, point_om_omt( OMAPX, OMAPY ), estimate );
+    return pf::greedy_path( source, dest, point_om_omt( OMAPX, OMAPY ), estimate );
 }
 
-static pf::path<point_om_omt> straight_path( const point_om_omt &source, om_direction::type dir,
-        size_t len )
+static pf::directed_path<point_om_omt> straight_path( const point_om_omt &source,
+        om_direction::type dir, size_t len )
 {
-    pf::path<point_om_omt> res;
+    pf::directed_path<point_om_omt> res;
     if( len == 0 ) {
         return res;
     }
@@ -3625,9 +3624,8 @@ static pf::path<point_om_omt> straight_path( const point_om_omt &source, om_dire
     return res;
 }
 
-pf::path<point_om_omt> overmap::lay_out_street(
-    const overmap_connection &connection, const point_om_omt &source, om_direction::type dir,
-    size_t len ) const
+pf::directed_path<point_om_omt> overmap::lay_out_street( const overmap_connection &connection,
+        const point_om_omt &source, om_direction::type dir, size_t len ) const
 {
     const tripoint_om_omt from( source, 0 );
     // See if we need to make another one "step" further.
@@ -3690,7 +3688,7 @@ pf::path<point_om_omt> overmap::lay_out_street(
 }
 
 void overmap::build_connection(
-    const overmap_connection &connection, const pf::path<point_om_omt> &path, int z,
+    const overmap_connection &connection, const pf::directed_path<point_om_omt> &path, int z,
     const om_direction::type &initial_dir )
 {
     if( path.nodes.empty() ) {
@@ -3699,14 +3697,13 @@ void overmap::build_connection(
 
     om_direction::type prev_dir = initial_dir;
 
-    const pf::node<point_om_omt> start = path.nodes.front();
-    const pf::node<point_om_omt> end = path.nodes.back();
+    const pf::directed_node<point_om_omt> start = path.nodes.front();
+    const pf::directed_node<point_om_omt> end = path.nodes.back();
 
     for( const auto &node : path.nodes ) {
         const tripoint_om_omt pos( node.pos, z );
         const oter_id &ter_id = ter( pos );
-        // TODO: Make 'node' support 'om_direction'.
-        const om_direction::type new_dir( static_cast<om_direction::type>( node.dir ) );
+        const om_direction::type new_dir = node.dir;
         const overmap_connection::subtype *subtype = connection.pick_subtype_for( ter_id );
 
         if( !subtype ) {

@@ -830,26 +830,27 @@ std::vector<tripoint_abs_omt> overmapbuffer::get_travel_path(
     }
     // Maximal radius of search (in overmaps)
     constexpr int radius_overmaps = 4;
-    // pf::find_path uses a relative coordinate system in which "src" becomes the middle of a
+    // pf::greedy_path uses a relative coordinate system in which "src" becomes the middle of a
     // 2 * radius overmap area with a corner at (0, 0)
     const point_rel_omt start( radius_overmaps * OMAPX, radius_overmaps * OMAPY );
     const point_rel_omt finish = start + ( dest - src ).xy();
     const point_rel_omt max_point = start * 2;
 
-    const auto estimate =
-    [&]( const pf::node<point_rel_omt> &cur, const pf::node<point_rel_omt> * ) {
+    const pf::two_node_scoring_fn<point_rel_omt> estimate =
+    [&]( pf::directed_node<point_rel_omt> cur, cata::optional<pf::directed_node<point_rel_omt>> ) {
         const tripoint_abs_omt omt_pos = src + cur.pos - start;
         int cost = omt_pos == src ? 0 : get_terrain_cost( omt_pos, params );
         if( cost < 0 ) {
-            return pf::rejected;
+            return pf::node_score::rejected;
         }
         // TODO: add cost taken to get there
-        return cost + manhattan_dist( finish, cur.pos ) * overmap_path_params::standard_cost;
+        return pf::node_score( cost, manhattan_dist( finish,
+                               cur.pos ) * overmap_path_params::standard_cost );
     };
-    pf::path<point_rel_omt> route = pf::find_path( start, finish, max_point, estimate );
+    const auto route = pf::greedy_path( start, finish, max_point, estimate );
     std::vector<tripoint_abs_omt> path;
     path.reserve( route.nodes.size() );
-    for( auto node : route.nodes ) {
+    for( const auto &node : route.nodes ) {
         path.push_back( src + node.pos - start );
     }
     return path;
@@ -884,31 +885,26 @@ bool overmapbuffer::reveal_route( const tripoint_abs_omt &source, const tripoint
         return false;
     }
 
-    const auto estimate =
-    [&]( const pf::node<point_rel_omt> &cur, const pf::node<point_rel_omt> * ) {
-        int res = 0;
-
+    const pf::two_node_scoring_fn<point_rel_omt> estimate =
+    [&]( pf::directed_node<point_rel_omt> cur, cata::optional<pf::directed_node<point_rel_omt>> ) {
+        int cost = 0;
         const oter_id oter = get_ter_at( cur.pos );
-
         if( !connection->has( oter ) ) {
             if( road_only ) {
-                return pf::rejected;
+                return pf::node_score::rejected;
             }
-
             if( is_river( oter ) ) {
-                return pf::rejected; // Can't walk on water
+                return pf::node_score::rejected; // Can't walk on water
             }
             // Allow going slightly off-road to overcome small obstacles (e.g. craters),
             // but heavily penalize that to make roads preferable
-            res += 250;
+            cost = 250;
         }
-
-        res += manhattan_dist( finish, cur.pos );
-
-        return res;
+        return pf::node_score( cost, manhattan_dist( finish, cur.pos ) );
     };
 
-    const auto path = pf::find_path( start, finish, 2 * O, estimate );
+    // TODO: use overmapbuffer::get_travel_path() with appropriate params instead
+    const auto path = pf::greedy_path( start, finish, 2 * O, estimate );
 
     for( const auto &node : path.nodes ) {
         reveal( base + node.pos, radius );
