@@ -86,7 +86,7 @@
     "ammo": [ "battery" ],
     "charges_per_use": 5,
     "use_action": [ "CARVER_OFF" ],
-    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE", "WATER_BREAK" ],
+    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE", "WATER_BREAK_ACTIVE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

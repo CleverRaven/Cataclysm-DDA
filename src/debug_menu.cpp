@@ -1728,23 +1728,7 @@ void character_edit_menu()
         }
         break;
         case D_ADD_EFFECT: {
-            const auto text = string_input_popup()
-                              .title( _( "Choose an effect to add." ) )
-                              .width( 20 )
-                              .text( "" )
-                              .only_digits( false )
-                              .query_string();
-            efftype_id effect( text );
-            int intensity = 0;
-            int seconds = 0;
-            query_int( intensity, _( "What intensity?" ) );
-            query_int( seconds, _( "How many seconds?" ), 600 );
-
-            if( effect.is_valid() ) {
-                p.add_effect( effect, time_duration::from_seconds( seconds ), false, intensity );
-            } else {
-                add_msg( _( "Invalid effect" ) );
-            }
+            wisheffect( *p.as_character() );
             break;
         }
         case D_ASTHMA: {

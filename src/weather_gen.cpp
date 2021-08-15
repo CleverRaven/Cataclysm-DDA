@@ -182,10 +182,7 @@ weather_type_id weather_generator::get_weather_conditions( const tripoint &locat
 weather_type_id weather_generator::get_weather_conditions( const w_point & ) const
 {
     weather_type_id current_conditions = WEATHER_CLEAR;
-    dialogue d;
-    standard_npc default_npc( "Default" );
-    d.alpha = get_talker_for( get_avatar() );
-    d.beta = get_talker_for( default_npc );
+    dialogue d( get_talker_for( get_avatar() ), nullptr );
     for( const std::string &weather_type : weather_types ) {
         weather_type_id type = weather_type_id( weather_type );
 

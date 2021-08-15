@@ -383,7 +383,7 @@ struct requirement_data {
         void dump( JsonOut &jsout ) const;
 
     private:
-        requirement_id id_ = requirement_id::NULL_ID();
+        requirement_id id_ = requirement_id::NULL_ID(); // NOLINT(cata-serialize)
 
         bool blacklisted = false;
 

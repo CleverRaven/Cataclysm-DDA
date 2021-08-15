@@ -8,6 +8,7 @@
 #include <climits>
 #include <cstdlib>
 #include <functional>
+#include <sstream>
 #include <vector>
 
 template <typename W, typename T> struct weighted_object {
@@ -181,6 +182,16 @@ template <typename W, typename T> struct weighted_list {
         }
         bool empty() const noexcept {
             return objects.empty();
+        }
+
+        std::string to_debug_string() const {
+            std::ostringstream os;
+            os << "[ ";
+            for( const weighted_object<W, T> &o : objects ) {
+                os << o.obj << ":" << o.weight << ", ";
+            }
+            os << "]";
+            return os.str();
         }
 
         friend bool operator==( const weighted_list &l, const weighted_list &r ) {

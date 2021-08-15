@@ -101,6 +101,8 @@ static const int npm_height = 3;
 
 namespace overmap_ui
 {
+static void create_note( const tripoint_abs_omt &curs );
+
 // {note symbol, note color, offset to text}
 std::tuple<char, nc_color, size_t> get_note_display_info( const std::string &note )
 {
@@ -1136,23 +1138,29 @@ static void draw_om_sidebar(
     wnoutrefresh( wbar );
 }
 
-void draw(
-    const catacurses::window &w, const catacurses::window &wbar, const tripoint_abs_omt &center,
-    const tripoint_abs_omt &orig, bool blink, bool show_explored, bool fast_scroll,
+#if defined(TILES)
+tiles_redraw_info redraw_info;
+#endif
+
+static void draw(
+    const tripoint_abs_omt &center, const tripoint_abs_omt &orig,
+    bool blink, bool show_explored, bool fast_scroll,
     input_context *inp_ctxt, const draw_data_t &data )
 {
-    draw_om_sidebar( wbar, center, orig, blink, fast_scroll, inp_ctxt, data );
+    draw_om_sidebar( g->w_omlegend, center, orig, blink, fast_scroll, inp_ctxt, data );
     if( !use_tiles || !use_tiles_overmap ) {
-        draw_ascii( w, center, orig, blink, show_explored, fast_scroll, inp_ctxt, data );
+        draw_ascii( g->w_overmap, center, orig, blink, show_explored, fast_scroll, inp_ctxt, data );
     } else {
 #ifdef TILES
-        cata_cursesport::WINDOW *const win = w.get<cata_cursesport::WINDOW>();
-        tilecontext->draw_om( win->pos, center, blink );
+        redraw_info = tiles_redraw_info { center, blink };
+        werase( g->w_overmap );
+        // trigger the actual redraw code in sdltiles.cpp
+        wnoutrefresh( g->w_overmap );
 #endif // TILES
     }
 }
 
-void create_note( const tripoint_abs_omt &curs )
+static void create_note( const tripoint_abs_omt &curs )
 {
     std::string color_notes = string_format( "%s\n\n\n",
                               _( "Add a note to the map.  "
@@ -1655,7 +1663,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     std::chrono::time_point<std::chrono::steady_clock> last_blink = std::chrono::steady_clock::now();
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays,
+        draw( curs, orig, uistate.overmap_show_overlays,
               show_explored, fast_scroll, &ictxt, data );
     } );
 

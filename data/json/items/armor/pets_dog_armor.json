@@ -56,12 +56,13 @@
     "copy-from": "kevlar_harness",
     "color": "green",
     "name": { "str": "biosilicified chitin dog mesh harness", "str_pl": "biosilicified chitin dog mesh harnesses" },
-    "description": "A makeshift harness of biosilicified chitin fitted to a thin mesh protecting the neck to flank of canines.  You could put this on a friendly dog.",
+    "description": "A makeshift harness of biosilicified chitin fitted to a thin mesh protecting the neck to flank of canines.  You could put this on a friendly dog.  Acid-resistant but brittle",
     "price": 50000,
     "price_postapoc": 2500,
     "material": [ "acidchitin" ],
     "weight": "5362 g",
-    "environmental_protection": 7
+    "environmental_protection": 7,
+    "extend": { "flags": [ "NO_REPAIR" ] }
   },
   {
     "type": "PET_ARMOR",

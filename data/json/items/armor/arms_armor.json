@@ -59,21 +59,22 @@
     "type": "ARMOR",
     "price_postapoc": 1250,
     "name": { "str": "pair of biosilicified chitin arm guards", "str_pl": "pairs of biosilicified chitin arm guards" },
-    "description": "A pair of arm guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable.",
+    "description": "A pair of arm guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "material_thickness": 1 }
+    "relative": { "material_thickness": 1 },
+    "extend": { "flags": [ "NO_REPAIR" ] }
   },
   {
     "id": "xl_armguard_acidchitin",
     "copy-from": "armguard_acidchitin",
     "type": "ARMOR",
     "name": { "str": "pair of XL biosilicified chitin arm guards", "str_pl": "pairs of XL biosilicified chitin arm guards" },
-    "description": "A pair of arm guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable and sized for the largest of survivors.",
+    "description": "A pair of arm guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle and sized for the largest of survivors.",
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.25, "volume": 1.25 },
     "relative": { "material_thickness": 1 },
-    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "OVERSIZE" ]
+    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "OVERSIZE", "NO_REPAIR" ]
   },
   {
     "id": "armguard_hard",

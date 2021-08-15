@@ -1892,6 +1892,10 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                                   imap.second ) );
             }
 
+            info.emplace_back( "BASE", _( "wetness: " ),
+                               "", iteminfo::lower_is_better,
+                               wetness );
+
             const std::string space = "  ";
             if( goes_bad() ) {
                 info.emplace_back( "BASE", _( "age (turns): " ),
@@ -2517,6 +2521,17 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                            has_flag( flag_RELOAD_ONE ) ? _( "<num> moves per round" ) :
                            _( "<num> moves" ),
                            iteminfo::lower_is_better,  mod->get_reload_time() );
+    }
+
+    if( parts->test( iteminfo_parts::GUN_CURRENT_LOUDNESS ) ) {
+        const bool is_default_fire_mode = loaded_mod->gun_current_mode().tname() == "DEFAULT";
+        //if empty, use the temporary gun loaded with default ammo
+        const item::sound_data data = ( mod->ammo_required() &&
+                                        !mod->ammo_remaining() ) ? tmp.gun_noise( is_default_fire_mode ) : loaded_mod->gun_noise(
+                                          is_default_fire_mode );
+        const int loudness = data.volume;
+        info.emplace_back( "GUN", _( "Loudness with current fire mode: " ), "", iteminfo::lower_is_better,
+                           loudness );
     }
 
     if( parts->test( iteminfo_parts::GUN_USEDSKILL ) ) {
@@ -4775,10 +4790,10 @@ int item::on_wield_cost( const Character &you ) const
     return mv;
 }
 
-void item::on_wield( player &p )
+void item::on_wield( Character &you )
 {
-    int wield_cost = on_wield_cost( p );
-    p.moves -= wield_cost;
+    int wield_cost = on_wield_cost( you );
+    you.moves -= wield_cost;
 
     std::string msg;
 
@@ -4786,16 +4801,16 @@ void item::on_wield( player &p )
 
     // if game is loaded - don't want ownership assigned during char creation
     if( get_player_character().getID().is_valid() ) {
-        handle_pickup_ownership( p );
+        handle_pickup_ownership( you );
     }
-    p.add_msg_if_player( m_neutral, msg, tname() );
+    you.add_msg_if_player( m_neutral, msg, tname() );
 
-    if( !p.martial_arts_data->selected_is_none() ) {
-        p.martial_arts_data->martialart_use_message( p );
+    if( !you.martial_arts_data->selected_is_none() ) {
+        you.martial_arts_data->martialart_use_message( you );
     }
 
     // Update encumbrance in case we were wearing it
-    p.flag_encumbrance();
+    you.flag_encumbrance();
 }
 
 void item::handle_pickup_ownership( Character &c )
@@ -5106,7 +5121,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         }
     }
 
-    if( has_flag( flag_WET ) ) {
+    if( has_flag( flag_WET ) || wetness ) {
         tagtext += _( " (wet)" );
     }
     if( already_used_by_player( player_character ) ) {
@@ -7439,6 +7454,30 @@ bool item::is_broken() const
     return has_flag( flag_ITEM_BROKEN );
 }
 
+int item::wind_resist() const
+{
+    std::vector<const material_type *> materials = made_of_types();
+    if( materials.empty() ) {
+        debugmsg( "Called item::wind_resist on an item (%s) made of nothing!", tname() );
+        return 99;
+    }
+
+    int best = -1;
+    for( const material_type *mat : materials ) {
+        cata::optional<int> resistance = mat->wind_resist();
+        if( resistance && *resistance > best ) {
+            best = *resistance;
+        }
+    }
+
+    // Default to 99% effective
+    if( best == -1 ) {
+        return 99;
+    }
+
+    return best;
+}
+
 std::set<fault_id> item::faults_potential() const
 {
     std::set<fault_id> res;
@@ -9764,7 +9803,7 @@ bool item::needs_processing() const
 {
     bool need_process = false;
     visit_items( [&need_process]( const item * it, item * ) {
-        if( it->active || it->ethereal || it->has_flag( flag_RADIO_ACTIVATION ) ||
+        if( it->active || it->ethereal || it->wetness || it->has_flag( flag_RADIO_ACTIVATION ) ||
             it->has_relic_recharge() ) {
             need_process = true;
             return VisitResponse::ABORT;
@@ -10650,8 +10689,17 @@ bool item::process_internal( player *carrier, const tripoint &pos,
     // Otherwise processing continues. This allows items that are processed as
     // food and as litcig and as ...
 
+    if( wetness > 0 ) {
+        wetness -= 1;
+    }
+
     // Remaining stuff is only done for active items.
     if( active ) {
+
+        if( wetness && has_flag( flag_WATER_BREAK ) ) {
+            deactivate();
+            set_flag( flag_ITEM_BROKEN );
+        }
 
         if( !is_food() && item_counter > 0 ) {
             item_counter--;
