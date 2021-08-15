@@ -562,8 +562,10 @@ class Character : public Creature, public visitable
         float melee_stamina_cost_modifier() const;
         float reloading_move_modifier() const;
         float thrown_dex_modifier() const;
+        float stamina_recovery_breathing_modifier() const;
         // additive modifier
-        float ranged_dispersion_modifier() const;
+        float ranged_dispersion_modifier_hands() const;
+        float ranged_dispersion_modifier_vision() const;
 
         /* Gun stuff */
         /**
@@ -1075,6 +1077,8 @@ class Character : public Creature, public visitable
         float manipulator_score() const;
         float blocking_score( const body_part_type::type &bp ) const;
         float lifting_score( const body_part_type::type &bp ) const;
+        float breathing_score() const;
+        float vision_score() const;
         bool has_min_manipulators() const;
         // technically this is "has more than one arm"
         bool has_two_arms_lifting() const;
@@ -2443,7 +2447,7 @@ class Character : public Creature, public visitable
         /** Returns traits that cancel the entered trait */
         std::unordered_set<trait_id> get_opposite_traits( const trait_id &flag ) const;
         /** Removes "sleep" and "lying_down" */
-        void wake_up();
+        virtual void wake_up();
         // how loud a character can shout. based on mutations and clothing
         int get_shout_volume() const;
         // shouts a message

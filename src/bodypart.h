@@ -187,6 +187,10 @@ struct body_part_type {
         // ability to block using martial arts
         // each whole number is a block
         float blocking_score = 0.0f;
+        // how well you can breathe with this part. cumulative.
+        float breathing_score = 0.0f;
+        // how well you can see things. affects things like throwing dispersion. cumulative
+        float vision_score = 0.0f;
 
         float smash_efficiency = 0.5f;
 
@@ -321,6 +325,8 @@ class bodypart
         float get_manipulator_max() const;
         float get_blocking_score() const;
         float get_lifting_score() const;
+        float get_breathing_score() const;
+        float get_vision_score() const;
 
         int get_hp_cur() const;
         int get_hp_max() const;

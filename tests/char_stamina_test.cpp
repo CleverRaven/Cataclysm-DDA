@@ -438,7 +438,11 @@ TEST_CASE( "stamina regen with mouth encumbrance", "[stamina][update][regen][enc
         REQUIRE( dummy.encumb( bodypart_id( "mouth" ) ) == 10 );
 
         THEN( "stamina regen is reduced" ) {
-            CHECK( actual_regen_rate( dummy, turn_moves ) == ( normal_regen_rate - 2 ) * turn_moves );
+            CAPTURE( dummy.stamina_recovery_breathing_modifier() );
+            CAPTURE( normal_regen_rate );
+            CHECK( actual_regen_rate( dummy, turn_moves ) ==
+                   Approx( ( normal_regen_rate * dummy.stamina_recovery_breathing_modifier() ) * turn_moves ).margin(
+                       0.9 ) );
 
             WHEN( "they have even more mouth encumbrance" ) {
                 // Layering two scarves triples the encumbrance
@@ -446,7 +450,10 @@ TEST_CASE( "stamina regen with mouth encumbrance", "[stamina][update][regen][enc
                 REQUIRE( dummy.encumb( bodypart_id( "mouth" ) ) == 30 );
 
                 THEN( "stamina regen is reduced further" ) {
-                    CHECK( actual_regen_rate( dummy, turn_moves ) == ( normal_regen_rate - 6 ) * turn_moves );
+                    CAPTURE( dummy.stamina_recovery_breathing_modifier() );
+                    CHECK( actual_regen_rate( dummy, turn_moves ) ==
+                           Approx( ( normal_regen_rate * dummy.stamina_recovery_breathing_modifier() ) * turn_moves ).margin(
+                               0.9 ) );
                 }
             }
         }
