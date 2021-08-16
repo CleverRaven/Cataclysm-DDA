@@ -195,16 +195,7 @@ static std::string ranged_cost_text( double disp )
                           disp );
 }
 
-static int get_encumbrance( const player &p, const bodypart_id &bp, bool combine )
-{
-    // Body parts that can't combine with anything shouldn't print double values on combine
-    // This shouldn't happen, but handle this, just in case
-    const bool combines_with_other = bp->opposite_part != bp.id();
-    return p.encumb( bp ) * ( ( combine && combines_with_other ) ? 2 : 1 );
-}
-
-static std::string get_encumbrance_description( const player &p, const bodypart_id &bp,
-        bool combine )
+static std::string get_encumbrance_description( const player &p, const bodypart_id &bp )
 {
     std::string s;
 
@@ -548,12 +539,10 @@ static void draw_encumbrance_info( const catacurses::window &w_info,
 
     werase( w_info );
     bodypart_id bp;
-    bool combined_here = false;
     if( line < bps.size() ) {
         bp = bps[line].first;
-        combined_here = bps[line].second;
     }
-    const std::string s = get_encumbrance_description( you, bp, combined_here );
+    const std::string s = get_encumbrance_description( you, bp );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray, s );
     wnoutrefresh( w_info );
