@@ -1694,7 +1694,7 @@
     "ammo_type": "components",
     "category": "chems",
     "name": { "str_sp": "red phosporous" },
-    "description": "An allotrope of the element phosporous. It's what you use to light matches, but can also be used in the synthesis of methamphetamine.",
+    "description": "An allotrope of the element phosporous.  It's what you use to light matches, but can also be used in the synthesis of methamphetamine.",
     "weight": "1800 mg",
     "volume": "100 ml",
     "//": "Density around 2.2g/cm3, but since it's a powder, it's a bit lower, around 1.8 g/cm3",

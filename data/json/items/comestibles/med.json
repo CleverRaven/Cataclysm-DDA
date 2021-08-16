@@ -2031,7 +2031,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str_sp": "high-grade methamphetamine" },
-    "description": "A profoundly addictive and powerful stimulant.  While extremely effective at enhancing alertness, it is hazardous to health and the risk of an adverse reaction is great. This one could have only been made by a great chemist.",
+    "description": "A profoundly addictive and powerful stimulant.  While extremely effective at enhancing alertness, it is hazardous to health and the risk of an adverse reaction is great.  This one could have only been made by a great chemist.",
     "weight": "1 g",
     "volume": "250 ml",
     "price": 25000,
