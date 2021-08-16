@@ -141,7 +141,10 @@ struct points_left {
     bool is_freeform();
 };
 
-static const int stat_point_pool = 4 * 8 + 6;
+static int stat_point_pool()
+{
+    return 4 * 8 + get_option<int>( "INITIAL_STAT_POINTS" );
+}
 static int stat_points_used( const avatar &u )
 {
     int used = 0;
@@ -153,7 +156,10 @@ static int stat_points_used( const avatar &u )
     return used;
 }
 
-static const int trait_point_pool = 0;
+static int trait_point_pool()
+{
+    return get_option<int>( "INITIAL_TRAIT_POINTS" );
+}
 static int trait_points_used( const avatar &u )
 {
     int used = 0;
@@ -173,7 +179,10 @@ static int trait_points_used( const avatar &u )
     return used;
 }
 
-static const int skill_point_pool = 2;
+static int skill_point_pool()
+{
+    return get_option<int>( "INITIAL_SKILL_POINTS" );
+}
 static int skill_points_used( const avatar &u )
 {
     int scenario = get_scenario()->point_cost();
@@ -190,7 +199,10 @@ static int skill_points_used( const avatar &u )
     return scenario + profession_points + hobbies + skills;
 }
 
-static const int point_pool_total = stat_point_pool + trait_point_pool + skill_point_pool;
+static int point_pool_total()
+{
+    return stat_point_pool() + trait_point_pool() + skill_point_pool();
+}
 static int points_used_total( const avatar &u )
 {
     return stat_points_used( u ) + trait_points_used( u ) + skill_points_used( u );
@@ -198,7 +210,7 @@ static int points_used_total( const avatar &u )
 
 static int has_unspent_points( const avatar &u )
 {
-    return points_used_total( u ) < point_pool_total;
+    return points_used_total( u ) < point_pool_total();
 }
 
 struct multi_pool {
@@ -208,9 +220,9 @@ struct multi_pool {
     // by lower pools plus the poits that can be borrowed from higher pools
     const int stat_points_left, trait_points_left, skill_points_left;
     explicit multi_pool( const avatar &u ):
-        pure_stat_points( stat_point_pool - stat_points_used( u ) ),
-        pure_trait_points( trait_point_pool - trait_points_used( u ) ),
-        pure_skill_points( skill_point_pool - skill_points_used( u ) ),
+        pure_stat_points( stat_point_pool() - stat_points_used( u ) ),
+        pure_trait_points( trait_point_pool() - trait_points_used( u ) ),
+        pure_skill_points( skill_point_pool() - skill_points_used( u ) ),
         stat_points_left( pure_stat_points
                           + std::min( 0, pure_trait_points
                                       + std::min( 0, pure_skill_points ) ) ),
@@ -227,7 +239,7 @@ static int skill_points_left( const avatar &u, points_left::point_limit pool )
             return multi_pool( u ).skill_points_left;
         }
         case points_left::ONE_POOL: {
-            return point_pool_total - points_used_total( u );
+            return point_pool_total() - points_used_total( u );
         }
         case points_left::TRANSFER:
         case points_left::FREEFORM:
@@ -252,7 +264,7 @@ static std::string pools_to_string( const avatar &u, points_left::point_limit po
                        is_valid ? "light_gray" : "red", p.skill_points_left );
         }
         case points_left::ONE_POOL: {
-            return string_format( _( "Points left: %4d" ), point_pool_total - points_used_total( u ) );
+            return string_format( _( "Points left: %4d" ), point_pool_total() - points_used_total( u ) );
         }
         case points_left::TRANSFER:
             return _( "Character Transfer: No changes can be made." );
@@ -3799,7 +3811,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         const std::string action = ctxt.handle_input();
         if( action == "NEXT_TAB" ) {
             if( points.limit == points_left::ONE_POOL ) {
-                if( points_used_total( you ) > point_pool_total ) {
+                if( points_used_total( you ) > point_pool_total() ) {
                     popup( _( "Too many points allocated, change some features and try again." ) );
                     continue;
                 }
