@@ -489,8 +489,9 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     for( int loops = 0;
          has_unspent_points( *this ) && loops <= 100000;
          loops++ ) {
-        const bool allow_stats = points.stat_points_left() > 0;
-        const bool allow_traits = points.trait_points_left() > 0 && num_gtraits < max_trait_points;
+        multi_pool p( *this );
+        const bool allow_stats = p.stat_points_left > 0;
+        const bool allow_traits = p.trait_points_left > 0 && num_gtraits < max_trait_points;
         int r = rng( 1, 9 );
         trait_id rn;
         switch( r ) {
@@ -501,7 +502,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
                 if( allow_traits ) {
                     rn = random_good_trait();
                     const mutation_branch &mdata = rn.obj();
-                    if( !has_trait( rn ) && points.trait_points_left() >= mdata.points &&
+                    if( !has_trait( rn ) && p.trait_points_left >= mdata.points &&
                         num_gtraits + mdata.points <= max_trait_points && !has_conflicting_trait( rn ) ) {
                         toggle_trait( rn );
                         points.trait_points -= mdata.points;
@@ -517,7 +518,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
                             if( str_max < HIGH_STAT ) {
                                 str_max++;
                                 points.stat_points--;
-                            } else if( points.stat_points_left() >= 2 && str_max < max_stat_points ) {
+                            } else if( p.stat_points_left >= 2 && str_max < max_stat_points ) {
                                 str_max++;
                                 points.stat_points = points.stat_points - 2;
                             }
@@ -526,7 +527,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
                             if( dex_max < HIGH_STAT ) {
                                 dex_max++;
                                 points.stat_points--;
-                            } else if( points.stat_points_left() >= 2 && dex_max < max_stat_points ) {
+                            } else if( p.stat_points_left >= 2 && dex_max < max_stat_points ) {
                                 dex_max++;
                                 points.stat_points = points.stat_points - 2;
                             }
@@ -535,7 +536,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
                             if( int_max < HIGH_STAT ) {
                                 int_max++;
                                 points.stat_points--;
-                            } else if( points.stat_points_left() >= 2 && int_max < max_stat_points ) {
+                            } else if( p.stat_points_left >= 2 && int_max < max_stat_points ) {
                                 int_max++;
                                 points.stat_points = points.stat_points - 2;
                             }
@@ -544,7 +545,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
                             if( per_max < HIGH_STAT ) {
                                 per_max++;
                                 points.stat_points--;
-                            } else if( points.stat_points_left() >= 2 && per_max < max_stat_points ) {
+                            } else if( p.stat_points_left >= 2 && per_max < max_stat_points ) {
                                 per_max++;
                                 points.stat_points = points.stat_points - 2;
                             }
