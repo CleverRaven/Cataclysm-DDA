@@ -822,38 +822,31 @@ static int get_terrain_cost( const tripoint_abs_omt &omt_pos, const overmap_path
     }
 }
 
+static bool is_ramp( const tripoint_abs_omt &omt_pos )
+{
+    const oter_id &oter = overmap_buffer.ter_existing( omt_pos );
+    return is_ot_match( "bridgehead_ground", oter, ot_match_type::type ) ||
+           is_ot_match( "bridgehead_ramp", oter, ot_match_type::type );
+}
+
 std::vector<tripoint_abs_omt> overmapbuffer::get_travel_path(
     const tripoint_abs_omt &src, const tripoint_abs_omt &dest, overmap_path_params params )
 {
     if( src == overmap::invalid_tripoint || dest == overmap::invalid_tripoint ) {
         return {};
     }
-    // Maximal radius of search (in overmaps)
-    constexpr int radius_overmaps = 4;
-    // pf::greedy_path uses a relative coordinate system in which "src" becomes the middle of a
-    // 2 * radius overmap area with a corner at (0, 0)
-    const point_rel_omt start( radius_overmaps * OMAPX, radius_overmaps * OMAPY );
-    const point_rel_omt finish = start + ( dest - src ).xy();
-    const point_rel_omt max_point = start * 2;
 
-    const pf::two_node_scoring_fn<point_rel_omt> estimate =
-    [&]( pf::directed_node<point_rel_omt> cur, cata::optional<pf::directed_node<point_rel_omt>> ) {
-        const tripoint_abs_omt omt_pos = src + cur.pos - start;
-        int cost = omt_pos == src ? 0 : get_terrain_cost( omt_pos, params );
-        if( cost < 0 ) {
-            return pf::node_score::rejected;
+    const pf::omt_scoring_fn estimate = [&]( tripoint_abs_omt pos ) {
+        const int cur_cost = pos == src ? 0 : get_terrain_cost( pos, params );
+        if( cur_cost < 0 ) {
+            return pf::omt_score::rejected;
         }
-        // TODO: add cost taken to get there
-        return pf::node_score( cost, manhattan_dist( finish,
-                               cur.pos ) * overmap_path_params::standard_cost );
+        return pf::omt_score( cur_cost, is_ramp( pos ) );
     };
-    const auto route = pf::greedy_path( start, finish, max_point, estimate );
-    std::vector<tripoint_abs_omt> path;
-    path.reserve( route.nodes.size() );
-    for( const auto &node : route.nodes ) {
-        path.push_back( src + node.pos - start );
-    }
-    return path;
+
+    constexpr int radius = 4 * OMAPX; // radius of search in OMTs = 4 overmaps
+    const pf::simple_path<tripoint_abs_omt> path = pf::find_overmap_path( src, dest, radius, estimate );
+    return path.points;
 }
 
 bool overmapbuffer::reveal_route( const tripoint_abs_omt &source, const tripoint_abs_omt &dest,
