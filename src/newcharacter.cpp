@@ -3813,17 +3813,30 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
         if( action == "NEXT_TAB" ) {
-            if( !points.is_valid() ) {
-                if( points.skill_points_left() < 0 ) {
+            if( points.limit == points_left::ONE_POOL ) {
+                if( points_used_total( you ) > point_pool_total ) {
                     popup( _( "Too many points allocated, change some features and try again." ) );
-                } else if( points.trait_points_left() < 0 ) {
-                    popup( _( "Too many trait points allocated, change some traits or lower some stats and try again." ) );
-                } else if( points.stat_points_left() < 0 ) {
-                    popup( _( "Too many stat points allocated, lower some stats and try again." ) );
-                } else {
-                    popup( _( "Too many points allocated, change some features and try again." ) );
+                    continue;
                 }
-                continue;
+            } else if( points.limit == points_left::MULTI_POOL ) {
+                int stat_points = stat_point_pool - stat_points_used( you );
+                int trait_points = trait_point_pool - trait_points_used( you );
+                int skill_points = skill_point_pool - skill_points_used( you );
+                int stat_points_left = stat_points + std::min( 0, trait_points + std::min( 0, skill_points ) );
+                int trait_points_left = stat_points + trait_points + std::min( 0, skill_points );
+                int skill_points_left = stat_points + trait_points + skill_points;
+                if( skill_points_left < 0 ) {
+                    popup( _( "Too many points allocated, change some features and try again." ) );
+                    continue;
+                }
+                if( trait_points_left < 0 ) {
+                    popup( _( "Too many trait points allocated, change some traits or lower some stats and try again." ) );
+                    continue;
+                }
+                if( stat_points_left < 0 ) {
+                    popup( _( "Too many stat points allocated, lower some stats and try again." ) );
+                    continue;
+                }
             }
             if( has_unspent_points( you ) && points.limit != points_left::FREEFORM &&
                 !query_yn( _( "Remaining points will be discarded, are you sure you want to proceed?" ) ) ) {
