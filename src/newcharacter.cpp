@@ -195,11 +195,15 @@ static int skill_points_used( const avatar &u )
     return scenario + profession_points + hobbies + skills;
 }
 
+static const int point_pool_total = stat_point_pool + trait_point_pool + skill_point_pool;
+static int points_used_total( const avatar &u )
+{
+    return stat_points_used( u ) + trait_points_used( u ) + skill_points_used( u );
+}
+
 static int has_unspent_points( const avatar &u )
 {
-    int used = stat_points_used( u ) + trait_points_used( u ) + skill_points_used( u );
-    int total = stat_point_pool + trait_point_pool + skill_point_pool;
-    return used < total;
+    return points_used_total( u ) < point_pool_total;
 }
 
 static std::string pools_to_string( const avatar &u, points_left::point_limit pool )
@@ -223,9 +227,7 @@ static std::string pools_to_string( const avatar &u, points_left::point_limit po
                        is_valid ? "light_gray" : "red", skill_points_left );
         }
         case points_left::ONE_POOL: {
-            int used = stat_points_used( u ) + trait_points_used( u ) + skill_points_used( u );
-            int total = stat_point_pool + trait_point_pool + skill_point_pool;
-            return string_format( _( "Points left: %4d" ), total - used );
+            return string_format( _( "Points left: %4d" ), point_pool_total - points_used_total( u ) );
         }
         case points_left::TRANSFER:
             return _( "Character Transfer: No changes can be made." );
