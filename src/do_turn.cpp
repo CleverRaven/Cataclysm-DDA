@@ -3,6 +3,7 @@
 #include "action.h"
 #include "avatar.h"
 #include "bionics.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "event_bus.h"
 #include "explosion.h"
@@ -560,17 +561,14 @@ void update_stair_monsters()
 
 } // namespace turn_handler
 
-namespace
-{
-void handle_key_blocking_activity();
-void monmove();
-void overmap_npc_move();
-
 void handle_key_blocking_activity()
 {
+    if( test_mode ) {
+        return;
+    }
     avatar &u = get_avatar();
     if( ( u.activity && u.activity.moves_left > 0 ) ||
-        ( u.has_destination() && !u.omt_path.empty() ) ) {
+        u.has_destination() ) {
         input_context ctxt = get_default_mode_input_context();
         const std::string action = ctxt.handle_input( 0 );
         bool refresh = true;
@@ -591,9 +589,14 @@ void handle_key_blocking_activity()
             ui_manager::redraw();
             refresh_display();
         }
+    } else {
+        refresh_display();
+        inp_mngr.pump_events();
     }
 }
 
+namespace
+{
 void monmove()
 {
     g->cleanup_dead();
@@ -757,13 +760,13 @@ void overmap_npc_move()
                 }
             }
             if( elem->omt_path.empty() ) {
-                elem->omt_path = overmap_buffer.get_npc_path( elem->global_omt_location(), elem->goal );
+                elem->omt_path = overmap_buffer.get_travel_path( elem->global_omt_location(), elem->goal,
+                                 overmap_path_params::for_npc() );
                 if( elem->omt_path.empty() ) { // goal is unreachable, or already reached goal, reset it
                     elem->goal = npc::no_goal_point;
                 }
             } else {
-                // TODO: fix point types
-                elem->travel_overmap( project_to<coords::sm>( elem->omt_path.back() ).raw() );
+                elem->travel_overmap( elem->omt_path.back() );
                 npcs_need_reload = true;
             }
         }
@@ -874,7 +877,8 @@ bool do_turn()
                     }
                 }
                 sounds::process_sound_markers( &u );
-                if( !u.activity && !u.has_distant_destination() && g->uquit != QUIT_WATCH ) {
+                if( !u.activity && g->uquit != QUIT_WATCH
+                    && ( !u.has_distant_destination() || calendar::once_every( 10_seconds ) ) ) {
                     g->wait_popup.reset();
                     ui_manager::redraw();
                 }

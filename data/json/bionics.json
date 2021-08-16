@@ -400,8 +400,8 @@
     "occupied_bodyparts": [ [ "arm_r", 7 ], [ "hand_r", 1 ] ],
     "encumbrance": [ [ "arm_r", 2 ] ],
     "act_cost": "50 J",
-    "fake_item": "bio_blade_weapon",
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE" ]
+    "fake_weapon": "bio_blade_weapon",
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE", "USES_BIONIC_POWER" ]
   },
   {
     "id": "bio_shotgun",
@@ -411,7 +411,7 @@
     "occupied_bodyparts": [ [ "arm_l", 12 ] ],
     "encumbrance": [ [ "arm_l", 5 ] ],
     "act_cost": "50 J",
-    "fake_item": "bio_shotgun_gun",
+    "fake_weapon": "bio_shotgun_gun",
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "NO_UNWIELD" ]
   },
   {
@@ -512,7 +512,7 @@
     "description": "Your body is equipped with a chain lightning generator, allowing you to emit a blast of lightning at a target, leaving a trail of lightning in its wake, jumping to additional targets within 4 tiles of the previous target.",
     "occupied_bodyparts": [ [ "torso", 16 ], [ "arm_l", 4 ] ],
     "act_cost": "100 kJ",
-    "fake_item": "bio_lightning",
+    "fake_weapon": "bio_lightning",
     "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE" ]
   },
   {
@@ -523,7 +523,7 @@
     "occupied_bodyparts": [ [ "hand_l", 4 ], [ "hand_r", 4 ] ],
     "encumbrance": [ [ "hand_l", 3 ], [ "hand_r", 3 ] ],
     "act_cost": "25 J",
-    "fake_item": "bio_claws_weapon",
+    "fake_weapon": "bio_claws_weapon",
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "BIONIC_NPC_USABLE" ]
   },
   {
@@ -642,7 +642,8 @@
     "description": "When this bionic is active, you can block hearing completely.",
     "included": true,
     "flags": [ "BIONIC_TOGGLED" ],
-    "active_flags": [ "DEAF" ]
+    "active_flags": [ "DEAF" ],
+    "auto_deactivates": [ "bio_ears" ]
   },
   {
     "id": "bio_ears",
@@ -652,6 +653,7 @@
     "occupied_bodyparts": [ [ "head", 2 ] ],
     "flags": [ "BIONIC_TOGGLED", "IMMUNE_HEARING_DAMAGE" ],
     "active_flags": [ "SUPER_HEARING" ],
+    "auto_deactivates": [ "bio_earplugs" ],
     "included_bionics": [ "bio_earplugs" ]
   },
   {
@@ -669,7 +671,7 @@
     "description": "A ranged EMP generator system is implanted in your right arm and the palm of your right hand.  The system fires precise, single-target pulses that require time to aim.  Extremely effective against electronic targets but mostly useless otherwise.",
     "occupied_bodyparts": [ [ "arm_r", 8 ], [ "hand_r", 2 ] ],
     "act_cost": "50 kJ",
-    "fake_item": "bio_emp_gun",
+    "fake_weapon": "bio_emp_gun",
     "flags": [ "BIONIC_GUN" ]
   },
   {
@@ -772,8 +774,8 @@
     "name": { "str": "Fingerhack" },
     "description": "One of your fingers has an electrohack surgically embedded in it; an all-purpose hacking unit used to override control panels and the like (but not computers).  Skill in computers is important, and a failed use may damage your circuits.",
     "occupied_bodyparts": [ [ "hand_l", 1 ] ],
-    "fake_item": "electrohack",
-    "flags": [ "BIONIC_TOGGLED" ]
+    "toggled_pseudo_items": [ "electrohack" ],
+    "flags": [ "BIONIC_TOGGLED", "USES_BIONIC_POWER" ]
   },
   {
     "id": "bio_flashbang",
@@ -932,7 +934,7 @@
     "description": "One of your fingers has a small high-powered laser surgically embedded in it.  This long range weapon is not incredibly damaging, but is very accurate, and has the potential to start fires.",
     "occupied_bodyparts": [ [ "hand_r", 1 ] ],
     "act_cost": "30 kJ",
-    "fake_item": "bio_laser_gun",
+    "fake_weapon": "bio_laser_gun",
     "flags": [ "BIONIC_GUN", "BIONIC_NPC_USABLE" ]
   },
   {
@@ -970,7 +972,8 @@
     "name": { "str": "Finger Lighter" },
     "description": "The index finger of your left hand has a fire starter that can extend from the tip.",
     "occupied_bodyparts": [ [ "hand_l", 1 ] ],
-    "fake_item": "fake_firestarter",
+    "flags": [ "USES_BIONIC_POWER" ],
+    "passive_pseudo_items": [ "crude_firestarter" ],
     "act_cost": "1500 J"
   },
   {
@@ -1222,7 +1225,7 @@
     "name": { "str": "Fingertip Razors" },
     "description": "You possess razor-sharp claws underneath your fingernails that do a small amount of unarmed slashing damage whenever your fingertips are uncovered.",
     "occupied_bodyparts": [ [ "hand_l", 1 ], [ "hand_r", 1 ] ],
-    "fake_item": "fake_razor",
+    "passive_pseudo_items": [ "fake_razor" ],
     "flags": [ "BIONIC_NPC_USABLE" ]
   },
   {
@@ -1378,7 +1381,7 @@
     "name": { "str": "Autonomous Surgical Scalpels" },
     "description": "A system of surgical grade scalpels is implanted in your forearms, extending from just above your wrists.  They allow you to make automated precise cuts and can also be used as a high-quality butchering tool.",
     "occupied_bodyparts": [ [ "arm_r", 2 ], [ "arm_l", 2 ] ],
-    "fake_item": "bio_scalpel",
+    "fake_weapon": "bio_scalpel",
     "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON" ]
   },
   {
@@ -1389,7 +1392,7 @@
     "occupied_bodyparts": [ [ "eyes", 1 ] ],
     "included_bionics": [ "bio_blindfold" ],
     "flags": [ "BIONIC_NPC_USABLE", "GLARE_RESIST" ],
-    "fake_item": "fake_goggles"
+    "passive_pseudo_items": [ "fake_goggles" ]
   },
   {
     "id": "bio_targeting",
@@ -1442,18 +1445,18 @@
     "name": { "str": "Integrated Toolset" },
     "description": "Surgically implanted in your hands and forearms is a set of tools - screwdriver, hammer, wrench, hacksaw, drill, heating elements, and others.  You can use this in place of many tools when crafting.",
     "occupied_bodyparts": [ [ "hand_l", 1 ], [ "hand_r", 1 ], [ "arm_l", 3 ], [ "arm_r", 3 ] ],
-    "fake_item": "toolset",
+    "toggled_pseudo_items": [ "toolset" ],
     "included_bionics": [ "bio_tools_extend" ],
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE", "USES_BIONIC_POWER" ]
   },
   {
     "id": "bio_tools_extend",
     "type": "bionic",
     "name": { "str": "Extended Toolset" },
     "description": "Extend or withdraw your integrated toolset to cut metal, pry things, or other stuff.  This takes up your hands.",
-    "fake_item": "toolset_extended",
+    "fake_weapon": "toolset_extended",
     "included": true,
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON" ]
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "USES_BIONIC_POWER" ]
   },
   {
     "id": "bio_torsionratchet",
@@ -1554,7 +1557,7 @@
     "name": { "str": "Intravenous Needletip" },
     "description": "The flesh of the inside of your middle finger has been replaced with a tube leading into your arteries, with a retractable needle extending out of the tip of the finger when clenched.  This lets you pump intravenous drugs like morphine directly into your bloodstream without needing to carry a syringe.",
     "occupied_bodyparts": [ [ "hand_l", 1 ] ],
-    "fake_item": "syringe"
+    "passive_pseudo_items": [ "syringe" ]
   },
   {
     "id": "bio_weight",

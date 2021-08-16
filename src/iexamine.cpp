@@ -186,7 +186,6 @@ static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_FERTILE( "M_FERTILE" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_PROBOSCIS( "PROBOSCIS" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
@@ -207,6 +206,8 @@ static const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
 static const bionic_id bio_lighter( "bio_lighter" );
 static const bionic_id bio_lockpick( "bio_lockpick" );
 static const bionic_id bio_painkiller( "bio_painkiller" );
+
+static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
 
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 static const std::string flag_BARRICADABLE_WINDOW_CURTAINS( "BARRICADABLE_WINDOW_CURTAINS" );
@@ -1173,7 +1174,7 @@ void iexamine::chainfence( player &p, const tripoint &examp )
     }
 
     map &here = get_map();
-    if( here.has_flag( flag_CLIMB_SIMPLE, examp ) && p.has_trait( trait_PARKOUR ) ) {
+    if( here.has_flag( flag_CLIMB_SIMPLE, examp ) && p.has_proficiency( proficiency_prof_parkour ) ) {
         add_msg( _( "You vault over the obstacle with ease." ) );
         p.moves -= 100; // Not tall enough to warrant spider-climbing, so only relevant trait.
     } else if( here.has_flag( flag_CLIMB_SIMPLE, examp ) ) {
@@ -1187,7 +1188,7 @@ void iexamine::chainfence( player &p, const tripoint &examp )
                !p.wearing_something_on( bodypart_id( "torso" ) ) ) {
         add_msg( _( "You quickly scale the fence." ) );
         p.moves -= 90;
-    } else if( p.has_trait( trait_PARKOUR ) ) {
+    } else if( p.has_proficiency( proficiency_prof_parkour ) ) {
         add_msg( _( "This obstacle is no match for your freerunning abilities." ) );
         p.moves -= 100;
     } else {
@@ -3432,7 +3433,7 @@ void iexamine::tree_hickory( player &p, const tripoint &examp )
 
     map &here = get_map();
     if( !auto_forage && p.is_avatar() && p.has_quality( qual_DIG ) &&
-        !query_yn( _( "Dig up %s?  This kills the tree!" ), here.tername( examp ) ) ) {
+        query_yn( _( "Dig up %s?  This kills the tree!" ), here.tername( examp ) ) ) {
         digging_up = true;
         /** @EFFECT_SURVIVAL increases hickory root number per tree */
         here.spawn_item( p.pos(), itype_hickory_root, rng( 1, 3 + p.get_skill_level( skill_survival ) ), 0,
@@ -5408,8 +5409,8 @@ static void smoker_load_food( player &p, const tripoint &examp,
     for( const item &m : moved ) {
         here.add_item( examp, m );
         p.mod_moves( -p.item_handling_cost( m ) );
-        add_msg( m_info, _( "You carefully place %s %s in the rack." ), amount,
-                 item::nname( m.typeId(), amount ) );
+        add_msg( m_info, _( "You carefully place %1$d %2$s in the rack." ), m.charges,
+                 m.tname( m.charges ) );
     }
     p.invalidate_crafting_inventory();
 }
@@ -5516,8 +5517,8 @@ static void mill_load_food( player &p, const tripoint &examp,
     for( const item &m : moved ) {
         here.add_item( examp, m );
         p.mod_moves( -p.item_handling_cost( m ) );
-        add_msg( m_info, pgettext( "item amount and name", "You carefully place %s %s in the mill." ),
-                 amount, item::nname( m.typeId(), amount ) );
+        add_msg( m_info, _( "You carefully place %1$d %2$s in the mill." ), m.charges,
+                 m.tname( m.charges ) );
     }
     p.invalidate_crafting_inventory();
 }
@@ -5643,7 +5644,7 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
                                                 c_red ) + "\n";
                         continue;
                     }
-                    pop += "-> " + item::nname( it.typeId(), it.charges ) + " (" + std::to_string( it.charges ) + ")\n";
+                    pop += "-> " + it.display_name() + "\n";
                 }
             }
             popup( pop, PF_NONE );
@@ -5848,7 +5849,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                         pop += "\n" + colorize( _( "You see some smoldering embers there." ), c_red ) + "\n";
                         continue;
                     }
-                    pop += "-> " + item::nname( it.typeId(), it.charges ) + " (" + std::to_string( it.charges ) + ")\n";
+                    pop += "-> " + it.display_name() + "\n";
                 }
             }
             popup( pop, PF_NONE );
@@ -5955,7 +5956,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
         vehicle_stack items_at_part = part->vehicle().get_items( part->part_index() );
 
         for( item &it : items_at_part ) {
-            if( it.is_craft() && it.typeId() != itype_disassembly ) {
+            if( it.is_craft() ) {
                 crafts.emplace_back( item_location( vehicle_cursor( part->vehicle(), part->part_index() ), &it ) );
             }
         }
@@ -5969,7 +5970,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
         items_at_loc = !items_at_furn.empty();
 
         for( item &it : items_at_furn ) {
-            if( it.is_craft() && it.typeId() != itype_disassembly ) {
+            if( it.is_craft() ) {
                 crafts.emplace_back( item_location( map_cursor( examp ), &it ) );
             }
         }
@@ -5990,7 +5991,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
     amenu.addentry( start_craft,      true,            '1', _( "Craft items" ) );
     amenu.addentry( repeat_craft,     true,            '2', _( "Recraft last recipe" ) );
     amenu.addentry( start_long_craft, true,            '3', _( "Craft as long as possible" ) );
-    amenu.addentry( work_on_craft,    !crafts.empty(), '4', _( "Work on craft" ) );
+    amenu.addentry( work_on_craft,    !crafts.empty(), '4', _( "Work on craft or disassembly" ) );
     if( !part ) {
         amenu.addentry( get_items,    items_at_loc,    'g', _( "Get items" ) );
     }
@@ -6039,7 +6040,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
                     item_names.emplace_back( it.get_item()->tname() );
                 }
             }
-            uilist amenu2( _( "Which craft to work on?" ), item_names );
+            uilist amenu2( _( "Which craft or disassembly to work on?" ), item_names );
 
             if( amenu2.ret == UILIST_CANCEL ) {
                 break;
@@ -6047,23 +6048,31 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
 
             item *selected_craft = crafts[amenu2.ret].get_item();
 
-            if( !p.can_continue_craft( *selected_craft ) ) {
+            if( !selected_craft ) {
                 break;
             }
-            const recipe &rec = selected_craft->get_making();
-            const inventory &inv = p.crafting_inventory();
-            if( p.has_recipe( &rec, inv, p.get_crafting_helpers() ) == -1 ) {
+
+            if( selected_craft->typeId() == itype_disassembly ) {
+                p.disassemble( crafts[amenu2.ret], true );
+            } else {
+                if( !p.can_continue_craft( *selected_craft ) ) {
+                    break;
+                }
+                const recipe &rec = selected_craft->get_making();
+                const inventory &inv = p.crafting_inventory();
+                if( p.has_recipe( &rec, inv, p.get_crafting_helpers() ) == -1 ) {
+                    p.add_msg_player_or_npc(
+                        _( "You don't know the recipe for the %s and can't continue crafting." ),
+                        _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),
+                        rec.result_name() );
+                    break;
+                }
                 p.add_msg_player_or_npc(
-                    _( "You don't know the recipe for the %s and can't continue crafting." ),
-                    _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),
-                    rec.result_name() );
-                break;
+                    pgettext( "in progress craft", "You start working on the %s." ),
+                    pgettext( "in progress craft", "<npcname> starts working on the %s." ),
+                    selected_craft->tname() );
+                p.assign_activity( player_activity( craft_activity_actor( crafts[amenu2.ret], false ) ) );
             }
-            p.add_msg_player_or_npc(
-                pgettext( "in progress craft", "You start working on the %s." ),
-                pgettext( "in progress craft", "<npcname> starts working on the %s." ),
-                selected_craft->tname() );
-            p.assign_activity( player_activity( craft_activity_actor( crafts[amenu2.ret], false ) ) );
             break;
         }
         case get_items: {

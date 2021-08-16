@@ -1892,6 +1892,10 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                                   imap.second ) );
             }
 
+            info.emplace_back( "BASE", _( "wetness: " ),
+                               "", iteminfo::lower_is_better,
+                               wetness );
+
             const std::string space = "  ";
             if( goes_bad() ) {
                 info.emplace_back( "BASE", _( "age (turns): " ),
@@ -2517,6 +2521,17 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                            has_flag( flag_RELOAD_ONE ) ? _( "<num> moves per round" ) :
                            _( "<num> moves" ),
                            iteminfo::lower_is_better,  mod->get_reload_time() );
+    }
+
+    if( parts->test( iteminfo_parts::GUN_CURRENT_LOUDNESS ) ) {
+        const bool is_default_fire_mode = loaded_mod->gun_current_mode().tname() == "DEFAULT";
+        //if empty, use the temporary gun loaded with default ammo
+        const item::sound_data data = ( mod->ammo_required() &&
+                                        !mod->ammo_remaining() ) ? tmp.gun_noise( is_default_fire_mode ) : loaded_mod->gun_noise(
+                                          is_default_fire_mode );
+        const int loudness = data.volume;
+        info.emplace_back( "GUN", _( "Loudness with current fire mode: " ), "", iteminfo::lower_is_better,
+                           loudness );
     }
 
     if( parts->test( iteminfo_parts::GUN_USEDSKILL ) ) {
@@ -3338,7 +3353,7 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                 info.emplace_back( "BOOK", "", fmt, iteminfo::no_flags, book.level );
                 fmt = string_format( _( "Your current <stat>%s skill</stat> is <num>." ),
                                      skill_name );
-                info.emplace_back( "BOOK", "", fmt, iteminfo::no_flags, skill.level() );
+                info.emplace_back( "BOOK", "", fmt, iteminfo::no_flags, skill.knowledgeLevel() );
             }
 
             if( book.req != 0 && parts->test( iteminfo_parts::BOOK_SKILLRANGE_MIN ) ) {
@@ -4665,8 +4680,8 @@ nc_color item::color_in_inventory( const Character *const ch ) const
         if( player_character.has_identified( typeId() ) ) {
             if( tmp.skill && // Book can improve skill: blue
                 player_character.get_skill_level_object( tmp.skill ).can_train() &&
-                player_character.get_skill_level( tmp.skill ) >= tmp.req &&
-                player_character.get_skill_level( tmp.skill ) < tmp.level
+                player_character.get_knowledge_level( tmp.skill ) >= tmp.req &&
+                player_character.get_knowledge_level( tmp.skill ) < tmp.level
               ) { //NOLINT(bugprone-branch-clone)
                 ret = c_light_blue;
             } else if( type->can_use( "MA_MANUAL" ) &&
@@ -4674,7 +4689,7 @@ nc_color item::color_in_inventory( const Character *const ch ) const
                 ret = c_light_blue;
             } else if( tmp.skill && // Book can't improve skill right now, but maybe later: pink
                        player_character.get_skill_level_object( tmp.skill ).can_train() &&
-                       player_character.get_skill_level( tmp.skill ) < tmp.level ) {
+                       player_character.get_knowledge_level( tmp.skill ) < tmp.level ) {
                 ret = c_pink;
             } else if( !player_character.studied_all_recipes(
                            *type ) ) { // Book can't improve skill anymore, but has more recipes: yellow
@@ -4745,16 +4760,16 @@ void item::on_takeoff( Character &p )
     }
 }
 
-int item::on_wield_cost( const player &p ) const
+int item::on_wield_cost( const Character &you ) const
 {
     int mv = 0;
     // weapons with bayonet/bipod or other generic "unhandiness"
     if( has_flag( flag_SLOW_WIELD ) && !is_gunmod() ) {
         float d = 32.0f; // arbitrary linear scaling factor
         if( is_gun() ) {
-            d /= std::max( p.get_skill_level( gun_skill() ), 1 );
+            d /= std::max( you.get_skill_level( gun_skill() ), 1 );
         } else if( is_melee() ) {
-            d /= std::max( p.get_skill_level( melee_skill() ), 1 );
+            d /= std::max( you.get_skill_level( melee_skill() ), 1 );
         }
 
         int penalty = get_var( "volume", volume() / units::legacy_volume_factor ) * d;
@@ -4765,9 +4780,9 @@ int item::on_wield_cost( const player &p ) const
     if( has_flag( flag_NEEDS_UNFOLD ) && !is_gunmod() ) {
         int penalty = 50; // 200-300 for guns, 50-150 for melee, 50 as fallback
         if( is_gun() ) {
-            penalty = std::max( 0, 300 - p.get_skill_level( gun_skill() ) * 10 );
+            penalty = std::max( 0, 300 - you.get_skill_level( gun_skill() ) * 10 );
         } else if( is_melee() ) {
-            penalty = std::max( 0, 150 - p.get_skill_level( melee_skill() ) * 10 );
+            penalty = std::max( 0, 150 - you.get_skill_level( melee_skill() ) * 10 );
         }
 
         mv += penalty;
@@ -4775,10 +4790,10 @@ int item::on_wield_cost( const player &p ) const
     return mv;
 }
 
-void item::on_wield( player &p )
+void item::on_wield( Character &you )
 {
-    int wield_cost = on_wield_cost( p );
-    p.moves -= wield_cost;
+    int wield_cost = on_wield_cost( you );
+    you.moves -= wield_cost;
 
     std::string msg;
 
@@ -4786,16 +4801,16 @@ void item::on_wield( player &p )
 
     // if game is loaded - don't want ownership assigned during char creation
     if( get_player_character().getID().is_valid() ) {
-        handle_pickup_ownership( p );
+        handle_pickup_ownership( you );
     }
-    p.add_msg_if_player( m_neutral, msg, tname() );
+    you.add_msg_if_player( m_neutral, msg, tname() );
 
-    if( !p.martial_arts_data->selected_is_none() ) {
-        p.martial_arts_data->martialart_use_message( p );
+    if( !you.martial_arts_data->selected_is_none() ) {
+        you.martial_arts_data->martialart_use_message( you );
     }
 
     // Update encumbrance in case we were wearing it
-    p.flag_encumbrance();
+    you.flag_encumbrance();
 }
 
 void item::handle_pickup_ownership( Character &c )
@@ -5106,7 +5121,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         }
     }
 
-    if( has_flag( flag_WET ) ) {
+    if( has_flag( flag_WET ) || wetness ) {
         tagtext += _( " (wet)" );
     }
     if( already_used_by_player( player_character ) ) {
@@ -7439,6 +7454,30 @@ bool item::is_broken() const
     return has_flag( flag_ITEM_BROKEN );
 }
 
+int item::wind_resist() const
+{
+    std::vector<const material_type *> materials = made_of_types();
+    if( materials.empty() ) {
+        debugmsg( "Called item::wind_resist on an item (%s) made of nothing!", tname() );
+        return 99;
+    }
+
+    int best = -1;
+    for( const material_type *mat : materials ) {
+        cata::optional<int> resistance = mat->wind_resist();
+        if( resistance && *resistance > best ) {
+            best = *resistance;
+        }
+    }
+
+    // Default to 99% effective
+    if( best == -1 ) {
+        return 99;
+    }
+
+    return best;
+}
+
 std::set<fault_id> item::faults_potential() const
 {
     std::set<fault_id> res;
@@ -7799,7 +7838,7 @@ std::vector<std::pair<const recipe *, int>> item::get_available_recipes(
         }
 
         for( const islot_book::recipe_with_description_t &elem : type->book->recipes ) {
-            if( u.get_skill_level( elem.recipe->skill_used ) >= elem.skill_level ) {
+            if( u.get_knowledge_level( elem.recipe->skill_used ) >= elem.skill_level ) {
                 recipe_entries.emplace_back( elem.recipe, elem.skill_level );
             }
         }
@@ -7816,7 +7855,9 @@ std::vector<std::pair<const recipe *, int>> item::get_available_recipes(
             std::string new_recipe = recipes.substr( first_string_index,
                                      next_string_index - first_string_index );
             const recipe *r = &recipe_id( new_recipe ).obj();
-            recipe_entries.emplace_back( r, r->difficulty );
+            if( u.get_knowledge_level( r->skill_used ) >= r->difficulty ) {
+                recipe_entries.emplace_back( r, r->difficulty );
+            }
             first_string_index = next_string_index + 1;
         }
     }
@@ -8000,7 +8041,7 @@ damage_instance item::gun_damage( bool with_ammo ) const
     return ret;
 }
 
-int item::gun_recoil( const player &p, bool bipod ) const
+int item::gun_recoil( const Character &p, bool bipod ) const
 {
     if( !is_gun() || ( ammo_required() && !ammo_remaining() ) ) {
         return 0;
@@ -8055,7 +8096,7 @@ int item::gun_range( bool with_ammo ) const
     return std::min( std::max( 0, ret ), RANGE_HARD_CAP );
 }
 
-int item::gun_range( const player *p ) const
+int item::gun_range( const Character *p ) const
 {
     int ret = gun_range( true );
     if( p == nullptr ) {
@@ -8690,7 +8731,7 @@ item::reload_option::reload_option( const reload_option & ) = default;
 
 item::reload_option &item::reload_option::operator=( const reload_option & ) = default;
 
-item::reload_option::reload_option( const player *who, const item *target, const item *parent,
+item::reload_option::reload_option( const Character *who, const item *target, const item *parent,
                                     const item_location &ammo ) :
     who( who ), target( target ), ammo( ammo ), parent( parent )
 {
@@ -9437,11 +9478,11 @@ void item::set_countdown( int num_turns )
 }
 
 bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
-                        const tripoint &pos, const std::function<bool( const item & )> &filter )
+                        const tripoint &pos, const std::function<bool( const item & )> &filter, Character *carrier )
 {
     std::vector<item *> del;
 
-    visit_items( [&what, &qty, &used, &pos, &del, &filter]( item * e, item * parent ) {
+    visit_items( [&what, &qty, &used, &pos, &del, &filter, &carrier]( item * e, item * parent ) {
         if( qty == 0 ) {
             // found sufficient charges
             return VisitResponse::ABORT;
@@ -9455,13 +9496,20 @@ bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
             if( e->typeId() == what ) {
                 if( ( e->is_magazine() || e->magazine_current() != nullptr )
                     && e->ammo_current() != itype_id::NULL_ID() ) {
-
                     int n = std::min( e->ammo_remaining(), qty );
                     qty -= n;
                     item temp( *e );
                     temp.ammo_set( e->ammo_current(), n );
                     used.push_back( temp );
                     e->ammo_consume( n, pos, nullptr );
+                } else if( carrier && e->has_flag( flag_USES_BIONIC_POWER ) ) {
+                    // TODO: Generalize previous block to avoid code duplication?
+                    int n = std::min( e->ammo_remaining( carrier ), qty );
+                    qty -= n;
+                    item temp( *e );
+                    temp.ammo_set( e->ammo_current(), n );
+                    used.push_back( temp );
+                    e->ammo_consume( n, pos, carrier );
                 }
             }
             return VisitResponse::SKIP;
@@ -9755,7 +9803,7 @@ bool item::needs_processing() const
 {
     bool need_process = false;
     visit_items( [&need_process]( const item * it, item * ) {
-        if( it->active || it->ethereal || it->has_flag( flag_RADIO_ACTIVATION ) ||
+        if( it->active || it->ethereal || it->wetness || it->has_flag( flag_RADIO_ACTIVATION ) ||
             it->has_relic_recharge() ) {
             need_process = true;
             return VisitResponse::ABORT;
@@ -10641,8 +10689,17 @@ bool item::process_internal( player *carrier, const tripoint &pos,
     // Otherwise processing continues. This allows items that are processed as
     // food and as litcig and as ...
 
+    if( wetness > 0 ) {
+        wetness -= 1;
+    }
+
     // Remaining stuff is only done for active items.
     if( active ) {
+
+        if( wetness && has_flag( flag_WATER_BREAK ) ) {
+            deactivate();
+            set_flag( flag_ITEM_BROKEN );
+        }
 
         if( !is_food() && item_counter > 0 ) {
             item_counter--;
@@ -10870,6 +10927,10 @@ std::string item::type_name( unsigned int quantity ) const
                     ret_name = string_format( cname.name.translated( quantity ), ret_name );
                 }
                 break;
+            case condition_type::VAR:
+                if( has_var( cname.condition ) ) {
+                    ret_name = string_format( cname.name.translated( quantity ), ret_name );
+                }
             case condition_type::num_condition_types:
                 break;
         }

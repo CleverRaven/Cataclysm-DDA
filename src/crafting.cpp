@@ -242,7 +242,8 @@ static float workbench_crafting_speed_multiplier( const item &craft,
 float Character::crafting_speed_multiplier( const recipe &rec, bool in_progress ) const
 {
     const float result = morale_crafting_speed_multiplier( rec ) *
-                         lighting_craft_speed_multiplier( rec );
+                         lighting_craft_speed_multiplier( rec ) *
+                         manipulator_score();
     // Can't start if we'd need 300% time, but we can still finish the job
     if( !in_progress && result < 0.33f ) {
         return 0.0f;
@@ -270,7 +271,8 @@ float Character::crafting_speed_multiplier( const item &craft,
     const float morale_multi = morale_crafting_speed_multiplier( rec );
     const float mut_multi = mutation_value( "crafting_speed_multiplier" );
 
-    const float total_multi = light_multi * bench_multi * morale_multi * mut_multi;
+    const float total_multi = light_multi * bench_multi * morale_multi * mut_multi *
+                              manipulator_score();
 
     if( light_multi <= 0.0f ) {
         add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
@@ -561,14 +563,10 @@ const inventory &Character::crafting_inventory( const tripoint &src_pos, int rad
         crafting_cache.crafting_inventory->add_item( *it );
     }
 
-    for( const bionic &bio : *my_bionics ) {
-        const bionic_data &bio_data = bio.info();
-        if( ( !bio_data.activated || bio.powered ) &&
-            !bio_data.fake_item.is_empty() ) {
-            *crafting_cache.crafting_inventory += item( bio.info().fake_item,
-                                                  calendar::turn, units::to_kilojoule( get_power_level() ) );
-        }
+    for( const item *i : get_pseudo_items() ) {
+        *crafting_cache.crafting_inventory += *i;
     }
+
     if( has_trait( trait_BURROW ) ) {
         *crafting_cache.crafting_inventory += item( "pickaxe", calendar::turn );
         *crafting_cache.crafting_inventory += item( "shovel", calendar::turn );
@@ -733,6 +731,105 @@ static item_location set_item_map_or_vehicle( const Character &p, const tripoint
     }
 }
 
+static item_location place_craft_or_disassembly(
+    Character &ch, item &craft, cata::optional<tripoint> target )
+{
+    item_location craft_in_world;
+
+    // Check if we are standing next to a workbench. If so, just use that.
+    float best_bench_multi = 0.0f;
+    map &here = get_map();
+    for( const tripoint &adj : here.points_in_radius( ch.pos(), 1 ) ) {
+        if( here.dangerous_field_at( adj ) ) {
+            continue;
+        }
+        if( const cata::value_ptr<furn_workbench_info> &wb = here.furn( adj ).obj().workbench ) {
+            if( wb->multiplier > best_bench_multi ) {
+                best_bench_multi = wb->multiplier;
+                target = adj;
+            }
+        } else if( const cata::optional<vpart_reference> vp = here.veh_at(
+                       adj ).part_with_feature( "WORKBENCH", true ) ) {
+            if( const cata::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
+                if( wb_info->multiplier > best_bench_multi ) {
+                    best_bench_multi = wb_info->multiplier;
+                    target = adj;
+                }
+            } else {
+                debugmsg( "part '%s' with WORKBENCH flag has no workbench info", vp->part().name() );
+            }
+        }
+    }
+
+    // Crafting without a workbench
+    if( !target ) {
+        if( !ch.has_two_arms_lifting() ) {
+            craft_in_world = set_item_map_or_vehicle( ch, ch.pos(), craft );
+        } else if( !ch.has_wield_conflicts( craft ) ) {
+            if( cata::optional<item_location> it_loc = wield_craft( ch, craft ) ) {
+                craft_in_world = *it_loc;
+            }  else {
+                // This almost certianly shouldn't happen
+                put_into_vehicle_or_drop( ch, item_drop_reason::tumbling, {craft} );
+            }
+        } else {
+            enum option : int {
+                WIELD_CRAFT = 0,
+                DROP_CRAFT,
+                STASH,
+                DROP
+            };
+
+            uilist amenu;
+            amenu.text = string_format( pgettext( "in progress craft", "What to do with the %s?" ),
+                                        craft.display_name() );
+
+            amenu.addentry( WIELD_CRAFT, ch.can_unwield( ch.weapon ).success(),
+                            '1', _( "Dispose of your wielded %s and start working." ), ch.weapon.tname() );
+            amenu.addentry( DROP_CRAFT, true, '2', _( "Put it down and start working." ) );
+            const bool can_stash = ch.can_pickVolume( craft ) &&
+                                   ch.can_pickWeight( craft, !get_option<bool>( "DANGEROUS_PICKUPS" ) );
+            amenu.addentry( STASH, can_stash, '3', _( "Store it in your inventory." ) );
+            amenu.addentry( DROP, true, '4', _( "Drop it on the ground." ) );
+
+            amenu.query();
+            const option choice = amenu.ret == UILIST_CANCEL ? DROP : static_cast<option>( amenu.ret );
+            switch( choice ) {
+                case WIELD_CRAFT: {
+                    if( cata::optional<item_location> it_loc = wield_craft( ch, craft ) ) {
+                        craft_in_world = *it_loc;
+                    } else {
+                        // This almost certainly shouldn't happen
+                        put_into_vehicle_or_drop( ch, item_drop_reason::tumbling, {craft} );
+                    }
+                    break;
+                }
+                case DROP_CRAFT: {
+                    craft_in_world = set_item_map_or_vehicle( ch, ch.pos(), craft );
+                    break;
+                }
+                case STASH: {
+                    set_item_inventory( ch, craft );
+                    break;
+                }
+                case DROP: {
+                    put_into_vehicle_or_drop( ch, item_drop_reason::deliberate, {craft} );
+                    break;
+                }
+            }
+        }
+    } else {
+        // We have a workbench, put the item there.
+        craft_in_world = set_item_map_or_vehicle( ch, *target, craft );
+    }
+
+    if( !craft_in_world ) {
+        ch.add_msg_if_player( _( "Wield and activate the %s to start working." ), craft.tname() );
+    }
+
+    return craft_in_world;
+}
+
 void Character::start_craft( craft_command &command, const cata::optional<tripoint> &loc )
 {
     if( command.empty() ) {
@@ -751,98 +848,9 @@ void Character::start_craft( craft_command &command, const cata::optional<tripoi
         calc_encumbrance();
     }
 
-    item_location craft_in_world;
+    item_location craft_in_world = place_craft_or_disassembly( *this, craft, loc );
 
-    // Check if we are standing next to a workbench. If so, just use that.
-    float best_bench_multi = 0.0f;
-    cata::optional<tripoint> target = loc;
-    map &here = get_map();
-    for( const tripoint &adj : here.points_in_radius( pos(), 1 ) ) {
-        if( here.dangerous_field_at( adj ) ) {
-            continue;
-        }
-        if( const cata::value_ptr<furn_workbench_info> &wb = here.furn( adj ).obj().workbench ) {
-            if( wb->multiplier > best_bench_multi ) {
-                best_bench_multi = wb->multiplier;
-                target = adj;
-            }
-        } else if( const cata::optional<vpart_reference> vp = here.veh_at(
-                       adj ).part_with_feature( "WORKBENCH", true ) ) {
-            if( const cata::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
-                if( wb_info->multiplier > best_bench_multi ) {
-                    best_bench_multi = wb_info->multiplier;
-                    target = adj;
-                }
-            } else {
-                debugmsg( "part '%S' with WORKBENCH flag has no workbench info", vp->part().name() );
-            }
-        }
-    }
-
-    // Crafting without a workbench
-    if( !target ) {
-        if( !has_two_arms() ) {
-            craft_in_world = set_item_map_or_vehicle( *this, pos(), craft );
-        } else if( !has_wield_conflicts( craft ) ) {
-            if( cata::optional<item_location> it_loc = wield_craft( *this, craft ) ) {
-                craft_in_world = *it_loc;
-            }  else {
-                // This almost certianly shouldn't happen
-                put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, {craft} );
-            }
-        } else {
-            enum option : int {
-                WIELD_CRAFT = 0,
-                DROP_CRAFT,
-                STASH,
-                DROP
-            };
-
-            uilist amenu;
-            amenu.text = string_format( pgettext( "in progress craft", "What to do with the %s?" ),
-                                        craft.display_name() );
-
-            amenu.addentry( WIELD_CRAFT, can_unwield( weapon ).success(),
-                            '1', _( "Dispose of your wielded %s and start working." ), weapon.tname() );
-            amenu.addentry( DROP_CRAFT, true, '2', _( "Put it down and start working." ) );
-            const bool can_stash = can_pickVolume( craft ) &&
-                                   can_pickWeight( craft, !get_option<bool>( "DANGEROUS_PICKUPS" ) );
-            amenu.addentry( STASH, can_stash, '3', _( "Store it in your inventory." ) );
-            amenu.addentry( DROP, true, '4', _( "Drop it on the ground." ) );
-
-            amenu.query();
-            const option choice = amenu.ret == UILIST_CANCEL ? DROP : static_cast<option>( amenu.ret );
-            switch( choice ) {
-                case WIELD_CRAFT: {
-                    if( cata::optional<item_location> it_loc = wield_craft( *this, craft ) ) {
-                        craft_in_world = *it_loc;
-                    } else {
-                        // This almost certainly shouldn't happen
-                        put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, {craft} );
-                    }
-                    break;
-                }
-                case DROP_CRAFT: {
-                    craft_in_world = set_item_map_or_vehicle( *this, pos(), craft );
-                    break;
-                }
-                case STASH: {
-                    set_item_inventory( *this, craft );
-                    break;
-                }
-                case DROP: {
-                    put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, {craft} );
-                    break;
-                }
-            }
-        }
-    } else {
-        // We have a workbench, put the item there.
-        craft_in_world = set_item_map_or_vehicle( *this, *target, craft );
-    }
-
-    if( !craft_in_world.get_item() ) {
-        add_msg_if_player( _( "Wield and activate the %s to start crafting." ), craft.tname() );
+    if( !craft_in_world ) {
         return;
     }
 
@@ -1220,7 +1228,9 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
             for( item &comp : used ) {
                 // only comestibles have cooks_like.  any other type of item will throw an exception, so filter those out
                 if( comp.is_comestible() && !comp.get_comestible()->cooks_like.is_empty() ) {
+                    const double relative_rot = comp.get_relative_rot();
                     comp = item( comp.get_comestible()->cooks_like, comp.birthday(), comp.charges );
+                    comp.set_relative_rot( relative_rot );
                 }
                 // If this recipe is cooked, components are no longer raw.
                 if( should_heat || remove_raw ) {
@@ -1373,7 +1383,8 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
 
         std::vector<comp_selection<item_comp>> item_selections;
         for( const auto &it : continue_reqs.get_components() ) {
-            comp_selection<item_comp> is = select_item_component( it, batch_size, map_inv, true, filter );
+            comp_selection<item_comp> is = select_item_component( it, batch_size, map_inv, true, filter, true,
+                                           &rec );
             if( is.use_from == usage_from::cancel ) {
                 cancel_activity();
                 add_msg( _( "You stop crafting." ) );
@@ -1476,8 +1487,9 @@ const requirement_data *Character::select_requirements(
 comp_selection<item_comp> Character::select_item_component( const std::vector<item_comp>
         &components,
         int batch, read_only_visitable &map_inv, bool can_cancel,
-        const std::function<bool( const item & )> &filter, bool player_inv )
+        const std::function<bool( const item & )> &filter, bool player_inv, const recipe *rec )
 {
+    Character &player_character = get_player_character();
     std::vector<item_comp> player_has;
     std::vector<item_comp> map_has;
     std::vector<item_comp> mixed;
@@ -1570,23 +1582,67 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
         }
     } else { // Let the player pick which component they want to use
         uilist cmenu;
+        bool is_food = false;
+        bool remove_raw = false;
+        if( rec ) {
+            is_food = rec->create_result().is_comestible();
+            remove_raw = rec->hot_result() || rec->removes_raw();
+        }
         // Populate options with the names of the items
         for( auto &map_ha : map_has ) { // Index 0-(map_has.size()-1)
-            std::string tmpStr = string_format( _( "%s (%d/%d nearby)" ),
+            std::string text = _( "%s (%d/%d nearby)" );
+            const item ingredient = item( map_ha.type );
+            bool display_kcal = is_food && ingredient.is_food();
+            std::pair<int, int> kcal_values( 0, 0 );
+            if( display_kcal ) {
+                kcal_values = map_inv.kcal_range( map_ha.type, filter,
+                                                  player_character );
+                text += _( " %d" );
+                text += kcal_values.first == kcal_values.second ? _( " kcal" ) : _( "-%d kcal" );
+                if( ingredient.has_flag( flag_RAW ) && remove_raw ) {
+                    //Multiplier for RAW food digestion
+                    kcal_values.first /= 0.75f;
+                    kcal_values.second /= 0.75f;
+                    text += string_format( _( " <color_brown> (will be processed)</color>" ) );
+                }
+            }
+            std::string tmpStr = string_format( text,
                                                 item::nname( map_ha.type ),
                                                 ( map_ha.count * batch ),
                                                 item::count_by_charges( map_ha.type ) ?
                                                 map_inv.charges_of( map_ha.type, INT_MAX, filter ) :
-                                                map_inv.amount_of( map_ha.type, false, INT_MAX, filter ) );
+                                                map_inv.amount_of( map_ha.type, false, INT_MAX, filter ),
+                                                kcal_values.first * map_ha.count * batch,
+                                                kcal_values.second * map_ha.count * batch
+                                              );
             cmenu.addentry( tmpStr );
         }
         for( auto &player_ha : player_has ) { // Index map_has.size()-(map_has.size()+player_has.size()-1)
-            std::string tmpStr = string_format( _( "%s (%d/%d on person)" ),
+            std::string text = _( "%s (%d/%d on person)" );
+            const item ingredient = item( player_ha.type );
+            bool display_kcal = is_food && ingredient.is_food();
+            std::pair<int, int> kcal_values( 0, 0 );
+            if( display_kcal ) {
+                kcal_values = kcal_range( player_ha.type, filter,
+                                          player_character );
+                text += _( " %d" );
+                text += kcal_values.first == kcal_values.second ? _( " kcal" ) : _( "-%d kcal" );
+                if( ingredient.has_flag( flag_RAW ) && remove_raw ) {
+                    //Multiplier for RAW food digestion
+                    kcal_values.first /= 0.75f;
+                    kcal_values.second /= 0.75f;
+                    text += string_format( _( " <color_brown> (will be processed)</color>" ) );
+                }
+            }
+            std::string tmpStr = string_format( text,
                                                 item::nname( player_ha.type ),
                                                 ( player_ha.count * batch ),
                                                 item::count_by_charges( player_ha.type ) ?
                                                 charges_of( player_ha.type, INT_MAX, filter ) :
-                                                amount_of( player_ha.type, false, INT_MAX, filter ) );
+                                                amount_of( player_ha.type, false, INT_MAX, filter ),
+                                                kcal_values.first * player_ha.count * batch,
+                                                kcal_values.second * player_ha.count * batch
+                                              );
             cmenu.addentry( tmpStr );
         }
         for( auto &component : mixed ) {
@@ -1596,10 +1652,34 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
                             charges_of( component.type, INT_MAX, filter ) :
                             map_inv.amount_of( component.type, false, INT_MAX, filter ) +
                             amount_of( component.type, false, INT_MAX, filter );
-            std::string tmpStr = string_format( _( "%s (%d/%d nearby & on person)" ),
+            std::string text = _( "%s (%d/%d nearby & on person)" );
+            const item ingredient = item( component.type );
+            bool display_kcal = is_food && ingredient.is_food();
+            std::pair<int, int> kcal_values( 0, 0 );
+            if( display_kcal ) {
+                kcal_values = map_inv.kcal_range( component.type, filter,
+                                                  player_character );
+                std::pair<int, int> kcal_values_tmp = kcal_range( component.type, filter,
+                                                      player_character );
+                kcal_values.first = std::min( kcal_values.first, kcal_values_tmp.first );
+                kcal_values.second = std::max( kcal_values.second, kcal_values_tmp.second );
+
+                text += _( " %d" );
+                text += kcal_values.first == kcal_values.second ? _( " kcal" ) : _( "-%d kcal" );
+                if( ingredient.has_flag( flag_RAW ) && remove_raw ) {
+                    //Multiplier for RAW food digestion
+                    kcal_values.first /= 0.75f;
+                    kcal_values.second /= 0.75f;
+                    text += string_format( _( " <color_brown> (will be processed)</color>" ) );
+                }
+            }
+            std::string tmpStr = string_format( text,
                                                 item::nname( component.type ),
                                                 component.count * batch,
-                                                available );
+                                                available,
+                                                kcal_values.first * component.count * batch,
+                                                kcal_values.second * component.count * batch
+                                              );
             cmenu.addentry( tmpStr );
         }
 
@@ -1708,13 +1788,16 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
             ret.splice( ret.end(), tmp );
         }
     }
-    // condense those items into one
+    // Merge charges for items that stack with each other
     if( by_charges && ret.size() > 1 ) {
-        std::list<item>::iterator b = ret.begin();
-        b++;
-        while( ret.size() > 1 ) {
-            ret.front().charges += b->charges;
-            b = ret.erase( b );
+        for( auto outer = std::begin( ret ); outer != std::end( ret ); ++outer ) {
+            for( auto inner = std::next( outer ); inner != std::end( ret ); ) {
+                if( outer->merge_charges( *inner ) ) {
+                    inner = ret.erase( inner );
+                } else {
+                    ++inner;
+                }
+            }
         }
     }
     lastconsumed = selected_comp.type;
@@ -2122,65 +2205,10 @@ item_location Character::create_in_progress_disassembly( item_location target )
         target.remove_item();
     }
 
-    item_location disassembly_in_world;
+    item_location disassembly_in_world = place_craft_or_disassembly( *this, new_disassembly,
+                                         cata::nullopt );
 
-    if( !has_two_arms() ) {
-        disassembly_in_world = set_item_map_or_vehicle( *this, pos(), new_disassembly );
-    } else if( !has_wield_conflicts( new_disassembly ) ) {
-        if( cata::optional<item_location> it_loc = wield_craft( *this, new_disassembly ) ) {
-            disassembly_in_world = *it_loc;
-        }  else {
-            put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, {new_disassembly} );
-        }
-    } else {
-        enum option : int {
-            WIELD_CRAFT = 0,
-            DROP_CRAFT,
-            STASH,
-            DROP
-        };
-
-        uilist amenu;
-        amenu.text = string_format( pgettext( "in progress disassembly", "What to do with the %s?" ),
-                                    new_disassembly.display_name() );
-
-        amenu.addentry( WIELD_CRAFT, can_unwield( weapon ).success(),
-                        '1', _( "Dispose of your wielded %s and start working." ), weapon.tname() );
-        amenu.addentry( DROP_CRAFT, true, '2', _( "Put it down and start working." ) );
-        const bool can_stash = can_pickVolume( new_disassembly ) &&
-                               can_pickWeight( new_disassembly, !get_option<bool>( "DANGEROUS_PICKUPS" ) );
-        amenu.addentry( STASH, can_stash, '3', _( "Store it in your inventory." ) );
-        amenu.addentry( DROP, true, '4', _( "Drop it on the ground." ) );
-
-        amenu.query();
-        const option choice = amenu.ret == UILIST_CANCEL ? DROP : static_cast<option>( amenu.ret );
-        switch( choice ) {
-            case WIELD_CRAFT: {
-                if( cata::optional<item_location> it_loc = wield_craft( *this, new_disassembly ) ) {
-                    disassembly_in_world = *it_loc;
-                } else {
-                    put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, {new_disassembly} );
-                }
-                break;
-            }
-            case DROP_CRAFT: {
-                disassembly_in_world = set_item_map_or_vehicle( *this, pos(), new_disassembly );
-                break;
-            }
-            case STASH: {
-                set_item_inventory( *this, new_disassembly );
-                break;
-            }
-            case DROP: {
-                put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, {new_disassembly} );
-                break;
-            }
-        }
-    }
-
-    if( !disassembly_in_world.get_item() ) {
-        add_msg_if_player( _( "Wield and activate the %s to start disassembling." ),
-                           new_disassembly.tname() );
+    if( !disassembly_in_world ) {
         return item_location::nowhere;
     }
 
@@ -2539,7 +2567,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
         }
     }
 
-    put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, drop_items );
+    put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, drop_items, loc );
 
     if( !dis.learn_by_disassembly.empty() && !knows_recipe( &dis ) ) {
         if( can_decomp_learn( dis ) ) {

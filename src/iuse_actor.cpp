@@ -1092,7 +1092,7 @@ cata::optional<int> deploy_furn_actor::use( player &p, item &it, bool, const tri
     here.furn_set( pnt, furn_type );
     it.spill_contents( pnt );
     p.mod_moves( -to_moves<int>( 2_seconds ) );
-    return 1;
+    return it.type->charges_to_use() != 0 ? it.type->charges_to_use() : 1;
 }
 
 std::unique_ptr<iuse_actor> reveal_map_actor::clone() const
@@ -1471,14 +1471,20 @@ bool salvage_actor::try_to_cut_up( player &p, item &it ) const
 // cut gets cut
 int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
 {
+    std::vector<material_id> cut_material_components = cut.get_item()->made_of();
     const bool filthy = cut.get_item()->is_filthy();
-    // This is the value that tracks progress, as we cut pieces off, we reduce this number.
-    units::mass remaining_weight = cut.get_item()->weight();
+
+    float remaining_weight = 1;
+
+
+
+    // Keep the codes below, use it to calculate component loss
+
+
     // Chance of us losing a material component to entropy.
     /** @EFFECT_FABRICATION reduces chance of losing components when cutting items up */
     int entropy_threshold = std::max( 5, 10 - p.get_skill_level( skill_fabrication ) );
-    // What material components can we get back?
-    std::vector<material_id> cut_material_components = cut.get_item()->made_of();
+
     // What materials do we salvage (ids and counts).
     std::map<itype_id, int> materials_salvaged;
 
@@ -1514,28 +1520,106 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
         remaining_weight *= component_success_chance;
     }
 
-    // Essentially we round-robbin through the components subtracting mass as we go.
-    std::map<units::mass, itype_id> weight_to_item_map;
-    for( const material_id &material : cut_material_components ) {
-        if( const cata::optional<itype_id> id = material->salvaged_into() ) {
-            materials_salvaged[*id] = 0;
-            weight_to_item_map[ item( *id, calendar::turn_zero, item::solitary_tag{} ).weight() ] = *id;
+
+
+    std::vector<item> stack{ *cut.get_item() }; /* working stack */
+    std::map<itype_id, int> salvage_to; /* outcome */
+    std::map<material_id, units::mass> mat_to_weight;
+    // Decompose the item into irreducible parts
+    while( !stack.empty() ) {
+        item temp = stack.back();
+        stack.pop_back();
+
+        // If it is one of the basic components, add it into the list
+        if( temp.type->is_basic_component() ) {
+            salvage_to[temp.typeId()] ++;
+            continue;
+        }
+        // Discard invalid component
+        if( !temp.made_of_any( std::set<material_id>( cut_material_components.begin(),
+                               cut_material_components.end() ) ) ) {
+            continue;
+        }
+        //items count by charges should be even smaller than base materials
+        if( !temp.is_salvageable() || temp.count_by_charges() ) {
+            // non-salvageable items but made of appropriate material, disrtibute uniformly in to all materials
+            for( const auto &type : temp.made_of() ) {
+                mat_to_weight[type] += ( temp.weight() * remaining_weight / temp.made_of().size() );
+            }
+            continue;
+        }
+        //check if there are components defined
+        if( !temp.components.empty() ) {
+            // push components into stack
+            for( const item &iter : temp.components ) {
+                stack.push_back( iter );
+            }
+            continue;
+        }
+        // No available components
+        // Try to find an available recipe and "restore" its components
+        recipe un_craft;
+        auto iter = std::find_if( recipe_dict.begin(),
+        recipe_dict.end(), [&]( const std::pair<const recipe_id, recipe> &curr ) {
+            units::mass weight = 0_gram;
+            for( const auto &altercomps : curr.second.simple_requirements().get_components() ) {
+                weight += ( altercomps.front().type->weight ) * altercomps.front().count;
+            }
+            return !curr.second.obsolete && curr.second.result() == temp.typeId() &&
+                   curr.second.makes_amount() <= 1 && weight <= temp.weight();
+        } );
+        // No crafting recipe available
+        if( iter == recipe_dict.end() ) {
+            // Check disassemble recipe too
+            un_craft = recipe_dictionary::get_uncraft( temp.typeId() );
+            if( un_craft.is_null() ) {
+                // No recipes found, count weight and go next
+                for( const auto &type : temp.made_of() ) {
+                    mat_to_weight[type] += ( temp.weight() * remaining_weight / temp.made_of().size() );
+                }
+                continue;
+            }
+            // Found disassemble recipe, check if it is valid
+            units::mass weight = 0_gram;
+            for( const auto &altercomps : un_craft.simple_requirements().get_components() ) {
+                weight += ( altercomps.front().type->weight ) * altercomps.front().count;
+            }
+            if( weight > temp.weight() ) {
+                // Bad disassemble recipe.  Count weight and go next
+                for( const auto &type : temp.made_of() ) {
+                    mat_to_weight[type] += ( temp.weight() * remaining_weight / temp.made_of().size() );
+                }
+                continue;
+            }
+        } else {
+            //take the chosen crafting recipe
+            un_craft = iter->second;
+        }
+        // If we get here it means we found a recipe
+        const requirement_data requirements = un_craft.simple_requirements();
+        // find default components set from recipe, push them into stack
+        for( const auto &altercomps : requirements.get_components() ) {
+            const item_comp &comp = altercomps.front();
+            // if count by charges
+            if( comp.type->count_by_charges() ) {
+                stack.emplace_back( comp.type, calendar::turn, comp.count );
+            } else {
+                for( int i = 0; i < comp.count; i++ ) {
+                    stack.emplace_back( comp.type, calendar::turn );
+                }
+            }
         }
     }
-    while( remaining_weight > 0_gram && !weight_to_item_map.empty() ) {
-        units::mass components_weight = std::accumulate( weight_to_item_map.begin(),
-                                        weight_to_item_map.end(), 0_gram, []( const units::mass & a,
-        const std::pair<units::mass, itype_id> &b ) {
-            return a + b.first;
-        } );
-        if( components_weight > 0_gram && components_weight <= remaining_weight ) {
-            int count = remaining_weight / components_weight;
-            for( std::pair<units::mass, itype_id> mat_pair : weight_to_item_map ) {
-                materials_salvaged[mat_pair.second] += count;
-            }
-            remaining_weight -= components_weight * count;
+
+    // Apply propotional item loss.
+    for( auto &iter : salvage_to ) {
+        iter.second *= remaining_weight;
+    }
+    // Item loss for weight was applied before(only round once).
+    for( const auto &iter : mat_to_weight ) {
+        if( const cata::optional<itype_id> id = iter.first->salvaged_into() ) {
+            salvage_to[*id] += ( iter.second / id->obj().weight );
         }
-        weight_to_item_map.erase( std::prev( weight_to_item_map.end() ) );
     }
 
     add_msg( m_info, _( "You try to salvage materials from the %s." ),
@@ -1552,7 +1636,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
     p.calc_encumbrance();
 
     map &here = get_map();
-    for( const auto &salvaged : materials_salvaged ) {
+    for( const auto &salvaged : salvage_to ) {
         itype_id mat_name = salvaged.first;
         int amount = salvaged.second;
         item result( mat_name, calendar::turn );
@@ -2389,8 +2473,8 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
                          obj.tname(), holster.tname() );
 
     // holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
-    p.store( holster, obj, false, holster.obtain_cost( obj ),
-             item_pocket::pocket_type::CONTAINER );
+    p.as_character()->store( holster, obj, false, holster.obtain_cost( obj ),
+                             item_pocket::pocket_type::CONTAINER );
     return true;
 }
 
@@ -3824,7 +3908,8 @@ cata::optional<int> saw_barrel_actor::use( player &p, item &it, bool t, const tr
     return 0;
 }
 
-ret_val<bool> saw_barrel_actor::can_use_on( const player &, const item &, const item &target ) const
+ret_val<bool> saw_barrel_actor::can_use_on( const Character &, const item &,
+        const item &target ) const
 {
     if( !target.is_gun() ) {
         return ret_val<bool>::make_failure( _( "It's not a gun." ) );
@@ -4538,8 +4623,8 @@ std::unique_ptr<iuse_actor> effect_on_conditons_actor::clone() const
 void effect_on_conditons_actor::load( const JsonObject &obj )
 {
     description = obj.get_string( "description" );
-    for( const std::string &eoc : obj.get_string_array( "effect_on_conditions" ) ) {
-        eocs.emplace_back( effect_on_condition_id( eoc ) );
+    for( JsonValue jv : obj.get_array( "effect_on_conditions" ) ) {
+        eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
     }
 }
 
@@ -4551,17 +4636,15 @@ void effect_on_conditons_actor::info( const item &, std::vector<iteminfo> &dump 
 cata::optional<int> effect_on_conditons_actor::use( player &p, item &it, bool,
         const tripoint & ) const
 {
-    dialogue d;
-    standard_npc default_npc( "Default" );
+    Character *char_ptr = nullptr;
     if( avatar *u = p.as_avatar() ) {
-        d.alpha = get_talker_for( u );
+        char_ptr = u;
     } else if( npc *n = p.as_npc() ) {
-        d.alpha = get_talker_for( n );
+        char_ptr = n;
     }
 
     item_location loc( *( p.as_character() ), &it );
-    d.beta = get_talker_for( loc );
-
+    dialogue d( get_talker_for( char_ptr ), get_talker_for( loc ) );
     for( const effect_on_condition_id &eoc : eocs ) {
         eoc->activate( d );
     }

@@ -391,7 +391,7 @@ inline std::string serialize( const T &obj )
 }
 
 template<typename T>
-inline void deserialize( T &obj, const std::string &data )
+inline void deserialize_from_string( T &obj, const std::string &data )
 {
     deserialize_wrapper( [&obj]( JsonIn & jsin ) {
         obj.deserialize( jsin );
