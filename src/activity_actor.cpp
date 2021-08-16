@@ -4427,7 +4427,7 @@ void rummage_pocket_activity_actor::finish( player_activity &act, Character &who
             case action::read: {
                 avatar &player_character = get_avatar();
                 if( it_loc->type->can_use( "learn_spell" ) ) {
-                    item spell_book = *it_loc.get_item();
+                    item &spell_book = *it_loc.get_item();
                     spell_book.get_use( "learn_spell" )->call(
                         player_character, spell_book, spell_book.active, player_character.pos() );
                 } else {
