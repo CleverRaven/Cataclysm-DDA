@@ -1069,8 +1069,7 @@ int Character::swim_speed() const
         ret -= hand_bonus_mult * ( 60 + str_cur * 5 );
     }
     /** @EFFECT_SWIMMING increases swim speed */
-    ret += ( 50 - get_skill_level( skill_swimming ) * 2 ) * ( ( encumb( body_part_leg_l ) +
-            encumb( body_part_leg_r ) ) / 10 );
+    ret *= swim_modifier();
     ret += ( 80 - get_skill_level( skill_swimming ) * 3 ) * ( encumb( body_part_torso ) / 10 );
     if( get_skill_level( skill_swimming ) < 10 ) {
         for( const item &i : worn ) {
@@ -1640,11 +1639,38 @@ float Character::breathing_score() const
     return std::max( 0.0f, total );
 }
 
+float Character::swim_score() const
+{
+    float total = 0.0f;
+    for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
+        total += id.second.get_swim_score( get_skill_level( skill_swimming ) );
+    }
+    return std::max( 0.0f, total );
+}
+
 float Character::vision_score() const
 {
     float total = 0.0f;
     for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
         total += id.second.get_vision_score();
+    }
+    return std::max( 0.0f, total );
+}
+
+float Character::movement_speed_score() const
+{
+    float total = 0.0f;
+    for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
+        total += id.second.get_movement_speed_score();
+    }
+    return std::max( 0.0f, total );
+}
+
+float Character::balance_score() const
+{
+    float total = 0.0f;
+    for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
+        total += id.second.get_balance_score();
     }
     return std::max( 0.0f, total );
 }
@@ -9002,6 +9028,38 @@ float Character::stamina_recovery_breathing_modifier() const
     return breathing_score();
 }
 
+float Character::limb_speed_movecost_modifier() const
+{
+    if( movement_speed_score() == 0.0f ) {
+        return MAX_MOVECOST_MODIFIER;
+    } else {
+        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / movement_speed_score() );
+    }
+}
+
+float Character::limb_balance_movecost_modifier() const
+{
+    if( balance_score() == 0.0f ) {
+        return MAX_MOVECOST_MODIFIER;
+    } else {
+        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / balance_score() );
+    }
+}
+
+float Character::limb_run_cost_modifier() const
+{
+    return ( limb_balance_movecost_modifier() + limb_speed_movecost_modifier() ) / 2.0f;
+}
+
+float Character::swim_modifier() const
+{
+    if( swim_score() == 0.0f ) {
+        return MAX_MOVECOST_MODIFIER;
+    } else {
+        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / swim_score() );
+    }
+}
+
 void Character::update_stamina( int turns )
 {
     static const std::string player_base_stamina_regen_rate( "PLAYER_BASE_STAMINA_REGEN_RATE" );
@@ -12226,76 +12284,6 @@ item &Character::item_with_best_of_quality( const quality_id &qid )
     return null_item_reference();
 }
 
-int Character::limb_health_movecost_modifier() const
-{
-    std::vector<float> leg_health;
-    for( const bodypart_id &part : get_all_body_parts() ) {
-        if( part->limb_type != body_part_type::type::leg ) {
-            continue;
-        }
-        const float cur_leg = static_cast<float>( get_part_hp_cur( part ) ) /
-                              static_cast<float>( std::max( 1, get_part_hp_max( part ) ) );
-        leg_health.push_back( cur_leg );
-    }
-    std::sort( leg_health.begin(), leg_health.end(), std::greater<>() );
-    // the best hp score of all legs. 1 is full health
-    float leg_hi;
-    // the second best hp score of all legs. 1 is full health.
-    float leg_lo;
-    if( leg_health.size() >= 2 ) {
-        leg_hi = leg_health[0];
-        leg_lo = leg_health[1];
-    } else if( leg_health.size() == 1 ) {
-        leg_hi = leg_lo = leg_health[0];
-    } else {
-        leg_hi = leg_lo = 0;
-    }
-    return 50 * ( 1 - std::sqrt( leg_hi ) ) +
-           50 * ( 1 - std::sqrt( leg_lo ) );
-}
-
-int Character::foot_encumbrance_movecost_modifier() const
-{
-    // the lowest encumbered leg
-    cata::optional<int> encumb_leg_lo = cata::nullopt;
-    // the second lowest encumbered leg
-    cata::optional<int> encumb_leg_hi = cata::nullopt;
-    // the lowest encumbered foot
-    cata::optional<int> encumb_foot_lo = cata::nullopt;
-    // the second lowest encumbered foot
-    cata::optional<int> encumb_foot_hi = cata::nullopt;
-
-    for( const bodypart_id &part : get_all_body_parts() ) {
-        if( part->limb_type == body_part_type::type::leg ) {
-            const int leg_encumb = encumb( part );
-            if( !encumb_leg_lo ) {
-                encumb_leg_lo = leg_encumb;
-            } else if( *encumb_leg_lo > leg_encumb ) {
-                encumb_leg_hi = encumb_leg_lo;
-                encumb_leg_hi = leg_encumb;
-            }
-        } else if( part->limb_type == body_part_type::type::foot ) {
-            const int foot_encumb = encumb( part );
-            if( !encumb_foot_lo ) {
-                encumb_foot_lo = foot_encumb;
-            } else if( *encumb_foot_lo > foot_encumb ) {
-                encumb_foot_hi = encumb_foot_lo;
-                encumb_foot_hi = foot_encumb;
-            }
-        }
-    }
-
-    /**
-     * since we're doing a min function but still want to zero out encumbrance,
-     * optional seems the easiest way to go here rather than using INT_MAX which
-     * would do the same thing.
-     */
-    const int encumb_feet = encumb_foot_hi.value_or( 0 ) + encumb_foot_lo.value_or( 0 );
-    const int encumb_legs = encumb_leg_hi.value_or( 0 ) + encumb_leg_lo.value_or( 0 );
-
-    return ( encumb_feet * 2.5 + encumb_legs * 1.5 ) / 10;
-}
-
 int Character::run_cost( int base_cost, bool diag ) const
 {
     float movecost = static_cast<float>( base_cost );
@@ -12327,8 +12315,7 @@ int Character::run_cost( int base_cost, bool diag ) const
             }
         }
 
-        // Linearly increase move cost relative to individual leg hp.
-        movecost += limb_health_movecost_modifier();
+        movecost *= limb_run_cost_modifier();
 
         movecost *= mutation_value( "movecost_modifier" );
         if( flatground ) {
@@ -12369,8 +12356,6 @@ int Character::run_cost( int base_cost, bool diag ) const
                 movecost *= 1.1f;
             }
         }
-
-        movecost += foot_encumbrance_movecost_modifier();
 
         // ROOTS3 does slow you down as your roots are probing around for nutrients,
         // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
@@ -14248,10 +14233,8 @@ float Character::fall_damage_mod() const
 
     /** @EFFECT_DODGE decreases damage from falling */
     float dex_dodge = dex_cur / 2.0 + get_skill_level( skill_dodge );
-    // Penalize for wearing heavy stuff
-    const float average_leg_encumb = ( encumb( bodypart_id( "leg_l" ) ) + encumb(
-                                           bodypart_id( "leg_r" ) ) ) / 2.0;
-    dex_dodge -= ( average_leg_encumb + encumb( bodypart_id( "torso" ) ) ) / 10;
+    dex_dodge *= limb_speed_movecost_modifier();
+    dex_dodge -= ( encumb( bodypart_id( "torso" ) ) ) / 10;
     // But prevent it from increasing damage
     dex_dodge = std::max( 0.0f, dex_dodge );
     // 100% damage at 0, 75% at 10, 50% at 20 and so on

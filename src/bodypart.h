@@ -191,6 +191,9 @@ struct body_part_type {
         float breathing_score = 0.0f;
         // how well you can see things. affects things like throwing dispersion. cumulative
         float vision_score = 0.0f;
+        float movement_speed_score = 0.0f;
+        float balance_score = 0.0f;
+        float swim_score = 0.0f;
 
         float smash_efficiency = 0.5f;
 
@@ -327,6 +330,9 @@ class bodypart
         float get_lifting_score() const;
         float get_breathing_score() const;
         float get_vision_score() const;
+        float get_movement_speed_score() const;
+        float get_balance_score() const;
+        float get_swim_score( double swim_skill = 0.0 ) const;
 
         int get_hp_cur() const;
         int get_hp_max() const;

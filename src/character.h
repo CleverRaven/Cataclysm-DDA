@@ -563,6 +563,11 @@ class Character : public Creature, public visitable
         float reloading_move_modifier() const;
         float thrown_dex_modifier() const;
         float stamina_recovery_breathing_modifier() const;
+        float limb_speed_movecost_modifier() const;
+        float limb_balance_movecost_modifier() const;
+        // movecost is modified by the average of limb speed and balance.
+        float limb_run_cost_modifier() const;
+        float swim_modifier() const;
         // additive modifier
         float ranged_dispersion_modifier_hands() const;
         float ranged_dispersion_modifier_vision() const;
@@ -610,7 +615,7 @@ class Character : public Creature, public visitable
         void action_taken();
         /** Returns true if the player is knocked over, has broken legs or is lying down */
         bool is_on_ground() const override;
-        /** Returns the player's speed for swimming across water tiles */
+        /** Returns the player's movecost for swimming across water tiles. NOT SPEED! */
         int  swim_speed() const;
         /** Returns melee skill level, to be used to throttle dodge practice. **/
         float get_melee() const override;
@@ -1078,7 +1083,10 @@ class Character : public Creature, public visitable
         float blocking_score( const body_part_type::type &bp ) const;
         float lifting_score( const body_part_type::type &bp ) const;
         float breathing_score() const;
+        float swim_score() const;
         float vision_score() const;
+        float movement_speed_score() const;
+        float balance_score() const;
         bool has_min_manipulators() const;
         // technically this is "has more than one arm"
         bool has_two_arms_lifting() const;
@@ -3138,11 +3146,6 @@ class Character : public Creature, public visitable
          */
         std::map<bodypart_id, float> bodypart_exposure();
     private:
-        /** limb helpers */
-        // movecost addition based on limb breakage and move scores.
-        int limb_health_movecost_modifier() const;
-        //
-        int foot_encumbrance_movecost_modifier() const;
         /** suffer() subcalls */
         void suffer_water_damage( const trait_id &mut_id );
         void suffer_mutation_power( const trait_id &mut_id );
