@@ -721,11 +721,11 @@ overmap_path_params overmap_path_params::for_player()
     overmap_path_params ret;
     ret.road_cost = 10;
     ret.dirt_road_cost = 10;
-    ret.field_cost = 10;
-    ret.trail_cost = 15;
+    ret.field_cost = 15;
+    ret.trail_cost = 18;
     ret.shore_cost = 20;
     ret.small_building_cost = 20;
-    ret.forest_cost = 25;
+    ret.forest_cost = 30;
     ret.swamp_cost = 100;
     ret.other_cost = 30;
     return ret;
@@ -745,7 +745,7 @@ overmap_path_params overmap_path_params::for_land_vehicle( float offroad_coeff, 
     const bool can_offroad = offroad_coeff >= 0.05;
     overmap_path_params ret;
     ret.road_cost = 10;
-    ret.field_cost = can_offroad ? std::lround( 10 / std::min( 1.0f, offroad_coeff ) ) : -1;
+    ret.field_cost = can_offroad ? std::lround( 15 / std::min( 1.0f, offroad_coeff ) ) : -1;
     ret.dirt_road_cost = ret.field_cost;
     ret.forest_cost = -1;
     ret.small_building_cost = ( can_offroad && tiny ) ? ret.field_cost + 30 : -1;
