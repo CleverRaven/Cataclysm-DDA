@@ -1663,7 +1663,7 @@
     "id": "CATEGORY_SELECTION",
     "category": "INVENTORY",
     "name": "Toggle category selection mode",
-    "bindings": [ { "input_method": "keyboard_any", "key": "TAB" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "t" } ]
   },
   {
     "type": "keybinding",
