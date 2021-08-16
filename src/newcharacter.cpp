@@ -124,13 +124,15 @@ enum struct tab_direction {
     QUIT
 };
 
+enum class pool_type {
+    FREEFORM = 0,
+    ONE_POOL,
+    MULTI_POOL,
+    TRANSFER,
+};
+
 struct points_left {
-    enum point_limit : int {
-        FREEFORM = 0,
-        ONE_POOL,
-        MULTI_POOL,
-        TRANSFER,
-    } limit;
+    pool_type limit;
 
     points_left();
     bool is_freeform();
@@ -227,26 +229,26 @@ struct multi_pool {
 
 };
 
-static int skill_points_left( const avatar &u, points_left::point_limit pool )
+static int skill_points_left( const avatar &u, pool_type pool )
 {
     switch( pool ) {
-        case points_left::MULTI_POOL: {
+        case pool_type::MULTI_POOL: {
             return multi_pool( u ).skill_points_left;
         }
-        case points_left::ONE_POOL: {
+        case pool_type::ONE_POOL: {
             return point_pool_total() - points_used_total( u );
         }
-        case points_left::TRANSFER:
-        case points_left::FREEFORM:
+        case pool_type::TRANSFER:
+        case pool_type::FREEFORM:
             return 0;
     }
     return 0;
 }
 
-static std::string pools_to_string( const avatar &u, points_left::point_limit pool )
+static std::string pools_to_string( const avatar &u, pool_type pool )
 {
     switch( pool ) {
-        case points_left::MULTI_POOL: {
+        case pool_type::MULTI_POOL: {
             multi_pool p( u );
             bool is_valid = p.stat_points_left >= 0 && p.trait_points_left >= 0 && p.skill_points_left >= 0;
             return string_format(
@@ -258,12 +260,12 @@ static std::string pools_to_string( const avatar &u, points_left::point_limit po
                        p.skill_points_left >= 0 ? "light_gray" : "red", std::abs( p.pure_skill_points ),
                        is_valid ? "light_gray" : "red", p.skill_points_left );
         }
-        case points_left::ONE_POOL: {
+        case pool_type::ONE_POOL: {
             return string_format( _( "Points left: %4d" ), point_pool_total() - points_used_total( u ) );
         }
-        case points_left::TRANSFER:
+        case pool_type::TRANSFER:
             return _( "Character Transfer: No changes can be made." );
-        case points_left::FREEFORM:
+        case pool_type::FREEFORM:
             return _( "Freeform" );
     }
     return "If you see this, this is a bug";
@@ -271,12 +273,12 @@ static std::string pools_to_string( const avatar &u, points_left::point_limit po
 
 points_left::points_left()
 {
-    limit = MULTI_POOL;
+    limit = pool_type::MULTI_POOL;
 }
 
 bool points_left::is_freeform()
 {
-    return limit == FREEFORM;
+    return limit == pool_type::FREEFORM;
 }
 
 static tab_direction set_points( avatar &u, points_left &points );
@@ -608,7 +610,7 @@ bool avatar::create( character_type type, const std::string &tempname )
             // We want to prevent recipes known by the template from being applied to the
             // new character. The recipe list will be rebuilt when entering the game.
             // Except if it is a character transfer template
-            if( points.limit != points_left::TRANSFER ) {
+            if( points.limit != pool_type::TRANSFER ) {
                 learned_recipes->clear();
             }
             tab = NEWCHAR_TAB_MAX;
@@ -634,7 +636,7 @@ bool avatar::create( character_type type, const std::string &tempname )
             break;
         }
 
-        if( points.limit == points_left::TRANSFER ) {
+        if( points.limit == pool_type::TRANSFER ) {
             tab = 7;
         }
 
@@ -693,7 +695,7 @@ bool avatar::create( character_type type, const std::string &tempname )
         return false;
     }
 
-    if( points.limit == points_left::TRANSFER ) {
+    if( points.limit == pool_type::TRANSFER ) {
         return true;
     }
 
@@ -898,19 +900,19 @@ tab_direction set_points( avatar &u, points_left &points )
 
     const std::string point_pool = get_option<std::string>( "CHARACTER_POINT_POOLS" );
 
-    using point_limit_tuple = std::tuple<points_left::point_limit, std::string, std::string>;
+    using point_limit_tuple = std::tuple<pool_type, std::string, std::string>;
     std::vector<point_limit_tuple> opts;
 
-    const point_limit_tuple multi_pool = std::make_tuple( points_left::MULTI_POOL,
+    const point_limit_tuple multi_pool = std::make_tuple( pool_type::MULTI_POOL,
                                          _( "Multiple pools" ),
                                          _( "Stats, traits and skills have separate point pools.\n"
                                             "Putting stat points into traits and skills is allowed and putting trait points into skills is allowed.\n"
                                             "Scenarios and professions affect skill points." ) );
 
-    const point_limit_tuple one_pool = std::make_tuple( points_left::ONE_POOL, _( "Single pool" ),
+    const point_limit_tuple one_pool = std::make_tuple( pool_type::ONE_POOL, _( "Single pool" ),
                                        _( "Stats, traits and skills share a single point pool." ) );
 
-    const point_limit_tuple freeform = std::make_tuple( points_left::FREEFORM, _( "Freeform" ),
+    const point_limit_tuple freeform = std::make_tuple( pool_type::FREEFORM, _( "Freeform" ),
                                        _( "No point limits are enforced." ) );
 
     if( point_pool == "multi_pool" ) {
@@ -3392,7 +3394,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
 
         if( isWide ) {
             mvwprintz( w_traits, point_zero, COL_HEADER, _( "Traits: " ) );
-            std::vector<trait_id> current_traits = points.limit == points_left::TRANSFER ? you.get_mutations() :
+            std::vector<trait_id> current_traits = points.limit == pool_type::TRANSFER ? you.get_mutations() :
                                                    you.get_base_traits();
             std::sort( current_traits.begin(), current_traits.end(), trait_display_sort );
             if( current_traits.empty() ) {
@@ -3425,7 +3427,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                 int level = you.get_skill_level( elem->ident() );
 
                 // Handle skills from professions
-                if( points.limit != points_left::TRANSFER ) {
+                if( points.limit != pool_type::TRANSFER ) {
                     profession::StartingSkillList::iterator i = list_skills.begin();
                     while( i != list_skills.end() ) {
                         if( i->first == ( elem )->ident() ) {
@@ -3703,12 +3705,12 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         ui_manager::redraw();
         const std::string action = ctxt.handle_input();
         if( action == "NEXT_TAB" ) {
-            if( points.limit == points_left::ONE_POOL ) {
+            if( points.limit == pool_type::ONE_POOL ) {
                 if( points_used_total( you ) > point_pool_total() ) {
                     popup( _( "Too many points allocated, change some features and try again." ) );
                     continue;
                 }
-            } else if( points.limit == points_left::MULTI_POOL ) {
+            } else if( points.limit == pool_type::MULTI_POOL ) {
                 multi_pool p( you );
                 if( p.skill_points_left < 0 ) {
                     popup( _( "Too many points allocated, change some features and try again." ) );
@@ -3723,7 +3725,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                     continue;
                 }
             }
-            if( has_unspent_points( you ) && points.limit != points_left::FREEFORM &&
+            if( has_unspent_points( you ) && points.limit != pool_type::FREEFORM &&
                 !query_yn( _( "Remaining points will be discarded, are you sure you want to proceed?" ) ) ) {
                 continue;
             }
@@ -4123,7 +4125,7 @@ cata::optional<std::string> query_for_template_name()
 void avatar::character_to_template( const std::string &name )
 {
     points_left points;
-    points.limit = points_left::TRANSFER;
+    points.limit = pool_type::TRANSFER;
     save_template( name, points );
 }
 
@@ -4176,7 +4178,7 @@ bool avatar::load_template( const std::string &template_name, points_left &point
 
             JsonObject jobj = jsin.get_object();
 
-            points.limit = static_cast<points_left::point_limit>( jobj.get_int( "limit" ) );
+            points.limit = static_cast<pool_type>( jobj.get_int( "limit" ) );
 
             random_start_location = jobj.get_bool( "random_start_location", true );
             const std::string jobj_start_location = jobj.get_string( "start_location", "" );
