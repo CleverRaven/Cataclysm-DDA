@@ -2597,7 +2597,7 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
             // Base reduction on the larger of 1% of total, or practice amount.
             // The latter kicks in when long actions like crafting
             // apply many turns of gains at once.
-            int focus_drain = std::max( focus_pool / 100, amount );
+            int focus_drain = std::max( focus_pool / 100, amount / 100 );
             // For large values of amount, amount^2 can exceed INT_MAX.
             // We're going to be draining all of the focus if it gets that large, so cap it at a safe value
             focus_drain = std::min( focus_drain, INTMAX_SQRT );
