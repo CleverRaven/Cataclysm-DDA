@@ -49,7 +49,7 @@ namespace debug_menu
 class mission_debug;
 }  // namespace debug_menu
 struct mtype;
-struct points_left;
+enum class pool_type;
 
 // Monster visible in different directions (safe mode & compass)
 struct monster_visible_info {
@@ -90,8 +90,8 @@ class avatar : public player
         bool create( character_type type, const std::string &tempname = "" );
         void add_profession_items();
         void randomize( bool random_scenario, bool play_now = false );
-        bool load_template( const std::string &template_name, points_left &points );
-        void save_template( const std::string &name, const points_left &points );
+        bool load_template( const std::string &template_name, pool_type & );
+        void save_template( const std::string &name, pool_type );
         void character_to_template( const std::string &name );
 
         bool is_avatar() const override {
