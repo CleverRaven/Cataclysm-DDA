@@ -109,6 +109,6 @@
     "death_function": [ "NORMAL" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "prank", "min_level": 5 }, "cooldown": 80 }, [ "PULL_METAL_WEAPON", 25 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "KEEP_DISTANCE", "WARM", "HIT_AND_RUN" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ]
   }
 ]
