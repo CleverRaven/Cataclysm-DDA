@@ -465,6 +465,9 @@ bool handle_liquid( item &liquid, const item *const source, const int radius,
                     const vehicle *const source_veh, const int part_num,
                     const monster *const source_mon )
 {
+    if( !can_handle_liquid( liquid ) ) {
+        return false;
+    }
     struct liquid_dest_opt liquid_target;
     if( get_liquid_target( liquid, source, radius, source_pos, source_veh, source_mon,
                            liquid_target ) ) {
