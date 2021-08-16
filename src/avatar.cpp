@@ -1534,29 +1534,23 @@ std::unique_ptr<talker> get_talker_for( avatar *me )
     return std::make_unique<talker_avatar>( me );
 }
 
-int avatar::randomize_hobbies()
+void avatar::randomize_hobbies()
 {
     hobbies.clear();
     std::vector<profession_id> choices = profession::get_all_hobbies();
 
     int random = rng( 0, 5 );
-    int points = 0;
 
     if( random >= 1 ) {
         const profession_id hobby = random_entry_removed( choices );
-        points += hobby->point_cost();
         hobbies.insert( &*hobby );
     }
     if( random >= 3 ) {
         const profession_id hobby = random_entry_removed( choices );
-        points += hobby->point_cost();
         hobbies.insert( &*hobby );
     }
     if( random >= 5 ) {
         const profession_id hobby = random_entry_removed( choices );
-        points += hobby->point_cost();
         hobbies.insert( &*hobby );
     }
-
-    return points;
 }

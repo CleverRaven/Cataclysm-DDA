@@ -89,7 +89,7 @@ class avatar : public player
         // newcharacter.cpp
         bool create( character_type type, const std::string &tempname = "" );
         void add_profession_items();
-        void randomize( bool random_scenario, points_left &points, bool play_now = false );
+        void randomize( bool random_scenario, bool play_now = false );
         bool load_template( const std::string &template_name, points_left &points );
         void save_template( const std::string &name, const points_left &points );
         void character_to_template( const std::string &name );
@@ -295,7 +295,7 @@ class avatar : public player
         void log_activity_level( float level ) override;
         std::string total_daily_calories_string() const;
         //set 0-3 random hobbies, with 1 and 2 being twice as likely as 0 and 3
-        int randomize_hobbies();
+        void randomize_hobbies();
 
         int movecounter = 0;
 

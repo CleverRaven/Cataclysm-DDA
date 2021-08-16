@@ -125,10 +125,6 @@ enum struct tab_direction {
 };
 
 struct points_left {
-    int stat_points;
-    int trait_points;
-    int skill_points;
-
     enum point_limit : int {
         FREEFORM = 0,
         ONE_POOL,
@@ -137,7 +133,6 @@ struct points_left {
     } limit;
 
     points_left();
-    void init_from_options();
     bool is_freeform();
 };
 
@@ -277,14 +272,6 @@ static std::string pools_to_string( const avatar &u, points_left::point_limit po
 points_left::points_left()
 {
     limit = MULTI_POOL;
-    init_from_options();
-}
-
-void points_left::init_from_options()
-{
-    stat_points = get_option<int>( "INITIAL_STAT_POINTS" );
-    trait_points = get_option<int>( "INITIAL_TRAIT_POINTS" );
-    skill_points = get_option<int>( "INITIAL_SKILL_POINTS" );
 }
 
 bool points_left::is_freeform()
@@ -295,8 +282,8 @@ bool points_left::is_freeform()
 static tab_direction set_points( avatar &u, points_left &points );
 static tab_direction set_stats( avatar &u, points_left &points );
 static tab_direction set_traits( avatar &u, points_left &points );
-static tab_direction set_scenario( avatar &u, points_left &points, tab_direction direction );
-static tab_direction set_profession( avatar &u, points_left &points, tab_direction direction );
+static tab_direction set_scenario( avatar &u, points_left &points );
+static tab_direction set_profession( avatar &u, points_left &points );
 static tab_direction set_hobbies( avatar &u, points_left &points );
 static tab_direction set_skills( avatar &u, points_left &points );
 static tab_direction set_description( avatar &you, bool allow_reroll, points_left &points );
@@ -354,9 +341,8 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
     }
 }
 
-void avatar::randomize( const bool random_scenario, points_left &points, bool play_now )
+void avatar::randomize( const bool random_scenario, bool play_now )
 {
-    const int max_stat_points = points.is_freeform() ? 20 : MAX_STAT;
     const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
     // Reset everything to the defaults to have a clean state.
     *this = avatar();
@@ -387,27 +373,20 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     }
 
     prof = get_scenario()->weighted_random_profession();
-    int hobby_point_cost = randomize_hobbies();
+    randomize_hobbies();
     random_start_location = true;
 
     str_max = rng( 6, HIGH_STAT - 2 );
     dex_max = rng( 6, HIGH_STAT - 2 );
     int_max = rng( 6, HIGH_STAT - 2 );
     per_max = rng( 6, HIGH_STAT - 2 );
-    points.stat_points = points.stat_points - str_max - dex_max - int_max - per_max;
-    points.skill_points = points.skill_points - prof->point_cost() - get_scenario()->point_cost() -
-                          hobby_point_cost;
-    // The default for each stat is 8, and that default does not cost any points.
-    // Values below give points back, values above require points. The line above has removed
-    // to many points, therefore they are added back.
-    points.stat_points += 8 * 4;
 
     set_body();
 
     int num_gtraits = 0;
     int num_btraits = 0;
     int tries = 0;
-    add_traits( points ); // adds mandatory profession/scenario traits.
+    add_traits(); // adds mandatory profession/scenario traits.
     for( const trait_id &mut : get_mutations() ) {
         const mutation_branch &mut_info = mut.obj();
         if( mut_info.profession ) {
@@ -440,7 +419,6 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
 
             if( tries < 5 && !has_conflicting_trait( rn ) ) {
                 toggle_trait( rn );
-                points.trait_points -= rn->points;
                 num_btraits -= rn->points;
             }
         } else {
@@ -448,25 +426,21 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
                 case 1:
                     if( str_max > 5 ) {
                         str_max--;
-                        points.stat_points++;
                     }
                     break;
                 case 2:
                     if( dex_max > 5 ) {
                         dex_max--;
-                        points.stat_points++;
                     }
                     break;
                 case 3:
                     if( int_max > 5 ) {
                         int_max--;
-                        points.stat_points++;
                     }
                     break;
                 case 4:
                     if( per_max > 5 ) {
                         per_max--;
-                        points.stat_points++;
                     }
                     break;
             }
@@ -492,7 +466,6 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
                     if( !has_trait( rn ) && p.trait_points_left >= mdata.points &&
                         num_gtraits + mdata.points <= max_trait_points && !has_conflicting_trait( rn ) ) {
                         toggle_trait( rn );
-                        points.trait_points -= mdata.points;
                         num_gtraits += mdata.points;
                     }
                     break;
@@ -502,40 +475,16 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
                 if( allow_stats ) {
                     switch( rng( 1, 4 ) ) {
                         case 1:
-                            if( str_max < HIGH_STAT ) {
-                                str_max++;
-                                points.stat_points--;
-                            } else if( p.stat_points_left >= 2 && str_max < max_stat_points ) {
-                                str_max++;
-                                points.stat_points = points.stat_points - 2;
-                            }
+                            str_max++;
                             break;
                         case 2:
-                            if( dex_max < HIGH_STAT ) {
-                                dex_max++;
-                                points.stat_points--;
-                            } else if( p.stat_points_left >= 2 && dex_max < max_stat_points ) {
-                                dex_max++;
-                                points.stat_points = points.stat_points - 2;
-                            }
+                            dex_max++;
                             break;
                         case 3:
-                            if( int_max < HIGH_STAT ) {
-                                int_max++;
-                                points.stat_points--;
-                            } else if( p.stat_points_left >= 2 && int_max < max_stat_points ) {
-                                int_max++;
-                                points.stat_points = points.stat_points - 2;
-                            }
+                            int_max++;
                             break;
                         case 4:
-                            if( per_max < HIGH_STAT ) {
-                                per_max++;
-                                points.stat_points--;
-                            } else if( p.stat_points_left >= 2 && per_max < max_stat_points ) {
-                                per_max++;
-                                points.stat_points = points.stat_points - 2;
-                            }
+                            per_max++;
                             break;
                     }
                     break;
@@ -549,7 +498,6 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
                 const int level = get_skill_level( aSkill );
 
                 if( level < p.skill_points_left && level < MAX_SKILL && loops > 10000 ) {
-                    points.skill_points -= skill_increment_cost( *this, aSkill );
                     // For balance reasons, increasing a skill from level 0 gives you 1 extra level for free
                     set_skill_level( aSkill, ( level == 0 ? 2 : level + 1 ) );
                 }
@@ -639,16 +587,16 @@ bool avatar::create( character_type type, const std::string &tempname )
             break;
         case character_type::RANDOM:
             //random scenario, default name if exist
-            randomize( true, points );
+            randomize( true );
             tab = NEWCHAR_TAB_MAX;
             break;
         case character_type::NOW:
             //default world, fixed scenario, random name
-            randomize( false, points, true );
+            randomize( false, true );
             break;
         case character_type::FULL_RANDOM:
             //default world, random scenario, random name
-            randomize( true, points, true );
+            randomize( true, true );
             break;
         case character_type::TEMPLATE:
             if( !load_template( tempname, points ) ) {
@@ -695,10 +643,10 @@ bool avatar::create( character_type type, const std::string &tempname )
                 result = set_points( *this, points );
                 break;
             case 1:
-                result = set_scenario( *this, points, result );
+                result = set_scenario( *this, points );
                 break;
             case 2:
-                result = set_profession( *this, points, result );
+                result = set_profession( *this, points );
                 break;
             case 3:
                 result = set_hobbies( *this, points );
@@ -1219,54 +1167,22 @@ tab_direction set_stats( avatar &u, points_left &points )
             }
         } else if( action == "LEFT" ) {
             if( sel == 1 && u.str_max > 4 ) {
-                if( u.str_max > HIGH_STAT ) {
-                    points.stat_points++;
-                }
                 u.str_max--;
-                points.stat_points++;
             } else if( sel == 2 && u.dex_max > 4 ) {
-                if( u.dex_max > HIGH_STAT ) {
-                    points.stat_points++;
-                }
                 u.dex_max--;
-                points.stat_points++;
             } else if( sel == 3 && u.int_max > 4 ) {
-                if( u.int_max > HIGH_STAT ) {
-                    points.stat_points++;
-                }
                 u.int_max--;
-                points.stat_points++;
             } else if( sel == 4 && u.per_max > 4 ) {
-                if( u.per_max > HIGH_STAT ) {
-                    points.stat_points++;
-                }
                 u.per_max--;
-                points.stat_points++;
             }
         } else if( action == "RIGHT" ) {
             if( sel == 1 && u.str_max < max_stat_points ) {
-                points.stat_points--;
-                if( u.str_max >= HIGH_STAT ) {
-                    points.stat_points--;
-                }
                 u.str_max++;
             } else if( sel == 2 && u.dex_max < max_stat_points ) {
-                points.stat_points--;
-                if( u.dex_max >= HIGH_STAT ) {
-                    points.stat_points--;
-                }
                 u.dex_max++;
             } else if( sel == 3 && u.int_max < max_stat_points ) {
-                points.stat_points--;
-                if( u.int_max >= HIGH_STAT ) {
-                    points.stat_points--;
-                }
                 u.int_max++;
             } else if( sel == 4 && u.per_max < max_stat_points ) {
-                points.stat_points--;
-                if( u.per_max >= HIGH_STAT ) {
-                    points.stat_points--;
-                }
                 u.per_max++;
             }
         } else if( action == "PREV_TAB" ) {
@@ -1716,7 +1632,6 @@ tab_direction set_traits( avatar &u, points_left &points )
             //inc_type is either -1 or 1, so we can just multiply by it to invert
             if( inc_type != 0 ) {
                 u.toggle_trait( cur_trait );
-                points.trait_points -= mdata.points * inc_type;
                 if( iCurWorkingPage == 0 ) {
                     num_good += mdata.points * inc_type;
                 } else {
@@ -1766,8 +1681,7 @@ static struct {
 } profession_sorter;
 
 /** Handle the profession tab of the character generation menu */
-tab_direction set_profession( avatar &u, points_left &points,
-                              const tab_direction direction )
+tab_direction set_profession( avatar &u, points_left &points )
 {
     int cur_id = 0;
     tab_direction retval = tab_direction::NONE;
@@ -1811,10 +1725,6 @@ tab_direction set_profession( avatar &u, points_left &points,
     int profs_length = 0;
     std::string filterstring;
     std::vector<string_id<profession>> sorted_profs;
-
-    if( direction == tab_direction::FORWARD ) {
-        points.skill_points -= u.prof->point_cost();
-    }
 
     int iheight = 0;
 
@@ -2139,7 +2049,6 @@ tab_direction set_profession( avatar &u, points_left &points,
             for( const trait_id &old_trait : u.prof->get_locked_traits() ) {
                 u.toggle_trait( old_trait );
             }
-            const int netPointCost = sorted_profs[cur_id]->point_cost() - u.prof->point_cost();
 
             u.prof = &sorted_profs[cur_id].obj();
 
@@ -2150,7 +2059,6 @@ tab_direction set_profession( avatar &u, points_left &points,
                     for( const trait_id &suspect_trait : u.get_mutations() ) {
                         if( are_conflicting_traits( new_trait, suspect_trait ) ) {
                             u.toggle_trait( suspect_trait );
-                            points.trait_points += suspect_trait->points;
                             popup( _( "Your trait %1$s has been removed since it conflicts with the %2$s's %3$s trait." ),
                                    suspect_trait->name(), u.prof->gender_appropriate_name( u.male ), new_trait->name() );
                         }
@@ -2159,8 +2067,7 @@ tab_direction set_profession( avatar &u, points_left &points,
             }
             // Add traits for the new profession (and perhaps scenario, if, for example,
             // both the scenario and old profession require the same trait)
-            u.add_traits( points );
-            points.skill_points -= netPointCost;
+            u.add_traits();
         } else if( action == "CHANGE_GENDER" ) {
             u.male = !u.male;
             profession_sorter.male = u.male;
@@ -2503,11 +2410,9 @@ tab_direction set_hobbies( avatar &u, points_left &points )
             if( u.hobbies.count( prof ) == 0 ) {
                 // Add hobby, and decrement point cost
                 u.hobbies.insert( prof );
-                points.skill_points -= prof->point_cost();
             } else {
                 // Remove hobby and refund point cost
                 u.hobbies.erase( prof );
-                points.skill_points += prof->point_cost();
             }
 
             // Add or remove traits from hobby
@@ -2787,13 +2692,10 @@ tab_direction set_skills( avatar &u, points_left &points )
                 // For balance reasons, increasing a skill from level 0 gives 1 extra level for free, but
                 // decreasing it from level 2 forfeits the free extra level (thus changes it to 0)
                 u.mod_skill_level( currentSkill->ident(), level == 2 ? -2 : -1 );
-                // Done *after* the decrementing to get the original cost for incrementing back.
-                points.skill_points += skill_increment_cost( u, currentSkill->ident() );
             }
         } else if( action == "RIGHT" ) {
             const int level = u.get_skill_level( currentSkill->ident() );
             if( level < MAX_SKILL ) {
-                points.skill_points -= skill_increment_cost( u, currentSkill->ident() );
                 // For balance reasons, increasing a skill from level 0 gives 1 extra level for free
                 u.mod_skill_level( currentSkill->ident(), level == 0 ? +2 : +1 );
             }
@@ -2838,8 +2740,7 @@ static struct {
     }
 } scenario_sorter;
 
-tab_direction set_scenario( avatar &u, points_left &points,
-                            const tab_direction direction )
+tab_direction set_scenario( avatar &u, points_left &points )
 {
     int cur_id = 0;
     tab_direction retval = tab_direction::NONE;
@@ -2908,10 +2809,6 @@ tab_direction set_scenario( avatar &u, points_left &points,
     int scens_length = 0;
     std::string filterstring;
     std::vector<const scenario *> sorted_scens;
-
-    if( direction == tab_direction::BACKWARD ) {
-        points.skill_points += u.prof->point_cost();
-    }
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
@@ -3164,8 +3061,6 @@ tab_direction set_scenario( avatar &u, points_left &points,
             // If city size is 0 but the current scenario requires cities reset the scenario
             if( !scenario_sorter.cities_enabled && get_scenario()->has_flag( "CITY_START" ) ) {
                 reset_scenario( u, sorted_scens[0] );
-                points.init_from_options();
-                points.skill_points -= sorted_scens[cur_id]->point_cost();
             }
 
             // Select the current scenario, if possible.
@@ -3216,8 +3111,6 @@ tab_direction set_scenario( avatar &u, points_left &points,
                 continue;
             }
             reset_scenario( u, sorted_scens[cur_id] );
-            points.init_from_options();
-            points.skill_points -= sorted_scens[cur_id]->point_cost();
         } else if( action == "PREV_TAB" ) {
             retval = tab_direction::BACKWARD;
         } else if( action == "NEXT_TAB" ) {
@@ -3955,13 +3848,11 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                     break;
             }
         } else if( action == "REROLL_CHARACTER" && allow_reroll ) {
-            points.init_from_options();
-            you.randomize( false, points );
+            you.randomize( false );
             // Return tab_direction::NONE so we re-enter this tab again, but it forces a complete redrawing of it.
             return tab_direction::NONE;
         } else if( action == "REROLL_CHARACTER_WITH_SCENARIO" && allow_reroll ) {
-            points.init_from_options();
-            you.randomize( true, points );
+            you.randomize( true );
             // Return tab_direction::NONE so we re-enter this tab again, but it forces a complete redrawing of it.
             return tab_direction::NONE;
         } else if( action == "SAVE_TEMPLATE" ) {
@@ -4144,18 +4035,10 @@ void Character::empty_skills()
 
 void Character::add_traits()
 {
-    points_left points = points_left();
-    add_traits( points );
-}
-
-void Character::add_traits( points_left &points )
-{
     // TODO: get rid of using get_avatar() here, use `this` instead
     for( const trait_id &tr : get_avatar().prof->get_locked_traits() ) {
         if( !has_trait( tr ) ) {
             toggle_trait( tr );
-        } else {
-            points.trait_points += tr->points;
         }
     }
     for( const trait_id &tr : get_scenario()->get_locked_traits() ) {
@@ -4240,9 +4123,6 @@ cata::optional<std::string> query_for_template_name()
 void avatar::character_to_template( const std::string &name )
 {
     points_left points;
-    points.stat_points = 0;
-    points.trait_points = 0;
-    points.skill_points = 0;
     points.limit = points_left::TRANSFER;
     save_template( name, points );
 }
@@ -4268,9 +4148,6 @@ void avatar::save_template( const std::string &name, const points_left &points )
         jsout.start_array();
 
         jsout.start_object();
-        jsout.member( "stat_points", points.stat_points );
-        jsout.member( "trait_points", points.trait_points );
-        jsout.member( "skill_points", points.skill_points );
         jsout.member( "limit", points.limit );
         jsout.member( "random_start_location", random_start_location );
         if( !random_start_location ) {
@@ -4299,9 +4176,6 @@ bool avatar::load_template( const std::string &template_name, points_left &point
 
             JsonObject jobj = jsin.get_object();
 
-            points.stat_points = jobj.get_int( "stat_points" );
-            points.trait_points = jobj.get_int( "trait_points" );
-            points.skill_points = jobj.get_int( "skill_points" );
             points.limit = static_cast<points_left::point_limit>( jobj.get_int( "limit" ) );
 
             random_start_location = jobj.get_bool( "random_start_location", true );
@@ -4319,10 +4193,6 @@ bool avatar::load_template( const std::string &template_name, points_left &point
             if( jsin.end_array() ) {
                 return;
             }
-        } else {
-            points.stat_points = 0;
-            points.trait_points = 0;
-            points.skill_points = 0;
         }
 
         deserialize( jsin );
