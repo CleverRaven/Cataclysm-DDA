@@ -445,7 +445,7 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
     }
 }
 
-bool can_handle_liquid( item &liquid )
+bool can_handle_liquid( const item &liquid )
 {
     if( liquid.made_of_from_type( phase_id::SOLID ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
