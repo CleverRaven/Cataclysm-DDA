@@ -135,7 +135,6 @@ struct points_left {
     pool_type limit;
 
     points_left();
-    bool is_freeform();
 };
 
 static int stat_point_pool()
@@ -274,11 +273,6 @@ static std::string pools_to_string( const avatar &u, pool_type pool )
 points_left::points_left()
 {
     limit = pool_type::MULTI_POOL;
-}
-
-bool points_left::is_freeform()
-{
-    return limit == pool_type::FREEFORM;
 }
 
 static tab_direction set_points( avatar &u, points_left &points );
@@ -998,7 +992,7 @@ tab_direction set_points( avatar &u, points_left &points )
 
 tab_direction set_stats( avatar &u, points_left &points )
 {
-    const int max_stat_points = points.is_freeform() ? 20 : MAX_STAT;
+    const int max_stat_points = points.limit == pool_type::FREEFORM ? 20 : MAX_STAT;
 
     unsigned char sel = 1;
     const int iSecondColumn = std::max( 27,
@@ -1366,7 +1360,7 @@ tab_direction set_traits( avatar &u, points_left &points )
         draw_points( w, points, u );
         int full_string_length = 0;
         const int remaining_points_length = utf8_width( pools_to_string( u, points.limit ), true );
-        if( !points.is_freeform() ) {
+        if( points.limit != pool_type::FREEFORM ) {
             std::string full_string =
                 string_format( "<color_light_green>%2d/%-2d</color> <color_light_red>%3d/-%-2d</color>",
                                num_good, max_trait_points, num_bad, max_trait_points );
@@ -1616,13 +1610,13 @@ tab_direction set_traits( avatar &u, points_left &points )
                 popup( _( "The following bionics prevent you from taking this trait: %s." ),
                        enumerate_as_string( conflict_names ) );
             } else if( iCurWorkingPage == 0 && num_good + mdata.points >
-                       max_trait_points && !points.is_freeform() ) {
+                       max_trait_points && points.limit != pool_type::FREEFORM ) {
                 popup( ngettext( "Sorry, but you can only take %d point of advantages.",
                                  "Sorry, but you can only take %d points of advantages.", max_trait_points ),
                        max_trait_points );
 
             } else if( iCurWorkingPage != 0 && num_bad + mdata.points <
-                       -max_trait_points && !points.is_freeform() ) {
+                       -max_trait_points && points.limit != pool_type::FREEFORM ) {
                 popup( ngettext( "Sorry, but you can only take %d point of disadvantages.",
                                  "Sorry, but you can only take %d points of disadvantages.", max_trait_points ),
                        max_trait_points );
