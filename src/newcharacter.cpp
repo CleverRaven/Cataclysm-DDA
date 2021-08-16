@@ -139,8 +139,6 @@ struct points_left {
     points_left();
     void init_from_options();
     // Highest amount of points to spend on stats without points going invalid
-    int stat_points_left() const;
-    int trait_points_left() const;
     int skill_points_left() const;
     bool is_freeform();
 };
@@ -261,38 +259,6 @@ void points_left::init_from_options()
     stat_points = get_option<int>( "INITIAL_STAT_POINTS" );
     trait_points = get_option<int>( "INITIAL_TRAIT_POINTS" );
     skill_points = get_option<int>( "INITIAL_SKILL_POINTS" );
-}
-
-// Highest amount of points to spend on stats without points going invalid
-int points_left::stat_points_left() const
-{
-    switch( limit ) {
-        case FREEFORM:
-        case ONE_POOL:
-            return stat_points + trait_points + skill_points;
-        case MULTI_POOL:
-            return std::min( trait_points_left(),
-                             stat_points + std::min( 0, trait_points + skill_points ) );
-        case TRANSFER:
-            return 0;
-    }
-
-    return 0;
-}
-
-int points_left::trait_points_left() const
-{
-    switch( limit ) {
-        case FREEFORM:
-        case ONE_POOL:
-            return stat_points + trait_points + skill_points;
-        case MULTI_POOL:
-            return stat_points + trait_points + std::min( 0, skill_points );
-        case TRANSFER:
-            return 0;
-    }
-
-    return 0;
 }
 
 int points_left::skill_points_left() const
