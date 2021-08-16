@@ -3020,10 +3020,11 @@
     "category": "INVENTORY",
     "name": "Mark/unmark selected item",
     "bindings": [
-      { "input_method": "keyboard_any", "key": "." },
-      { "input_method": "keyboard_code", "key": "KEYPAD_PERIOD" },
-      { "input_method": "keyboard_any", "key": "5" },
-      { "input_method": "keyboard_code", "key": "KEYPAD_5" }
+      { "input_method": "keyboard_any", "key": "l" },
+      { "input_method": "keyboard_any", "key": "RIGHT" },
+      { "input_method": "keyboard_any", "key": "6" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_6" },
+      { "input_method": "gamepad", "key": "JOY_RIGHT" }
     ]
   },
   {
