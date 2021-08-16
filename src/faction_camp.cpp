@@ -1875,8 +1875,10 @@ void basecamp::job_assignment_ui()
                     if( smenu.ret == UILIST_CANCEL ) {
                         break;
                     }
-                    if( smenu.ret == 0 ) {
-                        if( query_yn( _( "Are you sure you wish to clear priorities for %s?"),cur_npc->disp_name() ) ) {
+                    if( smenu.ret == 0 )
+                    {
+                        if( query_yn( _( "Are you sure you wish to clear priorities for %s?"),cur_npc->disp_name() ) )
+                        {
                             cur_npc->job.clear_all_priorities();
                         }
                     } else if( smenu.ret > 0 && smenu.ret <= static_cast<int>( job_vec.size() ) ) {
