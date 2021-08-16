@@ -1204,7 +1204,7 @@
     "armor_bullet": 6,
     "hp": 335,
     "zombify_into": "mon_zosasaurus",
-    "description": "A huge aquatic dinosaur about the size of a small house, with a ferocious crocodile-like head and powerful swimming fins.",
+    "description": "A huge aquatic reptile about the size of a small house, with a ferocious crocodile-like head and powerful swimming fins.",
     "reproduction": { "baby_egg": "egg_mosasaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
