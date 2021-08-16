@@ -444,10 +444,12 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     }
 
     /* The loops variable is used to prevent the algorithm running in an infinite loop */
-    unsigned int loops = 0;
-
-    while( loops <= 100000 && ( !points.is_valid() || rng( -3, 20 ) > points.skill_points_left() ) ) {
-        loops++;
+    for( int loops = 0; loops <= 100000; loops++ ) {
+        multi_pool p( *this );
+        bool is_valid = p.stat_points_left >= 0 && p.trait_points_left >= 0 && p.skill_points_left >= 0;
+        if( is_valid && rng( -3, 20 ) <= p.skill_points_left ) {
+            break;
+        }
         trait_id rn;
         if( num_btraits < max_trait_points && one_in( 3 ) ) {
             tries = 0;
@@ -492,7 +494,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
         }
     }
 
-    loops = 0;
+    unsigned int loops = 0;
     while( has_unspent_points( *this ) && loops <= 100000 ) {
         const bool allow_stats = points.stat_points_left() > 0;
         const bool allow_traits = points.trait_points_left() > 0 && num_gtraits < max_trait_points;
