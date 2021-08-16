@@ -206,25 +206,39 @@ static int has_unspent_points( const avatar &u )
     return points_used_total( u ) < point_pool_total;
 }
 
+struct multi_pool {
+    // The amount of unspent points in the pool without counting the borrowed points
+    const int pure_stat_points, pure_trait_points, pure_skill_points;
+    // The amount of points awailable in a pool minus the points that are borrowed
+    // by lower pools plus the poits that can be borrowed from higher pools
+    const int stat_points_left, trait_points_left, skill_points_left;
+    explicit multi_pool( const avatar &u ):
+        pure_stat_points( stat_point_pool - stat_points_used( u ) ),
+        pure_trait_points( trait_point_pool - trait_points_used( u ) ),
+        pure_skill_points( skill_point_pool - skill_points_used( u ) ),
+        stat_points_left( pure_stat_points
+                          + std::min( 0, pure_trait_points
+                                      + std::min( 0, pure_skill_points ) ) ),
+        trait_points_left( pure_stat_points + pure_trait_points + std::min( 0, pure_skill_points ) ),
+        skill_points_left( pure_stat_points + pure_trait_points + pure_skill_points )
+    {}
+
+};
+
 static std::string pools_to_string( const avatar &u, points_left::point_limit pool )
 {
     switch( pool ) {
         case points_left::MULTI_POOL: {
-            int stat_points = stat_point_pool - stat_points_used( u );
-            int trait_points = trait_point_pool - trait_points_used( u );
-            int skill_points = skill_point_pool - skill_points_used( u );
-            int stat_points_left = stat_points + std::min( 0, trait_points + std::min( 0, skill_points ) );
-            int trait_points_left = stat_points + trait_points + std::min( 0, skill_points );
-            int skill_points_left = stat_points + trait_points + skill_points;
-            bool is_valid = stat_points_left >= 0 && trait_points_left >= 0 && skill_points_left >= 0;
+            multi_pool p( u );
+            bool is_valid = p.stat_points_left >= 0 && p.trait_points_left >= 0 && p.skill_points_left >= 0;
             return string_format(
                        _( "Points left: <color_%s>%d</color>%c<color_%s>%d</color>%c<color_%s>%d</color>=<color_%s>%d</color>" ),
-                       stat_points_left >= 0 ? "light_gray" : "red", stat_points,
-                       trait_points >= 0 ? '+' : '-',
-                       trait_points_left >= 0 ? "light_gray" : "red", std::abs( trait_points ),
-                       skill_points >= 0 ? '+' : '-',
-                       skill_points_left >= 0 ? "light_gray" : "red", std::abs( skill_points ),
-                       is_valid ? "light_gray" : "red", skill_points_left );
+                       p.stat_points_left >= 0 ? "light_gray" : "red", p.pure_stat_points,
+                       p.pure_trait_points >= 0 ? '+' : '-',
+                       p.trait_points_left >= 0 ? "light_gray" : "red", std::abs( p.pure_trait_points ),
+                       p.pure_skill_points >= 0 ? '+' : '-',
+                       p.skill_points_left >= 0 ? "light_gray" : "red", std::abs( p.pure_skill_points ),
+                       is_valid ? "light_gray" : "red", p.skill_points_left );
         }
         case points_left::ONE_POOL: {
             return string_format( _( "Points left: %4d" ), point_pool_total - points_used_total( u ) );
@@ -3819,21 +3833,16 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                     continue;
                 }
             } else if( points.limit == points_left::MULTI_POOL ) {
-                int stat_points = stat_point_pool - stat_points_used( you );
-                int trait_points = trait_point_pool - trait_points_used( you );
-                int skill_points = skill_point_pool - skill_points_used( you );
-                int stat_points_left = stat_points + std::min( 0, trait_points + std::min( 0, skill_points ) );
-                int trait_points_left = stat_points + trait_points + std::min( 0, skill_points );
-                int skill_points_left = stat_points + trait_points + skill_points;
-                if( skill_points_left < 0 ) {
+                multi_pool p( you );
+                if( p.skill_points_left < 0 ) {
                     popup( _( "Too many points allocated, change some features and try again." ) );
                     continue;
                 }
-                if( trait_points_left < 0 ) {
+                if( p.trait_points_left < 0 ) {
                     popup( _( "Too many trait points allocated, change some traits or lower some stats and try again." ) );
                     continue;
                 }
-                if( stat_points_left < 0 ) {
+                if( p.stat_points_left < 0 ) {
                     popup( _( "Too many stat points allocated, lower some stats and try again." ) );
                     continue;
                 }
