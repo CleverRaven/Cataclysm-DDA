@@ -306,6 +306,8 @@ class bodypart
 
         // adjust any limb "value" based on how wounded the limb is. scaled to 0-75%
         float wound_adjusted_limb_value( float val ) const;
+        // Same idea as for wounds, though not all scores get this applied. Should be applied after wounds.
+        float encumb_adjusted_limb_value( float val ) const;
     public:
         bodypart(): id( bodypart_str_id::NULL_ID() ), mut_drench() {}
         explicit bodypart( bodypart_str_id id ): id( id ), hp_cur( id->base_hp ), hp_max( id->base_hp ),
@@ -317,10 +319,6 @@ class bodypart
         bool is_at_max_hp() const;
 
         float get_wetness_percentage() const;
-
-        // Same idea as for wounds, though not all scores get this applied. Should be applied after wounds.
-        // TODO: make private when we're done using this as an interim for real scores
-        float encumb_adjusted_limb_value( float val ) const;
 
         float get_manipulator_score() const;
         float get_encumb_adjusted_manipulator_score() const;

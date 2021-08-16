@@ -568,6 +568,8 @@ class Character : public Creature, public visitable
         // movecost is modified by the average of limb speed and balance.
         float limb_run_cost_modifier() const;
         float swim_modifier() const;
+        // min is 0.2 instead of 0
+        float melee_attack_roll_modifier() const;
         // additive modifier
         float ranged_dispersion_modifier_hands() const;
         float ranged_dispersion_modifier_vision() const;

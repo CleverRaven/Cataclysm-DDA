@@ -738,12 +738,10 @@ float Character::melee_thrown_move_modifier_hands() const
 
 float Character::melee_thrown_move_modifier_torso() const
 {
-    const bodypart *torso = get_part( body_part_torso );
-    // TODO: make this "balance" perhaps?
-    if( torso == nullptr || torso->encumb_adjusted_limb_value( 1.0f ) == 0.0f ) {
+    if( balance_score() == 0.0f ) {
         return MAX_MOVECOST_MODIFIER;
     } else {
-        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / torso->encumb_adjusted_limb_value( 1.0f ) );
+        return std::min( MAX_MOVECOST_MODIFIER, 1.0f / balance_score() );
     }
 }
 
@@ -1070,7 +1068,6 @@ int Character::swim_speed() const
     }
     /** @EFFECT_SWIMMING increases swim speed */
     ret *= swim_modifier();
-    ret += ( 80 - get_skill_level( skill_swimming ) * 3 ) * ( encumb( body_part_torso ) / 10 );
     if( get_skill_level( skill_swimming ) < 10 ) {
         for( const item &i : worn ) {
             ret += i.volume() / 125_ml * ( 10 - get_skill_level( skill_swimming ) );
@@ -9060,6 +9057,11 @@ float Character::swim_modifier() const
     }
 }
 
+float Character::melee_attack_roll_modifier() const
+{
+    return std::max( 0.2f, balance_score() );
+}
+
 void Character::update_stamina( int turns )
 {
     static const std::string player_base_stamina_regen_rate( "PLAYER_BASE_STAMINA_REGEN_RATE" );
@@ -9515,8 +9517,7 @@ int Character::get_shout_volume() const
     // Balanced around whisper for wearing bondage mask
     // and noise ~= 10 (door smashing) for wearing dust mask for character with strength = 8
     /** @EFFECT_STR increases shouting volume */
-    const int penalty = encumb( body_part_mouth ) * 3 / 2;
-    int noise = base + str_cur * shout_multiplier - penalty;
+    int noise = ( base + str_cur * shout_multiplier ) * breathing_score();
 
     // Minimum noise volume possible after all reductions.
     // Volume 1 can't be heard even by player
@@ -9585,13 +9586,12 @@ void Character::shout( std::string msg, bool order )
         }
     }
 
-    const int penalty = encumb( body_part_mouth ) * 3 / 2;
     // TODO: indistinct noise descriptions should be handled in the sounds code
     if( noise <= minimum_noise ) {
         add_msg_if_player( m_warning,
                            _( "The sound of your voice is almost completely muffled!" ) );
         msg = is_avatar() ? _( "your muffled shout" ) : _( "an indistinct voice" );
-    } else if( noise * 2 <= noise + penalty ) {
+    } else if( breathing_score() < 0.5f ) {
         // The shout's volume is 1/2 or lower of what it would be without the penalty
         add_msg_if_player( m_warning, _( "The sound of your voice is significantly muffled!" ) );
     }
@@ -14234,7 +14234,6 @@ float Character::fall_damage_mod() const
     /** @EFFECT_DODGE decreases damage from falling */
     float dex_dodge = dex_cur / 2.0 + get_skill_level( skill_dodge );
     dex_dodge *= limb_speed_movecost_modifier();
-    dex_dodge -= ( encumb( bodypart_id( "torso" ) ) ) / 10;
     // But prevent it from increasing damage
     dex_dodge = std::max( 0.0f, dex_dodge );
     // 100% damage at 0, 75% at 10, 50% at 20 and so on

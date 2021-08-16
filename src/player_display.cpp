@@ -208,14 +208,10 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
 {
     std::string s;
 
-    const int eff_encumbrance = get_encumbrance( p, bp, combine );
-
     switch( bp->token ) {
         case bp_torso: {
-            const int melee_roll_pen = std::max( -eff_encumbrance, -80 );
-            s += string_format( _( "Melee attack rolls: <color_white>%+d%%</color>\n" ), melee_roll_pen );
-            s += swim_cost_text( ( eff_encumbrance / 10.0 ) * ( 80 - p.get_skill_level(
-                                     skill_swimming ) * 3 ) );
+            s += string_format( _( "Melee attack rolls: <color_white>x%.2f</color>\n" ),
+                                p.melee_attack_roll_modifier() );
             s += melee_cost_text( p.melee_thrown_move_modifier_torso() );
             break;
         }
