@@ -1220,7 +1220,13 @@
     "color": "light_blue",
     "warmth": 20,
     "material_thickness": 2,
-    "use_action": { "type": "transform", "target": "roller_shoes_on", "msg": "You pop the wheels out.", "moves": 500 },
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Extend wheels",
+      "target": "roller_shoes_on",
+      "msg": "You pop the wheels out.",
+      "moves": 500
+    },
     "flags": [ "VARSIZE" ],
     "armor": [ { "encumbrance": 4, "coverage": 80, "covers": [ "foot_l", "foot_r" ] } ]
   },
@@ -1239,7 +1245,13 @@
     "color": "light_blue",
     "warmth": 20,
     "material_thickness": 2,
-    "use_action": { "type": "transform", "target": "roller_shoes_off", "msg": "You pop the wheels back in.", "moves": 500 },
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Retract wheels",
+      "target": "roller_shoes_off",
+      "msg": "You pop the wheels back in.",
+      "moves": 500
+    },
     "flags": [ "VARSIZE", "ROLLER_ONE", "REQUIRES_BALANCE" ],
     "armor": [ { "encumbrance": 4, "coverage": 80, "covers": [ "foot_l", "foot_r" ] } ]
   },
