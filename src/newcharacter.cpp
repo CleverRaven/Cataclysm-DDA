@@ -494,8 +494,9 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
         }
     }
 
-    unsigned int loops = 0;
-    while( has_unspent_points( *this ) && loops <= 100000 ) {
+    for( int loops = 0;
+         has_unspent_points( *this ) && loops <= 100000;
+         loops++ ) {
         const bool allow_stats = points.stat_points_left() > 0;
         const bool allow_traits = points.trait_points_left() > 0 && num_gtraits < max_trait_points;
         int r = rng( 1, 9 );
@@ -574,7 +575,6 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
                 }
                 break;
         }
-        loops++;
     }
 
     randomize_cosmetic_trait( type_hair_style );
