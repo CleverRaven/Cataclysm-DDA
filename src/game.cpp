@@ -4526,7 +4526,8 @@ bool game::spawn_hallucination( const tripoint &p )
         }
     }
 
-    return spawn_hallucination( p, MonsterGenerator::generator().get_valid_hallucination() );
+    return spawn_hallucination( p, MonsterGenerator::generator().get_valid_hallucination(),
+                                cata::nullopt );
 }
 /**
  * Attempts to spawn a hallucination at given location.
@@ -4534,12 +4535,15 @@ bool game::spawn_hallucination( const tripoint &p )
  * a monster already in the target square.
  * @return Whether or not a hallucination was successfully spawned.
  */
-bool game::spawn_hallucination( const tripoint &p, const mtype_id &mt )
+bool game::spawn_hallucination( const tripoint &p, const mtype_id &mt,
+                                cata::optional<time_duration> lifespan )
 {
     const shared_ptr_fast<monster> phantasm = make_shared_fast<monster>( mt );
     phantasm->hallucination = true;
     phantasm->spawn( p );
-
+    if( lifespan.has_value() ) {
+        phantasm->set_summon_time( lifespan.value() );
+    }
     //Don't attempt to place phantasms inside of other creatures
     if( !critter_at( phantasm->pos(), true ) ) {
         return critter_tracker->add( phantasm );

@@ -2479,9 +2479,16 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
     int_or_var iov_max_radius = get_variable_or_int( jo, "max_radius", false, 10 );
 
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
+    cata::optional<time_duration> lifespan_min;
+    cata::optional<time_duration> lifespan_max;
+    optional( jo, false, "lifespan_min", lifespan_min );
+    optional( jo, false, "lifespan_max", lifespan_max );
+    if( lifespan_min.has_value() != lifespan_max.has_value() ) {
+        jo.throw_error( "Cannot provide only lifespan_min or lifespan_max either both or neither must be present." );
+    }
     function = [is_npc, new_monster, iov_target_range, iov_hallucination_count, iov_real_count,
-                        iov_min_radius,
-            iov_max_radius, outdoor_only, group_id]( const dialogue & d ) {
+                        iov_min_radius, iov_max_radius, outdoor_only, group_id, lifespan_min,
+            lifespan_max]( const dialogue & d ) {
         monster target_monster;
 
         if( group_id.is_valid() ) {
@@ -2506,18 +2513,26 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
         int max_radius = iov_max_radius.evaluate( d.actor( is_npc ) );
         int real_count = iov_real_count.evaluate( d.actor( is_npc ) );
         int hallucination_count = iov_hallucination_count.evaluate( d.actor( is_npc ) );
+        cata::optional<time_duration> lifespan;
         for( int i = 0; i < hallucination_count; i++ ) {
             tripoint spawn_point;
             if( g->find_nearby_spawn_point( d.actor( is_npc )->pos(), target_monster.type->id, min_radius,
                                             max_radius, spawn_point, outdoor_only ) ) {
-                g->spawn_hallucination( spawn_point, target_monster.type->id );
+                if( lifespan_min.has_value() ) {
+                    lifespan = rng( lifespan_min.value(), lifespan_max.value() );
+                }
+                g->spawn_hallucination( spawn_point, target_monster.type->id, lifespan );
             }
         }
         for( int i = 0; i < real_count; i++ ) {
             tripoint spawn_point;
             if( g->find_nearby_spawn_point( d.actor( is_npc )->pos(), target_monster.type->id, min_radius,
                                             max_radius, spawn_point, outdoor_only ) ) {
-                g->place_critter_at( target_monster.type->id, spawn_point );
+                monster *spawned = g->place_critter_at( target_monster.type->id, spawn_point );
+                if( lifespan_min.has_value() ) {
+                    lifespan = rng( lifespan_min.value(), lifespan_max.value() );
+                    spawned->set_summon_time( lifespan.value() );
+                }
             }
         }
     };
