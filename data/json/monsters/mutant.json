@@ -3,7 +3,7 @@
     "id": "mon_mutant_experimental",
     "type": "MONSTER",
     "name": { "str": "experimental mutant" },
-    "description": "A deformed amalgamation of man and animal.  Grotesque humanoid covered in fur and a torn jumpsuit.  The sinister fangs, claws and the look of insanity in his pale yellow eyes are a testament to that he lost all of his humanity.",
+    "description": "A deformed mutant in an torn jumpsuit, looking at you with insane hatred.  Their skin is a chaotic mix of scales, fur and chitin, and their fingers end in long talons.",
     "default_faction": "lab_mutant",
     "bodytype": "human",
     "species": [ "MUTANT" ],
@@ -14,6 +14,7 @@
     "material": [ "flesh" ],
     "symbol": "M",
     "color": "brown",
+    "aggression": 8,
     "morale": 50,
     "melee_skill": 6,
     "melee_dice": 3,
@@ -33,23 +34,24 @@
         "type": "bite",
         "cooldown": 10,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_multiplier": 0.7 } ]
-      }
+      },
+      { "id": "scratch", "max_mul": 1.5 }
     ],
     "path_settings": { "max_dist": 50, "avoid_traps": true, "avoid_sharp": true },
-    "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "STALK", "SOUND" ],
+    "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "HOSTILE_SEEN", "SOUND" ],
     "fear_triggers": [ "HURT", "FIRE" ],
     "death_drops": "mon_mutant_experimental_death_drops",
     "upgrades": { "half_life": 23, "into_group": "GROUP_MUTANT_EVOLVED" },
     "regenerates": 1,
     "regen_morale": true,
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "BASHES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "CAN_OPEN_DOORS", "WARM", "BASHES" ]
   },
   {
     "id": "mon_mutant_evolved",
     "type": "MONSTER",
     "name": { "str": "bestial mutant" },
     "//": "Midgame 1v1 splat, late is fiiine",
-    "description": "A towering beast that is neither human nor animal anymore.  A malformed, huge creature covered in thick fur and the torn bottom part of a jumpsuit.  The sinister fangs, claws and the look of insanity in his pale yellow eyes are a testament to that he lost all of his humanity.",
+    "description": "A towering mutated test subject, covered in thick fur and the torn bottom part of a jumpsuit.  Their legs end in large padded feet not unlike a dog's, but they still manage to stand upright, freeing up their clawed hands to tear you apart.",
     "copy-from": "mon_mutant_antler",
     "symbol": "M",
     "color": "brown",
@@ -165,7 +167,7 @@
     "vision_night": 20,
     "emit_fields": [ { "emit_id": "emit_web_small", "delay": "5 s" } ],
     "extend": { "flags": [ "CLIMBS", "SMELLS", "KEENNOSE", "WEBWALK" ], "anger_triggers": [ "PLAYER_WEAK", "HURT" ] },
-    "delete": { "flags": [ "HIT_AND_RUN" ] }
+    "delete": { "flags": [ "HIT_AND_RUN", "WARM" ] }
   },
   {
     "id": "mon_mutant_camouflaged",
@@ -204,7 +206,7 @@
     "id": "mon_mutant_alpha",
     "type": "MONSTER",
     "name": { "str": "transcendent mutant" },
-    "description": "An experimental subject wearing a surprisingly clean orange jumpsuit.  It looks unchanged at a distance, but as you approach its head flings towards you with an unnatural speed.  Their face is disconcertingly beautiful, but the eyes shine with an intelligence far beyond human - and a deep disgust directed at you.",
+    "description": "An experimental subject wearing a surprisingly clean orange jumpsuit.  They look unchanged at a distance, but as you approach their head spins towards you with an unnatural speed.  Their face is disconcertingly beautiful, but the eyes shine with an intelligence far beyond human - and a deep disgust directed at you.",
     "copy-from": "mon_mutant_antler",
     "looks_like": "mon_feral_scientist_scalpel",
     "color": "white",
