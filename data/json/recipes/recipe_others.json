@@ -415,7 +415,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ] ] ]
+    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "mop", 1] ] ]
   },
   {
     "type": "recipe",
@@ -1442,7 +1442,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "bone_sturdy", 1, "LIST" ], [ "stick", 1 ], [ "broom", 1 ], [ "pool_cue", 1 ], [ "splinter", 1 ], [ "2x4", 1 ] ] ]
+    "components": [ [ [ "bone_sturdy", 1, "LIST" ], [ "stick", 1 ], [ "broom", 1 ], [ "pool_cue", 1 ], [ "splinter", 1 ], [ "2x4", 1 ], [ "mop", 1] ] ]
   },
   {
     "type": "recipe",
