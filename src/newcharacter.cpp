@@ -138,8 +138,6 @@ struct points_left {
 
     points_left();
     void init_from_options();
-    // Highest amount of points to spend on stats without points going invalid
-    int skill_points_left() const;
     bool is_freeform();
 };
 
@@ -222,6 +220,22 @@ struct multi_pool {
 
 };
 
+static int skill_points_left( const avatar &u, points_left::point_limit pool )
+{
+    switch( pool ) {
+        case points_left::MULTI_POOL: {
+            return multi_pool( u ).skill_points_left;
+        }
+        case points_left::ONE_POOL: {
+            return point_pool_total - points_used_total( u );
+        }
+        case points_left::TRANSFER:
+        case points_left::FREEFORM:
+            return 0;
+    }
+    return 0;
+}
+
 static std::string pools_to_string( const avatar &u, points_left::point_limit pool )
 {
     switch( pool ) {
@@ -259,11 +273,6 @@ void points_left::init_from_options()
     stat_points = get_option<int>( "INITIAL_STAT_POINTS" );
     trait_points = get_option<int>( "INITIAL_TRAIT_POINTS" );
     skill_points = get_option<int>( "INITIAL_SKILL_POINTS" );
-}
-
-int points_left::skill_points_left() const
-{
-    return stat_points + trait_points + skill_points;
 }
 
 bool points_left::is_freeform()
@@ -1814,7 +1823,7 @@ tab_direction set_profession( avatar &u, points_left &points,
         werase( w_description );
         if( cur_id_is_valid ) {
             int netPointCost = sorted_profs[cur_id]->point_cost() - u.prof->point_cost();
-            bool can_pick = sorted_profs[cur_id]->can_pick( u, points.skill_points_left() );
+            bool can_pick = sorted_profs[cur_id]->can_pick( u, skill_points_left( u, points.limit ) );
             const std::string clear_line( getmaxx( w ) - 2, ' ' );
 
             // Clear the bottom of the screen and header.
@@ -2235,7 +2244,7 @@ tab_direction set_hobbies( avatar &u, points_left &points )
         werase( w_description );
         if( cur_id_is_valid ) {
             int netPointCost = sorted_profs[cur_id]->point_cost() - u.prof->point_cost();
-            bool can_pick = sorted_profs[cur_id]->can_pick( u, points.skill_points_left() );
+            bool can_pick = sorted_profs[cur_id]->can_pick( u, skill_points_left( u, points.limit ) );
             const std::string clear_line( getmaxx( w ) - 2, ' ' );
 
             // Clear the bottom of the screen and header.
@@ -2609,7 +2618,7 @@ tab_direction set_skills( avatar &u, points_left &points )
         const std::string upgrade_levels_s = string_format(
                 //~ levels here are skill levels at character creation time
                 ngettext( "%d level", "%d levels", upgrade_levels ), upgrade_levels );
-        const nc_color color = points.skill_points_left() >= cost ? COL_SKILL_USED : c_light_red;
+        const nc_color color = skill_points_left( u, points.limit ) >= cost ? COL_SKILL_USED : c_light_red;
         mvwprintz( w, point( remaining_points_length + 9, 3 ), color,
                    //~ Second string is e.g. "1 level" or "2 levels"
                    ngettext( "Upgrading %s by %s costs %d point",
@@ -2911,7 +2920,8 @@ tab_direction set_scenario( avatar &u, points_left &points,
         werase( w_description );
         if( cur_id_is_valid ) {
             int netPointCost = sorted_scens[cur_id]->point_cost() - get_scenario()->point_cost();
-            bool can_pick = sorted_scens[cur_id]->can_pick( *get_scenario(), points.skill_points_left() );
+            bool can_pick = sorted_scens[cur_id]->can_pick( *get_scenario(), skill_points_left( u,
+                            points.limit ) );
             const std::string clear_line( getmaxx( w_description ), ' ' );
 
             // Clear the bottom of the screen and header.
