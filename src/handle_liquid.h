@@ -87,7 +87,7 @@ bool handle_liquid_from_container( item *in_container, item &container,
  */
 bool handle_liquid_from_container( item &container, int radius = 0 );
 
-bool can_handle_liquid( item &liquid );
+bool can_handle_liquid( const item &liquid );
 
 /**
  * This may start a player activity if either \p source_pos or \p source_veh is not
