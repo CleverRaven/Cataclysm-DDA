@@ -143,7 +143,6 @@ struct points_left {
     int trait_points_left() const;
     int skill_points_left() const;
     bool is_freeform();
-    bool is_valid();
 };
 
 static const int stat_point_pool = 4 * 8 + 6;
@@ -304,13 +303,6 @@ int points_left::skill_points_left() const
 bool points_left::is_freeform()
 {
     return limit == FREEFORM;
-}
-
-bool points_left::is_valid()
-{
-    return is_freeform() ||
-           ( stat_points_left() >= 0 && trait_points_left() >= 0 &&
-             skill_points_left() >= 0 );
 }
 
 static tab_direction set_points( avatar &u, points_left &points );
