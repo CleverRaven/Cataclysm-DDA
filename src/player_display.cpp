@@ -40,8 +40,6 @@
 #include "weather.h"
 #include "weather_type.h"
 
-static const skill_id skill_swimming( "swimming" );
-
 static const std::string title_STATS = translate_marker( "STATS" );
 static const std::string title_ENCUMB = translate_marker( "ENCUMBRANCE AND WARMTH" );
 static const std::string title_EFFECTS = translate_marker( "EFFECTS" );
