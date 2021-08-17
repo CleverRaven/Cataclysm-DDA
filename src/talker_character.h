@@ -103,7 +103,7 @@ class talker_character: public talker
         bool has_charges( const itype_id &item_id, int count ) const override;
         std::list<item> use_charges( const itype_id &item_name, int count ) override;
         bool has_amount( const itype_id &item_id, int count ) const override;
-        int get_amount( const itype_id & item_id ) const override;
+        int get_amount( const itype_id &item_id ) const override;
         std::list<item> use_amount( const itype_id &item_name, int count ) override;
         int cash() const override;
         std::vector<item *> items_with( const std::function<bool( const item & )> &filter ) const override;

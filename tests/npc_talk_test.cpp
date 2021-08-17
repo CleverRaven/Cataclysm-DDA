@@ -996,7 +996,7 @@ TEST_CASE( "npc_change_topic", "[npc_talk]" )
     CHECK( talker_npc.chatbin.first_topic == "TALK_TEST_SET_TOPIC" );
 }
 
-TEST_CASE("npc_compare_int_op", "[npc_talk]")
+TEST_CASE( "npc_compare_int_op", "[npc_talk]" )
 {
     dialogue d;
     npc &beta = prep_test( d );
@@ -1019,14 +1019,14 @@ TEST_CASE("npc_compare_int_op", "[npc_talk]")
 TEST_CASE( "npc_compare_int", "[npc_talk]" )
 {
     dialogue d;
-    npc & beta = prep_test( d );
-    player & player_character = get_avatar();
+    npc &beta = prep_test( d );
+    player &player_character = get_avatar();
 
     player_character.str_cur = 4;
     player_character.dex_cur = 4;
     player_character.int_cur = 4;
     player_character.per_cur = 4;
-    for( npc * guy : g->allies() ) {
+    for( npc *guy : g->allies() ) {
         talk_function::leave( *guy );
     }
     player_character.cash = 0;
@@ -1040,9 +1040,9 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.set_stored_kcal( 45000 );
     player_character.remove_items_with( []( const item & it ) {
         return it.get_category_shallow().get_id() == item_category_id( "books" ) ||
-            it.get_category_shallow().get_id() == item_category_id( "food" ) ||
-            it.typeId() == itype_id( "bottle_glass" );
-        } );
+               it.get_category_shallow().get_id() == item_category_id( "food" ) ||
+               it.typeId() == itype_id( "bottle_glass" );
+    } );
 
     d.add_topic( "TALK_TEST_COMPARE_INT" );
     gen_response_lines( d, 4 );
@@ -1087,7 +1087,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.clear_morale();
     player_character.add_morale( MORALE_HAIRCUT, 23 );
     player_character.set_focus( 24 );
-    player_character.magic->set_mana(25);
+    player_character.magic->set_mana( 25 );
     player_character.set_hunger( 26 );
     player_character.set_thirst( 27 );
     player_character.set_stored_kcal( 55000 );
@@ -1096,7 +1096,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     player_character.inv->add_item( item( itype_id( "bottle_glass" ) ) );
     player_character.inv->add_item( item( itype_id( "bottle_glass" ) ) );
     cata::event e = cata::event::make<event_type::character_kills_monster>(
-        get_player_character().getID(), mtype_id( "mon_zombie_bio_op" ) );
+                        get_player_character().getID(), mtype_id( "mon_zombie_bio_op" ) );
     get_event_bus().send( e );
     CHECK( g->get_kill_tracker().kill_xp() == 35 );
 
@@ -1153,16 +1153,16 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
 TEST_CASE( "npc_arithmetic_op", "[npc_talk]" )
 {
     dialogue d;
-    npc & beta = prep_test( d );
-    player & player_character = get_avatar();
+    npc &beta = prep_test( d );
+    player &player_character = get_avatar();
 
     d.add_topic( "TALK_TEST_ARITHMETIC_OP" );
     gen_response_lines( d, 19 );
 
     calendar::turn = calendar::turn_zero;
-    REQUIRE( calendar::turn == time_point(0) );
+    REQUIRE( calendar::turn == time_point( 0 ) );
     // "Sets time since cataclysm to 2 * 5 turns.  (10)"
-    talk_effect_t & effects = d.responses[ 0 ].success;
+    talk_effect_t &effects = d.responses[ 0 ].success;
     effects.apply( d );
     CHECK( calendar::turn == time_point( 10 ) );
 
@@ -1278,8 +1278,8 @@ TEST_CASE( "npc_arithmetic_op", "[npc_talk]" )
 TEST_CASE( "npc_arithmetic", "[npc_talk]" )
 {
     dialogue d;
-    npc & beta = prep_test( d );
-    player & player_character = get_avatar();
+    npc &beta = prep_test( d );
+    player &player_character = get_avatar();
 
     d.add_topic( "TALK_TEST_ARITHMETIC" );
     gen_response_lines( d, 26 );
@@ -1287,7 +1287,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     calendar::turn = calendar::turn_zero;
     REQUIRE( calendar::turn == time_point( 0 ) );
     // "Sets time since cataclysm to 1."
-    talk_effect_t & effects = d.responses[ 0 ].success;
+    talk_effect_t &effects = d.responses[ 0 ].success;
     effects.apply( d );
     CHECK( calendar::turn == time_point( 1 ) );
 
@@ -1414,7 +1414,8 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     // "Sets mana to 25%."
     effects = d.responses[ 21 ].success;
     effects.apply( d );
-    CHECK( player_character.magic->available_mana() == ( player_character.magic->max_mana( player_character ) * 25 ) / 100 );
+    CHECK( player_character.magic->available_mana() == ( player_character.magic->max_mana(
+                player_character ) * 25 ) / 100 );
 
     // "Sets thirst to 22."
     effects = d.responses[ 22 ].success;
@@ -1433,7 +1434,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
 
     player_character.remove_items_with( []( const item & it ) {
         return it.typeId() == itype_id( "bottle_glass" );
-        } );
+    } );
     // "Sets number of glass bottles to 2."
     effects = d.responses[ 25 ].success;
     effects.apply( d );

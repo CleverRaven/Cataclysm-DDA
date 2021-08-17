@@ -169,7 +169,7 @@ int talker_character::get_skill_level( const skill_id &skill ) const
     return me_chr->get_skill_level( skill );
 }
 
-void talker_character::set_skill_level( const skill_id & skill, int value )
+void talker_character::set_skill_level( const skill_id &skill, int value )
 {
     me_chr->set_skill_level( skill, value );
 }
@@ -247,7 +247,7 @@ bool talker_character::has_amount( const itype_id &item_id, int count ) const
     return me_chr->has_amount( item_id, count );
 }
 
-int talker_character::get_amount( const itype_id & item_id ) const
+int talker_character::get_amount( const itype_id &item_id ) const
 {
     return me_chr->amount_of( item_id );
 }

@@ -1326,7 +1326,8 @@
         "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" } ], "op": "--" }
       }
     ]
-  },{
+  },
+  {
     "type": "talk_topic",
     "id": "TALK_TEST_ARITHMETIC",
     "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
@@ -1379,12 +1380,18 @@
       {
         "text": "Sets custom var to 10.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "const": 10 }, { "u_val": "var", "var_name": "test", "type": "test", "context": "var_time_test" } ], "op": "=" }
+        "effect": {
+          "arithmetic": [ { "const": 10 }, { "u_val": "var", "var_name": "test", "type": "test", "context": "var_time_test" } ],
+          "op": "="
+        }
       },
       {
         "text": "Sets time since var to 11.",
         "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "const": 11 }, { "u_val": "time_since_var", "var_name": "test", "type": "test", "context": "var_time_test" } ], "op": "=" }
+        "effect": {
+          "arithmetic": [ { "const": 11 }, { "u_val": "time_since_var", "var_name": "test", "type": "test", "context": "var_time_test" } ],
+          "op": "="
+        }
       },
       {
         "text": "Sets owed to 12.",

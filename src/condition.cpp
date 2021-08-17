@@ -881,7 +881,7 @@ void conditional_t<T>::set_compare_int( const JsonObject &jo, const std::string 
     JsonArray objects = jo.get_array( member );
     if( objects.size() != 2 ) {
         jo.throw_error( "incorrect number of values.  Expected two in " + jo.str() );
-        condition = []( const T &d ) {
+        condition = []( const T & d ) {
             return false;
         };
         return;
@@ -891,32 +891,32 @@ void conditional_t<T>::set_compare_int( const JsonObject &jo, const std::string 
     const std::string &op = jo.get_string( "op" );
 
     if( op == "==" || op == "=" ) {
-        condition = [get_first_int, get_second_int]( const T &d ) {
+        condition = [get_first_int, get_second_int]( const T & d ) {
             return get_first_int( d ) == get_second_int( d );
         };
     } else if( op == "!=" ) {
-        condition = [get_first_int, get_second_int]( const T &d ) {
+        condition = [get_first_int, get_second_int]( const T & d ) {
             return get_first_int( d ) != get_second_int( d );
         };
     } else if( op == "<=" ) {
-        condition = [get_first_int, get_second_int]( const T &d ) {
+        condition = [get_first_int, get_second_int]( const T & d ) {
             return get_first_int( d ) <= get_second_int( d );
         };
     } else if( op == ">=" ) {
-        condition = [get_first_int, get_second_int]( const T &d ) {
+        condition = [get_first_int, get_second_int]( const T & d ) {
             return get_first_int( d ) >= get_second_int( d );
         };
     } else if( op == "<" ) {
-        condition = [get_first_int, get_second_int]( const T &d ) {
+        condition = [get_first_int, get_second_int]( const T & d ) {
             return get_first_int( d ) < get_second_int( d );
         };
     } else if( op == ">" ) {
-        condition = [get_first_int, get_second_int]( const T &d ) {
+        condition = [get_first_int, get_second_int]( const T & d ) {
             return get_first_int( d ) > get_second_int( d );
         };
     } else {
         jo.throw_error( "unexpected operator " + jo.get_string( "op" ) + " in " + jo.str() );
-        condition = []( const T &d ) {
+        condition = []( const T & d ) {
             return false;
         };
     }
@@ -932,7 +932,7 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
         };
     } else if( jo.has_member( "time" ) ) {
         const int value = to_turns<int>( read_from_json_string<time_duration>( *jo.get_raw( "time" ),
-            time_duration::units ) );
+                                         time_duration::units ) );
         return [value]( const T & d ) {
             return value;
         };
@@ -941,8 +941,8 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
         if( jo.has_string( "time_since_cataclysm" ) ) {
             std::string given_unit_str = jo.get_string( "time_since_cataclysm" );
             bool found = false;
-            for( const auto & pair : time_duration::units ) {
-                const std::string & unit = pair.first;
+            for( const auto &pair : time_duration::units ) {
+                const std::string &unit = pair.first;
                 if( unit == given_unit_str ) {
                     given_unit = pair.second;
                     found = true;

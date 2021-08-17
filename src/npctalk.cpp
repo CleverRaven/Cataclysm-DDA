@@ -2277,136 +2277,170 @@ void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, const std::string 
     };
 }
 
-void talk_effect_fun_t::set_arithmetic( const JsonObject & jo, const std::string & member )
+void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string &member )
 {
     JsonArray objects = jo.get_array( member );
-    const std::string & op = jo.get_string( "op" );
+    const std::string &op = jo.get_string( "op" );
 
     if( op == "*" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 1 ) );
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 1 ) );
         std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 2 ) );
         function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
             set_int( d, get_first_int( d ) * get_second_int( d ) );
         };
     } else if( op == "/" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 1 ) );
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 1 ) );
         std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 2 ) );
         function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
             set_int( d, get_first_int( d ) / get_second_int( d ) );
         };
     } else if( op == "+" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 1 ) );
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 1 ) );
         std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 2 ) );
         function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
             set_int( d, get_first_int( d ) + get_second_int( d ) );
         };
     } else if( op == "-" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 1 ) );
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 1 ) );
         std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 2 ) );
         function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
             set_int( d, get_first_int( d ) - get_second_int( d ) );
         };
     } else if( op == "%" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 1 ) );
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 1 ) );
         std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 2 ) );
         function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
             set_int( d, get_first_int( d ) % get_second_int( d ) );
         };
     } else if( op == "&" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 1 ) );
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 1 ) );
         std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 2 ) );
         function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
             set_int( d, get_first_int( d ) & get_second_int( d ) );
         };
     } else if( op == "|" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 1 ) );
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 1 ) );
         std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 2 ) );
         function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
             set_int( d, get_first_int( d ) | get_second_int( d ) );
         };
     } else if( op == "<<" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 1 ) );
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 1 ) );
         std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 2 ) );
         function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
             set_int( d, get_first_int( d ) << get_second_int( d ) );
         };
     } else if( op == ">>" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 1 ) );
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 1 ) );
         std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 2 ) );
         function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
             set_int( d, get_first_int( d ) >> get_second_int( d ) );
         };
     } else if( op == "~" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 0 ) );
         std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 1 ) );
         function = [get_first_int, set_int]( const dialogue & d ) {
             set_int( d, ~get_first_int( d ) );
         };
     } else if( op == "^" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 1 ) );
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 1 ) );
         std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 2 ) );
         function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
             set_int( d, get_first_int( d ) ^ get_second_int( d ) );
         };
     } else if( op == "=" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 0 ) );
         std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 1 ) );
         function = [get_first_int, set_int]( const dialogue & d ) {
             set_int( d, get_first_int( d ) );
         };
     } else if( op == "*=" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 1 ) );
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 1 ) );
         std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 0 ) );
         function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
             set_int( d, get_first_int( d ) * get_second_int( d ) );
         };
     } else if( op == "/=" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 1 ) );
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 1 ) );
         std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 0 ) );
         function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
             set_int( d, get_first_int( d ) / get_second_int( d ) );
         };
     } else if( op == "+=" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 1 ) );
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 1 ) );
         std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 0 ) );
         function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
             set_int( d, get_first_int( d ) + get_second_int( d ) );
         };
     } else if( op == "-=" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 1 ) );
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 1 ) );
         std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 0 ) );
         function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
             set_int( d, get_first_int( d ) - get_second_int( d ) );
         };
     } else if( op == "%=" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
-        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 1 ) );
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 1 ) );
         std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 0 ) );
         function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
             set_int( d, get_first_int( d ) % get_second_int( d ) );
         };
     } else if( op == "++" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 0 ) );
         std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 0 ) );
         function = [get_first_int, set_int]( const dialogue & d ) {
             set_int( d, get_first_int( d ) + 1 );
         };
     } else if( op == "--" ) {
-        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int(
+                    objects.get_object( 0 ) );
         std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 0 ) );
         function = [get_first_int, set_int]( const dialogue & d ) {
             set_int( d, get_first_int( d ) - 1 );
@@ -2419,19 +2453,20 @@ void talk_effect_fun_t::set_arithmetic( const JsonObject & jo, const std::string
     }
 }
 
-std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( const JsonObject & jo )
+std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( const JsonObject &jo )
 {
     if( jo.has_member( "const" ) ) {
         jo.throw_error( "attempted to alter a constant value in " + jo.str() );
     } else if( jo.has_member( "time" ) ) {
-        jo.throw_error( "can not alter a time constant. Did you mean time_since_cataclysm or time_since_var? In " + jo.str() );
+        jo.throw_error( "can not alter a time constant. Did you mean time_since_cataclysm or time_since_var? In "
+                        + jo.str() );
     } else if( jo.has_member( "time_since_cataclysm" ) ) {
         time_duration given_unit = 1_turns;
         if( jo.has_string( "time_since_cataclysm" ) ) {
             std::string given_unit_str = jo.get_string( "time_since_cataclysm" );
             bool found = false;
-            for( const auto & pair : time_duration::units ) {
-                const std::string & unit = pair.first;
+            for( const auto &pair : time_duration::units ) {
+                const std::string &unit = pair.first;
                 if( unit == given_unit_str ) {
                     given_unit = pair.second;
                     found = true;
@@ -2523,15 +2558,18 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
             };
         } else if( checked_value == "pos_x" ) {
             return [is_npc]( const dialogue & d, int input ) {
-                d.actor( is_npc )->set_pos( tripoint( input, d.actor( is_npc )->posy(), d.actor( is_npc )->posz() ) );
+                d.actor( is_npc )->set_pos( tripoint( input, d.actor( is_npc )->posy(),
+                                                      d.actor( is_npc )->posz() ) );
             };
         } else if( checked_value == "pos_y" ) {
             return [is_npc]( const dialogue & d, int input ) {
-                d.actor( is_npc )->set_pos( tripoint( d.actor( is_npc )->posx(), input, d.actor( is_npc )->posz() ) );
+                d.actor( is_npc )->set_pos( tripoint( d.actor( is_npc )->posx(), input,
+                                                      d.actor( is_npc )->posz() ) );
             };
         } else if( checked_value == "pos_z" ) {
             return [is_npc]( const dialogue & d, int input ) {
-                d.actor( is_npc )->set_pos( tripoint( d.actor( is_npc )->posx(), d.actor( is_npc )->posy(), input ) );
+                d.actor( is_npc )->set_pos( tripoint( d.actor( is_npc )->posx(), d.actor( is_npc )->posy(),
+                                                      input ) );
             };
         } else if( checked_value == "pain" ) {
             return [is_npc]( const dialogue & d, int input ) {
@@ -2547,13 +2585,13 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
         } else if( checked_value == "power_percentage" ) {
             return [is_npc]( const dialogue & d, int input ) {
                 // Energy in milijoule
-                d.actor( is_npc )->set_power_cur( (d.actor( is_npc )->power_max() * input) / 100 );
+                d.actor( is_npc )->set_power_cur( ( d.actor( is_npc )->power_max() * input ) / 100 );
             };
         } else if( checked_value == "morale" ) {
             jo.throw_error( "altering morale this way is currently not supported. In " + jo.str() );
         } else if( checked_value == "focus" ) {
             return [is_npc]( const dialogue & d, int input ) {
-                d.actor( is_npc )->mod_focus( input - d.actor( is_npc )->focus_cur());
+                d.actor( is_npc )->mod_focus( input - d.actor( is_npc )->focus_cur() );
             };
         } else if( checked_value == "mana" ) {
             return [is_npc]( const dialogue & d, int input ) {
@@ -2583,17 +2621,19 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
         } else if( checked_value == "item_count" ) {
             const itype_id item_id( jo.get_string( "item" ) );
             return [is_npc, item_id]( const dialogue & d, int input ) {
-                int delta = input - std::max( d.actor( is_npc )->charges_of( item_id ), d.actor( is_npc )->get_amount( item_id ) );
+                int delta = input - std::max( d.actor( is_npc )->charges_of( item_id ),
+                                              d.actor( is_npc )->get_amount( item_id ) );
                 if( delta > 0 ) {
-                    d.actor( is_npc )->i_add( item( item_id , calendar::turn, delta ) );
+                    d.actor( is_npc )->i_add( item( item_id, calendar::turn, delta ) );
                 } else if( delta < 0 ) {
                     // TODO: Clean this up so that it only removes as many items as needed.
                     d.actor( is_npc )->remove_items_with( [item_id]( const item & it ) {
                         return it.typeId() == item_id;
-                        } );
+                    } );
                     d.actor( is_npc )->i_add( item( item_id, calendar::turn, input ) );
                 }
-                return std::max( d.actor( is_npc )->charges_of( item_id ), d.actor( is_npc )->get_amount( item_id ) );
+                return std::max( d.actor( is_npc )->charges_of( item_id ),
+                                 d.actor( is_npc )->get_amount( item_id ) );
             };
         } else if( checked_value == "exp" ) {
             jo.throw_error( "altering max mana this way is currently not supported. In " + jo.str() );

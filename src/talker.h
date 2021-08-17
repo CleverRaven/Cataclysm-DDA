@@ -220,7 +220,7 @@ class talker
         virtual bool has_amount( const itype_id &, int ) const {
             return false;
         }
-        virtual int get_amount( const itype_id & item_id ) const {
+        virtual int get_amount( const itype_id &item_id ) const {
             return 0;
         }
         virtual std::list<item> use_amount( const itype_id &, int ) {
