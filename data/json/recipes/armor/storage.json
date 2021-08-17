@@ -894,7 +894,7 @@
     ],
     "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ] ]
   },
- {
+  {
     "result": "spearsling",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
