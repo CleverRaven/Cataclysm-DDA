@@ -2596,12 +2596,12 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
             // Base reduction on the larger of 1% of total, or practice amount.
             // The latter kicks in when long actions like crafting
             // apply many turns of gains at once.
-            int focus_drain = std::max( focus_pool / 100, amount);
+            int focus_drain = std::max( focus_pool / 100, amount );
 
             // The purpose of having this squared is that it makes focus drain dramatically slower
             // as it approaches zero. As such, the square function would not be used if the drain is
             // larger or equal to 1000 to avoid the runaway, and the original drain gets applied instead.
-            if( focus_drain >= 1000) {
+            if( focus_drain >= 1000 ) {
                 focus_pool -= focus_drain;
             } else {
                 focus_pool -= ( focus_drain * focus_drain ) / 1000;
