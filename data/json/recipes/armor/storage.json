@@ -293,7 +293,7 @@
     "autolearn": true,
     "components": [
       [ [ "rag", 6 ], [ "fur", 2 ], [ "leather", 1 ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "pointy_stick", 1 ], [ "mop", 1] ]
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "pointy_stick", 1 ], [ "mop", 1 ] ]
     ],
     "flags": [ "BLIND_HARD" ]
   },
