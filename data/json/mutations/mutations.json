@@ -7051,7 +7051,7 @@
     "id": "NUMB",
     "name": { "str": "Numb" },
     "points": 0,
-    "description": "You are no longer capable of feeling or expressing emotion. Your resulting uncanny demeanor will unsettle others and the conversion of mental resources has made you slightly less perceptive and dextrous. However, you find mental task much easier.",
+    "description": "You are no longer capable of feeling or expressing emotion.  Your resulting uncanny demeanor will unsettle others and the conversion of mental resources has made you slightly less perceptive and dextrous.  However, you find mental task much easier.",
     "category": [ "MEDICAL" ],
     "threshreq": [ "THRESH_MEDICAL" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LEARNING_FOCUS", "add": 5 } ] } ],
