@@ -183,7 +183,7 @@ struct conditional_t {
         void set_has_morale( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_focus( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_compare_int( const JsonObject &jo, const std::string &member );
-        std::function<int( const T & )> get_get_int( const JsonObject &jo );
+        static std::function<int( const T & )> get_get_int( const JsonObject &jo );
 
         bool operator()( const T &d ) const {
             if( !condition ) {

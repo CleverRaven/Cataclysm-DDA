@@ -2239,6 +2239,334 @@ void talk_effect_fun_t::set_cast_spell( const JsonObject &jo, const std::string 
     };
 }
 
+void talk_effect_fun_t::set_arithmetic( const JsonObject & jo, const std::string & member )
+{
+    JsonArray objects = jo.get_array( member );
+    const std::string & op = jo.get_string( "op" );
+
+    if( op == "*" ) {
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 1 ) );
+        std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 2 ) );
+        function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
+            set_int( d, get_first_int( d ) * get_second_int( d ) );
+        };
+    } else if( op == "/" ) {
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 1 ) );
+        std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 2 ) );
+        function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
+            set_int( d, get_first_int( d ) / get_second_int( d ) );
+        };
+    } else if( op == "+" ) {
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 1 ) );
+        std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 2 ) );
+        function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
+            set_int( d, get_first_int( d ) + get_second_int( d ) );
+        };
+    } else if( op == "-" ) {
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 1 ) );
+        std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 2 ) );
+        function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
+            set_int( d, get_first_int( d ) - get_second_int( d ) );
+        };
+    } else if( op == "%" ) {
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 1 ) );
+        std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 2 ) );
+        function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
+            set_int( d, get_first_int( d ) % get_second_int( d ) );
+        };
+    } else if( op == "&" ) {
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 1 ) );
+        std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 2 ) );
+        function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
+            set_int( d, get_first_int( d ) & get_second_int( d ) );
+        };
+    } else if( op == "|" ) {
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 1 ) );
+        std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 2 ) );
+        function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
+            set_int( d, get_first_int( d ) | get_second_int( d ) );
+        };
+    } else if( op == "<<" ) {
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 1 ) );
+        std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 2 ) );
+        function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
+            set_int( d, get_first_int( d ) << get_second_int( d ) );
+        };
+    } else if( op == ">>" ) {
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 1 ) );
+        std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 2 ) );
+        function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
+            set_int( d, get_first_int( d ) >> get_second_int( d ) );
+        };
+    } else if( op == "~" ) {
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
+        std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 1 ) );
+        function = [get_first_int, set_int]( const dialogue & d ) {
+            set_int( d, ~get_first_int( d ) );
+        };
+    } else if( op == "^" ) {
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 1 ) );
+        std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 2 ) );
+        function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
+            set_int( d, get_first_int( d ) ^ get_second_int( d ) );
+        };
+    } else if( op == "=" ) {
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
+        std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 1 ) );
+        function = [get_first_int, set_int]( const dialogue & d ) {
+            set_int( d, get_first_int( d ) );
+        };
+    } else if( op == "*=" ) {
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 1 ) );
+        std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 0 ) );
+        function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
+            set_int( d, get_first_int( d ) * get_second_int( d ) );
+        };
+    } else if( op == "/=" ) {
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 1 ) );
+        std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 0 ) );
+        function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
+            set_int( d, get_first_int( d ) / get_second_int( d ) );
+        };
+    } else if( op == "+=" ) {
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 1 ) );
+        std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 0 ) );
+        function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
+            set_int( d, get_first_int( d ) + get_second_int( d ) );
+        };
+    } else if( op == "-=" ) {
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 1 ) );
+        std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 0 ) );
+        function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
+            set_int( d, get_first_int( d ) - get_second_int( d ) );
+        };
+    } else if( op == "%=" ) {
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
+        std::function<int( const dialogue & )> get_second_int = conditional_t< dialogue >::get_get_int( objects.get_object( 1 ) );
+        std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 0 ) );
+        function = [get_first_int, get_second_int, set_int]( const dialogue & d ) {
+            set_int( d, get_first_int( d ) % get_second_int( d ) );
+        };
+    } else if( op == "++" ) {
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
+        std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 0 ) );
+        function = [get_first_int, set_int]( const dialogue & d ) {
+            set_int( d, get_first_int( d ) + 1 );
+        };
+    } else if( op == "--" ) {
+        std::function<int( const dialogue & )> get_first_int = conditional_t< dialogue >::get_get_int( objects.get_object( 0 ) );
+        std::function<void( const dialogue &, int )> set_int = get_set_int( objects.get_object( 0 ) );
+        function = [get_first_int, set_int]( const dialogue & d ) {
+            set_int( d, get_first_int( d ) - 1 );
+        };
+    } else {
+        jo.throw_error( "unexpected operator " + jo.get_string( "op" ) + " in " + jo.str() );
+        function = []( const dialogue & d ) {
+            return false;
+        };
+    }
+}
+
+std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( const JsonObject & jo )
+{
+    if( jo.has_member( "const" ) ) {
+        jo.throw_error( "attempted to alter a constant value in " + jo.str() );
+    } else if( jo.has_member( "time" ) ) {
+        jo.throw_error( "can not alter a time constant. Did you mean time_since_cataclysm or time_since_var? In " + jo.str() );
+    } else if( jo.has_member( "time_since_cataclysm" ) ) {
+        time_duration given_unit = 1_turns;
+        if( jo.has_string( "time_since_cataclysm" ) ) {
+            std::string given_unit_str = jo.get_string( "time_since_cataclysm" );
+            bool found = false;
+            for( const auto & pair : time_duration::units ) {
+                const std::string & unit = pair.first;
+                if( unit == given_unit_str ) {
+                    given_unit = pair.second;
+                    found = true;
+                    break;
+                }
+            }
+            if( !found ) {
+                jo.throw_error( "unrecognized time unit in " + jo.str() );
+            }
+        }
+        return [given_unit]( const dialogue & d, int input ) {
+            calendar::turn = time_point( input * to_turns<int>( given_unit ) );
+        };
+    } else if( jo.has_member( "rand" ) ) {
+        jo.throw_error( "can not alter the random number generator, silly! In " + jo.str() );
+    } else if( jo.has_member( "weather" ) ) {
+        std::string weather_aspect = jo.get_string( "weather" );
+        if( weather_aspect == "temperature" ) {
+            return []( const dialogue & d, int input ) {
+                get_weather().weather_precise->temperature = input;
+                get_weather().clear_temp_cache();
+            };
+        } else if( weather_aspect == "windpower" ) {
+            return []( const dialogue & d, int input ) {
+                get_weather().weather_precise->windpower = input;
+                get_weather().clear_temp_cache();
+            };
+        } else if( weather_aspect == "humidity" ) {
+            return []( const dialogue & d, int input ) {
+                get_weather().weather_precise->humidity = input;
+                get_weather().clear_temp_cache();
+            };
+        } else if( weather_aspect == "pressure" ) {
+            return []( const dialogue & d, int input ) {
+                get_weather().weather_precise->pressure = input;
+                get_weather().clear_temp_cache();
+            };
+        }
+    } else if( jo.has_member( "u_val" ) || jo.has_member( "npc_val" ) ) {
+        const bool is_npc = jo.has_member( "npc_val" );
+        const std::string checked_value = is_npc ? jo.get_string( "npc_val" ) : jo.get_string( "u_val" );
+        if( checked_value == "strength_base" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_str_max( input );
+            };
+        } else if( checked_value == "dexterity_base" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_dex_max( input );
+            };
+        } else if( checked_value == "intelligence_base" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_int_max( input );
+            };
+        } else if( checked_value == "perception_base" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_per_max( input );
+            };
+        } else if( checked_value == "var" ) {
+            const std::string var_name = get_talk_varname( jo, "var_name", false );
+            return [is_npc, var_name]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_value( var_name, std::to_string( input ) );
+            };
+        } else if( checked_value == "time_since_var" ) {
+            // This is a strange thing to want to adjust. But we allow it nevertheless.
+            const std::string var_name = get_talk_varname( jo, "var_name", false );
+            return [is_npc, var_name]( const dialogue & d, int input ) {
+                int storing_value = to_turn<int>( calendar::turn ) - input;
+                d.actor( is_npc )->set_value( var_name, std::to_string( storing_value ) );
+            };
+        } else if( checked_value == "allies" ) {
+            // It would be possible to make this work by removing allies and spawning new ones as needed.
+            // But why would you ever want to do it this way?
+            jo.throw_error( "altering allies this way is currently not supported. In " + jo.str() );
+        } else if( checked_value == "cash" ) {
+            // TODO: See if this can be handeled in a clever way.
+            jo.throw_error( "altering cash this way is currently not supported. In " + jo.str() );
+        } else if( checked_value == "owed" ) {
+            if( is_npc ) {
+                jo.throw_error( "owed ammount not supported for NPCs. In " + jo.str() );
+            } else {
+                return []( const dialogue & d, int input ) {
+                    d.beta->add_debt( input - d.beta->debt() );
+                };
+            }
+        } else if( checked_value == "skill_level" ) {
+            const skill_id skill( jo.get_string( "skill" ) );
+            return [is_npc, skill]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_skill_level( skill, input );
+            };
+        } else if( checked_value == "pos_x" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_pos( tripoint( input, d.actor( is_npc )->posy(), d.actor( is_npc )->posz() ) );
+            };
+        } else if( checked_value == "pos_y" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_pos( tripoint( d.actor( is_npc )->posx(), input, d.actor( is_npc )->posz() ) );
+            };
+        } else if( checked_value == "pos_z" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_pos( tripoint( d.actor( is_npc )->posx(), d.actor( is_npc )->posy(), input ) );
+            };
+        } else if( checked_value == "pain" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                return d.actor( is_npc )->mod_pain( input - d.actor( is_npc )->pain_cur() );
+            };
+        } else if( checked_value == "power" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                // Energy in milijoule
+                d.actor( is_npc )->set_power_cur( 1_mJ * input );
+            };
+        } else if( checked_value == "power_max" ) {
+            jo.throw_error( "altering max power this way is currently not supported. In " + jo.str() );
+        } else if( checked_value == "power_percentage" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                // Energy in milijoule
+                d.actor( is_npc )->set_power_cur( (d.actor( is_npc )->power_max() * input) / 100 );
+            };
+        } else if( checked_value == "morale" ) {
+            jo.throw_error( "altering morale this way is currently not supported. In " + jo.str() );
+        } else if( checked_value == "focus" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->mod_focus( input - d.actor( is_npc )->focus_cur());
+            };
+        } else if( checked_value == "mana" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_mana_cur( input );
+            };
+        } else if( checked_value == "mana_max" ) {
+            jo.throw_error( "altering max mana this way is currently not supported. In " + jo.str() );
+        } else if( checked_value == "mana_percentage" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_mana_cur( ( d.actor( is_npc )->mana_max() * input ) / 100 );
+            };
+        } else if( checked_value == "hunger" ) {
+            jo.throw_error( "altering hunger this way is currently not supported. In " + jo.str() );
+        } else if( checked_value == "thirst" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_thirst( input );
+            };
+        } else if( checked_value == "stored_kcal" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_stored_kcal( input );
+            };
+        } else if( checked_value == "stored_kcal_percentage" ) {
+            // 100% is 55'000 kcal, which is considered healthy.
+            return [is_npc]( const dialogue & d, int input ) {
+                return d.actor( is_npc )->get_stored_kcal() / 550;
+            };
+        } else if( checked_value == "item_count" ) {
+            const itype_id item_id( jo.get_string( "item" ) );
+            return [is_npc, item_id]( const dialogue & d, int input ) {
+                int delta = input - std::max( d.actor( is_npc )->charges_of( item_id ), d.actor( is_npc )->get_amount( item_id ) );
+                if( delta > 0 ) {
+                    d.actor( is_npc )->i_add( item( item_id , calendar::turn, delta ) );
+                } else if( delta < 0 ) {
+                    // TODO: Clean this up so that it only removes as many items as needed.
+                    d.actor( is_npc )->remove_items_with( [item_id]( const item & it ) {
+                        return it.typeId() == item_id;
+                        } );
+                    d.actor( is_npc )->i_add( item( item_id, calendar::turn, input ) );
+                }
+                return std::max( d.actor( is_npc )->charges_of( item_id ), d.actor( is_npc )->get_amount( item_id ) );
+            };
+        } else if( checked_value == "exp" ) {
+            jo.throw_error( "altering max mana this way is currently not supported. In " + jo.str() );
+        }
+    }
+    jo.throw_error( "error setting interger destination in " + jo.str() );
+    return []( const dialogue & d, int input ) {
+        return;
+    };
+}
+
 void talk_effect_fun_t::set_assign_mission( const JsonObject &jo, const std::string &member )
 {
     std::string mission_name = jo.get_string( member );
@@ -2672,6 +3000,8 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_cast_spell( jo, "u_cast_spell", false );
     } else if( jo.has_member( "npc_cast_spell" ) ) {
         subeffect_fun.set_mod_healthy( jo, "npc_cast_spell", true );
+    } else if( jo.has_array( "arithmetic" ) ) {
+        subeffect_fun.set_arithmetic( jo, "arithmetic" );
     } else {
         jo.throw_error( "invalid sub effect syntax: " + jo.str() );
     }

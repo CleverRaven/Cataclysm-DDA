@@ -55,6 +55,7 @@ class talker_character: public talker
         int posz() const override;
         tripoint pos() const override;
         tripoint_abs_omt global_omt_location() const override;
+        void set_pos( tripoint new_pos );
 
         // stats, skills, traits, bionics, and magic
         int str_cur() const override;
@@ -62,10 +63,16 @@ class talker_character: public talker
         int int_cur() const override;
         int per_cur() const override;
         int pain_cur() const override;
+        void set_str_max( int value ) override;
+        void set_dex_max( int value ) override;
+        void set_int_max( int value ) override;
+        void set_per_max( int value ) override;
         units::energy power_cur() const override;
         units::energy power_max() const override;
+        void set_power_cur( units::energy value ) override;
         int mana_cur() const override;
         int mana_max() const override;
+        void set_mana_cur( int value ) override;
         bool has_trait( const trait_id &trait_to_check ) const override;
         void set_mutation( const trait_id &new_trait ) override;
         void unset_mutation( const trait_id &old_trait ) override;
@@ -76,6 +83,7 @@ class talker_character: public talker
         bool has_bionic( const bionic_id &bionics_id ) const override;
         bool knows_spell( const spell_id &sp ) const override;
         int get_skill_level( const skill_id &skill ) const override;
+        void set_skill_level( const skill_id &skill, int value ) override;
         bool knows_proficiency( const proficiency_id &proficiency ) const override;
 
         // effects and values
@@ -116,6 +124,8 @@ class talker_character: public talker
         int get_hunger() const override;
         int get_thirst() const override;
         int get_stored_kcal() const override;
+        void set_stored_kcal( int value ) override;
+        void set_thirst( int value ) override;
         bool is_in_control_of( const vehicle &veh ) const override;
 
         // speaking

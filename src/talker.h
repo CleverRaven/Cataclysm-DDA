@@ -71,11 +71,18 @@ class talker
         virtual std::vector<std::string> get_grammatical_genders() const {
             return {};
         }
-        virtual int posx() const = 0;
-        virtual int posy() const = 0;
-        virtual int posz() const = 0;
+        virtual int posx() const {
+            return 0;
+        }
+        virtual int posy() const {
+            return 0;
+        }
+        virtual int posz() const {
+            return 0;
+        }
         virtual tripoint pos() const = 0;
         virtual tripoint_abs_omt global_omt_location() const = 0;
+        virtual void set_pos( tripoint new_pos ) {}
         virtual std::string distance_to_goal() const {
             return "";
         }
@@ -112,9 +119,14 @@ class talker
         virtual int per_cur() const {
             return 0;
         }
+        virtual void set_str_max( int value ) {}
+        virtual void set_dex_max( int value ) {}
+        virtual void set_int_max( int value ) {}
+        virtual void set_per_max( int value ) {}
         virtual int get_skill_level( const skill_id & ) const {
             return 0;
         }
+        virtual void set_skill_level( const skill_id &, int value ) {}
         virtual bool has_trait( const trait_id & ) const {
             return false;
         }
@@ -325,10 +337,11 @@ class talker
         virtual int get_thirst() const {
             return 0;
         }
-        virtual int get_stored_kcal() const
-        {
+        virtual int get_stored_kcal() const {
             return 0;
         }
+        virtual void set_stored_kcal( int value ) {}
+        virtual void set_thirst( int value ) {}
         virtual bool is_in_control_of( const vehicle & ) const {
             return false;
         }
@@ -363,19 +376,18 @@ class talker
         virtual units::energy power_cur() const {
             return 0_kJ;
         }
-        virtual units::energy power_max() const
-        {
+        virtual units::energy power_max() const {
             return 0_kJ;
         }
-        virtual int mana_cur() const
-        {
+        virtual void set_power_cur( units::energy value ) {}
+        virtual int mana_cur() const {
             return 0;
         }
-        virtual int mana_max() const
-        {
+        virtual int mana_max() const {
             return 0;
         }
-        virtual void mod_healthy_mod( int, int ) {};
+        virtual void set_mana_cur( int value ) {}
+        virtual void mod_healthy_mod( int, int ) {}
         virtual int morale_cur() const {
             return 0;
         }

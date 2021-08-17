@@ -1151,6 +1151,294 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     gen_response_lines( d, 42 );
 
     CHECK( d.responses[ 15 ].text == "This is a time since u_var test response for > 3_days." );
+}
 
+TEST_CASE( "npc_arithmetic_op", "[npc_talk]" )
+{
+    dialogue d;
+    npc & beta = prep_test( d );
+    player & player_character = get_avatar();
 
+    d.add_topic( "TALK_TEST_ARITHMETIC_OP" );
+    gen_response_lines( d, 19 );
+
+    calendar::turn = calendar::turn_zero;
+    REQUIRE( calendar::turn == time_point(0) );
+    // "Sets time since cataclysm to 2 * 5 turns.  (10)"
+    talk_effect_t & effects = d.responses[ 0 ].success;
+    effects.apply( d );
+    CHECK( calendar::turn == time_point( 10 ) );
+
+    calendar::turn = calendar::turn_zero;
+    // "Sets time since cataclysm to 15 / 5 turns.  (3)"
+    effects = d.responses[ 1 ].success;
+    effects.apply( d );
+    CHECK( calendar::turn == time_point( 3 ) );
+
+    calendar::turn = calendar::turn_zero;
+    // "Sets time since cataclysm to 2 + 5 turns.  (7)"
+    effects = d.responses[ 2 ].success;
+    effects.apply( d );
+    CHECK( calendar::turn == time_point( 7 ) );
+
+    calendar::turn = calendar::turn_zero;
+    // "Sets time since cataclysm to 5 - 2 turns.  (3)"
+    effects = d.responses[ 3 ].success;
+    effects.apply( d );
+    CHECK( calendar::turn == time_point( 3 ) );
+
+    calendar::turn = calendar::turn_zero;
+    // "Sets time since cataclysm to 15 % 10 turns.  (5)"
+    effects = d.responses[ 4 ].success;
+    effects.apply( d );
+    CHECK( calendar::turn == time_point( 5 ) );
+
+    calendar::turn = calendar::turn_zero;
+    // "Sets time since cataclysm to 3 & 6 turns.  (2)"
+    effects = d.responses[ 5 ].success;
+    effects.apply( d );
+    CHECK( calendar::turn == time_point( 2 ) );
+
+    calendar::turn = calendar::turn_zero;
+    // "Sets time since cataclysm to 2 | 4 turns.  (6)"
+    effects = d.responses[ 6 ].success;
+    effects.apply( d );
+    CHECK( calendar::turn == time_point( 6 ) );
+
+    calendar::turn = calendar::turn_zero;
+    // "Sets time since cataclysm to 3 << 2 turns.  (12)"
+    effects = d.responses[ 7 ].success;
+    effects.apply( d );
+    CHECK( calendar::turn == time_point( 12 ) );
+
+    calendar::turn = calendar::turn_zero;
+    // "Sets time since cataclysm to 12 >> 2 turns.  (3)"
+    effects = d.responses[ 8 ].success;
+    effects.apply( d );
+    CHECK( calendar::turn == time_point( 3 ) );
+
+    calendar::turn = calendar::turn_zero;
+    // "Sets time since cataclysm to  ~5 turns.  (?)"
+    effects = d.responses[ 9 ].success;
+    effects.apply( d );
+    CHECK( calendar::turn == time_point( ~5 ) );
+
+    calendar::turn = calendar::turn_zero;
+    // "Sets time since cataclysm to 2 ^ 5 turns.  (7)"
+    effects = d.responses[ 10 ].success;
+    effects.apply( d );
+    CHECK( calendar::turn == time_point( 7 ) );
+
+    calendar::turn = calendar::turn_zero;
+    // "Sets time since cataclysm to 5 turns.  (5)"
+    effects = d.responses[ 11 ].success;
+    effects.apply( d );
+    CHECK( calendar::turn == time_point( 5 ) );
+
+    calendar::turn = time_point( 5 );
+    // "Sets time since cataclysm to *= 5 turns."
+    effects = d.responses[ 12 ].success;
+    effects.apply( d );
+    CHECK( calendar::turn == time_point( 25 ) );
+
+    calendar::turn = time_point( 5 );
+    // "Sets time since cataclysm to /= 5 turns."
+    effects = d.responses[ 13 ].success;
+    effects.apply( d );
+    CHECK( calendar::turn == time_point( 1 ) );
+
+    calendar::turn = time_point( 5 );
+    // "Sets time since cataclysm to += 5 turns."
+    effects = d.responses[ 14 ].success;
+    effects.apply( d );
+    CHECK( calendar::turn == time_point( 10 ) );
+
+    calendar::turn = time_point( 11 );
+    // "Sets time since cataclysm to -= 5 turns."
+    effects = d.responses[ 15 ].success;
+    effects.apply( d );
+    CHECK( calendar::turn == time_point( 6 ) );
+
+    calendar::turn = time_point( 17 );
+    // "Sets time since cataclysm to %= 5 turns."
+    effects = d.responses[ 16 ].success;
+    effects.apply( d );
+    CHECK( calendar::turn == time_point( 2 ) );
+
+    calendar::turn = time_point( 5 );
+    // "Sets time since cataclysm++."
+    effects = d.responses[ 17 ].success;
+    effects.apply( d );
+    CHECK( calendar::turn == time_point( 6 ) );
+
+    calendar::turn = time_point( 5 );
+    // "Sets time since cataclysm--."
+    effects = d.responses[ 18 ].success;
+    effects.apply( d );
+    CHECK( calendar::turn == time_point( 4 ) );
+}
+
+TEST_CASE( "npc_arithmetic", "[npc_talk]" )
+{
+    dialogue d;
+    npc & beta = prep_test( d );
+    player & player_character = get_avatar();
+
+    d.add_topic( "TALK_TEST_ARITHMETIC" );
+    gen_response_lines( d, 26 );
+
+    calendar::turn = calendar::turn_zero;
+    REQUIRE( calendar::turn == time_point( 0 ) );
+    // "Sets time since cataclysm to 1."
+    talk_effect_t & effects = d.responses[ 0 ].success;
+    effects.apply( d );
+    CHECK( calendar::turn == time_point( 1 ) );
+
+    get_weather().weather_precise->temperature = 20;
+    get_weather().clear_temp_cache();
+    // "Sets temperature to 2."
+    effects = d.responses[ 1 ].success;
+    effects.apply( d );
+    CHECK( get_weather().weather_precise->temperature == 2 );
+
+    get_weather().weather_precise->windpower = 20;
+    get_weather().clear_temp_cache();
+    // "Sets windpower to 3."
+    effects = d.responses[ 2 ].success;
+    effects.apply( d );
+    CHECK( get_weather().weather_precise->windpower == 3 );
+
+    get_weather().weather_precise->humidity = 20;
+    get_weather().clear_temp_cache();
+    // "Sets humidity to 4."
+    effects = d.responses[ 3 ].success;
+    effects.apply( d );
+    CHECK( get_weather().weather_precise->humidity == 4 );
+
+    get_weather().weather_precise->pressure = 20;
+    get_weather().clear_temp_cache();
+    // "Sets pressure to 5."
+    effects = d.responses[ 4 ].success;
+    effects.apply( d );
+    CHECK( get_weather().weather_precise->pressure == 5 );
+
+    player_character.str_max = 10;
+    // "Sets base strength to 6."
+    effects = d.responses[ 5 ].success;
+    effects.apply( d );
+    CHECK( player_character.str_max == 6 );
+
+    player_character.dex_max = 10;
+    // "Sets base dexterity to 7."
+    effects = d.responses[ 6 ].success;
+    effects.apply( d );
+    CHECK( player_character.dex_max == 7 );
+
+    player_character.int_max = 10;
+    // "Sets base intelligence to 8."
+    effects = d.responses[ 7 ].success;
+    effects.apply( d );
+    CHECK( player_character.int_max == 8 );
+
+    player_character.per_max = 10;
+    // "Sets base perception to 9."
+    effects = d.responses[ 8 ].success;
+    effects.apply( d );
+    CHECK( player_character.per_max == 9 );
+
+    std::string var_name = "npctalk_var_test_var_time_test_test";
+    player_character.set_value( var_name, std::to_string( 1 ) );
+    // "Sets custom var to 10."
+    effects = d.responses[ 9 ].success;
+    effects.apply( d );
+    CHECK( std::stoi( player_character.get_value( var_name ) ) == 10 );
+
+    calendar::turn = time_point( 33 );
+    // "Sets time since var to 11."
+    effects = d.responses[ 10 ].success;
+    effects.apply( d );
+    CHECK( std::stoi( player_character.get_value( var_name ) ) == 22 );
+
+    beta.op_of_u.owed = 0;
+    // "Sets owed to 12."
+    effects = d.responses[ 11 ].success;
+    effects.apply( d );
+    CHECK( beta.op_of_u.owed == 12 );
+
+    const skill_id skill( "driving" );
+    // "Sets skill level in driving to 13."
+    effects = d.responses[ 12 ].success;
+    effects.apply( d );
+    CHECK( player_character.get_skill_level( skill ) == 13 );
+
+    // "Sets pos_x to 14."
+    effects = d.responses[ 13 ].success;
+    effects.apply( d );
+    CHECK( player_character.posx() == 14 );
+
+    // "Sets pos_y to 15."
+    effects = d.responses[ 14 ].success;
+    effects.apply( d );
+    CHECK( player_character.posy() == 15 );
+
+    // "Sets pos_z to 16."
+    effects = d.responses[ 15 ].success;
+    effects.apply( d );
+    CHECK( player_character.posz() == 16 );
+
+    // "Sets pain to 17."
+    effects = d.responses[ 16 ].success;
+    effects.apply( d );
+    CHECK( player_character.get_pain() == 17 );
+
+    player_character.add_bionic( bionic_id( "bio_power_storage" ) );
+    player_character.set_power_level( 10_mJ );
+    player_character.set_max_power_level( 44_mJ );
+    // "Sets power to 18."
+    effects = d.responses[ 17 ].success;
+    effects.apply( d );
+    CHECK( player_character.get_power_level().value() == 18 );
+
+    // "Sets power to 20%."
+    effects = d.responses[ 18 ].success;
+    effects.apply( d );
+    CHECK( player_character.get_power_level().value() == 22 );
+
+    // "Sets focus to 19."
+    effects = d.responses[ 19 ].success;
+    effects.apply( d );
+    CHECK( player_character.get_focus() == 19 );
+
+    // "Sets mana to 21."
+    effects = d.responses[ 20 ].success;
+    effects.apply( d );
+    CHECK( player_character.magic->available_mana() == 21 );
+
+    // "Sets mana to 25%."
+    effects = d.responses[ 21 ].success;
+    effects.apply( d );
+    CHECK( player_character.magic->available_mana() == ( player_character.magic->max_mana( player_character ) * 25 ) / 100 );
+
+    // "Sets thirst to 22."
+    effects = d.responses[ 22 ].success;
+    effects.apply( d );
+    CHECK( player_character.get_thirst() == 22 );
+
+    // "Sets stored_kcal to 23."
+    effects = d.responses[ 23 ].success;
+    effects.apply( d );
+    CHECK( player_character.get_stored_kcal() == 23 );
+
+    // "Sets stored_kcal_percentage to 50."
+    effects = d.responses[ 24 ].success;
+    effects.apply( d );
+    CHECK( player_character.get_stored_kcal() == 550000 / 2 );
+
+    player_character.remove_items_with( []( const item & it ) {
+        return it.typeId() == itype_id( "bottle_glass" );
+        } );
+    // "Sets number of glass bottles to 2."
+    effects = d.responses[ 25 ].success;
+    effects.apply( d );
+    CHECK( d.actor( false )->get_amount( itype_id( "bottle_glass" ) ) == 2 );
 }
