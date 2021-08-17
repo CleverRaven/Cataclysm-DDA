@@ -2481,7 +2481,7 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
             calendar::turn = time_point( input * to_turns<int>( given_unit ) );
         };
     } else if( jo.has_member( "rand" ) ) {
-        jo.throw_error( "can not alter the random number generator, silly! In " + jo.str() );
+        jo.throw_error( "can not alter the random number generator, silly!  In " + jo.str() );
     } else if( jo.has_member( "weather" ) ) {
         std::string weather_aspect = jo.get_string( "weather" );
         if( weather_aspect == "temperature" ) {
