@@ -881,7 +881,7 @@ void conditional_t<T>::set_compare_int( const JsonObject &jo, const std::string 
     JsonArray objects = jo.get_array( member );
     if( objects.size() != 2 ) {
         jo.throw_error( "incorrect number of values.  Expected two in " + jo.str() );
-        condition = []( const T & d ) {
+        condition = []( const T & ) {
             return false;
         };
         return;
@@ -916,7 +916,7 @@ void conditional_t<T>::set_compare_int( const JsonObject &jo, const std::string 
         };
     } else {
         jo.throw_error( "unexpected operator " + jo.get_string( "op" ) + " in " + jo.str() );
-        condition = []( const T & d ) {
+        condition = []( const T & ) {
             return false;
         };
     }
