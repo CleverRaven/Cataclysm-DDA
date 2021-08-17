@@ -1881,7 +1881,7 @@ dispersion_sources Character::get_weapon_dispersion( const item &obj ) const
     dispersion_sources dispersion( weapon_dispersion );
     dispersion.add_range( ranged_dex_mod() );
 
-    dispersion.add_range( ranged_dispersion_modifier() );
+    dispersion.add_range( ranged_dispersion_modifier_hands() );
 
     if( is_driving() ) {
         // get volume of gun (or for auxiliary gunmods the parent gun)

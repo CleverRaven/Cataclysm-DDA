@@ -125,9 +125,6 @@ static std::map<creature_size, avatar_ptr> create_dummies_of_all_sizes( int init
         REQUIRE( dummy->base_height() == init_height );
 
         dummies[size] = dummy;
-
-        printf( "Height for %d cm char at %s size: %d cm\n", init_height, trait_name.c_str(),
-                dummy->height() );
     }
     return dummies;
 }

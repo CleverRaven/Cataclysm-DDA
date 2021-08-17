@@ -26,6 +26,20 @@ Very high skill: 8 (dangerous opponent; dark wyrm, vinebeast)
 Maximal skill: 10 (highest for balance purposes; jabberwock, tribot, shoggoth, gracken)
 
 
+# Monster HP scaling:
+Minimum HP: 1 (no ability to absorb damage; yellow chick, mosquito)
+
+Average HP: ~100 (average critter; most basic zeds, slimes, soldier ants, fungaloids & triffids)
+
+Notable HP: ~200 (unusually resilient; tiger, zombie master, mi-go)
+
+Very high HP: ~500 (supernaturally resilient; zombie hulk, shoggoth, triffid heart, jabberwock)
+
+Maximal HP: 800 (highest for balance purposes; wraith)
+
+In general larger creatures should have higher HP as should more evolved blob creatures and alien and nether creatures.
+
+
 # Speeds:
 Zombies are a bit faster than "shambling". Zombified versions of fast critters will remain fast, but in general the process slows the undead version. Further, under no circumstances should a zed be more than 50% faster than base character speed. Currently, this means "capped at 150".
 

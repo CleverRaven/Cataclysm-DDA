@@ -345,7 +345,6 @@ static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_PADDED_FEET( "PADDED_FEET" );
 static const trait_id trait_PAINRESIST( "PAINRESIST" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
-static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_PAWS( "PAWS" );
 static const trait_id trait_PAWS_LARGE( "PAWS_LARGE" );
 static const trait_id trait_PER_SLIME( "PER_SLIME" );
@@ -425,6 +424,7 @@ static const morale_type morale_nightmare( "morale_nightmare" );
 
 static const proficiency_id proficiency_prof_traps( "prof_traps" );
 static const proficiency_id proficiency_prof_trapsetting( "prof_trapsetting" );
+static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
 
 namespace io
 {
@@ -655,9 +655,9 @@ int Character::effective_dispersion( int dispersion ) const
     /** @EFFECT_PER penalizes sight dispersion when low. */
     dispersion += ranged_per_mod();
 
-    dispersion += encumb( body_part_eyes ) / 2;
+    dispersion += ranged_dispersion_modifier_vision();
 
-    return std::max( dispersion, 0 );
+    return std::max( static_cast<int>( std::round( dispersion ) ), 0 );
 }
 
 std::pair<int, int> Character::get_fastest_sight( const item &gun, double recoil ) const
@@ -770,13 +770,22 @@ float Character::thrown_dex_modifier() const
     return manipulator_score();
 }
 
-float Character::ranged_dispersion_modifier() const
+float Character::ranged_dispersion_modifier_hands() const
 {
     if( manipulator_score() == 0.0f ) {
         return 1000.0f;
     } else {
         return std::min( 1000.0f,
                          ( 22.8f / manipulator_score() ) - 22.8f );
+    }
+}
+
+float Character::ranged_dispersion_modifier_vision() const
+{
+    if( vision_score() == 0.0f ) {
+        return 10'000.0f;
+    } else {
+        return std::min( 10'000.0f, ( 30.0f / vision_score() ) - 30.0f );
     }
 }
 
@@ -1622,6 +1631,24 @@ float Character::lifting_score( const body_part_type::type &bp ) const
     return std::max( 0.0f, total );
 }
 
+float Character::breathing_score() const
+{
+    float total = 0.0f;
+    for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
+        total += id.second.get_breathing_score();
+    }
+    return std::max( 0.0f, total );
+}
+
+float Character::vision_score() const
+{
+    float total = 0.0f;
+    for( const std::pair<const bodypart_str_id, bodypart> &id : body ) {
+        total += id.second.get_vision_score();
+    }
+    return std::max( 0.0f, total );
+}
+
 bool Character::has_min_manipulators() const
 {
     return manipulator_score() > MIN_MANIPULATOR_SCORE;
@@ -2286,12 +2313,7 @@ float Character::get_vision_threshold( float light_level ) const
                                      LIGHT_AMBIENT_MINIMAL ) /
                                      ( LIGHT_AMBIENT_LIT - LIGHT_AMBIENT_MINIMAL ) );
 
-    int eyes_encumb = 0;
-    if( has_part( body_part_eyes ) ) {
-        eyes_encumb = encumb( body_part_eyes );
-    }
-
-    float range = get_per() / 3.0f - eyes_encumb / 10.0f;
+    float range = get_per() / 3.0f;
     if( vision_mode_cache[NV_GOGGLES] || vision_mode_cache[NIGHTVISION_3] ||
         vision_mode_cache[FULL_ELFA_VISION] || vision_mode_cache[CEPH_VISION] ) {
         range += 10;
@@ -2307,7 +2329,7 @@ float Character::get_vision_threshold( float light_level ) const
     }
 
     // Clamp range to 1+, so that we can always see where we are
-    range = std::max( 1.0f, range );
+    range = std::max( 1.0f, range * vision_score() );
 
     return std::min( static_cast<float>( LIGHT_AMBIENT_LOW ),
                      threshold_for_range( range ) * dimming_from_light );
@@ -8975,6 +8997,11 @@ float Character::stamina_move_cost_modifier() const
     return stamina_modifier * move_mode->move_speed_mult();
 }
 
+float Character::stamina_recovery_breathing_modifier() const
+{
+    return breathing_score();
+}
+
 void Character::update_stamina( int turns )
 {
     static const std::string player_base_stamina_regen_rate( "PLAYER_BASE_STAMINA_REGEN_RATE" );
@@ -8989,7 +9016,7 @@ void Character::update_stamina( int turns )
                                mutation_value( stamina_regen_modifier ) + ( mutation_value( "max_stamina_modifier" ) - 1.0f ) );
     // But mouth encumbrance interferes, even with mutated stamina.
     stamina_recovery += stamina_multiplier * std::max( 1.0f,
-                        base_regen_rate - ( encumb( body_part_mouth ) / 5.0f ) );
+                        base_regen_rate * stamina_recovery_breathing_modifier() );
     stamina_recovery = enchantment_cache->modify_value( enchant_vals::mod::REGEN_STAMINA,
                        stamina_recovery );
     // TODO: recovering stamina causes hunger/thirst/fatigue.
@@ -12284,6 +12311,11 @@ int Character::run_cost( int base_cost, bool diag ) const
     if( !is_mounted() ) {
         if( movecost > 105 ) {
             movecost *= mutation_value( "movecost_obstacle_modifier" );
+
+            if( has_proficiency( proficiency_prof_parkour ) ) {
+                movecost *= .5;
+            }
+
             if( movecost < 100 ) {
                 movecost = 100;
             }
@@ -14225,7 +14257,7 @@ float Character::fall_damage_mod() const
     // 100% damage at 0, 75% at 10, 50% at 20 and so on
     ret *= ( 100.0f - ( dex_dodge * 4.0f ) ) / 100.0f;
 
-    if( has_trait( trait_PARKOUR ) ) {
+    if( has_proficiency( proficiency_prof_parkour ) ) {
         ret *= 2.0f / 3.0f;
     }
 
