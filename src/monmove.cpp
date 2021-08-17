@@ -88,6 +88,9 @@ bool monster::is_immune_field( const field_type_id &fid ) const
     if( fid == fd_insecticidal_gas ) {
         return !made_of( material_id( "iflesh" ) ) || has_flag( MF_INSECTICIDEPROOF );
     }
+    if( fid == fd_web ) {
+        return has_flag( MF_WEBWALK );
+    }
     const field_type &ft = fid.obj();
     if( ft.has_fume ) {
         return has_flag( MF_NO_BREATHE );

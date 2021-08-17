@@ -22,6 +22,7 @@
     "type": "ARMOR",
     "name": { "str": "sheet" },
     "description": "A large fabric sheet, could be used as a curtain or bedsheets; or cut up for a bunch of rags.",
+    "//density": "120 g / m²",
     "weight": "771 g",
     "volume": "5 L",
     "price": 2000,

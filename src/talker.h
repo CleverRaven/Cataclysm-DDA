@@ -395,6 +395,7 @@ class talker
             return 0;
         }
         virtual void mod_focus( int ) {}
+        virtual void mod_rad( int ) {}
         virtual void add_morale( const morale_type &, int, int, time_duration, time_duration, bool ) {}
         virtual void remove_morale( const morale_type & ) {}
 };

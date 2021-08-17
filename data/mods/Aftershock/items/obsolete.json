@@ -15,6 +15,26 @@
     "flags": [ "AISLE", "BOARDABLE", "CARGO", "ROOF" ]
   },
   {
+    "id": "afs_sungel",
+    "type": "COMESTIBLE",
+    "name": "sungel",
+    "copy-from": "afs_sundew",
+    "description": "Mixed with morphine, this sundew has congealed, and has an immense stimulative and pain-numbing effect.  With sufficient tools, it could be used to create anesthesia.",
+    "stim": 50,
+    "phase": "liquid",
+    "charges": 2,
+    "fun": 20,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "Your vision sharpens and your eyes widen as the sungel slams your senses.",
+      "effects": [
+        { "id": "pkill3", "duration": 120 },
+        { "id": "pkill2", "duration": 1200 },
+        { "id": "cough_suppress", "duration": 1000 }
+      ]
+    }
+  },
+  {
     "id": "afs_solderers_item",
     "copy-from": "fake_item",
     "type": "TOOL",
@@ -466,7 +486,7 @@
     "copy-from": "afs_sungel",
     "description": "This sungel has been mixed with several drugs and yet inherits none of their effects.  Its painkilling effect hasn't changed, but its stimulative properties have been reversed, and it could be used as anesthesia for installation of bionics.",
     "stim": -30,
-    "phase": "solid",
+    "phase": "liquid",
     "color": "light_red",
     "flags": [ "LIGHT_4", "EATEN_HOT" ],
     "use_action": {

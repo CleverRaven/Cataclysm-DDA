@@ -83,7 +83,7 @@
     "name": "Parkour",
     "description": "You've practiced parkour for many years, and made the world your playground.  It wouldn't be a lie to say that running is your life.  Which is good, because now that the end has come, you're running for your life.",
     "points": 2,
-    "traits": [ "PARKOUR" ],
+    "proficiencies": [ "prof_parkour" ],
     "skills": [ { "level": 1, "name": "swimming" } ]
   },
   {
@@ -454,5 +454,183 @@
     "points": 3,
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "tailor" } ],
     "traits": [ "STYLISH" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "pottery",
+    "name": "Pottery",
+    "description": "You're a master of throwing on the potter's wheel, able to shape clay into whatever shape you need.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "fabrication" }, { "level": 1, "name": "survival" } ],
+    "proficiencies": [ "prof_pottery", "prof_pottery_glazing" ]
+  },
+  {
+    "subtype": "hobby",
+    "name": "Handloading",
+    "type": "profession",
+    "id": "handloading",
+    "description": "You learned the cheap way to shoot your ammo.  The problem is you shoot even more now.",
+    "points": 2,
+    "proficiencies": [ "prof_handloading" ],
+    "skills": [ { "level": 3, "name": "fabrication" }, { "level": 2, "name": "gun" } ]
+  },
+  {
+    "subtype": "hobby",
+    "type": "profession",
+    "name": "Game Master",
+    "id": "game_mastering",
+    "description": "You've guided players' journeys through your dungeons and fortresses.  Now, you're the last member of your party.",
+    "points": 2,
+    "traits": [ "PROF_DICEMASTER" ],
+    "skills": [ { "level": 2, "name": "speech" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "golfing",
+    "name": "Golfing",
+    "points": 1,
+    "description": "The backswing's a breeze, and your drive could get skulls into the green if you tried.",
+    "skills": [ { "level": 2, "name": "bashing" }, { "level": 1, "name": "melee" }, { "level": 1, "name": "driving" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "basketball",
+    "name": "Basketball",
+    "description": "Your ability to play point or post will beat the undead in overtime.",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "throw" }, { "level": 2, "name": "dodge" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "name": "Red Cross Certified",
+    "id": "redcross",
+    "description": "The medical professionals aren't coming, but you'll live regardless.",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "firstaid" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "carpentry",
+    "name": "Carpentry",
+    "points": 2,
+    "description": "You could make a boat from scratch.  These undead can't swim, right?",
+    "skills": [ { "level": 3, "name": "fabrication" } ],
+    "proficiencies": [ "prof_carving", "prof_carpentry_basic" ]
+  },
+  {
+    "type": "profession",
+    "id": "fishing",
+    "subtype": "hobby",
+    "name": "Fishing",
+    "points": 1,
+    "description": "A quiet day at the lake would be a welcome break from the hordes.",
+    "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "swimming" } ],
+    "traits": [ "OUTDOORSMAN" ]
+  },
+  {
+    "subtype": "hobby",
+    "type": "profession",
+    "id": "gunsmithing",
+    "name": "Home Gunsmith",
+    "description": "You could have been the next Browning, if not for the those pesky corpses walking around.  It's time to test for accuracy.",
+    "points": 2,
+    "proficiencies": [ "prof_gunsmithing_basic", "prof_gunsmithing_improv" ],
+    "skills": [ { "level": 2, "name": "fabrication" }, { "level": 1, "name": "gun" }, { "level": 1, "name": "traps" } ]
+  },
+  {
+    "subtype": "hobby",
+    "type": "profession",
+    "id": "roller_derby",
+    "description": "Being able your way through the pack is always useful, whether it's living or rotting.",
+    "name": "Roller Derby",
+    "points": 3,
+    "skills": [
+      { "level": 1, "name": "unarmed" },
+      { "level": 1, "name": "melee" },
+      { "level": 1, "name": "swimming" },
+      { "level": 1, "name": "dodge" }
+    ],
+    "traits": [ "PROF_SKATER" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hockey",
+    "name": "Roller Hockey",
+    "description": "Knowing your way around the rink can be handy in outmanuvering the undead.",
+    "points": 3,
+    "skills": [ { "level": 2, "name": "bashing" }, { "level": 2, "name": "swimming" }, { "level": 1, "name": "melee" } ],
+    "traits": [ "PROF_SKATER" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "frying",
+    "name": "Deep Frying",
+    "points": 2,
+    "description": "You'd have been a hit at the county fair, but you're cooking for one now.",
+    "proficiencies": [ "prof_frying", "prof_frying_bread", "prof_frying_dessert", "prof_food_prep" ],
+    "skills": [ { "level": 3, "name": "cooking" } ]
+  },
+  {
+    "type": "profession",
+    "id": "homebrewer",
+    "subtype": "hobby",
+    "name": "Homebrewing",
+    "description": "Your white lightning could knock out an elephant, but you're drinking alone now.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "cooking" }, { "level": 2, "name": "chemistry" } ],
+    "proficiencies": [ "prof_distilling", "prof_beverage_distilling", "prof_fermenting", "prof_food_prep" ]
+  },
+  {
+    "subtype": "hobby",
+    "type": "profession",
+    "id": "coaching",
+    "name": "Sports Coaching",
+    "description": "They tore apart your little league team, but you still have team spirit.",
+    "points": 2,
+    "skills": [ { "level": 3, "name": "speech" }, { "level": 1, "name": "swimming" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "gardening",
+    "name": "Gardening",
+    "description": "Earning your green thumb will come in handy when the grocery store is overrun.",
+    "points": 1,
+    "skills": [ { "level": 2, "name": "survival" }, { "level": 1, "name": "cooking" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "ropemaking",
+    "name": "Ropemaking",
+    "description": "Your knots are strong, whether from cloth or natural cordage.",
+    "points": 1,
+    "skills": [ { "level": 1, "name": "survival" }, { "level": 1, "name": "tailor" } ],
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "underweight",
+    "name": "Extreme Dieting",
+    "description": "You lost an awful lot of weight before the Cataclysm.  Now that food is not always close at hand, your skeletal figure presents an additional danger.  You need to gain weight or die trying.",
+    "points": -1,
+    "traits": [ "XS" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "obese",
+    "name": "Binge Eating",
+    "description": "You gained an awful lot of weight before the Cataclysm.  Now that mobility is key to survival, your bloated figure presents an additional danger.  You need to lose weight or die trying.",
+    "points": -1,
+    "traits": [ "XXXL" ]
   }
 ]

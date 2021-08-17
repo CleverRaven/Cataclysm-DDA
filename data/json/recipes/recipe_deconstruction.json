@@ -2124,12 +2124,28 @@
     "components": [ [ [ "rag", 6 ] ], [ [ "down_feather", 40 ] ] ]
   },
   {
+    "result": "sheet",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 s",
+    "components": [ [ [ "sheet_cotton_patchwork", 6 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "sheet_cotton_patchwork",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
-    "time": "1 m",
+    "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 1 ] ], [ [ "scrap_cotton", 20 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 1 ] ], [ [ "filament", 2, "LIST" ] ] ]
+  },
+  {
+    "result": "cotton_patchwork",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 s",
+    "components": [ [ [ "rag", 1 ] ] ],
+    "//": "This is intended to be an interim measure until all recipies can be moved away from using or creating rags. Once that's done this can be considered obsolete"
   },
   {
     "result": "sheet_neoprene_patchwork",

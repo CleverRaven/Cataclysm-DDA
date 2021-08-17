@@ -85,6 +85,13 @@ bool string_id<itype>::is_valid() const
     return item_controller->has_template( *this );
 }
 
+/** @relates string_id */
+template<>
+bool string_id<Item_spawn_data>::is_valid() const
+{
+    return item_controller->get_group( *this ) != nullptr;
+}
+
 static item_category_id calc_category( const itype &obj );
 static void hflesh_to_flesh( itype &item_template );
 

@@ -392,6 +392,8 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
         //most cars should have a destroyed alarm
         destroyAlarm = true;
     }
+    // Make engine faults more likely
+    destroyEngine = destroyEngine || one_in( 3 );
 
     //Provide some variety to non-mint vehicles
     if( veh_status != 0 ) {
@@ -534,7 +536,7 @@ void vehicle::init_state( int init_veh_fuel, int init_veh_status )
                 // If possible set an engine fault rather than destroying the engine outright
                 if( destroyEngine && pt.faults_potential().empty() ) {
                     set_hp( pt, 0 );
-                } else if( destroyEngine || one_in( 3 ) ) {
+                } else if( destroyEngine ) {
                     do {
                         pt.fault_set( random_entry( pt.faults_potential() ) );
                     } while( one_in( 3 ) );
@@ -2258,7 +2260,6 @@ bool vehicle::split_vehicles( const std::vector<std::vector <int>> &new_vehs,
             new_vehicle->tracking_on = tracking_on;
             new_vehicle->camera_on = camera_on;
         }
-        new_vehicle->last_fluid_check = last_fluid_check;
 
         std::vector<Character *> passengers;
         for( size_t new_part = 0; new_part < split_parts.size(); new_part++ ) {
@@ -2444,7 +2445,7 @@ cata::optional<vpart_reference> vpart_position::part_with_tool( const itype_id &
 {
     for( const int idx : vehicle().parts_at_relative( mount(), false ) ) {
         const vpart_reference vp( vehicle(), idx );
-        if( vp.part().is_available() && vp.info().has_tool( tool_type ) ) {
+        if( !vp.part().is_broken() && vp.info().has_tool( tool_type ) ) {
             return vp;
         }
     }
@@ -3263,7 +3264,7 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
                 if( ( part_info( p ).has_flag( "MUSCLE_LEGS" ) &&
                       ( player_character.get_working_leg_count() >= 2 ) ) ||
                     ( part_info( p ).has_flag( "MUSCLE_ARMS" ) &&
-                      ( player_character.get_working_arm_count() >= 2 ) ) ) {
+                      ( player_character.has_two_arms_lifting() ) ) ) {
                     fl += 10;
                 }
             }

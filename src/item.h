@@ -496,10 +496,10 @@ class item : public visitable
                 reload_option( const reload_option & );
                 reload_option &operator=( const reload_option & );
 
-                reload_option( const player *who, const item *target, const item *parent,
+                reload_option( const Character *who, const item *target, const item *parent,
                                const item_location &ammo );
 
-                const player *who = nullptr;
+                const Character *who = nullptr;
                 const item *target = nullptr;
                 item_location ammo;
 
@@ -1302,6 +1302,9 @@ class item : public visitable
 
         void set_last_temp_check( const time_point &pt );
 
+        /** How resistant clothes made of this material are to wind (0-100) */
+        int wind_resist() const;
+
         /** What faults can potentially occur with this item? */
         std::set<fault_id> faults_potential() const;
 
@@ -1423,7 +1426,7 @@ class item : public visitable
          * @param p player that has started wielding item
          * @param mv number of moves *already* spent wielding the weapon
          */
-        void on_wield( player &p );
+        void on_wield( Character &you );
         /**
          * Callback when a player starts carrying the item. The item is already in the inventory
          * and is called from there. This is not called when the item is added to the inventory
@@ -2478,8 +2481,8 @@ class item : public visitable
                 // If the crafter has insufficient tools to continue to the next 5% progress step
                 bool tools_to_continue = false;
                 std::vector<comp_selection<tool_comp>> cached_tool_selections;
-                cata::optional<units::mass> cached_weight;
-                cata::optional<units::volume> cached_volume;
+                cata::optional<units::mass> cached_weight; // NOLINT(cata-serialize)
+                cata::optional<units::volume> cached_volume; // NOLINT(cata-serialize)
 
                 // if this is an in progress disassembly as opposed to craft
                 bool disassembly = false;
@@ -2508,6 +2511,7 @@ class item : public visitable
         int mission_id = -1;       // Refers to a mission in game's master list
         int player_id = -1;        // Only give a mission to the right player!
         bool ethereal = false;
+        int wetness = 0;           // Turns until this item is completly dry.
 
         // Set when the item / its content changes. Used for worn item with
         // encumbrance depending on their content.

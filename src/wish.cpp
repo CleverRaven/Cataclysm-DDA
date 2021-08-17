@@ -17,6 +17,7 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "effect.h"
 #include "enums.h"
 #include "game.h"
 #include "input.h"
@@ -322,6 +323,124 @@ void debug_menu::wishmutate( Character *you )
             wmenu.filterlist();
         }
     } while( wmenu.ret >= 0 );
+}
+
+void debug_menu::wisheffect( Character &p )
+{
+    std::vector<effect> effects;
+    const size_t effect_size = get_effect_types().size();
+    effects.reserve( effect_size );
+
+    for( const std::pair<const efftype_id, effect_type> &eff : get_effect_types() ) {
+        const effect &plyeff = p.get_effect( eff.first );
+        if( plyeff.is_null() ) {
+            effects.emplace_back( &*eff.first );
+        } else {
+            effects.emplace_back( plyeff );
+        }
+    }
+
+    std::sort( effects.begin(), effects.end(), []( const effect & effA, const effect & effB ) {
+        return localized_compare( effA.get_id().str(), effB.get_id().str() );
+    } );
+
+    uilist efmenu;
+    efmenu.title = _( "Debug Effects Menu" );
+    efmenu.desc_enabled = true;
+    efmenu.addentry( 0, true, 'a', _( "Show only active" ) );
+
+    auto effect_description = []( const effect & eff ) -> std::string {
+        const effect_type &efft = *eff.get_effect_type();
+        std::ostringstream descstr;
+
+        if( eff.get_effect_type()->use_name_ints() )
+        {
+            descstr << eff.disp_name() << '\n';
+        }
+
+        descstr << "Intensity threshold: ";
+        descstr <<  colorize( std::to_string( to_seconds<int>( efft.intensity_duration() ) ),
+                              c_yellow );
+        descstr << "s | ";
+
+        descstr << "Max: ";
+        int max_duration = to_seconds<int>( eff.get_max_duration() );
+        descstr << colorize( std::to_string( max_duration ), c_yellow );
+        descstr << "s\n";
+
+        if( eff.get_effect_type()->use_desc_ints( false ) )
+        {
+            descstr << eff.disp_desc( false ) << '\n';
+        }
+
+        return descstr.str();
+    };
+
+    for( size_t i = 0; i < effect_size; ++i ) {
+        const effect &eff = effects[i];
+        uilist_entry entry{static_cast<int>( i + 1 ), true, -2, eff.get_id().str()};
+
+        int duration = to_seconds<int>( eff.get_duration() );
+        if( duration ) {
+            entry.ctxt = colorize( std::to_string( duration ), c_white );
+            if( eff.is_permanent() ) {
+                entry.ctxt += colorize( " PERMANENT", c_white );
+            }
+        }
+
+        entry.desc = effect_description( eff );
+        efmenu.entries.emplace_back( entry );
+    }
+
+    bool only_active = false;
+
+    do {
+        efmenu.query();
+        if( efmenu.ret == 0 ) {
+            only_active = !only_active;
+            for( uilist_entry &entry : efmenu.entries ) {
+                if( only_active ) {
+                    const int duration = to_seconds<int>( effects[entry.retval - 1].get_duration() );
+                    entry.enabled = duration > 0 || entry.retval == 0;
+                } else {
+                    entry.enabled = true;
+                }
+            }
+            continue;
+        } else if( efmenu.ret > 0 ) {
+            uilist_entry &entry = efmenu.entries[efmenu.ret];
+            effect &eff = effects[efmenu.ret - 1];
+
+            int duration = to_seconds<int>( eff.get_duration() );
+            query_int( duration, _( "Set duration (current %1$d): " ), duration );
+            if( duration < 0 ) {
+                continue;
+            }
+
+            bool permanent = false;
+            if( duration ) {
+                permanent = query_yn( _( "Permanent?" ) );
+            }
+
+            p.remove_effect( eff.get_id() );
+            if( duration > 0 ) {
+                p.add_effect( eff.get_id(), time_duration::from_seconds( duration ), permanent );
+                eff = p.get_effect( eff.get_id() );
+            } else {
+                eff.set_duration( 0_seconds );
+            }
+
+            entry.ctxt.clear();
+            int cur_duration = to_seconds<int>( p.get_effect_dur( eff.get_id() ) );
+            if( cur_duration ) {
+                entry.ctxt = colorize( std::to_string( cur_duration ), c_yellow );
+                if( eff.is_permanent() ) {
+                    entry.ctxt += colorize( " PERMANENT", c_yellow );
+                }
+            }
+            entry.desc = effect_description( eff );
+        }
+    } while( efmenu.ret != UILIST_CANCEL );
 }
 
 class wish_monster_callback: public uilist_callback
@@ -849,7 +968,10 @@ void debug_menu::wishproficiency( Character *you )
         sorted_profs.emplace_back( cur.prof_id(), player_know );
     }
 
-    std::sort( sorted_profs.begin(), sorted_profs.end(), localized_compare );
+    std::sort( sorted_profs.begin(), sorted_profs.end(), [](
+    const std::pair<proficiency_id, bool> &profA,  const std::pair<proficiency_id, bool> &profB ) {
+        return localized_compare( profA.first->name(), profB.first->name() );
+    } );
 
     for( size_t i = 0; i < sorted_profs.size(); ++i ) {
         if( sorted_profs[i].second ) {

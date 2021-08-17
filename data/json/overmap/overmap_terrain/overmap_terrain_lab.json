@@ -571,6 +571,8 @@
       "underground_lab_central_-5W",
       "underground_lab_central_-6W",
       "underground_lab_central_-6E",
+      "underground_lab_central_-7W",
+      "underground_lab_central_-7E",
       "lab_2x2_cargo_NW",
       "lab_2x2_cargo_NE",
       "lab_2x2_cargo_SW",
@@ -588,7 +590,8 @@
     "id": [
       "lab_1x1_RES_8_bedrooms_maintenance",
       "lab_1x1_RES_8_bedrooms_security",
-      "lab_1x1_RES_8_commons",
+      "lab_1x1_RES_8_commons_MAINT",
+      "lab_1x1_RES_8_commons_SEC",
       "lab_res_8_NW",
       "lab_res_8_NE",
       "lab_res_8_SW",

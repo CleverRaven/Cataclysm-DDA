@@ -312,6 +312,7 @@ extern const flag_id flag_WATCH;
 extern const flag_id flag_WATERPROOF;
 extern const flag_id flag_WATERPROOF_GUN;
 extern const flag_id flag_WATER_BREAK;
+extern const flag_id flag_WATER_BREAK_ACTIVE;
 extern const flag_id flag_WATER_EXTINGUISH;
 extern const flag_id flag_WATER_FRIENDLY;
 extern const flag_id flag_WATER_DISSOLVE;

@@ -398,6 +398,13 @@ item_location game::inv_map_splice( const item_filter &filter, const std::string
                          title, radius, none_message );
 }
 
+item_location game::inv_map_splice( const item_location_filter &filter, const std::string &title,
+                                    int radius, const std::string &none_message )
+{
+    return inv_internal( u, inventory_filter_preset( filter ),
+                         title, radius, none_message );
+}
+
 class liquid_inventory_selector_preset : public inventory_selector_preset
 {
     public:
@@ -1245,7 +1252,7 @@ class read_inventory_preset: public pickup_inventory_preset
                     if( skill.can_train() ) {
                         //~ %1$s: book skill name, %2$d: book skill level, %3$d: player skill level
                         return string_format( pgettext( "skill", "%1$s to %2$d (%3$d)" ), book.skill->name(), book.level,
-                                              skill.level() );
+                                              skill.knowledgeLevel() );
                     }
                 }
                 return std::string();
@@ -1345,8 +1352,8 @@ class read_inventory_preset: public pickup_inventory_preset
                 return static_cast<bool>( book_a.skill );
             }
 
-            const bool train_a = you.get_skill_level( book_a.skill ) < book_a.level;
-            const bool train_b = you.get_skill_level( book_b.skill ) < book_b.level;
+            const bool train_a = you.get_knowledge_level( book_a.skill ) < book_a.level;
+            const bool train_b = you.get_knowledge_level( book_b.skill ) < book_b.level;
 
             if( !train_a || !train_b ) {
                 return ( !train_a && !train_b ) ? base_sort : train_a;

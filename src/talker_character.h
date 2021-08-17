@@ -144,6 +144,7 @@ class talker_character: public talker
         void remove_morale( const morale_type &old_morale ) override;
         int focus_cur() const override;
         void mod_focus( int ) override;
+        void mod_rad( int ) override;
     protected:
         talker_character() = default;
         player *me_chr;

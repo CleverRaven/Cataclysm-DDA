@@ -60,7 +60,8 @@ std::string get_talk_varname( const JsonObject &jo, const std::string &member, b
     return "npctalk_var_" + type_var + "_" + var_context + "_" + var_basename;
 }
 
-int_or_var get_variable_or_int( const JsonObject &jo, std::string member )
+int_or_var get_variable_or_int( const JsonObject &jo, std::string member, bool required,
+                                int default_val )
 {
     int_or_var ret_val;
     if( jo.has_int( member ) ) {
@@ -69,8 +70,10 @@ int_or_var get_variable_or_int( const JsonObject &jo, std::string member )
         const JsonObject &var_obj = jo.get_object( member );
         ret_val.var_val = get_talk_varname( var_obj, "name", false );
         ret_val.default_val = var_obj.get_int( "default" );
-    } else {
+    } else if( required ) {
         jo.throw_error( "No valid value for ", member );
+    } else {
+        ret_val.int_val = default_val;
     }
     return ret_val;
 }
@@ -166,7 +169,7 @@ void conditional_t<T>::set_npc_has_class( const JsonObject &jo )
 {
     const std::string &class_to_check = jo.get_string( "npc_has_class" );
     condition = [class_to_check]( const T & d ) {
-        return d.beta->is_myclass( npc_class_id( class_to_check ) );
+        return d.actor( true )->is_myclass( npc_class_id( class_to_check ) );
     };
 }
 
@@ -481,8 +484,8 @@ void conditional_t<T>::set_npc_role_nearby( const JsonObject &jo )
     const std::string &role = jo.get_string( "npc_role_nearby" );
     condition = [role]( const T & d ) {
         const std::vector<npc *> available = g->get_npcs_if( [&]( const npc & guy ) {
-            return d.alpha->posz() == guy.posz() && guy.companion_mission_role_id == role &&
-                   ( rl_dist( d.alpha->pos(), guy.pos() ) <= 48 );
+            return d.actor( false )->posz() == guy.posz() && guy.companion_mission_role_id == role &&
+                   ( rl_dist( d.actor( false )->pos(), guy.pos() ) <= 48 );
         } );
         return !available.empty();
     };
@@ -503,7 +506,7 @@ void conditional_t<T>::set_u_has_cash( const JsonObject &jo )
 {
     int_or_var iov = get_variable_or_int( jo, "u_has_cash" );
     condition = [iov]( const T & d ) {
-        return d.alpha->cash() >= iov.evaluate( d.actor( false ) );
+        return d.actor( false )->cash() >= iov.evaluate( d.actor( false ) );
     };
 }
 
@@ -512,7 +515,7 @@ void conditional_t<T>::set_u_are_owed( const JsonObject &jo )
 {
     int_or_var iov = get_variable_or_int( jo, "u_are_owed" );
     condition = [iov]( const T & d ) {
-        return d.beta->debt() >= iov.evaluate( d.actor( false ) );
+        return d.actor( true )->debt() >= iov.evaluate( d.actor( false ) );
     };
 }
 
@@ -521,7 +524,7 @@ void conditional_t<T>::set_npc_aim_rule( const JsonObject &jo )
 {
     const std::string &setting = jo.get_string( "npc_aim_rule" );
     condition = [setting]( const T & d ) {
-        return d.beta->has_ai_rule( "aim_rule", setting );
+        return d.actor( true )->has_ai_rule( "aim_rule", setting );
     };
 }
 
@@ -530,7 +533,7 @@ void conditional_t<T>::set_npc_engagement_rule( const JsonObject &jo )
 {
     const std::string &setting = jo.get_string( "npc_engagement_rule" );
     condition = [setting]( const T & d ) {
-        return d.beta->has_ai_rule( "engagement_rule", setting );
+        return d.actor( true )->has_ai_rule( "engagement_rule", setting );
     };
 }
 
@@ -539,7 +542,7 @@ void conditional_t<T>::set_npc_cbm_reserve_rule( const JsonObject &jo )
 {
     const std::string &setting = jo.get_string( "npc_cbm_reserve_rule" );
     condition = [setting]( const T & d ) {
-        return d.beta->has_ai_rule( "cbm_reserve_rule", setting );
+        return d.actor( true )->has_ai_rule( "cbm_reserve_rule", setting );
     };
 }
 
@@ -548,7 +551,7 @@ void conditional_t<T>::set_npc_cbm_recharge_rule( const JsonObject &jo )
 {
     const std::string &setting = jo.get_string( "npc_cbm_recharge_rule" );
     condition = [setting]( const T & d ) {
-        return d.beta->has_ai_rule( "cbm_recharge_rule", setting );
+        return d.actor( true )->has_ai_rule( "cbm_recharge_rule", setting );
     };
 }
 
@@ -557,7 +560,7 @@ void conditional_t<T>::set_npc_rule( const JsonObject &jo )
 {
     std::string rule = jo.get_string( "npc_rule" );
     condition = [rule]( const T & d ) {
-        return d.beta->has_ai_rule( "ally_rule", rule );
+        return d.actor( true )->has_ai_rule( "ally_rule", rule );
     };
 }
 
@@ -566,7 +569,7 @@ void conditional_t<T>::set_npc_override( const JsonObject &jo )
 {
     std::string rule = jo.get_string( "npc_override" );
     condition = [rule]( const T & d ) {
-        return d.beta->has_ai_rule( "ally_override", rule );
+        return d.actor( true )->has_ai_rule( "ally_override", rule );
     };
 }
 
@@ -597,7 +600,7 @@ void conditional_t<T>::set_mission_goal( const JsonObject &jo )
 {
     std::string mission_goal_str = jo.get_string( "mission_goal" );
     condition = [mission_goal_str]( const T & d ) {
-        mission *miss = d.beta->selected_mission();
+        mission *miss = d.actor( true )->selected_mission();
         if( !miss ) {
             return false;
         }
@@ -642,7 +645,7 @@ template<class T>
 void conditional_t<T>::set_no_available_mission()
 {
     condition = []( const T & d ) {
-        return d.beta->available_missions().empty();
+        return d.actor( true )->available_missions().empty();
     };
 }
 
@@ -650,7 +653,7 @@ template<class T>
 void conditional_t<T>::set_has_available_mission()
 {
     condition = []( const T & d ) {
-        return d.beta->available_missions().size() == 1;
+        return d.actor( true )->available_missions().size() == 1;
     };
 }
 
@@ -658,7 +661,7 @@ template<class T>
 void conditional_t<T>::set_has_many_available_missions()
 {
     condition = []( const T & d ) {
-        return d.beta->available_missions().size() >= 2;
+        return d.actor( true )->available_missions().size() >= 2;
     };
 }
 
@@ -666,8 +669,8 @@ template<class T>
 void conditional_t<T>::set_mission_complete()
 {
     condition = []( const T & d ) {
-        mission *miss = d.beta->selected_mission();
-        return miss && miss->is_complete( d.beta->getID() );
+        mission *miss = d.actor( true )->selected_mission();
+        return miss && miss->is_complete( d.actor( true )->getID() );
     };
 }
 
@@ -675,8 +678,8 @@ template<class T>
 void conditional_t<T>::set_mission_incomplete()
 {
     condition = []( const T & d ) {
-        mission *miss = d.beta->selected_mission();
-        return miss && !miss->is_complete( d.beta->getID() );
+        mission *miss = d.actor( true )->selected_mission();
+        return miss && !miss->is_complete( d.actor( true )->getID() );
     };
 }
 
@@ -684,7 +687,7 @@ template<class T>
 void conditional_t<T>::set_npc_available()
 {
     condition = []( const T & d ) {
-        return !d.beta->has_effect( effect_currently_busy );
+        return !d.actor( true )->has_effect( effect_currently_busy );
     };
 }
 
@@ -692,7 +695,7 @@ template<class T>
 void conditional_t<T>::set_npc_following()
 {
     condition = []( const T & d ) {
-        return d.beta->is_following();
+        return d.actor( true )->is_following();
     };
 }
 
@@ -700,7 +703,7 @@ template<class T>
 void conditional_t<T>::set_npc_friend()
 {
     condition = []( const T & d ) {
-        return d.beta->is_friendly( get_player_character() );
+        return d.actor( true )->is_friendly( get_player_character() );
     };
 }
 
@@ -708,7 +711,7 @@ template<class T>
 void conditional_t<T>::set_npc_hostile()
 {
     condition = []( const T & d ) {
-        return d.beta->is_enemy();
+        return d.actor( true )->is_enemy();
     };
 }
 
@@ -716,7 +719,7 @@ template<class T>
 void conditional_t<T>::set_npc_train_skills()
 {
     condition = []( const T & d ) {
-        return !d.beta->skills_offered_to( *d.alpha ).empty();
+        return !d.actor( true )->skills_offered_to( *d.actor( false ) ).empty();
     };
 }
 
@@ -724,7 +727,7 @@ template<class T>
 void conditional_t<T>::set_npc_train_styles()
 {
     condition = []( const T & d ) {
-        return !d.beta->styles_offered_to( *d.alpha ).empty();
+        return !d.actor( true )->styles_offered_to( *d.actor( false ) ).empty();
     };
 }
 
@@ -732,7 +735,7 @@ template<class T>
 void conditional_t<T>::set_npc_train_spells()
 {
     condition = []( const T & d ) {
-        return !d.beta->spells_offered_to( *d.alpha ).empty();
+        return !d.actor( true )->spells_offered_to( *d.actor( false ) ).empty();
     };
 }
 
@@ -740,7 +743,8 @@ template<class T>
 void conditional_t<T>::set_at_safe_space()
 {
     condition = []( const T & d ) {
-        return overmap_buffer.is_safe( d.beta->global_omt_location() ) && d.beta->is_safe();
+        return overmap_buffer.is_safe( d.actor( true )->global_omt_location() ) &&
+               d.actor( true )->is_safe();
     };
 }
 
@@ -777,7 +781,7 @@ template<class T>
 void conditional_t<T>::set_has_stolen_item( bool /*is_npc*/ )
 {
     condition = []( const T & d ) {
-        return d.alpha->has_stolen_item( *d.beta );
+        return d.actor( false )->has_stolen_item( *d.actor( true ) );
     };
 }
 
@@ -1154,7 +1158,7 @@ template<class T>
 void conditional_t<T>::set_has_pickup_list()
 {
     condition = []( const T & d ) {
-        return d.beta->has_ai_rule( "pickup_rule", "any" );
+        return d.actor( true )->has_ai_rule( "pickup_rule", "any" );
     };
 }
 
@@ -1206,7 +1210,7 @@ template<class T>
 void conditional_t<T>::set_mission_has_generic_rewards()
 {
     condition = []( const T & d ) {
-        mission *miss = d.beta->selected_mission();
+        mission *miss = d.actor( true )->selected_mission();
         if( miss == nullptr ) {
             debugmsg( "mission_has_generic_rewards: mission_selected == nullptr" );
             return true;
@@ -1626,7 +1630,9 @@ conditional_t<T>::conditional_t( const std::string &type )
         set_has_reason();
     } else if( type == "mission_has_generic_rewards" ) {
         set_mission_has_generic_rewards();
-    } else if( type == "u_can_see" || type == "npc_can_see" ) {
+    } else if( type == "u_can_see" ) {
+        set_can_see();
+    } else if( type == "npc_can_see" ) {
         set_can_see( is_npc );
     } else if( type == "u_is_deaf" ) {
         set_is_deaf();

@@ -379,7 +379,7 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "mine_shaft_middle",
+    "id": [ "mine_shaft_middle", "mine_shaft_middle_east" ],
     "name": "mine shaft",
     "sym": "O",
     "color": "dark_gray",
@@ -412,7 +412,16 @@
       "mine_spiral_finale_ne",
       "mine_spiral_finale_sw",
       "mine_spiral_finale_s",
-      "mine_spiral_finale_se"
+      "mine_spiral_finale_se",
+      "mine_amigara_west",
+      "mine_amigara_central",
+      "mine_amigara_east",
+      "mine_amigara_-1_west",
+      "mine_amigara_-1_central",
+      "mine_amigara_-1_east",
+      "mine_amigara_finale_west",
+      "mine_amigara_finale_central",
+      "mine_amigara_finale_east"
     ],
     "name": "mine tunnels",
     "sym": "O",

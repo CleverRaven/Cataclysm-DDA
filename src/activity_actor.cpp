@@ -251,6 +251,7 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "fake_weapon", fake_weapon );
     jsout.member( "bp_cost_per_shot", bp_cost_per_shot );
+    jsout.member( "fin_trajectory", fin_trajectory );
     jsout.member( "first_turn", first_turn );
     jsout.member( "action", action );
     jsout.member( "aif_duration", aif_duration );
@@ -258,6 +259,8 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "snap_to_target", snap_to_target );
     jsout.member( "shifting_view", shifting_view );
     jsout.member( "initial_view_offset", initial_view_offset );
+    jsout.member( "aborted", aborted );
+    jsout.member( "reload_requested", reload_requested );
 
     jsout.end_object();
 }
@@ -270,6 +273,7 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
 
     data.read( "fake_weapon", actor.fake_weapon );
     data.read( "bp_cost_per_shot", actor.bp_cost_per_shot );
+    data.read( "fin_trajectory", actor.fin_trajectory );
     data.read( "first_turn", actor.first_turn );
     data.read( "action", actor.action );
     data.read( "aif_duration", actor.aif_duration );
@@ -277,6 +281,8 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
     data.read( "snap_to_target", actor.snap_to_target );
     data.read( "shifting_view", actor.shifting_view );
     data.read( "initial_view_offset", actor.initial_view_offset );
+    data.read( "aborted", actor.aborted );
+    data.read( "reload_requested", actor.reload_requested );
 
     return actor.clone();
 }
@@ -1086,11 +1092,31 @@ std::unique_ptr<activity_actor> bikerack_unracking_activity_actor::deserialize( 
     return actor.clone();
 }
 
+static bool is_valid_book( const item_location &book )
+{
+    // If book is invalid, perhaps we lost it during the activity
+    // If book is valid but not a book, it's probably due to a bug where
+    // `item_location` points to the wrong item after a save/load cycle.
+    // In both cases cancel activity to avoid segfault.
+    return book && book->is_book();
+}
+
+static bool cancel_if_book_invalid(
+    player_activity &act, const item_location &book, const Character &who )
+{
+    if( !is_valid_book( book ) ) {
+        who.add_msg_player_or_npc(
+            _( "You no longer have the book!" ),
+            _( "<npcname> no longer has the book!" ) );
+        act.set_to_null();
+        return true;
+    }
+    return false;
+}
+
 void read_activity_actor::start( player_activity &act, Character &who )
 {
-    if( !book->is_book() ) {
-        act.set_to_null();
-        debugmsg( "ACT_READ on a non-book item" );
+    if( cancel_if_book_invalid( act, book, who ) ) {
         return;
     }
 
@@ -1118,6 +1144,10 @@ void read_activity_actor::start( player_activity &act, Character &who )
 
 void read_activity_actor::do_turn( player_activity &act, Character &who )
 {
+    if( cancel_if_book_invalid( act, book, who ) ) {
+        return;
+    }
+
     if( !bktype.has_value() ) {
         bktype = book->type->use_methods.count( "MA_MANUAL" ) ?
                  book_type::martial_art : book_type::normal;
@@ -1146,7 +1176,13 @@ void read_activity_actor::do_turn( player_activity &act, Character &who )
         who.moves = 0;
     }
 
-    if( using_ereader && !ereader->ammo_sufficient( &who ) ) {
+    if( using_ereader && !ereader ) {
+        who.add_msg_player_or_npc(
+            _( "You no longer have the e-book!" ),
+            _( "<npcname> no longer has the e-book!" ) );
+        who.cancel_activity();
+        return;
+    } else if( using_ereader && !ereader->ammo_sufficient( &who ) ) {
         add_msg_if_player_sees(
             who,
             _( "%1$s %2$s ran out of batteries." ),
@@ -1161,7 +1197,7 @@ void read_activity_actor::read_book( Character &learner,
                                      const cata::value_ptr<islot_book> &islotbook,
                                      SkillLevel &skill_level, double penalty )
 {
-    const int originalSkillLevel = skill_level.level();
+    const int originalSkillLevel = skill_level.knowledgeLevel();
 
     // Calculate experience gained
     /** @EFFECT_INT increases reading comprehension */
@@ -1263,25 +1299,27 @@ bool read_activity_actor::player_read( avatar &you )
         }
 
         if( skill &&
-            learner->get_skill_level( skill ) < islotbook->level &&
+            learner->get_knowledge_level( skill ) < islotbook->level &&
             learner->get_skill_level_object( skill ).can_train() ) {
 
             SkillLevel &skill_level = learner->get_skill_level_object( skill );
             std::string skill_name = skill.obj().name();
-            const int originalSkillLevel = skill_level.level();
+            const int originalSkillLevel = skill_level.knowledgeLevel();
 
             read_book( *learner, islotbook, skill_level, penalty );
+            const int newSkillLevel = skill_level.knowledgeLevel();
+
 
             // levels up the skill
-            if( skill_level != originalSkillLevel ) {
+            if( newSkillLevel != originalSkillLevel ) {
                 get_event_bus().send<event_type::gains_skill_level>(
-                    learner->getID(), skill, skill_level.level() );
+                    learner->getID(), skill, skill_level.knowledgeLevel() );
 
                 if( learner->is_avatar() ) {
-                    add_msg( m_good, _( "You increase %s to level %d." ), skill.obj().name(),
+                    add_msg( m_good, _( "You theoretical knowledge of %s increases to level %d." ), skill.obj().name(),
                              originalSkillLevel + 1 );
                 } else {
-                    add_msg( m_good, _( "%s increases their %s level." ), learner->disp_name(),
+                    add_msg( m_good, _( "%s increases their %s knowledge." ), learner->disp_name(),
                              skill.obj().name() );
                 }
 
@@ -1292,7 +1330,7 @@ bool read_activity_actor::player_read( avatar &you )
             } else {
                 if( learner->is_avatar() ) {
                     add_msg( m_info, _( "You learn a little about %s!  (%d%%)" ), skill_name,
-                             skill_level.exercise() );
+                             skill_level.knowledgeExperience() );
                 } else {
                     little_learned.push_back( learner->disp_name() );
                 }
@@ -1355,7 +1393,7 @@ bool read_activity_actor::player_readma( avatar &you )
     skill_id skill_used = style_to_learn->primary_skill;
 
     int difficulty = std::max( 1, style_to_learn->learn_difficulty );
-    difficulty = std::max( 1, 20 + difficulty * 2 - you.get_skill_level( skill_used ) * 2 );
+    difficulty = std::max( 1, 20 + difficulty * 2 - you.get_knowledge_level( skill_used ) * 2 );
     add_msg_debug( debugmode::DF_ACT_READ, "Chance to learn one in: %d", difficulty );
 
     if( one_in( difficulty ) ) {
@@ -1409,18 +1447,19 @@ bool read_activity_actor::npc_read( npc &learner )
     book->mark_chapter_as_read( learner );
 
     if( skill &&
-        learner.get_skill_level( skill ) < islotbook->level &&
+        learner.get_knowledge_level( skill ) < islotbook->level &&
         learner.get_skill_level_object( skill ).can_train() ) {
 
         SkillLevel &skill_level = learner.get_skill_level_object( skill );
         std::string skill_name = skill.obj().name();
-        const int originalSkillLevel = skill_level.level();
+        const int originalSkillLevel = skill_level.knowledgeLevel();
 
         read_book( learner, islotbook, skill_level, 1.0 );
 
-        if( skill_level != originalSkillLevel ) {
+        const int newSkillLevel = skill_level.knowledgeLevel();
+        if( newSkillLevel != originalSkillLevel ) {
             get_event_bus().send<event_type::gains_skill_level>(
-                learner.getID(), skill, skill_level.level() );
+                learner.getID(), skill, skill_level.knowledgeLevel() );
 
             if( display_messages ) {
                 add_msg( m_good, _( "%s increases their %s level." ), learner.disp_name(),
@@ -1455,6 +1494,10 @@ bool read_activity_actor::npc_read( npc &learner )
 
 void read_activity_actor::finish( player_activity &act, Character &who )
 {
+    if( cancel_if_book_invalid( act, book, who ) ) {
+        return;
+    }
+
     const bool is_mabook = bktype.value() == book_type::martial_art;
     if( who.is_avatar() ) {
         get_event_bus().send<event_type::reads_book>( who.getID(), book->typeId() );
@@ -1528,7 +1571,7 @@ bool read_activity_actor::can_resume_with_internal( const activity_actor &other,
     // The ereader gets transformed into the _on version
     // which means the item_location of the book changes
     // this check is to prevent a segmentation fault
-    if( !book || !actor.book ) {
+    if( !is_valid_book( book ) || !is_valid_book( actor.book ) ) {
         return false;
     }
 
@@ -1539,21 +1582,25 @@ bool read_activity_actor::can_resume_with_internal( const activity_actor &other,
 
 std::string read_activity_actor::get_progress_message( const player_activity & ) const
 {
+    if( !is_valid_book( book ) ) {
+        return std::string();
+    }
+
     Character &you = get_player_character();
     const cata::value_ptr<islot_book> &islotbook = book->type->book;
     const skill_id &skill = islotbook->skill;
 
     if( skill &&
-        you.get_skill_level( skill ) < islotbook->level &&
+        you.get_knowledge_level( skill ) < islotbook->level &&
         you.get_skill_level_object( skill ).can_train() &&
         you.has_identified( book->typeId() ) ) {
         const SkillLevel &skill_level = you.get_skill_level_object( skill );
         //~ skill_name current_skill_level -> next_skill_level (% to next level)
         return string_format( pgettext( "reading progress", "%1$s %2$d -> %3$d (%4$d%%)" ),
                               skill.obj().name(),
-                              skill_level.level(),
-                              skill_level.level() + 1,
-                              skill_level.exercise() );
+                              skill_level.knowledgeLevel(),
+                              skill_level.knowledgeLevel() + 1,
+                              skill_level.knowledgeExperience() );
     }
 
     return std::string();
@@ -1564,8 +1611,12 @@ void read_activity_actor::serialize( JsonOut &jsout ) const
     jsout.start_object();
 
     jsout.member( "moves_total", moves_total );
-    jsout.member( "book", book );
-    jsout.member( "ereader", ereader );
+    if( is_valid_book( book ) ) {
+        jsout.member( "book", book );
+    }
+    if( ereader ) {
+        jsout.member( "ereader", ereader );
+    }
     jsout.member( "using_ereader", using_ereader );
     jsout.member( "continuous", continuous );
     jsout.member( "learner_id", learner_id );
@@ -2209,6 +2260,8 @@ std::unique_ptr<activity_actor> ebooksave_activity_actor::deserialize( JsonIn &j
     return actor.clone();
 }
 
+constexpr time_duration ebooksave_activity_actor::time_per_page;
+
 void migration_cancel_activity_actor::do_turn( player_activity &act, Character &who )
 {
     // Stop the activity
@@ -2375,6 +2428,8 @@ void consume_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "consume_menu_selected_items", consume_menu_selected_items );
     jsout.member( "consume_menu_filter", consume_menu_filter );
     jsout.member( "canceled", canceled );
+    jsout.member( "type", type );
+    jsout.member( "refuel", refuel );
 
     jsout.end_object();
 }
@@ -2392,6 +2447,8 @@ std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonIn &jsi
     data.read( "consume_menu_selected_items", actor.consume_menu_selected_items );
     data.read( "consume_menu_filter", actor.consume_menu_filter );
     data.read( "canceled", actor.canceled );
+    data.read( "type", actor.type );
+    data.read( "refuel", actor.refuel );
 
     return actor.clone();
 }
@@ -2435,6 +2492,14 @@ void try_sleep_activity_actor::finish( player_activity &act, Character &who )
     who.set_movement_mode( move_mode_id( "walk" ) );
 }
 
+
+void try_sleep_activity_actor::canceled( player_activity &, Character &who )
+{
+    if( who.movement_mode_is( move_mode_id( "prone" ) ) ) {
+        who.set_movement_mode( move_mode_id( "walk" ) );
+    }
+}
+
 void try_sleep_activity_actor::query_keep_trying( player_activity &act, Character &who )
 {
     if( disable_query || !who.is_avatar() ) {
@@ -2452,6 +2517,7 @@ void try_sleep_activity_actor::query_keep_trying( player_activity &act, Characte
         case UILIST_CANCEL:
         case 1:
             act.set_to_null();
+            who.set_movement_mode( move_mode_id( "walk" ) );
             break;
         case 3:
             disable_query = true;
@@ -2872,21 +2938,20 @@ void craft_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "craft_loc", craft_item );
     jsout.member( "long", is_long );
+    jsout.member( "activity_override", activity_override );
 
     jsout.end_object();
 }
 
 std::unique_ptr<activity_actor> craft_activity_actor::deserialize( JsonIn &jsin )
 {
-    item_location tmp_item_loc;
-    bool tmp_long;
-
     JsonObject data = jsin.get_object();
 
-    data.read( "craft_loc", tmp_item_loc );
-    data.read( "long", tmp_long );
+    craft_activity_actor actor = craft_activity_actor();
 
-    craft_activity_actor actor = craft_activity_actor( tmp_item_loc, tmp_long );
+    data.read( "craft_loc", actor.craft_item );
+    data.read( "long", actor.is_long );
+
     if( actor.craft_item ) {
         actor.activity_override = actor.craft_item->get_making().exertion_level();
     }
@@ -3484,7 +3549,7 @@ void disable_activity_actor::finish( player_activity &act, Character &/*who*/ )
 
 bool disable_activity_actor::can_disable_or_reprogram( const monster &monster )
 {
-    if( get_avatar().get_skill_level( skill_electronics ) + get_avatar().get_skill_level(
+    if( get_avatar().get_knowledge_level( skill_electronics ) + get_avatar().get_knowledge_level(
             skill_mechanics ) <= 0 ) {
         return false;
     }
@@ -3518,6 +3583,7 @@ std::unique_ptr<activity_actor> disable_activity_actor::deserialize( JsonIn &jsi
 
     data.read( "target", actor.target );
     data.read( "reprogram", actor.reprogram );
+    data.read( "moves_total", actor.moves_total );
 
     return actor.clone();
 }
@@ -4116,15 +4182,17 @@ void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
         return;
     }
 
-    const int spent_moves = who.get_moves() * who.exertion_adjusted_move_multiplier( exertion_level() );
-    craft.item_counter += std::round( spent_moves * crafting_speed * 10'000'000.0 / moves_total );
-    who.set_moves( 0 );
-
-    craft.item_counter = std::min( craft.item_counter, 10'000'000 );
+    if( moves_total == 0 ) {
+        craft.item_counter = 10'000'000;
+    } else {
+        const int spent_moves = who.get_moves() * who.exertion_adjusted_move_multiplier( exertion_level() );
+        craft.item_counter += std::round( spent_moves * crafting_speed * 10'000'000.0 / moves_total );
+        craft.item_counter = std::min( craft.item_counter, 10'000'000 );
+        who.set_moves( 0 );
+    }
 
     if( craft.item_counter >= 10'000'000 ) {
         who.complete_disassemble( target );
-        who.cancel_activity();
     }
 }
 
@@ -4151,8 +4219,8 @@ void disassemble_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
-    jsout.member( "target", target );
     jsout.member( "moves_total", moves_total );
+    jsout.member( "target", target );
 
     jsout.end_object();
 }
@@ -4165,6 +4233,7 @@ std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonIn 
 
     data.read( "target", actor.target );
     data.read( "moves_total", actor.moves_total );
+
     if( actor.target ) {
         actor.activity_override = actor.target->get_making().exertion_level();
     }

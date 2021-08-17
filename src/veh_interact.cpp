@@ -826,13 +826,13 @@ bool veh_interact::update_part_requirements()
     bool allow_more_eng = engines < 2 || player_character.has_trait( trait_DEBUG_HS );
 
     if( dif_eng > 0 ) {
-        if( !allow_more_eng || player_character.get_skill_level( skill_mechanics ) < dif_eng ) {
+        if( !allow_more_eng || player_character.get_knowledge_level( skill_mechanics ) < dif_eng ) {
             ok = false;
         }
         if( allow_more_eng ) {
             //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, and %3$i is skill level
             nmsg += string_format( _( "> %1$s%2$s %3$i</color> for extra engines." ),
-                                   status_color( player_character.get_skill_level( skill_mechanics ) >= dif_eng ),
+                                   status_color( player_character.get_knowledge_level( skill_mechanics ) >= dif_eng ),
                                    skill_mechanics.obj().name(), dif_eng ) + "\n";
         } else {
             nmsg += _( "> <color_red>You cannot install any more engines on this vehicle.</color>" ) +
@@ -841,12 +841,12 @@ bool veh_interact::update_part_requirements()
     }
 
     if( dif_steering > 0 ) {
-        if( player_character.get_skill_level( skill_mechanics ) < dif_steering ) {
+        if( player_character.get_knowledge_level( skill_mechanics ) < dif_steering ) {
             ok = false;
         }
         //~ %1$s represents the internal color name which shouldn't be translated, %2$s is skill name, and %3$i is skill level
         nmsg += string_format( _( "> %1$s%2$s %3$i</color> for extra steering axles." ),
-                               status_color( player_character.get_skill_level( skill_mechanics ) >= dif_steering ),
+                               status_color( player_character.get_knowledge_level( skill_mechanics ) >= dif_steering ),
                                skill_mechanics.obj().name(), dif_steering ) + "\n";
     }
 

@@ -127,6 +127,26 @@
     "flags": [ "NO_SALVAGE" ]
   },
   {
+    "id": "cotton_patchwork",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": { "str_sp": "patchwork cotton clothing parts" },
+    "description": "A selection of various clothing parts, could be sewn together in a patchwork fashion.",
+    "weight": "100 g",
+    "volume": "65 ml",
+    "//": "Density of 1.55 grams per mL",
+    "price": 200,
+    "price_postapoc": 50,
+    "material": [ "cotton" ],
+    "symbol": ",",
+    "color": "white",
+    "use_action": [
+      { "type": "heal", "move_cost": 200, "used_up_item": { "id": "cotton_patchwork", "quantity": 1, "flags": [ "FILTHY" ] } },
+      "WASH_HARD_ITEMS"
+    ],
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
     "type": "GENERIC",
     "id": "razor_blade",
     "symbol": ",",

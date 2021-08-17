@@ -68,6 +68,7 @@ enum class cata_variant_type : int {
     trait_id,
     trap_str_id,
     tripoint,
+    widget_id,
     num_types, // last
 };
 
@@ -174,7 +175,7 @@ struct convert_enum {
 };
 
 // These are the specializations of convert for each value type.
-static_assert( static_cast<int>( cata_variant_type::num_types ) == 33,
+static_assert( static_cast<int>( cata_variant_type::num_types ) == 34,
                "This assert is a reminder to add conversion support for any new types to the "
                "below specializations" );
 
@@ -355,6 +356,10 @@ struct convert<cata_variant_type::tripoint> {
         return true;
     }
 };
+
+template<>
+struct convert<cata_variant_type::widget_id> : convert_string_id<widget_id> {};
+
 
 } // namespace cata_variant_detail
 

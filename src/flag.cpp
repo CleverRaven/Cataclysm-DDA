@@ -305,6 +305,7 @@ const flag_id flag_WATCH( "WATCH" );
 const flag_id flag_WATERPROOF( "WATERPROOF" );
 const flag_id flag_WATERPROOF_GUN( "WATERPROOF_GUN" );
 const flag_id flag_WATER_BREAK( "WATER_BREAK" );
+const flag_id flag_WATER_BREAK_ACTIVE( "WATER_BREAK_ACTIVE" );
 const flag_id flag_WATER_EXTINGUISH( "WATER_EXTINGUISH" );
 const flag_id flag_WATER_FRIENDLY( "WATER_FRIENDLY" );
 const flag_id flag_WATER_DISSOLVE( "WATER_DISSOLVE" );
