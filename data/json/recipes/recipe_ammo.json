@@ -73,7 +73,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
   },
@@ -91,7 +91,7 @@
     "book_learn": [ [ "recipe_arrows", 1 ], [ "book_archery", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ] ]
+    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -112,7 +112,7 @@
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
   },
@@ -135,7 +135,7 @@
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
   },
@@ -158,7 +158,7 @@
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
   },
@@ -198,7 +198,7 @@
     "tools": [ [ [ "fire", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
   },
@@ -218,7 +218,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-      [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "bee_sting", 2 ] ],
+      [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "bee_sting", 2 ], [ "mop", 2 ] ],
       [
         [ "bone_sturdy", 5, "LIST" ],
         [ "rock", 1 ],
@@ -249,7 +249,7 @@
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
   },
@@ -272,7 +272,7 @@
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
   },
@@ -295,7 +295,7 @@
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "steel_tiny", 1, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
   },
@@ -333,7 +333,7 @@
     "book_learn": [ [ "recipe_arrows", 1 ], [ "book_archery", 1 ] ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ] ]
+    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -351,7 +351,7 @@
     "tools": [ [ [ "fire", -1 ] ] ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 10, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
   },
@@ -371,7 +371,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
   },
@@ -391,7 +391,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
-      [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "bee_sting", 2 ] ],
+      [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "bee_sting", 2 ], [ "mop", 2 ] ],
       [
         [ "bone_sturdy", 5, "LIST" ],
         [ "rock", 1 ],
@@ -522,7 +522,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ], [ [ "scrap", 4 ] ] ]
+    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ], [ [ "scrap", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -661,7 +661,7 @@
     "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
     "components": [
       [ [ "plastic_chunk", 3 ] ],
-      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ] ],
+      [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "bee_sting", 1 ], [ "mop", 1 ] ],
       [ [ "fletching", 1, "LIST" ] ]
     ]
   },
