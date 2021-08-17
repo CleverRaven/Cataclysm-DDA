@@ -2603,7 +2603,7 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
             // We're going to be draining all of the focus if it gets that large, so cap it at a safe value
             // (This is no longer needed for now as ^2 would not get applied if amount is large, but keeping
             // it here for future reference)
-            focus_drain = std::min( focus_drain, INTMAX_SQRT );
+            // focus_drain = std::min( focus_drain, INTMAX_SQRT );
 
             // The purpose of having this squared is that it makes focus drain dramatically slower
             // as it approaches zero. As such, the square function would not be used if the drain is
