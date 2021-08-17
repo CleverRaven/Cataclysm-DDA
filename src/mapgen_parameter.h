@@ -5,6 +5,7 @@
 #include "cata_variant.h"
 
 struct mapgen_arguments;
+struct mapgen_parameters;
 template <typename Id> class mapgen_value;
 class mapgendata;
 
@@ -36,6 +37,7 @@ class mapgen_parameter
         }
         cata_variant_type type() const;
         cata_variant get( const mapgendata & ) const;
+        std::vector<std::string> all_possible_values( const mapgen_parameters & ) const;
 
         void check_consistent_with( const mapgen_parameter &, const std::string &context ) const;
     private:
