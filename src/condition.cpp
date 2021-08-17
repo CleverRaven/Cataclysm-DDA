@@ -959,7 +959,7 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
     } else if( jo.has_member( "rand" ) ) {
         int max_value = jo.get_int( "rand" );
         return [max_value]( const T & ) {
-            return rand() % max_value;
+            return rng(0, max_value );
         };
     } else if( jo.has_member( "weather" ) ) {
         std::string weather_aspect = jo.get_string( "weather" );

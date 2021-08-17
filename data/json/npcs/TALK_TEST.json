@@ -1462,11 +1462,6 @@
         "text": "Sets stored_kcal_percentage to 50.",
         "topic": "TALK_DONE",
         "effect": { "arithmetic": [ { "const": 50 }, { "u_val": "stored_kcal_percentage" } ], "op": "=" }
-      },
-      {
-        "text": "Sets number of glass bottles to 2.",
-        "topic": "TALK_DONE",
-        "effect": { "arithmetic": [ { "const": 2 }, { "u_val": "item_count", "item": "bottle_glass" } ], "op": "=" }
       }
     ]
   },

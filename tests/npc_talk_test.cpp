@@ -999,8 +999,7 @@ TEST_CASE( "npc_change_topic", "[npc_talk]" )
 TEST_CASE( "npc_compare_int_op", "[npc_talk]" )
 {
     dialogue d;
-    npc &beta = prep_test( d );
-    player &player_character = get_avatar();
+    prep_test( d );
 
     d.add_topic( "TALK_TEST_COMPARE_INT_OP" );
     gen_response_lines( d, 10 );
@@ -1153,8 +1152,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
 TEST_CASE( "npc_arithmetic_op", "[npc_talk]" )
 {
     dialogue d;
-    npc &beta = prep_test( d );
-    player &player_character = get_avatar();
+    prep_test( d );
 
     d.add_topic( "TALK_TEST_ARITHMETIC_OP" );
     gen_response_lines( d, 19 );
@@ -1282,7 +1280,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     player &player_character = get_avatar();
 
     d.add_topic( "TALK_TEST_ARITHMETIC" );
-    gen_response_lines( d, 26 );
+    gen_response_lines( d, 25 );
 
     calendar::turn = calendar::turn_zero;
     REQUIRE( calendar::turn == time_point( 0 ) );
@@ -1399,7 +1397,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     // "Sets power to 20%."
     effects = d.responses[ 18 ].success;
     effects.apply( d );
-    CHECK( player_character.get_power_level().value() == 22 );
+    CHECK( player_character.get_power_level().value() == 8 );
 
     // "Sets focus to 19."
     effects = d.responses[ 19 ].success;
@@ -1431,12 +1429,4 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     effects = d.responses[ 24 ].success;
     effects.apply( d );
     CHECK( player_character.get_stored_kcal() == 550000 / 2 );
-
-    player_character.remove_items_with( []( const item & it ) {
-        return it.typeId() == itype_id( "bottle_glass" );
-    } );
-    // "Sets number of glass bottles to 2."
-    effects = d.responses[ 25 ].success;
-    effects.apply( d );
-    CHECK( d.actor( false )->get_amount( itype_id( "bottle_glass" ) ) == 2 );
 }

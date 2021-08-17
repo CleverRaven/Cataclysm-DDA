@@ -2447,7 +2447,7 @@ void talk_effect_fun_t::set_arithmetic( const JsonObject &jo, const std::string 
         };
     } else {
         jo.throw_error( "unexpected operator " + jo.get_string( "op" ) + " in " + jo.str() );
-        function = []( const dialogue & d ) {
+        function = []( const dialogue & ) {
             return false;
         };
     }
@@ -2458,7 +2458,7 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
     if( jo.has_member( "const" ) ) {
         jo.throw_error( "attempted to alter a constant value in " + jo.str() );
     } else if( jo.has_member( "time" ) ) {
-        jo.throw_error( "can not alter a time constant. Did you mean time_since_cataclysm or time_since_var? In "
+        jo.throw_error( "can not alter a time constant.  Did you mean time_since_cataclysm or time_since_var?  In "
                         + jo.str() );
     } else if( jo.has_member( "time_since_cataclysm" ) ) {
         time_duration given_unit = 1_turns;
@@ -2616,33 +2616,16 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
         } else if( checked_value == "stored_kcal_percentage" ) {
             // 100% is 55'000 kcal, which is considered healthy.
             return [is_npc]( const dialogue & d, int input ) {
-                return d.actor( is_npc )->get_stored_kcal() / 550;
+                d.actor( is_npc )->set_stored_kcal( input * 5500 );
             };
         } else if( checked_value == "item_count" ) {
-            const itype_id item_id( jo.get_string( "item" ) );
-            return [is_npc, item_id]( const dialogue & d, int input ) {
-                int delta = input - std::max( d.actor( is_npc )->charges_of( item_id ),
-                                              d.actor( is_npc )->get_amount( item_id ) );
-                if( delta > 0 ) {
-                    d.actor( is_npc )->i_add( item( item_id, calendar::turn, delta ) );
-                } else if( delta < 0 ) {
-                    // TODO: Clean this up so that it only removes as many items as needed.
-                    d.actor( is_npc )->remove_items_with( [item_id]( const item & it ) {
-                        return it.typeId() == item_id;
-                    } );
-                    d.actor( is_npc )->i_add( item( item_id, calendar::turn, input ) );
-                }
-                return std::max( d.actor( is_npc )->charges_of( item_id ),
-                                 d.actor( is_npc )->get_amount( item_id ) );
-            };
+            jo.throw_error( "altering items this way is currently not supported.  In " + jo.str() );
         } else if( checked_value == "exp" ) {
             jo.throw_error( "altering max exp this way is currently not supported.  In " + jo.str() );
         }
     }
     jo.throw_error( "error setting interger destination in " + jo.str() );
-    return []( const dialogue & d, int input ) {
-        return;
-    };
+    return []( const dialogue &, int ) {};
 }
 
 void talk_effect_fun_t::set_assign_mission( const JsonObject &jo, const std::string &member )
