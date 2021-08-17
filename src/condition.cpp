@@ -927,13 +927,13 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
 {
     if( jo.has_member( "const" ) ) {
         const int const_value = jo.get_int( "const" );
-        return [const_value]( const T & d ) {
+        return [const_value]( const T & ) {
             return const_value;
         };
     } else if( jo.has_member( "time" ) ) {
         const int value = to_turns<int>( read_from_json_string<time_duration>( *jo.get_raw( "time" ),
                                          time_duration::units ) );
-        return [value]( const T & d ) {
+        return [value]( const T & ) {
             return value;
         };
     } else if( jo.has_member( "time_since_cataclysm" ) ) {
@@ -953,30 +953,30 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                 jo.throw_error( "unrecognized time unit in " + jo.str() );
             }
         }
-        return [given_unit]( const T & d ) {
+        return [given_unit]( const T & ) {
             return to_turn<int>( calendar::turn ) / to_turns<int>( given_unit );
         };
     } else if( jo.has_member( "rand" ) ) {
         int max_value = jo.get_int( "rand" );
-        return [max_value]( const T & d ) {
+        return [max_value]( const T & ) {
             return rand() % max_value;
         };
     } else if( jo.has_member( "weather" ) ) {
         std::string weather_aspect = jo.get_string( "weather" );
         if( weather_aspect == "temperature" ) {
-            return []( const T & d ) {
+            return []( const T & ) {
                 return get_weather().weather_precise->temperature;
             };
         } else if( weather_aspect == "windpower" ) {
-            return []( const T & d ) {
+            return []( const T & ) {
                 return get_weather().weather_precise->windpower;
             };
         } else if( weather_aspect == "humidity" ) {
-            return []( const T & d ) {
+            return []( const T & ) {
                 return get_weather().weather_precise->humidity;
             };
         } else if( weather_aspect == "pressure" ) {
-            return []( const T & d ) {
+            return []( const T & ) {
                 return get_weather().weather_precise->pressure;
             };
         }
@@ -1021,26 +1021,26 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             };
         } else if( checked_value == "allies" ) {
             if( is_npc ) {
-                jo.throw_error( "allies count not supported for NPCs. In " + jo.str() );
+                jo.throw_error( "allies count not supported for NPCs.  In " + jo.str() );
             } else {
-                return []( const T & d ) {
+                return []( const T & ) {
                     return g->allies().size();
                 };
             }
         } else if( checked_value == "cash" ) {
             if( is_npc ) {
-                jo.throw_error( "cash count not supported for NPCs. In " + jo.str() );
+                jo.throw_error( "cash count not supported for NPCs.  In " + jo.str() );
             } else {
-                return []( const T & d ) {
-                    return d.alpha->cash();
+                return [is_npc]( const T & d ) {
+                    return d.actor( is_npc )->cash();
                 };
             }
         } else if( checked_value == "owed" ) {
             if( is_npc ) {
-                jo.throw_error( "owed ammount not supported for NPCs. In " + jo.str() );
+                jo.throw_error( "owed ammount not supported for NPCs.  In " + jo.str() );
             } else {
                 return []( const T & d ) {
-                    return d.beta->debt();
+                    return d.actor( true )->debt();
                 };
             }
         } else if( checked_value == "skill_level" ) {
@@ -1134,15 +1134,15 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             };
         } else if( checked_value == "exp" ) {
             if( is_npc ) {
-                jo.throw_error( "exp not currently supported for npcs. In " + jo.str() );
+                jo.throw_error( "exp not currently supported for npcs.  In " + jo.str() );
             }
-            return []( const T & d ) {
+            return []( const T & ) {
                 return g->get_kill_tracker().kill_xp();
             };
         }
     }
     jo.throw_error( "unrecognized interger sournce in " + jo.str() );
-    return []( const T & d ) {
+    return []( const T & ) {
         return 0;
     };
 }

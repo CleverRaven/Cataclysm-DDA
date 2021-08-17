@@ -2477,7 +2477,7 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
                 jo.throw_error( "unrecognized time unit in " + jo.str() );
             }
         }
-        return [given_unit]( const dialogue & d, int input ) {
+        return [given_unit]( const dialogue &, int input ) {
             calendar::turn = time_point( input * to_turns<int>( given_unit ) );
         };
     } else if( jo.has_member( "rand" ) ) {
@@ -2485,22 +2485,22 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
     } else if( jo.has_member( "weather" ) ) {
         std::string weather_aspect = jo.get_string( "weather" );
         if( weather_aspect == "temperature" ) {
-            return []( const dialogue & d, int input ) {
+            return []( const dialogue &, int input ) {
                 get_weather().weather_precise->temperature = input;
                 get_weather().clear_temp_cache();
             };
         } else if( weather_aspect == "windpower" ) {
-            return []( const dialogue & d, int input ) {
+            return []( const dialogue &, int input ) {
                 get_weather().weather_precise->windpower = input;
                 get_weather().clear_temp_cache();
             };
         } else if( weather_aspect == "humidity" ) {
-            return []( const dialogue & d, int input ) {
+            return []( const dialogue &, int input ) {
                 get_weather().weather_precise->humidity = input;
                 get_weather().clear_temp_cache();
             };
         } else if( weather_aspect == "pressure" ) {
-            return []( const dialogue & d, int input ) {
+            return []( const dialogue &, int input ) {
                 get_weather().weather_precise->pressure = input;
                 get_weather().clear_temp_cache();
             };
@@ -2539,16 +2539,16 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
         } else if( checked_value == "allies" ) {
             // It would be possible to make this work by removing allies and spawning new ones as needed.
             // But why would you ever want to do it this way?
-            jo.throw_error( "altering allies this way is currently not supported. In " + jo.str() );
+            jo.throw_error( "altering allies this way is currently not supported.  In " + jo.str() );
         } else if( checked_value == "cash" ) {
             // TODO: See if this can be handeled in a clever way.
-            jo.throw_error( "altering cash this way is currently not supported. In " + jo.str() );
+            jo.throw_error( "altering cash this way is currently not supported.  In " + jo.str() );
         } else if( checked_value == "owed" ) {
             if( is_npc ) {
-                jo.throw_error( "owed ammount not supported for NPCs. In " + jo.str() );
+                jo.throw_error( "owed ammount not supported for NPCs.  In " + jo.str() );
             } else {
                 return []( const dialogue & d, int input ) {
-                    d.beta->add_debt( input - d.beta->debt() );
+                    d.actor( true )->add_debt( input - d.actor( true )->debt() );
                 };
             }
         } else if( checked_value == "skill_level" ) {
@@ -2573,7 +2573,7 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
             };
         } else if( checked_value == "pain" ) {
             return [is_npc]( const dialogue & d, int input ) {
-                return d.actor( is_npc )->mod_pain( input - d.actor( is_npc )->pain_cur() );
+                d.actor( is_npc )->mod_pain( input - d.actor( is_npc )->pain_cur() );
             };
         } else if( checked_value == "power" ) {
             return [is_npc]( const dialogue & d, int input ) {
@@ -2581,14 +2581,14 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
                 d.actor( is_npc )->set_power_cur( 1_mJ * input );
             };
         } else if( checked_value == "power_max" ) {
-            jo.throw_error( "altering max power this way is currently not supported. In " + jo.str() );
+            jo.throw_error( "altering max power this way is currently not supported.  In " + jo.str() );
         } else if( checked_value == "power_percentage" ) {
             return [is_npc]( const dialogue & d, int input ) {
                 // Energy in milijoule
                 d.actor( is_npc )->set_power_cur( ( d.actor( is_npc )->power_max() * input ) / 100 );
             };
         } else if( checked_value == "morale" ) {
-            jo.throw_error( "altering morale this way is currently not supported. In " + jo.str() );
+            jo.throw_error( "altering morale this way is currently not supported.  In " + jo.str() );
         } else if( checked_value == "focus" ) {
             return [is_npc]( const dialogue & d, int input ) {
                 d.actor( is_npc )->mod_focus( input - d.actor( is_npc )->focus_cur() );
@@ -2598,13 +2598,13 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
                 d.actor( is_npc )->set_mana_cur( input );
             };
         } else if( checked_value == "mana_max" ) {
-            jo.throw_error( "altering max mana this way is currently not supported. In " + jo.str() );
+            jo.throw_error( "altering max mana this way is currently not supported.  In " + jo.str() );
         } else if( checked_value == "mana_percentage" ) {
             return [is_npc]( const dialogue & d, int input ) {
                 d.actor( is_npc )->set_mana_cur( ( d.actor( is_npc )->mana_max() * input ) / 100 );
             };
         } else if( checked_value == "hunger" ) {
-            jo.throw_error( "altering hunger this way is currently not supported. In " + jo.str() );
+            jo.throw_error( "altering hunger this way is currently not supported.  In " + jo.str() );
         } else if( checked_value == "thirst" ) {
             return [is_npc]( const dialogue & d, int input ) {
                 d.actor( is_npc )->set_thirst( input );
@@ -2636,7 +2636,7 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
                                  d.actor( is_npc )->get_amount( item_id ) );
             };
         } else if( checked_value == "exp" ) {
-            jo.throw_error( "altering max mana this way is currently not supported. In " + jo.str() );
+            jo.throw_error( "altering max exp this way is currently not supported.  In " + jo.str() );
         }
     }
     jo.throw_error( "error setting interger destination in " + jo.str() );
