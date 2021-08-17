@@ -8781,15 +8781,21 @@ void Character::update_stamina( int turns )
 int Character::get_cardio() const
 {
     const int bmr = base_bmr();
-    // THIS WILL BE SKILL_ATHLETICS IN THE NEAR FUTURE
     const int athletics_mod = get_skill_level( skill_swimming ) * 10;
     const int health_effect = get_healthy();
     // Traits now exclusively affect cardio, NOT max_stamina directly. In the future, make cardio_acc also be affected by cardio traits so that they don't become less impactful.
     const int trait_mod = mutation_value( "max_stamina_modifier" );
-    //WIP. Currently no proficiencies seem suitable as of build 11051
+    // At some point we might have proficiencies that affect this.
     const int prof_mod = 0;
     const int cardio_acc_mod = get_cardio_acc();
-    return ( bmr / 2 + athletics_mod + health_effect + trait_mod + prof_mod + cardio_acc_mod );
+    int final_cardio_fitness = ( bmr / 2 + athletics_mod + health_effect + trait_mod + prof_mod + cardio_acc_mod );
+    if ( final_cardio_fitness > 3 * ( bmr + trait_mod ) ) {
+         // Set a large sane upper limit to cardio fitness. This could be done asymptotically instead of as a sharp cutoff, but the gradual
+         // growth rate of cardio_acc_mod should accomplish that naturally. The BMR will mostly determine this as it is based on the 
+         // size of the character, but mutations might push it up.
+         final_cardio_fitness = 3 * ( bmr + trait_mod );
+    }
+    return final_cardio_fitness;
 }
 
 int Character::get_cardio_acc() const
