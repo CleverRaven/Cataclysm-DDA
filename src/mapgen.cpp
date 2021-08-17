@@ -913,6 +913,12 @@ static bool is_valid_helper( const string_id<T> &id )
     return id.is_valid();
 }
 
+template<typename T>
+static bool is_valid_helper( const int_id<T> & )
+{
+    return true;
+}
+
 static bool is_valid_helper( const std::string & )
 {
     return true;
@@ -977,6 +983,13 @@ class mapgen_value
                 return id;
             }
 
+            void check( const std::string &context, const mapgen_parameters & ) const override {
+                if( !is_valid_helper( id ) ) {
+                    debugmsg( "mapgen '%s' uses invalid entry '%s' in weighted list",
+                              context, cata_variant( id ).get_string() );
+                }
+            }
+
             void check_consistent_with(
                 const value_source &o, const std::string &context ) const override {
                 if( const id_source *other = dynamic_cast<const id_source *>( &o ) ) {
@@ -1012,25 +1025,25 @@ class mapgen_value
                 }
             }
 
-            void check( const std::string &oter_name, const mapgen_parameters &parameters
+            void check( const std::string &context, const mapgen_parameters &parameters
                       ) const override {
                 auto param_it = parameters.map.find( param_name );
                 if( param_it == parameters.map.end() ) {
-                    debugmsg( "mapgen '%s' uses undefined parameter '%s'", oter_name, param_name );
+                    debugmsg( "mapgen '%s' uses undefined parameter '%s'", context, param_name );
                 } else {
                     const mapgen_parameter &param = param_it->second;
                     constexpr cata_variant_type req_type = cata_variant_type_for<StringId>();
                     cata_variant_type param_type = param.type();
                     if( param_type != req_type ) {
                         debugmsg( "mapgen '%s' uses parameter '%s' of type '%s' in a context "
-                                  "expecting type '%s'", oter_name, param_name,
+                                  "expecting type '%s'", context, param_name,
                                   io::enum_to_string( param_type ),
                                   io::enum_to_string( req_type ) );
                     }
                     if( param.scope() == mapgen_parameter_scope::overmap_special && !fallback ) {
                         debugmsg( "mapgen '%s' uses parameter '%s' of map_special scope without a "
                                   "fallback.  Such parameters must provide a fallback to allow "
-                                  "for changes to overmap_special definitions", oter_name,
+                                  "for changes to overmap_special definitions", context,
                                   param_name );
                     }
                 }
@@ -1075,11 +1088,11 @@ class mapgen_value
                 return *list.pick();
             }
 
-            void check( const std::string &oter_name, const mapgen_parameters & ) const override {
+            void check( const std::string &context, const mapgen_parameters & ) const override {
                 for( const weighted_object<int, StringId> &wo : list ) {
                     if( !is_valid_helper( wo.obj ) ) {
                         debugmsg( "mapgen '%s' uses invalid entry '%s' in weighted list",
-                                  oter_name, cata_variant( wo.obj ).get_string() );
+                                  context, cata_variant( wo.obj ).get_string() );
                     }
                 }
             }
@@ -1144,8 +1157,8 @@ class mapgen_value
             return is_null_;
         }
 
-        void check( const std::string &oter_name, const mapgen_parameters &params ) const {
-            source_->check( oter_name, params );
+        void check( const std::string &context, const mapgen_parameters &params ) const {
+            source_->check( context, params );
         }
         void check_consistent_with( const mapgen_value &other, const std::string &context ) const {
             source_->check_consistent_with( *other.source_, context );
@@ -1205,6 +1218,17 @@ std::vector<std::string> mapgen_parameter::all_possible_values(
     const mapgen_parameters &params ) const
 {
     return default_->all_possible_results( params );
+}
+
+void mapgen_parameter::check( const mapgen_parameters &params, const std::string &context ) const
+{
+    default_->check( context, params );
+    for( const std::string &value : all_possible_values( params ) ) {
+        if( !cata_variant::from_string( type_, std::string( value ) ).is_valid() ) {
+            debugmsg( "%s can take value %s which is not a valid value of type %s",
+                      context, value, io::enum_to_string( type_ ) );
+        }
+    }
 }
 
 void mapgen_parameter::check_consistent_with(
@@ -2822,6 +2846,11 @@ static std::map<std::string, mapgen_palette> palettes;
 void mapgen_palette::check()
 {
     std::string context = "palette " + id;
+    mapgen_parameters no_parameters;
+    for( const std::pair<const std::string, mapgen_parameter> &param : parameters.map ) {
+        std::string this_context = string_format( "parameter %s in %s", param.first, context );
+        param.second.check( no_parameters, this_context );
+    }
     for( const std::pair<const map_key, std::vector<shared_ptr_fast<const jmapgen_piece>>> &p :
          format_placings ) {
         for( const shared_ptr_fast<const jmapgen_piece> &j : p.second ) {

@@ -39,6 +39,7 @@ class mapgen_parameter
         cata_variant get( const mapgendata & ) const;
         std::vector<std::string> all_possible_values( const mapgen_parameters & ) const;
 
+        void check( const mapgen_parameters &, const std::string &context ) const;
         void check_consistent_with( const mapgen_parameter &, const std::string &context ) const;
     private:
         mapgen_parameter_scope scope_;
