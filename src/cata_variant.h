@@ -45,16 +45,22 @@ enum class cata_variant_type : int {
     chrono_seconds,
     debug_menu_index,
     efftype_id,
+    faction_id,
+    field_type_id,
+    field_type_str_id,
     furn_id,
     furn_str_id,
     flag_id,
     int_,
+    item_group_id,
     itype_id,
     matype_id,
     mtype_id,
+    mongroup_id,
     move_mode_id,
     mutagen_technique,
     mutation_category_id,
+    npc_template_id,
     oter_id,
     oter_type_str_id,
     point,
@@ -64,11 +70,15 @@ enum class cata_variant_type : int {
     spell_id,
     string,
     ter_id,
+    ter_furn_transform_id,
     ter_str_id,
     trait_id,
+    trap_id,
     trap_str_id,
     tripoint,
+    vgroup_id,
     widget_id,
+    zone_type_id,
     num_types, // last
 };
 
@@ -175,7 +185,7 @@ struct convert_enum {
 };
 
 // These are the specializations of convert for each value type.
-static_assert( static_cast<int>( cata_variant_type::num_types ) == 34,
+static_assert( static_cast<int>( cata_variant_type::num_types ) == 44,
                "This assert is a reminder to add conversion support for any new types to the "
                "below specializations" );
 
@@ -255,6 +265,15 @@ template<>
 struct convert<cata_variant_type::efftype_id> : convert_string_id<efftype_id> {};
 
 template<>
+struct convert<cata_variant_type::faction_id> : convert_string_id<faction_id> {};
+
+template<>
+struct convert<cata_variant_type::field_type_id> : convert_int_id<field_type_id> {};
+
+template<>
+struct convert<cata_variant_type::field_type_str_id> : convert_string_id<field_type_str_id> {};
+
+template<>
 struct convert<cata_variant_type::furn_id> : convert_int_id<furn_id> {};
 
 template<>
@@ -279,6 +298,9 @@ struct convert<cata_variant_type::int_> {
 };
 
 template<>
+struct convert<cata_variant_type::item_group_id> : convert_string_id<item_group_id> {};
+
+template<>
 struct convert<cata_variant_type::itype_id> : convert_string_id<itype_id> {};
 
 template<>
@@ -288,11 +310,17 @@ template<>
 struct convert<cata_variant_type::mtype_id> : convert_string_id<mtype_id> {};
 
 template<>
+struct convert<cata_variant_type::mongroup_id> : convert_string_id<mongroup_id> {};
+
+template<>
 struct convert<cata_variant_type::mutagen_technique> : convert_enum<mutagen_technique> {};
 
 template<>
 struct convert<cata_variant_type::mutation_category_id> :
     convert_string_id<mutation_category_id> {};
+
+template<>
+struct convert<cata_variant_type::npc_template_id> : convert_string_id<npc_template_id> {};
 
 template<>
 struct convert<cata_variant_type::oter_id> : convert_int_id<oter_id> {};
@@ -334,10 +362,17 @@ template<>
 struct convert<cata_variant_type::ter_id> : convert_int_id<ter_id> {};
 
 template<>
+struct convert<cata_variant_type::ter_furn_transform_id> :
+    convert_string_id<ter_furn_transform_id> {};
+
+template<>
 struct convert<cata_variant_type::ter_str_id> : convert_string_id<ter_str_id> {};
 
 template<>
 struct convert<cata_variant_type::trait_id> : convert_string_id<trait_id> {};
+
+template<>
+struct convert<cata_variant_type::trap_id> : convert_int_id<trap_id> {};
 
 template<>
 struct convert<cata_variant_type::trap_str_id> : convert_string_id<trap_str_id> {};
@@ -358,8 +393,13 @@ struct convert<cata_variant_type::tripoint> {
 };
 
 template<>
+struct convert<cata_variant_type::vgroup_id> : convert_string_id<vgroup_id> {};
+
+template<>
 struct convert<cata_variant_type::widget_id> : convert_string_id<widget_id> {};
 
+template<>
+struct convert<cata_variant_type::zone_type_id> : convert_string_id<zone_type_id> {};
 
 } // namespace cata_variant_detail
 
