@@ -2559,6 +2559,10 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
     if( has_trait_flag( json_flag_PRED4 ) && skill.is_combat_skill() ) {
         catchup_modifier *= 3.0f;
     }
+    
+    if (has_trait(trait_NUMB) && !(skill.is_combat_skill())) {
+        amount *= 2.0f;
+    }
 
     if( isSavant && id != savantSkill ) {
         amount *= 0.5f;
