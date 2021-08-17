@@ -1003,7 +1003,7 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             const std::string var_name = get_talk_varname( jo, "var_name", false );
             return [is_npc, var_name]( const T & d ) {
                 int stored_value = 0;
-                const std::string & var = d.actor( is_npc )->get_value( var_name );
+                const std::string &var = d.actor( is_npc )->get_value( var_name );
                 if( !var.empty() ) {
                     stored_value = std::stoi( var );
                 }
@@ -1013,7 +1013,7 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             const std::string var_name = get_talk_varname( jo, "var_name", false );
             return [is_npc, var_name]( const T & d ) {
                 int stored_value = 0;
-                const std::string & var = d.actor( is_npc )->get_value( var_name );
+                const std::string &var = d.actor( is_npc )->get_value( var_name );
                 if( !var.empty() ) {
                     stored_value = std::stoi( var );
                 }
@@ -1129,7 +1129,8 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
         } else if( checked_value == "item_count" ) {
             const itype_id item_id( jo.get_string( "item" ) );
             return [is_npc, item_id]( const T & d ) {
-                return std::max( d.actor( is_npc )->charges_of( item_id ), d.actor( is_npc )->get_amount( item_id ) );
+                return std::max( d.actor( is_npc )->charges_of( item_id ),
+                                 d.actor( is_npc )->get_amount( item_id ) );
             };
         } else if( checked_value == "exp" ) {
             if( is_npc ) {
