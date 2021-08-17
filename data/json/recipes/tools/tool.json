@@ -1065,9 +1065,6 @@
     "time": "10 s",
     "reversible": true,
     "autolearn": true,
-    "components": [
-      [ [ "talking_doll", 1 ], [ "creepy_doll", 1 ] ],
-      [ [ "mannequin", 1 ] ]
-    ]
+    "components": [ [ [ "talking_doll", 1 ], [ "creepy_doll", 1 ] ], [ [ "mannequin", 1 ] ] ]
   }
 ]
