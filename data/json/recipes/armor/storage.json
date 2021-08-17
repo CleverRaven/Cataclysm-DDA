@@ -894,7 +894,7 @@
     ],
     "components": [ [ [ "strap_small", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ] ]
   },
-  {
+ {
     "result": "spearsling",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -907,7 +907,11 @@
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_leather_small", 2 ] ],
-    "proficiencies": [ { "proficiency": "prof_closures" } ],
+    "proficiencies": [
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" }
+    ],
     "components": [ [ [ "strap_large", 1, "LIST" ] ], [ [ "clasps", 1, "LIST" ] ] ]
   },
   {
