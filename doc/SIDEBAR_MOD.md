@@ -9,7 +9,8 @@
   - [Graph widget](#graph-widget)
     - [fill](#fill)
     - [var_max](#var-max)
-  - [Colors](#colors)
+- [Multi-variable widgets](#multi-variable-widgets)
+- [Colors](#colors)
 
 ## Overview
 
@@ -406,7 +407,34 @@ up to 100 or 200 (like focus). If a var usually varies within a range `[low, hig
 "var_max" greater than `high` to be sure the normal variance is captured in the graph's range.
 
 
-### Colors
+## Multi-variable widgets
+
+Normally, a widget defines a single "var" field, labeled with a "label" field, showing a single
+variable in a particular style. But you can also show multiple variables in the same widget, using
+the same style for all variables, by declaring "vars" and "labels" instead of "var" and "label". For
+example, here is a widget that shows the numeric value of all four character stats:
+
+```json
+[
+  {
+    "id": "all_stats_numbers",
+    "type": "widget",
+    "style": "numbers",
+    "labels": [ "Str", "Dex", "Int", "Per" ],
+    "vars": [ "stat_str", "stat_dex", "stat_int", "stat_per" ]
+  }
+]
+```
+
+Note the style, "numbers", is also simply the pluralized form of the "number" style. To display
+multiple variables as graphs, use style "graphs", instead of the singular form "graph".
+
+The number of "labels" and "vars" must be equal, or an error will occur when the JSON is loaded.
+
+Another way to combine multiple widgets is by using a "layout" widget, described below.
+
+
+## Colors
 
 Widgets with "number" or "graph" style may define "colors", which will be used as a spectrum across
 the widget's values ("var_min" to "var_max"), applying the appropriate color at each level.

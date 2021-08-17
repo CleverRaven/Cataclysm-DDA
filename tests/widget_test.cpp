@@ -37,9 +37,11 @@ static const widget_id widget_test_move_num( "test_move_num" );
 static const widget_id widget_test_per_num( "test_per_num" );
 static const widget_id widget_test_pool_graph( "test_pool_graph" );
 static const widget_id widget_test_rad_badge_text( "test_rad_badge_text" );
+static const widget_id widget_test_sound_move_pain_numbers( "test_sound_move_pain_numbers" );
 static const widget_id widget_test_speed_num( "test_speed_num" );
 static const widget_id widget_test_stamina_graph( "test_stamina_graph" );
 static const widget_id widget_test_stamina_num( "test_stamina_num" );
+static const widget_id widget_test_stat_numbers( "test_stat_numbers" );
 static const widget_id widget_test_stat_panel( "test_stat_panel" );
 static const widget_id widget_test_str_num( "test_str_num" );
 static const widget_id widget_test_text_widget( "test_text_widget" );
@@ -569,3 +571,16 @@ TEST_CASE( "widgets showing weather conditions", "[widget][weather]" )
         }
     }
 }
+
+TEST_CASE( "multi-number widgets", "[widget][numbers]" )
+{
+    widget stats_w = widget_test_stat_numbers.obj();
+    widget sound_move_pain_w = widget_test_sound_move_pain_numbers.obj();
+
+    avatar &ava = get_avatar();
+    clear_avatar();
+
+    CHECK( stats_w.layout( ava, 32 ) == "Str: 8  Dex: 8  Int: 8  Per:   8" );
+    CHECK( sound_move_pain_w.layout( ava, 32 ) == "Sound:  0  Move: 150  Pain:    0" );
+}
+

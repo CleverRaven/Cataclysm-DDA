@@ -167,6 +167,20 @@
     "style": "number"
   },
   {
+    "id": "test_stat_numbers",
+    "type": "widget",
+    "style": "numbers",
+    "labels": [ "Str", "Dex", "Int", "Per" ],
+    "vars": [ "stat_str", "stat_dex", "stat_int", "stat_per" ]
+  },
+  {
+    "id": "test_sound_move_pain_numbers",
+    "type": "widget",
+    "style": "numbers",
+    "labels": [ "Sound", "Move", "Pain" ],
+    "vars": [ "sound", "move", "pain" ]
+  },
+  {
     "id": "test_hp_head_graph",
     "type": "widget",
     "label": "HEAD",

@@ -41,6 +41,19 @@ const std::vector<widget> &widget::get_all()
     return widget_factory.get_all();
 }
 
+void widget::check_consistency()
+{
+    widget_factory.check();
+}
+
+void widget::finalize_all()
+{
+    widget_factory.finalize();
+    for( const widget &wid : widget_factory.get_all() ) {
+        const_cast<widget &>( wid ).finalize();
+    }
+}
+
 // Convert widget "var" enums to string equivalents
 namespace io
 {
@@ -151,7 +164,7 @@ std::string enum_to_string<widget_var>( widget_var data )
         case widget_var::last:
             break;
     }
-    cata_fatal( "Invalid widget_var" );
+    cata_fatal( "Invalid widget_var %s", io::enum_to_string<widget_var>( data ) );
 }
 
 } // namespace io
@@ -159,6 +172,7 @@ std::string enum_to_string<widget_var>( widget_var data )
 void widget::load( const JsonObject &jo, const std::string & )
 {
     optional( jo, was_loaded, "strings", _strings );
+    optional( jo, was_loaded, "labels", _labels );
     optional( jo, was_loaded, "width", _width, 1 );
     optional( jo, was_loaded, "symbols", _symbols, "-" );
     optional( jo, was_loaded, "fill", _fill, "bucket" );
@@ -186,6 +200,54 @@ void widget::load( const JsonObject &jo, const std::string & )
         _widgets.clear();
         for( const std::string wid : jo.get_array( "widgets" ) ) {
             _widgets.emplace_back( widget_id( wid ) );
+        }
+    }
+    // Multi-var widgets have "vars" and "labels" arrays
+    if( jo.has_array( "vars" ) ) {
+        _vars.clear();
+        for( const std::string var_name : jo.get_array( "vars" ) ) {
+            _vars.emplace_back( io::string_to_enum<widget_var>( var_name ) );
+        }
+    }
+}
+
+void widget::check() const
+{
+    // If "vars" or "labels" are defined, both lists must have the same length
+    if( ( !_vars.empty() || !_labels.empty() ) && ( _vars.size() != _labels.size() ) ) {
+        debugmsg( "Widget id=%s vars and labels lists cannot have different length", id.c_str() );
+    }
+}
+
+void widget::finalize()
+{
+    if( !_vars.empty() ) {
+        // Populate _widgets with children from vars/labels
+        // TODO: Move this to a helper function outside finalize()
+        for( unsigned int i = 0; i < _vars.size(); ++i ) {
+            // Make child a copy of parent
+            widget child = widget( *this );
+            // Give child widget id like parent_id_varname
+            child.id = string_id<widget>( string_format( "%s_%s", id.c_str(),
+                                          io::enum_to_string<widget_var>( _vars[i] ) ) );
+
+            // Child var/label come from vars/labels lists
+            child._var = _vars[i];
+            child._label = _labels[i];
+            // Don't nest vars and labels from parent
+            child._vars.clear();
+            child._labels.clear();
+
+            // Child style is the un-pluralized style of parent
+            if( _style == "graphs" ) {
+                child._style = "graph";
+            } else { // "numbers"
+                child._style = "number";
+            }
+            // Ensure this child can be referenced by find_id in the factory
+            widget_factory.insert( child );
+            // Append _widgets to be arranged by layout()
+            _widgets.emplace_back( child.id );
         }
     }
 }
@@ -654,7 +716,8 @@ std::string widget::graph( int value, int value_max )
 std::string widget::layout( const avatar &ava, const unsigned int max_width )
 {
     std::string ret;
-    if( _style == "layout" ) {
+    // "graphs" and "numbers" are hybrid graph/number style with layout
+    if( _style == "layout" || _style == "graphs" || _style == "numbers" ) {
         // Widgets with "rows" arrangement must be laid out from window_panel
         if( _arrange == "rows" ) {
             debugmsg( "widget layout called with rows" );
@@ -689,17 +752,21 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width )
     } else {
         // Get displayed value (colorized)
         std::string shown = show( ava );
+        // Characters consumed by label and value, to help calculate padding
+        unsigned int used_width = 0;
+        // Add label and ": " separator, calculating width using utf8_width to ignore color tags
         const std::string tlabel = _label.translated();
-        // Width used by label, ": " and value, using utf8_width to ignore color tags
-        unsigned int used_width = utf8_width( tlabel, true ) + 2 + utf8_width( shown, true );
-
-        // Label and ": " first
-        ret += tlabel + ": ";
-        // then enough padding to fit max_width
+        if( !tlabel.empty() ) {
+            used_width += utf8_width( tlabel, true ) + 2;
+            ret += tlabel + ": ";
+        }
+        // Determine width of value to be displayed, using utf8_width to ignore color tags
+        used_width += utf8_width( shown, true );
+        // Insert enough padding to fit max_width before showing value
         if( used_width < max_width ) {
             ret += std::string( max_width - used_width, ' ' );
         }
-        // then colorized value
+        // Finally, append colorized value to display
         ret += shown;
     }
     return ret;
