@@ -1042,9 +1042,20 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
                it.get_category_shallow().get_id() == item_category_id( "food" ) ||
                it.typeId() == itype_id( "bottle_glass" );
     } );
+    player_character.remove_value( "npctalk_var_test_var_time_test_test" );
+    calendar::turn = calendar::turn_zero;
+
+    int expected_answers = 3;
+    if( player_character.magic->max_mana( player_character ) == 1000 ) {
+        expected_answers++;
+    }
+    if( g->get_kill_tracker().kill_xp() >= 35 ) {
+        // So far there is no easy way to reset kill_xp counter for testing purposes.
+        expected_answers++;
+    }
 
     d.add_topic( "TALK_TEST_COMPARE_INT" );
-    gen_response_lines( d, 4 );
+    gen_response_lines( d, expected_answers );
     CHECK( d.responses[ 0 ].text == "This is a u_adjust_var test response that increments by 1." );
     CHECK( d.responses[ 1 ].text == "This is an npc_adjust_var test response that increments by 2." );
     CHECK( d.responses[ 2 ].text == "This is a u_add_var time test response." );
@@ -1097,7 +1108,6 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     cata::event e = cata::event::make<event_type::character_kills_monster>(
                         get_player_character().getID(), mtype_id( "mon_zombie_bio_op" ) );
     get_event_bus().send( e );
-    CHECK( g->get_kill_tracker().kill_xp() == 35 );
 
     gen_response_lines( d, 41 );
     CHECK( d.responses[ 0 ].text == "This is a u_adjust_var test response that increments by 1." );
@@ -1141,12 +1151,15 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
     CHECK( d.responses[ 37 ].text == "Stored kcal is 55'000." );
     CHECK( d.responses[ 38 ].text == "Stored kcal is at 100% of healthy." );
     CHECK( d.responses[ 39 ].text == "Has 3 glass bottles." );
-    CHECK( d.responses[ 40 ].text == "Has 35 experience." );
+    CHECK( d.responses[ 40 ].text == "Has more or equal to 35 experience." );
 
     calendar::turn = calendar::turn + time_duration( 4_days );
     gen_response_lines( d, 42 );
 
     CHECK( d.responses[ 15 ].text == "This is a time since u_var test response for > 3_days." );
+
+    // Teardown
+    player_character.remove_value( "npctalk_var_test_var_time_test_test" );
 }
 
 TEST_CASE( "npc_arithmetic_op", "[npc_talk]" )
@@ -1429,4 +1442,7 @@ TEST_CASE( "npc_arithmetic", "[npc_talk]" )
     effects = d.responses[ 24 ].success;
     effects.apply( d );
     CHECK( player_character.get_stored_kcal() == 550000 / 2 );
+
+    // Teardown
+    player_character.remove_value( var_name );
 }

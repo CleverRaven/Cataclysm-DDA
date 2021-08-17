@@ -1219,9 +1219,9 @@
         "condition": { "compare_int": [ { "u_val": "item_count", "item": "bottle_glass" }, { "const": 3 } ], "op": "=" }
       },
       {
-        "text": "Has 35 experience.",
+        "text": "Has more or equal to 35 experience.",
         "topic": "TALK_DONE",
-        "condition": { "compare_int": [ { "u_val": "exp" }, { "const": 35 } ], "op": "=" }
+        "condition": { "compare_int": [ { "u_val": "exp" }, { "const": 35 } ], "op": ">=" }
       }
     ]
   },
