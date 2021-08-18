@@ -333,6 +333,7 @@
   },
   {
     "result": "small_homemade_grenade",
+    "id_suffix": "volatile"
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_WEAPON",
@@ -372,6 +373,7 @@
   },
   {
     "result": "homemade_grenade",
+    "id_suffix": "volatile"
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_WEAPON",
@@ -425,6 +427,7 @@
   },
   {
     "result": "pipebomb",
+    "id_suffix": "volatile"
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "category": "CC_WEAPON",
