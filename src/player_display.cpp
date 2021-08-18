@@ -1306,14 +1306,12 @@ void Character::disp_info()
     // Post-humanity trumps your pre-Cataclysm life
     // Unless you have a custom profession.
     std::string race;
-    if( custom_profession.empty() ) {
-        if( crossed_threshold() ) {
-            for( const trait_id &mut : get_mutations() ) {
-                const mutation_branch &mdata = mut.obj();
-                if( mdata.threshold ) {
-                    race = mdata.name();
-                    break;
-                }
+    if( custom_profession.empty() && crossed_threshold() ) {
+        for( const trait_id &mut : get_mutations() ) {
+            const mutation_branch &mdata = mut.obj();
+            if( mdata.threshold ) {
+                race = mdata.name();
+                break;
             }
         }
     }
