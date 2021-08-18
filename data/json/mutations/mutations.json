@@ -7054,6 +7054,7 @@
     "description": "You are no longer capable of feeling or expressing emotion.  Your resulting uncanny demeanor will unsettle others and the conversion of mental resources has made you slightly less perceptive and dextrous.  However, you find mental task much easier.",
     "category": [ "MEDICAL" ],
     "threshreq": [ "THRESH_MEDICAL" ],
+    "cancels": [ "JEKYLL" ],
     "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LEARNING_FOCUS", "add": 5 } ] } ],
     "social_modifiers": { "intimidate": 10 },
     "passive_mods": { "int_mod": 2, "dex_mod": -1, "per_mod": -1 }
