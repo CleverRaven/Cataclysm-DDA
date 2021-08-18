@@ -342,7 +342,7 @@ void monster::plan()
     Character &player_character = get_player_character();
     // If we can see the player, move toward them or flee, simpleminded animals are too dumb to follow the player.
     if( friendly == 0 && seen_levels.test( player_character.pos().z + OVERMAP_DEPTH ) &&
-        sees( player_character ) && !has_flag( MF_PET_WONT_FOLLOW ) ) {
+        sees( player_character ) ) {
         dist = rate_target( player_character, dist, smart_planning );
         fleeing = fleeing || is_fleeing( player_character );
         target = &player_character;
@@ -634,7 +634,7 @@ void monster::plan()
     } else if( friendly > 0 && one_in( 3 ) ) {
         // Grow restless with no targets
         friendly--;
-    } else if( friendly < 0 && sees( player_character ) ) {
+    } else if( friendly < 0 && sees( player_character ) && !has_flag( MF_PET_WONT_FOLLOW ) ) {
         if( rl_dist( pos(), player_character.pos() ) > 2 ) {
             set_dest( player_character.pos() );
         } else {
