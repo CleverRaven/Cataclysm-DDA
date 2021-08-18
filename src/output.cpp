@@ -1133,6 +1133,15 @@ std::string trim( const std::string &s, Prep prep )
     } ).base() );
 }
 
+template<typename Prep>
+std::string trim_trailing( const std::string &s, Prep prep )
+{
+    return std::string( s.begin(), std::find_if_not(
+    s.rbegin(), s.rend(), [&prep]( int c ) {
+        return prep( c );
+    } ).base() );
+}
+
 std::string trim( const std::string &s )
 {
     return trim( s, []( int c ) {
@@ -1140,10 +1149,11 @@ std::string trim( const std::string &s )
     } );
 }
 
-std::string trim_punctuation_marks( const std::string &s )
+std::string trim_trailing_punctuations( const std::string &s )
 {
-    return trim( s, []( int c ) {
-        return ispunct( c );
+    return trim_trailing( s, []( int c ) {
+        // '<' and '>' are used for tags and should not be removed
+        return c == '.' || c == '!';
     } );
 }
 

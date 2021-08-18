@@ -86,6 +86,7 @@ static bool check_water_affect_items( avatar &you )
 {
     std::vector<item_location> dissolved;
     std::vector<item_location> destroyed;
+    std::vector<item_location> wet;
 
     for( item_location &loc : you.all_items_loc() ) {
         if( loc->has_flag( flag_WATER_DISSOLVE ) && !loc.protected_from_liquids() ) {
@@ -93,10 +94,13 @@ static bool check_water_affect_items( avatar &you )
         } else if( loc->has_flag( flag_WATER_BREAK ) && !loc->is_broken()
                    && !loc.protected_from_liquids() ) {
             destroyed.emplace_back( loc );
+        } else if( loc->has_flag( flag_WATER_BREAK_ACTIVE ) && !loc->is_broken()
+                   && !loc.protected_from_liquids() ) {
+            wet.emplace_back( loc );
         }
     }
 
-    if( dissolved.empty() && destroyed.empty() ) {
+    if( dissolved.empty() && destroyed.empty() && wet.empty() ) {
         return query_yn( _( "Dive into the water?" ) );
     }
 
@@ -124,6 +128,13 @@ static bool check_water_affect_items( avatar &you )
     if( !destroyed.empty() ) {
         add_header( _( "Will be destroyed:" ) );
         for( item_location &it : destroyed ) {
+            menu.addentry( -1, false, -1, it->display_name() );
+        }
+    }
+
+    if( !wet.empty() ) {
+        add_header( _( "Will get wet:" ) );
+        for( item_location &it : wet ) {
             menu.addentry( -1, false, -1, it->display_name() );
         }
     }
@@ -1085,6 +1096,25 @@ void avatar_action::use_item( avatar &you, item_location &loc )
 {
     // Some items may be used without being picked up first
     bool use_in_place = false;
+  
+    if( !loc ) {
+        loc = game_menus::inv::use( you );
+
+        if( !loc ) {
+            add_msg( _( "Never mind." ) );
+            return;
+        }
+    }
+
+    if( loc->wetness && loc->has_flag( flag_WATER_BREAK_ACTIVE ) ) {
+        if( query_yn( _( "This item is still wet and it will break if you turn it on. Proceed?" ) ) ) {
+            loc->deactivate();
+            loc->set_flag( flag_ITEM_BROKEN );
+        } else {
+            return;
+        }
+    }
+
     int pre_obtain_moves = you.moves;
     if( loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
         use_in_place = true;

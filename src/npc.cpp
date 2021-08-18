@@ -881,7 +881,7 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
     }
     const auto &type = book.type->book;
     const skill_id &skill = type->skill;
-    const int skill_level = pl->get_skill_level( skill );
+    const int skill_level = pl->get_knowledge_level( skill );
     if( skill && skill_level < type->req ) {
         fail_reasons.push_back( string_format( _( "I'm not smart enough to read this book." ) ) );
         return false;
@@ -913,7 +913,7 @@ int npc::time_to_read( const item &book, const player &reader ) const
     // The reader's reading speed has an effect only if they're trying to understand the book as they read it
     // Reading speed is assumed to be how well you learn from books (as opposed to hands-on experience)
     const bool try_understand = reader.fun_to_read( book ) ||
-                                reader.get_skill_level( skill ) < type->level;
+                                reader.get_knowledge_level( skill ) < type->level;
     int reading_speed = try_understand ? std::max( reader.read_speed(), read_speed() ) : read_speed();
 
     int retval = type->time * reading_speed;
@@ -1387,7 +1387,7 @@ std::vector<skill_id> npc::skills_offered_to( const player &p ) const
     std::vector<skill_id> ret;
     for( const auto &pair : *_skills ) {
         const skill_id &id = pair.first;
-        if( p.get_skill_level( id ) < pair.second.level() ) {
+        if( p.get_knowledge_level( id ) < pair.second.level() ) {
             ret.push_back( id );
         }
     }
@@ -1758,8 +1758,8 @@ int npc::value( const item &it, int market_price ) const
     if( it.is_book() ) {
         auto &book = *it.type->book;
         ret += book.fun;
-        if( book.skill && get_skill_level( book.skill ) < book.level &&
-            get_skill_level( book.skill ) >= book.req ) {
+        if( book.skill && get_knowledge_level( book.skill ) < book.level &&
+            get_knowledge_level( book.skill ) >= book.req ) {
             ret += book.level * 3;
         }
     }
@@ -2265,7 +2265,9 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     }
 
     // Worn gear list on following lines.
-    const std::string worn_str = enumerate_as_string( worn.begin(), worn.end(), []( const item & it ) {
+    const std::list<item> visible_worn_items = get_visible_worn_items();
+    const std::string worn_str = enumerate_as_string( visible_worn_items.begin(),
+    visible_worn_items.end(), []( const item & it ) {
         return it.tname();
     } );
     if( !worn_str.empty() ) {

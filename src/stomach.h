@@ -153,7 +153,7 @@ class stomach_contents
     private:
 
         // If true, this object represents a stomach; if false, this object represents guts.
-        bool stomach = false;
+        bool stomach = false; // NOLINT(cata-serialize)
 
         // nutrients (calories and vitamins)
         nutrients nutr;

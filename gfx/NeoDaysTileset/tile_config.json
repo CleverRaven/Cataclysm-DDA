@@ -6866,6 +6866,62 @@
         { "id": "highlight_item", "fg": 3338, "rotates": false },
         { "id": [ "highlight", "line_target", "line_trail", "cursor" ], "fg": 3337 },
         {
+          "id": [ "vp_halfboard_cover_right", "vp_halfboard_cover_left" ],
+          "fg": 3447,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [ { "id": "broken", "fg": 2741 } ]
+        },
+        {
+          "id": "vp_halfboard_hatch_wheel_left",
+          "fg": 3451,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [ { "id": "broken", "fg": 2741 } ]
+        },
+        {
+          "id": "vp_halfboard_hatch_wheel_right",
+          "fg": 3452,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [ { "id": "broken", "fg": 2741 } ]
+        },
+        {
+          "id": [
+            "vp_halfboard_wheel_left",
+            "vp_halfboard_wheel_right",
+            "vp_board_wheel_left",
+            "vp_board_nw_edge",
+            "vp_board_wheel_right",
+            "vp_board_ne_edge"
+          ],
+          "fg": 3445,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [ { "id": "broken", "fg": 2741 } ]
+        },
+        {
+          "id": [ "vp_stowboard_wheel_left", "vp_stowboard_wheel_right" ],
+          "fg": 3470,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [ { "id": "broken", "fg": 2741 } ]
+        },
+        {
+          "id": [
+            "vp_windshield_wheel_left",
+            "vp_windshield_wheel_right",
+            "vp_windshield_full_wheel_left",
+            "vp_windshield_full_wheel_right",
+            "vp_windshield_vertical_2_left",
+            "vp_windshield_vertical_2_right"
+          ],
+          "fg": 3521,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [ { "id": "broken", "fg": 3517 } ]
+        },
+        {
           "id": "vp_aisle_horizontal",
           "fg": 3483,
           "rotates": true,

@@ -2947,5 +2947,10 @@
     "type": "recipe",
     "result": "rope_makeshift_30",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "blun_slug",
+    "obsolete": true
   }
 ]

@@ -3,6 +3,7 @@
 #include "action.h"
 #include "avatar.h"
 #include "bionics.h"
+#include "cached_options.h"
 #include "calendar.h"
 #include "event_bus.h"
 #include "explosion.h"
@@ -32,6 +33,7 @@
 #include "worldfactory.h"
 
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
+static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_downed( "downed" );
@@ -560,17 +562,14 @@ void update_stair_monsters()
 
 } // namespace turn_handler
 
-namespace
-{
-void handle_key_blocking_activity();
-void monmove();
-void overmap_npc_move();
-
 void handle_key_blocking_activity()
 {
+    if( test_mode ) {
+        return;
+    }
     avatar &u = get_avatar();
     if( ( u.activity && u.activity.moves_left > 0 ) ||
-        ( u.has_destination() && !u.omt_path.empty() ) ) {
+        u.has_destination() ) {
         input_context ctxt = get_default_mode_input_context();
         const std::string action = ctxt.handle_input( 0 );
         bool refresh = true;
@@ -591,9 +590,14 @@ void handle_key_blocking_activity()
             ui_manager::redraw();
             refresh_display();
         }
+    } else {
+        refresh_display();
+        inp_mngr.pump_events();
     }
 }
 
+namespace
+{
 void monmove()
 {
     g->cleanup_dead();
@@ -757,7 +761,8 @@ void overmap_npc_move()
                 }
             }
             if( elem->omt_path.empty() ) {
-                elem->omt_path = overmap_buffer.get_npc_path( elem->global_omt_location(), elem->goal );
+                elem->omt_path = overmap_buffer.get_travel_path( elem->global_omt_location(), elem->goal,
+                                 overmap_path_params::for_npc() );
                 if( elem->omt_path.empty() ) { // goal is unreachable, or already reached goal, reset it
                     elem->goal = npc::no_goal_point;
                 }
@@ -873,7 +878,8 @@ bool do_turn()
                     }
                 }
                 sounds::process_sound_markers( &u );
-                if( !u.activity && !u.has_distant_destination() && g->uquit != QUIT_WATCH ) {
+                if( !u.activity && g->uquit != QUIT_WATCH
+                    && ( !u.has_distant_destination() || calendar::once_every( 10_seconds ) ) ) {
                     g->wait_popup.reset();
                     ui_manager::redraw();
                 }
@@ -1006,10 +1012,15 @@ bool do_turn()
         if( u.activity.is_interruptible() && u.activity.interruptable_with_kb ) {
             wait_message += string_format( _( "\n%s to interrupt" ), press_x( ACTION_PAUSE ) );
         }
-        wait_refresh_rate = 5_minutes;
+        if( u.activity.id() == ACT_AUTODRIVE ) {
+            wait_refresh_rate = 1_turns;
+        } else {
+            wait_refresh_rate = 5_minutes;
+        }
     }
     if( wait_redraw ) {
-        if( g->first_redraw_since_waiting_started || calendar::once_every( 1_minutes ) ) {
+        if( g->first_redraw_since_waiting_started ||
+            calendar::once_every( std::min( 1_minutes, wait_refresh_rate ) ) ) {
             if( g->first_redraw_since_waiting_started || calendar::once_every( wait_refresh_rate ) ) {
                 ui_manager::redraw();
             }

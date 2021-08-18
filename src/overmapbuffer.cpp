@@ -575,8 +575,7 @@ void overmapbuffer::set_scent( const tripoint_abs_omt &loc, int strength )
 
 void overmapbuffer::move_vehicle( vehicle *veh, const point_abs_ms &old_msp )
 {
-    // TODO: fix point types
-    const point_abs_ms new_msp( get_map().getabs( veh->global_pos3().xy() ) );
+    const point_abs_ms new_msp = veh->global_square_location().xy();
     const point_abs_omt old_omt = project_to<coords::omt>( old_msp );
     const point_abs_omt new_omt = project_to<coords::omt>( new_msp );
     const overmap_with_local_coords old_om_loc = get_om_global( old_omt );
@@ -604,18 +603,23 @@ void overmapbuffer::remove_camp( const basecamp &camp )
 
 void overmapbuffer::remove_vehicle( const vehicle *veh )
 {
-    // TODO: fix point types
-    const point_abs_omt omt( ms_to_omt_copy( get_map().getabs( veh->global_pos3().xy() ) ) );
-    const overmap_with_local_coords om_loc = get_om_global( omt );
+    const tripoint_abs_omt omt = veh->global_omt_location();
+    const overmap_with_local_coords om_loc = get_existing_om_global( omt );
+    if( !om_loc.om ) {
+        debugmsg( "Can't find overmap for vehicle at %s", omt.to_string_writable() );
+        return;
+    }
     om_loc.om->vehicles.erase( veh->om_id );
 }
 
 void overmapbuffer::add_vehicle( vehicle *veh )
 {
-    const point abs_pos = get_map().getabs( veh->global_pos3().xy() );
-    // TODO: fix point types
-    const point_abs_omt omt( ms_to_omt_copy( abs_pos ) );
-    const overmap_with_local_coords om_loc = get_om_global( omt );
+    const tripoint_abs_omt omt = veh->global_omt_location();
+    const overmap_with_local_coords om_loc = get_existing_om_global( omt );
+    if( !om_loc.om ) {
+        debugmsg( "Can't find overmap for vehicle at %s", omt.to_string_writable() );
+        return;
+    }
     int id = om_loc.om->vehicles.size() + 1;
     // this *should* be unique but just in case
     while( om_loc.om->vehicles.count( id ) > 0 ) {
@@ -651,6 +655,16 @@ void overmapbuffer::set_seen( const tripoint_abs_omt &p, bool seen )
 const oter_id &overmapbuffer::ter( const tripoint_abs_omt &p )
 {
     const overmap_with_local_coords om_loc = get_om_global( p );
+    return om_loc.om->ter( om_loc.local );
+}
+
+const oter_id &overmapbuffer::ter_existing( const tripoint_abs_omt &p )
+{
+    static const oter_id ot_null;
+    const overmap_with_local_coords om_loc = get_existing_om_global( p );
+    if( !om_loc.om ) {
+        return ot_null;
+    }
     return om_loc.om->ter( om_loc.local );
 }
 
@@ -702,90 +716,141 @@ bool overmapbuffer::reveal( const tripoint_abs_omt &center, int radius,
     return result;
 }
 
-std::vector<tripoint_abs_omt> overmapbuffer::get_npc_path( const tripoint_abs_omt &src,
-        const tripoint_abs_omt &dest )
+overmap_path_params overmap_path_params::for_player()
 {
-    path_type ptype;
-    return get_npc_path( src, dest, ptype );
+    overmap_path_params ret;
+    ret.road_cost = 10;
+    ret.dirt_road_cost = 10;
+    ret.field_cost = 10;
+    ret.trail_cost = 15;
+    ret.shore_cost = 20;
+    ret.small_building_cost = 20;
+    ret.forest_cost = 25;
+    ret.swamp_cost = 100;
+    ret.other_cost = 30;
+    return ret;
 }
 
-std::vector<tripoint_abs_omt> overmapbuffer::get_npc_path(
-    const tripoint_abs_omt &src, const tripoint_abs_omt &dest, path_type &ptype )
+overmap_path_params overmap_path_params::for_npc()
 {
-    std::vector<tripoint_abs_omt> path;
-    static const int RADIUS = 4;            // Maximal radius of search (in overmaps)
-    static const point_rel_omt O( RADIUS * OMAPX,
-                                  RADIUS * OMAPY );   // half-height of the area to search in
-    if( src == overmap::invalid_tripoint || dest == overmap::invalid_tripoint ) {
-        return path;
+    overmap_path_params ret = overmap_path_params::for_player();
+    ret.only_known_by_player = false;
+    ret.avoid_danger = false;
+    return ret;
+}
+
+overmap_path_params overmap_path_params::for_land_vehicle( float offroad_coeff, bool tiny,
+        bool amphibious )
+{
+    const bool can_offroad = offroad_coeff >= 0.05;
+    overmap_path_params ret;
+    ret.road_cost = 10;
+    ret.field_cost = can_offroad ? std::lround( 10 / std::min( 1.0f, offroad_coeff ) ) : -1;
+    ret.dirt_road_cost = ret.field_cost;
+    ret.forest_cost = -1;
+    ret.small_building_cost = ( can_offroad && tiny ) ? ret.field_cost + 30 : -1;
+    ret.swamp_cost = -1;
+    ret.trail_cost = ( can_offroad && tiny ) ? ret.field_cost + 10 : -1;
+    if( amphibious ) {
+        const overmap_path_params boat_params = overmap_path_params::for_watercraft();
+        ret.water_cost = boat_params.water_cost;
+        ret.shore_cost = boat_params.shore_cost;
     }
+    return ret;
+}
 
-    // Local source - center of the local area
-    const point_rel_omt start( O );
-    // To convert local coordinates to global ones
-    const tripoint_abs_omt base = src - start;
-    // Local destination - relative to base
-    const point_rel_omt finish = ( dest - base ).xy();
+overmap_path_params overmap_path_params::for_watercraft()
+{
+    overmap_path_params ret;
+    ret.water_cost = 10;
+    ret.shore_cost = 20;
+    return ret;
+}
 
-    const auto get_ter_at = [&]( const point_rel_omt & p ) {
-        return ter( base + p );
-    };
+overmap_path_params overmap_path_params::for_aircraft()
+{
+    overmap_path_params ret;
+    ret.air_cost = 10;
+    return ret;
+}
+
+static int get_terrain_cost( const tripoint_abs_omt &omt_pos, const overmap_path_params &params )
+{
+    if( params.only_known_by_player && !overmap_buffer.seen( omt_pos ) ) {
+        return -1;
+    }
+    if( params.avoid_danger && overmap_buffer.is_marked_dangerous( omt_pos ) ) {
+        return -1;
+    }
+    const oter_id &oter = overmap_buffer.ter_existing( omt_pos );
+    if( is_ot_match( "road", oter, ot_match_type::type ) ||
+        is_ot_match( "bridge_road", oter, ot_match_type::type ) ||
+        is_ot_match( "bridgehead_ground", oter, ot_match_type::type ) ||
+        is_ot_match( "bridgehead_ramp", oter, ot_match_type::type ) ||
+        is_ot_match( "road_nesw_manhole", oter, ot_match_type::type ) ) {
+        return params.road_cost;
+    } else if( is_ot_match( "field", oter, ot_match_type::type ) ) {
+        return params.field_cost;
+    } else if( is_ot_match( "rural_road", oter, ot_match_type::prefix ) ||
+               is_ot_match( "dirt_road", oter, ot_match_type::prefix ) ||
+               is_ot_match( "subway", oter, ot_match_type::type ) ||
+               is_ot_match( "lab_subway", oter, ot_match_type::type ) ) {
+        return params.dirt_road_cost;
+    } else if( is_ot_match( "forest_trail", oter, ot_match_type::type ) ) {
+        return params.trail_cost;
+    } else if( is_ot_match( "forest_water", oter, ot_match_type::type ) ) {
+        return params.swamp_cost;
+    } else if( is_ot_match( "river", oter, ot_match_type::prefix ) ||
+               is_ot_match( "lake", oter, ot_match_type::prefix ) ) {
+        if( is_ot_match( "river_center", oter, ot_match_type::type ) ||
+            is_ot_match( "lake_surface", oter, ot_match_type::type ) ) {
+            return params.water_cost;
+        } else {
+            return params.shore_cost;
+        }
+    } else if( is_ot_match( "open_air", oter, ot_match_type::type ) ) {
+        return params.air_cost;
+    } else if( is_ot_match( "forest", oter, ot_match_type::type ) ) {
+        return params.forest_cost;
+    } else if( is_ot_match( "empty_rock", oter, ot_match_type::type ) ||
+               is_ot_match( "deep_rock", oter, ot_match_type::type ) ||
+               is_ot_match( "solid_earth", oter, ot_match_type::type ) ||
+               is_ot_match( "microlab_rock_border", oter, ot_match_type::type ) ) {
+        return -1;
+    } else {
+        return params.other_cost;
+    }
+}
+
+std::vector<tripoint_abs_omt> overmapbuffer::get_travel_path(
+    const tripoint_abs_omt &src, const tripoint_abs_omt &dest, overmap_path_params params )
+{
+    if( src == overmap::invalid_tripoint || dest == overmap::invalid_tripoint ) {
+        return {};
+    }
+    // Maximal radius of search (in overmaps)
+    constexpr int radius_overmaps = 4;
+    // pf::find_path uses a relative coordinate system in which "src" becomes the middle of a
+    // 2 * radius overmap area with a corner at (0, 0)
+    const point_rel_omt start( radius_overmaps * OMAPX, radius_overmaps * OMAPY );
+    const point_rel_omt finish = start + ( dest - src ).xy();
+    const point_rel_omt max_point = start * 2;
+
     const auto estimate =
     [&]( const pf::node<point_rel_omt> &cur, const pf::node<point_rel_omt> * ) {
-        const tripoint_abs_omt convert_result = base + tripoint_rel_omt( cur.pos, 0 );
-        if( ptype.only_known_by_player && !seen( convert_result ) ) {
+        const tripoint_abs_omt omt_pos = src + cur.pos - start;
+        int cost = omt_pos == src ? 0 : get_terrain_cost( omt_pos, params );
+        if( cost < 0 ) {
             return pf::rejected;
         }
-        int res = 0;
-        const oter_id oter = get_ter_at( cur.pos );
-        int travel_cost = static_cast<int>( oter->get_travel_cost() );
-        if( ptype.avoid_danger && is_marked_dangerous( convert_result ) ) {
-            return pf::rejected;
-        }
-        if( ptype.only_road && ( !is_ot_match( "road", oter, ot_match_type::type ) &&
-                                 !is_ot_match( "bridge", oter, ot_match_type::type ) &&
-                                 !is_ot_match( "road_nesw_manhole", oter, ot_match_type::type ) ) ) {
-            return pf::rejected;
-        }
-        if( ptype.only_water && !is_river_or_lake( oter ) ) {
-            return pf::rejected;
-        }
-        if( ptype.only_air && ( !is_ot_match( "open_air", oter, ot_match_type::type ) ) ) {
-            return pf::rejected;
-        }
-        if( is_ot_match( "empty_rock", oter, ot_match_type::type ) ) {
-            return pf::rejected;
-        } else if( is_ot_match( "open_air", oter, ot_match_type::type ) ) {
-            if( ptype.only_air ) {
-                travel_cost += 1;
-            } else {
-                return pf::rejected;
-            }
-        } else if( is_ot_match( "forest", oter, ot_match_type::type ) ) {
-            travel_cost = 10;
-        } else if( is_ot_match( "forest_water", oter, ot_match_type::type ) ) {
-            travel_cost = 15;
-        } else if( is_ot_match( "road", oter, ot_match_type::type ) ||
-                   is_ot_match( "bridge", oter, ot_match_type::type ) ||
-                   is_ot_match( "road_nesw_manhole", oter, ot_match_type::type ) ) {
-            travel_cost = 1;
-        } else if( is_river_or_lake( oter ) ) {
-            if( ptype.amphibious || ptype.only_water ) {
-                travel_cost = 1;
-            } else {
-                return pf::rejected;
-            }
-        }
-        res += travel_cost;
-        res += manhattan_dist( finish, cur.pos );
-
-        return res;
+        // TODO: add cost taken to get there
+        return cost + manhattan_dist( finish, cur.pos ) * overmap_path_params::standard_cost;
     };
-    pf::path<point_rel_omt> route = pf::find_path( start, finish, 2 * O, estimate );
+    pf::path<point_rel_omt> route = pf::find_path( start, finish, max_point, estimate );
+    std::vector<tripoint_abs_omt> path;
+    path.reserve( route.nodes.size() );
     for( auto node : route.nodes ) {
-        tripoint_abs_omt convert_result = base + tripoint_rel_omt( node.pos, 0 );
-        convert_result.z() = base.z();
-        path.push_back( convert_result );
+        path.push_back( src + node.pos - start );
     }
     return path;
 }

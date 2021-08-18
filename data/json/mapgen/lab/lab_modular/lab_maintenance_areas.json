@@ -34,6 +34,7 @@
         "|||||||?????????????????"
       ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
+      "place_loot": [ { "item": "id_science_maintenance_blue", "x": 21, "y": [ 7, 20 ], "chance": 100 } ],
       "place_signs": [
         { "snippet": "lab_maintenance_signage", "x": 6, "y": [ 5, 9 ] },
         { "snippet": "lab_maintenance_signage", "x": [ 0, 6 ], "y": 18 },
@@ -87,6 +88,7 @@
         "||||||||||||||||||||||||"
       ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
+      "place_loot": [ { "item": "id_science_maintenance_blue", "x": 22, "y": [ 4, 15 ], "chance": 100 } ],
       "place_signs": [
         { "snippet": "lab_maintenance_signage", "x": [ 9, 11 ], "y": 8 },
         { "snippet": "lab_maintenance_signage", "x": 7, "y": 17 },
@@ -142,6 +144,7 @@
         "|||||||||||||||||????|||"
       ],
       "palettes": [ "lab_common_palette", "lab_maintenance_palette" ],
+      "place_loot": [ { "item": "id_science_maintenance_blue", "x": 22, "y": [ 8, 19 ], "chance": 100 } ],
       "place_monster": [ { "monster": "mon_manhack", "x": 20, "y": 5, "chance": 90 } ],
       "place_nested": [
         { "chunks": [ [ "lab_maintenance_3x3_NS_open", 90 ], [ "null", 10 ] ], "x": 1, "y": 7 },

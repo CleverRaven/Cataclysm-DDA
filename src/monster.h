@@ -33,7 +33,6 @@ class JsonOut;
 class effect;
 class effect_source;
 class item;
-class player;
 namespace catacurses
 {
 class window;
@@ -576,8 +575,8 @@ class monster : public Creature
         cata::optional<time_duration> summon_time_limit = cata::nullopt;
         int turns_since_target = 0;
 
-        player *find_dragged_foe();
-        void nursebot_operate( player *dragged_foe );
+        Character *find_dragged_foe();
+        void nursebot_operate( Character *dragged_foe );
 
     protected:
         void store( JsonOut &json ) const;

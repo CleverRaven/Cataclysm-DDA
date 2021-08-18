@@ -346,7 +346,7 @@ class wear_inventory_preset: public armor_inventory_preset
             const auto ret = you.can_wear( *loc );
 
             if( !ret.success() ) {
-                return trim_punctuation_marks( ret.str() );
+                return trim_trailing_punctuations( ret.str() );
             }
 
             return std::string();
@@ -378,7 +378,7 @@ class take_off_inventory_preset: public armor_inventory_preset
             const ret_val<bool> ret = you.can_takeoff( *loc );
 
             if( !ret.success() ) {
-                return trim_punctuation_marks( ret.str() );
+                return trim_trailing_punctuations( ret.str() );
             }
 
             return std::string();
@@ -395,6 +395,13 @@ item_location game::inv_map_splice( const item_filter &filter, const std::string
                                     const std::string &none_message )
 {
     return inv_internal( u, inventory_filter_preset( convert_filter( filter ) ),
+                         title, radius, none_message );
+}
+
+item_location game::inv_map_splice( const item_location_filter &filter, const std::string &title,
+                                    int radius, const std::string &none_message )
+{
+    return inv_internal( u, inventory_filter_preset( filter ),
                          title, radius, none_message );
 }
 
@@ -1104,7 +1111,7 @@ class activatable_inventory_preset : public pickup_inventory_preset
             if( uses.size() == 1 ) {
                 const auto ret = uses.begin()->second.can_call( you, it, false, you.pos() );
                 if( !ret.success() ) {
-                    return trim_punctuation_marks( ret.str() );
+                    return trim_trailing_punctuations( ret.str() );
                 }
             }
 
@@ -1245,7 +1252,7 @@ class read_inventory_preset: public pickup_inventory_preset
                     if( skill.can_train() ) {
                         //~ %1$s: book skill name, %2$d: book skill level, %3$d: player skill level
                         return string_format( pgettext( "skill", "%1$s to %2$d (%3$d)" ), book.skill->name(), book.level,
-                                              skill.level() );
+                                              skill.knowledgeLevel() );
                     }
                 }
                 return std::string();
@@ -1345,8 +1352,8 @@ class read_inventory_preset: public pickup_inventory_preset
                 return static_cast<bool>( book_a.skill );
             }
 
-            const bool train_a = you.get_skill_level( book_a.skill ) < book_a.level;
-            const bool train_b = you.get_skill_level( book_b.skill ) < book_b.level;
+            const bool train_a = you.get_knowledge_level( book_a.skill ) < book_a.level;
+            const bool train_b = you.get_knowledge_level( book_b.skill ) < book_b.level;
 
             if( !train_a || !train_b ) {
                 return ( !train_a && !train_b ) ? base_sort : train_a;
@@ -1512,7 +1519,7 @@ class weapon_inventory_preset: public inventory_selector_preset
             const auto ret = you.can_wield( *loc );
 
             if( !ret.success() ) {
-                return trim_punctuation_marks( ret.str() );
+                return trim_trailing_punctuations( ret.str() );
             }
 
             return std::string();
@@ -1617,7 +1624,7 @@ class saw_barrel_inventory_preset: public weapon_inventory_preset
             const auto ret = actor.can_use_on( you, tool, *loc );
 
             if( !ret.success() ) {
-                return trim_punctuation_marks( ret.str() );
+                return trim_trailing_punctuations( ret.str() );
             }
 
             return std::string();

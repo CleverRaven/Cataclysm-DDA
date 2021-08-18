@@ -58,15 +58,6 @@ template<>
 struct ret_val<edible_rating>::default_failure : public
     std::integral_constant<edible_rating, INEDIBLE> {};
 
-struct stat_mod {
-    int strength = 0;
-    int dexterity = 0;
-    int intelligence = 0;
-    int perception = 0;
-
-    int speed = 0;
-};
-
 struct needs_rates {
     float thirst = 0.0f;
     float hunger = 0.0f;
@@ -113,8 +104,6 @@ class player : public Character
 
         /** Resets movement points and applies other non-idempotent changes */
         void process_turn() override;
-        /** Calculates the various speed bonuses we will get from mutations, etc. */
-        void recalc_speed_bonus();
 
         void pause(); // '.' command; pauses & resets recoil
 
@@ -126,39 +115,6 @@ class player : public Character
          */
         int climbing_cost( const tripoint &from, const tripoint &to ) const;
 
-        // ranged.cpp
-
-        /** Returns list of rc items in player inventory. **/
-        std::list<item *> get_radio_items();
-
-        /** Used for eating object at a location. Removes item if all of it was consumed.
-        *   @returns trinary enum NONE, SOME or ALL amount consumed.
-        */
-        trinary consume( item_location loc, bool force = false, bool refuel = false );
-
-        /** Used for eating a particular item that doesn't need to be in inventory.
-         *  @returns trinary enum NONE, SOME or ALL (doesn't remove).
-         */
-        trinary consume( item &target, bool force = false, bool refuel = false );
-
-
-        bool list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
-                        bool empty = true ) const;
-        /**
-         * Select suitable ammo with which to reload the item
-         * @param base Item to select ammo for
-         * @param prompt force display of the menu even if only one choice
-         * @param empty allow selection of empty magazines
-         */
-        item::reload_option select_ammo( const item &base, bool prompt = false,
-                                         bool empty = true ) const;
-
-        /** Select ammo from the provided options */
-        item::reload_option select_ammo( const item &base, std::vector<item::reload_option> opts ) const;
-
-        /** returns players strength adjusted by any traits that affect strength during lifting jobs */
-        int get_lift_str() const;
-
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
         template <typename T> bool can_lift( const T &obj ) const;
 
@@ -169,49 +125,8 @@ class player : public Character
          */
         void mend_item( item_location &&obj, bool interactive = true );
 
-        /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
-        cata::optional<std::list<item>::iterator>
-        wear( int pos, bool interactive = true );
-
-        /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
-        * @param item_wear item_location of item to be worn.
-        * @param interactive Alert player and drain moves if true.
-        */
-        cata::optional<std::list<item>::iterator>
-        wear( item_location item_wear, bool interactive = true );
-
-        /** Takes off an item, returning false on fail. The taken off item is processed in the interact */
-        bool takeoff( item_location loc, std::list<item> *res = nullptr );
-        bool takeoff( int pos );
-
-
-        /**
-         * Try to wield a contained item consuming moves proportional to weapon skill and volume.
-         * @param container Container containing the item to be wielded
-         * @param internal_item reference to contained item to wield.
-         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
-         * @param base_cost Cost due to storage type.
-         */
-        bool wield_contents( item &container, item *internal_item = nullptr, bool penalties = true,
-                             int base_cost = INVENTORY_HANDLING_PENALTY );
-        /**
-         * Stores an item inside another consuming moves proportional to weapon skill and volume
-         * @param container Container in which to store the item
-         * @param put Item to add to the container
-         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
-         * @param base_cost Cost due to storage type.
-         */
-        void store( item &container, item &put, bool penalties = true,
-                    int base_cost = INVENTORY_HANDLING_PENALTY,
-                    item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER );
         /** Draws the UI and handles player input for the armor re-ordering window */
         void sort_armor();
-        /** Uses a tool */
-        void use( int inventory_position );
-        /** Uses a tool at location */
-        void use( item_location loc, int pre_obtain_moves = -1 );
-        /** Uses the current wielded weapon */
-        void use_wielded();
 
         /**
          * Starts activity to remove gunmod after unloading any contained ammo.
@@ -224,18 +139,6 @@ class player : public Character
 
         /** Starts activity to install toolmod */
         void toolmod_add( item_location tool, item_location mod );
-
-        /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
-        void try_to_sleep( const time_duration &dur );
-
-        /** Returns the effect of pain on stats */
-        stat_mod get_pain_penalty() const;
-        /** Returns the penalty to speed from thirst */
-        static int thirst_speed_penalty( int thirst );
-
-        void on_worn_item_transform( const item &old_it, const item &new_it );
-
-        void process_items();
 
         // ---------------VALUES-----------------
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
@@ -259,8 +162,6 @@ class player : public Character
         std::set<character_id> follower_ids;
         void mod_stat( const std::string &stat, float modifier ) override;
 
-        void set_underwater( bool );
-        bool is_hallucination() const override;
         void environmental_revert_effect();
 
         //message related stuff
@@ -284,8 +185,6 @@ class player : public Character
         void add_msg_player_or_say( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_speech ) const override;
 
-        /** Search surrounding squares for traps (and maybe other things in the future). */
-        void search_surroundings();
         // formats and prints encumbrance info to specified window
         void print_encumbrance( const catacurses::window &win, int line = -1,
                                 const item *selected_clothing = nullptr ) const;
