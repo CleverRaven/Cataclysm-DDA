@@ -1149,7 +1149,8 @@ void MonsterGenerator::check_monster_definitions() const
                       mon.id.c_str(), mon.starting_ammo.begin()->first.str() );
         }
         if( mon.has_flag( MF_MILKABLE ) && mon.starting_ammo.size() > 1 ) {
-            debugmsg( "monster %s is flagged milkable, but has multiple starting_ammo defined", mon.id.c_str() );
+            debugmsg( "monster %s is flagged milkable, but has multiple starting_ammo defined",
+                      mon.id.c_str() );
         }
         for( const species_id &spec : mon.species ) {
             if( !spec.is_valid() ) {
