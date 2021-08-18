@@ -1238,12 +1238,6 @@ monster_attitude monster::attitude( const Character *u ) const
         }
 
         if( has_flag( MF_ANIMAL ) ) {
-            if( u->has_effect( effect_natures_commune ) ) {
-                effective_anger -= 10;
-                if( effective_anger < 10 ) {
-                    effective_morale += 55;
-                }
-            }
             if( u->has_trait( trait_ANIMALEMPATH ) ) {
                 effective_anger -= 10;
                 if( effective_anger < 10 ) {
@@ -1267,6 +1261,12 @@ monster_attitude monster::attitude( const Character *u ) const
                 }
                 if( effective_anger < 10 ) {
                     effective_morale -= 5;
+                }
+            }
+            if( u->has_effect( effect_natures_commune ) ) {
+                effective_anger -= 10;
+                if( effective_anger < 10 ) {
+                    effective_morale += 55;
                 }
             }
         }
