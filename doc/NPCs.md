@@ -62,6 +62,22 @@ Two topics are special:
 - `TALK_DONE` ends the dialogue immediately.
 - `TALK_NONE` goes to the previously talked about topic.
 
+If `npc` has the follows fields, the game will display a dialogue with the indicated topic instead of default topic. 
+
+Field | Default topic ID  | Uses for...
+---|---|---
+`talk_friend` | `TALK_FRIEND` | Talk to a follower NPC
+`talk_radio` | `TALK_RADIO` | Talk to a follower NPC with two way radios
+`talk_leader` | `TALK_LEADER` | Talk to an NPC that have 5=NPCATT_LEAD
+`talk_stole_item` | `TALK_STOLE_ITEM` | Talk to an NPC that have 18=NPCATT_RECOVER_GOODS
+`talk_wake_up` | `TALK_WAKE_UP` | Talk to a sleeping NPC
+`talk_mug` | `TALK_MUG` | see "success and failure" section
+`talk_friend_guard` | `TALK_FRIEND_GUARD` | Faction camp guard
+`talk_stranger_aggressive` | `TALK_STRANGER_AGGRESSIVE` | see "success and failure" section
+`talk_stranger_scared` | `TALK_STRANGER_SCARED` | see "success and failure" section
+`talk_stranger_wary` | `TALK_STRANGER_WARY` | see "success and failure" section
+`talk_stranger_friendly` | `TALK_STRANGER_FRIENDLY` | see "success and failure" section
+`talk_stranger_neutral` | `TALK_STRANGER_NEUTRAL` | see "success and failure" section
 
 ### Validating Dialogues
 Keeping track of talk topics and making sure that all the topics referenced in responses are
