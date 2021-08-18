@@ -1265,7 +1265,9 @@ void Character::disp_info()
         }
     }
 
-    const unsigned int effect_win_size_y = 1 + static_cast<unsigned>( effect_name_and_text.size() );
+    const unsigned int effect_win_size_y_max = 1 + static_cast<unsigned>( effect_name_and_text.size() );
+    const unsigned int proficiency_win_size_y_max = 1 + static_cast<unsigned>
+            ( display_proficiencies().size() );
 
     std::vector<trait_id> traitslist = get_mutations( false );
     std::sort( traitslist.begin(), traitslist.end(), trait_display_sort );
@@ -1452,12 +1454,21 @@ void Character::disp_info()
         draw_encumbrance_tab( w_encumb, *this, line, curtab );
     } );
 
+    // EFFECTS & PROFICIENCIES
+    const std::pair<unsigned int, unsigned int> effect_and_proficiency_height =
+        calculate_shared_column_win_height(
+            static_cast<unsigned>( TERMY ) - infooffsetybottom,
+            effect_win_size_y_max,
+            proficiency_win_size_y_max
+        );
     // EFFECTS
+    unsigned int effect_win_size_y = 0;
     catacurses::window w_effects;
     catacurses::window w_effects_border;
     border_helper::border_info &border_effects = borders.add_border();
     ui_adaptor ui_effects;
     ui_effects.on_screen_resize( [&]( ui_adaptor & ui_effects ) {
+        effect_win_size_y = effect_and_proficiency_height.first;
         w_effects = catacurses::newwin( effect_win_size_y, grid_width,
                                         point( grid_width * 2 + 2, infooffsetybottom ) );
         w_effects_border = catacurses::newwin( effect_win_size_y + 1, grid_width + 2,
@@ -1475,15 +1486,13 @@ void Character::disp_info()
 
     // PROFICIENCIES
     unsigned int proficiency_win_size_y = 0;
-    const point profstart = point( grid_width * 2 + 2, infooffsetybottom + effect_win_size_y + 1 );
     catacurses::window w_proficiencies;
     catacurses::window w_proficiencies_border;
     border_helper::border_info &border_proficiencies = borders.add_border();
     ui_adaptor ui_proficiencies;
     ui_proficiencies.on_screen_resize( [&]( ui_adaptor & ui_proficiencies ) {
-        const unsigned int maxy = static_cast<unsigned>( TERMY );
-        proficiency_win_size_y = std::min( display_proficiencies().size(),
-                                           static_cast<size_t>( maxy - ( infooffsetybottom + effect_win_size_y ) ) ) + 1;
+        const point profstart = point( grid_width * 2 + 2, infooffsetybottom + effect_win_size_y + 1 );
+        proficiency_win_size_y = effect_and_proficiency_height.second;
         w_proficiencies = catacurses::newwin( proficiency_win_size_y, grid_width,
                                               profstart );
         w_proficiencies_border = catacurses::newwin( proficiency_win_size_y + 1, grid_width + 2,
