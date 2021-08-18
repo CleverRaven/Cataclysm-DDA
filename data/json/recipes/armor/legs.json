@@ -371,7 +371,7 @@
     "type": "recipe",
     "copy-from": "legguard_metal",
     "time": "50 m",
-    "using": [ [ "steel_tiny", 6 ], [ "strap_large", 2 ], [ "clasps", 4 ] ]
+    "using": [ [ "steel_tiny", 6 ], [ "strap_large", 2 ], [ "clasps", 4 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ]
   },
   {
