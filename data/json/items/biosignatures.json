@@ -12,7 +12,7 @@
     "quench": -3,
     "healthy": -10,
     "calories": 26,
-    "description": "Bird dropping, feathers, and soiled bits of rubbish.",
+    "description": "Bird droppings, feathers, and soiled bits of rubbish.",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "feces" ],
@@ -24,23 +24,23 @@
   {
     "type": "COMESTIBLE",
     "id": "feces_cow",
-    "name": "cow pie",
+    "name": { "str": "cow pie" },
     "copy-from": "feces_bird",
     "weight": "750 g",
     "volume": "1 L",
-    "description": "A fresh cow pie, could probably be used to make some great fertilizer."
+    "description": "A fresh cow pie; this could probably be used to make some great fertilizer."
   },
   {
     "type": "COMESTIBLE",
     "id": "feces_dog",
-    "name": "dog dung",
+    "name": { "str": "dog dung" },
     "copy-from": "feces_manure",
     "description": "Droppings from a canine."
   },
   {
     "type": "COMESTIBLE",
     "id": "feces_manure",
-    "name": "manure",
+    "name": { "str": "manure" },
     "copy-from": "feces_bird",
     "weight": "250 g",
     "volume": "500 ml",
@@ -49,7 +49,7 @@
   {
     "type": "COMESTIBLE",
     "id": "feces_roach",
-    "name": "roach dirt",
+    "name": { "str": "roach dirt" },
     "copy-from": "feces_bird",
     "description": "Large black pellets of rotting material."
   },
@@ -61,7 +61,7 @@
     "name": { "str": "fetid goop" },
     "weight": "750 g",
     "volume": "1 L",
-    "description": "A foul smelling goop.  It has a disgusting texture and a powerful smell that overrides every other smell around it.",
+    "description": "A foul-smelling goop.  It has a disgusting texture and a powerful smell that overwhelms every other smell around it.",
     "use_action": {
       "type": "change_scent",
       "scent_typeid": "sc_fetid",

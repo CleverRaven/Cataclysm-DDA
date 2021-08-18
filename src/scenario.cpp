@@ -1,7 +1,6 @@
 #include "scenario.h"
 
 #include <algorithm>
-#include <cmath>
 #include <cstdlib>
 
 #include "debug.h"
@@ -19,7 +18,6 @@
 namespace
 {
 generic_factory<scenario> all_scenarios( "scenario" );
-const string_id<scenario> generic_scenario_id( "evacuee" );
 } // namespace
 
 /** @relates string_id */
@@ -94,34 +92,39 @@ void scenario::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "map_extra", _map_extra, "mx_null" );
     optional( jo, was_loaded, "missions", _missions, auto_flags_reader<mission_type_id> {} );
 
-    if( jo.has_member( "custom_initial_date" ) ) {
-        JsonObject jocid = jo.get_member( "custom_initial_date" );
-        _custom_initial_date = true;
-        if( jocid.has_member( "hour" ) ) {
-            optional( jocid, was_loaded, "hour", _initial_hour );
-            _random_initial_hour = false;
-        }
-        if( jocid.has_member( "day" ) ) {
-            optional( jocid, was_loaded, "day", _initial_day );
-            _random_initial_day = false;
-        }
-        if( jocid.has_member( "season" ) ) {
-            optional( jocid, was_loaded, "season", _initial_season );
-            _random_initial_season = false;
-        }
-        if( jocid.has_member( "year" ) ) {
-            optional( jocid, was_loaded, "year", _initial_year );
-            _random_initial_year = false;
+    if( !was_loaded ) {
+        if( jo.has_member( "custom_initial_date" ) ) {
+            _custom_start_date = true;
+
+            JsonObject jocid = jo.get_member( "custom_initial_date" );
+            if( jocid.has_member( "hour" ) ) {
+                optional( jocid, was_loaded, "hour", _start_hour );
+            }
+            if( jocid.has_member( "day" ) ) {
+                optional( jocid, was_loaded, "day", _start_day );
+            }
+            if( jocid.has_member( "season" ) ) {
+                optional( jocid, was_loaded, "season", _start_season );
+            }
+            if( jocid.has_member( "year" ) ) {
+                optional( jocid, was_loaded, "year", _start_year );
+            }
         }
     }
 
     if( jo.has_string( "vehicle" ) ) {
         _starting_vehicle = vproto_id( jo.get_string( "vehicle" ) );
     }
+
+    for( JsonArray ja : jo.get_array( "surround_groups" ) ) {
+        _surround_groups.emplace_back( mongroup_id( ja.get_string( 0 ) ), ja.get_float( 1 ) );
+    }
 }
 
 const scenario *scenario::generic()
 {
+    static const string_id<scenario> generic_scenario_id(
+        get_option<std::string>( "GENERIC_SCENARIO_ID" ) );
     return &generic_scenario_id.obj();
 }
 
@@ -179,10 +182,14 @@ void scenario::check_definition() const
             debugmsg( "profession %s for scenario %s does not exist", p.c_str(), id.c_str() );
         }
     }
-    if( std::any_of( professions.begin(), professions.end(), [&]( const string_id<profession> &p ) {
-    return std::count( professions.begin(), professions.end(), p ) > 1;
-    } ) ) {
-        debugmsg( "Duplicate entries in the professions array." );
+
+    std::unordered_set<string_id<profession>> professions_set;
+    for( const auto &p : professions ) {
+        if( professions_set.count( p ) == 1 ) {
+            debugmsg( "Duplicate profession %s in scenario %s.", p.c_str(), this->id.c_str() );
+        } else {
+            professions_set.insert( p );
+        }
     }
 
     for( const start_location_id &l : _allowed_locs ) {
@@ -433,50 +440,50 @@ int scenario::start_location_targets_count() const
     return cnt;
 }
 
-bool scenario::custom_initial_date() const
+bool scenario::custom_start_date() const
 {
-    return _custom_initial_date;
+    return _custom_start_date;
 }
 
-bool scenario::random_initial_hour() const
+bool scenario::is_random_hour() const
 {
-    return _random_initial_hour;
+    return _start_hour == -1;
 }
 
-bool scenario::random_initial_day() const
+bool scenario::is_random_day() const
 {
-    return _random_initial_day;
+    return _start_day == -1;
 }
 
-bool scenario::random_initial_season( )const
+bool scenario::is_random_year() const
 {
-    return _random_initial_season;
+    return _start_year == -1;
 }
 
-bool scenario::random_initial_year() const
+int scenario::start_hour() const
 {
-    return _random_initial_year;
+    return _start_hour == -1 ? rng( 0, 23 ) : _start_hour;
 }
 
-int scenario::initial_hour() const
+int scenario::day_of_season() const
 {
-    return _random_initial_hour ? rng( 0, 23 ) : _initial_hour;
+    return _start_day == -1 ? rng( 0, get_option<int>( "SEASON_LENGTH" ) - 1 ) : _start_day;
 }
 
-int scenario::initial_day() const
+int scenario::start_day() const
 {
-    return _random_initial_day ? rng( 0, get_option<int>( "SEASON_LENGTH" ) - 1 ) : _initial_day;
+    return day_of_season() + get_option<int>( "SEASON_LENGTH" ) * ( start_season() + 4 *
+            ( start_year() - 1 ) );
 }
 
-season_type scenario::initial_season() const
+season_type scenario::start_season() const
 {
-    return _random_initial_season ? static_cast<season_type>(
-               rng( season_type::SPRING, season_type::WINTER ) ) : _initial_season;
+    return _start_season;
 }
 
-int scenario::initial_year() const
+int scenario::start_year() const
 {
-    return _random_initial_year ? rng( 0, 9999 ) : _initial_year;
+    return _start_year == -1 ? rng( 1, 11 ) : _start_year;
 }
 
 vproto_id scenario::vehicle() const
@@ -531,5 +538,9 @@ const std::string &scenario::get_map_extra() const
 const std::vector<mission_type_id> &scenario::missions() const
 {
     return _missions;
+}
+const std::vector<std::pair<mongroup_id, float>> &scenario::surround_groups() const
+{
+    return _surround_groups;
 }
 // vim:ts=4:sw=4:et:tw=0:fdm=marker:

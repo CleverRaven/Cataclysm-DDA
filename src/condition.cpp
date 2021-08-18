@@ -5,6 +5,7 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <new>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -18,10 +19,12 @@
 #include "coordinates.h"
 #include "debug.h"
 #include "enum_conversions.h"
+#include "field.h"
 #include "game.h"
 #include "item.h"
 #include "item_category.h"
 #include "json.h"
+#include "line.h"
 #include "map.h"
 #include "mapdata.h"
 #include "mission.h"
@@ -31,7 +34,6 @@
 #include "overmapbuffer.h"
 #include "point.h"
 #include "recipe_groups.h"
-#include "string_id.h"
 #include "talker.h"
 #include "type_id.h"
 #include "units.h"
@@ -40,7 +42,6 @@
 
 class basecamp;
 class recipe;
-struct dialogue;
 
 static const efftype_id effect_currently_busy( "currently_busy" );
 
@@ -48,13 +49,32 @@ static const efftype_id effect_currently_busy( "currently_busy" );
 std::string get_talk_varname( const JsonObject &jo, const std::string &member, bool check_value )
 {
     if( !jo.has_string( "type" ) || !jo.has_string( "context" ) ||
-        ( check_value && !( jo.has_string( "value" ) || jo.has_member( "time" ) ) ) ) {
+        ( check_value && !( jo.has_string( "value" ) || jo.has_member( "time" ) ||
+                            jo.has_array( "possible_values" ) ) ) ) {
         jo.throw_error( "invalid " + member + " condition in " + jo.str() );
     }
     const std::string &var_basename = jo.get_string( member );
     const std::string &type_var = jo.get_string( "type" );
     const std::string &var_context = jo.get_string( "context" );
     return "npctalk_var_" + type_var + "_" + var_context + "_" + var_basename;
+}
+
+int_or_var get_variable_or_int( const JsonObject &jo, std::string member, bool required,
+                                int default_val )
+{
+    int_or_var ret_val;
+    if( jo.has_int( member ) ) {
+        ret_val.int_val = jo.get_int( member );
+    } else if( jo.has_object( member ) ) {
+        const JsonObject &var_obj = jo.get_object( member );
+        ret_val.var_val = get_talk_varname( var_obj, "name", false );
+        ret_val.default_val = var_obj.get_int( "default" );
+    } else if( required ) {
+        jo.throw_error( "No valid value for ", member );
+    } else {
+        ret_val.int_val = default_val;
+    }
+    return ret_val;
 }
 
 template<class T>
@@ -116,10 +136,11 @@ template<class T>
 void conditional_t<T>::set_has_trait_flag( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    const std::string &trait_flag_to_check = jo.get_string( member );
+    const json_character_flag &trait_flag_to_check = json_character_flag( jo.get_string( member ) );
     condition = [trait_flag_to_check, is_npc]( const T & d ) {
         const talker *actor = d.actor( is_npc );
-        if( trait_flag_to_check == "MUTATION_THRESHOLD" ) {
+        static const json_character_flag thresh( "MUTATION_THRESHOLD" );
+        if( trait_flag_to_check == thresh ) {
             return actor->crossed_threshold();
         }
         return actor->has_trait_flag( trait_flag_to_check );
@@ -147,7 +168,7 @@ void conditional_t<T>::set_npc_has_class( const JsonObject &jo )
 {
     const std::string &class_to_check = jo.get_string( "npc_has_class" );
     condition = [class_to_check]( const T & d ) {
-        return d.beta->is_myclass( npc_class_id( class_to_check ) );
+        return d.actor( true )->is_myclass( npc_class_id( class_to_check ) );
     };
 }
 
@@ -169,9 +190,9 @@ template<class T>
 void conditional_t<T>::set_has_strength( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    const int min_strength = jo.get_int( member );
-    condition = [min_strength, is_npc]( const T & d ) {
-        return d.actor( is_npc )->str_cur() >= min_strength;
+    int_or_var iov = get_variable_or_int( jo, member );
+    condition = [iov, is_npc]( const T & d ) {
+        return d.actor( is_npc )->str_cur() >= iov.evaluate( d.actor( is_npc ) );
     };
 }
 
@@ -179,9 +200,9 @@ template<class T>
 void conditional_t<T>::set_has_dexterity( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    const int min_dexterity = jo.get_int( member );
-    condition = [min_dexterity, is_npc]( const T & d ) {
-        return d.actor( is_npc )->dex_cur() >= min_dexterity;
+    int_or_var iov = get_variable_or_int( jo, member );
+    condition = [iov, is_npc]( const T & d ) {
+        return d.actor( is_npc )->dex_cur() >= iov.evaluate( d.actor( is_npc ) );
     };
 }
 
@@ -189,9 +210,9 @@ template<class T>
 void conditional_t<T>::set_has_intelligence( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    const int min_intelligence = jo.get_int( member );
-    condition = [min_intelligence, is_npc]( const T & d ) {
-        return d.actor( is_npc )->int_cur() >= min_intelligence;
+    int_or_var iov = get_variable_or_int( jo, member );
+    condition = [iov, is_npc]( const T & d ) {
+        return d.actor( is_npc )->int_cur() >= iov.evaluate( d.actor( is_npc ) );
     };
 }
 
@@ -199,9 +220,9 @@ template<class T>
 void conditional_t<T>::set_has_perception( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    const int min_perception = jo.get_int( member );
-    condition = [min_perception, is_npc]( const T & d ) {
-        return d.actor( is_npc )->per_cur() >= min_perception;
+    int_or_var iov = get_variable_or_int( jo, member );
+    condition = [iov, is_npc]( const T & d ) {
+        return d.actor( is_npc )->per_cur() >= iov.evaluate( d.actor( is_npc ) );
     };
 }
 
@@ -291,21 +312,44 @@ void conditional_t<T>::set_has_effect( const JsonObject &jo, const std::string &
 }
 
 template<class T>
+void conditional_t<T>::set_has_morale( const JsonObject &jo, const std::string &member,
+                                       bool is_npc )
+{
+    int_or_var iov = get_variable_or_int( jo, member );
+    condition = [iov, is_npc]( const T & d ) {
+        return d.actor( is_npc )->morale_cur() >= iov.evaluate( d.actor( is_npc ) );
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_has_focus( const JsonObject &jo, const std::string &member,
+                                      bool is_npc )
+{
+    int_or_var iov = get_variable_or_int( jo, member );
+    condition = [iov, is_npc]( const T & d ) {
+        return d.actor( is_npc )->focus_cur() >= iov.evaluate( d.actor( is_npc ) );
+    };
+}
+
+template<class T>
 void conditional_t<T>::set_need( const JsonObject &jo, const std::string &member, bool is_npc )
 {
     const std::string &need = jo.get_string( member );
-    int amount = 0;
+    int_or_var iov;
     if( jo.has_int( "amount" ) ) {
-        amount = jo.get_int( "amount" );
+        iov.int_val = jo.get_int( "amount" );
+    } else if( jo.has_object( "amount" ) ) {
+        iov = get_variable_or_int( jo, "amount" );
     } else if( jo.has_string( "level" ) ) {
         const std::string &level = jo.get_string( "level" );
         auto flevel = fatigue_level_strs.find( level );
         if( flevel != fatigue_level_strs.end() ) {
-            amount = static_cast<int>( flevel->second );
+            iov.int_val = static_cast<int>( flevel->second );
         }
     }
-    condition = [need, amount, is_npc]( const T & d ) {
+    condition = [need, iov, is_npc]( const T & d ) {
         const talker *actor = d.actor( is_npc );
+        int amount = iov.evaluate( d.actor( is_npc ) );
         return ( actor->get_fatigue() > amount && need == "fatigue" ) ||
                ( actor->get_hunger() > amount && need == "hunger" ) ||
                ( actor->get_thirst() > amount && need == "thirst" );
@@ -358,9 +402,11 @@ void conditional_t<T>::set_compare_var( const JsonObject &jo, const std::string 
 {
     const std::string var_name = get_talk_varname( jo, member, false );
     const std::string &op = jo.get_string( "op" );
-    const int value = jo.get_int( "value" );
-    condition = [var_name, op, value, is_npc]( const T & d ) {
+
+    int_or_var iov = get_variable_or_int( jo, "value" );
+    condition = [var_name, op, iov, is_npc]( const T & d ) {
         int stored_value = 0;
+        int value = iov.evaluate( d.actor( is_npc ) );
         const std::string &var = d.actor( is_npc )->get_value( var_name );
         if( !var.empty() ) {
             stored_value = std::stoi( var );
@@ -437,8 +483,8 @@ void conditional_t<T>::set_npc_role_nearby( const JsonObject &jo )
     const std::string &role = jo.get_string( "npc_role_nearby" );
     condition = [role]( const T & d ) {
         const std::vector<npc *> available = g->get_npcs_if( [&]( const npc & guy ) {
-            return d.alpha->posz() == guy.posz() && guy.companion_mission_role_id == role &&
-                   ( rl_dist( d.alpha->pos(), guy.pos() ) <= 48 );
+            return d.actor( false )->posz() == guy.posz() && guy.companion_mission_role_id == role &&
+                   ( rl_dist( d.actor( false )->pos(), guy.pos() ) <= 48 );
         } );
         return !available.empty();
     };
@@ -447,27 +493,28 @@ void conditional_t<T>::set_npc_role_nearby( const JsonObject &jo )
 template<class T>
 void conditional_t<T>::set_npc_allies( const JsonObject &jo )
 {
-    const unsigned int min_allies = jo.get_int( "npc_allies" );
-    condition = [min_allies]( const T & ) {
-        return g->allies().size() >= min_allies;
+    int_or_var iov = get_variable_or_int( jo, "npc_allies" );
+    condition = [iov]( const T & d ) {
+        return g->allies().size() >= static_cast<std::vector<npc *>::size_type>( iov.evaluate( d.actor(
+                    false ) ) );
     };
 }
 
 template<class T>
 void conditional_t<T>::set_u_has_cash( const JsonObject &jo )
 {
-    const int min_cash = jo.get_int( "u_has_cash" );
-    condition = [min_cash]( const T & d ) {
-        return d.alpha->cash() >= min_cash;
+    int_or_var iov = get_variable_or_int( jo, "u_has_cash" );
+    condition = [iov]( const T & d ) {
+        return d.actor( false )->cash() >= iov.evaluate( d.actor( false ) );
     };
 }
 
 template<class T>
 void conditional_t<T>::set_u_are_owed( const JsonObject &jo )
 {
-    const int min_debt = jo.get_int( "u_are_owed" );
-    condition = [min_debt]( const T & d ) {
-        return d.beta->debt() >= min_debt;
+    int_or_var iov = get_variable_or_int( jo, "u_are_owed" );
+    condition = [iov]( const T & d ) {
+        return d.actor( true )->debt() >= iov.evaluate( d.actor( false ) );
     };
 }
 
@@ -476,7 +523,7 @@ void conditional_t<T>::set_npc_aim_rule( const JsonObject &jo )
 {
     const std::string &setting = jo.get_string( "npc_aim_rule" );
     condition = [setting]( const T & d ) {
-        return d.beta->has_ai_rule( "aim_rule", setting );
+        return d.actor( true )->has_ai_rule( "aim_rule", setting );
     };
 }
 
@@ -485,7 +532,7 @@ void conditional_t<T>::set_npc_engagement_rule( const JsonObject &jo )
 {
     const std::string &setting = jo.get_string( "npc_engagement_rule" );
     condition = [setting]( const T & d ) {
-        return d.beta->has_ai_rule( "engagement_rule", setting );
+        return d.actor( true )->has_ai_rule( "engagement_rule", setting );
     };
 }
 
@@ -494,7 +541,7 @@ void conditional_t<T>::set_npc_cbm_reserve_rule( const JsonObject &jo )
 {
     const std::string &setting = jo.get_string( "npc_cbm_reserve_rule" );
     condition = [setting]( const T & d ) {
-        return d.beta->has_ai_rule( "cbm_reserve_rule", setting );
+        return d.actor( true )->has_ai_rule( "cbm_reserve_rule", setting );
     };
 }
 
@@ -503,7 +550,7 @@ void conditional_t<T>::set_npc_cbm_recharge_rule( const JsonObject &jo )
 {
     const std::string &setting = jo.get_string( "npc_cbm_recharge_rule" );
     condition = [setting]( const T & d ) {
-        return d.beta->has_ai_rule( "cbm_recharge_rule", setting );
+        return d.actor( true )->has_ai_rule( "cbm_recharge_rule", setting );
     };
 }
 
@@ -512,7 +559,7 @@ void conditional_t<T>::set_npc_rule( const JsonObject &jo )
 {
     std::string rule = jo.get_string( "npc_rule" );
     condition = [rule]( const T & d ) {
-        return d.beta->has_ai_rule( "ally_rule", rule );
+        return d.actor( true )->has_ai_rule( "ally_rule", rule );
     };
 }
 
@@ -521,16 +568,16 @@ void conditional_t<T>::set_npc_override( const JsonObject &jo )
 {
     std::string rule = jo.get_string( "npc_override" );
     condition = [rule]( const T & d ) {
-        return d.beta->has_ai_rule( "ally_override", rule );
+        return d.actor( true )->has_ai_rule( "ally_override", rule );
     };
 }
 
 template<class T>
 void conditional_t<T>::set_days_since( const JsonObject &jo )
 {
-    const unsigned int days = jo.get_int( "days_since_cataclysm" );
-    condition = [days]( const T & ) {
-        return calendar::turn >= calendar::start_of_cataclysm + 1_days * days;
+    int_or_var iov = get_variable_or_int( jo, "days_since_cataclysm" );
+    condition = [iov]( const T & d ) {
+        return calendar::turn >= calendar::start_of_cataclysm + 1_days * iov.evaluate( d.actor( false ) );
     };
 }
 
@@ -552,7 +599,7 @@ void conditional_t<T>::set_mission_goal( const JsonObject &jo )
 {
     std::string mission_goal_str = jo.get_string( "mission_goal" );
     condition = [mission_goal_str]( const T & d ) {
-        mission *miss = d.beta->selected_mission();
+        mission *miss = d.actor( true )->selected_mission();
         if( !miss ) {
             return false;
         }
@@ -597,7 +644,7 @@ template<class T>
 void conditional_t<T>::set_no_available_mission()
 {
     condition = []( const T & d ) {
-        return d.beta->available_missions().empty();
+        return d.actor( true )->available_missions().empty();
     };
 }
 
@@ -605,7 +652,7 @@ template<class T>
 void conditional_t<T>::set_has_available_mission()
 {
     condition = []( const T & d ) {
-        return d.beta->available_missions().size() == 1;
+        return d.actor( true )->available_missions().size() == 1;
     };
 }
 
@@ -613,7 +660,7 @@ template<class T>
 void conditional_t<T>::set_has_many_available_missions()
 {
     condition = []( const T & d ) {
-        return d.beta->available_missions().size() >= 2;
+        return d.actor( true )->available_missions().size() >= 2;
     };
 }
 
@@ -621,8 +668,8 @@ template<class T>
 void conditional_t<T>::set_mission_complete()
 {
     condition = []( const T & d ) {
-        mission *miss = d.beta->selected_mission();
-        return miss && miss->is_complete( d.beta->getID() );
+        mission *miss = d.actor( true )->selected_mission();
+        return miss && miss->is_complete( d.actor( true )->getID() );
     };
 }
 
@@ -630,8 +677,8 @@ template<class T>
 void conditional_t<T>::set_mission_incomplete()
 {
     condition = []( const T & d ) {
-        mission *miss = d.beta->selected_mission();
-        return miss && !miss->is_complete( d.beta->getID() );
+        mission *miss = d.actor( true )->selected_mission();
+        return miss && !miss->is_complete( d.actor( true )->getID() );
     };
 }
 
@@ -639,7 +686,7 @@ template<class T>
 void conditional_t<T>::set_npc_available()
 {
     condition = []( const T & d ) {
-        return !d.beta->has_effect( effect_currently_busy );
+        return !d.actor( true )->has_effect( effect_currently_busy );
     };
 }
 
@@ -647,7 +694,7 @@ template<class T>
 void conditional_t<T>::set_npc_following()
 {
     condition = []( const T & d ) {
-        return d.beta->is_following();
+        return d.actor( true )->is_following();
     };
 }
 
@@ -655,7 +702,7 @@ template<class T>
 void conditional_t<T>::set_npc_friend()
 {
     condition = []( const T & d ) {
-        return d.beta->is_friendly( get_player_character() );
+        return d.actor( true )->is_friendly( get_player_character() );
     };
 }
 
@@ -663,7 +710,7 @@ template<class T>
 void conditional_t<T>::set_npc_hostile()
 {
     condition = []( const T & d ) {
-        return d.beta->is_enemy();
+        return d.actor( true )->is_enemy();
     };
 }
 
@@ -671,7 +718,7 @@ template<class T>
 void conditional_t<T>::set_npc_train_skills()
 {
     condition = []( const T & d ) {
-        return !d.beta->skills_offered_to( *d.alpha ).empty();
+        return !d.actor( true )->skills_offered_to( *d.actor( false ) ).empty();
     };
 }
 
@@ -679,7 +726,7 @@ template<class T>
 void conditional_t<T>::set_npc_train_styles()
 {
     condition = []( const T & d ) {
-        return !d.beta->styles_offered_to( *d.alpha ).empty();
+        return !d.actor( true )->styles_offered_to( *d.actor( false ) ).empty();
     };
 }
 
@@ -687,7 +734,7 @@ template<class T>
 void conditional_t<T>::set_npc_train_spells()
 {
     condition = []( const T & d ) {
-        return !d.beta->spells_offered_to( *d.alpha ).empty();
+        return !d.actor( true )->spells_offered_to( *d.actor( false ) ).empty();
     };
 }
 
@@ -695,7 +742,8 @@ template<class T>
 void conditional_t<T>::set_at_safe_space()
 {
     condition = []( const T & d ) {
-        return overmap_buffer.is_safe( d.beta->global_omt_location() ) && d.beta->is_safe();
+        return overmap_buffer.is_safe( d.actor( true )->global_omt_location() ) &&
+               d.actor( true )->is_safe();
     };
 }
 
@@ -732,7 +780,7 @@ template<class T>
 void conditional_t<T>::set_has_stolen_item( bool /*is_npc*/ )
 {
     condition = []( const T & d ) {
-        return d.alpha->has_stolen_item( *d.beta );
+        return d.actor( false )->has_stolen_item( *d.actor( true ) );
     };
 }
 
@@ -745,15 +793,86 @@ void conditional_t<T>::set_is_day()
 }
 
 template<class T>
-void conditional_t<T>::set_is_outside()
+void conditional_t<T>::set_is_outside( bool is_npc )
 {
-    condition = []( const T & d ) {
-        const map &here = get_map();
-        const tripoint &pos = here.getabs( d.beta->pos() );
-        return !here.has_flag( TFLAG_INDOORS, pos );
+    condition = [is_npc]( const T & d ) {
+        return is_creature_outside( *d.actor( is_npc )->get_character() );
     };
 }
 
+template<class T>
+void conditional_t<T>::set_one_in_chance( const JsonObject &jo, const std::string &member )
+{
+    int_or_var iov = get_variable_or_int( jo, member );
+    condition = [iov]( const T & d ) {
+        return one_in( iov.evaluate( d.actor( false ) ) );
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_x_in_y_chance( const JsonObject &jo, const std::string &member )
+{
+    const JsonObject &var_obj = jo.get_object( member );
+    int_or_var iovx = get_variable_or_int( var_obj, "x" );
+    int_or_var iovy = get_variable_or_int( var_obj, "y" );
+    condition = [iovx, iovy]( const T & d ) {
+        return x_in_y( iovx.evaluate( d.actor( false ) ), iovy.evaluate( d.actor( false ) ) );
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_is_temperature( const JsonObject &jo, const std::string &member )
+{
+    int_or_var iov = get_variable_or_int( jo, member );
+    condition = [iov]( const T & d ) {
+        return get_weather().weather_precise->temperature >= iov.evaluate( d.actor( false ) );
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_is_height( const JsonObject &jo, const std::string &member, bool is_npc )
+{
+    int_or_var iov = get_variable_or_int( jo, member );
+    condition = [iov, is_npc]( const T & d ) {
+        return d.actor( is_npc )->posz() >= iov.evaluate( d.actor( is_npc ) );
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_is_windpower( const JsonObject &jo, const std::string &member )
+{
+    int_or_var iov = get_variable_or_int( jo, member );
+    condition = [iov]( const T & d ) {
+        return get_weather().weather_precise->windpower >= iov.evaluate( d.actor( false ) );
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_is_humidity( const JsonObject &jo, const std::string &member )
+{
+    int_or_var iov = get_variable_or_int( jo, member );
+    condition = [iov]( const T & d ) {
+        return get_weather().weather_precise->humidity >= iov.evaluate( d.actor( false ) );
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_is_pressure( const JsonObject &jo, const std::string &member )
+{
+    int_or_var iov = get_variable_or_int( jo, member );
+    condition = [iov]( const T & d ) {
+        return get_weather().weather_precise->pressure >= iov.evaluate( d.actor( false ) );
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_is_weather( const JsonObject &jo )
+{
+    weather_type_id weather = weather_type_id( jo.get_string( "is_weather" ) );
+    condition = [weather]( const T & ) {
+        return get_weather().weather_id == weather;
+    };
+}
 template<class T>
 void conditional_t<T>::set_u_has_camp()
 {
@@ -766,7 +885,7 @@ template<class T>
 void conditional_t<T>::set_has_pickup_list()
 {
     condition = []( const T & d ) {
-        return d.beta->has_ai_rule( "pickup_rule", "any" );
+        return d.actor( true )->has_ai_rule( "pickup_rule", "any" );
     };
 }
 
@@ -818,12 +937,98 @@ template<class T>
 void conditional_t<T>::set_mission_has_generic_rewards()
 {
     condition = []( const T & d ) {
-        mission *miss = d.beta->selected_mission();
+        mission *miss = d.actor( true )->selected_mission();
         if( miss == nullptr ) {
             debugmsg( "mission_has_generic_rewards: mission_selected == nullptr" );
             return true;
         }
         return miss->has_generic_rewards();
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_has_worn_with_flag( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    const std::string flag( jo.get_string( member ) );
+    condition = [flag, is_npc]( const T & d ) {
+        return d.actor( is_npc )->worn_with_flag( flag_id( flag ) );
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_has_wielded_with_flag( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    const std::string flag( jo.get_string( member ) );
+    condition = [flag, is_npc]( const T & d ) {
+        return d.actor( is_npc )->wielded_with_flag( flag_id( flag ) );
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_has_pain( const JsonObject &jo, const std::string &member,
+                                     bool is_npc )
+{
+    int_or_var iov = get_variable_or_int( jo, member );
+    condition = [iov, is_npc]( const T & d ) {
+        return d.actor( is_npc )->pain_cur() >= iov.evaluate( d.actor( is_npc ) );
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_has_power( const JsonObject &jo, const std::string &member,
+                                      bool is_npc )
+{
+    units::energy min_power;
+    assign( jo, member, min_power, false, 0_kJ );
+    condition = [min_power, is_npc]( const T & d ) {
+        return d.actor( is_npc )->power_cur() >= min_power;
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_can_see( bool is_npc )
+{
+    condition = [is_npc]( const T & d ) {
+        return d.actor( is_npc )->can_see();
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_is_deaf( bool is_npc )
+{
+    condition = [is_npc]( const T & d ) {
+        return d.actor( is_npc )->is_deaf();
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_is_on_terrain( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    std::string terrain_type = jo.get_string( member );
+    condition = [terrain_type, is_npc]( const T & d ) {
+        map &here = get_map();
+        return here.ter( d.actor( is_npc )->pos() ) == ter_id( terrain_type );
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_is_in_field( const JsonObject &jo, const std::string &member,
+                                        bool is_npc )
+{
+    std::string field_type = jo.get_string( member );
+    condition = [field_type, is_npc]( const T & d ) {
+        map &here = get_map();
+        field_type_id ft = field_type_id( field_type );
+        for( const std::pair<const field_type_id, field_entry> &f : here.field_at( d.actor(
+                    is_npc )->pos() ) ) {
+            if( f.second.get_field_type() == ft ) {
+                return true;
+            }
+        }
+        return false;
     };
 }
 
@@ -911,21 +1116,21 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_is_riding( is_npc );
     } else if( jo.has_string( "u_has_mission" ) ) {
         set_u_has_mission( jo );
-    } else if( jo.has_int( "u_has_strength" ) ) {
+    } else if( jo.has_int( "u_has_strength" ) || jo.has_object( "u_has_strength" ) ) {
         set_has_strength( jo, "u_has_strength" );
-    } else if( jo.has_int( "npc_has_strength" ) ) {
+    } else if( jo.has_int( "npc_has_strength" ) || jo.has_object( "npc_has_strength" ) ) {
         set_has_strength( jo, "npc_has_strength", is_npc );
-    } else if( jo.has_int( "u_has_dexterity" ) ) {
+    } else if( jo.has_int( "u_has_dexterity" ) || jo.has_object( "u_has_dexterity" ) ) {
         set_has_dexterity( jo, "u_has_dexterity" );
-    } else if( jo.has_int( "npc_has_dexterity" ) ) {
+    } else if( jo.has_int( "npc_has_dexterity" ) || jo.has_object( "npc_has_dexterity" ) ) {
         set_has_dexterity( jo, "npc_has_dexterity", is_npc );
-    } else if( jo.has_int( "u_has_intelligence" ) ) {
+    } else if( jo.has_int( "u_has_intelligence" ) || jo.has_object( "u_has_intelligence" ) ) {
         set_has_intelligence( jo, "u_has_intelligence" );
-    } else if( jo.has_int( "npc_has_intelligence" ) ) {
+    } else if( jo.has_int( "npc_has_intelligence" ) || jo.has_object( "npc_has_intelligence" ) ) {
         set_has_intelligence( jo, "npc_has_intelligence", is_npc );
-    } else if( jo.has_int( "u_has_perception" ) ) {
+    } else if( jo.has_int( "u_has_perception" ) || jo.has_object( "u_has_perception" ) ) {
         set_has_perception( jo, "u_has_perception" );
-    } else if( jo.has_int( "npc_has_perception" ) ) {
+    } else if( jo.has_int( "npc_has_perception" ) || jo.has_object( "npc_has_perception" ) ) {
         set_has_perception( jo, "npc_has_perception", is_npc );
     } else if( jo.has_string( "u_is_wearing" ) ) {
         set_is_wearing( jo, "u_is_wearing" );
@@ -973,13 +1178,13 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_compare_time_since_var( jo, "npc_compare_time_since_var", is_npc );
     } else if( jo.has_string( "npc_role_nearby" ) ) {
         set_npc_role_nearby( jo );
-    } else if( jo.has_int( "npc_allies" ) ) {
+    } else if( jo.has_int( "npc_allies" ) || jo.has_object( "npc_allies" ) ) {
         set_npc_allies( jo );
     } else if( jo.get_bool( "npc_service", false ) ) {
         set_npc_available();
-    } else if( jo.has_int( "u_has_cash" ) ) {
+    } else if( jo.has_int( "u_has_cash" ) || jo.has_object( "u_has_cash" ) ) {
         set_u_has_cash( jo );
-    } else if( jo.has_int( "u_are_owed" ) ) {
+    } else if( jo.has_int( "u_are_owed" ) || jo.has_object( "u_are_owed" ) ) {
         set_u_are_owed( jo );
     } else if( jo.has_string( "npc_aim_rule" ) ) {
         set_npc_aim_rule( jo );
@@ -993,7 +1198,7 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_npc_rule( jo );
     } else if( jo.has_string( "npc_override" ) ) {
         set_npc_override( jo );
-    } else if( jo.has_int( "days_since_cataclysm" ) ) {
+    } else if( jo.has_int( "days_since_cataclysm" ) || jo.has_object( "days_since_cataclysm" ) ) {
         set_days_since( jo );
     } else if( jo.has_string( "is_season" ) ) {
         set_is_season( jo );
@@ -1005,6 +1210,56 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_has_skill( jo, "npc_has_skill", is_npc );
     } else if( jo.has_member( "u_know_recipe" ) ) {
         set_u_know_recipe( jo, "u_know_recipe" );
+    } else if( jo.has_int( "one_in_chance" ) || jo.has_object( "one_in_chance" ) ) {
+        set_one_in_chance( jo, "one_in_chance" );
+    } else if( jo.has_object( "x_in_y_chance" ) ) {
+        set_x_in_y_chance( jo, "x_in_y_chance" );
+    } else if( jo.has_int( "is_temperature" ) || jo.has_object( "is_temperature" ) ) {
+        set_is_temperature( jo, "is_temperature" );
+    } else if( jo.has_int( "is_windpower" ) || jo.has_object( "is_windpower" ) ) {
+        set_is_windpower( jo, "is_windpower" );
+    } else if( jo.has_int( "is_humidity" ) || jo.has_object( "is_humidity" ) ) {
+        set_is_humidity( jo, "is_humidity" );
+    } else if( jo.has_member( "is_pressure" ) || jo.has_object( "is_pressure" ) ) {
+        set_is_pressure( jo, "is_pressure" );
+    } else if( jo.has_int( "u_is_height" ) || jo.has_object( "u_is_height" ) ) {
+        set_is_height( jo, "u_is_height" );
+    } else if( jo.has_int( "npc_is_height" ) || jo.has_object( "npc_is_height" ) ) {
+        set_is_height( jo, "npc_is_height", is_npc );
+    } else if( jo.has_string( "u_has_worn_with_flag" ) ) {
+        set_has_worn_with_flag( jo, "u_has_worn_with_flag" );
+    } else if( jo.has_string( "npc_has_worn_with_flag" ) ) {
+        set_has_worn_with_flag( jo, "npc_has_worn_with_flag", is_npc );
+    } else if( jo.has_string( "u_has_wielded_with_flag" ) ) {
+        set_has_wielded_with_flag( jo, "u_has_wielded_with_flag" );
+    } else if( jo.has_string( "npc_has_wielded_with_flag" ) ) {
+        set_has_wielded_with_flag( jo, "npc_has_wielded_with_flag", is_npc );
+    } else if( jo.has_int( "u_has_pain" ) || jo.has_object( "u_has_pain" ) ) {
+        set_has_pain( jo, "u_has_pain" );
+    } else if( jo.has_int( "npc_has_pain" ) || jo.has_object( "npc_has_pain" ) ) {
+        set_has_pain( jo, "npc_has_pain", is_npc );
+    } else if( jo.has_int( "u_has_morale" ) || jo.has_object( "u_has_morale" ) ) {
+        set_has_morale( jo, "u_has_morale" );
+    } else if( jo.has_int( "npc_has_morale" ) || jo.has_object( "npc_has_morale" ) ) {
+        set_has_morale( jo, "npc_has_morale", is_npc );
+    } else if( jo.has_member( "u_has_power" ) ) {
+        set_has_power( jo, "u_has_power" );
+    } else if( jo.has_member( "npc_has_power" ) ) {
+        set_has_power( jo, "npc_has_power", is_npc );
+    } else if( jo.has_int( "u_has_focus" ) || jo.has_object( "u_has_focus" ) ) {
+        set_has_focus( jo, "u_has_focus" );
+    } else if( jo.has_int( "npc_has_focus" ) || jo.has_object( "npc_has_focus" ) ) {
+        set_has_focus( jo, "npc_has_focus", is_npc );
+    } else if( jo.has_string( "u_is_on_terrain" ) ) {
+        set_is_on_terrain( jo, "u_is_on_terrain" );
+    } else if( jo.has_string( "npc_is_on_terrain" ) ) {
+        set_is_on_terrain( jo, "npc_is_on_terrain", is_npc );
+    } else if( jo.has_string( "u_is_in_field" ) ) {
+        set_is_in_field( jo, "u_is_in_field" );
+    } else if( jo.has_string( "npc_is_in_field" ) ) {
+        set_is_in_field( jo, "npc_is_in_field", is_npc );
+    } else if( jo.has_string( "is_weather" ) ) {
+        set_is_weather( jo );
     } else {
         for( const std::string &sub_member : dialogue_data::simple_string_conds ) {
             if( jo.has_string( sub_member ) ) {
@@ -1086,8 +1341,10 @@ conditional_t<T>::conditional_t( const std::string &type )
         set_is_day();
     } else if( type == "u_has_stolen_item" ) {
         set_has_stolen_item( is_npc );
-    } else if( type == "is_outside" ) {
+    } else if( type == "u_is_outside" ) {
         set_is_outside();
+    } else if( type == "is_outside" || type == "npc_is_outside" ) {
+        set_is_outside( is_npc );
     } else if( type == "u_has_camp" ) {
         set_u_has_camp();
     } else if( type == "has_pickup_list" ) {
@@ -1098,6 +1355,14 @@ conditional_t<T>::conditional_t( const std::string &type )
         set_has_reason();
     } else if( type == "mission_has_generic_rewards" ) {
         set_mission_has_generic_rewards();
+    } else if( type == "u_can_see" ) {
+        set_can_see();
+    } else if( type == "npc_can_see" ) {
+        set_can_see( is_npc );
+    } else if( type == "u_is_deaf" ) {
+        set_is_deaf();
+    } else if( type == "npc_is_deaf" ) {
+        set_is_deaf( is_npc );
     } else {
         condition = []( const T & ) {
             return false;

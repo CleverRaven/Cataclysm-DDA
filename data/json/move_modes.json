@@ -26,7 +26,7 @@
     "change_good_none": "You start running.",
     "change_good_animal": "You spur your steed into a gallop.",
     "change_good_mech": "You set the power of your mech's leg servos to maximum.",
-    "change_bad_none": "You're too tired to run.",
+    "change_bad_none": "You're too tired or injured to run.",
     "change_bad_animal": "Your steed is too tired to go faster.",
     "change_bad_mech": "Your mech's leg servos are unable to operate faster.",
     "move_type": "running",
@@ -51,6 +51,23 @@
     "move_type": "crouching",
     "sound_multiplier": 0.5,
     "move_speed_multiplier": 0.5,
+    "swim_speed_mod": 50
+  },
+  {
+    "type": "movement_mode",
+    "id": "prone",
+    "character": "p",
+    "panel_char": "P",
+    "name": "prone",
+    "panel_color": "green",
+    "symbol_color": "blue",
+    "exertion_level": "NO_EXERCISE",
+    "change_good_none": "You lie down.",
+    "change_good_animal": "You stop your steed.",
+    "change_good_mech": "You turn off your mech's leg servos.",
+    "move_type": "prone",
+    "sound_multiplier": 0.2,
+    "move_speed_multiplier": 0.2,
     "swim_speed_mod": 50
   }
 ]

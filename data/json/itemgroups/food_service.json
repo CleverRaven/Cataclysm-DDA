@@ -74,7 +74,11 @@
     "id": "corner_weapon",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "tazer", "prob": 70 }, { "item": "knuckle_brass", "prob": 70 } ]
+    "entries": [
+      { "item": "tazer", "prob": 70, "charges": [ 0, 500 ] },
+      { "item": "knuckle_brass", "prob": 50 },
+      { "item": "knuckle_steel_forged", "prob": 20 }
+    ]
   },
   {
     "id": "displays",
@@ -209,7 +213,11 @@
       { "item": "sloppyjoe", "prob": 6 },
       { "item": "fries", "prob": 10 },
       { "item": "cheese_fries", "prob": 7 },
-      { "item": "onion_rings", "prob": 8 }
+      { "item": "onion_rings", "prob": 8 },
+      { "item": "hotdogs_cooked", "charges-min": 1, "prob": 6 },
+      { "item": "hotdogs_newyork", "charges-min": 1, "prob": 5 },
+      { "item": "crab_cakes", "charges-min": 1, "prob": 8 },
+      { "item": "stuffed_clams", "charges-min": 1, "prob": 8 }
     ]
   },
   {
@@ -237,9 +245,9 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "cig", "prob": 50 },
-      { "item": "matches", "prob": 45 },
-      { "item": "rolling_paper", "prob": 10 },
+      { "item": "cig", "prob": 50, "charges": [ 1, 20 ] },
+      { "item": "matches", "prob": 45, "charges": [ 1, 20 ] },
+      { "item": "rolling_paper", "prob": 10, "charges": [ 1, 30 ] },
       { "item": "bottle_glass", "prob": 70 },
       { "item": "bucket", "prob": 5 },
       { "item": "can_drink", "prob": 65 },
@@ -254,13 +262,13 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "weed", "prob": 40 },
-      { "item": "coke", "prob": 40 },
-      { "item": "aspirin", "prob": 40 },
-      { "item": "cig", "prob": 20 },
+      { "item": "weed", "prob": 40, "charges": [ 1, 5 ] },
+      { "item": "coke", "prob": 40, "charges": [ 1, 8 ] },
+      { "item": "aspirin", "prob": 40, "charges": [ 1, 20 ] },
+      { "item": "cig", "prob": 20, "charges": [ 1, 20 ] },
       { "item": "syringe", "prob": 30 },
-      { "item": "meth", "prob": 20 },
-      { "item": "heroin", "prob": 7 },
+      { "item": "meth", "prob": 20, "charges": [ 1, 6 ] },
+      { "item": "heroin", "prob": 7, "charges": [ 1, 4 ] },
       { "item": "mag_porn", "prob": 35 },
       { "item": "hairpin", "prob": 5 },
       { "item": "purse", "prob": 15 }
@@ -338,8 +346,8 @@
     "id": "pizza_table",
     "type": "item_group",
     "items": [
-      [ "cig", 15 ],
-      [ "rolling_paper", 7 ],
+      { "item": "cig", "prob": 15, "charges": [ 1, 20 ] },
+      { "item": "rolling_paper", "prob": 7, "charges": [ 1, 30 ] },
       [ "wrapper", 35 ],
       [ "ceramic_plate", 40 ],
       [ "cup_plastic", 40 ],
@@ -356,8 +364,8 @@
     "type": "item_group",
     "items": [
       [ "towel", 15 ],
-      [ "soap", 15 ],
-      [ "detergent", 15 ],
+      { "item": "soap", "prob": 15, "charges": [ 1, 10 ] },
+      { "item": "detergent", "prob": 15, "charges": [ 1, 20 ] },
       { "item": "bleach", "prob": 15, "charges-min": 1 },
       [ "broom", 13 ],
       [ "dinosuit", 7 ],
@@ -371,10 +379,10 @@
     "id": "pizza_bathroom",
     "type": "item_group",
     "items": [
-      [ "weed", 40 ],
-      [ "coke", 20 ],
-      [ "meth", 1 ],
-      [ "aspirin", 15 ],
+      { "item": "weed", "prob": 40, "charges": [ 1, 5 ] },
+      { "item": "coke", "prob": 20, "charges": [ 1, 8 ] },
+      { "item": "meth", "prob": 1, "charges": [ 1, 6 ] },
+      { "item": "aspirin", "prob": 15, "charges": [ 1, 20 ] },
       [ "mag_porn", 30 ],
       [ "purse", 10 ],
       [ "hairpin", 3 ]
@@ -395,8 +403,8 @@
       [ "mag_news", 7 ],
       [ "hairpin", 10 ],
       [ "flyer", 7 ],
-      [ "glock_19", 5 ],
-      [ "9mm", 3 ]
+      { "item": "glock_19", "prob": 5, "charges": [ 0, 15 ] },
+      { "item": "9mm", "prob": 3, "charges": [ 1, 50 ] }
     ]
   },
   {
@@ -504,8 +512,8 @@
       { "item": "sm_extinguisher", "prob": 10, "charges": 10 },
       { "item": "hat_ball", "prob": 25 },
       { "item": "towel", "prob": 10 },
-      { "item": "soap", "prob": 8 },
-      { "item": "detergent", "prob": 8 },
+      { "item": "soap", "prob": 8, "charges": [ 1, 10 ] },
+      { "item": "detergent", "prob": 8, "charges": [ 1, 20 ] },
       { "item": "rag", "prob": 15 },
       { "item": "broom", "prob": 8 },
       { "item": "bleach", "prob": 8, "charges-min": 1 },
@@ -544,9 +552,9 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "weed", "prob": 10 },
-      { "item": "coke", "prob": 10 },
-      { "item": "aspirin", "prob": 45 },
+      { "item": "weed", "prob": 10, "charges": [ 1, 5 ] },
+      { "item": "coke", "prob": 10, "charges": [ 1, 8 ] },
+      { "item": "aspirin", "prob": 45, "charges": [ 1, 20 ] },
       { "item": "mag_news", "prob": 30 },
       { "item": "purse", "prob": 10 },
       { "item": "hairpin", "prob": 25 }
@@ -567,7 +575,11 @@
       { "item": "cheeseburger", "prob": 15 },
       { "item": "hamburger", "prob": 15 },
       { "item": "fish_sandwich", "prob": 10 },
-      { "group": "softdrinks_canned", "prob": 75 }
+      { "group": "softdrinks_canned", "prob": 75 },
+      { "item": "hotdogs_cooked", "charges-min": 1, "prob": 25 },
+      { "item": "hotdogs_newyork", "charges-min": 1, "prob": 15 },
+      { "item": "crab_cakes", "charges-min": 1, "prob": 20 },
+      { "item": "stuffed_clams", "charges-min": 1, "prob": 15 }
     ]
   },
   {
@@ -586,7 +598,8 @@
       { "item": "hot_sauce", "prob": 10 },
       { "item": "flour", "prob": 40 },
       { "item": "curry_powder", "prob": 40 },
-      { "item": "cornmeal", "prob": 52 }
+      { "item": "cornmeal", "prob": 52 },
+      { "item": "oyster_crackers", "charges-min": 1, "prob": 35 }
     ]
   },
   {
@@ -638,8 +651,8 @@
       { "item": "knife_steak", "prob": 20 },
       { "item": "sm_extinguisher", "prob": 40, "charges": 10 },
       { "item": "towel", "prob": 40 },
-      { "item": "soap", "prob": 30 },
-      { "item": "detergent", "prob": 30 },
+      { "item": "soap", "prob": 30, "charges": [ 1, 10 ] },
+      { "item": "detergent", "prob": 30, "charges": [ 1, 20 ] },
       { "item": "rag", "prob": 30 },
       { "item": "bleach", "prob": 30, "charges-min": 1 },
       { "item": "vinegar", "prob": 30 },
@@ -652,7 +665,7 @@
     "subtype": "distribution",
     "entries": [
       { "item": "bread", "prob": 65 },
-      { "item": "brown_bread", "prob": 50 },
+      { "item": "brown_bread", "prob": 50, "container-item": "bag_plastic" },
       { "item": "cake2", "prob": 10 },
       { "item": "cake3", "prob": 10 },
       { "item": "cornbread", "prob": 35 },
@@ -799,6 +812,7 @@
       { "item": "can_cheese", "prob": 30 },
       { "item": "sauce_red", "prob": 40 },
       { "item": "sauce_pesto", "prob": 20 },
+      { "item": "oyster_crackers", "charges-min": 1, "prob": 30 },
       { "group": "teabag_box", "prob": 45 }
     ]
   },
@@ -812,7 +826,8 @@
       { "item": "pizza_meat", "prob": 50 },
       { "item": "junk_burrito", "prob": 50 },
       { "item": "icecream_artificial", "prob": 30 },
-      { "item": "icecream_candy", "prob": 20 }
+      { "item": "icecream_candy", "prob": 20 },
+      { "item": "sundae_cup", "prob": 30 }
     ]
   },
   {
@@ -834,7 +849,7 @@
     "type": "item_group",
     "subtype": "distribution",
     "entries": [
-      { "item": "egg_bird_unfert", "prob": 65, "count-min": 6, "count-max": 12 },
+      { "item": "egg_bird_unfert", "prob": 65, "charges-min": 6, "charges-max": 12, "container-item": "carton_egg" },
       { "item": "milk", "prob": 80 },
       { "item": "milk_raw", "prob": 5 },
       { "item": "milk_raw", "prob": 5 },
@@ -844,7 +859,8 @@
       { "item": "yoghurt", "prob": 40 },
       { "item": "pudding", "prob": 30 },
       { "item": "icecream", "prob": 30 },
-      { "item": "icecream_artificial", "prob": 15 }
+      { "item": "icecream_artificial", "prob": 15 },
+      { "item": "sundae_cup", "prob": 30 }
     ]
   },
   {
@@ -1053,7 +1069,8 @@
       { "item": "soup_tomato", "prob": 10, "charges": 1, "container-item": "pot" },
       { "item": "soup_tomato", "prob": 5, "charges": 2, "container-item": "pot" },
       { "item": "soup_veggy", "prob": 10, "charges": 1, "container-item": "pot" },
-      { "item": "soup_veggy", "prob": 5, "charges": 2, "container-item": "pot" }
+      { "item": "soup_veggy", "prob": 5, "charges": 2, "container-item": "pot" },
+      { "item": "oyster_crackers", "prob": 25 }
     ]
   },
   {
@@ -1085,7 +1102,10 @@
       { "item": "choc_waffles", "prob": 6 },
       { "item": "pie", "prob": 9 },
       { "item": "pie_meat", "prob": 8 },
-      { "item": "pan", "prob": 30 }
+      { "item": "pan", "prob": 30 },
+      { "item": "hotdogs_newyork", "charges-min": 1, "prob": 5 },
+      { "item": "crab_cakes", "charges-min": 1, "prob": 8 },
+      { "item": "stuffed_clams", "charges-min": 1, "prob": 8 }
     ]
   },
   {
@@ -1108,7 +1128,9 @@
       { "item": "lettuce", "prob": 20 },
       { "item": "soup_veggy", "prob": 20 },
       { "item": "soup_meat", "prob": 20 },
-      { "item": "soup_tomato", "prob": 20 }
+      { "item": "soup_tomato", "prob": 20 },
+      { "item": "crab_cakes", "charges-min": 1, "prob": 12 },
+      { "item": "stuffed_clams", "charges-min": 1, "prob": 12 }
     ]
   },
   {
@@ -1193,6 +1215,162 @@
       { "item": "meat", "prob": 1 },
       { "item": "hacksaw", "prob": 10 },
       { "item": "gloves_cut_resistant", "prob": 10 }
+    ]
+  },
+  {
+    "id": "restaurant_mexican_table",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      {
+        "distribution": [
+          { "item": "nachosc", "prob": 60, "container-item": "ceramic_bowl" },
+          { "item": "nachosmc", "prob": 60, "container-item": "ceramic_bowl" },
+          { "item": "nachosv", "prob": 60, "container-item": "bowl_plastic" },
+          { "item": "nachosvc", "prob": 60, "container-item": "ceramic_bowl" },
+          { "item": "nachosm", "prob": 60, "container-item": "ceramic_bowl" }
+        ],
+        "prob": 40
+      },
+      {
+        "distribution": [
+          { "item": "deluxe_beansnrice", "prob": 60, "container-item": "ceramic_bowl" },
+          { "item": "rice_cooked", "prob": 60, "container-item": "ceramic_bowl" },
+          { "item": "beans_cooked", "prob": 60, "container-item": "ceramic_bowl" },
+          { "item": "beansnrice", "prob": 60, "container-item": "ceramic_bowl" }
+        ],
+        "prob": 60
+      },
+      {
+        "distribution": [
+          { "item": "taco", "prob": 50, "count": [ 1, 3 ], "container-item": "wrapper" },
+          { "item": "homemade_burrito", "prob": 60, "container-item": "wrapper" },
+          { "item": "nopalitos", "prob": 20, "container-item": "ceramic_bowl" },
+          { "item": "quesadilla_cheese", "prob": 40, "count": [ 1, 2 ], "container-item": "wrapper" }
+        ],
+        "prob": 60
+      },
+      { "item": "nachos", "prob": 30, "container-item": "ceramic_bowl" },
+      { "item": "hot_sauce", "prob": 40 }
+    ]
+  },
+  {
+    "id": "food_mexican_truck",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      {
+        "distribution": [
+          { "item": "nachosc", "prob": 60, "container-item": "bowl_plastic" },
+          { "item": "nachosmc", "prob": 60, "container-item": "bowl_plastic" },
+          { "item": "nachosv", "prob": 60, "container-item": "bowl_plastic" },
+          { "item": "nachosvc", "prob": 60, "container-item": "bowl_plastic" },
+          { "item": "nachosm", "prob": 60, "container-item": "bowl_plastic" }
+        ],
+        "prob": 40
+      },
+      {
+        "distribution": [
+          { "item": "deluxe_beansnrice", "prob": 60, "container-item": "bowl_plastic" },
+          { "item": "rice_cooked", "prob": 60, "container-item": "bowl_plastic" },
+          { "item": "beans_cooked", "prob": 60, "container-item": "bowl_plastic" },
+          { "item": "beansnrice", "prob": 60, "container-item": "bowl_plastic" }
+        ],
+        "prob": 60
+      },
+      {
+        "distribution": [
+          { "item": "taco", "prob": 50, "count": [ 1, 3 ], "container-item": "wrapper" },
+          { "item": "homemade_burrito", "prob": 60, "container-item": "wrapper" },
+          { "item": "nopalitos", "prob": 20, "container-item": "bowl_plastic" },
+          { "item": "quesadilla_cheese", "prob": 40, "count": [ 1, 2 ], "container-item": "wrapper" }
+        ],
+        "prob": 60
+      },
+      { "item": "nachos", "prob": 30, "container-item": "bowl_plastic" },
+      { "item": "hot_sauce", "prob": 40 }
+    ]
+  },
+  {
+    "id": "restaurant_mexican_fridge",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      [ "water_clean", 10 ],
+      [ "water_mineral", 10 ],
+      [ "milk", 20 ],
+      { "item": "butter", "prob": 35, "charges-min": 8, "charges-max": 64, "container-item": "wrapper" },
+      {
+        "item": "ghee",
+        "prob": 5,
+        "charges-min": 1,
+        "charges-max": 64,
+        "container-item": "jar_glass_sealed",
+        "sealed": false
+      },
+      [ "cactus_pad", 20 ],
+      [ "papaya", 20 ],
+      [ "fish_cooked", 20 ],
+      [ "boiled_egg", 20 ],
+      [ "mango", 20 ],
+      [ "spinach", 10 ],
+      [ "celery", 10 ],
+      [ "corn", 20 ],
+      [ "chili_pepper", 20 ],
+      [ "cucumber", 5 ],
+      [ "garlic", 20 ],
+      [ "tomato", 20 ],
+      [ "bell_pepper", 8 ],
+      [ "sausage_raw", 8 ],
+      [ "bacon", 8 ],
+      [ "fish", 8 ],
+      [ "meat", 8 ],
+      [ "porkbelly", 8 ],
+      [ "bacon_uncut", 8 ],
+      [ "onion", 15 ],
+      [ "potato", 15 ],
+      [ "pineapple", 20 ],
+      [ "lard", 10 ],
+      [ "mushroom_morel", 8 ],
+      [ "sausage_cooked", 8 ],
+      [ "mushroom", 20 ],
+      [ "tomato", 20 ],
+      [ "lettuce", 15 ],
+      [ "chili_pepper", 15 ],
+      [ "carrot", 15 ],
+      [ "irradiated_tomato", 4 ],
+      [ "irradiated_lettuce", 4 ],
+      [ "irradiated_onion", 4 ],
+      [ "irradiated_carrot", 4 ],
+      [ "chili", 10 ],
+      [ "cheese", 10 ],
+      [ "lemon", 15 ],
+      [ "sauce_red", 8 ],
+      [ "tofu", 8 ],
+      [ "sausage", 10 ],
+      [ "syrup", 10 ],
+      [ "sweet_sausage", 2 ],
+      [ "soup_meat", 10 ]
+    ]
+  },
+  {
+    "id": "restaurant_mexican_pantry",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "group": "pantry_liquids", "prob": 30 },
+      { "item": "tortilla_corn", "prob": 60, "count": [ 1, 3 ] },
+      { "item": "sauce_red", "prob": 30 },
+      { "item": "nachos", "prob": 60, "count": [ 1, 3 ] },
+      { "item": "cheese_hard", "prob": 40 },
+      { "item": "can_beans", "prob": 20, "count": [ 1, 3 ] },
+      { "item": "dry_beans", "prob": 60, "count": [ 1, 3 ] },
+      { "item": "dry_mushroom", "prob": 40, "count": [ 1, 3 ] },
+      { "item": "flatbread", "prob": 20, "count": [ 1, 3 ] },
+      { "item": "dry_rice", "prob": 60, "count": [ 1, 3 ] },
+      { "group": "SUS_spice_collection", "prob": 70 },
+      { "group": "big_canned_food", "prob": 20, "count": [ 1, 2 ] },
+      { "group": "dry_goods", "prob": 30 }
     ]
   }
 ]

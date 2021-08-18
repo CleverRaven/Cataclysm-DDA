@@ -1,6 +1,16 @@
 #include "past_games_info.h"
 
+#include <algorithm>
+#include <functional>
+#include <map>
+#include <sstream>
+#include <stdexcept>
+#include <string>
+#include <utility>
+
 #include "achievement.h"
+#include "cata_utility.h"
+#include "debug.h"
 #include "event.h"
 #include "filesystem.h"
 #include "json.h"
@@ -9,6 +19,8 @@
 #include "path_info.h"
 #include "popup.h"
 #include "stats_tracker.h"
+#include "string_formatter.h"
+#include "translations.h"
 #include "ui_manager.h"
 
 static void no_op( const achievement *, bool ) {}
@@ -104,7 +116,7 @@ void past_games_info::ensure_loaded()
         std::istringstream iss( read_entire_file( filename ) );
         try {
             JsonIn jsin( iss );
-            info_.push_back( past_game_info( jsin ) );
+            info_.emplace_back( jsin );
         } catch( const JsonError &err ) {
             debugmsg( "Error reading memorial file %s: %s", filename, err.what() );
         } catch( const too_old_memorial_file_error & ) {
@@ -130,6 +142,7 @@ void past_games_info::ensure_loaded()
             achievement_id ach = ach_it->second.get<achievement_id>();
             completed_achievements_[ach].games_completed.push_back( &game );
         }
+        inp_mngr.pump_events();
     }
 }
 

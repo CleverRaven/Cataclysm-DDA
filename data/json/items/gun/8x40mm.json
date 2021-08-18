@@ -272,6 +272,7 @@
     "volume": "2500 ml",
     "longest_side": "995 mm",
     "price": 900000,
+    "price_postapoc": 17500,
     "to_hit": -1,
     "bashing": 12,
     "material": [ "superalloy", "ceramic" ],

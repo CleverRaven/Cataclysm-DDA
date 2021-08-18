@@ -1,9 +1,9 @@
-#include "catch/catch.hpp"
-
+#include <iosfwd>
 #include <memory>
 #include <string>
 
 #include "avatar.h"
+#include "cata_catch.h"
 #include "game.h"
 #include "magic.h"
 #include "map_helpers.h"

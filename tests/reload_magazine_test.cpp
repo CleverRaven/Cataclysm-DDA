@@ -1,11 +1,12 @@
-#include "catch/catch.hpp"
-
+#include <functional>
 #include <list>
 #include <memory>
 #include <set>
 #include <vector>
 
+#include "avatar.h"
 #include "calendar.h"
+#include "cata_catch.h"
 #include "character.h"
 #include "inventory.h"
 #include "item.h"
@@ -16,9 +17,10 @@
 
 struct itype;
 
+// NOLINTNEXTLINE(readability-function-size)
 TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
 {
-    const itype_id gun_id( "m4a1" );
+    const itype_id gun_id( "m4_carbine" );
     const ammotype gun_ammo( "223" );
     const itype_id ammo_id( "556" ); // any type of compatible ammo
     const itype_id alt_ammo( "223" ); // any alternative type of compatible ammo
@@ -33,7 +35,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
     CHECK( mag_id != bad_mag );
     CHECK( mag_cap > 0 );
 
-    Character &player_character = get_player_character();
+    avatar &player_character = get_avatar();
     player_character.worn.clear();
     player_character.inv->clear();
     player_character.remove_weapon();
@@ -85,7 +87,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
                 }
                 AND_THEN( "a single correctly sized ammo stack remains in the inventory" ) {
                     std::vector<const item *> found;
-                    player_character.visit_items( [&ammo_id, &found]( const item * e ) {
+                    player_character.visit_items( [&ammo_id, &found]( const item * e, item * ) {
                         if( e->typeId() == ammo_id ) {
                             found.push_back( e );
                         }
@@ -116,7 +118,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
                 }
                 AND_THEN( "the ammo stack was completely used" ) {
                     std::vector<const item *> found;
-                    player_character.visit_items( [&ammo_id, &found]( const item * e ) {
+                    player_character.visit_items( [&ammo_id, &found]( const item * e, item * ) {
                         if( e->typeId() == ammo_id ) {
                             found.push_back( e );
                         }
@@ -142,7 +144,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
                     }
                     AND_THEN( "a single correctly sized ammo stack remains in the inventory" ) {
                         std::vector<const item *> found;
-                        player_character.visit_items( [&ammo_id, &found]( const item * e ) {
+                        player_character.visit_items( [&ammo_id, &found]( const item * e, item * ) {
                             if( e->typeId() == ammo_id ) {
                                 found.push_back( e );
                             }
@@ -287,7 +289,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
                         }
                         AND_THEN( "a single correctly sized ammo stack remains in the inventory" ) {
                             std::vector<const item *> found;
-                            player_character.visit_items( [&ammo_id, &found]( const item * e ) {
+                            player_character.visit_items( [&ammo_id, &found]( const item * e, item * ) {
                                 if( e->typeId() == ammo_id ) {
                                     found.push_back( e );
                                 }
@@ -299,6 +301,170 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
                             REQUIRE( found[0]->charges == 8 );
                         }
                     }
+                }
+                AND_WHEN( "the gun is reloaded with a full magazine" ) {
+                    item &another_mag = player_character.i_add( item( mag_id ) );
+                    another_mag.ammo_set( ammo_id, mag_cap );
+                    std::vector<item::reload_option> ammo_list;
+                    CHECK( player_character.list_ammo( gun, ammo_list, false ) );
+                    CHECK( !ammo_list.empty() );
+                    bool ok = gun.reload( player_character, item_location( player_character, &another_mag ), 1 );
+                    THEN( "the gun is now loaded with the full magazine" ) {
+                        CHECK( ok );
+                        CHECK( gun.ammo_remaining() == mag_cap );
+                    }
+                }
+            }
+        }
+    }
+}
+
+TEST_CASE( "reload_revolver", "[visitable] [item] [item_location]" )
+{
+    const itype_id gun_id( "sw_619" );
+    const ammotype gun_ammo( "38" );
+    const itype_id ammo_id( "38_special" ); // any type of compatible ammo
+    const itype_id alt_ammo( "357mag_fmj" ); // any alternative type of compatible ammo
+    const itype_id bad_ammo( "9mm" ); // any type of incompatible ammo
+    const int mag_cap = 7; // amount of bullets that fit into cylinder
+
+    CHECK( ammo_id != alt_ammo );
+    CHECK( ammo_id != bad_ammo );
+    CHECK( alt_ammo != bad_ammo );
+
+    Character &player_character = get_player_character();
+    player_character.worn.clear();
+    player_character.inv->clear();
+    player_character.remove_weapon();
+    player_character.wear_item( item( "backpack" ) ); // so we don't drop anything
+
+    GIVEN( "an empty gun with an integral magazine" ) {
+        item &gun = player_character.i_add( item( gun_id ) );
+        CHECK( gun.is_gun() == true );
+        CHECK( gun.is_reloadable() == true );
+        CHECK( player_character.can_reload( gun ) == true );
+        CHECK( player_character.can_reload( gun, ammo_id ) == true );
+        CHECK( gun.magazine_integral() == true );
+        CHECK( gun.ammo_capacity( gun_ammo ) == mag_cap );
+        CHECK( gun.ammo_remaining() == 0 );
+        CHECK( gun.ammo_current().is_null() );
+        CHECK( gun.ammo_data() == nullptr );
+
+        WHEN( "the gun is reloaded with incompatible ammo" ) {
+            item &ammo = player_character.i_add( item( bad_ammo ) );
+            bool ok = gun.reload( player_character, item_location( player_character, &ammo ),
+                                  gun.ammo_capacity( gun_ammo ) );
+            THEN( "reloading should fail" ) {
+                REQUIRE_FALSE( ok );
+                REQUIRE( gun.ammo_remaining() == 0 );
+            }
+        }
+
+        WHEN( "the gun is loaded with an excess of ammo" ) {
+            item &ammo = player_character.i_add( item( ammo_id, calendar::turn, mag_cap + 5 ) );
+            REQUIRE( ammo.charges == mag_cap + 5 );
+
+            bool ok = gun.reload( player_character, item_location( player_character, &ammo ),
+                                  gun.ammo_capacity( gun_ammo ) );
+            THEN( "reloading is successful" ) {
+                REQUIRE( ok );
+
+                AND_THEN( "the current ammo is updated" ) {
+                    REQUIRE( gun.ammo_current() == ammo_id );
+                    REQUIRE( gun.ammo_data() );
+                }
+                AND_THEN( "the gun is filled to capacity" ) {
+                    REQUIRE( gun.remaining_ammo_capacity() == 0 );
+                }
+                AND_THEN( "a single correctly sized ammo stack remains in the inventory" ) {
+                    std::vector<const item *> found;
+                    player_character.visit_items( [&ammo_id, &found]( const item * e, item * ) {
+                        if( e->typeId() == ammo_id ) {
+                            found.push_back( e );
+                        }
+                        // ignore ammo contained within guns or magazines
+                        return ( e->is_gun() || e->is_magazine() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
+                    } );
+                    REQUIRE( found.size() == 1 );
+                    REQUIRE( found[0]->charges == 5 );
+                }
+            }
+        }
+
+        WHEN( "the gun is partially reloaded with compatible ammo" ) {
+            item &ammo = player_character.i_add( item( ammo_id, calendar::turn, mag_cap - 2 ) );
+            REQUIRE( ammo.charges == mag_cap - 2 );
+
+            bool ok = gun.reload( player_character, item_location( player_character, &ammo ),
+                                  gun.ammo_capacity( gun_ammo ) );
+            THEN( "reloading is successful" ) {
+                REQUIRE( ok == true );
+
+                AND_THEN( "the current ammo is updated" ) {
+                    REQUIRE( gun.ammo_current() == ammo_id );
+                    REQUIRE( gun.ammo_data() );
+                }
+                AND_THEN( "the gun is filled with the correct quantity" ) {
+                    REQUIRE( gun.ammo_remaining() == mag_cap - 2 );
+                }
+                AND_THEN( "the ammo stack was completely used" ) {
+                    std::vector<const item *> found;
+                    player_character.visit_items( [&ammo_id, &found]( const item * e, item * ) {
+                        if( e->typeId() == ammo_id ) {
+                            found.push_back( e );
+                        }
+                        // ignore ammo contained within guns or magazines
+                        return ( e->is_gun() || e->is_magazine() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
+                    } );
+                    REQUIRE( found.empty() );
+                }
+            }
+
+            AND_WHEN( "the gun is further reloaded with matching ammo" ) {
+                item &ammo = player_character.i_add( item( ammo_id, calendar::turn, 10 ) );
+                REQUIRE( ammo.charges == 10 );
+                REQUIRE( gun.ammo_remaining() == mag_cap - 2 );
+
+                bool ok = gun.reload( player_character, item_location( player_character, &ammo ),
+                                      gun.ammo_capacity( gun_ammo ) );
+                THEN( "further reloading is successful" ) {
+                    REQUIRE( ok );
+
+                    AND_THEN( "the gun is filled to capacity" ) {
+                        REQUIRE( gun.remaining_ammo_capacity() == 0 );
+                    }
+                    AND_THEN( "a single correctly sized ammo stack remains in the inventory" ) {
+                        std::vector<const item *> found;
+                        player_character.visit_items( [&ammo_id, &found]( const item * e, item * ) {
+                            if( e->typeId() == ammo_id ) {
+                                found.push_back( e );
+                            }
+                            // ignore ammo contained within guns or magazines
+                            return ( e->is_gun() || e->is_magazine() ) ? VisitResponse::SKIP : VisitResponse::NEXT;
+                        } );
+                        REQUIRE( found.size() == 1 );
+                        REQUIRE( found[0]->charges == 8 );
+                    }
+                }
+            }
+
+            AND_WHEN( "the gun is further reloaded with compatible but different ammo" ) {
+                item &ammo = player_character.i_add( item( alt_ammo ) );
+                bool ok = gun.reload( player_character, item_location( player_character, &ammo ),
+                                      gun.ammo_capacity( gun_ammo ) );
+                THEN( "further reloading should fail" ) {
+                    REQUIRE_FALSE( ok );
+                    REQUIRE( gun.ammo_remaining() == mag_cap - 2 );
+                }
+            }
+
+            AND_WHEN( "the gun is further reloaded with incompatible ammo" ) {
+                item &ammo = player_character.i_add( item( bad_ammo ) );
+                bool ok = gun.reload( player_character, item_location( player_character, &ammo ),
+                                      gun.ammo_capacity( gun_ammo ) );
+                THEN( "further reloading should fail" ) {
+                    REQUIRE_FALSE( ok );
+                    REQUIRE( gun.ammo_remaining() == mag_cap - 2 );
                 }
             }
         }

@@ -2,30 +2,26 @@
 #ifndef CATA_SRC_TALKER_NPC_H
 #define CATA_SRC_TALKER_NPC_H
 
-#include <string>
+#include <iosfwd>
 #include <vector>
 
+#include "faction.h"
+#include "npc.h"
 #include "talker_character.h"
 #include "type_id.h"
 
 class Character;
-class character_id;
-class faction;
 class item;
 class mission;
-class npc;
 class player;
-class recipe;
 class talker;
-class vehicle;
-struct tripoint;
 
 /*
  */
 class talker_npc : public talker_character
 {
     public:
-        talker_npc( npc *new_me ): talker_character( new_me ), me_npc( new_me ) {
+        explicit talker_npc( npc *new_me ): talker_character( new_me ), me_npc( new_me ) {
         }
         ~talker_npc() override = default;
 
@@ -67,6 +63,7 @@ class talker_npc : public talker_character
         int cash_to_favor( int value ) const override;
         std::string give_item_to( bool to_use ) override;
         bool buy_from( int amount ) override;
+        int value( const item &it ) const override;
 
         // missions
         std::vector<mission *> available_missions() const override;

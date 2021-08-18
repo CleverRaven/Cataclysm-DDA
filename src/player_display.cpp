@@ -1,35 +1,37 @@
+#include "player.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstddef>
 #include <cstdlib>
+#include <functional>
 #include <memory>
-#include <unordered_map>
+#include <string>
 
 #include "addiction.h"
 #include "avatar.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
+#include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
 #include "enum_conversions.h"
 #include "game.h"
 #include "input.h"
-#include "int_id.h"
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
 #include "pimpl.h"
-#include "player.h" // IWYU pragma: associated
 #include "pldata.h"
 #include "profession.h"
 #include "proficiency.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
@@ -174,23 +176,23 @@ static std::string run_cost_text( int moves )
     return string_format( _( "Movement point cost: <color_white>%+d</color>\n" ), moves );
 }
 
-static std::string reload_cost_text( int moves )
+static std::string reload_cost_text( float moves )
 {
-    return string_format( _( "Reloading movement point cost: <color_white>%+d</color>\n" ), moves );
+    return string_format( _( "Reloading movement point cost: <color_white>x%.2f</color>\n" ), moves );
 }
 
-static std::string melee_cost_text( int moves )
+static std::string melee_cost_text( float moves )
 {
     return string_format(
-               _( "Melee and thrown attack movement point cost: <color_white>%+d</color>\n" ), moves );
+               _( "Melee and thrown attack movement point modifier: <color_white>x%.2f</color>\n" ), moves );
 }
-static std::string melee_stamina_cost_text( int cost )
+static std::string melee_stamina_cost_text( float cost )
 {
-    return string_format( _( "Melee stamina cost: <color_white>%+d</color>\n" ), cost );
+    return string_format( _( "Melee stamina cost: <color_white>x%.2f</color>\n" ), cost );
 }
-static std::string mouth_stamina_cost_text( int cost )
+static std::string mouth_stamina_cost_text( float cost )
 {
-    return string_format( _( "Stamina Regeneration: <color_white>%+d</color>\n" ), cost );
+    return string_format( _( "Stamina Regeneration: <color_white>x%.2f</color>\n" ), cost );
 }
 static std::string ranged_cost_text( double disp )
 {
@@ -224,7 +226,7 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
             s += dodge_skill_text( -( eff_encumbrance / 10.0 ) );
             s += swim_cost_text( ( eff_encumbrance / 10.0 ) * ( 80 - p.get_skill_level(
                                      skill_swimming ) * 3 ) );
-            s += melee_cost_text( eff_encumbrance );
+            s += melee_cost_text( p.melee_thrown_move_modifier_torso() );
             break;
         }
         case bp_head:
@@ -232,30 +234,28 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
             break;
         case bp_eyes:
             s += string_format(
-                     _( "Perception when checking traps or firing ranged weapons: <color_white>%+d</color>\n"
-                        "Dispersion when throwing items: <color_white>%+d</color>" ),
-                     -( eff_encumbrance / 10 ),
-                     eff_encumbrance * 10 );
+                     _( "Dispersion when throwing or firing: <color_white>x%.2f</color>" ),
+                     p.vision_score() );
             break;
         case bp_mouth:
             s += _( "<color_magenta>Covering your mouth will make it more difficult to breathe and catch your breath.</color>\n" );
-            s += mouth_stamina_cost_text( -( eff_encumbrance / 5 ) );
+            s += mouth_stamina_cost_text( p.stamina_recovery_breathing_modifier() );
             break;
         case bp_arm_l:
         case bp_arm_r:
             s += _( "<color_magenta>Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons.</color>\n" );
-            s += melee_stamina_cost_text( eff_encumbrance );
-            s += ranged_cost_text( eff_encumbrance / 5.0 );
+            s += melee_stamina_cost_text( p.melee_stamina_cost_modifier() );
+            s += ranged_cost_text( p.ranged_dispersion_modifier_hands() );
             break;
         case bp_hand_l:
         case bp_hand_r:
             s += _( "<color_magenta>Reduces the speed at which you can handle or manipulate items.</color>\n\n" );
-            s += reload_cost_text( ( eff_encumbrance / 10 ) * 15 );
-            s += string_format( _( "Dexterity when throwing items: <color_white>%+.1f</color>\n" ),
-                                -( eff_encumbrance / 10.0f ) );
-            s += melee_cost_text( eff_encumbrance / 2 );
-            s += string_format( _( "Reduced gun aim speed: <color_white>%.1f</color>" ),
-                                p.aim_speed_encumbrance_modifier() );
+            s += reload_cost_text( p.reloading_move_modifier() );
+            s += string_format( _( "Dexterity when throwing items: <color_white>x%.2f</color>\n" ),
+                                p.thrown_dex_modifier() );
+            s += melee_cost_text( p.melee_thrown_move_modifier_hands() );
+            s += string_format( _( "Gun aim speed modifier: <color_white>x%.2f</color>" ),
+                                p.aim_speed_modifier() );
             break;
         case bp_leg_l:
         case bp_leg_r:
@@ -342,7 +342,8 @@ static void draw_proficiencies_tab( const catacurses::window &win, const unsigne
         if( !cur.known && cur.id->can_learn() ) {
             static_assert( grid_width == 26, "Reminder to update formatting"
                            "for this string when grid width changes" );
-            name = string_format( "%-21s %2.0f%%", trim_by_length( cur.id->name(), width - 4 ),
+            name = string_format( "%s %2.0f%%",
+                                  left_justify( trim_by_length( cur.id->name(), width - 4 ), 21 ),
                                   std::floor( cur.practice * 100 ) );
         } else {
             name = trim_by_length( cur.id->name(), width );
@@ -463,7 +464,7 @@ static void draw_stats_info( const catacurses::window &w_info,
                            "your resistance to many diseases, and the effectiveness of actions which require brute force." ) );
         print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
                             string_format( _( "Base HP: <color_white>%d</color>" ),
-                                           you.get_part_hp_max( bodypart_id( "torso" ) ) ) );
+                                           you.get_part_hp_max( you.get_root_body_part() ) ) );
         print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
                             string_format( _( "Carry weight (%s): <color_white>%.1f</color>" ), weight_units(),
                                            convert_weight( you.weight_capacity() ) ) );
@@ -489,7 +490,7 @@ static void draw_stats_info( const catacurses::window &w_info,
                            "electronics crafting.  It also affects how much skill you can pick up from reading a book." ) );
         if( you.rust_rate() ) {
             print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
-                                string_format( _( "Skill rust: <color_white>%d%%</color>" ), you.rust_rate() ) );
+                                string_format( _( "Skill rust delay: <color_white>%d%%</color>" ), you.rust_rate() ) );
         }
         print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
                             string_format( _( "Read times: <color_white>%d%%</color>" ), you.read_speed( false ) ) );
@@ -513,7 +514,7 @@ static void draw_stats_info( const catacurses::window &w_info,
                                              " which in turn shows how prepared you are to survive for a time without food."
                                              "  Having too much, or too little, can be unhealthy." ) );
         fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
-                        you.get_weight_description() );
+                        you.get_weight_long_description() );
     } else if( line == 5 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
@@ -533,7 +534,8 @@ static void draw_stats_info( const catacurses::window &w_info,
         fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
                         string_format( _( "Blood type: %s" ), io::enum_to_string( you.my_blood_type ) ) );
         fold_and_print( w_info, point( 1, 2 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
-                        string_format( _( "Rh factor: %s" ), you.blood_rh_factor ? "positive (+)" : "negative (-)" ) );
+                        string_format( _( "Rh factor: %s" ),
+                                       you.blood_rh_factor ? _( "positive (+)" ) : _( "negative (-)" ) ) );
     }
     wnoutrefresh( w_info );
 }
@@ -631,11 +633,23 @@ static void draw_bionics_tab( const catacurses::window &w_bionics,
     const bool is_current_tab = curtab == player_display_tab::bionics;
     const nc_color title_col = is_current_tab ? h_light_gray : c_light_gray;
     center_print( w_bionics, 0, title_col, _( title_BIONICS ) );
+    int power_amount;
+    std::string power_unit;
+    if( you.get_power_level() < 1_J ) {
+        power_amount = units::to_millijoule( you.get_power_level() );
+        power_unit = pgettext( "energy unit: millijoule", "mJ" );
+    } else if( you.get_power_level() < 1_kJ ) {
+        power_amount = units::to_joule( you.get_power_level() );
+        power_unit = pgettext( "energy unit: joule", "J" );
+    } else {
+        power_amount = units::to_kilojoule( you.get_power_level() );
+        power_unit = pgettext( "energy unit: kilojoule", "kJ" );
+    }
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     trim_and_print( w_bionics, point( 1, 1 ), getmaxx( w_bionics ) - 1, c_white,
-                    string_format( _( "Bionic Power: <color_light_blue>%1$d</color>"
-                                      " / <color_light_blue>%2$d</color>" ),
-                                   units::to_kilojoule( you.get_power_level() ), units::to_kilojoule( you.get_max_power_level() ) ) );
+                    string_format( _( "Power: <color_light_blue>%1$d %2$s</color>"
+                                      " / <color_light_blue>%3$d kJ</color>" ),
+                                   power_amount, power_unit, units::to_kilojoule( you.get_max_power_level() ) ) );
 
     const size_t useful_y = bionics_win_size_y - 2;
     const size_t half_y = useful_y / 2;
@@ -814,7 +828,9 @@ static void draw_skills_tab( const catacurses::window &w_skills,
             mvwprintz( w_skills, point( 1, y_pos ), cstatus, "%s:", aSkill->name() );
             if( aSkill->ident() == skill_id( "dodge" ) ) {
                 mvwprintz( w_skills, point( 14, y_pos ), cstatus, "%4.1f/%-2d(%2d%%)",
-                           you.get_dodge(), level_num, exercise < 0 ? 0 : exercise );
+                           you.get_dodge(),
+                           level_num,
+                           ( exercise < 0 ? 0 : exercise ) );
             } else {
                 mvwprintz( w_skills, point( 19, y_pos ), cstatus, "%-2d(%2d%%)",
                            level_num,
@@ -846,9 +862,14 @@ static void draw_skills_info( const catacurses::window &w_info, unsigned int lin
     werase( w_info );
 
     if( selectedSkill ) {
+        const SkillLevel &level = get_avatar().get_skill_level_object( selectedSkill->ident() );
+        std::string info_text = selectedSkill->description();
+        if( level.isRusting() ) {
+            info_text = string_format( _( "%s\n\nKnowledge level: %d (%d%%)" ), info_text,
+                                       level.knowledgeLevel(), level.knowledgeExperience() );
+        }
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray,
-                        selectedSkill->description() );
+        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray, info_text );
     }
     wnoutrefresh( w_info );
 }
@@ -921,20 +942,11 @@ static void draw_speed_tab( const catacurses::window &w_speed,
         }
     }
 
-    int quick_bonus = static_cast<int>( newmoves - ( newmoves / 1.1 ) );
-    int bio_speed_bonus = quick_bonus;
-    if( you.has_trait( trait_id( "QUICK" ) ) && you.has_bionic( bionic_id( "bio_speed" ) ) ) {
-        bio_speed_bonus = static_cast<int>( newmoves / 1.1 - ( newmoves / 1.1 / 1.1 ) );
-        std::swap( quick_bonus, bio_speed_bonus );
-    }
-    if( you.has_trait( trait_id( "QUICK" ) ) ) {
+    const int speed_modifier = you.get_enchantment_speed_bonus();
+
+    if( speed_modifier != 0 ) {
         mvwprintz( w_speed, point( 1, line ), c_green,
-                   pgettext( "speed bonus", "Quick               +%2d%%" ), quick_bonus );
-        line++;
-    }
-    if( you.has_bionic( bionic_id( "bio_speed" ) ) ) {
-        mvwprintz( w_speed, point( 1, line ), c_green,
-                   pgettext( "speed bonus", "Bionic Speed        +%2d%%" ), bio_speed_bonus );
+                   pgettext( "speed bonus", "Bio/Mut/Effects     +%2d" ), speed_modifier );
         line++;
     }
 
@@ -1172,16 +1184,19 @@ void player::disp_info()
     std::vector<std::pair<std::string, std::string>> effect_name_and_text;
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
-            const std::string tmp = _effect_it.second.disp_name();
-            if( tmp.empty() ) {
+            const std::string name = _effect_it.second.disp_name();
+            if( name.empty() ) {
                 continue;
             }
-            effect_name_and_text.push_back( { tmp, _effect_it.second.disp_desc() } );
+            effect_name_and_text.emplace_back( name, _effect_it.second.disp_desc() );
         }
     }
     if( get_perceived_pain() > 0 ) {
         const stat_mod ppen = get_pain_penalty();
+        std::pair<std::string, nc_color> pain_desc = get_pain_description();
         std::string pain_text;
+        pain_desc.first = string_format( _( "You are in %s\n" ), pain_desc.first );
+        pain_text += colorize( pain_desc.first, pain_desc.second );
         const auto add_if = [&]( const int amount, const char *const name ) {
             if( amount > 0 ) {
                 pain_text += string_format( name, amount ) + "   ";
@@ -1192,7 +1207,7 @@ void player::disp_info()
         add_if( ppen.intelligence, _( "Intelligence -%d" ) );
         add_if( ppen.perception, _( "Perception -%d" ) );
         add_if( ppen.speed, _( "Speed -%d %%" ) );
-        effect_name_and_text.push_back( { _( "Pain" ), pain_text } );
+        effect_name_and_text.emplace_back( _( "Pain" ), pain_text );
     }
 
     const float bmi = get_bmi();
@@ -1221,30 +1236,30 @@ void player::disp_info()
                                str_penalty * 50.0f );
         }
 
-        effect_name_and_text.push_back( { starvation_name, starvation_text } );
+        effect_name_and_text.emplace_back( starvation_name, starvation_text );
     }
 
     if( has_trait( trait_id( "TROGLO" ) ) && g->is_in_sunlight( pos() ) &&
         get_weather().weather_id->sun_intensity >= sun_intensity_type::high ) {
-        effect_name_and_text.push_back( { _( "In Sunlight" ),
-                                          _( "The sunlight irritates you.\n"
-                                             "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" )
-                                        } );
+        effect_name_and_text.emplace_back( _( "In Sunlight" ),
+                                           _( "The sunlight irritates you.\n"
+                                              "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" )
+                                         );
     } else if( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) ) {
-        effect_name_and_text.push_back( { _( "In Sunlight" ),
-                                          _( "The sunlight irritates you badly.\n"
-                                             "Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2" )
-                                        } );
+        effect_name_and_text.emplace_back( _( "In Sunlight" ),
+                                           _( "The sunlight irritates you badly.\n"
+                                              "Strength - 2;    Dexterity - 2;    Intelligence - 2;    Perception - 2" )
+                                         );
     } else if( has_trait( trait_id( "TROGLO3" ) ) && g->is_in_sunlight( pos() ) ) {
-        effect_name_and_text.push_back( { _( "In Sunlight" ),
-                                          _( "The sunlight irritates you terribly.\n"
-                                             "Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" )
-                                        } );
+        effect_name_and_text.emplace_back( _( "In Sunlight" ),
+                                           _( "The sunlight irritates you terribly.\n"
+                                              "Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" )
+                                         );
     }
 
     for( auto &elem : addictions ) {
         if( elem.sated < 0_turns && elem.intensity >= MIN_ADDICTION_LEVEL ) {
-            effect_name_and_text.push_back( { addiction_name( elem ), addiction_text( elem ) } );
+            effect_name_and_text.emplace_back( addiction_name( elem ), addiction_text( elem ) );
         }
     }
 

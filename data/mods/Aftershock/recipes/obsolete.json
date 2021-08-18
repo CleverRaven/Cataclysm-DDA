@@ -33,6 +33,11 @@
     "obsolete": true
   },
   {
+    "result": "afs_sungel",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
     "result": "boots_bone",
     "type": "recipe",
     "obsolete": true
@@ -50,6 +55,31 @@
   {
     "result": "armor_bone",
     "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "afs_basin",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "afs_rope_lighter",
+    "obsolete": true
+  },
+  {
+    "result": "rolling_pin",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "result": "afs_rolling_pin_barbed_wire",
+    "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "afs_chain_wrench",
     "obsolete": true
   },
   {
@@ -86,6 +116,26 @@
   {
     "result": "afs_sunesthesia",
     "type": "recipe",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "purifier_smart_shot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "afs_metal_rig",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "afs_kitchen_rig",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "afs_cooking_rig",
     "obsolete": true
   }
 ]

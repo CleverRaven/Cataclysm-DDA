@@ -32,6 +32,6 @@
     "range": 3,
     "damage": { "damage_type": "bullet", "amount": 3, "armor_penetration": 1 },
     "dispersion": 180,
-    "effects": [ "NON-FOULING" ]
+    "effects": [ "NON_FOULING" ]
   }
 ]

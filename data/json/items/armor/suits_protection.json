@@ -1,56 +1,5 @@
 [
   {
-    "id": "aep_suit",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "AEP suit" },
-    "description": "An armored environmental protection suit.  Custom-built from a cleansuit and body armor, it provides excellent protection against both physical harm and ambient radiation.",
-    "weight": "7200 g",
-    "volume": "9 L",
-    "price": 140000,
-    "price_postapoc": 6000,
-    "material": [ "kevlar_layered", "plastic" ],
-    "symbol": "[",
-    "looks_like": "hazmat_suit",
-    "color": "light_red",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 100,
-    "encumbrance": 10,
-    "max_encumbrance": 20,
-    "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
-    ],
-    "warmth": 35,
-    "material_thickness": 7,
-    "environmental_protection": 9,
-    "flags": [ "VARSIZE", "WATERPROOF", "HOOD", "RAINPROOF", "STURDY", "RAD_RESIST", "OUTER" ]
-  },
-  {
-    "id": "anbc_suit",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": { "str": "ANBC suit" },
-    "description": "An armored, impermeable full-body suit that functions as body armor, as well as protecting from nuclear, biological, and chemical hazards.  It requires a separate gas mask for full protection.",
-    "weight": "8700 g",
-    "volume": "20 L",
-    "price": 400000,
-    "price_postapoc": 9000,
-    "material": [ "kevlar_layered", "plastic" ],
-    "symbol": "[",
-    "looks_like": "hazmat_suit",
-    "color": "light_red",
-    "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "coverage": 100,
-    "encumbrance": 35,
-    "warmth": 50,
-    "material_thickness": 7,
-    "environmental_protection": 20,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ]
-  },
-  {
     "id": "armor_blarmor",
     "type": "ARMOR",
     "category": "armor",
@@ -66,13 +15,26 @@
     "symbol": "[",
     "looks_like": "armor_larmor",
     "color": "brown",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 18,
-    "max_encumbrance": 22,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 18, 22 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 18, 18 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 18, 18 ] }
+    ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "165 mm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "165 mm",
+        "moves": 80
+      }
     ],
     "warmth": 20,
     "material_thickness": 5,
@@ -84,7 +46,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "chitinous armor" },
-    "description": "Leg and body armor made from the exoskeletons of insects.  Light and durable.",
+    "description": "Leg and body armor made from the exoskeletons of insects.",
     "weight": "2632 g",
     "volume": "17500 ml",
     "price": 120000,
@@ -95,17 +57,15 @@
     "symbol": "[",
     "looks_like": "armor_larmor",
     "color": "green",
-    "covers": [ "torso", "leg_l", "leg_r" ],
-    "coverage": 90,
-    "encumbrance": 10,
     "warmth": 10,
     "material_thickness": 4,
-    "flags": [ "STURDY" ]
+    "flags": [ "STURDY" ],
+    "armor": [ { "encumbrance": 10, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "xl_armor_chitin",
     "type": "ARMOR",
-    "name": { "str": "oversized chitinous armor" },
+    "name": { "str": "XL chitinous armor" },
     "copy-from": "armor_chitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "STURDY", "OVERSIZE" ]
@@ -116,18 +76,19 @@
     "looks_like": "armor_chitin",
     "type": "ARMOR",
     "name": { "str": "biosilicified chitin armor" },
-    "description": "Leg and body armor crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable.",
+    "description": "Leg and body armor crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
     "material": [ "acidchitin" ],
     "material_thickness": 5,
     "environmental_protection": 2,
     "price_postapoc": 3500,
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "bashing": 1 }
+    "relative": { "bashing": 1 },
+    "extend": { "flags": [ "NO_REPAIR" ] }
   },
   {
     "id": "xl_armor_acidchitin",
     "type": "ARMOR",
-    "name": { "str": "oversized chitin armor" },
+    "name": { "str": "XL biosilicified chitin armor" },
     "copy-from": "armor_acidchitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "STURDY", "OVERSIZE" ]
@@ -137,7 +98,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "fur body armor" },
-    "description": "Thick body armor made from furs.  Warm and comfortable.",
+    "description": "Thick body armor made from furs.",
     "weight": "3414 g",
     "volume": "10 L",
     "price": 100000,
@@ -148,13 +109,26 @@
     "symbol": "[",
     "looks_like": "armor_larmor",
     "color": "brown",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 21,
-    "max_encumbrance": 25,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 21, 25 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 21, 21 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 21, 21 ] }
+    ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "165 mm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "165 mm",
+        "moves": 80
+      }
     ],
     "warmth": 60,
     "material_thickness": 4,
@@ -164,7 +138,7 @@
   {
     "id": "xl_armor_farmor",
     "type": "ARMOR",
-    "name": { "str": "oversized fur armor" },
+    "name": { "str": "XL fur body armor" },
     "copy-from": "armor_farmor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY", "OVERSIZE" ]
@@ -185,13 +159,25 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "brown",
-    "covers": [ "torso", "leg_l", "leg_r" ],
-    "coverage": 90,
-    "encumbrance": 12,
-    "max_encumbrance": 20,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 12, 18 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 12, 12 ] }
+    ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "165 mm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "165 mm",
+        "moves": 80
+      }
     ],
     "warmth": 25,
     "material_thickness": 4,
@@ -201,7 +187,7 @@
   {
     "id": "xl_armor_larmor",
     "type": "ARMOR",
-    "name": { "str": "oversized leather armor" },
+    "name": { "str": "XL leather body armor" },
     "copy-from": "armor_larmor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "POCKETS", "STURDY", "OVERSIZE" ]
@@ -212,7 +198,7 @@
     "category": "armor",
     "name": { "str": "plate armor" },
     "description": "A suit of Gothic plate armor.",
-    "weight": "11000 g",
+    "weight": "11 kg",
     "volume": "17500 ml",
     "price": 60000,
     "price_postapoc": 12000,
@@ -222,17 +208,15 @@
     "symbol": "[",
     "looks_like": "armor_larmor",
     "color": "light_gray",
-    "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-    "coverage": 95,
-    "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ]
+    "flags": [ "VARSIZE", "OUTER", "STURDY" ],
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_armor_lightplate",
     "type": "ARMOR",
-    "name": { "str": "oversized light plate armor" },
+    "name": { "str": "XL plate armor" },
     "copy-from": "armor_lightplate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "OUTER", "STURDY", "OVERSIZE" ]
@@ -251,10 +235,11 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "light_red",
-    "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-    "coverage": 95,
-    "encumbrance": 10,
-    "max_encumbrance": 20,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 10, 16 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 10, 14 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 10, 13 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "8 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "8 kg", "moves": 80 },
@@ -288,10 +273,11 @@
     "looks_like": "armor_nomad",
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-    "coverage": 80,
-    "encumbrance": 8,
-    "max_encumbrance": 16,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 80, "encumbrance": [ 8, 12 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 80, "encumbrance": [ 8, 12 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 80, "encumbrance": [ 8, 10 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "8 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "8 kg", "moves": 80 },
@@ -315,7 +301,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "plated leather armor" },
-    "description": "Thick leather body armor that has been reinforced with strategically-placed metal plates.  Strong and comfortable.",
+    "description": "Thick leather body armor that has been reinforced with strategically-placed metal plates.",
     "weight": "4280 g",
     "volume": "9 L",
     "price": 110000,
@@ -325,16 +311,41 @@
     "material": [ "leather", "iron" ],
     "symbol": "[",
     "color": "brown",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
     "looks_like": "armor_larmor",
-    "coverage": 90,
-    "encumbrance": 17,
-    "max_encumbrance": 24,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 90, "encumbrance": [ 17, 22 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 90, "encumbrance": [ 17, 19 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 90, "encumbrance": [ 17, 17 ] }
+    ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 120 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "165 mm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "800 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "165 mm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "145 mm",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "500 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "145 mm",
+        "moves": 120
+      }
     ],
     "warmth": 25,
     "material_thickness": 4,
@@ -344,7 +355,7 @@
   {
     "id": "xl_armor_plarmor",
     "type": "ARMOR",
-    "name": { "str": "oversized plated leather armor" },
+    "name": { "str": "XL plated leather armor" },
     "copy-from": "armor_plarmor",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "POCKETS", "STURDY", "OVERSIZE" ]
@@ -355,7 +366,7 @@
     "category": "armor",
     "name": { "str": "ornamental plate armor" },
     "description": "An extremely heavy suit of ornamental armor.",
-    "weight": "18000 g",
+    "weight": "18 kg",
     "volume": "30 L",
     "price": 780000,
     "price_postapoc": 6000,
@@ -365,20 +376,18 @@
     "symbol": "[",
     "looks_like": "armor_lightplate",
     "color": "light_gray",
-    "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-    "coverage": 90,
-    "encumbrance": 45,
     "warmth": 20,
     "material_thickness": 5,
-    "flags": [ "VARSIZE", "OUTER", "FANCY" ]
+    "flags": [ "VARSIZE", "OUTER" ],
+    "armor": [ { "encumbrance": 45, "coverage": 90, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_armor_plate",
     "type": "ARMOR",
-    "name": { "str": "oversized ornamental plate armor" },
+    "name": { "str": "XL ornamental plate armor" },
     "copy-from": "armor_plate",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
-    "flags": [ "VARSIZE", "OUTER", "FANCY", "OVERSIZE" ]
+    "flags": [ "VARSIZE", "OUTER", "OVERSIZE" ]
   },
   {
     "id": "armor_riot",
@@ -386,7 +395,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": { "str": "riot armor" },
-    "description": "Black armor used by riot police officers.  The padded layers and hard plastic shoulder guards offer good protection without much encumbrance.  The word POLICE is emblazoned across the front.",
+    "description": "Black body armor used by riot police officers, back when they were just riots.  The word POLICE is emblazoned across the front.",
     "weight": "4000 g",
     "volume": "7500 ml",
     "price": 35000,
@@ -397,12 +406,10 @@
     "symbol": "[",
     "looks_like": "kevlar",
     "color": "light_gray",
-    "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-    "coverage": 85,
-    "encumbrance": 10,
     "warmth": 10,
     "material_thickness": 6,
-    "flags": [ "STURDY", "OUTER" ]
+    "flags": [ "STURDY", "OUTER" ],
+    "armor": [ { "encumbrance": 10, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "armor_samurai",
@@ -419,12 +426,10 @@
     "symbol": "[",
     "looks_like": "armor_lightplate",
     "color": "dark_gray",
-    "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r" ],
-    "coverage": 85,
-    "encumbrance": 15,
     "warmth": 25,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "STURDY", "OUTER" ],
+    "armor": [ { "encumbrance": 15, "coverage": 85, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r" ] } ]
   },
   {
     "id": "armor_scavenger",
@@ -440,10 +445,11 @@
     "symbol": "[",
     "looks_like": "armor_nomad",
     "color": "green",
-    "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-    "coverage": 100,
-    "encumbrance": 15,
-    "max_encumbrance": 30,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 15, 26 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 15, 19 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 15, 15 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "8 L", "max_contains_weight": "16 kg", "moves": 150 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "8 kg", "moves": 100 },
@@ -475,12 +481,10 @@
     "symbol": "[",
     "looks_like": "armor_lightplate",
     "color": "light_gray",
-    "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
-    "coverage": 80,
-    "encumbrance": 18,
-    "warmth": 20,
+    "warmth": 10,
     "material_thickness": 2,
-    "flags": [ "OUTER" ]
+    "flags": [ "OUTER" ],
+    "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "beekeeping_suit",
@@ -497,15 +501,19 @@
     "symbol": "[",
     "looks_like": "hazmat_suit",
     "color": "white",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 100,
-    "encumbrance": 10,
-    "max_encumbrance": 17,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 10, 15 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 10, 12 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 10, 10 ] }
+    ],
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 120 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 150 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 150 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1600 ml",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "18 cm",
+        "moves": 120
+      }
     ],
     "warmth": 25,
     "material_thickness": 2,
@@ -527,17 +535,15 @@
     "symbol": "[",
     "looks_like": "armor_blarmor",
     "color": "light_red",
-    "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-    "coverage": 95,
-    "encumbrance": 20,
     "warmth": 30,
     "material_thickness": 6,
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "xl_chainmail_hauberk",
     "type": "ARMOR",
-    "name": { "str": "oversized chainmail hauberk" },
+    "name": { "str": "XL chainmail hauberk" },
     "copy-from": "chainmail_hauberk",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
@@ -557,17 +563,15 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "light_red",
-    "covers": [ "torso", "head", "arm_l", "arm_r", "leg_l", "leg_r" ],
-    "coverage": 95,
-    "encumbrance": 20,
     "warmth": 30,
     "material_thickness": 6,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ]
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ],
+    "armor": [ { "encumbrance": 20, "coverage": 95, "covers": [ "torso", "head", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "xl_chainmail_suit",
     "type": "ARMOR",
-    "name": { "str": "oversized chainmail armor" },
+    "name": { "str": "XL chainmail armor" },
     "copy-from": "chainmail_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "HELMET_COMPAT" ]
@@ -586,15 +590,19 @@
     "material": [ "iron", "cotton" ],
     "symbol": "[",
     "color": "light_red",
-    "covers": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
-    "coverage": 100,
-    "encumbrance": 30,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "ELECTRIC_IMMUNE", "OUTER" ]
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT", "ELECTRIC_IMMUNE", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": 30,
+        "coverage": 100,
+        "covers": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ]
+      }
+    ]
   },
   {
     "id": "cleansuit",
-    "repairs_like": "aep_suit",
+    "repairs_like": "fsurvivor_suit",
     "type": "ARMOR",
     "name": { "str": "cleansuit" },
     "description": "A simple hazardous materials handling suit.  Though somewhat restrictive and fragile, wearing it will provide excellent protection against ambient radiation.",
@@ -606,19 +614,23 @@
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "white",
-    "covers": [ "leg_l", "leg_r", "foot_l", "foot_r", "head", "torso", "arm_l", "arm_r" ],
-    "coverage": 100,
-    "encumbrance": 25,
     "warmth": 10,
     "material_thickness": 1,
     "environmental_protection": 10,
-    "flags": [ "VARSIZE", "WATERPROOF", "HOOD", "RAINPROOF", "RAD_RESIST", "OUTER" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "HOOD", "RAINPROOF", "RAD_RESIST", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": 25,
+        "coverage": 100,
+        "covers": [ "leg_l", "leg_r", "foot_l", "foot_r", "head", "torso", "arm_l", "arm_r" ]
+      }
+    ]
   },
   {
     "id": "entry_suit",
     "type": "ARMOR",
     "name": { "str": "entry suit" },
-    "description": "A flame-resistant whole-body garment worn by firefighters as protection against extreme heat.  Though very restrictive, wearing it will provide excellent protection against fire and smoke.  It requires a separate gas mask for full protection.",
+    "description": "A flame-resistant whole-body garment worn by firefighters as protection against extreme heat.  It requires a separate gas mask for full protection against smoke.",
     "weight": "2900 g",
     "volume": "6 L",
     "price": 240500,
@@ -627,18 +639,22 @@
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "light_gray",
-    "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "coverage": 100,
-    "encumbrance": 50,
     "warmth": 30,
     "material_thickness": 5,
     "environmental_protection": 20,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": 50,
+        "coverage": 100,
+        "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
   },
   {
     "id": "xl_entry_suit",
     "type": "ARMOR",
-    "name": { "str": "oversized entry suit" },
+    "name": { "str": "XL entry suit" },
     "copy-from": "entry_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "OVERSIZE" ]
@@ -659,10 +675,11 @@
     "symbol": "[",
     "looks_like": "survivor_suit",
     "color": "light_gray",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 100,
-    "encumbrance": 15,
-    "max_encumbrance": 30,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 10, 26 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 10, 14 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 10, 10 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
@@ -680,10 +697,34 @@
   {
     "id": "xl_fsurvivor_suit",
     "type": "ARMOR",
-    "name": { "str": "oversized fire survivor suit" },
+    "name": { "str": "XL survivor firesuit" },
     "copy-from": "fsurvivor_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "POCKETS", "STURDY", "OVERSIZE" ]
+  },
+  {
+    "id": "wsurvivor_suit_nofur",
+    "type": "ARMOR",
+    "name": { "str": "winter survivor suit" },
+    "description": "A warm and heavy hand-built combination armor made from a reinforced bulletproof vest and a faux fur insulated leather jumpsuit.  Protects from the elements as well as from harm.",
+    "copy-from": "wsurvivor_suit",
+    "material": [ "kevlar_layered", "faux_fur" ],
+    "symbol": "[",
+    "warmth": 65,
+    "looks_like": "survivor_suit",
+    "color": "pink"
+  },
+  {
+    "id": "xl_wsurvivor_suit_nofur",
+    "type": "ARMOR",
+    "name": { "str": "XL winter survivor suit" },
+    "copy-from": "wsurvivor_suit",
+    "material": [ "kevlar_layered", "faux_fur" ],
+    "description": "A warm, heavy and oversized hand-built combination armor made from a reinforced bulletproof vest and a faux fur insulated leather jumpsuit.  Protects from the elements as well as from harm.",
+    "color": "pink",
+    "warmth": 65,
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
+    "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "gambeson",
@@ -699,28 +740,26 @@
     "symbol": "[",
     "looks_like": "coat_winter",
     "color": "light_gray",
-    "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ],
-    "coverage": 80,
-    "encumbrance": 15,
     "warmth": 30,
     "material_thickness": 5,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ],
+    "armor": [ { "encumbrance": 15, "coverage": 80, "covers": [ "torso", "arm_l", "arm_r", "leg_l", "leg_r" ] } ]
   },
   {
     "id": "xl_gambeson",
     "type": "ARMOR",
-    "name": { "str": "oversized gambeson" },
+    "name": { "str": "XL gambeson" },
     "copy-from": "gambeson",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "hazmat_suit",
-    "repairs_like": "aep_suit",
+    "repairs_like": "fsurvivor_suit",
     "type": "ARMOR",
     "name": { "str": "hazmat suit" },
-    "description": "An impermeable whole-body garment worn as protection against hazardous materials.  Though very restrictive and fragile, wearing it will provide complete protection against ambient radiation.  It requires a separate gas mask for full protection.",
+    "description": "An impermeable whole-body garment worn as protection against hazardous materials.  Restrictive and fragile, wearing it will provide complete protection against ambient radiation.  It requires a separate gas mask for full protection.",
     "weight": "5000 g",
     "volume": "17 L",
     "price": 117500,
@@ -729,13 +768,17 @@
     "symbol": "[",
     "looks_like": "beekeeping_suit",
     "color": "yellow",
-    "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "coverage": 100,
-    "encumbrance": 37,
     "warmth": 40,
     "material_thickness": 2,
     "environmental_protection": 20,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ],
+    "armor": [
+      {
+        "encumbrance": 37,
+        "coverage": 100,
+        "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ]
   },
   {
     "id": "hsurvivor_suit",
@@ -753,10 +796,11 @@
     "symbol": "[",
     "looks_like": "survivor_suit",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 100,
-    "encumbrance": 17,
-    "max_encumbrance": 35,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 17, 31 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 17, 21 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 17, 17 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
@@ -782,10 +826,11 @@
     "symbol": "[",
     "looks_like": "survivor_suit",
     "color": "green",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 100,
-    "encumbrance": 7,
-    "max_encumbrance": 15,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 7, 15 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
@@ -800,7 +845,7 @@
   {
     "id": "xl_lsurvivor_suit",
     "type": "ARMOR",
-    "name": { "str": "xl light survivor suit" },
+    "name": { "str": "XL light survivor suit" },
     "copy-from": "lsurvivor_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OVERSIZE" ]
@@ -819,25 +864,23 @@
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "light_gray",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 100,
-    "encumbrance": 6,
     "warmth": 5,
     "material_thickness": 2,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY" ],
+    "armor": [ { "encumbrance": 6, "coverage": 100, "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "xl_nomex_suit",
     "type": "ARMOR",
-    "name": { "str": "xl nomex suit" },
+    "name": { "str": "XL flame-resistant suit" },
     "copy-from": "nomex_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY", "OVERSIZE" ]
   },
   {
     "id": "robofac_enviro_suit",
-    "repairs_like": "aep_suit",
+    "repairs_like": "fsurvivor_suit",
     "type": "ARMOR",
     "name": { "str": "Hub 01 environmental suit" },
     "description": "A lightweight environmental suit worn by Hub personnel in their rare forays aboveground.  Colored brown and blue, the white seal of Hub 01 is embroidered on both of its upper arms.  It requires a separate gas mask for full protection.",
@@ -849,10 +892,14 @@
     "symbol": "[",
     "looks_like": "hazmat_suit",
     "color": "brown",
-    "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "coverage": 100,
-    "encumbrance": 7,
-    "max_encumbrance": 15,
+    "armor": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 7, 13 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 7, 10 ] },
+      { "covers": [ "foot_l", "foot_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] },
+      { "covers": [ "hand_l", "hand_r" ], "coverage": 100, "encumbrance": [ 7, 7 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 80 },
@@ -879,12 +926,10 @@
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "dark_gray",
-    "covers": [ "foot_l", "foot_r", "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 95,
-    "encumbrance": 18,
     "warmth": 15,
     "material_thickness": 1,
-    "flags": [ "VARSIZE", "SKINTIGHT", "HOOD", "WATERPROOF", "SLOWS_THIRST", "SLOWS_MOVEMENT" ]
+    "flags": [ "VARSIZE", "SKINTIGHT", "HOOD", "WATERPROOF", "SLOWS_THIRST", "SLOWS_MOVEMENT" ],
+    "armor": [ { "encumbrance": 18, "coverage": 95, "covers": [ "foot_l", "foot_r", "leg_l", "leg_r", "torso", "arm_l", "arm_r" ] } ]
   },
   {
     "id": "suit",
@@ -901,10 +946,11 @@
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "light_gray",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 95,
-    "encumbrance": 7,
-    "max_encumbrance": 15,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 7, 13 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 7, 10 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 7, 7 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
@@ -933,10 +979,11 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "brown",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 100,
-    "encumbrance": 12,
-    "max_encumbrance": 25,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 12, 20 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 12, 17 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 12, 12 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
@@ -967,7 +1014,11 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "dark_gray",
-    "armor_portion_data": [ { "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 12, 25 ] } ],
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 12, 19 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 12, 16 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 12, 12 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
@@ -996,10 +1047,11 @@
     "symbol": "[",
     "looks_like": "jumpsuit",
     "color": "light_red",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 95,
-    "encumbrance": 14,
-    "max_encumbrance": 15,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 14, 15 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 95, "encumbrance": [ 14, 14 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 14, 14 ] }
+    ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "2 kg", "moves": 80 } ],
     "warmth": 25,
     "material_thickness": 3,
@@ -1023,10 +1075,11 @@
     "symbol": "[",
     "looks_like": "survivor_suit",
     "color": "light_gray",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 100,
-    "encumbrance": 18,
-    "max_encumbrance": 37,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 20, 28 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 20, 25 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 20, 20 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
@@ -1042,7 +1095,7 @@
   {
     "id": "xl_wsurvivor_suit",
     "type": "ARMOR",
-    "name": { "str": "oversized winter survivor suit" },
+    "name": { "str": "XL winter survivor suit" },
     "copy-from": "wsurvivor_suit",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY", "OVERSIZE" ]
@@ -1063,10 +1116,11 @@
     "symbol": "[",
     "looks_like": "survivor_suit",
     "color": "brown",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 100,
-    "encumbrance": 17,
-    "max_encumbrance": 35,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 17, 30 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 17, 22 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 17, 17 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
@@ -1097,10 +1151,11 @@
     "symbol": "[",
     "looks_like": "hsurvivor_suit",
     "color": "dark_gray",
-    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r" ],
-    "coverage": 100,
-    "encumbrance": 22,
-    "max_encumbrance": 45,
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 100, "encumbrance": [ 22, 39 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 100, "encumbrance": [ 22, 28 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 100, "encumbrance": [ 22, 22 ] }
+    ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "6 kg", "moves": 80 },
@@ -1111,5 +1166,34 @@
     "material_thickness": 6,
     "environmental_protection": 3,
     "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
+  },
+  {
+    "id": "mil_flight_suit",
+    "type": "ARMOR",
+    "name": { "str": "military flight suit" },
+    "description": "A sage-green US military flight suit.  It has various insignia embroidered onto it.",
+    "weight": "1315 g",
+    "volume": "4687 ml",
+    "price": 22065,
+    "price_postapoc": 500,
+    "to_hit": -3,
+    "material": [ "nomex" ],
+    "symbol": "[",
+    "looks_like": "touring_suit",
+    "color": "green",
+    "armor": [
+      { "covers": [ "torso" ], "coverage": 95, "encumbrance": [ 1, 2 ] },
+      { "covers": [ "arm_l", "arm_r" ], "coverage": 50, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "leg_l", "leg_r" ], "coverage": 80, "encumbrance": [ 1, 2 ] }
+    ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+    ],
+    "warmth": 25,
+    "material_thickness": 0.8,
+    "flags": [ "VARSIZE", "POCKETS" ]
   }
 ]

@@ -1,18 +1,31 @@
 name: astyle
 
-on:
-  pull_request
+on: pull_request
 
 jobs:
-  style-json:
+  skip-duplicates:
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    # Map a step output to a job output
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@master
+        with:
+          cancel_others: 'true'
+          paths: '[".github/workflows/astyle.yml", "Makefile", ".astylerc", "**.cpp", "**.h", "**.c"]'
+  astyle-code:
     name: astyle check
+    needs: skip-duplicates
+    if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' }}
 
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v1
       with:
-        fetch-depth: 10
+        fetch-depth: 1
 
     - name: install dependencies
       run: sudo apt-get install astyle

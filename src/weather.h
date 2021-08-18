@@ -3,6 +3,7 @@
 #define CATA_SRC_WEATHER_H
 
 #include "calendar.h"
+#include "catacharset.h"
 #include "color.h"
 #include "coordinates.h"
 #include "optional.h"
@@ -41,13 +42,15 @@ static constexpr int BODYTEMP_VERY_HOT = 8000;
 static constexpr int BODYTEMP_SCORCHING = 9500;
 ///@}
 
+#include <cstdint>
+#include <iosfwd>
 #include <map>
-#include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
 class Character;
+class Creature;
 class item;
 struct rl_vec2d;
 struct trap;
@@ -80,7 +83,8 @@ struct weather_sum {
     float sunlight = 0.0f;
     int wind_amount = 0;
 };
-
+bool is_creature_outside( const Creature &target );
+void wet_character( Character &target, int amount );
 weather_type_id get_bad_weather();
 std::string get_shortdirstring( int angle );
 
@@ -127,10 +131,6 @@ std::string get_wind_arrow( int );
 std::string get_wind_desc( double );
 
 nc_color get_wind_color( double );
-/**
-* Calculates rot per hour at given temperature. Reference in weather_data.cpp
-*/
-int get_hourly_rotpoints_at_temp( int temp );
 
 /**
  * Is it warm enough to plant seeds?
@@ -155,7 +155,6 @@ int incident_sunlight( const weather_type_id &wtype,
                        const time_point &t = calendar::turn );
 
 void weather_sound( const translation &sound_message, const std::string &sound_effect );
-void wet( Character &target, int amount );
 
 class weather_manager
 {
@@ -176,7 +175,6 @@ class weather_manager
         cata::optional<int> wind_direction_override;
         cata::optional<int> windspeed_override;
         weather_type_id weather_override;
-        std::map<weather_type_id, time_point> next_instance_allowed;
         // not only sets nextweather, but updates weather as well
         void set_nextweather( time_point t );
         // The time at which weather will shift next.
@@ -188,8 +186,6 @@ class weather_manager
         // Returns outdoor or indoor temperature of given location
         int get_temperature( const tripoint_abs_omt &location );
         void clear_temp_cache();
-        void on_load();
-        static void serialize_all( JsonOut &json );
         static void unserialize_all( JsonIn &jsin );
 };
 

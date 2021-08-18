@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cstddef>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <set>
@@ -23,12 +24,10 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
-#include "player.h"
 #include "point.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "viewer.h"
@@ -51,7 +50,7 @@ void mdefense::zapback( monster &m, Creature *const source,
         return;
     }
 
-    if( const player *const foe = dynamic_cast<player *>( source ) ) {
+    if( const Character *const foe = dynamic_cast<Character *>( source ) ) {
         // Players/NPCs can avoid the shock if they wear non-conductive gear on their hands
         for( const item &i : foe->worn ) {
             if( !i.conductive()
@@ -108,7 +107,7 @@ void mdefense::acidsplash( monster &m, Creature *const source,
             return;
         }
     } else {
-        if( const player *const foe = dynamic_cast<player *>( source ) ) {
+        if( const Character *const foe = dynamic_cast<Character *>( source ) ) {
             if( foe->weapon.is_melee( damage_type::CUT ) || foe->weapon.is_melee( damage_type::STAB ) ) {
                 num_drops += rng( 3, 4 );
             }
@@ -158,7 +157,7 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
         return;
     }
 
-    const player *const foe = dynamic_cast<player *>( source );
+    const Character *const foe = dynamic_cast<Character *>( source );
     // No return fire for quiet or completely silent projectiles (bows, throwing etc).
     if( foe == nullptr || foe->weapon.gun_noise().volume < rl_dist( m.pos(), source->pos() ) ) {
         return;

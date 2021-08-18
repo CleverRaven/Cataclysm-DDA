@@ -2,7 +2,7 @@
   {
     "id": "mon_slasher",
     "type": "MONSTER",
-    "name": "Slasher Necromorph",
+    "name": "Slasher Bio-Recombinant",
     "description": "A horrifically twisted human body.  Two massive, bladed appendages have burst through its shoulders where they are poised above its head as it stalks about with terrifying purpose.",
     "default_faction": "zombie",
     "categories": [ "CLASSIC" ],
@@ -28,7 +28,6 @@
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 3 }, [ "GRAB", 7 ], [ "scratch", 10 ] ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",
@@ -48,7 +47,7 @@
   {
     "id": "mon_slasher_weak",
     "type": "MONSTER",
-    "name": "Weak Slasher Necromorph",
+    "name": "Weak Slasher Bio-Recombinant",
     "description": "A horrifically mutilated human body.  Two scrawny blades have freshly bursted through its hand to deal with prey and the haunting visage of a jawless maw and a gaping wound in its forehead sends chills down your spine.  The awkward steps it takes slows it down greatly.",
     "default_faction": "zombie",
     "categories": [ "CLASSIC" ],
@@ -74,7 +73,6 @@
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 10 ] ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",
@@ -94,7 +92,7 @@
   {
     "id": "mon_waster",
     "type": "MONSTER",
-    "name": "Waster Necromorph",
+    "name": "Waster Bio-Recombinant",
     "description": "Clad in heavy assault gear, an eerie light green glows beneath its helmet from sunken eye sockets and a gaping mouth.  Strange blade like points have burst out of it's forearms making it a formidable force to be reckoned with.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
@@ -122,13 +120,12 @@
     "harvest": "zombie",
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "death_drops": "mon_zombie_cop_death_drops",
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
   },
   {
     "id": "mon_leaper",
     "type": "MONSTER",
-    "name": "Leaper Necromorph",
+    "name": "Leaper Bio-Recombinant",
     "description": "This once-human body is barely recognizable, scrambling about on its abdomen as it leaps forward with immense arm strength.  With elongated fangs that can easily mutilate your flesh, the grotesque face roars incessantly.  The lower body has fused together into one giant tail with a barbed spike.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
@@ -162,14 +159,13 @@
       }
     ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "CLIMBS", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_twitcher",
     "type": "MONSTER",
-    "name": "Twitcher Necromorph",
+    "name": "Twitcher Bio-Recombinant",
     "description": "With narrow blades coming out of its hands, this corpse spasmically dashes to-and-fro with surprising speed.  It carries itself quite steadily when idle, further observation shows that the person before this husk was a C.R.I.T S-I G.E.A.R operator.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
@@ -211,14 +207,13 @@
       { "id": "impale" }
     ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
     "id": "mon_pack",
     "type": "MONSTER",
-    "name": "Pack Necromorph",
+    "name": "Pack Bio-Recombinant",
     "description": "A shrieking mutated child zombie.  The face is is mainly blank with eyes swollen shut and a torn-open mouth with flaps of flesh hanging to the side.  A pair of seemingly purposeless appendages sprout from its shoulders before ending in its arms.  Its small hands end in sharp claws.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE" ],
@@ -245,7 +240,6 @@
     "harvest": "zombie",
     "special_attacks": [ [ "SHRIEK", 7 ], [ "scratch", 5 ], { "type": "leap", "cooldown": 4, "max_range": 3 } ],
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "child_items", 65 ] ] },
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_child_scorched",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "CLIMBS", "FILTHY", "SWARMS" ],
     "//": "no GUILT because it no longer looks enough like a child to evoke pity"
@@ -253,7 +247,7 @@
   {
     "id": "mon_puker",
     "type": "MONSTER",
-    "name": "Puker Necromorph",
+    "name": "Puker Bio-Recombinant",
     "description": "A rather mutilated corpse covered in gaping sores.  Hanging arms with hands that have long corroded away reveal jagged edges that could easily pierce into your flesh.  A sticky, frothing yellow sludge flows from its exposed internal organs to its unhinged jaw where it drips, hissing as it eats through material.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
@@ -280,7 +274,7 @@
     "harvest": "zombie",
     "special_attacks": [ [ "ACID_BARF", 5 ] ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "ACID", "NORMAL" ],
+    "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",

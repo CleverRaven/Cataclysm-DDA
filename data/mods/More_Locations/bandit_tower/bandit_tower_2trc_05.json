@@ -35,7 +35,7 @@
       ],
       "rotation": 1,
       "palettes": [ "tri_tower", "upper_level", "bandit_tower_stuff" ],
-      "terrain": { "5": "t_pavement", "8": "t_bridge" },
+      "terrain": { "5": "t_pavement", "8": "t_bridge", ",": "t_linoleum_white" },
       "items": { "l": { "item": "cleaning", "chance": 55 } },
       "npcs": { "@": { "class": "thug" } }
     }

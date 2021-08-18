@@ -25,7 +25,7 @@
     },
     "dispersion_modifier": 60,
     "min_skills": [ [ "weapon", 2 ], [ "rifle", 1 ] ],
-    "flags": [ "NON-FOULING" ],
+    "flags": [ "NON_FOULING" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ]
   },
   {
@@ -92,14 +92,14 @@
     "integral_volume": "0 ml",
     "price": 12000,
     "price_postapoc": 500,
-    "install_time": "1 m",
+    "install_time": "5 m",
     "material": [ "plastic", "steel" ],
     "symbol": ":",
     "color": "dark_gray",
     "location": "rail",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
     "sight_dispersion": 30,
-    "aim_speed": 8,
+    "aim_speed": 9,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 1 ] ]
   },
   {
@@ -112,7 +112,7 @@
     "integral_volume": "500 ml",
     "price": 68000,
     "price_postapoc": 750,
-    "install_time": "1 m",
+    "install_time": "10 m",
     "material": [ "aluminum", "plastic" ],
     "symbol": ":",
     "color": "blue",

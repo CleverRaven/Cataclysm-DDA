@@ -29,14 +29,15 @@
     "copy-from": "horse_armor",
     "color": "green",
     "name": { "str": "biosilicified chitin horse armor" },
-    "description": "A makeshift assembly of criniere, peytral and croupiere made from biosilicified chitin fitted to a thin mesh.  You could put this on a friendly horse.",
+    "description": "A makeshift assembly of criniere, peytral and croupiere made from biosilicified chitin fitted to a thin mesh.  You could put this on a friendly horse.  Acid-resistant but brittle.",
     "price": 120000,
     "price_postapoc": 8000,
     "material": [ "acidchitin", "steel" ],
     "weight": "35 kg",
     "volume": "150 L",
-    "material_thickness": 6,
-    "environmental_protection": 7
+    "material_thickness": 4,
+    "environmental_protection": 7,
+    "extend": { "flags": [ "NO_REPAIR" ] }
   },
   {
     "type": "PET_ARMOR",
@@ -156,9 +157,6 @@
     "symbol": "[",
     "looks_like": "dump_pouch",
     "color": "green",
-    "covers": [ "hand_l", "hand_r" ],
-    "coverage": 50,
-    "encumbrance": 30,
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATER_FRIENDLY" ],
@@ -178,6 +176,7 @@
         "max_item_length": "60 cm",
         "moves": 200
       }
-    ]
+    ],
+    "armor": [ { "encumbrance": 30, "coverage": 50, "covers": [ "hand_l", "hand_r" ] } ]
   }
 ]

@@ -32,7 +32,8 @@
         "#################----###",
         "########################"
       ],
-      "palettes": [ "multistory_house", "ground_level" ]
+      "palettes": [ "multistory_house", "ground_level" ],
+      "furniture": { "H": "f_dumpster" }
     }
   }
 ]

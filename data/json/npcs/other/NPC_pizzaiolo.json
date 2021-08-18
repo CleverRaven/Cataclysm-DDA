@@ -1,0 +1,246 @@
+[
+  {
+    "type": "npc",
+    "id": "NPC_pizzaiolo",
+    "gender": "male",
+    "class": "NC_SURVIVOR_CHEF",
+    "name_suffix": "pizzaiolo",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_pizzaiolo_1",
+    "faction": "no_faction",
+    "mission_offered": "MISSION_pizzaiolo_1"
+  },
+  {
+    "type": "talk_topic",
+    "id": [ "TALK_pizzaiolo_1", "TALK_pizzaiolo_Background" ],
+    "dynamic_line": "<greet>",
+    "responses": [
+      {
+        "text": "I got the cake.  Shall we move, <name_g>?",
+        "condition": { "and": [ { "u_has_item": "cake2" }, { "u_has_mission": "MISSION_pizzaiolo_4" } ] },
+        "topic": "TALK_pizzaiolo_go"
+      },
+      { "text": "About that job…", "condition": "mission_complete", "topic": "TALK_MISSION_INQUIRE" },
+      { "text": "<BGSS_intro_question>", "topic": "TALK_pizzaiolo_Background" },
+      { "text": "Do you need any help?", "topic": "TALK_MISSION_LIST" },
+      {
+        "text": "If you still want to travel with me, let's go.",
+        "topic": "TALK_DONE",
+        "condition": { "npc_has_var": "u_helped_pizzaiolo", "type": "dialogue", "context": "pizzaiolo", "value": "yes" },
+        "effect": [ "follow", { "npc_lose_var": "u_helped_pizzaiolo", "type": "dialogue", "context": "pizzaiolo" } ]
+      },
+      { "text": "Goodbye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_pizzaiolo_go",
+    "dynamic_line": "Lead the way, <name_g>.",
+    "responses": [
+      { "text": "…", "topic": "TALK_DONE", "effect": [ "follow_only", { "npc_first_topic": "TALK_pizzaiolo_following" } ] }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_pizzaiolo_following",
+    "dynamic_line": "Are we there yet, my <name_g>?",
+    "responses": [
+      {
+        "text": "We're here, <name_g>.  Let's celebrate.",
+        "topic": "TALK_pizzaiolo_celebrate",
+        "condition": { "and": [ "mission_complete", { "u_has_item": "cake2" } ] },
+        "effect": [ "mission_success", "clear_mission", { "u_consume_item": "cake2" } ]
+      },
+      { "text": "Be patient.  We'll be there soon, <name_g>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_pizzaiolo_celebrate",
+    "dynamic_line": "Ah, home sweet home.  It feels like I haven't been here for ages.  <swear>, it looks so horrible now.  I guess it's because of <the_cataclysm>.  Thank you for bringing me here, <name_g>.  Let's eat the cake.",
+    "responses": [ { "text": "[*NOM-NOM*]", "topic": "TALK_pizzaiolo_celebrate1" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_pizzaiolo_celebrate1",
+    "dynamic_line": "Mmm, delicious.  You know, you are good friend, and a good cook.  I'm glad that I'm with you at the day like this.  Say, what do you think about me going with you?  As you can see, my restaurant is thrashes, my house ruined, the only option left is to travel somewhere, and it's better if I do it with someone.",
+    "speaker_effect": { "effect": [ "morale_chat", { "npc_add_trait": "BGSS_pizzaiolo" } ] },
+    "responses": [
+      { "text": "Sure, <name_g>.  <end_talking>", "topic": "TALK_DONE", "effect": "follow" },
+      {
+        "text": "Maybe later.",
+        "topic": "TALK_DONE",
+        "effect": [
+          { "npc_first_topic": "TALK_pizzaiolo_1" },
+          { "npc_add_var": "u_helped_pizzaiolo", "type": "dialogue", "context": "pizzaiolo", "value": "yes" }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_pizzaiolo_Background",
+    "dynamic_line": "I'm just a regular pizzaiolo.  My father was a pizzaiolo, my grandfather was a pizzaiolo and I also became a pizzaiolo.  I was making pizza my whole life, until some american <name_b>s ruined my business!  I couldn't do anything about this, but now, with <the_cataclysm> and <zombies> around, I have a chance to get my revenge!"
+  },
+  {
+    "id": "MISSION_pizzaiolo_1",
+    "type": "mission_definition",
+    "name": { "str": "Angry pizzaiolo" },
+    "description": "Find some gasoline and then travel to the destination together with pizzaiolo.",
+    "goal": "MGOAL_GO_TO",
+    "difficulty": 0,
+    "value": 10000,
+    "has_generic_rewards": false,
+    "start": {
+      "effect": [ "follow_only", { "npc_first_topic": "MISSION_PYROMANIAC" } ],
+      "assign_mission_target": { "om_terrain": "s_restaurant", "min_distance": 5, "z": 0 }
+    },
+    "end": {
+      "effect": [
+        { "npc_first_topic": "TALK_pizzaiolo_1" },
+        "stop_following",
+        { "u_consume_item": "gasoline", "count": 200 },
+        { "mapgen_update": "MISSION_PYROMANIAC_BURN" }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_pizzaiolo_2",
+    "dialogue": {
+      "describe": "-",
+      "offer": "I'm so <swear> angry!  I have an enemy that ruined my life, and I want revenge for it!  I don't care about <the_cataclysm>, I just want to burn his <swear> restaurant!  Will you help me?",
+      "accepted": "Good.  Let's go to his restaurant and <swear> burn it!  Oh, by the way, could you bring gasoline with you, <name_g>?  I was so angry I forgot to bring it with me…",
+      "rejected": "What?!  Why do you… ah, forget it.",
+      "advice": "Maybe we can find some gasoline at gas station.",
+      "inquire": "Are you ready, <name_g>?",
+      "success": "Sweet, sweet revenge!  It smells so nice!  His restaurant burns, his legacy is now ruined!  Even if he became a <zombie>, it still <swear> good.",
+      "success_lie": "-",
+      "failure": "-"
+    }
+  },
+  {
+    "id": "MISSION_pizzaiolo_2",
+    "type": "mission_definition",
+    "has_generic_rewards": false,
+    "name": { "str": "Find TrueFoodperson" },
+    "description": "Help pizzaiolo find TrueFoodperson and kick his ass.",
+    "goal": "MGOAL_ASSASSINATE",
+    "difficulty": 0,
+    "value": 10000,
+    "start": {
+      "effect": [ "follow_only", { "u_buy_item": "bat" } ],
+      "assign_mission_target": { "om_terrain": "s_restaurant_foodplace", "min_distance": 5, "z": 0 },
+      "update_mapgen": {
+        "om_terrain": "s_restaurant_foodplace_roof",
+        "place_npcs": [ { "class": "true_foodperson", "x": 12, "y": 19, "target": true } ]
+      }
+    },
+    "end": { "effect": "stop_following" },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_pizzaiolo_3",
+    "dialogue": {
+      "describe": "-",
+      "offer": "Ah, it's you, <name_g>.  Wanna continue on my revenge to all american <name_b>s?",
+      "accepted": "Good.  Next stop, Foodplace.  I always hated that place, especially that <swear> <name_b> in his <dumb> mask.  I know he's still alive, hiding in his <swear> <dumb> parody of a restaurant.  Take this bat.  Let's take a visit to him, <name_g>, and kick his <swear> ass!",
+      "rejected": "What?!  Why do you… ah, forget it.",
+      "advice": "I heard that these 'restaurants' use some kind of locking system for staff room, so we would need to find a way to get there.",
+      "inquire": "I'm waiting.",
+      "success": "Another one bite the dust!  We did good, <name_g>.",
+      "success_lie": "-",
+      "failure": "-"
+    }
+  },
+  {
+    "id": "MISSION_pizzaiolo_3",
+    "type": "mission_definition",
+    "has_generic_rewards": false,
+    "name": { "str": "Pizza parlor" },
+    "description": "Help pizzaiolo take back his restaurant.",
+    "goal": "MGOAL_ASSASSINATE",
+    "difficulty": 0,
+    "value": 10000,
+    "start": {
+      "effect": "follow_only",
+      "assign_mission_target": { "om_terrain": "s_pizza_parlor_1", "z": 0 },
+      "update_mapgen": {
+        "place_npcs": [
+          { "class": "bandit", "x": [ 7, 22 ], "y": [ 6, 19 ], "target": true },
+          { "class": "bandit", "x": [ 7, 22 ], "y": [ 6, 19 ], "repeat": [ 1, 3 ] },
+          { "class": "thug", "x": [ 7, 22 ], "y": [ 6, 19 ], "repeat": [ 2, 4 ] }
+        ]
+      }
+    },
+    "end": { "effect": "stop_following" },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_pizzaiolo_4",
+    "dialogue": {
+      "describe": "-",
+      "offer": "I need to make a last step to achieve my revenge, and the step is - my pizza parlor.  Before <the_cataclysm>, the bank took my place, and now, some <swear> <name_b>s occupied it and made it their base!  <swear> unbelievable, I tell ya.  It's time for me to fight back, deal with this <swear> <name_b>s and regain my honor.  Are you with me, <name_g>?",
+      "accepted": "<very> good.  Let's go.",
+      "rejected": "What?!  Why do you… ah, forget it.",
+      "advice": "These <name_b>s might be heavily armed, so we need to prepare to face them.",
+      "inquire": "I'm waiting.",
+      "success": "Nice, <very><swear> nice.  <swear>, this placed is thrashed.  <swear><name_b>s thrashed my restaurant!  Okay, calm down, calm down, will ya… At least I retrieved my place.  Thank you, <name_g>.  I couldn't make it without you.",
+      "success_lie": "-",
+      "failure": "-"
+    }
+  },
+  {
+    "id": "MISSION_pizzaiolo_4",
+    "type": "mission_definition",
+    "has_generic_rewards": false,
+    "name": { "str": "Family house" },
+    "description": "First bring pizzaiolo some chocolate cake then lead him to his family house.",
+    "goal": "MGOAL_GO_TO",
+    "start": {
+      "effect": { "u_learn_recipe": "cake2" },
+      "assign_mission_target": {
+        "om_terrain": "house",
+        "om_terrain_match_type": "PREFIX",
+        "random": true,
+        "search_range": 75,
+        "min_distance": 5,
+        "z": 0
+      }
+    },
+    "fail": { "effect": "end_conversation" },
+    "difficulty": 0,
+    "value": 100,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "-",
+      "offer": "Now, as my competitors dead, their places are ruined, it's time to relax… I know, let's celebrate it!  Lead me to my house.  Also, we need a cake for that.  What celebration without a cake, right?  I can teach you how to cook it, if you want.",
+      "accepted": "Good.  Bring me chocolate cake and talk to me.",
+      "rejected": "What?!  Why do you… ah, forget it.",
+      "advice": "If you listened to me very closely, it wouldn't be hard for you to make it.  Good luck, <name_g>.",
+      "inquire": "I'm waiting.",
+      "success": "-",
+      "success_lie": "-",
+      "failure": "-"
+    }
+  },
+  {
+    "//": "MISSION_PYROMANIAC mission set this topic as starting topic for mission giver.",
+    "type": "talk_topic",
+    "id": "MISSION_PYROMANIAC",
+    "dynamic_line": "Are we there yet, <name_g>?  I can't wait to burn that building!",
+    "responses": [
+      {
+        "text": "We're here.  Let's do it!",
+        "topic": "TALK_MISSION_INQUIRE",
+        "condition": { "and": [ "mission_complete", { "u_has_items": { "item": "gasoline", "count": 200 } } ] }
+      },
+      { "text": "Be patient, <name_g>, we're getting there soon.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "//": "For MISSION_PYROMANIAC. Will spawn fire on tile where PC is standing.",
+    "type": "mapgen",
+    "update_mapgen_id": "MISSION_PYROMANIAC_BURN",
+    "method": "json",
+    "object": {
+      "place_liquids": [ { "liquid": "gasoline", "x": [ 5, 20 ], "y": [ 5, 20 ], "amount": 5, "repeat": 40 } ],
+      "place_fields": [ { "field": "fd_fire", "x": [ 5, 20 ], "y": [ 5, 20 ], "repeat": 40 } ]
+    }
+  }
+]

@@ -3,14 +3,17 @@
 #include <algorithm>
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
+#include <new>
 #include <string>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
-#include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "auto_pickup.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -22,9 +25,7 @@
 #include "enums.h"
 #include "game.h"
 #include "input.h"
-#include "int_id.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_search.h"
 #include "item_stack.h"
@@ -43,14 +44,12 @@
 #include "ret_val.h"
 #include "sdltiles.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "units_utility.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
@@ -223,7 +222,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
                   PickupMap &mapPickup, bool autopickup )
 {
     Character &player_character = get_player_character();
-    int moves_taken = 100;
+    int moves_taken = loc.obtain_cost( player_character, quantity );
     bool picked_up = false;
     pickup_answer option = CANCEL;
 
@@ -337,7 +336,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
             }
         // Intentional fallthrough
         case STASH: {
-            item &added_it = player_character.i_add( newit, true, nullptr, /*allow_drop=*/false,
+            item &added_it = player_character.i_add( newit, true, nullptr, &it, /*allow_drop=*/false,
                              !newit.count_by_charges() );
             if( added_it.is_null() ) {
                 // failed to add, fill pockets if it's a stack
@@ -530,7 +529,8 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         // Bail out if this square cannot be auto-picked-up
         if( g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), p ) ) {
             return;
-        } else if( local.has_flag( "SEALED", p ) ) {
+        }
+        if( local.has_flag( "SEALED", p ) ) {
             return;
         }
     }
@@ -712,7 +712,15 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 if( cur_it < static_cast<int>( matches.size() ) ) {
                     int true_it = matches[cur_it];
                     const item &this_item = *stacked_here[true_it].front();
-                    nc_color icolor = this_item.color_in_inventory();
+
+                    nc_color icolor;
+                    if( this_item.is_food_container() && !this_item.is_craft() &&
+                        this_item.num_item_stacks() == 1 ) {
+                        icolor = this_item.all_items_top().front()->color_in_inventory();
+                    } else {
+                        icolor = this_item.color_in_inventory();
+                    }
+
                     if( cur_it == selected ) {
                         icolor = hilite( c_white );
                     }

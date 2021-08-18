@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_FILESYSTEM_H
 #define CATA_SRC_FILESYSTEM_H
 
-#include <string>
+#include <string> // IWYU pragma: keep
 #include <vector>
 
 bool assure_dir_exist( const std::string &path );

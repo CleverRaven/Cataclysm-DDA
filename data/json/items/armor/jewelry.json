@@ -9,7 +9,6 @@
     "volume": "10 ml",
     "price": 100,
     "price_postapoc": 10,
-    "flags": [ "FANCY" ],
     "material": [ "wood" ],
     "symbol": "[",
     "color": "brown",
@@ -40,7 +39,6 @@
     "price": 100,
     "price_postapoc": 10,
     "material": [ "wood" ],
-    "flags": [ "FANCY" ],
     "symbol": "u",
     "color": "brown",
     "use_action": [ "MEDITATE" ]
@@ -55,7 +53,6 @@
     "volume": "10 ml",
     "price": 100,
     "price_postapoc": 10,
-    "flags": [ "FANCY" ],
     "material": [ "wood", "plastic" ],
     "symbol": "[",
     "color": "red"
@@ -72,8 +69,7 @@
     "material": [ "iron" ],
     "symbol": "[",
     "looks_like": "copper_locket",
-    "color": "brown",
-    "flags": [ "FANCY" ]
+    "color": "brown"
   },
   {
     "id": "diamond_dental_grill",
@@ -90,9 +86,8 @@
     "symbol": "[",
     "looks_like": "gold_dental_grill",
     "color": "yellow",
-    "covers": [ "mouth" ],
-    "encumbrance": 10,
-    "flags": [ "SUPER_FANCY", "SKINTIGHT" ]
+    "flags": [ "SKINTIGHT" ],
+    "armor": [ { "encumbrance": 10, "covers": [ "mouth" ] } ]
   },
   {
     "id": "garnet_dental_grill",
@@ -109,9 +104,8 @@
     "symbol": "[",
     "looks_like": "gold_dental_grill",
     "color": "red",
-    "covers": [ "mouth" ],
-    "encumbrance": 10,
-    "flags": [ "FANCY", "SKINTIGHT" ]
+    "flags": [ "SKINTIGHT" ],
+    "armor": [ { "encumbrance": 10, "covers": [ "mouth" ] } ]
   },
   {
     "id": "amethyst_dental_grill",
@@ -195,8 +189,7 @@
     "price_postapoc": 10,
     "material": [ "plastic" ],
     "symbol": "[",
-    "color": "pink",
-    "flags": [ "FANCY" ]
+    "color": "pink"
   },
   {
     "id": "blue_topaz_dental_grill",
@@ -235,11 +228,10 @@
     "symbol": "[",
     "looks_like": "gold_watch",
     "color": "light_gray",
-    "covers": [ "hand_l", "hand_r" ],
     "sided": true,
-    "coverage": 5,
     "use_action": [ "WEATHER_TOOL" ],
-    "flags": [ "WATCH", "ALARMCLOCK", "WATER_FRIENDLY", "THERMOMETER", "BELTED", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "WATER_FRIENDLY", "THERMOMETER", "BELTED", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
+    "armor": [ { "coverage": 5, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "collarpin",
@@ -253,8 +245,7 @@
     "material": [ "silver" ],
     "symbol": "[",
     "looks_like": "tieclip",
-    "color": "light_gray",
-    "flags": [ "FANCY" ]
+    "color": "light_gray"
   },
   {
     "id": "copper_bracelet",
@@ -366,7 +357,8 @@
     "price_postapoc": 50,
     "material": [ "silver", "gold" ],
     "symbol": "[",
-    "color": "light_gray"
+    "color": "light_gray",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "garnet_gold_cufflinks",
@@ -390,7 +382,8 @@
     "name": { "str_sp": "diamond and gold cufflinks" },
     "description": "A pair of cufflinks with inset diamonds.",
     "material": [ "gold", "diamond" ],
-    "color": "white"
+    "color": "white",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "amethyst_gold_cufflinks",
@@ -398,7 +391,8 @@
     "type": "ARMOR",
     "name": { "str_sp": "amethyst and gold cufflinks" },
     "description": "A pair of cufflinks with inset amethysts.",
-    "color": "blue"
+    "color": "blue",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "aquamarine_gold_cufflinks",
@@ -406,7 +400,8 @@
     "type": "ARMOR",
     "name": { "str_sp": "aquamarine and gold cufflinks" },
     "description": "A pair of cufflinks with inset aquamarines.",
-    "color": "light_blue"
+    "color": "light_blue",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "emerald_gold_cufflinks",
@@ -414,7 +409,8 @@
     "type": "ARMOR",
     "name": { "str_sp": "emerald and gold cufflinks" },
     "description": "A pair of cufflinks with inset emeralds.",
-    "color": "green"
+    "color": "green",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "alexandrite_gold_cufflinks",
@@ -422,14 +418,16 @@
     "type": "ARMOR",
     "name": { "str_sp": "alexandrite and gold cufflinks" },
     "description": "A pair of cufflinks with inset alexandrites.",
-    "color": "green"
+    "color": "green",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "ruby_gold_cufflinks",
     "copy-from": "garnet_gold_cufflinks",
     "type": "ARMOR",
     "name": { "str_sp": "ruby and gold cufflinks" },
-    "description": "A pair of cufflinks with inset rubies."
+    "description": "A pair of cufflinks with inset rubies.",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "peridot_gold_cufflinks",
@@ -437,7 +435,8 @@
     "type": "ARMOR",
     "name": { "str_sp": "peridot and gold cufflinks" },
     "description": "A pair of cufflinks with inset peridots.",
-    "color": "light_green"
+    "color": "light_green",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "sapphire_gold_cufflinks",
@@ -453,7 +452,8 @@
     "type": "ARMOR",
     "name": { "str_sp": "tourmaline and gold cufflinks" },
     "description": "A pair of cufflinks with inset tourmalines.",
-    "color": "light_red"
+    "color": "light_red",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "citrine_gold_cufflinks",
@@ -461,7 +461,8 @@
     "type": "ARMOR",
     "name": { "str_sp": "citrine and gold cufflinks" },
     "description": "A pair of cufflinks with inset citrines.",
-    "color": "yellow"
+    "color": "yellow",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "blue_topaz_gold_cufflinks",
@@ -469,7 +470,8 @@
     "type": "ARMOR",
     "name": { "str_sp": "blue topaz and gold cufflinks" },
     "description": "A pair of cufflinks with inset blue topaz.",
-    "color": "light_blue"
+    "color": "light_blue",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "opal_gold_cufflinks",
@@ -477,7 +479,8 @@
     "type": "ARMOR",
     "name": { "str_sp": "opal and gold cufflinks" },
     "description": "A pair of cufflinks with inset opals.",
-    "color": "white"
+    "color": "white",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "pearl_gold_cufflinks",
@@ -485,7 +488,8 @@
     "type": "ARMOR",
     "name": { "str_sp": "pearl and gold cufflinks" },
     "description": "A pair of cufflinks with inset pearls.",
-    "color": "white"
+    "color": "white",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "garnet_silver_cufflinks",
@@ -509,7 +513,8 @@
     "name": { "str_sp": "diamond and silver cufflinks" },
     "description": "A pair of cufflinks with inset diamonds.",
     "material": [ "silver", "diamond" ],
-    "color": "white"
+    "color": "white",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "amethyst_silver_cufflinks",
@@ -517,7 +522,8 @@
     "type": "ARMOR",
     "name": { "str_sp": "amethyst and silver cufflinks" },
     "description": "A pair of cufflinks with inset amethysts.",
-    "color": "blue"
+    "color": "blue",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "aquamarine_silver_cufflinks",
@@ -525,7 +531,8 @@
     "type": "ARMOR",
     "name": { "str_sp": "aquamarine and silver cufflinks" },
     "description": "A pair of cufflinks with inset aquamarines.",
-    "color": "light_blue"
+    "color": "light_blue",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "emerald_silver_cufflinks",
@@ -533,7 +540,8 @@
     "type": "ARMOR",
     "name": { "str_sp": "emerald and silver cufflinks" },
     "description": "A pair of cufflinks with inset emeralds.",
-    "color": "green"
+    "color": "green",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "alexandrite_silver_cufflinks",
@@ -541,14 +549,16 @@
     "type": "ARMOR",
     "name": { "str_sp": "alexandrite and silver cufflinks" },
     "description": "A pair of cufflinks with inset alexandrites.",
-    "color": "green"
+    "color": "green",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "ruby_silver_cufflinks",
     "copy-from": "garnet_silver_cufflinks",
     "type": "ARMOR",
     "name": { "str_sp": "ruby and silver cufflinks" },
-    "description": "A pair of cufflinks with inset rubies."
+    "description": "A pair of cufflinks with inset rubies.",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "peridot_silver_cufflinks",
@@ -556,7 +566,8 @@
     "type": "ARMOR",
     "name": { "str_sp": "peridot and silver cufflinks" },
     "description": "A pair of cufflinks with inset peridots.",
-    "color": "light_green"
+    "color": "light_green",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "sapphire_silver_cufflinks",
@@ -564,7 +575,8 @@
     "type": "ARMOR",
     "name": { "str_sp": "sapphire and silver cufflinks" },
     "description": "A pair of cufflinks with inset sapphires.",
-    "color": "blue"
+    "color": "blue",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "tourmaline_silver_cufflinks",
@@ -572,7 +584,8 @@
     "type": "ARMOR",
     "name": { "str_sp": "tourmaline and silver cufflinks" },
     "description": "A pair of cufflinks with inset tourmalines.",
-    "color": "light_red"
+    "color": "light_red",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "citrine_silver_cufflinks",
@@ -580,7 +593,8 @@
     "type": "ARMOR",
     "name": { "str_sp": "citrine and silver cufflinks" },
     "description": "A pair of cufflinks with inset citrines.",
-    "color": "yellow"
+    "color": "yellow",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "blue_topaz_silver_cufflinks",
@@ -588,7 +602,8 @@
     "type": "ARMOR",
     "name": { "str_sp": "blue topaz and silver cufflinks" },
     "description": "A pair of cufflinks with inset blue topaz.",
-    "color": "light_blue"
+    "color": "light_blue",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "opal_silver_cufflinks",
@@ -596,7 +611,8 @@
     "type": "ARMOR",
     "name": { "str_sp": "opal and silver cufflinks" },
     "description": "A pair of cufflinks with inset opals.",
-    "color": "white"
+    "color": "white",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "pearl_silver_cufflinks",
@@ -604,7 +620,8 @@
     "type": "ARMOR",
     "name": { "str_sp": "pearl and silver cufflinks" },
     "description": "A pair of cufflinks with inset pearls.",
-    "color": "white"
+    "color": "white",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "garnet_platinum_cufflinks",
@@ -628,7 +645,8 @@
     "name": { "str_sp": "diamond and platinum cufflinks" },
     "description": "A pair of cufflinks with inset diamonds.",
     "material": [ "platinum", "diamond" ],
-    "color": "white"
+    "color": "white",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "amethyst_platinum_cufflinks",
@@ -636,7 +654,8 @@
     "type": "ARMOR",
     "name": { "str_sp": "amethyst and platinum cufflinks" },
     "description": "A pair of cufflinks with inset amethysts.",
-    "color": "blue"
+    "color": "blue",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "aquamarine_platinum_cufflinks",
@@ -644,7 +663,8 @@
     "type": "ARMOR",
     "name": { "str_sp": "aquamarine and platinum cufflinks" },
     "description": "A pair of cufflinks with inset aquamarines.",
-    "color": "light_blue"
+    "color": "light_blue",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "emerald_platinum_cufflinks",
@@ -652,7 +672,8 @@
     "type": "ARMOR",
     "name": { "str_sp": "emerald and platinum cufflinks" },
     "description": "A pair of cufflinks with inset emeralds.",
-    "color": "green"
+    "color": "green",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "alexandrite_platinum_cufflinks",
@@ -660,14 +681,16 @@
     "type": "ARMOR",
     "name": { "str_sp": "alexandrite and platinum cufflinks" },
     "description": "A pair of cufflinks with inset alexandrites.",
-    "color": "green"
+    "color": "green",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "ruby_platinum_cufflinks",
     "copy-from": "garnet_platinum_cufflinks",
     "type": "ARMOR",
     "name": { "str_sp": "ruby and platinum cufflinks" },
-    "description": "A pair of cufflinks with inset rubies."
+    "description": "A pair of cufflinks with inset rubies.",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "peridot_platinum_cufflinks",
@@ -675,7 +698,8 @@
     "type": "ARMOR",
     "name": { "str_sp": "peridot and platinum cufflinks" },
     "description": "A pair of cufflinks with inset peridots.",
-    "color": "light_green"
+    "color": "light_green",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "sapphire_platinum_cufflinks",
@@ -683,7 +707,8 @@
     "type": "ARMOR",
     "name": { "str_sp": "sapphire and platinum cufflinks" },
     "description": "A pair of cufflinks with inset sapphires.",
-    "color": "blue"
+    "color": "blue",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "tourmaline_platinum_cufflinks",
@@ -691,7 +716,8 @@
     "type": "ARMOR",
     "name": { "str_sp": "tourmaline and platinum cufflinks" },
     "description": "A pair of cufflinks with inset tourmalines.",
-    "color": "light_red"
+    "color": "light_red",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "citrine_platinum_cufflinks",
@@ -699,7 +725,8 @@
     "type": "ARMOR",
     "name": { "str_sp": "citrine and platinum cufflinks" },
     "description": "A pair of cufflinks with inset citrines.",
-    "color": "yellow"
+    "color": "yellow",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "blue_topaz_platinum_cufflinks",
@@ -707,7 +734,8 @@
     "type": "ARMOR",
     "name": { "str_sp": "blue topaz and platinum cufflinks" },
     "description": "A pair of cufflinks with inset blue topaz.",
-    "color": "light_blue"
+    "color": "light_blue",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "opal_platinum_cufflinks",
@@ -723,7 +751,8 @@
     "type": "ARMOR",
     "name": { "str_sp": "pearl and platinum cufflinks" },
     "description": "A pair of cufflinks with inset pearls.",
-    "color": "white"
+    "color": "white",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "ear_spool",
@@ -767,8 +796,8 @@
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
-    "covers": [ "mouth" ],
-    "flags": [ "FANCY", "SKINTIGHT" ]
+    "flags": [ "SKINTIGHT" ],
+    "armor": [ { "covers": [ "mouth" ] } ]
   },
   {
     "id": "gold_ear",
@@ -825,8 +854,7 @@
     "price_postapoc": 25,
     "material": [ "gold" ],
     "symbol": "[",
-    "color": "yellow",
-    "flags": [ "SUPER_FANCY" ]
+    "color": "yellow"
   },
   {
     "id": "gold_necklace",
@@ -868,10 +896,9 @@
     "material": [ "steel", "gold" ],
     "symbol": "[",
     "color": "yellow",
-    "covers": [ "hand_l", "hand_r" ],
     "sided": true,
-    "coverage": 5,
-    "flags": [ "WATCH", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
+    "armor": [ { "coverage": 5, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "tieclip",
@@ -899,10 +926,9 @@
     "material": [ "steel", "silver" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "hand_l", "hand_r" ],
     "sided": true,
-    "coverage": 10,
-    "flags": [ "WATCH", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
+    "armor": [ { "coverage": 10, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "silver_bracelet",
@@ -946,10 +972,9 @@
     "material": [ "gold", "silver" ],
     "symbol": "[",
     "color": "yellow",
-    "covers": [ "hand_l", "hand_r" ],
     "sided": true,
-    "coverage": 10,
-    "flags": [ "WATCH", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
+    "armor": [ { "coverage": 10, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "small_relic",
@@ -963,8 +988,7 @@
     "material": [ "bone", "silver" ],
     "symbol": "[",
     "color": "white",
-    "use_action": [ "MEDITATE" ],
-    "flags": [ "FANCY" ]
+    "use_action": [ "MEDITATE" ]
   },
   {
     "id": "holy_symbol",
@@ -978,8 +1002,7 @@
     "material": [ "gold" ],
     "symbol": ",",
     "color": "yellow",
-    "use_action": [ "MEDITATE" ],
-    "flags": [ "FANCY" ]
+    "use_action": [ "MEDITATE" ]
   },
   {
     "id": "holy_symbol_wood",
@@ -1037,10 +1060,9 @@
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "white",
-    "covers": [ "hand_l", "hand_r" ],
     "sided": true,
-    "coverage": 5,
-    "flags": [ "WATCH", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ],
+    "armor": [ { "coverage": 5, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "platinum_bracelet",
@@ -1070,8 +1092,8 @@
     "material": [ "platinum", "silver" ],
     "symbol": "[",
     "color": "white",
-    "covers": [ "mouth" ],
-    "flags": [ "SUPER_FANCY", "SKINTIGHT" ]
+    "flags": [ "SKINTIGHT" ],
+    "armor": [ { "covers": [ "mouth" ] } ]
   },
   {
     "id": "platinum_ear",
@@ -1256,8 +1278,7 @@
     "price_postapoc": 10,
     "material": [ "silver" ],
     "symbol": "[",
-    "color": "light_gray",
-    "flags": [ "FANCY" ]
+    "color": "light_gray"
   },
   {
     "id": "silver_ring",
@@ -1284,8 +1305,7 @@
     "price_postapoc": 25,
     "material": [ "leather" ],
     "symbol": "-",
-    "color": "dark_gray",
-    "flags": [ "FANCY" ]
+    "color": "dark_gray"
   },
   {
     "id": "wristwatch",
@@ -1301,10 +1321,9 @@
     "ascii_picture": "wristwatch",
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "hand_l", "hand_r" ],
     "sided": true,
-    "coverage": 5,
-    "flags": [ "WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
+    "armor": [ { "coverage": 5, "covers": [ "hand_l", "hand_r" ] } ]
   },
   {
     "id": "rad_badge",
@@ -1334,9 +1353,9 @@
     "symbol": "[",
     "color": "yellow",
     "//": "should cover TORSO but give no encumbrance penalties",
-    "coverage": 2,
     "material_thickness": 2,
-    "flags": [ "ALLOWS_NATURAL_ATTACKS", "OUTER", "OVERSIZE", "WATER_FRIENDLY" ]
+    "flags": [ "ALLOWS_NATURAL_ATTACKS", "OUTER", "OVERSIZE", "WATER_FRIENDLY" ],
+    "armor": [ { "coverage": 2 } ]
   },
   {
     "id": "badge_cybercop",
@@ -1409,8 +1428,7 @@
     "price_postapoc": 10,
     "material": [ "fur", "plastic" ],
     "symbol": "^",
-    "color": "brown",
-    "flags": [ "FANCY" ]
+    "color": "brown"
   },
   {
     "id": "faux_fur_cat_ears",
@@ -1433,8 +1451,7 @@
     "bashing": 4,
     "material": [ "fur", "plastic" ],
     "symbol": "s",
-    "color": "brown",
-    "flags": [ "FANCY" ]
+    "color": "brown"
   },
   {
     "id": "faux_fur_cat_tail",
@@ -1456,8 +1473,7 @@
     "price_postapoc": 10,
     "material": [ "fur" ],
     "symbol": "-",
-    "color": "brown",
-    "flags": [ "FANCY" ]
+    "color": "brown"
   },
   {
     "id": "faux_fur_collar",
@@ -1479,8 +1495,7 @@
     "price_postapoc": 10,
     "material": [ "leather", "plastic" ],
     "symbol": "^",
-    "color": "dark_gray",
-    "flags": [ "FANCY" ]
+    "color": "dark_gray"
   },
   {
     "id": "leather_cat_tail",
@@ -1494,8 +1509,7 @@
     "bashing": 4,
     "material": [ "leather", "plastic" ],
     "symbol": "s",
-    "color": "dark_gray",
-    "flags": [ "FANCY" ]
+    "color": "dark_gray"
   },
   {
     "id": "diamond_gold_earring",
@@ -2948,10 +2962,9 @@
     "looks_like": "crown_golden",
     "symbol": "[",
     "color": "red",
-    "coverage": 5,
-    "encumbrance": 1,
     "material_thickness": 1,
-    "flags": [ "SUPER_FANCY" ]
+    "flags": [ "SUPER_FANCY" ],
+    "armor": [ { "encumbrance": 1, "coverage": 5 } ]
   },
   {
     "id": "diamond_platinum_tiara",
@@ -3070,10 +3083,9 @@
     "looks_like": "crown_golden",
     "symbol": "[",
     "color": "red",
-    "coverage": 5,
-    "encumbrance": 1,
     "material_thickness": 1,
-    "flags": [ "SUPER_FANCY" ]
+    "flags": [ "SUPER_FANCY" ],
+    "armor": [ { "encumbrance": 1, "coverage": 5 } ]
   },
   {
     "id": "diamond_gold_tiara",
@@ -3192,10 +3204,9 @@
     "looks_like": "crown_golden",
     "symbol": "[",
     "color": "red",
-    "coverage": 5,
-    "encumbrance": 1,
     "material_thickness": 1,
-    "flags": [ "SUPER_FANCY" ]
+    "flags": [ "SUPER_FANCY" ],
+    "armor": [ { "encumbrance": 1, "coverage": 5 } ]
   },
   {
     "id": "diamond_silver_tiara",

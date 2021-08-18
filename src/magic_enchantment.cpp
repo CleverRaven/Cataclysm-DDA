@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 #include <set>
+#include <string>
 
 #include "character.h"
 #include "creature.h"
@@ -9,11 +10,11 @@
 #include "enum_conversions.h"
 #include "enums.h"
 #include "generic_factory.h"
+#include "item.h"
 #include "json.h"
 #include "map.h"
 #include "point.h"
 #include "rng.h"
-#include "string_id.h"
 #include "units.h"
 
 namespace io
@@ -40,6 +41,7 @@ namespace io
         case enchantment::condition::UNDERGROUND: return "UNDERGROUND";
         case enchantment::condition::UNDERWATER: return "UNDERWATER";
         case enchantment::condition::ACTIVE: return "ACTIVE";
+        case enchantment::condition::INACTIVE: return "INACTIVE";
         case enchantment::condition::NUM_CONDITION: break;
         }
         debugmsg( "Invalid enchantment::condition" );
@@ -66,6 +68,7 @@ namespace io
             case enchant_vals::mod::REGEN_STAMINA: return "REGEN_STAMINA";
             case enchant_vals::mod::MAX_HP: return "MAX_HP";
             case enchant_vals::mod::REGEN_HP: return "REGEN_HP";
+            case enchant_vals::mod::HUNGER: return "HUNGER";
             case enchant_vals::mod::THIRST: return "THIRST";
             case enchant_vals::mod::FATIGUE: return "FATIGUE";
             case enchant_vals::mod::PAIN: return "PAIN";
@@ -77,9 +80,19 @@ namespace io
             case enchant_vals::mod::FOOTSTEP_NOISE: return "FOOTSTEP_NOISE";
             case enchant_vals::mod::SIGHT_RANGE: return "SIGHT_RANGE";
             case enchant_vals::mod::CARRY_WEIGHT: return "CARRY_WEIGHT";
+            case enchant_vals::mod::WEAPON_DISPERSION: return "WEAPON_DISPERSION";
             case enchant_vals::mod::SOCIAL_LIE: return "SOCIAL_LIE";
             case enchant_vals::mod::SOCIAL_PERSUADE: return "SOCIAL_PERSUADE";
             case enchant_vals::mod::SOCIAL_INTIMIDATE: return "SOCIAL_INTIMIDATE";
+            case enchant_vals::mod::SLEEPY: return "SLEEPY";
+            case enchant_vals::mod::LUMINATION: return "LUMINATION";
+            case enchant_vals::mod::EFFECTIVE_HEALTH_MOD: return "EFFECTIVE_HEALTH_MOD";
+            case enchant_vals::mod::MOD_HEALTH: return "MOD_HEALTH";
+            case enchant_vals::mod::MOD_HEALTH_CAP: return "MOD_HEALTH_CAP";
+            case enchant_vals::mod::MAP_MEMORY: return "MAP_MEMORY";
+            case enchant_vals::mod::READING_EXP: return "READING_EXP";
+            case enchant_vals::mod::SKILL_RUST_RESIST: return "SKILL_RUST_RESIST";
+            case enchant_vals::mod::LEARNING_FOCUS: return "LEARNING_FOCUS";
             case enchant_vals::mod::ARMOR_ACID: return "ARMOR_ACID";
             case enchant_vals::mod::ARMOR_BASH: return "ARMOR_BASH";
             case enchant_vals::mod::ARMOR_BIO: return "ARMOR_BIO";
@@ -89,6 +102,7 @@ namespace io
             case enchant_vals::mod::ARMOR_HEAT: return "ARMOR_HEAT";
             case enchant_vals::mod::ARMOR_STAB: return "ARMOR_STAB";
             case enchant_vals::mod::ARMOR_BULLET: return "ARMOR_BULLET";
+            case enchant_vals::mod::ITEM_DAMAGE_PURE: return "ITEM_DAMAGE_PURE";
             case enchant_vals::mod::ITEM_DAMAGE_BASH: return "ITEM_DAMAGE_BASH";
             case enchant_vals::mod::ITEM_DAMAGE_CUT: return "ITEM_DAMAGE_CUT";
             case enchant_vals::mod::ITEM_DAMAGE_STAB: return "ITEM_DAMAGE_STAB";
@@ -144,6 +158,34 @@ void enchantment::load_enchantment( const JsonObject &jo, const std::string &src
     spell_factory.load( jo, src );
 }
 
+void enchantment::reset()
+{
+    spell_factory.reset();
+}
+
+enchantment_id enchantment::load_inline_enchantment( const JsonValue &jv, const std::string &src,
+        std::string &inline_id )
+{
+    if( jv.test_string() ) {
+        return enchantment_id( jv.get_string() );
+    } else if( jv.test_object() ) {
+        if( inline_id.empty() ) {
+            jv.throw_error( "Inline enchantment cannot be created without an id." );
+        }
+        if( spell_factory.is_valid( enchantment_id( inline_id ) ) ) {
+            jv.throw_error( "Inline enchantment " + inline_id +
+                            " cannot be created as an enchantment already has this id." );
+        }
+
+        enchantment inline_enchant;
+        inline_enchant.load( jv.get_object(), src, inline_id );
+        spell_factory.insert( inline_enchant );
+        return enchantment_id( inline_id );
+    } else {
+        jv.throw_error( "Enchantment needs to be either string or enchantment object." );
+    }
+}
+
 bool enchantment::is_active( const Character &guy, const item &parent ) const
 {
     if( !guy.has_item( parent ) ) {
@@ -170,6 +212,10 @@ bool enchantment::is_active( const Character &guy, const bool active ) const
         return active;
     }
 
+    if( active_conditions.second == condition::INACTIVE ) {
+        return !active;
+    }
+
     if( active_conditions.second == condition::ALWAYS ) {
         return true;
     }
@@ -194,9 +240,30 @@ void enchantment::add_activation( const time_duration &dur, const fake_spell &fa
     intermittent_activation[dur].emplace_back( fake );
 }
 
-void enchantment::load( const JsonObject &jo, const std::string & )
+void enchantment::bodypart_changes::load( const JsonObject &jo )
 {
-    optional( jo, was_loaded, "id", id, enchantment_id( "" ) );
+    optional( jo, was_loaded, "gain", gain );
+    optional( jo, was_loaded, "lose", lose );
+}
+
+void enchantment::bodypart_changes::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    load( jo );
+}
+
+void enchantment::bodypart_changes::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "gain", gain );
+    jsout.member( "lose", lose );
+    jsout.end_object();
+}
+
+void enchantment::load( const JsonObject &jo, const std::string &,
+                        const cata::optional<std::string> &inline_id )
+{
+    optional( jo, was_loaded, "id", id, enchantment_id( inline_id.value_or( "" ) ) );
 
     jo.read( "hit_you_effect", hit_you_effect );
     jo.read( "hit_me_effect", hit_me_effect );
@@ -230,6 +297,7 @@ void enchantment::load( const JsonObject &jo, const std::string & )
         ench_effects.emplace( efftype_id( jsobj.get_string( "effect" ) ), jsobj.get_int( "intensity" ) );
     }
 
+    optional( jo, was_loaded, "modified_bodyparts", modified_bodyparts );
     optional( jo, was_loaded, "mutations", mutations );
 
     if( jo.has_array( "values" ) ) {
@@ -276,13 +344,31 @@ void enchantment::serialize( JsonOut &jsout ) const
     if( !intermittent_activation.empty() ) {
         jsout.member( "intermittent_activation" );
         jsout.start_object();
+        jsout.member( "effects" );
+        jsout.start_array();
         for( const std::pair<time_duration, std::vector<fake_spell>> pair : intermittent_activation ) {
-            jsout.member( "frequency", pair.first );
+            jsout.start_object();
+            jsout.member( "frequency", to_string_writable( pair.first ) );
             jsout.member( "spell_effects", pair.second );
+            jsout.end_object();
         }
+        jsout.end_array();
         jsout.end_object();
     }
 
+    if( !ench_effects.empty() ) {
+        jsout.member( "ench_effects" );
+        jsout.start_array();
+        for( const std::pair<const efftype_id, int> &eff : ench_effects ) {
+            jsout.start_object();
+            jsout.member( "effect", eff.first );
+            jsout.member( "intensity", eff.second );
+            jsout.end_object();
+        }
+        jsout.end_array();
+    }
+
+    jsout.member( "modified_bodyparts", modified_bodyparts );
     jsout.member( "mutations", mutations );
 
     jsout.member( "values" );
@@ -340,6 +426,10 @@ void enchantment::force_add( const enchantment &rhs )
 
     if( rhs.emitter ) {
         emitter = rhs.emitter;
+    }
+
+    for( const bodypart_changes &bp : rhs.modified_bodyparts ) {
+        modified_bodyparts.emplace_back( bp );
     }
 
     for( const trait_id &branch : rhs.mutations ) {
@@ -425,6 +515,25 @@ int enchantment::mult_bonus( enchant_vals::mod value_type, int base_value ) cons
     return get_value_multiply( value_type ) * base_value;
 }
 
+bool enchantment::modifies_bodyparts() const
+{
+    return !modified_bodyparts.empty();
+}
+
+body_part_set enchantment::modify_bodyparts( const body_part_set &unmodified ) const
+{
+    body_part_set modified( unmodified );
+    for( const enchantment::bodypart_changes &changes : modified_bodyparts ) {
+        if( !changes.gain.is_empty() ) {
+            modified.set( changes.gain );
+        }
+        if( !changes.lose.is_empty() ) {
+            modified.reset( changes.lose );
+        }
+    }
+    return modified;
+}
+
 void enchantment::activate_passive( Character &guy ) const
 {
     guy.mod_str_bonus( get_value_add( enchant_vals::mod::STRENGTH ) );
@@ -438,9 +547,6 @@ void enchantment::activate_passive( Character &guy ) const
 
     guy.mod_int_bonus( get_value_add( enchant_vals::mod::INTELLIGENCE ) );
     guy.mod_int_bonus( mult_bonus( enchant_vals::mod::INTELLIGENCE, guy.get_int_base() ) );
-
-    guy.mod_speed_bonus( get_value_add( enchant_vals::mod::SPEED ) );
-    guy.mod_speed_bonus( mult_bonus( enchant_vals::mod::SPEED, guy.get_speed_base() ) );
 
     guy.mod_num_dodges_bonus( get_value_add( enchant_vals::mod::BONUS_DODGE ) );
     guy.mod_num_dodges_bonus( mult_bonus( enchant_vals::mod::BONUS_DODGE, guy.get_num_dodges_base() ) );
@@ -507,21 +613,10 @@ void enchantment::cast_enchantment_spell( Character &caster, const Creature *tar
     }
 }
 
-bool operator==( const enchantment &source_enchantment, const enchantment &target_enchantment )
+bool enchantment::operator==( const enchantment &rhs ) const
 {
-    bool is_the_same = true;
-    is_the_same &= source_enchantment.id == target_enchantment.id;
-    is_the_same &= source_enchantment.get_mutations() == target_enchantment.get_mutations();
-    is_the_same &= source_enchantment.values_multiply.size() ==
-                   target_enchantment.values_multiply.size();
-    is_the_same &= source_enchantment.values_add.size() == target_enchantment.values_add.size();
-    if( is_the_same ) {
-        for( auto mod : source_enchantment.values_multiply ) {
-            is_the_same &= mod.second == target_enchantment.values_multiply.at( mod.first );
-        }
-        for( auto mod : source_enchantment.values_add ) {
-            is_the_same &= mod.second == target_enchantment.values_add.at( mod.first );
-        }
-    }
-    return is_the_same;
+    return this->id == rhs.id &&
+           this->get_mutations() == rhs.get_mutations() &&
+           this->values_multiply == rhs.values_multiply &&
+           this->values_add == rhs.values_add;
 }

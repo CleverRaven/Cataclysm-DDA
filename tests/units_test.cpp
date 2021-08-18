@@ -1,12 +1,12 @@
-#include "catch/catch.hpp"
-
 #include <sstream>
 #include <string>
 #include <vector>
 
 #include "calendar.h"
 #include "cata_utility.h"
+#include "cata_catch.h"
 #include "json.h"
+#include "math_defines.h"
 #include "options_helpers.h"
 #include "units.h"
 #include "units_utility.h"

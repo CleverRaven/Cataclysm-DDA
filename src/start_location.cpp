@@ -6,11 +6,15 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
+#include "colony.h"
 #include "coordinates.h"
+#include "creature.h"
 #include "debug.h"
+#include "effect_source.h"
+#include "enum_conversions.h"
+#include "field_type.h"
 #include "game_constants.h"
 #include "generic_factory.h"
-#include "int_id.h"
 #include "json.h"
 #include "map.h"
 #include "map_extras.h"
@@ -22,7 +26,6 @@
 #include "player.h"
 #include "point.h"
 #include "rng.h"
-#include "string_id.h"
 
 class item;
 
@@ -241,7 +244,8 @@ static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
     if( ( must_be_inside && m.is_outside( p ) ) ||
         m.impassable( p ) ||
         m.is_divable( p ) ||
-        checked[p.x][p.y] > 0 ) {
+        checked[p.x][p.y] > 0 ||
+        m.has_flag( TFLAG_NO_FLOOR, p ) ) {
         return 0;
     }
 
@@ -389,8 +393,7 @@ void start_location::add_map_extra( const tripoint_abs_omt &omtstart,
     tinymap m;
     m.load( player_location, false );
 
-    // TODO: fix point types
-    MapExtras::apply_function( map_extra, m, player_location.raw() );
+    MapExtras::apply_function( map_extra, m, player_location );
 
     m.save();
 }

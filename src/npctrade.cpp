@@ -1,14 +1,15 @@
 #include "npctrade.h"
 
 #include <algorithm>
-#include <cmath>
 #include <cstdlib>
+#include <functional>
+#include <iterator>
 #include <list>
-#include <memory>
 #include <ostream>
 #include <set>
 #include <string>
 #include <type_traits>
+#include <utility>
 #include <vector>
 
 #include "avatar.h"
@@ -16,8 +17,8 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "enums.h"
 #include "faction.h"
-#include "game.h"
 #include "game_constants.h"
 #include "input.h"
 #include "item.h"
@@ -42,10 +43,13 @@ static const skill_id skill_speech( "speech" );
 
 static const flag_id json_flag_NO_UNWIELD( "NO_UNWIELD" );
 
-void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &giver,
-                                  player &receiver, std::list<item_location *> &from_map,
-                                  bool npc_gives )
+std::list<item> npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &giver,
+        player &receiver, std::list<item_location *> &from_map, bool npc_gives )
 {
+    // escrow is used only when the npc is the destination. Item transfer to the npc is deferred.
+    const bool use_escrow = !npc_gives;
+    std::list<item> escrow = std::list<item>();
+
     for( item_pricing &ip : stuff ) {
         if( !ip.selected ) {
             continue;
@@ -61,7 +65,14 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
         int charges = npc_gives ? ip.u_charges : ip.npc_charges;
         int count = npc_gives ? ip.u_has : ip.npc_has;
 
-        if( ip.charges ) {
+        // Items are moving to escrow.
+        if( use_escrow && ip.charges ) {
+            gift.charges = charges;
+            escrow.emplace_back( gift );
+        } else if( use_escrow ) {
+            std::fill_n( std::back_inserter( escrow ), count, gift );
+            // No escrow in use. Items moving from giver to receiver.
+        } else if( ip.charges ) {
             gift.charges = charges;
             receiver.i_add( gift );
         } else {
@@ -87,13 +98,14 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
             from_map.push_back( &ip.loc );
         }
     }
+    return escrow;
 }
 
 std::vector<item_pricing> npc_trading::init_selling( npc &np )
 {
     std::vector<item_pricing> result;
-    const auto inv_all = np.items_with( []( const item & ) {
-        return true;
+    const std::vector<item *> inv_all = np.items_with( []( const item & it ) {
+        return !it.made_of( phase_id::LIQUID );
     } );
     for( item *i : inv_all ) {
         item &it = *i;
@@ -136,7 +148,7 @@ double npc_trading::net_price_adjustment( const player &buyer, const player &sel
 template <typename T, typename Callback>
 void buy_helper( T &src, Callback cb )
 {
-    src.visit_items( [&src, &cb]( item * node ) {
+    src.visit_items( [&src, &cb]( item * node, item * ) {
         cb( std::move( item_location( src, node ) ), 1 );
 
         return VisitResponse::SKIP;
@@ -161,6 +173,11 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
             return;
         }
         item &it = *loc;
+
+        // Don't sell items that are loose liquid
+        if( it.made_of( phase_id::LIQUID ) ) {
+            return;
+        }
 
         // Don't sell items we don't own.
         if( !it.is_owned_by( seller ) ) {
@@ -196,8 +213,12 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         }
     }
 
-    for( vehicle_cursor &cursor : vehicle_selector( seller.pos(), 1 ) ) {
-        buy_helper( cursor, check_item );
+    // Allow direct trade from vehicles, but *not* with allies, as that ends up
+    // with the same item on both sides of the trade panel, and so much clutter.
+    if( ! np.will_exchange_items_freely() ) {
+        for( vehicle_cursor &cursor : vehicle_selector( seller.pos(), 1 ) ) {
+            buy_helper( cursor, check_item );
+        }
     }
 
     const auto cmp = []( const item_pricing & a, const item_pricing & b ) {
@@ -363,7 +384,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
             std::string itname = it->display_name();
 
             if( np.will_exchange_items_freely() && ip.loc.where() != item_location::type::character ) {
-                itname = itname + " (" + ip.loc.describe( &player_character ) + ")";
+                itname += " (" + ip.loc.describe( &player_character ) + ")";
                 color = c_light_blue;
             }
 
@@ -691,9 +712,15 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
 
         std::list<item_location *> from_map;
 
+        std::list<item> escrow;
         avatar &player_character = get_avatar();
-        npc_trading::transfer_items( trade_win.yours, player_character, np, from_map, false );
+        // Movement of items in 3 steps: player to escrow - npc to player - escrow to npc.
+        escrow = npc_trading::transfer_items( trade_win.yours, player_character, np, from_map, false );
         npc_trading::transfer_items( trade_win.theirs, np, player_character, from_map, true );
+        // Now move items from escrow to the npc. Keep the weapon wielded.
+        for( const item &i : escrow ) {
+            np.i_add( i, true, nullptr, nullptr, true, false );
+        }
 
         for( item_location *loc_ptr : from_map ) {
             if( !loc_ptr ) {
@@ -727,5 +754,5 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
 // Will the NPC accept the trade that's currently on offer?
 bool trading_window::npc_will_accept_trade( const npc &np ) const
 {
-    return np.will_exchange_items_freely() || your_balance + np.max_credit_extended() > 0;
+    return np.will_exchange_items_freely() || your_balance + np.max_credit_extended() >= 0;
 }

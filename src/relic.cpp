@@ -4,6 +4,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <set>
+#include <string>
 
 #include "calendar.h"
 #include "character.h"
@@ -16,9 +17,11 @@
 #include "magic_enchantment.h"
 #include "map.h"
 #include "rng.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "weather.h"
+#include "weather_type.h"
 
 /*
  * A little helper function to tell if you can load one ammo into a gun.
@@ -422,7 +425,8 @@ void relic::try_recharge( item &parent, Character *carrier, const tripoint &pos 
 {
     if( charge.regenerate_ammo && item_can_not_load_ammo( parent ) ) {
         return;
-    } else if( !charge.regenerate_ammo && charge.charges >= charge.max_charges ) {
+    }
+    if( !charge.regenerate_ammo && charge.charges >= charge.max_charges ) {
         return;
     }
 

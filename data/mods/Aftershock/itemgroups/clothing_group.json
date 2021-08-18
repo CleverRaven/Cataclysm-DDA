@@ -172,5 +172,32 @@
         "prob": 60
       }
     ]
+  },
+  {
+    "id": "wardrobe_unisex_afs",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "shoes_unisex_afs", "prob": 50 },
+      { "group": "common_gloves_afs", "prob": 20 },
+      { "group": "pants_unisex_afs", "prob": 10 },
+      { "group": "coats_unisex_afs", "prob": 50 },
+      { "group": "hatstore_hats_afs", "prob": 20 },
+      { "group": "scarfs_unisex_afs", "prob": 20 },
+      { "group": "shirts_unisex_afs", "prob": 10 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mil_armor",
+    "subtype": "distribution",
+    "//": "replace helmet full carbide's below with body armors once those are made.",
+    "entries": [
+      { "item": "helmet_full_carbide", "prob": 2 },
+      { "item": "tac_fullhelmet_uicas", "prob": 2 },
+      { "item": "tac_helmet_uicas", "prob": 5 },
+      { "item": "nanomesh_vest", "prob": 1 },
+      { "item": "carbide_cuirass", "prob": 1 }
+    ]
   }
 ]

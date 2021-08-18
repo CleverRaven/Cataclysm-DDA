@@ -80,7 +80,8 @@ path<Point> find_path( const Point &source,
         return res;
     }
 
-    const size_t map_size = Traits::x( max ) * Traits::y( max );
+    const size_t map_size = static_cast<size_t>( Traits::x( max ) ) * static_cast<size_t>( Traits::y(
+                                max ) );
 
     std::vector<bool> closed( map_size, false );
     std::vector<int> open( map_size, 0 );

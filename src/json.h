@@ -7,6 +7,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <iostream>
+#include <iterator>
 #include <map>
 #include <set>
 #include <stdexcept>
@@ -17,6 +18,8 @@
 
 #include "colony.h"
 #include "enum_conversions.h"
+#include "int_id.h"
+#include "memory_fast.h"
 #include "string_id.h"
 
 /* Cataclysm-DDA homegrown JSON tools
@@ -38,6 +41,7 @@ class JsonDeserializer;
 class JsonObject;
 class JsonSerializer;
 class JsonValue;
+class item;
 
 namespace cata
 {
@@ -48,7 +52,7 @@ class optional;
 class JsonError : public std::runtime_error
 {
     public:
-        JsonError( const std::string &msg );
+        explicit JsonError( const std::string &msg );
         const char *c_str() const noexcept {
             return what();
         }
@@ -91,6 +95,11 @@ struct number_sci_notation {
     uint64_t number = 0;
     // AKA the order of magnitude
     int64_t exp = 0;
+};
+
+struct json_source_location {
+    shared_ptr_fast<std::string> path;
+    int offset = 0;
 };
 
 /* JsonIn
@@ -177,19 +186,24 @@ class JsonIn
 {
     private:
         std::istream *stream;
-        // Used for error message and thus intentionally untranslated
-        std::string name = "<unknown source file>";
+        shared_ptr_fast<std::string> path;
         bool ate_separator = false;
 
+        void sanity_check_stream();
         void skip_separator();
         void skip_pair_separator();
         void end_value();
 
     public:
-        JsonIn( std::istream &s ) : stream( &s ) {}
-        JsonIn( std::istream &s, const std::string &name ) : stream( &s ), name( name ) {}
+        explicit JsonIn( std::istream &s );
+        JsonIn( std::istream &s, const std::string &path );
+        JsonIn( std::istream &s, const json_source_location &loc );
         JsonIn( const JsonIn & ) = delete;
         JsonIn &operator=( const JsonIn & ) = delete;
+
+        shared_ptr_fast<std::string> get_path() const {
+            return path;
+        }
 
         bool get_ate_separator() {
             return ate_separator;
@@ -266,6 +280,7 @@ class JsonIn
         // optionally-fatal reading into values by reference
         // returns true if the data was read successfully, false otherwise
         // if throw_on_error then throws JsonError rather than returning false.
+        bool read_null( bool throw_on_error = false );
         bool read( bool &b, bool throw_on_error = false );
         bool read( char &c, bool throw_on_error = false );
         bool read( signed char &c, bool throw_on_error = false );
@@ -282,14 +297,14 @@ class JsonIn
         template<size_t N>
         bool read( std::bitset<N> &b, bool throw_on_error = false );
         bool read( JsonDeserializer &j, bool throw_on_error = false );
-        // This is for the string_id type
+
         template <typename T>
-        auto read( T &thing, bool throw_on_error = false ) -> decltype( thing.str(), true ) {
+        auto read( string_id<T> &thing, bool throw_on_error = false ) -> bool {
             std::string tmp;
             if( !read( tmp, throw_on_error ) ) {
                 return false;
             }
-            thing = T( tmp );
+            thing = string_id<T>( tmp );
             return true;
         }
 
@@ -449,7 +464,11 @@ class JsonIn
                 while( !end_array() ) {
                     typename T::value_type element;
                     if( read( element, throw_on_error ) ) {
-                        v.insert( std::move( element ) );
+                        if( !v.insert( std::move( element ) ).second ) {
+                            return error_or_false(
+                                       throw_on_error,
+                                       "Duplicate entry in set defined by json array" );
+                        }
                     } else {
                         skip_value();
                     }
@@ -464,9 +483,59 @@ class JsonIn
             return true;
         }
 
+        // special case for colony<item> as it supports RLE
+        // see corresponding `write` for details
+        template <typename T, std::enable_if_t<std::is_same<T, item>::value> * = nullptr >
+        bool read( cata::colony<T> &v, bool throw_on_error = false ) {
+            if( !test_array() ) {
+                return error_or_false( throw_on_error, "Expected json array" );
+            }
+            try {
+                start_array();
+                v.clear();
+                while( !end_array() ) {
+                    T element;
+                    const int prev_pos = tell();
+                    if( test_array() ) {
+                        start_array();
+                        int run_l;
+                        if( read( element, throw_on_error ) &&
+                            read( run_l, throw_on_error ) &&
+                            end_array()
+                          ) { // all is good
+                            // first insert (run_l-1) elements
+                            for( int i = 0; i < run_l - 1; i++ ) {
+                                v.insert( element );
+                            }
+                            // micro-optimization, move last element
+                            v.insert( std::move( element ) );
+                        } else { // array is malformed, skipping it entirely
+                            error_or_false( throw_on_error, "Expected end of array" );
+                            seek( prev_pos );
+                            skip_array();
+                        }
+                    } else {
+                        if( read( element, throw_on_error ) ) {
+                            v.insert( std::move( element ) );
+                        } else {
+                            skip_value();
+                        }
+                    }
+                }
+            } catch( const JsonError & ) {
+                if( throw_on_error ) {
+                    throw;
+                }
+                return false;
+            }
+
+            return true;
+        }
+
         // special case for colony as it uses `insert()` instead of `push_back()`
         // and therefore doesn't fit with vector/deque/list
-        template <typename T>
+        // for colony of items there is another specialization with RLE
+        template < typename T, std::enable_if_t < !std::is_same<T, item>::value > * = nullptr >
         bool read( cata::colony<T> &v, bool throw_on_error = false ) {
             if( !test_array() ) {
                 return error_or_false( throw_on_error, "Expected json array" );
@@ -583,7 +652,7 @@ class JsonOut
         bool need_separator = false;
 
     public:
-        JsonOut( std::ostream &stream, bool pretty_print = false, int depth = 0 );
+        explicit JsonOut( std::ostream &stream, bool pretty_print = false, int depth = 0 );
         JsonOut( const JsonOut & ) = delete;
         JsonOut &operator=( const JsonOut & ) = delete;
 
@@ -660,9 +729,9 @@ class JsonOut
         void write( const std::bitset<N> &b );
 
         void write( const JsonSerializer &thing );
-        // This is for the string_id type
+
         template <typename T>
-        auto write( const T &thing ) -> decltype( thing.str(), ( void )0 ) {
+        auto write( const string_id<T> &thing ) {
             write( thing.str() );
         }
 
@@ -726,8 +795,37 @@ class JsonOut
             write_as_array( container );
         }
 
+        // special case for item colony, adds simple RLE-based compression
+        template <typename T, std::enable_if_t<std::is_same<T, item>::value> * = nullptr>
+        void write( const cata::colony<T> &container ) {
+            start_array();
+            // simple RLE implementation:
+            // run_l is the length of the "running sequence" of identical items, ending with the current item.
+            // when sequence ends, it's written as either the single item object (run_l==1) or as a two-element
+            // array (run_l > 1), where the first element is the item and second element is the size of the sequence.
+            int run_l = 1;
+            for( auto it = container.begin(); it != container.end(); ++it ) {
+                const auto nxt = std::next( it );
+                if( nxt == container.end() || !it->same_for_rle( *nxt ) ) {
+                    if( run_l == 1 ) {
+                        write( *it );
+                    } else {
+                        start_array();
+                        write( *it );
+                        write( run_l );
+                        end_array();
+                    }
+                    run_l = 1;
+                } else {
+                    run_l++;
+                }
+            }
+            end_array();
+        }
+
         // special case for colony, since it doesn't fit in other categories
-        template <typename T>
+        // for colony of items there is another specialization with RLE
+        template < typename T, std::enable_if_t < !std::is_same<T, item>::value > * = nullptr >
         void write( const cata::colony<T> &container ) {
             write_as_array( container );
         }
@@ -861,7 +959,7 @@ class JsonObject
                              bool throw_exception = true ) const;
 
     public:
-        JsonObject( JsonIn &jsin );
+        explicit JsonObject( JsonIn &jsin );
         JsonObject() :
             start( 0 ), end_( 0 ), final_separator( false ), jsin( nullptr ) {}
         JsonObject( const JsonObject & ) = default;
@@ -895,6 +993,7 @@ class JsonObject
         // seek to a value and return a pointer to the JsonIn (member must exist)
         JsonIn *get_raw( const std::string &name ) const;
         JsonValue get_member( const std::string &name ) const;
+        json_source_location get_source_location() const;
 
         // values by name
         // variants with no fallback throw an error if the name is not found.
@@ -1054,7 +1153,7 @@ class JsonArray
         void verify_index( size_t i ) const;
 
     public:
-        JsonArray( JsonIn &jsin );
+        explicit JsonArray( JsonIn &jsin );
         JsonArray( const JsonArray &ja );
         JsonArray() : start( 0 ), index( 0 ), end_( 0 ), final_separator( false ), jsin( nullptr ) {}
         ~JsonArray() {
@@ -1070,8 +1169,11 @@ class JsonArray
         std::string str(); // copy array json as string
         [[noreturn]] void throw_error( const std::string &err );
         [[noreturn]] void throw_error( const std::string &err, int idx );
+        // See JsonIn::string_error
+        [[noreturn]] void string_error( const std::string &err, int idx, int offset );
 
         // iterative access
+        JsonValue next();
         bool next_bool();
         int next_int();
         double next_float();
@@ -1151,21 +1253,27 @@ class JsonValue
     public:
         JsonValue( JsonIn &jsin, int pos ) : jsin_( jsin ), pos_( pos ) { }
 
+        // NOLINTNEXTLINE(google-explicit-constructor)
         operator std::string() const {
             return seek().get_string();
         }
+        // NOLINTNEXTLINE(google-explicit-constructor)
         operator int() const {
             return seek().get_int();
         }
+        // NOLINTNEXTLINE(google-explicit-constructor)
         operator bool() const {
             return seek().get_bool();
         }
+        // NOLINTNEXTLINE(google-explicit-constructor)
         operator double() const {
             return seek().get_float();
         }
+        // NOLINTNEXTLINE(google-explicit-constructor)
         operator JsonObject() const {
             return seek().get_object();
         }
+        // NOLINTNEXTLINE(google-explicit-constructor)
         operator JsonArray() const {
             return seek().get_array();
         }
@@ -1336,7 +1444,9 @@ Res JsonArray::get_tags( const size_t index ) const
     }
 
     for( const std::string line : jsin->get_array() ) {
-        res.insert( T( line ) );
+        if( !res.insert( T( line ) ).second ) {
+            jsin->error( "duplicate item in set defined by json array" );
+        }
     }
 
     return res;
@@ -1361,7 +1471,9 @@ Res JsonObject::get_tags( const std::string &name ) const
 
     // otherwise assume it's an array and error if it isn't.
     for( const std::string line : jsin->get_array() ) {
-        res.insert( T( line ) );
+        if( !res.insert( T( line ) ).second ) {
+            jsin->error( "duplicate item in set defined by json array" );
+        }
     }
 
     return res;
@@ -1454,7 +1566,7 @@ void serialize( const cata::optional<T> &obj, JsonOut &jsout )
 template<typename T>
 void deserialize( cata::optional<T> &obj, JsonIn &jsin )
 {
-    if( jsin.test_null() ) {
+    if( jsin.read_null() ) {
         obj.reset();
     } else {
         obj.emplace();

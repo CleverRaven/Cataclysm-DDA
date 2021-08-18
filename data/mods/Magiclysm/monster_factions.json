@@ -10,6 +10,11 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "hunllef",
+    "base_faction": "herbivore"
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "ooze",
     "friendly": [ "dragon_black", "lizardfolk", "ooze" ]
   },
@@ -31,5 +36,21 @@
     "name": "wonder_forge",
     "hate": [ "zombie", "fungus" ],
     "friendly": "forge_lords"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "orcs"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "ogre"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "leprechaun"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "elves"
   }
 ]

@@ -7,11 +7,134 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_BLACK_ROAD",
+    "default": "mon_zombie",
+    "monsters": [
+      { "monster": "mon_zombie", "freq": 1, "cost_multiplier": 7, "pack_size": [ 5, 20 ] },
+      { "monster": "mon_zombie", "freq": 1, "cost_multiplier": 13, "pack_size": [ 15, 40 ] },
+      { "monster": "mon_zombie", "freq": 1, "cost_multiplier": 20, "pack_size": [ 25, 60 ] },
+      { "monster": "mon_zombie", "freq": 75, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_fat", "freq": 75, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_fat", "freq": 3, "cost_multiplier": 7, "pack_size": [ 3, 5 ] },
+      { "monster": "mon_zombie_tough", "freq": 75, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_child", "freq": 75, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_rot", "freq": 50, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_crawler", "freq": 25, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_dog", "freq": 20, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_dog", "freq": 1, "cost_multiplier": 4, "pack_size": [ 3, 5 ] },
+      { "monster": "mon_zombie_dog", "freq": 1, "cost_multiplier": 16, "pack_size": [ 5, 8 ] },
+      { "monster": "mon_zombie_dog", "freq": 1, "cost_multiplier": 24, "pack_size": [ 8, 12 ] },
+      { "monster": "mon_dog_zombie_cop", "freq": 5, "cost_multiplier": 4 },
+      { "monster": "mon_dog_zombie_rot", "freq": 5, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_soldier", "freq": 10, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_cop", "freq": 20, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_swat", "freq": 10, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_hazmat", "freq": 10, "cost_multiplier": 3 },
+      { "monster": "mon_zombie_fireman", "freq": 10, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_swimmer", "freq": 10, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_static", "freq": 10, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_survivor", "freq": 1, "cost_multiplier": 25 },
+      { "monster": "mon_zombie_survivor_elite", "freq": 1, "cost_multiplier": 25, "starts": 1440 },
+      { "monster": "mon_beekeeper", "freq": 1, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_technician", "freq": 1, "cost_multiplier": 12 },
+      { "monster": "mon_zombie_runner", "freq": 20, "cost_multiplier": 5, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_feral_human_pipe", "freq": 4, "cost_multiplier": 1, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_feral_human_crowbar", "freq": 4, "cost_multiplier": 1, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_feral_human_axe", "freq": 2, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_brainless", "freq": 65, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_CHUD",
     "default": "mon_chud",
     "monsters": [
       { "monster": "mon_one_eye", "freq": 90, "cost_multiplier": 0 },
       { "monster": "mon_crawler", "freq": 35, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SUBWAY",
+    "//": "Z-2 subways, some lost nether things but otherwise mostly normal mobs",
+    "default": "mon_spider_cellar_giant",
+    "monsters": [
+      { "monster": "mon_slug_small", "freq": 180, "cost_multiplier": 1, "ends": 180 },
+      { "monster": "mon_slug_giant", "freq": 180, "cost_multiplier": 1, "starts": 180 },
+      { "monster": "mon_nakedmolerat_giant", "freq": 100, "cost_multiplier": 2, "ends": 180 },
+      { "monster": "mon_nakedmolerat_giant", "freq": 100, "cost_multiplier": 2, "pack_size": [ 1, 2 ], "starts": 180 },
+      { "monster": "mon_spider_cellar_small", "freq": 300, "cost_multiplier": 1, "pack_size": [ 1, 3 ], "ends": 180 },
+      {
+        "monster": "mon_spider_cellar_giant",
+        "freq": 300,
+        "cost_multiplier": 1,
+        "pack_size": [ 1, 3 ],
+        "starts": 180
+      },
+      { "monster": "mon_mutant_experimental", "freq": 50, "cost_multiplier": 2, "ends": 360 },
+      { "monster": "mon_mutant_evolved", "freq": 50, "cost_multiplier": 2, "starts": 360 },
+      { "monster": "mon_sludge_crawler", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_unseen_hunter", "freq": 50, "cost_multiplier": 2, "starts": 42 },
+      { "monster": "mon_dog_thing", "freq": 20, "cost_multiplier": 2 },
+      { "monster": "mon_dog", "freq": 10, "cost_multiplier": 2 },
+      { "monster": "mon_blank", "freq": 20, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_kreck", "freq": 20, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_gracke", "freq": 20, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_hunting_horror", "freq": 20, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
+      { "monster": "mon_shoggoth", "freq": 10, "cost_multiplier": 3, "starts": 42 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SUBWAY_CITY",
+    "//": "Normal subway, extra spawns underneath a city",
+    "default": "mon_chud",
+    "monsters": [
+      { "monster": "mon_chud", "freq": 400, "cost_multiplier": 1, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_one_eye", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_survivor", "freq": 100, "cost_multiplier": 3, "pack_size": [ 1, 3 ], "starts": 42 },
+      {
+        "monster": "mon_zombie_survivor_elite",
+        "freq": 100,
+        "cost_multiplier": 4,
+        "pack_size": [ 1, 3 ],
+        "starts": 180
+      },
+      { "monster": "mon_zombie_technician", "freq": 100, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zombie_shady", "freq": 200, "cost_multiplier": 2, "pack_size": [ 1, 3 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_SUBWAY_LAB",
+    "//": "Lower subway with eldritch nasties and lab escapees",
+    "default": "mon_kreck",
+    "//2": "1W 42, 1M 180, 1,5M 270, 2M 360, 3M 540, sum 930",
+    "monsters": [
+      { "monster": "mon_unseen_hunter", "freq": 200, "cost_multiplier": 1, "starts": 42, "ends": 360 },
+      { "monster": "mon_unseen_hunter", "freq": 200, "cost_multiplier": 1, "pack_size": [ 1, 2 ], "starts": 360 },
+      { "monster": "mon_mutant_experimental", "freq": 200, "cost_multiplier": 1, "ends": 180 },
+      {
+        "monster": "mon_mutant_experimental",
+        "freq": 200,
+        "cost_multiplier": 1,
+        "pack_size": [ 1, 2 ],
+        "starts": 180,
+        "ends": 360
+      },
+      { "monster": "mon_mutant_evolved", "freq": 200, "cost_multiplier": 1, "pack_size": [ 1, 2 ], "starts": 360 },
+      { "monster": "mon_mi_go", "freq": 100, "cost_multiplier": 1, "pack_size": [ 1, 4 ], "ends": 360 },
+      { "monster": "mon_mi_go_scout", "freq": 100, "cost_multiplier": 2, "starts": 360 },
+      { "monster": "mon_mi_go_myrmidon", "freq": 70, "cost_multiplier": 2, "pack_size": [ 1, 2 ], "starts": 540 },
+      { "monster": "mon_sludge_crawler", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_dog_thing", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_thing", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_flying_polyp", "freq": 50, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_hunting_horror", "freq": 50, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_gozu", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_shoggoth", "freq": 30, "cost_multiplier": 2 },
+      { "monster": "mon_albino_penguin", "freq": 20, "cost_multiplier": 1, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_darkman", "freq": 10, "cost_multiplier": 2 }
     ]
   },
   {
@@ -132,7 +255,7 @@
       { "monster": "mon_rattlesnake", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_rattlesnake_giant", "freq": 5, "cost_multiplier": 2 },
       { "monster": "mon_worm", "freq": 20, "cost_multiplier": 1 },
-      { "monster": "mon_wasp", "freq": 10, "cost_multiplier": 1 }
+      { "monster": "mon_wasp_small", "freq": 10, "cost_multiplier": 1 }
     ]
   },
   {
@@ -151,7 +274,7 @@
       { "monster": "mon_spider_widow_giant", "freq": 30, "cost_multiplier": 1, "pack_size": [ 2, 4 ] },
       { "monster": "mon_giant_cockroach", "freq": 50, "cost_multiplier": 1, "pack_size": [ 3, 6 ] },
       { "monster": "mon_black_rat", "freq": 30, "cost_multiplier": 1, "pack_size": [ 4, 8 ] },
-      { "monster": "mon_wasp", "freq": 50, "cost_multiplier": 1, "pack_size": [ 3, 6 ] },
+      { "monster": "mon_wasp_small", "freq": 50, "cost_multiplier": 1, "pack_size": [ 2, 4 ] },
       { "monster": "mon_zombie_child", "freq": 20, "cost_multiplier": 1, "pack_size": [ 2, 6 ] },
       { "monster": "mon_zombie", "freq": 20, "cost_multiplier": 1, "pack_size": [ 2, 6 ] },
       { "monster": "mon_zombie_rot", "freq": 10, "cost_multiplier": 1, "pack_size": [ 1, 5 ] },
@@ -161,16 +284,19 @@
   {
     "type": "monstergroup",
     "name": "GROUP_SEWER",
-    "default": "mon_sewer_rat",
-    "is_animal": true,
+    "default": "mon_null",
+    "//": "Freqs sum to 555 since there's no way to define spawn chance for map extras",
     "monsters": [
-      { "monster": "mon_sewer_fish", "freq": 300, "cost_multiplier": 0, "pack_size": [ 2, 6 ] },
-      { "monster": "mon_sewer_snake", "freq": 240, "cost_multiplier": 0 },
-      { "monster": "mon_sewer_rat", "freq": 100, "cost_multiplier": 0, "pack_size": [ 3, 12 ] },
-      { "monster": "mon_albino_penguin", "freq": 10, "cost_multiplier": 5, "pack_size": [ 3, 9 ] },
-      { "monster": "mon_gator", "freq": 40, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_nakedmolerat_giant", "freq": 25, "cost_multiplier": 3 },
-      { "monster": "mon_frog_mother", "freq": 10, "cost_multiplier": 3 }
+      { "monster": "mon_sewer_fish", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_sewer_snake", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_sewer_rat", "freq": 50, "cost_multiplier": 0, "pack_size": [ 3, 12 ] },
+      { "monster": "mon_gator", "freq": 25, "cost_multiplier": 2 },
+      { "monster": "mon_frog_small", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_slug_small", "freq": 50, "cost_multiplier": 1, "ends": 180 },
+      { "monster": "mon_slug_giant", "freq": 75, "cost_multiplier": 1, "starts": 180 },
+      { "monster": "mon_sludge_crawler", "freq": 25, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_mancroc", "freq": 100, "cost_multiplier": 1, "starts": 180 },
+      { "monster": "mon_frog_mother", "freq": 5, "cost_multiplier": 3, "starts": 360 }
     ]
   },
   {

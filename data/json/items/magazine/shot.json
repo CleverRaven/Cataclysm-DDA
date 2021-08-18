@@ -3,8 +3,16 @@
     "id": "saiga10mag",
     "looks_like": "shotbelt_20",
     "type": "MAGAZINE",
-    "name": { "str": "Saiga-12 10-round magazine" },
-    "description": "A removable plastic magazine for the Saiga-12 shotgun.  Holds 10 rounds.",
+    "name": { "str": "Saiga shotgun 10-round magazine" },
+    "description": "A removable plastic magazine for the Saiga shotgun.  Holds 10 rounds.",
+    "variants": [
+      {
+        "id": "saiga10mag",
+        "name": { "str": "Saiga-12 10-round magazine" },
+        "description": "A removable plastic magazine for the Saiga-12 shotgun.  Holds 10 rounds.",
+        "weight": 1
+      }
+    ],
     "weight": "210 g",
     "volume": "500 ml",
     "price": 4500,
@@ -20,8 +28,16 @@
     "id": "saiga30mag",
     "looks_like": "shotbelt_20",
     "type": "MAGAZINE",
-    "name": { "str": "Saiga-12 30-round drum magazine" },
-    "description": "A removable plastic magazine for the Saiga-12 shotgun.  Holds 30 rounds.",
+    "name": { "str": "Saiga shotgun 30-round drum magazine" },
+    "description": "A removable plastic magazine for the Saiga shotgun.  Holds 30 rounds.",
+    "variants": [
+      {
+        "id": "saiga30mag",
+        "name": { "str": "Saiga-12 30-round drum magazine" },
+        "description": "A removable plastic magazine for the Saiga-12 shotgun.  Holds 30 rounds.",
+        "weight": 1
+      }
+    ],
     "weight": "460 g",
     "volume": "1 L",
     "price": 11000,
@@ -33,41 +49,6 @@
     "reload_time": 130,
     "flags": [ "MAG_BULKY" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 30 } } ]
-  },
-  {
-    "id": "USAS10mag",
-    "looks_like": "shotbelt_20",
-    "type": "MAGAZINE",
-    "name": { "str": "USAS-12 10-round magazine" },
-    "description": "A removable plastic magazine for the USAS-12 shotgun.  Holds 10 rounds.",
-    "weight": "750 g",
-    "volume": "360 ml",
-    "price": 4500,
-    "price_postapoc": 100,
-    "material": [ "plastic" ],
-    "symbol": "#",
-    "color": "dark_gray",
-    "ammo_type": [ "shot" ],
-    "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 10 } } ]
-  },
-  {
-    "id": "USAS20mag",
-    "looks_like": "shotbelt_20",
-    "type": "MAGAZINE",
-    "name": { "str": "USAS-12 20-round drum magazine" },
-    "description": "A removable plastic magazine for the USAS-12 shotgun.  Holds 20 rounds.",
-    "weight": "794 g",
-    "volume": "1742 ml",
-    "price": 11000,
-    "price_postapoc": 250,
-    "material": [ "plastic" ],
-    "symbol": "#",
-    "color": "dark_gray",
-    "ammo_type": [ "shot" ],
-    "reload_time": 110,
-    "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 20 } } ]
   },
   {
     "id": "shotbelt_20",
@@ -83,7 +64,7 @@
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "shot" ],
-    "armor_data": { "covers": [ "torso" ], "coverage": 5, "material_thickness": 1, "encumbrance": 2 },
+    "armor_data": { "material_thickness": 1, "armor": [ { "encumbrance": 2, "coverage": 5, "covers": [ "torso" ] } ] },
     "flags": [ "MAG_EJECT", "BELTED", "OVERSIZE", "WATER_FRIENDLY" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 20 } } ]
   },

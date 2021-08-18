@@ -55,6 +55,9 @@ static constexpr int OMAPY = OMAPX;
 // Size of a square unit of terrain saved to a directory.
 static constexpr int SEG_SIZE = 32;
 
+// Size of a square unit of tile memory saved in a single file, in mm_submaps.
+static constexpr int MM_REG_SIZE = 8;
+
 /**
  * Items on the map with at most this distance to the player are considered available for crafting,
  * see inventory::form_from_map
@@ -152,6 +155,10 @@ static constexpr int SPRING_TEMPERATURE = 65;
 */
 constexpr int SIMPLEX_NOISE_RANDOM_SEED_LIMIT = 32768;
 
+constexpr float MIN_MANIPULATOR_SCORE = 0.1f;
+// the maximum penalty to movecost from a limb value
+constexpr float MAX_MOVECOST_MODIFIER = 100.0f;
+
 /**
  * activity levels, used for BMR.
  * these levels are normally used over the length of
@@ -169,13 +176,22 @@ constexpr float BRISK_EXERCISE = 6.0f;
 constexpr float ACTIVE_EXERCISE = 8.0f;
 constexpr float EXTRA_EXERCISE = 10.0f;
 
-const std::map<std::string, float> activity_levels = {
+const std::map<std::string, float> activity_levels_map = {
     { "NO_EXERCISE", NO_EXERCISE },
     { "LIGHT_EXERCISE", LIGHT_EXERCISE },
     { "MODERATE_EXERCISE", MODERATE_EXERCISE },
     { "BRISK_EXERCISE", BRISK_EXERCISE },
     { "ACTIVE_EXERCISE", ACTIVE_EXERCISE },
     { "EXTRA_EXERCISE", EXTRA_EXERCISE }
+};
+
+const std::map<float, std::string> activity_levels_str_map = {
+    { NO_EXERCISE, "NO_EXERCISE" },
+    { LIGHT_EXERCISE, "LIGHT_EXERCISE" },
+    { MODERATE_EXERCISE, "MODERATE_EXERCISE" },
+    { BRISK_EXERCISE, "BRISK_EXERCISE" },
+    { ACTIVE_EXERCISE, "ACTIVE_EXERCISE" },
+    { EXTRA_EXERCISE, "EXTRA_EXERCISE" }
 };
 
 // these are the lower bounds of each of the weight classes.

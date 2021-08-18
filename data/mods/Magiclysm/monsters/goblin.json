@@ -23,6 +23,7 @@
     "harvest": "demihuman",
     "vision_day": 30,
     "vision_night": 8,
+    "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "death_drops": {
       "subtype": "collection",
       "items": [
@@ -34,8 +35,7 @@
         { "item": "cudgel", "prob": 95 }
       ]
     },
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_2" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_1" ]
   },
   {
     "type": "MONSTER",

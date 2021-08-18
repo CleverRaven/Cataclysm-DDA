@@ -4,36 +4,18 @@
 
 #include <array>
 #include <bitset>
-#include <climits>
-#include <cstddef>
-#include <cstdint>
-#include <functional>
-#include <list>
-#include <map>
-#include <memory>
 #include <set>
-#include <string>
-#include <tuple>
+#include <unordered_map>
 #include <utility>
-#include <vector>
 
-#include "cata_utility.h"
-#include "coordinates.h"
 #include "game_constants.h"
 #include "lightmap.h"
-#include "line.h"
-#include "lru_cache.h"
 #include "point.h"
 #include "reachability_cache.h"
 #include "shadowcasting.h"
-#include "string_id.h"
-#include "type_id.h"
-#include "units_fwd.h"
 #include "value_ptr.h"
 
 class vehicle;
-struct pathfinding_cache;
-struct pathfinding_settings;
 
 struct level_cache {
     public:
@@ -109,22 +91,17 @@ struct level_cache {
         bool get_veh_exists_at( const tripoint &pt ) const;
         std::pair<vehicle *, int> get_veh_cached_parts( const tripoint &pt ) const;
 
-        void set_veh_in_active_range( bool is_active );
         void set_veh_exists_at( const tripoint &pt, bool exists_at );
         void set_veh_cached_parts( const tripoint &pt, vehicle &veh, int part_num );
-        void verify_vehicle_cache();
+
         void clear_vehicle_cache();
         void clear_veh_from_veh_cached_parts( const tripoint &pt, vehicle *veh );
 
     private:
-        // Whether the state of the cache has been changed through any set operation, even
-        // a set operation that cleared a boolean value
-        bool veh_cache_dirty = true;
         // Whether the cache is empty or not; if true, nothing has been added to the cache
         // since the most recent call to clear_vehicle_cache()
-        bool veh_cache_active = false;
-        bool veh_in_active_range = false;
-        bool veh_exists_at[MAPSIZE_X][MAPSIZE_Y];
-        std::map< tripoint, std::pair<vehicle *, int> > veh_cached_parts;
+        bool veh_cache_cleared = true;
+        std::bitset<MAPSIZE_X *MAPSIZE_Y> veh_exists_at;
+        std::unordered_map<tripoint, std::pair<vehicle *, int>> veh_cached_parts;
 };
 #endif // CATA_SRC_LEVEL_CACHE_H

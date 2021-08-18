@@ -655,6 +655,7 @@
     "type": "city_building",
     "id": "house_31",
     "locations": [ "land" ],
+    "//": "The generic basement of this house is a target for the hidden lab map special",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "house_31_north" },
       { "point": [ 0, 0, 1 ], "overmap": "house_31_roof_north" },
@@ -665,6 +666,7 @@
     "type": "city_building",
     "id": "house_32",
     "locations": [ "land" ],
+    "//": "The generic basement of this house is a target for the hidden lab map special",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "house_32_north" },
       { "point": [ 0, 0, 1 ], "overmap": "house_32_roof_north" },
@@ -3317,6 +3319,16 @@
       { "point": [ 0, 0, 0 ], "overmap": "craft_shop_2_north" },
       { "point": [ 0, 0, 1 ], "overmap": "craft_shop_2ndfloor_2_north" },
       { "point": [ 0, 0, 2 ], "overmap": "craft_shop_roof_2_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "craft_shop_3",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "craft_shop_3_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "craft_shop_2ndfloor_3_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "craft_shop_roof_3_north" }
     ]
   },
   {

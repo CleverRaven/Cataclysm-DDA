@@ -34,7 +34,7 @@ class gun_mode
             return flags.count( "MELEE" );
         }
 
-        operator bool() const {
+        explicit operator bool() const {
             return target != nullptr;
         }
 

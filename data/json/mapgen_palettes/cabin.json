@@ -66,7 +66,7 @@
         { "item": "magazines", "chance": 60, "repeat": [ 1, 8 ] },
         { "item": "manuals", "chance": 30 }
       ],
-      "B": { "item": "bed", "chance": 60 },
+      "B": { "item": "bed", "chance": 60, "repeat": [ 1, 3 ] },
       "d": [ { "item": "livingroom", "chance": 40 }, { "item": "office", "chance": 40 } ],
       "D": [
         { "item": "SUS_dresser_mens", "chance": 50, "repeat": [ 1, 4 ] },
@@ -84,20 +84,26 @@
       "R": [
         { "item": "camping", "chance": 50 },
         { "item": "gear_survival", "chance": 30 },
-        { "item": "cannedfood", "chance": 50 },
+        { "item": "cannedfood", "chance": 50, "repeat": [ 2, 4 ] },
         { "item": "stash_food", "chance": 50 }
       ],
-      "s": { "item": "SUS_bathroom_sink", "chance": 60 },
+      "s": [
+        { "item": "SUS_bathroom_sink", "chance": 60 },
+        { "item": "SUS_hair_drawer", "chance": 30 },
+        { "item": "SUS_bathroom_cabinet", "chance": 30 },
+        { "item": "SUS_bathroom_medicine", "chance": 20 },
+        { "item": "harddrugs", "chance": 2 }
+      ],
       "t": { "item": "dining", "chance": 30, "repeat": [ 1, 2 ] },
       "U": { "item": "camping", "chance": 30, "repeat": [ 1, 4 ] },
-      "u": { "item": "SUS_pantry", "chance": 50 },
+      "u": [ { "item": "SUS_pantry", "chance": 25 }, { "item": "cannedfood", "chance": 20, "repeat": [ 1, 2 ] } ],
       "V": { "item": "SUS_oven", "chance": 70 },
       "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] },
-      "1": [ { "item": "SUS_dishes", "chance": 35 }, { "item": "SUS_silverware", "chance": 35 } ],
-      "2": { "item": "SUS_cookware", "chance": 35 },
-      "3": [ { "item": "SUS_utensils", "chance": 35 }, { "item": "SUS_knife_drawer", "chance": 35 } ],
-      "4": [ { "item": "SUS_junk_drawer", "chance": 35 }, { "item": "SUS_spice_collection", "chance": 35 } ],
-      "5": { "item": "SUS_kitchen_sink", "chance": 35 }
+      "1": [ { "item": "SUS_dishes", "chance": 50 }, { "item": "SUS_silverware", "chance": 50 } ],
+      "2": { "item": "SUS_cookware", "chance": 100 },
+      "3": [ { "item": "SUS_utensils", "chance": 50 }, { "item": "SUS_knife_drawer", "chance": 50 } ],
+      "4": [ { "item": "SUS_junk_drawer", "chance": 50 }, { "item": "SUS_spice_collection", "chance": 50 } ],
+      "5": { "item": "SUS_kitchen_sink", "chance": 100 }
     },
     "toilets": { "T": {  } }
   }

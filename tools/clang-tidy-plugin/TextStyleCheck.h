@@ -6,6 +6,7 @@
 #include <llvm/ADT/StringRef.h>
 
 #include "ClangTidy.h"
+#include "ClangTidyCheck.h"
 
 namespace clang
 {

@@ -125,7 +125,8 @@
     "move_cost_mod": 2,
     "coverage": 40,
     "required_str": 5,
-    "flags": [ "PLACE_ITEM", "TRANSPARENT", "FLAMMABLE" ],
+    "flags": [ "PLACE_ITEM", "TRANSPARENT", "FLAMMABLE", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "mannequin", "count": 1 } ] },
     "bash": {
       "str_min": 6,
       "str_max": 40,
@@ -143,7 +144,7 @@
     "color": "light_gray",
     "move_cost_mod": -1,
     "required_str": 10,
-    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "LIQUIDCONT" ],
+    "flags": [ "PLACE_ITEM", "BLOCKSDOOR", "MINEABLE", "LIQUIDCONT", "TRANSPARENT" ],
     "bash": {
       "str_min": 16,
       "str_max": 40,

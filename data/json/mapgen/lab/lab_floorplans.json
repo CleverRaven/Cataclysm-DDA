@@ -545,6 +545,7 @@
           ]
         }
       },
+      "items": { "?": { "item": "autodoc_supplies", "chance": 100 } },
       "computers": {
         "6": {
           "name": "Operating Theater Access Control",
@@ -614,7 +615,8 @@
       "items": {
         "b": { "item": "hospital_bed", "chance": 33 },
         "l": { "item": "surgery", "chance": 50 },
-        "t": { "item": "snacks", "chance": 15 }
+        "t": { "item": "snacks", "chance": 15 },
+        "7": { "item": "autodoc_supplies", "chance": 100 }
       },
       "computers": {
         "6": {

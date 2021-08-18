@@ -2,17 +2,16 @@
 #ifndef CATA_SRC_MUTATION_H
 #define CATA_SRC_MUTATION_H
 
-#include <algorithm>
 #include <climits>
+#include <iosfwd>
 #include <map>
-#include <memory>
+#include <new>
 #include <set>
 #include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
 #include "damage.h"
@@ -20,7 +19,6 @@
 #include "memory_fast.h"
 #include "optional.h"
 #include "point.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "value_ptr.h"
@@ -31,13 +29,11 @@ class JsonObject;
 class Trait_group;
 class item;
 class nc_color;
-class player;
 struct dream;
 
 enum game_message_type : int;
 
 template <typename E> struct enum_traits;
-template <typename T> class string_id;
 
 extern std::vector<dream> dreams;
 extern std::map<mutation_category_id, std::vector<trait_id> > mutations_category;
@@ -193,7 +189,6 @@ struct mutation_branch {
         std::pair<int, int> rand_bash_bonus;
         // Additional bonuses
         cata::optional<float> dodge_modifier = cata::nullopt;
-        cata::optional<float> speed_modifier = cata::nullopt;
         cata::optional<float> movecost_modifier = cata::nullopt;
         cata::optional<float> movecost_flatground_modifier = cata::nullopt;
         cata::optional<float> movecost_obstacle_modifier = cata::nullopt;
@@ -261,13 +256,10 @@ struct mutation_branch {
         // Multiplier for sight range, defaulting to 1.
         cata::optional<float> overmap_multiplier = cata::nullopt;
 
-        // Multiplier for map memory capacity, defaulting to 1.
-        cata::optional<float> map_memory_capacity_multiplier = cata::nullopt;
-
         // Multiplier for reading speed, defaulting to 1.
         cata::optional<float> reading_speed_multiplier = cata::nullopt;
 
-        // Multiplier for skill rust, defaulting to 1.
+        // Multiplier for skill rust delay, defaulting to 1.
         cata::optional<float> skill_rust_multiplier = cata::nullopt;
 
         // Multiplier for consume time, defaulting to 1.
@@ -338,7 +330,9 @@ struct mutation_branch {
         std::vector<trait_id> replacements; // Mutations that replace this one
         std::vector<trait_id> additions; // Mutations that add to this one
         std::vector<mutation_category_id> category; // Mutation Categories
-        std::set<std::string> flags; // Mutation flags
+        std::set<json_character_flag> flags; // Mutation flags
+        std::set<json_character_flag> active_flags; // Mutation flags only when active
+        std::set<json_character_flag> inactive_flags; // Mutation flags only when inactive
         std::map<bodypart_str_id, tripoint> protection; // Mutation wet effects
         std::map<bodypart_str_id, int> encumbrance_always; // Mutation encumbrance that always applies
         // Mutation encumbrance that applies when covered with unfitting item
@@ -347,6 +341,8 @@ struct mutation_branch {
         std::map<bodypart_str_id, float> encumbrance_multiplier_always;
         // Body parts that now need OVERSIZE gear
         std::set<bodypart_str_id> restricts_gear;
+        // item flags that allow wearing gear even if its body part is restricted
+        std::set<flag_id> allowed_items;
         // Mutation stat mods
         /** Key pair is <active: bool, mod type: "STR"> */
         std::unordered_map<std::pair<bool, std::string>, int, cata::tuple_hash> mods;

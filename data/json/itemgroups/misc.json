@@ -27,6 +27,32 @@
     ]
   },
   {
+    "id": "misc_smoking_legal",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Legal smokable item and something to light it with",
+    "entries": [
+      {
+        "distribution": [
+          { "item": "cig", "prob": 75, "charges": [ 1, 10 ] },
+          {
+            "collection": [
+              { "item": "tobacco", "charges-min": 1, "charges-max": 20 },
+              {
+                "distribution": [ { "item": "rolling_paper", "prob": 70, "charges-min": 1, "charges-max": 30 }, { "item": "pipe_tobacco", "prob": 30 } ]
+              }
+            ],
+            "prob": 20
+          },
+          { "item": "cigar", "prob": 5, "charges": [ 1, 1 ] }
+        ]
+      },
+      {
+        "distribution": [ { "item": "lighter", "charges": [ 0, 100 ] }, { "item": "matches", "charges": [ 1, 20 ] } ]
+      }
+    ]
+  },
+  {
     "id": "stoner",
     "type": "item_group",
     "//": "Processed weed and weed accessories",
@@ -149,9 +175,7 @@
       { "item": "rollmat" },
       { "item": "sleeping_bag_roll" },
       { "item": "ear_plugs" },
-      { "item": "mre_hashbrownbacon_box" },
-      { "item": "mre_macaronimarinara_box" },
-      { "item": "mre_meatball_box" },
+      { "group": "MRE", "count": 3 },
       { "item": "water_clean", "count": 2, "charges": 2, "container-item": "bottle_plastic", "sealed": false }
     ]
   },
@@ -159,7 +183,7 @@
     "id": "premium_contents",
     "type": "item_group",
     "subtype": "collection",
-    "//": "Items generated from a premium survival kit",
+    "container-item": "large_survival_kit_box",
     "items": [
       { "item": "knife_folding" },
       { "item": "flint_steel" },
@@ -188,12 +212,12 @@
     "type": "item_group",
     "id": "tobacco_products",
     "items": [
-      [ "cig", 60 ],
-      [ "tobacco", 20 ],
-      [ "chaw", 20 ],
-      [ "cigar", 10 ],
-      [ "ecig", 10 ],
-      [ "advanced_ecig", 8 ],
+      { "item": "cig", "prob": 60, "charges": [ 1, 20 ] },
+      { "item": "tobacco", "prob": 20, "charges": [ 1, 20 ] },
+      { "item": "chaw", "prob": 20, "charges": [ 1, 20 ] },
+      { "item": "cigar", "prob": 10, "charges": [ 1, 5 ] },
+      { "item": "ecig", "prob": 10, "charges": [ 1, 40 ] },
+      { "item": "advanced_ecig", "prob": 8, "charges": [ 1, 100 ] },
       [ "nicotine_liquid", 15 ],
       [ "pipe_tobacco", 10 ]
     ]

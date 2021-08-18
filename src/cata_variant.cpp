@@ -1,7 +1,6 @@
 #include "cata_variant.h"
-
-#include "debug_menu.h"
-#include "mutation.h"
+#include "debug_menu.h" // IWYU pragma: keep
+#include "mutation.h" // IWYU pragma: keep
 
 template<size_t I>
 static bool is_valid_impl_2( const std::string &s )
@@ -69,6 +68,7 @@ std::string enum_to_string<cata_variant_type>( cata_variant_type type )
         case cata_variant_type::trait_id: return "trait_id";
         case cata_variant_type::trap_str_id: return "trap_str_id";
         case cata_variant_type::tripoint: return "tripoint";
+        case cata_variant_type::widget_id: return "widget_id";
         // *INDENT-ON*
         case cata_variant_type::num_types:
             break;

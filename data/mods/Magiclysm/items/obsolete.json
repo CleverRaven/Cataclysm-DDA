@@ -26,6 +26,20 @@
     ]
   },
   {
+    "copy-from": "mtoken",
+    "type": "GENERIC",
+    "id": "mtoken_toolbox",
+    "name": "toolbox token",
+    "description": "A large silver coin that, when activated by uttering the word on the back, turns into the item pictured on the front, in this case a toolbox.",
+    "use_action": {
+      "type": "transform",
+      "target": "toolbox",
+      "active": false,
+      "moves": 200,
+      "msg": "You say the command word engraved on the token, and it rapidly grows and morphs into a shiny pristine toolbox!"
+    }
+  },
+  {
     "id": "wand_magic_missile",
     "name": { "str": "wand of magic missiles", "str_pl": "wands of magic missiles" },
     "description": "A classic, this wand shoots magic missiles without fail.  A more skilled Magus could cast them more efficiently, though.",
@@ -50,5 +64,21 @@
         "item_restriction": [ "small_mana_crystal" ]
       }
     ]
+  },
+  {
+    "type": "AMMO",
+    "id": "tainted_blood",
+    "name": { "str_sp": "tainted blood" },
+    "weight": "2 g",
+    "color": "magenta",
+    "container": "flask_glass",
+    "symbol": "~",
+    "description": "Blood from a blob corrupted creature.  The surface of this black sludge undulates slowly as if agitated by a soft breeze.",
+    "price": 0,
+    "material": [ "tainted_blood" ],
+    "volume": "1 ml",
+    "phase": "liquid",
+    "category": "fuel",
+    "ammo_type": "tainted_blood"
   }
 ]

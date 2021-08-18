@@ -4,13 +4,13 @@
 #include <cstddef>
 #include <functional>
 #include <memory>
+#include <type_traits>
 #include <utility>
 
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
 #include "cursesdef.h"
-#include "debug.h"
 #include "filesystem.h"
 #include "input.h"
 #include "item.h"
@@ -672,8 +672,9 @@ void rule_list::create_rule( cache &map_items, const item &it )
     for( const rule &elem : *this ) {
         if( !elem.bActive ) {
             continue;
-        } else if( !check_special_rule( it.made_of(), elem.sRule ) &&
-                   !wildcard_match( to_match, elem.sRule ) ) {
+        }
+        if( !check_special_rule( it.made_of(), elem.sRule ) &&
+            !wildcard_match( to_match, elem.sRule ) ) {
             continue;
         }
 

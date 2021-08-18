@@ -1,20 +1,23 @@
+#include "mutation.h" // IWYU pragma: associated
+
 #include <cstdlib>
 #include <map>
 #include <memory>
 #include <set>
 #include <stdexcept>
+#include <type_traits>
 #include <vector>
 
 #include "assign.h"
 #include "color.h"
 #include "debug.h"
 #include "enum_conversions.h"
+#include "enums.h"
 #include "generic_factory.h"
 #include "json.h"
+#include "make_static.h"
 #include "memory_fast.h"
-#include "mutation.h" // IWYU pragma: associated
 #include "string_formatter.h"
-#include "string_id.h"
 #include "trait_group.h"
 #include "translations.h"
 
@@ -22,6 +25,7 @@ using TraitGroupMap =
     std::map<trait_group::Trait_group_tag, shared_ptr_fast<Trait_group>>;
 using TraitSet = std::set<trait_id>;
 using trait_reader = auto_flags_reader<trait_id>;
+using flag_reader = auto_flags_reader<json_character_flag>;
 
 static TraitSet trait_blacklist;
 static TraitGroupMap trait_groups;
@@ -419,7 +423,6 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "pierce_dmg_bonus", pierce_dmg_bonus, 0.0f );
     optional( jo, was_loaded, "bash_dmg_bonus", bash_dmg_bonus, 0 );
     optional( jo, was_loaded, "dodge_modifier", dodge_modifier, cata::nullopt );
-    optional( jo, was_loaded, "speed_modifier", speed_modifier, cata::nullopt );
     optional( jo, was_loaded, "movecost_modifier", movecost_modifier, cata::nullopt );
     optional( jo, was_loaded, "movecost_flatground_modifier", movecost_flatground_modifier,
               cata::nullopt );
@@ -441,8 +444,6 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "vomit_multiplier", vomit_multiplier, cata::nullopt );
     optional( jo, was_loaded, "overmap_sight", overmap_sight, cata::nullopt );
     optional( jo, was_loaded, "overmap_multiplier", overmap_multiplier, cata::nullopt );
-    optional( jo, was_loaded, "map_memory_capacity_multiplier", map_memory_capacity_multiplier,
-              cata::nullopt );
     optional( jo, was_loaded, "reading_speed_multiplier", reading_speed_multiplier, cata::nullopt );
     optional( jo, was_loaded, "skill_rust_multiplier", skill_rust_multiplier, cata::nullopt );
     optional( jo, was_loaded, "consume_time_modifier", consume_time_modifier, cata::nullopt );
@@ -496,9 +497,16 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "cancels", cancels, trait_reader{} );
     optional( jo, was_loaded, "changes_to", replacements, trait_reader{} );
     optional( jo, was_loaded, "leads_to", additions, trait_reader{} );
-    optional( jo, was_loaded, "flags", flags, string_reader{} );
+    optional( jo, was_loaded, "flags", flags, flag_reader{} );
+    optional( jo, was_loaded, "active_flags", active_flags, flag_reader{} );
+    optional( jo, was_loaded, "inactive_flags", inactive_flags, flag_reader{} );
     optional( jo, was_loaded, "types", types, string_reader{} );
-    optional( jo, was_loaded, "enchantments", enchantments );
+
+    int enchant_num = 0;
+    for( JsonValue jv : jo.get_array( "enchantments" ) ) {
+        std::string enchant_name = "INLINE_ENCH_" + raw_name + "_" + std::to_string( enchant_num++ );
+        enchantments.push_back( enchantment::load_inline_enchantment( jv, "", enchant_name ) );
+    }
 
     for( const std::string s : jo.get_array( "no_cbm_on_bp" ) ) {
         no_cbm_on_bp.emplace( bodypart_str_id( s ) );
@@ -558,6 +566,10 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
 
     for( const std::string line : jo.get_array( "restricts_gear" ) ) {
         restricts_gear.insert( bodypart_str_id( line ) );
+    }
+
+    for( const std::string line : jo.get_array( "allowed_items" ) ) {
+        allowed_items.insert( flag_id( line ) );
     }
 
     for( JsonObject ao : jo.get_array( "armor" ) ) {
@@ -663,7 +675,7 @@ void mutation_branch::check_consistency()
 
 nc_color mutation_branch::get_display_color() const
 {
-    if( flags.count( "ATTUNEMENT" ) ) {
+    if( flags.count( STATIC( json_character_flag( "ATTUNEMENT" ) ) ) ) {
         return c_green;
     } else if( threshold || profession ) {
         return c_white;
@@ -722,14 +734,11 @@ void dream::load( const JsonObject &jsobj )
 
 bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept
 {
-    if( a->get_display_color() > b->get_display_color() ) {
-        return true;
-    }
-    if( a->get_display_color() < b->get_display_color() ) {
-        return false;
-    }
+    auto trait_sort_key = []( const trait_id & t ) {
+        return std::make_pair( -t->get_display_color().to_int(), t->name() );
+    };
 
-    return localized_compare( a->name(), b->name() );
+    return localized_compare( trait_sort_key( a ), trait_sort_key( b ) );
 }
 
 bool trait_display_nocolor_sort( const trait_id &a, const trait_id &b ) noexcept

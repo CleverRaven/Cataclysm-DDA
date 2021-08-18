@@ -11,6 +11,7 @@
 #include "action.h"
 #include "activity_type.h"
 #include "avatar.h"
+#include "build_reqs.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -27,7 +28,7 @@
 #include "game.h"
 #include "game_constants.h"
 #include "input.h"
-#include "int_id.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_group.h"
 #include "item_stack.h"
@@ -50,7 +51,6 @@
 #include "rng.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "trap.h"
 #include "ui_manager.h"
@@ -59,6 +59,8 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+
+class read_only_visitable;
 
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" );
@@ -90,8 +92,7 @@ static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 static const std::string flag_FLAT( "FLAT" );
 static const std::string flag_INITIAL_PART( "INITIAL_PART" );
 static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
-
-class inventory;
+static const std::string flag_NO_FLOOR( "NO_FLOOR" );
 
 static bool finalized = false;
 
@@ -105,6 +106,9 @@ static bool check_nothing( const tripoint & )
 }
 bool check_empty( const tripoint & ); // tile is empty
 bool check_support( const tripoint & ); // at least two orthogonal supports
+bool check_stable( const tripoint & ); // tile below has a flag SUPPORTS_ROOF
+bool check_empty_stable( const tripoint & ); // tile is empty, tile below has a flag SUPPORTS_ROOF
+bool check_nofloor_above( const tripoint & ); // tile above has a flag NO_FLOOR
 bool check_deconstruct( const tripoint & ); // either terrain or furniture must be deconstructible
 bool check_empty_up_OK( const tripoint & ); // tile is empty and below OVERMAP_HEIGHT
 bool check_up_OK( const tripoint & ); // tile is below OVERMAP_HEIGHT
@@ -141,7 +145,7 @@ static std::map<construction_str_id, construction_id> construction_id_map;
 // Helper functions, nobody but us needs to call these.
 static bool can_construct( const construction_group_str_id &group );
 static bool can_construct( const construction &con );
-static bool player_can_build( player &p, const inventory &inv,
+static bool player_can_build( player &p, const read_only_visitable &inv,
                               const construction_group_str_id &group );
 static bool player_can_see_to_build( player &p, const construction_group_str_id &group );
 static void place_construction( const construction_group_str_id &group );
@@ -519,7 +523,7 @@ construction_id construction_menu( const bool blueprint )
                 }
                 current_buffer_location += construct_buffers[i].size();
                 if( i < construct_buffers.size() - 1 ) {
-                    full_construct_buffer.push_back( std::string() );
+                    full_construct_buffer.emplace_back( );
                     current_buffer_location++;
                 }
             }
@@ -837,7 +841,8 @@ construction_id construction_menu( const bool blueprint )
     return ret;
 }
 
-bool player_can_build( player &p, const inventory &inv, const construction_group_str_id &group )
+bool player_can_build( player &p, const read_only_visitable &inv,
+                       const construction_group_str_id &group )
 {
     // check all with the same group to see if player can build any
     std::vector<construction *> cons = constructions_by_group( group );
@@ -849,7 +854,7 @@ bool player_can_build( player &p, const inventory &inv, const construction_group
     return false;
 }
 
-bool player_can_build( player &p, const inventory &inv, const construction &con )
+bool player_can_build( player &p, const read_only_visitable &inv, const construction &con )
 {
     if( p.has_trait( trait_DEBUG_HS ) ) {
         return true;
@@ -944,8 +949,7 @@ void place_construction( const construction_group_str_id &group )
     shared_ptr_fast<game::draw_callback_t> draw_valid = make_shared_fast<game::draw_callback_t>( [&]() {
         map &here = get_map();
         for( auto &elem : valid ) {
-            here.drawsq( g->w_terrain, player_character, elem.first, true, false,
-                         player_character.pos() + player_character.view_offset );
+            here.drawsq( g->w_terrain, elem.first, drawsq_params().highlight( true ).show_items( true ) );
         }
     } );
     g->add_draw_callback( draw_valid );
@@ -1028,7 +1032,7 @@ void complete_construction( player *p )
     award_xp( *p );
     // Friendly NPCs gain exp from assisting or watching...
     // TODO: NPCs watching other NPCs do stuff and learning from it
-    if( p->is_player() ) {
+    if( p->is_avatar() ) {
         for( auto &elem : get_avatar().get_crafting_helpers() ) {
             if( elem->meets_skill_requirements( built ) ) {
                 add_msg( m_info, _( "%s assists you with the work…" ), elem->name );
@@ -1070,6 +1074,16 @@ void complete_construction( player *p )
             here.furn_set( terp, furn_str_id( built.post_terrain ) );
         } else {
             here.ter_set( terp, ter_str_id( built.post_terrain ) );
+            // Make a roof if constructed terrain should have it and it's an open air
+            if( construct::check_up_OK( terp ) ) {
+                const int_id<ter_t> post_terrain = ter_id( built.post_terrain );
+                if( post_terrain->roof ) {
+                    const tripoint top = terp + tripoint_above;
+                    if( here.ter( top ) == t_open_air ) {
+                        here.ter_set( top, ter_id( post_terrain->roof ) );
+                    }
+                }
+            }
         }
     }
 
@@ -1078,7 +1092,8 @@ void complete_construction( player *p )
         here.spawn_items( p->pos(), item_group::items_from( *built.byproduct_item_group, calendar::turn ) );
     }
 
-    add_msg( m_info, _( "%s finished construction: %s." ), p->disp_name(), built.group->name() );
+    add_msg( m_info, _( "%s finished construction: %s." ), p->disp_name( false, true ),
+             built.group->name() );
     // clear the activity
     p->activity.set_to_null();
 
@@ -1086,7 +1101,7 @@ void complete_construction( player *p )
     // activities
     built.post_special( terp );
     // npcs will automatically resume backlog, players wont.
-    if( p->is_player() && !p->backlog.empty() &&
+    if( p->is_avatar() && !p->backlog.empty() &&
         p->backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
         p->backlog.clear();
         p->assign_activity( ACT_MULTIPLE_CONSTRUCTION );
@@ -1129,6 +1144,21 @@ bool construct::check_support( const tripoint &p )
     return num_supports >= 2;
 }
 
+bool construct::check_stable( const tripoint &p )
+{
+    return get_map().has_flag( flag_SUPPORTS_ROOF, p + tripoint_below );
+}
+
+bool construct::check_empty_stable( const tripoint &p )
+{
+    return check_empty( p ) && check_stable( p );
+}
+
+bool construct::check_nofloor_above( const tripoint &p )
+{
+    return get_map().has_flag( flag_NO_FLOOR, p + tripoint_above );
+}
+
 bool construct::check_deconstruct( const tripoint &p )
 {
     map &here = get_map();
@@ -1163,7 +1193,7 @@ bool construct::check_no_trap( const tripoint &p )
 
 bool construct::check_ramp_high( const tripoint &p )
 {
-    if( check_up_OK( p ) && check_up_OK( p + tripoint_above ) ) {
+    if( check_empty_stable( p ) && check_up_OK( p ) && check_nofloor_above( p ) ) {
         for( const point &car_d : four_cardinal_directions ) {
             // check adjacent points on the z-level above for a completed down ramp
             if( get_map().has_flag( TFLAG_RAMP_DOWN, p + car_d + tripoint_above ) ) {
@@ -1176,7 +1206,7 @@ bool construct::check_ramp_high( const tripoint &p )
 
 bool construct::check_ramp_low( const tripoint &p )
 {
-    return check_up_OK( p ) && check_up_OK( p + tripoint_above );
+    return check_empty_stable( p ) && check_up_OK( p ) && check_nofloor_above( p );
 }
 
 void construct::done_trunk_plank( const tripoint &/*p*/ )
@@ -1193,7 +1223,7 @@ void construct::done_grave( const tripoint &p )
     Character &player_character = get_player_character();
     map &here = get_map();
     map_stack its = here.i_at( p );
-    for( item it : its ) {
+    for( const item &it : its ) {
         if( it.is_corpse() ) {
             if( it.get_corpse_name().empty() ) {
                 if( it.get_mtype()->has_flag( MF_HUMAN ) ) {
@@ -1617,6 +1647,9 @@ void load_construction( const JsonObject &jo )
             { "", construct::check_nothing },
             { "check_empty", construct::check_empty },
             { "check_support", construct::check_support },
+            { "check_stable", construct::check_stable },
+            { "check_empty_stable", construct::check_empty_stable },
+            { "check_nofloor_above", construct::check_nofloor_above },
             { "check_deconstruct", construct::check_deconstruct },
             { "check_empty_up_OK", construct::check_empty_up_OK },
             { "check_up_OK", construct::check_up_OK },
@@ -1760,7 +1793,7 @@ int construction::adjusted_time() const
 
 std::string construction::get_time_string() const
 {
-    const time_duration turns = time_duration::from_turns( adjusted_time() / 100 );
+    const time_duration turns = time_duration::from_moves( adjusted_time() );
     return _( "Time to complete: " ) + colorize( to_string( turns ), color_data );
 }
 
@@ -1779,7 +1812,7 @@ void finalize_constructions()
         if( !vp.has_flag( flag_INITIAL_PART ) ) {
             continue;
         }
-        frame_items.push_back( item_comp( vp.base_item, 1 ) );
+        frame_items.emplace_back( vp.base_item, 1 );
     }
 
     if( frame_items.empty() ) {
@@ -1810,6 +1843,7 @@ void finalize_constructions()
 
         requirement_data::save_requirement( requirements_, con.requirements );
         con.reqs_using.clear();
+        inp_mngr.pump_events();
     }
 
     constructions.erase( std::remove_if( constructions.begin(), constructions.end(),
@@ -1900,9 +1934,8 @@ build_reqs get_build_reqs_for_furn_ter_ids(
         }
         total_reqs.reqs[build.requirements] += count;
         for( const auto &req_skill : build.required_skills ) {
-            if( total_reqs.skills.find( req_skill.first ) == total_reqs.skills.end() ) {
-                total_reqs.skills[req_skill.first] = req_skill.second;
-            } else if( total_reqs.skills[req_skill.first] < req_skill.second ) {
+            auto it = total_reqs.skills.find( req_skill.first );
+            if( it == total_reqs.skills.end() || it->second < req_skill.second ) {
                 total_reqs.skills[req_skill.first] = req_skill.second;
             }
         }

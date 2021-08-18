@@ -1,13 +1,20 @@
 #include "input.h"
 
+#include <cctype>
+#include <clocale>
 #include <algorithm>
 #include <array>
-#include <cctype>
+#include <cstddef>
+#include <exception>
 #include <fstream>
-#include <locale>
+#include <iterator>
 #include <memory>
+#include <new>
 #include <set>
+#include <sstream>
 #include <stdexcept>
+#include <tuple>
+#include <type_traits>
 #include <utility>
 
 #include "action.h"
@@ -29,11 +36,11 @@
 #include "path_info.h"
 #include "point.h"
 #include "popup.h"
+#include "sdltiles.h" // IWYU pragma: keep
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "sdltiles.h"
 
 using std::min; // from <algorithm>
 using std::max;
@@ -44,7 +51,7 @@ template <class T1, class T2>
 struct ContainsPredicate {
     const T1 &container;
 
-    ContainsPredicate( const T1 &container ) : container( container ) { }
+    explicit ContainsPredicate( const T1 &container ) : container( container ) { }
 
     // Operator overload required to leverage std functional interface.
     bool operator()( T2 c ) {
@@ -82,7 +89,7 @@ bool is_mouse_enabled()
 
 bool is_keycode_mode_supported()
 {
-#if defined(TILES) && !defined(__ANDROID__)
+#if defined(TILES) && !defined(__ANDROID__) && !defined(TARGET_OS_IPHONE)
     return keycode_mode;
 #else
     return false;
@@ -1025,14 +1032,16 @@ std::string input_context::get_desc( const std::string &action_descriptor,
     return rval;
 }
 
-std::string input_context::get_desc( const std::string &action_descriptor,
-                                     const std::string &text,
-                                     const input_context::input_event_filter &evt_filter ) const
+std::string input_context::get_desc(
+    const std::string &action_descriptor,
+    const std::string &text,
+    const input_context::input_event_filter &evt_filter,
+    const translation &inline_fmt,
+    const translation &separate_fmt ) const
 {
     if( action_descriptor == "ANY_INPUT" ) {
-        // \u00A0 is the non-breaking space
         //~ keybinding description for anykey
-        return string_format( pgettext( "keybinding", "[any]\u00A0%s" ), text );
+        return string_format( separate_fmt, pgettext( "keybinding", "any" ), text );
     }
 
     const auto &events = inp_mngr.get_input_for_action( action_descriptor, category );
@@ -1048,7 +1057,8 @@ std::string input_context::get_desc( const std::string &action_descriptor,
                     const std::string key = utf32_to_utf8( ch );
                     const int pos = ci_find_substr( text, key );
                     if( pos >= 0 ) {
-                        return text.substr( 0, pos ) + "(" + key + ")" + text.substr( pos + key.size() );
+                        return string_format( inline_fmt, text.substr( 0, pos ),
+                                              key, text.substr( pos + key.size() ) );
                     }
                 }
             }
@@ -1057,12 +1067,28 @@ std::string input_context::get_desc( const std::string &action_descriptor,
 
     if( na ) {
         //~ keybinding description for unbound or disabled keys
-        return string_format( pgettext( "keybinding", "[n/a]\u00A0%s" ), text );
+        return string_format( separate_fmt, pgettext( "keybinding", "n/a" ), text );
     } else {
-        //~ keybinding description for bound keys
-        return string_format( pgettext( "keybinding", "[%s]\u00A0%s" ),
-                              get_desc( action_descriptor, 1, evt_filter ), text );
+        return string_format( separate_fmt, get_desc( action_descriptor, 1, evt_filter ), text );
     }
+}
+
+std::string input_context::get_desc(
+    const std::string &action_descriptor,
+    const std::string &text,
+    const input_event_filter &evt_filter ) const
+{
+    return get_desc( action_descriptor, text, evt_filter,
+                     to_translation(
+                         //~ %1$s: action description text before key,
+                         //~ %2$s: key description,
+                         //~ %3$s: action description text after key.
+                         "keybinding", "%1$s(%2$s)%3$s" ),
+                     to_translation(
+                         // \u00A0 is the non-breaking space
+                         //~ %1$s: key description,
+                         //~ %2$s: action description.
+                         "keybinding", "[%1$s]\u00A0%2$s" ) );
 }
 
 std::string input_context::describe_key_and_name( const std::string &action_descriptor,
@@ -1328,9 +1354,7 @@ action_id input_context::display_menu( const bool permit_execute_action )
                 // We're trying to add a global, but this action has a local
                 // defined, so gray out the invlet.
                 mvwprintz( w_help, point( 2, i + 10 ), c_dark_gray, "%c ", invlet );
-            } else if( status == s_add || status == s_add_global ) {
-                mvwprintz( w_help, point( 2, i + 10 ), c_light_blue, "%c ", invlet );
-            } else if( status == s_remove ) {
+            } else if( status == s_add || status == s_add_global || status == s_remove ) {
                 mvwprintz( w_help, point( 2, i + 10 ), c_light_blue, "%c ", invlet );
             } else if( status == s_execute ) {
                 mvwprintz( w_help, point( 2, i + 10 ), c_white, "%c ", invlet );
@@ -1539,7 +1563,6 @@ void input_manager::wait_for_any_key()
                 }
                 break;
             case input_event_t::keyboard_code:
-                return;
             // errors are accepted as well to avoid an infinite loop
             case input_event_t::error:
                 return;

@@ -73,7 +73,7 @@
       { "item": "joint", "prob": 50 },
       { "item": "coke", "prob": 5 },
       { "item": "cig", "prob": 60 },
-      { "item": "lighter", "prob": 60 },
+      { "item": "lighter", "prob": 60, "charges-min": 10 },
       { "item": "veggy_pickled", "prob": 30, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "meat_pickled", "prob": 20, "charges": 2, "container-item": "jar_glass_sealed" }
     ]

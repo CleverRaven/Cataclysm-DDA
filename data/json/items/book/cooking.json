@@ -15,6 +15,11 @@
     "skill": "cooking",
     "required_level": 2,
     "max_level": 4,
+    "proficiencies": [
+      { "proficiency": "prof_fermenting", "time_factor": 0.1, "fail_factor": 0.25 },
+      { "proficiency": "prof_brewing", "time_factor": 0.25, "fail_factor": 0.5 },
+      { "proficiency": "prof_winemaking", "time_factor": 0.1, "fail_factor": 0.25 }
+    ],
     "intelligence": 8,
     "time": "15 m",
     "fun": 1
@@ -33,6 +38,13 @@
     "color": "green",
     "skill": "cooking",
     "max_level": 3,
+    "proficiencies": [
+      { "proficiency": "prof_baking", "time_factor": 0.25, "fail_factor": 0.2 },
+      { "proficiency": "prof_baking_bread", "time_factor": 0.25, "fail_factor": 0.2 },
+      { "proficiency": "prof_baking_desserts_1", "time_factor": 0.25, "fail_factor": 0.2 },
+      { "proficiency": "prof_fermenting", "time_factor": 0.05, "fail_factor": 0.1 },
+      { "proficiency": "prof_lactofermenting", "time_factor": 0.05, "fail_factor": 0.1 }
+    ],
     "intelligence": 4,
     "time": "10 m"
   },
@@ -48,6 +60,7 @@
     "price_postapoc": 50,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "cookbook",
     "color": "blue",
     "skill": "cooking",
     "required_level": 2,
@@ -109,6 +122,12 @@
     "skill": "cooking",
     "required_level": 1,
     "max_level": 5,
+    "proficiencies": [
+      { "proficiency": "prof_baking", "time_factor": 0.1, "fail_factor": 0.4 },
+      { "proficiency": "prof_baking_bread", "time_factor": 0.1, "fail_factor": 0.25 },
+      { "proficiency": "prof_baking_desserts_1", "time_factor": 0.1, "fail_factor": 0.25 },
+      { "proficiency": "prof_frying", "time_factor": 0.1, "fail_factor": 0.2 }
+    ],
     "intelligence": 7,
     "time": "30 m",
     "fun": 1
@@ -184,10 +203,17 @@
     "price_postapoc": 750,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "cookbook",
     "color": "green",
     "skill": "cooking",
     "required_level": 1,
     "max_level": 3,
+    "proficiencies": [
+      { "proficiency": "prof_fermenting", "time_factor": 0.1, "fail_factor": 0.4 },
+      { "proficiency": "prof_distilling", "time_factor": 0.1, "fail_factor": 0.3 },
+      { "proficiency": "prof_brewing", "time_factor": 0.05, "fail_factor": 0.1 },
+      { "proficiency": "prof_winemaking", "time_factor": 0.05, "fail_factor": 0.2 }
+    ],
     "intelligence": 4,
     "time": "10 m"
   },
@@ -197,6 +223,10 @@
     "name": { "str": "Drink the Harvest", "str_pl": "copies of Drink the Harvest" },
     "description": "Canning foods doesn't have to stop with jam and pickles.  This book provides a plethora of juices that can be preserved.",
     "copy-from": "brewing_cookbook",
+    "proficiencies": [
+      { "proficiency": "prof_preservation", "time_factor": 0.1, "fail_factor": 0.1 },
+      { "proficiency": "prof_food_canning", "time_factor": 0.1, "fail_factor": 0.4 }
+    ],
     "//": "Later on add mead transforms that don't require distilling to this book that match the source book. Possibly wait til beekeeping is added."
   },
   {
@@ -210,10 +240,12 @@
     "price_postapoc": 750,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "cookbook",
     "color": "green",
     "skill": "cooking",
     "required_level": 1,
     "max_level": 3,
+    "proficiencies": [ { "proficiency": "prof_frying", "time_factor": 0.1, "fail_factor": 0.2 } ],
     "intelligence": 4,
     "time": "10 m"
   },
@@ -228,10 +260,15 @@
     "price_postapoc": 750,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "cookbook",
     "color": "white",
     "skill": "cooking",
     "required_level": 2,
     "max_level": 5,
+    "proficiencies": [
+      { "proficiency": "prof_cheesemaking_1", "time_factor": 0.1, "fail_factor": 0.4 },
+      { "proficiency": "prof_cheesemaking_2", "time_factor": 0.1, "fail_factor": 0.1 }
+    ],
     "intelligence": 4,
     "time": "14 m"
   },
@@ -302,11 +339,17 @@
     "bashing": 2,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "cookbook",
     "color": "red",
     "skill": "cooking",
     "intelligence": 7,
     "required_level": 1,
     "max_level": 2,
+    "proficiencies": [
+      { "proficiency": "prof_fermenting", "time_factor": 0.1, "fail_factor": 0.5 },
+      { "proficiency": "prof_brewing", "time_factor": 0.1, "fail_factor": 0.1 },
+      { "proficiency": "prof_winemaking", "time_factor": 0.25, "fail_factor": 0.3 }
+    ],
     "time": "12 m"
   },
   {
@@ -315,6 +358,10 @@
     "name": { "str": "You Can Can at Home", "str_pl": "copies of You Can Can at Home" },
     "description": "This entry-level guide to home canning talks about the importance of acidity and food contents in preservation, and how to avoid contaminants in your canning batches.",
     "price_postapoc": 1500,
+    "proficiencies": [
+      { "proficiency": "prof_preservation", "time_factor": 0.1, "fail_factor": 0.25 },
+      { "proficiency": "prof_food_canning", "time_factor": 0.2, "fail_factor": 0.4 }
+    ],
     "copy-from": "mag_cooking"
   },
   {
@@ -323,6 +370,10 @@
     "name": { "str": "Can Sealer Instructions", "str_pl": "copies of Can Sealer Instructions" },
     "description": "This dry guide to a home-use tin can sealer goes into clear detail on everything you can seal with the device and how to do it safely, and includes some basic recipes.",
     "price_postapoc": 1500,
+    "proficiencies": [
+      { "proficiency": "prof_preservation", "time_factor": 0.05, "fail_factor": 0.1 },
+      { "proficiency": "prof_food_canning", "time_factor": 0.05, "fail_factor": 0.3 }
+    ],
     "copy-from": "mag_cooking"
   },
   {
@@ -337,10 +388,17 @@
     "bashing": 4,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "cookbook",
     "color": "blue",
     "skill": "cooking",
     "required_level": 2,
     "max_level": 5,
+    "proficiencies": [
+      { "proficiency": "prof_baking", "time_factor": 0.1, "fail_factor": 0.5 },
+      { "proficiency": "prof_baking_bread", "time_factor": 0.1, "fail_factor": 0.5 },
+      { "proficiency": "prof_baking_desserts_1", "time_factor": 0.1, "fail_factor": 0.5 },
+      { "proficiency": "prof_baking_desserts_2", "time_factor": 0.1, "fail_factor": 0.4 }
+    ],
     "intelligence": 8,
     "time": "15 m",
     "fun": 1
@@ -357,12 +415,17 @@
     "bashing": 4,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "cookbook",
     "color": "green",
     "skill": "cooking",
     "required_level": 3,
     "max_level": 6,
     "intelligence": 8,
     "time": "15 m",
+    "proficiencies": [
+      { "proficiency": "prof_fermenting", "time_factor": 0.25, "fail_factor": 0.3 },
+      { "proficiency": "prof_lactofermenting", "time_factor": 0.2, "fail_factor": 0.4 }
+    ],
     "fun": 1
   },
   {
@@ -377,10 +440,18 @@
     "bashing": 1,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "cookbook",
     "color": "blue",
     "skill": "cooking",
     "required_level": 3,
     "max_level": 5,
+    "proficiencies": [
+      { "proficiency": "prof_fermenting", "time_factor": 0.05, "fail_factor": 0.05 },
+      { "proficiency": "prof_brewing", "time_factor": 0.05, "fail_factor": 0.1 },
+      { "proficiency": "prof_winemaking", "time_factor": 0.05, "fail_factor": 0.1 },
+      { "proficiency": "prof_distilling", "time_factor": 0.2, "fail_factor": 0.2 },
+      { "proficiency": "prof_beverage_distilling", "time_factor": 0.3, "fail_factor": 0.4 }
+    ],
     "intelligence": 8,
     "time": "15 m",
     "fun": 1
@@ -396,9 +467,14 @@
     "price_postapoc": 250,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "cookbook",
     "color": "light_gray",
     "skill": "cooking",
     "max_level": 2,
+    "proficiencies": [
+      { "proficiency": "prof_baking", "time_factor": 0.1, "fail_factor": 0.25 },
+      { "proficiency": "prof_baking_desserts_1", "time_factor": 0.1, "fail_factor": 0.4 }
+    ],
     "intelligence": 4,
     "time": "9 m",
     "fun": 1
@@ -414,10 +490,12 @@
     "price_postapoc": 1250,
     "material": [ "paper" ],
     "symbol": "?",
+    "looks_like": "pocket_survival",
     "color": "light_gray",
     "skill": "cooking",
     "required_level": 1,
     "max_level": 3,
+    "proficiencies": [ { "proficiency": "prof_forage_cooking", "time_factor": 0.1, "fail_factor": 0.25 } ],
     "intelligence": 9,
     "time": "9 m",
     "fun": -1
@@ -438,6 +516,7 @@
     "max_level": 3,
     "intelligence": 7,
     "fun": 1,
-    "copy-from": "book_nonf_hard_cook_tpl"
+    "copy-from": "book_nonf_hard_cook_tpl",
+    "looks_like": "cookbook"
   }
 ]

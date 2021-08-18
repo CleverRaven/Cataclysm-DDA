@@ -2,7 +2,7 @@
   {
     "id": "MISSION_GET_MAGIC_BOOK",
     "type": "mission_definition",
-    "name": "Retrieve Magic Book",
+    "name": "Retrieve The Tome of The Battle Mage",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 4,
     "value": 250000,

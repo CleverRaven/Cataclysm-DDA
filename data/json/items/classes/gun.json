@@ -6,7 +6,8 @@
     "name": { "str": "base gun" },
     "symbol": "(",
     "color": "light_gray",
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ]
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": 0 }
   },
   {
     "abstract": "flamethrower_base",
@@ -18,7 +19,8 @@
     "ammo": [ "flammable" ],
     "ammo_effects": [ "FLARE" ],
     "reload": 4,
-    "flags": [ "FIRE_100", "NEVER_JAMS", "FIRESTARTER" ],
+    "flags": [ "NEVER_JAMS", "FIRESTARTER" ],
+    "ammo_to_fire": 100,
     "faults": [  ]
   },
   {

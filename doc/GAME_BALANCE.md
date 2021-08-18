@@ -26,6 +26,20 @@ Very high skill: 8 (dangerous opponent; dark wyrm, vinebeast)
 Maximal skill: 10 (highest for balance purposes; jabberwock, tribot, shoggoth, gracken)
 
 
+# Monster HP scaling:
+Minimum HP: 1 (no ability to absorb damage; yellow chick, mosquito)
+
+Average HP: ~100 (average critter; most basic zeds, slimes, soldier ants, fungaloids & triffids)
+
+Notable HP: ~200 (unusually resilient; tiger, zombie master, mi-go)
+
+Very high HP: ~500 (supernaturally resilient; zombie hulk, shoggoth, triffid heart, jabberwock)
+
+Maximal HP: 800 (highest for balance purposes; wraith)
+
+In general larger creatures should have higher HP as should more evolved blob creatures and alien and nether creatures.
+
+
 # Speeds:
 Zombies are a bit faster than "shambling". Zombified versions of fast critters will remain fast, but in general the process slows the undead version. Further, under no circumstances should a zed be more than 50% faster than base character speed. Currently, this means "capped at 150".
 
@@ -126,7 +140,7 @@ Relative value should put the weapon into one of those categories:
 
 <2 - Not weapons. Those items may be pressed into service, but are unlikely to be better than fists. Plastic bottles, rocks, boots.
 
-2-5 - Tools not meant to strike and improvised weapons. Two-by-fours, pointy sticks, pipes, hammers.
+2-5 - Tools not meant to strike and improvised weapons. Planks, pointy sticks, pipes, hammers.
 
 6-11 - Dangerous tools or crude dedicated weapons. Golf clubs, two-by-swords, wooden spears, knife spears, hatchets, switchblades, tonfas, quarterstaves.
 
@@ -191,7 +205,7 @@ Bow damage is based on the momentum achieved in the projectile.  Since arrows an
 ## Ammo stats
 The damage (**Dmg**) of firearm ammunition is the square root of a round's muzzle energy in joules (**Energy, J**) rounded to the nearest integer with an arbitrary increase or decrease to account for terminal ballistics. Damage of handloaded ammo is set to 92% (rounded down) of their factory counterparts. A similar system for calculating recoil is planned but not currently being worked on. The figures used to calculate stats and any other relevant information are presented in table below.
 
-Each cartridge also has a Base Barrel Length (**Base Brl**) listed; this determines the damage for the connected guns. A firearm has its damage modifier determined by it's real life barrel length; for every three inches between it and the listed baseline here, the gun takes a 1 point bonus or penalty, rounding to the nearest modifier. For example, a .45 ACP gun with a 7 inch barrel would get a +1 bonus (against a baseline of 5 inches).
+Each cartridge also has a Base Barrel Length (**Base Brl**) listed; this determines the damage for the connected guns. A firearm has its damage modifier determined by its real life barrel length; for every three inches between it and the listed baseline here, the gun takes a 1 point bonus or penalty, rounding to the nearest modifier. For example, a .45 ACP gun with a 7 inch barrel would get a +1 bonus (against a baseline of 5 inches).
 
 Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | Applied Modifiers / Comments |
 -------------------|-----------------------------|-----------|-----|----------|-------------------------------
@@ -211,7 +225,7 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 .38 Special        | 130gr FMJ bullet            | 256       | 16  | 4in      |                              |
 .38 FMJ            | 130gr FMJ bullet            | 256       | 16  | 4in      |                              |
 .38 Super          | 147gr JHP bullet            | 660       | 26  | 4in      |                              |
-10mm Auto          | 180gr FMJ bullet            | 960       | 31  | 4in      |                              |
+10mm Auto          | 180gr FMJ bullet            | 799       | 28  | 5in      |                              |
 .40 S&W            | 135gr JHP bullet            | 575       | 24  | 4in      |                              |
 .40 FMJ            | 180gr FMJ bullet            | 598       | 24  | 4in      |                              |
 .44 Magnum         | 240gr JHP bullet            | 1570      | 40  | 7.5in    |                              |
@@ -247,6 +261,7 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 .50 BMG M33 Ball   | 706.7gr bullet              | 18013     | 134 | 45in     |                              |
 .50 BMG M903 SLAP  | 355gr tungsten AP bullet    | 17083     | 131 | 45in     |  Can't be used with M107A1   |
 .410 000 shot      | 5 000 pellets               | 1530      | 39  | 18in     |                              |
+.70 blunderbuss shot | 400gr lead ball           | 1200      | 41  | 16in     |  Very generous FPS           |
 
 # LIQUIDS:
 Multi-charge items are weighed by the charge/use.  If you have an item that contains 40 uses, it'll weigh 40x as much (when found in-game) as you entered in the JSON. Liquids are priced by the 250mL unit, but handled in containers.  This can cause problems if you create something that comes in (say) a gallon jug (15 charges) and price it at the cost of a jug's worth: it'll be 15x as expensive as intended.

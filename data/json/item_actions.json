@@ -61,11 +61,6 @@
   },
   {
     "type": "item_action",
-    "id": "BURROW",
-    "name": { "str": "Burrow through rock" }
-  },
-  {
-    "type": "item_action",
     "id": "GEIGER",
     "name": { "str": "Use geiger counter" }
   },
@@ -251,11 +246,6 @@
   },
   {
     "type": "item_action",
-    "id": "ANTIASTHMATIC",
-    "name": { "str": "Take" }
-  },
-  {
-    "type": "item_action",
     "id": "ANTIBIOTIC",
     "name": { "str": "Take" }
   },
@@ -361,6 +351,11 @@
   },
   {
     "type": "item_action",
+    "id": "BINDER_ADD_RECIPE",
+    "name": { "str": "Copy a recipe" }
+  },
+  {
+    "type": "item_action",
     "id": "COKE",
     "name": { "str": "Snort coke" }
   },
@@ -458,6 +453,16 @@
     "type": "item_action",
     "id": "EINKTABLETPC",
     "name": { "str": "Use SD-Card apps" }
+  },
+  {
+    "type": "item_action",
+    "id": "EBOOKSAVE",
+    "name": { "str": "Store a book" }
+  },
+  {
+    "type": "item_action",
+    "id": "EBOOKREAD",
+    "name": { "str": "Read stored books" }
   },
   {
     "type": "item_action",
@@ -726,11 +731,6 @@
   },
   {
     "type": "item_action",
-    "id": "PHEROMONE",
-    "name": { "str": "Squeeze" }
-  },
-  {
-    "type": "item_action",
     "id": "PLANTBLECH",
     "name": { "str": "Consume" }
   },
@@ -747,7 +747,7 @@
   {
     "type": "item_action",
     "id": "FITNESS_CHECK",
-    "name": "Check health metrics"
+    "name": { "str": "Check health metrics" }
   },
   {
     "type": "item_action",
@@ -858,11 +858,6 @@
     "type": "item_action",
     "id": "SIPHON",
     "name": { "str": "Siphon" }
-  },
-  {
-    "type": "item_action",
-    "id": "SLEEP",
-    "name": { "str": "Take" }
   },
   {
     "type": "item_action",
@@ -1088,5 +1083,20 @@
     "type": "item_action",
     "id": "CRAFT",
     "name": { "str": "Work on craft" }
+  },
+  {
+    "type": "item_action",
+    "id": "effect_on_conditions",
+    "name": { "str": "Activate item" }
+  },
+  {
+    "type": "item_action",
+    "id": "SEXTANT",
+    "name": { "str": "Measure Sun altitude" }
+  },
+  {
+    "type": "item_action",
+    "id": "LUX_METER",
+    "name": { "str": "Measure light level" }
   }
 ]

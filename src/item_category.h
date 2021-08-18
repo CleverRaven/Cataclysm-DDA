@@ -2,13 +2,12 @@
 #ifndef CATA_SRC_ITEM_CATEGORY_H
 #define CATA_SRC_ITEM_CATEGORY_H
 
-#include <algorithm>
-#include <string>
+#include <iosfwd>
+#include <new>
 #include <vector>
 
 #include "flat_set.h"
 #include "optional.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 

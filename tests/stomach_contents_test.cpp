@@ -1,13 +1,11 @@
-#include "catch/catch.hpp"
-
 #include <cstdio>
-#include <string>
+#include <iosfwd>
 #include <vector>
 
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_catch.h"
 #include "character.h"
-#include "creature.h"
 #include "item.h"
 #include "player.h"
 #include "player_helpers.h"
@@ -94,6 +92,10 @@ TEST_CASE( "starve_test", "[starve][slow]" )
     Character &dummy = get_player_character();
     reset_time();
     clear_stomach( dummy );
+    dummy.reset_activity_level();
+    calendar::turn += 1_seconds;
+    dummy.update_body( calendar::turn, calendar::turn );
+    dummy.set_activity_level( 1.0 );
 
     CAPTURE( dummy.metabolic_rate_base() );
     CAPTURE( dummy.activity_level_str() );

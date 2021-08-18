@@ -3,8 +3,11 @@
 #define CATA_SRC_RECIPE_H
 
 #include <cstddef>
+#include <cstdint>
 #include <functional>
+#include <iosfwd>
 #include <map>
+#include <new>
 #include <set>
 #include <string>
 #include <utility>
@@ -22,7 +25,6 @@ class Character;
 class JsonIn;
 class JsonObject;
 class item;
-class time_duration;
 template <typename E> struct enum_traits;
 
 enum class recipe_filter_flags : int {
@@ -73,15 +75,19 @@ class recipe
     private:
         itype_id result_ = itype_id::NULL_ID();
 
-        int time = 0; // in movement points (100 per turn)
+        int64_t time = 0; // in movement points (100 per turn)
 
         float exertion = 0.0f;
 
     public:
         recipe();
 
-        operator bool() const {
-            return !result_.is_null();
+        bool is_null() const {
+            return result_.is_null();
+        }
+
+        explicit operator bool() const {
+            return !is_null();
         }
 
         const itype_id &result() const {
@@ -138,7 +144,8 @@ class recipe
         }
 
         /// @returns The name (@ref item::nname) of the resulting item (@ref result).
-        std::string result_name() const;
+        /// @param decorated whether the result includes decoration (favorite mark, etc).
+        std::string result_name( bool decorated = false ) const;
 
         std::map<itype_id, int> byproducts;
 
@@ -178,9 +185,9 @@ class recipe
         // Helpful proficiencies
         std::set<proficiency_id> assist_proficiencies() const;
         // The time malus due to proficiencies lacking
-        float proficiency_time_maluses( const Character &guy ) const;
+        float proficiency_time_maluses( const Character &crafter ) const;
         // The failure malus due to proficiencies lacking
-        float proficiency_failure_maluses( const Character &guy ) const;
+        float proficiency_failure_maluses( const Character &crafter ) const;
 
         // How active of exercise this recipe is
         float exertion_level() const;
@@ -202,14 +209,14 @@ class recipe
 
         bool has_byproducts() const;
 
-        int batch_time( const Character &guy, int batch, float multiplier, size_t assistants ) const;
+        int64_t batch_time( const Character &guy, int batch, float multiplier, size_t assistants ) const;
         time_duration batch_duration( const Character &guy, int batch = 1, float multiplier = 1.0,
                                       size_t assistants = 0 ) const;
 
         time_duration time_to_craft( const Character &guy,
                                      recipe_time_flag flags = recipe_time_flag::none ) const;
-        int time_to_craft_moves( const Character &guy,
-                                 recipe_time_flag flags = recipe_time_flag::none ) const;
+        int64_t time_to_craft_moves( const Character &guy,
+                                     recipe_time_flag flags = recipe_time_flag::none ) const;
 
         bool has_flag( const std::string &flag_name ) const;
 
@@ -239,6 +246,8 @@ class recipe
         void check_blueprint_requirements();
 
         bool hot_result() const;
+
+        bool removes_raw() const;
 
         // Returns the amount or charges recipe will produce.
         int makes_amount() const;

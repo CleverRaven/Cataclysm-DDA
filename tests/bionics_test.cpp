@@ -1,14 +1,16 @@
-#include "catch/catch.hpp"
-#include "bionics.h"
-
 #include <climits>
+#include <iosfwd>
 #include <list>
 #include <memory>
 #include <string>
 
 #include "avatar.h"
+#include "bionics.h"
+#include "calendar.h"
+#include "cata_catch.h"
 #include "item.h"
 #include "item_pocket.h"
+#include "npc.h"
 #include "pimpl.h"
 #include "player.h"
 #include "player_helpers.h"

@@ -39,7 +39,7 @@ then
     BIN=
     for bin in cataclysm-tiles cataclysm
     do
-    [ -f "$bin" ] && BIN="$bin" && break
+    [ -f "$bin" ] && BIN="$bin" break
     done
 fi
 

@@ -1,0 +1,30 @@
+[
+  {
+    "type": "MONSTER",
+    "id": "mon_test_non_shearable",
+    "name": { "str_sp": "non shearable monster" },
+    "description": "An 8-legged beast of rugged greenish skin.",
+    "default_faction": "herbivore",
+    "material": [ "flesh" ],
+    "symbol": "S",
+    "volume": "81500 ml",
+    "weight": "81500 g",
+    "hp": 100,
+    "speed": 50,
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATTLEFODDER", "PET_WONT_FOLLOW" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_test_shearable",
+    "copy-from": "mon_test_non_shearable",
+    "name": { "str_sp": "shearable monster" },
+    "description": "An 8-legged beast of a surprisingly comfy sanguine fur.",
+    "//": "A random assortment of items to test shearing",
+    "shearing": [
+      { "result": "test_rock", "amount": 30 },
+      { "result": "test_2x4", "amount": [ 5, 10 ] },
+      { "result": "test_rag", "ratio_mass": 0.5 },
+      { "result": "test_pipe", "ratio_volume": 0.3 }
+    ]
+  }
+]

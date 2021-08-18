@@ -156,7 +156,7 @@
   {
     "id": "TALK_WEAPON_DROPPED",
     "type": "talk_topic",
-    "dynamic_line": { "npc_male": "*drops his weapon.", "no": "*drops_her_weapon." },
+    "dynamic_line": { "npc_male": "*drops his weapon.", "no": "*drops her weapon." },
     "responses": [
       {
         "text": "Now get out of here",

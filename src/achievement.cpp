@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 #include <set>
+#include <string>
 #include <tuple>
 #include <utility>
 
@@ -161,7 +162,7 @@ struct achievement_requirement {
     requirement_visibility visibility = requirement_visibility::always;
     cata::optional<translation> description;
 
-    bool becomes_false = false;
+    bool becomes_false = false; // NOLINT(cata-serialize)
 
     void deserialize( JsonIn &jin ) {
         const JsonObject &jo = jin.get_object();
@@ -527,10 +528,9 @@ class requirement_watcher : stat_watcher
     public:
         requirement_watcher( achievement_tracker &tracker, const achievement_requirement &req,
                              stats_tracker &stats ) :
-            current_value_( req.statistic->value( stats ) ),
             tracker_( &tracker ),
-            requirement_( &req ) {
-            stats.add_watcher( req.statistic, this );
+            requirement_( &req ),
+            current_value_( stats.add_watcher( req.statistic, this ) ) {
         }
 
         const cata_variant &current_value() const {
@@ -543,8 +543,8 @@ class requirement_watcher : stat_watcher
 
         void new_value( const cata_variant &new_value, stats_tracker & ) override;
 
-        bool is_satisfied( stats_tracker &stats ) {
-            return requirement_->satisfied_by( requirement_->statistic->value( stats ) );
+        bool is_satisfied( stats_tracker &/*stats*/ ) {
+            return requirement_->satisfied_by( current_value_ );
         }
 
         cata::optional<std::string> ui_text() const {
@@ -552,9 +552,9 @@ class requirement_watcher : stat_watcher
                                          achievement_completion::pending );
         }
     private:
-        cata_variant current_value_;
         achievement_tracker *tracker_;
         const achievement_requirement *requirement_;
+        cata_variant current_value_;
 };
 
 void requirement_watcher::new_value( const cata_variant &new_value, stats_tracker & )

@@ -1,9 +1,9 @@
 #ifndef CATA_SRC_STATS_TRACKER_H
 #define CATA_SRC_STATS_TRACKER_H
 
+#include <iosfwd>
 #include <memory>
 #include <set>
-#include <string>
 #include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
@@ -12,9 +12,7 @@
 #include "calendar.h"
 #include "cata_variant.h"
 #include "event.h"
-#include "event_bus.h"
 #include "event_subscriber.h"
-#include "hash_utils.h"
 #include "optional.h"
 #include "string_id.h"
 
@@ -22,6 +20,10 @@ class JsonIn;
 class JsonOut;
 class event_statistic;
 class event_transformation;
+namespace cata
+{
+struct range_hash;
+}  // namespace cata
 
 enum class monotonically : int;
 class score;
@@ -60,7 +62,7 @@ class event_multiset
         // Default constructor for deserialization deliberately uses invalid
         // type
         event_multiset() : type_( event_type::num_event_types ) {}
-        event_multiset( event_type type ) : type_( type ) {}
+        explicit event_multiset( event_type type ) : type_( type ) {}
 
         void set_type( event_type );
 
@@ -97,7 +99,7 @@ class event_multiset
         void serialize( JsonOut & ) const;
         void deserialize( JsonIn & );
     private:
-        event_type type_;
+        event_type type_; // NOLINT(cata-serialize)
         summaries_type summaries_;
 };
 
@@ -167,6 +169,18 @@ class stats_tracker_state
 {
     public:
         virtual ~stats_tracker_state() = 0;
+        virtual const cata_variant &get_value() const = 0;
+};
+
+class stats_tracker_value_state : public stats_tracker_state
+{
+    public:
+};
+
+class stats_tracker_multiset_state : public stats_tracker_state
+{
+    public:
+        [[noreturn]] const cata_variant &get_value() const override;
 };
 
 class stats_tracker : public event_subscriber
@@ -181,7 +195,8 @@ class stats_tracker : public event_subscriber
 
         void add_watcher( event_type, event_multiset_watcher * );
         void add_watcher( const string_id<event_transformation> &, event_multiset_watcher * );
-        void add_watcher( const string_id<event_statistic> &, stat_watcher * );
+        // Returns the current value of the watched statistic
+        const cata_variant &add_watcher( const string_id<event_statistic> &, stat_watcher * );
 
         void unwatch( base_watcher * );
 
@@ -205,14 +220,16 @@ class stats_tracker : public event_subscriber
 
         std::unordered_map<event_type, event_multiset> data;
 
+        // NOLINTNEXTLINE(cata-serialize)
         std::unordered_map<event_type, watcher_set<event_multiset_watcher>> event_type_watchers;
         std::unordered_map<string_id<event_transformation>, watcher_set<event_multiset_watcher>>
-                event_transformation_watchers;
+                event_transformation_watchers; // NOLINT(cata-serialize)
+        // NOLINTNEXTLINE(cata-serialize)
         std::unordered_map<string_id<event_statistic>, watcher_set<stat_watcher>> stat_watchers;
         std::unordered_map<string_id<event_transformation>, std::unique_ptr<stats_tracker_state>>
-                event_transformation_states;
+                event_transformation_states; // NOLINT(cata-serialize)
         std::unordered_map<string_id<event_statistic>, std::unique_ptr<stats_tracker_state>>
-                stat_states;
+                stat_states; // NOLINT(cata-serialize)
 
         std::unordered_set<string_id<score>> initial_scores;
 };

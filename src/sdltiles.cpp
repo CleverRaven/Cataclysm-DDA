@@ -19,6 +19,7 @@
 #include <map>
 #include <memory>
 #include <set>
+#include <stack>
 #include <stdexcept>
 #include <type_traits>
 #include <vector>
@@ -39,6 +40,7 @@
 #include "catacharset.h"
 #include "color.h"
 #include "color_loader.h"
+#include "cuboid_rectangle.h"
 #include "cursesport.h"
 #include "debug.h"
 #include "filesystem.h"
@@ -50,10 +52,16 @@
 #include "hash_utils.h"
 #include "input.h"
 #include "json.h"
+#include "line.h"
 #include "map.h"
+#include "mapbuffer.h"
+#include "mission.h"
+#include "npc.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
+#include "overmap_ui.h"
+#include "overmapbuffer.h"
 #include "path_info.h"
 #include "point.h"
 #include "sdl_geometry.h"
@@ -96,6 +104,7 @@ std::unique_ptr<cata_tiles> tilecontext;
 static uint32_t lastupdate = 0;
 static uint32_t interval = 25;
 static bool needupdate = false;
+static bool need_invalidate_framebuffers = false;
 
 palette_array windowsPalette;
 
@@ -234,11 +243,14 @@ static void WinCreate()
     if( get_option<std::string>( "FULLSCREEN" ) == "fullscreen" ) {
         window_flags |= SDL_WINDOW_FULLSCREEN;
         fullscreen = true;
+        // It still minimizes, but the screen size is not set to 0 to cause
+        // division by zero
         SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0" );
     } else if( get_option<std::string>( "FULLSCREEN" ) == "windowedbl" ) {
         window_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
         fullscreen = true;
-        SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0" );
+        // So you can switch to desktop without the game window obscuring it.
+        SDL_SetHint( SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "1" );
     } else if( get_option<std::string>( "FULLSCREEN" ) == "maximized" ) {
         window_flags |= SDL_WINDOW_MAXIMIZED;
     }
@@ -487,12 +499,12 @@ SDL_Rect get_android_render_rect( float DisplayBufferWidth, float DisplayBufferH
     // draw it at the top of the screen so it doesn't get covered up
     // by the virtual keyboard. Otherwise just center it.
     SDL_Rect dstrect;
-    float DisplayBufferAspect = DisplayBufferWidth / ( float )DisplayBufferHeight;
-    float WindowHeightLessShortcuts = ( float )WindowHeight;
+    float DisplayBufferAspect = DisplayBufferWidth / static_cast<float>( DisplayBufferHeight );
+    float WindowHeightLessShortcuts = static_cast<float>( WindowHeight );
     if( !get_option<bool>( "ANDROID_SHORTCUT_OVERLAP" ) && quick_shortcuts_enabled ) {
         WindowHeightLessShortcuts -= get_option<int>( "ANDROID_SHORTCUT_HEIGHT" );
     }
-    float WindowAspect = WindowWidth / ( float )WindowHeightLessShortcuts;
+    float WindowAspect = WindowWidth / static_cast<float>( WindowHeightLessShortcuts );
     if( WindowAspect < DisplayBufferAspect ) {
         dstrect.x = 0;
         dstrect.y = 0;
@@ -544,7 +556,9 @@ void refresh_display()
 #endif
 #if defined(__ANDROID__)
     draw_terminal_size_preview();
-    draw_quick_shortcuts();
+    if( g ) {
+        draw_quick_shortcuts();
+    }
     draw_virtual_joystick();
 #endif
     SDL_RenderPresent( renderer.get() );
@@ -601,6 +615,10 @@ void reinitialize_framebuffer()
         for( int i = 0; i < new_height; i++ ) {
             terminal_framebuffer[i].chars.assign( new_width, cursecell( "" ) );
         }
+    } else if( need_invalidate_framebuffers ) {
+        need_invalidate_framebuffers = false;
+        invalidate_framebuffer( oversized_framebuffer );
+        invalidate_framebuffer( terminal_framebuffer );
     }
 }
 
@@ -628,25 +646,23 @@ static void invalidate_framebuffer_proportion( cata_cursesport::WINDOW *win )
     const int termpixel_y2 = termpixel.y + win->height * font->height - 1;
 
     if( map_font != nullptr && map_font->width != 0 && map_font->height != 0 ) {
-        const int mapfont_x = termpixel.x / map_font->width;
-        const int mapfont_y = termpixel.y / map_font->height;
+        const point mapfont( termpixel.x / map_font->width, termpixel.y / map_font->height );
         const int mapfont_x2 = std::min( termpixel_x2 / map_font->width, oversized_width - 1 );
         const int mapfont_y2 = std::min( termpixel_y2 / map_font->height, oversized_height - 1 );
-        const int mapfont_width = mapfont_x2 - mapfont_x + 1;
-        const int mapfont_height = mapfont_y2 - mapfont_y + 1;
-        invalidate_framebuffer( oversized_framebuffer, point( mapfont_x, mapfont_y ), mapfont_width,
+        const int mapfont_width = mapfont_x2 - mapfont.x + 1;
+        const int mapfont_height = mapfont_y2 - mapfont.y + 1;
+        invalidate_framebuffer( oversized_framebuffer, mapfont, mapfont_width,
                                 mapfont_height );
     }
 
     if( overmap_font != nullptr && overmap_font->width != 0 && overmap_font->height != 0 ) {
-        const int overmapfont_x = termpixel.x / overmap_font->width;
-        const int overmapfont_y = termpixel.y / overmap_font->height;
+        const point overmapfont( termpixel.x / overmap_font->width, termpixel.y / overmap_font->height );
         const int overmapfont_x2 = std::min( termpixel_x2 / overmap_font->width, oversized_width - 1 );
         const int overmapfont_y2 = std::min( termpixel_y2 / overmap_font->height,
                                              oversized_height - 1 );
-        const int overmapfont_width = overmapfont_x2 - overmapfont_x + 1;
-        const int overmapfont_height = overmapfont_y2 - overmapfont_y + 1;
-        invalidate_framebuffer( oversized_framebuffer, point( overmapfont_x, overmapfont_y ),
+        const int overmapfont_width = overmapfont_x2 - overmapfont.x + 1;
+        const int overmapfont_height = overmapfont_y2 - overmapfont.y + 1;
+        invalidate_framebuffer( oversized_framebuffer, overmapfont,
                                 overmapfont_width,
                                 overmapfont_height );
     }
@@ -668,6 +684,541 @@ void clear_window_area( const catacurses::window &win_ )
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
     geometry->rect( renderer, point( win->pos.x * fontwidth, win->pos.y * fontheight ),
                     win->width * fontwidth, win->height * fontheight, color_as_sdl( catacurses::black ) );
+}
+
+static cata::optional<std::pair<tripoint_abs_omt, std::string>> get_mission_arrow(
+            const inclusive_cuboid<tripoint> &overmap_area, const tripoint_abs_omt &center )
+{
+    if( get_avatar().get_active_mission() == nullptr ) {
+        return cata::nullopt;
+    }
+    if( !get_avatar().get_active_mission()->has_target() ) {
+        return cata::nullopt;
+    }
+    const tripoint_abs_omt mission_target = get_avatar().get_active_mission_target();
+
+    std::string mission_arrow_variant = "mission_cursor";
+    if( overmap_area.contains( mission_target.raw() ) ) {
+        return std::make_pair( mission_target, mission_arrow_variant );
+    }
+
+    const std::vector<tripoint> mission_trajectory = line_to( center.raw(),
+            tripoint( mission_target.raw().xy(), center.raw().z ) );
+
+    cata::optional<tripoint> prev;
+    int z = 0;
+    for( const tripoint &traj_pt : mission_trajectory ) {
+        if( !overmap_area.contains( traj_pt ) ) {
+            z = prev->z - traj_pt.z;
+            break;
+        }
+        prev = traj_pt;
+    }
+
+    if( !prev ) {
+        debugmsg( "ERROR: trajectory for mission in overmap failed" );
+        return cata::nullopt;
+    }
+
+    const int north_border_y = ( overmap_area.p_max.y - overmap_area.p_min.y ) / 3;
+    const int south_border_y = north_border_y * 2;
+    const int west_border_x = ( overmap_area.p_max.x - overmap_area.p_min.x ) / 3;
+    const int east_border_x = west_border_x * 2;
+
+    tripoint north_pmax( overmap_area.p_max );
+    north_pmax.y = overmap_area.p_min.y + north_border_y;
+    tripoint south_pmin( overmap_area.p_min );
+    south_pmin.y += south_border_y;
+    tripoint west_pmax( overmap_area.p_max );
+    west_pmax.x = overmap_area.p_min.x + west_border_x;
+    tripoint east_pmin( overmap_area.p_min );
+    east_pmin.x += east_border_x;
+
+    const inclusive_cuboid<tripoint> north_sector( overmap_area.p_min, north_pmax );
+    const inclusive_cuboid<tripoint> south_sector( south_pmin, overmap_area.p_max );
+    const inclusive_cuboid<tripoint> west_sector( overmap_area.p_min, west_pmax );
+    const inclusive_cuboid<tripoint> east_sector( east_pmin, overmap_area.p_max );
+
+    mission_arrow_variant = "mission_arrow_";
+    if( z == 0 ) {
+        if( north_sector.contains( *prev ) ) {
+            mission_arrow_variant += 'n';
+        } else if( south_sector.contains( *prev ) ) {
+            mission_arrow_variant += 's';
+        }
+        if( west_sector.contains( *prev ) ) {
+            mission_arrow_variant += 'w';
+        } else if( east_sector.contains( *prev ) ) {
+            mission_arrow_variant += 'e';
+        }
+    } else if( z > 0 ) {
+        mission_arrow_variant += "down";
+    } else {
+        mission_arrow_variant += "up";
+    }
+
+    return std::make_pair( tripoint_abs_omt( *prev ), mission_arrow_variant );
+}
+
+std::string cata_tiles::get_omt_id_rotation_and_subtile(
+    const tripoint_abs_omt &omp, int &rota, int &subtile )
+{
+    auto oter_at = []( const tripoint_abs_omt & p ) {
+        const oter_id &cur_ter = overmap_buffer.ter( p );
+
+        if( !uistate.overmap_show_forest_trails &&
+            is_ot_match( "forest_trail", cur_ter, ot_match_type::type ) ) {
+            return oter_id( "forest" );
+        }
+
+        return cur_ter;
+    };
+
+    oter_id ot_id = oter_at( omp );
+    const oter_t &ot = *ot_id;
+    oter_type_id ot_type_id = ot.get_type_id();
+    oter_type_t ot_type = *ot_type_id;
+
+    if( ot_type.has_connections() ) {
+        // This would be for connected terrain
+
+        // get terrain neighborhood
+        const oter_type_id neighborhood[4] = {
+            oter_at( omp + point_south )->get_type_id(),
+            oter_at( omp + point_east )->get_type_id(),
+            oter_at( omp + point_west )->get_type_id(),
+            oter_at( omp + point_north )->get_type_id()
+        };
+
+        char val = 0;
+
+        // populate connection information
+        for( int i = 0; i < 4; ++i ) {
+            if( ot_type.connects_to( neighborhood[i] ) ) {
+                val += 1 << i;
+            }
+        }
+
+        get_rotation_and_subtile( val, rota, subtile );
+    } else {
+        // 'Regular', nonlinear terrain only needs to worry about rotation, not
+        // subtile
+        ot.get_rotation_and_subtile( rota, subtile );
+    }
+
+    return ot_type_id.id().str();
+}
+
+static point draw_string( Font &font,
+                          const SDL_Renderer_Ptr &renderer,
+                          const GeometryRenderer_Ptr &geometry,
+                          const std::string &str,
+                          point p,
+                          const unsigned char color )
+{
+    const char *cstr = str.c_str();
+    int len = str.length();
+    while( len > 0 ) {
+        const uint32_t ch32 = UTF8_getch( &cstr, &len );
+        const std::string ch = utf32_to_utf8( ch32 );
+        font.OutputChar( renderer, geometry, ch, p, color );
+        p.x += mk_wcwidth( ch32 ) * font.width;
+    }
+    return p;
+}
+
+void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_omt, bool blink )
+{
+    if( !g ) {
+        return;
+    }
+
+#if defined(__ANDROID__)
+    // Attempted bugfix for Google Play crash - prevent divide-by-zero if no tile
+    // width/height specified
+    if( tile_width == 0 || tile_height == 0 ) {
+        return;
+    }
+#endif
+
+    int width = OVERMAP_WINDOW_TERM_WIDTH * font->width;
+    int height = OVERMAP_WINDOW_TERM_HEIGHT * font->height;
+
+    {
+        //set clipping to prevent drawing over stuff we shouldn't
+        SDL_Rect clipRect = { dest.x, dest.y, width, height };
+        printErrorIf( SDL_RenderSetClipRect( renderer.get(), &clipRect ) != 0,
+                      "SDL_RenderSetClipRect failed" );
+
+        //fill render area with black to prevent artifacts where no new pixels are drawn
+        geometry->rect( renderer, clipRect, SDL_Color() );
+    }
+
+    point s;
+    get_window_tile_counts( width, height, s.x, s.y );
+
+
+    op = point( dest.x * fontwidth, dest.y * fontheight );
+    // Rounding up to include incomplete tiles at the bottom/right edges
+    screentile_width = divide_round_up( width, tile_width );
+    screentile_height = divide_round_up( height, tile_height );
+
+    const int min_col = 0;
+    const int max_col = s.x;
+    const int min_row = 0;
+    const int max_row = s.y;
+    int height_3d = 0;
+    avatar &you = get_avatar();
+    const tripoint_abs_omt avatar_pos = you.global_omt_location();
+    const tripoint_abs_omt corner_NW = center_abs_omt - point( max_col / 2, max_row / 2 );
+    const tripoint_abs_omt corner_SE = corner_NW + point( max_col - 1, max_row - 1 );
+    const inclusive_cuboid<tripoint> overmap_area( corner_NW.raw(), corner_SE.raw() );
+    // Debug vision allows seeing everything
+    const bool has_debug_vision = you.has_trait( trait_id( "DEBUG_NIGHTVISION" ) );
+    // sight_points is hoisted for speed reasons.
+    const int sight_points = !has_debug_vision ?
+                             you.overmap_sight_range( g->light_level( you.posz() ) ) :
+                             100;
+    const bool showhordes = uistate.overmap_show_hordes;
+    const bool viewing_weather = uistate.overmap_debug_weather || uistate.overmap_visible_weather;
+    o = corner_NW.raw().xy();
+
+    const auto global_omt_to_draw_position = []( const tripoint_abs_omt & omp ) {
+        // z position is hardcoded to 0 because the things this will be used to draw should not be skipped
+        return tripoint( omp.raw().xy(), 0 );
+    };
+
+    for( int row = min_row; row < max_row; row++ ) {
+        for( int col = min_col; col < max_col; col++ ) {
+            const tripoint_abs_omt omp = corner_NW + point( col, row );
+
+            const bool see = overmap_buffer.seen( omp );
+            const bool los = see && you.overmap_los( omp, sight_points );
+            // the full string from the ter_id including _north etc.
+            std::string id;
+            int rotation = 0;
+            int subtile = -1;
+
+            if( viewing_weather ) {
+                const tripoint_abs_omt omp_sky( omp.xy(), OVERMAP_HEIGHT );
+                if( uistate.overmap_debug_weather ||
+                    you.overmap_los( omp_sky, sight_points * 2 ) ) {
+                    id = overmap_ui::get_weather_at_point( omp_sky ).c_str();
+                } else {
+                    id = "unexplored_terrain";
+                }
+            } else if( !see ) {
+                id = "unknown_terrain";
+            } else {
+                id = get_omt_id_rotation_and_subtile( omp, rotation, subtile );
+            }
+
+            const lit_level ll = overmap_buffer.is_explored( omp ) ? lit_level::LOW : lit_level::LIT;
+            // light level is now used for choosing between grayscale filter and normal lit tiles.
+            draw_from_id_string( id, TILE_CATEGORY::C_OVERMAP_TERRAIN, "overmap_terrain", omp.raw(),
+                                 subtile, rotation, ll, false, height_3d );
+
+            if( see ) {
+                if( blink && uistate.overmap_debug_mongroup ) {
+                    const std::vector<mongroup *> mgroups = overmap_buffer.monsters_at( omp );
+                    if( !mgroups.empty() ) {
+                        auto mgroup_iter = mgroups.begin();
+                        std::advance( mgroup_iter, rng( 0, mgroups.size() - 1 ) );
+                        draw_from_id_string( ( *mgroup_iter )->type->defaultMonster.str(),
+                                             omp.raw(), 0, 0, lit_level::LIT, false );
+                    }
+                }
+                const int horde_size = overmap_buffer.get_horde_size( omp );
+                if( showhordes && los && horde_size >= HORDE_VISIBILITY_SIZE ) {
+                    // a little bit of hardcoded fallbacks for hordes
+                    if( find_tile_with_season( id ) ) {
+                        draw_from_id_string( string_format( "overmap_horde_%d", horde_size ),
+                                             omp.raw(), 0, 0, lit_level::LIT, false );
+                    } else {
+                        switch( horde_size ) {
+                            case HORDE_VISIBILITY_SIZE:
+                                draw_from_id_string( "mon_zombie", omp.raw(), 0, 0, lit_level::LIT,
+                                                     false );
+                                break;
+                            case HORDE_VISIBILITY_SIZE + 1:
+                                draw_from_id_string( "mon_zombie_tough", omp.raw(), 0, 0,
+                                                     lit_level::LIT, false );
+                                break;
+                            case HORDE_VISIBILITY_SIZE + 2:
+                                draw_from_id_string( "mon_zombie_brute", omp.raw(), 0, 0,
+                                                     lit_level::LIT, false );
+                                break;
+                            case HORDE_VISIBILITY_SIZE + 3:
+                                draw_from_id_string( "mon_zombie_hulk", omp.raw(), 0, 0,
+                                                     lit_level::LIT, false );
+                                break;
+                            case HORDE_VISIBILITY_SIZE + 4:
+                                draw_from_id_string( "mon_zombie_necro", omp.raw(), 0, 0,
+                                                     lit_level::LIT, false );
+                                break;
+                            default:
+                                draw_from_id_string( "mon_zombie_master", omp.raw(), 0, 0,
+                                                     lit_level::LIT, false );
+                                break;
+                        }
+                    }
+                }
+            }
+
+            if( uistate.place_terrain || uistate.place_special ) {
+                // Highlight areas that already have been generated
+                // TODO: fix point types
+                if( MAPBUFFER.lookup_submap( project_to<coords::sm>( omp ).raw() ) ) {
+                    draw_from_id_string( "highlight", omp.raw(), 0, 0, lit_level::LIT, false );
+                }
+            }
+
+            if( blink && overmap_buffer.has_vehicle( omp ) ) {
+                if( find_tile_looks_like( "overmap_remembered_vehicle", TILE_CATEGORY::C_OVERMAP_NOTE, "" ) ) {
+                    draw_from_id_string( "overmap_remembered_vehicle", TILE_CATEGORY::C_OVERMAP_NOTE,
+                                         "overmap_note", omp.raw(), 0, 0, lit_level::LIT, false );
+                } else {
+                    draw_from_id_string( "note_c_cyan", TILE_CATEGORY::C_OVERMAP_NOTE,
+                                         "overmap_note", omp.raw(), 0, 0, lit_level::LIT, false );
+                }
+            }
+
+            if( blink && uistate.overmap_show_map_notes && overmap_buffer.has_note( omp ) ) {
+
+                nc_color ter_color = c_black;
+                std::string ter_sym = " ";
+                // Display notes in all situations, even when not seen
+                std::tie( ter_sym, ter_color, std::ignore ) =
+                    overmap_ui::get_note_display_info( overmap_buffer.note( omp ) );
+
+                std::string note_name = "note_" + ter_sym + "_" + string_from_color( ter_color );
+                draw_from_id_string( note_name, TILE_CATEGORY::C_OVERMAP_NOTE, "overmap_note",
+                                     omp.raw(), 0, 0, lit_level::LIT, false );
+            }
+        }
+    }
+
+    if( uistate.place_terrain ) {
+        const oter_str_id &terrain_id = uistate.place_terrain->id;
+        const oter_t &terrain = *terrain_id;
+        std::string id = terrain.get_type_id().str();
+        int rotation;
+        int subtile;
+        terrain.get_rotation_and_subtile( rotation, subtile );
+        draw_from_id_string( id, global_omt_to_draw_position( center_abs_omt ), subtile, rotation,
+                             lit_level::LOW, true );
+    }
+    if( uistate.place_special ) {
+        for( const overmap_special_terrain &s_ter : uistate.place_special->terrains ) {
+            if( s_ter.p.z == 0 ) {
+                // TODO: fix point types
+                const point_rel_omt rp( om_direction::rotate( s_ter.p.xy(), uistate.omedit_rotation ) );
+                oter_id rotated_id = s_ter.terrain->get_rotated( uistate.omedit_rotation );
+                const oter_t &terrain = *rotated_id;
+                std::string id = terrain.get_type_id().str();
+                int rotation;
+                int subtile;
+                terrain.get_rotation_and_subtile( rotation, subtile );
+
+                draw_from_id_string( id, TILE_CATEGORY::C_OVERMAP_TERRAIN, "overmap_terrain",
+                                     global_omt_to_draw_position( center_abs_omt + rp ), 0, rotation, lit_level::LOW, true );
+            }
+        }
+    }
+
+    auto npcs_near_player = overmap_buffer.get_npcs_near_player( sight_points );
+
+    // draw nearby seen npcs
+    for( const shared_ptr_fast<npc> &guy : npcs_near_player ) {
+        const tripoint_abs_omt &guy_loc = guy->global_omt_location();
+        if( guy_loc.z() == center_abs_omt.z() && ( has_debug_vision || overmap_buffer.seen( guy_loc ) ) ) {
+            draw_entity_with_overlays( *guy, global_omt_to_draw_position( guy_loc ), lit_level::LIT,
+                                       height_3d );
+        }
+    }
+
+    draw_entity_with_overlays( get_player_character(), global_omt_to_draw_position( avatar_pos ),
+                               lit_level::LIT, height_3d );
+    draw_from_id_string( "cursor", global_omt_to_draw_position( center_abs_omt ), 0, 0, lit_level::LIT,
+                         false );
+
+    if( blink ) {
+        // Draw path for auto-travel
+        for( auto &elem : you.omt_path ) {
+            tripoint_abs_omt pos( elem.xy(), you.posz() );
+            draw_from_id_string( "highlight", global_omt_to_draw_position( pos ), 0, 0, lit_level::LIT,
+                                 false );
+        }
+
+        // reduce the area where the map cursor is drawn so it doesn't get cut off
+        inclusive_cuboid<tripoint> map_cursor_area = overmap_area;
+        map_cursor_area.p_max.y--;
+        const cata::optional<std::pair<tripoint_abs_omt, std::string>> mission_arrow =
+                    get_mission_arrow( map_cursor_area, center_abs_omt );
+        if( mission_arrow ) {
+            draw_from_id_string( mission_arrow->second, global_omt_to_draw_position( mission_arrow->first ), 0,
+                                 0, lit_level::LIT, false );
+        }
+    }
+
+    if( !viewing_weather && uistate.overmap_show_city_labels ) {
+
+        const auto abs_sm_to_draw_label = [&]( const tripoint_abs_sm & city_pos, const int label_length ) {
+            const tripoint tile_draw_pos = global_omt_to_draw_position( project_to<coords::omt>
+                                           ( city_pos ) ) - o;
+            point draw_point( tile_draw_pos.x * tile_width + dest.x,
+                              tile_draw_pos.y * tile_height + dest.y );
+            // center text on the tile
+            draw_point += point( ( tile_width - label_length * fontwidth ) / 2,
+                                 ( tile_height - fontheight ) / 2 );
+            return draw_point;
+        };
+
+        // draws a black rectangle behind a label for visibility and legibility
+        const auto label_bg = [&]( const tripoint_abs_sm & pos, const std::string & name ) {
+            const int name_length = utf8_width( name );
+            const point draw_pos = abs_sm_to_draw_label( pos, name_length );
+            SDL_Rect clipRect = { draw_pos.x, draw_pos.y, name_length * fontwidth, fontheight };
+
+            geometry->rect( renderer, clipRect, SDL_Color() );
+
+            draw_string( *font, renderer, geometry, name, draw_pos, 11 );
+        };
+
+        // the tiles on the overmap are overmap tiles, so we need to use
+        // coordinate conversions to make sure we're in the right place.
+        const int radius = coords::project_to<coords::sm>( tripoint_abs_omt( std::min( max_col, max_row ),
+                           0, 0 ) ).x() / 2;
+
+        for( const city_reference &city : overmap_buffer.get_cities_near(
+                 coords::project_to<coords::sm>( center_abs_omt ), radius ) ) {
+            const tripoint_abs_omt city_center = coords::project_to<coords::omt>( city.abs_sm_pos );
+            if( overmap_buffer.seen( city_center ) && overmap_area.contains( city_center.raw() ) ) {
+                label_bg( city.abs_sm_pos, city.city->name );
+            }
+        }
+
+        for( const camp_reference &camp : overmap_buffer.get_camps_near(
+                 coords::project_to<coords::sm>( center_abs_omt ), radius ) ) {
+            const tripoint_abs_omt camp_center = coords::project_to<coords::omt>( camp.abs_sm_pos );
+            if( overmap_buffer.seen( camp_center ) && overmap_area.contains( camp_center.raw() ) ) {
+                label_bg( camp.abs_sm_pos, camp.camp->name );
+            }
+        }
+    }
+
+    std::vector<std::pair<nc_color, std::string>> notes_window_text;
+
+    if( uistate.overmap_show_map_notes ) {
+        const std::string &note_text = overmap_buffer.note( center_abs_omt );
+        if( !note_text.empty() ) {
+            const std::tuple<char, nc_color, size_t> note_info = overmap_ui::get_note_display_info(
+                        note_text );
+            const size_t pos = std::get<2>( note_info );
+            if( pos != std::string::npos ) {
+                notes_window_text.emplace_back( std::get<1>( note_info ), note_text.substr( pos ) );
+            }
+            if( overmap_buffer.is_marked_dangerous( center_abs_omt ) ) {
+                notes_window_text.emplace_back( c_red, _( "DANGEROUS AREA!" ) );
+            }
+        }
+    }
+
+    if( has_debug_vision || overmap_buffer.seen( center_abs_omt ) ) {
+        for( const auto &npc : npcs_near_player ) {
+            if( !npc->marked_for_death && npc->global_omt_location() == center_abs_omt ) {
+                notes_window_text.emplace_back( npc->basic_symbol_color(), npc->name );
+            }
+        }
+    }
+
+    for( auto &v : overmap_buffer.get_vehicle( center_abs_omt ) ) {
+        notes_window_text.emplace_back( c_white, v.name );
+    }
+
+    if( !notes_window_text.empty() ) {
+        constexpr int padding = 2;
+
+        const auto draw_note_text = [&]( const point & draw_pos, const std::string & name,
+        nc_color & color ) {
+            char note_fg_color = color == c_yellow ? 11 :
+                                 cata_cursesport::colorpairs[color.to_color_pair_index()].FG;
+            return draw_string( *font, renderer, geometry, name, draw_pos, note_fg_color );
+        };
+
+        // Find screen coordinates to the right of the center tile
+        auto center_sm = coords::project_to<coords::sm>( tripoint_abs_omt( center_abs_omt.x() + 1,
+                         center_abs_omt.y(), center_abs_omt.z() ) );
+        const tripoint tile_draw_pos = global_omt_to_draw_position( project_to<coords::omt>
+                                       ( center_sm ) ) - o;
+        point draw_point( tile_draw_pos.x * tile_width + dest.x,
+                          tile_draw_pos.y * tile_height + dest.y );
+        draw_point += point( padding, padding );
+
+        // Draw notes header. Very simple label at the moment
+        nc_color header_color = c_white;
+        const std::string header_string = _( "-- Notes: --" );
+        SDL_Rect header_background_rect = {
+            draw_point.x - padding,
+            draw_point.y - padding,
+            fontwidth * utf8_width( header_string ) + padding * 2,
+            fontheight + padding * 2
+        };
+        geometry->rect( renderer, header_background_rect, SDL_Color{ 0, 0, 0, 175 } );
+        draw_note_text( draw_point, header_string, header_color );
+        draw_point.y += fontheight + padding * 2;
+
+        const int starting_x = draw_point.x;
+
+        for( auto &line : notes_window_text ) {
+            const auto color_segments = split_by_color( line.second );
+            std::stack<nc_color> color_stack;
+            nc_color default_color = std::get<0>( line );
+            color_stack.push( default_color );
+            std::vector<std::tuple<nc_color, std::string>> colored_lines;
+
+            draw_point.x = starting_x;
+
+            int line_length = 0;
+            for( auto seg : color_segments ) {
+                if( seg.empty() ) {
+                    continue;
+                }
+
+                if( seg[0] == '<' ) {
+                    const color_tag_parse_result::tag_type type = update_color_stack(
+                                color_stack, seg, report_color_error::no );
+                    if( type != color_tag_parse_result::non_color_tag ) {
+                        seg = rm_prefix( seg );
+                    }
+                }
+
+                nc_color &color = color_stack.empty() ? default_color : color_stack.top();
+                colored_lines.emplace_back( color, seg );
+                line_length += utf8_width( seg );
+            }
+
+            // Draw background first for the whole line
+            SDL_Rect background_rect = {
+                draw_point.x - padding,
+                draw_point.y - padding,
+                fontwidth *line_length + padding * 2,
+                fontheight + padding * 2
+            };
+            geometry->rect( renderer, background_rect, SDL_Color{ 0, 0, 0, 175 } );
+
+            // Draw colored text segments
+            for( auto &colored_line : colored_lines ) {
+                std::string &text = std::get<1>( colored_line );
+                draw_point.x = draw_note_text( draw_point, text, std::get<0>( colored_line ) ).x;
+            }
+
+            draw_point.y += fontheight + padding;
+        }
+    }
+
+    printErrorIf( SDL_RenderSetClipRect( renderer.get(), nullptr ) != 0,
+                  "SDL_RenderSetClipRect failed" );
 }
 
 static bool draw_window( Font_Ptr &font, const catacurses::window &w, const point &offset )
@@ -751,9 +1302,8 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, const poin
 
             const cursecell &cell = win->line[j].chars[i];
 
-            const int drawx = offset.x + i * font->width;
-            const int drawy = offset.y + j * font->height;
-            if( drawx + font->width > WindowWidth || drawy + font->height > WindowHeight ) {
+            const point draw( offset + point( i * font->width, j * font->height ) );
+            if( draw.x + font->width > WindowWidth || draw.y + font->height > WindowHeight ) {
                 // Outside of the display area, would not render anyway
                 continue;
             }
@@ -773,7 +1323,7 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, const poin
 
             // Spaces are used a lot, so this does help noticeably
             if( cell.ch == space_string ) {
-                geometry->rect( renderer, point( drawx, drawy ), font->width, font->height,
+                geometry->rect( renderer, draw, font->width, font->height,
                                 color_as_sdl( cell.BG ) );
                 continue;
             }
@@ -828,12 +1378,12 @@ static bool draw_window( Font_Ptr &font, const catacurses::window &w, const poin
                     use_draw_ascii_lines_routine = false;
                     break;
             }
-            geometry->rect( renderer, point( drawx, drawy ), font->width * cw, font->height,
+            geometry->rect( renderer, draw, font->width * cw, font->height,
                             color_as_sdl( BG ) );
             if( use_draw_ascii_lines_routine ) {
-                font->draw_ascii_lines( renderer, geometry, uc, point( drawx, drawy ), FG );
+                font->draw_ascii_lines( renderer, geometry, uc, draw, FG );
             } else {
-                font->OutputChar( renderer, geometry, cell.ch, point( drawx, drawy ), FG );
+                font->OutputChar( renderer, geometry, cell.ch, draw, FG );
             }
         }
     }
@@ -923,20 +1473,18 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
 
             int width = 0;
             for( size_t i = 0; i < text.size(); ++i ) {
-                const int x0 = win->pos.x * fontwidth;
-                const int y0 = win->pos.y * fontheight;
-                const int x = x0 + ( x_offset - alignment_offset + width ) * map_font->width + coord.x;
-                const int y = y0 + coord.y;
+                const point p0( win->pos.x * fontwidth, win->pos.y * fontheight );
+                const point p( coord + p0 + point( ( x_offset - alignment_offset + width ) * map_font->width, 0 ) );
 
                 // Clip to window bounds.
-                if( x < x0 || x > x0 + ( TERRAIN_WINDOW_TERM_WIDTH - 1 ) * font->width
-                    || y < y0 || y > y0 + ( TERRAIN_WINDOW_TERM_HEIGHT - 1 ) * font->height ) {
+                if( p.x < p0.x || p.x > p0.x + ( TERRAIN_WINDOW_TERM_WIDTH - 1 ) * font->width
+                    || p.y < p0.y || p.y > p0.y + ( TERRAIN_WINDOW_TERM_HEIGHT - 1 ) * font->height ) {
                     continue;
                 }
 
                 // TODO: draw with outline / BG color for better readability
                 const uint32_t ch = text.at( i );
-                map_font->OutputChar( renderer, geometry, utf32_to_utf8( ch ), point( x, y ), ft.color );
+                map_font->OutputChar( renderer, geometry, utf32_to_utf8( ch ), p, ft.color );
                 width += mk_wcwidth( ch );
             }
 
@@ -974,10 +1522,13 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         }
         // Special font for the terrain window
         update = draw_window( map_font, w );
+    } else if( g && w == g->w_overmap && use_tiles && use_tiles_overmap ) {
+        tilecontext->draw_om( win->pos, overmap_ui::redraw_info.center, overmap_ui::redraw_info.blink );
+        update = true;
     } else if( g && w == g->w_overmap && overmap_font ) {
         // Special font for the terrain window
         update = draw_window( overmap_font, w );
-    } else if( g && w == g->w_pixel_minimap && g->pixel_minimap_option ) {
+    } else if( g && w == g->w_pixel_minimap && pixel_minimap_option ) {
         // ensure the space the minimap covers is "dirtied".
         // this is necessary when it's the only part of the sidebar being drawn
         // TODO: Figure out how to properly make the minimap code do whatever it is this does
@@ -1351,6 +1902,7 @@ bool handle_resize( int w, int h )
         WindowHeight = h;
         TERMINAL_WIDTH = WindowWidth / fontwidth / scaling_factor;
         TERMINAL_HEIGHT = WindowHeight / fontheight / scaling_factor;
+        need_invalidate_framebuffers = true;
         catacurses::stdscr = catacurses::newwin( TERMINAL_HEIGHT, TERMINAL_WIDTH, point_zero );
         SetupRenderTarget();
         game_ui::init_ui();
@@ -1546,7 +2098,7 @@ bool ignore_action_for_quick_shortcuts( const std::string &action )
 void add_quick_shortcut( quick_shortcuts_t &qsl, input_event &event, bool back,
                          bool reset_shortcut_last_used_action_counter )
 {
-    if( reset_shortcut_last_used_action_counter ) {
+    if( reset_shortcut_last_used_action_counter && g ) {
         event.shortcut_last_used_action_counter =
             g->get_user_action_counter();    // only used for DEFAULTMODE
     }
@@ -1859,9 +2411,9 @@ void draw_quick_shortcuts()
             }
         }
         if( shortcut_right )
-            rect = { WindowWidth - ( int )( ( i + 1 ) * width + border ), ( int )( WindowHeight - height ), ( int )( width - border * 2 ), ( int )( height ) };
+            rect = { WindowWidth - static_cast<int>( ( i + 1 ) * width + border ), static_cast<int>( WindowHeight - height ), static_cast<int>( width - border * 2 ), static_cast<int>( height ) };
         else
-            rect = { ( int )( i * width + border ), ( int )( WindowHeight - height ), ( int )( width - border * 2 ), ( int )( height ) };
+            rect = { static_cast<int>( i * width + border ), static_cast<int>( WindowHeight - height ), static_cast<int>( width - border * 2 ), static_cast<int>( height ) };
         if( hovered ) {
             SetRenderDrawColor( renderer, 0, 0, 0, 255 );
         } else {
@@ -1873,15 +2425,15 @@ void draw_quick_shortcuts()
         if( hovered ) {
             // draw a second button hovering above the first one
             if( shortcut_right )
-                rect = { WindowWidth - ( int )( ( i + 1 ) * width + border ), ( int )( WindowHeight - height * 2.2f ), ( int )( width - border * 2 ), ( int )( height ) };
+                rect = { WindowWidth - static_cast<int>( ( i + 1 ) * width + border ), static_cast<int>( WindowHeight - height * 2.2f ), static_cast<int>( width - border * 2 ), static_cast<int>( height ) };
             else
-                rect = { ( int )( i * width + border ), ( int )( WindowHeight - height * 2.2f ), ( int )( width - border * 2 ), ( int )( height ) };
+                rect = { static_cast<int>( i * width + border ), static_cast<int>( WindowHeight - height * 2.2f ), static_cast<int>( width - border * 2 ), static_cast<int>( height ) };
             SetRenderDrawColor( renderer, 0, 0, 196, 255 );
             RenderFillRect( renderer, &rect );
 
             if( show_hint ) {
                 // draw a backdrop for the hint text
-                rect = { 0, ( int )( ( WindowHeight - height ) * 0.5f ), ( int )WindowWidth, ( int )height };
+                rect = { 0, static_cast<int>( ( WindowHeight - height ) * 0.5f ), static_cast<int>( WindowWidth ), static_cast<int>( height ) };
                 SetRenderDrawColor( renderer, 0, 0, 0,
                                     get_option<int>( "ANDROID_SHORTCUT_OPACITY_BG" ) * 0.01f * 255.0f );
                 RenderFillRect( renderer, &rect );
@@ -1897,6 +2449,7 @@ void draw_quick_shortcuts()
             text_x = ( ( i + 0.5f ) * width - ( font->width * utf8_width( text ) ) * text_scale * 0.5f ) /
                      text_scale;
         }
+        // TODO use draw_string instead
         text_y = ( WindowHeight - ( height + font->height * text_scale ) * 0.5f ) / text_scale;
         font->OutputChar( renderer, geometry, text, point( text_x + 1, text_y + 1 ), 0,
                           get_option<int>( "ANDROID_SHORTCUT_OPACITY_SHADOW" ) * 0.01f );
@@ -1978,29 +2531,21 @@ void draw_virtual_joystick()
 
 }
 
-float clmp( float value, float low, float high )
-{
-    return ( value < low ) ? low : ( ( value > high ) ? high : value );
-}
-float lerp( float t, float a, float b )
-{
-    return ( 1.0f - t ) * a + t * b;
-}
-
 void update_finger_repeat_delay()
 {
     float delta_x = finger_curr_x - finger_down_x;
     float delta_y = finger_curr_y - finger_down_y;
     float dist = std::sqrt( delta_x * delta_x + delta_y * delta_y );
     float longest_window_edge = std::max( WindowWidth, WindowHeight );
-    float t = clmp( ( dist - ( get_option<float>( "ANDROID_DEADZONE_RANGE" ) * longest_window_edge ) ) /
-                    std::max( 0.01f, ( get_option<float>( "ANDROID_REPEAT_DELAY_RANGE" ) ) * longest_window_edge ),
-                    0.0f, 1.0f );
-    finger_repeat_delay = lerp( std::pow( t, get_option<float>( "ANDROID_SENSITIVITY_POWER" ) ),
-                                static_cast<uint32_t>( std::max( get_option<int>( "ANDROID_REPEAT_DELAY_MIN" ),
-                                        get_option<int>( "ANDROID_REPEAT_DELAY_MAX" ) ) ),
-                                static_cast<uint32_t>( std::min( get_option<int>( "ANDROID_REPEAT_DELAY_MIN" ),
-                                        get_option<int>( "ANDROID_REPEAT_DELAY_MAX" ) ) ) );
+    float t = clamp<float>( ( dist - ( get_option<float>( "ANDROID_DEADZONE_RANGE" ) *
+                                       longest_window_edge ) ) /
+                            std::max( 0.01f, ( get_option<float>( "ANDROID_REPEAT_DELAY_RANGE" ) ) * longest_window_edge ),
+                            0.0f, 1.0f );
+    float repeat_delay_min = static_cast<float>( get_option<int>( "ANDROID_REPEAT_DELAY_MIN" ) );
+    float repeat_delay_max = static_cast<float>( get_option<int>( "ANDROID_REPEAT_DELAY_MAX" ) );
+    finger_repeat_delay = lerp<float>( std::max( repeat_delay_min, repeat_delay_max ),
+                                       std::min( repeat_delay_min, repeat_delay_max ),
+                                       std::pow( t, get_option<float>( "ANDROID_SENSITIVITY_POWER" ) ) );
 }
 
 // TODO: Is there a better way to detect when string entry is allowed?
@@ -2522,7 +3067,7 @@ static void CheckMessages()
                     SDL_ShowCursor( SDL_DISABLE );
                 }
                 keyboard_mode mode = keyboard_mode::keychar;
-#if !defined( __ANDROID__ )
+#if !defined(__ANDROID__) && !defined(TARGET_OS_IPHONE)
                 if( !SDL_IsTextInputActive() ) {
                     mode = keyboard_mode::keycode;
                 }
@@ -2579,7 +3124,7 @@ static void CheckMessages()
                 }
 #endif
                 keyboard_mode mode = keyboard_mode::keychar;
-#if !defined( __ANDROID__ )
+#if !defined(__ANDROID__) && !defined(TARGET_OS_IPHONE)
                 if( !SDL_IsTextInputActive() ) {
                     mode = keyboard_mode::keycode;
                 }
@@ -2904,7 +3449,8 @@ static void init_term_size_and_scaling_factor()
 
     if( scaling_factor > 1 ) {
 
-        int max_width, max_height;
+        int max_width;
+        int max_height;
 
         int current_display_id = std::stoi( get_option<std::string>( "DISPLAY" ) );
         SDL_DisplayMode current_display;
@@ -2996,6 +3542,7 @@ void catacurses::init_interface()
 
     get_options().init();
     get_options().load();
+    set_language(); //Prevent translated language strings from causing an error if language not set
 
     font_loader fl;
     fl.load();
@@ -3019,7 +3566,11 @@ void catacurses::init_interface()
     dbg( D_INFO ) << "Initializing SDL Tiles context";
     tilecontext = std::make_unique<cata_tiles>( renderer, geometry );
     try {
-        tilecontext->load_tileset( get_option<std::string>( "TILES" ), true );
+        // Disable UIs below to avoid accessing the tile context during loading.
+        ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
+        tilecontext->load_tileset( get_option<std::string>( "TILES" ),
+                                   /*precheck=*/true, /*force=*/false,
+                                   /*pump_events=*/true );
     } catch( const std::exception &err ) {
         dbg( D_ERROR ) << "failed to check for tileset: " << err.what();
         // use_tiles is the cached value of the USE_TILES option.
@@ -3058,7 +3609,9 @@ void load_tileset()
     if( !tilecontext || !use_tiles ) {
         return;
     }
-    tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
+    tilecontext->load_tileset( get_option<std::string>( "TILES" ),
+                               /*precheck=*/false, /*force=*/false,
+                               /*pump_events=*/true );
     tilecontext->do_tile_loading_report();
 }
 
@@ -3089,6 +3642,19 @@ void input_manager::set_timeout( const int t )
     inputdelay = t;
 }
 
+void input_manager::pump_events()
+{
+    if( test_mode ) {
+        return;
+    }
+
+    // Handle all events, but ignore any keypress
+    CheckMessages();
+
+    last_input = input_event();
+    previously_pressed_key = 0;
+}
+
 // This is how we're actually going to handle input events, SDL getch
 // is simply a wrapper around this.
 input_event input_manager::get_input_event( const keyboard_mode preferred_keyboard_mode )
@@ -3098,7 +3664,7 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
         throw std::runtime_error( "input_manager::get_input_event called in test mode" );
     }
 
-#if !defined( __ANDROID__ )
+#if !defined(__ANDROID__) && !defined(TARGET_OS_IPHONE)
     if( actual_keyboard_mode( preferred_keyboard_mode ) == keyboard_mode::keychar ) {
         SDL_StartTextInput();
     } else {
@@ -3110,11 +3676,16 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
 #endif
 
     previously_pressed_key = 0;
+
     // standards note: getch is sometimes required to call refresh
     // see, e.g., http://linux.die.net/man/3/getch
     // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
-
-    wrefresh( catacurses::stdscr );
+    // however, the refresh call has not effect when nothing has been drawn, so
+    // we can skip it if `needupdate` is false to improve performance during mouse
+    // move events.
+    if( needupdate ) {
+        wrefresh( catacurses::stdscr );
+    }
 
     if( inputdelay < 0 ) {
         do {
@@ -3169,7 +3740,6 @@ bool gamepad_available()
 void rescale_tileset( int size )
 {
     tilecontext->set_draw_scale( size );
-    g->mark_main_ui_adaptor_resize();
 }
 
 static window_dimensions get_window_dimensions( const catacurses::window &win,
@@ -3185,8 +3755,14 @@ static window_dimensions get_window_dimensions( const catacurses::window &win,
         dim.scaled_font_size.x = map_font->width;
         dim.scaled_font_size.y = map_font->height;
     } else if( overmap_font && g && win == g->w_overmap ) {
-        dim.scaled_font_size.x = overmap_font->width;
-        dim.scaled_font_size.y = overmap_font->height;
+        if( use_tiles && use_tiles_overmap ) {
+            // tiles might have different dimensions than standard font
+            dim.scaled_font_size.x = tilecontext->get_tile_width();
+            dim.scaled_font_size.y = tilecontext->get_tile_height();
+        } else {
+            dim.scaled_font_size.x = overmap_font->width;
+            dim.scaled_font_size.y = overmap_font->height;
+        }
     } else {
         dim.scaled_font_size.x = fontwidth;
         dim.scaled_font_size.y = fontheight;
@@ -3263,7 +3839,12 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         p = view_offset + selected;
     } else {
         const point selected( screen_pos.x / fw, screen_pos.y / fh );
-        p = view_offset + selected - dim.window_size_cell / 2;
+        if( capture_win == g->w_overmap ) {
+            p = view_offset + selected - point( std::ceil( dim.window_size_cell.x / 2.0 ),
+                                                std::ceil( dim.window_size_cell.y / 2.0 ) );
+        } else {
+            p = view_offset + selected - dim.window_size_cell / 2;
+        }
     }
 
     return tripoint( p, get_map().get_abs_sub().z );
@@ -3302,11 +3883,17 @@ static int map_font_height()
 
 static int overmap_font_width()
 {
+    if( use_tiles && tilecontext && use_tiles_overmap ) {
+        return tilecontext->get_tile_width();
+    }
     return ( overmap_font ? overmap_font.get() : font.get() )->width;
 }
 
 static int overmap_font_height()
 {
+    if( use_tiles && tilecontext && use_tiles_overmap ) {
+        return tilecontext->get_tile_height();
+    }
     return ( overmap_font ? overmap_font.get() : font.get() )->height;
 }
 

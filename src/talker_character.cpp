@@ -1,5 +1,6 @@
 #include <memory>
 
+#include "character_id.h"
 #include "item.h"
 #include "magic.h"
 #include "npc.h"
@@ -11,6 +12,7 @@
 #include "vehicle.h"
 
 class time_duration;
+static const trait_id trait_SEESLEEP( "SEESLEEP" );
 
 std::string talker_character::disp_name() const
 {
@@ -102,7 +104,7 @@ void talker_character::unset_mutation( const trait_id &old_trait )
     me_chr->unset_mutation( old_trait );
 }
 
-bool talker_character::has_trait_flag( const std::string &trait_flag_to_check ) const
+bool talker_character::has_trait_flag( const json_character_flag &trait_flag_to_check ) const
 {
     return me_chr->has_trait_flag( trait_flag_to_check );
 }
@@ -148,9 +150,16 @@ bool talker_character::has_effect( const efftype_id &effect_id ) const
 }
 
 void talker_character::add_effect( const efftype_id &new_effect, const time_duration &dur,
-                                   bool permanent )
+                                   std::string bp, bool permanent, bool force, int intensity )
 {
-    me_chr->add_effect( new_effect, dur, permanent );
+    bodypart_id target_part;
+    if( "RANDOM" == bp ) {
+        target_part = get_player_character().random_body_part( true );
+    } else {
+        target_part = bodypart_str_id( bp );
+    }
+
+    me_chr->add_effect( new_effect, dur, target_part, permanent, intensity, force );
 }
 
 void talker_character::remove_effect( const efftype_id &old_effect )
@@ -158,7 +167,7 @@ void talker_character::remove_effect( const efftype_id &old_effect )
     me_chr->remove_effect( old_effect );
 }
 
-std::string talker_character:: get_value( const std::string &var_name ) const
+std::string talker_character::get_value( const std::string &var_name ) const
 {
     return me_chr->get_value( var_name );
 }
@@ -290,4 +299,75 @@ bool talker_character::is_in_control_of( const vehicle &veh ) const
 void talker_character::shout( const std::string &speech, bool order )
 {
     me_chr->shout( speech, order );
+}
+
+int talker_character::pain_cur() const
+{
+    return me_chr->get_pain();
+}
+
+void talker_character::mod_pain( int amount )
+{
+    me_chr->mod_pain( amount );
+}
+
+bool talker_character::worn_with_flag( const flag_id &flag ) const
+{
+    return me_chr->worn_with_flag( flag );
+}
+
+bool talker_character::wielded_with_flag( const flag_id &flag ) const
+{
+    return me_chr->weapon.has_flag( flag );
+}
+
+units::energy talker_character::power_cur() const
+{
+    return me_chr->get_power_level();
+}
+
+bool talker_character::can_see() const
+{
+    return !me_chr->is_blind() && ( !me_chr->in_sleep_state() || me_chr->has_trait( trait_SEESLEEP ) );
+}
+
+void talker_character::mod_fatigue( int amount )
+{
+    me_chr->mod_fatigue( amount );
+}
+
+void talker_character::mod_healthy_mod( int amount, int cap )
+{
+    me_chr->mod_healthy_mod( amount, cap );
+}
+
+int talker_character::morale_cur() const
+{
+    return me_chr->get_morale_level();
+}
+
+void talker_character::add_morale( const morale_type &new_morale, int bonus, int max_bonus,
+                                   time_duration duration, time_duration decay_start, bool capped )
+{
+    me_chr->add_morale( new_morale, bonus, max_bonus, duration, decay_start, capped );
+}
+
+void talker_character::remove_morale( const morale_type &old_morale )
+{
+    me_chr->rem_morale( old_morale );
+}
+
+int talker_character::focus_cur() const
+{
+    return me_chr->get_focus();
+}
+
+void talker_character::mod_focus( int amount )
+{
+    me_chr->mod_focus( amount );
+}
+
+void talker_character::mod_rad( int amount )
+{
+    me_chr->mod_rad( amount );
 }

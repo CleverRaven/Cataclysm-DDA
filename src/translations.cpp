@@ -1,10 +1,10 @@
 #include "translations.h"
 
-#include <array>
 #include <clocale>
-#include <cstdlib>
+#include <array>
 #include <functional>
-#include <locale>
+#include <iterator>
+#include <new>
 
 #if defined(LOCALIZE) && defined(__STRICT_ANSI__)
 #undef __STRICT_ANSI__ // _putenv in minGW need that
@@ -12,11 +12,15 @@
 #define __STRICT_ANSI__
 #endif
 
+#if defined(__APPLE__)
+// needed by localized_comparator
+#include <CoreFoundation/CoreFoundation.h>
+#endif
+
 #include <algorithm>
 #include <map>
 #include <memory>
 #include <ostream>
-#include <set>
 #include <string>
 #include <utility>
 #include <vector>
@@ -24,6 +28,7 @@
 #include "cached_options.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "debug.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "name.h"
@@ -31,15 +36,6 @@
 #include "path_info.h"
 #include "rng.h"
 #include "text_style_check.h"
-
-#if defined(MACOSX)
-#include <CoreFoundation/CFLocale.h>
-#include <CoreFoundation/CoreFoundation.h>
-
-#include "cata_utility.h"
-
-std::string getOSXSystemLang();
-#endif
 
 // Names depend on the language settings. They are loaded from different files
 // based on the currently used language. If that changes, we have to reload the
@@ -62,7 +58,6 @@ int detail::get_current_language_version()
 }
 
 #if defined(LOCALIZE)
-#include "debug.h"
 #include "options.h"
 #include "ui.h"
 #if defined(_WIN32)
@@ -70,6 +65,14 @@ int detail::get_current_language_version()
 #   include "platform_win.h"
 #endif
 #   include "mmsystem.h"
+static std::string getWindowsLanguage();
+#elif defined(__APPLE__)
+#include <CoreFoundation/CFLocale.h>
+static std::string getAppleSystemLanguage();
+#elif defined(__ANDROID__)
+#include <jni.h>
+#include "sdl_wrappers.h" // for SDL_AndroidGetJNIEnv()
+static std::string getAndroidSystemLanguage();
 #endif
 
 const char *pgettext( const char *context, const char *msgid )
@@ -111,47 +114,6 @@ const char *npgettext( const char *const context, const char *const msgid,
     }
 }
 
-bool isValidLanguage( const std::string &lang )
-{
-    const auto languages = get_options().get_option( "USE_LANG" ).getItems();
-    return std::find_if( languages.begin(),
-    languages.end(), [&lang]( const options_manager::id_and_option & pair ) {
-        return pair.first == lang || pair.first == lang.substr( 0, pair.first.length() );
-    } ) != languages.end();
-}
-
-/* "Useful" links:
- *  https://www.science.co.il/language/Locale-codes.php
- *  https://support.microsoft.com/de-de/help/193080/how-to-use-the-getuserdefaultlcid-windows-api-function-to-determine-op
- *  https://msdn.microsoft.com/en-us/library/cc233965.aspx
- */
-std::string getLangFromLCID( const int &lcid )
-{
-    static std::map<std::string, std::set<int>> lang_lcid;
-    if( lang_lcid.empty() ) {
-        lang_lcid["en"] = {{ 1033, 2057, 3081, 4105, 5129, 6153, 7177, 8201, 9225, 10249, 11273 }};
-        lang_lcid["fr"] = {{ 1036, 2060, 3084, 4108, 5132 }};
-        lang_lcid["de"] = {{ 1031, 2055, 3079, 4103, 5127 }};
-        lang_lcid["it_IT"] = {{ 1040, 2064 }};
-        lang_lcid["es_AR"] = { 11274 };
-        lang_lcid["es_ES"] = {{ 1034, 2058, 3082, 4106, 5130, 6154, 7178, 8202, 9226, 10250, 12298, 13322, 14346, 15370, 16394, 17418, 18442, 19466, 20490 }};
-        lang_lcid["ja"] = { 1041 };
-        lang_lcid["ko"] = { 1042 };
-        lang_lcid["pl"] = { 1045 };
-        lang_lcid["pt_BR"] = {{ 1046, 2070 }};
-        lang_lcid["ru"] = { 1049 };
-        lang_lcid["zh_CN"] = {{ 2052, 3076, 4100 }};
-        lang_lcid["zh_TW"] = { 1028 };
-    }
-
-    for( auto &lang : lang_lcid ) {
-        if( lang.second.find( lcid ) != lang.second.end() ) {
-            return lang.first;
-        }
-    }
-    return "";
-}
-
 void select_language()
 {
     auto languages = get_options().get_option( "USE_LANG" ).getItems();
@@ -173,10 +135,13 @@ void select_language()
     get_options().save();
 }
 
+#if (defined(__DragonFly__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)) && !defined(BSD)
+#define BSD
+#endif
 std::string locale_dir()
 {
     std::string loc_dir;
-#if !defined(__ANDROID__) && ((defined(__linux__) || (defined(MACOSX) && !defined(TILES))))
+#if !defined(__ANDROID__) && ((defined(__linux__) || defined(BSD) || (defined(MACOSX) && !defined(TILES))))
     if( !PATH_INFO::base_path().empty() ) {
         loc_dir = PATH_INFO::base_path() + "share/locale";
     } else {
@@ -188,32 +153,81 @@ std::string locale_dir()
     return loc_dir;
 }
 
+#ifndef _WIN32
+// Try to match language code to a supported game language by prefix
+// For example, "fr_CA.UTF-8" -> "fr"
+static std::string matchGameLanguage( const std::string &lang )
+{
+    const std::vector<options_manager::id_and_option> available_languages =
+        get_options().get_option( "USE_LANG" ).getItems();
+    for( const options_manager::id_and_option &available_language : available_languages ) {
+        if( !available_language.first.empty() && string_starts_with( lang, available_language.first ) ) {
+            return available_language.first;
+        }
+    }
+    return std::string();
+}
+#endif
+
+std::string getSystemLanguage()
+{
+#if defined(_WIN32)
+    return getWindowsLanguage();
+#elif defined(__APPLE__)
+    return getAppleSystemLanguage(); // macOS and iOS
+#elif defined(__ANDROID__)
+    return getAndroidSystemLanguage();
+#else
+    const char *locale = setlocale( LC_ALL, nullptr );
+    if( locale == nullptr ) {
+        return std::string();
+    }
+    if( strcmp( locale, "C" ) == 0 ) {
+        return "en";
+    }
+    return matchGameLanguage( locale );
+#endif
+}
+
+std::string getSystemLanguageOrEnglish()
+{
+    const std::string system_language = getSystemLanguage();
+    if( system_language.empty() ) {
+        return "en";
+    }
+    return system_language;
+}
+
 void set_language()
 {
-    std::string win_or_mac_lang;
-#if defined(_WIN32)
-    win_or_mac_lang = getLangFromLCID( GetUserDefaultLCID() );
-#endif
-#if defined(MACOSX)
-    win_or_mac_lang = getOSXSystemLang();
-#endif
+    const std::string system_lang = getSystemLanguageOrEnglish();
     // Step 1. Setup locale settings.
-    std::string lang_opt = get_option<std::string>( "USE_LANG" ).empty() ? win_or_mac_lang :
+    std::string lang_opt = get_option<std::string>( "USE_LANG" ).empty() ? system_lang :
                            get_option<std::string>( "USE_LANG" );
+    DebugLog( D_INFO, D_MAIN ) << "Setting language to: '" << lang_opt << '\'';
     if( !lang_opt.empty() ) {
         // Not 'System Language'
         // Overwrite all system locale settings. Use CDDA settings. User wants this.
+        // LANGUAGE is ignored if LANG is set to C or unset
+        // in this case we need to set LANG to something other than C to activate localization
+        // Reference: https://www.gnu.org/software/gettext/manual/html_node/The-LANGUAGE-variable.html#The-LANGUAGE-variable
+        const char *env_lang = getenv( "LANG" );
+        if( env_lang == nullptr || strcmp( env_lang, "C" ) == 0 ) {
 #if defined(_WIN32)
-        std::string lang_env = "LANGUAGE=" + lang_opt;
-        if( _putenv( lang_env.c_str() ) != 0 ) {
-            DebugLog( D_WARNING, D_MAIN ) << "Can't set 'LANGUAGE' environment variable";
+            if( _putenv( ( std::string( "LANG=" ) + lang_opt ).c_str() ) != 0 ) {
+#else
+            if( setenv( "LANG", lang_opt.c_str(), true ) != 0 ) {
+#endif
+                DebugLog( D_WARNING, D_MAIN ) << "Can't set 'LANG' environment variable";
+            }
         }
+#if defined(_WIN32)
+        if( _putenv( ( std::string( "LANGUAGE=" ) + lang_opt ).c_str() ) != 0 ) {
 #else
         if( setenv( "LANGUAGE", lang_opt.c_str(), true ) != 0 ) {
-            DebugLog( D_WARNING, D_MAIN ) << "Can't set 'LANGUAGE' environment variable";
-        }
 #endif
-        else {
+            DebugLog( D_WARNING, D_MAIN ) << "Can't set 'LANGUAGE' environment variable";
+        } else {
             const char *env = getenv( "LANGUAGE" );
             if( env != nullptr ) {
                 DebugLog( D_INFO, D_MAIN ) << "Language is set to: '" << env << '\'';
@@ -256,13 +270,58 @@ void set_language()
     } while( current_language_version == INVALID_LANGUAGE_VERSION );
 }
 
-#if defined(MACOSX)
-std::string getOSXSystemLang()
+#if defined(_WIN32)
+/* "Useful" links:
+ *  https://www.science.co.il/language/Locale-codes.php
+ *  https://support.microsoft.com/de-de/help/193080/how-to-use-the-getuserdefaultlcid-windows-api-function-to-determine-op
+ *  https://msdn.microsoft.com/en-us/library/cc233965.aspx
+ */
+static std::string getWindowsLanguage()
+{
+    static std::map<std::string, std::set<int>> lang_lcid;
+    if( lang_lcid.empty() ) {
+        lang_lcid["en"] = {{ 1033, 2057, 3081, 4105, 5129, 6153, 7177, 8201, 9225, 10249, 11273 }};
+        lang_lcid["ar"] = {{ 1025, 2049, 3073, 4097, 5121, 6145, 7169, 8193, 9217, 10241, 11265, 12289, 13313, 14337, 15361, 16385 }};
+        lang_lcid["cs"] = { 1029 };
+        lang_lcid["da"] = { 1030 };
+        lang_lcid["de"] = {{ 1031, 2055, 3079, 4103, 5127 }};
+        lang_lcid["el"] = { 1032 };
+        lang_lcid["es_AR"] = { 11274 };
+        lang_lcid["es_ES"] = {{ 1034, 2058, 3082, 4106, 5130, 6154, 7178, 8202, 9226, 10250, 12298, 13322, 14346, 15370, 16394, 17418, 18442, 19466, 20490 }};
+        lang_lcid["fr"] = {{ 1036, 2060, 3084, 4108, 5132 }};
+        lang_lcid["hu"] = { 1038 };
+        lang_lcid["id"] = { 1057 };
+        lang_lcid["is"] = { 1039 };
+        lang_lcid["it_IT"] = {{ 1040, 2064 }};
+        lang_lcid["ja"] = { 1041 };
+        lang_lcid["ko"] = { 1042 };
+        lang_lcid["nb"] = {{ 1044, 2068 }};
+        lang_lcid["nl"] = { 1043 };
+        lang_lcid["pl"] = { 1045 };
+        lang_lcid["pt_BR"] = {{ 1046, 2070 }};
+        lang_lcid["ru"] = {{ 25, 1049, 2073 }};
+        lang_lcid["sr"] = { 3098 };
+        lang_lcid["tr"] = { 1055 };
+        lang_lcid["uk_UA"] = { 1058 };
+        lang_lcid["zh_CN"] = {{ 4, 2052, 4100, 30724 }};
+        lang_lcid["zh_TW"] = {{ 1028, 3076, 5124, 31748 }};
+    }
+
+    const int lcid = GetUserDefaultUILanguage();
+    for( auto &lang : lang_lcid ) {
+        if( lang.second.find( lcid ) != lang.second.end() ) {
+            return lang.first;
+        }
+    }
+    return std::string();
+}
+#elif defined(__APPLE__)
+static std::string getAppleSystemLanguage()
 {
     // Get the user's language list (in order of preference)
     CFArrayRef langs = CFLocaleCopyPreferredLanguages();
     if( CFArrayGetCount( langs ) == 0 ) {
-        return "en_US";
+        return std::string();
     }
 
     CFStringRef lang = static_cast<CFStringRef>( CFArrayGetValueAtIndex( langs, 0 ) );
@@ -275,7 +334,7 @@ std::string getOSXSystemLang()
         std::vector<char> lang_code_raw_slow( length, '\0' );
         bool success = CFStringGetCString( lang, lang_code_raw_slow.data(), length, kCFStringEncodingUTF8 );
         if( !success ) {
-            return "en_US";
+            return std::string();
         }
         lang_code = lang_code_raw_slow.data();
     }
@@ -295,33 +354,40 @@ std::string getOSXSystemLang()
         return "zh_TW";
     }
 
-    return isValidLanguage( lang_code ) ? lang_code : "en_US";
+    return matchGameLanguage( lang_code );
+}
+#elif defined(__ANDROID__)
+static std::string getAndroidSystemLanguage()
+{
+    JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
+    jobject activity = ( jobject )SDL_AndroidGetActivity();
+    jclass clazz( env->GetObjectClass( activity ) );
+    jmethodID method_id = env->GetMethodID( clazz, "getSystemLang", "()Ljava/lang/String;" );
+    jstring ans = ( jstring )env->CallObjectMethod( activity, method_id, 0 );
+    const char *ans_c_str = env->GetStringUTFChars( ans, 0 );
+    if( ans_c_str == nullptr ) {
+        // fail-safe if retrieving Java string failed
+        return std::string();
+    }
+    const std::string lang( ans_c_str );
+    env->ReleaseStringUTFChars( ans, ans_c_str );
+    env->DeleteLocalRef( activity );
+    env->DeleteLocalRef( clazz );
+    DebugLog( D_INFO, D_MAIN ) << "Read Android system language: '" << lang << '\'';
+    if( string_starts_with( lang, "zh_Hans" ) ) {
+        return "zh_CN";
+    } else if( string_starts_with( lang, "zh_Hant" ) ) {
+        return "zh_TW";
+    }
+    return matchGameLanguage( lang );
 }
 #endif
 
 #else // !LOCALIZE
 
-#include <cstring> // strcmp
-#include <map>
-
 std::string locale_dir()
 {
     return "mo/";
-}
-
-bool isValidLanguage( const std::string &/*lang*/ )
-{
-    return true;
-}
-
-std::string getLangFromLCID( const int &/*lcid*/ )
-{
-    return "";
-}
-
-void select_language()
-{
-    return;
 }
 
 void set_language()
@@ -368,7 +434,7 @@ std::string gettext_gendered( const GenderMap &genders, const std::string &msg )
     sanity_check_genders( language_genders );
 
     if( language_genders.empty() ) {
-        language_genders.push_back( "n" );
+        language_genders.emplace_back( "n" );
     }
 
     std::vector<std::string> chosen_genders;
@@ -417,7 +483,7 @@ translation::translation( const std::string &str, const no_translation_tag ) : r
 
 translation translation::to_translation( const std::string &raw )
 {
-    return { raw };
+    return translation{ raw };
 }
 
 translation translation::to_translation( const std::string &ctxt, const std::string &raw )
@@ -462,6 +528,7 @@ void translation::deserialize( JsonIn &jsin )
 {
     // reset the cache
     cached_language_version = INVALID_LANGUAGE_VERSION;
+    cached_num = 0;
     cached_translation = nullptr;
 
     if( jsin.test_string() ) {
@@ -760,7 +827,7 @@ bool localized_comparator::operator()( const std::string &l, const std::string &
     // expected on regular strings; no workarounds needed.
     // See https://github.com/CleverRaven/Cataclysm-DDA/pull/40041 for further
     // discussion.
-#if defined(MACOSX)
+#if defined(__APPLE__) // macOS and iOS
     CFStringRef lr = CFStringCreateWithCStringNoCopy( kCFAllocatorDefault, l.c_str(),
                      kCFStringEncodingUTF8, kCFAllocatorNull );
     CFStringRef rr = CFStringCreateWithCStringNoCopy( kCFAllocatorDefault, r.c_str(),
@@ -778,7 +845,7 @@ bool localized_comparator::operator()( const std::string &l, const std::string &
 
 bool localized_comparator::operator()( const std::wstring &l, const std::wstring &r ) const
 {
-#if defined(MACOSX)
+#if defined(__APPLE__) // macOS and iOS
     return ( *this )( wstr_to_utf8( l ), wstr_to_utf8( r ) );
 #else
     return std::locale()( l, r );

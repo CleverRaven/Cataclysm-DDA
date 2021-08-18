@@ -1,5 +1,3 @@
-#include <string>
-
 #include "behavior.h"
 #include "map.h"
 #include "map_iterator.h"

@@ -98,11 +98,9 @@
     "price": 100,
     "price_postapoc": 50,
     "to_hit": -2,
-    "material": [ "veggy" ],
+    "material": [ "beeswax" ],
     "symbol": ",",
     "color": "white",
-    "initial_charges": 100,
-    "max_charges": 100,
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "candle_wax": 100 }, "rigid": true } ],
     "use_action": {
@@ -152,7 +150,7 @@
       "need_charges": 1,
       "need_charges_msg": "The lantern has no batteries."
     },
-    "flags": [ "RADIO_MODABLE", "ALLOWS_REMOTE_USE" ],
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -180,7 +178,7 @@
     "power_draw": 1000,
     "revert_to": "electric_lantern",
     "use_action": { "menu_text": "Turn off", "type": "transform", "target": "electric_lantern", "msg": "You turn the lamp off." },
-    "flags": [ "RADIO_MODABLE", "LIGHT_15", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "LIGHT_15", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
     "id": "flashlight",
@@ -190,12 +188,14 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "blue",
-    "weight": "200 g",
-    "volume": "200 ml",
+    "weight": "280 g",
+    "volume": "80 ml",
+    "longest_side": "14 cm",
     "price": 500,
     "price_postapoc": 100,
     "charges_per_use": 1,
     "ammo": [ "battery" ],
+    "flags": [ "BELT_CLIP", "WATER_BREAK_ACTIVE" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the flashlight on.",
@@ -231,7 +231,7 @@
     "power_draw": 10000,
     "revert_to": "flashlight",
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "You turn the flashlight off.", "target": "flashlight" },
-    "flags": [ "LIGHT_300", "CHARGEDIM", "TRADER_AVOID" ]
+    "flags": [ "LIGHT_300", "CHARGEDIM", "TRADER_AVOID", "BELT_CLIP" ]
   },
   {
     "id": "gasoline_lantern",
@@ -249,8 +249,6 @@
     "color": "yellow",
     "ammo": [ "gasoline" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "ammo_restriction": { "gasoline": 500 } } ],
-    "initial_charges": 500,
-    "max_charges": 500,
     "charges_per_use": 1,
     "use_action": {
       "target": "gasoline_lantern_on",
@@ -296,7 +294,7 @@
       "menu_text": "Activate",
       "type": "transform"
     },
-    "flags": [ "NO_UNLOAD" ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "glowstick_dead",
@@ -330,7 +328,7 @@
     "turns_per_charge": 30,
     "revert_to": "glowstick_dead",
     "revert_msg": "The glowstick fades out.",
-    "flags": [ "LIGHT_8", "TRADER_AVOID", "SLEEP_IGNORE", "NO_UNLOAD" ]
+    "flags": [ "LIGHT_8", "TRADER_AVOID", "SLEEP_IGNORE", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "handflare",
@@ -353,7 +351,7 @@
       "active": true,
       "msg": "You strike your flare and light it."
     },
-    "flags": [ "NO_UNLOAD" ]
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "handflare_lit",
@@ -366,15 +364,16 @@
     "revert_to": "handflare_dead",
     "revert_msg": "The flare sputters out",
     "use_action": { "type": "firestarter", "moves": 50 },
-    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "FIRESTARTER", "NO_UNLOAD" ]
+    "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "FIRESTARTER", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "heavy_flashlight",
     "type": "TOOL",
     "name": { "str": "heavy duty flashlight (off)", "str_pl": "heavy duty flashlights (off)" },
     "description": "This is a heavy duty tubular aluminum LED flashlight as often used by security guards.  Makes for a passable melee weapon.  Using this flashlight will turn it on and provide light, assuming it is charged with batteries.",
-    "weight": "650 g",
-    "volume": "750 ml",
+    "weight": "450 g",
+    "volume": "470 ml",
+    "longest_side": "37 cm",
     "price": 950,
     "price_postapoc": 200,
     "bashing": 8,
@@ -383,6 +382,7 @@
     "color": "blue",
     "charges_per_use": 1,
     "ammo": [ "battery" ],
+    "flags": [ "BELT_CLIP", "WATER_BREAK" ],
     "use_action": {
       "type": "transform",
       "msg": "You turn the heavy duty flashlight on.",
@@ -423,7 +423,7 @@
       "msg": "You turn the heavy duty flashlight off.",
       "target": "heavy_flashlight"
     },
-    "flags": [ "LIGHT_500", "CHARGEDIM" ]
+    "flags": [ "LIGHT_500", "CHARGEDIM", "BELT_CLIP" ]
   },
   {
     "abstract": "lightstrip_base",
@@ -501,8 +501,6 @@
     "color": "yellow",
     "ammo": [ "lamp_oil" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "ammo_restriction": { "lamp_oil": 750 } } ],
-    "initial_charges": 750,
-    "max_charges": 750,
     "charges_per_use": 1,
     "use_action": {
       "target": "oil_lamp_on",
@@ -580,6 +578,7 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "white",
+    "flags": [ "WATER_BREAK" ],
     "ammo": [ "battery" ],
     "charges_per_use": 1,
     "use_action": {
@@ -636,7 +635,7 @@
       "need_charges_msg": "The smart lamp batteries are dead.",
       "type": "transform"
     },
-    "flags": [ "ALLOWS_REMOTE_USE", "RADIO_ACTIVATION", "RADIOSIGNAL_2" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "RADIO_ACTIVATION", "RADIO_INVOKE_PROC", "RADIOSIGNAL_2", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -665,7 +664,15 @@
     "power_draw": 10000,
     "revert_to": "smart_lamp",
     "use_action": { "target": "smart_lamp", "msg": "Your smart lamp turned off.", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "ALLOWS_REMOTE_USE", "RADIO_ACTIVATION", "RADIOSIGNAL_2", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ]
+    "flags": [
+      "ALLOWS_REMOTE_USE",
+      "RADIO_ACTIVATION",
+      "RADIO_INVOKE_PROC",
+      "RADIOSIGNAL_2",
+      "LIGHT_240",
+      "CHARGEDIM",
+      "TRADER_AVOID"
+    ]
   },
   {
     "id": "torch",
@@ -684,7 +691,6 @@
     "techniques": [ "WBLOCK_1" ],
     "initial_charges": 20,
     "max_charges": 20,
-    "charges_per_use": 1,
     "use_action": {
       "target": "torch_lit",
       "msg": "You light the torch.",

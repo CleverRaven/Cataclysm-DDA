@@ -172,7 +172,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
       [ [ "bleach", 2 ], [ "oxy_powder", 200 ] ],
-      [ [ "fungicide", 50 ] ],
+      [ [ "triffid_fungicide", 1 ], [ "fungicide", 50 ] ],
       [ [ "chem_sulphur", 150 ] ],
       [ [ "canister_empty", 1 ], [ "can_food", 1 ], [ "can_drink", 1 ] ],
       [ [ "superglue", 1 ] ]

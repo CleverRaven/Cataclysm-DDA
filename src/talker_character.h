@@ -3,19 +3,18 @@
 #define CATA_SRC_TALKER_CHARACTER_H
 
 #include <functional>
+#include <iosfwd>
 #include <list>
-#include <string>
 #include <vector>
 
 #include "coordinates.h"
+#include "npc.h"
 #include "talker.h"
 #include "type_id.h"
 
 class character_id;
 class faction;
 class item;
-class mission;
-class npc;
 class player;
 class time_duration;
 class vehicle;
@@ -29,7 +28,7 @@ struct tripoint;
 class talker_character: public talker
 {
     public:
-        talker_character( player *new_me ): me_chr( new_me ) {
+        explicit talker_character( player *new_me ): me_chr( new_me ) {
         }
         ~talker_character() override = default;
 
@@ -38,6 +37,12 @@ class talker_character: public talker
             return me_chr;
         }
         player *get_character() const override {
+            return me_chr;
+        }
+        Creature *get_creature() override {
+            return me_chr;
+        }
+        Creature *get_creature() const override {
             return me_chr;
         }
         // identity and location
@@ -56,10 +61,12 @@ class talker_character: public talker
         int dex_cur() const override;
         int int_cur() const override;
         int per_cur() const override;
+        int pain_cur() const override;
+        units::energy power_cur() const override;
         bool has_trait( const trait_id &trait_to_check ) const override;
         void set_mutation( const trait_id &new_trait ) override;
         void unset_mutation( const trait_id &old_trait ) override;
-        bool has_trait_flag( const std::string &trait_flag_to_check ) const override;
+        bool has_trait_flag( const json_character_flag &trait_flag_to_check ) const override;
         bool crossed_threshold() const override;
         int num_bionics() const override;
         bool has_max_power() const override;
@@ -73,7 +80,7 @@ class talker_character: public talker
         bool is_deaf() const override;
         bool is_mute() const override;
         void add_effect( const efftype_id &new_effect, const time_duration &dur,
-                         bool permanent ) override;
+                         std::string bp, bool permanent, bool force, int intensity ) override;
         void remove_effect( const efftype_id &old_effect ) override;
         std::string get_value( const std::string &var_name ) const override;
         void set_value( const std::string &var_name, const std::string &value ) override;
@@ -109,6 +116,20 @@ class talker_character: public talker
         // speaking
         void shout( const std::string &speech = "", bool order = false ) override;
 
+        bool worn_with_flag( const flag_id &flag ) const override;
+        bool wielded_with_flag( const flag_id &flag ) const override;
+
+        void mod_fatigue( int amount ) override;
+        void mod_pain( int amount ) override;
+        bool can_see() const override;
+        void mod_healthy_mod( int, int ) override;
+        int morale_cur() const override;
+        void add_morale( const morale_type &new_morale, int bonus, int max_bonus, time_duration duration,
+                         time_duration decay_started, bool capped ) override;
+        void remove_morale( const morale_type &old_morale ) override;
+        int focus_cur() const override;
+        void mod_focus( int ) override;
+        void mod_rad( int ) override;
     protected:
         talker_character() = default;
         player *me_chr;

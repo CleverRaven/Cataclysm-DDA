@@ -9,7 +9,9 @@
       [ "afs_hydraulic_gauntlet", 3 ],
       [ "afs_energy_saber_off", 3 ],
       [ "ftk93", 5 ],
-      [ "afs_hardlight_longbow", 2 ]
+      [ "afs_hardlight_longbow", 2 ],
+      [ "grenade_cryo", 12 ],
+      [ "afs_freeze_gauntlet", 5 ]
     ]
   },
   {
@@ -20,13 +22,26 @@
       [ "textbook_mechanics", 3 ],
       [ "textbook_biodiesel", 3 ],
       [ "mag_fieldrepair", 4 ],
-      [ "book_icef", 4 ]
+      [ "book_icef", 4 ],
+      [ "recipes_resistance", 2 ],
+      [ "schematics_nano_forge", 12 ],
+      [ "schematics_diamond_press", 12 ]
     ]
   },
   {
     "id": "chem_lab",
     "type": "item_group",
-    "items": [ [ "panacea", 1 ], [ "afs_calorie_pill", 5 ], [ "afs_sundew", 8 ], [ "recipe_unusual_ammos", 3 ] ]
+    "items": [
+      [ "panacea", 1 ],
+      [ "afs_calorie_pill", 5 ],
+      [ "afs_sundew", 8 ],
+      [ "iv_mutagen_mastodon", 1 ],
+      [ "mutagen_mastodon", 2 ],
+      [ "recipe_unusual_ammos", 3 ],
+      [ "recipes_resistance", 2 ],
+      [ "recipe_uplift", 2 ],
+      [ "recipes_cryolab", 1 ]
+    ]
   },
   {
     "id": "rare",
@@ -36,33 +51,28 @@
       [ "afs_atomic_smartphone", 5 ],
       [ "laser_pack", 10 ],
       [ "ftk93", 5 ],
-      [ "atomic_butterchurn", 5 ]
+      [ "iv_mutagen_mastodon", 5 ],
+      [ "mutagen_mastodon", 10 ],
+      [ "recipe_uplift", 2 ],
+      [ "atomic_butterchurn", 5 ],
+      [ "alien_battery", 5 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "mil_hw",
+    "subtype": "distribution",
+    "entries": [ { "item": "iv_mutagen_mastodon", "prob": 3 }, { "item": "mutagen_mastodon", "prob": 6 } ]
   },
   {
     "id": "spider",
     "type": "item_group",
-    "items": [ [ "afs_energy_saber_off", 1 ], [ "afs_bag_of_holding", 2 ], [ "afs_hydraulic_gauntlet", 1 ] ]
-  },
-  {
-    "id": "survivorzed_extra",
-    "type": "item_group",
-    "items": [ [ "afs_rolling_pin_barbed_wire", 5 ], [ "afs_chain_wrench", 8 ] ]
+    "items": [ [ "afs_energy_saber_off", 1 ], [ "afs_bag_of_holding", 2 ], [ "afs_hydraulic_gauntlet", 1 ], [ "alien_battery", 1 ] ]
   },
   {
     "id": "camping",
     "type": "item_group",
-    "items": [ [ "afs_rope_lighter", 10 ], [ "atomic_light", 1 ] ]
-  },
-  {
-    "id": "allsporting",
-    "type": "item_group",
-    "items": [ [ "afs_rope_lighter", 10 ] ]
-  },
-  {
-    "id": "traveler",
-    "type": "item_group",
-    "items": [ [ "afs_rope_lighter", 10 ] ]
+    "items": [ [ "atomic_light", 1 ] ]
   },
   {
     "id": "drugdealer",
@@ -80,9 +90,9 @@
     "items": [ [ "afs_atompot", 3 ] ]
   },
   {
-    "id": "bed",
+    "id": "newspaper",
     "type": "item_group",
-    "items": [ [ "afs_quilt", 10 ], [ "afs_quilt_patchwork", 8 ] ]
+    "items": [ [ "afs_personal_card", 2 ] ]
   },
   {
     "id": "livingroom",
@@ -132,35 +142,14 @@
     "items": [ [ "afs_power_cutter", 5 ] ]
   },
   {
-    "id": "book_gunref",
-    "type": "item_group",
-    "items": [
-      [ "afs_textbook_shotguns", 3 ],
-      [ "afs_textbook_handguns", 3 ],
-      [ "afs_textbook_rifles", 3 ],
-      [ "afs_textbook_launchers", 3 ]
-    ]
-  },
-  {
     "id": "book_military",
     "type": "item_group",
-    "items": [
-      [ "afs_textbook_shotguns", 20 ],
-      [ "afs_textbook_handguns", 20 ],
-      [ "afs_textbook_rifles", 20 ],
-      [ "afs_textbook_launchers", 10 ]
-    ]
+    "items": [ [ "recipe_unusual_ammos", 7 ] ]
   },
   {
     "id": "textbooks",
     "type": "item_group",
-    "items": [
-      [ "afs_textbook_shotguns", 3 ],
-      [ "afs_textbook_handguns", 3 ],
-      [ "afs_textbook_rifles", 3 ],
-      [ "afs_textbook_launchers", 3 ],
-      [ "textbook_atomic", 8 ]
-    ]
+    "items": [ [ "textbook_atomic", 8 ] ]
   },
   {
     "id": "guns_pistol_improvised",
@@ -257,7 +246,8 @@
       [ "afs_material_2", 20 ],
       [ "afs_magnet_1", 20 ],
       [ "afs_energy_storage_1", 20 ],
-      [ "afs_circuitry_1", 20 ]
+      [ "afs_circuitry_1", 20 ],
+      [ "solar_panel_v3", 1 ]
     ]
   },
   {
@@ -273,11 +263,6 @@
     "items": [ [ "bionic_maintenance_toolkit", 20 ] ]
   },
   {
-    "id": "jewelry_accessories",
-    "type": "item_group",
-    "items": [ [ "afs_titanium_watch", 35 ], [ "afs_titanium_tooth", 35 ], [ "afs_titanium_ring", 35 ] ]
-  },
-  {
     "type": "item_group",
     "subtype": "collection",
     "id": "broken_robots",
@@ -287,72 +272,6 @@
       { "item": "glass_shard", "count": [ 0, 2 ] },
       { "item": "spring", "prob": 20 },
       { "item": "material_aluminium_ingot", "prob": 20 }
-    ]
-  },
-  {
-    "id": "rings_and_things",
-    "type": "item_group",
-    "items": [ [ "afs_titanium_watch", 35 ], [ "afs_titanium_ring", 35 ] ]
-  },
-  {
-    "id": "jewelry_back",
-    "type": "item_group",
-    "items": [ [ "afs_titanium_watch", 35 ], [ "afs_titanium_ring", 35 ] ]
-  },
-  {
-    "id": "jewelry_front",
-    "type": "item_group",
-    "items": [ [ "afs_titanium_watch", 35 ], [ "afs_titanium_ring", 35 ] ]
-  },
-  {
-    "id": "weapons",
-    "type": "item_group",
-    "items": [ [ "afs_titanium_bat", 40 ] ]
-  },
-  {
-    "id": "allsporting",
-    "type": "item_group",
-    "items": [ [ "afs_titanium_bat", 40 ] ]
-  },
-  {
-    "id": "sports",
-    "type": "item_group",
-    "items": [ [ "afs_titanium_bat", 40 ] ]
-  },
-  {
-    "id": "college_sports",
-    "type": "item_group",
-    "items": [ [ "afs_titanium_bat", 60 ] ]
-  },
-  {
-    "id": "supplies_mechanics",
-    "type": "item_group",
-    "items": [ [ "afs_titanium_frame", 5 ] ]
-  },
-  {
-    "id": "bikeshop_tools",
-    "type": "item_group",
-    "items": [ [ "afs_titanium_frame", 5 ] ]
-  },
-  {
-    "type": "item_group",
-    "id": "steel_mill_foundry",
-    "items": [ [ "afs_titanium_small", 5 ], { "item": "afs_scrap_titanium", "prob": 5, "count": [ 1, 4 ] } ]
-  },
-  {
-    "id": "oa_ig_rd_metal_trash",
-    "type": "item_group",
-    "items": [ [ "afs_titanium_frame", 5 ], { "item": "afs_scrap_titanium", "prob": 10, "count": [ 2, 8 ] } ]
-  },
-  {
-    "id": "supplies_metal",
-    "type": "item_group",
-    "items": [
-      [ "bionic_maintenance_toolkit", 20 ],
-      [ "afs_biomaterial_2", 20 ],
-      [ "afs_biomaterial_3", 10 ],
-      [ "afs_biomaterial_1", 20 ],
-      [ "afs_neural_io_2", 15 ]
     ]
   },
   {
@@ -387,7 +306,8 @@
       { "item": "xlballistic_vest_esapi", "prob": 39 },
       { "item": "xlboots_combat", "prob": 70 },
       { "item": "xlgloves_tactical", "prob": 50 },
-      { "item": "tripaw_xlgloves_tactical", "prob": 48 }
+      { "item": "tripaw_xlgloves_tactical", "prob": 48 },
+      { "item": "grenade_cryo", "prob": 10 }
     ]
   },
   {
@@ -402,16 +322,26 @@
     ]
   },
   {
-    "id": "science",
-    "type": "item_group",
-    "subtype": "distribution",
-    "items": [ [ "solar_panel_v3", 1 ] ]
-  },
-  {
     "id": "crate_sports",
     "type": "item_group",
     "subtype": "collection",
-    "items": [ [ "q_solarpack", 1 ] ]
+    "items": [ [ "q_solarpack", 1 ], [ "alien_battery", 1 ] ]
+  },
+  {
+    "id": "cryo_lab_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "recipes_cryolab", "prob": 5 },
+      { "item": "recipes_resistance", "prob": 4 },
+      { "item": "recipe_unusual_ammos", "prob": 4 },
+      { "item": "bio_cold_absorber", "prob": 2 },
+      { "item": "afs_freeze_gauntlet", "prob": 6 },
+      { "group": "afs_scrapgroup", "count": [ 1, 3 ], "prob": 30 },
+      { "group": "exoticplants", "count": [ 1, 3 ], "prob": 30 },
+      { "group": "science", "count": [ 1, 3 ], "prob": 30 },
+      { "item": "subsuit_xl" }
+    ]
   },
   {
     "type": "item_group",
@@ -430,6 +360,12 @@
       [ "seed_lemon", 20 ],
       [ "seed_coconut", 20 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "nanofab_recipes",
+    "subtype": "distribution",
+    "entries": [ { "item": "afs_archeotech_cartridge", "prob": 10 }, { "item": "afs_translocation_device", "prob": 10 } ]
   },
   {
     "id": "SUS_scuba_gear",

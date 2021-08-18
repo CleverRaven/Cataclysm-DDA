@@ -238,7 +238,8 @@
     "coverage": 40,
     "required_str": -1,
     "crafting_pseudo_item": "demon_forge",
-    "flags": [ "SEALED", "CONTAINER", "NOITEM" ],
+    "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "demon_forge", "count": 1 } ] },
     "examine_action": "reload_furniture",
     "bash": {
       "str_min": 80,

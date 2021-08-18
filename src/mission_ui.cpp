@@ -1,3 +1,5 @@
+#include "game.h" // IWYU pragma: associated
+
 #include <algorithm>
 #include <map>
 #include <string>
@@ -6,16 +8,12 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "color.h"
-// needed for the workaround for the std::to_string bug in some compilers
-#include "compatibility.h" // IWYU pragma: keep
 #include "debug.h"
-#include "game.h" // IWYU pragma: associated
 #include "input.h"
 #include "mission.h"
 #include "npc.h"
 #include "output.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 #include "ui.h"
 #include "ui_manager.h"
@@ -72,9 +70,16 @@ void game::list_missions()
         };
         draw_tabs( w_missions, tabs, tab );
         draw_border_below_tabs( w_missions );
-
-        mvwputch( w_missions, point( 30, 2 ), BORDER_COLOR,
-                  tab == tab_mode::TAB_COMPLETED ? ' ' : LINE_OXXX ); // ^|^
+        int x1 = 2;
+        int x2 = 2;
+        for( const std::pair<tab_mode, std::string> &t : tabs ) {
+            x2 = x1 + utf8_width( t.second ) + 1;
+            if( t.first == tab ) {
+                break;
+            }
+            x1 = x2 + 2;
+        }
+        mvwputch( w_missions, point( 30, 2 ), BORDER_COLOR, x1 < 30 && 30 < x2 ? ' ' : LINE_OXXX ); // ^|^*/
         mvwputch( w_missions, point( 30, FULL_SCREEN_HEIGHT - 1 ), BORDER_COLOR, LINE_XXOX ); // _|_
 
         draw_scrollbar( w_missions, selection, entries_per_page, umissions.size(), point( 0, 3 ) );
@@ -100,8 +105,6 @@ void game::list_missions()
             }
 
             int y = 3;
-            y += fold_and_print( w_missions, point( 31, y ), getmaxx( w_missions ) - 33, col,
-                                 miss->name() + for_npc );
 
             auto format_tokenized_description = []( const std::string & description,
             const std::vector<std::pair<int, itype_id>> &rewards ) {
@@ -113,7 +116,8 @@ void game::list_missions()
                 }
                 return formatted_description;
             };
-
+            y += fold_and_print( w_missions, point( 31, y ), getmaxx( w_missions ) - 33, col,
+                                 format_tokenized_description( miss->name(), miss->get_likely_rewards() ) + for_npc );
             y++;
             if( !miss->get_description().empty() ) {
                 y += fold_and_print( w_missions, point( 31, y ), getmaxx( w_missions ) - 33, c_white,

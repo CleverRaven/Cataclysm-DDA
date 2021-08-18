@@ -2,24 +2,23 @@
 #ifndef CATA_SRC_MAGIC_ENCHANTMENT_H
 #define CATA_SRC_MAGIC_ENCHANTMENT_H
 
-#include <algorithm>
+#include <iosfwd>
 #include <map>
+#include <new>
 #include <set>
-#include <string>
 #include <utility>
 #include <vector>
 
 #include "calendar.h"
-#include "enum_traits.h"
-#include "json.h"
 #include "magic.h"
 #include "optional.h"
-#include "string_id.h"
 #include "type_id.h"
 #include "units_fwd.h"
 
 class Character;
 class Creature;
+class JsonObject;
+class JsonOut;
 class item;
 
 namespace enchant_vals
@@ -44,6 +43,7 @@ enum class mod : int {
     REGEN_STAMINA,
     MAX_HP,        // for all limbs! use with caution
     REGEN_HP,
+    HUNGER,        // hunger rate
     THIRST,        // thirst rate
     FATIGUE,       // fatigue rate
     PAIN,          // cost or regen over time
@@ -55,9 +55,19 @@ enum class mod : int {
     FOOTSTEP_NOISE,
     SIGHT_RANGE,
     CARRY_WEIGHT,
+    WEAPON_DISPERSION,
     SOCIAL_LIE,
     SOCIAL_PERSUADE,
     SOCIAL_INTIMIDATE,
+    SLEEPY,
+    LUMINATION,
+    EFFECTIVE_HEALTH_MOD,
+    MOD_HEALTH,
+    MOD_HEALTH_CAP,
+    MAP_MEMORY,
+    READING_EXP,
+    SKILL_RUST_RESIST,
+    LEARNING_FOCUS,
     ARMOR_BASH,
     ARMOR_CUT,
     ARMOR_STAB,
@@ -68,6 +78,7 @@ enum class mod : int {
     ARMOR_ACID,
     ARMOR_BIO,
     // effects for the item that has the enchantment
+    ITEM_DAMAGE_PURE,
     ITEM_DAMAGE_BASH,
     ITEM_DAMAGE_CUT,
     ITEM_DAMAGE_STAB,
@@ -115,11 +126,19 @@ class enchantment
             UNDERGROUND,
             UNDERWATER,
             ACTIVE, // the item, mutation, etc. is active
+            INACTIVE, // the item, mutation, etc. is inactive
             NUM_CONDITION
         };
 
         static void load_enchantment( const JsonObject &jo, const std::string &src );
-        void load( const JsonObject &jo, const std::string &src = "" );
+        static void reset();
+        void load( const JsonObject &jo, const std::string &src = "",
+                   const cata::optional<std::string> &inline_id = cata::nullopt );
+
+        // Takes in a JsonValue which can be either a string or an enchantment object and returns the id of the enchantment the caller will use.
+        // If the input is a string return it as an enchantment_id otherwise create an enchantment with id inline_id and return inline_id as an enchantment id
+        static enchantment_id load_inline_enchantment( const JsonValue &jv, const std::string &src,
+                std::string &inline_id );
 
         // attempts to add two like enchantments together.
         // if their conditions don't match, return false. else true.
@@ -172,17 +191,33 @@ class enchantment
             return mutations;
         }
 
-        friend bool operator==( const enchantment &source_enchantment,
-                                const enchantment &target_enchantment );
+        bool operator==( const enchantment &rhs ) const;
+
+        body_part_set modify_bodyparts( const body_part_set &unmodified ) const;
+        // does the enchantment modify bodyparts?
+        bool modifies_bodyparts() const;
+
+        struct bodypart_changes {
+            bodypart_str_id gain;
+            bodypart_str_id lose;
+
+            bool was_loaded = false;
+
+            void serialize( JsonOut &jsout ) const;
+            void deserialize( JsonIn &jsin );
+            void load( const JsonObject &jo );
+        };
     private:
+        std::vector<bodypart_changes> modified_bodyparts;
+
         std::set<trait_id> mutations;
         cata::optional<emit_id> emitter;
         std::map<efftype_id, int> ench_effects;
         // values that add to the base value
-        std::map<enchant_vals::mod, int> values_add;
+        std::map<enchant_vals::mod, int> values_add; // NOLINT(cata-serialize)
         // values that get multiplied to the base value
         // multipliers add to each other instead of multiply against themselves
-        std::map<enchant_vals::mod, double> values_multiply;
+        std::map<enchant_vals::mod, double> values_multiply; // NOLINT(cata-serialize)
 
         std::vector<fake_spell> hit_me_effect;
         std::vector<fake_spell> hit_you_effect;

@@ -7,10 +7,10 @@
 #include <utility>
 
 #include "basecamp.h"
-#include "int_id.h"
 #include "mapdata.h"
 #include "tileray.h"
 #include "trap.h"
+#include "units.h"
 #include "vehicle.h"
 
 template<int sx, int sy>
@@ -25,18 +25,6 @@ void maptile_soa<sx, sy>::swap_soa_tile( const point &p1, const point &p2 )
     std::swap( rad[p1.x][p1.y], rad[p2.x][p2.y] );
 }
 
-template<int sx, int sy>
-void maptile_soa<sx, sy>::swap_soa_tile( const point &p, maptile_soa<1, 1> &other )
-{
-    std::swap( ter[p.x][p.y], **other.ter );
-    std::swap( frn[p.x][p.y], **other.frn );
-    std::swap( lum[p.x][p.y], **other.lum );
-    std::swap( itm[p.x][p.y], **other.itm );
-    std::swap( fld[p.x][p.y], **other.fld );
-    std::swap( trp[p.x][p.y], **other.trp );
-    std::swap( rad[p.x][p.y], **other.rad );
-}
-
 submap::submap()
 {
     std::uninitialized_fill_n( &ter[0][0], elements, t_null );
@@ -48,10 +36,10 @@ submap::submap()
     is_uniform = false;
 }
 
-submap::submap( submap && ) = default;
+submap::submap( submap && ) noexcept( map_is_noexcept ) = default;
 submap::~submap() = default;
 
-submap &submap::operator=( submap && ) = default;
+submap &submap::operator=( submap && ) noexcept = default;
 
 static const std::string COSMETICS_GRAFFITI( "GRAFFITI" );
 static const std::string COSMETICS_SIGNAGE( "SIGNAGE" );
@@ -239,6 +227,9 @@ void submap::rotate( int turns )
     const auto rotate_point = [turns]( const point & p ) {
         return p.rotate( turns, { SEEX, SEEY } );
     };
+    const auto rotate_point_ccw = [turns]( const point & p ) {
+        return p.rotate( 4 - turns, { SEEX, SEEY } );
+    };
 
     if( turns == 2 ) {
         // Swap horizontal stripes.
@@ -255,17 +246,16 @@ void submap::rotate( int turns )
             }
         }
     } else {
-        maptile_soa<1, 1> tmp;
-
         for( int j = 0, je = SEEY / 2; j < je; ++j ) {
             for( int i = j, ie = SEEX - j - 1; i < ie; ++i ) {
                 point p = point{ i, j };
-
-                swap_soa_tile( p, tmp );
-
-                for( int k = 0; k < 4; ++k ) {
-                    p = rotate_point( p );
-                    swap_soa_tile( p, tmp );
+                point pp = p;
+                // three swaps are enough to perform the circular shift of four elements:
+                // 0123 -> 3120 -> 3102 -> 3012
+                for( int k = 0; k < 3; ++k ) {
+                    p = pp;
+                    pp = rotate_point_ccw( pp );
+                    swap_soa_tile( p, pp );
                 }
             }
         }
@@ -289,7 +279,7 @@ void submap::rotate( int turns )
         // move the vehicle.
         elem->turn( turns * 90_degrees );
         // The facing direction and recalculate the positions of the parts
-        elem->face = elem->turn_dir;
+        elem->face = tileray( elem->turn_dir );
         elem->precalc_mounts( 0, elem->turn_dir, elem->pivot_anchor[0] );
     }
 

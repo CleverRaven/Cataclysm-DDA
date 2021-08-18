@@ -409,7 +409,7 @@
   {
     "type": "COMESTIBLE",
     "id": "hickory_nut_ambrosia",
-    "name": "hickory nut ambrosia",
+    "name": { "str": "hickory nut ambrosia" },
     "weight": "254 g",
     "color": "brown",
     "spoils_in": "10 days 19 hours",
@@ -428,7 +428,7 @@
     "charges": 4,
     "flags": [ "EATEN_HOT" ],
     "fun": 5,
-    "freezing_point": -80
+    "freezing_point": -62
   },
   {
     "id": "peanutbutter",
@@ -436,7 +436,7 @@
     "symbol": "~",
     "color": "brown",
     "spoils_in": "180 days",
-    "name": "peanut butter",
+    "name": { "str": "peanut butter" },
     "description": "A brown goo that tastes very little like its namesake.  It's not bad, but it'll stick to the roof of your mouth.",
     "price": 195,
     "price_postapoc": 1000,
@@ -457,7 +457,7 @@
   {
     "id": "peanutbutter_imitation",
     "type": "COMESTIBLE",
-    "name": "imitation peanutbutter",
+    "name": { "str": "imitation peanutbutter" },
     "description": "A thick, nutty brown paste.",
     "copy-from": "peanutbutter"
   },
@@ -465,7 +465,7 @@
     "id": "spread_peanutbutter",
     "type": "COMESTIBLE",
     "symbol": "%",
-    "name": "peanut butter spread",
+    "name": { "str": "peanut butter spread" },
     "description": "Processed peanut butter spread..",
     "//TODO": "make a container called small sealed plastic tub",
     "container": "can_food",
@@ -525,6 +525,7 @@
     "price_postapoc": 300,
     "material": [ "nut" ],
     "vitamins": [ [ "calcium", 1 ], [ "iron", 2 ] ],
-    "volume": "250 ml"
+    "volume": "250 ml",
+    "milling": { "into": "flour", "conversion_rate": 7.5 }
   }
 ]

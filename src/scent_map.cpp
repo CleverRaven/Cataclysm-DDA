@@ -2,7 +2,7 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <cmath>
+#include <new>
 
 #include "assign.h"
 #include "calendar.h"
@@ -12,10 +12,10 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "generic_factory.h"
+#include "json.h"
 #include "map.h"
 #include "output.h"
 #include "point.h"
-#include "string_id.h"
 
 static constexpr int SCENT_RADIUS = 40;
 

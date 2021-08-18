@@ -2,9 +2,7 @@
 #ifndef CATA_SRC_VEHICLE_GROUP_H
 #define CATA_SRC_VEHICLE_GROUP_H
 
-#include <algorithm>
-#include <memory>
-#include <string>
+#include <iosfwd>
 #include <unordered_map>
 #include <vector>
 
@@ -12,8 +10,8 @@
 #include "memory_fast.h"
 #include "optional.h"
 #include "rng.h"
-#include "string_id.h"
 #include "type_id.h"
+#include "units_fwd.h"
 #include "weighted_list.h"
 
 class JsonObject;
@@ -114,7 +112,7 @@ using vehicle_gen_pointer = void ( * )( map &, const std::string & );
 class VehicleFunction_builtin : public VehicleFunction
 {
     public:
-        VehicleFunction_builtin( const vehicle_gen_pointer &func ) : func( func ) {}
+        explicit VehicleFunction_builtin( const vehicle_gen_pointer &func ) : func( func ) {}
         ~VehicleFunction_builtin() override = default;
 
         /**
@@ -133,7 +131,7 @@ class VehicleFunction_builtin : public VehicleFunction
 class VehicleFunction_json : public VehicleFunction
 {
     public:
-        VehicleFunction_json( const JsonObject &jo );
+        explicit VehicleFunction_json( const JsonObject &jo );
         ~VehicleFunction_json() override = default;
 
         /**

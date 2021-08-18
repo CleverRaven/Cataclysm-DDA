@@ -1,7 +1,5 @@
 #include "flag.h"
 
-#include <unordered_map>
-
 #include "debug.h"
 #include "generic_factory.h"
 #include "json.h"
@@ -11,6 +9,7 @@ const flag_id flag_NULL = flag_id( "null" ); // intentionally invalid flag
 
 const flag_id flag_ACID( "ACID" );
 const flag_id flag_ACID_IMMUNE( "ACID_IMMUNE" );
+const flag_id flag_ACTIVATE_ON_PLACE( "ACTIVATE_ON_PLACE" );
 const flag_id flag_ACTIVE_CLOAKING( "ACTIVE_CLOAKING" );
 const flag_id flag_ACT_IN_FIRE( "ACT_IN_FIRE" );
 const flag_id flag_ACT_ON_RANGED_HIT( "ACT_ON_RANGED_HIT" );
@@ -33,8 +32,13 @@ const flag_id flag_BASH_IMMUNE( "BASH_IMMUNE" );
 const flag_id flag_BELTED( "BELTED" );
 const flag_id flag_BELT_CLIP( "BELT_CLIP" );
 const flag_id flag_BIO_IMMUNE( "BIO_IMMUNE" );
+const flag_id flag_BIONIC_GUN( "BIONIC_GUN" );
+const flag_id flag_BIONIC_INSTALLATION_DATA( "BIONIC_INSTALLATION_DATA" );
+const flag_id flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
+const flag_id flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
 const flag_id flag_BIPOD( "BIPOD" );
 const flag_id flag_BIRD( "BIRD" );
+const flag_id flag_BLED( "BLED" );
 const flag_id flag_BLIND( "BLIND" );
 const flag_id flag_BLOCK_WHILE_WORN( "BLOCK_WHILE_WORN" );
 const flag_id flag_BOMB( "BOMB" );
@@ -61,7 +65,9 @@ const flag_id flag_COLLAR( "COLLAR" );
 const flag_id flag_CONDUCTIVE( "CONDUCTIVE" );
 const flag_id flag_CONSUMABLE( "CONSUMABLE" );
 const flag_id flag_COOKED( "COOKED" );
+const flag_id flag_CORROSIVE( "CORROSIVE" );
 const flag_id flag_CORPSE( "CORPSE" );
+const flag_id flag_CRUTCHES( "CRUTCHES" );
 const flag_id flag_CUSTOM_EXPLOSION( "CUSTOM_EXPLOSION" );
 const flag_id flag_CUT_IMMUNE( "CUT_IMMUNE" );
 const flag_id flag_DANGEROUS( "DANGEROUS" );
@@ -76,19 +82,7 @@ const flag_id flag_DURABLE_MELEE( "DURABLE_MELEE" );
 const flag_id flag_EATEN_COLD( "EATEN_COLD" );
 const flag_id flag_EATEN_HOT( "EATEN_HOT" );
 const flag_id flag_EDIBLE_FROZEN( "EDIBLE_FROZEN" );
-const flag_id flag_EFFECT_ACID_IMMUNE( "EFFECT_ACID_IMMUNE" );
-const flag_id flag_EFFECT_BASH_IMMUNE( "EFFECT_BASH_IMMUNE" );
-const flag_id flag_EFFECT_BIO_IMMUNE( "EFFECT_BIO_IMMUNE" );
-const flag_id flag_EFFECT_BULLET_IMMUNE( "EFFECT_BULLET_IMMUNE" );
-const flag_id flag_EFFECT_COLD_IMMUNE( "EFFECT_COLD_IMMUNE" );
-const flag_id flag_EFFECT_CUT_IMMUNE( "EFFECT_CUT_IMMUNE" );
-const flag_id flag_EFFECT_ELECTRIC_IMMUNE( "EFFECT_ELECTRIC_IMMUNE" );
-const flag_id flag_EFFECT_FEATHER_FALL( "EFFECT_FEATHER_FALL" );
-const flag_id flag_EFFECT_HEAT_IMMUNE( "EFFECT_HEAT_IMMUNE" );
 const flag_id flag_EFFECT_IMPEDING( "EFFECT_IMPEDING" );
-const flag_id flag_EFFECT_INVISIBLE( "EFFECT_INVISIBLE" );
-const flag_id flag_EFFECT_NIGHT_VISION( "EFFECT_NIGHT_VISION" );
-const flag_id flag_EFFECT_STAB_IMMUNE( "EFFECT_STAB_IMMUNE" );
 const flag_id flag_ELECTRIC_IMMUNE( "ELECTRIC_IMMUNE" );
 const flag_id flag_ETHEREAL_ITEM( "ETHEREAL_ITEM" );
 const flag_id flag_FAKE_MILL( "FAKE_MILL" );
@@ -145,6 +139,7 @@ const flag_id flag_IR_EFFECT( "IR_EFFECT" );
 const flag_id flag_IS_ARMOR( "IS_ARMOR" );
 const flag_id flag_IS_PET_ARMOR( "IS_PET_ARMOR" );
 const flag_id flag_IS_UPS( "IS_UPS" );
+const flag_id flag_ITEM_BROKEN( "ITEM_BROKEN" );
 const flag_id flag_LEAK_ALWAYS( "LEAK_ALWAYS" );
 const flag_id flag_LEAK_DAM( "LEAK_DAM" );
 const flag_id flag_LITCIG( "LITCIG" );
@@ -257,6 +252,7 @@ const flag_id flag_SHRUB( "SHRUB" );
 const flag_id flag_SKINNED( "SKINNED" );
 const flag_id flag_SKINTIGHT( "SKINTIGHT" );
 const flag_id flag_SLEEP_AID( "SLEEP_AID" );
+const flag_id flag_SLEEP_AID_CONTAINER( "SLEEP_AID_CONTAINER" );
 const flag_id flag_SLEEP_IGNORE( "SLEEP_IGNORE" );
 const flag_id flag_SLOWS_MOVEMENT( "SLOWS_MOVEMENT" );
 const flag_id flag_SLOWS_THIRST( "SLOWS_THIRST" );
@@ -308,8 +304,11 @@ const flag_id flag_WAIST( "WAIST" );
 const flag_id flag_WATCH( "WATCH" );
 const flag_id flag_WATERPROOF( "WATERPROOF" );
 const flag_id flag_WATERPROOF_GUN( "WATERPROOF_GUN" );
+const flag_id flag_WATER_BREAK( "WATER_BREAK" );
+const flag_id flag_WATER_BREAK_ACTIVE( "WATER_BREAK_ACTIVE" );
 const flag_id flag_WATER_EXTINGUISH( "WATER_EXTINGUISH" );
 const flag_id flag_WATER_FRIENDLY( "WATER_FRIENDLY" );
+const flag_id flag_WATER_DISSOLVE( "WATER_DISSOLVE" );
 const flag_id flag_WET( "WET" );
 const flag_id flag_WHIP( "WHIP" );
 const flag_id flag_WIND_EXTINGUISH( "WIND_EXTINGUISH" );

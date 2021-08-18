@@ -104,7 +104,7 @@
     "description": "A water cannon from a fire truck.  Mounted on a vehicle, it could be used to stop fires or \"protesters\".",
     "price": 50000,
     "material": [ "steel" ],
-    "flags": [ "NEVER_JAMS", "MOUNTED_GUN", "NO_RELOAD", "NON-FOULING" ],
+    "flags": [ "NEVER_JAMS", "MOUNTED_GUN", "NO_RELOAD", "NON_FOULING" ],
     "ammo_effects": [ "JET", "BEANBAG", "NEVER_MISFIRES", "RECOVER_10" ],
     "skill": "launcher",
     "ammo": [ "water" ],

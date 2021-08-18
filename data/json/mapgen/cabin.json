@@ -786,7 +786,7 @@
         "r": { "furniture": "f_rack", "items": { "item": "cannedfood", "chance": 30 } }
       },
       "terrain": {
-        "#": "t_rock",
+        "#": "t_soil",
         "+": "t_door_c",
         "-": "t_wall",
         "<": "t_stairs_up",

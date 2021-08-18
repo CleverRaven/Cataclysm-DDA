@@ -1,14 +1,12 @@
-#include "catch/catch.hpp"
-
 #include <algorithm>
 #include <functional>
 #include <iterator>
-#include <type_traits>
 #include <utility>
 #include <vector>
 
-#include "flat_set.h"
 #include "assertion_helpers.h"
+#include "cata_catch.h"
+#include "flat_set.h"
 
 #if 0
 // Uncomment this to check container concepts if Boost is installed

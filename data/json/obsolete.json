@@ -1,14 +1,79 @@
 [
   {
+    "type": "item_group",
+    "id": "bionics_sci",
+    "subtype": "distribution",
+    "//": "High-tech bionics, handy for the harried researcher.  They get access to classified toys too, but only stuff a scientist would have use for.",
+    "items": [
+      [ "burnt_out_bionic", 60 ],
+      [ "bio_batteries", 30 ],
+      [ "bio_power_storage", 30 ],
+      [ "bio_metabolics", 5 ],
+      [ "bio_ethanol", 5 ],
+      [ "bio_ups", 10 ],
+      [ "bio_torsionratchet", 30 ],
+      [ "bio_tools", 10 ],
+      [ "bio_flashlight", 30 ],
+      [ "bio_lighter", 25 ],
+      [ "bio_magnet", 20 ],
+      [ "bio_memory", 15 ],
+      [ "bio_ears", 10 ],
+      [ "bio_sunglasses", 10 ],
+      [ "bio_eye_optic", 10 ],
+      [ "bio_eye_enhancer", 5 ],
+      [ "bio_dex_enhancer", 5 ],
+      [ "bio_int_enhancer", 10 ],
+      [ "bio_night_vision", 1 ],
+      [ "bio_infrared", 2 ],
+      [ "bio_synaptic_regen", 12 ],
+      [ "bio_gills", 5 ],
+      [ "bio_climate", 2 ],
+      [ "bio_heatsink", 2 ],
+      [ "bio_blood_filter", 10 ],
+      [ "bio_fingerhack", 2 ],
+      [ "bio_lockpick", 2 ],
+      [ "bio_surgical_razor", 8 ],
+      [ "bio_nanobots", 15 ],
+      [ "bio_blood_anal", 10 ],
+      [ "bio_geiger", 15 ],
+      [ "bio_radscrubber", 10 ],
+      [ "bio_watch", 40 ],
+      [ "bio_leukocyte", 15 ],
+      [ "bio_syringe", 2 ],
+      [ "bio_jointservo", 10 ],
+      [ "bio_soporific", 2 ]
+    ]
+  },
+  {
     "id": "mon_dragonfly_small",
     "type": "MONSTER",
-    "name": { "str": "huge dragonfly" },
+    "name": { "str": "huge dragonfly", "str_pl": "huge dragonflies" },
     "description": "A brightly colored, winged mutant dragonfly the size of a cat with sharp fangs.",
     "copy-from": "mon_dragonfly_giant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "15 L",
     "weight": "20 kg",
     "upgrades": { "half_life": 14, "into": "mon_dragonfly_giant" }
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "cop_zombie",
+    "base_faction": "zombie"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "carp",
+    "base_faction": "fish"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "salmon",
+    "base_faction": "fish"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "otter",
+    "base_faction": "animal"
   },
   {
     "result": "plastic_shopping_bag",
@@ -99,7 +164,6 @@
     "name": { "str": "survivor utility belt" },
     "weight": "3390 g",
     "color": "brown",
-    "covers": [ "torso" ],
     "symbol": "[",
     "description": "A custom-built leather utility belt covered with straps and pouches containing many useful hand tools and a sheath to carry a smaller blade.  Durable and carefully crafted to be comfortable to wear.  Activate to sheathe/draw a weapon.",
     "price": 50000,
@@ -107,8 +171,6 @@
     "material": [ "leather", "iron" ],
     "volume": "4 L",
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE" ],
-    "coverage": 15,
-    "encumbrance": 4,
     "material_thickness": 2,
     "pocket_data": [
       {
@@ -134,7 +196,8 @@
       [ "SAW_M_FINE", 1 ],
       [ "WRENCH_FINE", 1 ],
       [ "SCREW_FINE", 1 ]
-    ]
+    ],
+    "armor": [ { "encumbrance": 4, "coverage": 15, "covers": [ "torso" ] } ]
   },
   {
     "id": "combination_gun_shotgun_pipe",
@@ -155,155 +218,6 @@
     "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 480, "durability": 6, "clip_size": 2 },
     "flags": [ "IRREMOVABLE", "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ]
-  },
-  {
-    "id": "rifle_3006",
-    "looks_like": "ar15",
-    "type": "GUN",
-    "reload_noise_volume": 10,
-    "name": { "str": "pipe rifle: .30-06", "str_pl": "pipe rifles: .30-06" },
-    "//": "It's the same size as the others, but it's still a scrap weapon.",
-    "description": "A homemade rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
-    "weight": "4080 g",
-    "volume": "3 L",
-    "price": 110000,
-    "price_postapoc": 500,
-    "to_hit": -1,
-    "bashing": 12,
-    "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "brown",
-    "ammo": [ "3006" ],
-    "skill": "rifle",
-    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
-    "dispersion": 550,
-    "durability": 6,
-    "blackpowder_tolerance": 60,
-    "loudness": 25,
-    "clip_size": 1,
-    "reload": 200,
-    "barrel_volume": "1000 ml",
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "muzzle", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
-    "flags": [ "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 1 } } ]
-  },
-  {
-    "id": "rifle_308",
-    "copy-from": "rifle_manual",
-    "looks_like": "ar15",
-    "type": "GUN",
-    "name": { "str": "handmade heavy carbine" },
-    "//": "It's amongst the smallest of the .308 firearms, and a scrap weapon as well. This means a short handmade barrel, and considerable loss of energy.",
-    "description": "A homemade lever-action magazine-fed smoothbore rifle.  While still a primitive pipe and 2x4 design, some minor improvements have been made, such as being able to accept G3 compatible magazines, and chambering the more powerful .308 rounds.",
-    "weight": "2311 g",
-    "volume": "2 L",
-    "price": 10000,
-    "price_postapoc": 2250,
-    "to_hit": -1,
-    "bashing": 10,
-    "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "brown",
-    "ammo": [ "308" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": -5 },
-    "dispersion": 550,
-    "durability": 6,
-    "blackpowder_tolerance": 60,
-    "reload": 200,
-    "barrel_volume": "500 ml",
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "brass catcher", 1 ],
-      [ "muzzle", 1 ],
-      [ "stock", 1 ],
-      [ "mechanism", 4 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "g3_makeshiftmag", "g3mag", "g3bigmag" ]
-      }
-    ]
-  },
-  {
-    "id": "surv_carbine_223",
-    "copy-from": "rifle_manual",
-    "looks_like": "ar15",
-    "type": "GUN",
-    "name": { "str": "handmade carbine" },
-    "//": "It's smaller than an M4A1, plus it's a homemade firearm.",
-    "description": "A well-designed improvised lever-action carbine with a shortened barrel.  Accepting crude detachable magazines or STANAG magazines, this is one of the better homemade weapons.",
-    "weight": "1950 g",
-    "volume": "1500 ml",
-    "price": 10000,
-    "price_postapoc": 2750,
-    "to_hit": -1,
-    "bashing": 6,
-    "material": [ "steel", "wood" ],
-    "symbol": "(",
-    "color": "brown",
-    "ammo": [ "223" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": -4 },
-    "dispersion": 550,
-    "durability": 6,
-    "blackpowder_tolerance": 32,
-    "loudness": 25,
-    "reload": 200,
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "muzzle", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ],
-      [ "grip mount", 1 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ]
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "survivor223mag",
-          "stanag30",
-          "stanag5",
-          "stanag10",
-          "stanag20",
-          "stanag40",
-          "stanag50",
-          "stanag60",
-          "stanag60drum",
-          "stanag90",
-          "stanag100",
-          "stanag100drum",
-          "stanag150"
-        ]
-      }
-    ]
   },
   {
     "id": "rifle_223",
@@ -679,8 +593,9 @@
     "description": "Your left arm has been surgically replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray.  However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand.",
     "occupied_bodyparts": [ [ "arm_l", 20 ], [ "hand_l", 5 ] ],
     "act_cost": 50,
-    "fake_item": "bio_blaster_gun",
-    "flags": [ "BIONIC_GUN" ]
+    "fake_weapon": "bio_blaster_gun",
+    "flags": [ "BIONIC_GUN" ],
+    "cant_remove_reason": "Removing %1$s Fusion Blaster Arm would leave %2$s with a useless stump."
   },
   {
     "id": "fusion_gun",
@@ -691,7 +606,6 @@
     "categories": [ "warfare" ],
     "color": "magenta",
     "broken_color": "magenta",
-    "difficulty": 6,
     "breaks_into": [ { "item": "ftk93", "prob": 50 } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 6 ], [ "electronics", 6 ] ], "time": 10000 },
@@ -718,7 +632,7 @@
     "reload": 500,
     "built_in_mods": [ "bio_powershot" ],
     "ammo_effects": [ "PLASMA" ],
-    "flags": [ "NEVER_JAMS", "TRADER_AVOID", "ZERO_WEIGHT" ]
+    "flags": [ "NEVER_JAMS", "TRADER_AVOID", "ZERO_WEIGHT", "USES_BIONIC_POWER" ]
   },
   {
     "id": "unbio_blaster_gun",
@@ -896,7 +810,7 @@
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "15 m", "qualities": [ { "id": "WRENCH", "level": 2 } ] },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ] ] }
     },
-    "flags": [ "WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
+    "flags": [ "WHEEL", "UNSTABLE_WHEEL", "NEEDS_JACKING", "NEEDS_WHEEL_MOUNT_MEDIUM" ],
     "damage_reduction": { "all": 66 }
   },
   {
@@ -910,7 +824,6 @@
     "broken_color": "light_gray",
     "durability": 120,
     "item": "bone_plate",
-    "difficulty": 2,
     "location": "armor",
     "flags": [ "ARMOR" ],
     "breaks_into": [ { "item": "bone_tainted", "count": [ 10, 30 ] } ],
@@ -1604,5 +1517,106 @@
     "description": "Deprecated.",
     "display_category": "none",
     "obsolete": true
+  },
+  {
+    "id": "toolbox_workshop",
+    "type": "TOOL",
+    "name": { "str": "workshop toolbox", "str_pl": "workshop toolboxes" },
+    "description": "This is a stout metal box containing a complete tool kit suitable for most household maintenance and construction activities, as well as additional tools used in workshops for advanced fabrication jobs.",
+    "looks_like": "toolbox",
+    "weight": "3994 g",
+    "volume": "2500 ml",
+    "price": 14099,
+    "price_postapoc": 3250,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "red",
+    "qualities": [
+      [ "CUT", 1 ],
+      [ "HAMMER", 3 ],
+      [ "SAW_M", 2 ],
+      [ "SAW_W", 2 ],
+      [ "AXE", 1 ],
+      [ "WRENCH", 2 ],
+      [ "SCREW", 1 ],
+      [ "PRY", 1 ],
+      [ "HAMMER_FINE", 1 ],
+      [ "SAW_M_FINE", 1 ],
+      [ "WRENCH_FINE", 1 ],
+      [ "SCREW_FINE", 1 ],
+      [ "BUTCHER", 11 ],
+      [ "FILE", 2 ],
+      [ "REAM", 2 ],
+      [ "VISE", 1 ]
+    ],
+    "use_action": [ "HAMMER", "CROWBAR" ]
+  },
+  {
+    "id": "bio_shock_absorber",
+    "type": "bionic",
+    "name": { "str": "Kinetic Shock Absorbers" },
+    "description": "Most of the flesh in your arms, legs, and upper torso has been replaced with industrial-strength springs and protective padding.  Clenching your fist allows you to fold and unfold this padding; while active, the hydraulic absorbers will prevent damage to your body from severe impacts, at the cost of impaired movement.",
+    "occupied_bodyparts": [ [ "torso", 1 ], [ "arm_l", 1 ], [ "arm_r", 1 ], [ "leg_l", 1 ], [ "leg_r", 1 ] ],
+    "flags": [ "BIONIC_TOGGLED" ]
+  },
+  {
+    "id": "bio_shock_absorber",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Kinetic Shock Absorbers CBM" },
+    "looks_like": "bio_int_enhancer",
+    "description": "A set of hydraulic springs and foldable padding that replaces most of the flesh in the limbs and upper torso.  While active, these absorbers will negate damage from severe impacts such as falling, at the cost of reducing the user's ability to move effectively.",
+    "price": 10000,
+    "weight": "3000 g",
+    "difficulty": 4
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "cable",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 2 ],
+    "difficulty": 5,
+    "time": "3 m",
+    "autolearn": true,
+    "charges": 1,
+    "qualities": [
+      { "id": "ANVIL", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "CHISEL", "level": 3 },
+      { "id": "CUT", "level": 1 }
+    ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "surface_heat", 1, "LIST" ], [ "forge", 1 ], [ "oxy_torch", 1 ] ] ],
+    "components": [ [ [ "copper", 1 ] ], [ [ "duct_tape", 1 ] ] ]
+  },
+  {
+    "id": "adv_UPS_off",
+    "type": "TOOL",
+    "name": { "str": "advanced UPS", "str_pl": "advanced UPS's" },
+    "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel batteries rather than regular batteries.  Sadly, its plutonium reactor can't be charged in UPS charging station.",
+    "weight": "453 g",
+    "volume": "2 L",
+    "price": 560000,
+    "price_postapoc": 3000,
+    "to_hit": -1,
+    "bashing": 8,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ";",
+    "color": "light_green",
+    "ammo": [ "battery" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "heavy_atomic_battery_cell" ]
+      }
+    ],
+    "flags": [ "IS_UPS" ]
   }
 ]

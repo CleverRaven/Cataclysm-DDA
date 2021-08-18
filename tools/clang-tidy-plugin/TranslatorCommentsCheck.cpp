@@ -60,7 +60,7 @@ namespace cata
 class TranslatorCommentsCheck::TranslatorCommentsHandler : public CommentHandler
 {
     public:
-        TranslatorCommentsHandler( TranslatorCommentsCheck &Check ) : Check( Check ),
+        explicit TranslatorCommentsHandler( TranslatorCommentsCheck &Check ) : Check( Check ),
             // xgettext will treat all comments containing the marker as
             // translator comments, but we only match those starting with
             // the marker to allow using the marker inside normal comments
@@ -199,13 +199,15 @@ class TranslatorCommentsCheck::TranslationMacroCallback : public PPCallbacks
 TranslatorCommentsCheck::TranslatorCommentsCheck( StringRef Name, ClangTidyContext *Context )
     : ClangTidyCheck( Name, Context ),
       MatchingStarted( false ),
-      Handler( llvm::make_unique<TranslatorCommentsHandler>( *this ) ) {}
+      Handler( std::make_unique<TranslatorCommentsHandler>( *this ) ) {}
 
-void TranslatorCommentsCheck::registerPPCallbacks( CompilerInstance &Compiler )
+TranslatorCommentsCheck::~TranslatorCommentsCheck() = default;
+
+void TranslatorCommentsCheck::registerPPCallbacks(
+    const SourceManager &SM, Preprocessor *PP, Preprocessor * )
 {
-    Compiler.getPreprocessor().addCommentHandler( Handler.get() );
-    Compiler.getPreprocessor().addPPCallbacks(
-        llvm::make_unique<TranslationMacroCallback>( *this, Compiler.getSourceManager() ) );
+    PP->addCommentHandler( Handler.get() );
+    PP->addPPCallbacks( std::make_unique<TranslationMacroCallback>( *this, SM ) );
 }
 
 void TranslatorCommentsCheck::registerMatchers( MatchFinder *Finder )
@@ -228,7 +230,7 @@ void TranslatorCommentsCheck::registerMatchers( MatchFinder *Finder )
         );
     Finder->addMatcher(
         callExpr(
-            callee( functionDecl( hasAnyName( "_", "gettext" ) ) ),
+            callee( functionDecl( hasAnyName( "_", "translation_argument_identity", "gettext" ) ) ),
             hasImmediateArgument( 0, stringLiteralArgumentBound )
         ),
         this

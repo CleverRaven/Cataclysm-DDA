@@ -6,9 +6,14 @@
     "info": "This gear has <info>cloaking tech</info> that will <good>make you invisible</good> when active, at the cost of <info>power from a UPS</info>."
   },
   {
-    "id": "EFFECT_INVISIBLE",
-    "context": [  ],
-    "type": "json_flag"
+    "id": "ALLOWS_TAIL",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
+    "id": "ALLOWS_TALONS",
+    "type": "json_flag",
+    "context": [  ]
   },
   {
     "id": "ALARMCLOCK",
@@ -26,7 +31,7 @@
     "id": "ALLOWS_REMOTE_USE",
     "type": "json_flag",
     "context": [ "TOOL" ],
-    "info": "This item can be activated or reloaded from adjacent tile without picking it up."
+    "info": "This item can be activated or reloaded from an adjacent tile without picking it up."
   },
   {
     "id": "AURA",
@@ -58,6 +63,12 @@
     "conflicts": [ "OUTER", "SKINTIGHT", "WAIST", "PERSONAL", "AURA" ]
   },
   {
+    "id": "BIONIC_INSTALLATION_DATA",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "This item <info>provides</info> instructions and other required data for several bionics, allowing installation of them with <good>minimal failure chance</good>."
+  },
+  {
     "id": "BIONIC_NPC_USABLE",
     "type": "json_flag",
     "context": [ "BIONIC_ITEM" ],
@@ -69,11 +80,6 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "//": "Blinds the wearer while worn, and provides nominal protection vs flashbang flashes.",
     "info": "This gear <bad>prevents</bad> you from <info>seeing</info> anything."
-  },
-  {
-    "id": "EFFECT_NIGHT_VISION",
-    "context": [  ],
-    "type": "json_flag"
   },
   {
     "id": "BLOCK_WHILE_WORN",
@@ -142,7 +148,30 @@
     "context": [ "GENERIC" ]
   },
   {
+    "id": "SCIENCE_CARD",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secure science facility."
+  },
+  {
+    "id": "MILITARY_CARD",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secure military facility."
+  },
+  {
+    "id": "INDUSTRIAL_CARD",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secure industrial facility."
+  },
+  {
     "id": "SKINNED",
+    "type": "json_flag",
+    "context": [ "GENERIC" ]
+  },
+  {
+    "id": "BLED",
     "type": "json_flag",
     "context": [ "GENERIC" ]
   },
@@ -229,10 +258,21 @@
     "type": "json_flag"
   },
   {
+    "id": "CORROSIVE",
+    "context": [ "COMESTIBLE" ],
+    "type": "json_flag"
+  },
+  {
     "id": "ONLY_ONE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "You can wear <info>only one</info>."
+  },
+  {
+    "id": "ONE_PER_LAYER",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "<info>Only one</info> item can be worn on this clothing layer."
   },
   {
     "id": "FANCY",
@@ -444,7 +484,13 @@
     "id": "PREDATOR_FUN",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
-    "info": "Designates a food that is usually undesirable but gives a morale bonus to characters with predator mutations."
+    "//": "Designates a food that is usually undesirable but gives a morale bonus to characters with predator mutations."
+  },
+  {
+    "id": "PRESERVE_SPAWN_OMT",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "//": "This item will store the OMT it spawned in in the 'spawn_location_omt' var"
   },
   {
     "id": "STAB",
@@ -564,14 +610,12 @@
   {
     "id": "MUSHY",
     "type": "json_flag",
-    "context": [ "COMESTIBLE" ],
-    "info": "This food was frozen and is now <bad>mushy</bad> and tasteless and <bad>will go bad</bad> after freezing again."
+    "context": [ "COMESTIBLE" ]
   },
   {
     "id": "FREEZERBURN",
     "type": "json_flag",
-    "context": [ "COMESTIBLE" ],
-    "info": "This food was frozen and is now <bad>mushy</bad> and tasteless and <bad>will go bad</bad> after freezing again."
+    "context": [ "COMESTIBLE" ]
   },
   {
     "id": "PSYSHIELD_PARTIAL",
@@ -703,6 +747,11 @@
     "info": "This item provides comfort during sleep."
   },
   {
+    "id": "SLEEP_AID_CONTAINER",
+    "type": "json_flag",
+    "context": [ "GENERIC" ]
+  },
+  {
     "id": "REVIVE_SPECIAL",
     "type": "json_flag",
     "context": [ "GENERIC" ]
@@ -788,6 +837,30 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "//": "Prevents the item from making the body part count as unfriendly to water and thus causing negative morale from being wet.",
     "info": "This clothing <good>performs well</good> even when <info>soaking wet</info>.  This can feel good."
+  },
+  {
+    "id": "ITEM_BROKEN",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This item was broken and <bad>won't activate anymore</bad>."
+  },
+  {
+    "id": "WATER_BREAK",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This item <bad>will get broken</bad> by water."
+  },
+  {
+    "id": "WATER_BREAK_ACTIVE",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This item <bad>will get broken</bad> by water if it gets <info>submerged while active</info>."
+  },
+  {
+    "id": "WATER_DISSOLVE",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This item <bad>will get dissolved</bad> in water."
   },
   {
     "id": "WET",
@@ -994,56 +1067,6 @@
     "//": "This mutation does not count toward thresholds at all."
   },
   {
-    "id": "EFFECT_FEATHER_FALL",
-    "context": [  ],
-    "type": "json_flag"
-  },
-  {
-    "id": "EFFECT_BIO_IMMUNE",
-    "context": [  ],
-    "type": "json_flag"
-  },
-  {
-    "id": "EFFECT_BASH_IMMUNE",
-    "context": [  ],
-    "type": "json_flag"
-  },
-  {
-    "id": "EFFECT_CUT_IMMUNE",
-    "context": [  ],
-    "type": "json_flag"
-  },
-  {
-    "id": "EFFECT_BULLET_IMMUNE",
-    "context": [  ],
-    "type": "json_flag"
-  },
-  {
-    "id": "EFFECT_ACID_IMMUNE",
-    "context": [  ],
-    "type": "json_flag"
-  },
-  {
-    "id": "EFFECT_STAB_IMMUNE",
-    "context": [  ],
-    "type": "json_flag"
-  },
-  {
-    "id": "EFFECT_HEAT_IMMUNE",
-    "context": [  ],
-    "type": "json_flag"
-  },
-  {
-    "id": "EFFECT_COLD_IMMUNE",
-    "context": [  ],
-    "type": "json_flag"
-  },
-  {
-    "id": "EFFECT_ELECTRIC_IMMUNE",
-    "context": [  ],
-    "type": "json_flag"
-  },
-  {
     "id": "HIDDEN_HALLU",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
@@ -1231,6 +1254,11 @@
     "context": [  ]
   },
   {
+    "id": "CRUTCHES",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "CUSTOM_EXPLOSION",
     "type": "json_flag",
     "context": [  ]
@@ -1413,7 +1441,8 @@
   {
     "id": "IS_UPS",
     "type": "json_flag",
-    "context": [  ]
+    "context": [  ],
+    "info": "This item provides power to <info>UPS compatible items</info>."
   },
   {
     "id": "LEAK_DAM",
@@ -1862,6 +1891,12 @@
     "context": [ "AMMO", "CONSUMABLE" ]
   },
   {
+    "id": "ACTIVATE_ON_PLACE",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This item will be activated when it is placed in mapgen."
+  },
+  {
     "id": "ACT_IN_FIRE",
     "type": "json_flag",
     "context": [  ]
@@ -1883,21 +1918,6 @@
   },
   {
     "id": "DETERGENT",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
-    "id": "FIRE_100",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
-    "id": "FIRE_50",
-    "type": "json_flag",
-    "context": [  ]
-  },
-  {
-    "id": "FIRE_20",
     "type": "json_flag",
     "context": [  ]
   },
@@ -1985,5 +2005,77 @@
     "id": "HARD",
     "type": "json_flag",
     "context": [  ]
+  },
+  {
+    "id": "SCIENCE_CARD_VISITOR",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a science facility."
+  },
+  {
+    "id": "SCIENCE_CARD_MAINTENANCE_GREEN",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a science facility."
+  },
+  {
+    "id": "SCIENCE_CARD_MAINTENANCE_YELLOW",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secured maintence area."
+  },
+  {
+    "id": "SCIENCE_CARD_MAINTENANCE_BLUE",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secured maintence area."
+  },
+  {
+    "id": "SCIENCE_CARD_TRANSPORT_1",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a science facility."
+  },
+  {
+    "id": "SCIENCE_CARD_SECURITY_YELLOW",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secured law enforcement area."
+  },
+  {
+    "id": "SCIENCE_CARD_SECURITY_MAGENTA",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secured law enforcement area."
+  },
+  {
+    "id": "SCIENCE_CARD_SECURITY_BLACK",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secured  area."
+  },
+  {
+    "id": "SCIENCE_CARD_MUTAGEN_GREEN",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to access a secure zone of a facility."
+  },
+  {
+    "id": "SCIENCE_CARD_MUTAGEN_PINK",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to access a secure zone of a facility."
+  },
+  {
+    "id": "SCIENCE_CARD_MUTAGEN_CYAN",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to access a secure zone of a facility."
+  },
+  {
+    "id": "SCIENCE_CARD_MEDICAL_RED",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to access a secure zone of a facility."
   }
 ]

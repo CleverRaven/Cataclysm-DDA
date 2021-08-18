@@ -3,9 +3,10 @@
 #include <algorithm>
 #include <cmath>
 #include <cstddef>
+#include <functional>
+#include <iosfwd>
 #include <memory>
 #include <set>
-#include <string>
 #include <vector>
 
 #include "calendar.h"
@@ -17,6 +18,7 @@
 #include "explosion.h"
 #include "game.h"
 #include "item.h"
+#include "itype.h"
 #include "line.h"
 #include "map.h"
 #include "messages.h"
@@ -31,11 +33,12 @@
 #include "trap.h"
 #include "type_id.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "visitable.h"
 #include "vpart_position.h"
 
 static const efftype_id effect_bounced( "bounced" );
+
+static const json_character_flag json_flag_HARDTOHIT( "HARDTOHIT" );
 
 static const std::string flag_LIQUID( "LIQUID" );
 
@@ -53,15 +56,29 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     if( effects.count( "SHATTER_SELF" ) ) {
         // Drop the contents, not the thrown item
         add_msg_if_player_sees( pt, _( "The %s shatters!" ), drop_item.tname() );
-        drop_item.visit_items( [&pt]( const item * it ) {
-            get_map().add_item_or_charges( pt, *it );
-            return VisitResponse::NEXT;
-        } );
+
+        // copies the drop item to spill the contents
+        item( drop_item ).spill_contents( pt );
 
         // TODO: Non-glass breaking
         // TODO: Wine glass breaking vs. entire sheet of glass breaking
         sounds::sound( pt, 16, sounds::sound_t::combat, _( "glass breaking!" ), false, "bullet_hit",
                        "hit_glass" );
+
+        const units::mass shard_mass = itype_id( "glass_shard" )->weight;
+        const int max_nb_of_shards = floor( to_gram( drop_item.type->weight ) / to_gram( shard_mass ) );
+        //between half and max_nb_of_shards-1 will be usable
+        const int nb_of_dropped_shard = std::max( 0, rng( max_nb_of_shards / 2, max_nb_of_shards - 1 ) );
+        //feel free to remove this msg_debug
+        /*add_msg_debug( "Shattered %s dropped %i shards out of a max of %i, based on mass %i g",
+                       drop_item.tname(), nb_of_dropped_shard, max_nb_of_shards - 1, to_gram( drop_item.type->weight ) );*/
+
+        for( int i = 0; i < nb_of_dropped_shard; ++i ) {
+            item shard( "glass_shard" );
+            //actual dropping of shards
+            get_map().add_item_or_charges( pt, shard );
+        }
+
         return;
     }
 
@@ -130,10 +147,11 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
             } else {
                 sounds::sound( pt, 8, sounds::sound_t::combat, _( "thud." ), false, "bullet_hit", "hit_wall" );
             }
-            const trap &tr = here.tr_at( pt );
-            if( tr.triggered_by_item( dropped_item ) ) {
-                tr.trigger( pt, dropped_item );
-            }
+        }
+
+        const trap &tr = here.tr_at( pt );
+        if( tr.triggered_by_item( dropped_item ) ) {
+            tr.trigger( pt, dropped_item );
         }
     }
 }
@@ -191,6 +209,16 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                          target_critter->ranged_target_size() :
                          here.ranged_target_size( target_arg );
     projectile_attack_aim aim = projectile_attack_roll( dispersion, range, target_size );
+
+    if( target_critter && target_critter->as_character() &&
+        target_critter->as_character()->has_trait_flag( json_flag_HARDTOHIT ) ) {
+
+        projectile_attack_aim lucky_aim = projectile_attack_roll( dispersion, range, target_size );
+        // if the target's lucky they're more likely to be missed
+        if( lucky_aim.missed_by > aim.missed_by ) {
+            aim = lucky_aim;
+        }
+    }
 
     // TODO: move to-hit roll back in here
 
@@ -266,7 +294,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         trajectory = here.find_clear_path( source, target );
     }
 
-    add_msg_debug( "missed_by_tiles: %.2f; missed_by: %.2f; target (orig/hit): %d,%d,%d/%d,%d,%d",
+    add_msg_debug( debugmode::DF_BALLISTIC,
+                   "missed_by_tiles: %.2f; missed_by: %.2f; target (orig/hit): %d,%d,%d/%d,%d,%d",
                    aim.missed_by_tiles, aim.missed_by,
                    target_arg.x, target_arg.y, target_arg.z,
                    target.x, target.y, target.z );
@@ -372,7 +401,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
         if( critter != nullptr && cur_missed_by < 1.0 ) {
             if( in_veh != nullptr && veh_pointer_or_null( here.veh_at( tp ) ) == in_veh &&
-                critter->is_player() ) {
+                critter->is_avatar() ) {
                 // Turret either was aimed by the player (who is now ducking) and shoots from above
                 // Or was just IFFing, giving lots of warnings and time to get out of the line of fire
                 continue;

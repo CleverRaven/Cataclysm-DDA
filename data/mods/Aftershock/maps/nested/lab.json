@@ -1,0 +1,29 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "open_cryo_pod1",
+    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "cryo_hacker", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "open_cryo_pod2",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "place_monsters": [ { "monster": "GROUP_CRYO_LAB", "x": [ 0 ], "y": [ 0 ], "density": 0.01, "repeat": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "open_cryo_pod3",
+    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "cryo_doctor", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "open_cryo_pod4",
+    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "cryo_scientist", "x": 0, "y": 0 } ] }
+  }
+]

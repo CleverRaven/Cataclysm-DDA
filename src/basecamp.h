@@ -3,6 +3,7 @@
 #define CATA_SRC_BASECAMP_H
 
 #include <cstddef>
+#include <iosfwd>
 #include <list>
 #include <map>
 #include <memory>
@@ -13,7 +14,6 @@
 #include "coordinates.h"
 #include "craft_command.h"
 #include "inventory.h"
-#include "map.h"
 #include "memory_fast.h"
 #include "optional.h"
 #include "point.h"
@@ -31,6 +31,7 @@ enum class farm_ops : int;
 class item;
 class mission_data;
 class recipe;
+class tinymap;
 
 struct expansion_data {
     std::string type;
@@ -53,7 +54,7 @@ class window;
 namespace base_camps
 {
 
-enum tab_mode {
+enum tab_mode : int {
     TAB_MAIN,
     TAB_N,
     TAB_NE,
@@ -150,7 +151,7 @@ class basecamp
         void set_by_radio( bool access_by_radio );
 
         std::string board_name() const;
-        std::vector<point> directions;
+        std::vector<point> directions; // NOLINT(cata-serialize)
         std::vector<tripoint_abs_omt> fortifications;
         std::string name;
         void faction_display( const catacurses::window &fac_w, int width ) const;
@@ -165,6 +166,8 @@ class basecamp
         void define_camp( const tripoint_abs_omt &p, const std::string &camp_type = "default" );
 
         std::string expansion_tab( const point &dir ) const;
+        // check whether the point is the part of camp
+        bool point_within_camp( const tripoint_abs_omt &p ) const;
         // upgrade levels
         bool has_provides( const std::string &req, const expansion_data &e_data, int level = 0 ) const;
         bool has_provides( const std::string &req, const cata::optional<point> &dir = cata::nullopt,
@@ -287,8 +290,6 @@ class basecamp
         /// Called when a companion is sent to start fortifications
         void start_fortifications( std::string &bldg_exp );
         void start_combat_mission( const std::string &miss );
-        /// Called when a companion starts a chop shop @ref task mission
-        bool start_garage_chop( const point &dir, const tripoint_abs_omt &omt_tgt );
         void start_farm_op( const point &dir, const tripoint_abs_omt &omt_tgt, farm_ops op );
         ///Display items listed in @ref equipment to let the player pick what to give the departing
         ///NPC, loops until quit or empty.
@@ -346,21 +347,21 @@ class basecamp
         // lazy re-evaluation of available camp resources
         void reset_camp_resources();
         void add_resource( const itype_id &camp_resource );
-        bool resources_updated = false;
+        bool resources_updated = false; // NOLINT(cata-serialize)
         // omt pos
         tripoint_abs_omt omt_pos;
-        std::vector<npc_ptr> assigned_npcs;
+        std::vector<npc_ptr> assigned_npcs; // NOLINT(cata-serialize)
         // location of associated bulletin board in abs coords
         tripoint bb_pos;
         std::map<point, expansion_data> expansions;
-        comp_list camp_workers;
+        comp_list camp_workers; // NOLINT(cata-serialize)
         tripoint dumping_spot;
 
-        std::set<itype_id> fuel_types;
-        std::vector<basecamp_fuel> fuels;
-        std::vector<basecamp_resource> resources;
-        inventory _inv;
-        bool by_radio = false;
+        std::set<itype_id> fuel_types; // NOLINT(cata-serialize)
+        std::vector<basecamp_fuel> fuels; // NOLINT(cata-serialize)
+        std::vector<basecamp_resource> resources; // NOLINT(cata-serialize)
+        inventory _inv; // NOLINT(cata-serialize)
+        bool by_radio = false; // NOLINT(cata-serialize)
 };
 
 class basecamp_action_components

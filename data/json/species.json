@@ -3,19 +3,22 @@
     "type": "SPECIES",
     "id": "MAMMAL",
     "description": "a mammal",
-    "fear_triggers": [ "HURT", "FIRE", "FRIEND_DIED" ]
+    "fear_triggers": [ "HURT", "FIRE", "FRIEND_DIED" ],
+    "bleeds": "fd_blood"
   },
   {
     "type": "SPECIES",
     "id": "AMPHIBIAN",
     "description": "an amphibian",
-    "fear_triggers": [ "HURT", "FIRE" ]
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "bleeds": "fd_blood"
   },
   {
     "type": "SPECIES",
     "id": "BIRD",
     "description": "a bird",
-    "fear_triggers": [ "HURT", "SOUND" ]
+    "fear_triggers": [ "HURT", "SOUND", "FRIEND_ATTACKED" ],
+    "bleeds": "fd_blood"
   },
   {
     "type": "SPECIES",
@@ -27,13 +30,15 @@
     "type": "SPECIES",
     "id": "REPTILE",
     "description": "a reptile",
-    "fear_triggers": [ "HURT", "FIRE" ]
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "bleeds": "fd_blood"
   },
   {
     "type": "SPECIES",
     "id": "FISH",
     "description": "a fish",
-    "fear_triggers": [ "HURT", "FRIEND_ATTACKED" ]
+    "fear_triggers": [ "HURT", "FRIEND_ATTACKED" ],
+    "bleeds": "fd_blood"
   },
   {
     "type": "SPECIES",
@@ -51,7 +56,8 @@
     "type": "SPECIES",
     "id": "SLIME",
     "description": "a slime",
-    "footsteps": "plop."
+    "footsteps": "plop.",
+    "bleeds": "fd_slime"
   },
   {
     "type": "SPECIES",
@@ -70,7 +76,16 @@
     "id": "INSECT",
     "description": "an insect",
     "anger_triggers": [ "FRIEND_DIED" ],
-    "fear_triggers": [ "HURT", "FIRE" ]
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "bleeds": "fd_blood_insect"
+  },
+  {
+    "type": "SPECIES",
+    "id": "CENTIPEDE",
+    "description": "a centipede",
+    "footsteps": "skittering.",
+    "fear_triggers": [ "FIRE" ],
+    "bleeds": "fd_blood_insect"
   },
   {
     "type": "SPECIES",
@@ -78,45 +93,52 @@
     "description": "a flying insect",
     "footsteps": "BZZZZZZZZZZZZZZZZZ",
     "anger_triggers": [ "FRIEND_DIED" ],
-    "fear_triggers": [ "HURT", "FIRE" ]
+    "flags": [ "LOUDMOVES" ],
+    "bleeds": "fd_blood_insect"
   },
   {
     "type": "SPECIES",
     "id": "SPIDER",
     "description": "a spider",
     "anger_triggers": [ "FRIEND_DIED" ],
-    "fear_triggers": [ "HURT", "FIRE" ]
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "bleeds": "fd_blood_insect"
   },
   {
     "type": "SPECIES",
     "id": "PLANT",
     "description": "a plant",
-    "fear_triggers": [ "HURT", "FIRE" ]
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "bleeds": "fd_blood_veggy"
   },
   {
     "type": "SPECIES",
     "id": "MOLLUSK",
     "description": "a mollusk",
-    "fear_triggers": [ "HURT", "FIRE" ]
+    "fear_triggers": [ "HURT", "FIRE" ],
+    "bleeds": "fd_blood_invertebrate"
   },
   {
     "type": "SPECIES",
     "id": "WORM",
     "description": "a worm",
     "footsteps": "rustle.",
-    "fear_triggers": [ "HURT" ]
+    "fear_triggers": [ "HURT" ],
+    "bleeds": "fd_blood_invertebrate"
   },
   {
     "type": "SPECIES",
     "id": "ZOMBIE",
     "description": "a zombie",
-    "footsteps": "shuffling."
+    "footsteps": "shuffling.",
+    "bleeds": "fd_blood"
   },
   {
     "type": "SPECIES",
     "id": "ROBOT",
     "description": "a robot",
-    "footsteps": "mechanical whirring."
+    "footsteps": "mechanical whirring.",
+    "bleeds": "fd_mechanical_fluid"
   },
   {
     "type": "SPECIES",
@@ -130,15 +152,18 @@
   },
   {
     "type": "SPECIES",
-    "id": "HALLUCINATION"
+    "id": "HALLUCINATION",
+    "description": "your imagination"
   },
   {
     "type": "SPECIES",
     "id": "HUMAN",
-    "description": "a human"
+    "description": "a human",
+    "bleeds": "fd_blood"
   },
   {
     "type": "SPECIES",
-    "id": "UNKNOWN"
+    "id": "UNKNOWN",
+    "description": "a bug"
   }
 ]

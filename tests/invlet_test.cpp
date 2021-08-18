@@ -1,6 +1,5 @@
-#include "catch/catch.hpp"
-
 #include <cstddef>
+#include <functional>
 #include <list>
 #include <map>
 #include <memory>
@@ -9,8 +8,9 @@
 #include <unordered_map>
 #include <utility>
 
-#include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "avatar.h"
+#include "cata_catch.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -67,7 +67,7 @@ template <typename T>
 static item *retrieve_item( const T &sel, int id )
 {
     item *obj = nullptr;
-    sel.visit_items( [&id, &obj]( const item * e ) {
+    sel.visit_items( [&id, &obj]( const item * e, item * ) {
         if( get_id( *e ) == id ) {
             obj = const_cast<item *>( e );
             return VisitResponse::ABORT;
@@ -203,19 +203,19 @@ static std::string test_action_desc(
     return ss.str();
 }
 
-static void assign_invlet( player &p, item &it, const char invlet, const invlet_state invstate )
+static void assign_invlet( avatar &you, item &it, const char invlet, const invlet_state invstate )
 {
-    p.reassign_item( it, '\0' );
+    you.reassign_item( it, '\0' );
     switch( invstate ) {
         case NONE:
             break;
         case CACHED:
             // assigning it twice makes it a cached but non-player-assigned invlet
-            p.reassign_item( it, invlet );
-            p.reassign_item( it, invlet );
+            you.reassign_item( it, invlet );
+            you.reassign_item( it, invlet );
             break;
         case ASSIGNED:
-            p.reassign_item( it, invlet );
+            you.reassign_item( it, invlet );
             break;
         default:
             FAIL( "unimplemented" );
@@ -397,7 +397,7 @@ static void move_item( player &p, const int id, const inventory_location from,
                     drop_at_feet( p, id );
                     break;
                 case INVENTORY:
-                    p.takeoff( item_at( p, id, from ) );
+                    p.takeoff( item_location( p, &item_at( p, id, from ) ) );;
                     break;
                 case WORN:
                 case WIELDED_OR_WORN:
@@ -419,7 +419,7 @@ static void move_item( player &p, const int id, const inventory_location from,
                     if( p.is_wielding( item_at( p, id, from ) ) ) {
                         p.i_add( p.i_rem( &item_at( p, id, from ) ) );
                     } else {
-                        p.takeoff( item_at( p, id, from ) );
+                        p.takeoff( item_location( p, &item_at( p, id, from ) ) );
                     }
                     if( !p.is_armed() && !p.worn.empty() ) {
                         // wield the first worn item
@@ -439,7 +439,7 @@ static void move_item( player &p, const int id, const inventory_location from,
     }
 }
 
-static void invlet_test( player &dummy, const inventory_location from, const inventory_location to )
+static void invlet_test( avatar &dummy, const inventory_location from, const inventory_location to )
 {
     // invlet to assign
     constexpr char invlet = '|';
@@ -464,7 +464,7 @@ static void invlet_test( player &dummy, const inventory_location from, const inv
         dummy.worn.clear();
         dummy.remove_weapon();
         get_map().i_clear( dummy.pos() );
-        dummy.worn.push_back( item( "backpack" ) );
+        dummy.worn.emplace_back( "backpack" );
 
         // some two items that can be wielded, worn, and picked up
         item tshirt( "tshirt" );
@@ -513,8 +513,8 @@ static void invlet_test( player &dummy, const inventory_location from, const inv
                 break;
         }
 
-        invlet_state final_first_invlet_state = check_invlet( dummy, *final_first, invlet ),
-                     final_second_invlet_state = check_invlet( dummy, *final_second, invlet );
+        invlet_state final_first_invlet_state = check_invlet( dummy, *final_first, invlet );
+        invlet_state final_second_invlet_state = check_invlet( dummy, *final_second, invlet );
 
         INFO( test_action_desc( action, from, to, first_invlet_state, second_invlet_state,
                                 expected_first_invlet_state, expected_second_invlet_state, final_first_invlet_state,
@@ -530,7 +530,7 @@ static void invlet_test( player &dummy, const inventory_location from, const inv
     }
 }
 
-static void stack_invlet_test( player &dummy, inventory_location from, inventory_location to )
+static void stack_invlet_test( avatar &dummy, inventory_location from, inventory_location to )
 {
     // invlet to assign
     constexpr char invlet = '|';
@@ -546,7 +546,7 @@ static void stack_invlet_test( player &dummy, inventory_location from, inventory
     dummy.worn.clear();
     dummy.remove_weapon();
     get_map().i_clear( dummy.pos() );
-    dummy.worn.push_back( item( "backpack" ) );
+    dummy.worn.emplace_back( "backpack" );
 
     // some stackable item that can be wielded and worn
     item tshirt1( "tshirt" );
@@ -584,7 +584,7 @@ static void stack_invlet_test( player &dummy, inventory_location from, inventory
     assign_invlet( dummy, item_at( dummy, 2, from ), invlet, NONE );
 }
 
-static void swap_invlet_test( player &dummy, inventory_location loc )
+static void swap_invlet_test( avatar &dummy, inventory_location loc )
 {
     // invlet to assign
     constexpr char invlet_1 = '{';
@@ -655,7 +655,7 @@ static void swap_invlet_test( player &dummy, inventory_location loc )
     assign_invlet( dummy, item_at( dummy, 2, loc ), invlet_1, NONE );
 }
 
-static void merge_invlet_test( player &dummy, inventory_location from )
+static void merge_invlet_test( avatar &dummy, inventory_location from )
 {
     // invlet to assign
     constexpr char invlet_1 = '{';
@@ -682,7 +682,7 @@ static void merge_invlet_test( player &dummy, inventory_location from )
         dummy.worn.clear();
         dummy.remove_weapon();
         get_map().i_clear( dummy.pos() );
-        dummy.worn.push_back( item( "backpack" ) );
+        dummy.worn.emplace_back( "backpack" );
 
         // some stackable item
         item tshirt1( "tshirt" );
@@ -750,7 +750,7 @@ static void merge_invlet_test( player &dummy, inventory_location from )
 
 TEST_CASE( "Inventory letter test", "[.invlet]" )
 {
-    player &dummy = get_avatar();
+    avatar &dummy = get_avatar();
     const tripoint spot( 60, 60, 0 );
     clear_map();
     dummy.setpos( spot );

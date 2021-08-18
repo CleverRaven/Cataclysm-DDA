@@ -8,22 +8,23 @@
     "color": "light_gray",
     "move_cost": 2,
     "bash": {
-      "str_min": 30,
-      "str_max": 40,
+      "str_min": 100,
+      "str_max": 200,
       "ter_set": "t_null",
       "sound": "crunch!",
       "sound_fail": "whump!",
-      "items": [ { "item": "pebble", "count": [ 1, 3 ] }, { "item": "sharp_rock", "count": [ 0, 1 ] } ]
+      "items": [ { "item": "material_gravel", "count": [ 5, 15 ] }, { "item": "sharp_rock", "count": [ 0, 1 ] } ],
+      "bash_below": true
     },
     "deconstruct": {
       "ter_set": "t_pit_shallow",
       "items": [
-        { "item": "pebble", "count": [ 75, 100 ] },
+        { "item": "material_gravel", "count": [ 350, 500 ] },
         { "item": "sharp_rock", "count": [ 0, 2 ] },
         { "item": "rock", "count": [ 4, 12 ] }
       ]
     },
-    "flags": [ "BASHABLE", "TRANSPARENT" ]
+    "flags": [ "TRANSPARENT", "DIGGABLE", "FLAT" ]
   },
   {
     "id": "t_railroad_track",

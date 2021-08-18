@@ -2,8 +2,9 @@
 #ifndef CATA_SRC_OPTIONS_H
 #define CATA_SRC_OPTIONS_H
 
-#include <algorithm>
 #include <functional>
+#include <functional>
+#include <iosfwd>
 #include <map>
 #include <string>
 #include <unordered_map>
@@ -46,8 +47,9 @@ class options_manager
 
         void update_global_locale();
 
-        std::map<std::string, std::string> post_json_verify;
+        std::map<std::string, std::string> post_json_verify; // NOLINT(cata-serialize)
 
+        // NOLINTNEXTLINE(cata-serialize)
         std::map<std::string, std::pair<std::string, std::map<std::string, std::string> > > mMigrateOption;
 
         friend options_manager &get_options();
@@ -269,7 +271,7 @@ class options_manager
 
     private:
         options_container options;
-        cata::optional<options_container *> world_options;
+        cata::optional<options_container *> world_options; // NOLINT(cata-serialize)
 
         /**
          * A page (or tab) to be displayed in the options UI.
@@ -292,14 +294,14 @@ class options_manager
                 Page( const std::string &id, const translation &name ) : id_( id ), name_( name ) { }
         };
 
-        Page general_page_;
-        Page interface_page_;
-        Page graphics_page_;
-        Page world_default_page_;
-        Page debug_page_;
-        Page android_page_;
+        Page general_page_; // NOLINT(cata-serialize)
+        Page interface_page_; // NOLINT(cata-serialize)
+        Page graphics_page_; // NOLINT(cata-serialize)
+        Page world_default_page_; // NOLINT(cata-serialize)
+        Page debug_page_; // NOLINT(cata-serialize)
+        Page android_page_; // NOLINT(cata-serialize)
 
-        std::vector<std::reference_wrapper<Page>> pages_;
+        std::vector<std::reference_wrapper<Page>> pages_; // NOLINT(cata-serialize)
 };
 
 bool use_narrow_sidebar(); // short-circuits to on if terminal is too small

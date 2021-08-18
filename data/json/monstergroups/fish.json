@@ -325,6 +325,39 @@
         "conditions": [ "SPRING", "SUMMER" ],
         "pack_size": [ 1, 3 ]
       }
+    ],
+    "freq_total": 1740
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_STOCKED_POND",
+    "default": "mon_fish_rainbow_trout",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_fish_sbass", "freq": 25, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_sbass",
+        "freq": 50,
+        "cost_multiplier": 3,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_perch", "freq": 30, "cost_multiplier": 3, "pack_size": [ 1, 3 ] },
+      {
+        "monster": "mon_fish_perch",
+        "freq": 55,
+        "cost_multiplier": 3,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 1, 3 ]
+      },
+      { "monster": "mon_fish_salmon", "freq": 15, "cost_multiplier": 8, "pack_size": [ 4, 6 ] },
+      {
+        "monster": "mon_fish_salmon",
+        "freq": 20,
+        "cost_multiplier": 8,
+        "conditions": [ "DAWN", "DUSK" ],
+        "pack_size": [ 4, 6 ]
+      }
     ]
   },
   {
@@ -332,6 +365,6 @@
     "name": "GROUP_RAZORCLAW",
     "default": "mon_razorclaw",
     "is_animal": true,
-    "monsters": [ { "monster": "mon_razorclaw", "freq": 33, "cost_multiplier": 0, "pack_size": [ 1, 2 ] } ]
+    "monsters": [ { "monster": "mon_razorclaw", "freq": 333, "cost_multiplier": 0, "pack_size": [ 1, 2 ] } ]
   }
 ]

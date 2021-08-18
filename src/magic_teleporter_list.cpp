@@ -4,6 +4,8 @@
 #include <cstddef>
 #include <map>
 #include <memory>
+#include <new>
+#include <string>
 #include <utility>
 
 #include "avatar.h"
@@ -161,7 +163,7 @@ class teleporter_callback : public uilist_callback
         // to make it easier to get the callback from the known_teleporters
         std::map<int, tripoint_abs_omt> index_pairs;
     public:
-        teleporter_callback( std::map<int, tripoint_abs_omt> &ip ) : index_pairs( ip ) {}
+        explicit teleporter_callback( std::map<int, tripoint_abs_omt> &ip ) : index_pairs( ip ) {}
         void refresh( uilist *menu ) override {
             const int entnum = menu->selected;
             const int start_x = menu->w_width - menu->pad_right;

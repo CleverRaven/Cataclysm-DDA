@@ -15,7 +15,7 @@
     "rains": false,
     "acidic": false,
     "sun_intensity": "high",
-    "requirements": { "pressure_min": 1020, "humidity_max": 70, "time": "day" }
+    "condition": { "and": [ "is_day", { "is_pressure": 1020 }, { "not": { "is_humidity": 70 } } ] }
   },
   {
     "id": "cloudy",
@@ -33,7 +33,7 @@
     "rains": false,
     "acidic": false,
     "sun_intensity": "light",
-    "requirements": { "pressure_max": 1010, "humidity_min": 40 }
+    "condition": { "and": [ { "is_humidity": 40 }, { "not": { "is_pressure": 1010 } } ] }
   },
   {
     "id": "light_drizzle",
@@ -54,7 +54,8 @@
     "weather_animation": { "factor": 0.01, "color": "light_blue", "sym": "," },
     "sound_category": "drizzle",
     "sun_intensity": "light",
-    "requirements": { "pressure_max": 1003, "humidity_min": 96, "humidity_and_pressure": false, "required_weathers": [ "cloudy" ] }
+    "required_weathers": [ "cloudy" ],
+    "condition": { "or": [ { "is_humidity": 96 }, { "not": { "is_pressure": 1003 } } ] }
   },
   {
     "id": "drizzle",
@@ -75,7 +76,8 @@
     "weather_animation": { "factor": 0.01, "color": "light_blue", "sym": "." },
     "sound_category": "drizzle",
     "sun_intensity": "light",
-    "requirements": { "pressure_max": 1000, "humidity_min": 97, "humidity_and_pressure": false, "required_weathers": [ "light_drizzle" ] }
+    "required_weathers": [ "light_drizzle" ],
+    "condition": { "or": [ { "is_humidity": 97 }, { "not": { "is_pressure": 1000 } } ] }
   },
   {
     "id": "rain",
@@ -96,12 +98,8 @@
     "weather_animation": { "factor": 0.02, "color": "light_blue", "sym": "," },
     "sound_category": "rainy",
     "sun_intensity": "light",
-    "requirements": {
-      "pressure_max": 993,
-      "humidity_min": 98,
-      "humidity_and_pressure": false,
-      "required_weathers": [ "light_drizzle", "drizzle" ]
-    }
+    "required_weathers": [ "light_drizzle", "drizzle" ],
+    "condition": { "or": [ { "is_humidity": 98 }, { "not": { "is_pressure": 993 } } ] }
   },
   {
     "id": "thunder",
@@ -118,19 +116,12 @@
     "precip": "heavy",
     "rains": true,
     "acidic": false,
-    "effects": [
-      {
-        "one_in_chance": 50,
-        "must_be_outside": false,
-        "sound_message": "You hear a distant rumble of thunder.",
-        "sound_effect": "thunder_far"
-      }
-    ],
     "tiles_animation": "weather_rain_drop",
     "weather_animation": { "factor": 0.02, "color": "light_blue", "sym": "." },
     "sound_category": "thunder",
     "sun_intensity": "none",
-    "requirements": { "pressure_max": 996, "required_weathers": [ "rain" ] }
+    "required_weathers": [ "rain" ],
+    "condition": { "not": { "is_pressure": 996 } }
   },
   {
     "id": "lightning",
@@ -147,26 +138,12 @@
     "precip": "heavy",
     "rains": true,
     "acidic": false,
-    "effects": [
-      {
-        "one_in_chance": 50,
-        "must_be_outside": false,
-        "sound_message": "You hear a distant rumble of thunder.",
-        "sound_effect": "thunder_far"
-      },
-      {
-        "one_in_chance": 600,
-        "must_be_outside": false,
-        "message": "A flash of lightning illuminates your surroundings!.",
-        "sound_effect": "thunder_near",
-        "lightning": true
-      }
-    ],
     "tiles_animation": "weather_rain_drop",
     "weather_animation": { "factor": 0.04, "color": "light_blue", "sym": "," },
     "sound_category": "thunder",
     "sun_intensity": "none",
-    "requirements": { "pressure_max": 990, "required_weathers": [ "thunder" ] }
+    "required_weathers": [ "thunder" ],
+    "condition": { "not": { "is_pressure": 990 } }
   },
   {
     "id": "acid_drizzle",
@@ -183,21 +160,11 @@
     "precip": "light",
     "rains": true,
     "acidic": true,
-    "effects": [
-      {
-        "time_between": "3 minutes",
-        "must_be_outside": true,
-        "message": "The acid rain stings, but is mostly harmless for now…",
-        "rain_proof": true,
-        "pain_max": 10,
-        "pain": 1
-      }
-    ],
     "tiles_animation": "weather_acid_drop",
     "weather_animation": { "factor": 0.01, "color": "light_green", "sym": "." },
     "sound_category": "drizzle",
     "sun_intensity": "normal",
-    "requirements": { "required_weathers": [ "drizzle" ] }
+    "required_weathers": [ "drizzle" ]
   },
   {
     "id": "acid_rain",
@@ -214,21 +181,11 @@
     "precip": "heavy",
     "rains": true,
     "acidic": true,
-    "effects": [
-      {
-        "time_between": "2 seconds",
-        "must_be_outside": true,
-        "message": "The acid rain burns!",
-        "rain_proof": true,
-        "pain_max": 100,
-        "pain": 3
-      }
-    ],
     "tiles_animation": "weather_acid_drop",
     "weather_animation": { "factor": 0.02, "color": "light_green", "sym": "," },
     "sound_category": "rainy",
     "sun_intensity": "none",
-    "requirements": { "required_weathers": [ "rain" ] }
+    "required_weathers": [ "rain" ]
   },
   {
     "id": "flurries",
@@ -249,7 +206,8 @@
     "weather_animation": { "factor": 0.01, "color": "white", "sym": "." },
     "sound_category": "flurries",
     "sun_intensity": "light",
-    "requirements": { "temperature_max": 33, "required_weathers": [ "drizzle" ] }
+    "required_weathers": [ "flurries" ],
+    "condition": { "not": { "is_temperature": 33 } }
   },
   {
     "id": "snowing",
@@ -266,12 +224,12 @@
     "precip": "heavy",
     "rains": false,
     "acidic": false,
-    "effects": [ { "must_be_outside": true, "wet": 10 } ],
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.02, "color": "white", "sym": "," },
     "sound_category": "snow",
     "sun_intensity": "light",
-    "requirements": { "temperature_max": 33, "required_weathers": [ "rain", "thunder", "lightning" ] }
+    "required_weathers": [ "rain", "thunder", "lightning" ],
+    "condition": { "not": { "is_temperature": 33 } }
   },
   {
     "id": "snowstorm",
@@ -288,11 +246,11 @@
     "precip": "heavy",
     "rains": false,
     "acidic": false,
-    "effects": [ { "must_be_outside": true, "wet": 40 } ],
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.04, "color": "white", "sym": "*" },
     "sound_category": "snowstorm",
     "sun_intensity": "none",
-    "requirements": { "temperature_max": 33, "windpower_min": 15, "required_weathers": [ "thunder", "lightning" ] }
+    "required_weathers": [ "thunder", "lightning" ],
+    "condition": { "and": [ { "is_windpower": 15 }, { "not": { "is_temperature": 33 } } ] }
   }
 ]

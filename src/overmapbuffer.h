@@ -4,9 +4,10 @@
 
 #include <array>
 #include <functional>
+#include <iosfwd>
 #include <memory>
+#include <new>
 #include <set>
-#include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -16,10 +17,7 @@
 #include "memory_fast.h"
 #include "omdata.h"
 #include "optional.h"
-#include "overmap.h"
 #include "overmap_types.h"
-#include "point.h"
-#include "string_id.h"
 #include "type_id.h"
 
 class basecamp;
@@ -30,18 +28,33 @@ class npc;
 class overmap;
 class overmap_special_batch;
 class vehicle;
+struct mapgen_arguments;
 struct mongroup;
 struct om_vehicle;
 struct radio_tower;
 struct regional_settings;
 
-struct path_type {
-    bool only_road = false;
-    bool only_water = false;
-    bool amphibious = false;
-    bool only_air = false;
-    bool avoid_danger = false;
-    bool only_known_by_player = false;
+struct overmap_path_params {
+    int road_cost = -1;
+    int field_cost = -1;
+    int dirt_road_cost = -1;
+    int trail_cost = -1;
+    int forest_cost = -1;
+    int small_building_cost = -1;
+    int shore_cost = -1;
+    int swamp_cost = -1;
+    int water_cost = -1;
+    int air_cost = -1;
+    int other_cost = -1;
+    bool avoid_danger = true;
+    bool only_known_by_player = true;
+
+    static constexpr int standard_cost = 10;
+    static overmap_path_params for_player();
+    static overmap_path_params for_npc();
+    static overmap_path_params for_land_vehicle( float offroad_coeff, bool tiny, bool amphibious );
+    static overmap_path_params for_watercraft();
+    static overmap_path_params for_aircraft();
 };
 
 struct radio_tower_reference {
@@ -51,7 +64,7 @@ struct radio_tower_reference {
     point_abs_sm abs_sm_pos;
     /** Perceived signal strength (tower output strength minus distance) */
     int signal_strength;
-    operator bool() const {
+    explicit operator bool() const {
         return tower != nullptr;
     }
 };
@@ -65,7 +78,7 @@ struct city_reference {
     /** Distance to center of the search */
     int distance;
 
-    operator bool() const {
+    explicit operator bool() const {
         return city != nullptr;
     }
 
@@ -81,7 +94,7 @@ struct camp_reference {
     /** Distance to center of the search */
     int distance;
 
-    operator bool() const {
+    explicit operator bool() const {
         return camp != nullptr;
     }
 
@@ -142,11 +155,17 @@ class overmapbuffer
         void create_custom_overmap( const point_abs_om &, overmap_special_batch &specials );
 
         /**
-         * Uses global overmap terrain coordinates, creates the
-         * overmap if needed.
+         * Returns the overmap terrain at the given OMT coordinates.
+         * Creates a new overmap if necessary.
          */
         const oter_id &ter( const tripoint_abs_omt &p );
+        /**
+         * Returns the overmap terrain at the given OMT coordinates.
+         * Returns ot_null if the point is not in any existing overmap.
+         */
+        const oter_id &ter_existing( const tripoint_abs_omt &p );
         void ter_set( const tripoint_abs_omt &p, const oter_id &id );
+        cata::optional<mapgen_arguments> *mapgen_args( const tripoint_abs_omt & );
         /**
          * Uses global overmap terrain coordinates.
          */
@@ -318,10 +337,8 @@ class overmapbuffer
         bool reveal( const tripoint_abs_omt &center, int radius );
         bool reveal( const tripoint_abs_omt &center, int radius,
                      const std::function<bool( const oter_id & )> &filter );
-        std::vector<tripoint_abs_omt> get_npc_path( const tripoint_abs_omt &src,
-                const tripoint_abs_omt &dest );
-        std::vector<tripoint_abs_omt> get_npc_path(
-            const tripoint_abs_omt &src, const tripoint_abs_omt &dest, path_type &ptype );
+        std::vector<tripoint_abs_omt> get_travel_path(
+            const tripoint_abs_omt &src, const tripoint_abs_omt &dest, overmap_path_params params );
         bool reveal_route( const tripoint_abs_omt &source, const tripoint_abs_omt &dest,
                            int radius = 0, bool road_only = false );
         /**
@@ -517,6 +534,7 @@ class overmapbuffer
         bool check_ot( const std::string &otype, ot_match_type match_type,
                        const tripoint_abs_omt &p );
         bool check_overmap_special_type( const overmap_special_id &id, const tripoint_abs_omt &loc );
+        cata::optional<overmap_special_id> overmap_special_at( const tripoint_abs_omt & );
 
         /**
         * These versions of the check_* methods will only check existing overmaps, and

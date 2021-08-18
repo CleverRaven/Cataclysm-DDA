@@ -34,7 +34,7 @@
         "#######|  |#############"
       ],
       "palettes": [ "mil_outpost_underground" ],
-      "item": { "x": { "item": "dogfood", "count": [ 5, 25 ] } },
+      "item": { "x": { "item": "dogfood", "amount": [ 5, 25 ] } },
       "monster": { "t": { "monster": "mon_turret_rifle" } }
     }
   }

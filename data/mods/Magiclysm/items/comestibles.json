@@ -25,6 +25,14 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "magic_whiskey",
+    "name": { "str_sp": "whiskey" },
+    "copy-from": "whiskey",
+    "price": 0,
+    "price_postapoc": 0
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "egg_owlbear",
     "name": "owlbear egg yolk",
     "copy-from": "egg_chicken",

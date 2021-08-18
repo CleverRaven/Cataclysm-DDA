@@ -63,7 +63,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": "CRIT Reso-blade",
-    "description": "CRIT melee weapon.  Alien runes adorn the carbon steel blade.  The blade oddly seems to lack sharpness, and yet upon closer oberservation, a hum of energy thrums from within.",
+    "description": "CRIT melee weapon.  Alien runes adorn the carbon steel blade.  The blade oddly seems to lack sharpness, and yet upon closer inspection, a hum of energy thrums from within.",
     "color": "dark_gray",
     "material": [ "hardsteel" ],
     "//": "Legacy artifact data is set for always on wield dex +2 and speed up times 2",

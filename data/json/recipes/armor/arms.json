@@ -190,7 +190,9 @@
     "copy-from": "armguard_metal",
     "time": "35 m",
     "using": [ [ "cordage", 2 ] ],
-    "components": [ [ [ "sheet_metal_small", 6 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "sheet_metal_small", 6 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 }, { "proficiency": "prof_articulation" } ]
   },
   {
     "result": "armguard_paper",
@@ -226,7 +228,9 @@
     "copy-from": "armguard_scrap",
     "time": "35 m",
     "using": [ [ "cordage", 2 ] ],
-    "components": [ [ [ "scrap", 80 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap", 80 ] ] ],
+    "proficiencies": [ { "proficiency": "prof_armorsmithing", "fail_multiplier": 1 }, { "proficiency": "prof_articulation" } ]
   },
   {
     "result": "armguard_soft",
@@ -330,7 +334,7 @@
     "using": [ [ "armor_chainmail_assembling", 2 ], [ "tailoring_cotton_patchwork", 8 ] ],
     "proficiencies": [
       { "proficiency": "prof_chain_armour", "required": false, "time_multiplier": 3 },
-      { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2, "fail_multiplier": 1.5 }
+      { "proficiency": "prof_articulation", "required": false, "time_multiplier": 2, "fail_multiplier": 1.15 }
     ]
   },
   {

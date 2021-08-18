@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <memory>
 #include <set>
+#include <string>
 #include <unordered_map>
 #include <utility>
 
@@ -12,7 +13,6 @@
 #include "coordinates.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
-#include "enums.h"
 #include "game.h"
 #include "game_inventory.h"
 #include "item.h"
@@ -35,12 +35,10 @@
 #include "ret_val.h"
 #include "skill.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "talker.h"
 #include "talker_npc.h"
 #include "translations.h"
 #include "units.h"
-#include "units_fwd.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 
@@ -51,6 +49,7 @@ static const efftype_id effect_sleep( "sleep" );
 
 static const trait_id trait_DEBUG_MIND_CONTROL( "DEBUG_MIND_CONTROL" );
 static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
+static const trait_id trait_SAPROVORE( "SAPROVORE" );
 
 std::string talker_npc::distance_to_goal() const
 {
@@ -109,19 +108,19 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
 
     add_topics.push_back( me_npc->chatbin.first_topic );
     if( radio_contact ) {
-        add_topics.push_back( "TALK_RADIO" );
+        add_topics.emplace_back( "TALK_RADIO" );
     } else if( me_npc->is_leader() ) {
-        add_topics.push_back( "TALK_LEADER" );
+        add_topics.emplace_back( "TALK_LEADER" );
     } else if( me_npc->is_player_ally() && ( me_npc->is_walking_with() || me_npc->has_activity() ) ) {
-        add_topics.push_back( "TALK_FRIEND" );
+        add_topics.emplace_back( "TALK_FRIEND" );
     } else if( me_npc->get_attitude() == NPCATT_RECOVER_GOODS ) {
-        add_topics.push_back( "TALK_STOLE_ITEM" );
+        add_topics.emplace_back( "TALK_STOLE_ITEM" );
     }
     int most_difficult_mission = 0;
     for( auto &mission : me_npc->chatbin.missions ) {
         const auto &type = mission->get_type();
         if( type.urgent && type.difficulty > most_difficult_mission ) {
-            add_topics.push_back( "TALK_MISSION_DESCRIBE_URGENT" );
+            add_topics.emplace_back( "TALK_MISSION_DESCRIBE_URGENT" );
             me_npc->chatbin.mission_selected = mission;
             most_difficult_mission = type.difficulty;
         }
@@ -137,7 +136,7 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
         if( ( type.urgent && !chosen_urgent ) || ( type.difficulty > most_difficult_mission &&
                 ( type.urgent || !chosen_urgent ) ) ) {
             chosen_urgent = type.urgent;
-            add_topics.push_back( "TALK_MISSION_INQUIRE" );
+            add_topics.emplace_back( "TALK_MISSION_INQUIRE" );
             me_npc->chatbin.mission_selected = mission;
             most_difficult_mission = type.difficulty;
         }
@@ -145,13 +144,13 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
 
     // Needs
     if( me_npc->has_effect( effect_npc_suspend ) ) {
-        add_topics.push_back( "TALK_REBOOT" );
+        add_topics.emplace_back( "TALK_REBOOT" );
     }
     if( me_npc->has_effect( effect_sleep ) || me_npc->has_effect( effect_lying_down ) ) {
         if( me_npc->has_effect( effect_narcosis ) ) {
-            add_topics.push_back( "TALK_SEDATED" );
+            add_topics.emplace_back( "TALK_SEDATED" );
         } else {
-            add_topics.push_back( "TALK_WAKE_UP" );
+            add_topics.emplace_back( "TALK_WAKE_UP" );
         }
     }
 
@@ -164,25 +163,25 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
         if( add_topics.back() == "TALK_MUG" ||
             add_topics.back() == "TALK_STRANGER_AGGRESSIVE" ) {
             me_npc->make_angry();
-            add_topics.push_back( "TALK_DEAF_ANGRY" );
+            add_topics.emplace_back( "TALK_DEAF_ANGRY" );
         } else {
-            add_topics.push_back( "TALK_DEAF" );
+            add_topics.emplace_back( "TALK_DEAF" );
         }
     }
     if( player_character.is_mute() ) {
         if( add_topics.back() == "TALK_MUG" ||
             add_topics.back() == "TALK_STRANGER_AGGRESSIVE" ) {
             me_npc->make_angry();
-            add_topics.push_back( "TALK_MUTE_ANGRY" );
+            add_topics.emplace_back( "TALK_MUTE_ANGRY" );
         } else {
-            add_topics.push_back( "TALK_MUTE" );
+            add_topics.emplace_back( "TALK_MUTE" );
         }
     }
 
     if( me_npc->has_trait( trait_PROF_FOODP ) &&
         !( me_npc->is_wearing( itype_id( "foodperson_mask_on" ) ) ||
            me_npc->is_wearing( itype_id( "foodperson_mask" ) ) ) ) {
-        add_topics.push_back( "TALK_NPC_NOFACE" );
+        add_topics.emplace_back( "TALK_NPC_NOFACE" );
     }
     me_npc->decide_needs();
 
@@ -275,16 +274,18 @@ std::string talker_npc::skill_training_text( const talker &student,
         return "";
     }
     const int cost = me_npc->is_ally( *pupil ) ? 0 : 1000 *
-                     ( 1 + pupil->get_skill_level( skill ) ) *
-                     ( 1 + pupil->get_skill_level( skill ) );
+                     ( 1 + pupil->get_knowledge_level( skill ) ) *
+                     ( 1 + pupil->get_knowledge_level( skill ) );
     SkillLevel skill_level_obj = pupil->get_skill_level_object( skill );
-    const int cur_level = skill_level_obj.level();
-    const int cur_level_exercise = skill_level_obj.exercise();
-    skill_level_obj.train( 100 );
-    const int next_level = skill_level_obj.level();
-    const int next_level_exercise = skill_level_obj.exercise();
+    SkillLevel teacher_skill_level = me_npc->get_skill_level_object( skill );
+    const int cur_level = skill_level_obj.knowledgeLevel();
+    const int cur_level_exercise = skill_level_obj.knowledgeExperience();
+    // knowledge_train will adjust level xp based on the difference between your understanding and the NPC's.
+    skill_level_obj.knowledge_train( 10000, teacher_skill_level.knowledgeLevel() );
+    const int next_level = skill_level_obj.knowledgeLevel();
+    const int next_level_exercise = skill_level_obj.knowledgeExperience();
 
-    //~Skill name: current level (exercise) -> next level (exercise) (cost in dollars)
+    //~Skill name: current level (experience) -> next level (experience) (cost in dollars)
     return string_format( cost > 0 ?  _( "%s: %d (%d%%) -> %d (%d%%) (cost $%d)" ) :
                           _( "%s: %d (%d%%) -> %d (%d%%)" ), skill.obj().name(), cur_level,
                           cur_level_exercise, next_level, next_level_exercise, cost / 100 );
@@ -396,6 +397,11 @@ int talker_npc::cash_to_favor( const int value ) const
     return npc_trading::cash_to_favor( *me_npc, value );
 }
 
+int talker_npc::value( const item &it ) const
+{
+    return me_npc->value( it );
+}
+
 enum consumption_result {
     REFUSED = 0,
     CONSUMED_SOME, // Consumption didn't fail, but don't delete the item
@@ -430,12 +436,18 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
             reason = _( "It doesn't look like a good idea to consume this…" );
             return REFUSED;
         } else {
+            if( to_eat.rotten() && !p.as_character()->has_trait( trait_SAPROVORE ) ) {
+                //TODO: once npc needs are operational again check npc hunger state and allow eating if desperate
+                reason = _( "This is rotten!  I won't eat that." );
+                return REFUSED;
+            }
+
             const time_duration &consume_time = p.get_consume_time( to_eat );
             p.moves -= to_moves<int>( consume_time );
             p.consume( to_eat );
             reason = _( "Thanks, that hit the spot." );
-
         }
+
     } else if( to_eat.is_medication() ) {
         if( !comest->tool.is_null() ) {
             bool has = p.has_amount( comest->tool, 1 );
@@ -451,7 +463,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
             reason = _( "Thanks, I feel better already." );
         }
         if( to_eat.type->has_use() ) {
-            amount_used = to_eat.type->invoke( p, to_eat, p.pos() );
+            amount_used = to_eat.type->invoke( p, to_eat, p.pos() ).value_or( 0 );
             if( amount_used <= 0 ) {
                 reason = _( "It doesn't look like a good idea to consume this…" );
                 return REFUSED;
@@ -505,9 +517,9 @@ std::string talker_npc::give_item_to( const bool to_use )
     int new_ammo = me_npc->ammo_count_for( given );
     const double new_weapon_value = me_npc->weapon_value( given, new_ammo );
     const double cur_weapon_value = me_npc->weapon_value( me_npc->weapon, our_ammo );
-    add_msg_debug( "NPC evaluates own %s (%d ammo): %0.1f",
+    add_msg_debug( debugmode::DF_TALKER, "NPC evaluates own %s (%d ammo): %0.1f",
                    me_npc->weapon.typeId().str(), our_ammo, cur_weapon_value );
-    add_msg_debug( "NPC evaluates your %s (%d ammo): %0.1f",
+    add_msg_debug( debugmode::DF_TALKER, "NPC evaluates your %s (%d ammo): %0.1f",
                    given.typeId().str(), new_ammo, new_weapon_value );
     if( to_use ) {
         // Eating first, to avoid evaluating bread as a weapon

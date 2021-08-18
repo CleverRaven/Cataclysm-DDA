@@ -1,8 +1,6 @@
 #include "level_cache.h"
 
-#include <cstdlib>
-
-#include "vehicle.h"
+#include <algorithm>
 
 level_cache::level_cache()
 {
@@ -21,18 +19,17 @@ level_cache::level_cache()
     std::fill_n( &seen_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &camera_cache[0][0], map_dimensions, 0.0f );
     std::fill_n( &visibility_cache[0][0], map_dimensions, lit_level::DARK );
-    veh_in_active_range = false;
-    std::fill_n( &veh_exists_at[0][0], map_dimensions, false );
+    clear_vehicle_cache();
 }
 
 bool level_cache::get_veh_in_active_range() const
 {
-    return veh_in_active_range;
+    return !veh_cached_parts.empty();
 }
 
 bool level_cache::get_veh_exists_at( const tripoint &pt ) const
 {
-    return veh_exists_at[ pt.x ][ pt.y ];
+    return veh_exists_at[ pt.x * MAPSIZE_X + pt.y ];
 }
 
 std::pair<vehicle *, int> level_cache::get_veh_cached_parts( const tripoint &pt ) const
@@ -45,56 +42,26 @@ std::pair<vehicle *, int> level_cache::get_veh_cached_parts( const tripoint &pt 
     return std::make_pair( veh, -1 );
 }
 
-void level_cache::set_veh_in_active_range( bool is_active )
-{
-    veh_in_active_range = is_active;
-    veh_cache_dirty = true;
-    veh_cache_active |= is_active;
-}
-
 void level_cache::set_veh_exists_at( const tripoint &pt, bool exists_at )
 {
-    veh_exists_at[ pt.x ][ pt.y ] = exists_at;
-    veh_cache_dirty = true;
-    veh_cache_active |= exists_at;
+    veh_cache_cleared = false;
+    veh_exists_at[ pt.x * MAPSIZE_X + pt.y ] = exists_at;
 }
 
 void level_cache::set_veh_cached_parts( const tripoint &pt, vehicle &veh, int part_num )
 {
+    veh_cache_cleared = false;
     veh_cached_parts[ pt ] = std::make_pair( &veh, part_num );
-    veh_cache_dirty = true;
-    veh_cache_active = true;
-}
-
-void level_cache::verify_vehicle_cache()
-{
-    if( !veh_cache_dirty ) {
-        return;
-    }
-
-    const bool old_viar = veh_in_active_range;
-    veh_in_active_range &= std::any_of( std::begin( veh_exists_at ),
-    std::end( veh_exists_at ), []( const auto & row ) {
-        return std::any_of( std::begin( row ), std::end( row ), []( bool veh_exists ) {
-            return veh_exists;
-        } );
-    } );
-    // update the cache dirty bit if anything changed
-    veh_cache_dirty |= old_viar != veh_in_active_range;
-    veh_cache_active |= veh_in_active_range;
 }
 
 void level_cache::clear_vehicle_cache()
 {
-    if( !veh_cache_active ) {
+    if( veh_cache_cleared ) {
         return;
     }
-
-    std::memset( veh_exists_at, 0, sizeof( veh_exists_at ) );
+    veh_exists_at.reset();
     veh_cached_parts.clear();
-    veh_in_active_range = false;
-    veh_cache_dirty = false;
-    veh_cache_active = false;
+    veh_cache_cleared = true;
 }
 
 void level_cache::clear_veh_from_veh_cached_parts( const tripoint &pt, vehicle *veh )
@@ -102,6 +69,5 @@ void level_cache::clear_veh_from_veh_cached_parts( const tripoint &pt, vehicle *
     auto it = veh_cached_parts.find( pt );
     if( it != veh_cached_parts.end() && it->second.first == veh ) {
         veh_cached_parts.erase( it );
-        veh_cache_dirty = true;
     }
 }

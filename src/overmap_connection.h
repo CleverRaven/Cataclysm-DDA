@@ -2,10 +2,9 @@
 #ifndef CATA_SRC_OVERMAP_CONNECTION_H
 #define CATA_SRC_OVERMAP_CONNECTION_H
 
-#include <algorithm>
+#include <iosfwd>
 #include <list>
 #include <set>
-#include <string>
 #include <vector>
 
 #include "int_id.h"
@@ -64,7 +63,7 @@ class overmap_connection
         struct cache {
             const subtype *value = nullptr;
             bool assigned = false;
-            operator bool() const {
+            explicit operator bool() const {
                 return assigned;
             }
         };

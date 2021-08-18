@@ -75,6 +75,7 @@
       },
       "marloss": { "kill on sight": true }
     },
+    "epilogues": [ { "power_min": 0, "id": "epilogue_faction_robofac_0" }, { "power_max": 150, "id": "epilogue_faction_robofac_150" } ],
     "description": "The surviving staff of Hub 01, a pre-Cataclysm research lab.  They rarely leave their lab, if at all, and rely on their robots and advanced technology to survive."
   },
   {
@@ -658,5 +659,51 @@
       "marloss": { "kill on sight": true }
     },
     "description": "Mr Lapin and any acolytes he may have gathered in the apocalypse."
+  },
+  {
+    "type": "faction",
+    "id": "fisherman_family",
+    "name": "Fisherman Family",
+    "likes_u": 0,
+    "respects_u": 0,
+    "known_by_u": false,
+    "size": 3,
+    "power": 3,
+    "food_supply": 100,
+    "wealth": 20000,
+    "relations": {
+      "free_merchants": { "knows your voice": true },
+      "old_guard": { "knows your voice": true },
+      "your_followers": { "knows your voice": true },
+      "no_faction": { "knows your voice": true }
+    },
+    "description": "A small family trying to survive in this new world."
+  },
+  {
+    "type": "faction",
+    "id": "prisoners",
+    "name": "Prisoners",
+    "likes_u": 0,
+    "respects_u": 0,
+    "known_by_u": true,
+    "size": 100,
+    "power": 100,
+    "food_supply": 230400,
+    "wealth": 45000000,
+    "relations": {
+      "hells_raiders": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "free_merchants": { "kill on sight": true },
+      "old_guard": { "kill on sight": true },
+      "your_followers": { "kill on sight": false }
+    },
+    "description": "Former prisoners who got their freedom during the apocalypse."
   }
 ]

@@ -1,23 +1,6 @@
-// RUN: %check_clang_tidy %s cata-no-static-gettext %t -- -plugins=%cata_plugin --
+// RUN: %check_clang_tidy %s cata-no-static-gettext %t -- -plugins=%cata_plugin -- -I %test_include
 
-// check_clang_tidy uses -nostdinc++, so we add dummy declaration of std::string here
-namespace std
-{
-template<class CharT, class Traits = void, class Allocator = void>
-class basic_string
-{
-    public:
-        basic_string( const CharT * );
-};
-using string = basic_string<char>;
-} // namespace std
-
-// check_clang_tidy uses -nostdinc++, so we add dummy declarations of gettext functions here instead of including translations.h
-const char *_( const char *const );
-const char *gettext( const char *const );
-const char *pgettext( const char *const, const char *const );
-const char *ngettext( const char *const, const char *const, int );
-const char *npgettext( const char *const, const char *const, const char *const, int );
+#include "mock-translation.h"
 
 class foo
 {

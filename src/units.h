@@ -2,21 +2,18 @@
 #ifndef CATA_SRC_UNITS_H
 #define CATA_SRC_UNITS_H
 
-#include <algorithm>
 #include <cctype>
+#include <algorithm>
 #include <cmath>
 #include <cstddef>
-#include <cstdint>
 #include <limits>
 #include <map>
-#include <ostream>
 #include <sstream>
 #include <string>
 #include <type_traits>
 #include <utility>
 #include <vector>
 
-#include "compatibility.h"
 #include "json.h"
 #include "math_defines.h"
 #include "translations.h"
@@ -50,7 +47,9 @@ class quantity
          * `quantity<float, foo>`. The unit type stays the same!
          */
         template<typename other_value_type>
-        constexpr quantity( const quantity<other_value_type, unit_type> &other ) : value_( other.value() ) {
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        constexpr quantity( const quantity<other_value_type, unit_type> &other ) :
+            value_( other.value() ) {
         }
 
         /**
@@ -619,14 +618,14 @@ inline std::string display( const units::energy v )
     const int j = units::to_joule( v );
     // at least 1 kJ and there is no fraction
     if( kj >= 1 && static_cast<float>( j ) / kj == 1000 ) {
-        return to_string( kj ) + ' ' + pgettext( "energy unit: kilojoule", "kJ" );
+        return std::to_string( kj ) + ' ' + pgettext( "energy unit: kilojoule", "kJ" );
     }
     const int mj = units::to_millijoule( v );
     // at least 1 J and there is no fraction
     if( j >= 1 && static_cast<float>( mj ) / j  == 1000 ) {
-        return to_string( j ) + ' ' + pgettext( "energy unit: joule", "J" );
+        return std::to_string( j ) + ' ' + pgettext( "energy unit: joule", "J" );
     }
-    return to_string( mj ) + ' ' + pgettext( "energy unit: millijoule", "mJ" );
+    return std::to_string( mj ) + ' ' + pgettext( "energy unit: millijoule", "mJ" );
 }
 
 } // namespace units
@@ -856,9 +855,24 @@ inline double tan( angle a )
     return std::tan( to_radians( a ) );
 }
 
+inline double cot( angle a )
+{
+    return std::tan( M_PI_2 - to_radians( a ) );
+}
+
 inline units::angle atan2( double y, double x )
 {
     return from_radians( std::atan2( y, x ) );
+}
+
+inline units::angle asin( double x )
+{
+    return from_radians( std::asin( x ) );
+}
+
+inline units::angle acos( double x )
+{
+    return from_radians( std::acos( x ) );
 }
 
 static const std::vector<std::pair<std::string, energy>> energy_units = { {

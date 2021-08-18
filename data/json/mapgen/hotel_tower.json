@@ -577,7 +577,7 @@
         { "point": "trap", "id": "tr_rollmat", "x": [ 56, 61 ], "y": 19, "repeat": [ 2, 4 ] }
       ],
       "terrain": { "=": "t_door_locked_interior", ".": "t_thconc_floor", "|": "t_concrete_wall", "-": "t_concrete_wall" },
-      "vendingmachines": { "U": { "item_group": "vending_drink" }, "F": { "item_group": "vending_food" } },
+      "vendingmachines": { "U": { "item_group": "vending_drink", "lootable": true }, "F": { "item_group": "vending_food", "lootable": true } },
       "items": { "l": { "item": "cleaning", "chance": 60 } },
       "item": { "r": { "item": "towel", "chance": 2, "amount": [ 1, 2 ] } },
       "toilets": { "&": {  } },

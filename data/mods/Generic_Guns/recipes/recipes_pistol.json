@@ -14,6 +14,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "req_pistol_tiny", 1 ], [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "gunpowder", 2 ], [ "gunpowder_pistol", 2 ], [ "gunpowder_shotgun", 2 ] ] ]
   },
   {
@@ -29,6 +30,7 @@
     "activity_level": "fake",
     "copy-from": "reloaded_tiny_pistol_jhp",
     "using": [ [ "req_pistol_tiny", 1 ], [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "gunpowder", 2 ], [ "gunpowder_pistol", 2 ] ], [ [ "copper", 1 ] ] ]
   },
   {
@@ -53,6 +55,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "req_pistol", 1 ], [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "gunpowder", 4 ], [ "gunpowder_pistol", 4 ], [ "gunpowder_shotgun", 4 ] ] ]
   },
   {
@@ -68,6 +71,7 @@
     "activity_level": "fake",
     "copy-from": "reloaded_pistol_jhp",
     "using": [ [ "req_pistol", 1 ], [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "gunpowder", 4 ], [ "gunpowder_pistol", 4 ], [ "gunpowder_shotgun", 4 ] ],
       [ [ "copper", 1 ], [ "pistol_tiny_casing", 1 ] ]
@@ -95,6 +99,7 @@
     "charges": 1,
     "reversible": true,
     "using": [ [ "req_pistol_magnum", 1 ], [ "bullet_forming", 5 ], [ "ammo_bullet", 5 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [ [ [ "gunpowder", 6 ], [ "gunpowder_rifle", 6 ], [ "gunpowder_magnum_pistol", 6 ] ] ]
   },
   {
@@ -110,6 +115,7 @@
     "activity_level": "fake",
     "copy-from": "reloaded_pistol_magnum_jhp",
     "using": [ [ "req_pistol_magnum", 1 ], [ "bullet_forming", 5 ], [ "ammo_bullet", 4 ] ],
+    "proficiencies": [ { "proficiency": "prof_handloading" } ],
     "components": [
       [ [ "gunpowder", 6 ], [ "gunpowder_rifle", 6 ], [ "gunpowder_magnum_pistol", 6 ] ],
       [ [ "copper", 2 ], [ "pistol_magnum_casing", 1 ] ]

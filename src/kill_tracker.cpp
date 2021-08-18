@@ -1,6 +1,6 @@
 #include "kill_tracker.h"
 
-#include <algorithm>
+#include <string>
 #include <tuple>
 #include <utility>
 
@@ -13,7 +13,6 @@
 #include "mtype.h"
 #include "options.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "translations.h"
 
 void kill_tracker::reset( const std::map<mtype_id, int> &kills_,

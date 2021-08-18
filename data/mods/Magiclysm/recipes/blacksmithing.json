@@ -12,7 +12,7 @@
     "proficiencies": [
       { "proficiency": "prof_metalworking" },
       { "proficiency": "prof_metallurgy" },
-      { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 },
       { "proficiency": "prof_almetallurgy" }
     ],
     "book_learn": [ [ "welding_book", 4 ] ],
@@ -30,7 +30,7 @@
     "time": "180 m",
     "proficiencies": [
       { "proficiency": "prof_metallurgy" },
-      { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 },
       { "proficiency": "prof_almetallurgy" }
     ],
     "batch_time_factors": [ 50, 2 ],
@@ -49,7 +49,7 @@
     "time": "40 m",
     "book_learn": [ [ "metal_legends", 2 ] ],
     "proficiencies": [
-      { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 },
+      { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 },
       { "proficiency": "prof_pottery" }
     ],
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 } ],
@@ -67,8 +67,33 @@
     "time": "45 m",
     "autolearn": true,
     "qualities": [ { "id": "MANA_INFUSE", "level": 1 }, { "id": "COOK", "level": 3 }, { "id": "DISTILL", "level": 1 } ],
-    "proficiencies": [ { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "fail_multiplier": 5 } ],
+    "proficiencies": [ { "proficiency": "prof_alchemy", "required": false, "time_multiplier": 1.5, "fail_multiplier": 1.5 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "charcoal", 50 ] ], [ [ "crystallized_mana", 10 ] ], [ [ "denat_alcohol", 10 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "golemcore",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "spellcraft", 6 ],
+    "difficulty": 5,
+    "time": "150 m",
+    "book_learn": [ [ "metal_legends", 6 ] ],
+    "qualities": [
+      { "id": "CHISEL", "level": 2 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "HAMMER_FINE", "level": 1 },
+      { "id": "FILE", "level": 2 },
+      { "id": "ANVIL", "level": 1 }
+    ],
+    "tools": [ [ [ "demon_forge", 30 ] ], [ [ "tongs", -1 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_almetallurgy", "required": true },
+      { "proficiency": "prof_golemancy_basic", "required": false, "time_multiplier": 1.5, "fail_multiplier": 2 }
+    ],
+    "components": [ [ [ "orichalcum_ingot", 4 ] ], [ [ "mercury", 4 ] ], [ [ "crystallized_mana", 100 ] ] ]
   }
 ]

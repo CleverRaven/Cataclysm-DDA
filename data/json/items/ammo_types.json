@@ -374,7 +374,7 @@
   {
     "type": "ammunition_type",
     "id": "battery",
-    "name": "batteries",
+    "name": "kJ",
     "default": "battery"
   },
   {
@@ -466,12 +466,6 @@
     "id": "metal_rail",
     "name": "ferrous rail projectile",
     "default": "rebar_rail"
-  },
-  {
-    "type": "ammunition_type",
-    "id": "UPS",
-    "name": "UPS",
-    "default": "UPS"
   },
   {
     "type": "ammunition_type",
@@ -646,6 +640,12 @@
     "id": "nitrox",
     "name": "compressed air",
     "default": "nitrox"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "paper",
+    "name": "paper",
+    "default": "paper"
   },
   {
     "type": "ammunition_type",

@@ -11,7 +11,7 @@
     "price": 8000,
     "price_postapoc": 50,
     "material": [ "aluminum", "plastic" ],
-    "flags": [ "NEVER_JAMS", "NON-FOULING" ],
+    "flags": [ "NEVER_JAMS", "NON_FOULING" ],
     "skill": "smg",
     "ammo": [ "paintball" ],
     "weight": "1600 g",

@@ -10,6 +10,6 @@
       [ "evac_center_21_z-1", "evac_center_22_z-1", "evac_center_23_z-1", "evac_center_24_z-1", "evac_center_25_z-1" ]
     ],
     "weight": 100,
-    "object": { "fill_ter": "t_rock" }
+    "object": { "fill_ter": "t_soil" }
   }
 ]

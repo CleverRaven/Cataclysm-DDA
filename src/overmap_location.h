@@ -2,13 +2,10 @@
 #ifndef CATA_SRC_OVERMAP_LOCATION_H
 #define CATA_SRC_OVERMAP_LOCATION_H
 
-#include <algorithm>
-#include <string>
+#include <iosfwd>
 #include <vector>
 
 #include "flat_set.h"
-#include "int_id.h"
-#include "string_id.h"
 #include "type_id.h"
 
 class JsonObject;

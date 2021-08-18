@@ -2,7 +2,7 @@
 #ifndef CATA_TESTS_MAP_HELPERS_H
 #define CATA_TESTS_MAP_HELPERS_H
 
-#include <string>
+#include <iosfwd>
 
 #include "type_id.h"
 
@@ -16,6 +16,7 @@ void clear_fields( int zlevel );
 void clear_items( int zlevel );
 void clear_zones();
 void clear_map();
+void clear_radiation();
 void clear_map_and_put_player_underground();
 monster &spawn_test_monster( const std::string &monster_type, const tripoint &start );
 void clear_vehicles();

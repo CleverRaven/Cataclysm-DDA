@@ -1,6 +1,6 @@
-#include "catch/catch.hpp"
-
 #include <cstdio>
+#include <functional>
+#include <iosfwd>
 #include <list>
 #include <memory>
 #include <string>
@@ -8,6 +8,7 @@
 
 #include "avatar.h"
 #include "calendar.h"
+#include "cata_catch.h"
 #include "character.h"
 #include "character_id.h"
 #include "coordinate_conversions.h"
@@ -17,6 +18,7 @@
 #include "effect.h"
 #include "faction.h"
 #include "game.h"
+#include "input.h"
 #include "item.h"
 #include "item_category.h"
 #include "map.h"
@@ -97,6 +99,7 @@ static npc &prep_test( dialogue &d )
 {
     clear_avatar();
     clear_vehicles();
+    clear_map();
     avatar &player_character = get_avatar();
     player_character.name = "Alpha Avatar";
     REQUIRE_FALSE( player_character.in_vehicle );
@@ -107,10 +110,7 @@ static npc &prep_test( dialogue &d )
     g->faction_manager_ptr->create_if_needed();
 
     npc &beta = create_test_talker();
-
-    d.alpha = get_talker_for( player_character );
-    d.beta = get_talker_for( beta );
-
+    d = dialogue( get_talker_for( player_character ), get_talker_for( beta ) );
     return beta;
 }
 
@@ -613,7 +613,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     };
     player_character.cash = 1000;
     player_character.int_cur = 8;
-    player_character.worn.push_back( item( "backpack" ) );
+    player_character.worn.emplace_back( "backpack" );
     d.add_topic( "TALK_TEST_EFFECTS" );
     gen_response_lines( d, 19 );
     // add and remove effect

@@ -69,7 +69,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "update_mapgen_id": "mx_grass_map",
+    "update_mapgen_id": "mx_grass2_map",
     "object": { "place_nested": [ { "chunks": [ [ "mx_grass_nested", 100 ] ], "x": [ 0, 17 ], "y": [ 0, 17 ], "repeat": [ 1, 6 ] } ] }
   },
   {
@@ -145,7 +145,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "update_mapgen_id": "mx_trees_map",
+    "update_mapgen_id": "mx_trees2_map",
     "object": { "place_nested": [ { "chunks": [ [ "mx_trees_nested", 100 ] ], "x": [ 0, 17 ], "y": [ 0, 17 ], "repeat": [ 1, 6 ] } ] }
   },
   {

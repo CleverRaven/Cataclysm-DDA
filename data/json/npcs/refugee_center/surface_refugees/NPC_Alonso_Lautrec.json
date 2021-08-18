@@ -69,7 +69,7 @@
     "apply_message": "You spent some pleasant time relaxing with someone.",
     "miss_messages": [ [ "You feel relaxed.", 1 ] ],
     "rating": "good",
-    "base_mods": { "stim_amount": [ 50 ], "stim_min": [ 50 ] }
+    "//": "No morale_mod is currently possible in effects. As soon as it's implemented, it should go here."
   },
   {
     "type": "talk_topic",

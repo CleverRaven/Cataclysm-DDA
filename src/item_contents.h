@@ -4,15 +4,15 @@
 
 #include <cstddef>
 #include <functional>
+#include <iosfwd>
 #include <list>
+#include <map>
 #include <set>
-#include <string>
 #include <utility>
 #include <vector>
 
 #include "enums.h"
 #include "item_pocket.h"
-#include "iteminfo_query.h"
 #include "optional.h"
 #include "ret_val.h"
 #include "type_id.h"
@@ -23,13 +23,10 @@ class Character;
 class JsonIn;
 class JsonOut;
 class item;
-class item;
 class item_location;
 class iteminfo_query;
 class player;
-class pocket_data;
 struct iteminfo;
-struct tripoint;
 struct tripoint;
 
 class item_contents
@@ -37,14 +34,14 @@ class item_contents
     public:
         item_contents() = default;
         // used for loading itype
-        item_contents( const std::vector<pocket_data> &pockets );
+        explicit item_contents( const std::vector<pocket_data> &pockets );
 
         /**
           * returns an item_location and pointer to the best pocket that can contain the item @it
           * only checks CONTAINER pocket type
           */
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
-                bool nested );
+                bool nested, bool allow_sealed = false, bool ignore_settings = false );
 
         units::length max_containable_length() const;
         units::volume max_containable_volume() const;
@@ -68,26 +65,23 @@ class item_contents
         // number of pockets
         size_t size() const;
 
+    private:
+        /** returns a list of pointers to all top-level items from pockets that match the predicate */
+        std::list<item *> all_items_top( const std::function<bool( item_pocket & )> &filter );
+        /** returns a list of pointers to all top-level items from pockets that match the predicate */
+        std::list<const item *> all_items_top( const std::function<bool( const item_pocket & )> &filter )
+        const;
+
+    public:
         /** returns a list of pointers to all top-level items */
         std::list<item *> all_items_top( item_pocket::pocket_type pk_type );
         /** returns a list of pointers to all top-level items */
         std::list<const item *> all_items_top( item_pocket::pocket_type pk_type ) const;
 
-        // returns a list of pointers to all top level items that pass is_standard_type
-        std::list<const item *> all_standard_items_top() const;
-
         /** returns a list of pointers to all top-level items that are not mods */
         std::list<item *> all_items_top();
         /** returns a list of pointers to all top-level items that are not mods */
         std::list<const item *> all_items_top() const;
-
-        // returns a list of pointers to all items inside recursively
-        std::list<item *> all_items_ptr( item_pocket::pocket_type pk_type );
-        // returns a list of pointers to all items inside recursively
-        std::list<const item *> all_items_ptr( item_pocket::pocket_type pk_type ) const;
-        // returns a list of pointers to all items inside recursively
-        // includes mods.  used for item_location::unpack()
-        std::list<const item *> all_items_ptr() const;
 
         /** gets all gunmods in the item */
         std::vector<item *> gunmods();
@@ -99,6 +93,9 @@ class item_contents
         std::vector<const item *> mods() const;
 
         std::vector<const item *> softwares() const;
+
+        std::vector<item *> ebooks();
+        std::vector<const item *> ebooks() const;
 
         void update_modified_pockets( const cata::optional<const pocket_data *> &mag_or_mag_well,
                                       std::vector<const pocket_data *> container_pockets );
@@ -172,10 +169,8 @@ class item_contents
          * pocket, items will be successfully inserted without regard to volume, length, or any
          * other restrictions, since these pockets are not considered to be normal "containers".
          */
-        ret_val<bool> insert_item( const item &it, item_pocket::pocket_type pk_type );
+        ret_val<item_pocket *> insert_item( const item &it, item_pocket::pocket_type pk_type );
         void force_insert_item( const item &it, item_pocket::pocket_type pk_type );
-        // fills the contents to the brim of this item
-        void fill_with( const item &contained );
         bool can_unload_liquid() const;
 
         /**
@@ -207,14 +202,8 @@ class item_contents
 
         // returns true if any pocket was sealed
         bool seal_all_pockets();
-
-        enum class sealed_summary {
-            unsealed,
-            part_sealed,
-            all_sealed,
-        };
-        sealed_summary get_sealed_summary() const;
-
+        bool all_pockets_sealed() const;
+        bool any_pockets_sealed() const;
         // heats up the contents if they have temperature
         void heat_up();
         // returns amount of ammo consumed
@@ -234,6 +223,7 @@ class item_contents
         void handle_liquid_or_spill( Character &guy, const item *avoid = nullptr );
         // returns true if any of the pockets will spill if placed into a pocket
         bool will_spill() const;
+        bool will_spill_if_unsealed() const;
         bool spill_open_pockets( Character &guy, const item *avoid = nullptr );
         void casings_handle( const std::function<bool( item & )> &func );
 
@@ -286,11 +276,6 @@ class item_contents
 
         ret_val<const item_pocket *> find_pocket_for( const item &it,
                 item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER ) const;
-
-        //called by all_items_ptr to recursively get all items without duplicating items in nested pockets
-        std::list<const item *> all_items_top_recursive( item_pocket::pocket_type pk_type ) const;
-        //called by all_items_ptr to recursively get all items without duplicating items in nested pockets
-        std::list<item *> all_items_top_recursive( item_pocket::pocket_type pk_type );
 
         std::list<item_pocket> contents;
 
