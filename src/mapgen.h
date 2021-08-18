@@ -212,8 +212,6 @@ class jmapgen_place
         jmapgen_int repeat;
 };
 
-using palette_id = std::string;
-
 // Strong typedef for strings used as map/palette keys
 // Each key should be a UTF-8 string displayed in only one column (i.e.
 // utf8_width of 1) but can contain multiple Unicode code points.

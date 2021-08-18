@@ -2841,11 +2841,28 @@ void mapgen_palette::load_place_mapings( const JsonObject &jo, const std::string
     }
 }
 
-static std::map<std::string, mapgen_palette> palettes;
+static std::map<palette_id, mapgen_palette> palettes;
+
+template<>
+const mapgen_palette &string_id<mapgen_palette>::obj() const
+{
+    auto it = palettes.find( *this );
+    if( it == palettes.end() ) {
+        static const mapgen_palette null_palette;
+        return null_palette;
+    }
+    return it->second;
+}
+
+template<>
+bool string_id<mapgen_palette>::is_valid() const
+{
+    return palettes.find( *this ) != palettes.end();
+}
 
 void mapgen_palette::check()
 {
-    std::string context = "palette " + id;
+    std::string context = "palette " + id.str();
     mapgen_parameters no_parameters;
     for( const std::pair<const std::string, mapgen_parameter> &param : parameters.map ) {
         std::string this_context = string_format( "parameter %s in %s", param.first, context );
@@ -2868,7 +2885,7 @@ mapgen_palette mapgen_palette::load_temp( const JsonObject &jo, const std::strin
 void mapgen_palette::load( const JsonObject &jo, const std::string &src )
 {
     mapgen_palette ret = load_internal( jo, src, "", true, false );
-    if( ret.id.empty() ) {
+    if( ret.id.is_empty() ) {
         jo.throw_error( "Named palette needs an id" );
     }
 
@@ -2914,7 +2931,7 @@ void mapgen_palette::add( const mapgen_palette &rh, const std::string &context )
     for( const auto &placing : rh.keys_with_terrain ) {
         keys_with_terrain.insert( placing );
     }
-    std::string actual_context = id.empty() ? context : "palette " + id;
+    std::string actual_context = id.is_empty() ? context : "palette " + id.str();
     parameters.check_and_merge( rh.parameters, actual_context );
 }
 
@@ -2925,7 +2942,7 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     auto &format_placings = new_pal.format_placings;
     auto &keys_with_terrain = new_pal.keys_with_terrain;
     if( require_id ) {
-        new_pal.id = jo.get_string( "id" );
+        new_pal.id = palette_id( jo.get_string( "id" ) );
     }
 
     jo.read( "parameters", new_pal.parameters.map );
@@ -2934,7 +2951,7 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
         if( allow_recur ) {
             auto pals = jo.get_string_array( "palettes" );
             for( auto &p : pals ) {
-                new_pal.add( p, context );
+                new_pal.add( palette_id( p ), context );
             }
         } else {
             jo.throw_error( "Recursive palettes are not implemented yet" );
@@ -2950,7 +2967,7 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
         }
     }
 
-    std::string c = "palette " + new_pal.id;
+    std::string c = "palette " + new_pal.id.str();
     new_pal.load_place_mapings<jmapgen_terrain>( jo, "terrain", format_placings, c );
     new_pal.load_place_mapings<jmapgen_furniture>( jo, "furniture", format_placings, c );
     new_pal.load_place_mapings<jmapgen_field>( jo, "fields", format_placings, c );
