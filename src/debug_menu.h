@@ -17,7 +17,6 @@ class optional;
 } // namespace cata
 
 class Character;
-class player;
 
 namespace debug_menu
 {
@@ -101,12 +100,13 @@ void teleport_overmap( bool specific_coordinates = false );
 
 void spawn_nested_mapgen();
 void character_edit_menu();
-void wishitem( player *p = nullptr );
-void wishitem( player *p, const tripoint & );
+void wisheffect( Character &p );
+void wishitem( Character *you = nullptr );
+void wishitem( Character *you, const tripoint & );
 void wishmonster( const cata::optional<tripoint> &p );
-void wishmutate( player *p );
-void wishskill( player *p );
-void wishproficiency( player *p );
+void wishmutate( Character *you );
+void wishskill( Character *you );
+void wishproficiency( Character *you );
 void mutation_wish();
 void draw_benchmark( int max_difference );
 

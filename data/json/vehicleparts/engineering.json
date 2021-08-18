@@ -95,6 +95,7 @@
     "item": "frame",
     "location": "structure",
     "symbol": "|",
+    "symbols": { "horizontal_front": "|" },
     "broken_symbol": "x",
     "categories": [ "utility" ],
     "color": "light_gray",

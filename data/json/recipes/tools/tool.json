@@ -1092,5 +1092,17 @@
       [ [ "metal_tank_little", 1 ] ],
       [ [ "steel_chunk", 6 ], [ "steel_lump", 2 ] ]
     ]
+  },
+  {
+    "result": "mannequin_decoy",
+    "type": "recipe",
+    "activity_level": "fake",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "time": "10 s",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "talking_doll", 1 ], [ "creepy_doll", 1 ] ], [ [ "mannequin", 1 ] ] ]
   }
 ]

@@ -366,3 +366,8 @@ void talker_character::mod_focus( int amount )
 {
     me_chr->mod_focus( amount );
 }
+
+void talker_character::mod_rad( int amount )
+{
+    me_chr->mod_rad( amount );
+}

@@ -124,7 +124,7 @@ class player_morale
                 /**
                  *this point's percent contribution to the total positive or total negative morale effect
                  */
-                double percent_contribution = 0;
+                double percent_contribution = 0; // NOLINT(cata-serialize)
 
                 /**
                  * Returns either new_time or remaining time (which one is greater).

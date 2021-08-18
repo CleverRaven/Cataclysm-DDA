@@ -61,7 +61,7 @@ static int temperature_print_rescaling( int temp )
     return ( temp / 100.0 ) * 2 - 100;
 }
 
-static bool should_combine_bps( const player &p, const bodypart_id &l, const bodypart_id &r,
+static bool should_combine_bps( const Character &p, const bodypart_id &l, const bodypart_id &r,
                                 const item *selected_clothing )
 {
     const encumbrance_data &enc_l = p.get_part_encumbrance_data( l );
@@ -78,7 +78,7 @@ static bool should_combine_bps( const player &p, const bodypart_id &l, const bod
 
 }
 
-static std::vector<std::pair<bodypart_id, bool>> list_and_combine_bps( const player &p,
+static std::vector<std::pair<bodypart_id, bool>> list_and_combine_bps( const Character &p,
         const item *selected_clothing )
 {
     // bool represents whether the part has been combined with its other half
@@ -98,8 +98,8 @@ static std::vector<std::pair<bodypart_id, bool>> list_and_combine_bps( const pla
     return bps;
 }
 
-void player::print_encumbrance( const catacurses::window &win, const int line,
-                                const item *const selected_clothing ) const
+void Character::print_encumbrance( const catacurses::window &win, const int line,
+                                   const item *const selected_clothing ) const
 {
     // bool represents whether the part has been combined with its other half
     const std::vector<std::pair<bodypart_id, bool>> bps = list_and_combine_bps( *this,
@@ -176,23 +176,23 @@ static std::string run_cost_text( int moves )
     return string_format( _( "Movement point cost: <color_white>%+d</color>\n" ), moves );
 }
 
-static std::string reload_cost_text( int moves )
+static std::string reload_cost_text( float moves )
 {
-    return string_format( _( "Reloading movement point cost: <color_white>%+d</color>\n" ), moves );
+    return string_format( _( "Reloading movement point cost: <color_white>x%.2f</color>\n" ), moves );
 }
 
-static std::string melee_cost_text( int moves )
+static std::string melee_cost_text( float moves )
 {
     return string_format(
-               _( "Melee and thrown attack movement point cost: <color_white>%+d</color>\n" ), moves );
+               _( "Melee and thrown attack movement point modifier: <color_white>x%.2f</color>\n" ), moves );
 }
-static std::string melee_stamina_cost_text( int cost )
+static std::string melee_stamina_cost_text( float cost )
 {
-    return string_format( _( "Melee stamina cost: <color_white>%+d</color>\n" ), cost );
+    return string_format( _( "Melee stamina cost: <color_white>x%.2f</color>\n" ), cost );
 }
-static std::string mouth_stamina_cost_text( int cost )
+static std::string mouth_stamina_cost_text( float cost )
 {
-    return string_format( _( "Stamina Regeneration: <color_white>%+d</color>\n" ), cost );
+    return string_format( _( "Stamina Regeneration: <color_white>x%.2f</color>\n" ), cost );
 }
 static std::string ranged_cost_text( double disp )
 {
@@ -226,7 +226,7 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
             s += dodge_skill_text( -( eff_encumbrance / 10.0 ) );
             s += swim_cost_text( ( eff_encumbrance / 10.0 ) * ( 80 - p.get_skill_level(
                                      skill_swimming ) * 3 ) );
-            s += melee_cost_text( eff_encumbrance );
+            s += melee_cost_text( p.melee_thrown_move_modifier_torso() );
             break;
         }
         case bp_head:
@@ -234,30 +234,28 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
             break;
         case bp_eyes:
             s += string_format(
-                     _( "Perception when checking traps or firing ranged weapons: <color_white>%+d</color>\n"
-                        "Dispersion when throwing items: <color_white>%+d</color>" ),
-                     -( eff_encumbrance / 10 ),
-                     eff_encumbrance * 10 );
+                     _( "Dispersion when throwing or firing: <color_white>x%.2f</color>" ),
+                     p.vision_score() );
             break;
         case bp_mouth:
             s += _( "<color_magenta>Covering your mouth will make it more difficult to breathe and catch your breath.</color>\n" );
-            s += mouth_stamina_cost_text( -( eff_encumbrance / 5 ) );
+            s += mouth_stamina_cost_text( p.stamina_recovery_breathing_modifier() );
             break;
         case bp_arm_l:
         case bp_arm_r:
             s += _( "<color_magenta>Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons.</color>\n" );
-            s += melee_stamina_cost_text( eff_encumbrance );
-            s += ranged_cost_text( eff_encumbrance / 5.0 );
+            s += melee_stamina_cost_text( p.melee_stamina_cost_modifier() );
+            s += ranged_cost_text( p.ranged_dispersion_modifier_hands() );
             break;
         case bp_hand_l:
         case bp_hand_r:
             s += _( "<color_magenta>Reduces the speed at which you can handle or manipulate items.</color>\n\n" );
-            s += reload_cost_text( ( eff_encumbrance / 10 ) * 15 );
-            s += string_format( _( "Dexterity when throwing items: <color_white>%+.1f</color>\n" ),
-                                -( eff_encumbrance / 10.0f ) );
-            s += melee_cost_text( eff_encumbrance / 2 );
-            s += string_format( _( "Reduced gun aim speed: <color_white>%.1f</color>" ),
-                                p.aim_speed_encumbrance_modifier() );
+            s += reload_cost_text( p.reloading_move_modifier() );
+            s += string_format( _( "Dexterity when throwing items: <color_white>x%.2f</color>\n" ),
+                                p.thrown_dex_modifier() );
+            s += melee_cost_text( p.melee_thrown_move_modifier_hands() );
+            s += string_format( _( "Gun aim speed modifier: <color_white>x%.2f</color>" ),
+                                p.aim_speed_modifier() );
             break;
         case bp_leg_l:
         case bp_leg_r:
@@ -830,7 +828,9 @@ static void draw_skills_tab( const catacurses::window &w_skills,
             mvwprintz( w_skills, point( 1, y_pos ), cstatus, "%s:", aSkill->name() );
             if( aSkill->ident() == skill_id( "dodge" ) ) {
                 mvwprintz( w_skills, point( 14, y_pos ), cstatus, "%4.1f/%-2d(%2d%%)",
-                           you.get_dodge(), level_num, exercise < 0 ? 0 : exercise );
+                           you.get_dodge(),
+                           level_num,
+                           ( exercise < 0 ? 0 : exercise ) );
             } else {
                 mvwprintz( w_skills, point( 19, y_pos ), cstatus, "%-2d(%2d%%)",
                            level_num,
@@ -862,9 +862,14 @@ static void draw_skills_info( const catacurses::window &w_info, unsigned int lin
     werase( w_info );
 
     if( selectedSkill ) {
+        const SkillLevel &level = get_avatar().get_skill_level_object( selectedSkill->ident() );
+        std::string info_text = selectedSkill->description();
+        if( level.isRusting() ) {
+            info_text = string_format( _( "%s\n\nKnowledge level: %d (%d%%)" ), info_text,
+                                       level.knowledgeLevel(), level.knowledgeExperience() );
+        }
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray,
-                        selectedSkill->description() );
+        fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray, info_text );
     }
     wnoutrefresh( w_info );
 }

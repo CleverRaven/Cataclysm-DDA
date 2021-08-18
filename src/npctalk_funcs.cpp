@@ -338,7 +338,8 @@ void talk_function::goto_location( npc &p )
         destination = selected_camp->camp_omt_pos();
     }
     p.goal = destination;
-    p.omt_path = overmap_buffer.get_npc_path( p.global_omt_location(), p.goal );
+    p.omt_path = overmap_buffer.get_travel_path( p.global_omt_location(), p.goal,
+                 overmap_path_params::for_npc() );
     if( destination == tripoint_abs_omt() || destination == overmap::invalid_tripoint ||
         p.omt_path.empty() ) {
         p.goal = npc::no_goal_point;
@@ -347,7 +348,7 @@ void talk_function::goto_location( npc &p )
         return;
     }
     p.set_mission( NPC_MISSION_TRAVELLING );
-    p.chatbin.first_topic = "TALK_FRIEND_GUARD";
+    p.chatbin.first_topic = p.chatbin.talk_friend_guard;
     p.guard_pos = tripoint_min;
     p.set_attitude( NPCATT_NULL );
 }
@@ -365,7 +366,7 @@ void talk_function::assign_guard( npc &p )
     }
     p.set_attitude( NPCATT_NULL );
     p.set_mission( NPC_MISSION_GUARD_ALLY );
-    p.chatbin.first_topic = "TALK_FRIEND_GUARD";
+    p.chatbin.first_topic = p.chatbin.talk_friend_guard;
     p.set_omt_destination();
 }
 
@@ -392,7 +393,7 @@ void talk_function::assign_camp( npc &p )
         if( p.has_player_activity() ) {
             p.revert_after_activity();
         }
-        p.chatbin.first_topic = "TALK_FRIEND_GUARD";
+        p.chatbin.first_topic = p.chatbin.talk_friend_guard;
         p.set_omt_destination();
     }
 }
@@ -410,7 +411,7 @@ void talk_function::stop_guard( npc &p )
     if( p.has_companion_mission() ) {
         p.reset_companion_mission();
     }
-    p.chatbin.first_topic = "TALK_FRIEND";
+    p.chatbin.first_topic = p.chatbin.talk_friend;
     p.goal = npc::no_goal_point;
     p.guard_pos = tripoint_min;
     if( p.assigned_camp ) {
@@ -815,7 +816,7 @@ void talk_function::leave( npc &p )
     if( new_solo_fac ) {
         new_solo_fac->known_by_u = true;
     }
-    p.chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
+    p.chatbin.first_topic = p.chatbin.talk_stranger_neutral;
     p.set_attitude( NPCATT_NULL );
     p.mission = NPC_MISSION_NULL;
     p.long_term_goal_action();
@@ -838,7 +839,7 @@ void talk_function::stranger_neutral( npc &p )
 {
     add_msg( _( "%s feels less threatened by you." ), p.name );
     p.set_attitude( NPCATT_NULL );
-    p.chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
+    p.chatbin.first_topic = p.chatbin.talk_stranger_neutral;
 }
 
 bool talk_function::drop_stolen_item( item &cur_item, npc &p )
@@ -959,7 +960,7 @@ void talk_function::start_training( npc &p )
     int expert_multiplier = 1;
     Character &you = get_player_character();
     if( skill != skill_id() &&
-        you.get_skill_level( skill ) < p.get_skill_level( skill ) ) {
+        you.get_knowledge_level( skill ) < p.get_knowledge_level( skill ) ) {
         cost = calc_skill_training_cost( p, skill );
         time = calc_skill_training_time( p, skill );
         name = skill.str();
@@ -1074,8 +1075,8 @@ void talk_function::npc_thankful( npc &p )
         p.get_attitude() == NPCATT_FLEE_TEMP ) {
         p.set_attitude( NPCATT_NULL );
     }
-    if( p.chatbin.first_topic != "TALK_FRIEND" ) {
-        p.chatbin.first_topic = "TALK_STRANGER_FRIENDLY";
+    if( p.chatbin.first_topic != p.chatbin.talk_friend ) {
+        p.chatbin.first_topic = p.chatbin.talk_stranger_friendly;
     }
     p.personality.aggression -= 1;
 

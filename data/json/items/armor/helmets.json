@@ -285,11 +285,12 @@
     "looks_like": "helmet_chitin",
     "type": "ARMOR",
     "name": { "str": "biosilicified chitin helmet" },
-    "description": "A helmet crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.",
+    "description": "A helmet crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
     "price_postapoc": 1750,
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "warmth": 1.5 },
-    "relative": { "bashing": 1, "material_thickness": 1 }
+    "relative": { "bashing": 1, "material_thickness": 1 },
+    "extend": { "flags": [ "NO_REPAIR" ] }
   },
   {
     "id": "xl_helmet_acidchitin",
@@ -486,10 +487,10 @@
   {
     "id": "helmet_motor",
     "repairs_like": "nomex_hood",
-    "type": "ARMOR",
+    "type": "TOOL_ARMOR",
     "category": "armor",
     "name": { "str": "motorcycle helmet" },
-    "description": "A helmet with covers for your head and chin, leaving space in-between for you to wear goggles.",
+    "description": "A helmet with covers for your head and chin, leaving space in-between for you to wear goggles.  Activate to raise the visor.",
     "weight": "1587 g",
     "volume": "2250 ml",
     "price": 32500,
@@ -499,13 +500,41 @@
     "material": [ "plastic", "nomex" ],
     "symbol": "[",
     "color": "dark_gray",
-    "armor": [
-      { "covers": [ "head" ], "coverage": 100, "encumbrance": 25 },
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 },
-      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 15 }
-    ],
+    "armor_data": {
+      "material_thickness": 6,
+      "armor": [
+        { "covers": [ "head" ], "coverage": 100, "encumbrance": 25 },
+        { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 },
+        { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 15 }
+      ]
+    },
+    "use_action": { "type": "transform", "target": "helmet_motor_raised", "msg": "You raise your visor." },
     "warmth": 30,
-    "material_thickness": 6,
+    "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
+    "qualities": [ [ "GLARE", 1 ] ],
+    "flags": [ "WATERPROOF", "STURDY" ]
+  },
+  {
+    "id": "helmet_motor_raised",
+    "//": "Can't use copy-from and armor_portion_data at the same time, clear up this item once #43144 will be merged",
+    "repairs_like": "nomex_hood",
+    "type": "TOOL_ARMOR",
+    "category": "armor",
+    "name": { "str": "motorcycle helmet (raised visor)", "str_pl": "motorcycle helmets (raised visor)" },
+    "description": "A helmet with covers for your head and chin, leaving space in-between for you to wear goggles.  The visor is raised.  Activate to put down the visor.",
+    "weight": "1587 g",
+    "volume": "2250 ml",
+    "price": 32500,
+    "price_postapoc": 750,
+    "to_hit": -1,
+    "bashing": 7,
+    "material": [ "plastic", "nomex" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "armor_data": { "material_thickness": 6, "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "head" ] } ] },
+    "use_action": { "type": "transform", "target": "helmet_motor", "msg": "You put down your visor." },
+    "warmth": 30,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "WATERPROOF", "STURDY" ]

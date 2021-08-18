@@ -364,7 +364,7 @@
   {
     "id": "mon_ziger",
     "type": "MONSTER",
-    "name": { "str": "Tiger wight" },
+    "name": { "str": "tiger wight" },
     "description": "This otherwise normal-looking tiger stumbles and sways, its jaws slack, its eyes wide open and shining black.",
     "copy-from": "mon_zougar",
     "volume": "150 L",
@@ -532,7 +532,7 @@
   {
     "id": "mon_zeindeer",
     "type": "MONSTER",
-    "name": { "str": "Zeindeer" },
+    "name": { "str": "zeindeer" },
     "looks_like": "mon_zeer",
     "description": "A once-majestic caribou, this undead creature barely resembles the reindeer of tradition and seems to only be interested in human flesh.",
     "default_faction": "zombie",

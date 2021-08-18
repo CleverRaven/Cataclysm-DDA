@@ -28,7 +28,7 @@ class JsonObject;
 class JsonOut;
 
 /** Handles the large variety of weed messages. */
-void weed_msg( player &p );
+void weed_msg( Character &p );
 
 enum effect_rating {
     e_good,     // The effect is good for the one who has it.
@@ -126,6 +126,10 @@ class effect_type
         /** Check if the effect type has the specified flag */
         bool has_flag( const flag_id &flag ) const;
 
+        const time_duration &intensity_duration() const {
+            return int_dur_factor;
+        }
+
     protected:
         int max_intensity = 0;
         int max_effective_intensity = 0;
@@ -197,6 +201,11 @@ class effect
 {
     public:
         effect() : eff_type( nullptr ), duration( 0_turns ), bp( bodypart_str_id::NULL_ID() ),
+            permanent( false ), intensity( 1 ), start_time( calendar::turn_zero ),
+            source( effect_source::empty() ) {
+        }
+        explicit effect( const effect_type *peff_type ) : eff_type( peff_type ), duration( 0_turns ),
+            bp( bodypart_str_id::NULL_ID() ),
             permanent( false ), intensity( 1 ), start_time( calendar::turn_zero ),
             source( effect_source::empty() ) {
         }
@@ -364,6 +373,7 @@ class effect
 
 void load_effect_type( const JsonObject &jo );
 void reset_effect_types();
+const std::map<efftype_id, effect_type> &get_effect_types();
 
 std::string texitify_base_healing_power( int power );
 std::string texitify_healing_power( int power );

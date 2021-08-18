@@ -29,6 +29,7 @@
 #include "crash.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "do_turn.h"
 #include "filesystem.h"
 #include "game.h"
 #include "game_ui.h"
@@ -706,7 +707,7 @@ int main( int argc, const char *argv[] )
         }
 
         shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();
-        while( !g->do_turn() );
+        while( !do_turn() );
     }
 
     exit_handler( -999 );

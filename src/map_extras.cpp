@@ -1448,7 +1448,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         m.spawn_item( { 16, 18, abs_sub.z }, itype_landmine, rng( 0, 5 ) );
         m.spawn_item( { 16, 19, abs_sub.z }, itype_landmine, rng( 0, 5 ) );
 
-        // Set some resting place with fire ring, camp chairs, tourist table and benches
+        // Set some resting place with fire ring, camp chairs, folding table, and benches.
         m.furn_set( { 20, 12, abs_sub.z }, f_crate_o );
         m.furn_set( { 21, 12, abs_sub.z }, f_firering );
         m.furn_set( { 22, 12, abs_sub.z }, f_tourist_table );
@@ -3037,7 +3037,7 @@ std::vector<std::string> get_all_function_names()
     return all_function_names;
 }
 
-void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs_sub )
+void apply_function( const string_id<map_extra> &id, map &m, const tripoint_abs_sm &abs_sub )
 {
     bool applied_successfully = false;
 
@@ -3046,18 +3046,18 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
         case map_extra_method::map_extra_function: {
             const map_extra_pointer mx_func = get_function( extra.generator_id );
             if( mx_func != nullptr ) {
-                applied_successfully = mx_func( m, abs_sub );
+                applied_successfully = mx_func( m, abs_sub.raw() );
             }
             break;
         }
         case map_extra_method::mapgen: {
-            mapgendata dat( tripoint_abs_omt( sm_to_omt_copy( abs_sub ) ), m, 0.0f, calendar::turn,
+            mapgendata dat( project_to<coords::omt>( abs_sub ), m, 0.0f, calendar::turn,
                             nullptr );
             applied_successfully = run_mapgen_func( extra.generator_id, dat );
             break;
         }
         case map_extra_method::update_mapgen: {
-            mapgendata dat( tripoint_abs_omt( sm_to_omt_copy( abs_sub ) ), m, 0.0f,
+            mapgendata dat( project_to<coords::omt>( abs_sub ), m, 0.0f,
                             calendar::start_of_cataclysm, nullptr );
             applied_successfully = run_mapgen_update_func( extra.generator_id, dat );
             break;
@@ -3071,8 +3071,7 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
         return;
     }
 
-    // TODO: fix point types
-    overmap_buffer.add_extra( tripoint_abs_omt( sm_to_omt_copy( abs_sub ) ), id );
+    overmap_buffer.add_extra( project_to<coords::omt>( abs_sub ), id );
 
     auto_notes::auto_note_settings &auto_note_settings = get_auto_notes_settings();
 
@@ -3096,12 +3095,11 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
                            get_note_string_from_color( note_color ),
                            extra.name(),
                            extra.description() );
-        // TODO: fix point types
-        overmap_buffer.add_note( tripoint_abs_omt( sm_to_omt_copy( abs_sub ) ), mx_note );
+        overmap_buffer.add_note( project_to<coords::omt>( abs_sub ), mx_note );
     }
 }
 
-void apply_function( const std::string &id, map &m, const tripoint &abs_sub )
+void apply_function( const std::string &id, map &m, const tripoint_abs_sm &abs_sub )
 {
     apply_function( string_id<map_extra>( id ), m, abs_sub );
 }

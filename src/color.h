@@ -427,8 +427,8 @@ class color_manager
         };
 
         std::array<color_struct, num_colors> color_array;
-        std::unordered_map<nc_color, color_id> inverted_map;
-        std::unordered_map<std::string, color_id> name_map;
+        std::unordered_map<nc_color, color_id> inverted_map; // NOLINT(cata-serialize)
+        std::unordered_map<std::string, color_id> name_map; // NOLINT(cata-serialize)
 
         bool save_custom();
 
