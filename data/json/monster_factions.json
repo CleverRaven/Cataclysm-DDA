@@ -338,7 +338,7 @@
     "base_faction": "insect",
     "neutral": [ "centipede", "bee", "wasp" ],
     "hate": [ "insect", "animal" ],
-    "by_mood": [ "zombie", "fungus" ]
+    "by_mood": [ "zombie", "fungus", "spider" ]
   },
   {
     "type": "MONSTER_FACTION",
