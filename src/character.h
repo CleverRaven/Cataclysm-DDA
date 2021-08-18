@@ -1500,7 +1500,8 @@ class Character : public Creature, public visitable
         bool has_power() const;
         bool has_max_power() const;
         bool enough_power_for( const bionic_id &bid ) const;
-
+        /** Handles and displays detailed character info for the '@' screen */
+        void disp_info();
         void conduct_blood_analysis();
         // --------------- Generic Item Stuff ---------------
 

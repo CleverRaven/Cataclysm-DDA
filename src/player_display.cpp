@@ -204,29 +204,29 @@ static std::string dodge_skill_text( double mod )
     return string_format( _( "Dodge skill: <color_white>%+.1f</color>\n" ), mod );
 }
 
-static int get_encumbrance( const player &p, const bodypart_id &bp, bool combine )
+static int get_encumbrance( const Character &you, const bodypart_id &bp, bool combine )
 {
     // Body parts that can't combine with anything shouldn't print double values on combine
     // This shouldn't happen, but handle this, just in case
     const bool combines_with_other = bp->opposite_part != bp.id();
-    return p.encumb( bp ) * ( ( combine && combines_with_other ) ? 2 : 1 );
+    return you.encumb( bp ) * ( ( combine && combines_with_other ) ? 2 : 1 );
 }
 
-static std::string get_encumbrance_description( const player &p, const bodypart_id &bp,
+static std::string get_encumbrance_description( const Character &you, const bodypart_id &bp,
         bool combine )
 {
     std::string s;
 
-    const int eff_encumbrance = get_encumbrance( p, bp, combine );
+    const int eff_encumbrance = get_encumbrance( you, bp, combine );
 
     switch( bp->token ) {
         case bp_torso: {
             const int melee_roll_pen = std::max( -eff_encumbrance, -80 );
             s += string_format( _( "Melee attack rolls: <color_white>%+d%%</color>\n" ), melee_roll_pen );
             s += dodge_skill_text( -( eff_encumbrance / 10.0 ) );
-            s += swim_cost_text( ( eff_encumbrance / 10.0 ) * ( 80 - p.get_skill_level(
+            s += swim_cost_text( ( eff_encumbrance / 10.0 ) * ( 80 - you.get_skill_level(
                                      skill_swimming ) * 3 ) );
-            s += melee_cost_text( p.melee_thrown_move_modifier_torso() );
+            s += melee_cost_text( you.melee_thrown_move_modifier_torso() );
             break;
         }
         case bp_head:
@@ -235,32 +235,32 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
         case bp_eyes:
             s += string_format(
                      _( "Dispersion when throwing or firing: <color_white>x%.2f</color>" ),
-                     p.vision_score() );
+                     you.vision_score() );
             break;
         case bp_mouth:
             s += _( "<color_magenta>Covering your mouth will make it more difficult to breathe and catch your breath.</color>\n" );
-            s += mouth_stamina_cost_text( p.stamina_recovery_breathing_modifier() );
+            s += mouth_stamina_cost_text( you.stamina_recovery_breathing_modifier() );
             break;
         case bp_arm_l:
         case bp_arm_r:
             s += _( "<color_magenta>Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons.</color>\n" );
-            s += melee_stamina_cost_text( p.melee_stamina_cost_modifier() );
-            s += ranged_cost_text( p.ranged_dispersion_modifier_hands() );
+            s += melee_stamina_cost_text( you.melee_stamina_cost_modifier() );
+            s += ranged_cost_text( you.ranged_dispersion_modifier_hands() );
             break;
         case bp_hand_l:
         case bp_hand_r:
             s += _( "<color_magenta>Reduces the speed at which you can handle or manipulate items.</color>\n\n" );
-            s += reload_cost_text( p.reloading_move_modifier() );
+            s += reload_cost_text( you.reloading_move_modifier() );
             s += string_format( _( "Dexterity when throwing items: <color_white>x%.2f</color>\n" ),
-                                p.thrown_dex_modifier() );
-            s += melee_cost_text( p.melee_thrown_move_modifier_hands() );
+                                you.thrown_dex_modifier() );
+            s += melee_cost_text( you.melee_thrown_move_modifier_hands() );
             s += string_format( _( "Gun aim speed modifier: <color_white>x%.2f</color>" ),
-                                p.aim_speed_modifier() );
+                                you.aim_speed_modifier() );
             break;
         case bp_leg_l:
         case bp_leg_r:
             s += run_cost_text( static_cast<int>( eff_encumbrance * 0.15 ) );
-            s += swim_cost_text( ( eff_encumbrance / 10 ) * ( 50 - p.get_skill_level(
+            s += swim_cost_text( ( eff_encumbrance / 10 ) * ( 50 - you.get_skill_level(
                                      skill_swimming ) * 2 ) / 2 );
             s += dodge_skill_text( -eff_encumbrance / 10.0 / 4.0 );
             break;
@@ -393,7 +393,7 @@ static void draw_proficiencies_info( const catacurses::window &w_info, const uns
 }
 
 static void draw_stats_tab( const catacurses::window &w_stats,
-                            const player &you, const unsigned int line, const player_display_tab curtab )
+                            const Character &you, const unsigned int line, const player_display_tab curtab )
 {
     werase( w_stats );
     const nc_color title_col = curtab == player_display_tab::stats ? h_light_gray : c_light_gray;
@@ -452,7 +452,7 @@ static void draw_stats_tab( const catacurses::window &w_stats,
 }
 
 static void draw_stats_info( const catacurses::window &w_info,
-                             const player &you, const unsigned int line )
+                             const Character &you, const unsigned int line )
 {
     werase( w_info );
     nc_color col_temp = c_light_gray;
@@ -541,7 +541,7 @@ static void draw_stats_info( const catacurses::window &w_info,
 }
 
 static void draw_encumbrance_tab( const catacurses::window &w_encumb,
-                                  const player &you, const unsigned int line, const player_display_tab curtab )
+                                  const Character &you, const unsigned int line, const player_display_tab curtab )
 {
     werase( w_encumb );
     const bool is_current_tab = curtab == player_display_tab::encumbrance;
@@ -556,7 +556,7 @@ static void draw_encumbrance_tab( const catacurses::window &w_encumb,
 }
 
 static void draw_encumbrance_info( const catacurses::window &w_info,
-                                   const player &you, const unsigned int line )
+                                   const Character &you, const unsigned int line )
 {
     const std::vector<std::pair<bodypart_id, bool>> bps = list_and_combine_bps( you, nullptr );
 
@@ -626,7 +626,7 @@ static void draw_traits_info( const catacurses::window &w_info, const unsigned i
 }
 
 static void draw_bionics_tab( const catacurses::window &w_bionics,
-                              const player &you, const unsigned int line, const player_display_tab curtab,
+                              const Character &you, const unsigned int line, const player_display_tab curtab,
                               const std::vector<bionic> &bionicslist, const size_t bionics_win_size_y )
 {
     werase( w_bionics );
@@ -749,7 +749,7 @@ struct HeaderSkill {
 };
 
 static void draw_skills_tab( const catacurses::window &w_skills,
-                             player &you, unsigned int line, const player_display_tab curtab,
+                             Character &you, unsigned int line, const player_display_tab curtab,
                              std::vector<HeaderSkill> &skillslist,
                              const size_t skill_win_size_y )
 {
@@ -875,7 +875,7 @@ static void draw_skills_info( const catacurses::window &w_info, unsigned int lin
 }
 
 static void draw_speed_tab( const catacurses::window &w_speed,
-                            const player &you,
+                            const Character &you,
                             const std::map<std::string, int> &speed_effects )
 {
     werase( w_speed );
@@ -969,7 +969,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
     wnoutrefresh( w_speed );
 }
 
-static void draw_info_window( const catacurses::window &w_info, const player &you,
+static void draw_info_window( const catacurses::window &w_info, const Character &you,
                               const unsigned int line, const player_display_tab curtab,
                               const std::vector<trait_id> &traitslist,
                               const std::vector<bionic> &bionicslist,
@@ -1003,7 +1003,7 @@ static void draw_info_window( const catacurses::window &w_info, const player &yo
     }
 }
 
-static void draw_tip( const catacurses::window &w_tip, const player &you,
+static void draw_tip( const catacurses::window &w_tip, const Character &you,
                       const std::string &race, const input_context &ctxt )
 {
     werase( w_tip );
@@ -1014,14 +1014,15 @@ static void draw_tip( const catacurses::window &w_tip, const player &you,
             //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
             mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s" ), you.name,
                        you.male ? _( "Male" ) : _( "Female" ), race );
-        } else if( you.prof == nullptr || you.prof == profession::generic() ) {
+        } else if( you.as_player()->prof == nullptr || you.as_player()->prof == profession::generic() ) {
             // Regular person. Nothing interesting.
             //~ player info window: 1s - name, 2s - gender '|' - field separator.
             mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s" ), you.name,
                        you.male ? _( "Male" ) : _( "Female" ) );
         } else {
             mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s" ), you.name,
-                       you.male ? _( "Male" ) : _( "Female" ), you.prof->gender_appropriate_name( you.male ) );
+                       you.male ? _( "Male" ) : _( "Female" ),
+                       you.as_player()->prof->gender_appropriate_name( you.male ) );
         }
     } else {
         mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s" ), you.name,
@@ -1037,7 +1038,7 @@ static void draw_tip( const catacurses::window &w_tip, const player &you,
     wnoutrefresh( w_tip );
 }
 
-static bool handle_player_display_action( player &you, unsigned int &line,
+static bool handle_player_display_action( Character &you, unsigned int &line,
         player_display_tab &curtab, input_context &ctxt, const ui_adaptor &ui_tip,
         const ui_adaptor &ui_info, const ui_adaptor &ui_stats, const ui_adaptor &ui_encumb,
         const ui_adaptor &ui_traits, const ui_adaptor &ui_bionics, const ui_adaptor &ui_effects,
@@ -1179,7 +1180,7 @@ static bool handle_player_display_action( player &you, unsigned int &line,
     return done;
 }
 
-void player::disp_info()
+void Character::disp_info()
 {
     std::vector<std::pair<std::string, std::string>> effect_name_and_text;
     for( auto &elem : *effects ) {

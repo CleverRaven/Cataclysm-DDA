@@ -53,7 +53,6 @@
 #include "npctrade.h"
 #include "output.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "point.h"
 #include "recipe.h"
@@ -641,7 +640,7 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
 
     Character &player_character = get_player_character();
     bool player_ally = player_character.pos() == spos && is_player_ally();
-    player *const sound_source = g->critter_at<player>( spos );
+    Character *const sound_source = g->critter_at<player>( spos );
     bool npc_ally = sound_source && sound_source->is_npc() && is_ally( *sound_source );
 
     if( ( player_ally || npc_ally ) && spriority == sounds::sound_t::order ) {
@@ -1174,7 +1173,7 @@ bool talk_trial::roll( dialogue &d ) const
     const int chance = calc_chance( d );
     const bool success = rng( 0, 99 ) < chance;
     if( d.actor( false )->get_character() ) {
-        player &u = *d.actor( false )->get_character();
+        Character &u = *d.actor( false )->get_character();
         if( success ) {
             u.practice( skill_speech, ( 100 - chance ) / 10 );
         } else {
@@ -3505,7 +3504,7 @@ void load_talk_topic( const JsonObject &jo )
     }
 }
 
-std::string npc::pick_talk_topic( const player &/*u*/ )
+std::string npc::pick_talk_topic( const Character &/*u*/ )
 {
     if( personality.aggression > 0 ) {
         if( op_of_u.fear * 2 < personality.bravery && personality.altruism < 0 ) {

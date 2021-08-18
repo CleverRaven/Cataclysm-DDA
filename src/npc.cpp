@@ -1905,9 +1905,10 @@ void npc::set_faction_ver( int new_version )
     faction_api_version = new_version;
 }
 
-bool npc::has_faction_relationship( const player &p, const npc_factions::relationship flag ) const
+bool npc::has_faction_relationship( const Character &you,
+                                    const npc_factions::relationship flag ) const
 {
-    faction *p_fac = p.get_faction();
+    faction *p_fac = you.get_faction();
     if( !my_fac || !p_fac ) {
         return false;
     }
