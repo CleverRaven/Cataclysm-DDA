@@ -25,6 +25,15 @@
     "flags": [ "WATCH", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
+    "type": "AMMO",
+    "id": "clearcrete_chunk",
+    "copy-from": "rock",
+    "name": { "str": "clearcrete chunk" },
+    "category": "other",
+    "description": "A broken chunk of clearcrete.  Basically a clear rock.",
+    "material": [ "clearcrete" ]
+  },
+  {
     "id": "afs_atomic_smartphone_music",
     "copy-from": "afs_atomic_smartphone",
     "type": "TOOL",
@@ -195,7 +204,7 @@
     "type": "TOOL_ARMOR",
     "copy-from": "adv_UPS_off",
     "name": { "str": "advanced UPS", "str_pl": "advanced UPS's" },
-    "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel cells rather than batteries, and is both slimmer and lighter to wear.  Sadly, its plutonium reactor can't be charged in UPS charging station.",
+    "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to consume plutonium fuel cells rather than batteries, and is both slimmer and lighter to wear.  Sadly, its plutonium reactor can't be charged in UPS charging station.",
     "sided": true,
     "flags": [ "WAIST", "FRAGILE", "OVERSIZE", "IS_UPS" ],
     "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]

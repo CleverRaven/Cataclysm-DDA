@@ -336,7 +336,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
             }
         // Intentional fallthrough
         case STASH: {
-            item &added_it = player_character.i_add( newit, true, nullptr, /*allow_drop=*/false,
+            item &added_it = player_character.i_add( newit, true, nullptr, &it, /*allow_drop=*/false,
                              !newit.count_by_charges() );
             if( added_it.is_null() ) {
                 // failed to add, fill pockets if it's a stack
@@ -529,7 +529,8 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         // Bail out if this square cannot be auto-picked-up
         if( g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), p ) ) {
             return;
-        } else if( local.has_flag( "SEALED", p ) ) {
+        }
+        if( local.has_flag( "SEALED", p ) ) {
             return;
         }
     }
@@ -714,8 +715,8 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
                     nc_color icolor;
                     if( this_item.is_food_container() && !this_item.is_craft() &&
-                        this_item.contents.num_item_stacks() == 1 ) {
-                        icolor = this_item.contents.all_items_top().front()->color_in_inventory();
+                        this_item.num_item_stacks() == 1 ) {
+                        icolor = this_item.all_items_top().front()->color_in_inventory();
                     } else {
                         icolor = this_item.color_in_inventory();
                     }

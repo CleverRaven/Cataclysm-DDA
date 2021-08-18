@@ -15,6 +15,7 @@ add_library(CataAnalyzerPlugin MODULE
         NoLongCheck.cpp
         NoStaticGettextCheck.cpp
         PointInitializationCheck.cpp
+        SerializeCheck.cpp
         SimplifyPointConstructorsCheck.cpp
         StaticDeclarationsCheck.cpp
         StaticIntIdConstantsCheck.cpp
@@ -23,6 +24,7 @@ add_library(CataAnalyzerPlugin MODULE
         TestFilenameCheck.cpp
         TestsMustRestoreGlobalStateCheck.cpp
         TextStyleCheck.cpp
+        TranslationsInDebugMessagesCheck.cpp
         TranslatorCommentsCheck.cpp
         UnsequencedCallsCheck.cpp
         UnusedStaticsCheck.cpp

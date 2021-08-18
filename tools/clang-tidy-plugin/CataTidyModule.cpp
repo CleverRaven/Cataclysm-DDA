@@ -12,6 +12,7 @@
 #include "NoLongCheck.h"
 #include "NoStaticGettextCheck.h"
 #include "PointInitializationCheck.h"
+#include "SerializeCheck.h"
 #include "SimplifyPointConstructorsCheck.h"
 #include "StaticDeclarationsCheck.h"
 #include "StaticIntIdConstantsCheck.h"
@@ -19,6 +20,7 @@
 #include "TestFilenameCheck.h"
 #include "TestsMustRestoreGlobalStateCheck.h"
 #include "TextStyleCheck.h"
+#include "TranslationsInDebugMessagesCheck.h"
 #include "TranslatorCommentsCheck.h"
 #include "UnsequencedCallsCheck.h"
 #include "UnusedStaticsCheck.h"
@@ -59,6 +61,7 @@ class CataModule : public ClangTidyModule
             CheckFactories.registerCheck<NoLongCheck>( "cata-no-long" );
             CheckFactories.registerCheck<NoStaticGettextCheck>( "cata-no-static-gettext" );
             CheckFactories.registerCheck<PointInitializationCheck>( "cata-point-initialization" );
+            CheckFactories.registerCheck<SerializeCheck>( "cata-serialize" );
             CheckFactories.registerCheck<SimplifyPointConstructorsCheck>(
                 "cata-simplify-point-constructors" );
             CheckFactories.registerCheck<StaticDeclarationsCheck>( "cata-static-declarations" );
@@ -70,6 +73,8 @@ class CataModule : public ClangTidyModule
             CheckFactories.registerCheck<TestsMustRestoreGlobalStateCheck>(
                 "cata-tests-must-restore-global-state" );
             CheckFactories.registerCheck<TextStyleCheck>( "cata-text-style" );
+            CheckFactories.registerCheck<TranslationsInDebugMessagesCheck>(
+                "cata-translations-in-debug-messages" );
             CheckFactories.registerCheck<TranslatorCommentsCheck>( "cata-translator-comments" );
             CheckFactories.registerCheck<UnsequencedCallsCheck>( "cata-unsequenced-calls" );
             CheckFactories.registerCheck<UnusedStaticsCheck>( "cata-unused-statics" );

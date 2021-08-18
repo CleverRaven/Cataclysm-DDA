@@ -1,5 +1,50 @@
 [
   {
+    "type": "item_group",
+    "id": "bionics_sci",
+    "subtype": "distribution",
+    "//": "High-tech bionics, handy for the harried researcher.  They get access to classified toys too, but only stuff a scientist would have use for.",
+    "items": [
+      [ "burnt_out_bionic", 60 ],
+      [ "bio_batteries", 30 ],
+      [ "bio_power_storage", 30 ],
+      [ "bio_metabolics", 5 ],
+      [ "bio_ethanol", 5 ],
+      [ "bio_ups", 10 ],
+      [ "bio_torsionratchet", 30 ],
+      [ "bio_tools", 10 ],
+      [ "bio_flashlight", 30 ],
+      [ "bio_lighter", 25 ],
+      [ "bio_magnet", 20 ],
+      [ "bio_memory", 15 ],
+      [ "bio_ears", 10 ],
+      [ "bio_sunglasses", 10 ],
+      [ "bio_eye_optic", 10 ],
+      [ "bio_eye_enhancer", 5 ],
+      [ "bio_dex_enhancer", 5 ],
+      [ "bio_int_enhancer", 10 ],
+      [ "bio_night_vision", 1 ],
+      [ "bio_infrared", 2 ],
+      [ "bio_synaptic_regen", 12 ],
+      [ "bio_gills", 5 ],
+      [ "bio_climate", 2 ],
+      [ "bio_heatsink", 2 ],
+      [ "bio_blood_filter", 10 ],
+      [ "bio_fingerhack", 2 ],
+      [ "bio_lockpick", 2 ],
+      [ "bio_surgical_razor", 8 ],
+      [ "bio_nanobots", 15 ],
+      [ "bio_blood_anal", 10 ],
+      [ "bio_geiger", 15 ],
+      [ "bio_radscrubber", 10 ],
+      [ "bio_watch", 40 ],
+      [ "bio_leukocyte", 15 ],
+      [ "bio_syringe", 2 ],
+      [ "bio_jointservo", 10 ],
+      [ "bio_soporific", 2 ]
+    ]
+  },
+  {
     "id": "mon_dragonfly_small",
     "type": "MONSTER",
     "name": { "str": "huge dragonfly", "str_pl": "huge dragonflies" },
@@ -548,7 +593,7 @@
     "description": "Your left arm has been surgically replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray.  However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand.",
     "occupied_bodyparts": [ [ "arm_l", 20 ], [ "hand_l", 5 ] ],
     "act_cost": 50,
-    "fake_item": "bio_blaster_gun",
+    "fake_weapon": "bio_blaster_gun",
     "flags": [ "BIONIC_GUN" ],
     "cant_remove_reason": "Removing %1$s Fusion Blaster Arm would leave %2$s with a useless stump."
   },
@@ -587,7 +632,7 @@
     "reload": 500,
     "built_in_mods": [ "bio_powershot" ],
     "ammo_effects": [ "PLASMA" ],
-    "flags": [ "NEVER_JAMS", "TRADER_AVOID", "ZERO_WEIGHT" ]
+    "flags": [ "NEVER_JAMS", "TRADER_AVOID", "ZERO_WEIGHT", "USES_BIONIC_POWER" ]
   },
   {
     "id": "unbio_blaster_gun",
@@ -1547,5 +1592,31 @@
     ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "surface_heat", 1, "LIST" ], [ "forge", 1 ], [ "oxy_torch", 1 ] ] ],
     "components": [ [ [ "copper", 1 ] ], [ [ "duct_tape", 1 ] ] ]
+  },
+  {
+    "id": "adv_UPS_off",
+    "type": "TOOL",
+    "name": { "str": "advanced UPS", "str_pl": "advanced UPS's" },
+    "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel batteries rather than regular batteries.  Sadly, its plutonium reactor can't be charged in UPS charging station.",
+    "weight": "453 g",
+    "volume": "2 L",
+    "price": 560000,
+    "price_postapoc": 3000,
+    "to_hit": -1,
+    "bashing": 8,
+    "material": [ "aluminum", "plastic" ],
+    "symbol": ";",
+    "color": "light_green",
+    "ammo": [ "battery" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "heavy_atomic_battery_cell" ]
+      }
+    ],
+    "flags": [ "IS_UPS" ]
   }
 ]

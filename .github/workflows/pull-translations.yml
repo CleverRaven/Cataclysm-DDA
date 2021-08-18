@@ -1,0 +1,49 @@
+name: "Pull translations from Transifex"
+
+on:
+  schedule:
+    - cron: "42 1 * * 6"
+
+jobs:
+  pull-translations:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: "Install dependencies"
+        run: |
+          sudo apt-get update
+          sudo apt-get install gettext python3-pip
+          sudo pip3 install transifex-client
+      - name: "Checkout"
+        uses: actions/checkout@v2
+        with:
+          ref: master
+          fetch-depth: 0
+      - name: "Get current date"
+        uses: 1466587594/get-current-time@v2
+        id: current-date
+        with:
+          format: 'DD MMMM YYYY'
+      - name: "Pull translations"
+        env:
+          TOKEN: ${{ secrets.TX_TOKEN }}
+        run: |
+          export TX_TOKEN=$TOKEN
+          rm lang/po/*.po
+          until tx pull -a
+          do
+            echo "Retry in 10 seconds..."
+            sleep 10
+          done
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3.10.0
+        with:
+          commit-message: Routine i18n updates on ${{ steps.current-date.outputs.formattedTime }}
+          committer: Brett Dong (BOT) <brett.browning.dong@gmail.com>
+          author: Brett Dong (BOT) <brett.browning.dong@gmail.com>
+          token: TX_PR_CREATOR
+          branch: i18n
+          delete-branch: true
+          base: master
+          title: Routine i18n updates on ${{ steps.current-date.outputs.formattedTime }}
+          body: "#### Summary\nNone"
+          labels: Translation

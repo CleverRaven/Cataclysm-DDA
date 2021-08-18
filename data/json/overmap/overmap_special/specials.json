@@ -263,7 +263,7 @@
     "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road", "existing": true } ],
     "locations": [ "land", "swamp" ],
     "city_distance": [ 15, -1 ],
-    "city_sizes": [ 1, 8 ],
+    "city_sizes": [ 0, 12 ],
     "occurrences": [ 0, 2 ],
     "flags": [ "CLASSIC", "WILDERNESS" ]
   },
@@ -3386,7 +3386,7 @@
     "city_distance": [ 3, -1 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 75, 100 ],
-    "flags": [ "UNIQUE" ]
+    "flags": [ "UNIQUE", "SAFE_AT_WORLDGEN" ]
   },
   {
     "type": "overmap_special",
@@ -3396,7 +3396,7 @@
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 80, 100 ],
-    "flags": [ "CLASSIC", "WILDERNESS", "UNIQUE" ]
+    "flags": [ "CLASSIC", "WILDERNESS", "UNIQUE", "SAFE_AT_WORLDGEN" ]
   },
   {
     "type": "overmap_special",
@@ -3411,7 +3411,7 @@
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 4, -1 ],
     "occurrences": [ 50, 100 ],
-    "flags": [ "CLASSIC", "WILDERNESS", "UNIQUE" ]
+    "flags": [ "CLASSIC", "WILDERNESS", "UNIQUE", "SAFE_AT_WORLDGEN" ]
   },
   {
     "type": "overmap_special",
@@ -3568,7 +3568,7 @@
     "city_distance": [ 3, -1 ],
     "rotate": false,
     "occurrences": [ 30, 100 ],
-    "flags": [ "UNIQUE" ]
+    "flags": [ "UNIQUE", "SAFE_AT_WORLDGEN" ]
   },
   {
     "type": "overmap_special",
@@ -3796,7 +3796,9 @@
       { "point": [ 0, 3, 0 ], "overmap": "pond_field_north" },
       { "point": [ 1, 3, 0 ], "overmap": "orchard_tree_apple_north" },
       { "point": [ 2, 3, 0 ], "overmap": "orchard_tree_apple_north" },
-      { "point": [ 3, 3, 0 ], "overmap": "orchard_tree_apple_north" }
+      { "point": [ 3, 3, 0 ], "overmap": "orchard_tree_apple_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "orchard_processing_roof_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "orchard_stall_roof_north" }
     ],
     "connections": [ { "point": [ -1, 1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 0, 1, 0 ] } ],
     "locations": [ "wilderness" ],
@@ -4515,7 +4517,7 @@
     "city_sizes": [ 1, 16 ],
     "occurrences": [ 33, 100 ],
     "rotate": false,
-    "flags": [ "UNIQUE" ]
+    "flags": [ "UNIQUE", "SAFE_AT_WORLDGEN" ]
   },
   {
     "type": "overmap_special",
@@ -5698,7 +5700,7 @@
     "id": "Lighthouse Island",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "lake_surface" },
-      { "point": [ 1, 0, 0 ], "overmap": "lake_surface" },
+      { "point": [ 1, 0, 0 ], "overmap": "lake_cabin_water_north" },
       { "point": [ 2, 0, 0 ], "overmap": "lake_surface" },
       { "point": [ 0, 1, 0 ], "overmap": "lake_surface" },
       { "point": [ 1, 1, 0 ], "overmap": "lighthouse_ground_north" },
@@ -5709,7 +5711,7 @@
       { "point": [ 1, 1, 5 ], "overmap": "lighthouse_z5_north" },
       { "point": [ 1, 1, 6 ], "overmap": "lighthouse_roof_north" },
       { "point": [ 2, 1, 0 ], "overmap": "lake_surface" },
-      { "point": [ 0, 2, 0 ], "overmap": "lake_surface" },
+      { "point": [ 0, 2, 0 ], "overmap": "lake_cabin_water_north" },
       { "point": [ 1, 2, 0 ], "overmap": "lake_surface" },
       { "point": [ 2, 2, 0 ], "overmap": "lake_surface" }
     ],
@@ -5729,7 +5731,7 @@
       { "point": [ 3, 0, 0 ], "overmap": "lake_surface" },
       { "point": [ 4, 0, 0 ], "overmap": "lake_surface" },
       { "point": [ 5, 0, 0 ], "overmap": "lake_surface" },
-      { "point": [ 0, 1, 0 ], "overmap": "lake_surface" },
+      { "point": [ 0, 1, 0 ], "overmap": "lake_cabin_water_north" },
       { "point": [ 1, 1, 0 ], "overmap": "lake_surface" },
       { "point": [ 2, 1, 0 ], "overmap": "lake_surface" },
       { "point": [ 3, 1, 0 ], "overmap": "lake_shore" },
@@ -6770,7 +6772,7 @@
     "occurrences": [ 35, 100 ],
     "//": "Inflated chance, effective rate ~19% (n=726)",
     "connections": [ { "point": [ -1, 15, 0 ], "terrain": "road" } ],
-    "flags": [ "FARM", "UNIQUE" ]
+    "flags": [ "FARM", "UNIQUE", "SAFE_AT_WORLDGEN" ]
   },
   {
     "id": "airliner_crashed",

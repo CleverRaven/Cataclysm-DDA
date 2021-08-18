@@ -39,7 +39,6 @@
 #include "npc.h"
 #include "pathfinding.h"
 #include "pimpl.h"
-#include "player.h"
 #include "rng.h"
 #include "scent_map.h"
 #include "sounds.h"
@@ -88,6 +87,9 @@ bool monster::is_immune_field( const field_type_id &fid ) const
     }
     if( fid == fd_insecticidal_gas ) {
         return !made_of( material_id( "iflesh" ) ) || has_flag( MF_INSECTICIDEPROOF );
+    }
+    if( fid == fd_web ) {
+        return has_flag( MF_WEBWALK );
     }
     const field_type &ft = fid.obj();
     if( ft.has_fume ) {
@@ -779,7 +781,7 @@ void monster::move()
     }
 
     // Check if they're dragging a foe and find their hapless victim
-    player *dragged_foe = find_dragged_foe();
+    Character *dragged_foe = find_dragged_foe();
 
     // Give nursebots a chance to do surgery.
     nursebot_operate( dragged_foe );
@@ -824,12 +826,10 @@ void monster::move()
     optional_vpart_position vp = here.veh_at( pos() );
     bool harness_part = static_cast<bool>( here.veh_at( pos() ).part_with_feature( "ANIMAL_CTRL",
                                            true ) );
-    if( friendly != 0 && vp && vp->vehicle().is_moving() &&
-        vp->vehicle().get_monster( vp->part_index() ) ) {
-        moves = 0;
-        return;
-        // Don't move if harnessed, even if vehicle is stationary
-    } else if( vp && has_effect( effect_harnessed ) ) {
+    if( vp && ( ( friendly != 0 && vp->vehicle().is_moving() &&
+                  vp->vehicle().get_monster( vp->part_index() ) ) ||
+                // Don't move if harnessed, even if vehicle is stationary
+                has_effect( effect_harnessed ) ) ) {
         moves = 0;
         return;
         // If harnessed monster finds itself moved from the harness point, the harness probably broke!
@@ -1011,12 +1011,14 @@ void monster::move()
                     moved = true;
                     next_step = candidate_abs;
                     break;
-                } else if( att == Attitude::FRIENDLY && ( target->is_player() || target->is_npc() ||
-                           target->has_flag( MF_QUEEN ) ) ) {
+                }
+                if( att == Attitude::FRIENDLY && ( target->is_avatar() || target->is_npc() ||
+                                                   target->has_flag( MF_QUEEN ) ) ) {
                     // Friendly firing the player or an NPC is illegal for gameplay reasons.
                     // Monsters should instinctively avoid attacking queens that regenerate their own population.
                     continue;
-                } else if( !has_flag( MF_ATTACKMON ) && !has_flag( MF_PUSH_MON ) ) {
+                }
+                if( !has_flag( MF_ATTACKMON ) && !has_flag( MF_PUSH_MON ) ) {
                     // Bail out if there's a non-hostile monster in the way and we're not pushy.
                     continue;
                 }
@@ -1102,7 +1104,7 @@ void monster::move()
     }
 }
 
-player *monster::find_dragged_foe()
+Character *monster::find_dragged_foe()
 {
     // Make sure they're actually dragging someone.
     if( !dragged_foe_id.is_valid() || !has_effect( effect_dragging ) ) {
@@ -1113,7 +1115,7 @@ player *monster::find_dragged_foe()
     // Dragged critters may die or otherwise become invalid, which is why we look
     // them up each time. Luckily, monsters dragging critters is relatively rare,
     // so this check should happen infrequently.
-    player *dragged_foe = g->critter_by_id<player>( dragged_foe_id );
+    Character *dragged_foe = g->critter_by_id<Character>( dragged_foe_id );
 
     if( dragged_foe == nullptr ) {
         // Target no longer valid.
@@ -1125,7 +1127,7 @@ player *monster::find_dragged_foe()
 }
 
 // Nursebot surgery code
-void monster::nursebot_operate( player *dragged_foe )
+void monster::nursebot_operate( Character *dragged_foe )
 {
     // No dragged foe, nothing to do.
     if( dragged_foe == nullptr ) {
@@ -1755,6 +1757,12 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         }
     }
 
+    if( has_flag( MF_SMALLSLUDGETRAIL ) ) {
+        if( one_in( 2 ) ) {
+            here.add_field( pos(), fd_sludge, 1 );
+        }
+    }
+
     if( has_flag( MF_DRIPS_NAPALM ) ) {
         if( one_in( 10 ) ) {
             // if it has more napalm, drop some and reduce ammo in tank
@@ -2018,14 +2026,14 @@ void monster::knock_back_to( const tripoint &to )
     }
 
     map &here = get_map();
+    // It's some kind of wall.
     if( here.impassable( to ) ) {
-
-        // It's some kind of wall.
-        apply_damage( nullptr, bodypart_id( "torso" ), static_cast<float>( type->size ) );
+        const int dam = static_cast<int>( type->size );
+        apply_damage( nullptr, bodypart_id( "torso" ), dam );
         add_effect( effect_stunned, 2_turns );
         if( u_see ) {
-            add_msg( _( "The %1$s bounces off a %2$s." ), name(),
-                     here.obstacle_name( to ) );
+            add_msg( _( "The %1$s bounces off a %2$s and takes %3$d damage." ), name(),
+                     here.obstacle_name( to ), dam );
         }
 
     } else { // It's no wall

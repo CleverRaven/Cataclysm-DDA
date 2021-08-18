@@ -2,11 +2,13 @@
 #ifndef CATA_SRC_WEIGHTED_LIST_H
 #define CATA_SRC_WEIGHTED_LIST_H
 
+#include "json.h"
 #include "rng.h"
 
 #include <climits>
 #include <cstdlib>
 #include <functional>
+#include <sstream>
 #include <vector>
 
 template <typename W, typename T> struct weighted_object {
@@ -14,6 +16,10 @@ template <typename W, typename T> struct weighted_object {
 
     T obj;
     W weight;
+
+    friend bool operator==( const weighted_object &l, const weighted_object &r ) {
+        return l.obj == r.obj && l.weight == r.weight;
+    }
 };
 
 template <typename W, typename T> struct weighted_list {
@@ -178,7 +184,23 @@ template <typename W, typename T> struct weighted_list {
             return objects.empty();
         }
 
-        void precalc();
+        std::string to_debug_string() const {
+            std::ostringstream os;
+            os << "[ ";
+            for( const weighted_object<W, T> &o : objects ) {
+                os << o.obj << ":" << o.weight << ", ";
+            }
+            os << "]";
+            return os.str();
+        }
+
+        friend bool operator==( const weighted_list &l, const weighted_list &r ) {
+            return l.objects == r.objects;
+        }
+
+        friend bool operator!=( const weighted_list &l, const weighted_list &r ) {
+            return !( l == r );
+        }
 
     protected:
         W total_weight;
@@ -254,5 +276,21 @@ template <typename T> struct weighted_float_list : public weighted_list<double, 
         }
 
 };
+
+template<typename W, typename T>
+void load_weighted_list( const JsonValue &jsv, weighted_list<W, T> &list, W default_weight )
+{
+    for( const JsonValue entry : jsv.get_array() ) {
+        if( entry.test_array() ) {
+            std::pair<T, W> p;
+            entry.read( p, true );
+            list.add( p.first, p.second );
+        } else {
+            T val;
+            entry.read( val );
+            list.add( val, default_weight );
+        }
+    }
+}
 
 #endif // CATA_SRC_WEIGHTED_LIST_H

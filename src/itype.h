@@ -91,6 +91,10 @@ class gunmod_location
         bool operator<( const gunmod_location &rhs ) const {
             return _id < rhs._id;
         }
+
+        void deserialize( JsonIn &jsin ) {
+            _id = jsin.get_string();
+        }
 };
 
 struct islot_tool {
@@ -164,6 +168,9 @@ struct islot_comestible {
         /** freezing point in degrees celsius, below this temperature item can freeze */
         float freeze_point = 0;
 
+        /**effect on conditions to apply on consumption*/
+        std::vector<effect_on_condition_id> consumption_eocs;
+
         /**List of diseases carried by this comestible and their associated probability*/
         std::map<diseasetype_id, int> contamination;
 
@@ -228,6 +235,8 @@ struct armor_portion_data {
     // What layer does it cover if any
     // TODO: Not currently supported, we still use flags for this
     //cata::optional<layer_level> layer;
+
+    void deserialize( JsonIn &jsin );
 };
 
 struct islot_armor {
@@ -424,6 +433,10 @@ struct common_ranged_data {
      * Range bonus from gun.
      */
     int range = 0;
+    /**
+     * Range multiplier from gunmods or ammo.
+     */
+    float range_multiplier = 1.0;
     /**
      * Dispersion "bonus" from gun.
      */
@@ -813,6 +826,7 @@ struct islot_seed {
 enum condition_type {
     FLAG,
     COMPONENT_ID,
+    VAR,
     num_condition_types
 };
 
@@ -1146,6 +1160,9 @@ struct itype {
         int tick( player &p, item &it, const tripoint &pos ) const;
 
         virtual ~itype() = default;
+
+        // returns true if it is one of the outcomes of cutting
+        bool is_basic_component() const;
 };
 
 void load_charge_removal_blacklist( const JsonObject &jo, const std::string &src );

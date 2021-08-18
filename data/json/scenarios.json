@@ -533,7 +533,7 @@
     "points": -5,
     "description": "While being transported to a different military base, the pilot lost control of the helicopter and crashed in the middle of nowhere.  Hopefully some of the soldiers that were with you also survived the accident.",
     "start_name": "Crash site",
-    "allowed_locs": [ "sloc_field", "sloc_forest" ],
+    "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island" ],
     "professions": [
       "rifleman",
       "recruit",

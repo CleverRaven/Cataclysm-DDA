@@ -38,7 +38,6 @@
 #include "gun_mode.h"
 #include "input.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -85,14 +84,11 @@ static const itype_id itype_40x46mm( "40x46mm" );
 static const itype_id itype_40x53mm( "40x53mm" );
 static const itype_id itype_66mm( "66mm" );
 static const itype_id itype_84x246mm( "84x246mm" );
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_arrow( "arrow" );
 static const itype_id itype_bolt( "bolt" );
 static const itype_id itype_flammable( "flammable" );
 static const itype_id itype_m235( "m235" );
 static const itype_id itype_metal_rail( "metal_rail" );
-static const itype_id itype_UPS( "UPS" );
-static const itype_id itype_UPS_off( "UPS_off" );
 
 static const trap_str_id tr_practice_target( "tr_practice_target" );
 
@@ -105,9 +101,13 @@ static const skill_id skill_driving( "driving" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_launcher( "launcher" );
 static const skill_id skill_throw( "throw" );
+static const skill_id skill_archery( "archery" );
 
 static const bionic_id bio_railgun( "bio_railgun" );
-static const bionic_id bio_ups( "bio_ups" );
+
+static const proficiency_id proficiency_prof_bow_basic( "prof_bow_basic" );
+static const proficiency_id proficiency_prof_bow_expert( "prof_bow_expert" );
+static const proficiency_id proficiency_prof_bow_master( "prof_bow_master" );
 
 static const std::string flag_MOUNTABLE( "MOUNTABLE" );
 
@@ -127,7 +127,7 @@ static int time_to_attack( const Character &p, const itype &firing );
 * @param pos    Character position.
 */
 static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos );
-static void make_gun_sound_effect( const player &p, bool burst, item *weapon );
+static void make_gun_sound_effect( const Character &p, bool burst, item *weapon );
 
 class target_ui
 {
@@ -518,7 +518,7 @@ int range_with_even_chance_of_good_hit( int dispersion )
     return even_chance_range;
 }
 
-int player::gun_engagement_moves( const item &gun, int target, int start ) const
+int Character::gun_engagement_moves( const item &gun, int target, int start ) const
 {
     int mv = 0;
     double penalty = start;
@@ -535,7 +535,7 @@ int player::gun_engagement_moves( const item &gun, int target, int start ) const
     return mv;
 }
 
-bool player::handle_gun_damage( item &it )
+bool Character::handle_gun_damage( item &it )
 {
     // Below item (maximum dirt possible) should be greater than or equal to dirt range in item_group.cpp. Also keep in mind that monster drops can have specific ranges and these should be below the max!
     const double dirt_max_dbl = 10000;
@@ -703,7 +703,7 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
     }
     while( curshot != shots ) {
         const int required = gun.ammo_required();
-        if( gun.ammo_consume( required, pos() ) != required ) {
+        if( gun.ammo_consume( required, pos(), this ) != required ) {
             debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
             break;
         }
@@ -717,12 +717,12 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
     }
 }
 
-int player::fire_gun( const tripoint &target, int shots )
+int Character::fire_gun( const tripoint &target, int shots )
 {
     return fire_gun( target, shots, weapon );
 }
 
-int player::fire_gun( const tripoint &target, int shots, item &gun )
+int Character::fire_gun( const tripoint &target, int shots, item &gun )
 {
     if( !gun.is_gun() ) {
         debugmsg( "%s tried to fire non-gun (%s).", name, gun.tname() );
@@ -740,7 +740,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
 
     // cap our maximum burst size by the amount of UPS power left
     if( !gun.has_flag( flag_VEHICLE ) && gun.get_gun_ups_drain() > 0 ) {
-        shots = std::min( shots, static_cast<int>( charges_of( itype_UPS ) / gun.get_gun_ups_drain() ) );
+        shots = std::min( shots, static_cast<int>( available_ups() / gun.get_gun_ups_drain() ) );
     }
 
     if( shots <= 0 ) {
@@ -764,6 +764,8 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     double absorb = std::min( get_skill_level( gun.gun_skill() ),
                               MAX_SKILL ) / static_cast<double>( MAX_SKILL * 2 );
 
+    itype_id gun_id = gun.typeId();
+    skill_id gun_skill = gun.gun_skill();
     tripoint aim = target;
     int curshot = 0;
     int hits = 0; // total shots on target
@@ -789,6 +791,27 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         dealt_projectile_attack shot = projectile_attack( make_gun_projectile( gun ), pos(), aim,
                                        dispersion, this, in_veh );
         curshot++;
+        if( shot.hit_critter ) {
+            hits++;
+
+            if( monster *m = shot.hit_critter->as_monster() ) {
+                get_event_bus().send<event_type::character_ranged_attacks_monster>(
+                    getID(), gun_id, m->type->id );
+            } else if( Character *c = shot.hit_critter->as_character() ) {
+                get_event_bus().send<event_type::character_ranged_attacks_character>(
+                    getID(), gun_id, c->getID(), c->get_name() );
+            }
+
+        }
+        if( shot.missed_by <= .1 ) {
+            // TODO: check head existence for headshot
+            get_event_bus().send<event_type::character_gets_headshot>( getID() );
+        }
+
+        if( !gun.is_gun() ) {
+            // If we lose our gun as a side effect of firing it, skip the rest of the loop body.
+            break;
+        }
 
         int qty = gun.gun_recoil( *this, bipod );
         delay  += qty * absorb;
@@ -810,7 +833,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         }
 
         const int required = gun.ammo_required();
-        if( gun.ammo_consume( required, pos() ) != required ) {
+        if( gun.ammo_consume( required, pos(), this ) != required ) {
             debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname() );
             break;
         }
@@ -820,31 +843,27 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         }
 
         if( !gun.has_flag( flag_VEHICLE ) ) {
-            use_charges( itype_UPS, gun.get_gun_ups_drain() );
+            consume_ups( gun.get_gun_ups_drain() );
         }
 
-        if( shot.missed_by <= .1 ) {
-            // TODO: check head existence for headshot
-            get_event_bus().send<event_type::character_gets_headshot>( getID() );
-        }
-
-        if( shot.hit_critter ) {
-            hits++;
-
-            if( monster *m = shot.hit_critter->as_monster() ) {
-                get_event_bus().send<event_type::character_ranged_attacks_monster>(
-                    getID(), gun.typeId(), m->type->id );
-            } else if( Character *c = shot.hit_critter->as_character() ) {
-                get_event_bus().send<event_type::character_ranged_attacks_character>(
-                    getID(), gun.typeId(), c->getID(), c->get_name() );
-            }
-
-        }
-
-        if( gun.gun_skill() == skill_launcher ) {
+        if( gun_skill == skill_launcher ) {
             continue; // skip retargeting for launchers
         }
     }
+    // Use different amounts of time depending on the type of gun and our skill
+    moves -= time_to_attack( *this, *gun_id );
+
+    // Practice the base gun skill proportionally to number of hits, but always by one.
+    practice( skill_gun, ( hits + 1 ) * 5 );
+    // launchers train weapon skill for both hits and misses.
+    int practice_units = gun_skill == skill_launcher ? curshot : hits;
+    practice( gun_skill, ( practice_units + 1 ) * 5 );
+
+    if( !gun.is_gun() ) {
+        // If we lose our gun as a side effect of firing it, skip the rest of the function.
+        return curshot;
+    }
+
     // apply shot counter to gun and its mods.
     gun.set_var( "shot_counter", gun.get_var( "shot_counter", 0 ) + curshot );
     for( item *mod : gun.gunmods() ) {
@@ -865,19 +884,10 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         recoil = std::min( MAX_RECOIL, recoil );
     }
 
-    // Use different amounts of time depending on the type of gun and our skill
-    moves -= time_to_attack( *this, *gun.type );
-
-    // Practice the base gun skill proportionally to number of hits, but always by one.
-    practice( skill_gun, ( hits + 1 ) * 5 );
-    // launchers train weapon skill for both hits and misses.
-    int practice_units = gun.gun_skill() == skill_launcher ? curshot : hits;
-    practice( gun.gun_skill(), ( practice_units + 1 ) * 5 );
-
     return curshot;
 }
 
-int throw_cost( const player &c, const item &to_throw )
+int throw_cost( const Character &c, const item &to_throw )
 {
     // Very similar to player::attack_speed
     // TODO: Extract into a function?
@@ -890,14 +900,13 @@ int throw_cost( const player &c, const item &to_throw )
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 20 - throw_skill ) / 20 ) );
     ///\EFFECT_DEX increases throwing speed
     const int dexbonus = c.get_dex();
-    const int encumbrance_penalty = c.encumb( bodypart_id( "torso" ) ) +
-                                    ( c.encumb( bodypart_id( "hand_l" ) ) + c.encumb( bodypart_id( "hand_r" ) ) ) / 2;
     const float stamina_ratio = static_cast<float>( c.get_stamina() ) / c.get_stamina_max();
     const float stamina_penalty = 1.0 + std::max( ( 0.25f - stamina_ratio ) * 4.0f, 0.0f );
 
     int move_cost = base_move_cost;
+    move_cost *= c.melee_thrown_move_modifier_hands();
+    move_cost *= c.melee_thrown_move_modifier_torso();
     // Stamina penalty only affects base/2 and encumbrance parts of the cost
-    move_cost += encumbrance_penalty;
     move_cost *= stamina_penalty;
     move_cost += skill_cost;
     move_cost -= dexbonus;
@@ -906,16 +915,14 @@ int throw_cost( const player &c, const item &to_throw )
     return std::max( 25, move_cost );
 }
 
-int Character::throw_dispersion_per_dodge( bool add_encumbrance ) const
+int Character::throw_dispersion_per_dodge( bool /* add_encumbrance */ ) const
 {
     // +200 per dodge point at 0 dexterity
     // +100 at 8, +80 at 12, +66.6 at 16, +57 at 20, +50 at 24
     // Each 10 encumbrance on either hand is like -1 dex (can bring penalty to +400 per dodge)
-    // Maybe TODO: Only use one hand
-    const int encumbrance = add_encumbrance ? encumb( bodypart_id( "hand_l" ) ) + encumb(
-                                bodypart_id( "hand_r" ) ) : 0;
     ///\EFFECT_DEX increases throwing accuracy against targets with good dodge stat
-    float effective_dex = 2 + get_dex() / 4.0f - ( encumbrance ) / 40.0f;
+    float effective_dex = 2 + get_dex() / 4.0f;
+    effective_dex *= thrown_dex_modifier();
     return static_cast<int>( 100.0f / std::max( 1.0f, effective_dex ) );
 }
 
@@ -1043,7 +1050,7 @@ int Character::thrown_item_total_damage_raw( const item &thrown ) const
     return total_damage;
 }
 
-dealt_projectile_attack player::throw_item( const tripoint &target, const item &to_throw,
+dealt_projectile_attack Character::throw_item( const tripoint &target, const item &to_throw,
         const cata::optional<tripoint> &blind_throw_from_pos )
 {
     // Copy the item, we may alter it before throwing
@@ -1086,7 +1093,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // Item will burst upon landing, destroying the item, and spilling its contents
     const bool burst = thrown.has_property( "burst_when_filled" ) && thrown.is_container() &&
                        thrown.get_property_int64_t( "burst_when_filled" ) <= static_cast<double>
-                       ( thrown.contents.total_contained_volume().value() ) / thrown.get_total_capacity().value() *
+                       ( thrown.total_contained_volume().value() ) / thrown.get_total_capacity().value() *
                        100;
 
     // Add some flags to the projectile
@@ -1177,6 +1184,64 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     return dealt_attack;
 }
 
+void practice_archery_proficiency( Character &p, const item &relevant )
+{
+    // Do nothing, we are not doing archery
+    if( relevant.gun_skill() != skill_archery ) {
+        return;
+    }
+
+    // We are already a master, practice has no effect
+    if( p.has_proficiency( proficiency_prof_bow_master ) ) {
+        return;
+    }
+
+    // Only train archery in multiples of 100 moves (or 1 turn) for performance, focus, and simplifying calculations
+    p.archery_aim_counter++;
+    if( p.archery_aim_counter > 100 ) {
+        // Reset our counter
+        p.archery_aim_counter = 0;
+
+        // Intended to train prof_bow_basic from 0 to 100% in ~200 arrows in 5 hours from max aim, or 90s/arrow.
+        // Additionally, a shortbow is used as the basis for number of moves per max aim shot at ~250 moves.
+        // 90s/arrow / 2.5turns/arrow = 36s/turn. It is important to note, this is 200 arrows pre-focus.
+        time_duration prof_exp = 36_seconds;
+
+        // We don't know how to handle a bow yet
+        if( !p.has_proficiency( proficiency_prof_bow_basic ) ) {
+            p.practice_proficiency( proficiency_prof_bow_basic, prof_exp );
+            return;
+        }
+        // We know how to handle a bow, but we are not an expert yet
+        else if( !p.has_proficiency( proficiency_prof_bow_expert ) ) {
+            p.practice_proficiency( proficiency_prof_bow_expert, prof_exp );
+            return;
+        }
+        // We are an expert, lets practice to become a master
+        else {
+            p.practice_proficiency( proficiency_prof_bow_master, prof_exp );
+            return;
+        }
+    }
+}
+
+// Apply stamina cost to archery which decreases due to proficiency
+static void mod_stamina_archery( player &p, const item &relevant )
+{
+    // Set activity level to 10 * str_ratio, with 10 being max (EXTRA_EXERCISE)
+    // This ratio should never be below 0 and above 1
+    const int scaled_str_ratio = ( 10 * relevant.get_min_str() ) / p.str_cur;
+    p.set_activity_level( scaled_str_ratio );
+
+    // Calculate stamina drain based on archery and athletics skill
+    const int archery_skill = p.get_skill_level( skill_archery );
+    const int athletics_skill = p.get_skill_level( skill_archery );
+    const int skill_modifier = ( 2 * archery_skill + athletics_skill ) / 3;
+
+    const int stamina_cost = pow( 20 - skill_modifier, 2 );
+    p.mod_stamina( -stamina_cost );
+}
+
 static void do_aim( player &p, const item &relevant, const double min_recoil )
 {
     const double aim_amount = p.aim_per_move( relevant, p.recoil );
@@ -1184,6 +1249,16 @@ static void do_aim( player &p, const item &relevant, const double min_recoil )
         // Increase aim at the cost of moves
         p.mod_moves( -1 );
         p.recoil = std::max( min_recoil, p.recoil - aim_amount );
+
+        // Train archery proficiencies if we are doing archery
+        if( relevant.gun_skill() == skill_archery ) {
+            practice_archery_proficiency( p, relevant );
+
+            // Only drain stamina on initial draw
+            if( p.moves == 1 ) {
+                mod_stamina_archery( p, relevant );
+            }
+        }
     } else {
         // If aim is already maxed, we're just waiting, so pass the turn.
         p.set_moves( 0 );
@@ -1660,8 +1735,8 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
     if( !!ammo->ammo->casing ) {
         const itype_id casing = *ammo->ammo->casing;
         if( weap.has_flag( flag_RELOAD_EJECT ) ) {
-            weap.contents.force_insert_item( item( casing ).set_flag( flag_CASING ),
-                                             item_pocket::pocket_type::MAGAZINE );
+            weap.force_insert_item( item( casing ).set_flag( flag_CASING ),
+                                    item_pocket::pocket_type::MAGAZINE );
             weap.on_contents_changed();
         } else {
             if( brass_catcher && brass_catcher->can_contain( casing.obj() ) ) {
@@ -1692,7 +1767,7 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
     }
 }
 
-void make_gun_sound_effect( const player &p, bool burst, item *weapon )
+void make_gun_sound_effect( const Character &p, bool burst, item *weapon )
 {
     const item::sound_data data = weapon->gun_noise( burst );
     if( data.volume > 0 ) {
@@ -1806,15 +1881,7 @@ dispersion_sources Character::get_weapon_dispersion( const item &obj ) const
     dispersion_sources dispersion( weapon_dispersion );
     dispersion.add_range( ranged_dex_mod() );
 
-    int arm_encumb = 0;
-    // Fake turret NPC does not have arms
-    if( has_part( bodypart_id( "arm_l" ) ) ) {
-        arm_encumb += encumb( bodypart_id( "arm_l" ) );
-    }
-    if( has_part( bodypart_id( "arm_r" ) ) ) {
-        arm_encumb += encumb( bodypart_id( "arm_r" ) );
-    }
-    dispersion.add_range( arm_encumb / 5.0 );
+    dispersion.add_range( ranged_dispersion_modifier_hands() );
 
     if( is_driving() ) {
         // get volume of gun (or for auxiliary gunmods the parent gun)
@@ -2117,8 +2184,10 @@ target_handler::trajectory target_ui::run()
             shifting_view = !shifting_view;
         } else if( action == "zoom_in" ) {
             g->zoom_in();
+            g->mark_main_ui_adaptor_resize();
         } else if( action == "zoom_out" ) {
             g->zoom_out();
+            g->mark_main_ui_adaptor_resize();
         } else if( action == "QUIT" ) {
             loop_exit_code = ExitCode::Abort;
             break;
@@ -2564,12 +2633,13 @@ bool target_ui::try_reacquire_target( bool critter, tripoint &new_dst )
 void target_ui::update_status()
 {
     std::vector<std::string> msgbuf;
-    if( mode == TargetMode::Turrets && turrets_in_range.empty() ) {
+    if( mode == TargetMode::Turrets && turrets_in_range.empty() ) { // NOLINT(bugprone-branch-clone)
         // None of the turrets are in range
         status = Status::OutOfRange;
     } else if( mode == TargetMode::Fire &&
                ( !gunmode_checks_common( *you, get_map(), msgbuf, relevant->gun_current_mode() ) ||
-                 !gunmode_checks_weapon( *you, get_map(), msgbuf, relevant->gun_current_mode() ) ) ) {
+                 !gunmode_checks_weapon( *you, get_map(), msgbuf, relevant->gun_current_mode() ) )
+             ) { // NOLINT(bugprone-branch-clone)
         // Selected gun mode is empty
         // TODO: it might be some other error, but that's highly unlikely to happen, so a catch-all 'Out of ammo' is fine
         status = Status::OutOfAmmo;
@@ -3480,7 +3550,7 @@ bool gunmode_checks_common( avatar &you, const map &m, std::vector<std::string> 
         result = false;
     }
 
-    if( gmode->has_flag( flag_FIRE_TWOHAND ) && ( !you.has_two_arms() ||
+    if( gmode->has_flag( flag_FIRE_TWOHAND ) && ( !you.has_two_arms_lifting() ||
             you.worn_with_flag( flag_RESTRICT_HANDS ) ) ) {
         messages.push_back( string_format( _( "You need two free hands to fire your %s." ),
                                            gmode->tname() ) );
@@ -3494,8 +3564,8 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
                             const gun_mode &gmode )
 {
     bool result = true;
-
-    if( !gmode->ammo_sufficient() && !gmode->has_flag( flag_RELOAD_AND_SHOOT ) ) {
+    if( !gmode->ammo_sufficient( &you ) &&
+        !gmode->has_flag( flag_RELOAD_AND_SHOOT ) ) {
         if( !gmode->ammo_remaining() ) {
             messages.push_back( string_format( _( "Your %s is empty!" ), gmode->tname() ) );
         } else {
@@ -3507,7 +3577,6 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
 
     if( gmode->get_gun_ups_drain() > 0 ) {
         const int ups_drain = gmode->get_gun_ups_drain();
-        const int adv_ups_drain = std::max( 1, ups_drain * 3 / 5 );
         bool is_mech_weapon = false;
         if( you.is_mounted() ) {
             monster *mons = get_player_character().mounted_creature.get();
@@ -3516,21 +3585,25 @@ bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::string> 
             }
         }
         if( !is_mech_weapon ) {
-            if( !( you.has_charges( itype_UPS_off, ups_drain ) ||
-                   you.has_charges( itype_adv_UPS_off, adv_ups_drain ) ||
-                   ( you.has_active_bionic( bio_ups ) &&
-                     you.get_power_level() >= units::from_kilojoule( ups_drain ) ) ) ) {
+            if( you.available_ups() < ups_drain ) {
                 messages.push_back( string_format(
-                                        _( "You need a UPS with at least %2$d charges or an advanced UPS with at least %3$d charges to fire the %1$s!" ),
-                                        gmode->tname(), ups_drain, adv_ups_drain ) );
+                                        _( "You need a UPS with at least %2$d charges to fire the %1$s!" ),
+                                        gmode->tname(), ups_drain ) );
                 result = false;
             }
         } else {
-            if( !you.has_charges( itype_UPS, ups_drain ) ) {
+            if( you.available_ups() < ups_drain ) {
                 messages.push_back( string_format( _( "Your mech has an empty battery, its %s will not fire." ),
                                                    gmode->tname() ) );
                 result = false;
             }
+        }
+        // Workaround for guns that use ups and normal ammo at same time.
+        // Remove once guns can support use of multiple ammo at once
+        if( !gmode->ammo_default().is_null() &&
+            gmode->ammo_remaining( nullptr ) < gmode->ammo_required() ) {
+            result = false;
+            messages.push_back( string_format( _( "Your %s is empty!" ), gmode->tname() ) );
         }
     }
 

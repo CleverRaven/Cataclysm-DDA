@@ -11,6 +11,7 @@
 #include "map_helpers.h"
 #include "monattack.h"
 #include "monster.h"
+#include "mtype.h"
 #include "options_helpers.h"
 #include "player_helpers.h"
 #include "point.h"

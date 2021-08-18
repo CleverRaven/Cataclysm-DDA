@@ -19,4 +19,7 @@ constexpr bool set_is_noexcept = std::is_nothrow_move_constructible<std::set<std
 // as is std::map
 constexpr bool map_is_noexcept = std::is_nothrow_move_constructible<std::map<int, int>>::value;
 
+// Due to a bug in MinGW we have to manually reset FPU or SSE floating point mode on Windows
+void reset_floating_point_mode();
+
 #endif // CATA_SRC_COMPATIBILITY_H

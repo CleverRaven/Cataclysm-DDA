@@ -804,7 +804,7 @@ std::string required_skills_as_string( Iter first, Iter last, const Character *c
 
     return enumerate_as_string( first, last,
     [&]( const std::pair<skill_id, int> &skill ) {
-        const int player_skill = c ? c->get_skill_level( skill.first ) : 0;
+        const int player_skill = c ? c->get_knowledge_level( skill.first ) : 0;
         std::string difficulty_color = skill.second > player_skill ? "yellow" : "green";
         std::string skill_level_string = print_skill_level ? "" : ( std::to_string( player_skill ) + "/" );
         skill_level_string += std::to_string( skill.second );
@@ -869,13 +869,13 @@ std::string recipe::batch_savings_string() const
            : _( "none" );
 }
 
-std::string recipe::result_name() const
+std::string recipe::result_name( const bool decorated ) const
 {
     std::string name = item::nname( result_ );
-    if( uistate.favorite_recipes.find( this->ident() ) != uistate.favorite_recipes.end() ) {
+    if( decorated &&
+        uistate.favorite_recipes.find( this->ident() ) != uistate.favorite_recipes.end() ) {
         name = "* " + name;
     }
-
     return name;
 }
 
@@ -918,7 +918,7 @@ std::function<bool( const item & )> recipe::get_component_filter(
     // EDIBLE_FROZEN components ( e.g. flour, chocolate ) are allowed as well
     // Otherwise forbid them
     std::function<bool( const item & )> frozen_filter = return_true<item>;
-    if( result.is_food() && !hot_result() ) {
+    if( result.has_temperature() && !hot_result() ) {
         frozen_filter = []( const item & component ) {
             return !component.has_flag( flag_FROZEN ) || component.has_flag( flag_EDIBLE_FROZEN );
         };
@@ -1057,7 +1057,7 @@ bool recipe::hot_result() const
     // the check includes this tool in addition to the hotplate.
     //
     // TODO: Make this less of a hack
-    if( create_result().is_food() ) {
+    if( create_result().has_temperature() ) {
         const requirement_data::alter_tool_comp_vector &tool_lists = simple_requirements().get_tools();
         for( const std::vector<tool_comp> &tools : tool_lists ) {
             for( const tool_comp &t : tools ) {

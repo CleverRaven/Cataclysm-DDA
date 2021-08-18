@@ -33,7 +33,6 @@
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "line.h"
 #include "magic.h"
@@ -339,7 +338,8 @@ void talk_function::goto_location( npc &p )
         destination = selected_camp->camp_omt_pos();
     }
     p.goal = destination;
-    p.omt_path = overmap_buffer.get_npc_path( p.global_omt_location(), p.goal );
+    p.omt_path = overmap_buffer.get_travel_path( p.global_omt_location(), p.goal,
+                 overmap_path_params::for_npc() );
     if( destination == tripoint_abs_omt() || destination == overmap::invalid_tripoint ||
         p.omt_path.empty() ) {
         p.goal = npc::no_goal_point;
@@ -960,7 +960,7 @@ void talk_function::start_training( npc &p )
     int expert_multiplier = 1;
     Character &you = get_player_character();
     if( skill != skill_id() &&
-        you.get_skill_level( skill ) < p.get_skill_level( skill ) ) {
+        you.get_knowledge_level( skill ) < p.get_knowledge_level( skill ) ) {
         cost = calc_skill_training_cost( p, skill );
         time = calc_skill_training_time( p, skill );
         name = skill.str();

@@ -23,8 +23,8 @@
 #include "map_iterator.h"
 #include "messages.h"
 #include "monster.h"
+#include "mtype.h"
 #include "npc.h"
-#include "player.h"
 #include "point.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -215,10 +215,18 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
         damage_max_instance = load_damage_instance( obj );
     }
 
-    min_mul = obj.get_float( "min_mul", 0.0f );
-    max_mul = obj.get_float( "max_mul", 1.0f );
-    move_cost = obj.get_int( "move_cost", 100 );
-    accuracy = obj.get_int( "accuracy", INT_MIN );
+    optional( obj, was_loaded, "attack_chance", attack_chance, 100 );
+    optional( obj, was_loaded, "accuracy", accuracy, INT_MIN );
+    optional( obj, was_loaded, "min_mul", min_mul, 0.5f );
+    optional( obj, was_loaded, "max_mul", max_mul, 1.0f );
+    optional( obj, was_loaded, "move_cost", move_cost, 100 );
+    optional( obj, was_loaded, "range", range, 1 );
+    optional( obj, was_loaded, "no_adjacent", no_adjacent, false );
+    optional( obj, was_loaded, "dodgeable", dodgeable, true );
+    optional( obj, was_loaded, "blockable", blockable, true );
+
+    optional( obj, was_loaded, "range", range, 1 );
+    optional( obj, was_loaded, "throw_strength", throw_strength, 0 );
 
     optional( obj, was_loaded, "miss_msg_u", miss_msg_u,
               to_translation( "The %s lunges at you, but you dodge!" ) );
@@ -232,6 +240,10 @@ void melee_actor::load_internal( const JsonObject &obj, const std::string & )
               to_translation( "The %1$s bites <npcname>'s %2$s, but fails to penetrate armor!" ) );
     optional( obj, was_loaded, "hit_dmg_npc", hit_dmg_npc,
               to_translation( "The %1$s bites <npcname>'s %2$s!" ) );
+    optional( obj, was_loaded, "throw_msg_u", throw_msg_u,
+              to_translation( "The force of the %s's attack sends you flying!" ) );
+    optional( obj, was_loaded, "throw_msg_npc", throw_msg_npc,
+              to_translation( "The force of the %s's attack sends <npcname> flying!" ) );
 
     if( obj.has_array( "body_parts" ) ) {
         for( JsonArray sub : obj.get_array( "body_parts" ) ) {
@@ -255,7 +267,18 @@ Creature *melee_actor::find_target( monster &z ) const
     }
 
     Creature *target = z.attack_target();
-    if( target == nullptr || !z.is_adjacent( target, false ) ) {
+
+    if( target == nullptr || ( no_adjacent && z.is_adjacent( target, false ) ) ) {
+        return nullptr;
+    }
+
+    if( range > 1 ) {
+        if( !z.sees( *target ) ||
+            !get_map().clear_path( z.pos(), target->pos(), range, 1, 200 ) ) {
+            return nullptr;
+        }
+
+    } else if( !z.is_adjacent( target, false ) ) {
         return nullptr;
     }
 
@@ -264,8 +287,18 @@ Creature *melee_actor::find_target( monster &z ) const
 
 bool melee_actor::call( monster &z ) const
 {
+    if( attack_chance != 100 && !x_in_y( attack_chance, 100 ) ) {
+        return false;
+    }
+
     Creature *target = find_target( z );
     if( target == nullptr ) {
+        return false;
+    }
+
+    // If we are biting, make sure the target is grabbed if our z is humanoid
+    if( dynamic_cast<const bite_actor *>( this ) && z.type->bodytype == "human" &&
+        !target->has_effect( effect_grabbed ) ) {
         return false;
     }
 
@@ -274,29 +307,42 @@ bool melee_actor::call( monster &z ) const
     add_msg_debug( debugmode::DF_MATTACK, "%s attempting to melee_attack %s", z.name(),
                    target->disp_name() );
 
+    // Dodge check
     const int acc = accuracy >= 0 ? accuracy : z.type->melee_skill;
     int hitspread = target->deal_melee_attack( &z, dice( acc, 10 ) );
-
-    if( hitspread < 0 ) {
-        game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
-        sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
-                                 sfx::get_heard_angle( z.pos() ) );
-        target->add_msg_player_or_npc( msg_type, miss_msg_u, miss_msg_npc, z.name() );
-        return true;
+    if( dodgeable ) {
+        if( hitspread < 0 ) {
+            game_message_type msg_type = target->is_avatar() ? m_warning : m_info;
+            sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
+                                     sfx::get_heard_angle( z.pos() ) );
+            target->add_msg_player_or_npc( msg_type, miss_msg_u, miss_msg_npc, z.name() );
+            return true;
+        }
     }
 
+    // Damage instance calculation
     damage_instance damage = damage_max_instance;
-
     double multiplier = rng_float( min_mul, max_mul );
     damage.mult_damage( multiplier );
 
+    // Pick body part
     bodypart_str_id bp_hit = body_parts.empty() ?
                              target->select_body_part( &z, hitspread ).id() :
                              *body_parts.pick();
 
-    target->on_hit( &z, bp_hit.id() );
-    dealt_damage_instance dealt_damage = target->deal_damage( &z, bp_hit.id(), damage );
-    dealt_damage.bp_hit = bp_hit.id();
+    bodypart_id bp_id = bodypart_id( bp_hit );
+
+    // Block our hit
+    if( blockable ) {
+        target->block_hit( &z, bp_id, damage );
+    }
+
+    // Take damage
+    dealt_damage_instance dealt_damage = target->deal_damage( &z, bp_id, damage );
+    dealt_damage.bp_hit = bp_id;
+
+    // On hit effects
+    target->on_hit( &z, bp_id );
 
     int damage_total = dealt_damage.total_damage();
     add_msg_debug( debugmode::DF_MATTACK, "%s's melee_attack did %d damage", z.name(), damage_total );
@@ -306,7 +352,12 @@ bool melee_actor::call( monster &z ) const
         sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
                                  sfx::get_heard_angle( z.pos() ) );
         target->add_msg_player_or_npc( m_neutral, no_dmg_msg_u, no_dmg_msg_npc, z.name(),
-                                       body_part_name_accusative( bp_hit.id() ) );
+                                       body_part_name_accusative( bp_id ) );
+    }
+    if( throw_strength > 0 ) {
+        g->fling_creature( target, coord_to_angle( z.pos(), target->pos() ),
+                           throw_strength );
+        target->add_msg_player_or_npc( m_bad, throw_msg_u, throw_msg_npc, z.name() );
     }
 
     return true;
@@ -314,10 +365,10 @@ bool melee_actor::call( monster &z ) const
 
 void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const
 {
-    if( target.is_player() ) {
+    if( target.is_avatar() ) {
         sfx::play_variant_sound( "mon_bite", "bite_hit", sfx::get_heard_volume( z.pos() ),
                                  sfx::get_heard_angle( z.pos() ) );
-        sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
+        sfx::do_player_death_hurt( dynamic_cast<Character &>( target ), false );
     }
     game_message_type msg_type = target.attitude_to( get_player_character() ) ==
                                  Creature::Attitude::FRIENDLY ?
@@ -343,14 +394,16 @@ bite_actor::bite_actor() = default;
 
 void bite_actor::load_internal( const JsonObject &obj, const std::string &src )
 {
+    // Infection chance is a % (i.e. 5/100)
     melee_actor::load_internal( obj, src );
-    no_infection_chance = obj.get_int( "no_infection_chance", 14 );
+    infection_chance = obj.get_int( "infection_chance", 5 );
 }
 
 void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const
 {
     melee_actor::on_damage( z, target, dealt );
-    if( target.has_effect( effect_grabbed ) && one_in( no_infection_chance - dealt.total_damage() ) ) {
+
+    if( x_in_y( infection_chance, 100 ) ) {
         const bodypart_id &hit = dealt.bp_hit;
         if( target.has_effect( effect_bite, hit.id() ) ) {
             target.add_effect( effect_bite, 40_minutes, hit, true );
@@ -360,6 +413,7 @@ void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance 
             target.add_effect( effect_bite, 1_turns, hit, true );
         }
     }
+
     if( target.has_trait( trait_TOXICFLESH ) ) {
         z.add_effect( effect_poison, 5_minutes );
         z.add_effect( effect_badpoison, 5_minutes );
@@ -485,7 +539,7 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
         return;
     }
 
-    const bool require_targeting = ( require_targeting_player && target.is_player() ) ||
+    const bool require_targeting = ( require_targeting_player && target.is_avatar() ) ||
                                    ( require_targeting_npc && target.is_npc() ) ||
                                    ( require_targeting_monster && target.is_monster() );
     const bool not_targeted = require_targeting && !z.has_effect( effect_targeted );
@@ -539,7 +593,7 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
         return;
     }
 
-    if( !gun.ammo_sufficient() ) {
+    if( !gun.ammo_sufficient( nullptr ) ) {
         if( !no_ammo_sound.empty() ) {
             sounds::sound( z.pos(), 10, sounds::sound_t::combat, no_ammo_sound );
         }

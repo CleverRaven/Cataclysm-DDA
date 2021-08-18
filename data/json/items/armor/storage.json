@@ -76,7 +76,7 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "750 ml",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
         "max_item_length": "70 cm",
         "moves": 3,
@@ -84,7 +84,7 @@
       },
       {
         "pocket_type": "CONTAINER",
-        "max_contains_volume": "750 ml",
+        "max_contains_volume": "1 L",
         "max_contains_weight": "2 kg",
         "max_item_length": "70 cm",
         "moves": 3,
@@ -1107,6 +1107,7 @@
   },
   {
     "id": "runner_bag",
+    "repairs_like": "survivor_runner_pack",
     "type": "ARMOR",
     "name": { "str": "runner pack" },
     "description": "The obvious choice for outdoor athletes, this ergonomic backpack is light and easy to wear, ensuring comfort when carrying heavy and bulky items.",
@@ -1495,7 +1496,7 @@
     ],
     "warmth": 5,
     "material_thickness": 0.4,
-    "flags": [ "VARSIZE" ],
+    "flags": [ "VARSIZE", "WAIST" ],
     "armor": [ { "encumbrance": [ 2, 5 ], "coverage": 60, "covers": [ "torso" ] } ]
   },
   {

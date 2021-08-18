@@ -36,11 +36,6 @@
         "condition": { "not": { "u_has_var": "asked_about_kill_dinos", "type": "dialogue", "context": "dino", "value": "yes" } },
         "effect": { "u_add_var": "asked_about_kill_dinos", "type": "dialogue", "context": "dino", "value": "yes" }
       },
-      {
-        "text": "So about hunting dinosaurs…",
-        "topic": "TALK_RED_DINOSAURS",
-        "condition": { "u_has_var": "asked_about_kill_dinos", "type": "dialogue", "context": "dino", "value": "yes" }
-      },
       { "text": "Let's trade items.", "topic": "TALK_OLD_GUARD_RED", "effect": "start_trade" },
       {
         "text": "How can I help?",
@@ -134,7 +129,7 @@
     "followup": "MISSION_OLD_GUARD_DINO_4",
     "end": {
       "opinion": { "trust": 1, "value": 1 },
-      "effect": [ { "u_buy_monster": "mon_zachycephalosaurus_chain", "count": 1, "name": "Betty" } ]
+      "effect": [ { "u_buy_monster": "mon_zachycephalosaurus_chain", "count": 1, "name": "Betty" }, { "u_buy_item": "meth" } ]
     },
     "dialogue": {
       "describe": "We need help…",
@@ -159,9 +154,10 @@
     "difficulty": 9,
     "value": 100000,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_OLD_GUARD_DINO_5",
     "end": {
       "opinion": { "trust": 1, "value": 1 },
-      "effect": [ { "u_buy_monster": "mon_zachycephalosaurus_chain", "count": 1, "name": "Stromer" } ]
+      "effect": [ { "u_buy_monster": "mon_zachycephalosaurus_chain", "count": 1, "name": "Stromer" }, { "u_buy_item": "meth" } ]
     },
     "dialogue": {
       "describe": "We need help…",
@@ -190,11 +186,11 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "end": {
       "opinion": { "trust": 1, "value": 1 },
-      "effect": [ "npc_die", { "u_buy_monster": "mon_zyrannosaurus_chain", "count": 1, "name": "Wilma" } ]
+      "effect": [ "npc_die", { "u_buy_monster": "mon_zyrannosaurus_chain", "count": 1, "name": "Wilma" }, { "u_buy_item": "meth" } ]
     },
     "dialogue": {
       "describe": "We need help…",
-      "offer": "I have a special mission I need to complete before these dinos finish killing me off, and I need you to bring me a something special.  Go kill me a T Rex.  We're going to be gods.  It's all going to be worth it.",
+      "offer": "I have a special mission I need to complete before these dinos finish killing me off, and I need you to bring me something special.  Go kill me a T Rex.  We're going to be gods.  It's all going to be worth it.",
       "accepted": "MY LIFE FOR YOU.",
       "rejected": "I'm right on the edge soldier.  Whose side are you on here?",
       "advice": "You're a dino killing machine like me.  You know what to do.",

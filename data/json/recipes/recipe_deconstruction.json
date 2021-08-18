@@ -1415,7 +1415,7 @@
       [ [ "gun_module", 3 ] ],
       [ [ "flamethrower", 1 ] ],
       [ [ "tazer", 1 ] ],
-      [ [ "nato_assault_rifle", 1 ] ],
+      [ [ "m4_carbine", 1 ] ],
       [ [ "pamd68", 1 ] ],
       [ [ "power_supply", 20 ] ],
       [ [ "amplifier", 5 ] ],
@@ -1934,6 +1934,13 @@
     "components": [ [ [ "jug_plastic", 1 ] ], [ [ "rag", 4 ] ] ]
   },
   {
+    "result": "char_purifier_clay",
+    "type": "uncraft",
+    "time": "5 m",
+    "activity_level": "LIGHT_EXERCISE",
+    "components": [ [ [ "clay_hydria", 1 ] ], [ [ "rag", 4 ] ] ]
+  },
+  {
     "result": "clock",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -2117,12 +2124,28 @@
     "components": [ [ [ "rag", 6 ] ], [ [ "down_feather", 40 ] ] ]
   },
   {
+    "result": "sheet",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 s",
+    "components": [ [ [ "sheet_cotton_patchwork", 6 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "sheet_cotton_patchwork",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
-    "time": "1 m",
+    "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 1 ] ], [ [ "scrap_cotton", 20 ] ] ]
+    "components": [ [ [ "cotton_patchwork", 1 ] ], [ [ "filament", 2, "LIST" ] ] ]
+  },
+  {
+    "result": "cotton_patchwork",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 s",
+    "components": [ [ [ "rag", 1 ] ] ],
+    "//": "This is intended to be an interim measure until all recipies can be moved away from using or creating rags. Once that's done this can be considered obsolete"
   },
   {
     "result": "sheet_neoprene_patchwork",
@@ -3831,6 +3854,28 @@
     "flags": [ "BLIND_HARD" ]
   },
   {
+    "result": "household_water_heater",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "electronics",
+    "time": "1 h",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [
+      [ [ "pipe", 1 ] ],
+      [ [ "scrap", 6 ] ],
+      [ [ "steel_chunk", 3 ] ],
+      [ [ "sheet_metal", 6 ] ],
+      [ [ "cable", 15 ] ],
+      [ [ "cu_pipe", 5 ] ],
+      [ [ "hose", 2 ] ],
+      [ [ "pilot_light", 1 ] ],
+      [ [ "thermostat", 1 ] ],
+      [ [ "water_faucet", 1 ] ],
+      [ [ "pipe_fittings", 6 ] ],
+      [ [ "metal_tank", 1 ] ]
+    ]
+  },
+  {
     "result": "television",
     "type": "uncraft",
     "activity_level": "LIGHT_EXERCISE",
@@ -4138,6 +4183,26 @@
       [ [ "power_supply", 4 ] ],
       [ [ "processor", 1 ] ],
       [ [ "RAM", 1 ] ]
+    ]
+  },
+  {
+    "result": "household_washing_machine",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "skill_used": "electronics",
+    "time": "2 h",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [
+      [ [ "pipe", 1 ] ],
+      [ [ "scrap", 6 ] ],
+      [ [ "steel_chunk", 3 ] ],
+      [ [ "sheet_metal_small", 4 ] ],
+      [ [ "sheet_metal", 6 ] ],
+      [ [ "cable", 15 ] ],
+      [ [ "hose", 2 ] ],
+      [ [ "pipe_fittings", 6 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "cu_pipe", 5 ] ]
     ]
   },
   {
@@ -5025,6 +5090,26 @@
     "time": "5 m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "material_rocksalt", 10 ] ] ]
+  },
+  {
+    "result": "broketent",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "time": "10 m",
+    "difficulty": 1,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "tarp", 1 ] ], [ [ "tent_pole", 2 ] ], [ [ "plastic_sheet", 1 ] ], [ [ "bag_plastic", 1 ] ] ]
+  },
+  {
+    "result": "largebroketent",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "time": "30 m",
+    "difficulty": 1,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "tarp", 4 ] ], [ [ "tent_pole", 5 ] ], [ [ "plastic_sheet", 3 ] ], [ [ "bag_plastic", 3 ] ] ]
   },
   {
     "result": "knife_butter",

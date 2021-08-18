@@ -136,7 +136,8 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "time": "28 m",
     "autolearn": true,
-    "components": [ [ [ "largebroketent", 1 ], [ "broketent", 2 ] ], [ [ "superglue", 2 ], [ "duct_tape", 20 ] ] ]
+    "using": [ [ "adhesive", 1 ] ],
+    "components": [ [ [ "tarp", 2 ] ], [ [ "tent_pole", 2 ] ], [ [ "plastic_sheet", 1 ] ], [ [ "bag_plastic", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -152,7 +153,8 @@
     "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_closures_waterproofing" } ],
     "time": "32 m",
     "autolearn": true,
-    "components": [ [ [ "largebroketent", 2 ], [ "broketent", 4 ], [ "tent_kit", 3 ] ], [ [ "superglue", 3 ], [ "duct_tape", 40 ] ] ]
+    "using": [ [ "adhesive", 3 ] ],
+    "components": [ [ [ "tarp", 6 ] ], [ [ "tent_pole", 6 ] ], [ [ "plastic_sheet", 3 ] ], [ [ "bag_plastic", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -413,7 +415,7 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ] ] ]
+    "components": [ [ [ "stick", 1 ], [ "broom", 1 ], [ "2x4", 1 ], [ "pool_cue", 1 ], [ "mop", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -961,6 +963,18 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "book_binder",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "45 m",
+    "autolearn": true,
+    "components": [ [ [ "duct_tape", 20 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "string_6", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "BRISK_EXERCISE",
     "result": "teapot",
     "category": "CC_OTHER",
@@ -1238,7 +1252,15 @@
     "time": "1 m",
     "autolearn": true,
     "components": [
-      [ [ "splinter", 40 ], [ "2x4", 6 ], [ "stick", 8 ], [ "bone_any", 40, "LIST" ], [ "pine_bough", 20 ], [ "log", 1 ] ],
+      [
+        [ "splinter", 40 ],
+        [ "2x4", 6 ],
+        [ "stick", 8 ],
+        [ "bone_any", 40, "LIST" ],
+        [ "skewer_bone", 1000 ],
+        [ "pine_bough", 20 ],
+        [ "log", 1 ]
+      ],
       [ [ "char_kiln", 1 ] ]
     ]
   },
@@ -1254,6 +1276,20 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "jug_plastic", 1 ] ], [ [ "rag", 4 ] ], [ [ "charcoal", 75 ] ] ],
+    "flags": [ "FULL_MAGAZINE" ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "result": "char_purifier_clay",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "difficulty": 2,
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "clay_hydria", 1 ] ], [ [ "rag", 4 ] ], [ [ "charcoal", 300 ] ] ],
     "flags": [ "FULL_MAGAZINE" ]
   },
   {
@@ -1406,7 +1442,17 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_carving" } ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "bone_sturdy", 1, "LIST" ], [ "stick", 1 ], [ "broom", 1 ], [ "pool_cue", 1 ], [ "splinter", 1 ], [ "2x4", 1 ] ] ]
+    "components": [
+      [
+        [ "bone_sturdy", 1, "LIST" ],
+        [ "stick", 1 ],
+        [ "broom", 1 ],
+        [ "pool_cue", 1 ],
+        [ "splinter", 1 ],
+        [ "2x4", 1 ],
+        [ "mop", 1 ]
+      ]
+    ]
   },
   {
     "type": "recipe",
@@ -1441,7 +1487,7 @@
     "activity_level": "fake",
     "result": "toolbox_workshop_empty",
     "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_TOOLS",
+    "subcategory": "CSC_OTHER_CONTAINERS",
     "skill_used": "fabrication",
     "skills_required": [ "mechanics", 5 ],
     "difficulty": 6,

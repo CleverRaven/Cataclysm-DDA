@@ -130,7 +130,7 @@
       "time": "1 d",
       "skills": [ [ "electronics", 8 ] ],
       "inline": {
-        "tools": [ [ [ "hazmat_suit", -1 ], [ "anbc_suit", -1 ] ], [ [ "mask_gas", 50 ] ], [ [ "soldering_iron", 50 ] ] ],
+        "tools": [ [ [ "hazmat_suit", -1 ] ], [ [ "mask_gas", 50 ] ], [ [ "soldering_iron", 50 ] ] ],
         "qualities": [ [ { "id": "SCREW" } ], [ { "id": "SCREW_FINE" } ], [ { "id": "WRENCH" } ], [ { "id": "WRENCH_FINE" } ] ],
         "components": [
           [ [ "solder_wire", 50 ] ],

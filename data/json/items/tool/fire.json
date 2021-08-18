@@ -101,8 +101,6 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "blue",
-    "max_charges": 100,
-    "initial_charges": 100,
     "charges_per_use": 1,
     "pocket_data": [
       {
@@ -144,8 +142,6 @@
     "material": [ "cardboard" ],
     "symbol": ",",
     "color": "blue",
-    "initial_charges": 20,
-    "max_charges": 20,
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "holster": true, "ammo_restriction": { "match": 20 } } ],
     "use_action": { "type": "firestarter", "moves": 40, "moves_slow": 1000 },
@@ -164,8 +160,6 @@
     "symbol": ",",
     "color": "light_gray",
     "ammo": [ "gasoline" ],
-    "initial_charges": 25,
-    "max_charges": 50,
     "charges_per_use": 1,
     "pocket_data": [
       {
@@ -203,8 +197,6 @@
     "symbol": ",",
     "color": "light_gray",
     "ammo": [ "gasoline" ],
-    "initial_charges": 25,
-    "max_charges": 50,
     "charges_per_use": 1,
     "pocket_data": [
       {
@@ -242,7 +234,6 @@
     "symbol": ",",
     "color": "light_gray",
     "ammo": [ "tinder" ],
-    "max_charges": 100,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "tinder": 100 } } ],
     "use_action": {
       "target": "tinderbox_on",
@@ -268,7 +259,6 @@
     "symbol": ",",
     "color": "light_gray",
     "ammo": [ "tinder" ],
-    "max_charges": 100,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "tinder": 100 } } ],
     "turns_per_charge": 600,
     "revert_to": "tinderbox",

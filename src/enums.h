@@ -15,7 +15,13 @@ constexpr inline int sgn( const T x )
 enum class aim_exit : int {
     none = 0,
     okay,
-    re_entry
+    re_entry,
+    last
+};
+
+template<>
+struct enum_traits<aim_exit> {
+    static constexpr aim_exit last = aim_exit::last;
 };
 
 // be explicit with the values
@@ -23,7 +29,13 @@ enum class aim_entry : int {
     START     = 0,
     VEHICLE   = 1,
     MAP       = 2,
-    RESET     = 3
+    RESET     = 3,
+    last
+};
+
+template<>
+struct enum_traits<aim_entry> {
+    static constexpr aim_entry last = aim_entry::last;
 };
 
 using I = std::underlying_type_t<aim_entry>;
@@ -376,6 +388,18 @@ struct social_modifiers {
     bool empty() const {
         return this->lie != 0 || this->persuade != 0 || this->intimidate != 0;
     }
+};
+
+enum MULTITILE_TYPE {
+    center,
+    corner,
+    edge,
+    t_connection,
+    end_piece,
+    unconnected,
+    open_,
+    broken,
+    num_multitile_types
 };
 
 enum class reachability_cache_quadrant : int {

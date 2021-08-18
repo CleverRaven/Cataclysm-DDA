@@ -35,8 +35,11 @@
       [ "panacea", 1 ],
       [ "afs_calorie_pill", 5 ],
       [ "afs_sundew", 8 ],
+      [ "iv_mutagen_mastodon", 1 ],
+      [ "mutagen_mastodon", 2 ],
       [ "recipe_unusual_ammos", 3 ],
       [ "recipes_resistance", 2 ],
+      [ "recipe_uplift", 2 ],
       [ "recipes_cryolab", 1 ]
     ]
   },
@@ -48,9 +51,18 @@
       [ "afs_atomic_smartphone", 5 ],
       [ "laser_pack", 10 ],
       [ "ftk93", 5 ],
+      [ "iv_mutagen_mastodon", 5 ],
+      [ "mutagen_mastodon", 10 ],
+      [ "recipe_uplift", 2 ],
       [ "atomic_butterchurn", 5 ],
       [ "alien_battery", 5 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "mil_hw",
+    "subtype": "distribution",
+    "entries": [ { "item": "iv_mutagen_mastodon", "prob": 3 }, { "item": "mutagen_mastodon", "prob": 6 } ]
   },
   {
     "id": "spider",
@@ -348,6 +360,12 @@
       [ "seed_lemon", 20 ],
       [ "seed_coconut", 20 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "nanofab_recipes",
+    "subtype": "distribution",
+    "entries": [ { "item": "afs_archeotech_cartridge", "prob": 10 }, { "item": "afs_translocation_device", "prob": 10 } ]
   },
   {
     "id": "SUS_scuba_gear",

@@ -314,12 +314,12 @@ void uilist::filterlist()
         if( notfiltering || ( !nocase && static_cast<int>( entries[i].txt.find( filter ) ) != -1 ) ||
             lcmatch( entries[i].txt, fstr ) ) {
             fentries.push_back( i );
-            if( i == selected && ( hilight_disabled || entries[i].enabled ) ) {
-                fselected = f;
-            } else if( i > selected && fselected == -1 && ( hilight_disabled || entries[i].enabled ) ) {
-                // Past the previously selected entry, which has been filtered out,
-                // choose another nearby entry instead.
-                fselected = f;
+            if( hilight_disabled || entries[i].enabled ) {
+                if( i == selected || ( i > selected && fselected == -1 ) ) {
+                    // Either this is selected, or we are past the previously selected entry,
+                    // which has been filtered out, so choose another nearby entry instead.
+                    fselected = f;
+                }
             }
             f++;
         }
@@ -925,10 +925,8 @@ void uilist::query( bool loop, int timeout )
             inputfilter();
         } else if( iter != keymap.end() ) {
             selected = iter->second;
-            if( entries[ selected ].enabled ) {
-                ret = entries[ selected ].retval; // valid
-            } else if( allow_disabled ) {
-                ret = entries[selected].retval; // disabled
+            if( entries[ selected ].enabled || allow_disabled ) {
+                ret = entries[selected].retval;
             }
             if( callback != nullptr ) {
                 callback->select( this );
@@ -946,10 +944,7 @@ void uilist::query( bool loop, int timeout )
                 }
             }
         } else if( !fentries.empty() && ret_act == "CONFIRM" ) {
-            if( entries[ selected ].enabled ) {
-                ret = entries[ selected ].retval; // valid
-            } else if( allow_disabled ) {
-                // disabled
+            if( entries[ selected ].enabled || allow_disabled ) {
                 ret = entries[selected].retval;
             }
         } else if( allow_cancel && ret_act == "QUIT" ) {

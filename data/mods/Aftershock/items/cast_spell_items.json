@@ -54,5 +54,46 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "battery": 1 } } ],
     "use_action": { "type": "cast_spell", "spell_id": "afs_holo_field", "no_fail": true, "level": 1 },
     "relic_data": { "charge_info": { "regenerate_ammo": true, "recharge_type": "periodic", "time": "1 h" } }
+  },
+  {
+    "id": "afs_recall_rig",
+    "type": "TOOL_ARMOR",
+    "copy-from": "dimensional_anchor",
+    "name": { "str": "recall rig" },
+    "description": "A complex antennae assembly worn around the upper torso that allows its user to home and teleport towards previously configured teleport pads.  Although relatively functional, its much inferior to the translocation systems of old, and a successful teleport requires standing perfectly still for several minutes.",
+    "charges_per_use": 1000,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "magazine_well": "75 ml",
+        "item_restriction": [ "heavy_atomic_battery_cell", "heavy_battery_cell", "heavy_plus_battery_cell" ]
+      }
+    ],
+    "use_action": { "type": "cast_spell", "spell_id": "afs_translocation_slow", "no_fail": true, "level": 1 }
+  },
+  {
+    "id": "afs_translocation_device",
+    "type": "TOOL_ARMOR",
+    "name": { "str": "translocator" },
+    "copy-from": "afs_wrist_computer",
+    "description": "An arcane device from the late Hyperspace Era, vaguely resembling a wrist computer made from malleable glass.  It can be activated to quickly deploy a translocator buoy or to teleport to previously activated buoys.",
+    "price": "100 kUSD",
+    "charges_per_use": 1000,
+    "material": [ "diamond" ],
+    "use_action": [
+      { "type": "cast_spell", "spell_id": "afs_translocation", "no_fail": true, "level": 1, "need_worn": true },
+      { "type": "deploy_furn", "furn_type": "f_translocator_buoy" }
+    ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "magazine_well": "75 ml",
+        "item_restriction": [ "afs_archeotech_cartridge" ]
+      }
+    ]
   }
 ]

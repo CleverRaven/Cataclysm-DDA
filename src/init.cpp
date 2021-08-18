@@ -96,6 +96,7 @@
 #include "vehicle_group.h"
 #include "vitamin.h"
 #include "weather_type.h"
+#include "widget.h"
 #include "worldfactory.h"
 
 DynamicDataLoader::DynamicDataLoader()
@@ -165,6 +166,7 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
                 }
             }
             ++it;
+            inp_mngr.pump_events();
         }
         data.erase( data.begin(), it );
         if( data.size() == n ) {
@@ -180,6 +182,7 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
                         debugmsg( "(json-error)\n%s", err.what() );
                     }
                 }
+                inp_mngr.pump_events();
             }
             data.clear();
             return; // made no progress on this cycle so abort
@@ -443,6 +446,7 @@ void DynamicDataLoader::initialize()
     add( "score", &score::load_score );
     add( "achievement", &achievement::load_achievement );
     add( "conduct", &achievement::load_achievement );
+    add( "widget", &widget::load_widget );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -511,6 +515,7 @@ void DynamicDataLoader::load_all_from_json( JsonIn &jsin, const std::string &src
         // not an object or an array?
         jsin.error( "expected object or array" );
     }
+    inp_mngr.pump_events();
 }
 
 void DynamicDataLoader::unload_data()
@@ -652,6 +657,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Start locations" ), &start_locations::finalize_all },
             { _( "Vehicle prototypes" ), &vehicle_prototype::finalize },
             { _( "Mapgen weights" ), &calculate_mapgen_weights },
+            { _( "Mapgen parameters" ), &overmap_specials::finalize_mapgen_parameters },
             { _( "Behaviors" ), &behavior::finalize },
             {
                 _( "Monster types" ), []()

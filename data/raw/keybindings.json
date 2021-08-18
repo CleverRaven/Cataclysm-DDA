@@ -306,6 +306,13 @@
   },
   {
     "type": "keybinding",
+    "id": "CHANGE_MAPEXTRA_CHARACTER",
+    "category": "AUTO_NOTES",
+    "name": "Change a symbol for map extra",
+    "bindings": [ { "input_method": "keyboard_any", "key": "=" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ADD_RULE",
     "category": "AUTO_PICKUP",
     "name": "Add rule",
@@ -660,6 +667,27 @@
     "category": "CRAFTING",
     "name": "Hide/show recipe",
     "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_RECIPE_UNREAD",
+    "category": "CRAFTING",
+    "name": "Toggle read/unread",
+    "bindings": [ { "input_method": "keyboard_any", "key": "v" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "MARK_ALL_RECIPES_READ",
+    "category": "CRAFTING",
+    "name": "Mark all recipes as read",
+    "bindings": [ { "input_method": "keyboard_char", "key": "V" }, { "input_method": "keyboard_code", "key": "v", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_UNREAD_RECIPES_FIRST",
+    "category": "CRAFTING",
+    "name": "Show unread recipes on top",
+    "bindings": [ { "input_method": "keyboard_any", "key": "u" } ]
   },
   {
     "type": "keybinding",
@@ -1401,6 +1429,13 @@
   },
   {
     "type": "keybinding",
+    "id": "CHANGE_SHAPE",
+    "category": "VEH_INTERACT",
+    "name": "Change part shape",
+    "bindings": [ { "input_method": "keyboard_any", "key": "p" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "ASSIGN_CREW",
     "category": "VEH_INTERACT",
     "name": "Assign crew",
@@ -1628,7 +1663,7 @@
     "id": "CATEGORY_SELECTION",
     "category": "INVENTORY",
     "name": "Toggle category selection mode",
-    "bindings": [ { "input_method": "keyboard_any", "key": "TAB" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "t" } ]
   },
   {
     "type": "keybinding",
@@ -1678,6 +1713,13 @@
     "category": "BIONICS",
     "name": "Toggle safe fuel mod",
     "bindings": [ { "input_method": "keyboard_char", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "REFUEL",
+    "category": "BIONICS",
+    "name": "Open refuel menu",
+    "bindings": [ { "input_method": "keyboard_char", "key": "R" }, { "input_method": "keyboard_code", "key": "r", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -2971,6 +3013,40 @@
       { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
       { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
     ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_ENTRY",
+    "category": "INVENTORY",
+    "name": "Mark/unmark selected item",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "l" },
+      { "input_method": "keyboard_any", "key": "RIGHT" },
+      { "input_method": "keyboard_any", "key": "6" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_6" },
+      { "input_method": "gamepad", "key": "JOY_RIGHT" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "NEXT_COLUMN",
+    "category": "INVENTORY",
+    "name": "Next column",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "TAB" },
+      { "input_method": "keyboard_any", "key": "h" },
+      { "input_method": "keyboard_any", "key": "LEFT" },
+      { "input_method": "keyboard_any", "key": "4" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_4" },
+      { "input_method": "gamepad", "key": "JOY_LEFT" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "PREV_COLUMN",
+    "category": "INVENTORY",
+    "name": "Previous column",
+    "bindings": [ { "input_method": "keyboard_char", "key": "BACKTAB" } ]
   },
   {
     "type": "keybinding",

@@ -362,7 +362,7 @@ TEST_CASE( "npc-movement" )
                     guy->randomize();
                     // Repeat until we get an NPC vulnerable to acid
                 } while( guy->is_immune_field( fd_acid ) );
-                guy->spawn_at_precise( get_map().get_abs_sub().xy(), p );
+                guy->spawn_at_precise( tripoint_abs_ms( get_map().getabs( p ) ) );
                 // Set the shopkeep mission; this means that
                 // the NPC deems themselves to be guarding and stops them
                 // wandering off in search of distant ammo caches, etc.

@@ -26,7 +26,7 @@
     "harvest": "zombie",
     "special_attacks": [ [ "ACID_BARF", 10 ] ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "ACID", "NORMAL" ],
+    "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 10, "into": "mon_zombie_spitter" },
     "flags": [
@@ -94,7 +94,7 @@
     ],
     "special_when_hit": [ "ACIDSPLASH", 100 ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "ACID", "NORMAL" ],
+    "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",
@@ -141,7 +141,7 @@
     "harvest": "zombie",
     "special_attacks": [ [ "ACID", 20 ] ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "ACID", "NORMAL" ],
+    "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 28, "into": "mon_zombie_corrosive" },
     "flags": [
@@ -190,7 +190,7 @@
     "harvest": "zombie",
     "special_attacks": [ [ "ACID_BARF", 22 ] ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "ACID", "NORMAL" ],
+    "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 8, "into": "mon_zombie_acidic" },
     "flags": [
@@ -237,7 +237,7 @@
     "harvest": "zombie",
     "melee_damage": [ { "damage_type": "acid", "amount": 4 } ],
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "ACID_BARF", 10 ] ],
-    "death_function": [ "NORMAL", "ACID" ],
+    "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "upgrades": { "half_life": 12, "into": "mon_zombie_dog_brute_acidic" },
     "flags": [
       "SEES",

@@ -274,16 +274,18 @@ std::string talker_npc::skill_training_text( const talker &student,
         return "";
     }
     const int cost = me_npc->is_ally( *pupil ) ? 0 : 1000 *
-                     ( 1 + pupil->get_skill_level( skill ) ) *
-                     ( 1 + pupil->get_skill_level( skill ) );
+                     ( 1 + pupil->get_knowledge_level( skill ) ) *
+                     ( 1 + pupil->get_knowledge_level( skill ) );
     SkillLevel skill_level_obj = pupil->get_skill_level_object( skill );
-    const int cur_level = skill_level_obj.level();
-    const int cur_level_exercise = skill_level_obj.exercise();
-    skill_level_obj.train( 10000 );
-    const int next_level = skill_level_obj.level();
-    const int next_level_exercise = skill_level_obj.exercise();
+    SkillLevel teacher_skill_level = me_npc->get_skill_level_object( skill );
+    const int cur_level = skill_level_obj.knowledgeLevel();
+    const int cur_level_exercise = skill_level_obj.knowledgeExperience();
+    // knowledge_train will adjust level xp based on the difference between your understanding and the NPC's.
+    skill_level_obj.knowledge_train( 10000, teacher_skill_level.knowledgeLevel() );
+    const int next_level = skill_level_obj.knowledgeLevel();
+    const int next_level_exercise = skill_level_obj.knowledgeExperience();
 
-    //~Skill name: current level (exercise) -> next level (exercise) (cost in dollars)
+    //~Skill name: current level (experience) -> next level (experience) (cost in dollars)
     return string_format( cost > 0 ?  _( "%s: %d (%d%%) -> %d (%d%%) (cost $%d)" ) :
                           _( "%s: %d (%d%%) -> %d (%d%%)" ), skill.obj().name(), cur_level,
                           cur_level_exercise, next_level, next_level_exercise, cost / 100 );
