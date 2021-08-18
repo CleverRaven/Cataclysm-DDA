@@ -342,6 +342,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "ugl_buttstock",
     "category": "CC_WEAPON",
+    "subcategory": "CC_WEAPON_MODS",
     "skill_used": "fabrication",
     "skills_required": [ "launcher", 3 ],
     "difficulty": 3,
