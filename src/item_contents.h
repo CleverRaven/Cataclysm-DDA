@@ -242,7 +242,7 @@ class item_contents
          * Is part of the recursive call of item::process. see that function for additional comments
          * NOTE: this destroys the items that get processed
          */
-        void process( player *carrier, const tripoint &pos, float insulation = 1,
+        void process( Character *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
 
         bool item_has_uses_recursive() const;

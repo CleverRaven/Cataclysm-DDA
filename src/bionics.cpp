@@ -2063,7 +2063,7 @@ bool Character::has_enough_anesth( const itype &cbm )
     return true;
 }
 
-void Character::consume_anesth_requirement( const itype &cbm, player &patient )
+void Character::consume_anesth_requirement( const itype &cbm, Character &patient )
 {
     const int weight = units::to_kilogram( patient.bodyweight() ) / 10;
     const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
@@ -2529,7 +2529,7 @@ float Character::env_surgery_bonus( int radius ) const
     return bonus;
 }
 
-bool Character::install_bionics( const itype &type, player &installer, bool autodoc,
+bool Character::install_bionics( const itype &type, Character &installer, bool autodoc,
                                  int skill_level )
 {
     if( !type.bionic ) {
