@@ -355,6 +355,49 @@ bool mattack::eat_food( monster *z )
     return true;
 }
 
+bool mattack::eat_corpse(monster* z)
+{
+    //Absorb no more than 1/10th monster's volume, times the volume of a meat chunk
+    const int monster_volume = units::to_liter(z->get_volume());
+    const float average_meat_chunk_volume = 0.5f;
+    // TODO: dynamically get volume of meat
+    const int max_meat_absorbed = monster_volume / 10.0f * average_meat_chunk_volume;
+    //For every milliliter of meat absorbed, heal this many HP
+    const float meat_absorption_factor = 0.01f;
+    Character& player_character = get_player_character();
+    map& here = get_map();
+    //Search surrounding tiles for meat
+    for (const auto& p : here.points_in_radius(z->pos(), 1)) {
+        map_stack items = here.i_at(p);
+        for (auto& current_item : items) {
+            const material_id current_item_material = current_item.get_base_material().ident();
+            if (current_item_material == material_id("flesh") ||
+                current_item_material == material_id("hflesh")) {
+                //We have something meaty! Calculate how much it will heal the monster
+                const int ml_of_meat = units::to_milliliter<int>(current_item.volume());
+                const int total_charges = current_item.count();
+                const int ml_per_charge = ml_of_meat / total_charges;
+                if (current_item.count_by_charges()) {
+                    //Choose a random amount of meat charges to absorb
+                    int meat_absorbed = std::min(max_meat_absorbed, rng(1, total_charges));
+                    here.use_charges(p, 0, current_item.type->get_id(), meat_absorbed);
+                }
+                else {
+                    //Only absorb one meaty item
+                    int meat_absorbed = 1;
+                    here.use_amount(p, 0, current_item.type->get_id(), meat_absorbed);
+                }
+                if (player_character.sees(*z)) {
+                    add_msg(m_warning, _("The %1$s devours the %2$s."), z->name(),
+                        current_item.tname());
+                }
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 bool mattack::antqueen( monster *z )
 {
     std::vector<tripoint> egg_points;
