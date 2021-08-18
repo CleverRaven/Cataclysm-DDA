@@ -1175,7 +1175,8 @@ monster_attitude monster::attitude( const Character *u ) const
             }
             if( u->is_npc() ) {
                 // Zombies don't understand not attacking NPCs, but dogs and bots should.
-                if( u->get_attitude() != NPCATT_KILL && !type->in_species( species_ZOMBIE ) ) {
+                if( u->get_attitude() != NPCATT_KILL && u->get_attitude() != NPCATT_MUG &&
+                    !type->in_species( species_ZOMBIE ) ) {
                     return MATT_FRIEND;
                 }
                 if( u->is_hallucination() ) {
@@ -1197,6 +1198,7 @@ monster_attitude monster::attitude( const Character *u ) const
         static const string_id<monfaction> faction_ant( "ant" );
         static const string_id<monfaction> faction_bee( "bee" );
         static const string_id<monfaction> faction_wasp( "wasp" );
+        // Put things that aren't affected by emotions before any tests of emotions
         if( faction == faction_bee ) {
             if( u->has_trait( trait_BEE ) ) {
                 return MATT_FRIEND;
@@ -1214,14 +1216,21 @@ monster_attitude monster::attitude( const Character *u ) const
             return MATT_FRIEND;
         }
 
-        if( effective_anger >= 10 &&
-            type->in_species( species_MAMMAL ) && u->has_trait( trait_PHEROMONE_MAMMAL ) ) {
-            effective_anger -= 20;
-        }
-
-        if( ( faction == faction_acid_ant || faction == faction_ant || faction == faction_bee ||
-              faction == faction_wasp ) && effective_anger >= 10 && u->has_trait( trait_PHEROMONE_INSECT ) ) {
-            effective_anger -= 20;
+        for( const trait_id &mut : u->get_mutations() ) {
+            const mutation_branch &branch = *mut;
+            if( branch.ignored_by.empty() && branch.anger_relations.empty() ) {
+                continue;
+            }
+            for( const species_id &spe : branch.ignored_by ) {
+                if( type->in_species( spe ) ) {
+                    return MATT_IGNORE;
+                }
+            }
+            for( const std::pair<const species_id, int> &elem : branch.anger_relations ) {
+                if( type->in_species( elem.first ) ) {
+                    effective_anger += elem.second;
+                }
+            }
         }
 
         if( u->has_trait( trait_TERRIFYING ) ) {
@@ -1242,42 +1251,36 @@ monster_attitude monster::attitude( const Character *u ) const
                 }
             } else if( u->has_trait( trait_ANIMALEMPATH2 ) ) {
                 effective_anger -= 20;
-                if( effective_anger < 20 ) {
+                if( effective_anger < 10 ) {
                     effective_morale += 80;
                 }
             } else if( u->has_trait( trait_ANIMALDISCORD ) ) {
-                if( effective_anger >= 10 ) {
+                if( effective_anger > 0 ) { // TODO: Check vs mtype base anger?
                     effective_anger += 10;
                 }
                 if( effective_anger < 10 ) {
                     effective_morale -= 5;
                 }
             } else if( u->has_trait( trait_ANIMALDISCORD2 ) ) {
-                if( effective_anger >= 20 ) {
+                if( effective_anger > 0 ) { // TODO: Check vs mtype base anger?
                     effective_anger += 20;
                 }
-                if( effective_anger < 20 ) {
+                if( effective_anger < 10 ) {
                     effective_morale -= 5;
                 }
             }
         }
 
-        for( const trait_id &mut : u->get_mutations() ) {
-            const mutation_branch &branch = *mut;
-            if( branch.ignored_by.empty() && branch.anger_relations.empty() ) {
-                continue;
-            }
-            for( const species_id &spe : branch.ignored_by ) {
-                if( type->in_species( spe ) ) {
-                    return MATT_IGNORE;
-                }
-            }
-            for( const std::pair<const species_id, int> &elem : branch.anger_relations ) {
-                if( type->in_species( elem.first ) ) {
-                    effective_anger += elem.second;
-                }
-            }
+        if( effective_anger >= 10 &&
+            type->in_species( species_MAMMAL ) && u->has_trait( trait_PHEROMONE_MAMMAL ) ) {
+            effective_anger -= 20;
         }
+
+        if( ( faction == faction_acid_ant || faction == faction_ant || faction == faction_bee ||
+              faction == faction_wasp ) && effective_anger >= 10 && u->has_trait( trait_PHEROMONE_INSECT ) ) {
+            effective_anger -= 20;
+        }
+
     }
 
     if( effective_morale < 0 ) {
