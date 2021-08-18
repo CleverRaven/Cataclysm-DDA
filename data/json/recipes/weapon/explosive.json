@@ -387,7 +387,7 @@
     "components": [
       [ [ "fuse", 1 ] ],
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
-	  [ [ "can_medium", 1 ] ],
+      [ [ "can_medium", 1 ] ],
       [ [ "nail", 100 ], [ "scrap", 4 ] ]
     ]
   },
@@ -407,7 +407,7 @@
     "components": [
       [ [ "fuse", 1 ] ],
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
-	  [ [ "can_medium", 1 ] ],
+      [ [ "can_medium", 1 ] ],
       [ [ "nail", 100 ], [ "scrap", 4 ] ]
     ]
   },
