@@ -1,0 +1,8 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_lab_cargo_area_spawn",
+    "object": { "place_loot": [ { "group": "lanyard_GM_badge", "x": 9, "y": [ 5, 18 ], "chance": 100 } ] }
+  }
+]

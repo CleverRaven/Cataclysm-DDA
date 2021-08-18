@@ -49,5 +49,12 @@
       { "item": "canister_empty", "prob": 30, "count": [ 1, 6 ] },
       { "item": "string_36", "prob": 60, "count": [ 2, 8 ] }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "lanyard_GM_badge",
+    "subtype": "collection",
+    "container-item": "lanyard",
+    "items": [ { "item": "id_science_maintenance_green", "prob": 100 } ]
   }
 ]
