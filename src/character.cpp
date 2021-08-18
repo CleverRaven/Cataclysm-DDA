@@ -411,9 +411,7 @@ static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
 static const json_character_flag json_flag_NON_THRESH( "NON_THRESH" );
 static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
-static const json_character_flag json_flag_PRED4
-
-( "PRED4" );
+static const json_character_flag json_flag_PRED4( "PRED4" );
 static const json_character_flag json_flag_STAB_IMMUNE( "STAB_IMMUNE" );
 static const json_character_flag json_flag_STEADY( "STEADY" );
 static const json_character_flag json_flag_STOP_SLEEP_DEPRIVATION( "STOP_SLEEP_DEPRIVATION" );
