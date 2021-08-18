@@ -231,8 +231,8 @@
   {
     "id": "tourist_table",
     "type": "TOOL",
-    "name": { "str": "tourist table" },
-    "description": "Metal tourist table for off-road trips.  It is folded for easy transportation.",
+    "name": { "str": "folding table" },
+    "description": "Metal folding table for off-road trips.  It is currently folded for easy transportation.",
     "weight": "4500 g",
     "volume": "15 L",
     "longest_side": "90 cm",
