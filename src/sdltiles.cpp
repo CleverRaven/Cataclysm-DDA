@@ -3681,10 +3681,11 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
     // see, e.g., http://linux.die.net/man/3/getch
     // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
     // however, the refresh call has not effect when nothing has been drawn, so
-    // we can skip it if `needupdate` is false to improve performance during mouse
+    // we can skip screen update if `needupdate` is false to improve performance during mouse
     // move events.
+    wnoutrefresh( catacurses::stdscr );
     if( needupdate ) {
-        wrefresh( catacurses::stdscr );
+        refresh_display();
     }
 
     if( inputdelay < 0 ) {
