@@ -116,6 +116,7 @@ class ui_adaptor;
 struct visibility_variables;
 
 using item_filter = std::function<bool ( const item & )>;
+using item_location_filter = std::function<bool ( const item_location & )>;
 
 enum peek_act : int {
     PA_BLIND_THROW
@@ -362,7 +363,8 @@ class game
         /** Spawns a hallucination at a determined position. */
         bool spawn_hallucination( const tripoint &p );
         /** Spawns a hallucination at a determined position of a given monster. */
-        bool spawn_hallucination( const tripoint &p, const mtype_id &mt );
+        bool spawn_hallucination( const tripoint &p, const mtype_id &mt,
+                                  cata::optional<time_duration> lifespan );
         /** Finds somewhere to spawn a monster. */
         bool find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, int min_radius,
                                       int max_radius, tripoint &point, bool outdoor_only );
@@ -624,6 +626,8 @@ class game
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
         item_location inv_map_splice( const item_filter &filter, const std::string &title, int radius = 0,
                                       const std::string &none_message = "" );
+        item_location inv_map_splice( const item_location_filter &filter, const std::string &title,
+                                      int radius = 0, const std::string &none_message = "" );
 
         bool has_gametype() const;
         special_game_type gametype() const;

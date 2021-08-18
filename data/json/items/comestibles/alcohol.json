@@ -483,7 +483,7 @@
     "description": "Cheap booze made from fermented fruit juice.  Tastes just like it sounds.",
     "price": 550,
     "price_postapoc": 100,
-    "material": [ "alcohol", "water" ],
+    "material": [ "alcohol", "water", "fruit" ],
     "primary_material": "alcohol",
     "volume": "250 ml",
     "phase": "liquid",
