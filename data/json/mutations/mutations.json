@@ -7052,7 +7052,7 @@
     "type": "mutation",
     "id": "RABBIT_NOSE",
     "name": { "str": "Rabbit Nose" },
-    "points": 2,
+    "points": -1,
     "visibility": 6,
     "ugliness": 1,
     "description": "Your nose has morphed into a cute bunny nose, along with the snout.  It's extremely twitchy too.",

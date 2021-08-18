@@ -443,7 +443,7 @@
     "copy-from": "mutagen_flavor",
     "type": "COMESTIBLE",
     "name": { "str": "rabbit mutagen" },
-    "description": "A white, clear colored mutagen.  You need a syringe to inject it… if you really want to?",
+    "description": "A white, clear colored mutagen.  You can drink it… if you really want to?",
     "use_action": { "type": "mutagen", "mutation_category": "RABBIT" }
   },
   {
