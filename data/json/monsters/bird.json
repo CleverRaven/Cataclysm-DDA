@@ -103,35 +103,6 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS" ]
   },
   {
-    "id": "mon_magpie",
-    "type": "MONSTER",
-    "name": { "str": "magpie" },
-    "description": "A small, elegant bird with black and white feathers.  They have a nasty reputation for stealing from humans.",
-    "bodytype": "bird",
-    "default_faction": "small_animal",
-    "categories": [ "WILDLIFE" ],
-    "species": [ "BIRD" ],
-    "volume": "950 ml",
-    "weight": "170 g",
-    "hp": 4,
-    "speed": 140,
-    "material": [ "flesh" ],
-    "symbol": "v",
-    "color": "dark_gray",
-    "aggression": -99,
-    "morale": 5,
-    "melee_dice": 1,
-    "melee_dice_sides": 1,
-    "melee_cut": 0,
-    "dodge": 4,
-    "harvest": "bird_tiny",
-    "fear_triggers": [ "SOUND", "PLAYER_CLOSE", "FRIEND_ATTACKED", "FRIEND_DIED", "FIRE", "HURT" ],
-    "reproduction": { "baby_egg": "egg_magpie", "baby_count": 6, "baby_timer": 21 },
-    "baby_flags": [ "SPRING" ],
-    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 8 },
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "FLIES", "SWARMS" ]
-  },
-  {
     "id": "mon_bluejay",
     "type": "MONSTER",
     "name": { "str": "blue jay" },
@@ -426,16 +397,6 @@
     "volume": "750 ml",
     "weight": "60 g",
     "upgrades": { "age_grow": 35, "into": "mon_raven" },
-    "extend": { "flags": [ "BIRDFOOD" ] }
-  },
-  {
-    "id": "mon_magpie_chick",
-    "type": "MONSTER",
-    "copy-from": "mon_crow_chick",
-    "name": { "str": "brown chick" },
-    "volume": "200 ml",
-    "weight": "40 g",
-    "upgrades": { "age_grow": 21, "into": "mon_magpie" },
     "extend": { "flags": [ "BIRDFOOD" ] }
   },
   {

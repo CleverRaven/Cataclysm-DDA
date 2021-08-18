@@ -192,7 +192,6 @@
       { "monster": "mon_cardinal", "freq": 5, "cost_multiplier": 1 },
       { "monster": "mon_sparrow", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_robin", "freq": 10, "cost_multiplier": 1 },
-      { "monster": "mon_magpie", "freq": 3, "cost_multiplier": 1 },
       { "monster": "mon_pigeon", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_deer", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_duck", "freq": 10, "cost_multiplier": 1 },
@@ -246,7 +245,6 @@
       { "monster": "mon_fly", "freq": 100, "cost_multiplier": 1 },
       { "monster": "mon_crow", "freq": 75, "cost_multiplier": 1 },
       { "monster": "mon_raven", "freq": 75, "cost_multiplier": 1 },
-      { "monster": "mon_magpie", "freq": 15, "cost_multiplier": 1 },
       {
         "monster": "mon_pigeon",
         "freq": 100,

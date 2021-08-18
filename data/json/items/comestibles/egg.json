@@ -64,14 +64,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "egg_magpie",
-    "name": { "str": "magpie egg" },
-    "copy-from": "egg_chicken",
-    "weight": "10 g",
-    "rot_spawn": "GROUP_EGG_MAGPIE"
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "egg_bluejay",
     "name": { "str": "blue jay egg" },
     "copy-from": "egg_chicken",
