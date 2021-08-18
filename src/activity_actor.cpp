@@ -4441,7 +4441,7 @@ void rummage_pocket_activity_actor::finish( player_activity &act, Character &who
                 return;
             }
             case action::wield:
-                who.as_avatar()->wield( it_loc );
+                g->wield( it_loc );
                 return;
             case action::drop:
                 who.drop( item_loc, target );

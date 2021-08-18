@@ -174,6 +174,7 @@ class game
         friend memorial_logger &get_memorial();
         friend bool do_turn();
         friend bool turn_handler::cleanup_at_end();
+        friend void rummage_pocket_activity_actor::finish( player_activity &act, Character &who );
     public:
         game();
         ~game();
