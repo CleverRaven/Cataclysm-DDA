@@ -903,7 +903,7 @@
     "skill_used": "tailor",
     "difficulty": 3,
     "skills_required": [ "melee", 1 ],
-    "time": "45 m",
+    "time": "4 h",
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_leather_small", 2 ] ],
