@@ -2516,7 +2516,6 @@ bionic_id Character::get_most_efficient_bionic( const std::vector<bionic_id> &bi
 
 void Character::practice( const skill_id &id, int amount, int cap, bool suppress_warning )
 {
-    static const int INTMAX_SQRT = std::floor( std::sqrt( std::numeric_limits<int>::max() ) );
     SkillLevel &level = get_skill_level_object( id );
     const Skill &skill = id.obj();
     if( !level.can_train() || in_sleep_state() || ( get_skill_level( id ) >= MAX_SKILL ) ) {
@@ -2603,12 +2602,15 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
             // The latter kicks in when long actions like crafting
             // apply many turns of gains at once.
             int focus_drain = std::max( focus_pool / 100, amount );
-            // For large values of amount, amount^2 can exceed INT_MAX.
-            // We're going to be draining all of the focus if it gets that large, so cap it at a safe value
-            focus_drain = std::min( focus_drain, INTMAX_SQRT );
+
             // The purpose of having this squared is that it makes focus drain dramatically slower
-            // as it approaches zero.
-            focus_pool -= ( focus_drain * focus_drain ) / 1000;
+            // as it approaches zero. As such, the square function would not be used if the drain is
+            // larger or equal to 1000 to avoid the runaway, and the original drain gets applied instead.
+            if( focus_drain >= 1000 ) {
+                focus_pool -= focus_drain;
+            } else {
+                focus_pool -= ( focus_drain * focus_drain ) / 1000;
+            }
         }
         focus_pool = std::max( focus_pool, 0 );
     }
