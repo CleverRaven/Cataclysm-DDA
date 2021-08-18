@@ -378,7 +378,7 @@ static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
-static const trait_id trait_NUMB("NUMB");
+static const trait_id trait_NUMB( "NUMB" );
 
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 
@@ -411,7 +411,9 @@ static const json_character_flag json_flag_NO_THIRST( "NO_THIRST" );
 static const json_character_flag json_flag_NON_THRESH( "NON_THRESH" );
 static const json_character_flag json_flag_PRED2( "PRED2" );
 static const json_character_flag json_flag_PRED3( "PRED3" );
-static const json_character_flag json_flag_PRED4( "PRED4" );
+static const json_character_flag json_flag_PRED4
+
+( "PRED4" );
 static const json_character_flag json_flag_STAB_IMMUNE( "STAB_IMMUNE" );
 static const json_character_flag json_flag_STEADY( "STEADY" );
 static const json_character_flag json_flag_STOP_SLEEP_DEPRIVATION( "STOP_SLEEP_DEPRIVATION" );
@@ -2560,7 +2562,7 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
         catchup_modifier *= 3.0f;
     }
     
-    if (has_trait(trait_NUMB) && !(skill.is_combat_skill())) {
+    if( has_trait( trait_NUMB ) && !( skill.is_combat_skill() ) ) {
         amount *= 2.0f;
     }
 
@@ -11162,7 +11164,7 @@ void Character::add_morale( const morale_type &type, int bonus, int max_bonus,
                             const time_duration &duration, const time_duration &decay_start,
                             bool capped, const itype *item_type )
 {
-    if( has_trait(trait_NUMB) ){
+    if( has_trait( trait_NUMB ) ){
         morale->clear();
     } else {
         morale->add( type, bonus, max_bonus, duration, decay_start, capped, item_type );
