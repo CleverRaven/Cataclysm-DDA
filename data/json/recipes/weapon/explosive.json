@@ -358,7 +358,6 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_EXPLOSIVE",
     "skill_used": "fabrication",
-    "skills_required": [ "mechanics", 1 ],
     "difficulty": 2,
     "time": "5 m",
     "reversible": true,
@@ -384,10 +383,11 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "using": [ [ "volatile_explosive", 30 ], [ "small_grenade_case", 1 ] ],
+    "using": [ [ "volatile_explosive", 30 ] ],
     "components": [
       [ [ "fuse", 1 ] ],
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
+	  [ [ "can_medium", 1 ] ],
       [ [ "nail", 100 ], [ "scrap", 4 ] ]
     ]
   },
@@ -403,10 +403,11 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "using": [ [ "volatile_explosive", 1 ], [ "stable_explosive", 29 ], [ "small_grenade_case", 1 ] ],
+    "using": [ [ "volatile_explosive", 1 ], [ "stable_explosive", 29 ] ],
     "components": [
       [ [ "fuse", 1 ] ],
       [ [ "superglue", 1 ], [ "duct_tape", 75 ], [ "cordage", 1, "LIST" ] ],
+	  [ [ "can_medium", 1 ] ],
       [ [ "nail", 100 ], [ "scrap", 4 ] ]
     ]
   },

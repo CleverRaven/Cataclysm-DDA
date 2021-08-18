@@ -1341,7 +1341,8 @@
       "type": "explosion",
       "sound_volume": 0,
       "sound_msg": "sssssh.",
-      "no_deactivate_msg": "You've already lit the %s's fuse; try throwing it instead."
+      "no_deactivate_msg": "You've already lit the %s's fuse; try throwing it instead.",
+      "explosion": { "power": 300, "shrapnel": { "casing_mass": 400, "fragment_mass": 0.4 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID" ]
   },
