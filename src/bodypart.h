@@ -191,6 +191,9 @@ struct body_part_type {
         float breathing_score = 0.0f;
         // how well you can see things. affects things like throwing dispersion. cumulative
         float vision_score = 0.0f;
+        float movement_speed_score = 0.0f;
+        float balance_score = 0.0f;
+        float swim_score = 0.0f;
 
         float smash_efficiency = 0.5f;
 
@@ -303,6 +306,8 @@ class bodypart
 
         // adjust any limb "value" based on how wounded the limb is. scaled to 0-75%
         float wound_adjusted_limb_value( float val ) const;
+        // Same idea as for wounds, though not all scores get this applied. Should be applied after wounds.
+        float encumb_adjusted_limb_value( float val ) const;
     public:
         bodypart(): id( bodypart_str_id::NULL_ID() ), mut_drench() {}
         explicit bodypart( bodypart_str_id id ): id( id ), hp_cur( id->base_hp ), hp_max( id->base_hp ),
@@ -315,10 +320,6 @@ class bodypart
 
         float get_wetness_percentage() const;
 
-        // Same idea as for wounds, though not all scores get this applied. Should be applied after wounds.
-        // TODO: make private when we're done using this as an interim for real scores
-        float encumb_adjusted_limb_value( float val ) const;
-
         float get_manipulator_score() const;
         float get_encumb_adjusted_manipulator_score() const;
         float get_wound_adjusted_manipulator_score() const;
@@ -327,6 +328,9 @@ class bodypart
         float get_lifting_score() const;
         float get_breathing_score() const;
         float get_vision_score() const;
+        float get_movement_speed_score() const;
+        float get_balance_score() const;
+        float get_swim_score( double swim_skill = 0.0 ) const;
 
         int get_hp_cur() const;
         int get_hp_max() const;
