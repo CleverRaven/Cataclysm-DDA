@@ -62,7 +62,6 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "point.h"
 #include "projectile.h"
@@ -3165,7 +3164,7 @@ std::vector<bionic_id> bionics_cancelling_trait( const std::vector<bionic_id> &b
     return bionics_cancelling;
 }
 
-void Character::introduce_into_anesthesia( const time_duration &duration, player &installer,
+void Character::introduce_into_anesthesia( const time_duration &duration, Character &installer,
         bool needs_anesthesia )   //used by the Autodoc
 {
     if( installer.has_trait( trait_DEBUG_BIONICS ) ) {

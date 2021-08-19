@@ -1355,7 +1355,7 @@ class Character : public Creature, public visitable
         bool has_installation_requirement( const bionic_id &bid );
         void consume_installation_requirement( const bionic_id &bid );
         /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthesia kits or NOPAIN mutation */
-        void introduce_into_anesthesia( const time_duration &duration, player &installer,
+        void introduce_into_anesthesia( const time_duration &duration, Character &installer,
                                         bool needs_anesthesia );
         /** Removes a bionic from my_bionics[] */
         void remove_bionic( const bionic_id &b );
