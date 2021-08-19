@@ -359,7 +359,8 @@ static void draw_proficiencies_tab( const catacurses::window &win, const unsigne
             name = trim_by_length( cur.id->name(), width );
         }
         const nc_color col = focused && i == line ? hilite( cur.color ) : cur.color;
-        fold_and_print( win, point( 0, 1 + i - range.first ), width, col, name );
+        nc_color col_cur = col;
+        print_colored_text( win, point( 0, 1 + i - range.first ), col_cur, col, name );
     }
     draw_scrollbar( profs.size(), height, width, 1, range.first, win );
     wnoutrefresh( win );
