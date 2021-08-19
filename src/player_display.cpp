@@ -94,6 +94,31 @@ static std::vector<std::pair<bodypart_id, bool>> list_and_combine_bps( const Cha
     return bps;
 }
 
+static std::pair<size_t, size_t> subindex_around_cursor(
+    const size_t list_lenght,
+    const size_t available_space,
+    const size_t cursor_pos,
+    const bool focused
+)
+/**
+ * Return indexes [start, end) that should be displayed from list long `list_lenght`,
+ * given that cursor is at position `cursor_pos` and we have `available_space` spaces.
+ *
+ * Example:
+ * list_lenght = 6, available_space = 3, cursor_pos = 2, focused = true;
+ * so choose 3 from indexes [0, 1, 2, 3, 4, 5]
+ * return {1, 4}
+ */
+{
+    if( !focused || list_lenght <= available_space ) {
+        return std::make_pair( 0, std::min( available_space, list_lenght ) );
+    }
+    size_t slice_start = std::max( 0, int( cursor_pos ) - int( available_space ) / 2 );
+    slice_start = std::min( slice_start, list_lenght - available_space );
+    size_t slice_end = slice_start + available_space;
+    return std::make_pair( slice_start, slice_end );
+}
+
 void Character::print_encumbrance( const catacurses::window &win, const int line,
                                    const item *const selected_clothing ) const
 {
@@ -554,31 +579,14 @@ static void draw_traits_tab( const catacurses::window &w_traits,
     const nc_color title_col = is_current_tab ? h_light_gray : c_light_gray;
     center_print( w_traits, 0, title_col, _( title_TRAITS ) );
 
-    size_t min = 0;
-    size_t max = 0;
+    const std::pair<const size_t, const size_t> range = subindex_around_cursor( traitslist.size(),
+            trait_win_size_y - 1, line, is_current_tab );
 
-    if( !is_current_tab || line <= ( trait_win_size_y - 2 ) / 2 ) {
-        min = 0;
-        max = trait_win_size_y - 1;
-        if( traitslist.size() < max ) {
-            max = traitslist.size();
-        }
-    } else if( line >= traitslist.size() - trait_win_size_y / 2 ) {
-        min = ( traitslist.size() < trait_win_size_y - 1 ? 0 : traitslist.size() - trait_win_size_y + 1 );
-        max = traitslist.size();
-    } else {
-        min = line - ( trait_win_size_y - 2 ) / 2;
-        max = line + ( trait_win_size_y + 1 ) / 2;
-        if( traitslist.size() < max ) {
-            max = traitslist.size();
-        }
-    }
-
-    for( size_t i = min; i < max; i++ ) {
+    for( size_t i = range.first; i < range.second; i++ ) {
         const auto &mdata = traitslist[i].obj();
         const nc_color color = mdata.get_display_color();
-        trim_and_print( w_traits, point( 1, static_cast<int>( 1 + i - min ) ), getmaxx( w_traits ) - 1,
-                        is_current_tab && i == line ? hilite( color ) : color, mdata.name() );
+        trim_and_print( w_traits, point( 1, static_cast<int>( 1 + i - range.first ) ),
+                        getmaxx( w_traits ) - 1, is_current_tab && i == line ? hilite( color ) : color, mdata.name() );
     }
     wnoutrefresh( w_traits );
 }
