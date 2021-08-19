@@ -2916,16 +2916,32 @@ void mapgen_palette::reset()
     palettes.clear();
 }
 
-void mapgen_palette::add( const palette_id &rh, const std::string &context )
+void mapgen_palette::add( const palette_id &rh, const std::string &context,
+                          std::vector<palette_id> ancestors )
 {
-    add( get( rh ), context );
+    add( get( rh ), context, std::move( ancestors ) );
 }
 
-void mapgen_palette::add( const mapgen_palette &rh, const std::string &context )
+void mapgen_palette::add( const mapgen_palette &rh, const std::string &context,
+                          std::vector<palette_id> ancestors )
 {
     std::string actual_context = id.is_empty() ? context : "palette " + id.str();
+
+    if( !rh.id.is_empty() ) {
+        auto loop_start = std::find( ancestors.begin(), ancestors.end(), rh.id );
+        if( loop_start != ancestors.end() ) {
+            std::string loop_ids = enumerate_as_string( loop_start, ancestors.end(),
+            []( const palette_id & i ) {
+                return i.str();
+            }, enumeration_conjunction::arrow );
+            debugmsg( "loop in palette references: %s", loop_ids );
+            return;
+        }
+        ancestors.push_back( rh.id );
+    }
+
     for( const palette_id &recursive_palette : rh.palettes_used ) {
-        add( recursive_palette, actual_context );
+        add( recursive_palette, actual_context, ancestors );
     }
     for( const auto &placing : rh.format_placings ) {
         std::vector<shared_ptr_fast<const jmapgen_piece>> &these_placings =

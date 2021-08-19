@@ -299,9 +299,15 @@ class mapgen_palette
         /**
          * Adds a palette to this one. New values take preference over the old ones.
          *
+         * The ancestors parameter is a set of ids from all the palettes
+         * currently being added, when this addition is triggered by the
+         * addition of another palette which includes rh.  This allows for
+         * detection of loops in palette references.
          */
-        void add( const palette_id &rh, const std::string &context = {} );
-        void add( const mapgen_palette &rh, const std::string &context = {} );
+        void add( const palette_id &rh, const std::string &context = {},
+                  std::vector<palette_id> ancestors = {} );
+        void add( const mapgen_palette &rh, const std::string &context = {},
+                  std::vector<palette_id> ancestors = {} );
 };
 
 struct jmapgen_objects {
