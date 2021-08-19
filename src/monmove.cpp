@@ -63,6 +63,7 @@ static const efftype_id effect_operating( "operating" );
 static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_pushed( "pushed" );
 static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_led_by_leash( "led_by_leash" );
 
 static const itype_id itype_pressurized_tank( "pressurized_tank" );
 
@@ -634,6 +635,13 @@ void monster::plan()
     } else if( friendly > 0 && one_in( 3 ) ) {
         // Grow restless with no targets
         friendly--;
+    } else if( friendly != 0 && has_effect( effect_led_by_leash ) ) {
+        // visibility doesn't matter, we're getting pulled by a leash
+        if( rl_dist( pos(), player_character.pos() ) > 1 ) {
+            set_dest( player_character.pos() );
+        } else {
+            unset_dest();
+        }
     } else if( friendly < 0 && sees( player_character ) && !has_flag( MF_PET_WONT_FOLLOW ) ) {
         if( rl_dist( pos(), player_character.pos() ) > 2 ) {
             set_dest( player_character.pos() );
@@ -1102,6 +1110,13 @@ void monster::move()
         moves = 0;
         stumble();
         path.clear();
+    }
+    if( has_effect( effect_led_by_leash ) ) {
+        if( rl_dist( pos(), player_character.pos() ) > 2 ) {
+            // Either failed to keep up with the player or moved away
+            remove_effect( effect_led_by_leash );
+            add_msg( m_info, _( "You lose hold of a leash." ) );
+        }
     }
 }
 
