@@ -2029,13 +2029,15 @@ inventory_input inventory_selector::get_input()
     res.action = ctxt.handle_input();
     res.ch = ctxt.get_raw_input().get_first_input();
 
-    cata::optional<point> o_p = ctxt.get_coordinates_text( w_inv );
-    if( o_p ) {
-        point p = o_p.value();
-        if( window_contains_point_relative( w_inv, p ) ) {
-            res.entry = find_entry_by_coordinate( p );
-            if( res.entry != nullptr && res.entry->is_selectable() ) {
-                return res;
+    if( res.action == "SELECT" ) {
+        cata::optional<point> o_p = ctxt.get_coordinates_text( w_inv );
+        if( o_p ) {
+            point p = o_p.value();
+            if( window_contains_point_relative( w_inv, p ) ) {
+                res.entry = find_entry_by_coordinate( p );
+                if( res.entry != nullptr && res.entry->is_selectable() ) {
+                    return res;
+                }
             }
         }
     }

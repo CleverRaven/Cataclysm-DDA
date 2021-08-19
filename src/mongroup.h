@@ -40,7 +40,7 @@ struct MonsterGroupEntry {
     }
 
     MonsterGroupEntry( const mtype_id &id, int new_freq, int new_cost, int new_pack_min,
-                       int new_pack_max, spawn_data new_data, const time_duration &new_starts,
+                       int new_pack_max, const spawn_data &new_data, const time_duration &new_starts,
                        const time_duration &new_ends )
         : name( id )
         , frequency( new_freq )
@@ -61,7 +61,7 @@ struct MonsterGroupResult {
     MonsterGroupResult() : name( mtype_id::NULL_ID() ), pack_size( 0 ) {
     }
 
-    MonsterGroupResult( const mtype_id &id, int new_pack_size, spawn_data new_data )
+    MonsterGroupResult( const mtype_id &id, int new_pack_size, const spawn_data &new_data )
         : name( id ), pack_size( new_pack_size ), data( new_data ) {
     }
 };
