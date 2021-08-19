@@ -1119,6 +1119,7 @@ bool monster::is_fleeing( Character &u ) const
 
 Creature::Attitude monster::attitude_to( const Creature &other ) const
 {
+    // Why not use as_monster() below?
     const monster *m = other.is_monster() ? static_cast< const monster *>( &other ) : nullptr;
     const Character *p = other.as_character();
     if( m != nullptr ) {
@@ -1132,12 +1133,27 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             // Friendly (to player) monsters are friendly to each other
             // Unfriendly monsters go by faction attitude
             return Attitude::FRIENDLY;
-            // NOLINTNEXTLINE(bugprone-branch-clone)
-        } else if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_HATE ) ) {
+        }
+
+        if( ( friendly != 0 || m->friendly != 0 ) &&
+            ( faction_att == MFA_BY_MOOD || faction_att == MFA_NEUTRAL ) ) {
+            // Can't be a static int_id, because mods add factions
+            static const string_id<monfaction> player_fac( "player" );
+
+            if( friendly != 0 ) {
+                faction_att = player_fac.obj().attitude( m->faction );
+            } else { // m->friendly != 0
+                faction_att = faction.obj().attitude( player_fac );
+            }
+        }
+
+        if( faction_att == MFA_FRIENDLY ) {
+            // Can only happen if altered above
+            return Attitude::FRIENDLY;
+        } else if( faction_att == MFA_HATE ) {
             // Stuff that hates a specific faction will always attack that faction
             return Attitude::HOSTILE;
-        } else if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_NEUTRAL ) ||
-                   morale < 0 || anger < 10 ) {
+        } else if( faction_att == MFA_NEUTRAL || morale < 0 || anger < 10 ) {
             // Stuff that won't attack is neutral to everything
             return Attitude::NEUTRAL;
         } else {
