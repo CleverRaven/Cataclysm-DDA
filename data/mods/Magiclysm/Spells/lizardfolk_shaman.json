@@ -14,7 +14,9 @@
     "message": "The shaman summons a crocodile!",
     "shape": "blast",
     "effect": "summon",
-    "effect_str": "mon_crocodile"
+    "effect_str": "mon_crocodile",
+    "sound_id": "spell",
+    "sound_variant": "spell_summon_crocodile"
   },
   {
     "type": "SPELL",

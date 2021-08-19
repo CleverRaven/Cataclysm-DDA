@@ -28,7 +28,9 @@
     "final_energy_cost": 150,
     "energy_increment": -5,
     "difficulty": 9,
-    "extra_effects": [ { "id": "voidmage_final_grasp_slowdown" } ]
+    "extra_effects": [ { "id": "voidmage_final_grasp_slowdown" } ],
+    "sound_id": "spell",
+    "sound_variant": "voidmage_final_grasp"
   },
   {
     "id": "voidmage_final_grasp_slowdown",
@@ -78,7 +80,9 @@
       { "id": "horizon_vortex_cut" },
       { "id": "horizon_vortex_electric" },
       { "id": "horizon_vortex_stab" }
-    ]
+    ],
+    "sound_id": "spell",
+    "sound_variant": "voidmage_horizon_vortex"
   },
   {
     "abstract": "horizon_vortex_abstract",

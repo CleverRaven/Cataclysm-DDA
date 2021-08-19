@@ -26,7 +26,9 @@
     "max_level": 35,
     "base_casting_time": 230,
     "sound_description": "a faint shimmering crackle",
-    "energy_source": "MANA"
+    "energy_source": "MANA",
+    "sound_id": "spell",
+    "sound_variant": "auroral_wave"
   },
   {
     "type": "SPELL",
@@ -67,6 +69,8 @@
     "min_duration": 100000,
     "max_duration": 2000000,
     "duration_increment": 47500,
-    "spell_class": "BOREAL_MAGE"
+    "spell_class": "BOREAL_MAGE",
+    "sound_id": "spell",
+    "sound_variant": "borealmage_auroral_guard"
   }
 ]

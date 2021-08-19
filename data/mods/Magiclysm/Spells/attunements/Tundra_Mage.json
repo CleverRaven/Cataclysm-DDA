@@ -22,7 +22,9 @@
     "flags": [ "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "sound_description": "crack",
     "valid_targets": [ "hostile" ],
-    "extra_effects": [ { "id": "cold_snap_freeze" } ]
+    "extra_effects": [ { "id": "cold_snap_freeze" } ],
+    "sound_id": "spell",
+    "sound_variant": "cold_snap"
   },
   {
     "type": "SPELL",
@@ -64,6 +66,8 @@
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "MUST_HAVE_CLASS_TO_LEARN" ],
     "min_duration": 36000,
     "max_duration": 180000,
-    "duration_increment": 5000
+    "duration_increment": 5000,
+    "sound_id": "spell",
+    "sound_variant": "summon_winter_wolf"
   }
 ]

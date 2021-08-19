@@ -33,7 +33,9 @@
     "min_pierce": 1,
     "max_pierce": 5,
     "pierce_increment": 0.25,
-    "damage_type": "stab"
+    "damage_type": "stab",
+    "sound_id": "spell",
+    "sound_variant": "druid_veggrasp"
   },
   {
     "id": "druid_rootstrike",
@@ -69,7 +71,9 @@
     "min_pierce": 10,
     "max_pierce": 20,
     "pierce_increment": 0.5,
-    "damage_type": "stab"
+    "damage_type": "stab",
+    "sound_id": "spell",
+    "sound_variant": "druid_rootstrike"
   },
   {
     "id": "druid_woodshaft",
@@ -95,7 +99,9 @@
     "min_pierce": 1,
     "max_pierce": 5,
     "pierce_increment": 0.5,
-    "damage_type": "bash"
+    "damage_type": "bash",
+    "sound_id": "spell",
+    "sound_variant": "druid_woodshaft"
   },
   {
     "id": "druid_naturebow1",
@@ -117,7 +123,9 @@
     "difficulty": 6,
     "max_level": 20,
     "spell_class": "DRUID",
-    "energy_source": "MANA"
+    "energy_source": "MANA",
+    "sound_id": "spell",
+    "sound_variant": "druid_naturebow1"
   },
   {
     "id": "recover_fatigue",
@@ -139,7 +147,9 @@
     "base_energy_cost": 500,
     "energy_increment": 25.0,
     "final_energy_cost": 1125,
-    "difficulty": 4
+    "difficulty": 4,
+    "sound_id": "spell",
+    "sound_variant": "recover_fatigue"
   },
   {
     "id": "summon_cats",
@@ -167,7 +177,9 @@
     "base_energy_cost": 265,
     "shape": "blast",
     "effect": "summon",
-    "effect_str": "GROUP_STRAY_CATS"
+    "effect_str": "GROUP_STRAY_CATS",
+    "sound_id": "spell",
+    "sound_variant": "summon_cats"
   },
   {
     "id": "summon_bear",
@@ -194,7 +206,9 @@
     "flags": [ "HOSTILE_50", "CONCENTRATE", "SOMATIC", "VERBAL", "NO_LEGS" ],
     "shape": "blast",
     "effect": "summon",
-    "effect_str": "mon_bear"
+    "effect_str": "mon_bear",
+    "sound_id": "spell",
+    "sound_variant": "summon_bear"
   },
   {
     "id": "fungicide",
@@ -213,7 +227,9 @@
     "energy_source": "MANA",
     "base_energy_cost": 175,
     "base_casting_time": 550,
-    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS", "NO_HANDS", "NO_PROJECTILE" ]
+    "flags": [ "CONCENTRATE", "VERBAL", "SOMATIC", "NO_LEGS", "NO_HANDS", "NO_PROJECTILE" ],
+    "sound_id": "spell",
+    "sound_variant": "fungicide"
   },
   {
     "id": "create_rune_druid",
@@ -235,7 +251,9 @@
     "max_level": 0,
     "spell_class": "DRUID",
     "energy_source": "MANA",
-    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
+    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ],
+    "sound_id": "spell",
+    "sound_variant": "create_rune_druid"
   },
   {
     "id": "purify_seed",
@@ -259,7 +277,9 @@
     "max_level": 20,
     "spell_class": "DRUID",
     "energy_source": "MANA",
-    "flags": [ "NO_LEGS", "CONCENTRATE" ]
+    "flags": [ "NO_LEGS", "CONCENTRATE" ],
+    "sound_id": "spell",
+    "sound_variant": "purify_seed"
   },
   {
     "id": "druidic_regrowth",
@@ -282,7 +302,9 @@
     "aoe_increment": 0.2,
     "min_range": 3,
     "max_range": 6,
-    "range_increment": 0.3
+    "range_increment": 0.3,
+    "sound_id": "spell",
+    "sound_variant": "druidic_regrowth"
   },
   {
     "id": "druidic_healing",
@@ -309,7 +331,9 @@
     "aoe_increment": 0.2,
     "min_range": 2,
     "max_range": 4,
-    "range_increment": 0.2
+    "range_increment": 0.2,
+    "sound_id": "spell",
+    "sound_variant": "druidic_healing"
   },
   {
     "id": "druid_tornskin",
@@ -346,7 +370,9 @@
     "min_pierce": 0,
     "max_pierce": 3,
     "pierce_increment": 0.3,
-    "damage_type": "cut"
+    "damage_type": "cut",
+    "sound_id": "spell",
+    "sound_variant": "druid_tornskin"
   },
   {
     "id": "druid_feralform",
@@ -369,7 +395,9 @@
     "max_damage": 1,
     "min_duration": 60000,
     "max_duration": 150000,
-    "duration_increment": 6000
+    "duration_increment": 6000,
+    "sound_id": "spell",
+    "sound_variant": "druid_feralform"
   },
   {
     "id": "summon_wolf_druid",
@@ -397,7 +425,9 @@
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS" ],
     "shape": "blast",
     "effect": "summon",
-    "effect_str": "mon_wolf"
+    "effect_str": "mon_wolf",
+    "sound_id": "spell",
+    "sound_variant": "summon_wolf_druid"
   },
   {
     "id": "druid_natures_commune",
@@ -419,7 +449,9 @@
     "max_level": 20,
     "min_duration": 10000,
     "max_duration": 40000,
-    "duration_increment": 2000
+    "duration_increment": 2000,
+    "sound_id": "spell",
+    "sound_variant": "druid_natures_commune"
   },
   {
     "id": "druid_growth",
@@ -442,6 +474,8 @@
     "max_damage": 80,
     "damage_increment": 4,
     "//": "The spell can only be permanent without being at maximum level because of how items with charges work",
-    "flags": [ "SOMATIC", "NO_LEGS", "PERMANENT" ]
+    "flags": [ "SOMATIC", "NO_LEGS", "PERMANENT" ],
+    "sound_id": "spell",
+    "sound_variant": "druid_growth"
   }
 ]

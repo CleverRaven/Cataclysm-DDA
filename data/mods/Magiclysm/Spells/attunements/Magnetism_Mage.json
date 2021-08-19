@@ -201,7 +201,9 @@
     "max_range": 20,
     "base_casting_time": 400,
     "base_energy_cost": 600,
-    "extra_effects": [ { "id": "railgun_sparks" } ]
+    "extra_effects": [ { "id": "railgun_sparks" } ],
+    "sound_id": "spell",
+    "sound_variant": "railgun"
   },
   {
     "id": "railgun_sparks",
@@ -247,7 +249,9 @@
     "base_energy_cost": 500,
     "final_energy_cost": 150,
     "energy_increment": -10,
-    "extra_effects": [ { "id": "magnetismmage_electrolaser_electro" } ]
+    "extra_effects": [ { "id": "magnetismmage_electrolaser_electro" } ],
+    "sound_id": "spell",
+    "sound_variant": "magnetismmage_electrolaser"
   },
   {
     "id": "magnetismmage_electrolaser_electro",

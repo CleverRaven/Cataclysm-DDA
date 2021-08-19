@@ -24,7 +24,9 @@
     "energy_source": "MANA",
     "difficulty": 2,
     "sound_description": "a crackle",
-    "damage_type": "electric"
+    "damage_type": "electric",
+    "sound_id": "spell",
+    "sound_variant": "jolt"
   },
   {
     "id": "shocking_lash_base",
@@ -57,7 +59,9 @@
     "description": "A quick burst of electricity strikes a target and possibly one other nearby.",
     "copy-from": "shocking_lash_base",
     "field_id": "none",
-    "extra_effects": [ { "id": "shocking_lash_2" } ]
+    "extra_effects": [ { "id": "shocking_lash_2" } ],
+    "sound_id": "spell",
+    "sound_variant": "shocking_lash"
   },
   {
     "id": "shocking_lash_2",
@@ -101,7 +105,9 @@
     "field_chance": 1,
     "damage_type": "electric",
     "sound_description": "a crackle",
-    "energy_source": "MANA"
+    "energy_source": "MANA",
+    "sound_id": "spell",
+    "sound_variant": "lightning_bolt"
   },
   {
     "id": "windstrike",
@@ -133,7 +139,9 @@
     "energy_source": "MANA",
     "difficulty": 3,
     "sound_description": "a whoosh",
-    "damage_type": "bash"
+    "damage_type": "bash",
+    "sound_id": "spell",
+    "sound_variant": "windstrike"
   },
   {
     "id": "windrun",
@@ -157,7 +165,9 @@
     "duration_increment": 1000,
     "min_range": 1,
     "max_range": 20,
-    "range_increment": 1
+    "range_increment": 1,
+    "sound_id": "spell",
+    "sound_variant": "windrun"
   },
   {
     "id": "storm_hammer",
@@ -179,7 +189,9 @@
     "base_energy_cost": 100,
     "min_duration": 10000,
     "max_duration": 50000,
-    "duration_increment": 2000
+    "duration_increment": 2000,
+    "sound_id": "spell",
+    "sound_variant": "storm_hammer"
   },
   {
     "id": "create_rune_stormshaper",
@@ -201,7 +213,9 @@
     "max_level": 0,
     "spell_class": "STORMSHAPER",
     "energy_source": "MANA",
-    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
+    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ],
+    "sound_id": "spell",
+    "sound_variant": "create_rune_stormshaper"
   },
   {
     "id": "lightning_blast",
@@ -230,7 +244,9 @@
     "damage_type": "electric",
     "sound_description": "a crackle",
     "shape": "blast",
-    "effect": "attack"
+    "effect": "attack",
+    "sound_id": "spell",
+    "sound_variant": "lightning_blast"
   },
   {
     "id": "lightning_storm",
@@ -257,7 +273,9 @@
     "damage_type": "electric",
     "effect": "attack",
     "shape": "blast",
-    "extra_effects": [ { "id": "lightning_blast" }, { "id": "lightning_blast" }, { "id": "lightning_blast" } ]
+    "extra_effects": [ { "id": "lightning_blast" }, { "id": "lightning_blast" }, { "id": "lightning_blast" } ],
+    "sound_id": "spell",
+    "sound_variant": "lightning_storm"
   },
   {
     "id": "stormshaper_ionization",
@@ -291,7 +309,9 @@
     "min_field_intensity": 1,
     "max_field_intensity": 3,
     "field_intensity_increment": 0.1,
-    "field_intensity_variance": 0.5
+    "field_intensity_variance": 0.5,
+    "sound_id": "spell",
+    "sound_variant": "stormshaper_ionization"
   },
   {
     "type": "SPELL",
@@ -305,7 +325,9 @@
     "max_level": 30,
     "min_range": 12,
     "max_range": 24,
-    "range_increment": 0.4
+    "range_increment": 0.4,
+    "sound_id": "spell",
+    "sound_variant": "stormshaper_ionization_thunderclap"
   },
   {
     "id": "stormshaper_wall_of_fog",
@@ -336,7 +358,9 @@
     "field_chance": 1,
     "min_field_intensity": 3,
     "max_field_intensity": 3,
-    "field_intensity_variance": 1
+    "field_intensity_variance": 1,
+    "sound_id": "spell",
+    "sound_variant": "stormshaper_wall_of_fog"
   },
   {
     "id": "thorns_zap",
@@ -377,6 +401,8 @@
     "max_range": 1,
     "min_duration": 6000,
     "max_duration": 18000,
-    "duration_increment": 800
+    "duration_increment": 800,
+    "sound_id": "spell",
+    "sound_variant": "stormshaper_repelling_arc"
   }
 ]

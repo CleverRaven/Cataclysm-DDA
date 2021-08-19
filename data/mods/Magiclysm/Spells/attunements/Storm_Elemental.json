@@ -21,7 +21,9 @@
     "flags": [ "LOUD", "SOMATIC", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
     "sound_description": "a crackle",
     "valid_targets": [ "hostile" ],
-    "extra_effects": [ { "id": "storm_chain_1" }, { "id": "storm_chain_1" } ]
+    "extra_effects": [ { "id": "storm_chain_1" }, { "id": "storm_chain_1" } ],
+    "sound_id": "spell",
+    "sound_variant": "storm_chain_master"
   },
   {
     "type": "SPELL",

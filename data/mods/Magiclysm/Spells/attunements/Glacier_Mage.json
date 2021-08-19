@@ -24,7 +24,9 @@
     "damage_type": "cold",
     "difficulty": 3,
     "max_level": 35,
-    "base_casting_time": 350
+    "base_casting_time": 350,
+    "sound_id": "spell",
+    "sound_variant": "ice_clave"
   },
   {
     "type": "SPELL",
@@ -74,7 +76,9 @@
     "energy_source": "MANA",
     "difficulty": 3,
     "sound_description": "a whoosh",
-    "damage_type": "cold"
+    "damage_type": "cold",
+    "sound_id": "spell",
+    "sound_variant": "frozen_winds"
   },
   {
     "id": "frozen_winds_push",

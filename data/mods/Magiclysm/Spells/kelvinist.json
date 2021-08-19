@@ -20,7 +20,9 @@
     "difficulty": 4,
     "max_level": 16,
     "base_casting_time": 300,
-    "energy_source": "MANA"
+    "energy_source": "MANA",
+    "sound_id": "spell",
+    "sound_variant": "point_flare"
   },
   {
     "id": "nova_flare",
@@ -44,7 +46,9 @@
     "difficulty": 8,
     "max_level": 16,
     "base_casting_time": 300,
-    "energy_source": "MANA"
+    "energy_source": "MANA",
+    "sound_id": "spell",
+    "sound_variant": "nova_flare"
   },
   {
     "id": "create_lighter",
@@ -68,7 +72,9 @@
     "final_casting_time": 50,
     "casting_time_increment": -20.0,
     "base_energy_cost": 65,
-    "difficulty": 0
+    "difficulty": 0,
+    "sound_id": "spell",
+    "sound_variant": "create_lighter"
   },
   {
     "id": "ice_spike",
@@ -91,7 +97,9 @@
     "spell_class": "KELVINIST",
     "base_casting_time": 200,
     "energy_source": "MANA",
-    "base_energy_cost": 100
+    "base_energy_cost": 100,
+    "sound_id": "spell",
+    "sound_variant": "ice_spike"
   },
   {
     "id": "fireball",
@@ -117,7 +125,9 @@
     "base_energy_cost": 350,
     "energy_source": "MANA",
     "difficulty": 4,
-    "damage_type": "heat"
+    "damage_type": "heat",
+    "sound_id": "spell",
+    "sound_variant": "fireball"
   },
   {
     "id": "cone_cold",
@@ -147,7 +157,9 @@
     "min_field_intensity": 0,
     "max_field_intensity": 4,
     "field_intensity_increment": 0.5,
-    "damage_type": "cold"
+    "damage_type": "cold",
+    "sound_id": "spell",
+    "sound_variant": "cone_cold"
   },
   {
     "id": "burning_hands",
@@ -173,7 +185,9 @@
     "base_energy_cost": 150,
     "energy_source": "MANA",
     "difficulty": 2,
-    "damage_type": "heat"
+    "damage_type": "heat",
+    "sound_id": "spell",
+    "sound_variant": "burning_hands"
   },
   {
     "id": "frost_spray",
@@ -201,7 +215,9 @@
     "base_energy_cost": 100,
     "energy_source": "MANA",
     "difficulty": 2,
-    "damage_type": "cold"
+    "damage_type": "cold",
+    "sound_id": "spell",
+    "sound_variant": "frost_spray"
   },
   {
     "id": "chilling_touch",
@@ -225,7 +241,9 @@
     "difficulty": 1,
     "max_level": 10,
     "base_casting_time": 100,
-    "energy_source": "MANA"
+    "energy_source": "MANA",
+    "sound_id": "spell",
+    "sound_variant": "chilling_touch"
   },
   {
     "id": "glide_ice",
@@ -247,7 +265,9 @@
     "base_energy_cost": 100,
     "min_duration": 10000,
     "max_duration": 100000,
-    "duration_increment": 2000
+    "duration_increment": 2000,
+    "sound_id": "spell",
+    "sound_variant": "glide_ice"
   },
   {
     "id": "hoary_blast",
@@ -275,7 +295,9 @@
     "base_energy_cost": 350,
     "energy_source": "MANA",
     "difficulty": 4,
-    "damage_type": "cold"
+    "damage_type": "cold",
+    "sound_id": "spell",
+    "sound_variant": "hoary_blast"
   },
   {
     "id": "ice_shield",
@@ -297,7 +319,9 @@
     "base_energy_cost": 100,
     "min_duration": 10000,
     "max_duration": 50000,
-    "duration_increment": 3000
+    "duration_increment": 3000,
+    "sound_id": "spell",
+    "sound_variant": "ice_shield"
   },
   {
     "id": "frost_armor",
@@ -318,7 +342,9 @@
     "base_energy_cost": 550,
     "min_duration": 10000,
     "max_duration": 50000,
-    "duration_increment": 3000
+    "duration_increment": 3000,
+    "sound_id": "spell",
+    "sound_variant": "frost_armor"
   },
   {
     "id": "create_rune_kelvinist",
@@ -340,7 +366,9 @@
     "max_level": 0,
     "spell_class": "KELVINIST",
     "energy_source": "MANA",
-    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
+    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ],
+    "sound_id": "spell",
+    "sound_variant": "create_rune_kelvinist"
   },
   {
     "id": "kelvinist_summon_flamesword",
@@ -363,7 +391,9 @@
     "energy_source": "MANA",
     "base_casting_time": 250,
     "base_energy_cost": 300,
-    "difficulty": 4
+    "difficulty": 4,
+    "sound_id": "spell",
+    "sound_variant": "kelvinist_summon_flamesword"
   },
   {
     "id": "kelvinist_flamebreath",
@@ -396,7 +426,9 @@
     "base_energy_cost": 200,
     "energy_source": "MANA",
     "difficulty": 5,
-    "damage_type": "heat"
+    "damage_type": "heat",
+    "sound_id": "spell",
+    "sound_variant": "kelvinist_flamebreath"
   },
   {
     "id": "freezing_touch_slow_effect",
@@ -437,6 +469,8 @@
     "max_level": 18,
     "base_casting_time": 100,
     "energy_source": "MANA",
-    "extra_effects": [ { "id": "freezing_touch_slow_effect" } ]
+    "extra_effects": [ { "id": "freezing_touch_slow_effect" } ],
+    "sound_id": "spell",
+    "sound_variant": "freezing_touch"
   }
 ]

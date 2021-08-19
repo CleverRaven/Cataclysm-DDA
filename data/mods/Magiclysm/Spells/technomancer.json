@@ -25,7 +25,9 @@
     "//": "duration is in moves",
     "min_duration": 6000,
     "max_duration": 10000,
-    "duration_increment": 400
+    "duration_increment": 400,
+    "sound_id": "spell",
+    "sound_variant": "bless"
   },
   {
     "id": "invisibility",
@@ -46,7 +48,9 @@
     "min_duration": 1250,
     "max_duration": 6000,
     "duration_increment": 250,
-    "max_level": 20
+    "max_level": 20,
+    "sound_id": "spell",
+    "sound_variant": "invisibility"
   },
   {
     "id": "holy_blade",
@@ -70,7 +74,9 @@
     "difficulty": 5,
     "max_level": 20,
     "spell_class": "TECHNOMANCER",
-    "energy_source": "MANA"
+    "energy_source": "MANA",
+    "sound_id": "spell",
+    "sound_variant": "holy_blade"
   },
   {
     "id": "spirit_armor",
@@ -94,7 +100,9 @@
     "base_energy_cost": 375,
     "min_duration": 6000,
     "max_duration": 60000,
-    "duration_increment": 4000
+    "duration_increment": 4000,
+    "sound_id": "spell",
+    "sound_variant": "spirit_armor"
   },
   {
     "id": "create_atomic_lamp",
@@ -118,7 +126,9 @@
     "base_energy_cost": 750,
     "min_duration": 100000,
     "max_duration": 1000000,
-    "duration_increment": 45000
+    "duration_increment": 45000,
+    "sound_id": "spell",
+    "sound_variant": "create_atomic_lamp"
   },
   {
     "id": "recover_bionic_power",
@@ -140,7 +150,9 @@
     "shape": "blast",
     "energy_source": "MANA",
     "difficulty": 6,
-    "base_casting_time": 1000
+    "base_casting_time": 1000,
+    "sound_id": "spell",
+    "sound_variant": "recover_bionic_power"
   },
   {
     "id": "create_rune_technomancer",
@@ -162,7 +174,9 @@
     "max_level": 0,
     "spell_class": "TECHNOMANCER",
     "energy_source": "MANA",
-    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
+    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ],
+    "sound_id": "spell",
+    "sound_variant": "create_rune_technomancer"
   },
   {
     "id": "taze",
@@ -189,7 +203,9 @@
     "damage_increment": 1.0,
     "min_range": 1,
     "max_range": 4,
-    "range_increment": 0.2
+    "range_increment": 0.2,
+    "sound_id": "spell",
+    "sound_variant": "taze"
   },
   {
     "id": "quantum_tunnel_lesser",
@@ -218,7 +234,9 @@
     "max_range": 10,
     "range_increment": 0.25,
     "min_duration": 100,
-    "max_duration": 100
+    "max_duration": 100,
+    "sound_id": "spell",
+    "sound_variant": "quantum_tunnel_lesser"
   },
   {
     "id": "synaptic_stimulation",
@@ -242,7 +260,9 @@
     "final_energy_cost": 400,
     "min_duration": 180000,
     "max_duration": 360000,
-    "duration_increment": 10000
+    "duration_increment": 10000,
+    "sound_id": "spell",
+    "sound_variant": "synaptic_stimulation"
   },
   {
     "id": "laze",
@@ -269,7 +289,9 @@
     "damage_type": "heat",
     "min_range": 10,
     "max_range": 25,
-    "range_increment": 1.0
+    "range_increment": 1.0,
+    "sound_id": "spell",
+    "sound_variant": "laze"
   },
   {
     "id": "animated_blade",
@@ -301,7 +323,9 @@
     "max_aoe": 3,
     "min_duration": 1000,
     "max_duration": 4500,
-    "duration_increment": 200
+    "duration_increment": 200,
+    "sound_id": "spell",
+    "sound_variant": "animated_blade"
   },
   {
     "id": "mirror_image",
@@ -333,7 +357,9 @@
     "max_aoe": 3,
     "min_duration": 3000,
     "max_duration": 6000,
-    "duration_increment": 200
+    "duration_increment": 200,
+    "sound_id": "spell",
+    "sound_variant": "mirror_image"
   },
   {
     "id": "holographic_transposition",
@@ -357,7 +383,9 @@
     "final_energy_cost": 100,
     "min_range": 20,
     "max_range": 30,
-    "range_increment": 1.0
+    "range_increment": 1.0,
+    "sound_id": "spell",
+    "sound_variant": "holographic_transposition"
   },
   {
     "id": "summon_floating_disk",
@@ -380,7 +408,9 @@
     "range_increment": 1,
     "min_duration": 400000,
     "max_duration": 9600000,
-    "duration_increment": 460000
+    "duration_increment": 460000,
+    "sound_id": "spell",
+    "sound_variant": "summon_floating_disk"
   },
   {
     "id": "summon_magic_motorcycle",
@@ -404,7 +434,9 @@
     "//": "40 minutes + 10 minutes / level; 4 hours at max level",
     "min_duration": 240000,
     "max_duration": 1440000,
-    "duration_increment": 60000
+    "duration_increment": 60000,
+    "sound_id": "spell",
+    "sound_variant": "summon_magic_motorcycle"
   },
   {
     "id": "overcharge_burn",
@@ -421,7 +453,9 @@
     "duration_increment": -10,
     "max_duration": 200,
     "max_level": 30,
-    "valid_targets": [ "none" ]
+    "valid_targets": [ "none" ],
+    "sound_id": "spell",
+    "sound_variant": "overcharge_burn"
   },
   {
     "id": "overcharge_eyes",
@@ -453,7 +487,9 @@
     "base_casting_time": 120,
     "final_casting_time": 120,
     "valid_targets": [ "hostile", "ground" ],
-    "flags": [ "LOUD", "VERBAL", "NO_HANDS", "NO_LEGS" ]
+    "flags": [ "LOUD", "VERBAL", "NO_HANDS", "NO_LEGS" ],
+    "sound_id": "spell",
+    "sound_variant": "overcharge_eyes"
   },
   {
     "type": "SPELL",
@@ -481,7 +517,9 @@
     "base_casting_time": 175,
     "base_energy_cost": 550,
     "energy_source": "BIONIC",
-    "spell_class": "TECHNOMANCER"
+    "spell_class": "TECHNOMANCER",
+    "sound_id": "spell",
+    "sound_variant": "x-ray"
   },
   {
     "type": "SPELL",
@@ -503,7 +541,9 @@
     "max_range": 4,
     "range_increment": 0.2,
     "energy_source": "MANA",
-    "spell_class": "TECHNOMANCER"
+    "spell_class": "TECHNOMANCER",
+    "sound_id": "spell",
+    "sound_variant": "knock"
   },
   {
     "type": "SPELL",
@@ -524,7 +564,9 @@
     "min_range": 6,
     "max_range": 6,
     "energy_source": "MANA",
-    "spell_class": "TECHNOMANCER"
+    "spell_class": "TECHNOMANCER",
+    "sound_id": "spell",
+    "sound_variant": "improved_knock"
   },
   {
     "id": "technomancer_knifeshot",
@@ -554,7 +596,9 @@
     "min_pierce": 3,
     "max_pierce": 10,
     "pierce_increment": 0.35,
-    "learn_spells": { "technomancer_knifeshot_superior": 20 }
+    "learn_spells": { "technomancer_knifeshot_superior": 20 },
+    "sound_id": "spell",
+    "sound_variant": "technomancer_knifeshot"
   },
   {
     "id": "technomancer_knifeshot_superior",
@@ -578,6 +622,8 @@
     "min_range": 7,
     "max_range": 7,
     "min_pierce": 15,
-    "max_pierce": 15
+    "max_pierce": 15,
+    "sound_id": "spell",
+    "sound_variant": "technomancer_knifeshot_superior"
   }
 ]

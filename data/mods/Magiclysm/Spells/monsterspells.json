@@ -16,7 +16,9 @@
     "range_increment": 0.2,
     "effect": "attack",
     "shape": "blast",
-    "extra_effects": [ { "id": "light_healing", "hit_self": true } ]
+    "extra_effects": [ { "id": "light_healing", "hit_self": true } ],
+    "sound_id": "spell",
+    "sound_variant": "blood_suck"
   },
   {
     "id": "bear_trap",
@@ -35,7 +37,9 @@
     "sound_type": "speech",
     "shape": "blast",
     "effect": "summon",
-    "effect_str": "mon_bear"
+    "effect_str": "mon_bear",
+    "sound_id": "spell",
+    "sound_variant": "bear_trap"
   },
   {
     "id": "forge_trap",
@@ -54,7 +58,9 @@
     "sound_type": "speech",
     "shape": "blast",
     "effect": "summon",
-    "effect_str": "mon_forgehounds"
+    "effect_str": "mon_forgehounds",
+    "sound_id": "spell",
+    "sound_variant": "forge_trap"
   },
   {
     "id": "rocket_punch",
@@ -72,7 +78,9 @@
     "max_range": 2,
     "range_increment": 0.2,
     "shape": "blast",
-    "effect": "attack"
+    "effect": "attack",
+    "sound_id": "spell",
+    "sound_variant": "rocket_punch"
   },
   {
     "id": "summon_vengeance",
@@ -91,7 +99,9 @@
     "min_damage": 3,
     "max_damage": 3,
     "min_aoe": 6,
-    "max_aoe": 6
+    "max_aoe": 6,
+    "sound_id": "spell",
+    "sound_variant": "summon_vengeance"
   },
   {
     "type": "SPELL",
@@ -108,7 +118,9 @@
     "damage_increment": 10,
     "damage_type": "bash",
     "min_range": 8,
-    "max_range": 8
+    "max_range": 8,
+    "sound_id": "spell",
+    "sound_variant": "teleport_charge"
   },
   {
     "id": "prank",
@@ -122,7 +134,9 @@
     "max_range": 5,
     "range_increment": 1,
     "shape": "blast",
-    "effect": "vomit"
+    "effect": "vomit",
+    "sound_id": "spell",
+    "sound_variant": "prank"
   },
   {
     "id": "gas_attack",
@@ -149,7 +163,9 @@
     "duration_increment": 1000,
     "min_aoe": 1,
     "max_aoe": 2,
-    "aoe_increment": 0.2
+    "aoe_increment": 0.2,
+    "sound_id": "spell",
+    "sound_variant": "gas_attack"
   },
   {
     "type": "SPELL",
@@ -167,7 +183,9 @@
     "base_casting_time": 120,
     "effect": "attack",
     "shape": "blast",
-    "damage_type": "heat"
+    "damage_type": "heat",
+    "sound_id": "spell",
+    "sound_variant": "mon_demon_fireball"
   },
   {
     "type": "SPELL",
@@ -185,7 +203,9 @@
     "base_casting_time": 160,
     "shape": "blast",
     "effect": "summon",
-    "effect_str": "mon_demon_spiderling"
+    "effect_str": "mon_demon_spiderling",
+    "sound_id": "spell",
+    "sound_variant": "mon_summon_demon_spiderlings"
   },
   {
     "type": "SPELL",
@@ -203,6 +223,8 @@
     "range_increment": 0.1,
     "effect": "attack",
     "shape": "line",
-    "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS" ]
+    "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS" ],
+    "sound_id": "spell",
+    "sound_variant": "demon_breath_fire"
   }
 ]

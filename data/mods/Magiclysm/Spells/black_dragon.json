@@ -31,7 +31,9 @@
     "final_casting_time": 160,
     "casting_time_increment": -10,
     "energy_source": "MANA",
-    "base_energy_cost": 350
+    "base_energy_cost": 350,
+    "sound_id": "spell",
+    "sound_variant": "acid_claw"
   },
   {
     "type": "SPELL",
@@ -58,7 +60,9 @@
     "casting_time_increment": -9,
     "energy_source": "MANA",
     "base_energy_cost": 350,
-    "extra_effects": [ { "id": "dragon_bite" } ]
+    "extra_effects": [ { "id": "dragon_bite" } ],
+    "sound_id": "spell",
+    "sound_variant": "acid_bite"
   },
   {
     "type": "SPELL",
@@ -94,7 +98,9 @@
     "base_energy_cost": 250,
     "min_duration": 1000,
     "max_duration": 5000,
-    "duration_increment": 1000
+    "duration_increment": 1000,
+    "sound_id": "spell",
+    "sound_variant": "dragon_shell_black"
   },
   {
     "id": "dragon_shell_retaliation_black",
@@ -116,7 +122,9 @@
     "min_range": 1,
     "max_range": 1,
     "spell_class": "NONE",
-    "damage_type": "acid"
+    "damage_type": "acid",
+    "sound_id": "spell",
+    "sound_variant": "dragon_shell_retaliation_black"
   },
   {
     "id": "dragon_terror",
@@ -143,7 +151,9 @@
     "base_energy_cost": 400,
     "energy_source": "MANA",
     "difficulty": 0,
-    "flags": [ "LOUD", "NO_HANDS", "NO_LEGS" ]
+    "flags": [ "LOUD", "NO_HANDS", "NO_LEGS" ],
+    "sound_id": "spell",
+    "sound_variant": "dragon_terror"
   },
   {
     "id": "dragon_boost",
@@ -165,7 +175,9 @@
     "base_energy_cost": 150,
     "energy_source": "MANA",
     "difficulty": 0,
-    "flags": [ "LOUD", "NO_HANDS", "NO_LEGS" ]
+    "flags": [ "LOUD", "NO_HANDS", "NO_LEGS" ],
+    "sound_id": "spell",
+    "sound_variant": "dragon_boost"
   },
   {
     "type": "SPELL",
@@ -216,7 +228,9 @@
     "final_casting_time": 160,
     "casting_time_increment": -10,
     "energy_source": "MANA",
-    "base_energy_cost": 100
+    "base_energy_cost": 100,
+    "sound_id": "spell",
+    "sound_variant": "dragon_spit_acid"
   },
   {
     "type": "SPELL",
@@ -242,6 +256,8 @@
     "base_casting_time": 200,
     "energy_source": "MANA",
     "base_energy_cost": 200,
-    "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS", "LOUD" ]
+    "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS", "LOUD" ],
+    "sound_id": "spell",
+    "sound_variant": "dragon_breath_acid"
   }
 ]

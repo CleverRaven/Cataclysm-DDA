@@ -27,8 +27,8 @@
     "max_level": 35,
     "base_casting_time": 150,
     "sound_description": "a deep rumbling",
-    "sound_id": "earth_spell",
-    "sound_variant": "strong",
+    "sound_id": "spell",
+    "sound_variant": "quake_transform",
     "energy_source": "MANA",
     "extra_effects": [ { "id": "quake_transform" } ]
   },
@@ -65,8 +65,8 @@
     "min_range": 8,
     "max_range": 15,
     "range_increment": 0.2,
-    "sound_id": "earth_spell",
-    "sound_variant": "strong",
+    "sound_id": "spell",
+    "sound_variant": "rock_blast",
     "energy_source": "STAMINA",
     "spell_class": "EARTH_ELEMENTAL",
     "damage_type": "bash",
@@ -87,8 +87,8 @@
     "max_damage": 180,
     "damage_increment": 4.6,
     "damage_type": "bash",
-    "sound_id": "earth_spell",
-    "sound_variant": "strong"
+    "sound_id": "spell",
+    "sound_variant": "rock_blast"
   },
   {
     "id": "rock_blast_push",

@@ -29,7 +29,9 @@
     "difficulty": 3,
     "max_level": 35,
     "base_casting_time": 700,
-    "energy_source": "MANA"
+    "energy_source": "MANA",
+    "sound_id": "spell",
+    "sound_variant": "spy_wasp"
   },
   {
     "id": "artificer_toolkit",
@@ -106,6 +108,8 @@
     "final_casting_time": 500,
     "casting_time_increment": -30,
     "base_energy_cost": 100,
-    "energy_source": "BIONIC"
+    "energy_source": "BIONIC",
+    "sound_id": "spell",
+    "sound_variant": "artificer_toolkit"
   }
 ]

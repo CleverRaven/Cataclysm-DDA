@@ -70,7 +70,9 @@
     "energy_source": "MANA",
     "flags": [ "VERBAL", "SOMATIC", "LOUD", "MUST_HAVE_CLASS_TO_LEARN" ],
     "extra_effects": [ { "id": "lava_bomb_shrapnel" }, { "id": "lava_bomb_heat" }, { "id": "lava_bomb_ter" } ],
-    "spell_class": "VULCANIST"
+    "spell_class": "VULCANIST",
+    "sound_id": "spell",
+    "sound_variant": "lava_bomb_main"
   },
   {
     "id": "vulcanist_pyroclastic_flow",
@@ -99,7 +101,9 @@
     "energy_source": "MANA",
     "flags": [ "VERBAL", "SOMATIC", "LOUD", "IGNITE_FLAMMABLE" ],
     "extra_effects": [ { "id": "vulcanist_pyroclastic_flow_smoke" } ],
-    "spell_class": "VULCANIST"
+    "spell_class": "VULCANIST",
+    "sound_id": "spell",
+    "sound_variant": "vulcanist_pyroclastic_flow"
   },
   {
     "type": "SPELL",

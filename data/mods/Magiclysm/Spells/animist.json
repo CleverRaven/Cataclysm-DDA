@@ -19,7 +19,9 @@
     "max_level": 15,
     "damage_type": "pure",
     "flags": [ "VERBAL", "SOMATIC", "LOUD" ],
-    "energy_source": "MANA"
+    "energy_source": "MANA",
+    "sound_id": "spell",
+    "sound_variant": "smite"
   },
   {
     "id": "recover_mana",
@@ -41,7 +43,9 @@
     "energy_increment": 1.0,
     "final_energy_cost": 40,
     "flags": [ "SOMATIC", "VERBAL", "SILENT", "NO_LEGS" ],
-    "difficulty": 3
+    "difficulty": 3,
+    "sound_id": "spell",
+    "sound_variant": "recover_mana"
   },
   {
     "id": "recover_pain",
@@ -62,7 +66,9 @@
     "base_energy_cost": 5000,
     "energy_increment": 500.0,
     "flags": [ "SOMATIC", "VERBAL", "PAIN_NORESIST" ],
-    "final_energy_cost": 10000
+    "final_energy_cost": 10000,
+    "sound_id": "spell",
+    "sound_variant": "recover_pain"
   },
   {
     "id": "summon_zombie",
@@ -92,7 +98,9 @@
     "min_duration": 30000,
     "max_duration": 150000,
     "duration_increment": 4000,
-    "learn_spells": { "summon_tough_zombie": 20 }
+    "learn_spells": { "summon_tough_zombie": 20 },
+    "sound_id": "spell",
+    "sound_variant": "summon_zombie"
   },
   {
     "id": "summon_tough_zombie",
@@ -121,7 +129,9 @@
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE" ],
     "min_duration": 30000,
     "max_duration": 150000,
-    "duration_increment": 4000
+    "duration_increment": 4000,
+    "sound_id": "spell",
+    "sound_variant": "summon_tough_zombie"
   },
   {
     "id": "summon_skeleton",
@@ -150,7 +160,9 @@
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE" ],
     "min_duration": 30000,
     "max_duration": 150000,
-    "duration_increment": 4000
+    "duration_increment": 4000,
+    "sound_id": "spell",
+    "sound_variant": "summon_skeleton"
   },
   {
     "id": "summon_decayed_pouncer",
@@ -180,7 +192,9 @@
     "min_duration": 30000,
     "max_duration": 150000,
     "duration_increment": 4000,
-    "learn_spells": { "summon_zougar_hunter": 20 }
+    "learn_spells": { "summon_zougar_hunter": 20 },
+    "sound_id": "spell",
+    "sound_variant": "summon_decayed_pouncer"
   },
   {
     "id": "summon_zougar_hunter",
@@ -209,7 +223,9 @@
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE" ],
     "min_duration": 30000,
     "max_duration": 150000,
-    "duration_increment": 4000
+    "duration_increment": 4000,
+    "sound_id": "spell",
+    "sound_variant": "summon_zougar_hunter"
   },
   {
     "id": "necrotic_gaze",
@@ -232,7 +248,9 @@
     "difficulty": 3,
     "base_casting_time": 100,
     "base_energy_cost": 2,
-    "damage_type": "biological"
+    "damage_type": "biological",
+    "sound_id": "spell",
+    "sound_variant": "necrotic_gaze"
   },
   {
     "id": "create_rune_animist",
@@ -254,7 +272,9 @@
     "max_level": 0,
     "spell_class": "ANIMIST",
     "energy_source": "MANA",
-    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
+    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ],
+    "sound_id": "spell",
+    "sound_variant": "create_rune_animist"
   },
   {
     "id": "soulrend",
@@ -279,7 +299,9 @@
     "base_energy_cost": 200,
     "min_range": 5,
     "max_range": 30,
-    "range_increment": 1.0
+    "range_increment": 1.0,
+    "sound_id": "spell",
+    "sound_variant": "soulrend"
   },
   {
     "id": "banishment_lesser",
@@ -300,7 +322,9 @@
     "difficulty": 9,
     "max_level": 25,
     "base_casting_time": 100,
-    "energy_source": "MANA"
+    "energy_source": "MANA",
+    "sound_id": "spell",
+    "sound_variant": "banishment_lesser"
   },
   {
     "id": "summon_wisps",
@@ -328,7 +352,9 @@
     "range_increment": 0.16,
     "min_duration": 6000,
     "max_duration": 60000,
-    "duration_increment": 2160
+    "duration_increment": 2160,
+    "sound_id": "spell",
+    "sound_variant": "summon_wisps"
   },
   {
     "id": "bleed",
@@ -357,7 +383,9 @@
     "duration_increment": 20,
     "min_dot": 2,
     "max_dot": 52,
-    "dot_increment": 2
+    "dot_increment": 2,
+    "sound_id": "spell",
+    "sound_variant": "bleed"
   },
   {
     "id": "animist_summon_decaying_boneclub",
@@ -380,6 +408,8 @@
     "base_casting_time": 400,
     "base_energy_cost": 6,
     "energy_source": "HP",
-    "difficulty": 6
+    "difficulty": 6,
+    "sound_id": "spell",
+    "sound_variant": "animist_summon_decaying_boneclub"
   }
 ]

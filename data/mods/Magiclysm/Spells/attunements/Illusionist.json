@@ -23,6 +23,8 @@
     "difficulty": 5,
     "max_level": 35,
     "base_casting_time": 180,
-    "energy_source": "MANA"
+    "energy_source": "MANA",
+    "sound_id": "spell",
+    "sound_variant": "spear_of_light"
   }
 ]

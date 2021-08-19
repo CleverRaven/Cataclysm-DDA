@@ -22,7 +22,9 @@
     "max_aoe": 1,
     "min_range": 5,
     "max_range": 15,
-    "range_increment": 1
+    "range_increment": 1,
+    "sound_id": "spell",
+    "sound_variant": "force_blade"
   },
   {
     "id": "force_magical_armor",
@@ -77,6 +79,8 @@
     "max_damage": 1,
     "min_duration": 360000,
     "max_duration": 1440000,
-    "duration_increment": 40115
+    "duration_increment": 40115,
+    "sound_id": "spell",
+    "sound_variant": "force_magical_armor"
   }
 ]

@@ -24,7 +24,9 @@
     "final_energy_cost": 800,
     "energy_increment": 12,
     "extra_effects": [ { "id": "alchemist_make_potion_bomb_create" } ],
-    "difficulty": 8
+    "difficulty": 8,
+    "sound_id": "spell",
+    "sound_variant": "alchemist_make_potion_bomb"
   },
   {
     "id": "alchemist_make_potion_bomb_create",
@@ -64,7 +66,9 @@
     "final_energy_cost": 800,
     "energy_increment": 12,
     "extra_effects": [ { "id": "alchemist_make_potion_trap_create" } ],
-    "difficulty": 8
+    "difficulty": 8,
+    "sound_id": "spell",
+    "sound_variant": "alchemist_make_potion_trap"
   },
   {
     "id": "alchemist_make_potion_trap_create",

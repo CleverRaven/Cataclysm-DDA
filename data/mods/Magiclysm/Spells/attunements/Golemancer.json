@@ -30,7 +30,9 @@
     "max_range": 3,
     "components": "summon_golem",
     "extra_effects": [ { "id": "summon_golem_focus" } ],
-    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE" ]
+    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE" ],
+    "sound_id": "spell",
+    "sound_variant": "summon_golem"
   },
   {
     "id": "summon_golem_focus",
@@ -72,6 +74,8 @@
     "max_level": 35,
     "base_casting_time": 480,
     "final_casting_time": 130,
-    "casting_time_increment": -10.0
+    "casting_time_increment": -10.0,
+    "sound_id": "spell",
+    "sound_variant": "golem_push"
   }
 ]

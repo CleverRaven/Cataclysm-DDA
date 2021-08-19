@@ -19,7 +19,9 @@
     "base_energy_cost": 100,
     "min_duration": 10000,
     "max_duration": 100000,
-    "duration_increment": 2000
+    "duration_increment": 2000,
+    "sound_id": "spell",
+    "sound_variant": "stonefist"
   },
   {
     "id": "seismic_stomp",
@@ -46,7 +48,9 @@
     "base_energy_cost": 250,
     "energy_source": "MANA",
     "difficulty": 2,
-    "damage_type": "bash"
+    "damage_type": "bash",
+    "sound_id": "spell",
+    "sound_variant": "seismic_stomp"
   },
   {
     "id": "recover_stamina",
@@ -70,7 +74,9 @@
     "base_energy_cost": 150,
     "energy_increment": 75,
     "final_energy_cost": 1000,
-    "difficulty": 5
+    "difficulty": 5,
+    "sound_id": "spell",
+    "sound_variant": "recover_stamina"
   },
   {
     "id": "eshaper_shardspray",
@@ -100,7 +106,9 @@
     "range_increment": 0.5,
     "min_pierce": 0,
     "max_pierce": 5,
-    "pierce_increment": 0.4
+    "pierce_increment": 0.4,
+    "sound_id": "spell",
+    "sound_variant": "eshaper_shardspray"
   },
   {
     "id": "eshaper_piercing_bolt",
@@ -123,7 +131,9 @@
     "damage_type": "stab",
     "min_range": 8,
     "max_range": 26,
-    "range_increment": 1.5
+    "range_increment": 1.5,
+    "sound_id": "spell",
+    "sound_variant": "eshaper_piercing_bolt"
   },
   {
     "id": "eshaper_shardstorm",
@@ -146,7 +156,9 @@
     "base_casting_time": 100,
     "energy_source": "MANA",
     "shape": "blast",
-    "effect": "attack"
+    "effect": "attack",
+    "sound_id": "spell",
+    "sound_variant": "eshaper_shardstorm"
   },
   {
     "id": "eshaper_rockbolt",
@@ -169,7 +181,9 @@
     "base_casting_time": 100,
     "energy_source": "MANA",
     "shape": "blast",
-    "effect": "attack"
+    "effect": "attack",
+    "sound_id": "spell",
+    "sound_variant": "eshaper_rockbolt"
   },
   {
     "id": "move_earth",
@@ -194,7 +208,9 @@
     "energy_source": "MANA",
     "shape": "blast",
     "effect": "ter_transform",
-    "effect_str": "move_earth"
+    "effect_str": "move_earth",
+    "sound_id": "spell",
+    "sound_variant": "move_earth"
   },
   {
     "id": "create_rune_earthshaper",
@@ -216,7 +232,9 @@
     "max_level": 0,
     "spell_class": "EARTHSHAPER",
     "energy_source": "MANA",
-    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
+    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ],
+    "sound_id": "spell",
+    "sound_variant": "create_rune_earthshaper"
   },
   {
     "id": "clairvoyance",
@@ -238,7 +256,9 @@
     "difficulty": 4,
     "field_id": "fd_clairvoyant",
     "min_field_intensity": 1,
-    "max_field_intensity": 1
+    "max_field_intensity": 1,
+    "sound_id": "spell",
+    "sound_variant": "clairvoyance"
   },
   {
     "id": "earthshaper_stoneskin",
@@ -260,7 +280,9 @@
     "max_damage": 1,
     "min_duration": 10000,
     "max_duration": 100000,
-    "duration_increment": 2000
+    "duration_increment": 2000,
+    "sound_id": "spell",
+    "sound_variant": "earthshaper_stoneskin"
   },
   {
     "id": "earthshaper_pillar",
@@ -283,7 +305,9 @@
     "max_level": 10,
     "min_range": 3,
     "max_range": 6,
-    "range_increment": 0.3
+    "range_increment": 0.3,
+    "sound_id": "spell",
+    "sound_variant": "earthshaper_pillar"
   },
   {
     "id": "earthshaper_pillar_side_effect",

@@ -21,7 +21,9 @@
     "max_level": 35,
     "base_casting_time": 120,
     "energy_source": "MANA",
-    "extra_effects": [ { "id": "shortwave_2" } ]
+    "extra_effects": [ { "id": "shortwave_2" } ],
+    "sound_id": "spell",
+    "sound_variant": "shortwave"
   },
   {
     "id": "shortwave_2",
@@ -68,6 +70,8 @@
     "dot_increment": 1,
     "min_duration": 500,
     "max_duration": 2000,
-    "duration_increment": 43
+    "duration_increment": 43,
+    "sound_id": "spell",
+    "sound_variant": "gamma_burst"
   }
 ]

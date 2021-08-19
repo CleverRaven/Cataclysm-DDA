@@ -26,8 +26,8 @@
     "max_level": 35,
     "base_casting_time": 225,
     "sound_description": "skin crackling",
-    "sound_id": "fire_spell",
-    "sound_variant": "strong",
+    "sound_id": "spell",
+    "sound_variant": "burn_at_both_ends",
     "energy_source": "MANA"
   },
   {
@@ -64,6 +64,8 @@
     "spell_class": "SOULFIRE",
     "energy_source": "HP",
     "base_energy_cost": 30,
-    "extra_effects": [ { "id": "soul_afterburner_effect_1", "hit_self": true } ]
+    "extra_effects": [ { "id": "soul_afterburner_effect_1", "hit_self": true } ],
+    "sound_id": "spell",
+    "sound_variant": "soul_afterburner"
   }
 ]

@@ -27,6 +27,8 @@
     "base_energy_cost": 400,
     "energy_source": "MANA",
     "difficulty": 8,
-    "damage_type": "heat"
+    "damage_type": "heat",
+    "sound_id": "spell",
+    "sound_variant": "overaccelerate"
   }
 ]

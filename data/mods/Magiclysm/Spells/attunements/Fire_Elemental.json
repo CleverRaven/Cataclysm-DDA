@@ -20,8 +20,8 @@
     "max_level": 35,
     "base_casting_time": 150,
     "sound_description": "skin crackling",
-    "sound_id": "fire_spell",
-    "sound_variant": "strong",
+    "sound_id": "spell",
+    "sound_variant": "flareup",
     "energy_source": "MANA"
   },
   {
@@ -42,7 +42,8 @@
     "max_level": 35,
     "base_casting_time": 25,
     "sound_description": "whoosh",
-    "sound_id": "fire_spell",
+    "sound_id": "spell",
+    "sound_variant": "flarewhip",
     "energy_source": "MANA",
     "min_duration": 90000,
     "duration_increment": 6000,

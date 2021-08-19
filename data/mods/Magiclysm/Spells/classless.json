@@ -19,7 +19,9 @@
     "final_energy_cost": 1000,
     "base_casting_time": 720000,
     "final_casting_time": 720000,
-    "extra_effects": [ { "id": "mana_fatigue" } ]
+    "extra_effects": [ { "id": "mana_fatigue" } ],
+    "sound_id": "spell",
+    "sound_variant": "crystallize_mana"
   },
   {
     "id": "mana_fatigue",
@@ -54,7 +56,9 @@
     "max_level": 20,
     "min_duration": 100000,
     "max_duration": 1000000,
-    "duration_increment": 2000
+    "duration_increment": 2000,
+    "sound_id": "spell",
+    "sound_variant": "dark_sight"
   },
   {
     "id": "megablast",
@@ -80,7 +84,9 @@
     "range_increment": 0.45,
     "min_aoe": 1,
     "max_aoe": 5,
-    "aoe_increment": 0.2
+    "aoe_increment": 0.2,
+    "sound_id": "spell",
+    "sound_variant": "megablast"
   },
   {
     "id": "create_atomic_light",
@@ -103,7 +109,9 @@
     "base_energy_cost": 200,
     "min_duration": 100000,
     "max_duration": 1000000,
-    "duration_increment": 45000
+    "duration_increment": 45000,
+    "sound_id": "spell",
+    "sound_variant": "create_atomic_light"
   },
   {
     "id": "blinding_flash",
@@ -134,7 +142,9 @@
     "base_energy_cost": 150,
     "energy_source": "MANA",
     "difficulty": 3,
-    "damage_type": "pure"
+    "damage_type": "pure",
+    "sound_id": "spell",
+    "sound_variant": "blinding_flash"
   },
   {
     "id": "ethereal_grasp",
@@ -165,7 +175,9 @@
     "base_energy_cost": 400,
     "energy_source": "MANA",
     "difficulty": 3,
-    "damage_type": "bash"
+    "damage_type": "bash",
+    "sound_id": "spell",
+    "sound_variant": "ethereal_grasp"
   },
   {
     "id": "obfuscated_body",
@@ -185,7 +197,9 @@
     "base_energy_cost": 400,
     "min_duration": 21000,
     "max_duration": 90000,
-    "duration_increment": 4500
+    "duration_increment": 4500,
+    "sound_id": "spell",
+    "sound_variant": "obfuscated_body"
   },
   {
     "id": "protection_aura",
@@ -206,7 +220,9 @@
     "base_energy_cost": 375,
     "min_duration": 10000,
     "max_duration": 50000,
-    "duration_increment": 3000
+    "duration_increment": 3000,
+    "sound_id": "spell",
+    "sound_variant": "protection_aura"
   },
   {
     "id": "translocate_self",
@@ -221,7 +237,9 @@
     "base_casting_time": 6000,
     "base_energy_cost": 675,
     "energy_source": "MANA",
-    "spell_class": "NONE"
+    "spell_class": "NONE",
+    "sound_id": "spell",
+    "sound_variant": "translocate_self"
   },
   {
     "id": "acid_resistance",
@@ -246,7 +264,9 @@
     "min_duration": 84000,
     "max_duration": 360000,
     "duration_increment": 18400,
-    "learn_spells": { "acid_resistance_greater": 15 }
+    "learn_spells": { "acid_resistance_greater": 15 },
+    "sound_id": "spell",
+    "sound_variant": "acid_resistance"
   },
   {
     "id": "acid_resistance_greater",
@@ -268,6 +288,8 @@
     "max_level": 1,
     "base_casting_time": 200,
     "base_energy_cost": 250,
-    "min_duration": 180000
+    "min_duration": 180000,
+    "sound_id": "spell",
+    "sound_variant": "acid_resistance_greater"
   }
 ]

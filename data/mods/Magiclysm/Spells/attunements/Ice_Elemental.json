@@ -21,7 +21,9 @@
     "final_energy_cost": 250,
     "min_duration": 18000,
     "max_duration": 120000,
-    "duration_increment": 4500
+    "duration_increment": 4500,
+    "sound_id": "spell",
+    "sound_variant": "summon_subzero_talons"
   },
   {
     "id": "cold_heart",
@@ -49,7 +51,9 @@
     "base_energy_cost": 160,
     "energy_increment": -2.3,
     "final_energy_cost": 80,
-    "extra_effects": [ { "id": "cold_heart_slow" } ]
+    "extra_effects": [ { "id": "cold_heart_slow" } ],
+    "sound_id": "spell",
+    "sound_variant": "cold_heart"
   },
   {
     "id": "cold_heart_slow",

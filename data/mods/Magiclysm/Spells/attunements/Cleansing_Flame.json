@@ -55,7 +55,9 @@
     "max_level": 35,
     "base_casting_time": 390,
     "sound_description": "a searing whoosh",
-    "energy_source": "MANA"
+    "energy_source": "MANA",
+    "sound_id": "spell",
+    "sound_variant": "immolate"
   },
   {
     "id": "immolate_push",
@@ -95,7 +97,9 @@
     "damage_increment": -2.9,
     "max_level": 35,
     "extra_effects": [ { "id": "cleansingflame_hermes_burn" }, { "id": "pain_split" } ],
-    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "LOUD" ]
+    "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "LOUD" ],
+    "sound_id": "spell",
+    "sound_variant": "cleansingflame_hermes_heal"
   },
   {
     "id": "cleansingflame_hermes_burn",

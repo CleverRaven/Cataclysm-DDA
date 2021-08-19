@@ -21,7 +21,9 @@
     "difficulty": 6,
     "max_level": 35,
     "base_casting_time": 100,
-    "energy_source": "MANA"
+    "energy_source": "MANA",
+    "sound_id": "spell",
+    "sound_variant": "banishment_greater"
   },
   {
     "id": "demon_possession_aura",
@@ -73,6 +75,8 @@
     "max_level": 35,
     "base_casting_time": 800,
     "base_energy_cost": 5,
-    "energy_source": "HP"
+    "energy_source": "HP",
+    "sound_id": "spell",
+    "sound_variant": "demonic_possession"
   }
 ]

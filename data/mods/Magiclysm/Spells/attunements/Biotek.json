@@ -22,7 +22,9 @@
     "base_casting_time": 300,
     "base_energy_cost": 350,
     "max_level": 35,
-    "energy_source": "BIONIC"
+    "energy_source": "BIONIC",
+    "sound_id": "spell",
+    "sound_variant": "nitro_boost"
   },
   {
     "id": "jury_rig",
@@ -49,6 +51,8 @@
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "CONCENTRATE", "MUST_HAVE_CLASS_TO_LEARN" ],
     "spell_class": "BIOTEK",
     "difficulty": 2,
-    "energy_source": "BIONIC"
+    "energy_source": "BIONIC",
+    "sound_id": "spell",
+    "sound_variant": "biotek_healing"
   }
 ]

@@ -19,7 +19,9 @@
     "flags": [ "SOMATIC", "VERBAL", "NO_PROJECTILE" ],
     "spell_class": "BIOMANCER",
     "difficulty": 2,
-    "energy_source": "MANA"
+    "energy_source": "MANA",
+    "sound_id": "spell",
+    "sound_variant": "light_healing"
   },
   {
     "id": "pain_split",
@@ -35,7 +37,9 @@
     "flags": [ "SOMATIC", "NO_LEGS", "CONCENTRATE" ],
     "spell_class": "BIOMANCER",
     "difficulty": 4,
-    "max_level": 1
+    "max_level": 1,
+    "sound_id": "spell",
+    "sound_variant": "pain_split"
   },
   {
     "id": "vicious_tentacle",
@@ -57,7 +61,9 @@
     "max_level": 20,
     "flags": [ "SOMATIC", "LOUD" ],
     "spell_class": "BIOMANCER",
-    "energy_source": "MANA"
+    "energy_source": "MANA",
+    "sound_id": "spell",
+    "sound_variant": "vicious_tentacle"
   },
   {
     "id": "bio_grotesque",
@@ -78,7 +84,9 @@
     "//": "duration is in moves",
     "min_duration": 6000,
     "max_duration": 12000,
-    "duration_increment": 300
+    "duration_increment": 300,
+    "sound_id": "spell",
+    "sound_variant": "bio_grotesque"
   },
   {
     "id": "bio_acidicspray",
@@ -105,7 +113,9 @@
     "range_increment": 0.25,
     "min_aoe": 25,
     "max_aoe": 60,
-    "aoe_increment": 5.0
+    "aoe_increment": 5.0,
+    "sound_id": "spell",
+    "sound_variant": "bio_acidicspray"
   },
   {
     "id": "bio_fleshpouch",
@@ -127,7 +137,9 @@
     "max_level": 20,
     "flags": [ "NO_HANDS", "NO_LEGS", "SOMATIC" ],
     "spell_class": "BIOMANCER",
-    "energy_source": "MANA"
+    "energy_source": "MANA",
+    "sound_id": "spell",
+    "sound_variant": "bio_fleshpouch"
   },
   {
     "id": "bio_bonespear",
@@ -149,7 +161,9 @@
     "max_level": 20,
     "flags": [ "LOUD", "SOMATIC" ],
     "spell_class": "BIOMANCER",
-    "energy_source": "MANA"
+    "energy_source": "MANA",
+    "sound_id": "spell",
+    "sound_variant": "bio_bonespear"
   },
   {
     "id": "create_rune_biomancer",
@@ -171,7 +185,9 @@
     "max_level": 0,
     "spell_class": "BIOMANCER",
     "energy_source": "MANA",
-    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
+    "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ],
+    "sound_id": "spell",
+    "sound_variant": "create_rune_biomancer"
   },
   {
     "id": "biomancer_paralytic_dart",
@@ -198,7 +214,9 @@
     "range_increment": 0.4,
     "min_duration": 1200,
     "max_duration": 12000,
-    "duration_increment": 720
+    "duration_increment": 720,
+    "sound_id": "spell",
+    "sound_variant": "biomancer_paralytic_dart"
   },
   {
     "id": "biomancer_visceral_projection",
@@ -228,7 +246,9 @@
     "field_chance": 1,
     "min_field_intensity": 1,
     "max_field_intensity": 3,
-    "field_intensity_increment": 0.1
+    "field_intensity_increment": 0.1,
+    "sound_id": "spell",
+    "sound_variant": "biomancer_visceral_projection"
   },
   {
     "id": "biomancer_visceral_paralyze",
@@ -284,7 +304,9 @@
     "max_level": 20,
     "min_duration": 6000,
     "max_duration": 12000,
-    "duration_increment": 300
+    "duration_increment": 300,
+    "sound_id": "spell",
+    "sound_variant": "biomancer_coagulant_weave"
   },
   {
     "id": "corrosive_aura_spell",
@@ -332,6 +354,8 @@
     "max_range": 1,
     "min_duration": 6000,
     "max_duration": 30000,
-    "duration_increment": 1600
+    "duration_increment": 1600,
+    "sound_id": "spell",
+    "sound_variant": "biomancer_caustic_aura"
   }
 ]

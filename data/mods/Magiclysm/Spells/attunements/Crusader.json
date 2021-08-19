@@ -67,6 +67,8 @@
     "max_level": 35,
     "base_casting_time": 1500,
     "base_energy_cost": 500,
-    "energy_source": "MANA"
+    "energy_source": "MANA",
+    "sound_id": "spell",
+    "sound_variant": "holy_shield"
   }
 ]

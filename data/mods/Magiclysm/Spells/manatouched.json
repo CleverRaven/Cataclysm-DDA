@@ -45,6 +45,8 @@
     "damage_type": "pure",
     "sound_description": "a zing",
     "flags": [ "RANDOM_TARGET", "SOMATIC", "NO_LEGS", "MUST_HAVE_CLASS_TO_LEARN" ],
-    "extra_effects": [ { "id": "magic_missile" }, { "id": "magic_missile" }, { "id": "magic_missile" }, { "id": "magic_missile" } ]
+    "extra_effects": [ { "id": "magic_missile" }, { "id": "magic_missile" }, { "id": "magic_missile" }, { "id": "magic_missile" } ],
+    "sound_id": "spell",
+    "sound_variant": "manatouched_seeker_bolts"
   }
 ]

@@ -46,7 +46,9 @@
     "range_increment": 0.5,
     "extra_effects": [ { "id": "gravitymage_graviton_damage" }, { "id": "gravitymage_graviton_centerdamage" } ],
     "flags": [ "SOMATIC", "VERBAL", "CONCENTRATE", "NO_PROJECTILE", "IGNORE_WALLS", "LOUD" ],
-    "sound_description": "a crack"
+    "sound_description": "a crack",
+    "sound_id": "spell",
+    "sound_variant": "gravitymage_graviton"
   },
   {
     "id": "gravitymage_graviton_centerdamage",
