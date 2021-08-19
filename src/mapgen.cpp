@@ -3130,7 +3130,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
             return false;
         }
 
-        parameters = palette.parameters;
+        parameters = palette.get_parameters();
 
         // mandatory: mapgensize rows of mapgensize character lines, each of which must have a
         // matching key in "terrain", unless fill_ter is set

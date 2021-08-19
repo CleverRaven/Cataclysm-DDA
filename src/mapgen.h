@@ -243,8 +243,6 @@ class mapgen_palette
     public:
         palette_id id;
 
-        mapgen_parameters parameters;
-
         /**
          * The mapping from character (key) to a list of things that should be placed. This is
          * similar to objects, but it uses key to get the actual position where to place things
@@ -265,6 +263,11 @@ class mapgen_palette
                                  placing_map &format_placings, const std::string &context );
 
         void check();
+
+        const mapgen_parameters &get_parameters() const {
+            return parameters;
+        }
+
         /**
          * Loads a palette object and returns it. Doesn't save it anywhere.
          */
@@ -285,6 +288,8 @@ class mapgen_palette
 
         static void reset();
     private:
+        mapgen_parameters parameters;
+
         static mapgen_palette load_internal(
             const JsonObject &jo, const std::string &src, const std::string &context,
             bool require_id, bool allow_recur );
