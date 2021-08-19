@@ -18,8 +18,10 @@
 static const activity_id ACT_NULL( "ACT_NULL" );
 static const activity_id ACT_BOLTCUTTING( "ACT_BOLTCUTTING" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
+static const activity_id ACT_GENERIC( "ACT_GENERIC" );
 static const activity_id ACT_SHEARING( "ACT_SHEARING" );
 
+static const efftype_id effect_debugged( "debugged" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_tied( "tied" );
 
@@ -32,6 +34,7 @@ static const itype_id itype_test_boltcutter( "test_boltcutter" );
 static const itype_id itype_test_boltcutter_elec( "test_boltcutter_elec" );
 static const itype_id itype_test_shears( "test_shears" );
 static const itype_id itype_test_shears_off( "test_shears_off" );
+static const itype_id itype_test_soldering_iron( "test_soldering_iron" );
 
 static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 
@@ -46,6 +49,179 @@ static const skill_id skill_traps( "traps" );
 
 static const ter_str_id ter_test_t_boltcut1( "test_t_boltcut1" );
 static const ter_str_id ter_test_t_boltcut2( "test_t_boltcut2" );
+
+TEST_CASE( "generic", "[activity][generic]" )
+{
+    avatar &dummy = get_avatar();
+
+    SECTION( "testing the functions" ) {
+        WHEN( "function is ammo_consume" ) {
+            clear_avatar();
+            generic_activity_actor act;
+            act.configure( to_moves<int>( 10_seconds ) );
+
+            item battery( itype_test_battery_disposable );
+            battery.ammo_set( battery.ammo_default(), 150 );
+
+            item soldering_iron( itype_test_soldering_iron );
+            soldering_iron.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+            REQUIRE( dummy.wield( soldering_iron ) );
+
+            const int tool_starting_ammo = dummy.weapon.ammo_remaining();
+            const item_location sironloc( dummy, &dummy.weapon );
+
+            act.add_action( act.conf_consume_ammo( dummy, sironloc ) );
+            act.add_action( act.conf_consume_ammo( dummy, sironloc ) );
+            act.add_action( act.conf_consume_ammo( dummy, sironloc ) );
+            dummy.assign_activity( player_activity( act ) );
+
+            WHEN( "player tries the activity" ) {
+                process_activity( dummy );
+                THEN( "ammo on the tool decreased" ) {
+                    CHECK( sironloc->ammo_remaining() == tool_starting_ammo - 3 );
+                }
+            }
+        }
+
+        WHEN( "function is remove_item" ) {
+            clear_avatar();
+            generic_activity_actor act;
+            act.configure( to_moves<int>( 10_seconds ) );
+
+            item battery( itype_test_battery_disposable );
+            REQUIRE( dummy.wield( battery ) );
+
+            const item_location sironloc( dummy, &dummy.weapon );
+
+            act.add_action( act.conf_remove_item( dummy, sironloc ) );
+            dummy.assign_activity( player_activity( act ) );
+
+            WHEN( "player tries the activity" ) {
+                process_activity( dummy );
+                THEN( "item was removed" ) {
+                    CHECK_FALSE( dummy.has_weapon() );
+                }
+            }
+        }
+
+        // testing add_msg is not possible
+
+        WHEN( "function is effect_add" ) {
+            clear_avatar();
+            generic_activity_actor act;
+            act.configure( to_moves<int>( 10_seconds ) );
+
+            REQUIRE_FALSE( dummy.has_effect( effect_debugged ) );
+
+            act.add_action( act.conf_effect_add( dummy, effect_debugged, 200_seconds, true ) );
+            dummy.assign_activity( player_activity( act ) );
+
+            WHEN( "player tries the activity" ) {
+                process_activity( dummy );
+                THEN( "player has the effect" ) {
+                    CHECK( dummy.has_effect( effect_debugged ) );
+                }
+            }
+        }
+
+        WHEN( "function is effect_remove" ) {
+            clear_avatar();
+            generic_activity_actor act;
+            act.configure( to_moves<int>( 10_seconds ) );
+
+            dummy.add_effect( effect_debugged, 200_seconds, true );
+            REQUIRE( dummy.has_effect( effect_debugged ) );
+
+            act.add_action( act.conf_effect_remove( dummy, effect_debugged ) );
+            dummy.assign_activity( player_activity( act ) );
+
+            WHEN( "player tries the activity" ) {
+                process_activity( dummy );
+                THEN( "player does not have the effect" ) {
+                    CHECK_FALSE( dummy.has_effect( effect_debugged ) );
+                }
+            }
+        }
+
+        WHEN( "function is stim_mod" ) {
+            clear_avatar();
+            generic_activity_actor act;
+            act.configure( to_moves<int>( 10_seconds ) );
+
+            REQUIRE( dummy.get_stim() == 0 );
+
+            act.add_action( act.conf_stim_mod( dummy, 50 ) );
+            dummy.assign_activity( player_activity( act ) );
+
+            WHEN( "player tries the activity" ) {
+                process_activity( dummy );
+                THEN( "player has stims" ) {
+                    CHECK( dummy.get_stim() == 50 );
+                }
+            }
+        }
+
+        WHEN( "function is painkiller_mod" ) {
+            clear_avatar();
+            generic_activity_actor act;
+            act.configure( to_moves<int>( 10_seconds ) );
+
+            REQUIRE( dummy.get_painkiller() == 0 );
+
+            act.add_action( act.conf_painkiller_mod( dummy, 50 ) );
+            dummy.assign_activity( player_activity( act ) );
+
+            WHEN( "player tries the activity" ) {
+                process_activity( dummy );
+                THEN( "player has painkiller" ) {
+                    CHECK( dummy.get_painkiller() == 50 );
+                }
+            }
+        }
+
+        WHEN( "function is painkiller_mod" ) {
+            clear_avatar();
+            generic_activity_actor act;
+            act.configure( to_moves<int>( 10_seconds ) );
+
+            REQUIRE( dummy.get_painkiller() == 0 );
+
+            act.add_action( act.conf_painkiller_mod( dummy, 50 ) );
+            dummy.assign_activity( player_activity( act ) );
+
+            WHEN( "player tries the activity" ) {
+                process_activity( dummy );
+                THEN( "player has painkiller" ) {
+                    CHECK( dummy.get_painkiller() == 50 );
+                }
+            }
+        }
+
+        WHEN( "function is set_furn" ) {
+            clear_avatar();
+            clear_map();
+            generic_activity_actor act;
+            act.configure( to_moves<int>( 10_seconds ) );
+
+            map &here = get_map();
+
+            REQUIRE_FALSE( here.has_furn( tripoint_zero ) );
+
+            act.add_action( act.conf_set_furn( tripoint_zero, furn_t_test_f_boltcut1 ) );
+            dummy.assign_activity( player_activity( act ) );
+
+            WHEN( "player tries the activity" ) {
+                process_activity( dummy );
+                THEN( "tripoint has furniture" ) {
+                    CHECK( here.has_furn( tripoint_zero ) );
+                    AND_THEN( "furniture id matches as specified" ) {
+                        CHECK( here.furn( tripoint_zero ).id() == furn_t_test_f_boltcut1 );
+                    }
+                }
+            }
+        }
+    }
+}
 
 TEST_CASE( "safecracking", "[activity][safecracking]" )
 {
