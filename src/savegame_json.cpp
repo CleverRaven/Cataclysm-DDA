@@ -1575,6 +1575,18 @@ void dialogue_chatbin::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "first_topic", first_topic );
+    json.member( "talk_radio", talk_radio );
+    json.member( "talk_leader", talk_leader );
+    json.member( "talk_friend", talk_friend );
+    json.member( "talk_stole_item", talk_stole_item );
+    json.member( "talk_wake_up", talk_wake_up );
+    json.member( "talk_mug", talk_mug );
+    json.member( "talk_stranger_aggressive", talk_stranger_aggressive );
+    json.member( "talk_stranger_scared", talk_stranger_scared );
+    json.member( "talk_stranger_wary", talk_stranger_wary );
+    json.member( "talk_stranger_friendly", talk_stranger_friendly );
+    json.member( "talk_stranger_neutral", talk_stranger_neutral );
+    json.member( "talk_friend_guard", talk_friend_guard );
     if( mission_selected != nullptr ) {
         json.member( "mission_selected", mission_selected->get_id() );
     }
@@ -1599,7 +1611,18 @@ void dialogue_chatbin::deserialize( JsonIn &jsin )
     } else {
         data.read( "first_topic", first_topic );
     }
-
+    data.read( "talk_radio", talk_radio );
+    data.read( "talk_leader", talk_leader );
+    data.read( "talk_friend", talk_friend );
+    data.read( "talk_stole_item", talk_stole_item );
+    data.read( "talk_wake_up", talk_wake_up );
+    data.read( "talk_mug", talk_mug );
+    data.read( "talk_stranger_aggressive", talk_stranger_aggressive );
+    data.read( "talk_stranger_scared", talk_stranger_scared );
+    data.read( "talk_stranger_wary", talk_stranger_wary );
+    data.read( "talk_stranger_friendly", talk_stranger_friendly );
+    data.read( "talk_stranger_neutral", talk_stranger_neutral );
+    data.read( "talk_friend_guard", talk_friend_guard );
     data.read( "skill", skill );
     data.read( "style", style );
     data.read( "dialogue_spell", dialogue_spell );

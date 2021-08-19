@@ -40,8 +40,6 @@
 #include "weather.h"
 #include "weather_type.h"
 
-static const skill_id skill_swimming( "swimming" );
-
 static const std::string title_STATS = translate_marker( "STATS" );
 static const std::string title_ENCUMB = translate_marker( "ENCUMBRANCE AND WARMTH" );
 static const std::string title_EFFECTS = translate_marker( "EFFECTS" );
@@ -166,14 +164,9 @@ void Character::print_encumbrance( const catacurses::window &win, const int line
     }
 }
 
-static std::string swim_cost_text( int moves )
+static std::string swim_cost_text( float moves )
 {
-    return string_format( _( "Swimming movement point cost: <color_white>%+d</color>\n" ), moves );
-}
-
-static std::string run_cost_text( int moves )
-{
-    return string_format( _( "Movement point cost: <color_white>%+d</color>\n" ), moves );
+    return string_format( _( "Swimming movement point cost: <color_white>x%.2f</color>\n" ), moves );
 }
 
 static std::string reload_cost_text( float moves )
@@ -199,33 +192,15 @@ static std::string ranged_cost_text( double disp )
     return string_format( _( "Dispersion when using ranged attacks: <color_white>%+.1f</color>\n" ),
                           disp );
 }
-static std::string dodge_skill_text( double mod )
-{
-    return string_format( _( "Dodge skill: <color_white>%+.1f</color>\n" ), mod );
-}
 
-static int get_encumbrance( const Character &you, const bodypart_id &bp, bool combine )
-{
-    // Body parts that can't combine with anything shouldn't print double values on combine
-    // This shouldn't happen, but handle this, just in case
-    const bool combines_with_other = bp->opposite_part != bp.id();
-    return you.encumb( bp ) * ( ( combine && combines_with_other ) ? 2 : 1 );
-}
-
-static std::string get_encumbrance_description( const Character &you, const bodypart_id &bp,
-        bool combine )
+static std::string get_encumbrance_description( const Character &you, const bodypart_id &bp )
 {
     std::string s;
 
-    const int eff_encumbrance = get_encumbrance( you, bp, combine );
-
     switch( bp->token ) {
         case bp_torso: {
-            const int melee_roll_pen = std::max( -eff_encumbrance, -80 );
-            s += string_format( _( "Melee attack rolls: <color_white>%+d%%</color>\n" ), melee_roll_pen );
-            s += dodge_skill_text( -( eff_encumbrance / 10.0 ) );
-            s += swim_cost_text( ( eff_encumbrance / 10.0 ) * ( 80 - you.get_skill_level(
-                                     skill_swimming ) * 3 ) );
+            s += string_format( _( "Melee attack rolls: <color_white>x%.2f</color>\n" ),
+                                you.melee_attack_roll_modifier() );
             s += melee_cost_text( you.melee_thrown_move_modifier_torso() );
             break;
         }
@@ -259,14 +234,14 @@ static std::string get_encumbrance_description( const Character &you, const body
             break;
         case bp_leg_l:
         case bp_leg_r:
-            s += run_cost_text( static_cast<int>( eff_encumbrance * 0.15 ) );
-            s += swim_cost_text( ( eff_encumbrance / 10 ) * ( 50 - you.get_skill_level(
-                                     skill_swimming ) * 2 ) / 2 );
-            s += dodge_skill_text( -eff_encumbrance / 10.0 / 4.0 );
+            s += string_format( _( "Limb speed movecost modifier: <color_white>x%.2f</color>\n" ),
+                                you.limb_speed_movecost_modifier() );
+            s += swim_cost_text( you.swim_modifier() );
             break;
         case bp_foot_l:
         case bp_foot_r:
-            s += run_cost_text( static_cast<int>( eff_encumbrance * 0.25 ) );
+            s += string_format( _( "Balance movecost modifier: <color_white>x%.2f</color>" ),
+                                p.limb_balance_movecost_modifier() );
             break;
         case num_bp:
             break;
@@ -562,12 +537,10 @@ static void draw_encumbrance_info( const catacurses::window &w_info,
 
     werase( w_info );
     bodypart_id bp;
-    bool combined_here = false;
     if( line < bps.size() ) {
         bp = bps[line].first;
-        combined_here = bps[line].second;
     }
-    const std::string s = get_encumbrance_description( you, bp, combined_here );
+    const std::string s = get_encumbrance_description( you, bp );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_light_gray, s );
     wnoutrefresh( w_info );

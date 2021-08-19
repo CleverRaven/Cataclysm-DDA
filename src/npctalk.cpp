@@ -3509,29 +3509,29 @@ std::string npc::pick_talk_topic( const Character &/*u*/ )
     if( personality.aggression > 0 ) {
         if( op_of_u.fear * 2 < personality.bravery && personality.altruism < 0 ) {
             set_attitude( NPCATT_MUG );
-            return "TALK_MUG";
+            return chatbin.talk_mug ;
         }
 
         if( personality.aggression + personality.bravery - op_of_u.fear > 0 ) {
-            return "TALK_STRANGER_AGGRESSIVE";
+            return chatbin.talk_stranger_aggressive ;
         }
     }
 
     if( op_of_u.fear * 2 > personality.altruism + personality.bravery ) {
-        return "TALK_STRANGER_SCARED";
+        return chatbin.talk_stranger_scared;
     }
 
     if( op_of_u.fear * 2 > personality.bravery + op_of_u.trust ) {
-        return "TALK_STRANGER_WARY";
+        return chatbin.talk_stranger_wary;
     }
 
     if( op_of_u.trust - op_of_u.fear +
         ( personality.bravery + personality.altruism ) / 2 > 0 ) {
-        return "TALK_STRANGER_FRIENDLY";
+        return chatbin.talk_stranger_friendly;
     }
 
     set_attitude( NPCATT_NULL );
-    return "TALK_STRANGER_NEUTRAL";
+    return chatbin.talk_stranger_neutral;
 }
 
 bool npc::has_item_whitelist() const
