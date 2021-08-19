@@ -61,7 +61,7 @@ static int temperature_print_rescaling( int temp )
     return ( temp / 100.0 ) * 2 - 100;
 }
 
-static bool should_combine_bps( const player &p, const bodypart_id &l, const bodypart_id &r,
+static bool should_combine_bps( const Character &p, const bodypart_id &l, const bodypart_id &r,
                                 const item *selected_clothing )
 {
     const encumbrance_data &enc_l = p.get_part_encumbrance_data( l );
@@ -78,7 +78,7 @@ static bool should_combine_bps( const player &p, const bodypart_id &l, const bod
 
 }
 
-static std::vector<std::pair<bodypart_id, bool>> list_and_combine_bps( const player &p,
+static std::vector<std::pair<bodypart_id, bool>> list_and_combine_bps( const Character &p,
         const item *selected_clothing )
 {
     // bool represents whether the part has been combined with its other half
@@ -98,8 +98,8 @@ static std::vector<std::pair<bodypart_id, bool>> list_and_combine_bps( const pla
     return bps;
 }
 
-void player::print_encumbrance( const catacurses::window &win, const int line,
-                                const item *const selected_clothing ) const
+void Character::print_encumbrance( const catacurses::window &win, const int line,
+                                   const item *const selected_clothing ) const
 {
     // bool represents whether the part has been combined with its other half
     const std::vector<std::pair<bodypart_id, bool>> bps = list_and_combine_bps( *this,

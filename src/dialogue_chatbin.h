@@ -56,6 +56,18 @@ struct dialogue_chatbin {
                                 const spell_id &c_spell, const proficiency_id &c_proficiency );
     void clear_training();
     std::string first_topic = "TALK_NONE";
+    std::string talk_radio = "TALK_RADIO";
+    std::string talk_leader = "TALK_LEADER";
+    std::string talk_friend = "TALK_FRIEND";
+    std::string talk_stole_item = "TALK_STOLE_ITEM";
+    std::string talk_wake_up = "TALK_WAKE_UP";
+    std::string talk_mug = "TALK_MUG";
+    std::string talk_stranger_aggressive = "TALK_STRANGER_AGGRESSIVE";
+    std::string talk_stranger_scared = "TALK_STRANGER_SCARED";
+    std::string talk_stranger_wary = "TALK_STRANGER_WARY";
+    std::string talk_stranger_friendly = "TALK_STRANGER_FRIENDLY";
+    std::string talk_stranger_neutral = "TALK_STRANGER_NEUTRAL";
+    std::string talk_friend_guard = "TALK_FRIEND_GUARD";
 
     dialogue_chatbin() = default;
 
