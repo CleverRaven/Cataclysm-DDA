@@ -287,8 +287,7 @@
     "min_duration": 9000,
     "max_duration": 9000,
     "base_casting_time": 200,
-    "sound_description": "a screeching howl!",
-    "flags": [ "LOUD", "RANDOM_DAMAGE", "RANDOM_AOE" ]
+    "flags": [ "RANDOM_AOE" ]
   },
   {
     "type": "SPELL",

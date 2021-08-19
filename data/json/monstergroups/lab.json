@@ -158,7 +158,7 @@
     "type": "monstergroup",
     "default": "mon_mutant_evolved",
     "monsters": [
-      { "monster": "mon_mutant_antler", "freq": 300, "cost_multiplier": 1 },
+      { "monster": "mon_mutant_antler", "freq": 250, "cost_multiplier": 1 },
       { "monster": "mon_mutant_arthropod", "freq": 300, "cost_multiplier": 1 },
       { "monster": "mon_mutant_mollusk", "freq": 150, "cost_multiplier": 1 },
       { "monster": "mon_mutant_camouflaged", "freq": 150, "cost_multiplier": 1 }
