@@ -1363,20 +1363,15 @@ void Character::disp_info()
     } );
 
     // TRAITS & BIONICS
-    const std::pair<unsigned int, unsigned int> trait_and_bionic_height =
-        calculate_shared_column_win_height(
-            static_cast<unsigned>( TERMY ) - infooffsetybottom,
-            trait_win_size_y_max,
-            bionics_win_size_y_max
-        );
+    unsigned trait_win_size_y, bionics_win_size_y;
     // TRAITS
-    unsigned int trait_win_size_y = 0;
     catacurses::window w_traits;
     catacurses::window w_traits_border;
     border_helper::border_info &border_traits = borders.add_border();
     ui_adaptor ui_traits;
     ui_traits.on_screen_resize( [&]( ui_adaptor & ui_traits ) {
-        trait_win_size_y = trait_and_bionic_height.first;
+        std::tie( trait_win_size_y, bionics_win_size_y ) = calculate_shared_column_win_height(
+                    static_cast<unsigned>( TERMY ) - infooffsetybottom, trait_win_size_y_max, bionics_win_size_y_max );
         w_traits = catacurses::newwin( trait_win_size_y, grid_width,
                                        point( grid_width + 1, infooffsetybottom ) );
         w_traits_border = catacurses::newwin( trait_win_size_y + 1, grid_width + 2,
@@ -1393,13 +1388,13 @@ void Character::disp_info()
     } );
 
     // BIONICS
-    unsigned int bionics_win_size_y = 0;
     catacurses::window w_bionics;
     catacurses::window w_bionics_border;
     border_helper::border_info &border_bionics = borders.add_border();
     ui_adaptor ui_bionics;
     ui_bionics.on_screen_resize( [&]( ui_adaptor & ui_bionics ) {
-        bionics_win_size_y = trait_and_bionic_height.second;
+        std::tie( trait_win_size_y, bionics_win_size_y ) = calculate_shared_column_win_height(
+                    static_cast<unsigned>( TERMY ) - infooffsetybottom, trait_win_size_y_max, bionics_win_size_y_max );
         w_bionics = catacurses::newwin( bionics_win_size_y, grid_width,
                                         point( grid_width + 1,
                                                infooffsetybottom + trait_win_size_y + 1 ) );
@@ -1435,20 +1430,16 @@ void Character::disp_info()
     } );
 
     // EFFECTS & PROFICIENCIES
-    const std::pair<unsigned int, unsigned int> effect_and_proficiency_height =
-        calculate_shared_column_win_height(
-            static_cast<unsigned>( TERMY ) - infooffsetybottom,
-            effect_win_size_y_max,
-            proficiency_win_size_y_max
-        );
+    unsigned effect_win_size_y, proficiency_win_size_y;
     // EFFECTS
-    unsigned int effect_win_size_y = 0;
     catacurses::window w_effects;
     catacurses::window w_effects_border;
     border_helper::border_info &border_effects = borders.add_border();
     ui_adaptor ui_effects;
     ui_effects.on_screen_resize( [&]( ui_adaptor & ui_effects ) {
-        effect_win_size_y = effect_and_proficiency_height.first;
+        std::tie( effect_win_size_y, proficiency_win_size_y ) = calculate_shared_column_win_height(
+                    static_cast<unsigned>( TERMY ) - infooffsetybottom, effect_win_size_y_max,
+                    proficiency_win_size_y_max );
         w_effects = catacurses::newwin( effect_win_size_y, grid_width,
                                         point( grid_width * 2 + 2, infooffsetybottom ) );
         w_effects_border = catacurses::newwin( effect_win_size_y + 1, grid_width + 2,
@@ -1465,14 +1456,15 @@ void Character::disp_info()
     } );
 
     // PROFICIENCIES
-    unsigned int proficiency_win_size_y = 0;
     catacurses::window w_proficiencies;
     catacurses::window w_proficiencies_border;
     border_helper::border_info &border_proficiencies = borders.add_border();
     ui_adaptor ui_proficiencies;
     ui_proficiencies.on_screen_resize( [&]( ui_adaptor & ui_proficiencies ) {
+        std::tie( effect_win_size_y, proficiency_win_size_y ) = calculate_shared_column_win_height(
+                    static_cast<unsigned>( TERMY ) - infooffsetybottom, effect_win_size_y_max,
+                    proficiency_win_size_y_max );
         const point profstart = point( grid_width * 2 + 2, infooffsetybottom + effect_win_size_y + 1 );
-        proficiency_win_size_y = effect_and_proficiency_height.second;
         w_proficiencies = catacurses::newwin( proficiency_win_size_y, grid_width,
                                               profstart );
         w_proficiencies_border = catacurses::newwin( proficiency_win_size_y + 1, grid_width + 2,
