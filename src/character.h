@@ -563,6 +563,13 @@ class Character : public Creature, public visitable
         float reloading_move_modifier() const;
         float thrown_dex_modifier() const;
         float stamina_recovery_breathing_modifier() const;
+        float limb_speed_movecost_modifier() const;
+        float limb_balance_movecost_modifier() const;
+        // movecost is modified by the average of limb speed and balance.
+        float limb_run_cost_modifier() const;
+        float swim_modifier() const;
+        // min is 0.2 instead of 0
+        float melee_attack_roll_modifier() const;
         // additive modifier
         float ranged_dispersion_modifier_hands() const;
         float ranged_dispersion_modifier_vision() const;
@@ -610,7 +617,7 @@ class Character : public Creature, public visitable
         void action_taken();
         /** Returns true if the player is knocked over, has broken legs or is lying down */
         bool is_on_ground() const override;
-        /** Returns the player's speed for swimming across water tiles */
+        /** Returns the player's movecost for swimming across water tiles. NOT SPEED! */
         int  swim_speed() const;
         /** Returns melee skill level, to be used to throttle dodge practice. **/
         float get_melee() const override;
@@ -711,6 +718,12 @@ class Character : public Creature, public visitable
         /** Returns body weight plus weight of inventory and worn/wielded items */
         units::mass get_weight() const override;
 
+        /** Draws the UI and handles player input for the armor re-ordering window */
+        void sort_armor();
+
+        // formats and prints encumbrance info to specified window
+        void print_encumbrance( const catacurses::window &win, int line = -1,
+                                const item *selected_clothing = nullptr ) const;
         /** Returns true if the character is wearing power armor */
         bool is_wearing_power_armor( bool *hasHelmet = nullptr ) const;
         /** Returns true if the character is wearing active power */
@@ -1078,7 +1091,10 @@ class Character : public Creature, public visitable
         float blocking_score( const body_part_type::type &bp ) const;
         float lifting_score( const body_part_type::type &bp ) const;
         float breathing_score() const;
+        float swim_score() const;
         float vision_score() const;
+        float movement_speed_score() const;
+        float balance_score() const;
         bool has_min_manipulators() const;
         // technically this is "has more than one arm"
         bool has_two_arms_lifting() const;
@@ -1334,7 +1350,7 @@ class Character : public Creature, public visitable
         /**Has enough anesthetic for surgery*/
         bool has_enough_anesth( const itype &cbm, Character &patient );
         bool has_enough_anesth( const itype &cbm );
-        void consume_anesth_requirement( const itype &cbm, player &patient );
+        void consume_anesth_requirement( const itype &cbm, Character &patient );
         /**Has the required equipment for manual installation*/
         bool has_installation_requirement( const bionic_id &bid );
         void consume_installation_requirement( const bionic_id &bid );
@@ -1359,7 +1375,7 @@ class Character : public Creature, public visitable
         ret_val<bool> is_installable( const item_location &loc, bool by_autodoc ) const;
         std::map<bodypart_id, int> bionic_installation_issues( const bionic_id &bioid ) const;
         /** Initialize all the values needed to start the operation player_activity */
-        bool install_bionics( const itype &type, player &installer, bool autodoc = false,
+        bool install_bionics( const itype &type, Character &installer, bool autodoc = false,
                               int skill_level = -1 );
         /**Success or failure of installation happens here*/
         void perform_install( const bionic_id &bid, const bionic_id &upbid, int difficulty, int success,
@@ -1436,6 +1452,25 @@ class Character : public Creature, public visitable
                                         float adjusted_skill );
         void on_worn_item_transform( const item &old_it, const item &new_it );
 
+        /**
+         * Starts activity to remove gunmod after unloading any contained ammo.
+         * Returns true on success (activity has been started)
+         */
+        bool gunmod_remove( item &gun, item &mod );
+
+        /** Starts activity to install gunmod having warned user about any risk of failure or irremovable mods s*/
+        void gunmod_add( item &gun, item &mod );
+
+        /** Starts activity to install toolmod */
+        void toolmod_add( item_location tool, item_location mod );
+
+        /**
+         * Attempt to mend an item (fix any current faults)
+         * @param obj Object to mend
+         * @param interactive if true prompts player when multiple faults, otherwise mends the first
+         */
+        void mend_item( item_location &&obj, bool interactive = true );
+
         bool list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
                         bool empty = true ) const;
         /**
@@ -1475,7 +1510,8 @@ class Character : public Creature, public visitable
         bool has_power() const;
         bool has_max_power() const;
         bool enough_power_for( const bionic_id &bid ) const;
-
+        /** Handles and displays detailed character info for the '@' screen */
+        void disp_info();
         void conduct_blood_analysis();
         // --------------- Generic Item Stuff ---------------
 
@@ -3138,11 +3174,6 @@ class Character : public Creature, public visitable
          */
         std::map<bodypart_id, float> bodypart_exposure();
     private:
-        /** limb helpers */
-        // movecost addition based on limb breakage and move scores.
-        int limb_health_movecost_modifier() const;
-        //
-        int foot_encumbrance_movecost_modifier() const;
         /** suffer() subcalls */
         void suffer_water_damage( const trait_id &mut_id );
         void suffer_mutation_power( const trait_id &mut_id );

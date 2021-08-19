@@ -88,12 +88,13 @@ bool pay_npc( npc &np, int cost );
 
 int cash_to_favor( const npc &, int cash );
 
-std::list<item> transfer_items( std::vector<item_pricing> &stuff, player &giver, player &receiver,
+std::list<item> transfer_items( std::vector<item_pricing> &stuff, Character &giver,
+                                Character &receiver,
                                 std::list<item_location *> &from_map, bool npc_gives );
-double net_price_adjustment( const player &buyer, const player &seller );
+double net_price_adjustment( const Character &buyer, const Character &seller );
 bool trade( npc &p, int cost, const std::string &deal );
 std::vector<item_pricing> init_selling( npc &p );
-std::vector<item_pricing> init_buying( player &buyer, player &seller, bool is_npc );
+std::vector<item_pricing> init_buying( Character &buyer, Character &seller, bool is_npc );
 } // namespace npc_trading
 
 #endif // CATA_SRC_NPCTRADE_H

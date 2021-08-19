@@ -1,7 +1,9 @@
 #include "player.h" // IWYU pragma: associated
 
+#include <algorithm>
 #include <array>
 #include <cstdlib>
+#include <functional>
 #include <memory>
 #include <string>
 
@@ -37,17 +39,6 @@
 #include "vitamin.h"
 #include "weather.h"
 #include "weather_type.h"
-
-#if defined(TILES)
-#   if defined(_MSC_VER) && defined(USE_VCPKG)
-#       include <SDL2/SDL.h>
-#   else
-#       include <SDL.h>
-#   endif
-#endif // TILES
-
-#include <algorithm>
-#include <functional>
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 

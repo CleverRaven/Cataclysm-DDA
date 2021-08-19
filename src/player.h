@@ -99,9 +99,6 @@ class player : public Character
         // by default save all contained info
         virtual void serialize( JsonOut &jsout ) const = 0;
 
-        /** Handles and displays detailed character info for the '@' screen */
-        void disp_info();
-
         /** Resets movement points and applies other non-idempotent changes */
         void process_turn() override;
 
@@ -117,28 +114,6 @@ class player : public Character
 
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
         template <typename T> bool can_lift( const T &obj ) const;
-
-        /**
-         * Attempt to mend an item (fix any current faults)
-         * @param obj Object to mend
-         * @param interactive if true prompts player when multiple faults, otherwise mends the first
-         */
-        void mend_item( item_location &&obj, bool interactive = true );
-
-        /** Draws the UI and handles player input for the armor re-ordering window */
-        void sort_armor();
-
-        /**
-         * Starts activity to remove gunmod after unloading any contained ammo.
-         * Returns true on success (activity has been started)
-         */
-        bool gunmod_remove( item &gun, item &mod );
-
-        /** Starts activity to install gunmod having warned user about any risk of failure or irremovable mods s*/
-        void gunmod_add( item &gun, item &mod );
-
-        /** Starts activity to install toolmod */
-        void toolmod_add( item_location tool, item_location mod );
 
         // ---------------VALUES-----------------
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
@@ -184,10 +159,6 @@ class player : public Character
                                     const std::string &npc_speech ) const override;
         void add_msg_player_or_say( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_speech ) const override;
-
-        // formats and prints encumbrance info to specified window
-        void print_encumbrance( const catacurses::window &win, int line = -1,
-                                const item *selected_clothing = nullptr ) const;
 
         using Character::query_yn;
         bool query_yn( const std::string &mes ) const override;
