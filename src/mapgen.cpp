@@ -2923,6 +2923,10 @@ void mapgen_palette::add( const palette_id &rh, const std::string &context )
 
 void mapgen_palette::add( const mapgen_palette &rh, const std::string &context )
 {
+    std::string actual_context = id.is_empty() ? context : "palette " + id.str();
+    for( const palette_id &recursive_palette : rh.palettes_used ) {
+        add( recursive_palette, actual_context );
+    }
     for( const auto &placing : rh.format_placings ) {
         std::vector<shared_ptr_fast<const jmapgen_piece>> &these_placings =
                     format_placings[placing.first];
@@ -2931,7 +2935,6 @@ void mapgen_palette::add( const mapgen_palette &rh, const std::string &context )
     for( const auto &placing : rh.keys_with_terrain ) {
         keys_with_terrain.insert( placing );
     }
-    std::string actual_context = id.is_empty() ? context : "palette " + id.str();
     parameters.check_and_merge( rh.parameters, actual_context );
 }
 
@@ -2948,13 +2951,16 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     jo.read( "parameters", new_pal.parameters.map );
 
     if( jo.has_array( "palettes" ) ) {
+        jo.read( "palettes", new_pal.palettes_used );
         if( allow_recur ) {
-            auto pals = jo.get_string_array( "palettes" );
-            for( auto &p : pals ) {
-                new_pal.add( palette_id( p ), context );
+            // allow_recur means that it's safe to assume all the palettes have
+            // been defined and we can inline now.  Otherwise we just leave the
+            // list in our palettes_used array and it will be consumed
+            // recursively by calls to add which add this palette.
+            for( auto &p : new_pal.palettes_used ) {
+                new_pal.add( p, context );
             }
-        } else {
-            jo.throw_error( "Recursive palettes are not implemented yet" );
+            new_pal.palettes_used.clear();
         }
     }
 

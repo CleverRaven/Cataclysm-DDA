@@ -290,6 +290,8 @@ class mapgen_palette
     private:
         mapgen_parameters parameters;
 
+        std::vector<palette_id> palettes_used;
+
         static mapgen_palette load_internal(
             const JsonObject &jo, const std::string &src, const std::string &context,
             bool require_id, bool allow_recur );
