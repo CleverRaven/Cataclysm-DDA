@@ -658,13 +658,21 @@ cata::optional<int> iuse::eyedrops( Character *p, item *it, bool, const tripoint
         p->add_msg_if_player( _( "You're out of %s." ), it->tname() );
         return cata::nullopt;
     }
-    p->add_msg_if_player( _( "You use your %s." ), it->tname() );
-    p->moves -= to_moves<int>( 10_seconds );
+
+    generic_activity_actor act;
+    act.configure( to_moves<int>( 10_seconds ), _( "applying eyedrops…" ) );
+
+    act.add_action( act.conf_add_msg( string_format( _( "You use your %s." ), it->tname() ) ) );
+
     if( p->has_effect( effect_boomered ) ) {
-        p->remove_effect( effect_boomered );
-        p->add_msg_if_player( m_good, _( "You wash the slime from your eyes." ) );
+        act.add_action( act.conf_effect_remove( *p, effect_boomered ) );
+        act.add_action( act.conf_add_msg( _( "You wash the slime from your eyes." ), m_good ) );
     }
-    return it->type->charges_to_use();
+
+    act.add_action( act.conf_consume_ammo( *p, item_location( *p, it ) ) );
+
+    p->assign_activity( player_activity( act ) );
+    return cata::nullopt;
 }
 
 cata::optional<int> iuse::fungicide( Character *p, item *it, bool, const tripoint & )
@@ -1045,23 +1053,32 @@ cata::optional<int> iuse::inhaler( Character *p, item *it, bool, const tripoint 
 
 cata::optional<int> iuse::oxygen_bottle( Character *p, item *it, bool, const tripoint & )
 {
-    p->moves -= to_moves<int>( 10_seconds );
-    p->add_msg_player_or_npc( m_neutral, string_format( _( "You breathe deeply from the %s." ),
-                              it->tname() ),
-                              string_format( _( "<npcname> breathes from the %s." ),
-                                      it->tname() ) );
-    if( p->has_effect( effect_smoke ) ) {
-        p->remove_effect( effect_smoke );
-    } else if( p->has_effect( effect_teargas ) ) {
-        p->remove_effect( effect_teargas );
-    } else if( p->has_effect( effect_asthma ) ) {
-        p->remove_effect( effect_asthma );
-    } else if( p->get_stim() < 16 ) {
-        p->mod_stim( 8 );
-        p->mod_painkiller( 2 );
+    generic_activity_actor act;
+    act.configure( to_moves<int>( 10_seconds ), _( "using oxygen bottle…" ) );
+
+    if( p->is_avatar() ) {
+        act.add_action( act.conf_add_msg(
+                            string_format( _( "You breathe deeply from the %1$s" ), it->tname() ) ) );
+    } else {
+        act.add_action( act.conf_add_msg(
+                            string_format( _( "%1$s breathe deeply from the %2$s" ),
+                                           p->disp_name( false, true ), it->tname() ) ) );
     }
-    p->mod_painkiller( 2 );
-    return it->type->charges_to_use();
+
+    act.add_action( act.conf_consume_ammo( *p, item_location( *p, it ) ) );
+
+    act.add_action( act.conf_effect_remove( *p, effect_smoke ) );
+    act.add_action( act.conf_effect_remove( *p, effect_teargas ) );
+    act.add_action( act.conf_effect_remove( *p, effect_asthma ) );
+
+    if( p->get_stim() < 16 ) {
+        act.add_action( act.conf_stim_mod( *p, 8 ) );
+        act.add_action( act.conf_painkiller_mod( *p, 2 ) );
+    }
+    act.add_action( act.conf_painkiller_mod( *p, 2 ) );
+
+    p->assign_activity( player_activity( act ) );
+    return cata::nullopt;
 }
 
 cata::optional<int> iuse::blech( Character *p, item *it, bool, const tripoint & )
@@ -5672,24 +5689,38 @@ cata::optional<int> iuse::contacts( Character *p, item *it, bool, const tripoint
         p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return cata::nullopt;
     }
+
+    generic_activity_actor act;
+    act.configure( to_moves<int>( 20_seconds ), _( "replacing contact lenses…" ) );
+
     const time_duration duration = rng( 6_days, 8_days );
     if( p->has_effect( effect_contacts ) ) {
         if( query_yn( _( "Replace your current lenses?" ) ) ) {
-            p->moves -= to_moves<int>( 20_seconds );
-            p->add_msg_if_player( _( "You replace your current %s." ), it->tname() );
-            p->remove_effect( effect_contacts );
-            p->add_effect( effect_contacts, duration );
-            return it->type->charges_to_use();
+
+            if( p->is_avatar() ) {
+                act.add_action( act.conf_add_msg(
+                                    string_format( _( "You replace your current %s." ), it->tname() ) ) );
+            }
+
+            act.add_action( act.conf_effect_remove( *p, effect_contacts ) );
+            act.add_action( act.conf_effect_add( *p, effect_contacts, duration ) );
+            act.add_action( act.conf_consume_ammo( *p, item_location( *p, it ) ) );
+
+            p->assign_activity( player_activity( act ) );
+            return cata::nullopt;
         } else {
             p->add_msg_if_player( _( "You don't do anything with your %s." ), it->tname() );
             return cata::nullopt;
         }
     } else if( p->has_trait( trait_HYPEROPIC ) || p->has_trait( trait_MYOPIC ) ||
                p->has_trait( trait_URSINE_EYE ) ) {
-        p->moves -= to_moves<int>( 20_seconds );
-        p->add_msg_if_player( _( "You put the %s in your eyes." ), it->tname() );
-        p->add_effect( effect_contacts, duration );
-        return it->type->charges_to_use();
+        if( p->is_avatar() ) {
+            act.add_action( act.conf_add_msg(
+                                string_format( _( "You put the %s in your eyes." ), it->tname() ) ) );
+        }
+        act.add_action( act.conf_effect_add( *p, effect_contacts, duration ) );
+        p->assign_activity( player_activity( act ) );
+        return cata::nullopt;
     } else {
         p->add_msg_if_player( m_info, _( "Your vision is fine already." ) );
         return cata::nullopt;
@@ -9388,7 +9419,7 @@ cata::optional<int> iuse::capture_monster_act( Character *p, item *it, bool, con
     return 0;
 }
 
-cata::optional<int> iuse::ladder( Character *p, item *, bool, const tripoint & )
+cata::optional<int> iuse::ladder( Character *p, item *it, bool, const tripoint & )
 {
     map &here = get_map();
     if( !here.has_zlevels() ) {
@@ -9410,10 +9441,16 @@ cata::optional<int> iuse::ladder( Character *p, item *, bool, const tripoint & )
         return cata::nullopt;
     }
 
-    p->add_msg_if_player( _( "You set down the ladder." ) );
-    p->moves -= to_moves<int>( 5_seconds );
-    here.furn_set( pnt, furn_str_id( "f_ladder" ) );
-    return 1;
+    generic_activity_actor act;
+    act.configure( to_moves<int>( 5_seconds ), _( "setting up ladder…" ),
+                   generic_activity_actor::activity_level::ACTIVE_EXERCISE );
+
+    act.add_action( act.conf_add_msg( _( "You set down the ladder." ) ) );
+    act.add_action( act.conf_set_furn( pnt, furn_str_id( "f_ladder" ) ) );
+    act.add_action( act.conf_remove_item( *p, item_location( *p, it ) ) );
+
+    p->assign_activity( player_activity( act ) );
+    return cata::nullopt;
 }
 
 washing_requirements washing_requirements_for_volume( const units::volume &vol )
