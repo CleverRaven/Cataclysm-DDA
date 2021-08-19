@@ -76,23 +76,29 @@ item_location tack_loc()
     return game_menus::inv::titled_filter_menu( filter, get_avatar(), _( "Tack" ) );
 }
 
-void attach_or_remove_saddle( monster &z )
+void attach_saddle_to( monster &z )
 {
     if( z.has_effect( effect_monster_saddled ) ) {
-        z.remove_effect( effect_monster_saddled );
-        get_player_character().i_add( *z.tack_item );
-        z.tack_item.reset();
-    } else {
-        item_location loc = tack_loc();
-
-        if( !loc ) {
-            add_msg( _( "Never mind." ) );
-            return;
-        }
-        z.add_effect( effect_monster_saddled, 1_turns, true );
-        z.tack_item = cata::make_value<item>( *loc.get_item() );
-        loc.remove_item();
+        return;
     }
+    item_location loc = tack_loc();
+    if( !loc ) {
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+    z.add_effect( effect_monster_saddled, 1_turns, true );
+    z.tack_item = cata::make_value<item>( *loc.get_item() );
+    loc.remove_item();
+}
+
+void remove_saddle_from( monster &z )
+{
+    if( !z.has_effect( effect_monster_saddled ) ) {
+        return;
+    }
+    z.remove_effect( effect_monster_saddled );
+    get_player_character().i_add( *z.tack_item );
+    z.tack_item.reset();
 }
 
 void mount_pet( monster &z )
@@ -334,42 +340,49 @@ void play_with( monster &z )
     player_character.assign_activity( player_activity( play_with_pet_activity_actor( pet_name ) ) );
 }
 
-void tie_or_untie( monster &z )
+void tie_pet( monster &z )
 {
-    Character &player_character = get_player_character();
     if( z.has_effect( effect_tied ) ) {
-        z.remove_effect( effect_tied );
-        add_msg( _( "You untie your %s." ), z.get_name() );
-        if( z.tied_item ) {
-            player_character.i_add( *z.tied_item );
-            z.tied_item.reset();
-        }
-    } else {
-        std::vector<item *> rope_inv = player_character.items_with( []( const item & itm ) {
-            return itm.has_flag( json_flag_TIE_UP );
-        } );
-        if( rope_inv.empty() ) {
-            return;
-        }
-        int i = 0;
-        uilist selection_menu;
-        selection_menu.text = string_format( _( "Select an item to tie your %s with." ), z.get_name() );
-        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
-        for( const item *iter : rope_inv ) {
-            selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use %s" ), iter->tname() );
-        }
-        selection_menu.selected = 1;
-        selection_menu.query();
-        int index = selection_menu.ret;
-        if( index == 0 || index == UILIST_CANCEL || index < 0 ||
-            index > static_cast<int>( rope_inv.size() ) ) {
-            return;
-        }
-        item *rope_item = rope_inv[index - 1];
-        z.tied_item = cata::make_value<item>( *rope_item );
-        player_character.i_rem( rope_item );
-        z.add_effect( effect_tied, 1_turns, true );
-        add_msg( _( "You tie your %s." ), z.get_name() );
+        return;
+    }
+    Character &player_character = get_player_character();
+    std::vector<item *> rope_inv = player_character.items_with( []( const item & itm ) {
+        return itm.has_flag( json_flag_TIE_UP );
+    } );
+    if( rope_inv.empty() ) {
+        return;
+    }
+    int i = 0;
+    uilist selection_menu;
+    selection_menu.text = string_format( _( "Select an item to tie your %s with." ), z.get_name() );
+    selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
+    for( const item *iter : rope_inv ) {
+        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use %s" ), iter->tname() );
+    }
+    selection_menu.selected = 1;
+    selection_menu.query();
+    int index = selection_menu.ret;
+    if( index == 0 || index == UILIST_CANCEL || index < 0 ||
+        index > static_cast<int>( rope_inv.size() ) ) {
+        return;
+    }
+    item *rope_item = rope_inv[index - 1];
+    z.tied_item = cata::make_value<item>( *rope_item );
+    player_character.i_rem( rope_item );
+    z.add_effect( effect_tied, 1_turns, true );
+    add_msg( _( "You tie your %s." ), z.get_name() );
+}
+
+void untie_pet( monster &z )
+{
+    if( !z.has_effect( effect_tied ) ) {
+        return;
+    }
+    z.remove_effect( effect_tied );
+    add_msg( _( "You untie your %s." ), z.get_name() );
+    if( z.tied_item ) {
+        player_character.i_add( *z.tied_item );
+        z.tied_item.reset();
     }
 }
 
@@ -501,7 +514,8 @@ bool monexamine::pet_menu( monster &z )
         attach_saddle,
         remove_saddle,
         mount,
-        rope,
+        tie,
+        untie,
         remove_bat,
         insert_bat,
         check_bat,
@@ -670,12 +684,17 @@ bool monexamine::pet_menu( monster &z )
                 play_with( z );
             }
             break;
-        case rope:
-            tie_or_untie( z );
+        case tie:
+            tie_pet( z );
+            break;
+        case untie:
+            untie_pet( z );
             break;
         case attach_saddle:
+            attach_saddle_to( z );
+            break;
         case remove_saddle:
-            attach_or_remove_saddle( z );
+            remove_saddle_from( z );
             break;
         case mount:
             mount_pet( z );
