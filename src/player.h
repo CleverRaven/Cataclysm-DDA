@@ -99,9 +99,6 @@ class player : public Character
         // by default save all contained info
         virtual void serialize( JsonOut &jsout ) const = 0;
 
-        /** Handles and displays detailed character info for the '@' screen */
-        void disp_info();
-
         /** Resets movement points and applies other non-idempotent changes */
         void process_turn() override;
 
