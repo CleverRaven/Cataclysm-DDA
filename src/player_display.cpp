@@ -323,18 +323,16 @@ static void draw_proficiencies_tab( const catacurses::window &win, const unsigne
 {
     werase( win );
     const std::vector<display_proficiency> profs = guy.display_proficiencies();
-    bool focused = curtab == player_display_tab::proficiencies;
+    const bool focused = curtab == player_display_tab::proficiencies;
     const nc_color title_color = focused ? h_light_gray : c_light_gray;
     center_print( win, 0, title_color, _( title_PROFICIENCIES ) );
+
     const int height = getmaxy( win ) - 1;
     const int width = getmaxx( win ) - 1;
     bool draw_scrollbar = profs.size() > static_cast<size_t>( height );
-    int y = 1;
-    int start = draw_scrollbar ? line : 0;
-    for( size_t i = start; i < profs.size(); ++i ) {
-        if( y > height ) {
-            break;
-        }
+    const std::pair<const size_t, const size_t> range = subindex_around_cursor( profs.size(), height,
+            line, focused );
+    for( size_t i = range.first; i < range.second; ++i ) {
         std::string name;
         const display_proficiency &cur = profs[i];
         if( !cur.known && cur.id->can_learn() ) {
@@ -347,7 +345,7 @@ static void draw_proficiencies_tab( const catacurses::window &win, const unsigne
             name = trim_by_length( cur.id->name(), width );
         }
         const nc_color col = focused && i == line ? hilite( cur.color ) : cur.color;
-        y += fold_and_print( win, point( 0, y ), width, col, name );
+        fold_and_print( win, point( 0, 1 + i - range.first ), width, col, name );
     }
 
     if( draw_scrollbar ) {
@@ -355,7 +353,7 @@ static void draw_proficiencies_tab( const catacurses::window &win, const unsigne
         .offset_x( width )
         .offset_y( 1 )
         .content_size( profs.size() )
-        .viewport_pos( line )
+        .viewport_pos( range.first )
         .viewport_size( height )
         .scroll_to_last( false )
         .apply( win );
