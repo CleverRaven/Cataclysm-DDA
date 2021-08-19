@@ -241,7 +241,7 @@ static std::string get_encumbrance_description( const Character &you, const body
         case bp_foot_l:
         case bp_foot_r:
             s += string_format( _( "Balance movecost modifier: <color_white>x%.2f</color>" ),
-                                p.limb_balance_movecost_modifier() );
+                                you.limb_balance_movecost_modifier() );
             break;
         case num_bp:
             break;
