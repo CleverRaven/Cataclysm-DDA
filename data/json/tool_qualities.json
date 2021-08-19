@@ -330,10 +330,5 @@
     "id": "WHEEL_FAST",
     "//": "A tool that is capable of manipulating the lug nuts of a vehicle's wheels or smaller to replace or fasten them.",
     "name": { "str": "wheel fastening" }
-  },
-  {
-    "type": "tool_quality",
-    "id": "SAW_MASONRY",
-    "name": { "str": "masonry sawing" }
   }
 ]

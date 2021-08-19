@@ -18,7 +18,6 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasoline": 450 }, "watertight": true, "rigid": true } ],
     "charges_per_use": 5,
     "techniques": [ "SWEEP" ],
-    "qualities": [ [ "SAW_MASONRY", 4 ] ],
     "use_action": [ "CHAINSAW_OFF" ],
     "flags": [ "NONCONDUCTIVE", "FRAGILE_MELEE" ]
   },
@@ -34,8 +33,25 @@
     "charges_per_use": 0,
     "revert_to": "masonrysaw_off",
     "techniques": [ "SWEEP" ],
-    "qualities": [ [ "SAW_MASONRY", 4 ], [ "AXE", 3 ], [ "BUTCHER", -100 ] ],
+    "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -100 ] ],
     "use_action": [ "CIRCSAW_ON" ],
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED", "FRAGILE_MELEE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "grinder_blade",
+    "symbol": "/",
+    "color": "dark_gray",
+    "name": { "str": "grinder blade" },
+    "description": "A 125mm angle grinder blade.  You could make a powertool with it, or throw it.  Wielding it without sturdy gloves is a bad idea.",
+    "category": "spare_parts",
+    "price": 20,
+    "price_postapoc": 500,
+    "material": [ "steel" ],
+    "weight": "349 g",
+    "volume": "250 ml",
+    "cutting": 14,
+    "flags": [ "HURT_WHEN_WIELDED" ],
+    "to_hit": -4
   }
 ]

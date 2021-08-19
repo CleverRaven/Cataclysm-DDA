@@ -141,7 +141,12 @@
     "id": "concrete_removal_standard",
     "type": "requirement",
     "//": "Tools for removing concrete -- drill required to create holes in a complete wall",
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CHISEL", "level": 2 }, { "id": "PRY", "level": 3 } ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "CHISEL", "level": 2 },
+      { "id": "PRY", "level": 3 },
+      { "id": "DIG", "level": 3 }
+    ],
     "tools": [
       [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ], [ "hammer_sledge", -1 ] ],
       [ [ "masonrysaw_off", 100 ] ],
@@ -150,21 +155,15 @@
     ]
   },
   {
-    "id": "half_concrete_removal_standard",
-    "type": "requirement",
-    "//": "Tools for removing half complete concrete -- no drill required",
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CHISEL", "level": 2 }, { "id": "PRY", "level": 3 } ],
-    "tools": [
-      [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ], [ "hammer_sledge", -1 ] ],
-      [ [ "masonrysaw_off", 100 ] ],
-      [ [ "angle_grinder", 200 ] ]
-    ]
-  },
-  {
     "id": "wall_floor_glass_removal_standard",
     "type": "requirement",
     "//": "Tools for removing a normal wall / floor / glass",
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "CHISEL", "level": 2 }, { "id": "PRY", "level": 3 } ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "CHISEL", "level": 2 },
+      { "id": "PRY", "level": 3 },
+      { "id": "DIG", "level": 3 }
+    ],
     "tools": [ [ [ "angle_grinder", 200 ] ] ]
   },
   {

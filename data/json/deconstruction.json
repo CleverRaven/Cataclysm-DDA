@@ -7,11 +7,7 @@
       { "item": "rock", "count": [ 0, 4 ] },
       { "item": "wood_panel", "count": [ 0, 2 ] },
       { "item": "nail", "charges": [ 8, 32 ] },
-      { "item": "splinter", "count": [ 0, 4 ] },
-      { "item": "2x4", "count": [ 1, 3 ], "prob": 40 },
-      { "item": "pipe", "count": [ 0, 2 ], "prob": 20 },
-      { "item": "cu_pipe", "count": [ 0, 2 ], "prob": 20 },
-      { "item": "cable", "charges": [ 0, 200 ], "prob": 20 }
+      { "item": "splinter", "count": [ 0, 4 ] }
     ]
   },
   {
@@ -82,7 +78,7 @@
     "using": [ [ "concrete_removal_standard", 1 ] ],
     "byproducts": "concrete_deconstruction_results",
     "pre_terrain": "t_concrete",
-    "post_terrain": "t_pit_shallow"
+    "post_terrain": "t_dirt"
   },
   {
     "type": "construction",
@@ -95,7 +91,7 @@
     "using": [ [ "concrete_removal_standard", 1 ] ],
     "byproducts": "concrete_deconstruction_results",
     "pre_terrain": "t_thconc_floor",
-    "post_terrain": "t_pit_shallow"
+    "post_terrain": "t_dirt"
   },
   {
     "type": "construction",
@@ -108,7 +104,7 @@
     "using": [ [ "concrete_removal_standard", 1 ] ],
     "byproducts": "concrete_deconstruction_results",
     "pre_terrain": "t_thconc_y",
-    "post_terrain": "t_pit_shallow"
+    "post_terrain": "t_dirt"
   },
   {
     "type": "construction",
@@ -121,7 +117,7 @@
     "using": [ [ "concrete_removal_standard", 1 ] ],
     "byproducts": "concrete_deconstruction_results",
     "pre_terrain": "t_thconc_r",
-    "post_terrain": "t_pit_shallow"
+    "post_terrain": "t_dirt"
   },
   {
     "type": "construction",
@@ -131,10 +127,10 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 7 ] ],
     "time": "180 m",
-    "using": [ [ "concrete_removal_standard", 1 ] ],
+    "using": [ [ "concrete_removal_standard", 1 ], [ "metal_removal_standard", 1 ] ],
     "byproducts": "concrete_deconstruction_results",
     "pre_terrain": "t_strconc_floor",
-    "post_terrain": "t_pit"
+    "post_terrain": "t_dirt"
   },
   {
     "type": "construction",
@@ -144,10 +140,10 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "80 m",
-    "using": [ [ "half_concrete_removal_standard", 1 ] ],
+    "using": [ [ "concrete_removal_standard", 1 ], [ "metal_removal_standard", 1 ] ],
     "byproducts": "concrete_deconstruction_results",
     "pre_terrain": "t_strconc_floor_halfway",
-    "post_terrain": "t_pit"
+    "post_terrain": "t_dirt"
   },
   {
     "type": "construction",
@@ -248,7 +244,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "50 m",
-    "using": [ [ "half_concrete_removal_standard", 1 ] ],
+    "using": [ [ "concrete_removal_standard", 1 ] ],
     "byproducts": [ { "item": "rock", "count": [ 15, 30 ] } ],
     "pre_terrain": "t_sconc_wall_halfway",
     "post_terrain": "t_thconc_floor"
@@ -261,7 +257,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "50 m",
-    "using": [ [ "concrete_removal_standard", 1 ] ],
+    "using": [ [ "concrete_removal_standard", 1 ], [ "metal_removal_standard", 1 ] ],
     "byproducts": [
       { "item": "rock", "count": [ 8, 15 ] },
       { "item": "rebar", "count": [ 6, 12 ] },
@@ -278,7 +274,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 5 ] ],
     "time": "120 m",
-    "using": [ [ "concrete_removal_standard", 1 ] ],
+    "using": [ [ "concrete_removal_standard", 1 ], [ "metal_removal_standard", 1 ] ],
     "byproducts": [
       { "item": "rock", "count": [ 15, 30 ] },
       { "item": "rebar", "count": [ 6, 12 ] },
@@ -399,7 +395,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
     "time": "120 m",
-    "using": [ [ "half_concrete_removal_standard", 1 ] ],
+    "using": [ [ "concrete_removal_standard", 1 ] ],
     "byproducts": [ { "item": "rock", "count": [ 6, 10 ] }, { "item": "pebble", "count": [ 20, 30 ] } ],
     "pre_terrain": "t_rock_wall_half",
     "post_terrain": "t_rock_floor"
@@ -425,7 +421,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "120 m",
-    "using": [ [ "half_concrete_removal_standard", 1 ] ],
+    "using": [ [ "concrete_removal_standard", 1 ] ],
     "byproducts": [ { "item": "rock", "count": [ 4, 8 ] }, { "item": "brick", "count": [ 4, 8 ] } ],
     "pre_terrain": "t_brick_wall_halfway",
     "post_terrain": "t_thconc_floor"
@@ -451,7 +447,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "120 m",
-    "using": [ [ "half_concrete_removal_standard", 1 ] ],
+    "using": [ [ "concrete_removal_standard", 1 ] ],
     "byproducts": [ { "item": "material_soil", "count": [ 8, 20 ] }, { "item": "adobe_brick", "count": [ 4, 8 ] } ],
     "pre_terrain": "t_adobe_brick_wall_halfway",
     "post_terrain": "t_thconc_floor"
@@ -497,7 +493,7 @@
     "using": [ [ "wall_floor_glass_removal_standard", 1 ] ],
     "byproducts": [ { "item": "nail", "charges": [ 5, 10 ] }, { "item": "splinter", "count": [ 20, 40 ] } ],
     "pre_terrain": "t_wall_log",
-    "post_terrain": "t_pit_shallow"
+    "post_terrain": "t_dirt"
   },
   {
     "type": "construction",
@@ -510,7 +506,7 @@
     "using": [ [ "wall_floor_glass_removal_standard", 1 ] ],
     "byproducts": [ { "item": "nail", "charges": [ 5, 10 ] }, { "item": "splinter", "count": [ 20, 40 ] } ],
     "pre_terrain": "t_wall_log_half",
-    "post_terrain": "t_pit_shallow"
+    "post_terrain": "t_dirt"
   },
   {
     "type": "construction",
@@ -536,7 +532,7 @@
     "using": [ [ "road_removal_standard", 1 ] ],
     "byproducts": "road_deconstruction_results",
     "pre_terrain": "t_sidewalk",
-    "post_terrain": "t_pit_shallow"
+    "post_terrain": "t_dirt"
   },
   {
     "type": "construction",
@@ -549,7 +545,7 @@
     "using": [ [ "road_removal_standard", 1 ] ],
     "byproducts": "road_deconstruction_results",
     "pre_terrain": "t_pavement",
-    "post_terrain": "t_pit_shallow"
+    "post_terrain": "t_dirt"
   },
   {
     "type": "construction",
@@ -562,7 +558,7 @@
     "using": [ [ "road_removal_standard", 1 ] ],
     "byproducts": "road_deconstruction_results",
     "pre_terrain": "t_pavement_y",
-    "post_terrain": "t_pit_shallow"
+    "post_terrain": "t_dirt"
   },
   {
     "type": "construction",
@@ -575,7 +571,7 @@
     "using": [ [ "road_removal_standard", 1 ] ],
     "byproducts": "road_deconstruction_results",
     "pre_terrain": "t_zebra",
-    "post_terrain": "t_pit_shallow"
+    "post_terrain": "t_dirt"
   },
   {
     "type": "construction",
@@ -658,7 +654,7 @@
     "using": [ [ "metal_removal_standard", 1 ] ],
     "byproducts": [ { "item": "rebar", "count": [ 8, 16 ] } ],
     "pre_terrain": "t_reb_cage",
-    "post_terrain": "t_pit"
+    "post_terrain": "t_dirt"
   },
   {
     "type": "construction",
@@ -676,7 +672,7 @@
       { "item": "scrap", "count": [ 5, 15 ] }
     ],
     "pre_terrain": "t_ov_reb_cage",
-    "post_terrain": "t_pit"
+    "post_terrain": "t_dirt"
   },
   {
     "type": "construction",
