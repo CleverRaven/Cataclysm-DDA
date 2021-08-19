@@ -105,7 +105,8 @@
       "sloc_lighthouse_ground",
       "sloc_cabin_lake",
       "sloc_lodge_ground",
-      "sloc_freshwater_research_station"
+      "sloc_freshwater_research_station",
+      "sloc_light_industry_scen"
     ],
     "start_name": "Safe Building",
     "flags": [ "LONE_START" ]
@@ -532,7 +533,7 @@
     "points": -5,
     "description": "While being transported to a different military base, the pilot lost control of the helicopter and crashed in the middle of nowhere.  Hopefully some of the soldiers that were with you also survived the accident.",
     "start_name": "Crash site",
-    "allowed_locs": [ "sloc_field", "sloc_forest" ],
+    "allowed_locs": [ "sloc_field", "sloc_forest", "sloc_desert_island" ],
     "professions": [
       "rifleman",
       "recruit",

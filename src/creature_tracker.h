@@ -32,14 +32,14 @@ class Creature_tracker
                 }
         };
 
-        std::unordered_map<mfaction_id, std::map<int, std::set<weak_ptr_fast<monster>, weak_ptr_comparator>>>
-        monster_faction_map_;
+        using MonstersByZ = std::map<int, std::set<weak_ptr_fast<monster>, weak_ptr_comparator>>;
+        std::unordered_map<mfaction_id, MonstersByZ> monster_faction_map_; // NOLINT(cata-serialize)
 
         /**
          * Creatures that get removed via @ref remove are stored here until the end of the turn.
          * This keeps the objects valid and they can still be accessed instead of causing UB.
          */
-        std::vector<shared_ptr_fast<monster>> removed_;
+        std::vector<shared_ptr_fast<monster>> removed_; // NOLINT(cata-serialize)
 
     public:
         Creature_tracker();
@@ -94,6 +94,7 @@ class Creature_tracker
 
     private:
         std::vector<shared_ptr_fast<monster>> monsters_list;
+        // NOLINTNEXTLINE(cata-serialize)
         std::unordered_map<tripoint, shared_ptr_fast<monster>> monsters_by_location;
         /** Remove the monsters entry in @ref monsters_by_location */
         void remove_from_location_map( const monster &critter );

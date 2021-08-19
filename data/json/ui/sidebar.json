@@ -1,0 +1,457 @@
+[
+  {
+    "id": "hitpoint_graph",
+    "type": "widget",
+    "style": "graph",
+    "width": 5,
+    "symbols": ".\\|",
+    "fill": "bucket",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
+  },
+  {
+    "id": "encumbrance_graph",
+    "type": "widget",
+    "style": "graph",
+    "var_max": 50,
+    "width": 5,
+    "symbols": "-vX",
+    "fill": "bucket"
+  },
+  {
+    "id": "warmth_num",
+    "type": "widget",
+    "style": "number",
+    "var_max": 10000,
+    "colors": [ "c_blue", "c_cyan", "c_light_blue", "c_green", "c_yellow", "c_light_red", "c_red" ]
+  },
+  {
+    "id": "hp_head_graph",
+    "type": "widget",
+    "label": "HEAD",
+    "var": "bp_hp",
+    "bodypart": "head",
+    "copy-from": "hitpoint_graph"
+  },
+  {
+    "id": "hp_torso_graph",
+    "type": "widget",
+    "label": "TORSO",
+    "var": "bp_hp",
+    "bodypart": "torso",
+    "copy-from": "hitpoint_graph"
+  },
+  {
+    "id": "hp_left_arm_graph",
+    "type": "widget",
+    "label": "L ARM",
+    "var": "bp_hp",
+    "bodypart": "arm_l",
+    "copy-from": "hitpoint_graph"
+  },
+  {
+    "id": "hp_right_arm_graph",
+    "type": "widget",
+    "label": "R ARM",
+    "var": "bp_hp",
+    "bodypart": "arm_r",
+    "copy-from": "hitpoint_graph"
+  },
+  {
+    "id": "hp_left_leg_graph",
+    "type": "widget",
+    "label": "L LEG",
+    "var": "bp_hp",
+    "bodypart": "leg_l",
+    "copy-from": "hitpoint_graph"
+  },
+  {
+    "id": "hp_right_leg_graph",
+    "type": "widget",
+    "label": "R LEG",
+    "var": "bp_hp",
+    "bodypart": "leg_r",
+    "copy-from": "hitpoint_graph"
+  },
+  {
+    "id": "warmth_head_num",
+    "type": "widget",
+    "label": "w:H",
+    "var": "bp_warmth",
+    "bodypart": "head",
+    "copy-from": "warmth_num"
+  },
+  {
+    "id": "warmth_torso_num",
+    "type": "widget",
+    "label": "w:T",
+    "var": "bp_warmth",
+    "bodypart": "torso",
+    "copy-from": "warmth_num"
+  },
+  {
+    "id": "warmth_left_arm_num",
+    "type": "widget",
+    "label": "w:LA",
+    "var": "bp_warmth",
+    "bodypart": "arm_l",
+    "copy-from": "warmth_num"
+  },
+  {
+    "id": "warmth_right_arm_num",
+    "type": "widget",
+    "label": "w:RA",
+    "var": "bp_warmth",
+    "bodypart": "arm_r",
+    "copy-from": "warmth_num"
+  },
+  {
+    "id": "warmth_left_leg_num",
+    "type": "widget",
+    "label": "w:LL",
+    "var": "bp_warmth",
+    "bodypart": "leg_l",
+    "copy-from": "warmth_num"
+  },
+  {
+    "id": "warmth_right_leg_num",
+    "type": "widget",
+    "label": "w:RL",
+    "var": "bp_warmth",
+    "bodypart": "leg_r",
+    "copy-from": "warmth_num"
+  },
+  {
+    "id": "encumbrance_head_graph",
+    "type": "widget",
+    "label": "e:H",
+    "var": "bp_encumb",
+    "bodypart": "head",
+    "copy-from": "encumbrance_graph"
+  },
+  {
+    "id": "encumbrance_torso_graph",
+    "type": "widget",
+    "label": "e:T",
+    "var": "bp_encumb",
+    "bodypart": "torso",
+    "copy-from": "encumbrance_graph"
+  },
+  {
+    "id": "encumbrance_left_arm_graph",
+    "type": "widget",
+    "label": "e:LA",
+    "var": "bp_encumb",
+    "bodypart": "arm_l",
+    "copy-from": "encumbrance_graph"
+  },
+  {
+    "id": "encumbrance_right_arm_graph",
+    "type": "widget",
+    "label": "e:RA",
+    "var": "bp_encumb",
+    "bodypart": "arm_r",
+    "copy-from": "encumbrance_graph"
+  },
+  {
+    "id": "encumbrance_left_leg_graph",
+    "type": "widget",
+    "label": "e:LL",
+    "var": "bp_encumb",
+    "bodypart": "leg_l",
+    "copy-from": "encumbrance_graph"
+  },
+  {
+    "id": "encumbrance_right_leg_graph",
+    "type": "widget",
+    "label": "e:RL",
+    "var": "bp_encumb",
+    "bodypart": "leg_r",
+    "copy-from": "encumbrance_graph"
+  },
+  {
+    "id": "stamina_graph_classic",
+    "type": "widget",
+    "label": "Stam",
+    "var": "stamina",
+    "var_max": 10000,
+    "style": "graph",
+    "width": 5,
+    "symbols": ".\\|",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
+  },
+  {
+    "id": "stamina_graph",
+    "type": "widget",
+    "label": "Stam",
+    "var": "stamina",
+    "var_max": 10000,
+    "style": "graph",
+    "width": 10,
+    "symbols": ".\\|",
+    "colors": [ "c_red", "c_light_red", "c_yellow", "c_light_green", "c_green" ]
+  },
+  {
+    "id": "focus_num",
+    "type": "widget",
+    "label": "Focus",
+    "var": "focus",
+    "style": "number"
+  },
+  {
+    "id": "speed_num",
+    "type": "widget",
+    "label": "Speed",
+    "var": "speed",
+    "style": "number"
+  },
+  {
+    "id": "stamina_num",
+    "type": "widget",
+    "label": "Stamina",
+    "var": "stamina",
+    "style": "number"
+  },
+  {
+    "id": "fatigue_num",
+    "type": "widget",
+    "label": "Fatigue",
+    "var": "fatigue",
+    "style": "number"
+  },
+  {
+    "id": "fatigue_graph",
+    "type": "widget",
+    "label": "Fatig",
+    "var": "fatigue",
+    "var_max": 1000,
+    "style": "graph",
+    "fill": "bucket",
+    "width": 5,
+    "symbols": "-fF",
+    "colors": [ "c_green", "c_yellow", "c_red" ]
+  },
+  {
+    "id": "sound_num",
+    "type": "widget",
+    "label": "Sound",
+    "var": "sound",
+    "style": "number"
+  },
+  {
+    "id": "move_num",
+    "type": "widget",
+    "label": "Move",
+    "var": "move",
+    "style": "number"
+  },
+  {
+    "id": "pain_num",
+    "type": "widget",
+    "label": "Pain",
+    "var": "pain",
+    "style": "number"
+  },
+  {
+    "id": "str_num",
+    "type": "widget",
+    "label": "Str",
+    "var": "stat_str",
+    "style": "number"
+  },
+  {
+    "id": "dex_num",
+    "type": "widget",
+    "label": "Dex",
+    "var": "stat_dex",
+    "style": "number"
+  },
+  {
+    "id": "int_num",
+    "type": "widget",
+    "label": "Int",
+    "var": "stat_int",
+    "style": "number"
+  },
+  {
+    "id": "per_num",
+    "type": "widget",
+    "label": "Per",
+    "var": "stat_per",
+    "style": "number"
+  },
+  {
+    "id": "hitpoints_top_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "hp_left_arm_graph", "hp_head_graph", "hp_right_arm_graph" ]
+  },
+  {
+    "id": "hitpoints_bottom_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "hp_left_leg_graph", "hp_torso_graph", "hp_right_leg_graph" ]
+  },
+  {
+    "id": "hitpoints_head_torso",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "hp_head_graph", "hp_torso_graph" ]
+  },
+  {
+    "id": "hitpoints_arms",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "hp_left_arm_graph", "hp_right_arm_graph" ]
+  },
+  {
+    "id": "hitpoints_legs",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "hp_left_leg_graph", "hp_right_leg_graph" ]
+  },
+  {
+    "id": "encumbrance_top_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "encumbrance_left_arm_graph", "encumbrance_head_graph", "encumbrance_right_arm_graph" ]
+  },
+  {
+    "id": "encumbrance_bottom_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "encumbrance_left_leg_graph", "encumbrance_torso_graph", "encumbrance_right_leg_graph" ]
+  },
+  {
+    "id": "warmth_top_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "warmth_left_arm_num", "warmth_head_num", "warmth_right_arm_num" ]
+  },
+  {
+    "id": "warmth_bottom_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "warmth_left_leg_num", "warmth_torso_num", "warmth_right_leg_num" ]
+  },
+  {
+    "id": "stamina_fatigue_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "stamina_graph", "fatigue_graph" ]
+  },
+  {
+    "id": "stamina_speed_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "stamina_graph_classic", "speed_num" ]
+  },
+  {
+    "id": "focus_move_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "focus_num", "move_num" ]
+  },
+  {
+    "id": "stamina_fatigue_focus_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "stamina_graph_classic", "fatigue_graph", "focus_num" ]
+  },
+  {
+    "id": "speed_move_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "speed_num", "move_num" ]
+  },
+  {
+    "id": "sound_speed_move_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "sound_num", "speed_num", "move_num" ]
+  },
+  {
+    "id": "sound_fatigue_focus_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "sound_num", "fatigue_graph", "focus_num" ]
+  },
+  {
+    "id": "stamina_speed_move_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "stamina_graph_classic", "speed_num", "move_num" ]
+  },
+  {
+    "id": "sound_focus_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "sound_num", "focus_num" ]
+  },
+  {
+    "id": "stats_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "str_num", "dex_num", "int_num", "per_num" ]
+  },
+  {
+    "id": "str_dex_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "str_num", "dex_num" ]
+  },
+  {
+    "id": "int_per_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "int_num", "per_num" ]
+  },
+  {
+    "id": "root_layout_wide",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [
+      "hitpoints_top_layout",
+      "hitpoints_bottom_layout",
+      "sound_fatigue_focus_layout",
+      "stamina_speed_move_layout",
+      "stats_layout"
+    ]
+  },
+  {
+    "id": "root_layout_narrow",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [
+      "hitpoints_head_torso",
+      "hitpoints_arms",
+      "hitpoints_legs",
+      "stamina_speed_layout",
+      "focus_move_layout",
+      "str_dex_layout",
+      "int_per_layout"
+    ]
+  }
+]

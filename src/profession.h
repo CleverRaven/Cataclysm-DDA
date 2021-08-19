@@ -72,6 +72,8 @@ class profession
         std::set<std::string> flags; // flags for some special properties of the profession
         StartingSkillList  _starting_skills;
 
+        std::string _subtype;
+
         void check_item_definitions( const itypedecvec &items ) const;
 
         void load( const JsonObject &jo, const std::string &src );
@@ -86,6 +88,7 @@ class profession
         // these should be the only ways used to get at professions
         static const profession *generic(); // points to the generic, default profession
         static const std::vector<profession> &get_all();
+        static std::vector<string_id<profession>> get_all_hobbies();
 
         static bool has_initialized();
         // clear profession map, every profession pointer becomes invalid!
@@ -128,6 +131,8 @@ class profession
         bool is_forbidden_trait( const trait_id &trait ) const;
         std::vector<trait_id> get_locked_traits() const;
         std::set<trait_id> get_forbidden_traits() const;
+
+        bool is_hobby() const;
 };
 
 #endif // CATA_SRC_PROFESSION_H

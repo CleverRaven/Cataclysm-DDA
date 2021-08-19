@@ -59,6 +59,7 @@ enum class spell_flag : int {
     SOMATIC, // arm encumbrance affects fail % and casting time (slightly)
     NO_HANDS, // hands do not affect spell energy cost
     UNSAFE_TELEPORT, // teleport spell risks killing the caster or others
+    TARGET_TELEPORT, // aoe is teleport variance from target
     NO_LEGS, // legs do not affect casting time
     CONCENTRATE, // focus affects spell fail %
     RANDOM_AOE, // picks random number between min+increment*level and max instead of normal behavior
@@ -147,9 +148,9 @@ struct fake_spell {
     // a chance to trigger the enchantment spells
     int trigger_once_in = trigger_once_in_default;
     // a message when the enchantment is triggered
-    translation trigger_message;
+    translation trigger_message; // NOLINT(cata-serialize)
     // a message when the enchantment is triggered and is on npc
-    translation npc_trigger_message;
+    translation npc_trigger_message; // NOLINT(cata-serialize)
 
     fake_spell() = default;
     explicit fake_spell( const spell_id &sp_id, bool hit_self = false,
@@ -169,6 +170,7 @@ struct fake_spell {
     // gets the spell with an additional override for minimum level (default 0)
     spell get_spell( int min_level_override = 0 ) const;
 
+    bool is_valid() const;
     void load( const JsonObject &jo );
     void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );
@@ -207,9 +209,11 @@ class spell_type
         std::string sound_variant;
         // spell effect string. used to look up spell function
         std::string effect_name;
+        // NOLINTNEXTLINE(cata-serialize)
         std::function<void( const spell &, Creature &, const tripoint & )> effect;
         std::function<std::set<tripoint>( const spell_effect::override_parameters &params,
-                                          const tripoint &source, const tripoint &target )> spell_area_function;
+                                          const tripoint &source, const tripoint &target )>
+        spell_area_function; // NOLINT(cata-serialize)
         // the spell shape found in the json
         spell_shape spell_area = spell_shape::line;
         // extra information about spell effect. allows for combinations for effects
@@ -580,12 +584,12 @@ class known_magic
         // invlets assigned to spell_id
         std::map<spell_id, int> invlets;
         // the base mana a Character would start with
-        int mana_base = 0;
+        int mana_base = 0; // NOLINT(cata-serialize)
         // current mana
         int mana = 0;
     public:
         // ignores all distractions when casting a spell when true
-        bool casting_ignore = false;
+        bool casting_ignore = false; // NOLINT(cata-serialize)
 
         known_magic();
 
@@ -660,7 +664,7 @@ struct override_parameters {
     }
 };
 
-void teleport_random( const spell &sp, Creature &caster, const tripoint & );
+void short_range_teleport( const spell &sp, Creature &caster, const tripoint &target );
 void pain_split( const spell &, Creature &, const tripoint & );
 void attack( const spell &sp, Creature &caster,
              const tripoint &epicenter );
@@ -697,6 +701,15 @@ void mutate( const spell &sp, Creature &caster, const tripoint &target );
 void bash( const spell &sp, Creature &caster, const tripoint &target );
 void dash( const spell &sp, Creature &caster, const tripoint &target );
 void banishment( const spell &sp, Creature &caster, const tripoint &target );
+// revives a monster into some kind of zombie if the monster has the revives flag
+void revive( const spell &sp, Creature &caster, const tripoint &target );
+void upgrade( const spell &sp, Creature &caster, const tripoint &target );
+// causes guilt to the target as if it killed the caster
+void guilt( const spell &sp, Creature &caster, const tripoint &target );
+void remove_effect( const spell &sp, Creature &caster, const tripoint &target );
+void emit( const spell &sp, Creature &caster, const tripoint &target );
+void fungalize( const spell &sp, Creature &caster, const tripoint &target );
+void effect_on_condition( const spell &sp, Creature &caster, const tripoint &target );
 void none( const spell &sp, Creature &, const tripoint &target );
 
 static const std::map<spell_shape, std::function<std::set<tripoint>
@@ -712,7 +725,7 @@ effect_map{
     { "pain_split", spell_effect::pain_split },
     { "attack", spell_effect::attack },
     { "targeted_polymorph", spell_effect::targeted_polymorph },
-    { "teleport_random", spell_effect::teleport_random },
+    { "short_range_teleport", spell_effect::short_range_teleport },
     { "spawn_item", spell_effect::spawn_ethereal_item },
     { "recover_energy", spell_effect::recover_energy },
     { "summon", spell_effect::spawn_summoned_monster },
@@ -735,6 +748,13 @@ effect_map{
     { "bash", spell_effect::bash },
     { "dash", spell_effect::dash },
     { "banishment", spell_effect::banishment },
+    { "revive", spell_effect::revive },
+    { "upgrade", spell_effect::upgrade },
+    { "guilt", spell_effect::guilt },
+    { "remove_effect", spell_effect::remove_effect },
+    { "emit", spell_effect::emit },
+    { "fungalize", spell_effect::fungalize },
+    { "effect_on_condition", spell_effect::effect_on_condition },
     { "none", spell_effect::none }
 };
 } // namespace spell_effect

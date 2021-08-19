@@ -98,6 +98,16 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_distilling",
+    "name": { "str": "Distillation" },
+    "description": "The process of separating two mixed liquids by their different boiling points.",
+    "can_learn": true,
+    "default_time_multiplier": 1.1,
+    "default_fail_multiplier": 1.5,
+    "time_to_learn": "6 h"
+  },
+  {
+    "type": "proficiency",
     "id": "prof_metallurgy",
     "name": { "str": "Metallurgy" },
     "description": "An understanding of the chemistry of metalworking and alloys.",

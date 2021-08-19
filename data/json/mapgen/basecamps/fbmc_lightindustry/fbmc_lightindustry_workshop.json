@@ -1,0 +1,14 @@
+[
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_lightindustry_workshop_0",
+    "method": "json",
+    "object": { "set": [ { "point": "furniture", "id": "f_null", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmc_lightindustry_workshop_drop_hammer",
+    "method": "json",
+    "object": { "set": [ { "point": "furniture", "id": "f_drophammer", "x": 12, "y": 12 } ] }
+  }
+]

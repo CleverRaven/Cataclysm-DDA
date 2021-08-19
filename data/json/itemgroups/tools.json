@@ -8,6 +8,8 @@
       [ "chisel", 90 ],
       [ "crucible", 30 ],
       [ "swage", 60 ],
+      [ "drift", 70 ],
+      [ "hotcut", 90 ],
       [ "tongs", 90 ],
       [ "hammer", 90 ],
       [ "sandpaper", 90 ]
@@ -142,7 +144,8 @@
       { "item": "dehydrator", "prob": 5, "charges": [ 0, 500 ] },
       [ "tongs", 1 ],
       [ "tourist_table", 1 ],
-      [ "vac_mold", 2 ],
+      [ "vac_mold", 10 ],
+      [ "polycarbonate_sheet", 50 ],
       [ "sandpaper", 50 ],
       [ "plastic_sheet", 50 ],
       [ "shovel_snow", 10 ],
@@ -227,6 +230,8 @@
       { "item": "permanent_marker", "prob": 50, "charges": [ 0, 500 ] },
       [ "funnel", 200 ],
       [ "hand_drill", 10 ],
+      [ "vac_mold", 10 ],
+      [ "polycarbonate_sheet", 50 ],
       [ "boltcutters", 150 ],
       { "item": "flashlight", "prob": 100, "charges": [ 0, 300 ] },
       { "item": "heavy_flashlight", "prob": 60, "charges": [ 0, 300 ] },
@@ -248,6 +253,8 @@
       [ "magnifying_glass", 100 ],
       { "item": "voltmeter", "prob": 100, "charges": [ 0, 100 ] },
       [ "recharge_station", 10 ],
+      [ "vac_mold", 10 ],
+      [ "polycarbonate_sheet", 50 ],
       [ "hand_crank_charger", 40 ]
     ]
   },
@@ -288,6 +295,8 @@
       [ "jack", 80 ],
       [ "tire_iron", 80 ],
       [ "jack_small", 80 ],
+      [ "vac_mold", 10 ],
+      [ "polycarbonate_sheet", 50 ],
       {
         "collection": [
           { "item": "oxy_torch", "prob": 100 },
@@ -304,7 +313,8 @@
       { "item": "polisher", "prob": 70, "charges": [ 0, 100 ] },
       { "item": "angle_grinder", "prob": 5, "charges": [ 0, 500 ] },
       { "item": "welder", "prob": 10, "charges": [ 0, 500 ] },
-      [ "clamp", 10 ]
+      [ "clamp", 10 ],
+      [ "goggles_welding", 80 ]
     ]
   },
   {
@@ -501,6 +511,8 @@
       [ "awl_steel", 60 ],
       { "item": "loom_frame", "prob": 5 },
       [ "needle_curved", 30 ],
+      [ "vac_mold", 10 ],
+      [ "polycarbonate_sheet", 50 ],
       [ "scissors", 1000 ],
       { "item": "sewing_kit", "prob": 120, "charges-min": 0 },
       { "item": "shed_stick", "prob": 5 },
@@ -542,6 +554,7 @@
       { "item": "geiger_off", "prob": 3, "charges": [ 0, 100 ] },
       [ "hygrometer", 3 ],
       [ "barometer", 3 ],
+      [ "sextant", 1 ],
       { "item": "camera", "prob": 3, "charges": [ 0, 150 ] },
       [ "flask_glass", 10 ],
       [ "bottle_glass", 10 ],
@@ -613,6 +626,8 @@
       [ "pliers", 10 ],
       { "item": "matches", "prob": 10, "charges": [ 1, 20 ] },
       [ "glasses_safety", 20 ],
+      [ "vac_mold", 10 ],
+      [ "polycarbonate_sheet", 50 ],
       [ "duct_tape", 8 ],
       { "item": "misc_repairkit", "prob": 15, "charges-min": 0 },
       { "item": "welder", "prob": 10, "charges": [ 0, 500 ] },

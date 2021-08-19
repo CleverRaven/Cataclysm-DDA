@@ -695,6 +695,27 @@
     ]
   },
   {
+    "id": "fabricationbooks",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mag_fabrication", "prob": 50 },
+      { "item": "manual_fabrication", "prob": 35 },
+      { "item": "textbook_fabrication", "prob": 15 }
+    ]
+  },
+  {
+    "id": "carpentrybooks",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mag_carpentry", "prob": 35 },
+      { "item": "101_carpentry", "prob": 30 },
+      { "item": "textbook_carpentry", "prob": 20 },
+      { "item": "carpentry_book", "prob": 5 }
+    ]
+  },
+  {
     "id": "magazines",
     "type": "item_group",
     "subtype": "distribution",

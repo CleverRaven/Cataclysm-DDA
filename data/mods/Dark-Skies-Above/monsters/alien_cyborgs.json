@@ -52,7 +52,7 @@
         "no_ammo_sound": "a roar!"
       }
     ],
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [
       "SEES",
       "HEARS",
@@ -121,7 +121,7 @@
         "no_ammo_sound": "a roar!"
       }
     ],
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [
       "SEES",
       "HEARS",
@@ -189,7 +189,7 @@
         "no_ammo_sound": "a roar!"
       }
     ],
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [
       "SEES",
       "HEARS",
@@ -238,13 +238,12 @@
       [ "GRAB_DRAG", 3 ],
       {
         "type": "bite",
-        "no_infection_chance": 10,
+        "infection_chance": 90,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_multiplier": 0.8 } ],
         "cooldown": 10
       }
     ],
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC", "POISON", "HARDTOSHOOT" ]
   },
   {
@@ -288,7 +287,6 @@
       [ "SMASH", 20 ]
     ],
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "DESTROYS", "ACIDPROOF", "CAN_DIG", "ARTHROPOD_BLOOD" ]
   },
   {
@@ -321,7 +319,6 @@
     "vision_night": 5,
     "special_attacks": [ { "type": "leap", "cooldown": 10, "max_range": 5 }, { "id": "melee_shock" } ],
     "path_settings": { "max_dist": 5 },
-    "death_function": [ "NORMAL" ],
     "harvest": "dks_alien_hcyborg",
     "flags": [ "SEES", "HEARS", "SMELLS", "SWARMS", "WARM", "BASHES", "GROUP_BASH", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_2" ]
   }

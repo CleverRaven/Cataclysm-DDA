@@ -13,7 +13,6 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
-#include "item_contents.h"
 #include "item_pocket.h"
 #include "item_search.h"
 #include "item_stack.h"
@@ -349,7 +348,7 @@ bool inventory_holster_preset::is_shown( const item_location &contained ) const
     }
     item item_copy( *contained );
     item_copy.charges = 1;
-    if( !holster->contents.can_contain( item_copy ).success() ) {
+    if( !holster->can_contain( item_copy ).success() ) {
         return false;
     }
 
@@ -363,7 +362,7 @@ bool inventory_holster_preset::is_shown( const item_location &contained ) const
     if( contained->is_bucket_nonempty() ) {
         return false;
     }
-    if( !holster->contents.all_pockets_rigid() &&
+    if( !holster->all_pockets_rigid() &&
         !holster.parents_can_contain_recursive( &item_copy ) ) {
         return false;
     }
@@ -1401,6 +1400,18 @@ void inventory_selector::add_contained_items( item_location &container, inventor
     }
 }
 
+void inventory_selector::add_contained_ebooks( item_location &container )
+{
+    if( !container->is_ebook_storage() ) {
+        return;
+    }
+
+    for( item *it : container->get_contents().ebooks() ) {
+        item_location child( container, it );
+        add_entry( own_inv_column, std::vector<item_location>( 1, child ) );
+    }
+}
+
 void inventory_selector::add_character_items( Character &character )
 {
     character.visit_items( [ this, &character ]( item * it, item * ) {
@@ -1977,8 +1988,8 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
     ctxt.register_action( "UP", to_translation( "Previous item" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Page down" ) );
     ctxt.register_action( "PAGE_UP", to_translation( "Page up" ) );
-    ctxt.register_action( "RIGHT", to_translation( "Next column" ) );
-    ctxt.register_action( "LEFT", to_translation( "Previous column" ) );
+    ctxt.register_action( "NEXT_COLUMN", to_translation( "Next column" ) );
+    ctxt.register_action( "PREV_COLUMN", to_translation( "Previous column" ) );
     ctxt.register_action( "CONFIRM", to_translation( "Confirm your selection" ) );
     ctxt.register_action( "QUIT", to_translation( "Cancel" ) );
     ctxt.register_action( "CATEGORY_SELECTION", to_translation( "Switch category selection mode" ) );
@@ -2040,9 +2051,9 @@ void inventory_selector::on_input( const inventory_input &input )
 {
     if( input.action == "CATEGORY_SELECTION" ) {
         toggle_navigation_mode();
-    } else if( input.action == "LEFT" ) {
+    } else if( input.action == "PREV_COLUMN" ) {
         toggle_active_column( scroll_direction::BACKWARD );
-    } else if( input.action == "RIGHT" ) {
+    } else if( input.action == "NEXT_COLUMN" ) {
         toggle_active_column( scroll_direction::FORWARD );
     } else if( input.action == "VIEW_CATEGORY_MODE" ) {
         toggle_categorize_contained();
@@ -2347,7 +2358,7 @@ inventory_multiselector::inventory_multiselector( Character &p,
     inventory_selector( p, preset ),
     selection_col( new selection_column( "SELECTION_COLUMN", selection_column_title ) )
 {
-    ctxt.register_action( "RIGHT", to_translation( "Mark/unmark selected item" ) );
+    ctxt.register_action( "TOGGLE_ENTRY", to_translation( "Mark/unmark selected item" ) );
     ctxt.register_action( "DROP_NON_FAVORITE", to_translation( "Mark/unmark non-favorite items" ) );
 
     for( inventory_column * const &elem : get_all_columns() ) {
@@ -2380,7 +2391,7 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
             select( input.entry->any_item() );
             toggle_entry( input.entry );
             just_selected = input.entry;
-        } else if( input.action == "RIGHT" ) {
+        } else if( input.action == "TOGGLE_ENTRY" ) {
             const auto selection( get_active_column().get_all_selected() );
 
             for( inventory_entry * const &elem : selection ) {
@@ -2394,7 +2405,13 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
             }
         } else if( input.action == "CONFIRM" ) {
             popup_getkey( _( "You need two items for comparison.  Use %s to select them." ),
-                          ctxt.get_desc( "RIGHT" ) );
+                          ctxt.get_desc( "TOGGLE_ENTRY" ) );
+        } else if( input.action == "EXAMINE" ) {
+            const inventory_entry &selected = get_active_column().get_selected();
+            if( selected ) {
+                const item *sitem = selected.any_item().get_item();
+                action_examine( sitem );
+            }
         } else if( input.action == "QUIT" ) {
             return std::make_pair( nullptr, nullptr );
         } else if( input.action == "INVENTORY_FILTER" ) {
@@ -2476,7 +2493,7 @@ drop_locations inventory_iuse_selector::execute()
             }
             set_chosen_count( *input.entry, count );
             count = 0;
-        } else if( input.action == "RIGHT" ) {
+        } else if( input.action == "TOGGLE_ENTRY" ) {
             const auto selected( get_active_column().get_all_selected() );
 
             if( count == 0 ) {
@@ -2497,7 +2514,7 @@ drop_locations inventory_iuse_selector::execute()
         } else if( input.action == "CONFIRM" ) {
             if( to_use.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
-                              ctxt.get_desc( "RIGHT" ) );
+                              ctxt.get_desc( "TOGGLE_ENTRY" ) );
                 continue;
             }
             break;
@@ -2609,7 +2626,7 @@ void inventory_drop_selector::deselect_contained_items()
         inventory_items.push_back( loc_front );
     }
     for( item_location loc_container : inventory_items ) {
-        if( !loc_container->contents.empty() ) {
+        if( !loc_container->empty() ) {
             for( inventory_column *col : get_all_columns() ) {
                 for( inventory_entry *selected : col->get_entries( []( const inventory_entry &
                 entry ) {
@@ -2670,7 +2687,7 @@ drop_locations inventory_drop_selector::execute()
             const auto selected( get_active_column().get_entries( filter_to_nonfavorite_and_nonworn ) );
             process_selected( count, selected );
             deselect_contained_items();
-        } else if( input.action == "RIGHT" ) {
+        } else if( input.action == "TOGGLE_ENTRY" ) {
             const auto selected( get_active_column().get_all_selected() );
 
             // No amount entered, select all
@@ -2711,10 +2728,16 @@ drop_locations inventory_drop_selector::execute()
         } else if( input.action == "CONFIRM" ) {
             if( dropping.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
-                              ctxt.get_desc( "RIGHT" ) );
+                              ctxt.get_desc( "TOGGLE_ENTRY" ) );
                 continue;
             }
             break;
+        } else if( input.action == "EXAMINE" ) {
+            const inventory_entry &selected = get_active_column().get_selected();
+            if( selected ) {
+                const item *sitem = selected.any_item().get_item();
+                action_examine( sitem );
+            }
         } else if( input.action == "QUIT" ) {
             return drop_locations();
         } else if( input.action == "INVENTORY_FILTER" ) {

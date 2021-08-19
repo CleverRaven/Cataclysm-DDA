@@ -258,6 +258,11 @@
     "type": "json_flag"
   },
   {
+    "id": "CORROSIVE",
+    "context": [ "COMESTIBLE" ],
+    "type": "json_flag"
+  },
+  {
     "id": "ONLY_ONE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -480,6 +485,12 @@
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
     "//": "Designates a food that is usually undesirable but gives a morale bonus to characters with predator mutations."
+  },
+  {
+    "id": "PRESERVE_SPAWN_OMT",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "//": "This item will store the OMT it spawned in in the 'spawn_location_omt' var"
   },
   {
     "id": "STAB",
@@ -826,6 +837,30 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "//": "Prevents the item from making the body part count as unfriendly to water and thus causing negative morale from being wet.",
     "info": "This clothing <good>performs well</good> even when <info>soaking wet</info>.  This can feel good."
+  },
+  {
+    "id": "ITEM_BROKEN",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This item was broken and <bad>won't activate anymore</bad>."
+  },
+  {
+    "id": "WATER_BREAK",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This item <bad>will get broken</bad> by water."
+  },
+  {
+    "id": "WATER_BREAK_ACTIVE",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This item <bad>will get broken</bad> by water if it gets <info>submerged while active</info>."
+  },
+  {
+    "id": "WATER_DISSOLVE",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This item <bad>will get dissolved</bad> in water."
   },
   {
     "id": "WET",
@@ -1219,6 +1254,11 @@
     "context": [  ]
   },
   {
+    "id": "CRUTCHES",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "CUSTOM_EXPLOSION",
     "type": "json_flag",
     "context": [  ]
@@ -1401,7 +1441,8 @@
   {
     "id": "IS_UPS",
     "type": "json_flag",
-    "context": [  ]
+    "context": [  ],
+    "info": "This item provides power to <info>UPS compatible items</info>."
   },
   {
     "id": "LEAK_DAM",
@@ -1964,5 +2005,77 @@
     "id": "HARD",
     "type": "json_flag",
     "context": [  ]
+  },
+  {
+    "id": "SCIENCE_CARD_VISITOR",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a science facility."
+  },
+  {
+    "id": "SCIENCE_CARD_MAINTENANCE_GREEN",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a science facility."
+  },
+  {
+    "id": "SCIENCE_CARD_MAINTENANCE_YELLOW",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secured maintence area."
+  },
+  {
+    "id": "SCIENCE_CARD_MAINTENANCE_BLUE",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secured maintence area."
+  },
+  {
+    "id": "SCIENCE_CARD_TRANSPORT_1",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a science facility."
+  },
+  {
+    "id": "SCIENCE_CARD_SECURITY_YELLOW",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secured law enforcement area."
+  },
+  {
+    "id": "SCIENCE_CARD_SECURITY_MAGENTA",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secured law enforcement area."
+  },
+  {
+    "id": "SCIENCE_CARD_SECURITY_BLACK",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to get into a secured  area."
+  },
+  {
+    "id": "SCIENCE_CARD_MUTAGEN_GREEN",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to access a secure zone of a facility."
+  },
+  {
+    "id": "SCIENCE_CARD_MUTAGEN_PINK",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to access a secure zone of a facility."
+  },
+  {
+    "id": "SCIENCE_CARD_MUTAGEN_CYAN",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to access a secure zone of a facility."
+  },
+  {
+    "id": "SCIENCE_CARD_MEDICAL_RED",
+    "type": "json_flag",
+    "context": [ "GENERIC" ],
+    "info": "You could probably use this to access a secure zone of a facility."
   }
 ]

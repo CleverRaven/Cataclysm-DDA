@@ -16,7 +16,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_pocket.h"
 #include "json.h"
 #include "line.h"
@@ -27,6 +26,7 @@
 #include "ret_val.h"
 #include "safe_reference.h"
 #include "string_formatter.h"
+#include "talker_item.h"
 #include "translations.h"
 #include "units.h"
 #include "vehicle.h"
@@ -232,7 +232,7 @@ class item_location::impl::item_on_map : public item_location::impl
             if( !obj.is_null() ) {
                 return get_local_location( ch, &ch.i_add( obj, should_stack ) );
             } else {
-                item *inv = &ch.i_add( *target(), should_stack );
+                item *inv = &ch.i_add( *target(), should_stack, nullptr, target() );
                 remove_item();
                 return get_local_location( ch, inv );
             }
@@ -370,7 +370,7 @@ class item_location::impl::item_on_person : public item_location::impl
             if( !obj.is_null() ) {
                 return item_location( ch, &ch.i_add( obj, should_stack ) );
             } else {
-                item *inv = &ch.i_add( *target(), should_stack );
+                item *inv = &ch.i_add( *target(), should_stack, nullptr, target() );
                 remove_item();  // This also takes off the item from whoever wears it.
                 return item_location( ch, inv );
             }
@@ -395,6 +395,7 @@ class item_location::impl::item_on_person : public item_location::impl
             } else {
                 // then we are wearing it
                 mv = who->item_handling_cost( obj, true, INVENTORY_HANDLING_PENALTY / 2 );
+                mv += 250;
             }
 
             if( &ch != who ) {
@@ -488,7 +489,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             if( !obj.is_null() ) {
                 return item_location( ch, &ch.i_add( obj, should_stack ) );
             } else {
-                item *inv = &ch.i_add( *target(), should_stack );
+                item *inv = &ch.i_add( *target(), should_stack, nullptr, target() );
                 remove_item();
                 return item_location( ch, inv );
             }
@@ -552,7 +553,7 @@ class item_location::impl::item_in_container : public item_location::impl
                 }
                 idx++;
             }
-            if( container->contents.empty() ) {
+            if( container->empty() ) {
                 return -1;
             }
             return idx;
@@ -574,7 +575,7 @@ class item_location::impl::item_in_container : public item_location::impl
         }
 
         item *unpack( int idx ) const override {
-            if( idx < 0 || static_cast<size_t>( idx ) >= target()->contents.num_item_stacks() ) {
+            if( idx < 0 || static_cast<size_t>( idx ) >= target()->num_item_stacks() ) {
                 return nullptr;
             }
             std::list<const item *> all_items = container->all_items_ptr();
@@ -630,10 +631,12 @@ class item_location::impl::item_in_container : public item_location::impl
             if( !obj.is_null() ) {
                 return item_location( ch, &ch.i_add( obj, should_stack,
                                                      /*avoid=*/nullptr,
+                                                     nullptr,
                                                      /*allow_drop=*/false ) );
             } else {
                 item *const inv = &ch.i_add( *target(), should_stack,
                                              /*avoid=*/nullptr,
+                                             target(),
                                              /*allow_drop=*/false );
                 if( inv->is_null() ) {
                     debugmsg( "failed to add item to character inventory while obtaining from container" );
@@ -654,7 +657,7 @@ class item_location::impl::item_in_container : public item_location::impl
                 obj = *target();
             }
 
-            const int container_mv = container->contents.obtain_cost( *target() );
+            const int container_mv = container->obtain_cost( *target() );
             if( container_mv == 0 ) {
                 debugmsg( "ERROR: %s does not contain %s", container->tname(), target()->tname() );
                 return 0;
@@ -819,7 +822,7 @@ bool item_location::parents_can_contain_recursive( item *it ) const
     }
 
     item_location parent = parent_item();
-    item_pocket *pocket = parent->contents.contained_where( *get_item() );
+    item_pocket *pocket = parent->contained_where( *get_item() );
 
     if( pocket->can_contain( *it ).success() ) {
         return parent.parents_can_contain_recursive( it );
@@ -835,7 +838,7 @@ int item_location::max_charges_by_parent_recursive( const item &it ) const
     }
 
     item_location parent = parent_item();
-    item_pocket *pocket = parent->contents.contained_where( *get_item() );
+    item_pocket *pocket = parent->contained_where( *get_item() );
 
     return std::min( { it.charges_per_volume( pocket->remaining_volume() ),
                        it.charges_per_weight( pocket->remaining_weight() ),
@@ -940,3 +943,33 @@ units::mass item_location::weight_capacity() const
 {
     return ptr->weight_capacity();
 }
+
+bool item_location::protected_from_liquids() const
+{
+    // check if inside a watertight which is not an open_container
+    if( has_parent() ) {
+        item_location parent = parent_item();
+
+        // parent can protect the item against water
+        if( parent->is_watertight_container() && !parent->will_spill() ) {
+            return true;
+        }
+
+        // check the parent's parent
+        return parent.protected_from_liquids();
+    }
+
+    // we recursively checked all containers
+    // none are closed watertight containers
+    return false;
+}
+
+std::unique_ptr<talker> get_talker_for( item_location &it )
+{
+    return std::make_unique<talker_item>( &it );
+}
+std::unique_ptr<talker> get_talker_for( item_location *it )
+{
+    return std::make_unique<talker_item>( it );
+}
+

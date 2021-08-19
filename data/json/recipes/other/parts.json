@@ -197,7 +197,7 @@
     "using": [ [ "blacksmithing_standard", 32 ], [ "steel_standard", 8 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_blacksmithing" } ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "swage", -1 ] ] ]
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "hotcut", -1 ] ] ]
   },
   {
     "result": "circsaw_blade",
@@ -235,7 +235,7 @@
       { "proficiency": "prof_bladesmith" }
     ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "swage", -1 ] ] ]
+    "tools": [ [ [ "hotcut", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -342,6 +342,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "ugl_buttstock",
     "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_MODS",
     "skill_used": "fabrication",
     "skills_required": [ "launcher", 3 ],
     "difficulty": 3,
@@ -433,7 +434,7 @@
     "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_wiremaking" } ],
     "//": "Requires annealing 4 times from the copper rod.",
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 40 ], [ "oxy_torch", 40 ] ], [ [ "draw_plate", -1 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "hotcut", -1 ] ], [ [ "forge", 40 ], [ "oxy_torch", 40 ] ], [ [ "draw_plate", -1 ] ] ],
     "components": [ [ [ "copper_rod", 1 ] ] ]
   },
   {
@@ -451,7 +452,12 @@
     "qualities": [ { "id": "ANVIL", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
     "proficiencies": [ { "proficiency": "prof_metalworking" } ],
     "//": "Requires annealing 4 times from the copper rod.",
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 40 ], [ "oxy_torch", 40 ] ], [ [ "wire_draw_machine", 100 ] ] ],
+    "tools": [
+      [ [ "tongs", -1 ] ],
+      [ [ "hotcut", -1 ] ],
+      [ [ "forge", 40 ], [ "oxy_torch", 40 ] ],
+      [ [ "wire_draw_machine", 100 ] ]
+    ],
     "components": [ [ [ "copper_rod", 1 ] ] ]
   },
   {
@@ -534,7 +540,7 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "using": [ [ "soldering_standard", 150 ] ],
+    "using": [ [ "soldering_standard", 40 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "proficiencies": [ { "proficiency": "prof_plasticworking" } ],
     "components": [ [ [ "e_scrap", 5 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 5 ] ], [ [ "plastic_chunk", 5 ] ] ]
@@ -833,5 +839,17 @@
     "using": [ [ "surface_heat", 10 ] ],
     "qualities": [ { "id": "FILE", "level": 1 }, { "id": "CUT", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "chunk_rubber", 8 ] ], [ [ "superglue", 4 ], [ "bone_glue", 4 ] ], [ [ "wheel_caster", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "rag",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "time": "1 s",
+    "autolearn": true,
+    "components": [ [ [ "cotton_patchwork", 1 ] ] ],
+    "//": "This is intended to be an interim measure until all recipies can be moved away from using or creating rags.  Once that's done this can be considered obsolete"
   }
 ]

@@ -178,6 +178,7 @@
     "charges": 16,
     "phase": "liquid",
     "fun": -25,
+    "use_action": [ "BLECH" ],
     "flags": [ "NUTRIENT_OVERRIDE" ],
     "vitamins": [  ],
     "freezing_point": -26

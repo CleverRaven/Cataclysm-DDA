@@ -64,6 +64,12 @@ Optional, defaults to true.
 Boolean (true/false).
 Whether or not to remove hostile monsters with the `ID_CARD_DESPAWN` flag.
 
+#### `omt_allowed_radius`
+Optional, defaults to infinity.
+Integer (0 or greater).
+For cards with the `PRESERVE_SPAWN_OMT` flag, how many overmap tiles away a card can spawn and be accepted for this cardreader.
+For cards without the flag, this field is ignored.
+
 ### `mapgen_id`
 Optional.
 String.
@@ -109,18 +115,19 @@ String.
 What message to print when attempting to activate the cardreader after it has already been activated.
 
 #### Example
-```
+```json
 {
   "type": "cardreader",
   "flags": [ "SCIENCE_CARD" ],
   "consume_card": true,
   "allow_hacking": true,
   "despawn_monsters": true,
+  "omt_allowed_radius": 3,
   "radius": 3,
   "terrain_changes": { "t_door_metal_locked": "t_door_metal_c" },
   "furn_changes": { "f_crate_c": "f_crate_o" },
   "query": true,
-  "query_msg": "Are you sure you want to open this door?"
+  "query_msg": "Are you sure you want to open this door?",
   "success_msg": "You opened the door!",
   "redundant_msg": "The door is already open."
 }

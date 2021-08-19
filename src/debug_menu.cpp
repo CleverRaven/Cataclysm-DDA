@@ -138,6 +138,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::SPAWN_NPC: return "SPAWN_NPC";
         case debug_menu::debug_menu_index::SPAWN_MON: return "SPAWN_MON";
         case debug_menu::debug_menu_index::GAME_STATE: return "GAME_STATE";
+        case debug_menu::debug_menu_index::KILL_AREA: return "KILL_AREA";
         case debug_menu::debug_menu_index::KILL_NPCS: return "KILL_NPCS";
         case debug_menu::debug_menu_index::MUTATE: return "MUTATE";
         case debug_menu::debug_menu_index::SPAWN_VEHICLE: return "SPAWN_VEHICLE";
@@ -173,6 +174,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::CRASH_GAME: return "CRASH_GAME";
         case debug_menu::debug_menu_index::MAP_EXTRA: return "MAP_EXTRA";
         case debug_menu::debug_menu_index::DISPLAY_NPC_PATH: return "DISPLAY_NPC_PATH";
+        case debug_menu::debug_menu_index::DISPLAY_NPC_ATTACK: return "DISPLAY_NPC_ATTACK";
         case debug_menu::debug_menu_index::PRINT_FACTION_INFO: return "PRINT_FACTION_INFO";
         case debug_menu::debug_menu_index::PRINT_NPC_MAGIC: return "PRINT_NPC_MAGIC";
         case debug_menu::debug_menu_index::QUIT_NOSAVE: return "QUIT_NOSAVE";
@@ -272,6 +274,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::HOUR_TIMER, true, 'E', _( "Toggle hour timer" ) ) },
             { uilist_entry( debug_menu_index::TRAIT_GROUP, true, 't', _( "Test trait group" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_NPC_PATH, true, 'n', _( "Toggle NPC pathfinding on map" ) ) },
+            { uilist_entry( debug_menu_index::DISPLAY_NPC_ATTACK, true, 'A', _( "Toggle NPC attack potential values on map" ) ) },
             { uilist_entry( debug_menu_index::PRINT_FACTION_INFO, true, 'f', _( "Print faction info to console" ) ) },
             { uilist_entry( debug_menu_index::PRINT_NPC_MAGIC, true, 'M', _( "Print NPC magic info to console" ) ) },
             { uilist_entry( debug_menu_index::TEST_WEATHER, true, 'W', _( "Test weather" ) ) },
@@ -337,6 +340,7 @@ static int map_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::REVEAL_MAP, true, 'r', _( "Reveal map" ) ) },
+        { uilist_entry( debug_menu_index::KILL_AREA, true, 'a', _( "Kill in Area" ) ) },
         { uilist_entry( debug_menu_index::KILL_NPCS, true, 'k', _( "Kill NPCs" ) ) },
         { uilist_entry( debug_menu_index::MAP_EDITOR, true, 'M', _( "Map editor" ) ) },
         { uilist_entry( debug_menu_index::CHANGE_WEATHER, true, 'w', _( "Change weather" ) ) },
@@ -1463,12 +1467,14 @@ void character_edit_menu()
                 break;
                 case 2: {
                     string_input_popup popup;
-                    popup.title( _( "Enter height in centimeters.  Minimum 145, maximum 200" ) )
+                    popup.title( string_format( _( "Enter height in centimeters.  Minimum %d, maximum %d" ),
+                                                Character::min_height(),
+                                                Character::max_height() ) )
                     .text( string_format( "%d", p.base_height() ) )
                     .only_digits( true );
                     const int result = popup.query_int();
                     if( result != 0 ) {
-                        p.set_base_height( clamp( result, 145, 200 ) );
+                        p.set_base_height( clamp( result, Character::min_height(), Character::max_height() ) );
                     }
                 }
                 break;
@@ -1674,7 +1680,7 @@ void character_edit_menu()
         case D_TELE: {
             if( const cata::optional<tripoint> newpos = g->look_around() ) {
                 p.setpos( *newpos );
-                if( p.is_player() ) {
+                if( p.is_avatar() ) {
                     if( p.is_mounted() ) {
                         p.mounted_creature->setpos( *newpos );
                     }
@@ -1722,23 +1728,7 @@ void character_edit_menu()
         }
         break;
         case D_ADD_EFFECT: {
-            const auto text = string_input_popup()
-                              .title( _( "Choose an effect to add." ) )
-                              .width( 20 )
-                              .text( "" )
-                              .only_digits( false )
-                              .query_string();
-            efftype_id effect( text );
-            int intensity = 0;
-            int seconds = 0;
-            query_int( intensity, _( "What intensity?" ) );
-            query_int( seconds, _( "How many seconds?" ), 600 );
-
-            if( effect.is_valid() ) {
-                p.add_effect( effect, time_duration::from_seconds( seconds ), false, intensity );
-            } else {
-                add_msg( _( "Invalid effect" ) );
-            }
+            wisheffect( *p.as_character() );
             break;
         }
         case D_ASTHMA: {
@@ -1792,7 +1782,7 @@ static void add_header( uilist &mmenu, const std::string &str )
 
 void mission_debug::edit( player &who )
 {
-    if( who.is_player() ) {
+    if( who.is_avatar() ) {
         edit_player();
     } else if( who.is_npc() ) {
         edit_npc( dynamic_cast<npc &>( who ) );
@@ -1943,6 +1933,7 @@ void draw_benchmark( const int max_difference )
             break;
         }
         g->invalidate_main_ui_adaptor();
+        inp_mngr.pump_events();
         ui_manager::redraw_invalidated();
         refresh_display();
         draw_counter++;
@@ -2024,9 +2015,9 @@ static void debug_menu_game_state()
         to_turns<int>( calendar::turn - calendar::turn_zero ),
         g->num_creatures() );
     for( const npc &guy : g->all_npcs() ) {
-        tripoint t = guy.global_sm_location();
-        add_msg( m_info, _( "%s: map ( %d:%d ) pos ( %d:%d )" ), guy.name, t.x,
-                 t.y, guy.posx(), guy.posy() );
+        tripoint_abs_sm t = guy.global_sm_location();
+        add_msg( m_info, _( "%s: map ( %d:%d ) pos ( %d:%d )" ), guy.name, t.x(),
+                 t.y(), guy.posx(), guy.posy() );
     }
 
     add_msg( m_info, _( "(you: %d:%d)" ), player_character.posx(), player_character.posy() );
@@ -2203,7 +2194,6 @@ void debug()
 
     avatar &player_character = get_avatar();
     map &here = get_map();
-    tripoint abs_sub = here.get_abs_sub();
     switch( *action ) {
         case debug_menu_index::WISH:
             debug_menu::wishitem( &player_character );
@@ -2234,7 +2224,7 @@ void debug()
             shared_ptr_fast<npc> temp = make_shared_fast<npc>();
             temp->normalize();
             temp->randomize();
-            temp->spawn_at_precise( abs_sub.xy(), player_character.pos() + point( -4, -4 ) );
+            temp->spawn_at_precise( player_character.global_square_location() + point( -4, -4 ) );
             overmap_buffer.insert_npc( temp );
             temp->form_opinion( player_character );
             temp->mission = NPC_MISSION_NULL;
@@ -2257,6 +2247,43 @@ void debug()
         case debug_menu_index::GAME_STATE:
             debug_menu_game_state();
             break;
+
+        case debug_menu_index::KILL_AREA: {
+            static_popup popup;
+            popup.on_top( true );
+            popup.message( "%s", _( "Select first point." ) );
+
+            tripoint initial_pos = player_character.pos();
+            const look_around_result first = g->look_around( false, initial_pos, initial_pos,
+                                             false, true, false );
+
+            if( !first.position ) {
+                break;
+            }
+
+            popup.message( "%s", _( "Select second point." ) );
+            const look_around_result second = g->look_around( false, initial_pos, *first.position,
+                                              true, true, false );
+
+            if( !second.position ) {
+                break;
+            }
+
+            const tripoint_range<tripoint> points = get_map().points_in_rectangle(
+                    first.position.value(), second.position.value() );
+
+            std::vector<Creature *> creatures = g->get_creatures_if(
+            [&points]( const Creature & critter ) -> bool {
+                return !critter.is_avatar() && points.is_point_inside( critter.pos() );
+            } );
+
+            for( Creature *critter : creatures ) {
+                critter->die( nullptr );
+            }
+
+            g->cleanup_dead();
+        }
+        break;
 
         case debug_menu_index::KILL_NPCS:
             for( npc &guy : g->all_npcs() ) {
@@ -2354,6 +2381,7 @@ void debug()
             wind_direction_menu.query();
             if( wind_direction_menu.ret == 0 ) {
                 g->weather.wind_direction_override = cata::nullopt;
+                g->weather.set_nextweather( calendar::turn );
             } else if( wind_direction_menu.ret >= 0 && wind_direction_menu.ret < 9 ) {
                 g->weather.wind_direction_override = ( wind_direction_menu.ret - 1 ) * 45;
                 g->weather.set_nextweather( calendar::turn );
@@ -2375,6 +2403,7 @@ void debug()
             wind_speed_menu.query();
             if( wind_speed_menu.ret == 0 ) {
                 g->weather.windspeed_override = cata::nullopt;
+                g->weather.set_nextweather( calendar::turn );
             } else if( wind_speed_menu.ret >= 0 && wind_speed_menu.ret < 12 ) {
                 int selected_wind_speed = ( wind_speed_menu.ret - 1 ) * 10;
                 g->weather.windspeed_override = selected_wind_speed;
@@ -2424,43 +2453,20 @@ void debug()
 
         // Damage Self
         case debug_menu_index::DAMAGE_SELF: {
-            const int torso_hp = player_character.get_part_hp_cur( bodypart_id( "torso" ) );
-            const int head_hp = player_character.get_part_hp_cur( bodypart_id( "head" ) );
-            const int arm_l_hp = player_character.get_part_hp_cur( bodypart_id( "arm_l" ) );
-            const int arm_r_hp = player_character.get_part_hp_cur( bodypart_id( "arm_r" ) );
-            const int leg_l_hp = player_character.get_part_hp_cur( bodypart_id( "leg_l" ) );
-            const int leg_r_hp = player_character.get_part_hp_cur( bodypart_id( "leg_r" ) );
+            const std::vector<bodypart_id> parts = player_character.get_all_body_parts(
+                    get_body_part_flags::only_main );
             uilist smenu;
-            smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), torso_hp );
-            smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), head_hp );
-            smenu.addentry( 2, true, 'a', "%s: %d", _( "Left arm" ), arm_l_hp );
-            smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), arm_r_hp );
-            smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), leg_l_hp );
-            smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), leg_r_hp );
+            int i = 0;
+            for( const bodypart_id &part : parts ) {
+                smenu.addentry( i, true, ' ', "%s: %d",
+                                part->name.translated(), player_character.get_part_hp_cur( part ) );
+                i++;
+            }
             smenu.query();
             bodypart_id part;
             int dbg_damage;
-            switch( smenu.ret ) {
-                case 0:
-                    part = bodypart_id( "torso" );
-                    break;
-                case 1:
-                    part = bodypart_id( "head" );
-                    break;
-                case 2:
-                    part = bodypart_id( "arm_l" );
-                    break;
-                case 3:
-                    part = bodypart_id( "arm_r" );
-                    break;
-                case 4:
-                    part = bodypart_id( "leg_l" );
-                    break;
-                case 5:
-                    part = bodypart_id( "leg_r" );
-                    break;
-                default:
-                    break;
+            if( smenu.ret >= 0 && static_cast<std::size_t>( smenu.ret ) <= parts.size() ) {
+                part = parts.at( smenu.ret );
             }
             if( query_int( dbg_damage, _( "Damage self for how much?  hp: %s" ), part.id().c_str() ) ) {
                 player_character.apply_damage( nullptr, part, dbg_damage );
@@ -2545,6 +2551,9 @@ void debug()
             break;
         case debug_menu_index::DISPLAY_SCENTS_TYPE_LOCAL:
             g->display_toggle_overlay( ACTION_DISPLAY_SCENT_TYPE );
+            break;
+        case debug_menu_index::DISPLAY_NPC_ATTACK:
+            g->display_toggle_overlay( ACTION_DISPLAY_NPC_ATTACK_POTENTIAL );
             break;
         case debug_menu_index::DISPLAY_TEMP:
             g->display_toggle_overlay( ACTION_DISPLAY_TEMPERATURE );
@@ -2645,7 +2654,7 @@ void debug()
                     tripoint_abs_sm where_sm = project_to<coords::sm>( where_omt );
                     tinymap mx_map;
                     mx_map.load( where_sm, false );
-                    MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm.raw() );
+                    MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm );
                     g->load_npcs();
                     here.invalidate_map_cache( here.get_abs_sub().z );
                 }

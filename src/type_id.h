@@ -118,6 +118,9 @@ using mtype_id = string_id<mtype>;
 class npc_class;
 using npc_class_id = string_id<npc_class>;
 
+class npc_template;
+using npc_template_id = string_id<npc_template>;
+
 class faction;
 using faction_id = string_id<faction>;
 
@@ -128,6 +131,9 @@ using oter_str_id = string_id<oter_t>;
 struct oter_type_t;
 using oter_type_id = int_id<oter_type_t>;
 using oter_type_str_id = string_id<oter_type_t>;
+
+class overmap_special;
+using overmap_special_id = string_id<overmap_special>;
 
 class profession;
 using profession_id = string_id<profession>;
@@ -215,5 +221,8 @@ class json_flag;
 using flag_id = string_id<json_flag>;
 
 using json_character_flag = string_id<json_flag>;
+
+class widget;
+using widget_id = string_id<widget>;
 
 #endif // CATA_SRC_TYPE_ID_H

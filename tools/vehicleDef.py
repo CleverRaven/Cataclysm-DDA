@@ -17,8 +17,8 @@ argsDict = vars(args.parse_args())
 
 
 def writeVehicleTemplates(templates):
-    with open("vehicles.json", "w") as vehicleDefJson:
-        json.dump(templates, vehicleDefJson, indent=4)
+    with open("vehicles.json", "w", encoding="utf-8") as vehicleDefJson:
+        json.dump(templates, vehicleDefJson, indent=4, ensure_ascii=False)
         print("Vehicle defs written.")
 
 
@@ -41,7 +41,7 @@ def getVehicleTemplates():
 
 def getVehicleInstances(mapPath):
     vehicles = []
-    with open(mapPath) as mapFile:
+    with open(mapPath, encoding="utf-8") as mapFile:
         mapData = json.load(mapFile)
         for i in range(0, len(mapData)):
             for vehicle in mapData[i]["vehicles"]:

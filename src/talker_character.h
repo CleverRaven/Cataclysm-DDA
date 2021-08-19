@@ -39,6 +39,12 @@ class talker_character: public talker
         player *get_character() const override {
             return me_chr;
         }
+        Creature *get_creature() override {
+            return me_chr;
+        }
+        Creature *get_creature() const override {
+            return me_chr;
+        }
         // identity and location
         std::string disp_name() const override;
         character_id getID() const override;
@@ -74,7 +80,7 @@ class talker_character: public talker
         bool is_deaf() const override;
         bool is_mute() const override;
         void add_effect( const efftype_id &new_effect, const time_duration &dur,
-                         bool permanent ) override;
+                         std::string bp, bool permanent, bool force, int intensity ) override;
         void remove_effect( const efftype_id &old_effect ) override;
         std::string get_value( const std::string &var_name ) const override;
         void set_value( const std::string &var_name, const std::string &value ) override;
@@ -113,8 +119,17 @@ class talker_character: public talker
         bool worn_with_flag( const flag_id &flag ) const override;
         bool wielded_with_flag( const flag_id &flag ) const override;
 
+        void mod_fatigue( int amount ) override;
         void mod_pain( int amount ) override;
-
+        bool can_see() const override;
+        void mod_healthy_mod( int, int ) override;
+        int morale_cur() const override;
+        void add_morale( const morale_type &new_morale, int bonus, int max_bonus, time_duration duration,
+                         time_duration decay_started, bool capped ) override;
+        void remove_morale( const morale_type &old_morale ) override;
+        int focus_cur() const override;
+        void mod_focus( int ) override;
+        void mod_rad( int ) override;
     protected:
         talker_character() = default;
         player *me_chr;

@@ -25,7 +25,6 @@
     "armor_cut": 3,
     "path_settings": { "max_dist": 20 },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "MATING_SEASON" ],
-    "death_function": [ "NORMAL" ],
     "baby_flags": [ "SPRING" ],
     "//": "Baby elephants don't actually exist (yet), but Spring is the wet season (their mating season) so baby_flags is defined so that they get angry then",
     "harvest": "mammal_large_leather",

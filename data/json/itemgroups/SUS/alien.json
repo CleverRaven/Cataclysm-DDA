@@ -1,0 +1,107 @@
+[
+  {
+    "id": "SUS_exodii_storage_lowvalue",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for exodii storage pods and lockers that contain unprocessed and possibly unsorted scrap.  At some point these pieces should expand to more than just scrap, including various nice tools.",
+    "subtype": "distribution",
+    "entries": [
+      {
+        "collection": [
+          { "item": "chain", "prob": 30, "count": [ 2, 15 ] },
+          { "item": "steel_chunk", "prob": 40, "count": [ 2, 10 ] },
+          { "item": "spring", "prob": 20, "count": [ 2, 10 ] },
+          { "item": "steel_lump", "prob": 40, "count": [ 1, 5 ] },
+          { "item": "frame", "prob": 10, "count": [ 1, 10 ] },
+          { "item": "frame", "prob": 10, "count": [ 1, 5 ] },
+          { "item": "scrap", "prob": 40, "count": [ 5, 40 ] },
+          { "item": "pipe", "prob": 20, "count": [ 2, 8 ] },
+          { "item": "spike", "prob": 50, "count": [ 3, 40 ] },
+          { "item": "hinge", "prob": 20, "count": [ 1, 30 ] },
+          { "item": "wire", "prob": 40, "count": [ 5, 20 ] },
+          { "item": "rebar", "prob": 30, "count": [ 2, 30 ] },
+          { "item": "sheet_metal", "prob": 20, "count": [ 2, 30 ] },
+          { "item": "sheet_metal_small", "prob": 40, "count": [ 5, 50 ] },
+          { "item": "nail", "prob": 50, "count": [ 5, 70 ], "charges-min": 1, "charges-max": 100 },
+          { "item": "blade", "prob": 20, "count": [ 5, 10 ] },
+          { "item": "hammer", "prob": 20, "count": [ 1, 3 ] },
+          { "item": "tongs", "prob": 20, "count": [ 1, 3 ] }
+        ],
+        "prob": 40
+      },
+      {
+        "collection": [
+          { "item": "cu_pipe", "count": [ 0, 50 ] },
+          { "item": "copper_knife", "prob": 30, "count": [ 2, 20 ] },
+          { "item": "scrap_copper", "count": [ 50, 200 ] }
+        ],
+        "prob": 50
+      },
+      {
+        "collection": [
+          { "item": "bubblewrap", "count": [ 0, 20 ] },
+          { "item": "rigid_plastic_sheet", "count": [ 2, 20 ] },
+          { "item": "plastic_sheet", "count": [ 5, 25 ] },
+          { "item": "sheet_neoprene", "prob": 50, "count": [ 1, 10 ] }
+        ],
+        "prob": 10
+      }
+    ]
+  },
+  {
+    "id": "SUS_exodii_storage_medvalue",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for exodii storage pods and lockers that contain sorted scrap that could use further processing but is definitely useful.",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "SUS_exodii_storage_lowvalue", "prob": 30 },
+      {
+        "collection": [ { "item": "pamd68", "count": [ 15, 20 ] }, { "item": "pamd71z", "count": [ 10, 15 ] } ],
+        "prob": 30
+      },
+      {
+        "collection": [ { "item": "exodiiminimag", "count": [ 30, 50 ] }, { "item": "exodiiBRmag", "count": [ 20, 40 ] } ],
+        "prob": 20
+      },
+      {
+        "distribution": [
+          { "item": "exodii_ingot_lead", "prob": 40 },
+          { "item": "exodii_ingot_tin", "prob": 30 },
+          { "item": "exodii_ingot_zinc", "prob": 20 }
+        ],
+        "prob": 20
+      }
+    ]
+  },
+  {
+    "id": "SUS_exodii_storage_highvalue",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for exodii storage pods and lockers that processed ingots and the like, ready for use.",
+    "subtype": "distribution",
+    "entries": [
+      { "collection": [ { "item": "pamd68", "count": [ 15, 20 ] }, { "item": "pamd71z", "count": [ 10, 15 ] } ], "prob": 20 },
+      {
+        "collection": [
+          { "item": "exodiiminimag", "count": [ 30, 50 ] },
+          { "item": "exodiiBRmag", "count": [ 20, 40 ] },
+          { "item": "123ln", "count": [ 0, 200 ] }
+        ],
+        "prob": 20
+      },
+      {
+        "distribution": [
+          { "item": "exodii_ingot_aluminum", "prob": 30 },
+          { "item": "exodii_ingot_plastic", "prob": 10 },
+          { "item": "exodii_ingot_steel", "prob": 50 },
+          { "item": "exodii_ingot_copper", "prob": 50 },
+          { "item": "exodii_ingot_lead", "prob": 30 },
+          { "item": "exodii_ingot_tin", "prob": 10 },
+          { "item": "exodii_ingot_zinc", "prob": 10 }
+        ],
+        "prob": 60
+      }
+    ]
+  }
+]

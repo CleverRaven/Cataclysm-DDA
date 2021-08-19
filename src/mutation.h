@@ -256,9 +256,6 @@ struct mutation_branch {
         // Multiplier for sight range, defaulting to 1.
         cata::optional<float> overmap_multiplier = cata::nullopt;
 
-        // Multiplier for map memory capacity, defaulting to 1.
-        cata::optional<float> map_memory_capacity_multiplier = cata::nullopt;
-
         // Multiplier for reading speed, defaulting to 1.
         cata::optional<float> reading_speed_multiplier = cata::nullopt;
 

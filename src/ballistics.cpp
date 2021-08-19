@@ -38,6 +38,8 @@
 
 static const efftype_id effect_bounced( "bounced" );
 
+static const json_character_flag json_flag_HARDTOHIT( "HARDTOHIT" );
+
 static const std::string flag_LIQUID( "LIQUID" );
 
 static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
@@ -207,6 +209,16 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
                          target_critter->ranged_target_size() :
                          here.ranged_target_size( target_arg );
     projectile_attack_aim aim = projectile_attack_roll( dispersion, range, target_size );
+
+    if( target_critter && target_critter->as_character() &&
+        target_critter->as_character()->has_trait_flag( json_flag_HARDTOHIT ) ) {
+
+        projectile_attack_aim lucky_aim = projectile_attack_roll( dispersion, range, target_size );
+        // if the target's lucky they're more likely to be missed
+        if( lucky_aim.missed_by > aim.missed_by ) {
+            aim = lucky_aim;
+        }
+    }
 
     // TODO: move to-hit roll back in here
 
@@ -389,7 +401,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
         if( critter != nullptr && cur_missed_by < 1.0 ) {
             if( in_veh != nullptr && veh_pointer_or_null( here.veh_at( tp ) ) == in_veh &&
-                critter->is_player() ) {
+                critter->is_avatar() ) {
                 // Turret either was aimed by the player (who is now ducking) and shoots from above
                 // Or was just IFFing, giving lots of warnings and time to get out of the line of fire
                 continue;

@@ -595,7 +595,7 @@ void sounds::process_sound_markers( player *p )
             sound_markers.emplace( random_entry( unseen_points ), sound );
         }
     }
-    if( p->is_player() ) {
+    if( p->is_avatar() ) {
         sounds_since_last_turn.clear();
     }
 }
@@ -1044,7 +1044,7 @@ void sfx::do_ambient()
 // firing is the item that is fired. It may be the wielded gun, but it can also be an attached
 // gunmod. p is the character that is firing, this may be a pseudo-character (used by monattack/
 // vehicle turrets) or a NPC.
-void sfx::generate_gun_sound( const player &source_arg, const item &firing )
+void sfx::generate_gun_sound( const Character &source_arg, const item &firing )
 {
     if( test_mode ) {
         return;
@@ -1237,13 +1237,10 @@ void sfx::do_projectile_hit( const Creature &target )
             return mon.made_of( m );
         } );
 
-        if( is_fleshy ) {
-            play_variant_sound( "bullet_hit", "hit_flesh", heard_volume, angle, 0.8, 1.2 );
-            return;
-        } else if( mon.made_of( material_id( "stone" ) ) ) {
+        if( !is_fleshy && mon.made_of( material_id( "stone" ) ) ) {
             play_variant_sound( "bullet_hit", "hit_wall", heard_volume, angle, 0.8, 1.2 );
             return;
-        } else if( mon.made_of( material_id( "steel" ) ) ) {
+        } else if( !is_fleshy && mon.made_of( material_id( "steel" ) ) ) {
             play_variant_sound( "bullet_hit", "hit_metal", heard_volume, angle, 0.8, 1.2 );
             return;
         } else {
@@ -1626,7 +1623,7 @@ void sfx::play_ambient_variant_sound( const std::string &, const std::string &, 
                                       double, int ) { }
 void sfx::play_activity_sound( const std::string &, const std::string &, int ) { }
 void sfx::end_activity_sounds() { }
-void sfx::generate_gun_sound( const player &, const item & ) { }
+void sfx::generate_gun_sound( const Character &, const item & ) { }
 void sfx::generate_melee_sound( const tripoint &, const tripoint &, bool, bool,
                                 const std::string & ) { }
 void sfx::do_hearing_loss( int ) { }

@@ -621,5 +621,18 @@
         { "item": "exodii_computer", "count": [ 0, 1 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_crystalline_flower",
+    "name": "crystalline flower",
+    "description": "A crystalline structure that resembles a plant.",
+    "symbol": "f",
+    "color": "light_green",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE" ],
+    "//": "decorative flora for breather biome.",
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   }
 ]

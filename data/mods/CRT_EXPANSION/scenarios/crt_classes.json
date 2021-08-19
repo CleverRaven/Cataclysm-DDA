@@ -88,7 +88,6 @@
           "legguard_hard",
           "pants_army",
           "armguard_hard",
-          "mre_veggy_box",
           "crt_backpack",
           "two_way_radio",
           "crt_gloves_liner",
@@ -101,6 +100,7 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_crt", "container-item": "sheath" },
           { "item": "m4a1", "ammo-item": "223", "contents-item": [ "grip", "holo_sight" ] },
+          { "group": "MRE" },
           { "item": "stanag30", "ammo-item": "223", "count": 1 }
         ]
       },
@@ -127,7 +127,6 @@
           "army_top",
           "crt_jacket",
           "armguard_hard",
-          "mre_veggy_box",
           "crt_helmet",
           "glasses_bal",
           "molle_pack",
@@ -141,6 +140,7 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_rm42", "container-item": "sheath" },
           { "item": "scar_h", "ammo-item": "308", "contents-item": "shoulder_strap" },
+          { "group": "MRE" },
           { "item": "scarhmag", "ammo-item": "308", "count": 2 }
         ]
       },
@@ -176,7 +176,6 @@
           "crt_canteen",
           "crt_legrig",
           "socks",
-          "mre_veggy_box",
           "crt_la_boots",
           "two_way_radio",
           "bandages",
@@ -188,6 +187,7 @@
           { "group": "full_ifak" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "sleeping_bag", "custom-flags": [ "no_auto_equip" ] },
+          { "group": "MRE" },
           { "item": "crt_laser_pistol", "container-item": "holster" }
         ]
       },
@@ -215,7 +215,6 @@
           "jacket_army",
           "army_top",
           "crt_armguard",
-          "mre_veggy_box",
           "molle_pack",
           "two_way_radio",
           "crt_gloves",
@@ -230,6 +229,7 @@
           { "item": "l_lmg_223", "ammo-item": "223" },
           { "item": "lw223bigmag", "count": 1 },
           { "item": "m9", "ammo-item": "9mm", "container-item": "holster" },
+          { "group": "MRE" },
           { "item": "m9mag", "ammo-item": "9mm", "count": 2 }
         ]
       },
@@ -261,7 +261,6 @@
           "crt_iduster",
           "army_top",
           "crt_pants",
-          "mre_veggy_box",
           "heavy_flashlight",
           "two_way_radio",
           "socks",
@@ -273,6 +272,7 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_rm42", "container-item": "sheath" },
           { "item": "m9", "ammo-item": "9mm", "container-item": "holster" },
+          { "group": "MRE" },
           { "item": "m9mag", "ammo-item": "9mm", "count": 2 }
         ]
       },
@@ -450,7 +450,6 @@
           "UPS_off",
           "geiger_off",
           "crt_hatchet",
-          "mre_veggy_box",
           "crt_mess_kit",
           "lighter",
           "badge_marshal",
@@ -466,6 +465,7 @@
           { "item": "knife_crt", "container-item": "crt_belt" },
           { "item": "crt_laser_pistol", "container-item": "holster" },
           { "item": "signal_flare", "ammo-item": "signal_flare", "count": 5 },
+          { "group": "MRE" },
           { "item": "battery", "ammo-item": "battery", "count": 25 }
         ]
       },
@@ -514,7 +514,6 @@
           "crt_boots",
           "two_way_radio",
           "crt_hatchet",
-          "mre_veggy_box",
           "lighter",
           "pellet",
           "pelletgun",
@@ -523,6 +522,7 @@
         ],
         "entries": [
           { "item": "water_clean", "ammo-item": "water_clean", "container-item": "crt_canteen" },
+          { "group": "MRE" },
           { "item": "knife_crt", "container-item": "sheath" }
         ]
       },
@@ -561,7 +561,6 @@
           "socks",
           "crt_la_boots",
           "crt_hatchet",
-          "mre_veggy_box",
           "lighter",
           "crt_mess_kit",
           "id_military",
@@ -569,7 +568,7 @@
           "knife_swissarmy",
           "pellet"
         ],
-        "entries": [ { "item": "water_clean", "container-item": "canteen" } ]
+        "entries": [ { "item": "water_clean", "container-item": "canteen" }, { "group": "MRE" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
@@ -648,13 +647,12 @@
           "ds_rivet_gun",
           "ds_ripper",
           "toolbox",
-          "mre_veggy_box",
           "lighter",
           "UPS_off",
           "id_military",
           "id_science"
         ],
-        "entries": [ { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" } ]
+        "entries": [ { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" }, { "group": "MRE" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
@@ -677,7 +675,6 @@
       "LIGHTWEIGHT",
       "GOODHEARING",
       "OUTDOORSMAN",
-      "PARKOUR",
       "GOODCARDIO",
       "INFRESIST",
       "BENDY1",
@@ -724,7 +721,6 @@
           "socks",
           "crt_la_boots",
           "crt_hatchet",
-          "mre_veggy_box",
           "crt_mess_kit",
           "lighter",
           "knife_swissarmy",
@@ -736,6 +732,7 @@
         ],
         "entries": [
           { "item": "water_clean", "ammo-item": "water_clean", "container-item": "canteen" },
+          { "group": "MRE" },
           { "item": "knife_crt", "container-item": "crt_belt" }
         ]
       },

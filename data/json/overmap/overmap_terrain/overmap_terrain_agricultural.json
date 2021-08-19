@@ -319,6 +319,22 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "orchard_processing_roof",
+    "copy-from": "generic_rural_building",
+    "name": "orchard processing roof",
+    "sym": "T",
+    "color": "i_light_green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "orchard_stall_roof",
+    "copy-from": "generic_rural_building",
+    "name": "orchard stall roof",
+    "sym": "T",
+    "color": "i_light_green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": [
       "dairy_farm_NW",
       "dairy_farm_NE",

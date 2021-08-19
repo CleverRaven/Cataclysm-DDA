@@ -424,7 +424,7 @@ static void draw_grid( const catacurses::window &w, int left_pane_w, int mid_pan
     wnoutrefresh( w );
 }
 
-void player::sort_armor()
+void Character::sort_armor()
 {
     /* Define required height of the right pane:
     * + 3 - horizontal lines;
@@ -710,7 +710,7 @@ void player::sort_armor()
 
     bool exit = false;
     while( !exit ) {
-        if( is_player() ) {
+        if( is_avatar() ) {
             // Totally hoisted this from advanced_inv
             if( player_character.moves < 0 ) {
                 do_return_entry();

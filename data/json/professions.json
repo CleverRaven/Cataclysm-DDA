@@ -14,6 +14,15 @@
   {
     "type": "item_group",
     "subtype": "collection",
+    "id": "ranger_mags",
+    "entries": [
+      { "item": "p320mag_13rd_357sig", "ammo-item": "357sig_fmj", "charges": 13 },
+      { "item": "p320mag_13rd_357sig", "ammo-item": "357sig_fmj", "charges": 13 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
     "id": "charged_cell_phone",
     "entries": [ { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "cell_phone" } ]
   },
@@ -694,7 +703,6 @@
       "both": {
         "items": [
           "pants_cargo",
-          "briefs",
           "cape_fp",
           "dress_shirt",
           "armguard_hard",
@@ -710,7 +718,9 @@
           { "item": "foodplace_snack_bar" },
           { "item": "bat", "custom-flags": [ "auto_wield" ] }
         ]
-      }
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
     }
   },
   {
@@ -807,7 +817,7 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           {
-            "item": "nato_assault_rifle",
+            "item": "m4_carbine",
             "variant": "m4a1",
             "ammo-item": "556",
             "charges": 30,
@@ -952,7 +962,8 @@
           { "item": "knife_combat", "container-item": "sheath" },
           { "item": "shot_00", "count": 2 },
           {
-            "item": "m1014",
+            "item": "mossberg_930",
+            "variant": "m1014",
             "ammo-item": "shot_00",
             "charges": 8,
             "contents-item": [ "shoulder_strap", "holo_sight" ]
@@ -1002,7 +1013,7 @@
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           {
-            "item": "nato_assault_rifle",
+            "item": "m4_carbine",
             "variant": "m4a1",
             "ammo-item": "556",
             "charges": 30,
@@ -1106,7 +1117,7 @@
         "entries": [
           { "item": "knife_combat", "container-item": "sheath" },
           {
-            "item": "nato_assault_rifle",
+            "item": "m4_carbine",
             "variant": "m4a1",
             "ammo-item": "556",
             "charges": 30,
@@ -1272,7 +1283,9 @@
       "prof_fibers_rope",
       "prof_leatherworking_basic",
       "prof_metalworking",
-      "prof_lockpicking"
+      "prof_lockpicking",
+      "prof_bow_basic",
+      "prof_bow_expert"
     ],
     "skills": [
       { "level": 4, "name": "survival" },
@@ -1311,73 +1324,18 @@
   },
   {
     "type": "profession",
-    "id": "smoker",
-    "name": "Chain Smoker",
-    "description": "Your coworkers always muttered when you had to duck outside every hour for a smoke, but it ended up saving your life when things got bad.  Now you're down to your last pack.  You start out with a strong nicotine addiction.",
-    "points": -1,
-    "items": {
-      "both": {
-        "items": [ "pants", "dress_shirt", "socks", "dress_shoes", "knit_scarf", "cig", "wristwatch" ],
-        "entries": [ { "group": "charged_cell_phone" }, { "item": "lighter", "charges": 100 } ]
-      },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
-    },
-    "addictions": [ { "intensity": 10, "type": "nicotine" } ]
-  },
-  {
-    "type": "profession",
-    "id": "crackhead",
-    "name": "Crackhead",
-    "description": "Cocaine.  It is, indeed, a helluva drug.  You blew your money on some dust, and before you knew it you were turning tricks behind the local CVS just to score one more line.  Where are you going to get your next fix now?",
-    "points": -1,
-    "items": {
-      "both": {
-        "items": [ "crackpipe", "tank_top" ],
-        "entries": [ { "group": "charged_ref_lighter" }, { "item": "crack", "charges": 8, "container-item": "bag_zipper" } ]
-      },
-      "male": [ "jeans", "flip_flops" ],
-      "female": [ "jeans", "heels" ]
-    },
-    "addictions": [ { "intensity": 20, "type": "crack" } ]
-  },
-  {
-    "type": "profession",
     "id": "homeless",
     "name": "Hobo",
-    "description": "Society drove you to the fringes and left you with no home, no family, no friends.  You found solace in the bottom of a bottle.  Well, society doesn't mean a thing anymore, and for all the crap thrown your way, you're still standing.  God-damn, you need a drink.",
+    "description": "Society drove you to the fringes and left you with no home, no family, no friends.",
     "points": -1,
     "items": {
       "both": {
-        "items": [ "pants", "knit_scarf", "whiskey", "gin", "bum_wine", "ragpouch", "bindle", "can_beans", "pockknife" ],
+        "items": [ "pants", "knit_scarf", "ragpouch", "bindle", "can_beans", "pockknife" ],
         "entries": [ { "group": "charged_matches" } ]
       },
       "male": [ "undershirt" ],
       "female": [ "camisole" ]
-    },
-    "addictions": [ { "intensity": 20, "type": "alcohol" } ]
-  },
-  {
-    "type": "profession",
-    "id": "tweaker",
-    "name": "Tweaker",
-    "description": "You're not entirely sure what happened last night, but you woke up on the floor and everything has gone completely to shit.  The only thing running through your head, though, is where you're gonna find your next hit.",
-    "points": -2,
-    "items": { "both": [ "pants", "boxer_shorts" ], "male": [ "undershirt" ], "female": [ "camisole" ] },
-    "addictions": [ { "intensity": 30, "type": "amphetamine" } ]
-  },
-  {
-    "type": "profession",
-    "id": "pillhead",
-    "name": "Pillhead",
-    "description": "After an accident in your youth, you got addicted to the opiates treating your pain.  With the pharmacies shut down and your dealers turned undead, satisfying those cravings just got a lot more difficult.",
-    "points": -1,
-    "items": {
-      "both": [ "sneakers", "socks", "jeans", "tshirt", "wristwatch", "oxycodone" ],
-      "male": [ "boxer_shorts" ],
-      "female": [ "panties", "bra" ]
-    },
-    "addictions": [ { "intensity": 20, "type": "opiate" } ]
+    }
   },
   {
     "type": "profession",
@@ -1684,7 +1642,7 @@
     "name": "Bow Hunter",
     "description": "Ever since you were a child you loved hunting, and quickly developed a talent for archery.  Why, if the world ended, there's nothing you'd want at your side more than your trusty bow.  So, when it did, you made sure to bring it along.",
     "points": 2,
-    "proficiencies": [ "prof_bowyery" ],
+    "proficiencies": [ "prof_bow_basic", "prof_bow_expert", "prof_bowyery" ],
     "skills": [ { "level": 2, "name": "archery" } ],
     "items": {
       "both": {
@@ -1715,7 +1673,7 @@
     "name": "Crossbow Hunter",
     "description": "Ever since you were a child you loved hunting, and crossbow hunting was always your favorite.  Why, if the world ended, there's nothing you'd want at your side more than your trusty crossbow.  So, when it did, you made sure to bring it along.",
     "points": 2,
-    "proficiencies": [ "prof_gunsmithing_spring" ],
+    "proficiencies": [ "prof_bow_basic", "prof_gunsmithing_spring" ],
     "skills": [ { "level": 2, "name": "rifle" } ],
     "items": {
       "both": {
@@ -1815,6 +1773,231 @@
     }
   },
   {
+    "id": "car_survivor",
+    "type": "profession",
+    "name": "Day Driver",
+    "description": "You love driving and making a living with it.  On your way to pick up someone with your car, you start to notice all the chaos happening around you.  Not wanting to be a part of it, you took a long detour to safety, only to find yourself in a different place.  All that's left is your car.",
+    "points": 4,
+    "skills": [ { "level": 1, "name": "barter" }, { "level": 4, "name": "driving" } ],
+    "vehicle": "car",
+    "items": {
+      "both": {
+        "items": [ "sneakers", "socks", "jeans", "tshirt", "wristwatch", "jacket_light", "water_clean" ],
+        "entries": [ { "group": "charged_cell_phone" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "panties", "bra" ]
+    }
+  },
+  {
+    "id": "emt_firefighter",
+    "type": "profession",
+    "name": "EMT Firefighter",
+    "description": "You love driving as much as you love extinguishing fire and helping the wounded, where every second counts.  On your way to respond to an emergency call with your firetruck, you encounter chaos in the city, recklessness and violence are plentiful.  Not wanting to use of the streets covered in burning trash and debris, you took a long detour to your fire station, only to find yourself unsure of the route back.  Looks like the only emergency you will respond to will be your own.",
+    "points": 5,
+    "skills": [ { "level": 3, "name": "firstaid" }, { "level": 3, "name": "driving" }, { "level": 1, "name": "electronics" } ],
+    "vehicle": "fire_engine",
+    "items": {
+      "both": {
+        "items": [
+          "boots_bunker",
+          "bunker_coat",
+          "bunker_pants",
+          "dress_shirt",
+          "fire_gauntlets",
+          "firehelmet",
+          "glasses_safety",
+          "mbag",
+          "nomex_socks",
+          "water_clean",
+          "wristwatch"
+        ],
+        "entries": [
+          { "group": "full_1st_aid" },
+          { "group": "charged_cell_phone" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "halligan", "container-item": "fireman_belt" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "panties", "bra" ]
+    }
+  },
+  {
+    "id": "handymanservice",
+    "type": "profession",
+    "name": "Serviceman",
+    "description": "Employed by a large company, you performed services directly at annoying customer's homes and also troubleshoot problems with their devices.  After you finally finished replacing the 'wifi-cable' you finally were able to go back to your company, along the road back you notice all the chaos happening around you.  Not wanting to get in the way of angry looking protesters, you took an old neglected side road, only to find yourself low on gas in a truly deserted place.  Couldn't this all just happen before you finished your work?",
+    "points": 4,
+    "skills": [ { "level": 3, "name": "electronics" }, { "level": 2, "name": "driving" }, { "level": 1, "name": "mechanics" } ],
+    "vehicle": "cube_van_cheap",
+    "items": {
+      "both": {
+        "items": [
+          "dress_shirt",
+          "socks",
+          "boots",
+          "pants",
+          "multitool",
+          "wristwatch",
+          "mbag",
+          "water_clean",
+          "gloves_work",
+          "hammer",
+          "hat_ball"
+        ],
+        "entries": [ { "group": "charged_cell_phone" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "panties", "bra" ]
+    }
+  },
+  {
+    "id": "bus_driver",
+    "type": "profession",
+    "name": "Bus Driver",
+    "description": "You are making a living with delivering noisy brats to their schools, where you wish with every delivery, that they don't break a seat or window for you.  On your way to pick up the first row of brats, you start to notice all the chaos happening around you.  By the time you arrive at the station, all the brats look like zombies, so you took a long detour to safety, only to find yourself in a different place.  At last you have been freed of the hellish noises they release, but new ones are on the merge.",
+    "points": 4,
+    "skills": [ { "level": 1, "name": "barter" }, { "level": 3, "name": "driving" } ],
+    "vehicle": "schoolbus",
+    "items": {
+      "both": {
+        "items": [ "sneakers", "socks", "jeans", "tshirt", "wristwatch", "jacket_light", "water_clean", "hat_ball" ],
+        "entries": [ { "group": "charged_cell_phone" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "panties", "bra" ]
+    }
+  },
+  {
+    "id": "cop_car",
+    "type": "profession",
+    "name": "Police Interceptor",
+    "description": "As on-duty officer, you received the call and got ready to respond to the robbery with your patrol car.  After arriving at the scene, it was soon you who needed rescuing, and you were lucky to escape with your life and car.  No one responds on the radio anymore either.  Who's going to respect your authority when the government this badge represents might not even exist anymore?",
+    "points": 6,
+    "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" }, { "level": 3, "name": "driving" } ],
+    "vehicle": "policecar",
+    "traits": [ "PROF_POLICE" ],
+    "items": {
+      "both": {
+        "items": [ "pants_army", "socks", "badge_deputy", "sheriffshirt", "police_belt", "boots", "whistle", "kevlar", "wristwatch" ],
+        "entries": [
+          { "group": "charged_cell_phone" },
+          { "group": "charged_two_way_radio" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
+          { "item": "legpouch_large", "contents-group": "army_mags_usp45" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "militia_car",
+    "name": "Militia",
+    "description": "You’ve long since prepared yourself for this outcome.  You, alongside a band of compatriots, started a hideout in the woods from which to launch looting raids on a jury-rigged pickup.  The last run went poorly, leaving you last alive amongst your former comrades.  Every breath you take now is an act of rebellion against the cruelty of this doomed world.  Do not let that flame of hope perish inside you.",
+    "points": 8,
+    "skills": [
+      { "level": 2, "name": "gun" },
+      { "level": 2, "name": "rifle" },
+      { "level": 3, "name": "driving" },
+      { "level": 1, "name": "mechanics" }
+    ],
+    "vehicle": "pickup_technical",
+    "items": {
+      "both": {
+        "items": [
+          "pants_army",
+          "jacket_army",
+          "socks",
+          "sweatshirt",
+          "boots",
+          "cig",
+          "elbow_pads",
+          "slingpack",
+          "kevlar",
+          "balclava",
+          "knee_pads",
+          "beret",
+          "wristwatch",
+          "water_clean"
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "knife_combat", "container-item": "sheath" },
+          { "item": "m9", "ammo-item": "9mm", "charges": 15, "container-item": "holster" },
+          { "item": "chestrig", "contents-group": "army_mags_m4" },
+          { "item": "lighter", "charges": 100 },
+          { "item": "ar15", "ammo-item": "556", "charges": 30, "contents-item": [ "shoulder_strap" ] }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "park_ranger",
+    "name": "Park Ranger",
+    "description": "As a park ranger, most things you usually do is maintain the park, teach people how to not start a fire in the forest, patrol, and check out stuff on your daily to-do list.  After arriving at a deserted camp with notes left from survivors, you took upon heeding their warning, and packed at your station with some supplies alongside your pickup, just before the station was overrun as well.",
+    "points": 9,
+    "skills": [
+      { "level": 1, "name": "gun" },
+      { "level": 1, "name": "pistol" },
+      { "level": 3, "name": "driving" },
+      { "level": 2, "name": "firstaid" },
+      { "level": 1, "name": "fabrication" },
+      { "level": 2, "name": "swimming" },
+      { "level": 2, "name": "survival" }
+    ],
+    "vehicle": "pickup",
+    "items": {
+      "both": {
+        "items": [
+          "boots_hiking",
+          "cowboy_hat",
+          "diving_watch",
+          "e_tool",
+          "hammer",
+          "knife_folding",
+          "multitool",
+          "pants_army",
+          "police_belt",
+          "rollmat",
+          "sheriffshirt",
+          "socks",
+          "travelpack",
+          "vest",
+          "water_clean",
+          "whistle_multitool"
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" },
+          { "group": "charged_flashlight" },
+          { "group": "charged_two_way_radio" },
+          { "group": "full_1st_aid" },
+          { "item": "black_pen", "charges": 100 },
+          { "item": "coat_rain", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "file" },
+          { "item": "legpouch_large", "contents-group": "ranger_mags" },
+          { "item": "lighter", "charges": 100 },
+          { "item": "p320_357sig", "ammo-item": "357sig_fmj", "charges": 13, "container-item": "holster" },
+          { "item": "paper", "charges": 20, "container-item": "leather_journal" },
+          { "item": "permanent_marker", "charges": 500 },
+          { "item": "roadmap" },
+          { "item": "sm_extinguisher", "charges": 10 },
+          { "item": "trailmap" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
     "type": "profession",
     "id": "lumberjack",
     "name": "Lumberjack",
@@ -1827,22 +2010,6 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boxer_shorts" ]
-    }
-  },
-  {
-    "type": "profession",
-    "id": "backpacker",
-    "name": "Backpacker",
-    "description": "For the past few years you've been traveling the world, sightseeing and living off your parents' trust fund.  You came home to find the world in ruins, and the only thing between you and death is the open road and your backpack.",
-    "points": 0,
-    "skills": [ { "level": 1, "name": "survival" } ],
-    "items": {
-      "both": {
-        "items": [ "backpack_leather", "jeans", "sneakers", "tshirt", "knit_scarf", "socks", "wristwatch", "fun_survival" ],
-        "entries": [ { "group": "charged_cell_phone" } ]
-      },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "boy_shorts" ]
     }
   },
   {
@@ -1893,6 +2060,22 @@
       },
       "male": [ "briefs" ],
       "female": [ "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "id": "backpacker",
+    "name": "Backpacker",
+    "description": "For the past few years you've been traveling the world, sightseeing and living off your parents' trust fund.  You came home to find the world in ruins, and the only thing between you and death is the open road and your backpack.",
+    "points": 0,
+    "skills": [ { "level": 1, "name": "survival" } ],
+    "items": {
+      "both": {
+        "items": [ "backpack_leather", "jeans", "sneakers", "tshirt", "knit_scarf", "socks", "wristwatch", "fun_survival" ],
+        "entries": [ { "group": "charged_cell_phone" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
     }
   },
   {
@@ -2103,28 +2286,15 @@
   },
   {
     "type": "profession",
-    "id": "cosplay",
+    "id": "otaku",
     "name": "Otaku",
     "description": "After many late nights with friends watching anime and eating snacks, you decided to make the trip to the premier anime convention in the Northeast.  Now zombies are eating everyone, and even worse, the convention is cancelled!  At least you were ready in case your costume tore.",
-    "points": 1,
+    "points": 0,
     "skills": [ { "level": 1, "name": "tailor" } ],
-    "proficiencies": [ "prof_closures", "prof_leatherworking_basic" ],
     "items": {
       "both": {
-        "items": [
-          "shorts",
-          "socks",
-          "sneakers",
-          "tank_top",
-          "mbag",
-          "fur_cat_ears",
-          "fur_cat_tail",
-          "fur_collar",
-          "wristwatch",
-          "mag_animecon",
-          "cheeseburger"
-        ],
-        "entries": [ { "group": "charged_cell_phone" }, { "item": "sewing_kit", "charges": 200 } ]
+        "items": [ "shorts", "socks", "sneakers", "tank_top", "mbag", "wristwatch", "mag_animecon", "cheeseburger" ],
+        "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -2233,7 +2403,6 @@
     "name": "Convict",
     "description": "Your trial was contentious, but inevitably you found yourself behind bars.  The Cataclysm has offered you a chance to escape, but freedom may come with a steep price.",
     "points": 0,
-    "proficiencies": [ "prof_lockpicking" ],
     "skills": [ { "level": 1, "name": "melee" }, { "level": 1, "name": "traps" } ],
     "items": {
       "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "glass_shiv" ],
@@ -2545,32 +2714,6 @@
   },
   {
     "type": "profession",
-    "id": "boxer",
-    "name": "Boxer",
-    "description": "Your rival challenged you to the fight of your life, but now you fight just to keep yourself alive.",
-    "points": 3,
-    "traits": [ "PROF_BOXER" ],
-    "skills": [ { "level": 2, "name": "melee" }, { "level": 2, "name": "unarmed" }, { "level": 2, "name": "dodge" } ],
-    "items": {
-      "both": {
-        "items": [
-          "under_armor_shorts",
-          "under_armor",
-          "shorts",
-          "gloves_wraps",
-          "boxing_gloves",
-          "headgear",
-          "mouthpiece",
-          "socks",
-          "boots"
-        ],
-        "entries": [ { "item": "towel", "custom-flags": [ "no_auto_equip" ] } ]
-      },
-      "female": [ "sports_bra" ]
-    }
-  },
-  {
-    "type": "profession",
     "id": "pizzaboy",
     "name": { "male": "Pizza Delivery Boy", "female": "Pizza Delivery Girl" },
     "description": "You were delivering the last pizza of the night to the local cryogenics lab when hungry zombies attempted to make a meal out of you.  Fleeing for safety, you find yourself with only your wits and some leftover pizza.  And they didn't even leave a tip!",
@@ -2662,35 +2805,6 @@
       },
       "male": [ "briefs" ],
       "female": [ "bra", "boy_shorts" ]
-    }
-  },
-  {
-    "type": "profession",
-    "id": "rollerderby",
-    "name": "Roller Derby Player",
-    "description": "You were hell on wheels.  Now the rest of your team is dead, and you probably wouldn't have lived this long if not for your penchant for high-speed violence.  Things are looking grim; how long can you race laps around the undead before you get blocked for good?",
-    "points": 2,
-    "skills": [ { "level": 1, "name": "melee" }, { "level": 1, "name": "unarmed" }, { "level": 1, "name": "dodge" } ],
-    "traits": [ "PROF_SKATER" ],
-    "items": {
-      "both": {
-        "items": [
-          "under_armor_shorts",
-          "purse",
-          "under_armor",
-          "socks",
-          "elbow_pads",
-          "knee_pads",
-          "mouthpiece",
-          "gloves_fingerless",
-          "helmet_skid",
-          "wristwatch",
-          "rollerskates"
-        ],
-        "entries": [ { "group": "charged_cell_phone" } ]
-      },
-      "male": [ "briefs" ],
-      "female": [ "sports_bra", "panties" ]
     }
   },
   {
@@ -2813,7 +2927,7 @@
           { "item": "water_clean", "container-item": "canteen" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
-          { "item": "nato_assault_rifle", "variant": "m4a1", "ammo-item": "556", "contents-item": "shoulder_strap" },
+          { "item": "m4_carbine", "variant": "m4a1", "ammo-item": "556", "contents-item": "shoulder_strap" },
           {
             "item": "medium_plus_battery_cell",
             "ammo-item": "battery",
@@ -2867,7 +2981,7 @@
       { "level": 2, "name": "chemistry" },
       { "level": 3, "name": "cooking" }
     ],
-    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_knapping", "prof_leatherworking_basic" ],
+    "proficiencies": [ "prof_fibers", "prof_fibers_rope", "prof_knapping", "prof_leatherworking_basic", "prof_bow_basic" ],
     "items": {
       "both": {
         "items": [
@@ -3222,48 +3336,6 @@
   },
   {
     "type": "profession",
-    "id": "camper",
-    "name": "Camper",
-    "description": "You always enjoyed hiking and camping in the wilderness, so it was a no-brainer to grab your bag and run when the sirens sounded.  The cities are overrun, but you're prepared to make a home wherever you may find yourself.",
-    "points": 6,
-    "skills": [ { "level": 1, "name": "survival" }, { "level": 1, "name": "swimming" }, { "level": 1, "name": "firstaid" } ],
-    "items": {
-      "both": {
-        "items": [
-          "tshirt",
-          "socks",
-          "jeans",
-          "jacket_windbreaker",
-          "boots_hiking",
-          "gloves_light",
-          "hat_cotton",
-          "knit_scarf",
-          "backpack",
-          "hatchet",
-          "e_tool",
-          "tent_kit",
-          "rollmat",
-          "sleeping_bag_roll",
-          "knife_swissarmy",
-          "granola",
-          "pur_tablets",
-          "wristwatch"
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" },
-          { "group": "full_1st_aid" },
-          { "group": "charged_ref_lighter" },
-          { "item": "gasoline_lantern", "charges": 500 },
-          { "item": "water_clean", "container-item": "canteen" },
-          { "item": "medium_battery_cell", "ammo-item": "battery", "charges": 500, "container-item": "mess_kit" }
-        ]
-      },
-      "male": [ "briefs" ],
-      "female": [ "sports_bra", "boy_shorts" ]
-    }
-  },
-  {
-    "type": "profession",
     "id": "miner",
     "name": "Miner",
     "description": "You're a miner, not a minor!  Your canteen is dry, your jackhammer is out of gas, and you're on your last pair of batteries for your mining helmet…",
@@ -3334,7 +3406,7 @@
     "name": { "male": "Traceur", "female": "Traceuse" },
     "description": "You've practiced parkour for many years, and made the world your playground.  It wouldn't be a lie to say that running is your life.  Which is good, because now that the end has come, you're running for your life.",
     "points": 5,
-    "traits": [ "PARKOUR" ],
+    "proficiencies": [ "prof_parkour" ],
     "skills": [ { "level": 4, "name": "dodge" } ],
     "items": {
       "both": {
@@ -3385,23 +3457,6 @@
   },
   {
     "type": "profession",
-    "id": "game_master",
-    "name": "Game Master",
-    "description": "Trying to herd cats into meeting up every week has taught you something: it's usually better to cut your losses and trust your gut.  For that reason, when you had two no-shows and the other two tried to eat you, you ditched.  Maybe you can find some new players in the ruins of the world.",
-    "points": 2,
-    "traits": [ "PROF_DICEMASTER" ],
-    "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "survival" } ],
-    "items": {
-      "both": {
-        "items": [ "jeans", "tshirt", "socks", "sneakers", "mbag", "pizza_cheese", "cola", "dnd_handbook", "wristwatch", "RPG_die" ],
-        "entries": [ { "group": "charged_cell_phone" } ]
-      },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
-    }
-  },
-  {
-    "type": "profession",
     "id": "zoo_keeper",
     "name": "Zoo Keeper",
     "description": "You were called in on your day off to feed the animals at the zoo.  For some reason, none of your coworkers bothered showing up for work today.",
@@ -3422,33 +3477,6 @@
           "wristwatch"
         ],
         "entries": [ { "group": "charged_cell_phone" } ]
-      },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "panties" ]
-    }
-  },
-  {
-    "type": "profession",
-    "id": "golfer",
-    "name": "Golfer",
-    "description": "You decided to get away from the family for the day, so you headed to the fairway for a nice relaxing round of golf.",
-    "points": 1,
-    "skills": [ { "level": 2, "name": "bashing" }, { "level": 1, "name": "melee" }, { "level": 1, "name": "driving" } ],
-    "items": {
-      "both": {
-        "items": [ "shorts", "polo_shirt", "socks", "golf_shoes", "hat_golf", "gloves_golf", "wristwatch" ],
-        "entries": [
-          { "item": "golf_club", "container-item": "golf_bag" },
-          { "item": "golf_tee" },
-          { "item": "golf_tee" },
-          { "item": "golf_tee" },
-          { "item": "golf_tee" },
-          { "item": "golf_tee" },
-          { "item": "golf_ball" },
-          { "item": "golf_ball" },
-          { "item": "golf_ball" },
-          { "group": "charged_cell_phone" }
-        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -3814,7 +3842,7 @@
           { "item": "stethoscope", "custom-flags": [ "no_auto_equip" ] },
           { "item": "knife_combat", "container-item": "sheath" },
           {
-            "item": "nato_assault_rifle",
+            "item": "m4_carbine",
             "variant": "m4a1",
             "ammo-item": "556",
             "charges": 30,
@@ -3825,19 +3853,6 @@
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boxer_shorts" ]
     }
-  },
-  {
-    "type": "profession",
-    "id": "heroin_addict",
-    "name": "Heroin Addict",
-    "description": "The last thing you remember was meeting God behind the local Foodplace.  Then people started eating each other.  This doesn't feel like a fever dream.",
-    "points": -3,
-    "items": {
-      "both": { "items": [ "shorts", "syringe" ], "entries": [ { "item": "heroin", "charges": 9, "container-item": "bag_zipper" } ] },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
-    },
-    "addictions": [ { "intensity": 40, "type": "opiate" } ]
   },
   {
     "type": "profession",
@@ -3971,39 +3986,5 @@
       "female": [ "sports_bra", "boy_shorts" ]
     },
     "traits": [ "LIAR" ]
-  },
-  {
-    "type": "profession",
-    "id": "handloader",
-    "name": "Hobby Handloader",
-    "description": "Out of financial concerns and an appreciation for power, you took up handloading for your mighty handgun.  Now that the gunstores are closed, your skills ensure you won't be running out of ammo anytime soon.",
-    "points": 5,
-    "proficiencies": [ "prof_handloading" ],
-    "items": {
-      "both": {
-        "items": [
-          "pants",
-          "dress_shirt",
-          "wristwatch",
-          "socks",
-          "boots",
-          "jacket_light",
-          "gloves_fingerless",
-          "press",
-          "puller",
-          "slingpack",
-          "hat_ball"
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" },
-          { "group": "m1911_10_magazines_reloaded" },
-          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "m1911_10", "ammo-item": "reloaded_10mm_fmj", "charges": 8, "container-item": "holster" }
-        ]
-      },
-      "male": [ "briefs" ],
-      "female": [ "bra", "panties" ]
-    },
-    "skills": [ { "level": 3, "name": "fabrication" }, { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" } ]
   }
 ]

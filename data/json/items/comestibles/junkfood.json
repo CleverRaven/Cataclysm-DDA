@@ -90,7 +90,8 @@
     "id": "homemade_toasterpastry2",
     "name": { "str": "toaster pastry with buttercream", "str_pl": "toaster pastries with buttercream" },
     "copy-from": "toasterpastryfrozen",
-    "quench": 4,
+    "quench": 6,
+    "calories": 730,
     "description": "A delicious homemade fruit-filled pastry that you've cooked.  It even comes with buttercream!",
     "fun": 30
   },

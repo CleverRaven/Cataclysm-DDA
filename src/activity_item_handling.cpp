@@ -33,7 +33,6 @@
 #include "iexamine.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "itype.h"
 #include "iuse.h"
@@ -134,9 +133,6 @@ static const std::string flag_PLANTABLE( "PLANTABLE" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 static const std::string flag_TREE( "TREE" );
 
-//Generic activity: maximum search distance for zones, constructions, etc.
-static const int ACTIVITY_SEARCH_DISTANCE = 60;
-
 /** Activity-associated item */
 struct act_item {
     /// inventory item
@@ -168,11 +164,11 @@ static bool same_type( const std::list<item> &items )
 static bool handle_spillable_contents( Character &c, item &it, map &m )
 {
     if( it.is_bucket_nonempty() ) {
-        it.contents.spill_open_pockets( c, /*avoid=*/&it );
+        it.spill_open_pockets( c, /*avoid=*/&it );
 
         // If bucket is still not empty then player opted not to handle the
         // rest of the contents
-        if( !it.contents.empty() ) {
+        if( !it.empty() ) {
             c.add_msg_player_or_npc(
                 _( "To avoid spilling its contents, you set your %1$s on the %2$s." ),
                 _( "To avoid spilling its contents, <npcname> sets their %1$s on the %2$s." ),
@@ -613,7 +609,7 @@ static int move_cost( const item &it, const tripoint &src, const tripoint &dest 
 
         if( const cata::optional<vpart_reference> vp = get_map().veh_at(
                     cart_position ).part_with_feature( "CARGO", false ) ) {
-            vehicle veh = vp->vehicle();
+            const vehicle &veh = vp->vehicle();
             size_t vstor = vp->part_index();
             units::volume capacity = veh.free_volume( vstor );
 
@@ -984,17 +980,6 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
     return needed_things.obj().can_make_with_inventory( temp_inv, is_crafting_component );
 }
 
-static bool has_skill_for_vehicle_work( const std::map<skill_id, int> &required_skills, player &p )
-{
-    for( const auto &e : required_skills ) {
-        bool hasSkill = p.get_skill_level( e.first ) >= e.second;
-        if( !hasSkill ) {
-            return false;
-        }
-    }
-    return true;
-}
-
 static activity_reason_info can_do_activity_there( const activity_id &act, player &p,
         const tripoint &src_loc, const int distance = ACTIVITY_SEARCH_DISTANCE )
 {
@@ -1063,7 +1048,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     continue;
                 }
                 // don't have skill to remove it
-                if( !has_skill_for_vehicle_work( vpinfo.removal_skills, p ) ) {
+                if( !p.meets_skill_requirements( vpinfo.removal_skills ) ) {
                     continue;
                 }
                 item base( vpinfo.base_item );
@@ -1111,7 +1096,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     continue;
                 }
                 // don't have skill to repair it
-                if( !has_skill_for_vehicle_work( vpinfo.repair_skills, p ) ) {
+
+                if( !p.meets_skill_requirements( vpinfo.repair_skills ) ) {
                     continue;
                 }
                 const requirement_data &reqs = vpinfo.repair_requirements();
@@ -1134,9 +1120,9 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
         if( !here.has_flag( "MINEABLE", src_loc ) ) {
             return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
-        std::vector<item *> mining_inv = p.items_with( []( const item & itm ) {
+        std::vector<item *> mining_inv = p.items_with( [&p]( const item & itm ) {
             return ( itm.has_flag( flag_DIG_TOOL ) && !itm.type->can_use( "JACKHAMMER" ) ) ||
-                   ( itm.type->can_use( "JACKHAMMER" ) && itm.ammo_sufficient() );
+                   ( itm.type->can_use( "JACKHAMMER" ) && itm.ammo_sufficient( &p ) );
         } );
         if( mining_inv.empty() ) {
             return activity_reason_info::fail( do_activity_reason::NEEDS_MINING );
@@ -1433,8 +1419,8 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                         if( comp_elem.by_charges() ) {
                             // we don't care if there are 10 welders with 5 charges each
                             // we only want the one welder that has the required charge.
-                            if( stack_elem.ammo_remaining() >= comp_elem.count ) {
-                                temp_map[stack_elem.typeId()] += stack_elem.ammo_remaining();
+                            if( stack_elem.ammo_remaining( &p ) >= comp_elem.count ) {
+                                temp_map[stack_elem.typeId()] += stack_elem.ammo_remaining( &p );
                             }
                         } else {
                             temp_map[stack_elem.typeId()] += stack_elem.count();
@@ -2119,9 +2105,9 @@ static int chop_moves( player &p, item *it )
 
 static bool mine_activity( player &p, const tripoint &src_loc )
 {
-    std::vector<item *> mining_inv = p.items_with( []( const item & itm ) {
+    std::vector<item *> mining_inv = p.items_with( [&p]( const item & itm ) {
         return ( itm.has_flag( flag_DIG_TOOL ) && !itm.type->can_use( "JACKHAMMER" ) ) ||
-               ( itm.type->can_use( "JACKHAMMER" ) && itm.ammo_sufficient() );
+               ( itm.type->can_use( "JACKHAMMER" ) && itm.ammo_sufficient( &p ) );
     } );
     map &here = get_map();
     if( mining_inv.empty() || p.is_mounted() || p.is_underwater() || here.veh_at( src_loc ) ||
@@ -2336,10 +2322,14 @@ static std::unordered_set<tripoint> generic_multi_activity_locations( player &p,
         const tripoint set_pt = here.getlocal( *it2 );
         if( here.dangerous_field_at( set_pt ) ) {
             it2 = src_set.erase( it2 );
-            // remove tiles in darkness, if we aren't lit-up ourselves
-        } else if( !dark_capable && p.fine_detail_vision_mod( set_pt ) > 4.0 ) {
+            continue;
+        }
+        // remove tiles in darkness, if we aren't lit-up ourselves
+        if( !dark_capable && p.fine_detail_vision_mod( set_pt ) > 4.0 ) {
             it2 = src_set.erase( it2 );
-        } else if( act_id == ACT_MULTIPLE_FISH ) {
+            continue;
+        }
+        if( act_id == ACT_MULTIPLE_FISH ) {
             const ter_id terrain_id = here.ter( set_pt );
             if( !terrain_id.obj().has_flag( TFLAG_DEEP_WATER ) ) {
                 it2 = src_set.erase( it2 );

@@ -25,6 +25,21 @@
         "description": "Central Stairs Evac Shelter Base",
         "om_terrains": [ "shelter_2", "shelter_2_vandal" ]
       },
+      {
+        "id": "faction_base_sealab_small_0",
+        "description": "Freshwater Research Station Base",
+        "om_terrains": [ "sealab_small_-3" ]
+      },
+      {
+        "id": "faction_base_lightindustry_0",
+        "description": "Light Industry Office Base",
+        "om_terrains": [ "s_lightindustry_00", "s_lightindustry_scen_00" ]
+      },
+      {
+        "id": "faction_base_lightindustry_alt_0",
+        "description": "Light Industry Office With Glass Walls Base",
+        "om_terrains": [ "s_lightindustry_10", "s_lightindustry_scen_10" ]
+      },
       { "id": "faction_base_helipad_0", "description": "Military Helipad Base", "om_terrains": [ "helipad_nw" ] },
       {
         "id": "faction_base_outpost_normal_0",
@@ -91,6 +106,11 @@
       { "id": "faction_base_storehouse_0", "description": "Central Storage Building", "om_terrains": [ "field" ] },
       { "id": "faction_base_saltworks_0", "description": "Saltworks Area", "om_terrains": [ "field" ] },
       { "id": "faction_base_workshop_0", "description": "Fabrication Workshop", "om_terrains": [ "field" ] },
+      {
+        "id": "faction_base_lightindustry_workshop_0",
+        "description": "Light Industry Workshop",
+        "om_terrains": [ "s_lightindustry_11", "s_lightindustry_01", "s_lightindustry_scen_11", "s_lightindustry_scen_01" ]
+      },
       {
         "id": "faction_base_helipad_garage_0",
         "description": "Military Helipad Garage",
@@ -341,6 +361,17 @@
       { "id": "wire_npc_drop", "description": " Craft: Wire, Drop Hammer" },
       { "id": "pipe_npc_drop", "description": " Craft: Pipe, Drop Hammer" },
       { "id": "rebar_npc_drop", "description": " Craft: Rebar, Drop Hammer" }
+    ]
+  },
+  {
+    "type": "recipe_group",
+    "id": "power_saw_recipes",
+    "building_type": "SMITH",
+    "recipes": [
+      { "id": "water_wheel_with_power_saw", "description": " Craft: Water Wheel, Power Saw" },
+      { "id": "xl_water_wheel_with_power_saw", "description": " Craft: Large Water Wheel, Power Saw" },
+      { "id": "wood_beam_with_planer", "description": " Craft: Wooden Beam, Planer" },
+      { "id": "2x4_with_power_saw", "description": " Craft: Planks, Power Saw" }
     ]
   },
   {

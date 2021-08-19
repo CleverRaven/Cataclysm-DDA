@@ -26,7 +26,6 @@
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_pocket.h"
 #include "itype.h"
 #include "iuse.h"
@@ -483,7 +482,7 @@ bool vehicle::interact_vehicle_locked()
             ///\EFFECT_MECHANICS speeds up vehicle hotwiring
             int skill = player_character.get_skill_level( skill_mechanics );
             const int moves = to_moves<int>( 6000_seconds / ( ( skill > 0 ) ? skill : 1 ) );
-            tripoint target = get_map().getabs( global_pos3() ) + coord_translate( parts[0].mount );
+            tripoint target = global_square_location().raw() + coord_translate( parts[0].mount );
             player_character.assign_activity(
                 player_activity( hotwire_car_activity_actor( moves, target ) ) );
         } else if( has_security_working() && query_yn( _( "Trigger the %s's Alarm?" ), name ) ) {
@@ -552,7 +551,7 @@ std::string vehicle::tracking_toggle_string()
 void vehicle::autopilot_patrol_check()
 {
     zone_manager &mgr = zone_manager::get_manager();
-    if( mgr.has_near( zone_type_id( "VEHICLE_PATROL" ), get_map().getabs( global_pos3() ), 60 ) ) {
+    if( mgr.has_near( zone_type_id( "VEHICLE_PATROL" ), global_square_location().raw(), 60 ) ) {
         enable_patrol();
     } else {
         g->zones_manager();
@@ -586,7 +585,6 @@ void vehicle::toggle_autopilot()
             autopilot_on = false;
             is_patrolling = false;
             is_following = false;
-            is_autodriving = false;
             autodrive_local_target = tripoint_zero;
             stop_engines();
             break;
@@ -594,7 +592,6 @@ void vehicle::toggle_autopilot()
             autopilot_on = true;
             is_following = true;
             is_patrolling = false;
-            is_autodriving = true;
             start_engines();
             refresh();
         default:
@@ -986,7 +983,7 @@ bool vehicle::start_engine( const int e )
     if( out_of_fuel ) {
         if( einfo.fuel_type == fuel_type_muscle ) {
             // Muscle engines cannot start with broken limbs
-            if( einfo.has_flag( "MUSCLE_ARMS" ) && ( player_character.get_working_arm_count() < 2 ) ) {
+            if( einfo.has_flag( "MUSCLE_ARMS" ) && !player_character.has_two_arms_lifting() ) {
                 add_msg( _( "You cannot use %s with a broken arm." ), eng.name() );
                 return false;
             } else if( einfo.has_flag( "MUSCLE_LEGS" ) && ( player_character.get_working_leg_count() < 2 ) ) {
@@ -1550,7 +1547,7 @@ bool vehicle::can_close( int part_index, Character &who )
         for( auto const &partID : vec ) {
             const Creature *const mon = g->critter_at( global_part_pos3( parts[partID] ) );
             if( mon ) {
-                if( mon->is_player() ) {
+                if( mon->is_avatar() ) {
                     who.add_msg_if_player( m_info, _( "There's some buffoon in the way!" ) );
                 } else if( mon->is_monster() ) {
                     // TODO: Houseflies, mosquitoes, etc shouldn't count
@@ -2170,9 +2167,10 @@ void vehicle::interact_with( const vpart_position &vp )
     auto tool_wants_battery = []( const itype_id & type ) {
         item tool( type, calendar::turn_zero );
         item mag( tool.magazine_default() );
-        mag.contents.clear_items();
+        mag.clear_items();
 
-        return tool.contents.insert_item( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() &&
+        return tool.can_contain( mag ).success() &&
+               tool.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL ).success() &&
                tool.ammo_capacity( ammotype( "battery" ) ) > 0;
     };
 
@@ -2188,7 +2186,7 @@ void vehicle::interact_with( const vpart_position &vp )
         }
         // TODO: Figure out this comment: Pseudo items don't have a magazine in it, and they don't need it anymore.
         item pseudo_magazine( pseudo.magazine_default() );
-        pseudo_magazine.contents.clear_items(); // no initial ammo
+        pseudo_magazine.clear_items(); // no initial ammo
         pseudo.put_in( pseudo_magazine, item_pocket::pocket_type::MAGAZINE_WELL );
         const int capacity = pseudo.ammo_capacity( ammotype( "battery" ) );
         const int qty = capacity - discharge_battery( capacity );
@@ -2282,7 +2280,7 @@ void vehicle::interact_with( const vpart_position &vp )
             std::vector<item_location> targets;
             if( opt ) {
                 const int moves = opt.moves();
-                targets.emplace_back( turret.base() );
+                targets.emplace_back( item_location( turret.base(), const_cast<item *>( opt.target ) ) );
                 targets.push_back( std::move( opt.ammo ) );
                 player_character.assign_activity( player_activity( reload_activity_actor( moves, opt.qty(),
                                                   targets ) ) );

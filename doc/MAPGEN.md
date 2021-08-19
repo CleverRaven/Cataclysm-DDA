@@ -49,6 +49,8 @@
     * [Place a zone for an NPC faction with "zones"](#place-a-zone-for-an-npc-faction-with-zones)
     * [Translate terrain type with "translate_ter"](#translate-terrain-type-with-translate_ter)
     * [Apply mapgen transformation with "ter_furn_transforms"](#apply-mapgen-transformation-with-ter_furn_transforms)
+  * [Mapgen values](#mapgen-values)
+  * [Mapgen parameters](#mapgen-parameters)
   * [Rotate the map with "rotation"](#rotate-the-map-with-rotation)
   * [Pre-load a base mapgen with "predecessor_mapgen"](#pre-load-a-base-mapgen-with-predecessor_mapgen)
 * [Using update_mapgen](#using-update_mapgen)
@@ -221,8 +223,7 @@ apartments_mod_tower overmap terrain ids specified.
 ### Define mapgen "weight"
 
 (optional) When the game randomly picks mapgen functions, each function's weight value determines how rare it is. 1000
-is the default, so adding something with weight '500' will make it appear 1/3 times, unless more functions are added.
-(An insanely high value like 10000000 is useful for testing)
+is the default, so adding something with weight '500' will make it appear about half as often as others using the default weight. (An insanely high value like 10000000 is useful for testing.)
 
 Values: number - *0 disables*
 
@@ -1035,6 +1036,86 @@ Run a `ter_furn_transform` at the specified location.  This is mostly useful for
 an `update_mapgen`, as normal mapgen can just specify the terrain directly.
 
 - "transform": (required, string) the id of the `ter_furn_transform` to run.
+
+
+## Mapgen values
+
+A *mapgen value* can be used in various places where a specific id is expected.
+For example, the default value of a parameter, or a terrain id in the
+`"terrain"` object.  A mapgen value can take one of three forms:
+
+* A simple string, which should be a literal id.  For example, `"t_flat_roof"`.
+* A JSON object containing the key `"distribution"`, whose corresponding value
+  is a list of lists, each a pair of a string id and an integer weight.  For
+  example:
+```
+{ "distribution": [ [ "t_flat_roof", 2 ], [ "t_tar_flat_roof", 1 ], [ "t_shingle_flat_roof", 1 ] ] }
+```
+* A JSON object containing the key `"param"`, whose corresponding value is the
+  string name of a parameter as discussed in [Mapgen
+  parameters](#mapgen-parameters).  For example, `{ "param": "roof_type" }`.
+  You may be required to also supply a fallback value, such as `{ "param":
+  "roof_type", "fallback": "t_flat_roof" }`.  The fallback is necessary to
+  allow mapgen definitions to change without breaking an ongoing game.
+  Different parts of the same overmap special can be generated at different
+  times, and if a new parameter is added to the definition part way through the
+  generation then the value of that parameter will be missing and the fallback
+  will be used.
+
+
+## Mapgen parameters
+
+(Note that this feature is under development and functionality may not line up exactly
+with the documentation.)
+
+Another entry within a mapgen definition or palette can be a `"parameters"`
+key.  For example:
+```
+"parameters": {
+  "roof_type": {
+    "type": "ter_str_id",
+    "default": { "distribution": [ [ "t_flat_roof", 2 ], [ "t_tar_flat_roof", 1 ], [ "t_shingle_flat_roof", 1 ] ] }
+  }
+},
+```
+
+Each entry in the `"parameters"` JSON object defines a parameter.  The key is
+the parameter name.  Each such key should have an associated JSON object.  That
+object must provide its type (which should be a type string as for a
+`cata_variant`) and may optionally provide a default value.  The default value
+should be a [mapgen value](#mapgen-value) as defined above.
+
+At time of writing, the only way for a parameter to get a value is via the
+`"default"`, so you probably want to always have one.
+
+The primary application of parameters is that you can use a `"distribution"`
+mapgen value to select a value at random, and then apply that value to every
+use of that parameter.  In the above example, a random roof terrain is picked.
+By using the parameter with some `"terrain"` key, via a `"param"` mapgen value,
+you can use a random but consistent choice of roof terrain across your map.
+In contrast, placing the `"distribution"` directly in the `"terrain"` object would
+cause mapgen to choose a terrain at random for each roof tile, leading to a
+mishmash of roof terrains.
+
+By default, the scope of a parameter is the `overmap_special` being generated.
+That is, the parameter will have the same value across the `overmap_special`.
+When a default value is needed, it will be chosen when the first chunk of that
+special is generated, and that value will be saved to be reused for later
+chunks.
+
+If you wish, you may specify `"scope": "omt"` to limit the scope to just a
+single overmap tile.  Then a default value will be chosen independently for
+each OMT.  This has the advantage that you are no longer forced to select a
+`"fallback"` value when using that parameter in mapgen.
+
+The third option for scope is `"scope": "nest"`.  This only makes sense when
+used in nested mapgen (although it is not an error to use it elsewhere, so that
+the same palette may be used for nested and non-nested mapgen).  When the scope
+is `nest`, the value of the parameter is chosen for a particular nested chunk.
+For example, suppose a nest defines a carpet across several tiles, you can use
+a parameter to ensure that the carpet is the same colour for all the tiles
+within that nest, but another instance of the same `nested_mapgen_id` elsewhere
+in the same OMT might choose a different colour.
 
 
 ## Rotate the map with "rotation"
