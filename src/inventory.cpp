@@ -1030,7 +1030,8 @@ void inventory::reassign_item( item &it, char invlet, bool remove_old )
     update_cache_with_item( it );
 }
 
-void inventory::update_invlet( item &newit, bool assign_invlet, const item *ignore_invlet_collision_with )
+void inventory::update_invlet( item &newit, bool assign_invlet,
+                               const item *ignore_invlet_collision_with )
 {
     if( newit.invlet ) {
         // Avoid letters that have been manually assigned to other things.
@@ -1039,7 +1040,7 @@ void inventory::update_invlet( item &newit, bool assign_invlet, const item *igno
                 newit.invlet = '\0';
             }
 
-        // Remove letters that are not in the favorites cache
+            // Remove letters that are not in the favorites cache
         } else if( !invlet_cache.contains( newit.invlet, newit.typeId() ) ) {
             newit.invlet = '\0';
         }
@@ -1051,8 +1052,8 @@ void inventory::update_invlet( item &newit, bool assign_invlet, const item *igno
         char tmp_invlet = newit.invlet;
         newit.invlet = '\0';
         item *collidingItem = player_character.invlet_to_item( tmp_invlet );
-        
-        if( collidingItem == nullptr || collidingItem == ignore_invlet_collision_with ) { 
+
+        if( collidingItem == nullptr || collidingItem == ignore_invlet_collision_with ) {
             newit.invlet = tmp_invlet;
         }
     }

@@ -96,6 +96,7 @@
 #include "vehicle_group.h"
 #include "vitamin.h"
 #include "weather_type.h"
+#include "widget.h"
 #include "worldfactory.h"
 
 DynamicDataLoader::DynamicDataLoader()
@@ -445,6 +446,7 @@ void DynamicDataLoader::initialize()
     add( "score", &score::load_score );
     add( "achievement", &achievement::load_achievement );
     add( "conduct", &achievement::load_achievement );
+    add( "widget", &widget::load_widget );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else

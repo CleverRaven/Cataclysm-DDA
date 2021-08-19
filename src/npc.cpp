@@ -242,6 +242,42 @@ void npc_template::load( const JsonObject &jsobj )
             guy.miss_ids.emplace_back( mission_type_id( line ) );
         }
     }
+    if( jsobj.has_string( "talk_radio" ) ) {
+        guy.chatbin.talk_radio = jsobj.get_string( "talk_radio" );
+    }
+    if( jsobj.has_string( "talk_leader" ) ) {
+        guy.chatbin.talk_leader = jsobj.get_string( "talk_leader" );
+    }
+    if( jsobj.has_string( "talk_friend" ) ) {
+        guy.chatbin.talk_friend = jsobj.get_string( "talk_friend" );
+    }
+    if( jsobj.has_string( "talk_stole_item" ) ) {
+        guy.chatbin.talk_stole_item = jsobj.get_string( "talk_stole_item" );
+    }
+    if( jsobj.has_string( "talk_wake_up" ) ) {
+        guy.chatbin.talk_wake_up = jsobj.get_string( "talk_wake_up" );
+    }
+    if( jsobj.has_string( "talk_mug" ) ) {
+        guy.chatbin.talk_mug = jsobj.get_string( "talk_mug" );
+    }
+    if( jsobj.has_string( "talk_stranger_aggressive" ) ) {
+        guy.chatbin.talk_stranger_aggressive = jsobj.get_string( "talk_stranger_aggressive" );
+    }
+    if( jsobj.has_string( "talk_stranger_scared" ) ) {
+        guy.chatbin.talk_stranger_scared = jsobj.get_string( "talk_stranger_scared" );
+    }
+    if( jsobj.has_string( "talk_stranger_wary" ) ) {
+        guy.chatbin.talk_stranger_wary = jsobj.get_string( "talk_stranger_wary" );
+    }
+    if( jsobj.has_string( "talk_stranger_friendly" ) ) {
+        guy.chatbin.talk_stranger_friendly = jsobj.get_string( "talk_stranger_friendly" );
+    }
+    if( jsobj.has_string( "talk_stranger_neutral" ) ) {
+        guy.chatbin.talk_stranger_neutral = jsobj.get_string( "talk_stranger_neutral" );
+    }
+    if( jsobj.has_string( "talk_friend_guard" ) ) {
+        guy.chatbin.talk_friend_guard = jsobj.get_string( "talk_friend_guard" );
+    }
     npc_templates.emplace( string_id<npc_template>( guy.idz ), std::move( tem ) );
 }
 
@@ -319,6 +355,18 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     attitude = tguy.attitude;
     mission = tguy.mission;
     chatbin.first_topic = tguy.chatbin.first_topic;
+    chatbin.talk_radio = tguy.chatbin.talk_radio;
+    chatbin.talk_leader = tguy.chatbin.talk_leader;
+    chatbin.talk_friend = tguy.chatbin.talk_friend;
+    chatbin.talk_stole_item = tguy.chatbin.talk_stole_item;
+    chatbin.talk_wake_up = tguy.chatbin.talk_wake_up;
+    chatbin.talk_mug = tguy.chatbin.talk_mug;
+    chatbin.talk_stranger_aggressive = tguy.chatbin.talk_stranger_aggressive;
+    chatbin.talk_stranger_scared = tguy.chatbin.talk_stranger_scared;
+    chatbin.talk_stranger_wary = tguy.chatbin.talk_stranger_wary;
+    chatbin.talk_stranger_friendly = tguy.chatbin.talk_stranger_friendly;
+    chatbin.talk_stranger_neutral = tguy.chatbin.talk_stranger_neutral;
+    chatbin.talk_friend_guard = tguy.chatbin.talk_friend_guard;
     for( const mission_type_id &miss_id : tguy.miss_ids ) {
         add_new_mission( mission::reserve_new( miss_id, getID() ) );
     }
@@ -687,7 +735,7 @@ void npc::set_known_to_u( bool known )
 
 void npc::setpos( const tripoint &pos )
 {
-    position = pos;
+    Character::setpos( pos );
     const point_abs_om pos_om_old( sm_to_om_copy( submap_coords ) );
     submap_coords = get_map().get_abs_sub().xy() + point( pos.x / SEEX, pos.y / SEEY );
     // TODO: fix point types
@@ -705,12 +753,12 @@ void npc::setpos( const tripoint &pos )
     }
 }
 
-void npc::travel_overmap( const tripoint &pos )
+void npc::travel_overmap( const tripoint_abs_omt &pos )
 {
     // TODO: fix point types
-    const point_abs_om pos_om_old( sm_to_om_copy( submap_coords ) );
-    spawn_at_sm( pos );
-    const point_abs_om pos_om_new( sm_to_om_copy( submap_coords ) );
+    const point_abs_om pos_om_old = project_to<coords::om>( global_omt_location().xy() );
+    spawn_at_omt( pos );
+    const point_abs_om pos_om_new = project_to<coords::om>( global_omt_location().xy() );
     if( global_omt_location() == goal ) {
         reach_omt_destination();
     }
@@ -727,24 +775,26 @@ void npc::travel_overmap( const tripoint &pos )
     }
 }
 
-void npc::spawn_at_sm( const tripoint &p )
+void npc::spawn_at_omt( const tripoint_abs_omt &p )
 {
-    spawn_at_precise( p.xy(), tripoint( rng( 0, SEEX - 1 ), rng( 0, SEEY - 1 ), p.z ) );
+    const int max_coord = coords::map_squares_per( coords::omt ) - 1;
+    const point_rel_ms local_pos( rng( 0, max_coord ), rng( 0, max_coord ) );
+    spawn_at_precise( project_to<coords::ms>( p ) + local_pos );
 }
 
-void npc::spawn_at_precise( const point &submap_offset, const tripoint &square )
+void npc::spawn_at_precise( const tripoint_abs_ms &p )
 {
-    submap_coords = submap_offset;
-    submap_coords.x += square.x / SEEX;
-    submap_coords.y += square.y / SEEY;
-    position.x = square.x % SEEX;
-    position.y = square.y % SEEY;
-    position.z = square.z;
+    point_abs_sm quotient;
+    tripoint_sm_ms remainder;
+    std::tie( quotient, remainder ) = project_remain<coords::sm>( p );
+    submap_coords = quotient.raw();
+    position = remainder.raw();
 }
 
-tripoint npc::global_square_location() const
+tripoint_abs_ms npc::global_square_location() const
 {
-    return sm_to_ms_copy( submap_coords ) + tripoint( posx() % SEEX, posy() % SEEY, position.z );
+    return tripoint_abs_ms( project_to<coords::ms>( point_abs_sm( submap_coords ) ),
+                            0 ) + tripoint( posx() % SEEX, posy() % SEEY, posz() );
 }
 
 void npc::place_on_map()
@@ -879,7 +929,7 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
     }
     const auto &type = book.type->book;
     const skill_id &skill = type->skill;
-    const int skill_level = pl->get_skill_level( skill );
+    const int skill_level = pl->get_knowledge_level( skill );
     if( skill && skill_level < type->req ) {
         fail_reasons.push_back( string_format( _( "I'm not smart enough to read this book." ) ) );
         return false;
@@ -911,7 +961,7 @@ int npc::time_to_read( const item &book, const player &reader ) const
     // The reader's reading speed has an effect only if they're trying to understand the book as they read it
     // Reading speed is assumed to be how well you learn from books (as opposed to hands-on experience)
     const bool try_understand = reader.fun_to_read( book ) ||
-                                reader.get_skill_level( skill ) < type->level;
+                                reader.get_knowledge_level( skill ) < type->level;
     int reading_speed = try_understand ? std::max( reader.read_speed(), read_speed() ) : read_speed();
 
     int retval = type->time * reading_speed;
@@ -1276,7 +1326,7 @@ void npc::mutiny()
     if( assigned_camp ) {
         assigned_camp = cata::nullopt;
     }
-    chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
+    chatbin.first_topic = chatbin.talk_stranger_neutral;
     set_attitude( NPCATT_NULL );
     say( _( "<follower_mutiny>  Adios, motherfucker!" ), sounds::sound_t::order );
     if( seen ) {
@@ -1385,7 +1435,7 @@ std::vector<skill_id> npc::skills_offered_to( const player &p ) const
     std::vector<skill_id> ret;
     for( const auto &pair : *_skills ) {
         const skill_id &id = pair.first;
-        if( p.get_skill_level( id ) < pair.second.level() ) {
+        if( p.get_knowledge_level( id ) < pair.second.level() ) {
             ret.push_back( id );
         }
     }
@@ -1756,8 +1806,8 @@ int npc::value( const item &it, int market_price ) const
     if( it.is_book() ) {
         auto &book = *it.type->book;
         ret += book.fun;
-        if( book.skill && get_skill_level( book.skill ) < book.level &&
-            get_skill_level( book.skill ) >= book.req ) {
+        if( book.skill && get_knowledge_level( book.skill ) < book.level &&
+            get_knowledge_level( book.skill ) >= book.req ) {
             ret += book.level * 3;
         }
     }
@@ -2263,7 +2313,9 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
     }
 
     // Worn gear list on following lines.
-    const std::string worn_str = enumerate_as_string( worn.begin(), worn.end(), []( const item & it ) {
+    const std::list<item> visible_worn_items = get_visible_worn_items();
+    const std::string worn_str = enumerate_as_string( visible_worn_items.begin(),
+    visible_worn_items.end(), []( const item & it ) {
         return it.tname();
     } );
     if( !worn_str.empty() ) {

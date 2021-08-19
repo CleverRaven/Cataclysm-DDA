@@ -115,7 +115,7 @@
     "apply_message": "Your speed is boosted to superhuman levels!",
     "remove_message": "You return to your normal speed.",
     "rating": "good",
-    "base_mods": { "dex_mod": [ 4 ], "speed_mod": [ 300 ] }
+    "base_mods": { "dex_mod": [ 4 ], "speed_mod": [ 250 ] }
   },
   {
     "type": "effect_type",

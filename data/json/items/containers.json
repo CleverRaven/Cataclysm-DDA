@@ -634,6 +634,33 @@
         "watertight": true,
         "max_contains_volume": "2 L",
         "max_contains_weight": "5 kg",
+        "//": "Calculated to keep shelf stable milk fresh for 304 days when sealed",
+        "sealed_data": { "spoil_multiplier": 0.023 }
+      }
+    ]
+  },
+  {
+    "id": "carton_milk",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "milk carton" },
+    "looks_like": "box_small",
+    "description": "A half-gallon carton constructed of thick, waterproof paper.  It has a threaded cap to keep the contents from leaking out.",
+    "weight": "28 g",
+    "volume": "2003 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "to_hit": 1,
+    "material": [ "paper" ],
+    "symbol": ")",
+    "color": "light_cyan",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "5 kg",
         "sealed_data": { "spoil_multiplier": 0.5 }
       }
     ]

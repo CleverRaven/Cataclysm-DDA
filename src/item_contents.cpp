@@ -1467,7 +1467,7 @@ void item_contents::remove_internal( const std::function<bool( item & )> &filter
     }
 }
 
-void item_contents::process( player *carrier, const tripoint &pos, float insulation,
+void item_contents::process( Character *carrier, const tripoint &pos, float insulation,
                              temperature_flag flag, float spoil_multiplier_parent )
 {
     for( item_pocket &pocket : contents ) {

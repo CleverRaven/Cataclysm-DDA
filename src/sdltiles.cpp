@@ -1522,6 +1522,9 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         }
         // Special font for the terrain window
         update = draw_window( map_font, w );
+    } else if( g && w == g->w_overmap && use_tiles && use_tiles_overmap ) {
+        tilecontext->draw_om( win->pos, overmap_ui::redraw_info.center, overmap_ui::redraw_info.blink );
+        update = true;
     } else if( g && w == g->w_overmap && overmap_font ) {
         // Special font for the terrain window
         update = draw_window( overmap_font, w );
@@ -3673,11 +3676,17 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
 #endif
 
     previously_pressed_key = 0;
+
     // standards note: getch is sometimes required to call refresh
     // see, e.g., http://linux.die.net/man/3/getch
     // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
-
-    wrefresh( catacurses::stdscr );
+    // however, the refresh call has not effect when nothing has been drawn, so
+    // we can skip screen update if `needupdate` is false to improve performance during mouse
+    // move events.
+    wnoutrefresh( catacurses::stdscr );
+    if( needupdate ) {
+        refresh_display();
+    }
 
     if( inputdelay < 0 ) {
         do {

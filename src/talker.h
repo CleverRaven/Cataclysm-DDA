@@ -2,10 +2,16 @@
 #ifndef CATA_SRC_TALKER_H
 #define CATA_SRC_TALKER_H
 
+#include "coordinates.h"
+#include "units.h"
+#include "units_fwd.h"
+#include <list>
+
 class faction;
 class item;
 class item_location;
 class mission;
+class monster;
 class npc;
 class player;
 class recipe;
@@ -40,7 +46,18 @@ class talker
         virtual item_location *get_item() const {
             return nullptr;
         }
-
+        virtual monster *get_monster() {
+            return nullptr;
+        }
+        virtual monster *get_monster() const {
+            return nullptr;
+        }
+        virtual Creature *get_creature() {
+            return nullptr;
+        }
+        virtual Creature *get_creature() const {
+            return nullptr;
+        }
         // identity and location
         virtual std::string disp_name() const {
             return "";
@@ -347,6 +364,7 @@ class talker
             return 0;
         }
         virtual void mod_focus( int ) {}
+        virtual void mod_rad( int ) {}
         virtual void add_morale( const morale_type &, int, int, time_duration, time_duration, bool ) {}
         virtual void remove_morale( const morale_type & ) {}
 };

@@ -1502,3 +1502,17 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
         mon->die( &caster );
     }
 }
+
+void spell_effect::effect_on_condition( const spell &sp, Creature &caster, const tripoint &target )
+{
+    const std::set<tripoint> area = spell_effect_area( sp, target, caster );
+
+    for( const tripoint &potential_target : area ) {
+        if( !sp.is_valid_target( caster, potential_target ) ) {
+            continue;
+        }
+        dialogue d( get_talker_for( g->critter_at<Creature>( potential_target ) ),
+                    get_talker_for( caster ) );
+        effect_on_condition_id( sp.effect_data() )->activate( d );
+    }
+}

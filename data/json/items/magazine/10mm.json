@@ -111,7 +111,7 @@
     "id": "p220_10_mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "SIG pistol 10mm 8-roung magazine" },
+    "name": { "str": "SIG pistol 10mm 8-round magazine" },
     "description": "An 8-round steel box magazine for the SIG pistol",
     "variants": [
       {
@@ -181,8 +181,8 @@
     "id": "xd_10_mag",
     "looks_like": "m9mag",
     "type": "MAGAZINE",
-    "name": { "str": "XD(M) 15-round magazine" },
-    "description": "A 15-round steel box magazine for 10mm Auto XD(M) pistols.",
+    "name": { "str": "XD-M 15-round magazine" },
+    "description": "A 15-round steel box magazine for 10mm Auto XD-M pistols.",
     "weight": "80 g",
     "volume": "81 ml",
     "longest_side": "124 mm",

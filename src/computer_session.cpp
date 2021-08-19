@@ -696,6 +696,8 @@ void computer_session::action_elevator_on()
 
 void computer_session::action_amigara_log()
 {
+    get_timed_events().add( timed_event_type::AMIGARA_WHISPERS, calendar::turn + 5_minutes );
+
     Character &player_character = get_player_character();
     player_character.moves -= 30;
     reset_terminal();
@@ -752,7 +754,7 @@ void computer_session::action_amigara_log()
 
 void computer_session::action_amigara_start()
 {
-    get_timed_events().add( timed_event_type::AMIGARA, calendar::turn + 1_minutes );
+    get_timed_events().add( timed_event_type::AMIGARA, calendar::turn + 10_seconds );
     // Disable this action to prevent further amigara events, which would lead to
     // further amigara monster, which would lead to further artifacts.
     comp.remove_option( COMPACT_AMIGARA_START );

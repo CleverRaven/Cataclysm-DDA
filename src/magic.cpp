@@ -419,6 +419,7 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "base_casting_time", base_casting_time, base_casting_time_default );
     json.member( "final_casting_time", final_casting_time, base_casting_time );
     json.member( "casting_time_increment", casting_time_increment, casting_time_increment_default );
+
     if( !learn_spells.empty() ) {
         json.member( "learn_spells" );
         json.start_object();

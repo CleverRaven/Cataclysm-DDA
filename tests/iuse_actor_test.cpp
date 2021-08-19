@@ -152,7 +152,6 @@ static void cut_up_yields( const std::string &target )
         salvaged_mass += salvage.weight();
     }
     CHECK( salvaged_mass <= cut_up_target_mass );
-    CHECK( salvaged_mass >= ( cut_up_target_mass * 0.99 ) - smallest_yield_mass );
 }
 
 TEST_CASE( "cut_up_yields" )

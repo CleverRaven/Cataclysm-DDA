@@ -39,7 +39,6 @@
 #include "npc.h"
 #include "pathfinding.h"
 #include "pimpl.h"
-#include "player.h"
 #include "rng.h"
 #include "scent_map.h"
 #include "sounds.h"
@@ -88,6 +87,9 @@ bool monster::is_immune_field( const field_type_id &fid ) const
     }
     if( fid == fd_insecticidal_gas ) {
         return !made_of( material_id( "iflesh" ) ) || has_flag( MF_INSECTICIDEPROOF );
+    }
+    if( fid == fd_web ) {
+        return has_flag( MF_WEBWALK );
     }
     const field_type &ft = fid.obj();
     if( ft.has_fume ) {
@@ -385,7 +387,8 @@ void monster::plan()
         }
     } else if( friendly != 0 && !docile ) {
         for( monster &tmp : g->all_monsters() ) {
-            if( tmp.friendly == 0 && seen_levels.test( tmp.pos().z + OVERMAP_DEPTH ) ) {
+            if( tmp.friendly == 0 && tmp.attitude_to( *this ) == Attitude::HOSTILE &&
+                seen_levels.test( tmp.pos().z + OVERMAP_DEPTH ) ) {
                 float rating = rate_target( tmp, dist, smart_planning );
                 if( rating < dist ) {
                     target = &tmp;
@@ -779,7 +782,7 @@ void monster::move()
     }
 
     // Check if they're dragging a foe and find their hapless victim
-    player *dragged_foe = find_dragged_foe();
+    Character *dragged_foe = find_dragged_foe();
 
     // Give nursebots a chance to do surgery.
     nursebot_operate( dragged_foe );
@@ -1102,7 +1105,7 @@ void monster::move()
     }
 }
 
-player *monster::find_dragged_foe()
+Character *monster::find_dragged_foe()
 {
     // Make sure they're actually dragging someone.
     if( !dragged_foe_id.is_valid() || !has_effect( effect_dragging ) ) {
@@ -1113,7 +1116,7 @@ player *monster::find_dragged_foe()
     // Dragged critters may die or otherwise become invalid, which is why we look
     // them up each time. Luckily, monsters dragging critters is relatively rare,
     // so this check should happen infrequently.
-    player *dragged_foe = g->critter_by_id<player>( dragged_foe_id );
+    Character *dragged_foe = g->critter_by_id<Character>( dragged_foe_id );
 
     if( dragged_foe == nullptr ) {
         // Target no longer valid.
@@ -1125,7 +1128,7 @@ player *monster::find_dragged_foe()
 }
 
 // Nursebot surgery code
-void monster::nursebot_operate( player *dragged_foe )
+void monster::nursebot_operate( Character *dragged_foe )
 {
     // No dragged foe, nothing to do.
     if( dragged_foe == nullptr ) {
