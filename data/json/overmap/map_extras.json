@@ -575,7 +575,7 @@
     "generator": { "generator_method": "update_mapgen", "generator_id": "mx_sewer_pipesJ" }
   },
   {
-    "id": "lab_CORE_2x1_EC_ground",
+    "id": "mx_lab_cargo_area",
     "type": "map_extra",
     "name": { "str": "Start location cargo area" },
     "description": "There is a lanyard with an ID badge nearby.",

@@ -303,7 +303,7 @@
     "start_name": "Locked Lab",
     "professions": [ "labtech", "security" ],
     "allowed_locs": [ "sloc_lab_cargo_area" ],
-    "map_extra": "lab_CORE_2x1_EC_ground",
+    "map_extra": "mx_lab_cargo_area",
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
