@@ -1172,7 +1172,7 @@
   {
     "type": "keybinding",
     "id": "SELECT",
-    "name": "Select",
+    "name": "Select with mouse",
     "bindings": [ { "input_method": "mouse", "key": "MOUSE_LEFT" } ]
   },
   {
