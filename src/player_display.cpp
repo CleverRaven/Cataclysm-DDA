@@ -627,27 +627,13 @@ static void draw_bionics_tab( const catacurses::window &w_bionics,
                     string_format( _( "Power: <color_light_blue>%1$d %2$s</color>"
                                       " / <color_light_blue>%3$d kJ</color>" ),
                                    power_amount, power_unit, units::to_kilojoule( you.get_max_power_level() ) ) );
+    const std::pair<const size_t, const size_t> range = subindex_around_cursor( bionicslist.size(),
+            bionics_win_size_y - 2, line, is_current_tab );
 
-    const size_t useful_y = bionics_win_size_y - 2;
-    const size_t half_y = useful_y / 2;
-
-    size_t min = 0;
-    size_t max = 0;
-
-    if( !is_current_tab || line <= half_y ) { // near the top
-        min = 0;
-        max = std::min( bionicslist.size(), useful_y );
-    } else if( line >= bionicslist.size() - half_y ) { // near the bottom
-        min = ( bionicslist.size() <= useful_y ? 0 : bionicslist.size() - useful_y );
-        max = bionicslist.size();
-    } else { // scrolling
-        min = line - half_y;
-        max = std::min( bionicslist.size(), line + useful_y - half_y );
-    }
-
-    for( size_t i = min; i < max; i++ ) {
-        trim_and_print( w_bionics, point( 1, static_cast<int>( 2 + i - min ) ), getmaxx( w_bionics ) - 1,
-                        is_current_tab && i == line ? hilite( c_white ) : c_white, "%s", bionicslist[i].info().name );
+    for( size_t i = range.first; i < range.second; i++ ) {
+        trim_and_print( w_bionics, point( 1, static_cast<int>( 2 + i - range.first ) ),
+                        getmaxx( w_bionics ) - 1, is_current_tab &&
+                        i == line ? hilite( c_white ) : c_white, "%s", bionicslist[i].info().name );
     }
     wnoutrefresh( w_bionics );
 }
@@ -674,33 +660,13 @@ static void draw_effects_tab( const catacurses::window &w_effects,
     const nc_color title_col = is_current_tab ? h_light_gray : c_light_gray;
     center_print( w_effects, 0, title_col, _( title_EFFECTS ) );
 
-    const size_t half_y = ( effect_win_size_y - 1 ) / 2;
+    const std::pair<const size_t, const size_t> range = subindex_around_cursor(
+                effect_name_and_text.size(), effect_win_size_y - 1, line, is_current_tab );
 
-    size_t min = 0;
-    size_t max = 0;
-
-    const size_t actual_size = effect_name_and_text.size();
-
-    if( !is_current_tab || line <= half_y ) {
-        min = 0;
-        max = effect_win_size_y - 1;
-        if( actual_size < max ) {
-            max = actual_size;
-        }
-    } else if( line >= actual_size - half_y ) {
-        min = ( actual_size < effect_win_size_y - 1 ? 0 : actual_size - effect_win_size_y + 1 );
-        max = actual_size;
-    } else {
-        min = line - half_y;
-        max = line - half_y + effect_win_size_y - 1;
-        if( actual_size < max ) {
-            max = actual_size;
-        }
-    }
-
-    for( size_t i = min; i < max; i++ ) {
-        trim_and_print( w_effects, point( 0, static_cast<int>( 1 + i - min ) ), getmaxx( w_effects ) - 1,
-                        is_current_tab && i == line ? h_light_gray : c_light_gray, effect_name_and_text[i].first );
+    for( size_t i = range.first; i < range.second; i++ ) {
+        trim_and_print( w_effects, point( 0, static_cast<int>( 1 + i - range.first ) ),
+                        getmaxx( w_effects ) - 1, is_current_tab &&
+                        i == line ? h_light_gray : c_light_gray, effect_name_and_text[i].first );
     }
     wnoutrefresh( w_effects );
 }
