@@ -118,9 +118,6 @@ class player : public Character
         // ---------------VALUES-----------------
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint grab_point;
-        int volume = 0;
-        const profession *prof;
-        std::set<const profession *> hobbies;
 
         bool random_start_location = true;
         start_location_id start_location;

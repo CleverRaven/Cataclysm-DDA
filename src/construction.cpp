@@ -1023,8 +1023,9 @@ void complete_construction( Character *you )
     const construction &built = pc->id.obj();
     const auto award_xp = [&]( Character & practicer ) {
         for( const auto &pr : built.required_skills ) {
-            practicer.practice( pr.first, static_cast<int>( ( 10 + 15 * pr.second ) * ( 1 + built.time / 180000.0 ) ),
-                        static_cast<int>( pr.second * 1.25 ) );
+            practicer.practice( pr.first, static_cast<int>( ( 10 + 15 * pr.second ) *
+                                ( 1 + built.time / 180000.0 ) ),
+                                static_cast<int>( pr.second * 1.25 ) );
         }
     };
 
@@ -1088,7 +1089,8 @@ void complete_construction( Character *you )
 
     // Spawn byproducts
     if( built.byproduct_item_group ) {
-        here.spawn_items( you->pos(), item_group::items_from( *built.byproduct_item_group, calendar::turn ) );
+        here.spawn_items( you->pos(), item_group::items_from( *built.byproduct_item_group,
+                          calendar::turn ) );
     }
 
     add_msg( m_info, _( "%s finished construction: %s." ), you->disp_name( false, true ),
