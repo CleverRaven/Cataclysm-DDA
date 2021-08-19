@@ -192,6 +192,13 @@ const map_extra &string_id<map_extra>::obj() const
     return extras.obj( *this );
 }
 
+/** @relates string_id */
+template<>
+bool string_id<map_extra>::is_valid() const
+{
+    return extras.is_valid( *this );
+}
+
 namespace MapExtras
 {
 
