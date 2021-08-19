@@ -104,6 +104,26 @@ void talker_character::set_per_max( int value )
     me_chr->per_max = value;
 }
 
+int talker_character::get_str_max()
+{
+    return me_chr->str_max;
+}
+
+int talker_character::get_dex_max()
+{
+    return me_chr->dex_max;
+}
+
+int talker_character::get_int_max()
+{
+    return me_chr->int_max;
+}
+
+int talker_character::get_per_max()
+{
+    return me_chr->per_max;
+}
+
 bool talker_character::has_trait( const trait_id &trait_to_check ) const
 {
     return me_chr->has_trait( trait_to_check );

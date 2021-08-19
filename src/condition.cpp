@@ -999,6 +999,22 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->per_cur();
             };
+        } else if( checked_value == "strength_base" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                return d.actor( is_npc )->get_str_max( input );
+            };
+        } else if( checked_value == "dexterity_base" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                return d.actor( is_npc )->get_dex_max( input );
+            };
+        } else if( checked_value == "intelligence_base" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                return d.actor( is_npc )->get_int_max( input );
+            };
+        } else if( checked_value == "perception_base" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                return d.actor( is_npc )->get_per_max( input );
+            };
         } else if( checked_value == "var" ) {
             const std::string var_name = get_talk_varname( jo, "var_name", false );
             return [is_npc, var_name]( const T & d ) {

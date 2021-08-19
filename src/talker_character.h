@@ -67,6 +67,10 @@ class talker_character: public talker
         void set_dex_max( int value ) override;
         void set_int_max( int value ) override;
         void set_per_max( int value ) override;
+        int get_str_max() override;
+        int get_dex_max() override;
+        int get_int_max() override;
+        int get_per_max() override;
         units::energy power_cur() const override;
         units::energy power_max() const override;
         void set_power_cur( units::energy value ) override;

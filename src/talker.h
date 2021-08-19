@@ -123,6 +123,10 @@ class talker
         virtual void set_dex_max( int ) {}
         virtual void set_int_max( int ) {}
         virtual void set_per_max( int ) {}
+        virtual int get_str_max() {}
+        virtual int get_dex_max() {}
+        virtual int get_int_max() {}
+        virtual int get_per_max() {}
         virtual int get_skill_level( const skill_id & ) const {
             return 0;
         }
