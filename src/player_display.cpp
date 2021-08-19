@@ -1379,8 +1379,8 @@ void Character::disp_info()
         trait_win_size_y = trait_and_bionic_height.first;
         w_traits = catacurses::newwin( trait_win_size_y, grid_width,
                                        point( grid_width + 1, infooffsetybottom ) );
-        w_traits_border = catacurses::newwin( trait_win_size_y + 1, grid_width + 1,
-                                              point( grid_width + 1, infooffsetybottom ) );
+        w_traits_border = catacurses::newwin( trait_win_size_y + 1, grid_width + 2,
+                                              point( grid_width, infooffsetybottom ) );
         border_traits.set( point( grid_width, infooffsetybottom - 1 ),
                            point( grid_width + 2, trait_win_size_y + 2 ) );
         ui_traits.position_from_window( w_traits_border );
@@ -1403,9 +1403,8 @@ void Character::disp_info()
         w_bionics = catacurses::newwin( bionics_win_size_y, grid_width,
                                         point( grid_width + 1,
                                                infooffsetybottom + trait_win_size_y + 1 ) );
-        w_bionics_border = catacurses::newwin( bionics_win_size_y + 1, grid_width + 1,
-                                               point( grid_width + 1,
-                                                       infooffsetybottom + trait_win_size_y + 1 ) );
+        w_bionics_border = catacurses::newwin( bionics_win_size_y + 1, grid_width + 2,
+                                               point( grid_width, infooffsetybottom + trait_win_size_y + 1 ) );
         border_bionics.set( point( grid_width, infooffsetybottom + trait_win_size_y ),
                             point( grid_width + 2, bionics_win_size_y + 2 ) );
         ui_bionics.position_from_window( w_bionics_border );
