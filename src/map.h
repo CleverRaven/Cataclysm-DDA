@@ -905,7 +905,7 @@ class map
          * Calls the examine function of furniture or terrain at given tile, for given character.
          * Will only examine terrain if furniture had @ref iexamine::none as the examine function.
          */
-        void examine( Character &p, const tripoint &pos );
+        void examine( Character &you, const tripoint &pos );
 
         /**
          * Returns true if point at pos is harvestable right now, with no extra tools.
