@@ -35,8 +35,119 @@ class avatar;
 class npc;
 class SkillLevel;
 class player_activity;
+class character_id;
 
 struct islot_book;
+
+class generic_activity_actor : public activity_actor
+{
+    public:
+        generic_activity_actor() = default;
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_GENERIC" );
+        }
+
+        float exertion_level() const override;
+        enum class activity_level : int {
+            NO_EXERCISE, LIGHT_EXERCISE, MODERATE_EXERCISE,
+            BRISK_EXERCISE, ACTIVE_EXERCISE, EXTRA_EXERCISE,
+            NUM_ACTIVITIES
+        };
+
+        void start( player_activity &act, Character &/*who*/ ) override;
+        void do_turn( player_activity &/*act*/, Character &/*who*/ ) override {};
+        void finish( player_activity &act, Character &/*who*/ ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<generic_activity_actor>( *this );
+        }
+
+        std::string get_progress_message( const player_activity &act ) const override;
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+
+        enum class functions : int {
+            CONSUME_AMMO, // ammo_consume
+            REMOVE_ITEM, // remove item from inventory
+            ADD_MSG, // add_msg
+            EFFECT_ADD, // effect_add
+            EFFECT_REMOVE, // effect_remove
+            STIM_MOD, // mod_stim
+            PAINKILLER_MOD, // mod_painkiller
+            SET_FURN, // set furniture in tile
+            NUM_FUNCTIONS // invalid
+        };
+
+        struct parameters {
+            functions type = functions::NUM_FUNCTIONS;
+            character_id id;
+            efftype_id effect;
+            item_location item;
+            std::string message;
+            game_message_type message_type = m_neutral;
+            tripoint where;
+            furn_str_id furn;
+            time_duration duration;
+            bool permanent = false;
+            int value = 0;
+
+            void serialize( JsonOut &jsout ) const;
+            void deserialize( JsonIn &jsin );
+        };
+
+        // Modifying parameters returned by these functions may cause bugs
+        parameters conf_consume_ammo( const Character &who, const item_location &item ) const;
+        parameters conf_remove_item( const Character &who, const item_location &item ) const;
+        parameters conf_add_msg( const std::string &message, game_message_type type = m_neutral ) const;
+        parameters conf_effect_add( const Character &who, const efftype_id &effect,
+                                    const time_duration &duration, bool permanent = false ) const;
+        parameters conf_effect_remove( const Character &who, const efftype_id &effect ) const;
+        parameters conf_stim_mod( const Character &who, int value ) const;
+        parameters conf_painkiller_mod( const Character &who, int value ) const;
+        parameters conf_set_furn( const tripoint &where, const furn_str_id &furn ) const;
+
+    private:
+        int moves_total = 0;
+        bool resumable = true;
+        bool show_progress = true;
+        activity_level activity_exertion = activity_level::NO_EXERCISE;
+        std::string display_string = "generic";
+        std::vector<parameters> actions_;
+
+        // These functions will only use parameters they need
+        void consume_ammo( parameters &parameter );
+        void remove_item( parameters &parameter );
+        void add_msg( parameters &parameter );
+        void effect_add( parameters &parameter );
+        void effect_remove( parameters &parameter );
+        void stim_mod( parameters &parameter );
+        void painkiller_mod( parameters &parameter );
+        void set_furn( parameters &parameter );
+
+        bool can_resume_with_internal( const activity_actor &other, const Character & ) const override;
+
+    public:
+        void configure( int moves_total_ = 0, const std::string &display_string_ = "generic",
+                        activity_level exertion = activity_level::NO_EXERCISE );
+        void add_action( const parameters &action );
+        std::vector<parameters> &actions() {
+            return actions_;
+        }
+};
+
+template<>
+struct enum_traits<generic_activity_actor::activity_level> {
+    static constexpr generic_activity_actor::activity_level last =
+        generic_activity_actor::activity_level::NUM_ACTIVITIES;
+};
+
+template<>
+struct enum_traits<generic_activity_actor::functions> {
+    static constexpr generic_activity_actor::functions last =
+        generic_activity_actor::functions::NUM_FUNCTIONS;
+};
 
 class aim_activity_actor : public activity_actor
 {

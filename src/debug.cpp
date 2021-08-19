@@ -164,6 +164,7 @@ std::string filter_name( debug_filter value )
         // *INDENT-OFF*
         case DF_ACT_BUTCHER: return "DF_ACT_BUTCHER";
         case DF_ACT_EBOOK: return "DF_ACT_EBOOK";
+        case DF_ACT_GENERIC: return "DF_ACT_GENERIC";
         case DF_ACT_HARVEST: return "DF_ACT_HARVEST";
         case DF_ACT_LOCKPICK: return "DF_ACT_LOCKPICK";
         case DF_ACT_READ: return "DF_ACT_READ";

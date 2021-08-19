@@ -23,6 +23,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
+#include "character_id.h"
 #include "coordinates.h"
 #include "craft_command.h"
 #include "debug.h"
@@ -118,6 +119,51 @@ static const quality_id qual_SHEAR( "SHEAR" );
 
 static const trait_id trait_SCHIZOPHRENIC( "SCHIZOPHRENIC" );
 
+namespace io
+{
+
+template<>
+std::string enum_to_string<generic_activity_actor::activity_level>(
+    generic_activity_actor::activity_level type )
+{
+    switch( type ) {
+        // *INDENT-OFF*
+        case generic_activity_actor::activity_level::NO_EXERCISE: return "NO_EXERCISE";
+        case generic_activity_actor::activity_level::LIGHT_EXERCISE: return "LIGHT_EXERCISE";
+        case generic_activity_actor::activity_level::MODERATE_EXERCISE: return "MODERATE_EXERCISE";
+        case generic_activity_actor::activity_level::BRISK_EXERCISE: return "BRISK_EXERCISE";
+        case generic_activity_actor::activity_level::ACTIVE_EXERCISE: return "ACTIVE_EXERCISE";
+        case generic_activity_actor::activity_level::EXTRA_EXERCISE: return "EXTRA_EXERCISE";
+        case generic_activity_actor::activity_level::NUM_ACTIVITIES: return "NUM_ACTIVITIES";
+        // *INDENT-ON*
+    }
+    debugmsg( "Invalid generic_activity_actor::activity_level type" );
+    abort();
+}
+
+template<>
+std::string enum_to_string<generic_activity_actor::functions>(
+    generic_activity_actor::functions type )
+{
+    switch( type ) {
+        // *INDENT-OFF*
+        case generic_activity_actor::functions::CONSUME_AMMO: return "CONSUME_AMMO";
+        case generic_activity_actor::functions::REMOVE_ITEM: return "REMOVE_ITEM";
+        case generic_activity_actor::functions::ADD_MSG: return "ADD_MSG";
+        case generic_activity_actor::functions::EFFECT_ADD: return "EFFECT_ADD";
+        case generic_activity_actor::functions::EFFECT_REMOVE: return "EFFECT_REMOVE";
+        case generic_activity_actor::functions::STIM_MOD: return "STIM_MOD";
+        case generic_activity_actor::functions::PAINKILLER_MOD: return "PAINKILLER_MOD";
+        case generic_activity_actor::functions::SET_FURN: return "SET_FURN";
+        case generic_activity_actor::functions::NUM_FUNCTIONS: return "INVALID";
+        // *INDENT-ON*
+    }
+    debugmsg( "Invalid generic_activity_actor::functions type" );
+    abort();
+}
+
+} // namespace io
+
 std::string activity_actor::get_progress_message( const player_activity &act ) const
 {
     if( act.moves_total > 0 ) {
@@ -126,6 +172,474 @@ std::string activity_actor::get_progress_message( const player_activity &act ) c
     } else {
         return std::string();
     }
+}
+
+float generic_activity_actor::exertion_level() const
+{
+    switch( activity_exertion ) {
+        case activity_level::NO_EXERCISE:
+            return NO_EXERCISE;
+        case activity_level::LIGHT_EXERCISE:
+            return LIGHT_EXERCISE;
+        case activity_level::MODERATE_EXERCISE:
+            return MODERATE_EXERCISE;
+        case activity_level::BRISK_EXERCISE:
+            return BRISK_EXERCISE;
+        case activity_level::ACTIVE_EXERCISE:
+            return ACTIVE_EXERCISE;
+        case activity_level::EXTRA_EXERCISE:
+            return EXTRA_EXERCISE;
+        case activity_level::NUM_ACTIVITIES:
+            break;
+    }
+    return NO_EXERCISE;
+}
+
+void generic_activity_actor::configure( int moves_total_, const std::string &display_string_,
+                                        activity_level exertion )
+{
+    moves_total = moves_total_;
+    activity_exertion = exertion;
+    display_string = display_string_;
+}
+
+void generic_activity_actor::add_action( const parameters &action )
+{
+    actions_.emplace_back( action );
+}
+
+void generic_activity_actor::start( player_activity &act, Character & )
+{
+    add_msg_debug( debugmode::DF_ACT_GENERIC, "generic activity time = %s",
+                   to_string_writable( time_duration::from_moves( moves_total ) ) );
+
+    act.moves_total = moves_total;
+    act.moves_left = moves_total;
+}
+
+void generic_activity_actor::finish( player_activity &act, Character &/*who*/ )
+{
+    act.set_to_null();
+    for( parameters &action : actions_ ) {
+        add_msg_debug(
+            debugmode::DF_ACT_GENERIC, "starting activity of type %s",
+            io::enum_to_string<generic_activity_actor::functions>( action.type ) );
+
+        switch( action.type ) {
+            case functions::CONSUME_AMMO:
+                consume_ammo( action );
+                break;
+            case generic_activity_actor::functions::REMOVE_ITEM:
+                remove_item( action );
+                break;
+            case functions::ADD_MSG:
+                add_msg( action );
+                break;
+            case functions::EFFECT_ADD:
+                effect_add( action );
+                break;
+            case functions::EFFECT_REMOVE:
+                effect_remove( action );
+                break;
+            case functions::STIM_MOD:
+                stim_mod( action );
+                break;
+            case functions::PAINKILLER_MOD:
+                painkiller_mod( action );
+                break;
+            case functions::SET_FURN:
+                set_furn( action );
+                break;
+            case functions::NUM_FUNCTIONS:
+                debugmsg( "ACT_GENERIC finished with %s type",
+                          io::enum_to_string<generic_activity_actor::functions>( action.type ) );
+                break;
+        }
+    }
+}
+
+std::string generic_activity_actor::get_progress_message( const player_activity &act ) const
+{
+    if( show_progress && act.moves_total > 0 ) {
+        const int pct = ( ( act.moves_total - act.moves_left ) * 100 ) / act.moves_total;
+        return string_format( "%1$s %2$d%%", display_string, pct );
+    } else {
+        return display_string;
+    }
+};
+
+void generic_activity_actor::parameters::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "type", type );
+    jsout.member( "id", id );
+    jsout.member( "effect", effect );
+    jsout.member( "item", item );
+    jsout.member( "message", message );
+    jsout.member( "message_type", message_type );
+    jsout.member( "where", where );
+    jsout.member( "furn", furn );
+    jsout.member( "duration", duration );
+    jsout.member( "permanent", permanent );
+    jsout.member( "value", value );
+    jsout.end_object();
+}
+
+void generic_activity_actor::parameters::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.read( "type", type );
+    data.read( "id", id );
+    data.read( "effect", effect );
+    data.read( "item", item );
+    data.read( "message", message );
+    data.read( "message_type", message_type );
+    data.read( "where", where );
+    data.read( "furn", furn );
+    data.read( "duration", duration );
+    data.read( "permanent", permanent );
+    data.read( "value", value );
+}
+
+void generic_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "resumable", resumable );
+    jsout.member( "show_progress", show_progress );
+    jsout.member( "activity_exertion", activity_exertion );
+    jsout.member( "display_string", display_string );
+    jsout.member( "actions", actions_ );
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> generic_activity_actor::deserialize( JsonIn &jsin )
+{
+    generic_activity_actor actor;
+    JsonObject data = jsin.get_object();
+    data.read( "moves_total", actor.moves_total );
+    data.read( "resumable", actor.resumable );
+    data.read( "show_progress", actor.show_progress );
+    data.read( "activity_exertion", actor.activity_exertion );
+    data.read( "display_string", actor.display_string );
+    data.read( "actions", actor.actions_ );
+    return actor.clone();
+}
+
+// With consumables this function won't be called. As it gets replaced by ACT_CONSUME
+bool generic_activity_actor::can_resume_with_internal( const activity_actor &other,
+        const Character & ) const
+{
+    const generic_activity_actor &act = static_cast<const generic_activity_actor &>( other );
+    // check if the activity itself is the same
+    if( !resumable || !act.resumable ||
+        moves_total != act.moves_total ||
+        show_progress != act.show_progress ||
+        activity_exertion != act.activity_exertion ||
+        display_string != act.display_string ||
+        actions_.size() != act.actions_.size() ) {
+        return false;
+    }
+
+    // check if the functions and the order is identical
+    const size_t iterations = actions_.size();
+    for( int i = 0; i < static_cast<int>( iterations ); ++i ) {
+        const parameters &param_old = actions_[i];
+        const parameters &param_new = act.actions_[i];
+
+        if( param_old.type == functions::NUM_FUNCTIONS ||
+            param_new.type == functions::NUM_FUNCTIONS ) {
+            return false;
+        }
+
+        if( !( param_old.type == param_new.type &&
+               param_old.id == param_new.id &&
+               param_old.effect == param_new.effect &&
+               param_old.item == param_new.item &&
+               param_old.message == param_new.message &&
+               param_old.message_type == param_new.message_type &&
+               param_old.where == param_new.where &&
+               param_old.furn == param_new.furn ) ) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+generic_activity_actor::parameters generic_activity_actor::conf_consume_ammo(
+    const Character &who, const item_location &item ) const
+{
+    parameters params;
+    params.type = functions::CONSUME_AMMO;
+    params.id = who.getID();
+    params.item = item;
+    return params;
+}
+
+void generic_activity_actor::consume_ammo( parameters &parameter )
+{
+    if( parameter.type != functions::CONSUME_AMMO ) {
+        debugmsg( "ACT_GENERIC: consume_ammo called but type is incorrect: %s",
+                  io::enum_to_string<generic_activity_actor::functions>( parameter.type ) );
+        return;
+    }
+
+    if( !parameter.id.is_valid() ) {
+        debugmsg( "ACT_GENERIC: consume_ammo called but Character id is invalid" );
+        return;
+    }
+
+    Character *who = g->critter_by_id<Character>( parameter.id );
+    if( !who ) {
+        debugmsg( "ACT_GENERIC: consume_ammo called but Creature is nullptr" );
+        return;
+    }
+
+    if( !parameter.item ) {
+        debugmsg( "ACT_GENERIC: consume_ammo called but item_location is invalid" );
+        return;
+    }
+
+    int consumed_charges = parameter.item->count_by_charges() ?
+                           parameter.item->type->charges_to_use() : parameter.item->ammo_required();
+    who->consume_charges( *parameter.item, consumed_charges );
+}
+
+generic_activity_actor::parameters generic_activity_actor::conf_remove_item(
+    const Character &who, const item_location &item ) const
+{
+    parameters params;
+    params.type = functions::REMOVE_ITEM;
+    params.id = who.getID();
+    params.item = item;
+    return params;
+}
+
+void generic_activity_actor::remove_item( parameters &parameter )
+{
+    if( parameter.type != functions::REMOVE_ITEM ) {
+        debugmsg( "ACT_GENERIC: remove_item called but type is incorrect: %s",
+                  io::enum_to_string<generic_activity_actor::functions>( parameter.type ) );
+        return;
+    }
+
+    if( !parameter.id.is_valid() ) {
+        debugmsg( "ACT_GENERIC: consume_ammo called but Character id is invalid" );
+        return;
+    }
+
+    Character *who = g->critter_by_id<Character>( parameter.id );
+    if( !who ) {
+        debugmsg( "ACT_GENERIC: consume_ammo called but Creature is nullptr" );
+        return;
+    }
+
+    if( !parameter.item ) {
+        debugmsg( "ACT_GENERIC: remove_item called but item_location is invalid" );
+        return;
+    }
+
+    who->i_rem( &*parameter.item );
+}
+
+generic_activity_actor::parameters generic_activity_actor::conf_add_msg(
+    const std::string &message, game_message_type type ) const
+{
+    parameters params;
+    params.type = functions::ADD_MSG;
+    params.message = message;
+    params.message_type = type;
+    return params;
+}
+
+void generic_activity_actor::add_msg( parameters &parameter )
+{
+    if( parameter.type != functions::ADD_MSG ) {
+        debugmsg( "ACT_GENERIC: add_msg called but type is incorrect: %s",
+                  io::enum_to_string<generic_activity_actor::functions>( parameter.type ) );
+        return;
+    }
+
+    if( parameter.message.empty() ) {
+        debugmsg( "ACT_GENERIC: add_msg called but message is empty" );
+        return;
+    }
+
+    Messages::add_msg( parameter.message_type, parameter.message );
+}
+
+generic_activity_actor::parameters generic_activity_actor::conf_effect_add(
+    const Character &who, const efftype_id &effect, const time_duration &duration,
+    bool permanent ) const
+{
+    parameters params;
+    params.type = functions::EFFECT_ADD;
+    params.id = who.getID();
+    params.effect = effect;
+    params.duration = duration;
+    params.permanent = permanent;
+    return params;
+}
+
+void generic_activity_actor::effect_add( parameters &parameter )
+{
+    if( parameter.type != functions::EFFECT_ADD ) {
+        debugmsg( "ACT_GENERIC: effect_add called but type is incorrect: %s",
+                  io::enum_to_string<generic_activity_actor::functions>( parameter.type ) );
+        return;
+    }
+
+    if( !parameter.id.is_valid() ) {
+        debugmsg( "ACT_GENERIC: effect_add called but Character id is invalid" );
+        return;
+    }
+
+    Character *who = g->critter_by_id<Character>( parameter.id );
+    if( !who ) {
+        debugmsg( "ACT_GENERIC: effect_add called but Creature is nullptr" );
+        return;
+    }
+
+    if( !parameter.effect.is_valid() ) {
+        debugmsg( "ACT_GENERIC: effect_add called but effect is invalid" );
+        return;
+    }
+
+    who->add_effect( parameter.effect, parameter.duration, parameter.permanent );
+}
+
+
+generic_activity_actor::parameters generic_activity_actor::conf_effect_remove(
+    const Character &who, const efftype_id &effect ) const
+{
+    parameters params;
+    params.type = functions::EFFECT_REMOVE;
+    params.id = who.getID();
+    params.effect = effect;
+    return params;
+}
+
+void generic_activity_actor::effect_remove( parameters &parameter )
+{
+    if( parameter.type != functions::EFFECT_REMOVE ) {
+        debugmsg( "ACT_GENERIC: effect_remove called but type is incorrect: %s",
+                  io::enum_to_string<generic_activity_actor::functions>( parameter.type ) );
+        return;
+    }
+
+    if( !parameter.id.is_valid() ) {
+        debugmsg( "ACT_GENERIC: effect_remove called but Character id is invalid" );
+        return;
+    }
+
+    Character *who = g->critter_by_id<Character>( parameter.id );
+    if( !who ) {
+        debugmsg( "ACT_GENERIC: effect_remove called but Creature is nullptr" );
+        return;
+    }
+
+    if( !parameter.effect.is_valid() ) {
+        debugmsg( "ACT_GENERIC: effect_remove called but effect is invalid" );
+        return;
+    }
+
+    who->remove_effect( parameter.effect );
+}
+
+generic_activity_actor::parameters generic_activity_actor::conf_stim_mod(
+    const Character &who, int value ) const
+{
+    parameters params;
+    params.type = functions::STIM_MOD;
+    params.id = who.getID();
+    params.value = value;
+    return params;
+}
+
+void generic_activity_actor::stim_mod( parameters &parameter )
+{
+    if( parameter.type != functions::STIM_MOD ) {
+        debugmsg( "ACT_GENERIC: stim_mod called but type is incorrect: %s",
+                  io::enum_to_string<generic_activity_actor::functions>( parameter.type ) );
+        return;
+    }
+
+    if( !parameter.id.is_valid() ) {
+        debugmsg( "ACT_GENERIC: stim_mod called but Character id is invalid" );
+        return;
+    }
+
+    Character *who = g->critter_by_id<Character>( parameter.id );
+    if( !who ) {
+        debugmsg( "ACT_GENERIC: stim_mod called but Creature is nullptr" );
+        return;
+    }
+
+    who->mod_stim( parameter.value );
+}
+
+generic_activity_actor::parameters generic_activity_actor::conf_painkiller_mod(
+    const Character &who, int value ) const
+{
+    parameters params;
+    params.type = functions::PAINKILLER_MOD;
+    params.id = who.getID();
+    params.value = value;
+    return params;
+}
+
+void generic_activity_actor::painkiller_mod( parameters &parameter )
+{
+    if( parameter.type != functions::PAINKILLER_MOD ) {
+        debugmsg( "ACT_GENERIC: painkiller_mod called but type is incorrect: %s",
+                  io::enum_to_string<generic_activity_actor::functions>( parameter.type ) );
+        return;
+    }
+
+    if( !parameter.id.is_valid() ) {
+        debugmsg( "ACT_GENERIC: painkiller_mod called but Character id is invalid" );
+        return;
+    }
+
+    Character *who = g->critter_by_id<Character>( parameter.id );
+    if( !who ) {
+        debugmsg( "ACT_GENERIC: painkiller_mod called but Creature is nullptr" );
+        return;
+    }
+
+    who->mod_painkiller( parameter.value );
+}
+
+generic_activity_actor::parameters generic_activity_actor::conf_set_furn(
+    const tripoint &where, const furn_str_id &furn ) const
+{
+    parameters params;
+    params.type = functions::SET_FURN;
+    params.where = where;
+    params.furn = furn;
+    return params;
+}
+
+void generic_activity_actor::set_furn( parameters &parameter )
+{
+    if( parameter.type != functions::SET_FURN ) {
+        debugmsg( "ACT_GENERIC: set_furn called but type is incorrect: %s",
+                  io::enum_to_string<generic_activity_actor::functions>( parameter.type ) );
+        return;
+    }
+
+    if( !parameter.furn.is_valid() ) {
+        debugmsg( "ACT_GENERIC: set_furn called but furn_str_id is invalid" );
+        return;
+    }
+
+    if( parameter.furn.is_empty() ) {
+        debugmsg( "ACT_GENERIC: set_furn called but furn_str_id is empty" );
+        return;
+    }
+
+    get_map().furn_set( parameter.where, parameter.furn );
 }
 
 aim_activity_actor::aim_activity_actor()
@@ -4468,6 +4982,7 @@ deserialize_functions = {
     { activity_id( "ACT_DISASSEMBLE" ), &disassemble_activity_actor::deserialize },
     { activity_id( "ACT_DROP" ), &drop_activity_actor::deserialize },
     { activity_id( "ACT_EBOOKSAVE" ), &ebooksave_activity_actor::deserialize },
+    { activity_id( "ACT_GENERIC" ), &generic_activity_actor::deserialize },
     { activity_id( "ACT_GUNMOD_REMOVE" ), &gunmod_remove_activity_actor::deserialize },
     { activity_id( "ACT_HACKING" ), &hacking_activity_actor::deserialize },
     { activity_id( "ACT_HAIRCUT" ), &haircut_activity_actor::deserialize },

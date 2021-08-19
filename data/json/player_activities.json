@@ -1,5 +1,12 @@
 [
   {
+    "type": "activity_type",
+    "id": "ACT_GENERIC",
+    "activity_level": "NO_EXERCISE",
+    "verb": " ",
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_RELOAD",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
