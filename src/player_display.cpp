@@ -764,7 +764,7 @@ static void draw_skills_tab( const catacurses::window &w_skills,
         } else {
             const bool can_train = level.can_train();
             const bool training = level.isTraining();
-            const bool rusting = level.isRusting();
+            const bool rusty = level.isRusty();
             int exercise = level.exercise();
             int level_num = level.level();
             bool locked = false;
@@ -777,10 +777,10 @@ static void draw_skills_tab( const catacurses::window &w_skills,
                 if( locked ) {
                     cstatus = h_yellow;
                 } else if( !can_train ) {
-                    cstatus = rusting ? h_light_red : h_white;
+                    cstatus = rusty ? h_light_red : h_white;
                 } else if( exercise >= 100 ) {
                     cstatus = training ? h_pink : h_magenta;
-                } else if( rusting ) {
+                } else if( rusty ) {
                     cstatus = training ? h_light_red : h_red;
                 } else {
                     cstatus = training ? h_light_blue : h_blue;
@@ -789,7 +789,7 @@ static void draw_skills_tab( const catacurses::window &w_skills,
             } else {
                 if( locked ) {
                     cstatus = c_yellow;
-                } else if( rusting ) {
+                } else if( rusty ) {
                     cstatus = training ? c_light_red : c_red;
                 } else if( !can_train ) {
                     cstatus = c_white;
@@ -837,7 +837,7 @@ static void draw_skills_info( const catacurses::window &w_info, unsigned int lin
     if( selectedSkill ) {
         const SkillLevel &level = get_avatar().get_skill_level_object( selectedSkill->ident() );
         std::string info_text = selectedSkill->description();
-        if( level.isRusting() ) {
+        if( level.isRusty() ) {
             info_text = string_format( _( "%s\n\nKnowledge level: %d (%d%%)" ), info_text,
                                        level.knowledgeLevel(), level.knowledgeExperience() );
         }
