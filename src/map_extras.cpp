@@ -3203,6 +3203,7 @@ void map_extra::check() const
             break;
         }
         case map_extra_method::mapgen: {
+            MapExtras::all_function_names.push_back( id.str() );
             break;
         }
         case map_extra_method::update_mapgen: {
