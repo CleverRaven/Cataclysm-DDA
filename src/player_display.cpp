@@ -95,32 +95,32 @@ static std::vector<std::pair<bodypart_id, bool>> list_and_combine_bps( const Cha
 }
 
 static std::pair<size_t, size_t> subindex_around_cursor(
-    const size_t list_lenght,
+    const size_t list_length,
     const size_t available_space,
     const size_t cursor_pos,
     const bool focused
 )
 /**
- * Return indexes [start, end) that should be displayed from list long `list_lenght`,
+ * Return indexes [start, end) that should be displayed from list long `list_length`,
  * given that cursor is at position `cursor_pos` and we have `available_space` spaces.
  *
  * Example:
- * list_lenght = 6, available_space = 3, cursor_pos = 2, focused = true;
+ * list_length = 6, available_space = 3, cursor_pos = 2, focused = true;
  * so choose 3 from indexes [0, 1, 2, 3, 4, 5]
  * return {1, 4}
  */
 {
-    if( !focused || list_lenght <= available_space ) {
-        return std::make_pair( 0, std::min( available_space, list_lenght ) );
+    if( !focused || list_length <= available_space ) {
+        return std::make_pair( 0, std::min( available_space, list_length ) );
     }
     size_t slice_start = std::max( 0, int( cursor_pos ) - int( available_space ) / 2 );
-    slice_start = std::min( slice_start, list_lenght - available_space );
+    slice_start = std::min( slice_start, list_length - available_space );
     size_t slice_end = slice_start + available_space;
     return std::make_pair( slice_start, slice_end );
 }
 
 static void draw_scrollbar(
-    const size_t list_lenght,
+    const size_t list_length,
     const size_t height,
     const size_t width,
     const size_t height_offset,
@@ -131,11 +131,11 @@ static void draw_scrollbar(
  * Draw scrollbar if scrollable.
  */
 {
-    if( list_lenght > height ) {
+    if( list_length > height ) {
         scrollbar()
         .offset_x( width )
         .offset_y( height_offset )
-        .content_size( list_lenght )
+        .content_size( list_length )
         .viewport_pos( range_first )
         .viewport_size( height )
         .scroll_to_last( false )
