@@ -1364,7 +1364,8 @@ void Character::disp_info()
     } );
 
     // TRAITS & BIONICS
-    unsigned trait_win_size_y, bionics_win_size_y;
+    unsigned trait_win_size_y;
+    unsigned bionics_win_size_y;
     // TRAITS
     catacurses::window w_traits;
     catacurses::window w_traits_border;
@@ -1431,7 +1432,8 @@ void Character::disp_info()
     } );
 
     // EFFECTS & PROFICIENCIES
-    unsigned effect_win_size_y, proficiency_win_size_y;
+    unsigned effect_win_size_y;
+    unsigned proficiency_win_size_y;
     // EFFECTS
     catacurses::window w_effects;
     catacurses::window w_effects_border;
