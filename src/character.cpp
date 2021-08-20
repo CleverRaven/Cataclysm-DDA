@@ -378,7 +378,6 @@ static const trait_id trait_WEBBED( "WEBBED" );
 static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
-static const trait_id trait_NUMB( "NUMB" );
 
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 
@@ -2558,10 +2557,6 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
 
     if( has_trait_flag( json_flag_PRED4 ) && skill.is_combat_skill() ) {
         catchup_modifier *= 3.0f;
-    }
-    
-    if( has_trait( trait_NUMB ) && !( skill.is_combat_skill() ) ) {
-        amount *= 2.0f;
     }
 
     if( isSavant && id != savantSkill ) {
@@ -11162,12 +11157,7 @@ void Character::add_morale( const morale_type &type, int bonus, int max_bonus,
                             const time_duration &duration, const time_duration &decay_start,
                             bool capped, const itype *item_type )
 {
-    if( has_trait( trait_NUMB ) ){
-        morale->clear();
-    } else {
-        morale->add( type, bonus, max_bonus, duration, decay_start, capped, item_type );
-    }
-
+    morale->add( type, bonus, max_bonus, duration, decay_start, capped, item_type );
 }
 
 int Character::has_morale( const morale_type &type ) const
