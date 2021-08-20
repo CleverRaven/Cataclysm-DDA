@@ -95,11 +95,7 @@ static std::vector<std::pair<bodypart_id, bool>> list_and_combine_bps( const Cha
 }
 
 static std::pair<int, int> subindex_around_cursor(
-    const int num_entries,
-    const int available_space,
-    const int cursor_pos,
-    const bool focused
-)
+    const int num_entries, const int available_space, const int cursor_pos, const bool focused )
 /**
  * Return indexes [start, end) that should be displayed from list long `num_entries`,
  * given that cursor is at position `cursor_pos` and we have `available_space` spaces.
@@ -119,13 +115,8 @@ static std::pair<int, int> subindex_around_cursor(
 }
 
 static void draw_scrollbar_next(
-    const int num_entries,
-    const int height,
-    const int width,
-    const int height_offset,
-    const int range_first,
-    const catacurses::window &win
-)
+    const int num_entries, const int height, const int width, const int height_offset,
+    const int range_first, const catacurses::window &win )
 /**
  * Draw scrollbar if scrollable.
  */
@@ -391,14 +382,14 @@ static void draw_proficiencies_info( const catacurses::window &w_info, const uns
     wnoutrefresh( w_info );
 }
 
-static void draw_stats_tab( const catacurses::window &w_stats,
-                            const Character &you, const unsigned int line, const player_display_tab curtab )
+static void draw_stats_tab( const catacurses::window &w_stats, const Character &you,
+                            const unsigned line, const player_display_tab curtab )
 {
     werase( w_stats );
     const nc_color title_col = curtab == player_display_tab::stats ? h_light_gray : c_light_gray;
     center_print( w_stats, 0, title_col, _( title_STATS ) );
 
-    const auto line_color = [curtab, line]( const unsigned int line_to_draw ) {
+    const auto line_color = [curtab, line]( const unsigned line_to_draw ) {
         if( curtab == player_display_tab::stats && line == line_to_draw ) {
             return h_light_gray;
         } else {
@@ -450,8 +441,8 @@ static void draw_stats_tab( const catacurses::window &w_stats,
     wnoutrefresh( w_stats );
 }
 
-static void draw_stats_info( const catacurses::window &w_info,
-                             const Character &you, const unsigned int line )
+static void draw_stats_info( const catacurses::window &w_info, const Character &you,
+                             const unsigned line )
 {
     werase( w_info );
     nc_color col_temp = c_light_gray;
@@ -539,8 +530,8 @@ static void draw_stats_info( const catacurses::window &w_info,
     wnoutrefresh( w_info );
 }
 
-static void draw_encumbrance_tab( const catacurses::window &w_encumb,
-                                  const Character &you, const unsigned int line, const player_display_tab curtab )
+static void draw_encumbrance_tab( const catacurses::window &w_encumb, const Character &you,
+                                  const unsigned line, const player_display_tab curtab )
 {
     werase( w_encumb );
     const bool is_current_tab = curtab == player_display_tab::encumbrance;
@@ -554,8 +545,8 @@ static void draw_encumbrance_tab( const catacurses::window &w_encumb,
     wnoutrefresh( w_encumb );
 }
 
-static void draw_encumbrance_info( const catacurses::window &w_info,
-                                   const Character &you, const unsigned int line )
+static void draw_encumbrance_info( const catacurses::window &w_info, const Character &you,
+                                   const unsigned line )
 {
     const std::vector<std::pair<bodypart_id, bool>> bps = list_and_combine_bps( you, nullptr );
 
@@ -570,9 +561,8 @@ static void draw_encumbrance_info( const catacurses::window &w_info,
     wnoutrefresh( w_info );
 }
 
-static void draw_traits_tab( const catacurses::window &w_traits,
-                             const unsigned int line, const player_display_tab curtab,
-                             const std::vector<trait_id> &traitslist )
+static void draw_traits_tab( const catacurses::window &w_traits, const unsigned line,
+                             const player_display_tab curtab, const std::vector<trait_id> &traitslist )
 {
     werase( w_traits );
     const bool is_current_tab = curtab == player_display_tab::traits;
@@ -595,7 +585,7 @@ static void draw_traits_tab( const catacurses::window &w_traits,
     wnoutrefresh( w_traits );
 }
 
-static void draw_traits_info( const catacurses::window &w_info, const unsigned int line,
+static void draw_traits_info( const catacurses::window &w_info, const unsigned line,
                               const std::vector<trait_id> &traitslist )
 {
     werase( w_info );
@@ -608,9 +598,8 @@ static void draw_traits_info( const catacurses::window &w_info, const unsigned i
     wnoutrefresh( w_info );
 }
 
-static void draw_bionics_tab( const catacurses::window &w_bionics,
-                              const Character &you, const unsigned int line, const player_display_tab curtab,
-                              const std::vector<bionic> &bionicslist )
+static void draw_bionics_tab( const catacurses::window &w_bionics, const Character &you,
+                              const unsigned line, const player_display_tab curtab, const std::vector<bionic> &bionicslist )
 {
     werase( w_bionics );
     const bool is_current_tab = curtab == player_display_tab::bionics;
@@ -647,7 +636,7 @@ static void draw_bionics_tab( const catacurses::window &w_bionics,
     wnoutrefresh( w_bionics );
 }
 
-static void draw_bionics_info( const catacurses::window &w_info, const unsigned int line,
+static void draw_bionics_info( const catacurses::window &w_info, const unsigned line,
                                const std::vector<bionic> &bionicslist )
 {
     werase( w_info );
@@ -659,8 +648,8 @@ static void draw_bionics_info( const catacurses::window &w_info, const unsigned 
     wnoutrefresh( w_info );
 }
 
-static void draw_effects_tab( const catacurses::window &w_effects,
-                              const unsigned int line, const player_display_tab curtab,
+static void draw_effects_tab( const catacurses::window &w_effects, const unsigned line,
+                              const player_display_tab curtab,
                               const std::vector<std::pair<std::string, std::string>> &effect_name_and_text )
 {
     werase( w_effects );
@@ -682,7 +671,7 @@ static void draw_effects_tab( const catacurses::window &w_effects,
     wnoutrefresh( w_effects );
 }
 
-static void draw_effects_info( const catacurses::window &w_info, const unsigned int line,
+static void draw_effects_info( const catacurses::window &w_info, const unsigned line,
                                const std::vector<std::pair<std::string, std::string>> &effect_name_and_text )
 {
     werase( w_info );
@@ -924,7 +913,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
 }
 
 static void draw_info_window( const catacurses::window &w_info, const Character &you,
-                              const unsigned int line, const player_display_tab curtab,
+                              const unsigned line, const player_display_tab curtab,
                               const std::vector<trait_id> &traitslist,
                               const std::vector<bionic> &bionicslist,
                               const std::vector<std::pair<std::string, std::string>> &effect_name_and_text,
@@ -1134,34 +1123,28 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
     return done;
 }
 
-static std::pair<unsigned int, unsigned int> calculate_shared_column_win_height
+static std::pair<unsigned, unsigned> calculate_shared_column_win_height(
+    const unsigned available_height, unsigned first_win_size_y_max, unsigned second_win_size_y_max )
 /**
  * Calculate max allowed height of two windows sharing column space.
  */
-(
-    const unsigned int available_height,
-    const unsigned int first_win_size_y_max,
-    const unsigned int second_win_size_y_max
-)
 {
-    unsigned int first_win_size_y = first_win_size_y_max;
-    unsigned int second_win_size_y = second_win_size_y_max;
     if( ( second_win_size_y_max + 1 + first_win_size_y_max ) > available_height ) {
         // maximum space for either window if they're both the same size
         unsigned max_shared_y = ( available_height - 1 ) / 2;
         if( std::min( second_win_size_y_max, first_win_size_y_max ) > max_shared_y ) {
             // both are larger than the shared size
-            second_win_size_y = max_shared_y;
-            first_win_size_y = available_height - 1 - second_win_size_y;
+            second_win_size_y_max = max_shared_y;
+            first_win_size_y_max = available_height - 1 - second_win_size_y_max;
         } else if( first_win_size_y_max <= max_shared_y ) {
             // first window is less than the shared size, so give space to second window
-            second_win_size_y = available_height - 1 - first_win_size_y_max;
+            second_win_size_y_max = available_height - 1 - first_win_size_y_max;
         } else {
             // second window is less than the shared size
-            first_win_size_y = available_height - 1 - second_win_size_y;
+            first_win_size_y_max = available_height - 1 - second_win_size_y_max;
         }
     }
-    return std::make_pair( first_win_size_y, second_win_size_y );
+    return std::make_pair( first_win_size_y_max, second_win_size_y_max );
 }
 
 void Character::disp_info()
