@@ -237,6 +237,11 @@
     "harvest": "exempt",
     "special_attacks": [ [ "DOGTHING", 40 ] ],
     "death_function": { "effect": { "id": "death_thing", "hit_self": true }, "corpse_type": "NO_CORPSE", "message": "The %s emerges!" },
+    "petfood": {
+      "food": [ "DOGFOOD" ],
+      "feed": "If you're seeing this message it's a bug.",
+      "pet": "If you're seeing this message it's a bug."
+    },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
   },
   {
