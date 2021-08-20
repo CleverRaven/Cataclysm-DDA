@@ -119,6 +119,30 @@ static std::pair<size_t, size_t> subindex_around_cursor(
     return std::make_pair( slice_start, slice_end );
 }
 
+static void draw_scrollbar(
+    const size_t list_lenght,
+    const size_t height,
+    const size_t width,
+    const size_t height_offset,
+    const size_t range_first,
+    const catacurses::window &win
+)
+/**
+ * Draw scrollbar if scrollable.
+ */
+{
+    if( list_lenght > height ) {
+        scrollbar()
+        .offset_x( width )
+        .offset_y( height_offset )
+        .content_size( list_lenght )
+        .viewport_pos( range_first )
+        .viewport_size( height )
+        .scroll_to_last( false )
+        .apply( win );
+    }
+}
+
 void Character::print_encumbrance( const catacurses::window &win, const int line,
                                    const item *const selected_clothing ) const
 {
@@ -128,8 +152,8 @@ void Character::print_encumbrance( const catacurses::window &win, const int line
 
     // width/height excluding title & scrollbar
     const int height = getmaxy( win ) - 1;
-    bool draw_scrollbar = height < static_cast<int>( bps.size() );
-    const int width = getmaxx( win ) - ( draw_scrollbar ? 1 : 0 );
+    const bool do_draw_scrollbar = height < static_cast<int>( bps.size() );
+    const int width = getmaxx( win ) - ( do_draw_scrollbar ? 1 : 0 );
     // index of the first printed bodypart from `bps`
     const int firstline = clamp( line - height / 2, 0, std::max( 0,
                                  static_cast<int>( bps.size() ) - height ) );
@@ -175,16 +199,7 @@ void Character::print_encumbrance( const catacurses::window &win, const int line
                    temperature_print_rescaling( get_part_temp_conv( bp ) ) );
     }
 
-    if( draw_scrollbar ) {
-        scrollbar().
-        offset_x( width ).
-        offset_y( 1 ).
-        content_size( bps.size() ).
-        viewport_pos( firstline ).
-        viewport_size( height ).
-        scroll_to_last( false ).
-        apply( win );
-    }
+    draw_scrollbar( bps.size(), height, width, 1, firstline, win );
 }
 
 static std::string swim_cost_text( float moves )
@@ -327,9 +342,8 @@ static void draw_proficiencies_tab( const catacurses::window &win, const unsigne
     const nc_color title_color = focused ? h_light_gray : c_light_gray;
     center_print( win, 0, title_color, _( title_PROFICIENCIES ) );
 
-    const int height = getmaxy( win ) - 1;
-    const int width = getmaxx( win ) - 1;
-    bool draw_scrollbar = profs.size() > static_cast<size_t>( height );
+    const size_t height = getmaxy( win ) - 1;
+    const size_t width = getmaxx( win ) - 1;
     const std::pair<const size_t, const size_t> range = subindex_around_cursor( profs.size(), height,
             line, focused );
     for( size_t i = range.first; i < range.second; ++i ) {
@@ -347,18 +361,7 @@ static void draw_proficiencies_tab( const catacurses::window &win, const unsigne
         const nc_color col = focused && i == line ? hilite( cur.color ) : cur.color;
         fold_and_print( win, point( 0, 1 + i - range.first ), width, col, name );
     }
-
-    if( draw_scrollbar ) {
-        scrollbar()
-        .offset_x( width )
-        .offset_y( 1 )
-        .content_size( profs.size() )
-        .viewport_pos( range.first )
-        .viewport_size( height )
-        .scroll_to_last( false )
-        .apply( win );
-    }
-
+    draw_scrollbar( profs.size(), height, width, 1, range.first, win );
     wnoutrefresh( win );
 }
 
@@ -569,16 +572,17 @@ static void draw_encumbrance_info( const catacurses::window &w_info,
 
 static void draw_traits_tab( const catacurses::window &w_traits,
                              const unsigned int line, const player_display_tab curtab,
-                             const std::vector<trait_id> &traitslist,
-                             const size_t trait_win_size_y )
+                             const std::vector<trait_id> &traitslist )
 {
     werase( w_traits );
     const bool is_current_tab = curtab == player_display_tab::traits;
     const nc_color title_col = is_current_tab ? h_light_gray : c_light_gray;
     center_print( w_traits, 0, title_col, _( title_TRAITS ) );
 
+    const size_t height = getmaxy( w_traits ) - 1;
+    const size_t width = getmaxx( w_traits ) - 1;
     const std::pair<const size_t, const size_t> range = subindex_around_cursor( traitslist.size(),
-            trait_win_size_y - 1, line, is_current_tab );
+            height, line, is_current_tab );
 
     for( size_t i = range.first; i < range.second; i++ ) {
         const auto &mdata = traitslist[i].obj();
@@ -586,6 +590,7 @@ static void draw_traits_tab( const catacurses::window &w_traits,
         trim_and_print( w_traits, point( 1, static_cast<int>( 1 + i - range.first ) ),
                         getmaxx( w_traits ) - 1, is_current_tab && i == line ? hilite( color ) : color, mdata.name() );
     }
+    draw_scrollbar( traitslist.size(), height, width, 1, range.first, w_traits );
     wnoutrefresh( w_traits );
 }
 
@@ -604,7 +609,7 @@ static void draw_traits_info( const catacurses::window &w_info, const unsigned i
 
 static void draw_bionics_tab( const catacurses::window &w_bionics,
                               const Character &you, const unsigned int line, const player_display_tab curtab,
-                              const std::vector<bionic> &bionicslist, const size_t bionics_win_size_y )
+                              const std::vector<bionic> &bionicslist )
 {
     werase( w_bionics );
     const bool is_current_tab = curtab == player_display_tab::bionics;
@@ -627,14 +632,18 @@ static void draw_bionics_tab( const catacurses::window &w_bionics,
                     string_format( _( "Power: <color_light_blue>%1$d %2$s</color>"
                                       " / <color_light_blue>%3$d kJ</color>" ),
                                    power_amount, power_unit, units::to_kilojoule( you.get_max_power_level() ) ) );
+    const size_t height = getmaxy( w_bionics ) - 2;
+    const bool do_draw_scrollbar = height < bionicslist.size();
+    const size_t width = getmaxx( w_bionics ) - 1;
     const std::pair<const size_t, const size_t> range = subindex_around_cursor( bionicslist.size(),
-            bionics_win_size_y - 2, line, is_current_tab );
+            height, line, is_current_tab );
 
     for( size_t i = range.first; i < range.second; i++ ) {
         trim_and_print( w_bionics, point( 1, static_cast<int>( 2 + i - range.first ) ),
-                        getmaxx( w_bionics ) - 1, is_current_tab &&
+                        width - ( do_draw_scrollbar ? 1 : 0 ), is_current_tab &&
                         i == line ? hilite( c_white ) : c_white, "%s", bionicslist[i].info().name );
     }
+    draw_scrollbar( bionicslist.size(), height, width, 2, range.first, w_bionics );
     wnoutrefresh( w_bionics );
 }
 
@@ -652,22 +661,24 @@ static void draw_bionics_info( const catacurses::window &w_info, const unsigned 
 
 static void draw_effects_tab( const catacurses::window &w_effects,
                               const unsigned int line, const player_display_tab curtab,
-                              const std::vector<std::pair<std::string, std::string>> &effect_name_and_text,
-                              const size_t effect_win_size_y )
+                              const std::vector<std::pair<std::string, std::string>> &effect_name_and_text )
 {
     werase( w_effects );
     const bool is_current_tab = curtab == player_display_tab::effects;
     const nc_color title_col = is_current_tab ? h_light_gray : c_light_gray;
     center_print( w_effects, 0, title_col, _( title_EFFECTS ) );
 
+    const size_t height = getmaxy( w_effects ) - 1;
+    const size_t width = getmaxx( w_effects ) - 1;
     const std::pair<const size_t, const size_t> range = subindex_around_cursor(
-                effect_name_and_text.size(), effect_win_size_y - 1, line, is_current_tab );
+                effect_name_and_text.size(), height, line, is_current_tab );
 
     for( size_t i = range.first; i < range.second; i++ ) {
         trim_and_print( w_effects, point( 0, static_cast<int>( 1 + i - range.first ) ),
                         getmaxx( w_effects ) - 1, is_current_tab &&
                         i == line ? h_light_gray : c_light_gray, effect_name_and_text[i].first );
     }
+    draw_scrollbar( effect_name_and_text.size(), height, width, 1, range.first, w_effects );
     wnoutrefresh( w_effects );
 }
 
@@ -1378,7 +1389,7 @@ void Character::disp_info()
     ui_traits.on_redraw( [&]( const ui_adaptor & ) {
         borders.draw_border( w_traits_border );
         wnoutrefresh( w_traits_border );
-        draw_traits_tab( w_traits, line, curtab, traitslist, trait_win_size_y );
+        draw_traits_tab( w_traits, line, curtab, traitslist );
     } );
 
     // BIONICS
@@ -1403,7 +1414,7 @@ void Character::disp_info()
     ui_bionics.on_redraw( [&]( const ui_adaptor & ) {
         borders.draw_border( w_bionics_border );
         wnoutrefresh( w_bionics_border );
-        draw_bionics_tab( w_bionics, *this, line, curtab, bionicslist, bionics_win_size_y );
+        draw_bionics_tab( w_bionics, *this, line, curtab, bionicslist );
     } );
 
     // ENCUMBRANCE
@@ -1451,7 +1462,7 @@ void Character::disp_info()
     ui_effects.on_redraw( [&]( const ui_adaptor & ) {
         borders.draw_border( w_effects_border );
         wnoutrefresh( w_effects_border );
-        draw_effects_tab( w_effects, line, curtab, effect_name_and_text, effect_win_size_y );
+        draw_effects_tab( w_effects, line, curtab, effect_name_and_text );
     } );
 
     // PROFICIENCIES
