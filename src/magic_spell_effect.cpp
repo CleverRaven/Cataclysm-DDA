@@ -1511,6 +1511,12 @@ void spell_effect::effect_on_condition( const spell &sp, Creature &caster, const
         }
         dialogue d( get_talker_for( g->critter_at<Creature>( potential_target ) ),
                     get_talker_for( caster ) );
-        effect_on_condition_id( sp.effect_data() )->activate( d );
+        effect_on_condition_id eoc = effect_on_condition_id( sp.effect_data() );
+        if( eoc->activate_only ) {
+            eoc->activate( d );
+        } else {
+            debugmsg( "Cannot use a recurring effect_on_condition in a spell." );
+        }
+
     }
 }
