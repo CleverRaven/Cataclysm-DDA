@@ -108,6 +108,8 @@ using drop_locations = std::list<drop_location>;
 
 constexpr int MAX_CLAIRVOYANCE = 40;
 
+nc_color encumb_color( int level );
+
 /// @brief type of conditions that effect vision
 /// @note vision modes do not necessarily match json ids or flags
 enum vision_modes {
@@ -2177,7 +2179,21 @@ class Character : public Creature, public visitable
          *  Player can only cross one mutation threshold.
          */
         bool crossed_threshold() const;
+        
+        void environmental_revert_effect();
 
+        /**
+         * Checks both the neighborhoods of from and to for climbable surfaces,
+         * returns move cost of climbing from `from` to `to`.
+         * 0 means climbing is not possible.
+         * Return value can depend on the orientation of the terrain.
+         */
+        int climbing_cost( const tripoint &from, const tripoint &to ) const;
+
+        void pause(); // '.' command; pauses & resets recoil
+
+        /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
+        template <typename T> bool can_lift( const T &obj ) const;
         // --------------- Values ---------------
         std::string name;
         bool male = false;
@@ -3294,4 +3310,7 @@ struct enum_traits<character_stat> {
 };
 /// Get translated name of a stat
 std::string get_stat_name( character_stat Stat );
+
+extern template bool Character::can_lift<item>( const item &obj ) const;
+extern template bool Character::can_lift<vehicle>( const vehicle &obj ) const;
 #endif // CATA_SRC_CHARACTER_H

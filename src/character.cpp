@@ -237,6 +237,7 @@ static const itype_id itype_UPS( "UPS" );
 
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_pistol( "pistol" );
 static const skill_id skill_rifle( "rifle" );
@@ -602,7 +603,15 @@ const std::string &Character::symbol() const
 
 void Character::mod_stat( const std::string &stat, float modifier )
 {
-    if( stat == "str" ) {
+    if( stat == "thirst" ) {
+        mod_thirst( modifier );
+    } else if( stat == "fatigue" ) {
+        mod_fatigue( modifier );
+    } else if( stat == "oxygen" ) {
+        oxygen += modifier;
+    } else if( stat == "stamina" ) {
+        mod_stamina( modifier );
+    } else if( stat == "str" ) {
         mod_str_bonus( modifier );
     } else if( stat == "dex" ) {
         mod_dex_bonus( modifier );
@@ -15518,3 +15527,209 @@ Character::wear( item_location item_wear, bool interactive )
 
     return result;
 }
+
+int Character::climbing_cost( const tripoint &from, const tripoint &to ) const
+{
+    map &here = get_map();
+    if( !here.valid_move( from, to, false, true ) ) {
+        return 0;
+    }
+
+    const int diff = here.climb_difficulty( from );
+
+    if( diff > 5 ) {
+        return 0;
+    }
+
+    return 50 + diff * 100;
+    // TODO: All sorts of mutations, equipment weight etc.
+}
+
+void Character::environmental_revert_effect()
+{
+    addictions.clear();
+    morale->clear();
+
+    set_all_parts_hp_to_max();
+    set_hunger( 0 );
+    set_thirst( 0 );
+    set_fatigue( 0 );
+    set_healthy( 0 );
+    set_healthy_mod( 0 );
+    set_stim( 0 );
+    set_pain( 0 );
+    set_painkiller( 0 );
+    set_rad( 0 );
+
+    recalc_sight_limits();
+    calc_encumbrance();
+}
+
+nc_color encumb_color( int level )
+{
+    if( level < 0 ) {
+        return c_green;
+    }
+    if( level < 10 ) {
+        return c_light_gray;
+    }
+    if( level < 40 ) {
+        return c_yellow;
+    }
+    if( level < 70 ) {
+        return c_light_red;
+    }
+    return c_red;
+}
+
+
+void Character::pause()
+{
+    moves = 0;
+    recoil = MAX_RECOIL;
+
+    map &here = get_map();
+    // Train swimming if underwater
+    if( !in_vehicle ) {
+        if( underwater ) {
+            practice( skill_swimming, 1 );
+            drench( 100, { {
+                    body_part_leg_l, body_part_leg_r, body_part_torso, body_part_arm_l,
+                    body_part_arm_r, body_part_head, body_part_eyes, body_part_mouth,
+                    body_part_foot_l, body_part_foot_r, body_part_hand_l, body_part_hand_r
+                }
+            }, true );
+        } else if( here.has_flag( TFLAG_DEEP_WATER, pos() ) ) {
+            practice( skill_swimming, 1 );
+            // Same as above, except no head/eyes/mouth
+            drench( 100, { {
+                    body_part_leg_l, body_part_leg_r, body_part_torso, body_part_arm_l,
+                    body_part_arm_r, body_part_foot_l, body_part_foot_r, body_part_hand_l,
+                    body_part_hand_r
+                }
+            }, true );
+        } else if( here.has_flag( "SWIMMABLE", pos() ) ) {
+            drench( 80, { { body_part_foot_l, body_part_foot_r, body_part_leg_l, body_part_leg_r } },
+            false );
+        }
+    }
+
+    // Try to put out clothing/hair fire
+    if( has_effect( effect_onfire ) ) {
+        time_duration total_removed = 0_turns;
+        time_duration total_left = 0_turns;
+        bool on_ground = is_prone();
+        for( const bodypart_id &bp : get_all_body_parts() ) {
+            effect &eff = get_effect( effect_onfire, bp );
+            if( eff.is_null() ) {
+                continue;
+            }
+
+            // TODO: Tools and skills
+            total_left += eff.get_duration();
+            // Being on the ground will smother the fire much faster because you can roll
+            const time_duration dur_removed = on_ground ? eff.get_duration() / 2 + 2_turns : 1_turns;
+            eff.mod_duration( -dur_removed );
+            total_removed += dur_removed;
+        }
+
+        // Don't drop on the ground when the ground is on fire
+        if( total_left > 1_minutes && !is_dangerous_fields( here.field_at( pos() ) ) ) {
+            add_effect( effect_downed, 2_turns, false, 0, true );
+            add_msg_player_or_npc( m_warning,
+                                   _( "You roll on the ground, trying to smother the fire!" ),
+                                   _( "<npcname> rolls on the ground!" ) );
+        } else if( total_removed > 0_turns ) {
+            add_msg_player_or_npc( m_warning,
+                                   _( "You attempt to put out the fire on you!" ),
+                                   _( "<npcname> attempts to put out the fire on them!" ) );
+        }
+    }
+    // put pressure on bleeding wound, prioritizing most severe bleeding
+    if( !is_armed() && has_effect( effect_bleed ) ) {
+        int most = 0;
+        bodypart_id bp_id;
+        for( const bodypart_id &bp : get_all_body_parts() ) {
+            if( most <= get_effect_int( effect_bleed, bp ) ) {
+                most = get_effect_int( effect_bleed, bp );
+                bp_id =  bp ;
+            }
+        }
+        effect &e = get_effect( effect_bleed, bp_id );
+        int total_hand_encumb = 0;
+        for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::hand ) ) {
+            total_hand_encumb += encumb( part );
+        }
+        time_duration penalty = 1_turns * total_hand_encumb;
+        time_duration benefit = 5_turns + 10_turns * get_skill_level( skill_firstaid );
+
+        bool broken_arm = false;
+        for( const bodypart_id &part : get_all_body_parts_of_type( body_part_type::type::arm ) ) {
+            if( is_limb_broken( part ) ) {
+                broken_arm = true;
+                break;
+            }
+        }
+        if( broken_arm ) {
+            add_msg_player_or_npc( m_warning,
+                                   _( "Your broken limb significantly hampers your efforts to put pressure on the bleeding wound!" ),
+                                   _( "<npcname>'s broken limb significantly hampers their effort to put pressure on the bleeding wound!" ) );
+            e.mod_duration( -1_turns );
+        } else if( benefit <= penalty ) {
+            add_msg_player_or_npc( m_warning,
+                                   _( "Your hands are too encumbered to effectively put pressure on the bleeding wound!" ),
+                                   _( "<npcname>'s hands are too encumbered to effectively put pressure on the bleeding wound!" ) );
+            e.mod_duration( -1_turns );
+        } else {
+            e.mod_duration( - ( benefit - penalty ) );
+            add_msg_player_or_npc( m_warning,
+                                   _( "You attempt to put pressure on the bleeding wound!" ),
+                                   _( "<npcname> attempts to put pressure on the bleeding wound!" ) );
+            practice( skill_firstaid, 1 );
+        }
+    }
+    // on-pause effects for martial arts
+    martial_arts_data->ma_onpause_effects( *this );
+
+    if( is_npc() ) {
+        // The stuff below doesn't apply to NPCs
+        // search_surroundings should eventually do, though
+        return;
+    }
+
+    if( in_vehicle && one_in( 8 ) ) {
+        VehicleList vehs = here.get_vehicles();
+        vehicle *veh = nullptr;
+        for( auto &v : vehs ) {
+            veh = v.v;
+            if( veh && veh->is_moving() && veh->player_in_control( *this ) ) {
+                double exp_temp = 1 + veh->total_mass() / 400.0_kilogram +
+                                  std::abs( veh->velocity / 3200.0 );
+                int experience = static_cast<int>( exp_temp );
+                if( exp_temp - experience > 0 && x_in_y( exp_temp - experience, 1.0 ) ) {
+                    experience++;
+                }
+                practice( skill_id( "driving" ), experience );
+                break;
+            }
+        }
+    }
+
+    search_surroundings();
+    wait_effects();
+}
+
+template <typename T>
+bool Character::can_lift( const T &obj ) const
+{
+    // avoid comparing by weight as different objects use differing scales (grams vs kilograms etc)
+    int str = get_lift_str();
+    if( mounted_creature ) {
+        const auto mons = mounted_creature.get();
+        str = mons->mech_str_addition() == 0 ? str : mons->mech_str_addition();
+    }
+    const int npc_str = get_lift_assist();
+    return str + npc_str >= obj.lift_strength();
+}
+template bool Character::can_lift<item>( const item &obj ) const;
+template bool Character::can_lift<vehicle>( const vehicle &obj ) const;
