@@ -734,7 +734,7 @@ static void draw_skills_tab( const catacurses::window &w_skills,
     max = std::min( min + skill_win_size_y - 1, skillslist.size() );
 
     int y_pos = 1;
-    for( size_t i = min; i < max; i++, y_pos++ ) {
+    for( size_t i = min; i < max; ++i, ++y_pos ) {
         const Skill *aSkill = skillslist[i].skill;
         const SkillLevel &level = you.get_skill_level_object( aSkill->ident() );
 
@@ -846,19 +846,19 @@ static void draw_speed_tab( const catacurses::window &w_speed,
         pen = 25 * ( you.weight_carried() - you.weight_capacity() ) / ( you.weight_capacity() );
         mvwprintz( w_speed, point( 1, line ), c_red,
                    pgettext( "speed penalty", "Overburdened        -%2d%%" ), pen );
-        line++;
+        ++line;
     }
     pen = you.get_pain_penalty().speed;
     if( pen >= 1 ) {
         mvwprintz( w_speed, point( 1, line ), c_red,
                    pgettext( "speed penalty", "Pain                -%2d%%" ), pen );
-        line++;
+        ++line;
     }
     if( you.get_thirst() > 40 ) {
         pen = std::abs( player::thirst_speed_penalty( you.get_thirst() ) );
         mvwprintz( w_speed, point( 1, line ), c_red,
                    pgettext( "speed penalty", "Thirst              -%2d%%" ), pen );
-        line++;
+        ++line;
     }
     if( you.kcal_speed_penalty() < 0 ) {
         pen = std::abs( you.kcal_speed_penalty() );
@@ -867,13 +867,13 @@ static void draw_speed_tab( const catacurses::window &w_speed,
         //~ %s: Starving/Underfed (already left-justified), %2d: speed penalty
         mvwprintz( w_speed, point( 1, line ), c_red, pgettext( "speed penalty", "%s-%2d%%" ),
                    left_justify( inanition, 20 ), pen );
-        line++;
+        ++line;
     }
     if( you.has_trait( trait_id( "SUNLIGHT_DEPENDENT" ) ) && !g->is_in_sunlight( you.pos() ) ) {
         pen = ( g->light_level( you.posz() ) >= 12 ? 5 : 10 );
         mvwprintz( w_speed, point( 1, line ), c_red,
                    pgettext( "speed penalty", "Out of Sunlight     -%2d%%" ), pen );
-        line++;
+        ++line;
     }
 
     const float temperature_speed_modifier = you.mutation_value( "temperature_speed_modifier" );
@@ -893,7 +893,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
             mvwprintz( w_speed, point( 1, line ), pen_color,
                        //~ %s: sign of bonus/penalty, %2d: speed bonus/penalty
                        pgettext( "speed modifier", "Cold-Blooded        %s%2d%%" ), pen_sign, std::abs( pen ) );
-            line++;
+            ++line;
         }
     }
 
@@ -902,7 +902,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
     if( speed_modifier != 0 ) {
         mvwprintz( w_speed, point( 1, line ), c_green,
                    pgettext( "speed bonus", "Bio/Mut/Effects     +%2d" ), speed_modifier );
-        line++;
+        ++line;
     }
 
     for( const std::pair<const std::string, int> &speed_effect : speed_effects ) {
@@ -911,7 +911,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
         mvwprintz( w_speed, point( 21, line ), col, ( speed_effect.second > 0 ? "+" : "-" ) );
         mvwprintz( w_speed, point( std::abs( speed_effect.second ) >= 10 ? 22 : 23, line ), col, "%d%%",
                    std::abs( speed_effect.second ) );
-        line++;
+        ++line;
     }
 
     int runcost = you.run_cost( 100 );
