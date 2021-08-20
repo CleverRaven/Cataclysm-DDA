@@ -808,6 +808,8 @@ static int get_terrain_cost( const tripoint_abs_omt &omt_pos, const overmap_path
         } else {
             return params.shore_cost;
         }
+    } else if( is_ot_match( "bridge", oter, ot_match_type::type ) ) {
+        return params.water_cost;
     } else if( is_ot_match( "open_air", oter, ot_match_type::type ) ) {
         return params.air_cost;
     } else if( is_ot_match( "forest", oter, ot_match_type::type ) ) {
