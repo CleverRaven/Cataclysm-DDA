@@ -1515,7 +1515,7 @@ void spell_effect::effect_on_condition( const spell &sp, Creature &caster, const
         if( eoc->activate_only ) {
             eoc->activate( d );
         } else {
-            debugmsg( "Cannot use a recurring effect_on_condition in a spell. If you don't wish the effect_on_condition to happen on its own remove the recurrence min and max.  Otherwise create a non recurring effect_on_condition for this spell with its condition and effects and have a recurring one queue it." );
+            debugmsg( "Cannot use a recurring effect_on_condition in a spell.  If you don't wish the effect_on_condition to happen on its own remove the recurrence min and max.  Otherwise create a non recurring effect_on_condition for this spell with its condition and effects and have a recurring one queue it." );
         }
     }
 }
