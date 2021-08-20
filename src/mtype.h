@@ -3,6 +3,7 @@
 #define CATA_SRC_MTYPE_H
 
 #include <iosfwd>
+#include <array>
 #include <map>
 #include <set>
 #include <string>
@@ -207,6 +208,17 @@ struct mon_effect_data {
         chance( nchance ) {}
 };
 
+/** Pet food data */
+struct pet_food_data {
+    std::set<std::string> food;
+    std::string pet;
+    std::string feed;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
+};
+
 enum class mdeath_type {
     NORMAL,
     SPLATTER,
@@ -336,6 +348,9 @@ struct mtype {
 
         // Bleed rate in percent, 0 makes the monster immune to bleeding
         int bleed_rate = 100;
+
+        // Pet food category this monster is in
+        pet_food_data petfood;
 
         // Vision range is linearly scaled depending on lighting conditions
         int vision_day = 40;    /** vision range in bright light */

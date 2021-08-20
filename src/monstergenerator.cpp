@@ -726,6 +726,8 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "bleed_rate", bleed_rate, 100 );
 
+    optional( jo, was_loaded, "petfood", petfood );
+
     assign( jo, "vision_day", vision_day, strict, 0 );
     assign( jo, "vision_night", vision_night, strict, 0 );
 
@@ -1367,6 +1369,19 @@ void monster_death_effect::load( const JsonObject &jo )
 }
 
 void monster_death_effect::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    load( data );
+}
+
+void pet_food_data::load( const JsonObject &jo )
+{
+    mandatory( jo, was_loaded, "food", food );
+    optional( jo, was_loaded, "feed", feed );
+    optional( jo, was_loaded, "pet", pet );
+}
+
+void pet_food_data::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     load( data );
