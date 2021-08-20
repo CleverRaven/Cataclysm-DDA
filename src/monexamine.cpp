@@ -339,7 +339,9 @@ void play_with( monster &z )
 {
     std::string pet_name = z.get_name();
     Character &player_character = get_player_character();
-    player_character.assign_activity( player_activity( play_with_pet_activity_actor( pet_name ) ) );
+    const std::string &petstr = z.type->petfood.pet;
+    player_character.assign_activity(
+        player_activity( play_with_pet_activity_actor( pet_name, petstr ) ) );
 }
 
 void add_leash( monster &z )
@@ -574,10 +576,6 @@ bool monexamine::pet_menu( monster &z )
 
     uilist amenu;
     std::string pet_name = z.get_name();
-    bool is_zombie = z.type->in_species( species_ZOMBIE );
-    if( is_zombie ) {
-        pet_name = _( "zombie slave" );
-    }
 
     amenu.text = string_format( _( "What to do with your %s?" ), pet_name );
 
@@ -629,8 +627,7 @@ bool monexamine::pet_menu( monster &z )
         }
     }
 
-    if( z.has_flag( MF_BIRDFOOD ) || z.has_flag( MF_CATFOOD ) || z.has_flag( MF_DOGFOOD ) ||
-        z.has_flag( MF_CANPLAY ) ) {
+    if( z.has_flag( MF_CANPLAY ) ) {
         amenu.addentry( play_with_pet, true, 'y', _( "Play with %s" ), pet_name );
     }
     if( z.has_flag( MF_MILKABLE ) ) {

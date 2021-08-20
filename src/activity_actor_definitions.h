@@ -1401,10 +1401,13 @@ class play_with_pet_activity_actor : public activity_actor
 {
     private:
         std::string pet_name;
+        std::string playstr;
     public:
         play_with_pet_activity_actor() = default;
         explicit play_with_pet_activity_actor( const std::string &pet_name ) :
-            pet_name( pet_name ) {}
+            pet_name( pet_name ) {};
+        explicit play_with_pet_activity_actor( const std::string &pet_name, const std::string &playstr ) :
+            pet_name( pet_name ), playstr( playstr ) {};
         activity_id get_type() const override {
             return activity_id( "ACT_PLAY_WITH_PET" );
         }
