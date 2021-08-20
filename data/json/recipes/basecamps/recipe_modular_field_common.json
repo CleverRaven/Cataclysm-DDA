@@ -900,7 +900,7 @@
       "time": "7 h 10 m",
       "skills": [ [ "survival", 4 ], [ "fabrication", 4 ] ],
       "inline": {
-        "tools": [ [ [ "elec_jackhammer", 7000 ], [ "jackhammer", 1200 ], [ "pickaxe", -1 ] ] ],
+        "tools": [ [ [ "elec_jackhammer", 7000 ], [ "jackhammer", 140 ], [ "pickaxe", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
         "components": [ [ [ "2x4", 6 ], [ "stick", 6 ] ], [ [ "brick", 40 ], [ "rock", 40 ] ], [ [ "straw_pile", 12 ], [ "withered", 12 ] ] ]
       }

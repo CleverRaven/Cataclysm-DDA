@@ -511,7 +511,7 @@
       "time": "10 h",
       "skills": [ [ "survival", 3 ] ],
       "inline": {
-        "tools": [ [ [ "elec_jackhammer", 14000 ], [ "jackhammer", 1200 ], [ "pickaxe", -1 ] ] ],
+        "tools": [ [ [ "elec_jackhammer", 14000 ], [ "jackhammer", 280 ], [ "pickaxe", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "components": [  ]
       }
@@ -611,7 +611,7 @@
       "time": "1 d 6 h",
       "skills": [ [ "survival", 3 ] ],
       "inline": {
-        "tools": [ [ [ "elec_jackhammer", 42000 ], [ "jackhammer", 3600 ], [ "pickaxe", -1 ] ] ],
+        "tools": [ [ [ "elec_jackhammer", 42000 ], [ "jackhammer", 840 ], [ "pickaxe", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "components": [  ]
       }
@@ -775,7 +775,7 @@
       "time": "1 d 1 h",
       "skills": [ [ "survival", 3 ] ],
       "inline": {
-        "tools": [ [ [ "elec_jackhammer", 35000 ], [ "jackhammer", 3000 ], [ "pickaxe", -1 ] ] ],
+        "tools": [ [ [ "elec_jackhammer", 35000 ], [ "jackhammer", 700 ], [ "pickaxe", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "components": [  ]
       }
@@ -1038,7 +1038,7 @@
       "time": "1 d 6 h",
       "skills": [ [ "survival", 3 ] ],
       "inline": {
-        "tools": [ [ [ "elec_jackhammer", 42000 ], [ "jackhammer", 3600 ], [ "pickaxe", -1 ] ] ],
+        "tools": [ [ [ "elec_jackhammer", 42000 ], [ "jackhammer", 840 ], [ "pickaxe", -1 ] ] ],
         "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
         "components": [  ]
       }
