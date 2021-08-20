@@ -266,7 +266,7 @@ std::string generic_activity_actor::get_progress_message( const player_activity 
     } else {
         return display_string;
     }
-};
+}
 
 void generic_activity_actor::parameters::serialize( JsonOut &jsout ) const
 {
