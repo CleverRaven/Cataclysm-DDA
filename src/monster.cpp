@@ -1135,15 +1135,30 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             return Attitude::FRIENDLY;
         }
 
-        if( ( friendly != 0 || m->friendly != 0 ) &&
-            ( faction_att == MFA_BY_MOOD || faction_att == MFA_NEUTRAL ) ) {
+        if( ( friendly != 0 &&
+              ( faction_att == MFA_HATE || faction_att == MFA_FRIENDLY ) ) ||
+            ( m->friendly != 0 &&
+              ( faction_att == MFA_BY_MOOD || faction_att == MFA_NEUTRAL ) ) ) {
             // Can't be a static int_id, because mods add factions
             static const string_id<monfaction> player_fac( "player" );
 
-            if( friendly != 0 ) {
-                faction_att = player_fac.obj().attitude( m->faction );
-            } else { // m->friendly != 0
-                faction_att = faction.obj().attitude( player_fac );
+            if( friendly != 0 ) { // Check for species_ZOMBIE here, as per monster::attitude?
+                mf_attitude faction_att2 = player_fac.obj().attitude( m->faction );
+                // May do debug check vs rev_faction_att = m.faction.obj().attitude( faction );
+                // to prevent one-sided attack.
+                if( faction_att != faction_att2 ) {
+                    if( faction_att == MFA_HATE ) {
+                        faction_att = MFA_BY_MOOD;
+                    } else {
+                        faction_att = MFA_NEUTRAL;
+                    }
+                }
+            } else { // m->friendly != 0; take stronger attitude if congruent
+                mf_attitude faction_att3 = faction.obj().attitude( player_fac );
+                if( ( faction_att == MFA_BY_MOOD && faction_att3 == MFA_HATE ) ||
+                    ( faction_att == MFA_NEUTRAL && faction_att3 == MFA_FRIENDLY ) ) {
+                    faction_att = faction_att3;
+                }
             }
         }
 
