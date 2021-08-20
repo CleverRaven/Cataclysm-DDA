@@ -3,9 +3,9 @@
 #include <algorithm>
 #include <climits>
 
+#include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "character.h"
 #include "colony.h"
 #include "coordinates.h"
 #include "creature.h"
@@ -23,7 +23,6 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "player.h"
 #include "point.h"
 #include "rng.h"
 
@@ -295,20 +294,20 @@ static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
     return area;
 }
 
-void start_location::place_player( player &u ) const
+void start_location::place_player( avatar &you ) const
 {
     // Need the "real" map with it's inside/outside cache and the like.
     map &here = get_map();
     // Start us off somewhere in the center of the map
-    u.setx( HALF_MAPSIZE_X );
-    u.sety( HALF_MAPSIZE_Y );
-    u.setz( here.get_abs_sub().z );
+    you.setx( HALF_MAPSIZE_X );
+    you.sety( HALF_MAPSIZE_Y );
+    you.setz( here.get_abs_sub().z );
     here.invalidate_map_cache( here.get_abs_sub().z );
     here.build_map_cache( here.get_abs_sub().z );
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
     ///\EFFECT_STR allows player to start behind less-bashable furniture and terrain
     // TODO: Allow using items here
-    const int bash = u.get_str();
+    const int bash = you.get_str();
 
     // Remember biggest found location
     // Sometimes it may be impossible to automatically found an ideal location
@@ -328,7 +327,7 @@ void start_location::place_player( player &u ) const
         const int rate = rate_location( here, pt, must_be_inside, bash, tries, checked );
         if( best_rate < rate ) {
             best_rate = rate;
-            u.setpos( pt );
+            you.setpos( pt );
             if( rate == INT_MAX ) {
                 found_good_spot = true;
             }
@@ -338,13 +337,13 @@ void start_location::place_player( player &u ) const
     while( !found_good_spot && tries < 100 ) {
         tripoint rand_point( HALF_MAPSIZE_X + rng( 0, SEEX * 2 - 1 ),
                              HALF_MAPSIZE_Y + rng( 0, SEEY * 2 - 1 ),
-                             u.posz() );
+                             you.posz() );
         check_spot( rand_point );
     }
     // If we haven't got a good location by now, screw it and brute force it
     // This only happens in exotic locations (deep of a science lab), but it does happen
     if( !found_good_spot ) {
-        tripoint tmp = u.pos();
+        tripoint tmp = you.pos();
         int &x = tmp.x;
         int &y = tmp.y;
         for( x = 0; x < MAPSIZE_X; x++ ) {
@@ -398,9 +397,9 @@ void start_location::add_map_extra( const tripoint_abs_omt &omtstart,
     m.save();
 }
 
-void start_location::handle_heli_crash( player &u ) const
+void start_location::handle_heli_crash( avatar &you ) const
 {
-    for( const bodypart_id &bp : u.get_all_body_parts( get_body_part_flags::only_main ) ) {
+    for( const bodypart_id &bp : you.get_all_body_parts( get_body_part_flags::only_main ) ) {
         if( bp == bodypart_id( "head" ) || bp == bodypart_id( "torso" ) ) {
             continue;// Skip head + torso for balance reasons.
         }
@@ -409,16 +408,16 @@ void start_location::handle_heli_crash( player &u ) const
             // Damage + Bleed
             case 1:
             case 2:
-                u.make_bleed( effect_source::empty(), bp, 6_minutes );
+                you.make_bleed( effect_source::empty(), bp, 6_minutes );
             /* fallthrough */
             case 3:
             case 4:
             // Just damage
             case 5: {
-                const int maxHp = u.get_hp_max( bp );
+                const int maxHp = you.get_hp_max( bp );
                 // Body part health will range from 33% to 66% with occasional bleed
                 const int dmg = static_cast<int>( rng( maxHp / 3, maxHp * 2 / 3 ) );
-                u.apply_damage( nullptr, bp, dmg );
+                you.apply_damage( nullptr, bp, dmg );
                 break;
             }
             // No damage

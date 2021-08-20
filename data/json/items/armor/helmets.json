@@ -508,7 +508,7 @@
         { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 15 }
       ]
     },
-    "use_action": { "type": "transform", "target": "helmet_motor_raised", "msg": "You raise your visor." },
+    "use_action": { "type": "transform", "menu_text": "Raise visor", "target": "helmet_motor_raised", "msg": "You raise your visor." },
     "warmth": 30,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
@@ -533,7 +533,7 @@
     "symbol": "[",
     "color": "dark_gray",
     "armor_data": { "material_thickness": 6, "armor": [ { "encumbrance": 25, "coverage": 100, "covers": [ "head" ] } ] },
-    "use_action": { "type": "transform", "target": "helmet_motor", "msg": "You put down your visor." },
+    "use_action": { "type": "transform", "menu_text": "Lower visor", "target": "helmet_motor", "msg": "You put down your visor." },
     "warmth": 30,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],

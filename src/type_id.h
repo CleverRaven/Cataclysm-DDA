@@ -118,6 +118,9 @@ using mtype_id = string_id<mtype>;
 class npc_class;
 using npc_class_id = string_id<npc_class>;
 
+class npc_template;
+using npc_template_id = string_id<npc_template>;
+
 class faction;
 using faction_id = string_id<faction>;
 

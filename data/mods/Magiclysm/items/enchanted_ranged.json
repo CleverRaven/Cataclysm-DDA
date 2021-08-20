@@ -193,6 +193,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "barb": 1 } } ],
     "use_action": {
       "type": "transform",
+      "menu_text": "Collapse",
       "target": "rune_biomancer_weapon_adept",
       "msg": "You feel the spear rapidly contracting and squirming for close combat",
       "need_wielding": true,
