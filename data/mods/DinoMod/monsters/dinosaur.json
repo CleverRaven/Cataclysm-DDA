@@ -140,7 +140,7 @@
     "reproduction": { "baby_egg": "egg_spinosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
-    "special_attacks": [ { "type": "bite", "cooldown": 3 }, [ "LUNGE", 5 ] ],
+    "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 3 }, [ "LUNGE", 5 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "SWIMS", "PUSH_MON" ],
     "harvest": "dino_large_pred",
     "anger_triggers": [ "PLAYER_WEAK", "HURT" ],
@@ -192,7 +192,7 @@
     "armor_bash": 10,
     "hp": 270,
     "zombify_into": "mon_zacrocanthosaurus",
-    "special_attacks": [ [ "GRAB", 10 ], [ "LUNGE", 20 ] ],
+    "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 10 }, [ "LUNGE", 20 ] ],
     "description": "Huge predatory bipedal dinosaur with a tall ridge running the length of its back covered with heavy muscles.  Its teeth are curved and serrated like sawblades.",
     "reproduction": { "baby_egg": "egg_acrocanthosaurus", "baby_count": 3, "baby_timer": 24 },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM", "KEENNOSE" ]
@@ -242,7 +242,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM" ],
-    "special_attacks": [ [ "GRAB", 7 ], { "type": "bite", "cooldown": 5 }, [ "LUNGE", 10 ] ],
+    "special_attacks": [ [ "GRAB", 7 ], { "type": "bite", "cooldown": 5 }, [ "LUNGE", 10 ], [ "LONGSWIPE", 25 ] ],
     "harvest": "dino_large_feather_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT" ],
     "placate_triggers": [ "MEAT" ],
@@ -279,7 +279,7 @@
     "reproduction": { "baby_egg": "egg_qianzhousaurus", "baby_count": 5, "baby_timer": 23 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
-    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "LUNGE", 10 ], [ "BIO_OP_TAKEDOWN", 30 ] ],
+    "special_attacks": [ [ "GRAB", 7 ], { "type": "bite", "cooldown": 5 }, [ "LUNGE", 10 ], [ "BIO_OP_TAKEDOWN", 30 ] ],
     "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "SWARMS", "PUSH_MON" ],
     "harvest": "dino_large_feather_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT" ],
@@ -315,7 +315,7 @@
     "reproduction": { "baby_egg": "egg_tyrannosaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
-    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "LUNGE", 10 ], [ "BIO_OP_TAKEDOWN", 15 ] ],
+    "special_attacks": [ [ "GRAB", 7 ], { "type": "bite", "cooldown": 5 }, [ "LUNGE", 10 ], [ "BIO_OP_TAKEDOWN", 15 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "PUSH_MON" ],
     "harvest": "dino_large_feather_pred",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT" ],
@@ -433,7 +433,11 @@
     "dodge": 6,
     "hp": 30,
     "vision_night": 5,
-    "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }, { "type": "bite", "cooldown": 10 } ],
+    "special_attacks": [
+      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
+      [ "GRAB", 20 ],
+      { "type": "bite", "cooldown": 10 }
+    ],
     "description": "A small bipedal dinosaur covered with feathers.  Small, hooked claws emerge from its feet and hands.",
     "reproduction": { "baby_egg": "egg_velociraptor", "baby_count": 3, "baby_timer": 18 },
     "baby_flags": [ "SPRING", "SUMMER" ],
@@ -515,7 +519,11 @@
     "zombify_into": "mon_zeinonychus",
     "vision_night": 5,
     "path_settings": { "max_dist": 10, "avoid_traps": true, "avoid_sharp": true },
-    "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }, { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [
+      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
+      [ "GRAB", 20 ],
+      { "type": "bite", "cooldown": 5 }
+    ],
     "description": "A medium-sized bipedal dinosaur covered with feathers.  At the end of each foot is a large sickle-like claw.",
     "reproduction": { "baby_egg": "egg_deinonychus", "baby_count": 3, "baby_timer": 18 },
     "baby_flags": [ "SPRING", "SUMMER" ],
@@ -561,7 +569,11 @@
     "hp": 125,
     "zombify_into": "mon_zutahraptor",
     "vision_night": 5,
-    "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }, { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [
+      { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
+      [ "GRAB", 20 ],
+      { "type": "bite", "cooldown": 5 }
+    ],
     "description": "A large bipedal dinosaur with feathered arms, a long tail, and scythe-like claws.",
     "reproduction": { "baby_egg": "egg_utahraptor", "baby_count": 3, "baby_timer": 18 },
     "baby_flags": [ "SPRING", "SUMMER" ],
@@ -642,8 +654,8 @@
     "hp": 500,
     "zombify_into": "mon_zapatosaurus",
     "special_attacks": [
-      { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      [ "SMASH", 30 ],
+      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
+      [ "tailsmash_DinoMod", 30 ],
       [ "EAT_CROP", 5 ]
     ],
     "description": "Massive, long-necked, four-legged dinosaur with a long, whip-like tail.  The head is upright and the neck looks like it would make a good strong club.",
@@ -767,8 +779,8 @@
     "hp": 275,
     "zombify_into": "mon_ztegosaurus",
     "special_attacks": [
-      { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      [ "SMASH", 30 ],
+      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
+      [ "tailsmash_DinoMod", 30 ],
       [ "EAT_CROP", 20 ]
     ],
     "description": "A huge slow quadruped dinosaur with plates on its back, and a spiked tail.",
@@ -788,8 +800,8 @@
     "hp": 200,
     "zombify_into": "mon_zyoplosaurus",
     "special_attacks": [
-      { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
-      [ "SMASH", 30 ],
+      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
+      [ "tailsmash_DinoMod", 30 ],
       [ "EAT_CROP", 40 ]
     ],
     "description": "This armored dinosaur looks like a giant prehistoric armadillo.  Its tail ends in a spiked club of bone.",
@@ -822,8 +834,8 @@
     "hp": 375,
     "zombify_into": "mon_zankylosaurus",
     "special_attacks": [
-      { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      [ "SMASH", 30 ],
+      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
+      [ "tailsmash_DinoMod", 30 ],
       [ "EAT_CROP", 40 ]
     ],
     "description": "This armored dinosaur looks like a giant prehistoric armadillo.  Its tail ends in a massive spiked club of bone.",
@@ -1026,7 +1038,7 @@
     "description": "A massive rhino-like dinosaur with a bony crest from which two curved horns and a broad bony nose emerge.",
     "reproduction": { "baby_egg": "egg_pachyrhinosaurus", "baby_count": 20, "baby_timer": 24 },
     "special_attacks": [
-      { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
+      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
       [ "SMASH", 30 ],
       [ "LUNGE", 10 ],
       [ "EAT_CROP", 20 ]
@@ -1158,7 +1170,7 @@
     "reproduction": { "baby_egg": "egg_pteranodon", "baby_count": 3, "baby_timer": 24 },
     "fear_triggers": [ "FIRE", "FRIEND_DIED" ],
     "harvest": "dino_feather_leather",
-    "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 10 } ]
+    "special_attacks": [ [ "scratch", 10 ] ]
   },
   {
     "type": "MONSTER",
@@ -1175,7 +1187,7 @@
     "zombify_into": "mon_zuetzalcoatlus",
     "description": "A huge feathered flying reptile, with a long pointed toothless beak and a long stiff neck.",
     "reproduction": { "baby_egg": "egg_quetzalcoatlus", "baby_count": 3, "baby_timer": 24 },
-    "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 10 } ],
+    "special_attacks": [ [ "scratch", 10 ] ],
     "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1", "CATFOOD", "PET_MOUNTABLE" ],
     "fear_triggers": [ "FIRE", "FRIEND_DIED" ],
     "harvest": "dino_feather_leather"
@@ -1208,7 +1220,7 @@
     "reproduction": { "baby_egg": "egg_mosasaurus", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
-    "special_attacks": [ [ "LUNGE", 10 ], { "type": "bite", "cooldown": 10 } ],
+    "special_attacks": [ [ "LUNGE", 10 ], [ "GRAB", 7 ], { "type": "bite", "cooldown": 10 } ],
     "flags": [ "SEES", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "DESTROYS", "WARM", "SWIMS", "AQUATIC", "PUSH_MON" ],
     "harvest": "dino_large_pred",
     "anger_triggers": [ "PLAYER_WEAK", "HURT" ],
