@@ -1517,6 +1517,5 @@ void spell_effect::effect_on_condition( const spell &sp, Creature &caster, const
         } else {
             debugmsg( "Cannot use a recurring effect_on_condition in a spell." );
         }
-
     }
 }
