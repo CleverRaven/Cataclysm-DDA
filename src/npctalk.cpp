@@ -2218,7 +2218,7 @@ void talk_effect_fun_t::set_sound_effect( const JsonObject &jo, const std::strin
     function = [variant, id, outdoor_event, volume]( const dialogue & d ) {
         map &here = get_map();
         int local_volume = volume;
-        Character *target = d.actor( false )->get_character();
+        Character *target = &get_player_character(); //Only the player can hear sound effects.
         if( target && !target->has_effect( effect_sleep ) && !target->is_deaf() ) {
             if( !outdoor_event || here.get_abs_sub().z >= 0 ) {
                 if( local_volume == -1 ) {
