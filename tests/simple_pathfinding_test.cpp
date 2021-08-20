@@ -2,6 +2,7 @@
 #include "simple_pathfinding.h"
 
 #include "coordinates.h"
+#include "cuboid_rectangle.h"
 #include "line.h"
 #include "optional.h"
 #include "point.h"
@@ -9,7 +10,7 @@
 template<typename Point>
 static void test_greedy_line_path()
 {
-    const Point start( 0, 0 ); // NOLINT(cata-use-named-point-constants)
+    const Point start( 0, 0 ); // NOLINT(cata-use-named-point-constants,cata-point-initialization)
     const Point finish( 3, 0 );
     const Point max( 10, 10 );
 
@@ -35,7 +36,7 @@ TEST_CASE( "greedy_simple_line_path", "[pathfinding]" )
 template<typename Point>
 static void test_greedy_u_bend()
 {
-    const Point start( 0, 0 ); // NOLINT(cata-use-named-point-constants)
+    const Point start( 0, 0 ); // NOLINT(cata-use-named-point-constants,cata-point-initialization)
     const Point finish( 2, 0 );
     const Point max( 3, 3 );
     // Test area and expected path:
@@ -73,3 +74,64 @@ TEST_CASE( "greedy_u_bend", "[pathfinding]" )
 {
     test_greedy_u_bend<point_om_omt>();
 }
+
+
+TEST_CASE( "find_overmap_path_u_bend", "[pathfinding]" )
+{
+    using Point = tripoint_abs_omt;
+    const Point start( 0, 0, 0 );
+    const Point finish( 2, 0, 0 );
+    const inclusive_cuboid<Point> bounds( start, Point( 2, 2, 0 ) );
+    // Test area and expected path:
+    // SxF    6x0
+    // .x.    5x1
+    // ...    432
+
+    const pf::omt_scoring_fn estimate = [&]( Point cur ) {
+        if( !bounds.contains( cur ) || ( cur.x() == 1 && cur.y() != 2 ) ) {
+            return pf::omt_score::rejected;
+        }
+        return pf::omt_score( 10, false );
+    };
+
+    const pf::simple_path<Point> pth = pf::find_overmap_path( start, finish, 2, estimate );
+    REQUIRE( pth.points.size() == 7 );
+    CHECK( pth.points[6] == Point( 0, 0, 0 ) );
+    CHECK( pth.points[5] == Point( 0, 1, 0 ) );
+    CHECK( pth.points[4] == Point( 0, 2, 0 ) );
+    CHECK( pth.points[3] == Point( 1, 2, 0 ) );
+    CHECK( pth.points[2] == Point( 2, 2, 0 ) );
+    CHECK( pth.points[1] == Point( 2, 1, 0 ) );
+    CHECK( pth.points[0] == Point( 2, 0, 0 ) );
+}
+
+TEST_CASE( "find_overmap_path_bridge", "[pathfinding]" )
+{
+    using Point = tripoint_abs_omt;
+    const Point start( 0, 0, 0 );
+    const Point finish( 2, 0, 0 );
+    const inclusive_cuboid<Point> bounds( start, Point( 2, 2, 1 ) );
+    // Test area and expected path:
+    // SxF    6x0
+    // ^x^    5x1
+    // .x.    .x.
+    // ( points 2, 3, 4 are at z=1 )
+
+    const pf::omt_scoring_fn estimate = [&]( Point cur ) {
+        if( !bounds.contains( cur ) || ( cur.x() == 1 && cur.z() == 0 ) ) {
+            return pf::omt_score::rejected;
+        }
+        return pf::omt_score( 10, ( cur.y() == 1 && cur.x() != 1 ) );
+    };
+
+    const pf::simple_path<Point> pth = pf::find_overmap_path( start, finish, 2, estimate );
+    REQUIRE( pth.points.size() == 7 );
+    CHECK( pth.points[6] == Point( 0, 0, 0 ) );
+    CHECK( pth.points[5] == Point( 0, 1, 0 ) );
+    CHECK( pth.points[4] == Point( 0, 1, 1 ) );
+    CHECK( pth.points[3] == Point( 1, 1, 1 ) );
+    CHECK( pth.points[2] == Point( 2, 1, 1 ) );
+    CHECK( pth.points[1] == Point( 2, 1, 0 ) );
+    CHECK( pth.points[0] == Point( 2, 0, 0 ) );
+}
+
