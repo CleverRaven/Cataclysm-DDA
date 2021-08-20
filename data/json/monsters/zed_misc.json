@@ -452,7 +452,7 @@
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 5,
     "volume": "875000 ml",
-    "weight": "200 kg",
+    "weight": "1000 kg",
     "hp": 480,
     "speed": 95,
     "material": [ "flesh" ],
