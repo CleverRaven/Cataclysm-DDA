@@ -118,7 +118,16 @@
       "CLAWS_TENTACLES",
       "ACIDPROOF",
       "TOXICFLESH",
-      "FRESHWATEROSMOSIS"
+      "FRESHWATEROSMOSIS",
+      "PAWS",
+      "PAWS_LARGE",
+      "NAILS",
+      "TALONS",
+      "CLAWS",
+      "CLAWS_RETRACT",
+      "CLAWS_RAT",
+      "CLAWS_ST",
+      "WEBBED"
     ]
   },
   {
@@ -220,7 +229,15 @@
       "MUZZLE_BEAR",
       "MUZZLE_RAT",
       "MUZZLE_LONG",
-      "PROBISCIS"
+      "PROBISCIS",
+      "MOUTH_FLAPS",
+      "MOUTH_TENTACLES",
+      "MANDIBLES",
+      "FANGS_SPIDER",
+      "BEAK",
+      "BEAK_PECK",
+      "BEAK_HUM",
+      "GIZZARD"
     ]
   },
   {
@@ -300,7 +317,10 @@
       "TAIL_STING",
       "TAIL_CLUB",
       "LEG_TENTACLES",
-      "LEG_TENT_BRACE"
+      "LEG_TENT_BRACE",
+      "RAP_TALONS",
+      "HOOVES",
+      "PADDED_FEET"
     ]
   },
   {
