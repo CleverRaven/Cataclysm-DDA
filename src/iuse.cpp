@@ -2871,7 +2871,8 @@ cata::optional<int> iuse::dig( player *p, item *it, bool t, const tripoint & )
                                   _( "Exhuming a grave is fun now, when there is no one to object." ) );
             p->add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
         } else if( p->has_trait( trait_NUMB ) ) {
-            p->add_msg_if_player( m_neutral, _( "You wonder if you will find anything usefull." ) );
+            p->add_msg_if_player( m_bad, _( "You wonder if you will find anything usefull." ) );
+            p->add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
         } else if( !p->has_trait( trait_EATDEAD ) &&
                    !p->has_trait( trait_SAPROVORE ) ) {
             p->add_msg_if_player( m_bad, _( "Exhuming this grave is utterly disgusting!" ) );
@@ -6361,7 +6362,7 @@ cata::optional<int> iuse::einktabletpc( player *p, item *it, bool t, const tripo
 
             p->moves -= to_moves<int>( rng( 3_seconds, 7_seconds ) );
 
-            if( p->has_trait( trait_PSYCHOPATH ) || p->has_trait( trait_NUMB ) ) {
+            if( p->has_trait( trait_PSYCHOPATH ) ) {
                 p->add_msg_if_player( m_info, _( "Wasted time.  These pictures do not provoke your senses." ) );
             } else {
                 p->add_morale( MORALE_PHOTOS, rng( 15, 30 ), 100 );
