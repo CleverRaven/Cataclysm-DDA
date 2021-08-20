@@ -54,12 +54,12 @@ bool is_permanent_morale( const morale_type &id )
     static const std::set<morale_type> permanent_morale = {{
             MORALE_PERM_OPTIMIST,
             MORALE_PERM_BADTEMPER,
-            MORALE_PERM_NUMB,
             MORALE_PERM_FANCY,
             MORALE_PERM_MASOCHIST,
             MORALE_PERM_CONSTRAINED,
             MORALE_PERM_FILTHY,
-            MORALE_PERM_DEBUG
+            MORALE_PERM_DEBUG,
+            MORALE_PERM_NUMB
         }
     };
 
@@ -274,7 +274,7 @@ player_morale::player_morale() :
                                          std::bind( set_stylish, _1, true ),
                                          std::bind( set_stylish, _1, false ) );
     mutations[trait_FLOWERS]       = mutation_data( update_constrained );
-    mutations[trait_ROOTS1]         = mutation_data( update_constrained );
+    mutations[trait_ROOTS1]        = mutation_data( update_constrained );
     mutations[trait_ROOTS2]        = mutation_data( update_constrained );
     mutations[trait_ROOTS3]        = mutation_data( update_constrained );
     mutations[trait_LEAVES2]       = mutation_data( update_constrained );
@@ -288,7 +288,7 @@ void player_morale::add( const morale_type &type, int bonus, int max_bonus,
                          const time_duration &duration, const time_duration &decay_start,
                          bool capped, const itype *item_type )
 {
-    if( ( duration == 0_turns ) & !is_permanent_morale( type ) ) {
+    if( ( duration == 0_turns ) && !is_permanent_morale( type ) ) {
         debugmsg( "Tried to set a non-permanent morale \"%s\" as permanent.",
                   type.obj().describe( item_type ) );
         return;
