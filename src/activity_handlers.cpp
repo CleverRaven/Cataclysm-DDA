@@ -766,7 +766,7 @@ static int corpse_damage_effect( int weight, const std::string &entry_type, int 
 
 static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p,
                                     const std::function<int()> &roll_butchery, butcher_type action,
-                                    const std::function<double()> &roll_drops )
+                                    double yield_multiplier )
 {
     p.add_msg_if_player( m_neutral, mt.harvest->message() );
     int monster_weight = to_gram( mt.weight );
@@ -969,7 +969,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             // divide total dropped weight by drop's weight to get amount
             if( entry.mass_ratio != 0.00f ) {
                 // apply skill before converting to items, but only if mass_ratio is defined
-                roll *= roll_drops();
+                roll *= yield_multiplier;
                 monster_weight_remaining -= roll;
                 roll = std::ceil( static_cast<double>( roll ) /
                                   to_gram( drop->weight ) );
@@ -1160,17 +1160,18 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         return;
     }
 
-    int skill_level = p->get_skill_level( skill_survival );
-    int factor = p->max_quality( action == butcher_type::DISSECT ? qual_CUT_FINE :
-                                 qual_BUTCHER, PICKUP_RANGE );
-
-    // DISSECT has special case factor calculation and results.
-    if( action == butcher_type::DISSECT ) {
-        skill_level = p->get_skill_level( skill_firstaid );
-        skill_level += p->max_quality( qual_CUT_FINE, PICKUP_RANGE );
-        skill_level += p->get_skill_level( skill_electronics ) / 2;
-        add_msg_debug( debugmode::DF_ACT_BUTCHER, "Skill: %s", skill_level );
+    const int tool_quality = p->max_quality( action == butcher_type::DISSECT ? qual_CUT_FINE :
+                             qual_BUTCHER, PICKUP_RANGE );
+    const int skill_level = [&]() {
+        // DISSECT has special case factor calculation and results.
+        if( action == butcher_type::DISSECT ) {
+            return p->get_skill_level( skill_firstaid ) + tool_quality +
+                   p->get_skill_level( skill_electronics ) / 2;
+        }
+        return p->get_skill_level( skill_survival );
     }
+    ();
+    add_msg_debug( debugmode::DF_ACT_BUTCHER, "Skill: %s", skill_level );
 
     const auto roll_butchery = [&]() {
         double skill_shift = 0.0;
@@ -1179,8 +1180,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         ///\EFFECT_DEX >8 randomly increases butcher rolls, slightly, <8 decreases
         skill_shift += rng_float( 0, p->dex_cur - 8 ) / 4.0;
 
-        if( factor < 0 ) {
-            skill_shift -= rng_float( 0, -factor / 5.0 );
+        if( tool_quality < 0 ) {
+            skill_shift -= rng_float( 0, -tool_quality / 5.0 );
         }
 
         return static_cast<int>( std::round( skill_shift ) );
@@ -1225,13 +1226,19 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         act->index = true;
         return;
     }
-    // function just for drop yields
-    const auto roll_drops = [&]() {
-        factor = std::max( factor, -50 );
-        return 0.5 * skill_level / 10 + 0.3 * ( factor + 50 ) / 100 + 0.2 * p->dex_cur / 20;
-    };
+    // A number between 0 and 1 that represents how much usable material can be harvested
+    // as a fraction of the maximum possible amount.
+    const double yield_multiplier = [&]() {
+        const double skill_score = skill_level / 10.0;
+        const double tool_score = ( tool_quality + 50.0 ) / 100.0;
+        const double dex_score = p->dex_cur / 20.0;
+        return 0.5 * clamp( skill_score, 0.0, 1.0 ) +
+               0.3 * clamp( tool_score, 0.0, 1.0 ) +
+               0.2 * clamp( dex_score, 0.0, 1.0 );
+    }
+    ();
     // all action types - yields
-    butchery_drops_harvest( &corpse_item, *corpse, *p, roll_butchery, action, roll_drops );
+    butchery_drops_harvest( &corpse_item, *corpse, *p, roll_butchery, action, yield_multiplier );
     // after this point, if there was a liquid handling from the harvest,
     // and the liquid handling was interrupted, then the activity was canceled,
     // therefore operations on this activity's targets and values may be invalidated.
