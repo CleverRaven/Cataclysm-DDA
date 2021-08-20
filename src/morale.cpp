@@ -54,12 +54,12 @@ bool is_permanent_morale( const morale_type &id )
     static const std::set<morale_type> permanent_morale = {{
             MORALE_PERM_OPTIMIST,
             MORALE_PERM_BADTEMPER,
+            MORALE_PERM_NUMB,
             MORALE_PERM_FANCY,
             MORALE_PERM_MASOCHIST,
             MORALE_PERM_CONSTRAINED,
             MORALE_PERM_FILTHY,
-            MORALE_PERM_DEBUG,
-            MORALE_PERM_NUMB
+            MORALE_PERM_DEBUG
         }
     };
 
