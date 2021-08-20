@@ -3073,6 +3073,11 @@ class Character : public Creature, public visitable
         int dex_bonus = 0;
         int per_bonus = 0;
         int int_bonus = 0;
+        /** Hardcoded stats bonus */
+        int str_bonus_hardcoded = 0;
+        int dex_bonus_hardcoded = 0;
+        int per_bonus_hardcoded = 0;
+        int int_bonus_hardcoded = 0;
         // cached so the display knows how much your bonus is
         int enchantment_speed_bonus = 0;
 

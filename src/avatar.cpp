@@ -1070,6 +1070,11 @@ void avatar::reset_stats()
             mod_int_bonus( it.get_mod( "INT", reduced ) );
         }
     }
+    // Hardcoded effects
+    mod_str_bonus(str_bonus_hardcoded);
+    mod_dex_bonus(dex_bonus_hardcoded);
+    mod_int_bonus(int_bonus_hardcoded);
+    mod_per_bonus(per_bonus_hardcoded);
 
     Character::reset_stats();
 

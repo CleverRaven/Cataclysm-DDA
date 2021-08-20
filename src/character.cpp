@@ -12924,7 +12924,15 @@ void Character::process_one_effect( effect &it, bool is_new )
     int val = 0;
 
     // Still hardcoded stuff, do this first since some modify their other traits
+    int str = get_str_bonus();
+    int dex = get_dex_bonus();
+    int intl = get_int_bonus();
+    int per = get_per_bonus();
     hardcoded_effects( it );
+    str_bonus_hardcoded = get_str_bonus() - str;
+    dex_bonus_hardcoded = get_dex_bonus() - dex;
+    int_bonus_hardcoded = get_int_bonus() - intl;
+    per_bonus_hardcoded = get_per_bonus() - per;
 
     const auto get_effect = [&it, is_new]( const std::string & arg, bool reduced ) {
         if( is_new ) {
