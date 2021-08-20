@@ -72,7 +72,6 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
             morale_type( "morale_perm_fancy" ),
             morale_type( "morale_perm_optimist" ),
             morale_type( "morale_perm_badtemper" ),
-            morale_type( "morale_perm_numb" ),
             morale_type( "morale_perm_constrained" ),
             morale_type( "morale_perm_nomad" ),
             morale_type( "morale_game_found_kitten" ),
@@ -100,6 +99,8 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
 
             morale_type( "morale_accomplishment" ),
             morale_type( "morale_failure" ),
+
+            morale_type( "morale_perm_numb" ),
 
             morale_type( "morale_null" )
         }
@@ -170,7 +171,6 @@ const morale_type MORALE_PERM_HOARDER( "morale_perm_hoarder" );
 const morale_type MORALE_PERM_FANCY( "morale_perm_fancy" );
 const morale_type MORALE_PERM_OPTIMIST( "morale_perm_optimist" );
 const morale_type MORALE_PERM_BADTEMPER( "morale_perm_badtemper" );
-const morale_type MORALE_PERM_NUMB( "morale_perm_numb" );
 const morale_type MORALE_PERM_CONSTRAINED( "morale_perm_constrained" );
 const morale_type MORALE_PERM_NOMAD( "morale_perm_nomad" );
 const morale_type MORALE_GAME_FOUND_KITTEN( "morale_game_found_kitten" );
@@ -192,6 +192,7 @@ const morale_type MORALE_FUNERAL( "morale_funeral" );
 const morale_type MORALE_TREE_COMMUNION( "morale_tree_communion" );
 const morale_type MORALE_ACCOMPLISHMENT( "morale_accomplishment" );
 const morale_type MORALE_FAILURE( "morale_failure" );
+const morale_type MORALE_PERM_NUMB("morale_perm_numb");
 
 namespace
 {
