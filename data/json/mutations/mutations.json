@@ -121,7 +121,6 @@
     "points": 0,
     "description": "You're a normal human; there's nothing wrong with you.  No need to worry.",
     "category": [ "MEDICAL" ],
-    "changes_to": [ "NUMB" ],
     "triggers": [
       [
         {
@@ -7052,12 +7051,10 @@
     "id": "NUMB",
     "name": { "str": "Numb" },
     "points": 0,
-    "description": "You are no longer capable of feeling or expressing emotion.  Your resulting uncanny demeanor will unsettle others and the conversion of mental resources has made you slightly less perceptive and dextrous.  However, you find mental task much easier.",
+    "description": "Your ability to feel or express emotion has been greatly hampered.  Your uncanny demeanor is sure to unsettle others, though incedentally you find yourself to be a bit smarter.",
     "category": [ "MEDICAL" ],
     "threshreq": [ "THRESH_MEDICAL" ],
-    "prereqs": [ "JEKYLL" ],
-    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LEARNING_FOCUS", "add": 5 } ] } ],
-    "social_modifiers": { "intimidate": 10 },
-    "passive_mods": { "int_mod": 2, "dex_mod": -1, "per_mod": -1 }
+    "passive_mods": { "int_mod": 1, "dex_mod": -1, "per_mod": -1 },
+    "social_modifiers": { "persuade": -20, "lie": -10, "intimidate": 10 }
   }
 ]
