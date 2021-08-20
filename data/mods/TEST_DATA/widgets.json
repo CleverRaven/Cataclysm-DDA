@@ -72,6 +72,13 @@
     "style": "number"
   },
   {
+    "id": "test_morale_num",
+    "type": "widget",
+    "label": "MORALE",
+    "var": "morale_level",
+    "style": "number"
+  },
+  {
     "id": "test_speed_num",
     "type": "widget",
     "label": "SPEED",

@@ -1,6 +1,7 @@
 #include "catch/catch.hpp"
 
 #include "player_helpers.h"
+#include "morale.h"
 #include "widget.h"
 
 // test widgets defined in data/json/sidebar.json and data/mods/TEST_DATA/widgets.json
@@ -269,6 +270,19 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         CHECK( mana_w.layout( ava ) == "MANA: 150" );
         ava.magic->set_mana( 450 );
         CHECK( mana_w.layout( ava ) == "MANA: 450" );
+    }
+
+    SECTION( "morale" ) {
+        widget morale_w = widget_id( "test_morale_num" ).obj();
+
+        ava.clear_morale();
+        CHECK( morale_w.layout( ava ) == "MORALE: 0" );
+        ava.add_morale( MORALE_FOOD_GOOD, 20 );
+        CHECK( morale_w.layout( ava ) == "MORALE: 20" );
+
+        ava.clear_morale();
+        ava.add_morale( MORALE_KILLED_INNOCENT, -100 );
+        CHECK( morale_w.layout( ava ) == "MORALE: -100" );
     }
 
     SECTION( "move counter" ) {

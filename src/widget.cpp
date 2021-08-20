@@ -61,6 +61,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "fatigue";
         case widget_var::mana:
             return "mana";
+        case widget_var::morale_level:
+            return "morale_level";
         // Base stats
         case widget_var::stat_str:
             return "stat_str";
@@ -133,6 +135,10 @@ int widget::get_var_max( const avatar &ava )
         case widget_var::mana:
             max_val = ava.magic->max_mana( ava );
             break;
+        case widget_var::morale_level:
+            // TODO: Determine actual max
+            max_val = 100;
+            break;
         case widget_var::bp_hp:
             // HP for body part
             max_val = ava.get_part_hp_max( _bp_id );
@@ -166,6 +172,9 @@ int widget::get_var_value( const avatar &ava )
             break;
         case widget_var::mana:
             value = ava.magic->available_mana();
+            break;
+        case widget_var::morale_level:
+            value = ava.get_morale_level();
             break;
         case widget_var::bp_hp:
             // HP for body part

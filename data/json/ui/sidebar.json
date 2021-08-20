@@ -245,6 +245,13 @@
     "style": "number"
   },
   {
+    "id": "morale_num",
+    "type": "widget",
+    "label": "Morale",
+    "var": "morale_level",
+    "style": "number"
+  },
+  {
     "id": "pain_num",
     "type": "widget",
     "label": "Pain",
