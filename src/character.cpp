@@ -4675,7 +4675,13 @@ void Character::reset_stats()
 void Character::reset()
 {
     // TODO: Move reset_stats here, remove it from Creature
-    Creature::reset();
+    reset_bonuses();
+    // Apply bonuses from hardcoded effects
+    mod_str_bonus(str_bonus_hardcoded);
+    mod_dex_bonus(dex_bonus_hardcoded);
+    mod_int_bonus(int_bonus_hardcoded);
+    mod_per_bonus(per_bonus_hardcoded);
+    reset_stats();
 }
 
 bool Character::has_nv()
@@ -13181,6 +13187,12 @@ void Character::process_effects()
         remove_effect( effect_recover );
     }
 
+    //Clear hardcoded bonuses from last turn
+    //Recalculated in process_one_effect
+    str_bonus_hardcoded = 0;
+    dex_bonus_hardcoded = 0;
+    int_bonus_hardcoded = 0;
+    per_bonus_hardcoded = 0;
     //Human only effects
     for( std::pair<const efftype_id, std::map<bodypart_id, effect>> &elem : *effects ) {
         for( std::pair<const bodypart_id, effect> &_effect_it : elem.second ) {
