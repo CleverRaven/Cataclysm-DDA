@@ -207,6 +207,10 @@ bool Skill::is_contextual_skill() const
 void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modifier,
                         bool allow_multilevel )
 {
+    if( amount < 0 ) {
+        debugmsg( "train() called with negative xp: %d", amount );
+        return;
+    }
     // catchup gets faster the higher the level gap gets.
     float level_gap = 1.0f * std::max( _knowledgeLevel, 1 ) / std::max( _level, 1 );
     float catchup_amount = amount * catchup_modifier;
@@ -240,6 +244,13 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
         knowledge_amount *= scaling;
     }
     _exercise += catchup_amount;
+    if( _exercise < 0 ) {
+        debugmsg( "integer overflow in train() amount=%d catchup_modifier=%g knowledge_modifier=%g level_gap=%g catchup_amount=%g knowledge_amount=%g scaling=%g _exercise=%d",
+                  amount, catchup_modifier, knowledge_modifier, level_gap, catchup_amount, knowledge_amount, scaling,
+                  _exercise );
+        _exercise -= catchup_amount;
+        return;
+    }
     _rustAccumulator -= catchup_amount;
     _knowledgeExperience += knowledge_amount;
 
