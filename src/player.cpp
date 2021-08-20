@@ -80,19 +80,6 @@
 #include "vpart_position.h"
 #include "weather.h"
 
-static const efftype_id effect_bleed( "bleed" );
-static const efftype_id effect_downed( "downed" );
-static const efftype_id effect_masked_scent( "masked_scent" );
-static const efftype_id effect_narcosis( "narcosis" );
-static const efftype_id effect_onfire( "onfire" );
-static const efftype_id effect_sleep( "sleep" );
-
-static const trait_id trait_NOMAD( "NOMAD" );
-static const trait_id trait_NOMAD2( "NOMAD2" );
-static const trait_id trait_NOMAD3( "NOMAD3" );
-
-static const skill_id skill_swimming( "swimming" );
-
 player::player()
 {
     str_cur = 8;
