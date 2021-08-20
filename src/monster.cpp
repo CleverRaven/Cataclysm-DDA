@@ -1238,7 +1238,8 @@ monster_attitude monster::attitude( const Character *u ) const
             }
         }
         auto *u_fac = u->get_faction();
-        if( u_fac && u_fac->mon_faction && faction == u_fac->mon_faction ) {
+        if( u_fac && u_fac->mon_faction && faction == u_fac->mon_faction &&
+            faction.obj().attitude( u_fac->mon_faction ) == MFA_FRIENDLY ) {
             return MATT_FRIEND;
         }
 
@@ -1261,6 +1262,23 @@ monster_attitude monster::attitude( const Character *u ) const
                 if( type->in_species( elem.first ) ) {
                     effective_anger += elem.second;
                 }
+            }
+        }
+
+        if( u_fac ) {
+            switch( faction.obj().attitude( u_fac->mon_faction ) ) {
+                case MFA_FRIENDLY:
+                    return MATT_FRIEND;
+                case MFA_HATE:
+                    if( has_flag( MF_KEEP_DISTANCE ) && rl_dist( pos(), goal ) < type->tracking_distance ) {
+                        return MATT_FLEE;
+                    }
+                    return MATT_ATTACK;
+                case MFA_NEUTRAL:
+                    return MATT_IGNORE;
+                case MFA_BY_MOOD:
+                default:
+                    break;
             }
         }
 
