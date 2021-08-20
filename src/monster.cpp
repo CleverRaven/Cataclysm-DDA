@@ -1168,6 +1168,7 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
         if( faction_att == MFA_FRIENDLY ) {
             // Can only happen if altered above
             return Attitude::FRIENDLY;
+            // NOLINTNEXTLINE(bugprone-branch-clone)
         } else if( faction_att == MFA_HATE ) {
             // Stuff that hates a specific faction will always attack that faction
             return Attitude::HOSTILE;
