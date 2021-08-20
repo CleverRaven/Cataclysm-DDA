@@ -74,12 +74,6 @@ class player : public Character
         player &operator=( const player & ) = delete;
         player &operator=( player && ) noexcept( list_is_noexcept );
 
-        /** Calls Character::normalize()
-         *  normalizes HP and body temperature
-         */
-
-        void normalize() override;
-
         player *as_player() override {
             return this;
         }
@@ -96,9 +90,6 @@ class player : public Character
 
         // by default save all contained info
         virtual void serialize( JsonOut &jsout ) const = 0;
-
-        /** Resets movement points and applies other non-idempotent changes */
-        void process_turn() override;
 
         // ---------------VALUES-----------------
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.

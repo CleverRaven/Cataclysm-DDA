@@ -2179,7 +2179,7 @@ class Character : public Creature, public visitable
          *  Player can only cross one mutation threshold.
          */
         bool crossed_threshold() const;
-        
+
         void environmental_revert_effect();
 
         /**
