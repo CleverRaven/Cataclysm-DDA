@@ -6,6 +6,7 @@
 #include "condition.h"
 #include "game.h"
 #include "generic_factory.h"
+#include "scenario.h"
 #include "talker.h"
 #include "type_id.h"
 
@@ -59,6 +60,8 @@ void effect_on_condition::load( const JsonObject &jo, const std::string & )
         false_effect.load_effect( jo, "false_effect" );
         has_false_effect = true;
     }
+
+    optional( jo, was_loaded, "scenario_specific", scenario_specific );
     optional( jo, was_loaded, "run_for_npcs", run_for_npcs, false );
     optional( jo, was_loaded, "global", global, false );
     if( activate_only && ( global || run_for_npcs ) ) {
@@ -66,6 +69,7 @@ void effect_on_condition::load( const JsonObject &jo, const std::string & )
     } else if( global && run_for_npcs ) {
         jo.throw_error( "An effect_on_condition can be either run_for_npcs or global but not both." );
     }
+
 }
 
 effect_on_condition_id effect_on_conditions::load_inline_eoc( const JsonValue &jv,
@@ -91,12 +95,24 @@ static time_duration next_recurrence( const effect_on_condition_id &eoc )
 void effect_on_conditions::load_new_character( Character &you )
 {
     bool is_avatar = you.is_avatar();
-    for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
-        if( !eoc.activate_only && ( is_avatar || eoc.run_for_npcs ) ) {
+    for( const effect_on_condition_id &eoc_id : get_scenario()->eoc() ) {
+        effect_on_condition eoc = eoc_id.obj();
+        if( eoc.scenario_specific ) {
             queued_eoc new_eoc = queued_eoc{ eoc.id, true, calendar::turn + next_recurrence( eoc.id ) };
             you.queued_effect_on_conditions.push( new_eoc );
         }
     }
+    effect_on_conditions::process_effect_on_conditions( you );
+    effect_on_conditions::clear( you );
+
+    for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
+        if( !eoc.activate_only && !eoc.scenario_specific && ( is_avatar || eoc.run_for_npcs ) ) {
+            queued_eoc new_eoc = queued_eoc{ eoc.id, true, calendar::turn + next_recurrence( eoc.id ) };
+            you.queued_effect_on_conditions.push( new_eoc );
+        }
+    }
+
+    effect_on_conditions::process_effect_on_conditions( you );
 }
 
 void effect_on_conditions::load_existing_character( Character &you )
@@ -104,7 +120,7 @@ void effect_on_conditions::load_existing_character( Character &you )
     bool is_avatar = you.is_avatar();
     std::map<effect_on_condition_id, bool> new_eocs;
     for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
-        if( !eoc.activate_only && ( is_avatar || eoc.run_for_npcs ) ) {
+        if( !eoc.activate_only && !eoc.scenario_specific && ( is_avatar || eoc.run_for_npcs ) ) {
             new_eocs[eoc.id] = true;
         }
     }
@@ -146,7 +162,8 @@ void effect_on_conditions::process_effect_on_conditions( Character &you )
     dialogue d( get_talker_for( you ), nullptr );
     std::vector<queued_eoc> eocs_to_queue;
     while( !you.queued_effect_on_conditions.empty() &&
-           you.queued_effect_on_conditions.top().time <= calendar::turn ) {
+           ( you.queued_effect_on_conditions.top().eoc.obj().scenario_specific ||
+             you.queued_effect_on_conditions.top().time <= calendar::turn ) ) {
         queued_eoc top = you.queued_effect_on_conditions.top();
         bool activated = top.eoc->activate( d );
         if( top.recurring ) {
