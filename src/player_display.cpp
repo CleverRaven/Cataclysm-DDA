@@ -94,48 +94,47 @@ static std::vector<std::pair<bodypart_id, bool>> list_and_combine_bps( const Cha
     return bps;
 }
 
-static std::pair<size_t, size_t> subindex_around_cursor(
-    const size_t list_length,
-    const size_t available_space,
-    const size_t cursor_pos,
+static std::pair<int, int> subindex_around_cursor(
+    const int num_entries,
+    const int available_space,
+    const int cursor_pos,
     const bool focused
 )
 /**
- * Return indexes [start, end) that should be displayed from list long `list_length`,
+ * Return indexes [start, end) that should be displayed from list long `num_entries`,
  * given that cursor is at position `cursor_pos` and we have `available_space` spaces.
  *
  * Example:
- * list_length = 6, available_space = 3, cursor_pos = 2, focused = true;
+ * num_entries = 6, available_space = 3, cursor_pos = 2, focused = true;
  * so choose 3 from indexes [0, 1, 2, 3, 4, 5]
  * return {1, 4}
  */
 {
-    if( !focused || list_length <= available_space ) {
-        return std::make_pair( 0, std::min( available_space, list_length ) );
+    if( !focused || num_entries <= available_space ) {
+        return std::make_pair( 0, std::min( available_space, num_entries ) );
     }
-    size_t slice_start = std::max( 0, int( cursor_pos ) - int( available_space ) / 2 );
-    slice_start = std::min( slice_start, list_length - available_space );
-    size_t slice_end = slice_start + available_space;
-    return std::make_pair( slice_start, slice_end );
+    int slice_start = std::min( std::max( 0, cursor_pos - available_space / 2 ),
+                                num_entries - available_space );
+    return std::make_pair( slice_start, slice_start + available_space );
 }
 
 static void draw_scrollbar(
-    const size_t list_length,
-    const size_t height,
-    const size_t width,
-    const size_t height_offset,
-    const size_t range_first,
+    const int num_entries,
+    const int height,
+    const int width,
+    const int height_offset,
+    const int range_first,
     const catacurses::window &win
 )
 /**
  * Draw scrollbar if scrollable.
  */
 {
-    if( list_length > height ) {
+    if( num_entries > height ) {
         scrollbar()
-        .offset_x( width )
+        .offset_x( width + 1 )
         .offset_y( height_offset )
-        .content_size( list_length )
+        .content_size( num_entries )
         .viewport_pos( range_first )
         .viewport_size( height )
         .scroll_to_last( false )
@@ -342,25 +341,25 @@ static void draw_proficiencies_tab( const catacurses::window &win, const unsigne
     const nc_color title_color = focused ? h_light_gray : c_light_gray;
     center_print( win, 0, title_color, _( title_PROFICIENCIES ) );
 
-    const size_t height = getmaxy( win ) - 1;
-    const size_t width = getmaxx( win ) - 1;
-    const std::pair<const size_t, const size_t> range = subindex_around_cursor( profs.size(), height,
-            line, focused );
-    for( size_t i = range.first; i < range.second; ++i ) {
+    const int height = getmaxy( win ) - 1;
+    const bool do_draw_scrollbar = height < static_cast<int>( profs.size() );
+    const int width = getmaxx( win ) - 1 - ( do_draw_scrollbar ? 1 : 0 );  // -1 for beggining space
+
+    const std::pair<const int, const int> range = subindex_around_cursor( profs.size(), height, line,
+            focused );
+    for( size_t i = range.first; i < static_cast<size_t>( range.second ); ++i ) {
         std::string name;
         const display_proficiency &cur = profs[i];
         if( !cur.known && cur.id->can_learn() ) {
-            static_assert( grid_width == 26, "Reminder to update formatting"
-                           "for this string when grid width changes" );
             name = string_format( "%s %2.0f%%",
-                                  left_justify( trim_by_length( cur.id->name(), width - 4 ), 21 ),
+                                  left_justify( trim_by_length( cur.id->name(), width - 4 ), width - 4 ),
                                   std::floor( cur.practice * 100 ) );
         } else {
             name = trim_by_length( cur.id->name(), width );
         }
         const nc_color col = focused && i == line ? hilite( cur.color ) : cur.color;
-        nc_color col_cur = col;
-        print_colored_text( win, point( 0, 1 + i - range.first ), col_cur, col, name );
+        nc_color col_cur = col;  // make non const copy
+        print_colored_text( win, point( 1, 1 + i - range.first ), col_cur, col, name );
     }
     draw_scrollbar( profs.size(), height, width, 1, range.first, win );
     wnoutrefresh( win );
@@ -580,16 +579,17 @@ static void draw_traits_tab( const catacurses::window &w_traits,
     const nc_color title_col = is_current_tab ? h_light_gray : c_light_gray;
     center_print( w_traits, 0, title_col, _( title_TRAITS ) );
 
-    const size_t height = getmaxy( w_traits ) - 1;
-    const size_t width = getmaxx( w_traits ) - 1;
-    const std::pair<const size_t, const size_t> range = subindex_around_cursor( traitslist.size(),
-            height, line, is_current_tab );
+    const int height = getmaxy( w_traits ) - 1;
+    const bool do_draw_scrollbar = height < static_cast<int>( traitslist.size() );
+    const int width = getmaxx( w_traits ) - 1 - ( do_draw_scrollbar ? 1 : 0 );
+    const std::pair<const int, const int> range = subindex_around_cursor( traitslist.size(), height,
+            line, is_current_tab );
 
-    for( size_t i = range.first; i < range.second; i++ ) {
+    for( size_t i = range.first; i < static_cast<size_t>( range.second ); ++i ) {
         const auto &mdata = traitslist[i].obj();
         const nc_color color = mdata.get_display_color();
-        trim_and_print( w_traits, point( 1, static_cast<int>( 1 + i - range.first ) ),
-                        getmaxx( w_traits ) - 1, is_current_tab && i == line ? hilite( color ) : color, mdata.name() );
+        trim_and_print( w_traits, point( 1, static_cast<int>( 1 + i - range.first ) ), width,
+                        is_current_tab && i == line ? hilite( color ) : color, mdata.name() );
     }
     draw_scrollbar( traitslist.size(), height, width, 1, range.first, w_traits );
     wnoutrefresh( w_traits );
@@ -633,16 +633,15 @@ static void draw_bionics_tab( const catacurses::window &w_bionics,
                     string_format( _( "Power: <color_light_blue>%1$d %2$s</color>"
                                       " / <color_light_blue>%3$d kJ</color>" ),
                                    power_amount, power_unit, units::to_kilojoule( you.get_max_power_level() ) ) );
-    const size_t height = getmaxy( w_bionics ) - 2;
-    const bool do_draw_scrollbar = height < bionicslist.size();
-    const size_t width = getmaxx( w_bionics ) - 1;
-    const std::pair<const size_t, const size_t> range = subindex_around_cursor( bionicslist.size(),
-            height, line, is_current_tab );
+    const int height = getmaxy( w_bionics ) - 2;  // -2 for headline and power_level
+    const bool do_draw_scrollbar = height < static_cast<int>( bionicslist.size() );
+    const int width = getmaxx( w_bionics ) - 1 - ( do_draw_scrollbar ? 1 : 0 );
+    const std::pair<const int, const int> range = subindex_around_cursor( bionicslist.size(), height,
+            line, is_current_tab );
 
-    for( size_t i = range.first; i < range.second; i++ ) {
-        trim_and_print( w_bionics, point( 1, static_cast<int>( 2 + i - range.first ) ),
-                        width - ( do_draw_scrollbar ? 1 : 0 ), is_current_tab &&
-                        i == line ? hilite( c_white ) : c_white, "%s", bionicslist[i].info().name );
+    for( size_t i = range.first; i < static_cast<size_t>( range.second ); ++i ) {
+        trim_and_print( w_bionics, point( 1, static_cast<int>( 2 + i - range.first ) ), width,
+                        is_current_tab && i == line ? hilite( c_white ) : c_white, "%s", bionicslist[i].info().name );
     }
     draw_scrollbar( bionicslist.size(), height, width, 2, range.first, w_bionics );
     wnoutrefresh( w_bionics );
@@ -669,15 +668,15 @@ static void draw_effects_tab( const catacurses::window &w_effects,
     const nc_color title_col = is_current_tab ? h_light_gray : c_light_gray;
     center_print( w_effects, 0, title_col, _( title_EFFECTS ) );
 
-    const size_t height = getmaxy( w_effects ) - 1;
-    const size_t width = getmaxx( w_effects ) - 1;
-    const std::pair<const size_t, const size_t> range = subindex_around_cursor(
-                effect_name_and_text.size(), height, line, is_current_tab );
+    const int height = getmaxy( w_effects ) - 1;
+    const bool do_draw_scrollbar = height < static_cast<int>( effect_name_and_text.size() );
+    const int width = getmaxx( w_effects ) - 1 - ( do_draw_scrollbar ? 1 : 0 );
+    const std::pair<const int, const int> range = subindex_around_cursor( effect_name_and_text.size(),
+            height, line, is_current_tab );
 
-    for( size_t i = range.first; i < range.second; i++ ) {
-        trim_and_print( w_effects, point( 0, static_cast<int>( 1 + i - range.first ) ),
-                        getmaxx( w_effects ) - 1, is_current_tab &&
-                        i == line ? h_light_gray : c_light_gray, effect_name_and_text[i].first );
+    for( size_t i = range.first; i < static_cast<size_t>( range.second ); ++i ) {
+        trim_and_print( w_effects, point( 1, static_cast<int>( 1 + i - range.first ) ), width,
+                        is_current_tab && i == line ? h_light_gray : c_light_gray, effect_name_and_text[i].first );
     }
     draw_scrollbar( effect_name_and_text.size(), height, width, 1, range.first, w_effects );
     wnoutrefresh( w_effects );
