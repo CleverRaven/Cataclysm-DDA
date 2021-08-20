@@ -569,9 +569,9 @@
     "symbol": "(",
     "color": "yellow",
     "name": { "str": "composite bow (light)", "str_pl": "composite bows (light)" },
-    "description": "A traditionally-constructed bow made from wood, horn and sinew.  It has a moderate draw weight.",
+    "description": "A traditionally-constructed bow made from wood, bone, and sinew.  It has a moderate draw weight.",
     "price": 42000,
-    "//": "60in bamboo, horn and sinew reflex bow, 70 lbs draw, 50J, 0.40 slugs with a 30g arrow.",
+    "//": "60in wood, bone, and sinew reflex bow, 70 lbs draw, 50J, 0.40 slugs with a 30g arrow.",
     "material": [ "wood" ],
     "flags": [
       "FIRE_TWOHAND",
