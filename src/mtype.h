@@ -162,13 +162,10 @@ enum m_flag : int {
     MF_AVOID_FALL,          // This monster will path around cliffs instead of off of them.
     MF_PRIORITIZE_TARGETS,  // This monster will prioritize targets depending on their danger levels
     MF_NOT_HALLU,           // Monsters that will NOT appear when player's producing hallucinations
-    MF_CATFOOD,             // This monster will become friendly when fed cat food.
-    MF_CATTLEFODDER,        // This monster will become friendly when fed cattle fodder.
-    MF_BIRDFOOD,            // This monster will become friendly when fed bird food.
     MF_CANPLAY,             // This monster can be played with if it's a pet.
     MF_PET_MOUNTABLE,       // This monster can be mounted and ridden when tamed.
     MF_PET_HARNESSABLE,     // This monster can be harnessed when tamed.
-    MF_DOGFOOD,             // This monster will become friendly when fed dog food.
+    MF_DOGFOOD,             // This monster will respond to the dog whistle.
     MF_MILKABLE,            // This monster is milkable.
     MF_SHEARABLE,           // This monster is shearable.
     MF_NO_BREED,            // This monster doesn't breed, even though it has breed data
