@@ -1151,6 +1151,36 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
     return done;
 }
 
+static std::pair<unsigned int, unsigned int> calculate_shared_column_win_height
+/**
+ * Calculate max allowed height of two windows sharing column space.
+ */
+(
+    const unsigned int available_height,
+    const unsigned int first_win_size_y_max,
+    const unsigned int second_win_size_y_max
+)
+{
+    unsigned int first_win_size_y = first_win_size_y_max;
+    unsigned int second_win_size_y = second_win_size_y_max;
+    if( ( second_win_size_y_max + 1 + first_win_size_y_max ) > available_height ) {
+        // maximum space for either window if they're both the same size
+        unsigned max_shared_y = ( available_height - 1 ) / 2;
+        if( std::min( second_win_size_y_max, first_win_size_y_max ) > max_shared_y ) {
+            // both are larger than the shared size
+            second_win_size_y = max_shared_y;
+            first_win_size_y = available_height - 1 - second_win_size_y;
+        } else if( first_win_size_y_max <= max_shared_y ) {
+            // first window is less than the shared size, so give space to second window
+            second_win_size_y = available_height - 1 - first_win_size_y_max;
+        } else {
+            // second window is less than the shared size
+            first_win_size_y = available_height - 1 - second_win_size_y;
+        }
+    }
+    return std::make_pair( first_win_size_y, second_win_size_y );
+}
+
 void Character::disp_info()
 {
     std::vector<std::pair<std::string, std::string>> effect_name_and_text;
@@ -1270,28 +1300,6 @@ void Character::disp_info()
     const unsigned int infooffsetytop = grid_height + 2;
     unsigned int infooffsetybottom = infooffsetytop + 1 + info_win_size_y;
 
-    const auto calculate_trait_and_bionic_height = [&]() {
-        const unsigned int maxy = static_cast<unsigned>( TERMY );
-        unsigned int trait_win_size_y = trait_win_size_y_max;
-        unsigned int bionics_win_size_y = bionics_win_size_y_max;
-        if( ( bionics_win_size_y_max + 1 + trait_win_size_y_max + infooffsetybottom ) > maxy ) {
-            // maximum space for either window if they're both the same size
-            unsigned max_shared_y = ( maxy - infooffsetybottom - 1 ) / 2;
-            if( std::min( bionics_win_size_y_max, trait_win_size_y_max ) > max_shared_y ) {
-                // both are larger than the shared size
-                bionics_win_size_y = max_shared_y;
-                trait_win_size_y = maxy - infooffsetybottom - 1 - bionics_win_size_y;
-            } else if( trait_win_size_y_max <= max_shared_y ) {
-                // trait window is less than the shared size, so give space to bionics
-                bionics_win_size_y = maxy - infooffsetybottom - 1 - trait_win_size_y_max;
-            } else {
-                // bionics window is less than the shared size
-                trait_win_size_y = maxy - infooffsetybottom - 1 - bionics_win_size_y;
-            }
-        }
-        return std::make_pair( trait_win_size_y, bionics_win_size_y );
-    };
-
     // Print name and header
     // Post-humanity trumps your pre-Cataclysm life
     // Unless you have a custom profession.
@@ -1371,6 +1379,13 @@ void Character::disp_info()
         draw_stats_tab( w_stats, *this, line, curtab );
     } );
 
+    // TRAITS & BIONICS
+    const std::pair<unsigned int, unsigned int> trait_and_bionic_height =
+        calculate_shared_column_win_height(
+            static_cast<unsigned>( TERMY ) - infooffsetybottom,
+            trait_win_size_y_max,
+            bionics_win_size_y_max
+        );
     // TRAITS
     unsigned int trait_win_size_y = 0;
     catacurses::window w_traits;
@@ -1378,7 +1393,7 @@ void Character::disp_info()
     border_helper::border_info &border_traits = borders.add_border();
     ui_adaptor ui_traits;
     ui_traits.on_screen_resize( [&]( ui_adaptor & ui_traits ) {
-        trait_win_size_y = calculate_trait_and_bionic_height().first;
+        trait_win_size_y = trait_and_bionic_height.first;
         w_traits = catacurses::newwin( trait_win_size_y, grid_width,
                                        point( grid_width + 1, infooffsetybottom ) );
         w_traits_border = catacurses::newwin( trait_win_size_y + 1, grid_width + 1,
@@ -1401,7 +1416,7 @@ void Character::disp_info()
     border_helper::border_info &border_bionics = borders.add_border();
     ui_adaptor ui_bionics;
     ui_bionics.on_screen_resize( [&]( ui_adaptor & ui_bionics ) {
-        bionics_win_size_y = calculate_trait_and_bionic_height().second;
+        bionics_win_size_y = trait_and_bionic_height.second;
         w_bionics = catacurses::newwin( bionics_win_size_y, grid_width,
                                         point( grid_width + 1,
                                                infooffsetybottom + trait_win_size_y + 1 ) );
