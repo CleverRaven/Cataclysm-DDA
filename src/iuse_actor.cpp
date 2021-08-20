@@ -4665,7 +4665,7 @@ cata::optional<int> effect_on_conditons_actor::use( Character &p, item &it, bool
         if( eoc->activate_only ) {
             eoc->activate( d );
         } else {
-            debugmsg( "Cannot use a recurring effect_on_condition in an item." );
+            debugmsg( "Cannot use a recurring effect_on_condition in an item. If you don't wish the effect_on_condition to happen on its own remove the recurrence min and max.  Otherwise create a non recurring effect_on_condition for this item with its condition and effects and have a recurring one queue it." );
         }
     }
     return it.type->charges_to_use();
