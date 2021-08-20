@@ -18,7 +18,6 @@
 static const activity_id ACT_NULL( "ACT_NULL" );
 static const activity_id ACT_BOLTCUTTING( "ACT_BOLTCUTTING" );
 static const activity_id ACT_CRACKING( "ACT_CRACKING" );
-static const activity_id ACT_GENERIC( "ACT_GENERIC" );
 static const activity_id ACT_SHEARING( "ACT_SHEARING" );
 
 static const efftype_id effect_debugged( "debugged" );
