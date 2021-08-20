@@ -41,7 +41,7 @@
       { "item": "con_mix", "prob": 120, "charges": [ 0, 500 ] },
       { "item": "elec_jackhammer", "prob": 40, "charges": [ 0, 6000 ] },
       [ "metal_smoother", 90 ],
-      { "item": "jackhammer", "prob": 40, "charges": [ 0, 400 ] },
+      { "item": "jackhammer", "prob": 40, "charges": [ 0, 1200 ] },
       { "group": "tools_toolbox", "prob": 20 },
       { "group": "tools_workshop", "prob": 5 },
       [ "recharge_station", 10 ],
@@ -677,7 +677,7 @@
       { "item": "chainsaw_off", "prob": 10, "charges": [ 0, 450 ] },
       { "item": "elec_chainsaw_off", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "trimmer_off", "prob": 40, "charges": [ 0, 600 ] },
-      { "item": "jackhammer", "prob": 50, "charges": [ 0, 400 ] },
+      { "item": "jackhammer", "prob": 50, "charges": [ 0, 1200 ] },
       { "item": "elec_jackhammer", "prob": 50, "charges": [ 0, 1000 ] },
       { "item": "circsaw_off", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "angle_grinder", "prob": 20, "charges": [ 0, 500 ] }

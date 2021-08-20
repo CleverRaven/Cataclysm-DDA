@@ -67,7 +67,7 @@
     "qualities": [ [ { "id": "DIG", "level": 2 } ] ],
     "required_skills": [ [ "survival", 3 ] ],
     "time": "300 m",
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ] ],
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 1200 ], [ "elec_jackhammer", 7000 ] ] ],
     "pre_terrain": "t_rock_floor",
     "post_terrain": "t_pit"
   },
@@ -2647,7 +2647,7 @@
       [ { "id": "HAMMER", "level": 2 } ],
       [ { "id": "DIG", "level": 2 } ]
     ],
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 140 ], [ "elec_jackhammer", 7000 ] ] ],
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 1200 ], [ "elec_jackhammer", 7000 ] ] ],
     "components": [ [ [ "2x4", 8 ], [ "log", 8 ] ], [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ] ],
     "pre_flags": "DIGGABLE",
     "pre_special": "check_down_OK",
@@ -2665,7 +2665,7 @@
       [ { "id": "HAMMER", "level": 2 } ],
       [ { "id": "DIG", "level": 2 } ]
     ],
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 160 ], [ "elec_jackhammer", 7000 ] ] ],
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 1200 ], [ "elec_jackhammer", 7000 ] ] ],
     "components": [ [ [ "2x4", 12 ], [ "log", 12 ] ], [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ] ],
     "pre_special": "check_down_OK",
     "pre_terrain": "t_rock_floor",
@@ -2727,7 +2727,7 @@
       [ { "id": "DIG", "level": 2 } ]
     ],
     "tools": [
-      [ [ "pickaxe", -1 ], [ "jackhammer", 160 ], [ "elec_jackhammer", 7000 ] ],
+      [ [ "pickaxe", -1 ], [ "jackhammer", 1200 ], [ "elec_jackhammer", 7000 ] ],
       [
         "miner_hat",
         "hat_hard",

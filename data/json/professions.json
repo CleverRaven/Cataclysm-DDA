@@ -3358,7 +3358,7 @@
           { "group": "charged_matches" },
           { "group": "full_gasmask" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "jackhammer", "charges": 400 },
+          { "item": "jackhammer", "charges": 0 },
           { "item": "light_minus_disposable_cell", "charges": 100 },
           { "item": "light_minus_disposable_cell", "charges": 100, "container-item": "miner_hat" }
         ]
