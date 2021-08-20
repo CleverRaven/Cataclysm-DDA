@@ -99,7 +99,6 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
 
             morale_type( "morale_accomplishment" ),
             morale_type( "morale_failure" ),
-
             morale_type( "morale_perm_numb" ),
 
             morale_type( "morale_null" )
