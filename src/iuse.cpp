@@ -2871,7 +2871,7 @@ cata::optional<int> iuse::dig( player *p, item *it, bool t, const tripoint & )
                                   _( "Exhuming a grave is fun now, when there is no one to object." ) );
             p->add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
         } else if( p->has_trait( trait_NUMB ) ) {
-            p->add_msg_if_player( m_bad, _( "You wonder if you will find anything usefull." ) );
+            p->add_msg_if_player( m_bad, _( "You wonder if you dig up anything usefull." ) );
             p->add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
         } else if( !p->has_trait( trait_EATDEAD ) &&
                    !p->has_trait( trait_SAPROVORE ) ) {
