@@ -44,6 +44,7 @@ static const trait_id trait_ROOTS1( "ROOTS1" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_STYLISH( "STYLISH" );
+static const trait_id trait_NUMB( "NUMB" );
 
 namespace
 {
@@ -53,6 +54,7 @@ bool is_permanent_morale( const morale_type &id )
     static const std::set<morale_type> permanent_morale = {{
             MORALE_PERM_OPTIMIST,
             MORALE_PERM_BADTEMPER,
+            MORALE_PERM_NUMB,
             MORALE_PERM_FANCY,
             MORALE_PERM_MASOCHIST,
             MORALE_PERM_CONSTRAINED,
@@ -106,6 +108,8 @@ static const morale_mult optimist( 1.2, 0.8 );
 // Again, those grouchy Bad-Tempered folks always focus on the negative.
 // They can't handle positive things as well.  They're No Fun.  D:
 static const morale_mult badtemper( 0.8, 1.2 );
+// Numb characters have trouble feeling anything    
+static const morale_mult numb( 0.25, 0.25 );    
 // Prozac reduces overall negative morale by 75%.
 static const morale_mult prozac( 1.0, 0.25 );
 // The bad prozac effect reduces good morale by 75%.
@@ -251,6 +255,8 @@ player_morale::player_morale() :
                                     _2, nullptr );
     const auto set_badtemper      = std::bind( &player_morale::set_permanent, _1, MORALE_PERM_BADTEMPER,
                                     _2, nullptr );
+    const auto set_numb           = std::bind( &player_morale::set_permanent, _1, MORALE_PERM_NUMB,
+                                    _2, nullptr );
     const auto set_stylish        = std::bind( &player_morale::set_stylish, _1, _2 );
     const auto update_constrained = std::bind( &player_morale::update_constrained_penalty, _1 );
     const auto update_masochist   = std::bind( &player_morale::update_masochist_bonus, _1 );
@@ -261,6 +267,9 @@ player_morale::player_morale() :
     mutations[trait_BADTEMPER]     = mutation_data(
                                          std::bind( set_badtemper, _1, -9 ),
                                          std::bind( set_badtemper, _1, 0 ) );
+    mutations[trait_NUMB]          = mutation_data(
+                                         std::bind( set_numb, _1, -1 ),
+                                         std::bind( set_numb, _1, 0 ) );    
     mutations[trait_STYLISH]       = mutation_data(
                                          std::bind( set_stylish, _1, true ),
                                          std::bind( set_stylish, _1, false ) );
@@ -358,6 +367,9 @@ morale_mult player_morale::get_temper_mult() const
     }
     if( has( MORALE_PERM_BADTEMPER ) ) {
         mult *= morale_mults::badtemper;
+    }
+    if( has( MORALE_PERM_NUMB ) ) {
+        mult *= morale_mults::numb;
     }
 
     return mult;
