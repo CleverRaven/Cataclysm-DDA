@@ -1135,8 +1135,7 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             return Attitude::FRIENDLY;
         }
 
-        if( ( friendly != 0 &&
-              ( faction_att == MFA_HATE || faction_att == MFA_FRIENDLY ) ) ||
+        if( friendly != 0 ||
             ( m->friendly != 0 &&
               ( faction_att == MFA_BY_MOOD || faction_att == MFA_NEUTRAL ) ) ) {
             // Can't be a static int_id, because mods add factions
@@ -1149,8 +1148,12 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
                 if( faction_att != faction_att2 ) {
                     if( faction_att == MFA_HATE ) {
                         faction_att = MFA_BY_MOOD;
-                    } else {
+                    } else if( faction_att == MFA_FRIENDLY ) {
                         faction_att = MFA_NEUTRAL;
+                    } else if( faction_att == MFA_BY_MOOD && faction_att2 == MFA_HATE ) {
+                        faction_att = MFA_HATE;
+                    } else if( faction_att == MFA_NEUTRAL && faction_att2 == MFA_FRIENDLY ) {
+                        faction_att = MFA_FRIENDLY;
                     }
                 }
             } else { // m->friendly != 0; take stronger attitude if congruent
