@@ -416,6 +416,10 @@ class Character : public Creature, public visitable
         int int_cur;
         int per_cur;
 
+        const profession *prof;
+        std::set<const profession *> hobbies;
+
+        int volume = 0;
         // The prevalence of getter, setter, and mutator functions here is partially
         // a result of the slow, piece-wise migration of the player class upwards into
         // the character class. As enough logic is moved upwards to fully separate
@@ -1355,7 +1359,7 @@ class Character : public Creature, public visitable
         bool has_installation_requirement( const bionic_id &bid );
         void consume_installation_requirement( const bionic_id &bid );
         /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthesia kits or NOPAIN mutation */
-        void introduce_into_anesthesia( const time_duration &duration, player &installer,
+        void introduce_into_anesthesia( const time_duration &duration, Character &installer,
                                         bool needs_anesthesia );
         /** Removes a bionic from my_bionics[] */
         void remove_bionic( const bionic_id &b );
