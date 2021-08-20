@@ -1211,12 +1211,12 @@ void Character::modify_morale( item &food, const int nutr )
             add_morale( MORALE_CANNIBAL, 5, 50 );
         } else if( psycho || sapiovore ) {
             add_msg_if_player( _( "Meh.  You've eaten worse." ) );
-        } else if( numb ) {
-            add_msg_if_player( m_bad, _( "You find this meal distasteful, but necessary." ) );
-            add_morale( MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes );
         } else if( spiritual ) {
             add_msg_if_player( m_bad,
                                _( "This is probably going to count against you if there's still an afterlife." ) );
+            add_morale( MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes );
+        } else if( numb ) {
+            add_msg_if_player( m_bad, _( "You find this meal distasteful, but necessary." ) );
             add_morale( MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes );
         } else {
             add_msg_if_player( m_bad, _( "You feel horrible for eating a person." ) );
