@@ -2508,7 +2508,12 @@
     "color": "white",
     "warmth": 35,
     "material_thickness": 0.5,
-    "use_action": { "target": "turtleneck_rolled", "msg": "You adjust the neck and collar of the turtleneck.", "type": "transform" },
+    "use_action": {
+      "target": "turtleneck_rolled",
+      "menu_text": "Roll neck",
+      "msg": "You adjust the neck and collar of the turtleneck.",
+      "type": "transform"
+    },
     "flags": [ "VARSIZE", "FANCY", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r", "mouth" ] } ]
   },
@@ -2528,7 +2533,12 @@
     "color": "white",
     "warmth": 35,
     "material_thickness": 0.5,
-    "use_action": { "target": "turtleneck", "msg": "You adjust the neck and collar of the turtleneck.", "type": "transform" },
+    "use_action": {
+      "target": "turtleneck",
+      "menu_text": "Unroll neck",
+      "msg": "You adjust the neck and collar of the turtleneck.",
+      "type": "transform"
+    },
     "flags": [ "VARSIZE", "FANCY", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "encumbrance": 8, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   },
@@ -2550,6 +2560,7 @@
     "material_thickness": 0.5,
     "use_action": {
       "target": "turtleneck_shirt_rolled",
+      "menu_text": "Roll neck",
       "msg": "You adjust the neck and collar of the turtleneck shirt.",
       "type": "transform"
     },
@@ -2572,7 +2583,12 @@
     "color": "white",
     "warmth": 20,
     "material_thickness": 0.5,
-    "use_action": { "target": "turtleneck_shirt", "msg": "You adjust the neck and collar of the turtleneck shirt.", "type": "transform" },
+    "use_action": {
+      "target": "turtleneck_shirt",
+      "menu_text": "Unroll neck",
+      "msg": "You adjust the neck and collar of the turtleneck shirt.",
+      "type": "transform"
+    },
     "flags": [ "VARSIZE", "FANCY", "ALLOWS_NATURAL_ATTACKS" ],
     "armor": [ { "encumbrance": 4, "coverage": 95, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   },
@@ -2819,7 +2835,7 @@
     "category": "armor",
     "name": { "str": "riot helmet" },
     "description": "A helmet with a plastic shield that covers your entire face.  Activate to raise the face shield.",
-    "use_action": { "type": "transform", "target": "helmet_riot_raised", "msg": "You raise your visor." },
+    "use_action": { "type": "transform", "target": "helmet_riot_raised", "menu_text": "Raise visor", "msg": "You raise your visor." },
     "weight": "2260 g",
     "volume": "2250 ml",
     "price": 22000,
@@ -2843,7 +2859,7 @@
     "category": "armor",
     "name": { "str": "riot helmet (raised visor)", "str_pl": "riot helmets (raised visor)" },
     "description": "A riot helmet with a plastic face shield which is raised up.  Activate to lower the shield.",
-    "use_action": { "type": "transform", "target": "helmet_riot", "msg": "You put down your visor." },
+    "use_action": { "type": "transform", "target": "helmet_riot", "menu_text": "Lower visor", "msg": "You put down your visor." },
     "weight": "2260 g",
     "volume": "2250 ml",
     "price": 22000,

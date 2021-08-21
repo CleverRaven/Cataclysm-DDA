@@ -93,6 +93,9 @@ using matype_id = string_id<martialart>;
 class ma_technique;
 using matec_id = string_id<ma_technique>;
 
+class mapgen_palette;
+using palette_id = string_id<mapgen_palette>;
+
 class material_type;
 using material_id = string_id<material_type>;
 

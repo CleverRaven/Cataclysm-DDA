@@ -2841,11 +2841,28 @@ void mapgen_palette::load_place_mapings( const JsonObject &jo, const std::string
     }
 }
 
-static std::map<std::string, mapgen_palette> palettes;
+static std::map<palette_id, mapgen_palette> palettes;
+
+template<>
+const mapgen_palette &string_id<mapgen_palette>::obj() const
+{
+    auto it = palettes.find( *this );
+    if( it == palettes.end() ) {
+        static const mapgen_palette null_palette;
+        return null_palette;
+    }
+    return it->second;
+}
+
+template<>
+bool string_id<mapgen_palette>::is_valid() const
+{
+    return palettes.find( *this ) != palettes.end();
+}
 
 void mapgen_palette::check()
 {
-    std::string context = "palette " + id;
+    std::string context = "palette " + id.str();
     mapgen_parameters no_parameters;
     for( const std::pair<const std::string, mapgen_parameter> &param : parameters.map ) {
         std::string this_context = string_format( "parameter %s in %s", param.first, context );
@@ -2868,7 +2885,7 @@ mapgen_palette mapgen_palette::load_temp( const JsonObject &jo, const std::strin
 void mapgen_palette::load( const JsonObject &jo, const std::string &src )
 {
     mapgen_palette ret = load_internal( jo, src, "", true, false );
-    if( ret.id.empty() ) {
+    if( ret.id.is_empty() ) {
         jo.throw_error( "Named palette needs an id" );
     }
 
@@ -2899,13 +2916,33 @@ void mapgen_palette::reset()
     palettes.clear();
 }
 
-void mapgen_palette::add( const palette_id &rh, const std::string &context )
+void mapgen_palette::add( const palette_id &rh, const std::string &context,
+                          std::vector<palette_id> ancestors )
 {
-    add( get( rh ), context );
+    add( get( rh ), context, std::move( ancestors ) );
 }
 
-void mapgen_palette::add( const mapgen_palette &rh, const std::string &context )
+void mapgen_palette::add( const mapgen_palette &rh, const std::string &context,
+                          std::vector<palette_id> ancestors )
 {
+    std::string actual_context = id.is_empty() ? context : "palette " + id.str();
+
+    if( !rh.id.is_empty() ) {
+        auto loop_start = std::find( ancestors.begin(), ancestors.end(), rh.id );
+        if( loop_start != ancestors.end() ) {
+            std::string loop_ids = enumerate_as_string( loop_start, ancestors.end(),
+            []( const palette_id & i ) {
+                return i.str();
+            }, enumeration_conjunction::arrow );
+            debugmsg( "loop in palette references: %s", loop_ids );
+            return;
+        }
+        ancestors.push_back( rh.id );
+    }
+
+    for( const palette_id &recursive_palette : rh.palettes_used ) {
+        add( recursive_palette, actual_context, ancestors );
+    }
     for( const auto &placing : rh.format_placings ) {
         std::vector<shared_ptr_fast<const jmapgen_piece>> &these_placings =
                     format_placings[placing.first];
@@ -2914,7 +2951,6 @@ void mapgen_palette::add( const mapgen_palette &rh, const std::string &context )
     for( const auto &placing : rh.keys_with_terrain ) {
         keys_with_terrain.insert( placing );
     }
-    std::string actual_context = id.empty() ? context : "palette " + id;
     parameters.check_and_merge( rh.parameters, actual_context );
 }
 
@@ -2925,19 +2961,22 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     auto &format_placings = new_pal.format_placings;
     auto &keys_with_terrain = new_pal.keys_with_terrain;
     if( require_id ) {
-        new_pal.id = jo.get_string( "id" );
+        new_pal.id = palette_id( jo.get_string( "id" ) );
     }
 
     jo.read( "parameters", new_pal.parameters.map );
 
     if( jo.has_array( "palettes" ) ) {
+        jo.read( "palettes", new_pal.palettes_used );
         if( allow_recur ) {
-            auto pals = jo.get_string_array( "palettes" );
-            for( auto &p : pals ) {
+            // allow_recur means that it's safe to assume all the palettes have
+            // been defined and we can inline now.  Otherwise we just leave the
+            // list in our palettes_used array and it will be consumed
+            // recursively by calls to add which add this palette.
+            for( auto &p : new_pal.palettes_used ) {
                 new_pal.add( p, context );
             }
-        } else {
-            jo.throw_error( "Recursive palettes are not implemented yet" );
+            new_pal.palettes_used.clear();
         }
     }
 
@@ -2950,7 +2989,7 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
         }
     }
 
-    std::string c = "palette " + new_pal.id;
+    std::string c = "palette " + new_pal.id.str();
     new_pal.load_place_mapings<jmapgen_terrain>( jo, "terrain", format_placings, c );
     new_pal.load_place_mapings<jmapgen_furniture>( jo, "furniture", format_placings, c );
     new_pal.load_place_mapings<jmapgen_field>( jo, "fields", format_placings, c );
@@ -3113,7 +3152,7 @@ bool mapgen_function_json_base::setup_common( const JsonObject &jo )
             return false;
         }
 
-        parameters = palette.parameters;
+        parameters = palette.get_parameters();
 
         // mandatory: mapgensize rows of mapgensize character lines, each of which must have a
         // matching key in "terrain", unless fill_ter is set

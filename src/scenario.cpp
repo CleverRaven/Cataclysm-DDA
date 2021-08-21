@@ -13,6 +13,7 @@
 #include "profession.h"
 #include "rng.h"
 #include "start_location.h"
+#include "string_id.h"
 #include "translations.h"
 
 namespace
@@ -209,7 +210,11 @@ void scenario::check_definition() const
     check_traits( _allowed_traits, id );
     check_traits( _forced_traits, id );
     check_traits( _forbidden_traits, id );
-    MapExtras::get_function( _map_extra ); // triggers a debug message upon invalid input
+
+    string_id<map_extra> me( _map_extra );
+    if( !me.is_valid() )  {
+        debugmsg( "there is no map extra with id %s", _map_extra );
+    }
 
     for( const auto &m : _missions ) {
         if( !m.is_valid() ) {

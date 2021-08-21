@@ -1483,13 +1483,9 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
 {
     std::vector<material_id> cut_material_components = cut.get_item()->made_of();
     const bool filthy = cut.get_item()->is_filthy();
-
     float remaining_weight = 1;
 
-
-
     // Keep the codes below, use it to calculate component loss
-
 
     // Chance of us losing a material component to entropy.
     /** @EFFECT_FABRICATION reduces chance of losing components when cutting items up */
@@ -1530,8 +1526,6 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
         remaining_weight *= component_success_chance;
     }
 
-
-
     std::vector<item> stack{ *cut.get_item() }; /* working stack */
     std::map<itype_id, int> salvage_to; /* outcome */
     std::map<material_id, units::mass> mat_to_weight;
@@ -1571,12 +1565,17 @@ int salvage_actor::cut_up( Character &p, item &it, item_location &cut ) const
         recipe un_craft;
         auto iter = std::find_if( recipe_dict.begin(),
         recipe_dict.end(), [&]( const std::pair<const recipe_id, recipe> &curr ) {
+            if( curr.second.obsolete || curr.second.result() != temp.typeId() ||
+                curr.second.makes_amount() > 1 ) {
+                return false;
+            }
             units::mass weight = 0_gram;
             for( const auto &altercomps : curr.second.simple_requirements().get_components() ) {
-                weight += ( altercomps.front().type->weight ) * altercomps.front().count;
+                if( !altercomps.empty() && altercomps.front().type ) {
+                    weight += ( altercomps.front().type->weight ) * altercomps.front().count;
+                }
             }
-            return !curr.second.obsolete && curr.second.result() == temp.typeId() &&
-                   curr.second.makes_amount() <= 1 && weight <= temp.weight();
+            return weight <= temp.weight();
         } );
         // No crafting recipe available
         if( iter == recipe_dict.end() ) {

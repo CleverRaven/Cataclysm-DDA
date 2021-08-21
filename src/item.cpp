@@ -7745,10 +7745,10 @@ bool item::can_contain_partial( const item &it ) const
 }
 
 std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &parent,
-        const bool allow_sealed, const bool ignore_settings, bool nested )
+        const bool allow_sealed, const bool ignore_settings )
 {
     item_location nested_location( parent, this );
-    return contents.best_pocket( it, nested_location, nested, allow_sealed, ignore_settings );
+    return contents.best_pocket( it, nested_location, allow_sealed, ignore_settings );
 }
 
 bool item::spill_contents( Character &c )

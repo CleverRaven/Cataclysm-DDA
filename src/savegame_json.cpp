@@ -97,7 +97,6 @@
 #include "options.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "point.h"
 #include "profession.h"
@@ -411,6 +410,9 @@ void SkillLevel::deserialize( JsonIn &jsin )
     data.read( "exercise", _exercise );
     if( _level < 0 ) {
         _level = 0;
+        _exercise = 0;
+    }
+    if( _exercise < 0 ) {
         _exercise = 0;
     }
     data.read( "istraining", _isTraining );

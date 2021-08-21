@@ -207,6 +207,10 @@ bool Skill::is_contextual_skill() const
 void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modifier,
                         bool allow_multilevel )
 {
+    if( amount < 0 ) {
+        debugmsg( "train() called with negative xp: %d", amount );
+        return;
+    }
     // catchup gets faster the higher the level gap gets.
     float level_gap = 1.0f * std::max( _knowledgeLevel, 1 ) / std::max( _level, 1 );
     float catchup_amount = amount * catchup_modifier;
@@ -215,10 +219,10 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
         catchup_amount *= level_gap;
     } else if( _knowledgeLevel == _level && _knowledgeExperience > _exercise ) {
         // when you're in the same level, the catchup starts to slow down.
-        catchup_amount = amount * std::max( catchup_modifier - 1.0f * exercise() / knowledgeExperience(),
+        catchup_amount = amount * std::max( catchup_modifier - 1.0f * _exercise / _knowledgeExperience,
                                             1.0f );
-        knowledge_amount = amount * std::max( knowledge_modifier - 0.1f * exercise() /
-                                              knowledgeExperience(), 1.0f );
+        knowledge_amount = amount * std::max( knowledge_modifier - 0.1f * _exercise / _knowledgeExperience,
+                                              1.0f );
     } else {
         // When your two xp's are equal just do the basic thing.
         catchup_amount = amount * 1.0f;
@@ -240,6 +244,13 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
         knowledge_amount *= scaling;
     }
     _exercise += catchup_amount;
+    if( _exercise < 0 ) {
+        debugmsg( "integer overflow in train() amount=%d catchup_modifier=%g knowledge_modifier=%g level_gap=%g catchup_amount=%g knowledge_amount=%g scaling=%g _exercise=%d",
+                  amount, catchup_modifier, knowledge_modifier, level_gap, catchup_amount, knowledge_amount, scaling,
+                  _exercise );
+        _exercise -= catchup_amount;
+        return;
+    }
     _rustAccumulator -= catchup_amount;
     _knowledgeExperience += knowledge_amount;
 
@@ -302,9 +313,11 @@ void SkillLevel::knowledge_train( int amount, int npc_knowledge )
 
 }
 
-bool SkillLevel::isRusting() const
+bool SkillLevel::isRusty() const
 {
-    return _rustAccumulator > 0;
+    // skill is considered rusty if the practical xp lags knowledge xp by at least 1%
+    return _level != _knowledgeLevel ||
+           _knowledgeExperience - _exercise >= ( _level + 1 ) * ( _level + 1 ) * 10;
 }
 
 bool SkillLevel::rust( int rust_resist )

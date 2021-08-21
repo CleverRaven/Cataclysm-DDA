@@ -108,6 +108,8 @@ using drop_locations = std::list<drop_location>;
 
 constexpr int MAX_CLAIRVOYANCE = 40;
 
+nc_color encumb_color( int level );
+
 /// @brief type of conditions that effect vision
 /// @note vision modes do not necessarily match json ids or flags
 enum vision_modes {
@@ -416,6 +418,10 @@ class Character : public Creature, public visitable
         int int_cur;
         int per_cur;
 
+        const profession *prof;
+        std::set<const profession *> hobbies;
+
+        int volume = 0;
         // The prevalence of getter, setter, and mutator functions here is partially
         // a result of the slow, piece-wise migration of the player class upwards into
         // the character class. As enough logic is moved upwards to fully separate
@@ -531,6 +537,27 @@ class Character : public Creature, public visitable
         std::string disp_name( bool possessive = false, bool capitalize_first = false ) const override;
         /** Returns the name of the player's outer layer, e.g. "armor plates" */
         std::string skin_name() const override;
+
+        //message related stuff
+        using Creature::add_msg_if_player;
+        void add_msg_if_player( const std::string &msg ) const override;
+        void add_msg_if_player( const game_message_params &params, const std::string &msg ) const override;
+        using Creature::add_msg_debug_if_player;
+        void add_msg_debug_if_player( debugmode::debug_filter type,
+                                      const std::string &msg ) const override;
+        using Creature::add_msg_player_or_npc;
+        void add_msg_player_or_npc( const std::string &player_msg,
+                                    const std::string &npc_str ) const override;
+        void add_msg_player_or_npc( const game_message_params &params, const std::string &player_msg,
+                                    const std::string &npc_msg ) const override;
+        using Creature::add_msg_debug_player_or_npc;
+        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const std::string &player_msg,
+                                          const std::string &npc_msg ) const override;
+        using Creature::add_msg_player_or_say;
+        void add_msg_player_or_say( const std::string &player_msg,
+                                    const std::string &npc_speech ) const override;
+        void add_msg_player_or_say( const game_message_params &params, const std::string &player_msg,
+                                    const std::string &npc_speech ) const override;
 
         /* returns the character's faction */
         virtual faction *get_faction() const {
@@ -1355,7 +1382,7 @@ class Character : public Creature, public visitable
         bool has_installation_requirement( const bionic_id &bid );
         void consume_installation_requirement( const bionic_id &bid );
         /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthesia kits or NOPAIN mutation */
-        void introduce_into_anesthesia( const time_duration &duration, player &installer,
+        void introduce_into_anesthesia( const time_duration &duration, Character &installer,
                                         bool needs_anesthesia );
         /** Removes a bionic from my_bionics[] */
         void remove_bionic( const bionic_id &b );
@@ -1510,7 +1537,8 @@ class Character : public Creature, public visitable
         bool has_power() const;
         bool has_max_power() const;
         bool enough_power_for( const bionic_id &bid ) const;
-
+        /** Handles and displays detailed character info for the '@' screen */
+        void disp_info();
         void conduct_blood_analysis();
         // --------------- Generic Item Stuff ---------------
 
@@ -2173,6 +2201,20 @@ class Character : public Creature, public visitable
          */
         bool crossed_threshold() const;
 
+        void environmental_revert_effect();
+
+        /**
+         * Checks both the neighborhoods of from and to for climbable surfaces,
+         * returns move cost of climbing from `from` to `to`.
+         * 0 means climbing is not possible.
+         * Return value can depend on the orientation of the terrain.
+         */
+        int climbing_cost( const tripoint &from, const tripoint &to ) const;
+
+        void pause(); // '.' command; pauses & resets recoil
+
+        /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
+        template <typename T> bool can_lift( const T &obj ) const;
         // --------------- Values ---------------
         std::string name;
         bool male = false;
@@ -3068,6 +3110,11 @@ class Character : public Creature, public visitable
         int dex_bonus = 0;
         int per_bonus = 0;
         int int_bonus = 0;
+        /** Hardcoded stats bonus */
+        int str_bonus_hardcoded = 0;
+        int dex_bonus_hardcoded = 0;
+        int per_bonus_hardcoded = 0;
+        int int_bonus_hardcoded = 0;
         // cached so the display knows how much your bonus is
         int enchantment_speed_bonus = 0;
 
@@ -3289,4 +3336,7 @@ struct enum_traits<character_stat> {
 };
 /// Get translated name of a stat
 std::string get_stat_name( character_stat Stat );
+
+extern template bool Character::can_lift<item>( const item &obj ) const;
+extern template bool Character::can_lift<vehicle>( const vehicle &obj ) const;
 #endif // CATA_SRC_CHARACTER_H

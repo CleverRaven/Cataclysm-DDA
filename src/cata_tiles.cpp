@@ -49,7 +49,6 @@
 #include "overlay_ordering.h"
 #include "path_info.h"
 #include "pixel_minimap.h"
-#include "player.h"
 #include "rect_range.h"
 #include "scent_map.h"
 #include "sdl_utils.h"
@@ -3114,7 +3113,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
                 attitude = m->attitude_to( you );
             }
         }
-        const player *pl = dynamic_cast<const player *>( &critter );
+        const Character *pl = dynamic_cast<const Character *>( &critter );
         if( pl != nullptr ) {
             draw_entity_with_overlays( *pl, p, ll, height_3d );
             result = true;

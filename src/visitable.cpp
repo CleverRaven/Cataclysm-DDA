@@ -27,7 +27,6 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "pimpl.h"
-#include "player.h"
 #include "point.h"
 #include "submap.h"
 #include "temp_crafting_inventory.h"

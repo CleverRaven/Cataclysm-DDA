@@ -21,7 +21,6 @@
 #include "magic.h"
 #include "options.h"
 #include "pimpl.h"
-#include "player.h"
 #include "pldata.h"
 #include "translations.h"
 #include "type_id.h"
@@ -530,9 +529,9 @@ bool profession::has_flag( const std::string &flag ) const
     return flags.count( flag ) != 0;
 }
 
-bool profession::can_pick( const player &u, const int points ) const
+bool profession::can_pick( const Character &you, const int points ) const
 {
-    return point_cost() - u.prof->point_cost() <= points;
+    return point_cost() - you.prof->point_cost() <= points;
 }
 
 bool profession::is_locked_trait( const trait_id &trait ) const
