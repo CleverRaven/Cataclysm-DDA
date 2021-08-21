@@ -2206,7 +2206,7 @@ item_location Character::create_in_progress_disassembly( item_location target )
     }
 
     // Mark the new item, avoid conflict with other ppl
-    new_disassembly.set_var("activity_var", name);
+    new_disassembly.set_var( "activity_var", name );
     item_location disassembly_in_world = place_craft_or_disassembly( *this, new_disassembly,
                                          cata::nullopt );
 

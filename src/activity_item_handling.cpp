@@ -1310,7 +1310,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         requirement_data req;
         for( item &i : here.i_at( src_loc ) ) {
             // Skip items marked by other ppl.
-            if (i.has_var("activity_var") && i.get_var("activity_var") != you.name) {
+            if( i.has_var( "activity_var" ) && i.get_var( "activity_var" ) != you.name ) {
                 continue;
             }
             //unmark the item before check
