@@ -219,10 +219,10 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
         catchup_amount *= level_gap;
     } else if( _knowledgeLevel == _level && _knowledgeExperience > _exercise ) {
         // when you're in the same level, the catchup starts to slow down.
-        catchup_amount = amount * std::max( catchup_modifier - 1.0f * exercise() / knowledgeExperience(),
+        catchup_amount = amount * std::max( catchup_modifier - 1.0f * _exercise / _knowledgeExperience,
                                             1.0f );
-        knowledge_amount = amount * std::max( knowledge_modifier - 0.1f * exercise() /
-                                              knowledgeExperience(), 1.0f );
+        knowledge_amount = amount * std::max( knowledge_modifier - 0.1f * _exercise / _knowledgeExperience,
+                                              1.0f );
     } else {
         // When your two xp's are equal just do the basic thing.
         catchup_amount = amount * 1.0f;
