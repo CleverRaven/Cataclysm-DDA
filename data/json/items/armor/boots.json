@@ -106,7 +106,7 @@
     "warmth": 10,
     "material_thickness": 4,
     "environmental_protection": 3,
-    "flags": [ "STURDY" ],
+    "flags": [ "STURDY", "VARSIZE", "WATERPROOF" ],
     "armor": [ { "encumbrance": 14, "coverage": 95, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
@@ -115,18 +115,19 @@
     "name": { "str": "pair of XL chitinous boots", "str_pl": "pairs of XL chitinous boots" },
     "copy-from": "boots_chitin",
     "proportional": { "weight": 1.25, "volume": 1.25 },
-    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE" ]
+    "flags": [ "STURDY", "VARSIZE", "WATERPROOF", "OVERSIZE" ]
   },
   {
     "id": "boots_acidchitin",
     "copy-from": "boots_chitin",
     "type": "ARMOR",
     "name": { "str": "pair of biosilicified chitin boots", "str_pl": "pairs of biosilicified chitin boots" },
-    "description": "Boots crafted from carefully cleaned and pruned biosilicified exoskeletons of acidic ants.",
+    "description": "Boots crafted from carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
     "price_postapoc": 1750,
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "bashing": 2, "material_thickness": 1 }
+    "relative": { "bashing": 2, "material_thickness": 1 },
+    "extend": { "flags": [ "NO_REPAIR" ] }
   },
   {
     "id": "xl_boots_acidchitin",
@@ -134,7 +135,7 @@
     "name": { "str": "pair of XL biosilicified chitin boots", "str_pl": "pairs of XL biosilicified chitin boots" },
     "copy-from": "boots_acidchitin",
     "proportional": { "weight": 1.25, "volume": 1.25 },
-    "flags": [ "VARSIZE", "WATERPROOF", "OVERSIZE" ]
+    "flags": [ "STURDY", "VARSIZE", "WATERPROOF", "OVERSIZE" ]
   },
   {
     "id": "boots_combat",
@@ -1219,7 +1220,13 @@
     "color": "light_blue",
     "warmth": 20,
     "material_thickness": 2,
-    "use_action": { "type": "transform", "target": "roller_shoes_on", "msg": "You pop the wheels out.", "moves": 500 },
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Extend wheels",
+      "target": "roller_shoes_on",
+      "msg": "You pop the wheels out.",
+      "moves": 500
+    },
     "flags": [ "VARSIZE" ],
     "armor": [ { "encumbrance": 4, "coverage": 80, "covers": [ "foot_l", "foot_r" ] } ]
   },
@@ -1238,7 +1245,13 @@
     "color": "light_blue",
     "warmth": 20,
     "material_thickness": 2,
-    "use_action": { "type": "transform", "target": "roller_shoes_off", "msg": "You pop the wheels back in.", "moves": 500 },
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Retract wheels",
+      "target": "roller_shoes_off",
+      "msg": "You pop the wheels back in.",
+      "moves": 500
+    },
     "flags": [ "VARSIZE", "ROLLER_ONE", "REQUIRES_BALANCE" ],
     "armor": [ { "encumbrance": 4, "coverage": 80, "covers": [ "foot_l", "foot_r" ] } ]
   },

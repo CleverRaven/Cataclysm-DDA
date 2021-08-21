@@ -169,7 +169,17 @@ class avatar : public player
          * @param target Target NPC to disarm
          */
         void disarm( npc &target );
-
+        /**
+         * Try to wield a contained item consuming moves proportional to weapon skill and volume.
+         * @param container Container containing the item to be wielded
+         * @param internal_item reference to contained item to wield.
+         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
+         * @param base_cost Cost due to storage type.
+         */
+        bool wield_contents( item &container, item *internal_item = nullptr, bool penalties = true,
+                             int base_cost = INVENTORY_HANDLING_PENALTY );
+        /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
+        void try_to_sleep( const time_duration &dur );
         /** Handles reading effects and returns true if activity started */
         bool read( item_location &book, item_location ereader = {} );
         /** Note that we've read a book at least once. **/
@@ -177,7 +187,7 @@ class avatar : public player
         void identify( const item &item ) override;
         void clear_identified();
 
-        void wake_up();
+        void wake_up() override;
         // Grab furniture / vehicle
         void grab( object_type grab_type, const tripoint &grab_point = tripoint_zero );
         object_type get_grab_type() const;
@@ -190,6 +200,8 @@ class avatar : public player
          * @param target Target NPC to steal from
          */
         void steal( npc &target );
+        /** Reassign letter. */
+        void reassign_item( item &it, int invlet );
 
         teleporter_list translocators;
 
@@ -224,6 +236,8 @@ class avatar : public player
         void toggle_run_mode();
         // Toggles crouching on/off.
         void toggle_crouch_mode();
+        // Toggles lying down on/off.
+        void toggle_prone_mode();
         // Activate crouch mode if not in crouch mode.
         void activate_crouch_mode();
 
@@ -252,7 +266,7 @@ class avatar : public player
             int total() const {
                 return gained - spent;
             }
-            std::map<float, int> activity_levels;
+            std::map<float, int> activity_levels; // NOLINT(cata-serialize)
 
             void serialize( JsonOut &json ) const {
                 json.start_object();
@@ -293,8 +307,18 @@ class avatar : public player
         void add_gained_calories( int cal ) override;
         void log_activity_level( float level ) override;
         std::string total_daily_calories_string() const;
+        //set 0-3 random hobbies, with 1 and 2 being twice as likely as 0 and 3
+        int randomize_hobbies();
+
+        int movecounter = 0;
+
+        vproto_id starting_vehicle;
+        std::vector<mtype_id> starting_pets;
 
     private:
+        // the encumbrance on your limbs reducing your dodging ability
+        int limb_dodge_encumbrance() const;
+
         std::unique_ptr<map_memory> player_map_memory;
         bool show_map_memory;
 

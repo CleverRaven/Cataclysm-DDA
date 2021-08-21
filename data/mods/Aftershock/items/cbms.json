@@ -88,6 +88,15 @@
     "difficulty": 16
   },
   {
+    "id": "afs_bio_translocator",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Implanted translocator CBM" },
+    "description": "An experimental teleportation system carefully weaved into bone marrow and coiled alongside the skeletal system.  It allows its user to safely and readily teleport towards a previously activated telepad.",
+    "price": "30 kUSD",
+    "difficulty": 16
+  },
+  {
     "id": "bio_cold_absorber",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",

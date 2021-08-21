@@ -563,6 +563,29 @@
     "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK" ]
   },
   {
+    "type": "TOOL",
+    "id": "test_mp3",
+    "name": { "str": "test mp3 player" },
+    "description": "Test mp3 player",
+    "weight": "140 g",
+    "volume": "50 ml",
+    "symbol": ";",
+    "ammo": [ "battery" ],
+    "use_action": [ "MP3" ],
+    "charges_per_use": 1,
+    "flags": [ "WATER_BREAK_ACTIVE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "test_battery_disposable" ]
+      }
+    ]
+  },
+  {
     "id": "test_socks",
     "type": "ARMOR",
     "name": { "str": "TEST pair of socks", "str_pl": "TEST pairs of socks" },
@@ -989,6 +1012,34 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
+    "id": "test_duffelbag",
+    "type": "ARMOR",
+    "name": { "str": "test duffel bag" },
+    "description": "A huge test duffel bag.  Provides plenty of storage, but is severely encumbering.",
+    "weight": "933 g",
+    "volume": "6 L",
+    "price": 12000,
+    "price_postapoc": 500,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "rucksack",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "35 L",
+        "max_contains_weight": "50 kg",
+        "max_item_length": "55 cm",
+        "magazine_well": "5 L",
+        "moves": 300
+      }
+    ],
+    "warmth": 10,
+    "material_thickness": 2,
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 5, 35 ], "coverage": 50, "covers": [ "torso" ] } ]
+  },
+  {
     "id": "test_backpack",
     "type": "ARMOR",
     "name": "TEST backpack",
@@ -1384,6 +1435,34 @@
     "color": "dark_gray",
     "symbol": "/",
     "material": [ "steel" ]
+  },
+  {
+    "type": "TOOL",
+    "id": "test_boltcutter",
+    "name": { "str": "test pair of bolt cutters" },
+    "description": "Test bolt cutters.",
+    "weight": "1 kg",
+    "volume": "1 L",
+    "symbol": ";"
+  },
+  {
+    "type": "TOOL",
+    "id": "test_boltcutter_elec",
+    "copy-from": "test_boltcutter",
+    "name": { "str": "test electric pair of bolt cutters" },
+    "description": "Test bolt cutters which uses batteries.",
+    "charges_per_use": 1,
+    "ammo": [ "battery" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "test_battery_disposable" ]
+      }
+    ]
   },
   {
     "id": "test_crafted_suppressor",

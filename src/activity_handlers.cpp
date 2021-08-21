@@ -117,7 +117,6 @@ static const activity_id ACT_CONSUME_DRINK_MENU( "ACT_CONSUME_DRINK_MENU" );
 static const activity_id ACT_CONSUME_FOOD_MENU( "ACT_CONSUME_FOOD_MENU" );
 static const activity_id ACT_CONSUME_MEDS_MENU( "ACT_CONSUME_MEDS_MENU" );
 static const activity_id ACT_CONSUME_FUEL_MENU( "ACT_CONSUME_FUEL_MENU" );
-static const activity_id ACT_CRACKING( "ACT_CRACKING" );
 static const activity_id ACT_DISMEMBER( "ACT_DISMEMBER" );
 static const activity_id ACT_DISSECT( "ACT_DISSECT" );
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
@@ -214,8 +213,6 @@ static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_survival( "survival" );
 
-static const proficiency_id proficiency_prof_safecracking( "prof_safecracking" );
-
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
 
@@ -225,7 +222,6 @@ static const species_id species_ZOMBIE( "ZOMBIE" );
 static const json_character_flag json_flag_CANNIBAL( "CANNIBAL" );
 static const json_character_flag json_flag_PSYCHOPATH( "PSYCHOPATH" );
 static const json_character_flag json_flag_SAPIOVORE( "SAPIOVORE" );
-static const json_character_flag json_flag_SUPER_HEARING( "SUPER_HEARING" );
 
 static const bionic_id bio_painkiller( "bio_painkiller" );
 
@@ -273,7 +269,6 @@ activity_handlers::do_turn_functions = {
     { ACT_ADV_INVENTORY, adv_inventory_do_turn },
     { ACT_ARMOR_LAYERS, armor_layers_do_turn },
     { ACT_ATM, atm_do_turn },
-    { ACT_CRACKING, cracking_do_turn },
     { ACT_FISH, fish_do_turn },
     { ACT_REPAIR_ITEM, repair_item_do_turn },
     { ACT_BLEED, butcher_do_turn },
@@ -327,7 +322,6 @@ activity_handlers::finish_functions = {
     { ACT_START_ENGINES, start_engines_finish },
     { ACT_OXYTORCH, oxytorch_finish },
     { ACT_PULP, pulp_finish },
-    { ACT_CRACKING, cracking_finish },
     { ACT_REPAIR_ITEM, repair_item_finish },
     { ACT_HEATING, heat_item_finish },
     { ACT_MEND_ITEM, mend_item_finish },
@@ -772,7 +766,7 @@ static int corpse_damage_effect( int weight, const std::string &entry_type, int 
 
 static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p,
                                     const std::function<int()> &roll_butchery, butcher_type action,
-                                    const std::function<double()> &roll_drops )
+                                    double yield_multiplier )
 {
     p.add_msg_if_player( m_neutral, mt.harvest->message() );
     int monster_weight = to_gram( mt.weight );
@@ -975,7 +969,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
             // divide total dropped weight by drop's weight to get amount
             if( entry.mass_ratio != 0.00f ) {
                 // apply skill before converting to items, but only if mass_ratio is defined
-                roll *= roll_drops();
+                roll *= yield_multiplier;
                 monster_weight_remaining -= roll;
                 roll = std::ceil( static_cast<double>( roll ) /
                                   to_gram( drop->weight ) );
@@ -1166,17 +1160,18 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         return;
     }
 
-    int skill_level = p->get_skill_level( skill_survival );
-    int factor = p->max_quality( action == butcher_type::DISSECT ? qual_CUT_FINE :
-                                 qual_BUTCHER, PICKUP_RANGE );
-
-    // DISSECT has special case factor calculation and results.
-    if( action == butcher_type::DISSECT ) {
-        skill_level = p->get_skill_level( skill_firstaid );
-        skill_level += p->max_quality( qual_CUT_FINE, PICKUP_RANGE );
-        skill_level += p->get_skill_level( skill_electronics ) / 2;
-        add_msg_debug( debugmode::DF_ACT_BUTCHER, "Skill: %s", skill_level );
+    const int tool_quality = p->max_quality( action == butcher_type::DISSECT ? qual_CUT_FINE :
+                             qual_BUTCHER, PICKUP_RANGE );
+    const int skill_level = [&]() {
+        // DISSECT has special case factor calculation and results.
+        if( action == butcher_type::DISSECT ) {
+            return p->get_skill_level( skill_firstaid ) + tool_quality +
+                   p->get_skill_level( skill_electronics ) / 2;
+        }
+        return p->get_skill_level( skill_survival );
     }
+    ();
+    add_msg_debug( debugmode::DF_ACT_BUTCHER, "Skill: %s", skill_level );
 
     const auto roll_butchery = [&]() {
         double skill_shift = 0.0;
@@ -1185,8 +1180,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         ///\EFFECT_DEX >8 randomly increases butcher rolls, slightly, <8 decreases
         skill_shift += rng_float( 0, p->dex_cur - 8 ) / 4.0;
 
-        if( factor < 0 ) {
-            skill_shift -= rng_float( 0, -factor / 5.0 );
+        if( tool_quality < 0 ) {
+            skill_shift -= rng_float( 0, -tool_quality / 5.0 );
         }
 
         return static_cast<int>( std::round( skill_shift ) );
@@ -1231,13 +1226,19 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         act->index = true;
         return;
     }
-    // function just for drop yields
-    const auto roll_drops = [&]() {
-        factor = std::max( factor, -50 );
-        return 0.5 * skill_level / 10 + 0.3 * ( factor + 50 ) / 100 + 0.2 * p->dex_cur / 20;
-    };
+    // A number between 0 and 1 that represents how much usable material can be harvested
+    // as a fraction of the maximum possible amount.
+    const double yield_multiplier = [&]() {
+        const double skill_score = skill_level / 10.0;
+        const double tool_score = ( tool_quality + 50.0 ) / 100.0;
+        const double dex_score = p->dex_cur / 20.0;
+        return 0.5 * clamp( skill_score, 0.0, 1.0 ) +
+               0.3 * clamp( tool_score, 0.0, 1.0 ) +
+               0.2 * clamp( dex_score, 0.0, 1.0 );
+    }
+    ();
     // all action types - yields
-    butchery_drops_harvest( &corpse_item, *corpse, *p, roll_butchery, action, roll_drops );
+    butchery_drops_harvest( &corpse_item, *corpse, *p, roll_butchery, action, yield_multiplier );
     // after this point, if there was a liquid handling from the harvest,
     // and the liquid handling was interrupted, then the activity was canceled,
     // therefore operations on this activity's targets and values may be invalidated.
@@ -1429,12 +1430,12 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                 if( source_veh == nullptr ) {
                     throw std::runtime_error( "could not find source vehicle for liquid transfer" );
                 }
-                deserialize( liquid, act_ref.str_values.at( 0 ) );
+                deserialize_from_string( liquid, act_ref.str_values.at( 0 ) );
                 part_num = static_cast<int>( act_ref.values.at( 1 ) );
                 veh_charges = liquid.charges;
                 break;
             case liquid_source_type::INFINITE_MAP:
-                deserialize( liquid, act_ref.str_values.at( 0 ) );
+                deserialize_from_string( liquid, act_ref.str_values.at( 0 ) );
                 liquid.charges = item::INFINITE_CHARGES;
                 break;
             case liquid_source_type::MAP_ITEM:
@@ -1452,7 +1453,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                     debugmsg( "could not find source creature for liquid transfer" );
                     act_ref.set_to_null();
                 }
-                deserialize( liquid, act_ref.str_values.at( 0 ) );
+                deserialize_from_string( liquid, act_ref.str_values.at( 0 ) );
                 liquid.charges = 1;
                 break;
         }
@@ -2006,9 +2007,9 @@ void activity_handlers::train_finish( player_activity *act, player *p )
     if( sk.is_valid() ) {
         const Skill &skill = sk.obj();
         std::string skill_name = skill.name();
-        int old_skill_level = p->get_skill_level( sk );
+        int old_skill_level = p->get_knowledge_level( sk );
         p->practice( sk, 100, old_skill_level + 2 );
-        int new_skill_level = p->get_skill_level( sk );
+        int new_skill_level = p->get_knowledge_level( sk );
         if( old_skill_level != new_skill_level ) {
             add_msg( m_good, _( "You finish training %s to level %d." ),
                      skill_name, new_skill_level );
@@ -2317,16 +2318,6 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
     }
 }
 
-void activity_handlers::cracking_finish( player_activity *act, player *guy )
-{
-    guy->add_msg_if_player( m_good, _( "With a satisfying click, the lock on the safe opens!" ) );
-    if( !guy->has_proficiency( proficiency_prof_safecracking ) ) {
-        guy->practice_proficiency( proficiency_prof_safecracking, 60_minutes );
-    }
-    get_map().furn_set( act->placement, f_safe_c );
-    act->set_to_null();
-}
-
 enum class repeat_type : int {
     // INIT should be zero. In some scenarios (vehicle welder), activity value default to zero.
     INIT = 0,    // Haven't found repeat value yet.
@@ -2478,7 +2469,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
         // TODO: Allow setting this in the actor
         // TODO: Don't use charges_to_use: welder has 50 charges per use, soldering iron has 1
-        if( !used_tool->units_sufficient( *p ) ) {
+        if( !used_tool->ammo_sufficient( p ) ) {
             p->add_msg_if_player( _( "Your %s ran out of charges." ), used_tool->tname() );
             act->set_to_null();
             return;
@@ -2857,11 +2848,20 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
             act->set_to_null();
             return;
         }
+        const tripoint_abs_omt next_omt = p->omt_path.back();
+        tripoint_abs_ms waypoint;
+        if( p->omt_path.size() == 1 ) {
+            // if next omt is the final one, target its midpoint
+            waypoint = midpoint( project_bounds<coords::ms>( next_omt ) );
+        } else {
+            // otherwise target the middle of the edge nearest to our current location
+            const tripoint_abs_ms cur_omt_mid = midpoint( project_bounds<coords::ms>
+                                                ( p->global_omt_location() ) );
+            waypoint = clamp( cur_omt_mid, project_bounds<coords::ms>( next_omt ) );
+        }
         map &here = get_map();
         // TODO: fix point types
-        tripoint sm_tri = here.getlocal(
-                              project_to<coords::ms>( p->omt_path.back() ).raw() );
-        tripoint centre_sub = sm_tri + point( SEEX, SEEY );
+        tripoint centre_sub = here.getlocal( waypoint.raw() );
         if( !here.passable( centre_sub ) ) {
             tripoint_range<tripoint> candidates = here.points_in_radius( centre_sub, 2 );
             for( const tripoint &elem : candidates ) {
@@ -2970,19 +2970,6 @@ void activity_handlers::fish_finish( player_activity *act, player *p )
     if( !p->backlog.empty() && p->backlog.front().id() == ACT_MULTIPLE_FISH ) {
         p->backlog.clear();
         p->assign_activity( ACT_TIDY_UP );
-    }
-}
-
-void activity_handlers::cracking_do_turn( player_activity *act, player *p )
-{
-    auto cracking_tool = p->crafting_inventory().items_with( []( const item & it ) -> bool {
-        item temporary_item( it.type );
-        return temporary_item.has_flag( flag_SAFECRACK );
-    } );
-    if( cracking_tool.empty() && !p->has_flag( json_flag_SUPER_HEARING ) ) {
-        // We lost our cracking tool somehow, bail out.
-        act->set_to_null();
-        return;
     }
 }
 
@@ -3390,7 +3377,7 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
     // If construction_progress has reached 100% or more
     if( pc->counter >= 10000000 ) {
         // Activity is canceled in complete_construction()
-        complete_construction( p );
+        complete_construction( p->as_character() );
     }
 }
 

@@ -17,8 +17,9 @@
 // Ensure that unifont is always loaded as a fallback font to prevent users from shooting themselves in the foot
 static void ensure_unifont_loaded( std::vector<std::string> &font_list )
 {
-    if( std::find( std::begin( font_list ), std::end( font_list ), "unifont" ) == font_list.end() ) {
-        font_list.emplace_back( PATH_INFO::fontdir() + "unifont.ttf" );
+    const std::string unifont = PATH_INFO::fontdir() + "unifont.ttf";
+    if( std::find( font_list.begin(), font_list.end(), unifont ) == font_list.end() ) {
+        font_list.emplace_back( unifont );
     }
 }
 
@@ -95,6 +96,17 @@ class font_loader
             } else {
                 const std::string legacy_fontdata = PATH_INFO::legacy_fontdata();
                 load_throws( legacy_fontdata );
+#if defined(__APPLE__)
+                // Terminus.ttf introduced in #45319 does not display properly on macOS (#50149)
+                // As a temporary workaround, remove Terminus.ttf from font list if on macOS.
+                // TODO: get rid of this workaround
+                typeface.erase( std::remove( typeface.begin(), typeface.end(),
+                                             "data/font/Terminus.ttf" ), typeface.end() );
+                map_typeface.erase( std::remove( map_typeface.begin(), map_typeface.end(),
+                                                 "data/font/Terminus.ttf" ), map_typeface.end() );
+                overmap_typeface.erase( std::remove( overmap_typeface.begin(), overmap_typeface.end(),
+                                                     "data/font/Terminus.ttf" ), overmap_typeface.end() );
+#endif
                 assure_dir_exist( PATH_INFO::config_dir() );
                 save( fontdata );
             }

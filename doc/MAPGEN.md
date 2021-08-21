@@ -1108,6 +1108,15 @@ single overmap tile.  Then a default value will be chosen independently for
 each OMT.  This has the advantage that you are no longer forced to select a
 `"fallback"` value when using that parameter in mapgen.
 
+The third option for scope is `"scope": "nest"`.  This only makes sense when
+used in nested mapgen (although it is not an error to use it elsewhere, so that
+the same palette may be used for nested and non-nested mapgen).  When the scope
+is `nest`, the value of the parameter is chosen for a particular nested chunk.
+For example, suppose a nest defines a carpet across several tiles, you can use
+a parameter to ensure that the carpet is the same colour for all the tiles
+within that nest, but another instance of the same `nested_mapgen_id` elsewhere
+in the same OMT might choose a different colour.
+
 
 ## Rotate the map with "rotation"
 

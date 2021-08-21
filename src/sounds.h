@@ -72,7 +72,7 @@ void reset_markers();
 // process_sounds() applies the sounds since the last turn to monster AI,
 void process_sounds();
 // process_sound_markers applies sound events to the player and records them for display.
-void process_sound_markers( player *p );
+void process_sound_markers( Character *you );
 
 // Return list of points that have sound events the player can hear.
 std::vector<tripoint> get_footstep_markers();
@@ -140,7 +140,7 @@ void play_ambient_variant_sound( const std::string &id, const std::string &varia
                                  channel channel, int fade_in_duration, double pitch = -1.0, int loops = -1 );
 void play_activity_sound( const std::string &id, const std::string &variant, int volume );
 void end_activity_sounds();
-void generate_gun_sound( const player &source_arg, const item &firing );
+void generate_gun_sound( const Character &source_arg, const item &firing );
 void generate_melee_sound( const tripoint &source, const tripoint &target, bool hit,
                            bool targ_mon = false, const std::string &material = "flesh" );
 void do_hearing_loss( int turns = -1 );

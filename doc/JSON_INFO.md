@@ -127,6 +127,7 @@ Use the `Home` key to return to the top.
       - [`lockpick_result`](#lockpick_result)
       - [`lockpick_message`](#lockpick_message)
       - [`light_emitted`](#light_emitted)
+      - [`boltcut`](#boltcut)
       - [`required_str`](#required_str)
       - [`crafting_pseudo_item`](#crafting_pseudo_item)
       - [`workbench`](#workbench)
@@ -140,6 +141,7 @@ Use the `Home` key to return to the top.
       - [`lockpick_result`](#lockpick_result-1)
       - [`lockpick_message`](#lockpick_message-1)
       - [`trap`](#trap)
+      - [`boltcut`](#boltcut-1)
       - [`transforms_into`](#transforms_into)
       - [`harvest_by_season`](#harvest_by_season)
       - [`roof`](#roof)
@@ -840,6 +842,7 @@ When you sort your inventory by category, these are the categories that are disp
 | `dmg_adj`        | Description added to damaged item in ascending severity.
 | `dmg_adj`        | Adjectives used to describe damage states of a material.
 | `density`        | Affects vehicle collision damage, with denser parts having the advantage over less-dense parts.
+| `wind_resist`    | Percentage 0-100. How effective this material is at stopping wind from getting through. Higher values are better. If none of the materials an item is made of specify a value, a default of 99 is assumed.
 | `vitamins`       | Vitamins in a material. Usually overridden by item specific values.  An integer percentage of ideal daily value.
 | `specific_heat_liquid` | Specific heat of a material when not frozen (J/(g K)). Default 4.186 - water.
 | `specific_heat_solid`  | Specific heat of a material when frozen (J/(g K)). Default 2.108 - water.
@@ -2397,6 +2400,10 @@ Armor can be defined like this:
 "type" : "ARMOR",     // Defines this as armor
 ...                   // same entries as above for the generic item.
                       // additional some armor specific entries:
+<<<<<<< Updated upstream
+=======
+"covers" : [ "foot_l", "foot_r" ],  // Where it covers.  Use bodypart_id defined in body_parts.json  Also note that LEG_EITHER ARM_EITHER HAND_EITHER and FOOT_EITHER are allowed.
+>>>>>>> Stashed changes
 "warmth" : 10,        //  (Optional, default = 0) How much warmth clothing provides
 "environmental_protection" : 0,  //  (Optional, default = 0) How much environmental protection it affords
 "encumbrance" : 0,    // Base encumbrance (unfitted value)
@@ -2579,6 +2586,11 @@ The `conditional_names` field allows defining alternate names for items that wil
       "type": "COMPONENT_ID",
       "condition": "mutant",
       "name": { "str_sp": "sinister %s" }
+    },
+    {
+      "type": "VAR",
+      "condition": "npctalk_var_DISPLAY_NAME_MORALE",
+      "name": { "str_sp": "%s (morale)" }
     }
   ]
 }
@@ -2588,6 +2600,7 @@ You can list as many conditional names for a given item as you want. Each condit
 1. The condition type:
     - `COMPONENT_ID` searches all the components of the item (and all of *their* components, and so on) for an item with the condition string in their ID. The ID only needs to *contain* the condition, not match it perfectly (though it is case sensitive). For example, supplying a condition `mutant` would match `mutant_meat`.
     - `FLAG` which checks if an item has the specified flag (exact match).
+    - `VAR` which checks if an item has a variable with the given name (exact match). Variables set with effect_on_conditions will have `npctalk_var_` in front of their name.  So a variable created with: `"npc_add_var": "MORALE", "type": "DISPLAY","context":"NAME", "value": "Felt Great" }` would be named: `npctalk_var_DISPLAY_NAME_MORALE`.
 2. The condition you want to look for.
 3. The name to use if a match is found. Follows all the rules of a standard `name` field, with valid keys being `str`, `str_pl`, and `ctxt`. You may use %s here, which will be replaced by the name of the item. Conditional names defined prior to this one are taken into account.
 
@@ -3014,6 +3027,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "target_charges" : 3, // Number of charges the transformed item has.
     "rand_target_charges": [10, 15, 25], // Randomize the charges the transformed item has. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25). (The endpoints are included.)
     "container" : "jar",  // Container holding the target item.
+    "menu_text": "Lower visor"      // (Optional) Text displayed in the activation screen, defaults to "Turn on".
     "moves" : 500         // Moves required to transform the item in excess of a normal action.
 },
 "use_action": {
@@ -3437,6 +3451,27 @@ Movement cost modifier (`-10` = impassable, `0` = no change). This is added to t
 How much light the furniture produces.  10 will light the tile it's on brightly, 15 will light that tile and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the source.
 For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 
+#### `boltcut`
+(Optional) Data for using with an bolt cutter.
+```cpp
+"boltcut": {
+    "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null
+    "duration": "1 seconds", // ( optional ) time required for bolt cutting, default is 1 second
+    "message": "You finish cutting the metal.", // ( optional ) message that will be displayed when finished
+    "sound": "Gachunk!", // ( optional ) description of the sound when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
+
 #### `required_str`
 
 Strength required to move the furniture around. Negative values indicate an unmovable furniture.
@@ -3524,6 +3559,27 @@ For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 For example the terrain `t_pit` has the built-in trap `tr_pit`. Every tile in the game that has the terrain `t_pit` also has, therefore, an implicit trap `tr_pit` on it. The two are inseparable (the player can not deactivate the built-in trap, and changing the terrain will also deactivate the built-in trap).
 
 A built-in trap prevents adding any other trap explicitly (by the player and through mapgen).
+
+#### `boltcut`
+(Optional) Data for using with an bolt cutter.
+```cpp
+"boltcut": {
+    "result": "ter_id", // terrain it will become when done
+    "duration": "1 seconds", // ( optional ) time required for bolt cutting, default is 1 second
+    "message": "You finish cutting the metal.", // ( optional ) message that will be displayed when finished
+    "sound": "Gachunk!", // ( optional ) description of the sound when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
 
 #### `transforms_into`
 

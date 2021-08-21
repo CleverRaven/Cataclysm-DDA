@@ -42,6 +42,7 @@ class mapgen_function
     public:
         virtual ~mapgen_function() = default;
         virtual void setup() { } // throws
+        virtual void finalize_parameters() { }
         virtual void check() const { }
         virtual void generate( mapgendata & ) = 0;
         virtual mapgen_parameters get_mapgen_params( mapgen_parameter_scope ) const {
@@ -169,8 +170,23 @@ class jmapgen_piece
         virtual bool is_nop() const {
             return false;
         }
+        /** The pieces will be applied in order of phases.  The phases are as
+         * follows:
+         * -2 - terrain
+         * -1 - furniture
+         *  0 - everything else
+         *  1 - nested mapgen
+         *  2 - transforms and faction ownership
+         */
+        virtual int phase() const {
+            return 0;
+        }
         /** Sanity-check this piece */
         virtual void check( const std::string &/*context*/, const mapgen_parameters & ) const { }
+
+        virtual void merge_parameters_into( mapgen_parameters &,
+                                            const std::string &/*outer_context*/ ) const {}
+
         /** Place something on the map from mapgendata &dat, at (x,y). */
         virtual void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                           ) const = 0;
@@ -307,7 +323,10 @@ struct jmapgen_objects {
         void load_objects( const JsonObject &jsi, const std::string &member_name,
                            const std::string &context );
 
+        void finalize();
         void check( const std::string &context, const mapgen_parameters & ) const;
+
+        void merge_parameters_into( mapgen_parameters &, const std::string &outer_context ) const;
 
         void apply( const mapgendata &dat ) const;
         void apply( const mapgendata &dat, const point &offset ) const;
@@ -331,6 +350,8 @@ struct jmapgen_objects {
 class mapgen_function_json_base
 {
     public:
+        void merge_non_nest_parameters_into( mapgen_parameters &,
+                                             const std::string &outer_context ) const;
         bool check_inbounds( const jmapgen_int &x, const jmapgen_int &y, const JsonObject &jso ) const;
         size_t calc_index( const point &p ) const;
         bool has_vehicle_collision( const mapgendata &dat, const point &offset ) const;
@@ -348,6 +369,7 @@ class mapgen_function_json_base
         // Returns true if the mapgen qualifies at this point already
         virtual bool setup_internal( const JsonObject &jo ) = 0;
         virtual void setup_setmap_internal() { }
+        void finalize_parameters_common();
 
         void check_common() const;
 
@@ -368,6 +390,7 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
 {
     public:
         void setup() override;
+        void finalize_parameters() override;
         void check() const override;
         void generate( mapgendata & ) override;
         mapgen_parameters get_mapgen_params( mapgen_parameter_scope ) const override;
@@ -393,6 +416,7 @@ class update_mapgen_function_json : public mapgen_function_json_base
 
         void setup();
         bool setup_update( const JsonObject &jo );
+        void finalize_parameters();
         void check() const;
         bool update_map( const tripoint_abs_omt &omt_pos, const point &offset,
                          mission *miss, bool verify = false ) const;
@@ -408,6 +432,7 @@ class mapgen_function_json_nested : public mapgen_function_json_base
 {
     public:
         void setup();
+        void finalize_parameters();
         void check() const;
         mapgen_function_json_nested( const json_source_location &jsrcloc, const std::string &context );
         ~mapgen_function_json_nested() override = default;

@@ -162,7 +162,7 @@ void craft_command::execute()
 
         for( const auto &it : needs->get_components() ) {
             comp_selection<item_comp> is =
-                crafter->select_item_component( it, batch_size, map_inv, true, filter );
+                crafter->select_item_component( it, batch_size, map_inv, true, filter, true, rec );
             if( is.use_from == usage_from::cancel ) {
                 return;
             }

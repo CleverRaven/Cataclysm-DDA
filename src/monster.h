@@ -33,7 +33,6 @@ class JsonOut;
 class effect;
 class effect_source;
 class item;
-class player;
 namespace catacurses
 {
 class window;
@@ -506,18 +505,6 @@ class monster : public Creature
         int fish_population = 1;
 
         void setpos( const tripoint &p ) override;
-        inline const tripoint &pos() const override {
-            return position;
-        }
-        inline int posx() const override {
-            return position.x;
-        }
-        inline int posy() const override {
-            return position.y;
-        }
-        inline int posz() const override {
-            return position.z;
-        }
 
         short ignoring = 0;
         cata::optional<time_point> lastseen_turn;
@@ -567,7 +554,6 @@ class monster : public Creature
         int hp = 0;
         std::map<std::string, mon_special_attack> special_attacks;
         tripoint goal;
-        tripoint position;
         bool dead = false;
         /** Normal upgrades **/
         int next_upgrade_time();
@@ -589,8 +575,8 @@ class monster : public Creature
         cata::optional<time_duration> summon_time_limit = cata::nullopt;
         int turns_since_target = 0;
 
-        player *find_dragged_foe();
-        void nursebot_operate( player *dragged_foe );
+        Character *find_dragged_foe();
+        void nursebot_operate( Character *dragged_foe );
 
     protected:
         void store( JsonOut &json ) const;

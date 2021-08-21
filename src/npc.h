@@ -504,9 +504,9 @@ struct npc_follower_rules {
     aim_rule aim = aim_rule::WHEN_CONVENIENT;
     cbm_recharge_rule cbm_recharge = cbm_recharge_rule::CBM_RECHARGE_SOME;
     cbm_reserve_rule cbm_reserve = cbm_reserve_rule::CBM_RESERVE_SOME;
-    ally_rule flags = ally_rule::DEFAULT;
-    ally_rule override_enable = ally_rule::DEFAULT;
-    ally_rule overrides = ally_rule::DEFAULT;
+    ally_rule flags = ally_rule::DEFAULT; // NOLINT(cata-serialize)
+    ally_rule override_enable = ally_rule::DEFAULT; // NOLINT(cata-serialize)
+    ally_rule overrides = ally_rule::DEFAULT; // NOLINT(cata-serialize)
 
     pimpl<auto_pickup::npc_settings> pickup_whitelist;
 
@@ -794,22 +794,20 @@ class npc : public player
         // Faction version number
         int get_faction_ver() const;
         void set_faction_ver( int new_version );
-        bool has_faction_relationship( const player &p,
+        bool has_faction_relationship( const Character &you,
                                        npc_factions::relationship flag ) const;
         void set_fac( const faction_id &id );
         faction *get_faction() const override;
         faction_id get_fac_id() const;
         /**
-         * Set @ref submap_coords and @ref pos.
-         * @param p global submap coordinates.
+         * Spawns the NPC on a random square within the given OMT.
+         * @param p global omt coordinates.
          */
-        void spawn_at_sm( const tripoint &p );
+        void spawn_at_omt( const tripoint_abs_omt &p );
         /**
-         * As spawn_at, but also sets position within the submap.
-         * Note: final submap may differ from submap_offset if @ref square has
-         * x/y values outside [0, SEEX-1]/[0, SEEY-1] range.
+         * Spawns the NPC on the specified map square.
          */
-        void spawn_at_precise( const point &submap_offset, const tripoint &square );
+        void spawn_at_precise( const tripoint_abs_ms &p );
         /**
          * Places the NPC on the @ref map. This update its
          * pos values to fit the current offset of
@@ -840,7 +838,7 @@ class npc : public player
 
         // Interaction with the player
         void form_opinion( const player &u );
-        std::string pick_talk_topic( const player &u );
+        std::string pick_talk_topic( const Character &u );
         float character_danger( const Character &u ) const;
         float vehicle_danger( int radius ) const;
         void pretend_fire( npc *source, int shots, item &gun ); // fake ranged attack for hallucination
@@ -1246,7 +1244,7 @@ class npc : public player
          * Do not use when placing a NPC in mapgen.
          */
         void setpos( const tripoint &pos ) override;
-        void travel_overmap( const tripoint &pos );
+        void travel_overmap( const tripoint_abs_omt &pos );
         npc_attitude get_attitude() const override;
         void set_attitude( npc_attitude new_attitude );
         void set_mission( npc_mission new_mission );
@@ -1314,7 +1312,7 @@ class npc : public player
          * pos() += SEEX; submap_coords.x -= 1;
          * This does not change the global position of the NPC.
          */
-        tripoint global_square_location() const override;
+        tripoint_abs_ms global_square_location() const override;
         cata::optional<tripoint> last_player_seen_pos; // Where we last saw the player
         int last_seen_player_turn = 0; // Timeout to forgetting
         tripoint wanted_item_pos; // The square containing an item we want

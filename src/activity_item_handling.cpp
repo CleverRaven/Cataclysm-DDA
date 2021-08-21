@@ -133,9 +133,6 @@ static const std::string flag_PLANTABLE( "PLANTABLE" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 static const std::string flag_TREE( "TREE" );
 
-//Generic activity: maximum search distance for zones, constructions, etc.
-static const int ACTIVITY_SEARCH_DISTANCE = 60;
-
 /** Activity-associated item */
 struct act_item {
     /// inventory item
@@ -788,7 +785,7 @@ static activity_reason_info find_base_construction(
     }
     //can build?
     const bool cc = can_construct( build, loc );
-    const bool pcb = player_can_build( p, inv, build );
+    const bool pcb = player_can_build( *p.as_character(), inv, build );
     if( !has_skill ) {
         return activity_reason_info::build( do_activity_reason::DONT_HAVE_SKILL, false, idx );
     }

@@ -50,7 +50,6 @@
 #include "optional.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
-#include "player.h"
 #include "point.h"
 #include "projectile.h"
 #include "ret_val.h"
@@ -165,8 +164,8 @@ static void swap_pos( Creature &caster, const tripoint &target )
 
 void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint & )
 {
-    player *p = caster.as_player();
-    if( p == nullptr ) {
+    Character *you = caster.as_character();
+    if( you == nullptr ) {
         return;
     }
     sp.make_sound( caster.pos() );
@@ -174,7 +173,7 @@ void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint
     int num_limbs = 0; // number of limbs effected (broken don't count)
     int total_hp = 0; // total hp among limbs
 
-    for( const std::pair<const bodypart_str_id, bodypart> &elem : p->get_body() ) {
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : you->get_body() ) {
         if( elem.first == bodypart_str_id::NULL_ID() ) {
             continue;
         }
@@ -182,7 +181,7 @@ void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint
         total_hp += elem.second.get_hp_cur();
     }
     const int hp_each = total_hp / num_limbs;
-    p->set_all_parts_hp_cur( hp_each );
+    you->set_all_parts_hp_cur( hp_each );
 }
 
 static bool in_spell_aoe( const tripoint &start, const tripoint &end, const int &radius,
@@ -931,35 +930,34 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
     // this spell is not appropriate for healing
     const int healing = sp.damage();
     const std::string energy_source = sp.effect_data();
-    // TODO: Change to Character
     // current limitation is that Character does not have stamina or power_level members
-    player *p = g->critter_at<player>( target );
-    if( !p ) {
+    Character *you = g->critter_at<Character>( target );
+    if( !you ) {
         return;
     }
 
     if( energy_source == "MANA" ) {
-        p->magic->mod_mana( *p, healing );
+        you->magic->mod_mana( *you, healing );
     } else if( energy_source == "STAMINA" ) {
-        p->mod_stamina( healing );
+        you->mod_stamina( healing );
     } else if( energy_source == "FATIGUE" ) {
         // fatigue is backwards
-        p->mod_fatigue( -healing );
+        you->mod_fatigue( -healing );
     } else if( energy_source == "BIONIC" ) {
         if( healing > 0 ) {
-            p->mod_power_level( units::from_kilojoule( healing ) );
+            you->mod_power_level( units::from_kilojoule( healing ) );
         } else {
-            p->mod_stamina( healing );
+            you->mod_stamina( healing );
         }
     } else if( energy_source == "PAIN" ) {
         // pain is backwards
         if( sp.has_flag( spell_flag::PAIN_NORESIST ) ) {
-            p->mod_pain_noresist( -healing );
+            you->mod_pain_noresist( -healing );
         } else {
-            p->mod_pain( -healing );
+            you->mod_pain( -healing );
         }
     } else if( energy_source == "HEALTH" ) {
-        p->mod_healthy( healing );
+        you->mod_healthy( healing );
     } else {
         debugmsg( "Invalid effect_str %s for spell %s", energy_source, sp.name() );
     }
@@ -1174,9 +1172,9 @@ void spell_effect::morale( const spell &sp, Creature &caster, const tripoint &ta
         return;
     }
     for( const tripoint &potential_target : area ) {
-        player *player_target;
+        Character *player_target;
         if( !( sp.is_valid_target( caster, potential_target ) &&
-               ( player_target = g->critter_at<player>( potential_target ) ) ) ) {
+               ( player_target = g->critter_at<Character>( potential_target ) ) ) ) {
             continue;
         }
         player_target->add_morale( morale_type( sp.effect_data() ), sp.damage(), 0, sp.duration_turns(),
@@ -1500,5 +1498,19 @@ void spell_effect::banishment( const spell &sp, Creature &caster, const tripoint
         // banished monsters take their stuff with them
         mon->death_drops = false;
         mon->die( &caster );
+    }
+}
+
+void spell_effect::effect_on_condition( const spell &sp, Creature &caster, const tripoint &target )
+{
+    const std::set<tripoint> area = spell_effect_area( sp, target, caster );
+
+    for( const tripoint &potential_target : area ) {
+        if( !sp.is_valid_target( caster, potential_target ) ) {
+            continue;
+        }
+        dialogue d( get_talker_for( g->critter_at<Creature>( potential_target ) ),
+                    get_talker_for( caster ) );
+        effect_on_condition_id( sp.effect_data() )->activate( d );
     }
 }
