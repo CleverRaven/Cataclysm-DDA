@@ -1306,7 +1306,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         return activity_reason_info::ok( do_activity_reason::CAN_DO_FETCH );
     } else if( act == ACT_MULTIPLE_DIS ) {
         // Is there anything to be disassembled?
-        const inventory inv = p.crafting_inventory( src_loc, PICKUP_RANGE );
+        const inventory inv = you.crafting_inventory( src_loc, PICKUP_RANGE );
         requirement_data req;
         for( item &i : here.i_at( src_loc ) ) {
             //unmark the item before check
@@ -1333,7 +1333,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
                     continue;
                 }
                 // check passed, mark the item
-                i.set_var( "activity_var", p.name );
+                i.set_var( "activity_var", you.name );
                 return activity_reason_info::ok( do_activity_reason::NEEDS_DISASSEMBLE );
             }
         }
@@ -1780,8 +1780,8 @@ static bool fetch_activity( Character &you, const tripoint &src_loc,
         for( auto elem : mental_map_2 ) {
             if( std::get<0>( elem ) == src_loc && it.typeId() == std::get<1>( elem ) ) {
                 // construction/crafting tasks want the required item moved near the work spot.
-                if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ||
-                    you.backlog.front().id() == ACT_MULTIPLE_DIS ) {
+                if( !you.backlog.empty() && ( you.backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ||
+                                              you.backlog.front().id() == ACT_MULTIPLE_DIS ) ) {
                     move_item( you, it, it.count_by_charges() ? std::get<2>( elem ) : 1, src_loc,
                                here.getlocal( you.backlog.front().coords.back() ), src_veh, src_part, activity_to_restore );
 
@@ -1796,7 +1796,7 @@ static bool fetch_activity( Character &you, const tripoint &src_loc,
                                                      you.backlog.front().id() == ACT_MULTIPLE_FISH ||
                                                      you.backlog.front().id() == ACT_MULTIPLE_MINE ) ) {
                     if( it.volume() > volume_allowed || it.weight() > weight_allowed ) {
-                        add_msg_if_player_sees( p, "%1s failed to fetch tools", p.name );
+                        add_msg_if_player_sees( you, "%1s failed to fetch tools", you.name );
                         continue;
                     }
                     item leftovers = it;
@@ -2559,12 +2559,10 @@ static requirement_check_result generic_multi_activity_check_requirement( Charac
         // is it even worth fetching anything if there isn't enough nearby?
         if( !are_requirements_nearby( tool_pickup ? loot_zone_spots : combined_spots, what_we_need, you,
                                       act_id, tool_pickup, src_loc ) ) {
-            <<< <<< < HEAD
-            you.add_msg_if_player( m_info, _( "The required items are not available to complete this task." ) );
-            == == == =
-                p.add_msg_player_or_npc( m_info, _( "The required items are not available to complete this task." ),
-                                         _( "The required items are not available to complete this task." ) );
-            >>> >>> > 0973de552c... Rebased
+
+            you.add_msg_player_or_npc( m_info,
+                                       _( "The required items are not available to complete this task." ),
+                                       _( "The required items are not available to complete this task." ) );
             if( reason == do_activity_reason::NEEDS_VEH_DECONST ||
                 reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
                 you.activity_vehicle_part_index = -1;
@@ -2720,33 +2718,30 @@ static bool generic_multi_activity_do( Character &you, const activity_id &act_id
             you.backlog.push_front( player_activity( act_id ) );
             return false;
         }
-        <<< <<< < HEAD
+
         you.activity_vehicle_part_index = -1;
-        == == == =
-            p.activity_vehicle_part_index = -1;
     } else if( reason == do_activity_reason::NEEDS_DISASSEMBLE ) {
         map_stack items = here.i_at( src_loc );
         for( item &elem : items ) {
             if( elem.is_disassemblable() ) {
                 // Disassemble the checked one.
-                if( elem.get_var( "activity_var" ) == p.name ) {
+                if( elem.get_var( "activity_var" ) == you.name ) {
                     player_activity act = player_activity( disassemble_activity_actor( recipe_dictionary::get_uncraft(
-                            elem.typeId() ).time_to_craft_moves( p, recipe_time_flag::ignore_proficiencies ) ) );
+                            elem.typeId() ).time_to_craft_moves( you, recipe_time_flag::ignore_proficiencies ) ) );
                     act.targets.emplace_back( map_cursor( src_loc ), &elem );
                     act.placement = here.getabs( src_loc );
                     act.position = elem.charges;
                     act.index = false;
-                    p.assign_activity( act );
+                    you.assign_activity( act );
                     // Keep doing
                     // After assignment of disassemble activity (not multitype anymore)
                     // the backlog will not be nuked in do_player_activity()
-                    p.backlog.emplace_back( player_activity( ACT_MULTIPLE_DIS ) );
+                    you.backlog.emplace_back( player_activity( ACT_MULTIPLE_DIS ) );
                     break;
                 }
             }
         }
         return false;
-        >>> >>> > 0973de552c... Rebased
     }
     return true;
 }

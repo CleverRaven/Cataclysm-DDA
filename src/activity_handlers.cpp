@@ -3412,9 +3412,9 @@ void activity_handlers::multiple_butcher_do_turn( player_activity *act, Characte
 {
     generic_multi_activity_handler( *act, *you );
 }
-void activity_handlers::multiple_dis_do_turn( player_activity *act, player *p )
+void activity_handlers::multiple_dis_do_turn( player_activity *act, Character *you )
 {
-    generic_multi_activity_handler( *act, *p );
+    generic_multi_activity_handler( *act, *you );
 }
 
 
