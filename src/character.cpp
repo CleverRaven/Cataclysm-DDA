@@ -9347,6 +9347,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
         assign_activity( activity_id( "ACT_MEND_ITEM" ), to_moves<int>( method.time ) );
         activity.name = opt.fault.str();
         activity.str_values.emplace_back( method.id );
+        activity.targets.push_back( std::move( obj ) );
     }
 }
 
