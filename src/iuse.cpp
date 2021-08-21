@@ -6265,12 +6265,7 @@ cata::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tr
             //the more varied music, the better max mood.
             const int songs = it->get_var( "EIPC_MUSIC", 0 );
             play_music( *p, pos, 8, std::min( 25, songs ) );
-        } else {
-            it->active = false;
-            it->erase_var( "EIPC_MUSIC_ON" );
-            p->add_msg_if_player( m_info, _( "The tablet's batteries are dead." ) );
         }
-
         return cata::nullopt;
     } else if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
@@ -9782,8 +9777,11 @@ cata::optional<int> iuse::magic_8_ball( Character *p, item *it, bool, const trip
     return 0;
 }
 
-cata::optional<int> iuse::ebooksave( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::ebooksave( Character *p, item *it, bool t, const tripoint & )
 {
+    if( t ) {
+        return cata::nullopt;
+    }
     if( !it->is_ebook_storage() ) {
         debugmsg( "EBOOKSAVE iuse called on item without ebook type pocket" );
         return cata::nullopt;
@@ -9832,8 +9830,11 @@ cata::optional<int> iuse::ebooksave( Character *p, item *it, bool, const tripoin
     return cata::nullopt;
 }
 
-cata::optional<int> iuse::ebookread( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::ebookread( Character *p, item *it, bool t, const tripoint & )
 {
+    if( t ) {
+        return cata::nullopt;
+    }
     if( !it->is_ebook_storage() ) {
         debugmsg( "EBOOKREAD iuse called on item without ebook type pocket" );
         return cata::nullopt;

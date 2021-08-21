@@ -1388,6 +1388,23 @@ class read_inventory_preset: public pickup_inventory_preset
         const Character &you;
 };
 
+class Eread_inventory_preset : public read_inventory_preset
+{
+    private:
+        const Character &you;
+    public:
+        explicit Eread_inventory_preset( const Character &you ) : read_inventory_preset( you ), you( you ) {
+        }
+        std::string get_denial( const item_location &loc ) const override {
+            std::vector<std::string> denials;
+            if( you.get_book_reader( *loc, denials ) == nullptr && !denials.empty() &&
+                !loc->type->can_use( "learn_spell" ) ) {
+                return denials.front();
+            }
+            return std::string();
+        }
+};
+
 item_location game_menus::inv::read( Character &you )
 {
     const std::string msg = you.is_avatar() ? _( "You have nothing to read." ) :
@@ -1402,7 +1419,7 @@ item_location game_menus::inv::ebookread( Character &you, item_location &ereader
         string_format( _( "%1$s have nothing to read." ), you.disp_name( false, true ) ) :
         string_format( _( "%1$s has nothing to read." ), you.disp_name( false, true ) );
 
-    const read_inventory_preset preset( you );
+    const Eread_inventory_preset preset( you );
     inventory_pick_selector inv_s( you, preset );
 
     inv_s.set_title( _( "Read" ) );
