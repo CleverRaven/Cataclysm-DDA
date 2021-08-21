@@ -108,8 +108,8 @@ static const morale_mult optimist( 1.2, 0.8 );
 // Again, those grouchy Bad-Tempered folks always focus on the negative.
 // They can't handle positive things as well.  They're No Fun.  D:
 static const morale_mult badtemper( 0.8, 1.2 );
-// Numb characters have trouble feeling anything    
-static const morale_mult numb( 0.25, 0.25 );    
+// Numb characters have trouble feeling anything
+static const morale_mult numb( 0.25, 0.25 );
 // Prozac reduces overall negative morale by 75%.
 static const morale_mult prozac( 1.0, 0.25 );
 // The bad prozac effect reduces good morale by 75%.
@@ -269,7 +269,7 @@ player_morale::player_morale() :
                                          std::bind( set_badtemper, _1, 0 ) );
     mutations[trait_NUMB]          = mutation_data(
                                          std::bind( set_numb, _1, -1 ),
-                                         std::bind( set_numb, _1, 0 ) );    
+                                         std::bind( set_numb, _1, 0 ) );
     mutations[trait_STYLISH]       = mutation_data(
                                          std::bind( set_stylish, _1, true ),
                                          std::bind( set_stylish, _1, false ) );
