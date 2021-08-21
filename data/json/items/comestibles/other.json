@@ -692,7 +692,7 @@
     "color": "brown",
     "flags": [ "INEDIBLE", "CATTLE" ],
     "use_action": [ "PETFOOD" ],
-    "petfood": [ "CATTLEFOOD" ]
+    "petfood": [ "CATTLEFOOD", "DINOFOOD_C" ]
   },
   {
     "id": "birdfood",
@@ -740,7 +740,7 @@
     "color": "brown",
     "flags": [ "LUPINE" ],
     "use_action": [ "PETFOOD" ],
-    "petfood": [ "DOGFOOD" ]
+    "petfood": [ "DOGFOOD", "DINOFOOD_A" ]
   },
   {
     "id": "dogfood_dry",
@@ -766,7 +766,7 @@
     "color": "brown",
     "flags": [ "LUPINE" ],
     "use_action": [ "PETFOOD" ],
-    "petfood": [ "DOGFOOD" ]
+    "petfood": [ "DOGFOOD", "DINOFOOD_A" ]
   },
   {
     "id": "catfood",
@@ -791,7 +791,7 @@
     "color": "brown",
     "flags": [ "FELINE" ],
     "use_action": [ "PETFOOD" ],
-    "petfood": [ "CATFOOD" ]
+    "petfood": [ "CATFOOD", "DINOFOOD_B" ]
   },
   {
     "id": "catfood_dry",
@@ -817,7 +817,7 @@
     "color": "brown",
     "flags": [ "FELINE" ],
     "use_action": [ "PETFOOD" ],
-    "petfood": [ "CATFOOD" ]
+    "petfood": [ "CATFOOD", "DINOFOOD_B" ]
   },
   {
     "type": "COMESTIBLE",
