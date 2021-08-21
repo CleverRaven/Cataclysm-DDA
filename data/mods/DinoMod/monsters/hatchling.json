@@ -162,7 +162,7 @@
     "copy-from": "mon_compsognathus_hatchling",
     "name": "dark gray and yellow hatchling",
     "default_faction": "eoraptor",
-    "petfood": { "food": [ "DINOFOOD_A" ] },
+    "petfood": { "food": [ "DINOFOOD_A", "DINOFOOD_B", "DINOFOOD_C" ] },
     "extend": { "flags": [ "DOGFOOD", "CANPLAY" ] },
     "upgrades": { "age_grow": 14, "into": "mon_eoraptor" }
   },
