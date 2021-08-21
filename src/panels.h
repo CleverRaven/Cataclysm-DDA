@@ -16,10 +16,13 @@ class JsonOut;
 class avatar;
 struct point;
 
-namespace activity_level
+// The display namespace contains UI string output and colorization functions
+// Some return plain strings or translations, some return a (string, color) pair,
+// and some return a string with colorization tags embedded.
+namespace display
 {
 std::string activity_level_str( float level );
-} // namespace activity_level
+} // namespace display
 
 namespace catacurses
 {
