@@ -432,6 +432,11 @@
     "coverage": 100,
     "roof": "t_metal_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "oxytorch": {
+      "result": "t_scrap_wall_halfway",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 2, 3 ] }, { "item": "steel_chunk", "count": [ 12, 20 ] } ]
+    },
     "bash": {
       "str_min": 200,
       "str_max": 600,
@@ -588,6 +593,11 @@
     "move_cost": 0,
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "THIN_OBSTACLE" ],
     "connects_to": "WALL",
+    "oxytorch": {
+      "result": "t_pit",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "spike", "count": [ 1, 19 ] }, { "item": "scrap", "count": [ 1, 8 ] } ]
+    },
     "bash": {
       "str_min": 20,
       "str_max": 100,
@@ -1182,6 +1192,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
+    "oxytorch": { "result": "t_floor", "duration": "9 seconds", "byproducts": [ { "item": "pipe", "count": [ 1, 2 ] } ] },
     "bash": {
       "str_min": 60,
       "str_max": 250,

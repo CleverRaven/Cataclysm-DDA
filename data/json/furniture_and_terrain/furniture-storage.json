@@ -350,6 +350,7 @@
     "lockpick_result": "f_gunsafe_o",
     "lockpick_message": "With a satisfying click, the lock on the gun safe door opens.",
     "examine_action": "locked_object_pickable",
+    "oxytorch": { "result": "f_safe_o", "duration": "14 seconds" },
     "bash": {
       "str_min": 40,
       "str_max": 200,
@@ -375,6 +376,7 @@
     "required_str": 14,
     "max_volume": "250 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE" ],
+    "oxytorch": { "result": "f_safe_o", "duration": "14 seconds" },
     "bash": {
       "str_min": 40,
       "str_max": 200,
@@ -400,6 +402,7 @@
     "required_str": 14,
     "max_volume": "250 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE" ],
+    "oxytorch": { "result": "f_safe_o", "duration": "14 seconds" },
     "examine_action": "gunsafe_el",
     "bash": {
       "str_min": 40,
@@ -518,6 +521,7 @@
     "coverage": 70,
     "required_str": 8,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "PLACE_ITEM", "BLOCKSDOOR", "MOUNTABLE" ],
+    "oxytorch": { "duration": "1 seconds", "byproducts": [ { "item": "steel_chunk", "count": [ 2, 6 ] } ] },
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": [ 6, 12 ] },
@@ -684,6 +688,7 @@
     "required_str": 14,
     "max_volume": "250 L",
     "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "PLACE_ITEM", "MOUNTABLE" ],
+    "oxytorch": { "result": "f_safe_o", "duration": "14 seconds" },
     "examine_action": "safe",
     "bash": {
       "str_min": 40,
