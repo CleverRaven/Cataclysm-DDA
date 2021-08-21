@@ -864,7 +864,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags it's tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat their head."
     },
     "flags": [
       "ANIMAL",
@@ -924,7 +924,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags it's tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat their head."
     },
     "flags": [
       "ANIMAL",
@@ -971,7 +971,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags it's tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat their head."
     },
     "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
@@ -996,7 +996,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags it's tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat their head."
     },
     "flags": [
       "ANIMAL",
@@ -1045,7 +1045,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags it's tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat their head."
     },
     "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
@@ -1069,7 +1069,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags it's tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat their head."
     },
     "flags": [
       "ANIMAL",
@@ -1121,7 +1121,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags it's tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat their head."
     },
     "flags": [
       "ANIMAL",
@@ -1156,7 +1156,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags it's tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat their head."
     },
     "flags": [
       "ANIMAL",
@@ -1206,7 +1206,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags it's tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat their head."
     },
     "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
@@ -1263,7 +1263,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags it's tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat their head."
     },
     "flags": [
       "ANIMAL",
@@ -1303,7 +1303,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags it's tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat their head."
     },
     "flags": [
       "ANIMAL",
@@ -1352,7 +1352,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags it's tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat their head."
     },
     "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HARDTOSHOOT", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
@@ -1377,7 +1377,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags it's tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat their head."
     },
     "flags": [
       "ANIMAL",
@@ -1428,7 +1428,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags it's tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat their head."
     },
     "flags": [
       "ANIMAL",
@@ -1463,7 +1463,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags it's tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat their head."
     },
     "flags": [
       "ANIMAL",
@@ -1511,7 +1511,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags it's tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat their head."
     },
     "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
@@ -1539,7 +1539,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags it's tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat their head."
     },
     "flags": [
       "ANIMAL",
@@ -1588,7 +1588,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags it's tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat their head."
     },
     "flags": [ "ANIMAL", "DOGFOOD", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
@@ -1616,7 +1616,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags it's tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat their head."
     },
     "flags": [
       "ANIMAL",
@@ -1665,7 +1665,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags it's tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat their head."
     },
     "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
@@ -1690,7 +1690,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags it's tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat their head."
     },
     "flags": [
       "ANIMAL",
@@ -1740,7 +1740,7 @@
     "petfood": {
       "food": [ "DOGFOOD" ],
       "feed": "The %s seems to like you!  It lets you pat its head and seems friendly.",
-      "pet": "The %s happily wags it's tail while you pat their head."
+      "pet": "The %s happily wags its tail while you pat their head."
     },
     "flags": [ "ANIMAL", "DOGFOOD", "CANPLAY", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SEES", "SMELLS", "WARM" ]
   },
