@@ -2677,6 +2677,7 @@ CBMs can be defined like this:
 "rot_spawn": "MONSTERGROUP_NAME", // Monster group that spawns when food becomes rotten (used for egg hatching)
 "rot_spawn_chance": 10,           // Percent chance of monstergroup spawn when food rots. Max 100.
 "smoking_result": "dry_meat",     // Food that results from drying this food in a smoker
+"petfood": [ "FUNGALFRUIT", "MIGOFOOD" ] // (Optional) Pet food categories this item is in.
 ```
 
 
