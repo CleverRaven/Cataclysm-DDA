@@ -5,7 +5,7 @@
     "name": { "str": "Green maintenance Badge Trait" },
     "description": "Adds trait for badge check",
     "valid_targets": [ "hostile" ],
-    "flags": [ "MUTATE_TRAIT", "SILENT" ],
+    "flags": [ "SILENT" ],
     "message": "the drone scans for your ID badge.",
     "min_damage": 10000,
     "max_damage": 10000,
@@ -13,27 +13,26 @@
     "max_range": 15,
     "max_level": 1,
     "shape": "line",
-    "effect": "mutate",
+    "effect": "effect_on_condition",
     "effect_str": "GREEN_MAINTENANCE_ALARM"
   },
   {
-    "type": "mutation",
-    "id": "GREEN_MAINTENANCE_ALARM",
-    "name": { "str": "valued employee" },
-    "points": 2,
-    "description": "A silent mutation to work with lab security drones and badges.",
-    "purifiable": false,
-    "player_display": false
-  },
-  {
     "type": "effect_on_condition",
-    "id": "bot_green_maintenance_badge_check",
-    "recurrence_min": 10,
-    "recurrence_max": 60,
-    "condition": { "and": [ { "not": { "u_has_item": "id_science_maintenance_green" } }, { "u_has_trait": "GREEN_MAINTENANCE_ALARM" } ] },
+    "id": "GREEN_MAINTENANCE_ALARM",
     "effect": [
-      { "u_message": "Remain in place, unauthorized person.  Security has been activated." },
-      { "mapgen_update": "bots_center_garage", "om_terrain": "lab_CORE_2x1_EC_ground" }
+      {
+        "set_queue_effect_on_condition": [
+          {
+            "id": "bot_green_maintenance_badge_check",
+            "condition": { "not": { "u_has_item": "id_science_maintenance_green" } },
+            "effect": [
+              { "u_message": "Remain in place, unauthorized person.  Security has been activated." },
+              { "mapgen_update": "bots_center_garage", "om_terrain": "lab_CORE_2x1_EC_ground" }
+            ],
+            "false_effect": [ { "u_message": "Hello, valued employee." }, { "u_message": "lab_safety_maintenance_snippets", "snippet": true } ]
+          }
+        ]
+      }
     ]
   },
   {
@@ -42,18 +41,6 @@
     "update_mapgen_id": "bots_center_garage",
     "method": "json",
     "object": { "set": [ { "line": "terrain", "id": "t_thconc_r", "x": 1, "y": 11, "x2": 1, "y2": 12 } ] }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "bot_green_maintenance_alarm_remove",
-    "recurrence_min": 10,
-    "recurrence_max": 60,
-    "condition": { "and": [ { "u_has_item": "id_science_maintenance_green" }, { "u_has_trait": "GREEN_MAINTENANCE_ALARM" } ] },
-    "effect": [
-      { "u_message": "Hello, valued employee." },
-      { "u_message": "lab_safety_maintenance_snippets", "snippet": true },
-      { "u_lose_trait": "GREEN_MAINTENANCE_ALARM" }
-    ]
   },
   {
     "id": "mon_lab_security_drone_GM",
@@ -71,7 +58,7 @@
       {
         "type": "spell",
         "spell_data": { "id": "green_maintenance_check" },
-        "cooldown": 120,
+        "cooldown": 5,
         "monster_message": "Remain still.  Scanning for authorization."
       }
     ],
@@ -86,7 +73,7 @@
     "name": { "str": "Yellow maintenance Badge Trait" },
     "description": "Adds trait for badge check",
     "valid_targets": [ "hostile" ],
-    "flags": [ "MUTATE_TRAIT", "SILENT" ],
+    "flags": [ "SILENT" ],
     "message": "the drone scans for your ID badge.",
     "min_damage": 10000,
     "max_damage": 10000,
@@ -94,54 +81,27 @@
     "max_range": 15,
     "max_level": 1,
     "shape": "line",
-    "effect": "mutate",
+    "effect": "effect_on_condition",
     "effect_str": "YELLOW_MAINTENANCE_ALARM"
   },
   {
-    "type": "mutation",
+    "type": "effect_on_condition",
     "id": "YELLOW_MAINTENANCE_ALARM",
-    "name": { "str": "valued employee" },
-    "points": 2,
-    "description": "A silent mutation to work with lab security drones and badges.",
-    "purifiable": false,
-    "player_display": false
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "bot_yellow_maintenance_badge_check",
-    "recurrence_min": 10,
-    "recurrence_max": 60,
-    "condition": {
-      "and": [ { "not": { "u_has_item": "id_science_maintenance_yellow" } }, { "u_has_trait": "YELLOW_MAINTENANCE_ALARM" } ]
-    },
     "effect": [
-      { "u_message": "Remain in place, unauthorized person.  Security has been activated." },
-      { "mapgen_update": "concrete_wall_o_lab_res_8_NW", "om_terrain": "lab_res_8_NWD" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "bot_yellow_maintenance_badge_check_2",
-    "recurrence_min": 10,
-    "recurrence_max": 60,
-    "condition": {
-      "and": [ { "not": { "u_has_item": "id_science_maintenance_yellow" } }, { "u_has_trait": "YELLOW_MAINTENANCE_ALARM" } ]
-    },
-    "effect": [
-      { "u_message": "Remain in place, unauthorized person.  Security has been activated." },
-      { "mapgen_update": "concrete_wall_o_lab_res_8_NE", "om_terrain": "lab_res_8_NED" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "bot_yellow_maintenance_alarm_remove",
-    "recurrence_min": 10,
-    "recurrence_max": 60,
-    "condition": { "and": [ { "u_has_item": "id_science_maintenance_yellow" }, { "u_has_trait": "YELLOW_MAINTENANCE_ALARM" } ] },
-    "effect": [
-      { "u_message": "Hello, valued employee." },
-      { "u_message": "lab_safety_maintenance_snippets", "snippet": true },
-      { "u_lose_trait": "YELLOW_MAINTENANCE_ALARM" }
+      {
+        "set_queue_effect_on_condition": [
+          {
+            "id": "bot_yellow_maintenance_badge_check",
+            "condition": { "not": { "u_has_item": "id_science_maintenance_yellow" } },
+            "effect": [
+              { "u_message": "Remain in place, unauthorized person.  Security has been activated." },
+              { "mapgen_update": "concrete_wall_o_lab_res_8_NW", "om_terrain": "lab_res_8_NWD" },
+              { "mapgen_update": "concrete_wall_o_lab_res_8_NE", "om_terrain": "lab_res_8_NED" }
+            ],
+            "false_effect": [ { "u_message": "Hello, valued employee." }, { "u_message": "lab_safety_maintenance_snippets", "snippet": true } ]
+          }
+        ]
+      }
     ]
   },
   {
@@ -175,7 +135,7 @@
     "name": { "str": "Blue maintenance Badge Trait" },
     "description": "Adds trait for badge check",
     "valid_targets": [ "hostile" ],
-    "flags": [ "MUTATE_TRAIT", "SILENT" ],
+    "flags": [ "SILENT" ],
     "message": "the drone scans for your ID badge.",
     "min_damage": 10000,
     "max_damage": 10000,
@@ -183,50 +143,27 @@
     "max_range": 15,
     "max_level": 1,
     "shape": "line",
-    "effect": "mutate",
+    "effect": "effect_on_condition",
     "effect_str": "BLUE_MAINTENANCE_ALARM"
   },
   {
-    "type": "mutation",
+    "type": "effect_on_condition",
     "id": "BLUE_MAINTENANCE_ALARM",
-    "name": { "str": "valued employee" },
-    "points": 2,
-    "description": "A silent mutation to work with lab security drones and badges.",
-    "purifiable": false,
-    "player_display": false
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "bot_blue_maintenance_badge_check",
-    "recurrence_min": 10,
-    "recurrence_max": 60,
-    "condition": { "and": [ { "not": { "u_has_item": "id_science_maintenance_blue" } }, { "u_has_trait": "BLUE_MAINTENANCE_ALARM" } ] },
     "effect": [
-      { "u_message": "Remain in place, unauthorized person.  Security has been activated." },
-      { "mapgen_update": "concrete_wall_o_lab_res_8_NW", "om_terrain": "lab_2x2_cargo_NW" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "bot_blue_maintenance_badge_check_2",
-    "recurrence_min": 10,
-    "recurrence_max": 60,
-    "condition": { "and": [ { "not": { "u_has_item": "id_science_maintenance_blue" } }, { "u_has_trait": "BLUE_MAINTENANCE_ALARM" } ] },
-    "effect": [
-      { "u_message": "Remain in place, unauthorized person.  Security has been activated." },
-      { "mapgen_update": "concrete_wall_o_lab_res_8_NE", "om_terrain": "lab_2x2_cargo_NE" }
-    ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "bot_blue_maintenance_alarm_remove",
-    "recurrence_min": 10,
-    "recurrence_max": 60,
-    "condition": { "and": [ { "u_has_item": "id_science_maintenance_blue" }, { "u_has_trait": "YELLOW_MAINTENANCE_ALARM" } ] },
-    "effect": [
-      { "u_message": "Hello, valued employee." },
-      { "u_message": "lab_safety_maintenance_snippets", "snippet": true },
-      { "u_lose_trait": "BLUE_MAINTENANCE_ALARM" }
+      {
+        "set_queue_effect_on_condition": [
+          {
+            "id": "bot_blue_maintenance_badge_check",
+            "condition": { "not": { "u_has_item": "id_science_maintenance_blue" } },
+            "effect": [
+              { "u_message": "Remain in place, unauthorized person.  Security has been activated." },
+              { "mapgen_update": "concrete_wall_o_lab_res_8_NW", "om_terrain": "lab_2x2_cargo_NW" },
+              { "mapgen_update": "concrete_wall_o_lab_res_8_NE", "om_terrain": "lab_2x2_cargo_NE" }
+            ],
+            "false_effect": [ { "u_message": "Hello, valued employee." }, { "u_message": "lab_safety_maintenance_snippets", "snippet": true } ]
+          }
+        ]
+      }
     ]
   },
   {
@@ -260,7 +197,7 @@
     "name": { "str": "Blue maintenance Badge Trait" },
     "description": "Adds trait for badge check",
     "valid_targets": [ "hostile" ],
-    "flags": [ "MUTATE_TRAIT", "SILENT" ],
+    "flags": [ "SILENT" ],
     "message": "the drone scans for your ID badge.",
     "min_damage": 10000,
     "max_damage": 10000,
@@ -268,28 +205,27 @@
     "max_range": 15,
     "max_level": 1,
     "shape": "line",
-    "effect": "mutate",
+    "effect": "effect_on_condition",
     "effect_str": "BLUE_MAINTENANCE_ALARM2"
   },
   {
-    "type": "mutation",
-    "id": "BLUE_MAINTENANCE_ALARM2",
-    "name": { "str": "valued employee" },
-    "points": 2,
-    "description": "A silent mutation to work with lab security drones and badges.",
-    "purifiable": false,
-    "player_display": false
-  },
-  {
     "type": "effect_on_condition",
-    "id": "bot_blue_maintenance_badge_check2a",
-    "recurrence_min": 10,
-    "recurrence_max": 60,
-    "condition": { "and": [ { "not": { "u_has_item": "id_science_maintenance_blue" } }, { "u_has_trait": "BLUE_MAINTENANCE_ALARM2" } ] },
+    "id": "BLUE_MAINTENANCE_ALARM2",
     "effect": [
-      { "u_message": "Remain in place, unauthorized person.  Security has been activated." },
-      { "mapgen_update": "lab_security_corridor_e", "om_terrain": "underground_lab_central_-6W" },
-      { "mapgen_update": "lab_security_corridor_f", "om_terrain": "underground_lab_central_-6E" }
+      {
+        "set_queue_effect_on_condition": [
+          {
+            "id": "bot_blue_maintenance_badge_check2",
+            "condition": { "not": { "u_has_item": "id_science_maintenance_blue" } },
+            "effect": [
+              { "u_message": "Remain in place, unauthorized person.  Security has been activated." },
+              { "mapgen_update": "lab_security_corridor_e", "om_terrain": "underground_lab_central_-6W" },
+              { "mapgen_update": "lab_security_corridor_f", "om_terrain": "underground_lab_central_-6E" }
+            ],
+            "false_effect": [ { "u_message": "Hello, valued employee." }, { "u_message": "lab_safety_maintenance_snippets", "snippet": true } ]
+          }
+        ]
+      }
     ]
   },
   {
@@ -317,18 +253,6 @@
         { "ter": "t_thconc_r", "x": 6, "y": 15 }
       ]
     }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "bot_blue_maintenance_alarm_remove2",
-    "recurrence_min": 10,
-    "recurrence_max": 60,
-    "condition": { "and": [ { "u_has_item": "id_science_maintenance_blue" }, { "u_has_trait": "YELLOW_MAINTENANCE_ALARM2" } ] },
-    "effect": [
-      { "u_message": "Hello, valued employee." },
-      { "u_message": "lab_safety_maintenance_snippets", "snippet": true },
-      { "u_lose_trait": "BLUE_MAINTENANCE_ALARM2" }
-    ]
   },
   {
     "id": "mon_lab_security_drone_BM2",
@@ -361,7 +285,7 @@
     "name": { "str": "Green researcher Badge Trait" },
     "description": "Adds trait for badge check",
     "valid_targets": [ "hostile" ],
-    "flags": [ "MUTATE_TRAIT", "SILENT" ],
+    "flags": [ "SILENT" ],
     "message": "the drone scans for your ID badge.",
     "min_damage": 10000,
     "max_damage": 10000,
@@ -369,29 +293,28 @@
     "max_range": 15,
     "max_level": 1,
     "shape": "line",
-    "effect": "mutate",
+    "effect": "effect_on_condition",
     "effect_str": "GREEN_RESEARCHER_ALARM"
   },
   {
-    "type": "mutation",
-    "id": "GREEN_RESEARCHER_ALARM",
-    "name": { "str": "valued employee" },
-    "points": 2,
-    "description": "A silent mutation to work with lab security drones and badges.",
-    "purifiable": false,
-    "player_display": false
-  },
-  {
     "type": "effect_on_condition",
-    "id": "bot_green_researcher_badge_check",
-    "recurrence_min": 10,
-    "recurrence_max": 60,
-    "condition": { "and": [ { "not": { "u_has_item": "id_science_researcher_green" } }, { "u_has_trait": "GREEN_RESEARCHER_ALARM" } ] },
+    "id": "GREEN_RESEARCHER_ALARM",
     "effect": [
-      { "u_message": "Remain in place, unauthorized person.  Security has been activated." },
-      { "mapgen_update": "bot_release_rearcher_green", "om_terrain": "lab_res_8_NW" },
-      { "mapgen_update": "bot_release_rearcher_green_2", "om_terrain": "lab_res_8_NE" },
-      { "mapgen_update": "bot_release_rearcher_green", "om_terrain": "lab_res_8_NWD" }
+      {
+        "set_queue_effect_on_condition": [
+          {
+            "id": "bot_green_researcher_badge_check",
+            "condition": { "not": { "u_has_item": "id_science_mutagen_green" } },
+            "effect": [
+              { "u_message": "Remain in place, unauthorized person.  Security has been activated." },
+              { "mapgen_update": "bot_release_rearcher_green", "om_terrain": "lab_res_8_NW" },
+              { "mapgen_update": "bot_release_rearcher_green_2", "om_terrain": "lab_res_8_NE" },
+              { "mapgen_update": "bot_release_rearcher_green", "om_terrain": "lab_res_8_NWD" }
+            ],
+            "false_effect": [ { "u_message": "Hello, valued employee." } ]
+          }
+        ]
+      }
     ]
   },
   {
@@ -407,14 +330,6 @@
     "update_mapgen_id": "bot_release_rearcher_green_2",
     "method": "json",
     "object": { "set": [ { "line": "terrain", "id": "t_thconc_r", "x": 4, "y": 15, "x2": 4, "y2": 16 } ] }
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "bot_green_researcher_alarm_remove",
-    "recurrence_min": 10,
-    "recurrence_max": 60,
-    "condition": { "and": [ { "u_has_item": "id_science_researcher_green" }, { "u_has_trait": "GREEN_RESEARCHER_ALARM" } ] },
-    "effect": [ { "u_message": "Hello, valued employee." }, { "u_lose_trait": "GREEN_RESEARCHER_ALARM" } ]
   },
   {
     "id": "mon_lab_security_drone_GR",
@@ -447,7 +362,7 @@
     "name": { "str": "Black security Badge Trait" },
     "description": "Adds trait for badge check",
     "valid_targets": [ "hostile" ],
-    "flags": [ "MUTATE_TRAIT", "SILENT" ],
+    "flags": [ "SILENT" ],
     "message": "the drone scans for your ID badge.",
     "min_damage": 10000,
     "max_damage": 10000,
@@ -455,29 +370,28 @@
     "max_range": 15,
     "max_level": 1,
     "shape": "line",
-    "effect": "mutate",
+    "effect": "effect_on_condition",
     "effect_str": "BLACK_SECURITY_ALARM"
   },
   {
-    "type": "mutation",
-    "id": "BLACK_SECURITY_ALARM",
-    "name": { "str": "valued employee" },
-    "points": 2,
-    "description": "A silent mutation to work with lab security drones and badges.",
-    "purifiable": false,
-    "player_display": false
-  },
-  {
     "type": "effect_on_condition",
-    "id": "bot_black_security_badge_check",
-    "recurrence_min": 10,
-    "recurrence_max": 60,
-    "condition": { "and": [ { "not": { "u_has_item": "id_science_security_black" } }, { "u_has_trait": "BLACK_SECURITY_ALARM" } ] },
+    "id": "BLACK_SECURITY_ALARM",
     "effect": [
-      { "u_message": "Remain in place, unauthorized person.  Security has been activated." },
-      { "mapgen_update": "toxic_gas_corridor", "om_terrain": "underground_lab_central_-6W" },
-      { "mapgen_update": "lab_security_corridor_c", "om_terrain": "underground_lab_central_-6W" },
-      { "mapgen_update": "lab_security_corridor_d", "om_terrain": "underground_lab_central_-6E" }
+      {
+        "set_queue_effect_on_condition": [
+          {
+            "id": "bot_black_security_badge_check",
+            "condition": { "not": { "u_has_item": "id_science_security_black" } },
+            "effect": [
+              { "u_message": "Remain in place, unauthorized person.  Security has been activated." },
+              { "mapgen_update": "toxic_gas_corridor", "om_terrain": "underground_lab_central_-6W" },
+              { "mapgen_update": "lab_security_corridor_c", "om_terrain": "underground_lab_central_-6W" },
+              { "mapgen_update": "lab_security_corridor_d", "om_terrain": "underground_lab_central_-6E" }
+            ],
+            "false_effect": [ { "u_message": "Hello, valued employee." } ]
+          }
+        ]
+      }
     ]
   },
   {
@@ -521,14 +435,6 @@
     }
   },
   {
-    "type": "effect_on_condition",
-    "id": "bot_black_security_alarm_remove",
-    "recurrence_min": 10,
-    "recurrence_max": 60,
-    "condition": { "and": [ { "u_has_item": "id_science_black_security" }, { "u_has_trait": "BLACK_SECURITY_ALARM" } ] },
-    "effect": [ { "u_message": "Hello, valued employee." }, { "u_lose_trait": "BLACK_SECURITY_ALARM" } ]
-  },
-  {
     "id": "mon_lab_security_drone_BS",
     "copy-from": "base_drone",
     "type": "MONSTER",
@@ -544,7 +450,7 @@
       {
         "type": "spell",
         "spell_data": { "id": "black_security_check" },
-        "cooldown": 60,
+        "cooldown": 120,
         "monster_message": "Remain still.  Scanning for authorization."
       }
     ],
