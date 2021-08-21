@@ -1622,6 +1622,42 @@
   },
   {
     "type": "profession",
+    "id": "cop_motor",
+    "name": "Motorized Police Officer",
+    "description": "Just a small-town deputy, you got the call and were ready to come to the rescue.  Soon it was you who needed rescuing, and you were lucky to escape with your life.  Who's going to respect your authority when the government this badge represents doesn't exist anymore?",
+    "points": 2,
+    "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" } ],
+    "traits": [ "PROF_POLICE" ],
+    "proficiencies": [ "prof_spotting" ],
+    "items": {
+      "both": {
+        "items": [
+          "socks",
+          "police_breeches",
+          "badge_deputy",
+          "sheriffshirt",
+          "undershirt",
+          "police_belt",
+          "motor_police_boots",
+          "whistle",
+          "wristwatch",
+          "leather_police_jacket"
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" },
+          { "group": "charged_two_way_radio" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "gloves_leather", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
+          { "item": "legpouch_large", "contents-group": "army_mags_usp45" }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
     "id": "salesman",
     "name": "Used Car Salesman",
     "description": "They said you'd sell your own mother for a dollar.  How dare they!  You've been around the block a few times, and you'd charge way more than a dollar - and get it, too!",

@@ -932,6 +932,28 @@
     "armor": [ { "encumbrance": 20, "coverage": 65, "covers": [ "foot_l", "foot_r", "leg_r", "leg_l" ] } ]
   },
   {
+    "id": "motor_police_boots",
+    "repairs_like": "boots_larmor",
+    "type": "ARMOR",
+    "name": { "str": "pair of motorcycle police boots", "str_pl": "pairs of motorcycle police boots" },
+    "description": "Custom made knee-high leather boots issued to motor officers.  Warm, durable and quite tough.",
+    "weight": "1520 g",
+    "volume": "3750 ml",
+    "price": 8000,
+    "price_postapoc": 1250,
+    "to_hit": -1,
+    "bashing": 1,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "knee_high_boots",
+    "color": "dark_gray",
+    "armor": [ { "covers": [ "foot_l", "foot_r", "leg_r", "leg_l" ], "coverage": 65, "encumbrance": 15 } ],
+    "warmth": 20,
+    "material_thickness": 2,
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE", "WATERPROOF", "OUTER", "STURDY" ]
+  },
+  {
     "id": "leathersandals",
     "type": "ARMOR",
     "name": { "str": "pair of leather sandals", "str_pl": "pairs of leather sandals" },
