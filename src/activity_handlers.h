@@ -140,7 +140,6 @@ void generic_game_turn_handler( player_activity *act, Character *you, int morale
                                 int morale_max_bonus );
 
 /** activity_do_turn functions: */
-<<< <<< < HEAD
 void fill_liquid_do_turn( player_activity *act, Character *you );
 void pickaxe_do_turn( player_activity *act, Character *you );
 void drop_do_turn( player_activity *act, Character *you );
