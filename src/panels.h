@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 
+#include "color.h"
 #include "coordinates.h"
 #include "translations.h"
 
@@ -22,6 +23,7 @@ struct point;
 namespace display
 {
 std::string activity_level_str( float level );
+std::pair<translation, nc_color> weariness_text_color( size_t weariness );
 } // namespace display
 
 namespace catacurses
