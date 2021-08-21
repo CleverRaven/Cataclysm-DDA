@@ -531,6 +531,46 @@
     "widgets": [ "int_num", "per_num" ]
   },
   {
+    "id": "pain_desc",
+    "type": "widget",
+    "label": "Pain",
+    "style": "phrase",
+    "var": "pain_description",
+    "//": "Uses Character::get_pain_description"
+  },
+  {
+    "id": "thirst_desc",
+    "type": "widget",
+    "label": "Thirst",
+    "style": "phrase",
+    "var": "thirst_description",
+    "//": "Uses Character::get_thirst_description"
+  },
+  {
+    "id": "fatigue_desc",
+    "type": "widget",
+    "label": "Rest",
+    "style": "phrase",
+    "var": "fatigue_description",
+    "//": "Uses Character::get_fatigue_description"
+  },
+  {
+    "id": "weight_desc",
+    "type": "widget",
+    "label": "Weight",
+    "style": "phrase",
+    "var": "weight_description",
+    "//": "Uses Character::get_weight_description"
+  },
+  {
+    "id": "hunger_desc",
+    "type": "widget",
+    "label": "Hunger",
+    "style": "phrase",
+    "var": "hunger_description",
+    "//": "Uses Character::get_hunger_description"
+  },
+  {
     "id": "root_layout_wide",
     "type": "widget",
     "style": "layout",
