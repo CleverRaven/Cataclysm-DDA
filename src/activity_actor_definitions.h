@@ -303,7 +303,7 @@ class hacksaw_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 
         // debugmsg causes a backtrace when fired during cata_test
-        bool testing = false;
+        bool testing = false;  // NOLINT(cata-serialize)
     private:
         tripoint target;
         item_location tool;
