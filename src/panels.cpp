@@ -1097,6 +1097,100 @@ std::pair<std::string, nc_color> display::hunger_text_color( const Character &u 
     return std::make_pair( _( "ERROR!" ), c_light_red );
 }
 
+std::pair<std::string, nc_color> display::weight_text_color( const Character &u )
+{
+    const float bmi = u.get_bmi();
+    std::string weight_string;
+    nc_color weight_color = c_light_gray;
+    if( get_option<bool>( "CRAZY" ) ) {
+        if( bmi > character_weight_category::morbidly_obese + 10.0f ) {
+            weight_string = translate_marker( "AW HELL NAH" );
+            weight_color = c_red;
+        } else if( bmi > character_weight_category::morbidly_obese + 5.0f ) {
+            weight_string = translate_marker( "DAYUM" );
+            weight_color = c_red;
+        } else if( bmi > character_weight_category::morbidly_obese ) {
+            weight_string = translate_marker( "Fluffy" );
+            weight_color = c_red;
+        } else if( bmi > character_weight_category::very_obese ) {
+            weight_string = translate_marker( "Husky" );
+            weight_color = c_red;
+        } else if( bmi > character_weight_category::obese ) {
+            weight_string = translate_marker( "Healthy" );
+            weight_color = c_light_red;
+        } else if( bmi > character_weight_category::overweight ) {
+            weight_string = translate_marker( "Big" );
+            weight_color = c_yellow;
+        } else if( bmi > character_weight_category::normal ) {
+            weight_string = translate_marker( "Normal" );
+            weight_color = c_light_gray;
+        } else if( bmi > character_weight_category::underweight ) {
+            weight_string = translate_marker( "Bean Pole" );
+            weight_color = c_yellow;
+        } else if( bmi > character_weight_category::emaciated ) {
+            weight_string = translate_marker( "Emaciated" );
+            weight_color = c_light_red;
+        } else {
+            weight_string = translate_marker( "Spooky Scary Skeleton" );
+            weight_color = c_red;
+        }
+    } else {
+        if( bmi > character_weight_category::morbidly_obese ) {
+            weight_string = translate_marker( "Morbidly Obese" );
+            weight_color = c_red;
+        } else if( bmi > character_weight_category::very_obese ) {
+            weight_string = translate_marker( "Very Obese" );
+            weight_color = c_red;
+        } else if( bmi > character_weight_category::obese ) {
+            weight_string = translate_marker( "Obese" );
+            weight_color = c_light_red;
+        } else if( bmi > character_weight_category::overweight ) {
+            weight_string = translate_marker( "Overweight" );
+            weight_color = c_yellow;
+        } else if( bmi > character_weight_category::normal ) {
+            weight_string = translate_marker( "Normal" );
+            weight_color = c_light_gray;
+        } else if( bmi > character_weight_category::underweight ) {
+            weight_string = translate_marker( "Underweight" );
+            weight_color = c_yellow;
+        } else if( bmi > character_weight_category::emaciated ) {
+            weight_string = translate_marker( "Emaciated" );
+            weight_color = c_light_red;
+        } else {
+            weight_string = translate_marker( "Skeletal" );
+            weight_color = c_red;
+        }
+    }
+    return std::make_pair( _( weight_string ), weight_color );
+}
+
+std::string display::weight_long_description( const Character &u )
+{
+    const float bmi = u.get_bmi();
+    if( bmi > character_weight_category::morbidly_obese ) {
+        return _( "You have far more fat than is healthy or useful.  It is causing you major problems." );
+    } else if( bmi > character_weight_category::very_obese ) {
+        return _( "You have too much fat.  It impacts your day-to-day health and wellness." );
+    } else if( bmi > character_weight_category::obese ) {
+        return _( "You've definitely put on a lot of extra weight.  Although helpful in times of famine, this is too much and is impacting your health." );
+    } else if( bmi > character_weight_category::overweight ) {
+        return _( "You've put on some extra pounds.  Nothing too excessive, but it's starting to impact your health and waistline a bit." );
+    } else if( bmi > character_weight_category::normal ) {
+        return _( "You look to be a pretty healthy weight, with some fat to last you through the winter, but nothing excessive." );
+    } else if( bmi > character_weight_category::underweight ) {
+        return _( "You are thin, thinner than is healthy.  You are less resilient to going without food." );
+    } else if( bmi > character_weight_category::emaciated ) {
+        return _( "You are very unhealthily underweight, nearing starvation." );
+    } else {
+        return _( "You have very little meat left on your bones.  You appear to be starving." );
+    }
+}
+
+std::string display::weight_string( const Character &u )
+{
+    std::pair<std::string, nc_color> weight_pair = display::weight_text_color( u );
+    return colorize( weight_pair.first, weight_pair.second );
+}
 
 static void draw_stats( avatar &u, const catacurses::window &w )
 {
@@ -1640,7 +1734,7 @@ static void draw_needs_labels( const avatar &u, const catacurses::window &w )
     std::pair<std::string, nc_color> hunger_pair = display::hunger_text_color( u );
     std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( u );
     std::pair<std::string, nc_color> rest_pair = u.get_fatigue_description();
-    std::pair<std::string, nc_color> weight_pair = u.get_weight_description();
+    std::pair<std::string, nc_color> weight_pair = display::weight_text_color( u );
     std::pair<nc_color, std::string> temp_pair = temp_stat( u );
     std::pair<std::string, nc_color> pain_pair = u.get_pain_description();
     // NOLINTNEXTLINE(cata-use-named-point-constants)

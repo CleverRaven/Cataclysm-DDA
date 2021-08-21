@@ -967,7 +967,7 @@ static std::string get_consume_needs_hint( Character &you )
     desc = you.get_fatigue_description();
     hint.append( string_format( "%s %s", _( "Rest:" ), colorize( desc.first, desc.second ) ) );
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
-    hint.append( string_format( "%s %s", _( "Weight:" ), you.get_weight_string() ) );
+    hint.append( string_format( "%s %s", _( "Weight:" ), display::weight_string( you ) ) );
     return hint;
 }
 
