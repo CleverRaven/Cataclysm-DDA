@@ -609,6 +609,26 @@
     ]
   },
   {
+    "id": "fireman_cabinet",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "items": [
+      { "item": "extinguisher", "prob": 35 },
+      { "item": "sm_extinguisher", "prob": 35 },
+      {
+        "collection": [
+          { "item": "hose" },
+          { "item": "sm_extinguisher" },
+          { "item": "fire_ax", "prob": 50 },
+          { "item": "crash_axe", "prob": 80 },
+          { "item": "throw_extinguisher", "prob": 30, "count": [ 3, 5 ] }
+        ],
+        "prob": 30
+      }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "tools_robotics",
     "//": "tools and equipment you might find on robotics laboratories.",
