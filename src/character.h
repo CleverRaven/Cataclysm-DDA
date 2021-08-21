@@ -518,7 +518,6 @@ class Character : public Creature, public visitable
         virtual int get_starvation() const;
         virtual int get_thirst() const;
 
-        std::pair<std::string, nc_color> get_fatigue_description() const;
         int get_fatigue() const;
         int get_sleep_deprivation() const;
 

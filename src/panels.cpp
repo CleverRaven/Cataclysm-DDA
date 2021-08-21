@@ -1192,6 +1192,24 @@ std::string display::weight_string( const Character &u )
     return colorize( weight_pair.first, weight_pair.second );
 }
 
+std::pair<std::string, nc_color> display::fatigue_text_color( const Character &u )
+{
+    int fatigue = u.get_fatigue();
+    std::string fatigue_string;
+    nc_color fatigue_color = c_white;
+    if( fatigue > fatigue_levels::EXHAUSTED ) {
+        fatigue_color = c_red;
+        fatigue_string = translate_marker( "Exhausted" );
+    } else if( fatigue > fatigue_levels::DEAD_TIRED ) {
+        fatigue_color = c_light_red;
+        fatigue_string = translate_marker( "Dead Tired" );
+    } else if( fatigue > fatigue_levels::TIRED ) {
+        fatigue_color = c_yellow;
+        fatigue_string = translate_marker( "Tired" );
+    }
+    return std::make_pair( _( fatigue_string ), fatigue_color );
+}
+
 static void draw_stats( avatar &u, const catacurses::window &w )
 {
     werase( w );
@@ -1347,7 +1365,7 @@ static void draw_needs_compact( const avatar &u, const catacurses::window &w )
 
     auto hunger_pair = display::hunger_text_color( u );
     mvwprintz( w, point_zero, hunger_pair.second, hunger_pair.first );
-    hunger_pair = u.get_fatigue_description();
+    hunger_pair = display::fatigue_text_color( u );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 0, 1 ), hunger_pair.second, hunger_pair.first );
     auto pain_pair = u.get_pain_description();
@@ -1710,7 +1728,7 @@ static void draw_needs_narrow( const avatar &u, const catacurses::window &w )
     werase( w );
     std::pair<std::string, nc_color> hunger_pair = display::hunger_text_color( u );
     std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( u );
-    std::pair<std::string, nc_color> rest_pair = u.get_fatigue_description();
+    std::pair<std::string, nc_color> rest_pair = display::fatigue_text_color( u );
     std::pair<nc_color, std::string> temp_pair = temp_stat( u );
     std::pair<std::string, nc_color> pain_pair = u.get_pain_description();
     // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -1733,7 +1751,7 @@ static void draw_needs_labels( const avatar &u, const catacurses::window &w )
     werase( w );
     std::pair<std::string, nc_color> hunger_pair = display::hunger_text_color( u );
     std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( u );
-    std::pair<std::string, nc_color> rest_pair = u.get_fatigue_description();
+    std::pair<std::string, nc_color> rest_pair = display::fatigue_text_color( u );
     std::pair<std::string, nc_color> weight_pair = display::weight_text_color( u );
     std::pair<nc_color, std::string> temp_pair = temp_stat( u );
     std::pair<std::string, nc_color> pain_pair = u.get_pain_description();
@@ -1760,7 +1778,7 @@ static void draw_needs_labels_alt( const avatar &u, const catacurses::window &w 
     werase( w );
     std::pair<std::string, nc_color> hunger_pair = display::hunger_text_color( u );
     std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( u );
-    std::pair<std::string, nc_color> rest_pair = u.get_fatigue_description();
+    std::pair<std::string, nc_color> rest_pair = display::fatigue_text_color( u );
     std::pair<nc_color, std::string> temp_pair = temp_stat( u );
     std::pair<std::string, nc_color> pain_pair = u.get_pain_description();
     // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -1909,7 +1927,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 21, 2 ), needs_pair.second, needs_pair.first );
     mvwprintz( w, point( 21, 4 ), c_white, _( "Focus" ) );
     mvwprintz( w, point( 27, 4 ), c_white, std::to_string( u.get_focus() ) );
-    needs_pair = u.get_fatigue_description();
+    needs_pair = display::fatigue_text_color( u );
     mvwprintz( w, point( 21, 3 ), needs_pair.second, needs_pair.first );
     auto pain_pair = u.get_pain_description();
     mvwprintz( w, point( 21, 0 ), pain_pair.second, pain_pair.first );

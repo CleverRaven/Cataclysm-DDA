@@ -33,6 +33,7 @@ std::pair<translation, nc_color> weariness_text_color( size_t weariness );
 std::pair<std::string, nc_color> thirst_text_color( const Character &u );
 std::pair<std::string, nc_color> hunger_text_color( const Character &u );
 std::pair<std::string, nc_color> weight_text_color( const Character &u );
+std::pair<std::string, nc_color> fatigue_text_color( const Character &u );
 
 // Functions returning colorized string
 // gets the string that describes your weight

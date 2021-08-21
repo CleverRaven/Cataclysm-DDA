@@ -1514,7 +1514,7 @@ void character_edit_menu()
         case D_NEEDS: {
             std::pair<std::string, nc_color> hunger_pair = display::hunger_text_color( you );
             std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( you );
-            std::pair<std::string, nc_color> fatigue_pair = you.get_fatigue_description();
+            std::pair<std::string, nc_color> fatigue_pair = display::fatigue_text_color( you );
 
             std::stringstream data;
             data << string_format( _( "Hunger: %d  %s" ), you.get_hunger(), colorize( hunger_pair.first,

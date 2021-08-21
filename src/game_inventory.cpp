@@ -964,7 +964,7 @@ static std::string get_consume_needs_hint( Character &you )
     desc = you.get_pain_description();
     hint.append( string_format( "%s %s", _( "Pain:" ), colorize( desc.first, desc.second ) ) );
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
-    desc = you.get_fatigue_description();
+    desc = display::fatigue_text_color( you );
     hint.append( string_format( "%s %s", _( "Rest:" ), colorize( desc.first, desc.second ) ) );
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
     hint.append( string_format( "%s %s", _( "Weight:" ), display::weight_string( you ) ) );
