@@ -338,6 +338,7 @@
     "type": "palette",
     "id": "lab_mutagen_palette",
     "//": "for mutagen research areas of labs.",
+    "palettes": [ "lab_common_palette" ],
     "furniture": {
       "W": "f_generator_broken",
       "Z": "f_control_station",
