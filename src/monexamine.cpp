@@ -60,7 +60,6 @@ static const itype_id itype_cash_card( "cash_card" );
 static const itype_id itype_id_military( "id_military" );
 
 static const skill_id skill_survival( "survival" );
-static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const flag_id json_flag_TIE_UP( "TIE_UP" );
 static const flag_id json_flag_TACK( "TACK" );

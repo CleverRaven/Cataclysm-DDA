@@ -4583,19 +4583,17 @@ void play_with_pet_activity_actor::finish( player_activity &act, Character &who 
 void play_with_pet_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
-
     jsout.member( "pet_name", pet_name );
-
+    jsout.member( "playstr", playstr );
     jsout.end_object();
 }
 
 std::unique_ptr<activity_actor> play_with_pet_activity_actor::deserialize( JsonValue &jsin )
 {
     play_with_pet_activity_actor actor = play_with_pet_activity_actor();
-
     JsonObject data = jsin.get_object();
-
     data.read( "pet_name", actor.pet_name );
+    data.read( "playstr", actor.playstr );
     return actor.clone();
 }
 
