@@ -3230,7 +3230,6 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse,
 
     for( const int i : fuel_containers ) {
         const vehicle_part &part = parts[i];
-        filter( part );
         if( part.ammo_current() != ftype ||
             // don't count frozen liquid
             ( !part.base.empty() && part.is_tank() &&
