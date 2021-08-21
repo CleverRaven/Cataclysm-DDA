@@ -132,7 +132,6 @@ static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_GAME( "ACT_GAME" );
 static const activity_id ACT_GENERIC_GAME( "ACT_GENERIC_GAME" );
 static const activity_id ACT_GUNMOD_ADD( "ACT_GUNMOD_ADD" );
-static const activity_id ACT_HACKSAW( "ACT_HACKSAW" );
 static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
@@ -277,7 +276,6 @@ activity_handlers::do_turn_functions = {
     { ACT_QUARTER, butcher_do_turn },
     { ACT_DISMEMBER, butcher_do_turn },
     { ACT_DISSECT, butcher_do_turn },
-    { ACT_HACKSAW, hacksaw_do_turn },
     { ACT_PRY_NAILS, pry_nails_do_turn },
     { ACT_CHOP_TREE, chop_tree_do_turn },
     { ACT_CHOP_LOGS, chop_tree_do_turn },
@@ -339,7 +337,6 @@ activity_handlers::finish_functions = {
     { ACT_CONSUME_MEDS_MENU, eat_menu_finish },
     { ACT_CONSUME_FUEL_MENU, eat_menu_finish },
     { ACT_WASH, washing_finish },
-    { ACT_HACKSAW, hacksaw_finish },
     { ACT_PRY_NAILS, pry_nails_finish },
     { ACT_CHOP_TREE, chop_tree_finish },
     { ACT_CHOP_LOGS, chop_logs_finish },
@@ -3371,87 +3368,6 @@ void activity_handlers::atm_finish( player_activity *act, Character * )
 void activity_handlers::eat_menu_finish( player_activity *, Character * )
 {
     // Only exists to keep the eat activity alive between turns
-}
-
-void activity_handlers::hacksaw_do_turn( player_activity *act, Character * )
-{
-    sfx::play_activity_sound( "tool", "hacksaw", sfx::get_heard_volume( act->placement ) );
-    if( calendar::once_every( 1_minutes ) ) {
-        //~ Sound of a metal sawing tool at work!
-        sounds::sound( act->placement, 15, sounds::sound_t::destructive_activity, _( "grnd grnd grnd" ) );
-    }
-}
-
-void activity_handlers::hacksaw_finish( player_activity *act, Character *you )
-{
-    const tripoint &pos = act->placement;
-    map &here = get_map();
-    const ter_id ter = here.ter( pos );
-
-    if( here.furn( pos ) == f_rack ) {
-        here.furn_set( pos, f_null );
-        here.spawn_item( you->pos(), itype_pipe, rng( 1, 3 ) );
-        here.spawn_item( you->pos(), itype_steel_chunk );
-    } else if( ter == t_chainfence || ter == t_chaingate_c || ter == t_chaingate_l ) {
-        here.ter_set( pos, t_dirt );
-        here.spawn_item( you->pos(), itype_pipe, 6 );
-        here.spawn_item( you->pos(), itype_wire, 20 );
-    } else if( ter == t_chainfence_posts ) {
-        here.ter_set( pos, t_dirt );
-        here.spawn_item( you->pos(), itype_pipe, 6 );
-    } else if( ter == t_window_bars_alarm ) {
-        here.ter_set( pos, t_window_alarm );
-        here.spawn_item( you->pos(), itype_rebar, rng( 1, 8 ) );
-    } else if( ter == t_window_bars_curtains || ter == t_window_bars_domestic ) {
-        here.ter_set( pos, t_window_domestic );
-        here.spawn_item( you->pos(), itype_rebar, rng( 1, 8 ) );
-    } else if( ter == t_window_bars ) {
-        here.ter_set( pos, t_window_empty );
-        here.spawn_item( you->pos(), itype_rebar, rng( 1, 8 ) );
-    } else if( ter == t_window_enhanced ) {
-        here.ter_set( pos, t_window_reinforced );
-        here.spawn_item( you->pos(), itype_spike, rng( 1, 4 ) );
-    } else if( ter == t_window_enhanced_noglass ) {
-        here.ter_set( pos, t_window_reinforced_noglass );
-        here.spawn_item( you->pos(), itype_spike, rng( 1, 4 ) );
-    } else if( ter == t_reb_cage ) {
-        here.ter_set( pos, t_pit );
-        here.spawn_item( you->pos(), itype_spike, 19 );
-        here.spawn_item( you->pos(), itype_scrap, 8 );
-    } else if( ter == t_retractable_gate_c || ter == t_retractable_gate_l ) {
-        here.ter_set( pos, t_strconc_floor );
-        here.spawn_item( pos, itype_chain, rng( 1, 2 ) );
-        here.spawn_item( pos, itype_wire, rng( 8, 22 ) );
-    } else if( ter == t_bars ) {
-        if( here.ter( pos + point_east ) == t_sewage || here.ter( pos + point_south )
-            == t_sewage ||
-            here.ter( pos + point_west ) == t_sewage || here.ter( pos + point_north ) ==
-            t_sewage ) {
-            here.ter_set( pos, t_sewage );
-            here.spawn_item( you->pos(), itype_pipe, 3 );
-        } else {
-            here.ter_set( pos, t_floor );
-            here.spawn_item( you->pos(), itype_pipe, 3 );
-        }
-    } else if( ter == t_door_bar_c || ter == t_door_bar_locked ) {
-        here.ter_set( pos, t_mdoor_frame );
-        here.spawn_item( you->pos(), itype_pipe, 12 );
-    } else if( ter == t_metal_grate_window || ter == t_metal_grate_window_with_curtain ||
-               ter == t_metal_grate_window_with_curtain_open ) {
-        here.ter_set( pos, t_window_reinforced );
-        here.spawn_item( you->pos(), itype_pipe, rng( 1, 12 ) );
-        here.spawn_item( you->pos(), itype_sheet_metal, 4 );
-    } else if( ter == t_metal_grate_window_noglass ||
-               ter == t_metal_grate_window_with_curtain_noglass ||
-               ter == t_metal_grate_window_with_curtain_open_noglass ) {
-        here.ter_set( pos, t_window_reinforced_noglass );
-        here.spawn_item( you->pos(), itype_pipe, rng( 1, 12 ) );
-        here.spawn_item( you->pos(), itype_sheet_metal, 4 );
-    }
-
-    you->add_msg_if_player( m_good, _( "You finish cutting the metal." ) );
-
-    act->set_to_null();
 }
 
 void activity_handlers::pry_nails_do_turn( player_activity *act, Character * )
