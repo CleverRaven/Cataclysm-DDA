@@ -65,6 +65,15 @@ static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
 static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 
 static const efftype_id effect_got_checked( "got_checked" );
+static const efftype_id effect_hunger_blank( "hunger_blank" );
+static const efftype_id effect_hunger_engorged( "hunger_engorged" );
+static const efftype_id effect_hunger_famished( "hunger_famished" );
+static const efftype_id effect_hunger_full( "hunger_full" );
+static const efftype_id effect_hunger_hungry( "hunger_hungry" );
+static const efftype_id effect_hunger_near_starving( "hunger_near_starving" );
+static const efftype_id effect_hunger_satisfied( "hunger_satisfied" );
+static const efftype_id effect_hunger_starving( "hunger_starving" );
+static const efftype_id effect_hunger_very_hungry( "hunger_very_hungry" );
 
 static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
 static const flag_id json_flag_SPLINT( "SPLINT" );
@@ -1029,6 +1038,66 @@ std::string display::activity_level_str( float level )
     return activity_descriptions[idx].translated();
 }
 
+std::pair<std::string, nc_color> display::thirst_text_color( const Character &u )
+{
+    // some delay from water in stomach is desired, but there needs to be some visceral response
+    int thirst = u.get_thirst() - ( std::max( units::to_milliliter<int>( u.stomach.get_water() ) / 10,
+                                    0 ) );
+    std::string hydration_string;
+    nc_color hydration_color = c_white;
+    if( thirst > 520 ) {
+        hydration_color = c_light_red;
+        hydration_string = translate_marker( "Parched" );
+    } else if( thirst > 240 ) {
+        hydration_color = c_light_red;
+        hydration_string = translate_marker( "Dehydrated" );
+    } else if( thirst > 80 ) {
+        hydration_color = c_yellow;
+        hydration_string = translate_marker( "Very thirsty" );
+    } else if( thirst > 40 ) {
+        hydration_color = c_yellow;
+        hydration_string = translate_marker( "Thirsty" );
+    } else if( thirst < -60 ) {
+        hydration_color = c_green;
+        hydration_string = translate_marker( "Turgid" );
+    } else if( thirst < -20 ) {
+        hydration_color = c_green;
+        hydration_string = translate_marker( "Hydrated" );
+    } else if( thirst < 0 ) {
+        hydration_color = c_green;
+        hydration_string = translate_marker( "Slaked" );
+    }
+    return std::make_pair( _( hydration_string ), hydration_color );
+}
+
+std::pair<std::string, nc_color> display::hunger_text_color( const Character &u )
+{
+    // clang 3.8 has some sort of issue where if the initializer list contains const arguments,
+    // like all of the effect_* string_id variables which are const string_id, then it fails to
+    // initialize the array with tuples successfully complaining that
+    // "chosen constructor is explicit in copy-initialization". Using std::forward_as_tuple
+    // returns a tuple consisting of correctly implcitly copyable types.
+    static const std::array<std::tuple<const efftype_id &, const char *, nc_color>, 9> hunger_states{ {
+            std::forward_as_tuple( effect_hunger_engorged, translate_marker( "Engorged" ), c_red ),
+            std::forward_as_tuple( effect_hunger_full, translate_marker( "Full" ), c_yellow ),
+            std::forward_as_tuple( effect_hunger_satisfied, translate_marker( "Satisfied" ), c_green ),
+            std::forward_as_tuple( effect_hunger_blank, "", c_white ),
+            std::forward_as_tuple( effect_hunger_hungry, translate_marker( "Hungry" ), c_yellow ),
+            std::forward_as_tuple( effect_hunger_very_hungry, translate_marker( "Very Hungry" ), c_yellow ),
+            std::forward_as_tuple( effect_hunger_near_starving, translate_marker( "Near starving" ), c_red ),
+            std::forward_as_tuple( effect_hunger_starving, translate_marker( "Starving!" ), c_red ),
+            std::forward_as_tuple( effect_hunger_famished, translate_marker( "Famished" ), c_light_red )
+        }
+    };
+    for( auto &hunger_state : hunger_states ) {
+        if( u.has_effect( std::get<0>( hunger_state ) ) ) {
+            return std::make_pair( _( std::get<1>( hunger_state ) ), std::get<2>( hunger_state ) );
+        }
+    }
+    return std::make_pair( _( "ERROR!" ), c_light_red );
+}
+
+
 static void draw_stats( avatar &u, const catacurses::window &w )
 {
     werase( w );
@@ -1182,7 +1251,7 @@ static void draw_needs_compact( const avatar &u, const catacurses::window &w )
 {
     werase( w );
 
-    auto hunger_pair = u.get_hunger_description();
+    auto hunger_pair = display::hunger_text_color( u );
     mvwprintz( w, point_zero, hunger_pair.second, hunger_pair.first );
     hunger_pair = u.get_fatigue_description();
     // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -1190,7 +1259,7 @@ static void draw_needs_compact( const avatar &u, const catacurses::window &w )
     auto pain_pair = u.get_pain_description();
     mvwprintz( w, point( 0, 2 ), pain_pair.second, pain_pair.first );
 
-    hunger_pair = u.get_thirst_description();
+    hunger_pair = display::thirst_text_color( u );
     mvwprintz( w, point( 17, 0 ), hunger_pair.second, hunger_pair.first );
     auto pair = temp_stat( u );
     mvwprintz( w, point( 17, 1 ), pair.first, pair.second );
@@ -1545,8 +1614,8 @@ static void draw_weapon_labels( const avatar &u, const catacurses::window &w )
 static void draw_needs_narrow( const avatar &u, const catacurses::window &w )
 {
     werase( w );
-    std::pair<std::string, nc_color> hunger_pair = u.get_hunger_description();
-    std::pair<std::string, nc_color> thirst_pair = u.get_thirst_description();
+    std::pair<std::string, nc_color> hunger_pair = display::hunger_text_color( u );
+    std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( u );
     std::pair<std::string, nc_color> rest_pair = u.get_fatigue_description();
     std::pair<nc_color, std::string> temp_pair = temp_stat( u );
     std::pair<std::string, nc_color> pain_pair = u.get_pain_description();
@@ -1568,8 +1637,8 @@ static void draw_needs_narrow( const avatar &u, const catacurses::window &w )
 static void draw_needs_labels( const avatar &u, const catacurses::window &w )
 {
     werase( w );
-    std::pair<std::string, nc_color> hunger_pair = u.get_hunger_description();
-    std::pair<std::string, nc_color> thirst_pair = u.get_thirst_description();
+    std::pair<std::string, nc_color> hunger_pair = display::hunger_text_color( u );
+    std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( u );
     std::pair<std::string, nc_color> rest_pair = u.get_fatigue_description();
     std::pair<std::string, nc_color> weight_pair = u.get_weight_description();
     std::pair<nc_color, std::string> temp_pair = temp_stat( u );
@@ -1595,8 +1664,8 @@ static void draw_needs_labels( const avatar &u, const catacurses::window &w )
 static void draw_needs_labels_alt( const avatar &u, const catacurses::window &w )
 {
     werase( w );
-    std::pair<std::string, nc_color> hunger_pair = u.get_hunger_description();
-    std::pair<std::string, nc_color> thirst_pair = u.get_thirst_description();
+    std::pair<std::string, nc_color> hunger_pair = display::hunger_text_color( u );
+    std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( u );
     std::pair<std::string, nc_color> rest_pair = u.get_fatigue_description();
     std::pair<nc_color, std::string> temp_pair = temp_stat( u );
     std::pair<std::string, nc_color> pain_pair = u.get_pain_description();
@@ -1740,9 +1809,9 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     }
 
     // needs
-    auto needs_pair = u.get_hunger_description();
+    auto needs_pair = display::hunger_text_color( u );
     mvwprintz( w, point( 21, 1 ), needs_pair.second, needs_pair.first );
-    needs_pair = u.get_thirst_description();
+    needs_pair = display::thirst_text_color( u );
     mvwprintz( w, point( 21, 2 ), needs_pair.second, needs_pair.first );
     mvwprintz( w, point( 21, 4 ), c_white, _( "Focus" ) );
     mvwprintz( w, point( 27, 4 ), c_white, std::to_string( u.get_focus() ) );

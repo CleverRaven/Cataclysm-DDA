@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 
+#include "character.h"
 #include "color.h"
 #include "coordinates.h"
 #include "translations.h"
@@ -24,6 +25,8 @@ namespace display
 {
 std::string activity_level_str( float level );
 std::pair<translation, nc_color> weariness_text_color( size_t weariness );
+std::pair<std::string, nc_color> thirst_text_color( const Character &u );
+std::pair<std::string, nc_color> hunger_text_color( const Character &u );
 } // namespace display
 
 namespace catacurses

@@ -39,6 +39,7 @@
 #include "optional.h"
 #include "options.h"
 #include "output.h"
+#include "panels.h"
 #include "pimpl.h"
 #include "point.h"
 #include "recipe.h"
@@ -954,10 +955,10 @@ class fuel_inventory_preset : public inventory_selector_preset
 static std::string get_consume_needs_hint( Character &you )
 {
     auto hint = std::string();
-    auto desc = you.get_hunger_description();
+    auto desc = display::hunger_text_color( you );
     hint.append( string_format( "%s %s", _( "Food:" ), colorize( desc.first, desc.second ) ) );
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
-    desc = you.get_thirst_description();
+    desc = display::thirst_text_color( you );
     hint.append( string_format( "%s %s", _( "Drink:" ), colorize( desc.first, desc.second ) ) );
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
     desc = you.get_pain_description();

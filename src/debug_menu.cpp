@@ -83,6 +83,7 @@
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "path_info.h" // IWYU pragma: keep
+#include "panels.h"
 #include "pimpl.h"
 #include "point.h"
 #include "popup.h"
@@ -1511,8 +1512,8 @@ void character_edit_menu()
         }
         break;
         case D_NEEDS: {
-            std::pair<std::string, nc_color> hunger_pair = you.get_hunger_description();
-            std::pair<std::string, nc_color> thirst_pair = you.get_thirst_description();
+            std::pair<std::string, nc_color> hunger_pair = display::hunger_text_color( you );
+            std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( you );
             std::pair<std::string, nc_color> fatigue_pair = you.get_fatigue_description();
 
             std::stringstream data;

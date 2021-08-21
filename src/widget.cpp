@@ -238,9 +238,9 @@ int widget::get_var_value( const avatar &ava )
         case widget_var::mood:
         // see morale_emotion
         case widget_var::hunger:
-        // see ava.get_hunger_description()
+        // see display::hunger_text_color()
         case widget_var::thirst:
-        // see ava.get_thirst_description()
+        // see display::thirst_text_color()
         default:
             value = 0;
     }
