@@ -1306,9 +1306,13 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         return activity_reason_info::ok( do_activity_reason::CAN_DO_FETCH );
     } else if( act == ACT_MULTIPLE_DIS ) {
         // Is there anything to be disassembled?
-        const inventory inv = you.crafting_inventory( src_loc, PICKUP_RANGE );
+        const inventory inv = you.crafting_inventory( src_loc, PICKUP_RANGE - 1 );
         requirement_data req;
         for( item &i : here.i_at( src_loc ) ) {
+            // Skip items marked by other ppl.
+            if (i.has_var("activity_var") && i.get_var("activity_var") != you.name) {
+                continue;
+            }
             //unmark the item before check
             i.erase_var( "activity_var" );
             if( i.is_disassemblable() ) {
@@ -2461,6 +2465,10 @@ static requirement_check_result generic_multi_activity_check_requirement( Charac
                reason == do_activity_reason::NEEDS_DISASSEMBLE ) {
         // we can do it, but we need to fetch some stuff first
         // before we set the task to fetch components - is it even worth it? are the components anywhere?
+        if( you.is_npc() ) {
+            add_msg_if_player_sees( you, m_info, _( "%s is trying to find necessary items to do the job" ),
+                                    you.disp_name() );
+        }
         requirement_id what_we_need;
         std::vector<tripoint> loot_zone_spots;
         std::vector<tripoint> combined_spots;
