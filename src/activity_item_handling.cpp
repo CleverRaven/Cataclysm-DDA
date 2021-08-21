@@ -301,7 +301,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
     }
 }
 
-void drop_on_map( Character &c, item_drop_reason reason, const std::list<item> &items,
+void drop_on_map( Character &you, item_drop_reason reason, const std::list<item> &items,
                   const tripoint &where )
 {
     if( items.empty() ) {
@@ -319,7 +319,7 @@ void drop_on_map( Character &c, item_drop_reason reason, const std::list<item> &
         switch( reason ) {
             case item_drop_reason::deliberate:
                 if( can_move_there ) {
-                    c.add_msg_player_or_npc(
+                    you.add_msg_player_or_npc(
                         ngettext( "You drop your %1$s on the %2$s.",
                                   "You drop your %1$s on the %2$s.", dropcount ),
                         ngettext( "<npcname> drops their %1$s on the %2$s.",
@@ -327,7 +327,7 @@ void drop_on_map( Character &c, item_drop_reason reason, const std::list<item> &
                         it_name, ter_name
                     );
                 } else {
-                    c.add_msg_player_or_npc(
+                    you.add_msg_player_or_npc(
                         ngettext( "You put your %1$s in the %2$s.",
                                   "You put your %1$s in the %2$s.", dropcount ),
                         ngettext( "<npcname> puts their %1$s in the %2$s.",
@@ -337,21 +337,21 @@ void drop_on_map( Character &c, item_drop_reason reason, const std::list<item> &
                 }
                 break;
             case item_drop_reason::too_large:
-                c.add_msg_if_player(
+                you.add_msg_if_player(
                     ngettext( "There's no room in your inventory for the %s, so you drop it.",
                               "There's no room in your inventory for the %s, so you drop them.", dropcount ),
                     it_name
                 );
                 break;
             case item_drop_reason::too_heavy:
-                c.add_msg_if_player(
+                you.add_msg_if_player(
                     ngettext( "The %s is too heavy to carry, so you drop it.",
                               "The %s is too heavy to carry, so you drop them.", dropcount ),
                     it_name
                 );
                 break;
             case item_drop_reason::tumbling:
-                c.add_msg_if_player(
+                you.add_msg_if_player(
                     m_bad,
                     ngettext( "Your %1$s tumbles to the %2$s.",
                               "Your %1$s tumble to the %2$s.", dropcount ),
@@ -363,13 +363,13 @@ void drop_on_map( Character &c, item_drop_reason reason, const std::list<item> &
         switch( reason ) {
             case item_drop_reason::deliberate:
                 if( can_move_there ) {
-                    c.add_msg_player_or_npc(
+                    you.add_msg_player_or_npc(
                         _( "You drop several items on the %s." ),
                         _( "<npcname> drops several items on the %s." ),
                         ter_name
                     );
                 } else {
-                    c.add_msg_player_or_npc(
+                    you.add_msg_player_or_npc(
                         _( "You put several items in the %s." ),
                         _( "<npcname> puts several items in the %s." ),
                         ter_name
@@ -379,31 +379,33 @@ void drop_on_map( Character &c, item_drop_reason reason, const std::list<item> &
             case item_drop_reason::too_large:
             case item_drop_reason::too_heavy:
             case item_drop_reason::tumbling:
-                c.add_msg_if_player( m_bad, _( "Some items tumble to the %s." ), ter_name );
+                you.add_msg_if_player( m_bad, _( "Some items tumble to the %s." ), ter_name );
                 break;
         }
     }
     for( const item &it : items ) {
         here.add_item_or_charges( where, it );
-        item( it ).handle_pickup_ownership( c );
+        item( it ).handle_pickup_ownership( you );
     }
 }
 
-void put_into_vehicle_or_drop( Character &c, item_drop_reason reason, const std::list<item> &items )
+void put_into_vehicle_or_drop( Character &you, item_drop_reason reason,
+                               const std::list<item> &items )
 {
-    return put_into_vehicle_or_drop( c, reason, items, c.pos() );
+    return put_into_vehicle_or_drop( you, reason, items, you.pos() );
 }
 
-void put_into_vehicle_or_drop( Character &c, item_drop_reason reason, const std::list<item> &items,
+void put_into_vehicle_or_drop( Character &you, item_drop_reason reason,
+                               const std::list<item> &items,
                                const tripoint &where, bool force_ground )
 {
     map &here = get_map();
     const cata::optional<vpart_reference> vp = here.veh_at( where ).part_with_feature( "CARGO", false );
     if( vp && !force_ground ) {
-        put_into_vehicle( c, reason, items, vp->vehicle(), vp->part_index() );
+        put_into_vehicle( you, reason, items, vp->vehicle(), vp->part_index() );
         return;
     }
-    drop_on_map( c, reason, items, where );
+    drop_on_map( you, reason, items, where );
 }
 
 static std::list<act_item> convert_to_act_item( const player_activity &act, Character &guy )
