@@ -10,7 +10,7 @@
 
 class JsonObject;
 class activity_type;
-class player;
+class Character;
 class player_activity;
 
 using activity_id = string_id<activity_type>;
@@ -82,9 +82,9 @@ class activity_type
         float exertion_level() const {
             return activity_level;
         }
-        void call_do_turn( player_activity *, player * ) const;
+        void call_do_turn( player_activity *, Character * ) const;
         /** Returns whether it had a finish function or not */
-        bool call_finish( player_activity *, player * ) const;
+        bool call_finish( player_activity *, Character * ) const;
 
         /** JSON stuff */
         static void load( const JsonObject &jo );
