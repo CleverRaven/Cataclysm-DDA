@@ -187,7 +187,7 @@ class avatar : public player
         void identify( const item &item ) override;
         void clear_identified();
 
-        void wake_up();
+        void wake_up() override;
         // Grab furniture / vehicle
         void grab( object_type grab_type, const tripoint &grab_point = tripoint_zero );
         object_type get_grab_type() const;
@@ -266,7 +266,7 @@ class avatar : public player
             int total() const {
                 return gained - spent;
             }
-            std::map<float, int> activity_levels;
+            std::map<float, int> activity_levels; // NOLINT(cata-serialize)
 
             void serialize( JsonOut &json ) const {
                 json.start_object();

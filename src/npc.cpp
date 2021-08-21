@@ -242,6 +242,42 @@ void npc_template::load( const JsonObject &jsobj )
             guy.miss_ids.emplace_back( mission_type_id( line ) );
         }
     }
+    if( jsobj.has_string( "talk_radio" ) ) {
+        guy.chatbin.talk_radio = jsobj.get_string( "talk_radio" );
+    }
+    if( jsobj.has_string( "talk_leader" ) ) {
+        guy.chatbin.talk_leader = jsobj.get_string( "talk_leader" );
+    }
+    if( jsobj.has_string( "talk_friend" ) ) {
+        guy.chatbin.talk_friend = jsobj.get_string( "talk_friend" );
+    }
+    if( jsobj.has_string( "talk_stole_item" ) ) {
+        guy.chatbin.talk_stole_item = jsobj.get_string( "talk_stole_item" );
+    }
+    if( jsobj.has_string( "talk_wake_up" ) ) {
+        guy.chatbin.talk_wake_up = jsobj.get_string( "talk_wake_up" );
+    }
+    if( jsobj.has_string( "talk_mug" ) ) {
+        guy.chatbin.talk_mug = jsobj.get_string( "talk_mug" );
+    }
+    if( jsobj.has_string( "talk_stranger_aggressive" ) ) {
+        guy.chatbin.talk_stranger_aggressive = jsobj.get_string( "talk_stranger_aggressive" );
+    }
+    if( jsobj.has_string( "talk_stranger_scared" ) ) {
+        guy.chatbin.talk_stranger_scared = jsobj.get_string( "talk_stranger_scared" );
+    }
+    if( jsobj.has_string( "talk_stranger_wary" ) ) {
+        guy.chatbin.talk_stranger_wary = jsobj.get_string( "talk_stranger_wary" );
+    }
+    if( jsobj.has_string( "talk_stranger_friendly" ) ) {
+        guy.chatbin.talk_stranger_friendly = jsobj.get_string( "talk_stranger_friendly" );
+    }
+    if( jsobj.has_string( "talk_stranger_neutral" ) ) {
+        guy.chatbin.talk_stranger_neutral = jsobj.get_string( "talk_stranger_neutral" );
+    }
+    if( jsobj.has_string( "talk_friend_guard" ) ) {
+        guy.chatbin.talk_friend_guard = jsobj.get_string( "talk_friend_guard" );
+    }
     npc_templates.emplace( string_id<npc_template>( guy.idz ), std::move( tem ) );
 }
 
@@ -319,6 +355,18 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     attitude = tguy.attitude;
     mission = tguy.mission;
     chatbin.first_topic = tguy.chatbin.first_topic;
+    chatbin.talk_radio = tguy.chatbin.talk_radio;
+    chatbin.talk_leader = tguy.chatbin.talk_leader;
+    chatbin.talk_friend = tguy.chatbin.talk_friend;
+    chatbin.talk_stole_item = tguy.chatbin.talk_stole_item;
+    chatbin.talk_wake_up = tguy.chatbin.talk_wake_up;
+    chatbin.talk_mug = tguy.chatbin.talk_mug;
+    chatbin.talk_stranger_aggressive = tguy.chatbin.talk_stranger_aggressive;
+    chatbin.talk_stranger_scared = tguy.chatbin.talk_stranger_scared;
+    chatbin.talk_stranger_wary = tguy.chatbin.talk_stranger_wary;
+    chatbin.talk_stranger_friendly = tguy.chatbin.talk_stranger_friendly;
+    chatbin.talk_stranger_neutral = tguy.chatbin.talk_stranger_neutral;
+    chatbin.talk_friend_guard = tguy.chatbin.talk_friend_guard;
     for( const mission_type_id &miss_id : tguy.miss_ids ) {
         add_new_mission( mission::reserve_new( miss_id, getID() ) );
     }
@@ -1282,7 +1330,7 @@ void npc::mutiny()
     if( assigned_camp ) {
         assigned_camp = cata::nullopt;
     }
-    chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
+    chatbin.first_topic = chatbin.talk_stranger_neutral;
     set_attitude( NPCATT_NULL );
     say( _( "<follower_mutiny>  Adios, motherfucker!" ), sounds::sound_t::order );
     if( seen ) {
@@ -1910,9 +1958,10 @@ void npc::set_faction_ver( int new_version )
     faction_api_version = new_version;
 }
 
-bool npc::has_faction_relationship( const player &p, const npc_factions::relationship flag ) const
+bool npc::has_faction_relationship( const Character &you,
+                                    const npc_factions::relationship flag ) const
 {
-    faction *p_fac = p.get_faction();
+    faction *p_fac = you.get_faction();
     if( !my_fac || !p_fac ) {
         return false;
     }

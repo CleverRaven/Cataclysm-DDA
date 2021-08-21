@@ -58,7 +58,6 @@
 #include "output.h"
 #include "pickup.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "point.h"
 #include "ranged.h"
@@ -231,7 +230,7 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
 
     // Fire!
     gun_mode gun = weapon->gun_current_mode();
-    int shots_fired = static_cast<player *>( &who )->fire_gun( fin_trajectory.back(), gun.qty, *gun );
+    int shots_fired = who.fire_gun( fin_trajectory.back(), gun.qty, *gun );
 
     // TODO: bionic power cost of firing should be derived from a value of the relevant weapon.
     if( shots_fired && ( bp_cost_per_shot > 0_J ) ) {
@@ -251,6 +250,7 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "fake_weapon", fake_weapon );
     jsout.member( "bp_cost_per_shot", bp_cost_per_shot );
+    jsout.member( "fin_trajectory", fin_trajectory );
     jsout.member( "first_turn", first_turn );
     jsout.member( "action", action );
     jsout.member( "aif_duration", aif_duration );
@@ -258,6 +258,8 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "snap_to_target", snap_to_target );
     jsout.member( "shifting_view", shifting_view );
     jsout.member( "initial_view_offset", initial_view_offset );
+    jsout.member( "aborted", aborted );
+    jsout.member( "reload_requested", reload_requested );
 
     jsout.end_object();
 }
@@ -270,6 +272,7 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
 
     data.read( "fake_weapon", actor.fake_weapon );
     data.read( "bp_cost_per_shot", actor.bp_cost_per_shot );
+    data.read( "fin_trajectory", actor.fin_trajectory );
     data.read( "first_turn", actor.first_turn );
     data.read( "action", actor.action );
     data.read( "aif_duration", actor.aif_duration );
@@ -277,6 +280,8 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
     data.read( "snap_to_target", actor.snap_to_target );
     data.read( "shifting_view", actor.shifting_view );
     data.read( "initial_view_offset", actor.initial_view_offset );
+    data.read( "aborted", actor.aborted );
+    data.read( "reload_requested", actor.reload_requested );
 
     return actor.clone();
 }
@@ -308,7 +313,7 @@ void aim_activity_actor::restore_view()
 bool aim_activity_actor::load_RAS_weapon()
 {
     // TODO: use activity for fetching ammo and loading weapon
-    player &you = get_avatar();
+    Character &you = get_avatar();
     item *weapon = get_weapon();
     gun_mode gun = weapon->gun_current_mode();
     const auto ammo_location_is_valid = [&]() -> bool {
@@ -747,8 +752,7 @@ static hack_result hack_attempt( Character &who )
 {
     // TODO: Remove this once player -> Character migration is complete
     {
-        player *p = dynamic_cast<player *>( &who );
-        p->practice( skill_computer, 20 );
+        who.practice( skill_computer, 20 );
     }
 
     // only skilled supergenius never cause short circuits, but the odds are low for people
@@ -1086,11 +1090,31 @@ std::unique_ptr<activity_actor> bikerack_unracking_activity_actor::deserialize( 
     return actor.clone();
 }
 
+static bool is_valid_book( const item_location &book )
+{
+    // If book is invalid, perhaps we lost it during the activity
+    // If book is valid but not a book, it's probably due to a bug where
+    // `item_location` points to the wrong item after a save/load cycle.
+    // In both cases cancel activity to avoid segfault.
+    return book && book->is_book();
+}
+
+static bool cancel_if_book_invalid(
+    player_activity &act, const item_location &book, const Character &who )
+{
+    if( !is_valid_book( book ) ) {
+        who.add_msg_player_or_npc(
+            _( "You no longer have the book!" ),
+            _( "<npcname> no longer has the book!" ) );
+        act.set_to_null();
+        return true;
+    }
+    return false;
+}
+
 void read_activity_actor::start( player_activity &act, Character &who )
 {
-    if( !book->is_book() ) {
-        act.set_to_null();
-        debugmsg( "ACT_READ on a non-book item" );
+    if( cancel_if_book_invalid( act, book, who ) ) {
         return;
     }
 
@@ -1118,6 +1142,10 @@ void read_activity_actor::start( player_activity &act, Character &who )
 
 void read_activity_actor::do_turn( player_activity &act, Character &who )
 {
+    if( cancel_if_book_invalid( act, book, who ) ) {
+        return;
+    }
+
     if( !bktype.has_value() ) {
         bktype = book->type->use_methods.count( "MA_MANUAL" ) ?
                  book_type::martial_art : book_type::normal;
@@ -1146,7 +1174,13 @@ void read_activity_actor::do_turn( player_activity &act, Character &who )
         who.moves = 0;
     }
 
-    if( using_ereader && !ereader->ammo_sufficient( &who ) ) {
+    if( using_ereader && !ereader ) {
+        who.add_msg_player_or_npc(
+            _( "You no longer have the e-book!" ),
+            _( "<npcname> no longer has the e-book!" ) );
+        who.cancel_activity();
+        return;
+    } else if( using_ereader && !ereader->ammo_sufficient( &who ) ) {
         add_msg_if_player_sees(
             who,
             _( "%1$s %2$s ran out of batteries." ),
@@ -1458,6 +1492,10 @@ bool read_activity_actor::npc_read( npc &learner )
 
 void read_activity_actor::finish( player_activity &act, Character &who )
 {
+    if( cancel_if_book_invalid( act, book, who ) ) {
+        return;
+    }
+
     const bool is_mabook = bktype.value() == book_type::martial_art;
     if( who.is_avatar() ) {
         get_event_bus().send<event_type::reads_book>( who.getID(), book->typeId() );
@@ -1531,7 +1569,7 @@ bool read_activity_actor::can_resume_with_internal( const activity_actor &other,
     // The ereader gets transformed into the _on version
     // which means the item_location of the book changes
     // this check is to prevent a segmentation fault
-    if( !book || !actor.book ) {
+    if( !is_valid_book( book ) || !is_valid_book( actor.book ) ) {
         return false;
     }
 
@@ -1542,6 +1580,10 @@ bool read_activity_actor::can_resume_with_internal( const activity_actor &other,
 
 std::string read_activity_actor::get_progress_message( const player_activity & ) const
 {
+    if( !is_valid_book( book ) ) {
+        return std::string();
+    }
+
     Character &you = get_player_character();
     const cata::value_ptr<islot_book> &islotbook = book->type->book;
     const skill_id &skill = islotbook->skill;
@@ -1567,8 +1609,12 @@ void read_activity_actor::serialize( JsonOut &jsout ) const
     jsout.start_object();
 
     jsout.member( "moves_total", moves_total );
-    jsout.member( "book", book );
-    jsout.member( "ereader", ereader );
+    if( is_valid_book( book ) ) {
+        jsout.member( "book", book );
+    }
+    if( ereader ) {
+        jsout.member( "ereader", ereader );
+    }
     jsout.member( "using_ereader", using_ereader );
     jsout.member( "continuous", continuous );
     jsout.member( "learner_id", learner_id );
@@ -2212,6 +2258,8 @@ std::unique_ptr<activity_actor> ebooksave_activity_actor::deserialize( JsonIn &j
     return actor.clone();
 }
 
+constexpr time_duration ebooksave_activity_actor::time_per_page;
+
 void migration_cancel_activity_actor::do_turn( player_activity &act, Character &who )
 {
     // Stop the activity
@@ -2378,6 +2426,8 @@ void consume_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "consume_menu_selected_items", consume_menu_selected_items );
     jsout.member( "consume_menu_filter", consume_menu_filter );
     jsout.member( "canceled", canceled );
+    jsout.member( "type", type );
+    jsout.member( "refuel", refuel );
 
     jsout.end_object();
 }
@@ -2395,6 +2445,8 @@ std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonIn &jsi
     data.read( "consume_menu_selected_items", actor.consume_menu_selected_items );
     data.read( "consume_menu_filter", actor.consume_menu_filter );
     data.read( "canceled", actor.canceled );
+    data.read( "type", actor.type );
+    data.read( "refuel", actor.refuel );
 
     return actor.clone();
 }
@@ -2412,7 +2464,7 @@ void try_sleep_activity_actor::do_turn( player_activity &act, Character &who )
     if( who.has_effect( effect_sleep ) ) {
         return;
     }
-    if( dynamic_cast<player *>( &who )->can_sleep() ) {
+    if( who.can_sleep() ) {
         who.fall_asleep(); // calls act.set_to_null()
         if( !who.has_effect( effect_sleep ) ) {
             // Character can potentially have immunity for 'effect_sleep'
@@ -2884,21 +2936,20 @@ void craft_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "craft_loc", craft_item );
     jsout.member( "long", is_long );
+    jsout.member( "activity_override", activity_override );
 
     jsout.end_object();
 }
 
 std::unique_ptr<activity_actor> craft_activity_actor::deserialize( JsonIn &jsin )
 {
-    item_location tmp_item_loc;
-    bool tmp_long;
-
     JsonObject data = jsin.get_object();
 
-    data.read( "craft_loc", tmp_item_loc );
-    data.read( "long", tmp_long );
+    craft_activity_actor actor = craft_activity_actor();
 
-    craft_activity_actor actor = craft_activity_actor( tmp_item_loc, tmp_long );
+    data.read( "craft_loc", actor.craft_item );
+    data.read( "long", actor.is_long );
+
     if( actor.craft_item ) {
         actor.activity_override = actor.craft_item->get_making().exertion_level();
     }
@@ -3530,6 +3581,7 @@ std::unique_ptr<activity_actor> disable_activity_actor::deserialize( JsonIn &jsi
 
     data.read( "target", actor.target );
     data.read( "reprogram", actor.reprogram );
+    data.read( "moves_total", actor.moves_total );
 
     return actor.clone();
 }
@@ -4165,8 +4217,8 @@ void disassemble_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
-    jsout.member( "target", target );
     jsout.member( "moves_total", moves_total );
+    jsout.member( "target", target );
 
     jsout.end_object();
 }
@@ -4179,6 +4231,7 @@ std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonIn 
 
     data.read( "target", actor.target );
     data.read( "moves_total", actor.moves_total );
+
     if( actor.target ) {
         actor.activity_override = actor.target->get_making().exertion_level();
     }

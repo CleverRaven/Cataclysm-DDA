@@ -229,6 +229,7 @@
     "flags": [ "STURDY" ],
     "use_action": {
       "type": "transform",
+      "menu_text": "Extend",
       "target": "mwhip_iron",
       "active": true,
       "moves": 20,
@@ -253,6 +254,7 @@
     "bashing": 8,
     "use_action": {
       "type": "transform",
+      "menu_text": "Collapse",
       "target": "mbelt_iron_whip",
       "active": false,
       "moves": 20,

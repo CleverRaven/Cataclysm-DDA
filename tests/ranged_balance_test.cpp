@@ -154,7 +154,7 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
         INFO( "Range: " << min_quickdraw_range );
         INFO( "Max aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), MAX_RECOIL ) );
         INFO( "Min aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), shooter.recoil ) );
-        CAPTURE( shooter.ranged_dispersion_modifier() );
+        CAPTURE( shooter.ranged_dispersion_modifier_hands() );
         CAPTURE( minimum_stats[0].n() );
         CAPTURE( minimum_stats[0].margin_of_error() );
         CAPTURE( minimum_stats[1].n() );
@@ -170,7 +170,7 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
         INFO( "Range: " << min_good_range );
         INFO( "Max aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), MAX_RECOIL ) );
         INFO( "Min aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), shooter.recoil ) );
-        CAPTURE( shooter.ranged_dispersion_modifier() );
+        CAPTURE( shooter.ranged_dispersion_modifier_hands() );
         CAPTURE( good_stats.n() );
         CAPTURE( good_stats.margin_of_error() );
         CHECK( good_stats.avg() > 0.5 );
@@ -183,7 +183,7 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
         INFO( "Range: " << max_good_range );
         INFO( "Max aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), MAX_RECOIL ) );
         INFO( "Min aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), shooter.recoil ) );
-        CAPTURE( shooter.ranged_dispersion_modifier() );
+        CAPTURE( shooter.ranged_dispersion_modifier_hands() );
         CAPTURE( good_stats.n() );
         CAPTURE( good_stats.margin_of_error() );
         CHECK( good_stats.avg() < 0.1 );
@@ -203,7 +203,7 @@ static void test_fast_shooting( npc &shooter, const int moves, float hit_rate )
     INFO( "Range: " << fast_shooting_range );
     INFO( "Max aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), MAX_RECOIL ) );
     INFO( "Min aim speed: " << shooter.aim_per_move( *shooter.get_wielded_item(), shooter.recoil ) );
-    CAPTURE( shooter.ranged_dispersion_modifier() );
+    CAPTURE( shooter.ranged_dispersion_modifier_hands() );
     CAPTURE( shooter.get_wielded_item()->gun_skill().str() );
     CAPTURE( shooter.get_skill_level( shooter.get_wielded_item()->gun_skill() ) );
     CAPTURE( shooter.get_dex() );

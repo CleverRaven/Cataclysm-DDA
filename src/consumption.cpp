@@ -880,7 +880,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
 /** Eat a comestible.
 *   @return true if item consumed.
 */
-static bool eat( item &food, player &you, bool force )
+static bool eat( item &food, Character &you, bool force )
 {
     if( !food.is_food() ) {
         return false;
@@ -1357,6 +1357,22 @@ int Character::compute_calories_per_effective_volume( const item &food,
     return std::round( kcalories / effective_volume );
 }
 
+static void activate_consume_eocs( Character &you, item &target )
+{
+    Character *char_ptr = nullptr;
+    if( avatar *u = you.as_avatar() ) {
+        char_ptr = u;
+    } else if( npc *n = you.as_npc() ) {
+        char_ptr = n;
+    }
+    item_location loc( you, &target );
+    dialogue d( get_talker_for( char_ptr ), get_talker_for( loc ) );
+    const islot_comestible &comest = *target.get_comestible();
+    for( const effect_on_condition_id &eoc : comest.consumption_eocs ) {
+        eoc->activate( d );
+    }
+}
+
 bool Character::consume_effects( item &food )
 {
     if( !food.is_comestible() ) {
@@ -1478,19 +1494,7 @@ bool Character::consume_effects( item &food )
     if( has_effect( effect_tapeworm ) ) {
         ingested.nutr /= 2;
     }
-    dialogue d;
-    standard_npc default_npc( "Default" );
-    if( avatar *u = as_avatar() ) {
-        d.alpha = get_talker_for( u );
-    } else if( npc *n = as_npc() ) {
-        d.alpha = get_talker_for( n );
-    }
-    item_location loc( *( as_character() ), &food );
-    d.beta = get_talker_for( loc );
-
-    for( const effect_on_condition_id &eoc : comest.consumption_eocs ) {
-        eoc->activate( d );
-    }
+    activate_consume_eocs( *this, food );
 
     // GET IN MAH BELLY!
     stomach.ingest( ingested );
@@ -1672,7 +1676,7 @@ time_duration Character::get_consume_time( const item &it )
     return time * consume_time_modifier;
 }
 
-static bool query_consume_ownership( item &target, player &p )
+static bool query_consume_ownership( item &target, Character &p )
 {
     if( !target.is_owned_by( p, true ) ) {
         bool choice = true;
@@ -1705,7 +1709,7 @@ static bool query_consume_ownership( item &target, player &p )
 /** Consume medication.
 *   @return true if item consumed.
 */
-static bool consume_med( item &target, player &you )
+static bool consume_med( item &target, Character &you )
 {
     if( !target.is_medication() ) {
         return false;
@@ -1746,20 +1750,8 @@ static bool consume_med( item &target, player &you )
         // Take by mouth
         you.consume_effects( target );
     }
-    dialogue d;
-    standard_npc default_npc( "Default" );
-    if( avatar *u = you.as_avatar() ) {
-        d.alpha = get_talker_for( u );
-    } else if( npc *n = you.as_npc() ) {
-        d.alpha = get_talker_for( n );
-    }
-    item_location loc( *( you.as_character() ), &target );
-    d.beta = get_talker_for( loc );
 
-    const auto &comest = *target.get_comestible();
-    for( const effect_on_condition_id &eoc : comest.consumption_eocs ) {
-        eoc->activate( d );
-    }
+    activate_consume_eocs( you, target );
 
     target.mod_charges( -amount_used );
     return true;

@@ -62,7 +62,6 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "point.h"
 #include "projectile.h"
@@ -2068,7 +2067,7 @@ bool Character::has_enough_anesth( const itype &cbm )
     return true;
 }
 
-void Character::consume_anesth_requirement( const itype &cbm, player &patient )
+void Character::consume_anesth_requirement( const itype &cbm, Character &patient )
 {
     const int weight = units::to_kilogram( patient.bodyweight() ) / 10;
     const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
@@ -2536,7 +2535,7 @@ float Character::env_surgery_bonus( int radius ) const
     return bonus;
 }
 
-bool Character::install_bionics( const itype &type, player &installer, bool autodoc,
+bool Character::install_bionics( const itype &type, Character &installer, bool autodoc,
                                  int skill_level )
 {
     if( !type.bionic ) {
@@ -3172,7 +3171,7 @@ std::vector<bionic_id> bionics_cancelling_trait( const std::vector<bionic_id> &b
     return bionics_cancelling;
 }
 
-void Character::introduce_into_anesthesia( const time_duration &duration, player &installer,
+void Character::introduce_into_anesthesia( const time_duration &duration, Character &installer,
         bool needs_anesthesia )   //used by the Autodoc
 {
     if( installer.has_trait( trait_DEBUG_BIONICS ) ) {

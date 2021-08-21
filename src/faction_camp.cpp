@@ -910,7 +910,7 @@ void basecamp::get_available_missions_by_dir( mission_data &mission_key, const p
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_camp_trapping" ];
         entry = string_format( _( "Notes:\n"
                                   "Send a companion to set traps for small game.\n\n"
-                                  "Skill used: trapping\n"
+                                  "Skill used: devices\n"
                                   "Difficulty: N/A\n"
                                   "Trapping Possibilities:\n"
                                   "> small and tiny animal corpses\n"
@@ -3668,7 +3668,7 @@ std::string basecamp::recruit_description( int npc_count )
                                          "expensive.  The outcome is heavily dependent on the "
                                          "skill of the  companion you send and the appeal of "
                                          "your base.\n\n"
-                                         "Skill used: speech\n"
+                                         "Skill used: social\n"
                                          "Difficulty: 2\n"
                                          "Base Score:                   +%3d%%\n"
                                          "> Expansion Bonus:            +%3d%%\n"

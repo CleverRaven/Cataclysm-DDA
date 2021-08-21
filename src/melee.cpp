@@ -325,7 +325,7 @@ float Character::hit_roll() const
         hit *= 0.75f;
     }
 
-    hit *= std::max( 0.25f, 1.0f - avg_encumb_of_limb_type( body_part_type::type::torso ) / 100.0f );
+    hit *= melee_attack_roll_modifier();
 
     return melee::melee_hit_range( hit );
 }

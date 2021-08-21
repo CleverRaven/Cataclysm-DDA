@@ -32,6 +32,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "debug_menu.h"
+#include "do_turn.h"
 #include "event.h"
 #include "event_bus.h"
 #include "faction.h"
@@ -2611,6 +2612,7 @@ bool game::handle_action()
             player_character.clear_destination();
             return false;
         }
+        handle_key_blocking_activity();
     } else if( player_character.has_destination_activity() ) {
         // starts destination activity after the player successfully reached his destination
         player_character.start_destination_activity();

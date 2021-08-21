@@ -46,7 +46,6 @@
 #include "overmapbuffer.h"
 #include "path_info.h"
 #include "pimpl.h"
-#include "player.h"
 #include "point.h"
 #include "string_formatter.h"
 #include "tileray.h"
@@ -848,20 +847,20 @@ static std::pair<nc_color, std::string> power_stat( const avatar &u )
     return std::make_pair( c_pwr, s_pwr );
 }
 
-static std::pair<nc_color, std::string> mana_stat( const player &u )
+static std::pair<nc_color, std::string> mana_stat( const Character &you )
 {
     nc_color c_mana = c_red;
     std::string s_mana;
-    if( u.magic->max_mana( u ) <= 0 ) {
+    if( you.magic->max_mana( you ) <= 0 ) {
         s_mana = "--";
         c_mana = c_light_gray;
     } else {
-        if( u.magic->available_mana() >= u.magic->max_mana( u ) / 2 ) {
+        if( you.magic->available_mana() >= you.magic->max_mana( you ) / 2 ) {
             c_mana = c_light_blue;
-        } else if( u.magic->available_mana() >= u.magic->max_mana( u ) / 3 ) {
+        } else if( you.magic->available_mana() >= you.magic->max_mana( you ) / 3 ) {
             c_mana = c_yellow;
         }
-        s_mana = std::to_string( u.magic->available_mana() );
+        s_mana = std::to_string( you.magic->available_mana() );
     }
     return std::make_pair( c_mana, s_mana );
 }
@@ -2264,43 +2263,44 @@ static void draw_weariness_classic( const avatar &u, const catacurses::window &w
     wnoutrefresh( w );
 }
 
-static void print_mana( const player &u, const catacurses::window &w, const std::string &fmt_string,
+static void print_mana( const Character &you, const catacurses::window &w,
+                        const std::string &fmt_string,
                         const int j1, const int j2, const int j3, const int j4 )
 {
     werase( w );
 
-    auto mana_pair = mana_stat( u );
+    auto mana_pair = mana_stat( you );
     const std::string mana_string = string_format( fmt_string,
                                     //~ translation should not exceed 4 console cells
                                     utf8_justify( _( "Mana" ), j1 ),
                                     colorize( utf8_justify( mana_pair.second, j2 ), mana_pair.first ),
                                     //~ translation should not exceed 9 console cells
                                     utf8_justify( _( "Max Mana" ), j3 ),
-                                    colorize( utf8_justify( std::to_string( u.magic->max_mana( u ) ), j4 ), c_light_blue ) );
+                                    colorize( utf8_justify( std::to_string( you.magic->max_mana( you ) ), j4 ), c_light_blue ) );
     nc_color gray = c_light_gray;
     print_colored_text( w, point_zero, gray, gray, mana_string );
 
     wnoutrefresh( w );
 }
 
-static void draw_mana_classic( const player &u, const catacurses::window &w )
+static void draw_mana_classic( const Character &you, const catacurses::window &w )
 {
-    print_mana( u, w, "%s: %s %s: %s", -8, -5, 20, -5 );
+    print_mana( you, w, "%s: %s %s: %s", -8, -5, 20, -5 );
 }
 
-static void draw_mana_compact( const player &u, const catacurses::window &w )
+static void draw_mana_compact( const Character &you, const catacurses::window &w )
 {
-    print_mana( u, w, "%s %s %s %s", 4, -5, 12, -5 );
+    print_mana( you, w, "%s %s %s %s", 4, -5, 12, -5 );
 }
 
-static void draw_mana_narrow( const player &u, const catacurses::window &w )
+static void draw_mana_narrow( const Character &you, const catacurses::window &w )
 {
-    print_mana( u, w, " %s: %s %s : %s", -5, -5, 9, -5 );
+    print_mana( you, w, " %s: %s %s : %s", -5, -5, 9, -5 );
 }
 
-static void draw_mana_wide( const player &u, const catacurses::window &w )
+static void draw_mana_wide( const Character &you, const catacurses::window &w )
 {
-    print_mana( u, w, " %s: %s %s : %s", -5, -5, 13, -5 );
+    print_mana( you, w, " %s: %s %s : %s", -5, -5, 13, -5 );
 }
 
 // ============

@@ -44,7 +44,6 @@
 #include "output.h"
 #include "panels.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "point.h"
 #include "ret_val.h"
@@ -66,6 +65,44 @@
 
 static const activity_id ACT_ADV_INVENTORY( "ACT_ADV_INVENTORY" );
 static const activity_id ACT_WEAR( "ACT_WEAR" );
+
+namespace io
+{
+
+template<>
+std::string enum_to_string<aim_exit>( const aim_exit v )
+{
+    switch( v ) {
+        // *INDENT-OFF*
+        case aim_exit::none: return "none";
+        case aim_exit::okay: return "okay";
+        case aim_exit::re_entry: return "re_entry";
+        // *INDENT-ON*
+        case aim_exit::last:
+            break;
+    }
+    debugmsg( "Invalid aim_exit" );
+    abort();
+}
+
+template<>
+std::string enum_to_string<aim_entry>( const aim_entry v )
+{
+    switch( v ) {
+        // *INDENT-OFF*
+        case aim_entry::START: return "START";
+        case aim_entry::VEHICLE: return "VEHICLE";
+        case aim_entry::MAP: return "MAP";
+        case aim_entry::RESET: return "RESET";
+        // *INDENT-ON*
+        case aim_entry::last:
+            break;
+    }
+    debugmsg( "Invalid aim_entry" );
+    abort();
+}
+
+} // namespace io
 
 void create_advanced_inv()
 {
@@ -1181,7 +1218,8 @@ void advanced_inventory::change_square( const aim_location changeSquare,
                                         advanced_inventory_pane &dpane, advanced_inventory_pane &spane )
 {
     if( panes[left].get_area() == changeSquare || panes[right].get_area() == changeSquare ) {
-        if( squares[changeSquare].can_store_in_vehicle() && changeSquare != AIM_DRAGGED ) {
+        if( squares[changeSquare].can_store_in_vehicle() && changeSquare != AIM_DRAGGED &&
+            spane.get_area() != changeSquare ) {
             // only deal with spane, as you can't _directly_ change dpane
             if( dpane.get_area() == changeSquare ) {
                 spane.set_area( squares[changeSquare], !dpane.in_vehicle() );

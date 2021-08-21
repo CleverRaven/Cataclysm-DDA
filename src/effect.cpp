@@ -7,6 +7,7 @@
 
 #include "bodypart.h"
 #include "color.h"
+#include "character.h"
 #include "debug.h"
 #include "effect_source.h"
 #include "enums.h"
@@ -16,7 +17,6 @@
 #include "messages.h"
 #include "optional.h"
 #include "output.h"
-#include "player.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
@@ -86,7 +86,7 @@ bool string_id<effect_type>::is_valid() const
     return effect_types.count( *this ) > 0;
 }
 
-void weed_msg( player &p )
+void weed_msg( Character &p )
 {
     const time_duration howhigh = p.get_effect_dur( effect_weed_high );
     ///\EFFECT_INT changes messages when smoking weed

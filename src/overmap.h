@@ -42,7 +42,7 @@ struct regional_settings;
 namespace pf
 {
 template<typename Point>
-struct path;
+struct directed_path;
 } // namespace pf
 
 struct city {
@@ -322,7 +322,7 @@ class overmap
         void place_special_forced( const overmap_special_id &special_id, const tripoint_om_omt &p,
                                    om_direction::type dir );
     private:
-        std::multimap<tripoint_om_sm, mongroup> zg;
+        std::multimap<tripoint_om_sm, mongroup> zg; // NOLINT(cata-serialize)
     public:
         /** Unit test enablers to check if a given mongroup is present. */
         bool mongroup_check( const mongroup &candidate ) const;
@@ -357,8 +357,10 @@ class overmap
 
         std::vector<shared_ptr_fast<npc>> npcs;
 
-        bool nullbool = false;
-        point_abs_om loc;
+        // A fake boolean that's returned for out-of-bounds calls to
+        // overmap::seen and overmap::explored
+        bool nullbool = false; // NOLINT(cata-serialize)
+        point_abs_om loc; // NOLINT(cata-serialize)
 
         std::array<map_layer, OVERMAP_LAYERS> layer;
         std::unordered_map<tripoint_abs_omt, scent_trace> scents;
@@ -368,7 +370,8 @@ class overmap
         // as part of a special.
         std::unordered_map<tripoint_om_omt, overmap_special_id> overmap_special_placements;
         // Records location where mongroups are not allowed to spawn during worldgen.
-        std::unordered_set<tripoint_om_omt> safe_at_worldgen;
+        // Reconstructed on load, so need not be serialized.
+        std::unordered_set<tripoint_om_omt> safe_at_worldgen; // NOLINT(cata-serialize)
 
         // Records mapgen parameters required at the overmap special level
         // These are lazily evaluated; empty optional means that they have yet
@@ -455,15 +458,15 @@ class overmap
         void place_ravines();
 
         // Connection laying
-        pf::path<point_om_omt> lay_out_connection(
+        pf::directed_path<point_om_omt> lay_out_connection(
             const overmap_connection &connection, const point_om_omt &source,
             const point_om_omt &dest, int z, bool must_be_unexplored ) const;
-        pf::path<point_om_omt> lay_out_street(
+        pf::directed_path<point_om_omt> lay_out_street(
             const overmap_connection &connection, const point_om_omt &source,
             om_direction::type dir, size_t len ) const;
 
         void build_connection(
-            const overmap_connection &connection, const pf::path<point_om_omt> &path, int z,
+            const overmap_connection &connection, const pf::directed_path<point_om_omt> &path, int z,
             const om_direction::type &initial_dir = om_direction::type::invalid );
         void build_connection( const point_om_omt &source, const point_om_omt &dest, int z,
                                const overmap_connection &connection, bool must_be_unexplored,

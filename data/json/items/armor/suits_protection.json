@@ -76,13 +76,14 @@
     "looks_like": "armor_chitin",
     "type": "ARMOR",
     "name": { "str": "biosilicified chitin armor" },
-    "description": "Leg and body armor crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.",
+    "description": "Leg and body armor crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
     "material": [ "acidchitin" ],
     "material_thickness": 5,
     "environmental_protection": 2,
     "price_postapoc": 3500,
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "bashing": 1 }
+    "relative": { "bashing": 1 },
+    "extend": { "flags": [ "NO_REPAIR" ] }
   },
   {
     "id": "xl_armor_acidchitin",

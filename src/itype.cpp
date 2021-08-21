@@ -94,7 +94,7 @@ const use_function *itype::get_use( const std::string &iuse_name ) const
     return iter != use_methods.end() ? &iter->second : nullptr;
 }
 
-int itype::tick( player &p, item &it, const tripoint &pos ) const
+int itype::tick( Character &p, item &it, const tripoint &pos ) const
 {
     // Note: can go higher than current charge count
     // Maybe should move charge decrementing here?
@@ -111,7 +111,7 @@ int itype::tick( player &p, item &it, const tripoint &pos ) const
     return charges_to_use;
 }
 
-cata::optional<int> itype::invoke( player &p, item &it, const tripoint &pos ) const
+cata::optional<int> itype::invoke( Character &p, item &it, const tripoint &pos ) const
 {
     if( !has_use() ) {
         return 0;
@@ -119,7 +119,7 @@ cata::optional<int> itype::invoke( player &p, item &it, const tripoint &pos ) co
     return invoke( p, it, pos, use_methods.begin()->first );
 }
 
-cata::optional<int> itype::invoke( player &p, item &it, const tripoint &pos,
+cata::optional<int> itype::invoke( Character &p, item &it, const tripoint &pos,
                                    const std::string &iuse_name ) const
 {
     const use_function *use = get_use( iuse_name );
@@ -158,6 +158,16 @@ bool itype::can_have_charges() const
     }
     if( has_flag( STATIC( flag_id( "CAN_HAVE_CHARGES" ) ) ) ) {
         return true;
+    }
+    return false;
+}
+
+bool itype::is_basic_component() const
+{
+    for( const auto &mat : materials ) {
+        if( mat->salvaged_into() && *mat->salvaged_into() == get_id() ) {
+            return true;
+        }
     }
     return false;
 }
