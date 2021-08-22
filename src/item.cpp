@@ -10628,10 +10628,9 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
 
         // invoking the object can convert the item to another type
         const bool had_revert_to = type->tool->revert_to.has_value();
-        if( !is_transformable() ) {
-            type->invoke( carrier != nullptr ? *carrier : player_character, *this, pos );
-        } else {
-            type->invoke( carrier != nullptr ? *carrier : player_character, *this, pos, "transform" );
+        type->invoke( carrier != nullptr ? *carrier : player_character, *this, pos );
+        if (carrier) {
+            carrier->add_msg_if_player(m_info, _("The %s ran out of energy!"), tname());
         }
         if( had_revert_to ) {
             deactivate( carrier );
