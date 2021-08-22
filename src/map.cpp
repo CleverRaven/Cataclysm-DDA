@@ -4572,8 +4572,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
     const int recharge_part_idx = cur_veh.part_with_feature( part, VPFLAG_RECHARGE, true );
     if( recharge_part_idx >= 0 ) {
         vehicle_part recharge_part = cur_veh.part( recharge_part_idx );
-        if( !recharge_part.removed && !recharge_part.is_broken() &&
-            ( !recharge_part.info().has_flag( VPFLAG_ENABLED_DRAINS_EPOWER ) || recharge_part.enabled ) ) {
+        if( !recharge_part.removed && !recharge_part.is_broken() && recharge_part.enabled ) {
             for( auto &n : cur_veh.get_items( part ) ) {
                 if( !n.has_flag( flag_RECHARGE ) && !n.has_flag( flag_USE_UPS ) ) {
                     continue;
