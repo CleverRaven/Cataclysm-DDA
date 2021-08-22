@@ -33,6 +33,7 @@
 #include "npctalk.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
+#include "player.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "talker.h"
@@ -143,7 +144,7 @@ TEST_CASE( "npc_talk_stats", "[npc_talk]" )
     dialogue d;
     prep_test( d );
 
-    Character &player_character = get_avatar();
+    player &player_character = get_avatar();
     player_character.str_cur = 8;
     player_character.dex_cur = 8;
     player_character.int_cur = 8;
@@ -179,7 +180,7 @@ TEST_CASE( "npc_talk_skills", "[npc_talk]" )
 
     const skill_id skill( "driving" );
 
-    Character &player_character = get_avatar();
+    player &player_character = get_avatar();
     player_character.set_skill_level( skill, 8 );
 
     d.add_topic( "TALK_TEST_SIMPLE_SKILLS" );
@@ -202,7 +203,7 @@ TEST_CASE( "npc_talk_wearing_and_trait", "[npc_talk]" )
     dialogue d;
     npc &talker_npc = prep_test( d );
 
-    Character &player_character = get_avatar();
+    player &player_character = get_avatar();
     for( const trait_id &tr : player_character.get_mutations() ) {
         player_character.unset_mutation( tr );
     }
@@ -247,7 +248,7 @@ TEST_CASE( "npc_talk_effect", "[npc_talk]" )
 {
     dialogue d;
     npc &talker_npc = prep_test( d );
-    Character &player_character = get_avatar();
+    player &player_character = get_avatar();
 
     d.add_topic( "TALK_TEST_EFFECT" );
     gen_response_lines( d, 1 );
@@ -268,7 +269,7 @@ TEST_CASE( "npc_talk_service", "[npc_talk]" )
 {
     dialogue d;
     npc &talker_npc = prep_test( d );
-    Character &player_character = get_avatar();
+    player &player_character = get_avatar();
 
     d.add_topic( "TALK_TEST_SERVICE" );
     player_character.cash = 0;
@@ -479,7 +480,7 @@ TEST_CASE( "npc_talk_switch", "[npc_talk]" )
 {
     dialogue d;
     prep_test( d );
-    Character &player_character = get_avatar();
+    player &player_character = get_avatar();
 
     d.add_topic( "TALK_TEST_SWITCH" );
     player_character.cash = 1000;
@@ -509,7 +510,7 @@ TEST_CASE( "npc_talk_or", "[npc_talk]" )
 {
     dialogue d;
     npc &talker_npc = prep_test( d );
-    Character &player_character = get_avatar();
+    player &player_character = get_avatar();
 
     d.add_topic( "TALK_TEST_OR" );
     player_character.cash = 0;
@@ -526,7 +527,7 @@ TEST_CASE( "npc_talk_and", "[npc_talk]" )
 {
     dialogue d;
     npc &talker_npc = prep_test( d );
-    Character &player_character = get_avatar();
+    player &player_character = get_avatar();
 
     player_character.toggle_trait( trait_id( "ELFA_EARS" ) );
     d.add_topic( "TALK_TEST_AND" );
@@ -543,7 +544,7 @@ TEST_CASE( "npc_talk_nested", "[npc_talk]" )
 {
     dialogue d;
     npc &talker_npc = prep_test( d );
-    Character &player_character = get_avatar();
+    player &player_character = get_avatar();
 
     d.add_topic( "TALK_TEST_NESTED" );
     talker_npc.add_effect( effect_currently_busy, 9999_turns );
@@ -560,7 +561,7 @@ TEST_CASE( "npc_talk_nested", "[npc_talk]" )
 TEST_CASE( "npc_talk_conditionals", "[npc_talk]" )
 {
     dialogue d;
-    Character &player_character = get_avatar();
+    player &player_character = get_avatar();
     prep_test( d );
     player_character.cash = 800;
 
@@ -590,7 +591,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
 {
     dialogue d;
     npc &talker_npc = prep_test( d );
-    Character &player_character = get_avatar();
+    player &player_character = get_avatar();
 
     player_character.remove_items_with( []( const item & it ) {
         return it.get_category_shallow().get_id() == item_category_id( "books" ) ||
@@ -604,16 +605,16 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
 
-    const auto has_item = [&]( Character & you, const std::string & id, int count ) {
+    const auto has_item = [&]( player & p, const std::string & id, int count ) {
         item old_item = item( id );
         if( old_item.count_by_charges() ) {
-            return you.has_charges( itype_id( id ), count );
+            return p.has_charges( itype_id( id ), count );
         } else {
-            return you.has_amount( itype_id( id ), count );
+            return p.has_amount( itype_id( id ), count );
         }
     };
-    const auto has_beer_bottle = [&]( Character & you, int count ) {
-        return has_item( you, "bottle_glass", 1 ) && has_item( you, "beer", count );
+    const auto has_beer_bottle = [&]( player & p, int count ) {
+        return has_item( p, "bottle_glass", 1 ) && has_item( p, "beer", count );
     };
     player_character.cash = 1000;
     player_character.int_cur = 8;
@@ -898,7 +899,7 @@ TEST_CASE( "npc_talk_bionics", "[npc_talk]" )
 {
     dialogue d;
     npc &beta = prep_test( d );
-    Character &player_character = get_avatar();
+    player &player_character = get_avatar();
 
     player_character.clear_bionics();
     beta.clear_bionics();
@@ -917,7 +918,7 @@ TEST_CASE( "npc_talk_effects", "[npc_talk]" )
 {
     dialogue d;
     npc &talker_npc = prep_test( d );
-    Character &player_character = get_avatar();
+    player &player_character = get_avatar();
 
     // speaker effects just use are owed because I don't want to do anything complicated
     player_character.cash = 1000;
@@ -1018,7 +1019,7 @@ TEST_CASE( "npc_compare_int", "[npc_talk]" )
 {
     dialogue d;
     npc &beta = prep_test( d );
-    Character &player_character = get_avatar();
+    player &player_character = get_avatar();
 
     player_character.str_cur = 4;
     player_character.dex_cur = 4;
