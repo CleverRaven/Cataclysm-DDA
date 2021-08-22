@@ -108,6 +108,8 @@ using drop_locations = std::list<drop_location>;
 
 constexpr int MAX_CLAIRVOYANCE = 40;
 
+nc_color encumb_color( int level );
+
 /// @brief type of conditions that effect vision
 /// @note vision modes do not necessarily match json ids or flags
 enum vision_modes {
@@ -416,6 +418,10 @@ class Character : public Creature, public visitable
         int int_cur;
         int per_cur;
 
+        const profession *prof;
+        std::set<const profession *> hobbies;
+
+        int volume = 0;
         // The prevalence of getter, setter, and mutator functions here is partially
         // a result of the slow, piece-wise migration of the player class upwards into
         // the character class. As enough logic is moved upwards to fully separate
@@ -532,6 +538,27 @@ class Character : public Creature, public visitable
         /** Returns the name of the player's outer layer, e.g. "armor plates" */
         std::string skin_name() const override;
 
+        //message related stuff
+        using Creature::add_msg_if_player;
+        void add_msg_if_player( const std::string &msg ) const override;
+        void add_msg_if_player( const game_message_params &params, const std::string &msg ) const override;
+        using Creature::add_msg_debug_if_player;
+        void add_msg_debug_if_player( debugmode::debug_filter type,
+                                      const std::string &msg ) const override;
+        using Creature::add_msg_player_or_npc;
+        void add_msg_player_or_npc( const std::string &player_msg,
+                                    const std::string &npc_str ) const override;
+        void add_msg_player_or_npc( const game_message_params &params, const std::string &player_msg,
+                                    const std::string &npc_msg ) const override;
+        using Creature::add_msg_debug_player_or_npc;
+        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const std::string &player_msg,
+                                          const std::string &npc_msg ) const override;
+        using Creature::add_msg_player_or_say;
+        void add_msg_player_or_say( const std::string &player_msg,
+                                    const std::string &npc_speech ) const override;
+        void add_msg_player_or_say( const game_message_params &params, const std::string &player_msg,
+                                    const std::string &npc_speech ) const override;
+
         /* returns the character's faction */
         virtual faction *get_faction() const {
             return nullptr;
@@ -563,6 +590,13 @@ class Character : public Creature, public visitable
         float reloading_move_modifier() const;
         float thrown_dex_modifier() const;
         float stamina_recovery_breathing_modifier() const;
+        float limb_speed_movecost_modifier() const;
+        float limb_balance_movecost_modifier() const;
+        // movecost is modified by the average of limb speed and balance.
+        float limb_run_cost_modifier() const;
+        float swim_modifier() const;
+        // min is 0.2 instead of 0
+        float melee_attack_roll_modifier() const;
         // additive modifier
         float ranged_dispersion_modifier_hands() const;
         float ranged_dispersion_modifier_vision() const;
@@ -610,7 +644,7 @@ class Character : public Creature, public visitable
         void action_taken();
         /** Returns true if the player is knocked over, has broken legs or is lying down */
         bool is_on_ground() const override;
-        /** Returns the player's speed for swimming across water tiles */
+        /** Returns the player's movecost for swimming across water tiles. NOT SPEED! */
         int  swim_speed() const;
         /** Returns melee skill level, to be used to throttle dodge practice. **/
         float get_melee() const override;
@@ -711,6 +745,12 @@ class Character : public Creature, public visitable
         /** Returns body weight plus weight of inventory and worn/wielded items */
         units::mass get_weight() const override;
 
+        /** Draws the UI and handles player input for the armor re-ordering window */
+        void sort_armor();
+
+        // formats and prints encumbrance info to specified window
+        void print_encumbrance( const catacurses::window &win, int line = -1,
+                                const item *selected_clothing = nullptr ) const;
         /** Returns true if the character is wearing power armor */
         bool is_wearing_power_armor( bool *hasHelmet = nullptr ) const;
         /** Returns true if the character is wearing active power */
@@ -1078,7 +1118,10 @@ class Character : public Creature, public visitable
         float blocking_score( const body_part_type::type &bp ) const;
         float lifting_score( const body_part_type::type &bp ) const;
         float breathing_score() const;
+        float swim_score() const;
         float vision_score() const;
+        float movement_speed_score() const;
+        float balance_score() const;
         bool has_min_manipulators() const;
         // technically this is "has more than one arm"
         bool has_two_arms_lifting() const;
@@ -1334,12 +1377,12 @@ class Character : public Creature, public visitable
         /**Has enough anesthetic for surgery*/
         bool has_enough_anesth( const itype &cbm, Character &patient );
         bool has_enough_anesth( const itype &cbm );
-        void consume_anesth_requirement( const itype &cbm, player &patient );
+        void consume_anesth_requirement( const itype &cbm, Character &patient );
         /**Has the required equipment for manual installation*/
         bool has_installation_requirement( const bionic_id &bid );
         void consume_installation_requirement( const bionic_id &bid );
         /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthesia kits or NOPAIN mutation */
-        void introduce_into_anesthesia( const time_duration &duration, player &installer,
+        void introduce_into_anesthesia( const time_duration &duration, Character &installer,
                                         bool needs_anesthesia );
         /** Removes a bionic from my_bionics[] */
         void remove_bionic( const bionic_id &b );
@@ -1359,7 +1402,7 @@ class Character : public Creature, public visitable
         ret_val<bool> is_installable( const item_location &loc, bool by_autodoc ) const;
         std::map<bodypart_id, int> bionic_installation_issues( const bionic_id &bioid ) const;
         /** Initialize all the values needed to start the operation player_activity */
-        bool install_bionics( const itype &type, player &installer, bool autodoc = false,
+        bool install_bionics( const itype &type, Character &installer, bool autodoc = false,
                               int skill_level = -1 );
         /**Success or failure of installation happens here*/
         void perform_install( const bionic_id &bid, const bionic_id &upbid, int difficulty, int success,
@@ -1436,6 +1479,25 @@ class Character : public Creature, public visitable
                                         float adjusted_skill );
         void on_worn_item_transform( const item &old_it, const item &new_it );
 
+        /**
+         * Starts activity to remove gunmod after unloading any contained ammo.
+         * Returns true on success (activity has been started)
+         */
+        bool gunmod_remove( item &gun, item &mod );
+
+        /** Starts activity to install gunmod having warned user about any risk of failure or irremovable mods s*/
+        void gunmod_add( item &gun, item &mod );
+
+        /** Starts activity to install toolmod */
+        void toolmod_add( item_location tool, item_location mod );
+
+        /**
+         * Attempt to mend an item (fix any current faults)
+         * @param obj Object to mend
+         * @param interactive if true prompts player when multiple faults, otherwise mends the first
+         */
+        void mend_item( item_location &&obj, bool interactive = true );
+
         bool list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
                         bool empty = true ) const;
         /**
@@ -1475,7 +1537,8 @@ class Character : public Creature, public visitable
         bool has_power() const;
         bool has_max_power() const;
         bool enough_power_for( const bionic_id &bid ) const;
-
+        /** Handles and displays detailed character info for the '@' screen */
+        void disp_info();
         void conduct_blood_analysis();
         // --------------- Generic Item Stuff ---------------
 
@@ -2132,12 +2195,25 @@ class Character : public Creature, public visitable
          * And if you do already have them, refunds the points for the trait
          */
         void add_traits();
-        void add_traits( points_left &points );
         /** Returns true if the player has crossed a mutation threshold
          *  Player can only cross one mutation threshold.
          */
         bool crossed_threshold() const;
 
+        void environmental_revert_effect();
+
+        /**
+         * Checks both the neighborhoods of from and to for climbable surfaces,
+         * returns move cost of climbing from `from` to `to`.
+         * 0 means climbing is not possible.
+         * Return value can depend on the orientation of the terrain.
+         */
+        int climbing_cost( const tripoint &from, const tripoint &to ) const;
+
+        void pause(); // '.' command; pauses & resets recoil
+
+        /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
+        template <typename T> bool can_lift( const T &obj ) const;
         // --------------- Values ---------------
         std::string name;
         bool male = false;
@@ -3033,6 +3109,11 @@ class Character : public Creature, public visitable
         int dex_bonus = 0;
         int per_bonus = 0;
         int int_bonus = 0;
+        /** Hardcoded stats bonus */
+        int str_bonus_hardcoded = 0;
+        int dex_bonus_hardcoded = 0;
+        int per_bonus_hardcoded = 0;
+        int int_bonus_hardcoded = 0;
         // cached so the display knows how much your bonus is
         int enchantment_speed_bonus = 0;
 
@@ -3138,11 +3219,6 @@ class Character : public Creature, public visitable
          */
         std::map<bodypart_id, float> bodypart_exposure();
     private:
-        /** limb helpers */
-        // movecost addition based on limb breakage and move scores.
-        int limb_health_movecost_modifier() const;
-        //
-        int foot_encumbrance_movecost_modifier() const;
         /** suffer() subcalls */
         void suffer_water_damage( const trait_id &mut_id );
         void suffer_mutation_power( const trait_id &mut_id );
@@ -3259,4 +3335,7 @@ struct enum_traits<character_stat> {
 };
 /// Get translated name of a stat
 std::string get_stat_name( character_stat Stat );
+
+extern template bool Character::can_lift<item>( const item &obj ) const;
+extern template bool Character::can_lift<vehicle>( const vehicle &obj ) const;
 #endif // CATA_SRC_CHARACTER_H

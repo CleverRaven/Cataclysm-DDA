@@ -338,6 +338,7 @@
     "type": "palette",
     "id": "lab_mutagen_palette",
     "//": "for mutagen research areas of labs.",
+    "palettes": [ "lab_common_palette" ],
     "furniture": {
       "W": "f_generator_broken",
       "Z": "f_control_station",
@@ -569,5 +570,17 @@
         { "item": "snacks", "chance": 30 }
       ]
     }
+  },
+  {
+    "type": "palette",
+    "id": "lab_vent_palette",
+    "//": "Adds a vent to the grate from the common palette.  Vent will be either cold or hot, but the same for the entire lab",
+    "parameters": {
+      "lab_vent_type": {
+        "type": "furn_str_id",
+        "default": { "distribution": [ [ "f_vent_cold_air2_blast", 2 ], [ "f_vent_hot_air2_blast", 1 ] ] }
+      }
+    },
+    "furniture": { "^": { "param": "lab_vent_type", "fallback": "f_vent_cold_air2_blast" } }
   }
 ]

@@ -192,6 +192,13 @@ const map_extra &string_id<map_extra>::obj() const
     return extras.obj( *this );
 }
 
+/** @relates string_id */
+template<>
+bool string_id<map_extra>::is_valid() const
+{
+    return extras.is_valid( *this );
+}
+
 namespace MapExtras
 {
 
@@ -1448,7 +1455,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         m.spawn_item( { 16, 18, abs_sub.z }, itype_landmine, rng( 0, 5 ) );
         m.spawn_item( { 16, 19, abs_sub.z }, itype_landmine, rng( 0, 5 ) );
 
-        // Set some resting place with fire ring, camp chairs, tourist table and benches
+        // Set some resting place with fire ring, camp chairs, folding table, and benches.
         m.furn_set( { 20, 12, abs_sub.z }, f_crate_o );
         m.furn_set( { 21, 12, abs_sub.z }, f_firering );
         m.furn_set( { 22, 12, abs_sub.z }, f_tourist_table );
@@ -3025,7 +3032,7 @@ map_extra_pointer get_function( const std::string &name )
 {
     const auto iter = builtin_functions.find( name );
     if( iter == builtin_functions.end() ) {
-        debugmsg( "no map extra function with name %s", name );
+        debugmsg( "no built-in map extra function with id %s", name );
         return nullptr;
     }
     return iter->second;
@@ -3196,6 +3203,7 @@ void map_extra::check() const
             break;
         }
         case map_extra_method::mapgen: {
+            MapExtras::all_function_names.push_back( id.str() );
             break;
         }
         case map_extra_method::update_mapgen: {

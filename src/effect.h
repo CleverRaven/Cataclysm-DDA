@@ -28,7 +28,7 @@ class JsonObject;
 class JsonOut;
 
 /** Handles the large variety of weed messages. */
-void weed_msg( player &p );
+void weed_msg( Character &p );
 
 enum effect_rating {
     e_good,     // The effect is good for the one who has it.

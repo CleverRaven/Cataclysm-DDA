@@ -2547,7 +2547,7 @@ bool npc::find_job_to_perform()
         player_activity scan_act = player_activity( elem );
         if( elem == activity_id( "ACT_MOVE_LOOT" ) ) {
             assign_activity( elem );
-        } else if( generic_multi_activity_handler( scan_act, *this->as_player(), true ) ) {
+        } else if( generic_multi_activity_handler( scan_act, *this->as_character(), true ) ) {
             assign_activity( elem );
             return true;
         }
@@ -3278,7 +3278,7 @@ bool npc::do_player_activity()
         // a huge backlog of a multi-activity type can forever loop
         // instead; just scan the map ONCE for a task to do, and if it returns false
         // then stop scanning, abandon the activity, and kill the backlog of moves.
-        if( !generic_multi_activity_handler( activity, *this->as_player(), true ) ) {
+        if( !generic_multi_activity_handler( activity, *this->as_character(), true ) ) {
             revert_after_activity();
             set_moves( 0 );
             return true;
