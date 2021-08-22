@@ -3254,14 +3254,14 @@ std::pair<item_location, item_pocket *> Character::best_pocket( const item &it, 
     item_location weapon_loc( *this, &weapon );
     std::pair<item_location, item_pocket *> ret = std::make_pair( item_location(), nullptr );
     if( &weapon != &it && &weapon != avoid ) {
-        ret = weapon.best_pocket( it, weapon_loc );
+        ret = weapon.best_pocket( it, weapon_loc, avoid );
     }
     for( item &worn_it : worn ) {
         if( &worn_it == &it || &worn_it == avoid ) {
             continue;
         }
         item_location loc( *this, &worn_it );
-        std::pair<item_location, item_pocket *> internal_pocket = worn_it.best_pocket( it, loc );
+        std::pair<item_location, item_pocket *> internal_pocket = worn_it.best_pocket( it, loc, avoid );
         if( internal_pocket.second != nullptr &&
             ( ret.second == nullptr || ret.second->better_pocket( *internal_pocket.second, it ) ) ) {
             ret = internal_pocket;

@@ -518,7 +518,7 @@ void item_contents::force_insert_item( const item &it, item_pocket::pocket_type 
 }
 
 std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &it,
-        item_location &parent, const bool allow_sealed, const bool ignore_settings )
+        item_location &parent, const item *avoid, const bool allow_sealed, const bool ignore_settings )
 {
     if( !can_contain( it ).success() ) {
         return { item_location(), nullptr };
@@ -549,8 +549,11 @@ std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &
             ret.second = &pocket;
             // check all pockets within to see if they are better
             for( item *contained : all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                if( contained == avoid ) {
+                    continue;
+                }
                 std::pair<item_location, item_pocket *> internal_pocket =
-                    contained->best_pocket( it, parent, /*allow_sealed=*/false, /*ignore_settings=*/false );
+                    contained->best_pocket( it, parent, avoid, /*allow_sealed=*/false, /*ignore_settings=*/false );
                 if( internal_pocket.second != nullptr &&
                     ret.second->better_pocket( *internal_pocket.second, it, true ) ) {
                     ret = internal_pocket;
