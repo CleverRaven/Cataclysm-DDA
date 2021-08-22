@@ -1732,5 +1732,67 @@
     "time": "14 h",
     "using": [ [ "forging_standard", 20 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [ [ [ "scrap_bronze", 38 ] ] ]
+  },
+  {
+    "result": "chestplate_chitin",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "skills_required": [ [ "fabrication", 3 ] ],
+    "time": "4 h 30 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_arthropod", 4 ] ],
+    "using": [ [ "cordage", 1 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "proficiencies": [
+      { "proficiency": "prof_articulation" },
+      { "proficiency": "prof_chitinworking" },
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking_basic" }
+    ],
+    "components": [ [ [ "chitin_piece", 66 ] ] ]
+  },
+  {
+    "result": "xl_chestplate_chitin",
+    "type": "recipe",
+    "copy-from": "armor_chitin",
+    "time": "6 h",
+    "using": [ [ "cordage", 2 ] ],
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "components": [ [ [ "chitin_piece", 84 ] ] ]
+  },
+  {
+    "result": "chestplate_acidchitin",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "skills_required": [ [ "fabrication", 3 ], [ "chemistry", 2 ] ],
+    "time": "5 h 30 m",
+    "autolearn": true,
+    "book_learn": [ [ "textbook_arthropod", 5 ] ],
+    "using": [ [ "cordage", 1 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_articulation" },
+      { "proficiency": "prof_chitinworking" },
+      { "proficiency": "prof_closures" },
+      { "proficiency": "prof_leatherworking_basic" }
+    ],
+    "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 } ],
+    "components": [ [ [ "acidchitin_piece", 66 ] ] ]
+  },
+  {
+    "result": "xl_chestplate_acidchitin",
+    "type": "recipe",
+    "copy-from": "chestplate_acidchitin",
+    "time": "7 h 15 m",
+    "using": [ [ "cordage", 2 ] ],
+    "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 } ],
+    "components": [ [ [ "acidchitin_piece", 84 ] ] ]
   }
 ]
