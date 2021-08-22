@@ -244,7 +244,7 @@
   {
     "id": "mon_dummy_tutorial",
     "type": "MONSTER",
-    "name": { "str": "dummy" },
+    "name": { "str": "dummy", "str_pl": "dummies" },
     "description": "This dummy serves for only one purpose - to teach players how to hit monsters.",
     "looks_like": "f_mannequin",
     "default_faction": "",
