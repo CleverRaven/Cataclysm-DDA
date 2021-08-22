@@ -59,9 +59,6 @@ static const trap_str_id tr_tutorial_13( "tr_tutorial_13" );
 static const trap_str_id tr_tutorial_14( "tr_tutorial_14" );
 static const trap_str_id tr_tutorial_15( "tr_tutorial_15" );
 
-static const mtype_id mon_dummy_tutorial( "mon_dummy_tutorial" );
-static const mtype_id mon_zombie( "mon_zombie" );
-
 namespace io
 {
 
