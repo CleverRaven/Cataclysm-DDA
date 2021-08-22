@@ -1708,18 +1708,21 @@
     "id": "BATTERY_LIGHT",
     "type": "json_flag",
     "context": [  ],
-    "info": "This item fits in items that use light batteries."
+    "info": "This item fits in items that use light batteries.",
+    "name": "light battery"
   },
   {
     "id": "BATTERY_MEDIUM",
     "type": "json_flag",
     "context": [  ],
-    "info": "This item fits in items that use medium batteries."
+    "info": "This item fits in items that use medium batteries.",
+    "name": "medium battery"
   },
   {
     "id": "BATTERY_HEAVY",
     "type": "json_flag",
     "context": [  ],
-    "info": "This item fits in items that use heavy batteries."
+    "info": "This item fits in items that use heavy batteries.",
+    "name": "heavy battery"
   }
 ]

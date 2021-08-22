@@ -50,7 +50,8 @@
     "pocket_mods": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "flag_restriction": [ "BATTERY_LIGHT" ]
+        "flag_restriction": [ "BATTERY_LIGHT" ],
+		"default_magazine": "light_minus_battery_cell"
       }
     ]
   },
@@ -66,7 +67,8 @@
     "pocket_mods": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "flag_restriction": [ "BATTERY_MEDIUM" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+		"default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -82,7 +84,8 @@
     "pocket_mods": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "flag_restriction": [ "BATTERY_HEAVY" ]
+        "flag_restriction": [ "BATTERY_HEAVY" ],
+		"default_magazine": "heavy_battery_cell"
       }
     ]
   }
