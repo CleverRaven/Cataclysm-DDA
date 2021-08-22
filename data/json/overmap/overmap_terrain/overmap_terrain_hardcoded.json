@@ -318,5 +318,14 @@
     "color": "cyan",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "tutorial_underground",
+    "name": "tutorial room",
+    "sym": "O",
+    "color": "cyan",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
   }
 ]

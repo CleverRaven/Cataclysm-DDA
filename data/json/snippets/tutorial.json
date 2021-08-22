@@ -5,43 +5,47 @@
     "text": [
       {
         "id": "LESSON_INTRO",
-        "text": "Welcome to the Cataclysm tutorial!  As you play, pop-ups like this one will appear to guide you through the basic game actions.  Pressing spacebar will close the pop-up."
+        "text": "Welcome to the Cataclysm tutorial!  As you play, pop-ups like this one will appear to guide you through the basic game actions.\n\nPressing <color_yellow>spacebar</color>, <color_yellow>Enter</color>, or <color_yellow>Escape</color> will close the pop-up."
       },
       {
         "id": "LESSON_MOVE",
-        "text": "The '@' character in the center of the screen represents you.  To move, you can use the numpad, the vikeys (hjklyubn), or the arrow keys.  To have your character wait in place, press '.'"
+        "text": "The character in the center of the screen represents you.  To move, you can use the <color_yellow>numpad</color>, the <color_yellow>vikeys (hjklyubn)</color>, or the <color_yellow>arrow keys</color>.  Also you could press <color_yellow>left mouse button</color> to select the location you want to move, and then press it again to confirm the movement.\nTo have your character wait in place, press <color_yellow>'.' (period)</color> or <color_yellow>5</color>.\n\nTo continue the tutorial, please move to the door to the east."
+      },
+      {
+        "id": "LESSON_MOVEMENT_MODES",
+        "text": "Most of the time your character will move in a walking mode.  But sometimes it's useful to change your movement mode to something else.  There are four movement modes in the game:\n- <color_light_cyan>Walking</color>, the default mode, average movement speed, stamina draining speed, and noise;\n- <color_light_cyan>Running</color>, will make your character move much faster, but will drain your stamina quickly;\n- <color_light_cyan>Crouching</color>, will make your character less visible to monsters by allowing to hide behind obstacles, decreased movement speed and noise;\n- <color_light_cyan>Prone</color>, even less visibility to monsters, even less movement speed and noise.\n\nTo cycle through all movement modes, you could press <color_yellow>\" (quote sign)</color>.\n\nTo continue the tutorial, please move to the end of the corridor."
       },
       {
         "id": "LESSON_LOOK",
-        "text": "To see what the symbols around you mean, press ';'.  You'll be able to scroll around and get information on the terrain, monsters, and items in the world around you."
+        "text": "You can use mouse to see things around you.  <color_light_cyan>Mouse View</color> window will appear on the sidebar, and you'll be able to get information on the terrain, monsters, and items in the world around you.  Alternatively, you can press <color_yellow>';' (semicolon)</color> or <color_yellow>'x'</color> to open the <color_light_cyan>Look Around</color> window."
       },
       {
         "id": "LESSON_OPEN",
-        "text": "That brown '+' next to you is a closed door.  To open it, either simply walk into it, or press 'o' and then a movement key."
+        "text": "You're standing next to a closed door.  To open it, either simply walk into it, or press <color_yellow>'o'</color> and then a movement key.  This way you can open not only doors, but also windows, gates, fences, safes and so on."
       },
       {
         "id": "LESSON_CLOSE",
-        "text": "You can close an opened door by pressing 'c' and then a movement key.  Closing doors behind you can often slow down throngs of monsters greatly."
+        "text": "You can close an opened door by pressing <color_yellow>'c'</color> and then a movement key.  Closing doors behind you can often slow down throngs of monsters greatly."
       },
       {
         "id": "LESSON_SMASH",
-        "text": "Most monsters will have to smash their way through a closed door.  If a door is locked or stuck, you can smash it by pressing 's' and then a movement key."
+        "text": "Most monsters will have to smash their way through a closed door.  If a door is locked or stuck, you can smash it by pressing <color_yellow>'s'</color> and then a movement key."
       },
       {
         "id": "LESSON_WINDOW",
-        "text": "You can smash through windows by pressing 's' and then a movement key.  A smashed window takes a long time to climb through, and it's possible to hurt yourself on the broken glass, but it's a good last-ditch escape route.  You can smash through other things, too."
+        "text": "You can smash through windows by pressing <color_yellow>'s'</color> and then a movement key.  A smashed window takes a long time to climb through, and it's possible to hurt yourself on the broken glass, but it's a good last-ditch escape route.  You can smash through other things, too."
       },
       {
         "id": "LESSON_PICKUP",
-        "text": "You just stepped on a space with one or more items.  If you wish to pick it up, press ',' or 'g'."
+        "text": "You just stepped on a space with one or more items.  If you wish to pick it up, press <color_yellow>',' (comma)</color> or <color_yellow>'g'</color>.  To select tile directly underneath you, press <color_yellow>'.' (period)</color> or <color_yellow>5</color>.  In the <color_light_cyan>Pickup</color> menu press <color_yellow>right arrow</color> or <color_yellow>'l'</color> to select the items you wish to pick up (<color_yellow>left arrow</color> or <color_yellow>'h'</color> to deselect) and then <color_yellow>Enter</color> to confirm.\nNote that you don't need to stand directly on the space with items to pick them up, you can pick them up when standing near them.\n\nTo continue the tutorial, please pick up the <color_light_cyan>baseball bat</color> you're standing on and move to the door to the south."
       },
       {
         "id": "LESSON_EXAMINE",
-        "text": "The nearby { is a display rack, and the blue background indicates that there are items there.  If you press 'g' while adjacent to the rack, you can pick up items without moving to the square."
+        "text": "This is a display rack next to you, and there's also a steel spear lying on it.  You can press <color_yellow>'w'</color> to directly wield an item, without the need of picking it up first.  Pressing <color_yellow>'w'</color> will open <color_light_cyan>Wield item</color> menu.  Select the item you want to wield and confirm by pressing <color_yellow>Enter</color>.\nAs you have no free space in your inventory, to wield the spear, you have to drop the <color_light_cyan>bat</color> on the ground.\nIf you wish to free your hands (i.e. wield nothing), press <color_yellow>'w'</color> and select your currently wielded item.  Alternatively, you could drop the wielded item by pressing <color_yellow>'d'</color> and selecting your currently wielded item.\n\nTo continue the tutorial, please wield the spear and move to the counters west of you."
       },
       {
         "id": "LESSON_INTERACT",
-        "text": "The Examine command 'e' can be used for interacting with some terrain and furniture.  Interactive terrain is often designated with a '6' symbol."
+        "text": "There is a <color_light_cyan>water dispenser</color> around the corner.  Pick up the <color_light_cyan>plastic bottle</color> from the rack and proceed to the dispenser."
       },
       {
         "id": "LESSON_FULL_INV",
@@ -69,11 +73,11 @@
       },
       {
         "id": "LESSON_GOT_FOOD",
-        "text": "The item you just picked up is a comestible!  To eat a comestible, press 'E'.  Comestibles are items you can use up, like food, drink, pills, etc.  Most food expires eventually, so be careful.  Some comestibles, especially drugs, can cause subtle, long-term effects."
+        "text": "The item you just picked up is a comestible!  To eat a comestible, press <color_yellow>'E'</color>.  Comestibles are items you can use up, like food, drink, pills, etc.  Most food expires eventually, so be careful.  Some comestibles, especially drugs, can cause subtle, long-term effects."
       },
       {
         "id": "LESSON_GOT_TOOL",
-        "text": "The item you just picked up is a tool!  To activate a tool, press 'a'.  Some tools have a set charge, which can be reloaded once depleted.  Other are single-use items, and still others are reusable."
+        "text": "The item you just picked up is a tool!  To activate a tool, press <color_yellow>'a'</color>.  Some tools have a set charge, which can be reloaded once depleted.  Other are single-use items, and still others are reusable."
       },
       {
         "id": "LESSON_GOT_GUN",
@@ -85,19 +89,19 @@
       },
       {
         "id": "LESSON_WORE_ARMOR",
-        "text": "You just put on an article of clothing that provides physical protection.  There are two types of damage that clothing defends against, bashing, and cutting.  Most monsters deal bashing damage, but cutting is often the more deadly of the two.  Bullets are considered cutting damage."
+        "text": "You just put on an article of clothing that provides physical protection.  There are three types of damage that clothing defends against: <color_light_cyan>bashing</color>, <color_light_cyan>cutting</color>, and <color_light_cyan>bullet</color>.  Most monsters deal bashing damage, but cutting is often the more deadly of the two.  Not many enemies deal bullet damage, among them are some robots, turrets, and non-playable characters (NPCs)."
       },
       {
         "id": "LESSON_WORE_STORAGE",
-        "text": "You just put on an article of clothing that provides ample storage space.  This will allow you to carry much more stuff, but be aware that there is also a limit on the weight you can carry which depends on strength.  The item you put on also encumbered your torso.  This will make combat a little more difficult.  To check encumbrance, press @."
+        "text": "You just put on an article of clothing that provides ample storage space.  This will allow you to carry much more stuff, but be aware that there is also a limit on the weight you can carry which depends on strength.  The item you put on also encumbered your torso.  This will make combat a little more difficult.  To check encumbrance, press <color_yellow>`@`</color>.\n\nTo continue the tutorial, please move to the corridor to the north and wear all clothing you find on the racks."
       },
       {
         "id": "LESSON_WORE_MASK",
-        "text": "You just put on an article of clothing that protects against the environment.  The most common and important are respiratory devices, which will protect you against smoke, air-born toxins or organisms, and other common hazards.  However, they also make it a little harder to breath when running, so you'll move more slowly.  To check encumbrance, press @."
+        "text": "You just put on an article of clothing that protects against the environment.  The most common and important are respiratory devices, which will protect you against smoke, air-born toxins or organisms, and other common hazards.  However, they also make it a little harder to breath when running, so you'll move more slowly.  To check encumbrance, press <color_yellow>`@`</color>."
       },
       {
         "id": "LESSON_WEAPON_INFO",
-        "text": "If you press 'i' and then the letter of your weapon, you'll see its combat stats.  Bashing damage ignores most armor, but varies greatly and requires strength.  Cutting damage is a fixed amount, but is blocked by armor.  The To-hit bonus affects your chances of hitting.  The amount of time it takes to swing your melee weapon depends on both its size and weight; small, compact weapons are the fastest."
+        "text": "If you press <color_yellow>'i'</color> and then the letter of your weapon, you'll see its combat stats.  Bashing damage ignores most armor, but varies greatly and requires strength.  Cutting damage is a fixed amount, but is blocked by armor.  The To-hit bonus affects your chances of hitting.  The amount of time it takes to swing your melee weapon depends on both its size and weight; small, compact weapons are the fastest."
       },
       {
         "id": "LESSON_HIT_MONSTER",
@@ -105,7 +109,7 @@
       },
       {
         "id": "LESSON_PAIN",
-        "text": "Taking damage often causes pain.  Small amounts of pain are tolerable, but as it gets worse your stats will drop and you will move much slower.  To reduce pain, take painkillers like codeine, or simply wait it out."
+        "text": "Looks like you suddenly felt pain.  The pain status is indicated on the sidebar and also in the <color_yellow>'@'</color>-menu.\nSmall amounts of pain are tolerable, but as it gets worse your stats will drop and you will move much slower.  To reduce pain, take painkillers like <color_light_cyan>codeine</color> on the rack nearby (by <color_yellow>'a'</color>ctivating it), or simply wait it out."
       },
       {
         "id": "LESSON_BUTCHER",
@@ -113,7 +117,7 @@
       },
       {
         "id": "LESSON_TOOK_PAINKILLER",
-        "text": "That drug you just took is a painkiller.  Painkillers are very important to keep on hand, as pain both penalizes your stats and makes you slower.  Be careful, as the stronger painkillers can make you woozy, and some are even addictive."
+        "text": "That drug you just took is a <color_light_cyan>painkiller</color>.  Painkillers are very important to keep on hand, as pain both penalizes your stats and makes you slower.  Be careful, as the stronger painkillers can make you woozy, and some are even addictive.\nPlease also note that painkillers doesn't work the moment you took them.  They need some time to start working, and you don't need to take another dose right now if you don't see the immediate effect.  Just wait, and sooner or later the pain will start going away."
       },
       {
         "id": "LESSON_TOOK_CIG",
@@ -129,7 +133,7 @@
       },
       {
         "id": "LESSON_ACT_BUBBLEWRAP",
-        "text": "You just placed a trap.  Traps are permanent until set off, and can be an important defensive tactic, particularly when sleeping in unsafe territory.  Try stepping on that _ -- don't worry, it's a harmless bubblewrap trap."
+        "text": "You just placed a <color_light_cyan>trap</color>.  Traps are permanent until set off, and can be an important defensive tactic, particularly when sleeping in unsafe territory.  Try stepping on a bubblewrap - don't worry, it's a harmless."
       },
       {
         "id": "LESSON_OVERLOADED",
@@ -137,31 +141,83 @@
       },
       {
         "id": "LESSON_GUN_LOAD",
-        "text": "To use a gun, first wield it with the 'w' key.  Next you need to reload using the 'r' key, assuming you have the proper ammo.  If you wish to unload your gun, possibly to change ammunition types, press 'U'."
+        "text": "In the next room you'll find a row of racks with a gun, a magazine for it, and ammo for it.  To be able to fire a gun, you'll need to insert a magazine with ammo in it.  Press <color_yellow>'r'</color> to open the <color_light_cyan>Reload item</color> menu and put ammo in the magazine, and then press <color_yellow>'r'</color> once again to insert a magazine into a gun.\nIf you wish to unload your gun, possibly to change ammunition types, press <color_yellow>'U'</color>."
       },
       {
         "id": "LESSON_GUN_FIRE",
-        "text": "Once you have a loaded gun wielded, you can fire it.  Press the 'f' key to fire a single shot.  With many guns, you can fire a burst by pressing 'F'.  You'll automatically target the last monster you shot at, or the closest monster to you.  You can change your target with the movement keys, or cycle through monsters with '<' and '>'.  To fire, press 'f' or '.'; to cancel, hit the escape key."
+        "text": "Finally, to fire a gun, press <color_yellow>'f'</color>. You'll automatically target the last monster you shot at, or the closest monster to you.  You can change your target with the movement keys, or cycle through monsters with <color_yellow>'<'</color> and <color_yellow>'>'</color>.  Select the <color_light_cyan>dummy</color> as a target and press <color_yellow>Enter</color> or <color_yellow>'f'</color> to fire a a single shot.  With many guns, you can fire a burst by pressing <color_yellow>'F'</color>.\nThere are detailed instructions on how to aim and fire in <color_light_cyan>Aiming and firing</color> menu, make sure to carefully check it.\n\nTo continue the tutorial, please fire a couple of times at the dummy and move to the corridor to the west."
       },
       {
         "id": "LESSON_RECOIL",
-        "text": "After firing your gun, you will probably notice a Recoil alert in the lower right.  Generally speaking, the more damaging the ammo, the worse the recoil.  Recoil severely reduces your chance to hit, but you can eliminate recoil by pausing ('.') for a turn or moving normally.  High strength reduces recoil, so weak characters might want to stick to .22 or 9x19mm guns."
+        "text": "Firing your gun will increase your recoil level.  You can see its level in the <color_light_cyan>Aiming and firing</color> menu (by pressing <color_yellow>'f'</color>).  Generally speaking, the more damaging the ammo, the worse the recoil.  Recoil severely reduces your chance to hit, but you can eliminate recoil by pausing (<color_yellow>'.' (period)</color>) for a turn.  High strength reduces recoil, so weak characters might want to stick to .22 or 9x19mm guns."
       },
       {
         "id": "LESSON_STAIRS",
-        "text": "That yellow > next to you is a staircase leading down.  To go downstairs, step onto the staircase and press the '>' key.  Similarly, a yellow < is stairs leading up, and can be followed with the '<' key."
+        "text": "This is a staircase leading down.  To go downstairs, step onto the staircase and press the <color_yellow>'>'</color> key.  Similarly, to go upstairs, stand on the staircase leading up and press the <color_yellow>'<'</color> key."
       },
       {
         "id": "LESSON_DARK_NO_FLASH",
-        "text": "It's dark down here!  Without a source of light, you'll be limited to seeing only one space in any direction.  You'll encounter darkness while underground or at night.  Press '<' to go back upstairs, and look around for a flashlight."
+        "text": "It's dark down here!  Without a source of light, you'll be limited to seeing only one space in any direction.  You'll encounter darkness while underground or at night.  Press <color_yellow>'<'</color> to go back upstairs, and look around for a flashlight."
       },
       {
         "id": "LESSON_DARK",
-        "text": "It's dark down here!  Fortunately, you have a flashlight.  Press 'a' and then select your flashlight to turn it on."
+        "text": "It's dark down here!  Fortunately, you have a <color_light_cyan>flashlight</color>.  Press <color_yellow>'a'</color> and then select your flashlight to turn it on."
       },
       {
         "id": "LESSON_PICKUP_WATER",
-        "text": "~ is a terrain symbol that indicates water.  From a water source like this, you can fill any containers you might have.  Examine the water ('e') and press 'c' to fill a container, then select a watertight container to put the water into."
+        "text": "From a water source like this, you can fill any containers you might have.  Examine the dispenser <color_yellow>('e')</color> and press <color_yellow>'c'</color> to fill a container, then select <color_light_cyan>plastic bottle</color> to put the water into.\nThe Examine command <color_yellow>'e'</color> can be used for interacting with many types of terrain and furniture.\n\nTo continue the tutorial, please fill bottle with water, drink a little of it (by pressing <color_yellow>'E'</color> and selecting <color_light_cyan>clean water</color>), and then move to the corridor to the north."
+      },
+      {
+        "id": "LESSON_MONSTER_SIGHTED",
+        "text": "There is a <color_light_cyan>dummy</color> standing before you.  Let's attack it.  To do this, simply move into it.\n\nAfter you've dealt with it, please move to the door behind it."
+      },
+      {
+        "id": "LESSON_LOCKED_DOOR",
+        "text": "This door is locked.  There are several ways to deal with the locked doors in the game (lockpicking, prying and some others), but right now you don't have the necessary tools at hand.  So you can simply bash it with your <color_light_cyan>bat</color> by pressing <color_yellow>'s'</color> and then selecting the direction.\nNote that not every door could be bashed at all, and on some other bashable doors you simply might not have the required strength or weapon to do this.\n\nTo continue the tutorial, please smash the door."
+      },
+      {
+        "id": "LESSON_RESTORE_STAMINA",
+        "text": "Bashing things is a hard work that will deplete your stamina.  You can see amount of your stamina on the sidebar.  The less stamina you have, the slower will be your movement and most other actions.  To restore stamina, you need only to wait.  You can press <color_yellow>| (vertical line)</color> to open <color_light_cyan>Wait for how long</color> menu and select the amount of time you want to wait.  Select option <color_light_cyan>Wait until you catch your breath</color> to fully restore all lost stamina."
+      },
+      {
+        "id": "LESSON_REACH_ATTACK",
+        "text": "There is another <color_light_cyan>dummy</color> standing behind the counters.  Most melee weapons require standing strictly adjacent to your target so you can hit it.  Fortunately, some long weapons such as spears are able to commit reach attack with range 2 or 3, so if you have one, you don't need to climb on the counters to stand closely to the dummy.  <color_light_cyan>Steel spear</color> has range 2, so you can hit the dummy right over the counters.  To use the reach attack, press the <color_yellow>'f'</color> key.  Once you select your target, press <color_yellow>Enter</color> to confirm.\n\nAfter you've dealt with the dummy, please move to the corridor to the south."
+      },
+      {
+        "id": "LESSON_HOLSTERS_WEAR",
+        "text": "Always wielding <color_light_cyan>spear</color> in hands might be inconvenient.  Fortunately, there is a <color_light_cyan>spear strap</color> lying on the rack.  You can wear it by pressing <color_yellow>'W'</color>.\nTo take off any worn item, you can press <color_yellow>'T'</color>.\n\nTo continue the tutorial, please wear the spear strap."
+      },
+      {
+        "id": "LESSON_HOLSTERS_ACTIVATE",
+        "text": "You can put the <color_light_cyan>spear</color> in <color_light_cyan>spear strap</color> to free your hands.  Press <color_yellow>'a'</color> to open the <color_light_cyan>Use item</color> menu, then select the spear strap, then select the spear, and finally press <color_yellow>Enter</color> to confirm.\n\nTo continue the tutorial, please put the spear in the strap and move down the corridor."
+      },
+      {
+        "id": "LESSON_INVENTORY",
+        "text": "Game uses container-based inventory.  It means that to put something in your inventory, you have to wear some clothing or container with pockets which will provide free space for items.  <color_light_cyan>Spear strap</color> is one example of such containers.  Pockets have finite dimensions, so you can't put an item that has more volume or is longer than a pocket.\nTo view your inventory, press <color_yellow>'i'</color>.  You'll see that you have only your worn clothes, of which only your jeans have 4 small pockets.  Select your jeans and press <color_yellow>Enter</color> to see their description and amount of pockets.  To scroll through the description, press <color_yellow>'<'</color> and <color_yellow>'>'</color>.\n\nTo continue the tutorial, please come to the rack and wear (<color_yellow>'W'</color>) the <color_light_cyan>backpack</color> to increase available capacity of your inventory."
+      },
+      {
+        "id": "LESSON_FLASHLIGHT",
+        "text": "There are a <color_light_cyan>flashlight</color> and a <color_light_cyan>disposable battery</color> lying on the rack.  Flashlights are very useful tools as they allow you to see in the dark.\n\nTo continue the tutorial, please reload the flashlight by pressing <color_yellow>'r'</color>, take it with you and move to the stairs."
+      },
+      {
+        "id": "LESSON_REMOTE_USE",
+        "text": "<color_light_cyan>Flashlight</color> is a good thing to have, but it drains its battery quickly, so it won't last very long.  A much better solution for long-lasting lighting is a <color_light_cyan>gasoline lantern</color>.  Reload the lantern with <color_light_cyan>gasoline</color> (<color_yellow>'r'</color>) and then activate it (<color_yellow>'a'</color>) while standing nearby.  A <color_light_cyan>lighter</color> will help you to fire the lantern.  Some tools (such as lamps, dehydrators, bathroom scales etc) don't need to be picked up before activating and allow remote use.\nAfter you light the lantern you can safely turn off your flashlight to conserve its energy, lit lantern will give you enough light for any actions and will last very long.\n\nTo continue the tutorial, please light the lantern and then move to the corridor to the east."
+      },
+      {
+        "id": "LESSON_CRAFTING_FOOD",
+        "text": "Looks like you're hungry!  The hunger status is indicated on the sidebar.  Let's make a <color_light_cyan>peanut butter sandwich</color> from <color_light_cyan>peanut butter</color> and <color_light_cyan>crackers</color> on the counter next to the wall.\nTo make food you need to use the <color_light_cyan>Crafting menu</color>.  Press <color_yellow>'&' (ampersand)</color> to open the menu.  Press <color_yellow>Tab</color> and <color_yellow>Backtab</color> to toggle crafting categories and select <color_light_cyan>FOOD</color> category.  From there select peanut butter sandwich and press <color_yellow>Enter</color> to start crafting.\nNote that you don't need to stand directly near the counter to be able to craft.  <color_light_cyan>Crafting radius</color> is 6 tiles, so while you're standing no farther than 6 tiles from crafting components and tools, your character is able to get them by himself.\n\nTo continue the tutorial, please craft the peanut butter sandwich and then eat it by pressing <color_yellow>'E'</color>."
+      },
+      {
+        "id": "LESSON_CONSTRUCTION",
+        "text": "In the next room you can find a <color_light_cyan>paint brush</color> and several cans of <color_light_cyan>paint</color>.  You can use them to paint the wall in the color you like.  To do this, open the <color_light_cyan>Construction menu</color> by pressing <color_yellow>'*' (asterisk)</color> and toggling the categories with <color_yellow>arrow keys</color>.  Find the <color_light_cyan>Decorative</color> category and select one of the options to paint the wall.\n\nTo continue the tutorial, please paint some walls and move further south."
+      },
+      {
+        "id": "LESSON_THROWING",
+        "text": "There are 10 <color_light_cyan>baseballs</color> lying on the floor.  You might not need all 10, or you might not have enough space in your pockets.  To pick up specific amount of items, press <color_yellow>'g'</color>, select the stack of items, and press the number on the keyboard.  The cursor should change to <color_light_cyan>#</color> symbol.\nYou can throw a baseball at the <color_light_cyan>dummy</color> in the end of the corridor by pressing <color_yellow>t</color>.\n\nTo complete the tutorial, throw some baseballs at the dummy and then move to the end of the corridor to the north."
+      },
+      {
+        "id": "LESSON_FINALE",
+        "text": "Congratulations!  You completed the tutorial.  Here are several last-minute advices.\n\nYou can press <color_yellow>Enter</color> to open the <color_light_cyan>Action menu</color>.  It provides a convenient way to make dozens of actions.\n\nIn every menu (and in the game too) you can press <color_yellow>'?' (question mark)</color> to open the <color_light_cyan>Keybindings menu</color>.  It allows you to change default keybindings to your liking.  Also note that several actions doesn't have a set keybinding by default, so in there you can enable them too.\n\nYou can continue exploring the tutorial rooms, or you can exit the tutorial by pressing <color_yellow>'S'</color>.  This will save your game and exit to main menu."
       }
     ]
   }
