@@ -2555,7 +2555,7 @@ void monster::die( Creature *nkiller )
     }
     if( death_drops && !is_hallucination() ) {
         for( const auto &it : inv ) {
-            here.add_item_or_charges( pos(), it );
+            corpse->put_in( it, item_pocket::pocket_type::CORPSE );
         }
     }
 
@@ -2627,13 +2627,13 @@ void monster::drop_items_on_death( item *corpse )
         return;
     }
 
-    std::vector<item> new_items = item_group::items_from( type->death_drops, calendar::start_of_cataclysm,
-                              spawn_flags::use_spawn_rate );
+    std::vector<item> new_items = item_group::items_from( type->death_drops,
+                                  calendar::start_of_cataclysm,
+                                  spawn_flags::use_spawn_rate );
     std::vector<item *> dropped;
     if( corpse ) {
         for( item &it : new_items ) {
             corpse->put_in( it, item_pocket::pocket_type::CORPSE );
-
             if( !it.is_null() ) {
                 dropped.push_back( &it );
             }
@@ -2981,6 +2981,9 @@ void monster::init_from_item( const item &itm )
         const std::string up_time = itm.get_var( "upgrade_time" );
         if( !up_time.empty() ) {
             upgrade_time = std::stoi( up_time );
+        }
+        for( const item *it : itm.all_items_top( item_pocket::pocket_type::CORPSE ) ) {
+            inv.push_back( *it );
         }
     } else {
         // must be a robot
