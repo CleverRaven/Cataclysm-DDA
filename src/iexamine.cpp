@@ -4530,7 +4530,7 @@ static Character &player_on_couch( Character &you, const tripoint &autodoc_loc,
             }
             for( const npc *e : g->allies() ) {
                 if( e->pos() == couch_loc ) {
-                    return  *g->critter_by_id<player>( e->getID() );
+                    return  *g->critter_by_id<Character>( e->getID() );
                 }
             }
         }
@@ -4549,7 +4549,7 @@ static Character &operator_present( Character &you, const tripoint &autodoc_loc,
             }
             for( const npc *e : g->allies() ) {
                 if( e->pos() == loc ) {
-                    return  *g->critter_by_id<player>( e->getID() );
+                    return  *g->critter_by_id<Character>( e->getID() );
                 }
             }
         }
@@ -4572,7 +4572,7 @@ static item &cyborg_on_couch( const tripoint &couch_pos, item &null_cyborg )
     return null_cyborg;
 }
 
-static Character &best_installer( Character &you, player &null_player, int difficulty )
+static Character &best_installer( Character &you, Character &null_player, int difficulty )
 {
     std::vector< std::pair<int, int>> ally_chances;
     ally_chances.reserve( g->allies().size() );
@@ -4580,7 +4580,7 @@ static Character &best_installer( Character &you, player &null_player, int diffi
         std::pair<int, int> ally_skill;
         const npc *e = g->allies()[ i ];
 
-        player &ally = *g->critter_by_id<player>( e->getID() );
+        Character &ally = *g->critter_by_id<Character>( e->getID() );
         ally_skill.second = i;
         ally_skill.first = bionic_success_chance( true, -1, difficulty, ally );
         ally_chances.push_back( ally_skill );
@@ -4594,7 +4594,7 @@ static Character &best_installer( Character &you, player &null_player, int diffi
     for( size_t i = 0; i < g->allies().size() ; i ++ ) {
         if( ally_chances[ i ].first > player_cos ) {
             const npc *e = g->allies()[ ally_chances[ i ].second ];
-            player &ally = *g->critter_by_id<player>( e->getID() );
+            Character &ally = *g->critter_by_id<Character>( e->getID() );
             if( e->has_effect( effect_sleep ) ) {
                 if( !player_character.query_yn(
                         //~ %1$s is the name of the ally

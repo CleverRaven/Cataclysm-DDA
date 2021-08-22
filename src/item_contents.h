@@ -25,7 +25,6 @@ class JsonOut;
 class item;
 class item_location;
 class iteminfo_query;
-class player;
 struct iteminfo;
 struct tripoint;
 

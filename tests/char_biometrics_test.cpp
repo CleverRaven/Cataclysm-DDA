@@ -12,7 +12,6 @@
 #include "monster.h"
 #include "options.h"
 #include "output.h"
-#include "player.h"
 #include "player_helpers.h"
 #include "string_formatter.h"
 #include "type_id.h"

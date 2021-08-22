@@ -59,7 +59,6 @@
 #include "veh_type.h"
 #include "vitamin.h"
 
-class player;
 struct tripoint;
 template <typename T> struct enum_traits;
 
