@@ -368,6 +368,9 @@ bool Character::making_would_work( const recipe_id &id_to_make, int batch_size )
 int Character::available_assistant_count( const recipe &rec ) const
 // NPCs around you should assist in batch production if they have the skills
 {
+    if( rec.is_practice() ) {
+        return 0;
+    }
     // TODO: Cache them in activity, include them in modifier calculations
     const auto helpers = get_crafting_helpers();
     return std::count_if( helpers.begin(), helpers.end(),
@@ -839,7 +842,7 @@ void Character::start_craft( craft_command &command, const cata::optional<tripoi
 
     item craft = command.create_in_progress_craft();
     const recipe &making = craft.get_making();
-    if( get_skill_level( command.get_skill_id() ) > making.difficulty * 1.25 ) {
+    if( get_skill_level( command.get_skill_id() ) > making.get_skill_cap() ) {
         handle_skill_warning( command.get_skill_id(), true );
     }
 
@@ -862,55 +865,50 @@ void Character::start_craft( craft_command &command, const cata::optional<tripoi
         craft.tname() );
 }
 
-void Character::craft_skill_gain( const item &craft, const int &num_practice_ticks )
+bool Character::craft_skill_gain( const item &craft, const int &num_practice_ticks )
 {
     if( !craft.is_craft() ) {
         debugmsg( "craft_skill_check() called on non-craft '%s.' Aborting.", craft.tname() );
-        return;
+        return false;
     }
 
     const recipe &making = craft.get_making();
+    if( !making.skill_used ) {
+        return false;
+    }
+
+    const int skill_cap = making.get_skill_cap();
     const int batch_size = craft.charges;
-
-    std::vector<npc *> helpers = get_crafting_helpers();
-
-    if( making.skill_used ) {
-        const int skill_cap = static_cast<int>( making.difficulty * 1.25 );
-        practice( making.skill_used, num_practice_ticks, skill_cap, true );
-
-        // NPCs assisting or watching should gain experience...
-        for( auto &helper : helpers ) {
-            //If the NPC can understand what you are doing, they gain more exp
-            if( helper->get_skill_level( making.skill_used ) >= making.difficulty ) {
-                helper->practice( making.skill_used, roll_remainder( num_practice_ticks / 2.0 ),
-                                  skill_cap );
-                if( batch_size > 1 && one_in( 300 ) ) {
-                    add_msg( m_info, _( "%s assists with crafting…" ), helper->get_name() );
-                }
-                if( batch_size == 1 && one_in( 300 ) ) {
-                    add_msg( m_info, _( "%s could assist you with a batch…" ), helper->get_name() );
-                }
-                // NPCs around you understand the skill used better
-            } else {
-                helper->practice( making.skill_used, roll_remainder( num_practice_ticks / 10.0 ),
-                                  skill_cap );
-                if( one_in( 300 ) ) {
-                    add_msg( m_info, _( "%s watches you craft…" ), helper->get_name() );
-                }
+    // NPCs assisting or watching should gain experience...
+    for( npc *helper : get_crafting_helpers() ) {
+        // If the NPC can understand what you are doing, they gain more exp
+        if( helper->get_skill_level( making.skill_used ) >= making.difficulty ) {
+            helper->practice( making.skill_used, roll_remainder( num_practice_ticks / 2.0 ),
+                              skill_cap );
+            if( batch_size > 1 && one_in( 300 ) ) {
+                add_msg( m_info, _( "%s assists with crafting…" ), helper->get_name() );
+            }
+            if( batch_size == 1 && one_in( 300 ) ) {
+                add_msg( m_info, _( "%s could assist you with a batch…" ), helper->get_name() );
+            }
+        } else {
+            helper->practice( making.skill_used, roll_remainder( num_practice_ticks / 10.0 ),
+                              skill_cap );
+            if( one_in( 300 ) ) {
+                add_msg( m_info, _( "%s watches you craft…" ), helper->get_name() );
             }
         }
     }
+    return practice( making.skill_used, num_practice_ticks, skill_cap, true );
 }
 
-void Character::craft_proficiency_gain( const item &craft, const time_duration &time )
+bool Character::craft_proficiency_gain( const item &craft, const time_duration &time )
 {
     if( !craft.is_craft() ) {
         debugmsg( "craft_proficiency_gain() called on non-craft %s", craft.tname() );
-        return;
+        return false;
     }
-
     const recipe &making = craft.get_making();
-    std::vector<npc *> helpers = get_crafting_helpers();
 
     // The proficiency, and the multiplier on the time we learn it for
     std::vector<std::tuple<proficiency_id, float, cata::optional<time_duration>>> subjects;
@@ -923,15 +921,13 @@ void Character::craft_proficiency_gain( const item &craft, const time_duration &
             subjects.push_back( subject );
         }
     }
-
-    int amount = to_seconds<int>( time );
-    if( !subjects.empty() ) {
-        amount /= subjects.size();
+    if( subjects.empty() ) {
+        return false;
     }
-    time_duration learn_time = time_duration::from_seconds( amount );
+    const time_duration learn_time = time / subjects.size();
 
     int npc_helper_bonus = 1;
-    for( npc *helper : helpers ) {
+    for( npc *helper : get_crafting_helpers() ) {
         for( const std::tuple<proficiency_id, float, cata::optional<time_duration>> &subject : subjects ) {
             if( helper->has_proficiency( std::get<0>( subject ) ) ) {
                 // NPCs who know the proficiency and help teach you faster
@@ -942,10 +938,12 @@ void Character::craft_proficiency_gain( const item &craft, const time_duration &
         }
     }
 
+    bool gained_prof = false;
     for( const std::tuple<proficiency_id, float, cata::optional<time_duration>> &subject : subjects ) {
-        practice_proficiency( std::get<0>( subject ),
-                              learn_time * std::get<1>( subject ) * npc_helper_bonus, std::get<2>( subject ) );
+        gained_prof |= practice_proficiency( std::get<0>( subject ),
+                                             learn_time * std::get<1>( subject ) * npc_helper_bonus, std::get<2>( subject ) );
     }
+    return gained_prof;
 }
 
 double Character::crafting_success_roll( const recipe &making ) const
@@ -1163,12 +1161,17 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
     const int batch_size = craft.charges;
     std::list<item> &used = craft.components;
     const double relative_rot = craft.get_relative_rot();
-
-    // Set up the new item, and assign an inventory letter if available
-    std::vector<item> newits = making.create_results( batch_size );
-
     const bool should_heat = making.hot_result();
     const bool remove_raw = making.removes_raw();
+    std::vector<item> newits;
+
+    if( making.is_practice() ) {
+        add_msg( _( "You finish practicing %s." ), making.result_name() );
+        // practice recipes don't produce a result item
+    } else {
+        // Set up the new item, and assign an inventory letter if available
+        newits = making.create_results( batch_size );
+    }
 
     bool first = true;
     size_t newit_counter = 0;

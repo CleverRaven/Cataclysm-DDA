@@ -131,8 +131,8 @@ recipe_subset Character::get_available_recipes( const inventory &crafting_inv,
             res.include( get_recipes_from_books( *np->inv ) );
             // Being told what to do
             res.include_if( np->get_learned_recipes(), [ this ]( const recipe & r ) {
-                return get_knowledge_level( r.skill_used ) >= static_cast<int>( r.difficulty *
-                        0.8f ); // Skilled enough to understand
+                return get_knowledge_level( r.skill_used ) >= static_cast<int>( r.get_difficulty(
+                            *this ) * 0.8f ); // Skilled enough to understand
             } );
         }
     }
