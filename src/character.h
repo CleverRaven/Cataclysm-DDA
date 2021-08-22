@@ -521,8 +521,6 @@ class Character : public Creature, public visitable
         int get_fatigue() const;
         int get_sleep_deprivation() const;
 
-        std::pair<std::string, nc_color> get_pain_description() const override;
-
         /** Modifiers for need values exclusive to characters */
         virtual void mod_stored_kcal( int nkcal, bool ignore_weariness = false );
         virtual void mod_stored_nutr( int nnutr );

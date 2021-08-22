@@ -1210,6 +1210,58 @@ std::pair<std::string, nc_color> display::fatigue_text_color( const Character &u
     return std::make_pair( _( fatigue_string ), fatigue_color );
 }
 
+std::pair<std::string, nc_color> display::pain_text_color( const Creature &c )
+{
+    float scale = c.get_perceived_pain() / 10.f;
+    std::string pain_string;
+    nc_color pain_color = c_yellow;
+    if( scale > 7 ) {
+        pain_string = _( "Severe pain" );
+    } else if( scale > 6 ) {
+        pain_string = _( "Intense pain" );
+    } else if( scale > 5 ) {
+        pain_string = _( "Unmanageable pain" );
+    } else if( scale > 4 ) {
+        pain_string = _( "Distressing pain" );
+    } else if( scale > 3 ) {
+        pain_string = _( "Distracting pain" );
+    } else if( scale > 2 ) {
+        pain_string = _( "Moderate pain" );
+    } else if( scale > 1 ) {
+        pain_string = _( "Mild pain" );
+    } else if( scale > 0 ) {
+        pain_string = _( "Minimal pain" );
+    } else {
+        pain_string = _( "No pain" );
+        pain_color = c_white;
+    }
+    return std::make_pair( pain_string, pain_color );
+}
+
+std::pair<std::string, nc_color> display::pain_text_color( const Character &u )
+{
+    // Get base Creature pain text to start with
+    const std::pair<std::string, nc_color> pain = display::pain_text_color(
+                static_cast<const Creature &>( u ) );
+    nc_color pain_color = pain.second;
+    std::string pain_string;
+    // get pain color
+    int perceived_pain = u.get_perceived_pain();
+    if( perceived_pain >= 60 ) {
+        pain_color = c_red;
+    } else if( perceived_pain >= 40 ) {
+        pain_color = c_light_red;
+    }
+    // get pain string
+    if( ( u.has_trait( trait_SELFAWARE ) || u.has_effect( effect_got_checked ) ) &&
+        perceived_pain > 0 ) {
+        pain_string = string_format( "%s %d", _( "Pain " ), perceived_pain );
+    } else if( perceived_pain > 0 ) {
+        pain_string = pain.first;
+    }
+    return std::make_pair( pain_string, pain_color );
+}
+
 static void draw_stats( avatar &u, const catacurses::window &w )
 {
     werase( w );
@@ -1368,7 +1420,7 @@ static void draw_needs_compact( const avatar &u, const catacurses::window &w )
     hunger_pair = display::fatigue_text_color( u );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 0, 1 ), hunger_pair.second, hunger_pair.first );
-    auto pain_pair = u.get_pain_description();
+    auto pain_pair = display::pain_text_color( u );
     mvwprintz( w, point( 0, 2 ), pain_pair.second, pain_pair.first );
 
     hunger_pair = display::thirst_text_color( u );
@@ -1730,7 +1782,7 @@ static void draw_needs_narrow( const avatar &u, const catacurses::window &w )
     std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( u );
     std::pair<std::string, nc_color> rest_pair = display::fatigue_text_color( u );
     std::pair<nc_color, std::string> temp_pair = temp_stat( u );
-    std::pair<std::string, nc_color> pain_pair = u.get_pain_description();
+    std::pair<std::string, nc_color> pain_pair = display::pain_text_color( u );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Hunger:" ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -1754,7 +1806,7 @@ static void draw_needs_labels( const avatar &u, const catacurses::window &w )
     std::pair<std::string, nc_color> rest_pair = display::fatigue_text_color( u );
     std::pair<std::string, nc_color> weight_pair = display::weight_text_color( u );
     std::pair<nc_color, std::string> temp_pair = temp_stat( u );
-    std::pair<std::string, nc_color> pain_pair = u.get_pain_description();
+    std::pair<std::string, nc_color> pain_pair = display::pain_text_color( u );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Pain :" ) );
     mvwprintz( w, point( 8, 0 ), pain_pair.second, pain_pair.first );
@@ -1780,7 +1832,7 @@ static void draw_needs_labels_alt( const avatar &u, const catacurses::window &w 
     std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( u );
     std::pair<std::string, nc_color> rest_pair = display::fatigue_text_color( u );
     std::pair<nc_color, std::string> temp_pair = temp_stat( u );
-    std::pair<std::string, nc_color> pain_pair = u.get_pain_description();
+    std::pair<std::string, nc_color> pain_pair = display::pain_text_color( u );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Pain :" ) );
     mvwprintz( w, point( 8, 0 ), pain_pair.second, pain_pair.first );
@@ -1929,7 +1981,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 27, 4 ), c_white, std::to_string( u.get_focus() ) );
     needs_pair = display::fatigue_text_color( u );
     mvwprintz( w, point( 21, 3 ), needs_pair.second, needs_pair.first );
-    auto pain_pair = u.get_pain_description();
+    auto pain_pair = display::pain_text_color( u );
     mvwprintz( w, point( 21, 0 ), pain_pair.second, pain_pair.first );
 
     // print mood

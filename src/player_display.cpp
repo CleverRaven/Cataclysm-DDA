@@ -1173,7 +1173,7 @@ void Character::disp_info()
     }
     if( get_perceived_pain() > 0 ) {
         const stat_mod ppen = get_pain_penalty();
-        std::pair<std::string, nc_color> pain_desc = get_pain_description();
+        std::pair<std::string, nc_color> pain_desc = display::pain_text_color( *this );
         std::string pain_text;
         pain_desc.first = string_format( _( "You are in %s\n" ), pain_desc.first );
         pain_text += colorize( pain_desc.first, pain_desc.second );
