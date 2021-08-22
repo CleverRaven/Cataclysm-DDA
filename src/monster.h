@@ -429,7 +429,7 @@ class monster : public Creature
         void reset_stats() override;
 
         void die( Creature *killer ) override; //this is the die from Creature, it calls kill_mo
-        void drop_items_on_death();
+        void drop_items_on_death( item *corpse );
 
         // Other
         /**

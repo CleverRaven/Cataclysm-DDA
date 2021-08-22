@@ -2439,9 +2439,6 @@ void monster::die( Creature *nkiller )
     g->set_critter_died();
     dead = true;
     set_killer( nkiller );
-    if( death_drops && !no_extra_death_drops ) {
-        drop_items_on_death();
-    }
     if( get_killer() != nullptr ) {
         Character *ch = get_killer()->as_character();
         if( !is_hallucination() && ch != nullptr ) {
@@ -2454,25 +2451,6 @@ void monster::die( Creature *nkiller )
                 ch->add_morale( MORALE_KILLER_HAS_KILLED, 5, 10, 6_hours, 4_hours );
                 ch->rem_morale( MORALE_KILLER_NEED_TO_KILL );
             }
-        }
-    }
-    if( death_drops ) {
-        // Drop items stored in optionals
-        move_special_item_to_inv( tack_item );
-        move_special_item_to_inv( armor_item );
-        move_special_item_to_inv( storage_item );
-        move_special_item_to_inv( tied_item );
-
-        if( has_effect( effect_lightsnare ) ) {
-            add_item( item( "string_36", calendar::turn_zero ) );
-            add_item( item( "snare_trigger", calendar::turn_zero ) );
-        }
-        if( has_effect( effect_heavysnare ) ) {
-            add_item( item( "rope_6", calendar::turn_zero ) );
-            add_item( item( "snare_trigger", calendar::turn_zero ) );
-        }
-        if( has_effect( effect_beartrap ) ) {
-            add_item( item( "beartrap", calendar::turn_zero ) );
         }
     }
     map &here = get_map();
@@ -2497,11 +2475,6 @@ void monster::die( Creature *nkiller )
                                             _( "The last enemy holding <npcname> collapses!" ) );
                 you->remove_effect( effect_grabbed );
             }
-        }
-    }
-    if( death_drops && !is_hallucination() ) {
-        for( const auto &it : inv ) {
-            here.add_item_or_charges( pos(), it );
         }
     }
 
@@ -2542,19 +2515,48 @@ void monster::die( Creature *nkiller )
         }
     }
 
+    item *corpse;
     // drop a corpse, or not - this needs to happen after the spell, for e.g. revivification effects
     switch( type->mdeath_effect.corpse_type ) {
         case mdeath_type::NORMAL:
-            mdeath::normal( *this );
+            corpse =  mdeath::normal( *this );
             break;
         case mdeath_type::BROKEN:
             mdeath::broken( *this );
             break;
         case mdeath_type::SPLATTER:
-            mdeath::splatter( *this );
+            corpse = mdeath::splatter( *this );
             break;
         default:
             break;
+    }
+
+    if( death_drops && !no_extra_death_drops ) {
+        drop_items_on_death( corpse );
+    }
+    if( death_drops ) {
+        // Drop items stored in optionals
+        move_special_item_to_inv( tack_item );
+        move_special_item_to_inv( armor_item );
+        move_special_item_to_inv( storage_item );
+        move_special_item_to_inv( tied_item );
+
+        if( has_effect( effect_lightsnare ) ) {
+            add_item( item( "string_36", calendar::turn_zero ) );
+            add_item( item( "snare_trigger", calendar::turn_zero ) );
+        }
+        if( has_effect( effect_heavysnare ) ) {
+            add_item( item( "rope_6", calendar::turn_zero ) );
+            add_item( item( "snare_trigger", calendar::turn_zero ) );
+        }
+        if( has_effect( effect_beartrap ) ) {
+            add_item( item( "beartrap", calendar::turn_zero ) );
+        }
+    }
+    if( death_drops && !is_hallucination() ) {
+        for( const auto &it : inv ) {
+            here.add_item_or_charges( pos(), it );
+        }
     }
 
     // If our species fears seeing one of our own die, process that
@@ -2616,7 +2618,7 @@ bool monster::check_mech_powered() const
     return true;
 }
 
-void monster::drop_items_on_death()
+void monster::drop_items_on_death( item *corpse )
 {
     if( is_hallucination() ) {
         return;
@@ -2625,8 +2627,19 @@ void monster::drop_items_on_death()
         return;
     }
 
-    std::vector<item *> dropped = get_map().place_items( type->death_drops, 100, pos(), pos(), true,
-                                  calendar::start_of_cataclysm );
+    std::vector<item> new_items = item_group::items_from( type->death_drops, calendar::start_of_cataclysm,
+                              spawn_flags::use_spawn_rate );
+    std::vector<item *> dropped;
+    if( corpse ) {
+        for( item &it : new_items ) {
+            corpse->put_in( it, item_pocket::pocket_type::CORPSE );
+
+            if( !it.is_null() ) {
+                dropped.push_back( &it );
+            }
+        }
+
+    }
 
     if( has_flag( MF_FILTHY ) ) {
         for( const auto &it : dropped ) {
