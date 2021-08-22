@@ -510,11 +510,11 @@
     "armor": [ { "encumbrance": 40, "coverage": 100, "covers": [ "torso", "arm_l", "arm_r" ] } ]
   },
   {
-    "id": "chestplate_chitin",
+    "id": "cuirass_chitin",
     "type": "ARMOR",
     "category": "armor",
-    "name": { "str": "chitinous chestplate" },
-    "description": "A hard chestplate made from the exoskeletons of insects.",
+    "name": { "str": "chitinous cuirass" },
+    "description": "A hard cuirass made from the exoskeletons of insects.",
     "weight": "1740 g",
     "volume": "12000 ml",
     "price": 120000,
@@ -531,20 +531,20 @@
     "armor": [ { "encumbrance": 10, "coverage": 90, "covers": [ "torso" ] } ]
   },
   {
-    "id": "xl_chestplate_chitin",
+    "id": "xl_cuirass_chitin",
     "type": "ARMOR",
-    "name": { "str": "XL chitinous chestplate" },
-    "copy-from": "chestplate_chitin",
+    "name": { "str": "XL chitinous cuirass" },
+    "copy-from": "cuirass_chitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "STURDY", "OVERSIZE" ]
   },
   {
-    "id": "chestplate_acidchitin",
-    "copy-from": "chestplate_chitin",
+    "id": "cuirass_acidchitin",
+    "copy-from": "cuirass_chitin",
     "looks_like": "armor_chitin",
     "type": "ARMOR",
-    "name": { "str": "biosilicified chitin chestplate" },
-    "description": "A hard chestplate crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
+    "name": { "str": "biosilicified chitin cuirass" },
+    "description": "A hard cuirass crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
     "material": [ "acidchitin" ],
     "material_thickness": 5,
     "environmental_protection": 2,
@@ -554,10 +554,10 @@
     "extend": { "flags": [ "NO_REPAIR" ] }
   },
   {
-    "id": "xl_chestplate_acidchitin",
+    "id": "xl_cuirass_acidchitin",
     "type": "ARMOR",
-    "name": { "str": "XL biosilicified chitin chestplate" },
-    "copy-from": "chestplate_acidchitin",
+    "name": { "str": "XL biosilicified chitin cuirass" },
+    "copy-from": "cuirass_acidchitin",
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25 },
     "flags": [ "STURDY", "OVERSIZE" ]
   }
