@@ -26,20 +26,20 @@
     "spell_data": { "id": "forge_trap" },
     "benign": false
   },
-   {
-  "type": "trap",
-  "id": "tr_spiderden",
-  "name": "Trapdoor spiderden",
-  "color": "green",
-  "symbol": "#",
-  "visibility": 99,
-  "avoidance": 99,
-  "difficulty": 99,
-  "trap_radius": 4,
-  "action": "spell",
-  "spell_data": {
-    "id": "Summon_trapspider"
-  },
-  "always_invisible": true
+  {
+    "type": "trap",
+    "id": "tr_spiderden",
+    "name": "Trapdoor spiderden",
+    "color": "green",
+    "symbol": "#",
+    "visibility": 99,
+    "avoidance": 99,
+    "difficulty": 99,
+    "trap_radius": 4,
+    "action": "spell",
+    "spell_data": {
+      "id": "Summon_trapspider"
+    },
+    "always_invisible": true
 }
 ]
