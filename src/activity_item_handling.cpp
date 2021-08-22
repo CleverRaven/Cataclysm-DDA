@@ -2929,6 +2929,9 @@ int get_auto_consume_moves( Character &you, const bool food )
                 // it's unclean
                 continue;
             }
+            if( comest.get_comestible()->add == add_type::ALCOHOL ) {
+                continue;
+            }
 
             int consume_moves = -Pickup::cost_to_move_item( you, *it ) * std::max( rl_dist( you.pos(),
                                 here.getlocal( loc ) ), 1 );
