@@ -95,6 +95,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "fatigue_text";
         case widget_var::weight_text:
             return "weight_text";
+        case widget_var::weariness_text:
+            return "weariness_text";
         // Fall-through - invalid
         case widget_var::last:
             break;
@@ -284,6 +286,7 @@ bool widget::uses_text_function()
         case widget_var::thirst_text:
         case widget_var::fatigue_text:
         case widget_var::weight_text:
+        case widget_var::weariness_text:
             return true;
         default:
             return false;
@@ -309,6 +312,9 @@ std::string widget::color_text_function_string( const avatar &ava )
             break;
         case widget_var::weight_text:
             desc = display::weight_text_color( ava );
+            break;
+        case widget_var::weariness_text:
+            desc = display::weariness_text_color( ava );
             break;
         default:
             debugmsg( "Unexpected widget_var %s - no text_color function defined",

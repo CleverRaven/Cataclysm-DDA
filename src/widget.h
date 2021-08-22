@@ -42,6 +42,7 @@ enum class widget_var : int {
     thirst_text,    // Thirst description text, color string
     fatigue_text,   // Fagitue description text, color string
     weight_text,    // Weight description text, color string
+    weariness_text, // Weariness description text, color string
     last // END OF ENUMS
 };
 

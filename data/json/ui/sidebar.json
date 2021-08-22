@@ -571,6 +571,14 @@
     "//": "Uses display::hunger_text_color"
   },
   {
+    "id": "weariness_desc",
+    "type": "widget",
+    "label": "Weariness",
+    "style": "text",
+    "var": "weariness_text",
+    "//": "Uses display::weariness_text_color"
+  },
+  {
     "id": "root_layout_wide",
     "type": "widget",
     "style": "layout",
