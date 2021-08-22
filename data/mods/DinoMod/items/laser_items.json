@@ -1,25 +1,5 @@
 [
   {
-    "id": "light_minus_battery_cell",
-    "type": "MAGAZINE",
-    "category": "spare_parts",
-    "name": { "str": "ultra-light battery", "str_pl": "ultra-light batteries" },
-    "description": "This is a light battery cell designed for small size over everything else.  It retains its universal compatibility, though.",
-    "ascii_picture": "ultra_light_battery",
-    "weight": "5 g",
-    "volume": "1 ml",
-    "price": 1500,
-    "price_postapoc": 50,
-    "material": [ "iron", "plastic" ],
-    "symbol": "=",
-    "color": "yellow",
-    "ammo_type": [ "battery" ],
-    "capacity": 50,
-    "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE", "BATTERY_LIGHT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 50 } } ]
-  },
-  {
     "id": "laser_rifle_dino2",
     "type": "GUN",
     "symbol": "(",
