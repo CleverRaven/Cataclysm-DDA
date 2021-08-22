@@ -184,7 +184,7 @@ int widget::get_var_value( const avatar &ava )
     int value = 0;
 
     // Each "var" value refers to some attribute, typically of the avatar, that yields a numeric
-    // value, and can be displayed as a numeric field, a graph, or a series of phrases.
+    // value, and can be displayed as a numeric field, a graph, or a series of text phrases.
     switch( _var ) {
         // Vars with a known max val
         case widget_var::stamina:
@@ -262,8 +262,14 @@ int widget::get_var_value( const avatar &ava )
 std::string widget::show( const avatar &ava )
 {
     if( uses_text_function() ) {
+        // Text functions are a carry-over from before widgets, with existing functions generating
+        // descriptive colorized text for avatar attributes.  The "value" for these is immaterial;
+        // only the final color string is shown.  Bypass value calculation and call the
+        // text-rendering function directly.
         return color_text_function_string( ava );
     } else {
+        // For normal widgets, get current numeric value and potential maximum,
+        // and return a color string rendering of that value in the appropriate style.
         int value = get_var_value( ava );
         int value_max = get_var_max( ava );
         return color_value_string( value, value_max );
@@ -332,8 +338,8 @@ std::string widget::value_string( int value, int value_max )
     std::string ret;
     if( _style == "graph" ) {
         ret += graph( value, value_max );
-    } else if( _style == "phrase" ) {
-        ret += phrase( value, value_max );
+    } else if( _style == "text" ) {
+        ret += text( value, value_max );
     } else if( _style == "number" ) {
         ret += number( value, value_max );
     } else {
@@ -373,7 +379,7 @@ std::string widget::number( int value, int /* value_max */ )
     return string_format( "%d", value );
 }
 
-std::string widget::phrase( int value, int /* value_max */ )
+std::string widget::text( int value, int /* value_max */ )
 {
     return _strings.at( value ).translated();
 }

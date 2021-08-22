@@ -73,7 +73,7 @@ class widget
 
         // Attributes from JSON
         // ----
-        // Display style to indicate the value: "numeric", "graph", "phrases"
+        // Display style to indicate the value: "numeric", "graph", "text"
         std::string _style;
         // Displayed label in the UI
         translation _label;
@@ -131,8 +131,8 @@ class widget
 
         // Return a formatted numeric string
         std::string number( int value, int value_max = 0 );
-        // Return the phrase mapped to a given value for a "phrase" style
-        std::string phrase( int value, int value_max = 0 );
+        // Return the text phrase mapped to a given value for "text" style
+        std::string text( int value, int value_max = 0 );
         // Return the graph part of this widget, rendered with "bucket" or "pool" fill
         std::string graph( int value, int value_max = 0 );
 

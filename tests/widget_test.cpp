@@ -76,21 +76,21 @@ TEST_CASE( "widget value strings", "[widget][value][string]" )
 
 TEST_CASE( "widgets", "[widget][graph][color]" )
 {
-    SECTION( "phrase widgets" ) {
-        widget words = widget_id( "test_phrase_widget" ).obj();
-        REQUIRE( words._style == "phrase" );
+    SECTION( "text widgets" ) {
+        widget words = widget_id( "test_text_widget" ).obj();
+        REQUIRE( words._style == "text" );
 
-        CHECK( words.phrase( 0 ) == "Zero" );
-        CHECK( words.phrase( 1 ) == "One" );
-        CHECK( words.phrase( 2 ) == "Two" );
-        CHECK( words.phrase( 3 ) == "Three" );
-        CHECK( words.phrase( 4 ) == "Four" );
-        CHECK( words.phrase( 5 ) == "Five" );
-        CHECK( words.phrase( 6 ) == "Six" );
-        CHECK( words.phrase( 7 ) == "Seven" );
-        CHECK( words.phrase( 8 ) == "Eight" );
-        CHECK( words.phrase( 9 ) == "Nine" );
-        CHECK( words.phrase( 10 ) == "Ten" );
+        CHECK( words.text( 0 ) == "Zero" );
+        CHECK( words.text( 1 ) == "One" );
+        CHECK( words.text( 2 ) == "Two" );
+        CHECK( words.text( 3 ) == "Three" );
+        CHECK( words.text( 4 ) == "Four" );
+        CHECK( words.text( 5 ) == "Five" );
+        CHECK( words.text( 6 ) == "Six" );
+        CHECK( words.text( 7 ) == "Seven" );
+        CHECK( words.text( 8 ) == "Eight" );
+        CHECK( words.text( 9 ) == "Nine" );
+        CHECK( words.text( 10 ) == "Ten" );
     }
 
     SECTION( "number widget with color" ) {
