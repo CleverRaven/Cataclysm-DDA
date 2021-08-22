@@ -23,14 +23,14 @@ struct ter_t;
 using ter_str_id = string_id<ter_t>;
 
 class JsonObject;
-class player;
+class Character;
 struct iexamine_actor;
 struct furn_t;
 struct itype;
 struct tripoint;
 
-using iexamine_function = void ( * )( player &, const tripoint & );
-using iexamine_function_ref = void( & )( player &, const tripoint & );
+using iexamine_function = void ( * )( Character &, const tripoint & );
+using iexamine_function_ref = void( & )( Character &, const tripoint & );
 
 struct map_bash_info {
     int str_min;            // min str(*) required to bash
@@ -382,7 +382,7 @@ struct map_data_common_t {
         bool has_examine( iexamine_function_ref func ) const;
         bool has_examine( const std::string &action ) const;
         void set_examine( iexamine_function_ref func );
-        void examine( player &, const tripoint & ) const;
+        void examine( Character &, const tripoint & ) const;
 
         int light_emitted = 0;
         // The amount of movement points required to pass this terrain by default.

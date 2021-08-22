@@ -483,9 +483,10 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "gasoline" ],
-    "charges_per_use": 10,
+    "//": "Consumes 0.6 L/h",
+    "charges_per_use": 300,
     "use_action": [ "JACKHAMMER" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 400 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 1200 } } ],
     "flags": [ "STAB", "DIG_TOOL", "POWERED" ]
   },
   {
