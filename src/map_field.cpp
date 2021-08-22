@@ -255,8 +255,9 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
 {
     // TODO: fix point types
     const bool sheltered = g->is_sheltered( p );
-    const int winddirection = g->weather.winddirection;
-    const int windpower = get_local_windpower( g->weather.windspeed, om_ter, p, winddirection,
+    weather_manager &weather = get_weather();
+    const int winddirection = weather.winddirection;
+    const int windpower = get_local_windpower( weather.windspeed, om_ter, p, winddirection,
                           sheltered );
 
     const int current_intensity = cur.get_field_intensity();
@@ -910,8 +911,9 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
     cur.set_field_age( std::max( -24_hours, cur.get_field_age() ) );
     // Entire objects for ter/frn for flags
     bool sheltered = g->is_sheltered( p );
-    int winddirection = g->weather.winddirection;
-    int windpower = get_local_windpower( g->weather.windspeed, om_ter, p, winddirection,
+    weather_manager &weather = get_weather();
+    int winddirection = weather.winddirection;
+    int windpower = get_local_windpower( weather.windspeed, om_ter, p, winddirection,
                                          sheltered );
     const ter_t &ter = map_tile.get_ter_t();
     const furn_t &frn = map_tile.get_furn_t();

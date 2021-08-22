@@ -1674,14 +1674,15 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( text_left, 4 ), ll.second, ll.first );
     // wind
     const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
-    double windpower = get_local_windpower( g->weather.windspeed, cur_om_ter,
-                                            u.pos(), g->weather.winddirection, g->is_sheltered( u.pos() ) );
+    weather_manager &weather = get_weather();
+    double windpower = get_local_windpower( weather.windspeed, cur_om_ter,
+                                            u.pos(), weather.winddirection, g->is_sheltered( u.pos() ) );
     mvwprintz( w, point( text_left, 5 ), get_wind_color( windpower ),
-               get_wind_desc( windpower ) + " " + get_wind_arrow( g->weather.winddirection ) );
+               get_wind_desc( windpower ) + " " + get_wind_arrow( weather.winddirection ) );
 
     if( u.has_item_with_flag( json_flag_THERMOMETER ) ||
         u.has_flag( STATIC( json_character_flag( "THERMOMETER" ) ) ) ) {
-        std::string temp = print_temperature( g->weather.get_temperature( u.pos() ) );
+        std::string temp = print_temperature( weather.get_temperature( u.pos() ) );
         mvwprintz( w, point( 31 - utf8_width( temp ), 5 ), c_light_gray, temp );
     }
 
@@ -1695,10 +1696,11 @@ static void render_wind( avatar &u, const catacurses::window &w, const std::stri
                //~ translation should not exceed 5 console cells
                string_format( formatstr, left_justify( _( "Wind" ), 5 ) ) );
     const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
-    double windpower = get_local_windpower( g->weather.windspeed, cur_om_ter,
-                                            u.pos(), g->weather.winddirection, g->is_sheltered( u.pos() ) );
+    weather_manager &weather = get_weather();
+    double windpower = get_local_windpower( weather.windspeed, cur_om_ter,
+                                            u.pos(), weather.winddirection, g->is_sheltered( u.pos() ) );
     mvwprintz( w, point( 8, 0 ), get_wind_color( windpower ),
-               get_wind_desc( windpower ) + " " + get_wind_arrow( g->weather.winddirection ) );
+               get_wind_desc( windpower ) + " " + get_wind_arrow( weather.winddirection ) );
     wnoutrefresh( w );
 }
 
