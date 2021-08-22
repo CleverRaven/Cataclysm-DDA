@@ -116,11 +116,10 @@ cata::optional<int> itype::invoke( Character &p, item &it, const tripoint &pos )
     if( !has_use() ) {
         return 0;
     }
-    if (use_methods.find("transform") != use_methods.end()) {
-        return  invoke(p, it, pos, "transform");
-    }
-    else {
-        return invoke(p, it, pos, use_methods.begin()->first);
+    if( use_methods.find( "transform" ) != use_methods.end() ) {
+        return  invoke( p, it, pos, "transform" );
+    } else {
+        return invoke( p, it, pos, use_methods.begin()->first );
     }
 }
 
