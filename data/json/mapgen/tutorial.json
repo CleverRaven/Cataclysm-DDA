@@ -84,7 +84,6 @@
         ],
         ")": { "item": "baseball", "chance": 100, "amount": 10 },
         "_": { "item": "codeine", "chance": 100 },
-        "-": { "item": "bubblewrap", "chance": 100 },
         "C": [ { "item": "peanutbutter", "chance": 100 }, { "item": "crackers", "chance": 100 } ]
       },
       "monster": { "d": { "monster": "mon_dummy_tutorial" } },

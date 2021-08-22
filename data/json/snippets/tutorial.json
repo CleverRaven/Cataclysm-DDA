@@ -133,7 +133,7 @@
       },
       {
         "id": "LESSON_ACT_BUBBLEWRAP",
-        "text": "You just placed a <color_light_cyan>trap</color>.  Traps are permanent until set off, and can be an important defensive tactic, particularly when sleeping in unsafe territory.  Try stepping on a bubblewrap - don't worry, it's a harmless."
+        "text": "This thing here on a floor is a <color_light_cyan>trap</color>.  Traps are permanent until set off, and can be an important defensive tactic, particularly when sleeping in unsafe territory.  Try stepping on a bubblewrap - don't worry, it's a harmless."
       },
       {
         "id": "LESSON_OVERLOADED",
