@@ -1801,7 +1801,7 @@ void activity_handlers::pulp_do_turn( player_activity *act, Character *you )
     map &here = get_map();
     const tripoint &pos = here.getlocal( act->placement );
 
-    const item *weapon = p->get_wielded_item();
+    const item *weapon = you->get_wielded_item();
     // Stabbing weapons are a lot less effective at pulping
     const int cut_power = std::max( weapon->damage_melee( damage_type::CUT ),
                                     weapon->damage_melee( damage_type::STAB ) / 2 );
