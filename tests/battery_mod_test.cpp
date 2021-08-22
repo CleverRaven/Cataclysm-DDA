@@ -61,8 +61,6 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
         // The battery mod does not use ammo_modifier (since it gives explicit battery ids)
         CHECK( med_mod.type->mod->ammo_modifier.empty() );
 
-        // And has some magazine adaptors
-        CHECK_FALSE( med_mod.type->mod->magazine_adaptor.empty() );
         // Mod itself has no ammo types
         CHECK( med_mod.ammo_types().empty() );
 
@@ -95,7 +93,7 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
 
             THEN( "tool modification is successful" ) {
                 CHECK_FALSE( flashlight.toolmods().empty() );
-                CHECK_FALSE( flashlight.magazine_compatible().empty() );
+                CHECK_FALSE( flashlight.get_contents().magazine_flag_restrictions().empty() );
 
                 CHECK( flashlight.tname() == "flashlight (off)+1" );
             }
@@ -103,11 +101,10 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
             THEN( "medium batteries can be installed" ) {
                 CHECK( flashlight.is_reloadable() );
                 CHECK( flashlight.is_reloadable_with( itype_id( "medium_battery_cell" ) ) );
-                const std::set<itype_id> mag_compats = flashlight.magazine_compatible();
-                CHECK( mag_compats.count( itype_id( "medium_battery_cell" ) ) == 1 );
-                CHECK( mag_compats.count( itype_id( "medium_plus_battery_cell" ) ) == 1 );
-                CHECK( mag_compats.count( itype_id( "medium_atomic_battery_cell" ) ) == 1 );
-                CHECK( mag_compats.count( itype_id( "medium_disposable_cell" ) ) == 1 );
+                CHECK( flashlight.is_reloadable_with( itype_id( "medium_battery_cell" ) ) );
+                CHECK( flashlight.is_reloadable_with( itype_id( "medium_plus_battery_cell" ) ) );
+                CHECK( flashlight.is_reloadable_with( itype_id( "medium_atomic_battery_cell" ) ) );
+                CHECK( flashlight.is_reloadable_with( itype_id( "medium_disposable_cell" ) ) );
                 CHECK( flashlight.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
             }
 
@@ -159,7 +156,7 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
                     // Regression tests for #42764 / #42854
                     THEN( "mod remains installed" ) {
                         CHECK_FALSE( flashlight.toolmods().empty() );
-                        CHECK_FALSE( flashlight.magazine_compatible().empty() );
+                        CHECK_FALSE( flashlight.get_contents().magazine_flag_restrictions().empty() );
                     }
                     THEN( "battery remains installed" ) {
                         CHECK( flashlight.magazine_current() );
