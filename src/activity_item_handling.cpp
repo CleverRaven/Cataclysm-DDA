@@ -2929,7 +2929,7 @@ int get_auto_consume_moves( Character &you, const bool food )
                 // it's unclean
                 continue;
             }
-            if( comest.get_comestible()->add == add_type::ALCOHOL ) {
+            if( comest.get_comestible()->add == add_type::ALCOHOL && !you.has_addiction( add_type::ALCOHOL ) ) {
                 continue;
             }
 
