@@ -89,7 +89,7 @@
     "type": "GENERIC",
     "id": "coin_nickel",
     "name": { "str": "coin" },
-    "description": "An ancient form of currency bearing the inscription \"E PLURIBUS UNUM.\"",
+    "description": "A five-cent coin bearing the inscription \"E PLURIBUS UNUM\". You could flip it.",
     "weight": "5 g",
     "volume": "1 ml",
     "price": 5,
