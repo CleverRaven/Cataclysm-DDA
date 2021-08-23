@@ -10148,6 +10148,13 @@ void Character::shout( std::string msg, bool order )
                    "shout", shout );
 }
 
+void Character::signal_nemesis()
+{
+    const tripoint_abs_omt ompos = global_omt_location();
+    const tripoint_abs_sm smpos = project_to<coords::sm>( ompos );
+    overmap_buffer.signal_nemesis( smpos );
+}
+
 void Character::vomit()
 {
     get_event_bus().send<event_type::throws_up>( getID() );

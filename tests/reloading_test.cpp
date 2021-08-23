@@ -14,7 +14,6 @@
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "player.h"
 #include "player_activity.h"
 #include "player_helpers.h"
 #include "point.h"
@@ -25,7 +24,7 @@
 
 TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
 {
-    player &dummy = get_avatar();
+    Character &dummy = get_avatar();
 
     clear_avatar();
     // Make sure the player doesn't drop anything :P
@@ -46,7 +45,7 @@ TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
 
 TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun]" )
 {
-    player &dummy = get_avatar();
+    Character &dummy = get_avatar();
 
     clear_avatar();
     // Make sure the player doesn't drop anything :P
@@ -80,7 +79,7 @@ TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun
 
 TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
 {
-    player &dummy = get_avatar();
+    Character &dummy = get_avatar();
 
     clear_avatar();
     // Make sure the player doesn't drop anything :P
@@ -133,7 +132,7 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
     REQUIRE( gun.remaining_ammo_capacity() == 0 );
 }
 
-static void reload_a_revolver( player &dummy, item &gun, item &ammo )
+static void reload_a_revolver( Character &dummy, item &gun, item &ammo )
 {
     if( !dummy.is_wielding( gun ) ) {
         if( dummy.has_weapon() ) {
@@ -156,7 +155,7 @@ static void reload_a_revolver( player &dummy, item &gun, item &ammo )
 
 TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 {
-    player &dummy = get_avatar();
+    Character &dummy = get_avatar();
 
     clear_avatar();
     // Make sure the player doesn't drop anything :P
@@ -310,7 +309,7 @@ TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 // TODO: nested containers and frozen liquids.
 TEST_CASE( "reload_liquid_container", "[reload],[liquid]" )
 {
-    player &dummy = get_avatar();
+    Character &dummy = get_avatar();
     clear_avatar();
     clear_map();
     item backpack( item( "bigback" ) );

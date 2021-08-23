@@ -17,7 +17,6 @@ class Character;
 class faction;
 class item;
 class npc;
-class player;
 class ui_adaptor;
 
 class item_pricing
