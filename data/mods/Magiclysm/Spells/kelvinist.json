@@ -7,6 +7,7 @@
     "valid_targets": [ "hostile" ],
     "flags": [ "CONCENTRATE", "SOMATIC", "LOUD", "NO_PROJECTILE" ],
     "effect": "attack",
+    "extra_effects": [ { "id": "sound_effect", "hit_self": true } ],
     "shape": "blast",
     "damage_type": "heat",
     "min_damage": 16,
@@ -23,6 +24,22 @@
     "energy_source": "MANA"
   },
   {
+    "type": "SPELL",
+    "id": "sound_effect",
+    "name": { "str": "sound_effect" },
+    "description": "sound_effect.",
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_sound_effect"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_sound_effect",
+    "effect": [ { "sound_effect": "point_flare", "id": "environment" }, { "npc_message": "Test" } ]
+  },
+  {
     "id": "nova_flare",
     "type": "SPELL",
     "name": "Nova Flare",
@@ -31,6 +48,7 @@
     "flags": [ "CONCENTRATE", "SOMATIC", "LOUD", "NO_PROJECTILE" ],
     "components": "spell_components_nova_flare",
     "effect": "attack",
+    "extra_effects": [ { "id": "sound_effect", "hit_self": true } ],
     "shape": "blast",
     "damage_type": "heat",
     "min_damage": 45,
@@ -47,6 +65,22 @@
     "energy_source": "MANA"
   },
   {
+    "type": "SPELL",
+    "id": "sound_effect",
+    "name": { "str": "sound_effect" },
+    "description": "sound_effect.",
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_sound_effect"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_sound_effect",
+    "effect": [ { "sound_effect": "nova_flare", "id": "environment" }, { "npc_message": "Test" } ]
+  },
+  {
     "id": "create_lighter",
     "type": "SPELL",
     "name": "Finger Firelighter",
@@ -54,6 +88,7 @@
     "valid_targets": [ "none" ],
     "flags": [ "NO_LEGS" ],
     "effect": "spawn_item",
+    "extra_effects": [ { "id": "sound_effect", "hit_self": true } ],
     "effect_str": "finger_firelighter",
     "shape": "blast",
     "min_damage": 1,
@@ -71,6 +106,22 @@
     "difficulty": 0
   },
   {
+    "type": "SPELL",
+    "id": "sound_effect",
+    "name": { "str": "sound_effect" },
+    "description": "sound_effect.",
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_sound_effect"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_sound_effect",
+    "effect": [ { "sound_effect": "create_lighter", "id": "environment" }, { "npc_message": "Test" } ]
+  },
+  {
     "id": "ice_spike",
     "type": "SPELL",
     "name": "Ice Spike",
@@ -78,6 +129,7 @@
     "valid_targets": [ "hostile" ],
     "flags": [ "CONCENTRATE", "SOMATIC", "LOUD", "VERBAL", "NO_PROJECTILE" ],
     "effect": "attack",
+    "extra_effects": [ { "id": "sound_effect", "hit_self": true } ],
     "shape": "blast",
     "damage_type": "cold",
     "min_damage": 30,
@@ -94,11 +146,28 @@
     "base_energy_cost": 100
   },
   {
+    "type": "SPELL",
+    "id": "sound_effect",
+    "name": { "str": "sound_effect" },
+    "description": "sound_effect.",
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_sound_effect"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_sound_effect",
+    "effect": [ { "sound_effect": "ice_spike", "id": "environment" }, { "npc_message": "Test" } ]
+  },
+  {
     "id": "fireball",
     "type": "SPELL",
     "name": "Fireball",
     "description": "You hurl a pea-sized glowing orb that when reaches its target or an obstacle produces a pressure-less blast of searing heat.",
     "effect": "attack",
+    "extra_effects": [ { "id": "sound_effect", "hit_self": true } ],
     "shape": "blast",
     "valid_targets": [ "self", "ally", "hostile", "ground" ],
     "flags": [ "SOMATIC", "VERBAL", "NO_LEGS", "IGNITE_FLAMMABLE" ],
@@ -120,11 +189,28 @@
     "damage_type": "heat"
   },
   {
+    "type": "SPELL",
+    "id": "sound_effect",
+    "name": { "str": "sound_effect" },
+    "description": "sound_effect.",
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_sound_effect"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_sound_effect",
+    "effect": [ { "sound_effect": "fireball", "id": "environment" }, { "npc_message": "Test" } ]
+  },
+  {
     "id": "cone_cold",
     "type": "SPELL",
     "name": "Cone of Cold",
     "description": "You blast a cone of frigid air toward the target.",
     "effect": "attack",
+    "extra_effects": [ { "id": "sound_effect", "hit_self": true } ],
     "shape": "cone",
     "valid_targets": [ "ally", "hostile", "ground" ],
     "flags": [ "SOMATIC", "VERBAL" ],
@@ -150,11 +236,28 @@
     "damage_type": "cold"
   },
   {
+    "type": "SPELL",
+    "id": "sound_effect",
+    "name": { "str": "sound_effect" },
+    "description": "sound_effect.",
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_sound_effect"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_sound_effect",
+    "effect": [ { "sound_effect": "cone_cold", "id": "environment" }, { "npc_message": "Test" } ]
+  },
+  {
     "id": "burning_hands",
     "type": "SPELL",
     "name": { "str": "Burning Hands" },
     "description": "You're pretty sure you saw this in a game somewhere.  You fire a short-range cone of fire.",
     "effect": "attack",
+    "extra_effects": [ { "id": "sound_effect", "hit_self": true } ],
     "shape": "cone",
     "valid_targets": [ "ally", "hostile", "ground" ],
     "flags": [ "SOMATIC", "VERBAL", "IGNITE_FLAMMABLE" ],
@@ -176,12 +279,29 @@
     "damage_type": "heat"
   },
   {
+    "type": "SPELL",
+    "id": "sound_effect",
+    "name": { "str": "sound_effect" },
+    "description": "sound_effect.",
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_sound_effect"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_sound_effect",
+    "effect": [ { "sound_effect": "burning_hands", "id": "environment" }, { "npc_message": "Test" } ]
+  },
+  {
     "id": "frost_spray",
     "type": "SPELL",
     "name": "Frost Spray",
     "description": "You're pretty sure you saw this in a game somewhere.  You fire a short-range cone of ice and cold.",
     "effect": "attack",
     "effect_str": "cold",
+    "extra_effects": [ { "id": "sound_effect", "hit_self": true } ],
     "shape": "cone",
     "affected_body_parts": [ "torso" ],
     "valid_targets": [ "ally", "hostile", "ground" ],
@@ -204,6 +324,22 @@
     "damage_type": "cold"
   },
   {
+    "type": "SPELL",
+    "id": "sound_effect",
+    "name": { "str": "sound_effect" },
+    "description": "sound_effect.",
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_sound_effect"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_sound_effect",
+    "effect": [ { "sound_effect": "frost_spray", "id": "environment" }, { "npc_message": "Test" } ]
+  },
+  {
     "id": "chilling_touch",
     "type": "SPELL",
     "name": "Chilling Touch",
@@ -212,6 +348,7 @@
     "flags": [ "SOMATIC", "NO_PROJECTILE" ],
     "effect": "attack",
     "effect_str": "cold",
+    "extra_effects": [ { "id": "sound_effect", "hit_self": true } ],
     "shape": "blast",
     "affected_body_parts": [ "torso" ],
     "damage_type": "cold",
@@ -228,6 +365,22 @@
     "energy_source": "MANA"
   },
   {
+    "type": "SPELL",
+    "id": "sound_effect",
+    "name": { "str": "sound_effect" },
+    "description": "sound_effect.",
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_sound_effect"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_sound_effect",
+    "effect": [ { "sound_effect": "chilling_touch", "id": "environment" }, { "npc_message": "Test" } ]
+  },
+  {
     "id": "glide_ice",
     "type": "SPELL",
     "name": "Glide on Ice",
@@ -238,6 +391,7 @@
     "max_damage": 1,
     "effect": "spawn_item",
     "effect_str": "ice_gliders",
+    "extra_effects": [ { "id": "sound_effect", "hit_self": true } ],
     "shape": "blast",
     "energy_source": "MANA",
     "spell_class": "KELVINIST",
@@ -250,12 +404,29 @@
     "duration_increment": 2000
   },
   {
+    "type": "SPELL",
+    "id": "sound_effect",
+    "name": { "str": "sound_effect" },
+    "description": "sound_effect.",
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_sound_effect"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_sound_effect",
+    "effect": [ { "sound_effect": "glide_ice", "id": "environment" }, { "npc_message": "Test" } ]
+  },
+  {
     "id": "hoary_blast",
     "type": "SPELL",
     "name": "Hoary Blast",
     "description": "You project a glowing white crystal of ice and it explodes on impact into a blossom of shattering cold.",
     "effect": "attack",
     "effect_str": "cold",
+    "extra_effects": [ { "id": "sound_effect", "hit_self": true } ],
     "shape": "blast",
     "affected_body_parts": [ "torso" ],
     "valid_targets": [ "self", "ally", "hostile", "ground" ],
@@ -278,6 +449,22 @@
     "damage_type": "cold"
   },
   {
+    "type": "SPELL",
+    "id": "sound_effect",
+    "name": { "str": "sound_effect" },
+    "description": "sound_effect.",
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_sound_effect"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_sound_effect",
+    "effect": [ { "sound_effect": "hoary_blast", "id": "environment" }, { "npc_message": "Test" } ]
+  },
+  {
     "id": "ice_shield",
     "type": "SPELL",
     "name": "Ice Shield",
@@ -288,6 +475,7 @@
     "max_damage": 1,
     "effect": "spawn_item",
     "effect_str": "shield_ice",
+    "extra_effects": [ { "id": "sound_effect", "hit_self": true } ],
     "shape": "blast",
     "energy_source": "MANA",
     "spell_class": "KELVINIST",
@@ -300,6 +488,22 @@
     "duration_increment": 3000
   },
   {
+    "type": "SPELL",
+    "id": "sound_effect",
+    "name": { "str": "sound_effect" },
+    "description": "sound_effect.",
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_sound_effect"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_sound_effect",
+    "effect": [ { "sound_effect": "ice_shield", "id": "environment" }, { "npc_message": "Test" } ]
+  },
+  {
     "id": "frost_armor",
     "type": "SPELL",
     "name": "Frost Armor",
@@ -308,6 +512,7 @@
     "flags": [ "NO_LEGS", "CONCENTRATE", "VERBAL", "SOMATIC" ],
     "effect": "spawn_item",
     "effect_str": "armor_frost",
+    "extra_effects": [ { "id": "sound_effect", "hit_self": true } ],
     "shape": "blast",
     "affected_body_parts": [ "head", "torso", "leg_l", "leg_r", "arm_r", "arm_l" ],
     "energy_source": "MANA",
@@ -321,6 +526,22 @@
     "duration_increment": 3000
   },
   {
+    "type": "SPELL",
+    "id": "sound_effect",
+    "name": { "str": "sound_effect" },
+    "description": "sound_effect.",
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_sound_effect"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_sound_effect",
+    "effect": [ { "sound_effect": "frost_armor", "id": "environment" }, { "npc_message": "Test" } ]
+  },
+  {
     "id": "create_rune_kelvinist",
     "type": "SPELL",
     "name": "Kelvinist Rune",
@@ -330,6 +551,7 @@
     "max_damage": 1,
     "effect": "spawn_item",
     "effect_str": "rune_kelvinist",
+    "extra_effects": [ { "id": "sound_effect", "hit_self": true } ],
     "shape": "blast",
     "base_casting_time": 5000,
     "base_energy_cost": 5,
@@ -343,6 +565,22 @@
     "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
   },
   {
+    "type": "SPELL",
+    "id": "sound_effect",
+    "name": { "str": "sound_effect" },
+    "description": "sound_effect.",
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_sound_effect"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_sound_effect",
+    "effect": [ { "sound_effect": "create_rune_kelvinist", "id": "environment" }, { "npc_message": "Test" } ]
+  },
+  {
     "id": "kelvinist_summon_flamesword",
     "type": "SPELL",
     "name": "Flamesword",
@@ -351,6 +589,7 @@
     "flags": [ "NO_LEGS" ],
     "effect": "spawn_item",
     "effect_str": "flamesword",
+    "extra_effects": [ { "id": "sound_effect", "hit_self": true } ],
     "shape": "blast",
     "components": "spell_components_flamesword",
     "min_damage": 1,
@@ -366,11 +605,28 @@
     "difficulty": 4
   },
   {
+    "type": "SPELL",
+    "id": "sound_effect",
+    "name": { "str": "sound_effect" },
+    "description": "sound_effect.",
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_sound_effect"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_sound_effect",
+    "effect": [ { "sound_effect": "kelvinist_summon_flamesword", "id": "environment" }, { "npc_message": "Test" } ]
+  },
+  {
     "id": "kelvinist_flamebreath",
     "type": "SPELL",
     "name": { "str": "Flamebreath" },
     "description": "This spell ignites dust scattered in the air, creating a cone of flame.  The hot ashes can cling to targets, causing additional burns over time.",
     "effect": "attack",
+    "extra_effects": [ { "id": "sound_effect", "hit_self": true } ],
     "shape": "cone",
     "valid_targets": [ "ally", "hostile", "ground" ],
     "flags": [ "SOMATIC", "CONCENTRATE", "IGNITE_FLAMMABLE" ],
@@ -397,6 +653,22 @@
     "energy_source": "MANA",
     "difficulty": 5,
     "damage_type": "heat"
+  },
+  {
+    "type": "SPELL",
+    "id": "sound_effect",
+    "name": { "str": "sound_effect" },
+    "description": "sound_effect.",
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_sound_effect"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_sound_effect",
+    "effect": [ { "sound_effect": "kelvinist_flamebreath", "id": "environment" }, { "npc_message": "Test" } ]
   },
   {
     "id": "freezing_touch_slow_effect",
@@ -437,6 +709,22 @@
     "max_level": 18,
     "base_casting_time": 100,
     "energy_source": "MANA",
-    "extra_effects": [ { "id": "freezing_touch_slow_effect" } ]
+    "extra_effects": [ { "id": "freezing_touch_slow_effect" }, { "id": "sound_effect", "hit_self": true } ]
+  },
+  {
+    "type": "SPELL",
+    "id": "sound_effect",
+    "name": { "str": "sound_effect" },
+    "description": "sound_effect.",
+    "valid_targets": [ "self" ],
+    "max_level": 1,
+    "shape": "blast",
+    "effect": "effect_on_condition",
+    "effect_str": "EOC_sound_effect"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "EOC_sound_effect",
+    "effect": [ { "sound_effect": "freezeing_touch", "id": "environment" }, { "npc_message": "Test" } ]
   }
 ]
