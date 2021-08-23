@@ -203,7 +203,7 @@ static void eff_fun_fungus( Character &u, effect &it )
 
                 u.moves = -500;
                 map &here = get_map();
-                fungal_effects fe( *g, here );
+                fungal_effects fe;
                 for( const tripoint &sporep : here.points_in_radius( u.pos(), 1 ) ) {
                     if( sporep == u.pos() ) {
                         continue;

@@ -558,12 +558,12 @@ void field_processor_spread_gas( const tripoint &p, field_entry &cur, field_proc
 }
 
 static void field_processor_fd_fungal_haze( const tripoint &p, field_entry &cur,
-        field_proc_data &pd )
+        field_proc_data &/*pd*/ )
 {
     // if( cur_fd_type_id == fd_fungal_haze ) {
     if( one_in( 10 - 2 * cur.get_field_intensity() ) ) {
         // Haze'd terrain
-        fungal_effects( *g, pd.here ).spread_fungus( p );
+        fungal_effects().spread_fungus( p );
     }
 }
 

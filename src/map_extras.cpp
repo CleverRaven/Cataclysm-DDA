@@ -26,7 +26,6 @@
 #include "enums.h"
 #include "field_type.h"
 #include "fungal_effects.h"
-#include "game.h"
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "item.h"
@@ -1612,7 +1611,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
         //Mycus spreading through the portal
         case 1: {
             m.add_field( portal_location, fd_fatigue, 3 );
-            fungal_effects fe( *g, m );
+            fungal_effects fe;
             for( const auto &loc : m.points_in_radius( portal_location, 5 ) ) {
                 if( one_in( 3 ) ) {
                     fe.marlossify( loc );

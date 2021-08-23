@@ -3301,7 +3301,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
 
     if( ( smash_furn && has_flag_furn( "FUNGUS", p ) ) ||
         ( smash_ter && has_flag_ter( "FUNGUS", p ) ) ) {
-        fungal_effects( *g, *this ).create_spores( p );
+        fungal_effects().create_spores( p );
     }
 
     if( params.destroy ) {
