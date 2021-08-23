@@ -52,7 +52,6 @@
 #include "npc.h"
 #include "optional.h"
 #include "overmapbuffer.h"
-#include "player.h"
 #include "point.h"
 #include "rng.h"
 #include "scent_block.h"
@@ -1722,19 +1721,19 @@ void map::creature_in_field( Creature &critter )
     if( critter.is_monster() ) {
         monster_in_field( *static_cast<monster *>( &critter ) );
     } else {
-        player *u = critter.as_player();
-        if( u ) {
-            in_vehicle = u->in_vehicle;
+        Character *you = critter.as_character();
+        if( you ) {
+            in_vehicle = you->in_vehicle;
             // If we are in a vehicle figure out if we are inside (reduces effects usually)
             // and what part of the vehicle we need to deal with.
             if( in_vehicle ) {
-                if( const optional_vpart_position vp = veh_at( u->pos() ) ) {
+                if( const optional_vpart_position vp = veh_at( you->pos() ) ) {
                     if( vp->is_inside() ) {
                         inside_vehicle = true;
                     }
                 }
             }
-            player_in_field( *u );
+            player_in_field( *you );
         }
     }
 

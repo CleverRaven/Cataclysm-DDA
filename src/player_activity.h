@@ -25,7 +25,6 @@ class JsonIn;
 class JsonOut;
 class avatar;
 class monster;
-class player;
 class translation;
 
 class player_activity
@@ -153,7 +152,7 @@ class player_activity
          * at the end of the turn, do_turn also executes whatever actions, if
          * any, are needed to conclude the activity.
          */
-        void do_turn( player &p );
+        void do_turn( Character &you );
 
         /**
          * Performs activity-specific cleanup when Character::cancel_activity() is called

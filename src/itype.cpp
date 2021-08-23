@@ -3,10 +3,10 @@
 #include <cstdlib>
 #include <utility>
 
+#include "character.h"
 #include "debug.h"
 #include "item.h"
 #include "make_static.h"
-#include "player.h"
 #include "recipe.h"
 #include "ret_val.h"
 #include "translations.h"
