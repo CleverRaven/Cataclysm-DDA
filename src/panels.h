@@ -16,6 +16,11 @@ class JsonOut;
 class avatar;
 struct point;
 
+namespace activity_level
+{
+std::string activity_level_str( float level );
+} // namespace activity_level
+
 namespace catacurses
 {
 class window;
@@ -108,8 +113,8 @@ class panel_manager
         void update_offsets( int x );
 
         // The amount of screen space from each edge the sidebar takes up
-        int width_right = 0;
-        int width_left = 0;
+        int width_right = 0; // NOLINT(cata-serialize)
+        int width_left = 0; // NOLINT(cata-serialize)
         std::string current_layout_id;
         std::map<std::string, panel_layout> layouts;
 

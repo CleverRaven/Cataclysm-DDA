@@ -84,7 +84,6 @@
 #include "overmapbuffer.h"
 #include "path_info.h" // IWYU pragma: keep
 #include "pimpl.h"
-#include "player.h"
 #include "point.h"
 #include "popup.h"
 #include "recipe_dictionary.h"
@@ -138,6 +137,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::SPAWN_NPC: return "SPAWN_NPC";
         case debug_menu::debug_menu_index::SPAWN_MON: return "SPAWN_MON";
         case debug_menu::debug_menu_index::GAME_STATE: return "GAME_STATE";
+        case debug_menu::debug_menu_index::KILL_AREA: return "KILL_AREA";
         case debug_menu::debug_menu_index::KILL_NPCS: return "KILL_NPCS";
         case debug_menu::debug_menu_index::MUTATE: return "MUTATE";
         case debug_menu::debug_menu_index::SPAWN_VEHICLE: return "SPAWN_VEHICLE";
@@ -173,6 +173,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::CRASH_GAME: return "CRASH_GAME";
         case debug_menu::debug_menu_index::MAP_EXTRA: return "MAP_EXTRA";
         case debug_menu::debug_menu_index::DISPLAY_NPC_PATH: return "DISPLAY_NPC_PATH";
+        case debug_menu::debug_menu_index::DISPLAY_NPC_ATTACK: return "DISPLAY_NPC_ATTACK";
         case debug_menu::debug_menu_index::PRINT_FACTION_INFO: return "PRINT_FACTION_INFO";
         case debug_menu::debug_menu_index::PRINT_NPC_MAGIC: return "PRINT_NPC_MAGIC";
         case debug_menu::debug_menu_index::QUIT_NOSAVE: return "QUIT_NOSAVE";
@@ -216,7 +217,7 @@ class mission_debug
         static void remove_mission( mission &m );
     public:
         static void edit_mission( mission &m );
-        static void edit( player &who );
+        static void edit( Character &who );
         static void edit_player();
         static void edit_npc( npc &who );
         static std::string describe( const mission &m );
@@ -272,6 +273,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( debug_menu_index::HOUR_TIMER, true, 'E', _( "Toggle hour timer" ) ) },
             { uilist_entry( debug_menu_index::TRAIT_GROUP, true, 't', _( "Test trait group" ) ) },
             { uilist_entry( debug_menu_index::DISPLAY_NPC_PATH, true, 'n', _( "Toggle NPC pathfinding on map" ) ) },
+            { uilist_entry( debug_menu_index::DISPLAY_NPC_ATTACK, true, 'A', _( "Toggle NPC attack potential values on map" ) ) },
             { uilist_entry( debug_menu_index::PRINT_FACTION_INFO, true, 'f', _( "Print faction info to console" ) ) },
             { uilist_entry( debug_menu_index::PRINT_NPC_MAGIC, true, 'M', _( "Print NPC magic info to console" ) ) },
             { uilist_entry( debug_menu_index::TEST_WEATHER, true, 'W', _( "Test weather" ) ) },
@@ -337,6 +339,7 @@ static int map_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::REVEAL_MAP, true, 'r', _( "Reveal map" ) ) },
+        { uilist_entry( debug_menu_index::KILL_AREA, true, 'a', _( "Kill in Area" ) ) },
         { uilist_entry( debug_menu_index::KILL_NPCS, true, 'k', _( "Kill NPCs" ) ) },
         { uilist_entry( debug_menu_index::MAP_EDITOR, true, 'M', _( "Map editor" ) ) },
         { uilist_entry( debug_menu_index::CHANGE_WEATHER, true, 'w', _( "Change weather" ) ) },
@@ -1143,7 +1146,7 @@ void character_edit_menu()
     const size_t index = charmenu.ret;
     // The NPC is also required for "Add mission", so has to be in this scope
     npc *np = g->critter_at<npc>( locations[index], false );
-    player &p = np ? *np->as_player() : *player_character.as_player();
+    Character &you = np ? *np->as_character() : *player_character.as_character();
     uilist nmenu;
 
     if( np != nullptr ) {
@@ -1214,7 +1217,7 @@ void character_edit_menu()
     nmenu.addentry( D_ADD_EFFECT, true, 'E', "%s", _( "Add an [E]ffect" ) );
     nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attac[k]" ) );
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit [M]issions (WARNING: Unstable!)" ) );
-    if( p.is_npc() ) {
+    if( you.is_npc() ) {
         nmenu.addentry( D_MISSION_ADD, true, 'm', "%s", _( "Add [m]ission" ) );
         nmenu.addentry( D_CLASS, true, 'c', "%s", _( "Randomize with [c]lass" ) );
         nmenu.addentry( D_ATTITUDE, true, 'A', "%s", _( "Set [A]ttitude" ) );
@@ -1223,28 +1226,28 @@ void character_edit_menu()
     nmenu.query();
     switch( nmenu.ret ) {
         case D_SKILLS:
-            wishskill( &p );
+            wishskill( &you );
             break;
         case D_STATS: {
             uilist smenu;
-            smenu.addentry( 0, true, 'S', "%s: %d", _( "Maximum strength" ), p.str_max );
-            smenu.addentry( 1, true, 'D', "%s: %d", _( "Maximum dexterity" ), p.dex_max );
-            smenu.addentry( 2, true, 'I', "%s: %d", _( "Maximum intelligence" ), p.int_max );
-            smenu.addentry( 3, true, 'P', "%s: %d", _( "Maximum perception" ), p.per_max );
+            smenu.addentry( 0, true, 'S', "%s: %d", _( "Maximum strength" ), you.str_max );
+            smenu.addentry( 1, true, 'D', "%s: %d", _( "Maximum dexterity" ), you.dex_max );
+            smenu.addentry( 2, true, 'I', "%s: %d", _( "Maximum intelligence" ), you.int_max );
+            smenu.addentry( 3, true, 'P', "%s: %d", _( "Maximum perception" ), you.per_max );
             smenu.query();
             int *bp_ptr = nullptr;
             switch( smenu.ret ) {
                 case 0:
-                    bp_ptr = &p.str_max;
+                    bp_ptr = &you.str_max;
                     break;
                 case 1:
-                    bp_ptr = &p.dex_max;
+                    bp_ptr = &you.dex_max;
                     break;
                 case 2:
-                    bp_ptr = &p.int_max;
+                    bp_ptr = &you.int_max;
                     break;
                 case 3:
-                    bp_ptr = &p.per_max;
+                    bp_ptr = &you.per_max;
                     break;
                 default:
                     break;
@@ -1254,30 +1257,30 @@ void character_edit_menu()
                 int value;
                 if( query_int( value, _( "Set the stat to?  Currently: %d" ), *bp_ptr ) && value >= 0 ) {
                     *bp_ptr = value;
-                    p.reset_stats();
+                    you.reset_stats();
                 }
             }
         }
         break;
         case D_SPELLS:
-            change_spells( *p.as_character() );
+            change_spells( you );
             break;
         case D_PROF:
-            wishproficiency( &p );
+            wishproficiency( &you );
             break;
         case D_ITEMS:
-            wishitem( &p );
+            wishitem( &you );
             break;
         case D_DELETE_ITEMS:
             if( !query_yn( _( "Delete all items from the target?" ) ) ) {
                 break;
             }
-            for( auto &it : p.worn ) {
-                it.on_takeoff( p );
+            for( auto &it : you.worn ) {
+                it.on_takeoff( you );
             }
-            p.worn.clear();
-            p.inv->clear();
-            p.remove_weapon();
+            you.worn.clear();
+            you.inv->clear();
+            you.remove_weapon();
             break;
         case D_ITEM_WORN: {
             item_location loc = game_menus::inv::titled_menu( player_character, _( "Make target equip" ) );
@@ -1286,21 +1289,21 @@ void character_edit_menu()
             }
             item &to_wear = *loc;
             if( to_wear.is_armor() ) {
-                p.on_item_wear( to_wear );
-                p.worn.push_back( to_wear );
+                you.on_item_wear( to_wear );
+                you.worn.push_back( to_wear );
             } else if( !to_wear.is_null() ) {
-                p.weapon = to_wear;
-                get_event_bus().send<event_type::character_wields_item>( p.getID(), p.weapon.typeId() );
+                you.weapon = to_wear;
+                get_event_bus().send<event_type::character_wields_item>( you.getID(), you.weapon.typeId() );
             }
         }
         break;
         case D_HP: {
-            const int torso_hp = p.get_part_hp_cur( bodypart_id( "torso" ) );
-            const int head_hp = p.get_part_hp_cur( bodypart_id( "head" ) );
-            const int arm_l_hp = p.get_part_hp_cur( bodypart_id( "arm_l" ) );
-            const int arm_r_hp = p.get_part_hp_cur( bodypart_id( "arm_r" ) );
-            const int leg_l_hp = p.get_part_hp_cur( bodypart_id( "leg_l" ) );
-            const int leg_r_hp = p.get_part_hp_cur( bodypart_id( "leg_r" ) );
+            const int torso_hp = you.get_part_hp_cur( bodypart_id( "torso" ) );
+            const int head_hp = you.get_part_hp_cur( bodypart_id( "head" ) );
+            const int arm_l_hp = you.get_part_hp_cur( bodypart_id( "arm_l" ) );
+            const int arm_r_hp = you.get_part_hp_cur( bodypart_id( "arm_r" ) );
+            const int leg_l_hp = you.get_part_hp_cur( bodypart_id( "leg_l" ) );
+            const int leg_r_hp = you.get_part_hp_cur( bodypart_id( "leg_r" ) );
             uilist smenu;
             smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), torso_hp );
             smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), head_hp );
@@ -1308,7 +1311,7 @@ void character_edit_menu()
             smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), arm_r_hp );
             smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), leg_l_hp );
             smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), leg_r_hp );
-            smenu.addentry( 6, true, 'e', "%s: %d", _( "All" ), p.get_lowest_hp() );
+            smenu.addentry( 6, true, 'e', "%s: %d", _( "All" ), you.get_lowest_hp() );
             smenu.query();
             bodypart_str_id bp = bodypart_str_id( "no_a_real_part" );
             int bp_ptr = -1;
@@ -1349,39 +1352,39 @@ void character_edit_menu()
             if( bp.is_valid() ) {
                 int value;
                 if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ), bp_ptr ) && value >= 0 ) {
-                    p.set_part_hp_cur( bp.id(), value );
-                    p.reset_stats();
+                    you.set_part_hp_cur( bp.id(), value );
+                    you.reset_stats();
                 }
             } else if( all_select ) {
                 int value;
-                if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ), p.get_lowest_hp() ) &&
+                if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ), you.get_lowest_hp() ) &&
                     value >= 0 ) {
-                    for( bodypart_id part_id : p.get_all_body_parts( get_body_part_flags::only_main ) ) {
-                        p.set_part_hp_cur( part_id, value );
+                    for( bodypart_id part_id : you.get_all_body_parts( get_body_part_flags::only_main ) ) {
+                        you.set_part_hp_cur( part_id, value );
                     }
-                    p.reset_stats();
+                    you.reset_stats();
                 }
             }
         }
         break;
         case D_STAMINA:
             int value;
-            if( query_int( value, _( "Set stamina to?  Current: %d. Max: %d." ), p.get_stamina(),
-                           p.get_stamina_max() ) ) {
-                if( value >= 0 && value <= p.get_stamina_max() ) {
-                    p.set_stamina( value );
+            if( query_int( value, _( "Set stamina to?  Current: %d. Max: %d." ), you.get_stamina(),
+                           you.get_stamina_max() ) ) {
+                if( value >= 0 && value <= you.get_stamina_max() ) {
+                    you.set_stamina( value );
                 } else {
                     add_msg( m_bad, _( "Target stamina value out of bounds!" ) );
                 }
             }
             break;
         case D_MORALE: {
-            int current_morale_level = p.get_morale_level();
+            int current_morale_level = you.get_morale_level();
             int value;
             if( query_int( value, _( "Set the morale to?  Currently: %d" ), current_morale_level ) ) {
                 int morale_level_delta = value - current_morale_level;
-                p.add_morale( MORALE_PERM_DEBUG, morale_level_delta );
-                p.apply_persistent_morale();
+                you.add_morale( MORALE_PERM_DEBUG, morale_level_delta );
+                you.apply_persistent_morale();
             }
         }
         break;
@@ -1429,46 +1432,48 @@ void character_edit_menu()
         break;
         case D_DESC: {
             uilist smenu;
-            std::string current_bloodt = io::enum_to_string( p.my_blood_type ) + ( p.blood_rh_factor ? "+" :
+            std::string current_bloodt = io::enum_to_string( you.my_blood_type ) + ( you.blood_rh_factor ? "+" :
                                          "-" );
             smenu.text = _( "Select a value and press enter to change it." );
-            smenu.addentry( 0, true, 'n', "%s: %s", _( "Current name" ), p.get_name() );
-            smenu.addentry( 1, true, 'a', "%s: %d", _( "Current age" ), p.base_age() );
-            smenu.addentry( 2, true, 'h', "%s: %d", _( "Current height in cm" ), p.base_height() );
+            smenu.addentry( 0, true, 'n', "%s: %s", _( "Current name" ), you.get_name() );
+            smenu.addentry( 1, true, 'a', "%s: %d", _( "Current age" ), you.base_age() );
+            smenu.addentry( 2, true, 'h', "%s: %d", _( "Current height in cm" ), you.base_height() );
             smenu.addentry( 3, true, 'b', "%s: %s", _( "Current blood type:" ), current_bloodt );
             smenu.query();
             switch( smenu.ret ) {
                 case 0: {
-                    std::string filterstring = p.name;
+                    std::string filterstring = you.name;
                     string_input_popup popup;
                     popup
                     .title( _( "Rename:" ) )
                     .width( 85 )
                     .edit( filterstring );
                     if( popup.confirmed() ) {
-                        p.name = filterstring;
+                        you.name = filterstring;
                     }
                 }
                 break;
                 case 1: {
                     string_input_popup popup;
                     popup.title( _( "Enter age in years.  Minimum 16, maximum 55" ) )
-                    .text( string_format( "%d", p.base_age() ) )
+                    .text( string_format( "%d", you.base_age() ) )
                     .only_digits( true );
                     const int result = popup.query_int();
                     if( result != 0 ) {
-                        p.set_base_age( clamp( result, 16, 55 ) );
+                        you.set_base_age( clamp( result, 16, 55 ) );
                     }
                 }
                 break;
                 case 2: {
                     string_input_popup popup;
-                    popup.title( _( "Enter height in centimeters.  Minimum 145, maximum 200" ) )
-                    .text( string_format( "%d", p.base_height() ) )
+                    popup.title( string_format( _( "Enter height in centimeters.  Minimum %d, maximum %d" ),
+                                                Character::min_height(),
+                                                Character::max_height() ) )
+                    .text( string_format( "%d", you.base_height() ) )
                     .only_digits( true );
                     const int result = popup.query_int();
                     if( result != 0 ) {
-                        p.set_base_height( clamp( result, 145, 200 ) );
+                        you.set_base_height( clamp( result, Character::min_height(), Character::max_height() ) );
                     }
                 }
                 break;
@@ -1491,8 +1496,8 @@ void character_edit_menu()
                     if( bfac.ret < 0 ) {
                         break;
                     }
-                    p.my_blood_type = static_cast<blood_type>( btype.ret );
-                    p.blood_rh_factor = static_cast<bool>( bfac.ret );
+                    you.my_blood_type = static_cast<blood_type>( btype.ret );
+                    you.blood_rh_factor = static_cast<bool>( bfac.ret );
                     break;
                 }
             }
@@ -1500,118 +1505,118 @@ void character_edit_menu()
         break;
         case D_PAIN: {
             int value;
-            if( query_int( value, _( "Cause how much pain?  pain: %d" ), p.get_pain() ) ) {
-                p.mod_pain( value );
+            if( query_int( value, _( "Cause how much pain?  pain: %d" ), you.get_pain() ) ) {
+                you.mod_pain( value );
             }
         }
         break;
         case D_NEEDS: {
-            std::pair<std::string, nc_color> hunger_pair = p.get_hunger_description();
-            std::pair<std::string, nc_color> thirst_pair = p.get_thirst_description();
-            std::pair<std::string, nc_color> fatigue_pair = p.get_fatigue_description();
+            std::pair<std::string, nc_color> hunger_pair = you.get_hunger_description();
+            std::pair<std::string, nc_color> thirst_pair = you.get_thirst_description();
+            std::pair<std::string, nc_color> fatigue_pair = you.get_fatigue_description();
 
             std::stringstream data;
-            data << string_format( _( "Hunger: %d  %s" ), p.get_hunger(), colorize( hunger_pair.first,
+            data << string_format( _( "Hunger: %d  %s" ), you.get_hunger(), colorize( hunger_pair.first,
                                    hunger_pair.second ) ) << std::endl;
-            data << string_format( _( "Thirst: %d  %s" ), p.get_thirst(), colorize( thirst_pair.first,
+            data << string_format( _( "Thirst: %d  %s" ), you.get_thirst(), colorize( thirst_pair.first,
                                    thirst_pair.second ) ) << std::endl;
-            data << string_format( _( "Fatigue: %d  %s" ), p.get_fatigue(), colorize( fatigue_pair.first,
+            data << string_format( _( "Fatigue: %d  %s" ), you.get_fatigue(), colorize( fatigue_pair.first,
                                    fatigue_pair.second ) ) << std::endl;
             data << std::endl;
-            data << _( "Stored kCal: " ) << p.get_stored_kcal() << std::endl;
-            data << _( "Total kCal: " ) << p.get_stored_kcal() + p.stomach.get_calories() +
-                 p.guts.get_calories() << std::endl;
+            data << _( "Stored kCal: " ) << you.get_stored_kcal() << std::endl;
+            data << _( "Total kCal: " ) << you.get_stored_kcal() + you.stomach.get_calories() +
+                 you.guts.get_calories() << std::endl;
             data << std::endl;
             data << _( "Stomach contents" ) << std::endl;
-            data << _( "  Total volume: " ) << vol_to_string( p.stomach.contains() ) << std::endl;
-            data << _( "  Water volume: " ) << vol_to_string( p.stomach.get_water() ) << std::endl;
-            data << string_format( _( "  kCal: %d" ), p.stomach.get_calories() ) << std::endl;
+            data << _( "  Total volume: " ) << vol_to_string( you.stomach.contains() ) << std::endl;
+            data << _( "  Water volume: " ) << vol_to_string( you.stomach.get_water() ) << std::endl;
+            data << string_format( _( "  kCal: %d" ), you.stomach.get_calories() ) << std::endl;
             data << std::endl;
             data << _( "Gut contents" ) << std::endl;
-            data << _( "  Total volume: " ) << vol_to_string( p.guts.contains() ) << std::endl;
-            data << _( "  Water volume: " ) << vol_to_string( p.guts.get_water() ) << std::endl;
-            data << string_format( _( "  kCal: %d" ), p.guts.get_calories() ) << std::endl;
+            data << _( "  Total volume: " ) << vol_to_string( you.guts.contains() ) << std::endl;
+            data << _( "  Water volume: " ) << vol_to_string( you.guts.get_water() ) << std::endl;
+            data << string_format( _( "  kCal: %d" ), you.guts.get_calories() ) << std::endl;
 
             uilist smenu;
             smenu.text = data.str();
-            smenu.addentry( 0, true, 'h', "%s: %d", _( "Hunger" ), p.get_hunger() );
-            smenu.addentry( 1, true, 's', "%s: %d", _( "Stored kCal" ), p.get_stored_kcal() );
-            smenu.addentry( 2, true, 'S', "%s: %d", _( "Stomach kCal" ), p.stomach.get_calories() );
-            smenu.addentry( 3, true, 'G', "%s: %d", _( "Gut kCal" ), p.guts.get_calories() );
-            smenu.addentry( 4, true, 't', "%s: %d", _( "Thirst" ), p.get_thirst() );
-            smenu.addentry( 5, true, 'f', "%s: %d", _( "Fatigue" ), p.get_fatigue() );
-            smenu.addentry( 6, true, 'd', "%s: %d", _( "Sleep Deprivation" ), p.get_sleep_deprivation() );
+            smenu.addentry( 0, true, 'h', "%s: %d", _( "Hunger" ), you.get_hunger() );
+            smenu.addentry( 1, true, 's', "%s: %d", _( "Stored kCal" ), you.get_stored_kcal() );
+            smenu.addentry( 2, true, 'S', "%s: %d", _( "Stomach kCal" ), you.stomach.get_calories() );
+            smenu.addentry( 3, true, 'G', "%s: %d", _( "Gut kCal" ), you.guts.get_calories() );
+            smenu.addentry( 4, true, 't', "%s: %d", _( "Thirst" ), you.get_thirst() );
+            smenu.addentry( 5, true, 'f', "%s: %d", _( "Fatigue" ), you.get_fatigue() );
+            smenu.addentry( 6, true, 'd', "%s: %d", _( "Sleep Deprivation" ), you.get_sleep_deprivation() );
             smenu.addentry( 7, true, 'a', _( "Reset all basic needs" ) );
             smenu.addentry( 8, true, 'e', _( "Empty stomach and guts" ) );
 
             const auto &vits = vitamin::all();
             for( const auto &v : vits ) {
-                smenu.addentry( -1, true, 0, "%s: %d", v.second.name(), p.vitamin_get( v.first ) );
+                smenu.addentry( -1, true, 0, "%s: %d", v.second.name(), you.vitamin_get( v.first ) );
             }
 
             smenu.query();
             int value;
             switch( smenu.ret ) {
                 case 0:
-                    if( query_int( value, _( "Set hunger to?  Currently: %d" ), p.get_hunger() ) ) {
-                        p.set_hunger( value );
+                    if( query_int( value, _( "Set hunger to?  Currently: %d" ), you.get_hunger() ) ) {
+                        you.set_hunger( value );
                     }
                     break;
 
                 case 1:
-                    if( query_int( value, _( "Set stored kCal to?  Currently: %d" ), p.get_stored_kcal() ) ) {
-                        p.set_stored_kcal( value );
+                    if( query_int( value, _( "Set stored kCal to?  Currently: %d" ), you.get_stored_kcal() ) ) {
+                        you.set_stored_kcal( value );
                     }
                     break;
 
                 case 2:
-                    if( query_int( value, _( "Set stomach kCal to?  Currently: %d" ), p.stomach.get_calories() ) ) {
-                        p.stomach.mod_calories( value - p.stomach.get_calories() );
+                    if( query_int( value, _( "Set stomach kCal to?  Currently: %d" ), you.stomach.get_calories() ) ) {
+                        you.stomach.mod_calories( value - you.stomach.get_calories() );
                     }
                     break;
 
                 case 3:
-                    if( query_int( value, _( "Set gut kCal to?  Currently: %d" ), p.guts.get_calories() ) ) {
-                        p.guts.mod_calories( value - p.guts.get_calories() );
+                    if( query_int( value, _( "Set gut kCal to?  Currently: %d" ), you.guts.get_calories() ) ) {
+                        you.guts.mod_calories( value - you.guts.get_calories() );
                     }
                     break;
 
                 case 4:
-                    if( query_int( value, _( "Set thirst to?  Currently: %d" ), p.get_thirst() ) ) {
-                        p.set_thirst( value );
+                    if( query_int( value, _( "Set thirst to?  Currently: %d" ), you.get_thirst() ) ) {
+                        you.set_thirst( value );
                     }
                     break;
 
                 case 5:
-                    if( query_int( value, _( "Set fatigue to?  Currently: %d" ), p.get_fatigue() ) ) {
-                        p.set_fatigue( value );
+                    if( query_int( value, _( "Set fatigue to?  Currently: %d" ), you.get_fatigue() ) ) {
+                        you.set_fatigue( value );
                     }
                     break;
 
                 case 6:
                     if( query_int( value, _( "Set sleep deprivation to?  Currently: %d" ),
-                                   p.get_sleep_deprivation() ) ) {
-                        p.set_sleep_deprivation( value );
+                                   you.get_sleep_deprivation() ) ) {
+                        you.set_sleep_deprivation( value );
                     }
                     break;
                 case 7:
-                    p.initialize_stomach_contents();
-                    p.set_hunger( 0 );
-                    p.set_thirst( 0 );
-                    p.set_fatigue( 0 );
-                    p.set_sleep_deprivation( 0 );
-                    p.set_stored_kcal( p.get_healthy_kcal() );
+                    you.initialize_stomach_contents();
+                    you.set_hunger( 0 );
+                    you.set_thirst( 0 );
+                    you.set_fatigue( 0 );
+                    you.set_sleep_deprivation( 0 );
+                    you.set_stored_kcal( you.get_healthy_kcal() );
                     break;
                 case 8:
-                    p.stomach.empty();
-                    p.guts.empty();
+                    you.stomach.empty();
+                    you.guts.empty();
                     break;
                 default:
                     if( smenu.ret >= 9 && smenu.ret < static_cast<int>( vits.size() + 9 ) ) {
                         auto iter = std::next( vits.begin(), smenu.ret - 9 );
                         if( query_int( value, _( "Set %s to?  Currently: %d" ),
-                                       iter->second.name(), p.vitamin_get( iter->first ) ) ) {
-                            p.vitamin_set( iter->first, value );
+                                       iter->second.name(), you.vitamin_get( iter->first ) ) ) {
+                            you.vitamin_set( iter->first, value );
                         }
                     }
             }
@@ -1619,29 +1624,29 @@ void character_edit_menu()
         }
         break;
         case D_MUTATE:
-            wishmutate( &p );
+            wishmutate( &you );
             break;
         case D_HEALTHY: {
             uilist smenu;
-            smenu.addentry( 0, true, 'h', "%s: %d", _( "Health" ), p.get_healthy() );
-            smenu.addentry( 1, true, 'm', "%s: %d", _( "Health modifier" ), p.get_healthy_mod() );
-            smenu.addentry( 2, true, 'r', "%s: %d", _( "Radiation" ), p.get_rad() );
+            smenu.addentry( 0, true, 'h', "%s: %d", _( "Health" ), you.get_healthy() );
+            smenu.addentry( 1, true, 'm', "%s: %d", _( "Health modifier" ), you.get_healthy_mod() );
+            smenu.addentry( 2, true, 'r', "%s: %d", _( "Radiation" ), you.get_rad() );
             smenu.query();
             int value;
             switch( smenu.ret ) {
                 case 0:
-                    if( query_int( value, _( "Set the value to?  Currently: %d" ), p.get_healthy() ) ) {
-                        p.set_healthy( value );
+                    if( query_int( value, _( "Set the value to?  Currently: %d" ), you.get_healthy() ) ) {
+                        you.set_healthy( value );
                     }
                     break;
                 case 1:
-                    if( query_int( value, _( "Set the value to?  Currently: %d" ), p.get_healthy_mod() ) ) {
-                        p.set_healthy_mod( value );
+                    if( query_int( value, _( "Set the value to?  Currently: %d" ), you.get_healthy_mod() ) ) {
+                        you.set_healthy_mod( value );
                     }
                     break;
                 case 2:
-                    if( query_int( value, _( "Set the value to?  Currently: %d" ), p.get_rad() ) ) {
-                        p.set_rad( value );
+                    if( query_int( value, _( "Set the value to?  Currently: %d" ), you.get_rad() ) ) {
+                        you.set_rad( value );
                     }
                     break;
                 default:
@@ -1650,7 +1655,7 @@ void character_edit_menu()
         }
         break;
         case D_STATUS:
-            p.disp_info();
+            you.disp_info();
             break;
         case D_MISSION_ADD: {
             uilist types;
@@ -1669,14 +1674,14 @@ void character_edit_menu()
         }
         break;
         case D_MISSION_EDIT:
-            mission_debug::edit( p );
+            mission_debug::edit( you );
             break;
         case D_TELE: {
             if( const cata::optional<tripoint> newpos = g->look_around() ) {
-                p.setpos( *newpos );
-                if( p.is_player() ) {
-                    if( p.is_mounted() ) {
-                        p.mounted_creature->setpos( *newpos );
+                you.setpos( *newpos );
+                if( you.is_avatar() ) {
+                    if( you.is_mounted() ) {
+                        you.mounted_creature->setpos( *newpos );
                     }
                     g->update_map( player_character );
                 }
@@ -1722,28 +1727,12 @@ void character_edit_menu()
         }
         break;
         case D_ADD_EFFECT: {
-            const auto text = string_input_popup()
-                              .title( _( "Choose an effect to add." ) )
-                              .width( 20 )
-                              .text( "" )
-                              .only_digits( false )
-                              .query_string();
-            efftype_id effect( text );
-            int intensity = 0;
-            int seconds = 0;
-            query_int( intensity, _( "What intensity?" ) );
-            query_int( seconds, _( "How many seconds?" ), 600 );
-
-            if( effect.is_valid() ) {
-                p.add_effect( effect, time_duration::from_seconds( seconds ), false, intensity );
-            } else {
-                add_msg( _( "Invalid effect" ) );
-            }
+            wisheffect( you );
             break;
         }
         case D_ASTHMA: {
-            p.set_mutation( trait_ASTHMA );
-            p.add_effect( effect_asthma, 10_minutes );
+            you.set_mutation( trait_ASTHMA );
+            you.add_effect( effect_asthma, 10_minutes );
             break;
         }
     }
@@ -1790,9 +1779,9 @@ static void add_header( uilist &mmenu, const std::string &str )
     mmenu.entries.push_back( header );
 }
 
-void mission_debug::edit( player &who )
+void mission_debug::edit( Character &who )
 {
-    if( who.is_player() ) {
+    if( who.is_avatar() ) {
         edit_player();
     } else if( who.is_npc() ) {
         edit_npc( dynamic_cast<npc &>( who ) );
@@ -1943,6 +1932,7 @@ void draw_benchmark( const int max_difference )
             break;
         }
         g->invalidate_main_ui_adaptor();
+        inp_mngr.pump_events();
         ui_manager::redraw_invalidated();
         refresh_display();
         draw_counter++;
@@ -2024,9 +2014,9 @@ static void debug_menu_game_state()
         to_turns<int>( calendar::turn - calendar::turn_zero ),
         g->num_creatures() );
     for( const npc &guy : g->all_npcs() ) {
-        tripoint t = guy.global_sm_location();
-        add_msg( m_info, _( "%s: map ( %d:%d ) pos ( %d:%d )" ), guy.name, t.x,
-                 t.y, guy.posx(), guy.posy() );
+        tripoint_abs_sm t = guy.global_sm_location();
+        add_msg( m_info, _( "%s: map ( %d:%d ) pos ( %d:%d )" ), guy.name, t.x(),
+                 t.y(), guy.posx(), guy.posy() );
     }
 
     add_msg( m_info, _( "(you: %d:%d)" ), player_character.posx(), player_character.posy() );
@@ -2203,7 +2193,6 @@ void debug()
 
     avatar &player_character = get_avatar();
     map &here = get_map();
-    tripoint abs_sub = here.get_abs_sub();
     switch( *action ) {
         case debug_menu_index::WISH:
             debug_menu::wishitem( &player_character );
@@ -2234,7 +2223,7 @@ void debug()
             shared_ptr_fast<npc> temp = make_shared_fast<npc>();
             temp->normalize();
             temp->randomize();
-            temp->spawn_at_precise( abs_sub.xy(), player_character.pos() + point( -4, -4 ) );
+            temp->spawn_at_precise( player_character.global_square_location() + point( -4, -4 ) );
             overmap_buffer.insert_npc( temp );
             temp->form_opinion( player_character );
             temp->mission = NPC_MISSION_NULL;
@@ -2257,6 +2246,43 @@ void debug()
         case debug_menu_index::GAME_STATE:
             debug_menu_game_state();
             break;
+
+        case debug_menu_index::KILL_AREA: {
+            static_popup popup;
+            popup.on_top( true );
+            popup.message( "%s", _( "Select first point." ) );
+
+            tripoint initial_pos = player_character.pos();
+            const look_around_result first = g->look_around( false, initial_pos, initial_pos,
+                                             false, true, false );
+
+            if( !first.position ) {
+                break;
+            }
+
+            popup.message( "%s", _( "Select second point." ) );
+            const look_around_result second = g->look_around( false, initial_pos, *first.position,
+                                              true, true, false );
+
+            if( !second.position ) {
+                break;
+            }
+
+            const tripoint_range<tripoint> points = get_map().points_in_rectangle(
+                    first.position.value(), second.position.value() );
+
+            std::vector<Creature *> creatures = g->get_creatures_if(
+            [&points]( const Creature & critter ) -> bool {
+                return !critter.is_avatar() && points.is_point_inside( critter.pos() );
+            } );
+
+            for( Creature *critter : creatures ) {
+                critter->die( nullptr );
+            }
+
+            g->cleanup_dead();
+        }
+        break;
 
         case debug_menu_index::KILL_NPCS:
             for( npc &guy : g->all_npcs() ) {
@@ -2354,6 +2380,7 @@ void debug()
             wind_direction_menu.query();
             if( wind_direction_menu.ret == 0 ) {
                 g->weather.wind_direction_override = cata::nullopt;
+                g->weather.set_nextweather( calendar::turn );
             } else if( wind_direction_menu.ret >= 0 && wind_direction_menu.ret < 9 ) {
                 g->weather.wind_direction_override = ( wind_direction_menu.ret - 1 ) * 45;
                 g->weather.set_nextweather( calendar::turn );
@@ -2375,6 +2402,7 @@ void debug()
             wind_speed_menu.query();
             if( wind_speed_menu.ret == 0 ) {
                 g->weather.windspeed_override = cata::nullopt;
+                g->weather.set_nextweather( calendar::turn );
             } else if( wind_speed_menu.ret >= 0 && wind_speed_menu.ret < 12 ) {
                 int selected_wind_speed = ( wind_speed_menu.ret - 1 ) * 10;
                 g->weather.windspeed_override = selected_wind_speed;
@@ -2424,43 +2452,20 @@ void debug()
 
         // Damage Self
         case debug_menu_index::DAMAGE_SELF: {
-            const int torso_hp = player_character.get_part_hp_cur( bodypart_id( "torso" ) );
-            const int head_hp = player_character.get_part_hp_cur( bodypart_id( "head" ) );
-            const int arm_l_hp = player_character.get_part_hp_cur( bodypart_id( "arm_l" ) );
-            const int arm_r_hp = player_character.get_part_hp_cur( bodypart_id( "arm_r" ) );
-            const int leg_l_hp = player_character.get_part_hp_cur( bodypart_id( "leg_l" ) );
-            const int leg_r_hp = player_character.get_part_hp_cur( bodypart_id( "leg_r" ) );
+            const std::vector<bodypart_id> parts = player_character.get_all_body_parts(
+                    get_body_part_flags::only_main );
             uilist smenu;
-            smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), torso_hp );
-            smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), head_hp );
-            smenu.addentry( 2, true, 'a', "%s: %d", _( "Left arm" ), arm_l_hp );
-            smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), arm_r_hp );
-            smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), leg_l_hp );
-            smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), leg_r_hp );
+            int i = 0;
+            for( const bodypart_id &part : parts ) {
+                smenu.addentry( i, true, ' ', "%s: %d",
+                                part->name.translated(), player_character.get_part_hp_cur( part ) );
+                i++;
+            }
             smenu.query();
             bodypart_id part;
             int dbg_damage;
-            switch( smenu.ret ) {
-                case 0:
-                    part = bodypart_id( "torso" );
-                    break;
-                case 1:
-                    part = bodypart_id( "head" );
-                    break;
-                case 2:
-                    part = bodypart_id( "arm_l" );
-                    break;
-                case 3:
-                    part = bodypart_id( "arm_r" );
-                    break;
-                case 4:
-                    part = bodypart_id( "leg_l" );
-                    break;
-                case 5:
-                    part = bodypart_id( "leg_r" );
-                    break;
-                default:
-                    break;
+            if( smenu.ret >= 0 && static_cast<std::size_t>( smenu.ret ) <= parts.size() ) {
+                part = parts.at( smenu.ret );
             }
             if( query_int( dbg_damage, _( "Damage self for how much?  hp: %s" ), part.id().c_str() ) ) {
                 player_character.apply_damage( nullptr, part, dbg_damage );
@@ -2545,6 +2550,9 @@ void debug()
             break;
         case debug_menu_index::DISPLAY_SCENTS_TYPE_LOCAL:
             g->display_toggle_overlay( ACTION_DISPLAY_SCENT_TYPE );
+            break;
+        case debug_menu_index::DISPLAY_NPC_ATTACK:
+            g->display_toggle_overlay( ACTION_DISPLAY_NPC_ATTACK_POTENTIAL );
             break;
         case debug_menu_index::DISPLAY_TEMP:
             g->display_toggle_overlay( ACTION_DISPLAY_TEMPERATURE );
@@ -2645,7 +2653,7 @@ void debug()
                     tripoint_abs_sm where_sm = project_to<coords::sm>( where_omt );
                     tinymap mx_map;
                     mx_map.load( where_sm, false );
-                    MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm.raw() );
+                    MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm );
                     g->load_npcs();
                     here.invalidate_map_cache( here.get_abs_sub().z );
                 }

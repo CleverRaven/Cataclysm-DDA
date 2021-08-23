@@ -91,6 +91,10 @@ class gunmod_location
         bool operator<( const gunmod_location &rhs ) const {
             return _id < rhs._id;
         }
+
+        void deserialize( JsonIn &jsin ) {
+            _id = jsin.get_string();
+        }
 };
 
 struct islot_tool {
@@ -164,6 +168,9 @@ struct islot_comestible {
         /** freezing point in degrees celsius, below this temperature item can freeze */
         float freeze_point = 0;
 
+        /**effect on conditions to apply on consumption*/
+        std::vector<effect_on_condition_id> consumption_eocs;
+
         /**List of diseases carried by this comestible and their associated probability*/
         std::map<diseasetype_id, int> contamination;
 
@@ -228,6 +235,8 @@ struct armor_portion_data {
     // What layer does it cover if any
     // TODO: Not currently supported, we still use flags for this
     //cata::optional<layer_level> layer;
+
+    void deserialize( JsonIn &jsin );
 };
 
 struct islot_armor {
@@ -424,6 +433,10 @@ struct common_ranged_data {
      * Range bonus from gun.
      */
     int range = 0;
+    /**
+     * Range multiplier from gunmods or ammo.
+     */
+    float range_multiplier = 1.0;
     /**
      * Dispersion "bonus" from gun.
      */
@@ -813,6 +826,7 @@ struct islot_seed {
 enum condition_type {
     FLAG,
     COMPONENT_ID,
+    VAR,
     num_condition_types
 };
 
@@ -848,6 +862,8 @@ struct itype {
         friend class Item_factory;
 
         using FlagsSetType = std::set<flag_id>;
+
+        std::vector<std::pair<itype_id, mod_id>> src;
 
         /**
          * Slots for various item type properties. Each slot may contain a valid pointer or null, check
@@ -1137,13 +1153,16 @@ struct itype {
         const use_function *get_use( const std::string &iuse_name ) const;
 
         // Here "invoke" means "actively use". "Tick" means "active item working"
-        cata::optional<int> invoke( player &p, item &it,
+        cata::optional<int> invoke( Character &p, item &it,
                                     const tripoint &pos ) const; // Picks first method or returns 0
-        cata::optional<int> invoke( player &p, item &it, const tripoint &pos,
+        cata::optional<int> invoke( Character &p, item &it, const tripoint &pos,
                                     const std::string &iuse_name ) const;
-        int tick( player &p, item &it, const tripoint &pos ) const;
+        int tick( Character &p, item &it, const tripoint &pos ) const;
 
         virtual ~itype() = default;
+
+        // returns true if it is one of the outcomes of cutting
+        bool is_basic_component() const;
 };
 
 void load_charge_removal_blacklist( const JsonObject &jo, const std::string &src );

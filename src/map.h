@@ -59,7 +59,6 @@ class item_location;
 class mapgendata;
 class monster;
 class optional_vpart_position;
-class player;
 class relic_procgen_data;
 class submap;
 class vehicle;
@@ -157,6 +156,122 @@ struct bash_params {
     bool bashing_from_above = false;
 };
 
+/** Draw parameters used by map::drawsq() and similar methods. */
+struct drawsq_params {
+    private:
+        tripoint view_center = tripoint_min;
+        bool do_highlight = false;
+        bool do_show_items = true;
+        bool do_low_light = false;
+        bool do_bright_light = false;
+        bool do_memorize = false;
+        bool do_output = true;
+
+    public:
+        constexpr drawsq_params() = default;
+
+        /**
+         * Highlight the tile. On TILES, draws an overlay; on CURSES, inverts color.
+         * Default: false.
+         */
+        //@{
+        constexpr drawsq_params &highlight( bool v ) {
+            do_highlight = v;
+            return *this;
+        }
+        constexpr bool highlight() const {
+            return do_highlight;
+        }
+        //@}
+
+        /**
+         * Whether to draw items on the tile.
+         * Default: true.
+         */
+        //@{
+        constexpr drawsq_params &show_items( bool v ) {
+            do_show_items = v;
+            return *this;
+        }
+        constexpr bool show_items() const {
+            return do_show_items;
+        }
+        //@}
+
+        /**
+         * Whether tile is low light, and should be drawn with muted color.
+         * Default: false.
+         */
+        //@{
+        constexpr drawsq_params &low_light( bool v ) {
+            do_low_light = v;
+            return *this;
+        }
+        constexpr bool low_light() const {
+            return do_low_light;
+        }
+        //@}
+
+        /**
+         * Whether tile is in bright light. Affects NV overlay, and nothing else.
+         * Default: false;
+         */
+        //@{
+        constexpr drawsq_params &bright_light( bool v ) {
+            do_bright_light = v;
+            return *this;
+        }
+        constexpr bool bright_light() const {
+            return do_bright_light;
+        }
+        //@}
+
+        /**
+         * Whether the tile should be memorized. Used only in map::draw().
+         * Default: false.
+         */
+        //@{
+        constexpr drawsq_params &memorize( bool v ) {
+            do_memorize = v;
+            return *this;
+        }
+        constexpr bool memorize() const {
+            return do_memorize;
+        }
+        //@}
+
+        /**
+         * HACK: Whether the tile should be printed. Used only in map::draw()
+         * as a hack for memorizing off-screen tiles.
+         * Default: true.
+         */
+        //@{
+        constexpr drawsq_params &output( bool v ) {
+            do_output = v;
+            return *this;
+        }
+        constexpr bool output() const {
+            return do_output;
+        }
+        //@}
+
+        /**
+         * Set view center.
+         * Default: uses avatar's current view center.
+         */
+        //@{
+        constexpr drawsq_params &center( const tripoint &p ) {
+            view_center = p;
+            return *this;
+        }
+        constexpr drawsq_params &center_at_avatar() {
+            view_center = tripoint_min;
+            return *this;
+        }
+        tripoint center() const;
+        //@}
+};
+
 /**
  * Manage and cache data about a part of the map.
  *
@@ -202,7 +317,9 @@ class map
         explicit map( bool zlev ) : map( MAPSIZE, zlev ) { }
         virtual ~map();
 
-        map &operator=( map && ) = default;
+        map &operator=( const map & ) = delete;
+        // NOLINTNEXTLINE(performance-noexcept-move-constructor)
+        map &operator=( map && );
 
         /**
          * Tinymaps will ocassionally need to skip npc rotation in map::rotate
@@ -362,8 +479,6 @@ class map
         visibility_type get_visibility( lit_level ll,
                                         const visibility_variables &cache ) const;
 
-        bool apply_vision_effects( const catacurses::window &w, visibility_type vis ) const;
-
         // See field.cpp
         std::tuple<maptile, maptile, maptile> get_wind_blockers( const int &winddirection,
                 const tripoint &pos );
@@ -381,21 +496,14 @@ class map
          */
         void draw( const catacurses::window &w, const tripoint &center );
 
-        /** Draw the map tile at the given coordinate. Called by `map::draw()`.
-        *
-        * @param w The window we are drawing in
-        * @param u The player
-        * @param p The tile on this map to draw.
-        * @param invert Invert colors if this flag is true
-        * @param show_items Draw items in tile if this flag is true see `center` in `map::draw()`
-        */
-        void drawsq( const catacurses::window &w, player &u, const tripoint &p,
-                     bool invert, bool show_items,
-                     const tripoint &view_center,
-                     bool low_light = false, bool bright_light = false,
-                     bool inorder = false ) const;
-        void drawsq( const catacurses::window &w, player &u, const tripoint &p,
-                     bool invert = false, bool show_items = true ) const;
+        /**
+         * Draw the map tile at the given coordinate. Called by `map::draw()`.
+         *
+         * @param w The window we are drawing in
+         * @param p The tile on this map to draw.
+         * @param params Draw parameters.
+         */
+        void drawsq( const catacurses::window &w, const tripoint &p, const drawsq_params &params ) const;
 
         /**
          * Add currently loaded submaps (in @ref grid) to the @ref mapbuffer.
@@ -418,8 +526,13 @@ class map
          * @param w global coordinates of the submap at grid[0]. This
          * is in submap coordinates.
          * @param update_vehicles If true, add vehicles to the vehicle cache.
+         * @param pump_events If true, handle window events during loading. If
+         * you set this to true, do ensure that the map is not accessed before
+         * this function returns (for example, UIs that draw the map should be
+         * disabled).
          */
-        void load( const tripoint_abs_sm &w, bool update_vehicles );
+        void load( const tripoint_abs_sm &w, bool update_vehicles,
+                   bool pump_events = false );
         /**
          * Shift the map along the vector s.
          * This is like loading the map with coordinates derived from the current
@@ -452,7 +565,7 @@ class map
         void create_hot_air( const tripoint &p, int intensity );
         bool gas_can_spread_to( field_entry &cur, const maptile &dst );
         void gas_spread_to( field_entry &cur, maptile &dst, const tripoint &p );
-        int burn_body_part( player &u, field_entry &cur, const bodypart_id &bp, int scale );
+        int burn_body_part( Character &you, field_entry &cur, const bodypart_id &bp, int scale );
     public:
 
         // Movement and LOS
@@ -709,7 +822,7 @@ class map
         std::string furnname( const point &p ) {
             return furnname( tripoint( p, abs_sub.z ) );
         }
-        bool can_move_furniture( const tripoint &pos, player *p = nullptr );
+        bool can_move_furniture( const tripoint &pos, Character *you = nullptr );
 
         // Terrain
         ter_id ter( const tripoint &p ) const;
@@ -792,7 +905,7 @@ class map
          * Calls the examine function of furniture or terrain at given tile, for given character.
          * Will only examine terrain if furniture had @ref iexamine::none as the examine function.
          */
-        void examine( Character &p, const tripoint &pos );
+        void examine( Character &you, const tripoint &pos );
 
         /**
          * Returns true if point at pos is harvestable right now, with no extra tools.
@@ -1176,6 +1289,15 @@ class map
         std::list<item> use_charges( const tripoint &origin, int range, const itype_id &type,
                                      int &quantity, const std::function<bool( const item & )> &filter = return_true<item>,
                                      basecamp *bcp = nullptr );
+
+        /**
+        * Consume UPS from UPS sources from area centered at origin.
+        * @param origin the position of player
+        * @param range how far the UPS can be used from
+        * @return Amount of UPS used which will be between 0 and qty
+        */
+        int consume_ups( const tripoint &origin, int range, int qty );
+
         /*@}*/
         std::list<std::pair<tripoint, item *> > get_rc_items( const tripoint &p = { -1, -1, -1 } );
 
@@ -1634,7 +1756,7 @@ class map
         void rad_scorch( const tripoint &p, const time_duration &time_since_last_actualize );
         void decay_cosmetic_fields( const tripoint &p, const time_duration &time_since_last_actualize );
 
-        void player_in_field( player &u );
+        void player_in_field( Character &you );
         void monster_in_field( monster &z );
         /**
          * As part of the map shifting, this shifts the trap locations stored in @ref traplocs.
@@ -1780,21 +1902,13 @@ class map
          * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
          * Returns false if it has drawn all it should, true if `draw_from_above` should be called after.
          */
-        bool draw_maptile( const catacurses::window &w, const player &u, const tripoint &p,
-                           const maptile &tile,
-                           bool invert, bool show_items,
-                           const tripoint &view_center,
-                           bool low_light, bool bright_light, bool inorder ) const;
-        bool draw_maptile_from_memory( const catacurses::window &w, const tripoint &p,
-                                       const tripoint &view_center,
-                                       bool move_cursor = true ) const;
+        bool draw_maptile( const catacurses::window &w, const tripoint &p,
+                           const maptile &tile, const drawsq_params &params ) const;
         /**
          * Draws the tile as seen from above.
          */
-        void draw_from_above( const catacurses::window &w, const player &u, const tripoint &p,
-                              const maptile &tile, bool invert,
-                              const tripoint &view_center,
-                              bool low_light, bool bright_light, bool inorder ) const;
+        void draw_from_above( const catacurses::window &w, const tripoint &p,
+                              const maptile &tile, const drawsq_params &params ) const;
 
         int determine_wall_corner( const tripoint &p ) const;
         // apply a circular light pattern immediately, however it's best to use...

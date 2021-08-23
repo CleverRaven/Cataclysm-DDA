@@ -35,6 +35,7 @@
 #include "line.h"
 #include "lru_cache.h"
 #include "memory_fast.h"
+#include "npc_attack.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player.h"
@@ -503,9 +504,9 @@ struct npc_follower_rules {
     aim_rule aim = aim_rule::WHEN_CONVENIENT;
     cbm_recharge_rule cbm_recharge = cbm_recharge_rule::CBM_RECHARGE_SOME;
     cbm_reserve_rule cbm_reserve = cbm_reserve_rule::CBM_RESERVE_SOME;
-    ally_rule flags = ally_rule::DEFAULT;
-    ally_rule override_enable = ally_rule::DEFAULT;
-    ally_rule overrides = ally_rule::DEFAULT;
+    ally_rule flags = ally_rule::DEFAULT; // NOLINT(cata-serialize)
+    ally_rule override_enable = ally_rule::DEFAULT; // NOLINT(cata-serialize)
+    ally_rule overrides = ally_rule::DEFAULT; // NOLINT(cata-serialize)
 
     pimpl<auto_pickup::npc_settings> pickup_whitelist;
 
@@ -573,6 +574,9 @@ struct npc_short_term_cache {
     cata::optional<tripoint> guard_pos;
     double my_weapon_value = 0;
 
+    npc_attack_rating current_attack_evaluation;
+    std::shared_ptr<npc_attack> current_attack;
+
     // Use weak_ptr to avoid circular references between Creatures
     // attitude of creatures the npc can see
     std::vector<weak_ptr_fast<Creature>> hostile_guys;
@@ -582,9 +586,10 @@ struct npc_short_term_cache {
     std::map<direction, float> threat_map;
     // Cache of locations the NPC has searched recently in npc::find_item()
     lru_cache<tripoint, int> searched_tiles;
-    // returns the value of the distance between a friendly creature and the closest enemy to that friendly creature.
-    // returns -1 if not applicable
-    int closest_enemy_to_friendly_distance() const;
+    // returns the value of the distance between a friendly creature and the closest enemy to that
+    // friendly creature.
+    // returns nullopt if not applicable
+    cata::optional<int> closest_enemy_to_friendly_distance() const;
 };
 
 // DO NOT USE! This is old, use strings as talk topic instead, e.g. "TALK_AGREE_FOLLOW" instead of
@@ -767,13 +772,13 @@ class npc : public player
         npc &operator=( npc && ) noexcept( list_is_noexcept );
         ~npc() override;
 
-        bool is_player() const override {
+        bool is_avatar() const override {
             return false;
         }
         bool is_npc() const override {
             return true;
         }
-        const npc *as_npc() override {
+        npc *as_npc() override {
             return this;
         }
         const npc *as_npc() const override {
@@ -789,22 +794,20 @@ class npc : public player
         // Faction version number
         int get_faction_ver() const;
         void set_faction_ver( int new_version );
-        bool has_faction_relationship( const player &p,
+        bool has_faction_relationship( const Character &you,
                                        npc_factions::relationship flag ) const;
         void set_fac( const faction_id &id );
         faction *get_faction() const override;
         faction_id get_fac_id() const;
         /**
-         * Set @ref submap_coords and @ref pos.
-         * @param p global submap coordinates.
+         * Spawns the NPC on a random square within the given OMT.
+         * @param p global omt coordinates.
          */
-        void spawn_at_sm( const tripoint &p );
+        void spawn_at_omt( const tripoint_abs_omt &p );
         /**
-         * As spawn_at, but also sets position within the submap.
-         * Note: final submap may differ from submap_offset if @ref square has
-         * x/y values outside [0, SEEX-1]/[0, SEEY-1] range.
+         * Spawns the NPC on the specified map square.
          */
-        void spawn_at_precise( const point &submap_offset, const tripoint &square );
+        void spawn_at_precise( const tripoint_abs_ms &p );
         /**
          * Places the NPC on the @ref map. This update its
          * pos values to fit the current offset of
@@ -835,7 +838,7 @@ class npc : public player
 
         // Interaction with the player
         void form_opinion( const player &u );
-        std::string pick_talk_topic( const player &u );
+        std::string pick_talk_topic( const Character &u );
         float character_danger( const Character &u ) const;
         float vehicle_danger( int radius ) const;
         void pretend_fire( npc *source, int shots, item &gun ); // fake ranged attack for hallucination
@@ -926,8 +929,6 @@ class npc : public player
         int value( const item &it ) const;
         int value( const item &it, int market_price ) const;
         bool wear_if_wanted( const item &it, std::string &reason );
-        void start_read( item &chosen, player *pl );
-        void finish_read( item &book );
         bool can_read( const item &book, std::vector<std::string> &fail_reasons );
         int time_to_read( const item &book, const player &reader ) const;
         void do_npc_read();
@@ -1068,6 +1069,10 @@ class npc : public player
         // Functions which choose an action for a particular goal
         npc_action method_of_fleeing();
         npc_action method_of_attack();
+        // among the different attack methods the npc has available, what's the best one in the current situation?
+        // picks among melee, guns, spells, etc.
+        // updates the ai_cache
+        void evaluate_best_weapon( const Creature *target );
 
         static std::array<std::pair<std::string, overmap_location_str_id>, npc_need::num_needs> need_data;
 
@@ -1239,7 +1244,7 @@ class npc : public player
          * Do not use when placing a NPC in mapgen.
          */
         void setpos( const tripoint &pos ) override;
-        void travel_overmap( const tripoint &pos );
+        void travel_overmap( const tripoint_abs_omt &pos );
         npc_attitude get_attitude() const override;
         void set_attitude( npc_attitude new_attitude );
         void set_mission( npc_mission new_mission );
@@ -1261,7 +1266,8 @@ class npc : public player
         cata::optional<tripoint_abs_omt> assigned_camp = cata::nullopt;
 
         // accessors to ai_cache functions
-        int closest_enemy_to_friendly_distance() const;
+        const std::vector<weak_ptr_fast<Creature>> &get_cached_friends() const;
+        cata::optional<int> closest_enemy_to_friendly_distance() const;
 
     private:
         npc_attitude attitude = NPCATT_NULL; // What we want to do to the player
@@ -1281,6 +1287,14 @@ class npc : public player
 
         npc_short_term_cache ai_cache;
     public:
+        const std::shared_ptr<npc_attack> &get_current_attack() const {
+            return ai_cache.current_attack;
+        }
+
+        const npc_attack_rating &get_current_attack_evaluation() const {
+            return ai_cache.current_attack_evaluation;
+        }
+
         /**
          * Global position, expressed in map square coordinate system
          * (the most detailed coordinate system), used by the @ref map.
@@ -1298,7 +1312,7 @@ class npc : public player
          * pos() += SEEX; submap_coords.x -= 1;
          * This does not change the global position of the NPC.
          */
-        tripoint global_square_location() const override;
+        tripoint_abs_ms global_square_location() const override;
         cata::optional<tripoint> last_player_seen_pos; // Where we last saw the player
         int last_seen_player_turn = 0; // Timeout to forgetting
         tripoint wanted_item_pos; // The square containing an item we want

@@ -1,0 +1,72 @@
+name: Basic Build
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  skip-duplicates:
+    continue-on-error: true
+    runs-on: ubuntu-latest
+    # Map a step output to a job output
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@master
+        with:
+          cancel_others: 'true'
+          paths_ignore: '["android/**", "build-data/osx/**", "doc/**", "doxygen_doc/**", "lgtm/**", "msvc-**", "object_creator/**", "tools/**", "utilities/**"]'
+  basic-build:
+    needs: skip-duplicates
+    if: ${{ needs.skip-duplicates.outputs.should_skip != 'true' }}
+
+    name: Basic Build and Test (GCC 9, Curses, LTO)
+    runs-on: ubuntu-latest
+    env:
+        COMPILER: g++-9
+        TEST_STAGE: 1
+        EXTRA_TEST_OPTS: --error-format=github-action
+        NATIVE: linux64
+        GOLD: 1
+        LTO: 1
+        RELEASE: 1
+    steps:
+    - name: checkout repository
+      uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+    - name: install dependencies (ubuntu)
+      if: runner.os == 'Linux'
+      run: |
+          sudo apt-get update
+          sudo apt-get install libncursesw5-dev ccache gettext parallel
+    - name: prepare
+      run: bash ./build-scripts/requirements.sh
+    - name: Get Date
+      id: get-date
+      run: |
+        echo "::set-output name=date::$(/bin/date -u "+%Y%m%d%H%M")"
+      shell: bash
+    - name: ccache cache files (ubuntu)
+      if: runner.os == 'Linux'
+      uses: actions/cache@v2
+      with:
+        path: ~/.ccache
+        key: ccache-linux-g++-9-${{ steps.get-date.outputs.date }}
+        restore-keys: |
+          ccache-linux-g++-9-
+    - uses: ammaraskar/gcc-problem-matcher@master
+    - name: build and test
+      run: bash ./build-scripts/build.sh
+    - name: upload artifacts if failed
+      uses: actions/upload-artifact@v2
+      if: failure()
+      with:
+        name: cata_test
+        path: tests/cata_test
+        if-no-files-found: ignore

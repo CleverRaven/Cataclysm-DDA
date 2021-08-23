@@ -66,15 +66,7 @@ static const bionic_id bio_dis_acid( "bio_dis_acid" );
 static const bionic_id bio_dis_shock( "bio_dis_shock" );
 static const bionic_id bio_geiger( "bio_geiger" );
 static const bionic_id bio_gills( "bio_gills" );
-static const bionic_id bio_glowy( "bio_glowy" );
-static const bionic_id bio_itchy( "bio_itchy" );
-static const bionic_id bio_leaky( "bio_leaky" );
-static const bionic_id bio_noise( "bio_noise" );
 static const bionic_id bio_power_weakness( "bio_power_weakness" );
-static const bionic_id bio_shakes( "bio_shakes" );
-static const bionic_id bio_sleepy( "bio_sleepy" );
-static const bionic_id bio_spasm( "bio_spasm" );
-static const bionic_id bio_trip( "bio_trip" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_asthma( "asthma" );
@@ -87,7 +79,6 @@ static const efftype_id effect_disabled( "disabled" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_formication( "formication" );
-static const efftype_id effect_glowy_led( "glowy_led" );
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_iodine( "iodine" );
@@ -98,7 +89,6 @@ static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
-static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_took_antiasthmatic( "took_antiasthmatic" );
 static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_valium( "valium" );
@@ -119,8 +109,7 @@ static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
 static const trait_id trait_FRESHWATEROSMOSIS( "FRESHWATEROSMOSIS" );
-static const trait_id trait_GILLS( "GILLS" );
-static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
+static const trait_id trait_HAS_NEMESIS( "HAS_NEMESIS" );
 static const trait_id trait_JITTERY( "JITTERY" );
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_LEAVES( "LEAVES" );
@@ -162,6 +151,7 @@ static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
 static const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
 static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 
+static const json_character_flag json_flag_GILLS( "GILLS" );
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
@@ -241,7 +231,7 @@ void Character::suffer_mutation_power( const trait_id &mut_id )
 
 void Character::suffer_while_underwater()
 {
-    if( !has_trait( trait_GILLS ) && !has_trait( trait_GILLS_CEPH ) ) {
+    if( !has_flag( json_flag_GILLS ) ) {
         oxygen--;
     }
     if( oxygen < 12 && worn_with_flag( flag_REBREATHER ) ) {
@@ -335,6 +325,10 @@ void Character::suffer_while_awake( const int current_stim )
 
     if( has_trait( trait_VOMITOUS ) && one_turn_in( 7_hours ) ) {
         vomit();
+    }
+
+    if( has_trait( trait_HAS_NEMESIS ) && one_turn_in( 2_minutes ) ) {
+        signal_nemesis();
     }
 
     if( has_trait( trait_SHOUT1 ) && one_turn_in( 6_hours ) ) {
@@ -1195,62 +1189,9 @@ void Character::suffer_from_bad_bionics()
         sfx::play_variant_sound( "bionics", "acid_discharge", 100 );
         sfx::do_player_death_hurt( get_player_character(), false );
     }
-    if( has_bionic( bio_noise ) && one_turn_in( 50_minutes ) &&
-        !has_effect( effect_narcosis ) ) {
-        // TODO: NPCs with said bionic
-        if( !is_deaf() ) {
-            add_msg( m_bad, _( "A bionic emits a crackle of noise!" ) );
-            sfx::play_variant_sound( "bionics", "elec_blast", 100 );
-        } else {
-            add_msg_if_player( m_bad, _( "You feel your faulty bionic shuddering." ) );
-            sfx::play_variant_sound( "bionics", "elec_blast_muffled", 100 );
-        }
-        sounds::sound( pos(), 60, sounds::sound_t::movement, _( "Crackle!" ) ); //sfx above
-    }
     if( has_bionic( bio_power_weakness ) && has_max_power() &&
         get_power_level() >= get_max_power_level() * .75 ) {
         mod_str_bonus( -3 );
-    }
-    if( has_bionic( bio_trip ) && one_turn_in( 50_minutes ) &&
-        !has_effect( effect_visuals ) &&
-        !has_effect( effect_narcosis ) && !in_sleep_state() ) {
-        add_msg_if_player( m_bad, _( "Your vision pixelates!" ) );
-        add_effect( effect_visuals, 10_minutes );
-        sfx::play_variant_sound( "bionics", "pixelated", 100 );
-    }
-    if( has_bionic( bio_spasm ) && one_turn_in( 5_hours ) && !has_effect( effect_downed ) &&
-        !has_effect( effect_narcosis ) ) {
-        add_msg_if_player( m_bad,
-                           _( "Your malfunctioning bionic causes you to spasm and fall to the floor!" ) );
-        mod_pain( 1 );
-        add_effect( effect_stunned, 1_turns );
-        add_effect( effect_downed, 1_turns, false, 0, true );
-        sfx::play_variant_sound( "bionics", "elec_crackle_high", 100 );
-    }
-    if( has_bionic( bio_shakes ) && get_power_level() > bio_shakes->power_trigger &&
-        one_turn_in( 2_hours ) ) {
-        add_msg_if_player( m_bad, _( "Your bionics short-circuit, causing you to tremble and shiver." ) );
-        mod_power_level( -bio_shakes->power_trigger );
-        add_effect( effect_shakes, 5_minutes );
-        sfx::play_variant_sound( "bionics", "elec_crackle_med", 100 );
-    }
-    if( has_bionic( bio_leaky ) && one_turn_in( 6_minutes ) ) {
-        mod_healthy_mod( -1, -200 );
-    }
-    if( has_bionic( bio_sleepy ) && one_turn_in( 50_minutes ) && !in_sleep_state() ) {
-        mod_fatigue( 1 );
-    }
-    if( has_bionic( bio_itchy ) && one_turn_in( 50_minutes ) && !has_effect( effect_formication ) &&
-        !has_effect( effect_narcosis ) ) {
-        add_msg_if_player( m_bad, _( "Your malfunctioning bionic itches!" ) );
-        const bodypart_id &bp = random_body_part( true );
-        add_effect( effect_formication, 10_minutes, bp );
-    }
-    if( has_bionic( bio_glowy ) && !has_effect( effect_glowy_led ) && one_turn_in( 50_minutes ) &&
-        get_power_level() > bio_glowy->power_trigger ) {
-        add_msg_if_player( m_bad, _( "Your malfunctioning bionic starts to glow!" ) );
-        add_effect( effect_glowy_led, 5_minutes );
-        mod_power_level( -bio_glowy->power_trigger );
     }
 }
 

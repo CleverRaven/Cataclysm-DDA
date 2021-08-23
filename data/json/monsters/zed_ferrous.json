@@ -26,7 +26,6 @@
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "attack_effs": [ { "id": "tetanus", "chance": 10 } ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 15, "into_group": "GROUP_FERROUS_UPGRADE" },
     "flags": [
@@ -75,7 +74,6 @@
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "attack_effs": [ { "id": "tetanus", "chance": 10 } ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "upgrades": { "half_life": 15, "into_group": "GROUP_FERROUS_UPGRADE" },
     "flags": [
@@ -126,7 +124,6 @@
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "attack_effs": [ { "id": "tetanus", "chance": 10 } ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",
@@ -171,7 +168,6 @@
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ], [ "impale", 25 ] ],
     "attack_effs": [ { "id": "tetanus", "chance": 20 } ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",
@@ -218,7 +214,6 @@
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "NORMAL" ],
     "attack_effs": [ { "id": "tetanus", "chance": 10 } ],
     "burn_into": "mon_zombie_scorched",
     "flags": [

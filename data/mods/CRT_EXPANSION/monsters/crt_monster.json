@@ -28,7 +28,6 @@
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 3 }, [ "GRAB", 7 ], [ "scratch", 10 ] ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",
@@ -74,7 +73,6 @@
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 10 ] ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",
@@ -122,7 +120,6 @@
     "harvest": "zombie",
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "death_drops": "mon_zombie_cop_death_drops",
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
   },
   {
@@ -162,7 +159,6 @@
       }
     ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "CLIMBS", "PUSH_MON", "FILTHY" ]
   },
@@ -211,7 +207,6 @@
       { "id": "impale" }
     ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
@@ -245,7 +240,6 @@
     "harvest": "zombie",
     "special_attacks": [ [ "SHRIEK", 7 ], [ "scratch", 5 ], { "type": "leap", "cooldown": 4, "max_range": 3 } ],
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_clothes", 100 ], [ "child_items", 65 ] ] },
-    "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_child_scorched",
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "CLIMBS", "FILTHY", "SWARMS" ],
     "//": "no GUILT because it no longer looks enough like a child to evoke pity"
@@ -280,7 +274,7 @@
     "harvest": "zombie",
     "special_attacks": [ [ "ACID_BARF", 5 ] ],
     "death_drops": "default_zombie_death_drops",
-    "death_function": [ "ACID", "NORMAL" ],
+    "death_function": { "message": "The %s's body leaks acid.", "effect": { "id": "death_acid", "hit_self": true } },
     "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",

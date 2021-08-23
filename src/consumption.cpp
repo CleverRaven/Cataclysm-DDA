@@ -16,6 +16,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
+#include "craft_command.h"
 #include "debug.h"
 #include "effect.h"
 #include "enums.h"
@@ -26,7 +27,6 @@
 #include "game.h"
 #include "item.h"
 #include "item_category.h"
-#include "item_contents.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -358,8 +358,8 @@ std::pair<nutrients, nutrients> Character::compute_nutrient_range(
         nutrients this_max;
 
         item result_it = rec->create_result();
-        if( result_it.contents.num_item_stacks() == 1 ) {
-            const item alt_result = result_it.contents.legacy_front();
+        if( result_it.num_item_stacks() == 1 ) {
+            const item alt_result = result_it.legacy_front();
             if( alt_result.typeId() == comest_it.typeId() ) {
                 result_it = alt_result;
             }
@@ -635,22 +635,8 @@ morale_type Character::allergy_type( const item &food ) const
 
 ret_val<edible_rating> Character::can_eat( const item &food ) const
 {
-    bool can_fuel_cbm = can_fuel_bionic_with( food );
-    if( !food.is_comestible() && !can_fuel_cbm ) {
+    if( !food.is_comestible() ) {
         return ret_val<edible_rating>::make_failure( _( "That doesn't look edible." ) );
-    } else if( can_fuel_cbm ) {
-        std::string item_name = food.tname();
-        material_id mat_type = food.get_base_material().id;
-        if( food.type->magazine ) {
-            const item ammo = item( food.ammo_current() );
-            item_name = ammo.tname();
-            mat_type = ammo.get_base_material().id;
-        }
-        if( get_fuel_capacity( mat_type ) <= 0 ) {
-            return ret_val<edible_rating>::make_failure( _( "No space to store more %s" ), item_name );
-        } else {
-            return ret_val<edible_rating>::make_success();
-        }
     }
 
     const auto &comest = food.get_comestible();
@@ -768,6 +754,26 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
     return ret_val<edible_rating>::make_success();
 }
 
+ret_val<edible_rating> Character::can_consume_fuel( const item &fuel ) const
+{
+    if( !can_fuel_bionic_with( fuel ) ) {
+        return ret_val<edible_rating>::make_failure( _( "That doesn't look useable as fuel." ) );
+    } else {
+        std::string item_name = fuel.tname();
+        material_id mat_type = fuel.get_base_material().id;
+        if( fuel.type->magazine ) {
+            const item ammo = item( fuel.ammo_current() );
+            item_name = ammo.tname();
+            mat_type = ammo.get_base_material().id;
+        }
+        if( get_fuel_capacity( mat_type ) <= 0 ) {
+            return ret_val<edible_rating>::make_failure( _( "No space to store more %s" ), item_name );
+        }
+
+    }
+    return ret_val<edible_rating>::make_success();
+}
+
 ret_val<edible_rating> Character::will_eat( const item &food, bool interactive ) const
 {
     const auto ret = can_eat( food );
@@ -778,7 +784,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
         return ret;
     }
 
-    // exit early for cbm fuel as we've already tested everything in can_eat
+    // exit early as we've already tested everything in can_eat
     if( !food.is_comestible() ) {
         return ret_val<edible_rating>::make_success();
     }
@@ -874,13 +880,13 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
 /** Eat a comestible.
 *   @return true if item consumed.
 */
-static bool eat( item &food, player &you, bool force )
+static bool eat( item &food, Character &you, bool force )
 {
     if( !food.is_food() ) {
         return false;
     }
 
-    const auto ret = force ? you.can_eat( food ) : you.will_eat( food, you.is_player() );
+    const auto ret = force ? you.can_eat( food ) : you.will_eat( food, you.is_avatar() );
     if( !ret.success() ) {
         return false;
     }
@@ -971,7 +977,7 @@ static bool eat( item &food, player &you, bool force )
                                    food.tname() );
     } else if( drinkable ) {
         if( you.has_trait( trait_SCHIZOPHRENIC ) &&
-            one_in( 50 ) && !spoiled && food.goes_bad() && you.is_player() ) {
+            one_in( 50 ) && !spoiled && food.goes_bad() && you.is_avatar() ) {
 
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
             add_msg( _( "You drink your %s (rotten)." ), food.tname() );
@@ -981,7 +987,7 @@ static bool eat( item &food, player &you, bool force )
         }
     } else if( chew ) {
         if( you.has_trait( trait_SCHIZOPHRENIC ) &&
-            one_in( 50 ) && !spoiled && food.goes_bad() && you.is_player() ) {
+            one_in( 50 ) && !spoiled && food.goes_bad() && you.is_avatar() ) {
 
             add_msg( m_bad, _( "Ick, this %s (rotten) doesn't taste so good…" ), food.tname() );
             add_msg( _( "You eat your %s (rotten)." ), food.tname() );
@@ -1351,6 +1357,22 @@ int Character::compute_calories_per_effective_volume( const item &food,
     return std::round( kcalories / effective_volume );
 }
 
+static void activate_consume_eocs( Character &you, item &target )
+{
+    Character *char_ptr = nullptr;
+    if( avatar *u = you.as_avatar() ) {
+        char_ptr = u;
+    } else if( npc *n = you.as_npc() ) {
+        char_ptr = n;
+    }
+    item_location loc( you, &target );
+    dialogue d( get_talker_for( char_ptr ), get_talker_for( loc ) );
+    const islot_comestible &comest = *target.get_comestible();
+    for( const effect_on_condition_id &eoc : comest.consumption_eocs ) {
+        eoc->activate( d );
+    }
+}
+
 bool Character::consume_effects( item &food )
 {
     if( !food.is_comestible() ) {
@@ -1472,6 +1494,7 @@ bool Character::consume_effects( item &food )
     if( has_effect( effect_tapeworm ) ) {
         ingested.nutr /= 2;
     }
+    activate_consume_eocs( *this, food );
 
     // GET IN MAH BELLY!
     stomach.ingest( ingested );
@@ -1528,7 +1551,7 @@ bool Character::fuel_bionic_with( item &it )
                            ngettext( "<npcname> load %1$i charge of %2$s in their %3$s.",
                                      "<npcname> load %1$i charges of %2$s in their %3$s.", loadable ), loadable, mat->name(),
                            bio->name );
-    mod_moves( -250 );
+
     // Return false for magazines because only their ammo is consumed
     return !is_magazine;
 }
@@ -1563,7 +1586,10 @@ bool Character::can_estimate_rot() const
 
 bool Character::can_consume_as_is( const item &it ) const
 {
-    return it.is_comestible() || can_fuel_bionic_with( it );
+    if( it.is_comestible() ) {
+        return !( it.has_flag( flag_FROZEN ) && !it.has_flag( flag_EDIBLE_FROZEN ) );
+    }
+    return can_fuel_bionic_with( it );
 }
 
 bool Character::can_consume( const item &it ) const
@@ -1635,10 +1661,9 @@ time_duration Character::get_consume_time( const item &it )
             }
         } else if( smoking != nullptr ) {
             time = time_duration::from_minutes( 1 );//about five minutes for a cig or joint so 1 minute a charge
-        } else if( adrenaline_injector != nullptr ) {
-            time = time_duration::from_seconds( 15 );//epi-pens are fairly quick
-        } else if( heal != nullptr ) {
-            time = time_duration::from_seconds( 15 );//bandages and disinfectant are fairly quick
+        } else if( adrenaline_injector != nullptr || heal != nullptr ) {
+            //epi-pens, bandages and disinfectant are fairly quick
+            time = time_duration::from_seconds( 15 );
         } else {
             time = time_duration::from_seconds( 5 ); //probably pills so quick
         }
@@ -1651,7 +1676,7 @@ time_duration Character::get_consume_time( const item &it )
     return time * consume_time_modifier;
 }
 
-static bool query_consume_ownership( item &target, player &p )
+static bool query_consume_ownership( item &target, Character &p )
 {
     if( !target.is_owned_by( p, true ) ) {
         bool choice = true;
@@ -1684,7 +1709,7 @@ static bool query_consume_ownership( item &target, player &p )
 /** Consume medication.
 *   @return true if item consumed.
 */
-static bool consume_med( item &target, player &you )
+static bool consume_med( item &target, Character &you )
 {
     if( !target.is_medication() ) {
         return false;
@@ -1726,22 +1751,13 @@ static bool consume_med( item &target, player &you )
         you.consume_effects( target );
     }
 
+    activate_consume_eocs( you, target );
+
     target.mod_charges( -amount_used );
     return true;
 }
 
-static bool cbm_is_full( const player &guy, const item &fuel )
-{
-    material_id fuel_mat;
-    if( fuel.is_magazine() ) {
-        fuel_mat = item( fuel.ammo_current() ).get_base_material().id;
-    } else {
-        fuel_mat = fuel.get_base_material().id;
-    }
-    return guy.get_fuel_capacity( fuel_mat ) > 0;
-}
-
-trinary player::consume( item &target, bool force )
+trinary Character::consume( item &target, bool force, bool refuel )
 {
     if( target.is_null() ) {
         add_msg_if_player( m_info, _( "You do not have that item." ) );
@@ -1759,13 +1775,15 @@ trinary player::consume( item &target, bool force )
         }
         return trinary::NONE;
     }
-    if( is_player() && !query_consume_ownership( target, *this ) ) {
+    if( is_avatar() && !query_consume_ownership( target, *this->as_player() ) ) {
         return trinary::NONE;
     }
-    if( consume_med( target, *this ) ||
-        ( has_max_power() && get_power_level() < get_max_power_level() &&
-          cbm_is_full( *this, target ) && fuel_bionic_with( target ) ) ||
-        eat( target, *this, force ) ) {
+
+    if( refuel ) {
+        return fuel_bionic_with( target ) && target.charges <= 0 ? trinary::ALL : trinary::SOME;
+    }
+
+    if( consume_med( target, *this->as_player() ) || eat( target, *this->as_player(), force ) ) {
 
         get_event_bus().send<event_type::character_consumes_item>( getID(), target.typeId() );
 
@@ -1776,7 +1794,7 @@ trinary player::consume( item &target, bool force )
     return trinary::NONE;
 }
 
-trinary player::consume( item_location loc, bool force )
+trinary Character::consume( item_location loc, bool force, bool refuel )
 {
     if( !loc ) {
         debugmsg( "Null loc to consume." );
@@ -1784,7 +1802,7 @@ trinary player::consume( item_location loc, bool force )
     }
     contents_change_handler handler;
     item &target = *loc;
-    trinary result = consume( target, force );
+    trinary result = consume( target, force, refuel );
     if( result != trinary::NONE ) {
         handler.unseal_pocket_containing( loc );
     }

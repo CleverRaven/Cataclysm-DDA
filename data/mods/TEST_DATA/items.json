@@ -95,6 +95,60 @@
     "price_postapoc": 300
   },
   {
+    "type": "TOOL",
+    "id": "test_shears",
+    "name": { "str_sp": "shears" },
+    "description": "This is a set of shears designed to obtain wool from sheep.",
+    "weight": "820 g",
+    "volume": "750 ml",
+    "price": 500,
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "cutting": 3,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "SHEAR", 1 ] ],
+    "flags": [ "STAB" ]
+  },
+  {
+    "type": "TOOL",
+    "id": "test_shears_off",
+    "copy-from": "test_shears",
+    "name": { "str": "electric shears (off)" },
+    "description": "This is a set of electric shears designed to obtain wool from sheep.",
+    "qualities": [  ],
+    "use_action": {
+      "type": "transform",
+      "msg": "Your %s activates.",
+      "target": "test_shears_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The shears batteries are dead."
+    },
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "test_battery_disposable" ]
+      }
+    ]
+  },
+  {
+    "type": "TOOL",
+    "id": "test_shears_on",
+    "copy-from": "test_shears_off",
+    "name": { "str": "electric shears (on)" },
+    "description": "This is a set of electric shears designed to obtain wool from sheep.  These shears have been turned on.",
+    "power_draw": 10000,
+    "revert_to": "test_shears_off",
+    "use_action": { "type": "transform", "msg": "Your %s deactivates.", "target": "test_shears_off" },
+    "qualities": [ [ "SHEAR", 3 ] ]
+  },
+  {
     "id": "test_tool_belt",
     "type": "ARMOR",
     "name": { "str": "tool belt" },
@@ -389,6 +443,41 @@
     ]
   },
   {
+    "type": "TOOL",
+    "id": "test_ebook_reader",
+    "name": { "str": "eBook reader" },
+    "description": "Test book reader.",
+    "weight": "250 g",
+    "volume": "250 ml",
+    "longest_side": "25 cm",
+    "price": 20000,
+    "price_postapoc": 100,
+    "to_hit": -1,
+    "material": [ "plastic" ],
+    "symbol": ";",
+    "color": "green",
+    "ammo": [ "battery" ],
+    "charges_per_use": 1,
+    "use_action": [ "EBOOKSAVE", "EBOOKREAD" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "test_battery_disposable" ]
+      },
+      {
+        "pocket_type": "EBOOK",
+        "rigid": true,
+        "max_contains_volume": "1 ml",
+        "max_contains_weight": "1 g",
+        "weight_multiplier": 0.0
+      }
+    ]
+  },
+  {
     "id": "test_battery_disposable",
     "type": "MAGAZINE",
     "category": "spare_parts",
@@ -446,7 +535,7 @@
     "id": "test_smart_phone",
     "type": "TOOL",
     "name": { "str": "test smartphone" },
-    "description": "UPS-powered smartphone with a flashlight, camera, and MP3 player.",
+    "description": "A popular, fancy smartphone.  Capable of making photos due to integrated camera and illuminating an area as per flashlight app, assuming it has enough charge.  The smartphone also has a clock app that includes an alarm.  Runs on a small, rechargeable power cell compatible with Unified Power Supply.",
     "weight": "230 g",
     "volume": "100 ml",
     "price": 20000,
@@ -456,13 +545,13 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "initial_charges": 110,
-    "max_charges": 120,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 120 } } ],
     "charges_per_use": 1,
     "use_action": [
       {
         "target": "smart_phone_flashlight",
         "msg": "You activate the flashlight app.",
+        "menu_text": "Turn on flashlight",
         "active": true,
         "need_charges": 5,
         "need_charges_msg": "The smartphone's charge is too low.",
@@ -471,7 +560,30 @@
       "CAMERA",
       "MP3"
     ],
-    "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "RECHARGE", "NO_RELOAD" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "WATER_BREAK" ]
+  },
+  {
+    "type": "TOOL",
+    "id": "test_mp3",
+    "name": { "str": "test mp3 player" },
+    "description": "Test mp3 player",
+    "weight": "140 g",
+    "volume": "50 ml",
+    "symbol": ";",
+    "ammo": [ "battery" ],
+    "use_action": [ "MP3" ],
+    "charges_per_use": 1,
+    "flags": [ "WATER_BREAK_ACTIVE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "test_battery_disposable" ]
+      }
+    ]
   },
   {
     "id": "test_socks",
@@ -541,7 +653,7 @@
   },
   {
     "id": "test_hazmat_suit",
-    "repairs_like": "aep_suit",
+    "repairs_like": "fsurvivor_suit",
     "type": "ARMOR",
     "name": "TEST hazmat suit",
     "description": "An impermeable whole-body garment worn as protection against hazardous materials.  Though very restrictive and fragile, wearing it will provide complete protection against ambient radiation.  It requires a separate gas mask for full protection.",
@@ -872,6 +984,62 @@
     ]
   },
   {
+    "type": "GENERIC",
+    "id": "test_waterproof_bag",
+    "category": "container",
+    "name": { "str": "body bag" },
+    "looks_like": "bag_canvas",
+    "description": "A large, human size, rectangular bag made of strong plastic, with a zipper in the middle.  Used to hold a dead body.",
+    "weight": "1500 g",
+    "volume": "1 L",
+    "longest_side": "40 cm",
+    "price": 0,
+    "price_postapoc": 10,
+    "to_hit": -5,
+    "material": [ "plastic" ],
+    "symbol": ")",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "watertight": true,
+        "max_contains_volume": "100 L",
+        "max_contains_weight": "100 kg",
+        "max_item_length": "200 cm",
+        "moves": 400
+      }
+    ],
+    "color": "dark_gray",
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "test_duffelbag",
+    "type": "ARMOR",
+    "name": { "str": "test duffel bag" },
+    "description": "A huge test duffel bag.  Provides plenty of storage, but is severely encumbering.",
+    "weight": "933 g",
+    "volume": "6 L",
+    "price": 12000,
+    "price_postapoc": 500,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "rucksack",
+    "color": "green",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "35 L",
+        "max_contains_weight": "50 kg",
+        "max_item_length": "55 cm",
+        "magazine_well": "5 L",
+        "moves": 300
+      }
+    ],
+    "warmth": 10,
+    "material_thickness": 2,
+    "flags": [ "BELTED", "WATER_FRIENDLY" ],
+    "armor": [ { "encumbrance": [ 5, 35 ], "coverage": 50, "covers": [ "torso" ] } ]
+  },
+  {
     "id": "test_backpack",
     "type": "ARMOR",
     "name": "TEST backpack",
@@ -1033,6 +1201,41 @@
     "cutting": 32,
     "price": 7500,
     "price_postapoc": 300
+  },
+  {
+    "id": "test_bullwhip",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "brown",
+    "name": { "str": "TEST bullwhip" },
+    "description": "A long strip of braided leather with a handle on one end.  Originally developed to settle disagreements with cattle, it's better used now for flaying the rotten flesh off of walking corpses.  Great for when a problem comes along.",
+    "weight": "3460 g",
+    "volume": "2 L",
+    "price": 3500,
+    "price_postapoc": 500,
+    "material": [ "leather" ],
+    "flags": [ "REACH_ATTACK", "REACH3", "WHIP" ],
+    "cutting": 3,
+    "category": "weapons"
+  },
+  {
+    "id": "test_glaive",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": { "str": "TEST glaive" },
+    "description": "A sturdy polearm with a sizable, single-edged blade on the end.",
+    "price": 50000,
+    "material": [ "steel", "wood" ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", -28 ] ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "POLEARM", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
+    "techniques": [ "WIDE", "WBLOCK_1" ],
+    "weight": "2100 g",
+    "volume": "2500 ml",
+    "longest_side": "180 cm",
+    "bashing": 17,
+    "cutting": 40,
+    "price_postapoc": 8000
   },
   {
     "id": "test_glock",
@@ -1232,6 +1435,34 @@
     "color": "dark_gray",
     "symbol": "/",
     "material": [ "steel" ]
+  },
+  {
+    "type": "TOOL",
+    "id": "test_boltcutter",
+    "name": { "str": "test pair of bolt cutters" },
+    "description": "Test bolt cutters.",
+    "weight": "1 kg",
+    "volume": "1 L",
+    "symbol": ";"
+  },
+  {
+    "type": "TOOL",
+    "id": "test_boltcutter_elec",
+    "copy-from": "test_boltcutter",
+    "name": { "str": "test electric pair of bolt cutters" },
+    "description": "Test bolt cutters which uses batteries.",
+    "charges_per_use": 1,
+    "ammo": [ "battery" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "test_battery_disposable" ]
+      }
+    ]
   },
   {
     "id": "test_crafted_suppressor",
@@ -1499,8 +1730,6 @@
     "material": [ "cardboard" ],
     "symbol": ",",
     "color": "blue",
-    "initial_charges": 20,
-    "max_charges": 20,
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "match": 20 } } ],
     "use_action": { "type": "firestarter", "moves": 40, "moves_slow": 1000 },

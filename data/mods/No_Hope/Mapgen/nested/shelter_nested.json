@@ -1,0 +1,223 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "shelter_nest_vandal_no_hope",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    |||||:|++|:|||||    ",
+        "    |llll......c..6|    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    :.b.b.b........:    ",
+        "    |..............|    ",
+        "    |..............|    ",
+        "    |..............|    ",
+        "    |..............|    ",
+        "    :.b.b.b........:    ",
+        "    |.b.b.b....c...|    ",
+        "    |.b.b.b....c...|    ",
+        "    |||.b.b....c...|    ",
+        "    | =........c..6|    ",
+        "    |||||:||+|:|||||    "
+      ],
+      "terrain": {
+        ":": [
+          [ "t_window_frame", 5 ],
+          [ "t_window_domestic", 5 ],
+          "t_window_no_curtains",
+          "t_window_open",
+          "t_window_no_curtains_open",
+          [ "t_curtains", 5 ]
+        ],
+        "+": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ],
+        "=": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ]
+      },
+      "furniture": {
+        "b": "f_bench",
+        "c": "f_cupboard",
+        "l": [ [ "f_locker", 2 ], "f_wreckage" ],
+        "S": "f_sink",
+        "%": "f_trashcan",
+        "6": "f_console_broken"
+      },
+      "items": {
+        "l": { "item": "shelter_supplies", "chance": 1 },
+        "c": [
+          { "item": "trash_no_hope", "chance": 20 },
+          { "item": "softdrugs", "chance": 2 },
+          { "item": "shelter_supplies", "chance": 1 }
+        ],
+        "b": [
+          { "item": "softdrugs", "chance": 2 },
+          { "item": "shelter_supplies", "chance": 1 },
+          { "item": "trash_no_hope", "chance": 20 }
+        ],
+        ".": [ { "item": "trash_no_hope", "chance": 2 } ]
+      },
+      "nested": {
+        "|": { "chunks": [ [ "bile_field", 1 ], [ "shelter_graffiti", 10 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },
+        ":": { "chunks": [ [ "destroyed_furniture", 80 ], [ "null", 20 ] ] },
+        ".": { "chunks": [ [ "bile_field", 5 ], [ "null", 95 ] ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "shelter_1_nest_vandal_no_hope",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "       ||||++||||       ",
+        "       |........|       ",
+        "    ||:|........|       ",
+        "    |...........|:||    ",
+        "    |.bbbbb.....c.6|    ",
+        "    |...........c..|    ",
+        "    :.bbbbb.....c..:    ",
+        "    |...........cc.|    ",
+        "    |.bbbbb........|    ",
+        "    |.......l|||...|    ",
+        "    |.|||||.l| =...|    ",
+        "    :.......l|||...:    ",
+        "    |.b.b.b...c||+||    ",
+        "    |.b.b.b...c|..l|    ",
+        "    |.b.b.b...c|..l|    ",
+        "    |..........|..l|    ",
+        "    |||||:||+|:|||||    "
+      ],
+      "terrain": {
+        ":": [
+          [ "t_window_frame", 5 ],
+          [ "t_window_domestic", 5 ],
+          "t_window_no_curtains",
+          "t_window_open",
+          "t_window_no_curtains_open",
+          [ "t_curtains", 5 ]
+        ],
+        "+": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ],
+        "=": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ]
+      },
+      "furniture": {
+        "b": "f_bench",
+        "c": "f_cupboard",
+        "l": [ [ "f_locker", 2 ], "f_wreckage" ],
+        "S": "f_sink",
+        "%": "f_trashcan",
+        "6": "f_console_broken"
+      },
+      "items": {
+        "l": { "item": "shelter_supplies", "chance": 1 },
+        "c": [
+          { "item": "trash_no_hope", "chance": 20 },
+          { "item": "softdrugs", "chance": 2 },
+          { "item": "shelter_supplies", "chance": 1 }
+        ],
+        "b": [
+          { "item": "softdrugs", "chance": 2 },
+          { "item": "shelter_supplies", "chance": 1 },
+          { "item": "trash_no_hope", "chance": 20 }
+        ],
+        ".": [ { "item": "trash_no_hope", "chance": 2 } ]
+      },
+      "nested": {
+        "|": { "chunks": [ [ "bile_field", 1 ], [ "shelter_graffiti", 10 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },
+        ":": { "chunks": [ [ "destroyed_furniture", 80 ], [ "null", 20 ] ] },
+        ".": { "chunks": [ [ "bile_field", 5 ], [ "null", 95 ] ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "shelter_2_nest_vandal_no_hope",
+    "object": {
+      "mapgensize": [ 24, 24 ],
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "           ||:|++|:||   ",
+        "   |||||||||%......l|   ",
+        "   |*|cccc6........l|   ",
+        "   |.=.............l|   ",
+        "  ||||.............|||  ",
+        "  |b.....bbbbb...b..b|  ",
+        "  :b..b..........b..b:  ",
+        "  |b..b...llll...b..b|  ",
+        "  |b..b...||||...b..b|  ",
+        "  |b..b..........b..b|  ",
+        "  |b..b..........b..b|  ",
+        "  :b..b...||||...b..b:  ",
+        "  |b..b..........b..b|  ",
+        "  |b..b..........b..b|  ",
+        "  |||.....bbbb.....|||  ",
+        "   |l..............x|   ",
+        "   ||||||||||......c|   ",
+        "            ||:|+|:||   "
+      ],
+      "terrain": {
+        ":": [
+          [ "t_window_frame", 5 ],
+          [ "t_window_domestic", 5 ],
+          "t_window_no_curtains",
+          "t_window_open",
+          "t_window_no_curtains_open",
+          [ "t_curtains", 5 ]
+        ],
+        "+": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ],
+        "=": [ [ "t_door_b", 20 ], [ "t_door_frame", 10 ], [ "t_door_o", 70 ], [ "t_door_c", 5 ], [ "t_door_locked_interior", 3 ] ],
+        "*": "t_ladder_up"
+      },
+      "furniture": {
+        "b": "f_bench",
+        "c": "f_cupboard",
+        "l": [ [ "f_locker", 2 ], "f_wreckage" ],
+        "S": "f_sink",
+        "%": "f_trashcan",
+        "6": [ "f_console", "f_console_broken" ],
+        "x": "f_console_broken"
+      },
+      "items": {
+        "l": { "item": "shelter_supplies", "chance": 1 },
+        "c": [
+          { "item": "trash_no_hope", "chance": 20 },
+          { "item": "softdrugs", "chance": 2 },
+          { "item": "shelter_supplies", "chance": 1 }
+        ],
+        "b": [
+          { "item": "softdrugs", "chance": 2 },
+          { "item": "shelter_supplies", "chance": 1 },
+          { "item": "trash_no_hope", "chance": 20 }
+        ],
+        ".": [ { "item": "trash_no_hope", "chance": 2 } ]
+      },
+      "nested": {
+        "|": { "chunks": [ [ "bile_field", 1 ], [ "shelter_graffiti", 10 ], [ "general_graffiti", 20 ], [ "null", 75 ] ] },
+        ":": { "chunks": [ [ "destroyed_furniture", 80 ], [ "null", 20 ] ] },
+        ".": { "chunks": [ [ "bile_field", 5 ], [ "null", 95 ] ] }
+      }
+    }
+  }
+]

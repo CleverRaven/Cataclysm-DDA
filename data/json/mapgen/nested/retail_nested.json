@@ -1500,5 +1500,94 @@
         "Y": { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] }
       }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "3x3_woodcrafts_crates",
+    "//": "designed for the back of the woodwork craftshop",
+    "object": {
+      "mapgensize": [ 3, 3 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "  z",
+        " zz",
+        "zzz"
+      ],
+      "terrain": { " ": "t_null" },
+      "furniture": { "z": [ [ "f_crate_c", 2 ], [ "f_crate_o", 1 ], [ "f_null", 3 ] ] },
+      "items": { "z": { "item": "wood_workshop", "chance": 20, "repeat": [ 3, 5 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "4x4_woodcrafts_table_vertical",
+    "//": "designed for the large workbench tables in the woodwork craftshop",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "ttt ",
+        "ttt ",
+        "ttt ",
+        "ttt "
+      ],
+      "terrain": { " ": "t_null" },
+      "furniture": { "t": "f_table" },
+      "item": { "t": { "item": "sandpaper", "chance": 17 } },
+      "place_item": [ { "item": "clamp", "x": 0, "y": [ 0, 3 ], "chance": 80 }, { "item": "clamp", "x": 2, "y": [ 0, 3 ], "chance": 80 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "4x4_woodcrafts_table_horizontal",
+    "//": "designed for the large workbench tables in the woodwork craftshop",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "tttt",
+        "tttt",
+        "tttt",
+        "    "
+      ],
+      "terrain": { " ": "t_null" },
+      "furniture": { "t": "f_table" },
+      "item": { "t": { "item": "sandpaper", "chance": 17 } },
+      "place_item": [ { "item": "clamp", "x": [ 0, 3 ], "y": 0, "chance": 80 }, { "item": "clamp", "x": [ 0, 3 ], "y": 2, "chance": 80 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "4x4_woodcrafts_display_nocanoe",
+    "//": "designed for the window display of the woodwork craftshop",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "ππππ",
+        "    ",
+        "    ",
+        "    ",
+        "    "
+      ],
+      "terrain": { " ": "t_null" },
+      "furniture": { "π": "f_displaycase" },
+      "items": { "π": { "item": "woodcrafts", "chance": 100, "repeat": [ 1, 3 ] } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "1x1_woodcrafts_display_canoe",
+    "//": "designed for the window display of the woodwork craftshop",
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rotation": [ 0, 3 ],
+      "place_vehicles": [ { "vehicle": "canoe", "x": 2, "y": 0, "chance": 100, "rotation": 180, "fuel": 0, "status": 0 } ]
+    }
   }
 ]

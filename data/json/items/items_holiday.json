@@ -13,9 +13,9 @@
     "symbol": "0",
     "color": "yellow",
     "looks_like": "pumpkin",
-    "initial_charges": 100,
-    "max_charges": 100,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 100 } } ],
     "charges_per_use": 1,
+    "flags": [ "WATER_BREAK" ],
     "ammo": [ "battery" ],
     "use_action": {
       "target": "plastic_jack_o_lantern_lit",
@@ -63,8 +63,6 @@
     "price_postapoc": 50,
     "material": [ "veggy" ],
     "symbol": "%",
-    "initial_charges": 100,
-    "max_charges": 100,
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "candle_wax": 100 }, "rigid": true } ],
     "use_action": {

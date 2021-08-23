@@ -47,12 +47,13 @@
       { "monster": "mon_zombie_kevlar_1", "freq": 50, "cost_multiplier": 10 },
       { "monster": "mon_zombie_flamer", "freq": 50, "cost_multiplier": 5 },
       { "monster": "mon_zombie_military_pilot", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_milbase_personnel", "freq": 40, "cost_multiplier": 1 },
       { "monster": "mon_zombie_bio_op", "freq": 30, "cost_multiplier": 5 },
       { "monster": "mon_zombie_soldier_blackops_1", "freq": 15, "cost_multiplier": 10 },
       { "monster": "mon_zombie_armored", "freq": 5, "cost_multiplier": 5 },
       { "monster": "mon_zombie_scorched", "freq": 25, "cost_multiplier": 1 },
       { "monster": "mon_zombie_hazmat", "freq": 25, "cost_multiplier": 1 },
-      { "monster": "mon_zombie", "freq": 50, "cost_multiplier": 1 }
+      { "monster": "mon_zombie", "freq": 10, "cost_multiplier": 1 }
     ]
   },
   {
@@ -61,8 +62,8 @@
     "//": "Civilians with soldiers and burned ones.",
     "default": "mon_zombie",
     "monsters": [
-      { "monster": "mon_zombie_fat", "freq": 100, "cost_multiplier": 2 },
-      { "monster": "mon_zombie_child", "freq": 40, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_fat", "freq": 60, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_child", "freq": 30, "cost_multiplier": 1 },
       { "monster": "mon_zombie_tough", "freq": 40, "cost_multiplier": 3 },
       { "monster": "mon_zombie_rot", "freq": 20, "cost_multiplier": 2 },
       { "monster": "mon_zombie_crawler", "freq": 10, "cost_multiplier": 2 },
@@ -80,6 +81,7 @@
       { "monster": "mon_zombie_survivor_elite", "freq": 1, "cost_multiplier": 25, "starts": 1440 },
       { "monster": "mon_zombie_scorched", "freq": 25, "cost_multiplier": 2 },
       { "monster": "mon_zombie_soldier", "freq": 200, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_milbase_personnel", "freq": 50, "cost_multiplier": 1 },
       { "monster": "mon_zombie_military_pilot", "freq": 5, "cost_multiplier": 1 },
       { "monster": "mon_zombie_flamer", "freq": 1, "cost_multiplier": 30 }
     ]
@@ -90,7 +92,7 @@
     "//": "Civilians with soldiers, doctors and burned ones. More hazmat.",
     "default": "mon_zombie_soldier",
     "monsters": [
-      { "monster": "mon_zombie", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie", "freq": 50, "cost_multiplier": 2 },
       { "monster": "mon_zombie_fat", "freq": 60, "cost_multiplier": 2 },
       { "monster": "mon_zombie_child", "freq": 40, "cost_multiplier": 1 },
       { "monster": "mon_zombie_tough", "freq": 40, "cost_multiplier": 3 },
@@ -110,6 +112,7 @@
       { "monster": "mon_zombie_survivor_elite", "freq": 1, "cost_multiplier": 25, "starts": 1440 },
       { "monster": "mon_zombie_scorched", "freq": 25, "cost_multiplier": 1 },
       { "monster": "mon_zombie_soldier", "freq": 200, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_milbase_personnel", "freq": 50, "cost_multiplier": 1 },
       { "monster": "mon_zombie_military_pilot", "freq": 20, "cost_multiplier": 1 },
       { "monster": "mon_zombie_flamer", "freq": 1, "cost_multiplier": 30 },
       { "monster": "mon_zombie_scientist", "freq": 100, "cost_multiplier": 1 }

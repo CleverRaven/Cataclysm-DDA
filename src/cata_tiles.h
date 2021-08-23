@@ -45,18 +45,6 @@ struct tile_type {
     std::vector<std::string> available_subtiles;
 };
 
-/* Enums */
-enum MULTITILE_TYPE {
-    center,
-    corner,
-    edge,
-    t_connection,
-    end_piece,
-    unconnected,
-    open_,
-    broken,
-    num_multitile_types
-};
 // Make sure to change TILE_CATEGORY_IDS if this changes!
 enum TILE_CATEGORY {
     C_NONE,
@@ -248,9 +236,12 @@ class tileset_loader
         void load_ascii( const JsonObject &config );
         /** Load tileset, R,G,B, are the color components of the transparent color
          * Returns the number of tiles that have been loaded from this tileset image
+         * @param pump_events Handle window events and refresh the screen when necessary.
+         *        Please ensure that the tileset is not accessed when this method is
+         *        executing if you set it to true.
          * @throw std::exception If the image can not be loaded.
          */
-        void load_tileset( const std::string &path );
+        void load_tileset( const std::string &path, bool pump_events );
         /**
          * Load tiles from json data.This expects a "tiles" array in
          * <B>config</B>. That array should contain all the tile definition that
@@ -265,10 +256,13 @@ class tileset_loader
         void load_tilejson_from_file( const JsonObject &config );
         /**
          * Helper function called by load.
+         * @param pump_events Handle window events and refresh the screen when necessary.
+         *        Please ensure that the tileset is not accessed when this method is
+         *        executing if you set it to true.
          * @throw std::exception On any error.
          */
         void load_internal( const JsonObject &config, const std::string &tileset_root,
-                            const std::string &img_path );
+                            const std::string &img_path, bool pump_events );
     public:
         tileset_loader( tileset &ts, const SDL_Renderer_Ptr &r ) : ts( ts ), renderer( r ) {
         }
@@ -276,8 +270,11 @@ class tileset_loader
          * @throw std::exception On any error.
          * @param tileset_id Ident of the tileset, as it appears in the options.
          * @param precheck If tue, only loads the meta data of the tileset (tile dimensions).
+         * @param pump_events Handle window events and refresh the screen when necessary.
+         *        Please ensure that the tileset is not accessed when this method is
+         *        executing if you set it to true.
          */
-        void load( const std::string &tileset_id, bool precheck );
+        void load( const std::string &tileset_id, bool precheck, bool pump_events = false );
 };
 
 enum class text_alignment : int {
@@ -334,7 +331,7 @@ class cata_tiles
         cata::optional<tile_lookup_res> find_tile_with_season( const std::string &id ) const;
 
         cata::optional<tile_lookup_res>
-        find_tile_looks_like( const std::string &id, TILE_CATEGORY category,
+        find_tile_looks_like( const std::string &id, TILE_CATEGORY category, const std::string &variant,
                               int looks_like_jumps_limit = 10 ) const;
 
         // this templated method is used only from it's own cpp file, so it's ok to declare it here
@@ -343,7 +340,8 @@ class cata_tiles
         find_tile_looks_like_by_string_id( const std::string &id, TILE_CATEGORY category,
                                            int looks_like_jumps_limit ) const;
 
-        bool find_overlay_looks_like( bool male, const std::string &overlay, std::string &draw_id );
+        bool find_overlay_looks_like( bool male, const std::string &overlay, const std::string &variant,
+                                      std::string &draw_id );
 
         bool draw_from_id_string( const std::string &id, const tripoint &pos, int subtile, int rota,
                                   lit_level ll,
@@ -357,6 +355,10 @@ class cata_tiles
         bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
                                   const std::string &subcategory, const tripoint &pos, int subtile, int rota,
                                   lit_level ll, bool apply_night_vision_goggles, int &height_3d );
+        // Add variant argument at end
+        bool draw_from_id_string( const std::string &id, TILE_CATEGORY category,
+                                  const std::string &subcategory, const tripoint &pos, int subtile, int rota,
+                                  lit_level ll, bool apply_night_vision_goggles, int &height_3d, const std::string &variant );
         bool draw_sprite_at(
             const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
             const point &, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
@@ -513,9 +515,13 @@ class cata_tiles
          * @param tileset_id Ident of the tileset, as it appears in the options.
          * @param precheck If true, only loads the meta data of the tileset (tile dimensions).
          * @param force If true, forces loading the tileset even if it is already loaded.
+         * @param pump_events Handle window events and refresh the screen when necessary.
+         *        Please ensure that the tileset is not accessed when this method is
+         *        executing if you set it to true.
          * @throw std::exception On any error.
          */
-        void load_tileset( const std::string &tileset_id, bool precheck = false, bool force = false );
+        void load_tileset( const std::string &tileset_id, bool precheck = false,
+                           bool force = false, bool pump_events = false );
         /**
          * Reinitializes the current tileset, like @ref init, but using the original screen information.
          * @throw std::exception On any error.
@@ -539,7 +545,8 @@ class cata_tiles
         static std::vector<options_manager::id_and_option> build_renderer_list();
         static std::vector<options_manager::id_and_option> build_display_list();
     private:
-        int get_omt_rotation( std::string &id );
+        std::string get_omt_id_rotation_and_subtile(
+            const tripoint_abs_omt &omp, int &rota, int &subtile );
     protected:
         template <typename maptype>
         void tile_loading_report( const maptype &tiletypemap, TILE_CATEGORY category,

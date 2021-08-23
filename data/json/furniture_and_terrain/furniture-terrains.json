@@ -112,7 +112,7 @@
         { "item": "box_medium", "count": 2 },
         { "item": "box_small", "count": 4 },
         { "item": "rag", "count": 50 },
-        { "item": "paper", "count": 50 },
+        { "item": "paper", "count": [ 30, 80 ] },
         { "item": "plastic_chunk", "count": 20 },
         { "item": "plastic_sheet", "count": 2 }
       ]
@@ -127,7 +127,7 @@
         { "item": "box_medium", "count": [ 0, 2 ] },
         { "item": "box_small", "count": [ 0, 4 ] },
         { "item": "rag", "count": [ 20, 50 ] },
-        { "item": "paper", "count": [ 50, 150 ] },
+        { "item": "paper", "count": [ 30, 80 ] },
         { "item": "plastic_chunk", "count": [ 5, 20 ] },
         { "item": "plastic_sheet", "count": [ 0, 2 ] }
       ]

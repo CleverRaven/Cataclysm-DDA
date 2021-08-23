@@ -195,7 +195,6 @@
     "name": { "str": "Outdoorsman" },
     "points": 1,
     "description": "You are accustomed to being exposed to the elements.  This decreases morale penalties for being wet.",
-    "starting_trait": true,
     "valid": false,
     "wet_protection": [
       { "part": "head", "neutral": 6 },
@@ -209,17 +208,6 @@
       { "part": "hand_r", "neutral": 12 },
       { "part": "torso", "neutral": 10 }
     ]
-  },
-  {
-    "type": "mutation",
-    "id": "PARKOUR",
-    "name": { "str": "Parkour Expert" },
-    "points": 2,
-    "description": "You're skilled at clearing obstacles; terrain like railings or counters are as easy for you to move on as solid ground.",
-    "starting_trait": true,
-    "valid": false,
-    "cancels": [ "BADKNEES" ],
-    "movecost_obstacle_modifier": 0.5
   },
   {
     "type": "mutation",
@@ -458,7 +446,8 @@
     "description": "You have a flexible mind, allowing you to learn skills much faster than others.  Note that this only applies to real-world experience, not to skill gain from other sources like books.",
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "SLOWLEARNER" ]
+    "cancels": [ "SLOWLEARNER" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LEARNING_FOCUS", "add": 15 } ] } ]
   },
   {
     "type": "mutation",
@@ -467,7 +456,6 @@
     "points": -1,
     "consume_time_modifier": 1.5,
     "description": "You've been taught proper table manners from your early childhood on; now, you can't even think about eating without being seated at a table and taking your time.  Eating without a table and chair frustrates you, but eating like a civilized person gives you a bigger morale bonus.",
-    "starting_trait": true,
     "valid": false
   },
   {
@@ -488,11 +476,11 @@
     "name": { "str": "Good Memory" },
     "points": 3,
     "description": "You have an exceptional memory, and find it easy to remember things.  Your skills will erode slightly slower than usual, and you can remember more terrain.",
-    "map_memory_capacity_multiplier": 2,
     "skill_rust_multiplier": 1.33,
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "FORGETFUL" ]
+    "cancels": [ "FORGETFUL" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "MAP_MEMORY", "multiply": 1 } ] } ]
   },
   {
     "type": "mutation",
@@ -530,7 +518,6 @@
     "points": 2,
     "consume_time_modifier": 1.25,
     "description": "You eat faster, and can eat and drink more, than anyone else!  You also enjoy food more; delicious food is better for your morale, and you don't mind unsavory meals as much.  Activate to skip prompt for overeating.",
-    "starting_trait": true,
     "category": [ "MOUSE", "LUPINE" ],
     "valid": false,
     "active": true,
@@ -542,7 +529,6 @@
     "name": { "str": "Bookworm" },
     "points": 1,
     "description": "There's nothing quite like the smell of a good book!  Books are more fun (or less boring) for you!",
-    "starting_trait": true,
     "valid": false,
     "cancels": [ "ILLITERATE", "HATES_BOOKS" ]
   },
@@ -647,7 +633,6 @@
     "points": 2,
     "mixed_effect": true,
     "description": "You have a unique history with stimulants (like coffee or amphetamines).  You can tolerate a lot more of them without overdosing, but if you indulge too much, you start seeing things…",
-    "starting_trait": true,
     "valid": false
   },
   {
@@ -656,7 +641,6 @@
     "name": { "str": "Stylish" },
     "points": 2,
     "description": "Practicality is far less important than style.  Your morale is improved by wearing fashionable and attractive clothing.",
-    "starting_trait": true,
     "valid": false
   },
   {
@@ -688,7 +672,6 @@
     "points": 1,
     "description": "You're an excellent navigator and your ability to recognize distant landmarks is unmatched.  Your sight radius on the overmap extends beyond the normal range.",
     "valid": false,
-    "starting_trait": true,
     "category": [ "BIRD", "MOUSE" ],
     "cancels": [ "UNOBSERVANT" ],
     "overmap_sight": 5
@@ -759,6 +742,7 @@
     "points": 2,
     "description": "You have received some martial arts training at a local dojo.  You start with your choice of Karate, Judo, Aikido, Tai Chi, Taekwondo, or Pankration.",
     "starting_trait": true,
+    "player_display": false,
     "initial_ma_styles": [ "style_karate", "style_judo", "style_aikido", "style_tai_chi", "style_taekwondo", "style_pankration" ],
     "valid": false
   },
@@ -767,9 +751,18 @@
     "id": "MARTIAL_ARTS2",
     "name": { "str": "Self-Defense Classes" },
     "points": 2,
-    "description": "You have taken some self-defense classes at a nearby gym.  You start with your choice of Capoeira, Krav Maga, Muay Thai, Ninjutsu, Wing Chun, or Zui Quan.",
+    "description": "You have taken some self-defense classes at a nearby gym.  You start with your choice of Boxing, Capoeira, Krav Maga, Muay Thai, Ninjutsu, Wing Chun, or Zui Quan.",
     "starting_trait": true,
-    "initial_ma_styles": [ "style_krav_maga", "style_muay_thai", "style_ninjutsu", "style_capoeira", "style_zui_quan", "style_wingchun" ],
+    "player_display": false,
+    "initial_ma_styles": [
+      "style_krav_maga",
+      "style_muay_thai",
+      "style_ninjutsu",
+      "style_capoeira",
+      "style_zui_quan",
+      "style_wingchun",
+      "style_boxing"
+    ],
     "valid": false
   },
   {
@@ -779,6 +772,7 @@
     "points": 2,
     "description": "You have studied the arts of the Shaolin monks.  You start with one of the five animal fighting styles: Tiger, Crane, Leopard, Snake, or Dragon.",
     "starting_trait": true,
+    "player_display": false,
     "initial_ma_styles": [ "style_tiger", "style_crane", "style_leopard", "style_snake", "style_dragon" ],
     "valid": false
   },
@@ -789,6 +783,7 @@
     "points": 3,
     "description": "You have practiced fighting with weapons.  You start with your choice of Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
     "starting_trait": true,
+    "player_display": false,
     "initial_ma_styles": [
       "style_eskrima",
       "style_fencing",
@@ -806,7 +801,6 @@
     "name": { "str": "Competitive Fencer" },
     "points": 0,
     "description": "You were an avid fencer, starting with foil and moving onto saber, then épée.  You competed nationally and dabbled with some of the historical fencing weapons afforded by HEMA's popularity.",
-    "starting_trait": false,
     "initial_ma_styles": [ "style_fencing" ],
     "valid": false
   },
@@ -827,7 +821,6 @@
     "name": { "str": "Skilled Liar" },
     "points": 1,
     "description": "You have no qualms about bending the truth, and have practically no tells.  Telling lies and otherwise bluffing will be much easier for you.",
-    "starting_trait": true,
     "cancels": [ "TRUTHTELLER" ],
     "social_modifiers": { "lie": 40 }
   },
@@ -837,7 +830,6 @@
     "name": { "str": "Weight: XS" },
     "points": -1,
     "description": "You lost an awful lot of weight before the Cataclysm.  Whatever the reason, now that food is not always close at hand, your skeletal figure presents an additional danger.  You need to gain weight or die trying.",
-    "starting_trait": true,
     "purifiable": false,
     "valid": false,
     "cancels": [ "XXXL" ]
@@ -848,7 +840,6 @@
     "name": { "str": "Weight: XXXL" },
     "points": -1,
     "description": "You gained an awful lot of weight before the Cataclysm.  Whatever the reason, now that mobility is key to survival, your bloated figure presents an additional danger.  You need to lose weight or die trying.",
-    "starting_trait": true,
     "purifiable": false,
     "valid": false,
     "cancels": [ "XS" ]
@@ -874,7 +865,6 @@
     "description": "Whether due to injury or age, your knees aren't particularly strong or flexible.  Moving over rough terrain will slow you down more than normal.",
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "PARKOUR" ],
     "movecost_obstacle_modifier": 1.25
   },
   {
@@ -1005,7 +995,6 @@
     "points": -1,
     "description": "You are terrible at organizing and storing your possessions.  You retrieve things from containers 10% slower.",
     "obtain_cost_multiplier": 1.1,
-    "starting_trait": true,
     "valid": false,
     "cancels": [ "PACKMULE" ]
   },
@@ -1051,7 +1040,8 @@
     "description": "You are slow to grasp new ideas, and thus learn things more slowly than others.  Note that this only applies to real-world experience, not to skill gain from other sources like books.",
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "FASTLEARNER" ]
+    "cancels": [ "FASTLEARNER" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "LEARNING_FOCUS", "add": -15 } ] } ]
   },
   {
     "type": "mutation",
@@ -1099,8 +1089,8 @@
     "name": { "str": "Hates Vegetables" },
     "points": -2,
     "description": "You have problems with eating vegetables.  It's possible for you to eat them, but you will suffer morale penalties and obtain less nutrition from them.",
-    "starting_trait": true,
     "valid": false,
+    "starting_trait": true,
     "vitamins_absorb_multi": [ [ "veggy", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
     "cancels": [ "HERBIVORE", "RUMINANT", "GRAZER" ]
   },
@@ -1110,7 +1100,6 @@
     "name": { "str": "Hates Books" },
     "points": -1,
     "description": "Reading is for nerds!  Boring books are more boring, and you can't have fun by reading books.",
-    "starting_trait": true,
     "valid": false,
     "cancels": [ "ILLITERATE", "LOVES_BOOKS" ]
   },
@@ -1120,8 +1109,8 @@
     "name": { "str": "Hates Fruit" },
     "points": -3,
     "description": "You despise eating fruits.  It's possible for you to eat them, but you will suffer morale penalties and obtain less nutrition from them.",
-    "starting_trait": true,
     "valid": false,
+    "starting_trait": true,
     "vitamins_absorb_multi": [ [ "fruit", [ [ "vitA", 0 ], [ "vitB", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ] ] ] ],
     "cancels": [ "HERBIVORE", "RUMINANT", "GRAZER" ]
   },
@@ -1195,11 +1184,11 @@
     "points": -3,
     "description": "You have a hard time remembering things.  Your skills will erode slightly faster than usual, and you can remember less terrain.",
     "social_modifiers": { "lie": -5 },
-    "map_memory_capacity_multiplier": 0.5,
     "skill_rust_multiplier": 0.66,
     "starting_trait": true,
     "category": [ "BEAST", "MEDICAL", "CHIMERA", "MOUSE", "INSECT" ],
-    "cancels": [ "GOODMEMORY" ]
+    "cancels": [ "GOODMEMORY" ],
+    "enchantments": [ { "condition": "ALWAYS", "values": [ { "value": "MAP_MEMORY", "multiply": -0.5 } ] } ]
   },
   {
     "type": "mutation",
@@ -1331,7 +1320,6 @@
     "name": { "str": "Hoarder" },
     "points": -4,
     "description": "You don't feel right unless you're carrying as much as you can.  You suffer morale penalties for carrying less than maximum volume (weight is ignored).  Xanax can help control this anxiety.",
-    "starting_trait": true,
     "valid": false
   },
   {
@@ -1352,7 +1340,7 @@
     "starting_trait": true,
     "social_modifiers": { "intimidate": -10 },
     "valid": false,
-    "cancels": [ "PSYCHOPATH", "KILLER", "PRED1", "PRED2", "PRED3", "PRED4" ]
+    "cancels": [ "PSYCHOPATH", "KILLER", "PRED1", "PRED2", "PRED3", "PRED4", "PACK_HUNTER" ]
   },
   {
     "type": "mutation",
@@ -1400,7 +1388,6 @@
     "name": { "str": "Truth Teller" },
     "points": -1,
     "description": "When you try to tell a lie, you blush, stammer, and get all shifty-eyed.  Telling lies and otherwise bluffing will be much more difficult for you.",
-    "starting_trait": true,
     "cancels": [ "LIAR" ],
     "social_modifiers": { "lie": -40 }
   },
@@ -1489,7 +1476,7 @@
     "ugliness": 1,
     "description": "Your skin is slightly rough.  This has no gameplay effect.",
     "types": [ "SKIN" ],
-    "changes_to": [ "SCALES", "FEATHERS", "LIGHTFUR", "CHITIN", "PLANTSKIN" ],
+    "changes_to": [ "SCALES", "FEATHERS", "LIGHTFUR", "CHITIN", "PLANTSKIN", "PATCHSKIN1" ],
     "category": [ "LIZARD" ]
   },
   {
@@ -1833,6 +1820,7 @@
     "description": "You've grown a set of gills in your neck, allowing you to breathe underwater.  Slightly increases wet benefits.",
     "category": [ "FISH" ],
     "cancels": [ "GILLS_CEPH" ],
+    "flags": [ "GILLS" ],
     "wet_protection": [ { "part": "head", "good": 1 } ]
   },
   {
@@ -1845,6 +1833,7 @@
     "description": "You've grown a set of gills, running from your neck up behind your ears.  They allow you to breathe underwater and slightly increase wet benefits.",
     "category": [ "CEPHALOPOD" ],
     "cancels": [ "GILLS" ],
+    "flags": [ "GILLS" ],
     "wet_protection": [ { "part": "head", "good": 1 } ]
   },
   {
@@ -1963,7 +1952,7 @@
     "ugliness": 3,
     "description": "A set of flexible green scales has grown to cover your body, acting as natural armor.  Somewhat reduces wet effects.",
     "types": [ "SKIN" ],
-    "category": [ "CHIMERA", "RAPTOR", "LIZARD" ],
+    "category": [ "RAPTOR", "LIZARD" ],
     "prereqs": [ "SKIN_ROUGH" ],
     "changes_to": [ "THICK_SCALES", "SLEEK_SCALES" ],
     "movecost_swim_modifier": 0.9,
@@ -2108,7 +2097,7 @@
     "bodytemp_modifiers": [ 250, 500 ],
     "bodytemp_sleep": 100,
     "description": "Light fur has grown to cover your entire body, providing slight protection from cold.",
-    "category": [ "CHIMERA", "SPIDER", "MOUSE" ],
+    "category": [ "SPIDER", "MOUSE" ],
     "types": [ "SKIN" ],
     "prereqs": [ "SKIN_ROUGH" ],
     "changes_to": [ "FUR", "FELINE_FUR", "LUPINE_FUR", "URSINE_FUR", "CHITIN_FUR" ]
@@ -2202,6 +2191,73 @@
     "prereqs": [ "FELINE_FUR" ],
     "category": [ "FELINE" ],
     "armor": [ { "parts": [ "head", "mouth" ], "bash": 1 } ]
+  },
+  {
+    "type": "mutation",
+    "id": "PATCHSKIN1",
+    "name": { "str": "Patchwork Skin" },
+    "points": 2,
+    "visibility": 10,
+    "ugliness": 6,
+    "bodytemp_modifiers": [ 125, 250 ],
+    "bodytemp_sleep": 50,
+    "description": "Your skin has mutated into an amalgamation of fur and scales.",
+    "movecost_swim_modifier": 0.95,
+    "wet_protection": [
+      { "part": "head", "ignored": 2 },
+      { "part": "leg_l", "ignored": 5 },
+      { "part": "leg_r", "ignored": 5 },
+      { "part": "foot_l", "ignored": 2 },
+      { "part": "foot_r", "ignored": 2 },
+      { "part": "arm_l", "ignored": 5 },
+      { "part": "arm_r", "ignored": 5 },
+      { "part": "hand_l", "ignored": 1 },
+      { "part": "hand_r", "ignored": 1 },
+      { "part": "torso", "ignored": 10 }
+    ],
+    "armor": [
+      {
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
+        "cut": 1
+      }
+    ],
+    "category": [ "CHIMERA" ],
+    "types": [ "SKIN" ],
+    "prereqs": [ "SKIN_ROUGH" ],
+    "changes_to": [ "PATCHSKIN2" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PATCHSKIN2",
+    "name": { "str": "Thickened Patchwork Skin" },
+    "points": 4,
+    "visibility": 10,
+    "ugliness": 8,
+    "bodytemp_modifiers": [ 250, 500 ],
+    "bodytemp_sleep": 100,
+    "description": "Your skin has mutated into an amalgamation of thickened fur and scales.",
+    "movecost_swim_modifier": 0.9,
+    "wet_protection": [
+      { "part": "head", "ignored": 3 },
+      { "part": "leg_l", "ignored": 10 },
+      { "part": "leg_r", "ignored": 10 },
+      { "part": "foot_l", "ignored": 3 },
+      { "part": "foot_r", "ignored": 3 },
+      { "part": "arm_l", "ignored": 9 },
+      { "part": "arm_r", "ignored": 9 },
+      { "part": "hand_l", "ignored": 2 },
+      { "part": "hand_r", "ignored": 2 },
+      { "part": "torso", "ignored": 20 }
+    ],
+    "armor": [
+      {
+        "parts": [ "torso", "head", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth" ],
+        "cut": 2
+      }
+    ],
+    "category": [ "CHIMERA" ],
+    "types": [ "SKIN" ],
+    "prereqs": [ "PATCHSKIN1" ]
   },
   {
     "type": "mutation",
@@ -3272,10 +3328,9 @@
     "id": "BURROW",
     "name": { "str": "Burrowing" },
     "points": 10,
-    "consume_time_modifier": 2.0,
     "valid": false,
     "purifiable": false,
-    "description": "Between your claws and teeth, you can tunnel through just about anything.",
+    "description": "Your tough paws allow you to dig through dirt and rubble with ease.",
     "prereqs": [ "CLAWS_ST", "PAWS", "PAWS_LARGE" ],
     "threshreq": [ "THRESH_RAT", "THRESH_LUPINE", "THRESH_URSINE" ],
     "category": [ "RAT", "LUPINE", "URSINE" ],
@@ -3840,7 +3895,7 @@
     "prereqs": [ "CARNIVORE", "THRESH_URSINE" ],
     "prereqs2": [ "PRED2" ],
     "leads_to": [ "SAPIOVORE" ],
-    "changes_to": [ "PRED4" ],
+    "changes_to": [ "PRED4", "PACK_HUNTER" ],
     "threshreq": [
       "THRESH_BEAST",
       "THRESH_RAPTOR",
@@ -3888,6 +3943,22 @@
     "cancels": [ "VEGETARIAN", "HERBIVORE", "RUMINANT", "GRAZER" ],
     "category": [ "BEAST", "RAPTOR", "CHIMERA", "URSINE", "LIZARD", "SPIDER" ],
     "flags": [ "CANNIBAL" ]
+  },
+  {
+    "type": "mutation",
+    "id": "PACK_HUNTER",
+    "name": { "str": "Pack Hunter" },
+    "points": 4,
+    "description": "Puny as they may seem, a hunter needs a pack, and some of those hairless bipeds may yet prove some worth.  You continue to gain combat skills at an elevated rate, and maintain a level of critical thinking that supports cooperation.",
+    "social_modifiers": { "intimidate": 4 },
+    "valid": false,
+    "purifiable": false,
+    "prereqs": [ "CARNIVORE" ],
+    "prereqs2": [ "PRED3" ],
+    "cancels": [ "PACIFIST" ],
+    "threshreq": [ "THRESH_LUPINE" ],
+    "category": [ "LUPINE" ],
+    "flags": [ "PRED3" ]
   },
   {
     "type": "mutation",
@@ -4195,7 +4266,7 @@
     "prereqs": [ "STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4" ],
     "cancels": [ "SMALL", "SMALL2" ],
     "changes_to": [ "LARGE_OK", "HUGE" ],
-    "category": [ "URSINE", "CATTLE", "LIZARD" ],
+    "category": [ "URSINE", "CATTLE", "LIZARD", "CHIMERA" ],
     "passive_mods": { "str_mod": 2 },
     "stomach_size_multiplier": 1.5,
     "weight_capacity_modifier": 1.05
@@ -4211,10 +4282,10 @@
     "prereqs": [ "LARGE" ],
     "prereqs2": [ "STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4" ],
     "cancels": [ "SMALL", "SMALL2" ],
-    "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_LIZARD" ],
+    "threshreq": [ "THRESH_URSINE", "THRESH_CATTLE", "THRESH_LIZARD", "THRESH_CHIMERA" ],
     "changes_to": [ "HUGE" ],
     "leads_to": [ "MUT_TOUGH" ],
-    "category": [ "URSINE", "CATTLE", "LIZARD" ],
+    "category": [ "URSINE", "CATTLE", "LIZARD", "CHIMERA" ],
     "passive_mods": { "str_mod": 2 },
     "stomach_size_multiplier": 1.5,
     "weight_capacity_modifier": 1.05
@@ -6361,7 +6432,6 @@
     "type": "mutation",
     "id": "PYROMANIA",
     "name": { "str": "Pyromaniac" },
-    "starting_trait": true,
     "points": -2,
     "description": "You have an unhealthy obsession with fire, and you get anxious if you don't light them every now and then or stand near them often.  However, you gain a mood bonus from doing so."
   },
@@ -6552,7 +6622,6 @@
     "name": { "str": "Skater" },
     "points": 1,
     "description": "You are skilled in maneuvering on skates.  You suffer lower penalties to dodging and are less likely to fall down if hit in melee combat while you're wearing rollerskates or rollerblades.",
-    "starting_trait": true,
     "valid": false
   },
   {
@@ -6738,6 +6807,26 @@
   },
   {
     "type": "mutation",
+    "id": "DEBUG_TAIL",
+    "name": { "str": "Debug Tail" },
+    "points": 99,
+    "valid": false,
+    "description": "Gain a tail bodypart",
+    "enchantments": [ "ENCH_DEBUG_TAIL" ],
+    "debug": true
+  },
+  {
+    "type": "mutation",
+    "id": "DEBUG_ONLY_HEAD",
+    "name": { "str": "Debug No Torso" },
+    "points": 99,
+    "valid": false,
+    "description": "They said college costs an arm and a leg, they sure weren't kidding!",
+    "enchantments": [ "ENCH_DEBUG_ONLY_HEAD" ],
+    "debug": true
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_NIGHTVISION",
     "name": { "str": "Debug Night Vision" },
     "points": 99,
@@ -6916,7 +7005,6 @@
     "id": "NOMAD",
     "name": { "str": "Nomad" },
     "points": -1,
-    "starting_trait": true,
     "description": "You're too adventurous for your own good.  The more time you spend somewhere, the unhappier it makes you to be there.",
     "changes_to": [ "NOMAD2" ],
     "category": [ "BIRD", "FISH", "CHIMERA" ]
@@ -6953,9 +7041,19 @@
     "type": "mutation",
     "id": "FAST_REFLEXES",
     "name": { "str": "Fast Reflexes" },
-    "points": 3,
-    "description": "You have fast reflexes, allowing you to dodge attacks and grabs more easily.",
+    "points": 2,
+    "description": "You have fast reflexes, allowing you to dodge attacks more easily.",
     "starting_trait": true,
-    "dodge_modifier": 2
+    "dodge_modifier": 3
+  },
+  {
+    "type": "mutation",
+    "id": "HAS_NEMESIS",
+    "name": { "str": "Hunted" },
+    "points": -1,
+    "description": "Since the start of the Cataclysm, something has been hunting you relentlessly.  You can outrun it, but it always seems to find you eventually.  The only escape is for one of you to die.",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false
   }
 ]

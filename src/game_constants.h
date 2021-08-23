@@ -55,6 +55,9 @@ static constexpr int OMAPY = OMAPX;
 // Size of a square unit of terrain saved to a directory.
 static constexpr int SEG_SIZE = 32;
 
+// Size of a square unit of tile memory saved in a single file, in mm_submaps.
+static constexpr int MM_REG_SIZE = 8;
+
 /**
  * Items on the map with at most this distance to the player are considered available for crafting,
  * see inventory::form_from_map
@@ -151,6 +154,10 @@ static constexpr int SPRING_TEMPERATURE = 65;
  * Windows has a rand limit of 32768, other operating systems can have higher limits.
 */
 constexpr int SIMPLEX_NOISE_RANDOM_SEED_LIMIT = 32768;
+
+constexpr float MIN_MANIPULATOR_SCORE = 0.1f;
+// the maximum penalty to movecost from a limb value
+constexpr float MAX_MOVECOST_MODIFIER = 100.0f;
 
 /**
  * activity levels, used for BMR.

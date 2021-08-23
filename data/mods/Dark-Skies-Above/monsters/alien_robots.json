@@ -21,7 +21,7 @@
     "luminance": 5,
     "path_settings": { "max_dist": 5 },
     "death_drops": { "groups": [ [ "robots", 4 ] ] },
-    "death_function": [ "MELT" ],
+    "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "flags": [ "SEES", "FLIES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "NOHEAD", "PRIORITIZE_TARGETS" ]
   },
   {
@@ -48,7 +48,7 @@
     "special_attacks": [ [ "SEARCHLIGHT", 1 ], [ "DSA_DRONE_SCAN", 2 ] ],
     "path_settings": { "max_dist": 5 },
     "death_drops": { "groups": [ [ "robots", 4 ], [ "eyebot", 1 ], [ "turret_searchlight", 1 ] ] },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [ "SEES", "FLIES", "ELECTRONIC", "COLDPROOF", "NO_BREATHE", "NOHEAD", "PRIORITIZE_TARGETS" ]
   },
   {
@@ -89,7 +89,7 @@
     "path_settings": { "max_dist": 5 },
     "anger_triggers": [ "HURT", "PLAYER_WEAK", "STALK" ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "skitterbot", 1 ] ] },
-    "death_function": [ "BROKEN" ],
+    "death_function": { "corpse_type": "BROKEN" },
     "flags": [
       "SEES",
       "FLIES",

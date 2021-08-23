@@ -23,14 +23,14 @@ struct ter_t;
 using ter_str_id = string_id<ter_t>;
 
 class JsonObject;
-class player;
+class Character;
 struct iexamine_actor;
 struct furn_t;
 struct itype;
 struct tripoint;
 
-using iexamine_function = void ( * )( player &, const tripoint & );
-using iexamine_function_ref = void( & )( player &, const tripoint & );
+using iexamine_function = void ( * )( Character &, const tripoint & );
+using iexamine_function_ref = void( & )( Character &, const tripoint & );
 
 struct map_bash_info {
     int str_min;            // min str(*) required to bash
@@ -76,6 +76,25 @@ struct map_deconstruct_info {
     map_deconstruct_info();
     bool load( const JsonObject &jsobj, const std::string &member, bool is_furniture,
                const std::string &context );
+};
+struct map_shoot_info {
+    // Base chance to hit the object at all (defaults to 100%)
+    int chance_to_hit = 0;
+    // Minimum damage reduction to apply to shot when hit
+    int reduce_dmg_min = 0;
+    // Maximum damage reduction to apply to shot when hit
+    int reduce_dmg_max = 0;
+    // Minimum damage reduction to apply to laser shots when hit
+    int reduce_dmg_min_laser = 0;
+    // Maximum damage reduction to apply to laser shots when hit
+    int reduce_dmg_max_laser = 0;
+    // Damage required to have a chance to destroy
+    int destroy_dmg_min = 0;
+    // Damage required to guarentee destruction
+    int destroy_dmg_max = 0;
+    // Are lasers incapable of destroying the object (defaults to false)
+    bool no_laser_destroy = false;
+    bool load( const JsonObject &jsobj, const std::string &member, bool was_loaded );
 };
 struct furn_workbench_info {
     // Base multiplier applied for crafting here
@@ -194,7 +213,6 @@ enum ter_bitflags : int {
     TFLAG_WALL,
     TFLAG_DEEP_WATER,
     TFLAG_SHALLOW_WATER,
-    TFLAG_NO_SHOOT,
     TFLAG_CURRENT,
     TFLAG_HARVESTED,
     TFLAG_PERMEABLE,
@@ -239,11 +257,90 @@ enum ter_connects : int {
     TERCONN_CANVAS_WALL,
 };
 
+struct activity_byproduct {
+    itype_id item;
+    int count      = 0;
+    int random_min = 0;
+    int random_max = 0;
+
+    int roll() const;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jo );
+};
+
+class activity_data_common
+{
+    public:
+        activity_data_common() = default;
+
+        bool valid() const {
+            return valid_;
+        }
+
+        const time_duration &duration() const {
+            return duration_;
+        }
+
+        const translation &message() const {
+            return message_;
+        }
+
+        const translation &sound() const {
+            return sound_;
+        }
+
+        const std::vector<activity_byproduct> &byproducts() const {
+            return byproducts_;
+        }
+
+        bool was_loaded = false;
+        void load( const JsonObject &jo );
+
+    protected:
+        bool valid_ = false;
+        time_duration duration_;
+        translation message_;
+        translation sound_;
+        std::vector<activity_byproduct> byproducts_;
+};
+
+class activity_data_ter : public activity_data_common
+{
+    public:
+        activity_data_ter() = default;
+
+        const ter_str_id &result() const {
+            return result_;
+        }
+
+        void load( const JsonObject &jo );
+
+    private:
+        ter_str_id result_;
+};
+
+class activity_data_furn : public activity_data_common
+{
+    public:
+        activity_data_furn() = default;
+
+        const furn_str_id &result() const {
+            return result_;
+        }
+
+        void load( const JsonObject &jo );
+
+    private:
+        furn_str_id result_;
+};
+
 void init_mapdata();
 
 struct map_data_common_t {
         map_bash_info        bash;
         map_deconstruct_info deconstruct;
+        cata::value_ptr<map_shoot_info> shoot;
 
     public:
         virtual ~map_data_common_t() = default;
@@ -285,7 +382,7 @@ struct map_data_common_t {
         bool has_examine( iexamine_function_ref func ) const;
         bool has_examine( const std::string &action ) const;
         void set_examine( iexamine_function_ref func );
-        void examine( player &, const tripoint & ) const;
+        void examine( Character &, const tripoint & ) const;
 
         int light_emitted = 0;
         // The amount of movement points required to pass this terrain by default.
@@ -367,9 +464,17 @@ struct map_data_common_t {
 * Short for terrain type. This struct defines all of the metadata for a given terrain id (an enum below).
 */
 struct ter_t : map_data_common_t {
+
+    std::vector<std::pair<ter_str_id, mod_id>> src;
+
     ter_str_id id;    // The terrain's ID. Must be set, must be unique.
     ter_str_id open;  // Open action: transform into terrain with matching id
     ter_str_id close; // Close action: transform into terrain with matching id
+
+    ter_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
+    translation lockpick_message; // Lockpick action: message when successfully lockpicked
+
+    cata::value_ptr<activity_data_ter> boltcut; // Bolt cutting action data
 
     std::string trap_id_str;     // String storing the id string of the trap.
     ter_str_id transforms_into; // Transform into what terrain?
@@ -384,6 +489,8 @@ struct ter_t : map_data_common_t {
 
     static size_t count();
 
+    bool is_null() const;
+
     void load( const JsonObject &jo, const std::string &src ) override;
     void check() const override;
 };
@@ -397,9 +504,14 @@ void reset_furn_ter();
  */
 
 struct furn_t : map_data_common_t {
+
+    std::vector<std::pair<furn_str_id, mod_id>> src;
+
     furn_str_id id;
     furn_str_id open;  // Open action: transform into furniture with matching id
     furn_str_id close; // Close action: transform into furniture with matching id
+    furn_str_id lockpick_result; // Lockpick action: transform when successfully lockpicked
+    translation lockpick_message; // Lockpick action: message when successfully lockpicked
     itype_id crafting_pseudo_item;
     units::volume keg_capacity = 0_ml;
     int comfort = 0;
@@ -411,6 +523,8 @@ struct furn_t : map_data_common_t {
     itype_id deployed_item; // item id string used to create furniture
 
     int move_str_req = 0; //The amount of strength required to move through this furniture easily.
+
+    cata::value_ptr<activity_data_furn> boltcut; // Bolt cutting action data
 
     cata::value_ptr<furn_workbench_info> workbench;
 

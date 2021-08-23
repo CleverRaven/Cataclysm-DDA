@@ -33,6 +33,16 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "deep_rock",
+    "//": "Ugly placeholder solution to differentiate between subway tunnels, remove if per-special connection subtyping is implemented.",
+    "name": "solid rock",
+    "sym": "%",
+    "color": "dark_gray",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "park",
     "name": "park",
     "sym": "O",
@@ -109,6 +119,7 @@
     "name": "island",
     "sym": "F",
     "color": "green",
+    "looks_like": "forest",
     "see_cost": 1
   },
   {
@@ -117,6 +128,7 @@
     "name": "island",
     "sym": "F",
     "color": "cyan",
+    "looks_like": "forest_water",
     "see_cost": 1
   },
   {
@@ -125,6 +137,7 @@
     "name": "island",
     "sym": ".",
     "color": "brown",
+    "looks_like": "field",
     "see_cost": 1
   },
   {
@@ -172,6 +185,14 @@
     "color": "i_green",
     "see_cost": 5,
     "flags": [ "RISK_LOW", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [ "lake_cabin_water" ],
+    "name": "lake",
+    "sym": "#",
+    "color": "blue",
+    "see_cost": 5
   },
   {
     "type": "overmap_terrain",
@@ -755,6 +776,7 @@
     "name": "rock border",
     "sym": "#",
     "color": "white",
-    "flags": [ "NO_ROTATE" ]
+    "flags": [ "NO_ROTATE" ],
+    "see_cost": 5
   }
 ]

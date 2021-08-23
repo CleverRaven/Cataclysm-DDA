@@ -34,7 +34,6 @@
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 19, "armor_multiplier": 0.8 } ] },
       [ "TENTACLE", 5 ]
     ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "SMELLS",
@@ -86,7 +85,6 @@
       [ "TENTACLE", 5 ],
       { "type": "spell", "spell_data": { "id": "mi-go_slaver_beam", "min_level": 1 }, "cooldown": 400 }
     ],
-    "death_function": [ "NORMAL" ],
     "flags": [
       "SEES",
       "SMELLS",

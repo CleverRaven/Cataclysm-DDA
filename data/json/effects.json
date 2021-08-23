@@ -215,6 +215,18 @@
   },
   {
     "type": "effect_type",
+    "id": "leashed",
+    "name": [ "Has Leash" ],
+    "desc": [ "AI tag used for critters wearing a leash.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "led_by_leash",
+    "name": [ "Being Led By Leash" ],
+    "desc": [ "AI tag used for critters forced to follow using a leash.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "tied",
     "name": [ "Tied Up" ],
     "desc": [ "AI tag used for tied up critters.  This is a bug if you have it." ]
@@ -243,6 +255,12 @@
     "id": "pushed",
     "name": [ "Pushed" ],
     "desc": [ "AI tag used for monsters pushing each other.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "worked_on",
+    "name": [ "Worked On" ],
+    "desc": [ "AI tag used for robots being disabled.  This is a bug if you have it." ]
   },
   {
     "type": "effect_type",
@@ -590,6 +608,25 @@
   },
   {
     "type": "effect_type",
+    "id": "venom_blind",
+    "name": [ "Distracted", "Inattentive", "Dissociated" ],
+    "desc": [
+      "You find it hard to concentrate on your surroundings properly.",
+      "You're not even listening, are you?",
+      "Everything will be fine.  Just ignore all you see, and everything will be fine."
+    ],
+    "apply_message": "Your vision grows blurry.",
+    "miss_messages": [ [ "It was right here, wasn't it?", 2 ], [ "Are you sure there's something there?", 1 ] ],
+    "max_intensity": 3,
+    "int_add_val": 1,
+    "int_decay_step": -1,
+    "int_decay_tick": 90,
+    "resist_traits": [ "ELFA_NV" ],
+    "base_mods": { "per_mod": [ -3, 0 ] },
+    "scaling_mods": { "per_mod": [ -2, -1 ] }
+  },
+  {
+    "type": "effect_type",
     "id": "foodpoison",
     "name": [ "Food Poisoning" ],
     "desc": [ "Your stomach is extremely upset, and you are quite nauseated." ],
@@ -648,14 +685,14 @@
   {
     "type": "effect_type",
     "id": "nausea",
-    "name": [ "Nausea" ],
-    "desc": [ "You feel nauseated.  Even a thought of food makes you feel sick." ],
-    "remove_message": "You no longer feel nauseated.",
+    "name": [ "Slightly Nauseous", "Mildly Nauseous", "Nauseous", "Very Nauseous", "Extremely Nauseous" ],
+    "desc": [ "You are nauseous and may lead to vomiting." ],
+    "remove_message": "You no longer feel nauseous.",
     "rating": "bad",
-    "int_dur_factor": "5 m",
-    "max_intensity": 3,
+    "int_dur_factor": "3 m",
+    "max_intensity": 5,
     "max_duration": "15 m",
-    "base_mods": { "vomit_chance": [ 60 ] }
+    "base_mods": { "vomit_chance": [ 500 ] }
   },
   {
     "type": "effect_type",
@@ -1066,8 +1103,8 @@
     "apply_memorial_log": "Contracted a fungal infection.",
     "remove_memorial_log": "Cured the fungal infection.",
     "miss_messages": [ [ "You feel sick inside.", 1 ] ],
-    "speed_name": "Fungal infection",
-    "remove_message": "Tingling sensation in your skin fades away.",
+    "speed_name": "Itchy skin",
+    "remove_message": "The itching in your skin fades away.",
     "rating": "bad",
     "max_intensity": 3,
     "int_dur_factor": "6 h",

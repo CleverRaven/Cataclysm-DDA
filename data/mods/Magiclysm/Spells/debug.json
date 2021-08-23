@@ -279,5 +279,25 @@
     "energy_source": "MANA",
     "min_duration": 400,
     "max_duration": 400
+  },
+  {
+    "id": "debug_teleport_to",
+    "type": "SPELL",
+    "name": "Debug Teleport To",
+    "description": "Teleports you to target location.",
+    "effect": "short_range_teleport",
+    "shape": "blast",
+    "valid_targets": [ "ground" ],
+    "flags": [ "SOMATIC", "SILENT", "NO_LEGS", "TARGET_TELEPORT" ],
+    "min_range": 100,
+    "max_range": 100,
+    "min_aoe": 0,
+    "max_aoe": 0,
+    "max_level": 1,
+    "difficulty": 4,
+    "spell_class": "NONE",
+    "base_casting_time": 100,
+    "energy_source": "MANA",
+    "base_energy_cost": 100
   }
 ]

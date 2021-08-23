@@ -203,19 +203,19 @@ static std::string test_action_desc(
     return ss.str();
 }
 
-static void assign_invlet( player &p, item &it, const char invlet, const invlet_state invstate )
+static void assign_invlet( avatar &you, item &it, const char invlet, const invlet_state invstate )
 {
-    p.reassign_item( it, '\0' );
+    you.reassign_item( it, '\0' );
     switch( invstate ) {
         case NONE:
             break;
         case CACHED:
             // assigning it twice makes it a cached but non-player-assigned invlet
-            p.reassign_item( it, invlet );
-            p.reassign_item( it, invlet );
+            you.reassign_item( it, invlet );
+            you.reassign_item( it, invlet );
             break;
         case ASSIGNED:
-            p.reassign_item( it, invlet );
+            you.reassign_item( it, invlet );
             break;
         default:
             FAIL( "unimplemented" );
@@ -439,7 +439,7 @@ static void move_item( player &p, const int id, const inventory_location from,
     }
 }
 
-static void invlet_test( player &dummy, const inventory_location from, const inventory_location to )
+static void invlet_test( avatar &dummy, const inventory_location from, const inventory_location to )
 {
     // invlet to assign
     constexpr char invlet = '|';
@@ -530,7 +530,7 @@ static void invlet_test( player &dummy, const inventory_location from, const inv
     }
 }
 
-static void stack_invlet_test( player &dummy, inventory_location from, inventory_location to )
+static void stack_invlet_test( avatar &dummy, inventory_location from, inventory_location to )
 {
     // invlet to assign
     constexpr char invlet = '|';
@@ -584,7 +584,7 @@ static void stack_invlet_test( player &dummy, inventory_location from, inventory
     assign_invlet( dummy, item_at( dummy, 2, from ), invlet, NONE );
 }
 
-static void swap_invlet_test( player &dummy, inventory_location loc )
+static void swap_invlet_test( avatar &dummy, inventory_location loc )
 {
     // invlet to assign
     constexpr char invlet_1 = '{';
@@ -655,7 +655,7 @@ static void swap_invlet_test( player &dummy, inventory_location loc )
     assign_invlet( dummy, item_at( dummy, 2, loc ), invlet_1, NONE );
 }
 
-static void merge_invlet_test( player &dummy, inventory_location from )
+static void merge_invlet_test( avatar &dummy, inventory_location from )
 {
     // invlet to assign
     constexpr char invlet_1 = '{';
@@ -750,7 +750,7 @@ static void merge_invlet_test( player &dummy, inventory_location from )
 
 TEST_CASE( "Inventory letter test", "[.invlet]" )
 {
-    player &dummy = get_avatar();
+    avatar &dummy = get_avatar();
     const tripoint spot( 60, 60, 0 );
     clear_map();
     dummy.setpos( spot );

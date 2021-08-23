@@ -359,7 +359,6 @@
     "price": 500,
     "price_postapoc": 120,
     "material": [ "egg" ],
-    "fun": 2,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ]
   },
   {
@@ -375,7 +374,7 @@
     "price": 500,
     "price_postapoc": 120,
     "material": [ "egg", "veggy" ],
-    "fun": 2,
+    "fun": 10,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ]
   },
   {
@@ -391,7 +390,7 @@
     "price": 500,
     "price_postapoc": 120,
     "material": [ "egg", "wheat" ],
-    "fun": 2,
+    "fun": 4,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ]
   },
   {
@@ -407,7 +406,7 @@
     "price": 500,
     "price_postapoc": 120,
     "material": [ "egg", "wheat" ],
-    "fun": 2,
+    "fun": 12,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ]
   },
   {

@@ -144,7 +144,8 @@ class recipe
         }
 
         /// @returns The name (@ref item::nname) of the resulting item (@ref result).
-        std::string result_name() const;
+        /// @param decorated whether the result includes decoration (favorite mark, etc).
+        std::string result_name( bool decorated = false ) const;
 
         std::map<itype_id, int> byproducts;
 
@@ -184,9 +185,9 @@ class recipe
         // Helpful proficiencies
         std::set<proficiency_id> assist_proficiencies() const;
         // The time malus due to proficiencies lacking
-        float proficiency_time_maluses( const Character &guy ) const;
+        float proficiency_time_maluses( const Character &crafter ) const;
         // The failure malus due to proficiencies lacking
-        float proficiency_failure_maluses( const Character &guy ) const;
+        float proficiency_failure_maluses( const Character &crafter ) const;
 
         // How active of exercise this recipe is
         float exertion_level() const;

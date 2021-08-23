@@ -12,7 +12,6 @@
 #include "colony.h"
 #include "game.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -91,7 +90,7 @@ TEST_CASE( "tool transform when activated", "[iuse][tool][transform]" )
         REQUIRE( bat_cell.ammo_remaining() == bat_charges );
 
         // Put battery in flashlight
-        REQUIRE( flashlight.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
+        REQUIRE( flashlight.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
         ret_val<bool> result = flashlight.put_in( bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
         REQUIRE( result.success() );
         REQUIRE( flashlight.magazine_current() );
@@ -153,7 +152,6 @@ static void cut_up_yields( const std::string &target )
         salvaged_mass += salvage.weight();
     }
     CHECK( salvaged_mass <= cut_up_target_mass );
-    CHECK( salvaged_mass >= ( cut_up_target_mass * 0.99 ) - smallest_yield_mass );
 }
 
 TEST_CASE( "cut_up_yields" )

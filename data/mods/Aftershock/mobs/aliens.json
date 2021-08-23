@@ -22,7 +22,6 @@
     "reproduction": { "baby_monster": "afs_mon_rabbit", "baby_count": 3, "baby_timer": 55 },
     "harvest": "alien_small_fur",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "CATTLEFODDER", "PET_WONT_FOLLOW", "WARM" ]
   },
   {
@@ -51,7 +50,6 @@
     "vision_night": 25,
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "harvest": "alien_large_leather",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
     "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
@@ -85,7 +83,6 @@
     "vision_night": 7,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "MATING_SEASON" ],
-    "death_function": [ "NORMAL" ],
     "baby_flags": [ "AUTUMN" ],
     "harvest": "alien_large_leather",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
@@ -119,7 +116,6 @@
     "harvest": "alien_small_fur",
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "STUMBLES" ]
   },
   {
@@ -149,7 +145,39 @@
     "harvest": "alien_mammal_fur",
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
-    "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "afs_titanis",
+    "name": { "str": "terror bird" },
+    "species": "BIRD",
+    "default_faction": "bear",
+    "bodytype": "ostrich",
+    "symbol": "T",
+    "color": "blue_green",
+    "volume": "92500 ml",
+    "weight": "120000 g",
+    "material": "flesh",
+    "aggression": -10,
+    "morale": 60,
+    "speed": 150,
+    "melee_skill": 8,
+    "melee_dice": 1,
+    "melee_dice_sides": 8,
+    "melee_cut": 2,
+    "dodge": 2,
+    "armor_bash": 1,
+    "armor_cut": 1,
+    "luminance": 0,
+    "hp": 60,
+    "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }, { "type": "bite", "cooldown": 10 } ],
+    "description": "A tall bird with two long, muscular legs, a long neck, and a long sharp beak.",
+    "flags": [ "SEES", "SMELLS", "HEARS", "ANIMAL", "PATH_AVOID_DANGER_1", "GRABS", "KEENNOSE", "WARM", "HIT_AND_RUN" ],
+    "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
+    "harvest": "bird_large",
+    "anger_triggers": [ "PLAYER_WEAK", "HURT", "FRIEND_ATTACKED", "PLAYER_CLOSE" ],
+    "fear_triggers": [ "FIRE", "FRIEND_DIED" ],
+    "categories": [ "WILDLIFE" ]
   }
 ]

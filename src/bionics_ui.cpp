@@ -1,5 +1,3 @@
-#include "player.h" // IWYU pragma: associated
-
 #include <algorithm> //std::min
 #include <cstddef>
 #include <functional>
@@ -7,6 +5,7 @@
 #include <string>
 
 #include "avatar.h"
+#include "avatar_action.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -17,6 +16,7 @@
 #include "enums.h"
 #include "flat_set.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "input.h"
 #include "inventory.h"
 #include "material.h"
@@ -268,9 +268,10 @@ static void draw_bionics_titlebar( const catacurses::window &window, avatar *p,
     std::string desc_append = string_format(
                                   _( "[<color_yellow>%s</color>] Reassign, [<color_yellow>%s</color>] Switch tabs, "
                                      "[<color_yellow>%s</color>] Toggle fuel saving mode, "
-                                     "[<color_yellow>%s</color>] Toggle auto start mode." ),
+                                     "[<color_yellow>%s</color>] Toggle auto start mode, "
+                                     "[<color_yellow>%s</color>] Open refueling menu." ),
                                   ctxt.get_desc( "REASSIGN" ), ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "TOGGLE_SAFE_FUEL" ),
-                                  ctxt.get_desc( "TOGGLE_AUTO_START" ) );
+                                  ctxt.get_desc( "TOGGLE_AUTO_START" ), ctxt.get_desc( "REFUEL" ) );
     desc_append += string_format( _( " [<color_yellow>%s</color>] Sort: %s" ), ctxt.get_desc( "SORT" ),
                                   sort_mode_str( uistate.bionic_sort_mode ) );
     std::string desc;
@@ -636,6 +637,7 @@ void avatar::power_bionics()
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "TOGGLE_SAFE_FUEL" );
+    ctxt.register_action( "REFUEL" );
     ctxt.register_action( "TOGGLE_AUTO_START" );
     ctxt.register_action( "SORT" );
 
@@ -835,6 +837,9 @@ void avatar::power_bionics()
                     popup( _( "You can't toggle fuel saving mode on a non-fueled CBM." ) );
                 }
             }
+        } else if( action == "REFUEL" ) {
+            avatar_action::eat( get_avatar(), game_menus::inv::consume_fuel( get_avatar() ), true );
+            break;
         } else if( action == "TOGGLE_AUTO_START" ) {
             auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
             if( !current_bionic_list->empty() ) {
@@ -896,7 +901,7 @@ void avatar::power_bionics()
                         bool close_ui = false;
                         activate_bionic( b, false, &close_ui );
                         // Exit this ui if we are firing a complex bionic
-                        if( close_ui || tmp->ammo_count > 0 ) {
+                        if( close_ui && tmp->get_weapon().ammo_remaining( this ) ) {
                             break;
                         }
                     }

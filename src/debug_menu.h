@@ -17,7 +17,6 @@ class optional;
 } // namespace cata
 
 class Character;
-class player;
 
 namespace debug_menu
 {
@@ -30,6 +29,7 @@ enum class debug_menu_index : int {
     SPAWN_NPC,
     SPAWN_MON,
     GAME_STATE,
+    KILL_AREA,
     KILL_NPCS,
     MUTATE,
     SPAWN_VEHICLE,
@@ -65,6 +65,7 @@ enum class debug_menu_index : int {
     CRASH_GAME,
     MAP_EXTRA,
     DISPLAY_NPC_PATH,
+    DISPLAY_NPC_ATTACK,
     PRINT_FACTION_INFO,
     PRINT_NPC_MAGIC,
     QUIT_NOSAVE,
@@ -99,12 +100,13 @@ void teleport_overmap( bool specific_coordinates = false );
 
 void spawn_nested_mapgen();
 void character_edit_menu();
-void wishitem( player *p = nullptr );
-void wishitem( player *p, const tripoint & );
+void wisheffect( Character &p );
+void wishitem( Character *you = nullptr );
+void wishitem( Character *you, const tripoint & );
 void wishmonster( const cata::optional<tripoint> &p );
-void wishmutate( player *p );
-void wishskill( player *p );
-void wishproficiency( player *p );
+void wishmutate( Character *you );
+void wishskill( Character *you );
+void wishproficiency( Character *you );
 void mutation_wish();
 void draw_benchmark( int max_difference );
 

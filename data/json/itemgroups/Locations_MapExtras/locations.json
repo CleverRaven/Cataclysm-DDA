@@ -85,7 +85,7 @@
       { "group": "gunmod_energy", "prob": 40 },
       { "item": "plut_cell", "prob": 30, "charges": [ 1, 5 ] },
       [ "plasma", 30 ],
-      [ "adv_UPS_off", 20 ]
+      [ "UPS_off", 20 ]
     ]
   },
   {
@@ -342,7 +342,7 @@
       { "item": "radio", "prob": 10, "charges": [ 0, 100 ] },
       [ "eyedrops", 10 ],
       [ "rag", 30 ],
-      [ "paper", 30 ],
+      { "item": "paper", "prob": 30, "count": [ 30, 80 ] },
       [ "foon", 30 ],
       [ "spork", 30 ],
       { "item": "cell_phone", "prob": 10, "charges": [ 0, 150 ] },
@@ -584,7 +584,7 @@
       [ "modern_tanner", 20 ],
       [ "pocket_survival", 20 ],
       [ "flyer", 120 ],
-      { "item": "paper", "prob": 500, "charges-min": 1 },
+      { "item": "paper", "prob": 500, "count": [ 10, 60 ] },
       [ "wrapper", 150 ],
       [ "phonebook", 110 ],
       [ "box_small", 400 ],
@@ -880,7 +880,7 @@
       [ "pocketwatch", 1 ],
       [ "survnote", 1 ],
       [ "tinder", 1 ],
-      { "item": "hobo_stove", "prob": 1, "charges": [ 0, 100 ] },
+      { "item": "hobo_stove", "prob": 1 },
       { "item": "l-stick", "prob": 1, "charges": [ 0, 500 ] },
       [ "eclipse_glasses", 1 ],
       { "group": "writing_utensils", "prob": 5 }
@@ -916,7 +916,7 @@
       { "item": "rock", "prob": 40 },
       { "item": "rock_flaking", "prob": 15 },
       { "item": "rock_large", "prob": 10 },
-      { "item": "jackhammer", "prob": 2, "charges": [ 0, 400 ] },
+      { "item": "jackhammer", "prob": 2, "charges": [ 0, 1200 ] },
       { "item": "elec_jackhammer", "prob": 1 },
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       { "item": "dynamite", "prob": 5 },
@@ -1268,7 +1268,7 @@
       { "item": "flashlight", "prob": 40, "charges": [ 0, 300 ] },
       { "item": "heavy_flashlight", "prob": 10, "charges": [ 0, 300 ] },
       [ "pickaxe", 1 ],
-      { "item": "jackhammer", "prob": 2, "charges": [ 0, 400 ] },
+      { "item": "jackhammer", "prob": 2, "charges": [ 0, 1200 ] },
       { "item": "elec_jackhammer", "prob": 1, "charges": [ 0, 7000 ] },
       [ "dynamite", 5 ],
       { "item": "UPS_off", "prob": 5, "charges": [ 0, 1000 ] },
@@ -1409,7 +1409,7 @@
       { "item": "3006", "prob": 5, "charges": [ 1, 20 ] },
       { "item": "ksg", "prob": 8, "charges": [ 0, 7 ] },
       { "item": "remington_870_express", "prob": 8, "charges": [ 0, 7 ] },
-      { "item": "mossberg_500_security", "prob": 8, "charges": [ 0, 6 ] },
+      { "item": "mossberg_500", "variant": "mossberg_500_security", "prob": 8, "charges": [ 0, 6 ] },
       { "item": "shot_beanbag", "prob": 25, "charges": [ 1, 10 ] },
       { "item": "rm120c", "prob": 2, "charges": [ 0, 5 ] },
       { "item": "rm20", "prob": 1, "charges": [ 0, 20 ] },
@@ -1780,6 +1780,7 @@
       [ "thermometer", 3 ],
       [ "hygrometer", 3 ],
       [ "barometer", 3 ],
+      [ "sextant", 2 ],
       [ "badge_doctor", 5 ],
       [ "dnd_handbook", 2 ],
       [ "bodypillow", 1 ],
@@ -2257,6 +2258,7 @@
       [ "rollmat", 40 ],
       [ "tent_kit", 17 ],
       [ "large_tent_kit", 17 ],
+      [ "tent_pole", 17 ],
       { "distribution": [ { "group": "full_survival_kit" }, { "group": "used_survival_kit" } ], "prob": 10 },
       [ "canteen", 15 ],
       [ "2lcanteen", 10 ],
@@ -2299,7 +2301,7 @@
       [ "bodypillow", 1 ],
       [ "flint_steel", 6 ],
       [ "bottle_metal", 2 ],
-      { "item": "hobo_stove", "prob": 3, "charges": [ 0, 100 ] },
+      { "item": "hobo_stove", "prob": 3 },
       [ "tinder", 3 ],
       { "item": "tinderbox", "prob": 2, "charges": [ 0, 100 ] },
       [ "tarp", 15 ],
@@ -2453,7 +2455,8 @@
       { "item": "rag", "prob": 60, "custom-flags": [ "FILTHY" ] },
       { "item": "coat_lab", "prob": 20 },
       { "item": "blanket", "prob": 20 },
-      { "item": "sheet", "prob": 20 }
+      { "item": "sheet", "prob": 20 },
+      { "item": "tent_pole", "prob": 20 }
     ]
   },
   {
