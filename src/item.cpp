@@ -78,7 +78,6 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
-#include "player.h"
 #include "point.h"
 #include "proficiency.h"
 #include "projectile.h"

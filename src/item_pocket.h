@@ -27,7 +27,6 @@ class JsonObject;
 class JsonOut;
 class item;
 class item_location;
-class player;
 class pocket_data;
 struct iteminfo;
 struct itype;

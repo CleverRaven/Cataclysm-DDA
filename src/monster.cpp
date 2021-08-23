@@ -2847,6 +2847,11 @@ bool monster::is_dead() const
     return dead || is_dead_state();
 }
 
+bool monster::is_nemesis() const
+{
+    return has_flag( MF_NEMESIS );
+}
+
 void monster::init_from_item( const item &itm )
 {
     if( itm.typeId() == itype_corpse ) {
