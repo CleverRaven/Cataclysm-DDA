@@ -819,4 +819,17 @@ class inventory_drop_selector : public inventory_multiselector
         bool warn_liquid;
 };
 
+class pickup_selector : public inventory_multiselector
+{
+    public:
+        explicit pickup_selector( Character &p, const inventory_selector_preset &preset = default_preset,
+                                  const std::string &selection_column_title = _( "ITEMS TO PICK UP" ) );
+        drop_locations execute();
+    protected:
+        stats get_raw_stats() const override;
+        void process_selected( int &count, const std::vector<inventory_entry *> &selected );
+    private:
+        void deselect_contained_items();
+};
+
 #endif // CATA_SRC_INVENTORY_UI_H

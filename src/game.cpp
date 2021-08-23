@@ -5261,13 +5261,7 @@ void game::examine( const tripoint &examp )
 
 void game::pickup()
 {
-    const cata::optional<tripoint> examp_ = choose_adjacent_highlight( _( "Pickup where?" ),
-                                            _( "There is nothing to pick up nearby." ),
-                                            ACTION_PICKUP, false );
-    if( !examp_ ) {
-        return;
-    }
-    pickup( *examp_ );
+    u.pick_up( game_menus::inv::pickup( u ) );
 }
 
 void game::pickup( const tripoint &p )

@@ -1850,6 +1850,22 @@ drop_locations game_menus::inv::multidrop( avatar &you )
     return inv_s.execute();
 }
 
+drop_locations game_menus::inv::pickup( avatar &you )
+{
+    pickup_selector pick_s( you );
+
+    pick_s.add_nearby_items();
+    pick_s.set_title( _( "Pickup" ) );
+    pick_s.set_hint( _( "To pick x items, type a number before selecting." ) );
+
+    if( pick_s.empty() ) {
+        popup( std::string( _( "There is nothing to pick up." ) ), PF_GET_KEY );
+        return drop_locations();
+    }
+
+    return pick_s.execute();
+}
+
 bool game_menus::inv::compare_items( const item &first, const item &second,
                                      const std::string &confirm_message )
 {

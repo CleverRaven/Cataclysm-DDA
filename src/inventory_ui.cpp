@@ -2908,3 +2908,198 @@ inventory_selector::stats inventory_drop_selector::get_raw_stats() const
                u.volume_capacity_with_tweaks( to_use ),
                u.max_single_item_length(), u.max_single_item_volume() );
 }
+
+pickup_selector::pickup_selector( Character &p, const inventory_selector_preset &preset,
+                                  const std::string &selection_column_title ) :
+    inventory_multiselector( p, preset, selection_column_title )
+{
+#if defined(__ANDROID__)
+    // allow user to type a drop number without dismissing virtual keyboard after each keypress
+    ctxt.allow_text_entry = true;
+#endif
+}
+
+drop_locations pickup_selector::execute()
+{
+    shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
+
+    int count = 0;
+    while( true ) {
+        ui_manager::redraw();
+
+        const inventory_input input = get_input();
+
+        if( input.ch >= '0' && input.ch <= '9' ) {
+            count = std::min( count, INT_MAX / 10 - 10 );
+            count *= 10;
+            count += input.ch - '0';
+        } else if( input.entry != nullptr ) {
+            select( input.entry->any_item() );
+            if( count == 0 && input.entry->chosen_count == 0 ) {
+                count = INT_MAX;
+            }
+            set_chosen_count( *input.entry, count );
+            count = 0;
+        } else if( input.action == "DROP_NON_FAVORITE" ) {
+            const auto filter_to_nonfavorite_and_nonworn = []( const inventory_entry & entry ) {
+                return entry.is_item() &&
+                       !entry.any_item()->is_favorite &&
+                       !get_player_character().is_worn( *entry.any_item() );
+            };
+
+            const auto selected( get_active_column().get_entries( filter_to_nonfavorite_and_nonworn ) );
+            process_selected( count, selected );
+            deselect_contained_items();
+        } else if( input.action == "TOGGLE_ENTRY" ) {
+            const auto selected( get_active_column().get_all_selected() );
+
+            // No amount entered, select all
+            if( count == 0 ) {
+                count = INT_MAX;
+
+                // Any non favorite item to select?
+                const bool select_nonfav = std::any_of( selected.begin(), selected.end(),
+                []( const inventory_entry * elem ) {
+                    return ( !elem->any_item()->is_favorite ) && elem->chosen_count == 0;
+                } );
+
+                // Otherwise, any favorite item to select?
+                const bool select_fav = !select_nonfav && std::any_of( selected.begin(), selected.end(),
+                []( const inventory_entry * elem ) {
+                    return elem->any_item()->is_favorite && elem->chosen_count == 0;
+                } );
+
+                for( const auto &elem : selected ) {
+                    const bool is_favorite = elem->any_item()->is_favorite;
+                    if( ( select_nonfav && !is_favorite ) || ( select_fav && is_favorite ) ) {
+                        set_chosen_count( *elem, count );
+                    } else if( !select_nonfav && !select_fav ) {
+                        // Every element is selected, unselect all
+                        set_chosen_count( *elem, 0 );
+                    }
+                }
+                deselect_contained_items();
+                // Select the entered amount
+            } else {
+                for( const auto &elem : selected ) {
+                    set_chosen_count( *elem, count );
+                }
+                deselect_contained_items();
+            }
+
+            count = 0;
+        } else if( input.action == "CONFIRM" ) {
+            if( to_use.empty() ) {
+                popup_getkey( _( "No items were selected.  Use %s to select them." ),
+                              ctxt.get_desc( "TOGGLE_ENTRY" ) );
+                continue;
+            }
+            break;
+        } else if( input.action == "EXAMINE" ) {
+            const inventory_entry &selected = get_active_column().get_selected();
+            if( selected ) {
+                const item *sitem = selected.any_item().get_item();
+                action_examine( sitem );
+            }
+        } else if( input.action == "QUIT" ) {
+            return drop_locations();
+        } else if( input.action == "INVENTORY_FILTER" ) {
+            set_filter();
+        } else if( input.action == "TOGGLE_FAVORITE" ) {
+            // TODO: implement favoriting in multi selection menus while maintaining selection
+        } else {
+            on_input( input );
+            count = 0;
+        }
+    }
+
+    drop_locations dropped_pos_and_qty;
+    for( const std::pair<item_location, int> &drop_pair : to_use ) {
+        dropped_pos_and_qty.push_back( drop_pair );
+    }
+
+    return dropped_pos_and_qty;
+}
+
+void pickup_selector::deselect_contained_items()
+{
+    std::vector<item_location> inventory_items;
+    for( std::pair<item_location, int> &drop : to_use ) {
+        item_location loc_front = drop.first;
+        inventory_items.push_back( loc_front );
+    }
+    for( item_location loc_container : inventory_items ) {
+        if( !loc_container->empty() ) {
+            for( inventory_column *col : get_all_columns() ) {
+                for( inventory_entry *selected : col->get_entries( []( const inventory_entry &
+                entry ) {
+                return entry.chosen_count > 0;
+            } ) ) {
+                    if( !selected->is_item() ) {
+                        continue;
+                    }
+                    for( item *item_contained : loc_container->all_items_top() ) {
+                        for( const item_location &selected_loc : selected->locations ) {
+                            if( selected_loc.get_item() == item_contained ) {
+                                set_chosen_count( *selected, 0 );
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    for( inventory_column *col : get_all_columns() ) {
+        for( inventory_entry *selected : col->get_entries(
+        []( const inventory_entry & entry ) {
+        return entry.is_item() && entry.chosen_count > 0 && entry.locations.front()->is_frozen_liquid();
+        } ) ) {
+            set_chosen_count( *selected, 0 );
+        }
+    }
+}
+
+void pickup_selector::process_selected( int &count, const std::vector<inventory_entry *> &selected )
+{
+    if( count == 0 ) {
+        const bool clear = std::none_of( selected.begin(), selected.end(),
+        []( const inventory_entry * elem ) {
+            return elem->chosen_count > 0;
+        } );
+
+        if( clear ) {
+            count = max_chosen_count;
+        }
+    }
+
+    for( const auto &elem : selected ) {
+        set_chosen_count( *elem, count );
+    }
+    count = 0;
+}
+
+inventory_selector::stats pickup_selector::get_raw_stats() const
+{
+    units::mass weight;
+    units::volume volume;
+
+    for( const drop_location &loc : to_use ) {
+        if( loc.first->count_by_charges() ) {
+            item copy( *loc.first.get_item() );
+            copy.charges = loc.second;
+            weight += copy.weight();
+            volume += copy.volume();
+        } else {
+            weight += loc.first->weight() * loc.second;
+            volume += loc.first->volume() * loc.second;
+        }
+    }
+
+    return get_weight_and_volume_stats(
+               u.weight_carried() + weight,
+               u.weight_capacity(),
+               u.volume_carried() + volume,
+               u.volume_capacity(),
+               u.max_single_item_length(),
+               u.max_single_item_volume() );
+}
