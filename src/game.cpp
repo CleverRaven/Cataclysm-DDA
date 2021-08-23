@@ -850,6 +850,7 @@ bool game::start_game()
         new_mission->assign( u );
     }
 
+
     get_event_bus().send<event_type::game_start>( u.getID(), u.name, u.male, u.prof->ident(),
             u.custom_profession, getVersionString() );
     time_played_at_last_load = std::chrono::seconds( 0 );

@@ -420,6 +420,12 @@ class overmap
         void process_mongroups();
         void move_hordes();
 
+        //nemesis movement for "hunted" trait
+        void signal_nemesis( const tripoint_abs_sm p );
+        void move_nemesis();
+        void place_nemesis( const tripoint_abs_omt p );
+        bool remove_nemesis(); // returns true if nemesis found and removed
+
         static bool obsolete_terrain( const std::string &ter );
         void convert_terrain(
             const std::unordered_map<tripoint_om_omt, std::string> &needs_conversion );
