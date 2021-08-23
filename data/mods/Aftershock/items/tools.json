@@ -248,16 +248,6 @@
     "armor": [ { "encumbrance": 2, "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
-    "id": "adv_UPS_off",
-    "type": "TOOL_ARMOR",
-    "copy-from": "adv_UPS_off",
-    "name": { "str": "advanced UPS", "str_pl": "advanced UPS's" },
-    "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to consume plutonium fuel cells rather than batteries, and is both slimmer and lighter to wear.  Sadly, its plutonium reactor can't be charged in UPS charging station.",
-    "sided": true,
-    "flags": [ "WAIST", "FRAGILE", "OVERSIZE", "IS_UPS" ],
-    "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
-  },
-  {
     "id": "bionic_maintenance_toolkit",
     "copy-from": "screwdriver_set",
     "type": "TOOL",
