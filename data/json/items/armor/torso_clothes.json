@@ -91,7 +91,7 @@
     "warmth": 20,
     "material_thickness": 1.5,
     "valid_mods": [ "steel_padded" ],
-    "flags": [ "VARSIZE", "FANCY" ]
+    "flags": [ "VARSIZE", "FANCY", "OUTER" ]
   },
   {
     "id": "dress",

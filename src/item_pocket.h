@@ -27,7 +27,6 @@ class JsonObject;
 class JsonOut;
 class item;
 class item_location;
-class player;
 class pocket_data;
 struct iteminfo;
 struct itype;
@@ -307,7 +306,7 @@ class item_pocket
          *
          * This assumes that both pockets are able to and allowed to contain the item.
          */
-        bool better_pocket( const item_pocket &rhs, const item &it ) const;
+        bool better_pocket( const item_pocket &rhs, const item &it, bool nested = false ) const;
 
         bool operator==( const item_pocket &rhs ) const;
 

@@ -476,6 +476,18 @@
     }
   },
   {
+    "id": "MISSION_KILL_NEMESIS",
+    "type": "mission_definition",
+    "name": { "str": "Kill your pursuer" },
+    "description": "Since the start of the Cataclysm, something has been hunting you relentlessly.  You can outrun it but never truly escape it.  It won't end until one of you dies.",
+    "goal": "MGOAL_KILL_NEMESIS",
+    "difficulty": 5,
+    "value": 0,
+    "start": "kill_nemesis",
+    "end": { "effect": [ { "u_lose_trait": "HAS_NEMESIS" } ] },
+    "origins": [ "ORIGIN_GAME_START" ]
+  },
+  {
     "id": "MISSION_KILL_JABBERWOCK",
     "type": "mission_definition",
     "name": { "str": "Kill Jabberwock" },

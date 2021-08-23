@@ -35,7 +35,7 @@ class cardreader_examine_actor : public iexamine_actor
         std::string redundant_msg;
 
         void consume_card( const std::vector<item_location> &cards ) const;
-        std::vector<item_location> get_cards( player &guy, const tripoint &examp ) const;
+        std::vector<item_location> get_cards( Character &you, const tripoint &examp ) const;
         bool apply( const tripoint &examp ) const;
 
     public:
@@ -43,7 +43,7 @@ class cardreader_examine_actor : public iexamine_actor
             : iexamine_actor( type ) {}
 
         void load( const JsonObject &jo ) override;
-        void call( player &guy, const tripoint &examp ) const override;
+        void call( Character &you, const tripoint &examp ) const override;
         void finalize() const override;
 
         std::unique_ptr<iexamine_actor> clone() const override;

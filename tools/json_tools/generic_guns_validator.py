@@ -42,6 +42,8 @@ SKILL_WHITELIST = {
 ID_WHITELIST = {
     # Guns
     'coilgun',
+    'slamfire_shotgun',
+    'slamfire_shotgun_d',
     'ftk93',
     'l_bak_223',
     'pneumatic_shotgun',

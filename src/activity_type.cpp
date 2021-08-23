@@ -102,19 +102,19 @@ void activity_type::check_consistency()
     }
 }
 
-void activity_type::call_do_turn( player_activity *act, player *p ) const
+void activity_type::call_do_turn( player_activity *act, Character *you ) const
 {
     const auto &pair = activity_handlers::do_turn_functions.find( id_ );
     if( pair != activity_handlers::do_turn_functions.end() ) {
-        pair->second( act, p );
+        pair->second( act, you );
     }
 }
 
-bool activity_type::call_finish( player_activity *act, player *p ) const
+bool activity_type::call_finish( player_activity *act, Character *you ) const
 {
     const auto &pair = activity_handlers::finish_functions.find( id_ );
     if( pair != activity_handlers::finish_functions.end() ) {
-        pair->second( act, p );
+        pair->second( act, you );
         // kill activity sounds at finish
         sfx::end_activity_sounds();
         return true;

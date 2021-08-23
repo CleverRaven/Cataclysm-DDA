@@ -665,6 +665,56 @@ std::string Character::skin_name() const
     return _( "armor" );
 }
 
+//message related stuff
+void Character::add_msg_if_player( const std::string &msg ) const
+{
+    Messages::add_msg( msg );
+}
+
+void Character::add_msg_player_or_npc( const std::string &player_msg,
+                                       const std::string &/*npc_msg*/ ) const
+{
+    Messages::add_msg( player_msg );
+}
+
+void Character::add_msg_if_player( const game_message_params &params, const std::string &msg ) const
+{
+    Messages::add_msg( params, msg );
+}
+
+void Character::add_msg_debug_if_player( debugmode::debug_filter type,
+        const std::string &msg ) const
+{
+    Messages::add_msg_debug( type, msg );
+}
+
+void Character::add_msg_player_or_npc( const game_message_params &params,
+                                       const std::string &player_msg,
+                                       const std::string &/*npc_msg*/ ) const
+{
+    Messages::add_msg( params, player_msg );
+}
+
+void Character::add_msg_debug_player_or_npc( debugmode::debug_filter type,
+        const std::string &player_msg,
+        const std::string &/*npc_msg*/ ) const
+{
+    Messages::add_msg_debug( type, player_msg );
+}
+
+void Character::add_msg_player_or_say( const std::string &player_msg,
+                                       const std::string &/*npc_speech*/ ) const
+{
+    Messages::add_msg( player_msg );
+}
+
+void Character::add_msg_player_or_say( const game_message_params &params,
+                                       const std::string &player_msg,
+                                       const std::string &/*npc_speech*/ ) const
+{
+    Messages::add_msg( params, player_msg );
+}
+
 int Character::effective_dispersion( int dispersion ) const
 {
     /** @EFFECT_PER penalizes sight dispersion when low. */
@@ -4832,7 +4882,13 @@ void Character::reset_stats()
 void Character::reset()
 {
     // TODO: Move reset_stats here, remove it from Creature
-    Creature::reset();
+    reset_bonuses();
+    // Apply bonuses from hardcoded effects
+    mod_str_bonus( str_bonus_hardcoded );
+    mod_dex_bonus( dex_bonus_hardcoded );
+    mod_int_bonus( int_bonus_hardcoded );
+    mod_per_bonus( per_bonus_hardcoded );
+    reset_stats();
 }
 
 bool Character::has_nv()
@@ -9291,6 +9347,7 @@ void Character::mend_item( item_location &&obj, bool interactive )
         assign_activity( activity_id( "ACT_MEND_ITEM" ), to_moves<int>( method.time ) );
         activity.name = opt.fault.str();
         activity.str_values.emplace_back( method.id );
+        activity.targets.push_back( std::move( obj ) );
     }
 }
 
@@ -10064,6 +10121,13 @@ void Character::shout( std::string msg, bool order )
 
     sounds::sound( pos(), noise, order ? sounds::sound_t::order : sounds::sound_t::alert, msg, false,
                    "shout", shout );
+}
+
+void Character::signal_nemesis()
+{
+    const tripoint_abs_omt ompos = global_omt_location();
+    const tripoint_abs_sm smpos = project_to<coords::sm>( ompos );
+    overmap_buffer.signal_nemesis( smpos );
 }
 
 void Character::vomit()
@@ -13081,7 +13145,15 @@ void Character::process_one_effect( effect &it, bool is_new )
     int val = 0;
 
     // Still hardcoded stuff, do this first since some modify their other traits
+    int str = get_str_bonus();
+    int dex = get_dex_bonus();
+    int intl = get_int_bonus();
+    int per = get_per_bonus();
     hardcoded_effects( it );
+    str_bonus_hardcoded += get_str_bonus() - str;
+    dex_bonus_hardcoded += get_dex_bonus() - dex;
+    int_bonus_hardcoded += get_int_bonus() - intl;
+    per_bonus_hardcoded += get_per_bonus() - per;
 
     const auto get_effect = [&it, is_new]( const std::string & arg, bool reduced ) {
         if( is_new ) {
@@ -13330,6 +13402,12 @@ void Character::process_effects()
         remove_effect( effect_recover );
     }
 
+    //Clear hardcoded bonuses from last turn
+    //Recalculated in process_one_effect
+    str_bonus_hardcoded = 0;
+    dex_bonus_hardcoded = 0;
+    int_bonus_hardcoded = 0;
+    per_bonus_hardcoded = 0;
     //Human only effects
     for( std::pair<const efftype_id, std::map<bodypart_id, effect>> &elem : *effects ) {
         for( std::pair<const bodypart_id, effect> &_effect_it : elem.second ) {

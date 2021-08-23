@@ -59,7 +59,6 @@
 #include "output.h"
 #include "pickup.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "point.h"
 #include "ranged.h"
@@ -232,7 +231,7 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
 
     // Fire!
     gun_mode gun = weapon->gun_current_mode();
-    int shots_fired = static_cast<player *>( &who )->fire_gun( fin_trajectory.back(), gun.qty, *gun );
+    int shots_fired = who.fire_gun( fin_trajectory.back(), gun.qty, *gun );
 
     // TODO: bionic power cost of firing should be derived from a value of the relevant weapon.
     if( shots_fired && ( bp_cost_per_shot > 0_J ) ) {
@@ -315,7 +314,7 @@ void aim_activity_actor::restore_view()
 bool aim_activity_actor::load_RAS_weapon()
 {
     // TODO: use activity for fetching ammo and loading weapon
-    player &you = get_avatar();
+    Character &you = get_avatar();
     item *weapon = get_weapon();
     gun_mode gun = weapon->gun_current_mode();
     const auto ammo_location_is_valid = [&]() -> bool {
@@ -754,8 +753,7 @@ static hack_result hack_attempt( Character &who )
 {
     // TODO: Remove this once player -> Character migration is complete
     {
-        player *p = dynamic_cast<player *>( &who );
-        p->practice( skill_computer, 20 );
+        who.practice( skill_computer, 20 );
     }
 
     // only skilled supergenius never cause short circuits, but the odds are low for people
@@ -2467,7 +2465,7 @@ void try_sleep_activity_actor::do_turn( player_activity &act, Character &who )
     if( who.has_effect( effect_sleep ) ) {
         return;
     }
-    if( dynamic_cast<player *>( &who )->can_sleep() ) {
+    if( who.can_sleep() ) {
         who.fall_asleep(); // calls act.set_to_null()
         if( !who.has_effect( effect_sleep ) ) {
             // Character can potentially have immunity for 'effect_sleep'
