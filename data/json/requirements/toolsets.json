@@ -110,7 +110,7 @@
     "id": "mining_standard",
     "type": "requirement",
     "//": "mining",
-    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 10 ], [ "elec_jackhammer", 3500 ] ] ]
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 300 ], [ "elec_jackhammer", 3500 ] ] ]
   },
   {
     "id": "bronzesmithing_tools",

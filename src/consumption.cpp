@@ -1,5 +1,3 @@
-#include "player.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -881,7 +879,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
 /** Eat a comestible.
 *   @return true if item consumed.
 */
-static bool eat( item &food, player &you, bool force )
+static bool eat( item &food, Character &you, bool force )
 {
     if( !food.is_food() ) {
         return false;
@@ -1681,7 +1679,7 @@ time_duration Character::get_consume_time( const item &it )
     return time * consume_time_modifier;
 }
 
-static bool query_consume_ownership( item &target, player &p )
+static bool query_consume_ownership( item &target, Character &p )
 {
     if( !target.is_owned_by( p, true ) ) {
         bool choice = true;
@@ -1714,7 +1712,7 @@ static bool query_consume_ownership( item &target, player &p )
 /** Consume medication.
 *   @return true if item consumed.
 */
-static bool consume_med( item &target, player &you )
+static bool consume_med( item &target, Character &you )
 {
     if( !target.is_medication() ) {
         return false;

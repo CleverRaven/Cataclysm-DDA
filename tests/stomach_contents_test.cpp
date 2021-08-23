@@ -7,7 +7,6 @@
 #include "cata_catch.h"
 #include "character.h"
 #include "item.h"
-#include "player.h"
 #include "player_helpers.h"
 #include "stomach.h"
 #include "string_formatter.h"

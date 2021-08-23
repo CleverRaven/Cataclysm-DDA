@@ -794,7 +794,7 @@ class npc : public player
         // Faction version number
         int get_faction_ver() const;
         void set_faction_ver( int new_version );
-        bool has_faction_relationship( const player &p,
+        bool has_faction_relationship( const Character &you,
                                        npc_factions::relationship flag ) const;
         void set_fac( const faction_id &id );
         faction *get_faction() const override;
@@ -838,7 +838,7 @@ class npc : public player
 
         // Interaction with the player
         void form_opinion( const player &u );
-        std::string pick_talk_topic( const player &u );
+        std::string pick_talk_topic( const Character &u );
         float character_danger( const Character &u ) const;
         float vehicle_danger( int radius ) const;
         void pretend_fire( npc *source, int shots, item &gun ); // fake ranged attack for hallucination

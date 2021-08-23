@@ -446,13 +446,13 @@ void map_data_common_t::set_examine( iexamine_function_ref func )
     examine_func = &func;
 }
 
-void map_data_common_t::examine( player &guy, const tripoint &examp ) const
+void map_data_common_t::examine( Character &you, const tripoint &examp ) const
 {
     if( !examine_actor ) {
-        examine_func( guy, examp );
+        examine_func( you, examp );
         return;
     }
-    examine_actor->call( guy, examp );
+    examine_actor->call( you, examp );
 }
 
 void map_data_common_t::load_symbol( const JsonObject &jo )

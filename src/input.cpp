@@ -1128,16 +1128,12 @@ const std::string &input_context::handle_input( const int timeout )
             break;
         }
 
-        if( next_action.type == input_event_t::mouse ) {
-            if( !handling_coordinate_input && action == CATA_ERROR ) {
-                continue; // Ignore this mouse input.
-            }
-
-            coordinate_input_received = true;
-            coordinate = next_action.mouse_pos;
-        } else {
-            coordinate_input_received = false;
+        if( next_action.type == input_event_t::mouse
+            && !handling_coordinate_input && action == CATA_ERROR ) {
+            continue; // Ignore mouse movement.
         }
+        coordinate_input_received = true;
+        coordinate = next_action.mouse_pos;
 
         if( action != CATA_ERROR ) {
             result = &action;
