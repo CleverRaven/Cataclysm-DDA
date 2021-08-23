@@ -12051,16 +12051,16 @@ std::map<bodypart_id, int> Character::bonus_item_warmth() const
     int hood_warmth = 0;
     int collar_warmth = 0;
     for( const item &w : worn ) {
-        if (w.has_flag( flag_POCKETS ) && w.get_warmth() > pocket_warmth ) {
+        if( w.has_flag( flag_POCKETS ) && w.get_warmth() > pocket_warmth ) {
             pocket_warmth = w.get_warmth();
         }
-        if (w.has_flag( flag_HOOD ) && w.get_warmth() > hood_warmth ) {
+        if( w.has_flag( flag_HOOD ) && w.get_warmth() > hood_warmth ) {
             hood_warmth = w.get_warmth();
         }
-        if (w.has_flag( flag_COLLAR ) && w.get_warmth() > collar_warmth ) {
+        if( w.has_flag( flag_COLLAR ) && w.get_warmth() > collar_warmth ) {
             collar_warmth = w.get_warmth();
         }
-    } 
+    }
 
     std::map<bodypart_id, int> ret;
     for( const bodypart_id &bp : get_all_body_parts() ) {
