@@ -238,6 +238,17 @@ struct hash<map_key> {
 };
 } // namespace std
 
+template<typename T>
+struct mapgen_constraint {
+    mapgen_constraint( const std::string &name, const T &val )
+        : parameter_name( name )
+        , value( val )
+    {}
+
+    std::string parameter_name;
+    T value;
+};
+
 class mapgen_palette
 {
     public:
@@ -290,11 +301,23 @@ class mapgen_palette
     private:
         mapgen_parameters parameters;
 
-        std::vector<palette_id> palettes_used;
+        // These would ideally be mapgen_value<palette_id> but because they get
+        // transformed into parameters as an implementation detail it's easier
+        // to just use std::string
+        std::vector<mapgen_value<std::string>> palettes_used;
 
         static mapgen_palette load_internal(
             const JsonObject &jo, const std::string &src, const std::string &context,
             bool require_id, bool allow_recur );
+
+        struct add_palette_context {
+            add_palette_context( const std::string &ctx, mapgen_parameters * );
+
+            std::string context;
+            std::vector<palette_id> ancestors;
+            mapgen_parameters *parameters;
+            std::vector<mapgen_constraint<palette_id>> constraints;
+        };
 
         /**
          * Adds a palette to this one. New values take preference over the old ones.
@@ -304,10 +327,9 @@ class mapgen_palette
          * addition of another palette which includes rh.  This allows for
          * detection of loops in palette references.
          */
-        void add( const palette_id &rh, const std::string &context = {},
-                  std::vector<palette_id> ancestors = {} );
-        void add( const mapgen_palette &rh, const std::string &context = {},
-                  std::vector<palette_id> ancestors = {} );
+        void add( const mapgen_value<std::string> &rh, const add_palette_context & );
+        void add( const palette_id &rh, const add_palette_context & );
+        void add( const mapgen_palette &rh, const add_palette_context & );
 };
 
 struct jmapgen_objects {
