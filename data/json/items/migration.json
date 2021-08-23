@@ -1487,5 +1487,10 @@
     "id": "adv_UPS_off",
     "type": "MIGRATION",
     "replace": "UPS_off"
+  },
+  {
+    "id": "money_bundle",
+    "type": "MIGRATION",
+    "replace": "money_bundle_twenty"
   }
 ]

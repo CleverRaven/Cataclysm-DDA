@@ -2528,50 +2528,6 @@
     "flags": [ "SLEEP_AID" ]
   },
   {
-    "type": "GENERIC",
-    "id": "money_bundle",
-    "name": { "str": "money bundle" },
-    "description": "A bundle holding many 20 dollar bills, pretty useless now though.",
-    "weight": "20 g",
-    "to_hit": -3,
-    "color": "green",
-    "symbol": ",",
-    "material": [ "paper" ],
-    "volume": "250 ml",
-    "price": 0
-  },
-  {
-    "type": "GENERIC",
-    "id": "money_one",
-    "name": { "str": "one dollar bill" },
-    "description": "A one dollar bill, pretty useless now though.",
-    "weight": "1 g",
-    "to_hit": -3,
-    "color": "green",
-    "symbol": ",",
-    "material": [ "paper" ],
-    "volume": "1 ml",
-    "price": 0
-  },
-  {
-    "type": "GENERIC",
-    "id": "money_ten",
-    "name": { "str": "ten dollar bill" },
-    "description": "A ten dollar bill, pretty useless now though.",
-    "copy-from": "money_one",
-    "color": "green",
-    "symbol": ","
-  },
-  {
-    "type": "GENERIC",
-    "id": "money_twenty",
-    "name": { "str": "twenty dollar bill" },
-    "description": "A twenty dollar bill, pretty useless now though.",
-    "copy-from": "money_one",
-    "color": "green",
-    "symbol": ","
-  },
-  {
     "id": "pouch_autoclave",
     "type": "AMMO",
     "ammo_type": "NULL",
@@ -3285,7 +3241,19 @@
         "max_contains_weight": "60 g",
         "max_contains_volume": "150 ml",
         "moves": 100,
-        "item_restriction": [ "FMCNote", "signed_chit", "family_photo", "money_one", "money_ten", "money_twenty", "condom" ]
+        "item_restriction": [
+          "FMCNote",
+          "signed_chit",
+          "family_photo",
+          "money_one",
+          "money_two",
+          "money_five",
+          "money_ten",
+          "money_twenty",
+          "money_fifty",
+          "money_hundred",
+          "condom"
+        ]
       },
       {
         "//": "Card Sleeves",
@@ -3354,7 +3322,19 @@
         "max_contains_weight": "80 g",
         "max_contains_volume": "175 ml",
         "moves": 100,
-        "item_restriction": [ "FMCNote", "signed_chit", "family_photo", "money_one", "money_ten", "money_twenty", "condom" ]
+        "item_restriction": [
+          "FMCNote",
+          "signed_chit",
+          "family_photo",
+          "money_one",
+          "money_two",
+          "money_five",
+          "money_ten",
+          "money_twenty",
+          "money_fifty",
+          "money_hundred",
+          "condom"
+        ]
       },
       {
         "//": "Card Sleeves",
@@ -3479,6 +3459,8 @@
           "signed_chit",
           "family_photo",
           "money_one",
+          "money_two",
+          "money_five",
           "money_ten",
           "money_twenty",
           "condom",

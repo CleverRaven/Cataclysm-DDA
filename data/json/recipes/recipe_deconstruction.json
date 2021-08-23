@@ -2970,11 +2970,115 @@
     ]
   },
   {
-    "result": "money_bundle",
+    "result": "money_strap_one",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
-    "time": "12 s",
-    "components": [ [ [ "paper", 2 ] ] ],
+    "time": "4 s",
+    "components": [ [ [ "money_one", 100 ] ], [ [ "paper", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "money_strap_two",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "4 s",
+    "components": [ [ [ "money_two", 100 ] ], [ [ "paper", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "money_strap_five",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "4 s",
+    "components": [ [ [ "money_five", 100 ] ], [ [ "paper", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "money_strap_ten",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "4 s",
+    "components": [ [ [ "money_ten", 100 ] ], [ [ "paper", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "money_strap_twenty",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "4 s",
+    "components": [ [ [ "money_twenty", 100 ] ], [ [ "paper", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "money_strap_fifty",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "4 s",
+    "components": [ [ [ "money_fifty", 100 ] ], [ [ "paper", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "money_strap_hundred",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "4 s",
+    "components": [ [ [ "money_hundred", 100 ] ], [ [ "paper", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "money_bundle_one",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "money_strap_one", 10 ] ], [ [ "rubber_band", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "money_bundle_two",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "money_strap_two", 10 ] ], [ [ "rubber_band", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "money_bundle_five",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "money_strap_five", 10 ] ], [ [ "rubber_band", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "money_bundle_ten",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "money_strap_ten", 10 ] ], [ [ "rubber_band", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "money_bundle_twenty",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "money_strap_twenty", 10 ] ], [ [ "rubber_band", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "money_bundle_fifty",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "money_strap_fifty", 10 ] ], [ [ "rubber_band", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "money_bundle_hundred",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "money_strap_hundred", 10 ] ], [ [ "rubber_band", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
