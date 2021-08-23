@@ -1301,6 +1301,26 @@ class jmapgen_alternatively : public jmapgen_piece
         // PieceType, they *can not* be of any other type.
         std::vector<PieceType> alternatives;
         jmapgen_alternatively() = default;
+        int phase() const override {
+            if( alternatives.empty() ) {
+                return 0;
+            }
+            return alternatives[0].phase();
+        }
+        void check( const std::string &context, const mapgen_parameters &params ) const override {
+            if( alternatives.empty() ) {
+                debugmsg( "zero alternatives in jmapgen_alternatively in %s", context );
+            }
+            for( const PieceType &piece : alternatives ) {
+                piece.check( context, params );
+            }
+        }
+        void merge_parameters_into( mapgen_parameters &params,
+                                    const std::string &outer_context ) const override {
+            for( const PieceType &piece : alternatives ) {
+                piece.merge_parameters_into( params, outer_context );
+            }
+        }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
             if( const auto chosen = random_entry_opt( alternatives ) ) {
