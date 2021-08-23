@@ -114,25 +114,6 @@ static std::pair<int, int> subindex_around_cursor(
     return std::make_pair( slice_start, slice_start + available_space );
 }
 
-static void draw_scrollbar_next(
-    const int num_entries, const int height, const int width, const int height_offset,
-    const int range_first, const catacurses::window &win )
-/**
- * Draw scrollbar if scrollable.
- */
-{
-    if( num_entries > height ) {
-        scrollbar()
-        .offset_x( width + 1 )
-        .offset_y( height_offset )
-        .content_size( num_entries )
-        .viewport_pos( range_first )
-        .viewport_size( height )
-        .scroll_to_last( false )
-        .apply( win );
-    }
-}
-
 void Character::print_encumbrance( const catacurses::window &win, const int line,
                                    const item *const selected_clothing ) const
 {
@@ -189,7 +170,7 @@ void Character::print_encumbrance( const catacurses::window &win, const int line
                    temperature_print_rescaling( get_part_temp_conv( bp ) ) );
     }
 
-    draw_scrollbar_next( bps.size(), height, width, 1, firstline, win );
+    draw_scrollbar( win, firstline, height, bps.size(), point( width, 1 ), c_white, true );
 }
 
 static std::string swim_cost_text( float moves )
@@ -352,7 +333,7 @@ static void draw_proficiencies_tab( const catacurses::window &win, const unsigne
         nc_color col_cur = col;  // make non const copy
         print_colored_text( win, point( 1, 1 + i - range.first ), col_cur, col, name );
     }
-    draw_scrollbar_next( profs.size(), height, width, 1, range.first, win );
+    draw_scrollbar( win, range.first, height, profs.size(), point( width + 1, 1 ), c_white, true );
     wnoutrefresh( win );
 }
 
@@ -581,7 +562,8 @@ static void draw_traits_tab( const catacurses::window &w_traits, const unsigned 
         trim_and_print( w_traits, point( 1, static_cast<int>( 1 + i - range.first ) ), width,
                         is_current_tab && i == line ? hilite( color ) : color, mdata.name() );
     }
-    draw_scrollbar_next( traitslist.size(), height, width, 1, range.first, w_traits );
+    draw_scrollbar( w_traits, range.first, height, traitslist.size(), point( width + 1, 1 ), c_white,
+                    true );
     wnoutrefresh( w_traits );
 }
 
@@ -632,7 +614,8 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const Charact
         trim_and_print( w_bionics, point( 1, static_cast<int>( 2 + i - range.first ) ), width,
                         is_current_tab && i == line ? hilite( c_white ) : c_white, "%s", bionicslist[i].info().name );
     }
-    draw_scrollbar_next( bionicslist.size(), height, width, 2, range.first, w_bionics );
+    draw_scrollbar( w_bionics, range.first, height, bionicslist.size(), point( width + 1, 2 ), c_white,
+                    true );
     wnoutrefresh( w_bionics );
 }
 
@@ -667,7 +650,8 @@ static void draw_effects_tab( const catacurses::window &w_effects, const unsigne
         trim_and_print( w_effects, point( 1, static_cast<int>( 1 + i - range.first ) ), width,
                         is_current_tab && i == line ? h_light_gray : c_light_gray, effect_name_and_text[i].first );
     }
-    draw_scrollbar_next( effect_name_and_text.size(), height, width, 1, range.first, w_effects );
+    draw_scrollbar( w_effects, range.first, height, effect_name_and_text.size(), point( width + 1, 1 ),
+                    c_white, true );
     wnoutrefresh( w_effects );
 }
 
