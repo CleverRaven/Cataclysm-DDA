@@ -25,6 +25,7 @@
 #include "item.h"
 #include "itype.h"
 #include "json.h"
+#include "npc.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
@@ -312,12 +313,27 @@ static std::vector<std::string> recipe_info(
     if( !guy.knows_recipe( &recp ) ) {
         oss << _( "Recipe not memorized yet\n" );
         const std::set<itype_id> books_with_recipe = guy.get_books_for_recipe( crafting_inv, &recp );
-        const std::string enumerated_books =
-            enumerate_as_string( books_with_recipe.begin(), books_with_recipe.end(),
-        []( const itype_id & type_id ) {
-            return colorize( item::nname( type_id ), c_cyan );
-        } );
-        oss << string_format( _( "Written in: %s\n" ), enumerated_books );
+        if( !books_with_recipe.empty() ) {
+            const std::string enumerated_books = enumerate_as_string( books_with_recipe,
+            []( const itype_id & type_id ) {
+                return colorize( item::nname( type_id ), c_cyan );
+            } );
+            oss << string_format( _( "Written in: %s\n" ), enumerated_books );
+        } else {
+            std::vector<const npc *> knowing_helpers;
+            for( const npc *helper : guy.get_crafting_helpers() ) {
+                if( helper->knows_recipe( &recp ) ) {
+                    knowing_helpers.push_back( helper );
+                }
+            }
+            if( !knowing_helpers.empty() ) {
+                const std::string enumerated_helpers = enumerate_as_string( knowing_helpers,
+                []( const npc * helper ) {
+                    return colorize( helper->get_name(), c_cyan );
+                } );
+                oss << string_format( _( "Known by: %s\n" ), enumerated_helpers );
+            }
+        }
     }
     std::vector<std::string> tmp = foldstring( oss.str(), fold_width );
     result.insert( result.end(), tmp.begin(), tmp.end() );
