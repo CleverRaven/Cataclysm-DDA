@@ -1445,4 +1445,46 @@ class haircut_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn & );
 };
 
+class rummage_pocket_activity_actor : public activity_actor
+{
+    public:
+        enum class action : int {
+            apply_use,
+            drop,
+            eat,
+            empty,
+            none,
+            plthrow,
+            read,
+            wear,
+            wield,
+            last
+        };
+    private:
+        using item_locations = drop_locations;
+        item_locations item_loc;
+        action kind;
+        tripoint target;
+
+    public:
+        rummage_pocket_activity_actor( const item_locations &iloc, action act_kind, const tripoint &tgt ) :
+            item_loc( iloc ), kind( act_kind ), target( tgt ) {}
+        rummage_pocket_activity_actor( const item_location &iloc, const action kind,
+                                       const tripoint &tgt = tripoint_zero );
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_RUMMAGE_POCKET" );
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override;
+        void finish( player_activity &act, Character & ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<rummage_pocket_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
 #endif // CATA_SRC_ACTIVITY_ACTOR_DEFINITIONS_H

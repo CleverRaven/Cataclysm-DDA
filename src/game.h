@@ -16,6 +16,7 @@
 #include <utility>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "calendar.h"
 #include "character_id.h"
 #include "coordinates.h"
@@ -174,6 +175,7 @@ class game
         friend memorial_logger &get_memorial();
         friend bool do_turn();
         friend bool turn_handler::cleanup_at_end();
+        friend void rummage_pocket_activity_actor::finish( player_activity &act, Character &who );
     public:
         game();
         ~game();

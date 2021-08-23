@@ -1076,14 +1076,26 @@ static void update_lum( item_location loc, bool add )
 void avatar_action::use_item( avatar &you )
 {
     item_location loc;
-    avatar_action::use_item( you, loc );
+    loc = game_menus::inv::use( you );
+
+    if( !loc ) {
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+
+    if( loc.where() == item_location::type::container ) {
+        you.assign_activity( player_activity( rummage_pocket_activity_actor( loc,
+                                              rummage_pocket_activity_actor::action::apply_use ) ) );
+    } else {
+        avatar_action::use_item( you, loc );
+    }
 }
 
 void avatar_action::use_item( avatar &you, item_location &loc )
 {
     // Some items may be used without being picked up first
     bool use_in_place = false;
-
+  
     if( !loc ) {
         loc = game_menus::inv::use( you );
 
