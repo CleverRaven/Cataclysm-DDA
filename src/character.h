@@ -438,7 +438,7 @@ class Character : public Creature, public visitable
 
         const profession *prof;
         std::set<const profession *> hobbies;
-        
+
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint grab_point;
 
