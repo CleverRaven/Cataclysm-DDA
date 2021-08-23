@@ -137,5 +137,21 @@
     "volume": "1 L",
     "stack_size": 10,
     "weight": "80 g"
+  },
+  {
+    "id": "rubber_band",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": { "str": "rubber_band" },
+    "description": "An elastic loop of rubber commonly used to hold multiple objects together.",
+    "looks_like": "string_6",
+    "weight": "6 g",
+    "volume": "10ml",
+    "price": 10,
+    "price_postapoc": 10,
+    "material": [ "plastic" ],
+    "symbol": ",",
+    "color": "red",
+    "flags": [ "NO_SALVAGE" ]
   }
 ]

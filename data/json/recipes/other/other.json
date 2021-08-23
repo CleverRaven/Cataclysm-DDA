@@ -26,5 +26,159 @@
         [ "spaghetti_raw", 1 ]
       ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "money_strap_one",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "time": "60 s",
+    "autolearn": true,
+    "components": [ [ [ "money_one", 100 ], [ "paper", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "money_strap_two",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "time": "60 s",
+    "autolearn": true,
+    "components": [ [ [ "money_two", 100 ], [ "paper", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "money_strap_five",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "time": "60 s",
+    "autolearn": true,
+    "components": [ [ [ "money_five", 100 ], [ "paper", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "money_strap_ten",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "time": "60 s",
+    "autolearn": true,
+    "components": [ [ [ "money_ten", 100 ], [ "paper", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "money_strap_twenty",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "time": "60 s",
+    "autolearn": true,
+    "components": [ [ [ "money_twenty", 100 ], [ "paper", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "money_strap_fifty",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "time": "60 s",
+    "autolearn": true,
+    "components": [ [ [ "money_fifty", 100 ], [ "paper", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "money_strap_hundred",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "time": "60 s",
+    "autolearn": true,
+    "components": [ [ [ "money_hundred", 100 ], [ "paper", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "money_bundle_one",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "autolearn": true,
+    "components": [ [ [ "money_strap_one", 10 ], [ "rubber_band", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "money_bundle_two",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "autolearn": true,
+    "components": [ [ [ "money_strap_two", 10 ], [ "rubber_band", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "money_bundle_five",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "autolearn": true,
+    "components": [ [ [ "money_strap_five", 10 ], [ "rubber_band", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "money_bundle_ten",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "autolearn": true,
+    "components": [ [ [ "money_strap_ten", 10 ], [ "rubber_band", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "money_bundle_twenty",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "autolearn": true,
+    "components": [ [ [ "money_strap_twenty", 10 ], [ "rubber_band", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "money_bundle_fifty",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "autolearn": true,
+    "components": [ [ [ "money_strap_fifty", 10 ], [ "rubber_band", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "money_bundle_hundred",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "autolearn": true,
+    "components": [ [ [ "money_strap_hundred", 10 ], [ "rubber_band", 2 ] ] ]
   }
 ]

@@ -118,7 +118,7 @@
       { "item": "file", "count": [ 1, 8 ], "prob": 50 },
       { "group": "elecsto_stor", "count": [ 1, 2 ], "prob": 30 },
       { "item": "office_holepunch", "prob": 30 },
-      { "item": "money_bundle", "count": [ 1, 10 ], "prob": 20 },
+      { "item": "money_strap_twenty", "count": [ 1, 10 ], "prob": 20 },
       { "item": "scorecard", "count": [ 1, 10 ], "prob": 10 },
       { "item": "survnote", "prob": 10 },
       { "item": "flyer", "count": [ 1, 10 ], "prob": 30 },
