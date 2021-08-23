@@ -18,6 +18,7 @@
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
 #include "event.h"
@@ -331,8 +332,9 @@ bool computer_session::can_activate( computer_action action )
 
         case COMPACT_TERMINATE: {
             map &here = get_map();
+            creature_tracker &creatures = get_creature_tracker();
             for( const tripoint &p : here.points_on_zlevel() ) {
-                monster *const mon = g->critter_at<monster>( p );
+                monster *const mon = creatures.creature_at<monster>( p );
                 if( !mon ) {
                     continue;
                 }
@@ -486,8 +488,9 @@ void computer_session::action_terminate()
     get_event_bus().send<event_type::terminates_subspace_specimens>();
     Character &player_character = get_player_character();
     map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &p : here.points_on_zlevel() ) {
-        monster *const mon = g->critter_at<monster>( p );
+        monster *const mon = creatures.creature_at<monster>( p );
         if( !mon ) {
             continue;
         }

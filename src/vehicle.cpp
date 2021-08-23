@@ -29,6 +29,7 @@
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "enum_traits.h"
@@ -779,6 +780,7 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
     // Check the tileray in the direction we need to head towards.
     std::set<point> points_to_check = immediate_path( angle );
     bool stop = false;
+    creature_tracker &creatures = get_creature_tracker();
     for( const point &pt_elem : points_to_check ) {
         point elem = here.getlocal( pt_elem );
         if( stop ) {
@@ -799,8 +801,8 @@ void vehicle::drive_to_local_target( const tripoint &target, bool follow_protoco
             }
         }
         bool its_a_pet = false;
-        if( g->critter_at( tripoint( elem, sm_pos.z ) ) ) {
-            npc *guy = g->critter_at<npc>( tripoint( elem, sm_pos.z ) );
+        if( creatures.creature_at( tripoint( elem, sm_pos.z ) ) ) {
+            npc *guy = creatures.creature_at<npc>( tripoint( elem, sm_pos.z ) );
             if( guy && !guy->in_vehicle ) {
                 stop = true;
                 break;
@@ -3105,8 +3107,9 @@ std::vector<int> vehicle::boarded_parts() const
 std::vector<rider_data> vehicle::get_riders() const
 {
     std::vector<rider_data> res;
+    creature_tracker &creatures = get_creature_tracker();
     for( const vpart_reference &vp : get_avail_parts( VPFLAG_BOARDABLE ) ) {
-        Creature *rider = g->critter_at( vp.pos() );
+        Creature *rider = creatures.creature_at( vp.pos() );
         if( rider ) {
             rider_data r;
             r.prt = vp.part_index();
@@ -3130,7 +3133,7 @@ monster *vehicle::get_monster( int p ) const
 {
     p = part_with_feature( p, VPFLAG_BOARDABLE, false );
     if( p >= 0 ) {
-        return g->critter_at<monster>( global_part_pos3( p ), true );
+        return get_creature_tracker().creature_at<monster>( global_part_pos3( p ), true );
     }
     return nullptr;
 }

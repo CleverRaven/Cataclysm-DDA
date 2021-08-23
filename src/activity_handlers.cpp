@@ -32,6 +32,7 @@
 #include "construction.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
 #include "effect_source.h"
@@ -1442,7 +1443,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                 liquid = *on_ground;
                 break;
             case liquid_source_type::MONSTER:
-                Creature *c = g->critter_at( source_pos );
+                Creature *c = get_creature_tracker().creature_at( source_pos );
                 source_mon = dynamic_cast<monster *>( c );
                 if( source_mon == nullptr ) {
                     debugmsg( "could not find source creature for liquid transfer" );
@@ -3531,13 +3532,14 @@ void activity_handlers::chop_tree_finish( player_activity *act, Character *you )
             }
         }
     } else {
+        creature_tracker &creatures = get_creature_tracker();
         for( const tripoint &elem : here.points_in_radius( pos, 1 ) ) {
             bool cantuse = false;
             tripoint direc = elem - pos;
             tripoint proposed_to = pos + point( 3 * direction.x, 3 * direction.y );
             std::vector<tripoint> rough_tree_line = line_to( pos, proposed_to );
             for( const tripoint &elem : rough_tree_line ) {
-                if( g->critter_at( elem ) ) {
+                if( creatures.creature_at( elem ) ) {
                     cantuse = true;
                     break;
                 }

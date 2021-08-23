@@ -33,6 +33,7 @@
 #include "coordinates.h"
 #include "craft_command.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
@@ -987,6 +988,7 @@ void iexamine::elevator( Character &you, const tripoint &examp )
     tripoint original_floor_omt = ms_to_omt_copy( here.getabs( examp ) );
     tripoint new_floor_omt = original_floor_omt + tripoint( point_zero, movez );
 
+    creature_tracker &creatures = get_creature_tracker();
     // first find critters in the destination elevator and move them out of the way
     for( Creature &critter : g->all_creatures() ) {
         if( critter.is_avatar() ) {
@@ -997,7 +999,7 @@ void iexamine::elevator( Character &you, const tripoint &examp )
                 for( const tripoint &candidate : closest_points_first( critter.pos(), 10 ) ) {
                     if( here.ter( candidate ) != ter_id( "t_elevator" ) &&
                         here.passable( candidate ) &&
-                        !g->critter_at( candidate ) ) {
+                        !creatures.creature_at( candidate ) ) {
                         critter.setpos( candidate );
                         break;
                     }
@@ -1020,7 +1022,7 @@ void iexamine::elevator( Character &you, const tripoint &examp )
                 for( const tripoint &candidate : closest_points_first( you.pos(), 10 ) ) {
                     if( here.ter( candidate ) == ter_id( "t_elevator" ) &&
                         candidate != you.pos() &&
-                        !g->critter_at( candidate ) ) {
+                        !creatures.creature_at( candidate ) ) {
                         critter.setpos( candidate );
                         break;
                     }
@@ -1150,7 +1152,7 @@ void iexamine::rubble( Character &you, const tripoint &examp )
     }
     map &here = get_map();
     if( ( here.veh_at( examp ) || here.can_see_trap_at( examp, you ) ||
-          g->critter_at( examp ) != nullptr ) &&
+          get_creature_tracker().creature_at( examp ) != nullptr ) &&
         !query_yn( _( "Clear up that %s?" ), here.furnname( examp ) ) ) {
         return;
     }
@@ -3643,7 +3645,7 @@ void iexamine::shrub_wildveggies( Character &you, const tripoint &examp )
     if( ( !here.i_at( examp ).empty() ||
           here.veh_at( examp ) ||
           here.can_see_trap_at( examp, you ) ||
-          g->critter_at( examp ) != nullptr ) &&
+          get_creature_tracker().creature_at( examp ) != nullptr ) &&
         !query_yn( _( "Forage through %s?" ), here.tername( examp ) ) ) {
         none( you, examp );
         return;
@@ -4413,6 +4415,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
     // Weariness scaling
     float weary_mult = 1.0f;
     map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
     switch( cmenu.ret ) {
         case 1: {
             tripoint dest( you.posx() + 2 * sgn( examp.x - you.posx() ),
@@ -4424,9 +4427,9 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                 add_msg( m_warning, _( "You are too burdened to jump over an obstacle." ) );
             } else if( !here.valid_move( examp, dest, false, true ) ) {
                 add_msg( m_warning, _( "You cannot jump over an obstacle - something is blocking the way." ) );
-            } else if( g->critter_at( dest ) ) {
+            } else if( creatures.creature_at( dest ) ) {
                 add_msg( m_warning, _( "You cannot jump over an obstacle - there is %s blocking the way." ),
-                         g->critter_at( dest )->disp_name() );
+                         creatures.creature_at( dest )->disp_name() );
             } else if( here.ter( dest ).obj().trap == tr_ledge ) {
                 add_msg( m_warning, _( "You are not going to jump over an obstacle only to fall down." ) );
             } else {

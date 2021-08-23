@@ -1184,7 +1184,7 @@ void Character::store( JsonOut &json ) const
             json.member( "last_target", guy->getID() );
             json.member( "last_target_type", +1 );
         } else if( const monster *const mon = dynamic_cast<const monster *>( lt_ptr.get() ) ) {
-            // monsters don't have IDs, so get its index in the Creature_tracker instead
+            // monsters don't have IDs, so get its index in the creature_tracker instead
             json.member( "last_target", g->critter_tracker->temporary_id( *mon ) );
             json.member( "last_target_type", -1 );
         }

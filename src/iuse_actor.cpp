@@ -30,6 +30,7 @@
 #include "colony.h"
 #include "crafting.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
 #include "effect.h"
@@ -988,7 +989,8 @@ cata::optional<int> place_npc_iuse::use( Character &p, item &, bool, const tripo
 
     const cata::optional<tripoint> target_pos =
     random_point( target_range, [&here]( const tripoint & t ) {
-        return here.passable( t ) && here.has_floor_or_support( t ) && !g->critter_at( t );
+        return here.passable( t ) && here.has_floor_or_support( t ) &&
+               !get_creature_tracker().creature_at( t );
     } );
 
     if( !target_pos.has_value() ) {
@@ -3248,7 +3250,7 @@ static Character &get_patient( Character &healer, const tripoint &pos )
         return healer;
     }
 
-    Character *const person = g->critter_at<Character>( pos );
+    Character *const person = get_creature_tracker().creature_at<Character>( pos );
     if( !person ) {
         // Default to heal self on failure not to break old functionality
         add_msg_debug( debugmode::DF_IUSE, "No heal target at position %d,%d,%d", pos.x, pos.y, pos.z );
@@ -4265,12 +4267,13 @@ cata::optional<int> deploy_tent_actor::use( Character &p, item &it, bool, const 
     // First check there's enough room.
     const tripoint center = p.pos() + tripoint( ( radius + 1 ) * direction.x,
                             ( radius + 1 ) * direction.y, 0 );
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &dest : here.points_in_radius( center, radius ) ) {
         if( const optional_vpart_position vp = here.veh_at( dest ) ) {
             add_msg( m_info, _( "The %s is in the way." ), vp->vehicle().name );
             return cata::nullopt;
         }
-        if( const Creature *const c = g->critter_at( dest ) ) {
+        if( const Creature *const c = creatures.creature_at( dest ) ) {
             add_msg( m_info, _( "The %s is in the way." ), c->disp_name() );
             return cata::nullopt;
         }

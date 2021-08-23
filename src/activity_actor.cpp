@@ -25,6 +25,7 @@
 #include "character.h"
 #include "coordinates.h"
 #include "craft_command.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
 #include "event.h"
@@ -2162,7 +2163,7 @@ cata::optional<tripoint> lockpick_activity_actor::select_location( avatar &you )
     const ter_id terr_type = get_map().ter( *target );
     if( *target == you.pos() ) {
         you.add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
-    } else if( g->critter_at<npc>( *target ) ) {
+    } else if( get_creature_tracker().creature_at<npc>( *target ) ) {
         you.add_msg_if_player( m_info,
                                _( "You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose." ) );
     } else if( terr_type == t_door_c ) {
@@ -3445,7 +3446,7 @@ void stash_activity_actor::do_turn( player_activity &, Character &who )
 {
     const tripoint pos = placement + who.pos();
 
-    monster *pet = g->critter_at<monster>( pos );
+    monster *pet = get_creature_tracker().creature_at<monster>( pos );
     if( pet != nullptr && pet->has_effect( effect_pet ) ) {
         stash_on_pet( obtain_activity_items( items, handler, who ),
                       *pet, who );
@@ -3488,13 +3489,13 @@ void disable_activity_actor::start( player_activity &act, Character &/*who*/ )
 {
     act.moves_total = moves_total;
     act.moves_left = moves_total;
-    monster &critter = *( g->critter_at<monster>( target ) );
+    monster &critter = *( get_creature_tracker().creature_at<monster>( target ) );
     critter.add_effect( effect_worked_on, 1_turns );
 }
 
 void disable_activity_actor::do_turn( player_activity &, Character &who )
 {
-    monster *const mon_ptr = g->critter_at<monster>( target );
+    monster *const mon_ptr = get_creature_tracker().creature_at<monster>( target );
     if( !mon_ptr ) {
         who.add_msg_if_player( _( "The robot has moved somewhere else." ) );
         who.cancel_activity();
@@ -3515,7 +3516,7 @@ void disable_activity_actor::do_turn( player_activity &, Character &who )
 void disable_activity_actor::finish( player_activity &act, Character &/*who*/ )
 {
     // Should never be null as we just checked in do_turn
-    monster &critter = *( g->critter_at<monster>( target ) );
+    monster &critter = *( get_creature_tracker().creature_at<monster>( target ) );
 
     if( reprogram ) {
         if( critter.has_effect( effect_docile ) ) {
@@ -3909,7 +3910,7 @@ void milk_activity_actor::finish( player_activity &act, Character &who )
     }
     map &here = get_map();
     const tripoint source_pos = here.getlocal( monster_coords.at( 0 ) );
-    monster *source_mon = g->critter_at<monster>( source_pos );
+    monster *source_mon = get_creature_tracker().creature_at<monster>( source_pos );
     if( source_mon == nullptr ) {
         debugmsg( "could not find source creature for liquid transfer" );
         return;
@@ -3967,7 +3968,7 @@ std::unique_ptr<activity_actor> milk_activity_actor::deserialize( JsonIn &jsin )
 
 void shearing_activity_actor::start( player_activity &act, Character &who )
 {
-    monster *mon = g->critter_at<monster>( mon_coords );
+    monster *mon = get_creature_tracker().creature_at<monster>( mon_coords );
     if( !mon ) {
         debugmsg( "shearing lost monster when starting" );
         act.set_to_null();
@@ -4039,7 +4040,7 @@ void shearing_activity_actor::do_turn( player_activity &, Character &who )
 
 void shearing_activity_actor::finish( player_activity &act, Character &who )
 {
-    monster *mon = g->critter_at<monster>( mon_coords );
+    monster *mon = get_creature_tracker().creature_at<monster>( mon_coords );
     if( !mon ) {
         debugmsg( "shearing monster at position disappeared" );
         act.set_to_null();
@@ -4092,7 +4093,7 @@ void shearing_activity_actor::finish( player_activity &act, Character &who )
 
 void shearing_activity_actor::canceled( player_activity &, Character & )
 {
-    monster *mon = g->critter_at<monster>( mon_coords );
+    monster *mon = get_creature_tracker().creature_at<monster>( mon_coords );
     if( !mon ) {
         return;
     }

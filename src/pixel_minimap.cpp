@@ -20,6 +20,7 @@
 #include "color.h"
 #include "coordinate_conversions.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "game.h"
 #include "game_constants.h"
@@ -502,6 +503,7 @@ void pixel_minimap::render_critters( const tripoint &center )
         std::max<int>( projector->get_tile_size().y *settings.beacon_size / 2, 2 )
     };
 
+    creature_tracker &creatures = get_creature_tracker();
     for( int y = 0; y < total_tiles_count.y; y++ ) {
         for( int x = 0; x < total_tiles_count.x; x++ ) {
             const tripoint p = start + tripoint( x, y, center.z );
@@ -511,7 +513,7 @@ void pixel_minimap::render_critters( const tripoint &center )
                 continue;
             }
 
-            Creature *critter = g->critter_at( p, true );
+            Creature *critter = creatures.creature_at( p, true );
 
             if( critter == nullptr || !get_player_view().sees( *critter ) ) {
                 continue;
