@@ -7592,8 +7592,8 @@ bool item::is_salvageable() const
         return false;
     }
     const std::vector<material_id> &mats = made_of();
-    if( std::none_of( mats.begin(), mats.end(), []( const material_id & m ) {
-    return m->salvaged_into().has_value();
+    if( std::none_of( mats.begin(), mats.end(), [this]( const material_id & m ) {
+    return m->salvaged_into().has_value() && m->salvaged_into().value() != type->get_id();
     } ) ) {
         return false;
     }
