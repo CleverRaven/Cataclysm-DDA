@@ -143,7 +143,7 @@
     "bash_protec": [ [ "head", 4 ], [ "mouth", 4 ] ],
     "cut_protec": [ [ "head", 4 ], [ "mouth", 4 ] ],
     "bullet_protec": [ [ "head", 4 ], [ "mouth", 4 ] ],
-    "flag": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "mutation_conflicts": [
       "THICKSKIN",
       "THINSKIN",
