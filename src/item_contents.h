@@ -52,7 +52,7 @@ class item_contents
          * Fails if all pockets are MOD, CORPSE, SOFTWARE, or MIGRATION type, as they are not
          * physical pockets.
          * @param it the item being put in
-         * @param ignore_fullness ignore already contained items from blocking the new item. Also ignores the count of new items being too high
+         * @param ignore_fullness checks if the container could hold one of these items when empty
          */
         ret_val<bool> can_contain( const item &it, const bool ignore_fullness = false ) const;
         ret_val<bool> can_contain_rigid( const item &it ) const;

@@ -1320,7 +1320,7 @@ class item : public visitable
         /**
          * Can the pocket contain the specified item?
          * @param it the item being put in
-         * @param ignore_fullness ignore already contained items from blocking the new item. Also ignores the count of new items being too high
+         * @param ignore_fullness checks if the container could hold one of these items when empty
          */
         /*@{*/
         ret_val<bool> can_contain( const item &it, const bool ignore_fullness = false ) const;
