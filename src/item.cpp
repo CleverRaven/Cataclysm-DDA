@@ -7612,7 +7612,7 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
             }
         } else {
             if( ( !ammo->ammo || !ammo_types().count( ammo->ammo->type ) ) &&
-                !can_contain( *ammo, !now ) ) {
+                !can_contain( *ammo ) ) {
                 return false;
             }
         }
