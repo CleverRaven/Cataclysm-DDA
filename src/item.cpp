@@ -7625,7 +7625,7 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
 
         return now ? ammo_remaining() < ammo_capacity( ammo->ammo->type ) : true;
     }
-    return can_contain( *ammo, true );
+    return can_contain( *ammo, !now );
 }
 
 bool item::is_salvageable() const
@@ -8889,7 +8889,7 @@ bool item::reload( Character &u, item_location ammo, int qty )
         ammo = item_location( ammo, &ammo->first_ammo() );
     }
 
-    if( !is_reloadable_with( ammo->typeId() ) ) {
+    if( !can_reload_with( ammo->typeId() ) ) {
         return false;
     }
 
