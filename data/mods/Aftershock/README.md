@@ -58,3 +58,12 @@ Contains json data for npcs and factions; the second is about the new factions P
 ### spells
 
 Contains json data for all spells that are used to create unique effects in game.
+
+# Abbreviations and Translation notes
+
+| Abbreviation                  | Description
+|---                            |---
+| `UICA`                        | "United Interstellar Coordination Agency" Imagine the International Court only handled property disputes and had an army and navy to enforce their
+|---                            | judgements.
+| `UASTA`                       | UICA Standard.  Equipment that was designed to UICA specifications for interstellar use.  
+| `Moxphore`                    | A lifeform suffering from the advanced stages of the disease Moxphoria. Moxphoria is almost always fatal but exclusively found on Salus IV.
