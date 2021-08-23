@@ -418,6 +418,25 @@ class overmapbuffer
          * therefore you should probably call @ref map::spawn_monsters to spawn them.
          */
         void move_hordes();
+        /**
+         * Signal nemesis horde to player location
+         * @param p is the player's location, which functions as the signal origin
+         * only the nemesis horde can 'hear' this signal.
+         */
+        void signal_nemesis( const tripoint_abs_sm p );
+        /**
+         * adds a nemesis horde into the hordes list of the overmap where the kill_nemesis mision is targeted
+         */
+        void add_nemesis( const tripoint_abs_omt &p );
+        /**
+         * moves 'nemesis' horde spawned by the "hunted" trait across every overmap
+         * regardless of distance from player
+         */
+        void move_nemesis();
+        /**
+         * removes 'nemesis' horde spawned by the "hunted" on player death
+         */
+        void remove_nemesis();
         // hordes -- this uses overmap terrain coordinates!
         std::vector<mongroup *> monsters_at( const tripoint_abs_omt &p );
         /**
@@ -550,6 +569,11 @@ class overmapbuffer
          * groups to the correct overmap (if it exists), also removes empty groups.
          */
         void fix_mongroups( overmap &new_overmap );
+        /**
+         * Go thorough the monster groups of the overmap to find the nemesis
+         * horde from the "hunted" trait and move it across overmaps.
+         */
+        void fix_nemesis( overmap &new_overmap );
         /**
          * Moves out-of-bounds NPCs to the overmaps they should be in.
          */

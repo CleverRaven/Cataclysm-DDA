@@ -17,7 +17,7 @@
         "X     ] ",
         "X     ] "
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ],
+      "palettes": [ "lab_mutagen_palette" ],
       "place_signs": [
         { "snippet": "lab_safety_snippet", "x": 6, "y": [ 2, 4 ] },
         { "snippet": "lab_safety_snippet", "x": 0, "y": [ 0, 2 ] }
@@ -48,7 +48,7 @@
         " ]     X",
         " ]     X"
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ],
+      "palettes": [ "lab_mutagen_palette" ],
       "place_signs": [ { "snippet": "lab_safety_snippet", "x": 1, "y": 2 }, { "snippet": "lab_safety_snippet", "x": 1, "y": 4 } ],
       "place_nested": [
         { "chunks": [ [ "lab_mutagen_5x5_open", 100 ], [ "null", 0 ] ], "x": 2, "y": 1 },
@@ -76,7 +76,7 @@
         "|mmmmmm|",
         "||||||||"
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ],
+      "palettes": [ "lab_mutagen_palette" ],
       "terrain": { "|": "t_wall_metal" },
       "computers": {
         "θ": {
@@ -111,7 +111,7 @@
         "|mmmmmm|",
         "||||||||"
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ],
+      "palettes": [ "lab_mutagen_palette" ],
       "terrain": { "|": "t_wall_metal" },
       "computers": {
         "θ": {
@@ -147,7 +147,7 @@
         "|mmmmmm|",
         "||||||||"
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ],
+      "palettes": [ "lab_mutagen_palette" ],
       "terrain": { "|": "t_wall_metal" },
       "computers": {
         "θ": {
@@ -183,7 +183,7 @@
         "|mmmmmm|",
         "||||||||"
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ],
+      "palettes": [ "lab_mutagen_palette" ],
       "terrain": { "|": "t_wall_metal" },
       "computers": {
         "θ": {
@@ -219,7 +219,7 @@
         "|JJJXs^|",
         "||||||||"
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette", "lab_vent_palette" ],
+      "palettes": [ "lab_mutagen_palette", "lab_vent_palette" ],
       "terrain": { "|": "t_wall_metal" },
       "furniture": { "%": "f_standing_tank" },
       "liquids": { "%": { "liquid": "purifier", "amount": [ 2, 20 ] } },
@@ -258,7 +258,7 @@
         "|JJJXs^|",
         "||||||||"
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette", "lab_vent_palette" ],
+      "palettes": [ "lab_mutagen_palette", "lab_vent_palette" ],
       "terrain": { "|": "t_wall_metal" },
       "furniture": { "%": "f_standing_tank", "!": "f_standing_tank", "ō": "f_standing_tank", "ŏ": "f_standing_tank" },
       "liquids": {
@@ -302,7 +302,7 @@
         "|JJJXs^|",
         "||||||||"
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette", "lab_vent_palette" ],
+      "palettes": [ "lab_mutagen_palette", "lab_vent_palette" ],
       "terrain": { "|": "t_wall_metal" },
       "furniture": { "%": "f_standing_tank", "!": "f_standing_tank", "ō": "f_standing_tank", "ŏ": "f_standing_tank" },
       "liquids": {
@@ -346,7 +346,7 @@
         "|JJJXs^|",
         "||||||||"
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette", "lab_vent_palette" ],
+      "palettes": [ "lab_mutagen_palette", "lab_vent_palette" ],
       "terrain": { "|": "t_wall_metal" },
       "furniture": { "%": "f_standing_tank", "!": "f_standing_tank", "ō": "f_standing_tank" },
       "liquids": {
@@ -385,7 +385,7 @@
         "  J  ",
         " AJ  "
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ]
+      "palettes": [ "lab_mutagen_palette" ]
     }
   },
   {
@@ -403,7 +403,7 @@
         "  N  ",
         " AN  "
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ]
+      "palettes": [ "lab_mutagen_palette" ]
     }
   },
   {
@@ -421,7 +421,7 @@
         "  l  ",
         "ɱhcP "
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ]
+      "palettes": [ "lab_mutagen_palette" ]
     }
   },
   {
@@ -439,7 +439,7 @@
         "  h  ",
         " k   "
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ]
+      "palettes": [ "lab_mutagen_palette" ]
     }
   },
   {
@@ -988,7 +988,7 @@
         " h ",
         "TNN"
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ]
+      "palettes": [ "lab_mutagen_palette" ]
     }
   },
   {
@@ -1003,7 +1003,7 @@
         " h ",
         "TNN"
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ]
+      "palettes": [ "lab_mutagen_palette" ]
     }
   },
   {
@@ -1166,7 +1166,7 @@
         " A ",
         "JJJ"
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ]
+      "palettes": [ "lab_mutagen_palette" ]
     }
   },
   {
@@ -1181,7 +1181,7 @@
         "   ",
         "RRR"
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ]
+      "palettes": [ "lab_mutagen_palette" ]
     }
   },
   {
@@ -1272,7 +1272,7 @@
         "₸ h  X   ",
         "₸ IIy|   "
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ]
+      "palettes": [ "lab_mutagen_palette" ]
     }
   },
   {
@@ -1293,7 +1293,7 @@
         "   X   h₸",
         "   |y II₸"
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ]
+      "palettes": [ "lab_mutagen_palette" ]
     }
   },
   {
@@ -1314,7 +1314,7 @@
         "J c JX   ",
         "JY 7J|   "
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ]
+      "palettes": [ "lab_mutagen_palette" ]
     }
   },
   {
@@ -1335,7 +1335,7 @@
         "   XJ c J",
         "   |J7 YJ"
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ]
+      "palettes": [ "lab_mutagen_palette" ]
     }
   },
   {
@@ -1357,7 +1357,7 @@
         "P h JX   ",
         "LY  J|   "
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ],
+      "palettes": [ "lab_mutagen_palette" ],
       "set": [ { "point": "bash", "x": 5, "y": [ 0, 3 ], "repeat": [ 1, 2 ] } ],
       "furniture": { "6": "f_rubble" },
       "place_monster": [ { "monster": "mon_zombie_brute", "x": 2, "y": 2, "chance": 100 } ]
@@ -1381,7 +1381,7 @@
         "P h JX   ",
         "LY  J|   "
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ],
+      "palettes": [ "lab_mutagen_palette" ],
       "place_monster": [ { "monster": "mon_zombie_brute", "x": 2, "y": 2, "chance": 40 } ]
     }
   },
@@ -1404,7 +1404,7 @@
         "   XJ  h ",
         "   |JP YL"
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ],
+      "palettes": [ "lab_mutagen_palette" ],
       "set": [ { "point": "terrain", "id": "t_ov_smreb_cage", "x": 3, "y": [ 0, 3 ], "repeat": [ 1, 2 ] } ],
       "furniture": { "6": "f_rubble" },
       "place_monster": [ { "monster": "mon_zombie_brute", "x": 2, "y": 2, "chance": 100 } ]
@@ -1428,7 +1428,7 @@
         "   XJ  h ",
         "   |JP YL"
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ],
+      "palettes": [ "lab_mutagen_palette" ],
       "place_monster": [ { "monster": "mon_zombie_brute", "x": 2, "y": 2, "chance": 40 } ]
     }
   },
@@ -1450,7 +1450,7 @@
         "R    X   ",
         "RR RR|   "
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ],
+      "palettes": [ "lab_mutagen_palette" ],
       "items": { "R": [ { "item": "lab_bookshelves", "chance": 70, "repeat": [ 1, 3 ] } ] }
     }
   },
@@ -1472,7 +1472,7 @@
         "   X  E R",
         "   |RR RR"
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ],
+      "palettes": [ "lab_mutagen_palette" ],
       "items": { "R": [ { "item": "lab_bookshelves", "chance": 70, "repeat": [ 1, 3 ] } ] }
     }
   }
