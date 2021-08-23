@@ -37,7 +37,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_sound_effect",
-    "effect": [ { "sound_effect": "point_flare", "id": "environment" }
+    "effect": [ { "sound_effect": "point_flare", "id": "environment" } ]
   },
   {
     "id": "nova_flare",
@@ -78,7 +78,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_sound_effect",
-    "effect": [ { "sound_effect": "nova_flare", "id": "environment" }
+    "effect": [ { "sound_effect": "nova_flare", "id": "environment" } ]
   },
   {
     "id": "create_lighter",
@@ -119,7 +119,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_sound_effect",
-    "effect": [ { "sound_effect": "create_lighter", "id": "environment" }
+    "effect": [ { "sound_effect": "create_lighter", "id": "environment" } ]
   },
   {
     "id": "ice_spike",
@@ -159,7 +159,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_sound_effect",
-    "effect": [ { "sound_effect": "ice_spike", "id": "environment" }
+    "effect": [ { "sound_effect": "ice_spike", "id": "environment" } ]
   },
   {
     "id": "fireball",
@@ -202,7 +202,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_sound_effect",
-    "effect": [ { "sound_effect": "fireball", "id": "environment" }
+    "effect": [ { "sound_effect": "fireball", "id": "environment" } ]
   },
   {
     "id": "cone_cold",
@@ -249,7 +249,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_sound_effect",
-    "effect": [ { "sound_effect": "cone_cold", "id": "environment" }
+    "effect": [ { "sound_effect": "cone_cold", "id": "environment" } ]
   },
   {
     "id": "burning_hands",
@@ -292,7 +292,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_sound_effect",
-    "effect": [ { "sound_effect": "burning_hands", "id": "environment" }
+    "effect": [ { "sound_effect": "burning_hands", "id": "environment" } ]
   },
   {
     "id": "frost_spray",
@@ -337,7 +337,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_sound_effect",
-    "effect": [ { "sound_effect": "frost_spray", "id": "environment" }
+    "effect": [ { "sound_effect": "frost_spray", "id": "environment" } ]
   },
   {
     "id": "chilling_touch",
@@ -378,7 +378,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_sound_effect",
-    "effect": [ { "sound_effect": "chilling_touch", "id": "environment" }
+    "effect": [ { "sound_effect": "chilling_touch", "id": "environment" } ]
   },
   {
     "id": "glide_ice",
@@ -417,7 +417,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_sound_effect",
-    "effect": [ { "sound_effect": "glide_ice", "id": "environment" }
+    "effect": [ { "sound_effect": "glide_ice", "id": "environment" } ]
   },
   {
     "id": "hoary_blast",
@@ -462,7 +462,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_sound_effect",
-    "effect": [ { "sound_effect": "hoary_blast", "id": "environment" }
+    "effect": [ { "sound_effect": "hoary_blast", "id": "environment" } ]
   },
   {
     "id": "ice_shield",
@@ -501,7 +501,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_sound_effect",
-    "effect": [ { "sound_effect": "ice_shield", "id": "environment" }
+    "effect": [ { "sound_effect": "ice_shield", "id": "environment" } ]
   },
   {
     "id": "frost_armor",
@@ -539,7 +539,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_sound_effect",
-    "effect": [ { "sound_effect": "frost_armor", "id": "environment" }
+    "effect": [ { "sound_effect": "frost_armor", "id": "environment" } ]
   },
   {
     "id": "create_rune_kelvinist",
@@ -578,7 +578,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_sound_effect",
-    "effect": [ { "sound_effect": "create_rune_kelvinist", "id": "environment" }
+    "effect": [ { "sound_effect": "create_rune_kelvinist", "id": "environment" } ]
   },
   {
     "id": "kelvinist_summon_flamesword",
@@ -618,7 +618,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_sound_effect",
-    "effect": [ { "sound_effect": "kelvinist_summon_flamesword", "id": "environment" }
+    "effect": [ { "sound_effect": "kelvinist_summon_flamesword", "id": "environment" } ]
   },
   {
     "id": "kelvinist_flamebreath",
@@ -668,7 +668,7 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_sound_effect",
-    "effect": [ { "sound_effect": "kelvinist_flamebreath", "id": "environment" }
+    "effect": [ { "sound_effect": "kelvinist_flamebreath", "id": "environment" } ]
   },
   {
     "id": "freezing_touch_slow_effect",
@@ -725,6 +725,6 @@
   {
     "type": "effect_on_condition",
     "id": "EOC_sound_effect",
-    "effect": [ { "sound_effect": "freezeing_touch", "id": "environment" }
+    "effect": [ { "sound_effect": "freezeing_touch", "id": "environment" } ]
   }
 ]
