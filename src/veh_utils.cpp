@@ -18,7 +18,6 @@
 #include "inventory.h"
 #include "item.h"
 #include "map.h"
-#include "player.h"
 #include "point.h"
 #include "requirements.h"
 #include "translations.h"

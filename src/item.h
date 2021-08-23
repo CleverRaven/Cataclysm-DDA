@@ -47,7 +47,6 @@ class item;
 class iteminfo_query;
 class monster;
 class nc_color;
-class player;
 class recipe;
 class relic;
 struct armor_portion_data;

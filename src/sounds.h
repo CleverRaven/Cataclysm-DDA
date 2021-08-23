@@ -13,7 +13,6 @@ class Creature;
 class JsonObject;
 class item;
 class monster;
-class player;
 class translation;
 struct tripoint;
 template <typename E> struct enum_traits;
