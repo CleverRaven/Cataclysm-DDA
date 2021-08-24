@@ -342,8 +342,8 @@
     "name": [ "Overdrive" ],
     "desc": [ "Is it possible to dart aside and avoid a cannon ball?  Is it possible to grab an arrow in flight with one hand?" ],
     "removes_effects": [ "haste" ],
-    "apply_message": "You feel yourself faster than bullet.",
-    "remove_message": "You feel yourself recovering your normal speed.",
+    "apply_message": "You feel yourself move faster than a bullet.",
+    "remove_message": "You feel yourself returning to your normal speed.",
     "base_mods": {
       "fatigue_amount": [ 1 ],
       "fatigue_min": [ 1 ],
