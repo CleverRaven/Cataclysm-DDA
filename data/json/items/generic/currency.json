@@ -138,8 +138,7 @@
     "material": [ "paper", "copper" ],
     "volume": "2100 ml",
     "price": 50,
-    "price_postapoc": 250,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": false, "ammo_restriction": { "coin_penny": 50 } } ]
+    "price_postapoc": 250
   },
   {
     "type": "GENERIC",
@@ -152,8 +151,7 @@
     "material": [ "paper", "copper" ],
     "volume": "2100 ml",
     "price": 200,
-    "price_postapoc": 360,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": false, "ammo_restriction": { "coin_nickel": 40 } } ]
+    "price_postapoc": 360
   },
   {
     "type": "GENERIC",
@@ -166,8 +164,7 @@
     "material": [ "paper", "silver" ],
     "volume": "2100 ml",
     "price": 500,
-    "price_postapoc": 40,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": false, "ammo_restriction": { "coin_dime": 50 } } ]
+    "price_postapoc": 40
   },
   {
     "type": "GENERIC",
@@ -180,8 +177,7 @@
     "material": [ "paper", "silver" ],
     "volume": "2100 ml",
     "price": 1000,
-    "price_postapoc": 40,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": false, "ammo_restriction": { "coin_quarter": 40 } } ]
+    "price_postapoc": 40
   },
   {
     "type": "GENERIC",
