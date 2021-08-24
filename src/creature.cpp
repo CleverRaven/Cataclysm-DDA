@@ -284,16 +284,16 @@ bool Creature::sees( const Creature &critter ) const
                ( critter.has_flag( MF_CAMOUFLAGE ) && wanted_range > this->get_eff_per() ) ||
                ( critter.has_flag( MF_WATER_CAMOUFLAGE ) &&
                  ( critter.is_underwater() ||
-                   here.has_flag( TFLAG_SWIMMABLE, critter.pos() ) ||
+                   ( critter.has_flag( MF_AQUATIC ) && here.has_flag( TFLAG_SWIMMABLE, critter.pos() ) ) ||
                    here.has_flag( TFLAG_SHALLOW_WATER, critter.pos() ) || // check size here?
                    here.has_flag( TFLAG_DEEP_WATER, critter.pos() ) ) &&
                  wanted_range > this->get_eff_per() ) ||
                ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && here.light_at( critter.pos() ) <= lit_level::LOW ) ||
-               ( ( critter.is_underwater() || here.has_flag( TFLAG_SWIMMABLE, critter.pos() ) ) &&
-                 !is_underwater() &&
-                 ( ( critter.has_flag( MF_WATER_CAMOUFLAGE ) && here.has_flag( TFLAG_DEEP_WATER, critter.pos() ) ) ||
-                   ( ( posz() != critter.posz() ) && ( critter.has_flag( MF_WATER_CAMOUFLAGE ) ||
-                           here.has_flag( TFLAG_DEEP_WATER, critter.pos() ) ) ) ) ) ||
+               ( !( is_underwater() || ( has_flag( MF_AQUATIC ) && here.has_flag( TFLAG_SWIMMABLE, pos() ) ) ) &&
+                 ( critter.is_underwater() ||
+                   ( critter.has_flag( MF_AQUATIC ) && here.has_flag( TFLAG_SWIMMABLE, critter.pos() ) ) ) &&
+                 ( ( critter.has_flag( MF_WATER_CAMOUFLAGE ) + here.has_flag( TFLAG_DEEP_WATER, critter.pos() ) +
+                     ( posz() != critter.posz() ) ) > 1 ) ) ||
                ( here.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, critter.pos() ) &&
                  !( std::abs( posx() - critter.posx() ) <= 1 && std::abs( posy() - critter.posy() ) <= 1 &&
                     std::abs( posz() - critter.posz() ) <= 1 ) ) ) {
