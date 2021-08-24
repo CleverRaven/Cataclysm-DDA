@@ -219,5 +219,47 @@
         ]
       }
     ]
+  },
+  {
+    "id": "rubber_band",
+    "type": "GENERIC",
+    "category": "tools",
+    "name": { "str": "rubber band" },
+    "description": "Oval shaped band made out of rubber, commonly used to hold multiple objects together.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": 3,
+    "price_postapoc": 1,
+    "material": [ "rubber" ],
+    "symbol": "O",
+    "color": "yellow"
+  },
+  {
+    "id": "money_strap",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "money strap" },
+    "description": "Simple paper device designed to hold a specific denomination and number of banknotes.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "paper" ],
+    "symbol": "[",
+    "color": "white"
+  },
+  {
+    "id": "coin_wrapper",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "coin wrapper" },
+    "description": "A coin wrapper, sometimes known as a bank roll or roll, is a paper container for a number of coins.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "price": 1,
+    "price_postapoc": 1,
+    "material": [ "paper" ],
+    "symbol": "[",
+    "color": "white"
   }
 ]
