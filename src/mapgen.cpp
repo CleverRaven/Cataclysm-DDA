@@ -891,6 +891,30 @@ static bool is_null_helper( const std::string & )
 }
 
 template<typename T>
+struct make_null_helper;
+
+template<>
+struct make_null_helper<std::string> {
+    std::string operator()() const {
+        return {};
+    }
+};
+
+template<typename T>
+struct make_null_helper<string_id<T>> {
+    string_id<T> operator()() const {
+        return string_id<T>::NULL_ID();
+    }
+};
+
+template<typename T>
+struct make_null_helper<int_id<T>> {
+    int_id<T> operator()() const {
+        return string_id<T>::NULL_ID().id();
+    }
+};
+
+template<typename T>
 static string_id<T> to_string_id_helper( const string_id<T> &id )
 {
     return id;
@@ -951,7 +975,7 @@ class mapgen_value
 
         struct null_source : value_source {
             Id get( const mapgendata & ) const override {
-                return Id( StringId::NULL_ID() );
+                return make_null_helper<Id> {}();
             }
 
             void check_consistent_with(
@@ -964,7 +988,7 @@ class mapgen_value
             }
 
             std::vector<StringId> all_possible_results( const mapgen_parameters & ) const override {
-                return { StringId::NULL_ID() };
+                return { make_null_helper<StringId>{}() };
             }
         };
 
@@ -1127,29 +1151,38 @@ class mapgen_value
         {}
 
         explicit mapgen_value( const std::string &s ) {
-            source_ = make_shared_fast<id_source>( s );
-            is_null_ = is_null_helper( s );
+            init_string( s );
         }
 
         explicit mapgen_value( const Id_unless_string &id ) {
-            source_ = make_shared_fast<id_source>( id );
-            is_null_ = is_null_helper( id );
+            init_string( id );
         }
 
         explicit mapgen_value( const JsonValue &jv ) {
             if( jv.test_string() ) {
-                std::string id = jv.get_string();
-                source_ = make_shared_fast<id_source>( id );
-                is_null_ = is_null_helper( id );
+                init_string( jv.get_string() );
             } else {
-                JsonObject jo = jv.get_object();
-                if( jo.has_member( "param" ) ) {
-                    source_ = make_shared_fast<param_source>( jo );
-                } else if( jo.has_member( "distribution" ) ) {
-                    source_ = make_shared_fast<distribution_source>( jo );
-                } else {
-                    jo.throw_error( R"(Expected member "param" or "distribution" in object)" );
-                }
+                init_object( jv.get_object() );
+            }
+        }
+
+        explicit mapgen_value( const JsonObject &jo ) {
+            init_object( jo );
+        }
+
+        template<typename S>
+        void init_string( const S &s ) {
+            source_ = make_shared_fast<id_source>( s );
+            is_null_ = is_null_helper( s );
+        }
+
+        void init_object( const JsonObject &jo ) {
+            if( jo.has_member( "param" ) ) {
+                source_ = make_shared_fast<param_source>( jo );
+            } else if( jo.has_member( "distribution" ) ) {
+                source_ = make_shared_fast<distribution_source>( jo );
+            } else {
+                jo.throw_error( R"(Expected member "param" or "distribution" in object)" );
             }
         }
 
@@ -1169,6 +1202,14 @@ class mapgen_value
         }
         std::vector<StringId> all_possible_results( const mapgen_parameters &params ) const {
             return source_->all_possible_results( params );
+        }
+
+        void deserialize( JsonIn &jsin ) {
+            if( jsin.test_object() ) {
+                *this = mapgen_value( jsin.get_object() );
+            } else {
+                *this = mapgen_value( jsin.get_string() );
+            }
         }
     private:
         bool is_null_ = false;
@@ -1196,12 +1237,21 @@ std::string enum_to_string<mapgen_parameter_scope>( mapgen_parameter_scope v )
 
 } // namespace io
 
+mapgen_parameter::mapgen_parameter() = default;
+
+mapgen_parameter::mapgen_parameter( const mapgen_value<std::string> &def, cata_variant_type type,
+                                    mapgen_parameter_scope scope )
+    : scope_( scope )
+    , type_( type )
+    , default_( make_shared_fast<mapgen_value<std::string>>( def ) )
+{}
+
 void mapgen_parameter::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
     optional( jo, false, "scope", scope_, mapgen_parameter_scope::overmap_special );
     jo.read( "type", type_, true );
-    default_ = std::make_unique<mapgen_value<std::string>>( jo.get_member( "default" ) );
+    default_ = make_shared_fast<mapgen_value<std::string>>( jo.get_member( "default" ) );
 }
 
 cata_variant_type mapgen_parameter::type() const
@@ -1243,6 +1293,23 @@ void mapgen_parameter::check_consistent_with(
                   context, io::enum_to_string( type_ ), io::enum_to_string( other.type_ ) );
     }
     default_->check_consistent_with( *other.default_, context );
+}
+
+auto mapgen_parameters::add_unique_parameter(
+    const std::string &prefix, const mapgen_value<std::string> &def, cata_variant_type type,
+    mapgen_parameter_scope scope ) -> iterator
+{
+    uint64_t i = 0;
+    std::string candidate_name;
+    while( true ) {
+        candidate_name = string_format( "%s%d", prefix, i );
+        if( map.find( candidate_name ) == map.end() ) {
+            break;
+        }
+        ++i;
+    }
+
+    return map.emplace( candidate_name, mapgen_parameter( def, type, scope ) ).first;
 }
 
 mapgen_parameters mapgen_parameters::params_for_scope( mapgen_parameter_scope scope ) const
@@ -1301,6 +1368,26 @@ class jmapgen_alternatively : public jmapgen_piece
         // PieceType, they *can not* be of any other type.
         std::vector<PieceType> alternatives;
         jmapgen_alternatively() = default;
+        mapgen_phase phase() const override {
+            if( alternatives.empty() ) {
+                return mapgen_phase::default_;
+            }
+            return alternatives[0].phase();
+        }
+        void check( const std::string &context, const mapgen_parameters &params ) const override {
+            if( alternatives.empty() ) {
+                debugmsg( "zero alternatives in jmapgen_alternatively in %s", context );
+            }
+            for( const PieceType &piece : alternatives ) {
+                piece.check( context, params );
+            }
+        }
+        void merge_parameters_into( mapgen_parameters &params,
+                                    const std::string &outer_context ) const override {
+            for( const PieceType &piece : alternatives ) {
+                piece.merge_parameters_into( params, outer_context );
+            }
+        }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
             if( const auto chosen = random_entry_opt( alternatives ) ) {
@@ -1309,6 +1396,42 @@ class jmapgen_alternatively : public jmapgen_piece
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
             return dat.m.veh_at( tripoint( p, dat.zlevel() ) ).has_value();
+        }
+};
+
+template<typename Value>
+class jmapgen_constrained : public jmapgen_piece
+{
+    public:
+        jmapgen_constrained( shared_ptr_fast<const jmapgen_piece> und,
+                             const std::vector<mapgen_constraint<Value>> &cons )
+            : underlying_piece( std::move( und ) )
+            , constraints( cons )
+        {}
+
+        shared_ptr_fast<const jmapgen_piece> underlying_piece;
+        std::vector<mapgen_constraint<Value>> constraints;
+
+        int phase() const override {
+            return underlying_piece->phase();
+        }
+        void check( const std::string &context, const mapgen_parameters &params ) const override {
+            underlying_piece->check( context, params );
+        }
+
+        void merge_parameters_into( mapgen_parameters &params, const std::string &outer_context
+                                  ) const override {
+            underlying_piece->merge_parameters_into( params, outer_context );
+        }
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
+                  ) const override {
+            for( const mapgen_constraint<Value> &constraint : constraints ) {
+                Value param_value = dat.get_arg<Value>( constraint.parameter_name );
+                if( param_value != constraint.value ) {
+                    return;
+                }
+            }
+            underlying_piece->apply( dat, x, y );
         }
 };
 
@@ -1398,8 +1521,8 @@ class jmapgen_faction : public jmapgen_piece
         jmapgen_faction( const JsonObject &jsi, const std::string &/*context*/ )
             : id( jsi.get_member( "id" ) ) {
         }
-        int phase() const override {
-            return 2;
+        mapgen_phase phase() const override {
+            return mapgen_phase::faction_ownership;
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
@@ -2070,8 +2193,8 @@ class jmapgen_furniture : public jmapgen_piece
         jmapgen_furniture( const JsonObject &jsi, const std::string &/*context*/ ) :
             jmapgen_furniture( jsi.get_member( "furn" ) ) {}
         explicit jmapgen_furniture( const JsonValue &fid ) : id( fid ) {}
-        int phase() const override {
-            return -1;
+        mapgen_phase phase() const override {
+            return mapgen_phase::furniture;
         }
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
@@ -2105,8 +2228,8 @@ class jmapgen_terrain : public jmapgen_piece
         bool is_nop() const override {
             return id.is_null();
         }
-        int phase() const override {
-            return -2;
+        mapgen_phase phase() const override {
+            return mapgen_phase::terrain;
         }
 
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
@@ -2401,8 +2524,8 @@ class jmapgen_translate : public jmapgen_piece
             : from( jsi.get_member( "from" ) )
             , to( jsi.get_member( "to" ) ) {
         }
-        int phase() const override {
-            return 2;
+        mapgen_phase phase() const override {
+            return mapgen_phase::transform;
         }
         void apply( const mapgendata &dat, const jmapgen_int &/*x*/,
                     const jmapgen_int &/*y*/ ) const override {
@@ -2524,8 +2647,8 @@ class jmapgen_nested : public jmapgen_piece
                 load_weighted_list( jsi.get_member( "else_chunks" ), else_entries, 100 );
             }
         }
-        int phase() const override {
-            return 1;
+        mapgen_phase phase() const override {
+            return mapgen_phase::nested_mapgen;
         }
         void merge_parameters_into( mapgen_parameters &params,
                                     const std::string &outer_context ) const override {
@@ -2916,18 +3039,39 @@ void mapgen_palette::reset()
     palettes.clear();
 }
 
-void mapgen_palette::add( const palette_id &rh, const std::string &context,
-                          std::vector<palette_id> ancestors )
+void mapgen_palette::add( const mapgen_value<std::string> &rh, const add_palette_context &context )
 {
-    add( get( rh ), context, std::move( ancestors ) );
+    std::vector<std::string> possible_values = rh.all_possible_results( *context.parameters );
+    cata_assert( !possible_values.empty() );
+    if( possible_values.size() == 1 ) {
+        add( palette_id( possible_values.front() ), context );
+    } else {
+        const auto param_it =
+            context.parameters->add_unique_parameter(
+                "palette_choice_", rh, cata_variant_type::palette_id,
+                mapgen_parameter_scope::overmap_special );
+        const std::string &param_name = param_it->first;
+        add_palette_context context_with_extra_constraint( context );
+        for( const std::string &value : possible_values ) {
+            palette_id val_id( value );
+            context_with_extra_constraint.constraints.emplace_back( param_name, val_id );
+            add( val_id, context_with_extra_constraint );
+            context_with_extra_constraint.constraints.pop_back();
+        }
+    }
 }
 
-void mapgen_palette::add( const mapgen_palette &rh, const std::string &context,
-                          std::vector<palette_id> ancestors )
+void mapgen_palette::add( const palette_id &rh, const add_palette_context &context )
 {
-    std::string actual_context = id.is_empty() ? context : "palette " + id.str();
+    add( get( rh ), context );
+}
+
+void mapgen_palette::add( const mapgen_palette &rh, const add_palette_context &context )
+{
+    std::string actual_context = id.is_empty() ? context.context : "palette " + id.str();
 
     if( !rh.id.is_empty() ) {
+        const std::vector<palette_id> &ancestors = context.ancestors;
         auto loop_start = std::find( ancestors.begin(), ancestors.end(), rh.id );
         if( loop_start != ancestors.end() ) {
             std::string loop_ids = enumerate_as_string( loop_start, ancestors.end(),
@@ -2937,16 +3081,26 @@ void mapgen_palette::add( const mapgen_palette &rh, const std::string &context,
             debugmsg( "loop in palette references: %s", loop_ids );
             return;
         }
-        ancestors.push_back( rh.id );
     }
+    add_palette_context new_context = context;
+    new_context.ancestors.push_back( rh.id );
 
-    for( const palette_id &recursive_palette : rh.palettes_used ) {
-        add( recursive_palette, actual_context, ancestors );
+    for( const mapgen_value<std::string> &recursive_palette : rh.palettes_used ) {
+        add( recursive_palette, new_context );
     }
     for( const auto &placing : rh.format_placings ) {
+        const std::vector<mapgen_constraint<palette_id>> &constraints = context.constraints;
+        std::vector<shared_ptr_fast<const jmapgen_piece>> constrained_placings = placing.second;
+        if( !constraints.empty() ) {
+            for( shared_ptr_fast<const jmapgen_piece> &piece : constrained_placings ) {
+                piece = make_shared_fast<jmapgen_constrained<palette_id>>(
+                            std::move( piece ), constraints );
+            }
+        }
         std::vector<shared_ptr_fast<const jmapgen_piece>> &these_placings =
                     format_placings[placing.first];
-        these_placings.insert( these_placings.end(), placing.second.begin(), placing.second.end() );
+        these_placings.insert( these_placings.end(),
+                               constrained_placings.begin(), constrained_placings.end() );
     }
     for( const auto &placing : rh.keys_with_terrain ) {
         keys_with_terrain.insert( placing );
@@ -2973,8 +3127,9 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
             // been defined and we can inline now.  Otherwise we just leave the
             // list in our palettes_used array and it will be consumed
             // recursively by calls to add which add this palette.
+            add_palette_context add_context{ context, &new_pal.parameters };
             for( auto &p : new_pal.palettes_used ) {
-                new_pal.add( p, context );
+                new_pal.add( p, add_context );
             }
             new_pal.palettes_used.clear();
         }
@@ -3030,6 +3185,12 @@ mapgen_palette mapgen_palette::load_internal( const JsonObject &jo, const std::s
     }
     return new_pal;
 }
+
+mapgen_palette::add_palette_context::add_palette_context(
+    const std::string &ctx, mapgen_parameters *params )
+    : context( ctx )
+    , parameters( params )
+{}
 
 bool mapgen_function_json::setup_internal( const JsonObject &jo )
 {

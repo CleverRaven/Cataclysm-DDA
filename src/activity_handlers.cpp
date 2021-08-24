@@ -147,7 +147,6 @@ static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
-static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 static const activity_id ACT_PRY_NAILS( "ACT_PRY_NAILS" );
@@ -200,7 +199,6 @@ static const itype_id itype_spike( "spike" );
 static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_stick_long( "stick_long" );
 static const itype_id itype_steel_chunk( "steel_chunk" );
-static const itype_id itype_steel_plate( "steel_plate" );
 static const itype_id itype_wire( "wire" );
 static const itype_id itype_chain( "chain" );
 
@@ -247,7 +245,6 @@ activity_handlers::do_turn_functions = {
     { ACT_START_FIRE, start_fire_do_turn },
     { ACT_VIBE, vibe_do_turn },
     { ACT_HAND_CRANK, hand_crank_do_turn },
-    { ACT_OXYTORCH, oxytorch_do_turn },
     { ACT_WEAR, wear_do_turn },
     { ACT_MULTIPLE_FISH, multiple_fish_do_turn },
     { ACT_MULTIPLE_CONSTRUCTION, multiple_construction_do_turn },
@@ -319,7 +316,6 @@ activity_handlers::finish_functions = {
     { ACT_PLANT_SEED, plant_seed_finish },
     { ACT_VEHICLE, vehicle_finish },
     { ACT_START_ENGINES, start_engines_finish },
-    { ACT_OXYTORCH, oxytorch_finish },
     { ACT_PULP, pulp_finish },
     { ACT_REPAIR_ITEM, repair_item_finish },
     { ACT_HEATING, heat_item_finish },
@@ -1467,12 +1463,26 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
         }
 
         // 2. Transfer charges.
+        const vehicle *veh = nullptr;
+        size_t part;
         switch( static_cast<liquid_target_type>( act_ref.values.at( 2 ) ) ) {
             case liquid_target_type::VEHICLE: {
                 const optional_vpart_position vp = here.veh_at( act_ref.coords.at( 1 ) );
                 if( act_ref.values.size() > 4 && vp ) {
                     const vpart_reference vpr( vp->vehicle(), act_ref.values.at( 4 ) );
+                    veh = &vp->vehicle();
+                    part = act_ref.values.at( 4 );
+                    if( source_veh &&
+                        source_veh->fuel_left( liquid.typeId(), false, ( veh ? std::function<bool( const vehicle_part & )> { [&]( const vehicle_part & pa )
+                {
+                    return &( veh->part( part ) ) != &pa;
+                    }
+                                                                                                                           } : return_true<const vehicle_part &> ) ) <= 0 ) {
+                        act_ref.set_to_null();
+                        return;
+                    }
                     you->pour_into( vpr, liquid );
+
                 } else {
                     throw std::runtime_error( "could not find target vehicle for liquid transfer" );
                 }
@@ -1521,10 +1531,11 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                         act_ref.str_values.at( 0 ) = serialize( liquid );
                     }
                 } else {
-                    source_veh->drain( liquid.typeId(), removed_charges );
-                }
-                if( source_veh->fuel_left( liquid.typeId() ) <= 0 ) {
-                    act_ref.set_to_null();
+                    source_veh->drain( liquid.typeId(), removed_charges, ( veh ? std::function<bool( vehicle_part & )> { [&]( vehicle_part & pa )
+                    {
+                        return &( veh->part( part ) ) != &pa;
+                    }
+                                                                                                                       } : return_true<vehicle_part &> ) );
                 }
                 break;
             case liquid_source_type::MAP_ITEM:
@@ -2213,107 +2224,6 @@ void activity_handlers::start_engines_finish( player_activity *act, Character *y
     if( take_control && !veh->engine_on && !veh->velocity ) {
         you->controlling_vehicle = false;
         add_msg( _( "You let go of the controls." ) );
-    }
-}
-
-void activity_handlers::oxytorch_do_turn( player_activity *act, Character *you )
-{
-    if( act->values[0] <= 0 ) {
-        return;
-    }
-
-    item &it = *act->targets.front();
-    // act->values[0] is the number of charges yet to be consumed
-    const int charges_used = std::min( act->values[0], it.ammo_required() );
-
-    it.ammo_consume( charges_used, you->pos(), you );
-    act->values[0] -= static_cast<int>( charges_used );
-
-    sfx::play_activity_sound( "tool", "oxytorch", sfx::get_heard_volume( act->placement ) );
-    if( calendar::once_every( 2_turns ) ) {
-        sounds::sound( act->placement, 10, sounds::sound_t::destructive_activity, _( "hissssssssss!" ) );
-    }
-}
-
-void activity_handlers::oxytorch_finish( player_activity *act, Character *you )
-{
-    act->set_to_null();
-    map &here = get_map();
-    const tripoint &pos = act->placement;
-    const ter_id ter = here.ter( pos );
-    const furn_id furn = here.furn( pos );
-    // fast players might still have some charges left to be consumed
-    act->targets.front()->ammo_consume( act->values[0], you->pos(), you );
-
-    if( furn == f_rack ) {
-        here.furn_set( pos, f_null );
-        here.spawn_item( you->pos(), itype_steel_chunk, rng( 2, 6 ) );
-    } else if( ter == t_chainfence || ter == t_chaingate_c || ter == t_chaingate_l ) {
-        here.ter_set( pos, t_dirt );
-        here.spawn_item( pos, itype_pipe, rng( 1, 4 ) );
-        here.spawn_item( pos, itype_wire, rng( 4, 16 ) );
-    } else if( ter == t_chainfence_posts ) {
-        here.ter_set( pos, t_dirt );
-        here.spawn_item( pos, itype_pipe, rng( 1, 4 ) );
-    } else if( ter == t_door_metal_locked || ter == t_door_metal_c || ter == t_door_bar_c ||
-               ter == t_door_bar_locked || ter == t_door_metal_pickable ) {
-        here.ter_set( pos, t_mdoor_frame );
-        here.spawn_item( pos, itype_steel_plate, rng( 0, 1 ) );
-        here.spawn_item( pos, itype_steel_chunk, rng( 3, 8 ) );
-    } else if( ter == t_wall_metal ) {
-        here.ter_set( pos, t_scrap_wall_halfway );
-        here.spawn_item( pos, itype_steel_plate, rng( 2, 3 ) );
-        here.spawn_item( pos, itype_steel_chunk, rng( 12, 20 ) );
-    } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
-        here.ter_set( pos, t_window_empty );
-        here.spawn_item( pos, itype_steel_plate, rng( 0, 1 ) );
-        here.spawn_item( pos, itype_sheet_metal, rng( 1, 3 ) );
-    } else if( ter == t_reb_cage ) {
-        here.ter_set( pos, t_pit );
-        here.spawn_item( pos, itype_spike, rng( 1, 19 ) );
-        here.spawn_item( pos, itype_scrap, rng( 1, 8 ) );
-    } else if( ter == t_retractable_gate_c || ter == t_retractable_gate_l ) {
-        here.ter_set( pos, t_strconc_floor );
-        here.spawn_item( pos, itype_chain, rng( 1, 2 ) );
-        here.spawn_item( pos, itype_wire, rng( 8, 22 ) );
-    } else if( ter == t_bars ) {
-        if( here.ter( pos + point_east ) == t_sewage || here.ter( pos + point_south ) ==
-            t_sewage ||
-            here.ter( pos + point_west ) == t_sewage || here.ter( pos + point_north ) ==
-            t_sewage ) {
-            here.ter_set( pos, t_sewage );
-            here.spawn_item( you->pos(), itype_pipe, rng( 1, 2 ) );
-        } else {
-            here.ter_set( pos, t_floor );
-            here.spawn_item( you->pos(), itype_pipe, rng( 1, 2 ) );
-        }
-    } else if( ter == t_window_bars_alarm ) {
-        here.ter_set( pos, t_window_alarm );
-        here.spawn_item( you->pos(), itype_rebar, rng( 1, 2 ) );
-    } else if( ter == t_window_bars ) {
-        here.ter_set( pos, t_window_empty );
-        here.spawn_item( you->pos(), itype_rebar, rng( 1, 2 ) );
-    } else if( ter == t_window_bars_curtains || ter == t_window_bars_domestic ) {
-        here.ter_set( pos, t_window_domestic );
-        here.spawn_item( you->pos(), itype_rebar, rng( 1, 2 ) );
-    } else if( furn == f_safe_l || furn == f_gunsafe_ml || furn == f_gunsafe_mj ||
-               furn == f_gun_safe_el ) {
-        here.furn_set( pos, f_safe_o );
-        // 50% of starting a fire.
-        if( here.flammable_items_at( pos ) && rng( 1, 100 ) < 50 ) {
-            here.add_field( pos, fd_fire, 1, 10_minutes );
-        }
-    } else if( ter == t_metal_grate_window || ter == t_metal_grate_window_with_curtain ||
-               ter == t_metal_grate_window_with_curtain_open ) {
-        here.ter_set( pos, t_window_reinforced );
-        here.spawn_item( you->pos(), itype_pipe, rng( 1, 12 ) );
-        here.spawn_item( you->pos(), itype_sheet_metal, 4 );
-    } else if( ter == t_metal_grate_window_noglass ||
-               ter == t_metal_grate_window_with_curtain_noglass ||
-               ter == t_metal_grate_window_with_curtain_open_noglass ) {
-        here.ter_set( pos, t_window_reinforced_noglass );
-        here.spawn_item( you->pos(), itype_pipe, rng( 1, 12 ) );
-        here.spawn_item( you->pos(), itype_sheet_metal, 4 );
     }
 }
 
