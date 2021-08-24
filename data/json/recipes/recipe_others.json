@@ -2308,7 +2308,6 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "time": "1 m",
-    "reversible": false,
     "autolearn": true,
     "components": [ [ [ "paper", 1 ] ], [ [ "bone_glue", 1 ], [ "superglue", 1 ], [ "duct_tape", 1 ] ] ]
   },
@@ -2319,7 +2318,6 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
     "time": "3 m",
-    "reversible": false,
     "autolearn": true,
     "components": [ [ [ "paper", 1 ] ], [ [ "bone_glue", 1 ], [ "superglue", 1 ], [ "duct_tape", 1 ] ] ]
   },
