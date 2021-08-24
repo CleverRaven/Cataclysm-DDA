@@ -724,5 +724,65 @@
     "id": "green_pen_ink",
     "name": "green pen ink",
     "default": "green_pen_ink"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "coin_penny",
+    "name": "penny",
+    "default": "coin_penny"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "coin_nickel",
+    "name": "nickel",
+    "default": "coin_nickel"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "coin_dime",
+    "name": "dime",
+    "default": "coin_dime"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "coin_quarter",
+    "name": "quarter",
+    "default": "coin_quarter"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "money_one",
+    "name": "one dollar bill",
+    "default": "money_one"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "money_five",
+    "name": "five dollar bill",
+    "default": "money_five"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "money_ten",
+    "name": "ten dollar bill",
+    "default": "money_ten"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "money_twenty",
+    "name": "twenty dollar bill",
+    "default": "money_twenty"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "money_fifty",
+    "name": "fifty dollar bill",
+    "default": "money_fifty"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "money_hundred",
+    "name": "hundred dollar bill",
+    "default": "money_hundred"
   }
 ]
