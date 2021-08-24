@@ -424,7 +424,7 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
     }
 
     if( !p.will_accept_from_player( it ) ) {
-        reason = _( "I don't <swear> trust you enough to eat THIS…" );
+        reason = _( p.chatbin.snip_consume_cant_accept );
         return REFUSED;
     }
 
@@ -432,19 +432,19 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
     int amount_used = 1;
     if( to_eat.is_food() ) {
         if( !p.can_consume( to_eat ) ) {
-            reason = _( "It doesn't look like a good idea to consume this…" );
+            reason = _( p.chatbin.snip_consume_cant_consume );
             return REFUSED;
         } else {
             if( to_eat.rotten() && !p.as_character()->has_trait( trait_SAPROVORE ) ) {
                 //TODO: once npc needs are operational again check npc hunger state and allow eating if desperate
-                reason = _( "This is rotten!  I won't eat that." );
+                reason = _( p.chatbin.snip_consume_rotten );
                 return REFUSED;
             }
 
             const time_duration &consume_time = p.get_consume_time( to_eat );
             p.moves -= to_moves<int>( consume_time );
             p.consume( to_eat );
-            reason = _( "Thanks, that hit the spot." );
+            reason = _( p.chatbin.snip_consume_eat );
         }
 
     } else if( to_eat.is_medication() ) {
@@ -454,20 +454,21 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
                 has = p.has_charges( comest->tool, 1 );
             }
             if( !has ) {
-                reason = string_format( _( "I need a %s to consume that!" ),
-                                        item::nname( comest->tool ) );
+                std::string talktag = p.chatbin.snip_consume_need_item;
+                parse_tags( talktag, get_player_character(), p );
+                reason = string_format( _( talktag ), item::nname( comest->tool ) );
                 return REFUSED;
             }
             p.use_charges( comest->tool, 1 );
-            reason = _( "Thanks, I feel better already." );
+            reason = _( p.chatbin.snip_consume_med );
         }
         if( to_eat.type->has_use() ) {
             amount_used = to_eat.type->invoke( p, to_eat, p.pos() ).value_or( 0 );
             if( amount_used <= 0 ) {
-                reason = _( "It doesn't look like a good idea to consume this…" );
+                reason = _( p.chatbin.snip_consume_nocharge );
                 return REFUSED;
             }
-            reason = _( "Thanks, I used it." );
+            reason = _( p.chatbin.snip_consume_use_med );
         }
 
         p.consume_effects( to_eat );
@@ -489,12 +490,12 @@ std::string talker_npc::give_item_to( const bool to_use )
 {
     avatar &player_character = get_avatar();
     if( me_npc->is_hallucination() ) {
-        return _( "No thanks, I'm good." );
+        return _( me_npc->chatbin.snip_give_to_hallucination );
     }
     item_location loc = game_menus::inv::titled_menu( player_character, _( "Offer what?" ),
                         _( "You have no items to offer." ) );
     if( !loc ) {
-        return _( "Changed your mind?" );
+        return _( me_npc->chatbin.snip_give_cancel );
     }
     item &given = *loc;
 
@@ -507,11 +508,11 @@ std::string talker_npc::give_item_to( const bool to_use )
     }
 
     if( given.is_dangerous() && !player_character.has_trait( trait_DEBUG_MIND_CONTROL ) ) {
-        return _( "Are you <swear> insane!?" );
+        return _( me_npc->chatbin.snip_give_dangerous );
     }
 
     bool taken = false;
-    std::string reason = _( "Nope." );
+    std::string reason = _( me_npc->chatbin.snip_give_nope );
     int our_ammo = me_npc->ammo_count_for( me_npc->weapon );
     int new_ammo = me_npc->ammo_count_for( given );
     const double new_weapon_value = me_npc->weapon_value( given, new_ammo );
@@ -533,7 +534,7 @@ std::string talker_npc::give_item_to( const bool to_use )
         }// wield it if its a weapon
         else if( new_weapon_value > cur_weapon_value ) {
             me_npc->wield( given );
-            reason = _( "Thanks, I'll wield that now." );
+            reason = _( me_npc->chatbin.snip_give_wield );
             taken = true;
         }// HACK: is_gun here is a hack to prevent NPCs wearing guns if they don't want to use them
         else if( !given.is_gun() && given.is_armor() ) {
@@ -553,29 +554,29 @@ std::string talker_npc::give_item_to( const bool to_use )
                 }
             }
         } else {
-            reason += " " + string_format( _( "My current weapon is better than this.\n"
-                                              "(new weapon value: %.1f vs %.1f)." ), new_weapon_value,
-                                           cur_weapon_value );
+            reason += " " + string_format( _( me_npc->chatbin.snip_give_weapon_weak +
+                                              "(new weapon value: %.1f vs %.1f)." ), new_weapon_value, cur_weapon_value );
         }
     } else {//allow_use is false so try to carry instead
         if( me_npc->can_pickVolume( given ) && me_npc->can_pickWeight( given ) ) {
-            reason = _( "Thanks, I'll carry that now." );
+            reason = _( me_npc->chatbin.snip_give_carry );
             taken = true;
             me_npc->i_add( given );
         } else {
             if( !me_npc->can_pickVolume( given ) ) {
                 const units::volume free_space = me_npc->volume_capacity() -
                                                  me_npc->volume_carried();
-                reason += " " + std::string( _( "I have no space to store it." ) ) + " ";
+                reason += " " + std::string( _( me_npc->chatbin.snip_give_carry_cant ) ) + " ";
                 if( free_space > 0_ml ) {
-                    reason += string_format( _( "I can only store %s %s more." ),
-                                             format_volume( free_space ), volume_units_long() );
+                    std::string talktag = me_npc->chatbin.snip_give_carry_cant_few_space;
+                    parse_tags( talktag, get_player_character(), *me_npc );
+                    reason += string_format( _( talktag ), format_volume( free_space ), volume_units_long() );
                 } else {
-                    reason += _( "…or to store anything else for that matter." );
+                    reason += _( me_npc->chatbin.snip_give_carry_cant_no_space );
                 }
             }
             if( !me_npc->can_pickWeight( given ) ) {
-                reason += std::string( " " ) + _( "It is too heavy for me to carry." );
+                reason += std::string( " " ) + _( me_npc->chatbin.snip_give_carry_too_heavy );
             }
         }
     }

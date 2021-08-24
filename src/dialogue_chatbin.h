@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #ifndef CATA_SRC_DIALOGUE_CHATBIN_H
 #define CATA_SRC_DIALOGUE_CHATBIN_H
 
@@ -68,6 +68,85 @@ struct dialogue_chatbin {
     std::string talk_stranger_friendly = "TALK_STRANGER_FRIENDLY";
     std::string talk_stranger_neutral = "TALK_STRANGER_NEUTRAL";
     std::string talk_friend_guard = "TALK_FRIEND_GUARD";
+
+    // talk from npcmove.cpp(can use snippets in json)
+    std::string snip_camp_food_thanks = "<camp_food_thanks>";
+    std::string snip_camp_larder_empty = "<camp_larder_empty>";
+    std::string snip_camp_water_thanks = "<camp_water_thanks>";
+    std::string snip_cant_flee = "<cant_flee>";
+    std::string snip_close_distance = "<close_distance>";
+    std::string snip_combat_noise_warning = "<combat_noise_warning>";
+    std::string snip_danger_close_distance = "<danger_close_distance>";
+    std::string snip_done_mugging = "<done_mugging>";
+    std::string snip_far_distance = "<far_distance>";
+    std::string snip_fire_bad = "<fire_bad>";
+    std::string snip_fire_in_the_hole_h = "<fire_in_the_hole_h>";
+    std::string snip_fire_in_the_hole = "<fire_in_the_hole>";
+    std::string snip_general_danger_h = "<general_danger_h>";
+    std::string snip_general_danger = "<general_danger>";
+    std::string snip_heal_self = "<heal_self>";
+    std::string snip_hungry = "<hungry>";
+    std::string snip_im_leaving_you = "<im_leaving_you>";
+    std::string snip_its_safe_h = "<its_safe_h>";
+    std::string snip_its_safe = "<its_safe>";
+    std::string snip_keep_up = "<keep_up>";
+    std::string snip_kill_npc_h = "<kill_npc_h>";
+    std::string snip_kill_npc = "<kill_npc>";
+    std::string snip_kill_player_h = "<kill_player_h>";
+    std::string snip_let_me_pass = "<let_me_pass>";
+    std::string snip_lets_talk = "<lets_talk>";
+    std::string snip_medium_distance = "<medium_distance>";
+    std::string snip_monster_warning_h = "<monster_warning_h>";
+    std::string snip_monster_warning = "<monster_warning>";
+    std::string snip_movement_noise_warning = "<movement_noise_warning>";
+    std::string snip_need_batteries = "<need_batteries>";
+    std::string snip_need_booze = "<need_booze>";
+    std::string snip_need_fuel = "<need_fuel>";
+    std::string snip_no_to_thorazine = "<no_to_thorazine>";
+    std::string snip_run_away = "<run_away>";
+    std::string snip_speech_warning = "<speech_warning>";
+    std::string snip_thirsty = "<thirsty>";
+    std::string snip_wait = "<wait>";
+    std::string snip_warn_sleep = "<warn_sleep>";
+    std::string snip_yawn = "<yawn>";
+    std::string snip_yes_to_lsd = "<yes_to_lsd>";
+    std::string snip_mug_dontmove = "Don't move a <swear> muscle…";
+    std::string snip_lost_blood = "I've lost lot of blood.";
+    std::string snip_pulp_zombie = "Hold on, I want to pulp that %s.";
+    std::string snip_heal_player = "Hold still %s, I'm coming to help you.";
+    std::string snip_wound_infected = "My %s wound is infected…";
+    std::string snip_wound_bite = "The bite wound on my %s looks bad.";
+    std::string snip_bleeding = "My %s is bleeding!";
+    std::string snip_bleeding_badly = "My %s is bleeding badly!";
+    std::string snip_radiation_sickness = "I'm suffering from radiation sickness…";
+
+    // talk from npctalk.cpp(can use snippets in json)
+    std::string snip_acknowledged = "<acknowledged>";
+    std::string snip_bye = "Bye.";
+
+    // talk from talker_npc.cpp(can use snippets in json)
+    std::string snip_consume_cant_accept = "I don't <swear> trust you enough to eat THIS…";
+    std::string snip_consume_cant_consume = "It doesn't look like a good idea to consume this…";
+    std::string snip_consume_rotten = "This is rotten!  I won't eat that.";
+    std::string snip_consume_eat = "Thanks, that hit the spot.";
+    std::string snip_consume_need_item = "I need a %s to consume that!";
+    std::string snip_consume_med = "Thanks, I feel better already.";
+    std::string snip_consume_nocharge = "It doesn't look like a good idea to consume this…";
+    std::string snip_consume_use_med = "Thanks, I used it.";
+    std::string snip_give_nope = "Nope.";
+    std::string snip_give_to_hallucination = "No thanks, I'm good.";
+    std::string snip_give_cancel = "Changed your mind?";
+    std::string snip_give_dangerous = "Are you <swear> insane!?";
+    std::string snip_give_wield = "Thanks, I'll wield that now.";
+    std::string snip_give_weapon_weak = "My current weapon is better than this.\n";
+    std::string snip_give_carry = "Thanks, I'll carry that now.";
+    std::string snip_give_carry_cant = "I have no space to store it.";
+    std::string snip_give_carry_cant_few_space = "I can only store %s %s more.";
+    std::string snip_give_carry_cant_no_space = "…or to store anything else for that matter.";
+    std::string snip_give_carry_too_heavy = "It is too heavy for me to carry.";
+
+    // talk from npc.cpp(can use snippets in json)
+    std::string snip_wear = "Thanks, I'll wear that now.";
 
     dialogue_chatbin() = default;
 

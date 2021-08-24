@@ -1035,6 +1035,9 @@ class npc : public Character
         // different warnings for hostile or friendly NPCs and hostile NPCs always complaining
         void warn_about( const std::string &type, const time_duration &d = 10_minutes,
                          const std::string &name = "", int range = -1, const tripoint &danger_pos = tripoint_zero );
+        // return snippet strings by given range
+        std::string distance_string( int range );
+
         // Finds something to complain about and complains. Returns if complained.
         bool complain();
 
