@@ -260,7 +260,8 @@
       [ "recharge_station", 10 ],
       [ "tarp", 15 ],
       [ "tempered_glass_sheet", 25 ],
-      [ "rigid_plastic_sheet", 30 ]
+      [ "rigid_plastic_sheet", 30 ],
+      [ "rubber_band", 5 ]
     ]
   },
   {
@@ -457,7 +458,14 @@
   {
     "id": "file_room",
     "type": "item_group",
-    "items": [ [ "file", 99 ], [ "file", 99 ], [ "record_accounting", 10 ], [ "paper", 80 ], [ "safe_box", 1 ] ]
+    "items": [
+      [ "file", 99 ],
+      [ "file", 99 ],
+      [ "record_accounting", 10 ],
+      [ "paper", 80 ],
+      [ "safe_box", 1 ],
+      [ "rubber_band", 5 ]
+    ]
   },
   {
     "id": "office_mess",
@@ -494,7 +502,10 @@
       { "item": "cig", "prob": 5, "charges": [ 1, 20 ] },
       [ "purse", 2 ],
       [ "pipe_tobacco", 1 ],
-      { "group": "writing_utensils", "prob": 35 }
+      { "group": "writing_utensils", "prob": 35 },
+      [ "rubber_band", 20 ],
+      [ "money_strap", 5 ],
+      [ "coin_wrapper", 5 ]
     ]
   },
   {
@@ -515,7 +526,10 @@
       [ "usb_drive", 5 ],
       [ "cash_card", 5 ],
       [ "record_accounting", 1 ],
-      [ "money_bundle", 1 ]
+      [ "money_bundle", 1 ],
+      [ "rubber_band", 20 ],
+      [ "money_strap", 5 ],
+      [ "coin_wrapper", 5 ]
     ]
   },
   {
