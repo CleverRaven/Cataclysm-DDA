@@ -501,11 +501,15 @@ int SkillLevelMap::exceeds_recipe_requirements( const recipe &rec ) const
 bool SkillLevelMap::theoretical_recipe_requirements( const recipe &rec ) const
 {
     // Regardless of your current practical skill, do you know the theory of how to make this thing?
-    int knowhow = rec.skill_used ? get_knowledge_level( rec.skill_used ) - rec.difficulty : 0;
-    for( const auto &elem : compare_skill_requirements( rec.required_skills ) ) {
-        knowhow = std::min( knowhow, elem.second );
+    if( rec.skill_used && get_knowledge_level( rec.skill_used ) < rec.difficulty ) {
+        return false;
     }
-    return ( knowhow > 0 );
+    for( const std::pair<const skill_id, int> &elem : rec.required_skills ) {
+        if( get_knowledge_level( elem.first ) < elem.second ) {
+            return false;
+        }
+    }
+    return true;
 }
 
 bool SkillLevelMap::has_recipe_requirements( const recipe &rec ) const
