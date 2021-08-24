@@ -10,7 +10,6 @@
 #include "monattack.h"
 #include "monster.h"
 #include "npc.h"
-#include "player.h"
 #include "point.h"
 #include "type_id.h"
 
@@ -40,7 +39,7 @@ static float brute_special_probability( monster &attacker, Creature &target, con
     return static_cast<float>( hits ) / iters;
 }
 
-static std::string full_attack_details( const player &dude )
+static std::string full_attack_details( const Character &dude )
 {
     std::stringstream ss;
     ss << "Details for " << dude.disp_name() << std::endl;

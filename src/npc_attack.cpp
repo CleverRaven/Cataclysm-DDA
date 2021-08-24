@@ -199,7 +199,7 @@ npc_attack_rating npc_attack_spell::evaluate_tripoint(
             attitude_mult = -1;
         }
         int potential = damage * attitude_mult - distance_to_me + 1;
-        if( target && &critter == &target ) {
+        if( target && critter == target ) {
             potential *= npc_attack_constants::target_modifier;
         }
         if( damage >= critter->get_hp() ) {
@@ -209,7 +209,7 @@ npc_attack_rating npc_attack_spell::evaluate_tripoint(
                 potential = std::abs( potential );
             }
             const Creature *source_ptr = &source;
-            if( att == Creature::Attitude::FRIENDLY || &critter == &source_ptr ) {
+            if( att == Creature::Attitude::FRIENDLY || critter == source_ptr ) {
                 // however we under no circumstances want to kill an ally (or ourselves!)
                 return npc_attack_rating( cata::nullopt, location );
             }
@@ -335,7 +335,10 @@ npc_attack_rating npc_attack_melee::evaluate_critter( const npc &source,
         return npc_attack_rating{};
     }
 
-    const double damage{ weapon.effective_dps( source, *critter ) };
+    // TODO: Give bashing weapons a better
+    // rating against armored targets
+    double damage{ weapon.base_damage_melee().total_damage() };
+    damage *= 100.0 / weapon.attack_time();
     const int reach_range{ weapon.reach_range( source ) };
     const int distance_to_me = clamp( rl_dist( source.pos(), critter->pos() ) - reach_range, 0, 10 );
     // Multiplier of 0.5f to 1.5f based on distance
@@ -641,7 +644,11 @@ tripoint_range<tripoint> npc_attack_throw::targetable_points( const npc &source 
 npc_attack_rating npc_attack_throw::evaluate(
     const npc &source, const Creature *target ) const
 {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunknown-pragmas"
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
     npc_attack_rating effectiveness( cata::nullopt, source.pos() );
+#pragma GCC diagnostic pop
     if( !can_use( source ) ) {
         // please don't throw your pants...
         return effectiveness;

@@ -43,7 +43,8 @@
       "NO_BREATHE",
       "RIDEABLE_MECH",
       "PRIORITIZE_TARGETS",
-      "PATH_AVOID_DANGER_1"
+      "PATH_AVOID_DANGER_1",
+      "STUN_IMMUNE"
     ]
   },
   {
@@ -90,7 +91,8 @@
       "RIDEABLE_MECH",
       "PRIORITIZE_TARGETS",
       "PATH_AVOID_DANGER_1",
-      "LOUDMOVES"
+      "LOUDMOVES",
+      "STUN_IMMUNE"
     ]
   },
   {
@@ -139,7 +141,8 @@
       "RIDEABLE_MECH",
       "PRIORITIZE_TARGETS",
       "PATH_AVOID_DANGER_1",
-      "LOUDMOVES"
+      "LOUDMOVES",
+      "STUN_IMMUNE"
     ]
   }
 ]

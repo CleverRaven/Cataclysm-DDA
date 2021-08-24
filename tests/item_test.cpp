@@ -24,6 +24,13 @@
 #include "units.h"
 #include "value_ptr.h"
 
+
+static const itype_id itype_test_backpack( "test_backpack" );
+static const itype_id itype_test_duffelbag( "test_duffelbag" );
+static const itype_id itype_test_mp3( "test_mp3" );
+static const itype_id itype_test_smart_phone( "test_smart_phone" );
+static const itype_id itype_test_waterproof_bag( "test_waterproof_bag" );
+
 TEST_CASE( "item_volume", "[item]" )
 {
     // Need to pick some item here which is count_by_charges and for which each
@@ -65,11 +72,13 @@ TEST_CASE( "gun_layer", "[item]" )
 TEST_CASE( "stacking_cash_cards", "[item]" )
 {
     // Differently-charged cash cards should stack if neither is zero.
-    item cash0( "cash_card", calendar::turn_zero, 0 );
-    item cash1( "cash_card", calendar::turn_zero, 1 );
-    item cash2( "cash_card", calendar::turn_zero, 2 );
+    item cash0( "cash_card", calendar::turn_zero );
+    item cash1( "cash_card", calendar::turn_zero );
+    item cash2( "cash_card", calendar::turn_zero );
+    cash1.put_in( item( "money", calendar::turn_zero, 1 ), item_pocket::pocket_type::MAGAZINE );
+    cash2.put_in( item( "money", calendar::turn_zero, 2 ), item_pocket::pocket_type::MAGAZINE );
     CHECK( !cash0.stacks_with( cash1 ) );
-    CHECK( cash1.stacks_with( cash2 ) );
+    //CHECK( cash1.stacks_with( cash2 ) ); Enable this once cash card stacking is brought back.
 }
 
 // second minute hour day week season year
@@ -301,6 +310,7 @@ TEST_CASE( "item variables round-trip accurately", "[item]" )
     i.set_var( "C", tripoint( 2, 3, 4 ) );
     CHECK( i.get_var( "C", tripoint() ) == tripoint( 2, 3, 4 ) );
 }
+
 TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" )
 {
     avatar &guy = get_avatar();
@@ -399,15 +409,15 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
     GIVEN( "an item with flag WATER_BREAK" ) {
 
-        REQUIRE( item( "mp3" ).has_flag( flag_WATER_BREAK ) );
+        REQUIRE( itype_test_smart_phone->has_flag( flag_WATER_BREAK ) );
 
         WHEN( "item in hand" ) {
             guy.unwield();
             guy.worn.clear();
 
-            item mp3( "mp3" );
+            item smart_phone( itype_test_smart_phone );
 
-            REQUIRE( guy.wield( mp3 ) );
+            REQUIRE( guy.wield( smart_phone ) );
 
             THEN( "should be broken by water" ) {
                 g->water_affect_items( guy );
@@ -419,12 +429,12 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
             guy.unwield();
             guy.worn.clear();
 
-            item mp3( "mp3" );
-            item backpack( "backpack" );
+            item smart_phone( itype_test_smart_phone );
+            item backpack( itype_test_backpack );
 
-            backpack.put_in( mp3, item_pocket::pocket_type::CONTAINER );
+            backpack.put_in( smart_phone, item_pocket::pocket_type::CONTAINER );
 
-            REQUIRE( guy.wear_item( backpack ) );
+            REQUIRE( guy.wield( backpack ) );
 
             THEN( "should be broken by water" ) {
                 g->water_affect_items( guy );
@@ -432,16 +442,16 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
             }
         }
 
-        WHEN( "item in zipper bag" ) {
+        WHEN( "item in body bag" ) {
             guy.unwield();
             guy.worn.clear();
 
-            item mp3( "mp3" );
-            item bag_zipper( "bag_zipper" );
+            item smart_phone( itype_test_smart_phone );
+            item body_bag( "test_waterproof_bag" );
 
-            bag_zipper.put_in( mp3, item_pocket::pocket_type::CONTAINER );
+            body_bag.put_in( smart_phone, item_pocket::pocket_type::CONTAINER );
 
-            REQUIRE( guy.wield( bag_zipper ) );
+            REQUIRE( guy.wield( body_bag ) );
 
             THEN( "should not be broken by water" ) {
                 g->water_affect_items( guy );
@@ -453,14 +463,14 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
             guy.unwield();
             guy.worn.clear();
 
-            item mp3( "mp3" );
-            item backpack( "backpack" );
-            item duffelbag( "duffelbag" );
+            item smart_phone( itype_test_smart_phone );
+            item backpack( itype_test_backpack );
+            item duffelbag( itype_test_duffelbag );
 
-            backpack.put_in( mp3, item_pocket::pocket_type::CONTAINER );
+            backpack.put_in( smart_phone, item_pocket::pocket_type::CONTAINER );
             duffelbag.put_in( backpack, item_pocket::pocket_type::CONTAINER );
 
-            REQUIRE( guy.wear_item( duffelbag ) );
+            REQUIRE( guy.wield( duffelbag ) );
 
             THEN( "should be broken by water" ) {
                 g->water_affect_items( guy );
@@ -472,9 +482,106 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
             guy.unwield();
             guy.worn.clear();
 
-            item mp3( "mp3" );
-            item backpack( "backpack" );
-            item body_bag( "test_waterproof_bag" );
+            item smart_phone( itype_test_smart_phone );
+            item backpack( itype_test_backpack );
+            item body_bag( itype_test_waterproof_bag );
+
+            backpack.put_in( smart_phone, item_pocket::pocket_type::CONTAINER );
+            body_bag.put_in( backpack, item_pocket::pocket_type::CONTAINER );
+
+            REQUIRE( guy.wield( body_bag ) );
+
+            THEN( "should not be broken by water" ) {
+                g->water_affect_items( guy );
+                CHECK_FALSE( guy.has_item_with_flag( flag_ITEM_BROKEN ) );
+            }
+        }
+    }
+
+    GIVEN( "an item with flag WATER_BREAK_ACTIVE" ) {
+
+        REQUIRE( itype_test_mp3->has_flag( flag_WATER_BREAK_ACTIVE ) );
+
+        WHEN( "item in hand" ) {
+            guy.unwield();
+            guy.worn.clear();
+
+            item mp3( itype_test_mp3 );
+
+            REQUIRE( guy.wield( mp3 ) );
+
+            THEN( "should get wet from water" ) {
+                g->water_affect_items( guy );
+                CHECK( guy.weapon.wetness > 0 );
+            }
+        }
+
+        WHEN( "item in backpack" ) {
+            guy.unwield();
+            guy.worn.clear();
+
+            item mp3( itype_test_mp3 );
+            item backpack( itype_test_backpack );
+
+            backpack.put_in( mp3, item_pocket::pocket_type::CONTAINER );
+
+            REQUIRE( guy.wield( backpack ) );
+
+            THEN( "should get wet from water" ) {
+                g->water_affect_items( guy );
+                const item *test_item = guy.weapon.all_items_top().front();
+                REQUIRE( test_item->typeId() == itype_test_mp3 );
+                CHECK( test_item->wetness > 0 );
+            }
+        }
+
+        WHEN( "item in body bag" ) {
+            guy.unwield();
+            guy.worn.clear();
+
+            item mp3( itype_test_mp3 );
+            item body_bag( itype_test_waterproof_bag );
+
+            body_bag.put_in( mp3, item_pocket::pocket_type::CONTAINER );
+
+            REQUIRE( guy.wield( body_bag ) );
+
+            THEN( "should not be broken by water" ) {
+                g->water_affect_items( guy );
+                const item *test_item = guy.weapon.all_items_top().front();
+                REQUIRE( test_item->typeId() == itype_test_mp3 );
+                CHECK( test_item->wetness == 0 );
+            }
+        }
+
+        WHEN( "item in backpack inside duffel bag" ) {
+            guy.unwield();
+            guy.worn.clear();
+
+            item mp3( itype_test_mp3 );
+            item backpack( itype_test_backpack );
+            item duffelbag( itype_test_duffelbag );
+
+            backpack.put_in( mp3, item_pocket::pocket_type::CONTAINER );
+            duffelbag.put_in( backpack, item_pocket::pocket_type::CONTAINER );
+
+            REQUIRE( guy.wield( duffelbag ) );
+
+            THEN( "should get wet from water" ) {
+                g->water_affect_items( guy );
+                const item *test_item = guy.weapon.all_items_top().front()->all_items_top().front();
+                REQUIRE( test_item->typeId() == itype_test_mp3 );
+                CHECK( test_item->wetness > 0 );
+            }
+        }
+
+        WHEN( "item in backpack inside body bag" ) {
+            guy.unwield();
+            guy.worn.clear();
+
+            item mp3( itype_test_mp3 );
+            item backpack( itype_test_backpack );
+            item body_bag( itype_test_waterproof_bag );
 
             backpack.put_in( mp3, item_pocket::pocket_type::CONTAINER );
             body_bag.put_in( backpack, item_pocket::pocket_type::CONTAINER );
@@ -483,7 +590,43 @@ TEST_CASE( "water affect items while swimming check", "[item][water][swimming]" 
 
             THEN( "should not be broken by water" ) {
                 g->water_affect_items( guy );
-                CHECK_FALSE( guy.has_item_with_flag( flag_ITEM_BROKEN ) );
+                const item *test_item = guy.weapon.all_items_top().front()->all_items_top().front();
+                REQUIRE( test_item->typeId() == itype_test_mp3 );
+                CHECK( test_item->wetness == 0 );
+            }
+        }
+
+        WHEN( "item in hand" ) {
+            guy.unwield();
+            guy.worn.clear();
+
+            item mp3( itype_test_mp3 );
+
+            REQUIRE( guy.wield( mp3 ) );
+
+            THEN( "should be wet for around 8664 seconds" ) {
+                g->water_affect_items( guy );
+                CHECK( guy.weapon.wetness == Approx( 8664 ).margin( 20 ) );
+            }
+        }
+
+        WHEN( "item in hand" ) {
+            guy.unwield();
+            guy.worn.clear();
+
+            item mp3( itype_test_mp3 );
+
+            REQUIRE( guy.wield( mp3 ) );
+
+            THEN( "gets wet five times in a row " ) {
+                g->water_affect_items( guy );
+                g->water_affect_items( guy );
+                g->water_affect_items( guy );
+                g->water_affect_items( guy );
+                g->water_affect_items( guy );
+                AND_THEN( "should be wet for around 43320 seconds" ) {
+                    CHECK( guy.weapon.wetness == Approx( 43320 ).margin( 100 ) );
+                }
             }
         }
     }

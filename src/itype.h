@@ -35,7 +35,6 @@ class Item_factory;
 class JsonIn;
 class JsonObject;
 class item;
-class player;
 struct tripoint;
 template <typename E> struct enum_traits;
 
@@ -90,6 +89,10 @@ class gunmod_location
         }
         bool operator<( const gunmod_location &rhs ) const {
             return _id < rhs._id;
+        }
+
+        void deserialize( JsonIn &jsin ) {
+            _id = jsin.get_string();
         }
 };
 
@@ -822,6 +825,7 @@ struct islot_seed {
 enum condition_type {
     FLAG,
     COMPONENT_ID,
+    VAR,
     num_condition_types
 };
 
@@ -1148,13 +1152,16 @@ struct itype {
         const use_function *get_use( const std::string &iuse_name ) const;
 
         // Here "invoke" means "actively use". "Tick" means "active item working"
-        cata::optional<int> invoke( player &p, item &it,
+        cata::optional<int> invoke( Character &p, item &it,
                                     const tripoint &pos ) const; // Picks first method or returns 0
-        cata::optional<int> invoke( player &p, item &it, const tripoint &pos,
+        cata::optional<int> invoke( Character &p, item &it, const tripoint &pos,
                                     const std::string &iuse_name ) const;
-        int tick( player &p, item &it, const tripoint &pos ) const;
+        int tick( Character &p, item &it, const tripoint &pos ) const;
 
         virtual ~itype() = default;
+
+        // returns true if it is one of the outcomes of cutting
+        bool is_basic_component() const;
 };
 
 void load_charge_removal_blacklist( const JsonObject &jo, const std::string &src );

@@ -57,7 +57,6 @@
 #include "vpart_position.h"
 
 class gun_mode;
-class player;
 
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_glowing( "glowing" );
@@ -86,6 +85,7 @@ static bool check_water_affect_items( avatar &you )
 {
     std::vector<item_location> dissolved;
     std::vector<item_location> destroyed;
+    std::vector<item_location> wet;
 
     for( item_location &loc : you.all_items_loc() ) {
         if( loc->has_flag( flag_WATER_DISSOLVE ) && !loc.protected_from_liquids() ) {
@@ -93,10 +93,13 @@ static bool check_water_affect_items( avatar &you )
         } else if( loc->has_flag( flag_WATER_BREAK ) && !loc->is_broken()
                    && !loc.protected_from_liquids() ) {
             destroyed.emplace_back( loc );
+        } else if( loc->has_flag( flag_WATER_BREAK_ACTIVE ) && !loc->is_broken()
+                   && !loc.protected_from_liquids() ) {
+            wet.emplace_back( loc );
         }
     }
 
-    if( dissolved.empty() && destroyed.empty() ) {
+    if( dissolved.empty() && destroyed.empty() && wet.empty() ) {
         return query_yn( _( "Dive into the water?" ) );
     }
 
@@ -128,6 +131,13 @@ static bool check_water_affect_items( avatar &you )
         }
     }
 
+    if( !wet.empty() ) {
+        add_header( _( "Will get wet:" ) );
+        for( item_location &it : wet ) {
+            menu.addentry( -1, false, -1, it->display_name() );
+        }
+    }
+
     menu.query();
     if( menu.ret != 1 ) {
         you.add_msg_if_player( _( "You back away from the water." ) );
@@ -145,6 +155,15 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         }
         return false;
     }
+
+    // If any leg broken without crutches and not already on the ground topple over
+    if( ( you.get_working_leg_count() < 2 && !you.weapon.has_flag( flag_CRUTCHES ) ) &&
+        !you.is_prone() ) {
+        you.set_movement_mode( move_mode_id( "prone" ) );
+        you.add_msg_if_player( m_bad,
+                               _( "Your broken legs can't hold your weight and you fall down in pain." ) );
+    }
+
     const bool is_riding = you.is_mounted();
     tripoint dest_loc;
     if( d.z == 0 && you.has_effect( effect_stunned ) ) {
@@ -443,7 +462,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         return true;
     }
     if( veh_closed_door ) {
-        if( !veh1->handle_potential_theft( dynamic_cast<player &>( you ) ) ) {
+        if( !veh1->handle_potential_theft( dynamic_cast<Character &>( you ) ) ) {
             return true;
         } else {
             door_name = veh1->part( dpart ).name();
@@ -603,7 +622,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         return;
     }
     if( const auto vp = m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
-        if( !vp->vehicle().handle_potential_theft( dynamic_cast<player &>( you ) ) ) {
+        if( !vp->vehicle().handle_potential_theft( dynamic_cast<Character &>( you ) ) ) {
             return;
         }
     }
@@ -1073,6 +1092,16 @@ void avatar_action::use_item( avatar &you, item_location &loc )
             return;
         }
     }
+
+    if( loc->wetness && loc->has_flag( flag_WATER_BREAK_ACTIVE ) ) {
+        if( query_yn( _( "This item is still wet and it will break if you turn it on. Proceed?" ) ) ) {
+            loc->deactivate();
+            loc->set_flag( flag_ITEM_BROKEN );
+        } else {
+            return;
+        }
+    }
+
     int pre_obtain_moves = you.moves;
     if( loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
         use_in_place = true;

@@ -218,7 +218,7 @@ TEST_CASE( "moonlight at dawn and dusk", "[calendar][moon][moonlight][dawn][dusk
 
         // Daylight level should be ~100 at first new moon
         float daylight_level = sun_moon_light_at( new_noon );
-        CHECK( daylight_level == Approx( 100 ).margin( 10 ) );
+        CHECK( daylight_level == Approx( 110 ).margin( 10 ) );
         float moonlight_level = 1.0f;
 
         THEN( "at night, light is only moonlight" ) {
@@ -244,7 +244,7 @@ TEST_CASE( "moonlight at dawn and dusk", "[calendar][moon][moonlight][dawn][dusk
         // Daylight level is higher, later in the season (~104 at first full moon)
         float daylight_level = sun_moon_light_at( full_noon );
         CHECK( daylight_level == Approx( 120 ).margin( 10 ) );
-        float moonlight_level = 10.0f;
+        float moonlight_level = 7.0f;
 
         THEN( "at night, light is only moonlight" ) {
             CHECK( sun_moon_light_at( full_sunset + 2_hours ) == moonlight_level );
@@ -307,13 +307,13 @@ TEST_CASE( "moonlight for each phase", "[calendar][moon][phase][moonlight]" )
     // At the start of each phase, moonlight is 1.0 + (2.25 per quarter)
     SECTION( "moonlight increases as moon goes from new to full" ) {
         CHECK( 1.00f == phase_moonlight( 0.0f, MOON_NEW ) );
-        CHECK( 3.25f == phase_moonlight( 0.25f, MOON_WAXING_CRESCENT ) );
-        CHECK( 5.50f == phase_moonlight( 0.5f, MOON_HALF_MOON_WAXING ) );
-        CHECK( 7.75f == phase_moonlight( 0.75f, MOON_WAXING_GIBBOUS ) );
-        CHECK( 10.0f == phase_moonlight( 1.0f, MOON_FULL ) );
-        CHECK( 7.75f == phase_moonlight( 1.25f, MOON_WANING_GIBBOUS ) );
-        CHECK( 5.50f == phase_moonlight( 1.5f, MOON_HALF_MOON_WANING ) );
-        CHECK( 3.25f == phase_moonlight( 1.75f, MOON_WANING_CRESCENT ) );
+        CHECK( 2.5f == phase_moonlight( 0.25f, MOON_WAXING_CRESCENT ) );
+        CHECK( 4.f == phase_moonlight( 0.5f, MOON_HALF_MOON_WAXING ) );
+        CHECK( 5.5f == phase_moonlight( 0.75f, MOON_WAXING_GIBBOUS ) );
+        CHECK( 7.0f == phase_moonlight( 1.0f, MOON_FULL ) );
+        CHECK( 5.5f == phase_moonlight( 1.25f, MOON_WANING_GIBBOUS ) );
+        CHECK( 4.f == phase_moonlight( 1.5f, MOON_HALF_MOON_WANING ) );
+        CHECK( 2.5f == phase_moonlight( 1.75f, MOON_WANING_CRESCENT ) );
     }
 
     SECTION( "moonlight is constant during each phase" ) {
@@ -324,9 +324,9 @@ TEST_CASE( "moonlight for each phase", "[calendar][moon][phase][moonlight]" )
         // FIXME: Make moonlight gradually transition from one phase to the next
         // ex., from NEW to WAXING_CRESCENT should smoothly go from 1.0 to 3.25
         // instead of jumping suddenly in the middle.
-        CHECK( 3.25f == phase_moonlight( 0.11f, MOON_WAXING_CRESCENT ) );
-        CHECK( 3.25f == phase_moonlight( 0.20f, MOON_WAXING_CRESCENT ) );
-        CHECK( 3.25f == phase_moonlight( 0.30f, MOON_WAXING_CRESCENT ) );
+        CHECK( 2.5f == phase_moonlight( 0.11f, MOON_WAXING_CRESCENT ) );
+        CHECK( 2.5f == phase_moonlight( 0.20f, MOON_WAXING_CRESCENT ) );
+        CHECK( 2.5f == phase_moonlight( 0.30f, MOON_WAXING_CRESCENT ) );
     }
 }
 

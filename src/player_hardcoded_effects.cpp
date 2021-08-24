@@ -1,7 +1,7 @@
-#include "player.h" // IWYU pragma: associated
-
+#include <algorithm>
 #include <array>
 #include <cstdlib>
+#include <functional>
 #include <memory>
 #include <string>
 
@@ -37,17 +37,6 @@
 #include "vitamin.h"
 #include "weather.h"
 #include "weather_type.h"
-
-#if defined(TILES)
-#   if defined(_MSC_VER) && defined(USE_VCPKG)
-#       include <SDL2/SDL.h>
-#   else
-#       include <SDL.h>
-#   endif
-#endif // TILES
-
-#include <algorithm>
-#include <functional>
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
 
@@ -922,11 +911,9 @@ static void eff_fun_sleep( Character &u, effect &it )
     map &here = get_map();
 
     u.set_moves( 0 );
-#if defined(TILES)
     if( u.is_avatar() ) {
-        SDL_PumpEvents();
+        inp_mngr.pump_events();
     }
-#endif // TILES
 
     if( intense < 1 ) {
         it.set_intensity( 1 );

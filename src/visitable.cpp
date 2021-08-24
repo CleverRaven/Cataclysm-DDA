@@ -27,7 +27,6 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "pimpl.h"
-#include "player.h"
 #include "point.h"
 #include "submap.h"
 #include "temp_crafting_inventory.h"
@@ -443,6 +442,12 @@ const
         }
     }
 
+    for( const item *e : get_pseudo_items() ) {
+        if( visit_internal( func, e ) == VisitResponse::ABORT ) {
+            return VisitResponse::ABORT;
+        }
+    }
+
     return inv->visit_items( func );
 }
 
@@ -757,6 +762,7 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
     int qty = 0;
 
     bool found_tool_with_UPS = false;
+    bool found_bionic_tool = false;
     self.visit_items( [&]( const item * e, item * ) {
         if( filter( *e ) && id == e->typeId() && !e->is_broken() ) {
             if( id != itype_UPS_off ) {
@@ -767,9 +773,8 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                 }
                 if( e->has_flag( STATIC( flag_id( "USE_UPS" ) ) ) ) {
                     found_tool_with_UPS = true;
-                }
-                if( e->has_flag( STATIC( flag_id( "USES_BIONIC_POWER" ) ) ) ) {
-                    qty = sum_no_wrap( qty, units::to_kilojoule( get_player_character().get_power_level() ) );
+                } else if( e->has_flag( STATIC( flag_id( "USES_BIONIC_POWER" ) ) ) ) {
+                    found_bionic_tool = true;
                 }
             } else if( id == itype_UPS_off && e->has_flag( STATIC( flag_id( "IS_UPS" ) ) ) ) {
                 qty = sum_no_wrap( qty, e->ammo_remaining() );
@@ -786,6 +791,10 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
         qty = sum_no_wrap( qty, units::to_kilojoule( get_player_character().get_power_level() ) );
     }
 
+    if( found_bionic_tool ) {
+        qty = sum_no_wrap( qty, units::to_kilojoule( get_player_character().get_power_level() ) );
+    }
+
     if( qty < limit && found_tool_with_UPS ) {
         int used_ups = main.charges_of( itype_UPS, limit - qty );
         qty += used_ups;
@@ -795,6 +804,44 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
     }
 
     return std::min( qty, limit );
+}
+
+template <typename T>
+static std::pair<int, int> kcal_range_of_internal( const T &self, const itype_id &id,
+        const std::function<bool( const item & )> &filter, Character &player_character )
+{
+    std::pair<int, int> result( INT_MAX, INT_MIN );
+    self.visit_items( [&result, &id, &filter, &player_character]( const item * e, item * ) {
+        if( e->typeId() == id && filter( *e ) ) {
+            int kcal = player_character.compute_effective_nutrients( *e ).kcal();
+            if( kcal < result.first ) {
+                result.first = kcal;
+            }
+            if( kcal > result.second ) {
+                result.second = kcal;
+            }
+        }
+        return VisitResponse::NEXT;
+    } );
+    return result;
+}
+
+std::pair<int, int> read_only_visitable::kcal_range( const itype_id &id,
+        const std::function<bool( const item & )> &filter, Character &player_character )
+{
+    return kcal_range_of_internal( *this, id, filter, player_character );
+}
+
+std::pair<int, int> inventory::kcal_range( const itype_id &id,
+        const std::function<bool( const item & )> &filter, Character &player_character )
+{
+    return kcal_range_of_internal( *this, id, filter, player_character );
+}
+
+std::pair<int, int> Character::kcal_range( const itype_id &id,
+        const std::function<bool( const item & )> &filter, Character &player_character )
+{
+    return kcal_range_of_internal( *this, id, filter, player_character );
 }
 
 /** @relates visitable */
@@ -843,15 +890,6 @@ int Character::charges_of( const itype_id &what, int limit,
                            const std::function<bool( const item & )> &filter,
                            const std::function<void( int )> &visitor ) const
 {
-    const player *p = dynamic_cast<const player *>( this );
-
-    for( const auto &bio : *this->my_bionics ) {
-        const bionic_data &bid = bio.info();
-        if( bid.fake_item == what && ( !bid.activated || bio.powered ) ) {
-            return std::min( item( bid.fake_item ).ammo_remaining( p ), limit );
-        }
-    }
-
     if( what == itype_UPS ) {
         int ups_power = available_ups();
         if( has_active_bionic( bio_ups ) ) {
@@ -916,9 +954,8 @@ int Character::amount_of( const itype_id &what, bool pseudo, int limit,
                           const std::function<bool( const item & )> &filter ) const
 {
     if( pseudo ) {
-        for( const auto &bio : *this->my_bionics ) {
-            const bionic_data &bid = bio.info();
-            if( bid.fake_item == what && ( !bid.activated || bio.powered ) ) {
+        for( const item *pseudos : get_pseudo_items() ) {
+            if( pseudos->typeId() == what ) {
                 return 1;
             }
         }

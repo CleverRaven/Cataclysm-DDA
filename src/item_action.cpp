@@ -13,8 +13,10 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "catacharset.h"
+#include "character.h"
 #include "clone_ptr.h"
 #include "debug.h"
+#include "flag.h"
 #include "game.h"
 #include "input.h"
 #include "inventory.h"
@@ -29,7 +31,6 @@
 #include "optional.h"
 #include "output.h"
 #include "pimpl.h"
-#include "player.h"
 #include "ret_val.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -114,12 +115,12 @@ bool item_pocket::item_has_uses_recursive() const
     return false;
 }
 
-item_action_map item_action_generator::map_actions_to_items( player &p ) const
+item_action_map item_action_generator::map_actions_to_items( Character &you ) const
 {
-    return map_actions_to_items( p, std::vector<item *>() );
+    return map_actions_to_items( you, std::vector<item *>() );
 }
 
-item_action_map item_action_generator::map_actions_to_items( player &p,
+item_action_map item_action_generator::map_actions_to_items( Character &you,
         const std::vector<item *> &pseudos ) const
 {
     std::set< item_action_id > unmapped_actions;
@@ -128,7 +129,7 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
     }
 
     item_action_map candidates;
-    std::vector< item * > items = p.inv_dump();
+    std::vector< item * > items = you.inv_dump();
     items.reserve( items.size() + pseudos.size() );
     items.insert( items.end(), pseudos.begin(), pseudos.end() );
 
@@ -148,10 +149,10 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
 
             const use_function *func = actual_item->get_use( use );
             if( !( func && func->get_actor_ptr() &&
-                   func->get_actor_ptr()->can_use( p, *actual_item, false, p.pos() ).success() ) ) {
+                   func->get_actor_ptr()->can_use( you, *actual_item, false, you.pos() ).success() ) ) {
                 continue;
             }
-            if( !actual_item->ammo_sufficient( &p ) ) {
+            if( !actual_item->ammo_sufficient( &you ) ) {
                 continue;
             }
 
@@ -246,11 +247,12 @@ void game::item_action_menu()
     const auto &gen = item_action_generator::generator();
     const action_map &item_actions = gen.get_item_action_map();
 
-    std::vector<item> pseudo_items = get_player_character().get_pseudo_items();
+    std::vector<const item *> pseudo_items = get_player_character().get_pseudo_items();
     std::vector<item *> pseudos;
     pseudos.reserve( pseudo_items.size() );
-    for( item &pseudo : pseudo_items ) {
-        pseudos.push_back( &pseudo );
+    // Ugly const_cast because the menu needs non-const pointers
+    for( const item *pseudo : pseudo_items ) {
+        pseudos.push_back( const_cast<item *>( pseudo ) );
     }
     item_action_map iactions = gen.map_actions_to_items( u, pseudos );
     if( iactions.empty() ) {
@@ -287,7 +289,11 @@ void game::item_action_menu()
     []( const std::pair<item_action_id, item *> &elem ) {
         std::string ss = elem.second->display_name();
         if( elem.second->ammo_required() ) {
-            ss += string_format( "(-%d)", elem.second->ammo_required() );
+            if( elem.second->has_flag( flag_USES_BIONIC_POWER ) ) {
+                ss += string_format( "(%d kJ)", elem.second->ammo_required() );
+            } else {
+                ss += string_format( "(-%d)", elem.second->ammo_required() );
+            }
         }
 
         const use_function *method = elem.second->get_use( elem.first );

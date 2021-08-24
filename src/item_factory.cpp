@@ -59,7 +59,6 @@
 #include "veh_type.h"
 #include "vitamin.h"
 
-class player;
 struct tripoint;
 template <typename T> struct enum_traits;
 
@@ -83,6 +82,13 @@ template<>
 bool string_id<itype>::is_valid() const
 {
     return item_controller->has_template( *this );
+}
+
+/** @relates string_id */
+template<>
+bool string_id<Item_spawn_data>::is_valid() const
+{
+    return item_controller->get_group( *this ) != nullptr;
 }
 
 static item_category_id calc_category( const itype &obj );
@@ -713,12 +719,32 @@ void Item_factory::finalize_item_blacklist()
 
     // Construct a map for batch item replace
     std::unordered_map<itype_id, itype_id> replacements;
-    for( const std::pair<const itype_id, migration> &migrate : migrations ) {
-        if( m_templates.count( migrate.second.replace ) == 0 ) {
+    for( const std::pair<const itype_id, std::vector<migration>> &migrate : migrations ) {
+        // The valid migration entry
+        const migration *valid = nullptr;
+        for( const migration &cand : migrate.second ) {
+            // This can only be applied to items, not itypes
+            if( cand.from_variant ) {
+                continue;
+            }
+            // There can only be one migration entry
+            if( valid == nullptr ) {
+                valid = &cand;
+            } else {
+                valid = nullptr;
+                break;
+            }
+        }
+        // Either there are no migrations, or too many migrations
+        // Errors are reported below
+        if( valid == nullptr ) {
+            continue;
+        }
+        if( m_templates.count( valid->replace ) == 0 ) {
             // Errors for missing item templates will be reported below
             continue;
         }
-        replacements[migrate.first] = migrate.second.replace;
+        replacements[migrate.first] = valid->replace;
     }
     // Replace items in item template groups
     for( std::pair<const item_group_id, std::unique_ptr<Item_spawn_data>> &g : m_template_groups ) {
@@ -729,9 +755,25 @@ void Item_factory::finalize_item_blacklist()
         const_cast<requirement_data &>( r.second ).replace_items( replacements );
     }
 
-    for( const std::pair<const itype_id, migration> &migrate : migrations ) {
-        if( m_templates.count( migrate.second.replace ) == 0 ) {
-            debugmsg( "Replacement item for migration %s does not exist", migrate.first.c_str() );
+    for( const std::pair<const itype_id, std::vector<migration>> &migrate : migrations ) {
+        const migration *parent = nullptr;
+        for( const migration &migrant : migrate.second ) {
+            if( m_templates.count( migrant.replace ) == 0 ) {
+                debugmsg( "Replacement item for migration %s does not exist", migrate.first.c_str() );
+                continue;
+            }
+            // The rest of this only applies to blanket migrations
+            // Not migrations looking for a particular variant
+            if( migrant.from_variant ) {
+                continue;
+            }
+            if( parent != nullptr ) {
+                debugmsg( "Multiple non-variant migrations specified for %s", migrate.first.str() );
+            }
+            parent = &migrant;
+        }
+        // Only variant migrations exist, abort
+        if( parent == nullptr ) {
             continue;
         }
 
@@ -747,24 +789,24 @@ void Item_factory::finalize_item_blacklist()
         auto maybe_ammo = m_templates.find( migrate.first );
         // If the itype_id is valid and the itype has ammo data
         if( maybe_ammo != m_templates.end() && maybe_ammo->second.ammo ) {
-            auto replacement = m_templates.find( migrate.second.replace );
+            auto replacement = m_templates.find( parent->replace );
             if( replacement->second.ammo ) {
                 migrated_ammo.emplace( std::make_pair( migrate.first, replacement->second.ammo->type ) );
             } else {
                 debugmsg( "Replacement item %s for migrated ammo %s is not ammo.",
-                          migrate.second.replace.str(), migrate.first.str() );
+                          parent->replace.str(), migrate.first.str() );
             }
         }
 
         // migrate magazines as well
         auto maybe_mag = m_templates.find( migrate.first );
         if( maybe_mag != m_templates.end() && maybe_mag->second.magazine ) {
-            auto replacement = m_templates.find( migrate.second.replace );
+            auto replacement = m_templates.find( parent->replace );
             if( replacement->second.magazine ) {
-                migrated_magazines.emplace( std::make_pair( migrate.first, migrate.second.replace ) );
+                migrated_magazines.emplace( std::make_pair( migrate.first, parent->replace ) );
             } else {
                 debugmsg( "Replacement item %s for migrated magazine %s is not a magazine.",
-                          migrate.second.replace.str(), migrate.first.str() );
+                          parent->replace.str(), migrate.first.str() );
             }
         }
     }
@@ -772,11 +814,33 @@ void Item_factory::finalize_item_blacklist()
         vehicle_prototype &prototype = const_cast<vehicle_prototype &>( vid.obj() );
         for( vehicle_item_spawn &vis : prototype.item_spawns ) {
             for( itype_id &type_to_spawn : vis.item_ids ) {
-                std::map<itype_id, migration>::iterator replacement =
-                    migrations.find( type_to_spawn );
-                if( replacement != migrations.end() ) {
-                    type_to_spawn = replacement->second.replace;
+                std::map<itype_id, std::vector<migration>>::iterator replacement =
+                        migrations.find( type_to_spawn );
+                if( replacement == migrations.end() ) {
+                    continue;
                 }
+                const migration *parent = nullptr;
+                for( const migration &migrant : replacement->second ) {
+                    if( m_templates.count( migrant.replace ) == 0 ) {
+                        // Error reported above
+                        continue;
+                    }
+                    // The rest of this only applies to blanket migrations
+                    // Not migrations looking for a particular variant
+                    if( migrant.from_variant ) {
+                        continue;
+                    }
+                    if( parent != nullptr ) {
+                        // Error reported above
+                        parent = nullptr;
+                        break;
+                    }
+                    parent = &migrant;
+                }
+                if( parent == nullptr ) {
+                    continue;
+                }
+                type_to_spawn = parent->replace;
             }
         }
     }
@@ -806,7 +870,7 @@ class iuse_function_wrapper : public iuse_actor
             : iuse_actor( type ), cpp_function( f ) { }
 
         ~iuse_function_wrapper() override = default;
-        cata::optional<int> use( player &p, item &it, bool a, const tripoint &pos ) const override {
+        cata::optional<int> use( Character &p, item &it, bool a, const tripoint &pos ) const override {
             return cpp_function( &p, &it, a, pos );
         }
         std::unique_ptr<iuse_actor> clone() const override {
@@ -932,6 +996,8 @@ void Item_factory::init()
     add_iuse( "ECIG", &iuse::ecig );
     add_iuse( "EHANDCUFFS", &iuse::ehandcuffs );
     add_iuse( "EINKTABLETPC", &iuse::einktabletpc );
+    add_iuse( "EBOOKSAVE", &iuse::ebooksave );
+    add_iuse( "EBOOKREAD", &iuse::ebookread );
     add_iuse( "ELEC_CHAINSAW_OFF", &iuse::elec_chainsaw_off );
     add_iuse( "ELEC_CHAINSAW_ON", &iuse::elec_chainsaw_on );
     add_iuse( "EXTINGUISHER", &iuse::extinguisher );
@@ -1058,6 +1124,7 @@ void Item_factory::init()
     add_iuse( "WEED_CAKE", &iuse::weed_cake );
     add_iuse( "XANAX", &iuse::xanax );
     add_iuse( "BREAK_STICK", &iuse::break_stick );
+    add_iuse( "LUX_METER", &iuse::lux_meter );
 
     add_actor( std::make_unique<ammobelt_actor>() );
     add_actor( std::make_unique<cauterize_actor>() );
@@ -1530,17 +1597,20 @@ void Item_factory::check_definitions() const
         debugmsg( "warnings for type %s:\n%s", type->id.c_str(), msg );
     }
     for( const auto &e : migrations ) {
-        if( !m_templates.count( e.second.replace ) ) {
-            debugmsg( "Invalid migration target: %s", e.second.replace.c_str() );
-        }
-        for( const auto &c : e.second.contents ) {
-            if( !m_templates.count( c.id ) ) {
-                debugmsg( "Invalid migration contents: %s", c.id.str() );
+        for( const migration &m : e.second ) {
+            if( !m_templates.count( m.replace ) ) {
+                debugmsg( "Invalid migration target: %s", m.replace.c_str() );
+            }
+            for( const auto &c : m.contents ) {
+                if( !m_templates.count( c.id ) ) {
+                    debugmsg( "Invalid migration contents: %s", c.id.str() );
+                }
             }
         }
     }
     for( const auto &elem : m_template_groups ) {
         elem.second->check_consistency();
+        inp_mngr.pump_events();
     }
 }
 
@@ -1614,24 +1684,6 @@ void Item_factory::load_slot_optional( cata::value_ptr<SlotType> &slotptr, const
     }
     JsonObject slotjo = jo.get_object( member );
     load_slot( slotptr, slotjo, src );
-}
-
-template<typename E>
-void load_optional_enum_array( std::vector<E> &vec, const JsonObject &jo,
-                               const std::string &member )
-{
-
-    if( !jo.has_member( member ) ) {
-        return;
-    } else if( !jo.has_array( member ) ) {
-        jo.throw_error( "expected array", member );
-    }
-
-    JsonIn &stream = *jo.get_raw( member );
-    stream.start_array();
-    while( !stream.end_array() ) {
-        vec.push_back( stream.get_enum_value<E>() );
-    }
 }
 
 bool Item_factory::load_definition( const JsonObject &jo, const std::string &src, itype &def )
@@ -1990,6 +2042,10 @@ void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::stri
     assign( jo, "revert_to", slot.revert_to, strict );
     assign( jo, "revert_msg", slot.revert_msg, strict );
     assign( jo, "sub", slot.subtype, strict );
+
+    if( slot.def_charges > slot.max_charges ) {
+        jo.throw_error( "initial_charges is larger than max_charges", "initial_charges" );
+    }
 
     if( jo.has_array( "rand_charges" ) ) {
         if( jo.has_member( "initial_charges" ) ) {
@@ -2553,11 +2609,6 @@ static bool has_only_special_pockets( const itype &def )
 
 void Item_factory::check_and_create_magazine_pockets( itype &def )
 {
-    if( !has_only_special_pockets( def ) ) {
-        // this means pockets were defined in json already
-        // we assume they're good to go, or error elsewhere
-        return;
-    }
     // the item we're trying to migrate must actually have data for ammo
     if( def.magazines.empty() && !( def.magazine || def.tool ) ) {
         return;
@@ -2568,6 +2619,16 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
     }
     if( def.tool && def.tool->max_charges == 0 && def.magazines.empty() ) {
         // If tool has no charges nor magazines, it needs no magazine.
+        return;
+    }
+    if( !has_only_special_pockets( def ) ) {
+        // this means pockets were defined in json already
+        // we assume they're good to go, or error elsewhere
+        if( def.tool && def.tool->max_charges != 0 ) {
+            // warn about redundant max_charges definition
+            debugmsg( "Redundant max charge value specified for %s with magazine pocket.",
+                      def.get_id().str() );
+        }
         return;
     }
 
@@ -2587,7 +2648,8 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
         if( !default_ammo.is_null() ) {
             auto magazines_for_default_ammo = def.magazines.find( default_ammo );
             if( magazines_for_default_ammo == def.magazines.end() ) {
-                debugmsg( "item %s defines magazines but no magazine for its default ammo type" );
+                debugmsg( "item %s defines magazines but no magazine for its default ammo type",
+                          def.get_id().str() );
             } else {
                 cata_assert( !magazines_for_default_ammo->second.empty() );
                 mag_data.default_magazine = *magazines_for_default_ammo->second.begin();
@@ -2610,6 +2672,8 @@ void Item_factory::check_and_create_magazine_pockets( itype &def )
             for( const ammotype &amtype : def.tool->ammo_id ) {
                 mag_data.ammo_restriction.emplace( amtype, def.tool->max_charges );
             }
+            def.tool->max_charges = 0;
+            def.tool->def_charges = 0;
         }
     }
     def.pockets.push_back( mag_data );
@@ -3032,15 +3096,15 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         load_slot( def.mod, jo_gunmod, src );
     }
 
-    assign( jo, "pocket_data", def.pockets );
-    check_and_create_magazine_pockets( def );
-    add_special_pockets( def );
-
     if( jo.has_string( "abstract" ) ) {
         jo.read( "abstract", def.id, true );
     } else {
         jo.read( "id", def.id, true );
     }
+
+    assign( jo, "pocket_data", def.pockets );
+    check_and_create_magazine_pockets( def );
+    add_special_pockets( def );
 
     if( !def.src.empty() && def.src.back().first != def.id ) {
         def.src.clear();
@@ -3078,28 +3142,58 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     }
 }
 
+void Item_factory::add_migration( const migration &m )
+{
+    auto it = migrations.find( m.id );
+    if( it == migrations.end() ) {
+        migrations[m.id] = {m};
+        return;
+    }
+
+    for( migration &old : it->second ) {
+        if( old.from_variant ) {
+            continue;
+        }
+        // If we find one that isn't from variant, overwrite it
+        old = m;
+        return;
+    }
+
+    // Otherwise, we're specifying a new one.
+    it->second.push_back( m );
+}
+
 void Item_factory::load_migration( const JsonObject &jo )
 {
     migration m;
     assign( jo, "replace", m.replace );
     assign( jo, "variant", m.variant );
+    assign( jo, "from_variant", m.from_variant );
     assign( jo, "flags", m.flags );
     assign( jo, "charges", m.charges );
     assign( jo, "contents", m.contents );
     assign( jo, "sealed", m.sealed );
 
+    std::vector<itype_id> ids;
     if( jo.has_string( "id" ) ) {
-        jo.read( "id", m.id, true );
-        migrations[ m.id ] = m;
+        ids.resize( 1 );
+        jo.read( "id", ids[0], true );
     } else if( jo.has_array( "id" ) ) {
-        std::vector<itype_id> ids;
         jo.read( "id", ids, true );
-        for( const itype_id &id : ids ) {
-            m.id = id;
-            migrations[ m.id ] = m;
-        }
     } else {
         jo.throw_error( "`id` of `MIGRATION` is neither string nor array" );
+    }
+    for( const itype_id &id : ids ) {
+        if( m.replace && m.replace == id ) {
+            jo.throw_error( string_format( "`MIGRATION` attempting to replace entity with itself: %s",
+                                           id.str() ) );
+        }
+        m.id = id;
+        if( m.from_variant ) {
+            migrations[ m.id ].push_back( m );
+        } else {
+            add_migration( m );
+        }
     }
 }
 
@@ -3118,39 +3212,78 @@ void migration::content::deserialize( JsonIn &jsin )
 itype_id Item_factory::migrate_id( const itype_id &id )
 {
     auto iter = migrations.find( id );
-    return iter != migrations.end() ? iter->second.replace : id;
+    if( iter == migrations.end() ) {
+        return id;
+    }
+    const migration *parent = nullptr;
+    for( const migration &m : iter->second ) {
+        // from-variant migrations do not apply to itypes
+        if( m.from_variant ) {
+            continue;
+        }
+        parent = &m;
+        break;
+    }
+    return parent != nullptr ? parent->replace : id;
 }
 
 void Item_factory::migrate_item( const itype_id &id, item &obj )
 {
     auto iter = migrations.find( id );
-    if( iter != migrations.end() ) {
-        for( const std::string &f : iter->second.flags ) {
-            obj.set_flag( flag_id( f ) );
+    if( iter == migrations.end() ) {
+        return;
+    }
+    bool convert = false;
+    const migration *migrant = nullptr;
+    for( const migration &m : iter->second ) {
+        if( m.from_variant && obj.has_gun_variant() && obj.gun_variant().id == *m.from_variant ) {
+            migrant = &m;
+            // This is not the variant that the item has already been convert to
+            // So we'll convert it again.
+            convert = true;
+            break;
         }
-        if( iter->second.charges > 0 ) {
-            obj.charges = iter->second.charges;
+        // When we find a migration that doesn't care about variants, keep it around
+        if( !m.from_variant ) {
+            migrant = &m;
         }
+    }
+    if( migrant == nullptr ) {
+        return;
+    }
 
-        obj.set_gun_variant( iter->second.variant );
+    if( convert ) {
+        obj.convert( migrant->replace );
+    }
 
-        for( const migration::content &it : iter->second.contents ) {
-            int count = it.count;
-            item content( it.id, obj.birthday(), 1 );
-            if( content.count_by_charges() ) {
-                content.charges = count;
-                count = 1;
+    for( const std::string &f : migrant->flags ) {
+        obj.set_flag( flag_id( f ) );
+    }
+    if( migrant->charges > 0 ) {
+        obj.charges = migrant->charges;
+    }
+
+    if( migrant->from_variant ) {
+        obj.clear_gun_variant();
+    }
+    obj.set_gun_variant( migrant->variant );
+
+    for( const migration::content &it : migrant->contents ) {
+        int count = it.count;
+        item content( it.id, obj.birthday(), 1 );
+        if( content.count_by_charges() ) {
+            content.charges = count;
+            count = 1;
+        }
+        for( ; count > 0; --count ) {
+            if( !obj.put_in( content, item_pocket::pocket_type::CONTAINER ).success() ) {
+                obj.put_in( content, item_pocket::pocket_type::MIGRATION );
             }
-            for( ; count > 0; --count ) {
-                if( !obj.put_in( content, item_pocket::pocket_type::CONTAINER ).success() ) {
-                    obj.put_in( content, item_pocket::pocket_type::MIGRATION );
-                }
-            }
         }
+    }
 
-        if( !iter->second.contents.empty() && iter->second.sealed ) {
-            obj.seal();
-        }
+    if( !migrant->contents.empty() && migrant->sealed ) {
+        obj.seal();
     }
 }
 

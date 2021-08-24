@@ -52,7 +52,6 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
-#include "player.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
@@ -231,7 +230,7 @@ void monster::setpos( const tripoint &p )
 
     bool wandering = wander();
     g->update_zombie_pos( *this, p );
-    position = p;
+    Creature::setpos( p );
     if( has_effect( effect_ridden ) && mounted_player && mounted_player->pos() != pos() ) {
         add_msg_debug( debugmode::DF_MONSTER, "Ridden monster %s moved independently and dumped player",
                        get_name() );
@@ -1430,7 +1429,7 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
         if( type->bodytype == "insect" || type->bodytype == "spider" || type->bodytype == "crab" ) {
             return x_in_y( 3, 4 );
         } else return type->bodytype == "snake" || type->bodytype == "blob" || type->bodytype == "fish" ||
-                          has_flag( MF_FLIES );
+                          has_flag( MF_FLIES ) || has_flag( MF_IMMOBILE );
     }
     return false;
 }
@@ -1574,7 +1573,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
             if( target.is_avatar() ) {
                 sfx::play_variant_sound( "melee_attack", "monster_melee_hit",
                                          sfx::get_heard_volume( target.pos() ) );
-                sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
+                sfx::do_player_death_hurt( dynamic_cast<Character &>( target ), false );
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative.
                 add_msg( m_bad, _( "%1$s hits your %2$s." ), u_see_me ? disp_name( false, true ) : "Something",
                          body_part_name_accusative( dealt_dam.bp_hit ) );
@@ -2282,8 +2281,8 @@ void monster::process_turn()
     // Persist grabs as long as there's an adjacent target.
     if( has_effect( effect_grabbing ) ) {
         for( const tripoint &dest : here.points_in_radius( pos(), 1, 0 ) ) {
-            const player *const p = g->critter_at<player>( dest );
-            if( p && p->has_effect( effect_grabbed ) ) {
+            const Character *const you = g->critter_at<Character>( dest );
+            if( you && you->has_effect( effect_grabbed ) ) {
                 add_effect( effect_grabbing, 2_turns );
             }
         }
@@ -2295,6 +2294,7 @@ void monster::process_turn()
                 sounds::sound( pos(), 5, sounds::sound_t::combat, _( "hummmmm." ), false, "humming", "electric" );
             }
         } else {
+            weather_manager &weather = get_weather();
             for( const tripoint &zap : here.points_in_radius( pos(), 1 ) ) {
                 const map_stack items = here.i_at( zap );
                 for( const auto &item : items ) {
@@ -2320,9 +2320,9 @@ void monster::process_turn()
                     }
                 }
             }
-            if( g->weather.lightning_active && !has_effect( effect_supercharged ) &&
+            if( weather.lightning_active && !has_effect( effect_supercharged ) &&
                 here.is_outside( pos() ) ) {
-                g->weather.lightning_active = false; // only one supercharge per strike
+                weather.lightning_active = false; // only one supercharge per strike
                 sounds::sound( pos(), 300, sounds::sound_t::combat, _( "BOOOOOOOM!!!" ), false, "environment",
                                "thunder_near" );
                 sounds::sound( pos(), 20, sounds::sound_t::combat, _( "vrrrRRRUUMMMMMMMM!" ), false, "explosion",
@@ -2399,8 +2399,8 @@ void monster::die( Creature *nkiller )
     if( has_effect( effect_grabbing ) ) {
         remove_effect( effect_grabbing );
         for( const tripoint &player_pos : here.points_in_radius( pos(), 1, 0 ) ) {
-            player *p = g->critter_at<player>( player_pos );
-            if( !p || !p->has_effect( effect_grabbed ) ) {
+            Character *you = g->critter_at<Character>( player_pos );
+            if( !you || !you->has_effect( effect_grabbed ) ) {
                 continue;
             }
             bool grabbed = false;
@@ -2412,9 +2412,9 @@ void monster::die( Creature *nkiller )
                 }
             }
             if( !grabbed ) {
-                p->add_msg_player_or_npc( m_good, _( "The last enemy holding you collapses!" ),
-                                          _( "The last enemy holding <npcname> collapses!" ) );
-                p->remove_effect( effect_grabbed );
+                you->add_msg_player_or_npc( m_good, _( "The last enemy holding you collapses!" ),
+                                            _( "The last enemy holding <npcname> collapses!" ) );
+                you->remove_effect( effect_grabbed );
             }
         }
     }
@@ -2846,6 +2846,11 @@ void monster::move_special_item_to_inv( cata::value_ptr<item> &it )
 bool monster::is_dead() const
 {
     return dead || is_dead_state();
+}
+
+bool monster::is_nemesis() const
+{
+    return has_flag( MF_NEMESIS );
 }
 
 void monster::init_from_item( const item &itm )

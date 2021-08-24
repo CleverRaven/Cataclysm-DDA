@@ -483,9 +483,10 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "gasoline" ],
-    "charges_per_use": 10,
+    "//": "Consumes 0.6 L/h",
+    "charges_per_use": 300,
     "use_action": [ "JACKHAMMER" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 400 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "watertight": true, "ammo_restriction": { "gasoline": 1200 } } ],
     "flags": [ "STAB", "DIG_TOOL", "POWERED" ]
   },
   {
@@ -629,7 +630,6 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "tape" ],
-    "max_charges": 200,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "tape": 200 } } ],
     "charges_per_use": 5,
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 2 ], [ "AXE", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", 7 ] ],

@@ -126,7 +126,7 @@
     "name": { "str": "copper axe" },
     "description": "This is a decent-sized chunk of worked copper affixed to a wooden shaft, to make a crude yet effective axe.",
     "weight": "3700 g",
-    "volume": "3500 ml",
+    "volume": "2500 ml",
     "longest_side": "96 cm",
     "price": 5500,
     "price_postapoc": 50,

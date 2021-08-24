@@ -561,6 +561,11 @@
     "coverage": 95,
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "WINDOW" ],
+    "oxytorch": {
+      "result": "t_window_empty",
+      "duration": "4 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "sheet_metal", "count": [ 1, 3 ] } ]
+    },
     "deconstruct": {
       "ter_set": "t_window_reinforced",
       "items": [
@@ -591,6 +596,11 @@
     "coverage": 95,
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND", "PERMEABLE", "WINDOW" ],
+    "oxytorch": {
+      "result": "t_window_empty",
+      "duration": "4 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "sheet_metal", "count": [ 1, 3 ] } ]
+    },
     "deconstruct": {
       "ter_set": "t_window_reinforced_noglass",
       "items": [
@@ -612,15 +622,38 @@
   {
     "type": "terrain",
     "id": "t_window_bars",
-    "name": "window frame with metal bars",
+    "name": "window with metal bars",
     "looks_like": "t_bars",
     "description": "A giant sheet of glass inserted into a window with thick security grilles, making it impossible to crawl through.  Typically installed for high-value stores, or at least stores in bad neighborhoods.",
-    "examine_action": "bars",
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "WINDOW" ],
+    "oxytorch": { "result": "t_window_empty", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
+    "bash": {
+      "str_min": 3,
+      "str_max": 6,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_window_bars_noglass",
+      "items": [ { "item": "glass_shard", "count": [ 34, 50 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_window_bars_noglass",
+    "name": "window frame with metal bars",
+    "looks_like": "t_bars",
+    "description": "A window frame blocked with thick security grilles, making it impossible to crawl through.  Typically installed for high-value stores, or at least stores in bad neighborhoods.",
+    "examine_action": "bars",
+    "symbol": "#",
+    "color": "light_gray",
+    "move_cost": 0,
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "WINDOW", "PERMEABLE" ],
     "bash": {
       "str_min": 60,
       "str_max": 250,
@@ -630,8 +663,7 @@
       "items": [
         { "item": "steel_lump", "prob": 25 },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 1, 5 ] },
-        { "item": "glass_shard", "count": [ 75, 125 ] }
+        { "item": "scrap", "count": [ 1, 5 ] }
       ]
     }
   },
@@ -646,6 +678,7 @@
     "move_cost": 0,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "BLOCK_WIND", "ALARMED", "CONNECT_TO_WALL", "WINDOW" ],
+    "oxytorch": { "result": "t_window_alarm", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
     "bash": {
       "str_min": 3,
       "str_max": 6,
@@ -653,7 +686,7 @@
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 10,
-      "ter_set": "t_window_bars",
+      "ter_set": "t_window_bars_noglass",
       "items": [ { "item": "glass_shard", "count": [ 34, 50 ] } ]
     }
   },
@@ -668,6 +701,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_flat_roof",
+    "oxytorch": { "result": "t_window_domestic", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
     "flags": [
       "NOITEM",
       "OPENCLOSE_INSIDE",
@@ -687,7 +721,7 @@
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 10,
-      "ter_set": "t_window_bars",
+      "ter_set": "t_window_bars_noglass",
       "items": [
         { "item": "glass_shard", "count": [ 34, 50 ] },
         { "item": "sheet", "count": 2 },
@@ -706,6 +740,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
+    "oxytorch": { "result": "t_window_domestic", "duration": "9 seconds", "byproducts": [ { "item": "rebar", "count": [ 1, 2 ] } ] },
     "flags": [
       "TRANSPARENT",
       "NOITEM",
@@ -726,7 +761,7 @@
       "sound_fail": "whack!",
       "sound_vol": 16,
       "sound_fail_vol": 10,
-      "ter_set": "t_window_bars",
+      "ter_set": "t_window_bars_noglass",
       "items": [
         { "item": "glass_shard", "count": [ 34, 50 ] },
         { "item": "sheet", "count": 2 },
@@ -738,8 +773,8 @@
   {
     "type": "terrain",
     "id": "t_window_stained_green",
-    "name": "high stained glass window",
-    "description": "Breathtaking craftsmanship of stained glass featuring an elegant emerald landscape.",
+    "name": "stone wall with high stained glass window",
+    "description": "A stone wall with a high window containing breathtaking craftsmanship of stained glass featuring an elegant emerald landscape.",
     "symbol": "\"",
     "color": "light_green",
     "move_cost": 0,
@@ -756,19 +791,19 @@
       "WINDOW"
     ],
     "bash": {
-      "str_min": 100,
-      "str_max": 400,
-      "sound": "glass breaking!",
+      "str_min": 80,
+      "str_max": 300,
+      "sound": "a crash and glass breaking!",
       "sound_fail": "whack!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "glass_shard", "count": [ 42, 67 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 42, 67 ] }, { "item": "rock", "count": [ 8, 18 ] } ]
     }
   },
   {
     "type": "terrain",
     "id": "t_window_stained_red",
-    "name": "high stained glass window",
-    "description": "Breathtaking craftsmanship of stained glass featuring an otherworldly radiant ruby flower blooming.",
+    "name": "stone wall with high stained glass window",
+    "description": "A stone wall with a high window containing breathtaking craftsmanship of stained glass featuring an otherworldly radiant ruby flower blooming.",
     "symbol": "\"",
     "color": "light_red",
     "move_cost": 0,
@@ -785,19 +820,19 @@
       "WINDOW"
     ],
     "bash": {
-      "str_min": 100,
-      "str_max": 400,
-      "sound": "glass breaking!",
+      "str_min": 80,
+      "str_max": 300,
+      "sound": "a crash and glass breaking!",
       "sound_fail": "whack!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "glass_shard", "count": [ 42, 67 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 42, 67 ] }, { "item": "rock", "count": [ 8, 18 ] } ]
     }
   },
   {
     "type": "terrain",
     "id": "t_window_stained_blue",
     "name": "high stained glass window",
-    "description": "Breathtaking craftsmanship of stained glass featuring an alluring azure oceanic abyss.",
+    "description": "A stone wall with a high window containing breathtaking craftsmanship of stained glass featuring an alluring azure oceanic abyss.",
     "symbol": "\"",
     "color": "light_blue",
     "move_cost": 0,
@@ -814,12 +849,12 @@
       "WINDOW"
     ],
     "bash": {
-      "str_min": 100,
-      "str_max": 400,
-      "sound": "glass breaking!",
+      "str_min": 80,
+      "str_max": 300,
+      "sound": "a crash and glass breaking!",
       "sound_fail": "whack!",
       "ter_set": "t_rock_floor",
-      "items": [ { "item": "glass_shard", "count": [ 42, 67 ] } ]
+      "items": [ { "item": "glass_shard", "count": [ 42, 67 ] }, { "item": "rock", "count": [ 8, 18 ] } ]
     }
   },
   {
@@ -833,6 +868,11 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
+    "oxytorch": {
+      "result": "t_window_reinforced",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "flags": [
       "TRANSPARENT",
       "NOITEM",
@@ -867,6 +907,11 @@
     "color": "light_gray",
     "move_cost": 0,
     "roof": "t_flat_roof",
+    "oxytorch": {
+      "result": "t_window_reinforced",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "BLOCK_WIND", "REDUCE_SCENT", "WINDOW" ],
     "curtain_transform": "t_metal_grate_window",
     "examine_action": "curtains",
@@ -905,6 +950,11 @@
       "PERMEABLE",
       "WINDOW"
     ],
+    "oxytorch": {
+      "result": "t_window_reinforced",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "curtain_transform": "t_metal_grate_window",
     "examine_action": "curtains",
     "close": "t_metal_grate_window_with_curtain",
@@ -934,6 +984,11 @@
     "move_cost": 0,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "BARRICADABLE_WINDOW", "THIN_OBSTACLE", "PERMEABLE", "WINDOW" ],
+    "oxytorch": {
+      "result": "t_window_reinforced_noglass",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "bash": {
       "str_min": 50,
       "str_max": 75,
@@ -961,6 +1016,11 @@
     "flags": [ "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BARRICADABLE_WINDOW_CURTAINS", "PERMEABLE", "WINDOW" ],
     "curtain_transform": "t_metal_grate_window_noglass",
     "examine_action": "curtains",
+    "oxytorch": {
+      "result": "t_window_reinforced_noglass",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "open": "t_metal_grate_window_with_curtain_open_noglass",
     "bash": {
       "str_min": 50,
@@ -987,6 +1047,11 @@
     "move_cost": 0,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "BARRICADABLE_WINDOW_CURTAINS", "THIN_OBSTACLE", "PERMEABLE", "WINDOW" ],
+    "oxytorch": {
+      "result": "t_window_reinforced_noglass",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 12 ] }, { "item": "sheet_metal", "count": 4 } ]
+    },
     "curtain_transform": "t_metal_grate_window_noglass",
     "examine_action": "curtains",
     "close": "t_metal_grate_window_with_curtain_noglass",

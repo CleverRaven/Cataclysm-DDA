@@ -108,13 +108,13 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
 
     add_topics.push_back( me_npc->chatbin.first_topic );
     if( radio_contact ) {
-        add_topics.emplace_back( "TALK_RADIO" );
+        add_topics.emplace_back( me_npc->chatbin.talk_radio );
     } else if( me_npc->is_leader() ) {
-        add_topics.emplace_back( "TALK_LEADER" );
+        add_topics.emplace_back( me_npc->chatbin.talk_leader );
     } else if( me_npc->is_player_ally() && ( me_npc->is_walking_with() || me_npc->has_activity() ) ) {
-        add_topics.emplace_back( "TALK_FRIEND" );
+        add_topics.emplace_back( me_npc->chatbin.talk_friend );
     } else if( me_npc->get_attitude() == NPCATT_RECOVER_GOODS ) {
-        add_topics.emplace_back( "TALK_STOLE_ITEM" );
+        add_topics.emplace_back( me_npc->chatbin.talk_stole_item );
     }
     int most_difficult_mission = 0;
     for( auto &mission : me_npc->chatbin.missions ) {
@@ -150,7 +150,7 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
         if( me_npc->has_effect( effect_narcosis ) ) {
             add_topics.emplace_back( "TALK_SEDATED" );
         } else {
-            add_topics.emplace_back( "TALK_WAKE_UP" );
+            add_topics.emplace_back( me_npc->chatbin.talk_wake_up );
         }
     }
 
@@ -160,8 +160,8 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
     me_npc->moves -= 100;
 
     if( player_character.is_deaf() ) {
-        if( add_topics.back() == "TALK_MUG" ||
-            add_topics.back() == "TALK_STRANGER_AGGRESSIVE" ) {
+        if( add_topics.back() == me_npc->chatbin.talk_mug ||
+            add_topics.back() == me_npc->chatbin.talk_stranger_aggressive ) {
             me_npc->make_angry();
             add_topics.emplace_back( "TALK_DEAF_ANGRY" );
         } else {
@@ -169,8 +169,8 @@ std::vector<std::string> talker_npc::get_topics( bool radio_contact )
         }
     }
     if( player_character.is_mute() ) {
-        if( add_topics.back() == "TALK_MUG" ||
-            add_topics.back() == "TALK_STRANGER_AGGRESSIVE" ) {
+        if( add_topics.back() == me_npc->chatbin.talk_mug ||
+            add_topics.back() == me_npc->chatbin.talk_stranger_aggressive ) {
             me_npc->make_angry();
             add_topics.emplace_back( "TALK_MUTE_ANGRY" );
         } else {
@@ -274,16 +274,18 @@ std::string talker_npc::skill_training_text( const talker &student,
         return "";
     }
     const int cost = me_npc->is_ally( *pupil ) ? 0 : 1000 *
-                     ( 1 + pupil->get_skill_level( skill ) ) *
-                     ( 1 + pupil->get_skill_level( skill ) );
+                     ( 1 + pupil->get_knowledge_level( skill ) ) *
+                     ( 1 + pupil->get_knowledge_level( skill ) );
     SkillLevel skill_level_obj = pupil->get_skill_level_object( skill );
-    const int cur_level = skill_level_obj.level();
-    const int cur_level_exercise = skill_level_obj.exercise();
-    skill_level_obj.train( 10000 );
-    const int next_level = skill_level_obj.level();
-    const int next_level_exercise = skill_level_obj.exercise();
+    SkillLevel teacher_skill_level = me_npc->get_skill_level_object( skill );
+    const int cur_level = skill_level_obj.knowledgeLevel();
+    const int cur_level_exercise = skill_level_obj.knowledgeExperience();
+    // knowledge_train will adjust level xp based on the difference between your understanding and the NPC's.
+    skill_level_obj.knowledge_train( 10000, teacher_skill_level.knowledgeLevel() );
+    const int next_level = skill_level_obj.knowledgeLevel();
+    const int next_level_exercise = skill_level_obj.knowledgeExperience();
 
-    //~Skill name: current level (exercise) -> next level (exercise) (cost in dollars)
+    //~Skill name: current level (experience) -> next level (experience) (cost in dollars)
     return string_format( cost > 0 ?  _( "%s: %d (%d%%) -> %d (%d%%) (cost $%d)" ) :
                           _( "%s: %d (%d%%) -> %d (%d%%)" ), skill.obj().name(), cur_level,
                           cur_level_exercise, next_level, next_level_exercise, cost / 100 );

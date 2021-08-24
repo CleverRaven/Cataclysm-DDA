@@ -58,6 +58,10 @@ struct advanced_inv_save_state {
 
         template<typename JsonStream>
         void serialize( JsonStream &json, const std::string &prefix ) const {
+            json.member( prefix + "exit_code", exit_code );
+            json.member( prefix + "re_enter_move_all", re_enter_move_all );
+            json.member( prefix + "aim_all_location", aim_all_location );
+
             json.member( prefix + "active_left", active_left );
             json.member( prefix + "last_popup_dest", last_popup_dest );
 
@@ -68,6 +72,10 @@ struct advanced_inv_save_state {
         }
 
         void deserialize( JsonObject &jo, const std::string &prefix ) {
+            jo.read( prefix + "exit_code", exit_code );
+            jo.read( prefix + "re_enter_move_all", re_enter_move_all );
+            jo.read( prefix + "aim_all_location", aim_all_location );
+
             jo.read( prefix + "active_left", active_left );
             jo.read( prefix + "last_popup_dest", last_popup_dest );
 
@@ -94,10 +102,10 @@ class uistatedata
     public:
         int ags_pay_gas_selected_pump = 0;
 
-        int wishitem_selected = 0;
-        int wishmutate_selected = 0;
-        int wishmonster_selected = 0;
-        int iexamine_atm_selected = 0;
+        int wishitem_selected = 0; // NOLINT(cata-serialize)
+        int wishmutate_selected = 0; // NOLINT(cata-serialize)
+        int wishmonster_selected = 0; // NOLINT(cata-serialize)
+        int iexamine_atm_selected = 0; // NOLINT(cata-serialize)
 
         int adv_inv_container_location = -1;
         int adv_inv_container_index = 0;
@@ -122,14 +130,17 @@ class uistatedata
 
         // V Menu Stuff
         int list_item_sort = 0;
-        std::string list_item_filter;
-        std::string list_item_downvote;
-        std::string list_item_priority;
+
+        // These three aren't serialized because deserialize can extraect them
+        // from the history
+        std::string list_item_filter; // NOLINT(cata-serialize)
+        std::string list_item_downvote; // NOLINT(cata-serialize)
+        std::string list_item_priority; // NOLINT(cata-serialize)
         bool vmenu_show_items = true; // false implies show monsters
         bool list_item_filter_active = false;
         bool list_item_downvote_active = false;
         bool list_item_priority_active = false;
-        bool list_item_init = false;
+        bool list_item_init = false; // NOLINT(cata-serialize)
 
         // construction menu selections
         std::string construction_filter;
@@ -137,9 +148,9 @@ class uistatedata
         construction_category_id construction_tab = construction_category_id::NULL_ID();
 
         // overmap editor selections
-        const oter_t *place_terrain = nullptr;
-        const overmap_special *place_special = nullptr;
-        om_direction::type omedit_rotation = om_direction::type::none;
+        const oter_t *place_terrain = nullptr; // NOLINT(cata-serialize)
+        const overmap_special *place_special = nullptr; // NOLINT(cata-serialize)
+        om_direction::type omedit_rotation = om_direction::type::none; // NOLINT(cata-serialize)
 
         // crafting gui
         std::set<recipe_id> hidden_recipes;
@@ -153,13 +164,17 @@ class uistatedata
            output = string_input_popup(str, int, str, str, std::string("set_a_unique_identifier_here") );
         */
 
+        // input_history has special serialization
+        // NOLINTNEXTLINE(cata-serialize)
         std::map<std::string, std::vector<std::string>> input_history;
 
         std::map<ammotype, itype_id> lastreload; // id of ammo last used when reloading ammotype
 
         // internal stuff
-        bool _testing_save = true; // internal: whine on json errors. set false if no complaints in 2 weeks.
-        bool _really_testing_save = false; // internal: spammy
+        // internal: whine on json errors. set false if no complaints in 2 weeks.
+        bool _testing_save = true; // NOLINT(cata-serialize)
+        // internal: spammy
+        bool _really_testing_save = false; // NOLINT(cata-serialize)
 
         std::vector<std::string> &gethistory( const std::string &id ) {
             return input_history[id];
@@ -176,8 +191,7 @@ class uistatedata
             json.end_array();
         }
 
-        template<typename JsonStream>
-        void serialize( JsonStream &json ) const {
+        void serialize( JsonOut &json ) const {
             const unsigned int input_history_save_max = 25;
             json.start_object();
 
@@ -185,6 +199,7 @@ class uistatedata
 
             /**** if you want to save whatever so it's whatever when the game is started next, declare here and.... ****/
             // non array stuffs
+            json.member( "ags_pay_gas_selected_pump", ags_pay_gas_selected_pump );
             json.member( "adv_inv_container_location", adv_inv_container_location );
             json.member( "adv_inv_container_index", adv_inv_container_index );
             json.member( "adv_inv_container_in_vehicle", adv_inv_container_in_vehicle );
@@ -203,6 +218,9 @@ class uistatedata
             json.member( "list_item_filter_active", list_item_filter_active );
             json.member( "list_item_downvote_active", list_item_downvote_active );
             json.member( "list_item_priority_active", list_item_priority_active );
+            json.member( "construction_filter", construction_filter );
+            json.member( "last_construction", last_construction );
+            json.member( "construction_tab", construction_tab );
             json.member( "hidden_recipes", hidden_recipes );
             json.member( "favorite_recipes", favorite_recipes );
             json.member( "read_recipes", read_recipes );
@@ -210,6 +228,7 @@ class uistatedata
             json.member( "bionic_ui_sort_mode", bionic_sort_mode );
             json.member( "overmap_debug_weather", overmap_debug_weather );
             json.member( "overmap_visible_weather", overmap_visible_weather );
+            json.member( "overmap_debug_mongroup", overmap_debug_mongroup );
 
             json.member( "input_history" );
             json.start_object();
@@ -229,16 +248,18 @@ class uistatedata
             }
             json.end_object(); // input_history
 
+            json.member( "lastreload", lastreload );
+
             json.end_object();
         }
 
-        template<typename JsonStream>
-        void deserialize( JsonStream &jsin ) {
-            auto jo = jsin.get_object();
+        void deserialize( JsonIn &jsin ) {
+            JsonObject jo = jsin.get_object();
             jo.allow_omitted_members();
 
             transfer_save.deserialize( jo, "transfer_save_" );
             // the rest
+            jo.read( "ags_pay_gas_selected_pump", ags_pay_gas_selected_pump );
             jo.read( "adv_inv_container_location", adv_inv_container_location );
             jo.read( "adv_inv_container_index", adv_inv_container_index );
             jo.read( "adv_inv_container_in_vehicle", adv_inv_container_in_vehicle );
@@ -259,6 +280,7 @@ class uistatedata
             jo.read( "bionic_ui_sort_mode", bionic_sort_mode );
             jo.read( "overmap_debug_weather", overmap_debug_weather );
             jo.read( "overmap_visible_weather", overmap_visible_weather );
+            jo.read( "overmap_debug_mongroup", overmap_debug_mongroup );
 
             if( !jo.read( "vmenu_show_items", vmenu_show_items ) ) {
                 // This is an old save: 1 means view items, 2 means view monsters,
@@ -270,6 +292,10 @@ class uistatedata
             jo.read( "list_item_filter_active", list_item_filter_active );
             jo.read( "list_item_downvote_active", list_item_downvote_active );
             jo.read( "list_item_priority_active", list_item_priority_active );
+
+            jo.read( "construction_filter", construction_filter );
+            jo.read( "last_construction", last_construction );
+            jo.read( "construction_tab", construction_tab );
 
             for( const JsonMember member : jo.get_object( "input_history" ) ) {
                 std::vector<std::string> &v = gethistory( member.name() );
@@ -288,6 +314,8 @@ class uistatedata
             if( !gethistory( "list_item_priority" ).empty() ) {
                 list_item_priority = gethistory( "list_item_priority" ).back();
             }
+
+            jo.read( "lastreload", lastreload );
         }
 };
 extern uistatedata uistate;

@@ -1,66 +1,5 @@
 [
   {
-    "id": "mon_compsognathus_hatchling",
-    "type": "MONSTER",
-    "name": "greenish yellow hatchling",
-    "description": "A tiny dinosaur hatchling with huge shiny eyes, it could be from a number of different species.",
-    "default_faction": "compsognathus_hatchling",
-    "categories": [ "DINOSAUR" ],
-    "species": [ "DINOSAUR" ],
-    "volume": "2 L",
-    "weight": "2 kg",
-    "hp": 2,
-    "speed": 60,
-    "material": [ "flesh" ],
-    "symbol": "v",
-    "color": "green_yellow",
-    "looks_like": "mon_compsognathus",
-    "aggression": -99,
-    "morale": -8,
-    "melee_skill": 1,
-    "melee_dice": 1,
-    "melee_dice_sides": 1,
-    "melee_cut": 1,
-    "dodge": 1,
-    "upgrades": { "age_grow": 14, "into": "mon_compsognathus" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "CATFOOD",
-      "GUILT",
-      "STUMBLES",
-      "NO_BREED",
-      "CANPLAY"
-    ],
-    "harvest": "mammal_tiny"
-  },
-  {
-    "id": "mon_gallimimus_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "light green and yellow hatchling",
-    "default_faction": "herbivore_young",
-    "color": "light_green_yellow",
-    "upgrades": { "age_grow": 20, "into": "mon_gallimimus_juvenile" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "CATTLEFODDER",
-      "GUILT",
-      "STUMBLES",
-      "NO_BREED",
-      "CANPLAY"
-    ]
-  },
-  {
     "id": "mon_coelophysis_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
@@ -119,6 +58,22 @@
     "upgrades": { "age_grow": 30, "into": "mon_siats_juvenile" }
   },
   {
+    "id": "mon_albertosaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "light red and white hatchling",
+    "default_faction": "albertosaurus_hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_albertosaurus_juvenile" }
+  },
+  {
+    "id": "mon_qianzhousaurus_hatchling",
+    "type": "MONSTER",
+    "name": "light red and white hatchling",
+    "copy-from": "mon_compsognathus_hatchling",
+    "default_faction": "qianzhousaurus_hatchling",
+    "upgrades": { "age_grow": 40, "into": "mon_qianzhousaurus_juvenile" }
+  },
+  {
     "id": "mon_tyrannosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
@@ -127,12 +82,65 @@
     "upgrades": { "age_grow": 30, "into": "mon_tyrannosaurus_juvenile" }
   },
   {
-    "id": "mon_albertosaurus_hatchling",
+    "id": "mon_compsognathus_hatchling",
+    "type": "MONSTER",
+    "name": "greenish yellow hatchling",
+    "description": "A tiny dinosaur hatchling with huge shiny eyes, it could be from a number of different species.",
+    "default_faction": "compsognathus_hatchling",
+    "categories": [ "DINOSAUR" ],
+    "species": [ "DINOSAUR" ],
+    "volume": "2 L",
+    "weight": "2 kg",
+    "hp": 2,
+    "speed": 40,
+    "material": [ "flesh" ],
+    "symbol": "v",
+    "color": "green_yellow",
+    "looks_like": "mon_compsognathus",
+    "aggression": -99,
+    "morale": -8,
+    "melee_skill": 1,
+    "melee_dice": 1,
+    "melee_dice_sides": 1,
+    "melee_cut": 1,
+    "dodge": 1,
+    "upgrades": { "age_grow": 14, "into": "mon_compsognathus" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATFOOD",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ],
+    "harvest": "mammal_tiny"
+  },
+  {
+    "id": "mon_gallimimus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
-    "name": "light red and white hatchling",
-    "default_faction": "albertosaurus_hatchling",
-    "upgrades": { "age_grow": 30, "into": "mon_albertosaurus_juvenile" }
+    "name": "light green and yellow hatchling",
+    "default_faction": "herbivore_young",
+    "color": "light_green_yellow",
+    "upgrades": { "age_grow": 20, "into": "mon_gallimimus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY"
+    ]
   },
   {
     "id": "mon_velociraptor_hatchling",
@@ -159,64 +167,6 @@
     "upgrades": { "age_grow": 20, "into": "mon_utahraptor_juvenile" }
   },
   {
-    "id": "mon_dimorphodon_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "light gray and yellow hatchling",
-    "default_faction": "dimorphodon",
-    "//": "Adult dimorphodon is only 2 kg, 1.5 L",
-    "volume": "1 L",
-    "weight": "1 kg",
-    "hp": 1,
-    "upgrades": { "age_grow": 20, "into": "mon_dimorphodon" }
-  },
-  {
-    "id": "mon_pteranodon_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "light gray and yellow hatchling",
-    "default_faction": "pteranodon_young",
-    "upgrades": { "age_grow": 30, "into": "mon_pteranodon_juvenile" }
-  },
-  {
-    "id": "mon_quetzalcoatlus_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "light gray and yellow hatchling",
-    "default_faction": "quetzalcoatlus_hatchling",
-    "upgrades": { "age_grow": 40, "into": "mon_quetzalcoatlus_juvenile" }
-  },
-  {
-    "id": "mon_mosasaurus_hatchling",
-    "type": "MONSTER",
-    "copy-from": "mon_compsognathus_hatchling",
-    "name": "red and white hatchling",
-    "default_faction": "mosasaurus_hatchling",
-    "upgrades": { "age_grow": 30, "into": "mon_mosasaurus_juvenile" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "CATFOOD",
-      "GUILT",
-      "STUMBLES",
-      "NO_BREED",
-      "CANPLAY",
-      "SWIMS",
-      "AQUATIC"
-    ]
-  },
-  {
-    "id": "mon_qianzhousaurus_hatchling",
-    "type": "MONSTER",
-    "name": { "str_sp": "baby Qianzhousaurus" },
-    "copy-from": "mon_compsognathus_hatchling",
-    "default_faction": "qianzhousaurus_hatchling",
-    "upgrades": { "age_grow": 40, "into": "mon_qianzhousaurus_juvenile" }
-  },
-  {
     "id": "mon_eoraptor_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
@@ -231,6 +181,13 @@
     "copy-from": "mon_gallimimus_hatchling",
     "name": "green and magenta hatchling",
     "upgrades": { "age_grow": 40, "into": "mon_nothronychus_juvenile" }
+  },
+  {
+    "id": "mon_amargasaurus_hatchling",
+    "type": "MONSTER",
+    "name": "amargasaurus hatchling",
+    "copy-from": "mon_gallimimus_hatchling",
+    "upgrades": { "age_grow": 50, "into": "mon_amargasaurus_juvenile" }
   },
   {
     "id": "mon_apatosaurus_hatchling",
@@ -373,6 +330,13 @@
     "upgrades": { "age_grow": 30, "into": "mon_pentaceratops_juvenile" }
   },
   {
+    "id": "mon_kosmoceratops_hatchling",
+    "type": "MONSTER",
+    "name": "kosmoceratops hatchling",
+    "copy-from": "mon_gallimimus_hatchling",
+    "upgrades": { "age_grow": 56, "into": "mon_kosmoceratops_juvenile" }
+  },
+  {
     "id": "mon_torosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_gallimimus_hatchling",
@@ -387,17 +351,54 @@
     "upgrades": { "age_grow": 30, "into": "mon_triceratops_juvenile" }
   },
   {
-    "id": "mon_kosmoceratops_hatchling",
+    "id": "mon_dimorphodon_hatchling",
     "type": "MONSTER",
-    "name": "kosmoceratops hatchling",
-    "copy-from": "mon_gallimimus_hatchling",
-    "upgrades": { "age_grow": 56, "into": "mon_kosmoceratops_juvenile" }
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "light gray and yellow hatchling",
+    "default_faction": "dimorphodon",
+    "//": "Adult dimorphodon is only 2 kg, 1.5 L",
+    "volume": "1 L",
+    "weight": "1 kg",
+    "hp": 1,
+    "upgrades": { "age_grow": 20, "into": "mon_dimorphodon" }
   },
   {
-    "id": "mon_amargasaurus_hatchling",
+    "id": "mon_pteranodon_hatchling",
     "type": "MONSTER",
-    "name": "amargasaurus hatchling",
-    "copy-from": "mon_gallimimus_hatchling",
-    "upgrades": { "age_grow": 56, "into": "mon_amargasaurus_juvenile" }
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "light gray and yellow hatchling",
+    "default_faction": "pteranodon_young",
+    "upgrades": { "age_grow": 30, "into": "mon_pteranodon_juvenile" }
+  },
+  {
+    "id": "mon_quetzalcoatlus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "light gray and yellow hatchling",
+    "default_faction": "quetzalcoatlus_hatchling",
+    "upgrades": { "age_grow": 40, "into": "mon_quetzalcoatlus_juvenile" }
+  },
+  {
+    "id": "mon_mosasaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "mosasaurus hatchling",
+    "description": "A tiny aquatic reptile hatchling with huge shiny eyes and pointy little teeth.",
+    "default_faction": "mosasaurus_hatchling",
+    "upgrades": { "age_grow": 30, "into": "mon_mosasaurus_juvenile" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "PATH_AVOID_DANGER_1",
+      "CATFOOD",
+      "GUILT",
+      "STUMBLES",
+      "NO_BREED",
+      "CANPLAY",
+      "SWIMS",
+      "AQUATIC"
+    ]
   }
 ]

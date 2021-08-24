@@ -15,7 +15,7 @@
     "luminance": 5,
     "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ], "//": "80% chance of an item from group robots" },
     "death_function": { "message": "The %s's interior compartment sizzles with destructive energy.", "corpse_type": "BROKEN" },
-    "flags": [ "SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO" ]
+    "flags": [ "SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO", "STUN_IMMUNE" ]
   },
   {
     "id": "mon_EMP_hack",
@@ -184,7 +184,8 @@
       "INTERIOR_AMMO",
       "PATH_AVOID_DANGER_1",
       "PRIORITIZE_TARGETS",
-      "HIT_AND_RUN"
+      "HIT_AND_RUN",
+      "STUN_IMMUNE"
     ]
   },
   {
