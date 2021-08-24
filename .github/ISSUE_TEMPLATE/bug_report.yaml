@@ -55,15 +55,14 @@ body:
     attributes:
       label: Versions and configuration
       description: |
-        Please complete the following information; you can now go to:
-        - "Main menu (ESC) > Debug Menu > Info > Generate game report" to generate this report.
-        - Please update your OS version with a more precise version.
-      value: |
+        The following information should only cosist of the automated game report perfomed by the game.
+        To generate a report: "Main menu (ESC) > Debug Menu > Info > Generate game report".
+      placeholder: |
         - OS: [e.g. iOS 8 or Windows 10 or Ubuntu 18.04]
-        - Game Version: [from the main menu, e.g. 0.C-29938-g90f5268437]
+        - Game Version: [e.g. 0.C-29938-g90f5268437]
         - Graphics version: [Tiles or Terminal]
         - Ingame language: [Arabic or Bulgarian or Chinese (Simplified) or Chinese (Traditional) or Dutch or Esperanto or French or German or Italian (Italy) or Japanese or Korean or Polish or Portuguese (Brazil) or Russian or Serbian or Spanish (Argentina) or Spanish (Spain) or Turkish]
-        - Mods loaded: [e.g.dda, boats, hacktheplanet, StatsThroughSkills]
+        - Mods loaded: [e.g. dda, boats, hacktheplanet, StatsThroughSkills]
     validations:
       required: true
 
