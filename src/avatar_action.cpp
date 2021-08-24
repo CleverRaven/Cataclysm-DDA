@@ -57,7 +57,6 @@
 #include "vpart_position.h"
 
 class gun_mode;
-class player;
 
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_glowing( "glowing" );
@@ -82,6 +81,72 @@ static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
+static bool check_water_affect_items( avatar &you )
+{
+    std::vector<item_location> dissolved;
+    std::vector<item_location> destroyed;
+    std::vector<item_location> wet;
+
+    for( item_location &loc : you.all_items_loc() ) {
+        if( loc->has_flag( flag_WATER_DISSOLVE ) && !loc.protected_from_liquids() ) {
+            dissolved.emplace_back( loc );
+        } else if( loc->has_flag( flag_WATER_BREAK ) && !loc->is_broken()
+                   && !loc.protected_from_liquids() ) {
+            destroyed.emplace_back( loc );
+        } else if( loc->has_flag( flag_WATER_BREAK_ACTIVE ) && !loc->is_broken()
+                   && !loc.protected_from_liquids() ) {
+            wet.emplace_back( loc );
+        }
+    }
+
+    if( dissolved.empty() && destroyed.empty() && wet.empty() ) {
+        return query_yn( _( "Dive into the water?" ) );
+    }
+
+    uilist menu;
+    menu.title = _( "Diving will destroy the following items.  Proceed?" );
+    menu.text = _( "These items are not inside a waterproof container." );
+
+    menu.addentry( 0, true, 'N', _( "No" ) );
+    menu.addentry( 1, true, 'Y', _( "Yes" ) );
+
+    auto add_header = [&menu]( const std::string & str ) {
+        menu.addentry( -1, false, -1, "" );
+        uilist_entry header( -1, false, -1, str, c_yellow, c_yellow );
+        header.force_color = true;
+        menu.entries.push_back( header );
+    };
+
+    if( !dissolved.empty() ) {
+        add_header( _( "Will be dissolved:" ) );
+        for( item_location &it : dissolved ) {
+            menu.addentry( -1, false, -1, it->display_name() );
+        }
+    }
+
+    if( !destroyed.empty() ) {
+        add_header( _( "Will be destroyed:" ) );
+        for( item_location &it : destroyed ) {
+            menu.addentry( -1, false, -1, it->display_name() );
+        }
+    }
+
+    if( !wet.empty() ) {
+        add_header( _( "Will get wet:" ) );
+        for( item_location &it : wet ) {
+            menu.addentry( -1, false, -1, it->display_name() );
+        }
+    }
+
+    menu.query();
+    if( menu.ret != 1 ) {
+        you.add_msg_if_player( _( "You back away from the water." ) );
+        return false;
+    }
+
+    return true;
+}
+
 bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 {
     if( ( !g->check_safe_mode_allowed() ) || you.has_active_mutation( trait_SHELL2 ) ) {
@@ -90,6 +155,15 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         }
         return false;
     }
+
+    // If any leg broken without crutches and not already on the ground topple over
+    if( ( you.get_working_leg_count() < 2 && !you.weapon.has_flag( flag_CRUTCHES ) ) &&
+        !you.is_prone() ) {
+        you.set_movement_mode( move_mode_id( "prone" ) );
+        you.add_msg_if_player( m_bad,
+                               _( "Your broken legs can't hold your weight and you fall down in pain." ) );
+    }
+
     const bool is_riding = you.is_mounted();
     tripoint dest_loc;
     if( d.z == 0 && you.has_effect( effect_stunned ) ) {
@@ -120,7 +194,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         !m.veh_at( dest_loc ) && !you.is_underwater() && !you.has_effect( effect_stunned ) &&
         !is_riding && !you.has_effect( effect_incorporeal ) ) {
         if( you.weapon.has_flag( flag_DIG_TOOL ) ) {
-            if( you.weapon.type->can_use( "JACKHAMMER" ) && you.weapon.ammo_sufficient() ) {
+            if( you.weapon.type->can_use( "JACKHAMMER" ) &&
+                you.weapon.ammo_sufficient( &you ) ) {
                 you.invoke_item( &you.weapon, "JACKHAMMER", dest_loc );
                 // don't move into the tile until done mining
                 you.defer_move( dest_loc );
@@ -350,7 +425,8 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                 return false;
             }
         }
-        if( ( fromSwimmable && fromDeepWater && !fromBoat ) || query_yn( _( "Dive into the water?" ) ) ) {
+        if( ( fromSwimmable && fromDeepWater && !fromBoat ) ||
+            check_water_affect_items( you ) ) {
             if( ( !fromDeepWater || fromBoat ) && you.swim_speed() < 500 ) {
                 add_msg( _( "You start swimming." ) );
                 add_msg( m_info, _( "%s to dive underwater." ),
@@ -386,7 +462,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         return true;
     }
     if( veh_closed_door ) {
-        if( !veh1->handle_potential_theft( dynamic_cast<player &>( you ) ) ) {
+        if( !veh1->handle_potential_theft( dynamic_cast<Character &>( you ) ) ) {
             return true;
         } else {
             door_name = veh1->part( dpart ).name();
@@ -515,6 +591,9 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         add_msg( _( "The water washes off the glowing goo!" ) );
         you.remove_effect( effect_glowing );
     }
+
+    g->water_affect_items( you );
+
     int movecost = you.swim_speed();
     you.practice( skill_swimming, you.is_underwater() ? 2 : 1 );
     if( movecost >= 500 ) {
@@ -543,7 +622,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         return;
     }
     if( const auto vp = m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
-        if( !vp->vehicle().handle_potential_theft( dynamic_cast<player &>( you ) ) ) {
+        if( !vp->vehicle().handle_potential_theft( dynamic_cast<Character &>( you ) ) ) {
             return;
         }
     }
@@ -1013,6 +1092,16 @@ void avatar_action::use_item( avatar &you, item_location &loc )
             return;
         }
     }
+
+    if( loc->wetness && loc->has_flag( flag_WATER_BREAK_ACTIVE ) ) {
+        if( query_yn( _( "This item is still wet and it will break if you turn it on. Proceed?" ) ) ) {
+            loc->deactivate();
+            loc->set_flag( flag_ITEM_BROKEN );
+        } else {
+            return;
+        }
+    }
+
     int pre_obtain_moves = you.moves;
     if( loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
         use_in_place = true;

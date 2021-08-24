@@ -20,9 +20,11 @@
 #include "item_group.h"
 #include "json.h"
 #include "output.h"
+#include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
+#include "type_id.h"
 
 static const std::string flag_DIGGABLE( "DIGGABLE" );
 static const std::string flag_LOCKED( "LOCKED" );
@@ -444,13 +446,13 @@ void map_data_common_t::set_examine( iexamine_function_ref func )
     examine_func = &func;
 }
 
-void map_data_common_t::examine( player &guy, const tripoint &examp ) const
+void map_data_common_t::examine( Character &you, const tripoint &examp ) const
 {
     if( !examine_actor ) {
-        examine_func( guy, examp );
+        examine_func( you, examp );
         return;
     }
-    examine_actor->call( guy, examp );
+    examine_actor->call( you, examp );
 }
 
 void map_data_common_t::load_symbol( const JsonObject &jo )
@@ -1248,6 +1250,11 @@ void map_data_common_t::load( const JsonObject &jo, const std::string & )
     }
 }
 
+bool ter_t::is_null() const
+{
+    return id == ter_str_id::NULL_ID();
+}
+
 void ter_t::load( const JsonObject &jo, const std::string &src )
 {
     map_data_common_t::load( jo, src );
@@ -1285,6 +1292,16 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "lockpick_result", lockpick_result, ter_str_id::NULL_ID() );
     optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
+
+    oxytorch = cata::make_value<activity_data_ter>();
+    if( jo.has_object( "oxytorch" ) ) {
+        oxytorch->load( jo.get_object( "oxytorch" ) );
+    }
+
+    boltcut = cata::make_value<activity_data_ter>();
+    if( jo.has_object( "boltcut" ) ) {
+        boltcut->load( jo.get_object( "boltcut" ) );
+    }
 
     optional( jo, was_loaded, "emissions", emissions );
 
@@ -1430,6 +1447,17 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
               furn_str_id::NULL_ID() );
     optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
 
+
+    oxytorch = cata::make_value<activity_data_furn>();
+    if( jo.has_object( "oxytorch" ) ) {
+        oxytorch->load( jo.get_object( "oxytorch" ) );
+    }
+
+    boltcut = cata::make_value<activity_data_furn>();
+    if( jo.has_object( "boltcut" ) ) {
+        boltcut->load( jo.get_object( "boltcut" ) );
+    }
+
     bash.load( jo, "bash", map_bash_info::furniture, "furniture " + id.str() );
     deconstruct.load( jo, "deconstruct", true, "furniture " + id.str() );
 
@@ -1476,6 +1504,58 @@ void furn_t::check() const
                       e.str().c_str() );
         }
     }
+}
+
+int activity_byproduct::roll() const
+{
+    return count + rng( random_min, random_max );
+}
+
+void activity_byproduct::load( const JsonObject &jo )
+{
+    mandatory( jo, was_loaded, "item", item );
+
+    if( jo.has_int( "count" ) ) {
+        mandatory( jo, was_loaded, "count", count );
+        count = std::max( 0, count );
+    } else if( jo.has_array( "count" ) ) {
+        std::vector<int> count_random = jo.get_int_array( "count" );
+        random_min = std::max( 0, count_random[0] );
+        random_max = std::max( 0, count_random[1] );
+        if( random_min > random_max ) {
+            std::swap( random_min, random_max );
+        }
+    }
+}
+
+void activity_data_common::load( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "duration", duration_, 1_seconds );
+    optional( jo, was_loaded, "message", message_ );
+    optional( jo, was_loaded, "sound", sound_ );
+
+    if( jo.has_array( "byproducts" ) ) {
+        std::vector<activity_byproduct> entries;
+        for( JsonObject activity_entry : jo.get_array( "byproducts" ) ) {
+            struct activity_byproduct entry {};
+            entry.load( activity_entry );
+            byproducts_.push_back( entry );
+        }
+    }
+}
+
+void activity_data_ter::load( const JsonObject &jo )
+{
+    mandatory( jo, was_loaded, "result", result_ );
+    activity_data_common::load( jo );
+    valid_ = true;
+}
+
+void activity_data_furn::load( const JsonObject &jo )
+{
+    optional( jo, was_loaded, "result", result_, f_null.id() );
+    activity_data_common::load( jo );
+    valid_ = true;
 }
 
 void check_furniture_and_terrain()

@@ -859,7 +859,7 @@
     "type": "event_statistic",
     "stat_type": "count",
     "event_transformation": "avatar_gains_driving_level_7",
-    "description": { "str_sp": "driving skill level 7 gained" }
+    "description": { "str_sp": "vehicles skill level 7 gained" }
   },
   {
     "id": "avatar_gains_swimming_level_7",

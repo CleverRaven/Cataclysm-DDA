@@ -5,7 +5,7 @@
     "type": "TOOL_ARMOR",
     "category": "armor",
     "looks_like": "helmet_motor",
-    "name": { "str": "Magellan helmet CA." },
+    "name": { "str": "Magellan helmet CA.", "str_pl": "Magellan helmets CA." },
     "description": "The high quality helmet of a Magellan exosuit, adapted to handle the freezing but breathable air of Salus IV.  In addition to its life support functionality, it features a minor augmented reality UI overlay and a retractable gold-plated visor to protect against glare and UV light.  Although not armored as such, it's strong enough to handle minor blunt impacts.",
     "weight": "2500 g",
     "volume": "2250 ml",

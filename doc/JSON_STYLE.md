@@ -49,13 +49,13 @@ The formatting tool can be found alongside the releases as `json_formatter.exe` 
 Using `make style-json` will format all files included in the JSON validation test, alternatively:
 ```sh
 # Using git to filter JSON files with uncommitted changes (provided there are no spaces in the file or directory names).
-git diff --name-only '*.json' | xargs -L 1 json_formatter
+git diff --name-only '*.json' | xargs -P 0 -L 1 json_formatter
 
 # Using git to filter modified JSON files in the current branch.
-git diff master --name-only '*.json' | xargs -L 1 json_formatter
+git diff master --name-only '*.json' | xargs -P 0 -L 1 json_formatter
 
 # Per-folder formatting.
-find path/to/desired/folder -name "*.json" -print0 | xargs -0 -L 1 json_formatter
+find path/to/desired/folder -name "*.json" -print0 | xargs -P 0 -0 -L 1 json_formatter
 ```
 ---
 If you're using the Visual Studio solution, you can configure Visual Studio with

@@ -1,0 +1,68 @@
+[
+  {
+    "type": "furniture",
+    "id": "test_f_boltcut1",
+    "name": "Boltcut Test Furniture 1",
+    "description": "Boltcut furniture with valid data.",
+    "symbol": "f",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "required_str": 8,
+    "boltcut": { "duration": "5 seconds" }
+  },
+  {
+    "type": "furniture",
+    "id": "test_f_boltcut2",
+    "name": "Boltcut Test Furniture 2",
+    "description": "Boltcut furniture with valid data.",
+    "symbol": "f",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "required_str": 8,
+    "boltcut": { "result": "test_f_boltcut1", "duration": "5 seconds" }
+  },
+  {
+    "type": "furniture",
+    "id": "test_f_boltcut3",
+    "name": "Boltcut Test Furniture 1",
+    "description": "Boltcut furniture with valid data.",
+    "symbol": "f",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "required_str": 8,
+    "boltcut": { "duration": "80 seconds" }
+  },
+  {
+    "type": "furniture",
+    "id": "test_f_oxytorch1",
+    "name": "Oxytorch Test Furniture 1",
+    "description": "Oxytorch furniture with valid data.",
+    "symbol": "f",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "required_str": 8,
+    "oxytorch": { "duration": "5 seconds" }
+  },
+  {
+    "type": "furniture",
+    "id": "test_f_oxytorch2",
+    "name": "Oxytorch Test Furniture 2",
+    "description": "Oxytorch furniture with valid data.",
+    "symbol": "f",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "required_str": 8,
+    "oxytorch": { "result": "test_f_oxytorch1", "duration": "5 seconds" }
+  },
+  {
+    "type": "furniture",
+    "id": "test_f_oxytorch3",
+    "name": "Oxytorch Test Furniture 1",
+    "description": "Oxytorch furniture with valid data.",
+    "symbol": "f",
+    "color": "blue",
+    "move_cost_mod": 1,
+    "required_str": 8,
+    "oxytorch": { "duration": "80 seconds" }
+  }
+]

@@ -59,6 +59,11 @@ tripoint_abs_omt talker_character::global_omt_location() const
     return me_chr->global_omt_location();
 }
 
+void talker_character::set_pos( tripoint new_pos )
+{
+    me_chr->setpos( new_pos );
+}
+
 int talker_character::str_cur() const
 {
     return me_chr->str_cur;
@@ -77,6 +82,46 @@ int talker_character::int_cur() const
 int talker_character::per_cur() const
 {
     return me_chr->per_cur;
+}
+
+void talker_character::set_str_max( int value )
+{
+    me_chr->str_max = value;
+}
+
+void talker_character::set_dex_max( int value )
+{
+    me_chr->dex_max = value;
+}
+
+void talker_character::set_int_max( int value )
+{
+    me_chr->int_max = value;
+}
+
+void talker_character::set_per_max( int value )
+{
+    me_chr->per_max = value;
+}
+
+int talker_character::get_str_max()
+{
+    return me_chr->str_max;
+}
+
+int talker_character::get_dex_max()
+{
+    return me_chr->dex_max;
+}
+
+int talker_character::get_int_max()
+{
+    return me_chr->int_max;
+}
+
+int talker_character::get_per_max()
+{
+    return me_chr->per_max;
 }
 
 bool talker_character::has_trait( const trait_id &trait_to_check ) const
@@ -124,6 +169,11 @@ bool talker_character::has_max_power() const
     return me_chr->has_max_power();
 }
 
+void talker_character::set_power_cur( units::energy value )
+{
+    me_chr->set_power_level( value );
+}
+
 bool talker_character::has_bionic( const bionic_id &bionics_id ) const
 {
     return me_chr->has_bionic( bionics_id );
@@ -137,6 +187,11 @@ bool talker_character::knows_spell( const spell_id &sp ) const
 int talker_character::get_skill_level( const skill_id &skill ) const
 {
     return me_chr->get_skill_level( skill );
+}
+
+void talker_character::set_skill_level( const skill_id &skill, int value )
+{
+    me_chr->set_skill_level( skill, value );
 }
 
 bool talker_character::knows_proficiency( const proficiency_id &proficiency ) const
@@ -210,6 +265,11 @@ std::list<item> talker_character::use_amount( const itype_id &item_name, const i
 bool talker_character::has_amount( const itype_id &item_id, int count ) const
 {
     return me_chr->has_amount( item_id, count );
+}
+
+int talker_character::get_amount( const itype_id &item_id ) const
+{
+    return me_chr->amount_of( item_id );
 }
 
 int talker_character::cash() const
@@ -291,6 +351,20 @@ int talker_character::get_thirst() const
     return me_chr->get_thirst();
 }
 
+int talker_character::get_stored_kcal() const
+{
+    return me_chr->get_stored_kcal();
+}
+
+void talker_character::set_stored_kcal( int value )
+{
+    me_chr->set_stored_kcal( value );
+}
+void talker_character::set_thirst( int value )
+{
+    me_chr->set_thirst( value );
+}
+
 bool talker_character::is_in_control_of( const vehicle &veh ) const
 {
     return veh.player_in_control( *me_chr );
@@ -326,6 +400,26 @@ units::energy talker_character::power_cur() const
     return me_chr->get_power_level();
 }
 
+units::energy talker_character::power_max() const
+{
+    return me_chr->get_max_power_level();
+}
+
+int talker_character::mana_cur() const
+{
+    return me_chr->magic->available_mana();
+}
+
+int talker_character::mana_max() const
+{
+    return me_chr->magic->max_mana( *me_chr );
+}
+
+void talker_character::set_mana_cur( int value )
+{
+    me_chr->magic->set_mana( value );
+}
+
 bool talker_character::can_see() const
 {
     return !me_chr->is_blind() && ( !me_chr->in_sleep_state() || me_chr->has_trait( trait_SEESLEEP ) );
@@ -334,4 +428,40 @@ bool talker_character::can_see() const
 void talker_character::mod_fatigue( int amount )
 {
     me_chr->mod_fatigue( amount );
+}
+
+void talker_character::mod_healthy_mod( int amount, int cap )
+{
+    me_chr->mod_healthy_mod( amount, cap );
+}
+
+int talker_character::morale_cur() const
+{
+    return me_chr->get_morale_level();
+}
+
+void talker_character::add_morale( const morale_type &new_morale, int bonus, int max_bonus,
+                                   time_duration duration, time_duration decay_start, bool capped )
+{
+    me_chr->add_morale( new_morale, bonus, max_bonus, duration, decay_start, capped );
+}
+
+void talker_character::remove_morale( const morale_type &old_morale )
+{
+    me_chr->rem_morale( old_morale );
+}
+
+int talker_character::focus_cur() const
+{
+    return me_chr->get_focus();
+}
+
+void talker_character::mod_focus( int amount )
+{
+    me_chr->mod_focus( amount );
+}
+
+void talker_character::mod_rad( int amount )
+{
+    me_chr->mod_rad( amount );
 }

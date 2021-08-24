@@ -3,7 +3,7 @@
     "id": "mon_zombie_winged",
     "type": "MONSTER",
     "name": { "str": "batwing zombie" },
-    "description": "This zombie's arms have stretched far beyond human limits, the skin lengthened into a gruesome fleshy membrane.  The mutation does not suit it well: it moves clumsily, even compared to other zombies.",
+    "description": "This zombie's arms have stretched far beyond human limits, the skin lengthened into a gruesome fleshy membrane.  The mutation does not suit it well: It moves clumsily, even compared to other zombies, but can leap a significant distance.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],

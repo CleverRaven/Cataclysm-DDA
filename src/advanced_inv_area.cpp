@@ -19,7 +19,6 @@
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "map.h"
 #include "map_selector.h"
 #include "mapdata.h"

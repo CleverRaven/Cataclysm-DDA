@@ -44,7 +44,6 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
-#include "player.h"
 #include "player_activity.h"
 #include "point.h"
 #include "requirements.h"
@@ -145,9 +144,9 @@ static std::map<construction_str_id, construction_id> construction_id_map;
 // Helper functions, nobody but us needs to call these.
 static bool can_construct( const construction_group_str_id &group );
 static bool can_construct( const construction &con );
-static bool player_can_build( player &p, const read_only_visitable &inv,
+static bool player_can_build( Character &you, const read_only_visitable &inv,
                               const construction_group_str_id &group );
-static bool player_can_see_to_build( player &p, const construction_group_str_id &group );
+static bool player_can_see_to_build( Character &you, const construction_group_str_id &group );
 static void place_construction( const construction_group_str_id &group );
 
 // Color standardization for string streams
@@ -841,35 +840,35 @@ construction_id construction_menu( const bool blueprint )
     return ret;
 }
 
-bool player_can_build( player &p, const read_only_visitable &inv,
+bool player_can_build( Character &you, const read_only_visitable &inv,
                        const construction_group_str_id &group )
 {
     // check all with the same group to see if player can build any
     std::vector<construction *> cons = constructions_by_group( group );
     for( auto &con : cons ) {
-        if( player_can_build( p, inv, *con ) ) {
+        if( player_can_build( you, inv, *con ) ) {
             return true;
         }
     }
     return false;
 }
 
-bool player_can_build( player &p, const read_only_visitable &inv, const construction &con )
+bool player_can_build( Character &you, const read_only_visitable &inv, const construction &con )
 {
-    if( p.has_trait( trait_DEBUG_HS ) ) {
+    if( you.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
 
-    if( !p.meets_skill_requirements( con ) ) {
+    if( !you.meets_skill_requirements( con ) ) {
         return false;
     }
 
     return con.requirements->can_make_with_inventory( inv, is_crafting_component );
 }
 
-bool player_can_see_to_build( player &p, const construction_group_str_id &group )
+bool player_can_see_to_build( Character &you, const construction_group_str_id &group )
 {
-    if( p.fine_detail_vision_mod() < 4 || p.has_trait( trait_DEBUG_HS ) ) {
+    if( you.fine_detail_vision_mod() < 4 || you.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
     std::vector<construction *> cons = constructions_by_group( group );
@@ -999,22 +998,22 @@ void place_construction( const construction_group_str_id &group )
     player_character.activity.placement = here.getabs( pnt );
 }
 
-void complete_construction( player *p )
+void complete_construction( Character *you )
 {
     if( !finalized ) {
         debugmsg( "complete_construction called before finalization" );
         return;
     }
     map &here = get_map();
-    const tripoint terp = here.getlocal( p->activity.placement );
+    const tripoint terp = here.getlocal( you->activity.placement );
     partial_con *pc = here.partial_con_at( terp );
     if( !pc ) {
         debugmsg( "No partial construction found at activity placement in complete_construction()" );
         if( here.tr_at( terp ) == tr_unfinished_construction ) {
             here.remove_trap( terp );
         }
-        if( p->is_npc() ) {
-            npc *guy = dynamic_cast<npc *>( p );
+        if( you->is_npc() ) {
+            npc *guy = dynamic_cast<npc *>( you );
             guy->current_activity_id = activity_id::NULL_ID();
             guy->revert_after_activity();
             guy->set_moves( 0 );
@@ -1022,17 +1021,18 @@ void complete_construction( player *p )
         return;
     }
     const construction &built = pc->id.obj();
-    const auto award_xp = [&]( player & c ) {
+    const auto award_xp = [&]( Character & practicer ) {
         for( const auto &pr : built.required_skills ) {
-            c.practice( pr.first, static_cast<int>( ( 10 + 15 * pr.second ) * ( 1 + built.time / 180000.0 ) ),
-                        static_cast<int>( pr.second * 1.25 ) );
+            practicer.practice( pr.first, static_cast<int>( ( 10 + 15 * pr.second ) *
+                                ( 1 + built.time / 180000.0 ) ),
+                                static_cast<int>( pr.second * 1.25 ) );
         }
     };
 
-    award_xp( *p );
+    award_xp( *you );
     // Friendly NPCs gain exp from assisting or watching...
     // TODO: NPCs watching other NPCs do stuff and learning from it
-    if( p->is_player() ) {
+    if( you->is_avatar() ) {
         for( auto &elem : get_avatar().get_crafting_helpers() ) {
             if( elem->meets_skill_requirements( built ) ) {
                 add_msg( m_info, _( "%s assists you with the work…" ), elem->name );
@@ -1089,22 +1089,23 @@ void complete_construction( player *p )
 
     // Spawn byproducts
     if( built.byproduct_item_group ) {
-        here.spawn_items( p->pos(), item_group::items_from( *built.byproduct_item_group, calendar::turn ) );
+        here.spawn_items( you->pos(), item_group::items_from( *built.byproduct_item_group,
+                          calendar::turn ) );
     }
 
-    add_msg( m_info, _( "%s finished construction: %s." ), p->disp_name( false, true ),
+    add_msg( m_info, _( "%s finished construction: %s." ), you->disp_name( false, true ),
              built.group->name() );
     // clear the activity
-    p->activity.set_to_null();
+    you->activity.set_to_null();
 
     // This comes after clearing the activity, in case the function interrupts
     // activities
     built.post_special( terp );
     // npcs will automatically resume backlog, players wont.
-    if( p->is_player() && !p->backlog.empty() &&
-        p->backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
-        p->backlog.clear();
-        p->assign_activity( ACT_MULTIPLE_CONSTRUCTION );
+    if( you->is_avatar() && !you->backlog.empty() &&
+        you->backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
+        you->backlog.clear();
+        you->assign_activity( ACT_MULTIPLE_CONSTRUCTION );
     }
 }
 
@@ -1843,6 +1844,7 @@ void finalize_constructions()
 
         requirement_data::save_requirement( requirements_, con.requirements );
         con.reqs_using.clear();
+        inp_mngr.pump_events();
     }
 
     constructions.erase( std::remove_if( constructions.begin(), constructions.end(),
@@ -1933,9 +1935,8 @@ build_reqs get_build_reqs_for_furn_ter_ids(
         }
         total_reqs.reqs[build.requirements] += count;
         for( const auto &req_skill : build.required_skills ) {
-            if( total_reqs.skills.find( req_skill.first ) == total_reqs.skills.end() ) {
-                total_reqs.skills[req_skill.first] = req_skill.second;
-            } else if( total_reqs.skills[req_skill.first] < req_skill.second ) {
+            auto it = total_reqs.skills.find( req_skill.first );
+            if( it == total_reqs.skills.end() || it->second < req_skill.second ) {
                 total_reqs.skills[req_skill.first] = req_skill.second;
             }
         }

@@ -238,7 +238,7 @@
       [ "GRAB_DRAG", 3 ],
       {
         "type": "bite",
-        "no_infection_chance": 10,
+        "infection_chance": 90,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_multiplier": 0.8 } ],
         "cooldown": 10
       }

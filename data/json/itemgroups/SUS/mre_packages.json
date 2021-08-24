@@ -63,7 +63,7 @@
     "entries": [
       { "item": "gummy_vitamins", "charges": 1 },
       { "item": "matches", "charges": 20 },
-      { "item": "paper", "charges": 8 },
+      { "item": "napkin", "charges": 8 },
       { "item": "gum", "charges": 2 },
       { "item": "pur_tablets", "charges": 6, "container-item": "beverage_bag" },
       { "item": "spork" },
@@ -124,7 +124,7 @@
     "entries": [
       { "item": "gummy_vitamins", "charges": 1 },
       { "item": "matches", "charges": [ 0, 20 ] },
-      { "item": "paper", "charges": [ 0, 8 ] },
+      { "item": "napkin", "charges": [ 0, 8 ] },
       { "item": "gum", "charges": [ 0, 2 ] },
       { "item": "pur_tablets", "charges": [ 0, 6 ], "container-item": "beverage_bag" },
       { "item": "spork" },

@@ -66,7 +66,6 @@ static const bionic_id bio_dis_acid( "bio_dis_acid" );
 static const bionic_id bio_dis_shock( "bio_dis_shock" );
 static const bionic_id bio_geiger( "bio_geiger" );
 static const bionic_id bio_gills( "bio_gills" );
-static const bionic_id bio_leaky( "bio_leaky" );
 static const bionic_id bio_power_weakness( "bio_power_weakness" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
@@ -110,8 +109,7 @@ static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
 static const trait_id trait_FRESHWATEROSMOSIS( "FRESHWATEROSMOSIS" );
-static const trait_id trait_GILLS( "GILLS" );
-static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
+static const trait_id trait_HAS_NEMESIS( "HAS_NEMESIS" );
 static const trait_id trait_JITTERY( "JITTERY" );
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_LEAVES( "LEAVES" );
@@ -153,6 +151,7 @@ static const mtype_id mon_zombie_fat( "mon_zombie_fat" );
 static const mtype_id mon_zombie_fireman( "mon_zombie_fireman" );
 static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 
+static const json_character_flag json_flag_GILLS( "GILLS" );
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
@@ -232,7 +231,7 @@ void Character::suffer_mutation_power( const trait_id &mut_id )
 
 void Character::suffer_while_underwater()
 {
-    if( !has_trait( trait_GILLS ) && !has_trait( trait_GILLS_CEPH ) ) {
+    if( !has_flag( json_flag_GILLS ) ) {
         oxygen--;
     }
     if( oxygen < 12 && worn_with_flag( flag_REBREATHER ) ) {
@@ -326,6 +325,10 @@ void Character::suffer_while_awake( const int current_stim )
 
     if( has_trait( trait_VOMITOUS ) && one_turn_in( 7_hours ) ) {
         vomit();
+    }
+
+    if( has_trait( trait_HAS_NEMESIS ) && one_turn_in( 2_minutes ) ) {
+        signal_nemesis();
     }
 
     if( has_trait( trait_SHOUT1 ) && one_turn_in( 6_hours ) ) {
@@ -1189,9 +1192,6 @@ void Character::suffer_from_bad_bionics()
     if( has_bionic( bio_power_weakness ) && has_max_power() &&
         get_power_level() >= get_max_power_level() * .75 ) {
         mod_str_bonus( -3 );
-    }
-    if( has_bionic( bio_leaky ) && one_turn_in( 6_minutes ) ) {
-        mod_healthy_mod( -1, -200 );
     }
 }
 

@@ -61,8 +61,6 @@ int OVERMAP_WINDOW_TERM_HEIGHT;
 
 int OVERMAP_LEGEND_WIDTH;
 
-static std::string rm_prefix( std::string str, char c1 = '<', char c2 = '>' );
-
 scrollingcombattext SCT;
 
 // utf8 version
@@ -162,9 +160,9 @@ std::string remove_color_tags( const std::string &s )
     return ret;
 }
 
-static color_tag_parse_result::tag_type update_color_stack(
+color_tag_parse_result::tag_type update_color_stack(
     std::stack<nc_color> &color_stack, const std::string &seg,
-    const report_color_error color_error = report_color_error::yes )
+    const report_color_error color_error )
 {
     color_tag_parse_result tag = get_color_from_tag( seg, color_error );
     switch( tag.type ) {
@@ -990,9 +988,8 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
         width = getmaxx( win ) - ( data.use_full_win ? 1 : b * 2 );
         height = getmaxy( win ) - ( data.use_full_win ? 0 : 2 );
         folded = foldstring( buffer, width - 1 );
-        if( *data.ptr_selected < 0 ) {
-            *data.ptr_selected = 0;
-        } else if( height < 0 || folded.size() < static_cast<size_t>( height ) ) {
+        if( *data.ptr_selected < 0 || height < 0 ||
+            folded.size() < static_cast<size_t>( height ) ) {
             *data.ptr_selected = 0;
         } else if( static_cast<size_t>( *data.ptr_selected + height ) >= folded.size() ) {
             *data.ptr_selected = static_cast<int>( folded.size() ) - height;
@@ -1051,8 +1048,7 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
     }
 
     std::string action;
-    bool exit = false;
-    while( !exit ) {
+    while( true ) {
         ui_manager::redraw();
         action = ctxt.handle_input();
         if( data.handle_scrolling && action == "PAGE_UP" ) {
@@ -1064,10 +1060,10 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
                 ( height > 0 && static_cast<size_t>( *data.ptr_selected + height ) < folded.size() ) ) {
                 ++*data.ptr_selected;
             }
-        } else if( action == "CONFIRM" || action == "QUIT" ) {
-            exit = true;
-        } else if( data.any_input && action == "ANY_INPUT" && !ctxt.get_raw_input().sequence.empty() ) {
-            exit = true;
+        } else if( action == "CONFIRM" || action == "QUIT" ||
+                   ( data.any_input && action == "ANY_INPUT" &&
+                     !ctxt.get_raw_input().sequence.empty() ) ) {
+            break;
         }
     }
 
@@ -1137,6 +1133,15 @@ std::string trim( const std::string &s, Prep prep )
     } ).base() );
 }
 
+template<typename Prep>
+std::string trim_trailing( const std::string &s, Prep prep )
+{
+    return std::string( s.begin(), std::find_if_not(
+    s.rbegin(), s.rend(), [&prep]( int c ) {
+        return prep( c );
+    } ).base() );
+}
+
 std::string trim( const std::string &s )
 {
     return trim( s, []( int c ) {
@@ -1144,10 +1149,11 @@ std::string trim( const std::string &s )
     } );
 }
 
-std::string trim_punctuation_marks( const std::string &s )
+std::string trim_trailing_punctuations( const std::string &s )
 {
-    return trim( s, []( int c ) {
-        return ispunct( c );
+    return trim_trailing( s, []( int c ) {
+        // '<' and '>' are used for tags and should not be removed
+        return c == '.' || c == '!';
     } );
 }
 
@@ -2011,6 +2017,22 @@ std::string satiety_bar( const int calpereffv )
     return result;
 }
 
+std::string healthy_bar( const int healthy )
+{
+    if( healthy > 3 ) {
+        return "<good>+++</good>";
+    } else if( healthy > 0 ) {
+        return "<good>+</good>";
+    } else if( healthy < -3 ) {
+        return "<bad>!!!</bad>";
+    } else if( healthy < 0 ) {
+        return "<bad>-</bad>";
+    } else {
+        return "";
+    }
+}
+
+
 scrollingcombattext::cSCT::cSCT( const point &p_pos, const direction p_oDir,
                                  const std::string &p_sText, const game_message_type p_gmt,
                                  const std::string &p_sText2, const game_message_type p_gmt2,
@@ -2061,6 +2083,10 @@ void scrollingcombattext::add( const point &pos, direction p_oDir,
                                const std::string &p_sText2, const game_message_type p_gmt2,
                                const std::string &p_sType )
 {
+    // TODO: A non-hack
+    if( test_mode ) {
+        return;
+    }
     if( get_option<bool>( "ANIMATION_SCT" ) ) {
 
         int iCurStep = 0;

@@ -39,7 +39,6 @@
 #include "npc.h"
 #include "pathfinding.h"
 #include "pimpl.h"
-#include "player.h"
 #include "rng.h"
 #include "scent_map.h"
 #include "sounds.h"
@@ -64,6 +63,7 @@ static const efftype_id effect_operating( "operating" );
 static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_pushed( "pushed" );
 static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_led_by_leash( "led_by_leash" );
 
 static const itype_id itype_pressurized_tank( "pressurized_tank" );
 
@@ -88,6 +88,9 @@ bool monster::is_immune_field( const field_type_id &fid ) const
     }
     if( fid == fd_insecticidal_gas ) {
         return !made_of( material_id( "iflesh" ) ) || has_flag( MF_INSECTICIDEPROOF );
+    }
+    if( fid == fd_web ) {
+        return has_flag( MF_WEBWALK );
     }
     const field_type &ft = fid.obj();
     if( ft.has_fume ) {
@@ -340,7 +343,7 @@ void monster::plan()
     Character &player_character = get_player_character();
     // If we can see the player, move toward them or flee, simpleminded animals are too dumb to follow the player.
     if( friendly == 0 && seen_levels.test( player_character.pos().z + OVERMAP_DEPTH ) &&
-        sees( player_character ) && !has_flag( MF_PET_WONT_FOLLOW ) ) {
+        sees( player_character ) ) {
         dist = rate_target( player_character, dist, smart_planning );
         fleeing = fleeing || is_fleeing( player_character );
         target = &player_character;
@@ -385,7 +388,8 @@ void monster::plan()
         }
     } else if( friendly != 0 && !docile ) {
         for( monster &tmp : g->all_monsters() ) {
-            if( tmp.friendly == 0 && seen_levels.test( tmp.pos().z + OVERMAP_DEPTH ) ) {
+            if( tmp.friendly == 0 && tmp.attitude_to( *this ) == Attitude::HOSTILE &&
+                seen_levels.test( tmp.pos().z + OVERMAP_DEPTH ) ) {
                 float rating = rate_target( tmp, dist, smart_planning );
                 if( rating < dist ) {
                     target = &tmp;
@@ -631,7 +635,14 @@ void monster::plan()
     } else if( friendly > 0 && one_in( 3 ) ) {
         // Grow restless with no targets
         friendly--;
-    } else if( friendly < 0 && sees( player_character ) ) {
+    } else if( friendly != 0 && has_effect( effect_led_by_leash ) ) {
+        // visibility doesn't matter, we're getting pulled by a leash
+        if( rl_dist( pos(), player_character.pos() ) > 1 ) {
+            set_dest( player_character.pos() );
+        } else {
+            unset_dest();
+        }
+    } else if( friendly < 0 && sees( player_character ) && !has_flag( MF_PET_WONT_FOLLOW ) ) {
         if( rl_dist( pos(), player_character.pos() ) > 2 ) {
             set_dest( player_character.pos() );
         } else {
@@ -779,7 +790,7 @@ void monster::move()
     }
 
     // Check if they're dragging a foe and find their hapless victim
-    player *dragged_foe = find_dragged_foe();
+    Character *dragged_foe = find_dragged_foe();
 
     // Give nursebots a chance to do surgery.
     nursebot_operate( dragged_foe );
@@ -824,12 +835,10 @@ void monster::move()
     optional_vpart_position vp = here.veh_at( pos() );
     bool harness_part = static_cast<bool>( here.veh_at( pos() ).part_with_feature( "ANIMAL_CTRL",
                                            true ) );
-    if( friendly != 0 && vp && vp->vehicle().is_moving() &&
-        vp->vehicle().get_monster( vp->part_index() ) ) {
-        moves = 0;
-        return;
-        // Don't move if harnessed, even if vehicle is stationary
-    } else if( vp && has_effect( effect_harnessed ) ) {
+    if( vp && ( ( friendly != 0 && vp->vehicle().is_moving() &&
+                  vp->vehicle().get_monster( vp->part_index() ) ) ||
+                // Don't move if harnessed, even if vehicle is stationary
+                has_effect( effect_harnessed ) ) ) {
         moves = 0;
         return;
         // If harnessed monster finds itself moved from the harness point, the harness probably broke!
@@ -1011,12 +1020,14 @@ void monster::move()
                     moved = true;
                     next_step = candidate_abs;
                     break;
-                } else if( att == Attitude::FRIENDLY && ( target->is_player() || target->is_npc() ||
-                           target->has_flag( MF_QUEEN ) ) ) {
+                }
+                if( att == Attitude::FRIENDLY && ( target->is_avatar() || target->is_npc() ||
+                                                   target->has_flag( MF_QUEEN ) ) ) {
                     // Friendly firing the player or an NPC is illegal for gameplay reasons.
                     // Monsters should instinctively avoid attacking queens that regenerate their own population.
                     continue;
-                } else if( !has_flag( MF_ATTACKMON ) && !has_flag( MF_PUSH_MON ) ) {
+                }
+                if( !has_flag( MF_ATTACKMON ) && !has_flag( MF_PUSH_MON ) ) {
                     // Bail out if there's a non-hostile monster in the way and we're not pushy.
                     continue;
                 }
@@ -1100,9 +1111,16 @@ void monster::move()
         stumble();
         path.clear();
     }
+    if( has_effect( effect_led_by_leash ) ) {
+        if( rl_dist( pos(), player_character.pos() ) > 2 ) {
+            // Either failed to keep up with the player or moved away
+            remove_effect( effect_led_by_leash );
+            add_msg( m_info, _( "You lose hold of a leash." ) );
+        }
+    }
 }
 
-player *monster::find_dragged_foe()
+Character *monster::find_dragged_foe()
 {
     // Make sure they're actually dragging someone.
     if( !dragged_foe_id.is_valid() || !has_effect( effect_dragging ) ) {
@@ -1113,7 +1131,7 @@ player *monster::find_dragged_foe()
     // Dragged critters may die or otherwise become invalid, which is why we look
     // them up each time. Luckily, monsters dragging critters is relatively rare,
     // so this check should happen infrequently.
-    player *dragged_foe = g->critter_by_id<player>( dragged_foe_id );
+    Character *dragged_foe = g->critter_by_id<Character>( dragged_foe_id );
 
     if( dragged_foe == nullptr ) {
         // Target no longer valid.
@@ -1125,7 +1143,7 @@ player *monster::find_dragged_foe()
 }
 
 // Nursebot surgery code
-void monster::nursebot_operate( player *dragged_foe )
+void monster::nursebot_operate( Character *dragged_foe )
 {
     // No dragged foe, nothing to do.
     if( dragged_foe == nullptr ) {
@@ -1752,6 +1770,12 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
             if( fstr >= 2 ) {
                 here.add_field( sludge_p, fd_sludge, fstr );
             }
+        }
+    }
+
+    if( has_flag( MF_SMALLSLUDGETRAIL ) ) {
+        if( one_in( 2 ) ) {
+            here.add_field( pos(), fd_sludge, 1 );
         }
     }
 

@@ -59,7 +59,6 @@ class item_location;
 class mapgendata;
 class monster;
 class optional_vpart_position;
-class player;
 class relic_procgen_data;
 class submap;
 class vehicle;
@@ -318,7 +317,9 @@ class map
         explicit map( bool zlev ) : map( MAPSIZE, zlev ) { }
         virtual ~map();
 
-        map &operator=( map && ) = default;
+        map &operator=( const map & ) = delete;
+        // NOLINTNEXTLINE(performance-noexcept-move-constructor)
+        map &operator=( map && );
 
         /**
          * Tinymaps will ocassionally need to skip npc rotation in map::rotate
@@ -525,8 +526,13 @@ class map
          * @param w global coordinates of the submap at grid[0]. This
          * is in submap coordinates.
          * @param update_vehicles If true, add vehicles to the vehicle cache.
+         * @param pump_events If true, handle window events during loading. If
+         * you set this to true, do ensure that the map is not accessed before
+         * this function returns (for example, UIs that draw the map should be
+         * disabled).
          */
-        void load( const tripoint_abs_sm &w, bool update_vehicles );
+        void load( const tripoint_abs_sm &w, bool update_vehicles,
+                   bool pump_events = false );
         /**
          * Shift the map along the vector s.
          * This is like loading the map with coordinates derived from the current
@@ -559,7 +565,7 @@ class map
         void create_hot_air( const tripoint &p, int intensity );
         bool gas_can_spread_to( field_entry &cur, const maptile &dst );
         void gas_spread_to( field_entry &cur, maptile &dst, const tripoint &p );
-        int burn_body_part( player &u, field_entry &cur, const bodypart_id &bp, int scale );
+        int burn_body_part( Character &you, field_entry &cur, const bodypart_id &bp, int scale );
     public:
 
         // Movement and LOS
@@ -816,7 +822,7 @@ class map
         std::string furnname( const point &p ) {
             return furnname( tripoint( p, abs_sub.z ) );
         }
-        bool can_move_furniture( const tripoint &pos, player *p = nullptr );
+        bool can_move_furniture( const tripoint &pos, Character *you = nullptr );
 
         // Terrain
         ter_id ter( const tripoint &p ) const;
@@ -899,7 +905,7 @@ class map
          * Calls the examine function of furniture or terrain at given tile, for given character.
          * Will only examine terrain if furniture had @ref iexamine::none as the examine function.
          */
-        void examine( Character &p, const tripoint &pos );
+        void examine( Character &you, const tripoint &pos );
 
         /**
          * Returns true if point at pos is harvestable right now, with no extra tools.
@@ -1283,6 +1289,15 @@ class map
         std::list<item> use_charges( const tripoint &origin, int range, const itype_id &type,
                                      int &quantity, const std::function<bool( const item & )> &filter = return_true<item>,
                                      basecamp *bcp = nullptr );
+
+        /**
+        * Consume UPS from UPS sources from area centered at origin.
+        * @param origin the position of player
+        * @param range how far the UPS can be used from
+        * @return Amount of UPS used which will be between 0 and qty
+        */
+        int consume_ups( const tripoint &origin, int range, int qty );
+
         /*@}*/
         std::list<std::pair<tripoint, item *> > get_rc_items( const tripoint &p = { -1, -1, -1 } );
 
@@ -1741,7 +1756,7 @@ class map
         void rad_scorch( const tripoint &p, const time_duration &time_since_last_actualize );
         void decay_cosmetic_fields( const tripoint &p, const time_duration &time_since_last_actualize );
 
-        void player_in_field( player &u );
+        void player_in_field( Character &you );
         void monster_in_field( monster &z );
         /**
          * As part of the map shifting, this shifts the trap locations stored in @ref traplocs.

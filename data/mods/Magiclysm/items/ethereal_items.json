@@ -856,5 +856,73 @@
     "relic_data": {
       "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_PURE", "add": 10 } ] } ]
     }
+  },
+  {
+    "id": "aura_auroral_guard",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str_sp": "auroral shell" },
+    "description": "A sturdy shell that wraps your body, gaining a sturdy defense.",
+    "weight": "400 g",
+    "volume": "25 L",
+    "material": [ "concentrated_mana" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "armor": [
+      {
+        "encumbrance": 15,
+        "coverage": 100,
+        "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ]
+      }
+    ],
+    "material_thickness": 1.7,
+    "environmental_protection": 8,
+    "flags": [ "ONLY_ONE", "OVERSIZE", "PERSONAL", "STURDY" ]
+  },
+  {
+    "id": "pocket_sun",
+    "type": "TOOL",
+    "category": "tools",
+    "name": { "str": "Pocket Sun" },
+    "description": "A small, capsule-shaped field containing a stable portal to the sun.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "material": [ "sunlight" ],
+    "symbol": "*",
+    "color": "yellow",
+    "qualities": [ [ "BOIL", 2 ], [ "COOK", 3 ] ],
+    "use_action": [
+      {
+        "target": "pocket_sun_cover",
+        "msg": "You cover the pocket sun, and now the gap doesn't emit light.",
+        "menu_text": "Cover",
+        "type": "transform"
+      },
+      { "type": "firestarter", "moves": 10, "moves_slow": 100 }
+    ],
+    "flags": [ "LIGHT_700", "TRADER_AVOID" ]
+  },
+  {
+    "id": "pocket_sun_cover",
+    "type": "TOOL",
+    "category": "weapons",
+    "name": { "str": "Covered Pocket Sun" },
+    "description": "A small, capsule-shaped field containing a stable portal to the sun.  It is currently covered.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "material": [ "sunlight" ],
+    "symbol": "*",
+    "color": "yellow",
+    "qualities": [ [ "BOIL", 2 ], [ "COOK", 3 ] ],
+    "use_action": [
+      {
+        "target": "pocket_sun",
+        "msg": "You remove the cover on the pocket sun, and now the gap emits light again.",
+        "menu_text": "Relieve",
+        "type": "transform"
+      },
+      { "type": "firestarter", "moves": 10, "moves_slow": 100 }
+    ],
+    "flags": [ "TRADER_AVOID" ]
   }
 ]

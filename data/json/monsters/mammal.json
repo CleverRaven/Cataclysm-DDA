@@ -851,6 +851,7 @@
     "melee_cut": 3,
     "dodge": 3,
     "vision_night": 5,
+    "zombify_into": "mon_zombie_dog",
     "path_settings": { "max_dist": 10 },
     "reproduction": { "baby_monster": "mon_dog_pup", "baby_count": 4, "baby_timer": 270 },
     "//": "1-4 puppies & 270 days per-litter for size small canines",

@@ -14,7 +14,6 @@
 #include "flag.h"
 #include "game.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_pocket.h"
 #include "itype.h"
 #include "map.h"
@@ -312,7 +311,7 @@ int vehicle_part::ammo_consume( int qty, const tripoint &pos )
         }
         return res;
     }
-    return base.ammo_consume( qty, pos );
+    return base.ammo_consume( qty, pos, nullptr );
 }
 
 double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )
@@ -332,7 +331,7 @@ double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )
         if( !charges_to_use ) {
             return 0.0;
         }
-        if( charges_to_use > fuel.charges ) {
+        if( charges_to_use >= fuel.charges ) {
             charges_to_use = fuel.charges;
             base.clear_items();
         } else {
@@ -362,7 +361,7 @@ bool vehicle_part::can_reload( const item &obj ) const
             return false;
         }
         // forbid putting liquids, gasses, and plasma in things that aren't tanks
-        else if( !obj.made_of( phase_id::SOLID ) && !is_tank() ) {
+        if( !obj.made_of( phase_id::SOLID ) && !is_tank() ) {
             return false;
         }
         // prevent mixing of different ammo
@@ -541,7 +540,7 @@ bool vehicle_part::is_tank() const
 bool vehicle_part::contains_liquid() const
 {
     return is_tank() && !base.empty() &&
-           base.contents.only_item().made_of( phase_id::LIQUID );
+           base.only_item().made_of( phase_id::LIQUID );
 }
 
 bool vehicle_part::is_battery() const

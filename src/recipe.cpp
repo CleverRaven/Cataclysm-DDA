@@ -804,7 +804,7 @@ std::string required_skills_as_string( Iter first, Iter last, const Character *c
 
     return enumerate_as_string( first, last,
     [&]( const std::pair<skill_id, int> &skill ) {
-        const int player_skill = c ? c->get_skill_level( skill.first ) : 0;
+        const int player_skill = c ? c->get_knowledge_level( skill.first ) : 0;
         std::string difficulty_color = skill.second > player_skill ? "yellow" : "green";
         std::string skill_level_string = print_skill_level ? "" : ( std::to_string( player_skill ) + "/" );
         skill_level_string += std::to_string( skill.second );
@@ -869,13 +869,13 @@ std::string recipe::batch_savings_string() const
            : _( "none" );
 }
 
-std::string recipe::result_name() const
+std::string recipe::result_name( const bool decorated ) const
 {
     std::string name = item::nname( result_ );
-    if( uistate.favorite_recipes.find( this->ident() ) != uistate.favorite_recipes.end() ) {
+    if( decorated &&
+        uistate.favorite_recipes.find( this->ident() ) != uistate.favorite_recipes.end() ) {
         name = "* " + name;
     }
-
     return name;
 }
 

@@ -57,8 +57,6 @@
     "price": 1500,
     "price_postapoc": 250,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "butane": 30 }, "watertight": true, "rigid": true } ],
-    "initial_charges": 30,
-    "max_charges": 30,
     "charges_per_use": 1,
     "material": [ "steel" ],
     "flags": [  ],
@@ -66,7 +64,7 @@
       "power": 4503,
       "distance_factor": 0.1,
       "fire": true,
-      "shrapnel": { "casing_mass": 50, "fragment_mass": 0.05, "recovery": 0 }
+      "shrapnel": { "casing_mass": 50, "fragment_mass": 0.025, "recovery": 0 }
     },
     "explode_in_fire": true
   },
@@ -101,7 +99,6 @@
     "material": [ "plastic" ],
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "max_charges": 100,
     "use_action": {
       "target": "dab_pen_on",
       "msg": "You turn on the dab pen.",
@@ -138,7 +135,6 @@
     "power_draw": 9000,
     "revert_to": "dab_pen",
     "charges_per_use": 1,
-    "max_charges": 100,
     "use_action": {
       "target": "dab_pen",
       "msg": "You turn off the dab pen.",
@@ -379,7 +375,7 @@
     "symbol": ";",
     "color": "brown",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "use_action": {
       "target": "large_space_heater_on",
       "msg": "You turn on the heater.",
@@ -460,7 +456,7 @@
     "//": "gasket sizes range from 1in diameter to 6in.",
     "price": 150,
     "price_postapoc": 50,
-    "to_hit": 10,
+    "to_hit": { "grip": "bad", "length": "hand", "surface": "any", "balance": "neutral" },
     "bashing": 1,
     "material": [ "plastic" ]
   },
@@ -476,8 +472,6 @@
     "material": [ "plastic" ],
     "symbol": ",",
     "color": "dark_gray",
-    "initial_charges": 500,
-    "max_charges": 500,
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "permanent_ink": 500 }, "watertight": true, "rigid": true } ],
     "use_action": { "type": "inscribe", "verb": "Write", "gerund": "Written", "on_terrain": true, "material_restricted": false },
@@ -568,7 +562,7 @@
     "symbol": ";",
     "color": "brown",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "use_action": {
       "target": "small_space_heater_on",
       "msg": "You turn on the heater.",
@@ -613,8 +607,6 @@
     "material": [ "aluminum" ],
     "symbol": ";",
     "color": "light_gray",
-    "initial_charges": 10,
-    "max_charges": 10,
     "charges_per_use": 1,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "aerosol_paint": 10 }, "watertight": true, "rigid": true } ],
     "use_action": [ "SPRAY_CAN" ],

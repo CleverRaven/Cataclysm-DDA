@@ -569,12 +569,15 @@ The common type for JSON-defined attacks. Note, you don't have to declare it in 
 | `range`       		| Integer, range of the attack in tiles (Default 1, this equals melee range). Melee attacks require unobstructed straight paths.
 | `no_adjacent`			| Boolean, default false. Attack can't target adjacent creatures.
 | `effects`				| Array, defines additional effects for the attack to add.
+| `throw_strength`		| Integer, if larger than 0 the attack will attempt to throw the target, every 10 strength equals one tile of distance thrown.
 | `miss_msg_u`			| String, message for missed attack against the player.
 | `miss_msg_npc`		| String, message for missed attack against an NPC.
 | `hit_dmg_u`			| String, message for succesful attack against the player.
 | `hit_dmg_npc`			| String, message for succesful attack against an NPC.
 | `no_dmg_msg_u`		| String, message for a 0-damage attack against the player.
 | `no_dmg_msg_npc`		| String, message for a 0-damage attack against an NPC.
+| `throw_msg_u`		    | String, message for a flinging attack against the player.
+| `throw_msg_npc`		| String, message for a flinging attack against an NPC.
 
 ## "bite"
 
@@ -582,7 +585,7 @@ Makes monster use teeth to bite opponent, uses the same fields as "monster_attac
 
 | field                 | description
 | ---                   | ---
-| `no_infection_chance` | Chance to not give infection. The exact chance to infect is 1-in-( no_infection_chance - damage dealt). 
+| `infection_chance`    | Chance to give infection in a percentage. Exact chance is infection_chance / 100. 
 
 
 ## "leap"

@@ -39,6 +39,7 @@
 #include "mapdata.h"
 #include "memory_fast.h"
 #include "monster.h"
+#include "mtype.h"
 #include "npc.h"
 #include "omdata.h"
 #include "output.h"
@@ -121,7 +122,7 @@ void edit_json( SAVEOBJ &it )
         if( tmret == 0 ) {
             try {
                 SAVEOBJ tmp;
-                deserialize( tmp, save1 );
+                deserialize_from_string( tmp, save1 );
                 it = std::move( tmp );
             } catch( const std::exception &err ) {
                 popup( "Error on deserialization: %s", err.what() );
@@ -743,9 +744,9 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     const std::string u_see_msg = player_character.sees( target ) ? _( "yes" ) : _( "no" );
     mvwprintw( w_info, point( 1, off++ ), _( "dist: %d u_see: %s veh: %s scent: %d" ),
                rl_dist( player_character.pos(), target ), u_see_msg, veh_msg, get_scent().get( target ) );
-    mvwprintw( w_info, point( 1, off++ ), _( "sight_range: %d, daylight_sight_range: %d," ),
+    mvwprintw( w_info, point( 1, off++ ), _( "sight_range: %d, noon_sight_range: %d," ),
                player_character.sight_range( g->light_level( player_character.posz() ) ),
-               player_character.sight_range( current_daylight_level( calendar::turn ) ) );
+               player_character.sight_range( sun_moon_light_at_noon_near( calendar::turn ) ) );
     mvwprintw( w_info, point( 1, off++ ), _( "cache{transp:%.4f seen:%.4f cam:%.4f}" ),
                map_cache.transparency_cache[target.x][target.y],
                map_cache.seen_cache[target.x][target.y],
@@ -1005,7 +1006,6 @@ void apply<ter_t>( const ter_t &t, const shapetype editshape, const tripoint &ta
                    const tripoint &origin, const std::vector<tripoint> &target_list )
 {
     bool isvert = false;
-    bool ishori = false;
     bool doalt = false;
     ter_id teralt = undefined_ter_id;
     int alta = -1;
@@ -1016,7 +1016,6 @@ void apply<ter_t>( const ter_t &t, const shapetype editshape, const tripoint &ta
             isvert = true;
             teralt = get_alt_ter( isvert, sel_ter );
         } else if( t.symbol() == LINE_OXOX || t.symbol() == '-' ) {
-            ishori = true;
             teralt = get_alt_ter( isvert, sel_ter );
         }
         if( teralt != undefined_ter_id ) {
@@ -1035,9 +1034,8 @@ void apply<ter_t>( const ter_t &t, const shapetype editshape, const tripoint &ta
     for( const tripoint &elem : target_list ) {
         ter_id wter = sel_ter;
         if( doalt ) {
-            if( isvert && ( elem.y == alta || elem.y == altb ) ) {
-                wter = teralt;
-            } else if( ishori && ( elem.x == alta || elem.x == altb ) ) {
+            int coord = isvert ? elem.y : elem.x;
+            if( coord == alta || coord == altb ) {
                 wter = teralt;
             }
         }

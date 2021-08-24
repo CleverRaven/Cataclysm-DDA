@@ -36,7 +36,6 @@
     "name": { "str": "large slug" },
     "description": "A disturbingly large mutated slug as large as a human.  Venom drips from something like a mouth and it is covered with sticky mucus.",
     "copy-from": "mon_slug_giant",
-    "looks_like": "mon_worm",
     "volume": "62500 ml",
     "weight": "81500 g",
     "proportional": { "hp": 0.4, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },

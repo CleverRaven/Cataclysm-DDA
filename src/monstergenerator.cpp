@@ -100,6 +100,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_KEENNOSE: return "KEENNOSE";
         case MF_STUMBLES: return "STUMBLES";
         case MF_WARM: return "WARM";
+        case MF_NEMESIS: return "NEMESIS";
         case MF_NOHEAD: return "NOHEAD";
         case MF_HARDTOSHOOT: return "HARDTOSHOOT";
         case MF_GRABS: return "GRABS";
@@ -130,6 +131,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_FIREPROOF: return "FIREPROOF";
         case MF_SLUDGEPROOF: return "SLUDGEPROOF";
         case MF_SLUDGETRAIL: return "SLUDGETRAIL";
+        case MF_SMALLSLUDGETRAIL: return "SMALLSLUDGETRAIL";
         case MF_COLDPROOF: return "COLDPROOF";
         case MF_FIREY: return "FIREY";
         case MF_QUEEN: return "QUEEN";
@@ -1144,11 +1146,12 @@ void MonsterGenerator::check_monster_definitions() const
         }
         if( mon.has_flag( MF_MILKABLE ) && !mon.starting_ammo.empty() &&
             !item( mon.starting_ammo.begin()->first ).made_of( phase_id::LIQUID ) ) {
-            debugmsg( "monster % is flagged milkable, but starting ammo %s is not a liquid type",
+            debugmsg( "monster %s is flagged milkable, but starting ammo %s is not a liquid type",
                       mon.id.c_str(), mon.starting_ammo.begin()->first.str() );
         }
         if( mon.has_flag( MF_MILKABLE ) && mon.starting_ammo.size() > 1 ) {
-            debugmsg( "monster % is flagged milkable, but has multiple starting_ammo defined", mon.id.c_str() );
+            debugmsg( "monster %s is flagged milkable, but has multiple starting_ammo defined",
+                      mon.id.c_str() );
         }
         for( const species_id &spec : mon.species ) {
             if( !spec.is_valid() ) {

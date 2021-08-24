@@ -6,9 +6,12 @@ echo "Using bash version $BASH_VERSION"
 set -exo pipefail
 
 num_jobs=3
+[ -z $NUM_TEST_JOBS ] && num_test_jobs=3 || num_test_jobs=$NUM_TEST_JOBS
 
 # We might need binaries installed via pip, so ensure that our personal bin dir is on the PATH
 export PATH=$HOME/.local/bin:$PATH
+
+$COMPILER --version
 
 if [ -n "$TEST_STAGE" ]
 then
@@ -127,14 +130,17 @@ then
         cd ..
         ln -s build/compile_commands.json
 
+        ./build-scripts/files_changed || echo 'Unable to determine changed files'
+
         # We want to first analyze all files that changed in this PR, then as
         # many others as possible, in a random order.
         set +x
         all_cpp_files="$( \
             grep '"file": "' build/compile_commands.json | \
             sed "s+.*$PWD/++;s+\"$++")"
+        changed_files="$( ./build-scripts/files_changed || echo unknown )"
         changed_cpp_files="$( \
-            ./build-scripts/files_changed | grep -F "$all_cpp_files" || true )"
+            echo "$changed_files" | grep -F "$all_cpp_files" || true )"
         if [ -n "$changed_cpp_files" ]
         then
             remaining_cpp_files="$( \
@@ -157,8 +163,16 @@ then
         echo "Analyzing changed files"
         analyze_files_in_random_order "$changed_cpp_files"
 
-        echo "Analyzing remaining files"
-        analyze_files_in_random_order "$remaining_cpp_files"
+        # Check for changes to any files that would require us to run clang-tidy across everything
+        changed_global_files="$( \
+            echo "$changed_files" | \
+            egrep -i "\.h$|clang-tidy|build-scripts|cmake|unknown" || true )"
+        if [ -n "$changed_global_files" ]
+        then
+            first_changed_file="$(echo "$changed_global_files" | head -n 1)"
+            echo "Analyzing remaining files because $first_changed_file was changed"
+            analyze_files_in_random_order "$remaining_cpp_files"
+        fi
         set -x
     else
         # Regular build
@@ -187,10 +201,10 @@ else
 
     export ASAN_OPTIONS=detect_odr_violation=1
     export UBSAN_OPTIONS=print_stacktrace=1
-    parallel --verbose --linebuffer "run_test './tests/cata_test' {} '('{}')=> '" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
+    parallel -j "$num_test_jobs" --verbose --linebuffer "run_test './tests/cata_test' {} '('{}')=> '" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
     if [ -n "$MODS" ]
     then
-        parallel --verbose --linebuffer "run_test './tests/cata_test --user-dir=modded '$(printf %q "${MODS}") {} 'Mods-('{}')=> '" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
+        parallel -j "$num_test_jobs" --verbose --linebuffer "run_test './tests/cata_test --user-dir=modded '$(printf %q "${MODS}") {} 'Mods-('{}')=> '" ::: "crafting_skill_gain" "[slow] ~crafting_skill_gain" "~[slow] ~[.]"
     fi
 
     if [ -n "$TEST_STAGE" ]

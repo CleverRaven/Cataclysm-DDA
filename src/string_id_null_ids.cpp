@@ -29,6 +29,7 @@ MAKE_NULL_ID( map_extra, "" )
 MAKE_NULL_ID( Skill, "none" )
 MAKE_NULL_ID( SkillDisplayType, "none" )
 MAKE_NULL_ID( npc_class, "NC_NONE" )
+MAKE_NULL_ID( npc_template, "null" )
 MAKE_NULL_ID( faction, "NULL" )
 MAKE_NULL_ID( ammunition_type, "NULL" )
 MAKE_NULL_ID( vpart_info, "null" )
@@ -36,7 +37,9 @@ MAKE_NULL_ID( emit, "null" )
 MAKE_NULL_ID( anatomy, "null_anatomy" )
 MAKE_NULL_ID( martialart, "style_none" )
 MAKE_NULL_ID( recipe, "null" )
+MAKE_NULL_ID( ter_furn_transform, "null" )
 MAKE_NULL_ID( translation, "null" )
+MAKE_NULL_ID( VehicleGroup, "null" )
 
 #define MAKE_NULL_ID2( type, ... ) \
     struct type; \

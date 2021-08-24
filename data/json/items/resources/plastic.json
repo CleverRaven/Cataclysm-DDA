@@ -1,5 +1,35 @@
 [
   {
+    "id": "thermo_resin_chunk",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": { "str": "thermoplastic resin chunk" },
+    "description": "This piece of tough thermoplastic resin could allow you to fabricate, repair, or reinforce items.",
+    "weight": "50 g",
+    "volume": "250 ml",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "thermo_resin" ],
+    "symbol": ",",
+    "color": "light_blue",
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "id": "epoxy_chunk",
+    "type": "TOOL",
+    "category": "spare_parts",
+    "name": { "str": "epoxy chunk" },
+    "description": "This piece of epoxy is hardy and durable.  You could potentially craft items with it.",
+    "weight": "50 g",
+    "volume": "250 ml",
+    "price": 0,
+    "price_postapoc": 10,
+    "material": [ "epoxy" ],
+    "symbol": ",",
+    "color": "light_blue",
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
     "id": "plastic_chunk",
     "type": "TOOL",
     "category": "spare_parts",
@@ -66,8 +96,8 @@
   },
   {
     "id": "polycarbonate_sheet",
-    "type": "GENERIC",
-    "category": "spare_parts",
+    "type": "AMMO",
+    "ammo_type": "NULL",
     "name": { "str": "polycarbonate sheet" },
     "description": "This is a stack of polycarbonate sheets that can be used for, among other things, vacuum molding.",
     "weight": "250 g",
@@ -76,8 +106,9 @@
     "price_postapoc": 25,
     "material": [ "plastic" ],
     "symbol": ")",
-    "color": "light_blue",
-    "use_action": { "type": "deploy_furn", "furn_type": "f_plastic_groundsheet" }
+    "stack_size": 20,
+    "count": 20,
+    "color": "light_blue"
   },
   {
     "id": "rigid_plastic_sheet",

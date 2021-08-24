@@ -8,6 +8,7 @@
 
 #include "cata_utility.h"
 #include "debug.h"
+#include "game_constants.h"
 #include "item.h"
 #include "json.h"
 #include "options.h"
@@ -203,67 +204,158 @@ bool Skill::is_contextual_skill() const
     return _tags.count( contextual_skill ) > 0;
 }
 
-void SkillLevel::train( int amount, bool skip_scaling )
+void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modifier,
+                        bool allow_multilevel )
 {
-    // Working off rust to regain levels goes twice as fast as reaching levels in the first place
-    if( _level < _highestLevel ) {
-        amount *= 2;
+    if( amount < 0 ) {
+        debugmsg( "train() called with negative xp: %d", amount );
+        return;
     }
-
-    if( skip_scaling ) {
-        _exercise += amount;
+    // catchup gets faster the higher the level gap gets.
+    float level_gap = 1.0f * std::max( _knowledgeLevel, 1 ) / std::max( _level, 1 );
+    float catchup_amount = amount * catchup_modifier;
+    float knowledge_amount = amount * knowledge_modifier;
+    if( _knowledgeLevel > _level ) {
+        catchup_amount *= level_gap;
+    } else if( _knowledgeLevel == _level && _knowledgeExperience > _exercise ) {
+        // when you're in the same level, the catchup starts to slow down.
+        catchup_amount = amount * std::max( catchup_modifier - 1.0f * _exercise / _knowledgeExperience,
+                                            1.0f );
+        knowledge_amount = amount * std::max( knowledge_modifier - 0.1f * _exercise / _knowledgeExperience,
+                                              1.0f );
     } else {
-        const double scaling = get_option<float>( "SKILL_TRAINING_SPEED" );
-        if( scaling > 0.0 ) {
-            _exercise += roll_remainder( amount * scaling );
-        }
+        // When your two xp's are equal just do the basic thing.
+        catchup_amount = amount * 1.0f;
+        knowledge_amount = amount * 1.0f;
     }
 
-    if( _exercise >= 100 * 100 * ( _level + 1 ) * ( _level + 1 ) ) {
-        _exercise = 0;
+    // Learning knowledge faster than skill, when you're actually practicing, will generate some annoying problems.
+    if( knowledge_amount > catchup_amount * 0.9f ) {
+        knowledge_amount = catchup_amount * 0.9f;
+    }
+
+    if( _knowledgeLevel >= MAX_SKILL ) {
+        knowledge_amount = 0;
+    }
+
+    const double scaling = get_option<float>( "SKILL_TRAINING_SPEED" );
+    if( scaling > 0.0 ) {
+        catchup_amount *= scaling;
+        knowledge_amount *= scaling;
+    }
+    _exercise += catchup_amount;
+    if( _exercise < 0 ) {
+        debugmsg( "integer overflow in train() amount=%d catchup_modifier=%g knowledge_modifier=%g level_gap=%g catchup_amount=%g knowledge_amount=%g scaling=%g _exercise=%d",
+                  amount, catchup_modifier, knowledge_modifier, level_gap, catchup_amount, knowledge_amount, scaling,
+                  _exercise );
+        _exercise -= catchup_amount;
+        return;
+    }
+    _rustAccumulator -= catchup_amount;
+    _knowledgeExperience += knowledge_amount;
+
+    const auto xp_to_level = [&]() {
+        return 100 * 100 * ( _level + 1 ) * ( _level + 1 );
+    };
+    while( _exercise >= xp_to_level() ) {
+        _exercise = allow_multilevel ? _exercise - xp_to_level() : 0;
         ++_level;
-        if( _level > _highestLevel ) {
-            _highestLevel = _level;
+        if( _level > _knowledgeLevel ) {
+            _knowledgeLevel = _level;
+            _knowledgeExperience = 0;
         }
+    }
+
+    if( _rustAccumulator < 0 ) {
+        _rustAccumulator = 0;
+    }
+    if( _level == _knowledgeLevel && _exercise > _knowledgeExperience ) {
+        _knowledgeExperience = _exercise;
+    }
+
+    if( _knowledgeExperience >= 10000 * ( _knowledgeLevel + 1 ) * ( _knowledgeLevel + 1 ) ) {
+        _knowledgeExperience = 0;
+        ++_knowledgeLevel;
     }
 }
 
-namespace
-{
-time_duration rustRate( int level )
-{
-    // for n = [0, 7]
-    //
-    // 2^18
-    // -------
-    // 2^(18-n)
 
-    unsigned const n = clamp( level, 0, 7 );
-    return time_duration::from_turns( 1 << ( 18 - n ) );
+void SkillLevel::knowledge_train( int amount, int npc_knowledge )
+{
+    float level_gap = 1.0f;
+    // when your _level is the same or 1 level below your knowledge, gain xp at the normal rate.
+    // as your practical skill lags behind your knowledge, it gets harder to contextualize that
+    // theoretical knowledge, and your ability to learn the theory gets slower.
+
+    // The same formula applies to NPCs teaching you, but in that case the level decreases as their knowledge
+    // level exceeds your own.  The best teacher is one who is only somewhat more knowledgeable than you.
+    if( npc_knowledge > 0 ) {
+        // This should later be modified by NPC teaching proficiencies.
+        level_gap = std::max( npc_knowledge * 1.0f - _knowledgeLevel * 1.0f, 1.0f );
+    } else {
+        // Some day this should be affected by json specific to the skill, some skills are more amenable
+        // to book learning.
+        level_gap = std::max( _knowledgeLevel * 1.0f - _level * 1.0f, 1.0f );
+    }
+    float level_mult = 2.0f / ( level_gap + 1.0f );
+    amount *= level_mult;
+
+    const double scaling = get_option<float>( "SKILL_TRAINING_SPEED" );
+    if( scaling > 0.0 ) {
+        amount = std::ceil( amount * scaling );
+    }
+    _knowledgeExperience += amount;
+
+    if( _knowledgeExperience >= 10000 * ( _knowledgeLevel + 1 ) * ( _knowledgeLevel + 1 ) ) {
+        _knowledgeExperience = 0;
+        ++_knowledgeLevel;
+    }
+
 }
-} //namespace
 
-bool SkillLevel::isRusting() const
+bool SkillLevel::isRusty() const
 {
-    return get_option<std::string>( "SKILL_RUST" ) != "off" && ( _level > 0 ) &&
-           calendar::turn - _lastPracticed > rustRate( _level );
+    // skill is considered rusty if the practical xp lags knowledge xp by at least 1%
+    return _level != _knowledgeLevel ||
+           _knowledgeExperience - _exercise >= ( _level + 1 ) * ( _level + 1 ) * 10;
 }
 
-bool SkillLevel::rust( int rust_resist, int character_rate )
+bool SkillLevel::rust( int rust_resist )
 {
-    const time_duration delta = calendar::turn - _lastPracticed;
-    const float char_rate = character_rate / 100.0f;
-    const time_duration skill_rate = rustRate( _level );
-    if( to_turns<int>( skill_rate ) * char_rate <= 0 || delta <= 0_turns ||
-        delta % ( skill_rate * char_rate ) != 0_turns ) {
+    if( _level >= MAX_SKILL ) {
+        // don't rust any more once you hit the level cap, at least until we have a way to "pause" rust for a while.
         return false;
     }
 
-    if( rust_resist > 0 ) {
-        return x_in_y( rust_resist, 100 );
+    const int level_multiplier = ( _level + 1 ) * ( _level + 1 );
+    float level_exp = level_multiplier * 10000.0f;
+    if( _rustAccumulator > level_exp * 3 ) {
+        // at this point the numbers ahead will be too small to bother.  Just cap it off.
+        return false;
     }
 
-    _exercise -= _level * 100;
+    // Future plans: Have rust_slowdown impacted by intelligence and other memory-affecting things
+    float rust_slowdown = std::max( static_cast<float>( std::sqrt( _rustAccumulator / level_exp ) ),
+                                    0.04f );
+
+    // rust amount starts at 4% of a level's xp, run every 24 hours.
+    // Once the accumulated rust exceeds 16% of a level, rust_amount starts to drop.
+    int rust_amount = level_multiplier * 16 / rust_slowdown;
+
+    if( rust_resist > 0 ) {
+        rust_amount = std::lround( rust_amount * ( std::max( ( 100 - rust_resist ), 0 ) / 100.0 ) );
+    }
+
+    if( _level == 0 ) {
+        rust_amount = std::min( rust_amount, _exercise );
+    }
+
+    if( rust_amount < 1 ) {
+        return false;
+    }
+
+    _rustAccumulator += rust_amount;
+    _exercise -= rust_amount;
     const std::string &rust_type = get_option<std::string>( "SKILL_RUST" );
     if( _exercise < 0 ) {
         if( rust_type == "vanilla" || rust_type == "int" ) {
@@ -284,8 +376,8 @@ void SkillLevel::practice()
 
 void SkillLevel::readBook( int minimumGain, int maximumGain, int maximumLevel )
 {
-    if( _level < maximumLevel || maximumLevel < 0 ) {
-        train( ( _level + 1 ) * rng( minimumGain, maximumGain ) * 100 );
+    if( _knowledgeLevel < maximumLevel || maximumLevel < 0 ) {
+        knowledge_train( ( _knowledgeLevel + 1 ) * rng( minimumGain, maximumGain ) * 100 );
     }
 
     practice();
@@ -332,6 +424,12 @@ void SkillLevelMap::mod_skill_level( const skill_id &ident, int delta )
     obj.level( obj.level() + delta );
 }
 
+void SkillLevelMap::mod_knowledge_level( const skill_id &ident, int delta )
+{
+    SkillLevel &obj = get_skill_level_object( ident );
+    obj.knowledgeLevel( obj.knowledgeLevel() + delta );
+}
+
 int SkillLevelMap::get_skill_level( const skill_id &ident ) const
 {
     return get_skill_level_object( ident ).level();
@@ -341,6 +439,17 @@ int SkillLevelMap::get_skill_level( const skill_id &ident, const item &context )
 {
     const auto id = context.is_null() ? ident : context.contextualize_skill( ident );
     return get_skill_level( id );
+}
+
+int SkillLevelMap::get_knowledge_level( const skill_id &ident ) const
+{
+    return get_skill_level_object( ident ).knowledgeLevel();
+}
+
+int SkillLevelMap::get_knowledge_level( const skill_id &ident, const item &context ) const
+{
+    const auto id = context.is_null() ? ident : context.contextualize_skill( ident );
+    return get_knowledge_level( id );
 }
 
 bool SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req ) const
@@ -353,7 +462,9 @@ bool SkillLevelMap::meets_skill_requirements( const std::map<skill_id, int> &req
 {
     return std::all_of( req.begin(), req.end(),
     [this, &context]( const std::pair<skill_id, int> &pr ) {
-        return get_skill_level( pr.first, context ) >= pr.second;
+        // Whether or not you meet skill requirements should be based on your level of theory training,
+        // not practical experience.
+        return get_knowledge_level( pr.first, context ) >= pr.second;
     } );
 }
 
@@ -387,9 +498,19 @@ int SkillLevelMap::exceeds_recipe_requirements( const recipe &rec ) const
     return over;
 }
 
+bool SkillLevelMap::theoretical_recipe_requirements( const recipe &rec ) const
+{
+    // Regardless of your current practical skill, do you know the theory of how to make this thing?
+    int knowhow = rec.skill_used ? get_knowledge_level( rec.skill_used ) - rec.difficulty : 0;
+    for( const auto &elem : compare_skill_requirements( rec.required_skills ) ) {
+        knowhow = std::min( knowhow, elem.second );
+    }
+    return ( knowhow > 0 );
+}
+
 bool SkillLevelMap::has_recipe_requirements( const recipe &rec ) const
 {
-    return exceeds_recipe_requirements( rec ) >= 0;
+    return ( exceeds_recipe_requirements( rec ) >= 0 || theoretical_recipe_requirements( rec ) );
 }
 
 // Actually take the difference in social skill between the two parties involved

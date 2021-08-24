@@ -665,6 +665,10 @@ int ma_buff::block_bonus( const Character &u ) const
 {
     return bonuses.get_flat( u, affected_stat::BLOCK );
 }
+int ma_buff::arpen_bonus( const Character &u, damage_type dt ) const
+{
+    return bonuses.get_flat( u, affected_stat::ARMOR_PENETRATION, dt );
+}
 int ma_buff::block_effectiveness_bonus( const Character &u ) const
 {
     return bonuses.get_flat( u, affected_stat::BLOCK_EFFECTIVENESS );
@@ -925,14 +929,23 @@ bool character_martial_arts::can_leg_block( const Character &owner ) const
 {
     const martialart &ma = style_selected.obj();
     ///\EFFECT_UNARMED increases ability to perform leg block
-    int unarmed_skill = owner.has_active_bionic( bio_cqb ) ? 5 : owner.get_skill_level(
-                            skill_unarmed );
+    const int unarmed_skill = owner.has_active_bionic( bio_cqb ) ? 5 : owner.get_skill_level(
+                                  skill_unarmed );
+
+    // Before we check our legs, can you block at all?
+    const bool block_with_skill = unarmed_skill >= ma.leg_block;
+    const bool block_with_bio_armor = ma.leg_block_with_bio_armor_legs &&
+                                      owner.has_bionic( bio_armor_legs );
+    if( !( block_with_skill || block_with_bio_armor ) ) {
+        return false;
+    }
 
     // Success conditions.
     if( owner.get_working_leg_count() >= 1 ) {
         if( unarmed_skill >= ma.leg_block ) {
             return true;
-        } else if( ma.leg_block_with_bio_armor_legs && owner.has_bionic( bio_armor_legs ) ) {
+        }
+        if( ma.leg_block_with_bio_armor_legs && owner.has_bionic( bio_armor_legs ) ) {
             return true;
         }
     }
@@ -944,15 +957,23 @@ bool character_martial_arts::can_arm_block( const Character &owner ) const
 {
     const martialart &ma = style_selected.obj();
     ///\EFFECT_UNARMED increases ability to perform arm block
-    int unarmed_skill = owner.has_active_bionic( bio_cqb ) ? 5 : owner.get_skill_level(
-                            skill_unarmed );
+    const int unarmed_skill = owner.has_active_bionic( bio_cqb ) ? 5 : owner.get_skill_level(
+                                  skill_unarmed );
+
+    // before we check our arms, can you block at all?
+    const bool block_with_skill = unarmed_skill >= ma.arm_block;
+    const bool block_with_bio_armor = ma.arm_block_with_bio_armor_arms &&
+                                      owner.has_bionic( bio_armor_arms );
+    if( !( block_with_skill || block_with_bio_armor ) ) {
+        return false;
+    }
 
     // Success conditions.
-    if( !owner.is_limb_broken( bodypart_id( "arm_l" ) ) ||
-        !owner.is_limb_broken( bodypart_id( "arm_r" ) ) ) {
+    if( owner.blocking_score( body_part_type::type::arm ) >= 1.0f ) {
         if( unarmed_skill >= ma.arm_block ) {
             return true;
-        } else if( ma.arm_block_with_bio_armor_arms && owner.has_bionic( bio_armor_arms ) ) {
+        }
+        if( ma.arm_block_with_bio_armor_arms && owner.has_bionic( bio_armor_arms ) ) {
             return true;
         }
     }
@@ -1089,6 +1110,14 @@ int Character::mabuff_speed_bonus() const
     int ret = 0;
     accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff & b, const effect & d ) {
         ret += d.get_intensity() * b.speed_bonus( *this );
+    } );
+    return ret;
+}
+int Character::mabuff_arpen_bonus( damage_type type ) const
+{
+    int ret = 0;
+    accumulate_ma_buff_effects( *effects, [&ret, type, this]( const ma_buff & b, const effect & d ) {
+        ret += d.get_intensity() * b.arpen_bonus( *this, type );
     } );
     return ret;
 }
@@ -1532,9 +1561,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         } );
 
         do {
-            if( selected < 0 ) {
-                selected = 0;
-            } else if( iLines < height ) {
+            if( selected < 0 || iLines < height ) {
                 selected = 0;
             } else if( selected >= iLines - height ) {
                 selected = iLines - height;

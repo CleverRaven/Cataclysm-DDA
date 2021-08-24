@@ -163,6 +163,7 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 - ```thrown``` Thrown
 - ```unfinished_char``` Semi-charred fuel
 - ```water``` Water
+- ```paper``` Paper
 
 ### Effects
 
@@ -406,6 +407,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```WASH_HARD_ITEMS``` Wash hard items with FILTHY flag.
 - ```WASH_SOFT_ITEMS``` Wash soft items with FILTHY flag.
 - ```WATER_PURIFIER``` Purify water.
+- ```BINDER_ADD_RECIPE``` Add recipe to a book binder.
 
 
 ## Comestibles
@@ -474,6 +476,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ACID``` when consumed using the BLECH function, penalties are reduced if acidproof.
 - ```CARNIVORE_OK``` Can be eaten by characters with the Carnivore mutation.
 - ```CANT_HEAL_EVERYONE``` This med can't be used by everyone, it require a special mutation. See `can_heal_with` in mutation.
+- ```CORROSIVE``` when consumed using the BLECH function, causes the same penalties as ACID but is not affected by acidproof.
 - ```EATEN_COLD``` Morale bonus for eating cold.
 - ```EATEN_HOT``` Morale bonus for eating hot.
 - ```EDIBLE_FROZEN``` Being frozen doesn't prevent eating it. No morale bonus.
@@ -649,6 +652,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```FIREWOOD``` ... This item can serve as a firewood. Items with this flag are sorted out to "Loot: Wood" zone
 - ```FRAGILE_MELEE``` ... Fragile items that fall apart easily when used as a weapon due to poor construction quality and will break into components when broken.
 - ```GAS_DISCOUNT``` ... Discount cards for the automated gas stations.
+- ```ITEM_BROKEN``` ... Item was broken and won't activate anymore.
 - ```IS_PET_ARMOR``` ... Is armor for a pet monster, not armor for a person
 - ```LEAK_ALWAYS``` ... Leaks (may be combined with "RADIOACTIVE").
 - ```LEAK_DAM``` ... Leaks when damaged (may be combined with "RADIOACTIVE").
@@ -662,6 +666,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```NPC_THROWN``` ... NPCs will throw this item (without activating it first) as an alternative attack.
 - ```NPC_THROW_NOW``` ... NPCs will try to throw this item away, preferably at enemies. Implies "TRADER_AVOID" and "NPC_THROWN".
 - ```PERFECT_LOCKPICK``` ... Item is a perfect lockpick. Takes only 5 seconds to pick a lock and never fails, but using it grants only a small amount of lock picking xp. The item should have "LOCKPICK" quality of at least 1.
+- ```PRESERVE_SPAWN_OMT``` ... This item will store the OMT that it spawns in in the `spawn_location_omt` item var.
 - ```PSEUDO``` ... Used internally to mark items that are referred to in the crafting inventory but are not actually items. They can be used as tools, but not as components. Implies "TRADER_AVOID".
 - ```RADIOACTIVE``` ... Is radioactive (can be used with LEAK_*).
 - ```RAIN_PROTECT``` ... Protects from sunlight and from rain, when wielded.
@@ -681,6 +686,9 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```TRADER_KEEP_EQUIPPED``` ... NPCs will only trade this item if they aren't currently wearing or wielding it.
 - ```UNBREAKABLE_MELEE``` ... Never gets damaged when used as melee weapon.
 - ```UNRECOVERABLE``` ... Cannot be recovered from a disassembly.
+- ```WATER_BREAK``` ... Item is broken in water.
+- ```WATER_BREAK_ACTIVE``` ... Item can get wet and is broken in water if active.
+- ```WATER_DISSOLVE``` ... Item is dissolved in water.
 - ```ZERO_WEIGHT``` Normally items with zero weight will generate an error.
   Use this flag to indicate that zero weight is intentional and suppress that
   error.
@@ -968,8 +976,10 @@ Other monster flags.
 - ```SHEARABLE``` This monster can be sheared for wool.
 - ```SLUDGEPROOF``` Ignores the effect of sludge trails.
 - ```SLUDGETRAIL``` Causes the monster to leave a sludge trap trail when moving.
+- ```SMALLSLUDGETRAIL``` Causes the monster to occasionally leave a 1-tile sludge trail when moving.
 - ```SMELLS``` It can smell you.
 - ```STUMBLES``` Stumbles in its movement.
+- ```STUN_IMMUNE``` - This monster is immune to stun.
 - ```SUNDEATH``` Dies in full sunlight.
 - ```SWARMS``` Groups together and forms loose packs.
 - ```SWIMS``` Treats water as 50 movement point terrain.
@@ -1010,7 +1020,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```BIO_OP_TAKEDOWN``` Takedown attack, bashes either the target's head or torso and inflicts `downed`.
 - ```BIO_OP_DISARM``` Disarming attack, does no damage.
 - ```BIO_OP_IMPALE``` Stabbing attack, deals heavy damage and has a chance to cause bleeding .
-- ```BITE``` Bite attack that can cause deep infected wounds if the target is `grabbed` at the same time.
+- ```BITE``` Bite attack that can cause deep infected wounds. If the attacker is humanoid, the target must be `grabbed` before BITE can trigger.
 - ```BOOMER_GLOW``` Spit glowing bile.
 - ```BOOMER``` Spit bile.
 - ```BRANDISH``` Brandish a knife at the player.
@@ -1084,7 +1094,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```SHRIEK_STUN``` "a stunning shriek!", causes a small bash, can cause a stun.
 - ```SHRIEK``` "a terrible shriek!"
 - ```SLIMESPRING``` Can provide a morale boost to the player, and cure bite and bleed effects.
-- ```SMASH``` Smashes the target for massive damage, sending it flying for a number of tiles equal to `("melee_dice" * "melee_dice_sides" * 3) / 10`.
+- ```SMASH``` Smashes the target, sending it flying for a number of tiles equal to `("melee_dice" * "melee_dice_sides" * 3) / 10`. JSON equivalent is `id: smash`.
 - ```SPIT_SAP``` Spit sap (acid damage, 12 range).
 - ```STARE``` Stare at the player and inflict ramping debuffs (`taint>tindrift`).
 - ```STRETCH_ATTACK``` Ranged (3 tiles) piercing attack, doing 5-10 damage. JSON equivalent is `id: stretch_attack`
@@ -1104,6 +1114,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 
 #### Flags
 
+- ```HARDTOHIT``` Whenever something attacks you, RNG gets rolled twice and you get the better result.
 - ```UNARMED_BONUS``` You get a bonus to unarmed bash and cut damage equal to unarmed_skill/2 up to 4.
 
 ### Categories
@@ -1533,3 +1544,4 @@ Gun fault flags:
 - ```HEATSINK``` You are resistant to extreme heat.
 - ```THERMOMETER``` You always know what temperature it is.
 - ```CBQ_LEARN_BONUS``` You learn CBQ from the bionic bio_cqb faster.
+- ```GILLS``` You can breathe underwater.

@@ -34,10 +34,16 @@ struct mm_submap {
         static const int default_symbol;
 
         mm_submap();
+        explicit mm_submap( bool make_valid );
 
         /** Whether this mm_submap is empty. Empty submaps are skipped during saving. */
         bool is_empty() const {
             return tiles.empty() && symbols.empty();
+        }
+
+        // Whether this mm_submap is invalid, i.e. returned from an uninitialized region.
+        bool is_valid() const {
+            return valid;
         }
 
         inline const memorized_terrain_tile &tile( const point &p ) const {
@@ -78,8 +84,11 @@ struct mm_submap {
         void deserialize( JsonIn &jsin );
 
     private:
+        // NOLINTNEXTLINE(cata-serialize)
         std::vector<memorized_terrain_tile> tiles; // holds either 0 or SEEX*SEEY elements
+        // NOLINTNEXTLINE(cata-serialize)
         std::vector<int> symbols; // holds either 0 or SEEX*SEEY elements
+        bool valid = true; // NOLINT(cata-serialize)
 };
 
 /**

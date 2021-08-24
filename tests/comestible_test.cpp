@@ -11,7 +11,6 @@
 #include "cata_catch.h"
 #include "character.h"
 #include "item.h"
-#include "item_contents.h"
 #include "itype.h"
 #include "make_static.h"
 #include "output.h"
@@ -55,12 +54,11 @@ static std::vector<item_comp> item_comp_vector_create(
     return list;
 }
 
-static std::vector<std::vector<item_comp>> recipe_permutations(
-        const std::vector< std::vector< item_comp > > &vv )
+static all_stats recipe_permutations(
+    const std::vector< std::vector< item_comp > > &vv, int byproduct_calories )
 {
     std::vector<int> muls;
     std::vector<int> szs;
-    std::vector<std::vector<item_comp>> output;
 
     int total_mul = 1;
     int sz = vv.size();
@@ -77,15 +75,17 @@ static std::vector<std::vector<item_comp>> recipe_permutations(
     // container to hold the indices:
     std::vector<int> ndx;
     ndx.resize( sz );
+    all_stats mystats;
     for( int i = 0; i < total_mul; ++i ) {
         for( int j = 0; j < sz; ++j ) {
             ndx[j] = ( i / muls[j] ) % szs[j];
         }
 
-        // Do thing with indices
-        output.emplace_back( item_comp_vector_create( vv, ndx ) );
+        const std::vector<item_comp> permut( item_comp_vector_create( vv, ndx ) );
+        // Accumulate the stats.
+        mystats.calories.add( comp_calories( permut ) - byproduct_calories );
     }
-    return output;
+    return mystats;
 }
 
 static int byproduct_calories( const recipe &recipe_obj )
@@ -101,20 +101,10 @@ static int byproduct_calories( const recipe &recipe_obj )
     return kcal;
 }
 
-static all_stats run_stats( const std::vector<std::vector<item_comp>> &permutations,
-                            int byproduct_calories )
-{
-    all_stats mystats;
-    for( const std::vector<item_comp> &permut : permutations ) {
-        mystats.calories.add( comp_calories( permut ) - byproduct_calories );
-    }
-    return mystats;
-}
-
 static item food_or_food_container( const item &it )
 {
     // if it contains an item, it's a food container. it will also contain only one item.
-    return it.num_item_stacks() > 0 ? it.contents.only_item() : it;
+    return it.num_item_stacks() > 0 ? it.only_item() : it;
 }
 
 TEST_CASE( "recipe_permutations", "[recipe]" )
@@ -134,9 +124,8 @@ TEST_CASE( "recipe_permutations", "[recipe]" )
         const bool has_override = res_it.has_flag( STATIC( flag_id( "NUTRIENT_OVERRIDE" ) ) );
         if( is_food && !has_override ) {
             // Collection of kcal values of all ingredient permutations
-            all_stats mystats = run_stats(
-                                    recipe_permutations( recipe_obj.simple_requirements().get_components() ),
-                                    byproduct_calories( recipe_obj ) );
+            all_stats mystats = recipe_permutations( recipe_obj.simple_requirements().get_components(),
+                                byproduct_calories( recipe_obj ) );
             if( mystats.calories.n() < 2 ) {
                 continue;
             }
