@@ -31,7 +31,7 @@
     "result": "xl_arm_warmers",
     "type": "recipe",
     "copy-from": "arm_warmers",
-    "time": "120 m",
+    "time": "100 m",
     "byproducts": [ [ "scrap_cotton", 109 ] ],
     "using": [ [ "tailoring_cotton_patchwork", 2 ] ]
   },
@@ -60,7 +60,7 @@
     "result": "xl_armguard_chitin",
     "type": "recipe",
     "copy-from": "armguard_chitin",
-    "time": "520 m",
+    "time": "440 m",
     "byproducts": [ [ "scrap_leather", 100 ] ],
     "using": [ [ "armor_chitin", 4 ], [ "tailoring_leather_small", 3 ] ]
   },
@@ -89,7 +89,7 @@
     "result": "xl_armguard_acidchitin",
     "type": "recipe",
     "copy-from": "armguard_acidchitin",
-    "time": "520 m",
+    "time": "440 m",
     "byproducts": [ [ "scrap_leather", 100 ] ],
     "using": [ [ "armor_acidchitin", 4 ], [ "tailoring_leather_small", 3 ] ]
   },
@@ -112,7 +112,7 @@
     "result": "xl_armguard_hard",
     "type": "recipe",
     "copy-from": "armguard_hard",
-    "time": "390 m",
+    "time": "290 m",
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 4 ], [ "tailor_portfolio", 3 ] ],
     "byproducts": [ [ "scrap_neoprene", 67 ] ],
     "using": [ [ "plastic_molding", 3 ], [ "tailoring_neoprene_patchwork", 3 ] ]
@@ -135,7 +135,7 @@
     "result": "xl_armguard_larmor",
     "type": "recipe",
     "copy-from": "armguard_larmor",
-    "time": "820 m",
+    "time": "810 m",
     "byproducts": [ [ "leather", 12 ], [ "scrap_leather", 36 ] ],
     "using": [ [ "tailoring_leather", 4 ] ]
   },
@@ -165,7 +165,7 @@
     "result": "xl_armguard_lightplate",
     "type": "recipe",
     "copy-from": "armguard_lightplate",
-    "time": "1100 m",
+    "time": "1010 m",
     "using": [ [ "blacksmithing_standard", 28 ], [ "steel_standard", 3 ], [ "tailoring_leather", 3 ] ]
   },
   {
@@ -188,7 +188,7 @@
     "result": "xl_armguard_metal",
     "type": "recipe",
     "copy-from": "armguard_metal",
-    "time": "45 m",
+    "time": "35 m",
     "using": [ [ "cordage", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "sheet_metal_small", 6 ] ] ],
@@ -226,7 +226,7 @@
     "result": "xl_armguard_scrap",
     "type": "recipe",
     "copy-from": "armguard_scrap",
-    "time": "45 m",
+    "time": "35 m",
     "using": [ [ "cordage", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap", 80 ] ] ],
@@ -250,7 +250,7 @@
     "result": "xl_armguard_soft",
     "type": "recipe",
     "copy-from": "armguard_soft",
-    "time": "360 m",
+    "time": "315 m",
     "byproducts": [ [ "scrap_cotton", 58 ], [ "scrap_neoprene", 59 ] ],
     "using": [ [ "tailoring_cotton_patchwork", 3 ], [ "tailoring_neoprene_patchwork", 2 ] ]
   },
@@ -315,7 +315,7 @@
     "result": "xl_vambrace_larmor",
     "type": "recipe",
     "copy-from": "vambrace_larmor",
-    "time": "430 m",
+    "time": "405 m",
     "byproducts": [ [ "leather", 3 ], [ "scrap_leather", 24 ] ],
     "using": [ [ "tailoring_leather", 2 ] ]
   },
@@ -341,7 +341,7 @@
     "result": "xl_chainmail_arms",
     "type": "recipe",
     "copy-from": "chainmail_arms",
-    "time": "1190 m",
+    "time": "945 m",
     "byproducts": [ [ "rag", 3 ], [ "scrap_cotton", 86 ] ],
     "using": [ [ "armor_chainmail_assembling", 3 ], [ "tailoring_cotton_patchwork", 11 ] ]
   }
