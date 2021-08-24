@@ -2647,7 +2647,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
                 display += _( "\n<bold>Types</bold>: " ) + mag_names;
             }
             if( !flag_restrictions.empty() ) {
-                display += _( "\n<bold>Flags</bold>: " ) + flag_names;
+                display += _( "\n<bold>Form factors</bold>: " ) + flag_names;
             }
 
             info.emplace_back( "DESCRIPTION", display );
@@ -3589,7 +3589,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                     display += _( "\n<bold>Types</bold>: " ) + mag_names;
                 }
                 if( !flag_restrictions.empty() ) {
-                    display += _( "\n<bold>Flags</bold>: " ) + flag_names;
+                    display += _( "\n<bold>Form factors</bold>: " ) + flag_names;
                 }
 
                 info.emplace_back( "DESCRIPTION", display );

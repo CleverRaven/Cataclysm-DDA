@@ -1711,7 +1711,7 @@
     "info": "This item fits in items that use ultra-light batteries.",
     "name": "ultra-light battery"
   },
-   {
+  {
     "id": "BATTERY_LIGHT",
     "type": "json_flag",
     "context": [  ],
