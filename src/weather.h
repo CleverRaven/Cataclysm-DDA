@@ -190,5 +190,6 @@ class weather_manager
 };
 
 weather_manager &get_weather();
+const weather_manager &get_weather_const();
 
 #endif // CATA_SRC_WEATHER_H
