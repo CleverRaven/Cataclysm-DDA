@@ -1705,6 +1705,13 @@
     "info": "You could probably use this to access a secure zone of a facility."
   },
   {
+    "id": "BATTERY_ULTRA_LIGHT",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This item fits in items that use ultra-light batteries.",
+    "name": "ultra-light battery"
+  },
+   {
     "id": "BATTERY_LIGHT",
     "type": "json_flag",
     "context": [  ],

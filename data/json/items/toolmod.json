@@ -50,7 +50,7 @@
     "pocket_mods": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "flag_restriction": [ "BATTERY_LIGHT" ],
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
         "default_magazine": "light_minus_battery_cell"
       }
     ]
