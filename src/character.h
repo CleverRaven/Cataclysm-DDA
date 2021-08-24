@@ -2843,11 +2843,10 @@ class Character : public Creature, public visitable
         int last_batch;
         itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
 
-        // Checks crafting inventory for books providing the requested recipe.
-        // Then checks nearby NPCs who could provide it too.
-        // Returns -1 to indicate recipe not found, otherwise difficulty to learn.
-        int has_recipe( const recipe *r, const inventory &crafting_inv,
-                        const std::vector<npc *> &helpers ) const;
+        // Returns true if the character knows the recipe, is near a book or device
+        // providing the recipe or a nearby NPC knows it.
+        bool has_recipe( const recipe *r, const inventory &crafting_inv,
+                         const std::vector<npc *> &helpers ) const;
         bool knows_recipe( const recipe *rec ) const;
         void learn_recipe( const recipe *rec );
         int exceeds_recipe_requirements( const recipe &rec ) const;

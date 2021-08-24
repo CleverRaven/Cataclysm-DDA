@@ -503,7 +503,7 @@ bool Character::can_make( const recipe *r, int batch_size )
 {
     const inventory &crafting_inv = crafting_inventory();
 
-    if( has_recipe( r, crafting_inv, get_crafting_helpers() ) < 0 ) {
+    if( !has_recipe( r, crafting_inv, get_crafting_helpers() ) ) {
         return false;
     }
 
@@ -1185,15 +1185,15 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
             if( knows_recipe( &making ) ) {
                 add_msg( _( "You craft %s from memory." ), making.result_name() );
             } else {
-                add_msg( _( "You craft %s using a book as a reference." ), making.result_name() );
-                // If we made it, but we don't know it,
-                // we're making it from a book and have a chance to learn it.
+                add_msg( _( "You craft %s using a reference." ), making.result_name() );
+                // If we made it, but we don't know it, we're using a book, device or NPC
+                // as a reference and have a chance to learn it.
                 // Base expected time to learn is 1000*(difficulty^4)/skill/int moves.
                 // This means time to learn is greatly decreased with higher skill level,
                 // but also keeps going up as difficulty goes up.
                 // Worst case is lvl 10, which will typically take
                 // 10^4/10 (1,000) minutes, or about 16 hours of crafting it to learn.
-                int difficulty = has_recipe( &making, crafting_inventory(), get_crafting_helpers() );
+                int difficulty = making.difficulty;
                 ///\EFFECT_INT increases chance to learn recipe when crafting from a book
                 const double learning_speed =
                     std::max( get_skill_level( making.skill_used ), 1 ) *

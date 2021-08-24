@@ -381,8 +381,7 @@ static int actually_test_craft( const recipe_id &rid, int interrupt_after_turns,
     // This really shouldn't be needed, but for some reason the tests fail for mingw builds without it
     player_character.learn_recipe( &rec );
     const inventory &inv = player_character.crafting_inventory();
-    REQUIRE( player_character.has_recipe( &rec, inv,
-                                          player_character.get_crafting_helpers() ) != -1 );
+    REQUIRE( player_character.has_recipe( &rec, inv, player_character.get_crafting_helpers() ) );
     player_character.remove_weapon();
     REQUIRE( !player_character.is_armed() );
     player_character.make_craft( rid, 1 );

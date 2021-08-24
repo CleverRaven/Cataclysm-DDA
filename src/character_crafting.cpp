@@ -18,19 +18,10 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
-int Character::has_recipe( const recipe *r, const inventory &crafting_inv,
-                           const std::vector<npc *> &helpers ) const
+bool Character::has_recipe( const recipe *r, const inventory &crafting_inv,
+                            const std::vector<npc *> &helpers ) const
 {
-    if( !r->skill_used ) {
-        return 0;
-    }
-
-    if( knows_recipe( r ) ) {
-        return r->difficulty;
-    }
-
-    const recipe_subset available = get_available_recipes( crafting_inv, &helpers );
-    return available.contains( r ) ? available.get_custom_difficulty( r ) : -1;
+    return knows_recipe( r ) || get_available_recipes( crafting_inv, &helpers ).contains( r );
 }
 
 bool Character::knows_recipe( const recipe *rec ) const
