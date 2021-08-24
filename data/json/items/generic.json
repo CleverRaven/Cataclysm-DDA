@@ -2541,37 +2541,6 @@
     "price": 0
   },
   {
-    "type": "GENERIC",
-    "id": "money_one",
-    "name": { "str": "one dollar bill" },
-    "description": "A one dollar bill, pretty useless now though.",
-    "weight": "1 g",
-    "to_hit": -3,
-    "color": "green",
-    "symbol": ",",
-    "material": [ "paper" ],
-    "volume": "1 ml",
-    "price": 0
-  },
-  {
-    "type": "GENERIC",
-    "id": "money_ten",
-    "name": { "str": "ten dollar bill" },
-    "description": "A ten dollar bill, pretty useless now though.",
-    "copy-from": "money_one",
-    "color": "green",
-    "symbol": ","
-  },
-  {
-    "type": "GENERIC",
-    "id": "money_twenty",
-    "name": { "str": "twenty dollar bill" },
-    "description": "A twenty dollar bill, pretty useless now though.",
-    "copy-from": "money_one",
-    "color": "green",
-    "symbol": ","
-  },
-  {
     "id": "pouch_autoclave",
     "type": "AMMO",
     "ammo_type": "NULL",
