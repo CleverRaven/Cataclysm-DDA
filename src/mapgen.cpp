@@ -1412,7 +1412,7 @@ class jmapgen_constrained : public jmapgen_piece
         shared_ptr_fast<const jmapgen_piece> underlying_piece;
         std::vector<mapgen_constraint<Value>> constraints;
 
-        int phase() const override {
+        mapgen_phase phase() const override {
             return underlying_piece->phase();
         }
         void check( const std::string &context, const mapgen_parameters &params ) const override {
