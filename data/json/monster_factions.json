@@ -204,7 +204,8 @@
   {
     "type": "MONSTER_FACTION",
     "name": "amigara",
-    "base_faction": "mutant"
+    "base_faction": "mutant",
+    "neutral": "amigara"
   },
   {
     "type": "MONSTER_FACTION",

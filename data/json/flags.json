@@ -1248,6 +1248,11 @@
     "context": [  ]
   },
   {
+    "id": "CRUTCHES",
+    "type": "json_flag",
+    "context": [  ]
+  },
+  {
     "id": "CUSTOM_EXPLOSION",
     "type": "json_flag",
     "context": [  ]

@@ -134,8 +134,7 @@ static tripoint_abs_omt random_house_in_city( const city_reference &cref )
 tripoint_abs_omt mission_util::random_house_in_closest_city()
 {
     Character &player_character = get_player_character();
-    // TODO: fix point types
-    const tripoint_abs_sm center( player_character.global_sm_location() );
+    const tripoint_abs_sm center = player_character.global_sm_location();
     const city_reference cref = overmap_buffer.closest_city( center );
     if( !cref ) {
         debugmsg( "could not find closest city" );

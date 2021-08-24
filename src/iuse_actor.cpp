@@ -217,7 +217,7 @@ cata::optional<int> iuse_transform::use( player &p, item &it, bool t, const trip
         p.add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
         return cata::nullopt;
     }
-    if( need_charges && it.units_remaining( p ) < need_charges ) {
+    if( need_charges && it.ammo_remaining( &p ) < need_charges ) {
         if( possess ) {
             p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
         }
@@ -1092,7 +1092,7 @@ cata::optional<int> deploy_furn_actor::use( player &p, item &it, bool, const tri
     here.furn_set( pnt, furn_type );
     it.spill_contents( pnt );
     p.mod_moves( -to_moves<int>( 2_seconds ) );
-    return 1;
+    return it.type->charges_to_use() != 0 ? it.type->charges_to_use() : 1;
 }
 
 std::unique_ptr<iuse_actor> reveal_map_actor::clone() const
@@ -1839,7 +1839,7 @@ ret_val<bool> cauterize_actor::can_use( const Character &p, const item &it, bool
                        _( "You need a source of flame (4 charges worth) before you can cauterize yourself." ) );
         }
     } else {
-        if( !it.units_sufficient( p ) ) {
+        if( !it.ammo_sufficient( &p ) ) {
             return ret_val<bool>::make_failure( _( "You need at least %d charges to cauterize wounds." ),
                                                 it.ammo_required() );
         }
@@ -2550,7 +2550,7 @@ bool repair_item_actor::can_use_tool( const player &p, const item &tool, bool pr
         }
         return false;
     }
-    if( !tool.units_sufficient( p ) ) {
+    if( !tool.ammo_sufficient( &p ) ) {
         if( print_msg ) {
             p.add_msg_if_player( m_info, _( "Your tool does not have enough charges to do that." ) );
         }
@@ -3824,7 +3824,8 @@ cata::optional<int> saw_barrel_actor::use( player &p, item &it, bool t, const tr
     return 0;
 }
 
-ret_val<bool> saw_barrel_actor::can_use_on( const player &, const item &, const item &target ) const
+ret_val<bool> saw_barrel_actor::can_use_on( const Character &, const item &,
+        const item &target ) const
 {
     if( !target.is_gun() ) {
         return ret_val<bool>::make_failure( _( "It's not a gun." ) );
@@ -4538,8 +4539,8 @@ std::unique_ptr<iuse_actor> effect_on_conditons_actor::clone() const
 void effect_on_conditons_actor::load( const JsonObject &obj )
 {
     description = obj.get_string( "description" );
-    for( const std::string &eoc : obj.get_string_array( "effect_on_conditions" ) ) {
-        eocs.emplace_back( effect_on_condition_id( eoc ) );
+    for( JsonValue jv : obj.get_array( "effect_on_conditions" ) ) {
+        eocs.emplace_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
     }
 }
 

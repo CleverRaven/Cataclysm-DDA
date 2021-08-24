@@ -575,7 +575,7 @@ class boltcutting_activity_actor : public activity_actor
         }
 
         void start( player_activity &act, Character &/*who*/ ) override;
-        void do_turn( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &/*act*/, Character &who ) override;
         void finish( player_activity &act, Character &who ) override;
 
         std::unique_ptr<activity_actor> clone() const override {
@@ -584,6 +584,9 @@ class boltcutting_activity_actor : public activity_actor
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+
+        // debugmsg causes a backtrace when fired during cata_test
+        bool testing = false;
 
     private:
         tripoint target;
@@ -828,6 +831,40 @@ class try_sleep_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
 
+class safecracking_activity_actor : public activity_actor
+{
+    public:
+        explicit safecracking_activity_actor( const tripoint &safe ) : safe( safe ) {};
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_CRACKING" );
+        }
+
+        static time_duration safecracking_time( const Character &who );
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<safecracking_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+
+    private:
+        tripoint safe;
+        int exp_step = 0;
+
+        bool can_resume_with_internal( const activity_actor &other,
+                                       const Character &/*who*/ ) const override {
+            const safecracking_activity_actor &actor = static_cast<const safecracking_activity_actor &>
+                    ( other );
+            return actor.safe == safe;
+        }
+};
+
 class unload_activity_actor : public activity_actor
 {
     private:
@@ -1033,6 +1070,43 @@ class stash_activity_actor: public activity_actor
         tripoint placement;
 };
 
+class harvest_activity_actor : public activity_actor
+{
+    public:
+        explicit harvest_activity_actor( const tripoint &target,
+                                         bool auto_forage = false ) :
+            target( target ), auto_forage( auto_forage ) {};
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_HARVEST" );
+        }
+
+        void start( player_activity &/*act*/, Character &/*who*/ ) override;
+        void do_turn( player_activity &/*act*/, Character &/*who*/ ) override {};
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<harvest_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+
+    private:
+        tripoint target;
+        bool exam_furn = false;
+        bool nectar = false;
+        bool auto_forage = false;
+
+        bool can_resume_with_internal( const activity_actor &other,
+                                       const Character &/*who*/ ) const override {
+            const harvest_activity_actor &actor = static_cast<const harvest_activity_actor &>
+                                                  ( other );
+            return target == actor.target && auto_forage == actor.auto_forage &&
+                   exam_furn == actor.exam_furn && nectar == actor.nectar;
+        }
+};
+
 class reload_activity_actor : public activity_actor
 {
     public:
@@ -1137,6 +1211,7 @@ class disassemble_activity_actor : public activity_actor
 {
     private:
         int moves_total;
+        float activity_override = NO_EXERCISE;
 
     public:
         item_location target;
@@ -1150,6 +1225,10 @@ class disassemble_activity_actor : public activity_actor
         void start( player_activity &act, Character & ) override;
         void do_turn( player_activity &, Character & ) override;
         void finish( player_activity &act, Character &who ) override;
+
+        float exertion_level() const override;
+
+        std::string get_progress_message( const player_activity & ) const override;
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<disassemble_activity_actor>( *this );

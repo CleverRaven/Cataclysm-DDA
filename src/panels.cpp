@@ -57,6 +57,7 @@
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_type.h"
+#include "widget.h"
 
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
@@ -578,8 +579,8 @@ static std::pair<nc_color, int> morale_stat( const avatar &u )
 
 static std::pair<bodypart_id, bodypart_id> temp_delta( const avatar &u )
 {
-    bodypart_id current_bp_extreme( "torso" );
-    bodypart_id conv_bp_extreme( "torso" );
+    bodypart_id current_bp_extreme = u.get_all_body_parts().front();
+    bodypart_id conv_bp_extreme = current_bp_extreme;
     for( const bodypart_id &bp : u.get_all_body_parts() ) {
         if( std::abs( u.get_part_temp_cur( bp ) - BODYTEMP_NORM ) >
             std::abs( u.get_part_temp_cur( current_bp_extreme ) - BODYTEMP_NORM ) ) {
@@ -1927,6 +1928,35 @@ static void draw_overmap_wide( avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
+// Custom moddable sidebar
+static void draw_mod_sidebar( avatar &u, const catacurses::window &w, const std::string layout_name,
+                              const int width )
+{
+    werase( w );
+
+    // Render each row of the root layout widget
+    widget root = widget_id( layout_name ).obj();
+    int row_num = 0;
+    for( const widget_id &row_wid : root._widgets ) {
+        widget row_widget = row_wid.obj();
+        trim_and_print( w, point( 1, row_num ), width - 1, c_light_gray, _( row_widget.layout( u,
+                        width - 1 ) ) );
+        row_num++;
+    }
+
+    wnoutrefresh( w );
+}
+
+static void draw_mod_sidebar_narrow( avatar &u, const catacurses::window &w )
+{
+    draw_mod_sidebar( u, w, "root_layout_narrow", 31 );
+}
+
+static void draw_mod_sidebar_wide( avatar &u, const catacurses::window &w )
+{
+    draw_mod_sidebar( u, w, "root_layout_wide", 43 );
+}
+
 static void draw_veh_compact( const avatar &u, const catacurses::window &w )
 {
     werase( w );
@@ -2317,6 +2347,8 @@ static std::vector<window_panel> initialize_default_classic_panels()
                                     20, 44, false ) );
     ret.emplace_back( window_panel( draw_messages_classic, "Log", to_translation( "Log" ),
                                     -2, 44, true ) );
+    ret.emplace_back( window_panel( draw_mod_sidebar_wide, "Custom", to_translation( "Custom" ),
+                                    8, 44, false ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
                                     -1, 44, true, default_render, true ) );
@@ -2356,6 +2388,8 @@ static std::vector<window_panel> initialize_default_compact_panels()
                                     8, 32, true ) );
     ret.emplace_back( window_panel( draw_overmap_narrow, "Overmap", to_translation( "Overmap" ),
                                     14, 32, false ) );
+    ret.emplace_back( window_panel( draw_mod_sidebar_narrow, "Custom", to_translation( "Custom" ),
+                                    8, 32, false ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
                                     -1, 32, true, default_render, true ) );
@@ -2404,6 +2438,8 @@ static std::vector<window_panel> initialize_default_label_narrow_panels()
                                     8, 32, true ) );
     ret.emplace_back( window_panel( draw_overmap_narrow, "Overmap", to_translation( "Overmap" ),
                                     14, 32, false ) );
+    ret.emplace_back( window_panel( draw_mod_sidebar_narrow, "Custom", to_translation( "Custom" ),
+                                    8, 32, false ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
                                     -1, 32, true, default_render, true ) );
@@ -2456,6 +2492,8 @@ static std::vector<window_panel> initialize_default_label_panels()
                                     8, 44, true ) );
     ret.emplace_back( window_panel( draw_overmap_wide, "Overmap", to_translation( "Overmap" ),
                                     20, 44, false ) );
+    ret.emplace_back( window_panel( draw_mod_sidebar_wide, "Custom", to_translation( "Custom" ),
+                                    8, 44, false ) );
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, "Map", to_translation( "Map" ),
                                     -1, 44, true, default_render, true ) );

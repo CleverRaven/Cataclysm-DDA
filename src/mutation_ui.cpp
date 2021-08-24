@@ -1,4 +1,4 @@
-#include "player.h" // IWYU pragma: associated
+#include "character.h" // IWYU pragma: associated
 
 #include <algorithm> //std::min
 #include <cstddef>

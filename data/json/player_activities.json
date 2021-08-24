@@ -147,6 +147,13 @@
     "auto_needs": true
   },
   {
+    "type": "activity_type",
+    "id": "ACT_HARVEST",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "harvesting",
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_GENERIC_GAME",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -189,7 +196,7 @@
     "verb": "disassembly",
     "suspendable": false,
     "rooted": true,
-    "based_on": "speed",
+    "based_on": "neither",
     "refuel_fires": true,
     "auto_needs": true
   },

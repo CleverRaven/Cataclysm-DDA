@@ -85,6 +85,13 @@ bool string_id<itype>::is_valid() const
     return item_controller->has_template( *this );
 }
 
+/** @relates string_id */
+template<>
+bool string_id<Item_spawn_data>::is_valid() const
+{
+    return item_controller->get_group( *this ) != nullptr;
+}
+
 static item_category_id calc_category( const itype &obj );
 static void hflesh_to_flesh( itype &item_template );
 
@@ -765,6 +772,10 @@ void Item_factory::finalize_item_blacklist()
                 debugmsg( "Multiple non-variant migrations specified for %s", migrate.first.str() );
             }
             parent = &migrant;
+        }
+        // Only variant migrations exist, abort
+        if( parent == nullptr ) {
+            continue;
         }
 
         // remove any recipes used to craft the migrated item
@@ -1674,24 +1685,6 @@ void Item_factory::load_slot_optional( cata::value_ptr<SlotType> &slotptr, const
     }
     JsonObject slotjo = jo.get_object( member );
     load_slot( slotptr, slotjo, src );
-}
-
-template<typename E>
-void load_optional_enum_array( std::vector<E> &vec, const JsonObject &jo,
-                               const std::string &member )
-{
-
-    if( !jo.has_member( member ) ) {
-        return;
-    } else if( !jo.has_array( member ) ) {
-        jo.throw_error( "expected array", member );
-    }
-
-    JsonIn &stream = *jo.get_raw( member );
-    stream.start_array();
-    while( !stream.end_array() ) {
-        vec.push_back( stream.get_enum_value<E>() );
-    }
 }
 
 bool Item_factory::load_definition( const JsonObject &jo, const std::string &src, itype &def )

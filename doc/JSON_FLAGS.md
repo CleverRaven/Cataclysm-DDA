@@ -1112,6 +1112,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 
 #### Flags
 
+- ```HARDTOHIT``` Whenever something attacks you, RNG gets rolled twice and you get the better result.
 - ```UNARMED_BONUS``` You get a bonus to unarmed bash and cut damage equal to unarmed_skill/2 up to 4.
 
 ### Categories
