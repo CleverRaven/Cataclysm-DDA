@@ -618,7 +618,7 @@
     "harvest": "arachnid",
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "fear_triggers": [ "HURT" ],
-    "flags": [ "AQUATIC", "SEES" ],
+    "flags": [ "AQUATIC", "SEES", "WATER_CAMOUFLAGE" ],
     "upgrades": { "age_grow": 21, "into": "mon_dragonfly_giant" }
   },
   {
@@ -762,6 +762,7 @@
     "harvest": "arachnid_flying",
     "fear_triggers": [ "PLAYER_CLOSE", "HURT", "FIRE" ],
     "upgrades": { "half_life": 21, "into": "mon_fly_mega" },
+    "//": "LOUDMOVES is now part of the species INSECT_FLYING",
     "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "HIT_AND_RUN", "CANPLAY", "PATH_AVOID_FIRE" ]
   },
   {

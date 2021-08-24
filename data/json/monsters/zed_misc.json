@@ -803,7 +803,8 @@
       "REVIVES",
       "PUSH_MON",
       "SWIMS",
-      "FILTHY"
+      "FILTHY",
+      "WATER_CAMOUFLAGE"
     ]
   },
   {
@@ -1437,7 +1438,8 @@
       "SWIMS",
       "REVIVES",
       "PUSH_MON",
-      "FILTHY"
+      "FILTHY",
+      "WATER_CAMOUFLAGE"
     ]
   },
   {

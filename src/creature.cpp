@@ -297,8 +297,9 @@ bool Creature::sees( const Creature &critter ) const
                ( critter.has_flag( MF_WATER_CAMOUFLAGE ) &&
                  wanted_range > this->get_eff_per() &&
                  ( critter.is_likely_underwater() ||
-                   here.has_flag( TFLAG_SHALLOW_WATER, critter.pos() ) || // check size here?
-                   here.has_flag( TFLAG_DEEP_WATER, critter.pos() ) ) ) ||
+                   here.has_flag( TFLAG_DEEP_WATER, critter.pos() ) ||
+                   ( here.has_flag( TFLAG_SHALLOW_WATER, critter.pos() ) &&
+                     critter.get_size() < creature_size::medium ) ) ) ||
                ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && here.light_at( critter.pos() ) <= lit_level::LOW ) ||
                ( !is_likely_underwater() && critter.is_likely_underwater() &&
                  majority_rule( critter.has_flag( MF_WATER_CAMOUFLAGE ),
