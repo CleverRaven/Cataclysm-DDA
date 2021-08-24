@@ -20,6 +20,10 @@
     "harvest": "exempt",
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "regenerates": 50,
+    "regeneration_modifers": [
+      [ "onfire", -5 ],
+      [ "corroding", 5 ]
+    ],
     "flags": [ "IMMOBILE", "NOT_HALLUCINATION", "FILTHY" ]
   },
   {

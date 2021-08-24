@@ -2632,19 +2632,30 @@ void monster::process_effects()
 
     Character &player_character = get_player_character();
     //If this monster has the ability to heal in combat, do it now.
-    if( type->regenerates && !has_effect( effect_onfire ) ) {
-        const int healed_amount = heal( type->regenerates );
-        if( healed_amount > 0 && one_in( 2 ) ) {
-            std::string healing_format_string;
-            if( healed_amount >= 50 ) {
-                healing_format_string = _( "The %s is visibly regenerating!" );
-            } else if( healed_amount >= 10 ) {
-                healing_format_string = _( "The %s seems a little healthier." );
-            } else {
-                healing_format_string = _( "The %s is healing slowly." );
-            }
-            add_msg_if_player_sees( *this, m_warning, healing_format_string, name() );
+    int regeneration_amount = type->regenerates;
+    //Apply effect-triggered regeneartion modifers
+    for( const std::pair< const std::string, int> regeneration_modifier :
+         type->regeneration_modifiers ) {
+        efftype_id effect_test( regeneration_modifier.first );
+        if( has_effect( effect_test ) ) {
+            regeneration_amount += regeneration_modifier.second;
         }
+    }
+    //Prevent negative regeneration
+    if( regeneration_amount < 0 ) {
+        regeneration_amount = 0;
+    }
+    const int healed_amount = heal( regeneration_amount );
+    if( healed_amount > 0 && one_in( 2 ) ) {
+        std::string healing_format_string;
+        if( healed_amount >= 50 ) {
+            healing_format_string = _( "The %s is visibly regenerating!" );
+        } else if( healed_amount >= 10 ) {
+            healing_format_string = _( "The %s seems a little healthier." );
+        } else {
+            healing_format_string = _( "The %s is healing slowly." );
+        }
+        add_msg_if_player_sees( *this, m_warning, healing_format_string, name() );
     }
 
     if( type->regenerates_in_dark ) {
