@@ -517,6 +517,19 @@ bool SkillLevelMap::has_recipe_requirements( const recipe &rec ) const
     return ( exceeds_recipe_requirements( rec ) >= 0 || theoretical_recipe_requirements( rec ) );
 }
 
+bool SkillLevelMap::has_same_levels_as( const SkillLevelMap &other ) const
+{
+    for( const auto &entry : *this ) {
+        const SkillLevel &this_level = entry.second;
+        const SkillLevel &other_level = other.get_skill_level_object( entry.first );
+        if( this_level.level() != other_level.level() ||
+            this_level.knowledgeLevel() != other_level.knowledgeLevel() ) {
+            return false;
+        }
+    }
+    return true;
+}
+
 // Actually take the difference in social skill between the two parties involved
 // Caps at 200% when you are 5 levels ahead, int comparison is handled in npctalk.cpp
 double price_adjustment( int barter_skill )
