@@ -35,14 +35,13 @@
     "//": "A typical wallet filled with stuffs.  We might need more wallet-stuff like coins to be implemented.",
     "subtype": "collection",
     "container-item": "wallet",
+    "on_overflow": "discard",
     "items": [
       { "item": "cash_card", "prob": 100, "charges-min": 0, "charges-max": 50000 },
-      { "item": "money_ten", "prob": 100, "count": [ 5, 10 ] },
-      { "item": "coin_quarter", "prob": 10, "count": [ 1, 2 ] },
-      { "item": "coin_nickel", "prob": 10, "count": [ 1, 2 ] },
-      { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
-      { "item": "condom", "prob": 10 },
-      [ "scorecard", 20 ]
+      { "group": "banknotes", "prob": 80, "count": [ 1, 15 ] },
+      { "group": "coins", "prob": 80, "count": [ 1, 5 ] },
+      { "group": "discount_cards", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "condom", "prob": 2 }
     ]
   },
   {
@@ -51,14 +50,13 @@
     "id": "wallet_leather_full",
     "container-item": "wallet_leather",
     "//": "copy-from: wallet_full ",
+    "on_overflow": "discard",
     "items": [
       { "item": "cash_card", "prob": 100, "charges-min": 0, "charges-max": 50000 },
-      { "item": "money_ten", "prob": 100, "count": [ 5, 10 ] },
-      { "item": "coin_quarter", "prob": 10, "count": [ 1, 2 ] },
-      { "item": "coin_nickel", "prob": 10, "count": [ 1, 2 ] },
-      { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
-      { "item": "condom", "prob": 10 },
-      [ "scorecard", 20 ]
+      { "group": "banknotes", "prob": 80, "count": [ 1, 15 ] },
+      { "group": "coins", "prob": 80, "count": [ 1, 5 ] },
+      { "group": "discount_cards", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "condom", "prob": 2 }
     ]
   },
   {
@@ -67,14 +65,13 @@
     "id": "wallet_large_full",
     "//": "copy-from: wallet_full ",
     "container-item": "wallet_large",
+    "on_overflow": "discard",
     "items": [
       { "item": "cash_card", "prob": 100, "charges-min": 0, "charges-max": 50000 },
-      { "item": "money_ten", "prob": 100, "count": [ 5, 10 ] },
-      { "item": "coin_quarter", "prob": 10, "count": [ 1, 2 ] },
-      { "item": "coin_nickel", "prob": 10, "count": [ 1, 2 ] },
-      { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
-      { "item": "condom", "prob": 10 },
-      [ "scorecard", 20 ]
+      { "group": "banknotes", "prob": 80, "count": [ 1, 15 ] },
+      { "group": "coins", "prob": 80, "count": [ 1, 5 ] },
+      { "group": "discount_cards", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "condom", "prob": 2 }
     ]
   },
   {
@@ -82,14 +79,12 @@
     "subtype": "collection",
     "id": "wallet_duct_tape_full",
     "container-item": "wallet_duct_tape",
+    "on_overflow": "discard",
     "items": [
       { "item": "cash_card", "prob": 50, "charges-min": 0, "charges-max": 500 },
-      { "item": "money_one", "prob": 100, "count": [ 5, 10 ] },
-      { "item": "coin_quarter", "prob": 50, "count": [ 2, 5 ] },
-      { "item": "coin_nickel", "prob": 0, "count": [ 1, 6 ] },
-      { "group": "discount_cards", "prob": 10 },
-      { "item": "condom", "prob": 10 },
-      [ "scorecard", 40 ]
+      { "group": "banknotes", "prob": 80, "count": [ 1, 15 ] },
+      { "group": "discount_cards", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "condom", "prob": 2 }
     ]
   },
   {
@@ -97,14 +92,12 @@
     "type": "item_group",
     "subtype": "collection",
     "container-item": "wallet_stylish",
+    "on_overflow": "discard",
     "items": [
       { "item": "cash_card", "prob": 100, "charges-min": 10000, "charges-max": 50000 },
-      { "item": "money_one", "prob": 100, "count": [ 10, 20 ] },
-      { "item": "money_ten", "prob": 100, "count": [ 5, 10 ] },
-      { "item": "money_twenty", "prob": 100, "count": [ 5, 10 ] },
-      { "group": "discount_cards", "prob": 60, "count": [ 2, 5 ] },
-      { "item": "condom", "prob": 10 },
-      [ "scorecard", 5 ]
+      { "group": "banknotes", "prob": 80, "count": [ 1, 15 ] },
+      { "group": "discount_cards", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "condom", "prob": 2 }
     ]
   },
   {
@@ -113,15 +106,14 @@
     "id": "wallet_military_leather_full",
     "//": "copy-from: wallet_leather_full ",
     "container-item": "wallet_leather",
+    "on_overflow": "discard",
     "items": [
       { "item": "cash_card", "prob": 100, "charges-min": 0, "charges-max": 50000 },
       { "item": "id_military", "prob": 100 },
-      { "item": "money_ten", "prob": 100, "count": [ 5, 10 ] },
-      { "item": "coin_quarter", "prob": 10, "count": [ 1, 2 ] },
-      { "item": "coin_nickel", "prob": 10, "count": [ 1, 2 ] },
-      { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
-      { "item": "condom", "prob": 10 },
-      [ "scorecard", 20 ]
+      { "group": "banknotes", "prob": 80, "count": [ 1, 15 ] },
+      { "group": "coins", "prob": 80, "count": [ 1, 5 ] },
+      { "group": "discount_cards", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "condom", "prob": 2 }
     ]
   },
   {
@@ -130,15 +122,14 @@
     "id": "wallet_military_full",
     "//": "copy-from: wallet_full ",
     "container-item": "wallet",
+    "on_overflow": "discard",
     "items": [
       { "item": "cash_card", "prob": 100, "charges-min": 0, "charges-max": 50000 },
       { "item": "id_military", "prob": 100 },
-      { "item": "money_ten", "prob": 100, "count": [ 5, 10 ] },
-      { "item": "coin_quarter", "prob": 10, "count": [ 1, 2 ] },
-      { "item": "coin_nickel", "prob": 10, "count": [ 1, 2 ] },
-      { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
-      { "item": "condom", "prob": 10 },
-      [ "scorecard", 20 ]
+      { "group": "banknotes", "prob": 80, "count": [ 1, 15 ] },
+      { "group": "coins", "prob": 80, "count": [ 1, 5 ] },
+      { "group": "discount_cards", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "condom", "prob": 2 }
     ]
   },
   {
@@ -147,16 +138,15 @@
     "id": "wallet_science_leather_full",
     "//": "copy-from: wallet_leather_full ",
     "container-item": "wallet_leather",
+    "on_overflow": "discard",
     "items": [
       { "item": "cash_card", "prob": 100, "charges-min": 0, "charges-max": 50000 },
       { "item": "id_science", "prob": 100 },
-      { "item": "money_ten", "prob": 100, "count": [ 5, 10 ] },
-      { "item": "coin_quarter", "prob": 10, "count": [ 1, 2 ] },
-      { "item": "coin_nickel", "prob": 10, "count": [ 1, 2 ] },
-      { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
-      { "item": "condom", "prob": 10 },
-      { "item": "labmap", "prob": 20 },
-      [ "scorecard", 20 ]
+      { "group": "banknotes", "prob": 80, "count": [ 1, 15 ] },
+      { "group": "coins", "prob": 80, "count": [ 1, 5 ] },
+      { "group": "discount_cards", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "condom", "prob": 2 },
+      { "item": "labmap", "prob": 20 }
     ]
   },
   {
@@ -165,16 +155,15 @@
     "id": "wallet_science_full",
     "//": "copy-from: wallet_full ",
     "container-item": "wallet",
+    "on_overflow": "discard",
     "items": [
       { "item": "cash_card", "prob": 100, "charges-min": 0, "charges-max": 50000 },
       { "item": "id_science", "prob": 100 },
-      { "item": "money_ten", "prob": 100, "count": [ 5, 10 ] },
-      { "item": "coin_quarter", "prob": 10, "count": [ 1, 2 ] },
-      { "item": "coin_nickel", "prob": 10, "count": [ 1, 2 ] },
-      { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
-      { "item": "condom", "prob": 10 },
-      { "item": "labmap", "prob": 20 },
-      [ "scorecard", 20 ]
+      { "group": "banknotes", "prob": 80, "count": [ 1, 15 ] },
+      { "group": "coins", "prob": 80, "count": [ 1, 5 ] },
+      { "group": "discount_cards", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "condom", "prob": 2 },
+      { "item": "labmap", "prob": 20 }
     ]
   },
   {
@@ -183,16 +172,14 @@
     "id": "wallet_science_stylish_full",
     "//": "copy-from: wallet_stylish_full ",
     "container-item": "wallet_stylish",
+    "on_overflow": "discard",
     "items": [
       { "item": "id_science", "prob": 100 },
-      { "item": "cash_card", "prob": 100, "charges-min": 10000, "charges-max": 50000 },
-      { "item": "money_one", "prob": 100, "count": [ 10, 20 ] },
-      { "item": "money_ten", "prob": 100, "count": [ 5, 10 ] },
-      { "item": "money_twenty", "prob": 100, "count": [ 5, 10 ] },
-      { "group": "discount_cards", "prob": 60, "count": [ 2, 5 ] },
-      { "item": "condom", "prob": 10 },
-      { "item": "labmap", "prob": 20 },
-      [ "scorecard", 5 ]
+      { "group": "banknotes", "prob": 80, "count": [ 1, 15 ] },
+      { "group": "coins", "prob": 80, "count": [ 1, 5 ] },
+      { "group": "discount_cards", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "condom", "prob": 2 },
+      { "item": "labmap", "prob": 20 }
     ]
   },
   {
@@ -201,15 +188,14 @@
     "id": "wallet_industrial_leather_full",
     "//": "copy-from: wallet_leather_full ",
     "container-item": "wallet_leather",
+    "on_overflow": "discard",
     "items": [
       { "item": "cash_card", "prob": 100, "charges-min": 0, "charges-max": 50000 },
       { "item": "id_industrial", "prob": 100 },
-      { "item": "money_ten", "prob": 100, "count": [ 5, 10 ] },
-      { "item": "coin_quarter", "prob": 10, "count": [ 1, 2 ] },
-      { "item": "coin_nickel", "prob": 10, "count": [ 1, 2 ] },
-      { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
-      { "item": "condom", "prob": 10 },
-      [ "scorecard", 20 ]
+      { "group": "banknotes", "prob": 80, "count": [ 1, 15 ] },
+      { "group": "coins", "prob": 80, "count": [ 1, 5 ] },
+      { "group": "discount_cards", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "condom", "prob": 2 }
     ]
   },
   {
@@ -218,20 +204,36 @@
     "id": "wallet_industrial_full",
     "//": "copy-from: wallet_full ",
     "container-item": "wallet",
+    "on_overflow": "discard",
     "items": [
       { "item": "cash_card", "prob": 100, "charges-min": 0, "charges-max": 50000 },
       { "item": "id_industrial", "prob": 100 },
-      { "item": "money_ten", "prob": 100, "count": [ 5, 10 ] },
-      { "item": "coin_quarter", "prob": 10, "count": [ 1, 2 ] },
-      { "item": "coin_nickel", "prob": 10, "count": [ 1, 2 ] },
-      { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
-      { "item": "condom", "prob": 10 },
-      [ "scorecard", 20 ]
+      { "group": "banknotes", "prob": 80, "count": [ 1, 15 ] },
+      { "group": "coins", "prob": 80, "count": [ 1, 5 ] },
+      { "group": "discount_cards", "prob": 40, "count": [ 1, 2 ] },
+      { "item": "condom", "prob": 2 }
     ]
   },
   {
     "type": "item_group",
     "id": "discount_cards",
     "items": [ [ "fp_loyalty_card", 40 ], [ "gasdiscount_silver", 20 ], [ "gasdiscount_gold", 10 ], [ "gasdiscount_platinum", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "banknotes",
+    "items": [
+      [ "money_one", 60 ],
+      [ "money_five", 30 ],
+      [ "money_ten", 20 ],
+      [ "money_twenty", 40 ],
+      [ "money_fifty", 10 ],
+      [ "money_hundred", 15 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "coins",
+    "items": [ [ "coin_penny", 40 ], [ "coin_nickel", 15 ], [ "coin_dime", 20 ], [ "coin_quarter", 30 ] ]
   }
 ]
