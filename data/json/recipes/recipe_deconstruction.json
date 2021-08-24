@@ -2974,7 +2974,7 @@
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
     "time": "12 s",
-    "components": [ [ [ "paper", 2 ] ] ],
+    "components": [ [ [ "rubber_band", 1 ] ], [ [ "money_strap_twenty", 10 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -5160,12 +5160,28 @@
     "components": [ [ [ "silver_small", 5 ] ] ]
   },
   {
+    "result": "coin_dime",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 1 ] ] ]
+  },
+  {
     "result": "coin_nickel",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "copper", 5 ] ] ]
+  },
+  {
+    "result": "coin_penny",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "copper", 2 ] ] ]
   },
   {
     "result": "spray_can",
