@@ -141,6 +141,22 @@ struct spawn_data {
     std::vector<point> patrol_points_rel_ms;
 };
 
+/** Mapgen pieces will be applied in order of phases.  The phases are as
+ * follows: */
+enum class mapgen_phase {
+    terrain,
+    furniture,
+    default_,
+    nested_mapgen,
+    transform,
+    faction_ownership,
+};
+
+inline bool operator<( const mapgen_phase l, const mapgen_phase r )
+{
+    return static_cast<int>( l ) < static_cast<int>( r );
+}
+
 /**
  * Basic mapgen object. It is supposed to place or do something on a specific square on the map.
  * Inherit from this class and implement the @ref apply function.
@@ -170,16 +186,8 @@ class jmapgen_piece
         virtual bool is_nop() const {
             return false;
         }
-        /** The pieces will be applied in order of phases.  The phases are as
-         * follows:
-         * -2 - terrain
-         * -1 - furniture
-         *  0 - everything else
-         *  1 - nested mapgen
-         *  2 - transforms and faction ownership
-         */
-        virtual int phase() const {
-            return 0;
+        virtual mapgen_phase phase() const {
+            return mapgen_phase::default_;
         }
         /** Sanity-check this piece */
         virtual void check( const std::string &/*context*/, const mapgen_parameters & ) const { }
