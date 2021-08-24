@@ -73,7 +73,8 @@
       [ "syringe", 3 ],
       [ "spike", 3 ],
       [ "thermos", 3 ],
-      [ "bag_body_bag", 1 ]
+      [ "bag_body_bag", 1 ],
+      [ "rubber_band", 2 ]
     ]
   },
   {
@@ -154,7 +155,10 @@
       [ "thermos", 30 ],
       { "item": "inhaler", "prob": 8, "charges-min": 0, "charges-max": 10 },
       { "group": "tinware", "prob": 15 },
-      { "group": "used_toy_box", "prob": 8 }
+      { "group": "used_toy_box", "prob": 8 },
+      [ "rubber_band", 2 ],
+      [ "money_strap", 1 ],
+      [ "coin_wrapper", 1 ]
     ]
   },
   {
@@ -172,7 +176,10 @@
       [ "flyer", 15 ],
       [ "scorecard", 10 ],
       [ "eclipse_glasses", 1 ],
-      [ "plastic_sheet", 5 ]
+      [ "plastic_sheet", 5 ],
+      [ "rubber_band", 2 ],
+      [ "money_strap", 1 ],
+      [ "coin_wrapper", 1 ]
     ]
   },
   {
