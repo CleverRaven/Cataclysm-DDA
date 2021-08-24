@@ -1342,7 +1342,7 @@
     "type": "AMMO",
     "id": "coin_penny",
     "category": "other",
-    "name": { "str": "penny", "str_sp": "pennies" },
+    "name": { "str": "penny", "str_pl": "pennies" },
     "description": "A once near worthless coin may have value now due to the material it's made from.  Abraham Lincoln is on this coin.",
     "weight": "3 g",
     "volume": "1 ml",
