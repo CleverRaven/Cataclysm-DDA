@@ -182,8 +182,8 @@
     "melee_dice_sides": 4,
     "zombify_into": "mon_zamargasaurus_juvenile",
     "special_attacks": [
-      { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 6 } ] },
-      [ "SMASH", 30 ],
+      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
+      [ "tailsmash_DinoMod", 30 ],
       [ "EAT_CROP", 5 ]
     ],
     "harvest": "mammal_large_leather",

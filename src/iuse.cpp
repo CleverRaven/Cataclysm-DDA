@@ -80,7 +80,6 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "pldata.h"
 #include "point.h"
@@ -7291,7 +7290,7 @@ static void item_save_monsters( Character &p, item &it, const std::vector<monste
             const size_t quality_num_pos = mon_str_pos + mtype.size() + 2;
             const size_t next_comma = monster_photos.find( ',', quality_num_pos );
             const int old_quality =
-                get_quality_from_string( monster_photos.substr( quality_num_pos, next_comma ) );
+                get_quality_from_string( monster_photos.substr( quality_num_pos, next_comma - quality_num_pos ) );
 
             if( photo_quality > old_quality ) {
                 const std::string quality_s = string_format( "%d", photo_quality );
@@ -7466,7 +7465,7 @@ cata::optional<int> iuse::camera( Character *p, item *it, bool, const tripoint &
             }
 
             monster *const mon = g->critter_at<monster>( trajectory_point, true );
-            player *const guy = g->critter_at<player>( trajectory_point );
+            Character *const guy = g->critter_at<Character>( trajectory_point );
             if( mon || guy || trajectory_point == aim_point ) {
                 int dist = rl_dist( p->pos(), trajectory_point );
 

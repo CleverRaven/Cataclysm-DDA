@@ -8,7 +8,6 @@
 #include "character.h"
 #include "game.h"
 #include "json.h"
-#include "player.h"
 #include "stomach.h"
 #include "units.h"
 #include "vitamin.h"

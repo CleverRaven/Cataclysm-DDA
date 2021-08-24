@@ -35,7 +35,6 @@ class Item_factory;
 class JsonIn;
 class JsonObject;
 class item;
-class player;
 struct tripoint;
 template <typename E> struct enum_traits;
 

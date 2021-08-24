@@ -19,7 +19,6 @@
 #include "type_id.h"
 
 class effect_type;
-class player;
 
 enum game_message_type : int;
 enum class event_type : int;

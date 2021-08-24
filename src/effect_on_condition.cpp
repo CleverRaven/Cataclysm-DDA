@@ -100,13 +100,22 @@ void effect_on_conditions::load_existing_character()
     }
 
     std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
-    temp_queued_effect_on_conditions( g->queued_effect_on_conditions );
-    while( !temp_queued_effect_on_conditions.empty() ) {
-        new_eocs[temp_queued_effect_on_conditions.top().eoc] = false;
-        temp_queued_effect_on_conditions.pop();
+    temp_queued_effect_on_conditions;
+    while( !g->queued_effect_on_conditions.empty() ) {
+        if( g->queued_effect_on_conditions.top().eoc.is_valid() ) {
+            temp_queued_effect_on_conditions.push( g->queued_effect_on_conditions.top() );
+        }
+        new_eocs[g->queued_effect_on_conditions.top().eoc] = false;
+        g->queued_effect_on_conditions.pop();
     }
-    for( const effect_on_condition_id &eoc : g->inactive_effect_on_condition_vector ) {
-        new_eocs[eoc] = false;
+    g->queued_effect_on_conditions = temp_queued_effect_on_conditions;
+    for( auto eoc = g->inactive_effect_on_condition_vector.begin();
+         eoc != g->inactive_effect_on_condition_vector.end(); eoc++ ) {
+        if( !eoc->is_valid() ) {
+            eoc = g->inactive_effect_on_condition_vector.erase( eoc );
+        } else {
+            new_eocs[*eoc] = false;
+        }
     }
     for( const std::pair<const effect_on_condition_id, bool> &eoc_pair : new_eocs ) {
         if( eoc_pair.second ) {

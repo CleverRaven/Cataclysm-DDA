@@ -170,7 +170,7 @@ class SkillLevel
         void train( int amount, float catchup_modifier, float knowledge_modifier,
                     bool allow_multilevel = false );
         void knowledge_train( int amount, int npc_knowledge = 0 );
-        bool isRusting() const;
+        bool isRusty() const;
         bool rust( int rust_resist );
         void practice();
         bool can_train() const;

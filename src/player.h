@@ -46,8 +46,6 @@ enum action_id : int;
 enum game_message_type : int;
 enum class recipe_filter_flags : int;
 
-nc_color encumb_color( int level );
-
 /** @relates ret_val */
 template<>
 struct ret_val<edible_rating>::default_success : public
@@ -76,12 +74,6 @@ class player : public Character
         player &operator=( const player & ) = delete;
         player &operator=( player && ) noexcept( list_is_noexcept );
 
-        /** Calls Character::normalize()
-         *  normalizes HP and body temperature
-         */
-
-        void normalize() override;
-
         player *as_player() override {
             return this;
         }
@@ -99,31 +91,9 @@ class player : public Character
         // by default save all contained info
         virtual void serialize( JsonOut &jsout ) const = 0;
 
-        /** Handles and displays detailed character info for the '@' screen */
-        void disp_info();
-
-        /** Resets movement points and applies other non-idempotent changes */
-        void process_turn() override;
-
-        void pause(); // '.' command; pauses & resets recoil
-
-        /**
-         * Checks both the neighborhoods of from and to for climbable surfaces,
-         * returns move cost of climbing from `from` to `to`.
-         * 0 means climbing is not possible.
-         * Return value can depend on the orientation of the terrain.
-         */
-        int climbing_cost( const tripoint &from, const tripoint &to ) const;
-
-        /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
-        template <typename T> bool can_lift( const T &obj ) const;
-
         // ---------------VALUES-----------------
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint grab_point;
-        int volume = 0;
-        const profession *prof;
-        std::set<const profession *> hobbies;
 
         bool random_start_location = true;
         start_location_id start_location;
@@ -138,30 +108,6 @@ class player : public Character
         bool manual_examine = false;
 
         std::set<character_id> follower_ids;
-        void mod_stat( const std::string &stat, float modifier ) override;
-
-        void environmental_revert_effect();
-
-        //message related stuff
-        using Character::add_msg_if_player;
-        void add_msg_if_player( const std::string &msg ) const override;
-        void add_msg_if_player( const game_message_params &params, const std::string &msg ) const override;
-        using Character::add_msg_debug_if_player;
-        void add_msg_debug_if_player( debugmode::debug_filter type,
-                                      const std::string &msg ) const override;
-        using Character::add_msg_player_or_npc;
-        void add_msg_player_or_npc( const std::string &player_msg,
-                                    const std::string &npc_str ) const override;
-        void add_msg_player_or_npc( const game_message_params &params, const std::string &player_msg,
-                                    const std::string &npc_msg ) const override;
-        using Character::add_msg_debug_player_or_npc;
-        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const std::string &player_msg,
-                                          const std::string &npc_msg ) const override;
-        using Character::add_msg_player_or_say;
-        void add_msg_player_or_say( const std::string &player_msg,
-                                    const std::string &npc_speech ) const override;
-        void add_msg_player_or_say( const game_message_params &params, const std::string &player_msg,
-                                    const std::string &npc_speech ) const override;
 
         using Character::query_yn;
         bool query_yn( const std::string &mes ) const override;
@@ -177,8 +123,5 @@ class player : public Character
         std::map<faction_id, std::pair<int, time_point>> warning_record;
 
 };
-
-extern template bool player::can_lift<item>( const item &obj ) const;
-extern template bool player::can_lift<vehicle>( const vehicle &obj ) const;
 
 #endif // CATA_SRC_PLAYER_H
