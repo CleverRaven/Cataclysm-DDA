@@ -818,7 +818,8 @@ static void draw_skills_tab( const catacurses::window &w_skills,
     wnoutrefresh( w_skills );
 }
 
-static void draw_skills_info( const catacurses::window &w_info, unsigned int line,
+static void draw_skills_info( const catacurses::window &w_info, const Character &you,
+                              unsigned int line,
                               const std::vector<HeaderSkill> &skillslist )
 {
     werase( w_info );
@@ -833,7 +834,7 @@ static void draw_skills_info( const catacurses::window &w_info, unsigned int lin
     werase( w_info );
 
     if( selectedSkill ) {
-        const SkillLevel &level = get_avatar().get_skill_level_object( selectedSkill->ident() );
+        const SkillLevel &level = you.get_skill_level_object( selectedSkill->ident() );
         std::string info_text = selectedSkill->description();
         if( level.isRusty() ) {
             info_text = string_format( _( "%s\n\nKnowledge level: %d (%d%%)" ), info_text,
@@ -955,7 +956,7 @@ static void draw_info_window( const catacurses::window &w_info, const Character 
             draw_encumbrance_info( w_info, you, line );
             break;
         case player_display_tab::skills:
-            draw_skills_info( w_info, line, skillslist );
+            draw_skills_info( w_info, you, line, skillslist );
             break;
         case player_display_tab::traits:
             draw_traits_info( w_info, line, traitslist );
