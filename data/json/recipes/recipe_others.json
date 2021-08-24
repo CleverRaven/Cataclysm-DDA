@@ -2300,5 +2300,247 @@
       [ [ "glass_shard", 3 ], [ "pipe_glass", 1 ], [ "flask_glass", 3 ], [ "test_tube", 6 ], [ "marble", 75 ] ],
       [ [ "stopcock", 1 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "money_strap",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "time": "1 m",
+    "reversible": false,
+    "autolearn": true,
+    "components": [ [ [ "paper", 1 ] ], [ [ "bone_glue", 1 ], [ "superglue", 1 ], [ "duct_tape", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "coin_wrapper",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "time": "3 m",
+    "reversible": false,
+    "autolearn": true,
+    "components": [ [ [ "paper", 1 ] ], [ [ "bone_glue", 1 ], [ "superglue", 1 ], [ "duct_tape", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "penny_roll",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "time": "3 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "coin_penny", 50 ] ], [ [ "coin_wrapper", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "nickel_roll",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "time": "3 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "coin_nickel", 40 ] ], [ [ "coin_wrapper", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "dime_roll",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "time": "3 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "coin_dime", 50 ] ], [ [ "coin_wrapper", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "quarter_roll",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "time": "3 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "coin_quarter", 40 ] ], [ [ "coin_wrapper", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "penny_roll_box",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "time": "3 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "penny_roll", 50 ] ], [ [ "box_small", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "nickel_roll_box",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "time": "3 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "nickel_roll", 50 ] ], [ [ "box_small", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "dime_roll_box",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "time": "3 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "dime_roll", 50 ] ], [ [ "box_small", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "quarter_roll_box",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "time": "3 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "quarter_roll", 50 ] ], [ [ "box_small", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "money_strap_one",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "time": "3 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "money_one", 100 ] ], [ [ "money_strap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "money_strap_five",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "time": "3 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "money_five", 100 ] ], [ [ "money_strap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "money_strap_ten",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "time": "3 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "money_ten", 100 ] ], [ [ "money_strap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "money_strap_twenty",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "time": "3 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "money_twenty", 100 ] ], [ [ "money_strap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "money_strap_fifty",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "time": "3 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "money_fifty", 100 ] ], [ [ "money_strap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "money_strap_hundred",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "time": "3 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "money_hundred", 100 ] ], [ [ "money_strap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "money_bundle_one",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "time": "20 s",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "money_strap_one", 10 ] ], [ [ "rubber_band", 1 ], [ "string_6", 2 ] ] ]
+  },  
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "money_bundle_five",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "time": "20 s",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "money_strap_five", 10 ] ], [ [ "rubber_band", 1 ], [ "string_6", 2 ] ] ]
+  },  
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "money_bundle_ten",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "time": "20 s",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "money_strap_ten", 10 ] ], [ [ "rubber_band", 1 ], [ "string_6", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "money_bundle_twenty",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "time": "20 s",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "money_strap_twenty", 10 ] ], [ [ "rubber_band", 1 ], [ "string_6", 2 ] ] ]
+  },  
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "money_bundle_fifty",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "time": "20 s",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "money_strap_fifty", 10 ] ], [ [ "rubber_band", 1 ], [ "string_6", 2 ] ] ]
+  },  
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "money_bundle_hundred",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "time": "20 s",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "money_strap_hundred", 10 ] ], [ [ "rubber_band", 1 ], [ "string_6", 2 ] ] ]
   }
 ]
