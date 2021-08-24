@@ -443,6 +443,12 @@ const
         }
     }
 
+    for( const item *e : get_pseudo_items() ) {
+        if( visit_internal( func, e ) == VisitResponse::ABORT ) {
+            return VisitResponse::ABORT;
+        }
+    }
+
     return inv->visit_items( func );
 }
 
@@ -757,6 +763,7 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
     int qty = 0;
 
     bool found_tool_with_UPS = false;
+    bool found_bionic_tool = false;
     self.visit_items( [&]( const item * e, item * ) {
         if( filter( *e ) && id == e->typeId() && !e->is_broken() ) {
             if( id != itype_UPS_off ) {
@@ -767,9 +774,8 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                 }
                 if( e->has_flag( STATIC( flag_id( "USE_UPS" ) ) ) ) {
                     found_tool_with_UPS = true;
-                }
-                if( e->has_flag( STATIC( flag_id( "USES_BIONIC_POWER" ) ) ) ) {
-                    qty = sum_no_wrap( qty, units::to_kilojoule( get_player_character().get_power_level() ) );
+                } else if( e->has_flag( STATIC( flag_id( "USES_BIONIC_POWER" ) ) ) ) {
+                    found_bionic_tool = true;
                 }
             } else if( id == itype_UPS_off && e->has_flag( STATIC( flag_id( "IS_UPS" ) ) ) ) {
                 qty = sum_no_wrap( qty, e->ammo_remaining() );
@@ -783,6 +789,10 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
     } );
 
     if( found_tool_with_UPS && qty < limit && get_player_character().has_active_bionic( bio_ups ) ) {
+        qty = sum_no_wrap( qty, units::to_kilojoule( get_player_character().get_power_level() ) );
+    }
+
+    if( found_bionic_tool ) {
         qty = sum_no_wrap( qty, units::to_kilojoule( get_player_character().get_power_level() ) );
     }
 
@@ -843,15 +853,6 @@ int Character::charges_of( const itype_id &what, int limit,
                            const std::function<bool( const item & )> &filter,
                            const std::function<void( int )> &visitor ) const
 {
-    const player *p = dynamic_cast<const player *>( this );
-
-    for( const auto &bio : *this->my_bionics ) {
-        const bionic_data &bid = bio.info();
-        if( bid.fake_item == what && ( !bid.activated || bio.powered ) ) {
-            return std::min( item( bid.fake_item ).ammo_remaining( p ), limit );
-        }
-    }
-
     if( what == itype_UPS ) {
         int ups_power = available_ups();
         if( has_active_bionic( bio_ups ) ) {
@@ -916,9 +917,8 @@ int Character::amount_of( const itype_id &what, bool pseudo, int limit,
                           const std::function<bool( const item & )> &filter ) const
 {
     if( pseudo ) {
-        for( const auto &bio : *this->my_bionics ) {
-            const bionic_data &bid = bio.info();
-            if( bid.fake_item == what && ( !bid.activated || bio.powered ) ) {
+        for( const item *pseudos : get_pseudo_items() ) {
+            if( pseudos->typeId() == what ) {
                 return 1;
             }
         }

@@ -138,6 +138,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::SPAWN_NPC: return "SPAWN_NPC";
         case debug_menu::debug_menu_index::SPAWN_MON: return "SPAWN_MON";
         case debug_menu::debug_menu_index::GAME_STATE: return "GAME_STATE";
+        case debug_menu::debug_menu_index::KILL_AREA: return "KILL_AREA";
         case debug_menu::debug_menu_index::KILL_NPCS: return "KILL_NPCS";
         case debug_menu::debug_menu_index::MUTATE: return "MUTATE";
         case debug_menu::debug_menu_index::SPAWN_VEHICLE: return "SPAWN_VEHICLE";
@@ -339,6 +340,7 @@ static int map_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
         { uilist_entry( debug_menu_index::REVEAL_MAP, true, 'r', _( "Reveal map" ) ) },
+        { uilist_entry( debug_menu_index::KILL_AREA, true, 'a', _( "Kill in Area" ) ) },
         { uilist_entry( debug_menu_index::KILL_NPCS, true, 'k', _( "Kill NPCs" ) ) },
         { uilist_entry( debug_menu_index::MAP_EDITOR, true, 'M', _( "Map editor" ) ) },
         { uilist_entry( debug_menu_index::CHANGE_WEATHER, true, 'w', _( "Change weather" ) ) },
@@ -1465,12 +1467,14 @@ void character_edit_menu()
                 break;
                 case 2: {
                     string_input_popup popup;
-                    popup.title( _( "Enter height in centimeters.  Minimum 145, maximum 200" ) )
+                    popup.title( string_format( _( "Enter height in centimeters.  Minimum %d, maximum %d" ),
+                                                Character::min_height(),
+                                                Character::max_height() ) )
                     .text( string_format( "%d", p.base_height() ) )
                     .only_digits( true );
                     const int result = popup.query_int();
                     if( result != 0 ) {
-                        p.set_base_height( clamp( result, 145, 200 ) );
+                        p.set_base_height( clamp( result, Character::min_height(), Character::max_height() ) );
                     }
                 }
                 break;
@@ -2027,9 +2031,9 @@ static void debug_menu_game_state()
         to_turns<int>( calendar::turn - calendar::turn_zero ),
         g->num_creatures() );
     for( const npc &guy : g->all_npcs() ) {
-        tripoint t = guy.global_sm_location();
-        add_msg( m_info, _( "%s: map ( %d:%d ) pos ( %d:%d )" ), guy.name, t.x,
-                 t.y, guy.posx(), guy.posy() );
+        tripoint_abs_sm t = guy.global_sm_location();
+        add_msg( m_info, _( "%s: map ( %d:%d ) pos ( %d:%d )" ), guy.name, t.x(),
+                 t.y(), guy.posx(), guy.posy() );
     }
 
     add_msg( m_info, _( "(you: %d:%d)" ), player_character.posx(), player_character.posy() );
@@ -2206,7 +2210,6 @@ void debug()
 
     avatar &player_character = get_avatar();
     map &here = get_map();
-    tripoint abs_sub = here.get_abs_sub();
     switch( *action ) {
         case debug_menu_index::WISH:
             debug_menu::wishitem( &player_character );
@@ -2237,7 +2240,7 @@ void debug()
             shared_ptr_fast<npc> temp = make_shared_fast<npc>();
             temp->normalize();
             temp->randomize();
-            temp->spawn_at_precise( abs_sub.xy(), player_character.pos() + point( -4, -4 ) );
+            temp->spawn_at_precise( player_character.global_square_location() + point( -4, -4 ) );
             overmap_buffer.insert_npc( temp );
             temp->form_opinion( player_character );
             temp->mission = NPC_MISSION_NULL;
@@ -2260,6 +2263,43 @@ void debug()
         case debug_menu_index::GAME_STATE:
             debug_menu_game_state();
             break;
+
+        case debug_menu_index::KILL_AREA: {
+            static_popup popup;
+            popup.on_top( true );
+            popup.message( "%s", _( "Select first point." ) );
+
+            tripoint initial_pos = player_character.pos();
+            const look_around_result first = g->look_around( false, initial_pos, initial_pos,
+                                             false, true, false );
+
+            if( !first.position ) {
+                break;
+            }
+
+            popup.message( "%s", _( "Select second point." ) );
+            const look_around_result second = g->look_around( false, initial_pos, *first.position,
+                                              true, true, false );
+
+            if( !second.position ) {
+                break;
+            }
+
+            const tripoint_range<tripoint> points = get_map().points_in_rectangle(
+                    first.position.value(), second.position.value() );
+
+            std::vector<Creature *> creatures = g->get_creatures_if(
+            [&points]( const Creature & critter ) -> bool {
+                return !critter.is_avatar() && points.is_point_inside( critter.pos() );
+            } );
+
+            for( Creature *critter : creatures ) {
+                critter->die( nullptr );
+            }
+
+            g->cleanup_dead();
+        }
+        break;
 
         case debug_menu_index::KILL_NPCS:
             for( npc &guy : g->all_npcs() ) {
@@ -2429,43 +2469,20 @@ void debug()
 
         // Damage Self
         case debug_menu_index::DAMAGE_SELF: {
-            const int torso_hp = player_character.get_part_hp_cur( bodypart_id( "torso" ) );
-            const int head_hp = player_character.get_part_hp_cur( bodypart_id( "head" ) );
-            const int arm_l_hp = player_character.get_part_hp_cur( bodypart_id( "arm_l" ) );
-            const int arm_r_hp = player_character.get_part_hp_cur( bodypart_id( "arm_r" ) );
-            const int leg_l_hp = player_character.get_part_hp_cur( bodypart_id( "leg_l" ) );
-            const int leg_r_hp = player_character.get_part_hp_cur( bodypart_id( "leg_r" ) );
+            const std::vector<bodypart_id> parts = player_character.get_all_body_parts(
+                    get_body_part_flags::only_main );
             uilist smenu;
-            smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), torso_hp );
-            smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), head_hp );
-            smenu.addentry( 2, true, 'a', "%s: %d", _( "Left arm" ), arm_l_hp );
-            smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), arm_r_hp );
-            smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), leg_l_hp );
-            smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), leg_r_hp );
+            int i = 0;
+            for( const bodypart_id &part : parts ) {
+                smenu.addentry( i, true, ' ', "%s: %d",
+                                part->name.translated(), player_character.get_part_hp_cur( part ) );
+                i++;
+            }
             smenu.query();
             bodypart_id part;
             int dbg_damage;
-            switch( smenu.ret ) {
-                case 0:
-                    part = bodypart_id( "torso" );
-                    break;
-                case 1:
-                    part = bodypart_id( "head" );
-                    break;
-                case 2:
-                    part = bodypart_id( "arm_l" );
-                    break;
-                case 3:
-                    part = bodypart_id( "arm_r" );
-                    break;
-                case 4:
-                    part = bodypart_id( "leg_l" );
-                    break;
-                case 5:
-                    part = bodypart_id( "leg_r" );
-                    break;
-                default:
-                    break;
+            if( smenu.ret >= 0 && static_cast<std::size_t>( smenu.ret ) <= parts.size() ) {
+                part = parts.at( smenu.ret );
             }
             if( query_int( dbg_damage, _( "Damage self for how much?  hp: %s" ), part.id().c_str() ) ) {
                 player_character.apply_damage( nullptr, part, dbg_damage );
@@ -2653,7 +2670,7 @@ void debug()
                     tripoint_abs_sm where_sm = project_to<coords::sm>( where_omt );
                     tinymap mx_map;
                     mx_map.load( where_sm, false );
-                    MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm.raw() );
+                    MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm );
                     g->load_npcs();
                     here.invalidate_map_cache( here.get_abs_sub().z );
                 }

@@ -5,7 +5,7 @@
 #include <list>
 
 #include "calendar.h"
-#include "point.h"
+#include "coordinates.h"
 
 enum class timed_event_type : int {
     NONE,
@@ -14,6 +14,7 @@ enum class timed_event_type : int {
     ROBOT_ATTACK,
     SPAWN_WYRMS,
     AMIGARA,
+    AMIGARA_WHISPERS,
     ROOTS_DIE,
     TEMPLE_OPEN,
     TEMPLE_FLOOD,
@@ -31,9 +32,9 @@ struct timed_event {
     /** Which faction is responsible for handling this event. */
     int faction_id = -1;
     /** Where the event happens, in global submap coordinates */
-    tripoint map_point = tripoint_min;
+    tripoint_abs_sm map_point = tripoint_abs_sm( tripoint_min );
 
-    timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint p );
+    timed_event( timed_event_type e_t, const time_point &w, int f_id, tripoint_abs_sm p );
 
     // When the time runs out
     void actualize();
@@ -56,7 +57,8 @@ class timed_event_manager
          * Add an entry to the event queue. Parameters are basically passed
          * through to @ref timed_event::timed_event.
          */
-        void add( timed_event_type type, const time_point &when, int faction_id, const tripoint &where );
+        void add( timed_event_type type, const time_point &when, int faction_id,
+                  const tripoint_abs_sm &where );
         /// @returns Whether at least one element of the given type is queued.
         bool queued( timed_event_type type ) const;
         /// @returns One of the queued events of the given type, or `nullptr`

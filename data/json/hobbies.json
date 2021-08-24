@@ -24,6 +24,7 @@
     "name": "Crackhead",
     "description": "Cocaine.  It is, indeed, a helluva drug.  You blew your money on some dust, and before you knew it you were turning tricks behind the local CVS just to score one more line.  Where are you going to get your next fix now?",
     "points": -1,
+    "traits": [ "STIMBOOST" ],
     "addictions": [ { "intensity": 20, "type": "crack" } ]
   },
   {
@@ -33,6 +34,7 @@
     "name": "Tweaker",
     "description": "You're not entirely sure what happened last night, but you woke up on the floor and everything has gone completely to shit.  The only thing running through your head, though, is where you're gonna find your next hit.",
     "points": -2,
+    "traits": [ "STIMBOOST" ],
     "addictions": [ { "intensity": 30, "type": "amphetamine" } ]
   },
   {
@@ -51,6 +53,7 @@
     "name": "Alcoholic",
     "description": "You found solace in the bottom of a bottle.  God-damn, you need a drink.",
     "points": -1,
+    "traits": [ "DISORGANIZED" ],
     "addictions": [ { "intensity": 20, "type": "alcohol" } ]
   },
   {
@@ -90,6 +93,366 @@
     "name": "Camping",
     "description": "You enjoyed camping in the vast wilderness as a means of escaping the pace of modern life.  The wilderness isn't filled with people, so it must be safe.  Right?  It must be.",
     "points": 2,
-    "skills": [ { "level": 2, "name": "survival" }, { "level": 2, "name": "firstaid" } ]
+    "skills": [ { "level": 2, "name": "survival" }, { "level": 2, "name": "firstaid" } ],
+    "traits": [ "OUTDOORSMAN" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hobby_heli_pilot",
+    "name": "Helicopter Pilot",
+    "description": "You got your pilot's license, and earned a living ferrying businessmen and tourists around.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "driving" }, { "level": 2, "name": "mechanics" } ],
+    "proficiencies": [ "prof_helicopter_pilot" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "loves_books",
+    "name": "Loves Books",
+    "description": "You love reading, you just never seemed to have enough time.  Maybe the cataclysm is a blessing in disguise.",
+    "points": 1,
+    "traits": [ "LOVES_BOOKS" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "chem_cooking",
+    "name": "Chemical Cooking",
+    "description": "You decided to cook your fix instead of waiting for your next one.",
+    "points": 2,
+    "proficiencies": [ "prof_intro_chemistry", "prof_intro_chem_synth" ],
+    "skills": [ { "level": 3, "name": "chemistry" }, { "level": 1, "name": "cooking" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "archery",
+    "name": "Archery",
+    "description": "You enjoy nocking back an arrow and hearing them whistle through the air.",
+    "points": 2,
+    "skills": [ { "level": 3, "name": "archery" }, { "level": 2, "name": "gun" } ],
+    "proficiencies": [ "prof_bow_basic" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "swimming",
+    "name": "Swimming",
+    "description": "Swimming through water is certainly an advantage you have over the undead.",
+    "points": 1,
+    "skills": [ { "level": 3, "name": "swimming" } ],
+    "traits": [ "OUTDOORSMAN" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "baseball",
+    "name": "Baseball",
+    "description": "You got the stance, you got the grip, you got the game.  Swinging at a zombie's head is close enough to swinging at a baseball… right?",
+    "points": 2,
+    "skills": [ { "level": 3, "name": "bashing" }, { "level": 2, "name": "swimming" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "vid_games",
+    "name": "Video Games",
+    "description": "You love video games so much that you spent that vast majority of your time playing.",
+    "points": 1,
+    "skills": [ { "level": 1, "name": "computer" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "trapping",
+    "name": "Trapping",
+    "description": "You like to trap little wild animals such as mice and other rodents.",
+    "points": 2,
+    "proficiencies": [ "prof_traps", "prof_disarming" ],
+    "skills": [ { "level": 3, "name": "traps" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "dodgeball",
+    "name": "Dodgeball",
+    "description": "Dodging fast moving balls as if your life depended on it was fun.  Zombies aren't as fun, but your life certainly depends on it.",
+    "points": 2,
+    "skills": [ { "level": 3, "name": "dodge" }, { "level": 2, "name": "throw" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "amateur_electronics",
+    "name": "Amateur Electronics",
+    "description": "You found unexpected solace while soldering components to circuit boards.",
+    "points": 2,
+    "proficiencies": [ "prof_elec_soldering" ],
+    "skills": [ { "level": 3, "name": "electronics" }, { "level": 2, "name": "computer" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "diy_crafts",
+    "name": "DIY Crafts",
+    "description": "You spent much of your time making something useful out of bits and bobbles.",
+    "points": 3,
+    "proficiencies": [ "prof_pottery", "prof_carving", "prof_basketweaving", "prof_elastics", "prof_leatherworking_basic" ],
+    "skills": [ { "level": 3, "name": "fabrication" }, { "level": 1, "name": "tailor" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "cooking",
+    "name": "Cooking",
+    "description": "You enjoyed cooking for yourself and others.",
+    "points": 2,
+    "proficiencies": [ "prof_baking", "prof_food_prep" ],
+    "skills": [ { "level": 3, "name": "cooking" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "paintball",
+    "name": "Paintball",
+    "description": "Shooting your enemies has always been fun.  Now you can do it for real.",
+    "points": 2,
+    "skills": [ { "level": 3, "name": "rifle" }, { "level": 1, "name": "gun" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "plinking",
+    "name": "Plinking",
+    "description": "You enjoyed plinking with your airsoft pistol.",
+    "points": 2,
+    "skills": [ { "level": 3, "name": "pistol" }, { "level": 1, "name": "gun" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "skeet_shooting",
+    "name": "Skeet Shooting",
+    "description": "Where the skeet go, your bullet follows.  Or atleast, one of them will.",
+    "points": 2,
+    "skills": [ { "level": 3, "name": "shotgun" }, { "level": 1, "name": "gun" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "public_speaking",
+    "name": "Public Speaking",
+    "description": "You were an incredibly social individual.",
+    "points": 1,
+    "skills": [ { "level": 3, "name": "speech" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "street_fighting",
+    "name": "Street Fighting",
+    "description": "You were always instigating fights in the street.  Atleast this might come in useful now.",
+    "points": 2,
+    "skills": [ { "level": 1, "name": "melee" }, { "level": 3, "name": "unarmed" }, { "level": 2, "name": "dodge" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "knife_throwing",
+    "name": "Knife Throwing",
+    "description": "Throwing knives are fun and deadly in the right hands.",
+    "points": 2,
+    "skills": [ { "level": 3, "name": "throw" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "sewing",
+    "name": "Sewing",
+    "description": "You used to sew torn clothes back together and even made your own clothes a few times.",
+    "points": 2,
+    "proficiencies": [ "prof_closures", "prof_elastics" ],
+    "skills": [ { "level": 3, "name": "tailor" }, { "level": 1, "name": "fabrication" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "fencing",
+    "name": "Fencing",
+    "description": "You were in a fencing club, and you weren't too shabby with a saber.",
+    "points": 2,
+    "skills": [ { "level": 3, "name": "stabbing" }, { "level": 1, "name": "melee" } ],
+    "traits": [ "MARTIAL_FENCING" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "car_fan",
+    "name": "Gearhead",
+    "description": "You're a big fan of cars and other things that go vroom, whether it's fixing them or driving them.  You may not be a professional, but you know your way around an engine.",
+    "points": 1,
+    "skills": [ { "level": 3, "name": "driving" }, { "level": 1, "name": "mechanics" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "martial_training",
+    "name": "Martial Training",
+    "description": "You have received some martial arts training at a local dojo.  You start with your choice of Karate, Judo, Aikido, Tai Chi, Taekwondo, or Pankration.",
+    "points": 4,
+    "skills": [ { "level": 2, "name": "melee" }, { "level": 3, "name": "unarmed" } ],
+    "traits": [ "MARTIAL_ARTS" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "self_defense",
+    "name": "Self-Defense Classes",
+    "description": "You have taken some self-defense classes at a nearby gym.  You start with your choice of Boxing, Capoeira, Krav Maga, Muay Thai, Ninjutsu, Wing Chun, or Zui Quan.",
+    "points": 4,
+    "skills": [ { "level": 2, "name": "melee" }, { "level": 3, "name": "unarmed" } ],
+    "traits": [ "MARTIAL_ARTS2" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "shaolin",
+    "name": "Shaolin Adept",
+    "description": "You have studied the arts of the Shaolin monks.  You start with one of the five animal fighting styles: Tiger, Crane, Leopard, Snake, or Dragon.",
+    "points": 4,
+    "skills": [ { "level": 2, "name": "melee" }, { "level": 3, "name": "unarmed" }, { "level": 3, "name": "dodge" } ],
+    "traits": [ "MARTIAL_ARTS3" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "melee_training",
+    "name": "Melee Weapon Training",
+    "description": "You have practiced fighting with weapons.  You start with your choice of Eskrima, Fencing, Fior Di Battaglia, Medieval Swordsmanship, Niten Ichi-Ryu, Pentjak Silat, or Sōjutsu.",
+    "points": 5,
+    "skills": [
+      { "level": 2, "name": "melee" },
+      { "level": 3, "name": "bashing" },
+      { "level": 3, "name": "stabbing" },
+      { "level": 3, "name": "cutting" }
+    ],
+    "traits": [ "MARTIAL_ARTS5" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "gourmand",
+    "name": "Gourmand",
+    "description": "You truly enjoy eating and can eat faster, can eat and drink more, than anyone else!",
+    "points": 3,
+    "traits": [ "GOURMAND" ],
+    "skills": [ { "level": 1, "name": "cooking" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hates_books",
+    "name": "Book hater",
+    "description": "Reading is for nerds!  You've managed to make hatred of the written word a central part of your identity.  Or, perhaps, you have a barrier that makes books additionally challenging and frustrating for you.  Whatever the reason, boring books are more boring, and you can't have fun by reading books.",
+    "points": -1,
+    "traits": [ "HATES_BOOKS" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "hoarder",
+    "name": "Hoarder",
+    "description": "You don't feel right unless you're carrying as much as you can.  You suffer morale penalties for carrying less than maximum volume (weight is ignored).  Xanax can help control this anxiety.",
+    "points": -3,
+    "traits": [ "HOARDER" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "nomadic",
+    "name": "Nomadic",
+    "description": "You're too adventurous for your own good.  The more time you spend somewhere, the unhappier it makes you to be there.",
+    "points": -1,
+    "traits": [ "NOMAD" ],
+    "skills": [ { "level": 1, "name": "survival" }, { "level": 1, "name": "driving" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "pyromaniac",
+    "name": "Pyromaniac",
+    "description": "You have an unhealthy obsession with fire, and you get anxious if you don't light them every now and then or stand near them often.  However, you gain a mood bonus from doing so.",
+    "points": 0,
+    "skills": [ { "level": 1, "name": "survival" } ],
+    "traits": [ "PYROMANIA" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "rigid_table_manners",
+    "name": "Rigid Table Manners",
+    "description": "You've been taught proper table manners from your early childhood on; now, you can't even think about eating without being seated at a table and taking your time.  Eating without a table and chair frustrates you, but eating like a civilized person gives you a bigger morale bonus.",
+    "points": -1,
+    "traits": [ "TABLEMANNERS" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "truthteller",
+    "name": "Truth Teller",
+    "description": "When you try to tell a lie, you blush, stammer, and get all shifty-eyed.  Telling lies and otherwise bluffing will be much more difficult for you.  However, this does make you a good, honest speaker when you're not trying to hide something.",
+    "points": 0,
+    "traits": [ "TRUTHTELLER" ],
+    "skills": [ { "level": 1, "name": "speech" } ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "meatarian",
+    "name": "Meatarian",
+    "description": "You absolutely love meat, and dislike eating fruits and vegetables.  It's not just a taste thing, it's a lifestyle.  You spend a lot of time online telling vegans they are wrong.",
+    "points": -2,
+    "traits": [ "ANTIFRUIT", "MEATARIAN" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "vegetarian",
+    "name": "Vegetarian",
+    "description": "You have been a vegetarian so long, eating meat makes you sick.  You spend a lot of time online telling carnists they are wrong.",
+    "points": -1,
+    "traits": [ "VEGETARIAN" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "skating",
+    "name": "Skating",
+    "description": "You are skilled in maneuvering on skates.  You suffer lower penalties to dodging and are less likely to fall down if hit in melee combat while you're wearing rollerskates or rollerblades.",
+    "points": 2,
+    "skills": [ { "level": 2, "name": "dodge" } ],
+    "traits": [ "PROF_SKATER" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "trickster",
+    "name": "Trickster",
+    "description": "Mischief is something of a second nature for you.",
+    "points": 1,
+    "skills": [ { "level": 1, "name": "traps" }, { "level": 1, "name": "speech" } ],
+    "traits": [ "LIAR" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "modelling",
+    "name": "Modelling",
+    "description": "Having style and good looks is certainly far more important than practicality.",
+    "points": 3,
+    "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "tailor" } ],
+    "traits": [ "STYLISH" ]
   }
 ]

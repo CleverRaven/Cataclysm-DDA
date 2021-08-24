@@ -107,6 +107,37 @@ struct stat_hp_mods {
 
 struct body_part_type {
     public:
+        /**
+         * the different types of body parts there are.
+         * this allows for the ability to group limbs or determine a limb of a certain type
+         */
+        enum class type {
+            // this is where helmets go, and is a vital part.
+            head,
+            // the torso is generally the center of mass of a creature
+            torso,
+            // provides sight
+            sensor,
+            // you eat and scream with this
+            mouth,
+            // may manipulate objects to some degree, is a main part
+            arm,
+            // manipulates objects. usually is not a main part.
+            hand,
+            // provides motive power
+            leg,
+            // helps with balance. usually is not a main part
+            foot,
+            // may reduce fall damage
+            wing,
+            // may provide balance or manipulation
+            tail,
+            // more of a general purpose limb, such as horns.
+            other,
+            num_types
+        };
+
+
         bodypart_str_id id;
         bool was_loaded = false;
 
@@ -144,6 +175,7 @@ struct body_part_type {
         bodypart_str_id opposite_part;
         // Parts with no opposites have BOTH here
         side part_side = side::BOTH;
+        body_part_type::type limb_type = body_part_type::type::num_types;
 
         float smash_efficiency = 0.5f;
 
@@ -158,6 +190,8 @@ struct body_part_type {
         int base_hp = 60;
         stat_hp_mods hp_mods;
 
+        // if a limb is vital and at 0 hp, you die.
+        bool is_vital = false;
         bool is_limb = false;
 
         int drench_max = 0;
@@ -184,6 +218,11 @@ struct body_part_type {
         }
     private:
         int bionic_slots_ = 0;
+};
+
+template<>
+struct enum_traits<body_part_type::type> {
+    static constexpr body_part_type::type last = body_part_type::type::num_types;
 };
 
 struct layer_details {

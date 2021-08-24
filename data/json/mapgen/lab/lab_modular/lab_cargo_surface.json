@@ -284,6 +284,8 @@
         "q": [ { "item": "mechanics", "chance": 30 } ]
       },
       "place_loot": [
+        { "item": "id_science_maintenance_yellow", "x": 6, "y": 7, "chance": 100 },
+        { "item": "id_science_maintenance_yellow", "x": 6, "y": 16, "chance": 100 },
         { "item": "hd_tow_cable", "x": 22, "y": [ 7, 8 ], "chance": 10 },
         { "item": "jumper_cable", "x": 22, "y": [ 7, 8 ], "chance": 10 },
         { "item": "jumper_cable_heavy", "x": 22, "y": [ 7, 8 ], "chance": 7 },

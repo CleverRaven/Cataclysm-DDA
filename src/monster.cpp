@@ -52,7 +52,6 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
-#include "player.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
@@ -231,7 +230,7 @@ void monster::setpos( const tripoint &p )
 
     bool wandering = wander();
     g->update_zombie_pos( *this, p );
-    position = p;
+    Creature::setpos( p );
     if( has_effect( effect_ridden ) && mounted_player && mounted_player->pos() != pos() ) {
         add_msg_debug( debugmode::DF_MONSTER, "Ridden monster %s moved independently and dumped player",
                        get_name() );
@@ -1574,7 +1573,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
             if( target.is_avatar() ) {
                 sfx::play_variant_sound( "melee_attack", "monster_melee_hit",
                                          sfx::get_heard_volume( target.pos() ) );
-                sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
+                sfx::do_player_death_hurt( dynamic_cast<Character &>( target ), false );
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative.
                 add_msg( m_bad, _( "%1$s hits your %2$s." ), u_see_me ? disp_name( false, true ) : "Something",
                          body_part_name_accusative( dealt_dam.bp_hit ) );
@@ -2282,8 +2281,8 @@ void monster::process_turn()
     // Persist grabs as long as there's an adjacent target.
     if( has_effect( effect_grabbing ) ) {
         for( const tripoint &dest : here.points_in_radius( pos(), 1, 0 ) ) {
-            const player *const p = g->critter_at<player>( dest );
-            if( p && p->has_effect( effect_grabbed ) ) {
+            const Character *const you = g->critter_at<Character>( dest );
+            if( you && you->has_effect( effect_grabbed ) ) {
                 add_effect( effect_grabbing, 2_turns );
             }
         }
@@ -2399,8 +2398,8 @@ void monster::die( Creature *nkiller )
     if( has_effect( effect_grabbing ) ) {
         remove_effect( effect_grabbing );
         for( const tripoint &player_pos : here.points_in_radius( pos(), 1, 0 ) ) {
-            player *p = g->critter_at<player>( player_pos );
-            if( !p || !p->has_effect( effect_grabbed ) ) {
+            Character *you = g->critter_at<Character>( player_pos );
+            if( !you || !you->has_effect( effect_grabbed ) ) {
                 continue;
             }
             bool grabbed = false;
@@ -2412,9 +2411,9 @@ void monster::die( Creature *nkiller )
                 }
             }
             if( !grabbed ) {
-                p->add_msg_player_or_npc( m_good, _( "The last enemy holding you collapses!" ),
-                                          _( "The last enemy holding <npcname> collapses!" ) );
-                p->remove_effect( effect_grabbed );
+                you->add_msg_player_or_npc( m_good, _( "The last enemy holding you collapses!" ),
+                                            _( "The last enemy holding <npcname> collapses!" ) );
+                you->remove_effect( effect_grabbed );
             }
         }
     }

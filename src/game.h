@@ -143,6 +143,11 @@ struct w_map {
 };
 
 bool is_valid_in_w_terrain( const point &p );
+namespace turn_handler
+{
+bool cleanup_at_end();
+void update_stair_monsters();
+} // namespace turn_handler
 
 // There is only one game instance, so losing a few bytes of memory
 // due to padding is not much of a concern.
@@ -166,6 +171,8 @@ class game
         friend scent_map &get_scent();
         friend timed_event_manager &get_timed_events();
         friend memorial_logger &get_memorial();
+        friend bool do_turn();
+        friend bool turn_handler::cleanup_at_end();
     public:
         game();
         ~game();
@@ -221,10 +228,7 @@ class game
         /** Returns a list of currently active character saves. */
         std::vector<std::string> list_active_characters();
         void write_memorial_file( std::string sLastWords );
-        bool cleanup_at_end();
         void start_calendar();
-        /** MAIN GAME LOOP. Returns true if game is over (death, saved, quit, etc.). */
-        bool do_turn();
         shared_ptr_fast<ui_adaptor> create_or_get_main_ui_adaptor();
         void invalidate_main_ui_adaptor() const;
         void mark_main_ui_adaptor_resize() const;
@@ -867,9 +871,6 @@ class game
 
         input_context get_player_input( std::string &action );
 
-        // Map updating and monster spawning
-        void replace_stair_monsters();
-        void update_stair_monsters();
         /**
          * Shift all active monsters, the shift vector is the number of
          * shifted submaps. Monsters that are outside of the reality bubble after
@@ -890,10 +891,6 @@ class game
         void perhaps_add_random_npc();
 
         // Routine loop functions, approximately in order of execution
-        void monmove();          // Monster movement
-        void overmap_npc_move(); // NPC overmap movement
-        void process_activity(); // Processes and enacts the player's activity
-        void handle_key_blocking_activity(); // Abort reading etc.
         void open_consume_item_menu(); // Custom menu for consuming specific group of items
         bool do_regular_action( action_id &act, avatar &player_character,
                                 const cata::optional<tripoint> &mouse_target );

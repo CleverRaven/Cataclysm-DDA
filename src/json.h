@@ -297,14 +297,14 @@ class JsonIn
         template<size_t N>
         bool read( std::bitset<N> &b, bool throw_on_error = false );
         bool read( JsonDeserializer &j, bool throw_on_error = false );
-        // This is for the string_id type
+
         template <typename T>
-        auto read( T &thing, bool throw_on_error = false ) -> decltype( thing.str(), true ) {
+        auto read( string_id<T> &thing, bool throw_on_error = false ) -> bool {
             std::string tmp;
             if( !read( tmp, throw_on_error ) ) {
                 return false;
             }
-            thing = T( tmp );
+            thing = string_id<T>( tmp );
             return true;
         }
 
@@ -729,9 +729,9 @@ class JsonOut
         void write( const std::bitset<N> &b );
 
         void write( const JsonSerializer &thing );
-        // This is for the string_id type
+
         template <typename T>
-        auto write( const T &thing ) -> decltype( thing.str(), ( void )0 ) {
+        auto write( const string_id<T> &thing ) {
             write( thing.str() );
         }
 

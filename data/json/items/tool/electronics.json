@@ -219,7 +219,7 @@
     "type": "TOOL",
     "id": "eink_tablet_pc_on",
     "copy-from": "eink_tablet_pc",
-    "name": { "str": "e-ink tablet PC (on)" },
+    "name": { "str": "e-ink tablet PC (on)", "str_pl": "e-ink tablet PCs (on)" },
     "power_draw": 2000,
     "revert_to": "eink_tablet_pc",
     "use_action": [

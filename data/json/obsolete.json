@@ -593,7 +593,7 @@
     "description": "Your left arm has been surgically replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray.  However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand.",
     "occupied_bodyparts": [ [ "arm_l", 20 ], [ "hand_l", 5 ] ],
     "act_cost": 50,
-    "fake_item": "bio_blaster_gun",
+    "fake_weapon": "bio_blaster_gun",
     "flags": [ "BIONIC_GUN" ],
     "cant_remove_reason": "Removing %1$s Fusion Blaster Arm would leave %2$s with a useless stump."
   },
@@ -632,7 +632,7 @@
     "reload": 500,
     "built_in_mods": [ "bio_powershot" ],
     "ammo_effects": [ "PLASMA" ],
-    "flags": [ "NEVER_JAMS", "TRADER_AVOID", "ZERO_WEIGHT" ]
+    "flags": [ "NEVER_JAMS", "TRADER_AVOID", "ZERO_WEIGHT", "USES_BIONIC_POWER" ]
   },
   {
     "id": "unbio_blaster_gun",

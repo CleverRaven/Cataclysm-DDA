@@ -91,11 +91,11 @@
         { "chunks": [ [ "null", 10 ], [ "lab_recreational_3x3_open", 90 ] ], "x": 5, "y": 15 }
       ],
       "place_monster": [
-        { "monster": "mon_skitterbot", "x": 17, "y": 3, "chance": 100 },
-        { "monster": "mon_skitterbot", "x": 16, "y": 3, "chance": 100 },
+        { "monster": "mon_flashbang_hack", "x": 17, "y": 3, "chance": 100 },
+        { "monster": "mon_gasbomb_hack", "x": 16, "y": 3, "chance": 100 },
         { "monster": "mon_skitterbot", "x": 17, "y": 4, "chance": 100 },
-        { "monster": "mon_skitterbot", "x": 17, "y": 19, "chance": 100 },
-        { "monster": "mon_skitterbot", "x": 16, "y": 20, "chance": 100 },
+        { "monster": "mon_flashbang_hack", "x": 17, "y": 19, "chance": 100 },
+        { "monster": "mon_gasbomb_hack", "x": 16, "y": 20, "chance": 100 },
         { "monster": "mon_skitterbot", "x": 17, "y": 20, "chance": 100 }
       ]
     }
@@ -306,22 +306,22 @@
         "|``````|;£♠♠♠♠£;|``````|",
         "|````|||;£;;;;£;|||````|",
         "|ßßßß|||;£;;;;£;|||ßßßß|",
-        "|````|||;£;;;;£;|||````|",
+        "|ɜ```|||;£;;;;£;|||```ɜ|",
         "|````|||;£;;;;£;|||````|",
         "|````|||;££££££;|||````|",
-        "|`î```||||||||||||```î`|",
-        "|`````||||||||||||`````|",
-        "|`````||||||||||||`````|"
+        "||=¥||||||||||||||||=¥||",
+        "|``````````````````````|",
+        "|``````````````````````|"
       ],
       "palettes": [ "lab_common_palette", "lab_security_palette" ],
-      "terrain": { "ɜ": "t_metal_floor" },
+      "terrain": { "ɜ": "t_metal_floor", "¥": "t_card_science_security_black", "ƶ": "t_card_science_security_magenta" },
       "place_traps": [
         { "trap": "tr_lab_security_corridor_a", "x": [ 19, 22 ], "y": [ 3, 21 ], "repeat": [ 2, 5 ] },
         { "trap": "tr_lab_security_corridor_b", "x": [ 1, 4 ], "y": [ 3, 21 ], "repeat": [ 2, 5 ] }
       ],
       "place_nested": [
-        { "chunks": [ [ "null", 5 ], [ "lab_security_14x14_corridor_1", 95 ] ], "x": 17, "y": 3 },
-        { "chunks": [ [ "null", 5 ], [ "lab_security_14x14_corridor_2", 95 ] ], "x": 1, "y": 3 }
+        { "chunks": [ [ "lab_security_14x14_corridor_1", 100 ] ], "x": 17, "y": 3 },
+        { "chunks": [ [ "lab_security_14x14_corridor_2", 100 ] ], "x": 1, "y": 3 }
       ]
     }
   },
@@ -436,37 +436,30 @@
         ";;;;;;;;;;;;;;;;;;;;;;;;",
         "££££££££££;;;;££££££££££",
         "|$|||;;;;£;;;;£;;;;|||$|",
-        "|=|||;;;;£;;;;£;;;;|||=|",
-        "6```|;;;;£;;;;£;;;;|```6",
-        "````|;;;;££££££;;;;|````",
+        "|=¥||;;;;£;;;;£;;;;||¥=|",
+        "````|;;;;£;;;;£;;;;|````",
+        "^``^|;;;;££££££;;;;|^``^",
         "````|;;;;£;;;;£;;;;|````",
         "`î``|;;;;£;;;;£;;;;|``î`",
         "````|;;;;£;;;;£;;;;|````",
         "````|;;;;£;;;;£;;;;|````",
-        "````|;;;;£;;;;£;;;;|````",
+        "^``^|;;;;£;;;;£;;;;|^``^",
         "````|;;;;£;;;;£;;;;|````",
         "````|;;;;£;;;;£;;;;|````",
         "`î``|;;;;£;;;;£;;;;|``î`",
         "````|;;;;£♣♣♣♣£;;;;|````",
         "````|;;;;£♦♦♦♦£;;;;|````",
-        "````|;;;;£;;;;£;;;;|````",
+        "^``^|;;;;£;;;;£;;;;|^``^",
         "````|;;;;£;;;;£;;;;|````",
         "````|;;;;£;;;;£;;;;|````",
         "`î``|;;;;£;;;;£;;;;|``î`",
         "````|;;;;££££££;;;;|````",
-        "````|;;;;£;;;;£;;;;|````",
+        "^``^|;;;;£;;;;£;;;;|^``^",
         "````|;;;;££££££;;;;|````",
         "|```||||||||||||||||```|"
       ],
       "palettes": [ "lab_common_palette", "lab_security_palette" ],
-      "computers": {
-        "6": {
-          "name": "Emergency Containment Entrance",
-          "security": 8,
-          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock", "security": 6 } ],
-          "failures": [ { "action": "damage" }, { "action": "shutdown" }, { "action": "secubots" } ]
-        }
-      }
+      "terrain": { "¥": "t_card_science_security_black" }
     }
   },
   {

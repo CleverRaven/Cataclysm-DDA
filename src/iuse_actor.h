@@ -999,7 +999,7 @@ class saw_barrel_actor : public iuse_actor
         cata::optional<int> use( player &p, item &it, bool t, const tripoint &pnt ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
 
-        ret_val<bool> can_use_on( const player &p, const item &it, const item &target ) const;
+        ret_val<bool> can_use_on( const Character &you, const item &it, const item &target ) const;
 };
 
 class install_bionic_actor : public iuse_actor

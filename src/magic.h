@@ -707,6 +707,7 @@ void guilt( const spell &sp, Creature &caster, const tripoint &target );
 void remove_effect( const spell &sp, Creature &caster, const tripoint &target );
 void emit( const spell &sp, Creature &caster, const tripoint &target );
 void fungalize( const spell &sp, Creature &caster, const tripoint &target );
+void effect_on_condition( const spell &sp, Creature &caster, const tripoint &target );
 void none( const spell &sp, Creature &, const tripoint &target );
 
 static const std::map<spell_shape, std::function<std::set<tripoint>
@@ -751,6 +752,7 @@ effect_map{
     { "remove_effect", spell_effect::remove_effect },
     { "emit", spell_effect::emit },
     { "fungalize", spell_effect::fungalize },
+    { "effect_on_condition", spell_effect::effect_on_condition },
     { "none", spell_effect::none }
 };
 } // namespace spell_effect
