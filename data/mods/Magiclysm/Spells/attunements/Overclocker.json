@@ -33,7 +33,7 @@
     "id": "overclocker_drive",
     "type": "SPELL",
     "name": "Overdrive",
-    "description": "The powers of mana flow into you, heightening your speed to supernatural levels in a self-destructive way.  You are a blur amongst your enemies, felling them with blows too swift to see.",
+    "description": "The power of mana flows into you, heightening your speed to supernatural levels in a self-destructive way.  You are a blur amongst your enemies, felling them with blows too swift to see.",
     "valid_targets": [ "self" ],
     "flags": [ "NO_HANDS", "NO_LEGS", "SILENT" ],
     "effect": "attack",
