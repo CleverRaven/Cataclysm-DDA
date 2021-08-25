@@ -143,6 +143,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "coin_dollar",
+    "name": { "str": "dollar coin" },
+    "description": "A one-dollar coin, featuring a portrait of Susan B. Anthony. You could flip it.",
+    "weight": "8 g",
+    "volume": "1 ml",
+    "price": 100,
+    "price_postapoc": 1,
+    "material": [ "copper" ],
+    "symbol": "o",
+    "color": "light_gray",
+    "use_action": [ "COIN_FLIP" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "coin_silver",
     "name": { "str": "Silver Eagle coin" },
     "description": "The official silver bullion coin of the United States, has a nominal face value of one dollar and is guaranteed to contain one troy ounce of 99.9% pure silver.",
