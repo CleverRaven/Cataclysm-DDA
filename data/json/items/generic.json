@@ -3284,7 +3284,18 @@
         "max_contains_weight": "600 g",
         "max_contains_volume": "150 ml",
         "moves": 200,
-        "item_restriction": [ "FMCNote", "RobofacCoin", "FlatCoin", "coin_quarter", "coin_nickel" ]
+        "item_restriction": [
+          "FMCNote",
+          "RobofacCoin",
+          "FlatCoin",
+          "coin_penny",
+          "coin_nickel",
+          "coin_dime",
+          "coin_quarter",
+          "coin_half_dollar",
+          "coin_dollar",
+          "coin_silver"
+        ]
       }
     ]
   },
@@ -3365,7 +3376,18 @@
         "max_contains_weight": "600 g",
         "max_contains_volume": "175 ml",
         "moves": 200,
-        "item_restriction": [ "FMCNote", "RobofacCoin", "FlatCoin", "coin_quarter", "coin_nickel" ]
+        "item_restriction": [
+          "FMCNote",
+          "RobofacCoin",
+          "FlatCoin",
+          "coin_penny",
+          "coin_nickel",
+          "coin_dime",
+          "coin_quarter",
+          "coin_half_dollar",
+          "coin_dollar",
+          "coin_silver"
+        ]
       }
     ]
   },
