@@ -36,7 +36,7 @@
     "skill_used": "fabrication",
     "time": "60 s",
     "autolearn": true,
-    "components": [ [ [ "money_one", 100 ], [ "paper", 1 ] ] ]
+    "components": [ [ [ "money_one", 100 ] ], [ [ "paper", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -47,7 +47,7 @@
     "skill_used": "fabrication",
     "time": "60 s",
     "autolearn": true,
-    "components": [ [ [ "money_two", 100 ], [ "paper", 1 ] ] ]
+    "components": [ [ [ "money_two", 100 ] ], [ [ "paper", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -58,7 +58,7 @@
     "skill_used": "fabrication",
     "time": "60 s",
     "autolearn": true,
-    "components": [ [ [ "money_five", 100 ], [ "paper", 1 ] ] ]
+    "components": [ [ [ "money_five", 100 ] ], [ [ "paper", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -69,7 +69,7 @@
     "skill_used": "fabrication",
     "time": "60 s",
     "autolearn": true,
-    "components": [ [ [ "money_ten", 100 ], [ "paper", 1 ] ] ]
+    "components": [ [ [ "money_ten", 100 ] ], [ [ "paper", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -80,7 +80,7 @@
     "skill_used": "fabrication",
     "time": "60 s",
     "autolearn": true,
-    "components": [ [ [ "money_twenty", 100 ], [ "paper", 1 ] ] ]
+    "components": [ [ [ "money_twenty", 100 ] ], [ [ "paper", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -91,7 +91,7 @@
     "skill_used": "fabrication",
     "time": "60 s",
     "autolearn": true,
-    "components": [ [ [ "money_fifty", 100 ], [ "paper", 1 ] ] ]
+    "components": [ [ [ "money_fifty", 100 ] ], [ [ "paper", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -102,7 +102,7 @@
     "skill_used": "fabrication",
     "time": "60 s",
     "autolearn": true,
-    "components": [ [ [ "money_hundred", 100 ], [ "paper", 1 ] ] ]
+    "components": [ [ [ "money_hundred", 100 ] ], [ [ "paper", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -113,7 +113,7 @@
     "skill_used": "fabrication",
     "time": "60 s",
     "autolearn": true,
-    "components": [ [ [ "FMCNote", 100 ], [ "paper", 1 ] ] ]
+    "components": [ [ [ "FMCNote", 100 ] ], [ [ "paper", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -124,7 +124,7 @@
     "skill_used": "fabrication",
     "time": "6 s",
     "autolearn": true,
-    "components": [ [ [ "money_strap_one", 10 ], [ "rubber_band", 2 ] ] ]
+    "components": [ [ [ "money_strap_one", 10 ] ], [ [ "rubber_band", 2 ], [ "string_6", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -135,7 +135,7 @@
     "skill_used": "fabrication",
     "time": "6 s",
     "autolearn": true,
-    "components": [ [ [ "money_strap_two", 10 ], [ "rubber_band", 2 ] ] ]
+    "components": [ [ [ "money_strap_two", 10 ] ], [ [ "rubber_band", 2 ], [ "string_6", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -146,7 +146,7 @@
     "skill_used": "fabrication",
     "time": "6 s",
     "autolearn": true,
-    "components": [ [ [ "money_strap_five", 10 ], [ "rubber_band", 2 ] ] ]
+    "components": [ [ [ "money_strap_five", 10 ] ], [ [ "rubber_band", 2 ], [ "string_6", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -157,7 +157,7 @@
     "skill_used": "fabrication",
     "time": "6 s",
     "autolearn": true,
-    "components": [ [ [ "money_strap_ten", 10 ], [ "rubber_band", 2 ] ] ]
+    "components": [ [ [ "money_strap_ten", 10 ] ], [ [ "rubber_band", 2 ], [ "string_6", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -168,7 +168,7 @@
     "skill_used": "fabrication",
     "time": "6 s",
     "autolearn": true,
-    "components": [ [ [ "money_strap_twenty", 10 ], [ "rubber_band", 2 ] ] ]
+    "components": [ [ [ "money_strap_twenty", 10 ] ], [ [ "rubber_band", 2 ], [ "string_6", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -179,7 +179,7 @@
     "skill_used": "fabrication",
     "time": "6 s",
     "autolearn": true,
-    "components": [ [ [ "money_strap_fifty", 10 ], [ "rubber_band", 2 ] ] ]
+    "components": [ [ [ "money_strap_fifty", 10 ] ], [ [ "rubber_band", 2 ], [ "string_6", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -190,7 +190,7 @@
     "skill_used": "fabrication",
     "time": "6 s",
     "autolearn": true,
-    "components": [ [ [ "money_strap_hundred", 10 ], [ "rubber_band", 2 ] ] ]
+    "components": [ [ [ "money_strap_hundred", 10 ] ], [ [ "rubber_band", 2 ], [ "string_6", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -201,6 +201,6 @@
     "skill_used": "fabrication",
     "time": "6 s",
     "autolearn": true,
-    "components": [ [ [ "money_strap_FMCNote", 10 ], [ "rubber_band", 2 ] ] ]
+    "components": [ [ [ "money_strap_FMCNote", 10 ] ], [ [ "rubber_band", 2 ], [ "string_6", 2 ] ] ]
   }
 ]

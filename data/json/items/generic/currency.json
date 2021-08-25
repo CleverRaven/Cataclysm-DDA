@@ -445,7 +445,7 @@
     "type": "GENERIC",
     "id": "money_bundle_FMCNote",
     "name": { "str": "Merch currency bundle" },
-    "description": "A thousand Free Merchant Certified Notes, divided evenly between ten improvised currency straps, and bundled together with two rubber bands.  This can be exchanged for food, water, and other services through the Free Merchants at the Refugee Center.",
+    "description": "A thousand Free Merchant Certified Notes, divided evenly between ten improvised currency straps, and bundled together with two rubber bands. This can be exchanged for food, water, and other services through the Free Merchants at the Refugee Center.",
     "looks_like": "money_strap_one",
     "copy-from": "money_strap_one",
     "color": "green",
