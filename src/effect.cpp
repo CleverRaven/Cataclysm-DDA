@@ -37,7 +37,7 @@ static const efftype_id effect_weed_high( "weed_high" );
 static const efftype_id effect_worked_on( "worked_on" );
 
 static const itype_id itype_holybook_bible( "holybook_bible" );
-static const itype_id itype_money_strap_twenty( "money_strap_twenty" );
+static const itype_id itype_money_one( "money_one" );
 
 static const trait_id trait_LACTOSE( "LACTOSE" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
