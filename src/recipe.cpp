@@ -665,12 +665,12 @@ std::string recipe::recipe_proficiencies_string() const
     return list;
 }
 
-std::set<proficiency_id> recipe::required_proficiencies() const
+std::vector<proficiency_id> recipe::required_proficiencies() const
 {
-    std::set<proficiency_id> ret;
+    std::vector<proficiency_id> ret;
     for( const recipe_proficiency &rec : proficiencies ) {
         if( rec.required ) {
-            ret.insert( rec.id );
+            ret.emplace_back( rec.id );
         }
     }
     return ret;
@@ -686,12 +686,12 @@ bool recipe::character_has_required_proficiencies( const Character &c ) const
     return true;
 }
 
-std::set<proficiency_id> recipe::assist_proficiencies() const
+std::vector<proficiency_id> recipe::used_proficiencies() const
 {
-    std::set<proficiency_id> ret;
+    std::vector<proficiency_id> ret;
     for( const recipe_proficiency &rec : proficiencies ) {
         if( !rec.required ) {
-            ret.insert( rec.id );
+            ret.emplace_back( rec.id );
         }
     }
     return ret;

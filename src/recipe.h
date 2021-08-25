@@ -178,12 +178,12 @@ class recipe
         std::string missing_proficiencies_string( const Character *c ) const;
         // Proficiencies for search
         std::string recipe_proficiencies_string() const;
-        // Required proficiencies
-        std::set<proficiency_id> required_proficiencies() const;
-        //
+        // Required proficiencies, mandatory to craft
+        std::vector<proficiency_id> required_proficiencies() const;
+        // True if character and helpers have all required proficiencies
         bool character_has_required_proficiencies( const Character &c ) const;
-        // Helpful proficiencies
-        std::set<proficiency_id> assist_proficiencies() const;
+        // Used proficiencies, will impede crafting if missing
+        std::vector<proficiency_id> used_proficiencies() const;
         // The time malus due to proficiencies lacking
         float proficiency_time_maluses( const Character &crafter ) const;
         // The failure malus due to proficiencies lacking

@@ -726,7 +726,7 @@ static void grant_proficiencies_to_character( Character &you, const recipe &r,
         bool grant_optional_proficiencies )
 {
     if( grant_optional_proficiencies ) {
-        for( const proficiency_id &prof : r.assist_proficiencies() ) {
+        for( const proficiency_id &prof : r.used_proficiencies() ) {
             you.add_proficiency( prof, true );
         }
     } else {
@@ -994,7 +994,7 @@ TEST_CASE( "partial_proficiency_mitigation", "[crafting][proficiency]" )
 
         WHEN( "player acquires partial proficiency" ) {
             int np = 0;
-            for( const proficiency_id &prof : test_recipe.assist_proficiencies() ) {
+            for( const proficiency_id &prof : test_recipe.used_proficiencies() ) {
                 np++;
                 tester.set_proficiency_practice( prof, tester.proficiency_training_needed( prof ) / 2 );
             }
