@@ -2397,12 +2397,12 @@ class jmapgen_computer : public jmapgen_piece
 class jmapgen_sealed_item : public jmapgen_piece
 {
     public:
-        furn_id furniture;
+        mapgen_value<furn_id> furniture;
         jmapgen_int chance;
         cata::optional<jmapgen_spawn_item> item_spawner;
         cata::optional<jmapgen_item_group> item_group_spawner;
         jmapgen_sealed_item( const JsonObject &jsi, const std::string &context )
-            : furniture( jsi.get_string( "furniture" ) )
+            : furniture( jsi.get_member( "furniture" ) )
             , chance( jsi, "chance", 100, 100 ) {
             if( jsi.has_object( "item" ) ) {
                 JsonObject item_obj = jsi.get_object( "item" );
@@ -2415,79 +2415,84 @@ class jmapgen_sealed_item : public jmapgen_piece
         }
 
         void check( const std::string &context, const mapgen_parameters &params ) const override {
-            const furn_t &furn = furniture.obj();
-            std::string summary =
-                string_format(
-                    "sealed_item special in json mapgen for %s using furniture %s",
-                    context, furn.id.str() );
-
-            if( !furniture.is_valid() ) {
-                debugmsg( "%s which is not valid furniture", summary );
-            }
-
+            std::string short_summary =
+                string_format( "sealed_item special in json mapgen for %s", context );
             if( !item_spawner && !item_group_spawner ) {
                 debugmsg( "%s specifies neither an item nor an item group.  "
                           "It should specify at least one.",
-                          summary );
+                          short_summary );
                 return;
             }
 
-            if( furn.has_flag( "PLANT" ) ) {
-                // plant furniture requires exactly one seed item within it
-                if( item_spawner && item_group_spawner ) {
-                    debugmsg( "%s (with flag PLANT) specifies both an item and an item group.  "
-                              "It should specify exactly one.",
-                              summary );
+            for( const furn_str_id &f : furniture.all_possible_results( params ) ) {
+                std::string summary =
+                    string_format( "%s using furniture %s", short_summary, f.str() );
+
+                if( !f.is_valid() ) {
+                    debugmsg( "%s which is not valid furniture", summary );
                     return;
                 }
 
-                if( item_spawner ) {
-                    item_spawner->check( context, params );
-                    int count = item_spawner->amount.get();
-                    if( count != 1 ) {
-                        debugmsg( "%s (with flag PLANT) spawns %d items; it should spawn exactly "
-                                  "one.", summary, count );
+                const furn_t &furn = *f;
+
+                if( furn.has_flag( "PLANT" ) ) {
+                    // plant furniture requires exactly one seed item within it
+                    if( item_spawner && item_group_spawner ) {
+                        debugmsg( "%s (with flag PLANT) specifies both an item and an item group.  "
+                                  "It should specify exactly one.",
+                                  summary );
                         return;
                     }
-                    int item_chance = item_spawner->chance.get();
-                    if( item_chance != 100 ) {
-                        debugmsg( "%s (with flag PLANT) spawns an item with probability %d%%; "
-                                  "it should always spawn.  You can move the \"chance\" up to the "
-                                  "sealed_item instead of the \"item\" within.",
-                                  summary, item_chance );
-                        return;
-                    }
-                    for( const itype_id &t : item_spawner->type.all_possible_results( params ) ) {
-                        const itype *spawned_type = item::find_type( t );
-                        if( !spawned_type->seed ) {
-                            debugmsg( "%s (with flag PLANT) spawns item type %s which is not a "
-                                      "seed.", summary, spawned_type->get_id().str() );
+
+                    if( item_spawner ) {
+                        item_spawner->check( context, params );
+                        int count = item_spawner->amount.get();
+                        if( count != 1 ) {
+                            debugmsg( "%s (with flag PLANT) spawns %d items; it should spawn "
+                                      "exactly one.", summary, count );
                             return;
                         }
-                    }
-                }
-
-                if( item_group_spawner ) {
-                    item_group_spawner->check( context, params );
-                    int ig_chance = item_group_spawner->chance.get();
-                    if( ig_chance != 100 ) {
-                        debugmsg( "%s (with flag PLANT) spawns item group %s with chance %d.  "
-                                  "It should have chance 100.  You can move the \"chance\" up to the "
-                                  "sealed_item instead of the \"items\" within.",
-                                  summary, item_group_spawner->group_id.str(), ig_chance );
-                        return;
-                    }
-                    item_group_id group_id = item_group_spawner->group_id;
-                    for( const itype *type : item_group::every_possible_item_from( group_id ) ) {
-                        if( !type->seed ) {
-                            debugmsg( "%s (with flag PLANT) spawns item group %s which can "
-                                      "spawn item %s which is not a seed.",
-                                      summary, group_id.str(), type->get_id().str() );
+                        int item_chance = item_spawner->chance.get();
+                        if( item_chance != 100 ) {
+                            debugmsg( "%s (with flag PLANT) spawns an item with probability %d%%; "
+                                      "it should always spawn.  You can move the \"chance\" up to "
+                                      "the sealed_item instead of the \"item\" within.",
+                                      summary, item_chance );
                             return;
+                        }
+                        for( const itype_id &t :
+                             item_spawner->type.all_possible_results( params ) ) {
+                            const itype *spawned_type = item::find_type( t );
+                            if( !spawned_type->seed ) {
+                                debugmsg( "%s (with flag PLANT) spawns item type %s which is not a "
+                                          "seed.", summary, spawned_type->get_id().str() );
+                                return;
+                            }
                         }
                     }
 
-                    /// TODO: Somehow check that the item group always produces exactly one item.
+                    if( item_group_spawner ) {
+                        item_group_spawner->check( context, params );
+                        int ig_chance = item_group_spawner->chance.get();
+                        if( ig_chance != 100 ) {
+                            debugmsg( "%s (with flag PLANT) spawns item group %s with chance %d.  "
+                                      "It should have chance 100.  You can move the \"chance\" up "
+                                      "to the sealed_item instead of the \"items\" within.",
+                                      summary, item_group_spawner->group_id.str(), ig_chance );
+                            return;
+                        }
+                        item_group_id group_id = item_group_spawner->group_id;
+                        for( const itype *type :
+                             item_group::every_possible_item_from( group_id ) ) {
+                            if( !type->seed ) {
+                                debugmsg( "%s (with flag PLANT) spawns item group %s which can "
+                                          "spawn item %s which is not a seed.",
+                                          summary, group_id.str(), type->get_id().str() );
+                                return;
+                            }
+                        }
+
+                    }
                 }
             }
         }
@@ -2510,7 +2515,8 @@ class jmapgen_sealed_item : public jmapgen_piece
             if( item_group_spawner ) {
                 item_group_spawner->apply( dat, x, y );
             }
-            dat.m.furn_set( point( x.get(), y.get() ), furniture );
+            furn_id chosen_furn = furniture.get( dat );
+            dat.m.furn_set( point( x.get(), y.get() ), chosen_furn );
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
             return dat.m.veh_at( tripoint( p, dat.zlevel() ) ).has_value();
