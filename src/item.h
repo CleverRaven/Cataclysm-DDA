@@ -2395,7 +2395,7 @@ class item : public visitable
         float get_specific_energy_from_temperature( float new_temperature );
 
         /** Update flags associated with temperature */
-        void set_temp_flags( float new_temperature, float freeze_precentage );
+        void set_temp_flags( float new_temperature, float freeze_percentage );
 
         /** Helper for checking reloadability. **/
         bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
