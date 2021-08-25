@@ -1112,6 +1112,9 @@ bool mattack::smash( monster *z )
     target->add_msg_player_or_npc( _( "A blow from the %1$s sends %2$s flying!" ),
                                    _( "A blow from the %s sends <npcname> flying!" ),
                                    z->name(), target->disp_name() );
+
+    // Release the grabbed creature right before the fling
+    z->remove_effect( effect_grabbing );
     // TODO: Make this parabolic
     g->fling_creature( target, coord_to_angle( z->pos(), target->pos() ),
                        z->type->melee_sides * z->type->melee_dice * 3 );
