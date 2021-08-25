@@ -3294,7 +3294,8 @@
           "coin_quarter",
           "coin_half_dollar",
           "coin_dollar",
-          "coin_silver"
+          "coin_silver",
+          "coin_gold"
         ]
       }
     ]
@@ -3386,7 +3387,8 @@
           "coin_quarter",
           "coin_half_dollar",
           "coin_dollar",
-          "coin_silver"
+          "coin_silver",
+          "coin_gold"
         ]
       }
     ]
