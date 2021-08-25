@@ -1932,8 +1932,8 @@ class jmapgen_monster_group : public jmapgen_piece
 class jmapgen_monster : public jmapgen_piece
 {
     public:
-        weighted_int_list<mtype_id> ids;
-        mongroup_id m_id = mongroup_id::NULL_ID();
+        weighted_int_list<mapgen_value<mtype_id>> ids;
+        mapgen_value<mongroup_id> m_id;
         jmapgen_int chance;
         jmapgen_int pack_size;
         bool one_or_none;
@@ -1951,34 +1951,11 @@ class jmapgen_monster : public jmapgen_piece
             , name( jsi.get_string( "name", "NONE" ) )
             , target( jsi.get_bool( "target", false ) ) {
             if( jsi.has_string( "group" ) ) {
-                m_id = mongroup_id( jsi.get_string( "group" ) );
-                if( !m_id.is_valid() ) {
-                    set_mapgen_defer( jsi, "group", "no such monster group" );
-                    return;
-                }
+                jsi.read( "group", m_id );
             } else if( jsi.has_array( "monster" ) ) {
-                for( const JsonValue entry : jsi.get_array( "monster" ) ) {
-                    mtype_id id;
-                    int weight = 100;
-                    if( entry.test_array() ) {
-                        JsonArray inner = entry.get_array();
-                        id = mtype_id( inner.get_string( 0 ) );
-                        weight = inner.get_int( 1 );
-                    } else {
-                        id = mtype_id( entry.get_string() );
-                    }
-                    if( !id.is_valid() ) {
-                        set_mapgen_defer( jsi, "monster", "no such monster" );
-                        return;
-                    }
-                    ids.add( id, weight );
-                }
+                load_weighted_list( jsi.get_member( "monster" ), ids, 100 );
             } else {
-                mtype_id id = mtype_id( jsi.get_string( "monster" ) );
-                if( !id.is_valid() ) {
-                    set_mapgen_defer( jsi, "monster", "no such monster" );
-                    return;
-                }
+                mapgen_value<mtype_id> id( jsi.get_member( "monster" ) );
                 ids.add( id, 100 );
             }
 
@@ -2001,6 +1978,15 @@ class jmapgen_monster : public jmapgen_piece
                 }
             }
         }
+
+        void check( const std::string &oter_name, const mapgen_parameters &parameters
+                  ) const override {
+            for( const weighted_object<int, mapgen_value<mtype_id>> &id : ids ) {
+                id.obj.check( oter_name, parameters );
+            }
+            m_id.check( oter_name, parameters );
+        }
+
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
 
@@ -2038,15 +2024,20 @@ class jmapgen_monster : public jmapgen_piece
                 }
             }
 
-            if( m_id != mongroup_id::NULL_ID() ) {
-                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( m_id );
+            mongroup_id chosen_group = m_id.get( dat );
+            if( !chosen_group.is_null() ) {
+                MonsterGroupResult spawn_details =
+                    MonsterGroupManager::GetResultFromGroup( chosen_group );
                 dat.m.add_spawn( spawn_details.name, spawn_count * pack_size.get(),
                 { x.get(), y.get(), dat.m.get_abs_sub().z },
                 friendly, -1, mission_id, name, data );
             } else {
-                dat.m.add_spawn( *( ids.pick() ), spawn_count * pack_size.get(),
-                { x.get(), y.get(), dat.m.get_abs_sub().z },
-                friendly, -1, mission_id, name, data );
+                mtype_id chosen_type = ids.pick()->get( dat );
+                if( !chosen_type.is_null() ) {
+                    dat.m.add_spawn( chosen_type, spawn_count * pack_size.get(),
+                    { x.get(), y.get(), dat.m.get_abs_sub().z },
+                    friendly, -1, mission_id, name, data );
+                }
             }
         }
 };
