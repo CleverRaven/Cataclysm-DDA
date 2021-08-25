@@ -342,7 +342,7 @@ TEST_CASE( "installing battery in tool", "[battery][tool][install]" )
             ret_val<bool> result = flashlight.put_in( med_bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
             CHECK_FALSE( result.success() );
         } );
-        CHECK_THAT( dmsg, Catch::EndsWith( "item does not have correct flag" ) );
+        CHECK_THAT( dmsg, Catch::EndsWith( "holster does not accept this item type or form factor" ) );
         CHECK_FALSE( flashlight.magazine_current() );
     }
 }
