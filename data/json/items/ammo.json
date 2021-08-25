@@ -1407,6 +1407,7 @@
   {
     "type": "AMMO",
     "id": "money_one",
+    "category": "other",
     "name": { "str": "one dollar bill" },
     "description": "A one dollar bill, pretty useless now though.  George Washington is on this bill.",
     "weight": "1 g",
