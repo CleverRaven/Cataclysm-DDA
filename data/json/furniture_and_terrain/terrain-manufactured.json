@@ -277,6 +277,7 @@
         { "item": "money_twenty", "count": [ 1, 99 ] },
         { "item": "money_fifty", "count": [ 1, 99 ] }
       ]
+    }
   },
   {
     "type": "terrain",
