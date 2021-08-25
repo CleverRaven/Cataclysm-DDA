@@ -210,6 +210,7 @@ static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_flu( "flu" );
+static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_no_sight( "no_sight" );
@@ -10040,6 +10041,9 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
         // Don't fling hallucinations
         return;
     }
+
+    // Target creature shouldn't be grabbed if thrown
+    c->remove_effect( effect_grabbed );
 
     int steps = 0;
     bool thru = true;

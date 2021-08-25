@@ -209,7 +209,7 @@
     "charges": 12,
     "book_learn": [ [ "sweets_book", 2 ], [ "baking_book", 2 ], [ "family_cookbook", 2 ] ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 16, "LIST" ] ], [ [ "mold_plastic", 1 ] ] ],
+    "tools": [ [ [ "surface_heat", 16, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "sweet_water", 1 ] ],
       [ [ "beet_syrup", 1 ] ],
@@ -231,7 +231,7 @@
     "charges": 12,
     "book_learn": [ [ "sweets_book", 2 ], [ "baking_book", 2 ], [ "family_cookbook", 2 ] ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 16, "LIST" ] ], [ [ "mold_plastic", 1 ] ] ],
+    "tools": [ [ [ "surface_heat", 16, "LIST" ] ], [ [ "mold_plastic", -1 ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "sweet_water", 1 ] ],
       [ [ "beet_syrup", 1 ] ],

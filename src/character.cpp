@@ -6991,12 +6991,13 @@ void Character::update_bodytemp()
         set_all_parts_temp_cur( BODYTEMP_NORM );
         return;
     }
+    weather_manager &weather_man = get_weather();
     /* Cache calls to g->get_temperature( player position ), used in several places in function */
-    const int player_local_temp = g->weather.get_temperature( pos() );
+    const int player_local_temp = weather_man.get_temperature( pos() );
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10
     int Ctemperature = static_cast<int>( 100 * temp_to_celsius( player_local_temp ) );
-    const w_point weather = *g->weather.weather_precise;
+    const w_point weather = *weather_man.weather_precise;
     int vehwindspeed = 0;
     map &here = get_map();
     const optional_vpart_position vp = here.veh_at( pos() );
@@ -7005,9 +7006,8 @@ void Character::update_bodytemp()
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
     bool sheltered = g->is_sheltered( pos() );
-    double total_windpower = get_local_windpower( g->weather.windspeed + vehwindspeed, cur_om_ter,
-                             pos(),
-                             g->weather.winddirection, sheltered );
+    double total_windpower = get_local_windpower( weather_man.windspeed + vehwindspeed, cur_om_ter,
+                             pos(), weather_man.winddirection, sheltered );
     // Let's cache this not to check it for every bodyparts
     const bool has_bark = has_trait( trait_BARK );
     const bool has_sleep = has_effect( effect_sleep );
@@ -7072,7 +7072,7 @@ void Character::update_bodytemp()
     }
 
     std::map<bodypart_id, int> warmth_per_bp = warmth( clothing_map );
-    std::map<bodypart_id, int> bonus_warmth_per_bp = bonus_item_warmth( clothing_map );
+    std::map<bodypart_id, int> bonus_warmth_per_bp = bonus_item_warmth();
     std::map<bodypart_id, int> wind_res_per_bp = get_wind_resistance( clothing_map );
     // We might not use this at all, so leave it empty
     // If we do need to use it, we'll initialize it (once) there
@@ -7524,7 +7524,7 @@ void Character::update_frostbite( const bodypart_id &bp, const int FBwindPower,
     Less than -35F, more than 10 mp
     **/
 
-    const int player_local_temp = g->weather.get_temperature( pos() );
+    const int player_local_temp = get_weather().get_temperature( pos() );
     const int temp_after = get_part_temp_cur( bp );
 
     if( bp == body_part_mouth || bp == body_part_foot_r ||
@@ -12045,40 +12045,41 @@ std::map<bodypart_id, int> Character::warmth( const std::map<bodypart_id, std::v
     return ret;
 }
 
-static int bestwarmth( const std::vector<const item *> &its, const flag_id &flag )
+std::map<bodypart_id, int> Character::bonus_item_warmth() const
 {
-    int best = 0;
-    for( const item *w : its ) {
-        if( w->has_flag( flag ) && w->get_warmth() > best ) {
-            best = w->get_warmth();
+    int pocket_warmth = 0;
+    int hood_warmth = 0;
+    int collar_warmth = 0;
+    for( const item &w : worn ) {
+        if( w.has_flag( flag_POCKETS ) && w.get_warmth() > pocket_warmth ) {
+            pocket_warmth = w.get_warmth();
+        }
+        if( w.has_flag( flag_HOOD ) && w.get_warmth() > hood_warmth ) {
+            hood_warmth = w.get_warmth();
+        }
+        if( w.has_flag( flag_COLLAR ) && w.get_warmth() > collar_warmth ) {
+            collar_warmth = w.get_warmth();
         }
     }
-    return best;
-}
 
-std::map<bodypart_id, int> Character::bonus_item_warmth( const
-        std::map<bodypart_id, std::vector<const item *>> &clothing_map ) const
-{
     std::map<bodypart_id, int> ret;
     for( const bodypart_id &bp : get_all_body_parts() ) {
         ret.emplace( bp, 0 );
-    }
-    for( const std::pair<const bodypart_id, std::vector<const item *>> &on_bp : clothing_map ) {
-        const bodypart_id &bp = on_bp.first;
+
         // If the player is not wielding anything big, check if hands can be put in pockets
         if( ( bp == body_part_hand_l || bp == body_part_hand_r ) &&
             weapon.volume() < 500_ml ) {
-            ret[bp] += bestwarmth( on_bp.second, flag_POCKETS );
+            ret[bp] += pocket_warmth;
         }
 
         // If the player's head is not encumbered, check if hood can be put up
         if( bp == body_part_head && encumb( body_part_head ) < 10 ) {
-            ret[bp] += bestwarmth( on_bp.second, flag_HOOD );
+            ret[bp] += hood_warmth;
         }
 
         // If the player's mouth is not encumbered, check if collar can be put up
         if( bp == body_part_mouth && encumb( body_part_mouth ) < 10 ) {
-            ret[bp] += bestwarmth( on_bp.second, flag_COLLAR );
+            ret[bp] += collar_warmth;
         }
     }
 
