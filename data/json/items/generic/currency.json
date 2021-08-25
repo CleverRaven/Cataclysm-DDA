@@ -243,6 +243,7 @@
     "price": 5000,
     "price_postapoc": 1
   },
+  {
     "type": "GENERIC",
     "id": "money_hundred",
     "name": { "str": "hundred-dollar bill" },

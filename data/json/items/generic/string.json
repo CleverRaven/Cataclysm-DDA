@@ -141,7 +141,6 @@
   {
     "id": "rubber_band",
     "type": "GENERIC",
-    "category": "spare_parts",
     "name": { "str": "rubber_band" },
     "description": "An elastic loop of rubber commonly used to hold multiple objects together.",
     "copy-from": "string_6",
