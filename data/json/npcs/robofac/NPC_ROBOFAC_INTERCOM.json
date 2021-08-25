@@ -251,7 +251,7 @@
       "offer": "One of our scout drones spotted a partially malfunctioning 'unconventional' robot while tracking an anomalous radioactivity spike close by.  We project that much knowledge could be gained from a close examination of this subject, and you would be tasked to perform this retrieval operation for us.  We will equip you with a prototype gun and the knowledge fit for this purpose, if you accept.\n\nthe intercom: Completion of this contract awards 2 HGC, to compensate for the cost of the provided gear.",
       "accepted": "Remember, the retrieved robot must remain operational, battered salvage is of no use to us.",
       "rejected": "Regrettable, but understandable.  We will find someone else.",
-      "advice": "The hm12 will only stun the robot if you manage to hit its main sensory array.  After a stunning shot, you might proceed to the deactivation attempts by examining the robot from up close. To safely perform this task, please review the provided documentation and pay special attention to the procedures detailed in subsections IV and VII.",
+      "advice": "The hm12 will only stun the robot if you manage to hit its main sensory array.  After a stunning shot, you might proceed to the deactivation attempts by examining the robot from up close.  To safely perform this task, please review the provided documentation and pay special attention to the procedures detailed in subsections IV and VII.",
       "inquire": "Have you found the robot?",
       "success": "We expected nothing less.  We hope you found our prototype's performance to be satisfactory.",
       "success_lie": "What good does this do us?",
