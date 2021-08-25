@@ -759,7 +759,7 @@
     ],
     "description_affix": "under",
     "priority": 8,
-    "display_items": false,
+    "display_items": true,
     "display_field": true,
     "looks_like": "fd_smoke"
   },
