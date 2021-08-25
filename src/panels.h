@@ -8,7 +8,6 @@
 #include <string>
 #include <vector>
 
-#include "character.h"
 #include "color.h"
 #include "coordinates.h"
 #include "translations.h"
@@ -16,6 +15,8 @@
 class JsonIn;
 class JsonOut;
 class avatar;
+class Character;
+class Creature;
 struct point;
 
 // The display namespace contains UI string output and colorization functions
