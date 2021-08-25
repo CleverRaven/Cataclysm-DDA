@@ -655,7 +655,7 @@
         { "item": "power_supply", "prob": 25 },
         { "item": "amplifier", "prob": 25 },
         { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
-        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 },
         { "item": "coin_quarter", "count": [ 1, 1500 ] }
       ]
     }
