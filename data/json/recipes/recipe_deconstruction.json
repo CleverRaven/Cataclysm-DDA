@@ -3026,6 +3026,14 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "result": "money_strap_FMCNote",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "4 s",
+    "components": [ [ [ "FMCNote", 100 ] ], [ [ "paper", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
     "result": "money_bundle_one",
     "type": "uncraft",
     "activity_level": "NO_EXERCISE",
@@ -3079,6 +3087,14 @@
     "activity_level": "NO_EXERCISE",
     "time": "6 s",
     "components": [ [ [ "money_strap_hundred", 10 ] ], [ [ "rubber_band", 2 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "money_bundle_hundred",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "6 s",
+    "components": [ [ [ "money_strap_FMCNote", 10 ] ], [ [ "rubber_band", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {

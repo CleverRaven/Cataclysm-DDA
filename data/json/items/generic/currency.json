@@ -143,7 +143,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "coin_silver_eagle",
+    "id": "coin_silver",
     "name": { "str": "Silver Eagle coin" },
     "description": "The official silver bullion coin of the United States, has a nominal face value of one dollar and is guaranteed to contain one troy ounce of 99.9% pure silver.",
     "weight": "31 g",
@@ -329,6 +329,18 @@
   },
   {
     "type": "GENERIC",
+    "id": "money_strap_FMCNote",
+    "name": { "str": "Merch currency strap" },
+    "description": "A hundred Free Merchant Certified Notes held together by an improvised currency strap. This can be exchanged for food, water, and other services through the Free Merchants at the Refugee Center.",
+    "looks_like": "money_strap_one",
+    "copy-from": "money_strap_one",
+    "color": "white",
+    "symbol": "$",
+    "price": 500000,
+    "price_postapoc": 25000
+  },
+  {
+    "type": "GENERIC",
     "id": "money_bundle_one",
     "name": { "str": "one-dollar currency bundle" },
     "description": "A thousand one-dollar bills, divided evenly between ten blue currency straps, and bundled together by with rubber bands.",
@@ -413,5 +425,17 @@
     "symbol": "$",
     "price": 10000000,
     "price_postapoc": 1000
+  },
+  {
+    "type": "GENERIC",
+    "id": "money_bundle_FMCNote",
+    "name": { "str": "Merch currency bundle" },
+    "description": "A thousand Free Merchant Certified Notes, divided evenly between ten improvised currency straps, and bundled together with two rubber bands.  This can be exchanged for food, water, and other services through the Free Merchants at the Refugee Center.",
+    "looks_like": "money_strap_one",
+    "copy-from": "money_strap_one",
+    "color": "green",
+    "symbol": "$",
+    "price": 5000000,
+    "price_postapoc": 250000
   }
 ]

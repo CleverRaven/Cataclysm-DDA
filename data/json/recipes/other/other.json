@@ -104,6 +104,16 @@
     "autolearn": true,
     "components": [ [ [ "money_hundred", 100 ], [ "paper", 1 ] ] ]
   },
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "money_strap_FMCNote",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "time": "60 s",
+    "autolearn": true,
+    "components": [ [ [ "money_FMCNote", 100 ], [ "paper", 1 ] ] ]
+  },
   {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
@@ -180,5 +190,16 @@
     "time": "6 s",
     "autolearn": true,
     "components": [ [ [ "money_strap_hundred", 10 ], [ "rubber_band", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "result": "money_bundle_FMCNote",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "time": "6 s",
+    "autolearn": true,
+    "components": [ [ [ "money_strap_FMCNote", 10 ], [ "rubber_band", 2 ] ] ]
   }
 ]
