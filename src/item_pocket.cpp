@@ -1036,10 +1036,12 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it,
         }
     }
 
-    if( !data->item_id_restriction.empty() &&
-        data->item_id_restriction.count( it.typeId() ) == 0 ) {
-        return ret_val<item_pocket::contain_code>::make_failure(
-                   contain_code::ERR_FLAG, _( "holster does not accept this item type" ) );
+    if( !data->item_id_restriction.empty() || !data->get_flag_restrictions().empty() ) {
+        if( data->item_id_restriction.count( it.typeId() ) == 0 &&
+            !it.has_any_flag( data->get_flag_restrictions() ) ) {
+            return ret_val<item_pocket::contain_code>::make_failure( contain_code::ERR_FLAG,
+                    _( "holster does not accept this item type or form factor" ) );
+        }
     }
 
     if( !ignore_fullness && data->holster && !contents.empty() ) {
@@ -1049,11 +1051,6 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it,
             return ret_val<item_pocket::contain_code>::make_failure(
                        contain_code::ERR_NO_SPACE, _( "holster already contains an item" ) );
         }
-    }
-
-    if( !data->get_flag_restrictions().empty() && !it.has_any_flag( data->get_flag_restrictions() ) ) {
-        return ret_val<item_pocket::contain_code>::make_failure(
-                   contain_code::ERR_FLAG, _( "item does not have correct flag" ) );
     }
 
     // ammo restriction overrides item volume/weight and watertight/airtight data
