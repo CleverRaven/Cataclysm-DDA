@@ -269,7 +269,7 @@
       "arcology_exterior_e_entrance_robots",
       "arcology_exterior_w_entrance_robots"
     ],
-    "name": "Arcology Ground Level (no life signs)",
+    "name": "Desolate Arcology - Ground Level",
     "sym": "A",
     "color": "light_blue",
     "see_cost": 2,
@@ -301,7 +301,7 @@
       "arcology_exterior_e_entrance_uplifts",
       "arcology_exterior_w_entrance_uplifts"
     ],
-    "name": "Arcology Ground Level (life signs)",
+    "name": "Arcology - Ground Level",
     "sym": "A",
     "color": "light_blue",
     "see_cost": 2,
