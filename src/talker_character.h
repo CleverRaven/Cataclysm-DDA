@@ -15,7 +15,7 @@
 class character_id;
 class faction;
 class item;
-class player;
+class Character;
 class time_duration;
 class vehicle;
 struct tripoint;
@@ -28,15 +28,15 @@ struct tripoint;
 class talker_character: public talker
 {
     public:
-        explicit talker_character( player *new_me ): me_chr( new_me ) {
+        explicit talker_character( Character *new_me ): me_chr( new_me ) {
         }
         ~talker_character() override = default;
 
         // underlying element accessor functions
-        player *get_character() override {
+        Character *get_character() override {
             return me_chr;
         }
-        player *get_character() const override {
+        Character *get_character() const override {
             return me_chr;
         }
         Creature *get_creature() override {
@@ -151,6 +151,6 @@ class talker_character: public talker
         void mod_rad( int ) override;
     protected:
         talker_character() = default;
-        player *me_chr;
+        Character *me_chr;
 };
 #endif // CATA_SRC_TALKER_CHARACTER_H

@@ -859,7 +859,7 @@ class npc : public player
          * @return Skills of which this NPC has a higher level than the given player. In other
          * words: skills this NPC could teach the player.
          */
-        std::vector<skill_id> skills_offered_to( const player &p ) const;
+        std::vector<skill_id> skills_offered_to( const Character &you ) const;
         /**
          * Proficiencies we know that the character doesn't
          */
@@ -867,12 +867,12 @@ class npc : public player
         /**
          * Martial art styles that we known, but the player p doesn't.
          */
-        std::vector<matype_id> styles_offered_to( const player &p ) const;
+        std::vector<matype_id> styles_offered_to( const Character &you ) const;
         /**
          * Spells that the NPC knows but that the player p doesn't.
          * not const because get_spell isn't const and both this and p call it
          */
-        std::vector<spell_id> spells_offered_to( player &p );
+        std::vector<spell_id> spells_offered_to( Character &you );
         // State checks
         // We want to kill/mug/etc the player
         bool is_enemy() const;

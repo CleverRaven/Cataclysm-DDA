@@ -95,7 +95,6 @@ class map;
 class map_item_stack;
 class memorial_logger;
 class npc;
-class player;
 class save_t;
 class scenario;
 class stats_tracker;

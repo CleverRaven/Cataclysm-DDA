@@ -5,7 +5,6 @@
 #include "monster.h"
 #include "mtype.h"
 #include "pimpl.h"
-#include "player.h"
 #include "point.h"
 #include "talker_monster.h"
 #include "vehicle.h"
