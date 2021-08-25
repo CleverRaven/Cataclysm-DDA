@@ -1376,7 +1376,7 @@
     "id": "coin_dime",
     "category": "other",
     "name": { "str": "dime" },
-    "description": "An ancient form of currency.  Franklin D. Roosevelt is on this coin",
+    "description": "An ancient form of currency.  Franklin D. Roosevelt is on this coin.",
     "weight": "2 g",
     "volume": "1 ml",
     "price": 10,
