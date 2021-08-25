@@ -72,6 +72,13 @@
     "style": "number"
   },
   {
+    "id": "test_morale_num",
+    "type": "widget",
+    "label": "MORALE",
+    "var": "morale_level",
+    "style": "number"
+  },
+  {
     "id": "test_speed_num",
     "type": "widget",
     "label": "SPEED",
@@ -139,6 +146,13 @@
     "style": "number"
   },
   {
+    "id": "test_weariness_num",
+    "type": "widget",
+    "label": "WEARINESS",
+    "var": "weariness_level",
+    "style": "number"
+  },
+  {
     "id": "test_hp_head_graph",
     "type": "widget",
     "label": "HEAD",
@@ -155,6 +169,22 @@
     "label": "HEAD",
     "var": "bp_hp",
     "bodypart": "head",
+    "style": "number"
+  },
+  {
+    "id": "test_bp_wetness_head_num",
+    "type": "widget",
+    "label": "HEAD WET",
+    "var": "bp_wetness",
+    "bodypart": "head",
+    "style": "number"
+  },
+  {
+    "id": "test_bp_wetness_torso_num",
+    "type": "widget",
+    "label": "TORSO WET",
+    "var": "bp_wetness",
+    "bodypart": "torso",
     "style": "number"
   },
   {
