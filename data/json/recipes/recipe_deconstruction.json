@@ -5272,12 +5272,12 @@
     "components": [ [ [ "scrap", 2 ] ] ]
   },
   {
-    "result": "coin_quarter",
+    "result": "coin_penny",
     "type": "uncraft",
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "silver_small", 5 ] ] ]
+    "components": [ [ [ "copper", 3 ] ] ]
   },
   {
     "result": "coin_nickel",
@@ -5286,6 +5286,46 @@
     "time": "2 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "copper", 5 ] ] ]
+  },
+  {
+    "result": "coin_dime",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "copper", 2 ] ] ]
+  },
+  {
+    "result": "coin_quarter",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "copper", 6 ] ] ]
+  },
+  {
+    "result": "coin_half_dollar",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "copper", 11 ] ] ]
+  },
+  {
+    "result": "coin_dollar",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "copper", 8 ] ] ]
+  },
+  {
+    "result": "coin_silver",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "silver_small", 31 ] ] ]
   },
   {
     "result": "spray_can",
