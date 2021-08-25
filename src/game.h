@@ -1058,8 +1058,10 @@ class game
         // reactivating safe mode.
         time_duration turnssincelastmon = 0_turns;
 
+    private:
         weather_manager weather; // NOLINT(cata-serialize)
 
+    public:
         std::vector<effect_on_condition_id> inactive_effect_on_condition_vector;
         std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare> queued_effect_on_conditions;
 

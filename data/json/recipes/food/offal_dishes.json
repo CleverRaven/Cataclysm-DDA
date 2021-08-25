@@ -20,6 +20,8 @@
     "type": "recipe",
     "result": "mutant_brain_cooked",
     "copy-from": "brain_cooked",
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [ [ [ "mutant_brain", 1 ] ] ]
   },
   {
@@ -35,6 +37,8 @@
     "type": "recipe",
     "result": "mutant_lung_cooked",
     "copy-from": "brain_cooked",
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [ [ [ "mutant_lung", 1 ], [ "mutant_bug_lungs", 1 ] ] ]
   },
   {
@@ -51,6 +55,8 @@
     "activity_level": "LIGHT_EXERCISE",
     "copy-from": "kidney_cooked",
     "result": "mutant_kidney_cooked",
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [ [ [ "mutant_kidney", 1 ] ] ]
   },
   {
@@ -76,6 +82,8 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "mutant_liver_cooked",
     "copy-from": "liver_cooked",
+    "qualities": [ { "id": "COOK", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
     "components": [ [ [ "mutant_liver", 1 ] ] ]
   },
   {

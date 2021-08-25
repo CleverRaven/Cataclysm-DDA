@@ -22,7 +22,7 @@
     "id": "afs_40g_plasma_civ",
     "looks_like": "plasma",
     "type": "MAGAZINE",
-    "name": { "str": "40g plasma cell (civilian)" },
+    "name": { "str": "40g plasma cell (civilian)", "str_pl": "40g plasma cells (civilian)" },
     "description": "A yellow and red canister that can safely store up to 24 grams of solid hydrogen in a cryo-pressurized state.  A complex nozzle with integrated digital failsafes make it incompatible with military railguns.",
     "weight": "45 g",
     "volume": "400 ml",

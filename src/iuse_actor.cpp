@@ -4660,7 +4660,11 @@ cata::optional<int> effect_on_conditons_actor::use( Character &p, item &it, bool
     item_location loc( *( p.as_character() ), &it );
     dialogue d( get_talker_for( char_ptr ), get_talker_for( loc ) );
     for( const effect_on_condition_id &eoc : eocs ) {
-        eoc->activate( d );
+        if( eoc->activate_only ) {
+            eoc->activate( d );
+        } else {
+            debugmsg( "Cannot use a recurring effect_on_condition in an item.  If you don't want the effect_on_condition to happen on its own (without the item's involvement), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this item with its condition and effects, then have a recurring one queue it." );
+        }
     }
     return it.type->charges_to_use();
 }

@@ -1,6 +1,7 @@
 #include "catch/catch.hpp"
 
 #include "player_helpers.h"
+#include "morale.h"
 #include "widget.h"
 
 // test widgets defined in data/json/sidebar.json and data/mods/TEST_DATA/widgets.json
@@ -271,6 +272,19 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         CHECK( mana_w.layout( ava ) == "MANA: 450" );
     }
 
+    SECTION( "morale" ) {
+        widget morale_w = widget_id( "test_morale_num" ).obj();
+
+        ava.clear_morale();
+        CHECK( morale_w.layout( ava ) == "MORALE: 0" );
+        ava.add_morale( MORALE_FOOD_GOOD, 20 );
+        CHECK( morale_w.layout( ava ) == "MORALE: 20" );
+
+        ava.clear_morale();
+        ava.add_morale( MORALE_KILLED_INNOCENT, -100 );
+        CHECK( morale_w.layout( ava ) == "MORALE: -100" );
+    }
+
     SECTION( "move counter" ) {
         widget move_w = widget_id( "test_move_num" ).obj();
 
@@ -300,6 +314,24 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         CHECK( head_num_w.layout( ava ) == "HEAD: 0" );
         // NOLINTNEXTLINE(cata-text-style): suppress "unnecessary space" warning before commas
         CHECK( head_graph_w.layout( ava ) == "HEAD: ,,,,," );
+    }
+
+    SECTION( "weariness" ) {
+        widget weariness_w = widget_id( "test_weariness_num" ).obj();
+
+        CHECK( weariness_w.layout( ava ) == "WEARINESS: 0" );
+        // TODO: Check weariness set to other levels
+    }
+
+    SECTION( "wetness" ) {
+        widget head_wetness_w = widget_id( "test_bp_wetness_head_num" ).obj();
+        widget torso_wetness_w = widget_id( "test_bp_wetness_torso_num" ).obj();
+
+        CHECK( head_wetness_w.layout( ava ) == "HEAD WET: 0" );
+        CHECK( torso_wetness_w.layout( ava ) == "TORSO WET: 0" );
+        ava.drench( 100, { bodypart_str_id( "head" ), bodypart_str_id( "torso" ) }, false );
+        CHECK( head_wetness_w.layout( ava ) == "HEAD WET: 2" );
+        CHECK( torso_wetness_w.layout( ava ) == "TORSO WET: 2" );
     }
 }
 

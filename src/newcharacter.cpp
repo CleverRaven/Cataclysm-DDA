@@ -4185,6 +4185,10 @@ bool avatar::load_template( const std::string &template_name, pool_type &pool )
 
             JsonObject jobj = jsin.get_object();
 
+            jobj.get_int( "stat_points", 0 );
+            jobj.get_int( "trait_points", 0 );
+            jobj.get_int( "skill_points", 0 );
+
             pool = static_cast<pool_type>( jobj.get_int( "limit" ) );
 
             random_start_location = jobj.get_bool( "random_start_location", true );

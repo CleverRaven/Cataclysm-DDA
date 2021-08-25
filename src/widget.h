@@ -24,13 +24,16 @@ enum class widget_var : int {
     stamina,        // Current stamina 0-10000, greater being fuller stamina reserves
     fatigue,        // Current fatigue, integer
     mana,           // Current available mana, integer
+    morale_level,   // Current morale level, integer (may be negative)
+    weariness_level, // Current weariness level, integer
     stat_str,       // Base STR (strength) stat, integer
     stat_dex,       // Base DEX (dexterity) stat, integer
     stat_int,       // Base INT (intelligence) stat, integer
     stat_per,       // Base PER (perception) stat, integer
     bp_hp,          // Current hit points of given "bodypart", integer
     bp_encumb,      // Current encumbrance of given "bodypart", integer
-    bp_warmth,      // Current warmth of give "bodypart", integer
+    bp_warmth,      // Current warmth of given "bodypart", integer
+    bp_wetness,     // Current wetness of given "bodypart", integer
     hunger,         // TODO
     thirst,         // TODO
     mood,           // TODO
