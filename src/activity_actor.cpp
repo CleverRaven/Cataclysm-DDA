@@ -658,7 +658,7 @@ bool gunmod_remove_activity_actor::gunmod_unload( Character &who, item &gunmod )
     }
     // TODO: unloading gunmods happens instantaneously in some cases, but should take time
     item_location loc = item_location( who, &gunmod );
-    return !( gunmod.ammo_remaining() && !who.as_player()->unload( loc, true ) );
+    return !( gunmod.ammo_remaining() && !who.unload( loc, true ) );
 }
 
 void gunmod_remove_activity_actor::gunmod_remove( Character &who, item &gun, item &mod )
@@ -1290,7 +1290,7 @@ bool read_activity_actor::player_read( avatar &you )
         book->mark_chapter_as_read( *learner );
         if( reading_for_skill ) {
             if( !learner->is_avatar() ) {
-                const int npc_read_time = you.time_to_read( *book, *reader, learner->as_player() );
+                const int npc_read_time = you.time_to_read( *book, *reader, learner );
                 penalty = static_cast<double>( moves_total ) / npc_read_time;
             }
         } else {
@@ -2697,7 +2697,7 @@ void unload_activity_actor::unload( Character &who, item_location &target )
         if( contained->ammo_type() == ammotype( "plutonium" ) ) {
             contained->charges /= PLUTONIUM_CHARGES;
         }
-        if( who.as_player()->add_or_drop_with_msg( *contained, true, &it, contained ) ) {
+        if( who.add_or_drop_with_msg( *contained, true, &it, contained ) ) {
             qty += contained->charges;
             remove_contained.push_back( contained );
             actually_unloaded = true;
@@ -2713,7 +2713,7 @@ void unload_activity_actor::unload( Character &who, item_location &target )
     if( it.is_ammo_belt() ) {
         if( it.type->magazine->linkage ) {
             item link( *it.type->magazine->linkage, calendar::turn, qty );
-            if( who.as_player()->add_or_drop_with_msg( link, true ) ) {
+            if( who.add_or_drop_with_msg( link, true ) ) {
                 actually_unloaded = true;
             }
         }
@@ -3250,9 +3250,9 @@ static std::list<item> obtain_activity_items(
 
         // Take off the item or remove it from the player's inventory
         if( who.is_worn( *loc ) ) {
-            who.as_player()->takeoff( loc, &res );
+            who.takeoff( loc, &res );
         } else if( loc->count_by_charges() ) {
-            res.push_back( who.as_player()->reduce_charges( &*loc, it->count() ) );
+            res.push_back( who.reduce_charges( &*loc, it->count() ) );
         } else {
             res.push_back( who.i_rem( &*loc ) );
         }
@@ -3343,8 +3343,8 @@ void harvest_activity_actor::start( player_activity &act, Character &who )
                                    _( "Nothing can be harvested from this plant in current season." ) );
         }
 
-        if( who.as_player()->manual_examine ) {
-            iexamine::none( *who.as_player(), target );
+        if( who.manual_examine ) {
+            iexamine::none( who, target );
         }
 
         act.set_to_null();
@@ -3365,7 +3365,7 @@ void harvest_activity_actor::finish( player_activity &act, Character &who )
 
     // If nothing can be harvested, neither can nectar
     // Incredibly low priority TODO: Allow separating nectar seasons
-    if( nectar && iexamine_helper::drink_nectar( *who.as_player() ) ) {
+    if( nectar && iexamine_helper::drink_nectar( who ) ) {
         return;
     }
 
@@ -3377,7 +3377,7 @@ void harvest_activity_actor::finish( player_activity &act, Character &who )
         const int roll = std::min<int>( entry.max, std::round( rng_float( min_num, max_num ) ) );
         got_anything = roll > 0;
         for( int i = 0; i < roll; i++ ) {
-            iexamine_helper::handle_harvest( *who.as_player(), entry.drop, false );
+            iexamine_helper::handle_harvest( who, entry.drop, false );
         }
     }
 
@@ -3391,7 +3391,7 @@ void harvest_activity_actor::finish( player_activity &act, Character &who )
         here.ter_set( target, here.get_ter_transforms_into( target ) );
     }
 
-    iexamine::practice_survival_while_foraging( who.as_player() );
+    iexamine::practice_survival_while_foraging( &who );
 }
 
 void harvest_activity_actor::serialize( JsonOut &jsout ) const

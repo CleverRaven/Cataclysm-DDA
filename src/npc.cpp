@@ -923,7 +923,7 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
                                                book.tname() ) );
         return false;
     }
-    player *pl = dynamic_cast<player *>( this );
+    Character *pl = dynamic_cast<Character *>( this );
     if( !pl ) {
         return false;
     }
@@ -954,7 +954,7 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
     return true;
 }
 
-int npc::time_to_read( const item &book, const player &reader ) const
+int npc::time_to_read( const item &book, const Character &reader ) const
 {
     const auto &type = book.type->book;
     const skill_id &skill = type->skill;
@@ -976,7 +976,7 @@ int npc::time_to_read( const item &book, const player &reader ) const
 void npc::do_npc_read()
 {
     // Can read items from inventory or within one tile (including in vehicles)
-    player *npc_player = as_player();
+    Character *npc_player = as_character();
     if( !npc_player ) {
         return;
     }
@@ -1170,31 +1170,31 @@ void npc::invalidate_range_cache()
     }
 }
 
-void npc::form_opinion( const player &u )
+void npc::form_opinion( const Character &you )
 {
     // FEAR
-    if( u.weapon.is_gun() ) {
+    if( you.weapon.is_gun() ) {
         // TODO: Make bows not guns
         if( weapon.is_gun() ) {
             op_of_u.fear += 2;
         } else {
             op_of_u.fear += 6;
         }
-    } else if( u.weapon_value( u.weapon ) > 20 ) {
+    } else if( you.weapon_value( you.weapon ) > 20 ) {
         op_of_u.fear += 2;
-    } else if( !u.is_armed() ) {
+    } else if( !you.is_armed() ) {
         // Unarmed, but actually unarmed ("unarmed weapons" are not unarmed)
         op_of_u.fear -= 3;
     }
 
     ///\EFFECT_STR increases NPC fear of the player
-    if( u.str_max >= 16 ) {
+    if( you.str_max >= 16 ) {
         op_of_u.fear += 2;
-    } else if( u.str_max >= 12 ) {
+    } else if( you.str_max >= 12 ) {
         op_of_u.fear += 1;
-    } else if( u.str_max <= 3 ) {
+    } else if( you.str_max <= 3 ) {
         op_of_u.fear -= 3;
-    } else if( u.str_max <= 5 ) {
+    } else if( you.str_max <= 5 ) {
         op_of_u.fear -= 1;
     }
 
@@ -1216,25 +1216,25 @@ void npc::form_opinion( const player &u )
         }
     }
 
-    if( u.has_trait( trait_SAPIOVORE ) ) {
+    if( you.has_trait( trait_SAPIOVORE ) ) {
         op_of_u.fear += 10; // Sapiovores = Scary
     }
-    if( u.has_trait( trait_TERRIFYING ) ) {
+    if( you.has_trait( trait_TERRIFYING ) ) {
         op_of_u.fear += 6;
     }
 
     int u_ugly = 0;
-    for( trait_id &mut : u.get_mutations() ) {
+    for( trait_id &mut : you.get_mutations() ) {
         u_ugly += mut.obj().ugliness;
     }
     op_of_u.fear += u_ugly / 2;
     op_of_u.trust -= u_ugly / 3;
 
-    if( u.get_stim() > 20 ) {
+    if( you.get_stim() > 20 ) {
         op_of_u.fear++;
     }
 
-    if( u.has_effect( effect_drunk ) ) {
+    if( you.has_effect( effect_drunk ) ) {
         op_of_u.fear -= 2;
     }
 
@@ -1245,23 +1245,23 @@ void npc::form_opinion( const player &u )
         op_of_u.trust += 1;
     }
 
-    if( u.weapon.is_gun() ) {
+    if( you.weapon.is_gun() ) {
         op_of_u.trust -= 2;
-    } else if( !u.is_armed() ) {
+    } else if( !you.is_armed() ) {
         op_of_u.trust += 2;
     }
 
     // TODO: More effects
-    if( u.has_effect( effect_high ) ) {
+    if( you.has_effect( effect_high ) ) {
         op_of_u.trust -= 1;
     }
-    if( u.has_effect( effect_drunk ) ) {
+    if( you.has_effect( effect_drunk ) ) {
         op_of_u.trust -= 2;
     }
-    if( u.get_stim() > 20 || u.get_stim() < -20 ) {
+    if( you.get_stim() > 20 || you.get_stim() < -20 ) {
         op_of_u.trust -= 1;
     }
-    if( u.get_painkiller() > 30 ) {
+    if( you.get_painkiller() > 30 ) {
         op_of_u.trust -= 1;
     }
 
@@ -1298,7 +1298,7 @@ void npc::form_opinion( const player &u )
         set_attitude( NPCATT_FLEE_TEMP );
     }
 
-    add_msg_debug( debugmode::DF_NPC, "%s formed an opinion of u: %s", name,
+    add_msg_debug( debugmode::DF_NPC, "%s formed an opinion of you: %s", name,
                    npc_attitude_id( attitude ) );
 }
 
@@ -2114,7 +2114,7 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
     }
 
     if( other.is_npc() || other.is_avatar() ) {
-        const player &guy = dynamic_cast<const player &>( other );
+        const Character &guy = dynamic_cast<const Character &>( other );
         // check faction relationships first
         if( has_faction_relationship( guy, npc_factions::kill_on_sight ) ) {
             return Attitude::HOSTILE;
@@ -2846,7 +2846,7 @@ bool npc::dispose_item( item_location &&obj, const std::string & )
 
 void npc::process_turn()
 {
-    player::process_turn();
+    Character::process_turn();
 
     // NPCs shouldn't be using stamina, but if they have, set it back to max
     // If the stamina is higher than the max (Languorous), set it back to max

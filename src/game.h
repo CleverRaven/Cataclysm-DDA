@@ -437,7 +437,7 @@ class game
         class Creature_range : public non_dead_range<Creature>
         {
             private:
-                shared_ptr_fast<player> u;
+                shared_ptr_fast<Character> u;
 
             public:
                 explicit Creature_range( game &game_ref );
@@ -1066,7 +1066,7 @@ class game
 
         int mostseen = 0; // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
     private:
-        shared_ptr_fast<player> u_shared_ptr; // NOLINT(cata-serialize)
+        shared_ptr_fast<Character> u_shared_ptr; // NOLINT(cata-serialize)
 
         catacurses::window w_terrain_ptr; // NOLINT(cata-serialize)
         catacurses::window w_minimap_ptr; // NOLINT(cata-serialize)

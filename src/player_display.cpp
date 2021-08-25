@@ -871,7 +871,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
         line++;
     }
     if( you.get_thirst() > 40 ) {
-        pen = std::abs( player::thirst_speed_penalty( you.get_thirst() ) );
+        pen = std::abs( Character::thirst_speed_penalty( you.get_thirst() ) );
         mvwprintz( w_speed, point( 1, line ), c_red,
                    pgettext( "speed penalty", "Thirst              -%2d%%" ), pen );
         line++;
@@ -985,7 +985,7 @@ static void draw_tip( const catacurses::window &w_tip, const Character &you,
             //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
             mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s" ), you.name,
                        you.male ? _( "Male" ) : _( "Female" ), race );
-        } else if( you.as_player()->prof == nullptr || you.as_player()->prof == profession::generic() ) {
+        } else if( you.prof == nullptr || you.prof == profession::generic() ) {
             // Regular person. Nothing interesting.
             //~ player info window: 1s - name, 2s - gender '|' - field separator.
             mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s" ), you.name,
@@ -993,7 +993,7 @@ static void draw_tip( const catacurses::window &w_tip, const Character &you,
         } else {
             mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s" ), you.name,
                        you.male ? _( "Male" ) : _( "Female" ),
-                       you.as_player()->prof->gender_appropriate_name( you.male ) );
+                       you.prof->gender_appropriate_name( you.male ) );
         }
     } else {
         mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s" ), you.name,

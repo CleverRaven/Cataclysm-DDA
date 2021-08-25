@@ -59,7 +59,6 @@
 #include "overmap.h"
 #include "pathfinding.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "profession.h"
 #include "ret_val.h"
@@ -1871,4 +1870,9 @@ void avatar::try_to_sleep( const time_duration &dur )
         }
     }
     assign_activity( player_activity( try_sleep_activity_actor( dur ) ) );
+}
+
+bool avatar::query_yn( const std::string &mes ) const
+{
+    return ::query_yn( mes );
 }

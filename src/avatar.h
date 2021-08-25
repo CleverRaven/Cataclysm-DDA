@@ -19,7 +19,6 @@
 #include "json.h"
 #include "magic_teleporter_list.h"
 #include "memory_fast.h"
-#include "player.h"
 #include "point.h"
 #include "type_id.h"
 
@@ -67,7 +66,7 @@ struct monster_visible_info {
     bool dangerous[8] = {};
 };
 
-class avatar : public player
+class avatar : public Character
 {
     public:
         avatar();
@@ -103,6 +102,9 @@ class avatar : public player
         const avatar *as_avatar() const override {
             return this;
         }
+
+        using Character::query_yn;
+        bool query_yn( const std::string &mes ) const override;
 
         void toggle_map_memory();
         bool should_show_map_memory();
