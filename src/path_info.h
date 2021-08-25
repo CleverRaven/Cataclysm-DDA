@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_PATH_INFO_H
 #define CATA_SRC_PATH_INFO_H
 
-#include <iosfwd>
+#include <string>
 
 enum class holiday : int;
 

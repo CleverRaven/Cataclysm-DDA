@@ -12,7 +12,6 @@
 #include "cata_utility.h"
 #include "condition.h"
 #include "dialogue.h"
-#include "game.h"
 #include "game_constants.h"
 #include "json.h"
 #include "math_defines.h"

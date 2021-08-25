@@ -4,7 +4,6 @@
 #include "character.h"
 #include "creature_tracker.h"
 #include "flag.h"
-#include "game.h"
 #include "item.h"
 #include "magic.h"
 #include "magic_spell_effect_helpers.h"

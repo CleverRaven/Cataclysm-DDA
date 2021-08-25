@@ -21,7 +21,6 @@
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "enums.h"
-#include "game.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_memory.h"
