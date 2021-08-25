@@ -573,8 +573,10 @@ void handle_key_blocking_activity()
         return;
     }
     avatar &u = get_avatar();
-    if( ( u.activity && u.activity.moves_left > 0 ) ||
-        u.has_destination() ) {
+    const bool has_unfinished_activity = u.activity && (
+            u.activity.id()->based_on() == based_on_type::NEITHER
+            || u.activity.moves_left > 0 );
+    if( has_unfinished_activity || u.has_destination() ) {
         input_context ctxt = get_default_mode_input_context();
         const std::string action = ctxt.handle_input( 0 );
         bool refresh = true;

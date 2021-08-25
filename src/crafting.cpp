@@ -1588,99 +1588,81 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
             is_food = rec->create_result().is_comestible();
             remove_raw = rec->hot_result() || rec->removes_raw();
         }
+        enum class inventory_source : int {
+            SELF = 0,
+            MAP,
+            BOTH
+        };
+        auto get_ingredient_description = [&player_character, &map_inv, &filter,
+                                                              &is_food, &remove_raw]( const inventory_source & inv_source,
+        const itype_id & ingredient_type, const int &count ) {
+            std::string text;
+            int available;
+            const item ingredient = item( ingredient_type );
+            std::pair<int, int> kcal_values{ 0, 0 };
+
+            if( is_food && ingredient.is_food() ) {
+                switch( inv_source ) {
+                    case inventory_source::MAP:
+                        text = _( "%s (%d/%d nearby)" );
+                        kcal_values = map_inv.kcal_range( ingredient_type, filter, player_character );
+                        available = item::count_by_charges( ingredient_type ) ?
+                                    map_inv.charges_of( ingredient_type, INT_MAX, filter ) :
+                                    map_inv.amount_of( ingredient_type, false, INT_MAX, filter );
+                        break;
+                    case inventory_source::SELF:
+                        text = _( "%s (%d/%d on person)" );
+                        kcal_values = player_character.kcal_range( ingredient_type, filter, player_character );
+                        available = item::count_by_charges( ingredient_type ) ?
+                                    player_character.charges_of( ingredient_type, INT_MAX, filter ) :
+                                    player_character.amount_of( ingredient_type, false, INT_MAX, filter );
+                        break;
+                    case inventory_source::BOTH:
+                        text = _( "%s (%d/%d nearby & on person)" );
+                        kcal_values = map_inv.kcal_range( ingredient_type, filter, player_character );
+                        const std::pair<int, int> kcal_values_tmp = player_character.kcal_range( ingredient_type, filter,
+                                player_character );
+                        kcal_values.first = std::min( kcal_values.first, kcal_values_tmp.first );
+                        kcal_values.second = std::max( kcal_values.second, kcal_values_tmp.second );
+                        available = item::count_by_charges( ingredient_type ) ?
+                                    map_inv.charges_of( ingredient_type, INT_MAX, filter ) +
+                                    player_character.charges_of( ingredient_type, INT_MAX, filter ) :
+                                    map_inv.amount_of( ingredient_type, false, INT_MAX, filter ) +
+                                    player_character.amount_of( ingredient_type, false, INT_MAX, filter );
+                        break;
+                }
+                text += kcal_values.first == kcal_values.second ? _( " %d kcal" ) : _( " %1$d-%2$d kcal" );
+                if( ingredient.has_flag( flag_RAW ) && remove_raw ) {
+                    //Multiplier for RAW food digestion
+                    kcal_values.first /= 0.75f;
+                    kcal_values.second /= 0.75f;
+                    text += _( " <color_brown> (will be processed)</color>" );
+                }
+            }
+
+            return string_format( text,
+                                  item::nname( ingredient_type ),
+                                  count,
+                                  available,
+                                  kcal_values.first * count,
+                                  kcal_values.second * count
+                                );
+        };
         // Populate options with the names of the items
-        for( auto &map_ha : map_has ) { // Index 0-(map_has.size()-1)
-            std::string text = _( "%s (%d/%d nearby)" );
-            const item ingredient = item( map_ha.type );
-            bool display_kcal = is_food && ingredient.is_food();
-            std::pair<int, int> kcal_values( 0, 0 );
-            if( display_kcal ) {
-                kcal_values = map_inv.kcal_range( map_ha.type, filter,
-                                                  player_character );
-                text += _( " %d" );
-                text += kcal_values.first == kcal_values.second ? _( " kcal" ) : _( "-%d kcal" );
-                if( ingredient.has_flag( flag_RAW ) && remove_raw ) {
-                    //Multiplier for RAW food digestion
-                    kcal_values.first /= 0.75f;
-                    kcal_values.second /= 0.75f;
-                    text += string_format( _( " <color_brown> (will be processed)</color>" ) );
-                }
-            }
-            std::string tmpStr = string_format( text,
-                                                item::nname( map_ha.type ),
-                                                ( map_ha.count * batch ),
-                                                item::count_by_charges( map_ha.type ) ?
-                                                map_inv.charges_of( map_ha.type, INT_MAX, filter ) :
-                                                map_inv.amount_of( map_ha.type, false, INT_MAX, filter ),
-                                                kcal_values.first * map_ha.count * batch,
-                                                kcal_values.second * map_ha.count * batch
-                                              );
-            cmenu.addentry( tmpStr );
+        for( auto &map_ha : map_has ) {
+            // Index 0-(map_has.size()-1)
+            cmenu.addentry( get_ingredient_description( inventory_source::MAP, map_ha.type,
+                            map_ha.count * batch ) );
         }
-        for( auto &player_ha : player_has ) { // Index map_has.size()-(map_has.size()+player_has.size()-1)
-            std::string text = _( "%s (%d/%d on person)" );
-            const item ingredient = item( player_ha.type );
-            bool display_kcal = is_food && ingredient.is_food();
-            std::pair<int, int> kcal_values( 0, 0 );
-            if( display_kcal ) {
-                kcal_values = kcal_range( player_ha.type, filter,
-                                          player_character );
-                text += _( " %d" );
-                text += kcal_values.first == kcal_values.second ? _( " kcal" ) : _( "-%d kcal" );
-                if( ingredient.has_flag( flag_RAW ) && remove_raw ) {
-                    //Multiplier for RAW food digestion
-                    kcal_values.first /= 0.75f;
-                    kcal_values.second /= 0.75f;
-                    text += string_format( _( " <color_brown> (will be processed)</color>" ) );
-                }
-            }
-            std::string tmpStr = string_format( text,
-                                                item::nname( player_ha.type ),
-                                                ( player_ha.count * batch ),
-                                                item::count_by_charges( player_ha.type ) ?
-                                                charges_of( player_ha.type, INT_MAX, filter ) :
-                                                amount_of( player_ha.type, false, INT_MAX, filter ),
-                                                kcal_values.first * player_ha.count * batch,
-                                                kcal_values.second * player_ha.count * batch
-                                              );
-            cmenu.addentry( tmpStr );
+        for( auto &player_ha : player_has ) {
+            // Index map_has.size()-(map_has.size()+player_has.size()-1)
+            cmenu.addentry( get_ingredient_description( inventory_source::SELF, player_ha.type,
+                            player_ha.count * batch ) );
         }
         for( auto &component : mixed ) {
             // Index player_has.size()-(map_has.size()+player_has.size()+mixed.size()-1)
-            int available = item::count_by_charges( component.type ) ?
-                            map_inv.charges_of( component.type, INT_MAX, filter ) +
-                            charges_of( component.type, INT_MAX, filter ) :
-                            map_inv.amount_of( component.type, false, INT_MAX, filter ) +
-                            amount_of( component.type, false, INT_MAX, filter );
-            std::string text = _( "%s (%d/%d nearby & on person)" );
-            const item ingredient = item( component.type );
-            bool display_kcal = is_food && ingredient.is_food();
-            std::pair<int, int> kcal_values( 0, 0 );
-            if( display_kcal ) {
-                kcal_values = map_inv.kcal_range( component.type, filter,
-                                                  player_character );
-                std::pair<int, int> kcal_values_tmp = kcal_range( component.type, filter,
-                                                      player_character );
-                kcal_values.first = std::min( kcal_values.first, kcal_values_tmp.first );
-                kcal_values.second = std::max( kcal_values.second, kcal_values_tmp.second );
-
-                text += _( " %d" );
-                text += kcal_values.first == kcal_values.second ? _( " kcal" ) : _( "-%d kcal" );
-                if( ingredient.has_flag( flag_RAW ) && remove_raw ) {
-                    //Multiplier for RAW food digestion
-                    kcal_values.first /= 0.75f;
-                    kcal_values.second /= 0.75f;
-                    text += string_format( _( " <color_brown> (will be processed)</color>" ) );
-                }
-            }
-            std::string tmpStr = string_format( text,
-                                                item::nname( component.type ),
-                                                component.count * batch,
-                                                available,
-                                                kcal_values.first * component.count * batch,
-                                                kcal_values.second * component.count * batch
-                                              );
-            cmenu.addentry( tmpStr );
+            cmenu.addentry( get_ingredient_description( inventory_source::BOTH, component.type,
+                            component.count * batch ) );
         }
 
         // Unlike with tools, it's a bad thing if there aren't any components available
