@@ -3548,7 +3548,7 @@ cata::optional<int> iuse::geiger( Character *p, item *it, bool t, const tripoint
     switch( ch ) {
         case 0: {
             const std::function<bool( const tripoint & )> f = [&]( const tripoint & pnt ) {
-                return g->critter_at<npc>( pnt ) != nullptr || g->critter_at<player>( pnt ) != nullptr;
+                return g->critter_at<npc>( pnt ) != nullptr || g->critter_at<Character>( pnt ) != nullptr;
             };
 
             const cata::optional<tripoint> pnt_ = choose_adjacent_highlight( _( "Scan whom?" ),

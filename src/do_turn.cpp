@@ -821,8 +821,8 @@ bool do_turn()
     // If controlling a vehicle that is owned by someone else
     if( u.in_vehicle && u.controlling_vehicle ) {
         vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
-        if( veh && !veh->handle_potential_theft( dynamic_cast<player &>( u ), true ) ) {
-            veh->handle_potential_theft( dynamic_cast<player &>( u ), false, false );
+        if( veh && !veh->handle_potential_theft( dynamic_cast<Character &>( u ), true ) ) {
+            veh->handle_potential_theft( dynamic_cast<Character &>( u ), false, false );
         }
     }
     // If riding a horse - chance to spook

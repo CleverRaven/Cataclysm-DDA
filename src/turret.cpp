@@ -298,14 +298,10 @@ int turret_data::fire( Character &c, const tripoint &target )
     }
     int shots = 0;
     gun_mode mode = base()->gun_current_mode();
-    player *player_character = c.as_player();
-    if( player_character == nullptr ) {
-        return 0;
-    }
 
-    prepare_fire( *player_character );
-    shots = player_character->fire_gun( target, mode.qty, *mode );
-    post_fire( *player_character, shots );
+    prepare_fire( c );
+    shots = c.fire_gun( target, mode.qty, *mode );
+    post_fire( c, shots );
     return shots;
 }
 

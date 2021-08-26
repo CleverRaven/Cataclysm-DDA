@@ -1691,7 +1691,7 @@ void activity_handlers::forage_finish( player_activity *act, Character *you )
         add_msg( _( "You didn't find anything." ) );
     }
 
-    iexamine::practice_survival_while_foraging( you->as_player() );
+    iexamine::practice_survival_while_foraging( you );
 
     act->set_to_null();
 
@@ -2367,7 +2367,7 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
 
         // Remember our level: we want to stop retrying on level up
         const int old_level = you->get_skill_level( actor->used_skill );
-        const repair_item_actor::attempt_hint attempt = actor->repair( *you->as_player(), *used_tool,
+        const repair_item_actor::attempt_hint attempt = actor->repair( *you, *used_tool,
                 fix_location );
         if( attempt != repair_item_actor::AS_CANT ) {
             if( ploc && ploc->where() == item_location::type::map ) {
@@ -2389,7 +2389,7 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
         // But only if we didn't destroy the item (because then it's obvious)
         const bool destroyed = attempt == repair_item_actor::AS_DESTROYED;
         const bool cannot_continue_repair = attempt == repair_item_actor::AS_CANT ||
-                                            destroyed || !actor->can_repair_target( *you->as_player(), *fix_location, !destroyed );
+                                            destroyed || !actor->can_repair_target( *you, *fix_location, !destroyed );
         if( cannot_continue_repair ) {
             // Cannot continue to repair target, select another target.
             // **Warning**: as soon as the item is popped back, it is destroyed and can't be used anymore!
@@ -2423,7 +2423,7 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
             act->set_to_null();
             return;
         }
-        if( actor->can_repair_target( *you->as_player(), *item_loc, true ) ) {
+        if( actor->can_repair_target( *you, *item_loc, true ) ) {
             act->targets.emplace_back( item_loc );
             repeat = repeat_type::INIT;
         }
@@ -2437,7 +2437,7 @@ void activity_handlers::repair_item_finish( player_activity *act, Character *you
             you->add_msg_if_player( _( "You won't learn anything more by doing that." ) );
         }
 
-        const std::pair<float, float> chance = actor->repair_chance( *you->as_player(), fix, action_type );
+        const std::pair<float, float> chance = actor->repair_chance( *you, fix, action_type );
         if( chance.first <= 0.0f ) {
             action_type = repair_item_actor::RT_PRACTICE;
         }
@@ -2804,7 +2804,7 @@ void activity_handlers::armor_layers_do_turn( player_activity *, Character *you 
 
 void activity_handlers::atm_do_turn( player_activity *, Character *you )
 {
-    iexamine::atm( *you->as_player(), you->pos() );
+    iexamine::atm( *you, you->pos() );
 }
 
 // fish-with-rod fish catching function.
@@ -3780,7 +3780,7 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, Character 
         /* If unspecified, or if we're out of what we used before, ask */
         if( ask_user && ( fertilizer.is_empty() || !you->has_charges( fertilizer, 1 ) ) )
         {
-            fertilizer = iexamine::choose_fertilizer( *you->as_player(), "plant",
+            fertilizer = iexamine::choose_fertilizer( *you, "plant",
                     false /* Don't confirm action with player */ );
             act->str_values[0] = fertilizer.str();
         }
@@ -3792,14 +3792,14 @@ void activity_handlers::fertilize_plot_do_turn( player_activity *act, Character 
 
     const auto reject_tile = [&]( const tripoint & tile ) {
         check_fertilizer();
-        ret_val<bool> can_fert = iexamine::can_fertilize( *you->as_player(), tile, fertilizer );
+        ret_val<bool> can_fert = iexamine::can_fertilize( *you, tile, fertilizer );
         return !can_fert.success();
     };
 
     const auto fertilize = [&]( Character & you, const tripoint & tile ) {
         check_fertilizer();
         if( have_fertilizer() ) {
-            iexamine::fertilize_plant( *you.as_player(), tile, fertilizer );
+            iexamine::fertilize_plant( you, tile, fertilizer );
             if( !have_fertilizer() ) {
                 add_msg( m_info, _( "You have run out of %s." ), item::nname( fertilizer ) );
             }
