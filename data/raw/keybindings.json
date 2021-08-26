@@ -1242,7 +1242,7 @@
   {
     "type": "keybinding",
     "id": "SWITCH_GENDER",
-    "name": "Change gender",
+    "name": "Fix gender label",
     "bindings": [ { "input_method": "keyboard_any", "key": "y" } ]
   },
   {

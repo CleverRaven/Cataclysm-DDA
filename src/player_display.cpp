@@ -1001,7 +1001,7 @@ static void draw_tip( const catacurses::window &w_tip, const Character &you,
     }
 
     right_print( w_tip, 0, 8, c_light_gray, string_format(
-                     _( "[<color_yellow>%s</color>]Switch Gender" ),
+                     _( "[<color_yellow>%s</color>]Fix Gender Label" ),
                      ctxt.get_desc( "SWITCH_GENDER" ) ) );
 
     right_print( w_tip, 0, 1, c_light_gray, string_format(
@@ -1153,7 +1153,7 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
         ui_tip.invalidate_ui();
     } else if( action == "SWITCH_GENDER" ) {
         you.male = !you.male;
-        popup( _( "Gender set to %s." ), you.male ? _( "Male" ) : _( "Female" ) );
+        popup( _( "Gender label set to %s." ), you.male ? _( "Male" ) : _( "Female" ) );
     }
     return done;
 }
@@ -1322,7 +1322,7 @@ void Character::disp_info()
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM", to_translation( "Toggle skill training / Upgrade stat" ) );
     ctxt.register_action( "CHANGE_PROFESSION_NAME", to_translation( "Change profession name" ) );
-    ctxt.register_action( "SWITCH_GENDER", to_translation( "Change gender of the player" ) );
+    ctxt.register_action( "SWITCH_GENDER", to_translation( "Change gender label of the player" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     std::map<std::string, int> speed_effects;
