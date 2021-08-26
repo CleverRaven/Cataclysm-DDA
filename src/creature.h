@@ -47,7 +47,6 @@ class avatar;
 class field;
 class field_entry;
 class npc;
-class player;
 class time_duration;
 struct point;
 struct tripoint;
@@ -249,12 +248,6 @@ class Creature : public location, public viewer
             return nullptr;
         }
         virtual const Character *as_character() const {
-            return nullptr;
-        }
-        virtual player *as_player() {
-            return nullptr;
-        }
-        virtual const player *as_player() const {
             return nullptr;
         }
         virtual avatar *as_avatar() {

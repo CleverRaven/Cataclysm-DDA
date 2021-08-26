@@ -1949,7 +1949,7 @@ static bool query_pick( Character &who, const tripoint &target )
     if( harvest.is_null() || harvest->empty() ) {
         who.add_msg_if_player( m_info,
                                _( "Nothing can be harvested from this plant in current season." ) );
-        iexamine::none( *who.as_player(), target );
+        iexamine::none( who, target );
         return false;
     }
 
@@ -1961,7 +1961,7 @@ static bool query_pick( Character &who, const tripoint &target )
     }
 
     if( who.is_avatar() && !query_yn( query_string ) ) {
-        iexamine::none( *who.as_player(), target );
+        iexamine::none( who, target );
         return false;
     }
 
@@ -4517,7 +4517,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
 }
 
 static Character &player_on_couch( Character &you, const tripoint &autodoc_loc,
-                                   player &null_patient,
+                                   Character &null_patient,
                                    bool &adjacent_couch, tripoint &couch_pos )
 {
     map &here = get_map();
