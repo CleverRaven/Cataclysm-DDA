@@ -3998,7 +3998,7 @@ ret_val<bool> install_bionic_actor::can_use( const Character &p, const item &it,
         return ret_val<bool>::make_failure( _( "There is nothing to upgrade." ) );
     } else {
         const bool downgrade = std::any_of( bid->available_upgrades.begin(), bid->available_upgrades.end(),
-                                            std::bind( &player::has_bionic, &p, std::placeholders::_1 ) );
+                                            std::bind( &Character::has_bionic, &p, std::placeholders::_1 ) );
 
         if( downgrade ) {
             return ret_val<bool>::make_failure( _( "You have a superior version installed." ) );

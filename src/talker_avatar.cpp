@@ -11,7 +11,6 @@
 #include "npc.h"
 #include "npctrade.h"
 #include "output.h"
-#include "player.h"
 #include "talker.h"
 #include "talker_avatar.h"
 #include "translations.h"
