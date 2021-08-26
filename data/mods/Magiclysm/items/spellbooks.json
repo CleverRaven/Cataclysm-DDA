@@ -409,7 +409,7 @@
     "use_action": { "type": "learn_spell", "spells": [ "translocate_self" ] }
   },
   {
-    "id": "forbbiden_tome",
+    "id": "forbidden_tome",
     "type": "BOOK",
     "name": { "str": "Forbbiden Tome", "str_pl": "Forbidden Tomes" },
     "//": "1 Magus spell, 1 Druid spell, 1 Animist spell",
