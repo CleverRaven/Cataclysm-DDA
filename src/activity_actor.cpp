@@ -3787,7 +3787,7 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
         debugmsg( "item_location of item to be reloaded is not available" );
         return;
     }
-    
+
     item_location loc = reload_targets[0].parent_item();
     // Reload may have caused the item to increase in size more than the pocket/location can contain.
     // We want to avoid this because items will be deleted on a save/load.
