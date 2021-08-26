@@ -316,7 +316,7 @@
       { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
       { "drop": "raw_demihumanleather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
-      { "drop": "bone", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "bone_demihuman", "type": "bone", "mass_ratio": 0.1 }
     ]
   },
   {
@@ -330,7 +330,7 @@
       { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
       { "drop": "raw_demihumanleather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
-      { "drop": "bone", "type": "bone", "mass_ratio": 0.1025 }
+      { "drop": "bone_demihuman", "type": "bone", "mass_ratio": 0.1025 }
     ]
   },
   {
@@ -344,7 +344,7 @@
       { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
       { "drop": "raw_demihumanleather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
-      { "drop": "bone", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "bone_demihuman", "type": "bone", "mass_ratio": 0.1 }
     ]
   }
 ]

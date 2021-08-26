@@ -1310,7 +1310,7 @@
     "copy-from": "fat",
     "type": "COMESTIBLE",
     "name": { "str": "chunk of demihuman fat", "str_pl": "chunks of demihuman fat" },
-    "description": "Freshly harvested from a human body.",
+    "description": "Freshly harvested from a demihuman body.",
     "material": [ "flesh" ],
     "flags": [ "STRICT_HUMANITARIANISM" ]
   },
@@ -1329,7 +1329,7 @@
     "type": "COMESTIBLE",
     "id": "demihuman_lard",
     "name": { "str": "demihuman lard" },
-    "copy-from": "human_tallow",
+    "copy-from": "lard",
     "description": "A smooth white block of dry-rendered demihuman fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
     "flags": [ "STRICT_HUMANITARIANISM" ]
   },
