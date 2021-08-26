@@ -190,6 +190,7 @@ const flag_id flag_NPC_SAFE( "NPC_SAFE" );
 const flag_id flag_NPC_THROWN( "NPC_THROWN" );
 const flag_id flag_NPC_THROW_NOW( "NPC_THROW_NOW" );
 const flag_id flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
+const flag_id flag_OLD_CURRENCY( "OLD_CURRENCY" );
 const flag_id flag_ONLY_ONE( "ONLY_ONE" );
 const flag_id flag_ORGANIC( "ORGANIC" );
 const flag_id flag_OUTER( "OUTER" );
