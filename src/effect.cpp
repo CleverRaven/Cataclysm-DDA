@@ -126,7 +126,7 @@ void weed_msg( Character &p )
                 }
                 return;
             case 4:
-                if( p.has_amount( itype_money_bundle, 1 ) ) { // Half Baked
+                if( p.has_amount( itype_money_one, 1 ) ) { // Half Baked
                     p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Half_Baked_1" ).value_or(
                                              translation() ) );
                     if( one_in( 2 ) ) {
