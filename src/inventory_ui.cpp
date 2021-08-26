@@ -2362,6 +2362,7 @@ inventory_multiselector::inventory_multiselector( Character &p,
 {
     ctxt.register_action( "TOGGLE_ENTRY", to_translation( "Mark/unmark selected item" ) );
     ctxt.register_action( "DROP_NON_FAVORITE", to_translation( "Mark/unmark non-favorite items" ) );
+    ctxt.register_action( "TOGGLE_NUMBER_ENTRY", to_translation( "Toggle capture of number keys" ) );
 
     for( inventory_column * const &elem : get_all_columns() ) {
         elem->set_multiselect( true );
@@ -2484,7 +2485,7 @@ drop_locations inventory_iuse_selector::execute()
         ui_manager::redraw();
 
         const inventory_input input = get_input();
-        if( input.ch == '#' || input.ch == '+' ) {
+        if( input.action == "TOGGLE_NUMBER_ENTRY" ) {
             numcapture = !numcapture;
         } else if( numcapture && input.ch >= '0' && input.ch <= '9' ) {
             count = std::min( count, INT_MAX / 10 - 10 );
@@ -2674,7 +2675,7 @@ drop_locations inventory_drop_selector::execute()
 
         const inventory_input input = get_input();
 
-        if( input.ch == '#' || input.ch == '+' ) {
+        if( input.action == "TOGGLE_NUMBER_ENTRY" ) {
             numcapture = !numcapture;
         } else if( numcapture && input.ch >= '0' && input.ch <= '9' ) {
             count = std::min( count, INT_MAX / 10 - 10 );

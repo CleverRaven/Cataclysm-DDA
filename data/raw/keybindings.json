@@ -3057,6 +3057,16 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_NUMBER_ENTRY",
+    "category": "INVENTORY",
+    "name": "Toggle capture of number keys for entering amount.",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "#" },
+      { "input_method": "keyboard_char", "key": "+" }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "ITEMS_NW",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items @ North-West",
