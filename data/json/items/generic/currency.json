@@ -249,7 +249,7 @@
     "type": "GENERIC",
     "id": "money_fifty",
     "name": { "str": "fifty-dollar bill" },
-    "description": "A fifty-dollar bill, featuring a portrait of Ulysses S. Grant.",
+    "description": "A fifty-dollar bill, featuring a portrait of Ulysses S Grant.",
     "looks_like": "money_one",
     "copy-from": "money_one",
     "color": "green",
