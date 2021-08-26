@@ -409,4 +409,30 @@
     "energy_source": "MANA",
     "difficulty": 4
   }
+  {
+    "id": "focused_bolt",
+    "type": "SPELL",
+    "name": "Focused Bolt",
+    "description": "You focus your mana into a microscopically thin pulsed beam of pure energy, capable of extreme range and precision; as well as unparalleled penetration, provided proper skill. Once the invention of a notorious assassin, this spell has slayed many a king and noble, passed on only through direct decendants over the ages; until you.",
+    "effect": "attack",
+    "shape": "line",
+    "valid_targets": [ "hostile", "ground" ],
+    "flags": [ "SOMATIC", "NO_LEGS", "CONCENTRATE", "SILENT", "NO_PROJECTILE" ],
+    "max_level": 30,
+    "min_damage": 4,
+    "max_damage": 124,
+    "damage_increment": 4.0,
+    "damage_type": "pure",
+    "min_range": 5,
+    "max_range": 75,
+    "range_increment": 2.5,
+    "min_aoe": 5,
+    "max_aoe": 0,
+    "aoe_increment": -0.5,
+    "spell_class": "MAGUS",
+    "base_casting_time": 500,
+    "base_energy_cost": 400,
+    "energy_source": "MANA",
+    "difficulty": 6
+  }
 ]
