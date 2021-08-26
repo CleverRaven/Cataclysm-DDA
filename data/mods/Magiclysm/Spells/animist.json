@@ -386,7 +386,7 @@
     "id": "rupture",
     "type": "SPELL",
     "name": "Rupture",
-    "description": "You pour mana into an unwilling and unprepared vessel, causing cellular break-down, internal hemoraging, and leylines to become muddled. Immensely gruesome, crude, and was once illeagal world-wide, not that it matters now.",
+    "description": "You pour mana into an unwilling and unprepared vessel, causing cellular break-down, internal hemorrhaging, leylines to become muddled, and electronics to overcharge. Immensely gruesome, crude, and was once illegal world-wide, not that it matters now.",
     "effect": "attack",
     "shape": "blast",
     "valid_targets": [ "hostile" ],
@@ -398,15 +398,15 @@
     "max_damage": 2,
     "base_casting_time": 50,
     "base_energy_cost": 500,
-    "damage_type": "pure",
     "spell_class": "ANIMIST",
     "min_duration": 100,
-    "max_duration": 1600,
-    "duration_increment": 50,
+    "max_duration": 500,
+    "duration_increment": 15,
     "min_dot": 10,
     "max_dot": 100,
-    "dot_increment": 9,
+    "dot_increment": 3,
     "energy_source": "MANA",
-    "difficulty": 1
+    "difficulty": 1,
+    "damage_type": "pure"
   }
 ]
