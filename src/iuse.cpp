@@ -6759,7 +6759,8 @@ static std::string effects_description_for_creature( Creature *const creature, s
         }
         float pain = creature->get_pain() / 10.f;
         if( pain > 3 ) {
-            figure_effects += pronoun_gender + pgettext( "Someone", " is writhing in <color_red>pain</color>.  " );
+            figure_effects += pronoun_gender + pgettext( "Someone",
+                              " is writhing in <color_red>pain</color>.  " );
         }
         if( creature->has_effect( effect_riding ) ) {
             pose = _( "rides" );
