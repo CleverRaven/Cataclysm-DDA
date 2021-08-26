@@ -784,5 +784,35 @@
     "id": "money_hundred",
     "name": "hundred dollar bill",
     "default": "money_hundred"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "FMCNote",
+    "name": "Merch",
+    "default": "FMCNote"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "RobofacCoin",
+    "name": "Hub 01 Gold Coin",
+    "default": "RobofacCoin"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "FlatCoin",
+    "name": "FlatCoin",
+    "default": "FlatCoin"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "signed_chit",
+    "name": "chit",
+    "default": "signed_chit"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "icon",
+    "name": "icon",
+    "default": "icon"
   }
 ]
