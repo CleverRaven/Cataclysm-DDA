@@ -571,7 +571,7 @@ static void magical_polymorph( monster &victim, Creature &caster, const spell &s
     victim.poly( new_id );
 
     if( sp.has_flag( spell_flag::FRIENDLY_POLY ) ) {
-        if( caster.as_player() ) {
+        if( caster.as_character() ) {
             victim.friendly = -1;
         } else {
             victim.make_ally( *caster.as_monster() );

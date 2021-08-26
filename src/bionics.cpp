@@ -2071,10 +2071,10 @@ void Character::consume_anesth_requirement( const itype &cbm, Character &patient
     const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
                                         cbm.bionic->difficulty * 2 * weight;
     for( const auto &e : req_anesth.get_components() ) {
-        as_player()->consume_items( e, 1, is_crafting_component );
+        consume_items( e, 1, is_crafting_component );
     }
     for( const auto &e : req_anesth.get_tools() ) {
-        as_player()->consume_tools( e );
+        consume_tools( e );
     }
     invalidate_crafting_inventory();
 }
@@ -2100,10 +2100,10 @@ bool Character::has_installation_requirement( const bionic_id &bid )
 void Character::consume_installation_requirement( const bionic_id &bid )
 {
     for( const auto &e : bid->installation_requirement->get_components() ) {
-        as_player()->consume_items( e, 1, is_crafting_component );
+        consume_items( e, 1, is_crafting_component );
     }
     for( const auto &e : bid->installation_requirement->get_tools() ) {
-        as_player()->consume_tools( e );
+        consume_tools( e );
     }
     invalidate_crafting_inventory();
 }

@@ -4785,7 +4785,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
         return false;
     }
     const bool can_see = u.sees( tripoint( x, y, p.z ) );
-    Character *npc_or_player = critter_at<player>( tripoint( x, y, p.z ), false );
+    Character *npc_or_player = critter_at<Character>( tripoint( x, y, p.z ), false );
     if( npc_or_player != nullptr ) {
         if( bash_dmg <= 0 ) {
             return false;
