@@ -3060,10 +3060,7 @@
     "id": "TOGGLE_NUMBER_ENTRY",
     "category": "INVENTORY",
     "name": "Toggle capture of number keys for entering amount.",
-    "bindings": [
-      { "input_method": "keyboard_char", "key": "#" },
-      { "input_method": "keyboard_char", "key": "+" }
-    ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "#" }, { "input_method": "keyboard_char", "key": "+" } ]
   },
   {
     "type": "keybinding",

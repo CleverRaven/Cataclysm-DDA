@@ -2485,6 +2485,7 @@ drop_locations inventory_iuse_selector::execute()
         ui_manager::redraw();
 
         const inventory_input input = get_input();
+
         if( input.action == "TOGGLE_NUMBER_ENTRY" ) {
             numcapture = !numcapture;
         } else if( numcapture && input.ch >= '0' && input.ch <= '9' ) {
