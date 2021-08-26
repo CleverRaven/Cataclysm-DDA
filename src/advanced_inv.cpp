@@ -44,7 +44,6 @@
 #include "output.h"
 #include "panels.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "point.h"
 #include "ret_val.h"
@@ -1219,7 +1218,8 @@ void advanced_inventory::change_square( const aim_location changeSquare,
                                         advanced_inventory_pane &dpane, advanced_inventory_pane &spane )
 {
     if( panes[left].get_area() == changeSquare || panes[right].get_area() == changeSquare ) {
-        if( squares[changeSquare].can_store_in_vehicle() && changeSquare != AIM_DRAGGED ) {
+        if( squares[changeSquare].can_store_in_vehicle() && changeSquare != AIM_DRAGGED &&
+            spane.get_area() != changeSquare ) {
             // only deal with spane, as you can't _directly_ change dpane
             if( dpane.get_area() == changeSquare ) {
                 spane.set_area( squares[changeSquare], !dpane.in_vehicle() );
@@ -1385,7 +1385,8 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
 
     } else if( srcarea == AIM_INVENTORY || srcarea == AIM_WORN ) {
         // if worn, we need to fix with the worn index number (starts at -2, as -1 is weapon)
-        int idx = srcarea == AIM_INVENTORY ? sitem->idx : player::worn_position_to_index( sitem->idx ) + 1;
+        int idx = srcarea == AIM_INVENTORY ? sitem->idx : Character::worn_position_to_index(
+                      sitem->idx ) + 1;
 
         // make sure advanced inventory is reopened after activity completion.
         do_return_entry();

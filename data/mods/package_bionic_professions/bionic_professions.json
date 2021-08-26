@@ -690,7 +690,7 @@
     ],
     "skills": [
       { "level": 3, "name": "melee" },
-      { "level": 3, "name": "unarmed" },
+      { "level": 3, "name": "stabbing" },
       { "level": 3, "name": "dodge" },
       { "level": 2, "name": "survival" }
     ],

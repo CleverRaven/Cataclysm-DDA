@@ -14,13 +14,12 @@
 
 class Character;
 class item;
-class player;
 class player_activity;
 struct tripoint;
 
 std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles );
-std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest );
+std::vector<tripoint> route_adjacent( const Character &you, const tripoint &dest );
 
 enum class requirement_check_result : int {
     SKIP_LOCATION = 0,
@@ -97,17 +96,18 @@ struct activity_reason_info {
     }
 };
 
-int butcher_time_to_cut( player &u, const item &corpse_item, butcher_type action );
+int butcher_time_to_cut( Character &you, const item &corpse_item, butcher_type action );
 
 // activity_item_handling.cpp
 void activity_on_turn_drop();
-void activity_on_turn_move_loot( player_activity &act, player &p );
+void activity_on_turn_move_loot( player_activity &act, Character &you );
 //return true if there is an activity that can be done potentially, return false if no work can be found.
-bool generic_multi_activity_handler( player_activity &act, player &p, bool check_only = false );
-void activity_on_turn_fetch( player_activity &, player *p );
-void activity_on_turn_wear( player_activity &act, player &p );
-int get_auto_consume_moves( player &p, bool food );
-bool try_fuel_fire( player_activity &act, player &p, bool starting_fire = false );
+bool generic_multi_activity_handler( player_activity &act, Character &you,
+                                     bool check_only = false );
+void activity_on_turn_fetch( player_activity &, Character *you );
+void activity_on_turn_wear( player_activity &act, Character &you );
+int get_auto_consume_moves( Character &you, bool food );
+bool try_fuel_fire( player_activity &act, Character &you, bool starting_fire = false );
 
 enum class item_drop_reason : int {
     deliberate,
@@ -116,126 +116,124 @@ enum class item_drop_reason : int {
     tumbling
 };
 
-void put_into_vehicle_or_drop( Character &c, item_drop_reason, const std::list<item> &items );
-void put_into_vehicle_or_drop( Character &c, item_drop_reason, const std::list<item> &items,
+void put_into_vehicle_or_drop( Character &you, item_drop_reason, const std::list<item> &items );
+void put_into_vehicle_or_drop( Character &you, item_drop_reason, const std::list<item> &items,
                                const tripoint &where, bool force_ground = false );
-void drop_on_map( Character &c, item_drop_reason reason, const std::list<item> &items,
+void drop_on_map( Character &you, item_drop_reason reason, const std::list<item> &items,
                   const tripoint &where );
 
 namespace activity_handlers
 {
 
-bool resume_for_multi_activities( player &p );
-void generic_game_turn_handler( player_activity *act, player *p, int morale_bonus,
+bool resume_for_multi_activities( Character &you );
+void generic_game_turn_handler( player_activity *act, Character *you, int morale_bonus,
                                 int morale_max_bonus );
 
 /** activity_do_turn functions: */
-void fill_liquid_do_turn( player_activity *act, player *p );
-void pickaxe_do_turn( player_activity *act, player *p );
-void drop_do_turn( player_activity *act, player *p );
-void stash_do_turn( player_activity *act, player *p );
-void pulp_do_turn( player_activity *act, player *p );
-void game_do_turn( player_activity *act, player *p );
-void generic_game_do_turn( player_activity *act, player *p );
-void churn_do_turn( player_activity *act, player *p );
-void start_fire_do_turn( player_activity *act, player *p );
-void vibe_do_turn( player_activity *act, player *p );
-void hand_crank_do_turn( player_activity *act, player *p );
-void multiple_chop_planks_do_turn( player_activity *act, player *p );
-void oxytorch_do_turn( player_activity *act, player *p );
-void wear_do_turn( player_activity *act, player *p );
-void eat_menu_do_turn( player_activity *act, player *p );
-void consume_food_menu_do_turn( player_activity *act, player *p );
-void consume_drink_menu_do_turn( player_activity *act, player *p );
-void consume_meds_menu_do_turn( player_activity *act, player *p );
-void consume_fuel_menu_do_turn( player_activity *act, player *p );
-void move_items_do_turn( player_activity *act, player *p );
-void multiple_farm_do_turn( player_activity *act, player *p );
-void multiple_fish_do_turn( player_activity *act, player *p );
-void multiple_construction_do_turn( player_activity *act, player *p );
-void multiple_mine_do_turn( player_activity *act, player *p );
-void multiple_butcher_do_turn( player_activity *act, player *p );
-void vehicle_deconstruction_do_turn( player_activity *act, player *p );
-void vehicle_repair_do_turn( player_activity *act, player *p );
-void chop_trees_do_turn( player_activity *act, player *p );
-void fetch_do_turn( player_activity *act, player *p );
-void move_loot_do_turn( player_activity *act, player *p );
-void travel_do_turn( player_activity *act, player *p );
-void adv_inventory_do_turn( player_activity *act, player *p );
-void armor_layers_do_turn( player_activity *act, player *p );
-void atm_do_turn( player_activity *act, player *p );
-void fish_do_turn( player_activity *act, player *p );
-void cracking_do_turn( player_activity *act, player *p );
-void repair_item_do_turn( player_activity *act, player *p );
-void butcher_do_turn( player_activity *act, player *p );
-void pry_nails_do_turn( player_activity *act, player *p );
-void hacksaw_do_turn( player_activity *act, player *p );
-void chop_tree_do_turn( player_activity *act, player *p );
-void jackhammer_do_turn( player_activity *act, player *p );
-void find_mount_do_turn( player_activity *act, player *p );
-void tidy_up_do_turn( player_activity *act, player *p );
-void build_do_turn( player_activity *act, player *p );
-void fill_pit_do_turn( player_activity *act, player *p );
-void fertilize_plot_do_turn( player_activity *act, player *p );
-void operation_do_turn( player_activity *act, player *p );
-void robot_control_do_turn( player_activity *act, player *p );
-void tree_communion_do_turn( player_activity *act, player *p );
-void spellcasting_do_turn( player_activity *act, player *p );
-void study_spell_do_turn( player_activity *act, player *p );
-void wait_stamina_do_turn( player_activity *act, player *p );
+void fill_liquid_do_turn( player_activity *act, Character *you );
+void pickaxe_do_turn( player_activity *act, Character *you );
+void drop_do_turn( player_activity *act, Character *you );
+void stash_do_turn( player_activity *act, Character *you );
+void pulp_do_turn( player_activity *act, Character *you );
+void game_do_turn( player_activity *act, Character *you );
+void generic_game_do_turn( player_activity *act, Character *you );
+void churn_do_turn( player_activity *act, Character *you );
+void start_fire_do_turn( player_activity *act, Character *you );
+void vibe_do_turn( player_activity *act, Character *you );
+void hand_crank_do_turn( player_activity *act, Character *you );
+void multiple_chop_planks_do_turn( player_activity *act, Character *you );
+void wear_do_turn( player_activity *act, Character *you );
+void eat_menu_do_turn( player_activity *act, Character *you );
+void consume_food_menu_do_turn( player_activity *act, Character *you );
+void consume_drink_menu_do_turn( player_activity *act, Character *you );
+void consume_meds_menu_do_turn( player_activity *act, Character *you );
+void consume_fuel_menu_do_turn( player_activity *act, Character *you );
+void move_items_do_turn( player_activity *act, Character *you );
+void multiple_farm_do_turn( player_activity *act, Character *you );
+void multiple_fish_do_turn( player_activity *act, Character *you );
+void multiple_construction_do_turn( player_activity *act, Character *you );
+void multiple_mine_do_turn( player_activity *act, Character *you );
+void multiple_butcher_do_turn( player_activity *act, Character *you );
+void vehicle_deconstruction_do_turn( player_activity *act, Character *you );
+void vehicle_repair_do_turn( player_activity *act, Character *you );
+void chop_trees_do_turn( player_activity *act, Character *you );
+void fetch_do_turn( player_activity *act, Character *you );
+void move_loot_do_turn( player_activity *act, Character *you );
+void travel_do_turn( player_activity *act, Character *you );
+void adv_inventory_do_turn( player_activity *act, Character *you );
+void armor_layers_do_turn( player_activity *act, Character *you );
+void atm_do_turn( player_activity *act, Character *you );
+void fish_do_turn( player_activity *act, Character *you );
+void cracking_do_turn( player_activity *act, Character *you );
+void repair_item_do_turn( player_activity *act, Character *you );
+void butcher_do_turn( player_activity *act, Character *you );
+void pry_nails_do_turn( player_activity *act, Character *you );
+void hacksaw_do_turn( player_activity *act, Character *you );
+void chop_tree_do_turn( player_activity *act, Character *you );
+void jackhammer_do_turn( player_activity *act, Character *you );
+void find_mount_do_turn( player_activity *act, Character *you );
+void tidy_up_do_turn( player_activity *act, Character *you );
+void build_do_turn( player_activity *act, Character *you );
+void fill_pit_do_turn( player_activity *act, Character *you );
+void fertilize_plot_do_turn( player_activity *act, Character *you );
+void operation_do_turn( player_activity *act, Character *you );
+void robot_control_do_turn( player_activity *act, Character *you );
+void tree_communion_do_turn( player_activity *act, Character *you );
+void spellcasting_do_turn( player_activity *act, Character *you );
+void study_spell_do_turn( player_activity *act, Character *you );
+void wait_stamina_do_turn( player_activity *act, Character *you );
 
 // defined in activity_handlers.cpp
-extern const std::map< activity_id, std::function<void( player_activity *, player * )> >
+extern const std::map< activity_id, std::function<void( player_activity *, Character * )> >
 do_turn_functions;
 
 /** activity_finish functions: */
-void butcher_finish( player_activity *act, player *p );
-void firstaid_finish( player_activity *act, player *p );
-void fish_finish( player_activity *act, player *p );
-void forage_finish( player_activity *act, player *p );
-void longsalvage_finish( player_activity *act, player *p );
-void pulp_finish( player_activity *act, player *p );
-void pickaxe_finish( player_activity *act, player *p );
-void start_fire_finish( player_activity *act, player *p );
-void train_finish( player_activity *act, player *p );
-void shear_finish( player_activity *act, player *p );
-void vehicle_finish( player_activity *act, player *p );
-void start_engines_finish( player_activity *act, player *p );
-void churn_finish( player_activity *act, player *p );
-void plant_seed_finish( player_activity *act, player *p );
-void oxytorch_finish( player_activity *act, player *p );
-void cracking_finish( player_activity *act, player *guy );
-void repair_item_finish( player_activity *act, player *p );
-void mend_item_finish( player_activity *act, player *p );
-void gunmod_add_finish( player_activity *act, player *p );
-void toolmod_add_finish( player_activity *act, player *p );
-void clear_rubble_finish( player_activity *act, player *p );
-void heat_item_finish( player_activity *act, player *p );
-void wait_finish( player_activity *act, player *p );
-void wait_weather_finish( player_activity *act, player *p );
-void wait_npc_finish( player_activity *act, player *p );
-void wait_stamina_finish( player_activity *act, player *p );
-void socialize_finish( player_activity *act, player *p );
-void operation_finish( player_activity *act, player *p );
-void vibe_finish( player_activity *act, player *p );
-void hand_crank_finish( player_activity *act, player *p );
-void atm_finish( player_activity *act, player *p );
-void eat_menu_finish( player_activity *act, player *p );
-void washing_finish( player_activity *act, player *p );
-void hacksaw_finish( player_activity *act, player *p );
-void pry_nails_finish( player_activity *act, player *p );
-void chop_tree_finish( player_activity *act, player *p );
-void chop_logs_finish( player_activity *act, player *p );
-void chop_planks_finish( player_activity *act, player *p );
-void jackhammer_finish( player_activity *act, player *p );
-void fill_pit_finish( player_activity *act, player *p );
-void robot_control_finish( player_activity *act, player *p );
-void mind_splicer_finish( player_activity *act, player *p );
-void spellcasting_finish( player_activity *act, player *p );
-void study_spell_finish( player_activity *act, player *p );
+void butcher_finish( player_activity *act, Character *you );
+void firstaid_finish( player_activity *act, Character *you );
+void fish_finish( player_activity *act, Character *you );
+void forage_finish( player_activity *act, Character *you );
+void longsalvage_finish( player_activity *act, Character *you );
+void pulp_finish( player_activity *act, Character *you );
+void pickaxe_finish( player_activity *act, Character *you );
+void start_fire_finish( player_activity *act, Character *you );
+void train_finish( player_activity *act, Character *you );
+void shear_finish( player_activity *act, Character *you );
+void vehicle_finish( player_activity *act, Character *you );
+void start_engines_finish( player_activity *act, Character *you );
+void churn_finish( player_activity *act, Character *you );
+void plant_seed_finish( player_activity *act, Character *you );
+void cracking_finish( player_activity *act, Character *guy );
+void repair_item_finish( player_activity *act, Character *you );
+void mend_item_finish( player_activity *act, Character *you );
+void gunmod_add_finish( player_activity *act, Character *you );
+void toolmod_add_finish( player_activity *act, Character *you );
+void clear_rubble_finish( player_activity *act, Character *you );
+void heat_item_finish( player_activity *act, Character *you );
+void wait_finish( player_activity *act, Character *you );
+void wait_weather_finish( player_activity *act, Character *you );
+void wait_npc_finish( player_activity *act, Character *you );
+void wait_stamina_finish( player_activity *act, Character *you );
+void socialize_finish( player_activity *act, Character *you );
+void operation_finish( player_activity *act, Character *you );
+void vibe_finish( player_activity *act, Character *you );
+void hand_crank_finish( player_activity *act, Character *you );
+void atm_finish( player_activity *act, Character *you );
+void eat_menu_finish( player_activity *act, Character *you );
+void washing_finish( player_activity *act, Character *you );
+void hacksaw_finish( player_activity *act, Character *you );
+void pry_nails_finish( player_activity *act, Character *you );
+void chop_tree_finish( player_activity *act, Character *you );
+void chop_logs_finish( player_activity *act, Character *you );
+void chop_planks_finish( player_activity *act, Character *you );
+void jackhammer_finish( player_activity *act, Character *you );
+void fill_pit_finish( player_activity *act, Character *you );
+void robot_control_finish( player_activity *act, Character *you );
+void mind_splicer_finish( player_activity *act, Character *you );
+void spellcasting_finish( player_activity *act, Character *you );
+void study_spell_finish( player_activity *act, Character *you );
 
 // defined in activity_handlers.cpp
-extern const std::map< activity_id, std::function<void( player_activity *, player * )> >
+extern const std::map< activity_id, std::function<void( player_activity *, Character * )> >
 finish_functions;
 
 } // namespace activity_handlers

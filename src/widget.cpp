@@ -59,8 +59,12 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "thirst";
         case widget_var::fatigue:
             return "fatigue";
+        case widget_var::weariness_level:
+            return "weariness_level";
         case widget_var::mana:
             return "mana";
+        case widget_var::morale_level:
+            return "morale_level";
         // Base stats
         case widget_var::stat_str:
             return "stat_str";
@@ -77,6 +81,9 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "bp_encumb";
         case widget_var::bp_warmth:
             return "bp_warmth";
+        case widget_var::bp_wetness:
+            return "bp_wetness";
+        // Fall-through - invalid
         case widget_var::last:
             break;
     }
@@ -133,6 +140,10 @@ int widget::get_var_max( const avatar &ava )
         case widget_var::mana:
             max_val = ava.magic->max_mana( ava );
             break;
+        case widget_var::morale_level:
+            // TODO: Determine actual max
+            max_val = 100;
+            break;
         case widget_var::bp_hp:
             // HP for body part
             max_val = ava.get_part_hp_max( _bp_id );
@@ -141,6 +152,9 @@ int widget::get_var_max( const avatar &ava )
             // From weather.h: Body temperature is measured on a scale of 0u to 10000u,
             // where 10u = 0.02C and 5000u is 37C
             max_val = 10000;
+            break;
+        case widget_var::bp_wetness:
+            max_val = 100; // ???
             break;
         default:
             break;
@@ -167,6 +181,9 @@ int widget::get_var_value( const avatar &ava )
         case widget_var::mana:
             value = ava.magic->available_mana();
             break;
+        case widget_var::morale_level:
+            value = ava.get_morale_level();
+            break;
         case widget_var::bp_hp:
             // HP for body part
             value = ava.get_part_hp_cur( _bp_id );
@@ -174,6 +191,10 @@ int widget::get_var_value( const avatar &ava )
         case widget_var::bp_warmth:
             // Body part warmth/temperature
             value = ava.get_part_temp_cur( _bp_id );
+            break;
+        case widget_var::bp_wetness:
+            // Body part wetness
+            value = ava.get_part_wetness( _bp_id );
             break;
         case widget_var::focus:
             value = ava.get_focus();
@@ -189,6 +210,9 @@ int widget::get_var_value( const avatar &ava )
             break;
         case widget_var::fatigue:
             value = ava.get_fatigue();
+            break;
+        case widget_var::weariness_level:
+            value = ava.weariness_level();
             break;
         case widget_var::stat_str:
             value = ava.get_str();

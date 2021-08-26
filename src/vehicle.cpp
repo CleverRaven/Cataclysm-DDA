@@ -2445,7 +2445,7 @@ cata::optional<vpart_reference> vpart_position::part_with_tool( const itype_id &
 {
     for( const int idx : vehicle().parts_at_relative( mount(), false ) ) {
         const vpart_reference vp( vehicle(), idx );
-        if( vp.part().is_available() && vp.info().has_tool( tool_type ) ) {
+        if( !vp.part().is_broken() && vp.info().has_tool( tool_type ) ) {
             return vp;
         }
     }
@@ -3223,7 +3223,8 @@ point vehicle::pivot_displacement() const
     return dp.xy();
 }
 
-int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
+int vehicle::fuel_left( const itype_id &ftype, bool recurse,
+                        const std::function<bool( const vehicle_part & )> &filter ) const
 {
     int fl = 0;
 
@@ -3232,7 +3233,7 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
         if( part.ammo_current() != ftype ||
             // don't count frozen liquid
             ( !part.base.empty() && part.is_tank() &&
-              part.base.legacy_front().made_of( phase_id::SOLID ) ) ) {
+              part.base.legacy_front().made_of( phase_id::SOLID ) ) || !filter( part ) ) {
             continue;
         }
         fl += part.ammo_remaining();
@@ -3315,7 +3316,8 @@ float vehicle::fuel_specific_energy( const itype_id &ftype ) const
     return total_energy / total_mass;
 }
 
-int vehicle::drain( const itype_id &ftype, int amount )
+int vehicle::drain( const itype_id &ftype, int amount,
+                    const std::function<bool( vehicle_part & )> &filter )
 {
     if( ftype == fuel_type_battery ) {
         // Batteries get special handling to take advantage of jumper
@@ -3331,6 +3333,9 @@ int vehicle::drain( const itype_id &ftype, int amount )
 
     int drained = 0;
     for( vehicle_part &p : parts ) {
+        if( !filter( p ) ) {
+            continue;
+        }
         if( amount <= 0 ) {
             break;
         }

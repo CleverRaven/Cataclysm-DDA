@@ -349,15 +349,5 @@
     ],
     "type": "MIGRATION",
     "replace": "shot_pump"
-  },
-  {
-    "id": "slamfire_shotgun",
-    "type": "MIGRATION",
-    "replace": "slamfire_shotgun"
-  },
-  {
-    "id": "slamfire_shotgun_d",
-    "type": "MIGRATION",
-    "replace": "slamfire_shotgun_d"
   }
 ]

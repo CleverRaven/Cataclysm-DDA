@@ -33,6 +33,7 @@
 #include "worldfactory.h"
 
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
+static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_downed( "downed" );
@@ -45,6 +46,7 @@ static const itype_id itype_holybook_bible2( "holybook_bible2" );
 static const itype_id itype_holybook_bible3( "holybook_bible3" );
 
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
+static const trait_id trait_HAS_NEMESIS( "HAS_NEMESIS" );
 
 #if defined(__ANDROID__)
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
@@ -58,10 +60,15 @@ namespace turn_handler
 {
 bool cleanup_at_end()
 {
+    avatar &u = get_avatar();
     if( g->uquit == QUIT_DIED || g->uquit == QUIT_SUICIDE ) {
         // Put (non-hallucinations) into the overmap so they are not lost.
         for( monster &critter : g->all_monsters() ) {
             g->despawn_monster( critter );
+        }
+        // if player has "hunted" trait, remove their nemesis monster on death
+        if( u.has_trait( trait_HAS_NEMESIS ) ) {
+            overmap_buffer.remove_nemesis();
         }
         // Reset NPC factions and disposition
         g->reset_npc_dispositions();
@@ -73,7 +80,6 @@ bool cleanup_at_end()
         g->save_maps(); //Omap also contains the npcs who need to be saved.
     }
 
-    avatar &u = get_avatar();
     if( g->uquit == QUIT_DIED || g->uquit == QUIT_SUICIDE ) {
         std::vector<std::string> vRip;
 
@@ -567,8 +573,10 @@ void handle_key_blocking_activity()
         return;
     }
     avatar &u = get_avatar();
-    if( ( u.activity && u.activity.moves_left > 0 ) ||
-        u.has_destination() ) {
+    const bool has_unfinished_activity = u.activity && (
+            u.activity.id()->based_on() == based_on_type::NEITHER
+            || u.activity.moves_left > 0 );
+    if( has_unfinished_activity || u.has_destination() ) {
         input_context ctxt = get_default_mode_input_context();
         const std::string action = ctxt.handle_input( 0 );
         bool refresh = true;
@@ -813,8 +821,8 @@ bool do_turn()
     // If controlling a vehicle that is owned by someone else
     if( u.in_vehicle && u.controlling_vehicle ) {
         vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
-        if( veh && !veh->handle_potential_theft( dynamic_cast<player &>( u ), true ) ) {
-            veh->handle_potential_theft( dynamic_cast<player &>( u ), false, false );
+        if( veh && !veh->handle_potential_theft( dynamic_cast<Character &>( u ), true ) ) {
+            veh->handle_potential_theft( dynamic_cast<Character &>( u ), false, false );
         }
     }
     // If riding a horse - chance to spook
@@ -828,6 +836,9 @@ bool do_turn()
     // Move hordes every 2.5 min
     if( calendar::once_every( time_duration::from_minutes( 2.5 ) ) ) {
         overmap_buffer.move_hordes();
+        if( u.has_trait( trait_HAS_NEMESIS ) ) {
+            overmap_buffer.move_nemesis();
+        }
         // Hordes that reached the reality bubble need to spawn,
         // make them spawn in invisible areas only.
         m.spawn_monsters( false );
@@ -1011,10 +1022,15 @@ bool do_turn()
         if( u.activity.is_interruptible() && u.activity.interruptable_with_kb ) {
             wait_message += string_format( _( "\n%s to interrupt" ), press_x( ACTION_PAUSE ) );
         }
-        wait_refresh_rate = 5_minutes;
+        if( u.activity.id() == ACT_AUTODRIVE ) {
+            wait_refresh_rate = 1_turns;
+        } else {
+            wait_refresh_rate = 5_minutes;
+        }
     }
     if( wait_redraw ) {
-        if( g->first_redraw_since_waiting_started || calendar::once_every( 1_minutes ) ) {
+        if( g->first_redraw_since_waiting_started ||
+            calendar::once_every( std::min( 1_minutes, wait_refresh_rate ) ) ) {
             if( g->first_redraw_since_waiting_started || calendar::once_every( wait_refresh_rate ) ) {
                 ui_manager::redraw();
             }

@@ -146,6 +146,21 @@ void mission::on_creature_death( Creature &poor_dead_dude )
     }
     monster *mon = dynamic_cast<monster *>( &poor_dead_dude );
     if( mon != nullptr ) {
+
+        if( mon->is_nemesis() ) {
+            //the nemesis monster doesn't have a mission attached bc it's an overmap horde
+            //so we loop to find the appropriate mission and complete it
+            avatar &player_character = get_avatar();
+            for( std::pair<const int, mission> &e : world_missions ) {
+                mission &i = e.second;
+
+                if( i.type->goal == MGOAL_KILL_NEMESIS && player_character.getID() == i.player_id ) {
+                    i.step_complete( 1 );
+                    return;
+                }
+            }
+        }
+
         if( mon->mission_ids.empty() ) {
             return;
         }
@@ -535,6 +550,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
         case MGOAL_TALK_TO_NPC:
         case MGOAL_ASSASSINATE:
         case MGOAL_KILL_MONSTER:
+        case MGOAL_KILL_NEMESIS:
         case MGOAL_COMPUTER_TOGGLE:
             return step >= 1;
 

@@ -62,6 +62,22 @@ Two topics are special:
 - `TALK_DONE` ends the dialogue immediately.
 - `TALK_NONE` goes to the previously talked about topic.
 
+If `npc` has the follows fields, the game will display a dialogue with the indicated topic instead of default topic. 
+
+Field | Default topic ID  | Uses for...
+---|---|---
+`talk_friend` | `TALK_FRIEND` | Talk to a follower NPC
+`talk_radio` | `TALK_RADIO` | Talk to a follower NPC with two way radios
+`talk_leader` | `TALK_LEADER` | Talk to an NPC that have 5=NPCATT_LEAD
+`talk_stole_item` | `TALK_STOLE_ITEM` | Talk to an NPC that have 18=NPCATT_RECOVER_GOODS
+`talk_wake_up` | `TALK_WAKE_UP` | Talk to a sleeping NPC
+`talk_mug` | `TALK_MUG` | see "success and failure" section
+`talk_friend_guard` | `TALK_FRIEND_GUARD` | Faction camp guard
+`talk_stranger_aggressive` | `TALK_STRANGER_AGGRESSIVE` | see "success and failure" section
+`talk_stranger_scared` | `TALK_STRANGER_SCARED` | see "success and failure" section
+`talk_stranger_wary` | `TALK_STRANGER_WARY` | see "success and failure" section
+`talk_stranger_friendly` | `TALK_STRANGER_FRIENDLY` | see "success and failure" section
+`talk_stranger_neutral` | `TALK_STRANGER_NEUTRAL` | see "success and failure" section
 
 ### Validating Dialogues
 Keeping track of talk topics and making sure that all the topics referenced in responses are
@@ -570,7 +586,7 @@ Effect | Description
 `mapgen_update: mapgen_update_id_string`<br/>`mapgen_update:` *list of `mapgen_update_id_string`s*, (optional `assign_mission_target` parameters) | With no other parameters, updates the overmap tile at the player's current location with the changes described in `mapgen_update_id` (or for each `mapgen_update_id` in the list).  The `assign_mission_target` parameters can be used to change the location of the overmap tile that gets updated.  See [the missions docs](MISSIONS_JSON.md) for `assign_mission_target` parameters and [the mapgen docs](MAPGEN.md) for `mapgen_update`.
 `lightning` | Allows supercharging monster in electrical fields, legacy command for lightning weather.
 `custom_light_level: custom_light_level_int or custom_light_level_variable_object, length_min: duration_string, length_max: duration_string` | Sets the ambient light from the sun/moon to be `custom_light_level_int` ( or the value of the variable described by `custom_light_level_variable_object` see `variable_object` above).  This can vary naturally between 0 and 125 depending on the sun to give a scale. This lasts between `length_min` and `length_max long`.
-`u_set_spawn_monster: mtype_id_string, npc_set_spawn_monster: mtype_id_string`,(*optional* `group: group_bool`, *optional* `hallucination_count: hallucination_count_int or hallucination_count_variable_object`, *optional* `real_count: real_count_int or real_count_variable_object`,*optional* `min_radius: min_radius_int or max_bonus_variable_object`,*optional* `max_radius: max_radius_int or max_radius_variable_object`,*optional* `outdoor_only: outdoor_only_bool`,*optional* `target_range : target_range_int or target_range_variable_object`) | Spawns `real_count_int`( or the value of the variable described by `real_count_variable_object` see `variable_object` above)(defaults to 0) monsters and `hallucination_count_int`( or `hallucination_count_variable_object`) (defaults to 0) hallucinations near you or the npc. The spawn will be of type `mtype_id_string`, if `group_bool` is false(defaults to false,if it is true a randome monster from monster_group `mtype_id_string` will be used), if this is an empty string it will instead be a random monster within `target_range_int`( or `target_range_variable_object`) spaces of you.  The spawns will happen between `min_radius_int`( or `min_radius_variable_object`)(defaults to 1) and `max_radius_int`( or `max_radius_variable_object`)(defaults to 10) spaces of the target and if `outdoor_only_bool` is true(defaults to false) will only choose outdoor spaces.
+`u_set_spawn_monster: mtype_id_string, npc_set_spawn_monster: mtype_id_string`,(*optional* `group: group_bool`, *optional* `hallucination_count: hallucination_count_int or hallucination_count_variable_object`, *optional* `real_count: real_count_int or real_count_variable_object`,*optional* `min_radius: min_radius_int or max_bonus_variable_object`,*optional* `max_radius: max_radius_int or max_radius_variable_object`,*optional* `outdoor_only: outdoor_only_bool`,*optional* `target_range : target_range_int or target_range_variable_object`), *optional* `timespan_min: timespan_min_string`,*optional* `timespan_max: timespan_max_string` | Spawns `real_count_int`( or the value of the variable described by `real_count_variable_object` see `variable_object` above)(defaults to 0) monsters and `hallucination_count_int`( or `hallucination_count_variable_object`) (defaults to 0) hallucinations near you or the npc. The spawn will be of type `mtype_id_string`, if `group_bool` is false(defaults to false,if it is true a randome monster from monster_group `mtype_id_string` will be used), if this is an empty string it will instead be a random monster within `target_range_int`( or `target_range_variable_object`) spaces of you. The spawns will happen between `min_radius_int`( or `min_radius_variable_object`)(defaults to 1) and `max_radius_int`( or `max_radius_variable_object`)(defaults to 10) spaces of the target and if `outdoor_only_bool` is true(defaults to false) will only choose outdoor spaces. If `timespan_min` and `timespan_max` are both provided the monster or hallucination will only live for a random amount of time in between the values.
 `u_set_field: field_id_string or npc_set_field: field_id_string`,(*optional* `intensity: intensity_int or intensity_variable_onject`, *optional* `age: age_int`,*optional* `radius: radius_int or radius_variable_onject`,*optional* `outdoor_only: outdoor_only_bool`,*optional* `hit_player : hit_player_bool`) | Add a field centered on you or the npc of type `field_type_id_string`, of intensity `intensity_int`( or the value of the variable described by `real_count_variable_object` see `variable_object` above)( defaults to 1,) of radius `radius_int`( or `radius_variable_object`)(defaults to 10000000). It will only happen outdoors if `outdoor_only` is true, it defaults to false. It will hit the player as if they entered it if `hit_player` it true, it defaults to true.
 
 #### General
@@ -748,6 +764,58 @@ Condition | Type | Description
 `"is_humidity"` | int or variable_object | `true` if current humidity is at least `"is_humidity"`( or the value of the variable described see `variable_object` above).
 `"is_pressure"` | int or variable_object | `true` if current pressure is at least `"is_pressure"`( or the value of the variable described see `variable_object` above).
 `"is_weather"` | int or variable_object | `true` if current weather is `"is_weather"`.
+
+
+#### Compare itergers & arithmetics
+`"compare_int"` can be used to compare two values to each other, while `"arithmetic"` can be used to take up to two values, perform arithmetic on them, and then save them in a third value. The syntax is as follows.
+```
+{
+  "text": "If player strength is more than or equal to 5, sets time since cataclysm to the player's focus times the player's maximum mana.",
+  "topic": "TALK_DONE",
+  "condition": { "compare_int": [ { "u_val": "strength" }, { "const": 5 } ], "op": ">=" }
+  "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, { "u_val": "focus" }, { "u_val": "mana_max" } ], "op": "*" }
+},
+```
+
+`"compare_int"` supports the following opperators: `"=="`, `"="` (Both are treated the same, as a compare), `"!="`, `"<="`, `">="`, `"<"`, and `">"`.
+
+`"arithmetic"` supports the following opperators: `"*"`, `"/"`, `"+"`, `"-"`, `"%"`, `"&"`, `"|"`, `"<<"`, `">>"`, `"~"`, `"^"`, `"="`, `"*="`, `"/="`, `"+="`, `"-="`, `"%="`, `"++"`, and `"--"`
+
+To get player character properties, use `"u_val"`. To get NPC properties, use same syntax but `"npc_val"` instead. A list of values that can be read and/or witen to follows.
+
+Example | Description
+--- | ---
+`"const": 5` | A constant value, in this case 5. Can be read but not written to.
+`"time": "5 days"` | A constant time value. Will be converted to turns. Can be read but not written to.
+`"time_since_cataclysm": "turns"` | Time since the start of the cataclysm in turns. Can instead take other time units such as minutes, hours, days, weeks, seasons, and years.
+`"rand": 20` | A random value between 0 and a given value, in this case 20. Can be read but not written to.
+`"weather": "temperature"` | Current temperature.
+`"weather": "windpower"` | Current windpower.
+`"weather": "humidity"` | Current humidity.
+`"weather": "pressure"` | Current pressure.
+`"u_val": "strength"` | Player character's strength. Can be read but not written to. Replace `"strength"` with `"dexterity"`, `"intelligence"`, or `"perception"` to get such values.
+`"u_val": "strength_base"` | Player character's strength. Replace `"strength_base"` with `"dexterity_base"`, `"intelligence_base"`, or `"perception_base"` to get such values.
+`"u_val": "var"` | Custom variable. `"var_name"`, `"type"`, and `"context"` must also be specified.
+`"u_val": "time_since_var"` | Time since a custom variable was set.  Unit used it turns. `"var_name"`, `"type"`, and `"context"` must also be specified.
+`"u_val": "allies"` | Number of allies the character has. Only supported for the player character. Can be read but not written to.
+`"u_val": "cash"` | Ammount of money the character has. Only supported for the player character. Can be read but not written to.
+`"u_val": "owed"` | Owed money to the NPC you're talking to.
+`"u_val": "skill_level"` | Level in given skill. `"skill"` must also be specified.
+`"u_val": "pos_x"` | Player character x coordinate. "pos_y" and "pos_z" also works as expected.
+`"u_val": "pain"` | Pain level.
+`"u_val": "power"` | Bionic power in milijoule.
+`"u_val": "power_max"` | Max bionic power in milijoule. Can be read but not written to.
+`"u_val": "power_percentage"` | Percentage of max bionic power. Should be a number between 0 to 100.
+`"u_val": "morale"` | The current morale. Can be read but not written to.
+`"u_val": "mana"` | Current mana.
+`"u_val": "mana_max"` | Max mana. Can be read but not written to.
+`"u_val": "hunger"` | Current perceived hunger. Can be read but not written to.
+`"u_val": "thirst"` | Current thirst.
+`"u_val": "stored_kcal"` | Stored kcal in the character's body. 55'000 is considered healthy. 
+`"u_val": "stored_kcal_percentage"` | a value of 100 represents 55'000 kcal, which is considered healthy.
+`"u_val": "item_count"` | Number of a given item in the character's inventory. `"item"` must also be specified. Can be read but not written to.
+`"u_val": "exp"` | Total experience earned. Not supported for NPCs. Can be read but not written to.
+
 
 #### Sample responses with conditions and effects
 ```json

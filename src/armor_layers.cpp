@@ -1,5 +1,3 @@
-#include "player.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <climits>
 #include <cstddef>
@@ -424,7 +422,7 @@ static void draw_grid( const catacurses::window &w, int left_pane_w, int mid_pan
     wnoutrefresh( w );
 }
 
-void player::sort_armor()
+void Character::sort_armor()
 {
     /* Define required height of the right pane:
     * + 3 - horizontal lines;

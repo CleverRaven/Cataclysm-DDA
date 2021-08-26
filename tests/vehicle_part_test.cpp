@@ -173,7 +173,7 @@ static void test_craft_via_rig( const std::vector<item> &items, int give_battery
         REQUIRE( character.activity.id() == activity_id( "ACT_CRAFT" ) );
         while( character.activity.id() == activity_id( "ACT_CRAFT" ) ) {
             character.moves = 100;
-            character.activity.do_turn( *character.as_player() );
+            character.activity.do_turn( character );
         }
 
         REQUIRE( character.weapon.type->get_id() == recipe.result() );
