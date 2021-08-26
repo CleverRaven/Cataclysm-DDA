@@ -381,5 +381,32 @@
     "base_energy_cost": 6,
     "energy_source": "HP",
     "difficulty": 6
+  },
+  {
+    "id": "rupture",
+    "type": "SPELL",
+    "name": "Rupture",
+    "description": "You pour mana into an unwilling and unprepared vessel, causing cellular break-down, internal hemoraging, and leylines to become muddled. Immensely gruesome, crude, and was once illeagal world-wide, not that it matters now.",
+    "effect": "attack",
+    "shape": "blast",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SOMATIC", "NO_PROJECTILE", "LOUD" ],
+    "max_level": 30,
+    "min_range": 1,
+    "max_range": 1,
+    "min_damage": 2,
+    "max_damage": 2,
+    "base_casting_time": 50,
+    "base_energy_cost": 500,
+    "damage_type": "pure",
+    "spell_class": "ANIMIST",
+    "min_duration": 100,
+    "max_duration": 1600,
+    "duration_increment": 50,
+    "min_dot": 10,
+    "max_dot": 100,
+    "dot_increment": 9
+    "energy_source": "MANA",
+    "difficulty": 1
   }
 ]
