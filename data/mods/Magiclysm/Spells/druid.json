@@ -454,7 +454,7 @@
     "valid_targets": [ "self" ],
     "flags": [ "SOMATIC", "NO_PROJECTILE", "CONCENTRATE", "VERBAL"  ],
     "max_level": 30,
-    "spell_class": "ANIMIST",
+    "spell_class": "DRUID",
     "energy_source": "MANA",
     "difficulty": 8,
     "damage_type": "pure",
