@@ -457,7 +457,7 @@
     "spell_class": "ANIMIST",
     "energy_source": "MANA",
     "difficulty": 8,
-    "damage_type": "pure"
+    "damage_type": "pure",
     "base_casting_time": 10000,
     "base_energy_cost": 1000,
     "min_aoe": 4,
