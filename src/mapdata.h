@@ -23,14 +23,14 @@ struct ter_t;
 using ter_str_id = string_id<ter_t>;
 
 class JsonObject;
-class player;
+class Character;
 struct iexamine_actor;
 struct furn_t;
 struct itype;
 struct tripoint;
 
-using iexamine_function = void ( * )( player &, const tripoint & );
-using iexamine_function_ref = void( & )( player &, const tripoint & );
+using iexamine_function = void ( * )( Character &, const tripoint & );
+using iexamine_function_ref = void( & )( Character &, const tripoint & );
 
 struct map_bash_info {
     int str_min;            // min str(*) required to bash
@@ -382,7 +382,7 @@ struct map_data_common_t {
         bool has_examine( iexamine_function_ref func ) const;
         bool has_examine( const std::string &action ) const;
         void set_examine( iexamine_function_ref func );
-        void examine( player &, const tripoint & ) const;
+        void examine( Character &, const tripoint & ) const;
 
         int light_emitted = 0;
         // The amount of movement points required to pass this terrain by default.
@@ -475,6 +475,7 @@ struct ter_t : map_data_common_t {
     translation lockpick_message; // Lockpick action: message when successfully lockpicked
 
     cata::value_ptr<activity_data_ter> boltcut; // Bolt cutting action data
+    cata::value_ptr<activity_data_ter> oxytorch; // Oxytorch action data
 
     std::string trap_id_str;     // String storing the id string of the trap.
     ter_str_id transforms_into; // Transform into what terrain?
@@ -525,6 +526,7 @@ struct furn_t : map_data_common_t {
     int move_str_req = 0; //The amount of strength required to move through this furniture easily.
 
     cata::value_ptr<activity_data_furn> boltcut; // Bolt cutting action data
+    cata::value_ptr<activity_data_furn> oxytorch; // Oxytorch action data
 
     cata::value_ptr<furn_workbench_info> workbench;
 

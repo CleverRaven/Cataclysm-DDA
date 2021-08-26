@@ -137,7 +137,6 @@
 #include "path_info.h"
 #include "pathfinding.h"
 #include "pickup.h"
-#include "player.h"
 #include "player_activity.h"
 #include "popup.h"
 #include "profession.h"
@@ -211,6 +210,7 @@ static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_flu( "flu" );
+static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_no_sight( "no_sight" );
@@ -243,7 +243,6 @@ static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
-static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_THICKSKIN( "THICKSKIN" );
@@ -255,6 +254,8 @@ static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction
 static const faction_id faction_your_followers( "your_followers" );
 
 static const flag_id json_flag_SPLINT( "SPLINT" );
+
+static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
 
 #if defined(__ANDROID__)
 extern bool add_key_to_quick_shortcuts( int key, const std::string &category, bool back );
@@ -849,6 +850,7 @@ bool game::start_game()
         new_mission->assign( u );
     }
 
+
     get_event_bus().send<event_type::game_start>( u.getID(), u.name, u.male, u.prof->ident(),
             u.custom_profession, getVersionString() );
     time_played_at_last_load = std::chrono::seconds( 0 );
@@ -1144,7 +1146,7 @@ void game::set_driving_view_offset( const point &p )
     u.view_offset.y += driving_view_offset.y;
 }
 
-void game::catch_a_monster( monster *fish, const tripoint &pos, player *p,
+void game::catch_a_monster( monster *fish, const tripoint &pos, Character *p,
                             const time_duration &catch_duration ) // catching function
 {
     //spawn the corpse, rotten by a part of the duration
@@ -1158,14 +1160,18 @@ void game::catch_a_monster( monster *fish, const tripoint &pos, player *p,
     fish->die( p );
 }
 
-static bool cancel_auto_move( player &p, const std::string &text )
+static bool cancel_auto_move( Character &you, const std::string &text )
 {
-    if( p.has_destination() && query_yn( _( "%s, cancel Auto-move?" ), text ) )  {
-        add_msg( m_warning, _( "%s. Auto-move canceled" ), text );
-        if( !p.omt_path.empty() ) {
-            p.omt_path.clear();
+    if( !you.has_destination() ) {
+        return false;
+    }
+    g->invalidate_main_ui_adaptor();
+    if( query_yn( _( "%s Cancel auto-move?" ), text ) )  {
+        add_msg( m_warning, _( "%s Auto-move canceled." ), text );
+        if( !you.omt_path.empty() ) {
+            you.omt_path.clear();
         }
-        p.clear_destination();
+        you.clear_destination();
         return true;
     }
     return false;
@@ -1222,10 +1228,10 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
 
 bool game::cancel_activity_query( const std::string &text )
 {
-    if( u.has_distant_destination() ) {
+    if( u.has_destination() ) {
         if( cancel_auto_move( u, text ) ) {
             return true;
-        } else {
+        } else if( u.has_distant_destination() ) {
             u.set_destination( u.get_auto_move_route(), player_activity( activity_id( "ACT_TRAVELLING" ) ) );
             return false;
         }
@@ -1233,6 +1239,7 @@ bool game::cancel_activity_query( const std::string &text )
     if( !u.activity ) {
         return false;
     }
+    g->invalidate_main_ui_adaptor();
     if( query_yn( "%s %s", text, u.activity.get_stop_phrase() ) ) {
         u.cancel_activity();
         u.clear_destination();
@@ -1381,7 +1388,7 @@ void game::validate_mounted_npcs()
 {
     for( monster &m : all_monsters() ) {
         if( m.has_effect( effect_ridden ) && m.mounted_player_id.is_valid() ) {
-            player *mounted_pl = g->critter_by_id<player>( m.mounted_player_id );
+            Character *mounted_pl = g->critter_by_id<Character>( m.mounted_player_id );
             if( !mounted_pl ) {
                 // Target no longer valid.
                 m.mounted_player_id = character_id();
@@ -4316,7 +4323,6 @@ const T *game::critter_at( const tripoint &p, bool allow_hallucination ) const
 
 template const monster *game::critter_at<monster>( const tripoint &, bool ) const;
 template const npc *game::critter_at<npc>( const tripoint &, bool ) const;
-template const player *game::critter_at<player>( const tripoint &, bool ) const;
 template const avatar *game::critter_at<avatar>( const tripoint &, bool ) const;
 template avatar *game::critter_at<avatar>( const tripoint &, bool );
 template const Character *game::critter_at<Character>( const tripoint &, bool ) const;
@@ -4349,7 +4355,6 @@ shared_ptr_fast<T> game::shared_from( const T &critter )
 
 template shared_ptr_fast<Creature> game::shared_from<Creature>( const Creature & );
 template shared_ptr_fast<Character> game::shared_from<Character>( const Character & );
-template shared_ptr_fast<player> game::shared_from<player>( const player & );
 template shared_ptr_fast<avatar> game::shared_from<avatar>( const avatar & );
 template shared_ptr_fast<monster> game::shared_from<monster>( const monster & );
 template shared_ptr_fast<npc> game::shared_from<npc>( const npc & );
@@ -4366,7 +4371,6 @@ T *game::critter_by_id( const character_id &id )
 
 // monsters don't have ids
 template Character *game::critter_by_id<Character>( const character_id & );
-template player *game::critter_by_id<player>( const character_id & );
 template npc *game::critter_by_id<npc>( const character_id & );
 template Creature *game::critter_by_id<Creature>( const character_id & );
 
@@ -4520,7 +4524,8 @@ bool game::spawn_hallucination( const tripoint &p )
         }
     }
 
-    return spawn_hallucination( p, MonsterGenerator::generator().get_valid_hallucination() );
+    return spawn_hallucination( p, MonsterGenerator::generator().get_valid_hallucination(),
+                                cata::nullopt );
 }
 /**
  * Attempts to spawn a hallucination at given location.
@@ -4528,12 +4533,15 @@ bool game::spawn_hallucination( const tripoint &p )
  * a monster already in the target square.
  * @return Whether or not a hallucination was successfully spawned.
  */
-bool game::spawn_hallucination( const tripoint &p, const mtype_id &mt )
+bool game::spawn_hallucination( const tripoint &p, const mtype_id &mt,
+                                cata::optional<time_duration> lifespan )
 {
     const shared_ptr_fast<monster> phantasm = make_shared_fast<monster>( mt );
     phantasm->hallucination = true;
     phantasm->spawn( p );
-
+    if( lifespan.has_value() ) {
+        phantasm->set_summon_time( lifespan.value() );
+    }
     //Don't attempt to place phantasms inside of other creatures
     if( !critter_at( phantasm->pos(), true ) ) {
         return critter_tracker->add( phantasm );
@@ -4583,8 +4591,8 @@ bool game::swap_critters( Creature &a, Creature &b )
         return true;
     }
 
-    player *u_or_npc = dynamic_cast< player * >( &first );
-    player *other_npc = dynamic_cast< player * >( &second );
+    Character *u_or_npc = dynamic_cast< Character * >( &first );
+    Character *other_npc = dynamic_cast< Character * >( &second );
 
     if( u_or_npc->in_vehicle ) {
         m.unboard_vehicle( u_or_npc->pos() );
@@ -4673,7 +4681,7 @@ bool game::revive_corpse( const tripoint &p, item &it )
     return place_critter_at( newmon_ptr, p );
 }
 
-void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &installer )
+void game::save_cyborg( item *cyborg, const tripoint &couch_pos, Character &installer )
 {
     int damage = cyborg->damage();
     int dmg_lvl = cyborg->damage_level();
@@ -4777,7 +4785,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
         return false;
     }
     const bool can_see = u.sees( tripoint( x, y, p.z ) );
-    player *npc_or_player = critter_at<player>( tripoint( x, y, p.z ), false );
+    Character *npc_or_player = critter_at<Character>( tripoint( x, y, p.z ), false );
     if( npc_or_player != nullptr ) {
         if( bash_dmg <= 0 ) {
             return false;
@@ -4937,17 +4945,17 @@ void game::control_vehicle()
                           veh->has_engine_type( fuel_type_animal, false ) && veh->has_harnessed_animal() ) ) &&
                u.in_vehicle ) {
         if( !veh->interact_vehicle_locked() ) {
-            veh->handle_potential_theft( dynamic_cast<player &>( u ) );
+            veh->handle_potential_theft( dynamic_cast<Character &>( u ) );
             return;
         }
         if( veh->engine_on ) {
-            if( !veh->handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
+            if( !veh->handle_potential_theft( dynamic_cast<Character &>( u ) ) ) {
                 return;
             }
             u.controlling_vehicle = true;
             add_msg( _( "You take control of the %s." ), veh->name );
         } else {
-            if( !veh->handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
+            if( !veh->handle_potential_theft( dynamic_cast<Character &>( u ) ) ) {
                 return;
             }
             veh->start_engines( true );
@@ -4989,7 +4997,7 @@ void game::control_vehicle()
         // If we hit neither of those, there's only one set of vehicle controls, which should already have been found.
         if( vehicle_controls ) {
             veh = &vehicle_controls->vehicle();
-            if( !veh->handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
+            if( !veh->handle_potential_theft( dynamic_cast<Character &>( u ) ) ) {
                 return;
             }
             veh->use_controls( *vehicle_position );
@@ -6738,7 +6746,7 @@ void game::draw_trail_to_square( const tripoint &t, bool bDrawX )
 
 static void centerlistview( const tripoint &active_item_position, int ui_width )
 {
-    player &u = get_avatar();
+    Character &u = get_avatar();
     if( get_option<std::string>( "SHIFT_LIST_ITEM_VIEW" ) != "false" ) {
         u.view_offset.z = active_item_position.z;
         if( get_option<std::string>( "SHIFT_LIST_ITEM_VIEW" ) == "centered" ) {
@@ -8950,7 +8958,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
 
     if( m.impassable( dest_loc ) && !pushing && !shifting_furniture ) {
         if( vp_there && u.mounted_creature && u.mounted_creature->has_flag( MF_RIDEABLE_MECH ) &&
-            vp_there->vehicle().handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
+            vp_there->vehicle().handle_potential_theft( dynamic_cast<Character &>( u ) ) ) {
             tripoint diff = dest_loc - u.pos();
             if( diff.x < 0 ) {
                 diff.x -= 2;
@@ -8967,7 +8975,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         }
         return false;
     }
-    if( vp_there && !vp_there->vehicle().handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
+    if( vp_there && !vp_there->vehicle().handle_potential_theft( dynamic_cast<Character &>( u ) ) ) {
         return false;
     }
     if( u.is_mounted() && !pushing && vp_there ) {
@@ -9064,7 +9072,8 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     const bool fungus = m.has_flag_ter_or_furn( "FUNGUS", u.pos() ) ||
                         m.has_flag_ter_or_furn( "FUNGUS",
                                 dest_loc ); //fungal furniture has no slowing effect on mycus characters
-    const bool slowed = ( ( !u.has_trait( trait_PARKOUR ) && ( mcost_to > 2 || mcost_from > 2 ) ) ||
+    const bool slowed = ( ( !u.has_proficiency( proficiency_prof_parkour ) && ( mcost_to > 2 ||
+                            mcost_from > 2 ) ) ||
                           mcost_to > 4 || mcost_from > 4 ) &&
                         !( u.has_trait( trait_M_IMMUNE ) && fungus );
     if( slowed && !u.is_mounted() ) {
@@ -9224,7 +9233,7 @@ point game::place_player( const tripoint &dest_loc )
     }
     ///\EFFECT_DEX increases chance of avoiding cuts on sharp terrain
     if( m.has_flag( "SHARP", dest_loc ) && !one_in( 3 ) && !x_in_y( 1 + u.dex_cur / 2.0, 40 ) &&
-        ( !u.in_vehicle && !m.veh_at( dest_loc ) ) && ( !u.has_trait( trait_PARKOUR ) ||
+        ( !u.in_vehicle && !m.veh_at( dest_loc ) ) && ( !u.has_proficiency( proficiency_prof_parkour ) ||
                 one_in( 4 ) ) && ( u.has_trait( trait_THICKSKIN ) ? !one_in( 8 ) : true ) ) {
         if( u.is_mounted() ) {
             add_msg( _( "Your %s gets cut!" ), u.mounted_creature->get_name() );
@@ -9975,6 +9984,7 @@ void game::water_affect_items( Character &ch ) const
 {
     std::vector<item_location> dissolved;
     std::vector<item_location> destroyed;
+    std::vector<item_location> wet;
 
     for( item_location &loc : ch.all_items_loc() ) {
         // check flag first because its cheaper
@@ -9983,12 +9993,15 @@ void game::water_affect_items( Character &ch ) const
         } else if( loc->has_flag( flag_WATER_BREAK ) && !loc->is_broken()
                    && !loc.protected_from_liquids() ) {
             destroyed.emplace_back( loc );
+        } else if( loc->has_flag( flag_WATER_BREAK_ACTIVE ) && !loc->is_broken()
+                   && !loc.protected_from_liquids() ) {
+            wet.emplace_back( loc );
         } else if( loc->typeId() == itype_towel && !loc.protected_from_liquids() ) {
             loc->convert( itype_towel_wet );
         }
     }
 
-    if( dissolved.empty() && destroyed.empty() ) {
+    if( dissolved.empty() && destroyed.empty() && wet.empty() ) {
         return;
     }
 
@@ -10003,6 +10016,12 @@ void game::water_affect_items( Character &ch ) const
                                 ch.disp_name( true ), it->display_name() );
         it->deactivate();
         it->set_flag( flag_ITEM_BROKEN );
+    }
+
+    for( item_location &it : wet ) {
+        const int wetness_add = 5100 * std::log10( units::to_milliliter( it->volume() ) );
+        it->wetness += wetness_add;
+        it->wetness = std::min( it->wetness, 5 * wetness_add );
     }
 }
 
@@ -10023,13 +10042,16 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
         return;
     }
 
+    // Target creature shouldn't be grabbed if thrown
+    c->remove_effect( effect_grabbed );
+
     int steps = 0;
     bool thru = true;
     const bool is_u = ( c == &u );
     // Don't animate critters getting bashed if animations are off
     const bool animate = is_u || get_option<bool>( "ANIMATIONS" );
 
-    player *p = dynamic_cast<player *>( c );
+    Character *you = dynamic_cast<Character *>( c );
 
     tileray tdir( dir );
     int range = flvel / 10;
@@ -10086,15 +10108,15 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
 
         flvel -= force;
         if( thru ) {
-            if( p != nullptr ) {
-                if( p->in_vehicle ) {
-                    m.unboard_vehicle( p->pos() );
+            if( you != nullptr ) {
+                if( you->in_vehicle ) {
+                    m.unboard_vehicle( you->pos() );
                 }
                 // If we're flinging the player around, make sure the map stays centered on them.
                 if( is_u ) {
                     update_map( pt.x, pt.y );
                 } else {
-                    p->setpos( pt );
+                    you->setpos( pt );
                 }
             } else if( !critter_at( pt ) ) {
                 // Dying monster doesn't always leave an empty tile (blob spawning etc.)
@@ -10140,8 +10162,8 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
     } else {
         c->underwater = true;
 
-        if( p != nullptr ) {
-            water_affect_items( *p );
+        if( you != nullptr ) {
+            water_affect_items( *you );
         }
 
         if( is_u ) {
@@ -11473,7 +11495,7 @@ game::monster_range::monster_range( game &game_ref )
     items.insert( items.end(), monsters.begin(), monsters.end() );
 }
 
-game::Creature_range::Creature_range( game &game_ref ) : u( &game_ref.u, []( player * ) { } )
+game::Creature_range::Creature_range( game &game_ref ) : u( &game_ref.u, []( Character * ) { } )
 {
     const auto &monsters = game_ref.critter_tracker->get_monsters_list();
     items.insert( items.end(), monsters.begin(), monsters.end() );
@@ -11537,7 +11559,7 @@ bool game::slip_down( bool check_for_traps )
     ///\EFFECT_STR decreases chances of slipping while climbing
     int climb = u.dex_cur + u.str_cur;
 
-    if( u.has_trait( trait_PARKOUR ) ) {
+    if( u.has_proficiency( proficiency_prof_parkour ) ) {
         climb *= 2;
         add_msg( m_info, _( "Your skill in parkour makes it easier to climb." ) );
     }

@@ -274,8 +274,15 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "manipulator_max", manipulator_max );
 
     optional( jo, was_loaded, "lifting_score", lifting_score );
+    optional( jo, was_loaded, "movement_speed_score", movement_speed_score );
+    optional( jo, was_loaded, "balance_score", balance_score );
 
     optional( jo, was_loaded, "blocking_score", blocking_score );
+
+    optional( jo, was_loaded, "breathing_score", breathing_score );
+    optional( jo, was_loaded, "swim_score", swim_score );
+
+    optional( jo, was_loaded, "vision_score", vision_score );
 
     part_side = jo.get_enum_value<side>( "side" );
 }
@@ -496,6 +503,33 @@ float bodypart::get_lifting_score() const
     return wound_adjusted_limb_value( id->lifting_score );
 }
 
+float bodypart::get_breathing_score() const
+{
+    return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->breathing_score ) );
+}
+
+float bodypart::get_vision_score() const
+{
+    return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->vision_score ) );
+}
+
+float bodypart::get_movement_speed_score() const
+{
+    return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->movement_speed_score ) );
+}
+
+float bodypart::get_balance_score() const
+{
+    return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->balance_score ) );
+}
+
+float bodypart::get_swim_score( const double swim_skill ) const
+{
+    const float mitigated_score = id->swim_score * ( 1.0f + ( swim_skill / 10.0f ) );
+    return std::min( encumb_adjusted_limb_value(
+                         wound_adjusted_limb_value( mitigated_score ) ), id->swim_score );
+}
+
 int bodypart::get_hp_cur() const
 {
     return hp_cur;
@@ -665,6 +699,7 @@ void bodypart::serialize( JsonOut &json ) const
     json.member( "id", id );
     json.member( "hp_cur", hp_cur );
     json.member( "hp_max", hp_max );
+    json.member( "healed_total", healed_total );
     json.member( "damage_bandaged", damage_bandaged );
     json.member( "damage_disinfected", damage_disinfected );
 
@@ -682,6 +717,7 @@ void bodypart::deserialize( JsonIn &jsin )
     jo.read( "id", id, true );
     jo.read( "hp_cur", hp_cur, true );
     jo.read( "hp_max", hp_max, true );
+    jo.read( "healed_total", healed_total );
     jo.read( "damage_bandaged", damage_bandaged, true );
     jo.read( "damage_disinfected", damage_disinfected, true );
 

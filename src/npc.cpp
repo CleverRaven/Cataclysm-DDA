@@ -242,6 +242,42 @@ void npc_template::load( const JsonObject &jsobj )
             guy.miss_ids.emplace_back( mission_type_id( line ) );
         }
     }
+    if( jsobj.has_string( "talk_radio" ) ) {
+        guy.chatbin.talk_radio = jsobj.get_string( "talk_radio" );
+    }
+    if( jsobj.has_string( "talk_leader" ) ) {
+        guy.chatbin.talk_leader = jsobj.get_string( "talk_leader" );
+    }
+    if( jsobj.has_string( "talk_friend" ) ) {
+        guy.chatbin.talk_friend = jsobj.get_string( "talk_friend" );
+    }
+    if( jsobj.has_string( "talk_stole_item" ) ) {
+        guy.chatbin.talk_stole_item = jsobj.get_string( "talk_stole_item" );
+    }
+    if( jsobj.has_string( "talk_wake_up" ) ) {
+        guy.chatbin.talk_wake_up = jsobj.get_string( "talk_wake_up" );
+    }
+    if( jsobj.has_string( "talk_mug" ) ) {
+        guy.chatbin.talk_mug = jsobj.get_string( "talk_mug" );
+    }
+    if( jsobj.has_string( "talk_stranger_aggressive" ) ) {
+        guy.chatbin.talk_stranger_aggressive = jsobj.get_string( "talk_stranger_aggressive" );
+    }
+    if( jsobj.has_string( "talk_stranger_scared" ) ) {
+        guy.chatbin.talk_stranger_scared = jsobj.get_string( "talk_stranger_scared" );
+    }
+    if( jsobj.has_string( "talk_stranger_wary" ) ) {
+        guy.chatbin.talk_stranger_wary = jsobj.get_string( "talk_stranger_wary" );
+    }
+    if( jsobj.has_string( "talk_stranger_friendly" ) ) {
+        guy.chatbin.talk_stranger_friendly = jsobj.get_string( "talk_stranger_friendly" );
+    }
+    if( jsobj.has_string( "talk_stranger_neutral" ) ) {
+        guy.chatbin.talk_stranger_neutral = jsobj.get_string( "talk_stranger_neutral" );
+    }
+    if( jsobj.has_string( "talk_friend_guard" ) ) {
+        guy.chatbin.talk_friend_guard = jsobj.get_string( "talk_friend_guard" );
+    }
     npc_templates.emplace( string_id<npc_template>( guy.idz ), std::move( tem ) );
 }
 
@@ -319,6 +355,18 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     attitude = tguy.attitude;
     mission = tguy.mission;
     chatbin.first_topic = tguy.chatbin.first_topic;
+    chatbin.talk_radio = tguy.chatbin.talk_radio;
+    chatbin.talk_leader = tguy.chatbin.talk_leader;
+    chatbin.talk_friend = tguy.chatbin.talk_friend;
+    chatbin.talk_stole_item = tguy.chatbin.talk_stole_item;
+    chatbin.talk_wake_up = tguy.chatbin.talk_wake_up;
+    chatbin.talk_mug = tguy.chatbin.talk_mug;
+    chatbin.talk_stranger_aggressive = tguy.chatbin.talk_stranger_aggressive;
+    chatbin.talk_stranger_scared = tguy.chatbin.talk_stranger_scared;
+    chatbin.talk_stranger_wary = tguy.chatbin.talk_stranger_wary;
+    chatbin.talk_stranger_friendly = tguy.chatbin.talk_stranger_friendly;
+    chatbin.talk_stranger_neutral = tguy.chatbin.talk_stranger_neutral;
+    chatbin.talk_friend_guard = tguy.chatbin.talk_friend_guard;
     for( const mission_type_id &miss_id : tguy.miss_ids ) {
         add_new_mission( mission::reserve_new( miss_id, getID() ) );
     }
@@ -875,7 +923,7 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
                                                book.tname() ) );
         return false;
     }
-    player *pl = dynamic_cast<player *>( this );
+    Character *pl = dynamic_cast<Character *>( this );
     if( !pl ) {
         return false;
     }
@@ -906,7 +954,7 @@ bool npc::can_read( const item &book, std::vector<std::string> &fail_reasons )
     return true;
 }
 
-int npc::time_to_read( const item &book, const player &reader ) const
+int npc::time_to_read( const item &book, const Character &reader ) const
 {
     const auto &type = book.type->book;
     const skill_id &skill = type->skill;
@@ -928,7 +976,7 @@ int npc::time_to_read( const item &book, const player &reader ) const
 void npc::do_npc_read()
 {
     // Can read items from inventory or within one tile (including in vehicles)
-    player *npc_player = as_player();
+    Character *npc_player = as_character();
     if( !npc_player ) {
         return;
     }
@@ -1122,31 +1170,31 @@ void npc::invalidate_range_cache()
     }
 }
 
-void npc::form_opinion( const player &u )
+void npc::form_opinion( const Character &you )
 {
     // FEAR
-    if( u.weapon.is_gun() ) {
+    if( you.weapon.is_gun() ) {
         // TODO: Make bows not guns
         if( weapon.is_gun() ) {
             op_of_u.fear += 2;
         } else {
             op_of_u.fear += 6;
         }
-    } else if( u.weapon_value( u.weapon ) > 20 ) {
+    } else if( you.weapon_value( you.weapon ) > 20 ) {
         op_of_u.fear += 2;
-    } else if( !u.is_armed() ) {
+    } else if( !you.is_armed() ) {
         // Unarmed, but actually unarmed ("unarmed weapons" are not unarmed)
         op_of_u.fear -= 3;
     }
 
     ///\EFFECT_STR increases NPC fear of the player
-    if( u.str_max >= 16 ) {
+    if( you.str_max >= 16 ) {
         op_of_u.fear += 2;
-    } else if( u.str_max >= 12 ) {
+    } else if( you.str_max >= 12 ) {
         op_of_u.fear += 1;
-    } else if( u.str_max <= 3 ) {
+    } else if( you.str_max <= 3 ) {
         op_of_u.fear -= 3;
-    } else if( u.str_max <= 5 ) {
+    } else if( you.str_max <= 5 ) {
         op_of_u.fear -= 1;
     }
 
@@ -1168,25 +1216,25 @@ void npc::form_opinion( const player &u )
         }
     }
 
-    if( u.has_trait( trait_SAPIOVORE ) ) {
+    if( you.has_trait( trait_SAPIOVORE ) ) {
         op_of_u.fear += 10; // Sapiovores = Scary
     }
-    if( u.has_trait( trait_TERRIFYING ) ) {
+    if( you.has_trait( trait_TERRIFYING ) ) {
         op_of_u.fear += 6;
     }
 
     int u_ugly = 0;
-    for( trait_id &mut : u.get_mutations() ) {
+    for( trait_id &mut : you.get_mutations() ) {
         u_ugly += mut.obj().ugliness;
     }
     op_of_u.fear += u_ugly / 2;
     op_of_u.trust -= u_ugly / 3;
 
-    if( u.get_stim() > 20 ) {
+    if( you.get_stim() > 20 ) {
         op_of_u.fear++;
     }
 
-    if( u.has_effect( effect_drunk ) ) {
+    if( you.has_effect( effect_drunk ) ) {
         op_of_u.fear -= 2;
     }
 
@@ -1197,23 +1245,23 @@ void npc::form_opinion( const player &u )
         op_of_u.trust += 1;
     }
 
-    if( u.weapon.is_gun() ) {
+    if( you.weapon.is_gun() ) {
         op_of_u.trust -= 2;
-    } else if( !u.is_armed() ) {
+    } else if( !you.is_armed() ) {
         op_of_u.trust += 2;
     }
 
     // TODO: More effects
-    if( u.has_effect( effect_high ) ) {
+    if( you.has_effect( effect_high ) ) {
         op_of_u.trust -= 1;
     }
-    if( u.has_effect( effect_drunk ) ) {
+    if( you.has_effect( effect_drunk ) ) {
         op_of_u.trust -= 2;
     }
-    if( u.get_stim() > 20 || u.get_stim() < -20 ) {
+    if( you.get_stim() > 20 || you.get_stim() < -20 ) {
         op_of_u.trust -= 1;
     }
-    if( u.get_painkiller() > 30 ) {
+    if( you.get_painkiller() > 30 ) {
         op_of_u.trust -= 1;
     }
 
@@ -1250,7 +1298,7 @@ void npc::form_opinion( const player &u )
         set_attitude( NPCATT_FLEE_TEMP );
     }
 
-    add_msg_debug( debugmode::DF_NPC, "%s formed an opinion of u: %s", name,
+    add_msg_debug( debugmode::DF_NPC, "%s formed an opinion of you: %s", name,
                    npc_attitude_id( attitude ) );
 }
 
@@ -1278,7 +1326,7 @@ void npc::mutiny()
     if( assigned_camp ) {
         assigned_camp = cata::nullopt;
     }
-    chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
+    chatbin.first_topic = chatbin.talk_stranger_neutral;
     set_attitude( NPCATT_NULL );
     say( _( "<follower_mutiny>  Adios, motherfucker!" ), sounds::sound_t::order );
     if( seen ) {
@@ -1382,12 +1430,12 @@ int npc::assigned_missions_value()
     return ret;
 }
 
-std::vector<skill_id> npc::skills_offered_to( const player &p ) const
+std::vector<skill_id> npc::skills_offered_to( const Character &you ) const
 {
     std::vector<skill_id> ret;
     for( const auto &pair : *_skills ) {
         const skill_id &id = pair.first;
-        if( p.get_knowledge_level( id ) < pair.second.level() ) {
+        if( you.get_knowledge_level( id ) < pair.second.level() ) {
             ret.push_back( id );
         }
     }
@@ -1405,19 +1453,19 @@ std::vector<proficiency_id> npc::proficiencies_offered_to( const Character &guy 
     return ret;
 }
 
-std::vector<matype_id> npc::styles_offered_to( const player &p ) const
+std::vector<matype_id> npc::styles_offered_to( const Character &you ) const
 {
-    return p.martial_arts_data->get_unknown_styles( *martial_arts_data );
+    return you.martial_arts_data->get_unknown_styles( *martial_arts_data );
 }
 
-std::vector<spell_id> npc::spells_offered_to( player &p )
+std::vector<spell_id> npc::spells_offered_to( Character &you )
 {
     std::vector<spell_id> teachable;
     for( const spell_id &sp : magic->spells() ) {
         const spell &teacher_spell = magic->get_spell( sp );
-        if( p.magic->can_learn_spell( p, sp ) ) {
-            if( p.magic->knows_spell( sp ) ) {
-                const spell &student_spell = p.magic->get_spell( sp );
+        if( you.magic->can_learn_spell( you, sp ) ) {
+            if( you.magic->knows_spell( sp ) ) {
+                const spell &student_spell = you.magic->get_spell( sp );
                 if( student_spell.is_max_level() ||
                     student_spell.get_level() >= teacher_spell.get_level() ) {
                     continue;
@@ -1905,9 +1953,10 @@ void npc::set_faction_ver( int new_version )
     faction_api_version = new_version;
 }
 
-bool npc::has_faction_relationship( const player &p, const npc_factions::relationship flag ) const
+bool npc::has_faction_relationship( const Character &you,
+                                    const npc_factions::relationship flag ) const
 {
-    faction *p_fac = p.get_faction();
+    faction *p_fac = you.get_faction();
     if( !my_fac || !p_fac ) {
         return false;
     }
@@ -2065,7 +2114,7 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
     }
 
     if( other.is_npc() || other.is_avatar() ) {
-        const player &guy = dynamic_cast<const player &>( other );
+        const Character &guy = dynamic_cast<const Character &>( other );
         // check faction relationships first
         if( has_faction_relationship( guy, npc_factions::kill_on_sight ) ) {
             return Attitude::HOSTILE;
@@ -2797,7 +2846,7 @@ bool npc::dispose_item( item_location &&obj, const std::string & )
 
 void npc::process_turn()
 {
-    player::process_turn();
+    Character::process_turn();
 
     // NPCs shouldn't be using stamina, but if they have, set it back to max
     // If the stamina is higher than the max (Languorous), set it back to max

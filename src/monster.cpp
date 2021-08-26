@@ -1176,7 +1176,7 @@ monster_attitude monster::attitude( const Character *u ) const
             }
         }
         auto *u_fac = u->get_faction();
-        if( u_fac && faction == u_fac->mon_faction ) {
+        if( u_fac && u_fac->mon_faction && faction == u_fac->mon_faction ) {
             return MATT_FRIEND;
         }
 
@@ -2294,6 +2294,7 @@ void monster::process_turn()
                 sounds::sound( pos(), 5, sounds::sound_t::combat, _( "hummmmm." ), false, "humming", "electric" );
             }
         } else {
+            weather_manager &weather = get_weather();
             for( const tripoint &zap : here.points_in_radius( pos(), 1 ) ) {
                 const map_stack items = here.i_at( zap );
                 for( const auto &item : items ) {
@@ -2319,9 +2320,9 @@ void monster::process_turn()
                     }
                 }
             }
-            if( g->weather.lightning_active && !has_effect( effect_supercharged ) &&
+            if( weather.lightning_active && !has_effect( effect_supercharged ) &&
                 here.is_outside( pos() ) ) {
-                g->weather.lightning_active = false; // only one supercharge per strike
+                weather.lightning_active = false; // only one supercharge per strike
                 sounds::sound( pos(), 300, sounds::sound_t::combat, _( "BOOOOOOOM!!!" ), false, "environment",
                                "thunder_near" );
                 sounds::sound( pos(), 20, sounds::sound_t::combat, _( "vrrrRRRUUMMMMMMMM!" ), false, "explosion",
@@ -2845,6 +2846,11 @@ void monster::move_special_item_to_inv( cata::value_ptr<item> &it )
 bool monster::is_dead() const
 {
     return dead || is_dead_state();
+}
+
+bool monster::is_nemesis() const
+{
+    return has_flag( MF_NEMESIS );
 }
 
 void monster::init_from_item( const item &itm )

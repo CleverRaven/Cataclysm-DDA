@@ -924,7 +924,8 @@
       { "drop": "mutant_fat", "type": "flesh", "mass_ratio": 0.04 },
       { "drop": "sinew", "type": "bone", "mass_ratio": 0.01 },
       { "drop": "endochitin", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "acidchitin_piece", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "acidchitin_piece", "type": "bone", "mass_ratio": 0.04 },
+      { "drop": "chitin_piece", "type": "bone", "mass_ratio": 0.06 }
     ]
   },
   {
@@ -933,7 +934,8 @@
     "message": "You laboriously dissect the colossal insect.  <acidant_harvest>",
     "entries": [
       { "drop": "mutant_meat", "base_num": [ 40, 55 ], "scale_num": [ 0.5, 0.7 ], "max": 80, "type": "flesh" },
-      { "drop": "acidchitin_piece", "base_num": [ 2, 6 ], "scale_num": [ 0.3, 0.6 ], "max": 10, "type": "bone" },
+      { "drop": "acidchitin_piece", "base_num": [ 2, 4 ], "scale_num": [ 0.3, 0.6 ], "max": 10, "type": "bone" },
+      { "drop": "chitin_piece", "base_num": [ 0, 3 ], "scale_num": [ 0.3, 0.6 ], "max": 10, "type": "bone" },
       { "drop": "mutant_blood", "type": "blood", "mass_ratio": 0.1 },
       { "drop": "endochitin", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "mutant_fat", "base_num": [ 5, 8 ], "scale_num": [ 0.6, 0.8 ], "max": 18, "type": "flesh" }

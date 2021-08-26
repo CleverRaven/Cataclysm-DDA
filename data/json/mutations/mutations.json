@@ -211,16 +211,6 @@
   },
   {
     "type": "mutation",
-    "id": "PARKOUR",
-    "name": { "str": "Parkour Expert" },
-    "points": 2,
-    "description": "You're skilled at clearing obstacles; terrain like railings or counters are as easy for you to move on as solid ground.",
-    "valid": false,
-    "cancels": [ "BADKNEES" ],
-    "movecost_obstacle_modifier": 0.5
-  },
-  {
-    "type": "mutation",
     "id": "GOODCARDIO",
     "name": { "str": "Indefatigable" },
     "points": 2,
@@ -840,7 +830,6 @@
     "name": { "str": "Weight: XS" },
     "points": -1,
     "description": "You lost an awful lot of weight before the Cataclysm.  Whatever the reason, now that food is not always close at hand, your skeletal figure presents an additional danger.  You need to gain weight or die trying.",
-    "starting_trait": true,
     "purifiable": false,
     "valid": false,
     "cancels": [ "XXXL" ]
@@ -851,7 +840,6 @@
     "name": { "str": "Weight: XXXL" },
     "points": -1,
     "description": "You gained an awful lot of weight before the Cataclysm.  Whatever the reason, now that mobility is key to survival, your bloated figure presents an additional danger.  You need to lose weight or die trying.",
-    "starting_trait": true,
     "purifiable": false,
     "valid": false,
     "cancels": [ "XS" ]
@@ -877,7 +865,6 @@
     "description": "Whether due to injury or age, your knees aren't particularly strong or flexible.  Moving over rough terrain will slow you down more than normal.",
     "starting_trait": true,
     "valid": false,
-    "cancels": [ "PARKOUR" ],
     "movecost_obstacle_modifier": 1.25
   },
   {
@@ -7058,5 +7045,15 @@
     "description": "You have fast reflexes, allowing you to dodge attacks more easily.",
     "starting_trait": true,
     "dodge_modifier": 3
+  },
+  {
+    "type": "mutation",
+    "id": "HAS_NEMESIS",
+    "name": { "str": "Hunted" },
+    "points": -1,
+    "description": "Since the start of the Cataclysm, something has been hunting you relentlessly.  You can outrun it, but it always seems to find you eventually.  The only escape is for one of you to die.",
+    "valid": false,
+    "starting_trait": false,
+    "purifiable": false
   }
 ]

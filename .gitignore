@@ -204,3 +204,4 @@ Xcode/
 /tests/pch/tests-pch.hpp.pch
 /tests/catch/catch.hpp.gch
 /tests/catch/catch.hpp.pch
+weather.output

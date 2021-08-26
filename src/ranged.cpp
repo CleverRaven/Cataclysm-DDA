@@ -55,7 +55,6 @@
 #include "options.h"
 #include "output.h"
 #include "panels.h"
-#include "player.h"
 #include "point.h"
 #include "projectile.h"
 #include "ret_val.h"
@@ -1226,42 +1225,42 @@ void practice_archery_proficiency( Character &p, const item &relevant )
 }
 
 // Apply stamina cost to archery which decreases due to proficiency
-static void mod_stamina_archery( player &p, const item &relevant )
+static void mod_stamina_archery( Character &you, const item &relevant )
 {
     // Set activity level to 10 * str_ratio, with 10 being max (EXTRA_EXERCISE)
     // This ratio should never be below 0 and above 1
-    const int scaled_str_ratio = ( 10 * relevant.get_min_str() ) / p.str_cur;
-    p.set_activity_level( scaled_str_ratio );
+    const int scaled_str_ratio = ( 10 * relevant.get_min_str() ) / you.str_cur;
+    you.set_activity_level( scaled_str_ratio );
 
     // Calculate stamina drain based on archery and athletics skill
-    const int archery_skill = p.get_skill_level( skill_archery );
-    const int athletics_skill = p.get_skill_level( skill_archery );
+    const int archery_skill = you.get_skill_level( skill_archery );
+    const int athletics_skill = you.get_skill_level( skill_archery );
     const int skill_modifier = ( 2 * archery_skill + athletics_skill ) / 3;
 
     const int stamina_cost = pow( 20 - skill_modifier, 2 );
-    p.mod_stamina( -stamina_cost );
+    you.mod_stamina( -stamina_cost );
 }
 
-static void do_aim( player &p, const item &relevant, const double min_recoil )
+static void do_aim( Character &you, const item &relevant, const double min_recoil )
 {
-    const double aim_amount = p.aim_per_move( relevant, p.recoil );
-    if( aim_amount > 0 && p.recoil > min_recoil ) {
+    const double aim_amount = you.aim_per_move( relevant, you.recoil );
+    if( aim_amount > 0 && you.recoil > min_recoil ) {
         // Increase aim at the cost of moves
-        p.mod_moves( -1 );
-        p.recoil = std::max( min_recoil, p.recoil - aim_amount );
+        you.mod_moves( -1 );
+        you.recoil = std::max( min_recoil, you.recoil - aim_amount );
 
         // Train archery proficiencies if we are doing archery
         if( relevant.gun_skill() == skill_archery ) {
-            practice_archery_proficiency( p, relevant );
+            practice_archery_proficiency( you, relevant );
 
             // Only drain stamina on initial draw
-            if( p.moves == 1 ) {
-                mod_stamina_archery( p, relevant );
+            if( you.moves == 1 ) {
+                mod_stamina_archery( you, relevant );
             }
         }
     } else {
         // If aim is already maxed, we're just waiting, so pass the turn.
-        p.set_moves( 0 );
+        you.set_moves( 0 );
     }
 }
 
@@ -1347,7 +1346,7 @@ static std::string get_colored_bar( const double val, const int width, const std
     return result;
 }
 
-static int print_ranged_chance( const player &p, const catacurses::window &w, int line_number,
+static int print_ranged_chance( const Character &you, const catacurses::window &w, int line_number,
                                 target_ui::TargetMode mode, input_context &ctxt, const item &ranged_weapon,
                                 const dispersion_sources &dispersion, const std::vector<confidence_rating> &confidence_config,
                                 double range, double target_size, int recoil = 0 )
@@ -1372,7 +1371,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     if( mode == target_ui::TargetMode::Throw || mode == target_ui::TargetMode::ThrowBlind ) {
         aim_types = get_default_aim_type();
     } else {
-        aim_types = p.get_aim_types( ranged_weapon );
+        aim_types = you.get_aim_types( ranged_weapon );
     }
 
     if( display_type != "numbers" ) {
@@ -1430,9 +1429,9 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
 
         int moves_to_fire;
         if( mode == target_ui::TargetMode::Throw || mode == target_ui::TargetMode::ThrowBlind ) {
-            moves_to_fire = throw_cost( p, ranged_weapon );
+            moves_to_fire = throw_cost( you, ranged_weapon );
         } else {
-            moves_to_fire = p.gun_engagement_moves( ranged_weapon, threshold, recoil ) + time_to_attack( p,
+            moves_to_fire = you.gun_engagement_moves( ranged_weapon, threshold, recoil ) + time_to_attack( you,
                             *ranged_weapon.type );
         }
 
@@ -1524,14 +1523,14 @@ static bool pl_sees( const Creature &cr )
 }
 
 // Handle capping aim level when the player cannot see the target tile or there is nothing to aim at.
-static double calculate_aim_cap( const player &p, const tripoint &target )
+static double calculate_aim_cap( const Character &you, const tripoint &target )
 {
     double min_recoil = 0.0;
     const Creature *victim = g->critter_at( target, true );
     // No p.sees_with_specials() here because special senses are not precise enough
     // to give creature's exact size & position, only which tile it occupies
-    if( victim == nullptr || ( !p.sees( *victim ) && !p.sees_with_infrared( *victim ) ) ) {
-        const int range = rl_dist( p.pos(), target );
+    if( victim == nullptr || ( !you.sees( *victim ) && !you.sees_with_infrared( *victim ) ) ) {
+        const int range = rl_dist( you.pos(), target );
         // Get angle of triangle that spans the target square.
         const double angle = atan2( 1, range );
         // Convert from radians to arcmin.
@@ -1540,7 +1539,7 @@ static double calculate_aim_cap( const player &p, const tripoint &target )
     return min_recoil;
 }
 
-static int print_aim( const player &p, const catacurses::window &w, int line_number,
+static int print_aim( const Character &you, const catacurses::window &w, int line_number,
                       input_context &ctxt, item *weapon,
                       const double target_size, const tripoint &pos, double predicted_recoil )
 {
@@ -1549,11 +1548,11 @@ static int print_aim( const player &p, const catacurses::window &w, int line_num
     // Creature::projectile_attack() into shared methods.
     // Dodge doesn't affect gun attacks
 
-    dispersion_sources dispersion = p.get_weapon_dispersion( *weapon );
-    dispersion.add_range( p.recoil_vehicle() );
+    dispersion_sources dispersion = you.get_weapon_dispersion( *weapon );
+    dispersion.add_range( you.recoil_vehicle() );
 
-    const double min_recoil = calculate_aim_cap( p, pos );
-    const double effective_recoil = p.effective_dispersion( p.weapon.sight_dispersion() );
+    const double min_recoil = calculate_aim_cap( you, pos );
+    const double effective_recoil = you.effective_dispersion( you.weapon.sight_dispersion() );
     const double min_dispersion = std::max( min_recoil, effective_recoil );
     const double steadiness_range = MAX_RECOIL - min_dispersion;
     // This is a relative measure of how steady the player's aim is,
@@ -1570,25 +1569,25 @@ static int print_aim( const player &p, const catacurses::window &w, int line_num
         }
     };
 
-    const double range = rl_dist( p.pos(), pos );
+    const double range = rl_dist( you.pos(), pos );
     line_number = print_steadiness( w, line_number, steadiness );
-    return print_ranged_chance( p, w, line_number, target_ui::TargetMode::Fire, ctxt, *weapon,
+    return print_ranged_chance( you, w, line_number, target_ui::TargetMode::Fire, ctxt, *weapon,
                                 dispersion,
                                 confidence_config,
                                 range, target_size, predicted_recoil );
 }
 
-static void draw_throw_aim( const player &p, const catacurses::window &w, int &text_y,
+static void draw_throw_aim( const Character &you, const catacurses::window &w, int &text_y,
                             input_context &ctxt,
                             const item &weapon, const tripoint &target_pos, bool is_blind_throw )
 {
     Creature *target = g->critter_at( target_pos, true );
-    if( target != nullptr && !p.sees( *target ) ) {
+    if( target != nullptr && !you.sees( *target ) ) {
         target = nullptr;
     }
 
-    const dispersion_sources dispersion( p.throwing_dispersion( weapon, target, is_blind_throw ) );
-    const double range = rl_dist( p.pos(), target_pos );
+    const dispersion_sources dispersion( you.throwing_dispersion( weapon, target, is_blind_throw ) );
+    const double range = rl_dist( you.pos(), target_pos );
 
     const double target_size = target != nullptr ? target->ranged_target_size() : 1.0f;
 
@@ -1608,7 +1607,7 @@ static void draw_throw_aim( const player &p, const catacurses::window &w, int &t
     const target_ui::TargetMode throwing_target_mode = is_blind_throw ?
             target_ui::TargetMode::ThrowBlind :
             target_ui::TargetMode::Throw;
-    text_y = print_ranged_chance( p, w, text_y, throwing_target_mode, ctxt, weapon, dispersion,
+    text_y = print_ranged_chance( you, w, text_y, throwing_target_mode, ctxt, weapon, dispersion,
                                   confidence_config,
                                   range, target_size );
 }
@@ -1881,7 +1880,7 @@ dispersion_sources Character::get_weapon_dispersion( const item &obj ) const
     dispersion_sources dispersion( weapon_dispersion );
     dispersion.add_range( ranged_dex_mod() );
 
-    dispersion.add_range( ranged_dispersion_modifier() );
+    dispersion.add_range( ranged_dispersion_modifier_hands() );
 
     if( is_driving() ) {
         // get volume of gun (or for auxiliary gunmods the parent gun)

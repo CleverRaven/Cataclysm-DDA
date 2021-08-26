@@ -1988,8 +1988,8 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
     ctxt.register_action( "UP", to_translation( "Previous item" ) );
     ctxt.register_action( "PAGE_DOWN", to_translation( "Page down" ) );
     ctxt.register_action( "PAGE_UP", to_translation( "Page up" ) );
-    ctxt.register_action( "RIGHT", to_translation( "Next column" ) );
-    ctxt.register_action( "LEFT", to_translation( "Previous column" ) );
+    ctxt.register_action( "NEXT_COLUMN", to_translation( "Next column" ) );
+    ctxt.register_action( "PREV_COLUMN", to_translation( "Previous column" ) );
     ctxt.register_action( "CONFIRM", to_translation( "Confirm your selection" ) );
     ctxt.register_action( "QUIT", to_translation( "Cancel" ) );
     ctxt.register_action( "CATEGORY_SELECTION", to_translation( "Switch category selection mode" ) );
@@ -2029,13 +2029,15 @@ inventory_input inventory_selector::get_input()
     res.action = ctxt.handle_input();
     res.ch = ctxt.get_raw_input().get_first_input();
 
-    cata::optional<point> o_p = ctxt.get_coordinates_text( w_inv );
-    if( o_p ) {
-        point p = o_p.value();
-        if( window_contains_point_relative( w_inv, p ) ) {
-            res.entry = find_entry_by_coordinate( p );
-            if( res.entry != nullptr && res.entry->is_selectable() ) {
-                return res;
+    if( res.action == "SELECT" ) {
+        cata::optional<point> o_p = ctxt.get_coordinates_text( w_inv );
+        if( o_p ) {
+            point p = o_p.value();
+            if( window_contains_point_relative( w_inv, p ) ) {
+                res.entry = find_entry_by_coordinate( p );
+                if( res.entry != nullptr && res.entry->is_selectable() ) {
+                    return res;
+                }
             }
         }
     }
@@ -2051,9 +2053,9 @@ void inventory_selector::on_input( const inventory_input &input )
 {
     if( input.action == "CATEGORY_SELECTION" ) {
         toggle_navigation_mode();
-    } else if( input.action == "LEFT" ) {
+    } else if( input.action == "PREV_COLUMN" ) {
         toggle_active_column( scroll_direction::BACKWARD );
-    } else if( input.action == "RIGHT" ) {
+    } else if( input.action == "NEXT_COLUMN" ) {
         toggle_active_column( scroll_direction::FORWARD );
     } else if( input.action == "VIEW_CATEGORY_MODE" ) {
         toggle_categorize_contained();
@@ -2406,6 +2408,12 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
         } else if( input.action == "CONFIRM" ) {
             popup_getkey( _( "You need two items for comparison.  Use %s to select them." ),
                           ctxt.get_desc( "TOGGLE_ENTRY" ) );
+        } else if( input.action == "EXAMINE" ) {
+            const inventory_entry &selected = get_active_column().get_selected();
+            if( selected ) {
+                const item *sitem = selected.any_item().get_item();
+                action_examine( sitem );
+            }
         } else if( input.action == "QUIT" ) {
             return std::make_pair( nullptr, nullptr );
         } else if( input.action == "INVENTORY_FILTER" ) {
@@ -2726,6 +2734,12 @@ drop_locations inventory_drop_selector::execute()
                 continue;
             }
             break;
+        } else if( input.action == "EXAMINE" ) {
+            const inventory_entry &selected = get_active_column().get_selected();
+            if( selected ) {
+                const item *sitem = selected.any_item().get_item();
+                action_examine( sitem );
+            }
         } else if( input.action == "QUIT" ) {
             return drop_locations();
         } else if( input.action == "INVENTORY_FILTER" ) {

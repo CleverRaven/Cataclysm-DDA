@@ -1228,7 +1228,9 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
             for( item &comp : used ) {
                 // only comestibles have cooks_like.  any other type of item will throw an exception, so filter those out
                 if( comp.is_comestible() && !comp.get_comestible()->cooks_like.is_empty() ) {
+                    const double relative_rot = comp.get_relative_rot();
                     comp = item( comp.get_comestible()->cooks_like, comp.birthday(), comp.charges );
+                    comp.set_relative_rot( relative_rot );
                 }
                 // If this recipe is cooked, components are no longer raw.
                 if( should_heat || remove_raw ) {
@@ -1381,7 +1383,8 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
 
         std::vector<comp_selection<item_comp>> item_selections;
         for( const auto &it : continue_reqs.get_components() ) {
-            comp_selection<item_comp> is = select_item_component( it, batch_size, map_inv, true, filter );
+            comp_selection<item_comp> is = select_item_component( it, batch_size, map_inv, true, filter, true,
+                                           &rec );
             if( is.use_from == usage_from::cancel ) {
                 cancel_activity();
                 add_msg( _( "You stop crafting." ) );
@@ -1484,8 +1487,9 @@ const requirement_data *Character::select_requirements(
 comp_selection<item_comp> Character::select_item_component( const std::vector<item_comp>
         &components,
         int batch, read_only_visitable &map_inv, bool can_cancel,
-        const std::function<bool( const item & )> &filter, bool player_inv )
+        const std::function<bool( const item & )> &filter, bool player_inv, const recipe *rec )
 {
+    Character &player_character = get_player_character();
     std::vector<item_comp> player_has;
     std::vector<item_comp> map_has;
     std::vector<item_comp> mixed;
@@ -1578,37 +1582,87 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
         }
     } else { // Let the player pick which component they want to use
         uilist cmenu;
-        // Populate options with the names of the items
-        for( auto &map_ha : map_has ) { // Index 0-(map_has.size()-1)
-            std::string tmpStr = string_format( _( "%s (%d/%d nearby)" ),
-                                                item::nname( map_ha.type ),
-                                                ( map_ha.count * batch ),
-                                                item::count_by_charges( map_ha.type ) ?
-                                                map_inv.charges_of( map_ha.type, INT_MAX, filter ) :
-                                                map_inv.amount_of( map_ha.type, false, INT_MAX, filter ) );
-            cmenu.addentry( tmpStr );
+        bool is_food = false;
+        bool remove_raw = false;
+        if( rec ) {
+            is_food = rec->create_result().is_comestible();
+            remove_raw = rec->hot_result() || rec->removes_raw();
         }
-        for( auto &player_ha : player_has ) { // Index map_has.size()-(map_has.size()+player_has.size()-1)
-            std::string tmpStr = string_format( _( "%s (%d/%d on person)" ),
-                                                item::nname( player_ha.type ),
-                                                ( player_ha.count * batch ),
-                                                item::count_by_charges( player_ha.type ) ?
-                                                charges_of( player_ha.type, INT_MAX, filter ) :
-                                                amount_of( player_ha.type, false, INT_MAX, filter ) );
-            cmenu.addentry( tmpStr );
+        enum class inventory_source : int {
+            SELF = 0,
+            MAP,
+            BOTH
+        };
+        auto get_ingredient_description = [&player_character, &map_inv, &filter,
+                                                              &is_food, &remove_raw]( const inventory_source & inv_source,
+        const itype_id & ingredient_type, const int &count ) {
+            std::string text;
+            int available;
+            const item ingredient = item( ingredient_type );
+            std::pair<int, int> kcal_values{ 0, 0 };
+
+            if( is_food && ingredient.is_food() ) {
+                switch( inv_source ) {
+                    case inventory_source::MAP:
+                        text = _( "%s (%d/%d nearby)" );
+                        kcal_values = map_inv.kcal_range( ingredient_type, filter, player_character );
+                        available = item::count_by_charges( ingredient_type ) ?
+                                    map_inv.charges_of( ingredient_type, INT_MAX, filter ) :
+                                    map_inv.amount_of( ingredient_type, false, INT_MAX, filter );
+                        break;
+                    case inventory_source::SELF:
+                        text = _( "%s (%d/%d on person)" );
+                        kcal_values = player_character.kcal_range( ingredient_type, filter, player_character );
+                        available = item::count_by_charges( ingredient_type ) ?
+                                    player_character.charges_of( ingredient_type, INT_MAX, filter ) :
+                                    player_character.amount_of( ingredient_type, false, INT_MAX, filter );
+                        break;
+                    case inventory_source::BOTH:
+                        text = _( "%s (%d/%d nearby & on person)" );
+                        kcal_values = map_inv.kcal_range( ingredient_type, filter, player_character );
+                        const std::pair<int, int> kcal_values_tmp = player_character.kcal_range( ingredient_type, filter,
+                                player_character );
+                        kcal_values.first = std::min( kcal_values.first, kcal_values_tmp.first );
+                        kcal_values.second = std::max( kcal_values.second, kcal_values_tmp.second );
+                        available = item::count_by_charges( ingredient_type ) ?
+                                    map_inv.charges_of( ingredient_type, INT_MAX, filter ) +
+                                    player_character.charges_of( ingredient_type, INT_MAX, filter ) :
+                                    map_inv.amount_of( ingredient_type, false, INT_MAX, filter ) +
+                                    player_character.amount_of( ingredient_type, false, INT_MAX, filter );
+                        break;
+                }
+                text += kcal_values.first == kcal_values.second ? _( " %d kcal" ) : _( " %1$d-%2$d kcal" );
+                if( ingredient.has_flag( flag_RAW ) && remove_raw ) {
+                    //Multiplier for RAW food digestion
+                    kcal_values.first /= 0.75f;
+                    kcal_values.second /= 0.75f;
+                    text += _( " <color_brown> (will be processed)</color>" );
+                }
+            }
+
+            return string_format( text,
+                                  item::nname( ingredient_type ),
+                                  count,
+                                  available,
+                                  kcal_values.first * count,
+                                  kcal_values.second * count
+                                );
+        };
+        // Populate options with the names of the items
+        for( auto &map_ha : map_has ) {
+            // Index 0-(map_has.size()-1)
+            cmenu.addentry( get_ingredient_description( inventory_source::MAP, map_ha.type,
+                            map_ha.count * batch ) );
+        }
+        for( auto &player_ha : player_has ) {
+            // Index map_has.size()-(map_has.size()+player_has.size()-1)
+            cmenu.addentry( get_ingredient_description( inventory_source::SELF, player_ha.type,
+                            player_ha.count * batch ) );
         }
         for( auto &component : mixed ) {
             // Index player_has.size()-(map_has.size()+player_has.size()+mixed.size()-1)
-            int available = item::count_by_charges( component.type ) ?
-                            map_inv.charges_of( component.type, INT_MAX, filter ) +
-                            charges_of( component.type, INT_MAX, filter ) :
-                            map_inv.amount_of( component.type, false, INT_MAX, filter ) +
-                            amount_of( component.type, false, INT_MAX, filter );
-            std::string tmpStr = string_format( _( "%s (%d/%d nearby & on person)" ),
-                                                item::nname( component.type ),
-                                                component.count * batch,
-                                                available );
-            cmenu.addentry( tmpStr );
+            cmenu.addentry( get_ingredient_description( inventory_source::BOTH, component.type,
+                            component.count * batch ) );
         }
 
         // Unlike with tools, it's a bad thing if there aren't any components available
@@ -1716,13 +1770,16 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
             ret.splice( ret.end(), tmp );
         }
     }
-    // condense those items into one
+    // Merge charges for items that stack with each other
     if( by_charges && ret.size() > 1 ) {
-        std::list<item>::iterator b = ret.begin();
-        b++;
-        while( ret.size() > 1 ) {
-            ret.front().charges += b->charges;
-            b = ret.erase( b );
+        for( auto outer = std::begin( ret ); outer != std::end( ret ); ++outer ) {
+            for( auto inner = std::next( outer ); inner != std::end( ret ); ) {
+                if( outer->merge_charges( *inner ) ) {
+                    inner = ret.erase( inner );
+                } else {
+                    ++inner;
+                }
+            }
         }
     }
     lastconsumed = selected_comp.type;

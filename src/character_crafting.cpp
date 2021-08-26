@@ -77,7 +77,7 @@ bool Character::studied_all_recipes( const itype &book ) const
 const recipe_subset &Character::get_learned_recipes() const
 {
     // Cache validity check
-    if( *_skills != *valid_autolearn_skills ) {
+    if( !_skills->has_same_levels_as( *valid_autolearn_skills ) ) {
         for( const auto &r : recipe_dict.all_autolearn() ) {
             if( meets_skill_requirements( r->autolearn_requirements ) ) {
                 learned_recipes->include( r );

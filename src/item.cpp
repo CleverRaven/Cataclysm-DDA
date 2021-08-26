@@ -78,7 +78,6 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
-#include "player.h"
 #include "point.h"
 #include "proficiency.h"
 #include "projectile.h"
@@ -1891,6 +1890,10 @@ void item::debug_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                    string_format( _( "item var: %s, %s" ), imap.first,
                                                   imap.second ) );
             }
+
+            info.emplace_back( "BASE", _( "wetness: " ),
+                               "", iteminfo::lower_is_better,
+                               wetness );
 
             const std::string space = "  ";
             if( goes_bad() ) {
@@ -5117,7 +5120,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         }
     }
 
-    if( has_flag( flag_WET ) ) {
+    if( has_flag( flag_WET ) || wetness ) {
         tagtext += _( " (wet)" );
     }
     if( already_used_by_player( player_character ) ) {
@@ -7589,8 +7592,8 @@ bool item::is_salvageable() const
         return false;
     }
     const std::vector<material_id> &mats = made_of();
-    if( std::none_of( mats.begin(), mats.end(), []( const material_id & m ) {
-    return m->salvaged_into().has_value();
+    if( std::none_of( mats.begin(), mats.end(), [this]( const material_id & m ) {
+    return m->salvaged_into().has_value() && m->salvaged_into().value() != type->get_id();
     } ) ) {
         return false;
     }
@@ -7741,10 +7744,10 @@ bool item::can_contain_partial( const item &it ) const
 }
 
 std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &parent,
-        const bool allow_sealed, const bool ignore_settings, bool nested )
+        const bool allow_sealed, const bool ignore_settings )
 {
     item_location nested_location( parent, this );
-    return contents.best_pocket( it, nested_location, nested, allow_sealed, ignore_settings );
+    return contents.best_pocket( it, nested_location, allow_sealed, ignore_settings );
 }
 
 bool item::spill_contents( Character &c )
@@ -9724,7 +9727,7 @@ bool item::already_used_by_player( const Character &p ) const
     return it->second.find( needle ) != std::string::npos;
 }
 
-void item::mark_as_used_by_player( const player &p )
+void item::mark_as_used_by_player( const Character &p )
 {
     std::string &used_by_ids = item_vars[ USED_BY_IDS ];
     if( used_by_ids.empty() ) {
@@ -9799,7 +9802,7 @@ bool item::needs_processing() const
 {
     bool need_process = false;
     visit_items( [&need_process]( const item * it, item * ) {
-        if( it->active || it->ethereal || it->has_flag( flag_RADIO_ACTIVATION ) ||
+        if( it->active || it->ethereal || it->wetness || it->has_flag( flag_RADIO_ACTIVATION ) ||
             it->has_relic_recharge() ) {
             need_process = true;
             return VisitResponse::ABORT;
@@ -9827,7 +9830,7 @@ void item::apply_freezerburn()
 }
 
 bool item::process_temperature_rot( float insulation, const tripoint &pos,
-                                    player *carrier, const temperature_flag flag, float spoil_modifier )
+                                    Character *carrier, const temperature_flag flag, float spoil_modifier )
 {
     const time_point now = calendar::turn;
 
@@ -10244,7 +10247,7 @@ void item::process_relic( Character *carrier, const tripoint &pos )
     }
 }
 
-bool item::process_corpse( player *carrier, const tripoint &pos )
+bool item::process_corpse( Character *carrier, const tripoint &pos )
 {
     // some corpses rez over time
     if( corpse == nullptr || damage() >= max_damage() ) {
@@ -10283,7 +10286,7 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     return false;
 }
 
-bool item::process_fake_mill( player * /*carrier*/, const tripoint &pos )
+bool item::process_fake_mill( Character * /*carrier*/, const tripoint &pos )
 {
     map &here = get_map();
     if( here.furn( pos ) != furn_str_id( "f_wind_mill_active" ) &&
@@ -10300,7 +10303,7 @@ bool item::process_fake_mill( player * /*carrier*/, const tripoint &pos )
     return false;
 }
 
-bool item::process_fake_smoke( player * /*carrier*/, const tripoint &pos )
+bool item::process_fake_smoke( Character * /*carrier*/, const tripoint &pos )
 {
     map &here = get_map();
     if( here.furn( pos ) != furn_str_id( "f_smoking_rack_active" ) &&
@@ -10317,7 +10320,7 @@ bool item::process_fake_smoke( player * /*carrier*/, const tripoint &pos )
     return false;
 }
 
-bool item::process_litcig( player *carrier, const tripoint &pos )
+bool item::process_litcig( Character *carrier, const tripoint &pos )
 {
     if( !one_in( 10 ) ) {
         return false;
@@ -10393,7 +10396,7 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
     return false;
 }
 
-bool item::process_extinguish( player *carrier, const tripoint &pos )
+bool item::process_extinguish( Character *carrier, const tripoint &pos )
 {
     // checks for water
     bool extinguish = false;
@@ -10490,7 +10493,7 @@ cata::optional<tripoint> item::get_cable_target( Character *p, const tripoint &p
     return here.getlocal( source );
 }
 
-bool item::process_cable( player *carrier, const tripoint &pos )
+bool item::process_cable( Character *carrier, const tripoint &pos )
 {
     if( carrier == nullptr ) {
         reset_cable( carrier );
@@ -10547,7 +10550,7 @@ bool item::process_cable( player *carrier, const tripoint &pos )
     return false;
 }
 
-void item::reset_cable( player *p )
+void item::reset_cable( Character *p )
 {
     int max_charges = type->maximum_charges();
 
@@ -10564,7 +10567,7 @@ void item::reset_cable( player *p )
     }
 }
 
-bool item::process_UPS( player *carrier, const tripoint & /*pos*/ )
+bool item::process_UPS( Character *carrier, const tripoint & /*pos*/ )
 {
     if( carrier == nullptr ) {
         erase_var( "cable" );
@@ -10582,7 +10585,7 @@ bool item::process_UPS( player *carrier, const tripoint & /*pos*/ )
     return false;
 }
 
-bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
+bool item::process_wet( Character * /*carrier*/, const tripoint & /*pos*/ )
 {
     if( item_counter == 0 ) {
         if( is_tool() && type->tool->revert_to ) {
@@ -10595,7 +10598,7 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
     return true;
 }
 
-bool item::process_tool( player *carrier, const tripoint &pos )
+bool item::process_tool( Character *carrier, const tripoint &pos )
 {
     // FIXME: remove this once power armors don't need to be TOOL_ARMOR anymore
     if( is_power_armor() && carrier && carrier->can_interface_armor() && carrier->has_power() ) {
@@ -10625,6 +10628,9 @@ bool item::process_tool( player *carrier, const tripoint &pos )
         // invoking the object can convert the item to another type
         const bool had_revert_to = type->tool->revert_to.has_value();
         type->invoke( carrier != nullptr ? *carrier : player_character, *this, pos );
+        if( carrier ) {
+            carrier->add_msg_if_player( m_info, _( "The %s ran out of energy!" ), tname() );
+        }
         if( had_revert_to ) {
             deactivate( carrier );
             return false;
@@ -10637,7 +10643,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
     return false;
 }
 
-bool item::process_blackpowder_fouling( player *carrier )
+bool item::process_blackpowder_fouling( Character *carrier )
 {
     if( damage() < max_damage() && one_in( 2000 ) ) {
         inc_damage( damage_type::ACID );
@@ -10648,7 +10654,7 @@ bool item::process_blackpowder_fouling( player *carrier )
     return false;
 }
 
-bool item::process( player *carrier, const tripoint &pos, float insulation,
+bool item::process( Character *carrier, const tripoint &pos, float insulation,
                     temperature_flag flag, float spoil_multiplier_parent )
 {
     process_relic( carrier, pos );
@@ -10662,7 +10668,7 @@ void item::set_last_temp_check( const time_point &pt )
     last_temp_check = pt;
 }
 
-bool item::process_internal( player *carrier, const tripoint &pos,
+bool item::process_internal( Character *carrier, const tripoint &pos,
                              float insulation, const temperature_flag flag, float spoil_modifier )
 {
     if( ethereal ) {
@@ -10685,8 +10691,17 @@ bool item::process_internal( player *carrier, const tripoint &pos,
     // Otherwise processing continues. This allows items that are processed as
     // food and as litcig and as ...
 
+    if( wetness > 0 ) {
+        wetness -= 1;
+    }
+
     // Remaining stuff is only done for active items.
     if( active ) {
+
+        if( wetness && has_flag( flag_WATER_BREAK ) ) {
+            deactivate();
+            set_flag( flag_ITEM_BROKEN );
+        }
 
         if( !is_food() && item_counter > 0 ) {
             item_counter--;

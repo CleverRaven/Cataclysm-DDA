@@ -687,6 +687,7 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```UNBREAKABLE_MELEE``` ... Never gets damaged when used as melee weapon.
 - ```UNRECOVERABLE``` ... Cannot be recovered from a disassembly.
 - ```WATER_BREAK``` ... Item is broken in water.
+- ```WATER_BREAK_ACTIVE``` ... Item can get wet and is broken in water if active.
 - ```WATER_DISSOLVE``` ... Item is dissolved in water.
 - ```ZERO_WEIGHT``` Normally items with zero weight will generate an error.
   Use this flag to indicate that zero weight is intentional and suppress that

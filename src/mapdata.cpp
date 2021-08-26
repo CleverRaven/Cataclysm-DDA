@@ -446,13 +446,13 @@ void map_data_common_t::set_examine( iexamine_function_ref func )
     examine_func = &func;
 }
 
-void map_data_common_t::examine( player &guy, const tripoint &examp ) const
+void map_data_common_t::examine( Character &you, const tripoint &examp ) const
 {
     if( !examine_actor ) {
-        examine_func( guy, examp );
+        examine_func( you, examp );
         return;
     }
-    examine_actor->call( guy, examp );
+    examine_actor->call( you, examp );
 }
 
 void map_data_common_t::load_symbol( const JsonObject &jo )
@@ -1293,6 +1293,11 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "lockpick_result", lockpick_result, ter_str_id::NULL_ID() );
     optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
 
+    oxytorch = cata::make_value<activity_data_ter>();
+    if( jo.has_object( "oxytorch" ) ) {
+        oxytorch->load( jo.get_object( "oxytorch" ) );
+    }
+
     boltcut = cata::make_value<activity_data_ter>();
     if( jo.has_object( "boltcut" ) ) {
         boltcut->load( jo.get_object( "boltcut" ) );
@@ -1441,6 +1446,12 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "lockpick_result", lockpick_result, string_id_reader<furn_t> {},
               furn_str_id::NULL_ID() );
     optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
+
+
+    oxytorch = cata::make_value<activity_data_furn>();
+    if( jo.has_object( "oxytorch" ) ) {
+        oxytorch->load( jo.get_object( "oxytorch" ) );
+    }
 
     boltcut = cata::make_value<activity_data_furn>();
     if( jo.has_object( "boltcut" ) ) {

@@ -41,7 +41,7 @@
     "result": "xl_armor_lamellar",
     "type": "recipe",
     "copy-from": "armor_lamellar",
-    "time": "18 h",
+    "time": "13 h 30 m",
     "using": [ [ "sewing_standard", 96 ] ],
     "components": [
       [ [ "cordage_superior", 6, "LIST" ] ],
@@ -214,7 +214,7 @@
     "result": "xl_coat_fur",
     "type": "recipe",
     "copy-from": "coat_fur",
-    "time": "8 h",
+    "time": "6 h 45 m",
     "using": [ [ "sewing_standard", 40 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "rag", 17 ] ], [ [ "fur", 18 ], [ "tanned_pelt", 3 ] ] ]
   },
@@ -241,7 +241,7 @@
     "result": "xl_coat_faux_fur",
     "type": "recipe",
     "copy-from": "coat_faux_fur",
-    "time": "8 h",
+    "time": "6 h 45 m",
     "using": [ [ "sewing_standard", 40 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "rag", 17 ] ], [ [ "faux_fur", 18 ] ] ]
   },
@@ -316,7 +316,7 @@
     "result": "xl_cuirass_lightplate",
     "type": "recipe",
     "copy-from": "cuirass_lightplate",
-    "time": "12 h",
+    "time": "10 h 10 m",
     "using": [ [ "blacksmithing_standard", 44 ], [ "steel_standard", 10 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -345,7 +345,7 @@
     "result": "xl_cuirass_scrap",
     "type": "recipe",
     "copy-from": "cuirass_scrap",
-    "time": "6 h",
+    "time": "3 h 20 m",
     "using": [ [ "cordage", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 120 ] ] ]
@@ -369,7 +369,7 @@
     "result": "xl_duster",
     "type": "recipe",
     "copy-from": "duster",
-    "time": "10 h",
+    "time": "9 h",
     "using": [ [ "sewing_standard", 48 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "rag", 36 ] ] ]
   },
@@ -398,7 +398,7 @@
     "result": "xl_duster_fur",
     "type": "recipe",
     "copy-from": "duster_fur",
-    "time": "12 h",
+    "time": "11 h 15 m",
     "using": [ [ "sewing_standard", 80 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "fur", 52 ], [ "tanned_pelt", 9 ] ] ]
   },
@@ -426,7 +426,7 @@
     "result": "xl_duster_faux_fur",
     "type": "recipe",
     "copy-from": "duster_faux_fur",
-    "time": "12 h",
+    "time": "11 h 15 m",
     "using": [ [ "sewing_standard", 80 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "rag", 25 ] ], [ [ "faux_fur", 30 ] ] ]
   },
@@ -455,7 +455,7 @@
     "result": "xl_duster_leather",
     "type": "recipe",
     "copy-from": "duster_leather",
-    "time": "12 h",
+    "time": "10 h 10 m",
     "using": [ [ "sewing_standard", 80 ], [ "fastener_large", 1 ] ],
     "components": [ [ [ "leather", 41 ], [ "tanned_hide", 7 ] ] ]
   },
@@ -499,7 +499,7 @@
     "result": "xl_duster_survivor",
     "type": "recipe",
     "copy-from": "duster_survivor",
-    "time": "15 h",
+    "time": "13 h 40 m",
     "using": [ [ "sewing_standard", 175 ] ],
     "components": [
       [ [ "coat_rain", 2 ] ],
@@ -747,7 +747,7 @@
     "result": "xl_lsurvivor_armor",
     "type": "recipe",
     "copy-from": "lsurvivor_armor",
-    "time": "19 h",
+    "time": "16 h 35 m",
     "using": [ [ "sewing_standard", 90 ] ],
     "tools": [ [ [ "welder", 24 ], [ "welder_crude", 42 ], [ "soldering_iron", 42 ], [ "toolset", 42 ] ] ],
     "components": [
@@ -1302,7 +1302,7 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "1 h 30 m",
+    "time": "1 h 40 m",
     "autolearn": true,
     "reversible": true,
     "using": [ [ "sewing_standard", 25 ] ],
@@ -1707,7 +1707,7 @@
     "result": "xl_chainmail_vest",
     "type": "recipe",
     "copy-from": "chainmail_vest",
-    "time": "10 h",
+    "time": "8 h 5 m",
     "using": [ [ "chainmail_standard", 10 ] ],
     "components": [ [ [ "link_sheet", 10 ] ], [ [ "chain_link", 210 ] ], [ [ "wire", 2 ] ], [ [ "rag", 9 ] ] ]
   },
@@ -1729,7 +1729,7 @@
     "result": "xl_armor_cuirass",
     "type": "recipe",
     "copy-from": "armor_cuirass",
-    "time": "14 h",
+    "time": "12 h",
     "using": [ [ "forging_standard", 20 ], [ "bronzesmithing_tools", 1 ] ],
     "components": [ [ [ "scrap_bronze", 38 ] ] ]
   }

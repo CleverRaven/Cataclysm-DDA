@@ -388,7 +388,7 @@
     "id": "acidchitin_piece",
     "copy-from": "chitin_piece",
     "name": { "str": "chunk of biosilicified chitin", "str_pl": "chunks of biosilicified chitin" },
-    "description": "A lump of exoskeleton that has undergone biosilicification.  It is acid-resistant and remarkably sturdy.",
+    "description": "A lump of exoskeleton that has undergone biosilicification.  It is acid-resistant but rather brittle.",
     "material": [ "acidchitin" ],
     "flags": [ "NO_SALVAGE" ],
     "proportional": { "weight": 1.25 },

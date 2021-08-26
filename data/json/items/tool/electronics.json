@@ -13,7 +13,7 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": [ "battery" ],
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK_ACTIVE" ],
     "charges_per_use": 5,
     "use_action": [ "CAMERA" ],
     "pocket_data": [
@@ -51,7 +51,7 @@
     "ammo": [ "battery" ],
     "charges_per_use": 5,
     "use_action": [ "CAMERA" ],
-    "flags": [ "CAMERA_PRO", "ALWAYS_TWOHAND", "WATER_BREAK" ],
+    "flags": [ "CAMERA_PRO", "ALWAYS_TWOHAND", "WATER_BREAK_ACTIVE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -223,6 +223,9 @@
     "power_draw": 2000,
     "revert_to": "eink_tablet_pc",
     "use_action": [
+      "EINKTABLETPC",
+      "EBOOKSAVE",
+      "EBOOKREAD",
       {
         "type": "transform",
         "menu_text": "Turn off the screen",
@@ -399,7 +402,11 @@
     "name": { "str": "laptop computer - lit screen", "str_pl": "laptop computers - lit screen" },
     "power_draw": 1000,
     "revert_to": "laptop",
-    "use_action": { "target": "laptop", "msg": "You stop lighting up the screen.", "menu_text": "Turn off", "type": "transform" },
+    "use_action": [
+      "EINKTABLETPC",
+      "PORTABLE_GAME",
+      { "target": "laptop", "msg": "You stop lighting up the screen.", "menu_text": "Turn off", "type": "transform" }
+    ],
     "flags": [ "WATCH", "LIGHT_10", "TRADER_AVOID", "WATER_BREAK" ]
   },
   {
@@ -418,7 +425,7 @@
     "ammo": [ "battery" ],
     "use_action": [ "MP3" ],
     "charges_per_use": 1,
-    "flags": [ "WATER_BREAK" ],
+    "flags": [ "WATER_BREAK_ACTIVE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
