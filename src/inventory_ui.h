@@ -567,7 +567,14 @@ class inventory_selector
         size_t get_layout_width() const;
         size_t get_layout_height() const;
 
-        void set_filter();
+        /**
+         * Query user for a string and return it.
+         * @param val The default value to have set in the query prompt.
+         * @return A tuple of a bool and string, bool is true if user confirmed.
+         */
+        std::pair< bool, std::string > query_string( std::string val );
+        /** Query the user for a filter and apply it. */
+        void query_set_filter();
 
         /** Tackles screen overflow */
         virtual void rearrange_columns( size_t client_width );

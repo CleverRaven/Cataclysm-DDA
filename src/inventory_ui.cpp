@@ -1835,11 +1835,11 @@ void inventory_selector::refresh_window()
     wnoutrefresh( w_inv );
 }
 
-void inventory_selector::set_filter()
+std::pair< bool, std::string > inventory_selector::query_string( std::string val )
 {
     spopup = std::make_unique<string_input_popup>();
     spopup->max_length( 256 )
-    .text( filter );
+    .text( val );
 
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
     if( current_ui ) {
@@ -1851,17 +1851,22 @@ void inventory_selector::set_filter()
         spopup->query_string( /*loop=*/false );
     } while( !spopup->confirmed() && !spopup->canceled() );
 
-    if( spopup->confirmed() ) {
-        filter = spopup->text();
-        for( inventory_column *const elem : columns ) {
-            elem->set_filter( filter );
-        }
-        if( current_ui ) {
-            current_ui->mark_resize();
-        }
+    std::string rval = "";
+    bool confirmed = spopup->confirmed();
+    if( confirmed ) {
+        rval = spopup->text();
     }
 
     spopup.reset();
+    return std::make_pair( confirmed, rval );
+}
+
+void inventory_selector::query_set_filter()
+{
+    std::pair< bool, std::string > query = query_string( filter );
+    if( query.first ) {
+        set_filter( query.second );
+    }
 }
 
 void inventory_selector::set_filter( const std::string &str )
@@ -2284,7 +2289,7 @@ item_location inventory_pick_selector::execute()
                 return selected.any_item();
             }
         } else if( input.action == "INVENTORY_FILTER" ) {
-            set_filter();
+            query_set_filter();
         } else if( input.action == "EXAMINE" ) {
             const inventory_entry &selected = get_active_column().get_selected();
             if( selected ) {
@@ -2418,7 +2423,7 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
         } else if( input.action == "QUIT" ) {
             return std::make_pair( nullptr, nullptr );
         } else if( input.action == "INVENTORY_FILTER" ) {
-            set_filter();
+            query_set_filter();
         } else if( input.action == "TOGGLE_FAVORITE" ) {
             // TODO: implement favoriting in multi selection menus while maintaining selection
         } else {
@@ -2529,7 +2534,7 @@ drop_locations inventory_iuse_selector::execute()
         } else if( input.action == "QUIT" ) {
             return drop_locations();
         } else if( input.action == "INVENTORY_FILTER" ) {
-            set_filter();
+            query_set_filter();
         } else {
             on_input( input );
             count = 0;
@@ -2755,7 +2760,7 @@ drop_locations inventory_drop_selector::execute()
         } else if( input.action == "QUIT" ) {
             return drop_locations();
         } else if( input.action == "INVENTORY_FILTER" ) {
-            set_filter();
+            query_set_filter();
         } else if( input.action == "TOGGLE_FAVORITE" ) {
             // TODO: implement favoriting in multi selection menus while maintaining selection
         } else {
