@@ -2027,7 +2027,7 @@ void Character::perform_special_attacks( Creature &t, dealt_damage_instance &dea
             if( !practiced ) {
                 // Practice unarmed, at most once per combo
                 practiced = true;
-                as_player()->practice( skill_unarmed, rng( 0, 10 ) );
+                practice( skill_unarmed, rng( 0, 10 ) );
             }
         }
         int dam = dealt_dam.total_damage();

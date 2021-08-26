@@ -35,6 +35,7 @@
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_poison( "poison" );
@@ -355,6 +356,7 @@ bool melee_actor::call( monster &z ) const
                                        body_part_name_accusative( bp_id ) );
     }
     if( throw_strength > 0 ) {
+        z.remove_effect( effect_grabbing );
         g->fling_creature( target, coord_to_angle( z.pos(), target->pos() ),
                            throw_strength );
         target->add_msg_player_or_npc( m_bad, throw_msg_u, throw_msg_npc, z.name() );

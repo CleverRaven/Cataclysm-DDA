@@ -940,6 +940,84 @@ void Character::load( const JsonObject &data )
             return VisitResponse::NEXT;
         } );
     }
+
+    JsonArray parray;
+    character_id tmpid;
+
+    data.read( "slow_rad", slow_rad );
+    data.read( "scent", scent );
+    data.read( "male", male );
+    data.read( "is_dead", is_dead );
+    data.read( "cash", cash );
+    data.read( "recoil", recoil );
+    data.read( "in_vehicle", in_vehicle );
+    data.read( "last_sleep_check", last_sleep_check );
+    if( data.read( "id", tmpid ) && tmpid.is_valid() ) {
+        // Templates have invalid ids, so we only assign here when valid.
+        // When the game starts, a new valid id will be assigned if not already
+        // present.
+        setID( tmpid );
+    }
+
+    data.read( "addictions", addictions );
+    data.read( "followers", follower_ids );
+
+    // Add the earplugs.
+    if( has_bionic( bionic_id( "bio_ears" ) ) && !has_bionic( bionic_id( "bio_earplugs" ) ) ) {
+        add_bionic( bionic_id( "bio_earplugs" ) );
+    }
+
+    // Add the blindfold.
+    if( has_bionic( bionic_id( "bio_sunglasses" ) ) && !has_bionic( bionic_id( "bio_blindfold" ) ) ) {
+        add_bionic( bionic_id( "bio_blindfold" ) );
+    }
+
+    // Fixes bugged characters for CBM's preventing mutations.
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const trait_id &mid : bid->canceled_mutations ) {
+            if( has_trait( mid ) ) {
+                remove_mutation( mid );
+            }
+        }
+    }
+
+    if( data.has_array( "faction_warnings" ) ) {
+        for( JsonObject warning_data : data.get_array( "faction_warnings" ) ) {
+            warning_data.allow_omitted_members();
+            std::string fac_id = warning_data.get_string( "fac_warning_id" );
+            int warning_num = warning_data.get_int( "fac_warning_num" );
+            time_point warning_time = calendar::before_time_starts;
+            warning_data.read( "fac_warning_time", warning_time );
+            warning_record[faction_id( fac_id )] = std::make_pair( warning_num, warning_time );
+        }
+    }
+
+    int tmptar;
+    int tmptartyp = 0;
+
+    data.read( "last_target", tmptar );
+    data.read( "last_target_type", tmptartyp );
+    data.read( "last_target_pos", last_target_pos );
+    data.read( "ammo_location", ammo_location );
+    // Fixes savefile with invalid last_target_pos.
+    if( last_target_pos && *last_target_pos == tripoint_min ) {
+        last_target_pos = cata::nullopt;
+    }
+    if( tmptartyp == +1 ) {
+        // Use overmap_buffer because game::active_npc is not filled yet.
+        last_target = overmap_buffer.find_npc( character_id( tmptar ) );
+    } else if( tmptartyp == -1 ) {
+        // Need to do this *after* the monsters have been loaded!
+        last_target = g->critter_tracker->from_temporary_id( tmptar );
+    }
+    data.read( "destination_point", destination_point );
+    camps.clear();
+    for( JsonObject bcdata : data.get_array( "camps" ) ) {
+        bcdata.allow_omitted_members();
+        tripoint_abs_omt bcpt;
+        bcdata.read( "pos", bcpt );
+        camps.insert( bcpt );
+    }
 }
 
 /**
@@ -1076,17 +1154,7 @@ void Character::store( JsonOut &json ) const
         json.end_object();
     }
     json.end_array();
-}
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-///// player.h, avatar + npc
-
-/**
- * Gather variables for saving. These variables are common to both the avatar and npcs.
- */
-void player::store( JsonOut &json ) const
-{
-    Character::store( json );
 
     // energy
     json.member( "last_sleep_check", last_sleep_check );
@@ -1152,92 +1220,6 @@ void player::store( JsonOut &json ) const
     json.end_array();
 }
 
-/**
- * Load variables from json into object. These variables are common to both the avatar and NPCs.
- */
-void player::load( const JsonObject &data )
-{
-    Character::load( data );
-
-    JsonArray parray;
-    character_id tmpid;
-
-    data.read( "slow_rad", slow_rad );
-    data.read( "scent", scent );
-    data.read( "male", male );
-    data.read( "is_dead", is_dead );
-    data.read( "cash", cash );
-    data.read( "recoil", recoil );
-    data.read( "in_vehicle", in_vehicle );
-    data.read( "last_sleep_check", last_sleep_check );
-    if( data.read( "id", tmpid ) && tmpid.is_valid() ) {
-        // Templates have invalid ids, so we only assign here when valid.
-        // When the game starts, a new valid id will be assigned if not already
-        // present.
-        setID( tmpid );
-    }
-
-    data.read( "addictions", addictions );
-    data.read( "followers", follower_ids );
-
-    // Add the earplugs.
-    if( has_bionic( bionic_id( "bio_ears" ) ) && !has_bionic( bionic_id( "bio_earplugs" ) ) ) {
-        add_bionic( bionic_id( "bio_earplugs" ) );
-    }
-
-    // Add the blindfold.
-    if( has_bionic( bionic_id( "bio_sunglasses" ) ) && !has_bionic( bionic_id( "bio_blindfold" ) ) ) {
-        add_bionic( bionic_id( "bio_blindfold" ) );
-    }
-
-    // Fixes bugged characters for CBM's preventing mutations.
-    for( const bionic_id &bid : get_bionics() ) {
-        for( const trait_id &mid : bid->canceled_mutations ) {
-            if( has_trait( mid ) ) {
-                remove_mutation( mid );
-            }
-        }
-    }
-
-    if( data.has_array( "faction_warnings" ) ) {
-        for( JsonObject warning_data : data.get_array( "faction_warnings" ) ) {
-            warning_data.allow_omitted_members();
-            std::string fac_id = warning_data.get_string( "fac_warning_id" );
-            int warning_num = warning_data.get_int( "fac_warning_num" );
-            time_point warning_time = calendar::before_time_starts;
-            warning_data.read( "fac_warning_time", warning_time );
-            warning_record[faction_id( fac_id )] = std::make_pair( warning_num, warning_time );
-        }
-    }
-
-    int tmptar;
-    int tmptartyp = 0;
-
-    data.read( "last_target", tmptar );
-    data.read( "last_target_type", tmptartyp );
-    data.read( "last_target_pos", last_target_pos );
-    data.read( "ammo_location", ammo_location );
-    // Fixes savefile with invalid last_target_pos.
-    if( last_target_pos && *last_target_pos == tripoint_min ) {
-        last_target_pos = cata::nullopt;
-    }
-    if( tmptartyp == +1 ) {
-        // Use overmap_buffer because game::active_npc is not filled yet.
-        last_target = overmap_buffer.find_npc( character_id( tmptar ) );
-    } else if( tmptartyp == -1 ) {
-        // Need to do this *after* the monsters have been loaded!
-        last_target = g->critter_tracker->from_temporary_id( tmptar );
-    }
-    data.read( "destination_point", destination_point );
-    camps.clear();
-    for( JsonObject bcdata : data.get_array( "camps" ) ) {
-        bcdata.allow_omitted_members();
-        tripoint_abs_omt bcpt;
-        bcdata.read( "pos", bcpt );
-        camps.insert( bcpt );
-    }
-}
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// avatar.h
 
@@ -1252,7 +1234,7 @@ void avatar::serialize( JsonOut &json ) const
 
 void avatar::store( JsonOut &json ) const
 {
-    player::store( json );
+    Character::store( json );
 
     // player-specific specifics
     if( prof != nullptr ) {
@@ -1330,7 +1312,7 @@ void avatar::deserialize( JsonIn &jsin )
 
 void avatar::load( const JsonObject &data )
 {
-    player::load( data );
+    Character::load( data );
 
     // Remove after 0.F
     // Exists to prevent failed to visit member errors
@@ -1749,7 +1731,7 @@ void npc::deserialize( JsonIn &jsin )
 
 void npc::load( const JsonObject &data )
 {
-    player::load( data );
+    Character::load( data );
 
     int misstmp = 0;
     int classtmp = 0;
@@ -1986,7 +1968,7 @@ void npc::serialize( JsonOut &json ) const
 
 void npc::store( JsonOut &json ) const
 {
-    player::store( json );
+    Character::store( json );
 
     json.member( "name", name );
     json.member( "marked_for_death", marked_for_death );

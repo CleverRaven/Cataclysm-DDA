@@ -2159,7 +2159,7 @@ void vehicle::interact_with( const vpart_position &vp )
         choice = selectmenu.ret;
     }
     if( choice != EXAMINE && choice != TRACK && choice != GET_ITEMS_ON_GROUND ) {
-        if( !handle_potential_theft( dynamic_cast<player &>( player_character ) ) ) {
+        if( !handle_potential_theft( dynamic_cast<Character &>( player_character ) ) ) {
             return;
         }
     }

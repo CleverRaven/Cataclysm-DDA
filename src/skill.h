@@ -249,6 +249,7 @@ class SkillLevelMap : public std::map<skill_id, SkillLevel>
         int exceeds_recipe_requirements( const recipe &rec ) const;
         bool theoretical_recipe_requirements( const recipe &rec ) const;
         bool has_recipe_requirements( const recipe &rec ) const;
+        bool has_same_levels_as( const SkillLevelMap &other ) const;
 };
 
 class SkillDisplayType

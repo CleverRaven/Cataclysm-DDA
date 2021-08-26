@@ -2349,8 +2349,9 @@ void debug()
 
         case debug_menu_index::CHANGE_WEATHER: {
             uilist weather_menu;
+            weather_manager &weather = get_weather();
             weather_menu.text = _( "Select new weather pattern:" );
-            weather_menu.addentry( 0, true, MENU_AUTOASSIGN, g->weather.weather_override == WEATHER_NULL ?
+            weather_menu.addentry( 0, true, MENU_AUTOASSIGN, weather.weather_override == WEATHER_NULL ?
                                    _( "Keep normal weather patterns" ) : _( "Disable weather forcing" ) );
             for( size_t i = 0; i < weather_types::get_all().size(); i++ ) {
                 weather_menu.addentry( i, true, MENU_AUTOASSIGN,
@@ -2362,16 +2363,17 @@ void debug()
             if( weather_menu.ret >= 0 &&
                 static_cast<size_t>( weather_menu.ret ) < weather_types::get_all().size() ) {
                 const weather_type_id selected_weather = weather_types::get_all()[weather_menu.ret].id;
-                g->weather.weather_override = selected_weather;
-                g->weather.set_nextweather( calendar::turn );
+                weather.weather_override = selected_weather;
+                weather.set_nextweather( calendar::turn );
             }
         }
         break;
 
         case debug_menu_index::WIND_DIRECTION: {
             uilist wind_direction_menu;
+            weather_manager &weather = get_weather();
             wind_direction_menu.text = _( "Select new wind direction:" );
-            wind_direction_menu.addentry( 0, true, MENU_AUTOASSIGN, g->weather.wind_direction_override ?
+            wind_direction_menu.addentry( 0, true, MENU_AUTOASSIGN, weather.wind_direction_override ?
                                           _( "Disable direction forcing" ) : _( "Keep normal wind direction" ) );
             int count = 1;
             for( int angle = 0; angle <= 315; angle += 45 ) {
@@ -2380,19 +2382,20 @@ void debug()
             }
             wind_direction_menu.query();
             if( wind_direction_menu.ret == 0 ) {
-                g->weather.wind_direction_override = cata::nullopt;
-                g->weather.set_nextweather( calendar::turn );
+                weather.wind_direction_override = cata::nullopt;
+                weather.set_nextweather( calendar::turn );
             } else if( wind_direction_menu.ret >= 0 && wind_direction_menu.ret < 9 ) {
-                g->weather.wind_direction_override = ( wind_direction_menu.ret - 1 ) * 45;
-                g->weather.set_nextweather( calendar::turn );
+                weather.wind_direction_override = ( wind_direction_menu.ret - 1 ) * 45;
+                weather.set_nextweather( calendar::turn );
             }
         }
         break;
 
         case debug_menu_index::WIND_SPEED: {
             uilist wind_speed_menu;
+            weather_manager &weather = get_weather();
             wind_speed_menu.text = _( "Select new wind speed:" );
-            wind_speed_menu.addentry( 0, true, MENU_AUTOASSIGN, g->weather.wind_direction_override ?
+            wind_speed_menu.addentry( 0, true, MENU_AUTOASSIGN, weather.wind_direction_override ?
                                       _( "Disable speed forcing" ) : _( "Keep normal wind speed" ) );
             int count = 1;
             for( int speed = 0; speed <= 100; speed += 10 ) {
@@ -2402,12 +2405,12 @@ void debug()
             }
             wind_speed_menu.query();
             if( wind_speed_menu.ret == 0 ) {
-                g->weather.windspeed_override = cata::nullopt;
-                g->weather.set_nextweather( calendar::turn );
+                weather.windspeed_override = cata::nullopt;
+                weather.set_nextweather( calendar::turn );
             } else if( wind_speed_menu.ret >= 0 && wind_speed_menu.ret < 12 ) {
                 int selected_wind_speed = ( wind_speed_menu.ret - 1 ) * 10;
-                g->weather.windspeed_override = selected_wind_speed;
-                g->weather.set_nextweather( calendar::turn );
+                weather.windspeed_override = selected_wind_speed;
+                weather.set_nextweather( calendar::turn );
             }
         }
         break;

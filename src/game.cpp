@@ -210,6 +210,7 @@ static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_flu( "flu" );
+static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_no_sight( "no_sight" );
@@ -4785,7 +4786,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
         return false;
     }
     const bool can_see = u.sees( tripoint( x, y, p.z ) );
-    Character *npc_or_player = critter_at<player>( tripoint( x, y, p.z ), false );
+    Character *npc_or_player = critter_at<Character>( tripoint( x, y, p.z ), false );
     if( npc_or_player != nullptr ) {
         if( bash_dmg <= 0 ) {
             return false;
@@ -10043,6 +10044,9 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
         // Don't fling hallucinations
         return;
     }
+
+    // Target creature shouldn't be grabbed if thrown
+    c->remove_effect( effect_grabbed );
 
     int steps = 0;
     bool thru = true;

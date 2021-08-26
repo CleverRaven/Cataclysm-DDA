@@ -87,7 +87,6 @@
 #include "overlay_ordering.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
-#include "player.h"
 #include "profession.h"
 #include "proficiency.h"
 #include "recipe_dictionary.h"
@@ -462,14 +461,16 @@ Character::Character() :
     last_climate_control_ret( false )
 {
     randomize_blood();
-    str_max = 0;
-    dex_max = 0;
-    per_max = 0;
-    int_max = 0;
-    str_cur = 0;
-    dex_cur = 0;
-    per_cur = 0;
-    int_cur = 0;
+    str_cur = 8;
+    str_max = 8;
+    dex_cur = 8;
+    dex_max = 8;
+    int_cur = 8;
+    int_max = 8;
+    per_cur = 8;
+    per_max = 8;
+    dodges_left = 1;
+    blocks_left = 1;
     str_bonus = 0;
     dex_bonus = 0;
     per_bonus = 0;
@@ -501,6 +502,38 @@ Character::Character() :
     move_mode = move_mode_id( "walk" );
     next_expected_position = cata::nullopt;
     crafting_cache.time = calendar::before_time_starts;
+
+    set_power_level( 0_kJ );
+    set_max_power_level( 0_kJ );
+    cash = 0;
+    scent = 500;
+    male = true;
+    prof = profession::has_initialized() ? profession::generic() :
+           nullptr; //workaround for a potential structural limitation, see player::create
+    start_location = start_location_id( "sloc_shelter" );
+    moves = 100;
+    oxygen = 0;
+    in_vehicle = false;
+    controlling_vehicle = false;
+    grab_point = tripoint_zero;
+    hauling = false;
+    set_focus( 100 );
+    last_item = itype_id( "null" );
+    sight_max = 9999;
+    last_batch = 0;
+    lastconsumed = itype_id( "null" );
+    death_drops = true;
+    nv_cached = false;
+    volume = 0;
+    set_value( "THIEF_MODE", "THIEF_ASK" );
+    for( const auto &v : vitamin::all() ) {
+        vitamin_levels[ v.first ] = 0;
+    }
+    // Only call these if game is initialized
+    if( !!g && json_flag::is_ready() ) {
+        recalc_sight_limits();
+        calc_encumbrance();
+    }
 }
 // *INDENT-ON*
 
@@ -6135,7 +6168,7 @@ void Character::update_body( const time_point &from, const time_point &to )
     update_stomach( from, to );
     recalculate_enchantment_cache();
     if( ticks_between( from, to, 3_minutes ) > 0 ) {
-        magic->update_mana( *this->as_player(), to_turns<float>( 3_minutes ) );
+        magic->update_mana( *this, to_turns<float>( 3_minutes ) );
     }
     const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
@@ -6577,7 +6610,7 @@ void Character::update_needs( int rate_multiplier )
         !( has_trait( trait_NOPAIN ) || has_effect( effect_narcosis ) ) ) {
         vehicle *veh = veh_pointer_or_null( get_map().veh_at( pos() ) );
         // it's painful to work the controls, but passengers in open topped vehicles are fine
-        if( veh && ( veh->enclosed_at( pos() ) || veh->player_in_control( *this->as_player() ) ) ) {
+        if( veh && ( veh->enclosed_at( pos() ) || veh->player_in_control( *this ) ) ) {
             add_msg_if_player( m_bad,
                                _( "You're cramping up from stuffing yourself in this vehicle." ) );
             if( is_npc() ) {
@@ -7016,12 +7049,13 @@ void Character::update_bodytemp()
         set_all_parts_temp_cur( BODYTEMP_NORM );
         return;
     }
+    weather_manager &weather_man = get_weather();
     /* Cache calls to g->get_temperature( player position ), used in several places in function */
-    const int player_local_temp = g->weather.get_temperature( pos() );
+    const int player_local_temp = weather_man.get_temperature( pos() );
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10
     int Ctemperature = static_cast<int>( 100 * temp_to_celsius( player_local_temp ) );
-    const w_point weather = *g->weather.weather_precise;
+    const w_point weather = *weather_man.weather_precise;
     int vehwindspeed = 0;
     map &here = get_map();
     const optional_vpart_position vp = here.veh_at( pos() );
@@ -7030,9 +7064,8 @@ void Character::update_bodytemp()
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
     bool sheltered = g->is_sheltered( pos() );
-    double total_windpower = get_local_windpower( g->weather.windspeed + vehwindspeed, cur_om_ter,
-                             pos(),
-                             g->weather.winddirection, sheltered );
+    double total_windpower = get_local_windpower( weather_man.windspeed + vehwindspeed, cur_om_ter,
+                             pos(), weather_man.winddirection, sheltered );
     // Let's cache this not to check it for every bodyparts
     const bool has_bark = has_trait( trait_BARK );
     const bool has_sleep = has_effect( effect_sleep );
@@ -7097,7 +7130,7 @@ void Character::update_bodytemp()
     }
 
     std::map<bodypart_id, int> warmth_per_bp = warmth( clothing_map );
-    std::map<bodypart_id, int> bonus_warmth_per_bp = bonus_item_warmth( clothing_map );
+    std::map<bodypart_id, int> bonus_warmth_per_bp = bonus_item_warmth();
     std::map<bodypart_id, int> wind_res_per_bp = get_wind_resistance( clothing_map );
     // We might not use this at all, so leave it empty
     // If we do need to use it, we'll initialize it (once) there
@@ -7549,7 +7582,7 @@ void Character::update_frostbite( const bodypart_id &bp, const int FBwindPower,
     Less than -35F, more than 10 mp
     **/
 
-    const int player_local_temp = g->weather.get_temperature( pos() );
+    const int player_local_temp = get_weather().get_temperature( pos() );
     const int temp_after = get_part_temp_cur( bp );
 
     if( bp == body_part_mouth || bp == body_part_foot_r ||
@@ -9721,7 +9754,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         return false;
     }
 
-    cata::optional<int> charges_used = actually_used->type->invoke( *this->as_player(), *actually_used,
+    cata::optional<int> charges_used = actually_used->type->invoke( *this, *actually_used,
                                        pt, method );
     if( !charges_used.has_value() ) {
         moves = pre_obtain_moves;
@@ -9810,7 +9843,7 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
                 string_format( _( "Store in %s" ), e.tname() ), true, e.invlet,
                 item_store_cost( *obj, e, false, e.insert_cost( *obj ) ),
                 [this, ptr, &e, &obj] {
-                    return ptr->store( *this->as_player(), e, *obj );
+                    return ptr->store( *this, e, *obj );
                 }
             } );
         }
@@ -10970,7 +11003,7 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const
     mod_part_hp_cur( part_to_damage, - dam_to_bodypart );
     get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
 
-    if( !weapon.is_null() && !as_player()->can_wield( weapon ).success() &&
+    if( !weapon.is_null() && !can_wield( weapon ).success() &&
         can_drop( weapon ).success() ) {
         add_msg_if_player( _( "You are no longer able to wield your %s and drop it!" ),
                            weapon.display_name() );
@@ -11976,9 +12009,7 @@ void Character::migrate_items_to_storage( bool disintegrate )
         if( disintegrate ) {
             if( try_add( *it, /*avoid=*/nullptr, it ) == nullptr ) {
                 std::string profession_id = "<none>";
-                if( const player *me = as_player() ) {
-                    profession_id = me->prof->ident().str();
-                }
+                profession_id = prof->ident().str();
                 debugmsg( "ERROR: Could not put %s (%s) into inventory.  Check if the "
                           "profession (%s) has enough space.",
                           it->tname(), it->typeId().str(), profession_id );
@@ -12071,40 +12102,41 @@ std::map<bodypart_id, int> Character::warmth( const std::map<bodypart_id, std::v
     return ret;
 }
 
-static int bestwarmth( const std::vector<const item *> &its, const flag_id &flag )
+std::map<bodypart_id, int> Character::bonus_item_warmth() const
 {
-    int best = 0;
-    for( const item *w : its ) {
-        if( w->has_flag( flag ) && w->get_warmth() > best ) {
-            best = w->get_warmth();
+    int pocket_warmth = 0;
+    int hood_warmth = 0;
+    int collar_warmth = 0;
+    for( const item &w : worn ) {
+        if( w.has_flag( flag_POCKETS ) && w.get_warmth() > pocket_warmth ) {
+            pocket_warmth = w.get_warmth();
+        }
+        if( w.has_flag( flag_HOOD ) && w.get_warmth() > hood_warmth ) {
+            hood_warmth = w.get_warmth();
+        }
+        if( w.has_flag( flag_COLLAR ) && w.get_warmth() > collar_warmth ) {
+            collar_warmth = w.get_warmth();
         }
     }
-    return best;
-}
 
-std::map<bodypart_id, int> Character::bonus_item_warmth( const
-        std::map<bodypart_id, std::vector<const item *>> &clothing_map ) const
-{
     std::map<bodypart_id, int> ret;
     for( const bodypart_id &bp : get_all_body_parts() ) {
         ret.emplace( bp, 0 );
-    }
-    for( const std::pair<const bodypart_id, std::vector<const item *>> &on_bp : clothing_map ) {
-        const bodypart_id &bp = on_bp.first;
+
         // If the player is not wielding anything big, check if hands can be put in pockets
         if( ( bp == body_part_hand_l || bp == body_part_hand_r ) &&
             weapon.volume() < 500_ml ) {
-            ret[bp] += bestwarmth( on_bp.second, flag_POCKETS );
+            ret[bp] += pocket_warmth;
         }
 
         // If the player's head is not encumbered, check if hood can be put up
         if( bp == body_part_head && encumb( body_part_head ) < 10 ) {
-            ret[bp] += bestwarmth( on_bp.second, flag_HOOD );
+            ret[bp] += hood_warmth;
         }
 
         // If the player's mouth is not encumbered, check if collar can be put up
         if( bp == body_part_mouth && encumb( body_part_mouth ) < 10 ) {
-            ret[bp] += bestwarmth( on_bp.second, flag_COLLAR );
+            ret[bp] += collar_warmth;
         }
     }
 
@@ -14073,7 +14105,7 @@ bool Character::unload( item_location &loc, bool bypass_activity )
 
     // Turn off any active tools
     if( target->is_tool() && target->active && target->ammo_remaining() == 0 ) {
-        target->type->invoke( *this->as_player(), *target, this->pos() );
+        target->type->invoke( *this, *target, this->pos() );
     }
 
     add_msg( _( "You unload your %s." ), target->tname() );
@@ -14352,7 +14384,7 @@ bool Character::beyond_final_warning( const faction_id &id )
 const Character *Character::get_book_reader( const item &book,
         std::vector<std::string> &reasons ) const
 {
-    const player *reader = nullptr;
+    const Character *reader = nullptr;
 
     if( !book.is_book() ) {
         reasons.push_back( is_avatar() ? string_format( _( "Your %s is not good reading material." ),
@@ -15102,7 +15134,7 @@ void Character::on_worn_item_transform( const item &old_it, const item &new_it )
 
 void Character::process_items()
 {
-    if( weapon.needs_processing() && weapon.process( this->as_player(), pos() ) ) {
+    if( weapon.needs_processing() && weapon.process( this, pos() ) ) {
         weapon.spill_contents( pos() );
         remove_weapon();
     }
@@ -15113,7 +15145,7 @@ void Character::process_items()
             continue;
         }
         if( it->needs_processing() ) {
-            if( it->process( this->as_player(), pos() ) ) {
+            if( it->process( this, pos() ) ) {
                 it->spill_contents( pos() );
                 removed_items.push_back( it );
             }

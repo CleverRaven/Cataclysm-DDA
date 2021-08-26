@@ -15,7 +15,6 @@ class faction;
 class item;
 class mission;
 class npc;
-class player;
 class time_duration;
 class vehicle;
 struct tripoint;

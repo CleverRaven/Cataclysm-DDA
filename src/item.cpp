@@ -7592,8 +7592,8 @@ bool item::is_salvageable() const
         return false;
     }
     const std::vector<material_id> &mats = made_of();
-    if( std::none_of( mats.begin(), mats.end(), []( const material_id & m ) {
-    return m->salvaged_into().has_value();
+    if( std::none_of( mats.begin(), mats.end(), [this]( const material_id & m ) {
+    return m->salvaged_into().has_value() && m->salvaged_into().value() != type->get_id();
     } ) ) {
         return false;
     }
@@ -10628,6 +10628,9 @@ bool item::process_tool( Character *carrier, const tripoint &pos )
         // invoking the object can convert the item to another type
         const bool had_revert_to = type->tool->revert_to.has_value();
         type->invoke( carrier != nullptr ? *carrier : player_character, *this, pos );
+        if( carrier ) {
+            carrier->add_msg_if_player( m_info, _( "The %s ran out of energy!" ), tname() );
+        }
         if( had_revert_to ) {
             deactivate( carrier );
             return false;

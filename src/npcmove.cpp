@@ -370,7 +370,7 @@ float npc::evaluate_enemy( const Creature &target ) const
         float diff = static_cast<float>( mon.type->difficulty );
         return std::min( diff, NPC_DANGER_MAX );
     } else if( target.is_npc() || target.is_avatar() ) {
-        return std::min( character_danger( dynamic_cast<const player &>( target ) ),
+        return std::min( character_danger( dynamic_cast<const Character &>( target ) ),
                          NPC_DANGER_MAX );
     } else {
         return 0.0f;
@@ -627,7 +627,7 @@ void npc::assess_danger()
     };
 
     for( const weak_ptr_fast<Creature> &guy : ai_cache.hostile_guys ) {
-        player *foe = dynamic_cast<player *>( guy.lock().get() );
+        Character *foe = dynamic_cast<Character *>( guy.lock().get() );
         if( foe && foe->is_npc() ) {
             assessment += handle_hostile( *foe, evaluate_enemy( *foe ), translate_marker( "bandit" ),
                                           "kill_npc" );
@@ -669,7 +669,7 @@ void npc::assess_danger()
     // update the threat cache
     for( size_t i = 0; i < 8; i++ ) {
         direction threat_dir = npc_threat_dir[i];
-        direction dir_right = npc_threat_dir[( i + 1 ) % 8];
+        direction dir_right = npc_thrhttps://discordapp.com/eat_dir[( i + 1 ) % 8];
         direction dir_left = npc_threat_dir[( i + 7 ) % 8 ];
         ai_cache.threat_map[threat_dir] = cur_threat_map[threat_dir] + 0.1f *
                                           ( cur_threat_map[dir_right] + cur_threat_map[dir_left] );
@@ -687,13 +687,11 @@ bool npc::is_safe() const
 
 float npc::character_danger( const Character &uc ) const
 {
-    const item weapon = get_wielded_item();
     // TODO: Remove this when possible
-    const player &u = dynamic_cast<const player &>( uc );
     float ret = 0.0f;
-    bool u_gun = weapon.is_gun();
-    bool my_gun = weapon.is_gun();
-    double u_weap_val = u.weapon_value( weapon );
+    bool u_gun = uc.get_wielded_item().is_gun();
+    bool my_gun = get_wielded_item().is_gun();
+    double u_weap_val = uc.weapon_value( uc.get_wielded_item() );
     const double &my_weap_val = ai_cache.my_weapon_value;
     if( u_gun && !my_gun ) {
         u_weap_val *= 1.5f;
@@ -702,11 +700,11 @@ float npc::character_danger( const Character &uc ) const
 
     ret += hp_percentage() * get_hp_max( bodypart_id( "torso" ) ) / 100.0 / my_weap_val;
 
-    ret += my_gun ? u.get_dodge() / 2 : u.get_dodge();
+    ret += my_gun ? uc.get_dodge() / 2 : uc.get_dodge();
 
-    ret *= std::max( 0.5, u.get_speed() / 100.0 );
+    ret *= std::max( 0.5, uc.get_speed() / 100.0 );
 
-    add_msg_debug( debugmode::DF_NPC, "%s danger: %1f", u.disp_name(), ret );
+    add_msg_debug( debugmode::DF_NPC, "%s danger: %1f", uc.disp_name(), ret );
     return ret;
 }
 
@@ -1198,7 +1196,7 @@ void npc::execute_action( npc_action action )
             break;
 
         case npc_heal_player: {
-            player *patient = dynamic_cast<player *>( current_ally() );
+            Character *patient = dynamic_cast<Character *>( current_ally() );
             if( patient ) {
                 update_path( patient->pos() );
                 if( path.size() == 1 ) { // We're adjacent to u, and thus can heal u
@@ -3582,7 +3580,7 @@ void npc::activate_item( item &it )
     }
 }
 
-void npc::heal_player( player &patient )
+void npc::heal_player( Character &patient )
 {
     int dist = rl_dist( pos(), patient.pos() );
 
@@ -3614,7 +3612,7 @@ void npc::heal_player( player &patient )
 
 }
 
-void npc::pretend_heal( player &patient, item used )
+void npc::pretend_heal( Character &patient, item used )
 {
     // you can tell that it's not real by looking at your HP though
     add_msg_if_player_sees( *this, _( "%1$s heals %2$s." ), disp_name(),

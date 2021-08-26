@@ -5,7 +5,6 @@
 #include "magic.h"
 #include "npc.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "point.h"
 #include "talker_character.h"
@@ -305,7 +304,7 @@ bool talker_character::can_stash_weapon() const
 
 bool talker_character::has_stolen_item( const talker &guy ) const
 {
-    const player *owner = guy.get_character();
+    const Character *owner = guy.get_character();
     if( owner ) {
         for( auto &elem : me_chr->inv_dump() ) {
             if( elem->is_old_owner( *owner, true ) ) {
