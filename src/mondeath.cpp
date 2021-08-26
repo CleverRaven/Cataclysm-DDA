@@ -84,6 +84,7 @@ item *mdeath::normal( monster &z )
             return make_mon_corpse( z, static_cast<int>( std::floor( corpse_damage * itype::damage_scale ) ) );
         }
     }
+    return nullptr;
 }
 
 static void scatter_chunks( const itype_id &chunk_name, int chunk_amt, monster &z, int distance,
@@ -194,6 +195,7 @@ item *mdeath::splatter( monster &z )
         }
         return &here.add_item_or_charges( z.pos(), corpse );
     }
+    return nullptr;
 }
 
 void mdeath::disappear( monster &z )
