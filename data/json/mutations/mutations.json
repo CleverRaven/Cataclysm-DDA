@@ -7051,10 +7051,8 @@
     "id": "NUMB",
     "name": { "str": "Numb" },
     "points": 0,
-    "description": "Your ability to feel or express emotion has been greatly hampered.  Your uncanny demeanor is sure to unsettle others, though incedentally you find yourself to be a bit smarter.",
+    "description": "Your ability to feel or express emotion has been greatly hampered.",
     "category": [ "MEDICAL" ],
-    "threshreq": [ "THRESH_MEDICAL" ],
-    "passive_mods": { "int_mod": 1, "dex_mod": -1, "per_mod": -1 },
-    "social_modifiers": { "persuade": -20, "lie": -10, "intimidate": 10 }
+    "threshreq": [ "THRESH_MEDICAL" ]
   }
 ]
