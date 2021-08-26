@@ -1154,20 +1154,20 @@ void mtype::remove_special_attacks( const JsonObject &jo, const std::string &mem
 
 void mtype::add_regeneration_modifier( JsonArray inner, const std::string & )
 {
-    MonsterGenerator &gen = MonsterGenerator::generator();
     const std::string effect_name = inner.get_string( 0 );
+    const efftype_id effect( effect_name );
     //TODO: if invalid effect, throw error
     //  inner.throw_error( "Invalid regeneration_modifiers" );
 
-    if( regeneration_modifiers.count( effect_name ) > 0 ) {
-        regeneration_modifiers.erase( effect_name );
+    if( regeneration_modifiers.count( effect ) > 0 ) {
+        regeneration_modifiers.erase( effect );
         if( test_mode ) {
             debugmsg( "%s specifies more than one regeneration modifer for effect %s, ignoring all but the last",
                       id.c_str(), effect_name );
         }
     }
     int amount = inner.get_int( 1 );
-    regeneration_modifiers.emplace( effect_name, amount );
+    regeneration_modifiers.emplace( effect, amount );
 }
 
 void mtype::add_regeneration_modifiers( const JsonObject &jo, const std::string &member,
@@ -1193,7 +1193,8 @@ void mtype::remove_regeneration_modifiers( const JsonObject &jo, const std::stri
         const std::string & )
 {
     for( const std::string &name : jo.get_tags( member_name ) ) {
-        regeneration_modifiers.erase( name );
+        const efftype_id effect( name );
+        regeneration_modifiers.erase( effect );
     }
 }
 
