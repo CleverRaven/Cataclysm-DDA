@@ -62,7 +62,7 @@ void pocket_favorite_callback::refresh( uilist *menu )
         ++i;
     }
 
-    if( selected_pocket != nullptr ) {
+    if( selected_pocket != nullptr && selected_pocket->is_allowed() ) {
         std::vector<iteminfo> info;
         int starty = 5;
         const int startx = menu->w_width - menu->pad_right;
@@ -498,6 +498,9 @@ ret_val<item_pocket *> item_contents::insert_item( const item &it,
     }
 
     ret_val<item_pocket *> pocket = find_pocket_for( it, pk_type );
+    if( !pocket.value()->is_allowed() ) {
+        return ret_val<item_pocket *>::make_failure( nullptr, _( "Can't store anything in this." ) );
+    }
     if( !pocket.success() ) {
         return pocket;
     }
@@ -1669,6 +1672,9 @@ void item_contents::info( std::vector<iteminfo> &info, const iteminfo_query *par
 
         int idx = 0;
         for( const item_pocket &pocket : found_pockets ) {
+            if( !pocket.is_allowed() ) {
+                continue;
+            }
             insert_separation_line( info );
             // If there are multiple similar pockets, show their capacity as a set
             if( pocket_num[idx] > 1 ) {

@@ -543,7 +543,7 @@ class monster : public Creature
          * This applies to robotic monsters that are spawned by invoking an item (e.g. turret),
          * and to reviving monsters that spawn from a corpse.
          */
-        void init_from_item( const item &itm );
+        void init_from_item( item &itm );
 
         /**
          * Do some cleanup and caching as monster is being unloaded from map.

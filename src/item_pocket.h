@@ -143,6 +143,9 @@ class item_pocket
         // exceptions are MOD, CORPSE, SOFTWARE, MIGRATION, etc.
         bool is_standard_type() const;
 
+        bool is_allowed() const;
+        void set_usability( bool show );
+
         const pocket_data *get_pocket_data() const;
 
         std::list<item *> all_items_top();
@@ -341,6 +344,8 @@ class item_pocket
         // the items inside the pocket
         std::list<item> contents;
         bool _sealed = false;
+
+        bool allowed = true; // is it possible to put things in this pocket
 };
 
 /**

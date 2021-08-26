@@ -2534,6 +2534,11 @@ void monster::die( Creature *nkiller )
     if( death_drops && !no_extra_death_drops ) {
         drop_items_on_death( corpse );
     }
+    if( death_drops && !is_hallucination() ) {
+        for( const auto &it : inv ) {
+            corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
+        }
+    }
     if( death_drops ) {
         // Drop items stored in optionals
         move_special_item_to_inv( tack_item );
@@ -2552,10 +2557,9 @@ void monster::die( Creature *nkiller )
         if( has_effect( effect_beartrap ) ) {
             add_item( item( "beartrap", calendar::turn_zero ) );
         }
-    }
-    if( death_drops && !is_hallucination() ) {
-        for( const auto &it : inv ) {
-            corpse->put_in( it, item_pocket::pocket_type::CORPSE );
+
+        for( item_pocket *pocket : corpse->get_all_contained_pockets().value() ) {
+            pocket->set_usability( false );
         }
     }
 
@@ -2633,12 +2637,12 @@ void monster::drop_items_on_death( item *corpse )
     std::vector<item *> dropped;
     if( corpse ) {
         for( item &it : new_items ) {
-            corpse->put_in( it, item_pocket::pocket_type::CORPSE );
+            corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
+
             if( !it.is_null() ) {
                 dropped.push_back( &it );
             }
         }
-
     }
 
     if( has_flag( MF_FILTHY ) ) {
@@ -2960,7 +2964,7 @@ bool monster::is_nemesis() const
     return has_flag( MF_NEMESIS );
 }
 
-void monster::init_from_item( const item &itm )
+void monster::init_from_item( item &itm )
 {
     if( itm.typeId() == itype_corpse ) {
         set_speed_base( get_speed_base() * 0.8 );
@@ -2982,8 +2986,9 @@ void monster::init_from_item( const item &itm )
         if( !up_time.empty() ) {
             upgrade_time = std::stoi( up_time );
         }
-        for( const item *it : itm.all_items_top( item_pocket::pocket_type::CORPSE ) ) {
+        for( item *it : itm.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
             inv.push_back( *it );
+            itm.remove_item( *it );
         }
     } else {
         // must be a robot
