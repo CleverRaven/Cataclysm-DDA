@@ -1004,7 +1004,7 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
 {
     if( it.has_flag( flag_NO_UNWIELD ) ) {
         return ret_val<item_pocket::contain_code>::make_failure(
-                    contain_code::ERR_MOD, _( "cannot unwield item" ) );
+                   contain_code::ERR_MOD, _( "cannot unwield item" ) );
     }
 
     // To prevent debugmsg. Casings can only be inserted in a magazine during firing.
