@@ -1241,6 +1241,12 @@
   },
   {
     "type": "keybinding",
+    "id": "SWITCH_GENDER",
+    "name": "Change gender",
+    "bindings": [ { "input_method": "keyboard_any", "key": "y" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SAVE_TEMPLATE",
     "category": "DEFENSE_SETUP",
     "name": "Save template",
