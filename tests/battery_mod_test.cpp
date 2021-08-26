@@ -15,7 +15,6 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "make_static.h"
-#include "player.h"
 #include "player_helpers.h"
 #include "ret_val.h"
 #include "type_id.h"
@@ -153,7 +152,7 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
                     CHECK( use != nullptr );
                     const iuse_transform *actor = dynamic_cast<const iuse_transform *>( use->get_actor_ptr() );
 
-                    player &dummy = get_avatar();
+                    Character &dummy = get_avatar();
                     clear_avatar();
                     actor->use( dummy, flashlight, false, dummy.pos() );
 

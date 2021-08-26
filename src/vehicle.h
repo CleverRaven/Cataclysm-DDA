@@ -1178,7 +1178,9 @@ class vehicle
         std::map<itype_id, int> fuels_left() const;
 
         // Checks how much certain fuel left in tanks.
-        int fuel_left( const itype_id &ftype, bool recurse = false ) const;
+        int fuel_left( const itype_id &ftype, bool recurse = false,
+                       const std::function<bool( const vehicle_part & )> &filter = return_true<const vehicle_part &> )
+        const;
         // Checks how much of the part p's current fuel is left
         int fuel_left( int p, bool recurse = false ) const;
         // Checks how much of an engine's current fuel is left in the tanks.
@@ -1190,7 +1192,8 @@ class vehicle
 
         // drains a fuel type (e.g. for the kitchen unit)
         // returns amount actually drained, does not engage reactor
-        int drain( const itype_id &ftype, int amount );
+        int drain( const itype_id &ftype, int amount,
+                   const std::function<bool( vehicle_part & )> &filter = return_true< vehicle_part &> );
         int drain( int index, int amount );
         /**
          * Consumes enough fuel by energy content. Does not support cable draining.

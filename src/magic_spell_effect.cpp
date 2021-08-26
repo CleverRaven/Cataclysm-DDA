@@ -571,7 +571,7 @@ static void magical_polymorph( monster &victim, Creature &caster, const spell &s
     victim.poly( new_id );
 
     if( sp.has_flag( spell_flag::FRIENDLY_POLY ) ) {
-        if( caster.as_player() ) {
+        if( caster.as_character() ) {
             victim.friendly = -1;
         } else {
             victim.make_ally( *caster.as_monster() );
@@ -1511,6 +1511,11 @@ void spell_effect::effect_on_condition( const spell &sp, Creature &caster, const
         }
         dialogue d( get_talker_for( g->critter_at<Creature>( potential_target ) ),
                     get_talker_for( caster ) );
-        effect_on_condition_id( sp.effect_data() )->activate( d );
+        effect_on_condition_id eoc = effect_on_condition_id( sp.effect_data() );
+        if( eoc->activate_only ) {
+            eoc->activate( d );
+        } else {
+            debugmsg( "Cannot use a recurring effect_on_condition in a spell.  If you don't want the effect_on_condition to happen on its own (without the spell being cast), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this spell with its condition and effects, then have a recurring one queue it." );
+        }
     }
 }

@@ -3250,7 +3250,7 @@ void veh_interact::complete_vehicle( Character &you )
 
             const tripoint vehp = veh->global_pos3() + tripoint( q, 0 );
             // TODO: allow boarding for non-players as well.
-            player *const pl = g->critter_at<player>( vehp );
+            Character *const pl = g->critter_at<Character>( vehp );
             if( vpinfo.has_flag( VPFLAG_BOARDABLE ) && pl ) {
                 here.board_vehicle( vehp, pl );
             }

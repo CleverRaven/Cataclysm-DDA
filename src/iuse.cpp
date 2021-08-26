@@ -80,7 +80,6 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "pldata.h"
 #include "point.h"
@@ -130,7 +129,6 @@ static const activity_id ACT_HAND_CRANK( "ACT_HAND_CRANK" );
 static const activity_id ACT_HEATING( "ACT_HEATING" );
 static const activity_id ACT_JACKHAMMER( "ACT_JACKHAMMER" );
 static const activity_id ACT_MIND_SPLICER( "ACT_MIND_SPLICER" );
-static const activity_id ACT_OXYTORCH( "ACT_OXYTORCH" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_PRY_NAILS( "ACT_PRY_NAILS" );
 static const activity_id ACT_ROBOT_CONTROL( "ACT_ROBOT_CONTROL" );
@@ -3550,7 +3548,7 @@ cata::optional<int> iuse::geiger( Character *p, item *it, bool t, const tripoint
     switch( ch ) {
         case 0: {
             const std::function<bool( const tripoint & )> f = [&]( const tripoint & pnt ) {
-                return g->critter_at<npc>( pnt ) != nullptr || g->critter_at<player>( pnt ) != nullptr;
+                return g->critter_at<npc>( pnt ) != nullptr || g->critter_at<Character>( pnt ) != nullptr;
             };
 
             const cata::optional<tripoint> pnt_ = choose_adjacent_highlight( _( "Scan whom?" ),
@@ -4984,54 +4982,17 @@ cata::optional<int> iuse::oxytorch( Character *p, item *it, bool, const tripoint
         return cata::nullopt;
     }
 
-    const std::set<ter_id> allowed_ter_id {
-        t_chainfence_posts,
-        t_window_enhanced,
-        t_window_enhanced_noglass,
-        t_chainfence,
-        t_chaingate_c,
-        t_chaingate_l,
-        t_retractable_gate_l,
-        t_retractable_gate_c,
-        t_bars,
-        t_window_bars_alarm,
-        t_window_bars,
-        t_window_bars_curtains,
-        t_window_bars_domestic,
-        t_reb_cage,
-        t_door_metal_locked,
-        t_door_metal_c,
-        t_door_bar_c,
-        t_door_bar_locked,
-        t_door_metal_pickable,
-        t_metal_grate_window,
-        t_metal_grate_window_with_curtain,
-        t_metal_grate_window_with_curtain_open,
-        t_metal_grate_window_noglass,
-        t_metal_grate_window_with_curtain_noglass,
-        t_metal_grate_window_with_curtain_open_noglass,
-        t_wall_metal
-    };
-    const std::set<furn_id> allowed_furn_id {
-        f_rack,
-        f_safe_l,
-        f_gunsafe_ml,
-        f_gunsafe_mj,
-        f_gun_safe_el
-    };
-
     map &here = get_map();
     const std::function<bool( const tripoint & )> f =
-    [&allowed_ter_id, &allowed_furn_id, &here, p]( const tripoint & pnt ) {
+    [&here, p]( const tripoint & pnt ) {
         if( pnt == p->pos() ) {
             return false;
+        } else if( here.has_furn( pnt ) ) {
+            return here.furn( pnt )->oxytorch->valid();
+        } else if( !here.ter( pnt )->is_null() ) {
+            return here.ter( pnt )->oxytorch->valid();
         }
-        const ter_id ter = here.ter( pnt );
-        const auto furn = here.furn( pnt );
-
-        const bool is_allowed = ( allowed_ter_id.find( ter ) != allowed_ter_id.end() ) ||
-                                ( allowed_furn_id.find( furn ) != allowed_furn_id.end() );
-        return is_allowed;
+        return false;
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
@@ -5040,8 +5001,6 @@ cata::optional<int> iuse::oxytorch( Character *p, item *it, bool, const tripoint
         return cata::nullopt;
     }
     const tripoint &pnt = *pnt_;
-    const ter_id ter = here.ter( pnt );
-    const furn_id furn = here.furn( pnt );
     if( !f( pnt ) ) {
         if( pnt == p->pos() ) {
             p->add_msg_if_player( m_info, _( "Yuck.  Acetylene gas smells weird." ) );
@@ -5051,45 +5010,10 @@ cata::optional<int> iuse::oxytorch( Character *p, item *it, bool, const tripoint
         return cata::nullopt;
     }
 
-    int turns = 0;
-    if( furn == f_rack || ter == t_chainfence_posts ) {
-        turns = to_turns<int>( 2_seconds );
-    } else if( ter == t_window_enhanced || ter == t_window_enhanced_noglass ) {
-        turns = to_turns<int>( 5_seconds );
-    } else if( ter == t_chainfence || ter == t_chaingate_c ||
-               ter == t_retractable_gate_c || ter == t_retractable_gate_l ||
-               ter == t_chaingate_l  || ter == t_bars || ter == t_window_bars_alarm ||
-               ter == t_window_bars || ter == t_window_bars_curtains || ter == t_window_domestic ||
-               ter == t_reb_cage || ter == t_metal_grate_window || ter == t_metal_grate_window_with_curtain ||
-               ter == t_metal_grate_window_with_curtain_open || ter == t_metal_grate_window_noglass ||
-               ter == t_metal_grate_window_with_curtain_noglass ||
-               ter == t_metal_grate_window_with_curtain_open_noglass ) {
-        turns = to_turns<int>( 10_seconds );
-    } else if( ter == t_door_metal_locked || ter == t_door_metal_c || ter == t_door_bar_c ||
-               ter == t_door_bar_locked || ter == t_door_metal_pickable || ter == t_wall_metal ||
-               furn == f_safe_l || furn == f_gunsafe_ml || furn == f_gunsafe_mj ||
-               furn == f_gun_safe_el ) {
-        turns = to_turns<int>( 15_seconds );
-    } else {
-        return cata::nullopt;
-    }
+    p->assign_activity(
+        player_activity( oxytorch_activity_actor( pnt, item_location{*p, it} ) ) );
 
-    const int charges = turns * it->ammo_required();
-    int moves = to_moves<int>( time_duration::from_turns( turns ) );
-
-    if( charges > it->ammo_remaining() ) {
-        p->add_msg_if_player( m_info, _( "Your torch doesn't have enough acetylene to cut that." ) );
-        return cata::nullopt;
-    }
-
-    // placing ter here makes resuming tasks work better
-    p->assign_activity( ACT_OXYTORCH, moves, static_cast<int>( ter ) );
-    p->activity.targets.emplace_back( *p, it );
-    p->activity.placement = pnt;
-    p->activity.values.push_back( charges );
-
-    // charges will be consumed in oxytorch_do_turn, not here
-    return 0;
+    return cata::nullopt;
 }
 
 cata::optional<int> iuse::hacksaw( Character *p, item *it, bool t, const tripoint & )
@@ -6265,12 +6189,7 @@ cata::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tr
             //the more varied music, the better max mood.
             const int songs = it->get_var( "EIPC_MUSIC", 0 );
             play_music( *p, pos, 8, std::min( 25, songs ) );
-        } else {
-            it->active = false;
-            it->erase_var( "EIPC_MUSIC_ON" );
-            p->add_msg_if_player( m_info, _( "The tablet's batteries are dead." ) );
         }
-
         return cata::nullopt;
     } else if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
@@ -6296,6 +6215,9 @@ cata::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tr
             return cata::nullopt;
         }
 
+        if( !it->active ) {
+            it->erase_var( "EIPC_MUSIC_ON" );
+        }
         uilist amenu;
 
         amenu.text = _( "Choose menu option:" );
@@ -6309,7 +6231,7 @@ cata::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tr
 
         const int songs = it->get_var( "EIPC_MUSIC", 0 );
         if( songs > 0 ) {
-            if( it->active ) {
+            if( it->has_var( "EIPC_MUSIC_ON" ) ) {
                 amenu.addentry( ei_music, true, 'm', _( "Turn music off" ) );
             } else {
                 amenu.addentry( ei_music, true, 'm', _( "Turn music on [%d]" ), songs );
@@ -6398,18 +6320,28 @@ cata::optional<int> iuse::einktabletpc( Character *p, item *it, bool t, const tr
         if( ei_music == choice ) {
 
             p->moves -= 30;
+            // Turn on the screen before playing musics
+            if( !it->active ) {
+                if( it->is_transformable() ) {
+                    const use_function *readinglight = it->type->get_use( "transform" );
+                    if( readinglight ) {
+                        readinglight->call( *p, *it, it->active, p->pos() );
+                    }
+                }
+                it->activate();
+            }
+            // If transformable we use transform action to turn off the device
+            else if( !it->is_transformable() ) {
+                it->deactivate();
+            }
 
-            if( it->active ) {
-                it->active = false;
+            if( it->has_var( "EIPC_MUSIC_ON" ) ) {
                 it->erase_var( "EIPC_MUSIC_ON" );
 
                 p->add_msg_if_player( m_info, _( "You turned off the music on your %s." ), it->tname() );
             } else {
-                it->active = true;
                 it->set_var( "EIPC_MUSIC_ON", "1" );
-
                 p->add_msg_if_player( m_info, _( "You turned on the music on your %s." ), it->tname() );
-
             }
 
             return it->type->charges_to_use();
@@ -7466,7 +7398,7 @@ cata::optional<int> iuse::camera( Character *p, item *it, bool, const tripoint &
             }
 
             monster *const mon = g->critter_at<monster>( trajectory_point, true );
-            player *const guy = g->critter_at<player>( trajectory_point );
+            Character *const guy = g->critter_at<Character>( trajectory_point );
             if( mon || guy || trajectory_point == aim_point ) {
                 int dist = rl_dist( p->pos(), trajectory_point );
 
@@ -9112,10 +9044,11 @@ cata::optional<int> iuse::hairkit( Character *p, item *it, bool, const tripoint 
 
 cata::optional<int> iuse::weather_tool( Character *p, item *it, bool, const tripoint & )
 {
-    const w_point weatherPoint = *g->weather.weather_precise;
+    weather_manager &weather = get_weather();
+    const w_point weatherPoint = *weather.weather_precise;
 
     /* Possibly used twice. Worth spending the time to precalculate. */
-    const int player_local_temp = g->weather.get_temperature( p->pos() );
+    const int player_local_temp = weather.get_temperature( p->pos() );
 
     if( it->typeId() == itype_weather_reader ) {
         p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data…" ),
@@ -9161,8 +9094,8 @@ cata::optional<int> iuse::weather_tool( Character *p, item *it, bool, const trip
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
         /* windpower defined in internal velocity units (=.01 mph) */
-        const double windpower = 100 * get_local_windpower( g->weather.windspeed + vehwindspeed, cur_om_ter,
-                                 p->pos(), g->weather.winddirection, g->is_sheltered( p->pos() ) );
+        const double windpower = 100 * get_local_windpower( weather.windspeed + vehwindspeed, cur_om_ter,
+                                 p->pos(), weather.winddirection, g->is_sheltered( p->pos() ) );
 
         p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
                               convert_velocity( windpower, VU_WIND ),
@@ -9172,7 +9105,7 @@ cata::optional<int> iuse::weather_tool( Character *p, item *it, bool, const trip
             print_temperature(
                 get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower / 100 ) +
                 player_local_temp ) );
-        std::string dirstring = get_dirstring( g->weather.winddirection );
+        std::string dirstring = get_dirstring( weather.winddirection );
         p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), dirstring );
     }
 
@@ -9782,8 +9715,11 @@ cata::optional<int> iuse::magic_8_ball( Character *p, item *it, bool, const trip
     return 0;
 }
 
-cata::optional<int> iuse::ebooksave( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::ebooksave( Character *p, item *it, bool t, const tripoint & )
 {
+    if( t ) {
+        return cata::nullopt;
+    }
     if( !it->is_ebook_storage() ) {
         debugmsg( "EBOOKSAVE iuse called on item without ebook type pocket" );
         return cata::nullopt;
@@ -9832,8 +9768,11 @@ cata::optional<int> iuse::ebooksave( Character *p, item *it, bool, const tripoin
     return cata::nullopt;
 }
 
-cata::optional<int> iuse::ebookread( Character *p, item *it, bool, const tripoint & )
+cata::optional<int> iuse::ebookread( Character *p, item *it, bool t, const tripoint & )
 {
+    if( t ) {
+        return cata::nullopt;
+    }
     if( !it->is_ebook_storage() ) {
         debugmsg( "EBOOKREAD iuse called on item without ebook type pocket" );
         return cata::nullopt;

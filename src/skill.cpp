@@ -219,10 +219,10 @@ void SkillLevel::train( int amount, float catchup_modifier, float knowledge_modi
         catchup_amount *= level_gap;
     } else if( _knowledgeLevel == _level && _knowledgeExperience > _exercise ) {
         // when you're in the same level, the catchup starts to slow down.
-        catchup_amount = amount * std::max( catchup_modifier - 1.0f * exercise() / knowledgeExperience(),
+        catchup_amount = amount * std::max( catchup_modifier - 1.0f * _exercise / _knowledgeExperience,
                                             1.0f );
-        knowledge_amount = amount * std::max( knowledge_modifier - 0.1f * exercise() /
-                                              knowledgeExperience(), 1.0f );
+        knowledge_amount = amount * std::max( knowledge_modifier - 0.1f * _exercise / _knowledgeExperience,
+                                              1.0f );
     } else {
         // When your two xp's are equal just do the basic thing.
         catchup_amount = amount * 1.0f;
@@ -501,16 +501,33 @@ int SkillLevelMap::exceeds_recipe_requirements( const recipe &rec ) const
 bool SkillLevelMap::theoretical_recipe_requirements( const recipe &rec ) const
 {
     // Regardless of your current practical skill, do you know the theory of how to make this thing?
-    int knowhow = rec.skill_used ? get_knowledge_level( rec.skill_used ) - rec.difficulty : 0;
-    for( const auto &elem : compare_skill_requirements( rec.required_skills ) ) {
-        knowhow = std::min( knowhow, elem.second );
+    if( rec.skill_used && get_knowledge_level( rec.skill_used ) < rec.difficulty ) {
+        return false;
     }
-    return ( knowhow > 0 );
+    for( const std::pair<const skill_id, int> &elem : rec.required_skills ) {
+        if( get_knowledge_level( elem.first ) < elem.second ) {
+            return false;
+        }
+    }
+    return true;
 }
 
 bool SkillLevelMap::has_recipe_requirements( const recipe &rec ) const
 {
     return ( exceeds_recipe_requirements( rec ) >= 0 || theoretical_recipe_requirements( rec ) );
+}
+
+bool SkillLevelMap::has_same_levels_as( const SkillLevelMap &other ) const
+{
+    for( const auto &entry : *this ) {
+        const SkillLevel &this_level = entry.second;
+        const SkillLevel &other_level = other.get_skill_level_object( entry.first );
+        if( this_level.level() != other_level.level() ||
+            this_level.knowledgeLevel() != other_level.knowledgeLevel() ) {
+            return false;
+        }
+    }
+    return true;
 }
 
 // Actually take the difference in social skill between the two parties involved

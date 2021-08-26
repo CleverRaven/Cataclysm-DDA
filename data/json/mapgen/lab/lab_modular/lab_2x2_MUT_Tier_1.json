@@ -32,7 +32,7 @@
         "|......X;;;|.......-,...",
         "|......|;;;|.......X,..."
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ],
+      "palettes": [ "lab_mutagen_palette" ],
       "place_traps": [ { "trap": "tr_light_on_res_8_NW", "x": [ 8, 10 ], "y": [ 1, 23 ], "repeat": [ 1, 2 ] } ],
       "place_monsters": [
         { "monster": "GROUP_LAB_RESEARCHERS", "x": [ 13, 22 ], "y": [ 7, 22 ], "density": 0.1 },
@@ -96,7 +96,7 @@
         "...,-.......|;;;X......|",
         "...,X.......|;;;|......|"
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ],
+      "palettes": [ "lab_mutagen_palette" ],
       "terrain": { "¥": "t_card_science_mutagen_cyan" },
       "place_nested": [
         { "chunks": [ [ "lab_common_9x9_W", 50 ], [ "lab_mutagen_9x9_W", 50 ] ], "x": 14, "y": 1 },
@@ -161,7 +161,7 @@
         "|~~~~~~~~~~~~~~~~|~~~~~~",
         "||||||||||||||||||||||||"
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ],
+      "palettes": [ "lab_mutagen_palette" ],
       "terrain": { "J": "t_linoleum_gray" },
       "place_traps": [ { "trap": "tr_light_on_res_8_SW_2", "x": [ 7, 10 ], "y": [ 1, 5 ], "repeat": [ 1, 2 ] } ],
       "place_monsters": [
@@ -230,7 +230,7 @@
         "~~~~~~|~~~~~~~~~~~~~~~~|",
         "||||||||||||||||||||||||"
       ],
-      "palettes": [ "lab_common_palette", "lab_mutagen_palette" ],
+      "palettes": [ "lab_mutagen_palette" ],
       "place_loot": [ { "item": "id_science_mutagen_cyan", "x": 1, "y": 12, "chance": 100 } ],
       "terrain": { "J": "t_linoleum_gray" },
       "place_traps": [ { "trap": "tr_light_on_MUT_SE_2", "x": [ 13, 16 ], "y": [ 1, 5 ], "repeat": [ 1, 2 ] } ],

@@ -1043,7 +1043,7 @@ void map::unboard_vehicle( const tripoint &p, bool dead_passenger )
     if( !vp ) {
         debugmsg( "map::unboard_vehicle: vehicle not found" );
         // Try and force unboard the player anyway.
-        passenger = g->critter_at<player>( p );
+        passenger = g->critter_at<Character>( p );
         if( passenger ) {
             passenger->in_vehicle = false;
             passenger->controlling_vehicle = false;
@@ -1643,9 +1643,9 @@ void map::examine( Character &you, const tripoint &pos )
 {
     const furn_t furn_here = furn( pos ).obj();
     if( furn_here.can_examine() ) {
-        furn_here.examine( dynamic_cast<player &>( you ), pos );
+        furn_here.examine( dynamic_cast<Character &>( you ), pos );
     } else {
-        ter( pos ).obj().examine( dynamic_cast<player &>( you ), pos );
+        ter( pos ).obj().examine( dynamic_cast<Character &>( you ), pos );
     }
 }
 
@@ -4398,16 +4398,17 @@ item &map::add_item( const tripoint &p, item new_item )
 
 item map::water_from( const tripoint &p )
 {
+    weather_manager &weather = get_weather();
     if( has_flag( "SALT_WATER", p ) ) {
         item ret( "salt_water", calendar::turn, item::INFINITE_CHARGES );
-        ret.set_item_temperature( temp_to_kelvin( std::max( g->weather.get_temperature( p ),
+        ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
                                   temperatures::cold ) ) );
         return ret;
     }
 
     if( has_flag( "CHOCOLATE", p ) ) {
         item ret( "liquid_cacao", calendar::turn, item::INFINITE_CHARGES );
-        ret.set_item_temperature( temp_to_kelvin( std::max( g->weather.get_temperature( p ),
+        ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
                                   temperatures::cold ) ) );
         return ret;
     }
@@ -4415,14 +4416,14 @@ item map::water_from( const tripoint &p )
     const ter_id terrain_id = ter( p );
     if( terrain_id == t_sewage ) {
         item ret( "water_sewage", calendar::turn, item::INFINITE_CHARGES );
-        ret.set_item_temperature( temp_to_kelvin( std::max( g->weather.get_temperature( p ),
+        ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
                                   temperatures::cold ) ) );
         ret.poison = rng( 1, 7 );
         return ret;
     }
 
     item ret( "water", calendar::turn, item::INFINITE_CHARGES );
-    ret.set_item_temperature( temp_to_kelvin( std::max( g->weather.get_temperature( p ),
+    ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
                               temperatures::cold ) ) );
     // iexamine::water_source requires a valid liquid from this function.
     if( terrain_id->has_examine( iexamine::water_source ) ) {

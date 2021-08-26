@@ -95,7 +95,6 @@ class map;
 class map_item_stack;
 class memorial_logger;
 class npc;
-class player;
 class save_t;
 class scenario;
 class stats_tracker;
@@ -438,7 +437,7 @@ class game
         class Creature_range : public non_dead_range<Creature>
         {
             private:
-                shared_ptr_fast<player> u;
+                shared_ptr_fast<Character> u;
 
             public:
                 explicit Creature_range( game &game_ref );
@@ -490,7 +489,7 @@ class game
          */
         bool revive_corpse( const tripoint &p, item &it );
         /**Turns Broken Cyborg monster into Cyborg NPC via surgery*/
-        void save_cyborg( item *cyborg, const tripoint &couch_pos, player &installer );
+        void save_cyborg( item *cyborg, const tripoint &couch_pos, Character &installer );
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
         bool cancel_activity_query( const std::string &text );
         /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
@@ -1058,14 +1057,16 @@ class game
         // reactivating safe mode.
         time_duration turnssincelastmon = 0_turns;
 
+    private:
         weather_manager weather; // NOLINT(cata-serialize)
 
+    public:
         std::vector<effect_on_condition_id> inactive_effect_on_condition_vector;
         std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare> queued_effect_on_conditions;
 
         int mostseen = 0; // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
     private:
-        shared_ptr_fast<player> u_shared_ptr; // NOLINT(cata-serialize)
+        shared_ptr_fast<Character> u_shared_ptr; // NOLINT(cata-serialize)
 
         catacurses::window w_terrain_ptr; // NOLINT(cata-serialize)
         catacurses::window w_minimap_ptr; // NOLINT(cata-serialize)

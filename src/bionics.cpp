@@ -1009,12 +1009,13 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
         /* cache g->get_temperature( player location ) since it is used twice. No reason to recalc */
-        const int player_local_temp = g->weather.get_temperature( player_character.pos() );
+        weather_manager &weather = get_weather();
+        const int player_local_temp = weather.get_temperature( player_character.pos() );
         /* windpower defined in internal velocity units (=.01 mph) */
-        double windpower = 100.0f * get_local_windpower( g->weather.windspeed + vehwindspeed,
-                           cur_om_ter, pos(), g->weather.winddirection, g->is_sheltered( pos() ) );
+        double windpower = 100.0f * get_local_windpower( weather.windspeed + vehwindspeed,
+                           cur_om_ter, pos(), weather.winddirection, g->is_sheltered( pos() ) );
         add_msg_if_player( m_info, _( "Temperature: %s." ), print_temperature( player_local_temp ) );
-        const w_point weatherPoint = *g->weather.weather_precise;
+        const w_point weatherPoint = *weather.weather_precise;
         add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
                            print_humidity(
                                get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
@@ -1028,7 +1029,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
                            print_temperature(
                                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity,
                                        windpower / 100 ) + player_local_temp ) );
-        std::string dirstring = get_dirstring( g->weather.winddirection );
+        std::string dirstring = get_dirstring( weather.winddirection );
         add_msg_if_player( m_info, _( "Wind Direction: From the %s." ), dirstring );
     } else if( bio.id == bio_remote ) {
         add_msg_activate();
@@ -1443,6 +1444,7 @@ void Character::burn_fuel( const int b, const auto_toggle_bionic_result &result 
     }
 
     map &here = get_map();
+    weather_manager &weather = get_weather();
     switch( result.fuel_type ) {
         case auto_toggle_bionic_result::fuel_type_t::metabolism: {
             const int kcal_consumed = result.fuel_energy;
@@ -1466,8 +1468,8 @@ void Character::burn_fuel( const int b, const auto_toggle_bionic_result &result 
                     // vehicle velocity in mph
                     vehwindspeed = std::abs( vp->vehicle().velocity / 100 );
                 }
-                const double windpower = get_local_windpower( g->weather.windspeed + vehwindspeed,
-                                         overmap_buffer.ter( global_omt_location() ), pos(), g->weather.winddirection,
+                const double windpower = get_local_windpower( weather.windspeed + vehwindspeed,
+                                         overmap_buffer.ter( global_omt_location() ), pos(), weather.winddirection,
                                          g->is_sheltered( pos() ) );
                 mod_power_level( units::from_kilojoule( result.fuel_energy ) * windpower *
                                  result.effective_efficiency );
@@ -1509,6 +1511,7 @@ void Character::passive_power_gen( int b )
     const float effective_passive_efficiency = get_effective_efficiency( b, passive_fuel_efficiency );
     const std::vector<material_id> &fuel_available = get_fuel_available( bio.id );
     map &here = get_map();
+    weather_manager &weather = get_weather();
 
     for( const material_id &fuel : fuel_available ) {
         const int fuel_energy = fuel->get_fuel_data().energy;
@@ -1526,8 +1529,8 @@ void Character::passive_power_gen( int b )
                 // vehicle velocity in mph
                 vehwindspeed = std::abs( vp->vehicle().velocity / 100 );
             }
-            const double windpower = get_local_windpower( g->weather.windspeed + vehwindspeed,
-                                     overmap_buffer.ter( global_omt_location() ), pos(), g->weather.winddirection,
+            const double windpower = get_local_windpower( weather.windspeed + vehwindspeed,
+                                     overmap_buffer.ter( global_omt_location() ), pos(), weather.winddirection,
                                      g->is_sheltered( pos() ) );
             mod_power_level( units::from_kilojoule( fuel_energy ) * windpower * effective_passive_efficiency );
         } else {
@@ -2068,10 +2071,10 @@ void Character::consume_anesth_requirement( const itype &cbm, Character &patient
     const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
                                         cbm.bionic->difficulty * 2 * weight;
     for( const auto &e : req_anesth.get_components() ) {
-        as_player()->consume_items( e, 1, is_crafting_component );
+        consume_items( e, 1, is_crafting_component );
     }
     for( const auto &e : req_anesth.get_tools() ) {
-        as_player()->consume_tools( e );
+        consume_tools( e );
     }
     invalidate_crafting_inventory();
 }
@@ -2097,10 +2100,10 @@ bool Character::has_installation_requirement( const bionic_id &bid )
 void Character::consume_installation_requirement( const bionic_id &bid )
 {
     for( const auto &e : bid->installation_requirement->get_components() ) {
-        as_player()->consume_items( e, 1, is_crafting_component );
+        consume_items( e, 1, is_crafting_component );
     }
     for( const auto &e : bid->installation_requirement->get_tools() ) {
-        as_player()->consume_tools( e );
+        consume_tools( e );
     }
     invalidate_crafting_inventory();
 }

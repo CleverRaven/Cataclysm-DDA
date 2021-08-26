@@ -73,7 +73,6 @@ class map;
 class monster;
 class nc_color;
 class npc;
-class player;
 class player_morale;
 class proficiency_set;
 class recipe_subset;
@@ -107,6 +106,8 @@ using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
 
 constexpr int MAX_CLAIRVOYANCE = 40;
+
+nc_color encumb_color( int level );
 
 /// @brief type of conditions that effect vision
 /// @note vision modes do not necessarily match json ids or flags
@@ -367,6 +368,24 @@ enum class book_mastery {
     MASTERED // can no longer increase skill by reading
 };
 
+/** @relates ret_val */
+template<>
+struct ret_val<edible_rating>::default_success : public
+    std::integral_constant<edible_rating, EDIBLE> {};
+
+/** @relates ret_val */
+template<>
+struct ret_val<edible_rating>::default_failure : public
+    std::integral_constant<edible_rating, INEDIBLE> {};
+
+struct needs_rates {
+    float thirst = 0.0f;
+    float hunger = 0.0f;
+    float fatigue = 0.0f;
+    float recovery = 0.0f;
+    float kcal = 0.0f;
+};
+
 class Character : public Creature, public visitable
 {
     public:
@@ -380,6 +399,15 @@ class Character : public Creature, public visitable
         const Character *as_character() const override {
             return this;
         }
+        bool is_npc() const override {
+            return false;    // Overloaded for NPCs in npc.h
+        }
+        // populate variables, inventory items, and misc from json object
+        virtual void deserialize( JsonIn &jsin ) = 0;
+
+        // by default save all contained info
+        virtual void serialize( JsonOut &jsout ) const = 0;
+
 
         character_id getID() const;
         /// sets the ID, will *only* succeed when the current id is not valid
@@ -419,6 +447,13 @@ class Character : public Creature, public visitable
         const profession *prof;
         std::set<const profession *> hobbies;
 
+        // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
+        tripoint grab_point;
+
+        bool random_start_location = true;
+        start_location_id start_location;
+
+        bool manual_examine = false;
         int volume = 0;
         // The prevalence of getter, setter, and mutator functions here is partially
         // a result of the slow, piece-wise migration of the player class upwards into
@@ -535,6 +570,27 @@ class Character : public Creature, public visitable
         std::string disp_name( bool possessive = false, bool capitalize_first = false ) const override;
         /** Returns the name of the player's outer layer, e.g. "armor plates" */
         std::string skin_name() const override;
+
+        //message related stuff
+        using Creature::add_msg_if_player;
+        void add_msg_if_player( const std::string &msg ) const override;
+        void add_msg_if_player( const game_message_params &params, const std::string &msg ) const override;
+        using Creature::add_msg_debug_if_player;
+        void add_msg_debug_if_player( debugmode::debug_filter type,
+                                      const std::string &msg ) const override;
+        using Creature::add_msg_player_or_npc;
+        void add_msg_player_or_npc( const std::string &player_msg,
+                                    const std::string &npc_str ) const override;
+        void add_msg_player_or_npc( const game_message_params &params, const std::string &player_msg,
+                                    const std::string &npc_msg ) const override;
+        using Creature::add_msg_debug_player_or_npc;
+        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const std::string &player_msg,
+                                          const std::string &npc_msg ) const override;
+        using Creature::add_msg_player_or_say;
+        void add_msg_player_or_say( const std::string &player_msg,
+                                    const std::string &npc_speech ) const override;
+        void add_msg_player_or_say( const game_message_params &params, const std::string &player_msg,
+                                    const std::string &npc_speech ) const override;
 
         /* returns the character's faction */
         virtual faction *get_faction() const {
@@ -2172,12 +2228,25 @@ class Character : public Creature, public visitable
          * And if you do already have them, refunds the points for the trait
          */
         void add_traits();
-        void add_traits( points_left &points );
         /** Returns true if the player has crossed a mutation threshold
          *  Player can only cross one mutation threshold.
          */
         bool crossed_threshold() const;
 
+        void environmental_revert_effect();
+
+        /**
+         * Checks both the neighborhoods of from and to for climbable surfaces,
+         * returns move cost of climbing from `from` to `to`.
+         * 0 means climbing is not possible.
+         * Return value can depend on the orientation of the terrain.
+         */
+        int climbing_cost( const tripoint &from, const tripoint &to ) const;
+
+        void pause(); // '.' command; pauses & resets recoil
+
+        /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
+        template <typename T> bool can_lift( const T &obj ) const;
         // --------------- Values ---------------
         std::string name;
         bool male = false;
@@ -2492,6 +2561,8 @@ class Character : public Creature, public visitable
         int get_shout_volume() const;
         // shouts a message
         void shout( std::string msg = "", bool order = false );
+        //signals player location to nemesis for "Hunted" trait
+        void signal_nemesis();
         /** Handles Character vomiting effects */
         void vomit();
 
@@ -2576,8 +2647,7 @@ class Character : public Creature, public visitable
         std::map<bodypart_id, int> warmth( const std::map<bodypart_id, std::vector<const item *>>
                                            &clothing_map ) const;
         /** Returns warmth provided by an armor's bonus, like hoods, pockets, etc. */
-        std::map<bodypart_id, int> bonus_item_warmth( const std::map<bodypart_id, std::vector<const item *>>
-                &clothing_map ) const;
+        std::map<bodypart_id, int> bonus_item_warmth() const;
         /** Can the player lie down and cover self with blankets etc. **/
         bool can_use_floor_warmth() const;
         /**
@@ -3073,6 +3143,11 @@ class Character : public Creature, public visitable
         int dex_bonus = 0;
         int per_bonus = 0;
         int int_bonus = 0;
+        /** Hardcoded stats bonus */
+        int str_bonus_hardcoded = 0;
+        int dex_bonus_hardcoded = 0;
+        int per_bonus_hardcoded = 0;
+        int int_bonus_hardcoded = 0;
         // cached so the display knows how much your bonus is
         int enchantment_speed_bonus = 0;
 
@@ -3294,4 +3369,7 @@ struct enum_traits<character_stat> {
 };
 /// Get translated name of a stat
 std::string get_stat_name( character_stat Stat );
+
+extern template bool Character::can_lift<item>( const item &obj ) const;
+extern template bool Character::can_lift<vehicle>( const vehicle &obj ) const;
 #endif // CATA_SRC_CHARACTER_H

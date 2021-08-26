@@ -18,8 +18,6 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
-class player;
-
 static const activity_id ACT_READ( "ACT_READ" );
 
 static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
