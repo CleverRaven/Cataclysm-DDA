@@ -407,7 +407,7 @@ static item get_top_item_at_point( const tripoint &point,
                                    const units::volume &min_visible_volume );
 
 static std::string effects_description_for_creature( Creature *creature, std::string &pose,
-        const std::string &pronoun_sex );
+        const std::string &pronoun_gender );
 
 static object_names_collection enumerate_objects_around_point( const tripoint &point,
         int radius, const tripoint &bounds_center_point, int bounds_radius,
@@ -6688,7 +6688,7 @@ static std::string format_object_pair_no_article( const std::pair<std::string, i
 }
 
 static std::string effects_description_for_creature( Creature *const creature, std::string &pose,
-        const std::string &pronoun_sex )
+        const std::string &pronoun_gender )
 {
     struct ef_con { // effect constraint
         translation status;
@@ -6742,7 +6742,7 @@ static std::string effects_description_for_creature( Creature *const creature, s
         for( const auto &pair : vec_effect_status ) {
             if( creature->get_effect_int( pair.first ) > pair.second.intensity_lower_limit ) {
                 if( !pair.second.status.empty() ) {
-                    figure_effects += pronoun_sex + pair.second.status;
+                    figure_effects += pronoun_gender + pair.second.status;
                 }
                 if( !pair.second.pose.empty() ) {
                     pose = pair.second.pose.translated();
@@ -6752,19 +6752,19 @@ static std::string effects_description_for_creature( Creature *const creature, s
         if( creature->has_effect( effect_sad ) ) {
             int intensity = creature->get_effect_int( effect_sad );
             if( intensity > 500 && intensity <= 950 ) {
-                figure_effects += pronoun_sex + pgettext( "Someone", " looks <color_blue>sad</color>.  " );
+                figure_effects += pronoun_gender + pgettext( "Someone", " looks <color_blue>sad</color>.  " );
             } else if( intensity > 950 ) {
-                figure_effects += pronoun_sex + pgettext( "Someone", " looks <color_blue>depressed</color>.  " );
+                figure_effects += pronoun_gender + pgettext( "Someone", " looks <color_blue>depressed</color>.  " );
             }
         }
         float pain = creature->get_pain() / 10.f;
         if( pain > 3 ) {
-            figure_effects += pronoun_sex + pgettext( "Someone", " is writhing in <color_red>pain</color>.  " );
+            figure_effects += pronoun_gender + pgettext( "Someone", " is writhing in <color_red>pain</color>.  " );
         }
         if( creature->has_effect( effect_riding ) ) {
             pose = _( "rides" );
             monster *const mon = get_creature_tracker().creature_at<monster>( creature->pos(), false );
-            figure_effects += pronoun_sex + string_format( _( " is riding %s.  " ),
+            figure_effects += pronoun_gender + string_format( _( " is riding %s.  " ),
                               colorize( mon->name(), c_light_blue ) );
         }
         if( creature->has_effect( effect_glowy_led ) ) {
@@ -6988,7 +6988,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
             std::string figure_appearance;
             std::string figure_name;
             std::string pose;
-            std::string pronoun_sex;
+            std::string pronoun_gender;
             std::string figure_effects;
             Creature *creature;
             if( mon && mon->has_effect( effect_ridden ) ) {
@@ -7009,7 +7009,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
                 const std::vector<std::string> vec = guy->short_description_parts();
                 figure_appearance = join( vec, "\n\n" );
                 figure_name = guy->name;
-                pronoun_sex = guy->male ? _( "He" ) : _( "She" );
+                pronoun_gender = guy->male ? _( "He" ) : _( "She" );
                 creature = guy;
                 character_vec.push_back( guy );
             } else {
@@ -7019,12 +7019,12 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
                 pose = _( "stands" );
                 figure_appearance = "\"" + mon->type->get_description() + "\"";
                 figure_name = mon->name();
-                pronoun_sex = pgettext( "Pronoun", "It" );
+                pronoun_gender = pgettext( "Pronoun", "It" );
                 creature = mon;
                 monster_vec.push_back( mon );
             }
 
-            figure_effects = effects_description_for_creature( creature, pose, pronoun_sex );
+            figure_effects = effects_description_for_creature( creature, pose, pronoun_gender );
             description_figures_appearance[ figure_name ] = figure_appearance;
 
             object_names_collection obj_collection = enumerate_objects_around_point( current, 1, aim_point, 2,
