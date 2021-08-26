@@ -709,7 +709,7 @@ ret_val<edible_rating> Character::can_eat( const item &food ) const
 
     const use_function *smoking = food.type->get_use( "SMOKING" );
     if( smoking != nullptr ) {
-        cata::optional<std::string> litcig = iuse::can_smoke( *this->as_player() );
+        cata::optional<std::string> litcig = iuse::can_smoke( *this );
         if( litcig.has_value() ) {
             return ret_val<edible_rating>::make_failure( NO_TOOL, _( litcig.value_or( "" ) ) );
         }
@@ -1778,7 +1778,7 @@ trinary Character::consume( item &target, bool force, bool refuel )
         }
         return trinary::NONE;
     }
-    if( is_avatar() && !query_consume_ownership( target, *this->as_player() ) ) {
+    if( is_avatar() && !query_consume_ownership( target, *this ) ) {
         return trinary::NONE;
     }
 
@@ -1786,7 +1786,7 @@ trinary Character::consume( item &target, bool force, bool refuel )
         return fuel_bionic_with( target ) && target.charges <= 0 ? trinary::ALL : trinary::SOME;
     }
 
-    if( consume_med( target, *this->as_player() ) || eat( target, *this->as_player(), force ) ) {
+    if( consume_med( target, *this ) || eat( target, *this, force ) ) {
 
         get_event_bus().send<event_type::character_consumes_item>( getID(), target.typeId() );
 

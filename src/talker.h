@@ -13,7 +13,7 @@ class item_location;
 class mission;
 class monster;
 class npc;
-class player;
+class Character;
 class recipe;
 struct tripoint;
 class vehicle;
@@ -28,10 +28,10 @@ class talker
     public:
         virtual ~talker() = default;
         // virtual member accessor functions
-        virtual player *get_character() {
+        virtual Character *get_character() {
             return nullptr;
         }
-        virtual player *get_character() const {
+        virtual Character *get_character() const {
             return nullptr;
         }
         virtual npc *get_npc() {
@@ -88,7 +88,7 @@ class talker
         }
 
         // mandatory functions for starting a dialogue
-        virtual bool will_talk_to_u( const player &, bool ) {
+        virtual bool will_talk_to_u( const Character &, bool ) {
             return false;
         }
         virtual std::vector<std::string> get_topics( bool ) {
