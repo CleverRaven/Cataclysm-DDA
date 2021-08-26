@@ -573,8 +573,10 @@ void handle_key_blocking_activity()
         return;
     }
     avatar &u = get_avatar();
-    if( ( u.activity && u.activity.moves_left > 0 ) ||
-        u.has_destination() ) {
+    const bool has_unfinished_activity = u.activity && (
+            u.activity.id()->based_on() == based_on_type::NEITHER
+            || u.activity.moves_left > 0 );
+    if( has_unfinished_activity || u.has_destination() ) {
         input_context ctxt = get_default_mode_input_context();
         const std::string action = ctxt.handle_input( 0 );
         bool refresh = true;
@@ -819,8 +821,8 @@ bool do_turn()
     // If controlling a vehicle that is owned by someone else
     if( u.in_vehicle && u.controlling_vehicle ) {
         vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
-        if( veh && !veh->handle_potential_theft( dynamic_cast<player &>( u ), true ) ) {
-            veh->handle_potential_theft( dynamic_cast<player &>( u ), false, false );
+        if( veh && !veh->handle_potential_theft( dynamic_cast<Character &>( u ), true ) ) {
+            veh->handle_potential_theft( dynamic_cast<Character &>( u ), false, false );
         }
     }
     // If riding a horse - chance to spook

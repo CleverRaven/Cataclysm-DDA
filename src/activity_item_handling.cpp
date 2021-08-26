@@ -2568,7 +2568,7 @@ static bool generic_multi_activity_do( Character &you, const activity_id &act_id
     // it was here earlier, in the space of one turn, maybe it got harvested by someone else.
     if( reason == do_activity_reason::NEEDS_HARVESTING &&
         here.has_flag_furn( flag_GROWTH_HARVEST, src_loc ) ) {
-        iexamine::harvest_plant( *you.as_player(), src_loc, true );
+        iexamine::harvest_plant( you, src_loc, true );
     } else if( reason == do_activity_reason::NEEDS_TILLING && here.has_flag( flag_PLOWABLE, src_loc ) &&
                you.has_quality( qual_DIG, 1 ) && !here.has_furn( src_loc ) ) {
         you.assign_activity( ACT_CHURN, 18000, -1 );
@@ -2590,7 +2590,7 @@ static bool generic_multi_activity_do( Character &you, const activity_id &act_id
             if( seed_inv.empty() ) {
                 continue;
             }
-            iexamine::plant_seed( *you.as_player(), src_loc, itype_id( seed ) );
+            iexamine::plant_seed( you, src_loc, itype_id( seed ) );
             you.backlog.push_front( player_activity( act_id ) );
             return false;
         }
@@ -2927,6 +2927,9 @@ int get_auto_consume_moves( Character &you, const bool food )
             const use_function *usef = comest.type->get_use( "BLECH_BECAUSE_UNCLEAN" );
             if( usef ) {
                 // it's unclean
+                continue;
+            }
+            if( comest.get_comestible()->add == add_type::ALCOHOL && !you.has_addiction( add_type::ALCOHOL ) ) {
                 continue;
             }
 

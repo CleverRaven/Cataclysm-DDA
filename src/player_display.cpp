@@ -871,7 +871,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
         line++;
     }
     if( you.get_thirst() > 40 ) {
-        pen = std::abs( player::thirst_speed_penalty( you.get_thirst() ) );
+        pen = std::abs( Character::thirst_speed_penalty( you.get_thirst() ) );
         mvwprintz( w_speed, point( 1, line ), c_red,
                    pgettext( "speed penalty", "Thirst              -%2d%%" ), pen );
         line++;
@@ -985,7 +985,7 @@ static void draw_tip( const catacurses::window &w_tip, const Character &you,
             //~ player info window: 1s - name, 2s - gender, 3s - Prof or Mutation name
             mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s" ), you.name,
                        you.male ? _( "Male" ) : _( "Female" ), race );
-        } else if( you.as_player()->prof == nullptr || you.as_player()->prof == profession::generic() ) {
+        } else if( you.prof == nullptr || you.prof == profession::generic() ) {
             // Regular person. Nothing interesting.
             //~ player info window: 1s - name, 2s - gender '|' - field separator.
             mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s" ), you.name,
@@ -993,12 +993,16 @@ static void draw_tip( const catacurses::window &w_tip, const Character &you,
         } else {
             mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s" ), you.name,
                        you.male ? _( "Male" ) : _( "Female" ),
-                       you.as_player()->prof->gender_appropriate_name( you.male ) );
+                       you.prof->gender_appropriate_name( you.male ) );
         }
     } else {
         mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s" ), you.name,
                    you.male ? _( "Male" ) : _( "Female" ), you.custom_profession );
     }
+
+    right_print( w_tip, 0, 8, c_light_gray, string_format(
+                     _( "[<color_yellow>%s</color>]Switch Gender" ),
+                     ctxt.get_desc( "SWITCH_GENDER" ) ) );
 
     right_print( w_tip, 0, 1, c_light_gray, string_format(
                      _( "[<color_yellow>%s</color>]" ),
@@ -1147,6 +1151,9 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
 
         you.custom_profession = popup.text();
         ui_tip.invalidate_ui();
+    } else if( action == "SWITCH_GENDER" ) {
+        you.male = !you.male;
+        popup( _( "Gender set to %s." ), you.male ? _( "Male" ) : _( "Female" ) );
     }
     return done;
 }
@@ -1315,6 +1322,7 @@ void Character::disp_info()
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM", to_translation( "Toggle skill training / Upgrade stat" ) );
     ctxt.register_action( "CHANGE_PROFESSION_NAME", to_translation( "Change profession name" ) );
+    ctxt.register_action( "SWITCH_GENDER", to_translation( "Change gender of the player" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     std::map<std::string, int> speed_effects;

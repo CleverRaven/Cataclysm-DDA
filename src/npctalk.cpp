@@ -640,7 +640,7 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
 
     Character &player_character = get_player_character();
     bool player_ally = player_character.pos() == spos && is_player_ally();
-    Character *const sound_source = g->critter_at<player>( spos );
+    Character *const sound_source = g->critter_at<Character>( spos );
     bool npc_ally = sound_source && sound_source->is_npc() && is_ally( *sound_source );
 
     if( ( player_ally || npc_ally ) && spriority == sounds::sound_t::order ) {
