@@ -451,7 +451,7 @@
     "description": "A spell from a darker sect of druidery, created to forciably begin the circle of life anew. For without rot, you cannot have growth. Affects a huge area, but is indescrimiate, and slow both in casting and effect. Once lost entirely to the passage of time, this spell was thought to be no more than a myth, the stuff of fairy tales, albeit grim ones.",
     "effect": "attack",
     "shape": "blast",
-    "valid_targets": [ "self" ],
+    "valid_targets": [ "hostile", "ground" ],
     "flags": [ "SOMATIC", "NO_PROJECTILE", "CONCENTRATE", "VERBAL"  ],
     "max_level": 30,
     "spell_class": "DRUID",
