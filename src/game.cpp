@@ -2582,6 +2582,16 @@ bool game::save_player_data()
            ;
 }
 
+bool game::save_zones()
+{
+    return ( !file_exist( PATH_INFO::world_base_save_path() + "/zones_cache.json" ) ||
+             copy_file( PATH_INFO::world_base_save_path() + "/zones_cache.json",
+                        PATH_INFO::world_base_save_path() + "/zones.json" ) ) &&
+           ( !file_exist( PATH_INFO::player_base_save_path() + ".zones_cache.json" ) ||
+             copy_file( PATH_INFO::player_base_save_path() + ".zones_cache.json",
+                        PATH_INFO::player_base_save_path() + ".zones.json" ) );
+}
+
 event_bus &game::events()
 {
     return *event_bus_ptr;
@@ -2621,10 +2631,12 @@ bool game::save()
             !get_auto_pickup().save_character() ||
             !get_auto_notes_settings().save() ||
             !get_safemode().save_character() ||
+            !save_zones() ||
         !write_to_file( PATH_INFO::world_base_save_path() + "/uistate.json", [&]( std::ostream & fout ) {
         JsonOut jsout( fout );
             uistate.serialize( jsout );
         }, _( "uistate data" ) ) ) {
+            debugmsg( "game not saved" );
             return false;
         } else {
             world_generator->active_world->add_save( save_t::from_player_name( u.name ) );
