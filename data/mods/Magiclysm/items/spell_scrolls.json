@@ -115,7 +115,7 @@
     "id": "spell_scroll_rupture",
     "//": "Animist spell",
     "name": { "str": "Scroll of Rupture", "str_pl": "Scrolls of Rupture" },
-    "description": "You pour mana into an unwilling and unprepared vessel, causing cellular break-down, internal hemoraging, and leylines to become muddled. Immensely gruesome, crude, and was once illeagal world-wide, not that it matters now.",
+    "description": "You pour mana into an unwilling and unprepared vessel, causing cellular break-down, internal hemorrhaging, leylines to become muddled, and electronics to overcharge. Immensely gruesome, crude, and was once illegal world-wide, not that it matters now.",
     "use_action": { "type": "learn_spell", "spells": [ "rupture" ] }
   },
   {
@@ -312,7 +312,7 @@
     "id": "spell_scroll_cause_rot",
     "//": "Druid spell",
     "name": { "str": "Scroll of Cause Rot", "str_pl": "Scrolls of Cause Rot" },
-    "description": "A spell from a darker sect of druidery, created to forciably begin the circle of life anew. For without rot, you cannot have growth. Affects a huge area, but is indescrimiate, and slow both in casting and effect. Once lost entirely to the passage of time, this spell was thought to be no more than a myth, the stuff of fairy tales, albeit grim ones.",
+    "description": "A spell from a darker sect of druidry, created to forcibly begin the circle of life anew. For without rot, you cannot have growth. Affects a huge area, but is indiscriminate and slow both in casting and effect. Once lost entirely to the passage of time, this spell was thought to be no more than a myth, the stuff of fairy tales, albeit grim ones.",
     "use_action": { "type": "learn_spell", "spells": [ "cause_rot" ] }
   },
   {
@@ -609,7 +609,7 @@
     "id": "spell_scroll_focused_bolt",
     "//": "Magus spell",
     "name": { "str": "Scroll of Focused Bolt", "str_pl": "Scrolls of Focused Bolt" },
-    "description": "You focus your mana into a microscopically thin pulsed beam of pure energy, capable of extreme range and precision; as well as unparalleled penetration, provided proper skill. Once the invention of a notorious assassin, this spell has slayed many a king and noble, passed on only through direct decendants over the ages; until you.",
+    "description": "You focus your mana into a microscopically thin pulsed beam of pure energy, capable of extreme range and precision; as well as unparalleled penetration, provided proper skill. Once the invention of a notorious assassin, this spell has slayed many a king and noble. Passed on only through direct decendants over the ages, though occasionally shared by them to others.",
     "use_action": { "type": "learn_spell", "spells": [ "focused_bolt" ] }
   },
   {
