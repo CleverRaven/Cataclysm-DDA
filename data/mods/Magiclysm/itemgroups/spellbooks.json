@@ -139,10 +139,10 @@
       [ "bio_sneeze_beam", 50 ],
       [ "spell_scroll_banishment_lesser", 30 ],
       [ "spell_scroll_nova_flare", 25 ],
-      [ "spell_scroll_freezing_touch", 40 ]
+      [ "spell_scroll_freezing_touch", 40 ],
       [ "spell_scroll_focused_bolt", 1 ],
       [ "spell_scroll_rupture", 1 ],
-      [ "spell_scroll_cause_rot", 1 ],
+      [ "spell_scroll_cause_rot", 1 ]
     ]
   },
   {
