@@ -87,7 +87,6 @@
 #include "overlay_ordering.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
-#include "player.h"
 #include "profession.h"
 #include "proficiency.h"
 #include "recipe_dictionary.h"
@@ -462,14 +461,16 @@ Character::Character() :
     last_climate_control_ret( false )
 {
     randomize_blood();
-    str_max = 0;
-    dex_max = 0;
-    per_max = 0;
-    int_max = 0;
-    str_cur = 0;
-    dex_cur = 0;
-    per_cur = 0;
-    int_cur = 0;
+    str_cur = 8;
+    str_max = 8;
+    dex_cur = 8;
+    dex_max = 8;
+    int_cur = 8;
+    int_max = 8;
+    per_cur = 8;
+    per_max = 8;
+    dodges_left = 1;
+    blocks_left = 1;
     str_bonus = 0;
     dex_bonus = 0;
     per_bonus = 0;
@@ -501,6 +502,38 @@ Character::Character() :
     move_mode = move_mode_id( "walk" );
     next_expected_position = cata::nullopt;
     crafting_cache.time = calendar::before_time_starts;
+
+    set_power_level( 0_kJ );
+    set_max_power_level( 0_kJ );
+    cash = 0;
+    scent = 500;
+    male = true;
+    prof = profession::has_initialized() ? profession::generic() :
+           nullptr; //workaround for a potential structural limitation, see player::create
+    start_location = start_location_id( "sloc_shelter" );
+    moves = 100;
+    oxygen = 0;
+    in_vehicle = false;
+    controlling_vehicle = false;
+    grab_point = tripoint_zero;
+    hauling = false;
+    set_focus( 100 );
+    last_item = itype_id( "null" );
+    sight_max = 9999;
+    last_batch = 0;
+    lastconsumed = itype_id( "null" );
+    death_drops = true;
+    nv_cached = false;
+    volume = 0;
+    set_value( "THIEF_MODE", "THIEF_ASK" );
+    for( const auto &v : vitamin::all() ) {
+        vitamin_levels[ v.first ] = 0;
+    }
+    // Only call these if game is initialized
+    if( !!g && json_flag::is_ready() ) {
+        recalc_sight_limits();
+        calc_encumbrance();
+    }
 }
 // *INDENT-ON*
 
@@ -6110,7 +6143,7 @@ void Character::update_body( const time_point &from, const time_point &to )
     update_stomach( from, to );
     recalculate_enchantment_cache();
     if( ticks_between( from, to, 3_minutes ) > 0 ) {
-        magic->update_mana( *this->as_player(), to_turns<float>( 3_minutes ) );
+        magic->update_mana( *this, to_turns<float>( 3_minutes ) );
     }
     const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
@@ -6552,7 +6585,7 @@ void Character::update_needs( int rate_multiplier )
         !( has_trait( trait_NOPAIN ) || has_effect( effect_narcosis ) ) ) {
         vehicle *veh = veh_pointer_or_null( get_map().veh_at( pos() ) );
         // it's painful to work the controls, but passengers in open topped vehicles are fine
-        if( veh && ( veh->enclosed_at( pos() ) || veh->player_in_control( *this->as_player() ) ) ) {
+        if( veh && ( veh->enclosed_at( pos() ) || veh->player_in_control( *this ) ) ) {
             add_msg_if_player( m_bad,
                                _( "You're cramping up from stuffing yourself in this vehicle." ) );
             if( is_npc() ) {
@@ -9696,7 +9729,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         return false;
     }
 
-    cata::optional<int> charges_used = actually_used->type->invoke( *this->as_player(), *actually_used,
+    cata::optional<int> charges_used = actually_used->type->invoke( *this, *actually_used,
                                        pt, method );
     if( !charges_used.has_value() ) {
         moves = pre_obtain_moves;
@@ -9785,7 +9818,7 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
                 string_format( _( "Store in %s" ), e.tname() ), true, e.invlet,
                 item_store_cost( *obj, e, false, e.insert_cost( *obj ) ),
                 [this, ptr, &e, &obj] {
-                    return ptr->store( *this->as_player(), e, *obj );
+                    return ptr->store( *this, e, *obj );
                 }
             } );
         }
@@ -10944,7 +10977,7 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const
     mod_part_hp_cur( part_to_damage, - dam_to_bodypart );
     get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
 
-    if( !weapon.is_null() && !as_player()->can_wield( weapon ).success() &&
+    if( !weapon.is_null() && !can_wield( weapon ).success() &&
         can_drop( weapon ).success() ) {
         add_msg_if_player( _( "You are no longer able to wield your %s and drop it!" ),
                            weapon.display_name() );
@@ -11950,9 +11983,7 @@ void Character::migrate_items_to_storage( bool disintegrate )
         if( disintegrate ) {
             if( try_add( *it, /*avoid=*/nullptr, it ) == nullptr ) {
                 std::string profession_id = "<none>";
-                if( const player *me = as_player() ) {
-                    profession_id = me->prof->ident().str();
-                }
+                profession_id = prof->ident().str();
                 debugmsg( "ERROR: Could not put %s (%s) into inventory.  Check if the "
                           "profession (%s) has enough space.",
                           it->tname(), it->typeId().str(), profession_id );
@@ -14048,7 +14079,7 @@ bool Character::unload( item_location &loc, bool bypass_activity )
 
     // Turn off any active tools
     if( target->is_tool() && target->active && target->ammo_remaining() == 0 ) {
-        target->type->invoke( *this->as_player(), *target, this->pos() );
+        target->type->invoke( *this, *target, this->pos() );
     }
 
     add_msg( _( "You unload your %s." ), target->tname() );
@@ -14327,7 +14358,7 @@ bool Character::beyond_final_warning( const faction_id &id )
 const Character *Character::get_book_reader( const item &book,
         std::vector<std::string> &reasons ) const
 {
-    const player *reader = nullptr;
+    const Character *reader = nullptr;
 
     if( !book.is_book() ) {
         reasons.push_back( is_avatar() ? string_format( _( "Your %s is not good reading material." ),
@@ -15077,7 +15108,7 @@ void Character::on_worn_item_transform( const item &old_it, const item &new_it )
 
 void Character::process_items()
 {
-    if( weapon.needs_processing() && weapon.process( this->as_player(), pos() ) ) {
+    if( weapon.needs_processing() && weapon.process( this, pos() ) ) {
         weapon.spill_contents( pos() );
         remove_weapon();
     }
@@ -15088,7 +15119,7 @@ void Character::process_items()
             continue;
         }
         if( it->needs_processing() ) {
-            if( it->process( this->as_player(), pos() ) ) {
+            if( it->process( this, pos() ) ) {
                 it->spill_contents( pos() );
                 removed_items.push_back( it );
             }

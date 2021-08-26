@@ -1043,7 +1043,7 @@ void map::unboard_vehicle( const tripoint &p, bool dead_passenger )
     if( !vp ) {
         debugmsg( "map::unboard_vehicle: vehicle not found" );
         // Try and force unboard the player anyway.
-        passenger = g->critter_at<player>( p );
+        passenger = g->critter_at<Character>( p );
         if( passenger ) {
             passenger->in_vehicle = false;
             passenger->controlling_vehicle = false;
@@ -1643,9 +1643,9 @@ void map::examine( Character &you, const tripoint &pos )
 {
     const furn_t furn_here = furn( pos ).obj();
     if( furn_here.can_examine() ) {
-        furn_here.examine( dynamic_cast<player &>( you ), pos );
+        furn_here.examine( dynamic_cast<Character &>( you ), pos );
     } else {
-        ter( pos ).obj().examine( dynamic_cast<player &>( you ), pos );
+        ter( pos ).obj().examine( dynamic_cast<Character &>( you ), pos );
     }
 }
 

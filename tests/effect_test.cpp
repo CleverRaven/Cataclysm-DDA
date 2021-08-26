@@ -545,7 +545,7 @@ TEST_CASE( "bleed_effect_attribution", "[effect][bleed][monster]" )
 
 TEST_CASE( "Vitamin Effects", "[effect][vitamins]" )
 {
-    player &subject = get_avatar();
+    Character &subject = get_avatar();
     clear_avatar();
 
     // Our effect influencing vitamins, and the two vitamins it influences
