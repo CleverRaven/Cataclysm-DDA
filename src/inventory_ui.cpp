@@ -2479,12 +2479,14 @@ drop_locations inventory_iuse_selector::execute()
         }
     }
     int count = 0;
+    bool numcapture = false;
     while( true ) {
         ui_manager::redraw();
 
         const inventory_input input = get_input();
-
-        if( input.ch >= '0' && input.ch <= '9' ) {
+        if( input.ch == '#' || input.ch == '+' ) {
+            numcapture = !numcapture;
+        } else if( numcapture && input.ch >= '0' && input.ch <= '9' ) {
             count = std::min( count, INT_MAX / 10 - 10 );
             count *= 10;
             count += input.ch - '0';
@@ -2495,6 +2497,7 @@ drop_locations inventory_iuse_selector::execute()
             }
             set_chosen_count( *input.entry, count );
             count = 0;
+            numcapture = false;
         } else if( input.action == "TOGGLE_ENTRY" ) {
             const auto selected( get_active_column().get_all_selected() );
 
@@ -2513,6 +2516,7 @@ drop_locations inventory_iuse_selector::execute()
                 set_chosen_count( *elem, count );
             }
             count = 0;
+            numcapture = false;
         } else if( input.action == "CONFIRM" ) {
             if( to_use.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
@@ -2527,6 +2531,7 @@ drop_locations inventory_iuse_selector::execute()
         } else {
             on_input( input );
             count = 0;
+            numcapture = false;
         }
     }
     drop_locations dropped_pos_and_qty;
@@ -2663,12 +2668,15 @@ drop_locations inventory_drop_selector::execute()
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
 
     int count = 0;
+    bool numcapture = false;
     while( true ) {
         ui_manager::redraw();
 
         const inventory_input input = get_input();
 
-        if( input.ch >= '0' && input.ch <= '9' ) {
+        if( input.ch == '#' || input.ch == '+' ) {
+            numcapture = !numcapture;
+        } else if( numcapture && input.ch >= '0' && input.ch <= '9' ) {
             count = std::min( count, INT_MAX / 10 - 10 );
             count *= 10;
             count += input.ch - '0';
@@ -2679,6 +2687,7 @@ drop_locations inventory_drop_selector::execute()
             }
             set_chosen_count( *input.entry, count );
             count = 0;
+            numcapture = false;
         } else if( input.action == "DROP_NON_FAVORITE" ) {
             const auto filter_to_nonfavorite_and_nonworn = []( const inventory_entry & entry ) {
                 return entry.is_item() &&
@@ -2727,6 +2736,7 @@ drop_locations inventory_drop_selector::execute()
             }
 
             count = 0;
+            numcapture = false;
         } else if( input.action == "CONFIRM" ) {
             if( dropping.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
@@ -2749,6 +2759,7 @@ drop_locations inventory_drop_selector::execute()
         } else {
             on_input( input );
             count = 0;
+            numcapture = false;
         }
     }
 
