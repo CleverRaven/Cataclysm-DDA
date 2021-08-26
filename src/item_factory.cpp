@@ -59,7 +59,6 @@
 #include "veh_type.h"
 #include "vitamin.h"
 
-class player;
 struct tripoint;
 template <typename T> struct enum_traits;
 
@@ -871,7 +870,7 @@ class iuse_function_wrapper : public iuse_actor
             : iuse_actor( type ), cpp_function( f ) { }
 
         ~iuse_function_wrapper() override = default;
-        cata::optional<int> use( player &p, item &it, bool a, const tripoint &pos ) const override {
+        cata::optional<int> use( Character &p, item &it, bool a, const tripoint &pos ) const override {
             return cpp_function( &p, &it, a, pos );
         }
         std::unique_ptr<iuse_actor> clone() const override {
@@ -3175,26 +3174,26 @@ void Item_factory::load_migration( const JsonObject &jo )
     assign( jo, "contents", m.contents );
     assign( jo, "sealed", m.sealed );
 
+    std::vector<itype_id> ids;
     if( jo.has_string( "id" ) ) {
-        jo.read( "id", m.id, true );
+        ids.resize( 1 );
+        jo.read( "id", ids[0], true );
+    } else if( jo.has_array( "id" ) ) {
+        jo.read( "id", ids, true );
+    } else {
+        jo.throw_error( "`id` of `MIGRATION` is neither string nor array" );
+    }
+    for( const itype_id &id : ids ) {
+        if( m.replace && m.replace == id ) {
+            jo.throw_error( string_format( "`MIGRATION` attempting to replace entity with itself: %s",
+                                           id.str() ) );
+        }
+        m.id = id;
         if( m.from_variant ) {
             migrations[ m.id ].push_back( m );
         } else {
             add_migration( m );
         }
-    } else if( jo.has_array( "id" ) ) {
-        std::vector<itype_id> ids;
-        jo.read( "id", ids, true );
-        for( const itype_id &id : ids ) {
-            m.id = id;
-            if( m.from_variant ) {
-                migrations[ m.id ].push_back( m );
-            } else {
-                add_migration( m );
-            }
-        }
-    } else {
-        jo.throw_error( "`id` of `MIGRATION` is neither string nor array" );
     }
 }
 

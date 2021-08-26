@@ -25,13 +25,61 @@
     "flags": [ "WATCH", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
-    "type": "AMMO",
-    "id": "clearcrete_chunk",
-    "copy-from": "rock",
-    "name": { "str": "clearcrete chunk" },
-    "category": "other",
-    "description": "A broken chunk of clearcrete.  Basically a clear rock.",
-    "material": [ "clearcrete" ]
+    "id": "afs_imager",
+    "type": "TOOL",
+    "name": { "str": "structural imager" },
+    "description": "A compact imaging tool, capable of scanning and visualizing objects hiding behind walls, maintenance panels and all other sort of visual barriers.  While normally used to diagnostic potential faults within the internal systems of spaceships, the ability to peer between obstacles grant it obvious surveillance applications.  It can be activated to reveal a small conical area around you.",
+    "weight": "1060 g",
+    "volume": "350 ml",
+    "price": "10 kUSD",
+    "to_hit": -2,
+    "bashing": 6,
+    "material": [ "plastic", "steel" ],
+    "symbol": "(",
+    "color": "yellow",
+    "ammo": [ "battery" ],
+    "charges_per_use": 50,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
+    ],
+    "use_action": { "type": "cast_spell", "spell_id": "afs_clairvoyance_cone", "no_fail": true, "level": 5 },
+    "flags": [ "BELT_CLIP" ]
+  },
+  {
+    "id": "afs_plasma_torch",
+    "type": "TOOL",
+    "name": { "str": "377-UASTA plasma torch" },
+    "description": "One of the many versions of UASTA certified plasma torches, essentially a civilian plasma railgun used to deliver focused waves of plasma for precision welding or metal cutting.  It is an indispensable tool for construction or demolition work, and is sometimes transformed into weapon by mining & salvage outfits of questionable repute.",
+    "weight": "4200 g",
+    "volume": "4500 ml",
+    "longest_side": "60 cm",
+    "price": "350 USD",
+    "price_postapoc": "350 USD",
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "red",
+    "ammo": [ "afs_shydrogen" ],
+    "charges_per_use": 1,
+    "use_action": [ "OXYTORCH" ],
+    "qualities": [ [ "WELD", 2 ] ],
+    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "magazine_well": "120 ml",
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "afs_40g_plasma_civ" ]
+      }
+    ]
   },
   {
     "id": "afs_atomic_smartphone_music",
@@ -198,16 +246,6 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1500 } } ],
     "flags": [ "RECHARGE", "WAIST", "NO_UNLOAD", "NO_RELOAD", "FRAGILE", "OVERSIZE", "WATERPROOF", "IS_UPS" ],
     "armor": [ { "encumbrance": 2, "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
-  },
-  {
-    "id": "adv_UPS_off",
-    "type": "TOOL_ARMOR",
-    "copy-from": "adv_UPS_off",
-    "name": { "str": "advanced UPS", "str_pl": "advanced UPS's" },
-    "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to consume plutonium fuel cells rather than batteries, and is both slimmer and lighter to wear.  Sadly, its plutonium reactor can't be charged in UPS charging station.",
-    "sided": true,
-    "flags": [ "WAIST", "FRAGILE", "OVERSIZE", "IS_UPS" ],
-    "armor": [ { "encumbrance": 1, "coverage": 5, "covers": [ "leg_l", "leg_r" ] } ]
   },
   {
     "id": "bionic_maintenance_toolkit",

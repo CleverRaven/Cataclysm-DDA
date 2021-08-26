@@ -46,22 +46,6 @@ static const item_category_id item_category_food( "food" );
 
 zone_manager::zone_manager()
 {
-    types.emplace( zone_type_id( "NO_AUTO_PICKUP" ),
-                   zone_type( to_translation( "No Auto Pickup" ),
-                              to_translation( "You won't auto-pickup items inside the zone." ) ) );
-    types.emplace( zone_type_id( "NO_NPC_PICKUP" ),
-                   zone_type( to_translation( "No NPC Pickup" ),
-                              to_translation( "Friendly NPCs don't pickup items inside the zone." ) ) );
-    types.emplace( zone_type_id( "NPC_RETREAT" ),
-                   zone_type( to_translation( "NPC Retreat" ),
-                              to_translation( "When fleeing, friendly NPCs will attempt to retreat toward this zone if it is within 60 tiles." ) ) );
-    types.emplace( zone_type_id( "NPC_NO_INVESTIGATE" ),
-                   zone_type( to_translation( "NPC Ignore Sounds" ),
-                              to_translation( "Friendly NPCs won't investigate unseen sounds coming from this zone." ) ) );
-    types.emplace( zone_type_id( "NPC_INVESTIGATE_ONLY" ),
-                   zone_type( to_translation( "NPC Investigation Area" ),
-                              to_translation( "Friendly NPCs will investigate unseen sounds only if they come from inside this area." ) ) );
-
     for( const zone_type &zone : zone_type::get_all() ) {
         types.emplace( zone.id, zone );
     }

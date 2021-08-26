@@ -69,7 +69,7 @@
     "armor_cut": 8,
     "hp": 430,
     "description": "Enormous putrid dinosaur corpse with a ferocious crocodile-like head, oozing black eyes, and a tattered sail on its back.",
-    "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 } ],
     "burn_into": "mon_zpinosaurus_scorched",
     "fungalize_into": "mon_zpinosaurus_fungus",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zpinosaurus_UPGRADE" },
@@ -107,7 +107,7 @@
     "armor_cut": 4,
     "armor_bullet": 2,
     "hp": 190,
-    "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 } ],
     "description": "The shambling corpse of a large predatory bipedal dinosaur, with tiger-like stripes on its broad, scaled back.",
     "burn_into": "mon_zallosaurus_scorched",
     "fungalize_into": "mon_zallosaurus_fungus",
@@ -130,7 +130,7 @@
     "armor_cut": 4,
     "armor_bullet": 2,
     "hp": 270,
-    "special_attacks": [ [ "GRAB", 10 ], [ "LUNGE", 20 ] ],
+    "special_attacks": [ [ "GRAB", 10 ], { "type": "bite", "cooldown": 10 }, [ "LUNGE", 20 ] ],
     "description": "The shambling corpse of a huge, bipedal dinosaur predator, with a tall ridge running down the length of its back covered with heavy muscles.  Its teeth are curved and serrated like sawblades.",
     "burn_into": "mon_zacrocanthosaurus_scorched",
     "fungalize_into": "mon_zacrocanthosaurus_fungus",
@@ -171,7 +171,7 @@
     "armor_cut": 5,
     "armor_bullet": 3,
     "hp": 270,
-    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ], [ "LUNGE", 5 ] ],
+    "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ], [ "LUNGE", 5 ], [ "LONGSWIPE", 25 ] ],
     "description": "Massive jaws drooling black liquid, lifted over grasping claws by a huge shuffling dinosaur corpse.",
     "burn_into": "mon_zalbertosaurus_scorched",
     "fungalize_into": "mon_zalbertosaurus_fungus",
@@ -220,7 +220,7 @@
     "armor_cut": 8,
     "hp": 400,
     "description": "Massive piles of ragged, stinking flesh lifting enormous teeth.",
-    "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 7 ], { "type": "bite", "cooldown": 5 } ],
     "burn_into": "mon_zyrannosaurus_scorched",
     "fungalize_into": "mon_zyrannosaurus_fungus",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zyrannosaurus_UPGRADE" },
@@ -277,7 +277,7 @@
     "armor_cut": 4,
     "armor_bullet": 2,
     "hp": 120,
-    "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 } ],
     "description": "The shuffling corpse of a medium-sized bipedal dinosaur, covered with tattered feathers and black, putrid liquid.",
     "burn_into": "mon_zallimimus_scorched",
     "fungalize_into": "mon_zallimimus_fungus",
@@ -303,7 +303,7 @@
     "armor_cut": 4,
     "armor_bullet": 2,
     "hp": 160,
-    "special_attacks": [ [ "LONGSWIPE", 30 ] ],
+    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 }, [ "LONGSWIPE", 30 ] ],
     "description": "The shuffling corpse of a large-sized bipedal dinosaur covered with tattered feathers and black putrid liquid.  Sharp curved claws protrude from its hands.",
     "burn_into": "mon_zothronychus_scorched",
     "fungalize_into": "mon_zothronychus_fungus",
@@ -336,6 +336,7 @@
     "special_attacks": [
       { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true },
       [ "scratch", 10 ],
+      [ "GRAB", 10 ],
       { "type": "bite", "cooldown": 5 }
     ],
     "description": "The shuffling corpse of a medium-sized bipedal dinosaur covered with tattered feathers and black putrid liquid.  Both feet brandish a large sickle-like claw.",
@@ -410,7 +411,7 @@
     "hp": 500,
     "special_attacks": [
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      [ "SMASH", 30 ]
+      [ "tailsmash_DinoMod", 30 ]
     ],
     "description": "A massive, long-necked, four-legged dinosaur corpse with a long, whip-like tail.  The head is still upright and the neck looks like it would still make a good, strong club.",
     "burn_into": "mon_zapatosaurus_scorched",
@@ -445,8 +446,8 @@
     "armor_bullet": 2,
     "hp": 490,
     "special_attacks": [
-      { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      [ "SMASH", 30 ]
+      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
+      [ "tailsmash_DinoMod", 30 ]
     ],
     "description": "Huge, long-necked, four-legged dinosaur with a long, whip-like tail and a tiny head with vacant white eyes.  Sways and staggers.",
     "burn_into": "mon_ziplodocus_scorched",
@@ -517,6 +518,13 @@
     "armor_cut": 4,
     "armor_bullet": 2,
     "hp": 275,
+    "special_attacks": [
+      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 10 } ] },
+      [ "scratch", 10 ],
+      [ "GRAB", 10 ],
+      { "type": "bite", "cooldown": 5 },
+      [ "tailsmash_DinoMod", 30 ]
+    ],
     "description": "A large, shambling quadruped dinosaur corpse, dragging with the weight of the plates on its back - waving a much livelier-looking spiked tail.",
     "burn_into": "mon_ztegosaurus_scorched",
     "fungalize_into": "mon_ztegosaurus_fungus",
@@ -529,12 +537,7 @@
     "copy-from": "mon_zankylosaurus",
     "looks_like": "mon_ankylosaurus",
     "hp": 190,
-    "special_attacks": [
-      [ "scratch", 10 ],
-      { "type": "bite", "cooldown": 5 },
-      { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 8 } ] },
-      [ "SMASH", 30 ]
-    ],
+    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 }, [ "tailsmash_DinoMod", 30 ] ],
     "description": "This armored dinosaur corpse looks like a giant prehistoric armadillo.  Its tail ends in a spiked club of bone.",
     "burn_into": "mon_zyoplosaurus_scorched",
     "fungalize_into": "mon_zyoplosaurus_fungus",
@@ -564,12 +567,7 @@
     "armor_cut": 21,
     "armor_bullet": 7,
     "hp": 375,
-    "special_attacks": [
-      [ "scratch", 10 ],
-      { "type": "bite", "cooldown": 5 },
-      { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      [ "SMASH", 30 ]
-    ],
+    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 }, [ "tailsmash_DinoMod", 30 ] ],
     "description": "The shuffling corpse of what looks like a giant armadillo with peeling armored plates and black, glistening eyes.  Its tail ends in a massive spiked club of bone.",
     "burn_into": "mon_zankylosaurus_scorched",
     "fungalize_into": "mon_zankylosaurus_fungus",
@@ -589,7 +587,7 @@
     "armor_bash": 21,
     "armor_cut": 23,
     "armor_bullet": 11,
-    "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 } ],
     "description": "This heavily-armored dinosaur corpse looks like a giant prehistoric armadillo.",
     "burn_into": "mon_zodosaurus_scorched",
     "fungalize_into": "mon_zodosaurus_fungus",
@@ -606,7 +604,7 @@
     "armor_bash": 21,
     "armor_cut": 23,
     "armor_bullet": 11,
-    "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 } ],
     "description": "This heavily-armored dinosaur corpse looks like a giant prehistoric armadillo with long, bony spikes.",
     "burn_into": "mon_zedmontonia_scorched",
     "fungalize_into": "mon_zedmontonia_fungus",
@@ -636,7 +634,7 @@
     "armor_cut": 4,
     "armor_bullet": 2,
     "hp": 170,
-    "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 } ],
     "description": "The shuffling corpse of a large, feathered, bipedal dinosaur with strong legs, broad shoulders, and a pointed beak.  Its tattered feathers are stained with black, sticky liquid.",
     "burn_into": "mon_zamptosaurus_scorched",
     "fungalize_into": "mon_zamptosaurus_fungus",
@@ -672,6 +670,12 @@
     "armor_cut": 7,
     "armor_bullet": 4,
     "hp": 320,
+    "special_attacks": [
+      [ "scratch", 10 ],
+      [ "GRAB", 10 ],
+      { "type": "bite", "cooldown": 5 },
+      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] }
+    ],
     "description": "A huge, mottled dinosaur with a blunt head crest, dead but walking, eyes vacant and swollen.",
     "burn_into": "mon_zarasaurolophus_scorched",
     "fungalize_into": "mon_zarasaurolophus_fungus",
@@ -740,7 +744,7 @@
     "armor_bash": 3,
     "armor_cut": 4,
     "hp": 125,
-    "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [ [ "scratch", 10 ], [ "GRAB", 10 ], { "type": "bite", "cooldown": 5 } ],
     "description": "The shuffling corpse of a medium-sized bipedal dinosaur covered with tattered feathers and black, putrid liquid.  It resembles a reptilian ostrich with a hard-looking domed head.",
     "burn_into": "mon_zachycephalosaurus_scorched",
     "fungalize_into": "mon_zachycephalosaurus_fungus",
@@ -846,7 +850,10 @@
     "burn_into": "mon_zriceratops_scorched",
     "fungalize_into": "mon_zriceratops_fungus",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zriceratops_UPGRADE" },
-    "special_attacks": [ { "id": "impale" } ]
+    "special_attacks": [
+      { "id": "impale" },
+      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] }
+    ]
   },
   {
     "type": "MONSTER",
@@ -871,7 +878,7 @@
     "armor_bash": 4,
     "armor_cut": 4,
     "hp": 30,
-    "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
+    "special_attacks": [ [ "scratch", 10 ] ],
     "description": "The ragged but flying corpse of a large, feathered reptile with a long, pointy, toothless beak and a long, pointy head crest.",
     "burn_into": "mon_zteranodon_scorched",
     "fungalize_into": "mon_zteranodon_fungus",
@@ -980,8 +987,8 @@
     "armor_bullet": 2,
     "hp": 200,
     "special_attacks": [
-      { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      [ "SMASH", 30 ]
+      { "id": "stomp_DinoMod", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
+      [ "tailsmash_DinoMod", 30 ]
     ],
     "description": "A small, four-legged, herbivorous dinosaur juvenile's corpse that could be from a number of different species.",
     "burn_into": "mon_zapatosaurus_scorched",

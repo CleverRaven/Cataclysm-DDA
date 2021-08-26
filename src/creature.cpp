@@ -1454,7 +1454,7 @@ void Creature::process_effects()
                 if( is_avatar() ) {
                     std::map<std::string, cata_variant> event_data;
                     std::pair<std::string, cata_variant> data_obj( "character",
-                            cata_variant::make<cata_variant_type::character_id>( as_player()->getID() ) );
+                            cata_variant::make<cata_variant_type::character_id>( as_character()->getID() ) );
                     event_data.insert( data_obj );
                     cata::event sent( e.death_event(), calendar::turn, std::move( event_data ) );
                     get_event_bus().send( sent );

@@ -74,7 +74,6 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
-#include "player.h"
 #include "projectile.h"
 #include "relic.h"
 #include "ret_val.h"
@@ -1044,7 +1043,7 @@ void map::unboard_vehicle( const tripoint &p, bool dead_passenger )
     if( !vp ) {
         debugmsg( "map::unboard_vehicle: vehicle not found" );
         // Try and force unboard the player anyway.
-        passenger = g->critter_at<player>( p );
+        passenger = g->critter_at<Character>( p );
         if( passenger ) {
             passenger->in_vehicle = false;
             passenger->controlling_vehicle = false;
@@ -1412,9 +1411,9 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
     support_dirty( above );
 }
 
-bool map::can_move_furniture( const tripoint &pos, player *p )
+bool map::can_move_furniture( const tripoint &pos, Character *you )
 {
-    if( !p ) {
+    if( !you ) {
         return false;
     }
     const furn_t &furniture_type = furn( pos ).obj();
@@ -1426,9 +1425,9 @@ bool map::can_move_furniture( const tripoint &pos, player *p )
     }
 
     ///\EFFECT_STR determines what furniture the player can move
-    int adjusted_str = p->str_cur;
-    if( p->is_mounted() ) {
-        auto *mons = p->mounted_creature.get();
+    int adjusted_str = you->str_cur;
+    if( you->is_mounted() ) {
+        auto *mons = you->mounted_creature.get();
         if( mons->has_flag( MF_RIDEABLE_MECH ) && mons->mech_str_addition() != 0 ) {
             adjusted_str = mons->mech_str_addition();
         }
@@ -1640,13 +1639,13 @@ ter_id map::get_ter_transforms_into( const tripoint &p ) const
  * Examines the tile pos, with character as the "examinator"
  * Casts Character to player because player/NPC split isn't done yet
  */
-void map::examine( Character &p, const tripoint &pos )
+void map::examine( Character &you, const tripoint &pos )
 {
     const furn_t furn_here = furn( pos ).obj();
     if( furn_here.can_examine() ) {
-        furn_here.examine( dynamic_cast<player &>( p ), pos );
+        furn_here.examine( dynamic_cast<Character &>( you ), pos );
     } else {
-        ter( pos ).obj().examine( dynamic_cast<player &>( p ), pos );
+        ter( pos ).obj().examine( dynamic_cast<Character &>( you ), pos );
     }
 }
 
@@ -2208,8 +2207,8 @@ void map::drop_furniture( const tripoint &p )
                                         _( "Falling %s hits <npcname>" ),
                                         furn_name );
         // TODO: A chance to dodge/uncanny dodge
-        player *pl = dynamic_cast<player *>( critter );
-        monster *mon = dynamic_cast<monster *>( critter );
+        Character *pl = critter->as_character();
+        monster *mon = critter->as_monster();
         if( pl != nullptr ) {
             pl->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::BASH, rng( dmg / 3,
                              dmg ), 0,
@@ -3568,7 +3567,7 @@ void map::batter( const tripoint &p, int power, int tries, const bool silent )
 
 void map::crush( const tripoint &p )
 {
-    player *crushed_player = g->critter_at<player>( p );
+    Character *crushed_player = g->critter_at<Character>( p );
 
     if( crushed_player != nullptr ) {
         bool player_inside = false;
@@ -4399,16 +4398,17 @@ item &map::add_item( const tripoint &p, item new_item )
 
 item map::water_from( const tripoint &p )
 {
+    weather_manager &weather = get_weather();
     if( has_flag( "SALT_WATER", p ) ) {
         item ret( "salt_water", calendar::turn, item::INFINITE_CHARGES );
-        ret.set_item_temperature( temp_to_kelvin( std::max( g->weather.get_temperature( p ),
+        ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
                                   temperatures::cold ) ) );
         return ret;
     }
 
     if( has_flag( "CHOCOLATE", p ) ) {
         item ret( "liquid_cacao", calendar::turn, item::INFINITE_CHARGES );
-        ret.set_item_temperature( temp_to_kelvin( std::max( g->weather.get_temperature( p ),
+        ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
                                   temperatures::cold ) ) );
         return ret;
     }
@@ -4416,14 +4416,14 @@ item map::water_from( const tripoint &p )
     const ter_id terrain_id = ter( p );
     if( terrain_id == t_sewage ) {
         item ret( "water_sewage", calendar::turn, item::INFINITE_CHARGES );
-        ret.set_item_temperature( temp_to_kelvin( std::max( g->weather.get_temperature( p ),
+        ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
                                   temperatures::cold ) ) );
         ret.poison = rng( 1, 7 );
         return ret;
     }
 
     item ret( "water", calendar::turn, item::INFINITE_CHARGES );
-    ret.set_item_temperature( temp_to_kelvin( std::max( g->weather.get_temperature( p ),
+    ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
                               temperatures::cold ) ) );
     // iexamine::water_source requires a valid liquid from this function.
     if( terrain_id->has_examine( iexamine::water_source ) ) {
@@ -8269,8 +8269,8 @@ void map::creature_on_trap( Creature &c, const bool may_avoid )
 {
     // boarded in a vehicle means the player is above the trap, like a flying monster and can
     // never trigger the trap.
-    const player *const p = dynamic_cast<const player *>( &c );
-    if( p != nullptr && p->in_vehicle ) {
+    const Character *const you = c.as_character();
+    if( you != nullptr && you->in_vehicle ) {
         return;
     }
     maybe_trigger_trap( c.pos(), c, may_avoid );
@@ -8289,7 +8289,7 @@ void map::maybe_trigger_trap( const tripoint &pos, Creature &c, const bool may_a
     }
 
     if( may_avoid && c.avoid_trap( pos, tr ) ) {
-        player *const pl = c.as_player();
+        Character *const pl = c.as_character();
         if( !tr.is_always_invisible() && pl && !pl->knows_trap( pos ) ) {
             pl->add_msg_if_player( _( "You've spotted a %1$s!" ), tr.name() );
             pl->add_known_trap( pos, tr );

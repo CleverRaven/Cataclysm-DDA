@@ -325,7 +325,7 @@ float Character::hit_roll() const
         hit *= 0.75f;
     }
 
-    hit *= std::max( 0.25f, 1.0f - avg_encumb_of_limb_type( body_part_type::type::torso ) / 100.0f );
+    hit *= melee_attack_roll_modifier();
 
     return melee::melee_hit_range( hit );
 }
@@ -2027,7 +2027,7 @@ void Character::perform_special_attacks( Creature &t, dealt_damage_instance &dea
             if( !practiced ) {
                 // Practice unarmed, at most once per combo
                 practiced = true;
-                as_player()->practice( skill_unarmed, rng( 0, 10 ) );
+                practice( skill_unarmed, rng( 0, 10 ) );
             }
         }
         int dam = dealt_dam.total_damage();
