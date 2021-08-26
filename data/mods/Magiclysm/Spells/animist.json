@@ -405,7 +405,7 @@
     "duration_increment": 50,
     "min_dot": 10,
     "max_dot": 100,
-    "dot_increment": 9
+    "dot_increment": 9,
     "energy_source": "MANA",
     "difficulty": 1
   }
