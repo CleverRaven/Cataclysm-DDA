@@ -1063,6 +1063,22 @@ For example, the default value of a parameter, or a terrain id in the
   times, and if a new parameter is added to the definition part way through the
   generation then the value of that parameter will be missing and the fallback
   will be used.
+* A switch statement to select different values depending on the value of some
+  other mapgen value.  This would most often be used to switch on the value of
+  a mapgen parameter, so as to allow two parts of the mapgen to be consistent.
+  For example, the following switch would match a fence gate type to a fence
+  type chosen by a mapgen parameter `fence_type`:
+```json
+{
+    "switch": { "param": "fence_type", "fallback": "t_splitrail_fence" },
+    "cases": {
+        "t_splitrail_fence": "t_splitrail_fencegate_c",
+        "t_chainfence": "t_chaingate_c",
+        "t_fence_barbed": "t_gate_metal_c",
+        "t_privacy_fence": "t_privacy_fencegate_c"
+    }
+}
+```
 
 
 ## Mapgen parameters

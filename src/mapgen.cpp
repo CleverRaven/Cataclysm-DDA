@@ -1058,7 +1058,7 @@ class mapgen_value
                     const mapgen_parameter &param = param_it->second;
                     constexpr cata_variant_type req_type = cata_variant_type_for<StringId>();
                     cata_variant_type param_type = param.type();
-                    if( param_type != req_type ) {
+                    if( param_type != req_type && req_type != cata_variant_type::string ) {
                         debugmsg( "mapgen '%s' uses parameter '%s' of type '%s' in a context "
                                   "expecting type '%s'", context, param_name,
                                   io::enum_to_string( param_type ),
@@ -1145,6 +1145,87 @@ class mapgen_value
             }
         };
 
+        struct switch_source : value_source {
+            // This has to be a pointer because mapgen_value is an incomplete
+            // type.  We could resolve this by pulling out all these
+            // value_source classes and defining them at namespace scope after
+            // mapgen_value, but that would make the code much more verbose.
+            std::unique_ptr<mapgen_value<std::string>> on;
+            std::unordered_map<std::string, StringId> cases;
+
+            explicit switch_source( const JsonObject &jo )
+                : on( std::make_unique<mapgen_value<std::string>>( jo.get_object( "switch" ) ) ) {
+                jo.read( "cases", cases, true );
+            }
+
+            Id get( const mapgendata &dat ) const override {
+                std::string based_on = on->get( dat );
+                auto it = cases.find( based_on );
+                if( it == cases.end() ) {
+                    debugmsg( "switch does not handle case %s", based_on );
+                    return make_null_helper<Id> {}();
+                }
+                return Id( it->second );
+            }
+
+            void check( const std::string &context, const mapgen_parameters &params
+                      ) const override {
+                on->check( context, params );
+                for( const std::pair<const std::string, StringId> &p : cases ) {
+                    if( !is_valid_helper( p.second ) ) {
+                        debugmsg( "mapgen '%s' uses invalid entry '%s' in switch",
+                                  context, cata_variant( p.second ).get_string() );
+                    }
+                }
+                std::vector<std::string> possible_values = on->all_possible_results( params );
+                for( const std::string &value : possible_values ) {
+                    if( !cases.count( value ) ) {
+                        debugmsg( "mapgen '%s' has switch whcih does not account for potential "
+                                  "case '%s' of the switched-on value", context, value );
+                    }
+                }
+            }
+
+            void check_consistent_with(
+                const value_source &o, const std::string &context ) const override {
+                if( const switch_source *other = dynamic_cast<const switch_source *>( &o ) ) {
+                    on->check_consistent_with( *other->on, context );
+                    if( cases != other->cases ) {
+                        auto dump_set = []( const std::unordered_map<std::string, StringId> &s ) {
+                            bool first = true;
+                            std::string result = "{ ";
+                            for( const std::pair<const std::string, StringId> &p : s ) {
+                                if( first ) {
+                                    first = false;
+                                } else {
+                                    result += ", ";
+                                }
+                                result += p.first;
+                                result += ": ";
+                                result += cata_variant( p.second ).get_string();
+                            }
+                            return result;
+                        };
+
+                        const std::string my_list = dump_set( cases );
+                        const std::string other_list = dump_set( other->cases );
+                        debugmsg( "inconsistent switch cases for %s (%s vs %s)",
+                                  context, my_list, other_list );
+                    }
+                } else {
+                    debugmsg( "inconsistent default types for %s", context );
+                }
+            }
+
+            std::vector<StringId> all_possible_results( const mapgen_parameters & ) const override {
+                std::vector<StringId> result;
+                for( const std::pair<const std::string, StringId> &p : cases ) {
+                    result.push_back( p.second );
+                }
+                return result;
+            }
+        };
+
         mapgen_value()
             : is_null_( true )
             , source_( make_shared_fast<null_source>() )
@@ -1181,8 +1262,11 @@ class mapgen_value
                 source_ = make_shared_fast<param_source>( jo );
             } else if( jo.has_member( "distribution" ) ) {
                 source_ = make_shared_fast<distribution_source>( jo );
+            } else if( jo.has_member( "switch" ) ) {
+                source_ = make_shared_fast<switch_source>( jo );
             } else {
-                jo.throw_error( R"(Expected member "param" or "distribution" in object)" );
+                jo.throw_error(
+                    R"(Expected member "param", "distribution", or "switch" in mapgen object)" );
             }
         }
 
