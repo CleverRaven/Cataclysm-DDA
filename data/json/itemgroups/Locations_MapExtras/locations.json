@@ -1378,7 +1378,7 @@
       [ "tire_wide_or", 5 ],
       [ "tire_bicycle_or", 5 ],
       [ "tire_motorbike_or", 5 ],
-      [ "tire_slick", 5 ],
+      [ "tire_medium_slick", 5 ],
       [ "deflated_wheel_bicycle", 10 ],
       [ "deflated_wheel", 10 ],
       [ "deflated_wheel_motorbike", 10 ],
