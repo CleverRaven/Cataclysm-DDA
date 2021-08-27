@@ -318,7 +318,7 @@ bool veh_interact::format_reqs( std::string &msg, const requirement_data &reqs,
 
     msg += _( "<color_white>Skills required:</color>\n" );
     for( const auto &e : skills ) {
-        bool hasSkill = player_character.get_skill_level( e.first ) >= e.second;
+        bool hasSkill = player_character.get_knowledge_level( e.first ) >= e.second;
         if( !hasSkill ) {
             ok = false;
         }
