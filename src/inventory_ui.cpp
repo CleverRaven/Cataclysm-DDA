@@ -1851,7 +1851,7 @@ std::pair< bool, std::string > inventory_selector::query_string( std::string val
         spopup->query_string( /*loop=*/false );
     } while( !spopup->confirmed() && !spopup->canceled() );
 
-    std::string rval = "";
+    std::string rval;
     bool confirmed = spopup->confirmed();
     if( confirmed ) {
         rval = spopup->text();
