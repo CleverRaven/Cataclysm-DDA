@@ -1124,7 +1124,9 @@ class activatable_inventory_preset : public pickup_inventory_preset
                 return string_format( _( "Your %s was broken and won't turn on." ), it.tname() );
             }
 
-            if( !it.ammo_sufficient( &you ) ) {
+
+            if( uses.size() == 1 &&
+                !it.ammo_sufficient( &you, uses.begin()->first ) ) {
                 return string_format(
                            ngettext( "Needs at least %d charge",
                                      "Needs at least %d charges", loc->ammo_required() ),

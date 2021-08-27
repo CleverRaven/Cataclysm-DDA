@@ -8247,6 +8247,20 @@ bool item::ammo_sufficient( const Character *carrier, int qty ) const
     return true;
 }
 
+bool item::ammo_sufficient( const Character *carrier, const std::string &method, int qty ) const
+{
+    auto iter = type->ammo_scale.find( method );
+    if( iter != type->ammo_scale.end() ) {
+        qty *= iter->second;
+    }
+    if( ammo_required() ) {
+        return ammo_remaining( carrier ) >= ammo_required() * qty;
+    } else if( get_gun_ups_drain() ) {
+        return ammo_remaining( carrier ) >= get_gun_ups_drain() * qty;
+    }
+    return true;
+}
+
 int item::ammo_consume( int qty, const tripoint &pos, Character *carrier )
 {
     if( qty < 0 ) {
