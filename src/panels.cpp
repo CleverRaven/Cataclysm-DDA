@@ -2343,18 +2343,22 @@ static void draw_hint( const avatar &, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static void draw_weariness( const avatar &u, const catacurses::window &w )
+// Draw weariness info for the avatar in the given window, with (x, y) offsets for its position,
+// and the option to use "wide labels" for the wide/classic layouts.
+static void draw_weariness_partial( const avatar &u, const catacurses::window &w,
+                                    const point start_pos,
+                                    const bool wide_labels )
 {
-    werase( w );
-
     std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
     std::pair<std::string, nc_color> activity = display::activity_text_color( u );
 
     std::pair<int, int> bar = u.weariness_transition_progress();
     std::pair<std::string, nc_color> weary_bar = get_hp_bar( bar.first, bar.second );
 
-    static const std::string progress_label = translate_marker( "Transition:" );
-    static const std::string malus_label = translate_marker( "Malus: " );
+    const std::string progress_label = wide_labels ? translate_marker( "Weary Transition:" ) :
+                                       translate_marker( "Transition:" );
+    const std::string malus_label = wide_labels ? translate_marker( "Weary Malus: " ) :
+                                    translate_marker( "Malus: " );
 
     const int wplabel_len = utf8_width( _( progress_label ) );
     const int malus_start = getmaxx( w ) - utf8_width( _( malus_label ) ) - 5;
@@ -2362,62 +2366,30 @@ static void draw_weariness( const avatar &u, const catacurses::window &w )
     const std::string malus_str = string_format( "%s%s", _( malus_label ),
                                   display::activity_malus_str( u ) );
 
-    mvwprintz( w, point_zero, c_light_gray, _( progress_label ) );
-    mvwprintz( w, point( wplabel_len + 1, 0 ), weary_bar.second, weary_bar.first );
-    mvwprintz( w, point( malus_start, 0 ), activity.second, malus_str );
+    mvwprintz( w, start_pos, c_light_gray, _( progress_label ) );
+    mvwprintz( w, point( wplabel_len + 1, start_pos.y ), weary_bar.second, weary_bar.first );
+    mvwprintz( w, point( malus_start, start_pos.y ), activity.second, malus_str );
+    wnoutrefresh( w );
+}
 
+static void draw_weariness( const avatar &u, const catacurses::window &w )
+{
+    werase( w );
+    draw_weariness_partial( u, w, point_zero, false );
     wnoutrefresh( w );
 }
 
 static void draw_weariness_narrow( const avatar &u, const catacurses::window &w )
 {
     werase( w );
-
-    std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
-    std::pair<std::string, nc_color> activity = display::activity_text_color( u );
-
-    std::pair<int, int> bar = u.weariness_transition_progress();
-    std::pair<std::string, nc_color> weary_bar = get_hp_bar( bar.first, bar.second );
-
-    static const std::string progress_label = translate_marker( "Transition:" );
-    static const std::string malus_label = translate_marker( "Malus: " );
-
-    const int wplabel_len = utf8_width( _( progress_label ) );
-    const int malus_start = getmaxx( w ) - utf8_width( _( malus_label ) ) - 5;
-
-    const std::string malus_str = string_format( "%s%s", _( malus_label ),
-                                  display::activity_malus_str( u ) );
-
-    mvwprintz( w, point_east, c_light_gray, _( progress_label ) );
-    mvwprintz( w, point( wplabel_len + 1, 0 ), weary_bar.second, weary_bar.first );
-    mvwprintz( w, point( malus_start, 0 ), activity.second, malus_str );
-
+    draw_weariness_partial( u, w, point_east, false );
     wnoutrefresh( w );
 }
 
 static void draw_weariness_wide( const avatar &u, const catacurses::window &w )
 {
     werase( w );
-
-    std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
-    std::pair<std::string, nc_color> activity = display::activity_text_color( u );
-
-    std::pair<int, int> bar = u.weariness_transition_progress();
-    std::pair<std::string, nc_color> weary_bar = get_hp_bar( bar.first, bar.second );
-
-    static const std::string progress_label = translate_marker( "Weary Transition:" );
-    static const std::string malus_label = translate_marker( "Weary Malus: " );
-
-    const int wplabel_len = utf8_width( _( progress_label ) );
-    const int malus_start = getmaxx( w ) - utf8_width( _( malus_label ) ) - 5;
-
-    const std::string malus_str = string_format( "%s%s", _( malus_label ),
-                                  display::activity_malus_str( u ) );
-
-    mvwprintz( w, point_east, c_light_gray, _( progress_label ) );
-    mvwprintz( w, point( wplabel_len + 1, 0 ), weary_bar.second, weary_bar.first );
-    mvwprintz( w, point( malus_start, 0 ), activity.second, malus_str );
-
+    draw_weariness_partial( u, w, point_east, true );
     wnoutrefresh( w );
 }
 
@@ -2440,21 +2412,7 @@ static void draw_weariness_classic( const avatar &u, const catacurses::window &w
     mvwprintz( w, point( act_start, 0 ), c_light_gray, _( activity_label ) );
     mvwprintz( w, point( act_start + alabel_len + 1, 0 ), activity.second, activity.first );
 
-    std::pair<int, int> bar = u.weariness_transition_progress();
-    std::pair<std::string, nc_color> weary_bar = get_hp_bar( bar.first, bar.second );
-
-    static const std::string progress_label = translate_marker( "Weary Transition:" );
-    static const std::string malus_label = translate_marker( "Weary Malus: " );
-
-    const int wplabel_len = utf8_width( _( progress_label ) );
-    const int malus_start = getmaxx( w ) - utf8_width( _( malus_label ) ) - 5;
-
-    const std::string malus_str = string_format( "%s%s", _( malus_label ),
-                                  display::activity_malus_str( u ) );
-
-    mvwprintz( w, point_south, c_light_gray, _( progress_label ) );
-    mvwprintz( w, point( wplabel_len + 1, 1 ), weary_bar.second, weary_bar.first );
-    mvwprintz( w, point( malus_start, 1 ), activity.second, malus_str );
+    draw_weariness_partial( u, w, point_south, true );
 
     wnoutrefresh( w );
 }
