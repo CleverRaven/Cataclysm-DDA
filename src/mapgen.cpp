@@ -2034,7 +2034,7 @@ class jmapgen_monster : public jmapgen_piece
             , friendly( jsi.get_bool( "friendly", false ) )
             , name( jsi.get_string( "name", "NONE" ) )
             , target( jsi.get_bool( "target", false ) ) {
-            if( jsi.has_string( "group" ) ) {
+            if( jsi.has_member( "group" ) ) {
                 jsi.read( "group", m_id );
             } else if( jsi.has_array( "monster" ) ) {
                 load_weighted_list( jsi.get_member( "monster" ), ids, 100 );
