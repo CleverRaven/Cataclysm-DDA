@@ -200,7 +200,7 @@
   {
     "type": "COMESTIBLE",
     "id": "PBJ_Toast",
-    "name": { "str_sp": "PBJ_Toast" },
+    "name": { "str_sp": "PBJ Toast" },
     "copy-from": "toast",
     "description": "A slice of toast with peanut butter and jelly on top of it with added butter for flavor.",
     "relative": { "calories": 326, "fun": 7, "vitamins": [ [ "iron", 6 ], [ "VitB", 3 ], [ "VitA", 7 ], [ "VitC", 2 ] ] }
