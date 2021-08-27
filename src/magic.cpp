@@ -276,7 +276,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "shape", spell_area );
     spell_area_function = spell_effect::shape_map.at( spell_area );
 
-    const auto targeted_monster_ids_reader = auto_flags_reader<mtype_id> {};
+    const auto targeted_monster_ids_reader = string_id_reader<::mtype> {};
     optional( jo, was_loaded, "targeted_monster_ids", targeted_monster_ids,
               targeted_monster_ids_reader );
 
