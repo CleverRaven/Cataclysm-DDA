@@ -2976,8 +2976,13 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
             // this tile used to support a roof, now it doesn't, which means there is only
             // open air above us
             if( zlevels ) {
-                ter_set( tz, t_open_air );
-                furn_set( tz, f_null );
+                // ensure that the layer below this one is not a wall, otherwise you have a ledge dropping onto
+                // a wall which doesn't make sense.
+                const bool isWall = has_flag("WALL", t);
+                if (!isWall) {
+                    ter_set(tz, t_open_air);
+                    furn_set(tz, f_null);
+                }
             }
         }
     }
