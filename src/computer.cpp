@@ -309,6 +309,7 @@ std::string enum_to_string<computer_action>( const computer_action act )
         case COMPACT_MAP_SUBWAY: return "map_subway";
         case COMPACT_MAPS: return "maps";
         case COMPACT_MISS_DISARM: return "miss_disarm";
+        case COMPACT_MISS_LAUNCH: return "miss_launch";
         case COMPACT_OPEN: return "open";
         case COMPACT_OPEN_DISARM: return "open_disarm";
         case COMPACT_PORTAL: return "portal";
