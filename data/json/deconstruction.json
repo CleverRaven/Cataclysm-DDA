@@ -378,27 +378,27 @@
     "type": "construction",
     "id": "constr_remove_rock_wall",
     "group": "remove_rock_wall",
-    "//": "Cuts a segment of rock wall out very neatly, and then breaks it apart for disposal.",
+    "//": "Cuts out a segment of stone wall, and then breaks it apart for disposal.",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
     "time": "120 m",
     "using": [ [ "concrete_removal_standard", 1 ] ],
     "byproducts": [ { "item": "rock", "count": [ 15, 20 ] }, { "item": "pebble", "count": [ 20, 30 ] } ],
     "pre_terrain": "t_rock_wall",
-    "post_terrain": "t_rock_floor"
+    "post_terrain": "t_dirt"
   },
   {
     "type": "construction",
     "id": "constr_remove_rock_wall_halfway",
     "group": "remove_rock_wall",
-    "//": "Cuts a segment of half complete rock wall out very neatly, and then breaks it apart for disposal.",
+    "//": "Cuts out a segment of half complete stone wall, and then breaks it apart for disposal.",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ], [ "survival", 2 ] ],
     "time": "120 m",
     "using": [ [ "concrete_removal_standard", 1 ] ],
     "byproducts": [ { "item": "rock", "count": [ 6, 10 ] }, { "item": "pebble", "count": [ 20, 30 ] } ],
     "pre_terrain": "t_rock_wall_half",
-    "post_terrain": "t_rock_floor"
+    "post_terrain": "t_dirt"
   },
   {
     "type": "construction",
