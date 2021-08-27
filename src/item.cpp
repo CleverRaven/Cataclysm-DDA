@@ -135,13 +135,13 @@ static const itype_id itype_cig_butt( "cig_butt" );
 static const itype_id itype_cig_lit( "cig_lit" );
 static const itype_id itype_cigar_butt( "cigar_butt" );
 static const itype_id itype_cigar_lit( "cigar_lit" );
-static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_disassembly( "disassembly" );
 static const itype_id itype_hand_crossbow( "hand_crossbow" );
 static const itype_id itype_joint_roach( "joint_roach" );
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_tuned_mechanism( "tuned_mechanism" );
 static const itype_id itype_water( "water" );
+static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_waterproof_gunmod( "waterproof_gunmod" );
 
 static const skill_id skill_cooking( "cooking" );
