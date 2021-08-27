@@ -22,6 +22,7 @@
 #include "color.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"
@@ -2068,6 +2069,7 @@ void talk_function::loot_building( const tripoint_abs_omt &site )
 {
     tinymap bay;
     bay.load( project_to<coords::sm>( site ), false );
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &p : bay.points_on_zlevel() ) {
         const ter_id t = bay.ter( p );
         //Open all the doors, doesn't need to be exhaustive
@@ -2111,7 +2113,7 @@ void talk_function::loot_building( const tripoint_abs_omt &site )
             bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
         }
         //Kill zombies!  Only works against pre-spawned enemies at the moment...
-        Creature *critter = g->critter_at( p );
+        Creature *critter = creatures.creature_at( p );
         if( critter != nullptr ) {
             critter->die( nullptr );
         }

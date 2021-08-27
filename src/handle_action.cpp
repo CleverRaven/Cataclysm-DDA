@@ -28,6 +28,7 @@
 #include "colony.h"
 #include "color.h"
 #include "construction.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
@@ -265,6 +266,7 @@ input_context game::get_player_input( std::string &action )
         } );
         add_draw_callback( animation_cb );
 
+        creature_tracker &creatures = get_creature_tracker();
         do {
             if( bWeatherEffect && get_option<bool>( "ANIMATION_RAIN" ) ) {
                 /*
@@ -287,7 +289,7 @@ input_context game::get_player_input( std::string &action )
                     const lit_level lighting = visibility_cache[mapp.x][mapp.y];
 
                     if( m.is_outside( mapp ) && m.get_visibility( lighting, cache ) == visibility_type::CLEAR &&
-                        !critter_at( mapp, true ) ) {
+                        !creatures.creature_at( mapp, true ) ) {
                         // Suppress if a critter is there
                         wPrint.vdrops.emplace_back( std::make_pair( iRand.x, iRand.y ) );
                     }
@@ -305,7 +307,7 @@ input_context game::get_player_input( std::string &action )
                     const int width = utf8_width( iter->getText() );
                     for( int i = 0; i < width; ++i ) {
                         tripoint tmp( iter->getPosX() + i, iter->getPosY(), get_map().get_abs_sub().z );
-                        const Creature *critter = critter_at( tmp, true );
+                        const Creature *critter = creatures.creature_at( tmp, true );
 
                         if( critter != nullptr && u.sees( *critter ) ) {
                             i = -1;

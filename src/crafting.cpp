@@ -1601,37 +1601,39 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
             const item ingredient = item( ingredient_type );
             std::pair<int, int> kcal_values{ 0, 0 };
 
+
+            switch( inv_source ) {
+                case inventory_source::MAP:
+                    text = _( "%s (%d/%d nearby)" );
+                    kcal_values = map_inv.kcal_range( ingredient_type, filter, player_character );
+                    available = item::count_by_charges( ingredient_type ) ?
+                                map_inv.charges_of( ingredient_type, INT_MAX, filter ) :
+                                map_inv.amount_of( ingredient_type, false, INT_MAX, filter );
+                    break;
+                case inventory_source::SELF:
+                    text = _( "%s (%d/%d on person)" );
+                    kcal_values = player_character.kcal_range( ingredient_type, filter, player_character );
+                    available = item::count_by_charges( ingredient_type ) ?
+                                player_character.charges_of( ingredient_type, INT_MAX, filter ) :
+                                player_character.amount_of( ingredient_type, false, INT_MAX, filter );
+                    break;
+                case inventory_source::BOTH:
+                    text = _( "%s (%d/%d nearby & on person)" );
+                    kcal_values = map_inv.kcal_range( ingredient_type, filter, player_character );
+                    const std::pair<int, int> kcal_values_tmp = player_character.kcal_range( ingredient_type, filter,
+                            player_character );
+                    kcal_values.first = std::min( kcal_values.first, kcal_values_tmp.first );
+                    kcal_values.second = std::max( kcal_values.second, kcal_values_tmp.second );
+                    available = item::count_by_charges( ingredient_type ) ?
+                                map_inv.charges_of( ingredient_type, INT_MAX, filter ) +
+                                player_character.charges_of( ingredient_type, INT_MAX, filter ) :
+                                map_inv.amount_of( ingredient_type, false, INT_MAX, filter ) +
+                                player_character.amount_of( ingredient_type, false, INT_MAX, filter );
+                    break;
+            }
+
             if( is_food && ingredient.is_food() ) {
-                switch( inv_source ) {
-                    case inventory_source::MAP:
-                        text = _( "%s (%d/%d nearby)" );
-                        kcal_values = map_inv.kcal_range( ingredient_type, filter, player_character );
-                        available = item::count_by_charges( ingredient_type ) ?
-                                    map_inv.charges_of( ingredient_type, INT_MAX, filter ) :
-                                    map_inv.amount_of( ingredient_type, false, INT_MAX, filter );
-                        break;
-                    case inventory_source::SELF:
-                        text = _( "%s (%d/%d on person)" );
-                        kcal_values = player_character.kcal_range( ingredient_type, filter, player_character );
-                        available = item::count_by_charges( ingredient_type ) ?
-                                    player_character.charges_of( ingredient_type, INT_MAX, filter ) :
-                                    player_character.amount_of( ingredient_type, false, INT_MAX, filter );
-                        break;
-                    case inventory_source::BOTH:
-                        text = _( "%s (%d/%d nearby & on person)" );
-                        kcal_values = map_inv.kcal_range( ingredient_type, filter, player_character );
-                        const std::pair<int, int> kcal_values_tmp = player_character.kcal_range( ingredient_type, filter,
-                                player_character );
-                        kcal_values.first = std::min( kcal_values.first, kcal_values_tmp.first );
-                        kcal_values.second = std::max( kcal_values.second, kcal_values_tmp.second );
-                        available = item::count_by_charges( ingredient_type ) ?
-                                    map_inv.charges_of( ingredient_type, INT_MAX, filter ) +
-                                    player_character.charges_of( ingredient_type, INT_MAX, filter ) :
-                                    map_inv.amount_of( ingredient_type, false, INT_MAX, filter ) +
-                                    player_character.amount_of( ingredient_type, false, INT_MAX, filter );
-                        break;
-                }
-                text += kcal_values.first == kcal_values.second ? _( " %d kcal" ) : _( " %1$d-%2$d kcal" );
+                text += kcal_values.first == kcal_values.second ? _( " %d kcal" ) : _( " %d-%d kcal" );
                 if( ingredient.has_flag( flag_RAW ) && remove_raw ) {
                     //Multiplier for RAW food digestion
                     kcal_values.first /= 0.75f;
@@ -1639,7 +1641,6 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
                     text += _( " <color_brown> (will be processed)</color>" );
                 }
             }
-
             return string_format( text,
                                   item::nname( ingredient_type ),
                                   count,

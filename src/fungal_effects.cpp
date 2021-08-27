@@ -7,6 +7,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
 #include "field_type.h"
@@ -58,7 +59,7 @@ fungal_effects::fungal_effects( game &g, map &mp )
 void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spore_chance )
 {
     Character &player_character = get_player_character();
-    if( monster *const mon_ptr = g->critter_at<monster>( p ) ) {
+    if( monster *const mon_ptr = get_creature_tracker().creature_at<monster>( p ) ) {
         monster &critter = *mon_ptr;
         if( !critter.type->in_species( species_FUNGUS ) ) {
             add_msg_if_player_sees( p, _( "The %s is covered in tiny spores!" ), critter.name() );

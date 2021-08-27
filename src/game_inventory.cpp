@@ -21,6 +21,7 @@
 #include "catacharset.h"
 #include "character.h"
 #include "color.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
@@ -425,7 +426,7 @@ class liquid_inventory_selector_preset : public inventory_selector_preset
                 return false;
             }
             if( location.where() == item_location::type::character ) {
-                Character *character = g->critter_at<Character>( location.position() );
+                Character *character = get_creature_tracker().creature_at<Character>( location.position() );
                 if( character == nullptr ) {
                     debugmsg( "Invalid location supplied to the liquid filter: no character found." );
                     return false;

@@ -39,6 +39,7 @@
 #include "color.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
 #include "effect.h"
@@ -1145,7 +1146,7 @@ void character_edit_menu()
     }
     const size_t index = charmenu.ret;
     // The NPC is also required for "Add mission", so has to be in this scope
-    npc *np = g->critter_at<npc>( locations[index], false );
+    npc *np = get_creature_tracker().creature_at<npc>( locations[index], false );
     Character &you = np ? *np->as_character() : *player_character.as_character();
     uilist nmenu;
 
