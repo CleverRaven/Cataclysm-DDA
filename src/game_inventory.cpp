@@ -600,9 +600,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return string_format( _( "%.2f%s" ), converted_volume, volume_units_abbr() );
             }, _( "VOLUME" ) );
 
-            // Title of this cell. Defined here in order to preserve proper padding and alignment of values in the lambda.
-            const std::string this_cell_title = _( "SATIETY" );
-            append_cell( [&you, this_cell_title]( const item_location & loc ) {
+            append_cell( [&you]( const item_location & loc ) {
                 const item &it = *loc;
                 // Quit prematurely if the item is not food.
                 if( !it.type->comestible ) {
@@ -619,13 +617,8 @@ class comestible_inventory_preset : public inventory_selector_preset
                 if( ARBITRARY_PREREQUISITES_TO_BE_DETERMINED_IN_THE_FUTURE ) {
                     return string_format( "%d", calories_per_effective_volume );
                 }
-                std::string result = satiety_bar( calories_per_effective_volume );
-                // if this_cell_title is larger than 5 characters, pad to match its length, preserving alignment.
-                if( utf8_width( this_cell_title ) > 5 ) {
-                    result += std::string( utf8_width( this_cell_title ) - 5, ' ' );
-                }
-                return result;
-            }, _( this_cell_title ) );
+                return satiety_bar( calories_per_effective_volume );
+            }, _( "SATIETY" ) );
 
             Character &player_character = get_player_character();
             append_cell( [&player_character]( const item_location & loc ) {
