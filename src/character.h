@@ -2242,7 +2242,8 @@ class Character : public Creature, public visitable
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
         template <typename T> bool can_lift( const T &obj ) const;
         // --------------- Values ---------------
-        std::string name;
+        std::string name;      // Save file name, invariable
+        std::string play_name; // In-game name which you give to npcs or whoever asks, variable
         bool male = false;
 
         bool is_dead = false;
