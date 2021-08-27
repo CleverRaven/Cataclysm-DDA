@@ -141,7 +141,7 @@ double npc_trading::net_price_adjustment( const Character &buyer, const Characte
     double adjust = 0.05 * ( seller.int_cur - buyer.int_cur ) +
                     price_adjustment( seller.get_skill_level( skill_speech ) -
                                       buyer.get_skill_level( skill_speech ) );
-    return( std::max( adjust, 1.0 ) );
+    return ( std::max( adjust, 1.0 ) );
 }
 
 template <typename T, typename Callback>
@@ -329,7 +329,8 @@ void trading_window::update_win( npc &np, const std::string &deal )
                     ctxt.get_desc( "SWITCH_LISTS" ),
                     ctxt.get_desc( "CONFIRM" ),
                     ctxt.get_desc( "QUIT" ),
-                    ctxt.get_desc( "EXAMINE" ) );
+                    ctxt.get_desc( "EXAMINE" ),
+                    ctxt.get_desc( "TOGGLE_FAVORITE", pgettext( "npc trade", "Favorite" ) ) );
 
     // Set up line drawings
     for( int i = 0; i < TERMX; i++ ) {
@@ -337,7 +338,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
     }
     // End of line drawings
 
-    mvwprintz( w_head, point( 2, 3 ),  npc_out_of_space ?  c_red : c_green,
+    mvwprintz( w_head, point( 2, 3 ), npc_out_of_space ? c_red : c_green,
                _( "Volume: %s %s, Weight: %.1f %s" ),
                format_volume( volume_left ), volume_units_abbr(),
                convert_weight( weight_left ), weight_units() );
@@ -411,8 +412,9 @@ void trading_window::update_win( npc &np, const std::string &deal )
             hotkey = ctxt.next_unassigned_hotkey( hotkeys, hotkey );
 
             std::string price_str = format_money( ip.price );
-            nc_color price_color = np.will_exchange_items_freely() ? c_dark_gray : ( ip.selected ? c_white :
-                                   c_light_gray );
+            nc_color price_color = np.will_exchange_items_freely()
+                                   ? c_dark_gray
+                                   : ( ip.selected ? c_white : c_light_gray );
             mvwprintz( w_whose, point( win_w - utf8_width( price_str ), i - offset + 1 ),
                        price_color, price_str );
         }
@@ -530,6 +532,8 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
+    // action to mark item(s) as favorite for the npc so he never drops it
+    ctxt.register_action( "TOGGLE_FAVORITE", to_translation( "Toggle favorite" ) );
     ctxt.register_action( "ANY_INPUT" );
 
     ui_adaptor ui;
@@ -550,6 +554,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
         std::vector<item_pricing> &target_list = focus_them ? theirs : yours;
         size_t &offset = focus_them ? them_off : you_off;
         const std::string action = ctxt.handle_input();
+        const input_event evt = ctxt.get_raw_input();
         if( action == "SWITCH_LISTS" ) {
             focus_them = !focus_them;
         } else if( action == "PAGE_UP" ) {
@@ -566,7 +571,6 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
             show_item_data( offset, target_list );
         } else if( action == "CONFIRM" ) {
             if( !npc_will_accept_trade( np ) ) {
-
                 if( np.max_credit_extended() == 0 ) {
                     popup( _( "You'll need to offer me more than that." ) );
                 } else {
@@ -581,7 +585,8 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
             } else if( calc_npc_owes_you( np ) < your_balance ) {
                 // NPC is happy with the trade, but isn't willing to remember the whole debt.
                 const bool trade_ok = query_yn(
-                                          _( "I'm never going to be able to pay you back for all that.  The most I'm willing to owe you is %s.\n\nContinue with trade?" ),
+                                          _(
+                                              "I'm never going to be able to pay you back for all that.  The most I'm willing to owe you is %s.\n\nContinue with trade?" ),
                                           format_money( np.max_willing_to_owe() )
                                       );
 
@@ -598,8 +603,14 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
         } else if( action == "QUIT" ) {
             exit = true;
             confirm = false;
+        } else if( action == "TOGGLE_FAVORITE" ) {
+            for( item_pricing &list_item : target_list ) {
+                if( list_item.selected ) {
+                    item_location &item = list_item.loc;
+                    item->set_favorite( !item->is_favorite );
+                }
+            }
         } else if( action == "ANY_INPUT" ) {
-            const input_event evt = ctxt.get_raw_input();
             if( evt.sequence.empty() ) {
                 continue;
             }
