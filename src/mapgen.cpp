@@ -78,6 +78,11 @@
 #include "vpart_range.h"
 #include "weighted_list.h"
 
+static const itype_id itype_avgas( "avgas" );
+static const itype_id itype_diesel( "diesel" );
+static const itype_id itype_gasoline( "gasoline" );
+static const itype_id itype_jp8( "jp8" );
+
 static const mongroup_id GROUP_BREATHER( "GROUP_BREATHER" );
 static const mongroup_id GROUP_BREATHER_HUB( "GROUP_BREATHER_HUB" );
 static const mongroup_id GROUP_DARK_WYRM( "GROUP_DARK_WYRM" );
@@ -1795,18 +1800,28 @@ class jmapgen_gaspump : public jmapgen_piece
 {
     public:
         jmapgen_int amount;
-        std::string fuel;
+        mapgen_value<itype_id> fuel;
         jmapgen_gaspump( const JsonObject &jsi, const std::string &/*context*/ ) :
             amount( jsi, "amount", 0, 0 ) {
-            if( jsi.has_string( "fuel" ) ) {
-                fuel = jsi.get_string( "fuel" );
+            if( jsi.has_member( "fuel" ) ) {
+                jsi.read( "fuel", fuel );
+            }
+        }
 
+        void check( const std::string &oter_name, const mapgen_parameters &parameters
+                  ) const override {
+            fuel.check( oter_name, parameters );
+            static const std::unordered_set<itype_id> valid_fuels = {
+                itype_id::NULL_ID(), itype_gasoline, itype_diesel, itype_jp8, itype_avgas
+            };
+            for( const itype_id &possible_fuel : fuel.all_possible_results( parameters ) ) {
                 // may want to not force this, if we want to support other fuels for some reason
-                if( fuel != "gasoline" && fuel != "diesel" && fuel != "jp8" && fuel != "avgas" ) {
-                    jsi.throw_error( "invalid fuel", "fuel" );
+                if( !valid_fuels.count( possible_fuel ) ) {
+                    debugmsg( "invalid fuel %s in %s", possible_fuel.str(), oter_name );
                 }
             }
         }
+
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
             const point r( x.get(), y.get() );
@@ -1815,10 +1830,11 @@ class jmapgen_gaspump : public jmapgen_piece
             if( charges == 0 ) {
                 charges = rng( 10000, 50000 );
             }
-            if( !fuel.empty() ) {
-                dat.m.place_gas_pump( r, charges, fuel );
-            } else {
+            itype_id chosen_fuel = fuel.get( dat );
+            if( chosen_fuel.is_null() ) {
                 dat.m.place_gas_pump( r, charges );
+            } else {
+                dat.m.place_gas_pump( r, charges, chosen_fuel );
             }
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
@@ -2000,8 +2016,8 @@ class jmapgen_monster_group : public jmapgen_piece
 class jmapgen_monster : public jmapgen_piece
 {
     public:
-        weighted_int_list<mtype_id> ids;
-        mongroup_id m_id = mongroup_id::NULL_ID();
+        weighted_int_list<mapgen_value<mtype_id>> ids;
+        mapgen_value<mongroup_id> m_id;
         jmapgen_int chance;
         jmapgen_int pack_size;
         bool one_or_none;
@@ -2019,34 +2035,11 @@ class jmapgen_monster : public jmapgen_piece
             , name( jsi.get_string( "name", "NONE" ) )
             , target( jsi.get_bool( "target", false ) ) {
             if( jsi.has_string( "group" ) ) {
-                m_id = mongroup_id( jsi.get_string( "group" ) );
-                if( !m_id.is_valid() ) {
-                    set_mapgen_defer( jsi, "group", "no such monster group" );
-                    return;
-                }
+                jsi.read( "group", m_id );
             } else if( jsi.has_array( "monster" ) ) {
-                for( const JsonValue entry : jsi.get_array( "monster" ) ) {
-                    mtype_id id;
-                    int weight = 100;
-                    if( entry.test_array() ) {
-                        JsonArray inner = entry.get_array();
-                        id = mtype_id( inner.get_string( 0 ) );
-                        weight = inner.get_int( 1 );
-                    } else {
-                        id = mtype_id( entry.get_string() );
-                    }
-                    if( !id.is_valid() ) {
-                        set_mapgen_defer( jsi, "monster", "no such monster" );
-                        return;
-                    }
-                    ids.add( id, weight );
-                }
+                load_weighted_list( jsi.get_member( "monster" ), ids, 100 );
             } else {
-                mtype_id id = mtype_id( jsi.get_string( "monster" ) );
-                if( !id.is_valid() ) {
-                    set_mapgen_defer( jsi, "monster", "no such monster" );
-                    return;
-                }
+                mapgen_value<mtype_id> id( jsi.get_member( "monster" ) );
                 ids.add( id, 100 );
             }
 
@@ -2069,6 +2062,15 @@ class jmapgen_monster : public jmapgen_piece
                 }
             }
         }
+
+        void check( const std::string &oter_name, const mapgen_parameters &parameters
+                  ) const override {
+            for( const weighted_object<int, mapgen_value<mtype_id>> &id : ids ) {
+                id.obj.check( oter_name, parameters );
+            }
+            m_id.check( oter_name, parameters );
+        }
+
         void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y
                   ) const override {
 
@@ -2106,15 +2108,20 @@ class jmapgen_monster : public jmapgen_piece
                 }
             }
 
-            if( m_id != mongroup_id::NULL_ID() ) {
-                MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( m_id );
+            mongroup_id chosen_group = m_id.get( dat );
+            if( !chosen_group.is_null() ) {
+                MonsterGroupResult spawn_details =
+                    MonsterGroupManager::GetResultFromGroup( chosen_group );
                 dat.m.add_spawn( spawn_details.name, spawn_count * pack_size.get(),
                 { x.get(), y.get(), dat.m.get_abs_sub().z },
                 friendly, -1, mission_id, name, data );
             } else {
-                dat.m.add_spawn( *( ids.pick() ), spawn_count * pack_size.get(),
-                { x.get(), y.get(), dat.m.get_abs_sub().z },
-                friendly, -1, mission_id, name, data );
+                mtype_id chosen_type = ids.pick()->get( dat );
+                if( !chosen_type.is_null() ) {
+                    dat.m.add_spawn( chosen_type, spawn_count * pack_size.get(),
+                    { x.get(), y.get(), dat.m.get_abs_sub().z },
+                    friendly, -1, mission_id, name, data );
+                }
             }
         }
 };
@@ -2474,12 +2481,12 @@ class jmapgen_computer : public jmapgen_piece
 class jmapgen_sealed_item : public jmapgen_piece
 {
     public:
-        furn_id furniture;
+        mapgen_value<furn_id> furniture;
         jmapgen_int chance;
         cata::optional<jmapgen_spawn_item> item_spawner;
         cata::optional<jmapgen_item_group> item_group_spawner;
         jmapgen_sealed_item( const JsonObject &jsi, const std::string &context )
-            : furniture( jsi.get_string( "furniture" ) )
+            : furniture( jsi.get_member( "furniture" ) )
             , chance( jsi, "chance", 100, 100 ) {
             if( jsi.has_object( "item" ) ) {
                 JsonObject item_obj = jsi.get_object( "item" );
@@ -2492,79 +2499,84 @@ class jmapgen_sealed_item : public jmapgen_piece
         }
 
         void check( const std::string &context, const mapgen_parameters &params ) const override {
-            const furn_t &furn = furniture.obj();
-            std::string summary =
-                string_format(
-                    "sealed_item special in json mapgen for %s using furniture %s",
-                    context, furn.id.str() );
-
-            if( !furniture.is_valid() ) {
-                debugmsg( "%s which is not valid furniture", summary );
-            }
-
+            std::string short_summary =
+                string_format( "sealed_item special in json mapgen for %s", context );
             if( !item_spawner && !item_group_spawner ) {
                 debugmsg( "%s specifies neither an item nor an item group.  "
                           "It should specify at least one.",
-                          summary );
+                          short_summary );
                 return;
             }
 
-            if( furn.has_flag( "PLANT" ) ) {
-                // plant furniture requires exactly one seed item within it
-                if( item_spawner && item_group_spawner ) {
-                    debugmsg( "%s (with flag PLANT) specifies both an item and an item group.  "
-                              "It should specify exactly one.",
-                              summary );
+            for( const furn_str_id &f : furniture.all_possible_results( params ) ) {
+                std::string summary =
+                    string_format( "%s using furniture %s", short_summary, f.str() );
+
+                if( !f.is_valid() ) {
+                    debugmsg( "%s which is not valid furniture", summary );
                     return;
                 }
 
-                if( item_spawner ) {
-                    item_spawner->check( context, params );
-                    int count = item_spawner->amount.get();
-                    if( count != 1 ) {
-                        debugmsg( "%s (with flag PLANT) spawns %d items; it should spawn exactly "
-                                  "one.", summary, count );
+                const furn_t &furn = *f;
+
+                if( furn.has_flag( "PLANT" ) ) {
+                    // plant furniture requires exactly one seed item within it
+                    if( item_spawner && item_group_spawner ) {
+                        debugmsg( "%s (with flag PLANT) specifies both an item and an item group.  "
+                                  "It should specify exactly one.",
+                                  summary );
                         return;
                     }
-                    int item_chance = item_spawner->chance.get();
-                    if( item_chance != 100 ) {
-                        debugmsg( "%s (with flag PLANT) spawns an item with probability %d%%; "
-                                  "it should always spawn.  You can move the \"chance\" up to the "
-                                  "sealed_item instead of the \"item\" within.",
-                                  summary, item_chance );
-                        return;
-                    }
-                    for( const itype_id &t : item_spawner->type.all_possible_results( params ) ) {
-                        const itype *spawned_type = item::find_type( t );
-                        if( !spawned_type->seed ) {
-                            debugmsg( "%s (with flag PLANT) spawns item type %s which is not a "
-                                      "seed.", summary, spawned_type->get_id().str() );
+
+                    if( item_spawner ) {
+                        item_spawner->check( context, params );
+                        int count = item_spawner->amount.get();
+                        if( count != 1 ) {
+                            debugmsg( "%s (with flag PLANT) spawns %d items; it should spawn "
+                                      "exactly one.", summary, count );
                             return;
                         }
-                    }
-                }
-
-                if( item_group_spawner ) {
-                    item_group_spawner->check( context, params );
-                    int ig_chance = item_group_spawner->chance.get();
-                    if( ig_chance != 100 ) {
-                        debugmsg( "%s (with flag PLANT) spawns item group %s with chance %d.  "
-                                  "It should have chance 100.  You can move the \"chance\" up to the "
-                                  "sealed_item instead of the \"items\" within.",
-                                  summary, item_group_spawner->group_id.str(), ig_chance );
-                        return;
-                    }
-                    item_group_id group_id = item_group_spawner->group_id;
-                    for( const itype *type : item_group::every_possible_item_from( group_id ) ) {
-                        if( !type->seed ) {
-                            debugmsg( "%s (with flag PLANT) spawns item group %s which can "
-                                      "spawn item %s which is not a seed.",
-                                      summary, group_id.str(), type->get_id().str() );
+                        int item_chance = item_spawner->chance.get();
+                        if( item_chance != 100 ) {
+                            debugmsg( "%s (with flag PLANT) spawns an item with probability %d%%; "
+                                      "it should always spawn.  You can move the \"chance\" up to "
+                                      "the sealed_item instead of the \"item\" within.",
+                                      summary, item_chance );
                             return;
+                        }
+                        for( const itype_id &t :
+                             item_spawner->type.all_possible_results( params ) ) {
+                            const itype *spawned_type = item::find_type( t );
+                            if( !spawned_type->seed ) {
+                                debugmsg( "%s (with flag PLANT) spawns item type %s which is not a "
+                                          "seed.", summary, spawned_type->get_id().str() );
+                                return;
+                            }
                         }
                     }
 
-                    /// TODO: Somehow check that the item group always produces exactly one item.
+                    if( item_group_spawner ) {
+                        item_group_spawner->check( context, params );
+                        int ig_chance = item_group_spawner->chance.get();
+                        if( ig_chance != 100 ) {
+                            debugmsg( "%s (with flag PLANT) spawns item group %s with chance %d.  "
+                                      "It should have chance 100.  You can move the \"chance\" up "
+                                      "to the sealed_item instead of the \"items\" within.",
+                                      summary, item_group_spawner->group_id.str(), ig_chance );
+                            return;
+                        }
+                        item_group_id group_id = item_group_spawner->group_id;
+                        for( const itype *type :
+                             item_group::every_possible_item_from( group_id ) ) {
+                            if( !type->seed ) {
+                                debugmsg( "%s (with flag PLANT) spawns item group %s which can "
+                                          "spawn item %s which is not a seed.",
+                                          summary, group_id.str(), type->get_id().str() );
+                                return;
+                            }
+                        }
+
+                    }
                 }
             }
         }
@@ -2587,7 +2599,8 @@ class jmapgen_sealed_item : public jmapgen_piece
             if( item_group_spawner ) {
                 item_group_spawner->apply( dat, x, y );
             }
-            dat.m.furn_set( point( x.get(), y.get() ), furniture );
+            furn_id chosen_furn = furniture.get( dat );
+            dat.m.furn_set( point( x.get(), y.get() ), chosen_furn );
         }
         bool has_vehicle_collision( const mapgendata &dat, const point &p ) const override {
             return dat.m.veh_at( tripoint( p, dat.zlevel() ) ).has_value();
@@ -5749,12 +5762,17 @@ void map::place_spawns( const mongroup_id &group, const int chance,
     }
 }
 
-void map::place_gas_pump( const point &p, int charges, const std::string &fuel_type )
+void map::place_gas_pump( const point &p, int charges, const itype_id &fuel_type )
 {
     item fuel( fuel_type, calendar::start_of_cataclysm );
     fuel.charges = charges;
     add_item( p, fuel );
     ter_set( p, ter_id( fuel.fuel_pump_terrain() ) );
+}
+
+void map::place_gas_pump( const point &p, int charges )
+{
+    place_gas_pump( p, charges, one_in( 4 ) ? itype_diesel : itype_gasoline );
 }
 
 void map::place_toilet( const point &p, int charges )
