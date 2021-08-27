@@ -1171,8 +1171,7 @@
     "spoils_in": "6 hours",
     "use_action": [ "POISON" ],
     "description": "A carefully folded raw skin harvested from a fur-bearing unnatural creature.  It still has the fur attached and is poisonous.  You can cure it for storage and tanning.",
-    "price": 0,
-    "price_postapoc": 50,
+    "price": 0
   },
   {
     "type": "COMESTIBLE",
