@@ -818,7 +818,8 @@ static void draw_skills_tab( const catacurses::window &w_skills,
     wnoutrefresh( w_skills );
 }
 
-static void draw_skills_info( const catacurses::window &w_info, unsigned int line,
+static void draw_skills_info( const catacurses::window &w_info, const Character &you,
+                              unsigned int line,
                               const std::vector<HeaderSkill> &skillslist )
 {
     werase( w_info );
@@ -833,7 +834,7 @@ static void draw_skills_info( const catacurses::window &w_info, unsigned int lin
     werase( w_info );
 
     if( selectedSkill ) {
-        const SkillLevel &level = get_avatar().get_skill_level_object( selectedSkill->ident() );
+        const SkillLevel &level = you.get_skill_level_object( selectedSkill->ident() );
         std::string info_text = selectedSkill->description();
         if( level.isRusty() ) {
             info_text = string_format( _( "%s\n\nKnowledge level: %d (%d%%)" ), info_text,
@@ -955,7 +956,7 @@ static void draw_info_window( const catacurses::window &w_info, const Character 
             draw_encumbrance_info( w_info, you, line );
             break;
         case player_display_tab::skills:
-            draw_skills_info( w_info, line, skillslist );
+            draw_skills_info( w_info, you, line, skillslist );
             break;
         case player_display_tab::traits:
             draw_traits_info( w_info, line, traitslist );
@@ -999,6 +1000,10 @@ static void draw_tip( const catacurses::window &w_tip, const Character &you,
         mvwprintz( w_tip, point_zero, c_white, _( " %1$s | %2$s | %3$s" ), you.name,
                    you.male ? _( "Male" ) : _( "Female" ), you.custom_profession );
     }
+
+    right_print( w_tip, 0, 8, c_light_gray, string_format(
+                     _( "[<color_yellow>%s</color>]Switch Gender" ),
+                     ctxt.get_desc( "SWITCH_GENDER" ) ) );
 
     right_print( w_tip, 0, 1, c_light_gray, string_format(
                      _( "[<color_yellow>%s</color>]" ),
@@ -1147,6 +1152,9 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
 
         you.custom_profession = popup.text();
         ui_tip.invalidate_ui();
+    } else if( action == "SWITCH_GENDER" ) {
+        you.male = !you.male;
+        popup( _( "Gender set to %s." ), you.male ? _( "Male" ) : _( "Female" ) );
     }
     return done;
 }
@@ -1315,6 +1323,7 @@ void Character::disp_info()
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM", to_translation( "Toggle skill training / Upgrade stat" ) );
     ctxt.register_action( "CHANGE_PROFESSION_NAME", to_translation( "Change profession name" ) );
+    ctxt.register_action( "SWITCH_GENDER", to_translation( "Change gender of the player" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     std::map<std::string, int> speed_effects;
