@@ -133,7 +133,7 @@
     "activity_level": "LIGHT_EXERCISE",
     "result": "peanut_butter_toast",
     "copy-from": "toast",
-    "components": [ [ [ "peanutbutter", 1 ] ], [ [ "jam_fruit", 1 ] ] ]
+    "components": [ [ [ "peanutbutter", 1 ] ], [ [ "bread", 1 ] ] ]
   },
   {
     "type": "recipe",
