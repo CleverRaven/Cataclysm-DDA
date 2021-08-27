@@ -691,6 +691,18 @@
       "tanto",
       "tanto_inferior",
       "tanto_fake"
+      "kirpan",
+      "kirpan_cheap",
+      "kris",
+      "kris_fake",
+      "kukri",
+      "knife_butcher",
+      "knife_carving",
+      "knife_chef",
+      "knife_steak",
+      "pockknife",
+      "punch_dagger",
+      "sword_bayonet",
     ]
   },
   {
