@@ -286,6 +286,7 @@ void martialart::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "techniques", techniques, auto_flags_reader<matec_id> {} );
     optional( jo, was_loaded, "weapons", weapons, auto_flags_reader<itype_id> {} );
+    optional( jo, was_loaded, "weapon_category", weapon_category, auto_flags_reader<std::string> {} );
 
     optional( jo, was_loaded, "strictly_melee", strictly_melee, false );
     optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
@@ -848,7 +849,11 @@ bool martialart::has_technique( const Character &u, const matec_id &tec_id ) con
 
 bool martialart::has_weapon( const itype_id &itt ) const
 {
-    return weapons.count( itt ) > 0;
+    return weapons.count( itt ) > 0 ||
+           std::any_of( itt->weapon_category.begin(), itt->weapon_category.end(),
+    [&]( const std::string & weap ) {
+        return weapon_category.count( weap ) > 0;
+    } );
 }
 
 bool martialart::weapon_valid( const item &it ) const
