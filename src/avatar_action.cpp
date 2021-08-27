@@ -1104,7 +1104,7 @@ void avatar_action::use_item( avatar &you, item_location &loc )
         }
     }
 
-    item_pocket *parent_pocket;
+    item_pocket *parent_pocket = nullptr;
     bool on_person = true;
     int pre_obtain_moves = you.moves;
     if( loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
