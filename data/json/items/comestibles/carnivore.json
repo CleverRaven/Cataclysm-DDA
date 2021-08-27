@@ -1001,7 +1001,7 @@
     "copy-from": "bone",
     "name": { "str": "demihuman bone" },
     "description": "A bone from a demihuman being.  Could be used to make some stuff, if you're feeling sufficiently ghoulish.",
-    "flags": [ "STRICT_HUMANITARIANISM" ]
+    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -1139,7 +1139,7 @@
     "name": { "str": "raw demihuman skin" },
     "description": "A carefully folded raw skin harvested from a demihuman.  You can cure it for storage and tanning, or eat it if you're desperate enough.",
     "material": [ "flesh" ],
-    "flags": [ "STRICT_HUMANITARIANISM" ]
+    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -1173,7 +1173,6 @@
     "description": "A carefully folded raw skin harvested from a fur-bearing unnatural creature.  It still has the fur attached and is poisonous.  You can cure it for storage and tanning.",
     "price": 0,
     "price_postapoc": 50,
-    "flags": [ "NO_SALVAGE" ]
   },
   {
     "type": "COMESTIBLE",
@@ -1294,7 +1293,7 @@
     "name": { "str": "demihuman stomach" },
     "description": "The stomach of an intelligent demihuman.  It is surprisingly durable.",
     "material": [ "flesh" ],
-    "flags": [ "STRICT_HUMANITARIANISM" ]
+    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
   },
   {
     "id": "demihuman_stomach_large",
@@ -1303,7 +1302,7 @@
     "name": { "str": "large demihuman stomach" },
     "description": "The stomach of a large humanoid creature.  It is surprisingly durable.",
     "proportional": { "weight": 2.0, "volume": 2.0, "price": 1.5, "calories": 2.0 },
-    "flags": [ "STRICT_HUMANITARIANISM" ]
+    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
   },
   {
     "id": "demihuman_fat",
@@ -1312,7 +1311,7 @@
     "name": { "str": "chunk of demihuman fat", "str_pl": "chunks of demihuman fat" },
     "description": "Freshly harvested from a demihuman body.",
     "material": [ "flesh" ],
-    "flags": [ "STRICT_HUMANITARIANISM" ]
+    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -1323,7 +1322,7 @@
     "price": 500,
     "//": "*May* have been commercially traded.",
     "material": [ "flesh" ],
-    "flags": [ "STRICT_HUMANITARIANISM" ]
+    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -1331,7 +1330,7 @@
     "name": { "str": "demihuman lard" },
     "copy-from": "lard",
     "description": "A smooth white block of dry-rendered demihuman fat.  It will remain edible for a very long time, and can be used as an ingredient in many foods and projects.",
-    "flags": [ "STRICT_HUMANITARIANISM" ]
+    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
   },
   {
     "id": "demihuman_flesh",
@@ -1341,7 +1340,7 @@
     "name": { "str_sp": "demihuman flesh" },
     "description": "Freshly butchered from a demihuman body.",
     "material": [ "flesh" ],
-    "flags": [ "STRICT_HUMANITARIANISM" ]
+    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
   },
   {
     "id": "demihuman_blood",
@@ -1369,7 +1368,7 @@
     "parasites": 0,
     "healthy": 0,
     "fun": 0,
-    "flags": [ "EATEN_HOT", "STRICT_HUMANITARIANISM" ]
+    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -1379,7 +1378,7 @@
     "calories": 240,
     "description": "A boiled stomach from a demihuman, nothing else.  It looks all but appetizing.",
     "material": [ "flesh" ],
-    "flags": [ "STRICT_HUMANITARIANISM" ]
+    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
   },
   {
     "type": "COMESTIBLE",
@@ -1388,6 +1387,6 @@
     "name": { "str": "boiled demihuman stomach" },
     "description": "A small boiled stomach from a demihuman, nothing else.  It looks all but appetizing.",
     "material": [ "flesh" ],
-    "flags": [ "STRICT_HUMANITARIANISM" ]
+    "extend": { "flags": [ "STRICT_HUMANITARIANISM" ] }
   }
 ]
