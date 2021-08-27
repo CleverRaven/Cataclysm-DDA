@@ -1045,6 +1045,21 @@ std::string display::activity_level_str( float level )
     return activity_descriptions[idx].translated();
 }
 
+std::pair<std::string, nc_color> display::activity_text_color( const Character &u )
+{
+    const float act_level = u.instantaneous_activity_level();
+    const std::string act_text = display::activity_level_str( act_level );
+
+    nc_color act_color;
+    if( u.exertion_adjusted_move_multiplier( act_level ) < 1.0 ) {
+        act_color = c_red;
+    } else {
+        act_color = c_light_gray;
+    }
+
+    return std::make_pair( _( act_text ), act_color );
+}
+
 std::pair<std::string, nc_color> display::thirst_text_color( const Character &u )
 {
     // some delay from water in stomach is desired, but there needs to be some visceral response
