@@ -474,10 +474,6 @@ void map_data_common_t::set_flag( const flag_id &flag )
 
 void map_data_common_t::set_connects( const flag_id &connect_group_flag )
 {
-    const auto t = ter_connects_map;
-    t.empty();
-    const auto z = ter_bitflags_map;
-    z.empty();
     const auto it = ter_connects_map.find( connect_group_flag );
     if( it != ter_connects_map.end() ) {
         connect_group = it->second;
