@@ -575,6 +575,7 @@ class inventory_selector
         std::pair< bool, std::string > query_string( std::string val );
         /** Query the user for a filter and apply it. */
         void query_set_filter();
+        int query_count();
 
         /** Tackles screen overflow */
         virtual void rearrange_columns( size_t client_width );

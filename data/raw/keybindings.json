@@ -3057,9 +3057,9 @@
   },
   {
     "type": "keybinding",
-    "id": "TOGGLE_NUMBER_ENTRY",
+    "id": "MARK_WITH_COUNT",
     "category": "INVENTORY",
-    "name": "Toggle capture of number keys for entering amount.",
+    "name": "Mark a specific count of selected items",
     "bindings": [ { "input_method": "keyboard_char", "key": "#" }, { "input_method": "keyboard_char", "key": "+" } ]
   },
   {
