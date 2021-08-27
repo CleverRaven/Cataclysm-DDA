@@ -900,8 +900,8 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
 {
     zone_manager &mgr = zone_manager::get_manager();
     temp_crafting_inventory temp_inv;
-    units::volume volume_allowed = you.volume_capacity() - you.volume_carried();
-    units::mass weight_allowed = you.weight_capacity() - you.weight_carried();
+    units::volume volume_allowed;
+    units::mass weight_allowed;
     static const auto check_weight_if = []( const activity_id & id ) {
         return id == ACT_MULTIPLE_FARM ||
                id == ACT_MULTIPLE_CHOP_PLANKS ||
@@ -914,6 +914,12 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
     };
     const bool check_weight = check_weight_if( activity_to_restore ) || ( !you.backlog.empty() &&
                               check_weight_if( you.backlog.front().id() ) );
+
+    if( check_weight ) {
+        volume_allowed = you.volume_capacity() - you.volume_carried();
+        weight_allowed = you.weight_capacity() - you.weight_carried();
+    }
+
     bool found_welder = false;
     for( item *elem : you.inv_dump() ) {
         if( elem->has_quality( qual_WELD ) ) {
@@ -936,18 +942,22 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
             }
         }
         for( item &elem2 : here.i_at( elem ) ) {
-            if( in_loot_zones && elem2.made_of_from_type( phase_id::LIQUID ) ) {
-                continue;
-            }
-            if( check_weight ) {
-                // this fetch task will need to pick up an item. so check for its weight/volume before setting off.
-                if( in_loot_zones && ( elem2.volume() > volume_allowed ||
-                                       elem2.weight() > weight_allowed ) ) {
+            if( in_loot_zones ) {
+                if( elem2.made_of_from_type( phase_id::LIQUID ) ) {
                     continue;
+                }
+
+                if( check_weight ) {
+                    // this fetch task will need to pick up an item. so check for its weight/volume before setting off.
+                    if( elem2.volume() > volume_allowed ||
+                        elem2.weight() > weight_allowed ) {
+                        continue;
+                    }
                 }
             }
             temp_inv.add_item_ref( elem2 );
         }
+
         if( !in_loot_zones ) {
             if( const cata::optional<vpart_reference> vp = here.veh_at( elem ).part_with_feature( "CARGO",
                     false ) ) {
