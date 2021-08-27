@@ -413,7 +413,7 @@
     "id": "focused_bolt",
     "type": "SPELL",
     "name": "Focused Bolt",
-    "description": "You focus your mana into a microscopically thin pulsed beam of pure energy, capable of extreme range and precision; as well as unparalleled penetration, provided proper skill. Once the invention of a notorious assassin, this spell has slayed many a king and noble. Passed on only through direct decendants over the ages, though occasionally shared by them to others.",
+    "description": "You focus your mana into a microscopically thin pulsed beam of pure energy, capable of extreme range and precision; as well as unparalleled penetration, provided proper skill. Once the invention of a notorious assassin, this spell has slain many a king and noble. Passed on only through direct descendants over the ages, though occasionally shared by them to others.",
     "effect": "attack",
     "shape": "line",
     "valid_targets": [ "hostile", "ground" ],
