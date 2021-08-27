@@ -15,6 +15,7 @@
 #include "character.h"
 #include "colony.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "flag.h"
 #include "game.h"
@@ -661,7 +662,7 @@ bool can_examine_at( const tripoint &p )
         return true;
     }
 
-    Creature *c = g->critter_at( p );
+    Creature *c = get_creature_tracker().creature_at( p );
     if( c != nullptr && !c->is_avatar() ) {
         return true;
     }

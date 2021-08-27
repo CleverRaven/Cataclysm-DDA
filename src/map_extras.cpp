@@ -20,6 +20,7 @@
 #include "colony.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "enums.h"
@@ -1000,12 +1001,13 @@ static bool mx_portal( map &m, const tripoint &abs_sub )
 
     // We'll make between 0 and 4 attempts to spawn monsters here.
     int num_monsters = rng( 0, 4 );
+    creature_tracker &creatures = get_creature_tracker();
     for( int i = 0; i < num_monsters; i++ ) {
         // Get a random location from our points that is not the portal location, does not have the
         // NO_FLOOR flag, and isn't currently occupied by a creature.
         const cata::optional<tripoint> mon_pos = random_point( points, [&]( const tripoint & p ) {
             /// TODO: wrong: this checks for creatures on the main game map. Not within the map m.
-            return !m.has_flag_ter( TFLAG_NO_FLOOR, p ) && *portal_pos != p && !g->critter_at( p );
+            return !m.has_flag_ter( TFLAG_NO_FLOOR, p ) && *portal_pos != p && !creatures.creature_at( p );
         } );
 
         // If we couldn't get a random location, we can't place a monster and we know that there are no

@@ -22,6 +22,7 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "colony.h"
+#include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
@@ -233,8 +234,9 @@ static bool clear_shot_reach( const tripoint &from, const tripoint &to, bool che
 {
     std::vector<tripoint> path = line_to( from, to );
     path.pop_back();
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &p : path ) {
-        Creature *inter = g->critter_at( p );
+        Creature *inter = creatures.creature_at( p );
         if( check_ally && inter != nullptr ) {
             return false;
         }
@@ -711,10 +713,11 @@ void npc::regen_ai_cache()
 {
     map &here = get_map();
     auto i = std::begin( ai_cache.sound_alerts );
+    creature_tracker &creatures = get_creature_tracker();
     while( i != std::end( ai_cache.sound_alerts ) ) {
         if( sees( here.getlocal( i->abs_pos ) ) ) {
             // if they were responding to a call for guards because of thievery
-            npc *const sound_source = g->critter_at<npc>( here.getlocal( i->abs_pos ) );
+            npc *const sound_source = creatures.creature_at<npc>( here.getlocal( i->abs_pos ) );
             if( sound_source ) {
                 if( my_fac == sound_source->my_fac && sound_source->known_stolen_item ) {
                     sound_source->known_stolen_item = nullptr;
@@ -2236,8 +2239,9 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         path.clear();
         move_pause();
     }
+    creature_tracker &creatures = get_creature_tracker();
     bool attacking = false;
-    if( g->critter_at<monster>( p ) ) {
+    if( creatures.creature_at<monster>( p ) ) {
         attacking = true;
     }
     if( !move_effects( attacking ) ) {
@@ -2245,7 +2249,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         return;
     }
 
-    Creature *critter = g->critter_at( p );
+    Creature *critter = creatures.creature_at( p );
     if( critter != nullptr ) {
         if( critter == this ) { // We're just pausing!
             move_pause();
@@ -2557,6 +2561,7 @@ bool npc::find_job_to_perform()
 void npc::worker_downtime()
 {
     map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
     // are we already in a chair
     if( here.has_flag_furn( "CAN_SIT", pos() ) ) {
         // just chill here
@@ -2582,7 +2587,8 @@ void npc::worker_downtime()
         // find a chair
         if( !is_mounted() ) {
             for( const tripoint &elem : here.points_in_radius( pos(), 30 ) ) {
-                if( here.has_flag_furn( "CAN_SIT", elem ) && !g->critter_at( elem ) && could_move_onto( elem ) &&
+                if( here.has_flag_furn( "CAN_SIT", elem ) && !creatures.creature_at( elem ) &&
+                    could_move_onto( elem ) &&
                     here.point_within_camp( here.getabs( elem ) ) ) {
                     // this one will do
                     chair_pos = here.getabs( elem );
@@ -2617,7 +2623,8 @@ void npc::worker_downtime()
         std::vector<tripoint> pts;
         for( const tripoint &elem : here.points_in_radius( here.getlocal( temp_camp->get_bb_pos() ),
                 10 ) ) {
-            if( g->critter_at( elem ) || !could_move_onto( elem ) || here.has_flag( TFLAG_DEEP_WATER, elem ) ||
+            if( creatures.creature_at( elem ) || !could_move_onto( elem ) ||
+                here.has_flag( TFLAG_DEEP_WATER, elem ) ||
                 !here.has_floor( elem ) || g->is_dangerous_tile( elem ) ) {
                 continue;
             }
@@ -3517,10 +3524,11 @@ bool npc::alt_attack()
     }
 
     map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
     // We need to throw this live (grenade, etc) NOW! Pick another target?
     for( int dist = 2; dist <= conf; dist++ ) {
         for( const tripoint &pt : here.points_in_radius( pos(), dist ) ) {
-            const monster *const target_ptr = g->critter_at<monster>( pt );
+            const monster *const target_ptr = creatures.creature_at<monster>( pt );
             int newdist = rl_dist( pos(), pt );
             // TODO: Change "newdist >= 2" to "newdist >= safe_distance(used)"
             if( newdist <= conf && newdist >= 2 && target_ptr &&

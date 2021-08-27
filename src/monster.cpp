@@ -16,6 +16,7 @@
 #include "colony.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
@@ -1067,7 +1068,7 @@ Creature *monster::attack_target()
         return nullptr;
     }
 
-    Creature *target = g->critter_at( move_target() );
+    Creature *target = get_creature_tracker().creature_at( move_target() );
     if( target == nullptr || target == this ||
         attitude_to( *target ) == Attitude::FRIENDLY || !sees( *target ) ) {
         return nullptr;
@@ -2278,10 +2279,11 @@ void monster::process_turn()
             local_attack_data.cooldown--;
         }
     }
+    creature_tracker &creatures = get_creature_tracker();
     // Persist grabs as long as there's an adjacent target.
     if( has_effect( effect_grabbing ) ) {
         for( const tripoint &dest : here.points_in_radius( pos(), 1, 0 ) ) {
-            const Character *const you = g->critter_at<Character>( dest );
+            const Character *const you = creatures.creature_at<Character>( dest );
             if( you && you->has_effect( effect_grabbed ) ) {
                 add_effect( effect_grabbing, 2_turns );
             }
@@ -2396,16 +2398,17 @@ void monster::die( Creature *nkiller )
         }
     }
     map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
     if( has_effect( effect_grabbing ) ) {
         remove_effect( effect_grabbing );
         for( const tripoint &player_pos : here.points_in_radius( pos(), 1, 0 ) ) {
-            Character *you = g->critter_at<Character>( player_pos );
+            Character *you = creatures.creature_at<Character>( player_pos );
             if( !you || !you->has_effect( effect_grabbed ) ) {
                 continue;
             }
             bool grabbed = false;
             for( const tripoint &mon_pos : here.points_in_radius( player_pos, 1, 0 ) ) {
-                const monster *const mon = g->critter_at<monster>( mon_pos );
+                const monster *const mon = creatures.creature_at<monster>( mon_pos );
                 if( mon && mon->has_effect( effect_grabbing ) ) {
                     grabbed = true;
                     break;

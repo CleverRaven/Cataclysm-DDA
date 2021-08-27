@@ -28,6 +28,7 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "colony.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
 #include "faction.h"
@@ -2263,7 +2264,7 @@ void veh_interact::move_cursor( const point &d, int dstart_at )
     const point vd = -dd;
     const point q = veh->coord_translate( vd );
     const tripoint vehp = veh->global_pos3() + q;
-    const bool has_critter = g->critter_at( vehp );
+    const bool has_critter = get_creature_tracker().creature_at( vehp );
     map &here = get_map();
     bool obstruct = here.impassable_ter_furn( vehp );
     const optional_vpart_position ovp = here.veh_at( vehp );
@@ -3250,7 +3251,7 @@ void veh_interact::complete_vehicle( Character &you )
 
             const tripoint vehp = veh->global_pos3() + tripoint( q, 0 );
             // TODO: allow boarding for non-players as well.
-            Character *const pl = g->critter_at<Character>( vehp );
+            Character *const pl = get_creature_tracker().creature_at<Character>( vehp );
             if( vpinfo.has_flag( VPFLAG_BOARDABLE ) && pl ) {
                 here.board_vehicle( vehp, pl );
             }
