@@ -228,12 +228,6 @@ static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 
-// not to confuse with item flags (json_flag)
-static const std::string flag_AUTODOC( "AUTODOC" );
-static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
-static const std::string flag_PLANTABLE( "PLANTABLE" );
-static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
-
 using namespace activity_handlers;
 
 const std::map< activity_id, std::function<void( player_activity *, Character * )> >

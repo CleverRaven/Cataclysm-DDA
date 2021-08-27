@@ -17,6 +17,7 @@
 #include "event.h"
 #include "event_bus.h"
 #include "field_type.h"
+#include "flag.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
@@ -744,7 +745,7 @@ void Character::activate_mutation( const trait_id &mut )
         bool adjacent_tree = false;
         map &here = get_map();
         for( const tripoint &p2 : here.points_in_radius( pos(), 1 ) ) {
-            if( here.has_flag( "TREE", p2 ) ) {
+            if( here.has_flag( flag_TREE, p2 ) ) {
                 adjacent_tree = true;
             }
         }

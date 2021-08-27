@@ -9,6 +9,7 @@
 #include "coordinates.h"
 #include "debug.h"
 #include "enum_traits.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
@@ -166,7 +167,7 @@ static tripoint find_potential_computer_point( const tinymap &compmap )
             }
             int wall = 0;
             for( const tripoint &p2 : compmap.points_in_radius( p, 1 ) ) {
-                if( compmap.has_flag_ter( "WALL", p2 ) ) {
+                if( compmap.has_flag_ter( flag_WALL, p2 ) ) {
                     wall++;
                 }
             }

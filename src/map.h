@@ -919,8 +919,8 @@ class map
             return features( tripoint( p, abs_sub.z ) );
         }
         // Checks terrain, furniture and vehicles
-        bool has_flag( const std::string &flag, const tripoint &p ) const;
-        bool has_flag( const std::string &flag, const point &p ) const {
+        bool has_flag( const flag_id &flag, const tripoint &p ) const;
+        bool has_flag( const flag_id &flag, const point &p ) const {
             return has_flag( flag, tripoint( p, abs_sub.z ) );
         }
         // True if items can be dropped in this tile
@@ -934,18 +934,18 @@ class map
             return can_put_items_ter_furn( tripoint( p, abs_sub.z ) );
         }
         // Checks terrain
-        bool has_flag_ter( const std::string &flag, const tripoint &p ) const;
-        bool has_flag_ter( const std::string &flag, const point &p ) const {
+        bool has_flag_ter( const flag_id &flag, const tripoint &p ) const;
+        bool has_flag_ter( const flag_id &flag, const point &p ) const {
             return has_flag_ter( flag, tripoint( p, abs_sub.z ) );
         }
         // Checks furniture
-        bool has_flag_furn( const std::string &flag, const tripoint &p ) const;
-        bool has_flag_furn( const std::string &flag, const point &p ) const {
+        bool has_flag_furn( const flag_id &flag, const tripoint &p ) const;
+        bool has_flag_furn( const flag_id &flag, const point &p ) const {
             return has_flag_furn( flag, tripoint( p, abs_sub.z ) );
         }
         // Checks terrain or furniture
-        bool has_flag_ter_or_furn( const std::string &flag, const tripoint &p ) const;
-        bool has_flag_ter_or_furn( const std::string &flag, const point &p ) const {
+        bool has_flag_ter_or_furn( const flag_id &flag, const tripoint &p ) const;
+        bool has_flag_ter_or_furn( const flag_id &flag, const point &p ) const {
             return has_flag_ter_or_furn( flag, tripoint( p, abs_sub.z ) );
         }
         // Fast "oh hai it's update_scent/lightmap/draw/monmove/self/etc again, what about this one" flag checking
@@ -2053,7 +2053,7 @@ class map
 
         /**returns positions of furnitures with matching flag in the specified radius*/
         std::list<tripoint> find_furnitures_with_flag_in_radius( const tripoint &center, size_t radius,
-                const std::string &flag,
+                const flag_id &flag,
                 size_t radiusz = 0 );
         /**returns creatures in specified radius*/
         std::list<Creature *> get_creatures_in_radius( const tripoint &center, size_t radius,

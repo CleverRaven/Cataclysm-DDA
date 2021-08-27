@@ -12,6 +12,7 @@
 #include "cata_utility.h"
 #include "coordinates.h"
 #include "debug.h"
+#include "flag.h"
 #include "line.h"
 #include "map.h"
 #include "mapdata.h"
@@ -328,7 +329,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                         // Climbing fences
                         newg += climb_cost;
                     } else if( doors && ( terrain.open || furniture.open ) &&
-                               ( !terrain.has_flag( "OPENCLOSE_INSIDE" ) || !furniture.has_flag( "OPENCLOSE_INSIDE" ) ||
+                               ( !terrain.has_flag( flag_OPENCLOSE_INSIDE ) || !furniture.has_flag( flag_OPENCLOSE_INSIDE ) ||
                                  !is_outside( cur ) ) ) {
                         // Only try to open INSIDE doors from the inside
                         // To open and then move onto the tile

@@ -25,8 +25,10 @@
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
+#include "generic_factory.h"
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
@@ -88,10 +90,7 @@ static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 
-static const std::string flag_FLAT( "FLAT" );
 static const std::string flag_INITIAL_PART( "INITIAL_PART" );
-static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
-static const std::string flag_NO_FLOOR( "NO_FLOOR" );
 
 static bool finalized = false;
 
@@ -900,7 +899,7 @@ bool can_construct( const construction &con, const tripoint &p )
     place_okay &= has_pre_terrain( con, p );
     // see if the flags check out
     place_okay &= std::all_of( con.pre_flags.begin(), con.pre_flags.end(),
-    [&p]( const std::string & flag ) {
+    [&p]( const flag_id & flag ) {
         return get_map().has_flag( flag, p );
     } );
     // make sure the construction would actually do something
@@ -1049,7 +1048,7 @@ void complete_construction( Character *you )
     }
     here.partial_con_remove( terp );
     // Some constructions are allowed to have items left on the tile.
-    if( built.post_flags.count( "keep_items" ) == 0 ) {
+    if( built.post_flags.count( flag_keep_items ) == 0 ) {
         // Move any items that have found their way onto the construction site.
         std::vector<tripoint> dump_spots;
         for( const tripoint &pt : here.points_in_radius( terp, 1 ) ) {
@@ -1635,9 +1634,9 @@ void load_construction( const JsonObject &jo )
         con.post_is_furniture = true;
     }
 
-    con.pre_flags = jo.get_tags( "pre_flags" );
+    optional( jo, false, "pre_flags", con.pre_flags, string_id_reader<::json_flag> {} );
 
-    con.post_flags = jo.get_tags( "post_flags" );
+    optional( jo, false, "post_flags", con.post_flags, string_id_reader<::json_flag> {} );
 
     if( jo.has_member( "byproducts" ) ) {
         con.byproduct_item_group = item_group::load_item_group( jo.get_member( "byproducts" ),

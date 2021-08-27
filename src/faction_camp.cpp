@@ -87,9 +87,6 @@ static const itype_id itype_fungal_seeds( "fungal_seeds" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_marloss_seed( "marloss_seed" );
 
-static const std::string flag_PLOWABLE( "PLOWABLE" );
-static const std::string flag_TREE( "TREE" );
-
 static const zone_type_id zone_type_CAMP_FOOD( "CAMP_FOOD" );
 static const zone_type_id zone_type_CAMP_STORAGE( "CAMP_STORAGE" );
 

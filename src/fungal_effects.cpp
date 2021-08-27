@@ -11,6 +11,7 @@
 #include "debug.h"
 #include "enums.h"
 #include "field_type.h"
+#include "flag.h"
 #include "game.h"
 #include "item.h"
 #include "item_stack.h"
@@ -38,18 +39,6 @@ static const species_id species_FUNGUS( "FUNGUS" );
 
 static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
-
-static const std::string flag_DIGGABLE( "DIGGABLE" );
-static const std::string flag_FLAMMABLE( "FLAMMABLE" );
-static const std::string flag_FLAT( "FLAT" );
-static const std::string flag_FLOWER( "FLOWER" );
-static const std::string flag_ORGANIC( "ORGANIC" );
-static const std::string flag_PLANT( "PLANT" );
-static const std::string flag_SHRUB( "SHRUB" );
-static const std::string flag_THIN_OBSTACLE( "THIN_OBSTACLE" );
-static const std::string flag_TREE( "TREE" );
-static const std::string flag_WALL( "WALL" );
-static const std::string flag_YOUNG( "YOUNG" );
 
 fungal_effects::fungal_effects( game &g, map &mp )
     : gm( g ), m( mp )
@@ -145,7 +134,7 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
 {
     bool converted = false;
     // Terrain conversion
-    if( m.has_flag_ter( flag_DIGGABLE, p ) ) {
+    if( m.has_flag_ter( TFLAG_DIGGABLE, p ) ) {
         if( x_in_y( growth * 10, 100 ) ) {
             m.ter_set( p, t_fungus );
             converted = true;

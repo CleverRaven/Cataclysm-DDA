@@ -209,15 +209,6 @@ static const bionic_id bio_painkiller( "bio_painkiller" );
 
 static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
 
-static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
-static const std::string flag_BARRICADABLE_WINDOW_CURTAINS( "BARRICADABLE_WINDOW_CURTAINS" );
-static const std::string flag_CLIMB_SIMPLE( "CLIMB_SIMPLE" );
-static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
-static const std::string flag_OPENCLOSE_INSIDE( "OPENCLOSE_INSIDE" );
-static const std::string flag_PICKABLE( "PICKABLE" );
-static const std::string flag_NANOFAB_TABLE( "NANOFAB_TABLE" );
-static const std::string flag_WALL( "WALL" );
-
 // @TODO maybe make this a property of the item (depend on volume/type)
 static const time_duration milling_time = 6_hours;
 
@@ -2344,7 +2335,7 @@ ret_val<bool> iexamine::can_fertilize( Character &you, const tripoint &tile,
                                        const itype_id &fertilizer )
 {
     map &here = get_map();
-    if( !here.has_flag_furn( "PLANT", tile ) ) {
+    if( !here.has_flag_furn( flag_PLANT,  tile ) ) {
         return ret_val<bool>::make_failure( _( "Tile isn't a plant" ) );
     }
     if( here.i_at( tile ).size() > 1 ) {
@@ -4502,7 +4493,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
 
             if( has_grapnel ) {
                 you.add_msg_if_player( _( "You tie the rope around your waist and begin to climb down." ) );
-            } else if( here.has_flag( "UNSTABLE", examp + tripoint_below ) && g->slip_down( true ) ) {
+            } else if( here.has_flag( flag_UNSTABLE, examp + tripoint_below ) && g->slip_down( true ) ) {
                 return;
             }
 

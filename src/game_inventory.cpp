@@ -71,8 +71,6 @@ static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
 static const trait_id trait_SAPROVORE( "SAPROVORE" );
 
-static const std::string flag_LIQUIDCONT( "LIQUIDCONT" );
-
 using item_filter = std::function<bool ( const item & )>;
 using item_location_filter = std::function<bool ( const item_location & )>;
 

@@ -22,6 +22,7 @@
 #include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
+#include "flag.h"
 #include "game.h"
 #include "iexamine.h"
 #include "input.h"
@@ -1291,7 +1292,7 @@ void vehicle::crash_terrain_around()
             for( const vpart_reference &vp_tmp : get_all_parts() ) {
                 busy_pos |= vp_tmp.pos() == cur_pos;
             }
-            for( const std::string &flag : ttd.pre_flags ) {
+            for( const flag_id &flag : ttd.pre_flags ) {
                 if( here.has_flag( flag, cur_pos ) && !busy_pos ) {
                     crush_target = cur_pos;
                     break;
@@ -1316,7 +1317,7 @@ void vehicle::transform_terrain()
         const tripoint start_pos = vp.pos();
         const transform_terrain_data &ttd = vp.info().transform_terrain;
         bool prereq_fulfilled = false;
-        for( const std::string &flag : ttd.pre_flags ) {
+        for( const flag_id &flag : ttd.pre_flags ) {
             if( here.has_flag( flag, start_pos ) ) {
                 prereq_fulfilled = true;
                 break;
@@ -1405,7 +1406,7 @@ void vehicle::operate_planter()
                     break;
                 } else if( here.ter( loc ) == t_dirtmound ) {
                     here.set( loc, t_dirt, f_plant_seed );
-                } else if( !here.has_flag( "PLOWABLE", loc ) ) {
+                } else if( !here.has_flag( flag_PLOWABLE, loc ) ) {
                     //If it isn't plowable terrain, then it will most likely be damaged.
                     damage( planter_id, rng( 1, 10 ), damage_type::BASH, false );
                     sounds::sound( loc, rng( 10, 20 ), sounds::sound_t::combat, _( "Clink" ), false, "smash_success",
@@ -1453,7 +1454,7 @@ void vehicle::operate_scoop()
             }
             item *that_item_there = nullptr;
             map_stack items = here.i_at( position );
-            if( here.has_flag( "SEALED", position ) ) {
+            if( here.has_flag( flag_SEALED, position ) ) {
                 // Ignore it. Street sweepers are not known for their ability to harvest crops.
                 continue;
             }
@@ -2035,7 +2036,7 @@ void vehicle::interact_with( const vpart_position &vp )
     map &here = get_map();
     avatar &player_character = get_avatar();
     const bool has_items_on_ground = here.sees_some_items( vp.pos(), player_character );
-    const bool items_are_sealed = here.has_flag( "SEALED", vp.pos() );
+    const bool items_are_sealed = here.has_flag( flag_SEALED, vp.pos() );
     const turret_data turret = turret_query( vp.pos() );
     const cata::optional<vpart_reference> vp_curtain = vp.avail_part_with_feature( "CURTAIN" );
     const cata::optional<vpart_reference> vp_faucet = vp.part_with_tool( itype_water_faucet );

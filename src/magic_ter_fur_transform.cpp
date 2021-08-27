@@ -106,8 +106,10 @@ void ter_furn_transform::load( const JsonObject &jo, const std::string & )
                 furn_transform.emplace( furn_str_id( valid_furn ), cur_results );
             }
 
-            for( const std::string valid_terrain : furn_obj.get_array( "valid_flags" ) ) {
-                furn_flag_transform.emplace( valid_terrain, cur_results );
+            std::vector<flag_id> valid_flags;
+            optional( furn_obj, was_loaded, "valid_flags", valid_flags );
+            for( const flag_id valid_terrain_flag : valid_flags ) {
+                furn_flag_transform.emplace( valid_terrain_flag, cur_results );
             }
         }
     }
@@ -140,7 +142,7 @@ cata::optional<ter_str_id> ter_furn_transform::next_ter( const ter_str_id &ter )
     return next( ter_transform, ter );
 }
 
-cata::optional<ter_str_id> ter_furn_transform::next_ter( const std::string &flag ) const
+cata::optional<ter_str_id> ter_furn_transform::next_ter( const flag_id &flag ) const
 {
     return next( ter_flag_transform, flag );
 }
@@ -150,7 +152,7 @@ cata::optional<furn_str_id> ter_furn_transform::next_furn( const furn_str_id &fu
     return next( furn_transform, furn );
 }
 
-cata::optional<furn_str_id> ter_furn_transform::next_furn( const std::string &flag ) const
+cata::optional<furn_str_id> ter_furn_transform::next_furn( const flag_id &flag ) const
 {
     return next( furn_flag_transform, flag );
 }
@@ -179,7 +181,7 @@ void ter_furn_transform::add_all_messages( const map &m, const Creature &critter
 {
     const ter_id ter_at_loc = m.ter( location );
     if( !add_message( ter_transform, ter_at_loc->id, critter, location ) ) {
-        for( const std::pair<const std::string, ter_furn_data<ter_str_id>> &data : ter_flag_transform ) {
+        for( const std::pair<const flag_id, ter_furn_data<ter_str_id>> &data : ter_flag_transform ) {
             if( data.second.has_msg() && ter_at_loc->has_flag( data.first ) ) {
                 data.second.add_msg( critter );
                 break;
@@ -189,7 +191,7 @@ void ter_furn_transform::add_all_messages( const map &m, const Creature &critter
 
     const furn_id furn_at_loc = m.furn( location );
     if( !add_message( furn_transform, furn_at_loc->id, critter, location ) ) {
-        for( const std::pair<const std::string, ter_furn_data<furn_str_id>> &data : furn_flag_transform ) {
+        for( const std::pair<const flag_id, ter_furn_data<furn_str_id>> &data : furn_flag_transform ) {
             if( data.second.has_msg() && furn_at_loc->has_flag( data.first ) ) {
                 data.second.add_msg( critter );
                 break;
@@ -211,7 +213,7 @@ void ter_furn_transform::transform( map &m, const tripoint &location ) const
     cata::optional<furn_str_id> furn_potential = next_furn( furn_at_loc->id );
 
     if( !ter_potential ) {
-        for( const std::pair<const std::string, ter_furn_data<ter_str_id>> &flag_result :
+        for( const std::pair<const flag_id, ter_furn_data<ter_str_id>> &flag_result :
              ter_flag_transform )             {
             if( ter_at_loc->has_flag( flag_result.first ) ) {
                 ter_potential = next_ter( flag_result.first );
@@ -223,7 +225,7 @@ void ter_furn_transform::transform( map &m, const tripoint &location ) const
     }
 
     if( !furn_potential ) {
-        for( const std::pair<const std::string, ter_furn_data<furn_str_id>> &flag_result :
+        for( const std::pair<const flag_id, ter_furn_data<furn_str_id>> &flag_result :
              furn_flag_transform ) {
             if( furn_at_loc->has_flag( flag_result.first ) ) {
                 furn_potential = next_furn( flag_result.first );

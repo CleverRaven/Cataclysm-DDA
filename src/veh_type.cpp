@@ -112,28 +112,28 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "ROOF", VPFLAG_ROOF },
 };
 
-static const std::vector<std::pair<std::string, veh_ter_mod>> standard_terrain_mod = {{
-        { "FLAT", { 0, 4 } }, { "ROAD", { 0, 2 } }
+static const std::vector<std::pair<flag_id, veh_ter_mod>> standard_terrain_mod = {{
+        { flag_FLAT, { 0, 4 } }, { flag_ROAD, { 0, 2 } }
     }
 };
-static const std::vector<std::pair<std::string, veh_ter_mod>> rigid_terrain_mod = {{
-        { "FLAT", { 0, 6 } }, { "ROAD", { 0, 3 } }
+static const std::vector<std::pair<flag_id, veh_ter_mod>> rigid_terrain_mod = {{
+        { flag_FLAT, { 0, 6 } }, { flag_ROAD, { 0, 3 } }
     }
 };
-static const std::vector<std::pair<std::string, veh_ter_mod>> racing_terrain_mod = {{
-        { "FLAT", { 0, 5 } }, { "ROAD", { 0, 2 } }
+static const std::vector<std::pair<flag_id, veh_ter_mod>> racing_terrain_mod = {{
+        { flag_FLAT, { 0, 5 } }, { flag_ROAD, { 0, 2 } }
     }
 };
-static const std::vector<std::pair<std::string, veh_ter_mod>> off_road_terrain_mod = {{
-        { "FLAT", { 0, 3 } }, { "ROAD", { 0, 1 } }
+static const std::vector<std::pair<flag_id, veh_ter_mod>> off_road_terrain_mod = {{
+        { flag_FLAT, { 0, 3 } }, { flag_ROAD, { 0, 1 } }
     }
 };
-static const std::vector<std::pair<std::string, veh_ter_mod>> treads_terrain_mod = {{
-        { "FLAT", { 0, 3 } }
+static const std::vector<std::pair<flag_id, veh_ter_mod>> treads_terrain_mod = {{
+        { flag_FLAT, { 0, 3 } }
     }
 };
-static const std::vector<std::pair<std::string, veh_ter_mod>> rail_terrain_mod = {{
-        { "RAIL", { 2, 8 } }
+static const std::vector<std::pair<flag_id, veh_ter_mod>> rail_terrain_mod = {{
+        { flag_RAIL, { 2, 8 } }
     }
 };
 
@@ -1024,9 +1024,9 @@ int vpart_info::wheel_area() const
     return has_flag( VPFLAG_WHEEL ) ? wheel_info->contact_area : 0;
 }
 
-std::vector<std::pair<std::string, veh_ter_mod>> vpart_info::wheel_terrain_mod() const
+std::vector<std::pair<flag_id, veh_ter_mod>> vpart_info::wheel_terrain_mod() const
 {
-    const std::vector<std::pair<std::string, veh_ter_mod>> null_map;
+    const std::vector<std::pair<flag_id, veh_ter_mod>> null_map;
     return has_flag( VPFLAG_WHEEL ) ? wheel_info->terrain_mod : null_map;
 }
 

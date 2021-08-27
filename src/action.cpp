@@ -44,11 +44,6 @@
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
 
-static const std::string flag_CONSOLE( "CONSOLE" );
-static const std::string flag_GOES_DOWN( "GOES_DOWN" );
-static const std::string flag_GOES_UP( "GOES_UP" );
-static const std::string flag_SWIMMABLE( "SWIMMABLE" );
-
 static void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                           std::set<action_id> &unbound_keymap );
 

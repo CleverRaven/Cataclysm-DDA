@@ -22,11 +22,11 @@ static std::vector<cata_variant> flags_of_itype( const cata_variant &v )
 
 static std::vector<cata_variant> flags_of_terrain( const cata_variant &v )
 {
-    const std::set<std::string> &flags = v.get<ter_id>()->get_flags();
+    const std::set<flag_id> &flags = v.get<ter_id>()->get_flags();
     std::vector<cata_variant> result;
     result.reserve( flags.size() );
-    for( const std::string &s : flags ) {
-        result.push_back( cata_variant::make<cata_variant_type::string>( s ) );
+    for( const flag_id &s : flags ) {
+        result.push_back( cata_variant::make<cata_variant_type::flag_id>( s ) );
     }
     return result;
 }
@@ -72,7 +72,7 @@ const std::unordered_map<std::string, event_field_transformation> event_field_tr
     },
     {
         "flags_of_terrain",
-        {flags_of_terrain, cata_variant_type::string, { cata_variant_type::ter_id}}
+        {flags_of_terrain, cata_variant_type::flag_id, { cata_variant_type::ter_id}}
     },
     {
         "is_mounted",

@@ -21,6 +21,7 @@
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "enums.h"
+#include "flag.h"
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -712,7 +713,7 @@ bool vehicle::autodrive_controller::check_drivable( tripoint pt ) const
     if( terrain_type.movecost <= 0 ) {
         // walls and other impassable terrain
         return false;
-    } else if( terrain_type.movecost == 2 || terrain_type.has_flag( "NOCOLLIDE" ) ) {
+    } else if( terrain_type.movecost == 2 || terrain_type.has_flag( flag_NOCOLLIDE ) ) {
         // terrain with neutral move cost or tagged with NOCOLLIDE will never cause
         // collisions
         return true;

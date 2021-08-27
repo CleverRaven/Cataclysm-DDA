@@ -5,7 +5,6 @@
 #include <iterator>
 #include <map>
 #include <memory>
-#include <unordered_map>
 #include <utility>
 
 #include "assign.h"
@@ -25,10 +24,6 @@
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
-
-static const std::string flag_DIGGABLE( "DIGGABLE" );
-static const std::string flag_LOCKED( "LOCKED" );
-static const std::string flag_TRANSPARENT( "TRANSPARENT" );
 
 namespace
 {
@@ -135,72 +130,6 @@ template<>
 int_id<furn_t>::int_id( const string_id<furn_t> &id ) : _id( id.id() )
 {
 }
-
-static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { {
-        { "DESTROY_ITEM",             TFLAG_DESTROY_ITEM },   // add/spawn_item*()
-        { "ROUGH",                    TFLAG_ROUGH },          // monmove
-        { "UNSTABLE",                 TFLAG_UNSTABLE },       // monmove
-        { "LIQUID",                   TFLAG_LIQUID },         // *move(), add/spawn_item*()
-        { "FIRE_CONTAINER",           TFLAG_FIRE_CONTAINER }, // fire
-        { "DIGGABLE",                 TFLAG_DIGGABLE },       // monmove
-        { "SUPPRESS_SMOKE",           TFLAG_SUPPRESS_SMOKE }, // fire
-        { "FLAMMABLE_HARD",           TFLAG_FLAMMABLE_HARD }, // fire
-        { "SEALED",                   TFLAG_SEALED },         // Fire, acid
-        { "ALLOW_FIELD_EFFECT",       TFLAG_ALLOW_FIELD_EFFECT }, // Fire, acid
-        { "COLLAPSES",                TFLAG_COLLAPSES },      // building "remodeling"
-        { "FLAMMABLE",                TFLAG_FLAMMABLE },      // fire bad! fire SLOW!
-        { "REDUCE_SCENT",             TFLAG_REDUCE_SCENT },   // ...and the other half is update_scent
-        { "INDOORS",                  TFLAG_INDOORS },        // vehicle gain_moves, weather
-        { "SHARP",                    TFLAG_SHARP },          // monmove
-        { "SUPPORTS_ROOF",            TFLAG_SUPPORTS_ROOF },  // and by building "remodeling" I mean hulkSMASH
-        { "MINEABLE",                 TFLAG_MINEABLE },       // allows mining
-        { "SWIMMABLE",                TFLAG_SWIMMABLE },      // monmove, many fields
-        { "TRANSPARENT",              TFLAG_TRANSPARENT },    // map::is_transparent / lightmap
-        { "NOITEM",                   TFLAG_NOITEM },         // add/spawn_item*()
-        { "NO_SIGHT",                 TFLAG_NO_SIGHT },       // Sight reduced to 1 on this tile
-        { "FLAMMABLE_ASH",            TFLAG_FLAMMABLE_ASH },  // oh hey fire. again.
-        { "WALL",                     TFLAG_WALL },           // connects to other walls
-        { "NO_SCENT",                 TFLAG_NO_SCENT },       // cannot have scent values, which prevents scent diffusion through this tile
-        { "DEEP_WATER",               TFLAG_DEEP_WATER },     // Deep enough to submerge things
-        { "SHALLOW_WATER",            TFLAG_SHALLOW_WATER },  // Water, but not deep enough to submerge the player
-        { "CURRENT",                  TFLAG_CURRENT },        // Water is flowing.
-        { "HARVESTED",                TFLAG_HARVESTED },      // harvested.  will not bear fruit.
-        { "PERMEABLE",                TFLAG_PERMEABLE },      // gases can flow through.
-        { "AUTO_WALL_SYMBOL",         TFLAG_AUTO_WALL_SYMBOL }, // automatically create the appropriate wall
-        { "CONNECT_TO_WALL",          TFLAG_CONNECT_TO_WALL }, // superseded by ter_connects, retained for json backward compatibility
-        { "CLIMBABLE",                TFLAG_CLIMBABLE },      // Can be climbed over
-        { "GOES_DOWN",                TFLAG_GOES_DOWN },      // Allows non-flying creatures to move downwards
-        { "GOES_UP",                  TFLAG_GOES_UP },        // Allows non-flying creatures to move upwards
-        { "NO_FLOOR",                 TFLAG_NO_FLOOR },       // Things should fall when placed on this tile
-        { "SEEN_FROM_ABOVE",          TFLAG_SEEN_FROM_ABOVE },// This should be visible if the tile above has no floor
-        { "HIDE_PLACE",               TFLAG_HIDE_PLACE },     // Creature on this tile can't be seen by other creature not standing on adjacent tiles
-        { "BLOCK_WIND",               TFLAG_BLOCK_WIND },     // This tile will partially block the wind.
-        { "FLAT",                     TFLAG_FLAT },           // This tile is flat.
-        { "RAMP",                     TFLAG_RAMP },           // Can be used to move up a z-level
-        { "RAMP_DOWN",                TFLAG_RAMP_DOWN },      // Anything entering this tile moves down a z-level
-        { "RAMP_UP",                  TFLAG_RAMP_UP },        // Anything entering this tile moves up a z-level
-        { "RAIL",                     TFLAG_RAIL },           // Rail tile (used heavily)
-        { "THIN_OBSTACLE",            TFLAG_THIN_OBSTACLE },  // Passable by players and monsters. Vehicles destroy it.
-        { "Z_TRANSPARENT",            TFLAG_Z_TRANSPARENT },  // Doesn't block vision passing through the z-level
-        { "SMALL_PASSAGE",            TFLAG_SMALL_PASSAGE },   // A small passage, that large or huge things cannot pass through
-        { "SUN_ROOF_ABOVE",           TFLAG_SUN_ROOF_ABOVE },   // This furniture has a "fake roof" above, that blocks sunlight (see #44421).
-        { "FUNGUS",                   TFLAG_FUNGUS }            // Fungal covered.
-    }
-};
-
-static const std::unordered_map<std::string, ter_connects> ter_connects_map = { {
-        { "WALL",                     TERCONN_WALL },         // implied by TFLAG_CONNECT_TO_WALL, TFLAG_AUTO_WALL_SYMBOL or TFLAG_WALL
-        { "CHAINFENCE",               TERCONN_CHAINFENCE },
-        { "WOODFENCE",                TERCONN_WOODFENCE },
-        { "RAILING",                  TERCONN_RAILING },
-        { "WATER",                    TERCONN_WATER },
-        { "POOLWATER",                TERCONN_POOLWATER },
-        { "PAVEMENT",                 TERCONN_PAVEMENT },
-        { "RAIL",                     TERCONN_RAIL },
-        { "COUNTER",                  TERCONN_COUNTER },
-        { "CANVAS_WALL",              TERCONN_CANVAS_WALL },
-    }
-};
 
 static void load_map_bash_tent_centers( const JsonArray &ja, std::vector<furn_str_id> &centers )
 {
@@ -527,7 +456,7 @@ void load_terrain( const JsonObject &jo, const std::string &src )
     terrain_data.load( jo, src );
 }
 
-void map_data_common_t::set_flag( const std::string &flag )
+void map_data_common_t::set_flag( const flag_id &flag )
 {
     flags.insert( flag );
     const auto it = ter_bitflags_map.find( flag );
@@ -538,18 +467,22 @@ void map_data_common_t::set_flag( const std::string &flag )
         }
         // wall connection check for JSON backwards compatibility
         if( it->second == TFLAG_WALL || it->second == TFLAG_CONNECT_TO_WALL ) {
-            set_connects( "WALL" );
+            set_connects( flag_WALL );
         }
     }
 }
 
-void map_data_common_t::set_connects( const std::string &connect_group_string )
+void map_data_common_t::set_connects( const flag_id &connect_group_flag )
 {
-    const auto it = ter_connects_map.find( connect_group_string );
+    const auto t = ter_connects_map;
+    t.empty();
+    const auto z = ter_bitflags_map;
+    z.empty();
+    const auto it = ter_connects_map.find( connect_group_flag );
     if( it != ter_connects_map.end() ) {
         connect_group = it->second;
     } else { // arbitrary connect groups are a bad idea for optimization reasons
-        debugmsg( "can't find terrain connection group %s", connect_group_string.c_str() );
+        debugmsg( "can't find terrain connection group %s", connect_group_flag.str() );
     }
 }
 
@@ -1273,14 +1206,18 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     transparent = false;
     connect_group = TERCONN_NONE;
 
-    for( auto &flag : jo.get_string_array( "flags" ) ) {
+    std::vector<flag_id> temp_flags;
+    optional( jo, was_loaded, "flags", temp_flags );
+    for( auto &flag : temp_flags ) {
         set_flag( flag );
     }
     // connect_group is initialized to none, then terrain flags are set, then finally
     // connections from JSON are set. This is so that wall flags can set wall connections
     // but can be overridden by explicit connections in JSON.
-    if( jo.has_member( "connects_to" ) ) {
-        set_connects( jo.get_string( "connects_to" ) );
+    flag_id temp_connects_to;
+    optional( jo, was_loaded, "connects_to", temp_connects_to, string_id_reader<json_flag> {} );
+    if( !temp_connects_to.is_empty() ) {
+        set_connects( temp_connects_to );
     }
 
     optional( jo, was_loaded, "allowed_template_ids", allowed_template_id );
@@ -1432,12 +1369,16 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
 
     // see the comment in ter_id::load for connect_group handling
     connect_group = TERCONN_NONE;
-    for( auto &flag : jo.get_string_array( "flags" ) ) {
+    std::vector<flag_id> temp_flags;
+    optional( jo, was_loaded, "flags", temp_flags );
+    for( auto &flag : temp_flags ) {
         set_flag( flag );
     }
 
-    if( jo.has_member( "connects_to" ) ) {
-        set_connects( jo.get_string( "connects_to" ) );
+    flag_id temp_connects_to;
+    optional( jo, was_loaded, "connects_to", temp_connects_to, string_id_reader<json_flag> {} );
+    if( !temp_connects_to.is_empty() ) {
+        set_connects( temp_connects_to );
     }
 
     optional( jo, was_loaded, "open", open, string_id_reader<furn_t> {}, furn_str_id::NULL_ID() );

@@ -117,7 +117,7 @@ struct veh_ter_mod {
 struct vpslot_wheel {
     float rolling_resistance = 1.0f;
     int contact_area = 1;
-    std::vector<std::pair<std::string, veh_ter_mod>> terrain_mod;
+    std::vector<std::pair<flag_id, veh_ter_mod>> terrain_mod;
     float or_rating = 0.0f;
 };
 
@@ -134,7 +134,7 @@ struct vpslot_workbench {
 };
 
 struct transform_terrain_data {
-    std::set<std::string> pre_flags;
+    std::set<flag_id> pre_flags;
     std::string post_terrain;
     std::string post_furniture;
     std::string post_field;
@@ -316,7 +316,7 @@ class vpart_info
          */
         float wheel_rolling_resistance() const;
         int wheel_area() const;
-        std::vector<std::pair<std::string, veh_ter_mod>> wheel_terrain_mod() const;
+        std::vector<std::pair<flag_id, veh_ter_mod>> wheel_terrain_mod() const;
         float wheel_or_rating() const;
         /** @name rotor specific functions
         */

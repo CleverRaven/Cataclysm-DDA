@@ -15,6 +15,7 @@
 #include "character.h"
 #include "colony.h"
 #include "debug.h"
+#include "flag.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
@@ -457,7 +458,7 @@ VisitResponse map_cursor::visit_items(
 {
     map &here = get_map();
     // skip inaccessible items
-    if( here.has_flag( "SEALED", pos() ) && !here.has_flag( "LIQUIDCONT", pos() ) ) {
+    if( here.has_flag( flag_SEALED, pos() ) && !here.has_flag( flag_LIQUIDCONT, pos() ) ) {
         return VisitResponse::NEXT;
     }
 

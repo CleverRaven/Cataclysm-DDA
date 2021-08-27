@@ -169,13 +169,6 @@ static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
 // fault flags
 static const std::string flag_SILENT( "SILENT" );
 
-// terrain-furniture flags
-static const std::string flag_FLAMMABLE( "FLAMMABLE" );
-static const std::string flag_FLAMMABLE_ASH( "FLAMMABLE_ASH" );
-static const std::string flag_DEEP_WATER( "DEEP_WATER" );
-static const std::string flag_LIQUID( "LIQUID" );
-static const std::string flag_LIQUIDCONT( "LIQUIDCONT" );
-
 static const matec_id RAPID( "RAPID" );
 
 class npc_class;

@@ -77,9 +77,6 @@ static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 
-static const std::string flag_RAMP_END( "RAMP_END" );
-static const std::string flag_SWIMMABLE( "SWIMMABLE" );
-
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 static bool check_water_affect_items( avatar &you )
@@ -402,9 +399,9 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
             return false;
         }
     }
-    bool toSwimmable = m.has_flag( flag_SWIMMABLE, dest_loc );
+    bool toSwimmable = m.has_flag( TFLAG_SWIMMABLE, dest_loc );
     bool toDeepWater = m.has_flag( TFLAG_DEEP_WATER, dest_loc );
-    bool fromSwimmable = m.has_flag( flag_SWIMMABLE, you.pos() );
+    bool fromSwimmable = m.has_flag( TFLAG_SWIMMABLE, you.pos() );
     bool fromDeepWater = m.has_flag( TFLAG_DEEP_WATER, you.pos() );
     bool fromBoat = veh0 != nullptr && veh0->is_in_water( fromDeepWater );
     bool toBoat = veh1 != nullptr && veh1->is_in_water( toDeepWater );
@@ -573,7 +570,7 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
 
 void avatar_action::swim( map &m, avatar &you, const tripoint &p )
 {
-    if( !m.has_flag( flag_SWIMMABLE, p ) ) {
+    if( !m.has_flag( TFLAG_SWIMMABLE, p ) ) {
         dbg( D_ERROR ) << "game:plswim: Tried to swim in "
                        << m.tername( p ) << "!";
         debugmsg( "Tried to swim in %s!", m.tername( p ) );

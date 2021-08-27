@@ -17,6 +17,7 @@
 #include "dispersion.h"
 #include "enums.h"
 #include "explosion.h"
+#include "flag.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
@@ -40,8 +41,6 @@
 static const efftype_id effect_bounced( "bounced" );
 
 static const json_character_flag json_flag_HARDTOHIT( "HARDTOHIT" );
-
-static const std::string flag_LIQUID( "LIQUID" );
 
 static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 {

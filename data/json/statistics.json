@@ -315,7 +315,7 @@
     "id": "moves_sharp_terrain",
     "type": "event_transformation",
     "event_transformation": "moves_with_terrain_flags",
-    "value_constraints": { "terrain_flag": { "equals": [ "string", "SHARP" ] } }
+    "value_constraints": { "terrain_flag": { "equals": [ "flag_id", "SHARP" ] } }
   },
   {
     "id": "num_moves_walked",

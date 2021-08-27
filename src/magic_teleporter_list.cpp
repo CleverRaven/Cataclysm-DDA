@@ -17,6 +17,7 @@
 #include "creature_tracker.h"
 #include "cursesdef.h"
 #include "enums.h"
+#include "flag.h"
 #include "game.h"
 #include "json.h"
 #include "map.h"
@@ -68,7 +69,7 @@ static cata::optional<tripoint> find_valid_teleporters_omt( const tripoint_abs_o
     tinymap checker;
     checker.load( sm_pt, true );
     for( const tripoint &p : checker.points_on_zlevel() ) {
-        if( checker.has_flag_furn( "TRANSLOCATOR", p ) ) {
+        if( checker.has_flag_furn( flag_TRANSLOCATOR, p ) ) {
             return checker.getabs( p );
         }
     }

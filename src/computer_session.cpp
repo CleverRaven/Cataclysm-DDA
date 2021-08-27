@@ -25,6 +25,7 @@
 #include "event_bus.h"
 #include "explosion.h"
 #include "field_type.h"
+#include "flag.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
@@ -80,8 +81,6 @@ static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const mtype_id mon_manhack( "mon_manhack" );
 static const mtype_id mon_secubot( "mon_secubot" );
-
-static const std::string flag_CONSOLE( "CONSOLE" );
 
 static catacurses::window init_window()
 {

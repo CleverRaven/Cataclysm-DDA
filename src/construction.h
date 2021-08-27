@@ -57,10 +57,10 @@ struct construction {
         cata::optional<item_group_id> byproduct_item_group;
 
         // Flags beginning terrain must have
-        std::set<std::string> pre_flags;
+        std::set<flag_id> pre_flags;
 
         // Post construction flags
-        std::set<std::string> post_flags;
+        std::set<flag_id> post_flags;
 
         /** Skill->skill level mapping. Can be empty. */
         std::map<skill_id, int> required_skills;

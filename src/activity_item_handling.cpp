@@ -124,14 +124,6 @@ static const quality_id qual_SAW_M( "SAW_M" );
 static const quality_id qual_SAW_W( "SAW_W" );
 static const quality_id qual_WELD( "WELD" );
 
-static const std::string flag_BUTCHER_EQ( "BUTCHER_EQ" );
-static const std::string flag_FISHABLE( "FISHABLE" );
-static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
-static const std::string flag_PLANT( "PLANT" );
-static const std::string flag_PLANTABLE( "PLANTABLE" );
-static const std::string flag_PLOWABLE( "PLOWABLE" );
-static const std::string flag_TREE( "TREE" );
-
 /** Activity-associated item */
 struct act_item {
     /// inventory item
@@ -1118,7 +1110,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         return activity_reason_info::fail( do_activity_reason::NO_ZONE );
     }
     if( act == ACT_MULTIPLE_MINE ) {
-        if( !here.has_flag( "MINEABLE", src_loc ) ) {
+        if( !here.has_flag( flag_MINEABLE, src_loc ) ) {
             return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
         std::vector<item *> mining_inv = you.items_with( [&you]( const item & itm ) {
@@ -2114,7 +2106,7 @@ static bool mine_activity( Character &you, const tripoint &src_loc )
     } );
     map &here = get_map();
     if( mining_inv.empty() || you.is_mounted() || you.is_underwater() || here.veh_at( src_loc ) ||
-        !here.has_flag( "MINEABLE", src_loc ) || you.has_effect( effect_incorporeal ) ) {
+        !here.has_flag( flag_MINEABLE, src_loc ) || you.has_effect( effect_incorporeal ) ) {
         return false;
     }
     item *chosen_item = nullptr;

@@ -14,6 +14,7 @@
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
+#include "flag.h"
 #include "game.h"
 #include "line.h"
 #include "map.h"
@@ -388,9 +389,9 @@ TEST_CASE( "npc-movement" )
                 REQUIRE( here.passable( p ) );
             }
             if( type == 'R' ) {
-                REQUIRE( here.has_flag( "UNSTABLE", p ) );
+                REQUIRE( here.has_flag( flag_UNSTABLE, p ) );
             } else {
-                REQUIRE( !here.has_flag( "UNSTABLE", p ) );
+                REQUIRE( !here.has_flag( flag_UNSTABLE, p ) );
             }
             if( type == 'V' || type == 'W' || type == 'M' ) {
                 REQUIRE( here.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ).has_value() );

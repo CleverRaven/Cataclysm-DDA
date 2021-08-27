@@ -19,6 +19,7 @@
 #include "debug.h"
 #include "enums.h"
 #include "explosion.h"
+#include "flag.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
@@ -823,7 +824,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             return ret;
         }
         // we just ran into a fish, so move it out of the way
-        if( here.has_flag( "SWIMMABLE", critter->pos() ) ) {
+        if( here.has_flag( TFLAG_SWIMMABLE, critter->pos() ) ) {
             tripoint end_pos = critter->pos();
             tripoint start_pos;
             const units::angle angle =
@@ -870,13 +871,13 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                ( here.is_bashable_ter_furn( p, false ) && here.move_cost_ter_furn( p ) != 2 &&
                  // Don't collide with tiny things, like flowers, unless we have a wheel in our space.
                  ( part_with_feature( ret.part, VPFLAG_WHEEL, true ) >= 0 ||
-                   !here.has_flag_ter_or_furn( "TINY", p ) ) &&
+                   !here.has_flag_ter_or_furn( flag_TINY, p ) ) &&
                  // Protrusions don't collide with short terrain.
                  // Tiny also doesn't, but it's already excluded unless there's a wheel present.
                  !( part_with_feature( ret.part, "PROTRUSION", true ) >= 0 &&
-                    here.has_flag_ter_or_furn( "SHORT", p ) ) &&
+                    here.has_flag_ter_or_furn( flag_SHORT, p ) ) &&
                  // These are bashable, but don't interact with vehicles.
-                 !here.has_flag_ter_or_furn( "NOCOLLIDE", p ) &&
+                 !here.has_flag_ter_or_furn( flag_NOCOLLIDE, p ) &&
                  // Do not collide with track tiles if we can use rails
                  !( here.has_flag_ter_or_furn( TFLAG_RAIL, p ) && this->can_use_rails() ) ) ) {
         // Movecost 2 indicates flat terrain like a floor, no collision there.

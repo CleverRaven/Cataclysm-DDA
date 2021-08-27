@@ -187,8 +187,6 @@ static const json_character_flag json_flag_BIONIC_NPC_USABLE( "BIONIC_NPC_USABLE
 static const json_character_flag json_flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
 static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 
-static const std::string flag_SEALED( "SEALED" );
-
 struct Character::auto_toggle_bionic_result {
     bool can_burn_fuel = false;
     bool has_burnable_fuel = false;

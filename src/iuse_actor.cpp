@@ -1025,21 +1025,21 @@ void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
     if( the_furn.workbench ) {
         can_function_as.emplace_back( _( "a <info>crafting station</info>" ) );
     }
-    if( the_furn.has_flag( "BUTCHER_EQ" ) ) {
+    if( the_furn.has_flag( flag_BUTCHER_EQ ) ) {
         can_function_as.emplace_back(
             _( "a place to hang <info>corpses for butchering</info>" ) );
     }
-    if( the_furn.has_flag( "FLAT_SURF" ) ) {
+    if( the_furn.has_flag( flag_FLAT_SURF ) ) {
         can_function_as.emplace_back(
             _( "a flat surface to <info>butcher</info> onto or <info>eat meals</info> from" ) );
     }
-    if( the_furn.has_flag( "CAN_SIT" ) ) {
+    if( the_furn.has_flag( flag_CAN_SIT ) ) {
         can_function_as.emplace_back( _( "a place to <info>sit</info>" ) );
     }
-    if( the_furn.has_flag( "HIDE_PLACE" ) ) {
+    if( the_furn.has_flag( flag_HIDE_PLACE ) ) {
         can_function_as.emplace_back( _( "a place to <info>hide</info>" ) );
     }
-    if( the_furn.has_flag( "FIRE_CONTAINER" ) ) {
+    if( the_furn.has_flag( flag_FIRE_CONTAINER ) ) {
         can_function_as.emplace_back( _( "a safe place to <info>contain a fire</info>" ) );
     }
     if( the_furn.crafting_pseudo_item == itype_char_smoker ) {
@@ -3828,7 +3828,7 @@ cata::optional<int> place_trap_actor::use( Character &p, item &it, bool, const t
     }
 
     const bool has_shovel = p.has_quality( quality_id( "DIG" ), 3 );
-    const bool is_diggable = here.has_flag( "DIGGABLE", pos );
+    const bool is_diggable = here.has_flag( flag_DIGGABLE, pos );
     bool bury = false;
     if( could_bury && has_shovel && is_diggable ) {
         bury = query_yn( "%s", bury_question );
@@ -4284,7 +4284,7 @@ cata::optional<int> deploy_tent_actor::use( Character &p, item &it, bool, const 
             add_msg( m_info, _( "The %s is in the way." ), c->disp_name() );
             return cata::nullopt;
         }
-        if( here.impassable( dest ) || !here.has_flag( "FLAT", dest ) ) {
+        if( here.impassable( dest ) || !here.has_flag( flag_FLAT, dest ) ) {
             add_msg( m_info, _( "The %s in that direction isn't suitable for placing the %s." ),
                      here.name( dest ), it.tname() );
             return cata::nullopt;

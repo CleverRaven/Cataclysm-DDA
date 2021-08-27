@@ -17,6 +17,7 @@
 #include "event.h"
 #include "event_bus.h"
 #include "field_type.h"
+#include "flag.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "make_static.h"
@@ -962,7 +963,7 @@ static void eff_fun_sleep( Character &u, effect &it )
         }
         if( u.has_trait( trait_M_SKIN3 ) ) {
             // Spores happen!
-            if( here.has_flag_ter_or_furn( "FUNGUS", u.pos() ) ) {
+            if( here.has_flag_ter_or_furn( flag_FUNGUS, u.pos() ) ) {
                 if( u.get_fatigue() >= 0 ) {
                     u.mod_fatigue( -5 ); // Local guides need less sleep on fungal soil
                 }
@@ -1096,7 +1097,7 @@ static void eff_fun_sleep( Character &u, effect &it )
                     if( mp == u.pos() ) {
                         continue;
                     }
-                    if( here.has_flag( "FLAT", mp ) &&
+                    if( here.has_flag( flag_FLAT, mp ) &&
                         here.pl_sees( mp, 2 ) ) {
                         g->spawn_hallucination( mp );
                         if( ++count > max_count ) {

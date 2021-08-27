@@ -6,6 +6,7 @@
 #include "cata_catch.h"
 #include "field.h"
 #include "field_type.h"
+#include "flag.h"
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -370,13 +371,13 @@ TEST_CASE( "fungal haze test", "[field]" )
     const tripoint p{ 33, 33, 0 };
     map &m = get_map();
 
-    REQUIRE_FALSE( m.has_flag( "FUNGUS", p ) );
+    REQUIRE_FALSE( m.has_flag( flag_FUNGUS, p ) );
     m.add_field( p, fd_fungal_haze, 3 );
 
     // note: time limit was chosen arbitrary. It could be too low.
     const int time_limit_turns = to_turns<int>( 1_hours );
 
-    while( !m.has_flag( "FUNGUS", p ) && fields_test_turns() < time_limit_turns ) {
+    while( !m.has_flag( flag_FUNGUS, p ) && fields_test_turns() < time_limit_turns ) {
         calendar::turn += 1_turns;
         m.process_fields();
 

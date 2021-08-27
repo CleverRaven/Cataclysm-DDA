@@ -246,7 +246,7 @@ void Character::suffer_while_underwater()
             apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
         }
     }
-    if( has_trait( trait_FRESHWATEROSMOSIS ) && !get_map().has_flag_ter( "SALT_WATER", pos() ) &&
+    if( has_trait( trait_FRESHWATEROSMOSIS ) && !get_map().has_flag_ter( flag_SALT_WATER, pos() ) &&
         get_thirst() > -60 ) {
         mod_thirst( -1 );
     }

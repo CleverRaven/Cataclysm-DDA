@@ -862,7 +862,7 @@ void Character::reach_attack( const tripoint &p )
         } else if( here.impassable( path_point ) &&
                    // Fences etc. Spears can stab through those
                    !( weapon.has_flag( flag_SPEAR ) &&
-                      here.has_flag( "THIN_OBSTACLE", path_point ) &&
+                      here.has_flag( flag_THIN_OBSTACLE, path_point ) &&
                       x_in_y( skill, 10 ) ) ) {
             /** @EFFECT_STR increases bash effects when reach attacking past something */
             here.bash( path_point, str_cur + weapon.damage_melee( damage_type::BASH ) );
@@ -1690,7 +1690,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         if( technique.knockback_follow ) {
             const optional_vpart_position vp0 = here.veh_at( pos() );
             vehicle *const veh0 = veh_pointer_or_null( vp0 );
-            bool to_swimmable = here.has_flag( "SWIMMABLE", prev_pos );
+            bool to_swimmable = here.has_flag( TFLAG_SWIMMABLE, prev_pos );
             bool to_deepwater = here.has_flag( TFLAG_DEEP_WATER, prev_pos );
 
             // Check if it's possible to move to the new tile

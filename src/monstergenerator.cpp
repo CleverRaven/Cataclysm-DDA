@@ -536,7 +536,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "DERMATIK", mattack::dermatik );
     add_hardcoded_attack( "DERMATIK_GROWTH", mattack::dermatik_growth );
     add_hardcoded_attack( "FUNGAL_TRAIL", mattack::fungal_trail );
-    add_hardcoded_attack( "PLANT", mattack::plant );
+    add_hardcoded_attack( "PLANT",  mattack::plant );
     add_hardcoded_attack( "DISAPPEAR", mattack::disappear );
     add_hardcoded_attack( "FORMBLOB", mattack::formblob );
     add_hardcoded_attack( "CALLBLOBS", mattack::callblobs );
