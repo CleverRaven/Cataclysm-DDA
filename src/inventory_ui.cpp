@@ -1880,7 +1880,7 @@ int inventory_selector::query_count()
             // TODO Tell User they did a bad
             ret = -1;
         } catch( const std::out_of_range &e ) {
-            ret = -1;
+            ret = INT_MAX;
         }
     }
 
