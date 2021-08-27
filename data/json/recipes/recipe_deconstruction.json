@@ -5277,7 +5277,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "copper", 3 ] ] ]
+    "components": [ [ [ "copper", 3 ] ] ],
+    "flags": [ "UNCRAFT_BY_CHARGE" ]
   },
   {
     "result": "coin_nickel",
@@ -5285,7 +5286,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "copper", 5 ] ] ]
+    "components": [ [ [ "copper", 5 ] ] ],
+    "flags": [ "UNCRAFT_BY_CHARGE" ]
   },
   {
     "result": "coin_dime",
@@ -5293,7 +5295,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "copper", 2 ] ] ]
+    "components": [ [ [ "copper", 2 ] ] ],
+    "flags": [ "UNCRAFT_BY_CHARGE" ]
   },
   {
     "result": "coin_quarter",
@@ -5301,7 +5304,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "copper", 6 ] ] ]
+    "components": [ [ [ "copper", 6 ] ] ],
+    "flags": [ "UNCRAFT_BY_CHARGE" ]
   },
   {
     "result": "coin_half_dollar",
@@ -5309,7 +5313,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "copper", 11 ] ] ]
+    "components": [ [ [ "copper", 11 ] ] ],
+    "flags": [ "UNCRAFT_BY_CHARGE" ]
   },
   {
     "result": "coin_dollar",
@@ -5317,7 +5322,8 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "copper", 8 ] ] ]
+    "components": [ [ [ "copper", 8 ] ] ],
+    "flags": [ "UNCRAFT_BY_CHARGE" ]
   },
   {
     "result": "coin_silver",
@@ -5325,7 +5331,17 @@
     "activity_level": "MODERATE_EXERCISE",
     "time": "2 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "silver_small", 31 ] ] ]
+    "components": [ [ [ "silver_small", 31 ] ] ],
+    "flags": [ "UNCRAFT_BY_CHARGE" ]
+  },
+  {
+    "result": "coin_gold",
+    "type": "uncraft",
+    "activity_level": "MODERATE_EXERCISE",
+    "time": "2 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "gold_small", 31 ] ] ],
+    "flags": [ "UNCRAFT_BY_CHARGE" ]
   },
   {
     "result": "spray_can",
