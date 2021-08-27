@@ -50,7 +50,6 @@
     "id": "mon_mutant_evolved",
     "type": "MONSTER",
     "name": { "str": "bestial mutant" },
-    "//": "Midgame 1v1 splat, late is fiiine",
     "description": "A towering mutated test subject, covered in thick fur and the torn bottom part of a jumpsuit.  Their legs end in large padded feet not unlike a dog's, but they still manage to stand upright, freeing up their clawed hands to tear you apart.",
     "copy-from": "mon_mutant_antler",
     "symbol": "M",
@@ -87,14 +86,13 @@
     "death_drops": "mon_mutant_evolved_death_drops",
     "regenerates": 3,
     "extend": {
-      "flags": [ "SMELLS", "KEENNOSE", "DESTROYS", "PUSH_MON", "PUSH_VEH", "CAN_OPEN_DOORS" ],
+      "flags": [ "SMELLS", "KEENNOSE", "PUSH_MON", "PUSH_VEH", "CAN_OPEN_DOORS" ],
       "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK", "HURT" ]
     },
     "delete": { "flags": [ "HIT_AND_RUN" ] }
   },
   {
     "id": "mon_mutant_antler",
-    "//": "Midgame 1v4 all right",
     "type": "MONSTER",
     "name": { "str": "ungulate mutant" },
     "description": "A gigantic mutated test subject, still wearing the tattered reamins of an orange jumpsuit.  It walks on four warped legs ending in hooves, and its head is dominated by a glistening, tangled crown of antlers that scratch the ceiling.",
@@ -127,12 +125,11 @@
     "death_drops": "mon_mutant_experimental_death_drops",
     "anger_triggers": [ "HOSTILE_SEEN", "PLAYER_CLOSE", "FRIEND_ATTACKED" ],
     "fear_triggers": [ "HURT", "FIRE" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HIT_AND_RUN", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "HEARS", "WARM", "SWARMS", "GROUP_MORALE", "BASHES", "GROUP_BASH", "HIT_AND_RUN", "PATH_AVOID_DANGER_1" ]
   },
   {
     "id": "mon_mutant_arthropod",
     "type": "MONSTER",
-    "//": "Midgame 1v1 fine exc machete, late 1v4 bloody",
     "name": { "str": "arthropod mutant" },
     "description": "A horribly mutated experimental subject.  Its original body - still wearing their orange jumpsuit - flops around lifelessly, carried by twelve segmented legs covered in hairy chitin erupting from its back.  At the base of the front pair of legs an almost human scalp gives way to a dozen irregularly-sized eyes and a set of mandibles, and from its hind end a stinger not unlike a scorpion's emerges.",
     "copy-from": "mon_mutant_antler",
@@ -174,7 +171,6 @@
   {
     "id": "mon_mutant_camouflaged",
     "type": "MONSTER",
-    "//": "Midgame 1v1 bloody, Late 1v4 bloody",
     "name": { "str": "camouflaged mutant" },
     "description": "A mutated test subject, running on all fours at alarming speed.  Its short fur changes color to match the background in an instant, making you struggle to keep the thing in focus.  Its thin limbs end in long talons, and its mouth is kept perpetually open by a set of knife-sized fangs.",
     "copy-from": "mon_mutant_antler",
@@ -260,7 +256,6 @@
     "id": "mon_mutant_mollusk",
     "type": "MONSTER",
     "name": { "str": "shelled mutant" },
-    "//": "Mid gun/explosion, late plinks it down",
     "description": "An enormous mutant hidden beneath a gray segmented shell, crawling on a carpet of innumerable tentacles covered with suckers.  It holds three thicker, branching limbs high on its front end, each dotted with dozens of unblinking eyeballs.",
     "copy-from": "mon_mutant_antler",
     "color": "dark_gray",
