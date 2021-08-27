@@ -587,7 +587,7 @@ void handle_key_blocking_activity()
                 g->cancel_activity_query( _( "Confirm:" ) );
             }
         } else if( action == "player_data" ) {
-            u.disp_info();
+            u.disp_info( true );
         } else if( action == "messages" ) {
             Messages::display_messages();
         } else if( action == "help" ) {

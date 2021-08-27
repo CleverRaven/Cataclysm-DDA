@@ -1437,7 +1437,7 @@ void character_edit_menu()
             std::string current_bloodt = io::enum_to_string( you.my_blood_type ) + ( you.blood_rh_factor ? "+" :
                                          "-" );
             smenu.text = _( "Select a value and press enter to change it." );
-            smenu.addentry( 0, true, 'n', "%s: %s", _( "Current name" ), you.get_name() );
+            smenu.addentry( 0, true, 'n', "%s: %s", _( "Current save file name" ), you.name );
             smenu.addentry( 1, true, 'a', "%s: %d", _( "Current age" ), you.base_age() );
             smenu.addentry( 2, true, 'h', "%s: %d", _( "Current height in cm" ), you.base_height() );
             smenu.addentry( 3, true, 'b', "%s: %s", _( "Current blood type:" ), current_bloodt );
@@ -1447,7 +1447,7 @@ void character_edit_menu()
                     std::string filterstring = you.name;
                     string_input_popup popup;
                     popup
-                    .title( _( "Rename:" ) )
+                    .title( _( "Rename save file:" ) )
                     .width( 85 )
                     .edit( filterstring );
                     if( popup.confirmed() ) {
@@ -1657,7 +1657,7 @@ void character_edit_menu()
         }
         break;
         case D_STATUS:
-            you.disp_info();
+            you.disp_info( true );
             break;
         case D_MISSION_ADD: {
             uilist types;
