@@ -24,6 +24,7 @@
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
+#include "panels.h"
 #include "pimpl.h"
 #include "pldata.h"
 #include "profession.h"
@@ -406,7 +407,7 @@ static void draw_stats_tab( const catacurses::window &w_stats, const Character &
     display_stat( _( "Intelligence:" ), you.get_int(), you.get_int_base(), 3, line_color( 2 ) );
     display_stat( _( "Perception:" ), you.get_per(), you.get_per_base(), 4, line_color( 3 ) );
     mvwprintz( w_stats, point( 1, 5 ), line_color( 4 ), _( "Weight:" ) );
-    right_print( w_stats, 5, 1, c_light_gray, you.get_weight_string() );
+    right_print( w_stats, 5, 1, c_light_gray, display::weight_string( you ) );
     mvwprintz( w_stats, point( 1, 6 ), line_color( 5 ), _( "Height:" ) );
     mvwprintz( w_stats, point( 25 - utf8_width( you.height_string() ), 6 ), c_light_gray,
                you.height_string() );
@@ -485,7 +486,7 @@ static void draw_stats_info( const catacurses::window &w_info, const Character &
                                              " which in turn shows how prepared you are to survive for a time without food."
                                              "  Having too much, or too little, can be unhealthy." ) );
         fold_and_print( w_info, point( 1, 1 + lines ), FULL_SCREEN_WIDTH - 2, c_light_gray,
-                        you.get_weight_long_description() );
+                        display::weight_long_description( you ) );
     } else if( line == 5 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         const int lines = fold_and_print( w_info, point( 1, 0 ), FULL_SCREEN_WIDTH - 2, c_magenta,
@@ -1153,7 +1154,7 @@ void Character::disp_info()
     }
     if( get_perceived_pain() > 0 ) {
         const stat_mod ppen = get_pain_penalty();
-        std::pair<std::string, nc_color> pain_desc = get_pain_description();
+        std::pair<std::string, nc_color> pain_desc = display::pain_text_color( *this );
         std::string pain_text;
         pain_desc.first = string_format( _( "You are in %s\n" ), pain_desc.first );
         pain_text += colorize( pain_desc.first, pain_desc.second );
