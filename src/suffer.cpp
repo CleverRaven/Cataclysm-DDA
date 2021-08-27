@@ -544,9 +544,14 @@ void Character::suffer_from_schizophrenia()
 
     // Skill raise
     if( one_turn_in( 12_hours ) ) {
-        skill_id raised_skill = Skill::random_skill();
-        add_msg_if_player( m_good, _( "You increase %1$s to level %2$d." ), raised_skill.obj().name(),
-                           get_skill_level( raised_skill ) + 1 );
+        const skill_id raised_skill = Skill::random_skill();
+        const SkillLevel level = get_all_skills().get_skill_level_object( raised_skill );
+        if( level.level() == level.knowledgeLevel() && one_in( 2 ) ) {
+            add_msg_if_player( m_good, _( "Your practical skill in %s has increased to %d!" ),
+                               raised_skill->name(), level.level() + 1 );
+        }
+        add_msg_if_player( m_good, _( "Your theoretical understanding of %s has increased to %d!" ),
+                           raised_skill->name(), level.knowledgeLevel() + 1 );
         return;
     }
 
