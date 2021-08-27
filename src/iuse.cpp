@@ -336,6 +336,7 @@ static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
+static const trait_id trait_NUMB( "NUMB" );
 
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_DIG( "DIG" );
@@ -2871,6 +2872,9 @@ cata::optional<int> iuse::dig( Character *p, item *it, bool t, const tripoint & 
             p->add_msg_if_player( m_good,
                                   _( "Exhuming a grave is fun now, when there is no one to object." ) );
             p->add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
+        } else if( p->has_trait( trait_NUMB ) ) {
+            p->add_msg_if_player( m_bad, _( "You wonder if you dig up anything usefull." ) );
+            p->add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
         } else if( !p->has_trait( trait_EATDEAD ) &&
                    !p->has_trait( trait_SAPROVORE ) ) {
             p->add_msg_if_player( m_bad, _( "Exhuming this grave is utterly disgusting!" ) );
