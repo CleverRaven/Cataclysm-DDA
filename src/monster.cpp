@@ -2636,7 +2636,18 @@ void monster::process_effects()
 
     Character &player_character = get_player_character();
     //If this monster has the ability to heal in combat, do it now.
-    const int healed_amount = heal( type->regenerates );
+    int regeneration_amount = type->regenerates;
+    //Apply effect-triggered regeneartion modifers
+    for( const auto &regeneration_modifier : type->regeneration_modifiers ) {
+        if( has_effect( regeneration_modifier.first ) ) {
+            regeneration_amount += regeneration_modifier.second;
+        }
+    }
+    //Prevent negative regeneration
+    if( regeneration_amount < 0 ) {
+        regeneration_amount = 0;
+    }
+    const int healed_amount = heal( regeneration_amount );
     if( healed_amount > 0 && one_in( 2 ) ) {
         std::string healing_format_string;
         if( healed_amount >= 50 ) {
