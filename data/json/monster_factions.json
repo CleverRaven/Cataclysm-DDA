@@ -497,6 +497,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "dark_wyrm",
-    "neutral": "mon_dark_wyrm"
+    "base_faction": "mutant",
+    "neutral": "dark_wyrm"
   }
 ]
