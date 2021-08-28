@@ -460,32 +460,64 @@ struct overmap_special_connection {
     }
 };
 
+struct overmap_special_placement_constraints {
+    numeric_interval<int> city_size{ 0, INT_MAX };
+    numeric_interval<int> city_distance{ 0, INT_MAX };
+    numeric_interval<int> occurrences;
+};
+
+enum class overmap_special_subtype {
+    fixed,
+    last
+};
+
+template<>
+struct enum_traits<overmap_special_subtype> {
+    static constexpr overmap_special_subtype last = overmap_special_subtype::last;
+};
+
+struct fixed_overmap_special_data {
+    std::list<overmap_special_terrain> terrains;
+    std::vector<overmap_special_connection> connections;
+};
+
 class overmap_special
 {
     public:
+        overmap_special() = default;
+        overmap_special( const overmap_special_id &, const overmap_special_terrain & );
+        const overmap_special_placement_constraints &get_constraints() const {
+            return constraints_;
+        }
+        bool is_rotatable() const {
+            return rotatable_;
+        }
+        bool can_spawn() const;
         /** Returns terrain at the given point. */
         const overmap_special_terrain &get_terrain_at( const tripoint &p ) const;
         /** @returns true if this special requires a city */
         bool requires_city() const;
         /** @returns whether the special at specified tripoint can belong to the specified city. */
         bool can_belong_to_city( const tripoint_om_omt &p, const city &cit ) const;
+        const cata::flat_set<std::string> &get_flags() const {
+            return flags_;
+        }
+        bool has_flag( const std::string & ) const;
+        int longest_side() const;
+        std::vector<overmap_special_terrain> preview_terrains() const;
+        const fixed_overmap_special_data &get_fixed_data() const;
+        const overmap_special_spawns &get_monster_spawns() const {
+            return monster_spawns_;
+        }
+
+        void force_one_occurrence();
 
         const mapgen_parameters &get_params() const {
-            return mapgen_params;
+            return mapgen_params_;
         }
         mapgen_arguments get_args( const mapgendata & ) const;
 
         overmap_special_id id;
-        std::list<overmap_special_terrain> terrains;
-        std::vector<overmap_special_connection> connections;
-
-        numeric_interval<int> city_size{ 0, INT_MAX };
-        numeric_interval<int> city_distance{ 0, INT_MAX };
-        numeric_interval<int> occurrences;
-
-        bool rotatable = true;
-        overmap_special_spawns spawns;
-        std::set<std::string> flags;
 
         // Used by generic_factory
         bool was_loaded = false;
@@ -494,9 +526,17 @@ class overmap_special
         void finalize_mapgen_parameters();
         void check() const;
     private:
+        overmap_special_subtype subtype_;
+        overmap_special_placement_constraints constraints_;
+        fixed_overmap_special_data fixed_data_;
+
+        bool rotatable_ = true;
+        overmap_special_spawns monster_spawns_;
+        cata::flat_set<std::string> flags_;
+
         // These locations are the default values if ones are not specified for the individual OMTs.
-        std::set<string_id<overmap_location>> default_locations;
-        mapgen_parameters mapgen_params;
+        std::set<string_id<overmap_location>> default_locations_;
+        mapgen_parameters mapgen_params_;
 };
 
 namespace overmap_terrains

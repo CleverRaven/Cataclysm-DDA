@@ -705,7 +705,7 @@ void overmap::unserialize( std::istream &fin )
                     std::string name = jsin.get_member_name();
                     if( name == "special" ) {
                         jsin.read( s );
-                        is_safe_zone = s.obj().flags.count( "SAFE_AT_WORLDGEN" ) > 0;
+                        is_safe_zone = s->has_flag( "SAFE_AT_WORLDGEN" ) > 0;
                     } else if( name == "placements" ) {
                         jsin.start_array();
                         while( !jsin.end_array() ) {

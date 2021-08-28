@@ -50,6 +50,7 @@
 #include "regional_settings.h"
 #include "rng.h"
 #include "rotatable_symbols.h"
+#include "sets_intersect.h"
 #include "simple_pathfinding.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
@@ -422,8 +423,9 @@ void overmap_specials::check_consistency()
     const size_t actual_count = std::accumulate( specials.get_all().begin(), specials.get_all().end(),
                                 static_cast< size_t >( 0 ),
     []( size_t sum, const overmap_special & elem ) {
-        return sum + ( elem.flags.count( "UNIQUE" ) ? static_cast<size_t>( 0 )  : static_cast<size_t>( (
-                           std::max( elem.occurrences.min, 0 ) ) ) ) ;
+        size_t min_occur =
+            static_cast<size_t>( std::max( elem.get_constraints().occurrences.min, 0 ) );
+        return sum + ( elem.has_flag( "UNIQUE" ) ? static_cast<size_t>( 0 ) : min_occur );
     } );
 
     if( actual_count > max_count ) {
@@ -446,23 +448,13 @@ const std::vector<overmap_special> &overmap_specials::get_all()
 
 overmap_special_batch overmap_specials::get_default_batch( const point_abs_om &origin )
 {
-    const int city_size = get_option<int>( "CITY_SIZE" );
     std::vector<const overmap_special *> res;
 
     res.reserve( specials.size() );
     for( const overmap_special &elem : specials.get_all() ) {
-        if( elem.occurrences.empty() ||
-        std::any_of( elem.terrains.begin(), elem.terrains.end(), []( const overmap_special_terrain & t ) {
-        return t.locations.empty();
-        } ) ) {
-            continue;
+        if( elem.can_spawn() ) {
+            res.push_back( &elem );
         }
-
-        if( city_size == 0 && elem.city_size.min > city_size ) {
-            continue;
-        }
-
-        res.push_back( &elem );
     }
 
     return overmap_special_batch( origin, res );
@@ -873,13 +865,59 @@ bool overmap_special_terrain::can_be_placed_on( const oter_id &oter ) const
     } );
 }
 
+namespace io
+{
+
+template<>
+std::string enum_to_string<overmap_special_subtype>( overmap_special_subtype data )
+{
+    switch( data ) {
+        // *INDENT-OFF*
+        case overmap_special_subtype::fixed: return "fixed";
+        // *INDENT-ON*
+        case overmap_special_subtype::last:
+            break;
+    }
+    debugmsg( "Invalid overmap_special_subtype" );
+    abort();
+}
+
+} // namespace io
+
+overmap_special::overmap_special( const overmap_special_id &i, const overmap_special_terrain &ter )
+    : id( i )
+    , subtype_( overmap_special_subtype::fixed )
+    , fixed_data_{ { overmap_special_terrain{ ter } }, {} }
+{}
+
+bool overmap_special::can_spawn() const
+{
+    if( get_constraints().occurrences.empty() ) {
+        return false;
+    }
+
+    if( std::any_of( fixed_data_.terrains.begin(), fixed_data_.terrains.end(),
+    []( const overmap_special_terrain & t ) {
+    return t.locations.empty();
+    } ) ) {
+        return false;
+    }
+
+    const int city_size = get_option<int>( "CITY_SIZE" );
+    if( city_size == 0 && get_constraints().city_size.min > city_size ) {
+        return false;
+    }
+
+    return true;
+}
+
 const overmap_special_terrain &overmap_special::get_terrain_at( const tripoint &p ) const
 {
-    const auto iter = std::find_if( terrains.begin(),
-    terrains.end(), [ &p ]( const overmap_special_terrain & elem ) {
+    const auto iter = std::find_if( fixed_data_.terrains.begin(), fixed_data_.terrains.end(),
+    [ &p ]( const overmap_special_terrain & elem ) {
         return elem.p == p;
     } );
-    if( iter == terrains.end() ) {
+    if( iter == fixed_data_.terrains.end() ) {
         static const overmap_special_terrain null_terrain{};
         return null_terrain;
     }
@@ -888,7 +926,8 @@ const overmap_special_terrain &overmap_special::get_terrain_at( const tripoint &
 
 bool overmap_special::requires_city() const
 {
-    return city_size.min > 0 || city_distance.max < std::max( OMAPX, OMAPY );
+    return constraints_.city_size.min > 0 ||
+           constraints_.city_distance.max < std::max( OMAPX, OMAPY );
 }
 
 bool overmap_special::can_belong_to_city( const tripoint_om_omt &p, const city &cit ) const
@@ -896,15 +935,62 @@ bool overmap_special::can_belong_to_city( const tripoint_om_omt &p, const city &
     if( !requires_city() ) {
         return true;
     }
-    if( !cit || !city_size.contains( cit.size ) ) {
+    if( !cit || !constraints_.city_size.contains( cit.size ) ) {
         return false;
     }
-    return city_distance.contains( cit.get_distance_from( p ) - ( cit.size ) );
+    return constraints_.city_distance.contains( cit.get_distance_from( p ) - ( cit.size ) );
+}
+
+bool overmap_special::has_flag( const std::string &flag ) const
+{
+    return flags_.count( flag );
+}
+
+int overmap_special::longest_side() const
+{
+    // Figure out the longest side of the special for purposes of determining our sector size
+    // when attempting placements.
+    auto min_max_x = std::minmax_element( fixed_data_.terrains.begin(), fixed_data_.terrains.end(),
+    []( const overmap_special_terrain & lhs, const overmap_special_terrain & rhs ) {
+        return lhs.p.x < rhs.p.x;
+    } );
+
+    auto min_max_y = std::minmax_element( fixed_data_.terrains.begin(), fixed_data_.terrains.end(),
+    []( const overmap_special_terrain & lhs, const overmap_special_terrain & rhs ) {
+        return lhs.p.y < rhs.p.y;
+    } );
+
+    const int width = min_max_x.second->p.x - min_max_x.first->p.x;
+    const int height = min_max_y.second->p.y - min_max_y.first->p.y;
+    return std::max( width, height ) + 1;
+}
+
+std::vector<overmap_special_terrain> overmap_special::preview_terrains() const
+{
+    std::vector<overmap_special_terrain> result;
+    for( const overmap_special_terrain &ter : fixed_data_.terrains ) {
+        if( ter.p.z == 0 ) {
+            result.push_back( ter );
+        }
+    }
+    return result;
+}
+
+const fixed_overmap_special_data &overmap_special::get_fixed_data() const
+{
+    cata_assert( subtype_ == overmap_special_subtype::fixed );
+    return fixed_data_;
+}
+
+void overmap_special::force_one_occurrence()
+{
+    constraints_.occurrences.min = 1;
+    constraints_.occurrences.max = 1;
 }
 
 mapgen_arguments overmap_special::get_args( const mapgendata &md ) const
 {
-    return mapgen_params.get_args( md, mapgen_parameter_scope::overmap_special );
+    return mapgen_params_.get_args( md, mapgen_parameter_scope::overmap_special );
 }
 
 void overmap_special::load( const JsonObject &jo, const std::string &src )
@@ -914,37 +1000,38 @@ void overmap_special::load( const JsonObject &jo, const std::string &src )
     // TODO: This comparison is a hack. Separate them properly.
     const bool is_special = jo.get_string( "type", "" ) == "overmap_special";
 
-    mandatory( jo, was_loaded, "overmaps", terrains );
-    optional( jo, was_loaded, "locations", default_locations );
+    optional( jo, was_loaded, "subtype", subtype_ );
+    mandatory( jo, was_loaded, "overmaps", fixed_data_.terrains );
+    optional( jo, was_loaded, "locations", default_locations_ );
 
     if( is_special ) {
-        mandatory( jo, was_loaded, "occurrences", occurrences );
+        mandatory( jo, was_loaded, "occurrences", constraints_.occurrences );
 
-        optional( jo, was_loaded, "connections", connections );
+        optional( jo, was_loaded, "connections", fixed_data_.connections );
 
-        assign( jo, "city_sizes", city_size, strict );
-        assign( jo, "city_distance", city_distance, strict );
+        assign( jo, "city_sizes", constraints_.city_size, strict );
+        assign( jo, "city_distance", constraints_.city_distance, strict );
     }
 
-    assign( jo, "spawns", spawns, strict );
+    assign( jo, "spawns", monster_spawns_, strict );
 
-    assign( jo, "rotate", rotatable, strict );
-    assign( jo, "flags", flags, strict );
+    assign( jo, "rotate", rotatable_, strict );
+    assign( jo, "flags", flags_, strict );
 }
 
 void overmap_special::finalize()
 {
     // If the special has default locations, then add those to the locations
     // of each of the terrains IF the terrain has no locations already.
-    if( !default_locations.empty() ) {
-        for( auto &t : terrains ) {
+    if( !default_locations_.empty() ) {
+        for( auto &t : fixed_data_.terrains ) {
             if( t.locations.empty() ) {
-                t.locations.insert( default_locations.begin(), default_locations.end() );
+                t.locations.insert( default_locations_.begin(), default_locations_.end() );
             }
         }
     }
 
-    for( auto &elem : connections ) {
+    for( auto &elem : fixed_data_.connections ) {
         const auto &oter = get_terrain_at( elem.p );
         if( !elem.terrain && oter.terrain ) {
             elem.terrain = oter.terrain->get_type_id();    // Defaulted.
@@ -995,9 +1082,9 @@ void overmap_special::finalize_mapgen_parameters()
     // Extract all the map_special-scoped params from the constituent terrains
     // and put them here
     std::string context = string_format( "overmap_special %s", id.str() );
-    for( overmap_special_terrain &t : terrains ) {
+    for( overmap_special_terrain &t : fixed_data_.terrains ) {
         std::string mapgen_id = t.terrain->get_mapgen_id();
-        mapgen_params.check_and_merge( get_map_special_params( mapgen_id ), context );
+        mapgen_params_.check_and_merge( get_map_special_params( mapgen_id ), context );
     }
 }
 
@@ -1006,7 +1093,7 @@ void overmap_special::check() const
     std::set<oter_str_id> invalid_terrains;
     std::set<tripoint> points;
 
-    for( const overmap_special_terrain &elem : terrains ) {
+    for( const overmap_special_terrain &elem : fixed_data_.terrains ) {
         const oter_str_id &oter = elem.terrain;
 
         if( !oter.is_valid() ) {
@@ -1047,7 +1134,7 @@ void overmap_special::check() const
         }
     }
 
-    for( const auto &elem : connections ) {
+    for( const auto &elem : fixed_data_.connections ) {
         const auto &oter = get_terrain_at( elem.p );
         if( !elem.terrain ) {
             debugmsg( "In overmap special \"%s\", connection [%d,%d,%d] doesn't have a terrain.",
@@ -1121,13 +1208,8 @@ void overmap::populate()
     // Remove any items that have a flag that is present in the blacklist.
     if( should_blacklist ) {
         for( auto it = enabled_specials.begin(); it != enabled_specials.end(); ) {
-            std::vector<std::string> common;
-            std::set_intersection( overmap_feature_flag.blacklist.begin(),
-                                   overmap_feature_flag.blacklist.end(),
-                                   it->special_details->flags.begin(), it->special_details->flags.end(),
-                                   std::back_inserter( common )
-                                 );
-            if( !common.empty() ) {
+            if( cata::sets_intersect( overmap_feature_flag.blacklist,
+                                      it->special_details->get_flags() ) ) {
                 it = enabled_specials.erase( it );
             } else {
                 ++it;
@@ -1138,16 +1220,11 @@ void overmap::populate()
     // Remove any items which do not have any of the flags from the whitelist.
     if( should_whitelist ) {
         for( auto it = enabled_specials.begin(); it != enabled_specials.end(); ) {
-            std::vector<std::string> common;
-            std::set_intersection( overmap_feature_flag.whitelist.begin(),
-                                   overmap_feature_flag.whitelist.end(),
-                                   it->special_details->flags.begin(), it->special_details->flags.end(),
-                                   std::back_inserter( common )
-                                 );
-            if( common.empty() ) {
-                it = enabled_specials.erase( it );
-            } else {
+            if( cata::sets_intersect( overmap_feature_flag.whitelist,
+                                      it->special_details->get_flags() ) ) {
                 ++it;
+            } else {
+                it = enabled_specials.erase( it );
             }
         }
     }
@@ -4195,7 +4272,7 @@ om_direction::type overmap::random_special_rotation( const overmap_special &spec
         int score = 0; // Number of existing connections when rotated by 'r'.
         bool valid = true;
 
-        for( const auto &con : special.connections ) {
+        for( const auto &con : special.get_fixed_data().connections ) {
             const tripoint_om_omt rp = p + om_direction::rotate( con.p, r );
             if( !inbounds( rp ) ) {
                 valid = false;
@@ -4220,7 +4297,7 @@ om_direction::type overmap::random_special_rotation( const overmap_special &spec
             ++last;
         }
 
-        if( !special.rotatable ) {
+        if( !special.is_rotatable() ) {
             break;
         }
     }
@@ -4242,8 +4319,10 @@ bool overmap::can_place_special( const overmap_special &special, const tripoint_
         return false;
     }
 
-    return std::all_of( special.terrains.begin(),
-    special.terrains.end(), [&]( const overmap_special_terrain & elem ) {
+    const fixed_overmap_special_data &fixed_data = special.get_fixed_data();
+
+    return std::all_of( fixed_data.terrains.begin(), fixed_data.terrains.end(),
+    [&]( const overmap_special_terrain & elem ) {
         const tripoint_om_omt rp = p + om_direction::rotate( elem.p, dir );
 
         if( !inbounds( rp, 1 ) ) {
@@ -4268,7 +4347,7 @@ bool overmap::can_place_special( const overmap_special &special, const tripoint_
 }
 
 // checks around the selected point to see if the special can be placed there
-void overmap::place_special(
+std::vector<tripoint_om_omt> overmap::place_special(
     const overmap_special &special, const tripoint_om_omt &p, om_direction::type dir,
     const city &cit, const bool must_be_unexplored, const bool force )
 {
@@ -4277,13 +4356,16 @@ void overmap::place_special(
         cata_assert( can_place_special( special, p, dir, must_be_unexplored ) );
     }
 
-    const bool blob = special.flags.count( "BLOB" ) > 0;
-    const bool is_safe_zone = special.flags.count( "SAFE_AT_WORLDGEN" ) > 0;
+    const bool blob = special.has_flag( "BLOB" );
+    const bool is_safe_zone = special.has_flag( "SAFE_AT_WORLDGEN" );
 
     cata::optional<mapgen_arguments> *mapgen_args_p = &*mapgen_arg_storage.emplace();
+    std::vector<tripoint_om_omt> result;
+    const fixed_overmap_special_data &fixed_data = special.get_fixed_data();
 
-    for( const auto &elem : special.terrains ) {
+    for( const auto &elem : fixed_data.terrains ) {
         const tripoint_om_omt location = p + om_direction::rotate( elem.p, dir );
+        result.push_back( location );
         const oter_id tid = elem.terrain->get_rotated( dir );
 
         overmap_special_placements[location] = special.id;
@@ -4308,7 +4390,7 @@ void overmap::place_special(
         }
     }
     // Make connections.
-    for( const auto &elem : special.connections ) {
+    for( const auto &elem : fixed_data.connections ) {
         if( elem.connection ) {
             const tripoint_om_omt rp = p + om_direction::rotate( elem.p, dir );
             om_direction::type initial_dir = elem.initial_dir;
@@ -4332,8 +4414,8 @@ void overmap::place_special(
         }
     }
     // Place spawns.
-    if( special.spawns.group ) {
-        const overmap_special_spawns &spawns = special.spawns;
+    const overmap_special_spawns &spawns = special.get_monster_spawns();
+    if( spawns.group ) {
         const int pop = rng( spawns.population.min, spawns.population.max );
         const int rad = rng( spawns.radius.min, spawns.radius.max );
         spawn_mon_group( mongroup( spawns.group, project_to<coords::sm>( p ), rad, pop ) );
@@ -4349,6 +4431,8 @@ void overmap::place_special(
             }
         }
     }
+
+    return result;
 }
 
 om_special_sectors get_sectors( const int sector_width )
@@ -4379,9 +4463,10 @@ bool overmap::place_special_attempt(
     std::shuffle( enabled_specials.begin(), enabled_specials.end(), rng_get_engine() );
     for( auto iter = enabled_specials.begin(); iter != enabled_specials.end(); ++iter ) {
         const auto &special = *iter->special_details;
+        const overmap_special_placement_constraints &constraints = special.get_constraints();
         // If we haven't finished placing minimum instances of all specials,
         // skip specials that are at their minimum count already.
-        if( !place_optional && iter->instances_placed >= special.occurrences.min ) {
+        if( !place_optional && iter->instances_placed >= constraints.occurrences.min ) {
             continue;
         }
         // City check is the fastest => it goes first.
@@ -4396,7 +4481,7 @@ bool overmap::place_special_attempt(
 
         place_special( special, p, rotation, nearest_city, false, must_be_unexplored );
 
-        if( ++iter->instances_placed >= special.occurrences.max ) {
+        if( ++iter->instances_placed >= constraints.occurrences.max ) {
             enabled_specials.erase( iter );
         }
 
@@ -4456,14 +4541,16 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         // If this special has the LAKE flag and the overmap doesn't have any
         // lake terrain, then remove this special from the candidates for this
         // overmap.
-        if( iter->special_details->flags.count( "LAKE" ) > 0 && !overmap_has_lake ) {
+        if( iter->special_details->has_flag( "LAKE" ) && !overmap_has_lake ) {
             iter = enabled_specials.erase( iter );
             continue;
         }
 
-        if( iter->special_details->flags.count( "UNIQUE" ) > 0 ) {
-            const int min = iter->special_details->occurrences.min;
-            const int max = iter->special_details->occurrences.max;
+        if( iter->special_details->has_flag( "UNIQUE" ) ) {
+            const overmap_special_placement_constraints &constraints =
+                iter->special_details->get_constraints();
+            const int min = constraints.occurrences.min;
+            const int max = constraints.occurrences.max;
 
             if( x_in_y( min, max ) ) {
                 // Min and max are overloaded to be the chance of occurrence,
@@ -4499,8 +4586,8 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
     if( std::any_of( custom_overmap_specials.begin(), custom_overmap_specials.end(),
     []( overmap_special_placement placement ) {
     return placement.instances_placed <
-           placement.special_details->occurrences.min;
-} ) ) {
+           placement.special_details->get_constraints().occurrences.min;
+    } ) ) {
         // Randomly select from among the nearest uninitialized overmap positions.
         int previous_distance = 0;
         std::vector<point_abs_om> nearest_candidates;
@@ -4556,7 +4643,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
 
             // If, after incrementing the placement count, we're at our max, remove
             // this special from our list.
-            if( it->instances_placed >= it->special_details->occurrences.max ) {
+            if( it->instances_placed >= it->special_details->get_constraints().occurrences.max ) {
                 it = enabled_specials.erase( it );
             } else {
                 it++;
@@ -4841,15 +4928,13 @@ overmap_special_id overmap_specials::create_building_from( const string_id<oter_
     static const string_id<overmap_location> land( "land" );
     static const string_id<overmap_location> swamp( "swamp" );
 
-    overmap_special new_special;
-
-    new_special.id = overmap_special_id( "FakeSpecial_" + base.str() );
-
     overmap_special_terrain ter;
     ter.terrain = base.obj().get_first().id();
     ter.locations.insert( land );
     ter.locations.insert( swamp );
-    new_special.terrains.push_back( ter );
+
+    overmap_special_id new_id( "FakeSpecial_" + base.str() );
+    overmap_special new_special( new_id, ter );
 
     return specials.insert( new_special ).id;
 }

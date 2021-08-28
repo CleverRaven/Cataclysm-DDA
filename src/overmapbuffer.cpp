@@ -1610,13 +1610,12 @@ bool overmapbuffer::is_safe( const tripoint_abs_omt &p )
     return true;
 }
 
-bool overmapbuffer::place_special(
-    const overmap_special &special, const tripoint_abs_omt &p, om_direction::type dir,
-    const bool must_be_unexplored, const bool force )
+cata::optional<std::vector<tripoint_abs_omt>> overmapbuffer::place_special(
+            const overmap_special &special, const tripoint_abs_omt &p, om_direction::type dir,
+            const bool must_be_unexplored, const bool force )
 {
     const overmap_with_local_coords om_loc = get_om_global( p );
 
-    bool placed = false;
     // Only place this special if we can actually place it per its criteria, or we're forcing
     // the placement, which is mostly a debug behavior, since a forced placement may not function
     // correctly (e.g. won't check correct underlying terrain).
@@ -1628,11 +1627,14 @@ bool overmapbuffer::place_special(
         // the single overmap. If future generation is hoisted up to the
         // buffer to spawn overmaps, then this can also be changed accordingly.
         const city c = om_loc.om->get_nearest_city( om_loc.local );
-        om_loc.om->place_special( special, om_loc.local, dir, c,
-                                  must_be_unexplored, force );
-        placed = true;
+        std::vector<tripoint_abs_omt> result;
+        for( const tripoint_om_omt &p : om_loc.om->place_special(
+                 special, om_loc.local, dir, c, must_be_unexplored, force ) ) {
+            result.push_back( project_combine( om_loc.om->pos(), p ) );
+        }
+        return result;
     }
-    return placed;
+    return cata::nullopt;
 }
 
 bool overmapbuffer::place_special( const overmap_special_id &special_id,
@@ -1653,32 +1655,10 @@ bool overmapbuffer::place_special( const overmap_special_id &special_id,
     }
 
     // Force our special to occur just once when we're spawning it here.
-    special.occurrences.min = 1;
-    special.occurrences.max = 1;
+    special.force_one_occurrence();
 
-    // Figure out the longest side of the special for purposes of determining our sector size
-    // when attempting placements.
-    const auto calculate_longest_side = [&special]() {
-        auto min_max_x = std::minmax_element( special.terrains.begin(),
-                                              special.terrains.end(), []( const overmap_special_terrain & lhs,
-        const overmap_special_terrain & rhs ) {
-            return lhs.p.x < rhs.p.x;
-        } );
-
-        auto min_max_y = std::minmax_element( special.terrains.begin(),
-                                              special.terrains.end(), []( const overmap_special_terrain & lhs,
-        const overmap_special_terrain & rhs ) {
-            return lhs.p.y < rhs.p.y;
-        } );
-
-        const int special_longest_side = std::max( min_max_x.second->p.x - min_max_x.first->p.x,
-                                         min_max_y.second->p.y - min_max_y.first->p.y ) + 1;
-
-        // If our longest side is greater than the OMSPEC_FREQ, just use that instead.
-        return std::min( special_longest_side, OMSPEC_FREQ );
-    };
-
-    const int longest_side = calculate_longest_side();
+    // If our longest side is greater than the OMSPEC_FREQ, just use that instead.
+    const int longest_side = std::min( special.longest_side(), OMSPEC_FREQ );
 
     // Predefine our sectors to search in.
     om_special_sectors sectors = get_sectors( longest_side );
