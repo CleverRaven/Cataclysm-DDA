@@ -71,7 +71,6 @@ static const species_id species_FUNGUS( "FUNGUS" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
-static const std::string flag_LIQUID( "LIQUID" );
 
 bool monster::wander()
 {
@@ -125,7 +124,7 @@ bool monster::will_move_to( const tripoint &p ) const
             if( !here.has_flag( "BURROWABLE", p ) ) {
                 return false;
             }
-        } else if( !( can_climb() && here.has_flag( "CLIMBABLE", p ) ) ) {
+        } else if( !( can_climb() && here.has_flag( TFLAG_CLIMBABLE, p ) ) ) {
             return false;
         }
     }
@@ -134,12 +133,12 @@ bool monster::will_move_to( const tripoint &p ) const
         return false;
     }
 
-    if( digs() && !here.has_flag( "DIGGABLE", p ) && !here.has_flag( "BURROWABLE", p ) ) {
+    if( digs() && !here.has_flag( TFLAG_DIGGABLE, p ) && !here.has_flag( "BURROWABLE", p ) ) {
         return false;
     }
 
     if( has_flag( MF_AQUATIC ) && (
-            !here.has_flag( "SWIMMABLE", p ) ||
+            !here.has_flag( TFLAG_SWIMMABLE, p ) ||
             // AQUATIC (confined to water) monster avoid vehicles, unless they are already underneath one
             ( here.veh_at( p ) && !here.veh_at( pos() ) )
         ) ) {
@@ -200,7 +199,7 @@ bool monster::will_move_to( const tripoint &p ) const
         // Some things are only avoided if we're not attacking
         if( attitude( &get_player_character() ) != MATT_ATTACK ) {
             // Sharp terrain is ignored while attacking
-            if( avoid_simple && here.has_flag( "SHARP", p ) &&
+            if( avoid_simple && here.has_flag( TFLAG_SHARP, p ) &&
                 !( type->size == creature_size::tiny || flies() ) ) {
                 return false;
             }
@@ -678,7 +677,7 @@ static float get_stagger_adjust( const tripoint &source, const tripoint &destina
 bool monster::is_aquatic_danger( const tripoint &at_pos )
 {
     map &here = get_map();
-    return here.has_flag_ter( TFLAG_DEEP_WATER, at_pos ) && here.has_flag( flag_LIQUID, at_pos ) &&
+    return here.has_flag_ter( TFLAG_DEEP_WATER, at_pos ) && here.has_flag( TFLAG_LIQUID, at_pos ) &&
            can_drown() && !here.veh_at( at_pos ).part_with_feature( "BOARDABLE", false );
 }
 
@@ -1337,40 +1336,40 @@ int monster::calc_movecost( const tripoint &f, const tripoint &t ) const
     const int source_cost = here.move_cost( f );
     const int dest_cost = here.move_cost( t );
     // Digging and flying monsters ignore terrain cost
-    if( flies() || ( digging() && here.has_flag( "DIGGABLE", t ) ) ) {
+    if( flies() || ( digging() && here.has_flag( TFLAG_DIGGABLE, t ) ) ) {
         movecost = 100;
         // Swimming monsters move super fast in water
     } else if( swims() ) {
-        if( here.has_flag( "SWIMMABLE", f ) ) {
+        if( here.has_flag( TFLAG_SWIMMABLE, f ) ) {
             movecost += 25;
         } else {
             movecost += 50 * here.move_cost( f );
         }
-        if( here.has_flag( "SWIMMABLE", t ) ) {
+        if( here.has_flag( TFLAG_SWIMMABLE, t ) ) {
             movecost += 25;
         } else {
             movecost += 50 * here.move_cost( t );
         }
     } else if( can_submerge() ) {
         // No-breathe monsters have to walk underwater slowly
-        if( here.has_flag( "SWIMMABLE", f ) ) {
+        if( here.has_flag( TFLAG_SWIMMABLE, f ) ) {
             movecost += 250;
         } else {
             movecost += 50 * here.move_cost( f );
         }
-        if( here.has_flag( "SWIMMABLE", t ) ) {
+        if( here.has_flag( TFLAG_SWIMMABLE, t ) ) {
             movecost += 250;
         } else {
             movecost += 50 * here.move_cost( t );
         }
         movecost /= 2;
     } else if( climbs() ) {
-        if( here.has_flag( "CLIMBABLE", f ) ) {
+        if( here.has_flag( TFLAG_CLIMBABLE, f ) ) {
             movecost += 150;
         } else {
             movecost += 50 * here.move_cost( f );
         }
-        if( here.has_flag( "CLIMBABLE", t ) ) {
+        if( here.has_flag( TFLAG_CLIMBABLE, t ) ) {
             movecost += 150;
         } else {
             movecost += 50 * here.move_cost( t );
@@ -1460,7 +1459,7 @@ bool monster::bash_at( const tripoint &p )
     map &here = get_map();
     if( !( here.is_bashable_furn( p ) || here.veh_at( p ).obstacle_at_part() ) ) {
         // if the only thing here is road or flat, rarely bash it
-        bool flat_ground = here.has_flag( "ROAD", p ) || here.has_flag( "FLAT", p );
+        bool flat_ground = here.has_flag( "ROAD", p ) || here.has_flag( TFLAG_FLAT, p );
         if( !here.is_bashable_ter( p ) || ( flat_ground && !one_in( 50 ) ) ) {
             return false;
         }

@@ -2355,7 +2355,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             moves -= 100;
             moved = true;
         }
-    } else if( get_dex() > 1 && here.has_flag_ter_or_furn( "CLIMBABLE", p ) ) {
+    } else if( get_dex() > 1 && here.has_flag_ter_or_furn( TFLAG_CLIMBABLE, p ) ) {
         ///\EFFECT_DEX_NPC increases chance to climb CLIMBABLE furniture or terrain
         int climb = get_dex();
         if( one_in( climb ) ) {
@@ -2398,7 +2398,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
                 here.creature_on_trap( *mounted_creature );
             }
         }
-        if( here.has_flag( "UNSTABLE", pos() ) ) {
+        if( here.has_flag( TFLAG_UNSTABLE, pos() ) ) {
             add_effect( effect_bouldering, 1_turns, true );
         } else if( has_effect( effect_bouldering ) ) {
             remove_effect( effect_bouldering );

@@ -64,10 +64,7 @@
 static const trap_str_id tr_caltrops( "tr_caltrops" );
 static const trap_str_id tr_nailboard( "tr_nailboard" );
 
-static const std::string flag_DIGGABLE( "DIGGABLE" );
-static const std::string flag_FLAT( "FLAT" );
 static const std::string flag_FLOWER( "FLOWER" );
-static const std::string flag_LIQUID( "LIQUID" );
 static const std::string flag_ORGANIC( "ORGANIC" );
 static const std::string flag_PLANT( "PLANT" );
 static const std::string flag_SHRUB( "SHRUB" );
@@ -1128,7 +1125,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
             const point p( rng( 3, SEEX * 2 - 4 ), rng( SEEY, SEEY * 2 - 2 ) );
-            if( m.has_flag( flag_DIGGABLE, p ) ) {
+            if( m.has_flag( TFLAG_DIGGABLE, p ) ) {
                 place_trap_if_clear( m, p, tr_landmine_buried );
             } else {
                 place_trap_if_clear( m, p, tr_landmine );
@@ -1231,7 +1228,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
             const point p3( rng( 3, SEEX * 2 - 4 ), rng( 1, SEEY ) );
-            if( m.has_flag( flag_DIGGABLE, p3 ) ) {
+            if( m.has_flag( TFLAG_DIGGABLE, p3 ) ) {
                 place_trap_if_clear( m, p3, tr_landmine_buried );
             } else {
                 place_trap_if_clear( m, p3, tr_landmine );
@@ -1378,7 +1375,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
             const point p5( rng( SEEX + 1, SEEX * 2 - 2 ), rng( 3, SEEY * 2 - 4 ) );
-            if( m.has_flag( flag_DIGGABLE, p5 ) ) {
+            if( m.has_flag( TFLAG_DIGGABLE, p5 ) ) {
                 place_trap_if_clear( m, p5, tr_landmine_buried );
             } else {
                 place_trap_if_clear( m, p5, tr_landmine );
@@ -1517,7 +1514,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
             const point p7( rng( 1, SEEX ), rng( 3, SEEY * 2 - 4 ) );
-            if( m.has_flag( flag_DIGGABLE, p7 ) ) {
+            if( m.has_flag( TFLAG_DIGGABLE, p7 ) ) {
                 place_trap_if_clear( m, p7, tr_landmine_buried );
             } else {
                 place_trap_if_clear( m, p7, tr_landmine );
@@ -1754,7 +1751,7 @@ static bool mx_spider( map &m, const tripoint &abs_sub )
         for( int j = 0; j < SEEY * 2; j++ ) {
             const tripoint location( i, j, abs_sub.z );
 
-            bool should_web_flat = m.has_flag_ter( flag_FLAT, location ) && !one_in( 3 );
+            bool should_web_flat = m.has_flag_ter( TFLAG_FLAT, location ) && !one_in( 3 );
             bool should_web_shrub = m.has_flag_ter( flag_SHRUB, location ) && !one_in( 4 );
             bool should_web_tree = m.has_flag_ter( flag_TREE, location ) && !one_in( 4 );
 
@@ -2097,7 +2094,7 @@ static void burned_ground_parser( map &m, const tripoint &loc )
         while( m.is_bashable( loc ) ) { // one is not enough
             m.destroy( loc, true );
         }
-        if( one_in( 5 ) && !tr.has_flag( flag_LIQUID ) ) {
+        if( one_in( 5 ) && !tr.has_flag( TFLAG_LIQUID ) ) {
             m.spawn_item( loc, itype_ash, 1, rng( 1, 10 ) );
         }
     } else if( ter_furn_has_flag( tr, fid, TFLAG_FLAMMABLE_ASH ) ) {
@@ -2105,7 +2102,7 @@ static void burned_ground_parser( map &m, const tripoint &loc )
             m.destroy( loc, true );
         }
         m.furn_set( loc, f_ash );
-        if( !tr.has_flag( flag_LIQUID ) ) {
+        if( !tr.has_flag( TFLAG_LIQUID ) ) {
             m.spawn_item( loc, itype_ash, 1, rng( 1, 100 ) );
         }
     }

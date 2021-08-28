@@ -365,8 +365,6 @@ static const bionic_id bio_tools( "bio_tools" );
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 
 // terrain/furn flags
-static const std::string flag_CURRENT( "CURRENT" );
-static const std::string flag_DIGGABLE( "DIGGABLE" );
 static const std::string flag_FISHABLE( "FISHABLE" );
 static const std::string flag_LIQUIDCONT( "LIQUIDCONT" );
 static const std::string flag_PLANT( "PLANT" );
@@ -1823,7 +1821,7 @@ static bool good_fishing_spot( const tripoint &pos, Character *p )
     const oter_id &cur_omt =
         overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( pos ) ) ) );
     std::string om_id = cur_omt.id().c_str();
-    if( fishables.empty() && !here.has_flag( "CURRENT", pos ) &&
+    if( fishables.empty() && !here.has_flag( TFLAG_CURRENT, pos ) &&
         om_id.find( "river_" ) == std::string::npos && !cur_omt->is_lake() && !cur_omt->is_lake_shore() ) {
         p->add_msg_if_player( m_info, _( "You doubt you will have much luck catching fish here." ) );
         return false;
@@ -2814,7 +2812,7 @@ cata::optional<int> iuse::dig( Character *p, item *it, bool t, const tripoint & 
     const tripoint dig_point = p->pos();
 
     map &here = get_map();
-    const bool can_dig_here = here.has_flag( "DIGGABLE", dig_point ) &&
+    const bool can_dig_here = here.has_flag( TFLAG_DIGGABLE, dig_point ) &&
                               !here.has_furn( dig_point ) &&
                               !here.can_see_trap_at( dig_point, *p ) &&
                               ( here.ter( dig_point ) == t_grave_new || here.i_at( dig_point ).empty() ) &&
@@ -2922,12 +2920,12 @@ cata::optional<int> iuse::dig_channel( Character *p, item *it, bool t, const tri
     tripoint east = dig_point + point_east;
 
     map &here = get_map();
-    const bool can_dig_here = here.has_flag( flag_DIGGABLE, dig_point ) &&
+    const bool can_dig_here = here.has_flag( TFLAG_DIGGABLE, dig_point ) &&
                               !here.has_furn( dig_point ) &&
                               !here.can_see_trap_at( dig_point, *p ) && here.i_at( dig_point ).empty() &&
                               !here.veh_at( dig_point ) &&
-                              ( here.has_flag( flag_CURRENT, north ) ||  here.has_flag( flag_CURRENT, south ) ||
-                                here.has_flag( flag_CURRENT, east ) ||  here.has_flag( flag_CURRENT, west ) );
+                              ( here.has_flag( TFLAG_CURRENT, north ) ||  here.has_flag( TFLAG_CURRENT, south ) ||
+                                here.has_flag( TFLAG_CURRENT, east ) ||  here.has_flag( TFLAG_CURRENT, west ) );
 
     if( !can_dig_here ) {
         p->add_msg_if_player(
@@ -3359,8 +3357,8 @@ cata::optional<int> iuse::jackhammer( Character *p, item *it, bool, const tripoi
     }
 
     map &here = get_map();
-    bool mineable_furn = here.has_flag_furn( "MINEABLE", pnt );
-    bool mineable_ter = here.has_flag_ter( "MINEABLE", pnt );
+    bool mineable_furn = here.has_flag_furn( TFLAG_MINEABLE, pnt );
+    bool mineable_ter = here.has_flag_ter( TFLAG_MINEABLE, pnt );
     if( !mineable_furn && !mineable_ter ) {
         p->add_msg_if_player( m_info, _( "You can't drill there." ) );
         return cata::nullopt;
@@ -3470,8 +3468,8 @@ cata::optional<int> iuse::pickaxe( Character *p, item *it, bool, const tripoint 
     }
 
     map &here = get_map();
-    bool mineable_furn = here.has_flag_furn( "MINEABLE", pnt );
-    bool mineable_ter = here.has_flag_ter( "MINEABLE", pnt );
+    bool mineable_furn = here.has_flag_furn( TFLAG_MINEABLE, pnt );
+    bool mineable_ter = here.has_flag_ter( TFLAG_MINEABLE, pnt );
     if( !mineable_furn && !mineable_ter ) {
         p->add_msg_if_player( m_info, _( "You can't mine there." ) );
         return cata::nullopt;
@@ -6657,7 +6655,7 @@ static std::string colorized_feature_description_at( const tripoint &center_poin
         if( !sign_message.empty() ) {
             furn_str += string_format( _( " with message \"%s\"" ), sign_message );
         }
-        if( !furn->has_flag( "CONTAINER" ) && !furn->has_flag( "SEALED" ) ) {
+        if( !furn->has_flag( "CONTAINER" ) && !furn->has_flag( TFLAG_SEALED ) ) {
             const item item = get_top_item_at_point( center_point, min_visible_volume );
             if( !item.is_null() ) {
                 furn_str += string_format( _( " with %s on it" ), colorized_item_name( item ) );
@@ -7638,7 +7636,7 @@ cata::optional<int> iuse::ehandcuffs( Character *p, item *it, bool t, const trip
 
     if( t ) {
 
-        if( get_map().has_flag( "SWIMMABLE", pos.xy() ) ) {
+        if( get_map().has_flag( TFLAG_SWIMMABLE, pos.xy() ) ) {
             it->unset_flag( flag_NO_UNWIELD );
             it->ammo_unset();
             it->active = false;

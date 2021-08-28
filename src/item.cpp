@@ -172,10 +172,6 @@ static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
 static const std::string flag_SILENT( "SILENT" );
 
 // terrain-furniture flags
-static const std::string flag_FLAMMABLE( "FLAMMABLE" );
-static const std::string flag_FLAMMABLE_ASH( "FLAMMABLE_ASH" );
-static const std::string flag_DEEP_WATER( "DEEP_WATER" );
-static const std::string flag_LIQUID( "LIQUID" );
 static const std::string flag_LIQUIDCONT( "LIQUIDCONT" );
 
 static const matec_id RAPID( "RAPID" );
@@ -10387,8 +10383,8 @@ bool item::process_litcig( Character *carrier, const tripoint &pos )
         if( item_counter % 5 == 0 ) {
             // lit cigarette can start fires
             if( here.flammable_items_at( pos ) ||
-                here.has_flag( flag_FLAMMABLE, pos ) ||
-                here.has_flag( flag_FLAMMABLE_ASH, pos ) ) {
+                here.has_flag( TFLAG_FLAMMABLE, pos ) ||
+                here.has_flag( TFLAG_FLAMMABLE_ASH, pos ) ) {
                 here.add_field( pos, fd_fire, 1 );
             }
         }
@@ -10442,11 +10438,11 @@ bool item::process_extinguish( Character *carrier, const tripoint &pos )
             break;
     }
     map &here = get_map();
-    if( in_inv && !in_veh && here.has_flag( flag_DEEP_WATER, pos ) ) {
+    if( in_inv && !in_veh && here.has_flag( TFLAG_DEEP_WATER, pos ) ) {
         extinguish = true;
         submerged = true;
     }
-    if( ( !in_inv && here.has_flag( flag_LIQUID, pos ) && !here.veh_at( pos ) ) ||
+    if( ( !in_inv && here.has_flag( TFLAG_LIQUID, pos ) && !here.veh_at( pos ) ) ||
         ( precipitation && !g->is_sheltered( pos ) ) ) {
         extinguish = true;
     }
