@@ -121,7 +121,7 @@ static void draw_rectangle( const catacurses::window &w, nc_color, point top_lef
     }
 }
 
-std::pair<nc_color, std::string> display::str_string( const Character &p )
+std::pair<std::string, nc_color> display::str_string( const Character &p )
 {
     nc_color clr;
 
@@ -132,11 +132,11 @@ std::pair<nc_color, std::string> display::str_string( const Character &p )
     } else if( p.get_str() < p.get_str_base() ) {
         clr = c_red;
     }
-    return std::make_pair( clr, _( "Str " ) + ( p.get_str() < 100 ? std::to_string(
-                               p.get_str() ) : "++" ) );
+    return std::make_pair( _( "Str " ) + ( p.get_str() < 100 ? std::to_string(
+            p.get_str() ) : "++" ), clr );
 }
 
-std::pair<nc_color, std::string> display::dex_string( const Character &p )
+std::pair<std::string, nc_color> display::dex_string( const Character &p )
 {
     nc_color clr;
 
@@ -147,11 +147,11 @@ std::pair<nc_color, std::string> display::dex_string( const Character &p )
     } else if( p.get_dex() < p.get_dex_base() ) {
         clr = c_red;
     }
-    return std::make_pair( clr, _( "Dex " ) + ( p.get_dex() < 100 ? std::to_string(
-                               p.get_dex() ) : "++" ) );
+    return std::make_pair( _( "Dex " ) + ( p.get_dex() < 100 ? std::to_string(
+            p.get_dex() ) : "++" ), clr );
 }
 
-std::pair<nc_color, std::string> display::int_string( const Character &p )
+std::pair<std::string, nc_color> display::int_string( const Character &p )
 {
     nc_color clr;
 
@@ -162,11 +162,11 @@ std::pair<nc_color, std::string> display::int_string( const Character &p )
     } else if( p.get_int() < p.get_int_base() ) {
         clr = c_red;
     }
-    return std::make_pair( clr, _( "Int " ) + ( p.get_int() < 100 ? std::to_string(
-                               p.get_int() ) : "++" ) );
+    return std::make_pair( _( "Int " ) + ( p.get_int() < 100 ? std::to_string(
+            p.get_int() ) : "++" ), clr );
 }
 
-std::pair<nc_color, std::string> display::per_string( const Character &p )
+std::pair<std::string, nc_color> display::per_string( const Character &p )
 {
     nc_color clr;
 
@@ -177,8 +177,8 @@ std::pair<nc_color, std::string> display::per_string( const Character &p )
     } else if( p.get_per() < p.get_per_base() ) {
         clr = c_red;
     }
-    return std::make_pair( clr, _( "Per " ) + ( p.get_per() < 100 ? std::to_string(
-                               p.get_per() ) : "++" ) );
+    return std::make_pair( _( "Per " ) + ( p.get_per() < 100 ? std::to_string(
+            p.get_per() ) : "++" ), clr );
 }
 
 static nc_color focus_color( int focus )
@@ -1272,22 +1272,22 @@ std::pair<std::string, nc_color> display::pain_text_color( const Character &u )
 static void draw_stats( avatar &u, const catacurses::window &w )
 {
     werase( w );
-    nc_color stat_clr = display::str_string( u ).first;
+    nc_color stat_clr = display::str_string( u ).second;
     mvwprintz( w, point_zero, c_light_gray, _( "STR" ) );
     int stat = u.get_str();
     mvwprintz( w, point( stat < 10 ? 5 : 4, 0 ), stat_clr,
                stat < 100 ? std::to_string( stat ) : "99+" );
-    stat_clr = display::dex_string( u ).first;
+    stat_clr = display::dex_string( u ).second;
     stat = u.get_dex();
     mvwprintz( w, point( 9, 0 ), c_light_gray, _( "DEX" ) );
     mvwprintz( w, point( stat < 10 ? 14 : 13, 0 ), stat_clr,
                stat < 100 ? std::to_string( stat ) : "99+" );
-    stat_clr = display::int_string( u ).first;
+    stat_clr = display::int_string( u ).second;
     stat = u.get_int();
     mvwprintz( w, point( 17, 0 ), c_light_gray, _( "INT" ) );
     mvwprintz( w, point( stat < 10 ? 22 : 21, 0 ), stat_clr,
                stat < 100 ? std::to_string( stat ) : "99+" );
-    stat_clr = display::per_string( u ).first;
+    stat_clr = display::per_string( u ).second;
     stat = u.get_per();
     mvwprintz( w, point( 25, 0 ), c_light_gray, _( "PER" ) );
     mvwprintz( w, point( stat < 10 ? 30 : 29, 0 ), stat_clr,
@@ -1592,13 +1592,13 @@ static void draw_stat_narrow( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 19, 0 ), c_light_gray, _( "Dex  :" ) );
     mvwprintz( w, point( 19, 1 ), c_light_gray, _( "Per  :" ) );
 
-    nc_color stat_clr = display::str_string( u ).first;
+    nc_color stat_clr = display::str_string( u ).second;
     mvwprintz( w, point( 8, 0 ), stat_clr, "%s", u.get_str() );
-    stat_clr = display::int_string( u ).first;
+    stat_clr = display::int_string( u ).second;
     mvwprintz( w, point( 8, 1 ), stat_clr, "%s", u.get_int() );
-    stat_clr = display::dex_string( u ).first;
+    stat_clr = display::dex_string( u ).second;
     mvwprintz( w, point( 26, 0 ), stat_clr, "%s", u.get_dex() );
-    stat_clr = display::per_string( u ).first;
+    stat_clr = display::per_string( u ).second;
     mvwprintz( w, point( 26, 1 ), stat_clr, "%s", u.get_per() );
 
     std::pair<std::string, nc_color> power_pair = display::power_stat( u );
@@ -1642,13 +1642,13 @@ static void draw_stat_wide( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 16, 0 ), c_light_gray, _( "Dex  :" ) );
     mvwprintz( w, point( 16, 1 ), c_light_gray, _( "Per  :" ) );
 
-    nc_color stat_clr = display::str_string( u ).first;
+    nc_color stat_clr = display::str_string( u ).second;
     mvwprintz( w, point( 8, 0 ), stat_clr, "%s", u.get_str() );
-    stat_clr = display::int_string( u ).first;
+    stat_clr = display::int_string( u ).second;
     mvwprintz( w, point( 8, 1 ), stat_clr, "%s", u.get_int() );
-    stat_clr = display::dex_string( u ).first;
+    stat_clr = display::dex_string( u ).second;
     mvwprintz( w, point( 23, 0 ), stat_clr, "%s", u.get_dex() );
-    stat_clr = display::per_string( u ).first;
+    stat_clr = display::per_string( u ).second;
     mvwprintz( w, point( 23, 1 ), stat_clr, "%s", u.get_per() );
 
     std::pair<std::string, nc_color> power_pair = display::power_stat( u );
@@ -1991,14 +1991,14 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
 
     if( !veh ) {
         // stats
-        auto pair = display::str_string( u );
-        mvwprintz( w, point( 38, 0 ), pair.first, pair.second );
+        std::pair<std::string, nc_color> pair = display::str_string( u );
+        mvwprintz( w, point( 38, 0 ), pair.second, pair.first );
         pair = display::dex_string( u );
-        mvwprintz( w, point( 38, 1 ), pair.first, pair.second );
+        mvwprintz( w, point( 38, 1 ), pair.second, pair.first );
         pair = display::int_string( u );
-        mvwprintz( w, point( 38, 2 ), pair.first, pair.second );
+        mvwprintz( w, point( 38, 2 ), pair.second, pair.first );
         pair = display::per_string( u );
-        mvwprintz( w, point( 38, 3 ), pair.first, pair.second );
+        mvwprintz( w, point( 38, 3 ), pair.second, pair.first );
     }
 
     // print safe mode// print safe mode

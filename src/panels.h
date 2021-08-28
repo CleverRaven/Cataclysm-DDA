@@ -75,10 +75,10 @@ std::pair<std::string, nc_color> move_mode_text_color( const Character &u );
 std::pair<std::string, nc_color> temp_stat( const Character &u );
 std::pair<std::string, nc_color> power_stat( const Character &u );
 std::pair<std::string, nc_color> mana_stat( const Character &you );
-std::pair<nc_color, std::string> str_string( const Character &p );
-std::pair<nc_color, std::string> dex_string( const Character &p );
-std::pair<nc_color, std::string> int_string( const Character &p );
-std::pair<nc_color, std::string> per_string( const Character &p );
+std::pair<std::string, nc_color> str_string( const Character &p );
+std::pair<std::string, nc_color> dex_string( const Character &p );
+std::pair<std::string, nc_color> int_string( const Character &p );
+std::pair<std::string, nc_color> per_string( const Character &p );
 
 // Functions returning colorized string
 // gets the string that describes your weight
