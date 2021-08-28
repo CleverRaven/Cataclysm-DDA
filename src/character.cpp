@@ -8013,7 +8013,7 @@ nc_color Character::limb_color( const bodypart_id &bp, bool bleed, bool bite, bo
 
 std::string Character::get_name() const
 {
-    return play_name.empty() ? name : play_name;
+    return play_name.value_or( name );
 }
 
 std::vector<std::string> Character::get_grammatical_genders() const

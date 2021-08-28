@@ -1122,14 +1122,18 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
             you.male = !you.male;
             popup( _( "Gender set to %s." ), you.male ? _( "Male" ) : _( "Female" ) );
         } else if( cmenu.ret == 2 ) {
-            std::string filterstring = you.play_name;
+            std::string filterstring = you.play_name.value_or( std::string() );
             string_input_popup popup;
             popup
             .title( _( "New name ( leave empty to reset ):" ) )
             .width( 85 )
             .edit( filterstring );
             if( popup.confirmed() ) {
-                you.play_name = filterstring;
+                if( filterstring.empty() ) {
+                    you.play_name.reset();
+                } else {
+                    you.play_name = filterstring;
+                }
             }
         }
     }
