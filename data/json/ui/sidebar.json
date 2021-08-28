@@ -600,6 +600,13 @@
     "var": "date_text"
   },
   {
+    "id": "place_desc",
+    "type": "widget",
+    "label": "Place",
+    "style": "text",
+    "var": "place_text"
+  },
+  {
     "id": "root_layout_wide",
     "type": "widget",
     "style": "layout",
