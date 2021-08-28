@@ -335,9 +335,12 @@ const T *creature_tracker::creature_at( const tripoint &p, bool allow_hallucinat
 }
 
 template const monster *creature_tracker::creature_at<monster>( const tripoint &, bool ) const;
+template monster *creature_tracker::creature_at<monster>( const tripoint &, bool );
 template const npc *creature_tracker::creature_at<npc>( const tripoint &, bool ) const;
+template npc *creature_tracker::creature_at<npc>( const tripoint &, bool );
 template const avatar *creature_tracker::creature_at<avatar>( const tripoint &, bool ) const;
 template avatar *creature_tracker::creature_at<avatar>( const tripoint &, bool );
 template const Character *creature_tracker::creature_at<Character>( const tripoint &, bool ) const;
 template Character *creature_tracker::creature_at<Character>( const tripoint &, bool );
 template const Creature *creature_tracker::creature_at<Creature>( const tripoint &, bool ) const;
+template Creature *creature_tracker::creature_at<Creature>( const tripoint &, bool );
