@@ -6684,6 +6684,21 @@
   },
   {
     "type": "mutation",
+    "id": "PROF_KNIGHT",
+    "name": { "str": "Knighthood" },
+    "points": 0,
+    "description": "Years of gruelling training and fighting experience have made you a lean, mean, killing machine. Where will you find a bladesmith to repair your sword though?",
+    "valid": false,
+    "initial_ma_styles": [ 
+      "style_swordsmanship",
+      "style_medievalpole",
+      "style_fencing"
+    ],
+    "purifiable": false,
+    "profession": true
+  },
+  {
+    "type": "mutation",
     "id": "PROF_BOXER",
     "name": { "str": "Pugilist" },
     "points": 0,
