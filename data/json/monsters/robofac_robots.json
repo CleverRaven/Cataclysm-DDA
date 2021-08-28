@@ -56,6 +56,8 @@
       "COLDPROOF",
       "NO_BREATHE",
       "NOHEAD",
+      "HEARS",
+      "GOODHEARING",
       "PRIORITIZE_TARGETS",
       "STUN_IMMUNE",
       "PACIFIST",
