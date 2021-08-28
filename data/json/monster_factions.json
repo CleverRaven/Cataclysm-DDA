@@ -408,6 +408,11 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "robofac_spy",
+    "friendly": [ "human", "player" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "exodii",
     "base_faction": "human",
     "neutral": [ "fish", "small_animal", "herbivore" ],

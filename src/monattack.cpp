@@ -2232,6 +2232,21 @@ bool mattack::disappear( monster *z )
     return true;
 }
 
+bool mattack::depart( monster *z )
+{
+    map &here = get_map();
+    if( z->has_flag( MF_FLIES ) && here.is_outside( z->pos() ) ) {
+        add_msg_if_player_sees( *z, m_info, _( "The %s turns to a steady climb before departing." ),
+                                z->name() );
+    } else {
+        add_msg_if_player_sees( *z, m_info, _( "The %s departs." ), z->name() );
+    }
+    z->no_corpse_quiet = true;
+    z->no_extra_death_drops = true;
+    z->die( nullptr );
+    return true;
+}
+
 static void poly_keep_speed( monster &mon, const mtype_id &id )
 {
     // Retain old speed after polymorph
