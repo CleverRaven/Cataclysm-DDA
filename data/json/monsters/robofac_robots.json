@@ -38,7 +38,7 @@
     "type": "MONSTER",
     "copy-from": "mon_eyebot",
     "name": { "str": "Hub 01 camspy", "str_pl": "Hub 01 camspies" },
-    "description": "A white and brown quadcopter drone mounting  what looks to be a camera dome and a large antenna array.  It calmly hovers a comfortable distance above the ground, surveying its surroundings with cold indifference.",
+    "description": "A white and brown quadcopter drone mounting what looks to be a camera dome and a large antenna array.  It calmly hovers a comfortable distance above the ground, surveying its surroundings with cold indifference.",
     "default_faction": "robofac_spy",
     "tracking_distance": 10,
     "aggression": 50,

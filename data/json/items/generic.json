@@ -1085,7 +1085,7 @@
     "id": "broken_robofac_camspy",
     "copy-from": "broken_eyebot",
     "name": { "str": "broken camspy", "str_pl": "broken camspies" },
-    "description": "A broken camspy.  It probably wont spy anything ever again.  Could be gutted for parts."
+    "description": "A broken camspy.  It probably won't spy on anything ever again.  Could be gutted for parts."
   },
   {
     "type": "GENERIC",
