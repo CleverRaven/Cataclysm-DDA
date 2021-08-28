@@ -10,7 +10,6 @@
     "remove_memorial_log": "Eradicated the spiders in his blood.",
     "apply_message": "You itch along your veins…",
     "rating": "bad",
-    "resist_effects": [ "took_stimpack" ],
     "base_mods": {
       "thirst_tick": [ 580 ],
       "thirst_min": [ 1 ],
@@ -23,13 +22,5 @@
       "pain_min": [ 2, 0 ]
     },
     "blood_analysis_description": "Blood Spiders"
-  },
-  {
-    "type": "effect_type",
-    "id": "took_stimpack",
-    "rating": "good",
-    "blood_analysis_description": "Stimulant Remnants",
-    "max_duration": 57600,
-    "dur_add_perc": 30
   }
 ]
