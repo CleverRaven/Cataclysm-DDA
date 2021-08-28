@@ -688,7 +688,7 @@ std::pair<nc_color, std::string> display::temp_delta_arrows( const Character &u 
     return std::make_pair( temp_color, temp_message );
 }
 
-std::pair<nc_color, std::string> display::temp_stat( const Character &u )
+std::pair<std::string, nc_color> display::temp_stat( const Character &u )
 {
     /// Find hottest/coldest bodypart
     // Calculate the most extreme body temperatures
@@ -719,7 +719,7 @@ std::pair<nc_color, std::string> display::temp_stat( const Character &u )
         temp_color = c_blue;
         temp_string = _( "Freezing!" );
     }
-    return std::make_pair( temp_color, temp_string );
+    return std::make_pair( temp_string, temp_color );
 }
 
 static std::string get_armor( const avatar &u, bodypart_id bp, unsigned int truncate = 0 )
@@ -1428,10 +1428,10 @@ static void draw_needs_compact( const avatar &u, const catacurses::window &w )
 
     hunger_pair = display::thirst_text_color( u );
     mvwprintz( w, point( 17, 0 ), hunger_pair.second, hunger_pair.first );
-    auto pair = display::temp_stat( u );
-    mvwprintz( w, point( 17, 1 ), pair.first, pair.second );
+    std::pair<std::string, nc_color> temp_pair = display::temp_stat( u );
+    mvwprintz( w, point( 17, 1 ), temp_pair.second, temp_pair.first );
     const auto arrow = display::temp_delta_arrows( u );
-    mvwprintz( w, point( 17 + utf8_width( pair.second ), 1 ), arrow.first, arrow.second );
+    mvwprintz( w, point( 17 + utf8_width( temp_pair.first ), 1 ), arrow.first, arrow.second );
 
     mvwprintz( w, point( 17, 2 ), c_light_gray, _( "Focus" ) );
     mvwprintz( w, point( 24, 2 ), focus_color( u.get_focus() ), std::to_string( u.get_focus() ) );
@@ -1781,7 +1781,7 @@ static void draw_needs_narrow( const avatar &u, const catacurses::window &w )
     std::pair<std::string, nc_color> hunger_pair = display::hunger_text_color( u );
     std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( u );
     std::pair<std::string, nc_color> rest_pair = display::fatigue_text_color( u );
-    std::pair<nc_color, std::string> temp_pair = display::temp_stat( u );
+    std::pair<std::string, nc_color> temp_pair = display::temp_stat( u );
     std::pair<std::string, nc_color> pain_pair = display::pain_text_color( u );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Hunger:" ) );
@@ -1794,7 +1794,7 @@ static void draw_needs_narrow( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 8, 1 ), thirst_pair.second, thirst_pair.first );
     mvwprintz( w, point( 8, 2 ), rest_pair.second, rest_pair.first );
     mvwprintz( w, point( 8, 3 ), pain_pair.second, pain_pair.first );
-    mvwprintz( w, point( 8, 4 ), temp_pair.first, temp_pair.second );
+    mvwprintz( w, point( 8, 4 ), temp_pair.second, temp_pair.first );
     wnoutrefresh( w );
 }
 
@@ -1805,7 +1805,7 @@ static void draw_needs_labels( const avatar &u, const catacurses::window &w )
     std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( u );
     std::pair<std::string, nc_color> rest_pair = display::fatigue_text_color( u );
     std::pair<std::string, nc_color> weight_pair = display::weight_text_color( u );
-    std::pair<nc_color, std::string> temp_pair = display::temp_stat( u );
+    std::pair<std::string, nc_color> temp_pair = display::temp_stat( u );
     std::pair<std::string, nc_color> pain_pair = display::pain_text_color( u );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Pain :" ) );
@@ -1819,7 +1819,7 @@ static void draw_needs_labels( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 23, 1 ), c_light_gray, _( "Hunger:" ) );
     mvwprintz( w, point( 30, 1 ), hunger_pair.second, hunger_pair.first );
     mvwprintz( w, point( 1, 2 ), c_light_gray, _( "Heat :" ) );
-    mvwprintz( w, point( 8, 2 ), temp_pair.first, temp_pair.second );
+    mvwprintz( w, point( 8, 2 ), temp_pair.second, temp_pair.first );
     mvwprintz( w, point( 23, 2 ), c_light_gray, _( "Weight:" ) );
     mvwprintz( w, point( 30, 2 ), weight_pair.second, weight_pair.first );
     wnoutrefresh( w );
@@ -1831,7 +1831,7 @@ static void draw_needs_labels_alt( const avatar &u, const catacurses::window &w 
     std::pair<std::string, nc_color> hunger_pair = display::hunger_text_color( u );
     std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( u );
     std::pair<std::string, nc_color> rest_pair = display::fatigue_text_color( u );
-    std::pair<nc_color, std::string> temp_pair = display::temp_stat( u );
+    std::pair<std::string, nc_color> temp_pair = display::temp_stat( u );
     std::pair<std::string, nc_color> pain_pair = display::pain_text_color( u );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Pain :" ) );
@@ -1846,7 +1846,7 @@ static void draw_needs_labels_alt( const avatar &u, const catacurses::window &w 
     mvwprintz( w, point( 1, 3 ), c_light_gray, _( "Rest :" ) );
     mvwprintz( w, point( 8, 3 ), rest_pair.second, rest_pair.first );
     mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Heat :" ) );
-    mvwprintz( w, point( 8, 4 ), temp_pair.first, temp_pair.second );
+    mvwprintz( w, point( 8, 4 ), temp_pair.second, temp_pair.first );
     wnoutrefresh( w );
 }
 
@@ -2027,8 +2027,8 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     }
 
     // temperature
-    pair = display::temp_stat( u );
-    mvwprintz( w, point( 21, 6 ), pair.first, pair.second + display::temp_delta_string( u ) );
+    std::pair<std::string, nc_color> temp_pair = display::temp_stat( u );
+    mvwprintz( w, point( 21, 6 ), temp_pair.second, temp_pair.first + display::temp_delta_string( u ) );
 
     // power
     pair = display::power_stat( u );
