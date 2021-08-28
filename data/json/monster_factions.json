@@ -493,5 +493,10 @@
     "name": "sewer_snake",
     "base_faction": "mutant_piscivores",
     "neutral": "sewer_snake"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dark_wyrm",
+    "neutral": "mon_dark_wyrm"
   }
 ]
