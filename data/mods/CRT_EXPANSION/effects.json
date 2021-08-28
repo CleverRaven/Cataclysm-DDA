@@ -10,6 +10,7 @@
     "remove_memorial_log": "Eradicated the spiders in his blood.",
     "apply_message": "You itch along your veins…",
     "rating": "bad",
+    "resist_traits": [ "PARAIMMUNE", "ACIDBLOOD" ],
     "base_mods": {
       "thirst_tick": [ 580 ],
       "thirst_min": [ 1 ],
@@ -21,6 +22,6 @@
       "pain_max_val": [ 150 ],
       "pain_min": [ 2, 0 ]
     },
-    "blood_analysis_description": "Blood Spiders"
+    "blood_analysis_description": "Unknown Hemolytic Parasite"
   }
 ]
