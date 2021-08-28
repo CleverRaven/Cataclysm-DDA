@@ -2902,9 +2902,9 @@ int map::collapse_check( const tripoint &p )
     if( p.z > -OVERMAP_DEPTH ) {
         const tripoint &pbelow = tripoint( p.xy(), p.z - 1 );
         for( const tripoint &tbelow : points_in_radius( pbelow, 1 ) ) {
-            if( has_flag( "SUPPORTS_ROOF", tbelow) ) {
+            if( has_flag( "SUPPORTS_ROOF", tbelow ) ) {
                 num_supports += 1;
-                if( has_flag( "WALL", tbelow) ) {
+                if( has_flag( "WALL", tbelow ) ) {
                     num_supports += 2;
                 }
                 if( tbelow == pbelow ) {
@@ -2978,10 +2978,10 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
             if( zlevels ) {
                 // ensure that the layer below this one is not a wall, otherwise you have a ledge dropping onto
                 // a wall which doesn't make sense.
-                const bool isWall = has_flag("WALL", t);
-                if (!isWall) {
-                    ter_set(tz, t_open_air);
-                    furn_set(tz, f_null);
+                const bool isWall = has_flag( "WALL", t );
+                if( !isWall ) {
+                    ter_set( tz, t_open_air );
+                    furn_set( tz, f_null );
                 }
             }
         }
