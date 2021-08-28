@@ -213,10 +213,10 @@
       "place_monsters": [ { "monster": "GROUP_LAB_BASIC_SECURITY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.2 } ],
       "terrain": { "¥": "t_card_science_security_yellow", "ƶ": "t_card_science_security_magenta" },
       "place_loot": [
-        { "item": "id_science_maintenance_yellow", "x": 11, "y": 11, "chance": 30 },
-        { "item": "id_science_medical_red", "x": 11, "y": 11, "chance": 30 },
-        { "item": "id_science_maintenance_yellow", "x": 11, "y": 12, "chance": 30 },
-        { "item": "id_science_medical_red", "x": 11, "y": 12, "chance": 30 }
+        { "item": "id_science_maintenance_yellow", "x": 11, "y": 11, "chance": 20 },
+        { "item": "id_science_medical_red", "x": 11, "y": 11, "chance": 10 },
+        { "item": "id_science_maintenance_yellow", "x": 11, "y": 12, "chance": 20 },
+        { "item": "id_science_medical_red", "x": 11, "y": 12, "chance": 10 }
       ],
       "place_signs": [
         { "snippet": "lab_security_signage", "x": [ 10, 13 ], "y": 7 },
@@ -312,7 +312,7 @@
         "|,,,,,,,|;|``````````|;|"
       ],
       "palettes": [ "lab_common_palette", "lab_security_palette" ],
-      "place_loot": [ { "item": "id_science_maintenance_green", "x": 1, "y": 8, "chance": 100 } ],
+      "place_loot": [ { "item": "id_science_maintenance_green", "x": 1, "y": 8, "chance": 25 } ],
       "terrain": { "¥": "t_card_science_security_yellow", "ƶ": "t_card_science_security_magenta" },
       "place_signs": [
         { "signage": "<color_white_red>Badges Mandatory Beyond This Point.</color>", "x": 10, "y": 10 },
