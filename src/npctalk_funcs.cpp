@@ -743,7 +743,7 @@ void talk_function::buy_100_logs( npc &p )
 }
 
 /*
- * Function to make the npc drop non favorite items at his current position.
+ * Function to make the npc drop non favorite items at their current position.
  */
 void talk_function::drop_items_in_place( npc &p )
 {
