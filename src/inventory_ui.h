@@ -576,7 +576,7 @@ class inventory_selector
         /** Query the user for a filter and apply it. */
         void query_set_filter();
         /** Query the user for count and return it. */
-        int query_count(std::string init);
+        int query_count( std::string init );
 
         /** Tackles screen overflow */
         virtual void rearrange_columns( size_t client_width );
