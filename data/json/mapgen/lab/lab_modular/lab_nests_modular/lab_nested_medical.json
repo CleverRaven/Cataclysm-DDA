@@ -335,7 +335,7 @@
     "type": "mapgen",
     "method": "json",
     "//": "A custom nest for the mutant child boss",
-    "nested_mapgen_id": "00lab_medical_boss_child",
+    "nested_mapgen_id": "lab_medical_boss_child",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
