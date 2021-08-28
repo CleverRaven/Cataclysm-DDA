@@ -3650,11 +3650,11 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
             const std::string name = r->result_name();
 
             if( knows_it ) {
-                known_recipe_list.push_back( "<bold>" + name + "</bold>" );
+                known_recipe_list.emplace_back( "<bold>" + name + "</bold>" );
             } else if( !can_learn ) {
-                unlearnable_recipe_list.push_back( "<color_brown>" + name + "</color>" );
+                unlearnable_recipe_list.emplace_back( "<color_brown>" + name + "</color>" );
             } else {
-                learnable_recipe_list.push_back( "<dark>" + name + "</dark>" );
+                learnable_recipe_list.emplace_back( "<dark>" + name + "</dark>" );
             }
 
             first_string_index = next_string_index + 1;
@@ -3672,7 +3672,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                          total_recipes ), total_recipes );
 
             insert_separation_line( info );
-            info.push_back( iteminfo( "DESCRIPTION", recipe_line ) );
+            info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
 
             if( !known_recipe_list.empty() ) {
                 std::vector<std::string> sorted_known_recipes = known_recipe_list;
@@ -3683,7 +3683,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                              known_recipe_list.size() ),
                                    known_recipe_list.size(), enumerate_as_string( sorted_known_recipes ) );
 
-                info.push_back( iteminfo( "DESCRIPTION", recipe_line ) );
+                info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
             }
 
             if( !learnable_recipe_list.empty() ) {
@@ -3695,7 +3695,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                              learnable_recipe_list.size() ),
                                    learnable_recipe_list.size(), enumerate_as_string( sorted_learnable_recipes ) );
 
-                info.push_back( iteminfo( "DESCRIPTION", recipe_line ) );
+                info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
             }
 
             if( !unlearnable_recipe_list.empty() ) {
@@ -3708,7 +3708,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                              unlearnable_recipe_list.size() ),
                                    unlearnable_recipe_list.size(), enumerate_as_string( sorted_unlearnable_recipes ) );
 
-                info.push_back( iteminfo( "DESCRIPTION", recipe_line ) );
+                info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
             }
         }
     }
@@ -3742,19 +3742,19 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                     std::string recipe_formated = "<bold>" + name + "</bold>";
                     if( known_recipe_list.end() == std::find( known_recipe_list.begin(), known_recipe_list.end(),
                             name ) ) {
-                        known_recipe_list.push_back( "<bold>" + name + "</bold>" );
+                        known_recipe_list.emplace_back( "<bold>" + name + "</bold>" );
                     }
                 } else if( !can_learn ) {
                     std::string recipe_formated = "<color_brown>" + elem.name() + "</color>";
                     if( unlearnable_recipe_list.end() == std::find( unlearnable_recipe_list.begin(),
                             unlearnable_recipe_list.end(), recipe_formated ) ) {
-                        unlearnable_recipe_list.push_back( recipe_formated );
+                        unlearnable_recipe_list.emplace_back( recipe_formated );
                     }
                 } else {
                     std::string recipe_formated = "<dark>" + elem.name() + "</dark>";
                     if( learnable_recipe_list.end() == std::find( learnable_recipe_list.begin(),
                             learnable_recipe_list.end(), recipe_formated ) ) {
-                        learnable_recipe_list.push_back( "<dark>" + elem.name() + "</dark>" );
+                        learnable_recipe_list.emplace_back( "<dark>" + elem.name() + "</dark>" );
                     }
                 }
             }
@@ -3776,8 +3776,8 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                          total_ebooks ), total_ebooks );
 
             insert_separation_line( info );
-            info.push_back( iteminfo( "DESCRIPTION", recipe_line ) );
-            info.push_back( iteminfo( "DESCRIPTION", source_line ) );
+            info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
+            info.emplace_back( iteminfo( "DESCRIPTION", source_line ) );
 
             if( !known_recipe_list.empty() ) {
                 std::vector<std::string> sorted_known_recipes = known_recipe_list;
@@ -3788,7 +3788,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                              known_recipe_list.size() ),
                                    known_recipe_list.size(), enumerate_as_string( sorted_known_recipes ) );
 
-                info.push_back( iteminfo( "DESCRIPTION", recipe_line ) );
+                info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
             }
 
             if( !learnable_recipe_list.empty() ) {
@@ -3800,7 +3800,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                              learnable_recipe_list.size() ),
                                    learnable_recipe_list.size(), enumerate_as_string( sorted_learnable_recipes ) );
 
-                info.push_back( iteminfo( "DESCRIPTION", recipe_line ) );
+                info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
             }
 
             if( !unlearnable_recipe_list.empty() ) {
@@ -3813,7 +3813,7 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                                              unlearnable_recipe_list.size() ),
                                    unlearnable_recipe_list.size(), enumerate_as_string( sorted_unlearnable_recipes ) );
 
-                info.push_back( iteminfo( "DESCRIPTION", recipe_line ) );
+                info.emplace_back( iteminfo( "DESCRIPTION", recipe_line ) );
             }
         }
     }
