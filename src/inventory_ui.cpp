@@ -1869,9 +1869,9 @@ void inventory_selector::query_set_filter()
     }
 }
 
-int inventory_selector::query_count()
+int inventory_selector::query_count( std::string init )
 {
-    std::pair< bool, std::string > query = query_string( filter );
+    std::pair< bool, std::string > query = query_string( init );
     int ret = -1;
     if( query.first ) {
         try {
@@ -2506,16 +2506,19 @@ drop_locations inventory_iuse_selector::execute()
     while( true ) {
         ui_manager::redraw();
 
+        const bool noMarkCountBound = ctxt.keys_bound_to( "MARK_WITH_COUNT" ).empty();
         const inventory_input input = get_input();
 
-        if( input.entry != nullptr ) { // Single Item
+        if( input.entry != nullptr ) { // Single Item from mouse
             select( input.entry->any_item() );
             set_chosen_count( *input.entry, max_chosen_count );
-        } else if( input.action == "MARK_WITH_COUNT" ||
-                   input.action == "TOGGLE_ENTRY" ) { // Group or variable number of items
+        } else if( input.action == "TOGGLE_ENTRY" || // Mark selected
+                   input.action == "MARK_WITH_COUNT" ||  // Set count and mark selected with specific key
+                   ( noMarkCountBound && input.ch >= '0' && input.ch <= '9' ) ) { // Ditto with numkey capture
             int count = 0;
-            if( input.action == "MARK_WITH_COUNT" ) {
-                count = query_count();
+            if( input.action == "MARK_WITH_COUNT" || ( noMarkCountBound && input.ch >= '0' &&
+                    input.ch <= '9' ) ) {
+                count = query_count( noMarkCountBound ? std::string( 1, input.ch ) : "" );
                 if( count < 0 ) {
                     continue; // Skip selecting any if invalid result or user canceled prompt
                 }
@@ -2688,9 +2691,10 @@ drop_locations inventory_drop_selector::execute()
     while( true ) {
         ui_manager::redraw();
 
+        const bool noMarkCountBound = ctxt.keys_bound_to( "MARK_WITH_COUNT" ).empty();
         const inventory_input input = get_input();
 
-        if( input.entry != nullptr ) {
+        if( input.entry != nullptr ) { // Single Item from mouse
             select( input.entry->any_item() );
             set_chosen_count( *input.entry, INT_MAX );
         } else if( input.action == "DROP_NON_FAVORITE" ) {
@@ -2704,15 +2708,19 @@ drop_locations inventory_drop_selector::execute()
             int count = 0; // TODO can't handled count of favorites if seperate key to set count
             process_selected( count, selected );
             deselect_contained_items();
-        } else if( input.action == "MARK_WITH_COUNT" ||
-                   input.action == "TOGGLE_ENTRY" ) { // Group or variable number of items
+
+        } else if( input.action == "TOGGLE_ENTRY" || // Mark selected
+                   input.action == "MARK_WITH_COUNT" ||  // Set count and mark selected with specific key
+                   ( noMarkCountBound && input.ch >= '0' && input.ch <= '9' ) ) { // Ditto with numkey capture
             int count = 0;
-            if( input.action == "MARK_WITH_COUNT" ) {
-                count = query_count();
+            if( input.action == "MARK_WITH_COUNT" || ( noMarkCountBound && input.ch >= '0' &&
+                    input.ch <= '9' ) ) {
+                count = query_count( noMarkCountBound ? std::string( 1, input.ch ) : "" );
                 if( count < 0 ) {
                     continue; // Skip selecting any if invalid result or user canceled prompt
                 }
             }
+
             const auto selected( get_active_column().get_all_selected() );
 
             // No amount entered, select all
