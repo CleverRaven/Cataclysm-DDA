@@ -747,11 +747,10 @@ void talk_function::buy_100_logs( npc &p )
  */
 void talk_function::drop_items_in_place( npc &p )
 {
-    const std::vector<item_location> &npcs_items = p.all_items_loc();
     std::vector<drop_or_stash_item_info> to_drop;
 
     // add all non favorite items to the drop off list
-    for( const item_location &npcs_item : npcs_items ) {
+    for( const item_location &npcs_item : p.all_items_loc() ) {
         if( !npcs_item->is_favorite ) {
             to_drop.emplace_back( npcs_item, npcs_item->count() );
         }
