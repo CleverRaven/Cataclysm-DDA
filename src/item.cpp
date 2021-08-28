@@ -3720,7 +3720,6 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         std::vector<std::string> unlearnable_recipe_list;
         std::vector<const item *> book_list = ebooks();
         int total_ebooks = book_list.size();
-        const islot_book &book = *type->book;
 
         for( auto iter = book_list.begin(); iter != book_list.end(); ++iter ) {
             const item *ebook = *iter;
