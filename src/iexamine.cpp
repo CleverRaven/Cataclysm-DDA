@@ -1605,24 +1605,35 @@ void iexamine::fault( Character &, const tripoint & )
 void iexamine::pedestal_wyrm( Character &you, const tripoint &examp )
 {
     map &here = get_map();
-    if( !here.i_at( examp ).empty() ) {
-        none( you, examp );
-        return;
-    }
-    // Send in a few wyrms to start things off.
-    get_event_bus().send<event_type::awakes_dark_wyrms>();
-    int num_wyrms = rng( 1, 4 );
-    for( int i = 0; i < num_wyrms; i++ ) {
-        if( monster *const mon = g->place_critter_around( mon_dark_wyrm, you.pos(), 2 ) ) {
-            here.ter_set( mon->pos(), t_rock_floor );
+    map_stack items = here.i_at( examp );
+    if( !items.empty() ) {
+        if( items.only_item().typeId() == itype_petrified_eye &&
+            query_yn( _( "Remove the petrified eye from the pedestal?" ) ) ) {
+            here.i_clear( examp );
+
+            item eye( itype_petrified_eye );
+            you.i_add_or_drop( eye );
+
+            // Send in a few wyrms to start things off.
+            get_event_bus().send<event_type::awakes_dark_wyrms>();
+            for( const tripoint &p : here.points_on_zlevel() ) {
+                if( here.ter( p ) == ter_id( "t_orifice" ) ) {
+                    g->place_critter_around( mon_dark_wyrm, p, 1 );
+                }
+            }
+
+            sounds::sound( examp, 80, sounds::sound_t::combat, _( "an ominous grinding noise…" ), true,
+                           "misc", "stones_grinding" );
+            add_msg( _( "The pedestal sinks into the ground…" ) );
+            here.ter_set( examp, t_rock_floor );
+            get_timed_events().add( timed_event_type::SPAWN_WYRMS,
+                                    calendar::turn + rng( 30_seconds, 60_seconds ) );
+        } else {
+            none( you, examp );
+            add_msg( _( "You decided to leave the petrified eye on the pedestal…" ) );
+            return;
         }
     }
-    add_msg( _( "The pedestal sinks into the ground…" ) );
-    sounds::sound( examp, 80, sounds::sound_t::combat, _( "an ominous grinding noise…" ), true,
-                   "misc", "stones_grinding" );
-    here.ter_set( examp, t_rock_floor );
-    get_timed_events().add( timed_event_type::SPAWN_WYRMS,
-                            calendar::turn + rng( 30_seconds, 60_seconds ) );
 }
 
 /**
@@ -1796,7 +1807,8 @@ bool iexamine_helper::drink_nectar( Character &you )
 /**
  * Spawn an item after harvesting the plant
  */
-void iexamine_helper::handle_harvest( Character &you, const std::string &itemid, bool force_drop )
+void iexamine_helper::handle_harvest( Character &you, const std::string &itemid,
+                                      bool force_drop )
 {
     item harvest = item( itemid );
     if( harvest.has_temperature() ) {
@@ -2359,7 +2371,8 @@ ret_val<bool> iexamine::can_fertilize( Character &you, const tripoint &tile,
     return ret_val<bool>::make_success();
 }
 
-void iexamine::fertilize_plant( Character &you, const tripoint &tile, const itype_id &fertilizer )
+void iexamine::fertilize_plant( Character &you, const tripoint &tile,
+                                const itype_id &fertilizer )
 {
     ret_val<bool> can_fert = can_fertilize( you, tile, fertilizer );
     if( !can_fert.success() ) {
@@ -2402,7 +2415,8 @@ void iexamine::fertilize_plant( Character &you, const tripoint &tile, const ityp
              planted.front().tname() );
 }
 
-itype_id iexamine::choose_fertilizer( Character &you, const std::string &pname, bool ask_player )
+itype_id iexamine::choose_fertilizer( Character &you, const std::string &pname,
+                                      bool ask_player )
 {
     std::vector<const item *> f_inv = you.all_items_with_flag( flag_FERTILIZER );
     if( f_inv.empty() ) {
