@@ -239,7 +239,6 @@
   {
     "id": "NEEDS_HANDHELD_BATTERY_MOUNT",
     "type": "json_flag",
-    "context": [ "vehicle_part" ],
     "requires_flag": "HANDHELD_BATTERY_MOUNT"
   },
   {
@@ -309,8 +308,7 @@
   },
   {
     "id": "HANDHELD_BATTERY_MOUNT",
-    "type": "json_flag",
-    "context": [ "vehicle_part" ]
+    "type": "json_flag"
   },
   {
     "id": "BEEPER",
