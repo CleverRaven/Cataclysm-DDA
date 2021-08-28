@@ -409,6 +409,7 @@
   {
     "type": "MONSTER_FACTION",
     "name": "robofac_spy",
+    "base_faction": "robofac",
     "friendly": [ "human", "player" ]
   },
   {
