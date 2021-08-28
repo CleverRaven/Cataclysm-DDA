@@ -68,7 +68,10 @@ face_type get_face_type( const Character &u );
 std::string morale_emotion( const int morale_cur, const face_type face,
                             const bool horizontal_style );
 
-// Avatars to convert
+// Current movement mode (as single letter) and color
+std::pair<std::string, nc_color> move_mode_text_color( const Character &u );
+
+// TODO: Swap text/string order to match previous functions
 std::pair<nc_color, std::string> temp_stat( const Character &u );
 std::pair<nc_color, std::string> power_stat( const Character &u );
 std::pair<nc_color, std::string> mana_stat( const Character &you );

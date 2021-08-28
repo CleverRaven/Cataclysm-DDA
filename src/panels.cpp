@@ -1318,14 +1318,11 @@ static void draw_stats( avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static nc_color move_mode_color( avatar &u )
+std::pair<std::string, nc_color> display::move_mode_text_color( const Character &u )
 {
-    return u.current_movement_mode()->panel_color();
-}
-
-static char move_mode_string( avatar &u )
-{
-    return u.current_movement_mode()->panel_letter();
+    const std::string mm_text = std::string( 1, u.current_movement_mode()->panel_letter() );
+    const nc_color mm_color = u.current_movement_mode()->panel_color();
+    return std::make_pair( mm_text, mm_color );
 }
 
 static void draw_stealth( avatar &u, const catacurses::window &w )
@@ -1333,9 +1330,10 @@ static void draw_stealth( avatar &u, const catacurses::window &w )
     werase( w );
     mvwprintz( w, point_zero, c_light_gray, _( "Speed" ) );
     mvwprintz( w, point( 7, 0 ), value_color( u.get_speed() ), "%s", u.get_speed() );
-    nc_color move_color = move_mode_color( u );
-    std::string move_string = std::to_string( u.movecounter ) + move_mode_string( u );
-    mvwprintz( w, point( 15 - utf8_width( move_string ), 0 ), move_color, move_string );
+
+    std::pair<std::string, nc_color> move_mode = display::move_mode_text_color( u );
+
+    mvwprintz( w, point( 15 - utf8_width( move_mode.first ), 0 ), move_mode.second, move_mode.first );
     if( u.is_deaf() ) {
         mvwprintz( w, point( 22, 0 ), c_red, _( "DEAF" ) );
     } else {
@@ -1518,11 +1516,6 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 19, 1 ), c_light_gray, _( "Speed:" ) );
     mvwprintz( w, point( 19, 2 ), c_light_gray, _( "Move :" ) );
 
-    nc_color move_color =  move_mode_color( u );
-    char move_char = move_mode_string( u );
-    std::string movecost = std::to_string( u.movecounter ) + "(" + move_char + ")";
-    mvwprintz( w, point( 8, 0 ), c_light_gray, "%s", u.volume );
-
     // print stamina
     auto needs_pair = std::make_pair( get_hp_bar( u.get_stamina(), u.get_stamina_max() ).second,
                                       get_hp_bar( u.get_stamina(), u.get_stamina_max() ).first );
@@ -1538,9 +1531,16 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
     } else if( u.get_focus() > u.calc_focus_equilibrium() ) {
         mvwprintz( w, point( 11, 2 ), c_light_red, "↧" );
     }
+
     mvwprintz( w, point( 26, 0 ), morale_pair.first, morale_pair.second );
     mvwprintz( w, point( 26, 1 ), focus_color( u.get_speed() ), "%s", u.get_speed() );
-    mvwprintz( w, point( 26, 2 ), move_color, "%s", movecost );
+    mvwprintz( w, point( 8, 0 ), c_light_gray, "%s", u.volume );
+
+    std::pair<std::string, nc_color> move_mode_pair = display::move_mode_text_color( u );
+    std::string movecost = std::to_string( u.movecounter ) + string_format( "(%s)",
+                           move_mode_pair.first );
+    mvwprintz( w, point( 26, 2 ), move_mode_pair.second, "%s", movecost );
+
     wnoutrefresh( w );
 }
 
@@ -1557,10 +1557,6 @@ static void draw_char_wide( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 16, 1 ), c_light_gray, _( "Speed:" ) );
     mvwprintz( w, point( 31, 1 ), c_light_gray, _( "Move :" ) );
 
-    nc_color move_color =  move_mode_color( u );
-    char move_char = move_mode_string( u );
-    std::string movecost = std::to_string( u.movecounter ) + "(" + move_char + ")";
-
     mvwprintz( w, point( 8, 0 ), c_light_gray, "%s", u.volume );
     mvwprintz( w, point( 23, 0 ), morale_pair.first, morale_pair.second );
     mvwprintz( w, point( 38, 0 ), focus_color( u.get_focus() ), "%s", u.get_focus() );
@@ -1575,7 +1571,12 @@ static void draw_char_wide( avatar &u, const catacurses::window &w )
     }
 
     mvwprintz( w, point( 23, 1 ), focus_color( u.get_speed() ), "%s", u.get_speed() );
-    mvwprintz( w, point( 38, 1 ), move_color, "%s", movecost );
+
+    std::pair<std::string, nc_color> move_mode_pair = display::move_mode_text_color( u );
+    std::string movecost = std::to_string( u.movecounter ) + string_format( "(%s)",
+                           move_mode_pair.first );
+    mvwprintz( w, point( 38, 1 ), move_mode_pair.second, "%s", movecost );
+
     wnoutrefresh( w );
 }
 
@@ -2020,9 +2021,9 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     if( !veh ) {
         mvwprintz( w, point( 21, 5 ), u.get_speed() < 100 ? c_red : c_white,
                    _( "Spd " ) + std::to_string( u.get_speed() ) );
-        nc_color move_color = move_mode_color( u );
-        std::string move_string = std::to_string( u.movecounter ) + " " + move_mode_string( u );
-        mvwprintz( w, point( 29, 5 ), move_color, move_string );
+        std::pair<std::string, nc_color> move_mode_pair = display::move_mode_text_color( u );
+        std::string move_string = std::to_string( u.movecounter ) + " " + move_mode_pair.first;
+        mvwprintz( w, point( 29, 5 ), move_mode_pair.second, move_string );
     }
 
     // temperature
