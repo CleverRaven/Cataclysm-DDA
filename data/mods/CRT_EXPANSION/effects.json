@@ -1,0 +1,35 @@
+[
+  {
+    "type": "effect_type",
+    "id": "blood_spiders",
+    "name": [ "Blood Spiders" ],
+    "desc": [
+      "You have contracted an interdimensional disease, specifically Blood Spiders.  Symptoms can be alleviated by medication ()."
+    ],
+    "apply_memorial_log": "Caught blood spiders.",
+    "remove_memorial_log": "Eradicated the spiders in his blood.",
+    "apply_message": "You itch along your veins…",
+    "rating": "bad",
+    "resist_effects": [ "took_stimpack" ],
+    "base_mods": {
+      "thirst_tick": [ 580 ],
+      "thirst_min": [ 1 ],
+      "fatigue_tick": [ 300 ],
+      "fatigue_min": [ 1 ],
+      "str_mod": [ -2, -1 ],
+      "dex_mod": [ -1, 0 ],
+      "per_mod": [ -1, 0 ],
+      "pain_max_val": [ 150 ],
+      "pain_min": [ 2, 0 ]
+    },
+    "blood_analysis_description": "Blood Spiders"
+  },
+  {
+    "type": "effect_type",
+    "id": "took_stimpack",
+    "rating": "good",
+    "blood_analysis_description": "Stimulant Remnants",
+    "max_duration": 57600,
+    "dur_add_perc": 30
+  }
+]
