@@ -3678,8 +3678,8 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
                 std::vector<std::string> sorted_known_recipes = known_recipe_list;
                 std::sort( sorted_known_recipes.begin(), sorted_known_recipes.end(), localized_compare );
                 std::string recipe_line =
-                    string_format( ngettext( "\nYou already known %1$d recipe:\n%2$s",
-                                             "\nYou already known %1$d recipes:\n%2$s",
+                    string_format( ngettext( "\nYou already know %1$d recipe:\n%2$s",
+                                             "\nYou already know %1$d recipes:\n%2$s",
                                              known_recipe_list.size() ),
                                    known_recipe_list.size(), enumerate_as_string( sorted_known_recipes ) );
 
