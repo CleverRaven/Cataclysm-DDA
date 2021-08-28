@@ -121,7 +121,7 @@ static void draw_rectangle( const catacurses::window &w, nc_color, point top_lef
     }
 }
 
-std::pair<nc_color, std::string> display::str_string( const avatar &p )
+std::pair<nc_color, std::string> display::str_string( const Character &p )
 {
     nc_color clr;
 
@@ -136,7 +136,7 @@ std::pair<nc_color, std::string> display::str_string( const avatar &p )
                                p.get_str() ) : "++" ) );
 }
 
-std::pair<nc_color, std::string> display::dex_string( const avatar &p )
+std::pair<nc_color, std::string> display::dex_string( const Character &p )
 {
     nc_color clr;
 
@@ -151,7 +151,7 @@ std::pair<nc_color, std::string> display::dex_string( const avatar &p )
                                p.get_dex() ) : "++" ) );
 }
 
-std::pair<nc_color, std::string> display::int_string( const avatar &p )
+std::pair<nc_color, std::string> display::int_string( const Character &p )
 {
     nc_color clr;
 
@@ -166,7 +166,7 @@ std::pair<nc_color, std::string> display::int_string( const avatar &p )
                                p.get_int() ) : "++" ) );
 }
 
-std::pair<nc_color, std::string> display::per_string( const avatar &p )
+std::pair<nc_color, std::string> display::per_string( const Character &p )
 {
     nc_color clr;
 
@@ -573,7 +573,7 @@ static nc_color value_color( int stat )
     return valuecolor;
 }
 
-static std::pair<nc_color, int> morale_stat( const avatar &u )
+std::pair<nc_color, std::string> display::morale_face_color( const Character &u )
 {
     const int morale_int = u.get_morale_level();
     nc_color morale_color = c_white;
@@ -582,7 +582,9 @@ static std::pair<nc_color, int> morale_stat( const avatar &u )
     } else if( morale_int <= -10 ) {
         morale_color = c_red;
     }
-    return std::make_pair( morale_color, morale_int );
+    const bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
+    const std::string smiley = morale_emotion( morale_int, display::get_face_type( u ), m_style );
+    return std::make_pair( morale_color, smiley );
 }
 
 static std::pair<bodypart_id, bodypart_id> temp_delta( const Character &u )
@@ -686,7 +688,7 @@ std::pair<nc_color, std::string> display::temp_delta_arrows( const Character &u 
     return std::make_pair( temp_color, temp_message );
 }
 
-std::pair<nc_color, std::string> display::temp_stat( const avatar &u )
+std::pair<nc_color, std::string> display::temp_stat( const Character &u )
 {
     /// Find hottest/coldest bodypart
     // Calculate the most extreme body temperatures
@@ -731,7 +733,7 @@ static std::string get_armor( const avatar &u, bodypart_id bp, unsigned int trun
     return "-";
 }
 
-static face_type get_face_type( const avatar &u )
+face_type display::get_face_type( const Character &u )
 {
     face_type fc = face_human;
     if( u.has_trait( trait_THRESH_FELINE ) ) {
@@ -744,8 +746,8 @@ static face_type get_face_type( const avatar &u )
     return fc;
 }
 
-static std::string morale_emotion( const int morale_cur, const face_type face,
-                                   const bool horizontal_style )
+std::string display::morale_emotion( const int morale_cur, const face_type face,
+                                     const bool horizontal_style )
 {
     if( horizontal_style ) {
         if( face == face_bear || face == face_cat ) {
@@ -826,7 +828,7 @@ static std::string morale_emotion( const int morale_cur, const face_type face,
     }
 }
 
-std::pair<nc_color, std::string> display::power_stat( const avatar &u )
+std::pair<nc_color, std::string> display::power_stat( const Character &u )
 {
     nc_color c_pwr = c_red;
     std::string s_pwr;
@@ -980,9 +982,7 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
     }
 
     // print mood
-    std::pair<nc_color, int> morale_pair = morale_stat( u );
-    bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
-    std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
+    std::pair<nc_color, std::string> morale_pair = display::morale_face_color( u );
 
     // print safe mode
     std::string safe_str;
@@ -990,7 +990,7 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
         safe_str = _( "SAFE" );
     }
     mvwprintz( w, point( 22, 2 ), safe_color(), safe_str );
-    mvwprintz( w, point( 27, 2 ), morale_pair.first, smiley );
+    mvwprintz( w, point( 27, 2 ), morale_pair.first, morale_pair.second );
 
     // print stamina
     const auto &stamina = get_hp_bar( u.get_stamina(), u.get_stamina_max() );
@@ -1508,7 +1508,7 @@ static void draw_limb_wide( avatar &u, const catacurses::window &w )
 static void draw_char_narrow( avatar &u, const catacurses::window &w )
 {
     werase( w );
-    std::pair<nc_color, int> morale_pair = morale_stat( u );
+    std::pair<nc_color, std::string> morale_pair = display::morale_face_color( u );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Sound:" ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -1521,8 +1521,6 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
     nc_color move_color =  move_mode_color( u );
     char move_char = move_mode_string( u );
     std::string movecost = std::to_string( u.movecounter ) + "(" + move_char + ")";
-    bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
-    std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
     mvwprintz( w, point( 8, 0 ), c_light_gray, "%s", u.volume );
 
     // print stamina
@@ -1540,7 +1538,7 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
     } else if( u.get_focus() > u.calc_focus_equilibrium() ) {
         mvwprintz( w, point( 11, 2 ), c_light_red, "↧" );
     }
-    mvwprintz( w, point( 26, 0 ), morale_pair.first, "%s", smiley );
+    mvwprintz( w, point( 26, 0 ), morale_pair.first, morale_pair.second );
     mvwprintz( w, point( 26, 1 ), focus_color( u.get_speed() ), "%s", u.get_speed() );
     mvwprintz( w, point( 26, 2 ), move_color, "%s", movecost );
     wnoutrefresh( w );
@@ -1549,7 +1547,7 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
 static void draw_char_wide( avatar &u, const catacurses::window &w )
 {
     werase( w );
-    std::pair<nc_color, int> morale_pair = morale_stat( u );
+    std::pair<nc_color, std::string> morale_pair = display::morale_face_color( u );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Sound:" ) );
     mvwprintz( w, point( 16, 0 ), c_light_gray, _( "Mood :" ) );
@@ -1562,11 +1560,9 @@ static void draw_char_wide( avatar &u, const catacurses::window &w )
     nc_color move_color =  move_mode_color( u );
     char move_char = move_mode_string( u );
     std::string movecost = std::to_string( u.movecounter ) + "(" + move_char + ")";
-    bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
-    std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
 
     mvwprintz( w, point( 8, 0 ), c_light_gray, "%s", u.volume );
-    mvwprintz( w, point( 23, 0 ), morale_pair.first, "%s", smiley );
+    mvwprintz( w, point( 23, 0 ), morale_pair.first, morale_pair.second );
     mvwprintz( w, point( 38, 0 ), focus_color( u.get_focus() ), "%s", u.get_focus() );
 
     // print stamina
@@ -1988,10 +1984,8 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 21, 0 ), pain_pair.second, pain_pair.first );
 
     // print mood
-    std::pair<nc_color, int> morale_pair = morale_stat( u );
-    bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
-    std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
-    mvwprintz( w, point( 34, 1 ), morale_pair.first, smiley );
+    std::pair<nc_color, std::string> morale_pair = display::morale_face_color( u );
+    mvwprintz( w, point( 34, 1 ), morale_pair.first, morale_pair.second );
 
     if( !veh ) {
         // stats

@@ -19,6 +19,14 @@ class Character;
 class Creature;
 struct point;
 
+enum face_type : int {
+    face_human = 0,
+    face_bird,
+    face_bear,
+    face_cat,
+    num_face_types
+};
+
 // The display namespace contains UI string output and colorization functions
 // Some return plain strings or translations, some return a (string, color) pair,
 // and some return a string with colorization tags embedded.
@@ -53,15 +61,21 @@ std::pair<std::string, nc_color> pain_text_color( const Creature &c );
 std::pair<std::string, nc_color> pain_text_color( const Character &u );
 // Change in character body temperature, as colorized arrows
 std::pair<nc_color, std::string> temp_delta_arrows( const Character &u );
+// Character morale, as a color-coded ascii emoticon face
+std::pair<nc_color, std::string> morale_face_color( const Character &u );
+// Helpers for morale_face_color
+face_type get_face_type( const Character &u );
+std::string morale_emotion( const int morale_cur, const face_type face,
+                            const bool horizontal_style );
 
 // Avatars to convert
-std::pair<nc_color, std::string> temp_stat( const avatar &u );
-std::pair<nc_color, std::string> power_stat( const avatar &u );
+std::pair<nc_color, std::string> temp_stat( const Character &u );
+std::pair<nc_color, std::string> power_stat( const Character &u );
 std::pair<nc_color, std::string> mana_stat( const Character &you );
-std::pair<nc_color, std::string> str_string( const avatar &p );
-std::pair<nc_color, std::string> dex_string( const avatar &p );
-std::pair<nc_color, std::string> int_string( const avatar &p );
-std::pair<nc_color, std::string> per_string( const avatar &p );
+std::pair<nc_color, std::string> str_string( const Character &p );
+std::pair<nc_color, std::string> dex_string( const Character &p );
+std::pair<nc_color, std::string> int_string( const Character &p );
+std::pair<nc_color, std::string> per_string( const Character &p );
 
 // Functions returning colorized string
 // gets the string that describes your weight
@@ -72,13 +86,6 @@ namespace catacurses
 {
 class window;
 } // namespace catacurses
-enum face_type : int {
-    face_human = 0,
-    face_bird,
-    face_bear,
-    face_cat,
-    num_face_types
-};
 
 namespace overmap_ui
 {
