@@ -60,7 +60,7 @@ std::pair<std::string, nc_color> fatigue_text_color( const Character &u );
 std::pair<std::string, nc_color> pain_text_color( const Creature &c );
 std::pair<std::string, nc_color> pain_text_color( const Character &u );
 // Change in character body temperature, as colorized arrows
-std::pair<nc_color, std::string> temp_delta_arrows( const Character &u );
+std::pair<std::string, nc_color> temp_delta_arrows( const Character &u );
 // Character morale, as a color-coded ascii emoticon face
 std::pair<nc_color, std::string> morale_face_color( const Character &u );
 // Helpers for morale_face_color

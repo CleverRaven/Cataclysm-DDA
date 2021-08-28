@@ -651,7 +651,7 @@ std::string display::temp_delta_string( const Character &u )
     return temp_message;
 }
 
-std::pair<nc_color, std::string> display::temp_delta_arrows( const Character &u )
+std::pair<std::string, nc_color> display::temp_delta_arrows( const Character &u )
 {
     std::string temp_message;
     nc_color temp_color = c_white;
@@ -685,7 +685,7 @@ std::pair<nc_color, std::string> display::temp_delta_arrows( const Character &u 
         temp_message = " ↓↓↓";
         temp_color = c_blue;
     }
-    return std::make_pair( temp_color, temp_message );
+    return std::make_pair( temp_message, temp_color );
 }
 
 std::pair<std::string, nc_color> display::temp_stat( const Character &u )
@@ -1431,8 +1431,8 @@ static void draw_needs_compact( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 17, 0 ), hunger_pair.second, hunger_pair.first );
     std::pair<std::string, nc_color> temp_pair = display::temp_stat( u );
     mvwprintz( w, point( 17, 1 ), temp_pair.second, temp_pair.first );
-    const auto arrow = display::temp_delta_arrows( u );
-    mvwprintz( w, point( 17 + utf8_width( temp_pair.first ), 1 ), arrow.first, arrow.second );
+    std::pair<std::string, nc_color> arrow_pair = display::temp_delta_arrows( u );
+    mvwprintz( w, point( 17 + utf8_width( temp_pair.first ), 1 ), arrow_pair.second, arrow_pair.first );
 
     mvwprintz( w, point( 17, 2 ), c_light_gray, _( "Focus" ) );
     mvwprintz( w, point( 24, 2 ), focus_color( u.get_focus() ), std::to_string( u.get_focus() ) );
