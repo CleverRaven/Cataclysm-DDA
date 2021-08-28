@@ -4023,27 +4023,50 @@
     },
     "traits": [ "LIAR" ]
   },
-  {
-	      "type": "profession",
-    "id": "knight",
-    "name": { "male": "Sir Knight", "female": "Dame Knight" },
-    "description": "You were enroute to oversee a siege on a nearby castle. Suddenly, you are transported into foreign lands. It seems this land requires cleansing.",
-    "points": 10,
-    "skills": [ 
-                { "level": 7, "name": "melee" },
-                { "level": 5, "name": "cutting" },
-                { "level": 5, "name": "bashing" },
-                { "level": 5, "name": "stabbing" },
-                { "level": 2, "name": "dodge" }
-    ],
-    "traits": [ "PROF_KNIGHT" ],
-    "items": {
-      "both": {
-        "items": [ "armor_lightplate", "leggings", "gloves_plate", "boots_plate", "helmet_plate", "chainmail_suit", "halberd" ],
-        "entries": [ { "item": "knife_baselard", "container-item": "sheath" }, { "item": "arming_sword", "container-item": "scabbard" } ]
-      },
-      "male": [ "loincloth" ],
-      "female": [ "chestwrap" ] 
- }
+	  {
+ 	"type": "profession",
+ 	"id": "knight",
+ 	"name": {
+ 		"male": "Sir Knight",
+ 		"female": "Dame Knight"
+ 	},
+ 	"description": "You were enroute to oversee a siege on a nearby castle. Suddenly, you are transported into foreign lands.  It seems this land requires cleansing.",
+ 	"points": 12,
+ 	"skills": [{
+ 			"level": 7,
+ 			"name": "melee"
+ 		},
+ 		{
+ 			"level": 5,
+ 			"name": "cutting"
+ 		},
+ 		{
+ 			"level": 5,
+ 			"name": "bashing"
+ 		},
+ 		{
+ 			"level": 5,
+ 			"name": "stabbing"
+ 		},
+ 		{
+ 			"level": 2,
+ 			"name": "dodge"
+ 		}
+ 	],
+ 	"traits": ["PROF_KNIGHT"],
+ 	"items": {
+ 		"both": {
+ 			"items": ["armor_lightplate", "tights", "gloves_plate", "boots_plate", "helmet_plate", "chainmail_suit", "poleaxe"],
+ 			"entries": [{
+ 				"item": "knife_baselard",
+ 				"container-item": "sheath"
+ 			}, {
+ 				"item": "arming_sword",
+ 				"container-item": "scabbard"
+ 			}]
+ 		},
+ 		"male": ["loincloth"],
+ 		"female": ["chestwrap"]
   }
+    }
 ]
