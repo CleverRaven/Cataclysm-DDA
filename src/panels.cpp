@@ -858,7 +858,7 @@ std::pair<std::string, nc_color> display::power_stat( const Character &u )
     return std::make_pair( s_pwr, c_pwr );
 }
 
-std::pair<nc_color, std::string> display::mana_stat( const Character &you )
+std::pair<std::string, nc_color> display::mana_stat( const Character &you )
 {
     nc_color c_mana = c_red;
     std::string s_mana;
@@ -873,7 +873,7 @@ std::pair<nc_color, std::string> display::mana_stat( const Character &you )
         }
         s_mana = std::to_string( you.magic->available_mana() );
     }
-    return std::make_pair( c_mana, s_mana );
+    return std::make_pair( s_mana, c_mana );
 }
 
 static nc_color safe_color()
@@ -2499,11 +2499,11 @@ static void print_mana( const Character &you, const catacurses::window &w,
 {
     werase( w );
 
-    auto mana_pair = display::mana_stat( you );
+    std::pair<std::string, nc_color> mana_pair = display::mana_stat( you );
     const std::string mana_string = string_format( fmt_string,
                                     //~ translation should not exceed 4 console cells
                                     utf8_justify( _( "Mana" ), j1 ),
-                                    colorize( utf8_justify( mana_pair.second, j2 ), mana_pair.first ),
+                                    colorize( utf8_justify( mana_pair.first, j2 ), mana_pair.second ),
                                     //~ translation should not exceed 9 console cells
                                     utf8_justify( _( "Max Mana" ), j3 ),
                                     colorize( utf8_justify( std::to_string( you.magic->max_mana( you ) ), j4 ), c_light_blue ) );
