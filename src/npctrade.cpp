@@ -555,7 +555,6 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
         std::vector<item_pricing> &target_list = focus_them ? theirs : yours;
         size_t &offset = focus_them ? them_off : you_off;
         const std::string action = ctxt.handle_input();
-        const input_event evt = ctxt.get_raw_input();
         if( action == "SWITCH_LISTS" ) {
             focus_them = !focus_them;
         } else if( action == "PAGE_UP" ) {
@@ -613,6 +612,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                 }
             }
         } else if( action == "ANY_INPUT" ) {
+            const input_event evt = ctxt.get_raw_input();
             if( evt.sequence.empty() ) {
                 continue;
             }
