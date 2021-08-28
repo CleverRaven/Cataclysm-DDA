@@ -170,7 +170,7 @@
         "effect": "find_mount"
       },
       {
-        "text": "Drop off all non favorite items / loot!",
+        "text": "Drop off any items you're not using.",
         "condition": { "not": "is_by_radio" },
         "topic": "TALK_DONE",
         "effect": "drop_items_in_place"
