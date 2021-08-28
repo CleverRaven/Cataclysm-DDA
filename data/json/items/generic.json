@@ -538,7 +538,7 @@
     "name": { "str": "empty canister" },
     "description": "An empty canister, which may have once held tear gas or other substances.",
     "material": [ "steel" ],
-    "weight": "158 g",
+    "weight": "40 g",
     "volume": "250 ml",
     "bashing": 2,
     "to_hit": -1,
