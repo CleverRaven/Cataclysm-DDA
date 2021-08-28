@@ -1,6 +1,7 @@
 [
   {
     "type": "GENERIC",
+    "category": "currency",
     "id": "denarius",
     "name": { "str": "denarius", "str_pl": "denarii" },
     "description": "Each of these mithril coins has a profile of Valzain, and strangely each of these coins is defaced in some way.",
@@ -9,8 +10,10 @@
     "weight": "1 g",
     "volume": "1 ml",
     "to_hit": -3,
+    "stack_size": 1,
     "color": "light_gray",
     "symbol": "$",
-    "material": [ "mithril_metal" ]
+    "material": [ "mithril_metal" ],
+    "ammo_type": "currency"
   }
 ]

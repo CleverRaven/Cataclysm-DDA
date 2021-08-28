@@ -100,6 +100,7 @@
     "material": [ "copper" ],
     "symbol": "o",
     "color": "brown",
+    "flags": [ "OLD_CURRENCY" ],
     "use_action": [ "COIN_FLIP" ],
     "ammo_type": "coin_penny"
   },
@@ -117,6 +118,7 @@
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
+    "flags": [ "OLD_CURRENCY" ],
     "use_action": [ "COIN_FLIP" ],
     "ammo_type": "coin_nickel"
   },
@@ -134,6 +136,7 @@
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
+    "flags": [ "OLD_CURRENCY" ],
     "use_action": [ "COIN_FLIP" ],
     "ammo_type": "coin_dime"
   },
@@ -151,6 +154,7 @@
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
+    "flags": [ "OLD_CURRENCY" ],
     "use_action": [ "COIN_FLIP" ],
     "ammo_type": "coin_quarter"
   },
@@ -168,6 +172,7 @@
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
+    "flags": [ "OLD_CURRENCY" ],
     "use_action": [ "COIN_FLIP" ],
     "ammo_type": "coin_half_dollar"
   },
@@ -185,6 +190,7 @@
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
+    "flags": [ "OLD_CURRENCY" ],
     "use_action": [ "COIN_FLIP" ],
     "ammo_type": "coin_dollar"
   },
@@ -260,6 +266,7 @@
     "symbol": "$",
     "color": "green",
     "to_hit": -3,
+    "flags": [ "OLD_CURRENCY" ],
     "ammo_type": "currency"
   },
   {
@@ -273,6 +280,7 @@
     "symbol": "$",
     "price": 200,
     "price_postapoc": 0,
+    "flags": [ "OLD_CURRENCY" ],
     "ammo_type": "currency"
   },
   {
@@ -286,6 +294,7 @@
     "symbol": "$",
     "price": 500,
     "price_postapoc": 0,
+    "flags": [ "OLD_CURRENCY" ],
     "ammo_type": "currency"
   },
   {
@@ -299,6 +308,7 @@
     "symbol": "$",
     "price": 1000,
     "price_postapoc": 0,
+    "flags": [ "OLD_CURRENCY" ],
     "ammo_type": "currency"
   },
   {
@@ -312,6 +322,7 @@
     "symbol": "$",
     "price": 2000,
     "price_postapoc": 0,
+    "flags": [ "OLD_CURRENCY" ],
     "ammo_type": "currency"
   },
   {
@@ -325,6 +336,7 @@
     "symbol": "$",
     "price": 5000,
     "price_postapoc": 1,
+    "flags": [ "OLD_CURRENCY" ],
     "ammo_type": "currency"
   },
   {
@@ -338,6 +350,7 @@
     "symbol": "$",
     "price": 10000,
     "price_postapoc": 1,
+    "flags": [ "OLD_CURRENCY" ],
     "ammo_type": "currency"
   },
   {
@@ -354,7 +367,8 @@
     "symbol": "$",
     "material": [ "paper" ],
     "price": 10000,
-    "price_postapoc": 0
+    "price_postapoc": 0,
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
     "type": "GENERIC",
@@ -366,7 +380,8 @@
     "color": "green",
     "symbol": "$",
     "price": 20000,
-    "price_postapoc": 0
+    "price_postapoc": 0,
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
     "type": "GENERIC",
@@ -378,7 +393,8 @@
     "color": "green",
     "symbol": "$",
     "price": 50000,
-    "price_postapoc": 0
+    "price_postapoc": 0,
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
     "type": "GENERIC",
@@ -390,7 +406,8 @@
     "color": "green",
     "symbol": "$",
     "price": 100000,
-    "price_postapoc": 0
+    "price_postapoc": 0,
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
     "type": "GENERIC",
@@ -402,7 +419,8 @@
     "color": "green",
     "symbol": "$",
     "price": 200000,
-    "price_postapoc": 0
+    "price_postapoc": 0,
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
     "type": "GENERIC",
@@ -414,7 +432,8 @@
     "color": "green",
     "symbol": "$",
     "price": 500000,
-    "price_postapoc": 100
+    "price_postapoc": 100,
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
     "type": "GENERIC",
@@ -426,7 +445,8 @@
     "color": "green",
     "symbol": "$",
     "price": 1000000,
-    "price_postapoc": 100
+    "price_postapoc": 100,
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
     "type": "GENERIC",
@@ -454,7 +474,8 @@
     "symbol": "$",
     "material": [ "paper" ],
     "price": 100000,
-    "price_postapoc": 0
+    "price_postapoc": 0,
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
     "type": "GENERIC",
@@ -466,7 +487,8 @@
     "color": "green",
     "symbol": "$",
     "price": 200000,
-    "price_postapoc": 0
+    "price_postapoc": 0,
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
     "type": "GENERIC",
@@ -478,7 +500,8 @@
     "color": "green",
     "symbol": "$",
     "price": 500000,
-    "price_postapoc": 0
+    "price_postapoc": 0,
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
     "type": "GENERIC",
@@ -490,7 +513,8 @@
     "color": "green",
     "symbol": "$",
     "price": 1000000,
-    "price_postapoc": 0
+    "price_postapoc": 0,
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
     "type": "GENERIC",
@@ -502,7 +526,8 @@
     "color": "green",
     "symbol": "$",
     "price": 2000000,
-    "price_postapoc": 0
+    "price_postapoc": 0,
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
     "type": "GENERIC",
@@ -514,7 +539,8 @@
     "color": "green",
     "symbol": "$",
     "price": 5000000,
-    "price_postapoc": 1000
+    "price_postapoc": 1000,
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
     "type": "GENERIC",
@@ -526,7 +552,8 @@
     "color": "green",
     "symbol": "$",
     "price": 10000000,
-    "price_postapoc": 1000
+    "price_postapoc": 1000,
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
     "type": "GENERIC",
