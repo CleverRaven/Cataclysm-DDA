@@ -1708,5 +1708,29 @@
     "id": "SCIENCE_CARD_MEDICAL_RED",
     "type": "json_flag",
     "info": "You could probably use this to access a secure zone of a facility."
+  },
+  {
+    "id": "BATTERY_ULTRA_LIGHT",
+    "type": "json_flag",
+    "info": "This item fits in items that use ultra-light batteries.",
+    "name": "ultra-light battery"
+  },
+  {
+    "id": "BATTERY_LIGHT",
+    "type": "json_flag",
+    "info": "This item fits in items that use light batteries.",
+    "name": "light battery"
+  },
+  {
+    "id": "BATTERY_MEDIUM",
+    "type": "json_flag",
+    "info": "This item fits in items that use medium batteries.",
+    "name": "medium battery"
+  },
+  {
+    "id": "BATTERY_HEAVY",
+    "type": "json_flag",
+    "info": "This item fits in items that use heavy batteries.",
+    "name": "heavy battery"
   }
 ]

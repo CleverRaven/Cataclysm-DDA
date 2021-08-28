@@ -1004,6 +1004,12 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
+std::pair<std::string, nc_color> display::weariness_text_color( const Character &u )
+{
+    std::pair<translation, nc_color> trans_color = display::weariness_text_color( u.weariness_level() );
+    return std::make_pair( trans_color.first.translated(), trans_color.second );
+}
+
 std::pair<translation, nc_color> display::weariness_text_color( size_t weariness )
 {
     static const std::array<std::pair<translation, nc_color>, 6> weary_descriptions { {
@@ -1286,8 +1292,7 @@ static void draw_stats( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( stat < 10 ? 30 : 29, 0 ), stat_clr,
                stat < 100 ? std::to_string( stat ) : "99+" );
 
-    int weariness = u.weariness_level();
-    std::pair<translation, nc_color> weary = display::weariness_text_color( weariness );
+    std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
     const float activity = u.instantaneous_activity_level();
 
     nc_color act_color;
@@ -1305,7 +1310,7 @@ static void draw_stats( avatar &u, const catacurses::window &w )
     const int act_start = ( getmaxx( w ) / 2 ) - 1;
 
     mvwprintz( w, point_south, c_light_gray, _( weary_label ) );
-    mvwprintz( w, point( wlabel_len + 1, 1 ), weary.second, weary.first.translated() );
+    mvwprintz( w, point( wlabel_len + 1, 1 ), weary.second, weary.first );
     mvwprintz( w, point( act_start, 1 ), c_light_gray, _( activity_label ) );
     mvwprintz( w, point( act_start + alabel_len + 1, 1 ), act_color,
                display::activity_level_str( activity ) );
@@ -1604,8 +1609,7 @@ static void draw_stat_narrow( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 8, 2 ), pwr_pair.first, "%s", pwr_pair.second );
     mvwprintz( w, point( 26, 2 ), safe_color(), g->safe_mode ? _( "On" ) : _( "Off" ) );
 
-    int weariness = u.weariness_level();
-    std::pair<translation, nc_color> weary = display::weariness_text_color( weariness );
+    std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
     const float activity = u.instantaneous_activity_level();
 
     nc_color act_color;
@@ -1623,7 +1627,7 @@ static void draw_stat_narrow( avatar &u, const catacurses::window &w )
     const int act_start = ( getmaxx( w ) / 2 ) - 1;
 
     mvwprintz( w, point( 1, 3 ), c_light_gray, _( weary_label ) );
-    mvwprintz( w, point( wlabel_len + 2, 3 ), weary.second, weary.first.translated() );
+    mvwprintz( w, point( wlabel_len + 2, 3 ), weary.second, weary.first );
     mvwprintz( w, point( act_start, 3 ), c_light_gray, _( activity_label ) );
     mvwprintz( w, point( act_start + alabel_len + 1, 3 ), act_color,
                display::activity_level_str( activity ) );
@@ -1655,8 +1659,7 @@ static void draw_stat_wide( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 38, 0 ), pwr_pair.first, "%s", pwr_pair.second );
     mvwprintz( w, point( 38, 1 ), safe_color(), g->safe_mode ? _( "On" ) : _( "Off" ) );
 
-    int weariness = u.weariness_level();
-    std::pair<translation, nc_color> weary = display::weariness_text_color( weariness );
+    std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
     const float activity = u.instantaneous_activity_level();
 
     nc_color act_color;
@@ -1674,7 +1677,7 @@ static void draw_stat_wide( avatar &u, const catacurses::window &w )
     const int act_start = ( getmaxx( w ) / 2 ) - 1;
 
     mvwprintz( w, point( 1, 2 ), c_light_gray, _( weary_label ) );
-    mvwprintz( w, point( wlabel_len + 2, 2 ), weary.second, weary.first.translated() );
+    mvwprintz( w, point( wlabel_len + 2, 2 ), weary.second, weary.first );
     mvwprintz( w, point( act_start, 2 ), c_light_gray, _( activity_label ) );
     mvwprintz( w, point( act_start + alabel_len + 1, 2 ), act_color,
                display::activity_level_str( activity ) );
@@ -2349,8 +2352,7 @@ static void draw_weariness( const avatar &u, const catacurses::window &w )
 {
     werase( w );
 
-    int weariness = u.weariness_level();
-    std::pair<translation, nc_color> weary = display::weariness_text_color( weariness );
+    std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
     const float activity = u.instantaneous_activity_level();
 
     nc_color act_color;
@@ -2384,8 +2386,7 @@ static void draw_weariness_narrow( const avatar &u, const catacurses::window &w 
 {
     werase( w );
 
-    int weariness = u.weariness_level();
-    std::pair<translation, nc_color> weary = display::weariness_text_color( weariness );
+    std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
     const float activity = u.instantaneous_activity_level();
 
     nc_color act_color;
@@ -2419,8 +2420,7 @@ static void draw_weariness_wide( const avatar &u, const catacurses::window &w )
 {
     werase( w );
 
-    int weariness = u.weariness_level();
-    std::pair<translation, nc_color> weary = display::weariness_text_color( weariness );
+    std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
     const float activity = u.instantaneous_activity_level();
 
     nc_color act_color;
@@ -2454,8 +2454,7 @@ static void draw_weariness_classic( const avatar &u, const catacurses::window &w
 {
     werase( w );
 
-    int weariness = u.weariness_level();
-    std::pair<translation, nc_color> weary = display::weariness_text_color( weariness );
+    std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
     const float activity = u.instantaneous_activity_level();
 
     nc_color act_color;
@@ -2474,7 +2473,7 @@ static void draw_weariness_classic( const avatar &u, const catacurses::window &w
     const int act_start = std::floor( getmaxx( w ) / 2 );
 
     mvwprintz( w, point_zero, c_light_gray, _( weary_label ) );
-    mvwprintz( w, point( wlabel_len + 1, 0 ), weary.second, weary.first.translated() );
+    mvwprintz( w, point( wlabel_len + 1, 0 ), weary.second, weary.first );
     mvwprintz( w, point( act_start, 0 ), c_light_gray, _( activity_label ) );
     mvwprintz( w, point( act_start + alabel_len + 1, 0 ), act_color,
                display::activity_level_str( activity ) );

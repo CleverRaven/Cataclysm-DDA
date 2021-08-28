@@ -3288,14 +3288,14 @@ std::pair<item_location, item_pocket *> Character::best_pocket( const item &it, 
     item_location weapon_loc( *this, &weapon );
     std::pair<item_location, item_pocket *> ret = std::make_pair( item_location(), nullptr );
     if( &weapon != &it && &weapon != avoid ) {
-        ret = weapon.best_pocket( it, weapon_loc );
+        ret = weapon.best_pocket( it, weapon_loc, avoid );
     }
     for( item &worn_it : worn ) {
         if( &worn_it == &it || &worn_it == avoid ) {
             continue;
         }
         item_location loc( *this, &worn_it );
-        std::pair<item_location, item_pocket *> internal_pocket = worn_it.best_pocket( it, loc );
+        std::pair<item_location, item_pocket *> internal_pocket = worn_it.best_pocket( it, loc, avoid );
         if( internal_pocket.second != nullptr &&
             ( ret.second == nullptr || ret.second->better_pocket( *internal_pocket.second, it ) ) ) {
             ret = internal_pocket;
@@ -3920,13 +3920,11 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
         } );
     } else {
         // find compatible magazines excluding those already loaded in tools/guns
-        const auto mags = obj.magazine_compatible();
-
-        src.visit_items( [&src, &nested, &out, mags, empty]( item * node, item * parent ) {
+        src.visit_items( [&src, &nested, &out, &obj, empty]( item * node, item * parent ) {
             // magazine is inside some sort of a container
-            if( node->is_magazine() &&
-                ( parent != nullptr && node != parent->magazine_current() && parent->is_container() ) ) {
-                if( mags.count( node->typeId() ) && ( node->ammo_remaining() || empty ) ) {
+            if( node->is_magazine() && ( parent != nullptr && node != parent->magazine_current() &&
+                                         parent->is_container() ) ) {
+                if( obj.can_contain( *node, true ).success() && ( node->ammo_remaining() || empty ) ) {
                     out = item_location( item_location( src, parent ), node );
                 }
                 return VisitResponse::SKIP;
@@ -3934,7 +3932,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             //everything else, probably?
             if( node->is_magazine() &&
                 ( parent == nullptr || node != parent->magazine_current() ) ) {
-                if( mags.count( node->typeId() ) && ( node->ammo_remaining() || empty ) ) {
+                if( obj.can_contain( *node, true ).success() && ( node->ammo_remaining() || empty ) ) {
                     out = item_location( src, node );
                 }
                 return VisitResponse::SKIP;
@@ -3971,7 +3969,7 @@ std::vector<item_location> Character::find_reloadables()
             return VisitResponse::NEXT;
         }
         bool reloadable = false;
-        if( node->is_gun() && !node->magazine_compatible().empty() ) {
+        if( node->is_gun() && node->uses_magazine() ) {
             reloadable = node->magazine_current() == nullptr ||
                          node->remaining_ammo_capacity() > 0;
         } else {
@@ -8441,7 +8439,7 @@ int Character::ammo_count_for( const item &gun )
 
 bool Character::can_reload( const item &it, const itype_id &ammo ) const
 {
-    if( !it.is_reloadable_with( ammo ) ) {
+    if( !it.can_reload_with( ammo ) ) {
         return false;
     }
 
@@ -13800,7 +13798,7 @@ bool Character::unload( item_location &loc, bool bypass_activity )
 
     // Next check for any reasons why the item cannot be unloaded
     if( !target->has_flag( flag_BRASS_CATCHER ) ) {
-        if( target->ammo_types().empty() && target->magazine_compatible().empty() ) {
+        if( !target->is_magazine() && !target->uses_magazine() ) {
             add_msg( m_info, _( "You can't unload a %s!" ), target->tname() );
             return false;
         }
