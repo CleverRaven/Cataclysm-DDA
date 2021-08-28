@@ -754,7 +754,7 @@ void talk_function::drop_items_in_place( npc &p )
     }
     if( !to_drop.empty() ) {
         p.assign_activity( player_activity( drop_activity_actor(
-                                                to_drop, p.pos(), false
+                                                to_drop, tripoint_zero, false
                                             ) ) );
     }
 }
