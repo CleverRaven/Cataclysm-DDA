@@ -1006,7 +1006,7 @@ class drop_or_stash_item_info
 
 
 /**
- * Activity to drop items to the ground.
+ * Activity to drop items to the ground or into a vehicle cargo part.
  * @items is the list of items to drop
  * @placement is the offset to the current position of the actor (use tripoint_zero for current pos)
  * @force_ground should the items be forced to the ground instead of e.g. a container at the position
