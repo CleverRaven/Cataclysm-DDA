@@ -117,8 +117,8 @@
       "computers": {
         "6": {
           "name": "Security Public Relations Zone",
-          "security": 3,
-          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 3 } ],
+          "security": 5,
+          "options": [ { "name": "UNLOCK ENTRANCE", "action": "unlock_disarm", "security": 5 } ],
           "failures": [ { "action": "damage" }, { "action": "manhacks" } ]
         }
       }
@@ -214,10 +214,8 @@
       "terrain": { "¥": "t_card_science_security_yellow", "ƶ": "t_card_science_security_magenta" },
       "place_loot": [
         { "item": "id_science_maintenance_yellow", "x": 11, "y": 11, "chance": 30 },
-        { "item": "id_science_mutagen_green", "x": 11, "y": 11, "chance": 30 },
         { "item": "id_science_medical_red", "x": 11, "y": 11, "chance": 30 },
         { "item": "id_science_maintenance_yellow", "x": 11, "y": 12, "chance": 30 },
-        { "item": "id_science_mutagen_green", "x": 11, "y": 12, "chance": 30 },
         { "item": "id_science_medical_red", "x": 11, "y": 12, "chance": 30 }
       ],
       "place_signs": [
@@ -461,10 +459,10 @@
       "fill_ter": "t_linoleum_gray",
       "rows": [
         "||||||||||||||||||||||||",
-        "|@@∞|,|∞@@|`````¥```````",
-        "|r,,+,+,hr|`````=```````",
+        "|@@∞|,|∞@@|`````|```````",
+        "|r,,+,+,hr|`````#```````",
         "|rh,|,|,,r|``|##|```î```",
-        "|||||ê|||||``|><|``````|",
+        "|||||ê|||||``|`<|``````|",
         "|@@∞|,|∞@@|``|||||||||||",
         "|r,,+,+,hr|``|||||||||||",
         "|rh,|,|,,r|``||qqqqqqq||",
@@ -472,17 +470,17 @@
         "|9,S|ê,,,,|``||,,≠≠≠≠≠||",
         "|9,,|,hfh,|``||,,,ê,,,||",
         "|||+|,hfh,#``=,,,≠≠≠≠≠||",
-        "|t+,#,hfh,#``=,,,,,,,,||",
+        "|t+,#,hfh,#``=,,,,,ɜ,,||",
         "|||,|,hfh,|`6||qqq,,qq||",
         "|t+,|ê,,,,|``|||||=¥||||",
         "|||||,|||||``||,$,êA,Q||",
         "|@@∞|,|∞@@|``||,$,NN,Q||",
         "|r,,+,+,,r|``|||||||||||",
         "|rh,|,|,hr|``|||||||||||",
-        "|||||ê|||||``|><|``````|",
+        "|||||ê|||||``|`<|``````|",
         "|@@∞|,|∞@@|``|##|``î````",
-        "|r,,+,+,,r|`````=```````",
-        "|rh,|,|,hr|`````¥```````",
+        "|r,,+,+,,r|`````#```````",
+        "|rh,|,|,hr|`````|```````",
         "||||||||||||||||||||||||"
       ],
       "palettes": [ "lab_common_palette", "lab_security_palette" ],
