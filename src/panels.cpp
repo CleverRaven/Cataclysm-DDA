@@ -876,9 +876,22 @@ std::pair<std::string, nc_color> display::mana_text_color( const Character &you 
     return std::make_pair( s_mana, c_mana );
 }
 
-static nc_color safe_color()
+std::pair<std::string, nc_color> display::safe_mode_text_color( const bool classic_mode )
 {
+    // "classic" mode used by draw_limb2 and draw_health_classic are "SAFE" or (empty)
+    // draw_stat_narrow and draw_stat_wide display "On" or "Off" value
+    std::string s_text;
+    if( classic_mode ) {
+        if( g->safe_mode || get_option<bool>( "AUTOSAFEMODE" ) ) {
+            s_text = "SAFE";
+        }
+    } else {
+        s_text = g->safe_mode ? _( "On" ) : _( "Off" );
+    }
+
+    // By default, color is green if safe, red otherwise
     nc_color s_color = g->safe_mode ? c_green : c_red;
+    // If auto-safe-mode is enabled, go to light red, yellow, and green as the turn limit approaches
     if( g->safe_mode == SAFE_MODE_OFF && get_option<bool>( "AUTOSAFEMODE" ) ) {
         time_duration s_return = time_duration::from_turns( get_option<int>( "AUTOSAFEMODETURNS" ) );
         int iPercent = g->turnssincelastmon * 100 / s_return;
@@ -892,7 +905,8 @@ static nc_color safe_color()
             s_color = c_red;
         }
     }
-    return s_color;
+
+    return std::make_pair( s_text, s_color );
 }
 
 // ===============================
@@ -984,12 +998,8 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
     // print mood
     std::pair<std::string, nc_color> morale_pair = display::morale_face_color( u );
 
-    // print safe mode
-    std::string safe_str;
-    if( g->safe_mode || get_option<bool>( "AUTOSAFEMODE" ) ) {
-        safe_str = _( "SAFE" );
-    }
-    mvwprintz( w, point( 22, 2 ), safe_color(), safe_str );
+    std::pair<std::string, nc_color> safe_pair = display::safe_mode_text_color( true );
+    mvwprintz( w, point( 22, 2 ), safe_pair.second, safe_pair.first );
     mvwprintz( w, point( 27, 2 ), morale_pair.second, morale_pair.first );
 
     // print stamina
@@ -1620,7 +1630,8 @@ static void draw_stat_narrow( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 1, 2 ), c_light_gray, _( "Power:" ) );
     mvwprintz( w, point( 19, 2 ), c_light_gray, _( "Safe :" ) );
     mvwprintz( w, point( 8, 2 ), power_pair.second, "%s", power_pair.first );
-    mvwprintz( w, point( 26, 2 ), safe_color(), g->safe_mode ? _( "On" ) : _( "Off" ) );
+    std::pair<std::string, nc_color> safe_pair = display::safe_mode_text_color( false );
+    mvwprintz( w, point( 26, 2 ), safe_pair.second, safe_pair.first );
 
     std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
     std::pair<std::string, nc_color> activity = display::activity_text_color( u );
@@ -1662,7 +1673,8 @@ static void draw_stat_wide( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Power:" ) );
     mvwprintz( w, point( 31, 1 ), c_light_gray, _( "Safe :" ) );
     mvwprintz( w, point( 38, 0 ), power_pair.second, "%s", power_pair.first );
-    mvwprintz( w, point( 38, 1 ), safe_color(), g->safe_mode ? _( "On" ) : _( "Off" ) );
+    std::pair<std::string, nc_color> safe_pair = display::safe_mode_text_color( false );
+    mvwprintz( w, point( 38, 1 ), safe_pair.second, safe_pair.first );
 
     std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
     std::pair<std::string, nc_color> activity = display::activity_text_color( u );
@@ -2000,12 +2012,9 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 38, 3 ), pair.second, pair.first );
     }
 
-    // print safe mode// print safe mode
-    std::string safe_str;
-    if( g->safe_mode || get_option<bool>( "AUTOSAFEMODE" ) ) {
-        safe_str = "SAFE";
-    }
-    mvwprintz( w, point( 40, 4 ), safe_color(), safe_str );
+    // print safe mode
+    std::pair<std::string, nc_color> safe_pair = display::safe_mode_text_color( true );
+    mvwprintz( w, point( 40, 4 ), safe_pair.second, safe_pair.first );
 
     // print stamina
     auto pair = std::make_pair( get_hp_bar( u.get_stamina(), u.get_stamina_max() ).second,

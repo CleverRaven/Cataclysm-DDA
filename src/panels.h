@@ -82,6 +82,7 @@ std::pair<std::string, nc_color> str_text_color( const Character &p );
 std::pair<std::string, nc_color> dex_text_color( const Character &p );
 std::pair<std::string, nc_color> int_text_color( const Character &p );
 std::pair<std::string, nc_color> per_text_color( const Character &p );
+std::pair<std::string, nc_color> safe_mode_text_color( const bool classic_mode );
 
 // Functions returning colorized string
 // gets the string that describes your weight
