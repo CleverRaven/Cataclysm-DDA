@@ -519,8 +519,14 @@ bool SkillLevelMap::has_recipe_requirements( const recipe &rec ) const
 
 bool SkillLevelMap::has_same_levels_as( const SkillLevelMap &other ) const
 {
+    if( this->size() != other.size() ) {
+        return false;
+    }
     for( const auto &entry : *this ) {
         const SkillLevel &this_level = entry.second;
+        if( other.count( entry.first ) == 0 ) {
+            return false;
+        }
         const SkillLevel &other_level = other.get_skill_level_object( entry.first );
         if( this_level.level() != other_level.level() ||
             this_level.knowledgeLevel() != other_level.knowledgeLevel() ) {
