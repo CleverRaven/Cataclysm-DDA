@@ -3273,6 +3273,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( buy_100_logs ),
             WRAP( bionic_install ),
             WRAP( bionic_remove ),
+            WRAP( drop_items_in_place ),
             WRAP( follow ),
             WRAP( follow_only ),
             WRAP( deny_follow ),

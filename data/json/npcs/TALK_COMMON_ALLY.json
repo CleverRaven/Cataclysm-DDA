@@ -170,6 +170,12 @@
         "effect": "find_mount"
       },
       {
+        "text": "Drop off your loot!",
+        "condition": { "not": "is_by_radio" },
+        "topic": "TALK_DONE",
+        "effect": "drop_items_in_place"
+      },
+      {
         "text": "Get off your mount, please.",
         "condition": "npc_is_riding",
         "topic": "TALK_DONE",

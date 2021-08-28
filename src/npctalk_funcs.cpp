@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -739,6 +740,23 @@ void talk_function::buy_100_logs( npc &p )
 
     p.add_effect( effect_currently_busy, 7_days );
     add_msg( m_good, _( "%s drops the logs off in the garage…" ), p.get_name() );
+}
+
+void talk_function::drop_items_in_place( npc &p )
+{
+    const std::vector<item_location> &npcs_items = p.all_items_loc();
+    std::vector<drop_or_stash_item_info> to_drop;
+
+    for( const item_location &npcs_item : npcs_items ) {
+        if( !npcs_item->is_favorite ) {
+            to_drop.emplace_back( npcs_item, npcs_item->count() );
+        }
+    }
+    if( !to_drop.empty() ) {
+        p.assign_activity( player_activity( drop_activity_actor(
+                                                to_drop, p.pos(), false
+                                            ) ) );
+    }
 }
 
 void talk_function::follow( npc &p )
