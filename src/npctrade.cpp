@@ -605,6 +605,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
             exit = true;
             confirm = false;
         } else if( action == "TOGGLE_FAVORITE" ) {
+            // toggle the favorite status for each item that is selected currently
             for( item_pricing &list_item : target_list ) {
                 if( list_item.selected ) {
                     item_location &item = list_item.loc;
