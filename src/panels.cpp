@@ -828,7 +828,7 @@ std::string display::morale_emotion( const int morale_cur, const face_type face,
     }
 }
 
-std::pair<nc_color, std::string> display::power_stat( const Character &u )
+std::pair<std::string, nc_color> display::power_stat( const Character &u )
 {
     nc_color c_pwr = c_red;
     std::string s_pwr;
@@ -855,7 +855,7 @@ std::pair<nc_color, std::string> display::power_stat( const Character &u )
                     pgettext( "energy unit: kilojoule", "kJ" );
         }
     }
-    return std::make_pair( c_pwr, s_pwr );
+    return std::make_pair( s_pwr, c_pwr );
 }
 
 std::pair<nc_color, std::string> display::mana_stat( const Character &you )
@@ -998,8 +998,9 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 26, 0 ), stamina.second, stamina.first );
 
     mvwprintz( w, point( 22, 1 ), c_light_gray, _( "PWR" ) );
-    const auto pwr = display::power_stat( u );
-    mvwprintz( w, point( 31 - utf8_width( pwr.second ), 1 ), pwr.first, pwr.second );
+    std::pair<std::string, nc_color> power_pair = display::power_stat( u );
+    mvwprintz( w, point( 31 - utf8_width( power_pair.first ), 1 ), power_pair.second,
+               power_pair.first );
 
     wnoutrefresh( w );
 }
@@ -1600,10 +1601,10 @@ static void draw_stat_narrow( avatar &u, const catacurses::window &w )
     stat_clr = display::per_string( u ).first;
     mvwprintz( w, point( 26, 1 ), stat_clr, "%s", u.get_per() );
 
-    std::pair<nc_color, std::string> pwr_pair = display::power_stat( u );
+    std::pair<std::string, nc_color> power_pair = display::power_stat( u );
     mvwprintz( w, point( 1, 2 ), c_light_gray, _( "Power:" ) );
     mvwprintz( w, point( 19, 2 ), c_light_gray, _( "Safe :" ) );
-    mvwprintz( w, point( 8, 2 ), pwr_pair.first, "%s", pwr_pair.second );
+    mvwprintz( w, point( 8, 2 ), power_pair.second, "%s", power_pair.first );
     mvwprintz( w, point( 26, 2 ), safe_color(), g->safe_mode ? _( "On" ) : _( "Off" ) );
 
     std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
@@ -1650,10 +1651,10 @@ static void draw_stat_wide( avatar &u, const catacurses::window &w )
     stat_clr = display::per_string( u ).first;
     mvwprintz( w, point( 23, 1 ), stat_clr, "%s", u.get_per() );
 
-    std::pair<nc_color, std::string> pwr_pair = display::power_stat( u );
+    std::pair<std::string, nc_color> power_pair = display::power_stat( u );
     mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Power:" ) );
     mvwprintz( w, point( 31, 1 ), c_light_gray, _( "Safe :" ) );
-    mvwprintz( w, point( 38, 0 ), pwr_pair.first, "%s", pwr_pair.second );
+    mvwprintz( w, point( 38, 0 ), power_pair.second, "%s", power_pair.first );
     mvwprintz( w, point( 38, 1 ), safe_color(), g->safe_mode ? _( "On" ) : _( "Off" ) );
 
     std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
@@ -2031,9 +2032,9 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 21, 6 ), temp_pair.second, temp_pair.first + display::temp_delta_string( u ) );
 
     // power
-    pair = display::power_stat( u );
+    std::pair<std::string, nc_color> power_pair = display::power_stat( u );
     mvwprintz( w, point( 8, 6 ), c_light_gray, _( "POWER" ) );
-    mvwprintz( w, point( 14, 6 ), pair.first, pair.second );
+    mvwprintz( w, point( 14, 6 ), power_pair.second, power_pair.first );
 
     // vehicle display
     if( veh ) {

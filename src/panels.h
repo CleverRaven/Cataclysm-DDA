@@ -73,7 +73,7 @@ std::pair<std::string, nc_color> move_mode_text_color( const Character &u );
 
 // TODO: Swap text/string order to match previous functions
 std::pair<std::string, nc_color> temp_stat( const Character &u );
-std::pair<nc_color, std::string> power_stat( const Character &u );
+std::pair<std::string, nc_color> power_stat( const Character &u );
 std::pair<nc_color, std::string> mana_stat( const Character &you );
 std::pair<nc_color, std::string> str_string( const Character &p );
 std::pair<nc_color, std::string> dex_string( const Character &p );
