@@ -1003,7 +1003,7 @@ void map::board_vehicle( const tripoint &pos, Character *p )
     if( vp->part().has_flag( vehicle_part::passenger_flag ) ) {
         Character *psg = vp->vehicle().get_passenger( vp->part_index() );
         debugmsg( "map::board_vehicle: passenger (%s) is already there",
-                  psg ? psg->name : "<null>" );
+                  psg ? psg->get_name() : "<null>" );
         unboard_vehicle( pos );
     }
     vp->part().set_flag( vehicle_part::passenger_flag );

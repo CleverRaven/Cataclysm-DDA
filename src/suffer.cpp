@@ -488,7 +488,7 @@ void Character::suffer_from_schizophrenia()
     if( one_turn_in( 4_hours ) ) {
         const translation snip = SNIPPET.random_from_category( "schizo_self_talk" ).value_or(
                                      translation() );
-        add_msg_if_player( _( "%1$s says: \"%2$s\"" ), name, snip );
+        add_msg_if_player( _( "%1$s says: \"%2$s\"" ), get_name(), snip );
         return;
     }
 
@@ -504,9 +504,9 @@ void Character::suffer_from_schizophrenia()
     if( one_turn_in( 4_hours ) ) {
         std::vector<shared_ptr_fast<npc>> followers = overmap_buffer.get_npcs_near_player( 12 );
 
-        std::string who_gets_angry = name;
+        std::string who_gets_angry = get_name();
         if( !followers.empty() ) {
-            who_gets_angry = random_entry_ref( followers )->name;
+            who_gets_angry = random_entry_ref( followers )->get_name();
         }
         add_msg_if_player( m_bad, _( "%1$s gets angry!" ), who_gets_angry );
         return;

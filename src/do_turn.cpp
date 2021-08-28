@@ -243,7 +243,7 @@ bool cleanup_at_end()
                    c_light_gray,
                    sTemp );
 
-        sTemp = u.name;
+        sTemp = u.get_name();
         mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, iNameLine++ ), c_white,
                    sTemp );
 
@@ -718,7 +718,7 @@ void monmove()
             // there will be no meaningful debug output.
             if( turns == 9 ) {
                 debugmsg( "NPC %s entered infinite loop.  Turning on debug mode",
-                          guy.name );
+                          guy.get_name() );
                 debug_mode = true;
                 // make sure the filter is active
                 if( std::find(
@@ -732,7 +732,7 @@ void monmove()
         // If we spun too long trying to decide what to do (without spending moves),
         // Invoke cognitive suspension to prevent an infinite loop.
         if( turns == 10 ) {
-            add_msg( _( "%s faints!" ), guy.name );
+            add_msg( _( "%s faints!" ), guy.get_name() );
             guy.reboot();
         }
 

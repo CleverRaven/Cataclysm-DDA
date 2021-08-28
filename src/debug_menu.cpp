@@ -1134,7 +1134,7 @@ void character_edit_menu()
     charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, "%s", _( "You" ) );
     locations.emplace_back( player_character.pos() );
     for( const npc &guy : g->all_npcs() ) {
-        charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, guy.name );
+        charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, guy.get_name() );
         locations.emplace_back( guy.pos() );
     }
 
@@ -1153,7 +1153,7 @@ void character_edit_menu()
 
     if( np != nullptr ) {
         std::stringstream data;
-        data << np->name << " " << ( np->male ? _( "Male" ) : _( "Female" ) ) << std::endl;
+        data << np->get_name() << " " << ( np->male ? _( "Male" ) : _( "Female" ) ) << std::endl;
         data << np->myclass.obj().get_name() << "; " <<
              npc_attitude_name( np->get_attitude() ) << "; " <<
              ( np->get_faction() ? np->get_faction()->name : _( "no faction" ) ) << "; " <<
@@ -1881,10 +1881,10 @@ void mission_debug::remove_mission( mission &m )
     npc *giver = g->find_npc( m.npc_id );
     if( giver != nullptr ) {
         if( remove_from_vec( giver->chatbin.missions_assigned, &m ) ) {
-            add_msg( _( "Removing from %s missions_assigned" ), giver->name );
+            add_msg( _( "Removing from %s missions_assigned" ), giver->get_name() );
         }
         if( remove_from_vec( giver->chatbin.missions, &m ) ) {
-            add_msg( _( "Removing from %s missions" ), giver->name );
+            add_msg( _( "Removing from %s missions" ), giver->get_name() );
         }
     }
 }
@@ -2017,7 +2017,7 @@ static void debug_menu_game_state()
         g->num_creatures() );
     for( const npc &guy : g->all_npcs() ) {
         tripoint_abs_sm t = guy.global_sm_location();
-        add_msg( m_info, _( "%s: map ( %d:%d ) pos ( %d:%d )" ), guy.name, t.x(),
+        add_msg( m_info, _( "%s: map ( %d:%d ) pos ( %d:%d )" ), guy.get_name(), t.x(),
                  t.y(), guy.posx(), guy.posy() );
     }
 
@@ -2288,7 +2288,7 @@ void debug()
 
         case debug_menu_index::KILL_NPCS:
             for( npc &guy : g->all_npcs() ) {
-                add_msg( _( "%s's head implodes!" ), guy.name );
+                add_msg( _( "%s's head implodes!" ), guy.get_name() );
                 guy.set_part_hp_cur( bodypart_id( "head" ), 0 );
             }
             break;

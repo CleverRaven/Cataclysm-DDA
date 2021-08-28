@@ -717,11 +717,11 @@ void Character::sort_armor()
         } else {
             // Player is sorting NPC's armor here
             if( rl_dist( player_character.pos(), pos() ) > 1 ) {
-                add_msg_if_npc( m_bad, _( "%s is too far to sort armor." ), name );
+                add_msg_if_npc( m_bad, _( "%s is too far to sort armor." ), get_name() );
                 return;
             }
             if( attitude_to( player_character ) != Creature::Attitude::FRIENDLY ) {
-                add_msg_if_npc( m_bad, _( "%s is not friendly!" ), name );
+                add_msg_if_npc( m_bad, _( "%s is not friendly!" ), get_name() );
                 return;
             }
         }

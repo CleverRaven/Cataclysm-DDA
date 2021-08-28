@@ -1256,7 +1256,7 @@ void veh_interact::do_repair()
                 sel_vpart_variant = pt.variant;
                 const std::vector<npc *> helpers = player_character.get_crafting_helpers();
                 for( const npc *np : helpers ) {
-                    add_msg( m_info, _( "%s helps with this task…" ), np->name );
+                    add_msg( m_info, _( "%s helps with this task…" ), np->get_name() );
                 }
                 sel_cmd = 'r';
                 break;
@@ -1575,7 +1575,7 @@ void veh_interact::calc_overview()
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 const npc *who = pt.crew();
                 if( who ) {
-                    right_print( w, y, 1, pt.passenger_id == who->getID() ? c_green : c_light_gray, who->name );
+                    right_print( w, y, 1, pt.passenger_id == who->getID() ? c_green : c_light_gray, who->get_name() );
                 }
             };
             selectable = is_selectable( vpr.part() );
@@ -1899,7 +1899,7 @@ void veh_interact::do_remove()
             }
             const std::vector<npc *> helpers = player_character.get_crafting_helpers();
             for( const npc *np : helpers ) {
-                add_msg( m_info, _( "%s helps with this task…" ), np->name );
+                add_msg( m_info, _( "%s helps with this task…" ), np->get_name() );
             }
             sel_cmd = 'o';
             break;
@@ -2101,7 +2101,7 @@ void veh_interact::do_assign_crew()
         }
 
         for( const npc *e : g->allies() ) {
-            menu.addentry( e->getID().get_value(), true, -1, e->name );
+            menu.addentry( e->getID().get_value(), true, -1, e->get_name() );
         }
 
         menu.query();

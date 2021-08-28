@@ -683,7 +683,7 @@ void Character::load( const JsonObject &data )
             it = my_traits.erase( it );
             add_proficiency( proficiency_id( "prof_parkour" ) );
         } else {
-            debugmsg( "character %s has invalid trait %s, it will be ignored", name, tid.c_str() );
+            debugmsg( "character %s has invalid trait %s, it will be ignored", get_name(), tid.c_str() );
             my_traits.erase( it++ );
         }
     }
@@ -701,7 +701,7 @@ void Character::load( const JsonObject &data )
             it = my_mutations.erase( it );
             add_proficiency( proficiency_id( "prof_parkour" ) );
         } else {
-            debugmsg( "character %s has invalid mutation %s, it will be ignored", name, mid.c_str() );
+            debugmsg( "character %s has invalid mutation %s, it will be ignored", get_name(), mid.c_str() );
             it = my_mutations.erase( it );
         }
     }
