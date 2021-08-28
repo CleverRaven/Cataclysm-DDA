@@ -1,5 +1,7 @@
 LOCAL_PATH := $(call my-dir)/../../../../src
 
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/third-party
+
 include $(CLEAR_VARS)
 
 LOCAL_MODULE := main
