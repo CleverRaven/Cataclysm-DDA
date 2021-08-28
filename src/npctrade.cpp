@@ -324,7 +324,8 @@ void trading_window::update_win( npc &np, const std::string &deal )
                     _( "Trading with %s.\n"
                        "%s to switch lists, letters to pick items, "
                        "%s to finalize, %s to quit, "
-                       "%s to get information on an item." ),
+                       "%s to get information on an item, "
+                       "%s to mark selected items as favorite" ),
                     np.disp_name(),
                     ctxt.get_desc( "SWITCH_LISTS" ),
                     ctxt.get_desc( "CONFIRM" ),
