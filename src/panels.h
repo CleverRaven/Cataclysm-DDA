@@ -25,6 +25,19 @@ struct point;
 namespace display
 {
 // Functions returning plain strings
+// Current moon phase, ex. "Full moon", "Waxing crescent"
+std::string get_moon();
+// Current moon phase as ascii-art, ex. "(   )", "(  ))"
+std::string get_moon_graphic();
+// Current approximate time of day, ex. "Early morning", "Around dusk"
+std::string time_approx();
+
+// Temperature at character location, if they have a thermometer
+std::string get_temp( const Character &u );
+// Change in character body temperature, ex. "(Rising)", "(Falling!!)"
+std::string temp_delta_string( const Character &u );
+
+// Text descriptor for given activity level, ex. "Light", "Brisk", "Extreme"
 std::string activity_level_str( float level );
 // gets the description, printed in player_display, related to your current bmi
 std::string weight_long_description( const Character &u );
@@ -38,6 +51,17 @@ std::pair<std::string, nc_color> weight_text_color( const Character &u );
 std::pair<std::string, nc_color> fatigue_text_color( const Character &u );
 std::pair<std::string, nc_color> pain_text_color( const Creature &c );
 std::pair<std::string, nc_color> pain_text_color( const Character &u );
+// Change in character body temperature, as colorized arrows
+std::pair<nc_color, std::string> temp_delta_arrows( const Character &u );
+
+// Avatars to convert
+std::pair<nc_color, std::string> temp_stat( const avatar &u );
+std::pair<nc_color, std::string> power_stat( const avatar &u );
+std::pair<nc_color, std::string> mana_stat( const Character &you );
+std::pair<nc_color, std::string> str_string( const avatar &p );
+std::pair<nc_color, std::string> dex_string( const avatar &p );
+std::pair<nc_color, std::string> int_string( const avatar &p );
+std::pair<nc_color, std::string> per_string( const avatar &p );
 
 // Functions returning colorized string
 // gets the string that describes your weight

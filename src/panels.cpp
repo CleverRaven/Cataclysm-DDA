@@ -121,7 +121,7 @@ static void draw_rectangle( const catacurses::window &w, nc_color, point top_lef
     }
 }
 
-static std::pair<nc_color, std::string> str_string( const avatar &p )
+std::pair<nc_color, std::string> display::str_string( const avatar &p )
 {
     nc_color clr;
 
@@ -136,7 +136,7 @@ static std::pair<nc_color, std::string> str_string( const avatar &p )
                                p.get_str() ) : "++" ) );
 }
 
-static std::pair<nc_color, std::string> dex_string( const avatar &p )
+std::pair<nc_color, std::string> display::dex_string( const avatar &p )
 {
     nc_color clr;
 
@@ -151,7 +151,7 @@ static std::pair<nc_color, std::string> dex_string( const avatar &p )
                                p.get_dex() ) : "++" ) );
 }
 
-static std::pair<nc_color, std::string> int_string( const avatar &p )
+std::pair<nc_color, std::string> display::int_string( const avatar &p )
 {
     nc_color clr;
 
@@ -166,7 +166,7 @@ static std::pair<nc_color, std::string> int_string( const avatar &p )
                                p.get_int() ) : "++" ) );
 }
 
-static std::pair<nc_color, std::string> per_string( const avatar &p )
+std::pair<nc_color, std::string> display::per_string( const avatar &p )
 {
     nc_color clr;
 
@@ -476,7 +476,7 @@ static void decorate_panel( const std::string &name, const catacurses::window &w
     wprintz( w, c_white, title_suffix );
 }
 
-static std::string get_temp( const avatar &u )
+std::string display::get_temp( const Character &u )
 {
     std::string temp;
     if( u.has_item_with_flag( json_flag_THERMOMETER ) ||
@@ -489,7 +489,7 @@ static std::string get_temp( const avatar &u )
     return temp;
 }
 
-static std::string get_moon_graphic()
+std::string display::get_moon_graphic()
 {
     //moon phase display
     static std::vector<std::string> vMoonPhase = { "(   )", "(  ))", "( | )", "((  )" };
@@ -505,7 +505,7 @@ static std::string get_moon_graphic()
     return sPhase;
 }
 
-static std::string get_moon()
+std::string display::get_moon()
 {
     const int iPhase = static_cast<int>( get_moon_phase( calendar::turn ) );
     switch( iPhase ) {
@@ -532,7 +532,7 @@ static std::string get_moon()
     }
 }
 
-static std::string time_approx()
+std::string display::time_approx()
 {
     const int iHour = hour_of_day<int>( calendar::turn );
     if( iHour >= 23 || iHour <= 1 ) {
@@ -585,7 +585,7 @@ static std::pair<nc_color, int> morale_stat( const avatar &u )
     return std::make_pair( morale_color, morale_int );
 }
 
-static std::pair<bodypart_id, bodypart_id> temp_delta( const avatar &u )
+static std::pair<bodypart_id, bodypart_id> temp_delta( const Character &u )
 {
     bodypart_id current_bp_extreme = u.get_all_body_parts().front();
     bodypart_id conv_bp_extreme = current_bp_extreme;
@@ -620,7 +620,7 @@ static int define_temp_level( const int lvl )
     return 1;
 }
 
-static std::string temp_delta_string( const avatar &u )
+std::string display::temp_delta_string( const Character &u )
 {
     std::string temp_message;
     std::pair<bodypart_id, bodypart_id> temp_pair = temp_delta( u );
@@ -649,7 +649,7 @@ static std::string temp_delta_string( const avatar &u )
     return temp_message;
 }
 
-static std::pair<nc_color, std::string> temp_delta_arrows( const avatar &u )
+std::pair<nc_color, std::string> display::temp_delta_arrows( const Character &u )
 {
     std::string temp_message;
     nc_color temp_color = c_white;
@@ -686,7 +686,7 @@ static std::pair<nc_color, std::string> temp_delta_arrows( const avatar &u )
     return std::make_pair( temp_color, temp_message );
 }
 
-static std::pair<nc_color, std::string> temp_stat( const avatar &u )
+std::pair<nc_color, std::string> display::temp_stat( const avatar &u )
 {
     /// Find hottest/coldest bodypart
     // Calculate the most extreme body temperatures
@@ -826,7 +826,7 @@ static std::string morale_emotion( const int morale_cur, const face_type face,
     }
 }
 
-static std::pair<nc_color, std::string> power_stat( const avatar &u )
+std::pair<nc_color, std::string> display::power_stat( const avatar &u )
 {
     nc_color c_pwr = c_red;
     std::string s_pwr;
@@ -856,7 +856,7 @@ static std::pair<nc_color, std::string> power_stat( const avatar &u )
     return std::make_pair( c_pwr, s_pwr );
 }
 
-static std::pair<nc_color, std::string> mana_stat( const Character &you )
+std::pair<nc_color, std::string> display::mana_stat( const Character &you )
 {
     nc_color c_mana = c_red;
     std::string s_mana;
@@ -998,7 +998,7 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 26, 0 ), stamina.second, stamina.first );
 
     mvwprintz( w, point( 22, 1 ), c_light_gray, _( "PWR" ) );
-    const auto pwr = power_stat( u );
+    const auto pwr = display::power_stat( u );
     mvwprintz( w, point( 31 - utf8_width( pwr.second ), 1 ), pwr.first, pwr.second );
 
     wnoutrefresh( w );
@@ -1271,22 +1271,22 @@ std::pair<std::string, nc_color> display::pain_text_color( const Character &u )
 static void draw_stats( avatar &u, const catacurses::window &w )
 {
     werase( w );
-    nc_color stat_clr = str_string( u ).first;
+    nc_color stat_clr = display::str_string( u ).first;
     mvwprintz( w, point_zero, c_light_gray, _( "STR" ) );
     int stat = u.get_str();
     mvwprintz( w, point( stat < 10 ? 5 : 4, 0 ), stat_clr,
                stat < 100 ? std::to_string( stat ) : "99+" );
-    stat_clr = dex_string( u ).first;
+    stat_clr = display::dex_string( u ).first;
     stat = u.get_dex();
     mvwprintz( w, point( 9, 0 ), c_light_gray, _( "DEX" ) );
     mvwprintz( w, point( stat < 10 ? 14 : 13, 0 ), stat_clr,
                stat < 100 ? std::to_string( stat ) : "99+" );
-    stat_clr = int_string( u ).first;
+    stat_clr = display::int_string( u ).first;
     stat = u.get_int();
     mvwprintz( w, point( 17, 0 ), c_light_gray, _( "INT" ) );
     mvwprintz( w, point( stat < 10 ? 22 : 21, 0 ), stat_clr,
                stat < 100 ? std::to_string( stat ) : "99+" );
-    stat_clr = per_string( u ).first;
+    stat_clr = display::per_string( u ).first;
     stat = u.get_per();
     mvwprintz( w, point( 25, 0 ), c_light_gray, _( "PER" ) );
     mvwprintz( w, point( stat < 10 ? 30 : 29, 0 ), stat_clr,
@@ -1411,7 +1411,7 @@ static void draw_time( const avatar &u, const catacurses::window &w )
     //display moon
     mvwprintz( w, point( 22, 0 ), c_white, _( "Moon" ) );
     nc_color clr = c_white;
-    print_colored_text( w, point( 27, 0 ), clr, c_white, get_moon_graphic() );
+    print_colored_text( w, point( 27, 0 ), clr, c_white, display::get_moon_graphic() );
 
     wnoutrefresh( w );
 }
@@ -1430,9 +1430,9 @@ static void draw_needs_compact( const avatar &u, const catacurses::window &w )
 
     hunger_pair = display::thirst_text_color( u );
     mvwprintz( w, point( 17, 0 ), hunger_pair.second, hunger_pair.first );
-    auto pair = temp_stat( u );
+    auto pair = display::temp_stat( u );
     mvwprintz( w, point( 17, 1 ), pair.first, pair.second );
-    const auto arrow = temp_delta_arrows( u );
+    const auto arrow = display::temp_delta_arrows( u );
     mvwprintz( w, point( 17 + utf8_width( pair.second ), 1 ), arrow.first, arrow.second );
 
     mvwprintz( w, point( 17, 2 ), c_light_gray, _( "Focus" ) );
@@ -1594,16 +1594,16 @@ static void draw_stat_narrow( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 19, 0 ), c_light_gray, _( "Dex  :" ) );
     mvwprintz( w, point( 19, 1 ), c_light_gray, _( "Per  :" ) );
 
-    nc_color stat_clr = str_string( u ).first;
+    nc_color stat_clr = display::str_string( u ).first;
     mvwprintz( w, point( 8, 0 ), stat_clr, "%s", u.get_str() );
-    stat_clr = int_string( u ).first;
+    stat_clr = display::int_string( u ).first;
     mvwprintz( w, point( 8, 1 ), stat_clr, "%s", u.get_int() );
-    stat_clr = dex_string( u ).first;
+    stat_clr = display::dex_string( u ).first;
     mvwprintz( w, point( 26, 0 ), stat_clr, "%s", u.get_dex() );
-    stat_clr = per_string( u ).first;
+    stat_clr = display::per_string( u ).first;
     mvwprintz( w, point( 26, 1 ), stat_clr, "%s", u.get_per() );
 
-    std::pair<nc_color, std::string> pwr_pair = power_stat( u );
+    std::pair<nc_color, std::string> pwr_pair = display::power_stat( u );
     mvwprintz( w, point( 1, 2 ), c_light_gray, _( "Power:" ) );
     mvwprintz( w, point( 19, 2 ), c_light_gray, _( "Safe :" ) );
     mvwprintz( w, point( 8, 2 ), pwr_pair.first, "%s", pwr_pair.second );
@@ -1644,16 +1644,16 @@ static void draw_stat_wide( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 16, 0 ), c_light_gray, _( "Dex  :" ) );
     mvwprintz( w, point( 16, 1 ), c_light_gray, _( "Per  :" ) );
 
-    nc_color stat_clr = str_string( u ).first;
+    nc_color stat_clr = display::str_string( u ).first;
     mvwprintz( w, point( 8, 0 ), stat_clr, "%s", u.get_str() );
-    stat_clr = int_string( u ).first;
+    stat_clr = display::int_string( u ).first;
     mvwprintz( w, point( 8, 1 ), stat_clr, "%s", u.get_int() );
-    stat_clr = dex_string( u ).first;
+    stat_clr = display::dex_string( u ).first;
     mvwprintz( w, point( 23, 0 ), stat_clr, "%s", u.get_dex() );
-    stat_clr = per_string( u ).first;
+    stat_clr = display::per_string( u ).first;
     mvwprintz( w, point( 23, 1 ), stat_clr, "%s", u.get_per() );
 
-    std::pair<nc_color, std::string> pwr_pair = power_stat( u );
+    std::pair<nc_color, std::string> pwr_pair = display::power_stat( u );
     mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Power:" ) );
     mvwprintz( w, point( 31, 1 ), c_light_gray, _( "Safe :" ) );
     mvwprintz( w, point( 38, 0 ), pwr_pair.first, "%s", pwr_pair.second );
@@ -1719,7 +1719,7 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
         mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : %s" ),
                    to_string_time_of_day( calendar::turn ) );
     } else if( here.get_abs_sub().z >= 0 ) {
-        mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : %s" ), time_approx() );
+        mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : %s" ), display::time_approx() );
     } else {
         // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
         mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : ???" ) );
@@ -1751,9 +1751,9 @@ static void draw_moon_narrow( const avatar &u, const catacurses::window &w )
 {
     werase( w );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Moon : %s" ), get_moon() );
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Moon : %s" ), display::get_moon() );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Temp : %s" ), get_temp( u ) );
+    mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Temp : %s" ), display::get_temp( u ) );
     wnoutrefresh( w );
 }
 
@@ -1761,8 +1761,8 @@ static void draw_moon_wide( const avatar &u, const catacurses::window &w )
 {
     werase( w );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Moon : %s" ), get_moon() );
-    mvwprintz( w, point( 23, 0 ), c_light_gray, _( "Temp : %s" ), get_temp( u ) );
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Moon : %s" ), display::get_moon() );
+    mvwprintz( w, point( 23, 0 ), c_light_gray, _( "Temp : %s" ), display::get_temp( u ) );
     wnoutrefresh( w );
 }
 
@@ -1784,7 +1784,7 @@ static void draw_needs_narrow( const avatar &u, const catacurses::window &w )
     std::pair<std::string, nc_color> hunger_pair = display::hunger_text_color( u );
     std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( u );
     std::pair<std::string, nc_color> rest_pair = display::fatigue_text_color( u );
-    std::pair<nc_color, std::string> temp_pair = temp_stat( u );
+    std::pair<nc_color, std::string> temp_pair = display::temp_stat( u );
     std::pair<std::string, nc_color> pain_pair = display::pain_text_color( u );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Hunger:" ) );
@@ -1808,7 +1808,7 @@ static void draw_needs_labels( const avatar &u, const catacurses::window &w )
     std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( u );
     std::pair<std::string, nc_color> rest_pair = display::fatigue_text_color( u );
     std::pair<std::string, nc_color> weight_pair = display::weight_text_color( u );
-    std::pair<nc_color, std::string> temp_pair = temp_stat( u );
+    std::pair<nc_color, std::string> temp_pair = display::temp_stat( u );
     std::pair<std::string, nc_color> pain_pair = display::pain_text_color( u );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Pain :" ) );
@@ -1834,7 +1834,7 @@ static void draw_needs_labels_alt( const avatar &u, const catacurses::window &w 
     std::pair<std::string, nc_color> hunger_pair = display::hunger_text_color( u );
     std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( u );
     std::pair<std::string, nc_color> rest_pair = display::fatigue_text_color( u );
-    std::pair<nc_color, std::string> temp_pair = temp_stat( u );
+    std::pair<nc_color, std::string> temp_pair = display::temp_stat( u );
     std::pair<std::string, nc_color> pain_pair = display::pain_text_color( u );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Pain :" ) );
@@ -1995,13 +1995,13 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
 
     if( !veh ) {
         // stats
-        auto pair = str_string( u );
+        auto pair = display::str_string( u );
         mvwprintz( w, point( 38, 0 ), pair.first, pair.second );
-        pair = dex_string( u );
+        pair = display::dex_string( u );
         mvwprintz( w, point( 38, 1 ), pair.first, pair.second );
-        pair = int_string( u );
+        pair = display::int_string( u );
         mvwprintz( w, point( 38, 2 ), pair.first, pair.second );
-        pair = per_string( u );
+        pair = display::per_string( u );
         mvwprintz( w, point( 38, 3 ), pair.first, pair.second );
     }
 
@@ -2032,11 +2032,11 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     }
 
     // temperature
-    pair = temp_stat( u );
-    mvwprintz( w, point( 21, 6 ), pair.first, pair.second + temp_delta_string( u ) );
+    pair = display::temp_stat( u );
+    mvwprintz( w, point( 21, 6 ), pair.first, pair.second + display::temp_delta_string( u ) );
 
     // power
-    pair = power_stat( u );
+    pair = display::power_stat( u );
     mvwprintz( w, point( 8, 6 ), c_light_gray, _( "POWER" ) );
     mvwprintz( w, point( 14, 6 ), pair.first, pair.second );
 
@@ -2266,7 +2266,7 @@ static void draw_weather_classic( avatar &, const catacurses::window &w )
     }
     mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Moon :" ) );
     nc_color clr = c_white;
-    print_colored_text( w, point( 38, 0 ), clr, c_white, get_moon_graphic() );
+    print_colored_text( w, point( 38, 0 ), clr, c_white, display::get_moon_graphic() );
 
     wnoutrefresh( w );
 }
@@ -2503,7 +2503,7 @@ static void print_mana( const Character &you, const catacurses::window &w,
 {
     werase( w );
 
-    auto mana_pair = mana_stat( you );
+    auto mana_pair = display::mana_stat( you );
     const std::string mana_string = string_format( fmt_string,
                                     //~ translation should not exceed 4 console cells
                                     utf8_justify( _( "Mana" ), j1 ),
