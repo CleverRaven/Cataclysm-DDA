@@ -11120,7 +11120,7 @@ void Character::restore_scent()
 void Character::spores()
 {
     map &here = get_map();
-    fungal_effects fe( *g, here );
+    fungal_effects fe;
     //~spore-release sound
     sounds::sound( pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
     for( const tripoint &sporep : here.points_in_radius( pos(), 1 ) ) {

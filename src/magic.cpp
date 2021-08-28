@@ -25,7 +25,6 @@
 #include "event_bus.h"
 #include "field.h"
 #include "flat_set.h"
-#include "game.h"
 #include "generic_factory.h"
 #include "input.h"
 #include "inventory.h"

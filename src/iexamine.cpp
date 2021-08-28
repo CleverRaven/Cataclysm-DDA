@@ -2109,7 +2109,7 @@ void iexamine::fungus( Character &you, const tripoint &examp )
 {
     map &here = get_map();
     add_msg( _( "The %s crumbles into spores!" ), here.furnname( examp ) );
-    fungal_effects( *g, here ).create_spores( examp, &you );
+    fungal_effects().create_spores( examp, &you );
     here.furn_set( examp, f_null );
     you.moves -= 50;
 }
