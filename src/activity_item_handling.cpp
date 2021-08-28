@@ -62,6 +62,8 @@
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "weather.h"
+#include "recipe_dictionary.h"
+#include "activity_actor_definitions.h"
 
 static const activity_id ACT_BUILD( "ACT_BUILD" );
 static const activity_id ACT_BUTCHER_FULL( "ACT_BUTCHER_FULL" );
@@ -85,6 +87,7 @@ static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
+static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 
 static const efftype_id effect_incorporeal( "incorporeal" );
 
@@ -900,8 +903,8 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
 {
     zone_manager &mgr = zone_manager::get_manager();
     temp_crafting_inventory temp_inv;
-    units::volume volume_allowed = you.volume_capacity() - you.volume_carried();
-    units::mass weight_allowed = you.weight_capacity() - you.weight_carried();
+    units::volume volume_allowed;
+    units::mass weight_allowed;
     static const auto check_weight_if = []( const activity_id & id ) {
         return id == ACT_MULTIPLE_FARM ||
                id == ACT_MULTIPLE_CHOP_PLANKS ||
@@ -914,6 +917,12 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
     };
     const bool check_weight = check_weight_if( activity_to_restore ) || ( !you.backlog.empty() &&
                               check_weight_if( you.backlog.front().id() ) );
+
+    if( check_weight ) {
+        volume_allowed = you.volume_capacity() - you.volume_carried();
+        weight_allowed = you.weight_capacity() - you.weight_carried();
+    }
+
     bool found_welder = false;
     for( item *elem : you.inv_dump() ) {
         if( elem->has_quality( qual_WELD ) ) {
@@ -936,18 +945,22 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
             }
         }
         for( item &elem2 : here.i_at( elem ) ) {
-            if( in_loot_zones && elem2.made_of_from_type( phase_id::LIQUID ) ) {
-                continue;
-            }
-            if( check_weight ) {
-                // this fetch task will need to pick up an item. so check for its weight/volume before setting off.
-                if( in_loot_zones && ( elem2.volume() > volume_allowed ||
-                                       elem2.weight() > weight_allowed ) ) {
+            if( in_loot_zones ) {
+                if( elem2.made_of_from_type( phase_id::LIQUID ) ) {
                     continue;
+                }
+
+                if( check_weight ) {
+                    // this fetch task will need to pick up an item. so check for its weight/volume before setting off.
+                    if( elem2.volume() > volume_allowed ||
+                        elem2.weight() > weight_allowed ) {
+                        continue;
+                    }
                 }
             }
             temp_inv.add_item_ref( elem2 );
         }
+
         if( !in_loot_zones ) {
             if( const cata::optional<vpart_reference> vp = here.veh_at( elem ).part_with_feature( "CARGO",
                     false ) ) {
@@ -1301,6 +1314,50 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
         // 1. before we even assign the fetch activity and;
         // 2. when we form the src_set to loop through at the beginning of the fetch activity.
         return activity_reason_info::ok( do_activity_reason::CAN_DO_FETCH );
+    } else if( act == ACT_MULTIPLE_DIS ) {
+        // Is there anything to be disassembled?
+        const inventory inv = you.crafting_inventory( src_loc, PICKUP_RANGE - 1 );
+        requirement_data req;
+        for( item &i : here.i_at( src_loc ) ) {
+            // Skip items marked by other ppl.
+            if( i.has_var( "activity_var" ) && i.get_var( "activity_var" ) != you.name ) {
+                continue;
+            }
+            //unmark the item before check
+            i.erase_var( "activity_var" );
+            if( i.is_disassemblable() ) {
+                // Are the requirements fulfilled?
+                req = recipe_dictionary::get_uncraft(
+                          i.typeId() ).disassembly_requirements();
+                if( !std::all_of( req.get_qualities().begin(),
+                req.get_qualities().end(), [&inv]( const std::vector<quality_requirement> &cur ) {
+                return cur.empty() ||
+                    std::any_of( cur.begin(), cur.end(), [&inv]( const quality_requirement & curr ) {
+                        return curr.has( inv, return_true<item> );
+                    } );
+                } ) ) {
+                    continue;
+                }
+                if( !std::all_of( req.get_tools().begin(),
+                req.get_tools().end(), [&inv]( const std::vector<tool_comp> &cur ) {
+                return cur.empty() || std::any_of( cur.begin(), cur.end(), [&inv]( const tool_comp & curr ) {
+                        return  curr.has( inv, return_true<item> );
+                    } );
+                } ) ) {
+                    continue;
+                }
+                // check passed, mark the item
+                i.set_var( "activity_var", you.name );
+                return activity_reason_info::ok( do_activity_reason::NEEDS_DISASSEMBLE );
+            }
+        }
+        if( !req.is_null() || !req.is_empty() ) {
+            // need tools
+            return activity_reason_info( do_activity_reason::NEEDS_DISASSEMBLE, false, req );
+        } else {
+            // nothing to disassemble
+            return activity_reason_info::fail( do_activity_reason::NO_ZONE );
+        }
     }
     // Shouldn't get here because the zones were checked previously. if it does, set enum reason as "no zone"
     return activity_reason_info::fail( do_activity_reason::NO_ZONE );
@@ -1737,9 +1794,11 @@ static bool fetch_activity( Character &you, const tripoint &src_loc,
         for( auto elem : mental_map_2 ) {
             if( std::get<0>( elem ) == src_loc && it.typeId() == std::get<1>( elem ) ) {
                 // construction/crafting tasks want the required item moved near the work spot.
-                if( !you.backlog.empty() && you.backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
+                if( !you.backlog.empty() && ( you.backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ||
+                                              you.backlog.front().id() == ACT_MULTIPLE_DIS ) ) {
                     move_item( you, it, it.count_by_charges() ? std::get<2>( elem ) : 1, src_loc,
                                here.getlocal( you.backlog.front().coords.back() ), src_veh, src_part, activity_to_restore );
+
                     return true;
                     // other tasks want the tool picked up
                 } else if( !you.backlog.empty() && ( you.backlog.front().id() == ACT_MULTIPLE_FARM ||
@@ -1751,6 +1810,7 @@ static bool fetch_activity( Character &you, const tripoint &src_loc,
                                                      you.backlog.front().id() == ACT_MULTIPLE_FISH ||
                                                      you.backlog.front().id() == ACT_MULTIPLE_MINE ) ) {
                     if( it.volume() > volume_allowed || it.weight() > weight_allowed ) {
+                        add_msg_if_player_sees( you, "%1s failed to fetch tools", you.name );
                         continue;
                     }
                     item leftovers = it;
@@ -2218,6 +2278,9 @@ static zone_type_id get_zone_for_act( const tripoint &src_loc, const zone_manage
     if( act_id == ACT_MULTIPLE_MINE ) {
         ret = zone_type_MINING;
     }
+    if( act_id == ACT_MULTIPLE_DIS ) {
+        ret = zone_type_id( "zone_disassemble" );
+    }
     if( src_loc != tripoint_zero && act_id == ACT_FETCH_REQUIRED ) {
         const zone_data *zd = mgr.get_zone_at( get_map().getabs( src_loc ) );
         if( zd ) {
@@ -2373,6 +2436,7 @@ static requirement_check_result generic_multi_activity_check_requirement( Charac
                                      act_id == ACT_VEHICLE_REPAIR ||
                                      act_id == ACT_MULTIPLE_FISH ||
                                      act_id == ACT_MULTIPLE_MINE ||
+                                     act_id == ACT_MULTIPLE_DIS ||
                                      ( act_id == ACT_MULTIPLE_CONSTRUCTION &&
                                        !here.partial_con_at( src_loc ) );
     // some activities require the target tile to be part of a zone.
@@ -2407,9 +2471,14 @@ static requirement_check_result generic_multi_activity_check_requirement( Charac
                reason == do_activity_reason::NEEDS_VEH_DECONST ||
                reason == do_activity_reason::NEEDS_VEH_REPAIR ||
                reason == do_activity_reason::NEEDS_TREE_CHOPPING ||
-               reason == do_activity_reason::NEEDS_FISHING || reason == do_activity_reason::NEEDS_MINING ) {
+               reason == do_activity_reason::NEEDS_FISHING || reason == do_activity_reason::NEEDS_MINING ||
+               reason == do_activity_reason::NEEDS_DISASSEMBLE ) {
         // we can do it, but we need to fetch some stuff first
         // before we set the task to fetch components - is it even worth it? are the components anywhere?
+        if( you.is_npc() ) {
+            add_msg_if_player_sees( you, m_info, _( "%s is trying to find necessary items to do the job" ),
+                                    you.disp_name() );
+        }
         requirement_id what_we_need;
         std::vector<tripoint> loot_zone_spots;
         std::vector<tripoint> combined_spots;
@@ -2461,7 +2530,7 @@ static requirement_check_result generic_multi_activity_check_requirement( Charac
                    reason == do_activity_reason::NEEDS_BUTCHERING ||
                    reason == do_activity_reason::NEEDS_BIG_BUTCHERING ||
                    reason == do_activity_reason::NEEDS_TREE_CHOPPING ||
-                   reason == do_activity_reason::NEEDS_FISHING ) {
+                   reason == do_activity_reason::NEEDS_FISHING || reason == do_activity_reason::NEEDS_DISASSEMBLE ) {
             std::vector<std::vector<item_comp>> requirement_comp_vector;
             std::vector<std::vector<quality_requirement>> quality_comp_vector;
             std::vector<std::vector<tool_comp>> tool_comp_vector;
@@ -2483,6 +2552,9 @@ static requirement_check_result generic_multi_activity_check_requirement( Charac
 
             } else if( reason == do_activity_reason::NEEDS_FISHING ) {
                 quality_comp_vector.push_back( std::vector<quality_requirement> {quality_requirement( qual_FISHING, 1, 1 )} );
+            } else if( reason == do_activity_reason::NEEDS_DISASSEMBLE ) {
+                quality_comp_vector = act_info.req.get_qualities();
+                tool_comp_vector = act_info.req.get_tools();
             }
             // ok, we need a shovel/hoe/axe/etc.
             // this is an activity that only requires this one tool, so we will fetch and wield it.
@@ -2505,7 +2577,10 @@ static requirement_check_result generic_multi_activity_check_requirement( Charac
         // is it even worth fetching anything if there isn't enough nearby?
         if( !are_requirements_nearby( tool_pickup ? loot_zone_spots : combined_spots, what_we_need, you,
                                       act_id, tool_pickup, src_loc ) ) {
-            you.add_msg_if_player( m_info, _( "The required items are not available to complete this task." ) );
+
+            you.add_msg_player_or_npc( m_info,
+                                       _( "The required items are not available to complete this task." ),
+                                       _( "The required items are not available to complete this task." ) );
             if( reason == do_activity_reason::NEEDS_VEH_DECONST ||
                 reason == do_activity_reason::NEEDS_VEH_REPAIR ) {
                 you.activity_vehicle_part_index = -1;
@@ -2661,7 +2736,30 @@ static bool generic_multi_activity_do( Character &you, const activity_id &act_id
             you.backlog.push_front( player_activity( act_id ) );
             return false;
         }
+
         you.activity_vehicle_part_index = -1;
+    } else if( reason == do_activity_reason::NEEDS_DISASSEMBLE ) {
+        map_stack items = here.i_at( src_loc );
+        for( item &elem : items ) {
+            if( elem.is_disassemblable() ) {
+                // Disassemble the checked one.
+                if( elem.get_var( "activity_var" ) == you.name ) {
+                    player_activity act = player_activity( disassemble_activity_actor( recipe_dictionary::get_uncraft(
+                            elem.typeId() ).time_to_craft_moves( you, recipe_time_flag::ignore_proficiencies ) ) );
+                    act.targets.emplace_back( map_cursor( src_loc ), &elem );
+                    act.placement = here.getabs( src_loc );
+                    act.position = elem.charges;
+                    act.index = false;
+                    you.assign_activity( act );
+                    // Keep doing
+                    // After assignment of disassemble activity (not multitype anymore)
+                    // the backlog will not be nuked in do_player_activity()
+                    you.backlog.emplace_back( player_activity( ACT_MULTIPLE_DIS ) );
+                    break;
+                }
+            }
+        }
+        return false;
     }
     return true;
 }
@@ -2683,6 +2781,11 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
     std::vector<tripoint> src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
     // now loop through the work-spot tiles and judge whether its worth traveling to it yet
     // or if we need to fetch something first.
+
+    // sanity check: if a fetch act was assigned but no need to do that anymore, restore our task
+    if( activity_to_restore == activity_id( ACT_FETCH_REQUIRED ) && src_sorted.empty() ) {
+        return true;
+    }
     for( const tripoint &src : src_sorted ) {
         const tripoint &src_loc = here.getlocal( src );
         if( !here.inbounds( src_loc ) && !check_only ) {

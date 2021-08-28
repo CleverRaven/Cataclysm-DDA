@@ -271,6 +271,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "sling-ready_grenade",
+    "name": "sling-ready grenades",
+    "default": "sling-ready_molotov"
+  },
+  {
+    "type": "ammunition_type",
     "id": "gasoline",
     "name": "gasoline",
     "default": "gasoline"

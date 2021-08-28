@@ -336,6 +336,7 @@ static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
+static const trait_id trait_NUMB( "NUMB" );
 
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_DIG( "DIG" );
@@ -407,7 +408,7 @@ static item get_top_item_at_point( const tripoint &point,
                                    const units::volume &min_visible_volume );
 
 static std::string effects_description_for_creature( Creature *creature, std::string &pose,
-        const std::string &pronoun_sex );
+        const std::string &pronoun_gender );
 
 static object_names_collection enumerate_objects_around_point( const tripoint &point,
         int radius, const tripoint &bounds_center_point, int bounds_radius,
@@ -1284,7 +1285,7 @@ static void spawn_spores( const Character &p )
 {
     int spores_spawned = 0;
     map &here = get_map();
-    fungal_effects fe( *g, here );
+    fungal_effects fe;
     creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &dest : closest_points_first( p.pos(), 4 ) ) {
         if( here.impassable( dest ) ) {
@@ -1555,7 +1556,7 @@ cata::optional<int> iuse::mycus( Character *p, item *it, bool t, const tripoint 
         p->add_msg_if_player( m_good,
                               _( "As, in time, shall we adapt to better welcome those who have not received us." ) );*/
         map &here = get_map();
-        fungal_effects fe( *g, here );
+        fungal_effects fe;
         for( const tripoint &nearby_pos : here.points_in_radius( p->pos(), 3 ) ) {
             if( here.move_cost( nearby_pos ) != 0 && !here.has_furn( nearby_pos ) &&
                 !here.has_flag( TFLAG_DEEP_WATER, nearby_pos ) && !here.has_flag( TFLAG_NO_FLOOR, nearby_pos ) ) {
@@ -2871,6 +2872,9 @@ cata::optional<int> iuse::dig( Character *p, item *it, bool t, const tripoint & 
             p->add_msg_if_player( m_good,
                                   _( "Exhuming a grave is fun now, when there is no one to object." ) );
             p->add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
+        } else if( p->has_trait( trait_NUMB ) ) {
+            p->add_msg_if_player( m_bad, _( "You wonder if you dig up anything usefull." ) );
+            p->add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
         } else if( !p->has_trait( trait_EATDEAD ) &&
                    !p->has_trait( trait_SAPROVORE ) ) {
             p->add_msg_if_player( m_bad, _( "Exhuming this grave is utterly disgusting!" ) );
@@ -6688,7 +6692,7 @@ static std::string format_object_pair_no_article( const std::pair<std::string, i
 }
 
 static std::string effects_description_for_creature( Creature *const creature, std::string &pose,
-        const std::string &pronoun_sex )
+        const std::string &pronoun_gender )
 {
     struct ef_con { // effect constraint
         translation status;
@@ -6742,7 +6746,7 @@ static std::string effects_description_for_creature( Creature *const creature, s
         for( const auto &pair : vec_effect_status ) {
             if( creature->get_effect_int( pair.first ) > pair.second.intensity_lower_limit ) {
                 if( !pair.second.status.empty() ) {
-                    figure_effects += pronoun_sex + pair.second.status;
+                    figure_effects += pronoun_gender + pair.second.status;
                 }
                 if( !pair.second.pose.empty() ) {
                     pose = pair.second.pose.translated();
@@ -6752,19 +6756,20 @@ static std::string effects_description_for_creature( Creature *const creature, s
         if( creature->has_effect( effect_sad ) ) {
             int intensity = creature->get_effect_int( effect_sad );
             if( intensity > 500 && intensity <= 950 ) {
-                figure_effects += pronoun_sex + pgettext( "Someone", " looks <color_blue>sad</color>.  " );
+                figure_effects += pronoun_gender + pgettext( "Someone", " looks <color_blue>sad</color>.  " );
             } else if( intensity > 950 ) {
-                figure_effects += pronoun_sex + pgettext( "Someone", " looks <color_blue>depressed</color>.  " );
+                figure_effects += pronoun_gender + pgettext( "Someone", " looks <color_blue>depressed</color>.  " );
             }
         }
         float pain = creature->get_pain() / 10.f;
         if( pain > 3 ) {
-            figure_effects += pronoun_sex + pgettext( "Someone", " is writhing in <color_red>pain</color>.  " );
+            figure_effects += pronoun_gender + pgettext( "Someone",
+                              " is writhing in <color_red>pain</color>.  " );
         }
         if( creature->has_effect( effect_riding ) ) {
             pose = _( "rides" );
             monster *const mon = get_creature_tracker().creature_at<monster>( creature->pos(), false );
-            figure_effects += pronoun_sex + string_format( _( " is riding %s.  " ),
+            figure_effects += pronoun_gender + string_format( _( " is riding %s.  " ),
                               colorize( mon->name(), c_light_blue ) );
         }
         if( creature->has_effect( effect_glowy_led ) ) {
@@ -6988,7 +6993,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
             std::string figure_appearance;
             std::string figure_name;
             std::string pose;
-            std::string pronoun_sex;
+            std::string pronoun_gender;
             std::string figure_effects;
             Creature *creature;
             if( mon && mon->has_effect( effect_ridden ) ) {
@@ -7009,7 +7014,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
                 const std::vector<std::string> vec = guy->short_description_parts();
                 figure_appearance = join( vec, "\n\n" );
                 figure_name = guy->name;
-                pronoun_sex = guy->male ? _( "He" ) : _( "She" );
+                pronoun_gender = guy->male ? _( "He" ) : _( "She" );
                 creature = guy;
                 character_vec.push_back( guy );
             } else {
@@ -7019,12 +7024,12 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
                 pose = _( "stands" );
                 figure_appearance = "\"" + mon->type->get_description() + "\"";
                 figure_name = mon->name();
-                pronoun_sex = pgettext( "Pronoun", "It" );
+                pronoun_gender = pgettext( "Pronoun", "It" );
                 creature = mon;
                 monster_vec.push_back( mon );
             }
 
-            figure_effects = effects_description_for_creature( creature, pose, pronoun_sex );
+            figure_effects = effects_description_for_creature( creature, pose, pronoun_gender );
             description_figures_appearance[ figure_name ] = figure_appearance;
 
             object_names_collection obj_collection = enumerate_objects_around_point( current, 1, aim_point, 2,
@@ -9449,12 +9454,12 @@ cata::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_i
         return location->has_flag( flag_FILTHY ) && ( ( soft_items && location->is_soft() ) ||
                 ( hard_items && !location->is_soft() ) );
     } );
-    auto make_raw_stats = [available_water, available_cleanser](
-                              const std::map<const item_location *, int> &locs
+    auto make_raw_stats = [available_water,
+                           available_cleanser]( const std::vector<std::pair<item_location, int>> &locs
     ) {
         units::volume total_volume = 0_ml;
         for( const auto &pair : locs ) {
-            total_volume += ( *pair.first )->volume( false, true );
+            total_volume += pair.first->volume( false, true );
         }
         washing_requirements required = washing_requirements_for_volume( total_volume );
         auto to_string = []( int val ) -> std::string {

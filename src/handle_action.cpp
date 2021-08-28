@@ -104,6 +104,7 @@ static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const activity_id ACT_WAIT( "ACT_WAIT" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
+static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_incorporeal( "incorporeal" );
@@ -1137,7 +1138,8 @@ static void loot()
         Multideconvehicle = 1024,
         Multirepairvehicle = 2048,
         MultiButchery = 4096,
-        MultiMining = 8192
+        MultiMining = 8192,
+        MultiDis = 16384
     };
 
     Character &player_character = get_player_character();
@@ -1170,6 +1172,8 @@ static void loot()
     flags |= g->check_near_zone( zone_type_id( "LOOT_CORPSE" ),
                                  player_character.pos() ) ? MultiButchery : 0;
     flags |= g->check_near_zone( zone_type_id( "MINING" ), player_character.pos() ) ? MultiMining : 0;
+    flags |= g->check_near_zone( zone_type_id( "zone_disassemble" ),
+                                 player_character.pos() ) ? MultiDis : 0;
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
         add_msg( m_info, _( "Compatible zones are %s and %s" ),
@@ -1225,6 +1229,11 @@ static void loot()
         menu.addentry_desc( MultiMining, true, 'M', _( "Mine Area" ),
                             _( "Auto-mine anything in mining zone - auto-fetch tools." ) );
     }
+    if( flags & MultiDis ) {
+        menu.addentry_desc( MultiDis, true, 'D', _( "Disassemble items" ),
+                            _( "Auto-disassemble anything in disassembly zone - auto-fetch tools." ) );
+
+    }
 
     menu.query();
     flags = ( menu.ret >= 0 ) ? menu.ret : None;
@@ -1262,6 +1271,9 @@ static void loot()
             break;
         case MultiMining:
             player_character.assign_activity( ACT_MULTIPLE_MINE );
+            break;
+        case MultiDis:
+            player_character.assign_activity( ACT_MULTIPLE_DIS );
             break;
         default:
             debugmsg( "Unsupported flag" );

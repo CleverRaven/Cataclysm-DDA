@@ -463,6 +463,9 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
         debugmsg( "Invalid displacement vector: %d, %d, %d", dp.x, dp.y, dp.z );
         return &veh;
     }
+
+    const tripoint initial_position = veh.sm_pos;
+
     // Split the movement into horizontal and vertical for easier processing
     if( dp.xy() != point_zero && dp.z != 0 ) {
         vehicle *const new_pointer = move_vehicle( veh, tripoint( dp.xy(), 0 ), facing );
@@ -609,8 +612,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     Character &player_character = get_player_character();
     const bool seen = sees_veh( player_character, veh, false );
 
-    vehicle *new_vehicle = &veh;
-    if( can_move ) {
+    if( can_move || ( vertical && veh.is_falling ) ) {
         // Accept new direction
         if( veh.skidding ) {
             veh.face.init( veh.turn_dir );
@@ -625,8 +627,8 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
         }
         veh.on_move();
         // Actually change position
-        displace_vehicle( *new_vehicle, dp1 );
-        level_vehicle( *new_vehicle );
+        displace_vehicle( veh, dp1 );
+        level_vehicle( veh );
     } else if( !vertical ) {
         veh.stop();
     }
@@ -684,12 +686,15 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     }
     // Redraw scene, but only if the player is not engaged in an activity and
     // the vehicle was seen before or after the move.
-    if( !player_character.activity && ( seen || sees_veh( player_character, veh, true ) ) ) {
+    const bool has_moved = initial_position != veh.sm_pos;
+    if( has_moved &&
+        !player_character.activity &&
+        ( seen || sees_veh( player_character, veh, true ) ) ) {
         g->invalidate_main_ui_adaptor();
         ui_manager::redraw_invalidated();
         handle_key_blocking_activity();
     }
-    return new_vehicle;
+    return &veh;
 }
 
 float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
@@ -3301,7 +3306,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
 
     if( ( smash_furn && has_flag_furn( "FUNGUS", p ) ) ||
         ( smash_ter && has_flag_ter( "FUNGUS", p ) ) ) {
-        fungal_effects( *g, *this ).create_spores( p );
+        fungal_effects().create_spores( p );
     }
 
     if( params.destroy ) {
@@ -4576,8 +4581,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
     const int recharge_part_idx = cur_veh.part_with_feature( part, VPFLAG_RECHARGE, true );
     if( recharge_part_idx >= 0 ) {
         vehicle_part recharge_part = cur_veh.part( recharge_part_idx );
-        if( !recharge_part.removed && !recharge_part.is_broken() &&
-            ( !recharge_part.info().has_flag( VPFLAG_ENABLED_DRAINS_EPOWER ) || recharge_part.enabled ) ) {
+        if( !recharge_part.removed && !recharge_part.is_broken() && recharge_part.enabled ) {
             for( auto &n : cur_veh.get_items( part ) ) {
                 if( !n.has_flag( flag_RECHARGE ) && !n.has_flag( flag_USE_UPS ) ) {
                     continue;

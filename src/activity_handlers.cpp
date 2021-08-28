@@ -176,6 +176,7 @@ static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 static const activity_id ACT_WASH( "ACT_WASH" );
 static const activity_id ACT_WEAR( "ACT_WEAR" );
+static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_controlled( "controlled" );
@@ -293,7 +294,8 @@ activity_handlers::do_turn_functions = {
     { ACT_ROBOT_CONTROL, robot_control_do_turn },
     { ACT_TREE_COMMUNION, tree_communion_do_turn },
     { ACT_STUDY_SPELL, study_spell_do_turn},
-    { ACT_WAIT_STAMINA, wait_stamina_do_turn }
+    { ACT_WAIT_STAMINA, wait_stamina_do_turn },
+    { ACT_MULTIPLE_DIS, multiple_dis_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, Character * )> >
@@ -3321,6 +3323,11 @@ void activity_handlers::multiple_butcher_do_turn( player_activity *act, Characte
 {
     generic_multi_activity_handler( *act, *you );
 }
+void activity_handlers::multiple_dis_do_turn( player_activity *act, Character *you )
+{
+    generic_multi_activity_handler( *act, *you );
+}
+
 
 void activity_handlers::vehicle_deconstruction_do_turn( player_activity *act, Character *you )
 {

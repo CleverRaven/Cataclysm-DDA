@@ -3300,6 +3300,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( npc_thankful ),
             WRAP( clear_overrides ),
             WRAP( lightning ),
+            WRAP( do_disassembly ),
             WRAP( nothing )
 #undef WRAP
         }

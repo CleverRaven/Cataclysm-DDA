@@ -6,11 +6,13 @@
 
 #include "cata_utility.h"
 #include "character.h"
-#include "game.h"
 #include "json.h"
 #include "stomach.h"
 #include "units.h"
 #include "vitamin.h"
+
+// NOLINTNEXTLINE(cata-static-declarations)
+extern const int savegame_loading_version;
 
 void nutrients::min_in_place( const nutrients &r )
 {

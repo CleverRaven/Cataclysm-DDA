@@ -40,6 +40,7 @@
 #include "optional.h"
 #include "options.h"
 #include "output.h"
+#include "panels.h"
 #include "pimpl.h"
 #include "point.h"
 #include "recipe.h"
@@ -955,19 +956,19 @@ class fuel_inventory_preset : public inventory_selector_preset
 static std::string get_consume_needs_hint( Character &you )
 {
     auto hint = std::string();
-    auto desc = you.get_hunger_description();
+    auto desc = display::hunger_text_color( you );
     hint.append( string_format( "%s %s", _( "Food:" ), colorize( desc.first, desc.second ) ) );
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
-    desc = you.get_thirst_description();
+    desc = display::thirst_text_color( you );
     hint.append( string_format( "%s %s", _( "Drink:" ), colorize( desc.first, desc.second ) ) );
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
-    desc = you.get_pain_description();
+    desc = display::pain_text_color( you );
     hint.append( string_format( "%s %s", _( "Pain:" ), colorize( desc.first, desc.second ) ) );
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
-    desc = you.get_fatigue_description();
+    desc = display::fatigue_text_color( you );
     hint.append( string_format( "%s %s", _( "Rest:" ), colorize( desc.first, desc.second ) ) );
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
-    hint.append( string_format( "%s %s", _( "Weight:" ), you.get_weight_string() ) );
+    hint.append( string_format( "%s %s", _( "Weight:" ), display::weight_string( you ) ) );
     return hint;
 }
 
@@ -1124,7 +1125,9 @@ class activatable_inventory_preset : public pickup_inventory_preset
                 return string_format( _( "Your %s was broken and won't turn on." ), it.tname() );
             }
 
-            if( !it.ammo_sufficient( &you ) ) {
+
+            if( uses.size() == 1 &&
+                !it.ammo_sufficient( &you, uses.begin()->first ) ) {
                 return string_format(
                            ngettext( "Needs at least %d charge",
                                      "Needs at least %d charges", loc->ammo_required() ),

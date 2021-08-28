@@ -32,6 +32,7 @@
 #include "options.h"
 #include "overmap.h"
 #include "overmap_types.h"
+#include "path_info.h"
 #include "regional_settings.h"
 #include "scent_map.h"
 #include "stats_tracker.h"

@@ -487,6 +487,26 @@
     "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
   },
   {
+    "id": "armor_tiresuit",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "tire suit" },
+    "description": "A suit of armor made from thick chunks of rubber tire secured by simple strings; the loose collection of rubber plates provides decent but not the most convenient protection.",
+    "weight": "14400 g",
+    "volume": "15500 ml",
+    "price": 50000,
+    "price_postapoc": 200,
+    "to_hit": -5,
+    "material": [ "rubber" ],
+    "symbol": "[",
+    "looks_like": "armor_scrapsuit",
+    "color": "light_gray",
+    "warmth": 10,
+    "material_thickness": 4,
+    "flags": [ "OUTER", "NONCONDUCTIVE" ],
+    "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ] } ]
+  },
+  {
     "id": "beekeeping_suit",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",

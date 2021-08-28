@@ -2995,6 +2995,13 @@ std::set<tripoint> npc::get_path_avoid() const
             }
         }
     }
+
+    for( const tripoint &p : here.points_in_radius( pos(), 5 ) ) {
+        if( sees_dangerous_field( p ) ) {
+            ret.insert( p );
+        }
+    }
+
     return ret;
 }
 

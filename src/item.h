@@ -1933,6 +1933,8 @@ class item : public visitable
          */
         bool ammo_sufficient( const Character *carrier, int qty = 1 ) const;
 
+        bool ammo_sufficient( const Character *carrier, const std::string &method, int qty = 1 ) const;
+
         /**
          * Consume ammo (if available) and return the amount of ammo that was consumed
          * Consume order: loaded items, UPS, bionic
@@ -2393,6 +2395,9 @@ class item : public visitable
 
         /** Calculates item specific energy (J/g) from temperature (K)*/
         float get_specific_energy_from_temperature( float new_temperature );
+
+        /** Update flags associated with temperature */
+        void set_temp_flags( float new_temperature, float freeze_percentage );
 
         /** Helper for checking reloadability. **/
         bool is_reloadable_helper( const itype_id &ammo, bool now ) const;

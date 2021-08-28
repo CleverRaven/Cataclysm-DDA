@@ -1690,7 +1690,7 @@ bool mattack::fungus( monster *z )
     }
 
     map &here = get_map();
-    fungal_effects fe( *g, here );
+    fungal_effects fe;
     for( const tripoint &sporep : here.points_in_radius( z->pos(), radius ) ) {
         if( sporep == z->pos() ) {
             continue;
@@ -2207,7 +2207,7 @@ bool mattack::dermatik_growth( monster *z )
 
 bool mattack::fungal_trail( monster *z )
 {
-    fungal_effects fe( *g, get_map() );
+    fungal_effects fe;
     fe.spread_fungus( z->pos() );
     return false;
 }
@@ -2215,7 +2215,7 @@ bool mattack::fungal_trail( monster *z )
 bool mattack::plant( monster *z )
 {
     map &here = get_map();
-    fungal_effects fe( *g, here );
+    fungal_effects fe;
     const tripoint monster_position = z->pos();
     const bool is_fungi = here.has_flag_ter( "FUNGUS", monster_position );
     // Spores taking seed and growing into a fungaloid

@@ -11,6 +11,7 @@
 
 #include "optional.h"
 #include "type_id.h"
+#include "requirements.h"
 
 class Character;
 class item;
@@ -64,7 +65,9 @@ enum class do_activity_reason : int {
     NEEDS_VEH_REPAIR,       // There is a vehicle part there that can be repaired, given the right tools.
     WOULD_PREVENT_VEH_FLYING, // Attempting to perform this activity on a vehicle would prevent it from flying
     NEEDS_MINING,           // This spot can be mined, if the right tool is present.
-    NEEDS_FISHING           // This spot can be fished, if the right tool is present.
+    NEEDS_FISHING,           // This spot can be fished, if the right tool is present.
+    NEEDS_DISASSEMBLE        // There is at least one item to disassemble.
+
 };
 
 struct activity_reason_info {
@@ -81,6 +84,13 @@ struct activity_reason_info {
         can_do( can_do_ ),
         con_idx( con_idx_ )
     { }
+    activity_reason_info( do_activity_reason reason_, bool can_do_, const requirement_data req ):
+        reason( reason_ ),
+        can_do( can_do_ ),
+        req( req )
+    { }
+
+    const requirement_data req;
 
     static activity_reason_info ok( const do_activity_reason &reason_ ) {
         return activity_reason_info( reason_, true );
@@ -154,6 +164,7 @@ void multiple_fish_do_turn( player_activity *act, Character *you );
 void multiple_construction_do_turn( player_activity *act, Character *you );
 void multiple_mine_do_turn( player_activity *act, Character *you );
 void multiple_butcher_do_turn( player_activity *act, Character *you );
+void multiple_dis_do_turn( player_activity *act, Character *you );
 void vehicle_deconstruction_do_turn( player_activity *act, Character *you );
 void vehicle_repair_do_turn( player_activity *act, Character *you );
 void chop_trees_do_turn( player_activity *act, Character *you );
