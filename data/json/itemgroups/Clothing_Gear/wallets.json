@@ -147,6 +147,7 @@
     "id": "wallet_science_leather_full",
     "//": "copy-from: wallet_leather_full ",
     "container-item": "wallet_leather",
+    "on_overflow": "discard",
     "items": [
       { "item": "cash_card", "prob": 100, "charges-min": 0, "charges-max": 50000 },
       { "item": "id_science", "prob": 100 },
@@ -166,6 +167,7 @@
     "id": "wallet_science_full",
     "//": "copy-from: wallet_full ",
     "container-item": "wallet",
+    "on_overflow": "discard",
     "items": [
       { "item": "cash_card", "prob": 100, "charges-min": 0, "charges-max": 50000 },
       { "item": "id_science", "prob": 100 },
@@ -185,6 +187,7 @@
     "id": "wallet_science_stylish_full",
     "//": "copy-from: wallet_stylish_full ",
     "container-item": "wallet_stylish",
+    "on_overflow": "discard",
     "items": [
       { "item": "id_science", "prob": 100 },
       { "item": "id_science_visitor_1", "prob": 100 },
