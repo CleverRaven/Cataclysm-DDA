@@ -367,8 +367,7 @@
     "symbol": "$",
     "material": [ "paper" ],
     "price": 10000,
-    "price_postapoc": 0,
-    "flags": [ "OLD_CURRENCY" ]
+    "price_postapoc": 0
   },
   {
     "type": "GENERIC",
@@ -380,8 +379,7 @@
     "color": "green",
     "symbol": "$",
     "price": 20000,
-    "price_postapoc": 0,
-    "flags": [ "OLD_CURRENCY" ]
+    "price_postapoc": 0
   },
   {
     "type": "GENERIC",
@@ -393,8 +391,7 @@
     "color": "green",
     "symbol": "$",
     "price": 50000,
-    "price_postapoc": 0,
-    "flags": [ "OLD_CURRENCY" ]
+    "price_postapoc": 0
   },
   {
     "type": "GENERIC",
@@ -406,8 +403,7 @@
     "color": "green",
     "symbol": "$",
     "price": 100000,
-    "price_postapoc": 0,
-    "flags": [ "OLD_CURRENCY" ]
+    "price_postapoc": 0
   },
   {
     "type": "GENERIC",
@@ -419,8 +415,7 @@
     "color": "green",
     "symbol": "$",
     "price": 200000,
-    "price_postapoc": 0,
-    "flags": [ "OLD_CURRENCY" ]
+    "price_postapoc": 0
   },
   {
     "type": "GENERIC",
@@ -432,8 +427,7 @@
     "color": "green",
     "symbol": "$",
     "price": 500000,
-    "price_postapoc": 100,
-    "flags": [ "OLD_CURRENCY" ]
+    "price_postapoc": 100
   },
   {
     "type": "GENERIC",
@@ -445,8 +439,7 @@
     "color": "green",
     "symbol": "$",
     "price": 1000000,
-    "price_postapoc": 100,
-    "flags": [ "OLD_CURRENCY" ]
+    "price_postapoc": 100
   },
   {
     "type": "GENERIC",
@@ -474,8 +467,7 @@
     "symbol": "$",
     "material": [ "paper" ],
     "price": 100000,
-    "price_postapoc": 0,
-    "flags": [ "OLD_CURRENCY" ]
+    "price_postapoc": 0
   },
   {
     "type": "GENERIC",
@@ -487,8 +479,7 @@
     "color": "green",
     "symbol": "$",
     "price": 200000,
-    "price_postapoc": 0,
-    "flags": [ "OLD_CURRENCY" ]
+    "price_postapoc": 0
   },
   {
     "type": "GENERIC",
@@ -500,8 +491,7 @@
     "color": "green",
     "symbol": "$",
     "price": 500000,
-    "price_postapoc": 0,
-    "flags": [ "OLD_CURRENCY" ]
+    "price_postapoc": 0
   },
   {
     "type": "GENERIC",
@@ -513,8 +503,7 @@
     "color": "green",
     "symbol": "$",
     "price": 1000000,
-    "price_postapoc": 0,
-    "flags": [ "OLD_CURRENCY" ]
+    "price_postapoc": 0
   },
   {
     "type": "GENERIC",
@@ -526,8 +515,7 @@
     "color": "green",
     "symbol": "$",
     "price": 2000000,
-    "price_postapoc": 0,
-    "flags": [ "OLD_CURRENCY" ]
+    "price_postapoc": 0
   },
   {
     "type": "GENERIC",
@@ -539,8 +527,7 @@
     "color": "green",
     "symbol": "$",
     "price": 5000000,
-    "price_postapoc": 1000,
-    "flags": [ "OLD_CURRENCY" ]
+    "price_postapoc": 1000
   },
   {
     "type": "GENERIC",
@@ -552,8 +539,7 @@
     "color": "green",
     "symbol": "$",
     "price": 10000000,
-    "price_postapoc": 1000,
-    "flags": [ "OLD_CURRENCY" ]
+    "price_postapoc": 1000
   },
   {
     "type": "GENERIC",
