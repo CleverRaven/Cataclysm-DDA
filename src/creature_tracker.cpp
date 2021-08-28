@@ -4,21 +4,25 @@
 #include <ostream>
 #include <utility>
 
+#include "avatar.h"
 #include "cata_assert.h"
 #include "debug.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
+#include "npc.h"
 #include "string_formatter.h"
 #include "type_id.h"
 
+static const efftype_id effect_ridden( "ridden" );
+
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-Creature_tracker::Creature_tracker() = default;
+creature_tracker::creature_tracker() = default;
 
-Creature_tracker::~Creature_tracker() = default;
+creature_tracker::~creature_tracker() = default;
 
-shared_ptr_fast<monster> Creature_tracker::find( const tripoint &pos ) const
+shared_ptr_fast<monster> creature_tracker::find( const tripoint &pos ) const
 {
     const auto iter = monsters_by_location.find( pos );
     if( iter != monsters_by_location.end() ) {
@@ -30,7 +34,7 @@ shared_ptr_fast<monster> Creature_tracker::find( const tripoint &pos ) const
     return nullptr;
 }
 
-int Creature_tracker::temporary_id( const monster &critter ) const
+int creature_tracker::temporary_id( const monster &critter ) const
 {
     const auto iter = std::find_if( monsters_list.begin(), monsters_list.end(),
     [&]( const shared_ptr_fast<monster> &ptr ) {
@@ -42,7 +46,7 @@ int Creature_tracker::temporary_id( const monster &critter ) const
     return iter - monsters_list.begin();
 }
 
-shared_ptr_fast<monster> Creature_tracker::from_temporary_id( const int id )
+shared_ptr_fast<monster> creature_tracker::from_temporary_id( const int id )
 {
     if( static_cast<size_t>( id ) < monsters_list.size() ) {
         return monsters_list[id];
@@ -51,7 +55,7 @@ shared_ptr_fast<monster> Creature_tracker::from_temporary_id( const int id )
     }
 }
 
-bool Creature_tracker::add( const shared_ptr_fast<monster> &critter_ptr )
+bool creature_tracker::add( const shared_ptr_fast<monster> &critter_ptr )
 {
     cata_assert( critter_ptr );
     monster &critter = *critter_ptr;
@@ -89,7 +93,7 @@ bool Creature_tracker::add( const shared_ptr_fast<monster> &critter_ptr )
     return true;
 }
 
-void Creature_tracker::add_to_faction_map( const shared_ptr_fast<monster> &critter_ptr )
+void creature_tracker::add_to_faction_map( const shared_ptr_fast<monster> &critter_ptr )
 {
     cata_assert( critter_ptr );
     monster &critter = *critter_ptr;
@@ -103,12 +107,12 @@ void Creature_tracker::add_to_faction_map( const shared_ptr_fast<monster> &critt
     }
 }
 
-size_t Creature_tracker::size() const
+size_t creature_tracker::size() const
 {
     return monsters_list.size();
 }
 
-bool Creature_tracker::update_pos( const monster &critter, const tripoint &new_pos )
+bool creature_tracker::update_pos( const monster &critter, const tripoint &new_pos )
 {
     if( critter.is_dead() ) {
         // find ignores dead critters anyway, changing their position in the
@@ -150,7 +154,7 @@ bool Creature_tracker::update_pos( const monster &critter, const tripoint &new_p
     }
 }
 
-void Creature_tracker::remove_from_location_map( const monster &critter )
+void creature_tracker::remove_from_location_map( const monster &critter )
 {
     const auto pos_iter = monsters_by_location.find( critter.pos() );
     if( pos_iter != monsters_by_location.end() && pos_iter->second.get() == &critter ) {
@@ -169,7 +173,7 @@ void Creature_tracker::remove_from_location_map( const monster &critter )
     }
 }
 
-void Creature_tracker::remove( const monster &critter )
+void creature_tracker::remove( const monster &critter )
 {
     const auto iter = std::find_if( monsters_list.begin(), monsters_list.end(),
     [&]( const shared_ptr_fast<monster> &ptr ) {
@@ -195,7 +199,7 @@ void Creature_tracker::remove( const monster &critter )
     monsters_list.erase( iter );
 }
 
-void Creature_tracker::clear()
+void creature_tracker::clear()
 {
     monsters_list.clear();
     monsters_by_location.clear();
@@ -203,7 +207,7 @@ void Creature_tracker::clear()
     removed_.clear();
 }
 
-void Creature_tracker::rebuild_cache()
+void creature_tracker::rebuild_cache()
 {
     monsters_by_location.clear();
     monster_faction_map_.clear();
@@ -213,7 +217,7 @@ void Creature_tracker::rebuild_cache()
     }
 }
 
-void Creature_tracker::swap_positions( monster &first, monster &second )
+void creature_tracker::swap_positions( monster &first, monster &second )
 {
     if( first.pos() == second.pos() ) {
         return;
@@ -250,7 +254,7 @@ void Creature_tracker::swap_positions( monster &first, monster &second )
     }
 }
 
-bool Creature_tracker::kill_marked_for_death()
+bool creature_tracker::kill_marked_for_death()
 {
     // Important: `Creature::die` must not be called after creature objects (NPCs, monsters) have
     // been removed, the dying creature could still have a pointer (the killer) to another creature.
@@ -274,7 +278,7 @@ bool Creature_tracker::kill_marked_for_death()
     return monster_is_dead;
 }
 
-void Creature_tracker::remove_dead()
+void creature_tracker::remove_dead()
 {
     // Can't use game::all_monsters() as it would not contain *dead* monsters.
     for( auto iter = monsters_list.begin(); iter != monsters_list.end(); ) {
@@ -289,3 +293,51 @@ void Creature_tracker::remove_dead()
 
     removed_.clear();
 }
+
+template<typename T>
+T *creature_tracker::creature_at( const tripoint &p, bool allow_hallucination )
+{
+    if( const shared_ptr_fast<monster> mon_ptr = find( p ) ) {
+        if( !allow_hallucination && mon_ptr->is_hallucination() ) {
+            return nullptr;
+        }
+        // if we wanted to check for an NPC / player / avatar,
+        // there is sometimes a monster AND an NPC/player there at the same time.
+        // because the NPC/player etc may be riding that monster.
+        // so only return the monster if we were actually looking for a monster.
+        // otherwise, keep looking for the rider.
+        // creature_at<creature> or creature_at() with no template will still default to returning monster first,
+        // which is ok for the occasions where that happens.
+        if( !mon_ptr->has_effect( effect_ridden ) || ( std::is_same<T, monster>::value ||
+                std::is_same<T, Creature>::value || std::is_same<T, const monster>::value ||
+                std::is_same<T, const Creature>::value ) ) {
+            return dynamic_cast<T *>( mon_ptr.get() );
+        }
+    }
+    if( !std::is_same<T, npc>::value && !std::is_same<T, const npc>::value ) {
+        avatar &you = get_avatar();
+        if( p == you.pos() ) {
+            return dynamic_cast<T *>( &you );
+        }
+    }
+    for( auto &cur_npc : active_npc ) {
+        if( cur_npc->pos() == p && !cur_npc->is_dead() ) {
+            return dynamic_cast<T *>( cur_npc.get() );
+        }
+    }
+    return nullptr;
+}
+
+template<typename T>
+const T *creature_tracker::creature_at( const tripoint &p, bool allow_hallucination ) const
+{
+    return const_cast<creature_tracker *>( this )->creature_at<T>( p, allow_hallucination );
+}
+
+template const monster *creature_tracker::creature_at<monster>( const tripoint &, bool ) const;
+template const npc *creature_tracker::creature_at<npc>( const tripoint &, bool ) const;
+template const avatar *creature_tracker::creature_at<avatar>( const tripoint &, bool ) const;
+template avatar *creature_tracker::creature_at<avatar>( const tripoint &, bool );
+template const Character *creature_tracker::creature_at<Character>( const tripoint &, bool ) const;
+template Character *creature_tracker::creature_at<Character>( const tripoint &, bool );
+template const Creature *creature_tracker::creature_at<Creature>( const tripoint &, bool ) const;

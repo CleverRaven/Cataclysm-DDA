@@ -20,6 +20,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
 #include "flag.h"
@@ -310,8 +311,9 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     // Check if our movement is actually an attack on a monster or npc
     // Are we displacing a monster?
 
+    creature_tracker &creatures = get_creature_tracker();
     bool attacking = false;
-    if( g->critter_at( dest_loc ) ) {
+    if( creatures.creature_at( dest_loc ) ) {
         attacking = true;
     }
 
@@ -320,7 +322,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         return false;
     }
 
-    if( monster *const mon_ptr = g->critter_at<monster>( dest_loc, true ) ) {
+    if( monster *const mon_ptr = creatures.creature_at<monster>( dest_loc, true ) ) {
         monster &critter = *mon_ptr;
         if( critter.friendly == 0 &&
             !critter.has_effect( effect_pet ) ) {
@@ -353,7 +355,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         // Successful displacing is handled (much) later
     }
     // If not a monster, maybe there's an NPC there
-    if( npc *const np_ = g->critter_at<npc>( dest_loc ) ) {
+    if( npc *const np_ = creatures.creature_at<npc>( dest_loc ) ) {
         npc &np = *np_;
         if( you.is_auto_moving() ) {
             add_msg( _( "NPC in the way, Auto-move canceled." ) );

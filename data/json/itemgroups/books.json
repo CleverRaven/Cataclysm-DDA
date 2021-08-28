@@ -254,6 +254,7 @@
       { "item": "ZSG", "prob": 5 },
       { "item": "manual_electronics", "prob": 20 },
       { "item": "manual_tailor", "prob": 15 },
+      { "item": "dieselpunk_tailor", "prob": 5 },
       { "item": "recipe_bows", "prob": 10 },
       { "item": "recipe_arrows", "prob": 10 },
       { "item": "manual_mechanics", "prob": 25 },
@@ -691,6 +692,7 @@
       { "item": "tailor_portfolio", "prob": 30 },
       { "item": "mag_tailor", "prob": 50 },
       { "item": "manual_tailor", "prob": 30 },
+      { "item": "dieselpunk_tailor", "prob": 20 },
       { "item": "textbook_tailor", "prob": 30 }
     ]
   },

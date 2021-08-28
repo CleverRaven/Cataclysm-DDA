@@ -71,6 +71,7 @@ static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
+static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 
 static const efftype_id effect_allow_sleep( "allow_sleep" );
 static const efftype_id effect_asked_for_item( "asked_for_item" );
@@ -296,6 +297,10 @@ void talk_function::do_fishing( npc &p )
 void talk_function::revert_activity( npc &p )
 {
     p.revert_after_activity();
+}
+void talk_function::do_disassembly( npc &p )
+{
+    p.assign_activity( ACT_MULTIPLE_DIS );
 }
 
 void talk_function::goto_location( npc &p )

@@ -7055,5 +7055,14 @@
     "valid": false,
     "starting_trait": false,
     "purifiable": false
+  },
+  {
+    "type": "mutation",
+    "id": "NUMB",
+    "name": { "str": "Numb" },
+    "points": 0,
+    "description": "Your ability to feel or express emotion has been greatly hampered.",
+    "category": [ "MEDICAL" ],
+    "threshreq": [ "THRESH_MEDICAL" ]
   }
 ]

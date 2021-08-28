@@ -39,6 +39,7 @@
 #include "color.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
 #include "effect.h"
@@ -83,6 +84,7 @@
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "path_info.h" // IWYU pragma: keep
+#include "panels.h"
 #include "pimpl.h"
 #include "point.h"
 #include "popup.h"
@@ -1145,7 +1147,7 @@ void character_edit_menu()
     }
     const size_t index = charmenu.ret;
     // The NPC is also required for "Add mission", so has to be in this scope
-    npc *np = g->critter_at<npc>( locations[index], false );
+    npc *np = get_creature_tracker().creature_at<npc>( locations[index], false );
     Character &you = np ? *np->as_character() : *player_character.as_character();
     uilist nmenu;
 
@@ -1511,9 +1513,9 @@ void character_edit_menu()
         }
         break;
         case D_NEEDS: {
-            std::pair<std::string, nc_color> hunger_pair = you.get_hunger_description();
-            std::pair<std::string, nc_color> thirst_pair = you.get_thirst_description();
-            std::pair<std::string, nc_color> fatigue_pair = you.get_fatigue_description();
+            std::pair<std::string, nc_color> hunger_pair = display::hunger_text_color( you );
+            std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( you );
+            std::pair<std::string, nc_color> fatigue_pair = display::fatigue_text_color( you );
 
             std::stringstream data;
             data << string_format( _( "Hunger: %d  %s" ), you.get_hunger(), colorize( hunger_pair.first,

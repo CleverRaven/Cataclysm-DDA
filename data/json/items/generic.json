@@ -2551,7 +2551,9 @@
     "symbol": ",",
     "material": [ "paper" ],
     "volume": "1 ml",
-    "price": 0
+    "price": 100,
+    "price_postapoc": 0,
+    "flags": [ "OLD_CURRENCY" ]
   },
   {
     "type": "GENERIC",
@@ -2559,6 +2561,7 @@
     "name": { "str": "ten dollar bill" },
     "description": "A ten dollar bill, pretty useless now though.",
     "copy-from": "money_one",
+    "price": 1000,
     "color": "green",
     "symbol": ","
   },
@@ -2568,6 +2571,7 @@
     "name": { "str": "twenty dollar bill" },
     "description": "A twenty dollar bill, pretty useless now though.",
     "copy-from": "money_one",
+    "price": 2000,
     "color": "green",
     "symbol": ","
   },
