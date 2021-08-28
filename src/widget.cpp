@@ -1,5 +1,6 @@
 #include "widget.h"
 
+#include "character_martial_arts.h"
 #include "color.h"
 #include "generic_factory.h"
 #include "json.h"
@@ -97,6 +98,10 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "weight_text";
         case widget_var::weariness_text:
             return "weariness_text";
+        case widget_var::wielding_text:
+            return "wielding_text";
+        case widget_var::style_text:
+            return "style_text";
         // Fall-through - invalid
         case widget_var::last:
             break;
@@ -287,6 +292,8 @@ bool widget::uses_text_function()
         case widget_var::fatigue_text:
         case widget_var::weight_text:
         case widget_var::weariness_text:
+        case widget_var::wielding_text:
+        case widget_var::style_text:
             return true;
         default:
             return false;
@@ -315,6 +322,14 @@ std::string widget::color_text_function_string( const avatar &ava )
             break;
         case widget_var::weariness_text:
             desc = display::weariness_text_color( ava );
+            break;
+        case widget_var::wielding_text:
+            desc.first = ava.weapname();
+            desc.second = c_light_gray;
+            break;
+        case widget_var::style_text:
+            desc.first = ava.martial_arts_data->selected_style_name( ava );
+            desc.second = c_light_gray;
             break;
         default:
             debugmsg( "Unexpected widget_var %s - no text_color function defined",

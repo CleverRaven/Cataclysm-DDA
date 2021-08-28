@@ -579,6 +579,20 @@
     "//": "Uses display::weariness_text_color"
   },
   {
+    "id": "wielding_desc",
+    "type": "widget",
+    "label": "Wield",
+    "style": "text",
+    "var": "wielding_text"
+  },
+  {
+    "id": "style_desc",
+    "type": "widget",
+    "label": "Style",
+    "style": "text",
+    "var": "style_text"
+  },
+  {
     "id": "root_layout_wide",
     "type": "widget",
     "style": "layout",

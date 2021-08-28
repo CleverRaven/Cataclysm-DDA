@@ -43,6 +43,8 @@ enum class widget_var : int {
     fatigue_text,   // Fagitue description text, color string
     weight_text,    // Weight description text, color string
     weariness_text, // Weariness description text, color string
+    wielding_text,  // Currently wielded weapon or item name
+    style_text,     // Active martial arts style name
     last // END OF ENUMS
 };
 
