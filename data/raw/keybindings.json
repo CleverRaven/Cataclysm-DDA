@@ -1890,12 +1890,6 @@
   },
   {
     "type": "keybinding",
-    "name": "Pickup Item(s) at Player Feet",
-    "category": "DEFAULTMODE",
-    "id": "pickup_feet"
-  },
-  {
-    "type": "keybinding",
     "name": "Grab something nearby",
     "category": "DEFAULTMODE",
     "id": "grab",

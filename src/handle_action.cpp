@@ -1998,16 +1998,6 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             }
             break;
 
-        case ACTION_PICKUP_FEET:
-            if( player_character.has_active_mutation( trait_SHELL2 ) ) {
-                add_msg( m_info, _( "You can't pick anything up while you're in your shell." ) );
-            } else if( u.has_effect( effect_incorporeal ) ) {
-                add_msg( m_info, _( "You lack the substance to affect anything." ) );
-            } else {
-                pickup_feet();
-            }
-            break;
-
         case ACTION_GRAB:
             if( player_character.has_active_mutation( trait_SHELL2 ) ) {
                 add_msg( m_info, _( "You can't grab things while you're in your shell." ) );

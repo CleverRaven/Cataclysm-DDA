@@ -2078,7 +2078,6 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "examine" );
     ctxt.register_action( "advinv" );
     ctxt.register_action( "pickup" );
-    ctxt.register_action( "pickup_feet" );
     ctxt.register_action( "grab" );
     ctxt.register_action( "haul" );
     ctxt.register_action( "butcher" );
@@ -5273,11 +5272,6 @@ void game::pickup( const tripoint &p )
     add_draw_callback( hilite_cb );
 
     Pickup::pick_up( p, 0 );
-}
-
-void game::pickup_feet()
-{
-    Pickup::pick_up( u.pos(), 1 );
 }
 
 //Shift player by one tile, look_around(), then restore previous position.
