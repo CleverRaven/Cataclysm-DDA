@@ -2985,8 +2985,7 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
             if( zlevels ) {
                 // ensure that the layer below this one is not a wall, otherwise you have a ledge dropping onto
                 // a wall which doesn't make sense.
-                const bool isWall = has_flag( "WALL", t );
-                if( !isWall ) {
+                if( !has_flag( "WALL", t ) ) {
                     ter_set( tz, t_open_air );
                     furn_set( tz, f_null );
                 }
