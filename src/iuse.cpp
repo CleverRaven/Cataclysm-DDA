@@ -4280,6 +4280,7 @@ cata::optional<int> iuse::mp3_on( Character *p, item *it, bool t, const tripoint
             it->convert( itype_afs_wraitheon_smartphone ).active = false;
         }
         p->mod_moves( -200 );
+        return 0;
     }
     return it->type->charges_to_use();
 }
