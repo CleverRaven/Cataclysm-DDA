@@ -573,7 +573,7 @@ static nc_color value_color( int stat )
     return valuecolor;
 }
 
-std::pair<nc_color, std::string> display::morale_face_color( const Character &u )
+std::pair<std::string, nc_color> display::morale_face_color( const Character &u )
 {
     const int morale_int = u.get_morale_level();
     nc_color morale_color = c_white;
@@ -584,7 +584,7 @@ std::pair<nc_color, std::string> display::morale_face_color( const Character &u 
     }
     const bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
     const std::string smiley = morale_emotion( morale_int, display::get_face_type( u ), m_style );
-    return std::make_pair( morale_color, smiley );
+    return std::make_pair( smiley, morale_color );
 }
 
 static std::pair<bodypart_id, bodypart_id> temp_delta( const Character &u )
@@ -982,7 +982,7 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
     }
 
     // print mood
-    std::pair<nc_color, std::string> morale_pair = display::morale_face_color( u );
+    std::pair<std::string, nc_color> morale_pair = display::morale_face_color( u );
 
     // print safe mode
     std::string safe_str;
@@ -990,7 +990,7 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
         safe_str = _( "SAFE" );
     }
     mvwprintz( w, point( 22, 2 ), safe_color(), safe_str );
-    mvwprintz( w, point( 27, 2 ), morale_pair.first, morale_pair.second );
+    mvwprintz( w, point( 27, 2 ), morale_pair.second, morale_pair.first );
 
     // print stamina
     const auto &stamina = get_hp_bar( u.get_stamina(), u.get_stamina_max() );
@@ -1507,7 +1507,7 @@ static void draw_limb_wide( avatar &u, const catacurses::window &w )
 static void draw_char_narrow( avatar &u, const catacurses::window &w )
 {
     werase( w );
-    std::pair<nc_color, std::string> morale_pair = display::morale_face_color( u );
+    std::pair<std::string, nc_color> morale_pair = display::morale_face_color( u );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Sound:" ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -1533,7 +1533,7 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 11, 2 ), c_light_red, "↧" );
     }
 
-    mvwprintz( w, point( 26, 0 ), morale_pair.first, morale_pair.second );
+    mvwprintz( w, point( 26, 0 ), morale_pair.second, morale_pair.first );
     mvwprintz( w, point( 26, 1 ), focus_color( u.get_speed() ), "%s", u.get_speed() );
     mvwprintz( w, point( 8, 0 ), c_light_gray, "%s", u.volume );
 
@@ -1548,7 +1548,7 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
 static void draw_char_wide( avatar &u, const catacurses::window &w )
 {
     werase( w );
-    std::pair<nc_color, std::string> morale_pair = display::morale_face_color( u );
+    std::pair<std::string, nc_color> morale_pair = display::morale_face_color( u );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Sound:" ) );
     mvwprintz( w, point( 16, 0 ), c_light_gray, _( "Mood :" ) );
@@ -1559,7 +1559,7 @@ static void draw_char_wide( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 31, 1 ), c_light_gray, _( "Move :" ) );
 
     mvwprintz( w, point( 8, 0 ), c_light_gray, "%s", u.volume );
-    mvwprintz( w, point( 23, 0 ), morale_pair.first, morale_pair.second );
+    mvwprintz( w, point( 23, 0 ), morale_pair.second, morale_pair.first );
     mvwprintz( w, point( 38, 0 ), focus_color( u.get_focus() ), "%s", u.get_focus() );
 
     // print stamina
@@ -1986,8 +1986,8 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 21, 0 ), pain_pair.second, pain_pair.first );
 
     // print mood
-    std::pair<nc_color, std::string> morale_pair = display::morale_face_color( u );
-    mvwprintz( w, point( 34, 1 ), morale_pair.first, morale_pair.second );
+    std::pair<std::string, nc_color> morale_pair = display::morale_face_color( u );
+    mvwprintz( w, point( 34, 1 ), morale_pair.second, morale_pair.first );
 
     if( !veh ) {
         // stats
