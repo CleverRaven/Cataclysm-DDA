@@ -102,6 +102,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "wielding_text";
         case widget_var::style_text:
             return "style_text";
+        case widget_var::date_text:
+            return "date_text";
         // Fall-through - invalid
         case widget_var::last:
             break;
@@ -294,6 +296,7 @@ bool widget::uses_text_function()
         case widget_var::weariness_text:
         case widget_var::wielding_text:
         case widget_var::style_text:
+        case widget_var::date_text:
             return true;
         default:
             return false;
@@ -304,6 +307,8 @@ std::string widget::color_text_function_string( const avatar &ava )
 {
     std::string ret;
     std::pair<std::string, nc_color> desc;
+    // Give a default color (some widget_vars do not define one)
+    desc.second = c_light_gray;
     switch( _var ) {
         case widget_var::pain_text:
             desc = display::pain_text_color( ava );
@@ -325,11 +330,14 @@ std::string widget::color_text_function_string( const avatar &ava )
             break;
         case widget_var::wielding_text:
             desc.first = ava.weapname();
-            desc.second = c_light_gray;
             break;
         case widget_var::style_text:
             desc.first = ava.martial_arts_data->selected_style_name( ava );
-            desc.second = c_light_gray;
+            break;
+        case widget_var::date_text:
+            desc.first = string_format( "%s, day %d",
+                                        calendar::name_season( season_of_year( calendar::turn ) ),
+                                        day_of_season<int>( calendar::turn ) + 1 );
             break;
         default:
             debugmsg( "Unexpected widget_var %s - no text_color function defined",

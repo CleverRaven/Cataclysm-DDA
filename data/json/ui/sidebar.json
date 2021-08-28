@@ -593,6 +593,13 @@
     "var": "style_text"
   },
   {
+    "id": "date_desc",
+    "type": "widget",
+    "label": "Date",
+    "style": "text",
+    "var": "date_text"
+  },
+  {
     "id": "root_layout_wide",
     "type": "widget",
     "style": "layout",

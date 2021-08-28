@@ -45,6 +45,7 @@ enum class widget_var : int {
     weariness_text, // Weariness description text, color string
     wielding_text,  // Currently wielded weapon or item name
     style_text,     // Active martial arts style name
+    date_text,      // Current date, in terms of day within season
     last // END OF ENUMS
 };
 
