@@ -107,6 +107,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "date_text";
         case widget_var::place_text:
             return "place_text";
+        case widget_var::safe_mode_text:
+            return "safe_mode_text";
         // Fall-through - invalid
         case widget_var::last:
             break;
@@ -301,6 +303,7 @@ bool widget::uses_text_function()
         case widget_var::style_text:
         case widget_var::date_text:
         case widget_var::place_text:
+        case widget_var::safe_mode_text:
             return true;
         default:
             return false;
@@ -345,6 +348,9 @@ std::string widget::color_text_function_string( const avatar &ava )
             break;
         case widget_var::place_text:
             desc.first = overmap_buffer.ter( ava.global_omt_location() )->get_name();
+            break;
+        case widget_var::safe_mode_text:
+            desc = display::safe_mode_text_color( false );
             break;
         default:
             debugmsg( "Unexpected widget_var %s - no text_color function defined",

@@ -607,6 +607,13 @@
     "var": "place_text"
   },
   {
+    "id": "safe_mode_desc",
+    "type": "widget",
+    "label": "Safe Mode",
+    "style": "text",
+    "var": "safe_mode_text"
+  },
+  {
     "id": "root_layout_wide",
     "type": "widget",
     "style": "layout",
