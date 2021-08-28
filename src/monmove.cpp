@@ -872,10 +872,11 @@ void monster::move()
     tripoint destination;
 
     bool try_to_move = false;
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &dest : here.points_in_radius( pos(), 1 ) ) {
         if( dest != pos() ) {
             if( can_move_to( dest ) &&
-                g->critter_at( dest, true ) == nullptr ) {
+                creatures.creature_at( dest, true ) == nullptr ) {
                 try_to_move = true;
                 break;
             }
@@ -1012,7 +1013,7 @@ void monster::move()
             // A flag to allow non-stumbling critters to stumble when the most direct choice is bad.
             bool bad_choice = false;
 
-            const Creature *target = g->critter_at( candidate, is_hallucination() );
+            const Creature *target = creatures.creature_at( candidate, is_hallucination() );
             if( target != nullptr ) {
                 const Attitude att = attitude_to( *target );
                 if( att == Attitude::HOSTILE ) {
@@ -1102,7 +1103,7 @@ void monster::move()
                 dragged_foe = nullptr;
                 remove_effect( effect_dragging );
             } else if( here.getlocal( drag_to ) != pos() &&
-                       g->critter_at( here.getlocal( drag_to ) ) == nullptr ) {
+                       creatures.creature_at( here.getlocal( drag_to ) ) == nullptr ) {
                 dragged_foe->setpos( here.getlocal( drag_to ) );
             }
         }
@@ -1155,10 +1156,12 @@ void monster::nursebot_operate( Character *dragged_foe )
         return;
     }
 
+    creature_tracker &creatures = get_creature_tracker();
     if( rl_dist( pos(), goal ) == 1 && !get_map().has_flag_furn( flag_AUTODOC_COUCH, goal ) &&
         !has_effect( effect_operating ) ) {
         if( dragged_foe->has_effect( effect_grabbed ) && !has_effect( effect_countdown ) &&
-            ( g->critter_at( goal ) == nullptr || g->critter_at( goal ) == dragged_foe ) ) {
+            ( creatures.creature_at( goal ) == nullptr ||
+              creatures.creature_at( goal ) == dragged_foe ) ) {
             add_msg( m_bad, _( "The %1$s slowly but firmly puts %2$s down onto the autodoc couch." ), name(),
                      dragged_foe->disp_name() );
 
@@ -1167,7 +1170,7 @@ void monster::nursebot_operate( Character *dragged_foe )
             // There's still time to get away
             add_effect( effect_countdown, 2_turns );
             add_msg( m_bad, _( "The %s produces a syringe full of some translucent liquid." ), name() );
-        } else if( g->critter_at( goal ) != nullptr && has_effect( effect_dragging ) ) {
+        } else if( creatures.creature_at( goal ) != nullptr && has_effect( effect_dragging ) ) {
             sounds::sound( pos(), 8, sounds::sound_t::electronic_speech,
                            string_format(
                                _( "a soft robotic voice say, \"Please step away from the autodoc, this patient needs immediate care.\"" ) ) );
@@ -1440,7 +1443,7 @@ bool monster::bash_at( const tripoint &p )
     }
 
     // Don't bash if a friendly monster is standing there
-    monster *target = g->critter_at<monster>( p );
+    monster *target = get_creature_tracker().creature_at<monster>( p );
     if( target != nullptr && attitude_to( *target ) == Attitude::FRIENDLY ) {
         return false;
     }
@@ -1496,6 +1499,7 @@ int monster::group_bash_skill( const tripoint &target )
     const int max_helper_depth = 5;
     const std::vector<tripoint> bzone = get_bashing_zone( target, pos(), max_helper_depth );
 
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &candidate : bzone ) {
         // Drawing this line backwards excludes the target and includes the candidate.
         std::vector<tripoint> path_to_target = line_to( target, candidate, 0, 0 );
@@ -1504,7 +1508,7 @@ int monster::group_bash_skill( const tripoint &target )
         for( const tripoint &in_path : path_to_target ) {
             // If any point in the line from zombie to target is not a cooperating zombie,
             // it can't contribute.
-            mon = g->critter_at<monster>( in_path );
+            mon = creatures.creature_at<monster>( in_path );
             if( !mon ) {
                 connected = false;
                 break;
@@ -1538,7 +1542,8 @@ bool monster::attack_at( const tripoint &p )
         return melee_attack( player_character );
     }
 
-    if( monster *mon_ = g->critter_at<monster>( p, is_hallucination() ) ) {
+    creature_tracker &creatures = get_creature_tracker();
+    if( monster *mon_ = creatures.creature_at<monster>( p, is_hallucination() ) ) {
         monster &mon = *mon_;
 
         // Don't attack yourself.
@@ -1561,7 +1566,7 @@ bool monster::attack_at( const tripoint &p )
         return false;
     }
 
-    npc *const guy = g->critter_at<npc>( p );
+    npc *const guy = creatures.creature_at<npc>( p );
     if( guy && type->melee_dice > 0 ) {
         // For now we're always attacking NPCs that are getting into our
         // way. This is consistent with how it worked previously, but
@@ -1610,7 +1615,7 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     }
 
     // Allows climbing monsters to move on terrain with movecost <= 0
-    Creature *critter = g->critter_at( destination, is_hallucination() );
+    Creature *critter = get_creature_tracker().creature_at( destination, is_hallucination() );
     if( here.has_flag( TFLAG_CLIMBABLE, destination ) ) {
         if( here.impassable( destination ) && critter == nullptr ) {
             if( flies() ) {
@@ -1811,8 +1816,9 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
         return false;
     }
 
+    creature_tracker &creatures = get_creature_tracker();
     // TODO: Generalize this to Creature
-    monster *const critter = g->critter_at<monster>( p );
+    monster *const critter = creatures.creature_at<monster>( p );
     if( critter == nullptr || critter == this ||
         p == pos() || critter->movement_impaired() ) {
         return false;
@@ -1871,7 +1877,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
             continue;
         }
 
-        Creature *critter_recur = g->critter_at( dest );
+        Creature *critter_recur = creatures.creature_at( dest );
         if( !( critter_recur == nullptr || critter_recur->is_hallucination() ) ) {
             // Try to push recursively
             monster *mon_recur = dynamic_cast< monster * >( critter_recur );
@@ -1881,7 +1887,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
 
             if( critter->push_to( dest, roll, depth + 1 ) ) {
                 // The tile isn't necessarily free, need to check
-                if( !g->critter_at( p ) ) {
+                if( !creatures.creature_at( p ) ) {
                     move_to( p );
                 }
 
@@ -1896,7 +1902,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
             }
         }
 
-        critter_recur = g->critter_at( dest );
+        critter_recur = creatures.creature_at( dest );
         if( critter_recur != nullptr ) {
             if( critter_recur->is_hallucination() ) {
                 critter_recur->die( nullptr );
@@ -1967,6 +1973,7 @@ void monster::stumble()
             valid_stumbles.push_back( below );
         }
     }
+    creature_tracker &creatures = get_creature_tracker();
     while( !valid_stumbles.empty() && !is_dead() ) {
         const tripoint dest = random_entry_removed( valid_stumbles );
         if( can_move_to( dest ) &&
@@ -1976,7 +1983,7 @@ void monster::stumble()
             !( avoid_water &&
                here.has_flag( TFLAG_SWIMMABLE, dest ) &&
                !here.has_flag( TFLAG_SWIMMABLE, pos() ) ) &&
-            ( g->critter_at( dest, is_hallucination() ) == nullptr ) ) {
+            ( creatures.creature_at( dest, is_hallucination() ) == nullptr ) ) {
             if( move_to( dest, true, false ) ) {
                 break;
             }
@@ -1997,8 +2004,9 @@ void monster::knock_back_to( const tripoint &to )
 
     bool u_see = get_player_view().sees( to );
 
+    creature_tracker &creatures = get_creature_tracker();
     // First, see if we hit another monster
-    if( monster *const z = g->critter_at<monster>( to ) ) {
+    if( monster *const z = creatures.creature_at<monster>( to ) ) {
         apply_damage( z, bodypart_id( "torso" ), static_cast<float>( z->type->size ) );
         add_effect( effect_stunned, 1_turns );
         if( type->size > 1 + z->type->size ) {
@@ -2018,7 +2026,7 @@ void monster::knock_back_to( const tripoint &to )
         return;
     }
 
-    if( npc *const p = g->critter_at<npc>( to ) ) {
+    if( npc *const p = creatures.creature_at<npc>( to ) ) {
         apply_damage( p, bodypart_id( "torso" ), 3 );
         add_effect( effect_stunned, 1_turns );
         p->deal_damage( this, bodypart_id( "torso" ),

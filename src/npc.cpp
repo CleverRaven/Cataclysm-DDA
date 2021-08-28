@@ -20,6 +20,7 @@
 #include "character_martial_arts.h"
 #include "clzones.h"
 #include "coordinate_conversions.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
@@ -278,6 +279,12 @@ void npc_template::load( const JsonObject &jsobj )
     if( jsobj.has_string( "talk_friend_guard" ) ) {
         guy.chatbin.talk_friend_guard = jsobj.get_string( "talk_friend_guard" );
     }
+    if( jsobj.has_int( "age" ) ) {
+        guy.set_base_age( jsobj.get_int( "age" ) );
+    }
+    if( jsobj.has_int( "height" ) ) {
+        guy.set_base_height( jsobj.get_int( "height" ) );
+    }
     npc_templates.emplace( string_id<npc_template>( guy.idz ), std::move( tem ) );
 }
 
@@ -367,6 +374,8 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     chatbin.talk_stranger_friendly = tguy.chatbin.talk_stranger_friendly;
     chatbin.talk_stranger_neutral = tguy.chatbin.talk_stranger_neutral;
     chatbin.talk_friend_guard = tguy.chatbin.talk_friend_guard;
+    set_base_age( tguy.base_age() );
+    set_base_height( tguy.base_height() );
     for( const mission_type_id &miss_id : tguy.miss_ids ) {
         add_new_mission( mission::reserve_new( miss_id, getID() ) );
     }
@@ -2232,7 +2241,7 @@ bool npc::emergency( float danger ) const
 //Active npcs are the npcs near the player that are actively simulated.
 bool npc::is_active() const
 {
-    return g->critter_at<npc>( pos() ) == this;
+    return get_creature_tracker().creature_at<npc>( pos() ) == this;
 }
 
 int npc::follow_distance() const
@@ -2809,7 +2818,7 @@ void npc::on_load()
         here.board_vehicle( pos(), this );
     }
     if( has_effect( effect_riding ) && !mounted_creature ) {
-        if( const monster *const mon = g->critter_at<monster>( pos() ) ) {
+        if( const monster *const mon = get_creature_tracker().creature_at<monster>( pos() ) ) {
             mounted_creature = g->shared_from( *mon );
         } else {
             add_msg_debug( debugmode::DF_NPC,
@@ -2994,6 +3003,13 @@ std::set<tripoint> npc::get_path_avoid() const
             }
         }
     }
+
+    for( const tripoint &p : here.points_in_radius( pos(), 5 ) ) {
+        if( sees_dangerous_field( p ) ) {
+            ret.insert( p );
+        }
+    }
+
     return ret;
 }
 

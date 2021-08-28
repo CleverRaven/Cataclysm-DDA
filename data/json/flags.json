@@ -513,6 +513,11 @@
     "type": "json_flag"
   },
   {
+    "id": "OLD_CURRENCY",
+    "type": "json_flag",
+    "info": "This item used to be legal tender before the Cataclysm."
+  },
+  {
     "id": "PSYSHIELD_PARTIAL",
     "type": "json_flag",
     "//": "25% chance to protect against fear_paralyze monster attack.",

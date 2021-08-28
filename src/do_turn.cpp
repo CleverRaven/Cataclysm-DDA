@@ -5,6 +5,7 @@
 #include "bionics.h"
 #include "cached_options.h"
 #include "calendar.h"
+#include "creature_tracker.h"
 #include "event_bus.h"
 #include "explosion.h"
 #include "game.h"
@@ -406,6 +407,7 @@ void update_stair_monsters()
     // Randomize the stair choice
     si = random_entry_ref( nearest );
 
+    creature_tracker &creatures = get_creature_tracker();
     // Attempt to spawn zombies.
     for( size_t i = 0; i < g->coming_to_stairs.size(); i++ ) {
         point mpos( stairx[si], stairy[si] );
@@ -485,7 +487,7 @@ void update_stair_monsters()
                 push.y = rng( -1, 1 );
                 point ipos( mpos + push );
                 tripoint pos( ipos, m.get_abs_sub().z );
-                if( ( push.x != 0 || push.y != 0 ) && !g->critter_at( pos ) &&
+                if( ( push.x != 0 || push.y != 0 ) && !creatures.creature_at( pos ) &&
                     critter.can_move_to( pos ) ) {
                     bool resiststhrow = ( u.is_throw_immune() ) ||
                                         ( u.has_trait( trait_LEG_TENT_BRACE ) );
@@ -525,7 +527,7 @@ void update_stair_monsters()
             critter.melee_attack( u );
             u.moves -= 50;
             return;
-        } else if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
+        } else if( monster *const mon_ptr = creatures.creature_at<monster>( dest ) ) {
             // Monster attempts to displace a monster from the stairs
             monster &other = *mon_ptr;
             critter.spawn( dest );
@@ -546,7 +548,7 @@ void update_stair_monsters()
                 if( ( push2.x == 0 && push2.y == 0 ) || ( ( ipos2.x == u.posx() ) && ( ipos2.y == u.posy() ) ) ) {
                     continue;
                 }
-                if( !g->critter_at( pos ) && other.can_move_to( pos ) ) {
+                if( !creatures.creature_at( pos ) && other.can_move_to( pos ) ) {
                     other.setpos( tripoint( ipos2, m.get_abs_sub().z ) );
                     other.moves -= 50;
                     std::string msg;

@@ -548,7 +548,7 @@
       [ "CHISEL", 3 ],
       [ "CHISEL_WOOD", 3 ]
     ],
-    "use_action": [ "GUN_REPAIR", "CROWBAR", "HAMMER" ],
+    "use_action": [ "GUN_REPAIR", [ "CROWBAR", 0 ], [ "HAMMER", 0 ] ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
       {
@@ -908,7 +908,7 @@
       [ "CHISEL", 3 ],
       [ "CHISEL_WOOD", 3 ]
     ],
-    "use_action": [ "GUN_REPAIR", "CROWBAR", "HAMMER" ],
+    "use_action": [ "GUN_REPAIR", [ "CROWBAR", 0 ], [ "HAMMER", 0 ] ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "pocket_data": [
       {

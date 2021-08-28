@@ -44,6 +44,7 @@
     "material": [ "silver" ],
     "symbol": "o",
     "color": "light_gray",
+    "flags": [ "OLD_CURRENCY" ],
     "use_action": [ "COIN_FLIP" ]
   },
   {
@@ -59,6 +60,7 @@
     "material": [ "copper" ],
     "symbol": "o",
     "color": "light_gray",
+    "flags": [ "OLD_CURRENCY" ],
     "use_action": [ "COIN_FLIP" ]
   },
   {

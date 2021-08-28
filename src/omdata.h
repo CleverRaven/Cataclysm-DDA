@@ -469,6 +469,9 @@ class overmap_special
         /** @returns whether the special at specified tripoint can belong to the specified city. */
         bool can_belong_to_city( const tripoint_om_omt &p, const city &cit ) const;
 
+        const mapgen_parameters &get_params() const {
+            return mapgen_params;
+        }
         mapgen_arguments get_args( const mapgendata & ) const;
 
         overmap_special_id id;

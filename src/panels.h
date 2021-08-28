@@ -8,18 +8,40 @@
 #include <string>
 #include <vector>
 
+#include "color.h"
 #include "coordinates.h"
 #include "translations.h"
 
 class JsonIn;
 class JsonOut;
 class avatar;
+class Character;
+class Creature;
 struct point;
 
-namespace activity_level
+// The display namespace contains UI string output and colorization functions
+// Some return plain strings or translations, some return a (string, color) pair,
+// and some return a string with colorization tags embedded.
+namespace display
 {
+// Functions returning plain strings
 std::string activity_level_str( float level );
-} // namespace activity_level
+// gets the description, printed in player_display, related to your current bmi
+std::string weight_long_description( const Character &u );
+
+// Functions returning (text, color) pairs
+std::pair<translation, nc_color> weariness_text_color( size_t weariness );
+std::pair<std::string, nc_color> thirst_text_color( const Character &u );
+std::pair<std::string, nc_color> hunger_text_color( const Character &u );
+std::pair<std::string, nc_color> weight_text_color( const Character &u );
+std::pair<std::string, nc_color> fatigue_text_color( const Character &u );
+std::pair<std::string, nc_color> pain_text_color( const Creature &c );
+std::pair<std::string, nc_color> pain_text_color( const Character &u );
+
+// Functions returning colorized string
+// gets the string that describes your weight
+std::string weight_string( const Character &u );
+} // namespace display
 
 namespace catacurses
 {

@@ -1961,7 +1961,7 @@ tab_direction set_profession( avatar &u, pool_type pool )
             // Remove all hobbies and filter our list
             const auto new_end = std::remove_if( sorted_profs.begin(),
             sorted_profs.end(), [&]( const string_id<profession> &arg ) {
-                return arg.obj().is_hobby() || !lcmatch( arg->gender_appropriate_name( u.male ), filterstring );
+                return !lcmatch( arg->gender_appropriate_name( u.male ), filterstring );
             } );
             sorted_profs.erase( new_end, sorted_profs.end() );
 

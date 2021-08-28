@@ -895,6 +895,8 @@ struct itype {
         // What item this item repairs like if it doesn't have a recipe
         itype_id repairs_like;
 
+        std::set<std::string> weapon_category;
+
         std::string snippet_category;
         translation description; // Flavor text
         ascii_art_id picture_id;
@@ -915,6 +917,9 @@ struct itype {
 
         /** Actions an instance can perform (if any) indexed by action type */
         std::map<std::string, use_function> use_methods;
+
+        /** The factor of ammo consumption indexed by action type*/
+        std::map<std::string, float> ammo_scale;
 
         /** Action to take BEFORE the item is placed on map. If it returns non-zero, item won't be placed. */
         use_function drop_action;

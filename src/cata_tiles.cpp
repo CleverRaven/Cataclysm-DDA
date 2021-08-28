@@ -24,6 +24,7 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "color.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "cursesport.h"
 #include "debug.h"
@@ -1201,6 +1202,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             max_npc_effectiveness = std::max( pair.second, max_npc_effectiveness );
         }
     }
+
+    creature_tracker &creatures = get_creature_tracker();
     for( int row = min_row; row < max_row; row ++ ) {
         std::vector<tile_render_info> draw_points;
         draw_points.reserve( max_col );
@@ -1396,7 +1399,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
             }
 
             if( !invisible[0] && apply_vision_effects( pos, here.get_visibility( ll, cache ) ) ) {
-                const Creature *critter = g->critter_at( pos, true );
+                const Creature *critter = creatures.creature_at( pos, true );
                 if( has_draw_override( pos ) || has_memory_at( pos ) ||
                     ( critter && ( you.sees_with_infrared( *critter ) ||
                                    you.sees_with_specials( *critter ) ) ) ) {
@@ -2057,6 +2060,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
     // TODO: faster solution here
     unsigned int seed = 0;
     map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
     // TODO: determine ways other than category to differentiate more types of sprites
     switch( category ) {
         case C_TERRAIN:
@@ -2119,7 +2123,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
         case C_MONSTER:
             // FIXME: add persistent id to Creature type, instead of using monster pointer address
             if( monster_override.find( pos ) == monster_override.end() ) {
-                seed = reinterpret_cast<uintptr_t>( g->critter_at<monster>( pos ) );
+                seed = reinterpret_cast<uintptr_t>( creatures.creature_at<monster>( pos ) );
             }
             break;
         default:
@@ -2130,7 +2134,7 @@ bool cata_tiles::draw_from_id_string( const std::string &id, TILE_CATEGORY categ
             }
             // NPC
             if( string_starts_with( found_id, "npc_" ) ) {
-                if( npc *const guy = g->critter_at<npc>( pos ) ) {
+                if( npc *const guy = creatures.creature_at<npc>( pos ) ) {
                     seed = guy->getID().get_value();
                     break;
                 }
@@ -2995,7 +2999,7 @@ bool cata_tiles::draw_critter_at_below( const tripoint &p, const lit_level, int 
 
     // Get the critter at the location below. If there isn't one,
     // we can bail.
-    const Creature *critter = g->critter_at( pbelow, true );
+    const Creature *critter = get_creature_tracker().creature_at( pbelow, true );
     if( critter == nullptr ) {
         return false;
     }
@@ -3043,6 +3047,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
     bool sees_player;
     Creature::Attitude attitude;
     Character &you = get_player_character();
+    creature_tracker &creatures = get_creature_tracker();
     const auto override = monster_override.find( p );
     if( override != monster_override.end() ) {
         const mtype_id id = std::get<0>( override->second );
@@ -3058,7 +3063,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
         result = draw_from_id_string( chosen_id, C_MONSTER, ent_subcategory, p, corner, 0,
                                       lit_level::LIT, false, height_3d );
     } else if( !invisible[0] ) {
-        const Creature *pcritter = g->critter_at( p, true );
+        const Creature *pcritter = creatures.creature_at( p, true );
         if( pcritter == nullptr ) {
             return false;
         }
@@ -3126,7 +3131,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
         }
     } else {
         // invisible
-        const Creature *critter = g->critter_at( p, true );
+        const Creature *critter = creatures.creature_at( p, true );
         if( critter && ( you.sees_with_infrared( *critter ) ||
                          you.sees_with_specials( *critter ) ) ) {
             // try drawing infrared creature if invisible and not overridden

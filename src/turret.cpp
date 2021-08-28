@@ -525,6 +525,7 @@ npc vehicle::get_targeting_npc( const vehicle_part &pt )
 {
     // Make a fake NPC to represent the targeting system
     npc cpu;
+    cpu.set_body();
     cpu.set_fake( true );
     cpu.name = string_format( _( "The %s turret" ), pt.get_base().tname( 1 ) );
     // turrets are subject only to recoil_vehicle()

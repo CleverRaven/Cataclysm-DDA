@@ -11,6 +11,7 @@
 #include "character.h"
 #include "colony.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
 #include "game.h" // TODO: This is a circular dependency
@@ -253,7 +254,7 @@ void doors::close_door( map &m, Creature &who, const tripoint &closep )
     bool didit = false;
     const bool inside = !m.is_outside( who.pos() );
 
-    const Creature *const mon = g->critter_at( closep );
+    const Creature *const mon = get_creature_tracker().creature_at( closep );
     if( mon ) {
         if( mon->is_avatar() ) {
             who.add_msg_if_player( m_info, _( "There's some buffoon in the way!" ) );

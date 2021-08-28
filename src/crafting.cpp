@@ -763,7 +763,7 @@ static item_location place_craft_or_disassembly(
 
     // Crafting without a workbench
     if( !target ) {
-        if( !ch.has_two_arms_lifting() ) {
+        if( !ch.has_two_arms_lifting() || ( ch.is_npc() && ch.has_wield_conflicts( craft ) ) ) {
             craft_in_world = set_item_map_or_vehicle( ch, ch.pos(), craft );
         } else if( !ch.has_wield_conflicts( craft ) ) {
             if( cata::optional<item_location> it_loc = wield_craft( ch, craft ) ) {
@@ -1601,37 +1601,39 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
             const item ingredient = item( ingredient_type );
             std::pair<int, int> kcal_values{ 0, 0 };
 
+
+            switch( inv_source ) {
+                case inventory_source::MAP:
+                    text = _( "%s (%d/%d nearby)" );
+                    kcal_values = map_inv.kcal_range( ingredient_type, filter, player_character );
+                    available = item::count_by_charges( ingredient_type ) ?
+                                map_inv.charges_of( ingredient_type, INT_MAX, filter ) :
+                                map_inv.amount_of( ingredient_type, false, INT_MAX, filter );
+                    break;
+                case inventory_source::SELF:
+                    text = _( "%s (%d/%d on person)" );
+                    kcal_values = player_character.kcal_range( ingredient_type, filter, player_character );
+                    available = item::count_by_charges( ingredient_type ) ?
+                                player_character.charges_of( ingredient_type, INT_MAX, filter ) :
+                                player_character.amount_of( ingredient_type, false, INT_MAX, filter );
+                    break;
+                case inventory_source::BOTH:
+                    text = _( "%s (%d/%d nearby & on person)" );
+                    kcal_values = map_inv.kcal_range( ingredient_type, filter, player_character );
+                    const std::pair<int, int> kcal_values_tmp = player_character.kcal_range( ingredient_type, filter,
+                            player_character );
+                    kcal_values.first = std::min( kcal_values.first, kcal_values_tmp.first );
+                    kcal_values.second = std::max( kcal_values.second, kcal_values_tmp.second );
+                    available = item::count_by_charges( ingredient_type ) ?
+                                map_inv.charges_of( ingredient_type, INT_MAX, filter ) +
+                                player_character.charges_of( ingredient_type, INT_MAX, filter ) :
+                                map_inv.amount_of( ingredient_type, false, INT_MAX, filter ) +
+                                player_character.amount_of( ingredient_type, false, INT_MAX, filter );
+                    break;
+            }
+
             if( is_food && ingredient.is_food() ) {
-                switch( inv_source ) {
-                    case inventory_source::MAP:
-                        text = _( "%s (%d/%d nearby)" );
-                        kcal_values = map_inv.kcal_range( ingredient_type, filter, player_character );
-                        available = item::count_by_charges( ingredient_type ) ?
-                                    map_inv.charges_of( ingredient_type, INT_MAX, filter ) :
-                                    map_inv.amount_of( ingredient_type, false, INT_MAX, filter );
-                        break;
-                    case inventory_source::SELF:
-                        text = _( "%s (%d/%d on person)" );
-                        kcal_values = player_character.kcal_range( ingredient_type, filter, player_character );
-                        available = item::count_by_charges( ingredient_type ) ?
-                                    player_character.charges_of( ingredient_type, INT_MAX, filter ) :
-                                    player_character.amount_of( ingredient_type, false, INT_MAX, filter );
-                        break;
-                    case inventory_source::BOTH:
-                        text = _( "%s (%d/%d nearby & on person)" );
-                        kcal_values = map_inv.kcal_range( ingredient_type, filter, player_character );
-                        const std::pair<int, int> kcal_values_tmp = player_character.kcal_range( ingredient_type, filter,
-                                player_character );
-                        kcal_values.first = std::min( kcal_values.first, kcal_values_tmp.first );
-                        kcal_values.second = std::max( kcal_values.second, kcal_values_tmp.second );
-                        available = item::count_by_charges( ingredient_type ) ?
-                                    map_inv.charges_of( ingredient_type, INT_MAX, filter ) +
-                                    player_character.charges_of( ingredient_type, INT_MAX, filter ) :
-                                    map_inv.amount_of( ingredient_type, false, INT_MAX, filter ) +
-                                    player_character.amount_of( ingredient_type, false, INT_MAX, filter );
-                        break;
-                }
-                text += kcal_values.first == kcal_values.second ? _( " %d kcal" ) : _( " %1$d-%2$d kcal" );
+                text += kcal_values.first == kcal_values.second ? _( " %d kcal" ) : _( " %d-%d kcal" );
                 if( ingredient.has_flag( flag_RAW ) && remove_raw ) {
                     //Multiplier for RAW food digestion
                     kcal_values.first /= 0.75f;
@@ -1639,7 +1641,6 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
                     text += _( " <color_brown> (will be processed)</color>" );
                 }
             }
-
             return string_format( text,
                                   item::nname( ingredient_type ),
                                   count,
@@ -2187,8 +2188,11 @@ item_location Character::create_in_progress_disassembly( item_location target )
         target.remove_item();
     }
 
+    // Mark the new item, avoid conflict with other ppl
+    new_disassembly.set_var( "activity_var", name );
     item_location disassembly_in_world = place_craft_or_disassembly( *this, new_disassembly,
                                          cata::nullopt );
+
 
     if( !disassembly_in_world ) {
         return item_location::nowhere;
@@ -2420,7 +2424,12 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
 
     float component_success_chance = std::min( std::pow( 0.8, dis_item.damage_level() ), 1.0 );
 
-    add_msg( _( "You disassemble the %s into its components." ), dis_item.tname() );
+    if( this->is_avatar() ) {
+        add_msg( _( "You disassemble the %s into its components." ), dis_item.tname() );
+    } else {
+        add_msg_if_player_sees( *this, _( "%1s disassembles the %2s into its components." ),
+                                this->disp_name( false, true ), dis_item.tname() );
+    }
 
     // Get rid of the disassembly item
     target.remove_item();
@@ -2505,15 +2514,23 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
     for( const item &newit : components ) {
         const bool comp_success = ( dice( skill_dice, skill_sides ) > dice( diff_dice,  diff_sides ) );
         if( dis.difficulty != 0 && !comp_success ) {
-            add_msg( m_bad, _( "You fail to recover %s." ), newit.tname() );
+            if( this->is_avatar() ) {
+                add_msg( m_bad, _( "You fail to recover %s." ), newit.tname() );
+            } else {
+                add_msg_if_player_sees( *this, m_bad, _( "%1s fails to recover %2s." ), this->disp_name( false,
+                                        true ), newit.tname() );
+            }
             continue;
         }
         const bool dmg_success = component_success_chance > rng_float( 0, 1 );
         if( !dmg_success ) {
             // Show reason for failure (damaged item, tname contains the damage adjective)
-            //~ %1s - material, %2$s - disassembled item
-            add_msg( m_bad, _( "You fail to recover %1$s from the %2$s." ), newit.tname(),
-                     dis_item.tname() );
+            if( this->is_avatar() ) {
+                add_msg( m_bad, _( "You fail to recover %1$s from the %2$s." ), newit.tname(), dis_item.tname() );
+            } else {
+                add_msg_if_player_sees( *this, m_bad, _( "%1s fails to recover  recover %2$s from the %3$s." ),
+                                        this->disp_name( false, true ), newit.tname(), dis_item.tname() );
+            }
             continue;
         }
         // Use item from components list, or (if not contained)
@@ -2557,14 +2574,15 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             if( one_in( 4 ) ) {
                 // TODO: change to forward an id or a reference
                 learn_recipe( &dis.ident().obj() );
-                add_msg( m_good, _( "You learned a recipe for %s from disassembling it!" ),
-                         dis_item.tname() );
+                add_msg_if_player( m_good, _( "You learned a recipe for %s from disassembling it!" ),
+                                   dis_item.tname() );
             } else {
-                add_msg( m_info, _( "You might be able to learn a recipe for %s if you disassemble another." ),
-                         dis_item.tname() );
+                add_msg_if_player( m_info,
+                                   _( "You might be able to learn a recipe for %s if you disassemble another." ),
+                                   dis_item.tname() );
             }
         } else {
-            add_msg( m_info, _( "If you had better skills, you might learn a recipe next time." ) );
+            add_msg_if_player( m_info, _( "If you had better skills, you might learn a recipe next time." ) );
         }
     }
 }

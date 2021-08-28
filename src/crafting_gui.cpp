@@ -232,7 +232,7 @@ static std::vector<std::string> recipe_info(
                           recp.batch_savings_string() );
 
     oss << string_format( _( "Activity level: <color_cyan>%s</color>\n" ),
-                          activity_level::activity_level_str( recp.exertion_level() ) );
+                          display::activity_level_str( recp.exertion_level() ) );
 
     const int makes = recp.makes_amount();
     if( makes > 1 ) {

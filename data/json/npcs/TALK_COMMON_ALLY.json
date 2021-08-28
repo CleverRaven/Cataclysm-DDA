@@ -867,6 +867,12 @@
         "topic": "TALK_DONE",
         "condition": { "not": "npc_has_activity" },
         "effect": "do_farming"
+      },
+      {
+        "text": "Please disassemble anything in the designated areas.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_disassembly"
       }
     ]
   },

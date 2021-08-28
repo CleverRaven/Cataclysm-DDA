@@ -65,6 +65,15 @@ static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
 static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 
 static const efftype_id effect_got_checked( "got_checked" );
+static const efftype_id effect_hunger_blank( "hunger_blank" );
+static const efftype_id effect_hunger_engorged( "hunger_engorged" );
+static const efftype_id effect_hunger_famished( "hunger_famished" );
+static const efftype_id effect_hunger_full( "hunger_full" );
+static const efftype_id effect_hunger_hungry( "hunger_hungry" );
+static const efftype_id effect_hunger_near_starving( "hunger_near_starving" );
+static const efftype_id effect_hunger_satisfied( "hunger_satisfied" );
+static const efftype_id effect_hunger_starving( "hunger_starving" );
+static const efftype_id effect_hunger_very_hungry( "hunger_very_hungry" );
 
 static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
 static const flag_id json_flag_SPLINT( "SPLINT" );
@@ -995,7 +1004,7 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static std::pair<translation, nc_color> weariness_description( size_t weariness )
+std::pair<translation, nc_color> display::weariness_text_color( size_t weariness )
 {
     static const std::array<std::pair<translation, nc_color>, 6> weary_descriptions { {
             {to_translation( "weariness description", "Fresh" ), c_green},
@@ -1012,7 +1021,7 @@ static std::pair<translation, nc_color> weariness_description( size_t weariness 
     return weary_descriptions[weariness];
 }
 
-std::string activity_level::activity_level_str( float level )
+std::string display::activity_level_str( float level )
 {
     static const std::array<translation, 6> activity_descriptions { {
             to_translation( "activity description", "None" ),
@@ -1027,6 +1036,230 @@ std::string activity_level::activity_level_str( float level )
     int idx = std::floor( level / 2 );
 
     return activity_descriptions[idx].translated();
+}
+
+std::pair<std::string, nc_color> display::thirst_text_color( const Character &u )
+{
+    // some delay from water in stomach is desired, but there needs to be some visceral response
+    int thirst = u.get_thirst() - ( std::max( units::to_milliliter<int>( u.stomach.get_water() ) / 10,
+                                    0 ) );
+    std::string hydration_string;
+    nc_color hydration_color = c_white;
+    if( thirst > 520 ) {
+        hydration_color = c_light_red;
+        hydration_string = translate_marker( "Parched" );
+    } else if( thirst > 240 ) {
+        hydration_color = c_light_red;
+        hydration_string = translate_marker( "Dehydrated" );
+    } else if( thirst > 80 ) {
+        hydration_color = c_yellow;
+        hydration_string = translate_marker( "Very thirsty" );
+    } else if( thirst > 40 ) {
+        hydration_color = c_yellow;
+        hydration_string = translate_marker( "Thirsty" );
+    } else if( thirst < -60 ) {
+        hydration_color = c_green;
+        hydration_string = translate_marker( "Turgid" );
+    } else if( thirst < -20 ) {
+        hydration_color = c_green;
+        hydration_string = translate_marker( "Hydrated" );
+    } else if( thirst < 0 ) {
+        hydration_color = c_green;
+        hydration_string = translate_marker( "Slaked" );
+    }
+    return std::make_pair( _( hydration_string ), hydration_color );
+}
+
+std::pair<std::string, nc_color> display::hunger_text_color( const Character &u )
+{
+    // clang 3.8 has some sort of issue where if the initializer list contains const arguments,
+    // like all of the effect_* string_id variables which are const string_id, then it fails to
+    // initialize the array with tuples successfully complaining that
+    // "chosen constructor is explicit in copy-initialization". Using std::forward_as_tuple
+    // returns a tuple consisting of correctly implcitly copyable types.
+    static const std::array<std::tuple<const efftype_id &, const char *, nc_color>, 9> hunger_states{ {
+            std::forward_as_tuple( effect_hunger_engorged, translate_marker( "Engorged" ), c_red ),
+            std::forward_as_tuple( effect_hunger_full, translate_marker( "Full" ), c_yellow ),
+            std::forward_as_tuple( effect_hunger_satisfied, translate_marker( "Satisfied" ), c_green ),
+            std::forward_as_tuple( effect_hunger_blank, "", c_white ),
+            std::forward_as_tuple( effect_hunger_hungry, translate_marker( "Hungry" ), c_yellow ),
+            std::forward_as_tuple( effect_hunger_very_hungry, translate_marker( "Very Hungry" ), c_yellow ),
+            std::forward_as_tuple( effect_hunger_near_starving, translate_marker( "Near starving" ), c_red ),
+            std::forward_as_tuple( effect_hunger_starving, translate_marker( "Starving!" ), c_red ),
+            std::forward_as_tuple( effect_hunger_famished, translate_marker( "Famished" ), c_light_red )
+        }
+    };
+    for( auto &hunger_state : hunger_states ) {
+        if( u.has_effect( std::get<0>( hunger_state ) ) ) {
+            return std::make_pair( _( std::get<1>( hunger_state ) ), std::get<2>( hunger_state ) );
+        }
+    }
+    return std::make_pair( _( "ERROR!" ), c_light_red );
+}
+
+std::pair<std::string, nc_color> display::weight_text_color( const Character &u )
+{
+    const float bmi = u.get_bmi();
+    std::string weight_string;
+    nc_color weight_color = c_light_gray;
+    if( get_option<bool>( "CRAZY" ) ) {
+        if( bmi > character_weight_category::morbidly_obese + 10.0f ) {
+            weight_string = translate_marker( "AW HELL NAH" );
+            weight_color = c_red;
+        } else if( bmi > character_weight_category::morbidly_obese + 5.0f ) {
+            weight_string = translate_marker( "DAYUM" );
+            weight_color = c_red;
+        } else if( bmi > character_weight_category::morbidly_obese ) {
+            weight_string = translate_marker( "Fluffy" );
+            weight_color = c_red;
+        } else if( bmi > character_weight_category::very_obese ) {
+            weight_string = translate_marker( "Husky" );
+            weight_color = c_red;
+        } else if( bmi > character_weight_category::obese ) {
+            weight_string = translate_marker( "Healthy" );
+            weight_color = c_light_red;
+        } else if( bmi > character_weight_category::overweight ) {
+            weight_string = translate_marker( "Big" );
+            weight_color = c_yellow;
+        } else if( bmi > character_weight_category::normal ) {
+            weight_string = translate_marker( "Normal" );
+            weight_color = c_light_gray;
+        } else if( bmi > character_weight_category::underweight ) {
+            weight_string = translate_marker( "Bean Pole" );
+            weight_color = c_yellow;
+        } else if( bmi > character_weight_category::emaciated ) {
+            weight_string = translate_marker( "Emaciated" );
+            weight_color = c_light_red;
+        } else {
+            weight_string = translate_marker( "Spooky Scary Skeleton" );
+            weight_color = c_red;
+        }
+    } else {
+        if( bmi > character_weight_category::morbidly_obese ) {
+            weight_string = translate_marker( "Morbidly Obese" );
+            weight_color = c_red;
+        } else if( bmi > character_weight_category::very_obese ) {
+            weight_string = translate_marker( "Very Obese" );
+            weight_color = c_red;
+        } else if( bmi > character_weight_category::obese ) {
+            weight_string = translate_marker( "Obese" );
+            weight_color = c_light_red;
+        } else if( bmi > character_weight_category::overweight ) {
+            weight_string = translate_marker( "Overweight" );
+            weight_color = c_yellow;
+        } else if( bmi > character_weight_category::normal ) {
+            weight_string = translate_marker( "Normal" );
+            weight_color = c_light_gray;
+        } else if( bmi > character_weight_category::underweight ) {
+            weight_string = translate_marker( "Underweight" );
+            weight_color = c_yellow;
+        } else if( bmi > character_weight_category::emaciated ) {
+            weight_string = translate_marker( "Emaciated" );
+            weight_color = c_light_red;
+        } else {
+            weight_string = translate_marker( "Skeletal" );
+            weight_color = c_red;
+        }
+    }
+    return std::make_pair( _( weight_string ), weight_color );
+}
+
+std::string display::weight_long_description( const Character &u )
+{
+    const float bmi = u.get_bmi();
+    if( bmi > character_weight_category::morbidly_obese ) {
+        return _( "You have far more fat than is healthy or useful.  It is causing you major problems." );
+    } else if( bmi > character_weight_category::very_obese ) {
+        return _( "You have too much fat.  It impacts your day-to-day health and wellness." );
+    } else if( bmi > character_weight_category::obese ) {
+        return _( "You've definitely put on a lot of extra weight.  Although helpful in times of famine, this is too much and is impacting your health." );
+    } else if( bmi > character_weight_category::overweight ) {
+        return _( "You've put on some extra pounds.  Nothing too excessive, but it's starting to impact your health and waistline a bit." );
+    } else if( bmi > character_weight_category::normal ) {
+        return _( "You look to be a pretty healthy weight, with some fat to last you through the winter, but nothing excessive." );
+    } else if( bmi > character_weight_category::underweight ) {
+        return _( "You are thin, thinner than is healthy.  You are less resilient to going without food." );
+    } else if( bmi > character_weight_category::emaciated ) {
+        return _( "You are very unhealthily underweight, nearing starvation." );
+    } else {
+        return _( "You have very little meat left on your bones.  You appear to be starving." );
+    }
+}
+
+std::string display::weight_string( const Character &u )
+{
+    std::pair<std::string, nc_color> weight_pair = display::weight_text_color( u );
+    return colorize( weight_pair.first, weight_pair.second );
+}
+
+std::pair<std::string, nc_color> display::fatigue_text_color( const Character &u )
+{
+    int fatigue = u.get_fatigue();
+    std::string fatigue_string;
+    nc_color fatigue_color = c_white;
+    if( fatigue > fatigue_levels::EXHAUSTED ) {
+        fatigue_color = c_red;
+        fatigue_string = translate_marker( "Exhausted" );
+    } else if( fatigue > fatigue_levels::DEAD_TIRED ) {
+        fatigue_color = c_light_red;
+        fatigue_string = translate_marker( "Dead Tired" );
+    } else if( fatigue > fatigue_levels::TIRED ) {
+        fatigue_color = c_yellow;
+        fatigue_string = translate_marker( "Tired" );
+    }
+    return std::make_pair( _( fatigue_string ), fatigue_color );
+}
+
+std::pair<std::string, nc_color> display::pain_text_color( const Creature &c )
+{
+    float scale = c.get_perceived_pain() / 10.f;
+    std::string pain_string;
+    nc_color pain_color = c_yellow;
+    if( scale > 7 ) {
+        pain_string = _( "Severe pain" );
+    } else if( scale > 6 ) {
+        pain_string = _( "Intense pain" );
+    } else if( scale > 5 ) {
+        pain_string = _( "Unmanageable pain" );
+    } else if( scale > 4 ) {
+        pain_string = _( "Distressing pain" );
+    } else if( scale > 3 ) {
+        pain_string = _( "Distracting pain" );
+    } else if( scale > 2 ) {
+        pain_string = _( "Moderate pain" );
+    } else if( scale > 1 ) {
+        pain_string = _( "Mild pain" );
+    } else if( scale > 0 ) {
+        pain_string = _( "Minimal pain" );
+    } else {
+        pain_string = _( "No pain" );
+        pain_color = c_white;
+    }
+    return std::make_pair( pain_string, pain_color );
+}
+
+std::pair<std::string, nc_color> display::pain_text_color( const Character &u )
+{
+    // Get base Creature pain text to start with
+    const std::pair<std::string, nc_color> pain = display::pain_text_color(
+                static_cast<const Creature &>( u ) );
+    nc_color pain_color = pain.second;
+    std::string pain_string;
+    // get pain color
+    int perceived_pain = u.get_perceived_pain();
+    if( perceived_pain >= 60 ) {
+        pain_color = c_red;
+    } else if( perceived_pain >= 40 ) {
+        pain_color = c_light_red;
+    }
+    // get pain string
+    if( ( u.has_trait( trait_SELFAWARE ) || u.has_effect( effect_got_checked ) ) &&
+        perceived_pain > 0 ) {
+        pain_string = string_format( "%s %d", _( "Pain " ), perceived_pain );
+    } else if( perceived_pain > 0 ) {
+        pain_string = pain.first;
+    }
+    return std::make_pair( pain_string, pain_color );
 }
 
 static void draw_stats( avatar &u, const catacurses::window &w )
@@ -1054,7 +1287,7 @@ static void draw_stats( avatar &u, const catacurses::window &w )
                stat < 100 ? std::to_string( stat ) : "99+" );
 
     int weariness = u.weariness_level();
-    std::pair<translation, nc_color> weary = weariness_description( weariness );
+    std::pair<translation, nc_color> weary = display::weariness_text_color( weariness );
     const float activity = u.instantaneous_activity_level();
 
     nc_color act_color;
@@ -1075,7 +1308,7 @@ static void draw_stats( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( wlabel_len + 1, 1 ), weary.second, weary.first.translated() );
     mvwprintz( w, point( act_start, 1 ), c_light_gray, _( activity_label ) );
     mvwprintz( w, point( act_start + alabel_len + 1, 1 ), act_color,
-               activity_level::activity_level_str( activity ) );
+               display::activity_level_str( activity ) );
 
     wnoutrefresh( w );
 }
@@ -1182,15 +1415,15 @@ static void draw_needs_compact( const avatar &u, const catacurses::window &w )
 {
     werase( w );
 
-    auto hunger_pair = u.get_hunger_description();
+    auto hunger_pair = display::hunger_text_color( u );
     mvwprintz( w, point_zero, hunger_pair.second, hunger_pair.first );
-    hunger_pair = u.get_fatigue_description();
+    hunger_pair = display::fatigue_text_color( u );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 0, 1 ), hunger_pair.second, hunger_pair.first );
-    auto pain_pair = u.get_pain_description();
+    auto pain_pair = display::pain_text_color( u );
     mvwprintz( w, point( 0, 2 ), pain_pair.second, pain_pair.first );
 
-    hunger_pair = u.get_thirst_description();
+    hunger_pair = display::thirst_text_color( u );
     mvwprintz( w, point( 17, 0 ), hunger_pair.second, hunger_pair.first );
     auto pair = temp_stat( u );
     mvwprintz( w, point( 17, 1 ), pair.first, pair.second );
@@ -1372,7 +1605,7 @@ static void draw_stat_narrow( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 26, 2 ), safe_color(), g->safe_mode ? _( "On" ) : _( "Off" ) );
 
     int weariness = u.weariness_level();
-    std::pair<translation, nc_color> weary = weariness_description( weariness );
+    std::pair<translation, nc_color> weary = display::weariness_text_color( weariness );
     const float activity = u.instantaneous_activity_level();
 
     nc_color act_color;
@@ -1393,7 +1626,7 @@ static void draw_stat_narrow( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( wlabel_len + 2, 3 ), weary.second, weary.first.translated() );
     mvwprintz( w, point( act_start, 3 ), c_light_gray, _( activity_label ) );
     mvwprintz( w, point( act_start + alabel_len + 1, 3 ), act_color,
-               activity_level::activity_level_str( activity ) );
+               display::activity_level_str( activity ) );
 
     wnoutrefresh( w );
 }
@@ -1423,7 +1656,7 @@ static void draw_stat_wide( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 38, 1 ), safe_color(), g->safe_mode ? _( "On" ) : _( "Off" ) );
 
     int weariness = u.weariness_level();
-    std::pair<translation, nc_color> weary = weariness_description( weariness );
+    std::pair<translation, nc_color> weary = display::weariness_text_color( weariness );
     const float activity = u.instantaneous_activity_level();
 
     nc_color act_color;
@@ -1444,7 +1677,7 @@ static void draw_stat_wide( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( wlabel_len + 2, 2 ), weary.second, weary.first.translated() );
     mvwprintz( w, point( act_start, 2 ), c_light_gray, _( activity_label ) );
     mvwprintz( w, point( act_start + alabel_len + 1, 2 ), act_color,
-               activity_level::activity_level_str( activity ) );
+               display::activity_level_str( activity ) );
 
     wnoutrefresh( w );
 }
@@ -1545,11 +1778,11 @@ static void draw_weapon_labels( const avatar &u, const catacurses::window &w )
 static void draw_needs_narrow( const avatar &u, const catacurses::window &w )
 {
     werase( w );
-    std::pair<std::string, nc_color> hunger_pair = u.get_hunger_description();
-    std::pair<std::string, nc_color> thirst_pair = u.get_thirst_description();
-    std::pair<std::string, nc_color> rest_pair = u.get_fatigue_description();
+    std::pair<std::string, nc_color> hunger_pair = display::hunger_text_color( u );
+    std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( u );
+    std::pair<std::string, nc_color> rest_pair = display::fatigue_text_color( u );
     std::pair<nc_color, std::string> temp_pair = temp_stat( u );
-    std::pair<std::string, nc_color> pain_pair = u.get_pain_description();
+    std::pair<std::string, nc_color> pain_pair = display::pain_text_color( u );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Hunger:" ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -1568,12 +1801,12 @@ static void draw_needs_narrow( const avatar &u, const catacurses::window &w )
 static void draw_needs_labels( const avatar &u, const catacurses::window &w )
 {
     werase( w );
-    std::pair<std::string, nc_color> hunger_pair = u.get_hunger_description();
-    std::pair<std::string, nc_color> thirst_pair = u.get_thirst_description();
-    std::pair<std::string, nc_color> rest_pair = u.get_fatigue_description();
-    std::pair<std::string, nc_color> weight_pair = u.get_weight_description();
+    std::pair<std::string, nc_color> hunger_pair = display::hunger_text_color( u );
+    std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( u );
+    std::pair<std::string, nc_color> rest_pair = display::fatigue_text_color( u );
+    std::pair<std::string, nc_color> weight_pair = display::weight_text_color( u );
     std::pair<nc_color, std::string> temp_pair = temp_stat( u );
-    std::pair<std::string, nc_color> pain_pair = u.get_pain_description();
+    std::pair<std::string, nc_color> pain_pair = display::pain_text_color( u );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Pain :" ) );
     mvwprintz( w, point( 8, 0 ), pain_pair.second, pain_pair.first );
@@ -1595,11 +1828,11 @@ static void draw_needs_labels( const avatar &u, const catacurses::window &w )
 static void draw_needs_labels_alt( const avatar &u, const catacurses::window &w )
 {
     werase( w );
-    std::pair<std::string, nc_color> hunger_pair = u.get_hunger_description();
-    std::pair<std::string, nc_color> thirst_pair = u.get_thirst_description();
-    std::pair<std::string, nc_color> rest_pair = u.get_fatigue_description();
+    std::pair<std::string, nc_color> hunger_pair = display::hunger_text_color( u );
+    std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( u );
+    std::pair<std::string, nc_color> rest_pair = display::fatigue_text_color( u );
     std::pair<nc_color, std::string> temp_pair = temp_stat( u );
-    std::pair<std::string, nc_color> pain_pair = u.get_pain_description();
+    std::pair<std::string, nc_color> pain_pair = display::pain_text_color( u );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Pain :" ) );
     mvwprintz( w, point( 8, 0 ), pain_pair.second, pain_pair.first );
@@ -1740,15 +1973,15 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     }
 
     // needs
-    auto needs_pair = u.get_hunger_description();
+    auto needs_pair = display::hunger_text_color( u );
     mvwprintz( w, point( 21, 1 ), needs_pair.second, needs_pair.first );
-    needs_pair = u.get_thirst_description();
+    needs_pair = display::thirst_text_color( u );
     mvwprintz( w, point( 21, 2 ), needs_pair.second, needs_pair.first );
     mvwprintz( w, point( 21, 4 ), c_white, _( "Focus" ) );
     mvwprintz( w, point( 27, 4 ), c_white, std::to_string( u.get_focus() ) );
-    needs_pair = u.get_fatigue_description();
+    needs_pair = display::fatigue_text_color( u );
     mvwprintz( w, point( 21, 3 ), needs_pair.second, needs_pair.first );
-    auto pain_pair = u.get_pain_description();
+    auto pain_pair = display::pain_text_color( u );
     mvwprintz( w, point( 21, 0 ), pain_pair.second, pain_pair.first );
 
     // print mood
@@ -2117,7 +2350,7 @@ static void draw_weariness( const avatar &u, const catacurses::window &w )
     werase( w );
 
     int weariness = u.weariness_level();
-    std::pair<translation, nc_color> weary = weariness_description( weariness );
+    std::pair<translation, nc_color> weary = display::weariness_text_color( weariness );
     const float activity = u.instantaneous_activity_level();
 
     nc_color act_color;
@@ -2152,7 +2385,7 @@ static void draw_weariness_narrow( const avatar &u, const catacurses::window &w 
     werase( w );
 
     int weariness = u.weariness_level();
-    std::pair<translation, nc_color> weary = weariness_description( weariness );
+    std::pair<translation, nc_color> weary = display::weariness_text_color( weariness );
     const float activity = u.instantaneous_activity_level();
 
     nc_color act_color;
@@ -2187,7 +2420,7 @@ static void draw_weariness_wide( const avatar &u, const catacurses::window &w )
     werase( w );
 
     int weariness = u.weariness_level();
-    std::pair<translation, nc_color> weary = weariness_description( weariness );
+    std::pair<translation, nc_color> weary = display::weariness_text_color( weariness );
     const float activity = u.instantaneous_activity_level();
 
     nc_color act_color;
@@ -2222,7 +2455,7 @@ static void draw_weariness_classic( const avatar &u, const catacurses::window &w
     werase( w );
 
     int weariness = u.weariness_level();
-    std::pair<translation, nc_color> weary = weariness_description( weariness );
+    std::pair<translation, nc_color> weary = display::weariness_text_color( weariness );
     const float activity = u.instantaneous_activity_level();
 
     nc_color act_color;
@@ -2244,7 +2477,7 @@ static void draw_weariness_classic( const avatar &u, const catacurses::window &w
     mvwprintz( w, point( wlabel_len + 1, 0 ), weary.second, weary.first.translated() );
     mvwprintz( w, point( act_start, 0 ), c_light_gray, _( activity_label ) );
     mvwprintz( w, point( act_start + alabel_len + 1, 0 ), act_color,
-               activity_level::activity_level_str( activity ) );
+               display::activity_level_str( activity ) );
 
     std::pair<int, int> bar = u.weariness_transition_progress();
     std::pair<std::string, nc_color> weary_bar = get_hp_bar( bar.first, bar.second );

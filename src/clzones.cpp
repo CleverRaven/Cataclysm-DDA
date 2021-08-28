@@ -837,6 +837,11 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
             return zone_type_id( "LOOT_CORPSE" );
         }
     }
+    if( it.typeId() == itype_id( "disassembly" ) ) {
+        if( has_near( zone_type_id( "zone_disassemble" ), where, range ) ) {
+            return zone_type_id( "zone_disassemble" );
+        }
+    }
 
     cata::optional<zone_type_id> zone_check_first = cat.priority_zone( it );
     if( zone_check_first && has_near( *zone_check_first, where, range ) ) {

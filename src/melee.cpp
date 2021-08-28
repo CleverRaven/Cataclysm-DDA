@@ -24,6 +24,7 @@
 #include "character.h"
 #include "character_martial_arts.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
 #include "enum_bitset.h"
@@ -253,7 +254,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
     // Preserve item temporarily for component breakdown
     item temp = shield;
 
-    shield.spill_contents( pos() );
+    shield.get_contents().spill_contents( pos() );
 
     remove_item( shield );
 
@@ -829,7 +830,8 @@ void Character::reach_attack( const tripoint &p )
     // Fighting is hard work
     set_activity_level( EXTRA_EXERCISE );
 
-    Creature *critter = g->critter_at( p );
+    creature_tracker &creatures = get_creature_tracker();
+    Creature *critter = creatures.creature_at( p );
     // Original target size, used when there are monsters in front of our target
     const int target_size = critter != nullptr ? static_cast<int>( critter->get_size() ) : 2;
     // Reset last target pos
@@ -848,7 +850,7 @@ void Character::reach_attack( const tripoint &p )
     path.pop_back(); // Last point is our critter
     for( const tripoint &path_point : path ) {
         // Possibly hit some unintended target instead
-        Creature *inter = g->critter_at( path_point );
+        Creature *inter = creatures.creature_at( path_point );
         /** @EFFECT_STABBING decreases chance of hitting intervening target on reach attack */
         if( inter != nullptr &&
             !x_in_y( ( target_size * target_size + 1 ) * skill,
@@ -1006,10 +1008,11 @@ float Character::get_dodge() const
         ret /= 2;
     }
 
+    creature_tracker &creatures = get_creature_tracker();
     if( has_effect( effect_grabbed ) ) {
         int zed_number = 0;
         for( const tripoint &dest : get_map().points_in_radius( pos(), 1, 0 ) ) {
-            const monster *const mon = g->critter_at<monster>( dest );
+            const monster *const mon = creatures.creature_at<monster>( dest );
             if( mon && mon->has_effect( effect_grabbing ) ) {
                 zed_number++;
             }
@@ -1483,6 +1486,7 @@ bool Character::valid_aoe_technique( Creature &t, const ma_technique &technique,
     int dx = std::max( -1, std::min( 1, t.posx() - posx() ) );
     int lookup = dy + 1 + 3 * ( dx + 1 );
 
+    creature_tracker &creatures = get_creature_tracker();
     //wide hits all targets adjacent to the attacker and the target
     if( technique.aoe == "wide" ) {
         //check if either (or both) of the squares next to our target contain a possible victim
@@ -1490,17 +1494,17 @@ bool Character::valid_aoe_technique( Creature &t, const ma_technique &technique,
         tripoint left = pos() + tripoint( offset_a[lookup], offset_b[lookup], 0 );
         tripoint right = pos() + tripoint( offset_b[lookup], -offset_a[lookup], 0 );
 
-        monster *const mon_l = g->critter_at<monster>( left );
+        monster *const mon_l = creatures.creature_at<monster>( left );
         if( mon_l && mon_l->friendly == 0 ) {
             targets.push_back( mon_l );
         }
-        monster *const mon_r = g->critter_at<monster>( right );
+        monster *const mon_r = creatures.creature_at<monster>( right );
         if( mon_r && mon_r->friendly == 0 ) {
             targets.push_back( mon_r );
         }
 
-        npc *const npc_l = g->critter_at<npc>( left );
-        npc *const npc_r = g->critter_at<npc>( right );
+        npc *const npc_l = creatures.creature_at<npc>( left );
+        npc *const npc_r = creatures.creature_at<npc>( right );
         if( npc_l && npc_l->is_enemy() ) {
             targets.push_back( npc_l );
         }
@@ -1520,9 +1524,9 @@ bool Character::valid_aoe_technique( Creature &t, const ma_technique &technique,
         tripoint target_pos = t.pos() + ( t.pos() - pos() );
         tripoint right = t.pos() + tripoint( offset_b[lookup], -offset_b[lookup], 0 );
 
-        monster *const mon_l = g->critter_at<monster>( left );
-        monster *const mon_t = g->critter_at<monster>( target_pos );
-        monster *const mon_r = g->critter_at<monster>( right );
+        monster *const mon_l = creatures.creature_at<monster>( left );
+        monster *const mon_t = creatures.creature_at<monster>( target_pos );
+        monster *const mon_r = creatures.creature_at<monster>( right );
         if( mon_l && mon_l->friendly == 0 ) {
             targets.push_back( mon_l );
         }
@@ -1533,9 +1537,9 @@ bool Character::valid_aoe_technique( Creature &t, const ma_technique &technique,
             targets.push_back( mon_r );
         }
 
-        npc *const npc_l = g->critter_at<npc>( left );
-        npc *const npc_t = g->critter_at<npc>( target_pos );
-        npc *const npc_r = g->critter_at<npc>( right );
+        npc *const npc_l = creatures.creature_at<npc>( left );
+        npc *const npc_t = creatures.creature_at<npc>( target_pos );
+        npc *const npc_r = creatures.creature_at<npc>( right );
         if( npc_l && npc_l->is_enemy() ) {
             targets.push_back( npc_l );
         }
@@ -1555,11 +1559,11 @@ bool Character::valid_aoe_technique( Creature &t, const ma_technique &technique,
             if( tmp == t.pos() ) {
                 continue;
             }
-            monster *const mon = g->critter_at<monster>( tmp );
+            monster *const mon = creatures.creature_at<monster>( tmp );
             if( mon && mon->friendly == 0 ) {
                 targets.push_back( mon );
             }
-            npc *const np = g->critter_at<npc>( tmp );
+            npc *const np = creatures.creature_at<npc>( tmp );
             if( np && np->is_enemy() ) {
                 targets.push_back( np );
             }
