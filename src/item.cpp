@@ -169,6 +169,7 @@ static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
 
 // fault flags
+static const std::string flag_BLACKPOWDER_FOULING_DAMAGE( "BLACKPOWDER_FOULING_DAMAGE" );
 static const std::string flag_SILENT( "SILENT" );
 
 // terrain-furniture flags
@@ -10798,7 +10799,7 @@ bool item::process_internal( Character *carrier, const tripoint &pos,
         }
     } else {
         // guns are never active so we only need thck this on inactive items. For performance reasons.
-        if( has_fault_flag( "BLACKPOWDER_FOULING_DAMAGE" ) ) {
+        if( has_fault_flag( flag_BLACKPOWDER_FOULING_DAMAGE ) ) {
             return process_blackpowder_fouling( carrier );
         }
     }
