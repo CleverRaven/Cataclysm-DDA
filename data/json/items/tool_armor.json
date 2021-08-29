@@ -2932,7 +2932,7 @@
     "color": "light_gray",
     "armor": [
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 40 },
-      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 20 },
+      { "covers": [ "eyes" ], "coverage": 70, "encumbrance": 20 },
       { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 30 }
     ],
     "warmth": 5,
