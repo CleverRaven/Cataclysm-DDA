@@ -1140,28 +1140,44 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
     return done;
 }
 
-static std::pair<unsigned, unsigned> calculate_shared_column_win_height(
-    const unsigned available_height, unsigned first_win_size_y_max, unsigned second_win_size_y_max )
+static std::vector<unsigned> calculate_shared_column_win_height(
+    unsigned available_height, const std::vector<unsigned> &win_sizes_y_max )
 /**
- * Calculate max allowed height of two windows sharing column space.
+ * Calculate max allowed height for N windows sharing column space.
+ * Don't count separators, pass those within available_height.
  */
 {
-    if( ( second_win_size_y_max + 1 + first_win_size_y_max ) > available_height ) {
-        // maximum space for either window if they're both the same size
-        unsigned max_shared_y = ( available_height - 1 ) / 2;
-        if( std::min( second_win_size_y_max, first_win_size_y_max ) > max_shared_y ) {
-            // both are larger than the shared size
-            second_win_size_y_max = max_shared_y;
-            first_win_size_y_max = available_height - 1 - second_win_size_y_max;
-        } else if( first_win_size_y_max <= max_shared_y ) {
-            // first window is less than the shared size, so give space to second window
-            second_win_size_y_max = available_height - 1 - first_win_size_y_max;
-        } else {
-            // second window is less than the shared size
-            first_win_size_y_max = available_height - 1 - second_win_size_y_max;
+    std::vector<unsigned> win_sizes = win_sizes_y_max;
+    sort( win_sizes.begin(), win_sizes.end() );
+
+    unsigned wins_unsatisfied = win_sizes.size();
+    for( unsigned want_sorted : win_sizes ) {
+        unsigned what_is_fair = available_height / wins_unsatisfied;
+        unsigned over_fair = available_height % wins_unsatisfied;  // how many can get ++
+
+        unsigned can_have = what_is_fair + ( over_fair > 0 ? 1 : 0 );
+
+        if( want_sorted > can_have ) {
+            unsigned no_deal = want_sorted;
+
+            // We know how many did we satisfy and how much space is left and that nobody else can be satisfied.
+            std::vector<unsigned> res = win_sizes_y_max;
+            for( unsigned &want_res : res ) {
+                if( want_res >= no_deal ) {
+                    want_res = what_is_fair;
+                    if( over_fair > 0 ) {
+                        ++want_res;
+                        --over_fair;
+                    }
+                }
+            }
+            return res;
         }
+        available_height -= want_sorted;
+        --wins_unsatisfied;
     }
-    return std::make_pair( first_win_size_y_max, second_win_size_y_max );
+    // Everything ended up being satisfied.
+    return win_sizes_y_max;
 }
 
 static void update_win_and_border_pos(
@@ -1396,8 +1412,10 @@ void Character::disp_info( bool customize_character )
     border_helper::border_info &border_traits = borders.add_border();
     ui_adaptor ui_traits;
     ui_traits.on_screen_resize( [&]( ui_adaptor & ui_traits ) {
-        std::tie( trait_win_size_y, bionics_win_size_y ) = calculate_shared_column_win_height(
-                    static_cast<unsigned>( TERMY ) - infooffsetybottom, trait_win_size_y_max, bionics_win_size_y_max );
+        std::vector<unsigned> v = calculate_shared_column_win_height( static_cast<unsigned>
+                                  ( TERMY ) - infooffsetybottom - 1, {trait_win_size_y_max, bionics_win_size_y_max} );
+        trait_win_size_y = v[0];
+        bionics_win_size_y = v[1];
         update_win_and_border_pos( w_traits, w_traits_border,
                                    point( grid_width + 1, infooffsetybottom ),
                                    trait_win_size_y, grid_width,
@@ -1416,8 +1434,10 @@ void Character::disp_info( bool customize_character )
     border_helper::border_info &border_bionics = borders.add_border();
     ui_adaptor ui_bionics;
     ui_bionics.on_screen_resize( [&]( ui_adaptor & ui_bionics ) {
-        std::tie( trait_win_size_y, bionics_win_size_y ) = calculate_shared_column_win_height(
-                    static_cast<unsigned>( TERMY ) - infooffsetybottom, trait_win_size_y_max, bionics_win_size_y_max );
+        std::vector<unsigned> v = calculate_shared_column_win_height( static_cast<unsigned>
+                                  ( TERMY ) - infooffsetybottom - 1, {trait_win_size_y_max, bionics_win_size_y_max} );
+        trait_win_size_y = v[0];
+        bionics_win_size_y = v[1];
         update_win_and_border_pos( w_bionics, w_bionics_border,
                                    point( grid_width + 1, infooffsetybottom + trait_win_size_y + 1 ), bionics_win_size_y, grid_width,
                                    border_bionics, ui_bionics );
@@ -1455,9 +1475,10 @@ void Character::disp_info( bool customize_character )
     border_helper::border_info &border_effects = borders.add_border();
     ui_adaptor ui_effects;
     ui_effects.on_screen_resize( [&]( ui_adaptor & ui_effects ) {
-        std::tie( effect_win_size_y, proficiency_win_size_y ) = calculate_shared_column_win_height(
-                    static_cast<unsigned>( TERMY ) - infooffsetybottom, effect_win_size_y_max,
-                    proficiency_win_size_y_max );
+        std::vector<unsigned> v = calculate_shared_column_win_height( static_cast<unsigned>
+                                  ( TERMY ) - infooffsetybottom - 1, {effect_win_size_y_max, proficiency_win_size_y_max} );
+        effect_win_size_y = v[0];
+        proficiency_win_size_y = v[1];
         update_win_and_border_pos( w_effects, w_effects_border,
                                    point( grid_width * 2 + 2, infooffsetybottom ), effect_win_size_y, grid_width,
                                    border_effects, ui_effects );
@@ -1475,9 +1496,10 @@ void Character::disp_info( bool customize_character )
     border_helper::border_info &border_proficiencies = borders.add_border();
     ui_adaptor ui_proficiencies;
     ui_proficiencies.on_screen_resize( [&]( ui_adaptor & ui_proficiencies ) {
-        std::tie( effect_win_size_y, proficiency_win_size_y ) = calculate_shared_column_win_height(
-                    static_cast<unsigned>( TERMY ) - infooffsetybottom, effect_win_size_y_max,
-                    proficiency_win_size_y_max );
+        std::vector<unsigned> v = calculate_shared_column_win_height( static_cast<unsigned>
+                                  ( TERMY ) - infooffsetybottom - 1, {effect_win_size_y_max, proficiency_win_size_y_max} );
+        effect_win_size_y = v[0];
+        proficiency_win_size_y = v[1];
         update_win_and_border_pos( w_proficiencies, w_proficiencies_border,
                                    point( grid_width * 2 + 2, infooffsetybottom + effect_win_size_y + 1 ),
                                    proficiency_win_size_y, grid_width,
