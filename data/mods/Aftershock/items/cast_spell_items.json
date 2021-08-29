@@ -65,6 +65,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "magazine_well": "75 ml",
         "flag_restriction": [ "BATTERY_HEAVY" ],
         "default_magazine": "heavy_atomic_battery_cell"
       }
