@@ -106,6 +106,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "style_text";
         case widget_var::date_text:
             return "date_text";
+        case widget_var::time_text:
+            return "time_text";
         case widget_var::place_text:
             return "place_text";
         case widget_var::wind_text:
@@ -307,6 +309,7 @@ bool widget::uses_text_function()
         case widget_var::wielding_text:
         case widget_var::style_text:
         case widget_var::date_text:
+        case widget_var::time_text:
         case widget_var::place_text:
         case widget_var::wind_text:
         case widget_var::lighting_text:
@@ -352,6 +355,9 @@ std::string widget::color_text_function_string( const avatar &ava )
             desc.first = string_format( "%s, day %d",
                                         calendar::name_season( season_of_year( calendar::turn ) ),
                                         day_of_season<int>( calendar::turn ) + 1 );
+            break;
+        case widget_var::time_text:
+            desc.first = display::time_string( ava );
             break;
         case widget_var::place_text:
             desc.first = overmap_buffer.ter( ava.global_omt_location() )->get_name();

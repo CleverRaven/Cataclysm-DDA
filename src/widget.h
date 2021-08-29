@@ -46,6 +46,7 @@ enum class widget_var : int {
     wielding_text,  // Currently wielded weapon or item name
     style_text,     // Active martial arts style name
     date_text,      // Current date, in terms of day within season
+    time_text,      // Current time - exact if character has a watch, approximate otherwise
     place_text,     // Place name in world where character is
     wind_text,      // Wind level and direction, color string
     lighting_text,  // Current light level, color string
