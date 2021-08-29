@@ -760,6 +760,9 @@ void talk_function::drop_items_in_place( npc &p )
         p.assign_activity( player_activity( drop_activity_actor(
                                                 to_drop, tripoint_zero, false
                                             ) ) );
+        add_msg( m_good, _( "%s will drop carried items." ), p.get_name() );
+    } else {
+        add_msg( m_good, _( "%s has nothing to drop." ), p.get_name() );
     }
 }
 
