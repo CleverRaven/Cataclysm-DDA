@@ -607,6 +607,13 @@
     "var": "place_text"
   },
   {
+    "id": "lighting_desc",
+    "type": "widget",
+    "label": "Lighting",
+    "style": "text",
+    "var": "lighting_text"
+  },
+  {
     "id": "safe_mode_desc",
     "type": "widget",
     "label": "Safe Mode",

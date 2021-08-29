@@ -4,6 +4,7 @@
 #include "color.h"
 #include "generic_factory.h"
 #include "json.h"
+#include "output.h"
 #include "overmapbuffer.h"
 #include "panels.h"
 
@@ -107,6 +108,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "date_text";
         case widget_var::place_text:
             return "place_text";
+        case widget_var::lighting_text:
+            return "lighting_text";
         case widget_var::safe_mode_text:
             return "safe_mode_text";
         // Fall-through - invalid
@@ -303,6 +306,7 @@ bool widget::uses_text_function()
         case widget_var::style_text:
         case widget_var::date_text:
         case widget_var::place_text:
+        case widget_var::lighting_text:
         case widget_var::safe_mode_text:
             return true;
         default:
@@ -348,6 +352,9 @@ std::string widget::color_text_function_string( const avatar &ava )
             break;
         case widget_var::place_text:
             desc.first = overmap_buffer.ter( ava.global_omt_location() )->get_name();
+            break;
+        case widget_var::lighting_text:
+            desc = get_light_level( ava.fine_detail_vision_mod() );
             break;
         case widget_var::safe_mode_text:
             desc = display::safe_mode_text_color( false );

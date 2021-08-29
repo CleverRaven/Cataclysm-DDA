@@ -47,6 +47,7 @@ enum class widget_var : int {
     style_text,     // Active martial arts style name
     date_text,      // Current date, in terms of day within season
     place_text,     // Place name in world where character is
+    lighting_text,  // Current light level, color string
     safe_mode_text, // Safe mode text, color string
     last // END OF ENUMS
 };
