@@ -762,7 +762,7 @@ void talk_function::drop_items_in_place( npc &p )
                                             ) ) );
         add_msg( m_good, _( "%s will drop carried items." ), p.get_name() );
     } else {
-        add_msg( m_good, _( "%s has nothing to drop." ), p.get_name() );
+        add_msg( m_info, _( "%s has nothing to drop." ), p.get_name() );
     }
 }
 
