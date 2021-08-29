@@ -37,27 +37,28 @@ enum class widget_var : int {
     hunger,         // TODO
     thirst,         // TODO
     mood,           // TODO
+    // Text vars
     activity_text,  // Activity level text, color string
     body_temp_text, // Felt body temperature, color string
+    date_text,      // Current date, in terms of day within season
     env_temp_text,  // Environment temperature, if character has thermometer
+    fatigue_text,   // Fagitue description text, color string
+    hunger_text,    // Hunger description text, color string
+    lighting_text,  // Current light level, color string
     mood_text,      // Mood as a text emote, color string
     moon_phase_text,// Current phase of the moon
     pain_text,      // Pain description text, color string
-    hunger_text,    // Hunger description text, color string
-    thirst_text,    // Thirst description text, color string
-    fatigue_text,   // Fagitue description text, color string
-    weight_text,    // Weight description text, color string
-    weariness_text, // Weariness description text, color string
-    weary_malus_text, // Weariness malus or penalty
-    wielding_text,  // Currently wielded weapon or item name
-    style_text,     // Active martial arts style name
-    date_text,      // Current date, in terms of day within season
-    time_text,      // Current time - exact if character has a watch, approximate otherwise
     place_text,     // Place name in world where character is
     power_text,     // Remaining power from bionics, color string
-    wind_text,      // Wind level and direction, color string
-    lighting_text,  // Current light level, color string
     safe_mode_text, // Safe mode text, color string
+    style_text,     // Active martial arts style name
+    thirst_text,    // Thirst description text, color string
+    time_text,      // Current time - exact if character has a watch, approximate otherwise
+    weariness_text, // Weariness description text, color string
+    weary_malus_text, // Weariness malus or penalty
+    weight_text,    // Weight description text, color string
+    wielding_text,  // Currently wielded weapon or item name
+    wind_text,      // Wind level and direction, color string
     last // END OF ENUMS
 };
 
