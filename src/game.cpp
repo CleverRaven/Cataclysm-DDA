@@ -2813,7 +2813,7 @@ void game::disp_NPCs()
                    scan_range, npcs.size(), static_npc_count );
         for( i = 0; i < 20 && i < npcs.size(); i++ ) {
             const tripoint_abs_omt apos = npcs[i]->global_omt_location();
-            mvwprintz( w, point( 0, i + 4 ), c_white, "%s: %s", npcs[i]->name,
+            mvwprintz( w, point( 0, i + 4 ), c_white, "%s: %s", npcs[i]->get_name(),
                        apos.to_string() );
         }
         for( const monster &m : all_monsters() ) {
@@ -4108,7 +4108,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
     } else if( npc *const targ = creatures.creature_at<npc>( tp ) ) {
         if( stun > 0 ) {
             targ->add_effect( effect_stunned, 1_turns * stun );
-            add_msg( _( "%s was stunned!" ), targ->name );
+            add_msg( _( "%s was stunned!" ), targ->get_name() );
         }
         for( size_t i = 1; i < traj.size(); i++ ) {
             if( m.impassable( traj[i].xy() ) ) { // oops, we hit a wall!
@@ -4117,7 +4117,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                 if( stun != 0 ) {
                     targ->add_effect( effect_stunned, 1_turns * force_remaining );
                     if( targ->has_effect( effect_stunned ) ) {
-                        add_msg( _( "%s was stunned!" ), targ->name );
+                        add_msg( _( "%s was stunned!" ), targ->get_name() );
                     }
 
                     std::array<bodypart_id, 8> bps = {{
@@ -4141,28 +4141,28 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
-                    add_msg( _( "%s was stunned!" ), targ->name );
+                    add_msg( _( "%s was stunned!" ), targ->get_name() );
                     targ->add_effect( effect_stunned, 1_turns * force_remaining );
                 }
                 traj.erase( traj.begin(), traj.begin() + i );
                 const tripoint &traj_front = traj.front();
                 if( creatures.creature_at<monster>( traj_front ) ) {
                     add_msg( _( "%s collided with something else and sent it flying!" ),
-                             targ->name );
+                             targ->get_name() );
                 } else if( npc *const guy = creatures.creature_at<npc>( traj_front ) ) {
                     if( guy->male ) {
                         add_msg( _( "%s collided with someone else and sent him flying!" ),
-                                 targ->name );
+                                 targ->get_name() );
                     } else {
                         add_msg( _( "%s collided with someone else and sent her flying!" ),
-                                 targ->name );
+                                 targ->get_name() );
                     }
                 } else if( u.posx() == traj_front.x && u.posy() == traj_front.y &&
                            ( u.has_trait( trait_LEG_TENT_BRACE ) && ( !u.footwear_factor() ||
                                    ( u.footwear_factor() == .5 && one_in( 2 ) ) ) ) ) {
-                    add_msg( _( "%s collided with you, and barely dislodges your tentacles!" ), targ->name );
+                    add_msg( _( "%s collided with you, and barely dislodges your tentacles!" ), targ->get_name() );
                 } else if( u.posx() == traj_front.x && u.posy() == traj_front.y ) {
-                    add_msg( m_bad, _( "%s collided with you and sent you flying!" ), targ->name );
+                    add_msg( m_bad, _( "%s collided with you and sent you flying!" ), targ->get_name() );
                 }
                 knockback( traj, stun, dam_mult );
                 break;
@@ -4749,7 +4749,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
             return false;
         }
         if( npc_or_player->is_npc() && can_see ) {
-            add_msg( _( "The %1$s hits the %2$s." ), door_name, npc_or_player->name );
+            add_msg( _( "The %1$s hits the %2$s." ), door_name, npc_or_player->get_name() );
         } else if( npc_or_player->is_avatar() ) {
             add_msg( m_bad, _( "The %s hits you." ), door_name );
         }
@@ -5020,7 +5020,7 @@ bool game::npc_menu( npc &who )
             return true;
         }
         // TODO: Make NPCs protest when displaced onto dangerous crap
-        add_msg( _( "You swap places with %s." ), who.name );
+        add_msg( _( "You swap places with %s." ), who.get_name() );
         swap_critters( u, who );
         // TODO: Make that depend on stuff
         u.mod_moves( -200 );
@@ -5030,9 +5030,9 @@ bool game::npc_menu( npc &who )
         who.move_away_from( u.pos(), true );
         u.mod_moves( -20 );
         if( oldpos != who.pos() ) {
-            add_msg( _( "%s moves out of the way." ), who.name );
+            add_msg( _( "%s moves out of the way." ), who.get_name() );
         } else {
-            add_msg( m_warning, _( "%s has nowhere to go!" ), who.name );
+            add_msg( m_warning, _( "%s has nowhere to go!" ), who.get_name() );
         }
     } else if( choice == examine_wounds ) {
         ///\EFFECT_PER slightly increases precision when examining NPCs' wounds
@@ -8279,7 +8279,7 @@ void game::butcher()
     }
     const std::vector<npc *> helpers = u.get_crafting_helpers();
     for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
-        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
     switch( butcher_select ) {
         case BUTCHER_OTHER:

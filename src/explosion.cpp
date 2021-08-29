@@ -638,7 +638,7 @@ void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult
             continue;
         }
         if( rl_dist( guy.pos(), p ) <= radius ) {
-            add_msg( _( "%s is caught in the shockwave!" ), guy.name );
+            add_msg( _( "%s is caught in the shockwave!" ), guy.get_name() );
             g->knockback( p, guy.pos(), force, stun, dam_mult );
         }
     }

@@ -208,7 +208,7 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
             // Just move the NPC back into the bounds of new_overmap, as close
             // as possible to where they were supposed to be.
             debugmsg( "NPC %s is out of bounds at %s, on non-generated overmap %s",
-                      np.name, npc_omt_pos.to_string(), loc.to_string() );
+                      np.get_name(), npc_omt_pos.to_string(), loc.to_string() );
             // bounding box for new_overmap in omt coords
             const half_open_rectangle<point_abs_omt> om_bounds( project_to<coords::omt>( loc ),
                     project_to<coords::omt>( loc + point( 1, 1 ) ) ); // NOLINT(cata-use-named-point-constants)
