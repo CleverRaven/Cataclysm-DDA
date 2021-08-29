@@ -86,6 +86,8 @@ std::pair<std::string, nc_color> per_text_color( const Character &p );
 
 // Define color for displaying the body temperature
 nc_color bodytemp_color( const Character &u, const bodypart_id &bp );
+// Color for displaying the given encumbrance level
+nc_color encumb_color( const int level );
 
 // Functions returning colorized string
 // gets the string that describes your weight

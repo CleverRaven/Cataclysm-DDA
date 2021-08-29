@@ -1316,6 +1316,23 @@ nc_color display::bodytemp_color( const Character &u, const bodypart_id &bp )
     return color;
 }
 
+nc_color display::encumb_color( const int level )
+{
+    if( level < 0 ) {
+        return c_green;
+    }
+    if( level < 10 ) {
+        return c_light_gray;
+    }
+    if( level < 40 ) {
+        return c_yellow;
+    }
+    if( level < 70 ) {
+        return c_light_red;
+    }
+    return c_red;
+}
+
 static void draw_stats( avatar &u, const catacurses::window &w )
 {
     werase( w );

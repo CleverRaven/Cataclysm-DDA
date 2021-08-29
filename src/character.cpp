@@ -15611,24 +15611,6 @@ void Character::environmental_revert_effect()
     calc_encumbrance();
 }
 
-nc_color encumb_color( int level )
-{
-    if( level < 0 ) {
-        return c_green;
-    }
-    if( level < 10 ) {
-        return c_light_gray;
-    }
-    if( level < 40 ) {
-        return c_yellow;
-    }
-    if( level < 70 ) {
-        return c_light_red;
-    }
-    return c_red;
-}
-
-
 void Character::pause()
 {
     moves = 0;

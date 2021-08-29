@@ -160,12 +160,13 @@ void Character::print_encumbrance( const catacurses::window &win, const int line
                               ( highlighted ? c_green : c_light_gray );
         mvwprintz( win, point( 1, 1 + i ), limb_color, "%s", out );
         // accumulated encumbrance from clothing, plus extra encumbrance from layering
-        mvwprintz( win, point( 8, 1 + i ), encumb_color( e.encumbrance ), "%3d",
+        mvwprintz( win, point( 8, 1 + i ), display::encumb_color( e.encumbrance ), "%3d",
                    e.encumbrance - e.layer_penalty );
         // separator in low toned color
         mvwprintz( win, point( 11, 1 + i ), c_light_gray, "+" );
         // take into account the new encumbrance system for layers
-        mvwprintz( win, point( 12, 1 + i ), encumb_color( e.encumbrance ), "%-3d", e.layer_penalty );
+        mvwprintz( win, point( 12, 1 + i ), display::encumb_color( e.encumbrance ), "%-3d",
+                   e.layer_penalty );
         // print warmth, tethered to right hand side of the window
         mvwprintz( win, point( width - 6, 1 + i ), display::bodytemp_color( *this, bp ), "(% 3d)",
                    temperature_print_rescaling( get_part_temp_conv( bp ) ) );
