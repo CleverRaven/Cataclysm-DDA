@@ -897,7 +897,7 @@
     "description": "Some match head powder from match heads, similar to black gunpowder but a bit weaker.  It can be used in crafting explosives and fuses when other, more suitable candidates are less available.",
     "material": [ "powder" ],
     "volume": "10 ml",
-    "weight": "1 g",
+    "weight": "2050 mg",
     "bashing": 1,
     "ammo_type": "components",
     "container": "bag_plastic",

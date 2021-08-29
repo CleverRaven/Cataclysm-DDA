@@ -2362,7 +2362,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             return false;
 
         case ACTION_PL_INFO:
-            player_character.disp_info();
+            player_character.disp_info( true );
             break;
 
         case ACTION_MAP:

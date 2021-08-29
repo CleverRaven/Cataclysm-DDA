@@ -226,11 +226,12 @@ void profession::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "skills", _starting_skills, skilllevel_reader {} );
     optional( jo, was_loaded, "addictions", _starting_addictions, addiction_reader {} );
     // TODO: use string_id<bionic_type> or so
-    optional( jo, was_loaded, "CBMs", _starting_CBMs, auto_flags_reader<bionic_id> {} );
+    optional( jo, was_loaded, "CBMs", _starting_CBMs, string_id_reader<::bionic_data> {} );
     optional( jo, was_loaded, "proficiencies", _starting_proficiencies );
     // TODO: use string_id<mutation_branch> or so
-    optional( jo, was_loaded, "traits", _starting_traits, auto_flags_reader<trait_id> {} );
-    optional( jo, was_loaded, "forbidden_traits", _forbidden_traits, auto_flags_reader<trait_id> {} );
+    optional( jo, was_loaded, "traits", _starting_traits, string_id_reader<::mutation_branch> {} );
+    optional( jo, was_loaded, "forbidden_traits", _forbidden_traits,
+              string_id_reader<::mutation_branch> {} );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
 
     // Flag which denotes if a profession is a hobby

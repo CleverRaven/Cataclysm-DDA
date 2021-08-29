@@ -1851,6 +1851,7 @@ bool vehicle::remove_part( const int p, RemovePartHandler &handler )
 
     remove_dependent_part( "SEAT", "SEATBELT" );
     remove_dependent_part( "BATTERY_MOUNT", "NEEDS_BATTERY_MOUNT" );
+    remove_dependent_part( "HANDHELD_BATTERY_MOUNT", "NEEDS_HANDHELD_BATTERY_MOUNT" );
 
     // Release any animal held by the part
     if( parts[p].has_flag( vehicle_part::animal_flag ) ) {

@@ -365,6 +365,11 @@ class json_flag
             return restriction_.translated();
         }
 
+        /** Get name of the flag. */
+        std::string name() const {
+            return name_.translated();
+        }
+
         /** Is flag inherited by base items from any attached items? */
         bool inherit() const {
             return inherit_;
@@ -398,6 +403,7 @@ class json_flag
     private:
         translation info_;
         translation restriction_;
+        translation name_;
         std::set<std::string> conflicts_;
         bool inherit_ = true;
         bool craft_inherit_ = false;

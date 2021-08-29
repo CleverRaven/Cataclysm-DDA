@@ -885,17 +885,17 @@ void Character::craft_skill_gain( const item &craft, const int &num_practice_tic
                 helper->practice( making.skill_used, roll_remainder( num_practice_ticks / 2.0 ),
                                   skill_cap );
                 if( batch_size > 1 && one_in( 300 ) ) {
-                    add_msg( m_info, _( "%s assists with crafting…" ), helper->name );
+                    add_msg( m_info, _( "%s assists with crafting…" ), helper->get_name() );
                 }
                 if( batch_size == 1 && one_in( 300 ) ) {
-                    add_msg( m_info, _( "%s could assist you with a batch…" ), helper->name );
+                    add_msg( m_info, _( "%s could assist you with a batch…" ), helper->get_name() );
                 }
                 // NPCs around you understand the skill used better
             } else {
                 helper->practice( making.skill_used, roll_remainder( num_practice_ticks / 10.0 ),
                                   skill_cap );
                 if( one_in( 300 ) ) {
-                    add_msg( m_info, _( "%s watches you craft…" ), helper->name );
+                    add_msg( m_info, _( "%s watches you craft…" ), helper->get_name() );
                 }
             }
         }
@@ -973,7 +973,7 @@ double Character::crafting_success_roll( const recipe &making ) const
             get_skill_level( making.skill_used ) ) {
             // NPC assistance is worth half a skill level
             skill_dice += 2;
-            add_msg_if_player( m_info, _( "%s helps with crafting…" ), np->name );
+            add_msg_if_player( m_info, _( "%s helps with crafting…" ), np->get_name() );
             break;
         }
     }

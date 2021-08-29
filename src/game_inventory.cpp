@@ -1460,8 +1460,8 @@ class steal_inventory_preset : public pickup_inventory_preset
 item_location game_menus::inv::steal( avatar &you, Character &victim )
 {
     return inv_internal( victim, steal_inventory_preset( you, victim ),
-                         string_format( _( "Steal from %s" ), victim.name ), -1,
-                         string_format( _( "%s's inventory is empty." ), victim.name ) );
+                         string_format( _( "Steal from %s" ), victim.get_name() ), -1,
+                         string_format( _( "%s's inventory is empty." ), victim.get_name() ) );
 }
 
 class weapon_inventory_preset: public inventory_selector_preset

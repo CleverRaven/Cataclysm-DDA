@@ -363,6 +363,7 @@ void json_flag::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "requires_flag", requires_flag_ );
     optional( jo, was_loaded, "taste_mod", taste_mod_ );
     optional( jo, was_loaded, "restriction", restriction_ );
+    optional( jo, was_loaded, "name", name_ );
 }
 
 void json_flag::check_consistency()

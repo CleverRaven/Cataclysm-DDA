@@ -121,7 +121,7 @@ static void draw_rectangle( const catacurses::window &w, nc_color, point top_lef
     }
 }
 
-static std::pair<nc_color, std::string> str_string( const avatar &p )
+std::pair<std::string, nc_color> display::str_text_color( const Character &p )
 {
     nc_color clr;
 
@@ -132,11 +132,11 @@ static std::pair<nc_color, std::string> str_string( const avatar &p )
     } else if( p.get_str() < p.get_str_base() ) {
         clr = c_red;
     }
-    return std::make_pair( clr, _( "Str " ) + ( p.get_str() < 100 ? std::to_string(
-                               p.get_str() ) : "++" ) );
+    return std::make_pair( _( "Str " ) + ( p.get_str() < 100 ? std::to_string(
+            p.get_str() ) : "++" ), clr );
 }
 
-static std::pair<nc_color, std::string> dex_string( const avatar &p )
+std::pair<std::string, nc_color> display::dex_text_color( const Character &p )
 {
     nc_color clr;
 
@@ -147,11 +147,11 @@ static std::pair<nc_color, std::string> dex_string( const avatar &p )
     } else if( p.get_dex() < p.get_dex_base() ) {
         clr = c_red;
     }
-    return std::make_pair( clr, _( "Dex " ) + ( p.get_dex() < 100 ? std::to_string(
-                               p.get_dex() ) : "++" ) );
+    return std::make_pair( _( "Dex " ) + ( p.get_dex() < 100 ? std::to_string(
+            p.get_dex() ) : "++" ), clr );
 }
 
-static std::pair<nc_color, std::string> int_string( const avatar &p )
+std::pair<std::string, nc_color> display::int_text_color( const Character &p )
 {
     nc_color clr;
 
@@ -162,11 +162,11 @@ static std::pair<nc_color, std::string> int_string( const avatar &p )
     } else if( p.get_int() < p.get_int_base() ) {
         clr = c_red;
     }
-    return std::make_pair( clr, _( "Int " ) + ( p.get_int() < 100 ? std::to_string(
-                               p.get_int() ) : "++" ) );
+    return std::make_pair( _( "Int " ) + ( p.get_int() < 100 ? std::to_string(
+            p.get_int() ) : "++" ), clr );
 }
 
-static std::pair<nc_color, std::string> per_string( const avatar &p )
+std::pair<std::string, nc_color> display::per_text_color( const Character &p )
 {
     nc_color clr;
 
@@ -177,8 +177,8 @@ static std::pair<nc_color, std::string> per_string( const avatar &p )
     } else if( p.get_per() < p.get_per_base() ) {
         clr = c_red;
     }
-    return std::make_pair( clr, _( "Per " ) + ( p.get_per() < 100 ? std::to_string(
-                               p.get_per() ) : "++" ) );
+    return std::make_pair( _( "Per " ) + ( p.get_per() < 100 ? std::to_string(
+            p.get_per() ) : "++" ), clr );
 }
 
 static nc_color focus_color( int focus )
@@ -476,7 +476,7 @@ static void decorate_panel( const std::string &name, const catacurses::window &w
     wprintz( w, c_white, title_suffix );
 }
 
-static std::string get_temp( const avatar &u )
+std::string display::get_temp( const Character &u )
 {
     std::string temp;
     if( u.has_item_with_flag( json_flag_THERMOMETER ) ||
@@ -489,7 +489,7 @@ static std::string get_temp( const avatar &u )
     return temp;
 }
 
-static std::string get_moon_graphic()
+std::string display::get_moon_graphic()
 {
     //moon phase display
     static std::vector<std::string> vMoonPhase = { "(   )", "(  ))", "( | )", "((  )" };
@@ -505,7 +505,7 @@ static std::string get_moon_graphic()
     return sPhase;
 }
 
-static std::string get_moon()
+std::string display::get_moon()
 {
     const int iPhase = static_cast<int>( get_moon_phase( calendar::turn ) );
     switch( iPhase ) {
@@ -532,7 +532,7 @@ static std::string get_moon()
     }
 }
 
-static std::string time_approx()
+std::string display::time_approx()
 {
     const int iHour = hour_of_day<int>( calendar::turn );
     if( iHour >= 23 || iHour <= 1 ) {
@@ -573,7 +573,7 @@ static nc_color value_color( int stat )
     return valuecolor;
 }
 
-static std::pair<nc_color, int> morale_stat( const avatar &u )
+std::pair<std::string, nc_color> display::morale_face_color( const Character &u )
 {
     const int morale_int = u.get_morale_level();
     nc_color morale_color = c_white;
@@ -582,10 +582,12 @@ static std::pair<nc_color, int> morale_stat( const avatar &u )
     } else if( morale_int <= -10 ) {
         morale_color = c_red;
     }
-    return std::make_pair( morale_color, morale_int );
+    const bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
+    const std::string smiley = morale_emotion( morale_int, display::get_face_type( u ), m_style );
+    return std::make_pair( smiley, morale_color );
 }
 
-static std::pair<bodypart_id, bodypart_id> temp_delta( const avatar &u )
+static std::pair<bodypart_id, bodypart_id> temp_delta( const Character &u )
 {
     bodypart_id current_bp_extreme = u.get_all_body_parts().front();
     bodypart_id conv_bp_extreme = current_bp_extreme;
@@ -620,7 +622,7 @@ static int define_temp_level( const int lvl )
     return 1;
 }
 
-static std::string temp_delta_string( const avatar &u )
+std::string display::temp_delta_string( const Character &u )
 {
     std::string temp_message;
     std::pair<bodypart_id, bodypart_id> temp_pair = temp_delta( u );
@@ -649,7 +651,7 @@ static std::string temp_delta_string( const avatar &u )
     return temp_message;
 }
 
-static std::pair<nc_color, std::string> temp_delta_arrows( const avatar &u )
+std::pair<std::string, nc_color> display::temp_delta_arrows( const Character &u )
 {
     std::string temp_message;
     nc_color temp_color = c_white;
@@ -683,10 +685,10 @@ static std::pair<nc_color, std::string> temp_delta_arrows( const avatar &u )
         temp_message = " ↓↓↓";
         temp_color = c_blue;
     }
-    return std::make_pair( temp_color, temp_message );
+    return std::make_pair( temp_message, temp_color );
 }
 
-static std::pair<nc_color, std::string> temp_stat( const avatar &u )
+std::pair<std::string, nc_color> display::temp_text_color( const Character &u )
 {
     /// Find hottest/coldest bodypart
     // Calculate the most extreme body temperatures
@@ -717,7 +719,7 @@ static std::pair<nc_color, std::string> temp_stat( const avatar &u )
         temp_color = c_blue;
         temp_string = _( "Freezing!" );
     }
-    return std::make_pair( temp_color, temp_string );
+    return std::make_pair( temp_string, temp_color );
 }
 
 static std::string get_armor( const avatar &u, bodypart_id bp, unsigned int truncate = 0 )
@@ -731,7 +733,7 @@ static std::string get_armor( const avatar &u, bodypart_id bp, unsigned int trun
     return "-";
 }
 
-static face_type get_face_type( const avatar &u )
+face_type display::get_face_type( const Character &u )
 {
     face_type fc = face_human;
     if( u.has_trait( trait_THRESH_FELINE ) ) {
@@ -744,8 +746,8 @@ static face_type get_face_type( const avatar &u )
     return fc;
 }
 
-static std::string morale_emotion( const int morale_cur, const face_type face,
-                                   const bool horizontal_style )
+std::string display::morale_emotion( const int morale_cur, const face_type face,
+                                     const bool horizontal_style )
 {
     if( horizontal_style ) {
         if( face == face_bear || face == face_cat ) {
@@ -826,7 +828,7 @@ static std::string morale_emotion( const int morale_cur, const face_type face,
     }
 }
 
-static std::pair<nc_color, std::string> power_stat( const avatar &u )
+std::pair<std::string, nc_color> display::power_text_color( const Character &u )
 {
     nc_color c_pwr = c_red;
     std::string s_pwr;
@@ -853,10 +855,10 @@ static std::pair<nc_color, std::string> power_stat( const avatar &u )
                     pgettext( "energy unit: kilojoule", "kJ" );
         }
     }
-    return std::make_pair( c_pwr, s_pwr );
+    return std::make_pair( s_pwr, c_pwr );
 }
 
-static std::pair<nc_color, std::string> mana_stat( const Character &you )
+std::pair<std::string, nc_color> display::mana_text_color( const Character &you )
 {
     nc_color c_mana = c_red;
     std::string s_mana;
@@ -871,7 +873,7 @@ static std::pair<nc_color, std::string> mana_stat( const Character &you )
         }
         s_mana = std::to_string( you.magic->available_mana() );
     }
-    return std::make_pair( c_mana, s_mana );
+    return std::make_pair( s_mana, c_mana );
 }
 
 static nc_color safe_color()
@@ -980,9 +982,7 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
     }
 
     // print mood
-    std::pair<nc_color, int> morale_pair = morale_stat( u );
-    bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
-    std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
+    std::pair<std::string, nc_color> morale_pair = display::morale_face_color( u );
 
     // print safe mode
     std::string safe_str;
@@ -990,7 +990,7 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
         safe_str = _( "SAFE" );
     }
     mvwprintz( w, point( 22, 2 ), safe_color(), safe_str );
-    mvwprintz( w, point( 27, 2 ), morale_pair.first, smiley );
+    mvwprintz( w, point( 27, 2 ), morale_pair.second, morale_pair.first );
 
     // print stamina
     const auto &stamina = get_hp_bar( u.get_stamina(), u.get_stamina_max() );
@@ -998,10 +998,17 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 26, 0 ), stamina.second, stamina.first );
 
     mvwprintz( w, point( 22, 1 ), c_light_gray, _( "PWR" ) );
-    const auto pwr = power_stat( u );
-    mvwprintz( w, point( 31 - utf8_width( pwr.second ), 1 ), pwr.first, pwr.second );
+    std::pair<std::string, nc_color> power_pair = display::power_text_color( u );
+    mvwprintz( w, point( 31 - utf8_width( power_pair.first ), 1 ), power_pair.second,
+               power_pair.first );
 
     wnoutrefresh( w );
+}
+
+std::pair<std::string, nc_color> display::weariness_text_color( const Character &u )
+{
+    std::pair<translation, nc_color> trans_color = display::weariness_text_color( u.weariness_level() );
+    return std::make_pair( trans_color.first.translated(), trans_color.second );
 }
 
 std::pair<translation, nc_color> display::weariness_text_color( size_t weariness )
@@ -1036,6 +1043,29 @@ std::string display::activity_level_str( float level )
     int idx = std::floor( level / 2 );
 
     return activity_descriptions[idx].translated();
+}
+
+std::string display::activity_malus_str( const Character &u )
+{
+    const float act_level = u.instantaneous_activity_level();
+    const float exertion_mult = u.exertion_adjusted_move_multiplier( act_level ) ;
+    const int malus_value = ( 1 / exertion_mult ) * 100 - 100;
+    return string_format( "+%3d%%", malus_value );
+}
+
+std::pair<std::string, nc_color> display::activity_text_color( const Character &u )
+{
+    const float act_level = u.instantaneous_activity_level();
+    const std::string act_text = display::activity_level_str( act_level );
+
+    nc_color act_color;
+    if( u.exertion_adjusted_move_multiplier( act_level ) < 1.0 ) {
+        act_color = c_red;
+    } else {
+        act_color = c_light_gray;
+    }
+
+    return std::make_pair( _( act_text ), act_color );
 }
 
 std::pair<std::string, nc_color> display::thirst_text_color( const Character &u )
@@ -1265,37 +1295,29 @@ std::pair<std::string, nc_color> display::pain_text_color( const Character &u )
 static void draw_stats( avatar &u, const catacurses::window &w )
 {
     werase( w );
-    nc_color stat_clr = str_string( u ).first;
+    nc_color stat_clr = display::str_text_color( u ).second;
     mvwprintz( w, point_zero, c_light_gray, _( "STR" ) );
     int stat = u.get_str();
     mvwprintz( w, point( stat < 10 ? 5 : 4, 0 ), stat_clr,
                stat < 100 ? std::to_string( stat ) : "99+" );
-    stat_clr = dex_string( u ).first;
+    stat_clr = display::dex_text_color( u ).second;
     stat = u.get_dex();
     mvwprintz( w, point( 9, 0 ), c_light_gray, _( "DEX" ) );
     mvwprintz( w, point( stat < 10 ? 14 : 13, 0 ), stat_clr,
                stat < 100 ? std::to_string( stat ) : "99+" );
-    stat_clr = int_string( u ).first;
+    stat_clr = display::int_text_color( u ).second;
     stat = u.get_int();
     mvwprintz( w, point( 17, 0 ), c_light_gray, _( "INT" ) );
     mvwprintz( w, point( stat < 10 ? 22 : 21, 0 ), stat_clr,
                stat < 100 ? std::to_string( stat ) : "99+" );
-    stat_clr = per_string( u ).first;
+    stat_clr = display::per_text_color( u ).second;
     stat = u.get_per();
     mvwprintz( w, point( 25, 0 ), c_light_gray, _( "PER" ) );
     mvwprintz( w, point( stat < 10 ? 30 : 29, 0 ), stat_clr,
                stat < 100 ? std::to_string( stat ) : "99+" );
 
-    int weariness = u.weariness_level();
-    std::pair<translation, nc_color> weary = display::weariness_text_color( weariness );
-    const float activity = u.instantaneous_activity_level();
-
-    nc_color act_color;
-    if( u.exertion_adjusted_move_multiplier( activity ) < 1.0 ) {
-        act_color = c_red;
-    } else {
-        act_color = c_light_gray;
-    }
+    std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
+    std::pair<std::string, nc_color> activity = display::activity_text_color( u );
 
     static const std::string weary_label = translate_marker( "WRY" );
     static const std::string activity_label = translate_marker( "ACT" );
@@ -1305,22 +1327,18 @@ static void draw_stats( avatar &u, const catacurses::window &w )
     const int act_start = ( getmaxx( w ) / 2 ) - 1;
 
     mvwprintz( w, point_south, c_light_gray, _( weary_label ) );
-    mvwprintz( w, point( wlabel_len + 1, 1 ), weary.second, weary.first.translated() );
+    mvwprintz( w, point( wlabel_len + 1, 1 ), weary.second, weary.first );
     mvwprintz( w, point( act_start, 1 ), c_light_gray, _( activity_label ) );
-    mvwprintz( w, point( act_start + alabel_len + 1, 1 ), act_color,
-               display::activity_level_str( activity ) );
+    mvwprintz( w, point( act_start + alabel_len + 1, 1 ), activity.second, activity.first );
 
     wnoutrefresh( w );
 }
 
-static nc_color move_mode_color( avatar &u )
+std::pair<std::string, nc_color> display::move_mode_text_color( const Character &u )
 {
-    return u.current_movement_mode()->panel_color();
-}
-
-static char move_mode_string( avatar &u )
-{
-    return u.current_movement_mode()->panel_letter();
+    const std::string mm_text = std::string( 1, u.current_movement_mode()->panel_letter() );
+    const nc_color mm_color = u.current_movement_mode()->panel_color();
+    return std::make_pair( mm_text, mm_color );
 }
 
 static void draw_stealth( avatar &u, const catacurses::window &w )
@@ -1328,9 +1346,10 @@ static void draw_stealth( avatar &u, const catacurses::window &w )
     werase( w );
     mvwprintz( w, point_zero, c_light_gray, _( "Speed" ) );
     mvwprintz( w, point( 7, 0 ), value_color( u.get_speed() ), "%s", u.get_speed() );
-    nc_color move_color = move_mode_color( u );
-    std::string move_string = std::to_string( u.movecounter ) + move_mode_string( u );
-    mvwprintz( w, point( 15 - utf8_width( move_string ), 0 ), move_color, move_string );
+
+    std::pair<std::string, nc_color> move_mode = display::move_mode_text_color( u );
+
+    mvwprintz( w, point( 15 - utf8_width( move_mode.first ), 0 ), move_mode.second, move_mode.first );
     if( u.is_deaf() ) {
         mvwprintz( w, point( 22, 0 ), c_red, _( "DEAF" ) );
     } else {
@@ -1406,7 +1425,7 @@ static void draw_time( const avatar &u, const catacurses::window &w )
     //display moon
     mvwprintz( w, point( 22, 0 ), c_white, _( "Moon" ) );
     nc_color clr = c_white;
-    print_colored_text( w, point( 27, 0 ), clr, c_white, get_moon_graphic() );
+    print_colored_text( w, point( 27, 0 ), clr, c_white, display::get_moon_graphic() );
 
     wnoutrefresh( w );
 }
@@ -1425,10 +1444,10 @@ static void draw_needs_compact( const avatar &u, const catacurses::window &w )
 
     hunger_pair = display::thirst_text_color( u );
     mvwprintz( w, point( 17, 0 ), hunger_pair.second, hunger_pair.first );
-    auto pair = temp_stat( u );
-    mvwprintz( w, point( 17, 1 ), pair.first, pair.second );
-    const auto arrow = temp_delta_arrows( u );
-    mvwprintz( w, point( 17 + utf8_width( pair.second ), 1 ), arrow.first, arrow.second );
+    std::pair<std::string, nc_color> temp_pair = display::temp_text_color( u );
+    mvwprintz( w, point( 17, 1 ), temp_pair.second, temp_pair.first );
+    std::pair<std::string, nc_color> arrow_pair = display::temp_delta_arrows( u );
+    mvwprintz( w, point( 17 + utf8_width( temp_pair.first ), 1 ), arrow_pair.second, arrow_pair.first );
 
     mvwprintz( w, point( 17, 2 ), c_light_gray, _( "Focus" ) );
     mvwprintz( w, point( 24, 2 ), focus_color( u.get_focus() ), std::to_string( u.get_focus() ) );
@@ -1503,7 +1522,7 @@ static void draw_limb_wide( avatar &u, const catacurses::window &w )
 static void draw_char_narrow( avatar &u, const catacurses::window &w )
 {
     werase( w );
-    std::pair<nc_color, int> morale_pair = morale_stat( u );
+    std::pair<std::string, nc_color> morale_pair = display::morale_face_color( u );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Sound:" ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -1512,13 +1531,6 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 19, 0 ), c_light_gray, _( "Mood :" ) );
     mvwprintz( w, point( 19, 1 ), c_light_gray, _( "Speed:" ) );
     mvwprintz( w, point( 19, 2 ), c_light_gray, _( "Move :" ) );
-
-    nc_color move_color =  move_mode_color( u );
-    char move_char = move_mode_string( u );
-    std::string movecost = std::to_string( u.movecounter ) + "(" + move_char + ")";
-    bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
-    std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
-    mvwprintz( w, point( 8, 0 ), c_light_gray, "%s", u.volume );
 
     // print stamina
     auto needs_pair = std::make_pair( get_hp_bar( u.get_stamina(), u.get_stamina_max() ).second,
@@ -1535,16 +1547,23 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
     } else if( u.get_focus() > u.calc_focus_equilibrium() ) {
         mvwprintz( w, point( 11, 2 ), c_light_red, "↧" );
     }
-    mvwprintz( w, point( 26, 0 ), morale_pair.first, "%s", smiley );
+
+    mvwprintz( w, point( 26, 0 ), morale_pair.second, morale_pair.first );
     mvwprintz( w, point( 26, 1 ), focus_color( u.get_speed() ), "%s", u.get_speed() );
-    mvwprintz( w, point( 26, 2 ), move_color, "%s", movecost );
+    mvwprintz( w, point( 8, 0 ), c_light_gray, "%s", u.volume );
+
+    std::pair<std::string, nc_color> move_mode_pair = display::move_mode_text_color( u );
+    std::string movecost = std::to_string( u.movecounter ) + string_format( "(%s)",
+                           move_mode_pair.first );
+    mvwprintz( w, point( 26, 2 ), move_mode_pair.second, "%s", movecost );
+
     wnoutrefresh( w );
 }
 
 static void draw_char_wide( avatar &u, const catacurses::window &w )
 {
     werase( w );
-    std::pair<nc_color, int> morale_pair = morale_stat( u );
+    std::pair<std::string, nc_color> morale_pair = display::morale_face_color( u );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Sound:" ) );
     mvwprintz( w, point( 16, 0 ), c_light_gray, _( "Mood :" ) );
@@ -1554,14 +1573,8 @@ static void draw_char_wide( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 16, 1 ), c_light_gray, _( "Speed:" ) );
     mvwprintz( w, point( 31, 1 ), c_light_gray, _( "Move :" ) );
 
-    nc_color move_color =  move_mode_color( u );
-    char move_char = move_mode_string( u );
-    std::string movecost = std::to_string( u.movecounter ) + "(" + move_char + ")";
-    bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
-    std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
-
     mvwprintz( w, point( 8, 0 ), c_light_gray, "%s", u.volume );
-    mvwprintz( w, point( 23, 0 ), morale_pair.first, "%s", smiley );
+    mvwprintz( w, point( 23, 0 ), morale_pair.second, morale_pair.first );
     mvwprintz( w, point( 38, 0 ), focus_color( u.get_focus() ), "%s", u.get_focus() );
 
     // print stamina
@@ -1574,7 +1587,12 @@ static void draw_char_wide( avatar &u, const catacurses::window &w )
     }
 
     mvwprintz( w, point( 23, 1 ), focus_color( u.get_speed() ), "%s", u.get_speed() );
-    mvwprintz( w, point( 38, 1 ), move_color, "%s", movecost );
+
+    std::pair<std::string, nc_color> move_mode_pair = display::move_mode_text_color( u );
+    std::string movecost = std::to_string( u.movecounter ) + string_format( "(%s)",
+                           move_mode_pair.first );
+    mvwprintz( w, point( 38, 1 ), move_mode_pair.second, "%s", movecost );
+
     wnoutrefresh( w );
 }
 
@@ -1589,31 +1607,23 @@ static void draw_stat_narrow( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 19, 0 ), c_light_gray, _( "Dex  :" ) );
     mvwprintz( w, point( 19, 1 ), c_light_gray, _( "Per  :" ) );
 
-    nc_color stat_clr = str_string( u ).first;
+    nc_color stat_clr = display::str_text_color( u ).second;
     mvwprintz( w, point( 8, 0 ), stat_clr, "%s", u.get_str() );
-    stat_clr = int_string( u ).first;
+    stat_clr = display::int_text_color( u ).second;
     mvwprintz( w, point( 8, 1 ), stat_clr, "%s", u.get_int() );
-    stat_clr = dex_string( u ).first;
+    stat_clr = display::dex_text_color( u ).second;
     mvwprintz( w, point( 26, 0 ), stat_clr, "%s", u.get_dex() );
-    stat_clr = per_string( u ).first;
+    stat_clr = display::per_text_color( u ).second;
     mvwprintz( w, point( 26, 1 ), stat_clr, "%s", u.get_per() );
 
-    std::pair<nc_color, std::string> pwr_pair = power_stat( u );
+    std::pair<std::string, nc_color> power_pair = display::power_text_color( u );
     mvwprintz( w, point( 1, 2 ), c_light_gray, _( "Power:" ) );
     mvwprintz( w, point( 19, 2 ), c_light_gray, _( "Safe :" ) );
-    mvwprintz( w, point( 8, 2 ), pwr_pair.first, "%s", pwr_pair.second );
+    mvwprintz( w, point( 8, 2 ), power_pair.second, "%s", power_pair.first );
     mvwprintz( w, point( 26, 2 ), safe_color(), g->safe_mode ? _( "On" ) : _( "Off" ) );
 
-    int weariness = u.weariness_level();
-    std::pair<translation, nc_color> weary = display::weariness_text_color( weariness );
-    const float activity = u.instantaneous_activity_level();
-
-    nc_color act_color;
-    if( u.exertion_adjusted_move_multiplier( activity ) < 1.0 ) {
-        act_color = c_red;
-    } else {
-        act_color = c_light_gray;
-    }
+    std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
+    std::pair<std::string, nc_color> activity = display::activity_text_color( u );
 
     static const std::string weary_label = translate_marker( "Weary:" );
     static const std::string activity_label = translate_marker( "Activ:" );
@@ -1623,10 +1633,9 @@ static void draw_stat_narrow( avatar &u, const catacurses::window &w )
     const int act_start = ( getmaxx( w ) / 2 ) - 1;
 
     mvwprintz( w, point( 1, 3 ), c_light_gray, _( weary_label ) );
-    mvwprintz( w, point( wlabel_len + 2, 3 ), weary.second, weary.first.translated() );
+    mvwprintz( w, point( wlabel_len + 2, 3 ), weary.second, weary.first );
     mvwprintz( w, point( act_start, 3 ), c_light_gray, _( activity_label ) );
-    mvwprintz( w, point( act_start + alabel_len + 1, 3 ), act_color,
-               display::activity_level_str( activity ) );
+    mvwprintz( w, point( act_start + alabel_len + 1, 3 ), activity.second, activity.first );
 
     wnoutrefresh( w );
 }
@@ -1640,31 +1649,23 @@ static void draw_stat_wide( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 16, 0 ), c_light_gray, _( "Dex  :" ) );
     mvwprintz( w, point( 16, 1 ), c_light_gray, _( "Per  :" ) );
 
-    nc_color stat_clr = str_string( u ).first;
+    nc_color stat_clr = display::str_text_color( u ).second;
     mvwprintz( w, point( 8, 0 ), stat_clr, "%s", u.get_str() );
-    stat_clr = int_string( u ).first;
+    stat_clr = display::int_text_color( u ).second;
     mvwprintz( w, point( 8, 1 ), stat_clr, "%s", u.get_int() );
-    stat_clr = dex_string( u ).first;
+    stat_clr = display::dex_text_color( u ).second;
     mvwprintz( w, point( 23, 0 ), stat_clr, "%s", u.get_dex() );
-    stat_clr = per_string( u ).first;
+    stat_clr = display::per_text_color( u ).second;
     mvwprintz( w, point( 23, 1 ), stat_clr, "%s", u.get_per() );
 
-    std::pair<nc_color, std::string> pwr_pair = power_stat( u );
+    std::pair<std::string, nc_color> power_pair = display::power_text_color( u );
     mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Power:" ) );
     mvwprintz( w, point( 31, 1 ), c_light_gray, _( "Safe :" ) );
-    mvwprintz( w, point( 38, 0 ), pwr_pair.first, "%s", pwr_pair.second );
+    mvwprintz( w, point( 38, 0 ), power_pair.second, "%s", power_pair.first );
     mvwprintz( w, point( 38, 1 ), safe_color(), g->safe_mode ? _( "On" ) : _( "Off" ) );
 
-    int weariness = u.weariness_level();
-    std::pair<translation, nc_color> weary = display::weariness_text_color( weariness );
-    const float activity = u.instantaneous_activity_level();
-
-    nc_color act_color;
-    if( u.exertion_adjusted_move_multiplier( activity ) < 1.0 ) {
-        act_color = c_red;
-    } else {
-        act_color = c_light_gray;
-    }
+    std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
+    std::pair<std::string, nc_color> activity = display::activity_text_color( u );
 
     static const std::string weary_label = translate_marker( "Weary:" );
     static const std::string activity_label = translate_marker( "Activ:" );
@@ -1674,10 +1675,9 @@ static void draw_stat_wide( avatar &u, const catacurses::window &w )
     const int act_start = ( getmaxx( w ) / 2 ) - 1;
 
     mvwprintz( w, point( 1, 2 ), c_light_gray, _( weary_label ) );
-    mvwprintz( w, point( wlabel_len + 2, 2 ), weary.second, weary.first.translated() );
+    mvwprintz( w, point( wlabel_len + 2, 2 ), weary.second, weary.first );
     mvwprintz( w, point( act_start, 2 ), c_light_gray, _( activity_label ) );
-    mvwprintz( w, point( act_start + alabel_len + 1, 2 ), act_color,
-               display::activity_level_str( activity ) );
+    mvwprintz( w, point( act_start + alabel_len + 1, 2 ), activity.second, activity.first );
 
     wnoutrefresh( w );
 }
@@ -1716,7 +1716,7 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
         mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : %s" ),
                    to_string_time_of_day( calendar::turn ) );
     } else if( here.get_abs_sub().z >= 0 ) {
-        mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : %s" ), time_approx() );
+        mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : %s" ), display::time_approx() );
     } else {
         // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
         mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : ???" ) );
@@ -1748,9 +1748,9 @@ static void draw_moon_narrow( const avatar &u, const catacurses::window &w )
 {
     werase( w );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Moon : %s" ), get_moon() );
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Moon : %s" ), display::get_moon() );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Temp : %s" ), get_temp( u ) );
+    mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Temp : %s" ), display::get_temp( u ) );
     wnoutrefresh( w );
 }
 
@@ -1758,8 +1758,8 @@ static void draw_moon_wide( const avatar &u, const catacurses::window &w )
 {
     werase( w );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Moon : %s" ), get_moon() );
-    mvwprintz( w, point( 23, 0 ), c_light_gray, _( "Temp : %s" ), get_temp( u ) );
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Moon : %s" ), display::get_moon() );
+    mvwprintz( w, point( 23, 0 ), c_light_gray, _( "Temp : %s" ), display::get_temp( u ) );
     wnoutrefresh( w );
 }
 
@@ -1781,7 +1781,7 @@ static void draw_needs_narrow( const avatar &u, const catacurses::window &w )
     std::pair<std::string, nc_color> hunger_pair = display::hunger_text_color( u );
     std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( u );
     std::pair<std::string, nc_color> rest_pair = display::fatigue_text_color( u );
-    std::pair<nc_color, std::string> temp_pair = temp_stat( u );
+    std::pair<std::string, nc_color> temp_pair = display::temp_text_color( u );
     std::pair<std::string, nc_color> pain_pair = display::pain_text_color( u );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Hunger:" ) );
@@ -1794,7 +1794,7 @@ static void draw_needs_narrow( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 8, 1 ), thirst_pair.second, thirst_pair.first );
     mvwprintz( w, point( 8, 2 ), rest_pair.second, rest_pair.first );
     mvwprintz( w, point( 8, 3 ), pain_pair.second, pain_pair.first );
-    mvwprintz( w, point( 8, 4 ), temp_pair.first, temp_pair.second );
+    mvwprintz( w, point( 8, 4 ), temp_pair.second, temp_pair.first );
     wnoutrefresh( w );
 }
 
@@ -1805,7 +1805,7 @@ static void draw_needs_labels( const avatar &u, const catacurses::window &w )
     std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( u );
     std::pair<std::string, nc_color> rest_pair = display::fatigue_text_color( u );
     std::pair<std::string, nc_color> weight_pair = display::weight_text_color( u );
-    std::pair<nc_color, std::string> temp_pair = temp_stat( u );
+    std::pair<std::string, nc_color> temp_pair = display::temp_text_color( u );
     std::pair<std::string, nc_color> pain_pair = display::pain_text_color( u );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Pain :" ) );
@@ -1819,7 +1819,7 @@ static void draw_needs_labels( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 23, 1 ), c_light_gray, _( "Hunger:" ) );
     mvwprintz( w, point( 30, 1 ), hunger_pair.second, hunger_pair.first );
     mvwprintz( w, point( 1, 2 ), c_light_gray, _( "Heat :" ) );
-    mvwprintz( w, point( 8, 2 ), temp_pair.first, temp_pair.second );
+    mvwprintz( w, point( 8, 2 ), temp_pair.second, temp_pair.first );
     mvwprintz( w, point( 23, 2 ), c_light_gray, _( "Weight:" ) );
     mvwprintz( w, point( 30, 2 ), weight_pair.second, weight_pair.first );
     wnoutrefresh( w );
@@ -1831,7 +1831,7 @@ static void draw_needs_labels_alt( const avatar &u, const catacurses::window &w 
     std::pair<std::string, nc_color> hunger_pair = display::hunger_text_color( u );
     std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( u );
     std::pair<std::string, nc_color> rest_pair = display::fatigue_text_color( u );
-    std::pair<nc_color, std::string> temp_pair = temp_stat( u );
+    std::pair<std::string, nc_color> temp_pair = display::temp_text_color( u );
     std::pair<std::string, nc_color> pain_pair = display::pain_text_color( u );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Pain :" ) );
@@ -1846,7 +1846,7 @@ static void draw_needs_labels_alt( const avatar &u, const catacurses::window &w 
     mvwprintz( w, point( 1, 3 ), c_light_gray, _( "Rest :" ) );
     mvwprintz( w, point( 8, 3 ), rest_pair.second, rest_pair.first );
     mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Heat :" ) );
-    mvwprintz( w, point( 8, 4 ), temp_pair.first, temp_pair.second );
+    mvwprintz( w, point( 8, 4 ), temp_pair.second, temp_pair.first );
     wnoutrefresh( w );
 }
 
@@ -1985,21 +1985,19 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 21, 0 ), pain_pair.second, pain_pair.first );
 
     // print mood
-    std::pair<nc_color, int> morale_pair = morale_stat( u );
-    bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
-    std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
-    mvwprintz( w, point( 34, 1 ), morale_pair.first, smiley );
+    std::pair<std::string, nc_color> morale_pair = display::morale_face_color( u );
+    mvwprintz( w, point( 34, 1 ), morale_pair.second, morale_pair.first );
 
     if( !veh ) {
         // stats
-        auto pair = str_string( u );
-        mvwprintz( w, point( 38, 0 ), pair.first, pair.second );
-        pair = dex_string( u );
-        mvwprintz( w, point( 38, 1 ), pair.first, pair.second );
-        pair = int_string( u );
-        mvwprintz( w, point( 38, 2 ), pair.first, pair.second );
-        pair = per_string( u );
-        mvwprintz( w, point( 38, 3 ), pair.first, pair.second );
+        std::pair<std::string, nc_color> pair = display::str_text_color( u );
+        mvwprintz( w, point( 38, 0 ), pair.second, pair.first );
+        pair = display::dex_text_color( u );
+        mvwprintz( w, point( 38, 1 ), pair.second, pair.first );
+        pair = display::int_text_color( u );
+        mvwprintz( w, point( 38, 2 ), pair.second, pair.first );
+        pair = display::per_text_color( u );
+        mvwprintz( w, point( 38, 3 ), pair.second, pair.first );
     }
 
     // print safe mode// print safe mode
@@ -2023,19 +2021,19 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     if( !veh ) {
         mvwprintz( w, point( 21, 5 ), u.get_speed() < 100 ? c_red : c_white,
                    _( "Spd " ) + std::to_string( u.get_speed() ) );
-        nc_color move_color = move_mode_color( u );
-        std::string move_string = std::to_string( u.movecounter ) + " " + move_mode_string( u );
-        mvwprintz( w, point( 29, 5 ), move_color, move_string );
+        std::pair<std::string, nc_color> move_mode_pair = display::move_mode_text_color( u );
+        std::string move_string = std::to_string( u.movecounter ) + " " + move_mode_pair.first;
+        mvwprintz( w, point( 29, 5 ), move_mode_pair.second, move_string );
     }
 
     // temperature
-    pair = temp_stat( u );
-    mvwprintz( w, point( 21, 6 ), pair.first, pair.second + temp_delta_string( u ) );
+    std::pair<std::string, nc_color> temp_pair = display::temp_text_color( u );
+    mvwprintz( w, point( 21, 6 ), temp_pair.second, temp_pair.first + display::temp_delta_string( u ) );
 
     // power
-    pair = power_stat( u );
+    std::pair<std::string, nc_color> power_pair = display::power_text_color( u );
     mvwprintz( w, point( 8, 6 ), c_light_gray, _( "POWER" ) );
-    mvwprintz( w, point( 14, 6 ), pair.first, pair.second );
+    mvwprintz( w, point( 14, 6 ), power_pair.second, power_pair.first );
 
     // vehicle display
     if( veh ) {
@@ -2263,7 +2261,7 @@ static void draw_weather_classic( avatar &, const catacurses::window &w )
     }
     mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Moon :" ) );
     nc_color clr = c_white;
-    print_colored_text( w, point( 38, 0 ), clr, c_white, get_moon_graphic() );
+    print_colored_text( w, point( 38, 0 ), clr, c_white, display::get_moon_graphic() );
 
     wnoutrefresh( w );
 }
@@ -2345,108 +2343,53 @@ static void draw_hint( const avatar &, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static void draw_weariness( const avatar &u, const catacurses::window &w )
+// Draw weariness info for the avatar in the given window, with (x, y) offsets for its position,
+// and the option to use "wide labels" for the wide/classic layouts.
+static void draw_weariness_partial( const avatar &u, const catacurses::window &w,
+                                    const point start_pos,
+                                    const bool wide_labels )
 {
-    werase( w );
-
-    int weariness = u.weariness_level();
-    std::pair<translation, nc_color> weary = display::weariness_text_color( weariness );
-    const float activity = u.instantaneous_activity_level();
-
-    nc_color act_color;
-    const float exertion_mult = u.exertion_adjusted_move_multiplier( activity ) ;
-    if( exertion_mult < 1.0 ) {
-        act_color = c_red;
-    } else {
-        act_color = c_light_gray;
-    }
+    std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
+    std::pair<std::string, nc_color> activity = display::activity_text_color( u );
 
     std::pair<int, int> bar = u.weariness_transition_progress();
     std::pair<std::string, nc_color> weary_bar = get_hp_bar( bar.first, bar.second );
 
-    static const std::string progress_label = translate_marker( "Transition:" );
-    static const std::string malus_label = translate_marker( "Malus: " );
+    const std::string progress_label = wide_labels ? translate_marker( "Weary Transition:" ) :
+                                       translate_marker( "Transition:" );
+    const std::string malus_label = wide_labels ? translate_marker( "Weary Malus: " ) :
+                                    translate_marker( "Malus: " );
 
     const int wplabel_len = utf8_width( _( progress_label ) );
     const int malus_start = getmaxx( w ) - utf8_width( _( malus_label ) ) - 5;
-    const int malus = ( 1 / exertion_mult ) * 100 - 100;
 
-    const std::string malus_str = string_format( "%s+%3d%%", _( malus_label ), malus );
+    const std::string malus_str = string_format( "%s%s", _( malus_label ),
+                                  display::activity_malus_str( u ) );
 
-    mvwprintz( w, point_zero, c_light_gray, _( progress_label ) );
-    mvwprintz( w, point( wplabel_len + 1, 0 ), weary_bar.second, weary_bar.first );
-    mvwprintz( w, point( malus_start, 0 ), act_color, malus_str );
+    mvwprintz( w, start_pos, c_light_gray, _( progress_label ) );
+    mvwprintz( w, point( wplabel_len + 1, start_pos.y ), weary_bar.second, weary_bar.first );
+    mvwprintz( w, point( malus_start, start_pos.y ), activity.second, malus_str );
+    wnoutrefresh( w );
+}
 
+static void draw_weariness( const avatar &u, const catacurses::window &w )
+{
+    werase( w );
+    draw_weariness_partial( u, w, point_zero, false );
     wnoutrefresh( w );
 }
 
 static void draw_weariness_narrow( const avatar &u, const catacurses::window &w )
 {
     werase( w );
-
-    int weariness = u.weariness_level();
-    std::pair<translation, nc_color> weary = display::weariness_text_color( weariness );
-    const float activity = u.instantaneous_activity_level();
-
-    nc_color act_color;
-    const float exertion_mult = u.exertion_adjusted_move_multiplier( activity ) ;
-    if( exertion_mult < 1.0 ) {
-        act_color = c_red;
-    } else {
-        act_color = c_light_gray;
-    }
-
-    std::pair<int, int> bar = u.weariness_transition_progress();
-    std::pair<std::string, nc_color> weary_bar = get_hp_bar( bar.first, bar.second );
-
-    static const std::string progress_label = translate_marker( "Transition:" );
-    static const std::string malus_label = translate_marker( "Malus: " );
-
-    const int wplabel_len = utf8_width( _( progress_label ) );
-    const int malus_start = getmaxx( w ) - utf8_width( _( malus_label ) ) - 5;
-    const int malus = ( 1 / exertion_mult ) * 100 - 100;
-
-    const std::string malus_str = string_format( "%s+%3d%%", _( malus_label ), malus );
-
-    mvwprintz( w, point_east, c_light_gray, _( progress_label ) );
-    mvwprintz( w, point( wplabel_len + 1, 0 ), weary_bar.second, weary_bar.first );
-    mvwprintz( w, point( malus_start, 0 ), act_color, malus_str );
-
+    draw_weariness_partial( u, w, point_east, false );
     wnoutrefresh( w );
 }
 
 static void draw_weariness_wide( const avatar &u, const catacurses::window &w )
 {
     werase( w );
-
-    int weariness = u.weariness_level();
-    std::pair<translation, nc_color> weary = display::weariness_text_color( weariness );
-    const float activity = u.instantaneous_activity_level();
-
-    nc_color act_color;
-    const float exertion_mult = u.exertion_adjusted_move_multiplier( activity ) ;
-    if( exertion_mult < 1.0 ) {
-        act_color = c_red;
-    } else {
-        act_color = c_light_gray;
-    }
-
-    std::pair<int, int> bar = u.weariness_transition_progress();
-    std::pair<std::string, nc_color> weary_bar = get_hp_bar( bar.first, bar.second );
-
-    static const std::string progress_label = translate_marker( "Weary Transition:" );
-    static const std::string malus_label = translate_marker( "Weary Malus: " );
-
-    const int wplabel_len = utf8_width( _( progress_label ) );
-    const int malus_start = getmaxx( w ) - utf8_width( _( malus_label ) ) - 5;
-    const int malus = ( 1 / exertion_mult ) * 100 - 100;
-
-    const std::string malus_str = string_format( "%s+%3d%%", _( malus_label ), malus );
-
-    mvwprintz( w, point_east, c_light_gray, _( progress_label ) );
-    mvwprintz( w, point( wplabel_len + 1, 0 ), weary_bar.second, weary_bar.first );
-    mvwprintz( w, point( malus_start, 0 ), act_color, malus_str );
-
+    draw_weariness_partial( u, w, point_east, true );
     wnoutrefresh( w );
 }
 
@@ -2454,17 +2397,8 @@ static void draw_weariness_classic( const avatar &u, const catacurses::window &w
 {
     werase( w );
 
-    int weariness = u.weariness_level();
-    std::pair<translation, nc_color> weary = display::weariness_text_color( weariness );
-    const float activity = u.instantaneous_activity_level();
-
-    nc_color act_color;
-    const float exertion_mult = u.exertion_adjusted_move_multiplier( activity ) ;
-    if( exertion_mult < 1.0 ) {
-        act_color = c_red;
-    } else {
-        act_color = c_light_gray;
-    }
+    std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
+    std::pair<std::string, nc_color> activity = display::activity_text_color( u );
 
     static const std::string weary_label = translate_marker( "Weariness:" );
     static const std::string activity_label = translate_marker( "Activity:" );
@@ -2474,26 +2408,11 @@ static void draw_weariness_classic( const avatar &u, const catacurses::window &w
     const int act_start = std::floor( getmaxx( w ) / 2 );
 
     mvwprintz( w, point_zero, c_light_gray, _( weary_label ) );
-    mvwprintz( w, point( wlabel_len + 1, 0 ), weary.second, weary.first.translated() );
+    mvwprintz( w, point( wlabel_len + 1, 0 ), weary.second, weary.first );
     mvwprintz( w, point( act_start, 0 ), c_light_gray, _( activity_label ) );
-    mvwprintz( w, point( act_start + alabel_len + 1, 0 ), act_color,
-               display::activity_level_str( activity ) );
+    mvwprintz( w, point( act_start + alabel_len + 1, 0 ), activity.second, activity.first );
 
-    std::pair<int, int> bar = u.weariness_transition_progress();
-    std::pair<std::string, nc_color> weary_bar = get_hp_bar( bar.first, bar.second );
-
-    static const std::string progress_label = translate_marker( "Weary Transition:" );
-    static const std::string malus_label = translate_marker( "Weary Malus: " );
-
-    const int wplabel_len = utf8_width( _( progress_label ) );
-    const int malus_start = getmaxx( w ) - utf8_width( _( malus_label ) ) - 5;
-    const int malus = ( 1 / exertion_mult ) * 100 - 100;
-
-    const std::string malus_str = string_format( "%s+%3d%%", _( malus_label ), malus );
-
-    mvwprintz( w, point_south, c_light_gray, _( progress_label ) );
-    mvwprintz( w, point( wplabel_len + 1, 1 ), weary_bar.second, weary_bar.first );
-    mvwprintz( w, point( malus_start, 1 ), act_color, malus_str );
+    draw_weariness_partial( u, w, point_south, true );
 
     wnoutrefresh( w );
 }
@@ -2504,11 +2423,11 @@ static void print_mana( const Character &you, const catacurses::window &w,
 {
     werase( w );
 
-    auto mana_pair = mana_stat( you );
+    std::pair<std::string, nc_color> mana_pair = display::mana_text_color( you );
     const std::string mana_string = string_format( fmt_string,
                                     //~ translation should not exceed 4 console cells
                                     utf8_justify( _( "Mana" ), j1 ),
-                                    colorize( utf8_justify( mana_pair.second, j2 ), mana_pair.first ),
+                                    colorize( utf8_justify( mana_pair.first, j2 ), mana_pair.second ),
                                     //~ translation should not exceed 9 console cells
                                     utf8_justify( _( "Max Mana" ), j3 ),
                                     colorize( utf8_justify( std::to_string( you.magic->max_mana( you ) ), j4 ), c_light_blue ) );

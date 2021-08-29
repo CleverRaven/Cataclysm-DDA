@@ -1104,6 +1104,8 @@ void avatar_action::use_item( avatar &you, item_location &loc )
         }
     }
 
+    item_pocket *parent_pocket = nullptr;
+    bool on_person = true;
     int pre_obtain_moves = you.moves;
     if( loc->has_flag( flag_ALLOWS_REMOTE_USE ) ) {
         use_in_place = true;
@@ -1117,9 +1119,19 @@ void avatar_action::use_item( avatar &you, item_location &loc )
         if( loc_where != item_location::type::character ) {
             you.add_msg_if_player( _( "You pick up the %s." ), loc.get_item()->display_name() );
             pre_obtain_moves = -1;
-
+            on_person = false;
         }
+
+        // Get the parent pocket before the item is obtained.
+        if( loc.has_parent() ) {
+            parent_pocket = loc.parent_item().get_item()->contained_where( *loc );
+        }
+
         loc = loc.obtain( you, 1 );
+
+        if( parent_pocket ) {
+            parent_pocket->on_contents_changed();
+        }
         if( pre_obtain_moves == -1 ) {
             pre_obtain_moves = you.moves;
         }
@@ -1137,8 +1149,11 @@ void avatar_action::use_item( avatar &you, item_location &loc )
         make_active( loc );
     } else {
         you.use( loc, pre_obtain_moves );
-    }
 
+        if( parent_pocket && on_person && parent_pocket->will_spill() ) {
+            parent_pocket->handle_liquid_or_spill( you );
+        }
+    }
     you.invalidate_crafting_inventory();
 }
 
