@@ -22,6 +22,7 @@
 #include "colony.h"
 #include "construction.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
 #include "field.h"
@@ -758,8 +759,9 @@ std::vector<tripoint> route_best_workbench( const Character &you, const tripoint
 {
     std::unordered_set<tripoint> passable_tiles = std::unordered_set<tripoint>();
     map &here = get_map();
+    creature_tracker& creatures = get_creature_tracker();
     for( const tripoint &tp : here.points_in_radius( dest, 1 ) ) {
-        if( tp == you.pos() || here.passable( tp ) ) {
+        if( tp == you.pos() || ( here.passable( tp ) && !creatures.creature_at( tp ) ) ) {
             passable_tiles.emplace( tp );
         }
     }
