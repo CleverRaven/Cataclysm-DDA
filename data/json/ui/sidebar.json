@@ -611,6 +611,14 @@
     "//": "Uses display::hunger_text_color"
   },
   {
+    "id": "weary_malus_desc",
+    "type": "widget",
+    "label": "Weary Malus",
+    "style": "text",
+    "var": "weary_malus_text",
+    "//": "Uses display::weary_malus_text_color"
+  },
+  {
     "id": "weariness_desc",
     "type": "widget",
     "label": "Weariness",

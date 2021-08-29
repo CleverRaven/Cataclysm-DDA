@@ -59,6 +59,7 @@ std::string weight_long_description( const Character &u );
 // Functions returning (text, color) pairs
 std::pair<translation, nc_color> weariness_text_color( size_t weariness );
 std::pair<std::string, nc_color> weariness_text_color( const Character &u );
+std::pair<std::string, nc_color> weary_malus_text_color( const Character &u );
 std::pair<std::string, nc_color> activity_text_color( const Character &u );
 std::pair<std::string, nc_color> thirst_text_color( const Character &u );
 std::pair<std::string, nc_color> hunger_text_color( const Character &u );

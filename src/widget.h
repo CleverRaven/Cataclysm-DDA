@@ -48,6 +48,7 @@ enum class widget_var : int {
     fatigue_text,   // Fagitue description text, color string
     weight_text,    // Weight description text, color string
     weariness_text, // Weariness description text, color string
+    weary_malus_text, // Weariness malus or penalty
     wielding_text,  // Currently wielded weapon or item name
     style_text,     // Active martial arts style name
     date_text,      // Current date, in terms of day within season

@@ -1058,6 +1058,18 @@ std::pair<translation, nc_color> display::weariness_text_color( size_t weariness
     return weary_descriptions[weariness];
 }
 
+std::pair<std::string, nc_color> display::weary_malus_text_color( const Character &u )
+{
+    const float act_level = u.instantaneous_activity_level();
+    nc_color act_color;
+    if( u.exertion_adjusted_move_multiplier( act_level ) < 1.0 ) {
+        act_color = c_red;
+    } else {
+        act_color = c_light_gray;
+    }
+    return std::make_pair( display::activity_malus_str( u ), act_color );
+}
+
 std::string display::activity_level_str( float level )
 {
     static const std::array<translation, 6> activity_descriptions { {
