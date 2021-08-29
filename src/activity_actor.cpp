@@ -4177,12 +4177,16 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
         target = act.targets.back();
         act.position = target->charges;
     }
+
     act.targets.pop_back();
 
     if( !check_if_disassemble_okay( target, who ) ) {
         act.set_to_null();
         return;
     }
+
+    // Mark the item, not available for other characters
+    target->set_var( "avtivity_var", who.name );
 
     act.moves_left = calendar::INDEFINITELY_LONG;
     activity_override = target->get_making().exertion_level();
@@ -4224,6 +4228,13 @@ void disassemble_activity_actor::do_turn( player_activity &act, Character &who )
 void disassemble_activity_actor::finish( player_activity &act, Character & )
 {
     act.set_to_null();
+}
+
+void disassemble_activity_actor::canceled( player_activity &, Character & )
+{
+    if( target.get_item() ) {
+        target->erase_var( "activity_var" );
+    }
 }
 
 float disassemble_activity_actor::exertion_level() const

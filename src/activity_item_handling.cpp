@@ -754,6 +754,79 @@ std::vector<tripoint> route_adjacent( const Character &you, const tripoint &dest
     return std::vector<tripoint>();
 }
 
+std::vector<tripoint> route_best_workbench( const Character &you, const tripoint &dest )
+{
+    std::unordered_set<tripoint> passable_tiles = std::unordered_set<tripoint>();
+    map &here = get_map();
+    for( const tripoint &tp : here.points_in_radius( dest, 1 ) ) {
+        if( tp == you.pos() || here.passable( tp ) ) {
+            passable_tiles.emplace( tp );
+        }
+    }
+    // Make sure current tile is at first
+    // so that the "best" tile doesn't change on reaching our destination
+    // if we are near the best workbench
+    std::vector<tripoint> sorted = get_sorted_tiles_by_distance( you.pos(), passable_tiles );
+
+    const auto cmp = [&]( tripoint a, tripoint b ) {
+        float best_bench_multi_a = 0.0f;
+        float best_bench_multi_b = 0.0f;
+        for( const tripoint &adj : here.points_in_radius( a, 1 ) ) {
+            if( here.dangerous_field_at( adj ) ) {
+                continue;
+            }
+            if( const cata::value_ptr<furn_workbench_info> &wb = here.furn( adj ).obj().workbench ) {
+                if( wb->multiplier > best_bench_multi_a ) {
+                    best_bench_multi_a = wb->multiplier;
+                }
+            } else if( const cata::optional<vpart_reference> vp = here.veh_at(
+                           adj ).part_with_feature( "WORKBENCH", true ) ) {
+                if( const cata::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
+                    if( wb_info->multiplier > best_bench_multi_a ) {
+                        best_bench_multi_a = wb_info->multiplier;
+                    }
+                } else {
+                    debugmsg( "part '%s' with WORKBENCH flag has no workbench info", vp->part().name() );
+                }
+            }
+        }
+        for( const tripoint &adj : here.points_in_radius( b, 1 ) ) {
+            if( here.dangerous_field_at( adj ) ) {
+                continue;
+            }
+            if( const cata::value_ptr<furn_workbench_info> &wb = here.furn( adj ).obj().workbench ) {
+                if( wb->multiplier > best_bench_multi_b ) {
+                    best_bench_multi_b = wb->multiplier;
+                }
+            } else if( const cata::optional<vpart_reference> vp = here.veh_at(
+                           adj ).part_with_feature( "WORKBENCH", true ) ) {
+                if( const cata::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
+                    if( wb_info->multiplier > best_bench_multi_b ) {
+                        best_bench_multi_b = wb_info->multiplier;
+                    }
+                } else {
+                    debugmsg( "part '%s' with WORKBENCH flag has no workbench info", vp->part().name() );
+                }
+            }
+        }
+        return best_bench_multi_a > best_bench_multi_b;
+    };
+    std::stable_sort( sorted.begin(), sorted.end(), cmp );
+    const std::set<tripoint> &avoid = you.get_path_avoid();
+    if( sorted.front() == you.pos() ) {
+        // We are on the best tile
+        return std::vector<tripoint>();
+    }
+    for( const tripoint &tp : sorted ) {
+        std::vector<tripoint> route = here.route( you.pos(), tp, you.get_pathfinding_settings(), avoid );
+
+        if( !route.empty() ) {
+            return route;
+        }
+    }
+    return std::vector<tripoint>();
+
+}
 static activity_reason_info find_base_construction(
     const std::vector<construction> &list_constructions,
     Character &you,
@@ -1327,8 +1400,9 @@ static activity_reason_info can_do_activity_there( const activity_id &act, Chara
             i.erase_var( "activity_var" );
             if( i.is_disassemblable() ) {
                 // Are the requirements fulfilled?
-                req = recipe_dictionary::get_uncraft(
-                          i.typeId() ).disassembly_requirements();
+                const recipe &r = recipe_dictionary::get_uncraft( ( i.typeId() == itype_id( "disassembly" ) ) ?
+                                  i.components.front().typeId() : i.typeId() );
+                const auto &req = r.disassembly_requirements();
                 if( !std::all_of( req.get_qualities().begin(),
                 req.get_qualities().end(), [&inv]( const std::vector<quality_requirement> &cur ) {
                 return cur.empty() ||
@@ -2744,8 +2818,10 @@ static bool generic_multi_activity_do( Character &you, const activity_id &act_id
             if( elem.is_disassemblable() ) {
                 // Disassemble the checked one.
                 if( elem.get_var( "activity_var" ) == you.name ) {
-                    player_activity act = player_activity( disassemble_activity_actor( recipe_dictionary::get_uncraft(
-                            elem.typeId() ).time_to_craft_moves( you, recipe_time_flag::ignore_proficiencies ) ) );
+                    const auto &r = ( elem.typeId() == itype_id( "disassembly" ) ) ? elem.get_making() :
+                                    recipe_dictionary::get_uncraft( elem.typeId() );
+                    player_activity act = player_activity( disassemble_activity_actor( r.time_to_craft_moves( you,
+                                                           recipe_time_flag::ignore_proficiencies ) * std::max( 1, elem.charges ) ) );
                     act.targets.emplace_back( map_cursor( src_loc ), &elem );
                     act.placement = here.getabs( src_loc );
                     act.position = elem.charges;
@@ -2782,7 +2858,9 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
     // now loop through the work-spot tiles and judge whether its worth traveling to it yet
     // or if we need to fetch something first.
 
-    // sanity check: if a fetch act was assigned but no need to do that anymore, restore our task
+    // check: if a fetch act was assigned but no need to do that anymore, restore our task
+    // may cause infinite loop if something goes wrong
+    // Maybe it makes more harm than good? I don't know.
     if( activity_to_restore == activity_id( ACT_FETCH_REQUIRED ) && src_sorted.empty() ) {
         return true;
     }
@@ -2816,10 +2894,21 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
         } else if( req_res == requirement_check_result::RETURN_EARLY ) {
             return true;
         }
-
-        if( square_dist( you.pos(), src_loc ) > 1 ) {
-            std::vector<tripoint> route = route_adjacent( you, src_loc );
-
+        std::vector<tripoint> route_workbench;
+        if( activity_to_restore == activity_id( ACT_MULTIPLE_DIS ) ) {
+            // returns empty vector if we can't reach best tile
+            // or we are already on the best tile
+            route_workbench = route_best_workbench( you, src_loc );
+        }
+        // If we are doing disassemble we need to stand on the "best" tile
+        if( square_dist( you.pos(), src_loc ) > 1 || !route_workbench.empty() ) {
+            std::vector<tripoint> route;
+            // find best workbench if possible
+            if( activity_to_restore == activity_id( ACT_MULTIPLE_DIS ) ) {
+                route = route_workbench;
+            } else {
+                route = route_adjacent( you, src_loc );
+            }
             // check if we found path to source / adjacent tile
             if( route.empty() ) {
                 check_npc_revert( you );
@@ -2839,6 +2928,7 @@ bool generic_multi_activity_handler( player_activity &act, Character &you, bool 
                 return true;
             }
         }
+
         // we checked if the work spot was in darkness earlier
         // but there is a niche case where the player is in darkness but the work spot is not
         // this can create infinite loops
