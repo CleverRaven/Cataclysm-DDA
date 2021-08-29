@@ -2951,10 +2951,7 @@ std::unique_ptr<activity_actor> craft_activity_actor::deserialize( JsonIn &jsin 
 
     data.read( "craft_loc", actor.craft_item );
     data.read( "long", actor.is_long );
-
-    if( actor.craft_item ) {
-        actor.activity_override = actor.craft_item->get_making().exertion_level();
-    }
+    data.read( "activity_override", actor.activity_override );
 
     return actor.clone();
 }
@@ -4257,6 +4254,7 @@ void disassemble_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "moves_total", moves_total );
     jsout.member( "target", target );
+    jsout.member( "activity_override", activity_override );
 
     jsout.end_object();
 }
@@ -4269,10 +4267,7 @@ std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonIn 
 
     data.read( "target", actor.target );
     data.read( "moves_total", actor.moves_total );
-
-    if( actor.target ) {
-        actor.activity_override = actor.target->get_making().exertion_level();
-    }
+    data.read( "activity_override", actor.activity_override );
 
     return actor.clone();
 }
