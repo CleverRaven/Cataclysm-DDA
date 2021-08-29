@@ -581,6 +581,8 @@ std::string talker_npc::give_item_to( const bool to_use )
     }
 
     if( taken ) {
+        // set the item given to be favorited so it's not dropped automatically
+        given.set_favorite( true );
         player_character.i_rem( &given );
         player_character.moves -= 100;
         me_npc->has_new_items = true;

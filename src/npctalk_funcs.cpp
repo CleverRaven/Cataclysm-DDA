@@ -743,15 +743,15 @@ void talk_function::buy_100_logs( npc &p )
 }
 
 /*
- * Function to make the npc drop non favorite items at their current position.
+ * Function to make the npc drop non favorite, worn or wielded items at their current position.
  */
 void talk_function::drop_items_in_place( npc &p )
 {
     std::vector<drop_or_stash_item_info> to_drop;
 
-    // add all non favorite items to the drop off list
+    // add all non favorite carried items to the drop off list
     for( const item_location &npcs_item : p.all_items_loc() ) {
-        if( !npcs_item->is_favorite ) {
+        if( npcs_item.where() != item_location::type::character && !npcs_item->is_favorite ) {
             to_drop.emplace_back( npcs_item, npcs_item->count() );
         }
     }

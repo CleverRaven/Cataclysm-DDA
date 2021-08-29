@@ -331,7 +331,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
                     ctxt.get_desc( "CONFIRM" ),
                     ctxt.get_desc( "QUIT" ),
                     ctxt.get_desc( "EXAMINE" ),
-                    ctxt.get_desc( "TOGGLE_FAVORITE", pgettext( "npc trade", "Favorite" ) ) );
+                    ctxt.get_desc( "TOGGLE_FAVORITE" ) );
 
     // Set up line drawings
     for( int i = 0; i < TERMX; i++ ) {
@@ -533,8 +533,8 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
-    // action to mark item(s) as favorite for the npc so he never drops it
-    ctxt.register_action( "TOGGLE_FAVORITE", to_translation( "Toggle favorite" ) );
+    // action to mark item(s) as favorite for the npc so they never drop it
+    ctxt.register_action( "TOGGLE_FAVORITE" );
     ctxt.register_action( "ANY_INPUT" );
 
     ui_adaptor ui;
