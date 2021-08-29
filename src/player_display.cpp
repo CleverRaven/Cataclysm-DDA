@@ -167,7 +167,7 @@ void Character::print_encumbrance( const catacurses::window &win, const int line
         // take into account the new encumbrance system for layers
         mvwprintz( win, point( 12, 1 + i ), encumb_color( e.encumbrance ), "%-3d", e.layer_penalty );
         // print warmth, tethered to right hand side of the window
-        mvwprintz( win, point( width - 6, 1 + i ), bodytemp_color( bp ), "(% 3d)",
+        mvwprintz( win, point( width - 6, 1 + i ), display::bodytemp_color( *this, bp ), "(% 3d)",
                    temperature_print_rescaling( get_part_temp_conv( bp ) ) );
     }
 

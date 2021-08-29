@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 
+#include "bodypart.h"
 #include "color.h"
 #include "coordinates.h"
 #include "translations.h"
@@ -82,6 +83,9 @@ std::pair<std::string, nc_color> str_text_color( const Character &p );
 std::pair<std::string, nc_color> dex_text_color( const Character &p );
 std::pair<std::string, nc_color> int_text_color( const Character &p );
 std::pair<std::string, nc_color> per_text_color( const Character &p );
+
+// Define color for displaying the body temperature
+nc_color bodytemp_color( const Character &u, const bodypart_id &bp );
 
 // Functions returning colorized string
 // gets the string that describes your weight

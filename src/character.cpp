@@ -13460,30 +13460,6 @@ bool Character::sees( const Creature &critter ) const
     return Creature::sees( critter );
 }
 
-nc_color Character::bodytemp_color( const bodypart_id &bp ) const
-{
-    nc_color color = c_light_gray; // default
-    const int temp_conv = get_part_temp_conv( bp );
-    if( bp == body_part_eyes ) {
-        color = c_light_gray;    // Eyes don't count towards warmth
-    } else if( temp_conv  > BODYTEMP_SCORCHING ) {
-        color = c_red;
-    } else if( temp_conv  > BODYTEMP_VERY_HOT ) {
-        color = c_light_red;
-    } else if( temp_conv  > BODYTEMP_HOT ) {
-        color = c_yellow;
-    } else if( temp_conv  > BODYTEMP_COLD ) {
-        color = c_green;
-    } else if( temp_conv  > BODYTEMP_VERY_COLD ) {
-        color = c_light_blue;
-    } else if( temp_conv  > BODYTEMP_FREEZING ) {
-        color = c_cyan;
-    } else {
-        color = c_blue;
-    }
-    return color;
-}
-
 void Character::set_destination( const std::vector<tripoint> &route,
                                  const player_activity &new_destination_activity )
 {

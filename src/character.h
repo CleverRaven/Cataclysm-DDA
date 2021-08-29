@@ -3028,8 +3028,6 @@ class Character : public Creature, public visitable
         // specific trap - it will consider visibile and known traps.
         bool knows_trap( const tripoint &pos ) const;
         void add_known_trap( const tripoint &pos, const trap &t );
-        /** Define color for displaying the body temperature */
-        nc_color bodytemp_color( const bodypart_id &bp ) const;
 
         // see Creature::sees
         bool sees( const tripoint &t, bool is_avatar = false, int range_mod = 0 ) const override;
