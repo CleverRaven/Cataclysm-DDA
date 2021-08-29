@@ -1934,18 +1934,29 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
+std::pair<std::string, nc_color> display::wind_text_color( const Character &u )
+{
+    const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
+    weather_manager &weather = get_weather();
+    double windpower = get_local_windpower( weather.windspeed, cur_om_ter,
+                                            u.pos(), weather.winddirection, g->is_sheltered( u.pos() ) );
+
+    // Wind descriptor followed by a directional arrow
+    const std::string wind_text = get_wind_desc( windpower ) + " " + get_wind_arrow(
+                                      weather.winddirection );
+
+    return std::make_pair( wind_text, get_wind_color( windpower ) );
+}
+
 static void render_wind( avatar &u, const catacurses::window &w, const std::string &formatstr )
 {
     werase( w );
     mvwprintz( w, point_zero, c_light_gray,
                //~ translation should not exceed 5 console cells
                string_format( formatstr, left_justify( _( "Wind" ), 5 ) ) );
-    const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
-    weather_manager &weather = get_weather();
-    double windpower = get_local_windpower( weather.windspeed, cur_om_ter,
-                                            u.pos(), weather.winddirection, g->is_sheltered( u.pos() ) );
-    mvwprintz( w, point( 8, 0 ), get_wind_color( windpower ),
-               get_wind_desc( windpower ) + " " + get_wind_arrow( weather.winddirection ) );
+
+    std::pair<std::string, nc_color> wind_pair = display::wind_text_color( u );
+    mvwprintz( w, point( 8, 0 ), wind_pair.second, wind_pair.first );
     wnoutrefresh( w );
 }
 
