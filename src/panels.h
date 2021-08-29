@@ -47,12 +47,15 @@ std::string temp_delta_string( const Character &u );
 
 // Text descriptor for given activity level, ex. "Light", "Brisk", "Extreme"
 std::string activity_level_str( float level );
+// gets the malus string for character's current activity level, like "+ 25%"
+std::string activity_malus_str( const Character &u );
 // gets the description, printed in player_display, related to your current bmi
 std::string weight_long_description( const Character &u );
 
 // Functions returning (text, color) pairs
 std::pair<translation, nc_color> weariness_text_color( size_t weariness );
 std::pair<std::string, nc_color> weariness_text_color( const Character &u );
+std::pair<std::string, nc_color> activity_text_color( const Character &u );
 std::pair<std::string, nc_color> thirst_text_color( const Character &u );
 std::pair<std::string, nc_color> hunger_text_color( const Character &u );
 std::pair<std::string, nc_color> weight_text_color( const Character &u );

@@ -1045,6 +1045,29 @@ std::string display::activity_level_str( float level )
     return activity_descriptions[idx].translated();
 }
 
+std::string display::activity_malus_str( const Character &u )
+{
+    const float act_level = u.instantaneous_activity_level();
+    const float exertion_mult = u.exertion_adjusted_move_multiplier( act_level ) ;
+    const int malus_value = ( 1 / exertion_mult ) * 100 - 100;
+    return string_format( "+%3d%%", malus_value );
+}
+
+std::pair<std::string, nc_color> display::activity_text_color( const Character &u )
+{
+    const float act_level = u.instantaneous_activity_level();
+    const std::string act_text = display::activity_level_str( act_level );
+
+    nc_color act_color;
+    if( u.exertion_adjusted_move_multiplier( act_level ) < 1.0 ) {
+        act_color = c_red;
+    } else {
+        act_color = c_light_gray;
+    }
+
+    return std::make_pair( _( act_text ), act_color );
+}
+
 std::pair<std::string, nc_color> display::thirst_text_color( const Character &u )
 {
     // some delay from water in stomach is desired, but there needs to be some visceral response
@@ -1294,14 +1317,7 @@ static void draw_stats( avatar &u, const catacurses::window &w )
                stat < 100 ? std::to_string( stat ) : "99+" );
 
     std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
-    const float activity = u.instantaneous_activity_level();
-
-    nc_color act_color;
-    if( u.exertion_adjusted_move_multiplier( activity ) < 1.0 ) {
-        act_color = c_red;
-    } else {
-        act_color = c_light_gray;
-    }
+    std::pair<std::string, nc_color> activity = display::activity_text_color( u );
 
     static const std::string weary_label = translate_marker( "WRY" );
     static const std::string activity_label = translate_marker( "ACT" );
@@ -1313,8 +1329,7 @@ static void draw_stats( avatar &u, const catacurses::window &w )
     mvwprintz( w, point_south, c_light_gray, _( weary_label ) );
     mvwprintz( w, point( wlabel_len + 1, 1 ), weary.second, weary.first );
     mvwprintz( w, point( act_start, 1 ), c_light_gray, _( activity_label ) );
-    mvwprintz( w, point( act_start + alabel_len + 1, 1 ), act_color,
-               display::activity_level_str( activity ) );
+    mvwprintz( w, point( act_start + alabel_len + 1, 1 ), activity.second, activity.first );
 
     wnoutrefresh( w );
 }
@@ -1608,14 +1623,7 @@ static void draw_stat_narrow( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 26, 2 ), safe_color(), g->safe_mode ? _( "On" ) : _( "Off" ) );
 
     std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
-    const float activity = u.instantaneous_activity_level();
-
-    nc_color act_color;
-    if( u.exertion_adjusted_move_multiplier( activity ) < 1.0 ) {
-        act_color = c_red;
-    } else {
-        act_color = c_light_gray;
-    }
+    std::pair<std::string, nc_color> activity = display::activity_text_color( u );
 
     static const std::string weary_label = translate_marker( "Weary:" );
     static const std::string activity_label = translate_marker( "Activ:" );
@@ -1627,8 +1635,7 @@ static void draw_stat_narrow( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 1, 3 ), c_light_gray, _( weary_label ) );
     mvwprintz( w, point( wlabel_len + 2, 3 ), weary.second, weary.first );
     mvwprintz( w, point( act_start, 3 ), c_light_gray, _( activity_label ) );
-    mvwprintz( w, point( act_start + alabel_len + 1, 3 ), act_color,
-               display::activity_level_str( activity ) );
+    mvwprintz( w, point( act_start + alabel_len + 1, 3 ), activity.second, activity.first );
 
     wnoutrefresh( w );
 }
@@ -1658,14 +1665,7 @@ static void draw_stat_wide( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 38, 1 ), safe_color(), g->safe_mode ? _( "On" ) : _( "Off" ) );
 
     std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
-    const float activity = u.instantaneous_activity_level();
-
-    nc_color act_color;
-    if( u.exertion_adjusted_move_multiplier( activity ) < 1.0 ) {
-        act_color = c_red;
-    } else {
-        act_color = c_light_gray;
-    }
+    std::pair<std::string, nc_color> activity = display::activity_text_color( u );
 
     static const std::string weary_label = translate_marker( "Weary:" );
     static const std::string activity_label = translate_marker( "Activ:" );
@@ -1677,8 +1677,7 @@ static void draw_stat_wide( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 1, 2 ), c_light_gray, _( weary_label ) );
     mvwprintz( w, point( wlabel_len + 2, 2 ), weary.second, weary.first );
     mvwprintz( w, point( act_start, 2 ), c_light_gray, _( activity_label ) );
-    mvwprintz( w, point( act_start + alabel_len + 1, 2 ), act_color,
-               display::activity_level_str( activity ) );
+    mvwprintz( w, point( act_start + alabel_len + 1, 2 ), activity.second, activity.first );
 
     wnoutrefresh( w );
 }
@@ -2344,105 +2343,53 @@ static void draw_hint( const avatar &, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
-static void draw_weariness( const avatar &u, const catacurses::window &w )
+// Draw weariness info for the avatar in the given window, with (x, y) offsets for its position,
+// and the option to use "wide labels" for the wide/classic layouts.
+static void draw_weariness_partial( const avatar &u, const catacurses::window &w,
+                                    const point start_pos,
+                                    const bool wide_labels )
 {
-    werase( w );
-
     std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
-    const float activity = u.instantaneous_activity_level();
-
-    nc_color act_color;
-    const float exertion_mult = u.exertion_adjusted_move_multiplier( activity ) ;
-    if( exertion_mult < 1.0 ) {
-        act_color = c_red;
-    } else {
-        act_color = c_light_gray;
-    }
+    std::pair<std::string, nc_color> activity = display::activity_text_color( u );
 
     std::pair<int, int> bar = u.weariness_transition_progress();
     std::pair<std::string, nc_color> weary_bar = get_hp_bar( bar.first, bar.second );
 
-    static const std::string progress_label = translate_marker( "Transition:" );
-    static const std::string malus_label = translate_marker( "Malus: " );
+    const std::string progress_label = wide_labels ? translate_marker( "Weary Transition:" ) :
+                                       translate_marker( "Transition:" );
+    const std::string malus_label = wide_labels ? translate_marker( "Weary Malus: " ) :
+                                    translate_marker( "Malus: " );
 
     const int wplabel_len = utf8_width( _( progress_label ) );
     const int malus_start = getmaxx( w ) - utf8_width( _( malus_label ) ) - 5;
-    const int malus = ( 1 / exertion_mult ) * 100 - 100;
 
-    const std::string malus_str = string_format( "%s+%3d%%", _( malus_label ), malus );
+    const std::string malus_str = string_format( "%s%s", _( malus_label ),
+                                  display::activity_malus_str( u ) );
 
-    mvwprintz( w, point_zero, c_light_gray, _( progress_label ) );
-    mvwprintz( w, point( wplabel_len + 1, 0 ), weary_bar.second, weary_bar.first );
-    mvwprintz( w, point( malus_start, 0 ), act_color, malus_str );
+    mvwprintz( w, start_pos, c_light_gray, _( progress_label ) );
+    mvwprintz( w, point( wplabel_len + 1, start_pos.y ), weary_bar.second, weary_bar.first );
+    mvwprintz( w, point( malus_start, start_pos.y ), activity.second, malus_str );
+    wnoutrefresh( w );
+}
 
+static void draw_weariness( const avatar &u, const catacurses::window &w )
+{
+    werase( w );
+    draw_weariness_partial( u, w, point_zero, false );
     wnoutrefresh( w );
 }
 
 static void draw_weariness_narrow( const avatar &u, const catacurses::window &w )
 {
     werase( w );
-
-    std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
-    const float activity = u.instantaneous_activity_level();
-
-    nc_color act_color;
-    const float exertion_mult = u.exertion_adjusted_move_multiplier( activity ) ;
-    if( exertion_mult < 1.0 ) {
-        act_color = c_red;
-    } else {
-        act_color = c_light_gray;
-    }
-
-    std::pair<int, int> bar = u.weariness_transition_progress();
-    std::pair<std::string, nc_color> weary_bar = get_hp_bar( bar.first, bar.second );
-
-    static const std::string progress_label = translate_marker( "Transition:" );
-    static const std::string malus_label = translate_marker( "Malus: " );
-
-    const int wplabel_len = utf8_width( _( progress_label ) );
-    const int malus_start = getmaxx( w ) - utf8_width( _( malus_label ) ) - 5;
-    const int malus = ( 1 / exertion_mult ) * 100 - 100;
-
-    const std::string malus_str = string_format( "%s+%3d%%", _( malus_label ), malus );
-
-    mvwprintz( w, point_east, c_light_gray, _( progress_label ) );
-    mvwprintz( w, point( wplabel_len + 1, 0 ), weary_bar.second, weary_bar.first );
-    mvwprintz( w, point( malus_start, 0 ), act_color, malus_str );
-
+    draw_weariness_partial( u, w, point_east, false );
     wnoutrefresh( w );
 }
 
 static void draw_weariness_wide( const avatar &u, const catacurses::window &w )
 {
     werase( w );
-
-    std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
-    const float activity = u.instantaneous_activity_level();
-
-    nc_color act_color;
-    const float exertion_mult = u.exertion_adjusted_move_multiplier( activity ) ;
-    if( exertion_mult < 1.0 ) {
-        act_color = c_red;
-    } else {
-        act_color = c_light_gray;
-    }
-
-    std::pair<int, int> bar = u.weariness_transition_progress();
-    std::pair<std::string, nc_color> weary_bar = get_hp_bar( bar.first, bar.second );
-
-    static const std::string progress_label = translate_marker( "Weary Transition:" );
-    static const std::string malus_label = translate_marker( "Weary Malus: " );
-
-    const int wplabel_len = utf8_width( _( progress_label ) );
-    const int malus_start = getmaxx( w ) - utf8_width( _( malus_label ) ) - 5;
-    const int malus = ( 1 / exertion_mult ) * 100 - 100;
-
-    const std::string malus_str = string_format( "%s+%3d%%", _( malus_label ), malus );
-
-    mvwprintz( w, point_east, c_light_gray, _( progress_label ) );
-    mvwprintz( w, point( wplabel_len + 1, 0 ), weary_bar.second, weary_bar.first );
-    mvwprintz( w, point( malus_start, 0 ), act_color, malus_str );
-
+    draw_weariness_partial( u, w, point_east, true );
     wnoutrefresh( w );
 }
 
@@ -2451,15 +2398,7 @@ static void draw_weariness_classic( const avatar &u, const catacurses::window &w
     werase( w );
 
     std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
-    const float activity = u.instantaneous_activity_level();
-
-    nc_color act_color;
-    const float exertion_mult = u.exertion_adjusted_move_multiplier( activity ) ;
-    if( exertion_mult < 1.0 ) {
-        act_color = c_red;
-    } else {
-        act_color = c_light_gray;
-    }
+    std::pair<std::string, nc_color> activity = display::activity_text_color( u );
 
     static const std::string weary_label = translate_marker( "Weariness:" );
     static const std::string activity_label = translate_marker( "Activity:" );
@@ -2471,24 +2410,9 @@ static void draw_weariness_classic( const avatar &u, const catacurses::window &w
     mvwprintz( w, point_zero, c_light_gray, _( weary_label ) );
     mvwprintz( w, point( wlabel_len + 1, 0 ), weary.second, weary.first );
     mvwprintz( w, point( act_start, 0 ), c_light_gray, _( activity_label ) );
-    mvwprintz( w, point( act_start + alabel_len + 1, 0 ), act_color,
-               display::activity_level_str( activity ) );
+    mvwprintz( w, point( act_start + alabel_len + 1, 0 ), activity.second, activity.first );
 
-    std::pair<int, int> bar = u.weariness_transition_progress();
-    std::pair<std::string, nc_color> weary_bar = get_hp_bar( bar.first, bar.second );
-
-    static const std::string progress_label = translate_marker( "Weary Transition:" );
-    static const std::string malus_label = translate_marker( "Weary Malus: " );
-
-    const int wplabel_len = utf8_width( _( progress_label ) );
-    const int malus_start = getmaxx( w ) - utf8_width( _( malus_label ) ) - 5;
-    const int malus = ( 1 / exertion_mult ) * 100 - 100;
-
-    const std::string malus_str = string_format( "%s+%3d%%", _( malus_label ), malus );
-
-    mvwprintz( w, point_south, c_light_gray, _( progress_label ) );
-    mvwprintz( w, point( wplabel_len + 1, 1 ), weary_bar.second, weary_bar.first );
-    mvwprintz( w, point( malus_start, 1 ), act_color, malus_str );
+    draw_weariness_partial( u, w, point_south, true );
 
     wnoutrefresh( w );
 }
