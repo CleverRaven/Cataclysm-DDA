@@ -147,15 +147,17 @@
     "id": "wallet_science_leather_full",
     "//": "copy-from: wallet_leather_full ",
     "container-item": "wallet_leather",
+    "on_overflow": "discard",
     "items": [
       { "item": "cash_card", "prob": 100, "charges-min": 0, "charges-max": 50000 },
       { "item": "id_science", "prob": 100 },
-      { "item": "money_ten", "prob": 100, "count": [ 5, 10 ] },
+      { "item": "id_science_visitor_1", "prob": 100 },
+      { "item": "money_ten", "prob": 30, "count": [ 5, 10 ] },
       { "item": "coin_quarter", "prob": 10, "count": [ 1, 2 ] },
       { "item": "coin_nickel", "prob": 10, "count": [ 1, 2 ] },
       { "group": "discount_cards", "prob": 40, "count": [ 1, 3 ] },
       { "item": "condom", "prob": 10 },
-      { "item": "labmap", "prob": 20 },
+      { "item": "labmap", "prob": 30 },
       [ "scorecard", 20 ]
     ]
   },
@@ -165,9 +167,11 @@
     "id": "wallet_science_full",
     "//": "copy-from: wallet_full ",
     "container-item": "wallet",
+    "on_overflow": "discard",
     "items": [
       { "item": "cash_card", "prob": 100, "charges-min": 0, "charges-max": 50000 },
       { "item": "id_science", "prob": 100 },
+      { "item": "id_science_visitor_1", "prob": 100 },
       { "item": "money_ten", "prob": 100, "count": [ 5, 10 ] },
       { "item": "coin_quarter", "prob": 10, "count": [ 1, 2 ] },
       { "item": "coin_nickel", "prob": 10, "count": [ 1, 2 ] },
@@ -183,8 +187,10 @@
     "id": "wallet_science_stylish_full",
     "//": "copy-from: wallet_stylish_full ",
     "container-item": "wallet_stylish",
+    "on_overflow": "discard",
     "items": [
       { "item": "id_science", "prob": 100 },
+      { "item": "id_science_visitor_1", "prob": 100 },
       { "item": "cash_card", "prob": 100, "charges-min": 10000, "charges-max": 50000 },
       { "item": "money_one", "prob": 100, "count": [ 10, 20 ] },
       { "item": "money_ten", "prob": 100, "count": [ 5, 10 ] },

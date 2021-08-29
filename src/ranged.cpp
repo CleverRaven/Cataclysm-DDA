@@ -725,7 +725,7 @@ int Character::fire_gun( const tripoint &target, int shots )
 int Character::fire_gun( const tripoint &target, int shots, item &gun )
 {
     if( !gun.is_gun() ) {
-        debugmsg( "%s tried to fire non-gun (%s).", name, gun.tname() );
+        debugmsg( "%s tried to fire non-gun (%s).", get_name(), gun.tname() );
         return 0;
     }
     bool is_mech_weapon = false;
@@ -2679,7 +2679,7 @@ bool target_ui::confirm_non_enemy_target()
 {
     npc *const who = dynamic_cast<npc *>( dst_critter );
     if( who && !who->guaranteed_hostile() ) {
-        return query_yn( _( "Really attack %s?" ), who->name.c_str() );
+        return query_yn( _( "Really attack %s?" ), who->get_name().c_str() );
     }
     return true;
 }

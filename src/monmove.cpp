@@ -2032,7 +2032,7 @@ void monster::knock_back_to( const tripoint &to )
         p->deal_damage( this, bodypart_id( "torso" ),
                         damage_instance( damage_type::BASH, static_cast<float>( type->size ) ) );
         if( u_see ) {
-            add_msg( _( "The %1$s bounces off %2$s!" ), name(), p->name );
+            add_msg( _( "The %1$s bounces off %2$s!" ), name(), p->get_name() );
         }
 
         p->check_dead_state();

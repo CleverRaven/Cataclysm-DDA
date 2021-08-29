@@ -44,38 +44,15 @@
     "type": "TOOLMOD",
     "category": "spare_parts",
     "name": { "str": "light battery mod" },
-    "description": "A battery compartment mod that allows the use of light batteries in tools that otherwise could not.",
+    "description": "A battery compartment mod that allows the use of light and ultra-light batteries in tools that otherwise could not.",
     "color": "light_green",
     "acceptable_ammo": [ "battery" ],
     "pocket_mods": [
       {
         "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [
-          "light_minus_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_disposable_cell"
-        ],
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg"
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_minus_battery_cell"
       }
-    ],
-    "magazine_adaptor": [
-      [
-        "battery",
-        [
-          "light_minus_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_disposable_cell"
-        ]
-      ]
     ]
   },
   {
@@ -88,18 +65,7 @@
     "color": "light_green",
     "acceptable_ammo": [ "battery" ],
     "pocket_mods": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg"
-      }
-    ],
-    "magazine_adaptor": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_MEDIUM" ], "default_magazine": "medium_battery_cell" }
     ]
   },
   {
@@ -112,15 +78,7 @@
     "color": "light_green",
     "acceptable_ammo": [ "battery" ],
     "pocket_mods": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "item_restriction": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ],
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg"
-      }
-    ],
-    "magazine_adaptor": [
-      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_HEAVY" ], "default_magazine": "heavy_battery_cell" }
     ]
   }
 ]

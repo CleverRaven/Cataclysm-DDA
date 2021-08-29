@@ -1348,6 +1348,7 @@ Those flags are added by the game code to specific items (for example, that spec
 - ```ARMOR``` Protects the other vehicle parts it's installed over during collisions.
 - ```ATOMIC_LIGHT```
 - ```BATTERY_MOUNT```
+- ```HANDHELD_BATTERY_MOUNT``` Same as BATTERY_MOUNT, but for handheld battery mount.
 - ```BED``` A bed where the player can sleep.
 - ```BEEPER``` Generates noise when the vehicle moves backward.
 - ```BELTABLE``` Seatbelt can be attached to this part.
@@ -1396,6 +1397,7 @@ Those flags are added by the game code to specific items (for example, that spec
 - ```MUSCLE_LEGS``` Power of the engine with such flag depends on player's strength.
 - ```NAILABLE``` Attached with nails
 - ```NEEDS_BATTERY_MOUNT```
+- ```NEEDS_HANDHELD_BATTERY_MOUNT``` Same as NEEDS_BATTERY_MOUNT, but for handheld battery mount.
 - ```NOINSTALL``` Cannot be installed.
 - ```NO_INSTALL_PLAYER``` Cannot be installed by a player, but can be installed on vehicles.
 - ```NO_MODIFY_VEHICLE``` Installing a part with this flag on a vehicle will mean that it can no longer be modified. Parts with this flag should not be installable by players.

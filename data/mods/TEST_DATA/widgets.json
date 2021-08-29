@@ -194,16 +194,16 @@
     "widgets": [ "test_str_num", "test_dex_num", "test_int_num", "test_per_num" ]
   },
   {
-    "id": "test_phrase_widget",
+    "id": "test_text_widget",
     "type": "widget",
     "label": "PHRASE",
-    "style": "phrase",
+    "style": "text",
     "strings": [ "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten" ]
   },
   {
     "id": "test_layout_list",
     "type": "widget",
     "style": "layout",
-    "widgets": [ "test_phrase_widget", "test_pool_graph", "test_number_widget" ]
+    "widgets": [ "test_text_widget", "test_pool_graph", "test_number_widget" ]
   }
 ]

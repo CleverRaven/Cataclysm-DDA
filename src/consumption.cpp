@@ -1774,7 +1774,7 @@ trinary Character::consume( item &target, bool force, bool refuel )
     if( target.is_craft() ) {
         add_msg_if_player( m_info, _( "You can't eat your %s." ), target.tname() );
         if( is_npc() ) {
-            debugmsg( "%s tried to eat a %s", name, target.tname() );
+            debugmsg( "%s tried to eat a %s", get_name(), target.tname() );
         }
         return trinary::NONE;
     }
