@@ -11,9 +11,11 @@
 #include "map_helpers.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "options_helpers.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "type_id.h"
+#include "weather.h"
 
 static int count_fields( const field_type_str_id &field_type )
 {
@@ -195,6 +197,8 @@ TEST_CASE( "fd_acid falls down", "[field]" )
 TEST_CASE( "fire spreading", "[field]" )
 {
     fields_test_setup();
+    scoped_weather_override weather_clear( WEATHER_CLEAR );
+    weather_clear.with_windspeed( 0 );
 
     const tripoint p{ 33, 33, 0 };
     const tripoint far_p = p + tripoint_east * 3;
