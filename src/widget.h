@@ -41,6 +41,7 @@ enum class widget_var : int {
     body_temp_text, // Felt body temperature, color string
     env_temp_text,  // Environment temperature, if character has thermometer
     mood_text,      // Mood as a text emote, color string
+    moon_phase_text,// Current phase of the moon
     pain_text,      // Pain description text, color string
     hunger_text,    // Hunger description text, color string
     thirst_text,    // Thirst description text, color string

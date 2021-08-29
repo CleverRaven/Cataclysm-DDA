@@ -563,6 +563,14 @@
     "//": "Uses display::morale_face_color"
   },
   {
+    "id": "moon_phase_desc",
+    "type": "widget",
+    "label": "Moon",
+    "style": "text",
+    "var": "moon_phase_text",
+    "//": "Uses display::get_moon"
+  },
+  {
     "id": "pain_desc",
     "type": "widget",
     "label": "Pain",
