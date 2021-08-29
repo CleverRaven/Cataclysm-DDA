@@ -2877,7 +2877,7 @@
     "looks_like": "helmet_barbute",
     "color": "light_gray",
     "armor": [
-      { "covers": [ "head" ], "coverage": 100, "encumbrance": 20 },
+      { "covers": [ "head" ], "coverage": 90, "encumbrance": 20 },
       { "covers": [ "eyes" ], "coverage": 60, "encumbrance": 20 }
     ],
     "warmth": 5,
