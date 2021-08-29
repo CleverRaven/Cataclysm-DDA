@@ -539,6 +539,14 @@
     "//": "Uses display::activity_text_color"
   },
   {
+    "id": "mood_desc",
+    "type": "widget",
+    "label": "Mood",
+    "style": "text",
+    "var": "mood_text",
+    "//": "Uses display::morale_face_color"
+  },
+  {
     "id": "pain_desc",
     "type": "widget",
     "label": "Pain",

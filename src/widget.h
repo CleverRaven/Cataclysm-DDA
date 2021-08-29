@@ -38,6 +38,7 @@ enum class widget_var : int {
     thirst,         // TODO
     mood,           // TODO
     activity_text,  // Activity level text, color string
+    mood_text,      // Mood as a text emote, color string
     pain_text,      // Pain description text, color string
     hunger_text,    // Hunger description text, color string
     thirst_text,    // Thirst description text, color string
