@@ -64,6 +64,8 @@ static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
 static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_got_checked( "got_checked" );
 static const efftype_id effect_hunger_blank( "hunger_blank" );
 static const efftype_id effect_hunger_engorged( "hunger_engorged" );
@@ -74,6 +76,7 @@ static const efftype_id effect_hunger_near_starving( "hunger_near_starving" );
 static const efftype_id effect_hunger_satisfied( "hunger_satisfied" );
 static const efftype_id effect_hunger_starving( "hunger_starving" );
 static const efftype_id effect_hunger_very_hungry( "hunger_very_hungry" );
+static const efftype_id effect_infected( "infected" );
 
 static const flag_id json_flag_THERMOMETER( "THERMOMETER" );
 static const flag_id json_flag_SPLINT( "SPLINT" );
@@ -971,7 +974,7 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
         } else {
             wmove( w, point( 11, i / 2 ) );
         }
-        wprintz( w, u.limb_color( bp, true, true, true ), str );
+        wprintz( w, display::limb_color( u, bp, true, true, true ), str );
         if( i % 2 == 0 ) {
             wmove( w, point( 5, i / 2 ) );
         } else {
@@ -1333,6 +1336,53 @@ nc_color display::encumb_color( const int level )
     return c_red;
 }
 
+nc_color display::limb_color( const Character &u, const bodypart_id &bp, bool bleed, bool bite,
+                              bool infect )
+{
+    if( bp == bodypart_str_id::NULL_ID() ) {
+        return c_light_gray;
+    }
+    int color_bit = 0;
+    nc_color i_color = c_light_gray;
+    const int intense = u.get_effect_int( effect_bleed, bp );
+    if( bleed && intense > 0 ) {
+        color_bit += 1;
+    }
+    if( bite && u.has_effect( effect_bite, bp.id() ) ) {
+        color_bit += 10;
+    }
+    if( infect && u.has_effect( effect_infected, bp.id() ) ) {
+        color_bit += 100;
+    }
+    switch( color_bit ) {
+        case 1:
+            i_color = colorize_bleeding_intensity( intense );
+            break;
+        case 10:
+            i_color = c_blue;
+            break;
+        case 100:
+            i_color = c_green;
+            break;
+        case 11:
+            if( intense < 21 ) {
+                i_color = c_magenta;
+            } else {
+                i_color = c_magenta_red;
+            }
+            break;
+        case 101:
+            if( intense < 21 ) {
+                i_color = c_yellow;
+            } else {
+                i_color = c_yellow_red;
+            }
+            break;
+    }
+
+    return i_color;
+}
+
 static void draw_stats( avatar &u, const catacurses::window &w )
 {
     werase( w );
@@ -1535,7 +1585,7 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
         std::string str = body_part_hp_bar_ui_text( bp );
         wmove( w, point( nx, ny ) );
         str = left_justify( str, 5 );
-        wprintz( w, u.limb_color( bp, true, true, true ), str + ":" );
+        wprintz( w, display::limb_color( u, bp, true, true, true ), str + ":" );
         i++;
     }
     wnoutrefresh( w );
@@ -1552,7 +1602,7 @@ static void draw_limb_wide( avatar &u, const catacurses::window &w )
         int nx = offset % 45;
         std::string str = string_format( " %s: ",
                                          left_justify( body_part_hp_bar_ui_text( bp ), 5 ) );
-        nc_color part_color = u.limb_color( bp, true, true, true );
+        nc_color part_color = display::limb_color( u, bp, true, true, true );
         print_colored_text( w, point( nx, ny ), part_color, c_white, str );
         draw_limb_health( u, w, bp );
         i++;
@@ -2007,7 +2057,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
          u.get_all_body_parts( get_body_part_flags::only_main | get_body_part_flags::sorted ) ) {
         const std::string str = body_part_hp_bar_ui_text( bp );
         wmove( w, point( 8, i ) );
-        wprintz( w, u.limb_color( bp, true, true, true ), str );
+        wprintz( w, display::limb_color( u, bp, true, true, true ), str );
         wmove( w, point( 14, i ) );
         draw_limb_health( u, w, bp );
         i++;
