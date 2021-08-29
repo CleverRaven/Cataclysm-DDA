@@ -205,6 +205,7 @@ TEST_CASE( "fire spreading", "[field]" )
 
     const auto check_spreading = [&]( const time_duration time_limit ) {
         const int time_limit_turns = to_turns<int>( time_limit );
+        REQUIRE( fields_test_turns() == 0 );
         while( !m.get_field( far_p, fd_fire ) && fields_test_turns() < time_limit_turns ) {
             calendar::turn += 1_turns;
             m.process_fields();
