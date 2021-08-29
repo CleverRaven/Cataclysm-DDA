@@ -10984,12 +10984,13 @@ void game::update_overmap_seen()
 
 void game::despawn_monster( monster &critter )
 {
+    critter.on_unload();
+    // hallucinations aren't stored, they come and go as they like
     if( !critter.is_hallucination() ) {
-        // hallucinations aren't stored, they come and go as they like,
+        // despawn_monster saves a copy of the monster in the overmap, so
+        // this must be called after on_unload (which updates state)
         overmap_buffer.despawn_monster( critter );
     }
-
-    critter.on_unload();
     remove_zombie( critter );
     // simulate it being dead so further processing of it (e.g. in monmove) will yield
     critter.set_hp( 0 );
