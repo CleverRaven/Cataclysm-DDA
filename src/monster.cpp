@@ -3121,9 +3121,10 @@ void monster::on_load()
     if( get_speed_base() < type->speed ) {
         int old_speed = get_speed_base();
         if( hp >= type->hp ) {
-            set_speed_base( type-> speed );
+            set_speed_base( type->speed );
         } else {
-            set_speed_base( std::min( old_speed + healed * type->speed / type->hp, type->speed ) );
+            set_speed_base( std::min( old_speed + std::ceil( heal_amount * type->speed / type->hp ),
+                                      type->speed ) );
         }
         healed_speed = get_speed_base() - old_speed;
     }
