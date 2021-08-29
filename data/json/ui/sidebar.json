@@ -622,6 +622,13 @@
     "var": "place_text"
   },
   {
+    "id": "power_desc",
+    "type": "widget",
+    "label": "Power",
+    "style": "text",
+    "var": "power_text"
+  },
+  {
     "id": "wind_desc",
     "type": "widget",
     "label": "Wind",
