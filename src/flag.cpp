@@ -190,6 +190,7 @@ const flag_id flag_NPC_SAFE( "NPC_SAFE" );
 const flag_id flag_NPC_THROWN( "NPC_THROWN" );
 const flag_id flag_NPC_THROW_NOW( "NPC_THROW_NOW" );
 const flag_id flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
+const flag_id flag_OLD_CURRENCY( "OLD_CURRENCY" );
 const flag_id flag_ONLY_ONE( "ONLY_ONE" );
 const flag_id flag_ORGANIC( "ORGANIC" );
 const flag_id flag_OUTER( "OUTER" );
@@ -362,6 +363,7 @@ void json_flag::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "requires_flag", requires_flag_ );
     optional( jo, was_loaded, "taste_mod", taste_mod_ );
     optional( jo, was_loaded, "restriction", restriction_ );
+    optional( jo, was_loaded, "name", name_ );
 }
 
 void json_flag::check_consistency()

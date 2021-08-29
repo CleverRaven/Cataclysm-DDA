@@ -173,6 +173,7 @@
     ],
     "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ] },
     "death_function": { "corpse_type": "BROKEN" },
+    "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
     "flags": [
       "SEES",
       "HEARS",
@@ -181,7 +182,7 @@
       "ELECTRONIC",
       "NO_BREATHE",
       "INTERIOR_AMMO",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER_1",
       "PRIORITIZE_TARGETS",
       "HIT_AND_RUN",
       "STUN_IMMUNE"

@@ -32,6 +32,7 @@
 #include "options.h"
 #include "overmap.h"
 #include "overmap_types.h"
+#include "path_info.h"
 #include "regional_settings.h"
 #include "scent_map.h"
 #include "stats_tracker.h"
@@ -1380,7 +1381,7 @@ void faction_manager::deserialize( JsonIn &jsin )
     }
 }
 
-void Creature_tracker::deserialize( JsonIn &jsin )
+void creature_tracker::deserialize( JsonIn &jsin )
 {
     monsters_list.clear();
     monsters_by_location.clear();
@@ -1393,7 +1394,7 @@ void Creature_tracker::deserialize( JsonIn &jsin )
     }
 }
 
-void Creature_tracker::serialize( JsonOut &jsout ) const
+void creature_tracker::serialize( JsonOut &jsout ) const
 {
     jsout.start_array();
     for( const auto &monster_ptr : monsters_list ) {

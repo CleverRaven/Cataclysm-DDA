@@ -10,6 +10,7 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "colony.h"
+#include "creature_tracker.h"
 #include "game.h"
 #include "item.h"
 #include "item_location.h"
@@ -33,12 +34,13 @@
 static monster *find_adjacent_monster( const tripoint &pos )
 {
     tripoint target = pos;
+    creature_tracker &creatures = get_creature_tracker();
     for( target.x = pos.x - 1; target.x <= pos.x + 1; target.x++ ) {
         for( target.y = pos.y - 1; target.y <= pos.y + 1; target.y++ ) {
             if( target == pos ) {
                 continue;
             }
-            if( monster *const candidate = g->critter_at<monster>( target ) ) {
+            if( monster *const candidate = creatures.creature_at<monster>( target ) ) {
                 return candidate;
             }
         }

@@ -116,7 +116,7 @@
     "update_mapgen_id": "magenta_security_card_spawn",
     "method": "json",
     "object": {
-      "place_loot": [ { "item": "id_science_security_magenta", "x": 21, "y": 14, "chance": 100 } ],
+      "place_loot": [ { "item": "id_science_security_magenta", "x": 21, "y": 14, "chance": 20 } ],
       "place_monster": [ { "monster": [ "mon_zombie_brute", "mon_zombie_bio_op" ], "x": 21, "y": 14, "chance": 100 } ]
     }
   },

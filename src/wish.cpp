@@ -457,22 +457,40 @@ void debug_menu::wisheffect( Character &p )
             }
 
             p.remove_effect( eff.get_id(), effectbp );
+            bool invalid_effect = false;
             if( duration > 0 ) {
                 p.add_effect( eff.get_id(), time_duration::from_seconds( duration ), effectbp, permanent );
-                eff = p.get_effect( eff.get_id(), effectbp );
+                // Some effects like bandages on a limb like foot_l
+                // cause a segmentation fault, check if it was applied first
+                const effect &new_effect = p.get_effect( eff.get_id(), effectbp );
+                if( !new_effect.is_null() ) {
+                    eff = new_effect;
+                } else {
+                    invalid_effect = true;
+                }
             } else {
                 eff.set_duration( 0_seconds );
             }
 
             entry.ctxt.clear();
-            int cur_duration = to_seconds<int>( p.get_effect_dur( eff.get_id(), effectbp ) );
-            if( cur_duration ) {
-                entry.ctxt = colorize( std::to_string( cur_duration ), c_yellow );
-                if( eff.is_permanent() ) {
-                    entry.ctxt += colorize( " PERMANENT", c_yellow );
+            entry.desc.clear();
+
+            if( invalid_effect ) {
+                entry.ctxt += colorize( _( "INVALID ON THIS LIMB" ), c_red );
+                entry.desc += colorize( _( "This effect can not be applied on this limb" ), c_red );
+                entry.desc += '\n';
+            } else {
+                int cur_duration = to_seconds<int>( p.get_effect_dur( eff.get_id(), effectbp ) );
+                if( cur_duration ) {
+                    entry.ctxt = colorize( std::to_string( cur_duration ), c_yellow );
+                    if( eff.is_permanent() ) {
+                        entry.ctxt += colorize( _( " PERMANENT" ), c_yellow );
+                    }
                 }
             }
-            entry.desc = effect_description( eff );
+
+            entry.desc += effect_description( eff );
+
         }
     } while( efmenu.ret != UILIST_CANCEL );
 }

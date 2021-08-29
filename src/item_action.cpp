@@ -152,7 +152,8 @@ item_action_map item_action_generator::map_actions_to_items( Character &you,
                    func->get_actor_ptr()->can_use( you, *actual_item, false, you.pos() ).success() ) ) {
                 continue;
             }
-            if( !actual_item->ammo_sufficient( &you ) ) {
+
+            if( !actual_item->ammo_sufficient( &you, use ) ) {
                 continue;
             }
 
@@ -289,11 +290,15 @@ void game::item_action_menu()
     []( const std::pair<item_action_id, item *> &elem ) {
         std::string ss = elem.second->display_name();
         if( elem.second->ammo_required() ) {
+
             if( elem.second->has_flag( flag_USES_BIONIC_POWER ) ) {
                 ss += string_format( "(%d kJ)", elem.second->ammo_required() );
             } else {
-                ss += string_format( "(-%d)", elem.second->ammo_required() );
+                auto iter = elem.second->type->ammo_scale.find( elem.first );
+                ss += string_format( "(-%d)", int( elem.second->ammo_required() * ( iter ==
+                                                   elem.second->type->ammo_scale.end() ? 1 : double( iter->second ) ) ) );
             }
+
         }
 
         const use_function *method = elem.second->get_use( elem.first );

@@ -1128,7 +1128,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     if( has_debug_vision || overmap_buffer.seen( center_abs_omt ) ) {
         for( const auto &npc : npcs_near_player ) {
             if( !npc->marked_for_death && npc->global_omt_location() == center_abs_omt ) {
-                notes_window_text.emplace_back( npc->basic_symbol_color(), npc->name );
+                notes_window_text.emplace_back( npc->basic_symbol_color(), npc->get_name() );
             }
         }
     }

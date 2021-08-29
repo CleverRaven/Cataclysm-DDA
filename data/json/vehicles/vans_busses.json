@@ -1790,6 +1790,7 @@
     ],
     "items": [
       { "x": -1, "y": 0, "chance": 7, "item_groups": [ "contraband" ] },
+      { "x": 0, "y": 0, "chance": 20, "items": [ "id_science_transport_1" ] },
       { "x": -1, "y": 2, "chance": 6, "item_groups": [ "contraband" ] },
       { "x": -2, "y": 0, "chance": 5, "item_groups": [ "contraband" ] },
       { "x": -2, "y": 2, "chance": 11, "item_groups": [ "contraband" ] },

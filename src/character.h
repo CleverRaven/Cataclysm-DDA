@@ -518,14 +518,8 @@ class Character : public Creature, public visitable
         virtual int get_starvation() const;
         virtual int get_thirst() const;
 
-        std::pair<std::string, nc_color> get_thirst_description() const;
-        std::pair<std::string, nc_color> get_hunger_description() const;
-        std::pair<std::string, nc_color> get_fatigue_description() const;
-        std::pair<std::string, nc_color> get_weight_description() const;
         int get_fatigue() const;
         int get_sleep_deprivation() const;
-
-        std::pair<std::string, nc_color> get_pain_description() const override;
 
         /** Modifiers for need values exclusive to characters */
         virtual void mod_stored_kcal( int nkcal, bool ignore_weariness = false );
@@ -995,8 +989,8 @@ class Character : public Creature, public visitable
                                   std::vector<Creature *> &targets );
     public:
 
-        /** This handles giving xp for a skill */
-        void practice( const skill_id &id, int amount, int cap = 99, bool suppress_warning = false );
+        /** This handles giving xp for a skill. Returns true on level-up. */
+        bool practice( const skill_id &id, int amount, int cap = 99, bool suppress_warning = false );
         /** This handles warning the player that there current activity will not give them xp */
         void handle_skill_warning( const skill_id &id, bool force_warning = false );
 
@@ -1571,7 +1565,7 @@ class Character : public Creature, public visitable
         bool has_max_power() const;
         bool enough_power_for( const bionic_id &bid ) const;
         /** Handles and displays detailed character info for the '@' screen */
-        void disp_info();
+        void disp_info( bool customize_character = false );
         void conduct_blood_analysis();
         // --------------- Generic Item Stuff ---------------
 
@@ -2046,7 +2040,7 @@ class Character : public Creature, public visitable
         bool has_prof_prereqs( const proficiency_id &prof ) const;
         void add_proficiency( const proficiency_id &prof, bool ignore_requirements = false );
         void lose_proficiency( const proficiency_id &prof, bool ignore_requirements = false );
-        void practice_proficiency( const proficiency_id &prof, const time_duration &amount,
+        bool practice_proficiency( const proficiency_id &prof, const time_duration &amount,
                                    const cata::optional<time_duration> &max = cata::nullopt );
         time_duration proficiency_training_needed( const proficiency_id &prof ) const;
         std::vector<display_proficiency> display_proficiencies() const;
@@ -2248,7 +2242,9 @@ class Character : public Creature, public visitable
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
         template <typename T> bool can_lift( const T &obj ) const;
         // --------------- Values ---------------
-        std::string name;
+        std::string name; // Save file name, pre-cataclysm name, invariable
+        // In-game name which you give to npcs or whoever asks, variable
+        cata::optional<std::string> play_name;
         bool male = false;
 
         bool is_dead = false;
@@ -2414,10 +2410,6 @@ class Character : public Creature, public visitable
         float metabolic_rate() const;
         // gets the max value healthy you can be, related to your weight
         int get_max_healthy() const;
-        // gets the string that describes your weight
-        std::string get_weight_string() const;
-        // gets the description, printed in player_display, related to your current bmi
-        std::string get_weight_long_description() const;
         // calculates the BMI
         float get_bmi() const;
         // returns amount of calories burned in a day given various metabolic factors
@@ -2851,11 +2843,10 @@ class Character : public Creature, public visitable
         int last_batch;
         itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
 
-        // Checks crafting inventory for books providing the requested recipe.
-        // Then checks nearby NPCs who could provide it too.
-        // Returns -1 to indicate recipe not found, otherwise difficulty to learn.
-        int has_recipe( const recipe *r, const inventory &crafting_inv,
-                        const std::vector<npc *> &helpers ) const;
+        // Returns true if the character knows the recipe, is near a book or device
+        // providing the recipe or a nearby NPC knows it.
+        bool has_recipe( const recipe *r, const inventory &crafting_inv,
+                         const std::vector<npc *> &helpers ) const;
         bool knows_recipe( const recipe *rec ) const;
         void learn_recipe( const recipe *rec );
         int exceeds_recipe_requirements( const recipe &rec ) const;
@@ -2943,18 +2934,20 @@ class Character : public Creature, public visitable
         std::vector<npc *> get_crafting_helpers() const;
         int get_num_crafting_helpers( int max ) const;
         /**
-         * Handle skill gain for player and followers during crafting
+         * Handle skill gain for player and followers during crafting.
+         * Returns true if character leveled up.
          * @param craft the currently in progress craft
          * @param num_practice_ticks to trigger.  This is used to apply
          * multiple steps of incremental skill gain simultaneously if needed.
          */
-        void craft_skill_gain( const item &craft, const int &num_practice_ticks );
+        bool craft_skill_gain( const item &craft, const int &num_practice_ticks );
         /**
-         * Handle proficiency practice for player and followers while crafting
+         * Handle proficiency practice for player and followers while crafting. Returns
+         * true if a proficiency is acquired.
          * @param craft - the in progress craft
          * @param time - the amount of time since the last practice tick
          */
-        void craft_proficiency_gain( const item &craft, const time_duration &time );
+        bool craft_proficiency_gain( const item &craft, const time_duration &time );
         /**
          * Check if the player can disassemble an item using the current crafting inventory
          * @param obj Object to check for disassembly

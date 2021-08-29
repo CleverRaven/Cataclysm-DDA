@@ -25,6 +25,7 @@
 #include "character.h"
 #include "color.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
@@ -724,7 +725,7 @@ int Character::fire_gun( const tripoint &target, int shots )
 int Character::fire_gun( const tripoint &target, int shots, item &gun )
 {
     if( !gun.is_gun() ) {
-        debugmsg( "%s tried to fire non-gun (%s).", name, gun.tname() );
+        debugmsg( "%s tried to fire non-gun (%s).", get_name(), gun.tname() );
         return 0;
     }
     bool is_mech_weapon = false;
@@ -1137,7 +1138,7 @@ dealt_projectile_attack Character::throw_item( const tripoint &target, const ite
         proj_effects.insert( "TANGLE" );
     }
 
-    Creature *critter = g->critter_at( target, true );
+    Creature *critter = get_creature_tracker().creature_at( target, true );
     const dispersion_sources dispersion( throwing_dispersion( thrown, critter,
                                          blind_throw_from_pos.has_value() ) );
     const itype *thrown_type = thrown.type;
@@ -1526,7 +1527,7 @@ static bool pl_sees( const Creature &cr )
 static double calculate_aim_cap( const Character &you, const tripoint &target )
 {
     double min_recoil = 0.0;
-    const Creature *victim = g->critter_at( target, true );
+    const Creature *victim = get_creature_tracker().creature_at( target, true );
     // No p.sees_with_specials() here because special senses are not precise enough
     // to give creature's exact size & position, only which tile it occupies
     if( victim == nullptr || ( !you.sees( *victim ) && !you.sees_with_infrared( *victim ) ) ) {
@@ -1581,7 +1582,7 @@ static void draw_throw_aim( const Character &you, const catacurses::window &w, i
                             input_context &ctxt,
                             const item &weapon, const tripoint &target_pos, bool is_blind_throw )
 {
-    Creature *target = g->critter_at( target_pos, true );
+    Creature *target = get_creature_tracker().creature_at( target_pos, true );
     if( target != nullptr && !you.sees( *target ) ) {
         target = nullptr;
     }
@@ -2511,7 +2512,7 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
 
     // Cache creature under cursor
     if( src != dst ) {
-        Creature *cr = g->critter_at( dst, true );
+        Creature *cr = get_creature_tracker().creature_at( dst, true );
         if( cr && pl_sees( *cr ) ) {
             dst_critter = cr;
         } else {
@@ -2622,7 +2623,7 @@ bool target_ui::try_reacquire_target( bool critter, tripoint &new_dst )
     if( dist_fn( local_lt ) <= range ) {
         new_dst = local_lt;
         // Abort aiming if a creature moved in
-        return !critter && !g->critter_at( local_lt, true );
+        return !critter && !get_creature_tracker().creature_at( local_lt, true );
     }
 
     // We moved out of range
@@ -2678,7 +2679,7 @@ bool target_ui::confirm_non_enemy_target()
 {
     npc *const who = dynamic_cast<npc *>( dst_critter );
     if( who && !who->guaranteed_hostile() ) {
-        return query_yn( _( "Really attack %s?" ), who->name.c_str() );
+        return query_yn( _( "Really attack %s?" ), who->get_name().c_str() );
     }
     return true;
 }
@@ -2726,9 +2727,10 @@ std::vector<weak_ptr_fast<Creature>> target_ui::list_friendlies_in_lof()
         debugmsg( "Not implemented" );
         return ret;
     }
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &p : traj ) {
         if( p != dst && p != src ) {
-            Creature *cr = g->critter_at( p, true );
+            Creature *cr = creatures.creature_at( p, true );
             if( cr && you->sees( *cr ) ) {
                 Creature::Attitude a = cr->attitude_to( *this->you );
                 if(
@@ -3007,7 +3009,7 @@ bool target_ui::action_aim_and_shoot( const std::string &action )
     // If no critter is at dst then sight dispersion does not apply,
     // so it would lock into an infinite loop.
     bool done_aiming = you->recoil <= aim_threshold || you->recoil - sight_dispersion == min_recoil ||
-                       ( !g->critter_at( dst ) && you->recoil == min_recoil );
+                       ( !get_creature_tracker().creature_at( dst ) && you->recoil == min_recoil );
     return done_aiming;
 }
 

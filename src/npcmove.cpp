@@ -22,6 +22,7 @@
 #include "character_id.h"
 #include "clzones.h"
 #include "colony.h"
+#include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
@@ -233,8 +234,9 @@ static bool clear_shot_reach( const tripoint &from, const tripoint &to, bool che
 {
     std::vector<tripoint> path = line_to( from, to );
     path.pop_back();
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &p : path ) {
-        Creature *inter = g->critter_at( p );
+        Creature *inter = creatures.creature_at( p );
         if( check_ally && inter != nullptr ) {
             return false;
         }
@@ -711,10 +713,11 @@ void npc::regen_ai_cache()
 {
     map &here = get_map();
     auto i = std::begin( ai_cache.sound_alerts );
+    creature_tracker &creatures = get_creature_tracker();
     while( i != std::end( ai_cache.sound_alerts ) ) {
         if( sees( here.getlocal( i->abs_pos ) ) ) {
             // if they were responding to a call for guards because of thievery
-            npc *const sound_source = g->critter_at<npc>( here.getlocal( i->abs_pos ) );
+            npc *const sound_source = creatures.creature_at<npc>( here.getlocal( i->abs_pos ) );
             if( sound_source ) {
                 if( my_fac == sound_source->my_fac && sound_source->known_stolen_item ) {
                     sound_source->known_stolen_item = nullptr;
@@ -792,7 +795,7 @@ void npc::move()
     const Creature *target = current_target();
     const std::string &target_name = target != nullptr ? target->disp_name() : no_target_str;
     add_msg_debug( debugmode::DF_NPC, "NPC %s: target = %s, danger = %.1f, range = %d",
-                   name, target_name, ai_cache.danger, weapon.is_gun() ? confident_shoot_range( weapon,
+                   get_name(), target_name, ai_cache.danger, weapon.is_gun() ? confident_shoot_range( weapon,
                            recoil_total() ) : weapon.reach_range( *this ) );
 
     Character &player_character = get_player_character();
@@ -801,7 +804,8 @@ void npc::move()
         if( is_player_ally() ) {
             mutiny();
         }
-        add_msg_debug( debugmode::DF_NPC, "NPC %s turning hostile because is guaranteed_hostile()", name );
+        add_msg_debug( debugmode::DF_NPC, "NPC %s turning hostile because is guaranteed_hostile()",
+                       get_name() );
         if( op_of_u.fear > 10 + personality.aggression + personality.bravery ) {
             set_attitude( NPCATT_FLEE_TEMP );    // We don't want to take u on!
         } else {
@@ -875,12 +879,12 @@ void npc::move()
             }
         }
         if( action == npc_investigate_sound ) {
-            add_msg_debug( debugmode::DF_NPC, "NPC %s: investigating sound at x(%d) y(%d)", name,
+            add_msg_debug( debugmode::DF_NPC, "NPC %s: investigating sound at x(%d) y(%d)", get_name(),
                            ai_cache.s_abs_pos.x, ai_cache.s_abs_pos.y );
         }
     } else if( ai_cache.sound_alerts.empty() && ai_cache.guard_pos ) {
         tripoint return_guard_pos = *ai_cache.guard_pos;
-        add_msg_debug( debugmode::DF_NPC, "NPC %s: returning to guard spot at x(%d) y(%d)", name,
+        add_msg_debug( debugmode::DF_NPC, "NPC %s: returning to guard spot at x(%d) y(%d)", get_name(),
                        return_guard_pos.x, return_guard_pos.y );
         action = npc_return_to_guard_pos;
     } else {
@@ -1011,7 +1015,7 @@ void npc::move()
         action = method_of_attack();
     }
 
-    add_msg_debug( debugmode::DF_NPC, "%s chose action %s.", name, npc_action_name( action ) );
+    add_msg_debug( debugmode::DF_NPC, "%s chose action %s.", get_name(), npc_action_name( action ) );
     execute_action( action );
 }
 
@@ -1100,7 +1104,7 @@ void npc::execute_action( npc_action action )
                     activate_bionic_by_id( bio_soporific );
                     add_effect( effect_lying_down, 30_minutes, false, 1 );
                     if( !player_character.in_sleep_state() ) {
-                        add_msg_if_player_sees( *this, _( "%s lies down to sleep." ), name );
+                        add_msg_if_player_sees( *this, _( "%s lies down to sleep." ), get_name() );
                     }
                 }
             } else {
@@ -2236,8 +2240,9 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         path.clear();
         move_pause();
     }
+    creature_tracker &creatures = get_creature_tracker();
     bool attacking = false;
-    if( g->critter_at<monster>( p ) ) {
+    if( creatures.creature_at<monster>( p ) ) {
         attacking = true;
     }
     if( !move_effects( attacking ) ) {
@@ -2245,7 +2250,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         return;
     }
 
-    Creature *critter = g->critter_at( p );
+    Creature *critter = creatures.creature_at( p );
     if( critter != nullptr ) {
         if( critter == this ) { // We're just pausing!
             move_pause();
@@ -2354,11 +2359,11 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         ///\EFFECT_DEX_NPC increases chance to climb CLIMBABLE furniture or terrain
         int climb = get_dex();
         if( one_in( climb ) ) {
-            add_msg_if_npc( m_neutral, _( "%1$s tries to climb the %2$s but slips." ), name,
+            add_msg_if_npc( m_neutral, _( "%1$s tries to climb the %2$s but slips." ), get_name(),
                             here.tername( p ) );
             moves -= 400;
         } else {
-            add_msg_if_npc( m_neutral, _( "%1$s climbs over the %2$s." ), name, here.tername( p ) );
+            add_msg_if_npc( m_neutral, _( "%1$s climbs over the %2$s." ), get_name(), here.tername( p ) );
             moves -= ( 500 - ( rng( 0, climb ) * 20 ) );
             moved = true;
         }
@@ -2557,6 +2562,7 @@ bool npc::find_job_to_perform()
 void npc::worker_downtime()
 {
     map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
     // are we already in a chair
     if( here.has_flag_furn( "CAN_SIT", pos() ) ) {
         // just chill here
@@ -2582,7 +2588,8 @@ void npc::worker_downtime()
         // find a chair
         if( !is_mounted() ) {
             for( const tripoint &elem : here.points_in_radius( pos(), 30 ) ) {
-                if( here.has_flag_furn( "CAN_SIT", elem ) && !g->critter_at( elem ) && could_move_onto( elem ) &&
+                if( here.has_flag_furn( "CAN_SIT", elem ) && !creatures.creature_at( elem ) &&
+                    could_move_onto( elem ) &&
                     here.point_within_camp( here.getabs( elem ) ) ) {
                     // this one will do
                     chair_pos = here.getabs( elem );
@@ -2617,7 +2624,8 @@ void npc::worker_downtime()
         std::vector<tripoint> pts;
         for( const tripoint &elem : here.points_in_radius( here.getlocal( temp_camp->get_bb_pos() ),
                 10 ) ) {
-            if( g->critter_at( elem ) || !could_move_onto( elem ) || here.has_flag( TFLAG_DEEP_WATER, elem ) ||
+            if( creatures.creature_at( elem ) || !could_move_onto( elem ) ||
+                here.has_flag( TFLAG_DEEP_WATER, elem ) ||
                 !here.has_floor( elem ) || g->is_dangerous_tile( elem ) ) {
                 continue;
             }
@@ -2930,7 +2938,7 @@ void npc::pick_up_item()
     }
 
     if( !rules.has_flag( ally_rule::allow_pick_up ) && is_player_ally() ) {
-        add_msg_debug( debugmode::DF_NPC, "%s::pick_up_item(); Canceling on player's request", name );
+        add_msg_debug( debugmode::DF_NPC, "%s::pick_up_item(); Canceling on player's request", get_name() );
         fetching_item = false;
         moves -= 1;
         return;
@@ -2952,7 +2960,8 @@ void npc::pick_up_item()
         return;
     }
 
-    add_msg_debug( debugmode::DF_NPC, "%s::pick_up_item(); [ % d, % d, % d] => [ % d, % d, % d]", name,
+    add_msg_debug( debugmode::DF_NPC, "%s::pick_up_item(); [ % d, % d, % d] => [ % d, % d, % d]",
+                   get_name(),
                    posx(), posy(), posz(), wanted_item_pos.x, wanted_item_pos.y, wanted_item_pos.z );
     if( const cata::optional<tripoint> dest = nearest_passable( wanted_item_pos, pos() ) ) {
         update_path( *dest );
@@ -2995,14 +3004,14 @@ void npc::pick_up_item()
     bool u_see = player_view.sees( *this ) || player_view.sees( wanted_item_pos );
     if( u_see ) {
         if( picked_up.size() == 1 ) {
-            add_msg( _( "%1$s picks up a %2$s." ), name, picked_up.front().tname() );
+            add_msg( _( "%1$s picks up a %2$s." ), get_name(), picked_up.front().tname() );
         } else if( picked_up.size() == 2 ) {
-            add_msg( _( "%1$s picks up a %2$s and a %3$s." ), name, picked_up.front().tname(),
+            add_msg( _( "%1$s picks up a %2$s and a %3$s." ), get_name(), picked_up.front().tname(),
                      picked_up.back().tname() );
         } else if( picked_up.size() > 2 ) {
-            add_msg( _( "%s picks up several items." ), name );
+            add_msg( _( "%s picks up several items." ), get_name() );
         } else {
-            add_msg( _( "%s looks around nervously, as if searching for something." ), name );
+            add_msg( _( "%s looks around nervously, as if searching for something." ), get_name() );
         }
     }
 
@@ -3066,7 +3075,7 @@ void npc::drop_items( const units::mass &drop_weight, const units::volume &drop_
     add_msg_debug( debugmode::DF_NPC,
                    "%s is dropping items-%3.2f kg, %3.2f L (%d items, wgt %3.2f/%3.2f kg, "
                    "vol %3.2f/%3.2f L)",
-                   name, units::to_kilogram( drop_weight ), units::to_liter( drop_volume ), inv->size(),
+                   get_name(), units::to_kilogram( drop_weight ), units::to_liter( drop_volume ), inv->size(),
                    units::to_kilogram( weight_carried() ), units::to_kilogram( weight_capacity() ),
                    units::to_liter( volume_carried() ), units::to_liter( volume_capacity() ) );
 
@@ -3163,10 +3172,10 @@ void npc::drop_items( const units::mass &drop_weight, const units::volume &drop_
     // Finally, describe the action if u can see it
     if( num_items_dropped >= 3 ) {
         add_msg_if_player_sees( *this, ngettext( "%s drops %d item.", "%s drops %d items.",
-                                num_items_dropped ), name,
+                                num_items_dropped ), get_name(),
                                 num_items_dropped );
     } else {
-        add_msg_if_player_sees( *this, _( "%1$s drops a %2$s." ), name, item_name );
+        add_msg_if_player_sees( *this, _( "%1$s drops a %2$s." ), get_name(), item_name );
     }
     update_worst_item_value();
 }
@@ -3394,7 +3403,7 @@ bool npc::wield_better_weapon()
 
 bool npc::scan_new_items()
 {
-    add_msg_debug( debugmode::DF_NPC, "%s scanning new items", name );
+    add_msg_debug( debugmode::DF_NPC, "%s scanning new items", get_name() );
     if( wield_better_weapon() ) {
         return true;
     } else {
@@ -3408,7 +3417,7 @@ bool npc::scan_new_items()
 
 static void npc_throw( npc &np, item &it, const tripoint &pos )
 {
-    add_msg_if_player_sees( np, _( "%1$s throws a %2$s." ), np.name, it.tname() );
+    add_msg_if_player_sees( np, _( "%1$s throws a %2$s." ), np.get_name(), it.tname() );
 
     int stack_size = -1;
     if( it.count_by_charges() ) {
@@ -3517,10 +3526,11 @@ bool npc::alt_attack()
     }
 
     map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
     // We need to throw this live (grenade, etc) NOW! Pick another target?
     for( int dist = 2; dist <= conf; dist++ ) {
         for( const tripoint &pt : here.points_in_radius( pos(), dist ) ) {
-            const monster *const target_ptr = g->critter_at<monster>( pt );
+            const monster *const target_ptr = creatures.creature_at<monster>( pt );
             int newdist = rl_dist( pos(), pt );
             // TODO: Change "newdist >= 2" to "newdist >= safe_distance(used)"
             if( newdist <= conf && newdist >= 2 && target_ptr &&
@@ -3886,7 +3896,7 @@ bool npc::consume_food()
                 //       for a while.
                 moves -= to_moves<int>( consume_time );
             } else {
-                debugmsg( "%s failed to consume %s", name, best_food->tname() );
+                debugmsg( "%s failed to consume %s", get_name(), best_food->tname() );
             }
         }
 
@@ -3918,10 +3928,10 @@ void npc::mug_player( Character &mark )
         // Describe the action
         if( mark.is_npc() ) {
             if( u_see ) {
-                add_msg( _( "%1$s takes %2$s's money!" ), name, mark.name );
+                add_msg( _( "%1$s takes %2$s's money!" ), get_name(), mark.get_name() );
             }
         } else {
-            add_msg( m_bad, _( "%s takes your money!" ), name );
+            add_msg( m_bad, _( "%s takes your money!" ), get_name() );
         }
         return;
     }
@@ -3965,10 +3975,10 @@ void npc::mug_player( Character &mark )
     }
     if( mark.is_npc() ) {
         if( u_see ) {
-            add_msg( _( "%1$s takes %2$s's %3$s." ), name, mark.name, stolen.tname() );
+            add_msg( _( "%1$s takes %2$s's %3$s." ), get_name(), mark.get_name(), stolen.tname() );
         }
     } else {
-        add_msg( m_bad, _( "%1$s takes your %2$s." ), name, stolen.tname() );
+        add_msg( m_bad, _( "%1$s takes your %2$s." ), get_name(), stolen.tname() );
     }
     moves -= 100;
     if( !mark.is_npc() ) {
@@ -4232,7 +4242,7 @@ void npc::go_to_omt_destination()
         }
     }
     path = here.route( pos(), centre_sub, get_pathfinding_settings(), get_path_avoid() );
-    add_msg_debug( debugmode::DF_NPC, "%s going %s->%s", name, omt_pos.to_string_writable(),
+    add_msg_debug( debugmode::DF_NPC, "%s going %s->%s", get_name(), omt_pos.to_string_writable(),
                    goal.to_string_writable() );
 
     if( !path.empty() ) {
@@ -4584,7 +4594,7 @@ void npc::do_reload( const item &it )
     recoil = MAX_RECOIL;
 
     if( get_player_view().sees( *this ) ) {
-        add_msg( _( "%1$s reloads their %2$s." ), name, it.tname() );
+        add_msg( _( "%1$s reloads their %2$s." ), get_name(), it.tname() );
         sfx::play_variant_sound( "reload", it.typeId().str(), sfx::get_heard_volume( pos() ),
                                  sfx::get_heard_angle( pos() ) );
     }

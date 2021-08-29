@@ -7,6 +7,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
 #include "event.h"
@@ -79,7 +80,7 @@ bool teleport::teleport_to_point( Creature &critter, const tripoint &target, boo
 
     }
     //handles telefragging other creatures
-    if( Creature *const poor_soul = g->critter_at<Creature>( target ) ) {
+    if( Creature *const poor_soul = get_creature_tracker().creature_at<Creature>( target ) ) {
         Character *const poor_player = dynamic_cast<Character *>( poor_soul );
         if( safe ) {
             if( c_is_u ) {
