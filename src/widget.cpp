@@ -108,6 +108,8 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "date_text";
         case widget_var::place_text:
             return "place_text";
+        case widget_var::wind_text:
+            return "wind_text";
         case widget_var::lighting_text:
             return "lighting_text";
         case widget_var::safe_mode_text:
@@ -306,6 +308,7 @@ bool widget::uses_text_function()
         case widget_var::style_text:
         case widget_var::date_text:
         case widget_var::place_text:
+        case widget_var::wind_text:
         case widget_var::lighting_text:
         case widget_var::safe_mode_text:
             return true;
@@ -352,6 +355,9 @@ std::string widget::color_text_function_string( const avatar &ava )
             break;
         case widget_var::place_text:
             desc.first = overmap_buffer.ter( ava.global_omt_location() )->get_name();
+            break;
+        case widget_var::wind_text:
+            desc = display::wind_text_color( ava );
             break;
         case widget_var::lighting_text:
             desc = get_light_level( ava.fine_detail_vision_mod() );

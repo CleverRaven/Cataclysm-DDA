@@ -607,6 +607,13 @@
     "var": "place_text"
   },
   {
+    "id": "wind_desc",
+    "type": "widget",
+    "label": "Wind",
+    "style": "text",
+    "var": "wind_text"
+  },
+  {
     "id": "lighting_desc",
     "type": "widget",
     "label": "Lighting",
