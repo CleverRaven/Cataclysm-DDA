@@ -91,6 +91,7 @@ Monsters may also have any of these optional properties:
 | `zombify_into`           | (string) mtype_id this monster zombifies into after it's death
 | `fungalize_into`         | (string) mtype_id this monster turns into when fungalized by spores
 | `shearing`               | (array of objects) Items produced when the monster is sheared
+| `speed_description`      | (string) ID of a `speed_description` type describing the monster speed string
 
 Properties in the above tables are explained in more detail in the sections below.
 
@@ -462,6 +463,15 @@ A set of items that are given to the player when they shear this monster. These 
 ```
 
 This means that when this monster is sheared, it will give: 100 units of wool, 10 to 100 pieces of rag, 25% of its body mass as leather and 60% of its volume as wool.
+
+## "speed_description"
+(string, optional)
+
+By default monsters will use the `"DEFAULT"` speed description.
+
+```JSON
+"speed_description": "SPEED_DESCRIPTION_ID"
+```
 
 ## "special_when_hit"
 (array, optional)

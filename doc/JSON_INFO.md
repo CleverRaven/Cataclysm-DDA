@@ -469,6 +469,7 @@ Here's a quick summary of what each of the JSON files contain, broken down by fo
 | `skills.json`                 | skill descriptions and ID's
 | `snippets.json`               | flier/poster descriptions
 | `species.json`                | monster species
+| `speed_descripton.json`       | monster speed description
 | `speech.json`                 | monster vocalizations
 | `statistics.json`             | statistics and transformations used to define scores and achievements
 | `start_locations.json`        | starting locations for scenarios
@@ -1835,6 +1836,49 @@ it is present to help catch errors.
 "description" : "Your skill with submachine guns and machine pistols. Halfway between a pistol and an assault rifle, these weapons fire and reload quickly, and may fire in bursts, but they are not very accurate.", // In-game description
 "tags" : ["gun_type"]  // Special flags (default: none)
 ```
+
+### Speed Description
+
+```C++
+{
+    "type": "speed_description",
+    "id": "mon_speed_centipede",
+    "values": [ // (optional)
+        {
+            // value is mandatory
+            "value": 1.40,
+            // description is optional
+            "descriptions": "Absurdly faster than you", // single description
+        },
+        {
+            "value": 1.00,
+            "descriptions": [ // array of descriptions, chosen randomly when called
+                "Roughly around the same speed",
+                "At a similar pace as you"
+            ]
+        },
+        {
+            "value": 0.01,
+            "descriptions": [ // array of descriptions, chosen randomly when called
+                "Barely moving",
+                "Is it even alive?"
+            ]
+        },
+        {
+            "value": 0.00, // immobile monsters have it set to zero
+            "descriptions": [ "It's immobile" ] // array of descriptions with a single description
+        }
+    ]
+}
+```
+
+There won't be any errors on two `values` with the same `value` but avoid it as one of them won't get called.
+
+Currently the ratio for values is `player_tiles_per_turn / monster_speed_rating`. The monster speed rating is their `effective_speed / 100`, their effective speed is equal to the monster speed, but the leap ability increases it by `50`.
+
+Values are checked from highest first, the order they're defined in doesn't matter since they get sorted, but keep them organized anyway.
+
+**Having a value of `0.00`** is important but not necessary, as it's used in case the ratio turns zero for whatever reason ( like monster has the flag `MF_IMMOBILE` ). If the ratio is zero and this value doesn't exist, the returned string will be empty.
 
 ### Traits/Mutations
 
