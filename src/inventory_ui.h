@@ -106,6 +106,11 @@ class inventory_entry
         bool is_category() const {
             return !is_null() && !is_item();
         }
+        /**
+        *  Whether it is hidden in inventory screen.
+        * */
+        bool is_hidden() const;
+
         /** Whether the entry can be selected */
         bool is_selectable() const {
             return is_item() && enabled;
@@ -313,6 +318,8 @@ class inventory_column
         void clear();
         void set_stack_favorite( std::vector<item_location> &locations, bool favorite );
 
+        void set_collapsed( std::vector<item_location> &locations, const bool collapse );
+
         /** Selects the specified location. */
         bool select( const item_location &loc );
 
@@ -497,7 +504,7 @@ class inventory_selector
         void add_contained_items( item_location &container, inventory_column &column,
                                   const item_category *custom_category = nullptr );
         void add_contained_ebooks( item_location &container );
-        void add_character_items( Character &character );
+        void add_character_items( Character &character, const bool include_hidden = true );
         void add_map_items( const tripoint &target );
         void add_vehicle_items( const tripoint &target );
         void add_nearby_items( int radius = 1 );
@@ -548,7 +555,8 @@ class inventory_selector
 
         void add_item( inventory_column &target_column,
                        item_location &&location,
-                       const item_category *custom_category = nullptr );
+                       const item_category *custom_category = nullptr,
+                       const bool include_hidden = true );
 
         void add_items( inventory_column &target_column,
                         const std::function<item_location( item * )> &locator,

@@ -121,7 +121,8 @@ static item_location_filter convert_filter( const item_filter &filter )
 static item_location inv_internal( Character &u, const inventory_selector_preset &preset,
                                    const std::string &title, int radius,
                                    const std::string &none_message,
-                                   const std::string &hint = std::string() )
+                                   const std::string &hint = std::string(),
+                                   item_location container = item_location() )
 {
     inventory_pick_selector inv_s( u, preset );
 
@@ -139,8 +140,15 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
     u.inv->restack( u );
 
     inv_s.clear_items();
-    inv_s.add_character_items( u );
-    inv_s.add_nearby_items( radius );
+
+    if( container ) {
+        // Only look inside the container.
+        inv_s.add_contained_items( container );
+    } else {
+        // Default behavior.
+        inv_s.add_character_items( u );
+        inv_s.add_nearby_items( radius );
+    }
 
     if( u.has_activity( consuming ) ) {
         if( !u.activity.str_values.empty() ) {
@@ -182,7 +190,7 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
 void game_menus::inv::common( avatar &you )
 {
     // Return to inventory menu on those inputs
-    static const std::set<int> loop_options = { { '\0', '=', 'f' } };
+    static const std::set<int> loop_options = { { '\0', '=', 'f', '<', '>'}};
 
     inventory_pick_selector inv_s( you );
 
@@ -198,7 +206,7 @@ void game_menus::inv::common( avatar &you )
     do {
         you.inv->restack( you );
         inv_s.clear_items();
-        inv_s.add_character_items( you );
+        inv_s.add_character_items( you, false );
         inv_s.set_filter( filter );
         if( location != item_location::nowhere ) {
             inv_s.select( location );
@@ -972,7 +980,7 @@ static std::string get_consume_needs_hint( Character &you )
     return hint;
 }
 
-item_location game_menus::inv::consume( avatar &you )
+item_location game_menus::inv::consume( avatar &you, const item_location loc )
 {
     if( !you.has_activity( ACT_EAT_MENU ) ) {
         you.assign_activity( ACT_EAT_MENU );
@@ -982,7 +990,8 @@ item_location game_menus::inv::consume( avatar &you )
     return inv_internal( you, comestible_inventory_preset( you ),
                          _( "Consume item" ), 1,
                          none_message,
-                         get_consume_needs_hint( you ) );
+                         get_consume_needs_hint( you ),
+                         loc );
 }
 
 class comestible_filtered_inventory_preset : public comestible_inventory_preset
@@ -1740,7 +1749,7 @@ drop_locations game_menus::inv::multidrop( avatar &you )
 
     inventory_drop_selector inv_s( you, preset );
 
-    inv_s.add_character_items( you );
+    inv_s.add_character_items( you, false );
     inv_s.set_title( _( "Multidrop" ) );
     inv_s.set_hint( _( "To drop x items, type a number before selecting." ) );
 

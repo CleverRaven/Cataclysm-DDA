@@ -1715,6 +1715,20 @@
   },
   {
     "type": "keybinding",
+    "id": "HIDE_CONTENTS",
+    "category": "INVENTORY",
+    "name": "Hide contents",
+    "bindings": [ { "input_method": "keyboard_char", "key": ">" }, { "input_method": "keyboard_code", "key": ".", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SHOW_CONTENTS",
+    "category": "INVENTORY",
+    "name": "Hide contents",
+    "bindings": [ { "input_method": "keyboard_char", "key": "<" }, { "input_method": "keyboard_code", "key": ",", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_EXAMINE",
     "category": "BIONICS",
     "name": "Toggle activate/examine",

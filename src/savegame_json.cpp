@@ -245,6 +245,7 @@ void item_pocket::favorite_settings::serialize( JsonOut &json ) const
     json.member( "item_blacklist", item_blacklist );
     json.member( "category_whitelist", category_whitelist );
     json.member( "category_blacklist", category_blacklist );
+    json.member( "collapsed", collapsed );
     json.end_object();
 }
 
@@ -257,6 +258,9 @@ void item_pocket::favorite_settings::deserialize( JsonIn &jsin )
     data.read( "item_blacklist", item_blacklist );
     data.read( "category_whitelist", category_whitelist );
     data.read( "category_blacklist", category_blacklist );
+    if( data.has_member( "collapsed" ) ) {
+        data.read( "collapsed", collapsed );
+    }
 }
 
 void pocket_data::deserialize( JsonIn &jsin )
