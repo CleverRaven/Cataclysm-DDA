@@ -4609,20 +4609,22 @@ bool game::revive_corpse( const tripoint &p, item &it )
     if( g->new_game ) {
         return false;
     }
-    shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>
-                                          ( it.get_mtype()->id );
-    if( it.has_var( "zombie_form" ) ) { // if the monster can reanimate has a zombie
+    if( it.has_flag( flag_FIELD_DRESS ) || it.has_flag( flag_FIELD_DRESS_FAILED ) ||
+        it.has_flag( flag_QUARTERED ) ) {
+        // Failed reanimation due to corpse being butchered
+        return false;
+    }
+    shared_ptr_fast<monster> newmon_ptr;
+    if( it.has_var( "zombie_form" ) ) {
+        // the monster was not a zombie but turns into one when its corpse is revived
         newmon_ptr = make_shared_fast<monster>( mtype_id( it.get_var( "zombie_form" ) ) );
+    } else {
+        newmon_ptr = make_shared_fast<monster>( it.get_mtype()->id );
     }
     monster &critter = *newmon_ptr;
     critter.init_from_item( it );
     if( critter.get_hp() < 1 ) {
         // Failed reanimation due to corpse being too burned
-        return false;
-    }
-    if( it.has_flag( flag_FIELD_DRESS ) || it.has_flag( flag_FIELD_DRESS_FAILED ) ||
-        it.has_flag( flag_QUARTERED ) ) {
-        // Failed reanimation due to corpse being butchered
         return false;
     }
 
