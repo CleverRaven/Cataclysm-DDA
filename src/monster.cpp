@@ -3108,11 +3108,11 @@ void monster::on_load()
     float regen = type->regenerates;
     if( regen <= 0 ) {
         if( has_flag( MF_REVIVES ) ) {
-            regen = 1.0f / to_turns<int>( 1_hours );
+            regen = 0.02f * type->hp / to_turns<int>( 1_hours );
         } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ||
                    made_of( material_id( "veggy" ) ) ) {
             // Most living stuff here
-            regen = 0.25f / to_turns<int>( 1_hours );
+            regen = 0.005f * type->hp / to_turns<int>( 1_hours );
         }
     }
     const int heal_amount = roll_remainder( regen * to_turns<int>( dt ) );
