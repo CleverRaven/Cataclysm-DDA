@@ -125,6 +125,7 @@
 #include "move_mode.h"
 #include "mtype.h"
 #include "npc.h"
+#include "npctrade.h"
 #include "npc_class.h"
 #include "omdata.h"
 #include "options.h"
@@ -4989,7 +4990,8 @@ bool game::npc_menu( npc &who )
         sort_armor,
         attack,
         disarm,
-        steal
+        steal,
+        trade
     };
 
     const bool obeys = debug_mode || ( who.is_player_ally() && !who.in_sleep_state() );
@@ -5008,6 +5010,8 @@ bool game::npc_menu( npc &who )
     if( !who.is_player_ally() ) {
         amenu.addentry( disarm, who.is_armed(), 'd', _( "Disarm" ) );
         amenu.addentry( steal, !who.is_enemy(), 'S', _( "Steal" ) );
+    } else {
+        amenu.addentry( trade, true, 'b', _( "Trade" ) );
     }
 
     amenu.query();
@@ -5090,6 +5094,8 @@ bool game::npc_menu( npc &who )
         }
     } else if( choice == steal && query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
         u.steal( who );
+    } else if( choice == trade ) {
+        npc_trading::trade( who, 0, _( "Trade" ) );
     }
 
     return true;
