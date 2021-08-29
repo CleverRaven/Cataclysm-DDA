@@ -790,7 +790,7 @@
     "price": 4000,
     "price_postapoc": 1500,
     "material": [ "steel", "plastic" ],
-    "flags": [ "LIGHT_200", "LEAK_DAM", "RADIOACTIVE", "STURDY", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "LIGHT_200", "LEAK_DAM", "RADIOACTIVE", "STURDY", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "SPAWN_ACTIVE" ],
     "weight": "1 kg",
     "volume": "1500 ml",
     "bashing": 2,
@@ -798,8 +798,7 @@
       "type": "transform",
       "msg": "You close the headlamp's cover.",
       "menu_text": "Close cover",
-      "target": "wearable_atomic_light_off",
-      "active": true
+      "target": "wearable_atomic_light_off"
     },
     "material_thickness": 1,
     "armor": [ { "encumbrance": 5, "coverage": 20, "covers": [ "head" ] } ]
@@ -817,7 +816,8 @@
       "type": "transform",
       "msg": "You open the headlamp's cover.",
       "menu_text": "Open cover",
-      "target": "wearable_atomic_light"
+      "target": "wearable_atomic_light",
+      "active": true
     }
   },
   {

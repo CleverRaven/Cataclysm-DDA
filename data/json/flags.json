@@ -413,6 +413,11 @@
     "//": "This item will store the OMT it spawned in in the 'spawn_location_omt' var"
   },
   {
+    "id": "SPAWN_ACTIVE",
+    "type": "json_flag",
+    "//": "This item will spawn active. Not advised for items that drain power when active."
+  },
+  {
     "id": "STAB",
     "type": "json_flag"
   },
