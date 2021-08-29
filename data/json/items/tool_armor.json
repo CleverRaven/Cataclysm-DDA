@@ -960,13 +960,7 @@
     "material": [ "ceramic", "kevlar" ],
     "weight": "1250 g",
     "volume": "4500 ml",
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "rigid": true,
-        "item_restriction": [ "medium_atomic_battery_cell" ]
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE_WELL", "rigid": true, "item_restriction": [ "medium_atomic_battery_cell" ] } ],
     "ammo": "battery",
     "use_action": {
       "type": "transform",
