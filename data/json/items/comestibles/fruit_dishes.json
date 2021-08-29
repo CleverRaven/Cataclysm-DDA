@@ -16,7 +16,6 @@
     "material": [ "fruit" ],
     "phase": "liquid",
     "fun": 2,
-    "delete_flags": [ "EDIBLE_FROZEN" ],
     "flags": [ "USE_EAT_VERB", "EATEN_COLD" ]
   },
   {
@@ -57,7 +56,6 @@
     "material": [ "fruit" ],
     "phase": "liquid",
     "fun": 3,
-    "delete_flags": [ "EDIBLE_FROZEN" ],
     "flags": [ "USE_EAT_VERB", "EATEN_COLD" ]
   },
   {
@@ -145,7 +143,6 @@
     "fun": 2,
     "//": "this item is intended to generally be inherited from the fruit that was cooked.",
     "vitamins": [ [ "vitC", 20 ] ],
-    "delete_flags": [ "EDIBLE_FROZEN" ],
     "flags": [ "USE_EAT_VERB", "EATEN_COLD" ]
   },
   {
