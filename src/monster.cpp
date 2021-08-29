@@ -608,44 +608,33 @@ static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
     return std::make_pair( damage_info, col );
 }
 
-static std::pair<std::string, nc_color> speed_description( float mon_speed_rating,
-        bool immobile = false )
+std::string monster::speed_description( float mon_speed_rating,
+                                        bool immobile,
+                                        speed_description_id speed_desc )
 {
-    if( immobile ) {
-        return std::make_pair( _( "It is immobile." ), c_green );
+    if( speed_desc.is_null() || !speed_desc.is_valid() ) {
+        return std::string();
     }
 
-    const std::array<std::tuple<float, nc_color, std::string>, 8> cases = {{
-            std::make_tuple( 1.40f, c_red, _( "It is much faster than you." ) ),
-            std::make_tuple( 1.15f, c_light_red, _( "It is faster than you." ) ),
-            std::make_tuple( 1.05f, c_yellow, _( "It is a bit faster than you." ) ),
-            std::make_tuple( 0.90f, c_white, _( "It is about as fast as you." ) ),
-            std::make_tuple( 0.80f, c_light_cyan, _( "It is a bit slower than you." ) ),
-            std::make_tuple( 0.60f, c_cyan, _( "It is slower than you." ) ),
-            std::make_tuple( 0.30f, c_light_green, _( "It is much slower than you." ) ),
-            std::make_tuple( 0.00f, c_green, _( "It is practically immobile." ) )
-        }
-    };
-
     const avatar &ply = get_avatar();
-    float player_runcost = ply.run_cost( 100 );
-    if( player_runcost == 0 ) {
-        player_runcost = 1.0f;
+    double player_runcost = ply.run_cost( 100 );
+    if( player_runcost <= 0.00 ) {
+        player_runcost = 0.01f;
     }
 
     // tpt = tiles per turn
-    const float player_tpt = ply.get_speed() / player_runcost;
-    const float ratio_tpt = player_tpt == 0 ?
-                            2.00f : mon_speed_rating / player_tpt;
+    const double player_tpt = ply.get_speed() / player_runcost;
+    double ratio_tpt = player_tpt == 0.00 ?
+                       100.00 : mon_speed_rating / player_tpt;
+    ratio_tpt *= immobile ? 0.00 : 1.00;
 
-    for( const std::tuple<float, nc_color, std::string> &speed_case : cases ) {
-        if( ratio_tpt >= std::get<0>( speed_case ) ) {
-            return std::make_pair( std::get<2>( speed_case ), std::get<1>( speed_case ) );
+    for( const speed_description_value &speed_value : speed_desc->values() ) {
+        if( ratio_tpt >= speed_value.value() ) {
+            return random_entry( speed_value.descriptions(), std::string() );
         }
     }
 
-    debugmsg( "speed_description: no ratio value matched" );
-    return std::make_pair( _( "Unknown" ), c_white );
+    return std::string();
 }
 
 int monster::print_info( const catacurses::window &w, int vStart, int vLines, int column ) const
@@ -675,12 +664,11 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     vStart += fold_and_print( w, point( column, vStart ), max_width, sees_player ? c_red : c_green,
                               senses_str );
 
-    const std::pair<std::string, nc_color> speed_desc =
-        speed_description(
-            speed_rating(),
-            has_flag( MF_IMMOBILE ) );
-    vStart += fold_and_print( w, point( column, vStart ), max_width, speed_desc.second,
-                              speed_desc.first );
+    const std::string speed_desc = speed_description(
+                                       speed_rating(),
+                                       has_flag( MF_IMMOBILE ),
+                                       type->speed_desc );
+    vStart += fold_and_print( w, point( column, vStart ), max_width, c_white, speed_desc );
 
     // Monster description on following lines.
     std::vector<std::string> lines = foldstring( type->get_description(), max_width );
@@ -756,10 +744,11 @@ std::string monster::extended_description() const
     const std::pair<std::string, nc_color> hp_bar = hp_description( hp, type->hp );
     ss += colorize( hp_bar.first, hp_bar.second ) + "\n";
 
-    const std::pair<std::string, nc_color> speed_desc = speed_description(
-                speed_rating(),
-                has_flag( MF_IMMOBILE ) );
-    ss += colorize( speed_desc.first, speed_desc.second ) + "\n";
+    const std::string speed_desc = speed_description(
+                                       speed_rating(),
+                                       has_flag( MF_IMMOBILE ),
+                                       type->speed_desc );
+    ss += speed_desc + "\n";
 
     ss += "--\n";
     ss += string_format( "<dark>%s</dark>", type->get_description() ) + "\n";
