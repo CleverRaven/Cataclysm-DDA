@@ -65,7 +65,7 @@ Monsters may also have any of these optional properties:
 | `armor_fire`             | (integer) Monster's protection from fire damage
 | `vision_day`             | (integer) Vision range in full daylight, with `50` being the typical maximum
 | `vision_night`           | (integer) Vision range in total darkness, ex. coyote `5`, bear `10`, sewer rat `30`, flaming eye `40`
-| `tracking_distance`      | (integer) Amount of tiles the monster will keep between itself and its current tracked enemy or followed leader. Defaults to `8`.
+| `tracking_distance`      | (integer) Amount of tiles the monster will keep between itself and its current tracked enemy or followed leader. Defaults to `3`.
 | `luminance`              | (integer) Amount of light passively emitted by the monster, from `0-10`
 | `death_drops`            | (string or item group) Item group to spawn when the monster dies
 | `death_function`         | (array of strings) How the monster behaves on death. See JSON_FLAGS

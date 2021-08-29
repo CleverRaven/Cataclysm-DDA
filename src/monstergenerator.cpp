@@ -697,7 +697,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "aggression", agro, strict, -100, 100 );
     assign( jo, "morale", morale, strict );
 
-    assign( jo, "tracking_distance", tracking_distance, strict, 8 );
+    assign( jo, "tracking_distance", tracking_distance, strict, 3 );
 
     assign( jo, "mountable_weight_ratio", mountable_weight_ratio, strict );
 
