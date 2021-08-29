@@ -531,6 +531,46 @@
     "widgets": [ "int_num", "per_num" ]
   },
   {
+    "id": "activity_desc",
+    "type": "widget",
+    "label": "Activity",
+    "style": "text",
+    "var": "activity_text",
+    "//": "Uses display::activity_text_color"
+  },
+  {
+    "id": "body_temp_desc",
+    "type": "widget",
+    "label": "Body Heat",
+    "style": "text",
+    "var": "body_temp_text",
+    "//": "Uses display::temp_text_color"
+  },
+  {
+    "id": "env_temp_desc",
+    "type": "widget",
+    "label": "Temperature",
+    "style": "text",
+    "var": "env_temp_text",
+    "//": "Uses display::get_temp"
+  },
+  {
+    "id": "mood_desc",
+    "type": "widget",
+    "label": "Mood",
+    "style": "text",
+    "var": "mood_text",
+    "//": "Uses display::morale_face_color"
+  },
+  {
+    "id": "moon_phase_desc",
+    "type": "widget",
+    "label": "Moon",
+    "style": "text",
+    "var": "moon_phase_text",
+    "//": "Uses display::get_moon"
+  },
+  {
     "id": "pain_desc",
     "type": "widget",
     "label": "Pain",
@@ -571,6 +611,14 @@
     "//": "Uses display::hunger_text_color"
   },
   {
+    "id": "weary_malus_desc",
+    "type": "widget",
+    "label": "Weary Malus",
+    "style": "text",
+    "var": "weary_malus_text",
+    "//": "Uses display::weary_malus_text_color"
+  },
+  {
     "id": "weariness_desc",
     "type": "widget",
     "label": "Weariness",
@@ -600,11 +648,46 @@
     "var": "date_text"
   },
   {
+    "id": "time_desc",
+    "type": "widget",
+    "label": "Time",
+    "style": "text",
+    "var": "time_text"
+  },
+  {
     "id": "place_desc",
     "type": "widget",
     "label": "Place",
     "style": "text",
     "var": "place_text"
+  },
+  {
+    "id": "power_desc",
+    "type": "widget",
+    "label": "Power",
+    "style": "text",
+    "var": "power_text"
+  },
+  {
+    "id": "wind_desc",
+    "type": "widget",
+    "label": "Wind",
+    "style": "text",
+    "var": "wind_text"
+  },
+  {
+    "id": "lighting_desc",
+    "type": "widget",
+    "label": "Lighting",
+    "style": "text",
+    "var": "lighting_text"
+  },
+  {
+    "id": "safe_mode_desc",
+    "type": "widget",
+    "label": "Safe Mode",
+    "style": "text",
+    "var": "safe_mode_text"
   },
   {
     "id": "root_layout_wide",

@@ -549,6 +549,26 @@ std::string display::time_approx()
     return _( "Night" );
 }
 
+std::string display::date_string()
+{
+    const std::string season = calendar::name_season( season_of_year( calendar::turn ) );
+    const int day_num = day_of_season<int>( calendar::turn ) + 1;
+    return string_format( "%s, day %d", season, day_num );
+}
+
+std::string display::time_string( const Character &u )
+{
+    // Return exact time if character has a watch, or approximate time if aboveground
+    if( u.has_watch() ) {
+        return to_string_time_of_day( calendar::turn );
+    } else if( get_map().get_abs_sub().z >= 0 ) {
+        return display::time_approx();
+    } else {
+        // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
+        return _( "???" );
+    }
+}
+
 static nc_color value_color( int stat )
 {
     nc_color valuecolor = c_light_gray;
@@ -868,9 +888,22 @@ std::pair<std::string, nc_color> display::mana_text_color( const Character &you 
     return std::make_pair( s_mana, c_mana );
 }
 
-static nc_color safe_color()
+std::pair<std::string, nc_color> display::safe_mode_text_color( const bool classic_mode )
 {
+    // "classic" mode used by draw_limb2 and draw_health_classic are "SAFE" or (empty)
+    // draw_stat_narrow and draw_stat_wide display "On" or "Off" value
+    std::string s_text;
+    if( classic_mode ) {
+        if( g->safe_mode || get_option<bool>( "AUTOSAFEMODE" ) ) {
+            s_text = "SAFE";
+        }
+    } else {
+        s_text = g->safe_mode ? _( "On" ) : _( "Off" );
+    }
+
+    // By default, color is green if safe, red otherwise
     nc_color s_color = g->safe_mode ? c_green : c_red;
+    // If auto-safe-mode is enabled, go to light red, yellow, and green as the turn limit approaches
     if( g->safe_mode == SAFE_MODE_OFF && get_option<bool>( "AUTOSAFEMODE" ) ) {
         time_duration s_return = time_duration::from_turns( get_option<int>( "AUTOSAFEMODETURNS" ) );
         int iPercent = g->turnssincelastmon * 100 / s_return;
@@ -884,7 +917,8 @@ static nc_color safe_color()
             s_color = c_red;
         }
     }
-    return s_color;
+
+    return std::make_pair( s_text, s_color );
 }
 
 // ===============================
@@ -976,12 +1010,8 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
     // print mood
     std::pair<std::string, nc_color> morale_pair = display::morale_face_color( u );
 
-    // print safe mode
-    std::string safe_str;
-    if( g->safe_mode || get_option<bool>( "AUTOSAFEMODE" ) ) {
-        safe_str = _( "SAFE" );
-    }
-    mvwprintz( w, point( 22, 2 ), safe_color(), safe_str );
+    std::pair<std::string, nc_color> safe_pair = display::safe_mode_text_color( true );
+    mvwprintz( w, point( 22, 2 ), safe_pair.second, safe_pair.first );
     mvwprintz( w, point( 27, 2 ), morale_pair.second, morale_pair.first );
 
     // print stamina
@@ -1018,6 +1048,18 @@ std::pair<translation, nc_color> display::weariness_text_color( size_t weariness
         weariness = 5;
     }
     return weary_descriptions[weariness];
+}
+
+std::pair<std::string, nc_color> display::weary_malus_text_color( const Character &u )
+{
+    const float act_level = u.instantaneous_activity_level();
+    nc_color act_color;
+    if( u.exertion_adjusted_move_multiplier( act_level ) < 1.0 ) {
+        act_color = c_red;
+    } else {
+        act_color = c_light_gray;
+    }
+    return std::make_pair( display::activity_malus_str( u ), act_color );
 }
 
 std::string display::activity_level_str( float level )
@@ -1612,7 +1654,8 @@ static void draw_stat_narrow( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 1, 2 ), c_light_gray, _( "Power:" ) );
     mvwprintz( w, point( 19, 2 ), c_light_gray, _( "Safe :" ) );
     mvwprintz( w, point( 8, 2 ), power_pair.second, "%s", power_pair.first );
-    mvwprintz( w, point( 26, 2 ), safe_color(), g->safe_mode ? _( "On" ) : _( "Off" ) );
+    std::pair<std::string, nc_color> safe_pair = display::safe_mode_text_color( false );
+    mvwprintz( w, point( 26, 2 ), safe_pair.second, safe_pair.first );
 
     std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
     std::pair<std::string, nc_color> activity = display::activity_text_color( u );
@@ -1654,7 +1697,8 @@ static void draw_stat_wide( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Power:" ) );
     mvwprintz( w, point( 31, 1 ), c_light_gray, _( "Safe :" ) );
     mvwprintz( w, point( 38, 0 ), power_pair.second, "%s", power_pair.first );
-    mvwprintz( w, point( 38, 1 ), safe_color(), g->safe_mode ? _( "On" ) : _( "Off" ) );
+    std::pair<std::string, nc_color> safe_pair = display::safe_mode_text_color( false );
+    mvwprintz( w, point( 38, 1 ), safe_pair.second, safe_pair.first );
 
     std::pair<std::string, nc_color> weary = display::weariness_text_color( u );
     std::pair<std::string, nc_color> activity = display::activity_text_color( u );
@@ -1699,20 +1743,11 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     wprintz( w, ll.second, ll.first );
 
     // display date
-    mvwprintz( w, point( 1, 3 ), c_light_gray, _( "Date : %s, day %d" ),
-               calendar::name_season( season_of_year( calendar::turn ) ),
-               day_of_season<int>( calendar::turn ) + 1 );
+    mvwprintz( w, point( 1, 3 ), c_light_gray, _( "Date : %s" ), display::date_string() );
 
     // display time
-    if( u.has_watch() ) {
-        mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : %s" ),
-                   to_string_time_of_day( calendar::turn ) );
-    } else if( here.get_abs_sub().z >= 0 ) {
-        mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : %s" ), display::time_approx() );
-    } else {
-        // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
-        mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : ???" ) );
-    }
+    mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : %s" ), display::time_string( u ) );
+
     if( minimap ) {
         const int offset = getmaxx( w ) - 14;
         const tripoint_abs_omt curs = u.global_omt_location();
@@ -1914,18 +1949,29 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     wnoutrefresh( w );
 }
 
+std::pair<std::string, nc_color> display::wind_text_color( const Character &u )
+{
+    const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
+    weather_manager &weather = get_weather();
+    double windpower = get_local_windpower( weather.windspeed, cur_om_ter,
+                                            u.pos(), weather.winddirection, g->is_sheltered( u.pos() ) );
+
+    // Wind descriptor followed by a directional arrow
+    const std::string wind_text = get_wind_desc( windpower ) + " " + get_wind_arrow(
+                                      weather.winddirection );
+
+    return std::make_pair( wind_text, get_wind_color( windpower ) );
+}
+
 static void render_wind( avatar &u, const catacurses::window &w, const std::string &formatstr )
 {
     werase( w );
     mvwprintz( w, point_zero, c_light_gray,
                //~ translation should not exceed 5 console cells
                string_format( formatstr, left_justify( _( "Wind" ), 5 ) ) );
-    const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
-    weather_manager &weather = get_weather();
-    double windpower = get_local_windpower( weather.windspeed, cur_om_ter,
-                                            u.pos(), weather.winddirection, g->is_sheltered( u.pos() ) );
-    mvwprintz( w, point( 8, 0 ), get_wind_color( windpower ),
-               get_wind_desc( windpower ) + " " + get_wind_arrow( weather.winddirection ) );
+
+    std::pair<std::string, nc_color> wind_pair = display::wind_text_color( u );
+    mvwprintz( w, point( 8, 0 ), wind_pair.second, wind_pair.first );
     wnoutrefresh( w );
 }
 
@@ -1992,12 +2038,9 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 38, 3 ), pair.second, pair.first );
     }
 
-    // print safe mode// print safe mode
-    std::string safe_str;
-    if( g->safe_mode || get_option<bool>( "AUTOSAFEMODE" ) ) {
-        safe_str = "SAFE";
-    }
-    mvwprintz( w, point( 40, 4 ), safe_color(), safe_str );
+    // print safe mode
+    std::pair<std::string, nc_color> safe_pair = display::safe_mode_text_color( true );
+    mvwprintz( w, point( 40, 4 ), safe_pair.second, safe_pair.first );
 
     // print stamina
     auto pair = std::make_pair( get_hp_bar( u.get_stamina(), u.get_stamina_max() ).second,
@@ -2300,10 +2343,7 @@ static void draw_time_classic( const avatar &u, const catacurses::window &w )
     werase( w );
 
     // display date
-    mvwprintz( w, point_zero, c_white,
-               calendar::name_season( season_of_year( calendar::turn ) ) + "," );
-    std::string day = std::to_string( day_of_season<int>( calendar::turn ) + 1 );
-    mvwprintz( w, point( 8, 0 ), c_white, _( "Day " ) + day );
+    mvwprintz( w, point_zero, c_white, display::date_string() );
     // display time
     if( u.has_watch() ) {
         mvwprintz( w, point( 15, 0 ), c_light_gray, to_string_time_of_day( calendar::turn ) );
