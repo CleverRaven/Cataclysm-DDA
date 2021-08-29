@@ -625,7 +625,7 @@
     "symbol": "n",
     "looks_like": "helmet_barbute",
     "color": "light_gray",
-    "armor": [ { "covers": [ "head" ], "coverage": 90, "encumbrance": 20 } ],
+    "armor": [ { "covers": [ "head" ], "coverage": 85, "encumbrance": 20 } ],
     "warmth": 5,
     "material_thickness": 4,
     "environmental_protection": 1,
