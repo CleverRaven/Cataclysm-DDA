@@ -1120,7 +1120,7 @@
     "m2c": 90,
     "exclusions": [ "wind" ],
     "item": "sail",
-    "location": "engine_block",
+    "location": "on_roof",
     "folded_volume": "500 ml",
     "requirements": {
       "install": { "skills": [ [ "fabrication", 2 ] ], "time": "60 m" },
