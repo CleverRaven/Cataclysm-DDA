@@ -683,12 +683,12 @@ std::string Character::disp_name( bool possessive, bool capitalize_first ) const
         if( is_avatar() ) {
             return capitalize_first ? _( "You" ) : _( "you" );
         }
-        return name;
+        return get_name();
     } else {
         if( is_avatar() ) {
             return capitalize_first ? _( "Your" ) : _( "your" );
         }
-        return string_format( _( "%s's" ), name );
+        return string_format( _( "%s's" ), get_name() );
     }
 }
 
@@ -3430,7 +3430,7 @@ item *Character::invlet_to_item( const int linvlet )
     const char invlet = static_cast<char>( linvlet );
     if( is_npc() ) {
         DebugLog( D_WARNING, D_GAME ) << "Why do you need to call Character::invlet_to_position on npc " <<
-                                      name;
+                                      get_name();
     }
     item *invlet_item = nullptr;
     visit_items( [&invlet, &invlet_item]( item * it, item * ) {
@@ -4284,7 +4284,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         if( !need_splint ) {
             return ret_val<bool>::make_failure( is_avatar() ?
                                                 _( "You don't have any broken limbs this could help." )
-                                                : _( "%s doesn't have any broken limbs this could help." ), name );
+                                                : _( "%s doesn't have any broken limbs this could help." ), get_name() );
         }
     }
 
@@ -4306,7 +4306,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
             if( is_avatar() ) {
                 msg = _( "You don't need a tourniquet to stop the bleeding." );
             } else {
-                msg = string_format( _( "%s doesn't need a tourniquet to stop the bleeding." ), name );
+                msg = string_format( _( "%s doesn't need a tourniquet to stop the bleeding." ), get_name() );
             }
             return ret_val<bool>::make_failure( msg );
         }
@@ -4314,7 +4314,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
 
     if( it.has_flag( flag_RESTRICT_HANDS ) && !has_min_manipulators() ) {
         return ret_val<bool>::make_failure( ( is_avatar() ? _( "You don't have enough arms to wear that." )
-                                              : string_format( _( "%s doesn't have enough arms to wear that." ), name ) ) );
+                                              : string_format( _( "%s doesn't have enough arms to wear that." ), get_name() ) ) );
     }
 
     //Everything checked after here should be something that could be solved by changing equipment
@@ -4365,7 +4365,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
     if( it.has_flag( flag_RESTRICT_HANDS ) && ( worn_with_flag( flag_RESTRICT_HANDS ) ||
             weapon.is_two_handed( *this ) ) ) {
         return ret_val<bool>::make_failure( ( is_avatar() ? _( "You don't have a hand free to wear that." )
-                                              : string_format( _( "%s doesn't have a hand free to wear that." ), name ) ) );
+                                              : string_format( _( "%s doesn't have a hand free to wear that." ), get_name() ) ) );
     }
 
     const bool this_restricts_only_one = it.has_flag( flag_id( "ONE_PER_LAYER" ) );
@@ -4408,7 +4408,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         !it.has_flag( flag_SEMITANGIBLE ) ) {
         // Checks to see if the player is wearing shoes
         return ret_val<bool>::make_failure( ( is_avatar() ? _( "You're already wearing footwear!" )
-                                              : string_format( _( "%s is already wearing footwear!" ), name ) ) );
+                                              : string_format( _( "%s is already wearing footwear!" ), get_name() ) ) );
     }
 
     if( it.covers( body_part_head ) &&
@@ -4418,14 +4418,14 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         is_wearing_helmet() ) {
         return ret_val<bool>::make_failure( wearing_something_on( body_part_head ),
                                             ( is_avatar() ? _( "You can't wear that with other headgear!" )
-                                              : string_format( _( "%s can't wear that with other headgear!" ), name ) ) );
+                                              : string_format( _( "%s can't wear that with other headgear!" ), get_name() ) ) );
     }
 
     if( it.covers( body_part_head ) && !it.has_flag( flag_SEMITANGIBLE ) &&
         ( it.has_flag( flag_SKINTIGHT ) || it.has_flag( flag_HELMET_COMPAT ) ) &&
         ( head_cloth_encumbrance() + it.get_encumber( *this, body_part_head ) > 40 ) ) {
         return ret_val<bool>::make_failure( ( is_avatar() ? _( "You can't wear that much on your head!" )
-                                              : string_format( _( "%s can't wear that much on their head!" ), name ) ) );
+                                              : string_format( _( "%s can't wear that much on their head!" ), get_name() ) ) );
     }
 
     return ret_val<bool>::make_success();
@@ -8011,7 +8011,7 @@ nc_color Character::limb_color( const bodypart_id &bp, bool bleed, bool bite, bo
 
 std::string Character::get_name() const
 {
-    return name;
+    return play_name.value_or( name );
 }
 
 std::vector<std::string> Character::get_grammatical_genders() const
@@ -8524,9 +8524,9 @@ std::string Character::extended_description() const
     std::string ss;
     if( is_avatar() ) {
         // <bad>This is me, <player_name>.</bad>
-        ss += string_format( _( "This is you - %s." ), name );
+        ss += string_format( _( "This is you - %s." ), get_name() );
     } else {
-        ss += string_format( _( "This is %s." ), name );
+        ss += string_format( _( "This is %s." ), get_name() );
     }
 
     ss += "\n--\n";
@@ -8713,7 +8713,7 @@ float Character::healing_rate( float at_rest_quality ) const
     // Most common case: awake player with no regenerative abilities
     // ~7e-5 is 1 hp per day, anything less than that is totally negligible
     static constexpr float eps = 0.000007f;
-    add_msg_debug( debugmode::DF_CHAR_HEALTH, "%s healing: %.6f", name, final_rate );
+    add_msg_debug( debugmode::DF_CHAR_HEALTH, "%s healing: %.6f", get_name(), final_rate );
     if( std::abs( final_rate ) < eps ) {
         return 0.0f;
     }
@@ -10682,7 +10682,7 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
         int spine = rng( 1, has_trait( trait_QUILLS ) ? 20 : 8 );
         if( !is_avatar() ) {
             if( u_see ) {
-                add_msg( _( "%1$s's %2$s puncture %3$s in mid-attack!" ), name,
+                add_msg( _( "%1$s's %2$s puncture %3$s in mid-attack!" ), get_name(),
                          ( has_trait( trait_QUILLS ) ? _( "quills" ) : _( "spines" ) ),
                          source->disp_name() );
             }
@@ -10699,7 +10699,7 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
         ( !( source->has_weapon() ) ) ) {
         if( !is_avatar() ) {
             if( u_see ) {
-                add_msg( _( "%1$s's %2$s scrape %3$s in mid-attack!" ), name,
+                add_msg( _( "%1$s's %2$s scrape %3$s in mid-attack!" ), get_name(),
                          _( "thorns" ), source->disp_name() );
             }
         } else {
@@ -10716,7 +10716,7 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
         if( !is_avatar() ) {
             if( u_see ) {
                 add_msg( _( "%1$s gets a load of %2$s's %3$s stuck in!" ), source->disp_name(),
-                         name, ( _( "hair" ) ) );
+                         get_name(), ( _( "hair" ) ) );
             }
         } else {
             add_msg( m_good, _( "Your hairs detach into %s!" ), source->disp_name() );
@@ -10744,7 +10744,7 @@ void Character::on_hit( Creature *source, bodypart_id bp_hit,
         if( stability_roll() < dice( rolls, 10 ) ) {
             if( !is_avatar() ) {
                 if( u_see ) {
-                    add_msg( _( "%1$s loses their balance while being hit!" ), name );
+                    add_msg( _( "%1$s loses their balance while being hit!" ), get_name() );
                 }
             } else {
                 add_msg( m_bad, _( "You lose your balance while being hit!" ) );
@@ -12760,7 +12760,7 @@ void Character::place_corpse()
         return;
     }
     std::vector<item *> tmp = inv_dump();
-    item body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, name );
+    item body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, get_name() );
     body.set_item_temperature( 310.15 );
     map &here = get_map();
     for( item *itm : tmp ) {
@@ -12802,7 +12802,7 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
     }
 
     std::vector<item *> tmp = inv_dump();
-    item body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, name );
+    item body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, get_name() );
     for( item *itm : tmp ) {
         bay.add_item_or_charges( fin, *itm );
     }
@@ -14807,7 +14807,7 @@ void Character::knock_back_to( const tripoint &to )
         add_effect( effect_stunned, 1_turns );
         np->deal_damage( this, bodypart_id( "torso" ), damage_instance( damage_type::BASH, 3 ) );
         add_msg_player_or_npc( _( "You bounce off %s!" ), _( "<npcname> bounces off %s!" ),
-                               np->name );
+                               np->get_name() );
         np->check_dead_state();
         return;
     }

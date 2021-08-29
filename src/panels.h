@@ -19,25 +19,69 @@ class Character;
 class Creature;
 struct point;
 
+enum face_type : int {
+    face_human = 0,
+    face_bird,
+    face_bear,
+    face_cat,
+    num_face_types
+};
+
 // The display namespace contains UI string output and colorization functions
 // Some return plain strings or translations, some return a (string, color) pair,
 // and some return a string with colorization tags embedded.
 namespace display
 {
 // Functions returning plain strings
+// Current moon phase, ex. "Full moon", "Waxing crescent"
+std::string get_moon();
+// Current moon phase as ascii-art, ex. "(   )", "(  ))"
+std::string get_moon_graphic();
+// Current approximate time of day, ex. "Early morning", "Around dusk"
+std::string time_approx();
+
+// Temperature at character location, if they have a thermometer
+std::string get_temp( const Character &u );
+// Change in character body temperature, ex. "(Rising)", "(Falling!!)"
+std::string temp_delta_string( const Character &u );
+
+// Text descriptor for given activity level, ex. "Light", "Brisk", "Extreme"
 std::string activity_level_str( float level );
+// gets the malus string for character's current activity level, like "+ 25%"
+std::string activity_malus_str( const Character &u );
 // gets the description, printed in player_display, related to your current bmi
 std::string weight_long_description( const Character &u );
 
 // Functions returning (text, color) pairs
 std::pair<translation, nc_color> weariness_text_color( size_t weariness );
 std::pair<std::string, nc_color> weariness_text_color( const Character &u );
+std::pair<std::string, nc_color> activity_text_color( const Character &u );
 std::pair<std::string, nc_color> thirst_text_color( const Character &u );
 std::pair<std::string, nc_color> hunger_text_color( const Character &u );
 std::pair<std::string, nc_color> weight_text_color( const Character &u );
 std::pair<std::string, nc_color> fatigue_text_color( const Character &u );
 std::pair<std::string, nc_color> pain_text_color( const Creature &c );
 std::pair<std::string, nc_color> pain_text_color( const Character &u );
+// Change in character body temperature, as colorized arrows
+std::pair<std::string, nc_color> temp_delta_arrows( const Character &u );
+// Character morale, as a color-coded ascii emoticon face
+std::pair<std::string, nc_color> morale_face_color( const Character &u );
+// Helpers for morale_face_color
+face_type get_face_type( const Character &u );
+std::string morale_emotion( const int morale_cur, const face_type face,
+                            const bool horizontal_style );
+
+// Current movement mode (as single letter) and color
+std::pair<std::string, nc_color> move_mode_text_color( const Character &u );
+
+// TODO: Swap text/string order to match previous functions
+std::pair<std::string, nc_color> temp_text_color( const Character &u );
+std::pair<std::string, nc_color> power_text_color( const Character &u );
+std::pair<std::string, nc_color> mana_text_color( const Character &you );
+std::pair<std::string, nc_color> str_text_color( const Character &p );
+std::pair<std::string, nc_color> dex_text_color( const Character &p );
+std::pair<std::string, nc_color> int_text_color( const Character &p );
+std::pair<std::string, nc_color> per_text_color( const Character &p );
 
 // Functions returning colorized string
 // gets the string that describes your weight
@@ -48,13 +92,6 @@ namespace catacurses
 {
 class window;
 } // namespace catacurses
-enum face_type : int {
-    face_human = 0,
-    face_bird,
-    face_bear,
-    face_cat,
-    num_face_types
-};
 
 namespace overmap_ui
 {

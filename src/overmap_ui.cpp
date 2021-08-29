@@ -918,7 +918,7 @@ static void draw_ascii(
     if( has_debug_vision || overmap_buffer.seen( center ) ) {
         for( const auto &npc : npcs_near_player ) {
             if( !npc->marked_for_death && npc->global_omt_location() == center ) {
-                corner_text.emplace_back( npc->basic_symbol_color(), npc->name );
+                corner_text.emplace_back( npc->basic_symbol_color(), npc->get_name() );
             }
         }
     }

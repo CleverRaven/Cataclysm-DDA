@@ -354,7 +354,7 @@ class item_location::impl::item_on_person : public item_location::impl
                 }
 
             } else {
-                return who->name;
+                return who->get_name();
             }
         }
 

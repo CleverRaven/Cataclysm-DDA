@@ -292,6 +292,12 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_lab_concourse_area",
+    "name": "Cargo area Trans-Coast Logistics",
+    "terrain": [ { "om_terrain": "lab_CORE_2x1_1DN", "om_terrain_match_type": "TYPE" } ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_mall_loading_area",
     "name": "Mall (loading area)",
     "terrain": [ "mall_a_12" ]

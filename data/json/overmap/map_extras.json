@@ -160,6 +160,16 @@
     "autonote": true
   },
   {
+    "id": "mx_lab_concourse_area",
+    "type": "map_extra",
+    "name": { "str": "Start location concourse area" },
+    "description": "There is a lanyard with an ID badge nearby.",
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_lab_concourse_area_spawn" },
+    "sym": "F",
+    "color": "light_gray",
+    "autonote": true
+  },
+  {
     "id": "mx_house_spider",
     "type": "map_extra",
     "name": { "str": "Spider Nest" },

@@ -1565,7 +1565,7 @@ class Character : public Creature, public visitable
         bool has_max_power() const;
         bool enough_power_for( const bionic_id &bid ) const;
         /** Handles and displays detailed character info for the '@' screen */
-        void disp_info();
+        void disp_info( bool customize_character = false );
         void conduct_blood_analysis();
         // --------------- Generic Item Stuff ---------------
 
@@ -2242,7 +2242,9 @@ class Character : public Creature, public visitable
         /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
         template <typename T> bool can_lift( const T &obj ) const;
         // --------------- Values ---------------
-        std::string name;
+        std::string name; // Save file name, pre-cataclysm name, invariable
+        // In-game name which you give to npcs or whoever asks, variable
+        cata::optional<std::string> play_name;
         bool male = false;
 
         bool is_dead = false;

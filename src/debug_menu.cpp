@@ -1134,7 +1134,7 @@ void character_edit_menu()
     charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, "%s", _( "You" ) );
     locations.emplace_back( player_character.pos() );
     for( const npc &guy : g->all_npcs() ) {
-        charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, guy.name );
+        charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, guy.get_name() );
         locations.emplace_back( guy.pos() );
     }
 
@@ -1153,7 +1153,7 @@ void character_edit_menu()
 
     if( np != nullptr ) {
         std::stringstream data;
-        data << np->name << " " << ( np->male ? _( "Male" ) : _( "Female" ) ) << std::endl;
+        data << np->get_name() << " " << ( np->male ? _( "Male" ) : _( "Female" ) ) << std::endl;
         data << np->myclass.obj().get_name() << "; " <<
              npc_attitude_name( np->get_attitude() ) << "; " <<
              ( np->get_faction() ? np->get_faction()->name : _( "no faction" ) ) << "; " <<
@@ -1437,7 +1437,7 @@ void character_edit_menu()
             std::string current_bloodt = io::enum_to_string( you.my_blood_type ) + ( you.blood_rh_factor ? "+" :
                                          "-" );
             smenu.text = _( "Select a value and press enter to change it." );
-            smenu.addentry( 0, true, 'n', "%s: %s", _( "Current name" ), you.get_name() );
+            smenu.addentry( 0, true, 'n', "%s: %s", _( "Current save file name" ), you.name );
             smenu.addentry( 1, true, 'a', "%s: %d", _( "Current age" ), you.base_age() );
             smenu.addentry( 2, true, 'h', "%s: %d", _( "Current height in cm" ), you.base_height() );
             smenu.addentry( 3, true, 'b', "%s: %s", _( "Current blood type:" ), current_bloodt );
@@ -1447,7 +1447,7 @@ void character_edit_menu()
                     std::string filterstring = you.name;
                     string_input_popup popup;
                     popup
-                    .title( _( "Rename:" ) )
+                    .title( _( "Rename save file:" ) )
                     .width( 85 )
                     .edit( filterstring );
                     if( popup.confirmed() ) {
@@ -1657,7 +1657,7 @@ void character_edit_menu()
         }
         break;
         case D_STATUS:
-            you.disp_info();
+            you.disp_info( true );
             break;
         case D_MISSION_ADD: {
             uilist types;
@@ -1881,10 +1881,10 @@ void mission_debug::remove_mission( mission &m )
     npc *giver = g->find_npc( m.npc_id );
     if( giver != nullptr ) {
         if( remove_from_vec( giver->chatbin.missions_assigned, &m ) ) {
-            add_msg( _( "Removing from %s missions_assigned" ), giver->name );
+            add_msg( _( "Removing from %s missions_assigned" ), giver->get_name() );
         }
         if( remove_from_vec( giver->chatbin.missions, &m ) ) {
-            add_msg( _( "Removing from %s missions" ), giver->name );
+            add_msg( _( "Removing from %s missions" ), giver->get_name() );
         }
     }
 }
@@ -2017,7 +2017,7 @@ static void debug_menu_game_state()
         g->num_creatures() );
     for( const npc &guy : g->all_npcs() ) {
         tripoint_abs_sm t = guy.global_sm_location();
-        add_msg( m_info, _( "%s: map ( %d:%d ) pos ( %d:%d )" ), guy.name, t.x(),
+        add_msg( m_info, _( "%s: map ( %d:%d ) pos ( %d:%d )" ), guy.get_name(), t.x(),
                  t.y(), guy.posx(), guy.posy() );
     }
 
@@ -2288,7 +2288,7 @@ void debug()
 
         case debug_menu_index::KILL_NPCS:
             for( npc &guy : g->all_npcs() ) {
-                add_msg( _( "%s's head implodes!" ), guy.name );
+                add_msg( _( "%s's head implodes!" ), guy.get_name() );
                 guy.set_part_hp_cur( bodypart_id( "head" ), 0 );
             }
             break;

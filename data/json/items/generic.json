@@ -3275,7 +3275,19 @@
           "scorecard",
           "robofac_test_data",
           "icon",
-          "labmap"
+          "labmap",
+          "id_science_visitor_1",
+          "id_science_transport_1",
+          "id_science_maintenance_green",
+          "id_science_maintenance_yellow",
+          "id_science_maintenance_blue",
+          "id_science_security_yellow",
+          "id_science_security_magenta",
+          "id_science_security_black",
+          "id_science_mutagen_green",
+          "id_science_mutagen_pink",
+          "id_science_mutagen_cyan",
+          "id_science_medical_red"
         ]
       },
       {
@@ -3368,7 +3380,19 @@
           "scorecard",
           "robofac_test_data",
           "icon",
-          "labmap"
+          "labmap",
+          "id_science_visitor_1",
+          "id_science_transport_1",
+          "id_science_maintenance_green",
+          "id_science_maintenance_yellow",
+          "id_science_maintenance_blue",
+          "id_science_security_yellow",
+          "id_science_security_magenta",
+          "id_science_security_black",
+          "id_science_mutagen_green",
+          "id_science_mutagen_pink",
+          "id_science_mutagen_cyan",
+          "id_science_medical_red"
         ]
       },
       {

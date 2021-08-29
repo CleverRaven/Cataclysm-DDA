@@ -94,9 +94,9 @@ void talker_avatar::buy_monster( talker &seller, const mtype_id &mtype, int cost
     }
 
     if( name.empty() ) {
-        popup( _( "%1$s gives you %2$d %3$s." ), seller_guy->name,
+        popup( _( "%1$s gives you %2$d %3$s." ), seller_guy->get_name(),
                count, mtype.obj().nname( count ) );
     } else {
-        popup( _( "%1$s gives you %2$s." ), seller_guy->name, name );
+        popup( _( "%1$s gives you %2$s." ), seller_guy->get_name(), name );
     }
 }
