@@ -730,7 +730,8 @@ bool avatar::create( character_type type, const std::string &tempname )
     // Learn recipes
     for( const auto &e : recipe_dict ) {
         const auto &r = e.second;
-        if( !r.has_flag( flag_SECRET ) && !knows_recipe( &r ) && has_recipe_requirements( r ) ) {
+        if( !r.is_practice() && !r.has_flag( flag_SECRET ) && !knows_recipe( &r ) &&
+            has_recipe_requirements( r ) ) {
             learn_recipe( &r );
         }
     }
@@ -2555,8 +2556,8 @@ tab_direction set_skills( avatar &u, pool_type pool )
 
         std::map<std::string, std::vector<std::pair<std::string, int> > > recipes;
         for( const auto &e : recipe_dict ) {
-            const auto &r = e.second;
-            if( r.has_flag( "SECRET" ) ) {
+            const recipe &r = e.second;
+            if( r.is_practice() || r.has_flag( "SECRET" ) ) {
                 continue;
             }
             //Find out if the current skill and its level is in the requirement list

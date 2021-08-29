@@ -410,9 +410,9 @@
         "|,,,,,,,,,,,,|||||||||||",
         "|,,,,,,,,,,,,||≠LLLL≠|||",
         "|,,,ê,,,,ê,,,||`î````|||",
-        "|,,,,,,,,,,,,```j``j````",
-        "|,,,,,,,,,,,,```j``j````",
-        "|,,,ê,,,,ê,,,||````î`|||",
+        "|,,,,,,,,,,,,#``j``j```=",
+        "|,,,,,,,,,,,,#``j``j```¥",
+        "|,,,ê,,,,ê,,,||````î`||ƶ",
         "|,,,,,,,,,,,,||≠LLLL≠|||",
         "|,,,,,,,,,,,,|||||||||||",
         "|,,,,,,,,,,,,|||||||||||",
@@ -425,7 +425,10 @@
         "||||||||||||||||||||||||"
       ],
       "palettes": [ "lab_common_palette", "lab_security_palette" ],
+      "terrain": { "ƶ": "t_card_reader_broken", "¥": "t_door_metal_o" },
+      "set": [ { "point": "bash", "x": [ 10, 22 ], "y": [ 10, 16 ], "repeat": [ 5, 30 ] } ],
       "place_monsters": [ { "monster": "GROUP_LAB_MILITARY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ],
+      "place_items": [ { "item": "ammo_casings_milspec", "x": [ 13, 22 ], "y": [ 11, 14 ], "chance": 100, "repeat": [ 10, 20 ] } ],
       "items": {
         "L": { "item": "guns_milspec", "chance": 50 },
         "≠": [
@@ -441,7 +444,8 @@
         { "monster": "mon_gasbomb_hack", "x": 17, "y": 19, "chance": 100 },
         { "monster": "mon_manhack", "x": 18, "y": 19, "chance": 100 },
         { "monster": "mon_tazer_hack", "x": 21, "y": 19, "chance": 100 },
-        { "monster": "mon_skitterbot", "x": 22, "y": 19, "chance": 100 }
+        { "monster": "mon_skitterbot", "x": 22, "y": 19, "chance": 100 },
+        { "monster": "mon_devourer_lab_sec", "x": [ 1, 10 ], "y": [ 1, 22 ], "chance": 100 }
       ],
       "place_nested": [
         { "chunks": [ [ "12x12_obstacle_course_N", 100 ] ], "x": 1, "y": 1 },
