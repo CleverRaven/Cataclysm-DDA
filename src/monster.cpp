@@ -3125,7 +3125,6 @@ void monster::on_load()
         } else {
             const int speed_delta = std::max( healed * type->speed / type->hp, 1 );
             set_speed_base( std::min( old_speed + speed_delta, type->speed ) );
-                                      type->speed ) );
         }
         healed_speed = get_speed_base() - old_speed;
     }
