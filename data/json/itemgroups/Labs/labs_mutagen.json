@@ -100,8 +100,14 @@
       { "item": "id_science_maintenance_green", "prob": 150 },
       { "item": "id_science_transport_1", "prob": 200 },
       { "item": "id_science_security_yellow", "prob": 25 },
-      { "item": "id_science_mutagen_green", "prob": 5 },
       { "item": "id_science_medical_red", "prob": 50 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "lanyard_YS_badge",
+    "subtype": "collection",
+    "container-item": "lanyard",
+    "items": [ { "item": "id_science_security_yellow", "prob": 100 } ]
   }
 ]

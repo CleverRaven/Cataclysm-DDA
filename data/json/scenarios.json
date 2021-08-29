@@ -330,6 +330,18 @@
   },
   {
     "type": "scenario",
+    "id": "lab_cargo_staff_1",
+    "name": "Challenge - Trans-Coast Logistics Concourse",
+    "points": -6,
+    "description": "You were deemed essential and required stay behind during the facility's evacuation.  Find a way to escape and you better find that lanyard you misplaced before the automated defenses notice you don't have one.",
+    "start_name": "Locked Lab",
+    "professions": [ "security" ],
+    "allowed_locs": [ "sloc_lab_concourse_area" ],
+    "map_extra": "mx_lab_concourse_area",
+    "flags": [ "CHALLENGE", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
     "id": "bordered",
     "name": "Challenge - Bordered",
     "points": -2,
