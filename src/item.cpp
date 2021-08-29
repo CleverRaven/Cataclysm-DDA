@@ -169,7 +169,7 @@ static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 static const std::string flag_NO_DISPLAY( "NO_DISPLAY" );
 
 // fault flags
-static const std::string flag_BLACKPOWDER_FOULING_DAMAGE("BLACKPOWDER_FOULING_DAMAGE ");
+static const std::string flag_BLACKPOWDER_FOULING_DAMAGE( "BLACKPOWDER_FOULING_DAMAGE" );
 static const std::string flag_SILENT( "SILENT" );
 
 // terrain-furniture flags
