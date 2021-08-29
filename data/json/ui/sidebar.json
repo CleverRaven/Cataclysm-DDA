@@ -547,6 +547,14 @@
     "//": "Uses display::temp_text_color"
   },
   {
+    "id": "env_temp_desc",
+    "type": "widget",
+    "label": "Temperature",
+    "style": "text",
+    "var": "env_temp_text",
+    "//": "Uses display::get_temp"
+  },
+  {
     "id": "mood_desc",
     "type": "widget",
     "label": "Mood",

@@ -39,6 +39,7 @@ enum class widget_var : int {
     mood,           // TODO
     activity_text,  // Activity level text, color string
     body_temp_text, // Felt body temperature, color string
+    env_temp_text,  // Environment temperature, if character has thermometer
     mood_text,      // Mood as a text emote, color string
     pain_text,      // Pain description text, color string
     hunger_text,    // Hunger description text, color string
