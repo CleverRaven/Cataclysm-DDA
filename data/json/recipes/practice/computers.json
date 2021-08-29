@@ -12,7 +12,8 @@
     "practice_data": { "min_difficulty": 0, "max_difficulty": 1, "skill_limit": 2 },
     "autolearn": [ [ "computer", 1 ] ],
     "book_learn": [ [ "mag_computer", 0 ], [ "howto_computer", 0 ] ],
-    "tools": [ [ [ "laptop", 50 ], [ "eink_tablet_pc", 20 ], [ "smart_phone", 20 ] ] ]
+    "tools": [ [ [ "laptop", 50 ], [ "eink_tablet_pc", 20 ], [ "smart_phone", 20 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "id": "prac_computer_int",
@@ -27,7 +28,8 @@
     "practice_data": { "min_difficulty": 2, "max_difficulty": 4, "skill_limit": 5 },
     "autolearn": [ [ "computer", 4 ] ],
     "book_learn": [ [ "manual_computers", 2 ], [ "computer_science", 3 ] ],
-    "tools": [ [ [ "laptop", 50 ] ] ]
+    "tools": [ [ [ "laptop", 50 ] ] ],
+    "flags": [ "BLIND_EASY" ]
   },
   {
     "id": "prac_computer_adv",
@@ -42,6 +44,7 @@
     "practice_data": { "min_difficulty": 5, "max_difficulty": 7 },
     "autolearn": [ [ "computer", 7 ] ],
     "book_learn": [ [ "SICP", 5 ], [ "textbook_computer", 6 ] ],
-    "tools": [ [ [ "laptop", 50 ] ], [ "software_hacking" ] ]
+    "tools": [ [ [ "laptop", 50 ] ], [ "software_hacking" ] ],
+    "flags": [ "BLIND_EASY" ]
   }
 ]
