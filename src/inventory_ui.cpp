@@ -1038,6 +1038,16 @@ int inventory_column::reassign_custom_invlets( const Character &p, int min_invle
     return cur_invlet;
 }
 
+int inventory_column::reassign_custom_invlets( int cur_idx, const std::string pickup_chars )
+{
+    for( auto &elem : entries ) {
+        elem.custom_invlet = cur_idx < static_cast<int>( pickup_chars.size() ) ? pickup_chars[cur_idx] :
+                             '\0';
+        cur_idx++;
+    }
+    return cur_idx;
+}
+
 static int num_parents( const item_location &loc )
 {
     if( loc.where() != item_location::type::container ) {
@@ -1669,13 +1679,18 @@ void inventory_selector::prepare_layout( size_t client_width, size_t client_heig
         visible_columns.front()->set_width( client_width, columns );
     }
 
+    reassign_custom_invlets();
+
+    refresh_active_column();
+}
+
+void inventory_selector::reassign_custom_invlets()
+{
     int custom_invlet = '0';
-    for( auto &elem : columns ) {
+    for( inventory_column *elem : columns ) {
         elem->prepare_paging();
         custom_invlet = elem->reassign_custom_invlets( u, custom_invlet, '9' );
     }
-
-    refresh_active_column();
 }
 
 void inventory_selector::prepare_layout()
@@ -3076,6 +3091,17 @@ void pickup_selector::process_selected( int &count, const std::vector<inventory_
         set_chosen_count( *elem, count );
     }
     count = 0;
+}
+
+void pickup_selector::reassign_custom_invlets()
+{
+    const std::string all_pickup_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ:;";
+    const std::string pickup_chars = ctxt.get_available_single_char_hotkeys( all_pickup_chars );
+    int cur_idx = 0;
+    for( inventory_column *elem : columns ) {
+        elem->prepare_paging();
+        cur_idx = elem->reassign_custom_invlets( cur_idx, pickup_chars );
+    }
 }
 
 inventory_selector::stats pickup_selector::get_raw_stats() const
