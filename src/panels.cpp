@@ -557,6 +557,19 @@ std::string display::time_approx()
     return _( "Night" );
 }
 
+std::string display::time_string( const Character &u )
+{
+    // Return exact time if character has a watch, or approximate time if aboveground
+    if( u.has_watch() ) {
+        return to_string_time_of_day( calendar::turn );
+    } else if( get_map().get_abs_sub().z >= 0 ) {
+        return display::time_approx();
+    } else {
+        // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
+        return _( "???" );
+    }
+}
+
 static nc_color value_color( int stat )
 {
     nc_color valuecolor = c_light_gray;
@@ -1724,15 +1737,8 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
                day_of_season<int>( calendar::turn ) + 1 );
 
     // display time
-    if( u.has_watch() ) {
-        mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : %s" ),
-                   to_string_time_of_day( calendar::turn ) );
-    } else if( here.get_abs_sub().z >= 0 ) {
-        mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : %s" ), display::time_approx() );
-    } else {
-        // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
-        mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : ???" ) );
-    }
+    mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : %s" ), display::time_string( u ) );
+
     if( minimap ) {
         const int offset = getmaxx( w ) - 14;
         const tripoint_abs_omt curs = u.global_omt_location();

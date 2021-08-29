@@ -39,6 +39,8 @@ std::string get_moon();
 std::string get_moon_graphic();
 // Current approximate time of day, ex. "Early morning", "Around dusk"
 std::string time_approx();
+// Exact time if character has a watch, approx time if aboveground, "???" if unknown/underground
+std::string time_string( const Character &u );
 
 // Temperature at character location, if they have a thermometer
 std::string get_temp( const Character &u );
