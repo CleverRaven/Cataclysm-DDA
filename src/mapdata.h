@@ -235,6 +235,7 @@ enum ter_bitflags : int {
     TFLAG_Z_TRANSPARENT,
     TFLAG_SUN_ROOF_ABOVE,
     TFLAG_FUNGUS,
+    TFLAG_LOCKED,
 
     NUM_TERFLAGS
 };
@@ -425,6 +426,8 @@ struct map_data_common_t {
         }
 
         void set_flag( const std::string &flag );
+
+        void set_flag( const ter_bitflags flag );
 
         int connect_group = 0;
 

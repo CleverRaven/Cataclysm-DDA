@@ -4091,13 +4091,13 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                 break;
             }
             targ->setpos( traj[i] );
-            if( m.has_flag( "LIQUID", targ->pos() ) && !targ->can_drown() && !targ->is_dead() ) {
+            if( m.has_flag( TFLAG_LIQUID, targ->pos() ) && !targ->can_drown() && !targ->is_dead() ) {
                 targ->die( nullptr );
                 if( u.sees( *targ ) ) {
                     add_msg( _( "The %s drowns!" ), targ->name() );
                 }
             }
-            if( !m.has_flag( "LIQUID", targ->pos() ) && targ->has_flag( MF_AQUATIC ) &&
+            if( !m.has_flag( TFLAG_LIQUID, targ->pos() ) && targ->has_flag( MF_AQUATIC ) &&
                 !targ->is_dead() ) {
                 targ->die( nullptr );
                 if( u.sees( *targ ) ) {
@@ -4241,7 +4241,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                 knockback( traj, stun, dam_mult );
                 break;
             }
-            if( m.has_flag( "LIQUID", u.pos() ) && force_remaining == 0 ) {
+            if( m.has_flag( TFLAG_LIQUID, u.pos() ) && force_remaining == 0 ) {
                 avatar_action::swim( m, u, u.pos() );
             } else {
                 u.setpos( traj[i] );
@@ -4579,7 +4579,7 @@ bool game::swap_critters( Creature &a, Creature &b )
 
 bool game::is_empty( const tripoint &p )
 {
-    return ( m.passable( p ) || m.has_flag( "LIQUID", p ) ) &&
+    return ( m.passable( p ) || m.has_flag( TFLAG_LIQUID, p ) ) &&
            get_creature_tracker().creature_at( p ) == nullptr;
 }
 
@@ -4823,7 +4823,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
     }
 
     m.ter_set( point( x, y ), door_type );
-    if( m.has_flag( "NOITEM", point( x, y ) ) ) {
+    if( m.has_flag( TFLAG_NOITEM, point( x, y ) ) ) {
         map_stack items = m.i_at( point( x, y ) );
         for( map_stack::iterator it = items.begin(); it != items.end(); ) {
             if( it->made_of( phase_id::LIQUID ) ) {
@@ -4872,7 +4872,7 @@ void game::moving_vehicle_dismount( const tripoint &dest_loc )
     // Dive three tiles in the direction of tox and toy
     fling_creature( &u, d, 30, true );
     // Hit the ground according to vehicle speed
-    if( !m.has_flag( "SWIMMABLE", u.pos() ) ) {
+    if( !m.has_flag( TFLAG_SWIMMABLE, u.pos() ) ) {
         if( veh->velocity > 0 ) {
             fling_creature( &u, veh->face.dir(), veh->velocity / static_cast<float>( 100 ) );
         } else {
@@ -5286,9 +5286,9 @@ void game::examine( const tripoint &examp )
         add_msg( fire_fuel );
     }
 
-    if( m.has_flag( "SEALED", examp ) ) {
+    if( m.has_flag( TFLAG_SEALED, examp ) ) {
         if( none ) {
-            if( m.has_flag( "UNSTABLE", examp ) ) {
+            if( m.has_flag( TFLAG_UNSTABLE, examp ) ) {
                 add_msg( _( "The %s is too unstable to remove anything." ), m.name( examp ) );
             } else {
                 add_msg( _( "The %s is firmly sealed." ), m.name( examp ) );
@@ -8073,7 +8073,7 @@ void game::butcher()
     const std::string no_corpse_msg = _( "There are no corpses here to butcher." );
 
     //You can't butcher on sealed terrain- you have to smash/shovel/etc it open first
-    if( m.has_flag( "SEALED", u.pos() ) ) {
+    if( m.has_flag( TFLAG_SEALED, u.pos() ) ) {
         if( m.sees_some_items( u.pos(), u ) ) {
             add_msg( m_info, _( "You can't access the items here." ) );
         } else if( factor > INT_MIN || factorD > INT_MIN ) {
@@ -8826,12 +8826,12 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
         return u.immune_to( bp, { damage_type::CUT, 10 } );
     };
 
-    if( m.has_flag( "ROUGH", dest_loc ) && !m.has_flag( "ROUGH", u.pos() ) && !veh_dest &&
+    if( m.has_flag( TFLAG_ROUGH, dest_loc ) && !m.has_flag( TFLAG_ROUGH, u.pos() ) && !veh_dest &&
         ( u.get_armor_bash( bodypart_id( "foot_l" ) ) < 5 ||
           u.get_armor_bash( bodypart_id( "foot_r" ) ) < 5 ) ) { // NOLINT(bugprone-branch-clone)
         harmful_stuff.emplace_back( m.name( dest_loc ) );
-    } else if( m.has_flag( "SHARP", dest_loc ) && !m.has_flag( "SHARP", u.pos() ) && !( u.in_vehicle ||
-               m.veh_at( dest_loc ) ) &&
+    } else if( m.has_flag( TFLAG_SHARP, dest_loc ) && !m.has_flag( TFLAG_SHARP, u.pos() ) &&
+               !( u.in_vehicle || m.veh_at( dest_loc ) ) &&
                u.dex_cur < 78 && !std::all_of( sharp_bps.begin(), sharp_bps.end(), sharp_bp_check ) ) {
         harmful_stuff.emplace_back( m.name( dest_loc ) );
     }
@@ -9029,8 +9029,8 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
 
     // Print a message if movement is slow
     const int mcost_to = m.move_cost( dest_loc ); //calculate this _after_ calling grabbed_move
-    const bool fungus = m.has_flag_ter_or_furn( "FUNGUS", u.pos() ) ||
-                        m.has_flag_ter_or_furn( "FUNGUS",
+    const bool fungus = m.has_flag_ter_or_furn( TFLAG_FUNGUS, u.pos() ) ||
+                        m.has_flag_ter_or_furn( TFLAG_FUNGUS,
                                 dest_loc ); //fungal furniture has no slowing effect on mycus characters
     const bool slowed = ( ( !u.has_proficiency( proficiency_prof_parkour ) && ( mcost_to > 2 ||
                             mcost_from > 2 ) ) ||
@@ -9068,7 +9068,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         ///\EFFECT_DEX decreases chance of tentacles getting stuck to the ground
 
         ///\EFFECT_INT decreases chance of tentacles getting stuck to the ground
-        if( !m.has_flag( "SWIMMABLE", dest_loc ) && one_in( 80 + u.dex_cur + u.int_cur ) ) {
+        if( !m.has_flag( TFLAG_SWIMMABLE, dest_loc ) && one_in( 80 + u.dex_cur + u.int_cur ) ) {
             add_msg( _( "Your tentacles stick to the ground, but you pull them free." ) );
             u.mod_fatigue( 1 );
         }
@@ -9177,22 +9177,22 @@ point game::place_player( const tripoint &dest_loc )
         }
     }
     // TODO: Move the stuff below to a Character method so that NPCs can reuse it
-    if( m.has_flag( "ROUGH", dest_loc ) && ( !u.in_vehicle ) && ( !u.is_mounted() ) ) {
+    if( m.has_flag( TFLAG_ROUGH, dest_loc ) && ( !u.in_vehicle ) && ( !u.is_mounted() ) ) {
         if( one_in( 5 ) && u.get_armor_bash( bodypart_id( "foot_l" ) ) < rng( 2, 5 ) ) {
             add_msg( m_bad, _( "You hurt your left foot on the %s!" ),
-                     m.has_flag_ter( "ROUGH", dest_loc ) ? m.tername( dest_loc ) : m.furnname(
+                     m.has_flag_ter( TFLAG_ROUGH, dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                          dest_loc ) );
             u.deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, 1 ) );
         }
         if( one_in( 5 ) && u.get_armor_bash( bodypart_id( "foot_r" ) ) < rng( 2, 5 ) ) {
             add_msg( m_bad, _( "You hurt your right foot on the %s!" ),
-                     m.has_flag_ter( "ROUGH", dest_loc ) ? m.tername( dest_loc ) : m.furnname(
+                     m.has_flag_ter( TFLAG_ROUGH, dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                          dest_loc ) );
             u.deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( damage_type::CUT, 1 ) );
         }
     }
     ///\EFFECT_DEX increases chance of avoiding cuts on sharp terrain
-    if( m.has_flag( "SHARP", dest_loc ) && !one_in( 3 ) && !x_in_y( 1 + u.dex_cur / 2.0, 40 ) &&
+    if( m.has_flag( TFLAG_SHARP, dest_loc ) && !one_in( 3 ) && !x_in_y( 1 + u.dex_cur / 2.0, 40 ) &&
         ( !u.in_vehicle && !m.veh_at( dest_loc ) ) && ( !u.has_proficiency( proficiency_prof_parkour ) ||
                 one_in( 4 ) ) && ( u.has_trait( trait_THICKSKIN ) ? !one_in( 8 ) : true ) ) {
         if( u.is_mounted() ) {
@@ -9205,7 +9205,7 @@ point game::place_player( const tripoint &dest_loc )
                 //~ 1$s - bodypart name in accusative, 2$s is terrain name.
                 add_msg( m_bad, _( "You cut your %1$s on the %2$s!" ),
                          body_part_name_accusative( bp ),
-                         m.has_flag_ter( "SHARP", dest_loc ) ? m.tername( dest_loc ) : m.furnname(
+                         m.has_flag_ter( TFLAG_SHARP, dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                              dest_loc ) );
                 if( !u.has_trait( trait_INFIMMUNE ) ) {
                     const int chance_in = u.has_trait( trait_INFRESIST ) ? 1024 : 256;
@@ -9216,7 +9216,7 @@ point game::place_player( const tripoint &dest_loc )
             }
         }
     }
-    if( m.has_flag( "UNSTABLE", dest_loc ) && !u.is_mounted() ) {
+    if( m.has_flag( TFLAG_UNSTABLE, dest_loc ) && !u.is_mounted() ) {
         u.add_effect( effect_bouldering, 1_turns, true );
     } else if( u.has_effect( effect_bouldering ) ) {
         u.remove_effect( effect_bouldering );
@@ -9228,7 +9228,7 @@ point game::place_player( const tripoint &dest_loc )
     }
 
     // If we moved out of the nonant, we need update our map data
-    if( m.has_flag( "SWIMMABLE", dest_loc ) && u.has_effect( effect_onfire ) ) {
+    if( m.has_flag( TFLAG_SWIMMABLE, dest_loc ) && u.has_effect( effect_onfire ) ) {
         add_msg( _( "The water puts out the flames!" ) );
         u.remove_effect( effect_onfire );
         if( u.is_mounted() ) {
@@ -9409,14 +9409,14 @@ point game::place_player( const tripoint &dest_loc )
         m.creature_on_trap( u );
     }
     // Drench the player if swimmable
-    if( m.has_flag( "SWIMMABLE", u.pos() ) &&
+    if( m.has_flag( TFLAG_SWIMMABLE, u.pos() ) &&
         !( u.is_mounted() || ( u.in_vehicle && vp1->vehicle().can_float() ) ) ) {
         u.drench( 80, { { body_part_foot_l, body_part_foot_r, body_part_leg_l, body_part_leg_r } },
         false );
     }
 
     // List items here
-    if( !m.has_flag( "SEALED", u.pos() ) ) {
+    if( !m.has_flag( TFLAG_SEALED, u.pos() ) ) {
         if( get_option<bool>( "NO_AUTO_PICKUP_ZONES_LIST_ITEMS" ) ||
             !check_zone( zone_type_id( "NO_AUTO_PICKUP" ), u.pos() ) ) {
             if( u.is_blind() && !m.i_at( u.pos() ).empty() ) {
@@ -9622,7 +9622,7 @@ bool game::can_move_furniture( tripoint fdest, const tripoint &dp )
             creatures.creature_at<npc>( fdest ) == nullptr &&
             creatures.creature_at<monster>( fdest ) == nullptr &&
             ( !pulling_furniture || is_empty( u.pos() + dp ) ) &&
-            ( !has_floor || m.has_flag( "FLAT", fdest ) ) &&
+            ( !has_floor || m.has_flag( TFLAG_FLAT, fdest ) ) &&
             !m.has_furn( fdest ) &&
             !m.veh_at( fdest ) &&
             ( !has_floor || m.tr_at( fdest ).is_null() );
@@ -9649,13 +9649,13 @@ int game::grabbed_furn_move_time( const tripoint &dp )
         return liquid_item.made_of_from_type( phase_id::LIQUID );
     } );
 
-    const bool dst_item_ok = !m.has_flag( "NOITEM", fdest ) &&
-                             !m.has_flag( "SWIMMABLE", fdest ) &&
-                             !m.has_flag( "DESTROY_ITEM", fdest ) &&
+    const bool dst_item_ok = !m.has_flag( TFLAG_NOITEM, fdest ) &&
+                             !m.has_flag( TFLAG_SWIMMABLE, fdest ) &&
+                             !m.has_flag( TFLAG_DESTROY_ITEM, fdest ) &&
                              only_liquid_items;
     const bool src_item_ok = m.furn( fpos ).obj().has_flag( "CONTAINER" ) ||
-                             m.furn( fpos ).obj().has_flag( "FIRE_CONTAINER" ) ||
-                             m.furn( fpos ).obj().has_flag( "SEALED" );
+                             m.furn( fpos ).obj().has_flag( TFLAG_FIRE_CONTAINER ) ||
+                             m.furn( fpos ).obj().has_flag( TFLAG_SEALED );
 
     int str_req = furntype.move_str_req;
     // Factor in weight of items contained in the furniture.
@@ -9728,13 +9728,13 @@ bool game::grabbed_furn_move( const tripoint &dp )
         return liquid_item.made_of_from_type( phase_id::LIQUID );
     } );
 
-    const bool dst_item_ok = !m.has_flag( "NOITEM", fdest ) &&
-                             !m.has_flag( "SWIMMABLE", fdest ) &&
-                             !m.has_flag( "DESTROY_ITEM", fdest );
+    const bool dst_item_ok = !m.has_flag( TFLAG_NOITEM, fdest ) &&
+                             !m.has_flag( TFLAG_SWIMMABLE, fdest ) &&
+                             !m.has_flag( TFLAG_DESTROY_ITEM, fdest );
 
     const bool src_item_ok = m.furn( fpos ).obj().has_flag( "CONTAINER" ) ||
-                             m.furn( fpos ).obj().has_flag( "FIRE_CONTAINER" ) ||
-                             m.furn( fpos ).obj().has_flag( "SEALED" );
+                             m.furn( fpos ).obj().has_flag( TFLAG_FIRE_CONTAINER ) ||
+                             m.furn( fpos ).obj().has_flag( TFLAG_SEALED );
 
     const int fire_intensity = m.get_field_intensity( fpos, fd_fire );
     time_duration fire_age = m.get_field_age( fpos, fd_fire );
@@ -9840,7 +9840,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
         }
     }
 
-    if( !m.has_floor( fdest ) && !m.has_flag( "FLAT", fdest ) ) {
+    if( !m.has_floor( fdest ) && !m.has_flag( TFLAG_FLAT, fdest ) ) {
         std::string danger_tile = enumerate_as_string( get_dangerous_tile( fdest ) );
         add_msg( _( "You let go of the %1$s as it falls down the %2$s." ), furntype.name(), danger_tile );
         u.grab( object_type::NONE );
@@ -10103,7 +10103,7 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
     }
 
     // Fall down to the ground - always on the last reached tile
-    if( !m.has_flag( "SWIMMABLE", c->pos() ) ) {
+    if( !m.has_flag( TFLAG_SWIMMABLE, c->pos() ) ) {
         const trap &trap_under_creature = m.tr_at( c->pos() );
         // Didn't smash into a wall or a floor so only take the fall damage
         if( thru && trap_under_creature == tr_ledge ) {
@@ -10205,7 +10205,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
 
     map &here = get_map();
     // > and < are used for diving underwater.
-    if( here.has_flag( "SWIMMABLE", u.pos() ) && here.has_flag( TFLAG_DEEP_WATER, u.pos() ) ) {
+    if( here.has_flag( TFLAG_SWIMMABLE, u.pos() ) && here.has_flag( TFLAG_DEEP_WATER, u.pos() ) ) {
         if( movez == -1 ) {
             if( u.is_underwater() ) {
                 add_msg( m_info, _( "You are already underwater!" ) );
@@ -10235,7 +10235,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     bool climbing = false;
     int move_cost = 100;
     tripoint stairs( u.posx(), u.posy(), u.posz() + movez );
-    if( here.has_zlevels() && !force && movez == 1 && !here.has_flag( "GOES_UP", u.pos() ) ) {
+    if( here.has_zlevels() && !force && movez == 1 && !here.has_flag( TFLAG_GOES_UP, u.pos() ) ) {
         // Climbing
         if( here.has_floor_or_support( stairs ) ) {
             add_msg( m_info, _( "You can't climb here - there's a ceiling above your head." ) );
@@ -10275,10 +10275,10 @@ void game::vertical_move( int movez, bool force, bool peeking )
         }
     }
 
-    if( !force && movez == -1 && !here.has_flag( "GOES_DOWN", u.pos() ) ) {
+    if( !force && movez == -1 && !here.has_flag( TFLAG_GOES_DOWN, u.pos() ) ) {
         add_msg( m_info, _( "You can't go down here!" ) );
         return;
-    } else if( !climbing && !force && movez == 1 && !here.has_flag( "GOES_UP", u.pos() ) ) {
+    } else if( !climbing && !force && movez == 1 && !here.has_flag( TFLAG_GOES_UP, u.pos() ) ) {
         add_msg( m_info, _( "You can't go up here!" ) );
         return;
     }
@@ -10306,7 +10306,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         return;
     }
 
-    if( here.has_flag( "UNSTABLE", u.pos() ) ) {
+    if( here.has_flag( TFLAG_UNSTABLE, u.pos() ) ) {
         u.moves -= 500;
         if( movez == 1 && slip_down() ) {
             return;
@@ -10698,7 +10698,7 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
     }
 
     if( movez > 0 ) {
-        if( !mp.has_flag( "GOES_DOWN", *stairs ) ) {
+        if( !mp.has_flag( TFLAG_GOES_DOWN, *stairs ) ) {
             if( !query_yn( _( "You may be unable to return back down these stairs.  Continue up?" ) ) ) {
                 return cata::nullopt;
             }

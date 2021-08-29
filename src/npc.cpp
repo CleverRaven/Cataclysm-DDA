@@ -2810,7 +2810,7 @@ void npc::on_load()
 
     map &here = get_map();
     // for spawned npcs
-    if( here.has_flag( "UNSTABLE", pos() ) ) {
+    if( here.has_flag( TFLAG_UNSTABLE, pos() ) ) {
         add_effect( effect_bouldering, 1_turns,  true );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );

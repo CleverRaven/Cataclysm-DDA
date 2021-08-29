@@ -39,16 +39,11 @@ static const species_id species_FUNGUS( "FUNGUS" );
 static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
-static const std::string flag_DIGGABLE( "DIGGABLE" );
-static const std::string flag_FLAMMABLE( "FLAMMABLE" );
-static const std::string flag_FLAT( "FLAT" );
 static const std::string flag_FLOWER( "FLOWER" );
 static const std::string flag_ORGANIC( "ORGANIC" );
 static const std::string flag_PLANT( "PLANT" );
 static const std::string flag_SHRUB( "SHRUB" );
-static const std::string flag_THIN_OBSTACLE( "THIN_OBSTACLE" );
 static const std::string flag_TREE( "TREE" );
-static const std::string flag_WALL( "WALL" );
 static const std::string flag_YOUNG( "YOUNG" );
 
 void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spore_chance )
@@ -142,12 +137,12 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
     map &here = get_map();
     bool converted = false;
     // Terrain conversion
-    if( here.has_flag_ter( flag_DIGGABLE, p ) ) {
+    if( here.has_flag_ter( TFLAG_DIGGABLE, p ) ) {
         if( x_in_y( growth * 10, 100 ) ) {
             here.ter_set( p, t_fungus );
             converted = true;
         }
-    } else if( here.has_flag( flag_FLAT, p ) ) {
+    } else if( here.has_flag( TFLAG_FLAT, p ) ) {
         if( here.has_flag( TFLAG_INDOORS, p ) ) {
             if( x_in_y( growth * 10, 500 ) ) {
                 here.ter_set( p, t_fungus_floor_in );
@@ -172,7 +167,7 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
             here.ter_set( p, t_marloss );
             converted = true;
         }
-    } else if( here.has_flag( flag_THIN_OBSTACLE, p ) ) {
+    } else if( here.has_flag( TFLAG_THIN_OBSTACLE, p ) ) {
         if( x_in_y( growth * 10, 150 ) ) {
             here.ter_set( p, t_fungus_mound );
             converted = true;
@@ -209,7 +204,7 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
             }
             converted = true;
         }
-    } else if( here.has_flag( flag_WALL, p ) && here.has_flag( flag_FLAMMABLE, p ) ) {
+    } else if( here.has_flag( TFLAG_WALL, p ) && here.has_flag( TFLAG_FLAMMABLE, p ) ) {
         if( x_in_y( growth * 10, 5000 ) ) {
             here.ter_set( p, t_fungus_wall );
             converted = true;

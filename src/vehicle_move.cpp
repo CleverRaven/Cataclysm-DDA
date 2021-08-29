@@ -823,7 +823,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             return ret;
         }
         // we just ran into a fish, so move it out of the way
-        if( here.has_flag( "SWIMMABLE", critter->pos() ) ) {
+        if( here.has_flag( TFLAG_SWIMMABLE, critter->pos() ) ) {
             tripoint end_pos = critter->pos();
             tripoint start_pos;
             const units::angle angle =
