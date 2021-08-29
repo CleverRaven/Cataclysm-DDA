@@ -560,6 +560,8 @@ std::string talker_npc::give_item_to( const bool to_use )
     } else {//allow_use is false so try to carry instead
         if( me_npc->can_pickVolume( given ) && me_npc->can_pickWeight( given ) ) {
             reason = _( "Thanks, I'll carry that now." );
+            // set the item given to be favorited so it's not dropped automatically
+            given.set_favorite( true );
             taken = true;
             me_npc->i_add( given );
         } else {
@@ -581,8 +583,6 @@ std::string talker_npc::give_item_to( const bool to_use )
     }
 
     if( taken ) {
-        // set the item given to be favorited so it's not dropped automatically
-        given.set_favorite( true );
         player_character.i_rem( &given );
         player_character.moves -= 100;
         me_npc->has_new_items = true;
