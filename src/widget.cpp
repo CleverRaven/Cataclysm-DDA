@@ -352,9 +352,7 @@ std::string widget::color_text_function_string( const avatar &ava )
             desc.first = ava.martial_arts_data->selected_style_name( ava );
             break;
         case widget_var::date_text:
-            desc.first = string_format( "%s, day %d",
-                                        calendar::name_season( season_of_year( calendar::turn ) ),
-                                        day_of_season<int>( calendar::turn ) + 1 );
+            desc.first = display::date_string();
             break;
         case widget_var::time_text:
             desc.first = display::time_string( ava );

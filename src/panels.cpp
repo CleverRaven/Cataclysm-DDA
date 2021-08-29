@@ -557,6 +557,13 @@ std::string display::time_approx()
     return _( "Night" );
 }
 
+std::string display::date_string()
+{
+    const std::string season = calendar::name_season( season_of_year( calendar::turn ) );
+    const int day_num = day_of_season<int>( calendar::turn ) + 1;
+    return string_format( "%s, day %d", season, day_num );
+}
+
 std::string display::time_string( const Character &u )
 {
     // Return exact time if character has a watch, or approximate time if aboveground
@@ -1732,9 +1739,7 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     wprintz( w, ll.second, ll.first );
 
     // display date
-    mvwprintz( w, point( 1, 3 ), c_light_gray, _( "Date : %s, day %d" ),
-               calendar::name_season( season_of_year( calendar::turn ) ),
-               day_of_season<int>( calendar::turn ) + 1 );
+    mvwprintz( w, point( 1, 3 ), c_light_gray, _( "Date : %s" ), display::date_string() );
 
     // display time
     mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : %s" ), display::time_string( u ) );
@@ -2334,10 +2339,7 @@ static void draw_time_classic( const avatar &u, const catacurses::window &w )
     werase( w );
 
     // display date
-    mvwprintz( w, point_zero, c_white,
-               calendar::name_season( season_of_year( calendar::turn ) ) + "," );
-    std::string day = std::to_string( day_of_season<int>( calendar::turn ) + 1 );
-    mvwprintz( w, point( 8, 0 ), c_white, _( "Day " ) + day );
+    mvwprintz( w, point_zero, c_white, display::date_string() );
     // display time
     if( u.has_watch() ) {
         mvwprintz( w, point( 15, 0 ), c_light_gray, to_string_time_of_day( calendar::turn ) );
