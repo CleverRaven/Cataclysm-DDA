@@ -74,11 +74,7 @@
     "charges_per_use": 100,
     "use_action": [ "TAZER" ],
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_battery_cell"
-      }
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_MEDIUM" ], "default_magazine": "medium_battery_cell" }
     ]
   }
 ]
