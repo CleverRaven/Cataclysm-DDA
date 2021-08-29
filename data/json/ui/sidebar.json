@@ -539,6 +539,14 @@
     "//": "Uses display::activity_text_color"
   },
   {
+    "id": "body_temp_desc",
+    "type": "widget",
+    "label": "Body Heat",
+    "style": "text",
+    "var": "body_temp_text",
+    "//": "Uses display::temp_text_color"
+  },
+  {
     "id": "mood_desc",
     "type": "widget",
     "label": "Mood",
