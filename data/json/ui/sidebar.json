@@ -531,6 +531,14 @@
     "widgets": [ "int_num", "per_num" ]
   },
   {
+    "id": "activity_desc",
+    "type": "widget",
+    "label": "Activity",
+    "style": "text",
+    "var": "activity_text",
+    "//": "Uses display::activity_text_color"
+  },
+  {
     "id": "pain_desc",
     "type": "widget",
     "label": "Pain",
