@@ -557,7 +557,6 @@
       ],
       "V": { "item": "softdrugs", "chance": 50 },
       "Y": { "item": "trash", "chance": 30, "repeat": [ 1, 4 ] },
-      "7": { "item": "anesthesia", "chance": 50, "repeat": [ 1, 3 ] },
       "8": [
         { "item": "SUS_bathroom_cabinet", "chance": 30 },
         { "item": "SUS_bathroom_medicine", "chance": 40 },
