@@ -77,7 +77,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "flag_restriction": [ "BATTERY_MEDIUM" ],
-        "default_magazine": "medium_plus_battery_cell"
+        "default_magazine": "medium_battery_cell"
       }
     ]
   }
