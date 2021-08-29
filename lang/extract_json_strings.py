@@ -666,6 +666,8 @@ def extract_recipes(item):
             for (k, v) in item["book_learn"].items():
                 if type(v) is dict and "recipe_name" in v:
                     writestr(outfile, v["recipe_name"])
+    if "name" in item:
+        writestr(outfile, item["name"])
     if "description" in item:
         writestr(outfile, item["description"])
     if "blueprint_name" in item:
@@ -1046,6 +1048,7 @@ extract_specials = {
     "mutation": extract_mutation,
     "mutation_category": extract_mutation_category,
     "palette": extract_palette,
+    "practice": extract_recipes,
     "profession": extract_professions,
     "recipe_category": extract_recipe_category,
     "recipe": extract_recipes,

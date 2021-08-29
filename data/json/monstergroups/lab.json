@@ -155,6 +155,17 @@
     "monsters": [ { "monster": "mon_prototype_cyborg", "freq": 400, "cost_multiplier": 0 } ]
   },
   {
+    "name": "GROUP_LAB_MUTANT_BOSS",
+    "type": "monstergroup",
+    "default": "mon_mutant_evolved",
+    "monsters": [
+      { "monster": "mon_mutant_antler", "freq": 250, "cost_multiplier": 1 },
+      { "monster": "mon_mutant_arthropod", "freq": 300, "cost_multiplier": 1 },
+      { "monster": "mon_mutant_mollusk", "freq": 150, "cost_multiplier": 1 },
+      { "monster": "mon_mutant_camouflaged", "freq": 150, "cost_multiplier": 1 }
+    ]
+  },
+  {
     "type": "monstergroup",
     "name": "GROUP_MICROLAB",
     "default": "mon_zombie_scientist",
