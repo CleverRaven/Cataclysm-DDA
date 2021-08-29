@@ -33,6 +33,7 @@
 
 #include "active_item_cache.h"
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "assign.h"
 #include "auto_pickup.h"
@@ -334,13 +335,15 @@ void player_activity::deserialize( JsonIn &jsin )
     // this may cause inconvenience but should avoid any lasting damage to npcs
     if( is_obsolete || ( has_actor && ( data.has_null( "actor" ) || !data.has_member( "actor" ) ) ) ) {
         type = activity_id( "ACT_MIGRATION_CANCEL" );
+        actor = std::make_unique<migration_cancel_activity_actor>();
+    } else {
+        data.read( "actor", actor );
     }
 
     if( !data.read( "position", tmppos ) ) {
         tmppos = INT_MIN;  // If loading a save before position existed, hope.
     }
 
-    data.read( "actor", actor );
     data.read( "moves_total", moves_total );
     data.read( "moves_left", moves_left );
     data.read( "interruptable", interruptable );
