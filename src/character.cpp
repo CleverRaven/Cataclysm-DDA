@@ -2776,14 +2776,14 @@ bionic_id Character::get_most_efficient_bionic( const std::vector<bionic_id> &bi
     return bio;
 }
 
-void Character::practice( const skill_id &id, int amount, int cap, bool suppress_warning )
+bool Character::practice( const skill_id &id, int amount, int cap, bool suppress_warning )
 {
     SkillLevel &level = get_skill_level_object( id );
     const Skill &skill = id.obj();
     if( !level.can_train() || in_sleep_state() || ( get_skill_level( id ) >= MAX_SKILL ) ) {
         // Do not practice if: cannot train, asleep, or at effective skill cap
         // Leaving as a skill method rather than global for possible future skill cap setting
-        return;
+        return false;
     }
 
     // Your ability to "catch up" skill experience to knowledge is mostly a function of intelligence,
@@ -2833,6 +2833,7 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
             handle_skill_warning( id, false );
         }
     }
+    bool level_up = false;
     if( amount > 0 && level.isTraining() ) {
         int old_practical_level = get_skill_level( id );
         int old_theoretical_level = get_knowledge_level( id );
@@ -2846,6 +2847,7 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
         if( is_avatar() && new_practical_level > old_practical_level ) {
             add_msg( m_good, _( "Your practical skill in %s has increased to %d!" ), skill_name,
                      new_practical_level );
+            level_up = true;
         }
         if( is_avatar() && new_theoretical_level > old_theoretical_level ) {
             add_msg( m_good, _( "Your theoretical understanding of %s has increased to %d!" ), skill_name,
@@ -2878,6 +2880,7 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
     }
 
     get_skill_level_object( id ).practice();
+    return level_up;
 }
 
 // Returned values range from 1.0 (unimpeded vision) to 11.0 (totally blind).
@@ -13635,7 +13638,7 @@ std::vector<display_proficiency> Character::display_proficiencies() const
     return _proficiencies->display();
 }
 
-void Character::practice_proficiency( const proficiency_id &prof, const time_duration &amount,
+bool Character::practice_proficiency( const proficiency_id &prof, const time_duration &amount,
                                       const cata::optional<time_duration> &max )
 {
     // Proficiencies can ignore focus using the `ignore_focus` JSON property
@@ -13655,6 +13658,7 @@ void Character::practice_proficiency( const proficiency_id &prof, const time_dur
     if( learned ) {
         add_msg_if_player( m_good, _( "You are now proficient in %s!" ), prof->name() );
     }
+    return learned;
 }
 
 time_duration Character::proficiency_training_needed( const proficiency_id &prof ) const

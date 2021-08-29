@@ -9624,7 +9624,7 @@ cata::optional<int> iuse::craft( Character *p, item *it, bool, const tripoint & 
     }
     const recipe &rec = it->get_making();
     const inventory &inv = p->crafting_inventory();
-    if( p->has_recipe( &rec, inv, p->get_crafting_helpers() ) == -1 ) {
+    if( !p->has_recipe( &rec, inv, p->get_crafting_helpers() ) ) {
         p->add_msg_player_or_npc(
             _( "You don't know the recipe for the %s and can't continue crafting." ),
             _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),

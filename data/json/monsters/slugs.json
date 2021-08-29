@@ -26,6 +26,7 @@
     "vision_day": 10,
     "vision_night": 30,
     "harvest": "exempt",
+    "fear_triggers": [ "FIRE" ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "regenerates": 50,
     "flags": [ "NOHEAD", "SEES", "POISON", "HEARS", "SMELLS", "SLUDGEPROOF", "SLUDGETRAIL", "SWIMS", "FLAMMABLE", "NOGIB" ]
