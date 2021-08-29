@@ -75,7 +75,6 @@ void mapgen_ants_larvae( mapgendata &dat );
 void mapgen_ants_larvae_acid( mapgendata &dat );
 void mapgen_ants_queen( mapgendata &dat );
 void mapgen_ants_queen_acid( mapgendata &dat );
-void mapgen_tutorial( mapgendata &dat );
 void mapgen_lake_shore( mapgendata &dat );
 void mapgen_ravine_edge( mapgendata &dat );
 
