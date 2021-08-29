@@ -11,6 +11,7 @@
 
 #include "calendar.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
 #include "dispersion.h"
@@ -203,7 +204,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     double range = rl_dist( source, target_arg );
 
-    Creature *target_critter = g->critter_at( target_arg );
+    creature_tracker &creatures = get_creature_tracker();
+    Creature *target_critter = creatures.creature_at( target_arg );
     map &here = get_map();
     double target_size = target_critter != nullptr ?
                          target_critter->ranged_target_size() :
@@ -248,7 +250,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     // If we were targeting a tile rather than a monster, don't overshoot
     // Unless the target was a wall, then we are aiming high enough to overshoot
     const bool no_overshoot = proj_effects.count( "NO_OVERSHOOT" ) ||
-                              ( g->critter_at( target_arg ) == nullptr && here.passable( target_arg ) );
+                              ( creatures.creature_at( target_arg ) == nullptr && here.passable( target_arg ) );
 
     double extend_to_range = no_overshoot ? range : proj_arg.range;
 
@@ -367,7 +369,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             }
         }
 
-        Creature *critter = g->critter_at( tp );
+        Creature *critter = creatures.creature_at( tp );
         if( origin == critter ) {
             // No hitting self with "weird" attacks.
             critter = nullptr;

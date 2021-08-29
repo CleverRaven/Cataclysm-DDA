@@ -14,6 +14,7 @@
 #include "colony.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
 #include "enums.h"
@@ -1192,9 +1193,10 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
     tripoint where = p;
     tripoint below = where;
     below.z--;
+    creature_tracker &creatures = get_creature_tracker();
     while( here.valid_move( where, below, false, true ) ) {
         where.z--;
-        if( g->critter_at( where ) != nullptr ) {
+        if( get_creature_tracker().creature_at( where ) != nullptr ) {
             where.z++;
             break;
         }
@@ -1205,7 +1207,7 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
 
     if( height == 0 && c->is_avatar() ) {
         // For now just special case player, NPCs don't "zedwalk"
-        Creature *critter = g->critter_at( below, true );
+        Creature *critter = creatures.creature_at( below, true );
         if( critter == nullptr || !critter->is_monster() ) {
             return false;
         }

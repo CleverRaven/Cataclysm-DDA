@@ -137,7 +137,6 @@
 #include "path_info.h"
 #include "pathfinding.h"
 #include "pickup.h"
-#include "player.h"
 #include "player_activity.h"
 #include "popup.h"
 #include "profession.h"
@@ -211,6 +210,7 @@ static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_flu( "flu" );
+static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_no_sight( "no_sight" );
@@ -243,7 +243,6 @@ static const trait_id trait_INFIMMUNE( "INFIMMUNE" );
 static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
-static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_THICKSKIN( "THICKSKIN" );
@@ -255,6 +254,8 @@ static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction
 static const faction_id faction_your_followers( "your_followers" );
 
 static const flag_id json_flag_SPLINT( "SPLINT" );
+
+static const proficiency_id proficiency_prof_parkour( "prof_parkour" );
 
 #if defined(__ANDROID__)
 extern bool add_key_to_quick_shortcuts( int key, const std::string &category, bool back );
@@ -621,7 +622,7 @@ void game::setup()
     sounds::reset_sounds();
     clear_zombies();
     coming_to_stairs.clear();
-    active_npc.clear();
+    critter_tracker->clear_npcs();
     faction_manager_ptr->clear();
     mission::clear_all();
     Messages::clear_messages();
@@ -849,6 +850,7 @@ bool game::start_game()
         new_mission->assign( u );
     }
 
+
     get_event_bus().send<event_type::game_start>( u.getID(), u.name, u.male, u.prof->ident(),
             u.custom_profession, getVersionString() );
     time_played_at_last_load = std::chrono::seconds( 0 );
@@ -923,11 +925,12 @@ void game::load_npcs()
     std::vector<shared_ptr_fast<npc>> just_added;
     for( const auto &temp : overmap_buffer.get_npcs_near_player( radius ) ) {
         const character_id &id = temp->getID();
-        const auto found = std::find_if( active_npc.begin(), active_npc.end(),
+        const auto found = std::find_if( critter_tracker->active_npc.begin(),
+                                         critter_tracker->active_npc.end(),
         [id]( const shared_ptr_fast<npc> &n ) {
             return n->getID() == id;
         } );
-        if( found != active_npc.end() ) {
+        if( found != critter_tracker->active_npc.end() ) {
             continue;
         }
         if( temp->is_active() ) {
@@ -955,7 +958,7 @@ void game::load_npcs()
         if( temp->marked_for_death ) {
             temp->die( nullptr );
         } else {
-            active_npc.push_back( temp );
+            critter_tracker->active_npc.push_back( temp );
             just_added.push_back( temp );
         }
     }
@@ -969,11 +972,11 @@ void game::load_npcs()
 
 void game::unload_npcs()
 {
-    for( const auto &npc : active_npc ) {
+    for( const auto &npc : critter_tracker->active_npc ) {
         npc->on_unload();
     }
 
-    active_npc.clear();
+    critter_tracker->clear_npcs();
 }
 
 void game::reload_npcs()
@@ -1144,7 +1147,7 @@ void game::set_driving_view_offset( const point &p )
     u.view_offset.y += driving_view_offset.y;
 }
 
-void game::catch_a_monster( monster *fish, const tripoint &pos, player *p,
+void game::catch_a_monster( monster *fish, const tripoint &pos, Character *p,
                             const time_duration &catch_duration ) // catching function
 {
     //spawn the corpse, rotten by a part of the duration
@@ -1158,14 +1161,18 @@ void game::catch_a_monster( monster *fish, const tripoint &pos, player *p,
     fish->die( p );
 }
 
-static bool cancel_auto_move( player &p, const std::string &text )
+static bool cancel_auto_move( Character &you, const std::string &text )
 {
-    if( p.has_destination() && query_yn( _( "%s, cancel Auto-move?" ), text ) )  {
-        add_msg( m_warning, _( "%s. Auto-move canceled" ), text );
-        if( !p.omt_path.empty() ) {
-            p.omt_path.clear();
+    if( !you.has_destination() ) {
+        return false;
+    }
+    g->invalidate_main_ui_adaptor();
+    if( query_yn( _( "%s Cancel auto-move?" ), text ) )  {
+        add_msg( m_warning, _( "%s Auto-move canceled." ), text );
+        if( !you.omt_path.empty() ) {
+            you.omt_path.clear();
         }
-        p.clear_destination();
+        you.clear_destination();
         return true;
     }
     return false;
@@ -1222,10 +1229,10 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
 
 bool game::cancel_activity_query( const std::string &text )
 {
-    if( u.has_distant_destination() ) {
+    if( u.has_destination() ) {
         if( cancel_auto_move( u, text ) ) {
             return true;
-        } else {
+        } else if( u.has_distant_destination() ) {
             u.set_destination( u.get_auto_move_route(), player_activity( activity_id( "ACT_TRAVELLING" ) ) );
             return false;
         }
@@ -1233,6 +1240,7 @@ bool game::cancel_activity_query( const std::string &text )
     if( !u.activity ) {
         return false;
     }
+    g->invalidate_main_ui_adaptor();
     if( query_yn( "%s %s", text, u.activity.get_stop_phrase() ) ) {
         u.cancel_activity();
         u.clear_destination();
@@ -1273,16 +1281,18 @@ int get_heat_radiation( const tripoint &location, bool direct )
     int best_fire = 0;
     Character &player_character = get_player_character();
     map &here = get_map();
+    // Convert it to an int id once, instead of 139 times per turn
+    const field_type_id fd_fire_int = fd_fire.id();
     for( const tripoint &dest : here.points_in_radius( location, 6 ) ) {
         int heat_intensity = 0;
 
         maptile mt = here.maptile_at( dest );
 
-        int ffire = maptile_field_intensity( mt, fd_fire );
+        int ffire = maptile_field_intensity( mt, fd_fire_int );
         if( ffire > 0 ) {
             heat_intensity = ffire;
         } else  {
-            heat_intensity = here.ter( dest )->heat_radiation;
+            heat_intensity = mt.get_ter()->heat_radiation;
         }
         if( heat_intensity == 0 ) {
             // No heat source here
@@ -1379,7 +1389,7 @@ void game::validate_mounted_npcs()
 {
     for( monster &m : all_monsters() ) {
         if( m.has_effect( effect_ridden ) && m.mounted_player_id.is_valid() ) {
-            player *mounted_pl = g->critter_by_id<player>( m.mounted_player_id );
+            Character *mounted_pl = g->critter_by_id<Character>( m.mounted_player_id );
             if( !mounted_pl ) {
                 // Target no longer valid.
                 m.mounted_player_id = character_id();
@@ -2177,7 +2187,7 @@ bool game::try_get_right_click_action( action_id &act, const tripoint &mouse_tar
 
     const bool is_adjacent = square_dist( mouse_target.xy(), point( u.posx(), u.posy() ) ) <= 1;
     const bool is_self = square_dist( mouse_target.xy(), point( u.posx(), u.posy() ) ) <= 0;
-    if( const monster *const mon = critter_at<monster>( mouse_target ) ) {
+    if( const monster *const mon = get_creature_tracker().creature_at<monster>( mouse_target ) ) {
         if( !u.sees( *mon ) ) {
             add_msg( _( "Nothing relevant here." ) );
             return false;
@@ -2803,7 +2813,7 @@ void game::disp_NPCs()
                    scan_range, npcs.size(), static_npc_count );
         for( i = 0; i < 20 && i < npcs.size(); i++ ) {
             const tripoint_abs_omt apos = npcs[i]->global_omt_location();
-            mvwprintz( w, point( 0, i + 4 ), c_white, "%s: %s", npcs[i]->name,
+            mvwprintz( w, point( 0, i + 4 ), c_white, "%s: %s", npcs[i]->get_name(),
                        apos.to_string() );
         }
         for( const monster &m : all_monsters() ) {
@@ -3432,13 +3442,7 @@ float game::natural_light_level( const int zlev ) const
     float ret = LIGHT_AMBIENT_MINIMAL;
 
     // Sunlight/moonlight related stuff
-    if( !weather.lightning_active ) {
-        ret = sun_moon_light_at( calendar::turn );
-    } else {
-        // Recent lightning strike has lit the area
-        ret = default_daylight_level();
-    }
-
+    ret = sun_moon_light_at( calendar::turn );
     ret += get_weather().weather_id->light_modifier;
 
     // Artifact light level changes here. Even though some of these only have an effect
@@ -3461,6 +3465,9 @@ float game::natural_light_level( const int zlev ) const
     if( timed_events.queued( timed_event_type::ARTIFACT_LIGHT ) ) {
         // timed_event_type::ARTIFACT_LIGHT causes everywhere to become as bright as day.
         mod_ret = std::max<float>( ret, default_daylight_level() );
+    }
+    if( const timed_event *e = timed_events.get( timed_event_type::CUSTOM_LIGHT_LEVEL ) ) {
+        mod_ret = e->strength;
     }
     // If we had a changed light level due to an artifact event then it overwrites
     // the natural light level.
@@ -3981,7 +3988,7 @@ void game::cleanup_dead()
 
     bool npc_is_dead = false;
     // can't use all_npcs as that does not include dead ones
-    for( const auto &n : active_npc ) {
+    for( const auto &n : critter_tracker->active_npc ) {
         if( n->is_dead() ) {
             n->die( nullptr ); // make sure this has been called to create corpses etc.
             npc_is_dead = true;
@@ -3994,11 +4001,11 @@ void game::cleanup_dead()
     }
 
     if( npc_is_dead ) {
-        for( auto it = active_npc.begin(); it != active_npc.end(); ) {
+        for( auto it = critter_tracker->active_npc.begin(); it != critter_tracker->active_npc.end(); ) {
             if( ( *it )->is_dead() ) {
                 remove_npc_follower( ( *it )->getID() );
                 overmap_buffer.remove_npc( ( *it )->getID() );
-                it = active_npc.erase( it );
+                it = critter_tracker->active_npc.erase( it );
             } else {
                 it++;
             }
@@ -4034,12 +4041,13 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
     // the header file says higher force causes more damage.
     // perhaps that is what it should do?
     tripoint tp = traj.front();
-    if( !critter_at( tp ) ) {
+    creature_tracker &creatures = get_creature_tracker();
+    if( !creatures.creature_at( tp ) ) {
         debugmsg( _( "Nothing at (%d,%d,%d) to knockback!" ), tp.x, tp.y, tp.z );
         return;
     }
     std::size_t force_remaining = traj.size();
-    if( monster *const targ = critter_at<monster>( tp, true ) ) {
+    if( monster *const targ = creatures.creature_at<monster>( tp, true ) ) {
         if( stun > 0 ) {
             targ->add_effect( effect_stunned, 1_turns * stun );
             add_msg( _( "%s was stunned!" ), targ->name() );
@@ -4057,7 +4065,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                 }
                 m.bash( traj[i], 2 * dam_mult * force_remaining );
                 break;
-            } else if( critter_at( traj[i] ) ) {
+            } else if( creatures.creature_at( traj[i] ) ) {
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
@@ -4065,10 +4073,10 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                     add_msg( _( "%s was stunned!" ), targ->name() );
                 }
                 traj.erase( traj.begin(), traj.begin() + i );
-                if( critter_at<monster>( traj.front() ) ) {
+                if( creatures.creature_at<monster>( traj.front() ) ) {
                     add_msg( _( "%s collided with something else and sent it flying!" ),
                              targ->name() );
-                } else if( npc *const guy = critter_at<npc>( traj.front() ) ) {
+                } else if( npc *const guy = creatures.creature_at<npc>( traj.front() ) ) {
                     if( guy->male ) {
                         add_msg( _( "%s collided with someone else and sent him flying!" ),
                                  targ->name() );
@@ -4097,10 +4105,10 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                 }
             }
         }
-    } else if( npc *const targ = critter_at<npc>( tp ) ) {
+    } else if( npc *const targ = creatures.creature_at<npc>( tp ) ) {
         if( stun > 0 ) {
             targ->add_effect( effect_stunned, 1_turns * stun );
-            add_msg( _( "%s was stunned!" ), targ->name );
+            add_msg( _( "%s was stunned!" ), targ->get_name() );
         }
         for( size_t i = 1; i < traj.size(); i++ ) {
             if( m.impassable( traj[i].xy() ) ) { // oops, we hit a wall!
@@ -4109,7 +4117,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                 if( stun != 0 ) {
                     targ->add_effect( effect_stunned, 1_turns * force_remaining );
                     if( targ->has_effect( effect_stunned ) ) {
-                        add_msg( _( "%s was stunned!" ), targ->name );
+                        add_msg( _( "%s was stunned!" ), targ->get_name() );
                     }
 
                     std::array<bodypart_id, 8> bps = {{
@@ -4129,32 +4137,32 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                 }
                 m.bash( traj[i], 2 * dam_mult * force_remaining );
                 break;
-            } else if( critter_at( traj[i] ) ) {
+            } else if( creatures.creature_at( traj[i] ) ) {
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
-                    add_msg( _( "%s was stunned!" ), targ->name );
+                    add_msg( _( "%s was stunned!" ), targ->get_name() );
                     targ->add_effect( effect_stunned, 1_turns * force_remaining );
                 }
                 traj.erase( traj.begin(), traj.begin() + i );
                 const tripoint &traj_front = traj.front();
-                if( critter_at<monster>( traj_front ) ) {
+                if( creatures.creature_at<monster>( traj_front ) ) {
                     add_msg( _( "%s collided with something else and sent it flying!" ),
-                             targ->name );
-                } else if( npc *const guy = critter_at<npc>( traj_front ) ) {
+                             targ->get_name() );
+                } else if( npc *const guy = creatures.creature_at<npc>( traj_front ) ) {
                     if( guy->male ) {
                         add_msg( _( "%s collided with someone else and sent him flying!" ),
-                                 targ->name );
+                                 targ->get_name() );
                     } else {
                         add_msg( _( "%s collided with someone else and sent her flying!" ),
-                                 targ->name );
+                                 targ->get_name() );
                     }
                 } else if( u.posx() == traj_front.x && u.posy() == traj_front.y &&
                            ( u.has_trait( trait_LEG_TENT_BRACE ) && ( !u.footwear_factor() ||
                                    ( u.footwear_factor() == .5 && one_in( 2 ) ) ) ) ) {
-                    add_msg( _( "%s collided with you, and barely dislodges your tentacles!" ), targ->name );
+                    add_msg( _( "%s collided with you, and barely dislodges your tentacles!" ), targ->get_name() );
                 } else if( u.posx() == traj_front.x && u.posy() == traj_front.y ) {
-                    add_msg( m_bad, _( "%s collided with you and sent you flying!" ), targ->name );
+                    add_msg( m_bad, _( "%s collided with you and sent you flying!" ), targ->get_name() );
                 }
                 knockback( traj, stun, dam_mult );
                 break;
@@ -4203,7 +4211,7 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                 }
                 m.bash( traj[i], 2 * dam_mult * force_remaining );
                 break;
-            } else if( critter_at( traj[i] ) ) {
+            } else if( creatures.creature_at( traj[i] ) ) {
                 u.setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
@@ -4221,9 +4229,9 @@ void game::knockback( std::vector<tripoint> &traj, int stun, int dam_mult )
                     u.add_effect( effect_stunned, 1_turns * force_remaining );
                 }
                 traj.erase( traj.begin(), traj.begin() + i );
-                if( critter_at<monster>( traj.front() ) ) {
+                if( creatures.creature_at<monster>( traj.front() ) ) {
                     add_msg( _( "You collided with something and sent it flying!" ) );
-                } else if( npc *const guy = critter_at<npc>( traj.front() ) ) {
+                } else if( npc *const guy = creatures.creature_at<npc>( traj.front() ) ) {
                     if( guy->male ) {
                         add_msg( _( "You collided with someone and sent him flying!" ) );
                     } else {
@@ -4277,54 +4285,6 @@ void game::use_computer( const tripoint &p )
 }
 
 template<typename T>
-T *game::critter_at( const tripoint &p, bool allow_hallucination )
-{
-    if( const shared_ptr_fast<monster> mon_ptr = critter_tracker->find( p ) ) {
-        if( !allow_hallucination && mon_ptr->is_hallucination() ) {
-            return nullptr;
-        }
-        // if we wanted to check for an NPC / player / avatar,
-        // there is sometimes a monster AND an NPC/player there at the same time.
-        // because the NPC/player etc may be riding that monster.
-        // so only return the monster if we were actually looking for a monster.
-        // otherwise, keep looking for the rider.
-        // critter_at<creature> or critter_at() with no template will still default to returning monster first,
-        // which is ok for the occasions where that happens.
-        if( !mon_ptr->has_effect( effect_ridden ) || ( std::is_same<T, monster>::value ||
-                std::is_same<T, Creature>::value || std::is_same<T, const monster>::value ||
-                std::is_same<T, const Creature>::value ) ) {
-            return dynamic_cast<T *>( mon_ptr.get() );
-        }
-    }
-    if( !std::is_same<T, npc>::value && !std::is_same<T, const npc>::value ) {
-        if( p == u.pos() ) {
-            return dynamic_cast<T *>( &u );
-        }
-    }
-    for( auto &cur_npc : active_npc ) {
-        if( cur_npc->pos() == p && !cur_npc->is_dead() ) {
-            return dynamic_cast<T *>( cur_npc.get() );
-        }
-    }
-    return nullptr;
-}
-
-template<typename T>
-const T *game::critter_at( const tripoint &p, bool allow_hallucination ) const
-{
-    return const_cast<game *>( this )->critter_at<T>( p, allow_hallucination );
-}
-
-template const monster *game::critter_at<monster>( const tripoint &, bool ) const;
-template const npc *game::critter_at<npc>( const tripoint &, bool ) const;
-template const player *game::critter_at<player>( const tripoint &, bool ) const;
-template const avatar *game::critter_at<avatar>( const tripoint &, bool ) const;
-template avatar *game::critter_at<avatar>( const tripoint &, bool );
-template const Character *game::critter_at<Character>( const tripoint &, bool ) const;
-template Character *game::critter_at<Character>( const tripoint &, bool );
-template const Creature *game::critter_at<Creature>( const tripoint &, bool ) const;
-
-template<typename T>
 shared_ptr_fast<T> game::shared_from( const T &critter )
 {
     if( static_cast<const Creature *>( &critter ) == static_cast<const Creature *>( &u ) ) {
@@ -4339,7 +4299,7 @@ shared_ptr_fast<T> game::shared_from( const T &critter )
         }
     }
     if( critter.is_npc() ) {
-        for( auto &cur_npc : active_npc ) {
+        for( auto &cur_npc : critter_tracker->active_npc ) {
             if( static_cast<const Creature *>( cur_npc.get() ) == static_cast<const Creature *>( &critter ) ) {
                 return std::dynamic_pointer_cast<T>( cur_npc );
             }
@@ -4350,7 +4310,6 @@ shared_ptr_fast<T> game::shared_from( const T &critter )
 
 template shared_ptr_fast<Creature> game::shared_from<Creature>( const Creature & );
 template shared_ptr_fast<Character> game::shared_from<Character>( const Character & );
-template shared_ptr_fast<player> game::shared_from<player>( const player & );
 template shared_ptr_fast<avatar> game::shared_from<avatar>( const avatar & );
 template shared_ptr_fast<monster> game::shared_from<monster>( const monster & );
 template shared_ptr_fast<npc> game::shared_from<npc>( const npc & );
@@ -4367,21 +4326,21 @@ T *game::critter_by_id( const character_id &id )
 
 // monsters don't have ids
 template Character *game::critter_by_id<Character>( const character_id & );
-template player *game::critter_by_id<player>( const character_id & );
 template npc *game::critter_by_id<npc>( const character_id & );
 template Creature *game::critter_by_id<Creature>( const character_id & );
 
 static bool can_place_monster( const monster &mon, const tripoint &p )
 {
-    if( const monster *const critter = g->critter_at<monster>( p ) ) {
-        // Creature_tracker handles this. The hallucination monster will simply vanish
+    creature_tracker &creatures = get_creature_tracker();
+    if( const monster *const critter = creatures.creature_at<monster>( p ) ) {
+        // creature_tracker handles this. The hallucination monster will simply vanish
         if( !critter->is_hallucination() ) {
             return false;
         }
     }
     // Although monsters can sometimes exist on the same place as a Character (e.g. ridden horse),
     // it is usually wrong. So don't allow it.
-    if( g->critter_at<Character>( p ) ) {
+    if( creatures.creature_at<Character>( p ) ) {
         return false;
     }
     return mon.will_move_to( p );
@@ -4462,7 +4421,7 @@ monster *game::place_critter_within( const shared_ptr_fast<monster> &mon,
 size_t game::num_creatures() const
 {
     // Plus one for the player.
-    return critter_tracker->size() + active_npc.size() + 1;
+    return critter_tracker->size() + critter_tracker->active_npc.size() + 1;
 }
 
 bool game::update_zombie_pos( const monster &critter, const tripoint &pos )
@@ -4480,18 +4439,18 @@ void game::clear_zombies()
     critter_tracker->clear();
 }
 
-bool game::find_nearby_spawn_point( const Character &target, const mtype_id &mt, int min_radius,
-                                    int max_radius, tripoint &point )
+bool game::find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, int min_radius,
+                                    int max_radius, tripoint &point, bool outdoor_only )
 {
     tripoint target_point;
     //find a legal outdoor place to spawn based on the specified radius,
     //we just try a bunch of random points and use the first one that works, it none do then no spawn
     for( int attempts = 0; attempts < 15; attempts++ ) {
-        target_point = target.pos() + tripoint( rng( -max_radius, max_radius ),
-                                                rng( -max_radius, max_radius ), 0 );
+        target_point = target + tripoint( rng( -max_radius, max_radius ),
+                                          rng( -max_radius, max_radius ), 0 );
         if( can_place_monster( monster( mt->id ), target_point ) &&
-            get_map().is_outside( target_point ) &&
-            rl_dist( target_point, get_player_character().pos() ) > min_radius ) {
+            ( !outdoor_only || get_map().is_outside( target_point ) ) &&
+            rl_dist( target_point, target ) > min_radius ) {
             point = target_point;
             return true;
         }
@@ -4512,7 +4471,7 @@ bool game::spawn_hallucination( const tripoint &p )
         tmp->normalize();
         tmp->randomize( NC_HALLU );
         tmp->spawn_at_precise( tripoint_abs_ms( get_map().getabs( p ) ) );
-        if( !critter_at( p, true ) ) {
+        if( !get_creature_tracker().creature_at( p, true ) ) {
             overmap_buffer.insert_npc( tmp );
             load_npcs();
             return true;
@@ -4521,7 +4480,8 @@ bool game::spawn_hallucination( const tripoint &p )
         }
     }
 
-    return spawn_hallucination( p, MonsterGenerator::generator().get_valid_hallucination() );
+    return spawn_hallucination( p, MonsterGenerator::generator().get_valid_hallucination(),
+                                cata::nullopt );
 }
 /**
  * Attempts to spawn a hallucination at given location.
@@ -4529,14 +4489,17 @@ bool game::spawn_hallucination( const tripoint &p )
  * a monster already in the target square.
  * @return Whether or not a hallucination was successfully spawned.
  */
-bool game::spawn_hallucination( const tripoint &p, const mtype_id &mt )
+bool game::spawn_hallucination( const tripoint &p, const mtype_id &mt,
+                                cata::optional<time_duration> lifespan )
 {
     const shared_ptr_fast<monster> phantasm = make_shared_fast<monster>( mt );
     phantasm->hallucination = true;
     phantasm->spawn( p );
-
+    if( lifespan.has_value() ) {
+        phantasm->set_summon_time( lifespan.value() );
+    }
     //Don't attempt to place phantasms inside of other creatures
-    if( !critter_at( phantasm->pos(), true ) ) {
+    if( !get_creature_tracker().creature_at( phantasm->pos(), true ) ) {
         return critter_tracker->add( phantasm );
     } else {
         return false;
@@ -4550,14 +4513,15 @@ bool game::swap_critters( Creature &a, Creature &b )
         debugmsg( "Tried to swap %s with itself", a.disp_name() );
         return true;
     }
-    if( critter_at( a.pos() ) != &a ) {
+    creature_tracker &creatures = get_creature_tracker();
+    if( creatures.creature_at( a.pos() ) != &a ) {
         debugmsg( "Tried to swap when it would cause a collision between %s and %s.",
-                  b.disp_name(), critter_at( a.pos() )->disp_name() );
+                  b.disp_name(), creatures.creature_at( a.pos() )->disp_name() );
         return false;
     }
-    if( critter_at( b.pos() ) != &b ) {
+    if( creatures.creature_at( b.pos() ) != &b ) {
         debugmsg( "Tried to swap when it would cause a collision between %s and %s.",
-                  a.disp_name(), critter_at( b.pos() )->disp_name() );
+                  a.disp_name(), creatures.creature_at( b.pos() )->disp_name() );
         return false;
     }
     // Simplify by "sorting" the arguments
@@ -4584,8 +4548,8 @@ bool game::swap_critters( Creature &a, Creature &b )
         return true;
     }
 
-    player *u_or_npc = dynamic_cast< player * >( &first );
-    player *other_npc = dynamic_cast< player * >( &second );
+    Character *u_or_npc = dynamic_cast< Character * >( &first );
+    Character *other_npc = dynamic_cast< Character * >( &second );
 
     if( u_or_npc->in_vehicle ) {
         m.unboard_vehicle( u_or_npc->pos() );
@@ -4616,7 +4580,7 @@ bool game::swap_critters( Creature &a, Creature &b )
 bool game::is_empty( const tripoint &p )
 {
     return ( m.passable( p ) || m.has_flag( "LIQUID", p ) ) &&
-           critter_at( p ) == nullptr;
+           get_creature_tracker().creature_at( p ) == nullptr;
 }
 
 bool game::is_in_sunlight( const tripoint &p )
@@ -4674,7 +4638,7 @@ bool game::revive_corpse( const tripoint &p, item &it )
     return place_critter_at( newmon_ptr, p );
 }
 
-void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &installer )
+void game::save_cyborg( item *cyborg, const tripoint &couch_pos, Character &installer )
 {
     int damage = cyborg->damage();
     int dmg_lvl = cyborg->damage_level();
@@ -4778,13 +4742,14 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
         return false;
     }
     const bool can_see = u.sees( tripoint( x, y, p.z ) );
-    player *npc_or_player = critter_at<player>( tripoint( x, y, p.z ), false );
+    creature_tracker &creatures = get_creature_tracker();
+    Character *npc_or_player = creatures.creature_at<Character>( tripoint( x, y, p.z ), false );
     if( npc_or_player != nullptr ) {
         if( bash_dmg <= 0 ) {
             return false;
         }
         if( npc_or_player->is_npc() && can_see ) {
-            add_msg( _( "The %1$s hits the %2$s." ), door_name, npc_or_player->name );
+            add_msg( _( "The %1$s hits the %2$s." ), door_name, npc_or_player->get_name() );
         } else if( npc_or_player->is_avatar() ) {
             add_msg( m_bad, _( "The %s hits you." ), door_name );
         }
@@ -4797,7 +4762,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
         // TODO: perhaps damage/destroy the gate
         // if the npc was really big?
     }
-    if( monster *const mon_ptr = critter_at<monster>( p ) ) {
+    if( monster *const mon_ptr = creatures.creature_at<monster>( p ) ) {
         monster &critter = *mon_ptr;
         if( bash_dmg <= 0 ) {
             return false;
@@ -4820,7 +4785,7 @@ bool game::forced_door_closing( const tripoint &p, const ter_id &door_type, int 
         if( !critter.is_dead() ) {
             // Still alive? Move the critter away so the door can close
             knockback( kbp, p, std::max( 1, bash_dmg / 10 ), -1, 1 );
-            if( critter_at( p ) ) {
+            if( creatures.creature_at( p ) ) {
                 return false;
             }
         }
@@ -4938,17 +4903,17 @@ void game::control_vehicle()
                           veh->has_engine_type( fuel_type_animal, false ) && veh->has_harnessed_animal() ) ) &&
                u.in_vehicle ) {
         if( !veh->interact_vehicle_locked() ) {
-            veh->handle_potential_theft( dynamic_cast<player &>( u ) );
+            veh->handle_potential_theft( dynamic_cast<Character &>( u ) );
             return;
         }
         if( veh->engine_on ) {
-            if( !veh->handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
+            if( !veh->handle_potential_theft( dynamic_cast<Character &>( u ) ) ) {
                 return;
             }
             u.controlling_vehicle = true;
             add_msg( _( "You take control of the %s." ), veh->name );
         } else {
-            if( !veh->handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
+            if( !veh->handle_potential_theft( dynamic_cast<Character &>( u ) ) ) {
                 return;
             }
             veh->start_engines( true );
@@ -4990,7 +4955,7 @@ void game::control_vehicle()
         // If we hit neither of those, there's only one set of vehicle controls, which should already have been found.
         if( vehicle_controls ) {
             veh = &vehicle_controls->vehicle();
-            if( !veh->handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
+            if( !veh->handle_potential_theft( dynamic_cast<Character &>( u ) ) ) {
                 return;
             }
             veh->use_controls( *vehicle_position );
@@ -5055,7 +5020,7 @@ bool game::npc_menu( npc &who )
             return true;
         }
         // TODO: Make NPCs protest when displaced onto dangerous crap
-        add_msg( _( "You swap places with %s." ), who.name );
+        add_msg( _( "You swap places with %s." ), who.get_name() );
         swap_critters( u, who );
         // TODO: Make that depend on stuff
         u.mod_moves( -200 );
@@ -5065,9 +5030,9 @@ bool game::npc_menu( npc &who )
         who.move_away_from( u.pos(), true );
         u.mod_moves( -20 );
         if( oldpos != who.pos() ) {
-            add_msg( _( "%s moves out of the way." ), who.name );
+            add_msg( _( "%s moves out of the way." ), who.get_name() );
         } else {
-            add_msg( m_warning, _( "%s has nowhere to go!" ), who.name );
+            add_msg( m_warning, _( "%s has nowhere to go!" ), who.get_name() );
         }
     } else if( choice == examine_wounds ) {
         ///\EFFECT_PER slightly increases precision when examining NPCs' wounds
@@ -5224,7 +5189,7 @@ void game::examine( const tripoint &examp )
         return;
     }
 
-    Creature *c = critter_at( examp );
+    Creature *c = get_creature_tracker().creature_at( examp );
     if( c != nullptr ) {
         monster *mon = dynamic_cast<monster *>( c );
         if( mon != nullptr ) {
@@ -5450,7 +5415,7 @@ void game::draw_look_around_cursor( const tripoint &lp, const visibility_variabl
             visibility = m.get_visibility( m.apparent_light_at( lp, cache ), cache );
         }
         if( visibility == visibility_type::CLEAR ) {
-            const Creature *const creature = critter_at( lp, true );
+            const Creature *const creature = get_creature_tracker().creature_at( lp, true );
             if( creature != nullptr && u.sees( *creature ) ) {
                 creature->draw( w_terrain, view_center, true );
             } else {
@@ -5499,7 +5464,7 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
     if( inbounds ) {
         visibility = m.get_visibility( m.apparent_light_at( lp, cache ), cache );
     }
-    const Creature *creature = critter_at( lp, true );
+    const Creature *creature = get_creature_tracker().creature_at( lp, true );
     switch( visibility ) {
         case visibility_type::CLEAR: {
             const optional_vpart_position vp = m.veh_at( lp );
@@ -6739,7 +6704,7 @@ void game::draw_trail_to_square( const tripoint &t, bool bDrawX )
 
 static void centerlistview( const tripoint &active_item_position, int ui_width )
 {
-    player &u = get_avatar();
+    Character &u = get_avatar();
     if( get_option<std::string>( "SHIFT_LIST_ITEM_VIEW" ) != "false" ) {
         u.view_offset.z = active_item_position.z;
         if( get_option<std::string>( "SHIFT_LIST_ITEM_VIEW" ) == "centered" ) {
@@ -8314,7 +8279,7 @@ void game::butcher()
     }
     const std::vector<npc *> helpers = u.get_crafting_helpers();
     for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
-        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
     switch( butcher_select ) {
         case BUTCHER_OTHER:
@@ -8504,8 +8469,8 @@ void game::reload_weapon( bool try_everything )
         }
         // Second sort by affiliation with wielded gun
         const std::set<itype_id> compatible_magazines = this->u.weapon.magazine_compatible();
-        const bool mag_ap = compatible_magazines.count( ap->typeId() ) > 0;
-        const bool mag_bp = compatible_magazines.count( bp->typeId() ) > 0;
+        const bool mag_ap = this->u.weapon.can_contain( *ap, true ).success();
+        const bool mag_bp = this->u.weapon.can_contain( *bp, true ).success();
         if( mag_ap != mag_bp ) {
             return mag_ap;
         }
@@ -8725,7 +8690,7 @@ void game::set_safe_mode( safe_mode_type mode )
 
 bool game::disable_robot( const tripoint &p )
 {
-    monster *const mon_ptr = critter_at<monster>( p );
+    monster *const mon_ptr = get_creature_tracker().creature_at<monster>( p );
     if( !mon_ptr ) {
         return false;
     }
@@ -8951,7 +8916,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
 
     if( m.impassable( dest_loc ) && !pushing && !shifting_furniture ) {
         if( vp_there && u.mounted_creature && u.mounted_creature->has_flag( MF_RIDEABLE_MECH ) &&
-            vp_there->vehicle().handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
+            vp_there->vehicle().handle_potential_theft( dynamic_cast<Character &>( u ) ) ) {
             tripoint diff = dest_loc - u.pos();
             if( diff.x < 0 ) {
                 diff.x -= 2;
@@ -8968,7 +8933,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
         }
         return false;
     }
-    if( vp_there && !vp_there->vehicle().handle_potential_theft( dynamic_cast<player &>( u ) ) ) {
+    if( vp_there && !vp_there->vehicle().handle_potential_theft( dynamic_cast<Character &>( u ) ) ) {
         return false;
     }
     if( u.is_mounted() && !pushing && vp_there ) {
@@ -9065,7 +9030,8 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     const bool fungus = m.has_flag_ter_or_furn( "FUNGUS", u.pos() ) ||
                         m.has_flag_ter_or_furn( "FUNGUS",
                                 dest_loc ); //fungal furniture has no slowing effect on mycus characters
-    const bool slowed = ( ( !u.has_trait( trait_PARKOUR ) && ( mcost_to > 2 || mcost_from > 2 ) ) ||
+    const bool slowed = ( ( !u.has_proficiency( proficiency_prof_parkour ) && ( mcost_to > 2 ||
+                            mcost_from > 2 ) ) ||
                           mcost_to > 4 || mcost_from > 4 ) &&
                         !( u.has_trait( trait_M_IMMUNE ) && fungus );
     if( slowed && !u.is_mounted() ) {
@@ -9225,7 +9191,7 @@ point game::place_player( const tripoint &dest_loc )
     }
     ///\EFFECT_DEX increases chance of avoiding cuts on sharp terrain
     if( m.has_flag( "SHARP", dest_loc ) && !one_in( 3 ) && !x_in_y( 1 + u.dex_cur / 2.0, 40 ) &&
-        ( !u.in_vehicle && !m.veh_at( dest_loc ) ) && ( !u.has_trait( trait_PARKOUR ) ||
+        ( !u.in_vehicle && !m.veh_at( dest_loc ) ) && ( !u.has_proficiency( proficiency_prof_parkour ) ||
                 one_in( 4 ) ) && ( u.has_trait( trait_THICKSKIN ) ? !one_in( 8 ) : true ) ) {
         if( u.is_mounted() ) {
             add_msg( _( "Your %s gets cut!" ), u.mounted_creature->get_name() );
@@ -9271,7 +9237,7 @@ point game::place_player( const tripoint &dest_loc )
         }
     }
 
-    if( monster *const mon_ptr = critter_at<monster>( dest_loc ) ) {
+    if( monster *const mon_ptr = get_creature_tracker().creature_at<monster>( dest_loc ) ) {
         // We displaced a monster. It's probably a bug if it wasn't a friendly mon...
         // Immobile monsters can't be displaced.
         monster &critter = *mon_ptr;
@@ -9593,8 +9559,9 @@ bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
     // tile is impassable
     int tunneldist = 0;
     const point d( sgn( dest.x - u.posx() ), sgn( dest.y - u.posy() ) );
+    creature_tracker &creatures = get_creature_tracker();
     while( m.impassable( dest ) ||
-           ( critter_at( dest ) != nullptr && tunneldist > 0 ) ) {
+           ( creatures.creature_at( dest ) != nullptr && tunneldist > 0 ) ) {
         //add 1 to tunnel distance for each impassable tile in the line
         tunneldist += 1;
         //Being dimensionally anchored prevents quantum shenanigans.
@@ -9648,9 +9615,10 @@ bool game::can_move_furniture( tripoint fdest, const tripoint &dp )
 {
     const bool pulling_furniture = dp == -u.grab_point;
     const bool has_floor = m.has_floor( fdest );
+    creature_tracker &creatures = get_creature_tracker();
     return  m.passable( fdest ) &&
-            critter_at<npc>( fdest ) == nullptr &&
-            critter_at<monster>( fdest ) == nullptr &&
+            creatures.creature_at<npc>( fdest ) == nullptr &&
+            creatures.creature_at<monster>( fdest ) == nullptr &&
             ( !pulling_furniture || is_empty( u.pos() + dp ) ) &&
             ( !has_floor || m.has_flag( "FLAT", fdest ) ) &&
             !m.has_furn( fdest ) &&
@@ -9976,6 +9944,7 @@ void game::water_affect_items( Character &ch ) const
 {
     std::vector<item_location> dissolved;
     std::vector<item_location> destroyed;
+    std::vector<item_location> wet;
 
     for( item_location &loc : ch.all_items_loc() ) {
         // check flag first because its cheaper
@@ -9984,12 +9953,15 @@ void game::water_affect_items( Character &ch ) const
         } else if( loc->has_flag( flag_WATER_BREAK ) && !loc->is_broken()
                    && !loc.protected_from_liquids() ) {
             destroyed.emplace_back( loc );
+        } else if( loc->has_flag( flag_WATER_BREAK_ACTIVE ) && !loc->is_broken()
+                   && !loc.protected_from_liquids() ) {
+            wet.emplace_back( loc );
         } else if( loc->typeId() == itype_towel && !loc.protected_from_liquids() ) {
             loc->convert( itype_towel_wet );
         }
     }
 
-    if( dissolved.empty() && destroyed.empty() ) {
+    if( dissolved.empty() && destroyed.empty() && wet.empty() ) {
         return;
     }
 
@@ -10004,6 +9976,12 @@ void game::water_affect_items( Character &ch ) const
                                 ch.disp_name( true ), it->display_name() );
         it->deactivate();
         it->set_flag( flag_ITEM_BROKEN );
+    }
+
+    for( item_location &it : wet ) {
+        const int wetness_add = 5100 * std::log10( units::to_milliliter( it->volume() ) );
+        it->wetness += wetness_add;
+        it->wetness = std::min( it->wetness, 5 * wetness_add );
     }
 }
 
@@ -10024,17 +10002,21 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
         return;
     }
 
+    // Target creature shouldn't be grabbed if thrown
+    c->remove_effect( effect_grabbed );
+
     int steps = 0;
     bool thru = true;
     const bool is_u = ( c == &u );
     // Don't animate critters getting bashed if animations are off
     const bool animate = is_u || get_option<bool>( "ANIMATIONS" );
 
-    player *p = dynamic_cast<player *>( c );
+    Character *you = dynamic_cast<Character *>( c );
 
     tileray tdir( dir );
     int range = flvel / 10;
     tripoint pt = c->pos();
+    creature_tracker &creatures = get_creature_tracker();
     while( range > 0 ) {
         c->underwater = false;
         // TODO: Check whenever it is actually in the viewport
@@ -10045,7 +10027,7 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
         pt.y = c->posy() + tdir.dy();
         float force = 0.0f;
 
-        if( monster *const mon_ptr = critter_at<monster>( pt ) ) {
+        if( monster *const mon_ptr = creatures.creature_at<monster>( pt ) ) {
             monster &critter = *mon_ptr;
             // Approximate critter's "stopping power" with its max hp
             force = std::min<float>( 1.5f * critter.type->hp, flvel );
@@ -10087,17 +10069,17 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
 
         flvel -= force;
         if( thru ) {
-            if( p != nullptr ) {
-                if( p->in_vehicle ) {
-                    m.unboard_vehicle( p->pos() );
+            if( you != nullptr ) {
+                if( you->in_vehicle ) {
+                    m.unboard_vehicle( you->pos() );
                 }
                 // If we're flinging the player around, make sure the map stays centered on them.
                 if( is_u ) {
                     update_map( pt.x, pt.y );
                 } else {
-                    p->setpos( pt );
+                    you->setpos( pt );
                 }
-            } else if( !critter_at( pt ) ) {
+            } else if( !creatures.creature_at( pt ) ) {
                 // Dying monster doesn't always leave an empty tile (blob spawning etc.)
                 // Just don't setpos if it happens - next iteration will do so
                 // or the monster will stop a tile before the unpassable one
@@ -10141,8 +10123,8 @@ void game::fling_creature( Creature *c, const units::angle &dir, float flvel, bo
     } else {
         c->underwater = true;
 
-        if( p != nullptr ) {
-            water_affect_items( *p );
+        if( you != nullptr ) {
+            water_affect_items( *you );
         }
 
         if( is_u ) {
@@ -10190,6 +10172,7 @@ static cata::optional<tripoint> point_selection_menu( const std::vector<tripoint
 static cata::optional<tripoint> find_empty_spot_nearby( const tripoint &pos )
 {
     map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &p : here.points_in_radius( pos, 1 ) ) {
         if( p == pos ) {
             continue;
@@ -10197,7 +10180,7 @@ static cata::optional<tripoint> find_empty_spot_nearby( const tripoint &pos )
         if( here.impassable( p ) ) {
             continue;
         }
-        if( g->critter_at( p ) ) {
+        if( creatures.creature_at( p ) ) {
             continue;
         }
         return p;
@@ -10432,7 +10415,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
     std::vector<shared_ptr_fast<npc>> npcs_to_bring;
     std::vector<monster *> monsters_following;
     if( !here.has_zlevels() && std::abs( movez ) == 1 ) {
-        std::copy_if( active_npc.begin(), active_npc.end(), back_inserter( npcs_to_bring ),
+        std::copy_if( critter_tracker->active_npc.begin(), critter_tracker->active_npc.end(),
+                      back_inserter( npcs_to_bring ),
         [this]( const shared_ptr_fast<npc> &np ) {
             return np->is_walking_with() && !np->is_mounted() && !np->in_sleep_state() &&
                    rl_dist( np->pos(), u.pos() ) < 2;
@@ -10480,12 +10464,14 @@ void game::vertical_move( int movez, bool force, bool peeking )
     // if, in the weird case of it not being possible to displace;
     // ( how did the player even manage to approach the stairs, if so? )
     // then nothing terrible happens, its just weird.
-    if( critter_at<npc>( u.pos(), true ) || critter_at<monster>( u.pos(), true ) ) {
+    creature_tracker &creatures = get_creature_tracker();
+    if( creatures.creature_at<npc>( u.pos(), true ) ||
+        creatures.creature_at<monster>( u.pos(), true ) ) {
         std::string crit_name;
         bool player_displace = false;
         cata::optional<tripoint> displace = find_empty_spot_nearby( u.pos() );
         if( displace.has_value() ) {
-            npc *guy = g->critter_at<npc>( u.pos(), true );
+            npc *guy = creatures.creature_at<npc>( u.pos(), true );
             if( guy ) {
                 crit_name = guy->get_name();
                 tripoint old_pos = guy->pos();
@@ -10498,7 +10484,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
                     player_displace = true;
                 }
             }
-            monster *mon = g->critter_at<monster>( u.pos(), true );
+            monster *mon = creatures.creature_at<monster>( u.pos(), true );
             // if the monster is ridden by the player or an NPC:
             // Dont displace them. If they are mounted by a friendly NPC,
             // then the NPC will already have been displaced just above.
@@ -10662,8 +10648,9 @@ cata::optional<tripoint> game::find_or_make_stairs( map &mp, const int z_after, 
         }
     }
 
+    creature_tracker &creatures = get_creature_tracker();
     if( stairs.has_value() ) {
-        if( Creature *blocking_creature = critter_at( stairs.value() ) ) {
+        if( Creature *blocking_creature = creatures.creature_at( stairs.value() ) ) {
             npc *guy = dynamic_cast<npc *>( blocking_creature );
             monster *mon = dynamic_cast<monster *>( blocking_creature );
             bool would_move = ( guy && !guy->is_enemy() ) || ( mon && mon->friendly == -1 );
@@ -10911,13 +10898,13 @@ point game::update_map( int &x, int &y )
     u.shift_destination( -shift_ms );
 
     // Shift NPCs
-    for( auto it = active_npc.begin(); it != active_npc.end(); ) {
+    for( auto it = critter_tracker->active_npc.begin(); it != critter_tracker->active_npc.end(); ) {
         ( *it )->shift( shift );
         if( ( *it )->posx() < 0 || ( *it )->posx() >= MAPSIZE_X ||
             ( *it )->posy() < 0 || ( *it )->posy() >= MAPSIZE_Y ) {
             //Remove the npc from the active list. It remains in the overmap list.
             ( *it )->on_unload();
-            it = active_npc.erase( it );
+            it = critter_tracker->active_npc.erase( it );
         } else {
             it++;
         }
@@ -11178,7 +11165,7 @@ void game::display_visibility()
             creature_menu.w_y_setup = 0;
             creature_menu.query();
             if( creature_menu.ret >= 0 && static_cast<size_t>( creature_menu.ret ) < locations.size() ) {
-                Creature *creature = critter_at<Creature>( locations[creature_menu.ret] );
+                Creature *creature = get_creature_tracker().creature_at<Creature>( locations[creature_menu.ret] );
                 displaying_visibility_creature = creature;
             }
         } else {
@@ -11474,17 +11461,19 @@ game::monster_range::monster_range( game &game_ref )
     items.insert( items.end(), monsters.begin(), monsters.end() );
 }
 
-game::Creature_range::Creature_range( game &game_ref ) : u( &game_ref.u, []( player * ) { } )
+game::Creature_range::Creature_range( game &game_ref ) : u( &game_ref.u, []( Character * ) { } )
 {
     const auto &monsters = game_ref.critter_tracker->get_monsters_list();
     items.insert( items.end(), monsters.begin(), monsters.end() );
-    items.insert( items.end(), game_ref.active_npc.begin(), game_ref.active_npc.end() );
+    items.insert( items.end(), game_ref.critter_tracker->active_npc.begin(),
+                  game_ref.critter_tracker->active_npc.end() );
     items.emplace_back( u );
 }
 
 game::npc_range::npc_range( game &game_ref )
 {
-    items.insert( items.end(), game_ref.active_npc.begin(), game_ref.active_npc.end() );
+    items.insert( items.end(), game_ref.critter_tracker->active_npc.begin(),
+                  game_ref.critter_tracker->active_npc.end() );
 }
 
 game::Creature_range game::all_creatures()
@@ -11538,7 +11527,7 @@ bool game::slip_down( bool check_for_traps )
     ///\EFFECT_STR decreases chances of slipping while climbing
     int climb = u.dex_cur + u.str_cur;
 
-    if( u.has_trait( trait_PARKOUR ) ) {
+    if( u.has_proficiency( proficiency_prof_parkour ) ) {
         climb *= 2;
         add_msg( m_info, _( "Your skill in parkour makes it easier to climb." ) );
     }
@@ -11643,6 +11632,11 @@ avatar &get_avatar()
 map &get_map()
 {
     return g->m;
+}
+
+creature_tracker &get_creature_tracker()
+{
+    return *g->critter_tracker;
 }
 
 event_bus &get_event_bus()

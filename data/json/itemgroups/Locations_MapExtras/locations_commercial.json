@@ -1053,6 +1053,11 @@
     "subtype": "distribution",
     "entries": [
       { "item": "wheel_bicycle", "prob": 100 },
+      { "item": "tire_bicycle", "prob": 70 },
+      { "item": "wheel_rim_bicycle", "prob": 80 },
+      { "item": "tire_bicycle_or", "prob": 65 },
+      { "item": "deflated_wheel_bicycle", "prob": 80 },
+      { "item": "hand_pump", "prob": 100 },
       { "item": "wheel_bicycle", "prob": 80 },
       { "item": "horn_bicycle", "prob": 80 },
       { "item": "foot_crank", "prob": 80 },
@@ -1471,7 +1476,19 @@
     "type": "item_group",
     "id": "oa_ig_ts_tires",
     "//": "for cs_tire_shop",
-    "items": [ [ "wheel_small", 30 ], [ "wheel", 30 ], [ "wheel_wide", 20 ] ]
+    "items": [
+      [ "wheel_small", 30 ],
+      [ "wheel", 30 ],
+      [ "wheel_wide", 20 ],
+      [ "tire_medium", 30 ],
+      [ "tire_wide", 20 ],
+      [ "deflated_wheel", 20 ],
+      [ "deflated_wheel", 30 ],
+      [ "deflated_wheel_wide", 20 ],
+      [ "hand_pump", 10 ],
+      [ "wheel_rim_medium", 5 ],
+      [ "wheel_rim_wide", 5 ]
+    ]
   },
   {
     "type": "item_group",

@@ -21,6 +21,7 @@
 #include "catacharset.h"
 #include "character.h"
 #include "color.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
@@ -39,6 +40,7 @@
 #include "optional.h"
 #include "options.h"
 #include "output.h"
+#include "panels.h"
 #include "pimpl.h"
 #include "point.h"
 #include "recipe.h"
@@ -398,6 +400,13 @@ item_location game::inv_map_splice( const item_filter &filter, const std::string
                          title, radius, none_message );
 }
 
+item_location game::inv_map_splice( const item_location_filter &filter, const std::string &title,
+                                    int radius, const std::string &none_message )
+{
+    return inv_internal( u, inventory_filter_preset( filter ),
+                         title, radius, none_message );
+}
+
 class liquid_inventory_selector_preset : public inventory_selector_preset
 {
     public:
@@ -418,7 +427,7 @@ class liquid_inventory_selector_preset : public inventory_selector_preset
                 return false;
             }
             if( location.where() == item_location::type::character ) {
-                Character *character = g->critter_at<Character>( location.position() );
+                Character *character = get_creature_tracker().creature_at<Character>( location.position() );
                 if( character == nullptr ) {
                     debugmsg( "Invalid location supplied to the liquid filter: no character found." );
                     return false;
@@ -947,19 +956,19 @@ class fuel_inventory_preset : public inventory_selector_preset
 static std::string get_consume_needs_hint( Character &you )
 {
     auto hint = std::string();
-    auto desc = you.get_hunger_description();
+    auto desc = display::hunger_text_color( you );
     hint.append( string_format( "%s %s", _( "Food:" ), colorize( desc.first, desc.second ) ) );
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
-    desc = you.get_thirst_description();
+    desc = display::thirst_text_color( you );
     hint.append( string_format( "%s %s", _( "Drink:" ), colorize( desc.first, desc.second ) ) );
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
-    desc = you.get_pain_description();
+    desc = display::pain_text_color( you );
     hint.append( string_format( "%s %s", _( "Pain:" ), colorize( desc.first, desc.second ) ) );
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
-    desc = you.get_fatigue_description();
+    desc = display::fatigue_text_color( you );
     hint.append( string_format( "%s %s", _( "Rest:" ), colorize( desc.first, desc.second ) ) );
     hint.append( string_format( " %s ", LINE_XOXO_S ) );
-    hint.append( string_format( "%s %s", _( "Weight:" ), you.get_weight_string() ) );
+    hint.append( string_format( "%s %s", _( "Weight:" ), display::weight_string( you ) ) );
     return hint;
 }
 
@@ -1116,7 +1125,9 @@ class activatable_inventory_preset : public pickup_inventory_preset
                 return string_format( _( "Your %s was broken and won't turn on." ), it.tname() );
             }
 
-            if( !it.ammo_sufficient( &you ) ) {
+
+            if( uses.size() == 1 &&
+                !it.ammo_sufficient( &you, uses.begin()->first ) ) {
                 return string_format(
                            ngettext( "Needs at least %d charge",
                                      "Needs at least %d charges", loc->ammo_required() ),
@@ -1245,7 +1256,7 @@ class read_inventory_preset: public pickup_inventory_preset
                     if( skill.can_train() ) {
                         //~ %1$s: book skill name, %2$d: book skill level, %3$d: player skill level
                         return string_format( pgettext( "skill", "%1$s to %2$d (%3$d)" ), book.skill->name(), book.level,
-                                              skill.level() );
+                                              skill.knowledgeLevel() );
                     }
                 }
                 return std::string();
@@ -1345,8 +1356,8 @@ class read_inventory_preset: public pickup_inventory_preset
                 return static_cast<bool>( book_a.skill );
             }
 
-            const bool train_a = you.get_skill_level( book_a.skill ) < book_a.level;
-            const bool train_b = you.get_skill_level( book_b.skill ) < book_b.level;
+            const bool train_a = you.get_knowledge_level( book_a.skill ) < book_a.level;
+            const bool train_b = you.get_knowledge_level( book_b.skill ) < book_b.level;
 
             if( !train_a || !train_b ) {
                 return ( !train_a && !train_b ) ? base_sort : train_a;
@@ -1381,6 +1392,24 @@ class read_inventory_preset: public pickup_inventory_preset
         const Character &you;
 };
 
+class ebookread_inventory_preset : public read_inventory_preset
+{
+    private:
+        const Character &you;
+    public:
+        explicit ebookread_inventory_preset( const Character &you ) : read_inventory_preset( you ),
+            you( you ) {
+        }
+        std::string get_denial( const item_location &loc ) const override {
+            std::vector<std::string> denials;
+            if( you.get_book_reader( *loc, denials ) == nullptr && !denials.empty() &&
+                !loc->type->can_use( "learn_spell" ) ) {
+                return denials.front();
+            }
+            return std::string();
+        }
+};
+
 item_location game_menus::inv::read( Character &you )
 {
     const std::string msg = you.is_avatar() ? _( "You have nothing to read." ) :
@@ -1395,7 +1424,7 @@ item_location game_menus::inv::ebookread( Character &you, item_location &ereader
         string_format( _( "%1$s have nothing to read." ), you.disp_name( false, true ) ) :
         string_format( _( "%1$s has nothing to read." ), you.disp_name( false, true ) );
 
-    const read_inventory_preset preset( you );
+    const ebookread_inventory_preset preset( you );
     inventory_pick_selector inv_s( you, preset );
 
     inv_s.set_title( _( "Read" ) );
@@ -1431,8 +1460,8 @@ class steal_inventory_preset : public pickup_inventory_preset
 item_location game_menus::inv::steal( avatar &you, Character &victim )
 {
     return inv_internal( victim, steal_inventory_preset( you, victim ),
-                         string_format( _( "Steal from %s" ), victim.name ), -1,
-                         string_format( _( "%s's inventory is empty." ), victim.name ) );
+                         string_format( _( "Steal from %s" ), victim.get_name() ), -1,
+                         string_format( _( "%s's inventory is empty." ), victim.get_name() ) );
 }
 
 class weapon_inventory_preset: public inventory_selector_preset

@@ -2,6 +2,8 @@ LOCAL_PATH := $(call my-dir)/../../../../src
 
 include $(CLEAR_VARS)
 
+LOCAL_C_INCLUDES := $(LOCAL_PATH)/third-party
+
 LOCAL_MODULE := main
 
 LOCAL_CPP_FEATURES := exceptions rtti

@@ -29,10 +29,12 @@
 #include "construction.h"
 #include "coordinate_conversions.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
+#include "do_turn.h"
 #include "drawing_primitives.h"
 #include "enums.h"
 #include "event.h"
@@ -73,7 +75,6 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pathfinding.h"
-#include "player.h"
 #include "projectile.h"
 #include "relic.h"
 #include "ret_val.h"
@@ -462,6 +463,9 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
         debugmsg( "Invalid displacement vector: %d, %d, %d", dp.x, dp.y, dp.z );
         return &veh;
     }
+
+    const tripoint initial_position = veh.sm_pos;
+
     // Split the movement into horizontal and vertical for easier processing
     if( dp.xy() != point_zero && dp.z != 0 ) {
         vehicle *const new_pointer = move_vehicle( veh, tripoint( dp.xy(), 0 ), facing );
@@ -608,8 +612,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     Character &player_character = get_player_character();
     const bool seen = sees_veh( player_character, veh, false );
 
-    vehicle *new_vehicle = &veh;
-    if( can_move ) {
+    if( can_move || ( vertical && veh.is_falling ) ) {
         // Accept new direction
         if( veh.skidding ) {
             veh.face.init( veh.turn_dir );
@@ -624,8 +627,8 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
         }
         veh.on_move();
         // Actually change position
-        displace_vehicle( *new_vehicle, dp1 );
-        level_vehicle( *new_vehicle );
+        displace_vehicle( veh, dp1 );
+        level_vehicle( veh );
     } else if( !vertical ) {
         veh.stop();
     }
@@ -681,15 +684,17 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
             veh.tow_data.get_towed()->invalidate_towing( true );
         }
     }
-    // Redraw scene
-    // But only if the vehicle was seen before or after the move
-    if( seen || sees_veh( player_character, veh, true ) ) {
+    // Redraw scene, but only if the player is not engaged in an activity and
+    // the vehicle was seen before or after the move.
+    const bool has_moved = initial_position != veh.sm_pos;
+    if( has_moved &&
+        !player_character.activity &&
+        ( seen || sees_veh( player_character, veh, true ) ) ) {
         g->invalidate_main_ui_adaptor();
-        inp_mngr.pump_events();
         ui_manager::redraw_invalidated();
-        refresh_display();
+        handle_key_blocking_activity();
     }
-    return new_vehicle;
+    return &veh;
 }
 
 float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
@@ -1003,7 +1008,7 @@ void map::board_vehicle( const tripoint &pos, Character *p )
     if( vp->part().has_flag( vehicle_part::passenger_flag ) ) {
         Character *psg = vp->vehicle().get_passenger( vp->part_index() );
         debugmsg( "map::board_vehicle: passenger (%s) is already there",
-                  psg ? psg->name : "<null>" );
+                  psg ? psg->get_name() : "<null>" );
         unboard_vehicle( pos );
     }
     vp->part().set_flag( vehicle_part::passenger_flag );
@@ -1044,7 +1049,7 @@ void map::unboard_vehicle( const tripoint &p, bool dead_passenger )
     if( !vp ) {
         debugmsg( "map::unboard_vehicle: vehicle not found" );
         // Try and force unboard the player anyway.
-        passenger = g->critter_at<player>( p );
+        passenger = get_creature_tracker().creature_at<Character>( p );
         if( passenger ) {
             passenger->in_vehicle = false;
             passenger->controlling_vehicle = false;
@@ -1135,6 +1140,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
     int z_change = 0;
     // Move passengers and pets
     bool complete = false;
+    creature_tracker &creatures = get_creature_tracker();
     // loop until everyone has moved or for each passenger
     for( size_t i = 0; !complete && i < riders.size(); i++ ) {
         complete = true;
@@ -1180,7 +1186,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
             // Place passenger on the new part location
             tripoint psgp( dst + next_pos + tripoint( 0, 0, psg_offset_z ) );
             // someone is in the way so try again
-            if( g->critter_at( psgp ) ) {
+            if( creatures.creature_at( psgp ) ) {
                 complete = false;
                 continue;
             }
@@ -1372,7 +1378,7 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
     }
     // If a creature was crushed under a rubble -> free it
     if( old_id == f_rubble && new_furniture == f_null ) {
-        Creature *c = g->critter_at( p );
+        Creature *c = get_creature_tracker().creature_at( p );
         if( c ) {
             c->remove_effect( effect_crushed );
         }
@@ -1412,9 +1418,9 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture, const bool 
     support_dirty( above );
 }
 
-bool map::can_move_furniture( const tripoint &pos, player *p )
+bool map::can_move_furniture( const tripoint &pos, Character *you )
 {
-    if( !p ) {
+    if( !you ) {
         return false;
     }
     const furn_t &furniture_type = furn( pos ).obj();
@@ -1426,9 +1432,9 @@ bool map::can_move_furniture( const tripoint &pos, player *p )
     }
 
     ///\EFFECT_STR determines what furniture the player can move
-    int adjusted_str = p->str_cur;
-    if( p->is_mounted() ) {
-        auto *mons = p->mounted_creature.get();
+    int adjusted_str = you->str_cur;
+    if( you->is_mounted() ) {
+        auto *mons = you->mounted_creature.get();
         if( mons->has_flag( MF_RIDEABLE_MECH ) && mons->mech_str_addition() != 0 ) {
             adjusted_str = mons->mech_str_addition();
         }
@@ -1640,13 +1646,13 @@ ter_id map::get_ter_transforms_into( const tripoint &p ) const
  * Examines the tile pos, with character as the "examinator"
  * Casts Character to player because player/NPC split isn't done yet
  */
-void map::examine( Character &p, const tripoint &pos )
+void map::examine( Character &you, const tripoint &pos )
 {
     const furn_t furn_here = furn( pos ).obj();
     if( furn_here.can_examine() ) {
-        furn_here.examine( dynamic_cast<player &>( p ), pos );
+        furn_here.examine( dynamic_cast<Character &>( you ), pos );
     } else {
-        ter( pos ).obj().examine( dynamic_cast<player &>( p ), pos );
+        ter( pos ).obj().examine( dynamic_cast<Character &>( you ), pos );
     }
 }
 
@@ -2130,7 +2136,7 @@ void map::drop_furniture( const tripoint &p )
             }
         }
 
-        if( g->critter_at( below_dest ) != nullptr ) {
+        if( get_creature_tracker().creature_at( below_dest ) != nullptr ) {
             // Smash a critter
             return SS_CREATURE;
         }
@@ -2197,7 +2203,7 @@ void map::drop_furniture( const tripoint &p )
         const std::string &furn_name = frn_obj.name();
         bash( current, dmg, false, false, false );
         tripoint below( current.xy(), current.z - 1 );
-        Creature *critter = g->critter_at( below );
+        Creature *critter = get_creature_tracker().creature_at( below );
         if( critter == nullptr ) {
             debugmsg( "drop_furniture couldn't find creature at %d,%d,%d",
                       below.x, below.y, below.z );
@@ -2208,8 +2214,8 @@ void map::drop_furniture( const tripoint &p )
                                         _( "Falling %s hits <npcname>" ),
                                         furn_name );
         // TODO: A chance to dodge/uncanny dodge
-        player *pl = dynamic_cast<player *>( critter );
-        monster *mon = dynamic_cast<monster *>( critter );
+        Character *pl = critter->as_character();
+        monster *mon = critter->as_monster();
         if( pl != nullptr ) {
             pl->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::BASH, rng( dmg / 3,
                              dmg ), 0,
@@ -2903,10 +2909,10 @@ int map::collapse_check( const tripoint &p )
     if( p.z > -OVERMAP_DEPTH ) {
         const tripoint &pbelow = tripoint( p.xy(), p.z - 1 );
         for( const tripoint &tbelow : points_in_radius( pbelow, 1 ) ) {
-            if( has_flag( "SUPPORTS_ROOF", pbelow ) ) {
+            if( has_flag( "SUPPORTS_ROOF", tbelow ) ) {
                 num_supports += 1;
-                if( has_flag( "WALL", pbelow ) ) {
-                    num_supports = 2;
+                if( has_flag( "WALL", tbelow ) ) {
+                    num_supports += 2;
                 }
                 if( tbelow == pbelow ) {
                     num_supports += 2;
@@ -2977,8 +2983,12 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
             // this tile used to support a roof, now it doesn't, which means there is only
             // open air above us
             if( zlevels ) {
-                ter_set( tz, t_open_air );
-                furn_set( tz, f_null );
+                // ensure that the layer below this one is not a wall, otherwise you have a ledge dropping onto
+                // a wall which doesn't make sense.
+                if( !has_flag( "WALL", t ) ) {
+                    ter_set( tz, t_open_air );
+                    furn_set( tz, f_null );
+                }
             }
         }
     }
@@ -3300,7 +3310,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
 
     if( ( smash_furn && has_flag_furn( "FUNGUS", p ) ) ||
         ( smash_ter && has_flag_ter( "FUNGUS", p ) ) ) {
-        fungal_effects( *g, *this ).create_spores( p );
+        fungal_effects().create_spores( p );
     }
 
     if( params.destroy ) {
@@ -3568,7 +3578,8 @@ void map::batter( const tripoint &p, int power, int tries, const bool silent )
 
 void map::crush( const tripoint &p )
 {
-    player *crushed_player = g->critter_at<player>( p );
+    creature_tracker &creatures = get_creature_tracker();
+    Character *crushed_player = creatures.creature_at<Character>( p );
 
     if( crushed_player != nullptr ) {
         bool player_inside = false;
@@ -3604,7 +3615,7 @@ void map::crush( const tripoint &p )
         }
     }
 
-    if( monster *const monhit = g->critter_at<monster>( p ) ) {
+    if( monster *const monhit = creatures.creature_at<monster>( p ) ) {
         // 25 ~= 60 * .45 (torso)
         monhit->deal_damage( nullptr, bodypart_id( "torso" ), damage_instance( damage_type::BASH, rng( 0,
                              25 ) ) );
@@ -4399,16 +4410,17 @@ item &map::add_item( const tripoint &p, item new_item )
 
 item map::water_from( const tripoint &p )
 {
+    weather_manager &weather = get_weather();
     if( has_flag( "SALT_WATER", p ) ) {
         item ret( "salt_water", calendar::turn, item::INFINITE_CHARGES );
-        ret.set_item_temperature( temp_to_kelvin( std::max( g->weather.get_temperature( p ),
+        ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
                                   temperatures::cold ) ) );
         return ret;
     }
 
     if( has_flag( "CHOCOLATE", p ) ) {
         item ret( "liquid_cacao", calendar::turn, item::INFINITE_CHARGES );
-        ret.set_item_temperature( temp_to_kelvin( std::max( g->weather.get_temperature( p ),
+        ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
                                   temperatures::cold ) ) );
         return ret;
     }
@@ -4416,14 +4428,14 @@ item map::water_from( const tripoint &p )
     const ter_id terrain_id = ter( p );
     if( terrain_id == t_sewage ) {
         item ret( "water_sewage", calendar::turn, item::INFINITE_CHARGES );
-        ret.set_item_temperature( temp_to_kelvin( std::max( g->weather.get_temperature( p ),
+        ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
                                   temperatures::cold ) ) );
         ret.poison = rng( 1, 7 );
         return ret;
     }
 
     item ret( "water", calendar::turn, item::INFINITE_CHARGES );
-    ret.set_item_temperature( temp_to_kelvin( std::max( g->weather.get_temperature( p ),
+    ret.set_item_temperature( temp_to_kelvin( std::max( weather.get_temperature( p ),
                               temperatures::cold ) ) );
     // iexamine::water_source requires a valid liquid from this function.
     if( terrain_id->has_examine( iexamine::water_source ) ) {
@@ -4573,8 +4585,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
     const int recharge_part_idx = cur_veh.part_with_feature( part, VPFLAG_RECHARGE, true );
     if( recharge_part_idx >= 0 ) {
         vehicle_part recharge_part = cur_veh.part( recharge_part_idx );
-        if( !recharge_part.removed && !recharge_part.is_broken() &&
-            ( !recharge_part.info().has_flag( VPFLAG_ENABLED_DRAINS_EPOWER ) || recharge_part.enabled ) ) {
+        if( !recharge_part.removed && !recharge_part.is_broken() && recharge_part.enabled ) {
             for( auto &n : cur_veh.get_items( part ) ) {
                 if( !n.has_flag( flag_RECHARGE ) && !n.has_flag( flag_USE_UPS ) ) {
                     continue;
@@ -6896,7 +6907,7 @@ void map::loadn( const tripoint &grid, const bool update_vehicles, bool _actuali
 
 void map::rotten_item_spawn( const item &item, const tripoint &pnt )
 {
-    if( g->critter_at( pnt ) != nullptr ) {
+    if( get_creature_tracker().creature_at( pnt ) != nullptr ) {
         return;
     }
     const auto &comest = item.get_comestible();
@@ -7366,11 +7377,12 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
         ignore_inside_checks = true;
     }
 
+    creature_tracker &creatures = get_creature_tracker();
     for( int x = 0; x < SEEX; ++x ) {
         for( int y = 0; y < SEEY; ++y ) {
             point f( x + SEEX * gp.x, y + SEEY * gp.y );
             tripoint fp{ f, gp.z };
-            if( g->critter_at( fp ) != nullptr ) {
+            if( creatures.creature_at( fp ) != nullptr ) {
                 continue; // there is already some creature
             }
 
@@ -7476,6 +7488,7 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
     }
     const tripoint gp_ms = sm_to_ms_copy( gp );
 
+    creature_tracker &creatures = get_creature_tracker();
     for( auto &i : current_submap->spawns ) {
         const tripoint center = gp_ms + i.pos;
         const tripoint_range<tripoint> points = points_in_radius( center, 3 );
@@ -7502,7 +7515,7 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
             const auto valid_location = [&]( const tripoint & p ) {
                 // Checking for creatures via g is only meaningful if this is the main game map.
                 // If it's some local map instance, the coordinates will most likely not even match.
-                return ( !g || &get_map() != this || !g->critter_at( p ) ) && tmp.can_move_to( p );
+                return ( !g || &get_map() != this || !creatures.creature_at( p ) ) && tmp.can_move_to( p );
             };
 
             const auto place_it = [&]( const tripoint & p ) {
@@ -8269,8 +8282,8 @@ void map::creature_on_trap( Creature &c, const bool may_avoid )
 {
     // boarded in a vehicle means the player is above the trap, like a flying monster and can
     // never trigger the trap.
-    const player *const p = dynamic_cast<const player *>( &c );
-    if( p != nullptr && p->in_vehicle ) {
+    const Character *const you = c.as_character();
+    if( you != nullptr && you->in_vehicle ) {
         return;
     }
     maybe_trigger_trap( c.pos(), c, may_avoid );
@@ -8289,7 +8302,7 @@ void map::maybe_trigger_trap( const tripoint &pos, Creature &c, const bool may_a
     }
 
     if( may_avoid && c.avoid_trap( pos, tr ) ) {
-        player *const pl = c.as_player();
+        Character *const pl = c.as_character();
         if( !tr.is_always_invisible() && pl && !pl->knows_trap( pos ) ) {
             pl->add_msg_if_player( _( "You've spotted a %1$s!" ), tr.name() );
             pl->add_known_trap( pos, tr );
@@ -8521,15 +8534,16 @@ std::list<tripoint> map::find_furnitures_with_flag_in_radius( const tripoint &ce
 std::list<Creature *> map::get_creatures_in_radius( const tripoint &center, size_t radius,
         size_t radiusz )
 {
-    std::list<Creature *> creatures;
+    creature_tracker &creatures = get_creature_tracker();
+    std::list<Creature *> creature_list;
     for( const auto &loc : points_in_radius( center, radius, radiusz ) ) {
-        Creature *tmp_critter = g->critter_at( loc );
+        Creature *tmp_critter = creatures.creature_at( loc );
         if( tmp_critter != nullptr ) {
-            creatures.push_back( tmp_critter );
+            creature_list.push_back( tmp_critter );
         }
 
     }
-    return creatures;
+    return creature_list;
 }
 
 level_cache &map::access_cache( int zlev )

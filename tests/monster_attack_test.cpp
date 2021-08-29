@@ -5,7 +5,6 @@
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
-#include "game.h"
 #include "line.h"
 #include "map.h"
 #include "map_helpers.h"

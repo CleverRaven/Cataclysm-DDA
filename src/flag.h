@@ -33,6 +33,7 @@ extern const flag_id flag_ALLERGEN_WOOL;
 extern const flag_id flag_ALLOWS_NATURAL_ATTACKS;
 extern const flag_id flag_ALLOWS_REMOTE_USE;
 extern const flag_id flag_ALWAYS_TWOHAND;
+extern const flag_id flag_OLD_CURRENCY;
 extern const flag_id flag_AURA;
 extern const flag_id flag_BAROMETER;
 extern const flag_id flag_BASH_IMMUNE;
@@ -312,6 +313,7 @@ extern const flag_id flag_WATCH;
 extern const flag_id flag_WATERPROOF;
 extern const flag_id flag_WATERPROOF_GUN;
 extern const flag_id flag_WATER_BREAK;
+extern const flag_id flag_WATER_BREAK_ACTIVE;
 extern const flag_id flag_WATER_EXTINGUISH;
 extern const flag_id flag_WATER_FRIENDLY;
 extern const flag_id flag_WATER_DISSOLVE;
@@ -363,6 +365,11 @@ class json_flag
             return restriction_.translated();
         }
 
+        /** Get name of the flag. */
+        std::string name() const {
+            return name_.translated();
+        }
+
         /** Is flag inherited by base items from any attached items? */
         bool inherit() const {
             return inherit_;
@@ -396,6 +403,7 @@ class json_flag
     private:
         translation info_;
         translation restriction_;
+        translation name_;
         std::set<std::string> conflicts_;
         bool inherit_ = true;
         bool craft_inherit_ = false;

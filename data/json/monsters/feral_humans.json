@@ -117,7 +117,7 @@
     "melee_cut": 2,
     "dodge": 1,
     "harvest": "human",
-    "path_settings": { "max_dist": 10 },
+    "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
     "vision_day": 50,
     "vision_night": 3,
     "death_drops": "feral_scientists_death_drops_scalpel",
@@ -132,7 +132,7 @@
       "GROUP_BASH",
       "HUMAN",
       "CAN_OPEN_DOORS",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER_1",
       "DROPS_AMMO",
       "CBM_SCI"
     ]
@@ -166,7 +166,7 @@
     "harvest": "human",
     "vision_day": 50,
     "vision_night": 4,
-    "path_settings": { "max_dist": 10 },
+    "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
     "diff": 5,
     "starting_ammo": { "9mm": 5 },
     "special_attacks": [
@@ -198,7 +198,7 @@
       "CAN_OPEN_DOORS",
       "CLIMBS",
       "PUSH_MON",
-      "PATH_AVOID_DANGER_2",
+      "PATH_AVOID_DANGER_1",
       "DROPS_AMMO"
     ]
   },

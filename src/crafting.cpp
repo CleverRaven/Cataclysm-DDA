@@ -242,7 +242,8 @@ static float workbench_crafting_speed_multiplier( const item &craft,
 float Character::crafting_speed_multiplier( const recipe &rec, bool in_progress ) const
 {
     const float result = morale_crafting_speed_multiplier( rec ) *
-                         lighting_craft_speed_multiplier( rec );
+                         lighting_craft_speed_multiplier( rec ) *
+                         manipulator_score();
     // Can't start if we'd need 300% time, but we can still finish the job
     if( !in_progress && result < 0.33f ) {
         return 0.0f;
@@ -270,7 +271,8 @@ float Character::crafting_speed_multiplier( const item &craft,
     const float morale_multi = morale_crafting_speed_multiplier( rec );
     const float mut_multi = mutation_value( "crafting_speed_multiplier" );
 
-    const float total_multi = light_multi * bench_multi * morale_multi * mut_multi;
+    const float total_multi = light_multi * bench_multi * morale_multi * mut_multi *
+                              manipulator_score();
 
     if( light_multi <= 0.0f ) {
         add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
@@ -366,6 +368,9 @@ bool Character::making_would_work( const recipe_id &id_to_make, int batch_size )
 int Character::available_assistant_count( const recipe &rec ) const
 // NPCs around you should assist in batch production if they have the skills
 {
+    if( rec.is_practice() ) {
+        return 0;
+    }
     // TODO: Cache them in activity, include them in modifier calculations
     const auto helpers = get_crafting_helpers();
     return std::count_if( helpers.begin(), helpers.end(),
@@ -501,7 +506,7 @@ bool Character::can_make( const recipe *r, int batch_size )
 {
     const inventory &crafting_inv = crafting_inventory();
 
-    if( has_recipe( r, crafting_inv, get_crafting_helpers() ) < 0 ) {
+    if( !has_recipe( r, crafting_inv, get_crafting_helpers() ) ) {
         return false;
     }
 
@@ -761,7 +766,7 @@ static item_location place_craft_or_disassembly(
 
     // Crafting without a workbench
     if( !target ) {
-        if( !ch.has_two_arms() ) {
+        if( !ch.has_two_arms_lifting() || ( ch.is_npc() && ch.has_wield_conflicts( craft ) ) ) {
             craft_in_world = set_item_map_or_vehicle( ch, ch.pos(), craft );
         } else if( !ch.has_wield_conflicts( craft ) ) {
             if( cata::optional<item_location> it_loc = wield_craft( ch, craft ) ) {
@@ -837,7 +842,7 @@ void Character::start_craft( craft_command &command, const cata::optional<tripoi
 
     item craft = command.create_in_progress_craft();
     const recipe &making = craft.get_making();
-    if( get_skill_level( command.get_skill_id() ) > making.difficulty * 1.25 ) {
+    if( get_skill_level( command.get_skill_id() ) > making.get_skill_cap() ) {
         handle_skill_warning( command.get_skill_id(), true );
     }
 
@@ -860,55 +865,50 @@ void Character::start_craft( craft_command &command, const cata::optional<tripoi
         craft.tname() );
 }
 
-void Character::craft_skill_gain( const item &craft, const int &num_practice_ticks )
+bool Character::craft_skill_gain( const item &craft, const int &num_practice_ticks )
 {
     if( !craft.is_craft() ) {
         debugmsg( "craft_skill_check() called on non-craft '%s.' Aborting.", craft.tname() );
-        return;
+        return false;
     }
 
     const recipe &making = craft.get_making();
+    if( !making.skill_used ) {
+        return false;
+    }
+
+    const int skill_cap = making.get_skill_cap();
     const int batch_size = craft.charges;
-
-    std::vector<npc *> helpers = get_crafting_helpers();
-
-    if( making.skill_used ) {
-        const int skill_cap = static_cast<int>( making.difficulty * 1.25 );
-        practice( making.skill_used, num_practice_ticks, skill_cap, true );
-
-        // NPCs assisting or watching should gain experience...
-        for( auto &helper : helpers ) {
-            //If the NPC can understand what you are doing, they gain more exp
-            if( helper->get_skill_level( making.skill_used ) >= making.difficulty ) {
-                helper->practice( making.skill_used, roll_remainder( num_practice_ticks / 2.0 ),
-                                  skill_cap );
-                if( batch_size > 1 && one_in( 300 ) ) {
-                    add_msg( m_info, _( "%s assists with crafting…" ), helper->name );
-                }
-                if( batch_size == 1 && one_in( 300 ) ) {
-                    add_msg( m_info, _( "%s could assist you with a batch…" ), helper->name );
-                }
-                // NPCs around you understand the skill used better
-            } else {
-                helper->practice( making.skill_used, roll_remainder( num_practice_ticks / 10.0 ),
-                                  skill_cap );
-                if( one_in( 300 ) ) {
-                    add_msg( m_info, _( "%s watches you craft…" ), helper->name );
-                }
+    // NPCs assisting or watching should gain experience...
+    for( npc *helper : get_crafting_helpers() ) {
+        // If the NPC can understand what you are doing, they gain more exp
+        if( helper->get_skill_level( making.skill_used ) >= making.difficulty ) {
+            helper->practice( making.skill_used, roll_remainder( num_practice_ticks / 2.0 ),
+                              skill_cap );
+            if( batch_size > 1 && one_in( 300 ) ) {
+                add_msg( m_info, _( "%s assists with crafting…" ), helper->get_name() );
+            }
+            if( batch_size == 1 && one_in( 300 ) ) {
+                add_msg( m_info, _( "%s could assist you with a batch…" ), helper->get_name() );
+            }
+        } else {
+            helper->practice( making.skill_used, roll_remainder( num_practice_ticks / 10.0 ),
+                              skill_cap );
+            if( one_in( 300 ) ) {
+                add_msg( m_info, _( "%s watches you craft…" ), helper->get_name() );
             }
         }
     }
+    return practice( making.skill_used, num_practice_ticks, skill_cap, true );
 }
 
-void Character::craft_proficiency_gain( const item &craft, const time_duration &time )
+bool Character::craft_proficiency_gain( const item &craft, const time_duration &time )
 {
     if( !craft.is_craft() ) {
         debugmsg( "craft_proficiency_gain() called on non-craft %s", craft.tname() );
-        return;
+        return false;
     }
-
     const recipe &making = craft.get_making();
-    std::vector<npc *> helpers = get_crafting_helpers();
 
     // The proficiency, and the multiplier on the time we learn it for
     std::vector<std::tuple<proficiency_id, float, cata::optional<time_duration>>> subjects;
@@ -921,15 +921,13 @@ void Character::craft_proficiency_gain( const item &craft, const time_duration &
             subjects.push_back( subject );
         }
     }
-
-    int amount = to_seconds<int>( time );
-    if( !subjects.empty() ) {
-        amount /= subjects.size();
+    if( subjects.empty() ) {
+        return false;
     }
-    time_duration learn_time = time_duration::from_seconds( amount );
+    const time_duration learn_time = time / subjects.size();
 
     int npc_helper_bonus = 1;
-    for( npc *helper : helpers ) {
+    for( npc *helper : get_crafting_helpers() ) {
         for( const std::tuple<proficiency_id, float, cata::optional<time_duration>> &subject : subjects ) {
             if( helper->has_proficiency( std::get<0>( subject ) ) ) {
                 // NPCs who know the proficiency and help teach you faster
@@ -940,10 +938,12 @@ void Character::craft_proficiency_gain( const item &craft, const time_duration &
         }
     }
 
+    bool gained_prof = false;
     for( const std::tuple<proficiency_id, float, cata::optional<time_duration>> &subject : subjects ) {
-        practice_proficiency( std::get<0>( subject ),
-                              learn_time * std::get<1>( subject ) * npc_helper_bonus, std::get<2>( subject ) );
+        gained_prof |= practice_proficiency( std::get<0>( subject ),
+                                             learn_time * std::get<1>( subject ) * npc_helper_bonus, std::get<2>( subject ) );
     }
+    return gained_prof;
 }
 
 double Character::crafting_success_roll( const recipe &making ) const
@@ -971,7 +971,7 @@ double Character::crafting_success_roll( const recipe &making ) const
             get_skill_level( making.skill_used ) ) {
             // NPC assistance is worth half a skill level
             skill_dice += 2;
-            add_msg_if_player( m_info, _( "%s helps with crafting…" ), np->name );
+            add_msg_if_player( m_info, _( "%s helps with crafting…" ), np->get_name() );
             break;
         }
     }
@@ -1161,12 +1161,17 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
     const int batch_size = craft.charges;
     std::list<item> &used = craft.components;
     const double relative_rot = craft.get_relative_rot();
-
-    // Set up the new item, and assign an inventory letter if available
-    std::vector<item> newits = making.create_results( batch_size );
-
     const bool should_heat = making.hot_result();
     const bool remove_raw = making.removes_raw();
+    std::vector<item> newits;
+
+    if( making.is_practice() ) {
+        add_msg( _( "You finish practicing %s." ), making.result_name() );
+        // practice recipes don't produce a result item
+    } else {
+        // Set up the new item, and assign an inventory letter if available
+        newits = making.create_results( batch_size );
+    }
 
     bool first = true;
     size_t newit_counter = 0;
@@ -1183,15 +1188,15 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
             if( knows_recipe( &making ) ) {
                 add_msg( _( "You craft %s from memory." ), making.result_name() );
             } else {
-                add_msg( _( "You craft %s using a book as a reference." ), making.result_name() );
-                // If we made it, but we don't know it,
-                // we're making it from a book and have a chance to learn it.
+                add_msg( _( "You craft %s using a reference." ), making.result_name() );
+                // If we made it, but we don't know it, we're using a book, device or NPC
+                // as a reference and have a chance to learn it.
                 // Base expected time to learn is 1000*(difficulty^4)/skill/int moves.
                 // This means time to learn is greatly decreased with higher skill level,
                 // but also keeps going up as difficulty goes up.
                 // Worst case is lvl 10, which will typically take
                 // 10^4/10 (1,000) minutes, or about 16 hours of crafting it to learn.
-                int difficulty = has_recipe( &making, crafting_inventory(), get_crafting_helpers() );
+                int difficulty = making.difficulty;
                 ///\EFFECT_INT increases chance to learn recipe when crafting from a book
                 const double learning_speed =
                     std::max( get_skill_level( making.skill_used ), 1 ) *
@@ -1226,7 +1231,9 @@ void Character::complete_craft( item &craft, const cata::optional<tripoint> &loc
             for( item &comp : used ) {
                 // only comestibles have cooks_like.  any other type of item will throw an exception, so filter those out
                 if( comp.is_comestible() && !comp.get_comestible()->cooks_like.is_empty() ) {
+                    const double relative_rot = comp.get_relative_rot();
                     comp = item( comp.get_comestible()->cooks_like, comp.birthday(), comp.charges );
+                    comp.set_relative_rot( relative_rot );
                 }
                 // If this recipe is cooked, components are no longer raw.
                 if( should_heat || remove_raw ) {
@@ -1379,7 +1386,8 @@ bool Character::can_continue_craft( item &craft, const requirement_data &continu
 
         std::vector<comp_selection<item_comp>> item_selections;
         for( const auto &it : continue_reqs.get_components() ) {
-            comp_selection<item_comp> is = select_item_component( it, batch_size, map_inv, true, filter );
+            comp_selection<item_comp> is = select_item_component( it, batch_size, map_inv, true, filter, true,
+                                           &rec );
             if( is.use_from == usage_from::cancel ) {
                 cancel_activity();
                 add_msg( _( "You stop crafting." ) );
@@ -1482,8 +1490,9 @@ const requirement_data *Character::select_requirements(
 comp_selection<item_comp> Character::select_item_component( const std::vector<item_comp>
         &components,
         int batch, read_only_visitable &map_inv, bool can_cancel,
-        const std::function<bool( const item & )> &filter, bool player_inv )
+        const std::function<bool( const item & )> &filter, bool player_inv, const recipe *rec )
 {
+    Character &player_character = get_player_character();
     std::vector<item_comp> player_has;
     std::vector<item_comp> map_has;
     std::vector<item_comp> mixed;
@@ -1576,37 +1585,88 @@ comp_selection<item_comp> Character::select_item_component( const std::vector<it
         }
     } else { // Let the player pick which component they want to use
         uilist cmenu;
-        // Populate options with the names of the items
-        for( auto &map_ha : map_has ) { // Index 0-(map_has.size()-1)
-            std::string tmpStr = string_format( _( "%s (%d/%d nearby)" ),
-                                                item::nname( map_ha.type ),
-                                                ( map_ha.count * batch ),
-                                                item::count_by_charges( map_ha.type ) ?
-                                                map_inv.charges_of( map_ha.type, INT_MAX, filter ) :
-                                                map_inv.amount_of( map_ha.type, false, INT_MAX, filter ) );
-            cmenu.addentry( tmpStr );
+        bool is_food = false;
+        bool remove_raw = false;
+        if( rec ) {
+            is_food = rec->create_result().is_comestible();
+            remove_raw = rec->hot_result() || rec->removes_raw();
         }
-        for( auto &player_ha : player_has ) { // Index map_has.size()-(map_has.size()+player_has.size()-1)
-            std::string tmpStr = string_format( _( "%s (%d/%d on person)" ),
-                                                item::nname( player_ha.type ),
-                                                ( player_ha.count * batch ),
-                                                item::count_by_charges( player_ha.type ) ?
-                                                charges_of( player_ha.type, INT_MAX, filter ) :
-                                                amount_of( player_ha.type, false, INT_MAX, filter ) );
-            cmenu.addentry( tmpStr );
+        enum class inventory_source : int {
+            SELF = 0,
+            MAP,
+            BOTH
+        };
+        auto get_ingredient_description = [&player_character, &map_inv, &filter,
+                                                              &is_food, &remove_raw]( const inventory_source & inv_source,
+        const itype_id & ingredient_type, const int &count ) {
+            std::string text;
+            int available;
+            const item ingredient = item( ingredient_type );
+            std::pair<int, int> kcal_values{ 0, 0 };
+
+
+            switch( inv_source ) {
+                case inventory_source::MAP:
+                    text = _( "%s (%d/%d nearby)" );
+                    kcal_values = map_inv.kcal_range( ingredient_type, filter, player_character );
+                    available = item::count_by_charges( ingredient_type ) ?
+                                map_inv.charges_of( ingredient_type, INT_MAX, filter ) :
+                                map_inv.amount_of( ingredient_type, false, INT_MAX, filter );
+                    break;
+                case inventory_source::SELF:
+                    text = _( "%s (%d/%d on person)" );
+                    kcal_values = player_character.kcal_range( ingredient_type, filter, player_character );
+                    available = item::count_by_charges( ingredient_type ) ?
+                                player_character.charges_of( ingredient_type, INT_MAX, filter ) :
+                                player_character.amount_of( ingredient_type, false, INT_MAX, filter );
+                    break;
+                case inventory_source::BOTH:
+                    text = _( "%s (%d/%d nearby & on person)" );
+                    kcal_values = map_inv.kcal_range( ingredient_type, filter, player_character );
+                    const std::pair<int, int> kcal_values_tmp = player_character.kcal_range( ingredient_type, filter,
+                            player_character );
+                    kcal_values.first = std::min( kcal_values.first, kcal_values_tmp.first );
+                    kcal_values.second = std::max( kcal_values.second, kcal_values_tmp.second );
+                    available = item::count_by_charges( ingredient_type ) ?
+                                map_inv.charges_of( ingredient_type, INT_MAX, filter ) +
+                                player_character.charges_of( ingredient_type, INT_MAX, filter ) :
+                                map_inv.amount_of( ingredient_type, false, INT_MAX, filter ) +
+                                player_character.amount_of( ingredient_type, false, INT_MAX, filter );
+                    break;
+            }
+
+            if( is_food && ingredient.is_food() ) {
+                text += kcal_values.first == kcal_values.second ? _( " %d kcal" ) : _( " %d-%d kcal" );
+                if( ingredient.has_flag( flag_RAW ) && remove_raw ) {
+                    //Multiplier for RAW food digestion
+                    kcal_values.first /= 0.75f;
+                    kcal_values.second /= 0.75f;
+                    text += _( " <color_brown> (will be processed)</color>" );
+                }
+            }
+            return string_format( text,
+                                  item::nname( ingredient_type ),
+                                  count,
+                                  available,
+                                  kcal_values.first * count,
+                                  kcal_values.second * count
+                                );
+        };
+        // Populate options with the names of the items
+        for( auto &map_ha : map_has ) {
+            // Index 0-(map_has.size()-1)
+            cmenu.addentry( get_ingredient_description( inventory_source::MAP, map_ha.type,
+                            map_ha.count * batch ) );
+        }
+        for( auto &player_ha : player_has ) {
+            // Index map_has.size()-(map_has.size()+player_has.size()-1)
+            cmenu.addentry( get_ingredient_description( inventory_source::SELF, player_ha.type,
+                            player_ha.count * batch ) );
         }
         for( auto &component : mixed ) {
             // Index player_has.size()-(map_has.size()+player_has.size()+mixed.size()-1)
-            int available = item::count_by_charges( component.type ) ?
-                            map_inv.charges_of( component.type, INT_MAX, filter ) +
-                            charges_of( component.type, INT_MAX, filter ) :
-                            map_inv.amount_of( component.type, false, INT_MAX, filter ) +
-                            amount_of( component.type, false, INT_MAX, filter );
-            std::string tmpStr = string_format( _( "%s (%d/%d nearby & on person)" ),
-                                                item::nname( component.type ),
-                                                component.count * batch,
-                                                available );
-            cmenu.addentry( tmpStr );
+            cmenu.addentry( get_ingredient_description( inventory_source::BOTH, component.type,
+                            component.count * batch ) );
         }
 
         // Unlike with tools, it's a bad thing if there aren't any components available
@@ -1714,13 +1774,16 @@ std::list<item> Character::consume_items( map &m, const comp_selection<item_comp
             ret.splice( ret.end(), tmp );
         }
     }
-    // condense those items into one
+    // Merge charges for items that stack with each other
     if( by_charges && ret.size() > 1 ) {
-        std::list<item>::iterator b = ret.begin();
-        b++;
-        while( ret.size() > 1 ) {
-            ret.front().charges += b->charges;
-            b = ret.erase( b );
+        for( auto outer = std::begin( ret ); outer != std::end( ret ); ++outer ) {
+            for( auto inner = std::next( outer ); inner != std::end( ret ); ) {
+                if( outer->merge_charges( *inner ) ) {
+                    inner = ret.erase( inner );
+                } else {
+                    ++inner;
+                }
+            }
         }
     }
     lastconsumed = selected_comp.type;
@@ -2128,8 +2191,11 @@ item_location Character::create_in_progress_disassembly( item_location target )
         target.remove_item();
     }
 
+    // Mark the new item, avoid conflict with other ppl
+    new_disassembly.set_var( "activity_var", name );
     item_location disassembly_in_world = place_craft_or_disassembly( *this, new_disassembly,
                                          cata::nullopt );
+
 
     if( !disassembly_in_world ) {
         return item_location::nowhere;
@@ -2361,7 +2427,12 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
 
     float component_success_chance = std::min( std::pow( 0.8, dis_item.damage_level() ), 1.0 );
 
-    add_msg( _( "You disassemble the %s into its components." ), dis_item.tname() );
+    if( this->is_avatar() ) {
+        add_msg( _( "You disassemble the %s into its components." ), dis_item.tname() );
+    } else {
+        add_msg_if_player_sees( *this, _( "%1s disassembles the %2s into its components." ),
+                                this->disp_name( false, true ), dis_item.tname() );
+    }
 
     // Get rid of the disassembly item
     target.remove_item();
@@ -2446,15 +2517,23 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
     for( const item &newit : components ) {
         const bool comp_success = ( dice( skill_dice, skill_sides ) > dice( diff_dice,  diff_sides ) );
         if( dis.difficulty != 0 && !comp_success ) {
-            add_msg( m_bad, _( "You fail to recover %s." ), newit.tname() );
+            if( this->is_avatar() ) {
+                add_msg( m_bad, _( "You fail to recover %s." ), newit.tname() );
+            } else {
+                add_msg_if_player_sees( *this, m_bad, _( "%1s fails to recover %2s." ), this->disp_name( false,
+                                        true ), newit.tname() );
+            }
             continue;
         }
         const bool dmg_success = component_success_chance > rng_float( 0, 1 );
         if( !dmg_success ) {
             // Show reason for failure (damaged item, tname contains the damage adjective)
-            //~ %1s - material, %2$s - disassembled item
-            add_msg( m_bad, _( "You fail to recover %1$s from the %2$s." ), newit.tname(),
-                     dis_item.tname() );
+            if( this->is_avatar() ) {
+                add_msg( m_bad, _( "You fail to recover %1$s from the %2$s." ), newit.tname(), dis_item.tname() );
+            } else {
+                add_msg_if_player_sees( *this, m_bad, _( "%1s fails to recover  recover %2$s from the %3$s." ),
+                                        this->disp_name( false, true ), newit.tname(), dis_item.tname() );
+            }
             continue;
         }
         // Use item from components list, or (if not contained)
@@ -2498,14 +2577,15 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             if( one_in( 4 ) ) {
                 // TODO: change to forward an id or a reference
                 learn_recipe( &dis.ident().obj() );
-                add_msg( m_good, _( "You learned a recipe for %s from disassembling it!" ),
-                         dis_item.tname() );
+                add_msg_if_player( m_good, _( "You learned a recipe for %s from disassembling it!" ),
+                                   dis_item.tname() );
             } else {
-                add_msg( m_info, _( "You might be able to learn a recipe for %s if you disassemble another." ),
-                         dis_item.tname() );
+                add_msg_if_player( m_info,
+                                   _( "You might be able to learn a recipe for %s if you disassemble another." ),
+                                   dis_item.tname() );
             }
         } else {
-            add_msg( m_info, _( "If you had better skills, you might learn a recipe next time." ) );
+            add_msg_if_player( m_info, _( "If you had better skills, you might learn a recipe next time." ) );
         }
     }
 }

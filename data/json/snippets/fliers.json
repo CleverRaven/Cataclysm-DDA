@@ -335,6 +335,10 @@
           "str": "What you've got here is an old coupon insert for Marigold Market:\n\n - BOGO!  Cascade Cola six-packs!\n - ATOMIC POWER THIRST!  Now with 20% more FRUIT RU-238!\n - $2 MEAT! Aunt Janice's Pickled Meat now just $2.49!\n - 75% OFF! DaiZoom bars by SoyPelusa.",
           "//NOLINT(cata-text-style)": "intentional format"
         }
+      },
+      {
+        "id": "flier_82",
+        "text": "Foodplace is advertising the \"Big Deal™\" on this flyer.  Plainly worded sentences on the distinct blue-and-magenta colored background try to convince the reader to buy their \"Delicious Food™\" in bulk to save money.  There is a picture showing a sample order at the bottom."
       }
     ]
   }
