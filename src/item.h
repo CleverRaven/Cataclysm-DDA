@@ -47,7 +47,6 @@ class item;
 class iteminfo_query;
 class monster;
 class nc_color;
-class player;
 class recipe;
 class relic;
 struct armor_portion_data;
@@ -1319,17 +1318,17 @@ class item : public visitable
         fuel_explosion_data get_explosion_data();
 
         /**
-         * Can this item have given item/itype as content?
-         *
-         * For example, airtight for gas, acidproof for acid etc.
+         * Can the pocket contain the specified item?
+         * @param it the item being put in
+         * @param ignore_fullness checks if the container could hold one of these items when empty
          */
         /*@{*/
-        ret_val<bool> can_contain( const item &it ) const;
-        bool can_contain( const itype &tp ) const;
+        ret_val<bool> can_contain( const item &it, const bool ignore_fullness = false ) const;
+        bool can_contain( const itype &tp, const bool ignore_fullness = false ) const;
         bool can_contain_partial( const item &it ) const;
         /*@}*/
         std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
-                bool allow_sealed = false, bool ignore_settings = false );
+                const item *avoid = nullptr, bool allow_sealed = false, bool ignore_settings = false );
 
         units::length max_containable_length() const;
         units::volume max_containable_volume() const;
@@ -1934,6 +1933,8 @@ class item : public visitable
          */
         bool ammo_sufficient( const Character *carrier, int qty = 1 ) const;
 
+        bool ammo_sufficient( const Character *carrier, const std::string &method, int qty = 1 ) const;
+
         /**
          * Consume ammo (if available) and return the amount of ammo that was consumed
          * Consume order: loaded items, UPS, bionic
@@ -1984,17 +1985,19 @@ class item : public visitable
         /** Does item have an integral magazine (as opposed to allowing detachable magazines) */
         bool magazine_integral() const;
 
+        /** Does item have magazine well */
+        bool uses_magazine() const;
+
         /** Get the default magazine type (if any) for the current effective ammo type
          *  @param conversion whether to include the effect of any flags or mods which convert item's ammo type
          *  @return magazine type or "null" if item has integral magazine or no magazines for current ammo type */
         itype_id magazine_default( bool conversion = true ) const;
 
         /** Get compatible magazines (if any) for this item
-         *  @param conversion whether to include the effect of any flags or mods which convert item's ammo type
          *  @return magazine compatibility which is always empty if item has integral magazine
          *  @see item::magazine_integral
          */
-        std::set<itype_id> magazine_compatible( bool conversion = true ) const;
+        std::set<itype_id> magazine_compatible() const;
 
         /** Currently loaded magazine (if any)
          *  @return current magazine or nullptr if either no magazine loaded or item has integral magazine
@@ -2394,6 +2397,9 @@ class item : public visitable
 
         /** Calculates item specific energy (J/g) from temperature (K)*/
         float get_specific_energy_from_temperature( float new_temperature );
+
+        /** Update flags associated with temperature */
+        void set_temp_flags( float new_temperature, float freeze_percentage );
 
         /** Helper for checking reloadability. **/
         bool is_reloadable_helper( const itype_id &ammo, bool now ) const;

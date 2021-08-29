@@ -14,7 +14,6 @@
 #include "map_helpers.h"
 #include "monster.h"
 #include "npc.h"
-#include "player.h"
 #include "player_helpers.h"
 #include "point.h"
 #include "projectile.h"
@@ -52,18 +51,18 @@ static std::ostream &operator<<( std::ostream &stream, const throw_test_pstats &
 
 static const skill_id skill_throw = skill_id( "throw" );
 
-static void reset_player( player &p, const throw_test_pstats &pstats, const tripoint &pos )
+static void reset_player( Character &you, const throw_test_pstats &pstats, const tripoint &pos )
 {
-    clear_character( p );
-    CHECK( !p.in_vehicle );
-    p.setpos( pos );
-    p.str_max = pstats.str;
-    p.dex_max = pstats.dex;
-    p.per_max = pstats.per;
-    p.set_str_bonus( 0 );
-    p.set_per_bonus( 0 );
-    p.set_dex_bonus( 0 );
-    p.set_skill_level( skill_throw, pstats.skill_lvl );
+    clear_character( you );
+    CHECK( !you.in_vehicle );
+    you.setpos( pos );
+    you.str_max = pstats.str;
+    you.dex_max = pstats.dex;
+    you.per_max = pstats.per;
+    you.set_str_bonus( 0 );
+    you.set_per_bonus( 0 );
+    you.set_dex_bonus( 0 );
+    you.set_skill_level( skill_throw, pstats.skill_lvl );
 }
 
 // If tests are routinely failing you should:
@@ -79,7 +78,7 @@ static constexpr int max_throw_test_iterations = 10000;
 // tighter thresholds here will increase accuracy but also increase average test
 // time since more samples are required to get a more accurate test
 static void test_throwing_player_versus(
-    player &p, const std::string &mon_id, const std::string &throw_id,
+    Character &you, const std::string &mon_id, const std::string &throw_id,
     const int range, const throw_test_pstats &pstats,
     const epsilon_threshold &hit_thresh, const epsilon_threshold &dmg_thresh,
     const int min_throws = min_throw_test_iterations,
@@ -94,15 +93,15 @@ static void test_throwing_player_versus(
 
     max_throws = std::max( min_throws, max_throws );
     do {
-        reset_player( p, pstats, player_start );
-        p.set_moves( 1000 );
-        p.set_stamina( p.get_stamina_max() );
+        reset_player( you, pstats, player_start );
+        you.set_moves( 1000 );
+        you.set_stamina( you.get_stamina_max() );
 
-        p.wield( it );
+        you.wield( it );
         monster &mon = spawn_test_monster( mon_id, monster_start );
         mon.set_moves( 0 );
 
-        dealt_projectile_attack atk = p.throw_item( mon.pos(), it );
+        dealt_projectile_attack atk = you.throw_item( mon.pos(), it );
         data.hits.add( atk.hit_critter != nullptr );
         data.dmg.add( atk.dealt_dam.total_damage() );
 
@@ -122,7 +121,7 @@ static void test_throwing_player_versus(
             }
         }
         g->remove_zombie( mon );
-        p.remove_weapon();
+        you.remove_weapon();
         // only need to check dmg_thresh_met because it can only be true if
         // hit_thresh_met first
     } while( !dmg_thresh_met && data.hits.n() < max_throws );
@@ -229,7 +228,7 @@ TEST_CASE( "throwing_skill_impact_test", "[throwing],[balance]" )
 }
 
 static void test_player_kills_monster(
-    player &p, const std::string &mon_id, const std::string &item_id, const int range,
+    Character &you, const std::string &mon_id, const std::string &item_id, const int range,
     const int dist_thresh, const throw_test_pstats &pstats, const int iterations )
 {
     const tripoint monster_start = { 30 + range, 30, 0 };
@@ -249,7 +248,7 @@ static void test_player_kills_monster(
         int num_items = 0;
         int last_range = -1;
 
-        reset_player( p, pstats, player_start );
+        reset_player( you, pstats, player_start );
 
         monster &mon = spawn_test_monster( mon_id, monster_start );
         mon.set_moves( 0 );
@@ -258,21 +257,21 @@ static void test_player_kills_monster(
 
             ++turns;
             mon.process_turn();
-            mon.set_dest( p.pos() );
+            mon.set_dest( you.pos() );
             while( mon.moves > 0 ) {
                 mon.move();
             }
 
             // zombie made it to player, we're done with this iteration
-            if( ( last_range = rl_dist( p.pos(), mon.pos() ) ) <= dist_thresh ) {
+            if( ( last_range = rl_dist( you.pos(), mon.pos() ) ) <= dist_thresh ) {
                 break;
             }
 
-            p.mod_moves( p.get_speed() );
-            while( p.get_moves() > 0 ) {
-                p.wield( it );
-                p.throw_item( mon.pos(), it );
-                p.remove_weapon();
+            you.mod_moves( you.get_speed() );
+            while( you.get_moves() > 0 ) {
+                you.wield( it );
+                you.throw_item( mon.pos(), it );
+                you.remove_weapon();
                 ++num_items;
             }
             mon_is_dead = mon.is_dead();
@@ -307,15 +306,15 @@ TEST_CASE( "player_kills_zombie_before_reach", "[throwing],[balance][scenario]" 
 
 TEST_CASE( "time_to_throw_independent_of_number_of_projectiles", "[throwing],[balance]" )
 {
-    player &p = get_avatar();
+    Character &you = get_avatar();
     clear_avatar();
 
     item thrown( "throwing_stick", calendar::turn, 10 );
     REQUIRE( thrown.charges > 1 );
-    p.wield( thrown );
+    you.wield( thrown );
     int initial_moves = -1;
     while( thrown.charges > 0 ) {
-        const int cost = throw_cost( p, thrown );
+        const int cost = throw_cost( you, thrown );
         if( initial_moves < 0 ) {
             initial_moves = cost;
         } else {

@@ -736,7 +736,7 @@
     "coverage": 40,
     "required_str": 6,
     "flags": [ "BLOCKS_DOOR" ],
-    "looks_like": "f_standing_tank",
+    "looks_like": "f_ventilator",
     "deconstruct": {
       "items": [
         { "item": "glass_tube_small", "count": [ 6, 12 ] },

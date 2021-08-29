@@ -10,6 +10,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
+#include "creature_tracker.h"
 #include "damage.h"
 #include "effect.h"
 #include "enums.h"
@@ -202,7 +203,7 @@ static void eff_fun_fungus( Character &u, effect &it )
 
                 u.moves = -500;
                 map &here = get_map();
-                fungal_effects fe( *g, here );
+                fungal_effects fe;
                 for( const tripoint &sporep : here.points_in_radius( u.pos(), 1 ) ) {
                     if( sporep == u.pos() ) {
                         continue;
@@ -527,6 +528,7 @@ static void eff_fun_teleglow( Character &u, effect &it )
     if( dur > 6_hours ) {
         // 12 teleports
         if( one_in( 24000 - ( dur - 360_minutes ) / 4_turns ) ) {
+            creature_tracker &creatures = get_creature_tracker();
             tripoint dest( 0, 0, u.posz() );
             int &x = dest.x;
             int &y = dest.y;
@@ -538,7 +540,7 @@ static void eff_fun_teleglow( Character &u, effect &it )
                 if( tries >= 10 ) {
                     break;
                 }
-            } while( g->critter_at( dest ) );
+            } while( creatures.creature_at( dest ) );
             if( tries < 10 ) {
                 if( here.impassable( dest ) ) {
                     here.make_rubble( dest, f_rubble_rock, true );
@@ -1157,6 +1159,7 @@ void Character::hardcoded_effects( effect &it )
     bool sleeping = has_effect( effect_sleep );
     map &here = get_map();
     Character &player_character = get_player_character();
+    creature_tracker &creatures = get_creature_tracker();
     if( id == effect_dermatik ) {
         bool triggered = false;
         int formication_chance = 3600;
@@ -1208,7 +1211,7 @@ void Character::hardcoded_effects( effect &it )
                 player_character.cancel_activity();
             } else {
                 //~ 1$s is NPC name, 2$s is bodypart in accusative.
-                add_msg_if_player_sees( pos(), _( "%1$s starts scratching their %2$s!" ), name,
+                add_msg_if_player_sees( pos(), _( "%1$s starts scratching their %2$s!" ), get_name(),
                                         body_part_name_accusative( bp ) );
             }
             moves -= 150;
@@ -1231,7 +1234,7 @@ void Character::hardcoded_effects( effect &it )
                 dest.x = posx() + rng( -4, 4 );
                 dest.y = posy() + rng( -4, 4 );
                 tries++;
-            } while( g->critter_at( dest ) && tries < 10 );
+            } while( creatures.creature_at( dest ) && tries < 10 );
             if( tries < 10 ) {
                 if( here.impassable( dest ) ) {
                     here.make_rubble( dest, f_rubble_rock, true );
@@ -1349,7 +1352,7 @@ void Character::hardcoded_effects( effect &it )
         set_num_blocks_bonus( get_num_blocks_bonus() - 1 );
         int zed_number = 0;
         for( const tripoint &dest : here.points_in_radius( pos(), 1, 0 ) ) {
-            const monster *const mon = g->critter_at<monster>( dest );
+            const monster *const mon = creatures.creature_at<monster>( dest );
             if( mon && mon->has_effect( effect_grabbing ) ) {
                 zed_number += mon->get_grab_strength();
             }

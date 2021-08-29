@@ -20,7 +20,6 @@
 #include "debug.h"
 #include "enums.h"
 #include "filesystem.h"
-#include "game.h"
 #include "input.h"
 #include "json.h"
 #include "mod_manager.h"

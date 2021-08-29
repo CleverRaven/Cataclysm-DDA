@@ -1,8 +1,11 @@
 #include "widget.h"
 
+#include "character_martial_arts.h"
 #include "color.h"
 #include "generic_factory.h"
 #include "json.h"
+#include "overmapbuffer.h"
+#include "panels.h"
 
 // Use generic factory wrappers for widgets to use standardized JSON loading methods
 namespace
@@ -59,8 +62,12 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "thirst";
         case widget_var::fatigue:
             return "fatigue";
+        case widget_var::weariness_level:
+            return "weariness_level";
         case widget_var::mana:
             return "mana";
+        case widget_var::morale_level:
+            return "morale_level";
         // Base stats
         case widget_var::stat_str:
             return "stat_str";
@@ -77,6 +84,30 @@ std::string enum_to_string<widget_var>( widget_var data )
             return "bp_encumb";
         case widget_var::bp_warmth:
             return "bp_warmth";
+        case widget_var::bp_wetness:
+            return "bp_wetness";
+        // Description functions
+        case widget_var::pain_text:
+            return "pain_text";
+        case widget_var::hunger_text:
+            return "hunger_text";
+        case widget_var::thirst_text:
+            return "thirst_text";
+        case widget_var::fatigue_text:
+            return "fatigue_text";
+        case widget_var::weight_text:
+            return "weight_text";
+        case widget_var::weariness_text:
+            return "weariness_text";
+        case widget_var::wielding_text:
+            return "wielding_text";
+        case widget_var::style_text:
+            return "style_text";
+        case widget_var::date_text:
+            return "date_text";
+        case widget_var::place_text:
+            return "place_text";
+        // Fall-through - invalid
         case widget_var::last:
             break;
     }
@@ -133,6 +164,10 @@ int widget::get_var_max( const avatar &ava )
         case widget_var::mana:
             max_val = ava.magic->max_mana( ava );
             break;
+        case widget_var::morale_level:
+            // TODO: Determine actual max
+            max_val = 100;
+            break;
         case widget_var::bp_hp:
             // HP for body part
             max_val = ava.get_part_hp_max( _bp_id );
@@ -141,6 +176,9 @@ int widget::get_var_max( const avatar &ava )
             // From weather.h: Body temperature is measured on a scale of 0u to 10000u,
             // where 10u = 0.02C and 5000u is 37C
             max_val = 10000;
+            break;
+        case widget_var::bp_wetness:
+            max_val = 100; // ???
             break;
         default:
             break;
@@ -158,7 +196,7 @@ int widget::get_var_value( const avatar &ava )
     int value = 0;
 
     // Each "var" value refers to some attribute, typically of the avatar, that yields a numeric
-    // value, and can be displayed as a numeric field, a graph, or a series of phrases.
+    // value, and can be displayed as a numeric field, a graph, or a series of text phrases.
     switch( _var ) {
         // Vars with a known max val
         case widget_var::stamina:
@@ -167,6 +205,9 @@ int widget::get_var_value( const avatar &ava )
         case widget_var::mana:
             value = ava.magic->available_mana();
             break;
+        case widget_var::morale_level:
+            value = ava.get_morale_level();
+            break;
         case widget_var::bp_hp:
             // HP for body part
             value = ava.get_part_hp_cur( _bp_id );
@@ -174,6 +215,10 @@ int widget::get_var_value( const avatar &ava )
         case widget_var::bp_warmth:
             // Body part warmth/temperature
             value = ava.get_part_temp_cur( _bp_id );
+            break;
+        case widget_var::bp_wetness:
+            // Body part wetness
+            value = ava.get_part_wetness( _bp_id );
             break;
         case widget_var::focus:
             value = ava.get_focus();
@@ -189,6 +234,9 @@ int widget::get_var_value( const avatar &ava )
             break;
         case widget_var::fatigue:
             value = ava.get_fatigue();
+            break;
+        case widget_var::weariness_level:
+            value = ava.weariness_level();
             break;
         case widget_var::stat_str:
             value = ava.get_str();
@@ -214,9 +262,9 @@ int widget::get_var_value( const avatar &ava )
         case widget_var::mood:
         // see morale_emotion
         case widget_var::hunger:
-        // see ava.get_hunger_description()
+        // see display::hunger_text_color()
         case widget_var::thirst:
-        // see ava.get_thirst_description()
+        // see display::thirst_text_color()
         default:
             value = 0;
     }
@@ -225,9 +273,86 @@ int widget::get_var_value( const avatar &ava )
 
 std::string widget::show( const avatar &ava )
 {
-    int value = get_var_value( ava );
-    int value_max = get_var_max( ava );
-    return color_value_string( value, value_max );
+    if( uses_text_function() ) {
+        // Text functions are a carry-over from before widgets, with existing functions generating
+        // descriptive colorized text for avatar attributes.  The "value" for these is immaterial;
+        // only the final color string is shown.  Bypass value calculation and call the
+        // text-rendering function directly.
+        return color_text_function_string( ava );
+    } else {
+        // For normal widgets, get current numeric value and potential maximum,
+        // and return a color string rendering of that value in the appropriate style.
+        int value = get_var_value( ava );
+        int value_max = get_var_max( ava );
+        return color_value_string( value, value_max );
+    }
+}
+
+bool widget::uses_text_function()
+{
+    switch( _var ) {
+        case widget_var::pain_text:
+        case widget_var::hunger_text:
+        case widget_var::thirst_text:
+        case widget_var::fatigue_text:
+        case widget_var::weight_text:
+        case widget_var::weariness_text:
+        case widget_var::wielding_text:
+        case widget_var::style_text:
+        case widget_var::date_text:
+        case widget_var::place_text:
+            return true;
+        default:
+            return false;
+    }
+}
+
+std::string widget::color_text_function_string( const avatar &ava )
+{
+    std::string ret;
+    std::pair<std::string, nc_color> desc;
+    // Give a default color (some widget_vars do not define one)
+    desc.second = c_light_gray;
+    switch( _var ) {
+        case widget_var::pain_text:
+            desc = display::pain_text_color( ava );
+            break;
+        case widget_var::hunger_text:
+            desc = display::hunger_text_color( ava );
+            break;
+        case widget_var::thirst_text:
+            desc = display::thirst_text_color( ava );
+            break;
+        case widget_var::fatigue_text:
+            desc = display::fatigue_text_color( ava );
+            break;
+        case widget_var::weight_text:
+            desc = display::weight_text_color( ava );
+            break;
+        case widget_var::weariness_text:
+            desc = display::weariness_text_color( ava );
+            break;
+        case widget_var::wielding_text:
+            desc.first = ava.weapname();
+            break;
+        case widget_var::style_text:
+            desc.first = ava.martial_arts_data->selected_style_name( ava );
+            break;
+        case widget_var::date_text:
+            desc.first = string_format( "%s, day %d",
+                                        calendar::name_season( season_of_year( calendar::turn ) ),
+                                        day_of_season<int>( calendar::turn ) + 1 );
+            break;
+        case widget_var::place_text:
+            desc.first = overmap_buffer.ter( ava.global_omt_location() )->get_name();
+            break;
+        default:
+            debugmsg( "Unexpected widget_var %s - no text_color function defined",
+                      io::enum_to_string<widget_var>( _var ) );
+            return "???";
+    }
+    ret += colorize( desc.first, desc.second );
+    return ret;
 }
 
 std::string widget::color_value_string( int value, int value_max )
@@ -249,8 +374,8 @@ std::string widget::value_string( int value, int value_max )
     std::string ret;
     if( _style == "graph" ) {
         ret += graph( value, value_max );
-    } else if( _style == "phrase" ) {
-        ret += phrase( value, value_max );
+    } else if( _style == "text" ) {
+        ret += text( value, value_max );
     } else if( _style == "number" ) {
         ret += number( value, value_max );
     } else {
@@ -290,7 +415,7 @@ std::string widget::number( int value, int /* value_max */ )
     return string_format( "%d", value );
 }
 
-std::string widget::phrase( int value, int /* value_max */ )
+std::string widget::text( int value, int /* value_max */ )
 {
     return _strings.at( value ).translated();
 }
@@ -384,14 +509,14 @@ std::string widget::layout( const avatar &ava, const unsigned int max_width )
         // Width used by label, ": " and value, using utf8_width to ignore color tags
         unsigned int used_width = utf8_width( tlabel, true ) + 2 + utf8_width( shown, true );
 
-        // Label first
-        ret += tlabel;
+        // Label and ": " first
+        ret += tlabel + ": ";
         // then enough padding to fit max_width
         if( used_width < max_width ) {
             ret += std::string( max_width - used_width, ' ' );
         }
-        // then ":" and colorized value
-        ret += ": " + shown;
+        // then colorized value
+        ret += shown;
     }
     return ret;
 }

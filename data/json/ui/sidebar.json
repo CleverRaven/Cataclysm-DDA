@@ -25,6 +25,22 @@
     "colors": [ "c_blue", "c_cyan", "c_light_blue", "c_green", "c_yellow", "c_light_red", "c_red" ]
   },
   {
+    "id": "wetness_num",
+    "type": "widget",
+    "style": "number",
+    "var_max": 100
+  },
+  {
+    "id": "wetness_graph",
+    "type": "widget",
+    "style": "graph",
+    "var_max": 50,
+    "width": 5,
+    "symbols": ".oO",
+    "fill": "bucket",
+    "colors": [ "c_blue", "c_light_blue", "c_cyan", "c_white" ]
+  },
+  {
     "id": "hp_head_graph",
     "type": "widget",
     "label": "HEAD",
@@ -119,6 +135,54 @@
     "var": "bp_warmth",
     "bodypart": "leg_r",
     "copy-from": "warmth_num"
+  },
+  {
+    "id": "wetness_head_num",
+    "type": "widget",
+    "label": "wet:HE",
+    "var": "bp_wetness",
+    "bodypart": "head",
+    "copy-from": "wetness_num"
+  },
+  {
+    "id": "wetness_torso_num",
+    "type": "widget",
+    "label": "wet:TO",
+    "var": "bp_wetness",
+    "bodypart": "torso",
+    "copy-from": "wetness_num"
+  },
+  {
+    "id": "wetness_left_arm_num",
+    "type": "widget",
+    "label": "wet:LA",
+    "var": "bp_wetness",
+    "bodypart": "arm_l",
+    "copy-from": "wetness_num"
+  },
+  {
+    "id": "wetness_right_arm_num",
+    "type": "widget",
+    "label": "wet:RA",
+    "var": "bp_wetness",
+    "bodypart": "arm_r",
+    "copy-from": "wetness_num"
+  },
+  {
+    "id": "wetness_left_leg_num",
+    "type": "widget",
+    "label": "wet:LL",
+    "var": "bp_wetness",
+    "bodypart": "leg_l",
+    "copy-from": "wetness_num"
+  },
+  {
+    "id": "wetness_right_leg_num",
+    "type": "widget",
+    "label": "wet:RL",
+    "var": "bp_wetness",
+    "bodypart": "leg_r",
+    "copy-from": "wetness_num"
   },
   {
     "id": "encumbrance_head_graph",
@@ -231,6 +295,25 @@
     "colors": [ "c_green", "c_yellow", "c_red" ]
   },
   {
+    "id": "weariness_num",
+    "type": "widget",
+    "label": "Weariness",
+    "var": "weariness_level",
+    "style": "number"
+  },
+  {
+    "id": "weariness_graph",
+    "type": "widget",
+    "label": "Weariness",
+    "var": "weariness_level",
+    "var_max": 10,
+    "style": "graph",
+    "fill": "pool",
+    "width": 5,
+    "symbols": "-wW",
+    "colors": [ "c_white", "c_yellow", "c_red" ]
+  },
+  {
     "id": "sound_num",
     "type": "widget",
     "label": "Sound",
@@ -242,6 +325,13 @@
     "type": "widget",
     "label": "Move",
     "var": "move",
+    "style": "number"
+  },
+  {
+    "id": "morale_num",
+    "type": "widget",
+    "label": "Morale",
+    "var": "morale_level",
     "style": "number"
   },
   {
@@ -350,6 +440,20 @@
     "widgets": [ "stamina_graph", "fatigue_graph" ]
   },
   {
+    "id": "wetness_top_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "wetness_left_arm_num", "wetness_head_num", "wetness_right_arm_num" ]
+  },
+  {
+    "id": "wetness_bottom_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "columns",
+    "widgets": [ "wetness_left_leg_num", "wetness_torso_num", "wetness_right_leg_num" ]
+  },
+  {
     "id": "stamina_speed_layout",
     "type": "widget",
     "style": "layout",
@@ -425,6 +529,82 @@
     "style": "layout",
     "arrange": "columns",
     "widgets": [ "int_num", "per_num" ]
+  },
+  {
+    "id": "pain_desc",
+    "type": "widget",
+    "label": "Pain",
+    "style": "text",
+    "var": "pain_text",
+    "//": "Uses display::pain_text_color"
+  },
+  {
+    "id": "thirst_desc",
+    "type": "widget",
+    "label": "Thirst",
+    "style": "text",
+    "var": "thirst_text",
+    "//": "Uses display::thirst_text_color"
+  },
+  {
+    "id": "fatigue_desc",
+    "type": "widget",
+    "label": "Rest",
+    "style": "text",
+    "var": "fatigue_text",
+    "//": "Uses display::fatigue_text_color"
+  },
+  {
+    "id": "weight_desc",
+    "type": "widget",
+    "label": "Weight",
+    "style": "text",
+    "var": "weight_text",
+    "//": "Uses display::weight_text_color"
+  },
+  {
+    "id": "hunger_desc",
+    "type": "widget",
+    "label": "Hunger",
+    "style": "text",
+    "var": "hunger_text",
+    "//": "Uses display::hunger_text_color"
+  },
+  {
+    "id": "weariness_desc",
+    "type": "widget",
+    "label": "Weariness",
+    "style": "text",
+    "var": "weariness_text",
+    "//": "Uses display::weariness_text_color"
+  },
+  {
+    "id": "wielding_desc",
+    "type": "widget",
+    "label": "Wield",
+    "style": "text",
+    "var": "wielding_text"
+  },
+  {
+    "id": "style_desc",
+    "type": "widget",
+    "label": "Style",
+    "style": "text",
+    "var": "style_text"
+  },
+  {
+    "id": "date_desc",
+    "type": "widget",
+    "label": "Date",
+    "style": "text",
+    "var": "date_text"
+  },
+  {
+    "id": "place_desc",
+    "type": "widget",
+    "label": "Place",
+    "style": "text",
+    "var": "place_text"
   },
   {
     "id": "root_layout_wide",

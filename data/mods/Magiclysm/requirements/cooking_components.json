@@ -10,7 +10,8 @@
         [ "human_flesh", 1 ],
         [ "mutant_human_flesh", 1 ],
         [ "purified_meat", 1 ],
-        [ "impure_meat", 1 ]
+        [ "impure_meat", 1 ],
+        [ "demihuman_flesh", 1 ]
       ]
     ]
   }

@@ -59,7 +59,6 @@
 #include "overmap.h"
 #include "pathfinding.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "profession.h"
 #include "ret_val.h"
@@ -657,6 +656,11 @@ void avatar::identify( const item &item )
 
     std::vector<std::string> recipe_list;
     for( const auto &elem : reading->recipes ) {
+        // Practice recipes are hidden. They're not written down in the book, they're
+        // just things that the avatar can figure out with help from the book.
+        if( elem.recipe->is_practice() ) {
+            continue;
+        }
         // If the player knows it, they recognize it even if it's not clearly stated.
         if( elem.is_hidden() && !knows_recipe( elem.recipe ) ) {
             continue;
@@ -749,7 +753,7 @@ int avatar::print_info( const catacurses::window &w, int vStart, int, int column
 {
     return vStart + fold_and_print( w, point( column, vStart ), getmaxx( w ) - column - 1, c_dark_gray,
                                     _( "You (%s)" ),
-                                    name ) - 1;
+                                    get_name() ) - 1;
 }
 
 void avatar::disp_morale()
@@ -1871,4 +1875,9 @@ void avatar::try_to_sleep( const time_duration &dur )
         }
     }
     assign_activity( player_activity( try_sleep_activity_actor( dur ) ) );
+}
+
+bool avatar::query_yn( const std::string &mes ) const
+{
+    return ::query_yn( mes );
 }

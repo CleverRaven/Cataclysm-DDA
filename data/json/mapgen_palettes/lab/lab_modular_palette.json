@@ -483,10 +483,10 @@
       ],
       "b": { "item": "hospital_bed", "chance": 20 },
       "c": [
-        { "item": "hospital_lab", "chance": 50, "repeat": [ 1, 2 ] },
-        { "item": "chem_lab", "chance": 50, "repeat": [ 1, 2 ] }
+        { "item": "hospital_lab", "chance": 75, "repeat": [ 1, 5 ] },
+        { "item": "chem_lab", "chance": 75, "repeat": [ 1, 2 ] }
       ],
-      "d": [ { "item": "tools_science", "chance": 50, "repeat": [ 1, 2 ] } ],
+      "d": [ { "item": "tools_science", "chance": 70, "repeat": [ 1, 2 ] } ],
       "f": [
         { "item": "tools_science", "chance": 30 },
         { "item": "baked_goods", "chance": 1 },
@@ -542,7 +542,7 @@
       ],
       "P": { "item": "office_paper", "chance": 100 },
       "Q": [
-        { "item": "harddrugs", "chance": 40, "repeat": [ 1, 2 ] },
+        { "item": "harddrugs", "chance": 100, "repeat": [ 1, 6 ] },
         { "item": "drugs_rare", "chance": 40, "repeat": [ 1, 2 ] }
       ],
       "R": [

@@ -2388,6 +2388,8 @@ inventory_multiselector::inventory_multiselector( Character &p,
     ctxt.register_action( "MARK_WITH_COUNT",
                           to_translation( "Mark a specific amount of selected item" ) );
 
+    max_chosen_count = std::numeric_limits<decltype( max_chosen_count )>::max();
+
     for( inventory_column * const &elem : get_all_columns() ) {
         elem->set_multiselect( true );
     }
@@ -2399,6 +2401,53 @@ void inventory_multiselector::rearrange_columns( size_t client_width )
     selection_col->set_visibility( true );
     inventory_selector::rearrange_columns( client_width );
     selection_col->set_visibility( !is_overflown( client_width ) );
+}
+
+void inventory_multiselector::set_chosen_count( inventory_entry &entry, size_t count )
+{
+    const item_location &it = entry.any_item();
+
+    /* Since we're modifying selection of this entry, we need to clear out
+       anything that's been set before.
+     */
+    for( const item_location &loc : entry.locations ) {
+        for( auto iter = to_use.begin(); iter != to_use.end(); ) {
+            if( iter->first == loc ) {
+                to_use.erase( iter );
+            } else {
+                ++iter;
+            }
+        }
+    }
+
+    if( count == 0 ) {
+        entry.chosen_count = 0;
+    } else {
+        entry.chosen_count = std::min( {count, max_chosen_count, entry.get_available_count() } );
+        if( it->count_by_charges() ) {
+            auto iter = find_if( to_use.begin(), to_use.end(), [&it]( drop_location drop ) {
+                return drop.first == it;
+            } );
+            if( iter == to_use.end() ) {
+                to_use.emplace_back( it, static_cast<int>( entry.chosen_count ) );
+            }
+        } else {
+            for( const item_location &loc : entry.locations ) {
+                if( count == 0 ) {
+                    break;
+                }
+                auto iter = find_if( to_use.begin(), to_use.end(), [&loc]( drop_location drop ) {
+                    return drop.first == loc;
+                } );
+                if( iter == to_use.end() ) {
+                    to_use.emplace_back( loc, 1 );
+                }
+                count--;
+            }
+        }
+    }
+
+    on_change( entry );
 }
 
 inventory_compare_selector::inventory_compare_selector( Character &p ) :
@@ -2484,8 +2533,7 @@ inventory_iuse_selector::inventory_iuse_selector(
     const GetStats &get_st
 ) :
     inventory_multiselector( p, preset, selector_title ),
-    get_stats( get_st ),
-    max_chosen_count( std::numeric_limits<decltype( max_chosen_count )>::max() )
+    get_stats( get_st )
 {}
 drop_locations inventory_iuse_selector::execute()
 {
@@ -2547,6 +2595,12 @@ drop_locations inventory_iuse_selector::execute()
                 continue;
             }
             break;
+        } else if( input.action == "EXAMINE" ) {
+            const inventory_entry &selected = get_active_column().get_selected();
+            if( selected ) {
+                const item *sitem = selected.any_item().get_item();
+                action_examine( sitem );
+            }
         } else if( input.action == "QUIT" ) {
             return drop_locations();
         } else if( input.action == "INVENTORY_FILTER" ) {
@@ -2557,51 +2611,11 @@ drop_locations inventory_iuse_selector::execute()
     }
     drop_locations dropped_pos_and_qty;
 
-    for( const std::pair<const item_location *const, int> &use_pair : to_use ) {
-        dropped_pos_and_qty.push_back( std::make_pair( *use_pair.first, use_pair.second ) );
+    for( const std::pair<const item_location, int> use_pair : to_use ) {
+        dropped_pos_and_qty.push_back( use_pair );
     }
 
     return dropped_pos_and_qty;
-}
-
-void inventory_iuse_selector::set_chosen_count( inventory_entry &entry, size_t count )
-{
-    const item_location &it = entry.any_item();
-    std::map<const item_location *, int> temp_use;
-
-    if( count == 0 ) {
-        entry.chosen_count = 0;
-        for( const item_location &loc : entry.locations ) {
-            temp_use[&loc] = 0;
-        }
-    } else {
-        entry.chosen_count = std::min( std::min( count, max_chosen_count ), entry.get_available_count() );
-        if( it->count_by_charges() ) {
-            temp_use[&it] = entry.chosen_count;
-        } else {
-            for( const item_location &loc : entry.locations ) {
-                if( count == 0 ) {
-                    break;
-                }
-                temp_use[&loc] = 1;
-                count--;
-            }
-        }
-    }
-    // Optimisation to reduce the scale of looping if otherwise done in the preceeding code.
-    for( auto iter : temp_use ) {
-        for( const item_location &x : usable_locs ) {
-            if( x == *iter.first ) {
-                if( iter.second > 0 ) {
-                    to_use[&x] = iter.second;
-                } else {
-                    to_use.erase( &x );
-                }
-            }
-        }
-    }
-
-    on_change( entry );
 }
 
 inventory_selector::stats inventory_iuse_selector::get_raw_stats() const
@@ -2617,7 +2631,6 @@ inventory_drop_selector::inventory_drop_selector( Character &p,
         const std::string &selection_column_title,
         const bool warn_liquid ) :
     inventory_multiselector( p, preset, selection_column_title ),
-    max_chosen_count( std::numeric_limits<decltype( max_chosen_count )>::max() ),
     warn_liquid( warn_liquid )
 {
 #if defined(__ANDROID__)
@@ -2649,7 +2662,7 @@ void inventory_drop_selector::process_selected( int &count,
 void inventory_drop_selector::deselect_contained_items()
 {
     std::vector<item_location> inventory_items;
-    for( std::pair<item_location, int> &drop : dropping ) {
+    for( std::pair<item_location, int> &drop : to_use ) {
         item_location loc_front = drop.first;
         inventory_items.push_back( loc_front );
     }
@@ -2759,7 +2772,7 @@ drop_locations inventory_drop_selector::execute()
 
             count = 0;
         } else if( input.action == "CONFIRM" ) {
-            if( dropping.empty() ) {
+            if( to_use.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
                               ctxt.get_desc( "TOGGLE_ENTRY" ) );
                 continue;
@@ -2788,7 +2801,7 @@ drop_locations inventory_drop_selector::execute()
         ask, no, yes
     } should_drop_liquid = drop_liquid::ask;
 
-    for( const std::pair<item_location, int> &drop_pair : dropping ) {
+    for( const std::pair<item_location, int> &drop_pair : to_use ) {
         bool should_drop = true;
         if( drop_pair.first->made_of_from_type( phase_id::LIQUID ) ) {
             if( should_drop_liquid == drop_liquid::ask ) {
@@ -2811,55 +2824,12 @@ drop_locations inventory_drop_selector::execute()
     return dropped_pos_and_qty;
 }
 
-void inventory_drop_selector::set_chosen_count( inventory_entry &entry, size_t count )
-{
-    const item_location &it = entry.any_item();
-
-    if( count == 0 ) {
-        entry.chosen_count = 0;
-        for( const item_location &loc : entry.locations ) {
-            for( auto iter = dropping.begin(); iter != dropping.end(); ) {
-                if( iter->first == loc ) {
-                    dropping.erase( iter );
-                } else {
-                    ++iter;
-                }
-            }
-        }
-    } else {
-        entry.chosen_count = std::min( std::min( count, max_chosen_count ), entry.get_available_count() );
-        if( it->count_by_charges() ) {
-            auto iter = find_if( dropping.begin(), dropping.end(), [&it]( drop_location drop ) {
-                return drop.first == it;
-            } );
-            if( iter == dropping.end() ) {
-                dropping.emplace_back( it, static_cast<int>( entry.chosen_count ) );
-            }
-        } else {
-            for( const item_location &loc : entry.locations ) {
-                if( count == 0 ) {
-                    break;
-                }
-                auto iter = find_if( dropping.begin(), dropping.end(), [&loc]( drop_location drop ) {
-                    return drop.first == loc;
-                } );
-                if( iter == dropping.end() ) {
-                    dropping.emplace_back( loc, 1 );
-                }
-                count--;
-            }
-        }
-    }
-
-    on_change( entry );
-}
-
 inventory_selector::stats inventory_drop_selector::get_raw_stats() const
 {
     return get_weight_and_volume_stats(
-               u.weight_carried_with_tweaks( dropping ),
+               u.weight_carried_with_tweaks( to_use ),
                u.weight_capacity(),
-               u.volume_carried_with_tweaks( dropping ),
-               u.volume_capacity_with_tweaks( dropping ),
+               u.volume_carried_with_tweaks( to_use ),
+               u.volume_capacity_with_tweaks( to_use ),
                u.max_single_item_length(), u.max_single_item_volume() );
 }

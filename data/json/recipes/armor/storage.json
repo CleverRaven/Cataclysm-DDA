@@ -94,7 +94,7 @@
     "result": "xl_chestrig",
     "type": "recipe",
     "copy-from": "chestrig",
-    "time": "3 h",
+    "time": "2 h 15 m",
     "using": [ [ "tailoring_cotton_patchwork", 4 ], [ "strap_small", 1 ], [ "clasps", 3 ] ],
     "components": [ [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ] ] ]
   },
@@ -437,7 +437,7 @@
     "result": "xl_tacvest",
     "type": "recipe",
     "copy-from": "tacvest",
-    "time": "13 h",
+    "time": "11 h 15 m",
     "using": [ [ "tailoring_cotton", 7 ], [ "plastic_molding", 3 ] ],
     "components": [ [ [ "ragpouch", 2 ], [ "leather_pouch", 2 ] ], [ [ "chestpouch", 4 ], [ "legpouch_large", 2 ], [ "chestrig", 1 ] ] ]
   },
@@ -1093,7 +1093,7 @@
     "result": "xl_survivor_vest",
     "type": "recipe",
     "copy-from": "survivor_vest",
-    "time": "16 h",
+    "time": "13 h 30 m",
     "using": [ [ "sewing_standard", 150 ], [ "tailoring_leather_small", 9 ], [ "fastener_large", 2 ] ],
     "components": [ [ [ "rag", 8 ] ], [ [ "holster", 1 ], [ "sholster", 1 ] ], [ [ "leather_pouch", 3 ] ], [ [ "duct_tape", 80 ] ] ]
   },
@@ -1350,7 +1350,7 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 3,
-    "time": "5 h 30 m",
+    "time": "5 h 40 m",
     "autolearn": true,
     "reversible": true,
     "using": [ [ "tailoring_leather_small", 7 ], [ "fastener_large", 2 ] ],

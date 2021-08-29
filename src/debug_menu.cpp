@@ -39,6 +39,7 @@
 #include "color.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
 #include "effect.h"
@@ -83,6 +84,7 @@
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
 #include "path_info.h" // IWYU pragma: keep
+#include "panels.h"
 #include "pimpl.h"
 #include "point.h"
 #include "popup.h"
@@ -1132,7 +1134,7 @@ void character_edit_menu()
     charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, "%s", _( "You" ) );
     locations.emplace_back( player_character.pos() );
     for( const npc &guy : g->all_npcs() ) {
-        charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, guy.name );
+        charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, guy.get_name() );
         locations.emplace_back( guy.pos() );
     }
 
@@ -1145,13 +1147,13 @@ void character_edit_menu()
     }
     const size_t index = charmenu.ret;
     // The NPC is also required for "Add mission", so has to be in this scope
-    npc *np = g->critter_at<npc>( locations[index], false );
+    npc *np = get_creature_tracker().creature_at<npc>( locations[index], false );
     Character &you = np ? *np->as_character() : *player_character.as_character();
     uilist nmenu;
 
     if( np != nullptr ) {
         std::stringstream data;
-        data << np->name << " " << ( np->male ? _( "Male" ) : _( "Female" ) ) << std::endl;
+        data << np->get_name() << " " << ( np->male ? _( "Male" ) : _( "Female" ) ) << std::endl;
         data << np->myclass.obj().get_name() << "; " <<
              npc_attitude_name( np->get_attitude() ) << "; " <<
              ( np->get_faction() ? np->get_faction()->name : _( "no faction" ) ) << "; " <<
@@ -1435,7 +1437,7 @@ void character_edit_menu()
             std::string current_bloodt = io::enum_to_string( you.my_blood_type ) + ( you.blood_rh_factor ? "+" :
                                          "-" );
             smenu.text = _( "Select a value and press enter to change it." );
-            smenu.addentry( 0, true, 'n', "%s: %s", _( "Current name" ), you.get_name() );
+            smenu.addentry( 0, true, 'n', "%s: %s", _( "Current save file name" ), you.name );
             smenu.addentry( 1, true, 'a', "%s: %d", _( "Current age" ), you.base_age() );
             smenu.addentry( 2, true, 'h', "%s: %d", _( "Current height in cm" ), you.base_height() );
             smenu.addentry( 3, true, 'b', "%s: %s", _( "Current blood type:" ), current_bloodt );
@@ -1445,7 +1447,7 @@ void character_edit_menu()
                     std::string filterstring = you.name;
                     string_input_popup popup;
                     popup
-                    .title( _( "Rename:" ) )
+                    .title( _( "Rename save file:" ) )
                     .width( 85 )
                     .edit( filterstring );
                     if( popup.confirmed() ) {
@@ -1511,9 +1513,9 @@ void character_edit_menu()
         }
         break;
         case D_NEEDS: {
-            std::pair<std::string, nc_color> hunger_pair = you.get_hunger_description();
-            std::pair<std::string, nc_color> thirst_pair = you.get_thirst_description();
-            std::pair<std::string, nc_color> fatigue_pair = you.get_fatigue_description();
+            std::pair<std::string, nc_color> hunger_pair = display::hunger_text_color( you );
+            std::pair<std::string, nc_color> thirst_pair = display::thirst_text_color( you );
+            std::pair<std::string, nc_color> fatigue_pair = display::fatigue_text_color( you );
 
             std::stringstream data;
             data << string_format( _( "Hunger: %d  %s" ), you.get_hunger(), colorize( hunger_pair.first,
@@ -1655,7 +1657,7 @@ void character_edit_menu()
         }
         break;
         case D_STATUS:
-            you.disp_info();
+            you.disp_info( true );
             break;
         case D_MISSION_ADD: {
             uilist types;
@@ -1879,10 +1881,10 @@ void mission_debug::remove_mission( mission &m )
     npc *giver = g->find_npc( m.npc_id );
     if( giver != nullptr ) {
         if( remove_from_vec( giver->chatbin.missions_assigned, &m ) ) {
-            add_msg( _( "Removing from %s missions_assigned" ), giver->name );
+            add_msg( _( "Removing from %s missions_assigned" ), giver->get_name() );
         }
         if( remove_from_vec( giver->chatbin.missions, &m ) ) {
-            add_msg( _( "Removing from %s missions" ), giver->name );
+            add_msg( _( "Removing from %s missions" ), giver->get_name() );
         }
     }
 }
@@ -2015,7 +2017,7 @@ static void debug_menu_game_state()
         g->num_creatures() );
     for( const npc &guy : g->all_npcs() ) {
         tripoint_abs_sm t = guy.global_sm_location();
-        add_msg( m_info, _( "%s: map ( %d:%d ) pos ( %d:%d )" ), guy.name, t.x(),
+        add_msg( m_info, _( "%s: map ( %d:%d ) pos ( %d:%d )" ), guy.get_name(), t.x(),
                  t.y(), guy.posx(), guy.posy() );
     }
 
@@ -2286,7 +2288,7 @@ void debug()
 
         case debug_menu_index::KILL_NPCS:
             for( npc &guy : g->all_npcs() ) {
-                add_msg( _( "%s's head implodes!" ), guy.name );
+                add_msg( _( "%s's head implodes!" ), guy.get_name() );
                 guy.set_part_hp_cur( bodypart_id( "head" ), 0 );
             }
             break;
@@ -2348,8 +2350,9 @@ void debug()
 
         case debug_menu_index::CHANGE_WEATHER: {
             uilist weather_menu;
+            weather_manager &weather = get_weather();
             weather_menu.text = _( "Select new weather pattern:" );
-            weather_menu.addentry( 0, true, MENU_AUTOASSIGN, g->weather.weather_override == WEATHER_NULL ?
+            weather_menu.addentry( 0, true, MENU_AUTOASSIGN, weather.weather_override == WEATHER_NULL ?
                                    _( "Keep normal weather patterns" ) : _( "Disable weather forcing" ) );
             for( size_t i = 0; i < weather_types::get_all().size(); i++ ) {
                 weather_menu.addentry( i, true, MENU_AUTOASSIGN,
@@ -2361,16 +2364,17 @@ void debug()
             if( weather_menu.ret >= 0 &&
                 static_cast<size_t>( weather_menu.ret ) < weather_types::get_all().size() ) {
                 const weather_type_id selected_weather = weather_types::get_all()[weather_menu.ret].id;
-                g->weather.weather_override = selected_weather;
-                g->weather.set_nextweather( calendar::turn );
+                weather.weather_override = selected_weather;
+                weather.set_nextweather( calendar::turn );
             }
         }
         break;
 
         case debug_menu_index::WIND_DIRECTION: {
             uilist wind_direction_menu;
+            weather_manager &weather = get_weather();
             wind_direction_menu.text = _( "Select new wind direction:" );
-            wind_direction_menu.addentry( 0, true, MENU_AUTOASSIGN, g->weather.wind_direction_override ?
+            wind_direction_menu.addentry( 0, true, MENU_AUTOASSIGN, weather.wind_direction_override ?
                                           _( "Disable direction forcing" ) : _( "Keep normal wind direction" ) );
             int count = 1;
             for( int angle = 0; angle <= 315; angle += 45 ) {
@@ -2379,19 +2383,20 @@ void debug()
             }
             wind_direction_menu.query();
             if( wind_direction_menu.ret == 0 ) {
-                g->weather.wind_direction_override = cata::nullopt;
-                g->weather.set_nextweather( calendar::turn );
+                weather.wind_direction_override = cata::nullopt;
+                weather.set_nextweather( calendar::turn );
             } else if( wind_direction_menu.ret >= 0 && wind_direction_menu.ret < 9 ) {
-                g->weather.wind_direction_override = ( wind_direction_menu.ret - 1 ) * 45;
-                g->weather.set_nextweather( calendar::turn );
+                weather.wind_direction_override = ( wind_direction_menu.ret - 1 ) * 45;
+                weather.set_nextweather( calendar::turn );
             }
         }
         break;
 
         case debug_menu_index::WIND_SPEED: {
             uilist wind_speed_menu;
+            weather_manager &weather = get_weather();
             wind_speed_menu.text = _( "Select new wind speed:" );
-            wind_speed_menu.addentry( 0, true, MENU_AUTOASSIGN, g->weather.wind_direction_override ?
+            wind_speed_menu.addentry( 0, true, MENU_AUTOASSIGN, weather.wind_direction_override ?
                                       _( "Disable speed forcing" ) : _( "Keep normal wind speed" ) );
             int count = 1;
             for( int speed = 0; speed <= 100; speed += 10 ) {
@@ -2401,12 +2406,12 @@ void debug()
             }
             wind_speed_menu.query();
             if( wind_speed_menu.ret == 0 ) {
-                g->weather.windspeed_override = cata::nullopt;
-                g->weather.set_nextweather( calendar::turn );
+                weather.windspeed_override = cata::nullopt;
+                weather.set_nextweather( calendar::turn );
             } else if( wind_speed_menu.ret >= 0 && wind_speed_menu.ret < 12 ) {
                 int selected_wind_speed = ( wind_speed_menu.ret - 1 ) * 10;
-                g->weather.windspeed_override = selected_wind_speed;
-                g->weather.set_nextweather( calendar::turn );
+                weather.windspeed_override = selected_wind_speed;
+                weather.set_nextweather( calendar::turn );
             }
         }
         break;

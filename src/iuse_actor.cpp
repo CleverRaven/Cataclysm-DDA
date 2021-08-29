@@ -30,6 +30,7 @@
 #include "colony.h"
 #include "crafting.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
 #include "effect.h"
@@ -65,7 +66,6 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "point.h"
 #include "recipe.h"
@@ -200,6 +200,11 @@ void iuse_transform::load( const JsonObject &obj )
 
 cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const tripoint &pos ) const
 {
+    float scale = 1;
+    auto iter = it.type->ammo_scale.find( type );
+    if( iter != it.type->ammo_scale.end() ) {
+        scale = iter->second;
+    }
     if( t ) {
         return cata::nullopt; // invoked from active item processing, do nothing.
     }
@@ -217,7 +222,9 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
         p.add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
         return cata::nullopt;
     }
+
     if( need_charges && it.ammo_remaining( &p ) < need_charges ) {
+
         if( possess ) {
             p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
         }
@@ -248,7 +255,7 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
     // defined here to allow making a new item assigned to the pointer
     item obj_it;
     if( it.is_tool() ) {
-        result = it.type->charges_to_use();
+        result = int( it.type->charges_to_use() * double( scale ) );
     }
     if( container.is_empty() ) {
         obj = &it.convert( target );
@@ -989,7 +996,8 @@ cata::optional<int> place_npc_iuse::use( Character &p, item &, bool, const tripo
 
     const cata::optional<tripoint> target_pos =
     random_point( target_range, [&here]( const tripoint & t ) {
-        return here.passable( t ) && here.has_floor_or_support( t ) && !g->critter_at( t );
+        return here.passable( t ) && here.has_floor_or_support( t ) &&
+               !get_creature_tracker().creature_at( t );
     } );
 
     if( !target_pos.has_value() ) {
@@ -2464,7 +2472,7 @@ bool holster_actor::can_holster( const item &holster, const item &obj ) const
     return holster.can_contain( obj ).success();
 }
 
-bool holster_actor::store( player &p, item &holster, item &obj ) const
+bool holster_actor::store( Character &you, item &holster, item &obj ) const
 {
     if( obj.is_null() || holster.is_null() ) {
         debugmsg( "Null item was passed to holster_actor" );
@@ -2473,26 +2481,26 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
 
     const ret_val<bool> contain = holster.can_contain( obj );
     if( !contain.success() ) {
-        p.add_msg_if_player( m_bad, contain.str(), holster.tname(), obj.tname() );
+        you.add_msg_if_player( m_bad, contain.str(), holster.tname(), obj.tname() );
     }
     if( obj.active ) {
-        p.add_msg_if_player( m_info, _( "You don't think putting your %1$s in your %2$s is a good idea" ),
-                             obj.tname(), holster.tname() );
+        you.add_msg_if_player( m_info, _( "You don't think putting your %1$s in your %2$s is a good idea" ),
+                               obj.tname(), holster.tname() );
         return false;
     }
-    p.add_msg_if_player( holster_msg.empty() ? _( "You holster your %s" ) : holster_msg.translated(),
-                         obj.tname(), holster.tname() );
+    you.add_msg_if_player( holster_msg.empty() ? _( "You holster your %s" ) : holster_msg.translated(),
+                           obj.tname(), holster.tname() );
 
     // holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
-    p.as_character()->store( holster, obj, false, holster.obtain_cost( obj ),
-                             item_pocket::pocket_type::CONTAINER );
+    you.as_character()->store( holster, obj, false, holster.obtain_cost( obj ),
+                               item_pocket::pocket_type::CONTAINER );
     return true;
 }
 
-cata::optional<int> holster_actor::use( Character &p, item &it, bool, const tripoint & ) const
+cata::optional<int> holster_actor::use( Character &you, item &it, bool, const tripoint & ) const
 {
-    if( p.is_wielding( it ) ) {
-        p.add_msg_if_player( _( "You need to unwield your %s before using it." ), it.tname() );
+    if( you.is_wielding( it ) ) {
+        you.add_msg_if_player( _( "You need to unwield your %s before using it." ), it.tname() );
         return cata::nullopt;
     }
 
@@ -2527,25 +2535,25 @@ cata::optional<int> holster_actor::use( Character &p, item &it, bool, const trip
     }
 
     if( pos < -1 ) {
-        p.add_msg_if_player( _( "Never mind." ) );
+        you.add_msg_if_player( _( "Never mind." ) );
         return cata::nullopt;
     }
 
     if( pos >= 0 ) {
         // worn holsters ignore penalty effects (e.g. GRABBED) when determining number of moves to consume
-        if( p.is_worn( it ) ) {
-            p.wield_contents( it, internal_item, false, it.obtain_cost( *internal_item ) );
+        if( you.is_worn( it ) ) {
+            you.wield_contents( it, internal_item, false, it.obtain_cost( *internal_item ) );
         } else {
-            p.wield_contents( it, internal_item );
+            you.wield_contents( it, internal_item );
         }
 
     } else {
-        if( p.as_avatar() == nullptr ) {
+        if( you.as_avatar() == nullptr ) {
             return cata::nullopt;
         }
         // may not strictly be the correct item_location, but plumbing item_location through all iuse_actor::use won't work
-        item_location item_loc( p, &it );
-        game_menus::inv::insert_items( *p.as_avatar(), item_loc );
+        item_location item_loc( you, &it );
+        game_menus::inv::insert_items( *you.as_avatar(), item_loc );
     }
 
     return 0;
@@ -2720,7 +2728,7 @@ std::set<itype_id> repair_item_actor::get_valid_repair_materials( const item &fi
     return valid_entries;
 }
 
-bool repair_item_actor::handle_components( player &pl, const item &fix,
+bool repair_item_actor::handle_components( Character &pl, const item &fix,
         bool print_msg, bool just_check ) const
 {
     // Entries valid for repaired items
@@ -2804,7 +2812,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
 // If the recipe is not known by the player, +1 to difficulty
 // If player doesn't meet the requirements of the recipe, +1 to difficulty
 // Returns -1 if no recipe is found
-static int find_repair_difficulty( const player &pl, const itype_id &id, bool training )
+static int find_repair_difficulty( const Character &pl, const itype_id &id, bool training )
 {
     // If the recipe is not found, this will remain unchanged
     int min = -1;
@@ -2836,7 +2844,7 @@ static int find_repair_difficulty( const player &pl, const itype_id &id, bool tr
 // Returns the level of the lowest level recipe that results in item of `fix`'s type
 // Or if it has a repairs_like, the lowest level recipe that results in that.
 // If the recipe doesn't exist, difficulty is 10
-int repair_item_actor::repair_recipe_difficulty( const player &pl,
+int repair_item_actor::repair_recipe_difficulty( const Character &pl,
         const item &fix, bool training ) const
 {
     int diff = find_repair_difficulty( pl, fix.typeId(), training );
@@ -2854,7 +2862,7 @@ int repair_item_actor::repair_recipe_difficulty( const player &pl,
     return diff;
 }
 
-bool repair_item_actor::can_repair_target( player &pl, const item &fix,
+bool repair_item_actor::can_repair_target( Character &pl, const item &fix,
         bool print_msg ) const
 {
     // In some rare cases (indices getting scrambled after inventory overflow)
@@ -2928,7 +2936,7 @@ bool repair_item_actor::can_repair_target( player &pl, const item &fix,
 }
 
 std::pair<float, float> repair_item_actor::repair_chance(
-    const player &pl, const item &fix, repair_item_actor::repair_type action_type ) const
+    const Character &pl, const item &fix, repair_item_actor::repair_type action_type ) const
 {
     /** @EFFECT_TAILOR randomly improves clothing repair efforts */
     /** @EFFECT_MECHANICS randomly improves metal repair efforts */
@@ -3015,7 +3023,7 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
     return RT_NOTHING;
 }
 
-static bool damage_item( player &pl, item_location &fix )
+static bool damage_item( Character &pl, item_location &fix )
 {
     const std::string startdurability = fix->durability_indicator( true );
     const bool destroyed = fix->inc_damage();
@@ -3042,7 +3050,7 @@ static bool damage_item( player &pl, item_location &fix )
     return false;
 }
 
-repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &tool,
+repair_item_actor::attempt_hint repair_item_actor::repair( Character &pl, item &tool,
         item_location &fix ) const
 {
     if( !can_use_tool( pl, tool, true ) ) {
@@ -3249,7 +3257,7 @@ static Character &get_patient( Character &healer, const tripoint &pos )
         return healer;
     }
 
-    Character *const person = g->critter_at<Character>( pos );
+    Character *const person = get_creature_tracker().creature_at<Character>( pos );
     if( !person ) {
         // Default to heal self on failure not to break old functionality
         add_msg_debug( debugmode::DF_IUSE, "No heal target at position %d,%d,%d", pos.x, pos.y, pos.z );
@@ -3999,7 +4007,7 @@ ret_val<bool> install_bionic_actor::can_use( const Character &p, const item &it,
         return ret_val<bool>::make_failure( _( "There is nothing to upgrade." ) );
     } else {
         const bool downgrade = std::any_of( bid->available_upgrades.begin(), bid->available_upgrades.end(),
-                                            std::bind( &player::has_bionic, &p, std::placeholders::_1 ) );
+                                            std::bind( &Character::has_bionic, &p, std::placeholders::_1 ) );
 
         if( downgrade ) {
             return ret_val<bool>::make_failure( _( "You have a superior version installed." ) );
@@ -4266,12 +4274,13 @@ cata::optional<int> deploy_tent_actor::use( Character &p, item &it, bool, const 
     // First check there's enough room.
     const tripoint center = p.pos() + tripoint( ( radius + 1 ) * direction.x,
                             ( radius + 1 ) * direction.y, 0 );
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &dest : here.points_in_radius( center, radius ) ) {
         if( const optional_vpart_position vp = here.veh_at( dest ) ) {
             add_msg( m_info, _( "The %s is in the way." ), vp->vehicle().name );
             return cata::nullopt;
         }
-        if( const Creature *const c = g->critter_at( dest ) ) {
+        if( const Creature *const c = creatures.creature_at( dest ) ) {
             add_msg( m_info, _( "The %s is in the way." ), c->disp_name() );
             return cata::nullopt;
         }
@@ -4661,7 +4670,11 @@ cata::optional<int> effect_on_conditons_actor::use( Character &p, item &it, bool
     item_location loc( *( p.as_character() ), &it );
     dialogue d( get_talker_for( char_ptr ), get_talker_for( loc ) );
     for( const effect_on_condition_id &eoc : eocs ) {
-        eoc->activate( d );
+        if( eoc->activate_only ) {
+            eoc->activate( d );
+        } else {
+            debugmsg( "Cannot use a recurring effect_on_condition in an item.  If you don't want the effect_on_condition to happen on its own (without the item's involvement), remove the recurrence min and max.  Otherwise, create a non-recurring effect_on_condition for this item with its condition and effects, then have a recurring one queue it." );
+        }
     }
     return it.type->charges_to_use();
 }

@@ -82,6 +82,7 @@ class character_id;
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 
 static const mongroup_id GROUP_FOREST( "GROUP_FOREST" );
+static const mongroup_id GROUP_NEMESIS( "GROUP_NEMESIS" );
 
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 
@@ -796,7 +797,15 @@ static void draw_ascii(
                         if( mgp->horde ) {
                             // Hordes show as +
                             ter_sym = "+";
+
+                            if( mgp->type == GROUP_NEMESIS ) {
+                                // nemesis horde shows as &
+                                ter_sym = "&";
+                                ter_color = c_red;
+                            }
+
                             break;
+
                         } else {
                             // Regular groups show as -
                             ter_sym = "-";
@@ -909,7 +918,7 @@ static void draw_ascii(
     if( has_debug_vision || overmap_buffer.seen( center ) ) {
         for( const auto &npc : npcs_near_player ) {
             if( !npc->marked_for_death && npc->global_omt_location() == center ) {
-                corner_text.emplace_back( npc->basic_symbol_color(), npc->name );
+                corner_text.emplace_back( npc->basic_symbol_color(), npc->get_name() );
             }
         }
     }
@@ -1064,6 +1073,17 @@ static void draw_om_sidebar(
         mvwprintz( wbar, point( 1, ++lines ), c_white, _( "oter: %s" ), oter.id.str() );
         mvwprintz( wbar, point( 1, ++lines ), c_white,
                    _( "oter_type: %s" ), oter.get_type_id().str() );
+        cata::optional<mapgen_arguments> *args = overmap_buffer.mapgen_args( center );
+        if( args ) {
+            if( *args ) {
+                for( const std::pair<const std::string, cata_variant> &arg : ( **args ).map ) {
+                    mvwprintz( wbar, point( 1, ++lines ), c_white, "%s = %s",
+                               arg.first, arg.second.get_string() );
+                }
+            } else {
+                mvwprintz( wbar, point( 1, ++lines ), c_white, _( "args not yet set" ) );
+            }
+        }
     }
 
     if( has_target ) {
@@ -1105,6 +1125,7 @@ static void draw_om_sidebar(
         if( data.debug_editor ) {
             print_hint( "PLACE_TERRAIN", c_light_blue );
             print_hint( "PLACE_SPECIAL", c_light_blue );
+            print_hint( "SET_SPECIAL_ARGS", c_light_blue );
             ++y;
         }
 
@@ -1528,6 +1549,46 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
     }
 }
 
+static void set_special_args( tripoint_abs_omt &curs )
+{
+    cata::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( curs );
+    if( !maybe_args ) {
+        popup( _( "No overmap special args at this location." ) );
+        return;
+    }
+    if( *maybe_args ) {
+        popup( _( "Overmap special args at this location have already been set." ) );
+        return;
+    }
+    cata::optional<overmap_special_id> s = overmap_buffer.overmap_special_at( curs );
+    if( !s ) {
+        popup( _( "No overmap special at this location from which to fetch parameters." ) );
+        return;
+    }
+    const overmap_special &special = **s;
+    const mapgen_parameters &params = special.get_params();
+    mapgen_arguments args;
+    for( const std::pair<const std::string, mapgen_parameter> &p : params.map ) {
+        const std::string param_name = p.first;
+        const mapgen_parameter &param = p.second;
+        std::vector<std::string> possible_values = param.all_possible_values( params );
+        uilist arg_menu;
+        arg_menu.title = string_format( _( "Select value for mapgen argument %s: " ), param_name );
+        for( size_t i = 0; i != possible_values.size(); ++i ) {
+            const std::string &v = possible_values[i];
+            arg_menu.addentry( i, true, 0, v );
+        }
+        arg_menu.query();
+
+        if( arg_menu.ret < 0 ) {
+            return;
+        }
+        args.map[param_name] =
+            cata_variant::from_string( param.type(), std::move( possible_values[arg_menu.ret] ) );
+    }
+    *maybe_args = args;
+}
+
 static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt dest,
         bool driving )
 {
@@ -1657,6 +1718,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     if( data.debug_editor ) {
         ictxt.register_action( "PLACE_TERRAIN" );
         ictxt.register_action( "PLACE_SPECIAL" );
+        ictxt.register_action( "SET_SPECIAL_ARGS" );
     }
     ictxt.register_action( "QUIT" );
     std::string action;
@@ -1796,6 +1858,8 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
             }
         } else if( action == "PLACE_TERRAIN" || action == "PLACE_SPECIAL" ) {
             place_ter_or_special( ui, curs, action );
+        } else if( action == "SET_SPECIAL_ARGS" ) {
+            set_special_args( curs );
         } else if( action == "MISSIONS" ) {
             g->list_missions();
         }

@@ -8,6 +8,7 @@
 #include "cata_catch.h"
 #include "character.h"
 #include "character_id.h"
+#include "creature_tracker.h"
 #include "damage.h"
 #include "effect.h"
 #include "effect_source.h"
@@ -545,7 +546,7 @@ TEST_CASE( "bleed_effect_attribution", "[effect][bleed][monster]" )
 
 TEST_CASE( "Vitamin Effects", "[effect][vitamins]" )
 {
-    player &subject = get_avatar();
+    Character &subject = get_avatar();
     clear_avatar();
 
     // Our effect influencing vitamins, and the two vitamins it influences
@@ -603,6 +604,7 @@ static void test_deadliness( const effect &applied, const int expected_dead, con
 {
     const mtype_id debug_mon( "debug_mon" );
 
+    creature_tracker &creatures = get_creature_tracker();
     clear_map();
     std::vector<monster *> mons;
 
@@ -613,7 +615,7 @@ static void test_deadliness( const effect &applied, const int expected_dead, con
 
             mons.push_back( g->place_critter_at( debug_mon, cursor ) );
             // make sure they're there!
-            CHECK( g->critter_at<Creature>( cursor ) != nullptr );
+            CHECK( creatures.creature_at<Creature>( cursor ) != nullptr );
         }
     }
 
@@ -635,7 +637,7 @@ static void test_deadliness( const effect &applied, const int expected_dead, con
         for( int j = 0; j < 10; ++j ) {
             tripoint cursor( i + 20, j + 20, 0 );
 
-            alive += g->critter_at<Creature>( cursor ) != nullptr;
+            alive += creatures.creature_at<Creature>( cursor ) != nullptr;
         }
     }
 

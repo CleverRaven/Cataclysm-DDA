@@ -24,7 +24,7 @@
     "result": "xl_gauntlets_chitin",
     "type": "recipe",
     "copy-from": "gauntlets_chitin",
-    "time": "13 h",
+    "time": "11 h 15 m",
     "using": [ [ "armor_chitin", 12 ], [ "strap_small", 2 ], [ "clasps", 2 ] ],
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ]
   },
@@ -54,7 +54,7 @@
     "result": "xl_gauntlets_acidchitin",
     "type": "recipe",
     "copy-from": "gauntlets_acidchitin",
-    "time": "17 h",
+    "time": "13 h 30 m",
     "using": [ [ "armor_acidchitin", 12 ], [ "strap_small", 2 ], [ "clasps", 2 ] ],
     "qualities": [ { "id": "CUT_FINE", "level": 1 } ],
     "components": [ [ [ "cordage_superior", 2, "LIST" ] ] ]
@@ -80,7 +80,7 @@
     "result": "xl_gauntlets_larmor",
     "type": "recipe",
     "copy-from": "gauntlets_larmor",
-    "time": "12 h",
+    "time": "10 h 10 m",
     "using": [ [ "sewing_standard", 16 ], [ "tailoring_leather_small", 6 ] ]
   },
   {
@@ -160,7 +160,7 @@
     "result": "xl_gloves_fsurvivor",
     "type": "recipe",
     "copy-from": "gloves_fsurvivor",
-    "time": "26 h",
+    "time": "22 h 45 m",
     "using": [ [ "tailoring_leather_small", 3 ], [ "tailoring_nomex_patchwork", 3 ], [ "tailoring_kevlar_fabric", 2 ] ],
     "components": [ [ [ "duct_tape", 170 ] ], [ [ "nomex_gloves", 1 ], [ "fire_gauntlets", 1 ] ] ]
   },
@@ -183,7 +183,7 @@
     "result": "xl_gloves_fur",
     "type": "recipe",
     "copy-from": "gloves_fur",
-    "time": "13 h",
+    "time": "10 h 10 m",
     "using": [ [ "tailoring_fur_small", 5 ] ]
   },
   {
@@ -287,7 +287,7 @@
     "result": "xl_gloves_hsurvivor",
     "type": "recipe",
     "copy-from": "gloves_hsurvivor",
-    "time": "26 h",
+    "time": "22 h 30 m",
     "using": [ [ "tailoring_leather_small", 3 ], [ "tailoring_cotton_patchwork", 2 ], [ "tailoring_kevlar_fabric", 2 ] ],
     "components": [
       [ [ "scrap", 5 ] ],
@@ -319,7 +319,7 @@
     "result": "xl_gloves_leather",
     "type": "recipe",
     "copy-from": "gloves_leather",
-    "time": "12 h",
+    "time": "9 h",
     "using": [ [ "tailoring_leather_small", 3 ] ]
   },
   {
@@ -338,7 +338,7 @@
     "result": "xl_gloves_light",
     "type": "recipe",
     "copy-from": "gloves_light",
-    "time": "8 h",
+    "time": "5 h 40 m",
     "using": [ [ "tailoring_cotton_patchwork", 6 ] ]
   },
   {
@@ -357,7 +357,7 @@
     "result": "xl_gloves_liner",
     "type": "recipe",
     "copy-from": "gloves_liner",
-    "time": "6 h",
+    "time": "4 h 30 m",
     "using": [ [ "tailoring_cotton_patchwork", 2 ] ]
   },
   {
@@ -393,7 +393,7 @@
     "result": "xl_gloves_lsurvivor",
     "type": "recipe",
     "copy-from": "gloves_lsurvivor",
-    "time": "24 h",
+    "time": "20 h 15 m",
     "using": [ [ "tailoring_leather_small", 3 ], [ "tailoring_cotton_patchwork", 2 ], [ "tailoring_kevlar_fabric", 2 ] ],
     "components": [
       [ [ "duct_tape", 120 ] ],
@@ -477,7 +477,7 @@
     "result": "xl_gloves_plate",
     "type": "recipe",
     "copy-from": "gloves_plate",
-    "time": "10 h",
+    "time": "7 h 50 m",
     "using": [ [ "blacksmithing_standard", 30 ], [ "steel_standard", 9 ], [ "clasps", 2 ], [ "strap_small", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
@@ -530,7 +530,7 @@
     "result": "xl_gloves_wool",
     "type": "recipe",
     "copy-from": "gloves_wool",
-    "time": "9 h",
+    "time": "6 h 45 m",
     "using": [ [ "tailoring_wool_knitting", 140 ] ]
   },
   {
@@ -632,7 +632,7 @@
     "result": "xl_gloves_wsurvivor",
     "type": "recipe",
     "copy-from": "gloves_wsurvivor",
-    "time": "26 h",
+    "time": "22 h 30 m",
     "using": [ [ "sewing_standard", 75 ], [ "tailoring_fur_small", 5 ], [ "tailoring_kevlar_fabric", 2 ] ],
     "components": [
       [ [ "duct_tape", 120 ] ],
@@ -654,7 +654,7 @@
     "skill_used": "tailor",
     "difficulty": 6,
     "skills_required": [ "fabrication", 4 ],
-    "time": "22h",
+    "time": "22h 30 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 100 ], [ "tailoring_leather_small", 16 ], [ "tailoring_kevlar_fabric", 2 ] ],
     "proficiencies": [
@@ -751,7 +751,7 @@
     "result": "xl_chainmail_hands",
     "type": "recipe",
     "copy-from": "chainmail_hands",
-    "time": "3 h",
+    "time": "2 h 15 m",
     "using": [ [ "armor_chainmail_assembling", 3 ], [ "strap_small", 2 ] ]
   },
   {

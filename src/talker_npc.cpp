@@ -29,7 +29,6 @@
 #include "npctrade.h"
 #include "output.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "proficiency.h"
 #include "ret_val.h"
@@ -71,13 +70,13 @@ std::string talker_npc::distance_to_goal() const
     return response;
 }
 
-bool talker_npc::will_talk_to_u( const player &u, bool force )
+bool talker_npc::will_talk_to_u( const Character &you, bool force )
 {
-    if( u.is_dead_state() ) {
+    if( you.is_dead_state() ) {
         me_npc->set_attitude( NPCATT_NULL );
         return false;
     }
-    if( get_player_character().getID() == u.getID() ) {
+    if( get_player_character().getID() == you.getID() ) {
         if( me_npc->get_faction() ) {
             me_npc->get_faction()->known_by_u = true;
         }
@@ -269,7 +268,7 @@ std::vector<skill_id> talker_npc::skills_offered_to( const talker &student ) con
 std::string talker_npc::skill_training_text( const talker &student,
         const skill_id &skill ) const
 {
-    const player *pupil = student.get_character();
+    const Character *pupil = student.get_character();
     if( !pupil ) {
         return "";
     }
@@ -357,7 +356,7 @@ std::vector<spell_id> talker_npc::spells_offered_to( talker &student )
 
 std::string talker_npc::spell_training_text( talker &student, const spell_id &sp )
 {
-    player *pupil = student.get_character();
+    Character *pupil = student.get_character();
     if( !pupil ) {
         return "";
     }

@@ -10,6 +10,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
+#include "creature_tracker.h"
 #include "harvest.h"
 #include "input.h"
 #include "map.h"
@@ -31,9 +32,9 @@ enum class description_target : int {
     terrain
 };
 
-static const Creature *seen_critter( const game &g, const tripoint &p )
+static const Creature *seen_critter( const tripoint &p )
 {
-    const Creature *critter = g.critter_at( p, true );
+    const Creature *critter = get_creature_tracker().creature_at( p, true );
     if( critter != nullptr && get_player_view().sees( *critter ) ) {
         return critter;
     }
@@ -62,7 +63,7 @@ void game::extended_description( const tripoint &p )
 
     // Default to critter (if any), furniture (if any), then terrain.
     description_target cur_target = description_target::terrain;
-    if( seen_critter( *this, p ) != nullptr ) {
+    if( seen_critter( p ) != nullptr ) {
         cur_target = description_target::creature;
     } else if( get_map().has_furn( p ) ) {
         cur_target = description_target::furniture;
@@ -96,7 +97,7 @@ void game::extended_description( const tripoint &p )
         // Allow looking at invisible tiles - player may want to examine hallucinations etc.
         switch( cur_target ) {
             case description_target::creature: {
-                const Creature *critter = seen_critter( *this, p );
+                const Creature *critter = seen_critter( p );
                 if( critter != nullptr ) {
                     desc = critter->extended_description();
                 } else {

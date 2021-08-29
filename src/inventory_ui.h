@@ -744,7 +744,10 @@ class inventory_multiselector : public inventory_selector
                                           const std::string &selection_column_title = "" );
     protected:
         void rearrange_columns( size_t client_width ) override;
-
+        size_t max_chosen_count;
+        void set_chosen_count( inventory_entry &entry, size_t count );
+        std::vector<std::pair<item_location, int>> to_use;
+        std::vector<item_location> usable_locs;
     private:
         std::unique_ptr<inventory_column> selection_col;
 };
@@ -757,7 +760,6 @@ class inventory_compare_selector : public inventory_multiselector
 
     protected:
         std::vector<const item *> compared;
-
         void toggle_entry( inventory_entry *entry );
 };
 
@@ -766,7 +768,7 @@ class inventory_compare_selector : public inventory_multiselector
 class inventory_iuse_selector : public inventory_multiselector
 {
     public:
-        using GetStats = std::function<stats( const std::map<const item_location *, int> & )>;
+        using GetStats = std::function<stats( const std::vector<std::pair<item_location, int>> )>;
         inventory_iuse_selector( Character &p,
                                  const std::string &selector_title,
                                  const inventory_selector_preset &preset = default_preset,
@@ -775,13 +777,9 @@ class inventory_iuse_selector : public inventory_multiselector
 
     protected:
         stats get_raw_stats() const override;
-        void set_chosen_count( inventory_entry &entry, size_t count );
 
     private:
         GetStats get_stats;
-        std::map<const item_location *, int> to_use;
-        std::vector<item_location> usable_locs;
-        size_t max_chosen_count;
 };
 
 class inventory_drop_selector : public inventory_multiselector
@@ -796,13 +794,11 @@ class inventory_drop_selector : public inventory_multiselector
     protected:
         stats get_raw_stats() const override;
         /** Toggle item dropping */
-        void set_chosen_count( inventory_entry &entry, size_t count );
         void process_selected( int &count, const std::vector<inventory_entry *> &selected );
 
     private:
         void deselect_contained_items();
-        std::vector<std::pair<item_location, int>> dropping;
-        size_t max_chosen_count;
+
         bool warn_liquid;
 };
 

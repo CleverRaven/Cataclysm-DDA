@@ -24,6 +24,7 @@
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
 #include "effect.h"
@@ -52,7 +53,6 @@
 #include "npc.h"
 #include "optional.h"
 #include "overmapbuffer.h"
-#include "player.h"
 #include "point.h"
 #include "rng.h"
 #include "scent_block.h"
@@ -255,8 +255,9 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
 {
     // TODO: fix point types
     const bool sheltered = g->is_sheltered( p );
-    const int winddirection = g->weather.winddirection;
-    const int windpower = get_local_windpower( g->weather.windspeed, om_ter, p, winddirection,
+    weather_manager &weather = get_weather();
+    const int winddirection = weather.winddirection;
+    const int windpower = get_local_windpower( weather.windspeed, om_ter, p, winddirection,
                           sheltered );
 
     const int current_intensity = cur.get_field_intensity();
@@ -557,12 +558,12 @@ void field_processor_spread_gas( const tripoint &p, field_entry &cur, field_proc
 }
 
 static void field_processor_fd_fungal_haze( const tripoint &p, field_entry &cur,
-        field_proc_data &pd )
+        field_proc_data &/*pd*/ )
 {
     // if( cur_fd_type_id == fd_fungal_haze ) {
     if( one_in( 10 - 2 * cur.get_field_intensity() ) ) {
         // Haze'd terrain
-        fungal_effects( *g, pd.here ).spread_fungus( p );
+        fungal_effects().spread_fungus( p );
     }
 }
 
@@ -698,6 +699,7 @@ static void field_processor_monster_spawn( const tripoint &p, field_entry &cur,
 static void field_processor_fd_push_items( const tripoint &p, field_entry &, field_proc_data &pd )
 {
     map_stack items = pd.here.i_at( p );
+    creature_tracker &creatures = get_creature_tracker();
     for( auto pushee = items.begin(); pushee != items.end(); ) {
         if( pushee->typeId() != itype_rock ||
             pushee->age() < 1_turns ) {
@@ -722,13 +724,13 @@ static void field_processor_fd_push_items( const tripoint &p, field_entry &, fie
                     pd.player_character.check_dead_state();
                 }
 
-                if( npc *const n = g->critter_at<npc>( newp ) ) {
+                if( npc *const n = creatures.creature_at<npc>( newp ) ) {
                     // TODO: combine with player character code above
                     const bodypart_id hit = pd.player_character.get_random_body_part();
                     n->deal_damage( nullptr, hit, damage_instance( damage_type::BASH, 6 ) );
-                    add_msg_if_player_sees( newp, _( "A %1$s hits %2$s!" ), tmp.tname(), n->name );
+                    add_msg_if_player_sees( newp, _( "A %1$s hits %2$s!" ), tmp.tname(), n->get_name() );
                     n->check_dead_state();
-                } else if( monster *const mon = g->critter_at<monster>( newp ) ) {
+                } else if( monster *const mon = creatures.creature_at<monster>( newp ) ) {
                     mon->apply_damage( nullptr, bodypart_id( "torso" ),
                                        6 - mon->get_armor_bash( bodypart_id( "torso" ) ) );
                     add_msg_if_player_sees( newp, _( "A %1$s hits the %2$s!" ), tmp.tname(), mon->name() );
@@ -910,8 +912,9 @@ void field_processor_fd_fire( const tripoint &p, field_entry &cur, field_proc_da
     cur.set_field_age( std::max( -24_hours, cur.get_field_age() ) );
     // Entire objects for ter/frn for flags
     bool sheltered = g->is_sheltered( p );
-    int winddirection = g->weather.winddirection;
-    int windpower = get_local_windpower( g->weather.windspeed, om_ter, p, winddirection,
+    weather_manager &weather = get_weather();
+    int winddirection = weather.winddirection;
+    int windpower = get_local_windpower( weather.windspeed, om_ter, p, winddirection,
                                          sheltered );
     const ter_t &ter = map_tile.get_ter_t();
     const furn_t &frn = map_tile.get_furn_t();
@@ -1722,19 +1725,19 @@ void map::creature_in_field( Creature &critter )
     if( critter.is_monster() ) {
         monster_in_field( *static_cast<monster *>( &critter ) );
     } else {
-        player *u = critter.as_player();
-        if( u ) {
-            in_vehicle = u->in_vehicle;
+        Character *you = critter.as_character();
+        if( you ) {
+            in_vehicle = you->in_vehicle;
             // If we are in a vehicle figure out if we are inside (reduces effects usually)
             // and what part of the vehicle we need to deal with.
             if( in_vehicle ) {
-                if( const optional_vpart_position vp = veh_at( u->pos() ) ) {
+                if( const optional_vpart_position vp = veh_at( you->pos() ) ) {
                     if( vp->is_inside() ) {
                         inside_vehicle = true;
                     }
                 }
             }
-            player_in_field( *u );
+            player_in_field( *you );
         }
     }
 

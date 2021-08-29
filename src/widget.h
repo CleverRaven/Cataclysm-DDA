@@ -24,16 +24,29 @@ enum class widget_var : int {
     stamina,        // Current stamina 0-10000, greater being fuller stamina reserves
     fatigue,        // Current fatigue, integer
     mana,           // Current available mana, integer
+    morale_level,   // Current morale level, integer (may be negative)
+    weariness_level, // Current weariness level, integer
     stat_str,       // Base STR (strength) stat, integer
     stat_dex,       // Base DEX (dexterity) stat, integer
     stat_int,       // Base INT (intelligence) stat, integer
     stat_per,       // Base PER (perception) stat, integer
     bp_hp,          // Current hit points of given "bodypart", integer
     bp_encumb,      // Current encumbrance of given "bodypart", integer
-    bp_warmth,      // Current warmth of give "bodypart", integer
+    bp_warmth,      // Current warmth of given "bodypart", integer
+    bp_wetness,     // Current wetness of given "bodypart", integer
     hunger,         // TODO
     thirst,         // TODO
     mood,           // TODO
+    pain_text,      // Pain description text, color string
+    hunger_text,    // Hunger description text, color string
+    thirst_text,    // Thirst description text, color string
+    fatigue_text,   // Fagitue description text, color string
+    weight_text,    // Weight description text, color string
+    weariness_text, // Weariness description text, color string
+    wielding_text,  // Currently wielded weapon or item name
+    style_text,     // Active martial arts style name
+    date_text,      // Current date, in terms of day within season
+    place_text,     // Place name in world where character is
     last // END OF ENUMS
 };
 
@@ -65,7 +78,7 @@ class widget
 
         // Attributes from JSON
         // ----
-        // Display style to indicate the value: "numeric", "graph", "phrases"
+        // Display style to indicate the value: "numeric", "graph", "text"
         std::string _style;
         // Displayed label in the UI
         translation _label;
@@ -104,6 +117,10 @@ class widget
         std::string layout( const avatar &ava, unsigned int max_width = 0 );
         // Display labeled widget, with value (number, graph, or string) from an avatar
         std::string show( const avatar &ava );
+        // Return a colorized string for a _var associated with a description function
+        std::string color_text_function_string( const avatar &ava );
+        // Return true if the current _var is one which uses a description function
+        bool uses_text_function();
 
         // Evaluate and return the bound "var" associated value for an avatar
         int get_var_value( const avatar &ava );
@@ -119,8 +136,8 @@ class widget
 
         // Return a formatted numeric string
         std::string number( int value, int value_max = 0 );
-        // Return the phrase mapped to a given value for a "phrase" style
-        std::string phrase( int value, int value_max = 0 );
+        // Return the text phrase mapped to a given value for "text" style
+        std::string text( int value, int value_max = 0 );
         // Return the graph part of this widget, rendered with "bucket" or "pool" fill
         std::string graph( int value, int value_max = 0 );
 

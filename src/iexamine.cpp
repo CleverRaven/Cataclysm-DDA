@@ -33,6 +33,7 @@
 #include "coordinates.h"
 #include "craft_command.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
@@ -108,6 +109,8 @@ static const activity_id ACT_CLEAR_RUBBLE( "ACT_CLEAR_RUBBLE" );
 static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
+
+static const ammotype ammo_money( "money" );
 
 static const efftype_id effect_antibiotic( "antibiotic" );
 static const efftype_id effect_bite( "bite" );
@@ -491,7 +494,7 @@ class atm_menu
     public:
         // menu choices
         enum options : int {
-            cancel, purchase_card, deposit_money, withdraw_money, transfer_all_money
+            cancel, purchase_card, deposit_money, withdraw_money, exchange_cash, transfer_all_money
         };
 
         atm_menu()                           = delete;
@@ -515,6 +518,9 @@ class atm_menu
                         break;
                     case withdraw_money:
                         result = do_withdraw_money();
+                        break;
+                    case exchange_cash:
+                        result = do_exchange_cash();
                         break;
                     case transfer_all_money:
                         result = do_transfer_all_money();
@@ -581,6 +587,10 @@ class atm_menu
             } else {
                 add_info( deposit_money,
                           _( "You need a charged cash card before you can deposit money!" ) );
+            }
+
+            if( card_count >= 1 && you.has_item_with_flag( flag_OLD_CURRENCY ) ) {
+                add_choice( exchange_cash, _( "Exchange Cash for eCash (1%% fee)" ) );
             }
 
             if( card_count >= 2 && charge_count ) {
@@ -681,7 +691,6 @@ class atm_menu
 
             int inserted = 0;
             int remaining = amount;
-            ammotype money( "money" );
 
             std::sort( cash_cards_on_hand.begin(), cash_cards_on_hand.end(), []( item * one, item * two ) {
                 int balance_one = one->ammo_remaining();
@@ -693,7 +702,7 @@ class atm_menu
                 if( inserted == amount ) {
                     break;
                 }
-                int max_cap = cc->ammo_capacity( money ) - cc->ammo_remaining();
+                int max_cap = cc->ammo_capacity( ammo_money ) - cc->ammo_remaining();
                 int to_insert = std::min( max_cap, remaining );
                 // insert whatever there's room for + the old balance.
                 cc->ammo_set( cc->ammo_default(), to_insert + cc->ammo_remaining() );
@@ -713,6 +722,59 @@ class atm_menu
             return true;
         }
 
+        //!Deposit pre-cataclysm currency and receive equivalent amount minus fees on a card.
+        bool do_exchange_cash() {
+            item *dst;
+            if( you.activity.id() == ACT_ATM ) {
+                dst = you.activity.targets.front().get_item();
+                you.activity.set_to_null();
+                if( dst->is_null() || dst->typeId() != itype_cash_card ) {
+                    debugmsg( "do_exchange_cash lost the destination card" );
+                    return false;
+                }
+            } else {
+                const std::vector<item *> cash_cards = you.items_with( []( const item & i ) {
+                    return i.typeId() == itype_cash_card;
+                } );
+                if( cash_cards.empty() ) {
+                    popup( _( "You do not have a cash card." ) );
+                    return false;
+                }
+                dst = *std::max_element( cash_cards.begin(), cash_cards.end(), []( const item * a,
+                const item * b ) {
+                    return a->ammo_remaining() < b->ammo_remaining();
+                } );
+                if( !query_yn( _( "Exchange all paper bills and coins in inventory?" ) ) ) {
+                    return false;
+                }
+            }
+
+            item *cash_item = nullptr;
+            you.visit_items( [&]( item * e, const item * ) {
+                if( e->type->has_flag( flag_OLD_CURRENCY ) ) {
+                    cash_item = e;
+                    return VisitResponse::ABORT;
+                }
+                return VisitResponse::NEXT;
+            } );
+            if( !cash_item ) {
+                return false;
+            }
+            // Feeding a bill into the machine takes at least one turn
+            you.moves -= std::max( 100, you.moves );
+            int value = units::to_cent( cash_item->type->price );
+            value *= 0.99;  // subtract fee
+            if( value > dst->ammo_capacity( ammo_money ) - dst->ammo_remaining() ) {
+                popup( _( "Destination card is full." ) );
+                return false;
+            }
+            item_location( you, cash_item ).remove_item();
+            dst->ammo_set( dst->ammo_default(), dst->ammo_remaining() + value );
+            you.assign_activity( ACT_ATM, 0, exchange_cash );
+            you.activity.targets.emplace_back( you, dst );
+            return true;
+        }
+
         //!Move the money from all the cash cards in inventory to a single card.
         bool do_transfer_all_money() {
             item *dst;
@@ -720,9 +782,10 @@ class atm_menu
                 return i.typeId() == itype_cash_card;
             } );
             if( you.activity.id() == ACT_ATM ) {
-                you.activity.set_to_null(); // stop for now, if required, it will be created again.
                 dst = you.activity.targets.front().get_item();
+                you.activity.set_to_null(); // stop for now, if required, it will be created again.
                 if( dst->is_null() || dst->typeId() != itype_cash_card ) {
+                    debugmsg( "do_transfer_all_money lost the destination card" );
                     return false;
                 }
             } else {
@@ -746,6 +809,10 @@ class atm_menu
                     break;
                 }
                 // should we check for max capacity here?
+                if( i->ammo_remaining() > dst->ammo_capacity( ammo_money ) - dst->ammo_remaining() ) {
+                    popup( _( "Destination card is full." ) );
+                    return false;
+                }
                 dst->ammo_set( dst->ammo_default(), i->ammo_remaining() + dst->ammo_remaining() );
                 i->ammo_set( i->ammo_default(), 0 );
                 you.moves -= 10;
@@ -987,6 +1054,7 @@ void iexamine::elevator( Character &you, const tripoint &examp )
     tripoint original_floor_omt = ms_to_omt_copy( here.getabs( examp ) );
     tripoint new_floor_omt = original_floor_omt + tripoint( point_zero, movez );
 
+    creature_tracker &creatures = get_creature_tracker();
     // first find critters in the destination elevator and move them out of the way
     for( Creature &critter : g->all_creatures() ) {
         if( critter.is_avatar() ) {
@@ -997,7 +1065,7 @@ void iexamine::elevator( Character &you, const tripoint &examp )
                 for( const tripoint &candidate : closest_points_first( critter.pos(), 10 ) ) {
                     if( here.ter( candidate ) != ter_id( "t_elevator" ) &&
                         here.passable( candidate ) &&
-                        !g->critter_at( candidate ) ) {
+                        !creatures.creature_at( candidate ) ) {
                         critter.setpos( candidate );
                         break;
                     }
@@ -1020,7 +1088,7 @@ void iexamine::elevator( Character &you, const tripoint &examp )
                 for( const tripoint &candidate : closest_points_first( you.pos(), 10 ) ) {
                     if( here.ter( candidate ) == ter_id( "t_elevator" ) &&
                         candidate != you.pos() &&
-                        !g->critter_at( candidate ) ) {
+                        !creatures.creature_at( candidate ) ) {
                         critter.setpos( candidate );
                         break;
                     }
@@ -1150,7 +1218,7 @@ void iexamine::rubble( Character &you, const tripoint &examp )
     }
     map &here = get_map();
     if( ( here.veh_at( examp ) || here.can_see_trap_at( examp, you ) ||
-          g->critter_at( examp ) != nullptr ) &&
+          get_creature_tracker().creature_at( examp ) != nullptr ) &&
         !query_yn( _( "Clear up that %s?" ), here.furnname( examp ) ) ) {
         return;
     }
@@ -1949,7 +2017,7 @@ static bool query_pick( Character &who, const tripoint &target )
     if( harvest.is_null() || harvest->empty() ) {
         who.add_msg_if_player( m_info,
                                _( "Nothing can be harvested from this plant in current season." ) );
-        iexamine::none( *who.as_player(), target );
+        iexamine::none( who, target );
         return false;
     }
 
@@ -1961,7 +2029,7 @@ static bool query_pick( Character &who, const tripoint &target )
     }
 
     if( who.is_avatar() && !query_yn( query_string ) ) {
-        iexamine::none( *who.as_player(), target );
+        iexamine::none( who, target );
         return false;
     }
 
@@ -2107,7 +2175,7 @@ void iexamine::fungus( Character &you, const tripoint &examp )
 {
     map &here = get_map();
     add_msg( _( "The %s crumbles into spores!" ), here.furnname( examp ) );
-    fungal_effects( *g, here ).create_spores( examp, &you );
+    fungal_effects().create_spores( examp, &you );
     here.furn_set( examp, f_null );
     you.moves -= 50;
 }
@@ -3643,7 +3711,7 @@ void iexamine::shrub_wildveggies( Character &you, const tripoint &examp )
     if( ( !here.i_at( examp ).empty() ||
           here.veh_at( examp ) ||
           here.can_see_trap_at( examp, you ) ||
-          g->critter_at( examp ) != nullptr ) &&
+          get_creature_tracker().creature_at( examp ) != nullptr ) &&
         !query_yn( _( "Forage through %s?" ), here.tername( examp ) ) ) {
         none( you, examp );
         return;
@@ -4413,6 +4481,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
     // Weariness scaling
     float weary_mult = 1.0f;
     map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
     switch( cmenu.ret ) {
         case 1: {
             tripoint dest( you.posx() + 2 * sgn( examp.x - you.posx() ),
@@ -4424,9 +4493,9 @@ void iexamine::ledge( Character &you, const tripoint &examp )
                 add_msg( m_warning, _( "You are too burdened to jump over an obstacle." ) );
             } else if( !here.valid_move( examp, dest, false, true ) ) {
                 add_msg( m_warning, _( "You cannot jump over an obstacle - something is blocking the way." ) );
-            } else if( g->critter_at( dest ) ) {
+            } else if( creatures.creature_at( dest ) ) {
                 add_msg( m_warning, _( "You cannot jump over an obstacle - there is %s blocking the way." ),
-                         g->critter_at( dest )->disp_name() );
+                         creatures.creature_at( dest )->disp_name() );
             } else if( here.ter( dest ).obj().trap == tr_ledge ) {
                 add_msg( m_warning, _( "You are not going to jump over an obstacle only to fall down." ) );
             } else {
@@ -4517,7 +4586,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
 }
 
 static Character &player_on_couch( Character &you, const tripoint &autodoc_loc,
-                                   player &null_patient,
+                                   Character &null_patient,
                                    bool &adjacent_couch, tripoint &couch_pos )
 {
     map &here = get_map();
@@ -4530,7 +4599,7 @@ static Character &player_on_couch( Character &you, const tripoint &autodoc_loc,
             }
             for( const npc *e : g->allies() ) {
                 if( e->pos() == couch_loc ) {
-                    return  *g->critter_by_id<player>( e->getID() );
+                    return  *g->critter_by_id<Character>( e->getID() );
                 }
             }
         }
@@ -4549,7 +4618,7 @@ static Character &operator_present( Character &you, const tripoint &autodoc_loc,
             }
             for( const npc *e : g->allies() ) {
                 if( e->pos() == loc ) {
-                    return  *g->critter_by_id<player>( e->getID() );
+                    return  *g->critter_by_id<Character>( e->getID() );
                 }
             }
         }
@@ -4572,7 +4641,7 @@ static item &cyborg_on_couch( const tripoint &couch_pos, item &null_cyborg )
     return null_cyborg;
 }
 
-static Character &best_installer( Character &you, player &null_player, int difficulty )
+static Character &best_installer( Character &you, Character &null_player, int difficulty )
 {
     std::vector< std::pair<int, int>> ally_chances;
     ally_chances.reserve( g->allies().size() );
@@ -4580,7 +4649,7 @@ static Character &best_installer( Character &you, player &null_player, int diffi
         std::pair<int, int> ally_skill;
         const npc *e = g->allies()[ i ];
 
-        player &ally = *g->critter_by_id<player>( e->getID() );
+        Character &ally = *g->critter_by_id<Character>( e->getID() );
         ally_skill.second = i;
         ally_skill.first = bionic_success_chance( true, -1, difficulty, ally );
         ally_chances.push_back( ally_skill );
@@ -4594,7 +4663,7 @@ static Character &best_installer( Character &you, player &null_player, int diffi
     for( size_t i = 0; i < g->allies().size() ; i ++ ) {
         if( ally_chances[ i ].first > player_cos ) {
             const npc *e = g->allies()[ ally_chances[ i ].second ];
-            player &ally = *g->critter_by_id<player>( e->getID() );
+            Character &ally = *g->critter_by_id<Character>( e->getID() );
             if( e->has_effect( effect_sleep ) ) {
                 if( !player_character.query_yn(
                         //~ %1$s is the name of the ally
@@ -6060,7 +6129,7 @@ void iexamine::workbench_internal( Character &you, const tripoint &examp,
                 }
                 const recipe &rec = selected_craft->get_making();
                 const inventory &inv = you.crafting_inventory();
-                if( you.has_recipe( &rec, inv, you.get_crafting_helpers() ) == -1 ) {
+                if( !you.has_recipe( &rec, inv, you.get_crafting_helpers() ) ) {
                     you.add_msg_player_or_npc(
                         _( "You don't know the recipe for the %s and can't continue crafting." ),
                         _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),

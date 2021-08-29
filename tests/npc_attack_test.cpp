@@ -1,5 +1,6 @@
 #include "catch/catch.hpp"
 
+#include "creature_tracker.h"
 #include "game.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -18,9 +19,10 @@ namespace npc_attack_setup
 {
 static npc &spawn_main_npc()
 {
+    creature_tracker &creatures = get_creature_tracker();
     get_player_character().setpos( { main_npc_start, -1 } );
     const string_id<npc_template> blank_template( "test_talker" );
-    REQUIRE( g->critter_at<Creature>( main_npc_start_tripoint ) == nullptr );
+    REQUIRE( creatures.creature_at<Creature>( main_npc_start_tripoint ) == nullptr );
     const character_id model_id = get_map().place_npc( main_npc_start, blank_template );
 
     npc &model_npc = *g->find_npc( model_id );
@@ -29,14 +31,14 @@ static npc &spawn_main_npc()
 
     g->load_npcs();
 
-    REQUIRE( g->critter_at<npc>( main_npc_start_tripoint ) != nullptr );
+    REQUIRE( creatures.creature_at<npc>( main_npc_start_tripoint ) != nullptr );
 
     return model_npc;
 }
 
 static npc &respawn_main_npc()
 {
-    npc *guy = g->critter_at<npc>( main_npc_start_tripoint );
+    npc *guy = get_creature_tracker().creature_at<npc>( main_npc_start_tripoint );
     if( guy ) {
         guy->die( nullptr );
     }
