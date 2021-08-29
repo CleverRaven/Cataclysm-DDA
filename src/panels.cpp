@@ -390,7 +390,6 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
 
             if( i < -1 || i > 1 || j < -1 || j > 1 ) {
                 // Show hordes on minimap, leaving a one-tile space around the player
-                const tripoint_abs_omt omp( curs + point( i, j ), here.get_abs_sub().z );
                 int horde_size = overmap_buffer.get_horde_size( omp );
                 if( horde_size >= HORDE_VISIBILITY_SIZE &&
                     overmap_buffer.seen( omp ) && you.overmap_los( omp, sight_points ) ) {
