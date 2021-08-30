@@ -274,7 +274,7 @@ void iexamine::nanofab( Character &you, const tripoint &examp )
     map &here = get_map();
     std::set<itype_id> allowed_template = here.ter( examp )->allowed_template_id;
     for( const auto &valid_location : here.points_in_radius( examp, 1 ) ) {
-        if( here.has_flag( TFLAG_NANOFAB_TABLE, valid_location ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_NANOFAB_TABLE, valid_location ) ) {
             spawn_point = valid_location;
             table_exists = true;
             break;
@@ -1230,11 +1230,11 @@ void iexamine::chainfence( Character &you, const tripoint &examp )
     }
 
     map &here = get_map();
-    if( here.has_flag( TFLAG_CLIMB_SIMPLE, examp ) &&
+    if( here.has_flag( ter_furn_flag::TFLAG_CLIMB_SIMPLE, examp ) &&
         you.has_proficiency( proficiency_prof_parkour ) ) {
         add_msg( _( "You vault over the obstacle with ease." ) );
         you.moves -= 100; // Not tall enough to warrant spider-climbing, so only relevant trait.
-    } else if( here.has_flag( TFLAG_CLIMB_SIMPLE, examp ) ) {
+    } else if( here.has_flag( ter_furn_flag::TFLAG_CLIMB_SIMPLE, examp ) ) {
         add_msg( _( "You vault over the obstacle." ) );
         you.moves -= 300; // Most common move cost for barricades pre-change.
     } else if( you.has_trait( trait_ARACHNID_ARMS_OK ) &&
@@ -1538,7 +1538,7 @@ void iexamine::locked_object( Character &you, const tripoint &examp )
 
     map &here = get_map();
     if( prying_items.empty() ) {
-        if( here.has_flag( TFLAG_PICKABLE, examp ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_PICKABLE, examp ) ) {
             add_msg( m_info, _( "The %s is locked.  You could pry it open with the right tool…" ),
                      here.has_furn( examp ) ? here.furnname( examp ) : here.tername( examp ) );
             locked_object_pickable( you, examp );
@@ -1726,7 +1726,7 @@ void iexamine::door_peephole( Character &you, const tripoint &examp )
     map &here = get_map();
     if( here.is_outside( you.pos() ) ) {
         // if door is a locked type attempt to open
-        if( here.has_flag( TFLAG_OPENCLOSE_INSIDE, examp ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE, examp ) ) {
             locked_object( you, examp );
         } else {
             you.add_msg_if_player( _( "You cannot look through the peephole from the outside." ) );
@@ -2414,7 +2414,7 @@ ret_val<bool> iexamine::can_fertilize( Character &you, const tripoint &tile,
                                        const itype_id &fertilizer )
 {
     map &here = get_map();
-    if( !here.has_flag_furn( TFLAG_PLANT, tile ) ) {
+    if( !here.has_flag_furn( ter_furn_flag::TFLAG_PLANT, tile ) ) {
         return ret_val<bool>::make_failure( _( "Tile isn't a plant" ) );
     }
     if( here.i_at( tile ).size() > 1 ) {
@@ -2525,10 +2525,10 @@ void iexamine::aggie_plant( Character &you, const tripoint &examp )
 
     const std::string pname = seed->get_plant_name();
 
-    if( here.has_flag_furn( TFLAG_GROWTH_HARVEST, examp ) &&
+    if( here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, examp ) &&
         query_yn( _( "Harvest the %s?" ), pname ) ) {
         harvest_plant( you, examp );
-    } else if( !here.has_flag_furn( TFLAG_GROWTH_HARVEST, examp ) ) {
+    } else if( !here.has_flag_furn( ter_furn_flag::TFLAG_GROWTH_HARVEST, examp ) ) {
         if( here.i_at( examp ).size() > 1 ) {
             add_msg( m_info, _( "This %s has already been fertilized." ), pname );
             return;
@@ -3962,8 +3962,10 @@ void iexamine::reload_furniture( Character &you, const tripoint &examp )
 void iexamine::curtains( Character &you, const tripoint &examp )
 {
     map &here = get_map();
-    const bool closed_window_with_curtains = here.has_flag( TFLAG_BARRICADABLE_WINDOW_CURTAINS, examp );
-    if( here.is_outside( you.pos() ) && ( here.has_flag( TFLAG_WALL, examp ) ||
+    const bool closed_window_with_curtains = here.has_flag(
+                ter_furn_flag::TFLAG_BARRICADABLE_WINDOW_CURTAINS,
+                examp );
+    if( here.is_outside( you.pos() ) && ( here.has_flag( ter_furn_flag::TFLAG_WALL, examp ) ||
                                           closed_window_with_curtains ) ) {
         locked_object( you, examp );
         return;
@@ -4574,7 +4576,8 @@ void iexamine::ledge( Character &you, const tripoint &examp )
 
             if( has_grapnel ) {
                 you.add_msg_if_player( _( "You tie the rope around your waist and begin to climb down." ) );
-            } else if( here.has_flag( TFLAG_UNSTABLE, examp + tripoint_below ) && g->slip_down( true ) ) {
+            } else if( here.has_flag( ter_furn_flag::TFLAG_UNSTABLE, examp + tripoint_below ) &&
+                       g->slip_down( true ) ) {
                 return;
             }
 
@@ -4597,7 +4600,7 @@ static Character &player_on_couch( Character &you, const tripoint &autodoc_loc,
 {
     map &here = get_map();
     for( const auto &couch_loc : here.points_in_radius( autodoc_loc, 1 ) ) {
-        if( here.has_flag_furn( TFLAG_AUTODOC_COUCH, couch_loc ) ) {
+        if( here.has_flag_furn( ter_furn_flag::TFLAG_AUTODOC_COUCH, couch_loc ) ) {
             adjacent_couch = true;
             couch_pos = couch_loc;
             if( you.pos() == couch_loc ) {
@@ -4618,7 +4621,7 @@ static Character &operator_present( Character &you, const tripoint &autodoc_loc,
 {
     map &here = get_map();
     for( const auto &loc : here.points_in_radius( autodoc_loc, 1 ) ) {
-        if( !here.has_flag_furn( TFLAG_AUTODOC_COUCH, loc ) ) {
+        if( !here.has_flag_furn( ter_furn_flag::TFLAG_AUTODOC_COUCH, loc ) ) {
             if( you.pos() == loc ) {
                 return you;
             }

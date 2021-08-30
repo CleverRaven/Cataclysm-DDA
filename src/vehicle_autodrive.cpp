@@ -700,7 +700,7 @@ bool vehicle::autodrive_controller::check_drivable( tripoint pt ) const
     }
     const ter_t &terrain_type = terrain.obj();
     // watercraft can drive on water
-    if( data.water_ok && terrain_type.has_flag( TFLAG_SWIMMABLE ) ) {
+    if( data.water_ok && terrain_type.has_flag( ter_furn_flag::TFLAG_SWIMMABLE ) ) {
         return true;
     }
     // remaining checks are for land-based navigation
@@ -711,14 +711,14 @@ bool vehicle::autodrive_controller::check_drivable( tripoint pt ) const
     if( terrain_type.movecost <= 0 ) {
         // walls and other impassable terrain
         return false;
-    } else if( terrain_type.movecost == 2 || terrain_type.has_flag( TFLAG_NOCOLLIDE ) ) {
+    } else if( terrain_type.movecost == 2 || terrain_type.has_flag( ter_furn_flag::TFLAG_NOCOLLIDE ) ) {
         // terrain with neutral move cost or tagged with NOCOLLIDE will never cause
         // collisions
         return true;
     } else if( terrain_type.bash.str_max >= 0 && !terrain_type.bash.bash_below ) {
         // bashable terrain (but not bashable floors) will cause collisions
         return false;
-    } else if( terrain_type.has_flag( TFLAG_LIQUID ) ) {
+    } else if( terrain_type.has_flag( ter_furn_flag::TFLAG_LIQUID ) ) {
         // water and lava
         return false;
     }

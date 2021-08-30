@@ -619,7 +619,8 @@ bool can_move_vertical_at( const tripoint &p, int movez )
     Character &player_character = get_player_character();
     map &here = get_map();
     // TODO: unify this with game::move_vertical
-    if( here.has_flag( TFLAG_SWIMMABLE, p ) && here.has_flag( TFLAG_DEEP_WATER, p ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) &&
+        here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, p ) ) {
         if( movez == -1 ) {
             return !player_character.is_underwater() && !player_character.worn_with_flag( flag_FLOTATION );
         } else {
@@ -629,9 +630,9 @@ bool can_move_vertical_at( const tripoint &p, int movez )
     }
 
     if( movez == -1 ) {
-        return here.has_flag( TFLAG_GOES_DOWN, p );
+        return here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, p );
     } else {
-        return here.has_flag( TFLAG_GOES_UP, p );
+        return here.has_flag( ter_furn_flag::TFLAG_GOES_UP, p );
     }
 }
 
@@ -641,7 +642,7 @@ bool can_examine_at( const tripoint &p )
     if( here.veh_at( p ) ) {
         return true;
     }
-    if( here.has_flag( TFLAG_CONSOLE, p ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_CONSOLE, p ) ) {
         return true;
     }
     if( here.has_items( p ) ) {

@@ -664,7 +664,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             if(
                 ( loc->made_of_from_type( phase_id::LIQUID ) &&
                   loc.where() != item_location::type::container ) &&
-                !get_map().has_flag_furn( TFLAG_LIQUIDCONT, loc.position() ) ) {
+                !get_map().has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, loc.position() ) ) {
                 return _( "Can't drink spilt liquids." );
             }
 

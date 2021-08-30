@@ -308,7 +308,7 @@ bool mattack::eat_crop( monster *z )
     int num_targets = 1;
     map &here = get_map();
     for( const auto &p : here.points_in_radius( z->pos(), 1 ) ) {
-        if( here.has_flag( TFLAG_PLANT, p ) && one_in( num_targets ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_PLANT, p ) && one_in( num_targets ) ) {
             num_targets++;
             target = p;
         }
@@ -326,7 +326,7 @@ bool mattack::eat_food( monster *z )
     map &here = get_map();
     for( const auto &p : here.points_in_radius( z->pos(), 1 ) ) {
         //Protect crop seeds from carnivores, give omnivores eat_crop special also
-        if( here.has_flag( TFLAG_PLANT, p ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_PLANT, p ) ) {
             continue;
         }
         // Don't snap up food RIGHT under the player's nose.
@@ -1398,8 +1398,8 @@ bool mattack::growplants( monster *z )
     for( const auto &p : here.points_in_radius( z->pos(), 3 ) ) {
 
         // Only affect natural, dirtlike terrain or trees.
-        if( !( here.has_flag_ter( TFLAG_DIGGABLE, p ) ||
-               here.has_flag_ter( TFLAG_TREE, p ) ||
+        if( !( here.has_flag_ter( ter_furn_flag::TFLAG_DIGGABLE, p ) ||
+               here.has_flag_ter( ter_furn_flag::TFLAG_TREE, p ) ||
                here.ter( p ) == t_tree_young ) ) {
             continue;
         }
@@ -2215,7 +2215,7 @@ bool mattack::plant( monster *z )
     map &here = get_map();
     fungal_effects fe;
     const tripoint monster_position = z->pos();
-    const bool is_fungi = here.has_flag_ter( TFLAG_FUNGUS, monster_position );
+    const bool is_fungi = here.has_flag_ter( ter_furn_flag::TFLAG_FUNGUS, monster_position );
     // Spores taking seed and growing into a fungaloid
     fe.spread_fungus( monster_position );
     if( is_fungi && one_in( 10 + g->num_creatures() / 5 ) ) {
@@ -3055,7 +3055,7 @@ bool mattack::nurse_operate( monster *z )
         z->friendly = 0;
         z->anger = 100;
         std::list<tripoint> couch_pos = here.find_furnitures_with_flag_in_radius( z->pos(), 10,
-                                        TFLAG_AUTODOC_COUCH );
+                                        ter_furn_flag::TFLAG_AUTODOC_COUCH );
 
         if( couch_pos.empty() ) {
             add_msg( m_info, _( "The %s looks for something but doesn't seem to find it." ), z->name() );

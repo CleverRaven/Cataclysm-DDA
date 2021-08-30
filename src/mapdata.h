@@ -13,6 +13,7 @@
 #include "calendar.h"
 #include "clone_ptr.h"
 #include "color.h"
+#include "enum_bitset.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
@@ -31,6 +32,8 @@ struct tripoint;
 
 using iexamine_function = void ( * )( Character &, const tripoint & );
 using iexamine_function_ref = void( & )( Character &, const tripoint & );
+
+template <typename E> struct enum_traits;
 
 struct map_bash_info {
     int str_min;            // min str(*) required to bash
@@ -181,11 +184,11 @@ struct plant_data {
  * represent the common builtins. The enum below is an alternative means of fast-access, for those flags that are checked
  * so much that strings produce a significant performance penalty. The following are equivalent:
  *  m->has_flag("FLAMMABLE");     //
- *  m->has_flag(TFLAG_FLAMMABLE); // ~ 20 x faster than the above, ( 2.5 x faster if the above uses static const std::string str_flammable("FLAMMABLE");
- * To add a new ter_bitflag, add below and add to ter_bitflags_map in mapdata.cpp
+ *  m->has_flag(ter_furn_flag::TFLAG_FLAMMABLE); // ~ 20 x faster than the above, ( 2.5 x faster if the above uses static const std::string str_flammable("FLAMMABLE");
+ * To add a new ter_bitflag, add below and in mapdata.cpp
  * Order does not matter.
  */
-enum ter_bitflags : int {
+enum class ter_furn_flag : int {
     TFLAG_TRANSPARENT,
     TFLAG_FLAMMABLE,
     TFLAG_REDUCE_SCENT,
@@ -293,7 +296,12 @@ enum ter_bitflags : int {
     TFLAG_NO_SELF_CONNECT,
     TFLAG_BURROWABLE,
 
-    NUM_TERFLAGS
+    NUM_TFLAG_FLAGS
+};
+
+template<>
+struct enum_traits<ter_furn_flag> {
+    static constexpr ter_furn_flag last = ter_furn_flag::NUM_TFLAG_FLAGS;
 };
 
 /*
@@ -415,7 +423,7 @@ struct map_data_common_t {
 
     private:
         std::set<std::string> flags;    // string flags which possibly refer to what's documented above.
-        std::bitset<NUM_TERFLAGS> bitflags; // bitfield of -certain- string flags which are heavily checked
+        enum_bitset<ter_furn_flag> bitflags; // bitfield of -certain- string flags which are heavily checked
 
     public:
         ter_str_id curtain_transform;
@@ -477,13 +485,15 @@ struct map_data_common_t {
             return flags.count( flag ) > 0;
         }
 
-        bool has_flag( const ter_bitflags flag ) const {
-            return bitflags.test( flag );
+        bool has_flag( const ter_furn_flag flag ) const {
+            return bitflags[flag];
         }
+
+        void extraprocess_flags( const ter_furn_flag flag );
 
         void set_flag( const std::string &flag );
 
-        void set_flag( const ter_bitflags flag );
+        void set_flag( const ter_furn_flag flag );
 
         int connect_group = 0;
 
@@ -510,8 +520,9 @@ struct map_data_common_t {
         bool was_loaded = false;
 
         bool is_flammable() const {
-            return has_flag( TFLAG_FLAMMABLE ) || has_flag( TFLAG_FLAMMABLE_ASH ) ||
-                   has_flag( TFLAG_FLAMMABLE_HARD );
+            return has_flag( ter_furn_flag::TFLAG_FLAMMABLE ) ||
+                   has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH ) ||
+                   has_flag( ter_furn_flag::TFLAG_FLAMMABLE_HARD );
         }
 
         virtual void load( const JsonObject &jo, const std::string & );

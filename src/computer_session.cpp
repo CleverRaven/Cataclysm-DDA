@@ -1379,7 +1379,7 @@ void computer_session::failure_shutdown()
     bool found_tile = false;
     map &here = get_map();
     for( const tripoint &p : here.points_in_radius( get_player_character().pos(), 1 ) ) {
-        if( here.has_flag( TFLAG_CONSOLE, p ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_CONSOLE, p ) ) {
             here.furn_set( p, furn_str_id( "f_console_broken" ) );
             add_msg( m_bad, _( "The console shuts down." ) );
             found_tile = true;
@@ -1389,7 +1389,7 @@ void computer_session::failure_shutdown()
         return;
     }
     for( const tripoint &p : here.points_on_zlevel() ) {
-        if( here.has_flag( TFLAG_CONSOLE, p ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_CONSOLE, p ) ) {
             here.furn_set( p, furn_str_id( "f_console_broken" ) );
             add_msg( m_bad, _( "The console shuts down." ) );
         }
