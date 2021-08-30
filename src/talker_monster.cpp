@@ -1,5 +1,6 @@
 #include <memory>
 
+#include "effect.h"
 #include "item.h"
 #include "magic.h"
 #include "monster.h"
@@ -46,9 +47,14 @@ int talker_monster::pain_cur() const
     return me_mon->get_pain();
 }
 
-bool talker_monster::has_effect( const efftype_id &effect_id ) const
+bool talker_monster::has_effect( const efftype_id &effect_id, const bodypart_id &bp ) const
 {
-    return me_mon->has_effect( effect_id );
+    return me_mon->has_effect( effect_id, bp );
+}
+
+effect talker_monster::get_effect( const efftype_id &effect_id, const bodypart_id &bp ) const
+{
+    return me_mon->get_effect( effect_id, bp );
 }
 
 void talker_monster::add_effect( const efftype_id &new_effect, const time_duration &dur,

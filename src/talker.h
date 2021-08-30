@@ -3,6 +3,7 @@
 #define CATA_SRC_TALKER_H
 
 #include "coordinates.h"
+#include "effect.h"
 #include "units.h"
 #include "units_fwd.h"
 #include <list>
@@ -195,8 +196,11 @@ class talker
         }
 
         // effects and values
-        virtual bool has_effect( const efftype_id & ) const {
+        virtual bool has_effect( const efftype_id &, const bodypart_id & ) const {
             return false;
+        }
+        virtual effect get_effect( const efftype_id &, const bodypart_id & ) const {
+            return effect::null_effect;
         }
         virtual bool is_deaf() const {
             return false;
