@@ -773,7 +773,7 @@
         "description": "You maintain the momentum from your last strike to move more quickly",
         "melee_allowed": true,
         "skill_requirements": [ { "name": "melee", "level": 2 } ],
-        "buff_duration": 2,
+        "buff_duration": 1,
         "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
       }
     ],
@@ -784,7 +784,7 @@
         "description": "You grip the blade part way down for greater control. \n\n Blocked damage decreased an additional 50% of Strength, -1 Accuracy,\nEnables Grab and Lethal Strike",
         "skill_requirements": [ { "name": "melee", "level": 3 } ],
         "melee_allowed": true,
-        "buff_duration": 3,
+        "buff_duration": 2,
         "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 0.5 }, { "stat": "hit", "scale": -1.0 } ]
       }
     ],
