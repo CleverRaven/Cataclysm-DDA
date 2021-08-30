@@ -4624,6 +4624,9 @@ void haircut_activity_actor::finish( player_activity &act, Character &who )
 {
     who.add_msg_if_player( _( "You give your hair a trim." ) );
     who.add_morale( MORALE_HAIRCUT, 3, 3, 480_minutes, 3_minutes );
+    if( who.is_avatar() ) {
+        who.customize_appearance( customize_appearance::HAIR );
+    }
     act.set_to_null();
 }
 
