@@ -2933,7 +2933,7 @@
     "armor": [
       { "covers": [ "head" ], "coverage": 100, "encumbrance": 40 },
       { "covers": [ "eyes" ], "coverage": 70, "encumbrance": 20 },
-      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 30 }
+      { "covers": [ "mouth" ], "coverage": 85, "encumbrance": 30 }
     ],
     "warmth": 5,
     "material_thickness": 5,
