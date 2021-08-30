@@ -33,4 +33,5 @@ scoped_weather_override::~scoped_weather_override()
     weather_manager &weather = get_weather();
     weather.weather_override = WEATHER_NULL;
     weather.windspeed_override.reset();
+    weather.update_weather();
 }
