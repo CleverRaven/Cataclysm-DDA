@@ -1277,7 +1277,7 @@
     "//": "going with half energy draw based on difference between small and large space heaters",
     "epower": -350,
     "bonus": 10,
-    "folded_volume": "3750 ml"
+    "folded_volume": "3750 ml",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ], [ "electronics", 1 ] ], "time": "2 m", "using": [ [ "vehicle_screw", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "1 m", "using": [ [ "vehicle_screw", 1 ] ] },
