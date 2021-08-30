@@ -4179,14 +4179,10 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
         act.set_to_null();
         return;
     }
-
-    if( act.targets.back()->typeId() != itype_disassembly ) {
-        target = who.create_in_progress_disassembly( act.targets.back() );
-    } else {
-        target = act.targets.back();
-        act.position = target->charges;
+    if( act.targets.back()->typeId() == itype_disassembly ) {
+        act.position = act.targets.back()->charges;
     }
-
+    target = who.create_in_progress_disassembly( act.targets.back() );
     act.targets.pop_back();
 
     if( !check_if_disassemble_okay( target, who ) ) {
