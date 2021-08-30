@@ -797,7 +797,7 @@ void npc::move()
     const Creature *target = current_target();
     const std::string &target_name = target != nullptr ? target->disp_name() : no_target_str;
     add_msg_debug( debugmode::DF_NPC, "NPC %s: target = %s, danger = %.1f, range = %d",
-                   get_name(), target_name, ai_cache.danger, weapon->is_gun() ? confident_shoot_range( weapon,
+                   get_name(), target_name, ai_cache.danger, weapon->is_gun() ? confident_shoot_range( *weapon,
                            recoil_total() ) : weapon->reach_range( *this ) );
 
     Character &player_character = get_player_character();
