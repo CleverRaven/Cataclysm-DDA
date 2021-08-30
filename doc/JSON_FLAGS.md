@@ -537,7 +537,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```CONNECT_TO_WALL``` (only for terrain) This flag has been superseded by the JSON entry `connects_to`, but is retained for backward compatibility.
 - ```CONSOLE``` Used as a computer.
 - ```CONTAINER``` Items on this square are hidden until looted by the player.
-- ```DECONSTRUCT``` Can be deconstructed.
 - ```DEEP_WATER``` This is water that can submerge the player
 - ```DESTROY_ITEM``` Items that land here are destroyed. See also `NOITEM`
 - ```DIFFICULT_Z``` Most zombies will not be able to follow you up this terrain ( i.e a ladder )

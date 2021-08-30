@@ -85,7 +85,7 @@
     "symbol": "7",
     "color": "yellow_red",
     "move_cost": 0,
-    "flags": [ "WALL", "PERMEABLE", "NOITEM", "DECONSTRUCT" ],
+    "flags": [ "WALL", "PERMEABLE", "NOITEM" ],
     "bash": {
       "str_min": 20,
       "str_max": 150,
@@ -117,7 +117,7 @@
     "symbol": "9",
     "color": "black_red",
     "move_cost": 0,
-    "flags": [ "WALL", "PERMEABLE", "NOITEM", "DECONSTRUCT" ],
+    "flags": [ "WALL", "PERMEABLE", "NOITEM" ],
     "bash": {
       "str_min": 20,
       "str_max": 150,
@@ -148,7 +148,7 @@
     "symbol": "4",
     "color": "cyan_red",
     "move_cost": 0,
-    "flags": [ "WALL", "PERMEABLE", "NOITEM", "DECONSTRUCT" ],
+    "flags": [ "WALL", "PERMEABLE", "NOITEM" ],
     "bash": {
       "str_min": 20,
       "str_max": 150,
@@ -179,7 +179,7 @@
     "symbol": "3",
     "color": "magenta_cyan",
     "move_cost": 0,
-    "flags": [ "WALL", "TRANSPARENT", "PERMEABLE", "NOITEM", "DECONSTRUCT" ],
+    "flags": [ "WALL", "TRANSPARENT", "PERMEABLE", "NOITEM" ],
     "bash": {
       "str_min": 20,
       "str_max": 150,
@@ -222,7 +222,7 @@
     "symbol": "0",
     "color": "red_green",
     "move_cost": 0,
-    "flags": [ "WALL", "PERMEABLE", "NOITEM", "DECONSTRUCT", "CONTAINER", "LIQUIDCONT", "SEALED" ],
+    "flags": [ "WALL", "PERMEABLE", "NOITEM", "CONTAINER", "LIQUIDCONT", "SEALED" ],
     "bash": {
       "str_min": 20,
       "str_max": 150,
