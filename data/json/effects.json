@@ -1937,6 +1937,11 @@
   },
   {
     "type": "effect_type",
+    "id": "robofac_surveillance",
+    "max_duration": "14 days"
+  },
+  {
+    "type": "effect_type",
     "name": [ "Playing an instrument" ],
     "desc": [ "You're playing an instrument.\nFocusing on playing music distracts you, slowing you down." ],
     "id": "playing_instrument",
