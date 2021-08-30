@@ -62,21 +62,21 @@
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
     "damage_reduction": { "all": 0, "bash": 3 },
-    "flags": [ "CARGO", "OBSTACLE", "OPENABLE", "BOARDABLE", "DOOR", "FOLDABLE" ],
+    "flags": [ "CARGO", "OBSTACLE", "OPENABLE", "BOARDABLE", "DOOR", "FOLDABLE" ]
   },
   {
     "copy-from": "cloth_door_abstract",
     "id": "cloth_flap_door",
     "looks_like": "door",
     "type": "vehicle_part",
-    "description": "A cloth sheet that can be fastened into a closed position to act as a door.",
+    "description": "A cloth sheet that can be fastened into a closed position to act as a door."
   },
   {
     "copy-from": "cloth_door_abstract",
     "id": "cloth_curtain_door",
     "looks_like": "door",
     "type": "vehicle_part",
-    "description": "A cloth sheet that can be slid into a closed position to act as a door.",
+    "description": "A cloth sheet that can be slid into a closed position to act as a door."
   },
   {
     "abstract": "door_opaque_abstract",
