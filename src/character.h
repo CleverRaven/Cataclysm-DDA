@@ -107,8 +107,6 @@ using drop_locations = std::list<drop_location>;
 
 constexpr int MAX_CLAIRVOYANCE = 40;
 
-nc_color encumb_color( int level );
-
 /// @brief type of conditions that effect vision
 /// @note vision modes do not necessarily match json ids or flags
 enum vision_modes {
@@ -1197,8 +1195,6 @@ class Character : public Creature, public visitable
                                  int normal_bonus, int head_bonus, int torso_bonus,
                                  int bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const;
 
-        // Returns color which this limb would have in healing menus
-        nc_color limb_color( const bodypart_id &bp, bool bleed, bool bite, bool infect ) const;
 
         static const std::vector<material_id> fleshy;
         bool made_of( const material_id &m ) const override;
@@ -3028,8 +3024,6 @@ class Character : public Creature, public visitable
         // specific trap - it will consider visibile and known traps.
         bool knows_trap( const tripoint &pos ) const;
         void add_known_trap( const tripoint &pos, const trap &t );
-        /** Define color for displaying the body temperature */
-        nc_color bodytemp_color( const bodypart_id &bp ) const;
 
         // see Creature::sees
         bool sees( const tripoint &t, bool is_avatar = false, int range_mod = 0 ) const override;
