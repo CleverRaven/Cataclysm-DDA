@@ -17,6 +17,7 @@
     "price_postapoc": 1000
   },
   {
+    "type": "GENERIC",
     "copy-from": "solar_panel",
     "id": "folding_solar_panel",
     "name": { "str": "collapsible solar array" },
