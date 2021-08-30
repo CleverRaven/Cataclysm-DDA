@@ -1016,6 +1016,7 @@
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "melee_allowed": true,
     "req_buffs": [ "buff_swordsmanship_onpause" ],
+    "mult_bonuses": [ { "stat": "damage", "type": "cut", "scale": 0.5 }, { "stat": "damage", "type": "stab", "scale": 0.33 } ],
     "crit_tec": true,
     "down_dur": 2
   },
@@ -1030,9 +1031,9 @@
     "crit_ok": true,
     "flat_bonuses": [
       { "stat": "arpen", "type": "cut", "scaling-stat": "dex", "scale": 1 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 1 },
-      { "stat": "arpen", "type": "bash", "scaling-stat": "dex", "scale": 1 }
-    ]
+      { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 1 }
+    ],
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 0 } ]
   },
   {
     "type": "technique",
@@ -1056,8 +1057,8 @@
     "melee_allowed": true,
     "crit_ok": true,
     "block_counter": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.5 } ]
-  },
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
+  }
   {
     "type": "technique",
     "id": "tec_muay_thai_elbow",
