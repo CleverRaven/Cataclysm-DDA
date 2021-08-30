@@ -85,7 +85,6 @@ static const itype_id itype_jp8( "jp8" );
 
 static const mongroup_id GROUP_BREATHER( "GROUP_BREATHER" );
 static const mongroup_id GROUP_BREATHER_HUB( "GROUP_BREATHER_HUB" );
-static const mongroup_id GROUP_DARK_WYRM( "GROUP_DARK_WYRM" );
 static const mongroup_id GROUP_DOG_THING( "GROUP_DOG_THING" );
 static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
 static const mongroup_id GROUP_HAZMATBOT( "GROUP_HAZMATBOT" );
@@ -5195,7 +5194,7 @@ void map::draw_mine( mapgendata &dat )
         }
 
         // Not an entrance; maybe some hazards!
-        switch( rng( 0, 5 ) ) {
+        switch( rng( 0, 4 ) ) {
             case 0:
                 break; // Nothing!  Lucky!
 
@@ -5248,49 +5247,6 @@ void map::draw_mine( mapgendata &dat )
             }
             break;
 
-            case 5: { // Dark worm!
-                const int num_worms = rng( 1, 5 );
-                for( int i = 0; i < num_worms; i++ ) {
-                    std::vector<direction> sides;
-                    if( dat.n_fac == 6 ) {
-                        sides.push_back( direction::NORTH );
-                    }
-                    if( dat.e_fac == 6 ) {
-                        sides.push_back( direction::EAST );
-                    }
-                    if( dat.s_fac == 6 ) {
-                        sides.push_back( direction::SOUTH );
-                    }
-                    if( dat.w_fac == 6 ) {
-                        sides.push_back( direction::WEST );
-                    }
-                    if( sides.empty() ) {
-                        place_spawns( GROUP_DARK_WYRM, 1, point( SEEX, SEEY ), point( SEEX, SEEY ), 1, true );
-                        i = num_worms;
-                    } else {
-                        point p;
-                        switch( random_entry( sides ) ) {
-                            case direction::NORTH:
-                                p = point( rng( 1, SEEX * 2 - 2 ), rng( 1, 5 ) );
-                                break;
-                            case direction::EAST:
-                                p = point( SEEX * 2 - rng( 2, 6 ), rng( 1, SEEY * 2 - 2 ) );
-                                break;
-                            case direction::SOUTH:
-                                p = point( rng( 1, SEEX * 2 - 2 ), SEEY * 2 - rng( 2, 6 ) );
-                                break;
-                            case direction::WEST:
-                                p = point( rng( 1, 5 ), rng( 1, SEEY * 2 - 2 ) );
-                                break;
-                            default:
-                                break;
-                        }
-                        ter_set( p, t_rock_floor );
-                        place_spawns( GROUP_DARK_WYRM, 1, p, p, 1, true );
-                    }
-                }
-            }
-            break;
         }
 
         if( terrain_type == "mine_down" ) { // Don't forget to build a slope down!
@@ -5445,29 +5401,17 @@ void map::draw_mine( mapgendata &dat )
             square( this, t_rock_floor, point( 0, SEEY ), point( 3, SEEY + 1 ) );
         }
 
-        // Now, pick and generate a type of finale!
-        switch( rng( 1, 2 ) ) {
-            case 1: { // Wyrms
-                const point p2( rng( SEEX, SEEX + 1 ), rng( SEEY, SEEY + 1 ) );
-                ter_set( p2, t_pedestal_wyrm );
-                spawn_item( p2, "petrified_eye" );
-            }
-            break; // That's it!  game::examine handles the pedestal/wyrm spawns
-
-            case 2: { // The Thing dog
-                const int num_bodies = rng( 4, 8 );
-                for( int i = 0; i < num_bodies; i++ ) {
-                    point p3( rng( 4, SEEX * 2 - 5 ), rng( 4, SEEX * 2 - 5 ) );
-                    add_item( p3, item::make_corpse() );
-                    place_items( item_group_id( "mine_equipment" ), 60, p3,
-                                 p3, false, calendar::start_of_cataclysm );
-                }
-                place_spawns( GROUP_DOG_THING, 1, point( SEEX, SEEX ), point( SEEX + 1, SEEX + 1 ), 1, true, true );
-                spawn_artifact( tripoint( rng( SEEX, SEEX + 1 ), rng( SEEY, SEEY + 1 ), abs_sub.z ),
-                                relic_procgen_id( "netherum_tunnels" ) );
-            }
-            break;
+        // The Thing dog
+        const int num_bodies = rng( 4, 8 );
+        for( int i = 0; i < num_bodies; i++ ) {
+            point p3( rng( 4, SEEX * 2 - 5 ), rng( 4, SEEX * 2 - 5 ) );
+            add_item( p3, item::make_corpse() );
+            place_items( item_group_id( "mine_equipment" ), 60, p3,
+                         p3, false, calendar::start_of_cataclysm );
         }
+        place_spawns( GROUP_DOG_THING, 1, point( SEEX, SEEX ), point( SEEX + 1, SEEX + 1 ), 1, true, true );
+        spawn_artifact( tripoint( rng( SEEX, SEEX + 1 ), rng( SEEY, SEEY + 1 ), abs_sub.z ),
+                        relic_procgen_id( "netherum_tunnels" ) );
     }
 }
 

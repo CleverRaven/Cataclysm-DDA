@@ -4,7 +4,7 @@
     "type": "MONSTER",
     "name": { "str": "dark wyrm" },
     "description": "A huge mutated worm found deep underground.  It has a gaping round mouth lined with dagger-like teeth, and its flesh is slick with bubbling blue slime.",
-    "default_faction": "mutant",
+    "default_faction": "dark_wyrm",
     "bodytype": "snake",
     "species": [ "MUTANT" ],
     "volume": "92500 ml",
