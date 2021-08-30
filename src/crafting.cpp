@@ -2192,7 +2192,7 @@ item_location Character::create_in_progress_disassembly( item_location target )
     }
     // remove the item, except when it's counted by charges and still has some
     if( !orig_item.count_by_charges() || orig_item.charges <= 0 ||
-        target->typeId() != itype_disassembly ) {
+        target->typeId() == itype_disassembly ) {
         target.remove_item();
     }
 
