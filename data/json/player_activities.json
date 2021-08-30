@@ -120,7 +120,7 @@
     "id": "ACT_MULTIPLE_DIS",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
-    "verb": "disassemble things",
+    "verb": "disassembling things",
     "based_on": "neither",
     "suspendable": false,
     "no_resume": true,

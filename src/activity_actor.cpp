@@ -2963,10 +2963,7 @@ std::unique_ptr<activity_actor> craft_activity_actor::deserialize( JsonIn &jsin 
 
     data.read( "craft_loc", actor.craft_item );
     data.read( "long", actor.is_long );
-
-    if( actor.craft_item ) {
-        actor.activity_override = actor.craft_item->get_making().exertion_level();
-    }
+    data.read( "activity_override", actor.activity_override );
 
     return actor.clone();
 }
@@ -4189,12 +4186,16 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
         target = act.targets.back();
         act.position = target->charges;
     }
+
     act.targets.pop_back();
 
     if( !check_if_disassemble_okay( target, who ) ) {
         act.set_to_null();
         return;
     }
+
+    // Mark the item, not available for other characters
+    target->set_var( "avtivity_var", who.name );
 
     act.moves_left = calendar::INDEFINITELY_LONG;
     activity_override = target->get_making().exertion_level();
@@ -4238,6 +4239,13 @@ void disassemble_activity_actor::finish( player_activity &act, Character & )
     act.set_to_null();
 }
 
+void disassemble_activity_actor::canceled( player_activity &, Character & )
+{
+    if( target.get_item() ) {
+        target->erase_var( "activity_var" );
+    }
+}
+
 float disassemble_activity_actor::exertion_level() const
 {
     return activity_override;
@@ -4258,6 +4266,7 @@ void disassemble_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "moves_total", moves_total );
     jsout.member( "target", target );
+    jsout.member( "activity_override", activity_override );
 
     jsout.end_object();
 }
@@ -4270,10 +4279,7 @@ std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonIn 
 
     data.read( "target", actor.target );
     data.read( "moves_total", actor.moves_total );
-
-    if( actor.target ) {
-        actor.activity_override = actor.target->get_making().exertion_level();
-    }
+    data.read( "activity_override", actor.activity_override );
 
     return actor.clone();
 }
