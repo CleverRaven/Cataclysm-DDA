@@ -375,7 +375,7 @@
     "move_cost_mod": -1,
     "coverage": 65,
     "required_str": 10,
-    "flags": [ "BASHABLE", "BLOCKSDOOR", "PLACE_ITEM", "ORGANIC", "WORKOUT_ARMS" ],
+    "flags": [ "BLOCKSDOOR", "PLACE_ITEM", "ORGANIC", "WORKOUT_ARMS" ],
     "examine_action": "workout",
     "bash": {
       "str_min": 15,
