@@ -333,7 +333,7 @@
     "id": "lab_cargo_staff_1",
     "name": "Challenge - Trans-Coast Logistics Concourse",
     "points": -6,
-    "description": "You were deemed an essential employee and required to stay behind during the facility's evacuation.  You better find that lanyard you misplaced before the automated defenses notice that you don't have one.",
+    "description": "You were deemed an essential employee and required to stay behind during the facility's evacuation.  You better find your misplaced lanyard with your badge before the automated defenses notice that you don't have one.",
     "start_name": "Locked Lab",
     "professions": [ "security" ],
     "allowed_locs": [ "sloc_lab_concourse_area" ],
