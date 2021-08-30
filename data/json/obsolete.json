@@ -1197,7 +1197,7 @@
     "color": "dark_gray",
     "move_cost": 10,
     "coverage": 65,
-    "flags": [ "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE", "PLACE_ITEM" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM" ],
     "deconstruct": {
       "ter_set": "t_rock_floor",
       "items": [
@@ -1241,7 +1241,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 75,
-    "flags": [ "BASHABLE", "CONTAINER", "SEALED", "PLACE_ITEM" ],
+    "flags": [ "CONTAINER", "SEALED", "PLACE_ITEM" ],
     "deconstruct": {
       "ter_set": "t_rock_floor",
       "items": [
@@ -1291,7 +1291,7 @@
     "color": "brown",
     "move_cost": 4,
     "coverage": 55,
-    "flags": [ "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE", "PLACE_ITEM" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM" ],
     "deconstruct": {
       "ter_set": "t_rock_floor",
       "items": [
@@ -1339,7 +1339,7 @@
     "color": "yellow",
     "move_cost": 8,
     "coverage": 55,
-    "flags": [ "TRANSPARENT", "BASHABLE", "CONTAINER", "SEALED", "FLAMMABLE", "PLACE_ITEM" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "FLAMMABLE", "PLACE_ITEM" ],
     "deconstruct": {
       "ter_set": "t_rock_floor",
       "items": [
