@@ -288,7 +288,6 @@
     "symbol": "[",
     "looks_like": "tieclip",
     "color": "brown",
-    "use_action": [ "PICK_LOCK" ],
     "qualities": [ [ "LOCKPICK", 3 ] ]
   },
   {
@@ -826,7 +825,6 @@
     "symbol": "[",
     "color": "yellow",
     "flags": [ "FANCY" ],
-    "use_action": [ "PICK_LOCK" ],
     "qualities": [ [ "LOCKPICK", 3 ] ]
   },
   {
@@ -1122,7 +1120,6 @@
     "symbol": "[",
     "color": "white",
     "flags": [ "FANCY" ],
-    "use_action": [ "PICK_LOCK" ],
     "qualities": [ [ "LOCKPICK", 3 ] ]
   },
   {
@@ -1250,7 +1247,6 @@
     "symbol": "[",
     "color": "light_gray",
     "flags": [ "FANCY" ],
-    "use_action": [ "PICK_LOCK" ],
     "qualities": [ [ "LOCKPICK", 3 ] ]
   },
   {
