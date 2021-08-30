@@ -66,6 +66,7 @@
     "price_postapoc": 1500
   },
   {
+    "type": "GENERIC",
     "copy-from": "mountable_heater",
     "id": "mountable_heater_small",
     "name": { "str": "small vehicle heater" },
