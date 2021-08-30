@@ -1649,6 +1649,20 @@
   },
   {
     "type": "vehicle_part",
+    "id": "foldable_solar_panel",
+    "copy-from": "solar_panel",
+    "looks_like": "solar_panel",
+    "name": { "str": "foldable solar panel" },
+    "color": "light_blue",
+    "broken_color": "light_gray",
+    "proportional": { "epower": 0.4, "durability": 0.5 },
+    "folded_volume": "2 L",
+    "description": "A small array of solar panels designed to be able to fold into one another.",
+    "item": "folding_solar_panel",
+    "extend": { "flags": [ "FOLDABLE" ] }
+  },
+  {
+    "type": "vehicle_part",
     "id": "reinforced_solar_panel",
     "copy-from": "solar_panel",
     "looks_like": "solar_panel",
