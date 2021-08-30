@@ -1484,6 +1484,11 @@
     "replace": "UPS_off"
   },
   {
+    "id": "money_bundle",
+    "type": "MIGRATION",
+    "replace": "money_bundle_twenty"
+  },
+  {
     "id": "bootleg_grenade",
     "type": "MIGRATION",
     "replace": "military_explosive_small_grenade"
