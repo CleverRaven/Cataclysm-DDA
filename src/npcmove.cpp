@@ -669,7 +669,7 @@ void npc::assess_danger()
     // update the threat cache
     for( size_t i = 0; i < 8; i++ ) {
         direction threat_dir = npc_threat_dir[i];
-        direction dir_right = npc_thrhttps://discordapp.com/eat_dir[( i + 1 ) % 8];
+        direction dir_right = npc_threat_dir[( i + 1 ) % 8];
         direction dir_left = npc_threat_dir[( i + 7 ) % 8 ];
         ai_cache.threat_map[threat_dir] = cur_threat_map[threat_dir] + 0.1f *
                                           ( cur_threat_map[dir_right] + cur_threat_map[dir_left] );

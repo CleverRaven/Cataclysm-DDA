@@ -1195,6 +1195,7 @@ ret_val<bool> Character::can_deactivate_bionic( int b, bool eff_only ) const
 bool Character::deactivate_bionic( int b, bool eff_only )
 {
     const auto can_deactivate = can_deactivate_bionic( b, eff_only );
+
     if( !can_deactivate.success() ) {
         if( !can_deactivate.str().empty() ) {
             add_msg( m_info,  can_deactivate.str() );
@@ -1264,8 +1265,7 @@ bool Character::deactivate_bionic( int b, bool eff_only )
     return true;
 }
 
-Character::auto_toggle_bionic_result Character::auto_toggle_bionic( const int b,
-        const bool start )
+Character::auto_toggle_bionic_result Character::auto_toggle_bionic( const int b, const bool start )
 {
     auto_toggle_bionic_result result;
     bionic &bio = ( *my_bionics )[b];
@@ -2164,8 +2164,7 @@ int Character::bionics_pl_skill( bool autodoc, int skill_level ) const
     return pl_skill;
 }
 
-int bionic_success_chance( bool autodoc, int skill_level, int difficulty,
-                           const Character &target )
+int bionic_success_chance( bool autodoc, int skill_level, int difficulty, const Character &target )
 {
     return bionic_manip_cos( target.bionics_adjusted_skill( autodoc, skill_level ), difficulty );
 }
@@ -2334,8 +2333,7 @@ void Character::perform_uninstall( const bionic_id &bid, int difficulty, int suc
     here.invalidate_map_cache( here.get_abs_sub().z );
 }
 
-bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer,
-                                  Character &patient,
+bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, Character &patient,
                                   float adjusted_skill )
 {
     viewer &player_view = get_player_view();

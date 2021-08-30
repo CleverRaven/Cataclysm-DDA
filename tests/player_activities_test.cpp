@@ -796,10 +796,10 @@ TEST_CASE( "oxytorch", "[activity][oxytorch]" )
         it_welding_torch.ammo_set( itype_oxyacetylene );
 
         dummy.wield( it_welding_torch );
-        REQUIRE( dummy.weapon.typeId() == itype_test_oxytorch );
+        REQUIRE( dummy.get_wielded_item()->typeId() == itype_test_oxytorch );
         REQUIRE( dummy.max_quality( qual_WELD ) == 10 );
 
-        return item_location{dummy, &dummy.weapon};
+        return item_location{dummy, dummy.get_wielded_item()};
     };
 
     auto setup_activity = [&dummy]( const item_location & torch ) -> void {
