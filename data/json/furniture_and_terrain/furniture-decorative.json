@@ -10,6 +10,7 @@
     "coverage": 80,
     "required_str": 5,
     "flags": [ "NOITEM", "BLOCKSDOOR" ],
+    "examine_action": "change_appearance",
     "bash": {
       "str_min": 5,
       "str_max": 16,
