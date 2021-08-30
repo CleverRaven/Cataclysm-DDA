@@ -678,10 +678,8 @@ struct HeaderSkill {
 
 static void draw_skills_tab( const catacurses::window &w_skills,
                              Character &you, unsigned int line, const player_display_tab curtab,
-                             std::vector<HeaderSkill> &skillslist,
-                             const size_t skill_win_size_y )
+                             std::vector<HeaderSkill> &skillslist )
 {
-    const int col_width = 25;
     if( line == 0 ) { //can't point to a header;
         line = 1;
     }
@@ -691,23 +689,14 @@ static void draw_skills_tab( const catacurses::window &w_skills,
     nc_color cstatus = is_current_tab ? h_light_gray : c_light_gray;
     center_print( w_skills, 0, cstatus, _( title_SKILLS ) );
 
-    size_t min = 0;
-    size_t max = 0;
+    const int height = getmaxy( w_skills ) - 1;
+    const bool do_draw_scrollbar = height < static_cast<int>( skillslist.size() );
+    const int width = getmaxx( w_skills ) - 1 - ( do_draw_scrollbar ? 1 : 0 );
+    const std::pair<const int, const int> range = subindex_around_cursor( skillslist.size(),
+            height, line, is_current_tab );
 
-    const size_t half_y = ( skill_win_size_y - 1 ) / 2;
-
-    if( !is_current_tab || line <= half_y ) {
-        min = 0;
-    } else if( line >= skillslist.size() - half_y ) {
-        min = ( skillslist.size() < skill_win_size_y - 1 ? 0 : skillslist.size() -
-                skill_win_size_y + 1 );
-    } else {
-        min = line - half_y;
-    }
-    max = std::min( min + skill_win_size_y - 1, skillslist.size() );
-
-    int y_pos = 1;
-    for( size_t i = min; i < max; ++i, ++y_pos ) {
+    for( size_t i = range.first; i < static_cast<size_t>( range.second ); ++i ) {
+        const int y_pos = i - range.first + 1;
         const Skill *aSkill = skillslist[i].skill;
         const SkillLevel &level = you.get_skill_level_object( aSkill->ident() );
 
@@ -740,7 +729,7 @@ static void draw_skills_tab( const catacurses::window &w_skills,
                 } else {
                     cstatus = training ? h_light_blue : h_blue;
                 }
-                mvwprintz( w_skills, point( 1, y_pos ), cstatus, std::string( col_width, ' ' ) );
+                mvwprintz( w_skills, point( 1, y_pos ), cstatus, std::string( width - 1, ' ' ) );
             } else {
                 if( locked ) {
                     cstatus = c_yellow;
@@ -751,27 +740,23 @@ static void draw_skills_tab( const catacurses::window &w_skills,
                 } else {
                     cstatus = training ? c_light_blue : c_blue;
                 }
-                mvwprintz( w_skills, point( 1, y_pos ), c_light_gray, std::string( col_width, ' ' ) );
+                mvwprintz( w_skills, point( 1, y_pos ), c_light_gray, std::string( width - 1, ' ' ) );
             }
             mvwprintz( w_skills, point( 1, y_pos ), cstatus, "%s:", aSkill->name() );
             if( aSkill->ident() == skill_id( "dodge" ) ) {
-                mvwprintz( w_skills, point( 14, y_pos ), cstatus, "%4.1f/%-2d(%2d%%)",
+                mvwprintz( w_skills, point( width - 11, y_pos ), cstatus, "%4.1f/%-2d(%2d%%)",
                            you.get_dodge(),
                            level_num,
                            ( exercise < 0 ? 0 : exercise ) );
             } else {
-                mvwprintz( w_skills, point( 19, y_pos ), cstatus, "%-2d(%2d%%)",
+                mvwprintz( w_skills, point( width - 6, y_pos ), cstatus, "%-2d(%2d%%)",
                            level_num,
                            ( exercise < 0 ? 0 : exercise ) );
             }
         }
     }
-
-    if( is_current_tab && skillslist.size() > skill_win_size_y - 1 ) {
-        draw_scrollbar( w_skills, line - 1, skill_win_size_y - 1, skillslist.size() - 1,
-                        // NOLINTNEXTLINE(cata-use-named-point-constants)
-                        point( 0, 1 ) );
-    }
+    draw_scrollbar( w_skills, range.first, height, skillslist.size(), point( width + 1, 1 ), c_white,
+                    true );
     wnoutrefresh( w_skills );
 }
 
@@ -1518,7 +1503,7 @@ void Character::disp_info( bool customize_character )
     ui_skills.on_redraw( [&]( const ui_adaptor & ) {
         borders.draw_border( w_skills_border );
         wnoutrefresh( w_skills_border );
-        draw_skills_tab( w_skills, *this, line, curtab, skillslist, skill_win_size_y );
+        draw_skills_tab( w_skills, *this, line, curtab, skillslist );
     } );
 
     // info panel
