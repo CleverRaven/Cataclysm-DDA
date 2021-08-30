@@ -1017,8 +1017,7 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
             line_end = 8;
             break;
         case player_display_tab::encumbrance: {
-            const std::vector<std::pair<bodypart_id, bool>> bps = list_and_combine_bps( you, nullptr );
-            line_end = bps.size();
+            line_end = list_and_combine_bps( you, nullptr ).size();
             break;
         }
         case player_display_tab::traits:
@@ -1404,21 +1403,17 @@ void Character::disp_info( bool customize_character )
     } );
 
     // TRAITS & BIONICS
-    unsigned trait_win_size_y;
-    unsigned bionics_win_size_y;
     // TRAITS
     catacurses::window w_traits;
     catacurses::window w_traits_border;
     border_helper::border_info &border_traits = borders.add_border();
     ui_adaptor ui_traits;
     ui_traits.on_screen_resize( [&]( ui_adaptor & ui_traits ) {
-        std::vector<unsigned> v = calculate_shared_column_win_height( static_cast<unsigned>
-                                  ( TERMY ) - infooffsetybottom - 1, {trait_win_size_y_max, bionics_win_size_y_max} );
-        trait_win_size_y = v[0];
-        bionics_win_size_y = v[1];
+        std::vector<unsigned> win_size_y_trait_bio = calculate_shared_column_win_height(
+                    static_cast<unsigned>( TERMY ) - infooffsetybottom - 1, {trait_win_size_y_max, bionics_win_size_y_max} );
         update_win_and_border_pos( w_traits, w_traits_border,
                                    point( grid_width + 1, infooffsetybottom ),
-                                   trait_win_size_y, grid_width,
+                                   win_size_y_trait_bio[0], grid_width,
                                    border_traits, ui_traits );
     } );
     ui_traits.mark_resize();
@@ -1434,13 +1429,11 @@ void Character::disp_info( bool customize_character )
     border_helper::border_info &border_bionics = borders.add_border();
     ui_adaptor ui_bionics;
     ui_bionics.on_screen_resize( [&]( ui_adaptor & ui_bionics ) {
-        std::vector<unsigned> v = calculate_shared_column_win_height( static_cast<unsigned>
-                                  ( TERMY ) - infooffsetybottom - 1, {trait_win_size_y_max, bionics_win_size_y_max} );
-        trait_win_size_y = v[0];
-        bionics_win_size_y = v[1];
+        std::vector<unsigned> win_size_y_trait_bio = calculate_shared_column_win_height(
+                    static_cast<unsigned>( TERMY ) - infooffsetybottom - 1, {trait_win_size_y_max, bionics_win_size_y_max} );
         update_win_and_border_pos( w_bionics, w_bionics_border,
-                                   point( grid_width + 1, infooffsetybottom + trait_win_size_y + 1 ), bionics_win_size_y, grid_width,
-                                   border_bionics, ui_bionics );
+                                   point( grid_width + 1, infooffsetybottom + win_size_y_trait_bio[0] + 1 ), win_size_y_trait_bio[1],
+                                   grid_width, border_bionics, ui_bionics );
     } );
     ui_bionics.mark_resize();
     ui_bionics.on_redraw( [&]( const ui_adaptor & ) {
@@ -1466,21 +1459,16 @@ void Character::disp_info( bool customize_character )
         draw_encumbrance_tab( w_encumb, *this, line, curtab );
     } );
 
-    // EFFECTS & PROFICIENCIES
-    unsigned effect_win_size_y;
-    unsigned proficiency_win_size_y;
     // EFFECTS
     catacurses::window w_effects;
     catacurses::window w_effects_border;
     border_helper::border_info &border_effects = borders.add_border();
     ui_adaptor ui_effects;
     ui_effects.on_screen_resize( [&]( ui_adaptor & ui_effects ) {
-        std::vector<unsigned> v = calculate_shared_column_win_height( static_cast<unsigned>
-                                  ( TERMY ) - infooffsetybottom - 1, {effect_win_size_y_max, proficiency_win_size_y_max} );
-        effect_win_size_y = v[0];
-        proficiency_win_size_y = v[1];
+        std::vector<unsigned> win_size_y_effect_prof = calculate_shared_column_win_height(
+                    static_cast<unsigned>( TERMY ) - infooffsetybottom - 1, {effect_win_size_y_max, proficiency_win_size_y_max} );
         update_win_and_border_pos( w_effects, w_effects_border,
-                                   point( grid_width * 2 + 2, infooffsetybottom ), effect_win_size_y, grid_width,
+                                   point( grid_width * 2 + 2, infooffsetybottom ), win_size_y_effect_prof[0], grid_width,
                                    border_effects, ui_effects );
     } );
     ui_effects.mark_resize();
@@ -1496,13 +1484,11 @@ void Character::disp_info( bool customize_character )
     border_helper::border_info &border_proficiencies = borders.add_border();
     ui_adaptor ui_proficiencies;
     ui_proficiencies.on_screen_resize( [&]( ui_adaptor & ui_proficiencies ) {
-        std::vector<unsigned> v = calculate_shared_column_win_height( static_cast<unsigned>
-                                  ( TERMY ) - infooffsetybottom - 1, {effect_win_size_y_max, proficiency_win_size_y_max} );
-        effect_win_size_y = v[0];
-        proficiency_win_size_y = v[1];
+        std::vector<unsigned> win_size_y_trait_bio = calculate_shared_column_win_height(
+                    static_cast<unsigned>( TERMY ) - infooffsetybottom - 1, {effect_win_size_y_max, proficiency_win_size_y_max} );
         update_win_and_border_pos( w_proficiencies, w_proficiencies_border,
-                                   point( grid_width * 2 + 2, infooffsetybottom + effect_win_size_y + 1 ),
-                                   proficiency_win_size_y, grid_width,
+                                   point( grid_width * 2 + 2, infooffsetybottom + win_size_y_trait_bio[0] + 1 ),
+                                   win_size_y_trait_bio[1], grid_width,
                                    border_proficiencies, ui_proficiencies );
     } );
     ui_proficiencies.mark_resize();
