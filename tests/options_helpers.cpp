@@ -23,7 +23,9 @@ scoped_weather_override::scoped_weather_override( const weather_type_id &weather
 
 void scoped_weather_override::with_windspeed( const int windspeed_override )
 {
-    get_weather().windspeed_override = windspeed_override;
+    weather_manager &weather = get_weather();
+    weather.windspeed_override = windspeed_override;
+    weather.update_weather();
 }
 
 scoped_weather_override::~scoped_weather_override()
