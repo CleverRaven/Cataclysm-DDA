@@ -361,6 +361,13 @@ class contents_change_handler
         std::vector<item_location> unsealed;
 };
 
+enum class customize_appearance {
+    EYES, // customize eye colour
+    HAIR, // customize hair
+    HAIR_F, // customize facial hair
+    SKIN  // customize skin colour
+};
+
 enum class book_mastery {
     CANT_DETERMINE, // book not yet identified, so you don't know yet
     CANT_UNDERSTAND, // does not have enough skill to read
@@ -2557,6 +2564,8 @@ class Character : public Creature, public visitable
         void signal_nemesis();
         /** Handles Character vomiting effects */
         void vomit();
+
+        void customize_appearance( customize_appearance choice );
 
         std::map<mutation_category_id, int> mutation_category_level;
 

@@ -26,6 +26,7 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "memorial_logger.h"
+#include "messages.h"
 #include "monster.h"
 #include "omdata.h"
 #include "output.h"
@@ -1858,6 +1859,79 @@ bool are_same_type_traits( const trait_id &trait_a, const trait_id &trait_b )
 bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait_id &trait )
 {
     return std::find( traits.begin(), traits.end(), trait ) != traits.end();
+}
+
+void Character::customize_appearance( enum customize_appearance choice )
+{
+    uilist amenu;
+    trait_id current_trait;
+
+    auto make_entries = [this, &amenu, &current_trait]( const std::vector<trait_id> &traits ) {
+        const size_t iterations = traits.size();
+        for( int i = 0; i < static_cast<int>( iterations ); ++i ) {
+            const trait_id &trait = traits[i];
+            bool char_has_trait = false;
+            if( this->has_trait( trait ) ) {
+                current_trait = trait;
+                char_has_trait = true;
+            }
+
+            const std::string &entry_name = trait.obj().name();
+
+            amenu.addentry(
+                i, true, MENU_AUTOASSIGN,
+                char_has_trait ? entry_name + " *" : entry_name
+            );
+        }
+    };
+
+    std::vector<trait_id> traits;
+    std::string end_message;
+    switch( choice ) {
+        case customize_appearance::EYES:
+            amenu.text = _( "Choose a new eye colour" );
+            traits = get_mutations_in_type( STATIC( "eye_color" ) );
+            end_message = _( "Maybe things will be better by seeing it with new eyes." );
+            break;
+        case customize_appearance::HAIR:
+            amenu.text = _( "Choose a new hairstyle" );
+            traits = get_mutations_in_type( STATIC( "hair_style" ) );
+            end_message = _( "A change in hairstyle will freshen up the mood." );
+            break;
+        case customize_appearance::HAIR_F:
+            amenu.text = _( "Choose a new facial hairstyle" );
+            traits = get_mutations_in_type( STATIC( "facial_hair" ) );
+            end_message = _( "Surviving the end with style." );
+            break;
+        case customize_appearance::SKIN:
+            amenu.text = _( "Choose a new skin colour" );
+            traits = get_mutations_in_type( STATIC( "skin_tone" ) );
+            end_message = _( "You activate your secret chameleon powers." );
+            break;
+    }
+
+    traits.erase(
+    std::remove_if( traits.begin(), traits.end(), []( const trait_id & traitid ) {
+        return !traitid->vanity;
+    } ), traits.end() );
+
+    if( traits.empty() ) {
+        popup( _( "No traits found." ) );
+    }
+
+    make_entries( traits );
+
+    amenu.query();
+    if( amenu.ret >= 0 ) {
+        const trait_id &trait_selected = traits[amenu.ret];
+        if( has_trait( current_trait ) ) {
+            remove_mutation( current_trait );
+        }
+        set_mutation( trait_selected );
+        if( one_in( 3 ) ) {
+            add_msg( m_neutral, end_message );
+        }
+    }
 }
 
 std::string Character::visible_mutations( const int visibility_cap ) const
