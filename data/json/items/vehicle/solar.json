@@ -22,7 +22,7 @@
     "name": { "str": "collapsible solar array" },
     "description": "Electronic device that can convert solar radiation into electric power.  Useful for a vehicle.",
     "price": 120000,
-    "price_postapoc": 1500,
+    "price_postapoc": 1500
   },
   {
     "type": "GENERIC",
