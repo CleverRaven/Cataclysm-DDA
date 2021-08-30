@@ -296,8 +296,7 @@
   {
     "type": "tool_quality",
     "id": "LOCKPICK",
-    "name": { "str": "lockpicking" },
-    "usages":  [ [ 1, [ "PICK_LOCK" ] ] ]
+    "name": { "str": "lockpicking" }
   },
   {
     "type": "tool_quality",

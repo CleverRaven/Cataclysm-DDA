@@ -33,7 +33,8 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "LOCKPICK", 3 ] ]
+    "qualities": [ [ "LOCKPICK", 3 ] ],
+    "use_action": [ "PICK_LOCK" ]
   },
   {
     "id": "iceaxe",
@@ -90,7 +91,8 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "LOCKPICK", 5 ] ]
+    "qualities": [ [ "LOCKPICK", 5 ] ],
+    "use_action": [ "PICK_LOCK" ]
   },
   {
     "id": "pseudo_bio_picklock",
