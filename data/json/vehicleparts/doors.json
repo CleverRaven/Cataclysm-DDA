@@ -69,6 +69,7 @@
     "id": "cloth_flap_door",
     "looks_like": "door",
     "type": "vehicle_part",
+    "name": { "str": "cloth flap door" },
     "description": "A cloth sheet that can be fastened into a closed position to act as a door."
   },
   {
@@ -76,6 +77,7 @@
     "id": "cloth_curtain_door",
     "looks_like": "door",
     "type": "vehicle_part",
+    "name": { "str": "cloth curtain door" },
     "description": "A cloth sheet that can be slid into a closed position to act as a door."
   },
   {
