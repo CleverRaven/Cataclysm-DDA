@@ -294,7 +294,6 @@ extern const flag_id flag_TOW_CABLE;
 extern const flag_id flag_TRADER_AVOID;
 extern const flag_id flag_TRADER_KEEP;
 extern const flag_id flag_TRADER_KEEP_EQUIPPED;
-extern const flag_id flag_TRANSPARENT;
 extern const flag_id flag_TWO_WAY_RADIO;
 extern const flag_id flag_UNARMED_WEAPON;
 extern const flag_id flag_UNBREAKABLE_MELEE;

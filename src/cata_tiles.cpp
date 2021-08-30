@@ -3909,7 +3909,7 @@ void cata_tiles::get_tile_values_with_ter( const tripoint &p, const int t, const
         if( val == 0 ) {
             for( int i = 0; i < 4; ++i ) {
                 const tripoint &pt = p + four_adjacent_offsets[i];
-                if( here.has_flag( "WALL", pt ) || here.has_flag( "WINDOW", pt ) ||
+                if( here.has_flag( TFLAG_WALL, pt ) || here.has_flag( "WINDOW", pt ) ||
                     here.has_flag( "DOOR", pt ) ) {
                     val += 1 << i;
                 }

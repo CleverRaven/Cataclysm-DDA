@@ -988,7 +988,7 @@ int Character::unimpaired_range() const
     return std::min( sight_max, 60 );
 }
 
-bool Character::overmap_los( const tripoint_abs_omt &omt, int sight_points )
+bool Character::overmap_los( const tripoint_abs_omt &omt, int sight_points ) const
 {
     const tripoint_abs_omt ompos = global_omt_location();
     const point_rel_omt offset = omt.xy() - ompos.xy();
@@ -5116,7 +5116,7 @@ bool Character::in_climate_control()
         return true;
     }
     map &here = get_map();
-    if( has_trait( trait_M_SKIN3 ) && here.has_flag_ter_or_furn( "FUNGUS", pos() ) &&
+    if( has_trait( trait_M_SKIN3 ) && here.has_flag_ter_or_furn( TFLAG_FUNGUS, pos() ) &&
         in_sleep_state() ) {
         return true;
     }
@@ -5857,7 +5857,7 @@ bool Character::is_deaf() const
 {
     return get_effect_int( effect_deaf ) > 2 || worn_with_flag( flag_DEAF ) ||
            has_flag( json_flag_DEAF ) ||
-           ( has_trait( trait_M_SKIN3 ) && get_map().has_flag_ter_or_furn( "FUNGUS", pos() )
+           ( has_trait( trait_M_SKIN3 ) && get_map().has_flag_ter_or_furn( TFLAG_FUNGUS, pos() )
              && in_sleep_state() );
 }
 
@@ -7675,8 +7675,8 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
                 }
             }
         }
-        if( ( fungaloid_cosplay && here.has_flag_ter_or_furn( "FUNGUS", pos() ) ) ||
-            ( watersleep && here.has_flag_ter( "SWIMMABLE", pos() ) ) ) {
+        if( ( fungaloid_cosplay && here.has_flag_ter_or_furn( TFLAG_FUNGUS, pos() ) ) ||
+            ( watersleep && here.has_flag_ter( TFLAG_SWIMMABLE, pos() ) ) ) {
             comfort += static_cast<int>( comfort_level::very_comfortable );
         }
     } else if( plantsleep ) {
@@ -12666,7 +12666,7 @@ int Character::run_cost( int base_cost, bool diag ) const
     map &here = get_map();
     // The "FLAT" tag includes soft surfaces, so not a good fit.
     const bool on_road = flatground && here.has_flag( STATIC( "ROAD" ), pos() );
-    const bool on_fungus = here.has_flag_ter_or_furn( STATIC( "FUNGUS" ), pos() );
+    const bool on_fungus = here.has_flag_ter_or_furn( TFLAG_FUNGUS, pos() );
 
     if( !is_mounted() ) {
         if( movecost > 105 ) {
@@ -12741,7 +12741,7 @@ int Character::run_cost( int base_cost, bool diag ) const
             movecost += 8;
         }
 
-        if( has_trait( trait_ROOTS3 ) && here.has_flag( STATIC( "DIGGABLE" ), pos() ) ) {
+        if( has_trait( trait_ROOTS3 ) && here.has_flag( TFLAG_DIGGABLE, pos() ) ) {
             movecost += 10 * footwear_factor();
         }
 
@@ -12864,7 +12864,7 @@ std::vector<Creature *> Character::get_targetable_creatures( const int range, bo
             for( const tripoint &point : path ) {
                 if( here.impassable( point ) &&
                     !( weapon.has_flag( flag_SPEAR ) && // Fences etc. Spears can stab through those
-                       here.has_flag( STATIC( "THIN_OBSTACLE" ),
+                       here.has_flag( TFLAG_THIN_OBSTACLE,
                                       point ) ) ) { //this mirrors melee.cpp function reach_attack
                     can_see = false;
                     break;
@@ -13291,7 +13291,7 @@ int Character::sleep_spot( const tripoint &p ) const
 
     sleepy = enchantment_cache->modify_value( enchant_vals::mod::SLEEPY, sleepy );
 
-    if( watersleep && get_map().has_flag_ter( "SWIMMABLE", pos() ) ) {
+    if( watersleep && get_map().has_flag_ter( TFLAG_SWIMMABLE, pos() ) ) {
         sleepy += 10; //comfy water!
     }
 
@@ -14818,7 +14818,7 @@ void Character::knock_back_to( const tripoint &to )
 
     map &here = get_map();
     // If we're still in the function at this point, we're actually moving a tile!
-    if( here.has_flag( "LIQUID", to ) && here.has_flag( TFLAG_DEEP_WATER, to ) ) {
+    if( here.has_flag( TFLAG_LIQUID, to ) && here.has_flag( TFLAG_DEEP_WATER, to ) ) {
         if( !is_npc() ) {
             avatar_action::swim( here, get_avatar(), to );
         }
@@ -15678,7 +15678,7 @@ void Character::pause()
                     body_part_hand_r
                 }
             }, true );
-        } else if( here.has_flag( "SWIMMABLE", pos() ) ) {
+        } else if( here.has_flag( TFLAG_SWIMMABLE, pos() ) ) {
             drench( 80, { { body_part_foot_l, body_part_foot_r, body_part_leg_l, body_part_leg_r } },
             false );
         }

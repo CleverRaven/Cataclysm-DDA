@@ -1453,7 +1453,7 @@ void vehicle::operate_scoop()
             }
             item *that_item_there = nullptr;
             map_stack items = here.i_at( position );
-            if( here.has_flag( "SEALED", position ) ) {
+            if( here.has_flag( TFLAG_SEALED, position ) ) {
                 // Ignore it. Street sweepers are not known for their ability to harvest crops.
                 continue;
             }
@@ -2035,7 +2035,7 @@ void vehicle::interact_with( const vpart_position &vp )
     map &here = get_map();
     avatar &player_character = get_avatar();
     const bool has_items_on_ground = here.sees_some_items( vp.pos(), player_character );
-    const bool items_are_sealed = here.has_flag( "SEALED", vp.pos() );
+    const bool items_are_sealed = here.has_flag( TFLAG_SEALED, vp.pos() );
     const turret_data turret = turret_query( vp.pos() );
     const cata::optional<vpart_reference> vp_curtain = vp.avail_part_with_feature( "CURTAIN" );
     const cata::optional<vpart_reference> vp_faucet = vp.part_with_tool( itype_water_faucet );

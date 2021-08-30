@@ -122,11 +122,13 @@
     "name": { "str": "inflatable dragon" },
     "description": "A battery powered inflatable dragon from the Halloween before the end.  It might be fun to display it somewhere.",
     "ammo": "battery",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
     ],
     "use_action": { "type": "cast_spell", "spell_id": "dragon_inflatable", "no_fail": true, "level": 1 }
   },
@@ -137,11 +139,13 @@
     "name": { "str": "inflatable ghost" },
     "description": "A battery powered inflatable ghost from the Halloween before the end.  It might be fun to display it somewhere.",
     "ammo": "battery",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
     ],
     "use_action": { "type": "cast_spell", "spell_id": "ghost_inflatable", "no_fail": true, "level": 1 }
   },
@@ -152,11 +156,13 @@
     "name": { "str": "fog machine" },
     "description": "A battery powered fog machine.  It would be great for setting ambience.",
     "ammo": "battery",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
+      }
     ],
     "use_action": { "type": "cast_spell", "spell_id": "fog_machine", "no_fail": true, "level": 1 }
   }

@@ -218,7 +218,6 @@ static const std::string flag_GROWTH_HARVEST( "GROWTH_HARVEST" );
 static const std::string flag_OPENCLOSE_INSIDE( "OPENCLOSE_INSIDE" );
 static const std::string flag_PICKABLE( "PICKABLE" );
 static const std::string flag_NANOFAB_TABLE( "NANOFAB_TABLE" );
-static const std::string flag_WALL( "WALL" );
 
 // @TODO maybe make this a property of the item (depend on volume/type)
 static const time_duration milling_time = 6_hours;
@@ -3957,7 +3956,7 @@ void iexamine::curtains( Character &you, const tripoint &examp )
 {
     map &here = get_map();
     const bool closed_window_with_curtains = here.has_flag( flag_BARRICADABLE_WINDOW_CURTAINS, examp );
-    if( here.is_outside( you.pos() ) && ( here.has_flag( flag_WALL, examp ) ||
+    if( here.is_outside( you.pos() ) && ( here.has_flag( TFLAG_WALL, examp ) ||
                                           closed_window_with_curtains ) ) {
         locked_object( you, examp );
         return;
@@ -4568,7 +4567,7 @@ void iexamine::ledge( Character &you, const tripoint &examp )
 
             if( has_grapnel ) {
                 you.add_msg_if_player( _( "You tie the rope around your waist and begin to climb down." ) );
-            } else if( here.has_flag( "UNSTABLE", examp + tripoint_below ) && g->slip_down( true ) ) {
+            } else if( here.has_flag( TFLAG_UNSTABLE, examp + tripoint_below ) && g->slip_down( true ) ) {
                 return;
             }
 
