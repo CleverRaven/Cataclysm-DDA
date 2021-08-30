@@ -72,7 +72,8 @@
       "removal": { "skills": [ [ "fabrication", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
       "repair": { "skills": [ [ "fabrication", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
     },
-    "damage_reduction": { "all": 0, "bash": 3 }
+    "damage_reduction": { "all": 0, "bash": 3 },
+    "extend": { "flags": [ "FOLDABLE" ] }
   },
   {
     "id": "clothboard",
