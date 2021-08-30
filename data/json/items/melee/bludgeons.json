@@ -599,7 +599,13 @@
     "material": [ "superalloy", "steel" ],
     "revert_to": "l-stick",
     "power_draw": 5000,
-    "use_action": { "target": "l-stick", "msg": "The l-stick(tm)'s light fades away.", "menu_text": "Turn off", "type": "transform" },
+    "use_action": {
+      "ammo_scale": 0,
+      "target": "l-stick",
+      "msg": "The l-stick(tm)'s light fades away.",
+      "menu_text": "Turn off",
+      "type": "transform"
+    },
     "flags": [ "LIGHT_300", "DURABLE_MELEE", "TRADER_AVOID", "SHEATH_SPEAR" ]
   },
   {
