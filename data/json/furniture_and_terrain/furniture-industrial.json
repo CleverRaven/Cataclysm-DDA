@@ -90,7 +90,7 @@
     "move_cost_mod": -1,
     "coverage": 30,
     "required_str": 16,
-    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "PERMEABLE", "BLOCKS_DOOR" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "PERMEABLE", "BLOCKSDOOR" ],
     "bash": {
       "str_min": 20,
       "str_max": 150,
