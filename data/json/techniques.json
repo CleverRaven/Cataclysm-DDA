@@ -1058,7 +1058,7 @@
     "crit_ok": true,
     "block_counter": true,
     "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
-  }
+  },
   {
     "type": "technique",
     "id": "tec_muay_thai_elbow",
