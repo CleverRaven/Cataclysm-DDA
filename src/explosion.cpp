@@ -669,7 +669,7 @@ void emp_blast( const tripoint &p )
     Character &player_character = get_player_character();
     const bool sight = player_character.sees( p );
     map &here = get_map();
-    if( here.has_flag( "CONSOLE", p ) ) {
+    if( here.has_flag( TFLAG_CONSOLE, p ) ) {
         if( sight ) {
             add_msg( _( "The %s is rendered non-functional!" ), here.tername( p ) );
         }

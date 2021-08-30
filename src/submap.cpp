@@ -105,7 +105,7 @@ void submap::delete_graffiti( const point &p )
 }
 bool submap::has_signage( const point &p ) const
 {
-    if( frn[p.x][p.y].obj().has_flag( "SIGN" ) ) {
+    if( frn[p.x][p.y].obj().has_flag( TFLAG_SIGN ) ) {
         return find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE ).result;
     }
 
@@ -113,7 +113,7 @@ bool submap::has_signage( const point &p ) const
 }
 std::string submap::get_signage( const point &p ) const
 {
-    if( frn[p.x][p.y].obj().has_flag( "SIGN" ) ) {
+    if( frn[p.x][p.y].obj().has_flag( TFLAG_SIGN ) ) {
         const cosmetic_find_result fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );
         if( fresult.result ) {
             return cosmetics[ fresult.ndx ].str;

@@ -44,8 +44,6 @@
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
 
-static const std::string flag_CONSOLE( "CONSOLE" );
-
 static void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                           std::set<action_id> &unbound_keymap );
 
@@ -643,7 +641,7 @@ bool can_examine_at( const tripoint &p )
     if( here.veh_at( p ) ) {
         return true;
     }
-    if( here.has_flag( flag_CONSOLE, p ) ) {
+    if( here.has_flag( TFLAG_CONSOLE, p ) ) {
         return true;
     }
     if( here.has_items( p ) ) {

@@ -813,7 +813,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     }
     map_stack target_stack = here.i_at( target );
     const int target_stack_size = target_stack.size();
-    if( !here.has_flag( "CONTAINER", target ) && target_stack_size > 0 ) {
+    if( !here.has_flag( TFLAG_CONTAINER, target ) && target_stack_size > 0 ) {
         trim_and_print( w_info, point( 1, off ), getmaxx( w_info ), c_light_gray,
                         _( "There is a %s there." ),
                         target_stack.begin()->tname() );

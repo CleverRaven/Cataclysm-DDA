@@ -70,8 +70,6 @@ static const itype_id itype_pressurized_tank( "pressurized_tank" );
 static const species_id species_FUNGUS( "FUNGUS" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
-static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
-
 bool monster::wander()
 {
     return ( goal == pos() && patrol_route_abs_ms.empty() );
@@ -121,7 +119,7 @@ bool monster::will_move_to( const tripoint &p ) const
     map &here = get_map();
     if( here.impassable( p ) ) {
         if( digging() ) {
-            if( !here.has_flag( "BURROWABLE", p ) ) {
+            if( !here.has_flag( TFLAG_BURROWABLE, p ) ) {
                 return false;
             }
         } else if( !( can_climb() && here.has_flag( TFLAG_CLIMBABLE, p ) ) ) {
@@ -133,7 +131,7 @@ bool monster::will_move_to( const tripoint &p ) const
         return false;
     }
 
-    if( digs() && !here.has_flag( TFLAG_DIGGABLE, p ) && !here.has_flag( "BURROWABLE", p ) ) {
+    if( digs() && !here.has_flag( TFLAG_DIGGABLE, p ) && !here.has_flag( TFLAG_BURROWABLE, p ) ) {
         return false;
     }
 
@@ -587,7 +585,7 @@ void monster::plan()
             tripoint tmp( pos() + point( 12, 12 ) );
             tripoint couch_loc;
             for( const auto &couch_pos : here.find_furnitures_with_flag_in_radius( pos(), 10,
-                    flag_AUTODOC_COUCH ) ) {
+                    TFLAG_AUTODOC_COUCH ) ) {
                 if( here.clear_path( pos(), couch_pos, 10, 0, 100 ) ) {
                     if( rl_dist( pos(), couch_pos ) < rl_dist( pos(), tmp ) ) {
                         tmp = couch_pos;
@@ -1156,7 +1154,7 @@ void monster::nursebot_operate( Character *dragged_foe )
     }
 
     creature_tracker &creatures = get_creature_tracker();
-    if( rl_dist( pos(), goal ) == 1 && !get_map().has_flag_furn( flag_AUTODOC_COUCH, goal ) &&
+    if( rl_dist( pos(), goal ) == 1 && !get_map().has_flag_furn( TFLAG_AUTODOC_COUCH, goal ) &&
         !has_effect( effect_operating ) ) {
         if( dragged_foe->has_effect( effect_grabbed ) && !has_effect( effect_countdown ) &&
             ( creatures.creature_at( goal ) == nullptr ||
@@ -1459,7 +1457,7 @@ bool monster::bash_at( const tripoint &p )
     map &here = get_map();
     if( !( here.is_bashable_furn( p ) || here.veh_at( p ).obstacle_at_part() ) ) {
         // if the only thing here is road or flat, rarely bash it
-        bool flat_ground = here.has_flag( "ROAD", p ) || here.has_flag( TFLAG_FLAT, p );
+        bool flat_ground = here.has_flag( TFLAG_ROAD, p ) || here.has_flag( TFLAG_FLAT, p );
         if( !here.is_bashable_ter( p ) || ( flat_ground && !one_in( 50 ) ) ) {
             return false;
         }

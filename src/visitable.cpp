@@ -457,7 +457,7 @@ VisitResponse map_cursor::visit_items(
 {
     map &here = get_map();
     // skip inaccessible items
-    if( here.has_flag( TFLAG_SEALED, pos() ) && !here.has_flag( "LIQUIDCONT", pos() ) ) {
+    if( here.has_flag( TFLAG_SEALED, pos() ) && !here.has_flag( TFLAG_LIQUIDCONT, pos() ) ) {
         return VisitResponse::NEXT;
     }
 

@@ -64,13 +64,6 @@
 static const trap_str_id tr_caltrops( "tr_caltrops" );
 static const trap_str_id tr_nailboard( "tr_nailboard" );
 
-static const std::string flag_FLOWER( "FLOWER" );
-static const std::string flag_ORGANIC( "ORGANIC" );
-static const std::string flag_PLANT( "PLANT" );
-static const std::string flag_SHRUB( "SHRUB" );
-static const std::string flag_TREE( "TREE" );
-static const std::string flag_YOUNG( "YOUNG" );
-
 static const itype_id itype_223_casing( "223_casing" );
 static const itype_id itype_762_51_casing( "762_51_casing" );
 static const itype_id itype_9mm_casing( "9mm_casing" );
@@ -215,7 +208,7 @@ static void dead_vegetation_parser( map &m, const tripoint &loc )
 {
     // furniture plants die to withered plants
     const furn_t &fid = m.furn( loc ).obj();
-    if( fid.has_flag( flag_PLANT ) || fid.has_flag( flag_FLOWER ) || fid.has_flag( flag_ORGANIC ) ) {
+    if( fid.has_flag( TFLAG_PLANT ) || fid.has_flag( TFLAG_FLOWER ) || fid.has_flag( TFLAG_ORGANIC ) ) {
         m.i_clear( loc );
         m.furn_set( loc, f_null );
         m.spawn_item( loc, itype_withered );
@@ -242,12 +235,12 @@ static void dead_vegetation_parser( map &m, const tripoint &loc )
     }
     // non-specific small vegetation falls into sticks, large dies and randomly falls
     const ter_t &tr = tid.obj();
-    if( tr.has_flag( flag_SHRUB ) ) {
+    if( tr.has_flag( TFLAG_SHRUB ) ) {
         m.ter_set( loc, t_dirt );
         if( one_in( 2 ) ) {
             m.spawn_item( loc, itype_stick );
         }
-    } else if( tr.has_flag( flag_TREE ) ) {
+    } else if( tr.has_flag( TFLAG_TREE ) ) {
         if( one_in( 4 ) ) {
             m.ter_set( loc, ter_t_trunk );
         } else if( one_in( 4 ) ) {
@@ -255,7 +248,7 @@ static void dead_vegetation_parser( map &m, const tripoint &loc )
         } else {
             m.ter_set( loc, ter_t_tree_dead );
         }
-    } else if( tr.has_flag( flag_YOUNG ) ) {
+    } else if( tr.has_flag( TFLAG_YOUNG ) ) {
         m.ter_set( loc, ter_t_dirt );
         if( one_in( 2 ) ) {
             m.spawn_item( loc, itype_stick_long );
@@ -1752,8 +1745,8 @@ static bool mx_spider( map &m, const tripoint &abs_sub )
             const tripoint location( i, j, abs_sub.z );
 
             bool should_web_flat = m.has_flag_ter( TFLAG_FLAT, location ) && !one_in( 3 );
-            bool should_web_shrub = m.has_flag_ter( flag_SHRUB, location ) && !one_in( 4 );
-            bool should_web_tree = m.has_flag_ter( flag_TREE, location ) && !one_in( 4 );
+            bool should_web_shrub = m.has_flag_ter( TFLAG_SHRUB, location ) && !one_in( 4 );
+            bool should_web_tree = m.has_flag_ter( TFLAG_TREE, location ) && !one_in( 4 );
 
             if( should_web_flat || should_web_shrub || should_web_tree ) {
                 m.add_field( location, fd_web, rng( 1, 3 ), 0_turns );
@@ -1797,7 +1790,7 @@ static bool mx_grove( map &m, const tripoint &abs_sub )
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
             const tripoint location( i, j, abs_sub.z );
-            if( m.has_flag_ter( flag_TREE, location ) ) {
+            if( m.has_flag_ter( TFLAG_TREE, location ) ) {
                 tree = m.ter( location );
                 found_tree = true;
             }
@@ -1811,8 +1804,8 @@ static bool mx_grove( map &m, const tripoint &abs_sub )
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
             const tripoint location( i, j, abs_sub.z );
-            if( m.has_flag_ter( flag_SHRUB, location ) || m.has_flag_ter( flag_TREE, location ) ||
-                m.has_flag_ter( flag_YOUNG, location ) ) {
+            if( m.has_flag_ter( TFLAG_SHRUB, location ) || m.has_flag_ter( TFLAG_TREE, location ) ||
+                m.has_flag_ter( TFLAG_YOUNG, location ) ) {
                 m.ter_set( location, tree );
             }
         }
@@ -1831,7 +1824,7 @@ static bool mx_shrubbery( map &m, const tripoint &abs_sub )
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
             const tripoint location( i, j, abs_sub.z );
-            if( m.has_flag_ter( flag_SHRUB, location ) ) {
+            if( m.has_flag_ter( TFLAG_SHRUB, location ) ) {
                 shrubbery = m.ter( location );
                 found_shrubbery = true;
             }
@@ -1845,8 +1838,8 @@ static bool mx_shrubbery( map &m, const tripoint &abs_sub )
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
             const tripoint location( i, j, abs_sub.z );
-            if( m.has_flag_ter( flag_SHRUB, location ) || m.has_flag_ter( flag_TREE, location ) ||
-                m.has_flag_ter( flag_YOUNG, location ) ) {
+            if( m.has_flag_ter( TFLAG_SHRUB, location ) || m.has_flag_ter( TFLAG_TREE, location ) ||
+                m.has_flag_ter( TFLAG_YOUNG, location ) ) {
                 m.ter_set( location, shrubbery );
             }
         }
@@ -1869,7 +1862,7 @@ static bool mx_clearcut( map &m, const tripoint &abs_sub )
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
             const tripoint location( i, j, abs_sub.z );
-            if( m.has_flag_ter( flag_TREE, location ) || m.has_flag_ter( flag_YOUNG, location ) ) {
+            if( m.has_flag_ter( TFLAG_TREE, location ) || m.has_flag_ter( TFLAG_YOUNG, location ) ) {
                 if( !did_something ) {
                     did_something = true;
                 }
@@ -2076,7 +2069,7 @@ static void burned_ground_parser( map &m, const tripoint &loc )
         }
     }
     // destruction of trees is not absolute
-    if( tr.has_flag( flag_TREE ) ) {
+    if( tr.has_flag( TFLAG_TREE ) ) {
         if( one_in( 4 ) ) {
             m.ter_set( loc, ter_t_trunk );
         } else if( one_in( 4 ) ) {

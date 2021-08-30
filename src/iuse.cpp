@@ -364,12 +364,6 @@ static const bionic_id bio_tools( "bio_tools" );
 
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
 
-// terrain/furn flags
-static const std::string flag_FISHABLE( "FISHABLE" );
-static const std::string flag_LIQUIDCONT( "LIQUIDCONT" );
-static const std::string flag_PLANT( "PLANT" );
-static const std::string flag_PLOWABLE( "PLOWABLE" );
-
 // how many characters per turn of radio
 static constexpr int RADIO_PER_TURN = 25;
 
@@ -1842,7 +1836,7 @@ cata::optional<int> iuse::fishing_rod( Character *p, item *it, bool, const tripo
     map &here = get_map();
     cata::optional<tripoint> found;
     for( const tripoint &pnt : here.points_in_radius( p->pos(), 1 ) ) {
-        if( here.has_flag( flag_FISHABLE, pnt ) && good_fishing_spot( pnt, p ) ) {
+        if( here.has_flag( TFLAG_FISHABLE, pnt ) && good_fishing_spot( pnt, p ) ) {
             found = pnt;
             break;
         }
@@ -1888,7 +1882,7 @@ cata::optional<int> iuse::fish_trap( Character *p, item *it, bool t, const tripo
         }
         const tripoint pnt = *pnt_;
 
-        if( !here.has_flag( "FISHABLE", pnt ) ) {
+        if( !here.has_flag( TFLAG_FISHABLE, pnt ) ) {
             p->add_msg_if_player( m_info, _( "You can't fish there!" ) );
             return cata::nullopt;
         }
@@ -1913,7 +1907,7 @@ cata::optional<int> iuse::fish_trap( Character *p, item *it, bool t, const tripo
         if( it->age() > 3_hours ) {
             it->active = false;
 
-            if( !here.has_flag( "FISHABLE", pos ) ) {
+            if( !here.has_flag( TFLAG_FISHABLE, pos ) ) {
                 return 0;
             }
 
@@ -2658,7 +2652,7 @@ cata::optional<int> iuse::makemound( Character *p, item *it, bool t, const tripo
     }
 
     map &here = get_map();
-    if( here.has_flag( flag_PLOWABLE, pnt ) && !here.has_flag( flag_PLANT, pnt ) ) {
+    if( here.has_flag( TFLAG_PLOWABLE, pnt ) && !here.has_flag( TFLAG_PLANT, pnt ) ) {
         p->add_msg_if_player( _( "You start churning up the earth here." ) );
         p->assign_activity( ACT_CHURN, 18000, -1, p->get_item_position( it ) );
         p->activity.placement = here.getabs( pnt );
@@ -2827,7 +2821,7 @@ cata::optional<int> iuse::dig( Character *p, item *it, bool t, const tripoint & 
             _( "You can't dig a pit in this location.  Ensure it is clear diggable ground with no items or obstacles." ) );
         return cata::nullopt;
     }
-    const bool can_deepen = here.has_flag( "DIGGABLE_CAN_DEEPEN", dig_point );
+    const bool can_deepen = here.has_flag( TFLAG_DIGGABLE_CAN_DEEPEN, dig_point );
     const bool grave = here.ter( dig_point ) == t_grave;
 
     if( !p->crafting_inventory().has_quality( qual_DIG, 2 ) ) {
@@ -3051,7 +3045,7 @@ cata::optional<int> iuse::clear_rubble( Character *p, item *it, bool, const trip
         return cata::nullopt;
     }
     const std::function<bool( const tripoint & )> f = []( const tripoint & pnt ) {
-        return get_map().has_flag( "RUBBLE", pnt );
+        return get_map().has_flag( TFLAG_RUBBLE, pnt );
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
@@ -4905,7 +4899,7 @@ cata::optional<int> iuse::chop_tree( Character *p, item *it, bool t, const tripo
         if( pnt == p->pos() ) {
             return false;
         }
-        return here.has_flag( "TREE", pnt );
+        return here.has_flag( TFLAG_TREE, pnt );
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
@@ -5167,7 +5161,7 @@ cata::optional<int> iuse::mop( Character *p, item *it, bool, const tripoint & )
     }
     map &here = get_map();
     const std::function<bool( const tripoint & )> f = [&here]( const tripoint & pnt ) {
-        if( !here.has_flag( flag_LIQUIDCONT, pnt ) ) {
+        if( !here.has_flag( TFLAG_LIQUIDCONT, pnt ) ) {
             map_stack items = here.i_at( pnt );
             auto found = std::find_if( items.begin(), items.end(), []( const item & it ) {
                 return it.made_of( phase_id::LIQUID );
@@ -5295,7 +5289,7 @@ static bool heat_item( Character &p )
         return food && !food->has_own_flag( flag_HOT ) &&
                ( !itm->made_of_from_type( phase_id::LIQUID ) ||
                  itm.where() == item_location::type::container ||
-                 get_map().has_flag_furn( flag_LIQUIDCONT, itm.position() ) );
+                 get_map().has_flag_furn( TFLAG_LIQUIDCONT, itm.position() ) );
     }, _( "Heat up what?" ), 1, _( "You don't have any appropriate food to heat up." ) );
 
     item *heat = loc.get_item();
@@ -6656,7 +6650,7 @@ static std::string colorized_feature_description_at( const tripoint &center_poin
         if( !sign_message.empty() ) {
             furn_str += string_format( _( " with message \"%s\"" ), sign_message );
         }
-        if( !furn->has_flag( "CONTAINER" ) && !furn->has_flag( TFLAG_SEALED ) ) {
+        if( !furn->has_flag( TFLAG_CONTAINER ) && !furn->has_flag( TFLAG_SEALED ) ) {
             const item item = get_top_item_at_point( center_point, min_visible_volume );
             if( !item.is_null() ) {
                 furn_str += string_format( _( " with %s on it" ), colorized_item_name( item ) );

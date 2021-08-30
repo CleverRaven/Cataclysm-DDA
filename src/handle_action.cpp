@@ -128,8 +128,6 @@ static const trait_id trait_WAYFARER( "WAYFARER" );
 
 static const proficiency_id proficiency_prof_helicopter_pilot( "prof_helicopter_pilot" );
 
-static const std::string flag_LOCKED( "LOCKED" );
-
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 
 #define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
@@ -556,7 +554,7 @@ static void open()
     } else {
         const ter_str_id tid = here.ter( openp ).id();
 
-        if( here.has_flag( flag_LOCKED, openp ) ) {
+        if( here.has_flag( TFLAG_LOCKED, openp ) ) {
             add_msg( m_info, _( "The door is locked!" ) );
             return;
         } else if( tid.obj().close ) {

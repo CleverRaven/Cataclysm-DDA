@@ -3578,7 +3578,7 @@ std::unordered_set<tripoint> game::get_fishable_locations( int distance, const t
             // Mark this point as visited.
             visited.emplace( current_point );
 
-            if( m.has_flag( "FISHABLE", current_point ) ) {
+            if( m.has_flag( TFLAG_FISHABLE, current_point ) ) {
                 fishable_terrain.emplace( current_point );
                 to_check.push( current_point + point_south );
                 to_check.push( current_point + point_north );
@@ -4271,7 +4271,7 @@ void game::use_computer( const tripoint &p )
     computer *used = m.computer_at( p );
 
     if( used == nullptr ) {
-        if( m.has_flag( "CONSOLE", p ) ) { //Console without map data
+        if( m.has_flag( TFLAG_CONSOLE, p ) ) { //Console without map data
             add_msg( m_bad, _( "The console doesn't display anything coherent." ) );
         } else {
             dbg( D_ERROR ) << "game:use_computer: Tried to use computer at (" <<
@@ -5236,10 +5236,10 @@ void game::examine( const tripoint &examp )
         }
     }
 
-    if( m.has_flag( "CONSOLE", examp ) && !u.is_mounted() ) {
+    if( m.has_flag( TFLAG_CONSOLE, examp ) && !u.is_mounted() ) {
         use_computer( examp );
         return;
-    } else if( m.has_flag( "CONSOLE", examp ) && u.is_mounted() ) {
+    } else if( m.has_flag( TFLAG_CONSOLE, examp ) && u.is_mounted() ) {
         add_msg( m_warning, _( "You cannot use a console while mounted." ) );
     }
     const furn_t &xfurn_t = m.furn( examp ).obj();
@@ -5297,7 +5297,7 @@ void game::examine( const tripoint &examp )
     } else {
         //examp has no traps, is a container and doesn't have a special examination function
         if( m.tr_at( examp ).is_null() && m.i_at( examp ).empty() &&
-            m.has_flag( "CONTAINER", examp ) && none ) {
+            m.has_flag( TFLAG_CONTAINER, examp ) && none ) {
             add_msg( _( "It is empty." ) );
         } else if( ( m.has_flag( TFLAG_FIRE_CONTAINER, examp ) &&
                      xfurn_t.has_examine( iexamine::fireplace ) ) ||
@@ -5305,7 +5305,7 @@ void game::examine( const tripoint &examp )
             return;
         } else {
             sounds::process_sound_markers( &u );
-            if( !u.is_mounted() && !m.has_flag( "NO_PICKUP_ON_EXAMINE", examp ) ) {
+            if( !u.is_mounted() && !m.has_flag( TFLAG_NO_PICKUP_ON_EXAMINE, examp ) ) {
                 Pickup::pick_up( examp, 0 );
             }
         }
@@ -5706,7 +5706,7 @@ void game::print_items_info( const tripoint &lp, const catacurses::window &w_loo
 {
     if( !m.sees_some_items( lp, u ) ) {
         return;
-    } else if( m.has_flag( "CONTAINER", lp ) && !m.could_see_items( lp, u ) ) {
+    } else if( m.has_flag( TFLAG_CONTAINER, lp ) && !m.could_see_items( lp, u ) ) {
         mvwprintw( w_look, point( column, ++line ), _( "You cannot see what is inside of it." ) );
     } else if( u.has_effect( effect_blind ) || u.worn_with_flag( flag_BLIND ) ) {
         mvwprintz( w_look, point( column, ++line ), c_yellow,
@@ -8995,11 +8995,11 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp, const bool 
     if( u.is_mounted() ) {
         auto *crit = u.mounted_creature.get();
         if( !crit->has_flag( MF_RIDEABLE_MECH ) &&
-            ( m.has_flag_ter_or_furn( "MOUNTABLE", dest_loc ) ||
-              m.has_flag_ter_or_furn( "BARRICADABLE_DOOR", dest_loc ) ||
-              m.has_flag_ter_or_furn( "OPENCLOSE_INSIDE", dest_loc ) ||
-              m.has_flag_ter_or_furn( "BARRICADABLE_DOOR_DAMAGED", dest_loc ) ||
-              m.has_flag_ter_or_furn( "BARRICADABLE_DOOR_REINFORCED", dest_loc ) ) ) {
+            ( m.has_flag_ter_or_furn( TFLAG_MOUNTABLE, dest_loc ) ||
+              m.has_flag_ter_or_furn( TFLAG_BARRICADABLE_DOOR, dest_loc ) ||
+              m.has_flag_ter_or_furn( TFLAG_OPENCLOSE_INSIDE, dest_loc ) ||
+              m.has_flag_ter_or_furn( TFLAG_BARRICADABLE_DOOR_DAMAGED, dest_loc ) ||
+              m.has_flag_ter_or_furn( TFLAG_BARRICADABLE_DOOR_REINFORCED, dest_loc ) ) ) {
             add_msg( m_warning, _( "You cannot pass obstacles whilst mounted." ) );
             return false;
         }
@@ -9653,7 +9653,7 @@ int game::grabbed_furn_move_time( const tripoint &dp )
                              !m.has_flag( TFLAG_SWIMMABLE, fdest ) &&
                              !m.has_flag( TFLAG_DESTROY_ITEM, fdest ) &&
                              only_liquid_items;
-    const bool src_item_ok = m.furn( fpos ).obj().has_flag( "CONTAINER" ) ||
+    const bool src_item_ok = m.furn( fpos ).obj().has_flag( TFLAG_CONTAINER ) ||
                              m.furn( fpos ).obj().has_flag( TFLAG_FIRE_CONTAINER ) ||
                              m.furn( fpos ).obj().has_flag( TFLAG_SEALED );
 
@@ -9732,7 +9732,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
                              !m.has_flag( TFLAG_SWIMMABLE, fdest ) &&
                              !m.has_flag( TFLAG_DESTROY_ITEM, fdest );
 
-    const bool src_item_ok = m.furn( fpos ).obj().has_flag( "CONTAINER" ) ||
+    const bool src_item_ok = m.furn( fpos ).obj().has_flag( TFLAG_CONTAINER ) ||
                              m.furn( fpos ).obj().has_flag( TFLAG_FIRE_CONTAINER ) ||
                              m.furn( fpos ).obj().has_flag( TFLAG_SEALED );
 
@@ -10393,7 +10393,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
         for( monster &critter : all_monsters() ) {
             // if its a ladder instead of stairs - most zombies can't climb that.
             // unless that have a special flag to allow them to do so.
-            if( ( here.has_flag( "DIFFICULT_Z", u.pos() ) && !critter.climbs() ) ||
+            if( ( here.has_flag( TFLAG_DIFFICULT_Z, u.pos() ) && !critter.climbs() ) ||
                 critter.has_effect( effect_ridden ) ||
                 critter.has_effect( effect_tied ) ) {
                 continue;
@@ -10426,7 +10426,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
 
     if( here.has_zlevels() && std::abs( movez ) == 1 ) {
-        bool ladder = here.has_flag( "DIFFICULT_Z", u.pos() );
+        bool ladder = here.has_flag( TFLAG_DIFFICULT_Z, u.pos() );
         for( monster &critter : all_monsters() ) {
             if( ladder && !critter.climbs() ) {
                 continue;

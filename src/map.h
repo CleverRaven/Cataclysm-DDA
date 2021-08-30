@@ -2055,6 +2055,10 @@ class map
         std::list<tripoint> find_furnitures_with_flag_in_radius( const tripoint &center, size_t radius,
                 const std::string &flag,
                 size_t radiusz = 0 );
+        /**returns positions of furnitures with matching flag in the specified radius*/
+        std::list<tripoint> find_furnitures_with_flag_in_radius( const tripoint &center, size_t radius,
+                const ter_bitflags flag,
+                size_t radiusz = 0 );
         /**returns creatures in specified radius*/
         std::list<Creature *> get_creatures_in_radius( const tripoint &center, size_t radius,
                 size_t radiusz = 0 );

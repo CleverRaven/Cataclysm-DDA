@@ -1025,15 +1025,15 @@ void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
     if( the_furn.workbench ) {
         can_function_as.emplace_back( _( "a <info>crafting station</info>" ) );
     }
-    if( the_furn.has_flag( "BUTCHER_EQ" ) ) {
+    if( the_furn.has_flag( TFLAG_BUTCHER_EQ ) ) {
         can_function_as.emplace_back(
             _( "a place to hang <info>corpses for butchering</info>" ) );
     }
-    if( the_furn.has_flag( "FLAT_SURF" ) ) {
+    if( the_furn.has_flag( TFLAG_FLAT_SURF ) ) {
         can_function_as.emplace_back(
             _( "a flat surface to <info>butcher</info> onto or <info>eat meals</info> from" ) );
     }
-    if( the_furn.has_flag( "CAN_SIT" ) ) {
+    if( the_furn.has_flag( TFLAG_CAN_SIT ) ) {
         can_function_as.emplace_back( _( "a place to <info>sit</info>" ) );
     }
     if( the_furn.has_flag( TFLAG_HIDE_PLACE ) ) {

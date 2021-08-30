@@ -2333,7 +2333,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
         moves -= 100;
         moved = true;
-    } else if( here.passable( p ) && !here.has_flag( "DOOR", p ) ) {
+    } else if( here.passable( p ) && !here.has_flag( TFLAG_DOOR, p ) ) {
         bool diag = trigdist && posx() != p.x && posy() != p.y;
         if( is_mounted() ) {
             const double base_moves = run_cost( here.combined_movecost( pos(), p ),
@@ -2564,14 +2564,14 @@ void npc::worker_downtime()
     map &here = get_map();
     creature_tracker &creatures = get_creature_tracker();
     // are we already in a chair
-    if( here.has_flag_furn( "CAN_SIT", pos() ) ) {
+    if( here.has_flag_furn( TFLAG_CAN_SIT, pos() ) ) {
         // just chill here
         move_pause();
         return;
     }
     //  already know of a chair, go there
     if( chair_pos != tripoint_min ) {
-        if( here.has_flag_furn( "CAN_SIT", here.getlocal( chair_pos ) ) ) {
+        if( here.has_flag_furn( TFLAG_CAN_SIT, here.getlocal( chair_pos ) ) ) {
             update_path( here.getlocal( chair_pos ) );
             if( pos() == here.getlocal( chair_pos ) || path.empty() ) {
                 move_pause();
@@ -2588,7 +2588,7 @@ void npc::worker_downtime()
         // find a chair
         if( !is_mounted() ) {
             for( const tripoint &elem : here.points_in_radius( pos(), 30 ) ) {
-                if( here.has_flag_furn( "CAN_SIT", elem ) && !creatures.creature_at( elem ) &&
+                if( here.has_flag_furn( TFLAG_CAN_SIT, elem ) && !creatures.creature_at( elem ) &&
                     could_move_onto( elem ) &&
                     here.point_within_camp( here.getabs( elem ) ) ) {
                     // this one will do

@@ -384,8 +384,6 @@ static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
-static const std::string flag_PLOWABLE( "PLOWABLE" );
-
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_ACID_IMMUNE( "ACID_IMMUNE" );
 static const json_character_flag json_flag_BASH_IMMUNE( "BASH_IMMUNE" );
@@ -11133,7 +11131,7 @@ void Character::rooted_message() const
 {
     bool wearing_shoes = footwear_factor() == 1.0;
     if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
-        get_map().has_flag( flag_PLOWABLE, pos() ) &&
+        get_map().has_flag( TFLAG_PLOWABLE, pos() ) &&
         !wearing_shoes ) {
         add_msg( m_info, _( "You sink your roots into the soil." ) );
     }
@@ -11147,7 +11145,7 @@ void Character::rooted()
 {
     double shoe_factor = footwear_factor();
     if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
-        get_map().has_flag( flag_PLOWABLE, pos() ) && shoe_factor != 1.0 ) {
+        get_map().has_flag( TFLAG_PLOWABLE, pos() ) && shoe_factor != 1.0 ) {
         int time_to_full = 43200; // 12 hours
         if( has_trait( trait_ROOTS3 ) ) {
             time_to_full += -14400;    // -4 hours
@@ -12620,7 +12618,7 @@ int Character::run_cost( int base_cost, bool diag ) const
     const bool flatground = movecost < 105;
     map &here = get_map();
     // The "FLAT" tag includes soft surfaces, so not a good fit.
-    const bool on_road = flatground && here.has_flag( STATIC( "ROAD" ), pos() );
+    const bool on_road = flatground && here.has_flag( TFLAG_ROAD, pos() );
     const bool on_fungus = here.has_flag_ter_or_furn( TFLAG_FUNGUS, pos() );
 
     if( !is_mounted() ) {

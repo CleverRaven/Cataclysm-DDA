@@ -181,7 +181,62 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "SMALL_PASSAGE",            TFLAG_SMALL_PASSAGE },   // A small passage, that large or huge things cannot pass through
         { "SUN_ROOF_ABOVE",           TFLAG_SUN_ROOF_ABOVE },   // This furniture has a "fake roof" above, that blocks sunlight (see #44421).
         { "FUNGUS",                   TFLAG_FUNGUS },           // Fungal covered.
-        { "LOCKED",                   TFLAG_LOCKED }            // Fungal covered.
+        { "LOCKED",                   TFLAG_LOCKED },           //
+        { "PICKABLE",                 TFLAG_PICKABLE },         //
+        { "DOOR",                     TFLAG_DOOR },             //
+        { "WINDOW",                   TFLAG_WINDOW },           //
+        { "YOUNG",                    TFLAG_YOUNG },            //
+        { "SHRUB",                    TFLAG_SHRUB },            //
+        { "FISHABLE",                 TFLAG_FISHABLE },         //
+        { "TREE",                     TFLAG_TREE },             //
+        { "PLOWABLE",                 TFLAG_PLOWABLE },         //
+        { "ORGANIС",                  TFLAG_ORGANIC },          //
+        { "CONSOLE",                  TFLAG_CONSOLE },          //
+        { "PLANTABLE",                TFLAG_PLANTABLE },        //
+        { "GROWTH_HARVEST",           TFLAG_GROWTH_HARVEST },   //
+        { "MOUNTABLE",                TFLAG_MOUNTABLE },        //
+        { "RAMP_END",                 TFLAG_RAMP_END },         //
+        { "FLOWER",                   TFLAG_FLOWER },           //
+        { "CAN_SIT",                  TFLAG_CAN_SIT },          //
+        { "FLAT_SURF",                TFLAG_FLAT_SURF },        //
+        { "BUTCHER_EQ",               TFLAG_BUTCHER_EQ },       //
+        { "GROWTH_SEEDLING",          TFLAG_GROWTH_SEEDLING },  //
+        { "GROWTH_MATURE",            TFLAG_GROWTH_MATURE },    //
+        { "WORKOUT_ARMS",             TFLAG_WORKOUT_ARMS },     //
+        { "WORKOUT_LEGS",             TFLAG_WORKOUT_LEGS },     //
+        { "TRANSLOCATOR",             TFLAG_TRANSLOCATOR },     //
+        { "AUTODOC",                  TFLAG_AUTODOC },          //
+        { "AUTODOC_COUCH",            TFLAG_AUTODOC_COUCH },    //
+        { "OPENCLOSE_INSIDE",         TFLAG_OPENCLOSE_INSIDE }, //
+        { "SALT_WATER",               TFLAG_SALT_WATER },       //
+        { "PLACE_ITEM",               TFLAG_PLACE_ITEM },       //
+        { "BARRICADABLE_WINDOW_CURTAINS", TFLAG_BARRICADABLE_WINDOW_CURTAINS },       //
+        { "CLIMB_SIMPLE",             TFLAG_CLIMB_SIMPLE },     //
+        { "NANOFAB_TABLE",            TFLAG_NANOFAB_TABLE },    //
+        { "ROAD",                     TFLAG_ROAD },             //
+        { "TINY",                     TFLAG_TINY },             //
+        { "SHORT",                    TFLAG_SHORT },            //
+        { "NOCOLLIDE",                TFLAG_NOCOLLIDE },        //
+        { "BARRICADABLE_DOOR",           TFLAG_BARRICADABLE_DOOR },        //
+        { "BARRICADABLE_DOOR_DAMAGED",   TFLAG_BARRICADABLE_DOOR_DAMAGED },        //
+        { "BARRICADABLE_DOOR_REINFORCED", TFLAG_BARRICADABLE_DOOR_REINFORCED },       //
+        { "USABLE_FIRE", TFLAG_USABLE_FIRE },       //
+        { "CONTAINER", TFLAG_CONTAINER },       //
+        { "NO_PICKUP_ON_EXAMINE", TFLAG_NO_PICKUP_ON_EXAMINE },       //
+        { "RUBBLE", TFLAG_RUBBLE },       //
+        { "DIGGABLE_CAN_DEEPEN", TFLAG_DIGGABLE_CAN_DEEPEN },       //
+        { "DIFFICULT_Z", TFLAG_DIFFICULT_Z },       //
+        { "ALIGN_WORKBENCH", TFLAG_ALIGN_WORKBENCH },       //
+        { "NO_SELF_CONNECT", TFLAG_NO_SELF_CONNECT },       //
+        { "NO_SPOIL", TFLAG_NO_SPOIL },       //
+        { "EASY_DECONSTRUCT", TFLAG_EASY_DECONSTRUCT },       //
+        { "LADDER", TFLAG_LADDER },       //
+        { "ALARMED", TFLAG_ALARMED },       //
+        { "CHOCOLATE", TFLAG_CHOCOLATE },       //
+        { "SIGN", TFLAG_SIGN },       //
+        { "DONT_REMOVE_ROTTEN", TFLAG_DONT_REMOVE_ROTTEN },       //
+        { "BLOCKSDOOR", TFLAG_BLOCKSDOOR },       //
+        { "BURROWABLE", TFLAG_BURROWABLE },       //
     }
 };
 

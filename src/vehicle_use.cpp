@@ -1405,7 +1405,7 @@ void vehicle::operate_planter()
                     break;
                 } else if( here.ter( loc ) == t_dirtmound ) {
                     here.set( loc, t_dirt, f_plant_seed );
-                } else if( !here.has_flag( "PLOWABLE", loc ) ) {
+                } else if( !here.has_flag( TFLAG_PLOWABLE, loc ) ) {
                     //If it isn't plowable terrain, then it will most likely be damaged.
                     damage( planter_id, rng( 1, 10 ), damage_type::BASH, false );
                     sounds::sound( loc, rng( 10, 20 ), sounds::sound_t::combat, _( "Clink" ), false, "smash_success",

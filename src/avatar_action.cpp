@@ -77,8 +77,6 @@ static const trait_id trait_GRAZER( "GRAZER" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 
-static const std::string flag_RAMP_END( "RAMP_END" );
-
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 static bool check_water_affect_items( avatar &you )
@@ -547,7 +545,7 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
     // Basically, finish walking on the stairs instead of pulling self up by hand
     bool aligned_ramps = false;
     for( const tripoint &pt : m.points_in_radius( you.pos(), 1 ) ) {
-        if( rl_dist( pt, dest_loc ) < 2 && m.has_flag( flag_RAMP_END, pt ) ) {
+        if( rl_dist( pt, dest_loc ) < 2 && m.has_flag( TFLAG_RAMP_END, pt ) ) {
             aligned_ramps = true;
             break;
         }

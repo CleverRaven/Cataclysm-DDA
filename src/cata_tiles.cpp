@@ -3883,7 +3883,7 @@ void cata_tiles::get_tile_values_with_ter( const tripoint &p, const int t, const
 {
     map &here = get_map();
     //check if furniture should connect to itself
-    if( here.has_flag( "NO_SELF_CONNECT", p ) || here.has_flag( "ALIGN_WORKBENCH", p ) ) {
+    if( here.has_flag( TFLAG_NO_SELF_CONNECT, p ) || here.has_flag( TFLAG_ALIGN_WORKBENCH, p ) ) {
         //if we don't ever connect to ourself just return unconnected to be used further
         get_rotation_and_subtile( 0, rotation, subtile );
     } else {
@@ -3895,7 +3895,7 @@ void cata_tiles::get_tile_values_with_ter( const tripoint &p, const int t, const
         int val = 0;
         bool use_furniture = false;
 
-        if( here.has_flag( "ALIGN_WORKBENCH", p ) ) {
+        if( here.has_flag( TFLAG_ALIGN_WORKBENCH, p ) ) {
             for( int i = 0; i < 4; ++i ) {
                 // align to furniture that has the workbench quality
                 const tripoint &pt = p + four_adjacent_offsets[i];
@@ -3909,8 +3909,8 @@ void cata_tiles::get_tile_values_with_ter( const tripoint &p, const int t, const
         if( val == 0 ) {
             for( int i = 0; i < 4; ++i ) {
                 const tripoint &pt = p + four_adjacent_offsets[i];
-                if( here.has_flag( TFLAG_WALL, pt ) || here.has_flag( "WINDOW", pt ) ||
-                    here.has_flag( "DOOR", pt ) ) {
+                if( here.has_flag( TFLAG_WALL, pt ) || here.has_flag( TFLAG_WINDOW, pt ) ||
+                    here.has_flag( TFLAG_DOOR, pt ) ) {
                     val += 1 << i;
                 }
             }

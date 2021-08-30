@@ -68,7 +68,7 @@ static cata::optional<tripoint> find_valid_teleporters_omt( const tripoint_abs_o
     tinymap checker;
     checker.load( sm_pt, true );
     for( const tripoint &p : checker.points_on_zlevel() ) {
-        if( checker.has_flag_furn( "TRANSLOCATOR", p ) ) {
+        if( checker.has_flag_furn( TFLAG_TRANSLOCATOR, p ) ) {
             return checker.getabs( p );
         }
     }
