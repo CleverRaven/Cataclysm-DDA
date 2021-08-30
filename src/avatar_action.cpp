@@ -157,7 +157,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     }
 
     // If any leg broken without crutches and not already on the ground topple over
-    if( ( you.get_working_leg_count() < 2 && !you.weapon.has_flag( flag_CRUTCHES ) ) &&
+    if( ( you.get_working_leg_count() < 2 && !you.get_wielded_item()->has_flag( flag_CRUTCHES ) ) &&
         !you.is_prone() ) {
         you.set_movement_mode( move_mode_id( "prone" ) );
         you.add_msg_if_player( m_bad,
@@ -189,19 +189,20 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         via_ramp = true;
     }
 
+    item *weapon = you.get_wielded_item();
     if( m.has_flag( TFLAG_MINEABLE, dest_loc ) && g->mostseen == 0 &&
         get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
         !m.veh_at( dest_loc ) && !you.is_underwater() && !you.has_effect( effect_stunned ) &&
         !is_riding && !you.has_effect( effect_incorporeal ) ) {
-        if( you.weapon.has_flag( flag_DIG_TOOL ) ) {
-            if( you.weapon.type->can_use( "JACKHAMMER" ) &&
-                you.weapon.ammo_sufficient( &you ) ) {
-                you.invoke_item( &you.weapon, "JACKHAMMER", dest_loc );
+        if( weapon->has_flag( flag_DIG_TOOL ) ) {
+            if( weapon->type->can_use( "JACKHAMMER" ) &&
+                weapon->ammo_sufficient( &you ) ) {
+                you.invoke_item( weapon, "JACKHAMMER", dest_loc );
                 // don't move into the tile until done mining
                 you.defer_move( dest_loc );
                 return true;
-            } else if( you.weapon.type->can_use( "PICKAXE" ) ) {
-                you.invoke_item( &you.weapon, "PICKAXE", dest_loc );
+            } else if( weapon->type->can_use( "PICKAXE" ) ) {
+                you.invoke_item( weapon, "PICKAXE", dest_loc );
                 // don't move into the tile until done mining
                 you.defer_move( dest_loc );
                 return true;
@@ -658,8 +659,9 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
 static float rate_critter( const Creature &c )
 {
     const npc *np = dynamic_cast<const npc *>( &c );
+    const item weapon = np->get_wielded_item();
     if( np != nullptr ) {
-        return np->weapon_value( np->weapon );
+        return np->weapon_value( weapon );
     }
 
     const monster *m = dynamic_cast<const monster *>( &c );
@@ -668,7 +670,8 @@ static float rate_critter( const Creature &c )
 
 void avatar_action::autoattack( avatar &you, map &m )
 {
-    int reach = you.weapon.reach_range( you );
+    const item *weapon = you.get_wielded_item();
+    int reach = weapon->reach_range( you );
     std::vector<Creature *> critters = you.get_targetable_creatures( reach, true );
     critters.erase( std::remove_if( critters.begin(), critters.end(), [&you,
     reach]( const Creature * c ) {
@@ -794,17 +797,18 @@ static bool can_fire_turret( avatar &you, const map &m, const turret_data &turre
 
 void avatar_action::fire_wielded_weapon( avatar &you )
 {
-    item &weapon = you.weapon;
-    if( weapon.is_gunmod() ) {
+    const item *weapon = you.get_wielded_item();
+    if( weapon->is_gunmod() ) {
         add_msg( m_info,
                  _( "The %s must be attached to a gun, it can not be fired separately." ),
-                 weapon.tname() );
+                 weapon->tname() );
         return;
-    } else if( !weapon.is_gun() ) {
+    } else if( !weapon->is_gun() ) {
         return;
-    } else if( weapon.ammo_data() && !weapon.ammo_types().count( weapon.loaded_ammo().ammo_type() ) ) {
+    } else if( weapon->ammo_data() &&
+               !weapon->ammo_types().count( weapon->loaded_ammo().ammo_type() ) ) {
         add_msg( m_info, _( "The %s can't be fired while loaded with incompatible ammunition %s" ),
-                 weapon.tname(), weapon.ammo_current()->nname( 1 ) );
+                 weapon->tname(), weapon->ammo_current()->nname( 1 ) );
         return;
     }
 
@@ -848,7 +852,7 @@ void avatar_action::mend( avatar &you, item_location loc )
 
     if( !loc ) {
         if( you.is_armed() ) {
-            loc = item_location( you, &you.weapon );
+            loc = item_location( you, you.get_wielded_item() );
         } else {
             add_msg( m_info, _( "You're not wielding anything." ) );
             return;
@@ -1026,7 +1030,8 @@ void avatar_action::plthrow( avatar &you, item_location loc,
 
     g->temp_exit_fullscreen();
 
-    target_handler::trajectory trajectory = target_handler::mode_throw( you, you.weapon,
+    item *weapon = you.get_wielded_item();
+    target_handler::trajectory trajectory = target_handler::mode_throw( you, *weapon,
                                             blind_throw_from_pos.has_value() );
 
     // If we previously shifted our position, put ourselves back now that we've picked our target.
@@ -1038,8 +1043,8 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         return;
     }
 
-    if( you.weapon.count_by_charges() && you.weapon.charges > 1 ) {
-        you.weapon.mod_charges( -1 );
+    if( weapon->count_by_charges() && weapon->charges > 1 ) {
+        weapon->mod_charges( -1 );
         thrown.charges = 1;
     } else {
         you.remove_weapon();

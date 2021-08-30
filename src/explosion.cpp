@@ -774,12 +774,13 @@ void emp_blast( const tripoint &p )
         }
         // TODO: More effects?
         //e-handcuffs effects
-        if( player_character.weapon.typeId() == itype_e_handcuffs && player_character.weapon.charges > 0 ) {
-            player_character.weapon.unset_flag( STATIC( flag_id( "NO_UNWIELD" ) ) );
-            player_character.weapon.charges = 0;
-            player_character.weapon.active = false;
+        item *weapon = player_character.get_wielded_item();
+        if( weapon->typeId() == itype_e_handcuffs && weapon->charges > 0 ) {
+            weapon->unset_flag( STATIC( flag_id( "NO_UNWIELD" ) ) );
+            weapon->charges = 0;
+            weapon->active = false;
             add_msg( m_good, _( "The %s on your wrists spark briefly, then release your hands!" ),
-                     player_character.weapon.tname() );
+                     weapon->tname() );
         }
     }
     // Drain any items of their battery charge
