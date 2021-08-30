@@ -459,7 +459,7 @@
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
     "components": [ [ [ "large_space_heater", 1 ] ], [ [ "wire", 2 ] ] ]
   },
-    {
+  {
     "result": "mountable_heater_small",
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
