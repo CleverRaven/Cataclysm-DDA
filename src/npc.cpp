@@ -1181,15 +1181,16 @@ void npc::invalidate_range_cache()
 
 void npc::form_opinion( const Character &you )
 {
+    const item weapon = you.get_wielded_item();
     // FEAR
-    if( you.weapon.is_gun() ) {
+    if( weapon.is_gun() ) {
         // TODO: Make bows not guns
         if( weapon.is_gun() ) {
             op_of_u.fear += 2;
         } else {
             op_of_u.fear += 6;
         }
-    } else if( you.weapon_value( you.weapon ) > 20 ) {
+    } else if( you.weapon_value( weapon ) > 20 ) {
         op_of_u.fear += 2;
     } else if( !you.is_armed() ) {
         // Unarmed, but actually unarmed ("unarmed weapons" are not unarmed)
@@ -1254,7 +1255,7 @@ void npc::form_opinion( const Character &you )
         op_of_u.trust += 1;
     }
 
-    if( you.weapon.is_gun() ) {
+    if( weapon.is_gun() ) {
         op_of_u.trust -= 2;
     } else if( !you.is_armed() ) {
         op_of_u.trust += 2;
