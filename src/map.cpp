@@ -465,9 +465,6 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
         debugmsg( "Invalid displacement vector: %d, %d, %d", dp.x, dp.y, dp.z );
         return &veh;
     }
-
-    const tripoint initial_position = veh.sm_pos;
-
     // Split the movement into horizontal and vertical for easier processing
     if( dp.xy() != point_zero && dp.z != 0 ) {
         vehicle *const new_pointer = move_vehicle( veh, tripoint( dp.xy(), 0 ), facing );
@@ -688,10 +685,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
     }
     // Redraw scene, but only if the player is not engaged in an activity and
     // the vehicle was seen before or after the move.
-    const bool has_moved = initial_position != veh.sm_pos;
-    if( has_moved &&
-        !player_character.activity &&
-        ( seen || sees_veh( player_character, veh, true ) ) ) {
+    if( !player_character.activity && ( seen || sees_veh( player_character, veh, true ) ) ) {
         g->invalidate_main_ui_adaptor();
         ui_manager::redraw_invalidated();
         handle_key_blocking_activity();
