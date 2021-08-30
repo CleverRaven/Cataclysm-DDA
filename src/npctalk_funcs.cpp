@@ -751,7 +751,8 @@ void talk_function::drop_items_in_place( npc &p )
 
     // add all non favorite carried items to the drop off list
     for( const item_location &npcs_item : p.all_items_loc() ) {
-        if( npcs_item.where() != item_location::type::character && !npcs_item->is_favorite ) {
+        if( !npcs_item->is_favorite && npcs_item.where() == item_location::type::container &&
+            npcs_item.parent_item().where() == item_location::type::character ) {
             to_drop.emplace_back( npcs_item, npcs_item->count() );
         }
     }
