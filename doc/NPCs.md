@@ -50,6 +50,15 @@ Mission is based on the enum in npc.h.  The important ones are 0=NPC_MISSION_NUL
 Chat is covered in the dialogue examples below.
 Faction determines what faction, if any, the NPC belongs to.  Some examples are the Free Traders, Old Guard, Marloss Evangelists, and Hell's raiders but could include a brand new faction you create!
 
+# Age and Height
+You can define the age and height of the NPC in the `age` or `height` fields in `"type": "npc"`. 
+
+Field | Description
+---|---
+`age` | NPC age 
+`height` | NPC height (cm)
+
+
 # Writing dialogues
 Dialogues work like state machines. They start with a certain topic (the NPC says something), the player character can then respond (choosing one of several responses), and that response sets the new talk topic. This goes on until the dialogue is finished, or the NPC turns hostile.
 
@@ -71,8 +80,8 @@ Field | Default topic ID  | Uses for...
 `talk_leader` | `TALK_LEADER` | Talk to an NPC that have 5=NPCATT_LEAD
 `talk_stole_item` | `TALK_STOLE_ITEM` | Talk to an NPC that have 18=NPCATT_RECOVER_GOODS
 `talk_wake_up` | `TALK_WAKE_UP` | Talk to a sleeping NPC
-`talk_mug` | `TALK_MUG` | see "success and failure" section
 `talk_friend_guard` | `TALK_FRIEND_GUARD` | Faction camp guard
+`talk_mug` | `TALK_MUG` | see "success and failure" section
 `talk_stranger_aggressive` | `TALK_STRANGER_AGGRESSIVE` | see "success and failure" section
 `talk_stranger_scared` | `TALK_STRANGER_SCARED` | see "success and failure" section
 `talk_stranger_wary` | `TALK_STRANGER_WARY` | see "success and failure" section
@@ -684,7 +693,7 @@ Condition | Type | Description
 `"u_has_items"`<br/>`"npc_has_item"` | dictionary | `u_has_items` or `npc_has_items` must be a dictionary with an `item` string and a `count` int.<br/>`true` if the player character or NPC has at least `count` charges or counts of `item` in their inventory.
 `"u_has_item_category"`<br/>`"npc_has_item_category"` | string | `"count": item_count` is an optional field that must be in the same dictionary and defaults to 1 if not specified.  `true` if the player or NPC has `item_count` items with the same category as `u_has_item_category` or `npc_has_item_category`.
 `"u_has_bionics"`<br/>`"npc_has_bionics"` | string | `true` if the player or NPC has an installed bionic with an `bionic_id` matching `"u_has_bionics"` or `"npc_has_bionics"`.  The special string "ANY" returns true if the player or NPC has any installed bionics.
-`"u_has_effect"`<br/>`"npc_has_effect"` | string | `true` if the player character or NPC is under the effect with `u_has_effect` or `npc_has_effect`'s `effect_id`.
+`"u_has_effect"`<br/>`"npc_has_effect"`, (*optional* `intensity : int`),(*optional* `bodypart : string`) | string | `true` if the player character or NPC is under the effect with `u_has_effect` or `npc_has_effect`'s `effect_id`. If `intensity` is specified it will need to be at least that strong.  If `bodypart` is specified it will check only that bodypart for the effect.
 `"u_can_stow_weapon"`<br/>`"npc_can_stow_weapon"` | simple string | `true` if the player character or NPC is wielding a weapon and has enough space to put it away.
 `"u_has_weapon"`<br/>`"npc_has_weapon"` | simple string | `true` if the player character or NPC is wielding a weapon.
 `"u_driving"`<br/>`"npc_driving"` | simple string | `true` if the player character or NPC is operating a vehicle.  <b>Note</b> NPCs cannot currently operate vehicles.

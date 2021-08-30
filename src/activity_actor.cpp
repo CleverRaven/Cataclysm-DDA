@@ -25,6 +25,7 @@
 #include "character.h"
 #include "coordinates.h"
 #include "craft_command.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
 #include "event.h"
@@ -2162,7 +2163,7 @@ cata::optional<tripoint> lockpick_activity_actor::select_location( avatar &you )
     const ter_id terr_type = get_map().ter( *target );
     if( *target == you.pos() ) {
         you.add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
-    } else if( g->critter_at<npc>( *target ) ) {
+    } else if( get_creature_tracker().creature_at<npc>( *target ) ) {
         you.add_msg_if_player( m_info,
                                _( "You can pick your friends, and you can\npick your nose, but you can't pick\nyour friend's nose." ) );
     } else if( terr_type == t_door_c ) {
@@ -2860,15 +2861,16 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
     const int ticks_per_practice = 10'000'000.0 / total_practice_ticks;
     int num_practice_ticks = craft.item_counter / ticks_per_practice -
                              old_counter / ticks_per_practice;
+    bool level_up = false;
     if( num_practice_ticks > 0 ) {
-        crafter.craft_skill_gain( craft, num_practice_ticks );
+        level_up |= crafter.craft_skill_gain( craft, num_practice_ticks );
     }
     // Proficiencies and tools are gained/consumed after every 5% progress
     int five_percent_steps = craft.item_counter / 500'000 - old_counter / 500'000;
     if( five_percent_steps > 0 ) {
         // Divide by 100 for seconds, 20 for 5%
         const time_duration pct_time = time_duration::from_seconds( base_total_moves / 2000 );
-        crafter.craft_proficiency_gain( craft, pct_time * five_percent_steps );
+        level_up |= crafter.craft_proficiency_gain( craft, pct_time * five_percent_steps );
         // Invalidate the crafting time cache because proficiencies may have changed
         cached_crafting_speed = 0;
     }
@@ -2889,10 +2891,16 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
 
     // if item_counter has reached 100% or more
     if( craft.item_counter >= 10'000'000 ) {
+        if( rec.is_practice() && !is_long && craft.charges == 1 ) {
+            if( query_yn( _( "Keep practicing until proficiency increase?" ) ) ) {
+                is_long = true;
+                *( crafter.last_craft ) = craft_command( &craft.get_making(), 1, is_long, &crafter, location );
+            }
+        }
         item craft_copy = craft;
         craft_item.remove_item();
         // We need to cache this before we cancel the activity else we risk Use After Free
-        bool will_continue = is_long;
+        const bool will_continue = is_long;
         crafter.cancel_activity();
         crafter.complete_craft( craft_copy, location );
         if( will_continue ) {
@@ -2900,14 +2908,19 @@ void craft_activity_actor::do_turn( player_activity &act, Character &crafter )
                 crafter.last_craft->execute( location );
             }
         }
-    } else if( craft.item_counter >= craft.get_next_failure_point() ) {
-        bool destroy = craft.handle_craft_failure( crafter );
-        // If the craft needs to be destroyed, do it and stop crafting.
-        if( destroy ) {
-            crafter.add_msg_player_or_npc( _( "There is nothing left of the %s to craft from." ),
-                                           _( "There is nothing left of the %s <npcname> was crafting." ), craft.tname() );
-            craft_item.remove_item();
+    } else {
+        if( level_up && craft.get_making().is_practice() &&
+            query_yn( _( "Your proficiency has increased.  Stop practicing?" ) ) ) {
             crafter.cancel_activity();
+        } else if( craft.item_counter >= craft.get_next_failure_point() ) {
+            bool destroy = craft.handle_craft_failure( crafter );
+            // If the craft needs to be destroyed, do it and stop crafting.
+            if( destroy ) {
+                crafter.add_msg_player_or_npc( _( "There is nothing left of the %s to craft from." ),
+                                               _( "There is nothing left of the %s <npcname> was crafting." ), craft.tname() );
+                craft_item.remove_item();
+                crafter.cancel_activity();
+            }
         }
     }
 }
@@ -2950,10 +2963,7 @@ std::unique_ptr<activity_actor> craft_activity_actor::deserialize( JsonIn &jsin 
 
     data.read( "craft_loc", actor.craft_item );
     data.read( "long", actor.is_long );
-
-    if( actor.craft_item ) {
-        actor.activity_override = actor.craft_item->get_making().exertion_level();
-    }
+    data.read( "activity_override", actor.activity_override );
 
     return actor.clone();
 }
@@ -3445,7 +3455,7 @@ void stash_activity_actor::do_turn( player_activity &, Character &who )
 {
     const tripoint pos = placement + who.pos();
 
-    monster *pet = g->critter_at<monster>( pos );
+    monster *pet = get_creature_tracker().creature_at<monster>( pos );
     if( pet != nullptr && pet->has_effect( effect_pet ) ) {
         stash_on_pet( obtain_activity_items( items, handler, who ),
                       *pet, who );
@@ -3488,13 +3498,13 @@ void disable_activity_actor::start( player_activity &act, Character &/*who*/ )
 {
     act.moves_total = moves_total;
     act.moves_left = moves_total;
-    monster &critter = *( g->critter_at<monster>( target ) );
+    monster &critter = *( get_creature_tracker().creature_at<monster>( target ) );
     critter.add_effect( effect_worked_on, 1_turns );
 }
 
 void disable_activity_actor::do_turn( player_activity &, Character &who )
 {
-    monster *const mon_ptr = g->critter_at<monster>( target );
+    monster *const mon_ptr = get_creature_tracker().creature_at<monster>( target );
     if( !mon_ptr ) {
         who.add_msg_if_player( _( "The robot has moved somewhere else." ) );
         who.cancel_activity();
@@ -3515,7 +3525,7 @@ void disable_activity_actor::do_turn( player_activity &, Character &who )
 void disable_activity_actor::finish( player_activity &act, Character &/*who*/ )
 {
     // Should never be null as we just checked in do_turn
-    monster &critter = *( g->critter_at<monster>( target ) );
+    monster &critter = *( get_creature_tracker().creature_at<monster>( target ) );
 
     if( reprogram ) {
         if( critter.has_effect( effect_docile ) ) {
@@ -3832,38 +3842,63 @@ void reload_activity_actor::finish( player_activity &act, Character &who )
     } else {
         add_msg( m_neutral, _( "You reload the %1$s with %2$s." ), reloadable_name, ammo_name );
     }
+
     // Volume change should only affect container that cantains the "base" item
     // For example a reloaded gun mod never "spills" from the gun
     // It just affect the container that cantains the gun
-    if( reload_targets[0].has_parent() ) {
-        item_location loc = reload_targets[0].parent_item();
-        if( loc.volume_capacity() < units::volume() ||
-            loc.weight_capacity() < units::mass() ) {
-            // In player inventory and player is wielding nothing.
-            if( !who.is_armed() && loc.held_by( who ) ) {
-                add_msg( m_neutral, _( "The %s no longer fits in your inventory so you wield it instead." ),
-                         reloadable_name );
-                who.wield( reloadable );
-            } else {
-                // In player inventory and player is wielding something.
-                if( loc.held_by( who ) ) {
-                    add_msg( m_neutral, _( "The %s no longer fits in your inventory so you drop it instead." ),
-                             reloadable_name );
-                    // Default handling message.
-                } else {
-                    add_msg( m_neutral, _( "The %s no longer fits its location so you drop it instead." ),
-                             reloadable_name );
-                }
-                get_map().add_item_or_charges( loc.position(), reloadable );
-                loc.remove_item();
-            }
-        }
-    } else {
+    if( !reload_targets[0].has_parent() ) {
         debugmsg( "item_location of item to be reloaded is not available" );
+        return;
     }
+
+    item_location loc = reload_targets[0].parent_item();
     // Reload may have caused the item to increase in size more than the pocket/location can contain.
     // We want to avoid this because items will be deleted on a save/load.
+    if( loc.volume_capacity() >= units::volume() &&
+        loc.weight_capacity() >= units::mass() ) {
+        return;
+    }
 
+    // Attempt to put item in another pocket before prompting
+    if( who.try_add( reloadable, nullptr, nullptr, false ) != nullptr ) {
+        // try_add copied the old item, so remove it now.
+        loc.remove_item();
+        return;
+    }
+
+    // Build prompt
+    uilist reload_query;
+    const bool wield_check = who.can_wield( reloadable ).success();
+    reload_query.text = string_format( _( "The %s no longer fits in your inventory" ),
+                                       reloadable_name );
+    if( who.has_wield_conflicts( reloadable ) ) {
+        reload_query.addentry( 1, wield_check, 'w',
+                               _( "Dispose of %s and wield %s" ), who.weapon.display_name(),
+                               reloadable_name );
+    } else {
+        reload_query.addentry( 1, wield_check, 'w', _( "Wield %s" ), reloadable_name );
+    }
+    reload_query.addentry( 2, true, 'd', _( "Drop %s" ), reloadable_name );
+    reload_query.query();
+
+    switch( reload_query.ret ) {
+        case 1:
+            // This case is only reachable if wield_check is true
+            who.wield( reloadable );
+            add_msg( m_neutral, _( "The %s no longer fits in your inventory so you wield it instead." ),
+                     reloadable_name );
+            break;
+        case 2:
+        default:
+            // In player inventory and player is wielding something.
+            if( loc.held_by( who ) ) {
+                add_msg( m_neutral, _( "The %s no longer fits in your inventory so you drop it instead." ),
+                         reloadable_name );
+            }
+            get_map().add_item_or_charges( loc.position(), reloadable );
+            loc.remove_item();
+            break;
+    }
 }
 
 void reload_activity_actor::canceled( player_activity &act, Character &/*who*/ )
@@ -3909,7 +3944,7 @@ void milk_activity_actor::finish( player_activity &act, Character &who )
     }
     map &here = get_map();
     const tripoint source_pos = here.getlocal( monster_coords.at( 0 ) );
-    monster *source_mon = g->critter_at<monster>( source_pos );
+    monster *source_mon = get_creature_tracker().creature_at<monster>( source_pos );
     if( source_mon == nullptr ) {
         debugmsg( "could not find source creature for liquid transfer" );
         return;
@@ -3967,7 +4002,7 @@ std::unique_ptr<activity_actor> milk_activity_actor::deserialize( JsonIn &jsin )
 
 void shearing_activity_actor::start( player_activity &act, Character &who )
 {
-    monster *mon = g->critter_at<monster>( mon_coords );
+    monster *mon = get_creature_tracker().creature_at<monster>( mon_coords );
     if( !mon ) {
         debugmsg( "shearing lost monster when starting" );
         act.set_to_null();
@@ -4039,7 +4074,7 @@ void shearing_activity_actor::do_turn( player_activity &, Character &who )
 
 void shearing_activity_actor::finish( player_activity &act, Character &who )
 {
-    monster *mon = g->critter_at<monster>( mon_coords );
+    monster *mon = get_creature_tracker().creature_at<monster>( mon_coords );
     if( !mon ) {
         debugmsg( "shearing monster at position disappeared" );
         act.set_to_null();
@@ -4092,7 +4127,7 @@ void shearing_activity_actor::finish( player_activity &act, Character &who )
 
 void shearing_activity_actor::canceled( player_activity &, Character & )
 {
-    monster *mon = g->critter_at<monster>( mon_coords );
+    monster *mon = get_creature_tracker().creature_at<monster>( mon_coords );
     if( !mon ) {
         return;
     }
@@ -4151,12 +4186,16 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
         target = act.targets.back();
         act.position = target->charges;
     }
+
     act.targets.pop_back();
 
     if( !check_if_disassemble_okay( target, who ) ) {
         act.set_to_null();
         return;
     }
+
+    // Mark the item, not available for other characters
+    target->set_var( "avtivity_var", who.name );
 
     act.moves_left = calendar::INDEFINITELY_LONG;
     activity_override = target->get_making().exertion_level();
@@ -4200,6 +4239,13 @@ void disassemble_activity_actor::finish( player_activity &act, Character & )
     act.set_to_null();
 }
 
+void disassemble_activity_actor::canceled( player_activity &, Character & )
+{
+    if( target.get_item() ) {
+        target->erase_var( "activity_var" );
+    }
+}
+
 float disassemble_activity_actor::exertion_level() const
 {
     return activity_override;
@@ -4220,6 +4266,7 @@ void disassemble_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "moves_total", moves_total );
     jsout.member( "target", target );
+    jsout.member( "activity_override", activity_override );
 
     jsout.end_object();
 }
@@ -4232,10 +4279,7 @@ std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonIn 
 
     data.read( "target", actor.target );
     data.read( "moves_total", actor.moves_total );
-
-    if( actor.target ) {
-        actor.activity_override = actor.target->get_making().exertion_level();
-    }
+    data.read( "activity_override", actor.activity_override );
 
     return actor.clone();
 }

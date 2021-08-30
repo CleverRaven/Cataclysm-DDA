@@ -360,7 +360,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
     draw_border( w_them, ( focus_them ? c_yellow : BORDER_COLOR ) );
     draw_border( w_you, ( !focus_them ? c_yellow : BORDER_COLOR ) );
 
-    mvwprintz( w_them, point( 2, 0 ), trade_color, np.name );
+    mvwprintz( w_them, point( 2, 0 ), trade_color, np.get_name() );
     mvwprintz( w_you,  point( 2, 0 ), trade_color, _( "You" ) );
     avatar &player_character = get_avatar();
     // Draw lists of items, starting from offset
@@ -578,7 +578,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                 }
             } else if( volume_left < 0_ml || weight_left < 0_gram ) {
                 // Make sure NPC doesn't go over allowed volume
-                popup( _( "%s can't carry all that." ), np.name );
+                popup( _( "%s can't carry all that." ), np.get_name() );
             } else if( calc_npc_owes_you( np ) < your_balance ) {
                 // NPC is happy with the trade, but isn't willing to remember the whole debt.
                 const bool trade_ok = query_yn(

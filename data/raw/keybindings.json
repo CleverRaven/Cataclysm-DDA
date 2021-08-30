@@ -1021,6 +1021,13 @@
   },
   {
     "type": "keybinding",
+    "id": "SET_SPECIAL_ARGS",
+    "category": "OVERMAP",
+    "name": "Set Overmap Special Arguments",
+    "bindings": [ { "input_method": "keyboard_any", "key": "a" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "View Missions",
     "category": "OVERMAP",
     "id": "MISSIONS",
@@ -1242,7 +1249,7 @@
   {
     "type": "keybinding",
     "id": "SWITCH_GENDER",
-    "name": "Change gender",
+    "name": "Customize character",
     "bindings": [ { "input_method": "keyboard_any", "key": "y" } ]
   },
   {

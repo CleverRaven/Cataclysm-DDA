@@ -79,19 +79,19 @@ void scenario::load( const JsonObject &jo, const std::string & )
 
     optional( jo, was_loaded, "blacklist_professions", blacklist );
     optional( jo, was_loaded, "add_professions", extra_professions );
-    optional( jo, was_loaded, "professions", professions,
-              auto_flags_reader<string_id<profession>> {} );
+    optional( jo, was_loaded, "professions", professions, string_id_reader<::profession> {} );
 
-    optional( jo, was_loaded, "traits", _allowed_traits, auto_flags_reader<trait_id> {} );
-    optional( jo, was_loaded, "forced_traits", _forced_traits, auto_flags_reader<trait_id> {} );
-    optional( jo, was_loaded, "forbidden_traits", _forbidden_traits, auto_flags_reader<trait_id> {} );
-    optional( jo, was_loaded, "allowed_locs", _allowed_locs, auto_flags_reader<start_location_id> {} );
+    optional( jo, was_loaded, "traits", _allowed_traits, string_id_reader<::mutation_branch> {} );
+    optional( jo, was_loaded, "forced_traits", _forced_traits, string_id_reader<::mutation_branch> {} );
+    optional( jo, was_loaded, "forbidden_traits", _forbidden_traits,
+              string_id_reader<::mutation_branch> {} );
+    optional( jo, was_loaded, "allowed_locs", _allowed_locs, string_id_reader<::start_location> {} );
     if( _allowed_locs.empty() ) {
         jo.throw_error( "at least one starting location (member \"allowed_locs\") must be defined" );
     }
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
     optional( jo, was_loaded, "map_extra", _map_extra, "mx_null" );
-    optional( jo, was_loaded, "missions", _missions, auto_flags_reader<mission_type_id> {} );
+    optional( jo, was_loaded, "missions", _missions, string_id_reader<::mission_type> {} );
 
     if( !was_loaded ) {
         if( jo.has_member( "custom_initial_date" ) ) {
@@ -340,9 +340,12 @@ std::vector<string_id<profession>> scenario::permitted_professions() const
         return cached_permitted_professions;
     }
 
-    const auto all = profession::get_all();
+    const std::vector<profession> &all = profession::get_all();
     std::vector<string_id<profession>> &res = cached_permitted_professions;
     for( const profession &p : all ) {
+        if( p.is_hobby() ) {
+            continue;
+        }
         const bool present = std::find( professions.begin(), professions.end(),
                                         p.ident() ) != professions.end();
 

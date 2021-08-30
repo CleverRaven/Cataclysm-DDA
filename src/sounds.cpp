@@ -14,6 +14,7 @@
 #include "character.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "effect.h"
 #include "enums.h"
@@ -1147,7 +1148,7 @@ sfx::sound_thread::sound_thread( const tripoint &source, const tripoint &target,
 {
     // This is function is run in the main thread.
     const int heard_volume = get_heard_volume( source );
-    npc *np = g->critter_at<npc>( source );
+    npc *np = get_creature_tracker().creature_at<npc>( source );
     const Character &you = np ? static_cast<Character &>( *np ) :
                            dynamic_cast<Character &>( get_player_character() );
     if( !you.is_npc() ) {

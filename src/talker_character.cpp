@@ -1,6 +1,7 @@
 #include <memory>
 
 #include "character_id.h"
+#include "effect.h"
 #include "item.h"
 #include "magic.h"
 #include "npc.h"
@@ -198,9 +199,14 @@ bool talker_character::knows_proficiency( const proficiency_id &proficiency ) co
     return me_chr->has_proficiency( proficiency );
 }
 
-bool talker_character::has_effect( const efftype_id &effect_id ) const
+bool talker_character::has_effect( const efftype_id &effect_id, const bodypart_id &bp ) const
 {
-    return me_chr->has_effect( effect_id );
+    return me_chr->has_effect( effect_id, bp );
+}
+
+effect talker_character::get_effect( const efftype_id &effect_id, const bodypart_id &bp ) const
+{
+    return me_chr->get_effect( effect_id, bp );
 }
 
 void talker_character::add_effect( const efftype_id &new_effect, const time_duration &dur,

@@ -1798,7 +1798,7 @@
     "description": "You once ruled the road in your big rig.  When the riots hit, you hopped in and drove it to safety.  Now it's just you and your truck against the world.",
     "points": 5,
     "skills": [ { "level": 1, "name": "mechanics" }, { "level": 4, "name": "driving" } ],
-    "vehicle": "semi_truck",
+    "vehicle": "semi_truck_scenario",
     "items": {
       "both": {
         "items": [ "tank_top", "socks", "boots_steel", "pants", "multitool", "wristwatch", "gloves_work", "hat_ball" ],
@@ -2572,7 +2572,7 @@
           "knit_scarf",
           "wristwatch",
           "briefcase",
-          "money_bundle",
+          "money_strap_fifty",
           "file"
         ],
         "entries": [ { "group": "charged_smart_phone" } ]
@@ -2766,7 +2766,7 @@
           "sneakers",
           "pizza_veggy",
           "pizza_meat",
-          "money_bundle",
+          "money_strap_one",
           "wristwatch",
           "mbag"
         ],
@@ -3725,7 +3725,7 @@
     "vehicle": "car_sports",
     "items": {
       "both": {
-        "items": [ "gold_watch", "water_mineral", "money_bundle", "cig" ],
+        "items": [ "gold_watch", "water_mineral", "money_strap_twenty", "cig" ],
         "entries": [ { "group": "charged_ref_lighter" }, { "group": "charged_smart_phone" } ]
       },
       "male": [ "boxer_shorts", "pants", "dress_shoes", "polo_shirt", "socks" ],

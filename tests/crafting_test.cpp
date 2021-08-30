@@ -381,8 +381,7 @@ static int actually_test_craft( const recipe_id &rid, int interrupt_after_turns,
     // This really shouldn't be needed, but for some reason the tests fail for mingw builds without it
     player_character.learn_recipe( &rec );
     const inventory &inv = player_character.crafting_inventory();
-    REQUIRE( player_character.has_recipe( &rec, inv,
-                                          player_character.get_crafting_helpers() ) != -1 );
+    REQUIRE( player_character.has_recipe( &rec, inv, player_character.get_crafting_helpers() ) );
     player_character.remove_weapon();
     REQUIRE( !player_character.is_armed() );
     player_character.make_craft( rid, 1 );
@@ -729,7 +728,7 @@ static void grant_proficiencies_to_character( Character &you, const recipe &r,
         bool grant_optional_proficiencies )
 {
     if( grant_optional_proficiencies ) {
-        for( const proficiency_id &prof : r.assist_proficiencies() ) {
+        for( const proficiency_id &prof : r.used_proficiencies() ) {
             you.add_proficiency( prof, true );
         }
     } else {
@@ -997,7 +996,7 @@ TEST_CASE( "partial_proficiency_mitigation", "[crafting][proficiency]" )
 
         WHEN( "player acquires partial proficiency" ) {
             int np = 0;
-            for( const proficiency_id &prof : test_recipe.assist_proficiencies() ) {
+            for( const proficiency_id &prof : test_recipe.used_proficiencies() ) {
                 np++;
                 tester.set_proficiency_practice( prof, tester.proficiency_training_needed( prof ) / 2 );
             }

@@ -421,7 +421,11 @@
       "mine_amigara_-1_east",
       "mine_amigara_finale_west",
       "mine_amigara_finale_central",
-      "mine_amigara_finale_east"
+      "mine_amigara_finale_east",
+      "mine_wyrms_west",
+      "mine_wyrms_central",
+      "mine_wyrms_east",
+      "mine_wyrms_finale"
     ],
     "name": "mine tunnels",
     "sym": "O",

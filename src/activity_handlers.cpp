@@ -32,6 +32,7 @@
 #include "construction.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
 #include "effect_source.h"
@@ -175,6 +176,7 @@ static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 static const activity_id ACT_WASH( "ACT_WASH" );
 static const activity_id ACT_WEAR( "ACT_WEAR" );
+static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_controlled( "controlled" );
@@ -231,7 +233,6 @@ static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 static const std::string flag_AUTODOC( "AUTODOC" );
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 static const std::string flag_PLANTABLE( "PLANTABLE" );
-static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
 
 using namespace activity_handlers;
 
@@ -292,7 +293,8 @@ activity_handlers::do_turn_functions = {
     { ACT_ROBOT_CONTROL, robot_control_do_turn },
     { ACT_TREE_COMMUNION, tree_communion_do_turn },
     { ACT_STUDY_SPELL, study_spell_do_turn},
-    { ACT_WAIT_STAMINA, wait_stamina_do_turn }
+    { ACT_WAIT_STAMINA, wait_stamina_do_turn },
+    { ACT_MULTIPLE_DIS, multiple_dis_do_turn }
 };
 
 const std::map< activity_id, std::function<void( player_activity *, Character * )> >
@@ -1442,7 +1444,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, Character *yo
                 liquid = *on_ground;
                 break;
             case liquid_source_type::MONSTER:
-                Creature *c = g->critter_at( source_pos );
+                Creature *c = get_creature_tracker().creature_at( source_pos );
                 source_mon = dynamic_cast<monster *>( c );
                 if( source_mon == nullptr ) {
                     debugmsg( "could not find source creature for liquid transfer" );
@@ -1779,7 +1781,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, Character *you )
     act->set_to_null();
     if( you->is_avatar() ) {
         const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
-        if( here.is_bashable( pos ) && here.has_flag( flag_SUPPORTS_ROOF, pos ) &&
+        if( here.is_bashable( pos ) && here.has_flag( TFLAG_SUPPORTS_ROOF, pos ) &&
             here.ter( pos ) != t_tree ) {
             // Tunneling through solid rock is sweaty, backbreaking work
             // Betcha wish you'd opted for the J-Hammer
@@ -3321,6 +3323,11 @@ void activity_handlers::multiple_butcher_do_turn( player_activity *act, Characte
 {
     generic_multi_activity_handler( *act, *you );
 }
+void activity_handlers::multiple_dis_do_turn( player_activity *act, Character *you )
+{
+    generic_multi_activity_handler( *act, *you );
+}
+
 
 void activity_handlers::vehicle_deconstruction_do_turn( player_activity *act, Character *you )
 {
@@ -3532,13 +3539,14 @@ void activity_handlers::chop_tree_finish( player_activity *act, Character *you )
             }
         }
     } else {
+        creature_tracker &creatures = get_creature_tracker();
         for( const tripoint &elem : here.points_in_radius( pos, 1 ) ) {
             bool cantuse = false;
             tripoint direc = elem - pos;
             tripoint proposed_to = pos + point( 3 * direction.x, 3 * direction.y );
             std::vector<tripoint> rough_tree_line = line_to( pos, proposed_to );
             for( const tripoint &elem : rough_tree_line ) {
-                if( g->critter_at( elem ) ) {
+                if( creatures.creature_at( elem ) ) {
                     cantuse = true;
                     break;
                 }

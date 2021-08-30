@@ -15,6 +15,7 @@
 #include "character.h"
 #include "colony.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "flag.h"
 #include "game.h"
@@ -44,9 +45,6 @@ static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
 
 static const std::string flag_CONSOLE( "CONSOLE" );
-static const std::string flag_GOES_DOWN( "GOES_DOWN" );
-static const std::string flag_GOES_UP( "GOES_UP" );
-static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 
 static void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                           std::set<action_id> &unbound_keymap );
@@ -623,7 +621,7 @@ bool can_move_vertical_at( const tripoint &p, int movez )
     Character &player_character = get_player_character();
     map &here = get_map();
     // TODO: unify this with game::move_vertical
-    if( here.has_flag( flag_SWIMMABLE, p ) && here.has_flag( TFLAG_DEEP_WATER, p ) ) {
+    if( here.has_flag( TFLAG_SWIMMABLE, p ) && here.has_flag( TFLAG_DEEP_WATER, p ) ) {
         if( movez == -1 ) {
             return !player_character.is_underwater() && !player_character.worn_with_flag( flag_FLOTATION );
         } else {
@@ -633,9 +631,9 @@ bool can_move_vertical_at( const tripoint &p, int movez )
     }
 
     if( movez == -1 ) {
-        return here.has_flag( flag_GOES_DOWN, p );
+        return here.has_flag( TFLAG_GOES_DOWN, p );
     } else {
-        return here.has_flag( flag_GOES_UP, p );
+        return here.has_flag( TFLAG_GOES_UP, p );
     }
 }
 
@@ -661,7 +659,7 @@ bool can_examine_at( const tripoint &p )
         return true;
     }
 
-    Creature *c = g->critter_at( p );
+    Creature *c = get_creature_tracker().creature_at( p );
     if( c != nullptr && !c->is_avatar() ) {
         return true;
     }

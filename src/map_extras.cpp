@@ -20,12 +20,12 @@
 #include "colony.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "field_type.h"
 #include "fungal_effects.h"
-#include "game.h"
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "item.h"
@@ -64,10 +64,7 @@
 static const trap_str_id tr_caltrops( "tr_caltrops" );
 static const trap_str_id tr_nailboard( "tr_nailboard" );
 
-static const std::string flag_DIGGABLE( "DIGGABLE" );
-static const std::string flag_FLAT( "FLAT" );
 static const std::string flag_FLOWER( "FLOWER" );
-static const std::string flag_LIQUID( "LIQUID" );
 static const std::string flag_ORGANIC( "ORGANIC" );
 static const std::string flag_PLANT( "PLANT" );
 static const std::string flag_SHRUB( "SHRUB" );
@@ -1000,12 +997,13 @@ static bool mx_portal( map &m, const tripoint &abs_sub )
 
     // We'll make between 0 and 4 attempts to spawn monsters here.
     int num_monsters = rng( 0, 4 );
+    creature_tracker &creatures = get_creature_tracker();
     for( int i = 0; i < num_monsters; i++ ) {
         // Get a random location from our points that is not the portal location, does not have the
         // NO_FLOOR flag, and isn't currently occupied by a creature.
         const cata::optional<tripoint> mon_pos = random_point( points, [&]( const tripoint & p ) {
             /// TODO: wrong: this checks for creatures on the main game map. Not within the map m.
-            return !m.has_flag_ter( TFLAG_NO_FLOOR, p ) && *portal_pos != p && !g->critter_at( p );
+            return !m.has_flag_ter( TFLAG_NO_FLOOR, p ) && *portal_pos != p && !creatures.creature_at( p );
         } );
 
         // If we couldn't get a random location, we can't place a monster and we know that there are no
@@ -1127,7 +1125,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
             const point p( rng( 3, SEEX * 2 - 4 ), rng( SEEY, SEEY * 2 - 2 ) );
-            if( m.has_flag( flag_DIGGABLE, p ) ) {
+            if( m.has_flag( TFLAG_DIGGABLE, p ) ) {
                 place_trap_if_clear( m, p, tr_landmine_buried );
             } else {
                 place_trap_if_clear( m, p, tr_landmine );
@@ -1230,7 +1228,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
             const point p3( rng( 3, SEEX * 2 - 4 ), rng( 1, SEEY ) );
-            if( m.has_flag( flag_DIGGABLE, p3 ) ) {
+            if( m.has_flag( TFLAG_DIGGABLE, p3 ) ) {
                 place_trap_if_clear( m, p3, tr_landmine_buried );
             } else {
                 place_trap_if_clear( m, p3, tr_landmine );
@@ -1377,7 +1375,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
             const point p5( rng( SEEX + 1, SEEX * 2 - 2 ), rng( 3, SEEY * 2 - 4 ) );
-            if( m.has_flag( flag_DIGGABLE, p5 ) ) {
+            if( m.has_flag( TFLAG_DIGGABLE, p5 ) ) {
                 place_trap_if_clear( m, p5, tr_landmine_buried );
             } else {
                 place_trap_if_clear( m, p5, tr_landmine );
@@ -1516,7 +1514,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
         //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
             const point p7( rng( 1, SEEX ), rng( 3, SEEY * 2 - 4 ) );
-            if( m.has_flag( flag_DIGGABLE, p7 ) ) {
+            if( m.has_flag( TFLAG_DIGGABLE, p7 ) ) {
                 place_trap_if_clear( m, p7, tr_landmine_buried );
             } else {
                 place_trap_if_clear( m, p7, tr_landmine );
@@ -1610,7 +1608,7 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
         //Mycus spreading through the portal
         case 1: {
             m.add_field( portal_location, fd_fatigue, 3 );
-            fungal_effects fe( *g, m );
+            fungal_effects fe;
             for( const auto &loc : m.points_in_radius( portal_location, 5 ) ) {
                 if( one_in( 3 ) ) {
                     fe.marlossify( loc );
@@ -1753,7 +1751,7 @@ static bool mx_spider( map &m, const tripoint &abs_sub )
         for( int j = 0; j < SEEY * 2; j++ ) {
             const tripoint location( i, j, abs_sub.z );
 
-            bool should_web_flat = m.has_flag_ter( flag_FLAT, location ) && !one_in( 3 );
+            bool should_web_flat = m.has_flag_ter( TFLAG_FLAT, location ) && !one_in( 3 );
             bool should_web_shrub = m.has_flag_ter( flag_SHRUB, location ) && !one_in( 4 );
             bool should_web_tree = m.has_flag_ter( flag_TREE, location ) && !one_in( 4 );
 
@@ -2096,7 +2094,7 @@ static void burned_ground_parser( map &m, const tripoint &loc )
         while( m.is_bashable( loc ) ) { // one is not enough
             m.destroy( loc, true );
         }
-        if( one_in( 5 ) && !tr.has_flag( flag_LIQUID ) ) {
+        if( one_in( 5 ) && !tr.has_flag( TFLAG_LIQUID ) ) {
             m.spawn_item( loc, itype_ash, 1, rng( 1, 10 ) );
         }
     } else if( ter_furn_has_flag( tr, fid, TFLAG_FLAMMABLE_ASH ) ) {
@@ -2104,7 +2102,7 @@ static void burned_ground_parser( map &m, const tripoint &loc )
             m.destroy( loc, true );
         }
         m.furn_set( loc, f_ash );
-        if( !tr.has_flag( flag_LIQUID ) ) {
+        if( !tr.has_flag( TFLAG_LIQUID ) ) {
             m.spawn_item( loc, itype_ash, 1, rng( 1, 100 ) );
         }
     }

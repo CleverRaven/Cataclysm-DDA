@@ -277,7 +277,7 @@ static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
         checked[cur.x][cur.y] = attempt;
         if( cur.x == 0 || cur.x == MAPSIZE_X - 1 ||
             cur.y == 0 || cur.y == MAPSIZE_Y - 1 ||
-            m.has_flag( "GOES_UP", cur ) ) {
+            m.has_flag( TFLAG_GOES_UP, cur ) ) {
             return INT_MAX;
         }
 
@@ -373,7 +373,7 @@ void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
                m.has_flag_ter( "OPENCLOSE_INSIDE", p ) ||
                m.is_outside( p ) ||
                ( p.x >= u.x - rad && p.x <= u.x + rad && p.y >= u.y - rad && p.y <= u.y + rad ) ) ) {
-            if( m.has_flag( "FLAMMABLE", p ) || m.has_flag( "FLAMMABLE_ASH", p ) ) {
+            if( m.has_flag( TFLAG_FLAMMABLE, p ) || m.has_flag( TFLAG_FLAMMABLE_ASH, p ) ) {
                 valid.push_back( p );
             }
         }

@@ -474,7 +474,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             from_vehicle = cargo_part >= 0;
         } else {
             // Nothing to change, default is to pick from ground anyway.
-            if( local.has_flag( "SEALED", p ) ) {
+            if( local.has_flag( TFLAG_SEALED, p ) ) {
                 return;
             }
         }
@@ -533,7 +533,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         if( g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), p ) ) {
             return;
         }
-        if( local.has_flag( "SEALED", p ) ) {
+        if( local.has_flag( TFLAG_SEALED, p ) ) {
             return;
         }
     }

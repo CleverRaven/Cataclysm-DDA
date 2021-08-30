@@ -11,6 +11,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "enums.h"
 #include "game.h"
 #include "generic_factory.h"
@@ -185,7 +186,7 @@ bool mon_spellcasting_actor::call( monster &mon ) const
     }
 
     std::string target_name;
-    if( const Creature *target_monster = g->critter_at( target ) ) {
+    if( const Creature *target_monster = get_creature_tracker().creature_at( target ) ) {
         target_name = target_monster->disp_name();
     }
 

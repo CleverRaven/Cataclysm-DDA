@@ -1618,5 +1618,18 @@
       }
     ],
     "flags": [ "IS_UPS" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "money_bundle",
+    "name": { "str": "money bundle" },
+    "description": "A bundle holding many 20 dollar bills, pretty useless now though.",
+    "weight": "20 g",
+    "to_hit": -3,
+    "color": "green",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "250 ml",
+    "price": 0
   }
 ]

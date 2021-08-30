@@ -20,6 +20,7 @@
 #include "character_martial_arts.h"
 #include "clzones.h"
 #include "coordinate_conversions.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
@@ -278,6 +279,12 @@ void npc_template::load( const JsonObject &jsobj )
     if( jsobj.has_string( "talk_friend_guard" ) ) {
         guy.chatbin.talk_friend_guard = jsobj.get_string( "talk_friend_guard" );
     }
+    if( jsobj.has_int( "age" ) ) {
+        guy.set_base_age( jsobj.get_int( "age" ) );
+    }
+    if( jsobj.has_int( "height" ) ) {
+        guy.set_base_height( jsobj.get_int( "height" ) );
+    }
     npc_templates.emplace( string_id<npc_template>( guy.idz ), std::move( tem ) );
 }
 
@@ -367,6 +374,8 @@ void npc::load_npc_template( const string_id<npc_template> &ident )
     chatbin.talk_stranger_friendly = tguy.chatbin.talk_stranger_friendly;
     chatbin.talk_stranger_neutral = tguy.chatbin.talk_stranger_neutral;
     chatbin.talk_friend_guard = tguy.chatbin.talk_friend_guard;
+    set_base_age( tguy.base_age() );
+    set_base_height( tguy.base_height() );
     for( const mission_type_id &miss_id : tguy.miss_ids ) {
         add_new_mission( mission::reserve_new( miss_id, getID() ) );
     }
@@ -749,7 +758,7 @@ void npc::setpos( const tripoint &pos )
         } else {
             // Don't move the npc pointer around to avoid having two overmaps
             // with the same npc pointer
-            debugmsg( "could not find npc %s on its old overmap", name );
+            debugmsg( "could not find npc %s on its old overmap", get_name() );
         }
     }
 }
@@ -771,7 +780,7 @@ void npc::travel_overmap( const tripoint_abs_omt &pos )
         } else {
             // Don't move the npc pointer around to avoid having two overmaps
             // with the same npc pointer
-            debugmsg( "could not find npc %s on its old overmap", name );
+            debugmsg( "could not find npc %s on its old overmap", get_name() );
         }
     }
 }
@@ -1302,7 +1311,7 @@ void npc::form_opinion( const Character &you )
         set_attitude( NPCATT_FLEE_TEMP );
     }
 
-    add_msg_debug( debugmode::DF_NPC, "%s formed an opinion of you: %s", name,
+    add_msg_debug( debugmode::DF_NPC, "%s formed an opinion of you: %s", get_name(),
                    npc_attitude_id( attitude ) );
 }
 
@@ -1551,17 +1560,18 @@ void npc::say( const std::string &line, const sounds::sound_t spriority ) const
         return;
     }
 
-    std::string sound = string_format( _( "%1$s saying \"%2$s\"" ), name, formatted_line );
+    std::string sound = string_format( _( "%1$s saying \"%2$s\"" ), get_name(), formatted_line );
     if( player_character.is_deaf() ) {
-        add_msg_if_player_sees( *this, m_warning, _( "%1$s says something but you can't hear it!" ), name );
+        add_msg_if_player_sees( *this, m_warning, _( "%1$s says something but you can't hear it!" ),
+                                get_name() );
     }
     if( player_character.is_mute() ) {
         add_msg_if_player_sees( *this, m_warning, _( "%1$s says something but you can't reply to it!" ),
-                                name );
+                                get_name() );
     }
     // Hallucinations don't make noise when they speak
     if( is_hallucination() ) {
-        add_msg( _( "%1$s saying \"%2$s\"" ), name, formatted_line );
+        add_msg( _( "%1$s saying \"%2$s\"" ), get_name(), formatted_line );
         return;
     }
     // Sound happens even if we can't hear it
@@ -2237,7 +2247,7 @@ bool npc::emergency( float danger ) const
 //Active npcs are the npcs near the player that are actively simulated.
 bool npc::is_active() const
 {
-    return g->critter_at<npc>( pos() ) == this;
+    return get_creature_tracker().creature_at<npc>( pos() ) == this;
 }
 
 int npc::follow_distance() const
@@ -2296,7 +2306,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
         mvwprintz( w, point( column + 4 - i, line ), c_white, "." );
     }
     line += fold_and_print( w, point( column + bar_max_width + 1, line ),
-                            iWidth - bar_max_width - 1, basic_symbol_color(), name );
+                            iWidth - bar_max_width - 1, basic_symbol_color(), get_name() );
 
     Character &player_character = get_player_character();
     // Hostility indicator in the second line.
@@ -2560,11 +2570,11 @@ void npc::die( Creature *nkiller )
     Character::die( nkiller );
 
     if( is_hallucination() ) {
-        add_msg_if_player_sees( *this, _( "%s disappears." ), name.c_str() );
+        add_msg_if_player_sees( *this, _( "%s disappears." ), get_name().c_str() );
         return;
     }
 
-    add_msg_if_player_sees( *this, _( "%s dies!" ), name );
+    add_msg_if_player_sees( *this, _( "%s dies!" ), get_name() );
 
     if( Character *ch = dynamic_cast<Character *>( killer ) ) {
         get_event_bus().send<event_type::character_kills_character>( ch->getID(), getID(), get_name() );
@@ -2775,7 +2785,7 @@ void npc::on_load()
     // TODO: Sleeping, healing etc.
     last_updated = calendar::turn;
     time_point cur = calendar::turn - dt;
-    add_msg_debug( debugmode::DF_NPC, "on_load() by %s, %d turns", name, to_turns<int>( dt ) );
+    add_msg_debug( debugmode::DF_NPC, "on_load() by %s, %d turns", get_name(), to_turns<int>( dt ) );
     // First update with 30 minute granularity, then 5 minutes, then turns
     for( ; cur < calendar::turn - 30_minutes; cur += 30_minutes + 1_turns ) {
         update_body( cur, cur + 30_minutes );
@@ -2805,7 +2815,7 @@ void npc::on_load()
 
     map &here = get_map();
     // for spawned npcs
-    if( here.has_flag( "UNSTABLE", pos() ) ) {
+    if( here.has_flag( TFLAG_UNSTABLE, pos() ) ) {
         add_effect( effect_bouldering, 1_turns,  true );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
@@ -2814,7 +2824,7 @@ void npc::on_load()
         here.board_vehicle( pos(), this );
     }
     if( has_effect( effect_riding ) && !mounted_creature ) {
-        if( const monster *const mon = g->critter_at<monster>( pos() ) ) {
+        if( const monster *const mon = get_creature_tracker().creature_at<monster>( pos() ) ) {
             mounted_creature = g->shared_from( *mon );
         } else {
             add_msg_debug( debugmode::DF_NPC,
@@ -2999,6 +3009,13 @@ std::set<tripoint> npc::get_path_avoid() const
             }
         }
     }
+
+    for( const tripoint &p : here.points_in_radius( pos(), 5 ) ) {
+        if( sees_dangerous_field( p ) ) {
+            ret.insert( p );
+        }
+    }
+
     return ret;
 }
 
@@ -3205,7 +3222,7 @@ void npc::set_attitude( npc_attitude new_attitude )
     }
 
     add_msg_debug( debugmode::DF_NPC, "%s changes attitude from %s to %s",
-                   name, npc_attitude_id( attitude ), npc_attitude_id( new_attitude ) );
+                   get_name(), npc_attitude_id( attitude ), npc_attitude_id( new_attitude ) );
     attitude_group new_group = get_attitude_group( new_attitude );
     attitude_group old_group = get_attitude_group( attitude );
     if( new_group != old_group && !is_fake() && get_player_view().sees( *this ) ) {
@@ -3395,9 +3412,9 @@ std::string npc::name_and_activity() const
     if( current_activity_id ) {
         const std::string activity_name = current_activity_id.obj().verb().translated();
         //~ %1$s - npc name, %2$s - npc current activity name.
-        return string_format( _( "%1$s (%2$s)" ), name, activity_name );
+        return string_format( _( "%1$s (%2$s)" ), get_name(), activity_name );
     } else {
-        return name;
+        return get_name();
     }
 }
 

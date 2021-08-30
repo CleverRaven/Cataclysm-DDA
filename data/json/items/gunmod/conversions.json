@@ -20,5 +20,24 @@
     "magazine_adaptor": [ [ "300blk", [ "stanag30", "stanag50", "survivor223mag" ] ] ],
     "min_skills": [ [ "weapon", 1 ] ],
     "flags": [ "IRREMOVABLE" ]
+  },
+  {
+    "id": "staff_sling_grenade_cradle",
+    "type": "GUNMOD",
+    "name": { "str": "grenade cradle for staff sling" },
+    "description": "A larger crade with a longer sling for fitting to a staff sling to enable it to throw grenades.",
+    "weight": "96 g",
+    "volume": "250 ml",
+    "integral_volume": "0 ml",
+    "integral_weight": "0 g",
+    "price": 150,
+    "price_postapoc": 250,
+    "material": [ "leather" ],
+    "symbol": ":",
+    "color": "brown",
+    "location": "bore",
+    "mod_targets": [ "staff_sling" ],
+    "install_time": "1 m",
+    "ammo_modifier": [ "sling-ready_grenade" ]
   }
 ]
