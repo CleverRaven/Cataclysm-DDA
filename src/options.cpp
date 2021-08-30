@@ -1017,12 +1017,10 @@ std::unordered_set<std::string> options_manager::get_langs_with_translation_file
     const std::string start_str = locale_dir();
     std::vector<std::string> lang_dirs =
         get_directories_with( PATH_INFO::lang_file(), start_str, true );
-    const std::size_t start_len = start_str.length();
-    const std::string end_str = "/LC_MESSAGES";
     std::for_each( lang_dirs.begin(), lang_dirs.end(), [&]( std::string & dir ) {
-        const std::size_t start = dir.find( start_str ) + start_len + 1;
-        const std::size_t len = dir.rfind( end_str ) - start;
-        dir = dir.substr( start, len );
+        const std::size_t end = dir.rfind( "/LC_MESSAGES" );
+        const std::size_t begin = dir.rfind( '/', end - 1 ) + 1;
+        dir = dir.substr( begin, end - begin );
     } );
     return std::unordered_set<std::string>( lang_dirs.begin(), lang_dirs.end() );
 #else // !LOCALIZE
