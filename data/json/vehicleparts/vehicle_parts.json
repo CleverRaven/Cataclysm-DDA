@@ -1672,7 +1672,7 @@
     "id": "foldable_solar_panel",
     "copy-from": "solar_panel",
     "looks_like": "solar_panel",
-    "name": { "str": "foldable solar panel" },
+    "name": { "str": "collapsable solar array" },
     "color": "light_blue",
     "broken_color": "light_gray",
     "proportional": { "epower": 0.4, "durability": 0.5 },
