@@ -19,7 +19,7 @@
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "solar_panel", 1 ] ], [ [ "reinforced_glass_pane", 1 ] ], [ [ "scrap", 1 ] ] ]
   },
-    {
+  {
     "type": "recipe",
     "activity_level": "MODERATE_EXERCISE",
     "result": "folding_solar_panel",
