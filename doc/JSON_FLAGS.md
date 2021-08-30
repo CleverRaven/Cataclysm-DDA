@@ -556,7 +556,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```FORAGE_POISION``` This item can be found with the `HIDDEN_POISON` flag when found through foraging.
 - ```GOES_DOWN``` Can use <kbd>></kbd> to go down a level.
 - ```GOES_UP``` Can use <kbd><</kbd> to go up a level.
-- ```GROWTH_SEED``` This plant is in its seed stage of growth.
 - ```GROWTH_SEEDLING``` This plant is in its seedling stage of growth.
 - ```GROWTH_MATURE``` This plant is in a mature stage of a growth.
 - ```GROWTH_HARVEST``` This plant is ready for harvest.
