@@ -54,7 +54,9 @@ class optional
             full = true;
         }
         void destruct() {
+            cata_assert( full );
             data.~StoredType();
+            full = false;
         }
 
     public:
@@ -156,7 +158,6 @@ class optional
 
         void reset() noexcept {
             if( full ) {
-                full = false;
                 destruct();
             }
         }
@@ -169,7 +170,7 @@ class optional
             if( full && other.full ) {
                 get() = other.get();
             } else if( full ) {
-                reset();
+                destruct();
             } else if( other.full ) {
                 construct( other.get() );
             }
@@ -179,7 +180,7 @@ class optional
             if( full && other.full ) {
                 get() = std::move( other.get() );
             } else if( full ) {
-                reset();
+                destruct();
             } else if( other.full ) {
                 construct( std::move( other.get() ) );
             }
@@ -203,7 +204,7 @@ class optional
             if( full && other.full ) {
                 get() = other.get();
             } else if( full ) {
-                reset();
+                destruct();
             } else if( other.full ) {
                 construct( other.get() );
             }
@@ -214,7 +215,7 @@ class optional
             if( full && other.full ) {
                 get() = std::move( other.get() );
             } else if( full ) {
-                reset();
+                destruct();
             } else if( other.full ) {
                 construct( std::move( other.get() ) );
             }
@@ -226,7 +227,7 @@ class optional
 
             if( full && other.full ) {
                 swap( get(), other.get() );
-            } else if( other.full() ) {
+            } else if( other.full ) {
                 construct( std::move( other.get() ) );
                 other.destruct();
             } else if( full ) {
@@ -235,6 +236,12 @@ class optional
             }
         }
 };
+
+template<class T>
+void swap( optional<T> &lhs, optional<T> &rhs )
+{
+    lhs.swap( rhs );
+}
 
 template<class T, class U>
 constexpr bool operator==( const optional<T> &lhs, const optional<U> &rhs )

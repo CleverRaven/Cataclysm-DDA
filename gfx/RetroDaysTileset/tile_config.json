@@ -2817,7 +2817,7 @@
         { "id": [ "molle_pack", "gobag", "rucksack" ], "fg": 1356, "rotates": false },
         { "id": [ "molotov_micro_act", "molotov_lit" ], "fg": 950, "rotates": false },
         { "id": [ "molotov_micro", "molotov" ], "fg": 949, "rotates": false },
-        { "id": "money_bundle", "fg": 1473, "rotates": false },
+        { "id": "money_one", "fg": 1473, "rotates": false },
         { "id": "mop", "fg": 951, "rotates": false },
         { "id": "mortar_pestle", "fg": 952, "rotates": false },
         {
@@ -6973,6 +6973,62 @@
         { "id": "tr_temple_flood", "fg": 3119, "rotates": false },
         { "id": "tr_temple_toggle", "fg": 3120, "rotates": false },
         { "id": "tr_tripwire", "fg": 3135, "rotates": false },
+        {
+          "id": [ "vp_halfboard_cover_right", "vp_halfboard_cover_left" ],
+          "fg": 3245,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [ { "id": "broken", "fg": 3139 } ]
+        },
+        {
+          "id": "vp_halfboard_hatch_wheel_left",
+          "fg": 3249,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [ { "id": "broken", "fg": 3139 } ]
+        },
+        {
+          "id": "vp_halfboard_hatch_wheel_right",
+          "fg": 3250,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [ { "id": "broken", "fg": 3139 } ]
+        },
+        {
+          "id": [
+            "vp_halfboard_wheel_left",
+            "vp_halfboard_wheel_right",
+            "vp_board_wheel_left",
+            "vp_board_nw_edge",
+            "vp_board_wheel_right",
+            "vp_board_ne_edge"
+          ],
+          "fg": 3243,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [ { "id": "broken", "fg": 3139 } ]
+        },
+        {
+          "id": [ "vp_stowboard_wheel_left", "vp_stowboard_wheel_right" ],
+          "fg": 3268,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [ { "id": "broken", "fg": 3139 } ]
+        },
+        {
+          "id": [
+            "vp_windshield_wheel_left",
+            "vp_windshield_wheel_right",
+            "vp_windshield_full_wheel_left",
+            "vp_windshield_full_wheel_right",
+            "vp_windshield_vertical_2_left",
+            "vp_windshield_vertical_2_right"
+          ],
+          "fg": 3319,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [ { "id": "broken", "fg": 3315 } ]
+        },
         {
           "id": "vp_aisle_horizontal",
           "fg": 3281,

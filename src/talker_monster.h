@@ -15,7 +15,6 @@ class faction;
 class item;
 class mission;
 class npc;
-class player;
 class time_duration;
 class vehicle;
 struct tripoint;
@@ -56,7 +55,8 @@ class talker_monster: public talker
         int pain_cur() const override;
 
         // effects and values
-        bool has_effect( const efftype_id &effect_id ) const override;
+        bool has_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;
+        effect get_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;
         void add_effect( const efftype_id &new_effect, const time_duration &dur,
                          std::string bp, bool permanent, bool force, int intensity ) override;
         void remove_effect( const efftype_id &old_effect ) override;

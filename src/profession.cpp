@@ -21,7 +21,6 @@
 #include "magic.h"
 #include "options.h"
 #include "pimpl.h"
-#include "player.h"
 #include "pldata.h"
 #include "translations.h"
 #include "type_id.h"
@@ -227,11 +226,12 @@ void profession::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "skills", _starting_skills, skilllevel_reader {} );
     optional( jo, was_loaded, "addictions", _starting_addictions, addiction_reader {} );
     // TODO: use string_id<bionic_type> or so
-    optional( jo, was_loaded, "CBMs", _starting_CBMs, auto_flags_reader<bionic_id> {} );
+    optional( jo, was_loaded, "CBMs", _starting_CBMs, string_id_reader<::bionic_data> {} );
     optional( jo, was_loaded, "proficiencies", _starting_proficiencies );
     // TODO: use string_id<mutation_branch> or so
-    optional( jo, was_loaded, "traits", _starting_traits, auto_flags_reader<trait_id> {} );
-    optional( jo, was_loaded, "forbidden_traits", _forbidden_traits, auto_flags_reader<trait_id> {} );
+    optional( jo, was_loaded, "traits", _starting_traits, string_id_reader<::mutation_branch> {} );
+    optional( jo, was_loaded, "forbidden_traits", _forbidden_traits,
+              string_id_reader<::mutation_branch> {} );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
 
     // Flag which denotes if a profession is a hobby
@@ -530,9 +530,9 @@ bool profession::has_flag( const std::string &flag ) const
     return flags.count( flag ) != 0;
 }
 
-bool profession::can_pick( const player &u, const int points ) const
+bool profession::can_pick( const Character &you, const int points ) const
 {
-    return point_cost() - u.prof->point_cost() <= points;
+    return point_cost() - you.prof->point_cost() <= points;
 }
 
 bool profession::is_locked_trait( const trait_id &trait ) const

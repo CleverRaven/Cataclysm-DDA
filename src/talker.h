@@ -3,6 +3,7 @@
 #define CATA_SRC_TALKER_H
 
 #include "coordinates.h"
+#include "effect.h"
 #include "units.h"
 #include "units_fwd.h"
 #include <list>
@@ -13,7 +14,7 @@ class item_location;
 class mission;
 class monster;
 class npc;
-class player;
+class Character;
 class recipe;
 struct tripoint;
 class vehicle;
@@ -28,10 +29,10 @@ class talker
     public:
         virtual ~talker() = default;
         // virtual member accessor functions
-        virtual player *get_character() {
+        virtual Character *get_character() {
             return nullptr;
         }
-        virtual player *get_character() const {
+        virtual Character *get_character() const {
             return nullptr;
         }
         virtual npc *get_npc() {
@@ -71,17 +72,24 @@ class talker
         virtual std::vector<std::string> get_grammatical_genders() const {
             return {};
         }
-        virtual int posx() const = 0;
-        virtual int posy() const = 0;
-        virtual int posz() const = 0;
+        virtual int posx() const {
+            return 0;
+        }
+        virtual int posy() const {
+            return 0;
+        }
+        virtual int posz() const {
+            return 0;
+        }
         virtual tripoint pos() const = 0;
         virtual tripoint_abs_omt global_omt_location() const = 0;
+        virtual void set_pos( tripoint ) {}
         virtual std::string distance_to_goal() const {
             return "";
         }
 
         // mandatory functions for starting a dialogue
-        virtual bool will_talk_to_u( const player &, bool ) {
+        virtual bool will_talk_to_u( const Character &, bool ) {
             return false;
         }
         virtual std::vector<std::string> get_topics( bool ) {
@@ -112,9 +120,26 @@ class talker
         virtual int per_cur() const {
             return 0;
         }
+        virtual void set_str_max( int ) {}
+        virtual void set_dex_max( int ) {}
+        virtual void set_int_max( int ) {}
+        virtual void set_per_max( int ) {}
+        virtual int get_str_max() {
+            return 0;
+        }
+        virtual int get_dex_max() {
+            return 0;
+        }
+        virtual int get_int_max() {
+            return 0;
+        }
+        virtual int get_per_max() {
+            return 0;
+        }
         virtual int get_skill_level( const skill_id & ) const {
             return 0;
         }
+        virtual void set_skill_level( const skill_id &, int ) {}
         virtual bool has_trait( const trait_id & ) const {
             return false;
         }
@@ -171,8 +196,11 @@ class talker
         }
 
         // effects and values
-        virtual bool has_effect( const efftype_id & ) const {
+        virtual bool has_effect( const efftype_id &, const bodypart_id & ) const {
             return false;
+        }
+        virtual effect get_effect( const efftype_id &, const bodypart_id & ) const {
+            return effect::null_effect;
         }
         virtual bool is_deaf() const {
             return false;
@@ -207,6 +235,9 @@ class talker
         }
         virtual bool has_amount( const itype_id &, int ) const {
             return false;
+        }
+        virtual int get_amount( const itype_id & ) const {
+            return 0;
         }
         virtual std::list<item> use_amount( const itype_id &, int ) {
             return {};
@@ -322,6 +353,11 @@ class talker
         virtual int get_thirst() const {
             return 0;
         }
+        virtual int get_stored_kcal() const {
+            return 0;
+        }
+        virtual void set_stored_kcal( int ) {}
+        virtual void set_thirst( int ) {}
         virtual bool is_in_control_of( const vehicle & ) const {
             return false;
         }
@@ -356,7 +392,18 @@ class talker
         virtual units::energy power_cur() const {
             return 0_kJ;
         }
-        virtual void mod_healthy_mod( int, int ) {};
+        virtual units::energy power_max() const {
+            return 0_kJ;
+        }
+        virtual void set_power_cur( units::energy ) {}
+        virtual int mana_cur() const {
+            return 0;
+        }
+        virtual int mana_max() const {
+            return 0;
+        }
+        virtual void set_mana_cur( int ) {}
+        virtual void mod_healthy_mod( int, int ) {}
         virtual int morale_cur() const {
             return 0;
         }
@@ -364,6 +411,7 @@ class talker
             return 0;
         }
         virtual void mod_focus( int ) {}
+        virtual void mod_rad( int ) {}
         virtual void add_morale( const morale_type &, int, int, time_duration, time_duration, bool ) {}
         virtual void remove_morale( const morale_type & ) {}
 };

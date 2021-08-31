@@ -9,7 +9,6 @@
 #include "messages.h"
 #include "mtype.h"
 #include "output.h"
-#include "player.h"
 
 void cardreader_examine_actor::consume_card( const std::vector<item_location> &cards ) const
 {
@@ -42,12 +41,12 @@ void cardreader_examine_actor::consume_card( const std::vector<item_location> &c
     opts[query.ret].remove_item();
 }
 
-std::vector<item_location> cardreader_examine_actor::get_cards( player &guy,
+std::vector<item_location> cardreader_examine_actor::get_cards( Character &you,
         const tripoint &examp )const
 {
     std::vector<item_location> ret;
 
-    for( const item_location &it : guy.all_items_loc() ) {
+    for( const item_location &it : you.all_items_loc() ) {
         const auto has_card_flag = [&it]( const flag_id & flag ) {
             return it->has_flag( flag );
         };
@@ -108,15 +107,15 @@ bool cardreader_examine_actor::apply( const tripoint &examp ) const
 /**
  * Use id/hack reader. Using an id despawns turrets.
  */
-void cardreader_examine_actor::call( player &guy, const tripoint &examp ) const
+void cardreader_examine_actor::call( Character &you, const tripoint &examp ) const
 {
     bool open = false;
     map &here = get_map();
 
-    std::vector<item_location> cards = get_cards( guy, examp );
+    std::vector<item_location> cards = get_cards( you, examp );
 
     if( !cards.empty() && query_yn( _( query_msg ) ) ) {
-        guy.mod_moves( -to_moves<int>( 1_seconds ) );
+        you.mod_moves( -to_moves<int>( 1_seconds ) );
         open = apply( examp );
         for( monster &critter : g->all_monsters() ) {
             if( !despawn_monsters ) {
@@ -125,7 +124,7 @@ void cardreader_examine_actor::call( player &guy, const tripoint &examp ) const
             // Check 1) same overmap coords, 2) turret, 3) hostile
             if( ms_to_omt_copy( here.getabs( critter.pos() ) ) == ms_to_omt_copy( here.getabs( examp ) ) &&
                 critter.has_flag( MF_ID_CARD_DESPAWN ) &&
-                critter.attitude_to( guy ) == Creature::Attitude::HOSTILE ) {
+                critter.attitude_to( you ) == Creature::Attitude::HOSTILE ) {
                 g->remove_zombie( critter );
             }
         }
@@ -136,7 +135,7 @@ void cardreader_examine_actor::call( player &guy, const tripoint &examp ) const
             add_msg( _( redundant_msg ) );
         }
     } else if( allow_hacking && query_yn( _( "Attempt to hack this card-reader?" ) ) ) {
-        iexamine::try_start_hacking( guy, examp );
+        iexamine::try_start_hacking( you, examp );
     }
 }
 

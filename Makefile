@@ -453,6 +453,7 @@ ifeq ($(PCH), 1)
   endif
 endif
 
+CPPFLAGS += -isystem ${SRC_DIR}/third-party
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD -MP
 TOOL_CXXFLAGS = -DCATA_IN_TOOL
 
@@ -598,6 +599,7 @@ endif
 
 # Global settings for Windows targets
 ifeq ($(TARGETSYSTEM),WINDOWS)
+  DEFINES += -DWIN32_LEAN_AND_MEAN
   CHKJSON_BIN = chkjson.exe
   TARGET = $(W32TARGET)
   BINDIST = $(W32BINDIST)

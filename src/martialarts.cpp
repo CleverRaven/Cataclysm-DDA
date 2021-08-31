@@ -135,8 +135,8 @@ void ma_requirements::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
     optional( jo, was_loaded, "wall_adjacent", wall_adjacent, false );
 
-    optional( jo, was_loaded, "req_buffs", req_buffs, auto_flags_reader<mabuff_id> {} );
-    optional( jo, was_loaded, "req_flags", req_flags, auto_flags_reader<flag_id> {} );
+    optional( jo, was_loaded, "req_buffs", req_buffs, string_id_reader<::ma_buff> {} );
+    optional( jo, was_loaded, "req_flags", req_flags, string_id_reader<::json_flag> {} );
 
     optional( jo, was_loaded, "skill_requirements", min_skill, ma_skill_reader {} );
     optional( jo, was_loaded, "weapon_damage_requirements", min_damage, ma_weapon_damage_reader {} );
@@ -284,8 +284,9 @@ void martialart::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "oncrit_buffs", oncrit_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onkill_buffs", onkill_buffs, ma_buff_reader{} );
 
-    optional( jo, was_loaded, "techniques", techniques, auto_flags_reader<matec_id> {} );
-    optional( jo, was_loaded, "weapons", weapons, auto_flags_reader<itype_id> {} );
+    optional( jo, was_loaded, "techniques", techniques, string_id_reader<::ma_technique> {} );
+    optional( jo, was_loaded, "weapons", weapons, string_id_reader<::itype> {} );
+    optional( jo, was_loaded, "weapon_category", weapon_category, auto_flags_reader<std::string> {} );
 
     optional( jo, was_loaded, "strictly_melee", strictly_melee, false );
     optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
@@ -848,7 +849,11 @@ bool martialart::has_technique( const Character &u, const matec_id &tec_id ) con
 
 bool martialart::has_weapon( const itype_id &itt ) const
 {
-    return weapons.count( itt ) > 0;
+    return weapons.count( itt ) > 0 ||
+           std::any_of( itt->weapon_category.begin(), itt->weapon_category.end(),
+    [&]( const std::string & weap ) {
+        return weapon_category.count( weap ) > 0;
+    } );
 }
 
 bool martialart::weapon_valid( const item &it ) const
@@ -969,7 +974,7 @@ bool character_martial_arts::can_arm_block( const Character &owner ) const
     }
 
     // Success conditions.
-    if( owner.get_working_arm_count() >= 1 ) {
+    if( owner.blocking_score( body_part_type::type::arm ) >= 1.0f ) {
         if( unarmed_skill >= ma.arm_block ) {
             return true;
         }

@@ -7,6 +7,7 @@
 
 #include "bodypart.h"
 #include "color.h"
+#include "character.h"
 #include "debug.h"
 #include "effect_source.h"
 #include "enums.h"
@@ -16,7 +17,6 @@
 #include "messages.h"
 #include "optional.h"
 #include "output.h"
-#include "player.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
@@ -37,7 +37,7 @@ static const efftype_id effect_weed_high( "weed_high" );
 static const efftype_id effect_worked_on( "worked_on" );
 
 static const itype_id itype_holybook_bible( "holybook_bible" );
-static const itype_id itype_money_bundle( "money_bundle" );
+static const itype_id itype_money_one( "money_one" );
 
 static const trait_id trait_LACTOSE( "LACTOSE" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
@@ -86,7 +86,7 @@ bool string_id<effect_type>::is_valid() const
     return effect_types.count( *this ) > 0;
 }
 
-void weed_msg( player &p )
+void weed_msg( Character &p )
 {
     const time_duration howhigh = p.get_effect_dur( effect_weed_high );
     ///\EFFECT_INT changes messages when smoking weed
@@ -126,7 +126,7 @@ void weed_msg( player &p )
                 }
                 return;
             case 4:
-                if( p.has_amount( itype_money_bundle, 1 ) ) { // Half Baked
+                if( p.has_amount( itype_money_one, 1 ) ) { // Half Baked
                     p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Half_Baked_1" ).value_or(
                                              translation() ) );
                     if( one_in( 2 ) ) {
@@ -1537,6 +1537,11 @@ event_type effect::death_event() const
 void reset_effect_types()
 {
     effect_types.clear();
+}
+
+const std::map<efftype_id, effect_type> &get_effect_types()
+{
+    return effect_types;
 }
 
 void effect_type::register_ma_buff_effect( const effect_type &eff )

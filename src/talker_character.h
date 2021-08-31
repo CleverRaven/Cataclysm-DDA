@@ -15,7 +15,7 @@
 class character_id;
 class faction;
 class item;
-class player;
+class Character;
 class time_duration;
 class vehicle;
 struct tripoint;
@@ -28,15 +28,15 @@ struct tripoint;
 class talker_character: public talker
 {
     public:
-        explicit talker_character( player *new_me ): me_chr( new_me ) {
+        explicit talker_character( Character *new_me ): me_chr( new_me ) {
         }
         ~talker_character() override = default;
 
         // underlying element accessor functions
-        player *get_character() override {
+        Character *get_character() override {
             return me_chr;
         }
-        player *get_character() const override {
+        Character *get_character() const override {
             return me_chr;
         }
         Creature *get_creature() override {
@@ -55,6 +55,7 @@ class talker_character: public talker
         int posz() const override;
         tripoint pos() const override;
         tripoint_abs_omt global_omt_location() const override;
+        void set_pos( tripoint new_pos ) override;
 
         // stats, skills, traits, bionics, and magic
         int str_cur() const override;
@@ -62,7 +63,20 @@ class talker_character: public talker
         int int_cur() const override;
         int per_cur() const override;
         int pain_cur() const override;
+        void set_str_max( int value ) override;
+        void set_dex_max( int value ) override;
+        void set_int_max( int value ) override;
+        void set_per_max( int value ) override;
+        int get_str_max() override;
+        int get_dex_max() override;
+        int get_int_max() override;
+        int get_per_max() override;
         units::energy power_cur() const override;
+        units::energy power_max() const override;
+        void set_power_cur( units::energy value ) override;
+        int mana_cur() const override;
+        int mana_max() const override;
+        void set_mana_cur( int value ) override;
         bool has_trait( const trait_id &trait_to_check ) const override;
         void set_mutation( const trait_id &new_trait ) override;
         void unset_mutation( const trait_id &old_trait ) override;
@@ -73,10 +87,12 @@ class talker_character: public talker
         bool has_bionic( const bionic_id &bionics_id ) const override;
         bool knows_spell( const spell_id &sp ) const override;
         int get_skill_level( const skill_id &skill ) const override;
+        void set_skill_level( const skill_id &skill, int value ) override;
         bool knows_proficiency( const proficiency_id &proficiency ) const override;
 
         // effects and values
-        bool has_effect( const efftype_id &effect_id ) const override;
+        bool has_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;
+        effect get_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;
         bool is_deaf() const override;
         bool is_mute() const override;
         void add_effect( const efftype_id &new_effect, const time_duration &dur,
@@ -92,6 +108,7 @@ class talker_character: public talker
         bool has_charges( const itype_id &item_id, int count ) const override;
         std::list<item> use_charges( const itype_id &item_name, int count ) override;
         bool has_amount( const itype_id &item_id, int count ) const override;
+        int get_amount( const itype_id &item_id ) const override;
         std::list<item> use_amount( const itype_id &item_name, int count ) override;
         int cash() const override;
         std::vector<item *> items_with( const std::function<bool( const item & )> &filter ) const override;
@@ -111,6 +128,9 @@ class talker_character: public talker
         int get_fatigue() const override;
         int get_hunger() const override;
         int get_thirst() const override;
+        int get_stored_kcal() const override;
+        void set_stored_kcal( int value ) override;
+        void set_thirst( int value ) override;
         bool is_in_control_of( const vehicle &veh ) const override;
 
         // speaking
@@ -129,8 +149,9 @@ class talker_character: public talker
         void remove_morale( const morale_type &old_morale ) override;
         int focus_cur() const override;
         void mod_focus( int ) override;
+        void mod_rad( int ) override;
     protected:
         talker_character() = default;
-        player *me_chr;
+        Character *me_chr;
 };
 #endif // CATA_SRC_TALKER_CHARACTER_H

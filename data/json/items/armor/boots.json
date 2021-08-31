@@ -122,11 +122,12 @@
     "copy-from": "boots_chitin",
     "type": "ARMOR",
     "name": { "str": "pair of biosilicified chitin boots", "str_pl": "pairs of biosilicified chitin boots" },
-    "description": "Boots crafted from carefully cleaned and pruned biosilicified exoskeletons of acidic ants.",
+    "description": "Boots crafted from carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
     "price_postapoc": 1750,
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "bashing": 2, "material_thickness": 1 }
+    "relative": { "bashing": 2, "material_thickness": 1 },
+    "extend": { "flags": [ "NO_REPAIR" ] }
   },
   {
     "id": "xl_boots_acidchitin",
@@ -931,6 +932,28 @@
     "armor": [ { "encumbrance": 20, "coverage": 65, "covers": [ "foot_l", "foot_r", "leg_r", "leg_l" ] } ]
   },
   {
+    "id": "motor_police_boots",
+    "repairs_like": "boots_larmor",
+    "type": "ARMOR",
+    "name": { "str": "pair of motorcycle police boots", "str_pl": "pairs of motorcycle police boots" },
+    "description": "Custom made knee-high leather boots issued to motor officers.  Warm, durable and quite tough.",
+    "weight": "1520 g",
+    "volume": "3750 ml",
+    "price": 8000,
+    "price_postapoc": 1250,
+    "to_hit": -1,
+    "bashing": 1,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "looks_like": "knee_high_boots",
+    "color": "dark_gray",
+    "armor": [ { "covers": [ "foot_l", "foot_r", "leg_r", "leg_l" ], "coverage": 65, "encumbrance": 15 } ],
+    "warmth": 20,
+    "material_thickness": 2,
+    "environmental_protection": 2,
+    "flags": [ "VARSIZE", "WATERPROOF", "OUTER", "STURDY" ]
+  },
+  {
     "id": "leathersandals",
     "type": "ARMOR",
     "name": { "str": "pair of leather sandals", "str_pl": "pairs of leather sandals" },
@@ -1219,7 +1242,13 @@
     "color": "light_blue",
     "warmth": 20,
     "material_thickness": 2,
-    "use_action": { "type": "transform", "target": "roller_shoes_on", "msg": "You pop the wheels out.", "moves": 500 },
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Extend wheels",
+      "target": "roller_shoes_on",
+      "msg": "You pop the wheels out.",
+      "moves": 500
+    },
     "flags": [ "VARSIZE" ],
     "armor": [ { "encumbrance": 4, "coverage": 80, "covers": [ "foot_l", "foot_r" ] } ]
   },
@@ -1238,7 +1267,13 @@
     "color": "light_blue",
     "warmth": 20,
     "material_thickness": 2,
-    "use_action": { "type": "transform", "target": "roller_shoes_off", "msg": "You pop the wheels back in.", "moves": 500 },
+    "use_action": {
+      "type": "transform",
+      "menu_text": "Retract wheels",
+      "target": "roller_shoes_off",
+      "msg": "You pop the wheels back in.",
+      "moves": 500
+    },
     "flags": [ "VARSIZE", "ROLLER_ONE", "REQUIRES_BALANCE" ],
     "armor": [ { "encumbrance": 4, "coverage": 80, "covers": [ "foot_l", "foot_r" ] } ]
   },

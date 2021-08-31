@@ -41,7 +41,7 @@
       { "item": "con_mix", "prob": 120, "charges": [ 0, 500 ] },
       { "item": "elec_jackhammer", "prob": 40, "charges": [ 0, 6000 ] },
       [ "metal_smoother", 90 ],
-      { "item": "jackhammer", "prob": 40, "charges": [ 0, 400 ] },
+      { "item": "jackhammer", "prob": 40, "charges": [ 0, 1200 ] },
       { "group": "tools_toolbox", "prob": 20 },
       { "group": "tools_workshop", "prob": 5 },
       [ "recharge_station", 10 ],
@@ -609,6 +609,26 @@
     ]
   },
   {
+    "id": "fireman_cabinet",
+    "type": "item_group",
+    "subtype": "distribution",
+    "ammo": 100,
+    "items": [
+      { "item": "extinguisher", "prob": 35 },
+      { "item": "sm_extinguisher", "prob": 35 },
+      {
+        "collection": [
+          { "item": "hose" },
+          { "item": "sm_extinguisher" },
+          { "item": "fire_ax", "prob": 50 },
+          { "item": "crash_axe", "prob": 80 },
+          { "item": "throw_extinguisher", "prob": 30, "count": [ 3, 5 ] }
+        ],
+        "prob": 30
+      }
+    ]
+  },
+  {
     "type": "item_group",
     "id": "tools_robotics",
     "//": "tools and equipment you might find on robotics laboratories.",
@@ -677,7 +697,7 @@
       { "item": "chainsaw_off", "prob": 10, "charges": [ 0, 450 ] },
       { "item": "elec_chainsaw_off", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "trimmer_off", "prob": 40, "charges": [ 0, 600 ] },
-      { "item": "jackhammer", "prob": 50, "charges": [ 0, 400 ] },
+      { "item": "jackhammer", "prob": 50, "charges": [ 0, 1200 ] },
       { "item": "elec_jackhammer", "prob": 50, "charges": [ 0, 1000 ] },
       { "item": "circsaw_off", "prob": 10, "charges": [ 0, 500 ] },
       { "item": "angle_grinder", "prob": 20, "charges": [ 0, 500 ] }

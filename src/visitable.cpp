@@ -27,7 +27,6 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "pimpl.h"
-#include "player.h"
 #include "point.h"
 #include "submap.h"
 #include "temp_crafting_inventory.h"
@@ -458,7 +457,7 @@ VisitResponse map_cursor::visit_items(
 {
     map &here = get_map();
     // skip inaccessible items
-    if( here.has_flag( "SEALED", pos() ) && !here.has_flag( "LIQUIDCONT", pos() ) ) {
+    if( here.has_flag( TFLAG_SEALED, pos() ) && !here.has_flag( "LIQUIDCONT", pos() ) ) {
         return VisitResponse::NEXT;
     }
 
@@ -805,6 +804,44 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
     }
 
     return std::min( qty, limit );
+}
+
+template <typename T>
+static std::pair<int, int> kcal_range_of_internal( const T &self, const itype_id &id,
+        const std::function<bool( const item & )> &filter, Character &player_character )
+{
+    std::pair<int, int> result( INT_MAX, INT_MIN );
+    self.visit_items( [&result, &id, &filter, &player_character]( const item * e, item * ) {
+        if( e->typeId() == id && filter( *e ) ) {
+            int kcal = player_character.compute_effective_nutrients( *e ).kcal();
+            if( kcal < result.first ) {
+                result.first = kcal;
+            }
+            if( kcal > result.second ) {
+                result.second = kcal;
+            }
+        }
+        return VisitResponse::NEXT;
+    } );
+    return result;
+}
+
+std::pair<int, int> read_only_visitable::kcal_range( const itype_id &id,
+        const std::function<bool( const item & )> &filter, Character &player_character )
+{
+    return kcal_range_of_internal( *this, id, filter, player_character );
+}
+
+std::pair<int, int> inventory::kcal_range( const itype_id &id,
+        const std::function<bool( const item & )> &filter, Character &player_character )
+{
+    return kcal_range_of_internal( *this, id, filter, player_character );
+}
+
+std::pair<int, int> Character::kcal_range( const itype_id &id,
+        const std::function<bool( const item & )> &filter, Character &player_character )
+{
+    return kcal_range_of_internal( *this, id, filter, player_character );
 }
 
 /** @relates visitable */

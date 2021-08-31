@@ -594,7 +594,7 @@ void enchantment::cast_enchantment_spell( Character &caster, const Creature *tar
         caster.add_msg_player_or_npc( m_good,
                                       sp.trigger_message,
                                       sp.npc_trigger_message,
-                                      caster.name );
+                                      caster.get_name() );
         sp.get_spell( sp.level ).cast_all_effects( caster, caster.pos() );
     } else  if( target != nullptr ) {
         const Creature &trg_crtr = *target;
@@ -607,7 +607,7 @@ void enchantment::cast_enchantment_spell( Character &caster, const Creature *tar
         caster.add_msg_player_or_npc( m_good,
                                       sp.trigger_message,
                                       sp.npc_trigger_message,
-                                      caster.name, trg_crtr.disp_name() );
+                                      caster.get_name(), trg_crtr.disp_name() );
 
         spell_lvl.cast_all_effects( caster, trg_crtr.pos() );
     }

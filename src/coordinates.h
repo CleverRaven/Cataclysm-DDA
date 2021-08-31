@@ -537,6 +537,13 @@ inline int manhattan_dist( const coords::coord_point<Point, Origin, Scale> &loc1
 }
 
 template<typename Point, coords::origin Origin, coords::scale Scale>
+inline int octile_dist( const coords::coord_point<Point, Origin, Scale> &loc1,
+                        const coords::coord_point<Point, Origin, Scale> &loc2, int multiplier = 1 )
+{
+    return octile_dist( loc1.raw(), loc2.raw(), multiplier );
+}
+
+template<typename Point, coords::origin Origin, coords::scale Scale>
 direction direction_from( const coords::coord_point<Point, Origin, Scale> &loc1,
                           const coords::coord_point<Point, Origin, Scale> &loc2 )
 {

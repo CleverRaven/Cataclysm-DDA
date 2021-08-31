@@ -162,8 +162,8 @@
     "type": "GUN",
     "symbol": "%",
     "color": "red",
-    "name": { "str": "Bone Laucher" },
-    "description": "Once a flesh spear, now a grotesque pipe like object with an barrel made from bone and coated in flesh.  There is an biomancer rune embbed in the tooth like trigger.",
+    "name": { "str": "Bone Launcher" },
+    "description": "Once a flesh spear, now a grotesque pipe like object with an barrel made from bone and coated in flesh.  There is an biomancer rune embedded in the tooth like trigger.",
     "material": [ "hflesh", "bone" ],
     "flags": [
       "PRIMITIVE_RANGED_WEAPON",
@@ -193,6 +193,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "barb": 1 } } ],
     "use_action": {
       "type": "transform",
+      "menu_text": "Collapse",
       "target": "rune_biomancer_weapon_adept",
       "msg": "You feel the spear rapidly contracting and squirming for close combat",
       "need_wielding": true,
