@@ -16,6 +16,7 @@
 #include "colony.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
@@ -1067,7 +1068,7 @@ Creature *monster::attack_target()
         return nullptr;
     }
 
-    Creature *target = g->critter_at( move_target() );
+    Creature *target = get_creature_tracker().creature_at( move_target() );
     if( target == nullptr || target == this ||
         attitude_to( *target ) == Attitude::FRIENDLY || !sees( *target ) ) {
         return nullptr;
@@ -1771,7 +1772,7 @@ int monster::heal( const int delta_hp, bool overheal )
     if( hp > maxhp && !overheal ) {
         hp = maxhp;
     }
-    return maxhp - old_hp;
+    return hp - old_hp;
 }
 
 void monster::set_hp( const int hp )
@@ -2278,10 +2279,11 @@ void monster::process_turn()
             local_attack_data.cooldown--;
         }
     }
+    creature_tracker &creatures = get_creature_tracker();
     // Persist grabs as long as there's an adjacent target.
     if( has_effect( effect_grabbing ) ) {
         for( const tripoint &dest : here.points_in_radius( pos(), 1, 0 ) ) {
-            const Character *const you = g->critter_at<Character>( dest );
+            const Character *const you = creatures.creature_at<Character>( dest );
             if( you && you->has_effect( effect_grabbed ) ) {
                 add_effect( effect_grabbing, 2_turns );
             }
@@ -2396,16 +2398,17 @@ void monster::die( Creature *nkiller )
         }
     }
     map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
     if( has_effect( effect_grabbing ) ) {
         remove_effect( effect_grabbing );
         for( const tripoint &player_pos : here.points_in_radius( pos(), 1, 0 ) ) {
-            Character *you = g->critter_at<Character>( player_pos );
+            Character *you = creatures.creature_at<Character>( player_pos );
             if( !you || !you->has_effect( effect_grabbed ) ) {
                 continue;
             }
             bool grabbed = false;
             for( const tripoint &mon_pos : here.points_in_radius( player_pos, 1, 0 ) ) {
-                const monster *const mon = g->critter_at<monster>( mon_pos );
+                const monster *const mon = creatures.creature_at<monster>( mon_pos );
                 if( mon && mon->has_effect( effect_grabbing ) ) {
                     grabbed = true;
                     break;
@@ -2633,7 +2636,18 @@ void monster::process_effects()
 
     Character &player_character = get_player_character();
     //If this monster has the ability to heal in combat, do it now.
-    const int healed_amount = heal( type->regenerates );
+    int regeneration_amount = type->regenerates;
+    //Apply effect-triggered regeneartion modifers
+    for( const auto &regeneration_modifier : type->regeneration_modifiers ) {
+        if( has_effect( regeneration_modifier.first ) ) {
+            regeneration_amount += regeneration_modifier.second;
+        }
+    }
+    //Prevent negative regeneration
+    if( regeneration_amount < 0 ) {
+        regeneration_amount = 0;
+    }
+    const int healed_amount = heal( regeneration_amount );
     if( healed_amount > 0 && one_in( 2 ) ) {
         std::string healing_format_string;
         if( healed_amount >= 50 ) {
@@ -3094,19 +3108,24 @@ void monster::on_load()
     float regen = type->regenerates;
     if( regen <= 0 ) {
         if( has_flag( MF_REVIVES ) ) {
-            regen = 1.0f / to_turns<int>( 1_hours );
+            regen = 0.02f * type->hp / to_turns<int>( 1_hours );
         } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ||
                    made_of( material_id( "veggy" ) ) ) {
             // Most living stuff here
-            regen = 0.25f / to_turns<int>( 1_hours );
+            regen = 0.005f * type->hp / to_turns<int>( 1_hours );
         }
     }
     const int heal_amount = roll_remainder( regen * to_turns<int>( dt ) );
     const int healed = heal( heal_amount );
     int healed_speed = 0;
-    if( healed < heal_amount && get_speed_base() < type->speed ) {
-        int old_speed = get_speed_base();
-        set_speed_base( std::min( get_speed_base() + heal_amount - healed, type->speed ) );
+    if( get_speed_base() < type->speed ) {
+        const int old_speed = get_speed_base();
+        if( hp >= type->hp ) {
+            set_speed_base( type->speed );
+        } else {
+            const int speed_delta = std::max( healed * type->speed / type->hp, 1 );
+            set_speed_base( std::min( old_speed + speed_delta, type->speed ) );
+        }
         healed_speed = get_speed_base() - old_speed;
     }
 

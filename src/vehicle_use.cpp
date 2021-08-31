@@ -19,6 +19,7 @@
 #include "clzones.h"
 #include "color.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
 #include "game.h"
@@ -1452,7 +1453,7 @@ void vehicle::operate_scoop()
             }
             item *that_item_there = nullptr;
             map_stack items = here.i_at( position );
-            if( here.has_flag( "SEALED", position ) ) {
+            if( here.has_flag( TFLAG_SEALED, position ) ) {
                 // Ignore it. Street sweepers are not known for their ability to harvest crops.
                 continue;
             }
@@ -1543,9 +1544,10 @@ bool vehicle::is_open( int part_index ) const
 
 bool vehicle::can_close( int part_index, Character &who )
 {
+    creature_tracker &creatures = get_creature_tracker();
     for( auto const &vec : find_lines_of_parts( part_index, "OPENABLE" ) ) {
         for( auto const &partID : vec ) {
-            const Creature *const mon = g->critter_at( global_part_pos3( parts[partID] ) );
+            const Creature *const mon = creatures.creature_at( global_part_pos3( parts[partID] ) );
             if( mon ) {
                 if( mon->is_avatar() ) {
                     who.add_msg_if_player( m_info, _( "There's some buffoon in the way!" ) );
@@ -1820,8 +1822,9 @@ void vehicle::use_harness( int part, const tripoint &pos )
         add_msg( m_info, _( "The harness is blocked." ) );
         return;
     }
-    const std::function<bool( const tripoint & )> f = []( const tripoint & pnt ) {
-        monster *mon_ptr = g->critter_at<monster>( pnt );
+    creature_tracker &creatures = get_creature_tracker();
+    const std::function<bool( const tripoint & )> f = [&creatures]( const tripoint & pnt ) {
+        monster *mon_ptr = creatures.creature_at<monster>( pnt );
         if( mon_ptr == nullptr ) {
             return false;
         }
@@ -1838,7 +1841,7 @@ void vehicle::use_harness( int part, const tripoint &pos )
         return;
     }
     const tripoint &target = *pnt_;
-    monster *mon_ptr = g->critter_at<monster>( target );
+    monster *mon_ptr = creatures.creature_at<monster>( target );
     if( mon_ptr == nullptr ) {
         add_msg( m_info, _( "No creature there." ) );
         return;
@@ -2032,7 +2035,7 @@ void vehicle::interact_with( const vpart_position &vp )
     map &here = get_map();
     avatar &player_character = get_avatar();
     const bool has_items_on_ground = here.sees_some_items( vp.pos(), player_character );
-    const bool items_are_sealed = here.has_flag( "SEALED", vp.pos() );
+    const bool items_are_sealed = here.has_flag( TFLAG_SEALED, vp.pos() );
     const turret_data turret = turret_query( vp.pos() );
     const cata::optional<vpart_reference> vp_curtain = vp.avail_part_with_feature( "CURTAIN" );
     const cata::optional<vpart_reference> vp_faucet = vp.part_with_tool( itype_water_faucet );

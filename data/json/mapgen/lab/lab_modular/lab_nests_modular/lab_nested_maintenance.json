@@ -342,7 +342,7 @@
       "place_loot": [
         { "item": "file", "x": [ 1, 3 ], "y": [ 1, 3 ], "repeat": 5, "chance": 50 },
         { "item": "paper", "x": [ 1, 3 ], "y": [ 1, 3 ], "repeat": 6, "chance": 50 },
-        { "item": "money_bundle", "x": [ 1, 3 ], "y": [ 1, 3 ], "repeat": 2, "chance": 60 },
+        { "item": "money_strap_twenty", "x": [ 1, 3 ], "y": [ 1, 3 ], "repeat": 2, "chance": 60 },
         { "item": "molotov", "x": [ 1, 3 ], "y": [ 1, 3 ], "repeat": 2, "chance": 3 },
         { "item": "matches", "x": [ 1, 3 ], "y": [ 1, 3 ], "repeat": 2, "chance": 100 }
       ]

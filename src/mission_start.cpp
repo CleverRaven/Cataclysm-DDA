@@ -61,7 +61,7 @@ void mission_start::place_dog( mission *miss )
         return;
     }
     get_player_character().i_add( item( "dog_whistle", calendar::turn_zero ) );
-    add_msg( _( "%s gave you a dog whistle." ), dev->name );
+    add_msg( _( "%s gave you a dog whistle." ), dev->get_name() );
 
     miss->target = house;
     overmap_buffer.reveal( house, 6 );
@@ -166,7 +166,7 @@ static tripoint find_potential_computer_point( const tinymap &compmap )
             }
             int wall = 0;
             for( const tripoint &p2 : compmap.points_in_radius( p, 1 ) ) {
-                if( compmap.has_flag_ter( "WALL", p2 ) ) {
+                if( compmap.has_flag_ter( TFLAG_WALL, p2 ) ) {
                     wall++;
                 }
             }
@@ -204,7 +204,7 @@ void mission_start::place_npc_software( mission *miss )
         return;
     }
     get_player_character().i_add( item( "usb_drive", calendar::turn_zero ) );
-    add_msg( _( "%s gave you a USB drive." ), dev->name );
+    add_msg( _( "%s gave you a USB drive." ), dev->get_name() );
 
     std::string type = "house";
 
@@ -243,7 +243,7 @@ void mission_start::place_npc_software( mission *miss )
     compmap.i_clear( comppoint );
     compmap.furn_set( comppoint, f_console );
     computer *tmpcomp = compmap.add_computer( comppoint, string_format( _( "%s's Terminal" ),
-                        dev->name ), 0 );
+                        dev->get_name() ), 0 );
     tmpcomp->set_mission( miss->get_id() );
     tmpcomp->add_option( _( "Download Software" ), COMPACT_DOWNLOAD_SOFTWARE, 0 );
     compmap.save();

@@ -755,7 +755,8 @@
       { "x": -3, "y": 2, "chance": 40, "item_groups": [ "candy_chocolate" ] },
       { "x": -3, "y": 2, "chance": 40, "items": [ "sprinkles" ] },
       { "x": -3, "y": 2, "chance": 40, "items": [ "sprinkles" ] },
-      { "x": -1, "y": 0, "chance": 15, "items": [ "money_bundle" ] }
+      { "x": -1, "y": 0, "chance": 15, "items": [ "money_strap_one" ] },
+      { "x": -1, "y": 0, "chance": 15, "items": [ "money_strap_five" ] }
     ]
   },
   {
@@ -929,7 +930,8 @@
       { "x": -3, "y": 2, "chance": 40, "items": [ "ketchup" ] },
       { "x": -3, "y": 2, "chance": 40, "items": [ "mustard" ] },
       { "x": -3, "y": 2, "chance": 40, "items": [ "mayonnaise" ] },
-      { "x": 0, "y": 2, "chance": 15, "items": [ "money_bundle" ] },
+      { "x": 0, "y": 2, "chance": 15, "items": [ "money_strap_one" ] },
+      { "x": 0, "y": 2, "chance": 15, "items": [ "money_strap_five" ] },
       { "x": 0, "y": 2, "chance": 100, "items": [ "flyer" ] },
       { "x": 0, "y": 2, "chance": 100, "items": [ "months_old_newspaper" ] },
       { "x": 0, "y": 2, "chance": 50, "items": [ "flyer" ] },
@@ -1790,6 +1792,7 @@
     ],
     "items": [
       { "x": -1, "y": 0, "chance": 7, "item_groups": [ "contraband" ] },
+      { "x": 0, "y": 0, "chance": 20, "items": [ "id_science_transport_1" ] },
       { "x": -1, "y": 2, "chance": 6, "item_groups": [ "contraband" ] },
       { "x": -2, "y": 0, "chance": 5, "item_groups": [ "contraband" ] },
       { "x": -2, "y": 2, "chance": 11, "item_groups": [ "contraband" ] },

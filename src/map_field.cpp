@@ -24,6 +24,7 @@
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
 #include "effect.h"
@@ -557,12 +558,12 @@ void field_processor_spread_gas( const tripoint &p, field_entry &cur, field_proc
 }
 
 static void field_processor_fd_fungal_haze( const tripoint &p, field_entry &cur,
-        field_proc_data &pd )
+        field_proc_data &/*pd*/ )
 {
     // if( cur_fd_type_id == fd_fungal_haze ) {
     if( one_in( 10 - 2 * cur.get_field_intensity() ) ) {
         // Haze'd terrain
-        fungal_effects( *g, pd.here ).spread_fungus( p );
+        fungal_effects().spread_fungus( p );
     }
 }
 
@@ -698,6 +699,7 @@ static void field_processor_monster_spawn( const tripoint &p, field_entry &cur,
 static void field_processor_fd_push_items( const tripoint &p, field_entry &, field_proc_data &pd )
 {
     map_stack items = pd.here.i_at( p );
+    creature_tracker &creatures = get_creature_tracker();
     for( auto pushee = items.begin(); pushee != items.end(); ) {
         if( pushee->typeId() != itype_rock ||
             pushee->age() < 1_turns ) {
@@ -722,13 +724,13 @@ static void field_processor_fd_push_items( const tripoint &p, field_entry &, fie
                     pd.player_character.check_dead_state();
                 }
 
-                if( npc *const n = g->critter_at<npc>( newp ) ) {
+                if( npc *const n = creatures.creature_at<npc>( newp ) ) {
                     // TODO: combine with player character code above
                     const bodypart_id hit = pd.player_character.get_random_body_part();
                     n->deal_damage( nullptr, hit, damage_instance( damage_type::BASH, 6 ) );
-                    add_msg_if_player_sees( newp, _( "A %1$s hits %2$s!" ), tmp.tname(), n->name );
+                    add_msg_if_player_sees( newp, _( "A %1$s hits %2$s!" ), tmp.tname(), n->get_name() );
                     n->check_dead_state();
-                } else if( monster *const mon = g->critter_at<monster>( newp ) ) {
+                } else if( monster *const mon = creatures.creature_at<monster>( newp ) ) {
                     mon->apply_damage( nullptr, bodypart_id( "torso" ),
                                        6 - mon->get_armor_bash( bodypart_id( "torso" ) ) );
                     add_msg_if_player_sees( newp, _( "A %1$s hits the %2$s!" ), tmp.tname(), mon->name() );

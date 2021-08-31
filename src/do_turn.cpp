@@ -5,6 +5,7 @@
 #include "bionics.h"
 #include "cached_options.h"
 #include "calendar.h"
+#include "creature_tracker.h"
 #include "event_bus.h"
 #include "explosion.h"
 #include "game.h"
@@ -242,7 +243,7 @@ bool cleanup_at_end()
                    c_light_gray,
                    sTemp );
 
-        sTemp = u.name;
+        sTemp = u.get_name();
         mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, iNameLine++ ), c_white,
                    sTemp );
 
@@ -376,8 +377,8 @@ void update_stair_monsters()
 
     avatar &u = get_avatar();
     for( const tripoint &dest : m.points_on_zlevel( u.posz() ) ) {
-        if( ( from_below && m.has_flag( "GOES_DOWN", dest ) ) ||
-            ( !from_below && m.has_flag( "GOES_UP", dest ) ) ) {
+        if( ( from_below && m.has_flag( TFLAG_GOES_DOWN, dest ) ) ||
+            ( !from_below && m.has_flag( TFLAG_GOES_UP, dest ) ) ) {
             stairx.push_back( dest.x );
             stairy.push_back( dest.y );
             stairdist.push_back( rl_dist( dest, u.pos() ) );
@@ -406,6 +407,7 @@ void update_stair_monsters()
     // Randomize the stair choice
     si = random_entry_ref( nearest );
 
+    creature_tracker &creatures = get_creature_tracker();
     // Attempt to spawn zombies.
     for( size_t i = 0; i < g->coming_to_stairs.size(); i++ ) {
         point mpos( stairx[si], stairy[si] );
@@ -485,7 +487,7 @@ void update_stair_monsters()
                 push.y = rng( -1, 1 );
                 point ipos( mpos + push );
                 tripoint pos( ipos, m.get_abs_sub().z );
-                if( ( push.x != 0 || push.y != 0 ) && !g->critter_at( pos ) &&
+                if( ( push.x != 0 || push.y != 0 ) && !creatures.creature_at( pos ) &&
                     critter.can_move_to( pos ) ) {
                     bool resiststhrow = ( u.is_throw_immune() ) ||
                                         ( u.has_trait( trait_LEG_TENT_BRACE ) );
@@ -525,7 +527,7 @@ void update_stair_monsters()
             critter.melee_attack( u );
             u.moves -= 50;
             return;
-        } else if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
+        } else if( monster *const mon_ptr = creatures.creature_at<monster>( dest ) ) {
             // Monster attempts to displace a monster from the stairs
             monster &other = *mon_ptr;
             critter.spawn( dest );
@@ -546,7 +548,7 @@ void update_stair_monsters()
                 if( ( push2.x == 0 && push2.y == 0 ) || ( ( ipos2.x == u.posx() ) && ( ipos2.y == u.posy() ) ) ) {
                     continue;
                 }
-                if( !g->critter_at( pos ) && other.can_move_to( pos ) ) {
+                if( !creatures.creature_at( pos ) && other.can_move_to( pos ) ) {
                     other.setpos( tripoint( ipos2, m.get_abs_sub().z ) );
                     other.moves -= 50;
                     std::string msg;
@@ -585,7 +587,7 @@ void handle_key_blocking_activity()
                 g->cancel_activity_query( _( "Confirm:" ) );
             }
         } else if( action == "player_data" ) {
-            u.disp_info();
+            u.disp_info( true );
         } else if( action == "messages" ) {
             Messages::display_messages();
         } else if( action == "help" ) {
@@ -716,7 +718,7 @@ void monmove()
             // there will be no meaningful debug output.
             if( turns == 9 ) {
                 debugmsg( "NPC %s entered infinite loop.  Turning on debug mode",
-                          guy.name );
+                          guy.get_name() );
                 debug_mode = true;
                 // make sure the filter is active
                 if( std::find(
@@ -730,7 +732,7 @@ void monmove()
         // If we spun too long trying to decide what to do (without spending moves),
         // Invoke cognitive suspension to prevent an infinite loop.
         if( turns == 10 ) {
-            add_msg( _( "%s faints!" ), guy.name );
+            add_msg( _( "%s faints!" ), guy.get_name() );
             guy.reboot();
         }
 

@@ -30,6 +30,7 @@
 #include "colony.h"
 #include "crafting.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
 #include "effect.h"
@@ -199,6 +200,11 @@ void iuse_transform::load( const JsonObject &obj )
 
 cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const tripoint &pos ) const
 {
+    float scale = 1;
+    auto iter = it.type->ammo_scale.find( type );
+    if( iter != it.type->ammo_scale.end() ) {
+        scale = iter->second;
+    }
     if( t ) {
         return cata::nullopt; // invoked from active item processing, do nothing.
     }
@@ -216,7 +222,9 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
         p.add_msg_if_player( m_info, _( "You need to wield the %1$s before activating it." ), it.tname() );
         return cata::nullopt;
     }
+
     if( need_charges && it.ammo_remaining( &p ) < need_charges ) {
+
         if( possess ) {
             p.add_msg_if_player( m_info, need_charges_msg, it.tname() );
         }
@@ -247,7 +255,7 @@ cata::optional<int> iuse_transform::use( Character &p, item &it, bool t, const t
     // defined here to allow making a new item assigned to the pointer
     item obj_it;
     if( it.is_tool() ) {
-        result = it.type->charges_to_use();
+        result = int( it.type->charges_to_use() * double( scale ) );
     }
     if( container.is_empty() ) {
         obj = &it.convert( target );
@@ -988,7 +996,8 @@ cata::optional<int> place_npc_iuse::use( Character &p, item &, bool, const tripo
 
     const cata::optional<tripoint> target_pos =
     random_point( target_range, [&here]( const tripoint & t ) {
-        return here.passable( t ) && here.has_floor_or_support( t ) && !g->critter_at( t );
+        return here.passable( t ) && here.has_floor_or_support( t ) &&
+               !get_creature_tracker().creature_at( t );
     } );
 
     if( !target_pos.has_value() ) {
@@ -1027,10 +1036,10 @@ void deploy_furn_actor::info( const item &, std::vector<iteminfo> &dump ) const
     if( the_furn.has_flag( "CAN_SIT" ) ) {
         can_function_as.emplace_back( _( "a place to <info>sit</info>" ) );
     }
-    if( the_furn.has_flag( "HIDE_PLACE" ) ) {
+    if( the_furn.has_flag( TFLAG_HIDE_PLACE ) ) {
         can_function_as.emplace_back( _( "a place to <info>hide</info>" ) );
     }
-    if( the_furn.has_flag( "FIRE_CONTAINER" ) ) {
+    if( the_furn.has_flag( TFLAG_FIRE_CONTAINER ) ) {
         can_function_as.emplace_back( _( "a safe place to <info>contain a fire</info>" ) );
     }
     if( the_furn.crafting_pseudo_item == itype_char_smoker ) {
@@ -3248,7 +3257,7 @@ static Character &get_patient( Character &healer, const tripoint &pos )
         return healer;
     }
 
-    Character *const person = g->critter_at<Character>( pos );
+    Character *const person = get_creature_tracker().creature_at<Character>( pos );
     if( !person ) {
         // Default to heal self on failure not to break old functionality
         add_msg_debug( debugmode::DF_IUSE, "No heal target at position %d,%d,%d", pos.x, pos.y, pos.z );
@@ -3819,7 +3828,7 @@ cata::optional<int> place_trap_actor::use( Character &p, item &it, bool, const t
     }
 
     const bool has_shovel = p.has_quality( quality_id( "DIG" ), 3 );
-    const bool is_diggable = here.has_flag( "DIGGABLE", pos );
+    const bool is_diggable = here.has_flag( TFLAG_DIGGABLE, pos );
     bool bury = false;
     if( could_bury && has_shovel && is_diggable ) {
         bury = query_yn( "%s", bury_question );
@@ -4265,16 +4274,17 @@ cata::optional<int> deploy_tent_actor::use( Character &p, item &it, bool, const 
     // First check there's enough room.
     const tripoint center = p.pos() + tripoint( ( radius + 1 ) * direction.x,
                             ( radius + 1 ) * direction.y, 0 );
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &dest : here.points_in_radius( center, radius ) ) {
         if( const optional_vpart_position vp = here.veh_at( dest ) ) {
             add_msg( m_info, _( "The %s is in the way." ), vp->vehicle().name );
             return cata::nullopt;
         }
-        if( const Creature *const c = g->critter_at( dest ) ) {
+        if( const Creature *const c = creatures.creature_at( dest ) ) {
             add_msg( m_info, _( "The %s is in the way." ), c->disp_name() );
             return cata::nullopt;
         }
-        if( here.impassable( dest ) || !here.has_flag( "FLAT", dest ) ) {
+        if( here.impassable( dest ) || !here.has_flag( TFLAG_FLAT, dest ) ) {
             add_msg( m_info, _( "The %s in that direction isn't suitable for placing the %s." ),
                      here.name( dest ), it.tname() );
             return cata::nullopt;

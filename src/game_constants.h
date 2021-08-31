@@ -103,6 +103,9 @@ constexpr int freezer = 23; // -5 Celsius
 
 // Temperature in which water freezes in Fahrenheit.
 constexpr int freezing = 32; // 0 Celsius
+
+// Temperature in which water boils in Fahrenheit.
+constexpr int boiling = 212; // 100 Celsius
 } // namespace temperatures
 
 // Slowest speed at which a gun can be aimed.

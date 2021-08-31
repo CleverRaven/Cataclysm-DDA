@@ -1455,8 +1455,8 @@ TEST_CASE( "gun or other ranged weapon attributes", "[iteminfo][weapon][gun]" )
         // Should show compatible magazines
         CHECK( item_info_str( glock, allowed_mags ) ==
                "--\n"
-               "<color_c_white>Compatible magazines</color>:"
-               " Test Glock extended magazine and Test Glock magazine\n" );
+               "<color_c_white>Compatible magazines</color>:\n"
+               "<color_c_white>Types</color>: Test Glock extended magazine and Test Glock magazine\n" );
 
         // Rag does not have integral or compatible magazines
         REQUIRE_FALSE( rag.magazine_integral() );
@@ -2151,7 +2151,8 @@ TEST_CASE( "tool info", "[iteminfo][tool]" )
 
         CHECK( item_info_str( oxy_torch, magazine_compat ) ==
                "--\n"
-               "Compatible magazines: small welding tank and welding tank\n" );
+               "<color_c_white>Compatible magazines</color>:\n"
+               "<color_c_white>Types</color>: small welding tank and welding tank\n" );
     }
 }
 

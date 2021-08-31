@@ -26,6 +26,7 @@
 #include "color.h"
 #include "condition.h"
 #include "coordinates.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
 #include "faction.h"
@@ -258,7 +259,7 @@ static void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
     while( !done ) {
         int override_count = 0;
         std::string output_string = string_format( _( "%s currently has these temporary orders:" ),
-                                    guy->name );
+                                    guy->get_name() );
         for( const auto &rule : ally_rule_strs ) {
             if( guy->rules.has_override_enable( rule.second.rule ) ) {
                 override_count++;
@@ -475,13 +476,13 @@ void game::chat()
     }
     if( !guards.empty() ) {
         nmenu.addentry( NPC_CHAT_FOLLOW, true, 'f', guard_count == 1 ?
-                        string_format( _( "Tell %s to follow" ), guards.front()->name ) :
+                        string_format( _( "Tell %s to follow" ), guards.front()->get_name() ) :
                         _( "Tell someone to follow…" )
                       );
     }
     if( !followers.empty() ) {
         nmenu.addentry( NPC_CHAT_GUARD, true, 'g', follower_count == 1 ?
-                        string_format( _( "Tell %s to guard" ), followers.front()->name ) :
+                        string_format( _( "Tell %s to guard" ), followers.front()->get_name() ) :
                         _( "Tell someone to guard…" )
                       );
         nmenu.addentry( NPC_CHAT_AWAKE, true, 'w', _( "Tell everyone on your team to wake up" ) );
@@ -540,7 +541,7 @@ void game::chat()
                 yell_msg = _( "Everyone guard here!" );
             } else {
                 talk_function::assign_guard( *followers[npcselect] );
-                yell_msg = string_format( _( "Guard here, %s!" ), followers[npcselect]->name );
+                yell_msg = string_format( _( "Guard here, %s!" ), followers[npcselect]->get_name() );
             }
             break;
         }
@@ -556,7 +557,7 @@ void game::chat()
                 yell_msg = _( "Everyone follow me!" );
             } else {
                 talk_function::stop_guard( *guards[npcselect] );
-                yell_msg = string_format( _( "Follow me, %s!" ), guards[npcselect]->name );
+                yell_msg = string_format( _( "Follow me, %s!" ), guards[npcselect]->get_name() );
             }
             break;
         }
@@ -640,7 +641,7 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
 
     Character &player_character = get_player_character();
     bool player_ally = player_character.pos() == spos && is_player_ally();
-    Character *const sound_source = g->critter_at<Character>( spos );
+    Character *const sound_source = get_creature_tracker().creature_at<Character>( spos );
     bool npc_ally = sound_source && sound_source->is_npc() && is_ally( *sound_source );
 
     if( ( player_ally || npc_ally ) && spriority == sounds::sound_t::order ) {
@@ -655,11 +656,11 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
     // but only for bantering purposes, not for investigating.
     if( spriority < sounds::sound_t::alarm ) {
         if( player_ally ) {
-            add_msg_debug( debugmode::DF_NPC, "Allied NPC ignored same faction %s", name );
+            add_msg_debug( debugmode::DF_NPC, "Allied NPC ignored same faction %s", get_name() );
             return;
         }
         if( npc_ally ) {
-            add_msg_debug( debugmode::DF_NPC, "NPC ignored same faction %s", name );
+            add_msg_debug( debugmode::DF_NPC, "NPC ignored same faction %s", get_name() );
             return;
         }
     }
@@ -667,7 +668,8 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
     // and listener is friendly and sound source is combat or alert only.
     if( spriority < sounds::sound_t::alarm && player_character.sees( spos ) ) {
         if( is_player_ally() ) {
-            add_msg_debug( debugmode::DF_NPC, "NPC %s ignored low priority noise that player can see", name );
+            add_msg_debug( debugmode::DF_NPC, "NPC %s ignored low priority noise that player can see",
+                           get_name() );
             return;
             // discount if sound source is player, or seen by player,
             // listener is neutral and sound type is worth investigating.
@@ -707,7 +709,8 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
                 }
             }
             if( should_check ) {
-                add_msg_debug( debugmode::DF_NPC, "%s added noise at pos %d:%d", name, s_abs_pos.x, s_abs_pos.y );
+                add_msg_debug( debugmode::DF_NPC, "%s added noise at pos %d:%d", get_name(), s_abs_pos.x,
+                               s_abs_pos.y );
                 dangerous_sound temp_sound;
                 temp_sound.abs_pos = s_abs_pos;
                 temp_sound.volume = heard_volume;
@@ -750,7 +753,7 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool text_only, bool ra
     // Main dialogue loop
     do {
         d.actor( true )->update_missions( d.missions_assigned );
-        const talk_topic next = d.opt( d_win, name, d.topic_stack.back() );
+        const talk_topic next = d.opt( d_win, get_name(), d.topic_stack.back() );
         if( next.id == "TALK_NONE" ) {
             int cat = topic_category( d.topic_stack.back() );
             do {
@@ -773,7 +776,7 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool text_only, bool ra
         return;
     }
 
-    if( !d.actor( true )->has_effect( effect_under_operation ) ) {
+    if( !d.actor( true )->has_effect( effect_under_operation, bodypart_str_id::NULL_ID() ) ) {
         g->cancel_activity_or_ignore_query( distraction_type::talked_to,
                                             string_format( _( "%s talked to you." ),
                                                     d.actor( true )->disp_name() ) );
@@ -3299,6 +3302,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( npc_thankful ),
             WRAP( clear_overrides ),
             WRAP( lightning ),
+            WRAP( do_disassembly ),
             WRAP( nothing )
 #undef WRAP
         }

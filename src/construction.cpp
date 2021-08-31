@@ -88,10 +88,7 @@ static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 
-static const std::string flag_FLAT( "FLAT" );
 static const std::string flag_INITIAL_PART( "INITIAL_PART" );
-static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
-static const std::string flag_NO_FLOOR( "NO_FLOOR" );
 
 static bool finalized = false;
 
@@ -1035,10 +1032,10 @@ void complete_construction( Character *you )
     if( you->is_avatar() ) {
         for( auto &elem : get_avatar().get_crafting_helpers() ) {
             if( elem->meets_skill_requirements( built ) ) {
-                add_msg( m_info, _( "%s assists you with the work…" ), elem->name );
+                add_msg( m_info, _( "%s assists you with the work…" ), elem->get_name() );
             } else {
                 //NPC near you isn't skilled enough to help
-                add_msg( m_info, _( "%s watches you work…" ), elem->name );
+                add_msg( m_info, _( "%s watches you work…" ), elem->get_name() );
             }
 
             award_xp( *elem );
@@ -1114,7 +1111,7 @@ bool construct::check_empty( const tripoint &p )
     map &here = get_map();
     // @TODO should check for *visible* traps only. But calling code must
     // first know how to handle constructing on top of an invisible trap!
-    return ( here.has_flag( flag_FLAT, p ) && !here.has_furn( p ) &&
+    return ( here.has_flag( TFLAG_FLAT, p ) && !here.has_furn( p ) &&
              g->is_empty( p ) && here.tr_at( p ).is_null() &&
              here.i_at( p ).empty() && !here.veh_at( p ) );
 }
@@ -1138,7 +1135,7 @@ bool construct::check_support( const tripoint &p )
     }
     int num_supports = 0;
     for( const tripoint &nb : get_orthogonal_neighbors( p ) ) {
-        if( here.has_flag( flag_SUPPORTS_ROOF, nb ) ) {
+        if( here.has_flag( TFLAG_SUPPORTS_ROOF, nb ) ) {
             num_supports++;
         }
     }
@@ -1147,7 +1144,7 @@ bool construct::check_support( const tripoint &p )
 
 bool construct::check_stable( const tripoint &p )
 {
-    return get_map().has_flag( flag_SUPPORTS_ROOF, p + tripoint_below );
+    return get_map().has_flag( TFLAG_SUPPORTS_ROOF, p + tripoint_below );
 }
 
 bool construct::check_empty_stable( const tripoint &p )
@@ -1157,7 +1154,7 @@ bool construct::check_empty_stable( const tripoint &p )
 
 bool construct::check_nofloor_above( const tripoint &p )
 {
-    return get_map().has_flag( flag_NO_FLOOR, p + tripoint_above );
+    return get_map().has_flag( TFLAG_NO_FLOOR, p + tripoint_above );
 }
 
 bool construct::check_deconstruct( const tripoint &p )

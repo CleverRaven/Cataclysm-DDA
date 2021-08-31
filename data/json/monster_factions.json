@@ -374,19 +374,61 @@
     "type": "MONSTER_FACTION",
     "name": "ant",
     "base_faction": "insect",
-    "by_mood": [ "zombie", "fungus" ]
+    "by_mood": [ "zombie", "fungus" ],
+    "neutral": [ "aphid" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "acid_ant",
     "base_faction": "insect",
-    "by_mood": [ "zombie", "fungus" ]
+    "by_mood": [ "zombie", "fungus" ],
+    "neutral": [ "aphid" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "aphid",
+    "base_faction": "insect",
+    "neutral": [ "ant", "acid_ant" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "crayfish",
     "base_faction": "insect",
     "hate": "fish"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "antlion_grub",
+    "base_faction": "insect",
+    "neutral": [ "antlion_grub", "antlion_adult" ],
+    "by_mood": [ "zombie", "fungus", "bee" ],
+    "hate": [ "insect", "small_animal", "ant", "acid_ant" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "antlion_adult",
+    "base_faction": "insect",
+    "neutral": [ "antlion_grub", "antlion_adult" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "ladybug",
+    "base_faction": "insect",
+    "by_mood": [ "zombie", "bee", "insect" ],
+    "hate": [ "small_animal", "ant", "acid_ant" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "mantis",
+    "base_faction": "insect",
+    "by_mood": [ "centipede", "spider", "ant", "acid_ant" ],
+    "hate": [ "insect", "small_animal" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "strider",
+    "base_faction": "insect",
+    "hate": [ "small_animal", "fish" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -405,6 +447,12 @@
     "name": "robofac",
     "neutral": [ "bot", "animal" ],
     "hate": [ "zombie", "fungus", "cult", "triffid", "nether" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "robofac_spy",
+    "base_faction": "robofac",
+    "friendly": [ "human", "player" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -451,5 +499,11 @@
     "name": "sewer_snake",
     "base_faction": "mutant_piscivores",
     "neutral": "sewer_snake"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dark_wyrm",
+    "base_faction": "mutant",
+    "neutral": "dark_wyrm"
   }
 ]

@@ -133,6 +133,7 @@ static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
+static const trait_id trait_NUMB( "NUMB" );
 
 // note: cannot use constants from flag.h (e.g. flag_ALLERGEN_VEGGY) here, as they
 // might be uninitialized at the time these const arrays are created
@@ -1186,6 +1187,7 @@ void Character::modify_morale( item &food, const int nutr )
         const bool psycho = has_trait( trait_PSYCHOPATH );
         const bool sapiovore = has_trait( trait_SAPIOVORE );
         const bool spiritual = has_trait( trait_SPIRITUAL );
+        const bool numb = has_trait( trait_NUMB );
         if( ( cannibal || sapiovore ) && psycho && spiritual ) {
             add_msg_if_player( m_good,
                                _( "You feast upon the human flesh, and in doing so, devour their spirit." ) );
@@ -1210,6 +1212,9 @@ void Character::modify_morale( item &food, const int nutr )
         } else if( spiritual ) {
             add_msg_if_player( m_bad,
                                _( "This is probably going to count against you if there's still an afterlife." ) );
+            add_morale( MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes );
+        } else if( numb ) {
+            add_msg_if_player( m_bad, _( "You find this meal distasteful, but necessary." ) );
             add_morale( MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes );
         } else {
             add_msg_if_player( m_bad, _( "You feel horrible for eating a person." ) );
@@ -1585,7 +1590,8 @@ bool Character::can_estimate_rot() const
 bool Character::can_consume_as_is( const item &it ) const
 {
     if( it.is_comestible() ) {
-        return !( it.has_flag( flag_FROZEN ) && !it.has_flag( flag_EDIBLE_FROZEN ) );
+        return !it.has_flag( flag_FROZEN ) || it.has_flag( flag_EDIBLE_FROZEN ) ||
+               it.has_flag( flag_MELTS );
     }
     return can_fuel_bionic_with( it );
 }
@@ -1769,7 +1775,7 @@ trinary Character::consume( item &target, bool force, bool refuel )
     if( target.is_craft() ) {
         add_msg_if_player( m_info, _( "You can't eat your %s." ), target.tname() );
         if( is_npc() ) {
-            debugmsg( "%s tried to eat a %s", name, target.tname() );
+            debugmsg( "%s tried to eat a %s", get_name(), target.tname() );
         }
         return trinary::NONE;
     }

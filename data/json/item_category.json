@@ -91,6 +91,13 @@
     "sort_rank": -12
   },
   {
+    "id": "currency",
+    "type": "ITEM_CATEGORY",
+    "name": { "str": "CURRENCY" },
+    "zone": "LOOT_CURRENCY",
+    "sort_rank": -11
+  },
+  {
     "id": "veh_parts",
     "type": "ITEM_CATEGORY",
     "name": { "str": "VEHICLE PARTS" },

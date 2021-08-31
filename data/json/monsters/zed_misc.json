@@ -1145,11 +1145,12 @@
     "vision_day": 30,
     "vision_night": 10,
     "harvest": "human",
+    "path_settings": { "max_dist": 30, "avoid_traps": true, "avoid_sharp": true },
     "special_attacks": [ [ "BRANDISH", 10 ] ],
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "fear_triggers": [ "FIRE" ],
     "death_drops": { "groups": [ [ "shia_stuff", 1 ] ] },
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "PATH_AVOID_DANGER_2", "PRIORITIZE_TARGETS", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "POISON", "NO_BREATHE", "PATH_AVOID_DANGER_1", "PRIORITIZE_TARGETS", "FILTHY" ]
   },
   {
     "id": "mon_zombie_shrieker",
