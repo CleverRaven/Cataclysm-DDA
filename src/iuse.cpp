@@ -3334,7 +3334,7 @@ cata::optional<int> iuse::circsaw_on( Character *p, item *it, bool t, const trip
 cata::optional<int> iuse::change_eyes( Character *p, item *, bool, const tripoint & )
 {
     if( p->is_avatar() ) {
-        p->customize_appearance( customize_appearance::EYES );
+        p->customize_appearance( customize_appearance_choice::EYES );
     }
     return cata::nullopt;
 }
@@ -3342,7 +3342,7 @@ cata::optional<int> iuse::change_eyes( Character *p, item *, bool, const tripoin
 cata::optional<int> iuse::change_skin( Character *p, item *, bool, const tripoint & )
 {
     if( p->is_avatar() ) {
-        p->customize_appearance( customize_appearance::SKIN );
+        p->customize_appearance( customize_appearance_choice::SKIN );
     }
     return cata::nullopt;
 }

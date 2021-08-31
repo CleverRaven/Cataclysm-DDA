@@ -4632,9 +4632,9 @@ void haircut_activity_actor::finish( player_activity &act, Character &who )
 
         amenu.query();
         if( amenu.ret == 0 ) {
-            who.customize_appearance( customize_appearance::HAIR );
+            who.customize_appearance( customize_appearance_choice::HAIR );
         } else if( amenu.ret == 1 ) {
-            who.customize_appearance( customize_appearance::HAIR_F );
+            who.customize_appearance( customize_appearance_choice::HAIR_F );
         }
     }
     act.set_to_null();

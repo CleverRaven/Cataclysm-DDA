@@ -1861,7 +1861,7 @@ bool contains_trait( std::vector<string_id<mutation_branch>> traits, const trait
     return std::find( traits.begin(), traits.end(), trait ) != traits.end();
 }
 
-void Character::customize_appearance( enum customize_appearance choice )
+void Character::customize_appearance( customize_appearance_choice choice )
 {
     uilist amenu;
     trait_id current_trait;
@@ -1888,22 +1888,22 @@ void Character::customize_appearance( enum customize_appearance choice )
     std::vector<trait_id> traits;
     std::string end_message;
     switch( choice ) {
-        case customize_appearance::EYES:
+        case customize_appearance_choice::EYES:
             amenu.text = _( "Choose a new eye colour" );
             traits = get_mutations_in_type( STATIC( "eye_color" ) );
             end_message = _( "Maybe things will be better by seeing it with new eyes." );
             break;
-        case customize_appearance::HAIR:
+        case customize_appearance_choice::HAIR:
             amenu.text = _( "Choose a new hairstyle" );
             traits = get_mutations_in_type( STATIC( "hair_style" ) );
             end_message = _( "A change in hairstyle will freshen up the mood." );
             break;
-        case customize_appearance::HAIR_F:
+        case customize_appearance_choice::HAIR_F:
             amenu.text = _( "Choose a new facial hairstyle" );
             traits = get_mutations_in_type( STATIC( "facial_hair" ) );
             end_message = _( "Surviving the end with style." );
             break;
-        case customize_appearance::SKIN:
+        case customize_appearance_choice::SKIN:
             amenu.text = _( "Choose a new skin colour" );
             traits = get_mutations_in_type( STATIC( "skin_tone" ) );
             end_message = _( "Life in the cataclysm seems to have changed you." );

@@ -361,7 +361,7 @@ class contents_change_handler
         std::vector<item_location> unsealed;
 };
 
-enum class customize_appearance {
+enum class customize_appearance_choice : int {
     EYES, // customize eye colour
     HAIR, // customize hair
     HAIR_F, // customize facial hair
@@ -2565,7 +2565,7 @@ class Character : public Creature, public visitable
         /** Handles Character vomiting effects */
         void vomit();
 
-        void customize_appearance( customize_appearance choice );
+        void customize_appearance( customize_appearance_choice choice );
 
         std::map<mutation_category_id, int> mutation_category_level;
 

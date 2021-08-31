@@ -283,9 +283,9 @@ void iexamine::change_appearance( Character &you, const tripoint & )
 
     amenu.query();
     if( amenu.ret == 0 ) {
-        you.customize_appearance( customize_appearance::EYES );
+        you.customize_appearance( customize_appearance_choice::EYES );
     } else if( amenu.ret == 1 ) {
-        you.customize_appearance( customize_appearance::SKIN );
+        you.customize_appearance( customize_appearance_choice::SKIN );
     }
 }
 
