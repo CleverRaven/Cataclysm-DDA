@@ -671,7 +671,7 @@
     "name": "Social Dancing",
     "description": "You love meeting new people on the dance floor.  Zombies aren't terribly friendly, but they're ready to tango!",
     "points": 2,
-    "skills": [ { "level": 1, "name": "dodging" }, { "level": 2, "name": "speech" } ],
+    "skills": [ { "level": 1, "name": "dodge" }, { "level": 2, "name": "speech" } ],
     "traits": [ "LIGHTSTEP" ]
   },
   {
