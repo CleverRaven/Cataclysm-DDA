@@ -86,13 +86,13 @@ static time_duration next_recurrence( const effect_on_condition_id &eoc )
 
 void effect_on_conditions::load_new_character( Character &you )
 {
-    /*bool is_avatar = you.is_avatar();
+    bool is_avatar = you.is_avatar();
     for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
         if( !eoc.activate_only && ( is_avatar || eoc.run_for_npcs ) ) {
             queued_eoc new_eoc = queued_eoc{ eoc.id, true, calendar::turn + next_recurrence( eoc.id ) };
             you.queued_effect_on_conditions.push( new_eoc );
         }
-    }*/
+    }
 }
 
 void effect_on_conditions::load_existing_character( Character &you )

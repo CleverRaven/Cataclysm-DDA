@@ -97,6 +97,7 @@
   {
     "type": "effect_on_condition",
     "id": "bio_drain",
+    "run_for_npcs": true,
     "recurrence_min": "30 minutes",
     "recurrence_max": "1 hours 30 minutes",
     "condition": {
@@ -218,6 +219,7 @@
   {
     "type": "effect_on_condition",
     "id": "bio_trip",
+    "run_for_npcs": true,
     "recurrence_min": "25 minutes",
     "recurrence_max": "1 hours 15 minutes",
     "condition": {
@@ -236,6 +238,7 @@
   {
     "type": "effect_on_condition",
     "id": "bio_spasm",
+    "run_for_npcs": true,
     "recurrence_min": "2 hours 30 minutes",
     "recurrence_max": "7 hours 30 minutes",
     "condition": {
@@ -256,6 +259,7 @@
   {
     "type": "effect_on_condition",
     "id": "bio_shakes",
+    "run_for_npcs": true,
     "recurrence_min": "1 hours",
     "recurrence_max": "3 hours",
     "condition": {
@@ -272,6 +276,7 @@
   {
     "type": "effect_on_condition",
     "id": "bio_glowy",
+    "run_for_npcs": true,
     "recurrence_min": "25 minutes",
     "recurrence_max": "1 hours 15 minutes",
     "condition": {
@@ -291,6 +296,7 @@
   {
     "type": "effect_on_condition",
     "id": "bio_sleepy",
+    "run_for_npcs": true,
     "recurrence_min": "25 minutes",
     "recurrence_max": "1 hours 15 minutes",
     "condition": { "and": [ { "u_has_bionics": "bio_sleepy" }, { "not": { "u_has_effect": "sleep" } } ] },
@@ -300,6 +306,7 @@
   {
     "type": "effect_on_condition",
     "id": "bio_itchy",
+    "run_for_npcs": true,
     "recurrence_min": "25 minutes",
     "recurrence_max": "1 hours 15 minutes",
     "condition": { "and": [ { "u_has_bionics": "bio_itchy" }, { "not": { "u_has_effect": "formication" } } ] },
@@ -312,6 +319,7 @@
   {
     "type": "effect_on_condition",
     "id": "bio_noise",
+    "run_for_npcs": true,
     "recurrence_min": "30 minutes",
     "recurrence_max": "1 hours 30 minutes",
     "condition": { "and": [ { "u_has_bionics": "bio_noise" }, { "not": { "u_has_effect": "narcosis" } } ] },
@@ -343,6 +351,7 @@
   {
     "type": "effect_on_condition",
     "id": "bio_leaky",
+    "run_for_npcs": true,
     "recurrence_min": "3 minutes",
     "recurrence_max": "9 minutes",
     "condition": { "u_has_bionics": "bio_leaky" },

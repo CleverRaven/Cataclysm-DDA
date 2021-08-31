@@ -388,9 +388,6 @@ class Character : public Creature, public visitable
         // by default save all contained info
         virtual void serialize( JsonOut &jsout ) const = 0;
 
-        std::vector<effect_on_condition_id> inactive_effect_on_condition_vector;
-        std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare> queued_effect_on_conditions;
-
         character_id getID() const;
         /// sets the ID, will *only* succeed when the current id is not valid
         /// allows forcing a -1 id which is required for templates to not throw errors
@@ -2281,6 +2278,9 @@ class Character : public Creature, public visitable
         std::set<tripoint_abs_omt> camps;
 
         std::vector <addiction> addictions;
+        std::vector<effect_on_condition_id> inactive_effect_on_condition_vector;
+        std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare> queued_effect_on_conditions;
+
         /** Adds an addiction to the player */
         void add_addiction( add_type type, int strength );
         /** Removes an addition from the player */
