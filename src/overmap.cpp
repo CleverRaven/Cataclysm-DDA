@@ -858,12 +858,18 @@ const std::vector<oter_t> &overmap_terrains::get_all()
     return terrains.get_all();
 }
 
-bool overmap_special_terrain::can_be_placed_on( const oter_id &oter ) const
+static bool is_amongst_locations( const oter_id &oter,
+                                  const cata::flat_set<string_id<overmap_location>> &locations )
 {
     return std::any_of( locations.begin(), locations.end(),
     [&oter]( const string_id<overmap_location> &loc ) {
         return loc->test( oter );
     } );
+}
+
+bool overmap_special_terrain::can_be_placed_on( const oter_id &oter ) const
+{
+    return is_amongst_locations( oter, locations );
 }
 
 // We have other direction enums, but for this purpose we need to have one for
@@ -1042,7 +1048,9 @@ struct mutable_overmap_phase {
 
     ter_rule_and_dir satisfy(
         const std::unordered_map<std::string, mutable_overmap_terrain> &overmaps,
-        const placement_constraints &constraints ) {
+        const overmap &om, const tripoint_om_omt &pos, const placement_constraints &constraints ) {
+
+        const oter_id &existing_terrain = om.ter( pos );
         std::array<placement_constraints, 4> all_constraints = constraints.all_rotations();
 
         weighted_int_list<ter_rule_and_dir> options;
@@ -1053,6 +1061,11 @@ struct mutable_overmap_phase {
                 continue;
             }
             const mutable_overmap_terrain &ter = it->second;
+
+            if( !is_amongst_locations( existing_terrain, ter.locations ) ) {
+                continue;
+            }
+
             std::vector<om_direction::type> dir_options;
 
             for( om_direction::type dir : om_direction::all ) {
@@ -1150,6 +1163,10 @@ class connections_tracker
             return !unresolved.empty();
         }
 
+        bool any_postponed() const {
+            return !postponed.empty();
+        }
+
         void add_connections_for( const mutable_overmap_terrain &ter, const tripoint_om_omt &pos,
                                   om_direction::type rot ) {
             for( const std::pair<const cube_direction, std::string> &p : ter.connections ) {
@@ -1172,7 +1189,7 @@ class connections_tracker
             }
         }
 
-        std::pair<tripoint_om_omt, placement_constraints> pick_top_priority() const {
+        std::pair<pos_dir, placement_constraints> pick_top_priority() const {
             cata_assert( any_unresolved() );
             auto priority_it = std::find_if(
                                    unresolved_priority_index.begin(), unresolved_priority_index.end(),
@@ -1182,7 +1199,7 @@ class connections_tracker
             cata_assert( priority_it != unresolved_priority_index.end() );
             auto it = random_entry( *priority_it );
             const tripoint_om_omt &pos = it->where.p;
-            std::pair<tripoint_om_omt, placement_constraints> result( pos, {} );
+            std::pair<pos_dir, placement_constraints> result( it->where, {} );
             for( cube_direction dir : all_enum_values<cube_direction>() ) {
                 pos_dir key{ pos, dir };
                 auto pos_it = unresolved_position_index.find( key );
@@ -1191,6 +1208,19 @@ class connections_tracker
                 }
             }
             return result;
+        }
+        void postpone( const pos_dir &p ) {
+            auto it = unresolved_position_index.find( p );
+            cata_assert( it != unresolved_position_index.end() );
+            postponed.push_back( *it->second );
+            erase_unresolved( p );
+        }
+        void restore_postponed() {
+            cata_assert( unresolved.empty() );
+            for( const connection &conn : postponed ) {
+                add_unresolved( conn.where, conn.connection_id );
+            }
+            postponed.clear();
         }
     private:
         unsigned priority_of( const std::string &conn ) {
@@ -1251,14 +1281,21 @@ class connections_tracker
         std::list<connection> resolved;
         std::unordered_map<pos_dir, iterator> resolved_position_index;
 
+        std::vector<connection> postponed;
+
         std::vector<connection> orphaned;
 };
 
 struct mutable_overmap_special_data {
+    overmap_special_id parent_id;
     std::vector<std::string> connection_ids;
     std::unordered_map<std::string, mutable_overmap_terrain> overmaps;
     std::string root;
     std::vector<mutable_overmap_phase> phases;
+
+    mutable_overmap_special_data( const overmap_special_id &p_id )
+        : parent_id( p_id )
+    {}
 
     void check( const std::string &context ) const {
         std::unordered_set<std::string> uniq_connection_ids(
@@ -1328,28 +1365,33 @@ struct mutable_overmap_special_data {
         mutable_overmap_phase phase_remaining = *current_phase;
 
         while( unresolved.any_unresolved() ) {
-            tripoint_om_omt p;
+            pos_dir p_d;
             placement_constraints next;
-            std::tie( p, next ) = unresolved.pick_top_priority();
+            std::tie( p_d, next ) = unresolved.pick_top_priority();
+            const tripoint_om_omt &p = p_d.p;
             const mutable_overmap_terrain *ter;
             om_direction::type rot;
-            std::tie( ter, std::ignore, rot ) = phase_remaining.satisfy( overmaps, next );
+            std::tie( ter, std::ignore, rot ) = phase_remaining.satisfy( overmaps, om, p, next );
             if( ter ) {
                 const oter_id tid = ter->terrain->get_rotated( rot );
                 om.ter_set( p, tid );
                 unresolved.add_connections_for( *ter, p, rot );
                 result.push_back( p );
             } else {
-                ++current_phase;
-                if( current_phase == phases.end() ) {
-                    break;
+                unresolved.postpone( p_d );
+                if( !unresolved.any_unresolved() ) {
+                    ++current_phase;
+                    if( current_phase == phases.end() ) {
+                        break;
+                    }
+                    phase_remaining = *current_phase;
+                    unresolved.restore_postponed();
                 }
-                phase_remaining = *current_phase;
             }
         }
 
-        if( unresolved.any_unresolved() ) {
-            debugmsg( "Spawn of mutable special had unresolved connections" );
+        if( unresolved.any_postponed() ) {
+            debugmsg( "Spawn of mutable special %s had unresolved connections", parent_id.str() );
         }
 
         return result;
@@ -1516,12 +1558,19 @@ void overmap_special::load( const JsonObject &jo, const std::string &src )
             }
             break;
         case overmap_special_subtype::mutable_: {
-            std::shared_ptr<mutable_overmap_special_data> mutable_data =
-                std::make_shared<mutable_overmap_special_data>();
+            shared_ptr_fast<mutable_overmap_special_data> mutable_data =
+                make_shared_fast<mutable_overmap_special_data>( id );
             mandatory( jo, was_loaded, "connection_ids", mutable_data->connection_ids );
             mandatory( jo, was_loaded, "overmaps", mutable_data->overmaps );
             mandatory( jo, was_loaded, "root", mutable_data->root );
             mandatory( jo, was_loaded, "phases", mutable_data->phases );
+            for( std::pair<const std::string, mutable_overmap_terrain> &p :
+                 mutable_data->overmaps ) {
+                mutable_overmap_terrain &ter = p.second;
+                if( ter.locations.empty() ) {
+                    ter.locations = default_locations_;
+                }
+            }
             mutable_data_ = std::move( mutable_data );
             break;
         }
@@ -1550,7 +1599,7 @@ void overmap_special::finalize()
     if( !default_locations_.empty() ) {
         for( auto &t : fixed_data_.terrains ) {
             if( t.locations.empty() ) {
-                t.locations.insert( default_locations_.begin(), default_locations_.end() );
+                t.locations = default_locations_;
             }
         }
     }

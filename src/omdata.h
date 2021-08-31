@@ -537,14 +537,14 @@ class overmap_special
         overmap_special_subtype subtype_;
         overmap_special_placement_constraints constraints_;
         fixed_overmap_special_data fixed_data_;
-        std::shared_ptr<const mutable_overmap_special_data> mutable_data_;
+        shared_ptr_fast<const mutable_overmap_special_data> mutable_data_;
 
         bool rotatable_ = true;
         overmap_special_spawns monster_spawns_;
         cata::flat_set<std::string> flags_;
 
         // These locations are the default values if ones are not specified for the individual OMTs.
-        std::set<string_id<overmap_location>> default_locations_;
+        cata::flat_set<string_id<overmap_location>> default_locations_;
         mapgen_parameters mapgen_params_;
 };
 
