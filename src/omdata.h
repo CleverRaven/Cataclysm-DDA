@@ -422,7 +422,7 @@ struct overmap_special_terrain {
     tripoint p;
     oter_str_id terrain;
     std::set<std::string> flags;
-    std::set<string_id<overmap_location>> locations;
+    cata::flat_set<string_id<overmap_location>> locations;
 
     template<typename Value = JsonValue, std::enable_if_t<std::is_same<std::decay_t<Value>, JsonValue>::value>* = nullptr>
     void deserialize( const Value &jsin ) {
@@ -468,6 +468,7 @@ struct overmap_special_placement_constraints {
 
 enum class overmap_special_subtype {
     fixed,
+    mutable_,
     last
 };
 
@@ -477,15 +478,20 @@ struct enum_traits<overmap_special_subtype> {
 };
 
 struct fixed_overmap_special_data {
-    std::list<overmap_special_terrain> terrains;
+    std::vector<overmap_special_terrain> terrains;
     std::vector<overmap_special_connection> connections;
 };
+
+struct mutable_overmap_special_data;
 
 class overmap_special
 {
     public:
         overmap_special() = default;
         overmap_special( const overmap_special_id &, const overmap_special_terrain & );
+        overmap_special_subtype get_subtype() const {
+            return subtype_;
+        }
         const overmap_special_placement_constraints &get_constraints() const {
             return constraints_;
         }
@@ -505,7 +511,9 @@ class overmap_special
         bool has_flag( const std::string & ) const;
         int longest_side() const;
         std::vector<overmap_special_terrain> preview_terrains() const;
+        std::vector<overmap_special_terrain> required_terrains() const;
         const fixed_overmap_special_data &get_fixed_data() const;
+        const mutable_overmap_special_data &get_mutable_data() const;
         const overmap_special_spawns &get_monster_spawns() const {
             return monster_spawns_;
         }
@@ -529,6 +537,7 @@ class overmap_special
         overmap_special_subtype subtype_;
         overmap_special_placement_constraints constraints_;
         fixed_overmap_special_data fixed_data_;
+        std::shared_ptr<const mutable_overmap_special_data> mutable_data_;
 
         bool rotatable_ = true;
         overmap_special_spawns monster_spawns_;

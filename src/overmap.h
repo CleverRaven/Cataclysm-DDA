@@ -470,7 +470,7 @@ class overmap
         pf::directed_path<point_om_omt> lay_out_street(
             const overmap_connection &connection, const point_om_omt &source,
             om_direction::type dir, size_t len ) const;
-
+    public:
         void build_connection(
             const overmap_connection &connection, const pf::directed_path<point_om_omt> &path, int z,
             const om_direction::type &initial_dir = om_direction::type::invalid );
@@ -482,6 +482,7 @@ class overmap
         // Polishing
         bool check_ot( const std::string &otype, ot_match_type match_type,
                        const tripoint_om_omt &p ) const;
+    private:
         bool check_overmap_special_type( const overmap_special_id &id,
                                          const tripoint_om_omt &location ) const;
         cata::optional<overmap_special_id> overmap_special_at( const tripoint_om_omt &p ) const;
