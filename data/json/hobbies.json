@@ -478,16 +478,6 @@
   {
     "type": "profession",
     "subtype": "hobby",
-    "id": "whittling",
-    "name": "Whittling",
-    "description": "You liked to carve trinkets out of wood.  Now that zombies are about, you wish you had taken up chainsaw carving instead.",
-    "points": 1,
-    "skills": [ { "level": 1, "name": "fabrication" } ],
-    "proficiencies": [ "prof_carving" ]
-  },
-  {
-    "type": "profession",
-    "subtype": "hobby",
     "id": "scrapart",
     "name": "Scrap Art",
     "description": "You spent hours welding discarded scrap into large and intricate designs.  Some say you just welded junk into bigger junk.  You call it art.",
@@ -513,5 +503,24 @@
     "description": "Whether you twirled, spun, juggled, or ate it, fire was how you grabbed attention",
     "points": 2,
     "traits": [ "PYROMANIA", "ADRENALINE", "DEFT" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "socialdance",
+    "name": "Social Dancing",
+    "description": "You love meeting new people on the dance fllor.  Zombies aren't terribly friendly, but they're ready to tango!",
+    "points": 2,
+    "skills": [ { "level": 1, "name": "dodging" }, { "level": 2, "name": "speech" ],
+    "traits": [ "LIGHTSTEP" ]
+  },
+  {
+    "type": "profession",
+    "subtype": "hobby",
+    "id": "meditation",
+    "name": "Mediation",
+    "description": "You make a habit of clearing your thoughts and finding your center, even amidst the chaos of the world.",
+    "points": 2,
+    "traits": [ "SELFAWARE", "SPIRITUAL" ]
   }
 ]
