@@ -24,7 +24,7 @@
   {
     "id": "staff_sling_grenade_cradle",
     "type": "GUNMOD",
-    "name": { "str": "grenade cradle for staff sling" },
+    "name": { "str": "grenade cradle for staff sling", "str_pl": "grenade cradles for staff slings" },
     "description": "A larger crade with a longer sling for fitting to a staff sling to enable it to throw grenades.",
     "weight": "96 g",
     "volume": "250 ml",
