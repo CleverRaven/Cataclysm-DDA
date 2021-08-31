@@ -1906,7 +1906,7 @@ void Character::customize_appearance( enum customize_appearance choice )
         case customize_appearance::SKIN:
             amenu.text = _( "Choose a new skin colour" );
             traits = get_mutations_in_type( STATIC( "skin_tone" ) );
-            end_message = _( "You activate your secret chameleon powers." );
+            end_message = _( "Life in the cataclysm seems to have changed you." );
             break;
     }
 
