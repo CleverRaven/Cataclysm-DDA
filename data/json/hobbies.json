@@ -660,7 +660,7 @@
     "subtype": "hobby",
     "id": "fireperformance",
     "name": "Fire Performance",
-    "description": "Whether you twirled, spun, juggled, or ate it, fire was how you grabbed attention",
+    "description": "Whether you twirled, spun, juggled, or ate it, fire was how you grabbed attention.",
     "points": 2,
     "traits": [ "PYROMANIA", "ADRENALINE", "DEFT" ]
   },
