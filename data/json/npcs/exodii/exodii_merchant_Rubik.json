@@ -16,7 +16,7 @@
     "id": "NC_EXODII_TYPE_1_Merchant",
     "name": { "str": "Cyborg, type 1" },
     "job_description": "I'm a cyborg.",
-    "traits": [ TK: needs a special trait to give it a unique sprite ],
+    "traits": [ { "trait": "EXODII_BODY_1" } ], // This needs to give the exodii a unique sprite
     "common": false,
     "bonus_str": { "rng": [ 0, 6 ] },
     "bonus_dex": { "rng": [ 0, 6 ] },
@@ -24,7 +24,6 @@
     "bonus_per": { "rng": [ 0, 4 ] },
     "shopkeeper_item_group": "EXODII_SHOP_Tier0",
     "carry_override": "NC_EXODII_TYPE_1_carried",
-    "traits": [ { "trait": "EXODII_BODY_1" } ],
     "skills": [
       {
         "skill": "ALL",
