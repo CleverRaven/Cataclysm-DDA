@@ -2,10 +2,10 @@
   {
     "type": "item_group",
     "id": "exodii_merchant_goods_tier_1",
-	"//": "This stuff should be available in the exodii store from the start.",
+    "//": "This stuff should be available in the exodii store from the start.",
     "items": [
-	  [ "box_medium", 75 ],
-	  [ "box_large", 25 ],
+      [ "box_medium", 75 ],
+      [ "box_large", 25 ],
       [ "pipe_fittings", 70 ],
       [ "goggles_welding", 50 ],
       [ "welding_book", 10 ],
@@ -22,7 +22,7 @@
   {
     "type": "item_group",
     "id": "exodii_CBM_store_tier_1",
-	"//": "These CBMs should be available in the exodii store from the start.",
+    "//": "These CBMs should be available in the exodii store from the start.",
     "items": [
       [ "bio_watch", 10 ],
       [ "bio_syringe", 10 ],
@@ -46,7 +46,7 @@
   {
     "type": "item_group",
     "id": "exodii_CBM_store_tier_2",
-	"//": "These CBMs should be available in the exodii store after at least 2 weeks and 10 trade interactions on separate days.",
+    "//": "These CBMs should be available in the exodii store after at least 2 weeks and 10 trade interactions on separate days.",
     "items": [
       [ "bio_tools", 10 ],
       [ "bio_ethanol", 10 ],
@@ -75,7 +75,7 @@
   {
     "type": "item_group",
     "id": "exodii_CBM_store_tier_3",
-	"//": "These CBMs should be available in the exodii store after at least 4 weeks and 20 trade interactions on separate days.",
+    "//": "These CBMs should be available in the exodii store after at least 4 weeks and 20 trade interactions on separate days.",
     "items": [
       [ "bio_blood_filter", 10 ],
       [ "bio_purifier", 10 ],
@@ -100,7 +100,7 @@
   {
     "type": "item_group",
     "id": "exodii_CBM_store_tier_4",
-	"//": "These CBMs should be available in the exodii store after at least 8 weeks and 50 trade interactions on separate days.",
+    "//": "These CBMs should be available in the exodii store after at least 8 weeks and 50 trade interactions on separate days.",
     "items": [
       [ "bio_faraday", 10 ],
       [ "bio_metabolics", 10 ],
@@ -121,19 +121,19 @@
   {
     "type": "item_group",
     "id": "exodii_CBM_unlocks_weapons_light",
-	"//": "To get items from this group in the exodii CBM store requires finishing missions for their faction and earning their trust",
+    "//": "To get items from this group in the exodii CBM store requires finishing missions for their faction and earning their trust",
     "items": [ [ "bio_blade", 10 ], [ "bio_claws", 10 ], [ "bio_cqb", 10 ], [ "bio_flashbang", 10 ], [ "bio_razors", 10 ] ]
   },
   {
     "type": "item_group",
     "id": "exodii_CBM_unlocks_weapons_medium",
-	"//": "To get items from this group in the exodii CBM store requires finishing missions for their faction and earning their trust",
+    "//": "To get items from this group in the exodii CBM store requires finishing missions for their faction and earning their trust",
     "items": [ [ "bio_resonator", 10 ], [ "bio_targeting", 15 ], [ "bio_shotgun", 10 ], [ "bio_laser", 5 ], [ "bio_shock", 10 ] ]
   },
   {
     "type": "item_group",
     "id": "exodii_CBM_unlocks_weapons_heavy",
-	"//": "To get items from this group in the exodii CBM store requires finishing missions for their faction and earning their trust",
+    "//": "To get items from this group in the exodii CBM store requires finishing missions for their faction and earning their trust",
     "items": [
       [ "bio_blaster", 2 ],
       [ "bio_chain_lightning", 15 ],
