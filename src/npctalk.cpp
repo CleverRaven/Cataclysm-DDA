@@ -776,7 +776,7 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool text_only, bool ra
         return;
     }
 
-    if( !d.actor( true )->has_effect( effect_under_operation ) ) {
+    if( !d.actor( true )->has_effect( effect_under_operation, bodypart_str_id::NULL_ID() ) ) {
         g->cancel_activity_or_ignore_query( distraction_type::talked_to,
                                             string_format( _( "%s talked to you." ),
                                                     d.actor( true )->disp_name() ) );

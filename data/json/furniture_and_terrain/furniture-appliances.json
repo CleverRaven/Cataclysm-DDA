@@ -581,7 +581,7 @@
     "color": "yellow",
     "move_cost_mod": 2,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "BASHABLE" ],
+    "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 4, 6 ] },

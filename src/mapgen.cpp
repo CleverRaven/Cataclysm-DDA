@@ -85,7 +85,6 @@ static const itype_id itype_jp8( "jp8" );
 
 static const mongroup_id GROUP_BREATHER( "GROUP_BREATHER" );
 static const mongroup_id GROUP_BREATHER_HUB( "GROUP_BREATHER_HUB" );
-static const mongroup_id GROUP_DARK_WYRM( "GROUP_DARK_WYRM" );
 static const mongroup_id GROUP_DOG_THING( "GROUP_DOG_THING" );
 static const mongroup_id GROUP_FUNGI_FUNGALOID( "GROUP_FUNGI_FUNGALOID" );
 static const mongroup_id GROUP_HAZMATBOT( "GROUP_HAZMATBOT" );
@@ -2331,7 +2330,7 @@ class jmapgen_terrain : public jmapgen_piece
             }
             dat.m.ter_set( point( x.get(), y.get() ), chosen_id );
             // Delete furniture if a wall was just placed over it. TODO: need to do anything for fluid, monsters?
-            if( dat.m.has_flag_ter( "WALL", point( x.get(), y.get() ) ) ) {
+            if( dat.m.has_flag_ter( TFLAG_WALL, point( x.get(), y.get() ) ) ) {
                 dat.m.furn_set( point( x.get(), y.get() ), f_null );
                 // and items, unless the wall has PLACE_ITEM flag indicating it stores things.
                 if( !dat.m.has_flag_ter( "PLACE_ITEM", point( x.get(), y.get() ) ) ) {
@@ -4089,7 +4088,7 @@ void map::draw_lab( mapgendata &dat )
                     // We determine if a border isn't handled by checking the east-facing
                     // border space where the door normally is -- it should be a wall or door.
                     tripoint east_border( 23, 11, abs_sub.z );
-                    if( !has_flag_ter( "WALL", east_border ) &&
+                    if( !has_flag_ter( TFLAG_WALL, east_border ) &&
                         !has_flag_ter( "DOOR", east_border ) ) {
                         // TODO: create a ter_reset function that does ter_set,
                         // furn_set, and i_clear?
@@ -4338,7 +4337,7 @@ void map::draw_lab( mapgendata &dat )
                     if( i + j > 10 && i + j < 36 && std::abs( i - j ) < 13 ) {
                         // Doors and walls get sometimes destroyed:
                         // 100% at the edge, usually in a central cross, occasionally elsewhere.
-                        if( ( has_flag_ter( "DOOR", point( i, j ) ) || has_flag_ter( "WALL", point( i, j ) ) ) ) {
+                        if( ( has_flag_ter( "DOOR", point( i, j ) ) || has_flag_ter( TFLAG_WALL, point( i, j ) ) ) ) {
                             if( ( i == 0 || j == 0 || i == 23 || j == 23 ) ||
                                 ( !one_in( 3 ) && ( i == 11 || i == 12 || j == 11 || j == 12 ) ) ||
                                 one_in( 4 ) ) {
@@ -4351,8 +4350,8 @@ void map::draw_lab( mapgendata &dat )
                             }
                             // and then randomly destroy 5% of the remaining nonstairs.
                         } else if( one_in( 20 ) &&
-                                   !has_flag_ter( "GOES_DOWN", p2 ) &&
-                                   !has_flag_ter( "GOES_UP", p2 ) ) {
+                                   !has_flag_ter( TFLAG_GOES_DOWN, p2 ) &&
+                                   !has_flag_ter( TFLAG_GOES_UP, p2 ) ) {
                             destroy( { i, j, abs_sub.z } );
                             // bashed squares can create dirt & floors, but we want rock floors.
                             if( t_dirt == ter( point( i, j ) ) || t_floor == ter( point( i, j ) ) ) {
@@ -4495,8 +4494,8 @@ void map::draw_lab( mapgendata &dat )
                         ARTPROP_GLOWING
                     };
                     draw_rough_circle( [this]( const point & p ) {
-                        if( has_flag_ter( "GOES_DOWN", p ) ||
-                            has_flag_ter( "GOES_UP", p ) ||
+                        if( has_flag_ter( TFLAG_GOES_DOWN, p ) ||
+                            has_flag_ter( TFLAG_GOES_UP, p ) ||
                             has_flag_ter( "CONSOLE", p ) ) {
                             return; // spare stairs and consoles.
                         }
@@ -4511,7 +4510,7 @@ void map::draw_lab( mapgendata &dat )
                 // radioactive accident.
                 case 6: {
                     tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
-                    if( has_flag_ter( "WALL", center.xy() ) ) {
+                    if( has_flag_ter( TFLAG_WALL, center.xy() ) ) {
                         // just skip it, we don't want to risk embedding radiation out of sight.
                         break;
                     }
@@ -4528,8 +4527,8 @@ void map::draw_lab( mapgendata &dat )
                         set_radiation( p, 50 );
                     }, center.xy(), 1 );
                     draw_circle( [this]( const point & p ) {
-                        if( has_flag_ter( "GOES_DOWN", p ) ||
-                            has_flag_ter( "GOES_UP", p ) ||
+                        if( has_flag_ter( TFLAG_GOES_DOWN, p ) ||
+                            has_flag_ter( TFLAG_GOES_UP, p ) ||
                             has_flag_ter( "CONSOLE", p ) ) {
                             return; // spare stairs and consoles.
                         }
@@ -4560,14 +4559,14 @@ void map::draw_lab( mapgendata &dat )
                     for( int i = 0; i < EAST_EDGE; i++ ) {
                         for( int j = 0; j < SOUTH_EDGE; j++ ) {
                             // Create a mostly spread fungal area throughout entire lab.
-                            if( !one_in( 5 ) && ( has_flag( "FLAT", point( i, j ) ) ) ) {
+                            if( !one_in( 5 ) && ( has_flag( TFLAG_FLAT, point( i, j ) ) ) ) {
                                 ter_set( point( i, j ), t_fungus_floor_in );
                                 if( has_flag_furn( "ORGANIC", point( i, j ) ) ) {
                                     furn_set( point( i, j ), f_fungal_clump );
                                 }
                             } else if( has_flag_ter( "DOOR", point( i, j ) ) && !one_in( 5 ) ) {
                                 ter_set( point( i, j ), t_fungus_floor_in );
-                            } else if( has_flag_ter( "WALL", point( i, j ) ) && one_in( 3 ) ) {
+                            } else if( has_flag_ter( TFLAG_WALL, point( i, j ) ) && one_in( 3 ) ) {
                                 ter_set( point( i, j ), t_fungus_wall );
                             }
                         }
@@ -4576,12 +4575,12 @@ void map::draw_lab( mapgendata &dat )
 
                     // Make a portal surrounded by more dense fungal stuff and a fungaloid.
                     draw_rough_circle( [this]( const point & p ) {
-                        if( has_flag_ter( "GOES_DOWN", p ) ||
-                            has_flag_ter( "GOES_UP", p ) ||
+                        if( has_flag_ter( TFLAG_GOES_DOWN, p ) ||
+                            has_flag_ter( TFLAG_GOES_UP, p ) ||
                             has_flag_ter( "CONSOLE", p ) ) {
                             return; // spare stairs and consoles.
                         }
-                        if( has_flag_ter( "WALL", p ) ) {
+                        if( has_flag_ter( TFLAG_WALL, p ) ) {
                             ter_set( p, t_fungus_wall );
                         } else {
                             ter_set( p, t_fungus_floor_in );
@@ -4630,7 +4629,7 @@ void map::draw_lab( mapgendata &dat )
             // We determine if a border isn't handled by checking the east-facing
             // border space where the door normally is -- it should be a wall or door.
             tripoint east_border( 23, 11, abs_sub.z );
-            if( !has_flag_ter( "WALL", east_border ) && !has_flag_ter( "DOOR", east_border ) ) {
+            if( !has_flag_ter( TFLAG_WALL, east_border ) && !has_flag_ter( "DOOR", east_border ) ) {
                 // TODO: create a ter_reset function that does ter_set, furn_set, and i_clear?
                 ter_id lw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
                 ter_id tw_type = tower_lab ? t_reinforced_glass : t_concrete_wall;
@@ -5195,7 +5194,7 @@ void map::draw_mine( mapgendata &dat )
         }
 
         // Not an entrance; maybe some hazards!
-        switch( rng( 0, 5 ) ) {
+        switch( rng( 0, 4 ) ) {
             case 0:
                 break; // Nothing!  Lucky!
 
@@ -5248,49 +5247,6 @@ void map::draw_mine( mapgendata &dat )
             }
             break;
 
-            case 5: { // Dark worm!
-                const int num_worms = rng( 1, 5 );
-                for( int i = 0; i < num_worms; i++ ) {
-                    std::vector<direction> sides;
-                    if( dat.n_fac == 6 ) {
-                        sides.push_back( direction::NORTH );
-                    }
-                    if( dat.e_fac == 6 ) {
-                        sides.push_back( direction::EAST );
-                    }
-                    if( dat.s_fac == 6 ) {
-                        sides.push_back( direction::SOUTH );
-                    }
-                    if( dat.w_fac == 6 ) {
-                        sides.push_back( direction::WEST );
-                    }
-                    if( sides.empty() ) {
-                        place_spawns( GROUP_DARK_WYRM, 1, point( SEEX, SEEY ), point( SEEX, SEEY ), 1, true );
-                        i = num_worms;
-                    } else {
-                        point p;
-                        switch( random_entry( sides ) ) {
-                            case direction::NORTH:
-                                p = point( rng( 1, SEEX * 2 - 2 ), rng( 1, 5 ) );
-                                break;
-                            case direction::EAST:
-                                p = point( SEEX * 2 - rng( 2, 6 ), rng( 1, SEEY * 2 - 2 ) );
-                                break;
-                            case direction::SOUTH:
-                                p = point( rng( 1, SEEX * 2 - 2 ), SEEY * 2 - rng( 2, 6 ) );
-                                break;
-                            case direction::WEST:
-                                p = point( rng( 1, 5 ), rng( 1, SEEY * 2 - 2 ) );
-                                break;
-                            default:
-                                break;
-                        }
-                        ter_set( p, t_rock_floor );
-                        place_spawns( GROUP_DARK_WYRM, 1, p, p, 1, true );
-                    }
-                }
-            }
-            break;
         }
 
         if( terrain_type == "mine_down" ) { // Don't forget to build a slope down!
@@ -5445,29 +5401,17 @@ void map::draw_mine( mapgendata &dat )
             square( this, t_rock_floor, point( 0, SEEY ), point( 3, SEEY + 1 ) );
         }
 
-        // Now, pick and generate a type of finale!
-        switch( rng( 1, 2 ) ) {
-            case 1: { // Wyrms
-                const point p2( rng( SEEX, SEEX + 1 ), rng( SEEY, SEEY + 1 ) );
-                ter_set( p2, t_pedestal_wyrm );
-                spawn_item( p2, "petrified_eye" );
-            }
-            break; // That's it!  game::examine handles the pedestal/wyrm spawns
-
-            case 2: { // The Thing dog
-                const int num_bodies = rng( 4, 8 );
-                for( int i = 0; i < num_bodies; i++ ) {
-                    point p3( rng( 4, SEEX * 2 - 5 ), rng( 4, SEEX * 2 - 5 ) );
-                    add_item( p3, item::make_corpse() );
-                    place_items( item_group_id( "mine_equipment" ), 60, p3,
-                                 p3, false, calendar::start_of_cataclysm );
-                }
-                place_spawns( GROUP_DOG_THING, 1, point( SEEX, SEEX ), point( SEEX + 1, SEEX + 1 ), 1, true, true );
-                spawn_artifact( tripoint( rng( SEEX, SEEX + 1 ), rng( SEEY, SEEY + 1 ), abs_sub.z ),
-                                relic_procgen_id( "netherum_tunnels" ) );
-            }
-            break;
+        // The Thing dog
+        const int num_bodies = rng( 4, 8 );
+        for( int i = 0; i < num_bodies; i++ ) {
+            point p3( rng( 4, SEEX * 2 - 5 ), rng( 4, SEEX * 2 - 5 ) );
+            add_item( p3, item::make_corpse() );
+            place_items( item_group_id( "mine_equipment" ), 60, p3,
+                         p3, false, calendar::start_of_cataclysm );
         }
+        place_spawns( GROUP_DOG_THING, 1, point( SEEX, SEEX ), point( SEEX + 1, SEEX + 1 ), 1, true, true );
+        spawn_artifact( tripoint( rng( SEEX, SEEX + 1 ), rng( SEEY, SEEY + 1 ), abs_sub.z ),
+                        relic_procgen_id( "netherum_tunnels" ) );
     }
 }
 
@@ -5866,7 +5810,7 @@ std::vector<item *> map::place_items(
             return terrain.movecost == 0           &&
                    !terrain.has_flag( "PLACE_ITEM" ) &&
                    !ongrass                                   &&
-                   !terrain.has_flag( "FLAT" );
+                   !terrain.has_flag( TFLAG_FLAT );
         };
 
         tripoint p;

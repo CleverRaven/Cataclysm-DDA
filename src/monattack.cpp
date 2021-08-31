@@ -1400,7 +1400,7 @@ bool mattack::growplants( monster *z )
     for( const auto &p : here.points_in_radius( z->pos(), 3 ) ) {
 
         // Only affect natural, dirtlike terrain or trees.
-        if( !( here.has_flag_ter( "DIGGABLE", p ) ||
+        if( !( here.has_flag_ter( TFLAG_DIGGABLE, p ) ||
                here.has_flag_ter( "TREE", p ) ||
                here.ter( p ) == t_tree_young ) ) {
             continue;
@@ -2217,7 +2217,7 @@ bool mattack::plant( monster *z )
     map &here = get_map();
     fungal_effects fe;
     const tripoint monster_position = z->pos();
-    const bool is_fungi = here.has_flag_ter( "FUNGUS", monster_position );
+    const bool is_fungi = here.has_flag_ter( TFLAG_FUNGUS, monster_position );
     // Spores taking seed and growing into a fungaloid
     fe.spread_fungus( monster_position );
     if( is_fungi && one_in( 10 + g->num_creatures() / 5 ) ) {
@@ -2239,6 +2239,21 @@ bool mattack::plant( monster *z )
 bool mattack::disappear( monster *z )
 {
     z->set_hp( 0 );
+    return true;
+}
+
+bool mattack::depart( monster *z )
+{
+    map &here = get_map();
+    if( z->has_flag( MF_FLIES ) && here.is_outside( z->pos() ) ) {
+        add_msg_if_player_sees( *z, m_info, _( "The %s turns to a steady climb before departing." ),
+                                z->name() );
+    } else {
+        add_msg_if_player_sees( *z, m_info, _( "The %s departs." ), z->name() );
+    }
+    z->no_corpse_quiet = true;
+    z->no_extra_death_drops = true;
+    z->die( nullptr );
     return true;
 }
 

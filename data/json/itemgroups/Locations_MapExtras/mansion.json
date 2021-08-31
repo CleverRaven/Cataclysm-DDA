@@ -177,10 +177,12 @@
     "subtype": "collection",
     "items": [
       [ "diamond", 20 ],
+      { "item": "money_bundle_twenty", "prob": 50, "count": [ 1, 5 ] },
+      { "item": "money_bundle_fifty", "prob": 50, "count": [ 1, 5 ] },
+      { "item": "money_bundle_hundred", "prob": 20, "count": [ 1, 2 ] },
       { "group": "stash_drugs", "prob": 5 },
       [ "file", 70 ],
       { "group": "jewelry_front", "prob": 40 },
-      [ "money_bundle", 50 ],
       { "group": "mansion_guns", "prob": 95 },
       { "group": "mansion_guns", "prob": 80 }
     ]
@@ -190,7 +192,7 @@
     "type": "item_group",
     "subtype": "collection",
     "items": [
-      [ "money_bundle", 20 ],
+      { "item": "money_strap_twenty", "prob": 20, "count": [ 1, 5 ] },
       { "group": "mansion_ammo", "prob": 60 },
       { "group": "mansion_guns", "prob": 40 },
       { "group": "mansion_guns", "prob": 80 },

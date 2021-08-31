@@ -538,6 +538,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "FUNGAL_TRAIL", mattack::fungal_trail );
     add_hardcoded_attack( "PLANT", mattack::plant );
     add_hardcoded_attack( "DISAPPEAR", mattack::disappear );
+    add_hardcoded_attack( "DEPART", mattack::depart );
     add_hardcoded_attack( "FORMBLOB", mattack::formblob );
     add_hardcoded_attack( "CALLBLOBS", mattack::callblobs );
     add_hardcoded_attack( "JACKSON", mattack::jackson );

@@ -327,7 +327,7 @@ void doors::close_door( map &m, Creature &who, const tripoint &closep )
                                        items_in_way.size() == 1 ? items_in_way.only_item().tname() : _( "stuff" ) );
                 who.mod_moves( -std::min( items_in_way.stored_volume() / ( max_nudge / 50 ), 100 ) );
 
-                if( m.has_flag( "NOITEM", closep ) ) {
+                if( m.has_flag( TFLAG_NOITEM, closep ) ) {
                     // Just plopping items back on their origin square will displace them to adjacent squares
                     // since the door is closed now.
                     for( auto &elem : items_in_way ) {

@@ -2817,7 +2817,7 @@
         { "id": [ "molle_pack", "gobag", "rucksack" ], "fg": 1356, "rotates": false },
         { "id": [ "molotov_micro_act", "molotov_lit" ], "fg": 950, "rotates": false },
         { "id": [ "molotov_micro", "molotov" ], "fg": 949, "rotates": false },
-        { "id": "money_bundle", "fg": 1473, "rotates": false },
+        { "id": "money_one", "fg": 1473, "rotates": false },
         { "id": "mop", "fg": 951, "rotates": false },
         { "id": "mortar_pestle", "fg": 952, "rotates": false },
         {

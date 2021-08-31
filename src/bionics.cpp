@@ -187,8 +187,6 @@ static const json_character_flag json_flag_BIONIC_NPC_USABLE( "BIONIC_NPC_USABLE
 static const json_character_flag json_flag_BIONIC_WEAPON( "BIONIC_WEAPON" );
 static const json_character_flag json_flag_BIONIC_TOGGLED( "BIONIC_TOGGLED" );
 
-static const std::string flag_SEALED( "SEALED" );
-
 struct Character::auto_toggle_bionic_result {
     bool can_burn_fuel = false;
     bool has_burnable_fuel = false;
@@ -945,7 +943,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         std::vector<std::pair<item, tripoint>> affected;
         const units::mass weight_cap = weight_capacity();
         for( const tripoint &p : here.points_in_radius( pos(), 10 ) ) {
-            if( p == pos() || !here.has_items( p ) || here.has_flag( flag_SEALED, p ) ) {
+            if( p == pos() || !here.has_items( p ) || here.has_flag( TFLAG_SEALED, p ) ) {
                 continue;
             }
 

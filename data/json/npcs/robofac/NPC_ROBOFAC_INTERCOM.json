@@ -379,7 +379,11 @@
             { "npc_has_var": "npc_intercom_job_speech", "type": "dialogue", "context": "intercom", "value": "yes" }
           ]
         },
-        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES"
+        "topic": "TALK_ROBOFAC_INTERCOM_SERVICES",
+        "effect": [
+          { "set_queue_effect_on_condition": [ "eoc_robofac_surveillance" ] },
+          { "u_add_effect": "robofac_surveillance", "duration": "14 days" }
+        ]
       },
       {
         "text": "…",

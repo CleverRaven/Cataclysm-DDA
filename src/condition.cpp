@@ -21,6 +21,7 @@
 #include "enum_conversions.h"
 #include "field.h"
 #include "game.h"
+#include "generic_factory.h"
 #include "item.h"
 #include "item_category.h"
 #include "json.h"
@@ -307,8 +308,14 @@ void conditional_t<T>::set_has_effect( const JsonObject &jo, const std::string &
                                        bool is_npc )
 {
     const std::string &effect_id = jo.get_string( member );
-    condition = [effect_id, is_npc]( const T & d ) {
-        return d.actor( is_npc )->has_effect( efftype_id( effect_id ) );
+    cata::optional<int> intensity;
+    cata::optional<bodypart_id> bp;
+    optional( jo, false, "intensity", intensity );
+    optional( jo, false, "bodypart", bp );
+    condition = [effect_id, intensity, bp, is_npc]( const T & d ) {
+        effect target = d.actor( is_npc )->get_effect( efftype_id( effect_id ),
+                        bp.value_or( bodypart_str_id::NULL_ID() ) );
+        return !target.is_null() && intensity.value_or( -1 ) <= target.get_intensity();
     };
 }
 
@@ -687,7 +694,7 @@ template<class T>
 void conditional_t<T>::set_npc_available()
 {
     condition = []( const T & d ) {
-        return !d.actor( true )->has_effect( effect_currently_busy );
+        return !d.actor( true )->has_effect( effect_currently_busy, bodypart_str_id::NULL_ID() );
     };
 }
 

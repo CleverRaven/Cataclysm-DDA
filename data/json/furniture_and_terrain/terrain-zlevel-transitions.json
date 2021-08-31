@@ -334,7 +334,7 @@
     "symbol": "<",
     "color": "dark_gray_white",
     "move_cost": 4,
-    "flags": [ "TRANSPARENT", "BASHABLE", "FLAMMABLE", "PLACE_ITEM", "RAMP", "SEEN_FROM_ABOVE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "RAMP", "SEEN_FROM_ABOVE" ],
     "bash": {
       "str_min": 12,
       "str_max": 50,
@@ -356,7 +356,7 @@
     "symbol": "<",
     "color": "black_white",
     "move_cost": 0,
-    "flags": [ "BASHABLE", "FLAMMABLE", "PLACE_ITEM", "RAMP", "RAMP_END", "SEEN_FROM_ABOVE" ],
+    "flags": [ "FLAMMABLE", "PLACE_ITEM", "RAMP", "RAMP_END", "SEEN_FROM_ABOVE" ],
     "bash": {
       "str_min": 20,
       "str_max": 50,
