@@ -979,6 +979,9 @@ void tileset_loader::load_tilejson_from_file( const JsonObject &config )
  */
 tile_type &tileset_loader::load_tile( const JsonObject &entry, const std::string &id )
 {
+    if( ts.find_tile_type( id ) ) {
+        ts.duplicate_ids.insert( id );
+    }
     tile_type curr_subtile;
 
     load_tile_spritelists( entry, curr_subtile.fg, "fg" );
@@ -3733,6 +3736,22 @@ void cata_tiles::draw_footsteps_frame( const tripoint &center )
 }
 /* END OF ANIMATION FUNCTIONS */
 
+void cata_tiles::tile_loading_report_dups()
+{
+
+    std::vector<std::string> dups_list;
+    const std::unordered_set<std::string> &dups_set = tileset_ptr->get_duplicate_ids();
+    std::copy( dups_set.begin(), dups_set.end(), std::back_inserter( dups_list ) );
+    std::sort( dups_list.begin(), dups_list.end() );
+
+    std::string res;
+    for( const std::string &s : dups_list ) {
+        res += s;
+        res += " ";
+    }
+    DebugLog( D_INFO, DC_ALL ) << "Have duplicates: " << res;
+}
+
 void cata_tiles::init_light()
 {
     g->reset_light_level();
@@ -3980,6 +3999,7 @@ void cata_tiles::do_tile_loading_report()
     tile_loading_report( vpart_info::all(), C_VEHICLE_PART, "vp_" );
     tile_loading_report<trap>( trap::count(), C_TRAP, "" );
     tile_loading_report<field_type>( field_type::count(), C_FIELD, "" );
+    tile_loading_report_dups();
 
     // needed until DebugLog ostream::flush bugfix lands
     DebugLog( D_INFO, DC_ALL );
