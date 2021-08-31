@@ -1030,8 +1030,8 @@
     "req_buffs": [ "buff_swordsmanship_onpause" ],
     "crit_ok": true,
     "flat_bonuses": [
-      { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 1.25 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 1.25 }
+      { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 1.5 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 1.5 }
     ],
     "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 0 } ]
   },
