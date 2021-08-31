@@ -16,7 +16,10 @@
     "id": "NC_EXODII_TYPE_1_Merchant",
     "name": { "str": "Cyborg, type 1" },
     "job_description": "I'm a cyborg.",
-    "traits": [ { "trait": "EXODII_BODY_1" } ], // This needs to give the exodii a unique sprite
+    "traits": [
+      { "trait": "EXODII_BODY_1" },
+      { "//": "This needs to give the exodii a unique sprite and hide any worn or wielded overlays" }
+    ],
     "common": false,
     "bonus_str": { "rng": [ 0, 6 ] },
     "bonus_dex": { "rng": [ 0, 6 ] },
@@ -35,23 +38,16 @@
     ]
   },
   {
-    "type": "item_group",
-    "id": "EXODII_SHOP_Tier0",
-    "subtype": "collection",
-    "items": [
-    ]
-  },
-  {
     "//": "table of contents: common response strings appearing in this list of topics",
-    "id": [
-	  "TALK_EXODII_MERCHANT_New",
-	  "TALK_EXODII_MERCHANT_Dialect",
-    ],
+    "id": [ "TALK_EXODII_MERCHANT_New", "TALK_EXODII_MERCHANT_Dialect" ],
     "type": "talk_topic",
     "responses": [
       { "text": "I don't understand a word you're saying.", "topic": "TALK_EXODII_MERCHANT_Dialect" },
-	  --- the following require you to have done merchant_new first ---  
-      { "text": "[int 9] You're called exodii?  Does that mean you were driven out of your home?", "topic": "TALK_EXODII_MERCHANT_Exodus" },
+      { "//": "--- the following require you to have done merchant_new first ---" },
+      {
+        "text": "[int 9] You're called exodii?  Does that mean you were driven out of your home?",
+        "topic": "TALK_EXODII_MERCHANT_Exodus"
+      },
       { "text": "What kind of base is this?", "topic": "TALK_EXODII_MERCHANT_Base" },
       { "text": "What are you doing here?", "topic": "TALK_EXODII_MERCHANT_Purpose" },
       { "text": "[per 6] Some of this tech looks… weird.", "topic": "TALK_EXODII_MERCHANT_Tech" },
@@ -73,7 +69,6 @@
     "id": "TALK_EXODII_MERCHANT_New",
     "type": "talk_topic",
     "dynamic_line": "Us call us the exodii, eh?  An' other things, but that'n's good."
-    ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_Talk",
@@ -84,9 +79,7 @@
     "id": "TALK_EXODII_MERCHANT_Exodus",
     "type": "talk_topic",
     "dynamic_line": "Oh yeah, right and so.  Each and every.  We wander, we make do.  It's a livin'.",
-    "responses": [
-      { "text": "What drove you out?", "topic": "TALK_EXODII_MERCHANT_Exodus2" },
-    ]
+    "responses": [ { "text": "What drove you out?", "topic": "TALK_EXODII_MERCHANT_Exodus2" } ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_Exodus2",
@@ -97,91 +90,102 @@
     "id": "TALK_EXODII_MERCHANT_Base",
     "type": "talk_topic",
     "dynamic_line": "A junker base, innit?  Pile o' gamp.  Us'll pack it up and sing along soon enough."
-    ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_Purpose",
     "type": "talk_topic",
     "dynamic_line": "Makin' do, makin' do, same as you, an I'm ken.  Last home got a bit too dead 'n putrid roun' the edges, like.  Happens to the best of 'em.  Caught a jibber that made us ken 'bout your place here, fired up the ol' wibble-wammles and boom!  Now it's all tick-tock on a zimmer, here we be.  Got a good timing this time, I razz you only been dead a few days when we wobbled in.  Freshest corpse this'n's seen in a kitchen sink.",
-	"responses": [
+    "responses": [
       { "text": "… what?", "topic": "TALK_EXODII_MERCHANT_Purpose_Dialect" },
-      { "text": "[int or per 9] Where did you come from then?  Are you aliens or something?", "topic": "TALK_EXODII_MERCHANT_Aliens" },
+      {
+        "text": "[int or per 9] Where did you come from then?  Are you aliens or something?",
+        "topic": "TALK_EXODII_MERCHANT_Aliens"
+      },
       { "text": "Is there anything else you want from this place?", "topic": "TALK_EXODII_MERCHANT_Purpose2" }
-	]
+    ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_Purpose_Dialect",
     "type": "talk_topic",
     "dynamic_line": "Us're here to live and breathe, kennit?  After our last otherland got a li'l too dead an' all.  So, us'n came to a new place.  This'n.  An I'm ken, it's not so long dead round here jus' yet.",
-	"responses": [
+    "responses": [
       { "text": "[int or per 7] Otherland?  Are you aliens or something?", "topic": "TALK_EXODII_MERCHANT_Aliens" },
       { "text": "Is there anything else you want from this place?", "topic": "TALK_EXODII_MERCHANT_Purpose2" }
-	]
+    ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_Purpose2",
     "type": "talk_topic",
-    "dynamic_line": "Aside from jus' livin' in such a cozy nook?  Us be minin', ye kennit.  Pickin' the scraps, seein' if for your otherland has any tech worth an upside-down.  No sense lettin' good scraps go to waste.  If we’re lucky, pickin' a few new exodii afore we wobble out.  Pickin' up the pieces of our sweet, shattered dreams, suchlike."
-	"responses": [
-      { "text": "What do you mean 'go to waste'?  The zombies aren't using the scrap, and there's plenty to go around.", "topic": "TALK_EXODII_MERCHANT_Purpose3" }
-	]
+    "dynamic_line": "Aside from jus' livin' in such a cozy nook?  Us be minin', ye kennit.  Pickin' the scraps, seein' if for your otherland has any tech worth an upside-down.  No sense lettin' good scraps go to waste.  If we’re lucky, pickin' a few new exodii afore we wobble out.  Pickin' up the pieces of our sweet, shattered dreams, suchlike.",
+    "responses": [
+      {
+        "text": "What do you mean 'go to waste'?  The zombies aren't using the scrap, and there's plenty to go around.",
+        "topic": "TALK_EXODII_MERCHANT_Purpose3"
+      }
+    ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_Purpose3",
     "type": "talk_topic",
-    "dynamic_line": "This'n be a deadland, an I'm ken.  You gots you a case o' the willies ain't gonna sing along.  No cure for these rats and fleas."
-	"responses": [
+    "dynamic_line": "This'n be a deadland, an I'm ken.  You gots you a case o' the willies ain't gonna sing along.  No cure for these rats and fleas.",
+    "responses": [
       { "text": "What the hell does that mean?", "topic": "TALK_EXODII_MERCHANT_Purpose4" },
-      { "text": "[int 8] Are you saying you think we're doomed?  Why would you have come here if there wasn’t some way to survive?", "topic": "TALK_EXODII_MERCHANT_Survival" }
-	]
+      {
+        "text": "[int 8] Are you saying you think we're doomed?  Why would you have come here if there wasn’t some way to survive?",
+        "topic": "TALK_EXODII_MERCHANT_Survival"
+      }
+    ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_Purpose4",
     "type": "talk_topic",
-    "dynamic_line": "Means what it means.  Your land's a deadun', still kickin' is all."
-	"responses": [
-      { "text": "Are you saying you think we're doomed?  Why would you have come here if there wasn’t some way to survive?", "topic": "TALK_EXODII_MERCHANT_Survival" }
-	]
+    "dynamic_line": "Means what it means.  Your land's a deadun', still kickin' is all.",
+    "responses": [
+      {
+        "text": "Are you saying you think we're doomed?  Why would you have come here if there wasn’t some way to survive?",
+        "topic": "TALK_EXODII_MERCHANT_Survival"
+      }
+    ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_Survival",
     "type": "talk_topic",
-    "dynamic_line": "Oh, us can wobble along as needs.  Sends the scrap back, brings in the foods, and shakes off a willie or three, kennit.  No good for you, won’t take too much flesh an' bone."
-	"responses": [
-      { "text": "Well… could you help me fix that?", "topic": "TALK_EXODII_MERCHANT_Exodize" }
-	]
+    "dynamic_line": "Oh, us can wobble along as needs.  Sends the scrap back, brings in the foods, and shakes off a willie or three, kennit.  No good for you, won’t take too much flesh an' bone.",
+    "responses": [ { "text": "Well… could you help me fix that?", "topic": "TALK_EXODII_MERCHANT_Exodize" } ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_Tech",
     "type": "talk_topic",
     "dynamic_line": "Not to me it don't.  We ain't tassed from around here though.  Looks fine an' fine to you I'd razz.",
-	"responses": [
+    "responses": [
       { "text": "[int or per 7] Not from around here?  Are you aliens or something?", "topic": "TALK_EXODII_MERCHANT_Aliens" }
-	]
+    ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_Aliens",
     "type": "talk_topic",
     "dynamic_line": "Yeah, you could call us as it.  Us're from otherlands mostlike.  Not otherworlds though.  Too risky bringin' them squelchies into the fold.",
-	"responses": [
+    "responses": [
       { "text": "I don’t know the difference between otherlands and otherworlds.", "topic": "TALK_EXODII_MERCHANT_Aliens2" }
-	]
+    ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_Aliens2",
     "type": "talk_topic",
-    "dynamic_line": "Sure an that's a biggun'.  Otherworlds be the wherefore o' them uggo buggers you got round and here, eh?  Walkin' plants and talkin' mushrooms and whatlike.  Otherlands be tassed more of a kinship.  I be from Earth, but my Earth be differed.  So you's shouldno be asked what the exodii is doin' on Earth, because some is feelin' of us fine an' fine at home, an I'm ken.  You's should be askin' what the exodii is doin' razzin up your green and brown."
-	"responses": [
+    "dynamic_line": "Sure an that's a biggun'.  Otherworlds be the wherefore o' them uggo buggers you got round and here, eh?  Walkin' plants and talkin' mushrooms and whatlike.  Otherlands be tassed more of a kinship.  I be from Earth, but my Earth be differed.  So you's shouldno be asked what the exodii is doin' on Earth, because some is feelin' of us fine an' fine at home, an I'm ken.  You's should be askin' what the exodii is doin' razzin up your green and brown.",
+    "responses": [
       { "text": "OK then, what are you doing 'razzing up our green and brown'.", "topic": "TALK_EXODII_MERCHANT_Purpose2" }
-	]
+    ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_Dialect",
     "type": "talk_topic",
-    "dynamic_line": "Sure as ye can, at least sommat.  Us'n'll try as we might to parley your Anglic, but so ye kennit as us be from otherlands and all, it ain't that simple."
-	"responses": [
-      { "text": "[int or per 7] How come you speak English, or uh, 'anglic' like that?", "topic": "TALK_EXODII_MERCHANT_Dialect_Anglic" }
-	]
+    "dynamic_line": "Sure as ye can, at least sommat.  Us'n'll try as we might to parley your Anglic, but so ye kennit as us be from otherlands and all, it ain't that simple.",
+    "responses": [
+      {
+        "text": "[int or per 7] How come you speak English, or uh, 'anglic' like that?",
+        "topic": "TALK_EXODII_MERCHANT_Dialect_Anglic"
+      }
+    ]
   }
 ]
-
