@@ -100,6 +100,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_KEENNOSE: return "KEENNOSE";
         case MF_STUMBLES: return "STUMBLES";
         case MF_WARM: return "WARM";
+        case MF_NEMESIS: return "NEMESIS";
         case MF_NOHEAD: return "NOHEAD";
         case MF_HARDTOSHOOT: return "HARDTOSHOOT";
         case MF_GRABS: return "GRABS";
@@ -537,6 +538,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "FUNGAL_TRAIL", mattack::fungal_trail );
     add_hardcoded_attack( "PLANT", mattack::plant );
     add_hardcoded_attack( "DISAPPEAR", mattack::disappear );
+    add_hardcoded_attack( "DEPART", mattack::depart );
     add_hardcoded_attack( "FORMBLOB", mattack::formblob );
     add_hardcoded_attack( "CALLBLOBS", mattack::callblobs );
     add_hardcoded_attack( "JACKSON", mattack::jackson );
@@ -659,11 +661,11 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     assign( jo, "ascii_picture", picture_id );
 
-    optional( jo, was_loaded, "material", mat, auto_flags_reader<material_id> {} );
+    optional( jo, was_loaded, "material", mat, string_id_reader<::material_type> {} );
     if( mat.empty() ) { // Assign a default "flesh" material to prevent crash (#48988)
         mat.emplace_back( material_id( "flesh" ) );
     }
-    optional( jo, was_loaded, "species", species, auto_flags_reader<species_id> {} );
+    optional( jo, was_loaded, "species", species, string_id_reader<::species_type> {} );
     optional( jo, was_loaded, "categories", categories, auto_flags_reader<> {} );
 
     // See monfaction.cpp
@@ -696,7 +698,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "aggression", agro, strict, -100, 100 );
     assign( jo, "morale", morale, strict );
 
-    assign( jo, "tracking_distance", tracking_distance, strict, 8 );
+    assign( jo, "tracking_distance", tracking_distance, strict, 3 );
 
     assign( jo, "mountable_weight_ratio", mountable_weight_ratio, strict );
 
@@ -750,9 +752,9 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "mech_str_bonus", mech_str_bonus, 0 );
     optional( jo, was_loaded, "mech_battery", mech_battery, itype_id() );
 
-    optional( jo, was_loaded, "zombify_into", zombify_into, auto_flags_reader<mtype_id> {},
+    optional( jo, was_loaded, "zombify_into", zombify_into, string_id_reader<::mtype> {},
               mtype_id() );
-    optional( jo, was_loaded, "fungalize_into", fungalize_into, auto_flags_reader<mtype_id> {},
+    optional( jo, was_loaded, "fungalize_into", fungalize_into, string_id_reader<::mtype> {},
               mtype_id() );
 
     // TODO: make this work with `was_loaded`
@@ -857,10 +859,9 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         JsonObject up = jo.get_object( "upgrades" );
         optional( up, was_loaded, "half_life", half_life, -1 );
         optional( up, was_loaded, "age_grow", age_grow, -1 );
-        optional( up, was_loaded, "into_group", upgrade_group, auto_flags_reader<mongroup_id> {},
+        optional( up, was_loaded, "into_group", upgrade_group, string_id_reader<::MonsterGroup> {},
                   mongroup_id::NULL_ID() );
-        optional( up, was_loaded, "into", upgrade_into, auto_flags_reader<mtype_id> {},
-                  mtype_id::NULL_ID() );
+        optional( up, was_loaded, "into", upgrade_into, string_id_reader<::mtype> {}, mtype_id::NULL_ID() );
         upgrades = true;
     }
 
@@ -874,9 +875,9 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             baby_timer = read_from_json_string<time_duration>( *repro.get_raw( "baby_timer" ),
                          time_duration::units );
         }
-        optional( repro, was_loaded, "baby_monster", baby_monster, auto_flags_reader<mtype_id> {},
+        optional( repro, was_loaded, "baby_monster", baby_monster, string_id_reader<::mtype> {},
                   mtype_id::NULL_ID() );
-        optional( repro, was_loaded, "baby_egg", baby_egg, auto_flags_reader<itype_id> {},
+        optional( repro, was_loaded, "baby_egg", baby_egg, string_id_reader<::itype> {},
                   itype_id::NULL_ID() );
         reproduces = true;
     }
@@ -898,12 +899,12 @@ void mtype::load( const JsonObject &jo, const std::string &src )
                            time_duration::units );
         }
 
-        optional( biosig, was_loaded, "biosig_item", biosig_item, auto_flags_reader<itype_id> {},
+        optional( biosig, was_loaded, "biosig_item", biosig_item, string_id_reader<::itype> {},
                   itype_id::NULL_ID() );
         biosignatures = true;
     }
 
-    optional( jo, was_loaded, "burn_into", burn_into, auto_flags_reader<mtype_id> {},
+    optional( jo, was_loaded, "burn_into", burn_into, string_id_reader<::mtype> {},
               mtype_id::NULL_ID() );
 
     const auto flag_reader = enum_flags_reader<m_flag> { "monster flag" };
@@ -951,7 +952,7 @@ void species_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "placate_triggers", placate, trigger_reader );
     optional( jo, was_loaded, "fear_triggers", fear, trigger_reader );
 
-    optional( jo, was_loaded, "bleeds", bleeds, auto_flags_reader<field_type_str_id> {}, fd_null );
+    optional( jo, was_loaded, "bleeds", bleeds, string_id_reader<::field_type> {}, fd_null );
 }
 
 const std::vector<mtype> &MonsterGenerator::get_all_mtypes() const
@@ -1209,11 +1210,12 @@ void MonsterGenerator::check_monster_definitions() const
         }
         if( mon.has_flag( MF_MILKABLE ) && !mon.starting_ammo.empty() &&
             !item( mon.starting_ammo.begin()->first ).made_of( phase_id::LIQUID ) ) {
-            debugmsg( "monster % is flagged milkable, but starting ammo %s is not a liquid type",
+            debugmsg( "monster %s is flagged milkable, but starting ammo %s is not a liquid type",
                       mon.id.c_str(), mon.starting_ammo.begin()->first.str() );
         }
         if( mon.has_flag( MF_MILKABLE ) && mon.starting_ammo.size() > 1 ) {
-            debugmsg( "monster % is flagged milkable, but has multiple starting_ammo defined", mon.id.c_str() );
+            debugmsg( "monster %s is flagged milkable, but has multiple starting_ammo defined",
+                      mon.id.c_str() );
         }
         for( const species_id &spec : mon.species ) {
             if( !spec.is_valid() ) {

@@ -285,6 +285,11 @@
     "text": "Bad Tempered"
   },
   {
+    "id": "morale_perm_numb",
+    "type": "morale_type",
+    "text": "Numbed"
+  },
+  {
     "id": "morale_perm_constrained",
     "type": "morale_type",
     "text": "Uncomfy Gear"

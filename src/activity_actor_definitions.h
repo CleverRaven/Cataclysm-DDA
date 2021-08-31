@@ -66,7 +66,7 @@ class aim_activity_actor : public activity_actor
          * proceed, that creature is saved in this vector to prevent the same warning
          * from popping up on the following turn(s).
          */
-        std::vector<weak_ptr_fast<Creature>> acceptable_losses;
+        std::vector<weak_ptr_fast<Creature>> acceptable_losses; // NOLINT(cata-serialize)
 
         aim_activity_actor();
 
@@ -470,7 +470,7 @@ class read_activity_actor : public activity_actor
     private:
         int moves_total;
         item_location book;
-        cata::optional<book_type> bktype;
+        cata::optional<book_type> bktype; // NOLINT(cata-serialize)
 
         // Using an electronic book reader
         item_location ereader;
@@ -586,7 +586,7 @@ class boltcutting_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 
         // debugmsg causes a backtrace when fired during cata_test
-        bool testing = false;
+        bool testing = false; // NOLINT(cata-serialize)
 
     private:
         tripoint target;
@@ -676,7 +676,7 @@ class ebooksave_activity_actor : public activity_actor
     private:
         item_location book;
         item_location ereader;
-        const time_duration time_per_page = 5_seconds;
+        static constexpr time_duration time_per_page = 5_seconds;
 
         bool can_resume_with_internal( const activity_actor &other,
                                        const Character &/*who*/ ) const override {
@@ -816,6 +816,7 @@ class try_sleep_activity_actor : public activity_actor
         void start( player_activity &act, Character &who ) override;
         void do_turn( player_activity &act, Character &who ) override;
         void finish( player_activity &act, Character &who ) override;
+        void canceled( player_activity &, Character &who ) override;
 
         void query_keep_trying( player_activity &act, Character &who );
 
@@ -900,15 +901,17 @@ class unload_activity_actor : public activity_actor
 class craft_activity_actor : public activity_actor
 {
     private:
+        craft_activity_actor() = default;
+
         item_location craft_item;
         bool is_long;
 
         float activity_override = NO_EXERCISE;
-        cata::optional<requirement_data> cached_continuation_requirements;
-        float cached_crafting_speed;
-        int cached_assistants;
-        double cached_base_total_moves;
-        double cached_cur_total_moves;
+        cata::optional<requirement_data> cached_continuation_requirements; // NOLINT(cata-serialize)
+        float cached_crafting_speed; // NOLINT(cata-serialize)
+        int cached_assistants; // NOLINT(cata-serialize)
+        double cached_base_total_moves; // NOLINT(cata-serialize)
+        double cached_cur_total_moves; // NOLINT(cata-serialize)
 
         bool check_if_craft_okay( item_location &craft_item, Character &crafter );
     public:
@@ -1211,7 +1214,7 @@ class disassemble_activity_actor : public activity_actor
 {
     private:
         int moves_total;
-        float activity_override = NO_EXERCISE;
+        float activity_override = NO_EXERCISE; // NOLINT(cata-serialize)
 
     public:
         item_location target;
@@ -1225,6 +1228,7 @@ class disassemble_activity_actor : public activity_actor
         void start( player_activity &act, Character & ) override;
         void do_turn( player_activity &, Character & ) override;
         void finish( player_activity &act, Character &who ) override;
+        void canceled( player_activity &act, Character &who ) override;
 
         float exertion_level() const override;
 
@@ -1328,6 +1332,41 @@ class tent_placement_activity_actor : public activity_actor
 
         void serialize( JsonOut &jsout ) const override;
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
+class oxytorch_activity_actor : public activity_actor
+{
+    public:
+        explicit oxytorch_activity_actor( const tripoint &target,
+                                          const item_location &tool ) : target( target ), tool( tool ) {};
+
+        activity_id get_type() const override {
+            return activity_id( "ACT_OXYTORCH" );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &/*act*/, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<oxytorch_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+
+        // debugmsg causes a backtrace when fired during cata_test
+        bool testing = false;  // NOLINT(cata-serialize)
+    private:
+        tripoint target;
+        item_location tool;
+
+        bool can_resume_with_internal( const activity_actor &other,
+                                       const Character &/*who*/ ) const override {
+            const oxytorch_activity_actor &actor = static_cast<const oxytorch_activity_actor &>
+                                                   ( other );
+            return actor.target == target;
+        }
 };
 
 class meditate_activity_actor : public activity_actor

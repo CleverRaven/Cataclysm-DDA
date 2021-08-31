@@ -3,7 +3,9 @@
 #include "action.h"
 #include "avatar.h"
 #include "bionics.h"
+#include "cached_options.h"
 #include "calendar.h"
+#include "creature_tracker.h"
 #include "event_bus.h"
 #include "explosion.h"
 #include "game.h"
@@ -32,6 +34,7 @@
 #include "worldfactory.h"
 
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
+static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_downed( "downed" );
@@ -44,6 +47,7 @@ static const itype_id itype_holybook_bible2( "holybook_bible2" );
 static const itype_id itype_holybook_bible3( "holybook_bible3" );
 
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
+static const trait_id trait_HAS_NEMESIS( "HAS_NEMESIS" );
 
 #if defined(__ANDROID__)
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
@@ -57,10 +61,15 @@ namespace turn_handler
 {
 bool cleanup_at_end()
 {
+    avatar &u = get_avatar();
     if( g->uquit == QUIT_DIED || g->uquit == QUIT_SUICIDE ) {
         // Put (non-hallucinations) into the overmap so they are not lost.
         for( monster &critter : g->all_monsters() ) {
             g->despawn_monster( critter );
+        }
+        // if player has "hunted" trait, remove their nemesis monster on death
+        if( u.has_trait( trait_HAS_NEMESIS ) ) {
+            overmap_buffer.remove_nemesis();
         }
         // Reset NPC factions and disposition
         g->reset_npc_dispositions();
@@ -72,7 +81,6 @@ bool cleanup_at_end()
         g->save_maps(); //Omap also contains the npcs who need to be saved.
     }
 
-    avatar &u = get_avatar();
     if( g->uquit == QUIT_DIED || g->uquit == QUIT_SUICIDE ) {
         std::vector<std::string> vRip;
 
@@ -235,7 +243,7 @@ bool cleanup_at_end()
                    c_light_gray,
                    sTemp );
 
-        sTemp = u.name;
+        sTemp = u.get_name();
         mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, iNameLine++ ), c_white,
                    sTemp );
 
@@ -369,8 +377,8 @@ void update_stair_monsters()
 
     avatar &u = get_avatar();
     for( const tripoint &dest : m.points_on_zlevel( u.posz() ) ) {
-        if( ( from_below && m.has_flag( "GOES_DOWN", dest ) ) ||
-            ( !from_below && m.has_flag( "GOES_UP", dest ) ) ) {
+        if( ( from_below && m.has_flag( TFLAG_GOES_DOWN, dest ) ) ||
+            ( !from_below && m.has_flag( TFLAG_GOES_UP, dest ) ) ) {
             stairx.push_back( dest.x );
             stairy.push_back( dest.y );
             stairdist.push_back( rl_dist( dest, u.pos() ) );
@@ -399,6 +407,7 @@ void update_stair_monsters()
     // Randomize the stair choice
     si = random_entry_ref( nearest );
 
+    creature_tracker &creatures = get_creature_tracker();
     // Attempt to spawn zombies.
     for( size_t i = 0; i < g->coming_to_stairs.size(); i++ ) {
         point mpos( stairx[si], stairy[si] );
@@ -478,7 +487,7 @@ void update_stair_monsters()
                 push.y = rng( -1, 1 );
                 point ipos( mpos + push );
                 tripoint pos( ipos, m.get_abs_sub().z );
-                if( ( push.x != 0 || push.y != 0 ) && !g->critter_at( pos ) &&
+                if( ( push.x != 0 || push.y != 0 ) && !creatures.creature_at( pos ) &&
                     critter.can_move_to( pos ) ) {
                     bool resiststhrow = ( u.is_throw_immune() ) ||
                                         ( u.has_trait( trait_LEG_TENT_BRACE ) );
@@ -518,7 +527,7 @@ void update_stair_monsters()
             critter.melee_attack( u );
             u.moves -= 50;
             return;
-        } else if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
+        } else if( monster *const mon_ptr = creatures.creature_at<monster>( dest ) ) {
             // Monster attempts to displace a monster from the stairs
             monster &other = *mon_ptr;
             critter.spawn( dest );
@@ -539,7 +548,7 @@ void update_stair_monsters()
                 if( ( push2.x == 0 && push2.y == 0 ) || ( ( ipos2.x == u.posx() ) && ( ipos2.y == u.posy() ) ) ) {
                     continue;
                 }
-                if( !g->critter_at( pos ) && other.can_move_to( pos ) ) {
+                if( !creatures.creature_at( pos ) && other.can_move_to( pos ) ) {
                     other.setpos( tripoint( ipos2, m.get_abs_sub().z ) );
                     other.moves -= 50;
                     std::string msg;
@@ -560,17 +569,16 @@ void update_stair_monsters()
 
 } // namespace turn_handler
 
-namespace
-{
-void handle_key_blocking_activity();
-void monmove();
-void overmap_npc_move();
-
 void handle_key_blocking_activity()
 {
+    if( test_mode ) {
+        return;
+    }
     avatar &u = get_avatar();
-    if( ( u.activity && u.activity.moves_left > 0 ) ||
-        ( u.has_destination() && !u.omt_path.empty() ) ) {
+    const bool has_unfinished_activity = u.activity && (
+            u.activity.id()->based_on() == based_on_type::NEITHER
+            || u.activity.moves_left > 0 );
+    if( has_unfinished_activity || u.has_destination() ) {
         input_context ctxt = get_default_mode_input_context();
         const std::string action = ctxt.handle_input( 0 );
         bool refresh = true;
@@ -579,7 +587,7 @@ void handle_key_blocking_activity()
                 g->cancel_activity_query( _( "Confirm:" ) );
             }
         } else if( action == "player_data" ) {
-            u.disp_info();
+            u.disp_info( true );
         } else if( action == "messages" ) {
             Messages::display_messages();
         } else if( action == "help" ) {
@@ -591,9 +599,14 @@ void handle_key_blocking_activity()
             ui_manager::redraw();
             refresh_display();
         }
+    } else {
+        refresh_display();
+        inp_mngr.pump_events();
     }
 }
 
+namespace
+{
 void monmove()
 {
     g->cleanup_dead();
@@ -705,7 +718,7 @@ void monmove()
             // there will be no meaningful debug output.
             if( turns == 9 ) {
                 debugmsg( "NPC %s entered infinite loop.  Turning on debug mode",
-                          guy.name );
+                          guy.get_name() );
                 debug_mode = true;
                 // make sure the filter is active
                 if( std::find(
@@ -719,7 +732,7 @@ void monmove()
         // If we spun too long trying to decide what to do (without spending moves),
         // Invoke cognitive suspension to prevent an infinite loop.
         if( turns == 10 ) {
-            add_msg( _( "%s faints!" ), guy.name );
+            add_msg( _( "%s faints!" ), guy.get_name() );
             guy.reboot();
         }
 
@@ -810,8 +823,8 @@ bool do_turn()
     // If controlling a vehicle that is owned by someone else
     if( u.in_vehicle && u.controlling_vehicle ) {
         vehicle *veh = veh_pointer_or_null( m.veh_at( u.pos() ) );
-        if( veh && !veh->handle_potential_theft( dynamic_cast<player &>( u ), true ) ) {
-            veh->handle_potential_theft( dynamic_cast<player &>( u ), false, false );
+        if( veh && !veh->handle_potential_theft( dynamic_cast<Character &>( u ), true ) ) {
+            veh->handle_potential_theft( dynamic_cast<Character &>( u ), false, false );
         }
     }
     // If riding a horse - chance to spook
@@ -825,6 +838,9 @@ bool do_turn()
     // Move hordes every 2.5 min
     if( calendar::once_every( time_duration::from_minutes( 2.5 ) ) ) {
         overmap_buffer.move_hordes();
+        if( u.has_trait( trait_HAS_NEMESIS ) ) {
+            overmap_buffer.move_nemesis();
+        }
         // Hordes that reached the reality bubble need to spawn,
         // make them spawn in invisible areas only.
         m.spawn_monsters( false );
@@ -874,7 +890,8 @@ bool do_turn()
                     }
                 }
                 sounds::process_sound_markers( &u );
-                if( !u.activity && !u.has_distant_destination() && g->uquit != QUIT_WATCH ) {
+                if( !u.activity && g->uquit != QUIT_WATCH
+                    && ( !u.has_distant_destination() || calendar::once_every( 10_seconds ) ) ) {
                     g->wait_popup.reset();
                     ui_manager::redraw();
                 }
@@ -1007,10 +1024,15 @@ bool do_turn()
         if( u.activity.is_interruptible() && u.activity.interruptable_with_kb ) {
             wait_message += string_format( _( "\n%s to interrupt" ), press_x( ACTION_PAUSE ) );
         }
-        wait_refresh_rate = 5_minutes;
+        if( u.activity.id() == ACT_AUTODRIVE ) {
+            wait_refresh_rate = 1_turns;
+        } else {
+            wait_refresh_rate = 5_minutes;
+        }
     }
     if( wait_redraw ) {
-        if( g->first_redraw_since_waiting_started || calendar::once_every( 1_minutes ) ) {
+        if( g->first_redraw_since_waiting_started ||
+            calendar::once_every( std::min( 1_minutes, wait_refresh_rate ) ) ) {
             if( g->first_redraw_since_waiting_started || calendar::once_every( wait_refresh_rate ) ) {
                 ui_manager::redraw();
             }

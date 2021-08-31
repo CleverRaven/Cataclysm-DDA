@@ -63,7 +63,7 @@
     "type": "MONSTER",
     "name": { "str": "hulking horror" },
     "copy-from": "mon_dog_zombie_brute",
-    "description": "A four-legged canine body now grotesquely swollen, with arms as wide as a trash can and massive exposed teeth.",
+    "description": "What may once have been a dog is now a grotesquely swollen monstrosity, standing on four limbs as wide as trash cans and showing massive, jagged teeth.",
     "diff": 5,
     "volume": "440 L",
     "weight": "100 kg",

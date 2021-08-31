@@ -17,10 +17,10 @@
 #include "avatar.h"
 #include "character.h"
 #include "coordinates.h"
+#include "creature_tracker.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "enums.h"
-#include "game.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_memory.h"
@@ -672,7 +672,7 @@ bool vehicle::autodrive_controller::check_drivable( tripoint pt ) const
 
     // check for creatures
     // TODO: padding around monsters
-    Creature *critter = g->critter_at( pt, true );
+    Creature *critter = get_creature_tracker().creature_at( pt, true );
     if( critter && driver.sees( *critter ) ) {
         return false;
     }

@@ -18,9 +18,9 @@
   },
   {
     "type": "effect_on_condition",
-    "id": "lab_security_check_surface_1",
-    "recurrence_min": 1,
-    "recurrence_max": 1,
+    "id": "lab_security_check_surface_3",
+    "recurrence_min": 5,
+    "recurrence_max": 30,
     "condition": {
       "and": [ { "u_at_om_location": "lab_res_8_SWU_ground" }, { "not": { "u_has_item": "id_science_maintenance_green" } } ]
     },
@@ -29,8 +29,8 @@
   {
     "type": "effect_on_condition",
     "id": "lab_security_check_surface_2",
-    "recurrence_min": 1,
-    "recurrence_max": 1,
+    "recurrence_min": 5,
+    "recurrence_max": 30,
     "condition": {
       "and": [ { "u_at_om_location": "lab_res_8_SWD_ground" }, { "not": { "u_has_item": "id_science_maintenance_green" } } ]
     },
@@ -116,7 +116,7 @@
     "update_mapgen_id": "magenta_security_card_spawn",
     "method": "json",
     "object": {
-      "place_loot": [ { "item": "id_science_security_magenta", "x": 21, "y": 14, "chance": 100 } ],
+      "place_loot": [ { "item": "id_science_security_magenta", "x": 21, "y": 14, "chance": 20 } ],
       "place_monster": [ { "monster": [ "mon_zombie_brute", "mon_zombie_bio_op" ], "x": 21, "y": 14, "chance": 100 } ]
     }
   },
@@ -383,33 +383,5 @@
     "recurrence_max": 30,
     "condition": { "and": [ { "u_at_om_location": "lab_2x2_MUT_tier_1_SE" }, { "not": { "u_has_item": "id_science_mutagen_pink" } } ] },
     "effect": [ { "mapgen_update": "release_bots_8", "om_terrain": "lab_2x2_MUT_tier_1_SE" } ]
-  },
-  {
-    "type": "effect_on_condition",
-    "id": "lab_black_secuirty_corridor",
-    "recurrence_min": 2,
-    "recurrence_max": 5,
-    "condition": {
-      "and": [ { "u_at_om_location": "underground_lab_central_-6W" }, { "not": { "u_has_item": "id_science_security_black" } } ]
-    },
-    "effect": [ { "mapgen_update": "fire_gas_corridor", "om_terrain": "underground_lab_central_-6W" } ]
-  },
-  {
-    "//": "Releases if you lack a black security ID card.",
-    "type": "mapgen",
-    "update_mapgen_id": "fire_gas_corridor",
-    "method": "json",
-    "object": {
-      "place_fields": [
-        { "field": "fd_toxic_gas", "x": 0, "y": 10, "intensity": 2, "age": 20 },
-        { "field": "fd_shock_vent", "x": 0, "y": 16, "intensity": 2, "age": 20 },
-        { "field": "fd_shock_vent", "x": 3, "y": 10, "intensity": 2, "age": 20 },
-        { "field": "fd_toxic_gas", "x": 3, "y": 16, "intensity": 2, "age": 20 },
-        { "field": "fd_toxic_gas", "x": 20, "y": 10, "intensity": 2, "age": 20 },
-        { "field": "fd_shock_vent", "x": 20, "y": 16, "intensity": 2, "age": 20 },
-        { "field": "fd_shock_vent", "x": 23, "y": 10, "intensity": 2, "age": 20 },
-        { "field": "fd_toxic_gas", "x": 23, "y": 16, "intensity": 2, "age": 20 }
-      ]
-    }
   }
 ]

@@ -13,6 +13,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "catacharset.h"
+#include "character.h"
 #include "clone_ptr.h"
 #include "debug.h"
 #include "flag.h"
@@ -30,7 +31,6 @@
 #include "optional.h"
 #include "output.h"
 #include "pimpl.h"
-#include "player.h"
 #include "ret_val.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -115,12 +115,12 @@ bool item_pocket::item_has_uses_recursive() const
     return false;
 }
 
-item_action_map item_action_generator::map_actions_to_items( player &p ) const
+item_action_map item_action_generator::map_actions_to_items( Character &you ) const
 {
-    return map_actions_to_items( p, std::vector<item *>() );
+    return map_actions_to_items( you, std::vector<item *>() );
 }
 
-item_action_map item_action_generator::map_actions_to_items( player &p,
+item_action_map item_action_generator::map_actions_to_items( Character &you,
         const std::vector<item *> &pseudos ) const
 {
     std::set< item_action_id > unmapped_actions;
@@ -129,7 +129,7 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
     }
 
     item_action_map candidates;
-    std::vector< item * > items = p.inv_dump();
+    std::vector< item * > items = you.inv_dump();
     items.reserve( items.size() + pseudos.size() );
     items.insert( items.end(), pseudos.begin(), pseudos.end() );
 
@@ -149,10 +149,11 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
 
             const use_function *func = actual_item->get_use( use );
             if( !( func && func->get_actor_ptr() &&
-                   func->get_actor_ptr()->can_use( p, *actual_item, false, p.pos() ).success() ) ) {
+                   func->get_actor_ptr()->can_use( you, *actual_item, false, you.pos() ).success() ) ) {
                 continue;
             }
-            if( !actual_item->ammo_sufficient( &p ) ) {
+
+            if( !actual_item->ammo_sufficient( &you, use ) ) {
                 continue;
             }
 
@@ -289,11 +290,15 @@ void game::item_action_menu()
     []( const std::pair<item_action_id, item *> &elem ) {
         std::string ss = elem.second->display_name();
         if( elem.second->ammo_required() ) {
+
             if( elem.second->has_flag( flag_USES_BIONIC_POWER ) ) {
                 ss += string_format( "(%d kJ)", elem.second->ammo_required() );
             } else {
-                ss += string_format( "(-%d)", elem.second->ammo_required() );
+                auto iter = elem.second->type->ammo_scale.find( elem.first );
+                ss += string_format( "(-%d)", int( elem.second->ammo_required() * ( iter ==
+                                                   elem.second->type->ammo_scale.end() ? 1 : double( iter->second ) ) ) );
             }
+
         }
 
         const use_function *method = elem.second->get_use( elem.first );

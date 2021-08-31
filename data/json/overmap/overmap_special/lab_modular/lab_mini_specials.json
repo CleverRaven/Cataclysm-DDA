@@ -67,7 +67,9 @@
       { "point": [ 0, -1, -5 ], "overmap": "underground_lab_central_-5W_east" },
       { "point": [ 1, -1, -5 ], "overmap": "underground_lab_central_-5E_east" },
       { "point": [ 0, -1, -6 ], "overmap": "underground_lab_central_-6W_east" },
-      { "point": [ 1, -1, -6 ], "overmap": "underground_lab_central_-6E_east" }
+      { "point": [ 1, -1, -6 ], "overmap": "underground_lab_central_-6E_east" },
+      { "point": [ 0, -1, -7 ], "overmap": "underground_lab_central_-7W_east" },
+      { "point": [ 1, -1, -7 ], "overmap": "underground_lab_central_-7E_east" }
     ],
     "locations": [ "land" ],
     "city_distance": [ 3, -1 ],

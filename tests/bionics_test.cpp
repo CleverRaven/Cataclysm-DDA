@@ -12,20 +12,19 @@
 #include "item_pocket.h"
 #include "npc.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_helpers.h"
 #include "ret_val.h"
 #include "type_id.h"
 #include "units.h"
 
-static void clear_bionics( player &p )
+static void clear_bionics( Character &you )
 {
-    p.my_bionics->clear();
-    p.set_power_level( 0_kJ );
-    p.set_max_power_level( 0_kJ );
+    you.my_bionics->clear();
+    you.set_power_level( 0_kJ );
+    you.set_max_power_level( 0_kJ );
 }
 
-static void test_consumable_charges( player &p, std::string &itemname, bool when_none,
+static void test_consumable_charges( Character &you, std::string &itemname, bool when_none,
                                      bool when_max )
 {
     item it = item( itemname, calendar::turn_zero, 0 );
@@ -35,21 +34,21 @@ static void test_consumable_charges( player &p, std::string &itemname, bool when
 
     it.charges = 0;
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.charges ) + " charges" );
-    REQUIRE( p.can_consume( it ) == when_none );
+    REQUIRE( you.can_consume( it ) == when_none );
 
     it.charges = INT_MAX;
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.charges ) + " charges" );
-    REQUIRE( p.can_consume( it ) == when_max );
+    REQUIRE( you.can_consume( it ) == when_max );
 }
 
-static void test_consumable_ammo( player &p, std::string &itemname, bool when_empty,
+static void test_consumable_ammo( Character &you, std::string &itemname, bool when_empty,
                                   bool when_full )
 {
     item it = item( itemname, calendar::turn_zero, 0 );
 
     it.ammo_unset();
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
-    REQUIRE( p.can_consume( it ) == when_empty );
+    REQUIRE( you.can_consume( it ) == when_empty );
 
     if( !it.magazine_default().is_null() ) {
         item mag( it.magazine_default() );
@@ -60,7 +59,7 @@ static void test_consumable_ammo( player &p, std::string &itemname, bool when_em
     }
 
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.ammo_remaining() ) + " charges" );
-    REQUIRE( p.can_consume( it ) == when_full );
+    REQUIRE( you.can_consume( it ) == when_full );
 }
 
 TEST_CASE( "bionics", "[bionics] [item]" )

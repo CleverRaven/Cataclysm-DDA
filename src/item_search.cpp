@@ -5,7 +5,6 @@
 
 #include "avatar.h"
 #include "cata_utility.h"
-#include "game.h"
 #include "item.h"
 #include "item_category.h"
 #include "material.h"

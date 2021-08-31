@@ -26,7 +26,6 @@
 #include "map_selector.h"
 #include "npc.h"
 #include "output.h"
-#include "player.h"
 #include "point.h"
 #include "skill.h"
 #include "string_formatter.h"
@@ -43,8 +42,8 @@ static const skill_id skill_speech( "speech" );
 
 static const flag_id json_flag_NO_UNWIELD( "NO_UNWIELD" );
 
-std::list<item> npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &giver,
-        player &receiver, std::list<item_location *> &from_map, bool npc_gives )
+std::list<item> npc_trading::transfer_items( std::vector<item_pricing> &stuff, Character &giver,
+        Character &receiver, std::list<item_location *> &from_map, bool npc_gives )
 {
     // escrow is used only when the npc is the destination. Item transfer to the npc is deferred.
     const bool use_escrow = !npc_gives;
@@ -128,7 +127,7 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
     return result;
 }
 
-double npc_trading::net_price_adjustment( const player &buyer, const player &seller )
+double npc_trading::net_price_adjustment( const Character &buyer, const Character &seller )
 {
     // Adjust the prices based on your social skill.
     // cap adjustment so nothing is ever sold below value
@@ -155,7 +154,8 @@ void buy_helper( T &src, Callback cb )
     } );
 }
 
-std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &seller, bool is_npc )
+std::vector<item_pricing> npc_trading::init_buying( Character &buyer, Character &seller,
+        bool is_npc )
 {
     std::vector<item_pricing> result;
     npc *np_p = dynamic_cast<npc *>( &buyer );
@@ -359,7 +359,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
     draw_border( w_them, ( focus_them ? c_yellow : BORDER_COLOR ) );
     draw_border( w_you, ( !focus_them ? c_yellow : BORDER_COLOR ) );
 
-    mvwprintz( w_them, point( 2, 0 ), trade_color, np.name );
+    mvwprintz( w_them, point( 2, 0 ), trade_color, np.get_name() );
     mvwprintz( w_you,  point( 2, 0 ), trade_color, _( "You" ) );
     avatar &player_character = get_avatar();
     // Draw lists of items, starting from offset
@@ -367,8 +367,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
         const bool they = whose == 0;
         const std::vector<item_pricing> &list = they ? theirs : yours;
         const size_t &offset = they ? them_off : you_off;
-        const player &person = they ? static_cast<player &>( np ) : static_cast<player &>
-                               ( player_character );
+        const Character &person = they ? *np.as_character() : *player_character.as_character();
         catacurses::window &w_whose = they ? w_them : w_you;
         int win_w = getmaxx( w_whose );
         // Borders
@@ -578,7 +577,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
                 }
             } else if( volume_left < 0_ml || weight_left < 0_gram ) {
                 // Make sure NPC doesn't go over allowed volume
-                popup( _( "%s can't carry all that." ), np.name );
+                popup( _( "%s can't carry all that." ), np.get_name() );
             } else if( calc_npc_owes_you( np ) < your_balance ) {
                 // NPC is happy with the trade, but isn't willing to remember the whole debt.
                 const bool trade_ok = query_yn(

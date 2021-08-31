@@ -26,10 +26,6 @@
 #include "trap.h"
 #include "type_id.h"
 
-static const std::string flag_DIGGABLE( "DIGGABLE" );
-static const std::string flag_LOCKED( "LOCKED" );
-static const std::string flag_TRANSPARENT( "TRANSPARENT" );
-
 namespace
 {
 
@@ -184,7 +180,8 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "Z_TRANSPARENT",            TFLAG_Z_TRANSPARENT },  // Doesn't block vision passing through the z-level
         { "SMALL_PASSAGE",            TFLAG_SMALL_PASSAGE },   // A small passage, that large or huge things cannot pass through
         { "SUN_ROOF_ABOVE",           TFLAG_SUN_ROOF_ABOVE },   // This furniture has a "fake roof" above, that blocks sunlight (see #44421).
-        { "FUNGUS",                   TFLAG_FUNGUS }            // Fungal covered.
+        { "FUNGUS",                   TFLAG_FUNGUS },           // Fungal covered.
+        { "LOCKED",                   TFLAG_LOCKED }            // Fungal covered.
     }
 };
 
@@ -368,7 +365,7 @@ furn_t null_furniture_t()
     new_furniture.movecost = 0;
     new_furniture.move_str_req = -1;
     new_furniture.transparent = true;
-    new_furniture.set_flag( flag_TRANSPARENT );
+    new_furniture.set_flag( TFLAG_TRANSPARENT );
     new_furniture.examine_func = iexamine_function_from_string( "none" );
     new_furniture.max_volume = DEFAULT_MAX_VOLUME_IN_SQUARE;
     return new_furniture;
@@ -389,8 +386,8 @@ ter_t null_terrain_t()
     new_terrain.light_emitted = 0;
     new_terrain.movecost = 0;
     new_terrain.transparent = true;
-    new_terrain.set_flag( flag_TRANSPARENT );
-    new_terrain.set_flag( flag_DIGGABLE );
+    new_terrain.set_flag( TFLAG_TRANSPARENT );
+    new_terrain.set_flag( TFLAG_DIGGABLE );
     new_terrain.examine_func = iexamine_function_from_string( "none" );
     new_terrain.max_volume = DEFAULT_MAX_VOLUME_IN_SQUARE;
     return new_terrain;
@@ -446,13 +443,13 @@ void map_data_common_t::set_examine( iexamine_function_ref func )
     examine_func = &func;
 }
 
-void map_data_common_t::examine( player &guy, const tripoint &examp ) const
+void map_data_common_t::examine( Character &you, const tripoint &examp ) const
 {
     if( !examine_actor ) {
-        examine_func( guy, examp );
+        examine_func( you, examp );
         return;
     }
-    examine_actor->call( guy, examp );
+    examine_actor->call( you, examp );
 }
 
 void map_data_common_t::load_symbol( const JsonObject &jo )
@@ -539,6 +536,24 @@ void map_data_common_t::set_flag( const std::string &flag )
         // wall connection check for JSON backwards compatibility
         if( it->second == TFLAG_WALL || it->second == TFLAG_CONNECT_TO_WALL ) {
             set_connects( "WALL" );
+        }
+    }
+}
+
+void map_data_common_t::set_flag( const ter_bitflags flag )
+{
+    bitflags.set( flag );
+    if( !transparent && flag == TFLAG_TRANSPARENT ) {
+        transparent = true;
+    }
+    // wall connection check for JSON backwards compatibility
+    if( flag == TFLAG_WALL || flag == TFLAG_CONNECT_TO_WALL ) {
+        set_connects( "WALL" );
+    }
+    for( const auto &f : ter_bitflags_map ) {
+        if( f.second == flag ) {
+            flags.insert( f.first );
+            break;
         }
     }
 }
@@ -1293,6 +1308,11 @@ void ter_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "lockpick_result", lockpick_result, ter_str_id::NULL_ID() );
     optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
 
+    oxytorch = cata::make_value<activity_data_ter>();
+    if( jo.has_object( "oxytorch" ) ) {
+        oxytorch->load( jo.get_object( "oxytorch" ) );
+    }
+
     boltcut = cata::make_value<activity_data_ter>();
     if( jo.has_object( "boltcut" ) ) {
         boltcut->load( jo.get_object( "boltcut" ) );
@@ -1363,10 +1383,10 @@ void ter_t::check() const
     }
     // Check transition consistency for opening/closing terrain. Has an obvious
     // exception for locked terrains - those aren't expected to be locked again
-    if( open && open->close && open->close != id && !has_flag( flag_LOCKED ) ) {
+    if( open && open->close && open->close != id && !has_flag( TFLAG_LOCKED ) ) {
         debugmsg( "opening terrain %s for %s doesn't reciprocate", open.c_str(), id.c_str() );
     }
-    if( close && close->open && close->open != id && !has_flag( flag_LOCKED ) ) {
+    if( close && close->open && close->open != id && !has_flag( TFLAG_LOCKED ) ) {
         debugmsg( "closing terrain %s for %s doesn't reciprocate", close.c_str(), id.c_str() );
     }
 
@@ -1441,6 +1461,12 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "lockpick_result", lockpick_result, string_id_reader<furn_t> {},
               furn_str_id::NULL_ID() );
     optional( jo, was_loaded, "lockpick_message", lockpick_message, translation() );
+
+
+    oxytorch = cata::make_value<activity_data_furn>();
+    if( jo.has_object( "oxytorch" ) ) {
+        oxytorch->load( jo.get_object( "oxytorch" ) );
+    }
 
     boltcut = cata::make_value<activity_data_furn>();
     if( jo.has_object( "boltcut" ) ) {

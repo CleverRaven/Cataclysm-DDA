@@ -369,22 +369,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "crowbar_plus_one",
-    "copy-from": "crowbar",
-    "name": { "str": "crowbar +1", "str_pl": "crowbars +1" },
-    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
-    "relative": { "to_hit": 1 }
-  },
-  {
-    "type": "GENERIC",
-    "id": "crowbar_plus_two",
-    "copy-from": "crowbar",
-    "name": { "str": "crowbar +2", "str_pl": "crowbars +2" },
-    "proportional": { "price": 9.0, "price_postapoc": 9.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
-    "relative": { "to_hit": 2 }
-  },
-  {
-    "type": "GENERIC",
     "id": "cutlass_plus_one",
     "copy-from": "cutlass",
     "name": { "str": "cutlass +1", "str_pl": "cutlasses +1" },
@@ -444,22 +428,6 @@
     "id": "knife_combat_plus_two",
     "copy-from": "knife_combat",
     "name": { "str": "combat knife +2", "str_pl": "combat knives +2" },
-    "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
-    "relative": { "to_hit": 2 }
-  },
-  {
-    "type": "GENERIC",
-    "id": "knife_hunting_plus_one",
-    "copy-from": "knife_hunting",
-    "name": { "str": "hunting knife +1", "str_pl": "hunting knives +1" },
-    "proportional": { "price": 3.0, "price_postapoc": 3.0, "bashing": 1.1, "cutting": 1.1, "weight": 0.9 },
-    "relative": { "to_hit": 1 }
-  },
-  {
-    "type": "GENERIC",
-    "id": "knife_hunting_plus_two",
-    "copy-from": "knife_hunting",
-    "name": { "str": "hunting knife +2", "str_pl": "hunting knives +2" },
     "proportional": { "price": 6.0, "price_postapoc": 6.0, "bashing": 1.2, "cutting": 1.2, "weight": 0.8 },
     "relative": { "to_hit": 2 }
   },
@@ -743,6 +711,7 @@
     "qualities": [ [ "COOK", 1 ] ],
     "use_action": {
       "type": "transform",
+      "menu_text": "Extend",
       "target": "rune_biomancer_gun_adept_trans",
       "msg": "You feel the spear rapidly contracting and squirming for ranged combat",
       "need_wielding": true,
