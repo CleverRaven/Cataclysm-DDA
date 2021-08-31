@@ -19,8 +19,11 @@
       "str_mod": [ -2, -1 ],
       "dex_mod": [ -1, 0 ],
       "per_mod": [ -1, 0 ],
-      "pain_max_val": [ 150 ],
-      "pain_min": [ 2, 0 ]
+      "pain_max_val": [ 30 ],
+      "pain_min": [ 2, 0 ],
+      "pain_chance": [ 3, 9 ],
+      "health_amount": [ -2, -12 ],
+      "bleed_resist": 50
     },
     "blood_analysis_description": "Unknown Hemolytic Parasite"
   }
