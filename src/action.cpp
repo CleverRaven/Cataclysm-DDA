@@ -679,7 +679,7 @@ static bool can_pickup_at( const tripoint &p )
         const int cargo_part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO", false );
         veh_has_items = cargo_part >= 0 && !vp->vehicle().get_items( cargo_part ).empty();
     }
-    return here.has_items( p ) || veh_has_items;
+    return ( !here.has_flag( TFLAG_SEALED, p ) && here.has_items( p ) ) || veh_has_items;
 }
 
 bool can_interact_at( action_id action, const tripoint &p )
