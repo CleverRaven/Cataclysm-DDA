@@ -184,7 +184,7 @@
     "color": "white",
     "move_cost_mod": -2,
     "required_str": 10,
-    "flags": [ "TRANSPARENT", "BLOCKSDOOR", "BASHABLE", "PLACE_ITEM" ],
+    "flags": [ "TRANSPARENT", "BLOCKSDOOR", "PLACE_ITEM" ],
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 6 },

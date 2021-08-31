@@ -2164,30 +2164,35 @@ ret_val<bool> Character::can_disassemble( const item &obj, const read_only_visit
 
 item_location Character::create_in_progress_disassembly( item_location target )
 {
-    const auto &r = recipe_dictionary::get_uncraft( target->typeId() );
     item &orig_item = *target.get_item();
+    item new_disassembly;
+    if( target->typeId() == itype_disassembly ) {
+        new_disassembly = item( orig_item );
+    } else {
+        const auto &r = recipe_dictionary::get_uncraft( target->typeId() );
+        new_disassembly = item( &r, orig_item );
 
-    item new_disassembly( &r, orig_item );
-
-    // Remove any batteries, ammo, contents and mods first
-    remove_ammo( orig_item, *this );
-    remove_radio_mod( orig_item, *this );
-    if( orig_item.is_container() ) {
-        orig_item.spill_contents( pos() );
-    }
-    if( orig_item.count_by_charges() ) {
-        // remove the charges that one would get from crafting it
-        if( orig_item.is_ammo() && !r.has_flag( "UNCRAFT_BY_QUANTITY" ) ) {
-            //subtract selected number of rounds to disassemble
-            orig_item.charges -= activity.position;
-            new_disassembly.charges = activity.position;
-        } else {
-            orig_item.charges -= r.create_result().charges;
-            new_disassembly.charges = r.create_result().charges;
+        // Remove any batteries, ammo, contents and mods first
+        remove_ammo( orig_item, *this );
+        remove_radio_mod( orig_item, *this );
+        if( orig_item.is_container() ) {
+            orig_item.spill_contents( pos() );
+        }
+        if( orig_item.count_by_charges() ) {
+            // remove the charges that one would get from crafting it
+            if( orig_item.is_ammo() && !r.has_flag( "UNCRAFT_BY_QUANTITY" ) ) {
+                //subtract selected number of rounds to disassemble
+                orig_item.charges -= activity.position;
+                new_disassembly.charges = activity.position;
+            } else {
+                orig_item.charges -= r.create_result().charges;
+                new_disassembly.charges = r.create_result().charges;
+            }
         }
     }
     // remove the item, except when it's counted by charges and still has some
-    if( !orig_item.count_by_charges() || orig_item.charges <= 0 ) {
+    if( !orig_item.count_by_charges() || orig_item.charges <= 0 ||
+        target->typeId() == itype_disassembly ) {
         target.remove_item();
     }
 
@@ -2608,7 +2613,7 @@ void drop_or_handle( const item &newit, Character &p )
 void remove_ammo( item &dis_item, Character &p )
 {
     dis_item.remove_items_with( [&p]( const item & it ) {
-        if( it.is_irremovable() ) {
+        if( it.is_irremovable() || ( !it.is_gunmod() && !it.is_toolmod() ) ) {
             return false;
         }
         drop_or_handle( it, p );
