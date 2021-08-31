@@ -140,6 +140,7 @@ static const efftype_id effect_blisters( "blisters" );
 static const efftype_id effect_bloodworms( "bloodworms" );
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_brainworms( "brainworms" );
+static const efftype_id effect_blood_spiders( "blood_spiders" );
 static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_common_cold( "common_cold" );
@@ -13410,20 +13411,24 @@ void Character::process_effects()
     }
     if( has_trait( trait_PARAIMMUNE ) && ( has_effect( effect_dermatik ) ||
                                            has_effect( effect_tapeworm ) ||
+                                           has_effect( effect_blood_spiders ) ||
                                            has_effect( effect_bloodworms ) || has_effect( effect_brainworms ) ||
                                            has_effect( effect_paincysts ) ) ) {
         remove_effect( effect_dermatik );
         remove_effect( effect_tapeworm );
         remove_effect( effect_bloodworms );
+        remove_effect( effect_blood_spiders );
         remove_effect( effect_brainworms );
         remove_effect( effect_paincysts );
         add_msg_if_player( m_good, _( "Something writhes inside of you as it dies." ) );
     }
     if( has_trait( trait_ACIDBLOOD ) && ( has_effect( effect_dermatik ) ||
                                           has_effect( effect_bloodworms ) ||
+                                          has_effect( effect_blood_spiders ) ||
                                           has_effect( effect_brainworms ) ) ) {
         remove_effect( effect_dermatik );
         remove_effect( effect_bloodworms );
+        remove_effect( effect_blood_spiders );
         remove_effect( effect_brainworms );
     }
     if( has_trait( trait_EATHEALTH ) && has_effect( effect_tapeworm ) ) {
