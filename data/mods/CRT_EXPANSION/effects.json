@@ -19,7 +19,7 @@
       "str_mod": [ -2, -1 ],
       "dex_mod": [ -1, 0 ],
       "per_mod": [ -1, 0 ],
-      "pain_max_val": [ 150 ],
+      "pain_max_val": [ 30 ],
       "pain_min": [ 2, 0 ]
     },
     "blood_analysis_description": "Unknown Hemolytic Parasite"
