@@ -2416,6 +2416,11 @@ bool Creature::is_symbol_highlighted() const
     return false;
 }
 
+std::unordered_map<std::string, std::string> &Creature::get_values()
+{
+    return values;
+}
+
 bodypart_id Creature::select_body_part( Creature *source, int hit_roll ) const
 {
     int szdif = source->get_size() - get_size();
