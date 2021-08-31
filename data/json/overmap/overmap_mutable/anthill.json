@@ -1,0 +1,32 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "anthill",
+    "subtype": "mutable",
+    "locations": [ "subterranean_empty" ],
+    "city_distance": [ 25, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "CLASSIC", "WILDERNESS" ],
+    "connection_ids": [ "surface_to_tunnel", "tunnel_to_tunnel" ],
+    "overmaps": {
+      "surface": { "overmap": "anthill", "below": "surface_to_tunnel", "locations": [ "land" ] },
+      "crossroads": {
+        "overmap": "ants_nesw",
+        "above": "surface_to_tunnel",
+        "north": "tunnel_to_tunnel",
+        "east": "tunnel_to_tunnel",
+        "south": "tunnel_to_tunnel",
+        "west": "tunnel_to_tunnel"
+      },
+      "straight_tunnel": { "overmap": "ants_ns", "north": "tunnel_to_tunnel", "south": "tunnel_to_tunnel" },
+      "dead_end": { "overmap": "ants_end_south", "north": "tunnel_to_tunnel" }
+    },
+    "root": "surface",
+    "phases": [
+      [ { "overmap": "crossroads", "max": 1 } ],
+      [ { "overmap": "straight_tunnel", "max": 10 } ],
+      [ { "overmap": "dead_end" } ]
+    ]
+  }
+]
