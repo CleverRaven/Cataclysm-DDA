@@ -376,48 +376,6 @@ std::string wstr_to_utf8( const std::wstring &wstr )
 #endif
 }
 
-std::string native_to_utf8( const std::string &str )
-{
-    if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
-        return str;
-    }
-#if defined(_WIN32)
-    // native encoded string --> Unicode sequence --> UTF-8 string
-    int unicode_size = MultiByteToWideChar( CP_ACP, 0, str.c_str(), -1, nullptr, 0 ) + 1;
-    std::wstring unicode( unicode_size, '\0' );
-    MultiByteToWideChar( CP_ACP, 0, str.c_str(), -1, &unicode[0], unicode_size );
-    int utf8_size = WideCharToMultiByte( CP_UTF8, 0, &unicode[0], -1, nullptr, 0, nullptr,
-                                         nullptr ) + 1;
-    std::string result( utf8_size, '\0' );
-    WideCharToMultiByte( CP_UTF8, 0, &unicode[0], -1, &result[0], utf8_size, nullptr, nullptr );
-    strip_trailing_nulls( result );
-    return result;
-#else
-    return str;
-#endif
-}
-
-std::string utf8_to_native( const std::string &str )
-{
-    if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
-        return str;
-    }
-#if defined(_WIN32)
-    // UTF-8 string --> Unicode sequence --> native encoded string
-    int unicode_size = MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, nullptr, 0 ) + 1;
-    std::wstring unicode( unicode_size, '\0' );
-    MultiByteToWideChar( CP_UTF8, 0, str.c_str(), -1, &unicode[0], unicode_size );
-    int native_size = WideCharToMultiByte( CP_ACP, 0, &unicode[0], -1, nullptr, 0, nullptr,
-                                           nullptr ) + 1;
-    std::string result( native_size, '\0' );
-    WideCharToMultiByte( CP_ACP, 0, &unicode[0], -1, &result[0], native_size, nullptr, nullptr );
-    strip_trailing_nulls( result );
-    return result;
-#else
-    return str;
-#endif
-}
-
 std::string utf32_to_utf8( const std::u32string &str )
 {
     std::string ret;
