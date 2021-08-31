@@ -30,36 +30,6 @@ item_contents_ui::item_contents_ui( const item *containing_item )
     ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
 }
 
-void item_contents_ui::draw_borders()
-{
-    //Header border
-    for( int i = 1; i < ui_width - 1; ++i ) { // -
-        mvwputch( w_head, point( i, 0 ), BORDER_COLOR, LINE_OXOX );
-    }
-    for( int i = 1; i < ui_width - 1; ++i ) { // -
-        mvwputch( w_head, point( i, head_height - 1 ), BORDER_COLOR, LINE_OXOX );
-    }
-    for( int i = 0; i < head_height - 1; ++i ) { // |
-        mvwputch( w_head, point( 0, i ), BORDER_COLOR, LINE_XOXO );
-        mvwputch( w_head, point( ui_width - 1, i ), BORDER_COLOR, LINE_XOXO );
-    }
-    mvwputch( w_head, point( 0, 0 ), BORDER_COLOR, LINE_OXXO ); // Upper Left
-    mvwputch( w_head, point( ui_width - 1, 0 ), BORDER_COLOR, LINE_OOXX ); // Upper Right
-    mvwputch( w_head, point( ui_width - 1, head_height - 1 ), BORDER_COLOR, LINE_XOXX ); // -|
-    mvwputch( w_head, point( 0, head_height - 1 ), BORDER_COLOR, LINE_XXXO ); // |-
-
-    //Main panel border
-    for( int i = 1; i < ui_width - 1; ++i ) { // -
-        mvwputch( w_data, point( i, data_height - 1 ), BORDER_COLOR, LINE_OXOX );
-    }
-    for( int i = 0; i < data_height - 1; ++i ) { // |
-        mvwputch( w_data, point( 0, i ), BORDER_COLOR, LINE_XOXO );
-        mvwputch( w_data, point( ui_width - 1, i ), BORDER_COLOR, LINE_XOXO );
-    }
-    mvwputch( w_data, point( 0, data_height - 1 ), BORDER_COLOR, LINE_XXOO ); // |_
-    mvwputch( w_data, point( ui_width - 1, data_height - 1 ), BORDER_COLOR, LINE_XOOX ); // _|
-}
-
 void item_contents_ui::draw_details()
 {
     //Get description of currently selected item:
@@ -87,19 +57,19 @@ void item_contents_ui::draw_footer()
     //Draw keybindings in footer
     for( size_t i = 0; i < keybinding_tips.size(); ++i ) {
         nc_color dummy = c_white;
-        print_colored_text( w_data, point( keybinding_x, data_lines + 1 + i ),
+        print_colored_text( w_data, point( keybinding_x, data_lines + 2 + i ),
                             dummy, c_white, keybinding_tips[i] );
     }
 
     //Draw filter popup
-    int yPos = catacurses::getmaxy( w_data ) - 2;
+    int yPos = catacurses::getmaxy( w_data ) - 1;
     if( spopup ) {
         mvwprintz( w_data, point( 2, yPos ), c_cyan, "< " );
         mvwprintz( w_data, point( ( catacurses::getmaxx( w_data ) / 2 ) - 4, yPos ), c_cyan, " >" );
 
         spopup->query_string( /*loop=*/false, /*draw_only=*/true );
     } else {
-        if( vFilteredItemList.size() > 0 || !filter_string.empty() ) {
+        if( !vFilteredItemList.empty() || !filter_string.empty() ) {
             std::string text = string_format( filter_string.empty() ? _( "[%s] Filter" ) : _( "[%s] Filter: " ),
                                               ctxt.get_desc( "INVENTORY_FILTER" ) );
 
@@ -113,6 +83,7 @@ void item_contents_ui::draw_footer()
 
 void item_contents_ui::draw_header()
 {
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
     trim_and_print( w_head, point( 1, 1 ), ui_width, c_white, pContaining_item->display_name() );
 }
 
@@ -124,7 +95,7 @@ void item_contents_ui::draw_item_list()
     int istart = 0;
     int iend = 0;
     if( max_items > data_lines ) {
-        if( selected_item_line <= item_min + data_lines /2 ) {
+        if( selected_item_line <= item_min + data_lines / 2 ) {
             istart = item_min;
             iend = item_min + data_lines;
         } else if( selected_item_line >= max_items - data_lines / 2 ) {
@@ -163,6 +134,11 @@ void item_contents_ui::execute()
     item_info_width = 0;
 
     keybinding_x = 1;
+
+    border_helper borders;
+    border_helper::border_info &border_header = borders.add_border();
+    border_helper::border_info &border_data = borders.add_border();
+
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
 
         ui_width = TERMX * 4 / 5;
@@ -183,7 +159,7 @@ void item_contents_ui::execute()
             act_descs.emplace_back( ctxt.get_desc( act, txt, input_context::allow_all_keys,
                                                    inline_fmt, separate_fmt ) );
         };
-        add_action_desc( "CONFIRM", to_translation( "Confirm your selection" ).translated() );
+        add_action_desc( "CONFIRM", _( "Confirm your selection" ) );
         add_action_desc( "TOGGLE_FAVORITE", pgettext( "crafting gui", "Favorite" ) );
         add_action_desc( "HELP_KEYBINDINGS", pgettext( "crafting gui", "Keybindings" ) );
         keybinding_tips = foldstring( enumerate_as_string( act_descs, enumeration_conjunction::none ),
@@ -197,12 +173,18 @@ void item_contents_ui::execute()
         w_head = catacurses::newwin( head_height, ui_width, point( wStart, 0 ) );
         w_data = catacurses::newwin( data_height, ui_width, point( wStart,
                                      head_height ) );
+
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        border_header.set( point( wStart, 0 ), point( ui_width, head_height ) );
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        border_data.set( point( wStart, head_height - 1 ), point( ui_width, data_height + 1 ) );
+
         item_info_width = ui_width - data_width;
         const int item_info_height = data_height - foot_height;
         const point item_info( wStart + ui_width - item_info_width, head_height );
 
         w_item_info = catacurses::newwin( item_info_height, item_info_width,
-                                         item_info );
+                                          item_info );
 
         if( spopup ) {
             spopup->window( w_data, point( 4, catacurses::getmaxy( w_data ) - 2 ),
@@ -221,7 +203,9 @@ void item_contents_ui::execute()
         werase( w_data );
         werase( w_item_info );
 
-        draw_borders();
+        borders.draw_border( w_data );
+        borders.draw_border( w_head );
+        //draw_borders();
         draw_header();
         draw_item_list();
 

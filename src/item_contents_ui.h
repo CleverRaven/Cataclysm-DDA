@@ -74,9 +74,6 @@ class item_contents_ui
 
         cata::optional<point> cursor_pos;
 
-        /** Draws a full box border around w_head and w_data.  Does not separate out w_item_info or
-        * the footer **/
-        void draw_borders();
         /** Draws the display name of the containing item to act as the header **/
         void draw_header();
         /** Draws the filtered list of contained items.  Ensures proper scrolling and highlights the
@@ -94,7 +91,7 @@ class item_contents_ui
         /** Used to handle input of filter_string **/
         std::unique_ptr<string_input_popup> spopup;
     public:
-        item_contents_ui( const item *containing_item );
+        explicit item_contents_ui( const item *containing_item );
         /** Primary interface function for the class.  After creation, call this to display the UI **/
         void execute();
 };
