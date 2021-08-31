@@ -2740,6 +2740,40 @@ std::string list_occupied_bps( const bionic_id &bio_id, const std::string &intro
     return desc;
 }
 
+std::vector<bionic_id> Character::get_bionics() const
+{
+    std::vector<bionic_id> result;
+    for( const bionic &b : *my_bionics ) {
+        result.push_back( b.id );
+    }
+    return result;
+}
+
+bool Character::has_bionic( const bionic_id &b ) const
+{
+    for( const bionic_id &bid : get_bionics() ) {
+        if( bid == b ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Character::has_active_bionic( const bionic_id &b ) const
+{
+    for( const bionic &i : *my_bionics ) {
+        if( i.id == b ) {
+            return ( i.powered && i.incapacitated_time == 0_turns );
+        }
+    }
+    return false;
+}
+
+bool Character::has_any_bionic() const
+{
+    return !get_bionics().empty();
+}
+
 int Character::get_used_bionics_slots( const bodypart_id &bp ) const
 {
     int used_slots = 0;
@@ -3221,3 +3255,228 @@ void Character::introduce_into_anesthesia( const time_duration &duration, Charac
         fall_asleep( duration );
     }
 }
+
+bool Character::can_fuel_bionic_with( const item &it ) const
+{
+    // the item needs fuel data, or it needs to be a magazine with an item with fuel data.
+    if( !it.is_fuel() ) {
+        if( it.is_magazine() ) {
+            if( !item( it.ammo_current() ).is_fuel() ) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const material_id &fuel : bid->fuel_opts ) {
+            if( fuel == it.get_base_material().id ) {
+                return true;
+            }
+            if( it.type->magazine && fuel == item( it.ammo_current() ).get_base_material().id ) {
+                return true;
+            }
+        }
+
+    }
+    return false;
+}
+
+std::vector<bionic_id> Character::get_bionic_fueled_with( const item &it ) const
+{
+    std::vector<bionic_id> bionics;
+
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const material_id &fuel : bid->fuel_opts ) {
+            if( fuel == it.get_base_material().id ||
+                ( it.type->magazine && fuel == item( it.ammo_current() ).get_base_material().id ) ) {
+                bionics.emplace_back( bid );
+            }
+        }
+    }
+
+    return bionics;
+}
+
+std::vector<bionic_id> Character::get_bionic_fueled_with( const material_id &mat ) const
+{
+    std::vector<bionic_id> bionics;
+
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const material_id &fuel : bid->fuel_opts ) {
+            if( fuel == mat ) {
+                bionics.emplace_back( bid );
+            }
+        }
+    }
+
+    return bionics;
+}
+
+std::vector<bionic_id> Character::get_fueled_bionics() const
+{
+    std::vector<bionic_id> bionics;
+    for( const bionic_id &bid : get_bionics() ) {
+        if( !bid->fuel_opts.empty() ) {
+            bionics.emplace_back( bid );
+        }
+    }
+    return bionics;
+}
+
+bionic_id Character::get_most_efficient_bionic( const std::vector<bionic_id> &bids ) const
+{
+    float temp_eff = 0.0f;
+    bionic_id bio( "null" );
+    for( const bionic_id &bid : bids ) {
+        if( bid->fuel_efficiency > temp_eff ) {
+            temp_eff = bid->fuel_efficiency;
+            bio = bid;
+        }
+    }
+    return bio;
+}
+
+bionic_id Character::get_remote_fueled_bionic() const
+{
+    for( const bionic_id &bid : get_bionics() ) {
+        if( bid->is_remote_fueled ) {
+            return bid;
+        }
+    }
+    return bionic_id();
+}
+
+std::vector<material_id> Character::get_fuel_available( const bionic_id &bio ) const
+{
+    std::vector<material_id> stored_fuels;
+    for( const material_id &fuel : bio->fuel_opts ) {
+        if( !get_value( fuel.str() ).empty() || fuel->get_fuel_data().is_perpetual_fuel ) {
+            stored_fuels.emplace_back( fuel );
+        }
+    }
+    return stored_fuels;
+}
+
+int Character::get_fuel_capacity( const material_id &fuel ) const
+{
+    int amount_stored = 0;
+    if( !get_value( fuel.str() ).empty() ) {
+        amount_stored = std::stoi( get_value( fuel.str() ) );
+    }
+    int capacity = 0;
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const material_id &fl : bid->fuel_opts ) {
+            if( get_value( bid.str() ).empty() || get_value( bid.str() ) == fl.str() ) {
+                if( fl == fuel ) {
+                    capacity += bid->fuel_capacity;
+                }
+            }
+        }
+    }
+    return capacity - amount_stored;
+}
+
+int Character::get_total_fuel_capacity( const material_id &fuel ) const
+{
+    int capacity = 0;
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const material_id &fl : bid->fuel_opts ) {
+            if( get_value( bid.str() ).empty() || get_value( bid.str() ) == fl.str() ) {
+                if( fl == fuel ) {
+                    capacity += bid->fuel_capacity;
+                }
+            }
+        }
+    }
+    return capacity;
+}
+
+void Character::update_fuel_storage( const material_id &fuel )
+{
+
+    if( get_value( fuel.str() ).empty() ) {
+        for( const bionic_id &bid : get_bionic_fueled_with( fuel ) ) {
+            remove_value( bid.c_str() );
+        }
+        return;
+    }
+
+    std::vector<bionic_id> bids = get_bionic_fueled_with( fuel );
+    if( bids.empty() ) {
+        return;
+    }
+    int amount_fuel_loaded = std::stoi( get_value( fuel.str() ) );
+    std::vector<bionic_id> loaded_bio;
+
+    // Sort bionic in order of decreasing capacity
+    // To fill the bigger ones firts.
+    bool swap = true;
+    while( swap ) {
+        swap = false;
+        for( size_t i = 0; i < bids.size() - 1; i++ ) {
+            if( bids[i + 1]->fuel_capacity > bids[i]->fuel_capacity ) {
+                std::swap( bids[i + 1], bids[i] );
+                swap = true;
+            }
+        }
+    }
+
+    for( const bionic_id &bid : bids ) {
+        remove_value( bid.c_str() );
+        if( bid->fuel_capacity <= amount_fuel_loaded ) {
+            amount_fuel_loaded -= bid->fuel_capacity;
+            loaded_bio.emplace_back( bid );
+        } else if( amount_fuel_loaded != 0 ) {
+            loaded_bio.emplace_back( bid );
+            break;
+        }
+    }
+
+    for( const bionic_id &bd : loaded_bio ) {
+        set_value( bd.str(), fuel.str() );
+    }
+
+}
+
+int Character::get_mod_stat_from_bionic( const character_stat &Stat ) const
+{
+    int ret = 0;
+    for( const bionic_id &bid : get_bionics() ) {
+        const auto St_bn = bid->stat_bonus.find( Stat );
+        if( St_bn != bid->stat_bonus.end() ) {
+            ret += St_bn->second;
+        }
+    }
+    return ret;
+}
+
+float Character::bionic_armor_bonus( const bodypart_id &bp, damage_type dt ) const
+{
+    float result = 0.0f;
+    if( dt == damage_type::CUT || dt == damage_type::STAB ) {
+        for( const bionic_id &bid : get_bionics() ) {
+            const auto cut_prot = bid->cut_protec.find( bp.id() );
+            if( cut_prot != bid->cut_protec.end() ) {
+                result += cut_prot->second;
+            }
+        }
+    } else if( dt == damage_type::BASH ) {
+        for( const bionic_id &bid : get_bionics() ) {
+            const auto bash_prot = bid->bash_protec.find( bp.id() );
+            if( bash_prot != bid->bash_protec.end() ) {
+                result += bash_prot->second;
+            }
+        }
+    } else if( dt == damage_type::BULLET ) {
+        for( const bionic_id &bid : get_bionics() ) {
+            const auto bullet_prot = bid->bullet_protec.find( bp.id() );
+            if( bullet_prot != bid->bullet_protec.end() ) {
+                result += bullet_prot->second;
+            }
+        }
+    }
+
+    return result;
+}
+
