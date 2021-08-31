@@ -6,7 +6,7 @@
     "//": "New England Church",
     "weight": 1000,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_groundcover_urban",
       "rows": [
         "      ^^    ss    ^^   s ",
         "      ^^    ss    ^^   s ",
@@ -222,7 +222,7 @@
     "//": "Gothic Church",
     "weight": 1000,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_region_groundcover_urban",
       "rows": [
         "ssssssssssssssssssssssss",
         "s WWWWW    ss    WWWWW s",
