@@ -8,7 +8,7 @@
     ],
     "apply_memorial_log": "Caught blood spiders.",
     "remove_memorial_log": "Eradicated the spiders in his blood.",
-    "apply_message": "You itch along your veins…",
+    "apply_message": "Your veins itch…",
     "rating": "bad",
     "resist_traits": [ "PARAIMMUNE", "ACIDBLOOD" ],
     "base_mods": {
