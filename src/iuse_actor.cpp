@@ -4001,7 +4001,14 @@ ret_val<bool> install_bionic_actor::can_use( const Character &p, const item &it,
         }
     }
 
-    if( p.has_bionic( bid ) ) {
+    bool can_dupe = false;
+    for( const bionic &bio : *p.my_bionics ) {
+        if( bio.id == bid && bio.info().dupes_allowed ) {
+            can_dupe = true;
+        }
+    }
+
+    if( p.has_bionic( bid ) && !can_dupe ) {
         return ret_val<bool>::make_failure( _( "You have already installed this bionic." ) );
     } else if( bid->upgraded_bionic && !p.has_bionic( bid->upgraded_bionic ) ) {
         return ret_val<bool>::make_failure( _( "There is nothing to upgrade." ) );
