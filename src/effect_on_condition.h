@@ -14,23 +14,11 @@
 template<typename T>
 class generic_factory;
 
-struct queued_eoc {
-    public:
-        effect_on_condition_id eoc;
-        bool recurring = false;
-        time_point time;
-};
-
-struct eoc_compare {
-    bool operator()( const queued_eoc &lhs, const queued_eoc &rhs ) const {
-        return lhs.time > rhs.time;
-    }
-};
-
 struct effect_on_condition {
     public:
         friend class generic_factory<effect_on_condition>;
         bool was_loaded = false;
+        bool run_for_npcs = false;
         effect_on_condition_id id;
 
         std::function<bool( const dialogue & )> condition;
@@ -64,21 +52,21 @@ void load( const JsonObject &jo, const std::string &src );
 /** Checks all loaded from JSON are valid */
 void check_consistency();
 /** Sets up the initial queue for a new character */
-void load_new_character();
+void load_new_character( Character &you );
 /** Load any new eocs that don't exist in the save. */
-void load_existing_character();
+void load_existing_character( Character &you );
 /** Loads an inline eoc */
 effect_on_condition_id load_inline_eoc( const JsonValue &jv, const std::string &src );
 /** queue an eoc to happen in the future */
 void queue_effect_on_condition( time_duration duration, effect_on_condition_id eoc );
 /** called every turn to process the queued eocs */
-void process_effect_on_conditions();
+void process_effect_on_conditions( Character &you );
 /** called after certain events to test whether to reactivate eocs */
-void process_reactivate();
+void process_reactivate( Character &you );
 /** clear all queued and inactive eocs */
-void clear();
+void clear( Character &you );
 /** write out all queued eocs and inactive eocs to a file for testing */
-void write_eocs_to_file();
+void write_eocs_to_file( Character &you );
 } // namespace effect_on_conditions
 
 #endif // CATA_SRC_EFFECT_ON_CONDITION_H

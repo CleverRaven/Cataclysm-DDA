@@ -16,6 +16,7 @@
 #include <set>
 #include <string>
 #include <type_traits>
+#include <queue>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -268,6 +269,19 @@ enum edible_rating {
     NO_TOOL
 };
 
+struct queued_eoc {
+    public:
+        effect_on_condition_id eoc;
+        bool recurring = false;
+        time_point time;
+};
+
+struct eoc_compare {
+    bool operator()( const queued_eoc &lhs, const queued_eoc &rhs ) const {
+        return lhs.time > rhs.time;
+    }
+};
+
 struct aim_type {
     std::string name;
     std::string action;
@@ -374,6 +388,8 @@ class Character : public Creature, public visitable
         // by default save all contained info
         virtual void serialize( JsonOut &jsout ) const = 0;
 
+        std::vector<effect_on_condition_id> inactive_effect_on_condition_vector;
+        std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare> queued_effect_on_conditions;
 
         character_id getID() const;
         /// sets the ID, will *only* succeed when the current id is not valid

@@ -19,6 +19,7 @@
 #include "coordinates.h"
 #include "creature.h"
 #include "debug.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
@@ -969,7 +970,7 @@ void weather_manager::update_weather()
             here.set_seen_cache_dirty( tripoint_zero );
         }
         if( weather_id != old_weather ) {
-            effect_on_conditions::process_reactivate();
+            effect_on_conditions::process_reactivate( get_player_character() );
         }
     }
 }

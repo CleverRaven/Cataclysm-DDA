@@ -21,7 +21,6 @@
 #include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
-#include "effect_on_condition.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "item_location.h"
@@ -1046,9 +1045,6 @@ class game
         weather_manager weather; // NOLINT(cata-serialize)
 
     public:
-        std::vector<effect_on_condition_id> inactive_effect_on_condition_vector;
-        std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare> queued_effect_on_conditions;
-
         int mostseen = 0; // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
     private:
         shared_ptr_fast<Character> u_shared_ptr; // NOLINT(cata-serialize)

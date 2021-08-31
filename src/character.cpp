@@ -39,6 +39,7 @@
 #include "debug.h"
 #include "disease.h"
 #include "effect.h"
+#include "effect_on_condition.h"
 #include "effect_source.h"
 #include "enums.h"
 #include "event.h"
@@ -1827,6 +1828,7 @@ void Character::process_turn()
             it++;
         }
     }
+    effect_on_conditions::process_effect_on_conditions( *this );
 }
 
 void Character::recalc_hp()
@@ -8128,7 +8130,7 @@ void Character::on_mutation_gain( const trait_id &mid )
     magic->on_mutation_gain( mid, *this );
     update_type_of_scent( mid );
     recalculate_enchantment_cache(); // mutations can have enchantments
-    effect_on_conditions::process_reactivate();
+    effect_on_conditions::process_reactivate( *this );
 }
 
 void Character::on_mutation_loss( const trait_id &mid )
@@ -8137,7 +8139,7 @@ void Character::on_mutation_loss( const trait_id &mid )
     magic->on_mutation_loss( mid );
     update_type_of_scent( mid, false );
     recalculate_enchantment_cache(); // mutations can have enchantments
-    effect_on_conditions::process_reactivate();
+    effect_on_conditions::process_reactivate( *this );
 }
 
 void Character::on_stat_change( const std::string &stat, int value )

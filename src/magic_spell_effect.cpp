@@ -26,6 +26,7 @@
 #include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "explosion.h"
 #include "field.h"

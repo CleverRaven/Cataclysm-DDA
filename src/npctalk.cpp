@@ -28,6 +28,7 @@
 #include "coordinates.h"
 #include "creature_tracker.h"
 #include "debug.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "faction.h"
 #include "faction_camp.h"
