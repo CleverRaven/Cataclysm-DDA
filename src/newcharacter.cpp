@@ -4139,18 +4139,6 @@ void avatar::character_to_template( const std::string &name )
 
 void avatar::save_template( const std::string &name, pool_type pool )
 {
-#if defined(_WIN32)
-    if( name.find_first_of( "\"*/:<>?\\|"
-                            "\x01\x02\x03\x04\x05\x06\x07\x08\x09" // NOLINT(cata-text-style)
-                            "\x0A\x0B\x0C\x0D\x0E\x0F\x10\x11\x12" // NOLINT(cata-text-style)
-                            "\x13\x14\x15\x16\x17\x18\x19\x1A\x1B"
-                            "\x1C\x1D\x1E\x1F"
-                          ) != std::string::npos ) {
-        popup( _( "Conversion of your filename to your native character set resulted in some unsafe characters, please try an alphanumeric filename instead." ) );
-        return;
-    }
-#endif
-
     write_to_file( PATH_INFO::templatedir() + name + ".template", [&]( std::ostream & fout ) {
         JsonOut jsout( fout, true );
 

@@ -918,7 +918,7 @@ bool main_menu::new_character_tab()
                 if( query_yn( _( "Are you sure you want to delete %s?" ),
                               templates[sel3].c_str() ) ) {
                     const auto path = PATH_INFO::templatedir() + templates[sel3] + ".template";
-                    if( std::remove( path.c_str() ) != 0 ) {
+                    if( !remove_file( path ) ) {
                         popup( _( "Sorry, something went wrong." ) );
                     } else {
                         templates.erase( templates.begin() + sel3 );

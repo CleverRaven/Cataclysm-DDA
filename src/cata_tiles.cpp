@@ -6,7 +6,6 @@
 #include <bitset>
 #include <cmath>
 #include <cstdint>
-#include <fstream>
 #include <iterator>
 #include <set>
 #include <stdexcept>
@@ -30,6 +29,7 @@
 #include "debug.h"
 #include "field.h"
 #include "field_type.h"
+#include "filesystem.h"
 #include "game.h"
 #include "game_constants.h"
 #include "int_id.h"
@@ -589,7 +589,7 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck,
     std::string img_path = tileset_root + '/' + tileset_path;
 
     dbg( D_INFO ) << "Attempting to Load JSON file " << json_path;
-    std::ifstream config_file( json_path.c_str(), std::ifstream::in | std::ifstream::binary );
+    cata::ifstream config_file( fs::u8path( json_path ), std::ifstream::in | std::ifstream::binary );
 
     if( !config_file.good() ) {
         throw std::runtime_error( std::string( "Failed to open tile info json: " ) + json_path );
@@ -632,8 +632,8 @@ void tileset_loader::load( const std::string &tileset_id, const bool precheck,
             continue;
         }
         dbg( D_INFO ) << "Attempting to Load JSON file " << json_path;
-        std::ifstream mod_config_file( json_path.c_str(), std::ifstream::in |
-                                       std::ifstream::binary );
+        cata::ifstream mod_config_file( fs::u8path( json_path ), std::ifstream::in |
+                                        std::ifstream::binary );
 
         if( !mod_config_file.good() ) {
             throw std::runtime_error( std::string( "Failed to open tile info json: " ) +

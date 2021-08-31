@@ -376,6 +376,20 @@ std::string wstr_to_utf8( const std::wstring &wstr )
 #endif
 }
 
+std::string wstr_to_native( const std::wstring &wstr )
+{
+#if defined(_WIN32)
+    int native_size = WideCharToMultiByte( CP_ACP, 0, &wstr[0], -1, nullptr, 0, nullptr,
+                                           nullptr ) + 1;
+    std::string result( native_size, '\0' );
+    WideCharToMultiByte( CP_ACP, 0, &wstr[0], -1, &result[0], native_size, nullptr, nullptr );
+    strip_trailing_nulls( result );
+    return result;
+#else
+    return wstr_to_utf8( wstr );
+#endif
+}
+
 std::string utf32_to_utf8( const std::u32string &str )
 {
     std::string ret;
