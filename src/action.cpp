@@ -649,7 +649,7 @@ bool can_examine_at( const tripoint &p )
     if( here.has_flag( flag_CONSOLE, p ) ) {
         return true;
     }
-    if( here.has_items( p ) ) {
+    if( !here.has_flag( TFLAG_SEALED, p ) && here.has_items( p ) ) {
         return true;
     }
     const furn_t &xfurn_t = here.furn( p ).obj();
