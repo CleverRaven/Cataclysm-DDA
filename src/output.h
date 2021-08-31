@@ -598,8 +598,8 @@ int special_symbol( int sym );
 
 // Remove spaces from the start and the end of a string.
 std::string trim( const std::string &s );
-// Removes punctuation marks from the start and the end of a string.
-std::string trim_punctuation_marks( const std::string &s );
+// Removes trailing periods and exclamation marks.
+std::string trim_trailing_punctuations( const std::string &s );
 // Converts the string to upper case.
 std::string to_upper_case( const std::string &s );
 

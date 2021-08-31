@@ -2012,6 +2012,11 @@
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "open": "t_door_metal_o",
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
     "bash": {
       "str_min": 80,
       "str_max": 250,
@@ -2020,6 +2025,32 @@
       "ter_set": "t_mdoor_frame",
       "items": [
         { "item": "scrap", "count": [ 12, 24 ] },
+        { "item": "steel_plate", "prob": 75 },
+        { "item": "hinge", "count": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_door_metal_corrugated_c",
+    "name": "closed corrugated metal door",
+    "description": "A thin door made of corrugated steel held in a frame.",
+    "symbol": "+",
+    "looks_like": "t_door_c",
+    "color": "cyan",
+    "move_cost": 0,
+    "coverage": 95,
+    "roof": "t_metal_flat_roof",
+    "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "BLOCK_WIND" ],
+    "open": "t_door_metal_corrugated_o",
+    "bash": {
+      "str_min": 30,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_mdoor_frame",
+      "items": [
+        { "item": "scrap", "count": [ 4, 8 ] },
         { "item": "steel_plate", "prob": 75 },
         { "item": "hinge", "count": [ 1, 3 ] }
       ]
@@ -2175,6 +2206,31 @@
   },
   {
     "type": "terrain",
+    "id": "t_door_metal_corrugated_o",
+    "name": "open corrugated metal door",
+    "description": "A thin door made of corrugated steel held in a frame.  It's open, so no tools are needed to break in.",
+    "symbol": "'",
+    "looks_like": "t_door_o",
+    "color": "cyan",
+    "move_cost": 2,
+    "roof": "t_metal_flat_roof",
+    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD" ],
+    "close": "t_door_metal_corrugated_c",
+    "bash": {
+      "str_min": 30,
+      "str_max": 210,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_mdoor_frame",
+      "items": [
+        { "item": "scrap", "count": [ 4, 8 ] },
+        { "item": "steel_plate", "prob": 75 },
+        { "item": "hinge", "count": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_door_metal_lab_o",
     "name": "open metal door",
     "description": "An extremely resilient door made of assorted steel, carved and pounded into shape.  It's open, so no tools are needed to break in.",
@@ -2265,6 +2321,11 @@
     "coverage": 95,
     "roof": "t_flat_roof",
     "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "LOCKED", "BLOCK_WIND" ],
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
     "bash": {
       "str_min": 80,
       "str_max": 250,
@@ -2295,6 +2356,11 @@
     "flags": [ "NOITEM", "REDUCE_SCENT", "OPENCLOSE_INSIDE", "CONNECT_TO_WALL", "LOCKED", "BLOCK_WIND", "PICKABLE" ],
     "open": "t_door_metal_o",
     "examine_action": "locked_object_pickable",
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
     "bash": {
       "str_min": 80,
       "str_max": 250,
@@ -2321,6 +2387,11 @@
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
     "open": "t_door_bar_o",
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
     "bash": {
       "str_min": 45,
       "str_max": 210,
@@ -2378,6 +2449,11 @@
     "lockpick_message": "The door swings open…",
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "CONNECT_TO_WALL", "LOCKED", "THIN_OBSTACLE", "PICKABLE" ],
     "examine_action": "locked_object_pickable",
+    "oxytorch": {
+      "result": "t_mdoor_frame",
+      "duration": "14 seconds",
+      "byproducts": [ { "item": "steel_plate", "count": [ 0, 1 ] }, { "item": "steel_chunk", "count": [ 3, 8 ] } ]
+    },
     "bash": {
       "str_min": 45,
       "str_max": 210,

@@ -121,6 +121,13 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_NEMESIS",
+    "default": "mon_zombie_nemesis",
+    "//": "nemesis squad",
+    "monsters": [ { "monster": "mon_zombie_nemesis", "freq": 1000, "cost_multiplier": 0 } ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_VANILLA",
     "default": "mon_zombie",
     "monsters": [

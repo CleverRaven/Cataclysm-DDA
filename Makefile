@@ -453,6 +453,7 @@ ifeq ($(PCH), 1)
   endif
 endif
 
+CPPFLAGS += -isystem ${SRC_DIR}/third-party
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD -MP
 TOOL_CXXFLAGS = -DCATA_IN_TOOL
 
@@ -598,6 +599,7 @@ endif
 
 # Global settings for Windows targets
 ifeq ($(TARGETSYSTEM),WINDOWS)
+  DEFINES += -DWIN32_LEAN_AND_MEAN
   CHKJSON_BIN = chkjson.exe
   TARGET = $(W32TARGET)
   BINDIST = $(W32BINDIST)
@@ -1136,7 +1138,7 @@ endif  # ifdef FRAMEWORK
 endif  # ifdef TILES
 
 ifndef FRAMEWORK
-	for i in $$($(CROSS)otool -L $(APPRESOURCESDIR)/$(APPTARGET) | grep -e $(SDLLIBSDIR) -e /opt/homebrew -e /usr/local/opt | cut -d " " -f 1 | awk '{$$1=$$1};1'); do cp $$i $(APPRESOURCESDIR)/$$(echo $$i | grep -o '[^/]*$$'); install_name_tool -change $$i "@executable_path/$$(echo $$i | grep -o '[^/]*$$')" $(APPRESOURCESDIR)/$(APPTARGET); done
+	python3 ./tools/copy_mac_libs.py $(APPRESOURCESDIR)/$(APPTARGET)
 endif  # ifndef FRAMEWORK
 
 

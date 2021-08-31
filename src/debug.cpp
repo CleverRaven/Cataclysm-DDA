@@ -74,11 +74,7 @@
 #endif
 
 #if defined(TILES)
-#   if defined(_MSC_VER) && defined(USE_VCPKG)
-#       include <SDL2/SDL.h>
-#   else
-#       include <SDL.h>
-#   endif
+#include "sdl_wrappers.h"
 #endif // TILES
 
 #if defined(__ANDROID__)
@@ -164,8 +160,10 @@ std::string filter_name( debug_filter value )
         // *INDENT-OFF*
         case DF_ACT_BUTCHER: return "DF_ACT_BUTCHER";
         case DF_ACT_EBOOK: return "DF_ACT_EBOOK";
+        case DF_ACT_HARVEST: return "DF_ACT_HARVEST";
         case DF_ACT_LOCKPICK: return "DF_ACT_LOCKPICK";
         case DF_ACT_READ: return "DF_ACT_READ";
+        case DF_ACT_SAFECRACKING: return "DF_ACT_SAFECRACKING";
         case DF_ACT_SHEARING: return "DF_ACT_SHEARING";
         case DF_ACT_WORKOUT: return "DF_ACT_WORKOUT";
         case DF_ANATOMY_BP: return "DF_ANATOMY_BP";

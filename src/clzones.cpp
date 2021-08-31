@@ -46,22 +46,6 @@ static const item_category_id item_category_food( "food" );
 
 zone_manager::zone_manager()
 {
-    types.emplace( zone_type_id( "NO_AUTO_PICKUP" ),
-                   zone_type( to_translation( "No Auto Pickup" ),
-                              to_translation( "You won't auto-pickup items inside the zone." ) ) );
-    types.emplace( zone_type_id( "NO_NPC_PICKUP" ),
-                   zone_type( to_translation( "No NPC Pickup" ),
-                              to_translation( "Friendly NPCs don't pickup items inside the zone." ) ) );
-    types.emplace( zone_type_id( "NPC_RETREAT" ),
-                   zone_type( to_translation( "NPC Retreat" ),
-                              to_translation( "When fleeing, friendly NPCs will attempt to retreat toward this zone if it is within 60 tiles." ) ) );
-    types.emplace( zone_type_id( "NPC_NO_INVESTIGATE" ),
-                   zone_type( to_translation( "NPC Ignore Sounds" ),
-                              to_translation( "Friendly NPCs won't investigate unseen sounds coming from this zone." ) ) );
-    types.emplace( zone_type_id( "NPC_INVESTIGATE_ONLY" ),
-                   zone_type( to_translation( "NPC Investigation Area" ),
-                              to_translation( "Friendly NPCs will investigate unseen sounds only if they come from inside this area." ) ) );
-
     for( const zone_type &zone : zone_type::get_all() ) {
         types.emplace( zone.id, zone );
     }
@@ -853,6 +837,11 @@ zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
             return zone_type_id( "LOOT_CORPSE" );
         }
     }
+    if( it.typeId() == itype_id( "disassembly" ) ) {
+        if( has_near( zone_type_id( "zone_disassemble" ), where, range ) ) {
+            return zone_type_id( "zone_disassemble" );
+        }
+    }
 
     cata::optional<zone_type_id> zone_check_first = cat.priority_zone( it );
     if( zone_check_first && has_near( *zone_check_first, where, range ) ) {
@@ -1167,7 +1156,7 @@ void zone_data::serialize( JsonOut &json ) const
     json.member( "is_vehicle", is_vehicle );
     json.member( "start", start );
     json.member( "end", end );
-    get_options().serialize( json );
+    options->serialize( json );
     json.end_object();
 }
 

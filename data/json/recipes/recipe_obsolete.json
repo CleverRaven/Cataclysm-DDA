@@ -2947,5 +2947,80 @@
     "type": "recipe",
     "result": "rope_makeshift_30",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "blun_slug",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "can_bomb",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tool_improvised_barrel_bomb",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "improvised_demolition_charge",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tool_small_improvised_fragmentation_device",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "improvised_pipebomb",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "improvised_grenade",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "primitive_demolition_charge",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tool_small_primitive_fragmentation_device",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "primitive_pipebomb",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "primitive_grenade",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tool_bootleg_barrel_bomb",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "tool_small_bootleg_fragmentation_device",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bootleg_pipebomb_stable",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bootleg_grenade",
+    "obsolete": true
   }
 ]

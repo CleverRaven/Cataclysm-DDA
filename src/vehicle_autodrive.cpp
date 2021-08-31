@@ -17,10 +17,10 @@
 #include "avatar.h"
 #include "character.h"
 #include "coordinates.h"
+#include "creature_tracker.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "enums.h"
-#include "game.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_memory.h"
@@ -476,14 +476,6 @@ static node_address make_node_address( point pos, orientation dir )
 }
 
 /*
- * Returns the absolute position of the vehicle's pivot point.
- */
-static tripoint_abs_ms abs_vehicle_pos( const vehicle &veh )
-{
-    return tripoint_abs_ms( get_map().getabs( veh.global_pos3() ) );
-}
-
-/*
  * Computes atan2(dy, dx) in "orientation" units. Optimized to use only integer
  * arithmetic and table lookups since it's used in the inner loop of A*.
  */
@@ -680,7 +672,7 @@ bool vehicle::autodrive_controller::check_drivable( tripoint pt ) const
 
     // check for creatures
     // TODO: padding around monsters
-    Creature *critter = g->critter_at( pt, true );
+    Creature *critter = get_creature_tracker().creature_at( pt, true );
     if( critter && driver.sees( *critter ) ) {
         return false;
     }
@@ -803,8 +795,7 @@ void vehicle::autodrive_controller::compute_goal_zone()
 
 void vehicle::autodrive_controller::precompute_data()
 {
-    const tripoint_abs_ms veh_pos = abs_vehicle_pos( driven_veh );
-    const tripoint_abs_omt current_omt = project_to<coords::omt>( veh_pos );
+    const tripoint_abs_omt current_omt = driven_veh.global_omt_location();
     const tripoint_abs_omt next_omt = driver.omt_path.back();
     const tripoint_abs_omt next_next_omt = driver.omt_path.size() >= 2 ?
                                            driver.omt_path[driver.omt_path.size() - 2] : next_omt;
@@ -962,7 +953,7 @@ cata::optional<std::vector<navigation_step>> vehicle::autodrive_controller::comp
     std::unordered_map<node_address, navigation_node, node_address_hasher> known_nodes;
     std::priority_queue<scored_address, std::vector<scored_address>, std::greater<>>
             open_set;
-    const tripoint_abs_ms veh_pos = abs_vehicle_pos( driven_veh );
+    const tripoint_abs_ms veh_pos = driven_veh.global_square_location();
     const node_address start = data.nav_to_map.inverse().transform(
                                    veh_pos.raw().xy(), to_orientation( driven_veh.face.dir() ) );
     known_nodes.emplace( start, make_start_node( start, driven_veh ) );
@@ -1100,7 +1091,7 @@ void vehicle::autodrive_controller::reduce_speed()
 cata::optional<navigation_step> vehicle::autodrive_controller::compute_next_step()
 {
     precompute_data();
-    const tripoint_abs_ms veh_pos = abs_vehicle_pos( driven_veh );
+    const tripoint_abs_ms veh_pos = driven_veh.global_square_location();
     const bool had_cached_path = !data.path.empty();
     while( !data.path.empty() && data.path.back().pos != veh_pos ) {
         data.path.pop_back();
@@ -1133,7 +1124,7 @@ std::vector<std::tuple<point, int, std::string>> vehicle::get_debug_overlay_data
     static const std::vector<std::string> debug_what = { "valid_position", "omt" };
     std::vector<std::tuple<point, int, std::string>> ret;
 
-    const tripoint_abs_ms veh_pos = abs_vehicle_pos( *this );
+    const tripoint_abs_ms veh_pos = global_square_location();
     if( autodrive_local_target != tripoint_zero ) {
         ret.emplace_back( ( autodrive_local_target - veh_pos.raw() ).xy(), catacurses::red, "T" );
     }
@@ -1221,7 +1212,7 @@ autodrive_result vehicle::do_autodrive( Character &driver )
         stop_autodriving( false );
         return autodrive_result::abort;
     }
-    const tripoint_abs_ms veh_pos = abs_vehicle_pos( *this );
+    const tripoint_abs_ms veh_pos = global_square_location();
     const tripoint_abs_omt veh_omt = project_to<coords::omt>( veh_pos );
     std::vector<tripoint_abs_omt> &omt_path = driver.omt_path;
     if( !omt_path.empty() && veh_omt == omt_path.back() ) {
@@ -1253,7 +1244,7 @@ autodrive_result vehicle::do_autodrive( Character &driver )
         return autodrive_result::abort;
     }
     if( next_step->target_speed_tps == 0 && velocity == 0 ) {
-        stop_autodriving();
+        stop_autodriving( false );
         return autodrive_result::finished;
     }
     cruise_on = true;

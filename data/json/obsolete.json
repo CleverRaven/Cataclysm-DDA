@@ -593,7 +593,7 @@
     "description": "Your left arm has been surgically replaced by a heavy-duty fusion blaster!  You may use your energy banks to fire a damaging heat ray.  However, you are unable to use or carry two-handed items, and your strength limits what you can use with your one hand.",
     "occupied_bodyparts": [ [ "arm_l", 20 ], [ "hand_l", 5 ] ],
     "act_cost": 50,
-    "fake_item": "bio_blaster_gun",
+    "fake_weapon": "bio_blaster_gun",
     "flags": [ "BIONIC_GUN" ],
     "cant_remove_reason": "Removing %1$s Fusion Blaster Arm would leave %2$s with a useless stump."
   },
@@ -632,7 +632,7 @@
     "reload": 500,
     "built_in_mods": [ "bio_powershot" ],
     "ammo_effects": [ "PLASMA" ],
-    "flags": [ "NEVER_JAMS", "TRADER_AVOID", "ZERO_WEIGHT" ]
+    "flags": [ "NEVER_JAMS", "TRADER_AVOID", "ZERO_WEIGHT", "USES_BIONIC_POWER" ]
   },
   {
     "id": "unbio_blaster_gun",
@@ -1197,7 +1197,7 @@
     "color": "dark_gray",
     "move_cost": 10,
     "coverage": 65,
-    "flags": [ "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE", "PLACE_ITEM" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM" ],
     "deconstruct": {
       "ter_set": "t_rock_floor",
       "items": [
@@ -1241,7 +1241,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 75,
-    "flags": [ "BASHABLE", "CONTAINER", "SEALED", "PLACE_ITEM" ],
+    "flags": [ "CONTAINER", "SEALED", "PLACE_ITEM" ],
     "deconstruct": {
       "ter_set": "t_rock_floor",
       "items": [
@@ -1291,7 +1291,7 @@
     "color": "brown",
     "move_cost": 4,
     "coverage": 55,
-    "flags": [ "TRANSPARENT", "BASHABLE", "CONTAINER", "FLAMMABLE", "PLACE_ITEM" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM" ],
     "deconstruct": {
       "ter_set": "t_rock_floor",
       "items": [
@@ -1339,7 +1339,7 @@
     "color": "yellow",
     "move_cost": 8,
     "coverage": 55,
-    "flags": [ "TRANSPARENT", "BASHABLE", "CONTAINER", "SEALED", "FLAMMABLE", "PLACE_ITEM" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "SEALED", "FLAMMABLE", "PLACE_ITEM" ],
     "deconstruct": {
       "ter_set": "t_rock_floor",
       "items": [
@@ -1618,5 +1618,18 @@
       }
     ],
     "flags": [ "IS_UPS" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "money_bundle",
+    "name": { "str": "money bundle" },
+    "description": "A bundle holding many 20 dollar bills, pretty useless now though.",
+    "weight": "20 g",
+    "to_hit": -3,
+    "color": "green",
+    "symbol": ",",
+    "material": [ "paper" ],
+    "volume": "250 ml",
+    "price": 0
   }
 ]

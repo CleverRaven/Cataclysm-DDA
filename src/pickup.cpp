@@ -336,7 +336,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
             }
         // Intentional fallthrough
         case STASH: {
-            item &added_it = player_character.i_add( newit, true, nullptr, /*allow_drop=*/false,
+            item &added_it = player_character.i_add( newit, true, nullptr, &it, /*allow_drop=*/false,
                              !newit.count_by_charges() );
             if( added_it.is_null() ) {
                 // failed to add, fill pockets if it's a stack
@@ -471,7 +471,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             from_vehicle = cargo_part >= 0;
         } else {
             // Nothing to change, default is to pick from ground anyway.
-            if( local.has_flag( "SEALED", p ) ) {
+            if( local.has_flag( TFLAG_SEALED, p ) ) {
                 return;
             }
         }
@@ -530,7 +530,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         if( g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), p ) ) {
             return;
         }
-        if( local.has_flag( "SEALED", p ) ) {
+        if( local.has_flag( TFLAG_SEALED, p ) ) {
             return;
         }
     }

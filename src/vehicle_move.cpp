@@ -15,6 +15,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
 #include "explosion.h"
@@ -29,7 +30,6 @@
 #include "monster.h"
 #include "optional.h"
 #include "options.h"
-#include "player.h"
 #include "rng.h"
 #include "sounds.h"
 #include "translations.h"
@@ -774,8 +774,8 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     const bool vert_coll = bash_floor || p.z != sm_pos.z;
     Character &player_character = get_player_character();
     const bool pl_ctrl = player_in_control( player_character );
-    Creature *critter = g->critter_at( p, true );
-    player *ph = dynamic_cast<player *>( critter );
+    Creature *critter = get_creature_tracker().creature_at( p, true );
+    Character *ph = dynamic_cast<Character *>( critter );
 
     Creature *driver = pl_ctrl ? &player_character : nullptr;
 
@@ -823,7 +823,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             return ret;
         }
         // we just ran into a fish, so move it out of the way
-        if( here.has_flag( "SWIMMABLE", critter->pos() ) ) {
+        if( here.has_flag( TFLAG_SWIMMABLE, critter->pos() ) ) {
             tripoint end_pos = critter->pos();
             tripoint start_pos;
             const units::angle angle =
@@ -831,7 +831,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             const std::set<tripoint> &cur_points = get_points( true );
             // push the animal out of way until it's no longer in our vehicle and not in
             // anyone else's position
-            while( g->critter_at( end_pos, true ) ||
+            while( get_creature_tracker().creature_at( end_pos, true ) ||
                    cur_points.find( end_pos ) != cur_points.end() ) {
                 start_pos = end_pos;
                 calc_ray_end( angle, 2, start_pos, end_pos );
@@ -1300,6 +1300,7 @@ bool vehicle::check_heli_descend( Character &p )
     int count = 0;
     int air_count = 0;
     map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &pt : get_points( true ) ) {
         tripoint below( pt.xy(), pt.z - 1 );
         if( here.has_zlevels() && ( pt.z < -OVERMAP_DEPTH ||
@@ -1308,7 +1309,7 @@ bool vehicle::check_heli_descend( Character &p )
             return false;
         }
         const optional_vpart_position ovp = here.veh_at( below );
-        if( here.impassable_ter_furn( below ) || ovp || g->critter_at( below ) ) {
+        if( here.impassable_ter_furn( below ) || ovp || creatures.creature_at( below ) ) {
             p.add_msg_if_player( m_bad,
                                  _( "It would be unsafe to try and land when there are obstacles below you." ) );
             return false;
@@ -1337,11 +1338,12 @@ bool vehicle::check_heli_ascend( Character &p )
         return false;
     }
     map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &pt : get_points( true ) ) {
         tripoint above( pt.xy(), pt.z + 1 );
         const optional_vpart_position ovp = here.veh_at( above );
         if( here.has_flag_ter_or_furn( TFLAG_INDOORS, pt ) || here.impassable_ter_furn( above ) || ovp ||
-            g->critter_at( above ) ) {
+            creatures.creature_at( above ) ) {
             p.add_msg_if_player( m_bad,
                                  _( "It would be unsafe to try and ascend when there are obstacles above you." ) );
             return false;
@@ -1398,7 +1400,7 @@ void vehicle::pldrive( Character &driver, const point &p, int z )
             cost = std::max( driver.get_speed(), 100 ) * ( 1.0f - ( -penalty / 10.0f ) * 2 / 3 );
         }
 
-        if( penalty > skill || cost > 400 ) {
+        if( penalty > skill || ( penalty > 0 && cost > 400 ) ) {
             driver.add_msg_if_player( m_warning, _( "You fumble with the %s's controls." ), name );
             // Anything from a wasted attempt to 2 turns in the intended direction
             turn_delta *= rng( 0, 2 );
@@ -1811,7 +1813,7 @@ vehicle *vehicle::act_on_map()
         for( int boarded : boarded_parts() ) {
             if( part_with_feature( boarded, VPFLAG_CONTROLS, true ) >= 0 ) {
                 controlled = true;
-                player *passenger = get_passenger( boarded );
+                Character *passenger = get_passenger( boarded );
                 if( passenger != nullptr ) {
                     passenger->practice( skill_driving, 1 );
                 }
@@ -2089,7 +2091,7 @@ units::angle map::shake_vehicle( vehicle &veh, const int velocity_before,
             continue;
         }
 
-        player *psg = dynamic_cast<player *>( rider );
+        Character *psg = dynamic_cast<Character *>( rider );
         monster *pet = dynamic_cast<monster *>( rider );
 
         bool throw_from_seat = false;

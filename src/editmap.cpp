@@ -23,6 +23,7 @@
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "cuboid_rectangle.h"
 #include "debug.h"
 #include "debug_menu.h"
@@ -122,7 +123,7 @@ void edit_json( SAVEOBJ &it )
         if( tmret == 0 ) {
             try {
                 SAVEOBJ tmp;
-                deserialize( tmp, save1 );
+                deserialize_from_string( tmp, save1 );
                 it = std::move( tmp );
             } catch( const std::exception &err ) {
                 popup( "Error on deserialization: %s", err.what() );
@@ -216,12 +217,13 @@ void editmap_hilight::draw( editmap &em, bool update )
     if( cur_blink >= static_cast<int>( blink_interval.size() ) ) {
         cur_blink = 0;
     }
+    creature_tracker &creatures = get_creature_tracker();
     if( blink_interval[ cur_blink ] || update ) {
         map &here = get_map();
         for( auto &elem : points ) {
             const tripoint &p = elem.first;
             // but only if there's no vehicles/mobs/npcs on a point
-            if( !here.veh_at( p ) && !g->critter_at( p ) ) {
+            if( !here.veh_at( p ) && !creatures.creature_at( p ) ) {
                 const ter_t &terrain = here.ter( p ).obj();
                 char t_sym = terrain.symbol();
                 nc_color t_col = terrain.color();
@@ -378,6 +380,7 @@ cata::optional<tripoint> editmap::edit()
     restore_on_out_of_scope<std::string> info_txt_prev( info_txt_curr );
     restore_on_out_of_scope<std::string> info_title_prev( info_title_curr );
 
+    creature_tracker &creatures = get_creature_tracker();
     do {
         if( target_list.empty() ) {
             target_list.push_back( target ); // 'editmap.target_list' always has point 'editmap.target' at least
@@ -419,7 +422,7 @@ cata::optional<tripoint> editmap::edit()
         } else if( action == "EDITMAP_SHOW_ALL" ) {
             uberdraw = !uberdraw;
         } else if( action == "EDIT_MONSTER" ) {
-            if( Creature *const critter = g->critter_at( target ) ) {
+            if( Creature *const critter = creatures.creature_at( target ) ) {
                 edit_critter( *critter );
             } else if( get_map().veh_at( target ) ) {
                 edit_veh();
@@ -468,12 +471,13 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
     if( refresh_mplans ) {
         hilights["mplan"].points.clear();
     }
+    creature_tracker &creatures = get_creature_tracker();
     drawsq_params params = drawsq_params().center( center );
     for( const tripoint &p : tripoint_range<tripoint>( start, end ) ) {
         int sym = game_map ? '%' : ' ';
         if( p.x >= 0 && p.x < msize && p.y >= 0 && p.y < msize ) {
             if( game_map ) {
-                Creature *critter = g->critter_at( p );
+                Creature *critter = creatures.creature_at( p );
                 if( critter != nullptr ) {
                     critter->draw( w, center.xy(), false );
                 } else {
@@ -509,7 +513,7 @@ void editmap::do_ui_invalidation()
 
 void editmap::draw_main_ui_overlay()
 {
-    const Creature *critter = g->critter_at( target );
+    const Creature *critter = get_creature_tracker().creature_at( target );
     map &here = get_map();
 #if !defined( TILES )
     if( uberdraw ) {
@@ -552,6 +556,7 @@ void editmap::draw_main_ui_overlay()
     }
 #endif
 
+    creature_tracker &creatures = get_creature_tracker();
     // hilight target_list points if blink=true
     if( blink ) {
         for( const auto &p : target_list ) {
@@ -565,7 +570,7 @@ void editmap::draw_main_ui_overlay()
             } else {
 #endif
                 // but only if there's no vehicles/mobs/npcs on a point
-                if( !here.veh_at( p ) && !g->critter_at( p ) ) {
+                if( !here.veh_at( p ) && !creatures.creature_at( p ) ) {
                     const ter_t &terrain = here.ter( p ).obj();
                     char t_sym = terrain.symbol();
                     nc_color t_col = terrain.color();
@@ -797,7 +802,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
         off++; // 11
     }
 
-    const Creature *critter = g->critter_at( target );
+    const Creature *critter = get_creature_tracker().creature_at( target );
     if( critter != nullptr ) {
         off = critter->print_info( w_info, off, 5, 1 );
     } else if( vp ) {

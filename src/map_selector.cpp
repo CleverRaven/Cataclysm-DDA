@@ -5,12 +5,15 @@
 #include <new>
 #include <vector>
 
-#include "game.h"
 #include "game_constants.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "optional.h"
 #include "rng.h"
+
+class game;
+// NOLINTNEXTLINE(cata-static-declarations)
+extern std::unique_ptr<game> g;
 
 map_selector::map_selector( const tripoint &pos, int radius, bool accessible )
 {

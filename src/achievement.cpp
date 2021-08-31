@@ -162,7 +162,7 @@ struct achievement_requirement {
     requirement_visibility visibility = requirement_visibility::always;
     cata::optional<translation> description;
 
-    bool becomes_false = false;
+    bool becomes_false = false; // NOLINT(cata-serialize)
 
     void deserialize( JsonIn &jin ) {
         const JsonObject &jo = jin.get_object();
@@ -712,7 +712,7 @@ std::string achievement_tracker::ui_text() const
             achievement_completion::failed,
             achievement_->time_constraint()->target(),
             current_values()
-        }. ui_text( achievement_ );
+        } .ui_text( achievement_ );
     }
 
     // First: the achievement name and description

@@ -78,7 +78,13 @@
         [ "egg_dragonfly", 4 ],
         [ "egg_firefly", 4 ],
         [ "egg_centipede", 2 ],
-        [ "egg_wasp", 4 ]
+        [ "egg_wasp", 4 ],
+        [ "egg_antlion", 2 ],
+        [ "egg_strider", 4 ],
+        [ "egg_grasshopper", 4 ],
+        [ "egg_lady_bug", 4 ],
+        [ "egg_mole_cricket", 4 ],
+        [ "egg_mantis", 4 ]
       ]
     ]
   },
@@ -123,7 +129,8 @@
         [ "beet_syrup", 6 ],
         [ "molasses", 1 ],
         [ "honey_bottled", 4 ],
-        [ "honey_glassed", 1 ]
+        [ "honey_glassed", 1 ],
+        [ "honeydew", 4 ]
       ]
     ]
   },
@@ -199,8 +206,8 @@
     "components": [
       [
         [ "meat_lung", 4, "LIST" ],
-        [ "liver", 4 ],
-        [ "kidney", 4 ],
+        [ "meat_liver", 4, "LIST" ],
+        [ "meat_kidney", 4, "LIST" ],
         [ "sweetbread", 4 ],
         [ "offal", 1 ],
         [ "mutant_bug_organs", 1 ]
@@ -229,7 +236,23 @@
     "id": "meat_lung",
     "type": "requirement",
     "//": "Anything you might consider raw lung.  About 250mL of lungs.",
-    "components": [ [ [ "lung", 1 ], [ "mutant_bug_lungs", 1 ] ] ]
+    "components": [ [ [ "lung", 1 ], [ "mutant_bug_lungs", 1 ], [ "mutant_lung", 1 ] ] ]
+  },
+  {
+    "id": "meat_liver",
+    "type": "requirement",
+    "components": [ [ [ "liver", 1 ], [ "canned_liver", 1 ], [ "mutant_liver", 1 ] ] ]
+  },
+  {
+    "id": "meat_kidney",
+    "type": "requirement",
+    "components": [ [ [ "kidney", 1 ], [ "mutant_kidney", 1 ] ] ]
+  },
+  {
+    "id": "meat_brain",
+    "type": "requirement",
+    "//": "Anything resembling brains and other nervous tissue.",
+    "components": [ [ [ "brain", 1 ], [ "mutant_brain", 1 ] ] ]
   },
   {
     "id": "meat_stomach",
@@ -277,8 +300,8 @@
     "components": [
       [
         [ "meat_red", 1, "LIST" ],
-        [ "liver", 5 ],
-        [ "kidney", 5 ],
+        [ "meat_liver", 5, "LIST" ],
+        [ "meat_kidney", 5, "LIST" ],
         [ "meat_lung", 5, "LIST" ],
         [ "sweetbread", 5 ],
         [ "bacon", 4 ],

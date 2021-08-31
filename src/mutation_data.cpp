@@ -24,8 +24,8 @@
 using TraitGroupMap =
     std::map<trait_group::Trait_group_tag, shared_ptr_fast<Trait_group>>;
 using TraitSet = std::set<trait_id>;
-using trait_reader = auto_flags_reader<trait_id>;
-using flag_reader = auto_flags_reader<json_character_flag>;
+using trait_reader = string_id_reader<::mutation_branch>;
+using flag_reader = string_id_reader<::json_flag>;
 
 static TraitSet trait_blacklist;
 static TraitGroupMap trait_groups;

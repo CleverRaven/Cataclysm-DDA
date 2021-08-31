@@ -27,6 +27,7 @@
 #include "character_martial_arts.h"
 #include "colony.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
 #include "dispersion.h"
@@ -69,7 +70,6 @@
 #include "output.h"
 #include "pathfinding.h"
 #include "pimpl.h"
-#include "player.h"
 #include "point.h"
 #include "projectile.h"
 #include "rng.h"
@@ -175,7 +175,6 @@ static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
 static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
-static const trait_id trait_FAST_REFLEXES( "FAST_REFLEXES" );
 
 static const mtype_id mon_ant_acid_larva( "mon_ant_acid_larva" );
 static const mtype_id mon_ant_acid_queen( "mon_ant_acid_queen" );
@@ -362,13 +361,14 @@ bool mattack::antqueen( monster *z )
     std::vector<tripoint> egg_points;
     std::vector<monster *> ants;
     map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
     // Count up all adjacent tiles the contain at least one egg.
     for( const auto &dest : here.points_in_radius( z->pos(), 2 ) ) {
         if( here.impassable( dest ) ) {
             continue;
         }
 
-        if( monster *const mon = g->critter_at<monster>( dest ) ) {
+        if( monster *const mon = creatures.creature_at<monster>( dest ) ) {
             if( mon->type->default_faction == STATIC( mfaction_str_id( "ant" ) ) && mon->type->upgrades ) {
                 ants.push_back( mon );
             }
@@ -487,6 +487,7 @@ bool mattack::shriek_stun( monster *z )
     units::angle target_angle = coord_to_angle( z->pos(), target->pos() );
     units::angle cone_angle = 20_degrees;
     map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &cone : here.points_in_radius( z->pos(), 4 ) ) {
         units::angle tile_angle = coord_to_angle( z->pos(), cone );
         units::angle diff = units::fabs( target_angle - tile_angle );
@@ -499,7 +500,7 @@ bool mattack::shriek_stun( monster *z )
         here.bash( cone, 4, true );
 
         // If a monster is there, chance for stun
-        Creature *target = g->critter_at( cone );
+        Creature *target = creatures.creature_at( cone );
         if( target == nullptr ) {
             continue;
         }
@@ -1040,6 +1041,7 @@ bool mattack::resurrect( monster *z )
     cata_assert( raised.second );
     // NOLINTNEXTLINE(clang-analyzer-core.CallAndMessage)
     float corpse_damage = raised.second->damage_level();
+    creature_tracker &creatures = get_creature_tracker();
     // Did we successfully raise something?
     if( g->revive_corpse( raised.first, *raised.second ) ) {
         here.i_rem( raised.first, raised.second );
@@ -1052,7 +1054,7 @@ bool mattack::resurrect( monster *z )
         // Penalize speed by between 10% and 50% based on how damaged the corpse is.
         float speed_penalty = 0.1 + ( corpse_damage * 0.1 );
         z->set_speed_base( z->get_speed_base() - speed_penalty * z->type->speed );
-        monster *const zed = g->critter_at<monster>( raised.first );
+        monster *const zed = creatures.creature_at<monster>( raised.first );
         if( !zed ) {
             debugmsg( "Misplaced or failed to revive a zombie corpse" );
             return true;
@@ -1114,6 +1116,9 @@ bool mattack::smash( monster *z )
     target->add_msg_player_or_npc( _( "A blow from the %1$s sends %2$s flying!" ),
                                    _( "A blow from the %s sends <npcname> flying!" ),
                                    z->name(), target->disp_name() );
+
+    // Release the grabbed creature right before the fling
+    z->remove_effect( effect_grabbing );
     // TODO: Make this parabolic
     g->fling_creature( target, coord_to_angle( z->pos(), target->pos() ),
                        z->type->melee_sides * z->type->melee_dice * 3 );
@@ -1391,10 +1396,11 @@ static bodypart_id body_part_hit_by_plant()
 bool mattack::growplants( monster *z )
 {
     map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
     for( const auto &p : here.points_in_radius( z->pos(), 3 ) ) {
 
         // Only affect natural, dirtlike terrain or trees.
-        if( !( here.has_flag_ter( "DIGGABLE", p ) ||
+        if( !( here.has_flag_ter( TFLAG_DIGGABLE, p ) ||
                here.has_flag_ter( "TREE", p ) ||
                here.ter( p ) == t_tree_young ) ) {
             continue;
@@ -1419,7 +1425,7 @@ bool mattack::growplants( monster *z )
         }
 
         // Grow a tree and pierce stuff with it
-        Creature *critter = g->critter_at( p );
+        Creature *critter = creatures.creature_at( p );
         // Don't grow under friends (and self)
         if( critter != nullptr &&
             z->attitude_to( *critter ) == Creature::Attitude::FRIENDLY ) {
@@ -1452,7 +1458,7 @@ bool mattack::growplants( monster *z )
             continue;
         }
 
-        Creature *critter = g->critter_at( p );
+        Creature *critter = creatures.creature_at( p );
         if( critter != nullptr && z->attitude_to( *critter ) == Creature::Attitude::FRIENDLY ) {
             // Don't buff terrain below friends (and self)
             continue;
@@ -1508,14 +1514,15 @@ bool mattack::vine( monster *z )
     int vine_neighbors = 0;
     map &here = get_map();
     bool parent_out_of_range = !here.inbounds( z->move_target() );
-    monster *parent = g->critter_at<monster>( z->move_target() );
+    creature_tracker &creatures = get_creature_tracker();
+    monster *parent = creatures.creature_at<monster>( z->move_target() );
     if( !parent_out_of_range && ( parent == nullptr || parent->type->id != mon_creeper_hub ) ) {
         // TODO: Should probably die instead.
         return true;
     }
     z->moves -= 100;
     for( const tripoint &dest : here.points_in_radius( z->pos(), 1 ) ) {
-        Creature *critter = g->critter_at( dest );
+        Creature *critter = creatures.creature_at( dest );
         if( critter != nullptr && z->attitude_to( *critter ) == Creature::Attitude::HOSTILE ) {
             if( critter->uncanny_dodge() ) {
                 return true;
@@ -1537,7 +1544,7 @@ bool mattack::vine( monster *z )
             return true;
         }
 
-        if( monster *const neighbor = g->critter_at<monster>( dest ) ) {
+        if( monster *const neighbor = creatures.creature_at<monster>( dest ) ) {
             if( neighbor->type->id == mon_creeper_vine ) {
                 vine_neighbors++;
             }
@@ -1600,6 +1607,7 @@ bool mattack::triffid_heartbeat( monster *z )
     }
 
     map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
     static pathfinding_settings root_pathfind( 10, 20, 50, 0, false, false, false, false, false );
     if( rl_dist( z->pos(), player_character.pos() ) > 5 &&
         !here.route( player_character.pos(), z->pos(), root_pathfind ).empty() ) {
@@ -1621,7 +1629,7 @@ bool mattack::triffid_heartbeat( monster *z )
             tries++;
             here.ter_set( dest, t_dirt );
             if( rl_dist( dest, player_character.pos() ) > 3 && g->num_creatures() < 30 &&
-                !g->critter_at( dest ) && one_in( 20 ) ) { // Spawn an extra monster
+                !creatures.creature_at( dest ) && one_in( 20 ) ) { // Spawn an extra monster
                 mtype_id montype = mon_triffid;
                 if( one_in( 4 ) ) {
                     montype = mon_creeper_hub;
@@ -1682,7 +1690,7 @@ bool mattack::fungus( monster *z )
     }
 
     map &here = get_map();
-    fungal_effects fe( *g, here );
+    fungal_effects fe;
     for( const tripoint &sporep : here.points_in_radius( z->pos(), radius ) ) {
         if( sporep == z->pos() ) {
             continue;
@@ -2122,7 +2130,7 @@ bool mattack::dermatik( monster *z )
         return false;
     }
 
-    player *foe = dynamic_cast< player * >( target );
+    Character *foe = dynamic_cast< Character * >( target );
     if( foe == nullptr ) {
         return true; // No implanting monsters for now
     }
@@ -2199,7 +2207,7 @@ bool mattack::dermatik_growth( monster *z )
 
 bool mattack::fungal_trail( monster *z )
 {
-    fungal_effects fe( *g, get_map() );
+    fungal_effects fe;
     fe.spread_fungus( z->pos() );
     return false;
 }
@@ -2207,9 +2215,9 @@ bool mattack::fungal_trail( monster *z )
 bool mattack::plant( monster *z )
 {
     map &here = get_map();
-    fungal_effects fe( *g, here );
+    fungal_effects fe;
     const tripoint monster_position = z->pos();
-    const bool is_fungi = here.has_flag_ter( "FUNGUS", monster_position );
+    const bool is_fungi = here.has_flag_ter( TFLAG_FUNGUS, monster_position );
     // Spores taking seed and growing into a fungaloid
     fe.spread_fungus( monster_position );
     if( is_fungi && one_in( 10 + g->num_creatures() / 5 ) ) {
@@ -2231,6 +2239,21 @@ bool mattack::plant( monster *z )
 bool mattack::disappear( monster *z )
 {
     z->set_hp( 0 );
+    return true;
+}
+
+bool mattack::depart( monster *z )
+{
+    map &here = get_map();
+    if( z->has_flag( MF_FLIES ) && here.is_outside( z->pos() ) ) {
+        add_msg_if_player_sees( *z, m_info, _( "The %s turns to a steady climb before departing." ),
+                                z->name() );
+    } else {
+        add_msg_if_player_sees( *z, m_info, _( "The %s departs." ), z->name() );
+    }
+    z->no_corpse_quiet = true;
+    z->no_extra_death_drops = true;
+    z->die( nullptr );
     return true;
 }
 
@@ -2288,8 +2311,9 @@ bool mattack::formblob( monster *z )
     std::vector<tripoint> pts = closest_points_first( z->pos(), 1 );
     // Don't check own tile
     pts.erase( pts.begin() );
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &dest : pts ) {
-        Creature *critter = g->critter_at( dest );
+        Creature *critter = creatures.creature_at( dest );
         if( critter == nullptr ) {
             if( z->get_speed_base() > 85 && rng( 0, 250 ) < z->get_speed_base() ) {
                 // If we're big enough, spawn a baby blob.
@@ -2565,7 +2589,7 @@ bool mattack::ranged_pull( monster *z )
         return false;
     }
 
-    player *foe = dynamic_cast< player * >( target );
+    Character *foe = dynamic_cast< Character * >( target );
     map &here = get_map();
     std::vector<tripoint> line = here.find_clear_path( z->pos(), target->pos() );
     bool seen = get_player_view().sees( *z );
@@ -2675,14 +2699,13 @@ bool mattack::grab( monster *z )
         return true;
     }
 
-    player *pl = dynamic_cast<player *>( target );
+    Character *pl = dynamic_cast<Character *>( target );
     if( pl == nullptr ) {
         return true;
     }
 
     ///\EFFECT_DEX increases chance to avoid being grabbed
-    int reflex_mod = pl->has_trait( trait_FAST_REFLEXES ) ? 2 : 1;
-    const bool dodged_grab = rng( 0, reflex_mod * pl->get_dex() ) > rng( 0,
+    const bool dodged_grab = rng( 0, pl->get_dex() ) > rng( 0,
                              z->type->melee_sides + z->type->melee_dice );
 
     const ma_technique grab_break = pl->martial_arts_data->get_grab_break( *pl );
@@ -2737,7 +2760,7 @@ bool mattack::grab_drag( monster *z )
     const tripoint target_square = z->pos() - ( target->pos() - z->pos() );
     if( z->can_move_to( target_square ) &&
         target->stability_roll() < dice( z->type->melee_sides, z->type->melee_dice ) ) {
-        player *foe = dynamic_cast<player *>( target );
+        Character *foe = dynamic_cast<Character *>( target );
         monster *zz = dynamic_cast<monster *>( target );
         tripoint zpt = z->pos();
         z->move_to( target_square );
@@ -2786,7 +2809,7 @@ bool mattack::gene_sting( monster *z )
     bool hit = sting_shoot( z, target, dam, range );
     if( hit ) {
         //Add checks if previous NPC/player conditions are removed
-        dynamic_cast<player *>( target )->mutate();
+        dynamic_cast<Character *>( target )->mutate();
     }
 
     return true;
@@ -2868,6 +2891,11 @@ bool mattack::fear_paralyze( monster *z )
         // TODO: handle friendly monsters
         return false;
     }
+
+    if( !within_visual_range( z, 10 ) ) {
+        return false;
+    }
+
     Character &player_character = get_player_character();
     if( player_character.sees( *z ) && !player_character.has_effect( effect_fearparalyze ) ) {
         if( player_character.worn_with_flag( flag_PSYSHIELD_PARTIAL ) && one_in( 4 ) ) {
@@ -2887,11 +2915,11 @@ bool mattack::fear_paralyze( monster *z )
 bool mattack::nurse_check_up( monster *z )
 {
     bool found_target = false;
-    player *target = nullptr;
+    Character *target = nullptr;
     tripoint tmp_pos( z->pos() + point( 12, 12 ) );
     map &here = get_map();
     for( Creature *critter : here.get_creatures_in_radius( z->pos(), 6 ) ) {
-        player *tmp_player = dynamic_cast<player *>( critter );
+        Character *tmp_player = dynamic_cast<Character *>( critter );
         if( tmp_player != nullptr && z->sees( *tmp_player ) &&
             here.clear_path( z->pos(), tmp_player->pos(), 10, 0,
                              100 ) ) { // no need to scan players we can't reach
@@ -2939,11 +2967,11 @@ bool mattack::nurse_assist( monster *z )
     }
 
     bool found_target = false;
-    player *target = nullptr;
+    Character *target = nullptr;
     map &here = get_map();
     tripoint tmp_pos( z->pos() + point( 12, 12 ) );
     for( Creature *critter : here.get_creatures_in_radius( z->pos(), 6 ) ) {
-        player *tmp_player = dynamic_cast<player *>( critter );
+        Character *tmp_player = dynamic_cast<Character *>( critter );
         // No need to scan players we can't reach
         if( tmp_player != nullptr && z->sees( *tmp_player ) &&
             here.clear_path( z->pos(), tmp_player->pos(), 10, 0, 100 ) ) {
@@ -2996,11 +3024,11 @@ bool mattack::nurse_operate( monster *z )
     }
 
     bool found_target = false;
-    player *target = nullptr;
+    Character *target = nullptr;
     map &here = get_map();
     tripoint tmp_pos( z->pos() + point( 12, 12 ) );
     for( Creature *critter : here.get_creatures_in_radius( z->pos(), 6 ) ) {
-        player *tmp_player = dynamic_cast< player *>( critter );
+        Character *tmp_player = dynamic_cast< Character *>( critter );
         // No need to scan players we can't reach
         if( tmp_player != nullptr && z->sees( *tmp_player ) &&
             here.clear_path( z->pos(), tmp_player->pos(), 10, 0, 100 ) ) {
@@ -3321,7 +3349,7 @@ void mattack::rifle( monster *z, Creature *target )
     }
     add_msg_if_player_sees( *z, m_warning, _( "The %s opens up with its rifle!" ), z->name() );
 
-    tmp.weapon = item( "nato_assault_rifle" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
+    tmp.weapon = item( "m4_carbine" ).ammo_set( ammo_type, z->ammo[ ammo_type ] );
     int burst = std::max( tmp.weapon.gun_get_mode( gun_mode_id( "AUTO" ) ).qty, 1 );
 
     z->ammo[ ammo_type ] -= tmp.fire_gun( target->pos(), burst ) * tmp.weapon.ammo_required();
@@ -3460,6 +3488,7 @@ bool mattack::searchlight( monster *z )
     //this searchlight is not initialized
     if( z->inv.empty() ) {
 
+        creature_tracker &creatures = get_creature_tracker();
         for( int i = 0; i < max_lamp_count; i++ ) {
 
             item settings( "processor", calendar::turn_zero );
@@ -3470,7 +3499,7 @@ bool mattack::searchlight( monster *z )
             settings.set_var( "SL_PREFER_LEFT", "TRUE" );
 
             for( const tripoint &dest : here.points_in_radius( z->pos(), 24 ) ) {
-                const monster *const mon = g->critter_at<monster>( dest );
+                const monster *const mon = creatures.creature_at<monster>( dest );
                 if( mon && mon->type->id == mon_turret_searchlight ) {
                     if( dest.x < zpos.x ) {
                         settings.set_var( "SL_PREFER_LEFT", "FALSE" );
@@ -3724,7 +3753,7 @@ bool mattack::copbot( monster *z )
     }
 
     // TODO: Make it recognize zeds as human, but ignore animals
-    player *foe = dynamic_cast<player *>( target );
+    Character *foe = dynamic_cast<Character *>( target );
     bool sees_u = foe != nullptr && z->sees( *foe );
     bool cuffed = foe != nullptr && foe->weapon.typeId() == itype_e_handcuffs;
     // Taze first, then ask questions (simplifies later checks for non-humans)
@@ -4038,9 +4067,10 @@ bool mattack::breathe( monster *z )
     z->moves -= 100;
 
     bool able = ( z->type->id == mon_breather_hub );
+    creature_tracker &creatures = get_creature_tracker();
     if( !able ) {
         for( const tripoint &dest : get_map().points_in_radius( z->pos(), 3 ) ) {
-            monster *const mon = g->critter_at<monster>( dest );
+            monster *const mon = creatures.creature_at<monster>( dest );
             if( mon && mon->type->id == mon_breather_hub ) {
                 able = true;
                 break;
@@ -4613,7 +4643,7 @@ bool mattack::thrown_by_judo( monster *z )
         return false;
     }
 
-    player *foe = dynamic_cast< player * >( target );
+    Character *foe = dynamic_cast< Character * >( target );
     if( foe == nullptr ) {
         // No mons for now
         return false;
@@ -4664,7 +4694,7 @@ bool mattack::riotbot( monster *z )
         return false;
     }
 
-    player *foe = dynamic_cast<player *>( target );
+    Character *foe = dynamic_cast<Character *>( target );
 
     map &here = get_map();
     if( calendar::once_every( 1_minutes ) ) {
@@ -4679,7 +4709,7 @@ bool mattack::riotbot( monster *z )
     //already arrested?
     //and yes, if the player has no hands, we are not going to arrest him.
     if( foe != nullptr &&
-        ( foe->weapon.typeId() == itype_e_handcuffs || !foe->has_two_arms() ) ) {
+        ( foe->weapon.typeId() == itype_e_handcuffs || !foe->has_two_arms_lifting() ) ) {
         z->anger = 0;
 
         if( calendar::once_every( 25_turns ) ) {
@@ -5087,7 +5117,7 @@ bool mattack::bio_op_random_biojutsu( monster *z )
         return false;
     }
 
-    player *foe = dynamic_cast< player * >( target );
+    Character *foe = dynamic_cast< Character * >( target );
 
     do {
         choice = rng( 1, 3 );
@@ -5130,7 +5160,7 @@ bool mattack::bio_op_takedown( monster *z )
     }
 
     bool seen = get_player_view().sees( *z );
-    player *foe = dynamic_cast< player * >( target );
+    Character *foe = dynamic_cast< Character * >( target );
     if( seen ) {
         add_msg( _( "The %1$s mechanically grabs at %2$s!" ), z->name(),
                  target->disp_name() );
@@ -5220,7 +5250,7 @@ bool mattack::bio_op_impale( monster *z )
     }
 
     const bool seen = get_player_view().sees( *z );
-    player *foe = dynamic_cast< player * >( target );
+    Character *foe = dynamic_cast< Character * >( target );
     if( seen ) {
         add_msg( _( "The %1$s mechanically lunges at %2$s!" ), z->name(),
                  target->disp_name() );
@@ -5297,7 +5327,7 @@ bool mattack::bio_op_disarm( monster *z )
     }
 
     const bool seen = get_player_view().sees( *z );
-    player *foe = dynamic_cast< player * >( target );
+    Character *foe = dynamic_cast< Character * >( target );
 
     // disarm doesn't work on creatures or unarmed targets
     if( foe == nullptr || !foe->is_armed() ) {
@@ -5717,8 +5747,9 @@ bool mattack::stretch_attack( monster *z )
 bool mattack::zombie_fuse( monster *z )
 {
     monster *critter = nullptr;
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &p : get_map().points_in_radius( z->pos(), 1 ) ) {
-        critter = g->critter_at<monster>( p );
+        critter = creatures.creature_at<monster>( p );
         if( critter != nullptr && critter->faction == z->faction
             && critter != z && critter->get_size() <= z->get_size() ) {
             break;

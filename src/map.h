@@ -59,7 +59,6 @@ class item_location;
 class mapgendata;
 class monster;
 class optional_vpart_position;
-class player;
 class relic_procgen_data;
 class submap;
 class vehicle;
@@ -566,7 +565,7 @@ class map
         void create_hot_air( const tripoint &p, int intensity );
         bool gas_can_spread_to( field_entry &cur, const maptile &dst );
         void gas_spread_to( field_entry &cur, maptile &dst, const tripoint &p );
-        int burn_body_part( player &u, field_entry &cur, const bodypart_id &bp, int scale );
+        int burn_body_part( Character &you, field_entry &cur, const bodypart_id &bp, int scale );
     public:
 
         // Movement and LOS
@@ -823,7 +822,7 @@ class map
         std::string furnname( const point &p ) {
             return furnname( tripoint( p, abs_sub.z ) );
         }
-        bool can_move_furniture( const tripoint &pos, player *p = nullptr );
+        bool can_move_furniture( const tripoint &pos, Character *you = nullptr );
 
         // Terrain
         ter_id ter( const tripoint &p ) const;
@@ -906,7 +905,7 @@ class map
          * Calls the examine function of furniture or terrain at given tile, for given character.
          * Will only examine terrain if furniture had @ref iexamine::none as the examine function.
          */
-        void examine( Character &p, const tripoint &pos );
+        void examine( Character &you, const tripoint &pos );
 
         /**
          * Returns true if point at pos is harvestable right now, with no extra tools.
@@ -1565,10 +1564,8 @@ class map
                            const point &p1, const point &p2, float density,
                            bool individual = false, bool friendly = false, const std::string &name = "NONE",
                            int mission_id = -1 );
-        void place_gas_pump( const point &p, int charges, const std::string &fuel_type );
-        void place_gas_pump( const point &p, int charges ) {
-            place_gas_pump( p, charges, one_in( 4 ) ? "diesel" : "gasoline" );
-        }
+        void place_gas_pump( const point &p, int charges, const itype_id &fuel_type );
+        void place_gas_pump( const point &p, int charges );
         // 6 liters at 250 ml per charge
         void place_toilet( const point &p, int charges = 6 * 4 );
         void place_vending( const point &p, const item_group_id &type, bool reinforced = false,
@@ -1757,7 +1754,7 @@ class map
         void rad_scorch( const tripoint &p, const time_duration &time_since_last_actualize );
         void decay_cosmetic_fields( const tripoint &p, const time_duration &time_since_last_actualize );
 
-        void player_in_field( player &u );
+        void player_in_field( Character &you );
         void monster_in_field( monster &z );
         /**
          * As part of the map shifting, this shifts the trap locations stored in @ref traplocs.

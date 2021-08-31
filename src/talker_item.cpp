@@ -5,7 +5,6 @@
 #include "magic.h"
 #include "npc.h"
 #include "pimpl.h"
-#include "player.h"
 #include "point.h"
 #include "talker_item.h"
 #include "vehicle.h"

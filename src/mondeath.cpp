@@ -231,8 +231,7 @@ void mdeath::broken( monster &z )
                         if( gun.typeId()->magazine_default.count( item( ammo_entry.first ).ammo_type() ) ) {
                             same_ammo = true;
                         }
-                        const bool uses_mags = !gun.magazine_compatible().empty();
-                        if( same_ammo && uses_mags ) {
+                        if( same_ammo && gun.uses_magazine() ) {
                             std::vector<item> mags;
                             int ammo_count = ammo_entry.second;
                             while( ammo_count > 0 ) {

@@ -30,6 +30,7 @@
 #include "optional.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "panels.h"
 #include "pimpl.h"
 #include "point.h"
 #include "skill.h"
@@ -464,6 +465,12 @@ faction *faction_manager::get( const faction_id &id, const bool complain )
     return nullptr;
 }
 
+template<>
+bool string_id<faction>::is_valid() const
+{
+    return g->faction_manager_ptr->get( *this, false ) != nullptr;
+}
+
 void basecamp::faction_display( const catacurses::window &fac_w, const int width ) const
 {
     int y = 2;
@@ -635,9 +642,9 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
 
     const std::pair <std::string, nc_color> condition = hp_description();
     mvwprintz( fac_w, point( width, ++y ), condition.second, _( "Condition: " ) + condition.first );
-    const std::pair <std::string, nc_color> hunger_pair = get_hunger_description();
-    const std::pair <std::string, nc_color> thirst_pair = get_thirst_description();
-    const std::pair <std::string, nc_color> fatigue_pair = get_fatigue_description();
+    const std::pair <std::string, nc_color> hunger_pair = display::hunger_text_color( *this );
+    const std::pair <std::string, nc_color> thirst_pair = display::thirst_text_color( *this );
+    const std::pair <std::string, nc_color> fatigue_pair = display::fatigue_text_color( *this );
     const std::string nominal = pgettext( "needs", "Nominal" );
     mvwprintz( fac_w, point( width, ++y ), hunger_pair.second,
                _( "Hunger: " ) + ( hunger_pair.first.empty() ? nominal : hunger_pair.first ) );

@@ -25,6 +25,7 @@
 #include "character.h"
 #include "color.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
@@ -55,7 +56,6 @@
 #include "options.h"
 #include "output.h"
 #include "panels.h"
-#include "player.h"
 #include "point.h"
 #include "projectile.h"
 #include "ret_val.h"
@@ -127,7 +127,7 @@ static int time_to_attack( const Character &p, const itype &firing );
 * @param pos    Character position.
 */
 static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos );
-static void make_gun_sound_effect( const player &p, bool burst, item *weapon );
+static void make_gun_sound_effect( const Character &p, bool burst, item *weapon );
 
 class target_ui
 {
@@ -518,7 +518,7 @@ int range_with_even_chance_of_good_hit( int dispersion )
     return even_chance_range;
 }
 
-int player::gun_engagement_moves( const item &gun, int target, int start ) const
+int Character::gun_engagement_moves( const item &gun, int target, int start ) const
 {
     int mv = 0;
     double penalty = start;
@@ -535,7 +535,7 @@ int player::gun_engagement_moves( const item &gun, int target, int start ) const
     return mv;
 }
 
-bool player::handle_gun_damage( item &it )
+bool Character::handle_gun_damage( item &it )
 {
     // Below item (maximum dirt possible) should be greater than or equal to dirt range in item_group.cpp. Also keep in mind that monster drops can have specific ranges and these should be below the max!
     const double dirt_max_dbl = 10000;
@@ -717,15 +717,15 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
     }
 }
 
-int player::fire_gun( const tripoint &target, int shots )
+int Character::fire_gun( const tripoint &target, int shots )
 {
     return fire_gun( target, shots, weapon );
 }
 
-int player::fire_gun( const tripoint &target, int shots, item &gun )
+int Character::fire_gun( const tripoint &target, int shots, item &gun )
 {
     if( !gun.is_gun() ) {
-        debugmsg( "%s tried to fire non-gun (%s).", name, gun.tname() );
+        debugmsg( "%s tried to fire non-gun (%s).", get_name(), gun.tname() );
         return 0;
     }
     bool is_mech_weapon = false;
@@ -764,6 +764,8 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
     double absorb = std::min( get_skill_level( gun.gun_skill() ),
                               MAX_SKILL ) / static_cast<double>( MAX_SKILL * 2 );
 
+    itype_id gun_id = gun.typeId();
+    skill_id gun_skill = gun.gun_skill();
     tripoint aim = target;
     int curshot = 0;
     int hits = 0; // total shots on target
@@ -789,6 +791,27 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         dealt_projectile_attack shot = projectile_attack( make_gun_projectile( gun ), pos(), aim,
                                        dispersion, this, in_veh );
         curshot++;
+        if( shot.hit_critter ) {
+            hits++;
+
+            if( monster *m = shot.hit_critter->as_monster() ) {
+                get_event_bus().send<event_type::character_ranged_attacks_monster>(
+                    getID(), gun_id, m->type->id );
+            } else if( Character *c = shot.hit_critter->as_character() ) {
+                get_event_bus().send<event_type::character_ranged_attacks_character>(
+                    getID(), gun_id, c->getID(), c->get_name() );
+            }
+
+        }
+        if( shot.missed_by <= .1 ) {
+            // TODO: check head existence for headshot
+            get_event_bus().send<event_type::character_gets_headshot>( getID() );
+        }
+
+        if( !gun.is_gun() ) {
+            // If we lose our gun as a side effect of firing it, skip the rest of the loop body.
+            break;
+        }
 
         int qty = gun.gun_recoil( *this, bipod );
         delay  += qty * absorb;
@@ -823,28 +846,24 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
             consume_ups( gun.get_gun_ups_drain() );
         }
 
-        if( shot.missed_by <= .1 ) {
-            // TODO: check head existence for headshot
-            get_event_bus().send<event_type::character_gets_headshot>( getID() );
-        }
-
-        if( shot.hit_critter ) {
-            hits++;
-
-            if( monster *m = shot.hit_critter->as_monster() ) {
-                get_event_bus().send<event_type::character_ranged_attacks_monster>(
-                    getID(), gun.typeId(), m->type->id );
-            } else if( Character *c = shot.hit_critter->as_character() ) {
-                get_event_bus().send<event_type::character_ranged_attacks_character>(
-                    getID(), gun.typeId(), c->getID(), c->get_name() );
-            }
-
-        }
-
-        if( gun.gun_skill() == skill_launcher ) {
+        if( gun_skill == skill_launcher ) {
             continue; // skip retargeting for launchers
         }
     }
+    // Use different amounts of time depending on the type of gun and our skill
+    moves -= time_to_attack( *this, *gun_id );
+
+    // Practice the base gun skill proportionally to number of hits, but always by one.
+    practice( skill_gun, ( hits + 1 ) * 5 );
+    // launchers train weapon skill for both hits and misses.
+    int practice_units = gun_skill == skill_launcher ? curshot : hits;
+    practice( gun_skill, ( practice_units + 1 ) * 5 );
+
+    if( !gun.is_gun() ) {
+        // If we lose our gun as a side effect of firing it, skip the rest of the function.
+        return curshot;
+    }
+
     // apply shot counter to gun and its mods.
     gun.set_var( "shot_counter", gun.get_var( "shot_counter", 0 ) + curshot );
     for( item *mod : gun.gunmods() ) {
@@ -865,19 +884,10 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         recoil = std::min( MAX_RECOIL, recoil );
     }
 
-    // Use different amounts of time depending on the type of gun and our skill
-    moves -= time_to_attack( *this, *gun.type );
-
-    // Practice the base gun skill proportionally to number of hits, but always by one.
-    practice( skill_gun, ( hits + 1 ) * 5 );
-    // launchers train weapon skill for both hits and misses.
-    int practice_units = gun.gun_skill() == skill_launcher ? curshot : hits;
-    practice( gun.gun_skill(), ( practice_units + 1 ) * 5 );
-
     return curshot;
 }
 
-int throw_cost( const player &c, const item &to_throw )
+int throw_cost( const Character &c, const item &to_throw )
 {
     // Very similar to player::attack_speed
     // TODO: Extract into a function?
@@ -890,14 +900,13 @@ int throw_cost( const player &c, const item &to_throw )
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 20 - throw_skill ) / 20 ) );
     ///\EFFECT_DEX increases throwing speed
     const int dexbonus = c.get_dex();
-    const int encumbrance_penalty = c.encumb( bodypart_id( "torso" ) ) +
-                                    ( c.encumb( bodypart_id( "hand_l" ) ) + c.encumb( bodypart_id( "hand_r" ) ) ) / 2;
     const float stamina_ratio = static_cast<float>( c.get_stamina() ) / c.get_stamina_max();
     const float stamina_penalty = 1.0 + std::max( ( 0.25f - stamina_ratio ) * 4.0f, 0.0f );
 
     int move_cost = base_move_cost;
+    move_cost *= c.melee_thrown_move_modifier_hands();
+    move_cost *= c.melee_thrown_move_modifier_torso();
     // Stamina penalty only affects base/2 and encumbrance parts of the cost
-    move_cost += encumbrance_penalty;
     move_cost *= stamina_penalty;
     move_cost += skill_cost;
     move_cost -= dexbonus;
@@ -906,16 +915,14 @@ int throw_cost( const player &c, const item &to_throw )
     return std::max( 25, move_cost );
 }
 
-int Character::throw_dispersion_per_dodge( bool add_encumbrance ) const
+int Character::throw_dispersion_per_dodge( bool /* add_encumbrance */ ) const
 {
     // +200 per dodge point at 0 dexterity
     // +100 at 8, +80 at 12, +66.6 at 16, +57 at 20, +50 at 24
     // Each 10 encumbrance on either hand is like -1 dex (can bring penalty to +400 per dodge)
-    // Maybe TODO: Only use one hand
-    const int encumbrance = add_encumbrance ? encumb( bodypart_id( "hand_l" ) ) + encumb(
-                                bodypart_id( "hand_r" ) ) : 0;
     ///\EFFECT_DEX increases throwing accuracy against targets with good dodge stat
-    float effective_dex = 2 + get_dex() / 4.0f - ( encumbrance ) / 40.0f;
+    float effective_dex = 2 + get_dex() / 4.0f;
+    effective_dex *= thrown_dex_modifier();
     return static_cast<int>( 100.0f / std::max( 1.0f, effective_dex ) );
 }
 
@@ -1043,7 +1050,7 @@ int Character::thrown_item_total_damage_raw( const item &thrown ) const
     return total_damage;
 }
 
-dealt_projectile_attack player::throw_item( const tripoint &target, const item &to_throw,
+dealt_projectile_attack Character::throw_item( const tripoint &target, const item &to_throw,
         const cata::optional<tripoint> &blind_throw_from_pos )
 {
     // Copy the item, we may alter it before throwing
@@ -1131,7 +1138,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         proj_effects.insert( "TANGLE" );
     }
 
-    Creature *critter = g->critter_at( target, true );
+    Creature *critter = get_creature_tracker().creature_at( target, true );
     const dispersion_sources dispersion( throwing_dispersion( thrown, critter,
                                          blind_throw_from_pos.has_value() ) );
     const itype *thrown_type = thrown.type;
@@ -1177,7 +1184,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     return dealt_attack;
 }
 
-void practice_archery_proficiency( player &p, const item &relevant )
+void practice_archery_proficiency( Character &p, const item &relevant )
 {
     // Do nothing, we are not doing archery
     if( relevant.gun_skill() != skill_archery ) {
@@ -1218,21 +1225,43 @@ void practice_archery_proficiency( player &p, const item &relevant )
     }
 }
 
-static void do_aim( player &p, const item &relevant, const double min_recoil )
+// Apply stamina cost to archery which decreases due to proficiency
+static void mod_stamina_archery( Character &you, const item &relevant )
 {
-    const double aim_amount = p.aim_per_move( relevant, p.recoil );
-    if( aim_amount > 0 && p.recoil > min_recoil ) {
+    // Set activity level to 10 * str_ratio, with 10 being max (EXTRA_EXERCISE)
+    // This ratio should never be below 0 and above 1
+    const int scaled_str_ratio = ( 10 * relevant.get_min_str() ) / you.str_cur;
+    you.set_activity_level( scaled_str_ratio );
+
+    // Calculate stamina drain based on archery and athletics skill
+    const int archery_skill = you.get_skill_level( skill_archery );
+    const int athletics_skill = you.get_skill_level( skill_archery );
+    const int skill_modifier = ( 2 * archery_skill + athletics_skill ) / 3;
+
+    const int stamina_cost = pow( 20 - skill_modifier, 2 );
+    you.mod_stamina( -stamina_cost );
+}
+
+static void do_aim( Character &you, const item &relevant, const double min_recoil )
+{
+    const double aim_amount = you.aim_per_move( relevant, you.recoil );
+    if( aim_amount > 0 && you.recoil > min_recoil ) {
         // Increase aim at the cost of moves
-        p.mod_moves( -1 );
-        p.recoil = std::max( min_recoil, p.recoil - aim_amount );
+        you.mod_moves( -1 );
+        you.recoil = std::max( min_recoil, you.recoil - aim_amount );
 
         // Train archery proficiencies if we are doing archery
         if( relevant.gun_skill() == skill_archery ) {
-            practice_archery_proficiency( p, relevant );
+            practice_archery_proficiency( you, relevant );
+
+            // Only drain stamina on initial draw
+            if( you.moves == 1 ) {
+                mod_stamina_archery( you, relevant );
+            }
         }
     } else {
         // If aim is already maxed, we're just waiting, so pass the turn.
-        p.set_moves( 0 );
+        you.set_moves( 0 );
     }
 }
 
@@ -1318,7 +1347,7 @@ static std::string get_colored_bar( const double val, const int width, const std
     return result;
 }
 
-static int print_ranged_chance( const player &p, const catacurses::window &w, int line_number,
+static int print_ranged_chance( const Character &you, const catacurses::window &w, int line_number,
                                 target_ui::TargetMode mode, input_context &ctxt, const item &ranged_weapon,
                                 const dispersion_sources &dispersion, const std::vector<confidence_rating> &confidence_config,
                                 double range, double target_size, int recoil = 0 )
@@ -1343,7 +1372,7 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
     if( mode == target_ui::TargetMode::Throw || mode == target_ui::TargetMode::ThrowBlind ) {
         aim_types = get_default_aim_type();
     } else {
-        aim_types = p.get_aim_types( ranged_weapon );
+        aim_types = you.get_aim_types( ranged_weapon );
     }
 
     if( display_type != "numbers" ) {
@@ -1401,9 +1430,9 @@ static int print_ranged_chance( const player &p, const catacurses::window &w, in
 
         int moves_to_fire;
         if( mode == target_ui::TargetMode::Throw || mode == target_ui::TargetMode::ThrowBlind ) {
-            moves_to_fire = throw_cost( p, ranged_weapon );
+            moves_to_fire = throw_cost( you, ranged_weapon );
         } else {
-            moves_to_fire = p.gun_engagement_moves( ranged_weapon, threshold, recoil ) + time_to_attack( p,
+            moves_to_fire = you.gun_engagement_moves( ranged_weapon, threshold, recoil ) + time_to_attack( you,
                             *ranged_weapon.type );
         }
 
@@ -1495,14 +1524,14 @@ static bool pl_sees( const Creature &cr )
 }
 
 // Handle capping aim level when the player cannot see the target tile or there is nothing to aim at.
-static double calculate_aim_cap( const player &p, const tripoint &target )
+static double calculate_aim_cap( const Character &you, const tripoint &target )
 {
     double min_recoil = 0.0;
-    const Creature *victim = g->critter_at( target, true );
+    const Creature *victim = get_creature_tracker().creature_at( target, true );
     // No p.sees_with_specials() here because special senses are not precise enough
     // to give creature's exact size & position, only which tile it occupies
-    if( victim == nullptr || ( !p.sees( *victim ) && !p.sees_with_infrared( *victim ) ) ) {
-        const int range = rl_dist( p.pos(), target );
+    if( victim == nullptr || ( !you.sees( *victim ) && !you.sees_with_infrared( *victim ) ) ) {
+        const int range = rl_dist( you.pos(), target );
         // Get angle of triangle that spans the target square.
         const double angle = atan2( 1, range );
         // Convert from radians to arcmin.
@@ -1511,7 +1540,7 @@ static double calculate_aim_cap( const player &p, const tripoint &target )
     return min_recoil;
 }
 
-static int print_aim( const player &p, const catacurses::window &w, int line_number,
+static int print_aim( const Character &you, const catacurses::window &w, int line_number,
                       input_context &ctxt, item *weapon,
                       const double target_size, const tripoint &pos, double predicted_recoil )
 {
@@ -1520,11 +1549,11 @@ static int print_aim( const player &p, const catacurses::window &w, int line_num
     // Creature::projectile_attack() into shared methods.
     // Dodge doesn't affect gun attacks
 
-    dispersion_sources dispersion = p.get_weapon_dispersion( *weapon );
-    dispersion.add_range( p.recoil_vehicle() );
+    dispersion_sources dispersion = you.get_weapon_dispersion( *weapon );
+    dispersion.add_range( you.recoil_vehicle() );
 
-    const double min_recoil = calculate_aim_cap( p, pos );
-    const double effective_recoil = p.effective_dispersion( p.weapon.sight_dispersion() );
+    const double min_recoil = calculate_aim_cap( you, pos );
+    const double effective_recoil = you.effective_dispersion( you.weapon.sight_dispersion() );
     const double min_dispersion = std::max( min_recoil, effective_recoil );
     const double steadiness_range = MAX_RECOIL - min_dispersion;
     // This is a relative measure of how steady the player's aim is,
@@ -1541,25 +1570,25 @@ static int print_aim( const player &p, const catacurses::window &w, int line_num
         }
     };
 
-    const double range = rl_dist( p.pos(), pos );
+    const double range = rl_dist( you.pos(), pos );
     line_number = print_steadiness( w, line_number, steadiness );
-    return print_ranged_chance( p, w, line_number, target_ui::TargetMode::Fire, ctxt, *weapon,
+    return print_ranged_chance( you, w, line_number, target_ui::TargetMode::Fire, ctxt, *weapon,
                                 dispersion,
                                 confidence_config,
                                 range, target_size, predicted_recoil );
 }
 
-static void draw_throw_aim( const player &p, const catacurses::window &w, int &text_y,
+static void draw_throw_aim( const Character &you, const catacurses::window &w, int &text_y,
                             input_context &ctxt,
                             const item &weapon, const tripoint &target_pos, bool is_blind_throw )
 {
-    Creature *target = g->critter_at( target_pos, true );
-    if( target != nullptr && !p.sees( *target ) ) {
+    Creature *target = get_creature_tracker().creature_at( target_pos, true );
+    if( target != nullptr && !you.sees( *target ) ) {
         target = nullptr;
     }
 
-    const dispersion_sources dispersion( p.throwing_dispersion( weapon, target, is_blind_throw ) );
-    const double range = rl_dist( p.pos(), target_pos );
+    const dispersion_sources dispersion( you.throwing_dispersion( weapon, target, is_blind_throw ) );
+    const double range = rl_dist( you.pos(), target_pos );
 
     const double target_size = target != nullptr ? target->ranged_target_size() : 1.0f;
 
@@ -1579,7 +1608,7 @@ static void draw_throw_aim( const player &p, const catacurses::window &w, int &t
     const target_ui::TargetMode throwing_target_mode = is_blind_throw ?
             target_ui::TargetMode::ThrowBlind :
             target_ui::TargetMode::Throw;
-    text_y = print_ranged_chance( p, w, text_y, throwing_target_mode, ctxt, weapon, dispersion,
+    text_y = print_ranged_chance( you, w, text_y, throwing_target_mode, ctxt, weapon, dispersion,
                                   confidence_config,
                                   range, target_size );
 }
@@ -1738,7 +1767,7 @@ static void cycle_action( item &weap, const itype_id &ammo, const tripoint &pos 
     }
 }
 
-void make_gun_sound_effect( const player &p, bool burst, item *weapon )
+void make_gun_sound_effect( const Character &p, bool burst, item *weapon )
 {
     const item::sound_data data = weapon->gun_noise( burst );
     if( data.volume > 0 ) {
@@ -1852,15 +1881,7 @@ dispersion_sources Character::get_weapon_dispersion( const item &obj ) const
     dispersion_sources dispersion( weapon_dispersion );
     dispersion.add_range( ranged_dex_mod() );
 
-    int arm_encumb = 0;
-    // Fake turret NPC does not have arms
-    if( has_part( bodypart_id( "arm_l" ) ) ) {
-        arm_encumb += encumb( bodypart_id( "arm_l" ) );
-    }
-    if( has_part( bodypart_id( "arm_r" ) ) ) {
-        arm_encumb += encumb( bodypart_id( "arm_r" ) );
-    }
-    dispersion.add_range( arm_encumb / 5.0 );
+    dispersion.add_range( ranged_dispersion_modifier_hands() );
 
     if( is_driving() ) {
         // get volume of gun (or for auxiliary gunmods the parent gun)
@@ -2491,7 +2512,7 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
 
     // Cache creature under cursor
     if( src != dst ) {
-        Creature *cr = g->critter_at( dst, true );
+        Creature *cr = get_creature_tracker().creature_at( dst, true );
         if( cr && pl_sees( *cr ) ) {
             dst_critter = cr;
         } else {
@@ -2602,7 +2623,7 @@ bool target_ui::try_reacquire_target( bool critter, tripoint &new_dst )
     if( dist_fn( local_lt ) <= range ) {
         new_dst = local_lt;
         // Abort aiming if a creature moved in
-        return !critter && !g->critter_at( local_lt, true );
+        return !critter && !get_creature_tracker().creature_at( local_lt, true );
     }
 
     // We moved out of range
@@ -2658,7 +2679,7 @@ bool target_ui::confirm_non_enemy_target()
 {
     npc *const who = dynamic_cast<npc *>( dst_critter );
     if( who && !who->guaranteed_hostile() ) {
-        return query_yn( _( "Really attack %s?" ), who->name.c_str() );
+        return query_yn( _( "Really attack %s?" ), who->get_name().c_str() );
     }
     return true;
 }
@@ -2706,9 +2727,10 @@ std::vector<weak_ptr_fast<Creature>> target_ui::list_friendlies_in_lof()
         debugmsg( "Not implemented" );
         return ret;
     }
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &p : traj ) {
         if( p != dst && p != src ) {
-            Creature *cr = g->critter_at( p, true );
+            Creature *cr = creatures.creature_at( p, true );
             if( cr && you->sees( *cr ) ) {
                 Creature::Attitude a = cr->attitude_to( *this->you );
                 if(
@@ -2987,7 +3009,7 @@ bool target_ui::action_aim_and_shoot( const std::string &action )
     // If no critter is at dst then sight dispersion does not apply,
     // so it would lock into an infinite loop.
     bool done_aiming = you->recoil <= aim_threshold || you->recoil - sight_dispersion == min_recoil ||
-                       ( !g->critter_at( dst ) && you->recoil == min_recoil );
+                       ( !get_creature_tracker().creature_at( dst ) && you->recoil == min_recoil );
     return done_aiming;
 }
 
@@ -3529,7 +3551,7 @@ bool gunmode_checks_common( avatar &you, const map &m, std::vector<std::string> 
         result = false;
     }
 
-    if( gmode->has_flag( flag_FIRE_TWOHAND ) && ( !you.has_two_arms() ||
+    if( gmode->has_flag( flag_FIRE_TWOHAND ) && ( !you.has_two_arms_lifting() ||
             you.worn_with_flag( flag_RESTRICT_HANDS ) ) ) {
         messages.push_back( string_format( _( "You need two free hands to fire your %s." ),
                                            gmode->tname() ) );
