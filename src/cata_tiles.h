@@ -227,7 +227,13 @@ class tileset_loader
         void add_ascii_subtile( tile_type &curr_tile, const std::string &t_id, int sprite_id,
                                 const std::string &s_id );
         void load_ascii_set( const JsonObject &entry );
-
+        /**
+         * Create a new tile_type, add it to tile_ids (using <B>id</B>).
+         * Set the fg and bg properties of it (loaded from the json object).
+         * Makes sure each is either -1, or in the interval [0,size).
+         * If it's in that interval, adds offset to it, if it's not in the
+         * interval (and not -1), throw an std::string error.
+         */
         tile_type &load_tile( const JsonObject &entry, const std::string &id );
 
         void load_tile_spritelists( const JsonObject &entry, weighted_int_list<std::vector<int>> &vs,
