@@ -1728,6 +1728,15 @@
   },
   {
     "type": "keybinding",
+    "id": "EXAMINE_CONTENTS",
+    "category": "INVENTORY",
+    "name": "Examine Contents",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "c" }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "TOGGLE_FAVORITE",
     "category": "INVENTORY",
     "name": "Toggle item as favorite",
@@ -3219,11 +3228,19 @@
   },
   {
     "type": "keybinding",
+    "id": "EXAMINE_CONTENTS",
+    "category": "ADVANCED_INVENTORY",
+    "name": "Examine items in container",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "c" }
+    ]
+  },
+    {
+    "type": "keybinding",
     "id": "ITEMS_CONTAINER",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items in container",
     "bindings": [
-      { "input_method": "keyboard_any", "key": "c" },
       { "input_method": "keyboard_char", "key": "C" },
       { "input_method": "keyboard_code", "key": "c", "mod": [ "shift" ] }
     ]

@@ -13,9 +13,11 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_contents_ui.h"
 #include "item_pocket.h"
 #include "item_search.h"
 #include "item_stack.h"
+#include "iteminfo_query.h"
 #include "line.h"
 #include "make_static.h"
 #include "map.h"
@@ -2122,6 +2124,7 @@ inventory_selector::inventory_selector( Character &u, const inventory_selector_p
     ctxt.register_action( "EXAMINE" );
     ctxt.register_action( "HIDE_CONTENTS", to_translation( "Hide contents" ) );
     ctxt.register_action( "SHOW_CONTENTS", to_translation( "Show contents" ) );
+    ctxt.register_action( "EXAMINE_CONTENTS" );
 
     append_column( own_inv_column );
     append_column( map_column );
@@ -2179,6 +2182,28 @@ void inventory_selector::on_input( const inventory_input &input )
         toggle_active_column( scroll_direction::FORWARD );
     } else if( input.action == "VIEW_CATEGORY_MODE" ) {
         toggle_categorize_contained();
+    } else if( input.action == "EXAMINE_CONTENTS" ) {
+        const inventory_entry &selected = get_active_column().get_selected();
+        if( selected ) {
+            const item *sitem = selected.any_item().get_item();
+            if( !sitem->is_container_empty() ) {
+                item_contents_ui contents_window( sitem );
+                contents_window.execute();
+            } else {
+                action_examine( sitem );
+            }
+        }
+    } else if( input.action == "EXAMINE_CONTENTS" ) {
+        const inventory_entry &selected = get_active_column().get_selected();
+        if( selected ) {
+            const item *sitem = selected.any_item().get_item();
+            if( !sitem->is_container_empty() ) {
+                item_contents_ui contents_window( sitem );
+                contents_window.execute();
+            } else {
+                action_examine( sitem );
+            }
+        }
     } else {
         if( has_available_choices() ) {
             for( inventory_column *elem : columns ) {
@@ -2430,10 +2455,10 @@ void inventory_selector::action_examine( const item *sitem )
     // Code below pulled from the action_examine function in advanced_inv.cpp
     std::vector<iteminfo> vThisItem;
     std::vector<iteminfo> vDummy;
+
     sitem->info( true, vThisItem );
     item_info_data data( sitem->tname(), sitem->type_name(), vThisItem, vDummy );
     data.handle_scrolling = true;
-
     draw_item_info( [&]() -> catacurses::window {
         int maxwidth = std::max( FULL_SCREEN_WIDTH, TERMX );
         int width = std::min( 80, maxwidth );

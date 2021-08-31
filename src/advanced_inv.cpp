@@ -33,6 +33,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
+#include "item_contents_ui.h"
 #include "item_location.h"
 #include "item_pocket.h"
 #include "item_stack.h"
@@ -1159,6 +1160,7 @@ input_context advanced_inventory::register_ctxt() const
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "RESET_FILTER" );
     ctxt.register_action( "EXAMINE" );
+    ctxt.register_action( "EXAMINE_CONTENTS" );
     ctxt.register_action( "SORT" );
     ctxt.register_action( "TOGGLE_AUTO_PICKUP" );
     ctxt.register_action( "TOGGLE_FAVORITE" );
@@ -1679,6 +1681,16 @@ void advanced_inventory::display()
                 continue;
             }
             action_examine( sitem, spane );
+        } else if( action == "EXAMINE_CONTENTS" ) {
+            if( sitem == nullptr ) {
+                continue;
+            }
+            if( !sitem->items.front()->is_container_empty() ) {
+                item_contents_ui contents_window( sitem->items[0].get_item() );
+                contents_window.execute();
+            } else {
+                action_examine( sitem, spane );
+            }
         } else if( action == "QUIT" ) {
             exit = true;
         } else if( action == "PAGE_DOWN" ) {

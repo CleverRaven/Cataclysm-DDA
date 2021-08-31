@@ -9,7 +9,6 @@
 #include <iosfwd>
 #include <limits>
 #include <list>
-#include <map>
 #include <memory>
 #include <new>
 #include <string>
@@ -573,7 +572,8 @@ class inventory_selector
 
         inventory_input get_input();
 
-        /** Given an action from the input_context, try to act according to it. */
+        /** Given an action from the input_context, try to act according to it.
+        * Should handle all actions standard to derived classes. **/
         void on_input( const inventory_input &input );
         /** Entry has been changed */
         void on_change( const inventory_entry &entry );
@@ -628,7 +628,16 @@ class inventory_selector
         /** Highlight parent and contents of selected item.
         */
         void highlight();
-        /** Show detailed item information for selected item. */
+
+        /**
+         * Show detailed item information for the selected item.
+         *
+         * Called from on_input() after user input of EXAMINE action.
+         * Also called from on_input() on action EXAMINE_CONTENTS if sitem has no contents
+         *
+         * @param sitem the item to examine
+        * TODO: Convert to item_location
+               */
         void action_examine( const item *sitem );
 
         virtual void reassign_custom_invlets();
