@@ -96,6 +96,10 @@ TEST_CASE( "vehicle_turret", "[vehicle][gun][magazine]" )
             } else {
                 CHECK( veh->part( turr_idx ).ammo_set( ammo_itype ) > 0 );
             }
+            if( veh->part( turr_idx ).get_base().ammo_effects().count( "RECYCLED" ) ) {
+                WARN( "turret [" << turret_vpi->name() << "] uses default ammo [" << ammo_itype.str() <<
+                      "], which is RECYCLED" );
+            }
 
             turret_data qry = veh->turret_query( veh->part( turr_idx ) );
             REQUIRE( qry );
