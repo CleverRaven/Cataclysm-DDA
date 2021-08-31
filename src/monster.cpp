@@ -2515,7 +2515,7 @@ void monster::die( Creature *nkiller )
         }
     }
 
-    item *corpse;
+    item *corpse = nullptr;
     // drop a corpse, or not - this needs to happen after the spell, for e.g. revivification effects
     switch( type->mdeath_effect.corpse_type ) {
         case mdeath_type::NORMAL:
@@ -2534,9 +2534,12 @@ void monster::die( Creature *nkiller )
     if( death_drops && !no_extra_death_drops ) {
         drop_items_on_death( corpse );
     }
-    if( death_drops && !is_hallucination() ) {
+    if( death_drops && !is_hallucination() && corpse ) {
         for( const auto &it : inv ) {
             corpse->put_in( it, item_pocket::pocket_type::CONTAINER );
+        }
+        for( item_pocket *pocket : corpse->get_all_contained_pockets().value() ) {
+            pocket->set_usability( false );
         }
     }
     if( death_drops ) {
@@ -2556,10 +2559,6 @@ void monster::die( Creature *nkiller )
         }
         if( has_effect( effect_beartrap ) ) {
             add_item( item( "beartrap", calendar::turn_zero ) );
-        }
-
-        for( item_pocket *pocket : corpse->get_all_contained_pockets().value() ) {
-            pocket->set_usability( false );
         }
     }
 
