@@ -1972,7 +1972,8 @@
     "weight": "300 g",
     "volume": "750 ml",
     "bashing": 2,
-    "to_hit": -3
+    "to_hit": -3,
+    "use_action": [ "CHANGE_EYES", "CHANGE_SKIN" ]
   },
   {
     "type": "GENERIC",

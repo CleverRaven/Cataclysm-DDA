@@ -384,8 +384,6 @@ static const trait_id trait_WEB_SPINNER( "WEB_SPINNER" );
 static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 
-static const std::string flag_PLOWABLE( "PLOWABLE" );
-
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 static const json_character_flag json_flag_ACID_IMMUNE( "ACID_IMMUNE" );
 static const json_character_flag json_flag_BASH_IMMUNE( "BASH_IMMUNE" );
@@ -5117,7 +5115,7 @@ bool Character::in_climate_control()
         return true;
     }
     map &here = get_map();
-    if( has_trait( trait_M_SKIN3 ) && here.has_flag_ter_or_furn( TFLAG_FUNGUS, pos() ) &&
+    if( has_trait( trait_M_SKIN3 ) && here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos() ) &&
         in_sleep_state() ) {
         return true;
     }
@@ -5858,7 +5856,7 @@ bool Character::is_deaf() const
 {
     return get_effect_int( effect_deaf ) > 2 || worn_with_flag( flag_DEAF ) ||
            has_flag( json_flag_DEAF ) ||
-           ( has_trait( trait_M_SKIN3 ) && get_map().has_flag_ter_or_furn( TFLAG_FUNGUS, pos() )
+           ( has_trait( trait_M_SKIN3 ) && get_map().has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos() )
              && in_sleep_state() );
 }
 
@@ -7053,8 +7051,8 @@ void Character::update_bodytemp()
 
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
         // Convert to 0.01C
-        if( here.has_flag_ter( TFLAG_DEEP_WATER, pos() ) ||
-            ( here.has_flag_ter( TFLAG_SHALLOW_WATER, pos() ) && is_lower( bp ) ) ) {
+        if( here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, pos() ) ||
+            ( here.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, pos() ) && is_lower( bp ) ) ) {
             adjusted_temp += water_temperature - Ctemperature; // Swap out air temp for water temp.
             windchill = 0;
         }
@@ -7676,8 +7674,8 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
                 }
             }
         }
-        if( ( fungaloid_cosplay && here.has_flag_ter_or_furn( TFLAG_FUNGUS, pos() ) ) ||
-            ( watersleep && here.has_flag_ter( TFLAG_SWIMMABLE, pos() ) ) ) {
+        if( ( fungaloid_cosplay && here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos() ) ) ||
+            ( watersleep && here.has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) ) ) {
             comfort += static_cast<int>( comfort_level::very_comfortable );
         }
     } else if( plantsleep ) {
@@ -11133,7 +11131,7 @@ void Character::rooted_message() const
 {
     bool wearing_shoes = footwear_factor() == 1.0;
     if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
-        get_map().has_flag( flag_PLOWABLE, pos() ) &&
+        get_map().has_flag( ter_furn_flag::TFLAG_PLOWABLE, pos() ) &&
         !wearing_shoes ) {
         add_msg( m_info, _( "You sink your roots into the soil." ) );
     }
@@ -11147,7 +11145,7 @@ void Character::rooted()
 {
     double shoe_factor = footwear_factor();
     if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
-        get_map().has_flag( flag_PLOWABLE, pos() ) && shoe_factor != 1.0 ) {
+        get_map().has_flag( ter_furn_flag::TFLAG_PLOWABLE, pos() ) && shoe_factor != 1.0 ) {
         int time_to_full = 43200; // 12 hours
         if( has_trait( trait_ROOTS3 ) ) {
             time_to_full += -14400;    // -4 hours
@@ -12620,8 +12618,8 @@ int Character::run_cost( int base_cost, bool diag ) const
     const bool flatground = movecost < 105;
     map &here = get_map();
     // The "FLAT" tag includes soft surfaces, so not a good fit.
-    const bool on_road = flatground && here.has_flag( STATIC( "ROAD" ), pos() );
-    const bool on_fungus = here.has_flag_ter_or_furn( TFLAG_FUNGUS, pos() );
+    const bool on_road = flatground && here.has_flag( ter_furn_flag::TFLAG_ROAD, pos() );
+    const bool on_fungus = here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos() );
 
     if( !is_mounted() ) {
         if( movecost > 105 ) {
@@ -12696,7 +12694,7 @@ int Character::run_cost( int base_cost, bool diag ) const
             movecost += 8;
         }
 
-        if( has_trait( trait_ROOTS3 ) && here.has_flag( TFLAG_DIGGABLE, pos() ) ) {
+        if( has_trait( trait_ROOTS3 ) && here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, pos() ) ) {
             movecost += 10 * footwear_factor();
         }
 
@@ -12819,7 +12817,7 @@ std::vector<Creature *> Character::get_targetable_creatures( const int range, bo
             for( const tripoint &point : path ) {
                 if( here.impassable( point ) &&
                     !( weapon.has_flag( flag_SPEAR ) && // Fences etc. Spears can stab through those
-                       here.has_flag( TFLAG_THIN_OBSTACLE,
+                       here.has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE,
                                       point ) ) ) { //this mirrors melee.cpp function reach_attack
                     can_see = false;
                     break;
@@ -13246,7 +13244,7 @@ int Character::sleep_spot( const tripoint &p ) const
 
     sleepy = enchantment_cache->modify_value( enchant_vals::mod::SLEEPY, sleepy );
 
-    if( watersleep && get_map().has_flag_ter( TFLAG_SWIMMABLE, pos() ) ) {
+    if( watersleep && get_map().has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) ) {
         sleepy += 10; //comfy water!
     }
 
@@ -14619,19 +14617,19 @@ int Character::impact( const int force, const tripoint &p )
     } else {
         // Slamming into terrain/furniture
         target_name = here.disp_name( p );
-        int hard_ground = here.has_flag( TFLAG_DIGGABLE, p ) ? 0 : 3;
+        int hard_ground = here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, p ) ? 0 : 3;
         armor_eff = 0.25f; // Not much
         // Get cut by stuff
         // This isn't impalement on metal wreckage, more like flying through a closed window
-        cut = here.has_flag( TFLAG_SHARP, p ) ? 5 : 0;
+        cut = here.has_flag( ter_furn_flag::TFLAG_SHARP, p ) ? 5 : 0;
         effective_force = force + hard_ground;
         mod = slam ? 1.0f : fall_damage_mod();
         if( here.has_furn( p ) ) {
             // TODO: Make furniture matter
-        } else if( here.has_flag( TFLAG_SWIMMABLE, p ) ) {
+        } else if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, p ) ) {
             const int swim_skill = get_skill_level( skill_swimming );
             effective_force /= 4.0f + 0.1f * swim_skill;
-            if( here.has_flag( TFLAG_DEEP_WATER, p ) ) {
+            if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, p ) ) {
                 effective_force /= 1.5f;
                 mod /= 1.0f + ( 0.1f * swim_skill );
             }
@@ -14749,7 +14747,8 @@ void Character::knock_back_to( const tripoint &to )
 
     map &here = get_map();
     // If we're still in the function at this point, we're actually moving a tile!
-    if( here.has_flag( TFLAG_LIQUID, to ) && here.has_flag( TFLAG_DEEP_WATER, to ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_LIQUID, to ) &&
+        here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, to ) ) {
         if( !is_npc() ) {
             avatar_action::swim( here, get_avatar(), to );
         }
@@ -15582,7 +15581,7 @@ void Character::pause()
                     body_part_foot_l, body_part_foot_r, body_part_hand_l, body_part_hand_r
                 }
             }, true );
-        } else if( here.has_flag( TFLAG_DEEP_WATER, pos() ) ) {
+        } else if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, pos() ) ) {
             practice( skill_swimming, 1 );
             // Same as above, except no head/eyes/mouth
             drench( 100, { {
@@ -15591,7 +15590,7 @@ void Character::pause()
                     body_part_hand_r
                 }
             }, true );
-        } else if( here.has_flag( TFLAG_SWIMMABLE, pos() ) ) {
+        } else if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) ) {
             drench( 80, { { body_part_foot_l, body_part_foot_r, body_part_leg_l, body_part_leg_r } },
             false );
         }
