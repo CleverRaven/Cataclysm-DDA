@@ -1057,7 +1057,7 @@
     "melee_allowed": true,
     "crit_ok": true,
     "block_counter": true,
-    "mult_bonuses": [ { "stat": "movecost", "scale": 0.66 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.7 } ]
   },
   {
     "type": "technique",
