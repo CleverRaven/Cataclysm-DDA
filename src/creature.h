@@ -18,7 +18,6 @@
 #include "debug.h"
 #include "effect_source.h"
 #include "enums.h"
-#include "location.h"
 #include "pimpl.h"
 #include "string_formatter.h"
 #include "talker.h"
@@ -220,7 +219,7 @@ struct enum_traits<get_body_part_flags> {
     static constexpr bool is_flag_enum = true;
 };
 
-class Creature : public location, public viewer
+class Creature : public viewer
 {
     public:
         ~Creature() override;
@@ -274,19 +273,19 @@ class Creature : public location, public viewer
         virtual bool is_fake() const;
         /** Sets a Creature's fake boolean. */
         virtual void set_fake( bool fake_value );
-        inline const tripoint &pos() const override {
+        inline const tripoint &pos() const {
             return position;
         }
-        inline int posx() const override {
+        inline int posx() const {
             return pos().x;
         }
-        inline int posy() const override {
+        inline int posy() const {
             return pos().y;
         }
-        inline int posz() const override {
+        inline int posz() const {
             return pos().z;
         }
-        void setpos( const tripoint &p ) override;
+        virtual void setpos( const tripoint &p );
 
         /** Recreates the Creature from scratch. */
         virtual void normalize();
