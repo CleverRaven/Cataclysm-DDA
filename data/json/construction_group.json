@@ -1146,6 +1146,11 @@
   },
   {
     "type": "construction_group",
+    "id": "start_power_grid",
+    "name": "Start Power Grid"
+  },
+  {
+    "type": "construction_group",
     "id": "take_paint_off_pavement",
     "name": "Take Paint Off Pavement"
   },
