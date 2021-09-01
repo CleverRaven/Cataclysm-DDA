@@ -771,7 +771,7 @@ cata::optional<int> iuse::antiparasitic( Character *p, item *it, bool, const tri
     }
     if( p->has_effect( effect_blood_spiders ) ) {
         p->remove_effect( effect_blood_spiders );
-        p->add_msg_if_player( _( "Your veins becalm and go still in a wave through your body." ) );
+        p->add_msg_if_player( _( "Your veins relax in a soothing wave through your body." ) );
     }
     if( p->has_effect( effect_brainworms ) ) {
         p->remove_effect( effect_brainworms );
