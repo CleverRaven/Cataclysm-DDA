@@ -143,6 +143,8 @@ struct mutation_branch {
         bool debug = false;
         // True if the mutation should be displayed in the `@` menu
         bool player_display = true;
+        // True if mutation is purely comestic and can be changed anytime without any effect
+        bool vanity = false;
         // Whether it has positive as well as negative effects.
         bool mixed_effect  = false;
         bool startingtrait = false;

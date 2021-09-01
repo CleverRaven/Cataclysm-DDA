@@ -22,6 +22,8 @@ std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles );
 std::vector<tripoint> route_adjacent( const Character &you, const tripoint &dest );
 
+std::vector<tripoint> route_best_workbench( const Character &you, const tripoint &dest );
+
 enum class requirement_check_result : int {
     SKIP_LOCATION = 0,
     CAN_DO_LOCATION,

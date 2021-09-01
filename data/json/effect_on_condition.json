@@ -171,6 +171,26 @@
   },
   {
     "type": "effect_on_condition",
+    "id": "eoc_robofac_surveillance",
+    "condition": { "or": [ { "u_has_trait": "PROF_HUB01_ANCILLIARY" }, { "u_has_effect": "robofac_surveillance" } ] },
+    "deactivate_condition": { "not": { "or": [ { "u_has_trait": "PROF_HUB01_ANCILLIARY" }, { "u_has_effect": "robofac_surveillance" } ] } },
+    "effect": [
+      {
+        "u_set_spawn_monster": "mon_robofac_camspy",
+        "real_count": 1,
+        "min_radius": 15,
+        "max_radius": 40,
+        "outdoor_only": true
+      },
+      {
+        "set_queue_effect_on_condition": [ "eoc_robofac_surveillance" ],
+        "time_in_future_min": "1 days",
+        "time_in_future_max": "7 days"
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
     "id": "bio_trip",
     "recurrence_min": "25 minutes",
     "recurrence_max": "1 hours 15 minutes",

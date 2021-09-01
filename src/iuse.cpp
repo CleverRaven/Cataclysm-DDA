@@ -3331,6 +3331,22 @@ cata::optional<int> iuse::circsaw_on( Character *p, item *it, bool t, const trip
                           15, 7, _( "Your circular saw buzzes." ) );
 }
 
+cata::optional<int> iuse::change_eyes( Character *p, item *, bool, const tripoint & )
+{
+    if( p->is_avatar() ) {
+        p->customize_appearance( customize_appearance_choice::EYES );
+    }
+    return cata::nullopt;
+}
+
+cata::optional<int> iuse::change_skin( Character *p, item *, bool, const tripoint & )
+{
+    if( p->is_avatar() ) {
+        p->customize_appearance( customize_appearance_choice::SKIN );
+    }
+    return cata::nullopt;
+}
+
 cata::optional<int> iuse::jackhammer( Character *p, item *it, bool, const tripoint &pos )
 {
     // use has_enough_charges to check for UPS availability
@@ -4278,6 +4294,7 @@ cata::optional<int> iuse::mp3_on( Character *p, item *it, bool t, const tripoint
             it->convert( itype_afs_wraitheon_smartphone ).active = false;
         }
         p->mod_moves( -200 );
+        return 0;
     }
     return it->type->charges_to_use();
 }
