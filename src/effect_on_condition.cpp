@@ -4,6 +4,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "condition.h"
+#include "game.h"
 #include "generic_factory.h"
 #include "talker.h"
 #include "type_id.h"
@@ -59,8 +60,11 @@ void effect_on_condition::load( const JsonObject &jo, const std::string & )
         has_false_effect = true;
     }
     optional( jo, was_loaded, "run_for_npcs", run_for_npcs, false );
-    if( activate_only && run_for_npcs ) {
-        jo.throw_error( "run_for_npcs should only be true for recurring effect_on_conditions." );
+    optional( jo, was_loaded, "global", global, false );
+    if( activate_only && ( global || run_for_npcs ) ) {
+        jo.throw_error( "run_for_npcs and global should only be true for recurring effect_on_conditions." );
+    } else if( global && run_for_npcs ) {
+        jo.throw_error( "An effect_on_condition can be either run_for_npcs or global but not both." );
     }
 }
 
@@ -177,22 +181,32 @@ void effect_on_conditions::process_reactivate( Character &you )
         you.queued_effect_on_conditions.push( queued_eoc{ eoc, true, calendar::turn + next_recurrence( eoc ) } );
         you.inactive_effect_on_condition_vector.erase( std::remove(
                     you.inactive_effect_on_condition_vector.begin(), you.inactive_effect_on_condition_vector.end(),
-                    eoc ),
-                you.inactive_effect_on_condition_vector.end() );
+                    eoc ), you.inactive_effect_on_condition_vector.end() );
     }
 }
 
 bool effect_on_condition::activate( dialogue &d ) const
 {
+    bool retval = false;
     if( !has_condition || condition( d ) ) {
         true_effect.apply( d );
-        return true;
-    }
-
-    if( has_false_effect ) {
+        retval = true;
+    } else if( has_false_effect ) {
         false_effect.apply( d );
     }
-    return false;
+    // This works because if global is true then this is recurring and thus should only ever be passed containing the player
+    // Thus we just need to run the npcs.
+    if( global ) {
+        for( npc &guy : g->all_npcs() ) {
+            dialogue d_npc( get_talker_for( guy ), nullptr );
+            if( !has_condition || condition( d_npc ) ) {
+                true_effect.apply( d_npc );
+            } else if( has_false_effect ) {
+                false_effect.apply( d_npc );
+            }
+        }
+    }
+    return retval;
 }
 
 bool effect_on_condition::check_deactivate() const

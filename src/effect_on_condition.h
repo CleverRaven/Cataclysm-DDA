@@ -18,7 +18,10 @@ struct effect_on_condition {
     public:
         friend class generic_factory<effect_on_condition>;
         bool was_loaded = false;
+        /* If this is true each npc will have their own copy of it.  Deactivate conditions for traits/mutations/bionics will work but not weather.  */
         bool run_for_npcs = false;
+        /* If this is true it will be run on the player and every npc.  Deactivate conditions will work based on the player.  */
+        bool global = false;
         effect_on_condition_id id;
 
         std::function<bool( const dialogue & )> condition;

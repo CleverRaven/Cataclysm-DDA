@@ -40,6 +40,7 @@
   {
     "type": "effect_on_condition",
     "id": "acid_drizzle",
+    "global": true,
     "recurrence_min": 1,
     "recurrence_max": 1,
     "condition": {
@@ -58,6 +59,7 @@
   {
     "type": "effect_on_condition",
     "id": "acid_rain",
+    "global": true,
     "recurrence_min": 1,
     "recurrence_max": 1,
     "condition": {
@@ -79,6 +81,7 @@
   {
     "type": "effect_on_condition",
     "id": "snow",
+    "global": true,
     "recurrence_min": 6,
     "recurrence_max": 6,
     "condition": { "and": [ { "is_weather": "snowing" }, "u_is_outside" ] },
@@ -88,6 +91,7 @@
   {
     "type": "effect_on_condition",
     "id": "snowstorm",
+    "global": true,
     "recurrence_min": 6,
     "recurrence_max": 6,
     "condition": { "and": [ { "is_weather": "snowstorm" }, "u_is_outside" ] },
