@@ -71,6 +71,8 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 
+static const std::string flag_APPLIANCE( "APPLIANCE" );
+
 static const itype_id fuel_type_battery( "battery" );
 
 static const itype_id itype_battery( "battery" );
@@ -753,7 +755,7 @@ bool veh_interact::can_self_jack()
 
 bool veh_interact::appliance_reqs_met( const vpart_info &info )
 {
-    bool is_appliance = veh->has_part( "APPLIANCE", false );
+    bool is_appliance = veh->has_part( flag_APPLIANCE, false );
     bool installing_appliance = info.has_flag( VPFLAG_APPLIANCE );
     return ( is_appliance && installing_appliance ) || ( !is_appliance && !installing_appliance );
 }
@@ -2570,13 +2572,15 @@ void veh_interact::display_stats() const
     bool is_boat = !veh->floating.empty();
     bool is_ground = !veh->wheelcache.empty() || !is_boat;
     bool is_aircraft = veh->is_rotorcraft() && veh->is_flying_in_air();
+    bool is_appliances = veh->has_part( flag_APPLIANCE );
 
     const auto vel_to_int = []( const double vel ) {
         return static_cast<int>( convert_velocity( vel, VU_VEHICLE ) );
     };
 
     int i = 0;
-    if( is_aircraft ) {
+    if( is_appliances ) {
+    } else if( is_aircraft ) {
         fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
                         _( "Air Safe/Top Speed: <color_light_green>%3d</color>/<color_light_red>%3d</color> %s" ),
                         vel_to_int( veh->safe_rotor_velocity( false ) ),
@@ -2639,9 +2643,12 @@ void veh_interact::display_stats() const
     fold_and_print( w_stats, point( x[i], y[i] ), w[i], total_durability_color, total_durability_text );
     i += 1;
 
-    fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
-                    wheel_state_description( *veh ) );
-    i += 1;
+    if( !is_appliances ) {
+        fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
+                        wheel_state_description( *veh ) );
+        i += 1;
+    }
+
 
     //This lambda handles printing parts in the "Most damaged" and "Needs repair" cases
     //for the veh_interact ui
@@ -2672,10 +2679,12 @@ void veh_interact::display_stats() const
         i += 1;
     }
 
-    fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
-                    _( "Air drag:       <color_light_blue>%5.2f</color>" ),
-                    veh->coeff_air_drag() );
-    i += 1;
+    if( !is_appliances ) {
+        fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
+                        _( "Air drag:       <color_light_blue>%5.2f</color>" ),
+                        veh->coeff_air_drag() );
+        i += 1;
+    }
 
     if( is_boat ) {
         fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
@@ -2684,23 +2693,27 @@ void veh_interact::display_stats() const
     }
     i += 1;
 
-    if( is_ground ) {
+    if( is_ground && !is_appliances ) {
         fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
                         _( "Rolling drag:   <color_light_blue>%5.2f</color>" ),
                         veh->coeff_rolling_drag() );
     }
     i += 1;
 
-    fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
-                    _( "Static drag:    <color_light_blue>%5d</color>" ),
-                    veh->static_drag( false ) );
-    i += 1;
+    if( !is_appliances ) {
+        fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
+                        _( "Static drag:    <color_light_blue>%5d</color>" ),
+                        veh->static_drag( false ) );
+        i += 1;
+    }
 
-    fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
-                    _( "Offroad:        <color_light_blue>%4d</color>%%" ),
-                    static_cast<int>( veh->k_traction( veh->wheel_area() *
-                                      veh->average_or_rating() ) * 100 ) );
-    i += 1;
+    if( !is_appliances ) {
+        fold_and_print( w_stats, point( x[i], y[i] ), w[i], c_light_gray,
+                        _( "Offroad:        <color_light_blue>%4d</color>%%" ),
+                        static_cast<int>( veh->k_traction( veh->wheel_area() *
+                                          veh->average_or_rating() ) * 100 ) );
+        i += 1;
+    }
 
     if( is_boat ) {
 
