@@ -655,9 +655,9 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
     const int max_width = getmaxx( w ) - column - 1;
     std::ostringstream oss;
 
-    oss << get_tag_from_color( basic_symbol_color() ) << _( "Origin: " );
-    oss << enumerate_as_string( type->origin.begin(),
-    type->origin.end(), []( const std::pair<mtype_id, mod_id> &source ) {
+    oss << get_tag_from_color( c_white ) << _( "Origin: " );
+    oss << enumerate_as_string( type->src.begin(),
+    type->src.end(), []( const std::pair<mtype_id, mod_id> &source ) {
         return string_format( "'%s'", source.second->name() );
     }, enumeration_conjunction::arrow );
     oss << "</color>" << "\n\n";
@@ -755,8 +755,8 @@ std::string monster::extended_description() const
     }
 
     ss += _( "Origin: " );
-    ss += enumerate_as_string( type->origin.begin(),
-    type->origin.end(), []( const std::pair<mtype_id, mod_id> &source ) {
+    ss += enumerate_as_string( type->src.begin(),
+    type->src.end(), []( const std::pair<mtype_id, mod_id> &source ) {
         return string_format( "'%s'", source.second->name() );
     }, enumeration_conjunction::arrow );
 

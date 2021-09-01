@@ -271,7 +271,7 @@ struct mtype {
         std::vector<mon_effect_data> atk_effs;
 
         /** Mod origin */
-        std::vector<std::pair<mtype_id, mod_id>> origin;
+        std::vector<std::pair<mtype_id, mod_id>> src;
 
         std::set<species_id> species;
         std::set<std::string> categories;
