@@ -4626,6 +4626,19 @@ void haircut_activity_actor::finish( player_activity &act, Character &who )
 {
     who.add_msg_if_player( _( "You give your hair a trim." ) );
     who.add_morale( MORALE_HAIRCUT, 3, 3, 480_minutes, 3_minutes );
+    if( who.is_avatar() ) {
+        uilist amenu;
+        amenu.title = _( "Change what?" );
+        amenu.addentry( 0, true, MENU_AUTOASSIGN, _( "Change hairstyle" ) );
+        amenu.addentry( 1, true, MENU_AUTOASSIGN, _( "Change facial hairstyle" ) );
+
+        amenu.query();
+        if( amenu.ret == 0 ) {
+            who.customize_appearance( customize_appearance_choice::HAIR );
+        } else if( amenu.ret == 1 ) {
+            who.customize_appearance( customize_appearance_choice::HAIR_F );
+        }
+    }
     act.set_to_null();
 }
 

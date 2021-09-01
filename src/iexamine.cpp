@@ -272,6 +272,24 @@ void iexamine::cvdmachine( Character &you, const tripoint & )
 }
 
 /**
+ * Change player eye and skin colour
+ */
+void iexamine::change_appearance( Character &you, const tripoint & )
+{
+    uilist amenu;
+    amenu.title = _( "Change what?" );
+    amenu.addentry( 0, true, MENU_AUTOASSIGN, _( "Change eye colour" ) );
+    amenu.addentry( 1, true, MENU_AUTOASSIGN, _( "Change skin colour" ) );
+
+    amenu.query();
+    if( amenu.ret == 0 ) {
+        you.customize_appearance( customize_appearance_choice::EYES );
+    } else if( amenu.ret == 1 ) {
+        you.customize_appearance( customize_appearance_choice::SKIN );
+    }
+}
+
+/**
  * TEMPLATE FABRICATORS
  * Generate items from found blueprints.
  */
@@ -6191,6 +6209,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "attunement_altar", &iexamine::attunement_altar },
             { "deployed_furniture", &iexamine::deployed_furniture },
             { "cvdmachine", &iexamine::cvdmachine },
+            { "change_appearance", &iexamine::change_appearance },
             { "nanofab", &iexamine::nanofab },
             { "gaspump", &iexamine::gaspump },
             { "atm", &iexamine::atm },
