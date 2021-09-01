@@ -64,6 +64,7 @@ static std::unordered_map<vproto_id, vehicle_prototype> vtypes;
 
 static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map = {
     { "ARMOR", VPFLAG_ARMOR },
+    { "APPLIANCE", VPFLAG_APPLIANCE },
     { "EVENTURN", VPFLAG_EVENTURN },
     { "ODDTURN", VPFLAG_ODDTURN },
     { "CONE_LIGHT", VPFLAG_CONE_LIGHT },

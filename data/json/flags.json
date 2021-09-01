@@ -986,6 +986,10 @@
     "type": "json_flag"
   },
   {
+    "id": "APPLIANCE",
+    "type": "json_flag"
+  },
+  {
     "id": "BIPOD",
     "type": "json_flag"
   },

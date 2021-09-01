@@ -2245,6 +2245,11 @@ bool veh_interact::can_potentially_install( const vpart_info &vpart )
                     is_crafting_component );
     bool hammerspace = get_player_character().has_trait( trait_DEBUG_HS );
 
+    if( vpart.has_flag( VPFLAG_APPLIANCE ) ) {
+        //Can only install appliance on vehicle made of appliances
+        return veh->has_part( "APPLIANCE", false );
+    }
+
     int engines = 0;
     if( vpart.has_flag( VPFLAG_ENGINE ) && vpart.has_flag( "E_HIGHER_SKILL" ) ) {
         for( const vpart_reference &vp : veh->get_avail_parts( "ENGINE" ) ) {
