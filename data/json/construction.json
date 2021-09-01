@@ -1483,7 +1483,12 @@
     "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ], [ "pointy_stick_long", 2 ] ], [ [ "2x4", 5 ] ], [ [ "nail", 12 ] ], [ [ "hinge", 2 ] ] ],
+    "components": [
+      [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ], [ "pointy_stick_long", 2 ] ],
+      [ [ "2x4", 5 ] ],
+      [ [ "nail", 12 ] ],
+      [ [ "hinge", 2 ] ]
+    ],
     "pre_flags": "DIGGABLE",
     "post_terrain": "t_fencegate_c"
   },
@@ -3531,7 +3536,12 @@
     "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ], [ "pointy_stick_long", 2 ] ], [ [ "2x4", 5 ] ], [ [ "nail", 12 ] ], [ [ "hinge", 2 ] ] ],
+    "components": [
+      [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ], [ "pointy_stick_long", 2 ] ],
+      [ [ "2x4", 5 ] ],
+      [ [ "nail", 12 ] ],
+      [ [ "hinge", 2 ] ]
+    ],
     "pre_flags": "DIGGABLE",
     "post_terrain": "t_splitrail_fencegate_c"
   },
@@ -3543,7 +3553,12 @@
     "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
-    "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ], [ "pointy_stick_long", 2] ], [ [ "2x4", 8 ] ], [ [ "nail", 20 ] ], [ [ "hinge", 2 ] ] ],
+    "components": [
+      [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ], [ "pointy_stick_long", 2 ] ],
+      [ [ "2x4", 8 ] ],
+      [ [ "nail", 20 ] ],
+      [ [ "hinge", 2 ] ]
+    ],
     "pre_flags": "DIGGABLE",
     "post_terrain": "t_privacy_fencegate_c"
   },
