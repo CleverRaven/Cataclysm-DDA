@@ -5768,7 +5768,7 @@ bool mattack::zombie_fuse( monster *z )
     if( z->get_size() < creature_size::huge ) {
         z->add_effect( effect_grown_of_fuse, 10_days, true,
                        std::min( critter->get_hp_max(),
-                                 ( critter->get_volume() * ( 80 / 62500_ml ) ) )
+                                 ( 80 * ( critter->get_volume() / 62500_ml ) ) )
                        + z->get_effect( effect_grown_of_fuse ).get_intensity() );
     }
     z->heal( critter->get_hp(), true );
