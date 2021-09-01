@@ -28,6 +28,13 @@ void scoped_weather_override::with_windspeed( const int windspeed_override )
     weather.update_weather();
 }
 
+void scoped_weather_override::with_wind_direction( const int wind_direction_override )
+{
+    weather_manager &weather = get_weather();
+    weather.wind_direction_override = wind_direction_override;
+    weather.update_weather();
+}
+
 scoped_weather_override::~scoped_weather_override()
 {
     weather_manager &weather = get_weather();

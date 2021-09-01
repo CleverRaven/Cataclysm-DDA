@@ -199,6 +199,7 @@ TEST_CASE( "fire spreading", "[field]" )
     fields_test_setup();
     scoped_weather_override weather_clear( WEATHER_CLEAR );
     weather_clear.with_windspeed( 0 );
+    weather_clear.with_wind_direction( 90 ); // Due east
 
     const tripoint p{ 33, 33, 0 };
     const tripoint far_p = p + tripoint_east * 3;
