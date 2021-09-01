@@ -125,6 +125,11 @@ Creature::~Creature() = default;
 
 void Creature::setpos( const tripoint &p )
 {
+    set_pos_only( p );
+}
+
+void Creature::set_pos_only( const tripoint &p )
+{
     position = p;
 }
 

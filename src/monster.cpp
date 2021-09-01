@@ -155,9 +155,7 @@ static const std::map<monster_attitude, std::pair<std::string, color_id>> attitu
 
 monster::monster()
 {
-    position.x = 20;
-    position.y = 10;
-    position.z = -500; // Some arbitrary number that will cause debugmsgs
+    set_pos_only( tripoint( 20, 10, -500 ) ); // Some arbitrary position that will cause debugmsgs
     unset_dest();
     wandf = 0;
     hp = 60;
@@ -213,7 +211,7 @@ monster::monster( const mtype_id &id ) : monster()
 
 monster::monster( const mtype_id &id, const tripoint &p ) : monster( id )
 {
-    position = p;
+    set_pos_only( p );
     unset_dest();
 }
 
@@ -489,7 +487,7 @@ void monster::try_biosignature()
 
 void monster::spawn( const tripoint &p )
 {
-    position = p;
+    set_pos_only( p );
     unset_dest();
 }
 
@@ -1050,7 +1048,7 @@ void monster::set_patrol_route( const std::vector<point> &patrol_pts_rel_ms )
 void monster::shift( const point &sm_shift )
 {
     const point ms_shift = sm_to_ms_copy( sm_shift );
-    position -= ms_shift;
+    set_pos_only( pos() - ms_shift );
     goal -= ms_shift;
     if( wandf > 0 ) {
         wander_pos -= ms_shift;
