@@ -658,6 +658,12 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "description", description );
 
+    if( !origin.empty() && origin.back().first != id ) {
+        origin.clear();
+    }
+    origin.emplace_back( id, mod_id( src ) );
+    assign_src( id, src );
+
     assign( jo, "ascii_picture", picture_id );
 
     optional( jo, was_loaded, "material", mat, string_id_reader<::material_type> {} );
