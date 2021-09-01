@@ -290,6 +290,8 @@ class veh_interact
 
         /** Returns true if the vehicle has a jack powerful enough to lift itself installed */
         bool can_self_jack();
+
+        bool appliance_reqs_met( const vpart_info &info );
 };
 
 void act_vehicle_siphon( vehicle *veh );

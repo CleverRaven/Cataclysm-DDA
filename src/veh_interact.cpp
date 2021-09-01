@@ -751,6 +751,13 @@ bool veh_interact::can_self_jack()
     return false;
 }
 
+bool veh_interact::appliance_reqs_met( const vpart_info &info )
+{
+    bool is_appliance = veh->has_part( "APPLIANCE", false );
+    bool installing_appliance = info.has_flag( VPFLAG_APPLIANCE );
+    return ( is_appliance && installing_appliance ) || ( !is_appliance && !installing_appliance );
+}
+
 bool veh_interact::update_part_requirements()
 {
     if( sel_vpart_info == nullptr ) {
@@ -2245,11 +2252,6 @@ bool veh_interact::can_potentially_install( const vpart_info &vpart )
                     is_crafting_component );
     bool hammerspace = get_player_character().has_trait( trait_DEBUG_HS );
 
-    if( vpart.has_flag( VPFLAG_APPLIANCE ) ) {
-        //Can only install appliance on vehicle made of appliances
-        return veh->has_part( "APPLIANCE", false );
-    }
-
     int engines = 0;
     if( vpart.has_flag( VPFLAG_ENGINE ) && vpart.has_flag( "E_HIGHER_SKILL" ) ) {
         for( const vpart_reference &vp : veh->get_avail_parts( "ENGINE" ) ) {
@@ -2260,7 +2262,7 @@ bool veh_interact::can_potentially_install( const vpart_info &vpart )
         engine_reqs_met = engines < 2;
     }
 
-    return hammerspace || ( can_make && engine_reqs_met );
+    return hammerspace || ( can_make && engine_reqs_met && appliance_reqs_met( vpart ) );
 }
 
 /**
@@ -2849,6 +2851,10 @@ void veh_interact::display_list( size_t pos, const std::vector<const vpart_info 
     size_t page = pos / lines_per_page;
     for( size_t i = page * lines_per_page; i < ( page + 1 ) * lines_per_page && i < list.size(); i++ ) {
         const vpart_info &info = *list[i];
+        if( !appliance_reqs_met( info ) ) {
+            continue;
+        }
+
         int y = i - page * lines_per_page + header;
         mvwputch( w_list, point( 1, y ), info.color, special_symbol( info.sym ) );
         nc_color col = can_potentially_install( info ) ? c_white : c_dark_gray;
