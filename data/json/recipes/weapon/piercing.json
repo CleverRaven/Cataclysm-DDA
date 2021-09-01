@@ -498,7 +498,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "fire", -1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_carving", "fail_multiplier": 1 } ],
-    "components": [ [ [ "stick_long", 1 ], [ "pointy_stick_long", 1] ] ]
+    "components": [ [ [ "stick_long", 1 ], [ "pointy_stick_long", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -564,7 +564,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "fire", -1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_carving" } ],
-    "components": [ [ [ "spear_wood", 1 ], [ "pointy_stick", 1 ], [ "pointy_stick_long", 1] ] ]
+    "components": [ [ [ "spear_wood", 1 ], [ "pointy_stick", 1 ], [ "pointy_stick_long", 1 ] ] ]
   },
   {
     "type": "recipe",
