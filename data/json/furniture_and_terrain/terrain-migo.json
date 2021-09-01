@@ -29,7 +29,7 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_resin_roof",
-    "flags": [ "NOITEM", "WALL", "PERMEABLE", "TRANSPARENT", "INDOORS", "NONFLAMMABLE", "MINEABLE" ],
+    "flags": [ "NOITEM", "WALL", "PERMEABLE", "TRANSPARENT", "INDOORS", "MINEABLE" ],
     "bash": {
       "str_min": 70,
       "str_max": 300,
@@ -48,7 +48,7 @@
     "color": "dark_gray",
     "move_cost": 1,
     "roof": "t_resin_roof",
-    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD", "NONFLAMMABLE", "NOCOLLIDE" ],
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD", "NOCOLLIDE" ],
     "bash": {
       "str_min": 250,
       "str_max": 700,
@@ -67,7 +67,7 @@
     "color": "light_gray",
     "looks_like": "t_floor_resin",
     "move_cost": 1,
-    "flags": [ "TRANSPARENT", "COLLAPSES", "FLAT", "ROAD", "NONFLAMMABLE" ],
+    "flags": [ "TRANSPARENT", "COLLAPSES", "FLAT", "ROAD" ],
     "bash": {
       "str_min": 250,
       "str_max": 700,
@@ -86,7 +86,7 @@
     "color": "dark_gray",
     "move_cost": 2,
     "looks_like": "t_floor_resin",
-    "flags": [ "TRANSPARENT", "FLAT", "NONFLAMMABLE" ],
+    "flags": [ "TRANSPARENT", "FLAT" ],
     "bash": {
       "str_min": 250,
       "str_max": 700,
@@ -106,7 +106,7 @@
     "move_cost": 0,
     "coverage": 95,
     "roof": "t_resin_roof",
-    "flags": [ "DOOR", "NOITEM", "CONNECT_TO_WALL", "BLOCK_WIND", "NONFLAMMABLE" ],
+    "flags": [ "DOOR", "NOITEM", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "open": "t_resin_hole_o",
     "deconstruct": { "ter_set": "t_resin_hole", "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ] },
     "bash": {
@@ -127,7 +127,7 @@
     "color": "light_gray",
     "move_cost": 2,
     "roof": "t_resin_roof",
-    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "NONFLAMMABLE" ],
+    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL" ],
     "deconstruct": { "ter_set": "t_resin_hole", "items": [ { "item": "resin_chunk", "count": [ 2, 5 ] } ] },
     "close": "t_resin_hole_c",
     "bash": {
@@ -148,7 +148,7 @@
     "color": "light_gray",
     "move_cost": 4,
     "roof": "t_resin_roof",
-    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "NONFLAMMABLE" ],
+    "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL" ],
     "bash": {
       "str_min": 100,
       "str_max": 500,

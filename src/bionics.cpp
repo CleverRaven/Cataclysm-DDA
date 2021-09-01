@@ -947,7 +947,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         std::vector<std::pair<item, tripoint>> affected;
         const units::mass weight_cap = weight_capacity();
         for( const tripoint &p : here.points_in_radius( pos(), 10 ) ) {
-            if( p == pos() || !here.has_items( p ) || here.has_flag( TFLAG_SEALED, p ) ) {
+            if( p == pos() || !here.has_items( p ) || here.has_flag( ter_furn_flag::TFLAG_SEALED, p ) ) {
                 continue;
             }
 

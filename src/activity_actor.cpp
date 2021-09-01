@@ -2147,7 +2147,7 @@ cata::optional<tripoint> lockpick_activity_actor::select_location( avatar &you )
         if( p == you.pos() ) {
             return false;
         }
-        return get_map().has_flag( "PICKABLE", p );
+        return get_map().has_flag( ter_furn_flag::TFLAG_PICKABLE, p );
     };
 
     const cata::optional<tripoint> target = choose_adjacent_highlight(
@@ -2992,8 +2992,8 @@ void workout_activity_actor::start( player_activity &act, Character &who )
     // free training requires all limbs intact, but specialized workout machines
     // train upper or lower parts of body only and may permit workout with
     // broken limbs as long as they are not involved by the machine
-    bool hand_equipment = here.has_flag_furn( "WORKOUT_ARMS", location );
-    bool leg_equipment = here.has_flag_furn( "WORKOUT_LEGS", location );
+    bool hand_equipment = here.has_flag_furn( ter_furn_flag::TFLAG_WORKOUT_ARMS, location );
+    bool leg_equipment = here.has_flag_furn( ter_furn_flag::TFLAG_WORKOUT_LEGS, location );
 
     if( hand_equipment && ( ( who.is_limb_broken( body_part_arm_l ) ) ||
                             who.is_limb_broken( body_part_arm_r ) ) ) {
@@ -4179,14 +4179,10 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
         act.set_to_null();
         return;
     }
-
-    if( act.targets.back()->typeId() != itype_disassembly ) {
-        target = who.create_in_progress_disassembly( act.targets.back() );
-    } else {
-        target = act.targets.back();
-        act.position = target->charges;
+    if( act.targets.back()->typeId() == itype_disassembly ) {
+        act.position = act.targets.back()->charges;
     }
-
+    target = who.create_in_progress_disassembly( act.targets.back() );
     act.targets.pop_back();
 
     if( !check_if_disassemble_okay( target, who ) ) {
@@ -4630,6 +4626,19 @@ void haircut_activity_actor::finish( player_activity &act, Character &who )
 {
     who.add_msg_if_player( _( "You give your hair a trim." ) );
     who.add_morale( MORALE_HAIRCUT, 3, 3, 480_minutes, 3_minutes );
+    if( who.is_avatar() ) {
+        uilist amenu;
+        amenu.title = _( "Change what?" );
+        amenu.addentry( 0, true, MENU_AUTOASSIGN, _( "Change hairstyle" ) );
+        amenu.addentry( 1, true, MENU_AUTOASSIGN, _( "Change facial hairstyle" ) );
+
+        amenu.query();
+        if( amenu.ret == 0 ) {
+            who.customize_appearance( customize_appearance_choice::HAIR );
+        } else if( amenu.ret == 1 ) {
+            who.customize_appearance( customize_appearance_choice::HAIR_F );
+        }
+    }
     act.set_to_null();
 }
 
