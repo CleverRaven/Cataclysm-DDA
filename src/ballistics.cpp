@@ -141,7 +141,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         }
 
         if( effects.count( "HEAVY_HIT" ) ) {
-            if( here.has_flag( TFLAG_LIQUID, pt ) ) {
+            if( here.has_flag( ter_furn_flag::TFLAG_LIQUID, pt ) ) {
                 sounds::sound( pt, 10, sounds::sound_t::combat, _( "splash!" ), false, "bullet_hit", "hit_water" );
             } else {
                 sounds::sound( pt, 8, sounds::sound_t::combat, _( "thud." ), false, "bullet_hit", "hit_wall" );

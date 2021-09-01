@@ -2147,7 +2147,7 @@ cata::optional<tripoint> lockpick_activity_actor::select_location( avatar &you )
         if( p == you.pos() ) {
             return false;
         }
-        return get_map().has_flag( "PICKABLE", p );
+        return get_map().has_flag( ter_furn_flag::TFLAG_PICKABLE, p );
     };
 
     const cata::optional<tripoint> target = choose_adjacent_highlight(
@@ -2992,8 +2992,8 @@ void workout_activity_actor::start( player_activity &act, Character &who )
     // free training requires all limbs intact, but specialized workout machines
     // train upper or lower parts of body only and may permit workout with
     // broken limbs as long as they are not involved by the machine
-    bool hand_equipment = here.has_flag_furn( "WORKOUT_ARMS", location );
-    bool leg_equipment = here.has_flag_furn( "WORKOUT_LEGS", location );
+    bool hand_equipment = here.has_flag_furn( ter_furn_flag::TFLAG_WORKOUT_ARMS, location );
+    bool leg_equipment = here.has_flag_furn( ter_furn_flag::TFLAG_WORKOUT_LEGS, location );
 
     if( hand_equipment && ( ( who.is_limb_broken( body_part_arm_l ) ) ||
                             who.is_limb_broken( body_part_arm_r ) ) ) {

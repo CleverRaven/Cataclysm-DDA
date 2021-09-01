@@ -2162,7 +2162,7 @@ int monster::impact( const int force, const tripoint &p )
 
     const float mod = fall_damage_mod();
     int total_dealt = 0;
-    if( get_map().has_flag( TFLAG_SHARP, p ) ) {
+    if( get_map().has_flag( ter_furn_flag::TFLAG_SHARP, p ) ) {
         const int cut_damage = std::max( 0.0f, 10 * mod - get_armor_cut( bodypart_id( "torso" ) ) );
         apply_damage( nullptr, bodypart_id( "torso" ), cut_damage );
         total_dealt += 10 * mod;
@@ -3076,7 +3076,7 @@ bool monster::will_join_horde( int size )
     if( mha == MHA_ALWAYS ) {
         return true;
     }
-    if( get_map().has_flag( TFLAG_INDOORS, pos() ) &&
+    if( get_map().has_flag( ter_furn_flag::TFLAG_INDOORS, pos() ) &&
         ( mha == MHA_OUTDOORS || mha == MHA_OUTDOORS_AND_LARGE ) ) {
         return false;
     }
