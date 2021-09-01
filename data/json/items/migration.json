@@ -1561,7 +1561,7 @@
   {
     "id": "leaf_spring",
     "type": "MIGRATION",
-    "replace": "full_barrel_bomb"
+    "replace": "scrap"
   },
   {
     "id": "mre_box",
