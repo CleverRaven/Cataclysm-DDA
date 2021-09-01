@@ -38,6 +38,28 @@
     ]
   },
   {
+    "type": "mutation",
+    "id": "EXODII_BODY_1",
+    "flags": [ "Exodii_Body" ],
+    "name": { "str": "Exodii cyborg framework - style 1a" },
+    "points": 0,
+    "visibility": 4,
+    "ugliness": 4,
+    "mixed_effect": true,
+    "description": "Your brain and some of your organs are shielded in a nice tough bipedal walker frame.",
+    "valid": false,
+    "purifiable": false,
+    "types": [ "Cyberframe" ]
+    "passive_mods": { "str_mod": 4, "dex_mod": 4 },
+    "hp_adjustment": 20,
+    "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
+    "weight_capacity_modifier": 3
+  },
+  {
+    "type": "mutation_type",
+    "id": "Cyberframe"
+  },
+  {
     "//": "table of contents: common response strings appearing in this list of topics",
     "id": [ "TALK_EXODII_MERCHANT_New", "TALK_EXODII_MERCHANT_Dialect" ],
     "type": "talk_topic",
