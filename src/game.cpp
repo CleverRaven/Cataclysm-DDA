@@ -2853,7 +2853,7 @@ struct npc_dist_to_player {
 void game::disp_NPCs()
 {
     const tripoint_abs_omt ppos = u.global_omt_location();
-    const tripoint &lpos = u.pos();
+    const tripoint lpos = u.pos();
     const int scan_range = 120;
     std::vector<shared_ptr_fast<npc>> npcs = overmap_buffer.get_npcs_near_player( scan_range );
     std::sort( npcs.begin(), npcs.end(), npc_dist_to_player() );
@@ -5991,7 +5991,7 @@ void game::zones_manager()
         if( show_all_zones ) {
             zones = mgr.get_zones();
         } else {
-            const tripoint &u_abs_pos = m.getabs( u.pos() );
+            const tripoint u_abs_pos = m.getabs( u.pos() );
             for( zone_manager::ref_zone_data &ref : mgr.get_zones() ) {
                 const tripoint &zone_abs_pos = ref.get().get_center_point();
                 if( u_abs_pos.z == zone_abs_pos.z && rl_dist( u_abs_pos, zone_abs_pos ) <= 50 ) {
@@ -10233,7 +10233,7 @@ static cata::optional<tripoint> point_selection_menu( const std::vector<tripoint
         return pts[0];
     }
 
-    const tripoint &upos = get_player_character().pos();
+    const tripoint upos = get_player_character().pos();
     uilist pmenu;
     pmenu.title = _( "Climb where?" );
     int num = 0;
@@ -11674,8 +11674,8 @@ namespace cata_event_dispatch
 {
 void avatar_moves( const tripoint &old_abs_pos, const avatar &u, const map &m )
 {
-    const tripoint &new_pos = u.pos();
-    const tripoint &new_abs_pos = m.getabs( new_pos );
+    const tripoint new_pos = u.pos();
+    const tripoint new_abs_pos = m.getabs( new_pos );
     mtype_id mount_type;
     if( u.is_mounted() ) {
         mount_type = u.mounted_creature->type->id;

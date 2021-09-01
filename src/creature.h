@@ -273,9 +273,7 @@ class Creature : public viewer
         virtual bool is_fake() const;
         /** Sets a Creature's fake boolean. */
         virtual void set_fake( bool fake_value );
-        inline const tripoint &pos() const {
-            return position;
-        }
+        tripoint pos() const;
         inline int posx() const {
             return pos().x;
         }

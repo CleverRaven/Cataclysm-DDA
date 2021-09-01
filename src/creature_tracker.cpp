@@ -142,7 +142,7 @@ bool creature_tracker::update_pos( const monster &critter, const tripoint &new_p
         monsters_by_location[new_pos] = *iter;
         return true;
     } else {
-        const tripoint &old_pos = critter.pos();
+        const tripoint old_pos = critter.pos();
         // We're changing the x/y/z coordinates of a zombie that hasn't been added
         // to the game yet. `add` will update monsters_by_location for us.
         debugmsg( "update_zombie_pos: no %s at %d,%d,%d (moving to %d,%d,%d)",

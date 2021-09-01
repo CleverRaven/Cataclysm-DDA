@@ -8712,7 +8712,7 @@ cata::optional<int> iuse::tow_attach( Character *p, item *it, bool, const tripoi
                     return cata::nullopt;
                 }
             }
-            const tripoint &abspos = here.getabs( posp );
+            const tripoint abspos = here.getabs( posp );
             it->set_var( "source_x", abspos.x );
             it->set_var( "source_y", abspos.y );
             it->set_var( "source_z", here.get_abs_sub().z );

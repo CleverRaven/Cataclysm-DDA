@@ -123,6 +123,11 @@ Creature &Creature::operator=( Creature && ) noexcept = default;
 
 Creature::~Creature() = default;
 
+tripoint Creature::pos() const
+{
+    return position;
+}
+
 void Creature::setpos( const tripoint &p )
 {
     set_pos_only( p );
@@ -609,8 +614,8 @@ bool Creature::is_adjacent( const Creature *target, const bool allow_z_levels ) 
     // The square above must have no floor.
     // The square below must have no ceiling (i.e. no floor on the tile above it).
     const bool target_above = target->posz() > posz();
-    const tripoint &up   = target_above ? target->pos() : pos();
-    const tripoint &down = target_above ? pos() : target->pos();
+    const tripoint up = target_above ? target->pos() : pos();
+    const tripoint down = target_above ? pos() : target->pos();
     const tripoint above{ down.xy(), up.z };
     return ( !here.has_floor( up ) || here.ter( up )->has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) &&
            ( !here.has_floor( above ) || here.ter( above )->has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) );

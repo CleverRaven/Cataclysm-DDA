@@ -999,8 +999,8 @@ void monster::move()
                 if( !can_z_move &&
                     posx() / ( SEEX * 2 ) == candidate.x / ( SEEX * 2 ) &&
                     posy() / ( SEEY * 2 ) == candidate.y / ( SEEY * 2 ) ) {
-                    const tripoint &upper = candidate.z > posz() ? candidate : pos();
-                    const tripoint &lower = candidate.z > posz() ? pos() : candidate;
+                    const tripoint upper = candidate.z > posz() ? candidate : pos();
+                    const tripoint lower = candidate.z > posz() ? pos() : candidate;
                     if( here.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, upper ) &&
                         here.has_flag( ter_furn_flag::TFLAG_GOES_UP, lower ) ) {
                         can_z_move = true;

@@ -286,7 +286,7 @@ tripoint npc::good_escape_direction( bool include_pos )
 
     std::map<direction, float> adj_map;
     for( direction pt_dir : npc_threat_dir ) {
-        const tripoint &pt = pos() + direction_XY( pt_dir );
+        const tripoint pt = pos() + direction_XY( pt_dir );
         float cur_rating = rate_pt( pt, ai_cache.threat_map[ pt_dir ] );
         adj_map[pt_dir] = cur_rating;
         if( cur_rating == best_rating ) {
@@ -2451,7 +2451,7 @@ void npc::move_to_next()
 void npc::avoid_friendly_fire()
 {
     // TODO: To parameter
-    const tripoint &tar = current_target()->pos();
+    const tripoint tar = current_target()->pos();
     // Calculate center of weight of friends and move away from that
     tripoint center;
     for( const auto &fr : ai_cache.friends ) {
@@ -3239,7 +3239,7 @@ bool npc::find_corpse_to_pulp()
 
     if( corpse == nullptr ) {
         // If we're following the player, don't wander off to pulp corpses
-        const tripoint &around = is_walking_with() ? player_character.pos() : pos();
+        const tripoint around = is_walking_with() ? player_character.pos() : pos();
         for( const item_location &location : here.get_active_items_in_radius( around, range,
                 special_item_type::corpse ) ) {
             corpse = check_tile( location.position() );

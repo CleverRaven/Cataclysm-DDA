@@ -7899,7 +7899,7 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
     }
     // Iterate over creatures and set them to block their squares relative to their size.
     for( Creature &critter : g->all_creatures() ) {
-        const tripoint &loc = critter.pos();
+        const tripoint loc = critter.pos();
         if( loc.z != start.z ) {
             continue;
         }
@@ -8003,7 +8003,7 @@ static void vehicle_caching_internal( level_cache &zch, const vpart_reference &v
     auto &floor_cache = zch.floor_cache;
 
     const size_t part = vp.part_index();
-    const tripoint &part_pos =  v->global_part_pos3( vp.part() );
+    const tripoint part_pos =  v->global_part_pos3( vp.part() );
 
     bool vehicle_is_opaque = vp.has_feature( VPFLAG_OPAQUE ) && !vp.part().is_broken();
 
@@ -8029,7 +8029,7 @@ static void vehicle_caching_internal_above( level_cache &zch_above, const vpart_
         vehicle *v )
 {
     if( vp.has_feature( VPFLAG_ROOF ) || vp.has_feature( VPFLAG_OPAQUE ) ) {
-        const tripoint &part_pos = v->global_part_pos3( vp.part() );
+        const tripoint part_pos = v->global_part_pos3( vp.part() );
         zch_above.floor_cache[part_pos.x][part_pos.y] = true;
     }
 }
@@ -8039,7 +8039,7 @@ void map::do_vehicle_caching( int z )
     level_cache &ch = get_cache( z );
     for( vehicle *v : ch.vehicle_list ) {
         for( const vpart_reference &vp : v->get_all_parts() ) {
-            const tripoint &part_pos = v->global_part_pos3( vp.part() );
+            const tripoint part_pos = v->global_part_pos3( vp.part() );
             if( !inbounds( part_pos.xy() ) ) {
                 continue;
             }
@@ -8080,7 +8080,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         skew_vision_cache.clear();
     }
     // Initial value is illegal player position.
-    const tripoint &p = get_player_character().pos();
+    const tripoint p = get_player_character().pos();
     static tripoint player_prev_pos;
     if( seen_cache_dirty || player_prev_pos != p ) {
         build_seen_cache( p, zlev );
