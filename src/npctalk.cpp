@@ -2488,9 +2488,15 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
                 d.actor( is_npc )->set_per_max( input );
             };
         } else if( checked_value == "var" ) {
+            bool global;
+            optional( jo, false, "global", global, false );
             const std::string var_name = get_talk_varname( jo, "var_name", false );
-            return [is_npc, var_name]( const dialogue & d, int input ) {
-                d.actor( is_npc )->set_value( var_name, std::to_string( input ) );
+            return [is_npc, var_name, global]( const dialogue & d, int input ) {
+                if( global ) {
+                    get_talker_for( get_player_character() )->set_value( var_name, std::to_string( input ) );
+                } else {
+                    d.actor( is_npc )->set_value( var_name, std::to_string( input ) );
+                }
             };
         } else if( checked_value == "time_since_var" ) {
             // This is a strange thing to want to adjust. But we allow it nevertheless.

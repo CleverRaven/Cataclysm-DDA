@@ -56,11 +56,17 @@ struct int_or_var {
     cata::optional<int> int_val;
     cata::optional<std::string> var_val;
     cata::optional<int> default_val;
+    bool global = false;
     int evaluate( talker *talk ) const {
         if( int_val.has_value() ) {
             return int_val.value();
         } else if( var_val.has_value() ) {
-            std::string val = talk->get_value( var_val.value() );
+            std::string val;
+            if( global ) {
+                val = get_talker_for( get_player_character() )->get_value( var_val.value() );
+            } else {
+                val = talk->get_value( var_val.value() );
+            }
             if( !val.empty() ) {
                 return std::stoi( val );
             }
