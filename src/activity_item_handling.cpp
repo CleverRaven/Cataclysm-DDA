@@ -180,6 +180,7 @@ static bool handle_spillable_contents( Character &c, item &it, map &m )
 static void put_into_vehicle( Character &c, item_drop_reason reason, const std::list<item> &items,
                               vehicle &veh, int part )
 {
+    c.invalidate_weight_carried_cache();
     if( items.empty() ) {
         return;
     }
@@ -300,6 +301,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
 void drop_on_map( Character &you, item_drop_reason reason, const std::list<item> &items,
                   const tripoint &where )
 {
+    you.invalidate_weight_carried_cache();
     if( items.empty() ) {
         return;
     }
