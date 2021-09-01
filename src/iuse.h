@@ -87,6 +87,8 @@ cata::optional<int> carver_off( Character *, item *, bool, const tripoint & );
 cata::optional<int> carver_on( Character *, item *, bool, const tripoint & );
 cata::optional<int> chainsaw_off( Character *, item *, bool, const tripoint & );
 cata::optional<int> chainsaw_on( Character *, item *, bool, const tripoint & );
+cata::optional<int> change_eyes( Character *, item *, bool, const tripoint & );
+cata::optional<int> change_skin( Character *, item *, bool, const tripoint & );
 cata::optional<int> chop_logs( Character *, item *, bool, const tripoint & );
 cata::optional<int> chop_tree( Character *, item *, bool, const tripoint & );
 cata::optional<int> circsaw_on( Character *, item *, bool, const tripoint & );
