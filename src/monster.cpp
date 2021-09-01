@@ -157,7 +157,6 @@ static const std::map<monster_attitude, std::pair<std::string, color_id>> attitu
 
 monster::monster()
 {
-    set_pos_only( tripoint( 20, 10, -500 ) ); // Some arbitrary position that will cause debugmsgs
     unset_dest();
     wandf = 0;
     hp = 60;
@@ -223,14 +222,16 @@ monster::~monster() = default;
 monster &monster::operator=( const monster & ) = default;
 monster &monster::operator=( monster && ) noexcept( string_is_noexcept ) = default;
 
-void monster::on_move( const tripoint &old_pos )
+void monster::on_move( const tripoint_abs_ms &old_pos )
 {
     Creature::on_move( old_pos );
-    if( old_pos == pos() ) {
+    if( old_pos == get_location() ) {
         return;
     }
-    g->update_zombie_pos( *this, old_pos, pos() );
-    if( has_effect( effect_ridden ) && mounted_player && mounted_player->pos() != pos() ) {
+    const tripoint old_p = get_map().getlocal( old_pos.raw() );
+    g->update_zombie_pos( *this, old_p, pos() );
+    if( has_effect( effect_ridden ) && mounted_player &&
+        mounted_player->get_location() != get_location() ) {
         add_msg_debug( debugmode::DF_MONSTER, "Ridden monster %s moved independently and dumped player",
                        get_name() );
         mounted_player->forced_dismount();
@@ -1063,7 +1064,7 @@ void monster::set_patrol_route( const std::vector<point> &patrol_pts_rel_ms )
 void monster::shift( const point &sm_shift )
 {
     const point ms_shift = sm_to_ms_copy( sm_shift );
-    set_pos_only( pos() - ms_shift );
+    // TODO: migrate these fields to absolute coords and get rid of shift()
     goal -= ms_shift;
     if( wandf > 0 ) {
         wander_pos -= ms_shift;

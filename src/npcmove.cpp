@@ -253,7 +253,7 @@ tripoint npc::good_escape_direction( bool include_pos )
     map &here = get_map();
     if( path.empty() ) {
         zone_type_id retreat_zone = zone_type_id( "NPC_RETREAT" );
-        const tripoint &abs_pos = global_square_location().raw();
+        const tripoint abs_pos = get_location().raw();
         const zone_manager &mgr = zone_manager::get_manager();
         cata::optional<tripoint> retreat_target = mgr.get_nearest( retreat_zone, abs_pos, 60,
                 fac_id );
@@ -2846,7 +2846,7 @@ void npc::find_item()
             continue;
         }
 
-        const tripoint abs_p = global_square_location().raw() - pos() + p;
+        const tripoint abs_p = get_location().raw() - pos() + p;
         const int prev_num_items = ai_cache.searched_tiles.get( abs_p, -1 );
         // Prefetch the number of items present so we can bail out if we already checked here.
         const map_stack m_stack = here.i_at( p );

@@ -1294,24 +1294,6 @@ class npc : public Character
             return ai_cache.current_attack_evaluation;
         }
 
-        /**
-         * Global position, expressed in map square coordinate system
-         * (the most detailed coordinate system), used by the @ref map.
-         *
-         * The (global) position of an NPC is always:
-         * point(
-         *     submap_coords.x * SEEX + posx() % SEEX,
-         *     submap_coords.y * SEEY + posy() % SEEY,
-         *     pos.z)
-         * (Expressed in map squares, the system that @ref map uses.)
-         * Any of om, map, pos can be in any range.
-         * For active NPCs pos would be in the valid range required by
-         * the map. But pos, map, and om can be changed without the NPC
-         * actual moving as long as the position stays the same:
-         * pos() += SEEX; submap_coords.x -= 1;
-         * This does not change the global position of the NPC.
-         */
-        tripoint_abs_ms global_square_location() const override;
         cata::optional<tripoint> last_player_seen_pos; // Where we last saw the player
         int last_seen_player_turn = 0; // Timeout to forgetting
         tripoint wanted_item_pos; // The square containing an item we want
@@ -1395,7 +1377,7 @@ class npc : public Character
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
 
-        void on_move( const tripoint &old_pos ) override;
+        void on_move( const tripoint_abs_ms &old_pos ) override;
     private:
         // the weapon we're actually holding when using bionic fake guns
         item real_weapon;

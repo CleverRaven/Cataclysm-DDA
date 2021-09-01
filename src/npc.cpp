@@ -134,7 +134,6 @@ npc::npc()
 {
     last_updated = calendar::turn;
     submap_coords = point_zero;
-    set_pos_only( tripoint( -1, -1, 500 ) );
     last_player_seen_pos = cata::nullopt;
     last_seen_player_turn = 999;
     wanted_item_pos = tripoint_min;
@@ -740,10 +739,10 @@ void npc::set_known_to_u( bool known )
     }
 }
 
-void npc::on_move( const tripoint &old_pos )
+void npc::on_move( const tripoint_abs_ms &old_pos )
 {
     Character::on_move( old_pos );
-    const point_abs_om pos_om_old( sm_to_om_copy( submap_coords ) );
+    const point_abs_om pos_om_old = project_to<coords::om>( old_pos.xy() );
     submap_coords = get_map().get_abs_sub().xy() + point( posx() / SEEX, posy() / SEEY );
     // TODO: fix point types
     const point_abs_om pos_om_new( sm_to_om_copy( submap_coords ) );
@@ -796,12 +795,6 @@ void npc::spawn_at_precise( const tripoint_abs_ms &p )
     std::tie( quotient, remainder ) = project_remain<coords::sm>( p );
     submap_coords = quotient.raw();
     set_pos_only( remainder.raw() );
-}
-
-tripoint_abs_ms npc::global_square_location() const
-{
-    return tripoint_abs_ms( project_to<coords::ms>( point_abs_sm( submap_coords ) ),
-                            0 ) + tripoint( posx() % SEEX, posy() % SEEY, posz() );
 }
 
 void npc::place_on_map()
@@ -2469,9 +2462,7 @@ static void maybe_shift( tripoint &pos, const point &d )
 void npc::shift( const point &s )
 {
     const point shift = sm_to_ms_copy( s );
-
-    setpos( pos() - shift );
-
+    // TODO: convert these to absolute coords and get rid of shift()
     maybe_shift( wanted_item_pos, point( -shift.x, -shift.y ) );
     maybe_shift( last_player_seen_pos, point( -shift.x, -shift.y ) );
     maybe_shift( pulp_location, point( -shift.x, -shift.y ) );

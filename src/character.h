@@ -1190,7 +1190,7 @@ class Character : public Creature, public visitable
         std::pair<item_location, item_pocket *> best_pocket( const item &it, const item *avoid );
     protected:
 
-        void on_move( const tripoint &old_pos ) override;
+        void on_move( const tripoint_abs_ms &old_pos ) override;
         void do_skill_rust();
         /** Applies stat mods to character. */
         void apply_mods( const trait_id &mut, bool add_remove );

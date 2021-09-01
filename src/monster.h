@@ -582,7 +582,7 @@ class monster : public Creature
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
 
-        void on_move( const tripoint &old_pos ) override;
+        void on_move( const tripoint_abs_ms &old_pos ) override;
         /** Processes monster-specific effects of an effect. */
         void process_one_effect( effect &it, bool is_new ) override;
 };

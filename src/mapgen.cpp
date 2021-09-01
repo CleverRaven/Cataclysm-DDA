@@ -6119,7 +6119,7 @@ void map::rotate( int turns, const bool setpos_safe )
         if( skip_npc_rotation() ) {
             break;
         }
-        const tripoint sq = np.global_square_location().raw();
+        const tripoint sq = np.get_location().raw();
         real_coords np_rc;
         np_rc.fromabs( sq.xy() );
         // Note: We are rotating the entire overmap square (2x2 of submaps)

@@ -3377,9 +3377,7 @@ void faction::serialize( JsonOut &json ) const
 
 void Creature::store( JsonOut &jsout ) const
 {
-    jsout.member( "posx", posx() );
-    jsout.member( "posy", posy() );
-    jsout.member( "posz", posz() );
+    jsout.member( "location", location );
 
     jsout.member( "moves", moves );
     jsout.member( "pain", pain );
@@ -3428,15 +3426,7 @@ void Creature::store( JsonOut &jsout ) const
 void Creature::load( const JsonObject &jsin )
 {
     jsin.allow_omitted_members();
-    tripoint pos;
-    if( !jsin.read( "posx", pos.x ) ) {  // uh-oh.
-        debugmsg( "Bad Creature JSON: no 'posx'?" );
-    }
-    jsin.read( "posy", pos.y );
-    if( !jsin.read( "posz", pos.z ) && g != nullptr ) {
-        pos.z = get_map().get_abs_sub().z;
-    }
-    set_pos_only( pos );
+    jsin.read( "location", location );
     jsin.read( "moves", moves );
     jsin.read( "pain", pain );
 
