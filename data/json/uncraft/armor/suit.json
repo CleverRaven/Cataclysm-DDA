@@ -19,4 +19,276 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 23 ] ], [ [ "leather", 25 ] ], [ [ "scrap", 12 ] ], [ [ "sheet_kevlar_layered", 24 ] ] ]
   }
+  {
+    "result": "aep_suit",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "cleansuit", 1 ] ],
+      [ [ "duct_tape", 600 ] ],
+      [ [ "sheet_kevlar_layered", 24 ] ],
+      [ [ "plastic_sheet", 1 ] ]
+    ]
+  },
+  {
+    "result": "anbc_suit",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "hazmat_suit", 1 ] ],
+      [ [ "duct_tape", 800 ] ],
+      [ [ "sheet_kevlar_layered", 48 ] ],
+      [ [ "plastic_sheet", 1 ] ]
+    ]
+  },
+  {
+    "result": "entry_suit",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "nomex", 40 ] ],
+      [ [ "sheet_kevlar_layered", 32 ] ],
+      [ [ "duct_tape", 200 ] ]
+    ]
+  },
+  {
+    "result": "hsurvivor_suit",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "components": [
+      [ [ "rag", 20 ] ],
+      [ [ "leather", 20 ] ],
+      [ [ "steel_chunk", 4 ] ],
+      [ [ "duct_tape", 300 ] ],
+      [ [ "sheet_kevlar_layered", 24 ] ]
+    ]
+  },
+  {
+    "result": "lsurvivor_suit",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "rag", 30 ] ],
+      [ [ "duct_tape", 200 ] ],
+      [ [ "sheet_kevlar_layered", 24 ] ]
+    ]
+  },
+  {
+    "result": "survivor_suit",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "components": [
+      [ [ "rag", 20 ] ],
+      [ [ "leather", 20 ] ],
+      [ [ "duct_tape", 300 ] ],
+      [ [ "sheet_kevlar_layered", 24 ] ]
+    ]
+  },
+  {
+    "result": "wsurvivor_suit",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "components": [
+      [ [ "rag", 10 ] ],
+      [ [ "leather", 30 ] ],
+      [ [ "duct_tape", 300 ] ],
+      [ [ "sheet_kevlar_layered", 24 ] ]
+    ]
+  },
+  {
+    "result": "fsurvivor_suit",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "rag", 4 ] ],
+      [ [ "nomex", 40 ] ],
+      [ [ "duct_tape", 200 ] ],
+      [ [ "sheet_kevlar_layered", 24 ] ]
+	]
+  },
+  {
+    "result": "xl_lsurvivor_suit",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "rag", 45 ] ],
+      [ [ "duct_tape", 300 ] ],
+      [ [ "sheet_kevlar_layered", 48 ] ]
+    ]
+  },
+  {
+    "result": "xl_lsurvivor_suit",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "rag", 45 ] ],
+      [ [ "duct_tape", 300 ] ],
+      [ [ "sheet_kevlar_layered", 48 ] ]
+    ]
+  },
+  {
+    "result": "xl_entry_suit",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "nomex", 60 ] ],
+      [ [ "sheet_kevlar_layered", 60 ] ],
+      [ [ "duct_tape", 300 ] ]
+    ]
+  },
+  {
+    "result": "xl_fsurvivor_suit",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "rag", 8 ] ],
+      [ [ "nomex", 60 ] ],
+      [ [ "duct_tape", 300 ] ],
+      [ [ "sheet_kevlar_layered", 48 ] ]
+    ]
+  },
+  {
+    "result": "duster_survivor",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "coat_rain", 1 ] ],
+      [ [ "leather", 24 ] ],
+      [ [ "sheet_kevlar_layered", 16 ] ],
+      [ [ "rag", 19 ] ],
+      [ [ "duct_tape", 135 ] ]
+    ]
+  },
+  {
+    "result": "xl_duster_survivor",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "coat_rain", 2 ] ],
+      [ [ "leather", 20 ] ],
+      [ [ "sheet_kevlar_layered", 32 ] ],
+      [ [ "rag", 26 ] ],
+      [ [ "duct_tape", 200 ] ]
+    ]
+  },
+  {
+    "result": "sleeveless_duster_survivor",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "coat_rain", 1 ] ],
+      [ [ "leather", 24 ] ],
+      [ [ "sheet_kevlar_layered", 16 ] ],
+      [ [ "rag", 19 ] ],
+      [ [ "duct_tape", 135 ] ]
+    ]
+  },
+  {
+    "result": "trenchcoat_survivor",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "coat_rain", 1 ] ],
+      [ [ "leather", 20 ] ],
+      [ [ "sheet_kevlar_layered", 10 ] ],
+      [ [ "rag", 11 ] ],
+      [ [ "duct_tape", 85 ] ]
+    ]
+  },
+  {
+    "result": "sleeveless_trenchcoat_survivor",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "coat_rain", 1 ] ],
+      [ [ "leather", 20 ] ],
+      [ [ "sheet_kevlar_layered", 10 ] ],
+      [ [ "rag", 11 ] ],
+      [ [ "duct_tape", 85 ] ]
+    ]
+  },
+  {
+    "result": "xl_wsurvivor_suit",
+    "type": "uncraft",
+    "activity_level": "LIGHT_EXERCISE",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "10 m",
+    "qualities": [ { "id": "LEATHER_AWL", "level": 1 } ],
+    "components": [
+      [ [ "rag", 20 ] ],
+      [ [ "leather", 30 ] ],
+      [ [ "tanned_pelt", 6 ] ],
+      [ [ "duct_tape", 400 ] ],
+      [ [ "sheet_kevlar_layered", 48 ] ]
+    ]
+  }
 ]
