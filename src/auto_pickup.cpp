@@ -475,12 +475,8 @@ void user_interface::show()
         } else if( action == "REMOVE_RULE" && currentPageNonEmpty ) {
             bStuffChanged = true;
             cur_rules.erase( cur_rules.begin() + iLine );
-            if( iLine > recmax - 1 ) {
-                iLine--;
-            }
-            if( iLine < 0 ) {
-                iLine = 0;
-            }
+            // after erase, recmax - 2 is the last valid index
+            iLine = std::clamp( iLine, 0, recmax - 2 );
         } else if( action == "COPY_RULE" && currentPageNonEmpty ) {
             bStuffChanged = true;
             cur_rules.push_back( cur_rules[iLine] );
