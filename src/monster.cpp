@@ -228,8 +228,7 @@ void monster::on_move( const tripoint_abs_ms &old_pos )
     if( old_pos == get_location() ) {
         return;
     }
-    const tripoint old_p = get_map().getlocal( old_pos.raw() );
-    g->update_zombie_pos( *this, old_p, pos() );
+    g->update_zombie_pos( *this, old_pos, get_location() );
     if( has_effect( effect_ridden ) && mounted_player &&
         mounted_player->get_location() != get_location() ) {
         add_msg_debug( debugmode::DF_MONSTER, "Ridden monster %s moved independently and dumped player",
@@ -489,6 +488,12 @@ void monster::try_biosignature()
 void monster::spawn( const tripoint &p )
 {
     set_pos_only( p );
+    unset_dest();
+}
+
+void monster::spawn( const tripoint_abs_ms &loc )
+{
+    set_location( loc );
     unset_dest();
 }
 

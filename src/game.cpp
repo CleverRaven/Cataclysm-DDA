@@ -803,7 +803,7 @@ bool game::start_game()
                         }
                     }
 
-                    auto mons = critter_tracker->find( pos );
+                    auto mons = critter_tracker->find( u.get_location() );
                     if( mons != nullptr ) {
                         critter_tracker->remove( *mons );
                     }
@@ -4364,7 +4364,7 @@ shared_ptr_fast<T> game::shared_from( const T &critter )
         return std::dynamic_pointer_cast<T>( u_shared_ptr );
     }
     if( critter.is_monster() ) {
-        if( const shared_ptr_fast<monster> mon_ptr = critter_tracker->find( critter.pos() ) ) {
+        if( const shared_ptr_fast<monster> mon_ptr = critter_tracker->find( critter.get_location() ) ) {
             if( static_cast<const Creature *>( mon_ptr.get() ) == static_cast<const Creature *>( &critter ) ) {
                 return std::dynamic_pointer_cast<T>( mon_ptr );
             }
@@ -4496,8 +4496,8 @@ size_t game::num_creatures() const
     return critter_tracker->size() + critter_tracker->active_npc.size() + 1;
 }
 
-bool game::update_zombie_pos( const monster &critter, const tripoint &old_pos,
-                              const tripoint &new_pos )
+bool game::update_zombie_pos( const monster &critter, const tripoint_abs_ms &old_pos,
+                              const tripoint_abs_ms &new_pos )
 {
     return critter_tracker->update_pos( critter, old_pos, new_pos );
 }
@@ -10494,7 +10494,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
                 remove_zombie( critter );
             }
         }
-        auto mons = critter_tracker->find( u.pos() );
+        auto mons = critter_tracker->find( u.get_location() );
         if( mons != nullptr ) {
             critter_tracker->remove( *mons );
         }
@@ -10601,7 +10601,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     if( u.is_mounted() ) {
         if( stored_mount ) {
             cata_assert( !here.has_zlevels() );
-            stored_mount->spawn( u.pos() );
+            stored_mount->spawn( u.get_location() );
             if( critter_tracker->add( stored_mount ) ) {
                 u.mounted_creature = stored_mount;
             }
@@ -11105,9 +11105,6 @@ void game::shift_monsters( const tripoint &shift )
         // anyway: it must be saved and removed.
         despawn_monster( critter );
     }
-    // The order in which zombies are shifted may cause zombies to briefly exist on
-    // the same square. This messes up the mon_at cache, so we need to rebuild it.
-    critter_tracker->rebuild_cache();
 }
 
 void game::perhaps_add_random_npc()

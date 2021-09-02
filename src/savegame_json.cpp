@@ -154,7 +154,7 @@ static void serialize( const weak_ptr_fast<monster> &obj, JsonOut &jsout )
     if( const auto monster_ptr = obj.lock() ) {
         jsout.start_object();
 
-        jsout.member( "monster_at", monster_ptr->pos() );
+        jsout.member( "monster_at", monster_ptr->get_location() );
         // TODO: if monsters/Creatures ever get unique ids,
         // create a differently named member, e.g.
         //     jsout.member("unique_id", monster_ptr->getID());
@@ -169,14 +169,14 @@ static void deserialize( weak_ptr_fast<monster> &obj, JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     data.allow_omitted_members();
-    tripoint temp_pos;
+    tripoint_abs_ms temp_pos;
 
     obj.reset();
     if( data.read( "monster_at", temp_pos ) ) {
         const auto monp = g->critter_tracker->find( temp_pos );
 
         if( monp == nullptr ) {
-            debugmsg( "no monster found at %d,%d,%d", temp_pos.x, temp_pos.y, temp_pos.z );
+            debugmsg( "no monster found at %s", temp_pos.to_string_writable() );
             return;
         }
 
