@@ -32,6 +32,7 @@
     "book_learn": [ [ "textbook_armschina", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
+    "tools": [ [ [ "casting_mold",-1 ] ] ],
     "components": [
       [
         [ "rag", 1 ],
@@ -69,6 +70,7 @@
     "book_learn": [ [ "textbook_weapwest", 4 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
+    "tools": [ [ [ "casting_mold",-1 ] ] ],
     "components": [
       [
         [ "rag", 1 ],
@@ -94,6 +96,7 @@
     "book_learn": [ [ "textbook_weapwest", 5 ] ],
     "proficiencies": [ { "proficiency": "prof_metalworking" }, { "proficiency": "prof_redsmithing" } ],
     "using": [ [ "forging_standard", 2 ], [ "bronzesmithing_tools", 1 ] ],
+    "tools": [ [ [ "casting_mold",-1 ] ] ],
     "components": [
       [
         [ "rag", 1 ],
