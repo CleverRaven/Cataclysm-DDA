@@ -417,27 +417,29 @@ struct overmap_special_spawns : public overmap_spawns {
     }
 };
 
-struct overmap_special_terrain {
-    overmap_special_terrain() = default;
+// This is the information needed to know whether you can place a particular
+// piece of an overmap_special at a particular location
+struct overmap_special_locations {
     tripoint p;
-    oter_str_id terrain;
-    std::set<std::string> flags;
     cata::flat_set<string_id<overmap_location>> locations;
-
-    template<typename Value = JsonValue, std::enable_if_t<std::is_same<std::decay_t<Value>, JsonValue>::value>* = nullptr>
-    void deserialize( const Value &jsin ) {
-        auto om = jsin.get_object();
-        om.read( "point", p );
-        om.read( "overmap", terrain );
-        om.read( "flags", flags );
-        om.read( "locations", locations );
-    }
 
     /**
      * Returns whether this terrain of the special can be placed on the specified terrain.
      * It's true if oter meets any of locations.
      */
     bool can_be_placed_on( const oter_id &oter ) const;
+    void deserialize( JsonIn &jsin );
+};
+
+struct overmap_special_terrain : overmap_special_locations {
+    overmap_special_terrain() = default;
+    overmap_special_terrain( const tripoint &, const oter_str_id &,
+                             const cata::flat_set<string_id<overmap_location>> &,
+                             const std::set<std::string> & );
+    oter_str_id terrain;
+    std::set<std::string> flags;
+
+    void deserialize( JsonIn &jsin );
 };
 
 struct overmap_special_connection {
@@ -511,7 +513,7 @@ class overmap_special
         bool has_flag( const std::string & ) const;
         int longest_side() const;
         std::vector<overmap_special_terrain> preview_terrains() const;
-        std::vector<overmap_special_terrain> required_terrains() const;
+        std::vector<overmap_special_locations> required_locations() const;
         const fixed_overmap_special_data &get_fixed_data() const;
         const mutable_overmap_special_data &get_mutable_data() const;
         const overmap_special_spawns &get_monster_spawns() const {

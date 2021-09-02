@@ -867,10 +867,39 @@ static bool is_amongst_locations( const oter_id &oter,
     } );
 }
 
-bool overmap_special_terrain::can_be_placed_on( const oter_id &oter ) const
+bool overmap_special_locations::can_be_placed_on( const oter_id &oter ) const
 {
     return is_amongst_locations( oter, locations );
 }
+
+void overmap_special_locations::deserialize( JsonIn &jsin )
+{
+    JsonArray ja = jsin.get_array();
+
+    if( ja.size() != 2 ) {
+        ja.throw_error( "expected array of size 2" );
+    }
+
+    ja.read( 0, p, true );
+    ja.read( 1, locations, true );
+}
+
+void overmap_special_terrain::deserialize( JsonIn &jsin )
+{
+    auto om = jsin.get_object();
+    om.read( "point", p );
+    om.read( "overmap", terrain );
+    om.read( "flags", flags );
+    om.read( "locations", locations );
+}
+
+overmap_special_terrain::overmap_special_terrain(
+    const tripoint &p, const oter_str_id &t, const cata::flat_set<string_id<overmap_location>> &l,
+    const std::set<std::string> &fs )
+    : overmap_special_locations{ p, l }
+    , terrain( t )
+    , flags( fs )
+{}
 
 // We have other direction enums, but for this purpose we need to have one for
 // the six rectilinear directions.  These correspond to the faces of a cube, so
@@ -1000,7 +1029,7 @@ std::string enum_to_string<cube_direction>( cube_direction data )
 struct mutable_overmap_connection {
     std::string id;
     unsigned priority;
-    cata::flat_set<string_id<overmap_location>> into_locations;
+    cata::flat_set<string_id<overmap_location>> locations;
 
     void deserialize( JsonIn &jin ) {
         if( jin.test_string() ) {
@@ -1008,7 +1037,7 @@ struct mutable_overmap_connection {
         } else {
             JsonObject jo = jin.get_object();
             jo.read( "id", id, true );
-            jo.read( "into_locations", into_locations, true );
+            jo.read( "locations", locations, true );
         }
     }
 };
@@ -1133,7 +1162,7 @@ struct mutable_overmap_phase {
                         tripoint_om_omt neighbour = pos + displace( rotated_dir );
                         const oter_id &neighbour_terrain = om.ter( neighbour );
                         if( !om.inbounds( neighbour ) ||
-                            !is_amongst_locations( neighbour_terrain, conn.into_locations ) ) {
+                            !is_amongst_locations( neighbour_terrain, conn.locations ) ) {
                             satisfied = false;
                             break;
                         }
@@ -1400,6 +1429,7 @@ class connections_tracker
 
 struct mutable_overmap_special_data {
     overmap_special_id parent_id;
+    std::vector<overmap_special_locations> check_for_locations;
     std::vector<mutable_overmap_connection> connections_vec;
     std::unordered_map<std::string, mutable_overmap_connection *> connections;
     std::unordered_map<std::string, mutable_overmap_terrain> overmaps;
@@ -1411,6 +1441,9 @@ struct mutable_overmap_special_data {
     {}
 
     void finalize( const cata::flat_set<string_id<overmap_location>> &default_locations ) {
+        if( check_for_locations.empty() ) {
+            check_for_locations.push_back( root_as_overmap_special_terrain() );
+        }
         for( std::pair<const std::string, mutable_overmap_terrain> &p : overmaps ) {
             mutable_overmap_terrain &ter = p.second;
             if( ter.locations.empty() ) {
@@ -1419,8 +1452,8 @@ struct mutable_overmap_special_data {
         }
         for( size_t i = 0; i != connections_vec.size(); ++i ) {
             mutable_overmap_connection &conn = connections_vec[i];
-            if( conn.into_locations.empty() ) {
-                conn.into_locations = default_locations;
+            if( conn.locations.empty() ) {
+                conn.locations = default_locations;
             }
             conn.priority = i;
             connections.emplace( conn.id, &conn );
@@ -1472,7 +1505,7 @@ struct mutable_overmap_special_data {
             return {};
         }
         const mutable_overmap_terrain &root_om = it->second;
-        return { tripoint_zero, root_om.terrain, {}, root_om.locations };
+        return { tripoint_zero, root_om.terrain, root_om.locations, {} };
     }
 
     std::vector<tripoint_om_omt> place( overmap &om, const tripoint_om_omt &p ) const {
@@ -1645,15 +1678,17 @@ std::vector<overmap_special_terrain> overmap_special::preview_terrains() const
     return result;
 }
 
-std::vector<overmap_special_terrain> overmap_special::required_terrains() const
+std::vector<overmap_special_locations> overmap_special::required_locations() const
 {
     switch( subtype_ ) {
-        case overmap_special_subtype::fixed:
-            return fixed_data_.terrains;
-        case overmap_special_subtype::mutable_: {
-            std::vector<overmap_special_terrain> result;
-            result.push_back( mutable_data_->root_as_overmap_special_terrain() );
+        case overmap_special_subtype::fixed: {
+            std::vector<overmap_special_locations> result;
+            std::copy( fixed_data_.terrains.begin(), fixed_data_.terrains.end(),
+                       std::back_inserter( result ) );
             return result;
+        }
+        case overmap_special_subtype::mutable_: {
+            return mutable_data_->check_for_locations;
         }
         case overmap_special_subtype::last:
             break;
@@ -1705,6 +1740,7 @@ void overmap_special::load( const JsonObject &jo, const std::string &src )
         case overmap_special_subtype::mutable_: {
             shared_ptr_fast<mutable_overmap_special_data> mutable_data =
                 make_shared_fast<mutable_overmap_special_data>( id );
+            optional( jo, was_loaded, "check_for_locations", mutable_data->check_for_locations );
             mandatory( jo, was_loaded, "connections", mutable_data->connections_vec );
             mandatory( jo, was_loaded, "overmaps", mutable_data->overmaps );
             mandatory( jo, was_loaded, "root", mutable_data->root );
@@ -4984,7 +5020,12 @@ om_direction::type overmap::random_special_rotation( const overmap_special &spec
 
     if( special.get_subtype() == overmap_special_subtype::mutable_ ) {
         // TODO: worry about connections for mutable specials
-        last = first + 1;
+        // For now we just allow all rotations, but will be restricted by
+        // can_place_special call below
+        for( om_direction::type r : om_direction::all ) {
+            *last = r;
+            ++last;
+        }
     } else {
         int top_score = 0; // Maximal number of existing connections (roads).
         // Try to find the most suitable rotation: satisfy as many connections
@@ -5041,10 +5082,10 @@ bool overmap::can_place_special( const overmap_special &special, const tripoint_
         return false;
     }
 
-    const std::vector<overmap_special_terrain> fixed_terrains = special.required_terrains();
+    const std::vector<overmap_special_locations> fixed_terrains = special.required_locations();
 
     return std::all_of( fixed_terrains.begin(), fixed_terrains.end(),
-    [&]( const overmap_special_terrain & elem ) {
+    [&]( const overmap_special_locations & elem ) {
         const tripoint_om_omt rp = p + om_direction::rotate( elem.p, dir );
 
         if( !inbounds( rp, 1 ) ) {
