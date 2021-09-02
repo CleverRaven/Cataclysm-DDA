@@ -1525,7 +1525,7 @@
     "points": 1,
     "description": "Man's oldest and most well known friends are all Lupines.  Somehow you've mutated something that reminds other survivors of your more domestic relatives.  A softer edge around the eyes, maybe.",
     "valid": false,
-    "prereqs": [ "LIGHTFUR",  ],
+    "prereqs": [ "LIGHTFUR"  ],
     "cancels": [ "BIRD_EYE", "LIZ_EYE", "FEL_EYE", "URSINE_EYE", "COMPOUND_EYES" ],
     "category": [ "LUPINE" ],
     "social_modifiers": { "lie": -5, "persuade": 5, "intimidate": -5 }
