@@ -886,7 +886,7 @@ void overmap_special_locations::deserialize( JsonIn &jsin )
 
 void overmap_special_terrain::deserialize( JsonIn &jsin )
 {
-    auto om = jsin.get_object();
+    JsonObject om = jsin.get_object();
     om.read( "point", p );
     om.read( "overmap", terrain );
     om.read( "flags", flags );
@@ -919,7 +919,7 @@ struct enum_traits<cube_direction> {
     static constexpr cube_direction last = cube_direction::last;
 };
 
-constexpr cube_direction operator-( const cube_direction d, int i )
+static constexpr cube_direction operator-( const cube_direction d, int i )
 {
     switch( d ) {
         case cube_direction::north:
@@ -937,7 +937,7 @@ constexpr cube_direction operator-( const cube_direction d, int i )
     abort();
 }
 
-constexpr cube_direction operator+( const cube_direction l, const om_direction::type r )
+static constexpr cube_direction operator+( const cube_direction l, const om_direction::type r )
 {
     switch( l ) {
         case cube_direction::north:
@@ -1028,7 +1028,7 @@ std::string enum_to_string<cube_direction>( cube_direction data )
 
 struct mutable_overmap_join {
     std::string id;
-    unsigned priority;
+    unsigned priority; // NOLINT(cata-serialize)
     cata::flat_set<string_id<overmap_location>> into_locations;
 
     void deserialize( JsonIn &jin ) {
@@ -1080,7 +1080,7 @@ struct mutable_overmap_placement_rule {
         jo.read( "max", max );
         jo.read( "weight", weight );
         if( max == INT_MAX && weight == INT_MAX ) {
-            jo.throw_error( "placement rule must specify at least one of \"max\" or \"weight\"" );
+            jo.throw_error( R"(placement rule must specify at least one of "max" or "weight")" );
         }
     }
 };
@@ -1150,7 +1150,7 @@ struct mutable_overmap_phase {
                     // Verify that the remaining joins lead to
                     // suitable locations
                     bool satisfied = true;
-                    for( const std::pair<cube_direction, std::string> &p : *remaining ) {
+                    for( const std::pair<const cube_direction, std::string> &p : *remaining ) {
                         cube_direction rotated_dir = p.first + dir;
                         const std::string &join_id = p.second;
                         auto join_it = joins.find( join_id );
@@ -1160,7 +1160,7 @@ struct mutable_overmap_phase {
                         }
                         const mutable_overmap_join &join = *join_it->second;
                         tripoint_om_omt neighbour = pos + displace( rotated_dir );
-                        if( !om.inbounds( neighbour ) ) {
+                        if( !overmap::inbounds( neighbour ) ) {
                             satisfied = false;
                             break;
                         }
@@ -1287,7 +1287,7 @@ struct hash<pos_dir> {
 class joins_tracker
 {
     public:
-        joins_tracker(
+        explicit joins_tracker(
             const std::unordered_map<std::string, mutable_overmap_join *> &jns )
             : joins( &jns ) {
         }
@@ -1439,7 +1439,7 @@ struct mutable_overmap_special_data {
     std::string root;
     std::vector<mutable_overmap_phase> phases;
 
-    mutable_overmap_special_data( const overmap_special_id &p_id )
+    explicit mutable_overmap_special_data( const overmap_special_id &p_id )
         : parent_id( p_id )
     {}
 
@@ -1599,11 +1599,7 @@ bool overmap_special::can_spawn() const
     }
 
     const int city_size = get_option<int>( "CITY_SIZE" );
-    if( city_size == 0 && get_constraints().city_size.min > city_size ) {
-        return false;
-    }
-
-    return true;
+    return city_size != 0 || get_constraints().city_size.min <= city_size;
 }
 
 const overmap_special_terrain &overmap_special::get_terrain_at( const tripoint &p ) const

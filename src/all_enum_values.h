@@ -11,7 +11,7 @@ constexpr size_t num_enum_values()
 }
 
 template<typename E, size_t... I>
-const auto all_enum_values_helper( std::index_sequence<I...> ) ->
+auto all_enum_values_helper( std::index_sequence<I...> ) ->
 const std::array<E, num_enum_values<E>()> &
 {
     static constexpr std::array<E, num_enum_values<E>()> result{ static_cast<E>( I )... };
@@ -19,7 +19,7 @@ const std::array<E, num_enum_values<E>()> &
 }
 
 template<typename E>
-const auto all_enum_values() -> const std::array<E, num_enum_values<E>()> &
+auto all_enum_values() -> const std::array<E, num_enum_values<E>()> &
 {
     return all_enum_values_helper<E>( std::make_index_sequence<num_enum_values<E>()> {} );
 }
