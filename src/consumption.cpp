@@ -1590,7 +1590,8 @@ bool Character::can_estimate_rot() const
 bool Character::can_consume_as_is( const item &it ) const
 {
     if( it.is_comestible() ) {
-        return !( it.has_flag( flag_FROZEN ) && !it.has_flag( flag_EDIBLE_FROZEN ) );
+        return !it.has_flag( flag_FROZEN ) || it.has_flag( flag_EDIBLE_FROZEN ) ||
+               it.has_flag( flag_MELTS );
     }
     return can_fuel_bionic_with( it );
 }
