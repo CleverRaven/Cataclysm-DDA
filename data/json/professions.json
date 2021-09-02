@@ -1622,6 +1622,42 @@
   },
   {
     "type": "profession",
+    "id": "cop_motor",
+    "name": "Motorized Police Officer",
+    "description": "Just a small-town deputy, you got the call and were ready to come to the rescue.  Soon it was you who needed rescuing, and you were lucky to escape with your life.  Who's going to respect your authority when the government this badge represents doesn't exist anymore?",
+    "points": 2,
+    "skills": [ { "level": 3, "name": "gun" }, { "level": 3, "name": "pistol" } ],
+    "traits": [ "PROF_POLICE" ],
+    "proficiencies": [ "prof_spotting" ],
+    "items": {
+      "both": {
+        "items": [
+          "socks",
+          "police_breeches",
+          "badge_deputy",
+          "sheriffshirt",
+          "undershirt",
+          "police_belt",
+          "motor_police_boots",
+          "whistle",
+          "wristwatch",
+          "leather_police_jacket"
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" },
+          { "group": "charged_two_way_radio" },
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "gloves_leather", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
+          { "item": "legpouch_large", "contents-group": "army_mags_usp45" }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
     "id": "salesman",
     "name": "Used Car Salesman",
     "description": "They said you'd sell your own mother for a dollar.  How dare they!  You've been around the block a few times, and you'd charge way more than a dollar - and get it, too!",
@@ -1762,7 +1798,7 @@
     "description": "You once ruled the road in your big rig.  When the riots hit, you hopped in and drove it to safety.  Now it's just you and your truck against the world.",
     "points": 5,
     "skills": [ { "level": 1, "name": "mechanics" }, { "level": 4, "name": "driving" } ],
-    "vehicle": "semi_truck",
+    "vehicle": "semi_truck_scenario",
     "items": {
       "both": {
         "items": [ "tank_top", "socks", "boots_steel", "pants", "multitool", "wristwatch", "gloves_work", "hat_ball" ],
@@ -2536,7 +2572,7 @@
           "knit_scarf",
           "wristwatch",
           "briefcase",
-          "money_bundle",
+          "money_strap_fifty",
           "file"
         ],
         "entries": [ { "group": "charged_smart_phone" } ]
@@ -2730,7 +2766,7 @@
           "sneakers",
           "pizza_veggy",
           "pizza_meat",
-          "money_bundle",
+          "money_strap_one",
           "wristwatch",
           "mbag"
         ],
@@ -3358,7 +3394,7 @@
           { "group": "charged_matches" },
           { "group": "full_gasmask" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "jackhammer", "charges": 400 },
+          { "item": "jackhammer", "charges": 0 },
           { "item": "light_minus_disposable_cell", "charges": 100 },
           { "item": "light_minus_disposable_cell", "charges": 100, "container-item": "miner_hat" }
         ]
@@ -3689,7 +3725,7 @@
     "vehicle": "car_sports",
     "items": {
       "both": {
-        "items": [ "gold_watch", "water_mineral", "money_bundle", "cig" ],
+        "items": [ "gold_watch", "water_mineral", "money_strap_twenty", "cig" ],
         "entries": [ { "group": "charged_ref_lighter" }, { "group": "charged_smart_phone" } ]
       },
       "male": [ "boxer_shorts", "pants", "dress_shoes", "polo_shirt", "socks" ],

@@ -50,6 +50,15 @@ Mission is based on the enum in npc.h.  The important ones are 0=NPC_MISSION_NUL
 Chat is covered in the dialogue examples below.
 Faction determines what faction, if any, the NPC belongs to.  Some examples are the Free Traders, Old Guard, Marloss Evangelists, and Hell's raiders but could include a brand new faction you create!
 
+# Age and Height
+You can define the age and height of the NPC in the `age` or `height` fields in `"type": "npc"`. 
+
+Field | Description
+---|---
+`age` | NPC age 
+`height` | NPC height (cm)
+
+
 # Writing dialogues
 Dialogues work like state machines. They start with a certain topic (the NPC says something), the player character can then respond (choosing one of several responses), and that response sets the new talk topic. This goes on until the dialogue is finished, or the NPC turns hostile.
 
@@ -62,6 +71,22 @@ Two topics are special:
 - `TALK_DONE` ends the dialogue immediately.
 - `TALK_NONE` goes to the previously talked about topic.
 
+If `npc` has the follows fields, the game will display a dialogue with the indicated topic instead of default topic. 
+
+Field | Default topic ID  | Uses for...
+---|---|---
+`talk_friend` | `TALK_FRIEND` | Talk to a follower NPC
+`talk_radio` | `TALK_RADIO` | Talk to a follower NPC with two way radios
+`talk_leader` | `TALK_LEADER` | Talk to an NPC that have 5=NPCATT_LEAD
+`talk_stole_item` | `TALK_STOLE_ITEM` | Talk to an NPC that have 18=NPCATT_RECOVER_GOODS
+`talk_wake_up` | `TALK_WAKE_UP` | Talk to a sleeping NPC
+`talk_friend_guard` | `TALK_FRIEND_GUARD` | Faction camp guard
+`talk_mug` | `TALK_MUG` | see "success and failure" section
+`talk_stranger_aggressive` | `TALK_STRANGER_AGGRESSIVE` | see "success and failure" section
+`talk_stranger_scared` | `TALK_STRANGER_SCARED` | see "success and failure" section
+`talk_stranger_wary` | `TALK_STRANGER_WARY` | see "success and failure" section
+`talk_stranger_friendly` | `TALK_STRANGER_FRIENDLY` | see "success and failure" section
+`talk_stranger_neutral` | `TALK_STRANGER_NEUTRAL` | see "success and failure" section
 
 ### Validating Dialogues
 Keeping track of talk topics and making sure that all the topics referenced in responses are
@@ -668,7 +693,7 @@ Condition | Type | Description
 `"u_has_items"`<br/>`"npc_has_item"` | dictionary | `u_has_items` or `npc_has_items` must be a dictionary with an `item` string and a `count` int.<br/>`true` if the player character or NPC has at least `count` charges or counts of `item` in their inventory.
 `"u_has_item_category"`<br/>`"npc_has_item_category"` | string | `"count": item_count` is an optional field that must be in the same dictionary and defaults to 1 if not specified.  `true` if the player or NPC has `item_count` items with the same category as `u_has_item_category` or `npc_has_item_category`.
 `"u_has_bionics"`<br/>`"npc_has_bionics"` | string | `true` if the player or NPC has an installed bionic with an `bionic_id` matching `"u_has_bionics"` or `"npc_has_bionics"`.  The special string "ANY" returns true if the player or NPC has any installed bionics.
-`"u_has_effect"`<br/>`"npc_has_effect"` | string | `true` if the player character or NPC is under the effect with `u_has_effect` or `npc_has_effect`'s `effect_id`.
+`"u_has_effect"`<br/>`"npc_has_effect"`, (*optional* `intensity : int`),(*optional* `bodypart : string`) | string | `true` if the player character or NPC is under the effect with `u_has_effect` or `npc_has_effect`'s `effect_id`. If `intensity` is specified it will need to be at least that strong.  If `bodypart` is specified it will check only that bodypart for the effect.
 `"u_can_stow_weapon"`<br/>`"npc_can_stow_weapon"` | simple string | `true` if the player character or NPC is wielding a weapon and has enough space to put it away.
 `"u_has_weapon"`<br/>`"npc_has_weapon"` | simple string | `true` if the player character or NPC is wielding a weapon.
 `"u_driving"`<br/>`"npc_driving"` | simple string | `true` if the player character or NPC is operating a vehicle.  <b>Note</b> NPCs cannot currently operate vehicles.
@@ -748,6 +773,58 @@ Condition | Type | Description
 `"is_humidity"` | int or variable_object | `true` if current humidity is at least `"is_humidity"`( or the value of the variable described see `variable_object` above).
 `"is_pressure"` | int or variable_object | `true` if current pressure is at least `"is_pressure"`( or the value of the variable described see `variable_object` above).
 `"is_weather"` | int or variable_object | `true` if current weather is `"is_weather"`.
+
+
+#### Compare itergers & arithmetics
+`"compare_int"` can be used to compare two values to each other, while `"arithmetic"` can be used to take up to two values, perform arithmetic on them, and then save them in a third value. The syntax is as follows.
+```
+{
+  "text": "If player strength is more than or equal to 5, sets time since cataclysm to the player's focus times the player's maximum mana.",
+  "topic": "TALK_DONE",
+  "condition": { "compare_int": [ { "u_val": "strength" }, { "const": 5 } ], "op": ">=" }
+  "effect": { "arithmetic": [ { "time_since_cataclysm": "turns" }, { "u_val": "focus" }, { "u_val": "mana_max" } ], "op": "*" }
+},
+```
+
+`"compare_int"` supports the following opperators: `"=="`, `"="` (Both are treated the same, as a compare), `"!="`, `"<="`, `">="`, `"<"`, and `">"`.
+
+`"arithmetic"` supports the following opperators: `"*"`, `"/"`, `"+"`, `"-"`, `"%"`, `"&"`, `"|"`, `"<<"`, `">>"`, `"~"`, `"^"`, `"="`, `"*="`, `"/="`, `"+="`, `"-="`, `"%="`, `"++"`, and `"--"`
+
+To get player character properties, use `"u_val"`. To get NPC properties, use same syntax but `"npc_val"` instead. A list of values that can be read and/or witen to follows.
+
+Example | Description
+--- | ---
+`"const": 5` | A constant value, in this case 5. Can be read but not written to.
+`"time": "5 days"` | A constant time value. Will be converted to turns. Can be read but not written to.
+`"time_since_cataclysm": "turns"` | Time since the start of the cataclysm in turns. Can instead take other time units such as minutes, hours, days, weeks, seasons, and years.
+`"rand": 20` | A random value between 0 and a given value, in this case 20. Can be read but not written to.
+`"weather": "temperature"` | Current temperature.
+`"weather": "windpower"` | Current windpower.
+`"weather": "humidity"` | Current humidity.
+`"weather": "pressure"` | Current pressure.
+`"u_val": "strength"` | Player character's strength. Can be read but not written to. Replace `"strength"` with `"dexterity"`, `"intelligence"`, or `"perception"` to get such values.
+`"u_val": "strength_base"` | Player character's strength. Replace `"strength_base"` with `"dexterity_base"`, `"intelligence_base"`, or `"perception_base"` to get such values.
+`"u_val": "var"` | Custom variable. `"var_name"`, `"type"`, and `"context"` must also be specified.
+`"u_val": "time_since_var"` | Time since a custom variable was set.  Unit used it turns. `"var_name"`, `"type"`, and `"context"` must also be specified.
+`"u_val": "allies"` | Number of allies the character has. Only supported for the player character. Can be read but not written to.
+`"u_val": "cash"` | Ammount of money the character has. Only supported for the player character. Can be read but not written to.
+`"u_val": "owed"` | Owed money to the NPC you're talking to.
+`"u_val": "skill_level"` | Level in given skill. `"skill"` must also be specified.
+`"u_val": "pos_x"` | Player character x coordinate. "pos_y" and "pos_z" also works as expected.
+`"u_val": "pain"` | Pain level.
+`"u_val": "power"` | Bionic power in milijoule.
+`"u_val": "power_max"` | Max bionic power in milijoule. Can be read but not written to.
+`"u_val": "power_percentage"` | Percentage of max bionic power. Should be a number between 0 to 100.
+`"u_val": "morale"` | The current morale. Can be read but not written to.
+`"u_val": "mana"` | Current mana.
+`"u_val": "mana_max"` | Max mana. Can be read but not written to.
+`"u_val": "hunger"` | Current perceived hunger. Can be read but not written to.
+`"u_val": "thirst"` | Current thirst.
+`"u_val": "stored_kcal"` | Stored kcal in the character's body. 55'000 is considered healthy. 
+`"u_val": "stored_kcal_percentage"` | a value of 100 represents 55'000 kcal, which is considered healthy.
+`"u_val": "item_count"` | Number of a given item in the character's inventory. `"item"` must also be specified. Can be read but not written to.
+`"u_val": "exp"` | Total experience earned. Not supported for NPCs. Can be read but not written to.
+
 
 #### Sample responses with conditions and effects
 ```json

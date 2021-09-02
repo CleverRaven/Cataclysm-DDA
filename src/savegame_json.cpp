@@ -33,6 +33,7 @@
 
 #include "active_item_cache.h"
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "assign.h"
 #include "auto_pickup.h"
@@ -97,7 +98,6 @@
 #include "options.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "point.h"
 #include "profession.h"
@@ -335,13 +335,15 @@ void player_activity::deserialize( JsonIn &jsin )
     // this may cause inconvenience but should avoid any lasting damage to npcs
     if( is_obsolete || ( has_actor && ( data.has_null( "actor" ) || !data.has_member( "actor" ) ) ) ) {
         type = activity_id( "ACT_MIGRATION_CANCEL" );
+        actor = std::make_unique<migration_cancel_activity_actor>();
+    } else {
+        data.read( "actor", actor );
     }
 
     if( !data.read( "position", tmppos ) ) {
         tmppos = INT_MIN;  // If loading a save before position existed, hope.
     }
 
-    data.read( "actor", actor );
     data.read( "moves_total", moves_total );
     data.read( "moves_left", moves_left );
     data.read( "interruptable", interruptable );
@@ -411,6 +413,9 @@ void SkillLevel::deserialize( JsonIn &jsin )
     data.read( "exercise", _exercise );
     if( _level < 0 ) {
         _level = 0;
+        _exercise = 0;
+    }
+    if( _exercise < 0 ) {
         _exercise = 0;
     }
     data.read( "istraining", _isTraining );
@@ -578,6 +583,7 @@ void Character::load( const JsonObject &data )
     data.read( "int_bonus", int_bonus );
     data.read( "omt_path", omt_path );
 
+    data.read( "play_name", play_name );
     data.read( "base_age", init_age );
     data.read( "base_height", init_height );
     if( !data.read( "blood_type", my_blood_type ) ||
@@ -680,7 +686,7 @@ void Character::load( const JsonObject &data )
             it = my_traits.erase( it );
             add_proficiency( proficiency_id( "prof_parkour" ) );
         } else {
-            debugmsg( "character %s has invalid trait %s, it will be ignored", name, tid.c_str() );
+            debugmsg( "character %s has invalid trait %s, it will be ignored", get_name(), tid.c_str() );
             my_traits.erase( it++ );
         }
     }
@@ -698,7 +704,7 @@ void Character::load( const JsonObject &data )
             it = my_mutations.erase( it );
             add_proficiency( proficiency_id( "prof_parkour" ) );
         } else {
-            debugmsg( "character %s has invalid mutation %s, it will be ignored", name, mid.c_str() );
+            debugmsg( "character %s has invalid mutation %s, it will be ignored", get_name(), mid.c_str() );
             it = my_mutations.erase( it );
         }
     }
@@ -938,6 +944,84 @@ void Character::load( const JsonObject &data )
             return VisitResponse::NEXT;
         } );
     }
+
+    JsonArray parray;
+    character_id tmpid;
+
+    data.read( "slow_rad", slow_rad );
+    data.read( "scent", scent );
+    data.read( "male", male );
+    data.read( "is_dead", is_dead );
+    data.read( "cash", cash );
+    data.read( "recoil", recoil );
+    data.read( "in_vehicle", in_vehicle );
+    data.read( "last_sleep_check", last_sleep_check );
+    if( data.read( "id", tmpid ) && tmpid.is_valid() ) {
+        // Templates have invalid ids, so we only assign here when valid.
+        // When the game starts, a new valid id will be assigned if not already
+        // present.
+        setID( tmpid );
+    }
+
+    data.read( "addictions", addictions );
+    data.read( "followers", follower_ids );
+
+    // Add the earplugs.
+    if( has_bionic( bionic_id( "bio_ears" ) ) && !has_bionic( bionic_id( "bio_earplugs" ) ) ) {
+        add_bionic( bionic_id( "bio_earplugs" ) );
+    }
+
+    // Add the blindfold.
+    if( has_bionic( bionic_id( "bio_sunglasses" ) ) && !has_bionic( bionic_id( "bio_blindfold" ) ) ) {
+        add_bionic( bionic_id( "bio_blindfold" ) );
+    }
+
+    // Fixes bugged characters for CBM's preventing mutations.
+    for( const bionic_id &bid : get_bionics() ) {
+        for( const trait_id &mid : bid->canceled_mutations ) {
+            if( has_trait( mid ) ) {
+                remove_mutation( mid );
+            }
+        }
+    }
+
+    if( data.has_array( "faction_warnings" ) ) {
+        for( JsonObject warning_data : data.get_array( "faction_warnings" ) ) {
+            warning_data.allow_omitted_members();
+            std::string fac_id = warning_data.get_string( "fac_warning_id" );
+            int warning_num = warning_data.get_int( "fac_warning_num" );
+            time_point warning_time = calendar::before_time_starts;
+            warning_data.read( "fac_warning_time", warning_time );
+            warning_record[faction_id( fac_id )] = std::make_pair( warning_num, warning_time );
+        }
+    }
+
+    int tmptar;
+    int tmptartyp = 0;
+
+    data.read( "last_target", tmptar );
+    data.read( "last_target_type", tmptartyp );
+    data.read( "last_target_pos", last_target_pos );
+    data.read( "ammo_location", ammo_location );
+    // Fixes savefile with invalid last_target_pos.
+    if( last_target_pos && *last_target_pos == tripoint_min ) {
+        last_target_pos = cata::nullopt;
+    }
+    if( tmptartyp == +1 ) {
+        // Use overmap_buffer because game::active_npc is not filled yet.
+        last_target = overmap_buffer.find_npc( character_id( tmptar ) );
+    } else if( tmptartyp == -1 ) {
+        // Need to do this *after* the monsters have been loaded!
+        last_target = g->critter_tracker->from_temporary_id( tmptar );
+    }
+    data.read( "destination_point", destination_point );
+    camps.clear();
+    for( JsonObject bcdata : data.get_array( "camps" ) ) {
+        bcdata.allow_omitted_members();
+        tripoint_abs_omt bcpt;
+        bcdata.read( "pos", bcpt );
+        camps.insert( bcpt );
+    }
 }
 
 /**
@@ -961,6 +1045,8 @@ void Character::store( JsonOut &json ) const
     json.member( "dex_bonus", dex_bonus );
     json.member( "per_bonus", per_bonus );
     json.member( "int_bonus", int_bonus );
+
+    json.member( "play_name", play_name );
 
     json.member( "base_age", init_age );
     json.member( "base_height", init_height );
@@ -1070,17 +1156,7 @@ void Character::store( JsonOut &json ) const
         json.end_object();
     }
     json.end_array();
-}
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-///// player.h, avatar + npc
-
-/**
- * Gather variables for saving. These variables are common to both the avatar and npcs.
- */
-void player::store( JsonOut &json ) const
-{
-    Character::store( json );
 
     // energy
     json.member( "last_sleep_check", last_sleep_check );
@@ -1114,7 +1190,7 @@ void player::store( JsonOut &json ) const
             json.member( "last_target", guy->getID() );
             json.member( "last_target_type", +1 );
         } else if( const monster *const mon = dynamic_cast<const monster *>( lt_ptr.get() ) ) {
-            // monsters don't have IDs, so get its index in the Creature_tracker instead
+            // monsters don't have IDs, so get its index in the creature_tracker instead
             json.member( "last_target", g->critter_tracker->temporary_id( *mon ) );
             json.member( "last_target_type", -1 );
         }
@@ -1150,92 +1226,6 @@ void player::store( JsonOut &json ) const
     json.end_array();
 }
 
-/**
- * Load variables from json into object. These variables are common to both the avatar and NPCs.
- */
-void player::load( const JsonObject &data )
-{
-    Character::load( data );
-
-    JsonArray parray;
-    character_id tmpid;
-
-    data.read( "slow_rad", slow_rad );
-    data.read( "scent", scent );
-    data.read( "male", male );
-    data.read( "is_dead", is_dead );
-    data.read( "cash", cash );
-    data.read( "recoil", recoil );
-    data.read( "in_vehicle", in_vehicle );
-    data.read( "last_sleep_check", last_sleep_check );
-    if( data.read( "id", tmpid ) && tmpid.is_valid() ) {
-        // Templates have invalid ids, so we only assign here when valid.
-        // When the game starts, a new valid id will be assigned if not already
-        // present.
-        setID( tmpid );
-    }
-
-    data.read( "addictions", addictions );
-    data.read( "followers", follower_ids );
-
-    // Add the earplugs.
-    if( has_bionic( bionic_id( "bio_ears" ) ) && !has_bionic( bionic_id( "bio_earplugs" ) ) ) {
-        add_bionic( bionic_id( "bio_earplugs" ) );
-    }
-
-    // Add the blindfold.
-    if( has_bionic( bionic_id( "bio_sunglasses" ) ) && !has_bionic( bionic_id( "bio_blindfold" ) ) ) {
-        add_bionic( bionic_id( "bio_blindfold" ) );
-    }
-
-    // Fixes bugged characters for CBM's preventing mutations.
-    for( const bionic_id &bid : get_bionics() ) {
-        for( const trait_id &mid : bid->canceled_mutations ) {
-            if( has_trait( mid ) ) {
-                remove_mutation( mid );
-            }
-        }
-    }
-
-    if( data.has_array( "faction_warnings" ) ) {
-        for( JsonObject warning_data : data.get_array( "faction_warnings" ) ) {
-            warning_data.allow_omitted_members();
-            std::string fac_id = warning_data.get_string( "fac_warning_id" );
-            int warning_num = warning_data.get_int( "fac_warning_num" );
-            time_point warning_time = calendar::before_time_starts;
-            warning_data.read( "fac_warning_time", warning_time );
-            warning_record[faction_id( fac_id )] = std::make_pair( warning_num, warning_time );
-        }
-    }
-
-    int tmptar;
-    int tmptartyp = 0;
-
-    data.read( "last_target", tmptar );
-    data.read( "last_target_type", tmptartyp );
-    data.read( "last_target_pos", last_target_pos );
-    data.read( "ammo_location", ammo_location );
-    // Fixes savefile with invalid last_target_pos.
-    if( last_target_pos && *last_target_pos == tripoint_min ) {
-        last_target_pos = cata::nullopt;
-    }
-    if( tmptartyp == +1 ) {
-        // Use overmap_buffer because game::active_npc is not filled yet.
-        last_target = overmap_buffer.find_npc( character_id( tmptar ) );
-    } else if( tmptartyp == -1 ) {
-        // Need to do this *after* the monsters have been loaded!
-        last_target = g->critter_tracker->from_temporary_id( tmptar );
-    }
-    data.read( "destination_point", destination_point );
-    camps.clear();
-    for( JsonObject bcdata : data.get_array( "camps" ) ) {
-        bcdata.allow_omitted_members();
-        tripoint_abs_omt bcpt;
-        bcdata.read( "pos", bcpt );
-        camps.insert( bcpt );
-    }
-}
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// avatar.h
 
@@ -1250,7 +1240,7 @@ void avatar::serialize( JsonOut &json ) const
 
 void avatar::store( JsonOut &json ) const
 {
-    player::store( json );
+    Character::store( json );
 
     // player-specific specifics
     if( prof != nullptr ) {
@@ -1328,7 +1318,7 @@ void avatar::deserialize( JsonIn &jsin )
 
 void avatar::load( const JsonObject &data )
 {
-    player::load( data );
+    Character::load( data );
 
     // Remove after 0.F
     // Exists to prevent failed to visit member errors
@@ -1575,6 +1565,18 @@ void dialogue_chatbin::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "first_topic", first_topic );
+    json.member( "talk_radio", talk_radio );
+    json.member( "talk_leader", talk_leader );
+    json.member( "talk_friend", talk_friend );
+    json.member( "talk_stole_item", talk_stole_item );
+    json.member( "talk_wake_up", talk_wake_up );
+    json.member( "talk_mug", talk_mug );
+    json.member( "talk_stranger_aggressive", talk_stranger_aggressive );
+    json.member( "talk_stranger_scared", talk_stranger_scared );
+    json.member( "talk_stranger_wary", talk_stranger_wary );
+    json.member( "talk_stranger_friendly", talk_stranger_friendly );
+    json.member( "talk_stranger_neutral", talk_stranger_neutral );
+    json.member( "talk_friend_guard", talk_friend_guard );
     if( mission_selected != nullptr ) {
         json.member( "mission_selected", mission_selected->get_id() );
     }
@@ -1599,7 +1601,18 @@ void dialogue_chatbin::deserialize( JsonIn &jsin )
     } else {
         data.read( "first_topic", first_topic );
     }
-
+    data.read( "talk_radio", talk_radio );
+    data.read( "talk_leader", talk_leader );
+    data.read( "talk_friend", talk_friend );
+    data.read( "talk_stole_item", talk_stole_item );
+    data.read( "talk_wake_up", talk_wake_up );
+    data.read( "talk_mug", talk_mug );
+    data.read( "talk_stranger_aggressive", talk_stranger_aggressive );
+    data.read( "talk_stranger_scared", talk_stranger_scared );
+    data.read( "talk_stranger_wary", talk_stranger_wary );
+    data.read( "talk_stranger_friendly", talk_stranger_friendly );
+    data.read( "talk_stranger_neutral", talk_stranger_neutral );
+    data.read( "talk_friend_guard", talk_friend_guard );
     data.read( "skill", skill );
     data.read( "style", style );
     data.read( "dialogue_spell", dialogue_spell );
@@ -1724,7 +1737,7 @@ void npc::deserialize( JsonIn &jsin )
 
 void npc::load( const JsonObject &data )
 {
-    player::load( data );
+    Character::load( data );
 
     int misstmp = 0;
     int classtmp = 0;
@@ -1961,7 +1974,7 @@ void npc::serialize( JsonOut &json ) const
 
 void npc::store( JsonOut &json ) const
 {
-    player::store( json );
+    Character::store( json );
 
     json.member( "name", name );
     json.member( "marked_for_death", marked_for_death );

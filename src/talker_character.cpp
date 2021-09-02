@@ -1,11 +1,11 @@
 #include <memory>
 
 #include "character_id.h"
+#include "effect.h"
 #include "item.h"
 #include "magic.h"
 #include "npc.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "point.h"
 #include "talker_character.h"
@@ -59,6 +59,11 @@ tripoint_abs_omt talker_character::global_omt_location() const
     return me_chr->global_omt_location();
 }
 
+void talker_character::set_pos( tripoint new_pos )
+{
+    me_chr->setpos( new_pos );
+}
+
 int talker_character::str_cur() const
 {
     return me_chr->str_cur;
@@ -77,6 +82,46 @@ int talker_character::int_cur() const
 int talker_character::per_cur() const
 {
     return me_chr->per_cur;
+}
+
+void talker_character::set_str_max( int value )
+{
+    me_chr->str_max = value;
+}
+
+void talker_character::set_dex_max( int value )
+{
+    me_chr->dex_max = value;
+}
+
+void talker_character::set_int_max( int value )
+{
+    me_chr->int_max = value;
+}
+
+void talker_character::set_per_max( int value )
+{
+    me_chr->per_max = value;
+}
+
+int talker_character::get_str_max()
+{
+    return me_chr->str_max;
+}
+
+int talker_character::get_dex_max()
+{
+    return me_chr->dex_max;
+}
+
+int talker_character::get_int_max()
+{
+    return me_chr->int_max;
+}
+
+int talker_character::get_per_max()
+{
+    return me_chr->per_max;
 }
 
 bool talker_character::has_trait( const trait_id &trait_to_check ) const
@@ -124,6 +169,11 @@ bool talker_character::has_max_power() const
     return me_chr->has_max_power();
 }
 
+void talker_character::set_power_cur( units::energy value )
+{
+    me_chr->set_power_level( value );
+}
+
 bool talker_character::has_bionic( const bionic_id &bionics_id ) const
 {
     return me_chr->has_bionic( bionics_id );
@@ -139,14 +189,24 @@ int talker_character::get_skill_level( const skill_id &skill ) const
     return me_chr->get_skill_level( skill );
 }
 
+void talker_character::set_skill_level( const skill_id &skill, int value )
+{
+    me_chr->set_skill_level( skill, value );
+}
+
 bool talker_character::knows_proficiency( const proficiency_id &proficiency ) const
 {
     return me_chr->has_proficiency( proficiency );
 }
 
-bool talker_character::has_effect( const efftype_id &effect_id ) const
+bool talker_character::has_effect( const efftype_id &effect_id, const bodypart_id &bp ) const
 {
-    return me_chr->has_effect( effect_id );
+    return me_chr->has_effect( effect_id, bp );
+}
+
+effect talker_character::get_effect( const efftype_id &effect_id, const bodypart_id &bp ) const
+{
+    return me_chr->get_effect( effect_id, bp );
 }
 
 void talker_character::add_effect( const efftype_id &new_effect, const time_duration &dur,
@@ -212,6 +272,11 @@ bool talker_character::has_amount( const itype_id &item_id, int count ) const
     return me_chr->has_amount( item_id, count );
 }
 
+int talker_character::get_amount( const itype_id &item_id ) const
+{
+    return me_chr->amount_of( item_id );
+}
+
 int talker_character::cash() const
 {
     return me_chr->cash;
@@ -245,7 +310,7 @@ bool talker_character::can_stash_weapon() const
 
 bool talker_character::has_stolen_item( const talker &guy ) const
 {
-    const player *owner = guy.get_character();
+    const Character *owner = guy.get_character();
     if( owner ) {
         for( auto &elem : me_chr->inv_dump() ) {
             if( elem->is_old_owner( *owner, true ) ) {
@@ -291,6 +356,20 @@ int talker_character::get_thirst() const
     return me_chr->get_thirst();
 }
 
+int talker_character::get_stored_kcal() const
+{
+    return me_chr->get_stored_kcal();
+}
+
+void talker_character::set_stored_kcal( int value )
+{
+    me_chr->set_stored_kcal( value );
+}
+void talker_character::set_thirst( int value )
+{
+    me_chr->set_thirst( value );
+}
+
 bool talker_character::is_in_control_of( const vehicle &veh ) const
 {
     return veh.player_in_control( *me_chr );
@@ -324,6 +403,26 @@ bool talker_character::wielded_with_flag( const flag_id &flag ) const
 units::energy talker_character::power_cur() const
 {
     return me_chr->get_power_level();
+}
+
+units::energy talker_character::power_max() const
+{
+    return me_chr->get_max_power_level();
+}
+
+int talker_character::mana_cur() const
+{
+    return me_chr->magic->available_mana();
+}
+
+int talker_character::mana_max() const
+{
+    return me_chr->magic->max_mana( *me_chr );
+}
+
+void talker_character::set_mana_cur( int value )
+{
+    me_chr->magic->set_mana( value );
 }
 
 bool talker_character::can_see() const

@@ -126,6 +126,7 @@ Use the `Home` key to return to the top.
       - [`move_cost_mod`](#move_cost_mod)
       - [`lockpick_result`](#lockpick_result)
       - [`lockpick_message`](#lockpick_message)
+      - [`oxytorch`](#oxytorch)
       - [`light_emitted`](#light_emitted)
       - [`boltcut`](#boltcut)
       - [`required_str`](#required_str)
@@ -140,6 +141,7 @@ Use the `Home` key to return to the top.
       - [`light_emitted`](#light_emitted-1)
       - [`lockpick_result`](#lockpick_result-1)
       - [`lockpick_message`](#lockpick_message-1)
+      - [`oxytorch`](#oxytorch-1)
       - [`trap`](#trap)
       - [`boltcut`](#boltcut-1)
       - [`transforms_into`](#transforms_into)
@@ -1861,6 +1863,7 @@ it is present to help catch errors.
 "profession": true, //Trait is a starting profession special trait. (default: false)
 "debug": false,     //Trait is for debug purposes (default: false)
 "player_display": true, //Trait is displayed in the `@` player display menu
+"vanity": false, //Trait can be changed any time with no cost, like hair, eye colour and skin colour
 "category": ["MUTCAT_BIRD", "MUTCAT_INSECT"], // Categories containing this mutation
 // prereqs and prereqs2 specify prerequisites of the current mutation
 // Both are optional, but if prereqs2 is specified prereqs must also be specified
@@ -2308,6 +2311,7 @@ See also VEHICLE_JSON.md
 "price": 100,                                // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges. Can use string "cent" "USD" or "kUSD".
 "price_postapoc": "1 USD",                       // Same as price but represent value post cataclysm. Can use string "cent" "USD" or "kUSD".
 "material": ["COTTON"],                      // Material types, can be as many as you want.  See materials.json for possible options
+"weapon_category": [ "WEAPON_CAT1" ],        // (Optional) Weapon categories this item is in for martial arts.
 "cutting": 0,                                // (Optional, default = 0) Cutting damage caused by using it as a melee weapon.  This value cannot be negative.
 "bashing": 0,                                // (Optional, default = 0) Bashing damage caused by using it as a melee weapon.  This value cannot be negative.
 "to_hit": 0,                                 // (Optional, deprecated, default = 0) To-hit bonus if using it as a melee weapon (whatever for?).  The object version is preferred
@@ -2400,10 +2404,7 @@ Armor can be defined like this:
 "type" : "ARMOR",     // Defines this as armor
 ...                   // same entries as above for the generic item.
                       // additional some armor specific entries:
-<<<<<<< Updated upstream
-=======
 "covers" : [ "foot_l", "foot_r" ],  // Where it covers.  Use bodypart_id defined in body_parts.json  Also note that LEG_EITHER ARM_EITHER HAND_EITHER and FOOT_EITHER are allowed.
->>>>>>> Stashed changes
 "warmth" : 10,        //  (Optional, default = 0) How much warmth clothing provides
 "environmental_protection" : 0,  //  (Optional, default = 0) How much environmental protection it affords
 "encumbrance" : 0,    // Base encumbrance (unfitted value)
@@ -2705,6 +2706,7 @@ Any Item can be a container. To add the ability to contain things to an item, yo
     "ammo_restriction": { "ammotype": count }, // Restrict pocket to a given ammo type and count.  This overrides mandatory volume, weight, watertight and airtight to use the given ammo type instead.  A pocket can contain any number of unique ammo types each with different counts, and the container will only hold one type (as of now).  If this is left out, it will be empty.
     "flag_restriction": [ "FLAG1", "FLAG2" ],  // Items can only be placed into this pocket if they have a flag that matches one of these flags.
     "item_restriction": [ "item_id" ],         // Only these item IDs can be placed into this pocket. Overrides ammo and flag restrictions.
+	// If both "flag_restriction" and "item_restriction" are used simultaneously then any item that matches either of them will be accepted.
 
     "sealed_data": { "spoil_multiplier": 0.0 } // If a pocket has sealed_data, it will be sealed when the item spawns.  The sealed version of the pocket will override the unsealed version of the same datatype.
   }
@@ -3027,6 +3029,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "target_charges" : 3, // Number of charges the transformed item has.
     "rand_target_charges": [10, 15, 25], // Randomize the charges the transformed item has. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25). (The endpoints are included.)
     "container" : "jar",  // Container holding the target item.
+    "menu_text": "Lower visor"      // (Optional) Text displayed in the activation screen, defaults to "Turn on".
     "moves" : 500         // Moves required to transform the item in excess of a normal action.
 },
 "use_action": {
@@ -3445,6 +3448,27 @@ Movement cost modifier (`-10` = impassable, `0` = no change). This is added to t
 
 (Optional) When the furniture is successfully lockpicked, this is the message that will be printed to the player. When it is missing, a generic `"The lock opens…"` message will be printed instead.
 
+#### `oxytorch`
+
+(Optional) Data for using with an oxytorch.
+```cpp
+oxytorch: {
+    "result": "furniture_id", // (optional) furniture it will become when done, defaults to f_null
+    "duration": "1 seconds", // ( optional ) time required for oxytorching, default is 1 second
+    "message": "You quickly cut the metal", // ( optional ) message that will be displayed when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
+
 #### `light_emitted`
 
 How much light the furniture produces.  10 will light the tile it's on brightly, 15 will light that tile and the tiles around it brightly, as well as slightly lighting the tiles two tiles away from the source.
@@ -3550,6 +3574,27 @@ For examples: An overhead light is 120, a utility light, 240, and a console, 10.
 #### `lockpick_message`
 
 (Optional) When the terrain is successfully lockpicked, this is the message that will be printed to the player. When it is missing, a generic `"The lock opens…"` message will be printed instead.
+
+#### `oxytorch`
+
+(Optional) Data for using with an oxytorch.
+```cpp
+oxytorch: {
+    "result": "terrain_id", // terrain it will become when done
+    "duration": "1 seconds", // ( optional ) time required for oxytorching, default is 1 second
+    "message": "You quickly cut the bars", // ( optional ) message that will be displayed when finished
+    "byproducts": [ // ( optional ) list of items that will be spawned when finished
+        {
+            "item": "item_id",
+            "count": 100 // exact amount
+        },
+        {
+            "item": "item_id",
+            "count": [ 10, 100 ] // random number in range ( inclusive )
+        }
+    ]
+}
+```
 
 #### `trap`
 

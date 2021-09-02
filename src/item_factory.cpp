@@ -59,7 +59,6 @@
 #include "veh_type.h"
 #include "vitamin.h"
 
-class player;
 struct tripoint;
 template <typename T> struct enum_traits;
 
@@ -179,6 +178,10 @@ void Item_factory::finalize_pre( itype &obj )
         for( const auto &u : q.first.obj().usages ) {
             if( q.second >= u.first ) {
                 emplace_usage( obj.use_methods, u.second );
+                // As far as I know all the actions provided by quality level do not consume ammo
+                // So it is safe to set all to 0
+                // To do: read the json file of this item agian and get for each quality a scale number
+                obj.ammo_scale.emplace( u.second, 0 );
             }
         }
     }
@@ -186,9 +189,11 @@ void Item_factory::finalize_pre( itype &obj )
     if( obj.mod ) {
         std::string func = obj.gunmod ? "GUNMOD_ATTACH" : "TOOLMOD_ATTACH";
         emplace_usage( obj.use_methods, func );
+        obj.ammo_scale.emplace( func, 0 );
     } else if( obj.gun ) {
         const std::string func = "detach_gunmods";
         emplace_usage( obj.use_methods, func );
+        obj.ammo_scale.emplace( func, 0 );
     }
 
     if( get_option<bool>( "NO_FAULTS" ) ) {
@@ -871,7 +876,7 @@ class iuse_function_wrapper : public iuse_actor
             : iuse_actor( type ), cpp_function( f ) { }
 
         ~iuse_function_wrapper() override = default;
-        cata::optional<int> use( player &p, item &it, bool a, const tripoint &pos ) const override {
+        cata::optional<int> use( Character &p, item &it, bool a, const tripoint &pos ) const override {
             return cpp_function( &p, &it, a, pos );
         }
         std::unique_ptr<iuse_actor> clone() const override {
@@ -970,6 +975,8 @@ void Item_factory::init()
     add_iuse( "CHEW", &iuse::chew );
     add_iuse( "RPGDIE", &iuse::rpgdie );
     add_iuse( "BIRDFOOD", &iuse::feedbird );
+    add_iuse( "CHANGE_EYES", &iuse::change_eyes );
+    add_iuse( "CHANGE_SKIN", &iuse::change_skin );
     add_iuse( "CHOP_TREE", &iuse::chop_tree );
     add_iuse( "CHOP_LOGS", &iuse::chop_logs );
     add_iuse( "CIRCSAW_ON", &iuse::circsaw_on );
@@ -2906,6 +2913,8 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         jo.read( "repairs_like", def.repairs_like );
     }
 
+    optional( jo, true, "weapon_category", def.weapon_category, auto_flags_reader<std::string> {} );
+
     if( jo.has_member( "damage_states" ) ) {
         JsonArray arr = jo.get_array( "damage_states" );
         def.damage_min_ = arr.get_int( 0 ) * itype::damage_scale;
@@ -3034,7 +3043,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.techniques.insert( matec_id( s ) );
     }
 
-    set_use_methods_from_json( jo, "use_action", def.use_methods );
+    set_use_methods_from_json( jo, "use_action", def.use_methods, def.ammo_scale );
 
     assign( jo, "countdown_interval", def.countdown_interval );
     assign( jo, "countdown_destroy", def.countdown_destroy );
@@ -3175,26 +3184,26 @@ void Item_factory::load_migration( const JsonObject &jo )
     assign( jo, "contents", m.contents );
     assign( jo, "sealed", m.sealed );
 
+    std::vector<itype_id> ids;
     if( jo.has_string( "id" ) ) {
-        jo.read( "id", m.id, true );
+        ids.resize( 1 );
+        jo.read( "id", ids[0], true );
+    } else if( jo.has_array( "id" ) ) {
+        jo.read( "id", ids, true );
+    } else {
+        jo.throw_error( "`id` of `MIGRATION` is neither string nor array" );
+    }
+    for( const itype_id &id : ids ) {
+        if( m.replace && m.replace == id ) {
+            jo.throw_error( string_format( "`MIGRATION` attempting to replace entity with itself: %s",
+                                           id.str() ) );
+        }
+        m.id = id;
         if( m.from_variant ) {
             migrations[ m.id ].push_back( m );
         } else {
             add_migration( m );
         }
-    } else if( jo.has_array( "id" ) ) {
-        std::vector<itype_id> ids;
-        jo.read( "id", ids, true );
-        for( const itype_id &id : ids ) {
-            m.id = id;
-            if( m.from_variant ) {
-                migrations[ m.id ].push_back( m );
-            } else {
-                add_migration( m );
-            }
-        }
-    } else {
-        jo.throw_error( "`id` of `MIGRATION` is neither string nor array" );
     }
 }
 
@@ -3690,13 +3699,14 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
 }
 
 void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::string &member,
-        std::map<std::string, use_function> &use_methods )
+        std::map<std::string, use_function> &use_methods, std::map<std::string, float> &ammo_scale )
 {
     if( !jo.has_member( member ) ) {
         return;
     }
 
     use_methods.clear();
+    ammo_scale.clear();
     if( jo.has_array( member ) ) {
         for( const JsonValue entry : jo.get_array( member ) ) {
             if( entry.test_string() ) {
@@ -3707,6 +3717,16 @@ void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::s
                 std::pair<std::string, use_function> fun = usage_from_object( obj );
                 if( fun.second ) {
                     use_methods.insert( fun );
+                    if( obj.has_float( "ammo_scale" ) ) {
+                        ammo_scale.emplace( fun.first, obj.get_float( "ammo_scale" ) );
+                    }
+                }
+            } else if( entry.test_array() ) {
+                JsonArray curr = entry.get_array();
+                std::string type = curr.get_string( 0 );
+                emplace_usage( use_methods, type );
+                if( curr.has_float( 1 ) ) {
+                    ammo_scale.emplace( type, curr.get_float( 1 ) );
                 }
             } else {
                 entry.throw_error( "array element is neither string nor object." );
@@ -3721,6 +3741,9 @@ void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::s
             std::pair<std::string, use_function> fun = usage_from_object( obj );
             if( fun.second ) {
                 use_methods.insert( fun );
+                if( obj.has_float( "ammo_scale" ) ) {
+                    ammo_scale.emplace( fun.first, obj.get_float( "ammo_scale" ) );
+                }
             }
         } else {
             jo.throw_error( "member 'use_action' is neither string nor object." );

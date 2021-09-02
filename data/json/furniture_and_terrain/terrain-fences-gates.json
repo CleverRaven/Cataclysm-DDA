@@ -75,6 +75,11 @@
     "flags": [ "TRANSPARENT", "PERMEABLE", "LOCKED", "PICKABLE", "THIN_OBSTACLE", "BURROWABLE" ],
     "connects_to": "CHAINFENCE",
     "examine_action": "locked_object_pickable",
+    "oxytorch": {
+      "result": "t_dirt",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "wire", "count": [ 4, 16 ] } ]
+    },
     "bash": {
       "str_min": 10,
       "str_max": 150,
@@ -96,6 +101,11 @@
     "move_cost": 0,
     "flags": [ "TRANSPARENT", "DOOR", "PERMEABLE", "THIN_OBSTACLE", "BURROWABLE" ],
     "connects_to": "CHAINFENCE",
+    "oxytorch": {
+      "result": "t_dirt",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "wire", "count": [ 4, 16 ] } ]
+    },
     "open": "t_chaingate_o",
     "bash": {
       "str_min": 10,
@@ -149,6 +159,11 @@
     "examine_action": "locked_object_pickable",
     "lockpick_result": "t_retractable_gate_c",
     "lockpick_message": "With a satisfying click, the lock on the gate opens.",
+    "oxytorch": {
+      "result": "t_strconc_floor",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "chain", "count": [ 1, 2 ] }, { "item": "wire", "count": [ 8, 22 ] } ]
+    },
     "bash": {
       "str_min": 17,
       "str_max": 175,
@@ -175,6 +190,11 @@
     "flags": [ "TRANSPARENT", "DOOR", "PERMEABLE", "THIN_OBSTACLE" ],
     "connects_to": "WALL",
     "open": "t_retractable_gate_o",
+    "oxytorch": {
+      "result": "t_strconc_floor",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "chain", "count": [ 1, 2 ] }, { "item": "wire", "count": [ 8, 22 ] } ]
+    },
     "bash": {
       "str_min": 17,
       "str_max": 175,
@@ -521,6 +541,11 @@
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "PERMEABLE", "UNSTABLE", "CLIMBABLE", "AUTO_WALL_SYMBOL", "BURROWABLE" ],
     "connects_to": "CHAINFENCE",
     "examine_action": "chainfence",
+    "oxytorch": {
+      "result": "t_dirt",
+      "duration": "9 seconds",
+      "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "wire", "count": [ 4, 16 ] } ]
+    },
     "bash": {
       "str_min": 10,
       "str_max": 150,
@@ -539,6 +564,7 @@
     "color": "cyan",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "THIN_OBSTACLE" ],
+    "oxytorch": { "result": "t_dirt", "duration": "1 seconds", "byproducts": [ { "item": "pipe", "count": [ 1, 4 ] } ] },
     "bash": {
       "str_min": 8,
       "str_max": 30,
@@ -654,6 +680,12 @@
     "move_cost": 4,
     "flags": [ "TRANSPARENT", "THIN_OBSTACLE", "SHORT", "EASY_DECONSTRUCT", "BURROWABLE" ],
     "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "wire", "count": 2 } ] },
+    "boltcut": {
+      "result": "t_fence_post",
+      "duration": "10 seconds",
+      "sound": "Snick, snick, gachunk!",
+      "byproducts": [ { "item": "wire", "count": 2 } ]
+    },
     "bash": {
       "str_min": 8,
       "str_max": 20,

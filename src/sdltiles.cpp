@@ -1044,10 +1044,11 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
 
     if( blink ) {
         // Draw path for auto-travel
-        for( auto &elem : you.omt_path ) {
-            tripoint_abs_omt pos( elem.xy(), you.posz() );
-            draw_from_id_string( "highlight", global_omt_to_draw_position( pos ), 0, 0, lit_level::LIT,
-                                 false );
+        for( const tripoint_abs_omt &pos : you.omt_path ) {
+            if( pos.z() == center_abs_omt.z() ) {
+                draw_from_id_string( "highlight", global_omt_to_draw_position( pos ), 0, 0, lit_level::LIT,
+                                     false );
+            }
         }
 
         // reduce the area where the map cursor is drawn so it doesn't get cut off
@@ -1127,7 +1128,7 @@ void cata_tiles::draw_om( const point &dest, const tripoint_abs_omt &center_abs_
     if( has_debug_vision || overmap_buffer.seen( center_abs_omt ) ) {
         for( const auto &npc : npcs_near_player ) {
             if( !npc->marked_for_death && npc->global_omt_location() == center_abs_omt ) {
-                notes_window_text.emplace_back( npc->basic_symbol_color(), npc->name );
+                notes_window_text.emplace_back( npc->basic_symbol_color(), npc->get_name() );
             }
         }
     }
@@ -3681,10 +3682,11 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
     // see, e.g., http://linux.die.net/man/3/getch
     // so although it's non-obvious, that refresh() call (and maybe InvalidateRect?) IS supposed to be there
     // however, the refresh call has not effect when nothing has been drawn, so
-    // we can skip it if `needupdate` is false to improve performance during mouse
+    // we can skip screen update if `needupdate` is false to improve performance during mouse
     // move events.
+    wnoutrefresh( catacurses::stdscr );
     if( needupdate ) {
-        wrefresh( catacurses::stdscr );
+        refresh_display();
     }
 
     if( inputdelay < 0 ) {
@@ -3715,9 +3717,8 @@ input_event input_manager::get_input_event( const keyboard_mode preferred_keyboa
         CheckMessages();
     }
 
-    if( last_input.type == input_event_t::mouse ) {
-        SDL_GetMouseState( &last_input.mouse_pos.x, &last_input.mouse_pos.y );
-    } else if( last_input.type == input_event_t::keyboard_char ) {
+    SDL_GetMouseState( &last_input.mouse_pos.x, &last_input.mouse_pos.y );
+    if( last_input.type == input_event_t::keyboard_char ) {
         previously_pressed_key = last_input.get_first_input();
 #if defined(__ANDROID__)
         android_vibrate();

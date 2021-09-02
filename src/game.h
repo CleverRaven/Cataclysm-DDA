@@ -36,21 +36,13 @@
 #include "weather.h"
 
 class Character;
-class Creature_tracker;
+class creature_tracker;
 class item;
 class location;
 class spell_events;
 class viewer;
 
 static constexpr int DEFAULT_TILESET_ZOOM = 16;
-
-static const std::string SAVE_MASTER( "master.gsav" );
-static const std::string SAVE_ARTIFACTS( "artifacts.gsav" );
-static const std::string SAVE_EXTENSION( ".sav" );
-static const std::string SAVE_EXTENSION_MAP_MEMORY( ".mm" );
-static const std::string SAVE_EXTENSION_LOG( ".log" );
-static const std::string SAVE_EXTENSION_WEATHER( ".weather" );
-static const std::string SAVE_EXTENSION_SHORTCUTS( ".shortcuts" );
 
 // The reference to the one and only game instance.
 class game;
@@ -95,7 +87,6 @@ class map;
 class map_item_stack;
 class memorial_logger;
 class npc;
-class player;
 class save_t;
 class scenario;
 class stats_tracker;
@@ -161,6 +152,7 @@ class game
         friend achievements_tracker &get_achievements();
         friend event_bus &get_event_bus();
         friend map &get_map();
+        friend creature_tracker &get_creature_tracker();
         friend Character &get_player_character();
         friend avatar &get_avatar();
         friend location &get_player_location();
@@ -298,16 +290,6 @@ class game
         template<typename T = Creature>
         T * critter_by_id( const character_id &id );
         /**
-         * Returns the Creature at the given location. Optionally casted to the given
-         * type of creature: @ref npc, @ref player, @ref monster - if there is a creature,
-         * but it's not of the requested type, returns nullptr.
-         * @param allow_hallucination Whether to return monsters that are actually hallucinations.
-         */
-        template<typename T = Creature>
-        T * critter_at( const tripoint &p, bool allow_hallucination = false );
-        template<typename T = Creature>
-        const T * critter_at( const tripoint &p, bool allow_hallucination = false ) const;
-        /**
         * Returns a shared pointer to the given critter (which can be of any of the subclasses of
         * @ref Creature). The function may return an empty pointer if the given critter
         * is not stored anywhere (e.g. it was allocated on the stack, not stored in
@@ -421,6 +403,9 @@ class game
                 iterator end() {
                     return iterator( items, items.end() );
                 }
+                void push_back( T &new_item ) {
+                    items.push_back( new_item );
+                }
         };
 
         class monster_range : public non_dead_range<monster>
@@ -438,7 +423,7 @@ class game
         class Creature_range : public non_dead_range<Creature>
         {
             private:
-                shared_ptr_fast<player> u;
+                shared_ptr_fast<Character> u;
 
             public:
                 explicit Creature_range( game &game_ref );
@@ -480,7 +465,7 @@ class game
         /**
          * Revives a corpse at given location. The monster type and some of its properties are
          * deducted from the corpse. If reviving succeeds, the location is guaranteed to have a
-         * new monster there (see @ref critter_at).
+         * new monster there (see @ref creature_at).
          * @param p The place where to put the revived monster.
          * @param it The corpse item, it must be a valid corpse (see @ref item::is_corpse).
          * @return Whether the corpse has actually been redivided. Reviving may fail for many
@@ -490,7 +475,7 @@ class game
          */
         bool revive_corpse( const tripoint &p, item &it );
         /**Turns Broken Cyborg monster into Cyborg NPC via surgery*/
-        void save_cyborg( item *cyborg, const tripoint &couch_pos, player &installer );
+        void save_cyborg( item *cyborg, const tripoint &couch_pos, Character &installer );
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
         bool cancel_activity_query( const std::string &text );
         /** Asks if the player wants to cancel their activity and if so cancels it. Additionally checks
@@ -537,7 +522,7 @@ class game
         /** validate camps to ensure they are on the overmap list */
         void validate_camps();
         /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
-        void catch_a_monster( monster *fish, const tripoint &pos, player *p,
+        void catch_a_monster( monster *fish, const tripoint &pos, Character *p,
                               const time_duration &catch_duration );
         /**
          * Get the contiguous fishable locations starting at fish_pos, out to the specified distance.
@@ -1009,7 +994,7 @@ class game
 
         spell_events &spell_events_subscriber();
 
-        pimpl<Creature_tracker> critter_tracker;
+        pimpl<creature_tracker> critter_tracker;
         pimpl<faction_manager> faction_manager_ptr; // NOLINT(cata-serialize)
 
         /** Used in main.cpp to determine what type of quit is being performed. */
@@ -1058,14 +1043,16 @@ class game
         // reactivating safe mode.
         time_duration turnssincelastmon = 0_turns;
 
+    private:
         weather_manager weather; // NOLINT(cata-serialize)
 
+    public:
         std::vector<effect_on_condition_id> inactive_effect_on_condition_vector;
         std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare> queued_effect_on_conditions;
 
         int mostseen = 0; // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
     private:
-        shared_ptr_fast<player> u_shared_ptr; // NOLINT(cata-serialize)
+        shared_ptr_fast<Character> u_shared_ptr; // NOLINT(cata-serialize)
 
         catacurses::window w_terrain_ptr; // NOLINT(cata-serialize)
         catacurses::window w_minimap_ptr; // NOLINT(cata-serialize)
@@ -1078,7 +1065,6 @@ class game
         bool safe_mode_warning_logged = false; // NOLINT(cata-serialize)
         bool bVMonsterLookFire = false;
         character_id next_npc_id; // NOLINT(cata-serialize)
-        std::list<shared_ptr_fast<npc>> active_npc; // NOLINT(cata-serialize)
         int next_mission_id = 0; // NOLINT(cata-serialize)
         // Keep track of follower NPC IDs
         std::set<character_id> follower_ids; // NOLINT(cata-serialize)

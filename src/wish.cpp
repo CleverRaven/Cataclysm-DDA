@@ -327,27 +327,15 @@ void debug_menu::wishmutate( Character *you )
 
 void debug_menu::wisheffect( Character &p )
 {
+    static bodypart_str_id effectbp = bodypart_str_id::NULL_ID();
     std::vector<effect> effects;
+    uilist efmenu;
+    efmenu.desc_enabled = true;
+    const int offset = 2;
+    bool only_active = false;
+
     const size_t effect_size = get_effect_types().size();
     effects.reserve( effect_size );
-
-    for( const std::pair<const efftype_id, effect_type> &eff : get_effect_types() ) {
-        const effect &plyeff = p.get_effect( eff.first );
-        if( plyeff.is_null() ) {
-            effects.emplace_back( &*eff.first );
-        } else {
-            effects.emplace_back( plyeff );
-        }
-    }
-
-    std::sort( effects.begin(), effects.end(), []( const effect & effA, const effect & effB ) {
-        return localized_compare( effA.get_id().str(), effB.get_id().str() );
-    } );
-
-    uilist efmenu;
-    efmenu.title = _( "Debug Effects Menu" );
-    efmenu.desc_enabled = true;
-    efmenu.addentry( 0, true, 'a', _( "Show only active" ) );
 
     auto effect_description = []( const effect & eff ) -> std::string {
         const effect_type &efft = *eff.get_effect_type();
@@ -376,23 +364,51 @@ void debug_menu::wisheffect( Character &p )
         return descstr.str();
     };
 
-    for( size_t i = 0; i < effect_size; ++i ) {
-        const effect &eff = effects[i];
-        uilist_entry entry{static_cast<int>( i + 1 ), true, -2, eff.get_id().str()};
 
-        int duration = to_seconds<int>( eff.get_duration() );
-        if( duration ) {
-            entry.ctxt = colorize( std::to_string( duration ), c_white );
-            if( eff.is_permanent() ) {
-                entry.ctxt += colorize( " PERMANENT", c_white );
+    auto rebuild_menu = [&]( const bodypart_str_id & bp ) -> void {
+        effects.clear();
+        efmenu.entries.clear();
+        efmenu.title = string_format( _( "Debug Effects Menu: %s" ), bp->id.str() );
+        efmenu.addentry( 0, true, 'a', _( "Show only active" ) );
+        efmenu.addentry( 1, true, 'b', _( "Change body part" ) );
+        only_active = false;
+
+
+
+        for( const std::pair<const efftype_id, effect_type> &eff : get_effect_types() )
+        {
+            const effect &plyeff = p.get_effect( eff.first, bp );
+            if( plyeff.is_null() ) {
+                effects.emplace_back( &*eff.first );
+            } else {
+                effects.emplace_back( plyeff );
             }
         }
 
-        entry.desc = effect_description( eff );
-        efmenu.entries.emplace_back( entry );
-    }
+        std::sort( effects.begin(), effects.end(), []( const effect & effA, const effect & effB )
+        {
+            return localized_compare( effA.get_id().str(), effB.get_id().str() );
+        } );
 
-    bool only_active = false;
+        for( size_t i = 0; i < effect_size; ++i )
+        {
+            const effect &eff = effects[i];
+            uilist_entry entry{static_cast<int>( i + offset ), true, -2, eff.get_id().str()};
+
+            int duration = to_seconds<int>( eff.get_duration() );
+            if( duration ) {
+                entry.ctxt = colorize( std::to_string( duration ), c_white );
+                if( eff.is_permanent() ) {
+                    entry.ctxt += colorize( " PERMANENT", c_white );
+                }
+            }
+
+            entry.desc = effect_description( eff );
+            efmenu.entries.emplace_back( entry );
+        }
+    };
+
+    rebuild_menu( effectbp );
 
     do {
         efmenu.query();
@@ -400,16 +416,34 @@ void debug_menu::wisheffect( Character &p )
             only_active = !only_active;
             for( uilist_entry &entry : efmenu.entries ) {
                 if( only_active ) {
-                    const int duration = to_seconds<int>( effects[entry.retval - 1].get_duration() );
-                    entry.enabled = duration > 0 || entry.retval == 0;
+                    const int duration = to_seconds<int>( effects[entry.retval - offset].get_duration() );
+                    entry.enabled = duration > 0 || entry.retval < offset;
                 } else {
                     entry.enabled = true;
                 }
             }
             continue;
-        } else if( efmenu.ret > 0 ) {
+        } else if( efmenu.ret == 1 ) {
+            uilist bpmenu;
+            bpmenu.title = _( "Choose bodypart" );
+            bpmenu.addentry( 0, true, 'a', bodypart_str_id::NULL_ID()->id.str() );
+
+            const std::vector<bodypart_id> &bodyparts = p.get_all_body_parts();
+            const size_t bodyparts_size = bodyparts.size();
+            for( int i = 0; i < static_cast<int>( bodyparts_size ); ++i ) {
+                bpmenu.addentry( i + 1, true, -1, bodyparts[i]->id.str() );
+            }
+
+            bpmenu.query();
+            if( bpmenu.ret == 0 ) {
+                effectbp = bodypart_str_id::NULL_ID();
+            } else if( bpmenu.ret > 0 ) {
+                effectbp = bodyparts[bpmenu.ret - 1]->id;
+            }
+            rebuild_menu( effectbp );
+        } else if( efmenu.ret > offset - 1 ) {
             uilist_entry &entry = efmenu.entries[efmenu.ret];
-            effect &eff = effects[efmenu.ret - 1];
+            effect &eff = effects[efmenu.ret - offset];
 
             int duration = to_seconds<int>( eff.get_duration() );
             query_int( duration, _( "Set duration (current %1$d): " ), duration );
@@ -422,23 +456,41 @@ void debug_menu::wisheffect( Character &p )
                 permanent = query_yn( _( "Permanent?" ) );
             }
 
-            p.remove_effect( eff.get_id() );
+            p.remove_effect( eff.get_id(), effectbp );
+            bool invalid_effect = false;
             if( duration > 0 ) {
-                p.add_effect( eff.get_id(), time_duration::from_seconds( duration ), permanent );
-                eff = p.get_effect( eff.get_id() );
+                p.add_effect( eff.get_id(), time_duration::from_seconds( duration ), effectbp, permanent );
+                // Some effects like bandages on a limb like foot_l
+                // cause a segmentation fault, check if it was applied first
+                const effect &new_effect = p.get_effect( eff.get_id(), effectbp );
+                if( !new_effect.is_null() ) {
+                    eff = new_effect;
+                } else {
+                    invalid_effect = true;
+                }
             } else {
                 eff.set_duration( 0_seconds );
             }
 
             entry.ctxt.clear();
-            int cur_duration = to_seconds<int>( p.get_effect_dur( eff.get_id() ) );
-            if( cur_duration ) {
-                entry.ctxt = colorize( std::to_string( cur_duration ), c_yellow );
-                if( eff.is_permanent() ) {
-                    entry.ctxt += colorize( " PERMANENT", c_yellow );
+            entry.desc.clear();
+
+            if( invalid_effect ) {
+                entry.ctxt += colorize( _( "INVALID ON THIS LIMB" ), c_red );
+                entry.desc += colorize( _( "This effect can not be applied on this limb" ), c_red );
+                entry.desc += '\n';
+            } else {
+                int cur_duration = to_seconds<int>( p.get_effect_dur( eff.get_id(), effectbp ) );
+                if( cur_duration ) {
+                    entry.ctxt = colorize( std::to_string( cur_duration ), c_yellow );
+                    if( eff.is_permanent() ) {
+                        entry.ctxt += colorize( _( " PERMANENT" ), c_yellow );
+                    }
                 }
             }
-            entry.desc = effect_description( eff );
+
+            entry.desc += effect_description( eff );
+
         }
     } while( efmenu.ret != UILIST_CANCEL );
 }

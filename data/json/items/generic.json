@@ -538,7 +538,7 @@
     "name": { "str": "empty canister" },
     "description": "An empty canister, which may have once held tear gas or other substances.",
     "material": [ "steel" ],
-    "weight": "158 g",
+    "weight": "40 g",
     "volume": "250 ml",
     "bashing": 2,
     "to_hit": -1,
@@ -1079,6 +1079,13 @@
     "cutting": 6,
     "to_hit": -3,
     "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_robofac_camspy",
+    "copy-from": "broken_eyebot",
+    "name": { "str": "broken camspy", "str_pl": "broken camspies" },
+    "description": "A broken camspy.  It probably won't spy on anything ever again.  Could be gutted for parts."
   },
   {
     "type": "GENERIC",
@@ -1965,7 +1972,8 @@
     "weight": "300 g",
     "volume": "750 ml",
     "bashing": 2,
-    "to_hit": -3
+    "to_hit": -3,
+    "use_action": [ "CHANGE_EYES", "CHANGE_SKIN" ]
   },
   {
     "type": "GENERIC",
@@ -2528,50 +2536,6 @@
     "flags": [ "SLEEP_AID" ]
   },
   {
-    "type": "GENERIC",
-    "id": "money_bundle",
-    "name": { "str": "money bundle" },
-    "description": "A bundle holding many 20 dollar bills, pretty useless now though.",
-    "weight": "20 g",
-    "to_hit": -3,
-    "color": "green",
-    "symbol": ",",
-    "material": [ "paper" ],
-    "volume": "250 ml",
-    "price": 0
-  },
-  {
-    "type": "GENERIC",
-    "id": "money_one",
-    "name": { "str": "one dollar bill" },
-    "description": "A one dollar bill, pretty useless now though.",
-    "weight": "1 g",
-    "to_hit": -3,
-    "color": "green",
-    "symbol": ",",
-    "material": [ "paper" ],
-    "volume": "1 ml",
-    "price": 0
-  },
-  {
-    "type": "GENERIC",
-    "id": "money_ten",
-    "name": { "str": "ten dollar bill" },
-    "description": "A ten dollar bill, pretty useless now though.",
-    "copy-from": "money_one",
-    "color": "green",
-    "symbol": ","
-  },
-  {
-    "type": "GENERIC",
-    "id": "money_twenty",
-    "name": { "str": "twenty dollar bill" },
-    "description": "A twenty dollar bill, pretty useless now though.",
-    "copy-from": "money_one",
-    "color": "green",
-    "symbol": ","
-  },
-  {
     "id": "pouch_autoclave",
     "type": "AMMO",
     "ammo_type": "NULL",
@@ -2724,11 +2688,12 @@
   {
     "id": "cash_card",
     "type": "TOOL",
-    "symbol": ",",
+    "category": "currency",
+    "symbol": "$",
     "color": "yellow",
     "name": { "str": "cash card" },
     "ascii_picture": "cashcard",
-    "description": "A yellow plastic card used to store money.  These became popular once the government officially moved to all electronic money.  It holds up to 2 million dollars.",
+    "description": "A yellow plastic card used to electronically store money.  It holds up to 2 million dollars.",
     "price": 1000,
     "price_postapoc": 0,
     "material": [ "plastic" ],
@@ -2807,11 +2772,11 @@
   {
     "id": "gasdiscount_silver",
     "type": "TOOL",
+    "category": "currency",
     "symbol": ",",
     "color": "yellow",
     "name": { "str": "silver gas discount card" },
     "description": "This card gives you a little discount on the purchase of gasoline.",
-    "category": "other",
     "price": 500,
     "price_postapoc": 0,
     "material": [ "plastic" ],
@@ -2823,11 +2788,11 @@
   {
     "id": "gasdiscount_gold",
     "type": "TOOL",
+    "category": "currency",
     "symbol": ",",
     "color": "yellow",
     "name": { "str": "gold gas discount card" },
     "description": "This card gives you a good discount on the purchase of gasoline.",
-    "category": "other",
     "price": 500,
     "price_postapoc": 0,
     "material": [ "plastic" ],
@@ -2839,11 +2804,11 @@
   {
     "id": "gasdiscount_platinum",
     "type": "TOOL",
+    "category": "currency",
     "symbol": ",",
     "color": "yellow",
     "name": { "str": "platinum gas discount card" },
     "description": "This card gives you a splendid discount on the purchase of gasoline.",
-    "category": "other",
     "price": 500,
     "price_postapoc": 0,
     "material": [ "plastic" ],
@@ -3285,7 +3250,19 @@
         "max_contains_weight": "60 g",
         "max_contains_volume": "150 ml",
         "moves": 100,
-        "item_restriction": [ "FMCNote", "signed_chit", "family_photo", "money_one", "money_ten", "money_twenty", "condom" ]
+        "item_restriction": [
+          "FMCNote",
+          "signed_chit",
+          "family_photo",
+          "money_one",
+          "money_two",
+          "money_five",
+          "money_ten",
+          "money_twenty",
+          "money_fifty",
+          "money_hundred",
+          "condom"
+        ]
       },
       {
         "//": "Card Sleeves",
@@ -3306,7 +3283,19 @@
           "scorecard",
           "robofac_test_data",
           "icon",
-          "labmap"
+          "labmap",
+          "id_science_visitor_1",
+          "id_science_transport_1",
+          "id_science_maintenance_green",
+          "id_science_maintenance_yellow",
+          "id_science_maintenance_blue",
+          "id_science_security_yellow",
+          "id_science_security_magenta",
+          "id_science_security_black",
+          "id_science_mutagen_green",
+          "id_science_mutagen_pink",
+          "id_science_mutagen_cyan",
+          "id_science_medical_red"
         ]
       },
       {
@@ -3316,7 +3305,19 @@
         "max_contains_weight": "600 g",
         "max_contains_volume": "150 ml",
         "moves": 200,
-        "item_restriction": [ "FMCNote", "RobofacCoin", "FlatCoin", "coin_quarter", "coin_nickel" ]
+        "item_restriction": [
+          "FMCNote",
+          "RobofacCoin",
+          "FlatCoin",
+          "coin_penny",
+          "coin_nickel",
+          "coin_dime",
+          "coin_quarter",
+          "coin_half_dollar",
+          "coin_dollar",
+          "coin_silver",
+          "coin_gold"
+        ]
       }
     ]
   },
@@ -3354,7 +3355,19 @@
         "max_contains_weight": "80 g",
         "max_contains_volume": "175 ml",
         "moves": 100,
-        "item_restriction": [ "FMCNote", "signed_chit", "family_photo", "money_one", "money_ten", "money_twenty", "condom" ]
+        "item_restriction": [
+          "FMCNote",
+          "signed_chit",
+          "family_photo",
+          "money_one",
+          "money_two",
+          "money_five",
+          "money_ten",
+          "money_twenty",
+          "money_fifty",
+          "money_hundred",
+          "condom"
+        ]
       },
       {
         "//": "Card Sleeves",
@@ -3375,7 +3388,19 @@
           "scorecard",
           "robofac_test_data",
           "icon",
-          "labmap"
+          "labmap",
+          "id_science_visitor_1",
+          "id_science_transport_1",
+          "id_science_maintenance_green",
+          "id_science_maintenance_yellow",
+          "id_science_maintenance_blue",
+          "id_science_security_yellow",
+          "id_science_security_magenta",
+          "id_science_security_black",
+          "id_science_mutagen_green",
+          "id_science_mutagen_pink",
+          "id_science_mutagen_cyan",
+          "id_science_medical_red"
         ]
       },
       {
@@ -3385,7 +3410,19 @@
         "max_contains_weight": "600 g",
         "max_contains_volume": "175 ml",
         "moves": 200,
-        "item_restriction": [ "FMCNote", "RobofacCoin", "FlatCoin", "coin_quarter", "coin_nickel" ]
+        "item_restriction": [
+          "FMCNote",
+          "RobofacCoin",
+          "FlatCoin",
+          "coin_penny",
+          "coin_nickel",
+          "coin_dime",
+          "coin_quarter",
+          "coin_half_dollar",
+          "coin_dollar",
+          "coin_silver",
+          "coin_gold"
+        ]
       }
     ]
   },
@@ -3479,6 +3516,8 @@
           "signed_chit",
           "family_photo",
           "money_one",
+          "money_two",
+          "money_five",
           "money_ten",
           "money_twenty",
           "condom",

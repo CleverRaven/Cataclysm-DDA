@@ -18,6 +18,7 @@
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "debug.h"
 #include "enums.h"
 #include "event.h"
@@ -45,7 +46,6 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "player.h"
 #include "point.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -80,8 +80,6 @@ static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const mtype_id mon_manhack( "mon_manhack" );
 static const mtype_id mon_secubot( "mon_secubot" );
-
-static const std::string flag_CONSOLE( "CONSOLE" );
 
 static catacurses::window init_window()
 {
@@ -206,12 +204,12 @@ void computer_session::use()
     reset_terminal(); // This should have been done by now, but just in case.
 }
 
-bool computer_session::hack_attempt( player &p, int Security )
+bool computer_session::hack_attempt( Character &you, int Security )
 {
     if( Security == -1 ) {
         Security = comp.security;    // Set to main system security if no value passed
     }
-    const int hack_skill = p.get_skill_level( skill_computer );
+    const int hack_skill = you.get_skill_level( skill_computer );
 
     // Every time you dig for lab notes, (or, in future, do other suspicious stuff?)
     // +2 dice to the system's hack-resistance
@@ -220,19 +218,19 @@ bool computer_session::hack_attempt( player &p, int Security )
         Security += ( comp.alerts * 2 );
     }
 
-    p.moves -= 10 * ( 5 + Security * 2 ) / std::max( 1, hack_skill + 1 );
+    you.moves -= 10 * ( 5 + Security * 2 ) / std::max( 1, hack_skill + 1 );
     int player_roll = hack_skill;
     ///\EFFECT_INT <8 randomly penalizes hack attempts, 50% of the time
-    if( p.int_cur < 8 && one_in( 2 ) ) {
-        player_roll -= rng( 0, 8 - p.int_cur );
+    if( you.int_cur < 8 && one_in( 2 ) ) {
+        player_roll -= rng( 0, 8 - you.int_cur );
         ///\EFFECT_INT >8 randomly benefits hack attempts, 33% of the time
-    } else if( p.int_cur > 8 && one_in( 3 ) ) {
-        player_roll += rng( 0, p.int_cur - 8 );
+    } else if( you.int_cur > 8 && one_in( 3 ) ) {
+        player_roll += rng( 0, you.int_cur - 8 );
     }
 
     ///\EFFECT_COMPUTER increases chance of successful hack attempt, vs Security level
     bool successful_attempt = ( dice( player_roll, 6 ) >= dice( Security, 6 ) );
-    p.practice( skill_computer, successful_attempt ? ( 15 + Security * 3 ) : 7 );
+    you.practice( skill_computer, successful_attempt ? ( 15 + Security * 3 ) : 7 );
     return successful_attempt;
 }
 
@@ -332,8 +330,9 @@ bool computer_session::can_activate( computer_action action )
 
         case COMPACT_TERMINATE: {
             map &here = get_map();
+            creature_tracker &creatures = get_creature_tracker();
             for( const tripoint &p : here.points_on_zlevel() ) {
-                monster *const mon = g->critter_at<monster>( p );
+                monster *const mon = creatures.creature_at<monster>( p );
                 if( !mon ) {
                     continue;
                 }
@@ -487,8 +486,9 @@ void computer_session::action_terminate()
     get_event_bus().send<event_type::terminates_subspace_specimens>();
     Character &player_character = get_player_character();
     map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &p : here.points_on_zlevel() ) {
-        monster *const mon = g->critter_at<monster>( p );
+        monster *const mon = creatures.creature_at<monster>( p );
         if( !mon ) {
             continue;
         }
@@ -1379,7 +1379,7 @@ void computer_session::failure_shutdown()
     bool found_tile = false;
     map &here = get_map();
     for( const tripoint &p : here.points_in_radius( get_player_character().pos(), 1 ) ) {
-        if( here.has_flag( flag_CONSOLE, p ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_CONSOLE, p ) ) {
             here.furn_set( p, furn_str_id( "f_console_broken" ) );
             add_msg( m_bad, _( "The console shuts down." ) );
             found_tile = true;
@@ -1389,7 +1389,7 @@ void computer_session::failure_shutdown()
         return;
     }
     for( const tripoint &p : here.points_on_zlevel() ) {
-        if( here.has_flag( flag_CONSOLE, p ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_CONSOLE, p ) ) {
             here.furn_set( p, furn_str_id( "f_console_broken" ) );
             add_msg( m_bad, _( "The console shuts down." ) );
         }

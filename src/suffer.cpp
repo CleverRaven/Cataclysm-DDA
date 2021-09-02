@@ -109,6 +109,7 @@ static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_CHEMIMBALANCE( "CHEMIMBALANCE" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
 static const trait_id trait_FRESHWATEROSMOSIS( "FRESHWATEROSMOSIS" );
+static const trait_id trait_HAS_NEMESIS( "HAS_NEMESIS" );
 static const trait_id trait_JITTERY( "JITTERY" );
 static const trait_id trait_KILLER( "KILLER" );
 static const trait_id trait_LEAVES( "LEAVES" );
@@ -245,7 +246,8 @@ void Character::suffer_while_underwater()
             apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
         }
     }
-    if( has_trait( trait_FRESHWATEROSMOSIS ) && !get_map().has_flag_ter( "SALT_WATER", pos() ) &&
+    if( has_trait( trait_FRESHWATEROSMOSIS ) &&
+        !get_map().has_flag_ter( ter_furn_flag::TFLAG_SALT_WATER, pos() ) &&
         get_thirst() > -60 ) {
         mod_thirst( -1 );
     }
@@ -324,6 +326,10 @@ void Character::suffer_while_awake( const int current_stim )
 
     if( has_trait( trait_VOMITOUS ) && one_turn_in( 7_hours ) ) {
         vomit();
+    }
+
+    if( has_trait( trait_HAS_NEMESIS ) && one_turn_in( 2_minutes ) ) {
+        signal_nemesis();
     }
 
     if( has_trait( trait_SHOUT1 ) && one_turn_in( 6_hours ) ) {
@@ -483,7 +489,7 @@ void Character::suffer_from_schizophrenia()
     if( one_turn_in( 4_hours ) ) {
         const translation snip = SNIPPET.random_from_category( "schizo_self_talk" ).value_or(
                                      translation() );
-        add_msg_if_player( _( "%1$s says: \"%2$s\"" ), name, snip );
+        add_msg_if_player( _( "%1$s says: \"%2$s\"" ), get_name(), snip );
         return;
     }
 
@@ -499,9 +505,9 @@ void Character::suffer_from_schizophrenia()
     if( one_turn_in( 4_hours ) ) {
         std::vector<shared_ptr_fast<npc>> followers = overmap_buffer.get_npcs_near_player( 12 );
 
-        std::string who_gets_angry = name;
+        std::string who_gets_angry = get_name();
         if( !followers.empty() ) {
-            who_gets_angry = random_entry_ref( followers )->name;
+            who_gets_angry = random_entry_ref( followers )->get_name();
         }
         add_msg_if_player( m_bad, _( "%1$s gets angry!" ), who_gets_angry );
         return;
@@ -539,9 +545,14 @@ void Character::suffer_from_schizophrenia()
 
     // Skill raise
     if( one_turn_in( 12_hours ) ) {
-        skill_id raised_skill = Skill::random_skill();
-        add_msg_if_player( m_good, _( "You increase %1$s to level %2$d." ), raised_skill.obj().name(),
-                           get_skill_level( raised_skill ) + 1 );
+        const skill_id raised_skill = Skill::random_skill();
+        const SkillLevel level = get_all_skills().get_skill_level_object( raised_skill );
+        if( level.level() == level.knowledgeLevel() && one_in( 2 ) ) {
+            add_msg_if_player( m_good, _( "Your practical skill in %s has increased to %d!" ),
+                               raised_skill->name(), level.level() + 1 );
+        }
+        add_msg_if_player( m_good, _( "Your theoretical understanding of %s has increased to %d!" ),
+                           raised_skill->name(), level.knowledgeLevel() + 1 );
         return;
     }
 

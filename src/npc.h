@@ -38,7 +38,6 @@
 #include "npc_attack.h"
 #include "optional.h"
 #include "pimpl.h"
-#include "player.h"
 #include "point.h"
 #include "sounds.h"
 #include "string_formatter.h"
@@ -139,6 +138,7 @@ class job_data
             { activity_id( "ACT_MULTIPLE_FISH" ), 0 },
             { activity_id( "ACT_MOVE_LOOT" ), 0 },
             { activity_id( "ACT_TIDY_UP" ), 0 },
+            { activity_id( "ACT_MULTIPLE_DIS" ), 0}
         };
     public:
         bool set_task_priority( const activity_id &task, int new_priority ) {
@@ -761,7 +761,7 @@ std::string convert_talk_topic( talk_topic_enum old_value );
 
 class npc_template;
 
-class npc : public player
+class npc : public Character
 {
     public:
 
@@ -794,7 +794,7 @@ class npc : public player
         // Faction version number
         int get_faction_ver() const;
         void set_faction_ver( int new_version );
-        bool has_faction_relationship( const player &p,
+        bool has_faction_relationship( const Character &you,
                                        npc_factions::relationship flag ) const;
         void set_fac( const faction_id &id );
         faction *get_faction() const override;
@@ -837,8 +837,8 @@ class npc : public player
         std::string name_and_activity() const;
 
         // Interaction with the player
-        void form_opinion( const player &u );
-        std::string pick_talk_topic( const player &u );
+        void form_opinion( const Character &you );
+        std::string pick_talk_topic( const Character &u );
         float character_danger( const Character &u ) const;
         float vehicle_danger( int radius ) const;
         void pretend_fire( npc *source, int shots, item &gun ); // fake ranged attack for hallucination
@@ -859,7 +859,7 @@ class npc : public player
          * @return Skills of which this NPC has a higher level than the given player. In other
          * words: skills this NPC could teach the player.
          */
-        std::vector<skill_id> skills_offered_to( const player &p ) const;
+        std::vector<skill_id> skills_offered_to( const Character &you ) const;
         /**
          * Proficiencies we know that the character doesn't
          */
@@ -867,12 +867,12 @@ class npc : public player
         /**
          * Martial art styles that we known, but the player p doesn't.
          */
-        std::vector<matype_id> styles_offered_to( const player &p ) const;
+        std::vector<matype_id> styles_offered_to( const Character &you ) const;
         /**
          * Spells that the NPC knows but that the player p doesn't.
          * not const because get_spell isn't const and both this and p call it
          */
-        std::vector<spell_id> spells_offered_to( player &p );
+        std::vector<spell_id> spells_offered_to( Character &you );
         // State checks
         // We want to kill/mug/etc the player
         bool is_enemy() const;
@@ -930,7 +930,7 @@ class npc : public player
         int value( const item &it, int market_price ) const;
         bool wear_if_wanted( const item &it, std::string &reason );
         bool can_read( const item &book, std::vector<std::string> &fail_reasons );
-        int time_to_read( const item &book, const player &reader ) const;
+        int time_to_read( const item &book, const Character &reader ) const;
         void do_npc_read();
         void stow_item( item &it );
         bool wield( item &it ) override;
@@ -1176,9 +1176,9 @@ class npc : public player
         // Combat functions and player interaction functions
         // Returns true if did something
         bool alt_attack();
-        void heal_player( player &patient );
+        void heal_player( Character &patient );
         void heal_self();
-        void pretend_heal( player &patient, item used ); // healing action of hallucinations
+        void pretend_heal( Character &patient, item used ); // healing action of hallucinations
         void mug_player( Character &mark );
         void look_for_player( const Character &sought );
         // Do we have an idea of where u are?
@@ -1201,27 +1201,27 @@ class npc : public player
         void guard_current_pos();
 
         // Message related stuff
-        using player::add_msg_if_npc;
+        using Character::add_msg_if_npc;
         void add_msg_if_npc( const std::string &msg ) const override;
         void add_msg_if_npc( const game_message_params &params, const std::string &msg ) const override;
-        using player::add_msg_debug_if_npc;
+        using Character::add_msg_debug_if_npc;
         void add_msg_debug_if_npc( debugmode::debug_filter type, const std::string &msg ) const override;
-        using player::add_msg_player_or_npc;
+        using Character::add_msg_player_or_npc;
         void add_msg_player_or_npc( const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
         void add_msg_player_or_npc( const game_message_params &params, const std::string &player_msg,
                                     const std::string &npc_msg ) const override;
-        using player::add_msg_debug_player_or_npc;
+        using Character::add_msg_debug_player_or_npc;
         void add_msg_debug_player_or_npc( debugmode::debug_filter type, const std::string &player_msg,
                                           const std::string &npc_msg ) const override;
-        using player::add_msg_if_player;
+        using Character::add_msg_if_player;
         void add_msg_if_player( const std::string &/*msg*/ ) const override {}
         void add_msg_if_player( const game_message_params &/*type*/,
                                 const std::string &/*msg*/ ) const override {}
-        using player::add_msg_debug_if_player;
+        using Character::add_msg_debug_if_player;
         void add_msg_debug_if_player( debugmode::debug_filter /*type*/,
                                       const std::string &/*msg*/ ) const override {}
-        using player::add_msg_player_or_say;
+        using Character::add_msg_player_or_say;
         void add_msg_player_or_say( const std::string &player_msg,
                                     const std::string &npc_speech ) const override;
         void add_msg_player_or_say( const game_message_params &params, const std::string &player_msg,

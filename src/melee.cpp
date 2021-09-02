@@ -24,6 +24,7 @@
 #include "character.h"
 #include "character_martial_arts.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
 #include "enum_bitset.h"
@@ -253,7 +254,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
     // Preserve item temporarily for component breakdown
     item temp = shield;
 
-    shield.spill_contents( pos() );
+    shield.get_contents().spill_contents( pos() );
 
     remove_item( shield );
 
@@ -325,7 +326,7 @@ float Character::hit_roll() const
         hit *= 0.75f;
     }
 
-    hit *= std::max( 0.25f, 1.0f - avg_encumb_of_limb_type( body_part_type::type::torso ) / 100.0f );
+    hit *= melee_attack_roll_modifier();
 
     return melee::melee_hit_range( hit );
 }
@@ -613,11 +614,11 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             if( miss_recovery.id != tec_none ) {
                 add_msg( miss_recovery.npc_message.translated(), t.disp_name() );
             } else if( stumble_pen >= 60 ) {
-                add_msg( _( "%s misses and stumbles with the momentum." ), name );
+                add_msg( _( "%s misses and stumbles with the momentum." ), get_name() );
             } else if( stumble_pen >= 10 ) {
-                add_msg( _( "%s swings wildly and misses." ), name );
+                add_msg( _( "%s swings wildly and misses." ), get_name() );
             } else {
-                add_msg( _( "%s misses." ), name );
+                add_msg( _( "%s misses." ), get_name() );
             }
         }
 
@@ -829,7 +830,8 @@ void Character::reach_attack( const tripoint &p )
     // Fighting is hard work
     set_activity_level( EXTRA_EXERCISE );
 
-    Creature *critter = g->critter_at( p );
+    creature_tracker &creatures = get_creature_tracker();
+    Creature *critter = creatures.creature_at( p );
     // Original target size, used when there are monsters in front of our target
     const int target_size = critter != nullptr ? static_cast<int>( critter->get_size() ) : 2;
     // Reset last target pos
@@ -848,7 +850,7 @@ void Character::reach_attack( const tripoint &p )
     path.pop_back(); // Last point is our critter
     for( const tripoint &path_point : path ) {
         // Possibly hit some unintended target instead
-        Creature *inter = g->critter_at( path_point );
+        Creature *inter = creatures.creature_at( path_point );
         /** @EFFECT_STABBING decreases chance of hitting intervening target on reach attack */
         if( inter != nullptr &&
             !x_in_y( ( target_size * target_size + 1 ) * skill,
@@ -860,7 +862,7 @@ void Character::reach_attack( const tripoint &p )
         } else if( here.impassable( path_point ) &&
                    // Fences etc. Spears can stab through those
                    !( weapon.has_flag( flag_SPEAR ) &&
-                      here.has_flag( "THIN_OBSTACLE", path_point ) &&
+                      here.has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE, path_point ) &&
                       x_in_y( skill, 10 ) ) ) {
             /** @EFFECT_STR increases bash effects when reach attacking past something */
             here.bash( path_point, str_cur + weapon.damage_melee( damage_type::BASH ) );
@@ -1006,10 +1008,11 @@ float Character::get_dodge() const
         ret /= 2;
     }
 
+    creature_tracker &creatures = get_creature_tracker();
     if( has_effect( effect_grabbed ) ) {
         int zed_number = 0;
         for( const tripoint &dest : get_map().points_in_radius( pos(), 1, 0 ) ) {
-            const monster *const mon = g->critter_at<monster>( dest );
+            const monster *const mon = creatures.creature_at<monster>( dest );
             if( mon && mon->has_effect( effect_grabbing ) ) {
                 zed_number++;
             }
@@ -1483,6 +1486,7 @@ bool Character::valid_aoe_technique( Creature &t, const ma_technique &technique,
     int dx = std::max( -1, std::min( 1, t.posx() - posx() ) );
     int lookup = dy + 1 + 3 * ( dx + 1 );
 
+    creature_tracker &creatures = get_creature_tracker();
     //wide hits all targets adjacent to the attacker and the target
     if( technique.aoe == "wide" ) {
         //check if either (or both) of the squares next to our target contain a possible victim
@@ -1490,17 +1494,17 @@ bool Character::valid_aoe_technique( Creature &t, const ma_technique &technique,
         tripoint left = pos() + tripoint( offset_a[lookup], offset_b[lookup], 0 );
         tripoint right = pos() + tripoint( offset_b[lookup], -offset_a[lookup], 0 );
 
-        monster *const mon_l = g->critter_at<monster>( left );
+        monster *const mon_l = creatures.creature_at<monster>( left );
         if( mon_l && mon_l->friendly == 0 ) {
             targets.push_back( mon_l );
         }
-        monster *const mon_r = g->critter_at<monster>( right );
+        monster *const mon_r = creatures.creature_at<monster>( right );
         if( mon_r && mon_r->friendly == 0 ) {
             targets.push_back( mon_r );
         }
 
-        npc *const npc_l = g->critter_at<npc>( left );
-        npc *const npc_r = g->critter_at<npc>( right );
+        npc *const npc_l = creatures.creature_at<npc>( left );
+        npc *const npc_r = creatures.creature_at<npc>( right );
         if( npc_l && npc_l->is_enemy() ) {
             targets.push_back( npc_l );
         }
@@ -1520,9 +1524,9 @@ bool Character::valid_aoe_technique( Creature &t, const ma_technique &technique,
         tripoint target_pos = t.pos() + ( t.pos() - pos() );
         tripoint right = t.pos() + tripoint( offset_b[lookup], -offset_b[lookup], 0 );
 
-        monster *const mon_l = g->critter_at<monster>( left );
-        monster *const mon_t = g->critter_at<monster>( target_pos );
-        monster *const mon_r = g->critter_at<monster>( right );
+        monster *const mon_l = creatures.creature_at<monster>( left );
+        monster *const mon_t = creatures.creature_at<monster>( target_pos );
+        monster *const mon_r = creatures.creature_at<monster>( right );
         if( mon_l && mon_l->friendly == 0 ) {
             targets.push_back( mon_l );
         }
@@ -1533,9 +1537,9 @@ bool Character::valid_aoe_technique( Creature &t, const ma_technique &technique,
             targets.push_back( mon_r );
         }
 
-        npc *const npc_l = g->critter_at<npc>( left );
-        npc *const npc_t = g->critter_at<npc>( target_pos );
-        npc *const npc_r = g->critter_at<npc>( right );
+        npc *const npc_l = creatures.creature_at<npc>( left );
+        npc *const npc_t = creatures.creature_at<npc>( target_pos );
+        npc *const npc_r = creatures.creature_at<npc>( right );
         if( npc_l && npc_l->is_enemy() ) {
             targets.push_back( npc_l );
         }
@@ -1555,11 +1559,11 @@ bool Character::valid_aoe_technique( Creature &t, const ma_technique &technique,
             if( tmp == t.pos() ) {
                 continue;
             }
-            monster *const mon = g->critter_at<monster>( tmp );
+            monster *const mon = creatures.creature_at<monster>( tmp );
             if( mon && mon->friendly == 0 ) {
                 targets.push_back( mon );
             }
-            npc *const np = g->critter_at<npc>( tmp );
+            npc *const np = creatures.creature_at<npc>( tmp );
             if( np && np->is_enemy() ) {
                 targets.push_back( np );
             }
@@ -1686,8 +1690,8 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         if( technique.knockback_follow ) {
             const optional_vpart_position vp0 = here.veh_at( pos() );
             vehicle *const veh0 = veh_pointer_or_null( vp0 );
-            bool to_swimmable = here.has_flag( "SWIMMABLE", prev_pos );
-            bool to_deepwater = here.has_flag( TFLAG_DEEP_WATER, prev_pos );
+            bool to_swimmable = here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, prev_pos );
+            bool to_deepwater = here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, prev_pos );
 
             // Check if it's possible to move to the new tile
             bool move_issue =
@@ -1715,7 +1719,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         } else {
             add_msg_player_or_npc( _( "You disarm %s and take their weapon!" ),
                                    _( "<npcname> disarms %s and takes their weapon!" ),
-                                   you->name );
+                                   you->get_name() );
         }
         item it = you->remove_weapon();
         wield( it );
@@ -1729,7 +1733,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         } else {
             add_msg_player_or_npc( _( "You disarm %s!" ),
                                    _( "<npcname> disarms %s!" ),
-                                   you->name );
+                                   you->get_name() );
         }
     }
 
@@ -2027,7 +2031,7 @@ void Character::perform_special_attacks( Creature &t, dealt_damage_instance &dea
             if( !practiced ) {
                 // Practice unarmed, at most once per combo
                 practiced = true;
-                as_player()->practice( skill_unarmed, rng( 0, 10 ) );
+                practice( skill_unarmed, rng( 0, 10 ) );
             }
         }
         int dam = dealt_dam.total_damage();
@@ -2233,7 +2237,7 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
             if( is_avatar() ) {
                 tmp.text = string_format( mut_atk.attack_text_u.translated(), target );
             } else {
-                tmp.text = string_format( mut_atk.attack_text_npc.translated(), name, target );
+                tmp.text = string_format( mut_atk.attack_text_npc.translated(), get_name(), target );
             }
 
             // Attack starts here
@@ -2574,7 +2578,7 @@ void avatar::disarm( npc &target )
             //~ %s: weapon name
             add_msg( _( "You grab at %s and pull with all your force!" ), it.tname() );
             //~ %1$s: weapon name, %2$s: NPC name
-            add_msg( _( "You forcefully take %1$s from %2$s!" ), it.tname(), target.name );
+            add_msg( _( "You forcefully take %1$s from %2$s!" ), it.tname(), target.get_name() );
             // wield() will deduce our moves, consider to deduce more/less moves for balance
             item rem_it = target.i_rem( &it );
             wield( rem_it );
@@ -2597,12 +2601,12 @@ void avatar::disarm( npc &target )
     mod_moves( -100 - attack_speed( weapon ) );
     if( my_roll >= their_roll ) {
         add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ),
-                 target.name, it.tname() );
+                 target.get_name(), it.tname() );
         const tripoint tp = target.pos() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
         here.add_item_or_charges( tp, target.i_rem( &it ) );
     } else {
         add_msg( _( "You smash %s with all your might but %s remains in their hands!" ),
-                 target.name, it.tname() );
+                 target.get_name(), it.tname() );
     }
 
     target.on_attacked( *this );
@@ -2611,7 +2615,7 @@ void avatar::disarm( npc &target )
 void avatar::steal( npc &target )
 {
     if( target.is_enemy() ) {
-        add_msg( _( "%s is hostile!" ), target.name );
+        add_msg( _( "%s is hostile!" ), target.get_name() );
         return;
     }
 
@@ -2639,14 +2643,14 @@ void avatar::steal( npc &target )
     const item *it = loc.get_item();
     if( my_roll >= their_roll ) {
         add_msg( _( "You sneakily steal %1$s from %2$s!" ),
-                 it->tname(), target.name );
+                 it->tname(), target.get_name() );
         i_add( target.i_rem( it ) );
     } else if( my_roll >= their_roll / 2 ) {
         add_msg( _( "You failed to steal %1$s from %2$s, but did not attract attention." ),
-                 it->tname(), target.name );
+                 it->tname(), target.get_name() );
     } else  {
         add_msg( _( "You failed to steal %1$s from %2$s." ),
-                 it->tname(), target.name );
+                 it->tname(), target.get_name() );
         target.on_attacked( *this );
     }
 

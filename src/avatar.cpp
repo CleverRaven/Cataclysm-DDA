@@ -59,7 +59,6 @@
 #include "overmap.h"
 #include "pathfinding.h"
 #include "pimpl.h"
-#include "player.h"
 #include "player_activity.h"
 #include "profession.h"
 #include "ret_val.h"
@@ -657,6 +656,11 @@ void avatar::identify( const item &item )
 
     std::vector<std::string> recipe_list;
     for( const auto &elem : reading->recipes ) {
+        // Practice recipes are hidden. They're not written down in the book, they're
+        // just things that the avatar can figure out with help from the book.
+        if( elem.recipe->is_practice() ) {
+            continue;
+        }
         // If the player knows it, they recognize it even if it's not clearly stated.
         if( elem.is_hidden() && !knows_recipe( elem.recipe ) ) {
             continue;
@@ -749,7 +753,7 @@ int avatar::print_info( const catacurses::window &w, int vStart, int, int column
 {
     return vStart + fold_and_print( w, point( column, vStart ), getmaxx( w ) - column - 1, c_dark_gray,
                                     _( "You (%s)" ),
-                                    name ) - 1;
+                                    get_name() ) - 1;
 }
 
 void avatar::disp_morale()
@@ -1556,118 +1560,25 @@ std::unique_ptr<talker> get_talker_for( avatar *me )
     return std::make_unique<talker_avatar>( me );
 }
 
-points_left::points_left()
-{
-    limit = MULTI_POOL;
-    init_from_options();
-}
-
-void points_left::init_from_options()
-{
-    stat_points = get_option<int>( "INITIAL_STAT_POINTS" );
-    trait_points = get_option<int>( "INITIAL_TRAIT_POINTS" );
-    skill_points = get_option<int>( "INITIAL_SKILL_POINTS" );
-}
-
-// Highest amount of points to spend on stats without points going invalid
-int points_left::stat_points_left() const
-{
-    switch( limit ) {
-        case FREEFORM:
-        case ONE_POOL:
-            return stat_points + trait_points + skill_points;
-        case MULTI_POOL:
-            return std::min( trait_points_left(),
-                             stat_points + std::min( 0, trait_points + skill_points ) );
-        case TRANSFER:
-            return 0;
-    }
-
-    return 0;
-}
-
-int points_left::trait_points_left() const
-{
-    switch( limit ) {
-        case FREEFORM:
-        case ONE_POOL:
-            return stat_points + trait_points + skill_points;
-        case MULTI_POOL:
-            return stat_points + trait_points + std::min( 0, skill_points );
-        case TRANSFER:
-            return 0;
-    }
-
-    return 0;
-}
-
-int points_left::skill_points_left() const
-{
-    return stat_points + trait_points + skill_points;
-}
-
-bool points_left::is_freeform()
-{
-    return limit == FREEFORM;
-}
-
-bool points_left::is_valid()
-{
-    return is_freeform() ||
-           ( stat_points_left() >= 0 && trait_points_left() >= 0 &&
-             skill_points_left() >= 0 );
-}
-
-bool points_left::has_spare()
-{
-    return !is_freeform() && is_valid() && skill_points_left() > 0;
-}
-
-std::string points_left::to_string()
-{
-    if( limit == MULTI_POOL ) {
-        return string_format(
-                   _( "Points left: <color_%s>%d</color>%c<color_%s>%d</color>%c<color_%s>%d</color>=<color_%s>%d</color>" ),
-                   stat_points_left() >= 0 ? "light_gray" : "red", stat_points,
-                   trait_points >= 0 ? '+' : '-',
-                   trait_points_left() >= 0 ? "light_gray" : "red", std::abs( trait_points ),
-                   skill_points >= 0 ? '+' : '-',
-                   skill_points_left() >= 0 ? "light_gray" : "red", std::abs( skill_points ),
-                   is_valid() ? "light_gray" : "red", stat_points + trait_points + skill_points );
-    } else if( limit == ONE_POOL ) {
-        return string_format( _( "Points left: %4d" ), skill_points_left() );
-    } else if( limit == TRANSFER ) {
-        return _( "Character Transfer: No changes can be made." );
-    } else {
-        return _( "Freeform" );
-    }
-}
-
-int avatar::randomize_hobbies()
+void avatar::randomize_hobbies()
 {
     hobbies.clear();
     std::vector<profession_id> choices = profession::get_all_hobbies();
 
     int random = rng( 0, 5 );
-    int points = 0;
 
     if( random >= 1 ) {
         const profession_id hobby = random_entry_removed( choices );
-        points += hobby->point_cost();
         hobbies.insert( &*hobby );
     }
     if( random >= 3 ) {
         const profession_id hobby = random_entry_removed( choices );
-        points += hobby->point_cost();
         hobbies.insert( &*hobby );
     }
     if( random >= 5 ) {
         const profession_id hobby = random_entry_removed( choices );
-        points += hobby->point_cost();
         hobbies.insert( &*hobby );
     }
-
-    return points;
 }
 
 void avatar::reassign_item( item &it, int invlet )
@@ -1873,7 +1784,7 @@ void avatar::try_to_sleep( const time_duration &dur )
         }
     } else if( has_trait( trait_M_SKIN3 ) ) {
         fungaloid_cosplay = true;
-        if( here.has_flag_ter_or_furn( "FUNGUS", pos() ) ) {
+        if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, pos() ) ) {
             add_msg_if_player( m_good,
                                _( "Our fibers meld with the ground beneath us.  The gills on our neck begin to seed the air with spores as our awareness fades." ) );
         }
@@ -1920,7 +1831,7 @@ void avatar::try_to_sleep( const time_duration &dur )
             add_msg_if_player( m_good,
                                _( "You lay beneath the waves' embrace, gazing up through the water's surface…" ) );
             watersleep = true;
-        } else if( here.has_flag_ter( "SWIMMABLE", pos() ) ) {
+        } else if( here.has_flag_ter( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) ) {
             add_msg_if_player( m_good, _( "You settle into the water and begin to drowse…" ) );
             watersleep = true;
         }
@@ -1964,4 +1875,9 @@ void avatar::try_to_sleep( const time_duration &dur )
         }
     }
     assign_activity( player_activity( try_sleep_activity_actor( dur ) ) );
+}
+
+bool avatar::query_yn( const std::string &mes ) const
+{
+    return ::query_yn( mes );
 }

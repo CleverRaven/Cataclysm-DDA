@@ -1,11 +1,7 @@
 #include "filesystem.h"
 
-#include <cstddef>
-// IWYU pragma: no_include <sys/dirent.h>
-// IWYU pragma: no_include <sys/errno.h>
-// FILE I/O
-#include <sys/stat.h>
 #include <algorithm>
+#include <cstddef>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -17,103 +13,50 @@
 #include <type_traits>
 #include <vector>
 
+#include <ghc/fs_std_fwd.hpp>
+
 #include "cata_utility.h"
 #include "debug.h"
-
-#if defined(_MSC_VER)
-#   include <direct.h>
-
-#   include "wdirent.h"
-#else
-#   include <dirent.h>
-#   include <unistd.h>
-#endif
 
 #if defined(_WIN32)
 #   include "platform_win.h"
 #endif
 
-namespace
-{
-
-#if defined(_WIN32)
-bool do_mkdir( const std::string &path, const int /*mode*/ )
-{
-#if defined(_MSC_VER)
-    return _mkdir( path.c_str() ) == 0;
-#else
-    return mkdir( path.c_str() ) == 0;
-#endif
-}
-#else
-bool do_mkdir( const std::string &path, const int mode )
-{
-    return mkdir( path.c_str(), mode ) == 0;
-}
-#endif
-
-} //anonymous namespace
-
 bool assure_dir_exist( const std::string &path )
 {
-    return do_mkdir( path, 0777 ) || ( errno == EEXIST && dir_exist( path ) );
+    std::error_code ec;
+    fs::path p( path );
+    bool ret = fs::is_directory( p, ec ) || ( !fs::exists( p, ec ) && fs::create_directories( p, ec ) );
+    return !ec && ret;
 }
 
 bool dir_exist( const std::string &path )
 {
-    DIR *dir = opendir( path.c_str() );
-    if( dir != nullptr ) {
-        closedir( dir );
-        return true;
-    }
-    return false;
+    return fs::is_directory( path );
 }
 
 bool file_exist( const std::string &path )
 {
-    struct stat buffer;
-    return ( stat( path.c_str(), &buffer ) == 0 );
+    return fs::exists( path ) && !fs::is_directory( path );
 }
 
-#if defined(_WIN32)
 bool remove_file( const std::string &path )
 {
-    return DeleteFile( path.c_str() ) != 0;
+    std::error_code ec;
+    return fs::remove( path, ec );
 }
-#else
-bool remove_file( const std::string &path )
-{
-    return unlink( path.c_str() ) == 0;
-}
-#endif
 
-#if defined(_WIN32)
 bool rename_file( const std::string &old_path, const std::string &new_path )
 {
-    // Windows rename function does not override existing targets, so we
-    // have to remove the target to make it compatible with the Linux rename
-    if( file_exist( new_path ) ) {
-        if( !remove_file( new_path ) ) {
-            return false;
-        }
-    }
-
-    return rename( old_path.c_str(), new_path.c_str() ) == 0;
+    std::error_code ec;
+    fs::rename( old_path, new_path, ec );
+    return !ec;
 }
-#else
-bool rename_file( const std::string &old_path, const std::string &new_path )
-{
-    return rename( old_path.c_str(), new_path.c_str() ) == 0;
-}
-#endif
 
 bool remove_directory( const std::string &path )
 {
-#if defined(_WIN32)
-    return RemoveDirectory( path.c_str() );
-#else
-    return remove( path.c_str() ) == 0;
-#endif
+    std::error_code ec;
+    return fs::remove( path, ec );
 }
 
 const char *cata_files::eol()
@@ -142,116 +85,48 @@ namespace
 template <typename Function>
 void for_each_dir_entry( const std::string &path, Function function )
 {
-    using dir_ptr = DIR*;
-
     if( path.empty() ) {
         return;
     }
 
-    const dir_ptr root = opendir( path.c_str() );
-    if( !root ) {
-        const char *e_str = strerror( errno );
+    std::error_code ec;
+    auto dir_iter = fs::directory_iterator( path, ec );
+    if( ec ) {
+        std::string e_str = ec.message();
         DebugLog( D_WARNING, D_MAIN ) << "opendir [" << path << "] failed with \"" << e_str << "\".";
         return;
     }
-
-    while( const dirent *entry = readdir( root ) ) {
-        function( *entry );
+    for( auto &dir_entry : dir_iter ) {
+        function( dir_entry );
     }
-    closedir( root );
-}
-
-//--------------------------------------------------------------------------------------------------
-#if !defined(_WIN32)
-std::string resolve_path( const std::string &full_path )
-{
-    char *const result_str = realpath( full_path.c_str(), nullptr );
-    if( !result_str ) {
-        char *const e_str = strerror( errno );
-        DebugLog( D_WARNING, D_MAIN ) << "realpath [" << full_path << "] failed with \"" << e_str << "\".";
-        return {};
-    }
-
-    std::string result( result_str );
-    free( result_str );
-    return result;
-}
-#endif
-
-//--------------------------------------------------------------------------------------------------
-bool is_directory_stat( const std::string &full_path )
-{
-    if( full_path.empty() ) {
-        return false;
-    }
-
-    struct stat result;
-    if( stat( full_path.c_str(), &result ) != 0 ) {
-        const char *e_str = strerror( errno );
-        DebugLog( D_WARNING, D_MAIN ) << "stat [" << full_path << "] failed with \"" << e_str << "\".";
-        return false;
-    }
-
-    if( S_ISDIR( result.st_mode ) ) {
-        // NOLINTNEXTLINE(readability-simplify-boolean-expr)
-        return true;
-    }
-
-#if !defined(_WIN32)
-    if( S_ISLNK( result.st_mode ) ) {
-        return is_directory_stat( resolve_path( full_path ) );
-    }
-#endif
-
-    return false;
 }
 
 //--------------------------------------------------------------------------------------------------
 // Returns true if entry is a directory, false otherwise.
 //--------------------------------------------------------------------------------------------------
-#if defined(__MINGW32__)
-bool is_directory( const dirent &/*entry*/, const std::string &full_path )
+bool is_directory( const fs::directory_entry &entry, const std::string &full_path )
 {
-    // no dirent::d_type
-    return is_directory_stat( full_path );
-}
-#else
-bool is_directory( const dirent &entry, const std::string &full_path )
-{
-    if( entry.d_type == DT_DIR ) {
-        return true;
+    // We do an extra dance here because directory_entry might not have a cached valid stat result.
+    std::error_code ec;
+    bool result = entry.is_directory( ec );
+
+    if( ec ) {
+        std::string e_str = ec.message();
+        DebugLog( D_WARNING, D_MAIN ) << "stat [" << full_path << "] failed with \"" << e_str << "\".";
+        return false;
     }
 
-#if !defined(_WIN32)
-    if( entry.d_type == DT_LNK ) {
-        return is_directory_stat( resolve_path( full_path ) );
-    }
-#endif
-
-    if( entry.d_type == DT_UNKNOWN ) {
-        return is_directory_stat( full_path );
-    }
-
-    return false;
-}
-#endif
-
-//--------------------------------------------------------------------------------------------------
-// Returns true if the name of entry matches "." or "..".
-//--------------------------------------------------------------------------------------------------
-bool is_special_dir( const dirent &entry )
-{
-    return !strncmp( entry.d_name, ".",  sizeof( entry.d_name ) - 1 ) ||
-           !strncmp( entry.d_name, "..", sizeof( entry.d_name ) - 1 );
+    return result;
 }
 
 //--------------------------------------------------------------------------------------------------
 // If at_end is true, returns whether entry's name ends in match.
 // Otherwise, returns whether entry's name contains match.
 //--------------------------------------------------------------------------------------------------
-bool name_contains( const dirent &entry, const std::string &match, const bool at_end )
+bool name_contains( const fs::directory_entry &entry, const std::string &match, const bool at_end )
 {
-    const size_t len_fname = strlen( entry.d_name );
+    std::string entry_name = entry.path().filename().u8string();
+    const size_t len_fname = entry_name.length();
     const size_t len_match = match.length();
 
     if( len_match > len_fname ) {
@@ -259,7 +134,7 @@ bool name_contains( const dirent &entry, const std::string &match, const bool at
     }
 
     const size_t offset = at_end ? ( len_fname - len_match ) : 0;
-    return strstr( entry.d_name + offset, match.c_str() ) != nullptr;
+    return strstr( entry_name.c_str() + offset, match.c_str() ) != nullptr;
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -288,13 +163,9 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
         const std::ptrdiff_t n_dirs    = static_cast<std::ptrdiff_t>( directories.size() );
         const std::ptrdiff_t n_results = static_cast<std::ptrdiff_t>( results.size() );
 
-        for_each_dir_entry( path, [&]( const dirent & entry ) {
-            // exclude special directories.
-            if( is_special_dir( entry ) ) {
-                return;
-            }
-
-            const auto full_path = path + "/" + entry.d_name;
+        // We could use fs::recursive_directory_iterator maybe
+        for_each_dir_entry( path, [&]( const fs::directory_entry & entry ) {
+            const auto full_path = entry.path().generic_u8string();
 
             // don't add files ending in '~'.
             if( full_path.back() == '~' ) {
@@ -332,7 +203,8 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
 std::vector<std::string> get_files_from_path( const std::string &pattern,
         const std::string &root_path, const bool recursive_search, const bool match_extension )
 {
-    return find_file_if_bfs( root_path, recursive_search, [&]( const dirent & entry, bool ) {
+    return find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
+    bool ) {
         return name_contains( entry, pattern, match_extension );
     } );
 }
@@ -351,7 +223,8 @@ std::vector<std::string> get_directories_with( const std::string &pattern,
         return std::vector<std::string>();
     }
 
-    auto files = find_file_if_bfs( root_path, recursive_search, [&]( const dirent & entry, bool ) {
+    auto files = find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
+    bool ) {
         return name_contains( entry, pattern, true );
     } );
 
@@ -382,7 +255,8 @@ std::vector<std::string> get_directories_with( const std::vector<std::string> &p
     const auto ext_beg = std::begin( patterns );
     const auto ext_end = std::end( patterns );
 
-    auto files = find_file_if_bfs( root_path, recursive_search, [&]( const dirent & entry, bool ) {
+    auto files = find_file_if_bfs( root_path, recursive_search, [&]( const fs::directory_entry & entry,
+    bool ) {
         return std::any_of( ext_beg, ext_end, [&]( const std::string & ext ) {
             return name_contains( entry, ext, true );
         } );

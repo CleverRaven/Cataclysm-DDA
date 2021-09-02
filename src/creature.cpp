@@ -280,11 +280,11 @@ bool Creature::sees( const Creature &critter ) const
     if( wanted_range <= 1 && ( posz() == critter.posz() || here.sees( pos(), critter.pos(), 1 ) ) ) {
         return visible( ch );
     } else if( ( wanted_range > 1 && critter.digging() &&
-                 here.has_flag( TFLAG_DIGGABLE, critter.pos() ) ) ||
+                 here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, critter.pos() ) ) ||
                ( critter.has_flag( MF_CAMOUFLAGE ) && wanted_range > this->get_eff_per() ) ||
                ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && here.light_at( critter.pos() ) <= lit_level::LOW ) ||
                ( critter.is_underwater() && !is_underwater() && here.is_divable( critter.pos() ) ) ||
-               ( here.has_flag_ter_or_furn( TFLAG_HIDE_PLACE, critter.pos() ) &&
+               ( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_HIDE_PLACE, critter.pos() ) &&
                  !( std::abs( posx() - critter.posx() ) <= 1 && std::abs( posy() - critter.posy() ) <= 1 &&
                     std::abs( posz() - critter.posz() ) <= 1 ) ) ) {
         return false;
@@ -586,8 +586,8 @@ bool Creature::is_adjacent( const Creature *target, const bool allow_z_levels ) 
     const tripoint &up   = target_above ? target->pos() : pos();
     const tripoint &down = target_above ? pos() : target->pos();
     const tripoint above{ down.xy(), up.z };
-    return ( !here.has_floor( up ) || here.ter( up )->has_flag( TFLAG_GOES_DOWN ) ) &&
-           ( !here.has_floor( above ) || here.ter( above )->has_flag( TFLAG_GOES_DOWN ) );
+    return ( !here.has_floor( up ) || here.ter( up )->has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) ) &&
+           ( !here.has_floor( above ) || here.ter( above )->has_flag( ter_furn_flag::TFLAG_GOES_DOWN ) );
 }
 
 int Creature::deal_melee_attack( Creature *source, int hitroll )
@@ -1454,7 +1454,7 @@ void Creature::process_effects()
                 if( is_avatar() ) {
                     std::map<std::string, cata_variant> event_data;
                     std::pair<std::string, cata_variant> data_obj( "character",
-                            cata_variant::make<cata_variant_type::character_id>( as_player()->getID() ) );
+                            cata_variant::make<cata_variant_type::character_id>( as_character()->getID() ) );
                     event_data.insert( data_obj );
                     cata::event sent( e.death_event(), calendar::turn, std::move( event_data ) );
                     get_event_bus().send( sent );
@@ -1534,34 +1534,6 @@ int Creature::get_pain() const
 int Creature::get_perceived_pain() const
 {
     return get_pain();
-}
-
-std::pair<std::string, nc_color> Creature::get_pain_description() const
-{
-    float scale = get_perceived_pain() / 10.f;
-    std::string pain_string;
-    nc_color pain_color = c_yellow;
-    if( scale > 7 ) {
-        pain_string = _( "Severe pain" );
-    } else if( scale > 6 ) {
-        pain_string = _( "Intense pain" );
-    } else if( scale > 5 ) {
-        pain_string = _( "Unmanageable pain" );
-    } else if( scale > 4 ) {
-        pain_string = _( "Distressing pain" );
-    } else if( scale > 3 ) {
-        pain_string = _( "Distracting pain" );
-    } else if( scale > 2 ) {
-        pain_string = _( "Moderate pain" );
-    } else if( scale > 1 ) {
-        pain_string = _( "Mild pain" );
-    } else if( scale > 0 ) {
-        pain_string = _( "Minimal pain" );
-    } else {
-        pain_string = _( "No pain" );
-        pain_color = c_white;
-    }
-    return std::make_pair( pain_string, pain_color );
 }
 
 int Creature::get_moves() const

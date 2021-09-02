@@ -44,7 +44,6 @@
 #include "npc.h"
 #include "options.h"
 #include "output.h"
-#include "player.h"
 #include "player_activity.h"
 #include "point.h"
 #include "requirements.h"
@@ -89,10 +88,7 @@ static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 
-static const std::string flag_FLAT( "FLAT" );
 static const std::string flag_INITIAL_PART( "INITIAL_PART" );
-static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
-static const std::string flag_NO_FLOOR( "NO_FLOOR" );
 
 static bool finalized = false;
 
@@ -145,9 +141,9 @@ static std::map<construction_str_id, construction_id> construction_id_map;
 // Helper functions, nobody but us needs to call these.
 static bool can_construct( const construction_group_str_id &group );
 static bool can_construct( const construction &con );
-static bool player_can_build( player &p, const read_only_visitable &inv,
+static bool player_can_build( Character &you, const read_only_visitable &inv,
                               const construction_group_str_id &group );
-static bool player_can_see_to_build( player &p, const construction_group_str_id &group );
+static bool player_can_see_to_build( Character &you, const construction_group_str_id &group );
 static void place_construction( const construction_group_str_id &group );
 
 // Color standardization for string streams
@@ -841,35 +837,35 @@ construction_id construction_menu( const bool blueprint )
     return ret;
 }
 
-bool player_can_build( player &p, const read_only_visitable &inv,
+bool player_can_build( Character &you, const read_only_visitable &inv,
                        const construction_group_str_id &group )
 {
     // check all with the same group to see if player can build any
     std::vector<construction *> cons = constructions_by_group( group );
     for( auto &con : cons ) {
-        if( player_can_build( p, inv, *con ) ) {
+        if( player_can_build( you, inv, *con ) ) {
             return true;
         }
     }
     return false;
 }
 
-bool player_can_build( player &p, const read_only_visitable &inv, const construction &con )
+bool player_can_build( Character &you, const read_only_visitable &inv, const construction &con )
 {
-    if( p.has_trait( trait_DEBUG_HS ) ) {
+    if( you.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
 
-    if( !p.meets_skill_requirements( con ) ) {
+    if( !you.meets_skill_requirements( con ) ) {
         return false;
     }
 
     return con.requirements->can_make_with_inventory( inv, is_crafting_component );
 }
 
-bool player_can_see_to_build( player &p, const construction_group_str_id &group )
+bool player_can_see_to_build( Character &you, const construction_group_str_id &group )
 {
-    if( p.fine_detail_vision_mod() < 4 || p.has_trait( trait_DEBUG_HS ) ) {
+    if( you.fine_detail_vision_mod() < 4 || you.has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
     std::vector<construction *> cons = constructions_by_group( group );
@@ -999,22 +995,22 @@ void place_construction( const construction_group_str_id &group )
     player_character.activity.placement = here.getabs( pnt );
 }
 
-void complete_construction( player *p )
+void complete_construction( Character *you )
 {
     if( !finalized ) {
         debugmsg( "complete_construction called before finalization" );
         return;
     }
     map &here = get_map();
-    const tripoint terp = here.getlocal( p->activity.placement );
+    const tripoint terp = here.getlocal( you->activity.placement );
     partial_con *pc = here.partial_con_at( terp );
     if( !pc ) {
         debugmsg( "No partial construction found at activity placement in complete_construction()" );
         if( here.tr_at( terp ) == tr_unfinished_construction ) {
             here.remove_trap( terp );
         }
-        if( p->is_npc() ) {
-            npc *guy = dynamic_cast<npc *>( p );
+        if( you->is_npc() ) {
+            npc *guy = dynamic_cast<npc *>( you );
             guy->current_activity_id = activity_id::NULL_ID();
             guy->revert_after_activity();
             guy->set_moves( 0 );
@@ -1022,23 +1018,24 @@ void complete_construction( player *p )
         return;
     }
     const construction &built = pc->id.obj();
-    const auto award_xp = [&]( player & c ) {
+    const auto award_xp = [&]( Character & practicer ) {
         for( const auto &pr : built.required_skills ) {
-            c.practice( pr.first, static_cast<int>( ( 10 + 15 * pr.second ) * ( 1 + built.time / 180000.0 ) ),
-                        static_cast<int>( pr.second * 1.25 ) );
+            practicer.practice( pr.first, static_cast<int>( ( 10 + 15 * pr.second ) *
+                                ( 1 + built.time / 180000.0 ) ),
+                                static_cast<int>( pr.second * 1.25 ) );
         }
     };
 
-    award_xp( *p );
+    award_xp( *you );
     // Friendly NPCs gain exp from assisting or watching...
     // TODO: NPCs watching other NPCs do stuff and learning from it
-    if( p->is_avatar() ) {
+    if( you->is_avatar() ) {
         for( auto &elem : get_avatar().get_crafting_helpers() ) {
             if( elem->meets_skill_requirements( built ) ) {
-                add_msg( m_info, _( "%s assists you with the work…" ), elem->name );
+                add_msg( m_info, _( "%s assists you with the work…" ), elem->get_name() );
             } else {
                 //NPC near you isn't skilled enough to help
-                add_msg( m_info, _( "%s watches you work…" ), elem->name );
+                add_msg( m_info, _( "%s watches you work…" ), elem->get_name() );
             }
 
             award_xp( *elem );
@@ -1089,22 +1086,23 @@ void complete_construction( player *p )
 
     // Spawn byproducts
     if( built.byproduct_item_group ) {
-        here.spawn_items( p->pos(), item_group::items_from( *built.byproduct_item_group, calendar::turn ) );
+        here.spawn_items( you->pos(), item_group::items_from( *built.byproduct_item_group,
+                          calendar::turn ) );
     }
 
-    add_msg( m_info, _( "%s finished construction: %s." ), p->disp_name( false, true ),
+    add_msg( m_info, _( "%s finished construction: %s." ), you->disp_name( false, true ),
              built.group->name() );
     // clear the activity
-    p->activity.set_to_null();
+    you->activity.set_to_null();
 
     // This comes after clearing the activity, in case the function interrupts
     // activities
     built.post_special( terp );
     // npcs will automatically resume backlog, players wont.
-    if( p->is_avatar() && !p->backlog.empty() &&
-        p->backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
-        p->backlog.clear();
-        p->assign_activity( ACT_MULTIPLE_CONSTRUCTION );
+    if( you->is_avatar() && !you->backlog.empty() &&
+        you->backlog.front().id() == ACT_MULTIPLE_CONSTRUCTION ) {
+        you->backlog.clear();
+        you->assign_activity( ACT_MULTIPLE_CONSTRUCTION );
     }
 }
 
@@ -1113,7 +1111,7 @@ bool construct::check_empty( const tripoint &p )
     map &here = get_map();
     // @TODO should check for *visible* traps only. But calling code must
     // first know how to handle constructing on top of an invisible trap!
-    return ( here.has_flag( flag_FLAT, p ) && !here.has_furn( p ) &&
+    return ( here.has_flag( ter_furn_flag::TFLAG_FLAT, p ) && !here.has_furn( p ) &&
              g->is_empty( p ) && here.tr_at( p ).is_null() &&
              here.i_at( p ).empty() && !here.veh_at( p ) );
 }
@@ -1137,7 +1135,7 @@ bool construct::check_support( const tripoint &p )
     }
     int num_supports = 0;
     for( const tripoint &nb : get_orthogonal_neighbors( p ) ) {
-        if( here.has_flag( flag_SUPPORTS_ROOF, nb ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, nb ) ) {
             num_supports++;
         }
     }
@@ -1146,7 +1144,7 @@ bool construct::check_support( const tripoint &p )
 
 bool construct::check_stable( const tripoint &p )
 {
-    return get_map().has_flag( flag_SUPPORTS_ROOF, p + tripoint_below );
+    return get_map().has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, p + tripoint_below );
 }
 
 bool construct::check_empty_stable( const tripoint &p )
@@ -1156,7 +1154,7 @@ bool construct::check_empty_stable( const tripoint &p )
 
 bool construct::check_nofloor_above( const tripoint &p )
 {
-    return get_map().has_flag( flag_NO_FLOOR, p + tripoint_above );
+    return get_map().has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p + tripoint_above );
 }
 
 bool construct::check_deconstruct( const tripoint &p )
@@ -1196,7 +1194,7 @@ bool construct::check_ramp_high( const tripoint &p )
     if( check_empty_stable( p ) && check_up_OK( p ) && check_nofloor_above( p ) ) {
         for( const point &car_d : four_cardinal_directions ) {
             // check adjacent points on the z-level above for a completed down ramp
-            if( get_map().has_flag( TFLAG_RAMP_DOWN, p + car_d + tripoint_above ) ) {
+            if( get_map().has_flag( ter_furn_flag::TFLAG_RAMP_DOWN, p + car_d + tripoint_above ) ) {
                 return true;
             }
         }
@@ -1467,8 +1465,8 @@ void construct::done_mine_upstair( const tripoint &p )
         return;
     }
 
-    if( tmpmap.has_flag_ter( TFLAG_SHALLOW_WATER, local_tmp ) ||
-        tmpmap.has_flag_ter( TFLAG_DEEP_WATER, local_tmp ) ) {
+    if( tmpmap.has_flag_ter( ter_furn_flag::TFLAG_SHALLOW_WATER, local_tmp ) ||
+        tmpmap.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, local_tmp ) ) {
         here.ter_set( p.xy(), t_rock_floor ); // You dug a bit before discovering the problem
         add_msg( m_warning, _( "The rock above is rather damp.  You decide *not* to mine water." ) );
         unroll_digging( 12 );

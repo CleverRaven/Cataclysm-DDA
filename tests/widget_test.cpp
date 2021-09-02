@@ -1,6 +1,7 @@
 #include "catch/catch.hpp"
 
 #include "player_helpers.h"
+#include "morale.h"
 #include "widget.h"
 
 // test widgets defined in data/json/sidebar.json and data/mods/TEST_DATA/widgets.json
@@ -75,21 +76,21 @@ TEST_CASE( "widget value strings", "[widget][value][string]" )
 
 TEST_CASE( "widgets", "[widget][graph][color]" )
 {
-    SECTION( "phrase widgets" ) {
-        widget words = widget_id( "test_phrase_widget" ).obj();
-        REQUIRE( words._style == "phrase" );
+    SECTION( "text widgets" ) {
+        widget words = widget_id( "test_text_widget" ).obj();
+        REQUIRE( words._style == "text" );
 
-        CHECK( words.phrase( 0 ) == "Zero" );
-        CHECK( words.phrase( 1 ) == "One" );
-        CHECK( words.phrase( 2 ) == "Two" );
-        CHECK( words.phrase( 3 ) == "Three" );
-        CHECK( words.phrase( 4 ) == "Four" );
-        CHECK( words.phrase( 5 ) == "Five" );
-        CHECK( words.phrase( 6 ) == "Six" );
-        CHECK( words.phrase( 7 ) == "Seven" );
-        CHECK( words.phrase( 8 ) == "Eight" );
-        CHECK( words.phrase( 9 ) == "Nine" );
-        CHECK( words.phrase( 10 ) == "Ten" );
+        CHECK( words.text( 0 ) == "Zero" );
+        CHECK( words.text( 1 ) == "One" );
+        CHECK( words.text( 2 ) == "Two" );
+        CHECK( words.text( 3 ) == "Three" );
+        CHECK( words.text( 4 ) == "Four" );
+        CHECK( words.text( 5 ) == "Five" );
+        CHECK( words.text( 6 ) == "Six" );
+        CHECK( words.text( 7 ) == "Seven" );
+        CHECK( words.text( 8 ) == "Eight" );
+        CHECK( words.text( 9 ) == "Nine" );
+        CHECK( words.text( 10 ) == "Ten" );
     }
 
     SECTION( "number widget with color" ) {
@@ -271,6 +272,19 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         CHECK( mana_w.layout( ava ) == "MANA: 450" );
     }
 
+    SECTION( "morale" ) {
+        widget morale_w = widget_id( "test_morale_num" ).obj();
+
+        ava.clear_morale();
+        CHECK( morale_w.layout( ava ) == "MORALE: 0" );
+        ava.add_morale( MORALE_FOOD_GOOD, 20 );
+        CHECK( morale_w.layout( ava ) == "MORALE: 20" );
+
+        ava.clear_morale();
+        ava.add_morale( MORALE_KILLED_INNOCENT, -100 );
+        CHECK( morale_w.layout( ava ) == "MORALE: -100" );
+    }
+
     SECTION( "move counter" ) {
         widget move_w = widget_id( "test_move_num" ).obj();
 
@@ -301,6 +315,24 @@ TEST_CASE( "widgets showing avatar attributes", "[widget][avatar]" )
         // NOLINTNEXTLINE(cata-text-style): suppress "unnecessary space" warning before commas
         CHECK( head_graph_w.layout( ava ) == "HEAD: ,,,,," );
     }
+
+    SECTION( "weariness" ) {
+        widget weariness_w = widget_id( "test_weariness_num" ).obj();
+
+        CHECK( weariness_w.layout( ava ) == "WEARINESS: 0" );
+        // TODO: Check weariness set to other levels
+    }
+
+    SECTION( "wetness" ) {
+        widget head_wetness_w = widget_id( "test_bp_wetness_head_num" ).obj();
+        widget torso_wetness_w = widget_id( "test_bp_wetness_torso_num" ).obj();
+
+        CHECK( head_wetness_w.layout( ava ) == "HEAD WET: 0" );
+        CHECK( torso_wetness_w.layout( ava ) == "TORSO WET: 0" );
+        ava.drench( 100, { bodypart_str_id( "head" ), bodypart_str_id( "torso" ) }, false );
+        CHECK( head_wetness_w.layout( ava ) == "HEAD WET: 2" );
+        CHECK( torso_wetness_w.layout( ava ) == "TORSO WET: 2" );
+    }
 }
 
 TEST_CASE( "layout widgets", "[widget][layout]" )
@@ -311,12 +343,12 @@ TEST_CASE( "layout widgets", "[widget][layout]" )
     clear_avatar();
 
     CHECK( stats_w.layout( ava, 32 ) ==
-           string_format( "STR: 8  DEX: 8  INT: 8  PER  : 8" ) );
+           string_format( "STR: 8  DEX: 8  INT: 8  PER:   8" ) );
     CHECK( stats_w.layout( ava, 38 ) ==
-           string_format( "STR  : 8  DEX  : 8  INT : 8  PER   : 8" ) );
+           string_format( "STR:   8  DEX:   8  INT:  8  PER:    8" ) );
     CHECK( stats_w.layout( ava, 40 ) ==
-           string_format( "STR  : 8  DEX  : 8  INT  : 8  PER    : 8" ) );
+           string_format( "STR:   8  DEX:   8  INT:   8  PER:     8" ) );
     CHECK( stats_w.layout( ava, 42 ) ==
-           string_format( "STR   : 8  DEX   : 8  INT  : 8  PER    : 8" ) );
+           string_format( "STR:    8  DEX:    8  INT:   8  PER:     8" ) );
 }
 

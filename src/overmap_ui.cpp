@@ -16,6 +16,7 @@
 #include <string>
 #include <tuple>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -81,6 +82,7 @@ class character_id;
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 
 static const mongroup_id GROUP_FOREST( "GROUP_FOREST" );
+static const mongroup_id GROUP_NEMESIS( "GROUP_NEMESIS" );
 
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 
@@ -616,8 +618,8 @@ static void draw_ascii(
         nc_color color;
         size_t count = 0;
     };
-    std::vector<tripoint_abs_omt> path_route;
-    std::vector<tripoint_abs_omt> player_path_route;
+    std::unordered_set<tripoint_abs_omt> npc_path_route;
+    std::unordered_map<point_abs_omt, int> player_path_route;
     std::unordered_map<tripoint_abs_omt, npc_coloring> npc_color;
     auto npcs_near_player = overmap_buffer.get_npcs_near_player( sight_points );
     if( blink ) {
@@ -653,20 +655,21 @@ static void draw_ascii(
             followers.push_back( npc_to_add );
         }
         // get all traveling NPCs for the debug menu to show pathfinding routes.
-        for( auto &elem : overmap_buffer.get_npcs_near_player( 200 ) ) {
-            if( !elem ) {
-                continue;
-            }
-            npc *npc_to_add = elem.get();
-            if( npc_to_add->mission == NPC_MISSION_TRAVELLING && !npc_to_add->omt_path.empty() ) {
-                for( auto &elem : npc_to_add->omt_path ) {
-                    path_route.emplace_back( elem.xy(), npc_to_add->posz() );
+        if( g->debug_pathfinding ) {
+            for( auto &elem : overmap_buffer.get_npcs_near_player( 200 ) ) {
+                if( !elem ) {
+                    continue;
+                }
+                npc *npc_to_add = elem.get();
+                if( npc_to_add->mission == NPC_MISSION_TRAVELLING && !npc_to_add->omt_path.empty() ) {
+                    for( auto &elem : npc_to_add->omt_path ) {
+                        npc_path_route.insert( elem );
+                    }
                 }
             }
         }
         for( auto &elem : player_character.omt_path ) {
-            tripoint_abs_omt tri_to_add( elem.xy(), player_character.posz() );
-            player_path_route.push_back( tri_to_add );
+            player_path_route[ elem.xy() ] = elem.z();
         }
         for( const auto &np : followers ) {
             if( np->posz() != center.z() ) {
@@ -703,13 +706,9 @@ static void draw_ascii(
             // Check if location is within player line-of-sight
             const bool los = see && player_character.overmap_los( omp, sight_points );
             const bool los_sky = player_character.overmap_los( omp, sight_points * 2 );
-            int mycount = std::count( path_route.begin(), path_route.end(), omp );
-            bool player_path_count = false;
-            std::vector<tripoint_abs_omt>::iterator it =
-                std::find( player_path_route.begin(), player_path_route.end(), omp );
-            if( it != player_path_route.end() ) {
-                player_path_count = true;
-            }
+            const bool is_npc_path = npc_path_route.find( omp ) != npc_path_route.end();
+            const bool is_player_path = player_path_route.find( omp.xy() ) != player_path_route.end();
+            const int player_path_z = is_player_path ? player_path_route[ omp.xy() ] : 0;
             if( blink && omp == orig ) {
                 // Display player pos, should always be visible
                 ter_color = player_character.symbol_color();
@@ -742,11 +741,17 @@ static void draw_ascii(
                 // Visible NPCs are cached already
                 ter_color = npc_color[omp].color;
                 ter_sym = "@";
-            } else if( blink && mycount != 0 && g->debug_pathfinding ) {
-                ter_color = c_red;
-                ter_sym = "!";
-            } else if( blink && player_path_count ) {
+            } else if( blink && is_player_path ) {
                 ter_color = c_blue;
+                if( player_path_z == omp.z() ) {
+                    ter_sym = "!";
+                } else if( player_path_z > omp.z() ) {
+                    ter_sym = "^";
+                } else {
+                    ter_sym = "v";
+                }
+            } else if( blink && is_npc_path ) {
+                ter_color = c_red;
                 ter_sym = "!";
             } else if( blink && showhordes && los &&
                        overmap_buffer.get_horde_size( omp ) >= HORDE_VISIBILITY_SIZE ) {
@@ -792,7 +797,15 @@ static void draw_ascii(
                         if( mgp->horde ) {
                             // Hordes show as +
                             ter_sym = "+";
+
+                            if( mgp->type == GROUP_NEMESIS ) {
+                                // nemesis horde shows as &
+                                ter_sym = "&";
+                                ter_color = c_red;
+                            }
+
                             break;
+
                         } else {
                             // Regular groups show as -
                             ter_sym = "-";
@@ -905,7 +918,7 @@ static void draw_ascii(
     if( has_debug_vision || overmap_buffer.seen( center ) ) {
         for( const auto &npc : npcs_near_player ) {
             if( !npc->marked_for_death && npc->global_omt_location() == center ) {
-                corner_text.emplace_back( npc->basic_symbol_color(), npc->name );
+                corner_text.emplace_back( npc->basic_symbol_color(), npc->get_name() );
             }
         }
     }
@@ -1060,6 +1073,17 @@ static void draw_om_sidebar(
         mvwprintz( wbar, point( 1, ++lines ), c_white, _( "oter: %s" ), oter.id.str() );
         mvwprintz( wbar, point( 1, ++lines ), c_white,
                    _( "oter_type: %s" ), oter.get_type_id().str() );
+        cata::optional<mapgen_arguments> *args = overmap_buffer.mapgen_args( center );
+        if( args ) {
+            if( *args ) {
+                for( const std::pair<const std::string, cata_variant> &arg : ( **args ).map ) {
+                    mvwprintz( wbar, point( 1, ++lines ), c_white, "%s = %s",
+                               arg.first, arg.second.get_string() );
+                }
+            } else {
+                mvwprintz( wbar, point( 1, ++lines ), c_white, _( "args not yet set" ) );
+            }
+        }
     }
 
     if( has_target ) {
@@ -1101,6 +1125,7 @@ static void draw_om_sidebar(
         if( data.debug_editor ) {
             print_hint( "PLACE_TERRAIN", c_light_blue );
             print_hint( "PLACE_SPECIAL", c_light_blue );
+            print_hint( "SET_SPECIAL_ARGS", c_light_blue );
             ++y;
         }
 
@@ -1524,6 +1549,46 @@ static void place_ter_or_special( const ui_adaptor &om_ui, tripoint_abs_omt &cur
     }
 }
 
+static void set_special_args( tripoint_abs_omt &curs )
+{
+    cata::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( curs );
+    if( !maybe_args ) {
+        popup( _( "No overmap special args at this location." ) );
+        return;
+    }
+    if( *maybe_args ) {
+        popup( _( "Overmap special args at this location have already been set." ) );
+        return;
+    }
+    cata::optional<overmap_special_id> s = overmap_buffer.overmap_special_at( curs );
+    if( !s ) {
+        popup( _( "No overmap special at this location from which to fetch parameters." ) );
+        return;
+    }
+    const overmap_special &special = **s;
+    const mapgen_parameters &params = special.get_params();
+    mapgen_arguments args;
+    for( const std::pair<const std::string, mapgen_parameter> &p : params.map ) {
+        const std::string param_name = p.first;
+        const mapgen_parameter &param = p.second;
+        std::vector<std::string> possible_values = param.all_possible_values( params );
+        uilist arg_menu;
+        arg_menu.title = string_format( _( "Select value for mapgen argument %s: " ), param_name );
+        for( size_t i = 0; i != possible_values.size(); ++i ) {
+            const std::string &v = possible_values[i];
+            arg_menu.addentry( i, true, 0, v );
+        }
+        arg_menu.query();
+
+        if( arg_menu.ret < 0 ) {
+            return;
+        }
+        args.map[param_name] =
+            cata_variant::from_string( param.type(), std::move( possible_values[arg_menu.ret] ) );
+    }
+    *maybe_args = args;
+}
+
 static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt dest,
         bool driving )
 {
@@ -1563,7 +1628,8 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
         params = overmap_path_params::for_player();
         const oter_id dest_ter = overmap_buffer.ter_existing( dest );
         // already in water or going to a water tile
-        if( here.has_flag( "SWIMMABLE", player_character.pos() ) || is_river_or_lake( dest_ter ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, player_character.pos() ) ||
+            is_river_or_lake( dest_ter ) ) {
             params.water_cost = 100;
         }
     }
@@ -1653,6 +1719,7 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
     if( data.debug_editor ) {
         ictxt.register_action( "PLACE_TERRAIN" );
         ictxt.register_action( "PLACE_SPECIAL" );
+        ictxt.register_action( "SET_SPECIAL_ARGS" );
     }
     ictxt.register_action( "QUIT" );
     std::string action;
@@ -1792,6 +1859,8 @@ static tripoint_abs_omt display( const tripoint_abs_omt &orig,
             }
         } else if( action == "PLACE_TERRAIN" || action == "PLACE_SPECIAL" ) {
             place_ter_or_special( ui, curs, action );
+        } else if( action == "SET_SPECIAL_ARGS" ) {
+            set_special_args( curs );
         } else if( action == "MISSIONS" ) {
             g->list_missions();
         }

@@ -27,7 +27,6 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "pimpl.h"
-#include "player.h"
 #include "point.h"
 #include "submap.h"
 #include "temp_crafting_inventory.h"
@@ -458,7 +457,8 @@ VisitResponse map_cursor::visit_items(
 {
     map &here = get_map();
     // skip inaccessible items
-    if( here.has_flag( "SEALED", pos() ) && !here.has_flag( "LIQUIDCONT", pos() ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_SEALED, pos() ) &&
+        !here.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, pos() ) ) {
         return VisitResponse::NEXT;
     }
 

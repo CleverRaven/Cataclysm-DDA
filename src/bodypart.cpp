@@ -274,10 +274,13 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "manipulator_max", manipulator_max );
 
     optional( jo, was_loaded, "lifting_score", lifting_score );
+    optional( jo, was_loaded, "movement_speed_score", movement_speed_score );
+    optional( jo, was_loaded, "balance_score", balance_score );
 
     optional( jo, was_loaded, "blocking_score", blocking_score );
 
     optional( jo, was_loaded, "breathing_score", breathing_score );
+    optional( jo, was_loaded, "swim_score", swim_score );
 
     optional( jo, was_loaded, "vision_score", vision_score );
 
@@ -508,6 +511,23 @@ float bodypart::get_breathing_score() const
 float bodypart::get_vision_score() const
 {
     return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->vision_score ) );
+}
+
+float bodypart::get_movement_speed_score() const
+{
+    return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->movement_speed_score ) );
+}
+
+float bodypart::get_balance_score() const
+{
+    return encumb_adjusted_limb_value( wound_adjusted_limb_value( id->balance_score ) );
+}
+
+float bodypart::get_swim_score( const double swim_skill ) const
+{
+    const float mitigated_score = id->swim_score * ( 1.0f + ( swim_skill / 10.0f ) );
+    return std::min( encumb_adjusted_limb_value(
+                         wound_adjusted_limb_value( mitigated_score ) ), id->swim_score );
 }
 
 int bodypart::get_hp_cur() const

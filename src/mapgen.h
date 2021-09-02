@@ -141,6 +141,22 @@ struct spawn_data {
     std::vector<point> patrol_points_rel_ms;
 };
 
+/** Mapgen pieces will be applied in order of phases.  The phases are as
+ * follows: */
+enum class mapgen_phase {
+    terrain,
+    furniture,
+    default_,
+    nested_mapgen,
+    transform,
+    faction_ownership,
+};
+
+inline bool operator<( const mapgen_phase l, const mapgen_phase r )
+{
+    return static_cast<int>( l ) < static_cast<int>( r );
+}
+
 /**
  * Basic mapgen object. It is supposed to place or do something on a specific square on the map.
  * Inherit from this class and implement the @ref apply function.
@@ -170,16 +186,8 @@ class jmapgen_piece
         virtual bool is_nop() const {
             return false;
         }
-        /** The pieces will be applied in order of phases.  The phases are as
-         * follows:
-         * -2 - terrain
-         * -1 - furniture
-         *  0 - everything else
-         *  1 - nested mapgen
-         *  2 - transforms and faction ownership
-         */
-        virtual int phase() const {
-            return 0;
+        virtual mapgen_phase phase() const {
+            return mapgen_phase::default_;
         }
         /** Sanity-check this piece */
         virtual void check( const std::string &/*context*/, const mapgen_parameters & ) const { }
@@ -212,8 +220,6 @@ class jmapgen_place
         jmapgen_int repeat;
 };
 
-using palette_id = std::string;
-
 // Strong typedef for strings used as map/palette keys
 // Each key should be a UTF-8 string displayed in only one column (i.e.
 // utf8_width of 1) but can contain multiple Unicode code points.
@@ -240,12 +246,21 @@ struct hash<map_key> {
 };
 } // namespace std
 
+template<typename T>
+struct mapgen_constraint {
+    mapgen_constraint( const std::string &name, const T &val )
+        : parameter_name( name )
+        , value( val )
+    {}
+
+    std::string parameter_name;
+    T value;
+};
+
 class mapgen_palette
 {
     public:
         palette_id id;
-
-        mapgen_parameters parameters;
 
         /**
          * The mapping from character (key) to a list of things that should be placed. This is
@@ -267,6 +282,11 @@ class mapgen_palette
                                  placing_map &format_placings, const std::string &context );
 
         void check();
+
+        const mapgen_parameters &get_parameters() const {
+            return parameters;
+        }
+
         /**
          * Loads a palette object and returns it. Doesn't save it anywhere.
          */
@@ -287,16 +307,37 @@ class mapgen_palette
 
         static void reset();
     private:
+        mapgen_parameters parameters;
+
+        // These would ideally be mapgen_value<palette_id> but because they get
+        // transformed into parameters as an implementation detail it's easier
+        // to just use std::string
+        std::vector<mapgen_value<std::string>> palettes_used;
+
         static mapgen_palette load_internal(
             const JsonObject &jo, const std::string &src, const std::string &context,
             bool require_id, bool allow_recur );
 
+        struct add_palette_context {
+            add_palette_context( const std::string &ctx, mapgen_parameters * );
+
+            std::string context;
+            std::vector<palette_id> ancestors;
+            mapgen_parameters *parameters;
+            std::vector<mapgen_constraint<palette_id>> constraints;
+        };
+
         /**
          * Adds a palette to this one. New values take preference over the old ones.
          *
+         * The ancestors parameter is a set of ids from all the palettes
+         * currently being added, when this addition is triggered by the
+         * addition of another palette which includes rh.  This allows for
+         * detection of loops in palette references.
          */
-        void add( const palette_id &rh, const std::string &context = {} );
-        void add( const mapgen_palette &rh, const std::string &context = {} );
+        void add( const mapgen_value<std::string> &rh, const add_palette_context & );
+        void add( const palette_id &rh, const add_palette_context & );
+        void add( const mapgen_palette &rh, const add_palette_context & );
 };
 
 struct jmapgen_objects {
