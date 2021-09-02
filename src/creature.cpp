@@ -2363,6 +2363,7 @@ void Creature::mod_cut_bonus( int ncut )
 }
 void Creature::mod_size_bonus( int nsize )
 {
+    nsize = clamp( nsize, creature_size::tiny - get_size(), creature_size::huge - get_size() );
     size_bonus += nsize;
 }
 

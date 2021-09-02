@@ -5763,8 +5763,12 @@ bool mattack::zombie_fuse( monster *z )
     add_msg_if_player_sees( *z, _( "The %1$s fuses with the %2$s." ),
                             critter->name(), z->name() );
     z->moves -= 200;
-    z->add_effect( effect_grown_of_fuse, 10_days, true,
-                   critter->get_hp_max() + z->get_effect( effect_grown_of_fuse ).get_intensity() );
+    if( z->get_size() < creature_size::huge ) {
+        z->add_effect( effect_grown_of_fuse, 10_days, true,
+                       std::min( critter->get_hp_max(),
+                                 ( 80 * ( critter->get_volume() / 62500_ml ) ) )
+                       + z->get_effect( effect_grown_of_fuse ).get_intensity() );
+    }
     z->heal( critter->get_hp(), true );
     if( mission::on_creature_fusion( *z, *critter ) ) {
         z->mission_fused.emplace_back( critter->name() );
