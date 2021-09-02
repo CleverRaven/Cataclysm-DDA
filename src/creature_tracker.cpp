@@ -112,7 +112,8 @@ size_t creature_tracker::size() const
     return monsters_list.size();
 }
 
-bool creature_tracker::update_pos( const monster &critter, const tripoint &new_pos )
+bool creature_tracker::update_pos( const monster &critter, const tripoint &old_pos,
+                                   const tripoint &new_pos )
 {
     if( critter.is_dead() ) {
         // find ignores dead critters anyway, changing their position in the
@@ -138,11 +139,10 @@ bool creature_tracker::update_pos( const monster &critter, const tripoint &new_p
         return ptr.get() == &critter;
     } );
     if( iter != monsters_list.end() ) {
-        monsters_by_location.erase( critter.pos() );
+        monsters_by_location.erase( old_pos );
         monsters_by_location[new_pos] = *iter;
         return true;
     } else {
-        const tripoint old_pos = critter.pos();
         // We're changing the x/y/z coordinates of a zombie that hasn't been added
         // to the game yet. `add` will update monsters_by_location for us.
         debugmsg( "update_zombie_pos: no %s at %d,%d,%d (moving to %d,%d,%d)",

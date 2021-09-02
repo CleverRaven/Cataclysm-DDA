@@ -283,7 +283,7 @@ class Creature : public viewer
         inline int posz() const {
             return pos().z;
         }
-        virtual void setpos( const tripoint &p );
+        void setpos( const tripoint &p );
 
         /** Recreates the Creature from scratch. */
         virtual void normalize();
@@ -667,6 +667,8 @@ class Creature : public viewer
     protected:
         // Sets the creature's position without any side-effects.
         void set_pos_only( const tripoint &p );
+        // Invoked when the creature's position changes.
+        virtual void on_move( const tripoint &old_pos );
         /**anatomy is the plan of the creature's body*/
         anatomy_id creature_anatomy = anatomy_id( "default_anatomy" );
         /**this is the actual body of the creature*/

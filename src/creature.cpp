@@ -130,13 +130,17 @@ tripoint Creature::pos() const
 
 void Creature::setpos( const tripoint &p )
 {
+    const tripoint old_pos = pos();
     set_pos_only( p );
+    on_move( old_pos );
 }
 
 void Creature::set_pos_only( const tripoint &p )
 {
     position = p;
 }
+
+void Creature::on_move( const tripoint & ) {}
 
 std::vector<std::string> Creature::get_grammatical_genders() const
 {

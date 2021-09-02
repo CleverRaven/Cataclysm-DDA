@@ -223,21 +223,19 @@ monster::~monster() = default;
 monster &monster::operator=( const monster & ) = default;
 monster &monster::operator=( monster && ) noexcept( string_is_noexcept ) = default;
 
-void monster::setpos( const tripoint &p )
+void monster::on_move( const tripoint &old_pos )
 {
-    if( p == pos() ) {
+    Creature::on_move( old_pos );
+    if( old_pos == pos() ) {
         return;
     }
-
-    bool wandering = wander();
-    g->update_zombie_pos( *this, p );
-    Creature::setpos( p );
+    g->update_zombie_pos( *this, old_pos, pos() );
     if( has_effect( effect_ridden ) && mounted_player && mounted_player->pos() != pos() ) {
         add_msg_debug( debugmode::DF_MONSTER, "Ridden monster %s moved independently and dumped player",
                        get_name() );
         mounted_player->forced_dismount();
     }
-    if( wandering ) {
+    if( wander() ) {
         unset_dest();
     }
 }

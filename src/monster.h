@@ -506,8 +506,6 @@ class monster : public Creature
         // abstract for a fish monster representing a hidden stock of population in that area.
         int fish_population = 1;
 
-        void setpos( const tripoint &p ) override;
-
         short ignoring = 0;
         cata::optional<time_point> lastseen_turn;
 
@@ -584,6 +582,7 @@ class monster : public Creature
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
 
+        void on_move( const tripoint &old_pos ) override;
         /** Processes monster-specific effects of an effect. */
         void process_one_effect( effect &it, bool is_new ) override;
 };

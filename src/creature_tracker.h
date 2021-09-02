@@ -74,7 +74,7 @@ class creature_tracker
         size_t size() const;
         /** Updates the position of the given monster to the given point. Returns whether the operation
          *  was successful. */
-        bool update_pos( const monster &critter, const tripoint &new_pos );
+        bool update_pos( const monster &critter, const tripoint &old_pos, const tripoint &new_pos );
         /** Removes the given monster from the Creature tracker, adjusting other entries as needed. */
         void remove( const monster &critter );
         void clear();
