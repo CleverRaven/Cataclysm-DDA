@@ -3866,7 +3866,7 @@
       "THRESH_LIZARD",
       "THRESH_SPIDER"
     ],
-    "cancels": [ "PACIFIST" ],
+    "cancels": [ "PACIFIST", "MANSBESTFRIEND" ],
     "category": [ "BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SPIDER" ],
     "flags": [ "PRED1" ]
   },
