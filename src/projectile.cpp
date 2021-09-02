@@ -110,9 +110,9 @@ static void foamcrete_build( const tripoint &p )
         return;
     }
 
-    if( here.has_flag_ter( TFLAG_NO_FLOOR, p ) ) {
+    if( here.has_flag_ter( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
         for( const tripoint &ep : here.points_in_radius( p, 1 ) ) {
-            if( here.has_flag_ter( TFLAG_SUPPORTS_ROOF, ep ) ) {
+            if( here.has_flag_ter( ter_furn_flag::TFLAG_SUPPORTS_ROOF, ep ) ) {
                 here.ter_set( p, floor );
                 here.add_field( p, field_fd_foamcrete, 1 );
                 return;
