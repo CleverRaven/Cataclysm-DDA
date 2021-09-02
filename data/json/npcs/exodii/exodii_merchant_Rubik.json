@@ -49,7 +49,7 @@
     "description": "Your brain and some of your organs are shielded in a nice tough bipedal walker frame.",
     "valid": false,
     "purifiable": false,
-    "types": [ "Cyberframe" ]
+    "types": [ "Cyberframe" ],
     "passive_mods": { "str_mod": 4, "dex_mod": 4 },
     "hp_adjustment": 20,
     "restricts_gear": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r" ],
@@ -80,12 +80,66 @@
   {
     "id": "TALK_EXODII_MERCHANT",
     "type": "talk_topic",
-    "dynamic_line": "Oy, you ain't dead.  Lookin' t'trade?",
+    "dynamic_line": {
+      "u_has_effect": "u_exodii_interaction_timer_short",
+      "yes": [ "Back in a blink and a whiff, eh?", "Forgot sommat?", "Ah, a returnin', an I'm ken." ],
+      "no": {
+        "u_has_var": "u_met_Rubik",
+        "type": "general",
+        "context": "meeting",
+        "value": "yes",
+        "yes": [
+          "And a fine return, matey.",
+          "Fine and you still ain't dead.  Lookin' t'trade?",
+          "Bright and sunny, you're back!  I got goods for ye, if you got goods for me."
+        ],
+        "no": "Oy, you ain't dead.  Lookin' t'trade?"
+      }
+    },
+    "speaker_effect": [
+      {
+        "sentinel": "interaction_timer_short",
+        "condition": { "not": { "u_has_effect": "u_exodii_interaction_timer_short" } },
+        "//": "Just coming and saying hi to Rubik regularly will give you a small boost to trust.",
+        "effect": [
+          { "u_add_effect": "u_exodii_interaction_timer_short", "duration": "30 hours" },
+          { "u_adjust_var": "exodii_trust", "type": "counter", "context": "exodii", "adjustment": 1 }
+        ]
+      },
+      {
+        "sentinel": "interaction_timer_long",
+        "condition": { "not": { "u_has_effect": "u_exodii_interaction_timer_long" } },
+        "//": "Gives you a less frequent boost to trust for regular interactions with the exodii.",
+        "effect": [
+          { "u_add_effect": "u_exodii_interaction_timer_long", "duration": "1 week" },
+          { "u_adjust_var": "exodii_trust", "type": "counter", "context": "exodii", "adjustment": 1 }
+        ]
+      }
+    ],
     "responses": [
-      { "text": "What is this place?", "topic": "TALK_EXODII_MERCHANT_New" },
-      { "text": "Actually, I wanted to talk.", "topic": "TALK_EXODII_MERCHANT_Talk" },
+      {
+        "text": "What is this place?",
+        "topic": "TALK_EXODII_MERCHANT_New",
+        "effect": { "u_add_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" } }
+      },
+      {
+        "text": "Actually, I wanted to talk.",
+        "topic": "TALK_EXODII_MERCHANT_Talk",
+        "condition": { "u_has_var": "u_met_Rubik", "type": "general", "context": "meeting", "value": "yes" }
+      },
       { "text": "Hell no, I'm out of here.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "effect_type",
+    "id": "u_exodii_interaction_timer_short",
+    "//": "This prevents you from building trust with the exodii too quickly by just talking to them constantly, and tells Rubik to use a different greeting because he saw you very recently."
+  },
+  {
+    "type": "effect_type",
+    "id": "u_exodii_interaction_timer_long",
+    "//": "This prevents you from building trust with the exodii too quickly by just talking to them constantly."
   },
   {
     "id": "TALK_EXODII_MERCHANT_New",
