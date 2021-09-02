@@ -1528,6 +1528,7 @@
     "prereqs": [ "LIGHTFUR" ],
     "cancels": [ "BIRD_EYE", "LIZ_EYE", "FEL_EYE", "URSINE_EYE", "COMPOUND_EYES" ],
     "category": [ "LUPINE" ],
+    "mixed_effect": true,
     "social_modifiers": { "lie": -5, "persuade": 5, "intimidate": -5 }
   },
   {
