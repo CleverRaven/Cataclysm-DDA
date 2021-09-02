@@ -16,7 +16,7 @@
       [ [ -1, 0, -1 ], [ "subterranean_empty" ] ],
       [ [ 0, -1, -1 ], [ "subterranean_empty" ] ]
     ],
-    "connections": [ "surface_to_tunnel", "tunnel_to_tunnel" ],
+    "joins": [ "surface_to_tunnel", "tunnel_to_tunnel" ],
     "overmaps": {
       "surface": { "overmap": "anthill", "below": "surface_to_tunnel", "locations": [ "land" ] },
       "below_entrance": {
