@@ -178,7 +178,7 @@ TEST_CASE( "cut_up_yields" )
     cut_up_yields( "stick" );
     cut_up_yields( "stick_long" );
     cut_up_yields( "tazer" );
-    cut_up_yields( "control_laptop" );
+    cut_up_yields( "laptop" );
     cut_up_yields( "voltmeter" );
     cut_up_yields( "burette" );
     cut_up_yields( "eink_tablet_pc" );
