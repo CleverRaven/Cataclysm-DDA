@@ -1692,6 +1692,7 @@ void talk_effect_fun_t::set_add_effect( const JsonObject &jo, const std::string 
         const std::string dur_string = jo.get_string( "duration" );
         if( dur_string == "PERMANENT" ) {
             permanent = true;
+            dov_duration = get_duration_or_var( jo, "", false, 0_turns );
         } else {
             dov_duration = get_duration_or_var( jo, "duration", false, 1000_turns );
         }
