@@ -1339,7 +1339,7 @@
   },
   {
     "id": "book_binder",
-    "type": "GENERIC",
+    "type": "TOOL",
     "category": "books",
     "use_action": "BINDER_ADD_RECIPE",
     "symbol": "/",
