@@ -298,7 +298,7 @@
     "id": "mon_spider_disease",
     "type": "MONSTER",
     "name": { "str": "shimmering spider" },
-    "description": "A dog-sized spider, the air around it has a faint shimmer like light on strands of webbing.",
+    "description": "A dog-sized spider, the air around it has a faint shimmer of light, possibly reflected from tiny strands of webbing.",
     "default_faction": "spider_web",
     "bodytype": "spider",
     "species": [ "SPIDER" ],
