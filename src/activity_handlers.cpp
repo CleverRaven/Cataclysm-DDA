@@ -192,16 +192,10 @@ static const itype_id itype_log( "log" );
 static const itype_id itype_mind_scan_robofac( "mind_scan_robofac" );
 static const itype_id itype_muscle( "muscle" );
 static const itype_id itype_nail( "nail" );
-static const itype_id itype_pipe( "pipe" );
-static const itype_id itype_rebar( "rebar" );
-static const itype_id itype_scrap( "scrap" );
-static const itype_id itype_sheet_metal( "sheet_metal" );
 static const itype_id itype_spike( "spike" );
 static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_stick_long( "stick_long" );
-static const itype_id itype_steel_chunk( "steel_chunk" );
-static const itype_id itype_wire( "wire" );
-static const itype_id itype_chain( "chain" );
+
 
 static const zone_type_id zone_type_FARM_PLOT( "FARM_PLOT" );
 
