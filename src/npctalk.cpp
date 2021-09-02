@@ -2191,16 +2191,6 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
     };
 }
 
-
-void talk_effect_fun_t::set_mod_pain( const JsonObject &jo, const std::string &member,
-                                      bool is_npc )
-{
-    int_or_var iov = get_int_or_var( jo, member );
-    function = [is_npc, iov]( const dialogue & d ) {
-        d.actor( is_npc )->mod_pain( iov.evaluate( d.actor( is_npc ) ) );
-    };
-}
-
 void talk_effect_fun_t::set_add_wet( const JsonObject &jo, const std::string &member,
                                      bool is_npc )
 {
@@ -2236,19 +2226,6 @@ void talk_effect_fun_t::set_sound_effect( const JsonObject &jo, const std::strin
                 }
                 sfx::play_variant_sound( id, variant, local_volume, random_direction() );
             }
-        }
-    };
-}
-
-void talk_effect_fun_t::set_add_power( const JsonObject &jo, const std::string &member,
-                                       bool is_npc )
-{
-    units::energy amount;
-    assign( jo, member, amount, false );
-    function = [is_npc, amount]( const dialogue & d ) {
-        Character *target = d.actor( is_npc )->get_character();
-        if( target ) {
-            target->mod_power_level( amount );
         }
     };
 }
@@ -2607,6 +2584,26 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
             jo.throw_error( "altering items this way is currently not supported.  In " + jo.str() );
         } else if( checked_value == "exp" ) {
             jo.throw_error( "altering max exp this way is currently not supported.  In " + jo.str() );
+        } else if( checked_value == "stim" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_stim( input );
+            };
+        } else if( checked_value == "pkill" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_pkill( input );
+            };
+        } else if( checked_value == "rad" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_rad( input );
+            };
+        } else if( checked_value == "fatigue" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_fatigue( input );
+            };
+        } else if( checked_value == "stamina" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_stamina( input );
+            };
         }
     }
     jo.throw_error( "error setting interger destination in " + jo.str() );
@@ -2623,15 +2620,6 @@ void talk_effect_fun_t::set_assign_mission( const JsonObject &jo, const std::str
         std::vector<mission *> missions = player_character.get_active_missions();
         mission *new_mission = mission::reserve_new( mission_type, character_id() );
         new_mission->assign( player_character );
-    };
-}
-
-void talk_effect_fun_t::set_mod_fatigue( const JsonObject &jo, const std::string &member,
-        bool is_npc )
-{
-    int_or_var iov = get_int_or_var( jo, member );
-    function = [is_npc, iov]( const dialogue & d ) {
-        d.actor( is_npc )->mod_fatigue( iov.evaluate( d.actor( is_npc ) ) );
     };
 }
 
@@ -2770,15 +2758,6 @@ void talk_effect_fun_t::set_lose_morale( const JsonObject &jo, const std::string
     };
 }
 
-void talk_effect_fun_t::set_mod_focus( const JsonObject &jo, const std::string &member,
-                                       bool is_npc )
-{
-    int_or_var iov = get_int_or_var( jo, member );
-    function = [is_npc, iov]( const dialogue & d ) {
-        d.actor( is_npc )->mod_focus( iov.evaluate( d.actor( is_npc ) ) );
-    };
-}
-
 void talk_effect_fun_t::set_custom_light_level( const JsonObject &jo, const std::string &member )
 {
     int_or_var iov = get_int_or_var( jo, member, true );
@@ -2865,15 +2844,6 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
                 }
             }
         }
-    };
-}
-
-void talk_effect_fun_t::set_mod_radiation( const JsonObject &jo, const std::string &member,
-        bool is_npc )
-{
-    int_or_var iov = get_int_or_var( jo, member, true );
-    function = [is_npc, iov]( const dialogue & d ) {
-        d.actor( is_npc )->mod_rad( iov.evaluate( d.actor( is_npc ) ) );
     };
 }
 
@@ -3149,24 +3119,12 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_message( jo, "u_message" );
     } else if( jo.has_string( "npc_message" ) ) {
         subeffect_fun.set_message( jo, "npc_message", true );
-    } else if( jo.has_int( "u_mod_pain" ) || jo.has_object( "u_mod_pain" ) ) {
-        subeffect_fun.set_mod_pain( jo, "u_mod_pain", false );
-    } else if( jo.has_int( "npc_mod_pain" ) || jo.has_object( "npc_mod_pain" ) ) {
-        subeffect_fun.set_mod_pain( jo, "npc_mod_pain", false );
     } else if( jo.has_int( "u_add_wet" ) || jo.has_object( "u_add_wet" ) ) {
         subeffect_fun.set_add_wet( jo, "u_add_wet", false );
     } else if( jo.has_int( "npc_add_wet" ) || jo.has_object( "npc_add_wet" ) ) {
         subeffect_fun.set_add_wet( jo, "npc_add_wet", true );
-    } else if( jo.has_member( "u_add_power" ) ) {
-        subeffect_fun.set_add_power( jo, "u_add_power", false );
-    } else if( jo.has_member( "npc_add_power" ) ) {
-        subeffect_fun.set_add_power( jo, "npc_add_power", true );
     } else if( jo.has_member( "assign_mission" ) ) {
         subeffect_fun.set_assign_mission( jo, "assign_mission" );
-    } else if( jo.has_int( "u_mod_fatigue" ) || jo.has_object( "u_mod_fatigue" ) ) {
-        subeffect_fun.set_mod_fatigue( jo, "u_mod_fatigue", false );
-    } else if( jo.has_int( "npc_mod_fatigue" ) || jo.has_object( "npc_mod_fatigue" ) ) {
-        subeffect_fun.set_mod_fatigue( jo, "npc_mod_fatigue", true );
     } else if( jo.has_member( "u_make_sound" ) ) {
         subeffect_fun.set_make_sound( jo, "u_make_sound", false );
     } else if( jo.has_member( "npc_make_sound" ) ) {
@@ -3179,10 +3137,6 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_mod_healthy( jo, "u_mod_healthy", false );
     } else if( jo.has_member( "npc_mod_healthy" ) ) {
         subeffect_fun.set_mod_healthy( jo, "npc_mod_healthy", true );
-    } else if( jo.has_int( "u_mod_focus" ) || jo.has_object( "u_mod_focus" ) ) {
-        subeffect_fun.set_mod_focus( jo, "u_mod_focus", false );
-    } else if( jo.has_int( "npc_mod_focus" ) || jo.has_object( "npc_mod_focus" ) ) {
-        subeffect_fun.set_mod_focus( jo, "npc_mod_focus", true );
     } else if( jo.has_string( "u_add_morale" ) ) {
         subeffect_fun.set_add_morale( jo, "u_add_morale", false );
     } else if( jo.has_string( "npc_add_morale" ) ) {
@@ -3201,10 +3155,6 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
         subeffect_fun.set_spawn_monster( jo, "u_set_spawn_monster", false );
     } else if( jo.has_string( "npc_set_spawn_monster" ) ) {
         subeffect_fun.set_spawn_monster( jo, "npc_set_spawn_monster", true );
-    } else if( jo.has_int( "u_mod_radiation" ) || jo.has_object( "u_mod_radiation" ) ) {
-        subeffect_fun.set_mod_radiation( jo, "u_mod_radiation", false );
-    } else if( jo.has_int( "npc_mod_radiation" ) || jo.has_object( "npc_mod_radiation" ) ) {
-        subeffect_fun.set_mod_radiation( jo, "npc_mod_radiation", true );
     } else if( jo.has_string( "u_set_field" ) ) {
         subeffect_fun.set_field( jo, "u_set_field", false );
     } else if( jo.has_string( "npc_set_field" ) ) {
