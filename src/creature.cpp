@@ -203,7 +203,7 @@ bool Creature::is_underwater() const
 bool Creature::is_likely_underwater() const
 {
     return is_underwater() ||
-           ( has_flag( MF_AQUATIC ) && get_map().has_flag( TFLAG_SWIMMABLE, pos() ) );
+           ( has_flag( MF_AQUATIC ) && get_map().has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos() ) );
 }
 
 bool Creature::is_ranged_attacker() const
@@ -297,13 +297,13 @@ bool Creature::sees( const Creature &critter ) const
                ( critter.has_flag( MF_WATER_CAMOUFLAGE ) &&
                  wanted_range > this->get_eff_per() &&
                  ( critter.is_likely_underwater() ||
-                   here.has_flag( TFLAG_DEEP_WATER, critter.pos() ) ||
-                   ( here.has_flag( TFLAG_SHALLOW_WATER, critter.pos() ) &&
+                   here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, critter.pos() ) ||
+                   ( here.has_flag( ter_furn_flag::TFLAG_SHALLOW_WATER, critter.pos() ) &&
                      critter.get_size() < creature_size::medium ) ) ) ||
                ( critter.has_flag( MF_NIGHT_INVISIBILITY ) && here.light_at( critter.pos() ) <= lit_level::LOW ) ||
                ( !is_likely_underwater() && critter.is_likely_underwater() &&
                  majority_rule( critter.has_flag( MF_WATER_CAMOUFLAGE ),
-                                here.has_flag( TFLAG_DEEP_WATER, critter.pos() ),
+                                here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, critter.pos() ),
                                 posz() != critter.posz() ) ) ||
                ( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_HIDE_PLACE, critter.pos() ) &&
                  !( std::abs( posx() - critter.posx() ) <= 1 && std::abs( posy() - critter.posy() ) <= 1 &&
