@@ -2121,6 +2121,11 @@ void monster::load( const JsonObject &data )
 {
     Creature::load( data );
 
+    // TEMPORARY until 0.G
+    if( !data.has_member( "location" ) ) {
+        set_location( tripoint_abs_ms( get_map().getabs( read_legacy_creature_pos( data ) ) ) );
+    }
+
     std::string sidtmp;
     // load->str->int
     data.read( "typeid", sidtmp );
