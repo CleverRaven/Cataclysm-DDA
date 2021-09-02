@@ -133,7 +133,6 @@ npc::npc()
     , companion_mission_time_ret( calendar::before_time_starts )
 {
     last_updated = calendar::turn;
-    submap_coords = point_zero;
     last_player_seen_pos = cata::nullopt;
     last_seen_player_turn = 999;
     wanted_item_pos = tripoint_min;
@@ -743,9 +742,7 @@ void npc::on_move( const tripoint_abs_ms &old_pos )
 {
     Character::on_move( old_pos );
     const point_abs_om pos_om_old = project_to<coords::om>( old_pos.xy() );
-    submap_coords = get_map().get_abs_sub().xy() + point( posx() / SEEX, posy() / SEEY );
-    // TODO: fix point types
-    const point_abs_om pos_om_new( sm_to_om_copy( submap_coords ) );
+    const point_abs_om pos_om_new = project_to<coords::om>( get_location().xy() );
     if( !is_fake() && pos_om_old != pos_om_new ) {
         overmap &om_old = overmap_buffer.get( pos_om_old );
         overmap &om_new = overmap_buffer.get( pos_om_new );
@@ -790,24 +787,11 @@ void npc::spawn_at_omt( const tripoint_abs_omt &p )
 
 void npc::spawn_at_precise( const tripoint_abs_ms &p )
 {
-    point_abs_sm quotient;
-    tripoint_sm_ms remainder;
-    std::tie( quotient, remainder ) = project_remain<coords::sm>( p );
-    submap_coords = quotient.raw();
-    set_pos_only( remainder.raw() );
+    set_location( p );
 }
 
 void npc::place_on_map()
 {
-    // The global absolute position (in map squares) of the npc is *always*
-    // "submap_coords.x * SEEX + posx() % SEEX" (analog for y).
-    // The main map assumes that pos is in its own (local to the main map)
-    // coordinate system. We have to change pos to match that assumption
-    const point dm( submap_coords - get_map().get_abs_sub().xy() );
-    const point offset( posx() % SEEX, posy() % SEEY );
-    // value of "submap_coords.x * SEEX + posx()" is unchanged
-    setpos( tripoint( offset.x + dm.x * SEEX, offset.y + dm.y * SEEY, posz() ) );
-
     if( g->is_empty( pos() ) || is_mounted() ) {
         return;
     }

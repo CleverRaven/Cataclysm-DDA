@@ -1757,6 +1757,15 @@ void npc::load( const JsonObject &data )
 {
     Character::load( data );
 
+    // TEMPORARY until 0.G
+    if( !data.has_member( "location" ) ) {
+        point submap_coords;
+        data.read( "submap_coords", submap_coords );
+        const tripoint pos = read_legacy_creature_pos( data );
+        set_location( tripoint_abs_ms( project_to<coords::ms>( point_abs_sm( submap_coords ) ),
+                                       0 ) + tripoint( pos.x % SEEX, pos.y % SEEY, pos.z ) );
+    }
+
     int misstmp = 0;
     int classtmp = 0;
     int atttmp = 0;
@@ -1792,21 +1801,6 @@ void npc::load( const JsonObject &data )
     }
     data.read( "known_to_u", known_to_u );
     data.read( "personality", personality );
-    if( !data.read( "submap_coords", submap_coords ) ) {
-        // Old submap coordinates are for the point (0, 0, 0) on local map
-        // New ones are for submap that contains pos
-        point old_coords;
-        data.read( "mapx", old_coords.x );
-        data.read( "mapy", old_coords.y );
-        int o = 0;
-        if( data.read( "omx", o ) ) {
-            old_coords.x += o * OMAPX * 2;
-        }
-        if( data.read( "omy", o ) ) {
-            old_coords.y += o * OMAPY * 2;
-        }
-        submap_coords = old_coords + point( posx() / SEEX, posy() / SEEY );
-    }
 
     if( data.has_member( "plx" ) ) {
         last_player_seen_pos.emplace();
@@ -1997,8 +1991,6 @@ void npc::store( JsonOut &json ) const
     json.member( "myclass", myclass.str() );
     json.member( "known_to_u", known_to_u );
     json.member( "personality", personality );
-
-    json.member( "submap_coords", submap_coords );
 
     json.member( "last_player_seen_pos", last_player_seen_pos );
 
