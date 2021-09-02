@@ -398,7 +398,8 @@
       "NO_BREED",
       "CANPLAY",
       "SWIMS",
-      "AQUATIC"
+      "AQUATIC",
+      "WATER_CAMOUFLAGE"
     ]
   }
 ]

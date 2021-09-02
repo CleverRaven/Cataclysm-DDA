@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 
+#include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "auto_pickup.h"
 #include "avatar.h"
@@ -739,6 +740,31 @@ void talk_function::buy_100_logs( npc &p )
 
     p.add_effect( effect_currently_busy, 7_days );
     add_msg( m_good, _( "%s drops the logs off in the garage…" ), p.get_name() );
+}
+
+/*
+ * Function to make the npc drop non favorite, worn or wielded items at their current position.
+ */
+void talk_function::drop_items_in_place( npc &p )
+{
+    std::vector<drop_or_stash_item_info> to_drop;
+
+    // add all non favorite carried items to the drop off list
+    for( const item_location &npcs_item : p.all_items_loc() ) {
+        if( !npcs_item->is_favorite && npcs_item.where() == item_location::type::container &&
+            npcs_item.parent_item().where() == item_location::type::character ) {
+            to_drop.emplace_back( npcs_item, npcs_item->count() );
+        }
+    }
+    if( !to_drop.empty() ) {
+        // spawn a activity for the npc to drop the specified items
+        p.assign_activity( player_activity( drop_activity_actor(
+                                                to_drop, tripoint_zero, false
+                                            ) ) );
+        p.say( "<acknowledged>" );
+    } else {
+        p.say( _( "I don't have anything to drop off." ) );
+    }
 }
 
 void talk_function::follow( npc &p )

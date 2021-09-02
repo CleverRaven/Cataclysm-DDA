@@ -4,7 +4,7 @@
     "id": "broken_yrax_trifacet",
     "symbol": ",",
     "color": "light_gray",
-    "name": { "str": "trifacet remains" },
+    "name": { "str_sp": "trifacet remains" },
     "category": "other",
     "description": "A split open facet reveals an interior full of closely fit geometric primitives among chipped strips of milk-white quartz.  Lending you no clues as to how this machine ever functioned.",
     "price": 1000,
