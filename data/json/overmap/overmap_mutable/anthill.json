@@ -21,6 +21,7 @@
       "surface": { "overmap": "anthill", "below": "surface_to_tunnel", "locations": [ "land" ] },
       "below_entrance": {
         "overmap": "ants_nesw",
+        "above": "surface_to_tunnel",
         "north": "tunnel_to_tunnel",
         "east": "tunnel_to_tunnel",
         "south": "tunnel_to_tunnel",
@@ -28,7 +29,6 @@
       },
       "crossroads": {
         "overmap": "ants_nesw",
-        "above": "surface_to_tunnel",
         "north": "tunnel_to_tunnel",
         "east": "tunnel_to_tunnel",
         "south": "tunnel_to_tunnel",
@@ -44,7 +44,7 @@
     },
     "root": "surface",
     "phases": [
-      [ { "overmap": "crossroads", "max": 1 } ],
+      [ { "overmap": "below_entrance", "max": 1 } ],
       [
         { "overmap": "straight_tunnel", "max": 20 },
         { "overmap": "corner", "max": 5 },
