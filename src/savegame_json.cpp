@@ -190,6 +190,15 @@ static void deserialize( weak_ptr_fast<monster> &obj, JsonIn &jsin )
     //    }
 }
 
+static tripoint read_legacy_creature_pos( const JsonObject &data )
+{
+    tripoint pos;
+    if( !data.read( "posx", pos.x ) || !data.read( "posy", pos.y ) || !data.read( "posz", pos.z ) ) {
+        debugmsg( R"(Bad Creature JSON: neither "location" nor "posx", "posy", "posz" found)" );
+    }
+    return pos;
+}
+
 void item_contents::serialize( JsonOut &json ) const
 {
     if( !contents.empty() ) {
@@ -1323,6 +1332,11 @@ void avatar::deserialize( JsonIn &jsin )
 void avatar::load( const JsonObject &data )
 {
     Character::load( data );
+
+    // TEMPORARY until 0.G
+    if( !data.has_member( "location" ) ) {
+        set_location( get_map().getglobal( read_legacy_creature_pos( data ) ) );
+    }
 
     // Remove after 0.F
     // Exists to prevent failed to visit member errors
