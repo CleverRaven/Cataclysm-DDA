@@ -6612,13 +6612,6 @@ void map::shift( const point &sp )
 
     set_abs_sub( abs + sp );
 
-    Character &player_character = get_player_character();
-    // if player is in vehicle, (s)he must be shifted with vehicle too
-    if( player_character.in_vehicle ) {
-        player_character.setx( player_character.posx() - sp.x * SEEX );
-        player_character.sety( player_character.posy() - sp.y * SEEY );
-    }
-
     g->shift_destination_preview( point( -sp.x * SEEX, -sp.y * SEEY ) );
 
     shift_traps( tripoint( sp, 0 ) );

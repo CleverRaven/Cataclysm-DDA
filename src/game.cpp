@@ -709,7 +709,7 @@ bool game::start_game()
     m.invalidate_map_cache( level );
     m.build_map_cache( level );
     // Do this after the map cache has been built!
-    start_loc.place_player( u );
+    start_loc.place_player( u, omtstart );
     // ...but then rebuild it, because we want visibility cache to avoid spawning monsters in sight
     m.invalidate_map_cache( level );
     m.build_map_cache( level );
@@ -10867,7 +10867,7 @@ void game::vertical_shift( const int z_after )
 
     scent.reset();
 
-    u.setz( z_after );
+    u.move_to( tripoint_abs_ms( u.get_location().xy(), z_after ) );
     const tripoint abs_sub = m.get_abs_sub();
     const int z_before = abs_sub.z;
     if( !m.has_zlevels() ) {
