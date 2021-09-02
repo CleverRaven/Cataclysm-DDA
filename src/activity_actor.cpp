@@ -4191,7 +4191,7 @@ void disassemble_activity_actor::start( player_activity &act, Character &who )
     }
 
     // Mark the item, not available for other characters
-    target->set_var( "avtivity_var", who.name );
+    target->set_var( "activity_var", who.name );
 
     act.moves_left = calendar::INDEFINITELY_LONG;
     activity_override = target->get_making().exertion_level();
