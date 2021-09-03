@@ -64,10 +64,7 @@
     "reversible": true,
     "autolearn": true,
     "using": [ [ "sewing_standard", 12 ] ],
-    "components": [ 
-      [ [ "rag", 4 ] ], 
-      [ [ "straw_pile", 3 ], [ "withered", 15 ], [ "pine_bough", 10 ] ]
-    ]
+    "components": [ [ [ "rag", 4 ] ], [ [ "straw_pile", 3 ], [ "withered", 15 ], [ "pine_bough", 10 ] ] ]
   },
   {
     "type": "recipe",
