@@ -111,14 +111,21 @@ class proficiency_set
         void direct_remove( const proficiency_id &lost );
 
         // Do we know this proficiency?
+        bool is_learning( const proficiency_id &query ) const;
         bool has_learned( const proficiency_id &query ) const;
         bool has_practiced( const proficiency_id &query ) const;
         bool has_prereqs( const proficiency_id &query ) const;
+
+        bool can_train( const proficiency_id &query ) const;
+
+        void toggle_training( const proficiency_id &toggled );
 
         float pct_practiced( const proficiency_id &query ) const;
         time_duration training_time_needed( const proficiency_id &query ) const;
         std::vector<proficiency_id> known_profs() const;
         std::vector<proficiency_id> learning_profs() const;
+
+        const learning_proficiency &fetch_learning_const( const proficiency_id &target ) const;
 
         float get_proficiency_bonus( const std::string &category,
                                      proficiency_bonus_type prof_bonus ) const;
@@ -130,6 +137,9 @@ class proficiency_set
 
 struct learning_proficiency {
     proficiency_id id;
+
+    // For toggling proficiency training in the status menu
+    bool can_train = true;
 
     // How long we have practiced this proficiency
     time_duration practiced;

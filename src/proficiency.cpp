@@ -209,6 +209,21 @@ std::vector<display_proficiency> proficiency_set::display() const
     return ret;
 }
 
+bool proficiency_set::can_train( const proficiency_id &query ) const
+{
+    if( is_learning( query ) ) {
+        const learning_proficiency &query_learn = fetch_learning_const( query );
+        return query_learn.can_train;
+    }
+    return true;
+}
+
+void proficiency_set::toggle_training( const proficiency_id &toggled )
+{
+    learning_proficiency &toggled_prof = fetch_learning( toggled );
+    toggled_prof.can_train = !toggled_prof.can_train;
+}
+
 bool proficiency_set::practice( const proficiency_id &practicing, const time_duration &amount,
                                 const cata::optional<time_duration> &max )
 {
@@ -310,6 +325,14 @@ void proficiency_set::direct_learn( const proficiency_id &learned )
 void proficiency_set::direct_remove( const proficiency_id &lost )
 {
     known.erase( lost );
+}
+
+bool proficiency_set::is_learning( const proficiency_id &query ) const
+{
+    return std::any_of( learning.begin(),
+    learning.end(), [&query]( const learning_proficiency & prof ) {
+        return query == prof.id;
+    } );
 }
 
 bool proficiency_set::has_learned( const proficiency_id &query ) const
@@ -425,6 +448,7 @@ void learning_proficiency::serialize( JsonOut &jsout ) const
 
     jsout.member( "id", id );
     jsout.member( "practiced", practiced );
+    jsout.member( "can_train", can_train );
 
     jsout.end_object();
 }
@@ -435,6 +459,7 @@ void learning_proficiency::deserialize( JsonIn &jsin )
 
     jo.read( "id", id );
     jo.read( "practiced", practiced );
+    jo.read( "can_train", can_train );
 }
 
 void book_proficiency_bonus::deserialize( JsonIn &jsin )

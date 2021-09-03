@@ -13529,6 +13529,11 @@ int Character::intimidation() const
     return ret;
 }
 
+bool Character::is_learning( const proficiency_id &prof ) const
+{
+    return _proficiencies->is_learning( prof );
+}
+
 bool Character::has_proficiency( const proficiency_id &prof ) const
 {
     return _proficiencies->has_learned( prof );
@@ -13542,6 +13547,15 @@ float Character::get_proficiency_practice( const proficiency_id &prof ) const
 bool Character::has_prof_prereqs( const proficiency_id &prof ) const
 {
     return _proficiencies->has_prereqs( prof );
+}
+
+bool Character::toggle_training( const proficiency_id &prof )
+{
+    if( !has_proficiency( prof ) && is_learning( prof ) ) {
+        _proficiencies->toggle_training( prof );
+        return true;
+    }
+    return false;
 }
 
 void Character::add_proficiency( const proficiency_id &prof, bool ignore_requirements )

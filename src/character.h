@@ -2038,9 +2038,11 @@ class Character : public Creature, public visitable
         int intimidation() const;
 
         // --------------- Proficiency Stuff ----------------
+        bool is_learning( const proficiency_id &prof ) const;
         bool has_proficiency( const proficiency_id &prof ) const;
         float get_proficiency_practice( const proficiency_id &prof ) const;
         bool has_prof_prereqs( const proficiency_id &prof ) const;
+        bool toggle_training( const proficiency_id &prof );
         void add_proficiency( const proficiency_id &prof, bool ignore_requirements = false );
         void lose_proficiency( const proficiency_id &prof, bool ignore_requirements = false );
         bool practice_proficiency( const proficiency_id &prof, const time_duration &amount,
