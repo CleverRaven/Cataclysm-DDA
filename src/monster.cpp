@@ -40,6 +40,7 @@
 #include "melee.h"
 #include "messages.h"
 #include "mission.h"
+#include "mod_manager.h"
 #include "mondeath.h"
 #include "mondefense.h"
 #include "monfaction.h"
@@ -650,12 +651,19 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 {
     const int vEnd = vStart + vLines;
     const int max_width = getmaxx( w ) - column - 1;
+    std::ostringstream oss;
+
+    oss << get_tag_from_color( c_white ) << _( "Origin: " );
+    oss << enumerate_as_string( type->src.begin(),
+    type->src.end(), []( const std::pair<mtype_id, mod_id> &source ) {
+        return string_format( "'%s'", source.second->name() );
+    }, enumeration_conjunction::arrow );
+    oss << "</color>" << "\n\n";
 
     // Print health bar, monster name, then statuses on the first line.
     nc_color bar_color = c_white;
     std::string bar_str;
     get_HP_Bar( bar_color, bar_str );
-    std::ostringstream oss;
     oss << get_tag_from_color( bar_color ) << bar_str << "</color>";
     oss << "<color_white>" << std::string( 5 - utf8_width( bar_str ), '.' ) << "</color> ";
     oss << get_tag_from_color( basic_symbol_color() ) << name() << "</color> ";
@@ -743,6 +751,14 @@ std::string monster::extended_description() const
             difficulty_str = _( "<color_red>Fatally dangerous!</color>" );
         }
     }
+
+    ss += _( "Origin: " );
+    ss += enumerate_as_string( type->src.begin(),
+    type->src.end(), []( const std::pair<mtype_id, mod_id> &source ) {
+        return string_format( "'%s'", source.second->name() );
+    }, enumeration_conjunction::arrow );
+
+    ss += "\n--\n";
 
     ss += string_format( _( "This is a %s.  %s %s" ), name(), att_colored,
                          difficulty_str ) + "\n";
