@@ -151,6 +151,7 @@ resistances load_resistances_instance( const JsonObject &jo );
 
 // Returns damage or resistance data
 // Handles some shorthands
-std::array<float, static_cast<int>( damage_type::NUM )> load_damage_array( const JsonObject &jo );
+std::array<float, static_cast<int>( damage_type::NUM )> load_damage_array( const JsonObject &jo,
+        float default = 0.0f );
 
 #endif // CATA_SRC_DAMAGE_H
