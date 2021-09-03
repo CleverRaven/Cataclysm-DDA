@@ -174,6 +174,7 @@ class monster : public Creature
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
+        void deserialize( JsonIn &jsin, const tripoint_abs_sm &submap_loc );
 
         tripoint move_target() const; // Returns point at the end of the monster's current plans
         Creature *attack_target(); // Returns the creature at the end of plans (if hostile)
@@ -582,6 +583,7 @@ class monster : public Creature
     protected:
         void store( JsonOut &json ) const;
         void load( const JsonObject &data );
+        void load( const JsonObject &data, const tripoint_abs_sm &submap_loc );
 
         void on_move( const tripoint_abs_ms &old_pos ) override;
         /** Processes monster-specific effects of an effect. */

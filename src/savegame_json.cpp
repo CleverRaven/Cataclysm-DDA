@@ -2110,11 +2110,34 @@ void inventory::json_load_items( JsonIn &jsin )
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// monster.h
 
+// Remove after 0.G
+void monster::deserialize( JsonIn &jsin, const tripoint_abs_sm &submap_loc )
+{
+    JsonObject data = jsin.get_object();
+    data.allow_omitted_members();
+    load( data, submap_loc );
+}
+
 void monster::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     data.allow_omitted_members();
     load( data );
+}
+
+// Remove after 0.G
+void monster::load( const JsonObject &data, const tripoint_abs_sm &submap_loc )
+{
+    load( data );
+    if( !data.has_member( "location" ) ) {
+        // When loading an older save in which the monster's absolute location is not serialized
+        // and the monster is not in the current map, the submap location inferred by load()
+        // will be wrong. Use the supplied argument to fix it.
+        point_abs_sm wrong_submap;
+        tripoint_sm_ms local_pos;
+        std::tie( wrong_submap, local_pos ) = project_remain<coords::sm>( get_location() );
+        set_location( project_combine( submap_loc.xy(), local_pos ) );
+    }
 }
 
 void monster::load( const JsonObject &data )
