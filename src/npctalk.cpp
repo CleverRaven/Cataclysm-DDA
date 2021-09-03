@@ -2549,8 +2549,6 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
                 // Energy in milijoule
                 d.actor( is_npc )->set_power_cur( ( d.actor( is_npc )->power_max() * input ) / 100 );
             };
-        } else if( checked_value == "morale" ) {
-            jo.throw_error( "altering morale this way is currently not supported.  In " + jo.str() );
         } else if( checked_value == "focus" ) {
             return [is_npc]( const dialogue & d, int input ) {
                 d.actor( is_npc )->mod_focus( input - d.actor( is_npc )->focus_cur() );
@@ -2600,9 +2598,25 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
             return [is_npc]( const dialogue & d, int input ) {
                 d.actor( is_npc )->set_fatigue( input );
             };
-        } else if( checked_value == "stamina" ) {
+        } else if (checked_value == "stamina") {
+            return [is_npc](const dialogue& d, int input) {
+                d.actor(is_npc)->set_stamina(input);
+            };
+        } else if (checked_value == "sleep_deprivation") {
             return [is_npc]( const dialogue & d, int input ) {
-                d.actor( is_npc )->set_stamina( input );
+                d.actor( is_npc )->set_sleep_deprivation( input );
+            };
+        } else if( checked_value == "anger" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_anger( input );
+            };
+        } else if( checked_value == "morale" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_morale( input );
+            };
+        } else if( checked_value == "friendly" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_friendly( input );
             };
         }
     }

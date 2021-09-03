@@ -431,6 +431,15 @@ class talker
             return 0;
         }
         virtual void set_rad( int ) {}
+        virtual int get_anger() const {
+            return 0;
+        }
+        virtual void set_anger( int ) {}
+        virtual void set_morale( int ) {}
+        virtual int get_friendly() const {
+            return 0;
+        }
+        virtual void set_friendly( int ) {}
         virtual void add_morale( const morale_type &, int, int, time_duration, time_duration, bool ) {}
         virtual void remove_morale( const morale_type & ) {}
 };

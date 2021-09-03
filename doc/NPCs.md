@@ -805,7 +805,7 @@ Example | Description
 `"u_val": "power"` | Bionic power in milijoule.
 `"u_val": "power_max"` | Max bionic power in milijoule. Can be read but not written to.
 `"u_val": "power_percentage"` | Percentage of max bionic power. Should be a number between 0 to 100.
-`"u_val": "morale"` | The current morale. Can be read but not written to.
+`"u_val": "morale"` | The current morale. Can be read but not written to for players and for monsters can be read and written to.
 `"u_val": "mana"` | Current mana.
 `"u_val": "mana_max"` | Max mana. Can be read but not written to.
 `"u_val": "hunger"` | Current perceived hunger. Can be read but not written to.
@@ -820,7 +820,9 @@ Example | Description
 `"u_val": "focus"` | Current focus level.
 `"u_val": "fatigue"` | Current fatigue level.
 `"u_val": "stamina"` | Current stamina level.
-`"u_val": "sleep deprivation"` | Current sleep deprivation level.
+`"u_val": "sleep_deprivation"` | Current sleep deprivation level.
+`"u_val": "anger"` | Current anger level, only works for monsters.
+`"u_val": "friendly"` | Current friendly level, only works for monsters.
 
 #### Sample responses with conditions and effects
 ```json
