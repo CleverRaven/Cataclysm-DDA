@@ -3208,9 +3208,6 @@ class Character : public Creature, public visitable
         std::map<bodypart_id, float> bodypart_exposure();
     private:
         /** suffer() subcalls */
-        void suffer_while_awake( int current_stim );
-        void suffer_from_chemimbalance();
-        void suffer_from_schizophrenia();
         void suffer_from_asthma( int current_stim );
         void suffer_from_pain();
         void suffer_from_other_mutations();
