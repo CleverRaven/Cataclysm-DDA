@@ -82,11 +82,17 @@ struct duration_or_var {
     cata::optional<time_duration> dur_val;
     cata::optional<std::string> var_val;
     cata::optional<time_duration> default_val;
+    bool global = false;
     time_duration evaluate( talker *talk ) const {
         if( dur_val.has_value() ) {
             return dur_val.value();
         } else if( var_val.has_value() ) {
-            std::string val = talk->get_value( var_val.value() );
+            std::string val;
+            if( global ) {
+                val = get_talker_for( get_player_character() )->get_value( var_val.value() );
+            } else {
+                val = talk->get_value( var_val.value() );
+            }
             if( !val.empty() ) {
                 time_duration ret_val;
                 ret_val = time_duration::from_turns( std::stoi( val ) );
