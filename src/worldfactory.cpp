@@ -4,7 +4,6 @@
 #include <array>
 #include <cstdio>
 #include <cstdlib>
-#include <fstream>
 #include <iterator>
 #include <memory>
 #include <set>
@@ -96,7 +95,7 @@ void WORLD::COPY_WORLD( const WORLD *world_to_copy )
 
 std::string WORLD::folder_path() const
 {
-    return PATH_INFO::savedir() + utf8_to_native( world_name );
+    return PATH_INFO::savedir() + world_name;
 }
 
 bool WORLD::save_exists( const save_t &name ) const
@@ -298,7 +297,7 @@ void worldfactory::init()
         // the directory name is the name of the world
         std::string worldname;
         size_t name_index = world_dir.find_last_of( "/\\" );
-        worldname = native_to_utf8( world_dir.substr( name_index + 1 ) );
+        worldname = world_dir.substr( name_index + 1 );
 
         // create and store the world
         all_worlds[worldname] = std::make_unique<WORLD>();
@@ -619,7 +618,8 @@ void worldfactory::remove_world( const std::string &worldname )
 
 void worldfactory::load_last_world_info()
 {
-    std::ifstream file( PATH_INFO::lastworld(), std::ifstream::in | std::ifstream::binary );
+    cata::ifstream file( fs::u8path( PATH_INFO::lastworld() ),
+                         std::ifstream::in | std::ifstream::binary );
     if( !file.good() ) {
         return;
     }

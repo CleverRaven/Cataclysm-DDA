@@ -1208,13 +1208,13 @@ class Character : public Creature, public visitable
         bool made_of_any( const std::set<material_id> &ms ) const override;
 
         inline void setx( int x ) {
-            setpos( tripoint( x, position.y, position.z ) );
+            setpos( tripoint( x, posy(), posz() ) );
         }
         inline void sety( int y ) {
-            setpos( tripoint( position.x, y, position.z ) );
+            setpos( tripoint( posx(), y, posz() ) );
         }
         inline void setz( int z ) {
-            setpos( tripoint( position.xy(), z ) );
+            setpos( tripoint( pos().xy(), z ) );
         }
         void setpos( const tripoint &p ) override;
 
@@ -2025,9 +2025,6 @@ class Character : public Creature, public visitable
         bool meets_requirements( const item &it, const item &context = item() ) const;
         /** Returns a string of missed requirements (both stats and skills) */
         std::string enumerate_unmet_requirements( const item &it, const item &context = item() ) const;
-
-        /** Returns the player's skill rust rate */
-        int rust_rate() const;
 
         // Mental skills and stats
         /** Returns the player's reading speed */

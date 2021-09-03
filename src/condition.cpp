@@ -61,20 +61,38 @@ std::string get_talk_varname( const JsonObject &jo, const std::string &member, b
     return "npctalk_var_" + type_var + "_" + var_context + "_" + var_basename;
 }
 
-int_or_var get_variable_or_int( const JsonObject &jo, std::string member, bool required,
-                                int default_val )
+int_or_var get_int_or_var( const JsonObject &jo, std::string member, bool required,
+                           int default_val )
 {
     int_or_var ret_val;
     if( jo.has_int( member ) ) {
-        ret_val.int_val = jo.get_int( member );
+        mandatory( jo, false, member, ret_val.int_val );
     } else if( jo.has_object( member ) ) {
         const JsonObject &var_obj = jo.get_object( member );
         ret_val.var_val = get_talk_varname( var_obj, "name", false );
-        ret_val.default_val = var_obj.get_int( "default" );
+        mandatory( var_obj, false, "default", ret_val.default_val );
     } else if( required ) {
         jo.throw_error( "No valid value for ", member );
     } else {
         ret_val.int_val = default_val;
+    }
+    return ret_val;
+}
+
+duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, bool required,
+                                     time_duration default_val )
+{
+    duration_or_var ret_val;
+    if( jo.has_int( member ) || jo.has_string( member ) ) {
+        mandatory( jo, false, member, ret_val.dur_val );
+    } else if( jo.has_object( member ) ) {
+        const JsonObject &var_obj = jo.get_object( member );
+        ret_val.var_val = get_talk_varname( var_obj, "name", false );
+        mandatory( var_obj, false, "default", ret_val.default_val );
+    } else if( required ) {
+        jo.throw_error( "No valid value for ", member );
+    } else {
+        ret_val.dur_val = default_val;
     }
     return ret_val;
 }
@@ -192,7 +210,7 @@ template<class T>
 void conditional_t<T>::set_has_strength( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    int_or_var iov = get_variable_or_int( jo, member );
+    int_or_var iov = get_int_or_var( jo, member );
     condition = [iov, is_npc]( const T & d ) {
         return d.actor( is_npc )->str_cur() >= iov.evaluate( d.actor( is_npc ) );
     };
@@ -202,7 +220,7 @@ template<class T>
 void conditional_t<T>::set_has_dexterity( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    int_or_var iov = get_variable_or_int( jo, member );
+    int_or_var iov = get_int_or_var( jo, member );
     condition = [iov, is_npc]( const T & d ) {
         return d.actor( is_npc )->dex_cur() >= iov.evaluate( d.actor( is_npc ) );
     };
@@ -212,7 +230,7 @@ template<class T>
 void conditional_t<T>::set_has_intelligence( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    int_or_var iov = get_variable_or_int( jo, member );
+    int_or_var iov = get_int_or_var( jo, member );
     condition = [iov, is_npc]( const T & d ) {
         return d.actor( is_npc )->int_cur() >= iov.evaluate( d.actor( is_npc ) );
     };
@@ -222,7 +240,7 @@ template<class T>
 void conditional_t<T>::set_has_perception( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    int_or_var iov = get_variable_or_int( jo, member );
+    int_or_var iov = get_int_or_var( jo, member );
     condition = [iov, is_npc]( const T & d ) {
         return d.actor( is_npc )->per_cur() >= iov.evaluate( d.actor( is_npc ) );
     };
@@ -323,7 +341,7 @@ template<class T>
 void conditional_t<T>::set_has_morale( const JsonObject &jo, const std::string &member,
                                        bool is_npc )
 {
-    int_or_var iov = get_variable_or_int( jo, member );
+    int_or_var iov = get_int_or_var( jo, member );
     condition = [iov, is_npc]( const T & d ) {
         return d.actor( is_npc )->morale_cur() >= iov.evaluate( d.actor( is_npc ) );
     };
@@ -333,7 +351,7 @@ template<class T>
 void conditional_t<T>::set_has_focus( const JsonObject &jo, const std::string &member,
                                       bool is_npc )
 {
-    int_or_var iov = get_variable_or_int( jo, member );
+    int_or_var iov = get_int_or_var( jo, member );
     condition = [iov, is_npc]( const T & d ) {
         return d.actor( is_npc )->focus_cur() >= iov.evaluate( d.actor( is_npc ) );
     };
@@ -347,7 +365,7 @@ void conditional_t<T>::set_need( const JsonObject &jo, const std::string &member
     if( jo.has_int( "amount" ) ) {
         iov.int_val = jo.get_int( "amount" );
     } else if( jo.has_object( "amount" ) ) {
-        iov = get_variable_or_int( jo, "amount" );
+        iov = get_int_or_var( jo, "amount" );
     } else if( jo.has_string( "level" ) ) {
         const std::string &level = jo.get_string( "level" );
         auto flevel = fatigue_level_strs.find( level );
@@ -411,7 +429,7 @@ void conditional_t<T>::set_compare_var( const JsonObject &jo, const std::string 
     const std::string var_name = get_talk_varname( jo, member, false );
     const std::string &op = jo.get_string( "op" );
 
-    int_or_var iov = get_variable_or_int( jo, "value" );
+    int_or_var iov = get_int_or_var( jo, "value" );
     condition = [var_name, op, iov, is_npc]( const T & d ) {
         int stored_value = 0;
         int value = iov.evaluate( d.actor( is_npc ) );
@@ -449,7 +467,7 @@ void conditional_t<T>::set_compare_time_since_var( const JsonObject &jo, const s
 {
     const std::string var_name = get_talk_varname( jo, member, false );
     const std::string &op = jo.get_string( "op" );
-    const int value = to_turns<int>( read_from_json_string<time_duration>( *jo.get_raw( "time" ),
+    const int value = to_turns<int>( read_from_json_string<time_duration>( jo.get_member( "time" ),
                                      time_duration::units ) );
     condition = [var_name, op, value, is_npc]( const T & d ) {
         int stored_value = 0;
@@ -501,7 +519,7 @@ void conditional_t<T>::set_npc_role_nearby( const JsonObject &jo )
 template<class T>
 void conditional_t<T>::set_npc_allies( const JsonObject &jo )
 {
-    int_or_var iov = get_variable_or_int( jo, "npc_allies" );
+    int_or_var iov = get_int_or_var( jo, "npc_allies" );
     condition = [iov]( const T & d ) {
         return g->allies().size() >= static_cast<std::vector<npc *>::size_type>( iov.evaluate( d.actor(
                     false ) ) );
@@ -511,7 +529,7 @@ void conditional_t<T>::set_npc_allies( const JsonObject &jo )
 template<class T>
 void conditional_t<T>::set_u_has_cash( const JsonObject &jo )
 {
-    int_or_var iov = get_variable_or_int( jo, "u_has_cash" );
+    int_or_var iov = get_int_or_var( jo, "u_has_cash" );
     condition = [iov]( const T & d ) {
         return d.actor( false )->cash() >= iov.evaluate( d.actor( false ) );
     };
@@ -520,7 +538,7 @@ void conditional_t<T>::set_u_has_cash( const JsonObject &jo )
 template<class T>
 void conditional_t<T>::set_u_are_owed( const JsonObject &jo )
 {
-    int_or_var iov = get_variable_or_int( jo, "u_are_owed" );
+    int_or_var iov = get_int_or_var( jo, "u_are_owed" );
     condition = [iov]( const T & d ) {
         return d.actor( true )->debt() >= iov.evaluate( d.actor( false ) );
     };
@@ -583,7 +601,7 @@ void conditional_t<T>::set_npc_override( const JsonObject &jo )
 template<class T>
 void conditional_t<T>::set_days_since( const JsonObject &jo )
 {
-    int_or_var iov = get_variable_or_int( jo, "days_since_cataclysm" );
+    int_or_var iov = get_int_or_var( jo, "days_since_cataclysm" );
     condition = [iov]( const T & d ) {
         return calendar::turn >= calendar::start_of_cataclysm + 1_days * iov.evaluate( d.actor( false ) );
     };
@@ -811,7 +829,7 @@ void conditional_t<T>::set_is_outside( bool is_npc )
 template<class T>
 void conditional_t<T>::set_one_in_chance( const JsonObject &jo, const std::string &member )
 {
-    int_or_var iov = get_variable_or_int( jo, member );
+    int_or_var iov = get_int_or_var( jo, member );
     condition = [iov]( const T & d ) {
         return one_in( iov.evaluate( d.actor( false ) ) );
     };
@@ -821,8 +839,8 @@ template<class T>
 void conditional_t<T>::set_x_in_y_chance( const JsonObject &jo, const std::string &member )
 {
     const JsonObject &var_obj = jo.get_object( member );
-    int_or_var iovx = get_variable_or_int( var_obj, "x" );
-    int_or_var iovy = get_variable_or_int( var_obj, "y" );
+    int_or_var iovx = get_int_or_var( var_obj, "x" );
+    int_or_var iovy = get_int_or_var( var_obj, "y" );
     condition = [iovx, iovy]( const T & d ) {
         return x_in_y( iovx.evaluate( d.actor( false ) ), iovy.evaluate( d.actor( false ) ) );
     };
@@ -831,7 +849,7 @@ void conditional_t<T>::set_x_in_y_chance( const JsonObject &jo, const std::strin
 template<class T>
 void conditional_t<T>::set_is_temperature( const JsonObject &jo, const std::string &member )
 {
-    int_or_var iov = get_variable_or_int( jo, member );
+    int_or_var iov = get_int_or_var( jo, member );
     condition = [iov]( const T & d ) {
         return get_weather().weather_precise->temperature >= iov.evaluate( d.actor( false ) );
     };
@@ -840,7 +858,7 @@ void conditional_t<T>::set_is_temperature( const JsonObject &jo, const std::stri
 template<class T>
 void conditional_t<T>::set_is_height( const JsonObject &jo, const std::string &member, bool is_npc )
 {
-    int_or_var iov = get_variable_or_int( jo, member );
+    int_or_var iov = get_int_or_var( jo, member );
     condition = [iov, is_npc]( const T & d ) {
         return d.actor( is_npc )->posz() >= iov.evaluate( d.actor( is_npc ) );
     };
@@ -849,7 +867,7 @@ void conditional_t<T>::set_is_height( const JsonObject &jo, const std::string &m
 template<class T>
 void conditional_t<T>::set_is_windpower( const JsonObject &jo, const std::string &member )
 {
-    int_or_var iov = get_variable_or_int( jo, member );
+    int_or_var iov = get_int_or_var( jo, member );
     condition = [iov]( const T & d ) {
         return get_weather().weather_precise->windpower >= iov.evaluate( d.actor( false ) );
     };
@@ -858,7 +876,7 @@ void conditional_t<T>::set_is_windpower( const JsonObject &jo, const std::string
 template<class T>
 void conditional_t<T>::set_is_humidity( const JsonObject &jo, const std::string &member )
 {
-    int_or_var iov = get_variable_or_int( jo, member );
+    int_or_var iov = get_int_or_var( jo, member );
     condition = [iov]( const T & d ) {
         return get_weather().weather_precise->humidity >= iov.evaluate( d.actor( false ) );
     };
@@ -867,7 +885,7 @@ void conditional_t<T>::set_is_humidity( const JsonObject &jo, const std::string 
 template<class T>
 void conditional_t<T>::set_is_pressure( const JsonObject &jo, const std::string &member )
 {
-    int_or_var iov = get_variable_or_int( jo, member );
+    int_or_var iov = get_int_or_var( jo, member );
     condition = [iov]( const T & d ) {
         return get_weather().weather_precise->pressure >= iov.evaluate( d.actor( false ) );
     };
@@ -938,7 +956,7 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             return const_value;
         };
     } else if( jo.has_member( "time" ) ) {
-        const int value = to_turns<int>( read_from_json_string<time_duration>( *jo.get_raw( "time" ),
+        const int value = to_turns<int>( read_from_json_string<time_duration>( jo.get_member( "time" ),
                                          time_duration::units ) );
         return [value]( const T & ) {
             return value;
@@ -1267,7 +1285,7 @@ template<class T>
 void conditional_t<T>::set_has_pain( const JsonObject &jo, const std::string &member,
                                      bool is_npc )
 {
-    int_or_var iov = get_variable_or_int( jo, member );
+    int_or_var iov = get_int_or_var( jo, member );
     condition = [iov, is_npc]( const T & d ) {
         return d.actor( is_npc )->pain_cur() >= iov.evaluate( d.actor( is_npc ) );
     };

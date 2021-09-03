@@ -58,7 +58,6 @@
 #include "iuse_actor.h"
 #include "lightmap.h"
 #include "line.h"
-#include "location.h"
 #include "map_iterator.h"
 #include "map_memory.h"
 #include "map_selector.h"
@@ -365,7 +364,7 @@ void map::vehmove()
     VehicleList vehicle_list;
     int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
     int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
-    tripoint player_pos = get_player_location().pos();
+    const tripoint player_pos = get_player_character().pos();
     for( int zlev = minz; zlev <= maxz; ++zlev ) {
         level_cache &cache = get_cache( zlev );
         for( vehicle *veh : cache.vehicle_list ) {
@@ -1596,13 +1595,11 @@ uint8_t map::get_known_connections_f( const tripoint &p, int connect_group,
 const harvest_id &map::get_harvest( const tripoint &pos ) const
 {
     const auto furn_here = furn( pos );
-    if( furn_here->can_examine() ) {
-        // Note: if furniture can be examined, the terrain can NOT (until furniture is removed)
-        if( furn_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
-            return harvest_id::NULL_ID();
+    if( !furn_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
+        const harvest_id &harvest = furn_here->get_harvest();
+        if( ! harvest.is_null() ) {
+            return harvest;
         }
-
-        return furn_here->get_harvest();
     }
 
     const auto ter_here = ter( pos );
@@ -1617,7 +1614,7 @@ const std::set<std::string> &map::get_harvest_names( const tripoint &pos ) const
 {
     static const std::set<std::string> null_harvest_names = {};
     const auto furn_here = furn( pos );
-    if( furn_here->can_examine() ) {
+    if( furn_here->can_examine( pos ) ) {
         if( furn_here->has_flag( ter_furn_flag::TFLAG_HARVESTED ) ) {
             return null_harvest_names;
         }
@@ -1648,7 +1645,7 @@ ter_id map::get_ter_transforms_into( const tripoint &p ) const
 void map::examine( Character &you, const tripoint &pos )
 {
     const furn_t furn_here = furn( pos ).obj();
-    if( furn_here.can_examine() ) {
+    if( furn_here.can_examine( pos ) ) {
         furn_here.examine( dynamic_cast<Character &>( you ), pos );
     } else {
         ter( pos ).obj().examine( dynamic_cast<Character &>( you ), pos );

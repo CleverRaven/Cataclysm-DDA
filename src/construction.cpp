@@ -1601,7 +1601,7 @@ void load_construction( const JsonObject &jo )
     if( jo.has_int( "time" ) ) {
         con.time = to_moves<int>( time_duration::from_minutes( jo.get_int( "time" ) ) );
     } else if( jo.has_string( "time" ) ) {
-        con.time = to_moves<int>( read_from_json_string<time_duration>( *jo.get_raw( "time" ),
+        con.time = to_moves<int>( read_from_json_string<time_duration>( jo.get_member( "time" ),
                                   time_duration::units ) );
     }
 

@@ -266,7 +266,7 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonValue &jsin )
 {
     aim_activity_actor actor = aim_activity_actor();
 
@@ -447,7 +447,7 @@ void autodrive_activity_actor::serialize( JsonOut &jsout ) const
     jsout.write_null();
 }
 
-std::unique_ptr<activity_actor> autodrive_activity_actor::deserialize( JsonIn & )
+std::unique_ptr<activity_actor> autodrive_activity_actor::deserialize( JsonValue & )
 {
     return autodrive_activity_actor().clone();
 }
@@ -540,7 +540,7 @@ void dig_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> dig_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> dig_activity_actor::deserialize( JsonValue &jsin )
 {
     dig_activity_actor actor( 0, tripoint_zero,
                               {}, tripoint_zero, 0, {} );
@@ -607,7 +607,7 @@ void dig_channel_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> dig_channel_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> dig_channel_activity_actor::deserialize( JsonValue &jsin )
 {
     dig_channel_activity_actor actor( 0, tripoint_zero,
                                       {}, tripoint_zero, 0, {} );
@@ -708,7 +708,7 @@ void gunmod_remove_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> gunmod_remove_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> gunmod_remove_activity_actor::deserialize( JsonValue &jsin )
 {
     gunmod_remove_activity_actor actor( 0, item_location(), -1 );
 
@@ -856,7 +856,7 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
 
 void hacking_activity_actor::serialize( JsonOut & ) const {}
 
-std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonIn & )
+std::unique_ptr<activity_actor> hacking_activity_actor::deserialize( JsonValue & )
 {
     hacking_activity_actor actor;
     return actor.clone();
@@ -923,7 +923,7 @@ void bookbinder_copy_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> bookbinder_copy_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> bookbinder_copy_activity_actor::deserialize( JsonValue &jsin )
 {
     bookbinder_copy_activity_actor actor;
 
@@ -997,7 +997,7 @@ void hotwire_car_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> hotwire_car_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> hotwire_car_activity_actor::deserialize( JsonValue &jsin )
 {
     hotwire_car_activity_actor actor( 0, tripoint_zero );
 
@@ -1037,7 +1037,7 @@ void bikerack_racking_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> bikerack_racking_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> bikerack_racking_activity_actor::deserialize( JsonValue &jsin )
 {
     vehicle veh;
     bikerack_racking_activity_actor actor( 0, veh, std::vector<std::vector<int>>() );
@@ -1079,7 +1079,7 @@ void bikerack_unracking_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> bikerack_unracking_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> bikerack_unracking_activity_actor::deserialize( JsonValue &jsin )
 {
     vehicle veh;
     bikerack_unracking_activity_actor actor( 0, veh, std::vector<int>(), std::vector<int>() );
@@ -1624,7 +1624,7 @@ void read_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> read_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> read_activity_actor::deserialize( JsonValue &jsin )
 {
     read_activity_actor actor;
     JsonObject data = jsin.get_object();
@@ -1714,7 +1714,7 @@ void move_items_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> move_items_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> move_items_activity_actor::deserialize( JsonValue &jsin )
 {
     move_items_activity_actor actor( {}, {}, false, tripoint_zero );
 
@@ -1787,7 +1787,7 @@ void pickup_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> pickup_activity_actor::deserialize( JsonValue &jsin )
 {
     pickup_activity_actor actor( {}, {}, cata::nullopt );
 
@@ -1944,7 +1944,7 @@ void boltcutting_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> boltcutting_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> boltcutting_activity_actor::deserialize( JsonValue &jsin )
 {
     boltcutting_activity_actor actor( {}, {} );
     JsonObject data = jsin.get_object();
@@ -2186,7 +2186,7 @@ void lockpick_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> lockpick_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> lockpick_activity_actor::deserialize( JsonValue &jsin )
 {
     lockpick_activity_actor actor( 0, cata::nullopt, cata::nullopt, tripoint_zero );
 
@@ -2250,7 +2250,7 @@ void ebooksave_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> ebooksave_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> ebooksave_activity_actor::deserialize( JsonValue &jsin )
 {
     ebooksave_activity_actor actor = ebooksave_activity_actor( {}, {} );
 
@@ -2285,7 +2285,7 @@ void migration_cancel_activity_actor::serialize( JsonOut &jsout ) const
     jsout.write_null();
 }
 
-std::unique_ptr<activity_actor> migration_cancel_activity_actor::deserialize( JsonIn & )
+std::unique_ptr<activity_actor> migration_cancel_activity_actor::deserialize( JsonValue & )
 {
     return migration_cancel_activity_actor().clone();
 }
@@ -2312,7 +2312,7 @@ void open_gate_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonValue &jsin )
 {
     open_gate_activity_actor actor( 0, tripoint_zero );
 
@@ -2434,7 +2434,7 @@ void consume_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonValue &jsin )
 {
     item_location null;
     consume_activity_actor actor( null );
@@ -2538,7 +2538,7 @@ void try_sleep_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> try_sleep_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> try_sleep_activity_actor::deserialize( JsonValue &jsin )
 {
     try_sleep_activity_actor actor = try_sleep_activity_actor( 0_seconds );
 
@@ -2642,7 +2642,7 @@ void safecracking_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> safecracking_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> safecracking_activity_actor::deserialize( JsonValue &jsin )
 {
     safecracking_activity_actor actor = safecracking_activity_actor( {} );
 
@@ -2740,7 +2740,7 @@ void unload_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> unload_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> unload_activity_actor::deserialize( JsonValue &jsin )
 {
     unload_activity_actor actor = unload_activity_actor( 0, item_location::nowhere );
 
@@ -2955,7 +2955,7 @@ void craft_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> craft_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> craft_activity_actor::deserialize( JsonValue &jsin )
 {
     JsonObject data = jsin.get_object();
 
@@ -3183,7 +3183,7 @@ void workout_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> workout_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> workout_activity_actor::deserialize( JsonValue &jsin )
 {
     workout_activity_actor actor = workout_activity_actor( tripoint_zero );
 
@@ -3318,7 +3318,7 @@ void drop_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> drop_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> drop_activity_actor::deserialize( JsonValue &jsin )
 {
     drop_activity_actor actor;
 
@@ -3414,7 +3414,7 @@ void harvest_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> harvest_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> harvest_activity_actor::deserialize( JsonValue &jsin )
 {
     harvest_activity_actor actor( tripoint_zero );
 
@@ -3482,7 +3482,7 @@ void stash_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> stash_activity_actor::deserialize( JsonValue &jsin )
 {
     stash_activity_actor actor;
 
@@ -3584,7 +3584,7 @@ void disable_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> disable_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> disable_activity_actor::deserialize( JsonValue &jsin )
 {
     disable_activity_actor actor = disable_activity_actor();
 
@@ -3626,7 +3626,7 @@ void move_furniture_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> move_furniture_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> move_furniture_activity_actor::deserialize( JsonValue &jsin )
 {
     move_furniture_activity_actor actor = move_furniture_activity_actor( tripoint_zero, false );
 
@@ -3751,7 +3751,7 @@ void insert_item_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> insert_item_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> insert_item_activity_actor::deserialize( JsonValue &jsin )
 {
     insert_item_activity_actor actor;
 
@@ -3918,7 +3918,7 @@ void reload_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> reload_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> reload_activity_actor::deserialize( JsonValue &jsin )
 {
     reload_activity_actor actor;
 
@@ -3988,7 +3988,7 @@ void milk_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> milk_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> milk_activity_actor::deserialize( JsonValue &jsin )
 {
     milk_activity_actor actor;
     JsonObject data = jsin.get_object();
@@ -4146,7 +4146,7 @@ void shearing_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> shearing_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> shearing_activity_actor::deserialize( JsonValue &jsin )
 {
     shearing_activity_actor actor = shearing_activity_actor( {} );
 
@@ -4267,7 +4267,7 @@ void disassemble_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> disassemble_activity_actor::deserialize( JsonValue &jsin )
 {
     disassemble_activity_actor actor = disassemble_activity_actor( 0 );
 
@@ -4424,7 +4424,7 @@ void oxytorch_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> oxytorch_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> oxytorch_activity_actor::deserialize( JsonValue &jsin )
 {
     oxytorch_activity_actor actor( {}, {} );
     JsonObject data = jsin.get_object();
@@ -4483,7 +4483,7 @@ void tent_placement_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> tent_placement_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> tent_placement_activity_actor::deserialize( JsonValue &jsin )
 {
     item it;
     tent_placement_activity_actor actor( 0, {}, 0, it, {}, {}, {}, {} );
@@ -4525,7 +4525,7 @@ void tent_deconstruct_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> tent_deconstruct_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> tent_deconstruct_activity_actor::deserialize( JsonValue &jsin )
 {
     tent_deconstruct_activity_actor actor( 0, 0, {}, {} );
     JsonObject data = jsin.get_object();
@@ -4555,7 +4555,7 @@ void meditate_activity_actor::serialize( JsonOut &jsout ) const
     jsout.write_null();
 }
 
-std::unique_ptr<activity_actor> meditate_activity_actor::deserialize( JsonIn & )
+std::unique_ptr<activity_actor> meditate_activity_actor::deserialize( JsonValue & )
 {
     return meditate_activity_actor().clone();
 }
@@ -4583,7 +4583,7 @@ void play_with_pet_activity_actor::serialize( JsonOut &jsout ) const
     jsout.end_object();
 }
 
-std::unique_ptr<activity_actor> play_with_pet_activity_actor::deserialize( JsonIn &jsin )
+std::unique_ptr<activity_actor> play_with_pet_activity_actor::deserialize( JsonValue &jsin )
 {
     play_with_pet_activity_actor actor = play_with_pet_activity_actor();
 
@@ -4611,7 +4611,7 @@ void shave_activity_actor::serialize( JsonOut &jsout ) const
     jsout.write_null();
 }
 
-std::unique_ptr<activity_actor> shave_activity_actor::deserialize( JsonIn & )
+std::unique_ptr<activity_actor> shave_activity_actor::deserialize( JsonValue & )
 {
     return shave_activity_actor().clone();
 }
@@ -4647,7 +4647,7 @@ void haircut_activity_actor::serialize( JsonOut &jsout ) const
     jsout.write_null();
 }
 
-std::unique_ptr<activity_actor> haircut_activity_actor::deserialize( JsonIn & )
+std::unique_ptr<activity_actor> haircut_activity_actor::deserialize( JsonValue & )
 {
     return haircut_activity_actor().clone();
 }
@@ -4656,7 +4656,7 @@ namespace activity_actors
 {
 
 // Please keep this alphabetically sorted
-const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( JsonIn & )>
+const std::unordered_map<activity_id, std::unique_ptr<activity_actor>( * )( JsonValue & )>
 deserialize_functions = {
     { activity_id( "ACT_AIM" ), &aim_activity_actor::deserialize },
     { activity_id( "ACT_AUTODRIVE" ), &autodrive_activity_actor::deserialize },
@@ -4730,7 +4730,8 @@ void deserialize( cata::clone_ptr<activity_actor> &actor, JsonIn &jsin )
             data.read( "actor_type", actor_type );
             auto deserializer = activity_actors::deserialize_functions.find( actor_type );
             if( deserializer != activity_actors::deserialize_functions.end() ) {
-                actor = deserializer->second( *data.get_raw( "actor_data" ) );
+                JsonValue jv = data.get_member( "actor_data" );
+                actor = deserializer->second( jv );
             } else {
                 debugmsg( "Failed to find activity actor deserializer for type \"%s\"", actor_type.c_str() );
                 actor = nullptr;

@@ -219,7 +219,7 @@ static void parse_vp_reqs( const JsonObject &obj, const std::string &id, const s
     if( src.has_int( "time" ) ) {
         moves = src.get_int( "time" );
     } else if( src.has_string( "time" ) ) {
-        moves = to_moves<int>( read_from_json_string<time_duration>( *src.get_raw( "time" ),
+        moves = to_moves<int>( read_from_json_string<time_duration>( src.get_member( "time" ),
                                time_duration::units ) );
     }
 
@@ -421,7 +421,7 @@ void vpart_info::load( const JsonObject &jo, const std::string &src )
                     jttd.get_int( "post_field_age" ) );
         } else if( jttd.has_string( "post_field_age" ) ) {
             def.transform_terrain.post_field_age = read_from_json_string<time_duration>(
-                    *jttd.get_raw( "post_field_age" ), time_duration::units );
+                    jttd.get_member( "post_field_age" ), time_duration::units );
         } else {
             def.transform_terrain.post_field_age = 0_turns;
         }

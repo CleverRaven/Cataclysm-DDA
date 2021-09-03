@@ -149,6 +149,7 @@ static const efftype_id effect_bloodworms( "bloodworms" );
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_brainworms( "brainworms" );
+static const efftype_id effect_blood_spiders( "blood_spiders" );
 static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_corroding( "corroding" );
@@ -760,6 +761,10 @@ cata::optional<int> iuse::antiparasitic( Character *p, item *it, bool, const tri
     if( p->has_effect( effect_bloodworms ) ) {
         p->remove_effect( effect_bloodworms );
         p->add_msg_if_player( _( "Your skin prickles and your veins itch for a few moments." ) );
+    }
+    if( p->has_effect( effect_blood_spiders ) ) {
+        p->remove_effect( effect_blood_spiders );
+        p->add_msg_if_player( _( "Your veins relax in a soothing wave through your body." ) );
     }
     if( p->has_effect( effect_brainworms ) ) {
         p->remove_effect( effect_brainworms );

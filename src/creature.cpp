@@ -125,6 +125,11 @@ Creature::~Creature() = default;
 
 void Creature::setpos( const tripoint &p )
 {
+    set_pos_only( p );
+}
+
+void Creature::set_pos_only( const tripoint &p )
+{
     position = p;
 }
 
@@ -2436,6 +2441,11 @@ void Creature::draw( const catacurses::window &w, const tripoint &origin, bool i
 bool Creature::is_symbol_highlighted() const
 {
     return false;
+}
+
+std::unordered_map<std::string, std::string> &Creature::get_values()
+{
+    return values;
 }
 
 bodypart_id Creature::select_body_part( Creature *source, int hit_roll ) const

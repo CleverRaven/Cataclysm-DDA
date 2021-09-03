@@ -1520,6 +1520,19 @@
   },
   {
     "type": "mutation",
+    "id": "MANSBESTFRIEND",
+    "name": { "str": "Man's Best Friend" },
+    "points": 1,
+    "description": "Man's oldest and most well known friends are all Lupines.  Somehow you've mutated something that reminds other survivors of your more domestic relatives.  A softer edge around the eyes, maybe.",
+    "valid": false,
+    "prereqs": [ "LIGHTFUR" ],
+    "cancels": [ "BIRD_EYE", "LIZ_EYE", "FEL_EYE", "URSINE_EYE", "COMPOUND_EYES" ],
+    "category": [ "LUPINE" ],
+    "mixed_effect": true,
+    "social_modifiers": { "lie": -5, "persuade": 5, "intimidate": -5 }
+  },
+  {
+    "type": "mutation",
     "id": "CEPH_VISION",
     "name": { "str": "Cephalopod Vision" },
     "points": 3,
@@ -3854,7 +3867,7 @@
       "THRESH_LIZARD",
       "THRESH_SPIDER"
     ],
-    "cancels": [ "PACIFIST" ],
+    "cancels": [ "PACIFIST", "MANSBESTFRIEND" ],
     "category": [ "BEAST", "RAPTOR", "CHIMERA", "LUPINE", "FELINE", "URSINE", "LIZARD", "SPIDER" ],
     "flags": [ "PRED1" ]
   },
