@@ -988,6 +988,13 @@ void debug_menu::wishskill( Character *you )
 }
 
 /*
+ * Set skill theoretical knowledge on any Character object; player character or NPC
+ */
+void debug_menu::wishtheory( Character *you )
+{
+}
+
+/*
  * Set proficiency on any Character object; player character or NPC
  */
 void debug_menu::wishproficiency( Character *you )
