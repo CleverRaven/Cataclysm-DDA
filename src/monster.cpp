@@ -1496,10 +1496,11 @@ void monster::absorb_hit( const bodypart_id &, damage_instance &dam )
     for( auto &elem : dam.damage_units ) {
         add_msg_debug( debugmode::DF_MONSTER, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
                        name_by_dt( elem.type ), elem.res_pen, elem.res_mult );
-        add_msg_debug( debugmode::DF_MONSTER, "Weakpoint: %s :: Armor Mult: %.1f :: Armor Offset: %.1f :: Resist: %.1f",
-                       weakpoint->id, weakpoint->armor_mult[static_cast<int>(elem.type)], 
-                       weakpoint->armor_offset[static_cast<int>(elem.type)],
-                       r.get_effective_resist( elem ));
+        add_msg_debug( debugmode::DF_MONSTER,
+                       "Weakpoint: %s :: Armor Mult: %.1f :: Armor Offset: %.1f :: Resist: %.1f",
+                       weakpoint->id, weakpoint->armor_mult[static_cast<int>( elem.type )],
+                       weakpoint->armor_offset[static_cast<int>( elem.type )],
+                       r.get_effective_resist( elem ) );
         elem.amount -= std::min( r.get_effective_resist( elem ) +
                                  get_worn_armor_val( elem.type ), elem.amount );
     }

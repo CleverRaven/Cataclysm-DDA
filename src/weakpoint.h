@@ -41,7 +41,6 @@ struct weakpoints {
     // Selects a weakpoint to hit.
     const weakpoint *select_weakpoint( ) const;
 
-    weakpoints();
     void clear();
     void load( const JsonArray &ja );
 };

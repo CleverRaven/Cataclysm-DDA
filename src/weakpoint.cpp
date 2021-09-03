@@ -49,8 +49,6 @@ float weakpoint::hit_chance() const
     return coverage;
 }
 
-weakpoints::weakpoints() {}
-
 const weakpoint *weakpoints::select_weakpoint() const
 {
     float idx = rng_float( 0.0f, 1.0f );
