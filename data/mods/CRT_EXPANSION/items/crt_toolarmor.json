@@ -217,7 +217,7 @@
     "charges_per_use": 1,
     "turns_per_charge": 120,
     "ammo": "battery",
-    "use_action": { "type": "transform", "msg": "You turn the %s off.", "target": "crt_helmet" }
+    "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "You turn the %s off.", "target": "crt_helmet" }
   },
   {
     "id": "crt_canteen",

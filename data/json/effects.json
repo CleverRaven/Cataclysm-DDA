@@ -215,6 +215,18 @@
   },
   {
     "type": "effect_type",
+    "id": "leashed",
+    "name": [ "Has Leash" ],
+    "desc": [ "AI tag used for critters wearing a leash.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "led_by_leash",
+    "name": [ "Being Led By Leash" ],
+    "desc": [ "AI tag used for critters forced to follow using a leash.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "tied",
     "name": [ "Tied Up" ],
     "desc": [ "AI tag used for tied up critters.  This is a bug if you have it." ]
@@ -237,6 +249,17 @@
     "id": "bounced",
     "name": [ "Bounced" ],
     "desc": [ "AI tag used for bouncing ammo targeting.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "frenzy",
+    "name": [ "Frenzied" ],
+    "desc": [ "Monster effect used to buff allies.  This is a bug if you have it." ],
+    "max_intensity": 5,
+    "int_add_val": 1,
+    "max_duration": "15 m",
+    "base_mods": { "speed_mod": [ 10 ], "hit_mod": [ 1 ], "dodge_mod": [ 1 ] },
+    "scaling_mods": { "speed_mod": [ 10 ], "hit_mod": [ 1 ], "dodge_mod": [ 0.5 ] }
   },
   {
     "type": "effect_type",
@@ -920,9 +943,11 @@
     "rating": "bad",
     "miss_messages": [ [ "The webs restrict your movement.", 4 ] ],
     "max_intensity": 3,
+    "int_add_val": 1,
     "base_mods": { "speed_mod": [ -20 ] },
     "scaling_mods": { "speed_mod": [ -5 ] },
-    "show_in_info": true
+    "show_in_info": true,
+    "show_intensity": false
   },
   {
     "type": "effect_type",
@@ -1165,7 +1190,9 @@
     "name": [ "Shakes" ],
     "desc": [ "Your hands just won't stop shaking." ],
     "miss_messages": [ [ "You tremble", 4 ] ],
-    "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -4 ] }
+    "base_mods": { "str_mod": [ -1 ], "dex_mod": [ -4 ] },
+    "max_duration": 7200,
+    "dur_add_perc": 30
   },
   {
     "type": "effect_type",
@@ -1912,6 +1939,11 @@
   },
   {
     "type": "effect_type",
+    "id": "robofac_surveillance",
+    "max_duration": "14 days"
+  },
+  {
+    "type": "effect_type",
     "name": [ "Playing an instrument" ],
     "desc": [ "You're playing an instrument.\nFocusing on playing music distracts you, slowing you down." ],
     "id": "playing_instrument",
@@ -2397,17 +2429,11 @@
     "desc": [ "AI effect to increase stats after fusing with another critter.  1 stack means one absorbed max_hp." ],
     "//": "stats modified by the zombie_fuse special attack.",
     "//1": "scaling:",
-    "//2": "/48 HP: +0,5 melee_skill, +0,5 dodge_skill (unexpected movement), +5 Speed (bigger steps&more to attack with), +4 bash",
-    "//3": "/160 HP: +1 size",
-    "max_intensity": 480,
-    "base_mods": { "hit_mod": [ 0.0104 ], "dodge_mod": [ 0.0104 ], "speed_mod": [ 0.1042 ], "bash_mod": [ 0.08333 ] },
-    "scaling_mods": {
-      "hit_mod": [ 0.0104 ],
-      "dodge_mod": [ 0.0104 ],
-      "speed_mod": [ 0.1042 ],
-      "bash_mod": [ 0.08333 ],
-      "size_mod": [ 0.00625 ]
-    },
+    "//2": "/50 HP: +0,5 melee_skill, +0,5 dodge_skill (unexpected movement), +5 Speed (bigger steps&more to attack with), +4 bash",
+    "//3": "/250 HP: +1 size",
+    "max_intensity": 500,
+    "base_mods": { "hit_mod": [ 0.01 ], "dodge_mod": [ 0.01 ], "speed_mod": [ 0.1 ], "bash_mod": [ 0.08 ] },
+    "scaling_mods": { "hit_mod": [ 0.01 ], "dodge_mod": [ 0.01 ], "speed_mod": [ 0.1 ], "bash_mod": [ 0.08 ], "size_mod": [ 0.004 ] },
     "int_decay_step": 0
   },
   {

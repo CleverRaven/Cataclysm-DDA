@@ -492,8 +492,8 @@
         { "item": "electric_lantern", "x": 40, "y": 60, "chance": 75, "repeat": [ 150, 300 ] },
         { "item": "flaregun", "x": 39, "y": 60, "chance": 75, "repeat": [ 25, 50 ] },
         { "item": "signal_flare", "x": 38, "y": 60, "chance": 75, "repeat": [ 50, 100 ] },
-        { "item": "glowstick", "x": 37, "y": 60, "chance": 75, "repeat": [ 150, 300 ] },
-        { "item": "handflare", "x": 36, "y": 60, "chance": 75, "repeat": [ 50, 100 ] },
+        { "item": "glowstick", "x": 37, "y": 60, "chance": 75, "repeat": [ 150, 300 ], "ammo": 100 },
+        { "item": "handflare", "x": 36, "y": 60, "chance": 75, "repeat": [ 50, 100 ], "ammo": 100 },
         { "item": "manual_swimming", "x": 55, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "manual_melee", "x": 54, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "manual_stabbing", "x": 53, "y": 60, "chance": 75, "repeat": [ 50, 150 ] },
@@ -516,7 +516,7 @@
         { "item": "rope_30", "x": 42, "y": 59, "chance": 75, "repeat": [ 50, 100 ] },
         { "item": "sleeping_bag_roll", "x": 41, "y": 59, "chance": 75, "repeat": [ 150, 300 ] },
         { "item": "rollmat", "x": 40, "y": 59, "chance": 75, "repeat": [ 150, 300 ] },
-        { "item": "ifak", "x": 39, "y": 59, "chance": 75, "repeat": [ 50, 150 ] },
+        { "group": "full_ifak", "x": 39, "y": 59, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "mess_tin", "x": 38, "y": 59, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "thermos", "x": 38, "y": 59, "chance": 75, "repeat": [ 50, 150 ] },
         { "item": "mil_mess_kit", "x": 37, "y": 59, "chance": 75, "repeat": [ 50, 100 ] },
@@ -557,7 +557,7 @@
         { "vehicle": "military_vehicles", "x": 79, "y": 42, "chance": 25, "status": 1, "rotation": 90 },
         { "vehicle": "military_vehicles", "x": 86, "y": 13, "chance": 25, "status": 1, "rotation": 270 },
         { "vehicle": "military_vehicles", "x": 79, "y": 54, "chance": 25, "status": 1, "rotation": 270 },
-        { "vehicle": "forklift", "x": 62, "y": 62, "chance": 80, "rotation": 90 }
+        { "vehicle": "forklift", "x": 62, "y": 62, "chance": 80, "status": -1, "rotation": 90 }
       ]
     }
   },
@@ -753,7 +753,7 @@
         { "item": "mgl", "x": 10, "y": 11, "chance": 75, "repeat": 3 },
         { "item": "40x46mm_m433", "x": 10, "y": 12, "chance": 75, "repeat": 20 },
         {
-          "item": "nato_assault_rifle",
+          "item": "m4_carbine",
           "variant": "m4a1",
           "x": 12,
           "y": [ 9, 11 ],
@@ -762,7 +762,7 @@
           "repeat": 30
         },
         {
-          "item": "nato_assault_rifle",
+          "item": "m27_assault_rifle",
           "variant": "m27iar",
           "x": 12,
           "y": 9,
@@ -775,7 +775,7 @@
         { "item": "stanag50", "x": 12, "y": 12, "chance": 75, "repeat": 20 },
         { "item": "556", "x": 14, "y": [ 9, 12 ], "chance": 75, "repeat": 150 },
         {
-          "item": "nato_assault_rifle",
+          "item": "m4_carbine",
           "variant": "m4a1",
           "x": 16,
           "y": [ 9, 11 ],
@@ -787,6 +787,7 @@
         { "item": "556", "x": 18, "y": [ 9, 12 ], "chance": 75, "repeat": 150 },
         { "item": "m249", "x": 20, "y": 9, "chance": 75, "repeat": 6 },
         { "item": "m240", "x": 20, "y": 9, "chance": 75, "repeat": 4 },
+        { "item": "mossberg_930", "variant": "m1014", "x": 20, "y": 10, "chance": 75, "repeat": 10 },
         { "item": "mossberg_590", "x": 20, "y": 10, "chance": 75, "repeat": 8 },
         { "item": "m2010", "x": 20, "y": 11, "magazine": 100, "chance": 75, "repeat": 2 },
         { "item": "m110a1", "x": 20, "y": 11, "magazine": 100, "chance": 75, "repeat": 8 },
@@ -844,8 +845,8 @@
         { "vehicle": "military_vehicles", "x": 9, "y": 32, "chance": 25, "status": 1 },
         { "vehicle": "military_vehicles", "x": 20, "y": 39, "chance": 25, "status": 1 },
         { "vehicle": "military_vehicles", "x": 83, "y": 39, "chance": 25, "rotation": 90 },
-        { "vehicle": "welding_cart", "x": 67, "y": 36, "chance": 80 },
-        { "vehicle": "engine_crane", "x": 55, "y": 26, "chance": 80 }
+        { "vehicle": "welding_cart", "x": 67, "y": 36, "chance": 80, "status": -1 },
+        { "vehicle": "engine_crane", "x": 55, "y": 26, "chance": 80, "status": -1 }
       ]
     }
   },
@@ -1008,7 +1009,7 @@
       [ "mil_base_5j", "mil_base_6j", "mil_base_7j", "mil_base_8j" ],
       [ "mil_base_5k", "mil_base_6k", "mil_base_7k", "mil_base_8k" ]
     ],
-    "weight": 20050,
+    "weight": 25000,
     "object": {
       "fill_ter": "t_thconc_floor",
       "rows": [
@@ -1036,7 +1037,7 @@
         "|T+..S|[.............=..#h.|ss  ______________________________________________________,,,,b ,,,x",
         "--------ww-------|-+-|Y.#..wssssssss__________________________________________________,,,,b,,, x",
         "sssssssssss~|T+.S|...|O...$|ssssssss            sssssss            sXsssXXXXXXXXXs    ,,, b,,,,x",
-        "ssssssssssss|--.c|...|------------ss         sssssssssssss         sXs sGsssXsssGs     ,,,b,,, x",
+        "ssssssssssss|--.c|...|------------ss         sssssssssssss         sXspsGsssXsssGs     ,,,b,,, x",
         "          ss|T+..+...d..||>|uuuuu|{s        ssss_______ssss        sXsssXs*sXs*sXs     ,,,b ,, x",
         "          ss-----|...|uS||.|.....|{s      ssss___________ssss      sXsssXs*sXs*sXs     ,, b ,, x",
         "ssssssssssssw.hhh....|----d---D--|ss     sss_______________sss     sXsssGsssXsssGs     ,,,b ,,,x",
@@ -1149,7 +1150,7 @@
         { "item": "adrenaline_injector", "x": 29, "y": 25, "chance": 50, "repeat": [ 1, 10 ] },
         { "item": "vitamins", "x": 28, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "item": "calcium_tablet", "x": 28, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
-        { "item": "inhaler", "x": 28, "y": 25, "chance": 50, "repeat": [ 1, 10 ] },
+        { "group": "charged_inhaler", "x": 28, "y": 25, "chance": 50, "repeat": [ 1, 10 ] },
         { "item": "bandages", "x": 29, "y": 25, "chance": 30, "repeat": [ 20, 60 ] },
         { "item": "adhesive_bandages", "x": 29, "y": 25, "chance": 30, "repeat": [ 20, 60 ] },
         { "item": "medical_gauze", "x": 29, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
@@ -1166,7 +1167,7 @@
         { "item": "stethoscope", "x": 30, "y": 25, "chance": 50, "repeat": [ 1, 20 ] },
         { "item": "autoclave", "x": 30, "y": 25, "chance": 50, "repeat": [ 1, 3 ] },
         { "item": "pouch_autoclave", "x": 30, "y": 25, "chance": 50, "repeat": [ 1, 3 ] },
-        { "item": "1st_aid", "x": 30, "y": 25, "chance": 50, "repeat": [ 1, 20 ] },
+        { "group": "full_1st_aid", "x": 30, "y": 25, "chance": 50, "repeat": [ 1, 20 ] },
         { "item": "gloves_medical", "x": 31, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "item": "mask_dust", "x": 31, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "item": "bag_body_bag", "x": 31, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
@@ -1181,7 +1182,7 @@
         { "item": "geiger_off", "x": 32, "y": 25, "chance": 50, "repeat": [ 10, 20 ] },
         { "item": "rad_monitor", "x": 32, "y": 25, "chance": 50, "repeat": [ 10, 20 ] },
         { "item": "cleansuit", "x": 32, "y": 25, "chance": 50, "repeat": [ 10, 20 ] },
-        { "item": "aep_suit", "x": 32, "y": 25, "chance": 50, "repeat": [ 5, 10 ] },
+        { "item": "hazmat_suit", "x": 32, "y": 25, "chance": 50, "repeat": [ 5, 10 ] },
         { "item": "oxygen_tank", "x": 32, "y": 25, "chance": 50, "repeat": [ 10, 20 ] },
         { "item": "wrapped_rad_badge", "x": 32, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },
         { "item": "prussian_blue", "x": 32, "y": 25, "chance": 50, "repeat": [ 20, 60 ] },

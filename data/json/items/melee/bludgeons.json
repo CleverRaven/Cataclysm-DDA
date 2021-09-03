@@ -320,12 +320,31 @@
     "symbol": "/",
     "material": [ "wood", "aluminum" ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "NONCONDUCTIVE" ],
+    "flags": [ "NONCONDUCTIVE", "CRUTCHES" ],
     "volume": "1 L",
     "longest_side": "80 cm",
     "bashing": 10,
     "price": 16000,
     "price_postapoc": 100
+  },
+  {
+    "id": "crutches",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "dark_gray",
+    "name": { "str": "crutches", "str_pl": "pairs of crutches" },
+    "description": "A pair of crutches.",
+    "price": 2500,
+    "material": [ "aluminum" ],
+    "techniques": [ "WBLOCK_1", "SWEEP" ],
+    "flags": [ "CRUTCHES" ],
+    "weight": "2200 g",
+    "volume": "1500 ml",
+    "longest_side": "150 cm",
+    "bashing": 24,
+    "to_hit": 2,
+    "price_postapoc": 1250,
+    "category": "weapons"
   },
   {
     "type": "GENERIC",
@@ -518,6 +537,7 @@
     "id": "i_staff",
     "symbol": "/",
     "color": "brown",
+    "looks_like": "q_staff",
     "name": { "str": "ironshod quarterstaff", "str_pl": "ironshod quarterstaves" },
     "description": "A smooth and sturdy staff with a leather-wrapped grip, which has been reinforced with metal bands and caps.  Durable and well-balanced, it is surprisingly easy to handle.",
     "price": 6000,
@@ -565,10 +585,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "525 ml",
-        "max_contains_weight": "1 kg",
-        "item_restriction": [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_plus_battery_cell"
       }
     ]
   },
@@ -581,7 +599,13 @@
     "material": [ "superalloy", "steel" ],
     "revert_to": "l-stick",
     "power_draw": 5000,
-    "use_action": { "target": "l-stick", "msg": "The l-stick(tm)'s light fades away.", "menu_text": "Turn off", "type": "transform" },
+    "use_action": {
+      "ammo_scale": 0,
+      "target": "l-stick",
+      "msg": "The l-stick(tm)'s light fades away.",
+      "menu_text": "Turn off",
+      "type": "transform"
+    },
     "flags": [ "LIGHT_300", "DURABLE_MELEE", "TRADER_AVOID", "SHEATH_SPEAR" ]
   },
   {
@@ -666,6 +690,37 @@
     "weight": "1000 g",
     "price": 10000,
     "price_postapoc": 1000
+  },
+  {
+    "type": "GENERIC",
+    "id": "mace_simple",
+    "name": { "str": "simple mace" },
+    "copy-from": "mace_trench",
+    "description": "A stick with a circular lump of metal tied to it masquerading as a mace.  You could probably improve it by finding a way to pin the head to the handle.",
+    "price": 10,
+    "price_postapoc": 75,
+    "qualities": [ [ "HAMMER", 1 ] ],
+    "extend": { "flags": [ "FRAGILE_MELEE" ] }
+  },
+  {
+    "type": "GENERIC",
+    "id": "mace_trench",
+    "name": { "str": "trench mace" },
+    "description": "A mace made from a cicular chunk of steel pinned to the end of a stick.  You can feel your inner Trench Raider come alive when you wield it.",
+    "weight": "1000 g",
+    "to_hit": 1,
+    "color": "dark_gray",
+    "symbol": "/",
+    "looks_like": "mace",
+    "material": [ "iron", "wood" ],
+    "techniques": [ "SWEEP" ],
+    "flags": [ "BELT_CLIP", "NONCONDUCTIVE" ],
+    "volume": "1250 ml",
+    "longest_side": "60 cm",
+    "bashing": 22,
+    "price": 10000,
+    "price_postapoc": 400,
+    "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
     "id": "makeshift_sap",
@@ -987,10 +1042,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -1019,10 +1072,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },

@@ -60,17 +60,24 @@
   {
     "id": "cop_pants",
     "type": "item_group",
-    "items": [ [ "pants", 75 ], [ "pants_cargo", 70 ], [ "leather_belt", 30 ] ]
+    "items": [ [ "pants", 75 ], [ "pants_cargo", 70 ], [ "leather_belt", 30 ], [ "police_breeches", 20 ] ]
   },
   {
     "id": "cop_shoes",
     "type": "item_group",
-    "items": [ [ "boots", 70 ], [ "boots_steel", 50 ], [ "boots_hiking", 20 ], [ "boots_western", 5 ], [ "boots_combat", 10 ] ]
+    "items": [
+      [ "boots", 70 ],
+      [ "boots_steel", 50 ],
+      [ "boots_hiking", 20 ],
+      [ "boots_western", 5 ],
+      [ "boots_combat", 10 ],
+      [ "motor_police_boots", 20 ]
+    ]
   },
   {
     "id": "cop_torso",
     "type": "item_group",
-    "items": [ [ "dress_shirt", 50 ], [ "sheriffshirt", 45 ], [ "jacket_light", 40 ] ]
+    "items": [ [ "dress_shirt", 50 ], [ "sheriffshirt", 45 ], [ "jacket_light", 40 ], [ "leather_police_jacket", 50 ] ]
   },
   {
     "id": "cop_melee",

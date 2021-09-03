@@ -16,6 +16,7 @@
 #include "colony.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
@@ -39,6 +40,7 @@
 #include "melee.h"
 #include "messages.h"
 #include "mission.h"
+#include "mod_manager.h"
 #include "mondeath.h"
 #include "mondefense.h"
 #include "monfaction.h"
@@ -52,7 +54,6 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
-#include "player.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
@@ -155,9 +156,7 @@ static const std::map<monster_attitude, std::pair<std::string, color_id>> attitu
 
 monster::monster()
 {
-    position.x = 20;
-    position.y = 10;
-    position.z = -500; // Some arbitrary number that will cause debugmsgs
+    set_pos_only( tripoint( 20, 10, -500 ) ); // Some arbitrary position that will cause debugmsgs
     unset_dest();
     wandf = 0;
     hp = 60;
@@ -213,7 +212,7 @@ monster::monster( const mtype_id &id ) : monster()
 
 monster::monster( const mtype_id &id, const tripoint &p ) : monster( id )
 {
-    position = p;
+    set_pos_only( p );
     unset_dest();
 }
 
@@ -231,7 +230,7 @@ void monster::setpos( const tripoint &p )
 
     bool wandering = wander();
     g->update_zombie_pos( *this, p );
-    position = p;
+    Creature::setpos( p );
     if( has_effect( effect_ridden ) && mounted_player && mounted_player->pos() != pos() ) {
         add_msg_debug( debugmode::DF_MONSTER, "Ridden monster %s moved independently and dumped player",
                        get_name() );
@@ -489,7 +488,7 @@ void monster::try_biosignature()
 
 void monster::spawn( const tripoint &p )
 {
-    position = p;
+    set_pos_only( p );
     unset_dest();
 }
 
@@ -652,12 +651,19 @@ int monster::print_info( const catacurses::window &w, int vStart, int vLines, in
 {
     const int vEnd = vStart + vLines;
     const int max_width = getmaxx( w ) - column - 1;
+    std::ostringstream oss;
+
+    oss << get_tag_from_color( c_white ) << _( "Origin: " );
+    oss << enumerate_as_string( type->src.begin(),
+    type->src.end(), []( const std::pair<mtype_id, mod_id> &source ) {
+        return string_format( "'%s'", source.second->name() );
+    }, enumeration_conjunction::arrow );
+    oss << "</color>" << "\n\n";
 
     // Print health bar, monster name, then statuses on the first line.
     nc_color bar_color = c_white;
     std::string bar_str;
     get_HP_Bar( bar_color, bar_str );
-    std::ostringstream oss;
     oss << get_tag_from_color( bar_color ) << bar_str << "</color>";
     oss << "<color_white>" << std::string( 5 - utf8_width( bar_str ), '.' ) << "</color> ";
     oss << get_tag_from_color( basic_symbol_color() ) << name() << "</color> ";
@@ -745,6 +751,14 @@ std::string monster::extended_description() const
             difficulty_str = _( "<color_red>Fatally dangerous!</color>" );
         }
     }
+
+    ss += _( "Origin: " );
+    ss += enumerate_as_string( type->src.begin(),
+    type->src.end(), []( const std::pair<mtype_id, mod_id> &source ) {
+        return string_format( "'%s'", source.second->name() );
+    }, enumeration_conjunction::arrow );
+
+    ss += "\n--\n";
 
     ss += string_format( _( "This is a %s.  %s %s" ), name(), att_colored,
                          difficulty_str ) + "\n";
@@ -1050,7 +1064,7 @@ void monster::set_patrol_route( const std::vector<point> &patrol_pts_rel_ms )
 void monster::shift( const point &sm_shift )
 {
     const point ms_shift = sm_to_ms_copy( sm_shift );
-    position -= ms_shift;
+    set_pos_only( pos() - ms_shift );
     goal -= ms_shift;
     if( wandf > 0 ) {
         wander_pos -= ms_shift;
@@ -1068,7 +1082,7 @@ Creature *monster::attack_target()
         return nullptr;
     }
 
-    Creature *target = g->critter_at( move_target() );
+    Creature *target = get_creature_tracker().creature_at( move_target() );
     if( target == nullptr || target == this ||
         attitude_to( *target ) == Attitude::FRIENDLY || !sees( *target ) ) {
         return nullptr;
@@ -1177,7 +1191,7 @@ monster_attitude monster::attitude( const Character *u ) const
             }
         }
         auto *u_fac = u->get_faction();
-        if( u_fac && faction == u_fac->mon_faction ) {
+        if( u_fac && u_fac->mon_faction && faction == u_fac->mon_faction ) {
             return MATT_FRIEND;
         }
 
@@ -1430,7 +1444,7 @@ bool monster::is_immune_effect( const efftype_id &effect ) const
         if( type->bodytype == "insect" || type->bodytype == "spider" || type->bodytype == "crab" ) {
             return x_in_y( 3, 4 );
         } else return type->bodytype == "snake" || type->bodytype == "blob" || type->bodytype == "fish" ||
-                          has_flag( MF_FLIES );
+                          has_flag( MF_FLIES ) || has_flag( MF_IMMOBILE );
     }
     return false;
 }
@@ -1574,7 +1588,7 @@ bool monster::melee_attack( Creature &target, float accuracy )
             if( target.is_avatar() ) {
                 sfx::play_variant_sound( "melee_attack", "monster_melee_hit",
                                          sfx::get_heard_volume( target.pos() ) );
-                sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
+                sfx::do_player_death_hurt( dynamic_cast<Character &>( target ), false );
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative.
                 add_msg( m_bad, _( "%1$s hits your %2$s." ), u_see_me ? disp_name( false, true ) : "Something",
                          body_part_name_accusative( dealt_dam.bp_hit ) );
@@ -1772,7 +1786,7 @@ int monster::heal( const int delta_hp, bool overheal )
     if( hp > maxhp && !overheal ) {
         hp = maxhp;
     }
-    return maxhp - old_hp;
+    return hp - old_hp;
 }
 
 void monster::set_hp( const int hp )
@@ -2162,7 +2176,7 @@ int monster::impact( const int force, const tripoint &p )
 
     const float mod = fall_damage_mod();
     int total_dealt = 0;
-    if( get_map().has_flag( TFLAG_SHARP, p ) ) {
+    if( get_map().has_flag( ter_furn_flag::TFLAG_SHARP, p ) ) {
         const int cut_damage = std::max( 0.0f, 10 * mod - get_armor_cut( bodypart_id( "torso" ) ) );
         apply_damage( nullptr, bodypart_id( "torso" ), cut_damage );
         total_dealt += 10 * mod;
@@ -2279,11 +2293,12 @@ void monster::process_turn()
             local_attack_data.cooldown--;
         }
     }
+    creature_tracker &creatures = get_creature_tracker();
     // Persist grabs as long as there's an adjacent target.
     if( has_effect( effect_grabbing ) ) {
         for( const tripoint &dest : here.points_in_radius( pos(), 1, 0 ) ) {
-            const player *const p = g->critter_at<player>( dest );
-            if( p && p->has_effect( effect_grabbed ) ) {
+            const Character *const you = creatures.creature_at<Character>( dest );
+            if( you && you->has_effect( effect_grabbed ) ) {
                 add_effect( effect_grabbing, 2_turns );
             }
         }
@@ -2295,6 +2310,7 @@ void monster::process_turn()
                 sounds::sound( pos(), 5, sounds::sound_t::combat, _( "hummmmm." ), false, "humming", "electric" );
             }
         } else {
+            weather_manager &weather = get_weather();
             for( const tripoint &zap : here.points_in_radius( pos(), 1 ) ) {
                 const map_stack items = here.i_at( zap );
                 for( const auto &item : items ) {
@@ -2320,9 +2336,9 @@ void monster::process_turn()
                     }
                 }
             }
-            if( g->weather.lightning_active && !has_effect( effect_supercharged ) &&
+            if( weather.lightning_active && !has_effect( effect_supercharged ) &&
                 here.is_outside( pos() ) ) {
-                g->weather.lightning_active = false; // only one supercharge per strike
+                weather.lightning_active = false; // only one supercharge per strike
                 sounds::sound( pos(), 300, sounds::sound_t::combat, _( "BOOOOOOOM!!!" ), false, "environment",
                                "thunder_near" );
                 sounds::sound( pos(), 20, sounds::sound_t::combat, _( "vrrrRRRUUMMMMMMMM!" ), false, "explosion",
@@ -2396,25 +2412,26 @@ void monster::die( Creature *nkiller )
         }
     }
     map &here = get_map();
+    creature_tracker &creatures = get_creature_tracker();
     if( has_effect( effect_grabbing ) ) {
         remove_effect( effect_grabbing );
         for( const tripoint &player_pos : here.points_in_radius( pos(), 1, 0 ) ) {
-            player *p = g->critter_at<player>( player_pos );
-            if( !p || !p->has_effect( effect_grabbed ) ) {
+            Character *you = creatures.creature_at<Character>( player_pos );
+            if( !you || !you->has_effect( effect_grabbed ) ) {
                 continue;
             }
             bool grabbed = false;
             for( const tripoint &mon_pos : here.points_in_radius( player_pos, 1, 0 ) ) {
-                const monster *const mon = g->critter_at<monster>( mon_pos );
+                const monster *const mon = creatures.creature_at<monster>( mon_pos );
                 if( mon && mon->has_effect( effect_grabbing ) ) {
                     grabbed = true;
                     break;
                 }
             }
             if( !grabbed ) {
-                p->add_msg_player_or_npc( m_good, _( "The last enemy holding you collapses!" ),
-                                          _( "The last enemy holding <npcname> collapses!" ) );
-                p->remove_effect( effect_grabbed );
+                you->add_msg_player_or_npc( m_good, _( "The last enemy holding you collapses!" ),
+                                            _( "The last enemy holding <npcname> collapses!" ) );
+                you->remove_effect( effect_grabbed );
             }
         }
     }
@@ -2633,7 +2650,18 @@ void monster::process_effects()
 
     Character &player_character = get_player_character();
     //If this monster has the ability to heal in combat, do it now.
-    const int healed_amount = heal( type->regenerates );
+    int regeneration_amount = type->regenerates;
+    //Apply effect-triggered regeneartion modifers
+    for( const auto &regeneration_modifier : type->regeneration_modifiers ) {
+        if( has_effect( regeneration_modifier.first ) ) {
+            regeneration_amount += regeneration_modifier.second;
+        }
+    }
+    //Prevent negative regeneration
+    if( regeneration_amount < 0 ) {
+        regeneration_amount = 0;
+    }
+    const int healed_amount = heal( regeneration_amount );
     if( healed_amount > 0 && one_in( 2 ) ) {
         std::string healing_format_string;
         if( healed_amount >= 50 ) {
@@ -2848,6 +2876,11 @@ bool monster::is_dead() const
     return dead || is_dead_state();
 }
 
+bool monster::is_nemesis() const
+{
+    return has_flag( MF_NEMESIS );
+}
+
 void monster::init_from_item( const item &itm )
 {
     if( itm.typeId() == itype_corpse ) {
@@ -3057,7 +3090,7 @@ bool monster::will_join_horde( int size )
     if( mha == MHA_ALWAYS ) {
         return true;
     }
-    if( get_map().has_flag( TFLAG_INDOORS, pos() ) &&
+    if( get_map().has_flag( ter_furn_flag::TFLAG_INDOORS, pos() ) &&
         ( mha == MHA_OUTDOORS || mha == MHA_OUTDOORS_AND_LARGE ) ) {
         return false;
     }
@@ -3089,19 +3122,24 @@ void monster::on_load()
     float regen = type->regenerates;
     if( regen <= 0 ) {
         if( has_flag( MF_REVIVES ) ) {
-            regen = 1.0f / to_turns<int>( 1_hours );
+            regen = 0.02f * type->hp / to_turns<int>( 1_hours );
         } else if( made_of( material_id( "flesh" ) ) || made_of( material_id( "iflesh" ) ) ||
                    made_of( material_id( "veggy" ) ) ) {
             // Most living stuff here
-            regen = 0.25f / to_turns<int>( 1_hours );
+            regen = 0.005f * type->hp / to_turns<int>( 1_hours );
         }
     }
     const int heal_amount = roll_remainder( regen * to_turns<int>( dt ) );
     const int healed = heal( heal_amount );
     int healed_speed = 0;
-    if( healed < heal_amount && get_speed_base() < type->speed ) {
-        int old_speed = get_speed_base();
-        set_speed_base( std::min( get_speed_base() + heal_amount - healed, type->speed ) );
+    if( get_speed_base() < type->speed ) {
+        const int old_speed = get_speed_base();
+        if( hp >= type->hp ) {
+            set_speed_base( type->speed );
+        } else {
+            const int speed_delta = std::max( healed * type->speed / type->hp, 1 );
+            set_speed_base( std::min( old_speed + speed_delta, type->speed ) );
+        }
         healed_speed = get_speed_base() - old_speed;
     }
 

@@ -100,6 +100,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_KEENNOSE: return "KEENNOSE";
         case MF_STUMBLES: return "STUMBLES";
         case MF_WARM: return "WARM";
+        case MF_NEMESIS: return "NEMESIS";
         case MF_NOHEAD: return "NOHEAD";
         case MF_HARDTOSHOOT: return "HARDTOSHOOT";
         case MF_GRABS: return "GRABS";
@@ -208,6 +209,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_INSECTICIDEPROOF: return "INSECTICIDEPROOF";
         case MF_RANGED_ATTACKER: return "RANGED_ATTACKER";
         case MF_CAMOUFLAGE: return "CAMOUFLAGE";
+        case MF_WATER_CAMOUFLAGE: return "WATER_CAMOUFLAGE";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;
@@ -537,6 +539,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "FUNGAL_TRAIL", mattack::fungal_trail );
     add_hardcoded_attack( "PLANT", mattack::plant );
     add_hardcoded_attack( "DISAPPEAR", mattack::disappear );
+    add_hardcoded_attack( "DEPART", mattack::depart );
     add_hardcoded_attack( "FORMBLOB", mattack::formblob );
     add_hardcoded_attack( "CALLBLOBS", mattack::callblobs );
     add_hardcoded_attack( "JACKSON", mattack::jackson );
@@ -633,13 +636,13 @@ mon_effect_data load_mon_effect_data( const JsonObject &e )
 class mon_attack_effect_reader : public generic_typed_reader<mon_attack_effect_reader>
 {
     public:
-        mon_effect_data get_next( JsonIn &jin ) const {
-            JsonObject e = jin.get_object();
+        mon_effect_data get_next( JsonValue &jv ) const {
+            JsonObject e = jv.get_object();
             return load_mon_effect_data( e );
         }
         template<typename C>
-        void erase_next( JsonIn &jin, C &container ) const {
-            const efftype_id id = efftype_id( jin.get_string() );
+        void erase_next( std::string &&eff_str, C &container ) const {
+            const efftype_id id = efftype_id( std::move( eff_str ) );
             reader_detail::handler<C>().erase_if( container, [&id]( const mon_effect_data & e ) {
                 return e.id == id;
             } );
@@ -659,11 +662,11 @@ void mtype::load( const JsonObject &jo, const std::string &src )
 
     assign( jo, "ascii_picture", picture_id );
 
-    optional( jo, was_loaded, "material", mat, auto_flags_reader<material_id> {} );
+    optional( jo, was_loaded, "material", mat, string_id_reader<::material_type> {} );
     if( mat.empty() ) { // Assign a default "flesh" material to prevent crash (#48988)
         mat.emplace_back( material_id( "flesh" ) );
     }
-    optional( jo, was_loaded, "species", species, auto_flags_reader<species_id> {} );
+    optional( jo, was_loaded, "species", species, string_id_reader<::species_type> {} );
     optional( jo, was_loaded, "categories", categories, auto_flags_reader<> {} );
 
     // See monfaction.cpp
@@ -696,7 +699,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "aggression", agro, strict, -100, 100 );
     assign( jo, "morale", morale, strict );
 
-    assign( jo, "tracking_distance", tracking_distance, strict, 8 );
+    assign( jo, "tracking_distance", tracking_distance, strict, 3 );
 
     assign( jo, "mountable_weight_ratio", mountable_weight_ratio, strict );
 
@@ -724,6 +727,24 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "regenerates_in_dark", regenerates_in_dark, false );
     optional( jo, was_loaded, "regen_morale", regen_morale, false );
 
+    if( !was_loaded || jo.has_member( "regeneration_modifers" ) ) {
+        regeneration_modifiers.clear();
+        add_regeneration_modifiers( jo, "regeneration_modifers", src );
+    } else {
+        // Note: regeneration_modifers left as is, new modifiers are added to it!
+        // Note: member name prefixes are compatible with those used by generic_typed_reader
+        if( jo.has_object( "extend" ) ) {
+            JsonObject tmp = jo.get_object( "extend" );
+            tmp.allow_omitted_members();
+            add_regeneration_modifiers( tmp, "regeneration_modifers", src );
+        }
+        if( jo.has_object( "delete" ) ) {
+            JsonObject tmp = jo.get_object( "delete" );
+            tmp.allow_omitted_members();
+            remove_regeneration_modifiers( tmp, "regeneration_modifers", src );
+        }
+    }
+
     optional( jo, was_loaded, "starting_ammo", starting_ammo );
     optional( jo, was_loaded, "luminance", luminance, 0 );
     optional( jo, was_loaded, "revert_to_itype", revert_to_itype, itype_id() );
@@ -732,9 +753,9 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "mech_str_bonus", mech_str_bonus, 0 );
     optional( jo, was_loaded, "mech_battery", mech_battery, itype_id() );
 
-    optional( jo, was_loaded, "zombify_into", zombify_into, auto_flags_reader<mtype_id> {},
+    optional( jo, was_loaded, "zombify_into", zombify_into, string_id_reader<::mtype> {},
               mtype_id() );
-    optional( jo, was_loaded, "fungalize_into", fungalize_into, auto_flags_reader<mtype_id> {},
+    optional( jo, was_loaded, "fungalize_into", fungalize_into, string_id_reader<::mtype> {},
               mtype_id() );
 
     // TODO: make this work with `was_loaded`
@@ -792,7 +813,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             while( jar.has_more() ) {
                 JsonObject obj = jar.next_object();
                 emit_fields.emplace( emit_id( obj.get_string( "emit_id" ) ),
-                                     read_from_json_string<time_duration>( *obj.get_raw( "delay" ), time_duration::units ) );
+                                     read_from_json_string<time_duration>( obj.get_member( "delay" ), time_duration::units ) );
             }
         }
     }
@@ -839,10 +860,9 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         JsonObject up = jo.get_object( "upgrades" );
         optional( up, was_loaded, "half_life", half_life, -1 );
         optional( up, was_loaded, "age_grow", age_grow, -1 );
-        optional( up, was_loaded, "into_group", upgrade_group, auto_flags_reader<mongroup_id> {},
+        optional( up, was_loaded, "into_group", upgrade_group, string_id_reader<::MonsterGroup> {},
                   mongroup_id::NULL_ID() );
-        optional( up, was_loaded, "into", upgrade_into, auto_flags_reader<mtype_id> {},
-                  mtype_id::NULL_ID() );
+        optional( up, was_loaded, "into", upgrade_into, string_id_reader<::mtype> {}, mtype_id::NULL_ID() );
         upgrades = true;
     }
 
@@ -853,12 +873,12 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         if( repro.has_int( "baby_timer" ) ) {
             baby_timer = time_duration::from_days( repro.get_int( "baby_timer" ) );
         } else if( repro.has_string( "baby_timer" ) ) {
-            baby_timer = read_from_json_string<time_duration>( *repro.get_raw( "baby_timer" ),
+            baby_timer = read_from_json_string<time_duration>( repro.get_member( "baby_timer" ),
                          time_duration::units );
         }
-        optional( repro, was_loaded, "baby_monster", baby_monster, auto_flags_reader<mtype_id> {},
+        optional( repro, was_loaded, "baby_monster", baby_monster, string_id_reader<::mtype> {},
                   mtype_id::NULL_ID() );
-        optional( repro, was_loaded, "baby_egg", baby_egg, auto_flags_reader<itype_id> {},
+        optional( repro, was_loaded, "baby_egg", baby_egg, string_id_reader<::itype> {},
                   itype_id::NULL_ID() );
         reproduces = true;
     }
@@ -876,16 +896,16 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         if( biosig.has_int( "biosig_timer" ) ) {
             biosig_timer = time_duration::from_days( biosig.get_int( "biosig_timer" ) );
         } else if( biosig.has_string( "biosig_timer" ) ) {
-            biosig_timer = read_from_json_string<time_duration>( *biosig.get_raw( "biosig_timer" ),
+            biosig_timer = read_from_json_string<time_duration>( biosig.get_member( "biosig_timer" ),
                            time_duration::units );
         }
 
-        optional( biosig, was_loaded, "biosig_item", biosig_item, auto_flags_reader<itype_id> {},
+        optional( biosig, was_loaded, "biosig_item", biosig_item, string_id_reader<::itype> {},
                   itype_id::NULL_ID() );
         biosignatures = true;
     }
 
-    optional( jo, was_loaded, "burn_into", burn_into, auto_flags_reader<mtype_id> {},
+    optional( jo, was_loaded, "burn_into", burn_into, string_id_reader<::mtype> {},
               mtype_id::NULL_ID() );
 
     const auto flag_reader = enum_flags_reader<m_flag> { "monster flag" };
@@ -933,7 +953,7 @@ void species_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "placate_triggers", placate, trigger_reader );
     optional( jo, was_loaded, "fear_triggers", fear, trigger_reader );
 
-    optional( jo, was_loaded, "bleeds", bleeds, auto_flags_reader<field_type_str_id> {}, fd_null );
+    optional( jo, was_loaded, "bleeds", bleeds, string_id_reader<::field_type> {}, fd_null );
 }
 
 const std::vector<mtype> &MonsterGenerator::get_all_mtypes() const
@@ -1134,9 +1154,55 @@ void mtype::remove_special_attacks( const JsonObject &jo, const std::string &mem
     }
 }
 
+void mtype::add_regeneration_modifier( JsonArray inner, const std::string & )
+{
+    const std::string effect_name = inner.get_string( 0 );
+    const efftype_id effect( effect_name );
+    //TODO: if invalid effect, throw error
+    //  inner.throw_error( "Invalid regeneration_modifiers" );
+
+    if( regeneration_modifiers.count( effect ) > 0 ) {
+        regeneration_modifiers.erase( effect );
+        if( test_mode ) {
+            debugmsg( "%s specifies more than one regeneration modifer for effect %s, ignoring all but the last",
+                      id.c_str(), effect_name );
+        }
+    }
+    int amount = inner.get_int( 1 );
+    regeneration_modifiers.emplace( effect, amount );
+}
+
+void mtype::add_regeneration_modifiers( const JsonObject &jo, const std::string &member,
+                                        const std::string &src )
+{
+    if( !jo.has_array( member ) ) {
+        return;
+    }
+
+    for( const JsonValue entry : jo.get_array( member ) ) {
+        if( entry.test_array() ) {
+            add_regeneration_modifier( entry.get_array(), src );
+            // TODO: add support for regeneration_modifer objects
+            //} else if ( entry.test_object() ) {
+            //    add_regeneration_modifier( entry.get_object(), src );
+        } else {
+            entry.throw_error( "array element is not an array " );
+        }
+    }
+}
+
+void mtype::remove_regeneration_modifiers( const JsonObject &jo, const std::string &member_name,
+        const std::string & )
+{
+    for( const std::string &name : jo.get_tags( member_name ) ) {
+        const efftype_id effect( name );
+        regeneration_modifiers.erase( effect );
+    }
+}
+
 void MonsterGenerator::check_monster_definitions() const
 {
-    for( const auto &mon : mon_templates->get_all() ) {
+    for( const mtype &mon : mon_templates->get_all() ) {
         if( mon.harvest.is_null() && !mon.has_flag( MF_ELECTRONIC ) && !mon.id.is_null() ) {
             debugmsg( "monster %s has no harvest entry", mon.id.c_str(), mon.harvest.c_str() );
         }
@@ -1145,11 +1211,12 @@ void MonsterGenerator::check_monster_definitions() const
         }
         if( mon.has_flag( MF_MILKABLE ) && !mon.starting_ammo.empty() &&
             !item( mon.starting_ammo.begin()->first ).made_of( phase_id::LIQUID ) ) {
-            debugmsg( "monster % is flagged milkable, but starting ammo %s is not a liquid type",
+            debugmsg( "monster %s is flagged milkable, but starting ammo %s is not a liquid type",
                       mon.id.c_str(), mon.starting_ammo.begin()->first.str() );
         }
         if( mon.has_flag( MF_MILKABLE ) && mon.starting_ammo.size() > 1 ) {
-            debugmsg( "monster % is flagged milkable, but has multiple starting_ammo defined", mon.id.c_str() );
+            debugmsg( "monster %s is flagged milkable, but has multiple starting_ammo defined",
+                      mon.id.c_str() );
         }
         for( const species_id &spec : mon.species ) {
             if( !spec.is_valid() ) {
@@ -1191,6 +1258,9 @@ void MonsterGenerator::check_monster_definitions() const
         }
         if( !mon.harvest.is_valid() ) {
             debugmsg( "monster %s has invalid harvest_entry: %s", mon.id.c_str(), mon.harvest.c_str() );
+        }
+        if( mon.has_flag( MF_WATER_CAMOUFLAGE ) && !monster( mon.id ).can_submerge() ) {
+            debugmsg( "monster %s has WATER_CAMOUFLAGE but cannot submerge", mon.id.c_str() );
         }
         for( const scenttype_id &s_id : mon.scents_tracked ) {
             if( !s_id.is_empty() && !s_id.is_valid() ) {

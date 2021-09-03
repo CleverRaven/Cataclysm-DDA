@@ -244,6 +244,7 @@ class JsonIn
         std::string get_member_name(); // also strips the ':'
         JsonObject get_object();
         JsonArray get_array();
+        JsonValue get_value(); // just returns a JsonValue at the current position.
 
         template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
         E get_enum_value() {
@@ -297,14 +298,14 @@ class JsonIn
         template<size_t N>
         bool read( std::bitset<N> &b, bool throw_on_error = false );
         bool read( JsonDeserializer &j, bool throw_on_error = false );
-        // This is for the string_id type
+
         template <typename T>
-        auto read( T &thing, bool throw_on_error = false ) -> decltype( thing.str(), true ) {
+        auto read( string_id<T> &thing, bool throw_on_error = false ) -> bool {
             std::string tmp;
             if( !read( tmp, throw_on_error ) ) {
                 return false;
             }
-            thing = T( tmp );
+            thing = string_id<T>( tmp );
             return true;
         }
 
@@ -729,9 +730,9 @@ class JsonOut
         void write( const std::bitset<N> &b );
 
         void write( const JsonSerializer &thing );
-        // This is for the string_id type
+
         template <typename T>
-        auto write( const T &thing ) -> decltype( thing.str(), ( void )0 ) {
+        auto write( const string_id<T> &thing ) {
             write( thing.str() );
         }
 
@@ -989,7 +990,8 @@ class JsonObject
         bool has_member( const std::string &name ) const; // true iff named member exists
         std::string str() const; // copy object json as string
         [[noreturn]] void throw_error( const std::string &err ) const;
-        [[noreturn]] void throw_error( const std::string &err, const std::string &name ) const;
+        [[noreturn]] void throw_error( const std::string &err, const std::string &name,
+                                       int offset = 0 ) const;
         // seek to a value and return a pointer to the JsonIn (member must exist)
         JsonIn *get_raw( const std::string &name ) const;
         JsonValue get_member( const std::string &name ) const;
@@ -1167,8 +1169,8 @@ class JsonArray
         size_t size() const;
         bool empty();
         std::string str(); // copy array json as string
-        [[noreturn]] void throw_error( const std::string &err );
-        [[noreturn]] void throw_error( const std::string &err, int idx );
+        [[noreturn]] void throw_error( const std::string &err ) const;
+        [[noreturn]] void throw_error( const std::string &err, int idx ) const;
         // See JsonIn::string_error
         [[noreturn]] void string_error( const std::string &err, int idx, int offset );
 
@@ -1180,6 +1182,7 @@ class JsonArray
         std::string next_string();
         JsonArray next_array();
         JsonObject next_object();
+        JsonValue next_value();
         void skip_value(); // ignore whatever is next
 
         // static access
@@ -1300,9 +1303,16 @@ class JsonValue
         bool test_array() const {
             return seek().test_array();
         }
+        bool test_null() const {
+            return seek().test_null();
+        }
 
-        [[noreturn]] void throw_error( const std::string &err ) const {
-            seek().error( err );
+        [[noreturn]] void string_error( const std::string &err, int offset = 0 ) const {
+            seek().string_error( err, offset );
+        }
+
+        [[noreturn]] void throw_error( const std::string &err, int offset = 0 ) const {
+            seek().error( err, offset );
         }
 
         std::string get_string() const {

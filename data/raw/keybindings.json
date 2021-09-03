@@ -730,6 +730,17 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_FAVORITE",
+    "category": "NPC_TRADE",
+    "name": "Toggle items as favorite",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "*" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
+      { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
+    ]
+  },
+  {
+    "type": "keybinding",
     "id": "LEVEL_UP",
     "name": "Go Up",
     "bindings": [
@@ -1021,6 +1032,13 @@
   },
   {
     "type": "keybinding",
+    "id": "SET_SPECIAL_ARGS",
+    "category": "OVERMAP",
+    "name": "Set Overmap Special Arguments",
+    "bindings": [ { "input_method": "keyboard_any", "key": "a" } ]
+  },
+  {
+    "type": "keybinding",
     "name": "View Missions",
     "category": "OVERMAP",
     "id": "MISSIONS",
@@ -1172,7 +1190,7 @@
   {
     "type": "keybinding",
     "id": "SELECT",
-    "name": "Select",
+    "name": "Select with mouse",
     "bindings": [ { "input_method": "mouse", "key": "MOUSE_LEFT" } ]
   },
   {
@@ -1238,6 +1256,12 @@
     "id": "CHANGE_GENDER",
     "name": "Change gender",
     "bindings": [ { "input_method": "keyboard_char", "key": "@" }, { "input_method": "keyboard_code", "key": "2", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SWITCH_GENDER",
+    "name": "Customize character",
+    "bindings": [ { "input_method": "keyboard_any", "key": "y" } ]
   },
   {
     "type": "keybinding",
@@ -1663,7 +1687,7 @@
     "id": "CATEGORY_SELECTION",
     "category": "INVENTORY",
     "name": "Toggle category selection mode",
-    "bindings": [ { "input_method": "keyboard_any", "key": "TAB" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "t" } ]
   },
   {
     "type": "keybinding",
@@ -3013,6 +3037,40 @@
       { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
       { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
     ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_ENTRY",
+    "category": "INVENTORY",
+    "name": "Mark/unmark selected item",
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "l" },
+      { "input_method": "keyboard_any", "key": "RIGHT" },
+      { "input_method": "keyboard_any", "key": "6" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_6" },
+      { "input_method": "gamepad", "key": "JOY_RIGHT" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "NEXT_COLUMN",
+    "category": "INVENTORY",
+    "name": "Next column",
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "TAB" },
+      { "input_method": "keyboard_any", "key": "h" },
+      { "input_method": "keyboard_any", "key": "LEFT" },
+      { "input_method": "keyboard_any", "key": "4" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_4" },
+      { "input_method": "gamepad", "key": "JOY_LEFT" }
+    ]
+  },
+  {
+    "type": "keybinding",
+    "id": "PREV_COLUMN",
+    "category": "INVENTORY",
+    "name": "Previous column",
+    "bindings": [ { "input_method": "keyboard_char", "key": "BACKTAB" } ]
   },
   {
     "type": "keybinding",

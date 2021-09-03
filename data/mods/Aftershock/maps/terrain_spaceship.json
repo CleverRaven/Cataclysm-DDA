@@ -10,8 +10,8 @@
     "symbol": "LINE_OXOX",
     "color": "white",
     "bash": {
-      "str_min": 25,
-      "str_max": 40,
+      "str_min": 200,
+      "str_max": 600,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_null",
@@ -48,7 +48,7 @@
       ]
     },
     "bash": {
-      "str_min": 25,
+      "str_min": 30,
       "str_max": 40,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
@@ -77,8 +77,8 @@
     "flags": [ "NOITEM", "DOOR", "CONNECT_TO_WALL", "MINEABLE" ],
     "copy-from": "t_door_metal_lab_c",
     "bash": {
-      "str_min": 25,
-      "str_max": 40,
+      "str_min": 200,
+      "str_max": 600,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_null",
@@ -103,8 +103,8 @@
     "color": "light_red",
     "flags": [ "TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD", "MINEABLE" ],
     "bash": {
-      "str_min": 25,
-      "str_max": 40,
+      "str_min": 200,
+      "str_max": 600,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_null",

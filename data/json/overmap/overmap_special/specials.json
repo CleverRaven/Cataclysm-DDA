@@ -703,7 +703,7 @@
     "city_distance": [ 10, -1 ],
     "occurrences": [ 10, 100 ],
     "flags": [ "ANT", "UNIQUE" ],
-    "spawns": { "group": "GROUP_ANT", "population": [ 1000, 2000 ], "radius": [ 10, 30 ] }
+    "spawns": { "group": "GROUP_ANT_SURFACE", "population": [ 1000, 2000 ], "radius": [ 10, 30 ] }
   },
   {
     "type": "overmap_special",
@@ -1218,7 +1218,7 @@
     "occurrences": [ 80, 100 ],
     "flags": [ "ANT", "UNIQUE" ],
     "rotate": false,
-    "spawns": { "group": "GROUP_ANT", "population": [ 1000, 2000 ], "radius": [ 10, 30 ] }
+    "spawns": { "group": "GROUP_ANT_SURFACE", "population": [ 1000, 2000 ], "radius": [ 10, 30 ] }
   },
   {
     "type": "overmap_special",
@@ -7386,6 +7386,7 @@
       { "point": [ 1, 0, 0 ], "overmap": "lake_surface" },
       { "point": [ 2, 0, 0 ], "overmap": "lake_surface" },
       { "point": [ 0, 1, 0 ], "overmap": "lake_surface" },
+      { "point": [ 1, 1, 1 ], "overmap": "sealab_small_roof_north" },
       { "point": [ 1, 1, 0 ], "overmap": "sealab_small_surface_north" },
       { "point": [ 1, 1, -1 ], "overmap": "sealab_small_-1_north", "locations": [ "lake_water_cube" ] },
       { "point": [ 1, 1, -2 ], "overmap": "sealab_small_-2_north", "locations": [ "lake_water_cube" ] },

@@ -61,8 +61,6 @@ int OVERMAP_WINDOW_TERM_HEIGHT;
 
 int OVERMAP_LEGEND_WIDTH;
 
-static std::string rm_prefix( std::string str, char c1 = '<', char c2 = '>' );
-
 scrollingcombattext SCT;
 
 // utf8 version
@@ -162,9 +160,9 @@ std::string remove_color_tags( const std::string &s )
     return ret;
 }
 
-static color_tag_parse_result::tag_type update_color_stack(
+color_tag_parse_result::tag_type update_color_stack(
     std::stack<nc_color> &color_stack, const std::string &seg,
-    const report_color_error color_error = report_color_error::yes )
+    const report_color_error color_error )
 {
     color_tag_parse_result tag = get_color_from_tag( seg, color_error );
     switch( tag.type ) {
@@ -1135,6 +1133,15 @@ std::string trim( const std::string &s, Prep prep )
     } ).base() );
 }
 
+template<typename Prep>
+std::string trim_trailing( const std::string &s, Prep prep )
+{
+    return std::string( s.begin(), std::find_if_not(
+    s.rbegin(), s.rend(), [&prep]( int c ) {
+        return prep( c );
+    } ).base() );
+}
+
 std::string trim( const std::string &s )
 {
     return trim( s, []( int c ) {
@@ -1142,10 +1149,11 @@ std::string trim( const std::string &s )
     } );
 }
 
-std::string trim_punctuation_marks( const std::string &s )
+std::string trim_trailing_punctuations( const std::string &s )
 {
-    return trim( s, []( int c ) {
-        return ispunct( c );
+    return trim_trailing( s, []( int c ) {
+        // '<' and '>' are used for tags and should not be removed
+        return c == '.' || c == '!';
     } );
 }
 

@@ -1,0 +1,26 @@
+[
+  {
+    "result": "sling-ready_molotov",
+    "type": "recipe",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "time": "30 s",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "molotov", 1 ] ], [ [ "fuse", 1 ] ] ]
+  },
+  {
+    "result": "sling-ready_grenade",
+    "type": "recipe",
+    "activity_level": "fake",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_EXPLOSIVE",
+    "skill_used": "fabrication",
+    "time": "2 m",
+    "autolearn": true,
+    "qualities": [ { "id": "DRILL", "level": 1 } ],
+    "components": [ [ [ "grenade", 1 ] ], [ [ "fuse", 1 ] ] ]
+  }
+]

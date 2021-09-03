@@ -117,6 +117,17 @@
     "auto_needs": true
   },
   {
+    "id": "ACT_MULTIPLE_DIS",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "disassembling things",
+    "based_on": "neither",
+    "suspendable": false,
+    "no_resume": true,
+    "multi_activity": true,
+    "auto_needs": true
+  },
+  {
     "id": "ACT_MULTIPLE_BUTCHER",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
@@ -145,6 +156,13 @@
     "verb": "fishing",
     "based_on": "neither",
     "auto_needs": true
+  },
+  {
+    "type": "activity_type",
+    "id": "ACT_HARVEST",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "harvesting",
+    "based_on": "speed"
   },
   {
     "id": "ACT_GENERIC_GAME",
@@ -189,7 +207,7 @@
     "verb": "disassembly",
     "suspendable": false,
     "rooted": true,
-    "based_on": "speed",
+    "based_on": "neither",
     "refuel_fires": true,
     "auto_needs": true
   },

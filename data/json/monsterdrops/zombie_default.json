@@ -236,12 +236,12 @@
   {
     "type": "item_group",
     "subtype": "collection",
-    "//": "contains cloth (always), a cash card (10% chance), and a random item (50% chance)",
+    "//": "contains cloth (always), a wallet (30% chance), and a random item (50% chance)",
     "id": "default_zombie_death_drops",
     "entries": [
       { "group": "default_zombie_clothes" },
       { "group": "default_zombie_items", "prob": 50 },
-      { "group": "wallets", "damage": [ 1, 4 ], "prob": 10 }
+      { "group": "wallets", "damage": [ 1, 4 ], "prob": 30 }
     ]
   }
 ]

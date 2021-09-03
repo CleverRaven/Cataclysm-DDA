@@ -11,6 +11,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "enums.h"
 #include "game.h"
 #include "generic_factory.h"
@@ -25,7 +26,6 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
-#include "player.h"
 #include "point.h"
 #include "ret_val.h"
 #include "rng.h"
@@ -36,6 +36,7 @@
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_grabbed( "grabbed" );
+static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_poison( "poison" );
@@ -185,7 +186,7 @@ bool mon_spellcasting_actor::call( monster &mon ) const
     }
 
     std::string target_name;
-    if( const Creature *target_monster = g->critter_at( target ) ) {
+    if( const Creature *target_monster = get_creature_tracker().creature_at( target ) ) {
         target_name = target_monster->disp_name();
     }
 
@@ -356,6 +357,7 @@ bool melee_actor::call( monster &z ) const
                                        body_part_name_accusative( bp_id ) );
     }
     if( throw_strength > 0 ) {
+        z.remove_effect( effect_grabbing );
         g->fling_creature( target, coord_to_angle( z.pos(), target->pos() ),
                            throw_strength );
         target->add_msg_player_or_npc( m_bad, throw_msg_u, throw_msg_npc, z.name() );
@@ -369,7 +371,7 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
     if( target.is_avatar() ) {
         sfx::play_variant_sound( "mon_bite", "bite_hit", sfx::get_heard_volume( z.pos() ),
                                  sfx::get_heard_angle( z.pos() ) );
-        sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
+        sfx::do_player_death_hurt( dynamic_cast<Character &>( target ), false );
     }
     game_message_type msg_type = target.attitude_to( get_player_character() ) ==
                                  Creature::Attitude::FRIENDLY ?

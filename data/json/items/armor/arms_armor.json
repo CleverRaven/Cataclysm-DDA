@@ -59,21 +59,22 @@
     "type": "ARMOR",
     "price_postapoc": 1250,
     "name": { "str": "pair of biosilicified chitin arm guards", "str_pl": "pairs of biosilicified chitin arm guards" },
-    "description": "A pair of arm guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable.",
+    "description": "A pair of arm guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle.",
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
-    "relative": { "material_thickness": 1 }
+    "relative": { "material_thickness": 1 },
+    "extend": { "flags": [ "NO_REPAIR" ] }
   },
   {
     "id": "xl_armguard_acidchitin",
     "copy-from": "armguard_acidchitin",
     "type": "ARMOR",
     "name": { "str": "pair of XL biosilicified chitin arm guards", "str_pl": "pairs of XL biosilicified chitin arm guards" },
-    "description": "A pair of arm guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant and very durable and sized for the largest of survivors.",
+    "description": "A pair of arm guards crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Acid-resistant but brittle and sized for the largest of survivors.",
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.25, "volume": 1.25 },
     "relative": { "material_thickness": 1 },
-    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "OVERSIZE" ]
+    "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY", "OVERSIZE", "NO_REPAIR" ]
   },
   {
     "id": "armguard_hard",
@@ -218,6 +219,26 @@
     "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "arm_l", "arm_r" ] } ]
   },
   {
+    "id": "improvised_armguard_tire",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of improvised tire arm guards", "str_pl": "pairs of improvised tire arm guards" },
+    "description": "Arm guards made of thick chunks of tire held together with duct tape.",
+    "weight": "4800 g",
+    "volume": "4 L",
+    "price": 230,
+    "price_postapoc": 250,
+    "to_hit": 1,
+    "material": [ "rubber" ],
+    "symbol": "[",
+    "looks_like": "armguard_larmor",
+    "color": "blue",
+    "warmth": 5,
+    "material_thickness": 4,
+    "flags": [ "BELTED", "BLOCK_WHILE_WORN", "NONCONDUCTIVE" ],
+    "armor": [ { "encumbrance": 10, "coverage": 80, "covers": [ "arm_l", "arm_r" ] } ]
+  },
+  {
     "id": "armguard_scrap",
     "type": "ARMOR",
     "category": "armor",
@@ -248,6 +269,35 @@
     "volume": "6 L",
     "copy-from": "armguard_scrap",
     "flags": [ "BELTED", "BLOCK_WHILE_WORN", "OVERSIZE" ]
+  },
+  {
+    "id": "armguard_tire",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of tire arm guards", "str_pl": "pairs of tire arm guards" },
+    "description": "A pair of arm guards made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "weight": "4800 g",
+    "volume": "4750 ml",
+    "price": 20000,
+    "price_postapoc": 500,
+    "to_hit": 1,
+    "material": [ "rubber" ],
+    "symbol": "[",
+    "looks_like": "armguard_metal",
+    "color": "light_gray",
+    "warmth": 10,
+    "material_thickness": 4,
+    "flags": [ "BELTED", "BLOCK_WHILE_WORN", "NONCONDUCTIVE" ],
+    "armor": [ { "encumbrance": 18, "coverage": 80, "covers": [ "arm_l", "arm_r" ] } ]
+  },
+  {
+    "id": "xl_armguard_tire",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL tire arm guards", "str_pl": "pairs of XL tire arm guards" },
+    "description": "A pair of oversized arm guards made from thick chunks of tire secured by simple strings; the loose collection of plates provides decent but not the most convenient protection.",
+    "copy-from": "armguard_scrap",
+    "proportional": { "weight": 1.25, "volume": 1.13, "price": 1.25 },
+    "flags": [ "BELTED", "BLOCK_WHILE_WORN", "OVERSIZE", "NONCONDUCTIVE" ]
   },
   {
     "id": "armguard_soft",

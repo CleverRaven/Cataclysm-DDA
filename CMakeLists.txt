@@ -26,7 +26,6 @@ set(CATA_CLANG_TIDY_INCLUDE_DIR "" CACHE STRING
         "Path to internal clang-tidy headers required for plugin (e.g. ClangTidy.h)")
 set(CATA_CHECK_CLANG_TIDY "" CACHE STRING "Path to check_clang_tidy.py for plugin tests")
 set(GIT_BINARY "" CACHE STRING "Git binary name or path.")
-set(PREFIX "" CACHE STRING "Location of Data & GFX directories")
 
 include(CTest)
 
@@ -97,7 +96,8 @@ else ()
 endif ()
 
 # System specific actions
-if (${CMAKE_SYSTEM_NAME} MATCHES Linux OR ${CMAKE_SYSTEM_NAME} MATCHES FreeBSD)
+if (${CMAKE_SYSTEM_NAME} MATCHES Linux OR ${CMAKE_SYSTEM_NAME} MATCHES FreeBSD
+    OR ${CMAKE_SYSTEM_NAME} MATCHES Darwin)
     if (NOT DATA_PREFIX)
         set(DATA_PREFIX ${CMAKE_INSTALL_PREFIX}/share/cataclysm-dda)
     endif ()
@@ -153,10 +153,6 @@ else ()
     endif ()
 endif ()
 
-if (PREFIX)
-    add_definitions(-DPREFIX=${PREFIX})
-endif ()
-
 # Can't compile curses and tiles build's at same time
 if (TILES)
     set(CURSES OFF)
@@ -164,6 +160,7 @@ endif ()
 
 # Set build types and display info
 if (CMAKE_BUILD_TYPE STREQUAL Debug)
+    set(RELEASE 0)
     message(STATUS "Build ${PROJECT} in development mode --")
     message(STATUS "Binaries will be located in: " ${CMAKE_SOURCE_DIR})
     set(CMAKE_VERBOSE_MAKEFILE ON)
@@ -174,6 +171,7 @@ if (CMAKE_BUILD_TYPE STREQUAL Debug)
             "Single Directory for all Executables.")
     set(BIN_PREFIX ${CMAKE_SOURCE_DIR})
 else ()
+    set(RELEASE 1)
     message(STATUS "CMAKE_INSTALL_PREFIX          : ${CMAKE_INSTALL_PREFIX}")
     message(STATUS "BIN_PREFIX                    : ${BIN_PREFIX}")
     message(STATUS "DATA_PREFIX                   : ${DATA_PREFIX}")
@@ -185,8 +183,9 @@ else ()
     message(STATUS "PIXMAPS_UNITY_ENTRY_PATH      : ${PIXMAPS_UNITY_ENTRY_PATH}")
     message(STATUS "MANPAGE_ENTRY_PATH            : ${MANPAGE_ENTRY_PATH}")
     add_definitions(-DRELEASE)
-    # Use PREFIX as storage of data,gfx, etc.. Useful only on *nix OS.
-    if (PREFIX AND NOT WIN32)
+    # Use CMAKE_INSTALL_PREFIX as storage of data,gfx, etc.. Useful only on *nix OS.
+    if (CMAKE_INSTALL_PREFIX AND NOT WIN32)
+        add_definitions(-DPREFIX=${CMAKE_INSTALL_PREFIX})
         add_definitions(-DDATA_DIR_PREFIX)
     endif ()
 endif ()

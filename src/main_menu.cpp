@@ -428,7 +428,6 @@ void main_menu::load_char_templates()
 
     for( std::string path : get_files_from_path( ".template", PATH_INFO::templatedir(), false,
             true ) ) {
-        path = native_to_utf8( path );
         path.erase( path.find( ".template" ), std::string::npos );
         path.erase( 0, path.find_last_of( "\\/" ) + 1 );
         templates.push_back( path );
@@ -918,8 +917,8 @@ bool main_menu::new_character_tab()
             } else if( !templates.empty() && action == "DELETE_TEMPLATE" ) {
                 if( query_yn( _( "Are you sure you want to delete %s?" ),
                               templates[sel3].c_str() ) ) {
-                    const auto path = PATH_INFO::templatedir() + utf8_to_native( templates[sel3] ) + ".template";
-                    if( std::remove( path.c_str() ) != 0 ) {
+                    const auto path = PATH_INFO::templatedir() + templates[sel3] + ".template";
+                    if( !remove_file( path ) ) {
                         popup( _( "Sorry, something went wrong." ) );
                     } else {
                         templates.erase( templates.begin() + sel3 );
@@ -1231,15 +1230,9 @@ void main_menu::world_tab()
         ui_manager::redraw();
         if( layer == 4 ) {  //Character to Template
             if( load_character_tab( true ) ) {
-                points_left points;
-                points.stat_points = 0;
-                points.trait_points = 0;
-                points.skill_points = 0;
-                points.limit = points_left::TRANSFER;
-
                 player_character.setID( character_id(), true );
                 player_character.reset_all_missions();
-                player_character.save_template( player_character.name, points );
+                player_character.character_to_template( player_character.name );
 
                 player_character = avatar();
                 MAPBUFFER.clear();

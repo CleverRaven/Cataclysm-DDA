@@ -105,6 +105,7 @@
     "harvest": "demihuman",
     "path_settings": { "avoid_traps": true, "avoid_sharp": true },
     "fear_triggers": [ "HURT", "FIRE" ],
+    "tracking_distance": 8,
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "prank", "min_level": 5 }, "cooldown": 80 }, [ "PULL_METAL_WEAPON", 25 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "PATH_AVOID_DANGER_1", "KEEP_DISTANCE", "WARM" ]
   }

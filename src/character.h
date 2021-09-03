@@ -73,12 +73,12 @@ class map;
 class monster;
 class nc_color;
 class npc;
-class player;
 class player_morale;
 class proficiency_set;
 class recipe_subset;
 class spell;
 class vpart_reference;
+class vehicle;
 struct bionic;
 struct construction;
 struct dealt_projectile_attack;
@@ -295,6 +295,15 @@ struct consumption_event {
     void deserialize( JsonIn &jsin );
 };
 
+struct stat_mod {
+    int strength = 0;
+    int dexterity = 0;
+    int intelligence = 0;
+    int perception = 0;
+
+    int speed = 0;
+};
+
 inline social_modifiers operator+( social_modifiers lhs, const social_modifiers &rhs )
 {
     lhs += rhs;
@@ -350,11 +359,36 @@ class contents_change_handler
         std::vector<item_location> unsealed;
 };
 
+enum class customize_appearance_choice : int {
+    EYES, // customize eye colour
+    HAIR, // customize hair
+    HAIR_F, // customize facial hair
+    SKIN  // customize skin colour
+};
+
 enum class book_mastery {
     CANT_DETERMINE, // book not yet identified, so you don't know yet
     CANT_UNDERSTAND, // does not have enough skill to read
     LEARNING,
     MASTERED // can no longer increase skill by reading
+};
+
+/** @relates ret_val */
+template<>
+struct ret_val<edible_rating>::default_success : public
+    std::integral_constant<edible_rating, EDIBLE> {};
+
+/** @relates ret_val */
+template<>
+struct ret_val<edible_rating>::default_failure : public
+    std::integral_constant<edible_rating, INEDIBLE> {};
+
+struct needs_rates {
+    float thirst = 0.0f;
+    float hunger = 0.0f;
+    float fatigue = 0.0f;
+    float recovery = 0.0f;
+    float kcal = 0.0f;
 };
 
 class Character : public Creature, public visitable
@@ -370,6 +404,15 @@ class Character : public Creature, public visitable
         const Character *as_character() const override {
             return this;
         }
+        bool is_npc() const override {
+            return false;    // Overloaded for NPCs in npc.h
+        }
+        // populate variables, inventory items, and misc from json object
+        virtual void deserialize( JsonIn &jsin ) = 0;
+
+        // by default save all contained info
+        virtual void serialize( JsonOut &jsout ) const = 0;
+
 
         character_id getID() const;
         /// sets the ID, will *only* succeed when the current id is not valid
@@ -406,6 +449,17 @@ class Character : public Creature, public visitable
         int int_cur;
         int per_cur;
 
+        const profession *prof;
+        std::set<const profession *> hobbies;
+
+        // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
+        tripoint grab_point;
+
+        bool random_start_location = true;
+        start_location_id start_location;
+
+        bool manual_examine = false;
+        int volume = 0;
         // The prevalence of getter, setter, and mutator functions here is partially
         // a result of the slow, piece-wise migration of the player class upwards into
         // the character class. As enough logic is moved upwards to fully separate
@@ -464,18 +518,13 @@ class Character : public Creature, public visitable
         virtual int get_stored_kcal() const;
         virtual int get_healthy_kcal() const;
         virtual float get_kcal_percent() const;
+        int kcal_speed_penalty() const;
         virtual int get_hunger() const;
         virtual int get_starvation() const;
         virtual int get_thirst() const;
 
-        std::pair<std::string, nc_color> get_thirst_description() const;
-        std::pair<std::string, nc_color> get_hunger_description() const;
-        std::pair<std::string, nc_color> get_fatigue_description() const;
-        std::pair<std::string, nc_color> get_weight_description() const;
         int get_fatigue() const;
         int get_sleep_deprivation() const;
-
-        std::pair<std::string, nc_color> get_pain_description() const override;
 
         /** Modifiers for need values exclusive to characters */
         virtual void mod_stored_kcal( int nkcal, bool ignore_weariness = false );
@@ -521,6 +570,27 @@ class Character : public Creature, public visitable
         /** Returns the name of the player's outer layer, e.g. "armor plates" */
         std::string skin_name() const override;
 
+        //message related stuff
+        using Creature::add_msg_if_player;
+        void add_msg_if_player( const std::string &msg ) const override;
+        void add_msg_if_player( const game_message_params &params, const std::string &msg ) const override;
+        using Creature::add_msg_debug_if_player;
+        void add_msg_debug_if_player( debugmode::debug_filter type,
+                                      const std::string &msg ) const override;
+        using Creature::add_msg_player_or_npc;
+        void add_msg_player_or_npc( const std::string &player_msg,
+                                    const std::string &npc_str ) const override;
+        void add_msg_player_or_npc( const game_message_params &params, const std::string &player_msg,
+                                    const std::string &npc_msg ) const override;
+        using Creature::add_msg_debug_player_or_npc;
+        void add_msg_debug_player_or_npc( debugmode::debug_filter type, const std::string &player_msg,
+                                          const std::string &npc_msg ) const override;
+        using Creature::add_msg_player_or_say;
+        void add_msg_player_or_say( const std::string &player_msg,
+                                    const std::string &npc_speech ) const override;
+        void add_msg_player_or_say( const game_message_params &params, const std::string &player_msg,
+                                    const std::string &npc_speech ) const override;
+
         /* returns the character's faction */
         virtual faction *get_faction() const {
             return nullptr;
@@ -539,8 +609,29 @@ class Character : public Creature, public visitable
         int get_most_accurate_sight( const item &gun ) const;
         double aim_speed_skill_modifier( const skill_id &gun_skill ) const;
         double aim_speed_dex_modifier() const;
-        double aim_speed_encumbrance_modifier() const;
         double aim_cap_from_volume( const item &gun ) const;
+
+        // multiplicative modifiers
+
+        // modifier to aim speed based on manipulator score
+        float aim_speed_modifier() const;
+
+        float melee_thrown_move_modifier_hands() const;
+        float melee_thrown_move_modifier_torso() const;
+        float melee_stamina_cost_modifier() const;
+        float reloading_move_modifier() const;
+        float thrown_dex_modifier() const;
+        float stamina_recovery_breathing_modifier() const;
+        float limb_speed_movecost_modifier() const;
+        float limb_balance_movecost_modifier() const;
+        // movecost is modified by the average of limb speed and balance.
+        float limb_run_cost_modifier() const;
+        float swim_modifier() const;
+        // min is 0.2 instead of 0
+        float melee_attack_roll_modifier() const;
+        // additive modifier
+        float ranged_dispersion_modifier_hands() const;
+        float ranged_dispersion_modifier_vision() const;
 
         /* Gun stuff */
         /**
@@ -565,13 +656,12 @@ class Character : public Creature, public visitable
         bool uncanny_dodge() override;
         float get_hit_base() const override;
 
-        const tripoint &pos() const override;
         /** Returns the player's sight range */
         int sight_range( int light_level ) const override;
         /** Returns the player maximum vision range factoring in mutations, diseases, and other effects */
         int  unimpaired_range() const;
         /** Returns true if overmap tile is within player line-of-sight */
-        bool overmap_los( const tripoint_abs_omt &omt, int sight_points );
+        bool overmap_los( const tripoint_abs_omt &omt, int sight_points ) const;
         /** Returns the distance the player can see on the overmap */
         int  overmap_sight_range( int light_level ) const;
         /** Returns the distance the player can see through walls */
@@ -584,9 +674,9 @@ class Character : public Creature, public visitable
         bool has_watch() const;
         /** Called after every action, invalidates player caches */
         void action_taken();
-        /** Returns true if the player is knocked over or has broken legs */
+        /** Returns true if the player is knocked over, has broken legs or is lying down */
         bool is_on_ground() const override;
-        /** Returns the player's speed for swimming across water tiles */
+        /** Returns the player's movecost for swimming across water tiles. NOT SPEED! */
         int  swim_speed() const;
         /** Returns melee skill level, to be used to throttle dodge practice. **/
         float get_melee() const override;
@@ -610,9 +700,33 @@ class Character : public Creature, public visitable
           * Handles passive regeneration of pain and maybe hp.
           */
         void regen( int rate_multiplier );
+        /**
+         * Check player capable of taking off an item.
+         * @param it Thing to be taken off
+         */
+        ret_val<bool> can_takeoff( const item &it, const std::list<item> *res = nullptr );
+
+        /** @return Odds for success (pair.first) and gunmod damage (pair.second) */
+        std::pair<int, int> gunmod_installation_odds( const item &gun, const item &mod ) const;
         /// called once per 24 hours to enforce the minimum of 1 hp healed per day
         /// @todo Move to Character once heal() is moved
         void enforce_minimum_healing();
+        /** Calculates the various speed bonuses we will get from mutations, etc. */
+        void recalc_speed_bonus();
+        void set_underwater( bool );
+        bool is_hallucination() const override;
+        /** Returns the penalty to speed from thirst */
+        static int thirst_speed_penalty( int thirst );
+        /** Returns the effect of pain on stats */
+        stat_mod get_pain_penalty() const;
+        /** returns players strength adjusted by any traits that affect strength during lifting jobs */
+        int get_lift_str() const;
+        /** Takes off an item, returning false on fail. The taken off item is processed in the interact */
+        bool takeoff( item_location loc, std::list<item> *res = nullptr );
+        bool takeoff( int pos );
+
+        /** Returns list of rc items in player inventory. **/
+        std::list<item *> get_radio_items();
         /** get best quality item that this character has */
         item *best_quality_item( const quality_id &qual );
         /** Handles health fluctuations over time */
@@ -634,7 +748,8 @@ class Character : public Creature, public visitable
         bool is_hibernating() const;
         /** Maintains body temperature */
         void update_bodytemp();
-        void update_frostbite( const bodypart_id &bp, int FBwindPower );
+        void update_frostbite( const bodypart_id &bp, int FBwindPower,
+                               const std::map<bodypart_id, int> &warmth_per_bp );
         /** Equalizes heat between body parts */
         void temp_equalizer( const bodypart_id &bp1, const bodypart_id &bp2 );
 
@@ -657,10 +772,17 @@ class Character : public Creature, public visitable
 
         /** Returns ENC provided by armor, etc. */
         int encumb( const bodypart_id &bp ) const;
+        int avg_encumb_of_limb_type( body_part_type::type part_type ) const;
 
         /** Returns body weight plus weight of inventory and worn/wielded items */
         units::mass get_weight() const override;
 
+        /** Draws the UI and handles player input for the armor re-ordering window */
+        void sort_armor();
+
+        // formats and prints encumbrance info to specified window
+        void print_encumbrance( const catacurses::window &win, int line = -1,
+                                const item *selected_clothing = nullptr ) const;
         /** Returns true if the character is wearing power armor */
         bool is_wearing_power_armor( bool *hasHelmet = nullptr ) const;
         /** Returns true if the character is wearing active power */
@@ -672,7 +794,8 @@ class Character : public Creature, public visitable
         bool in_climate_control();
 
         /** Returns wind resistance provided by armor, etc **/
-        int get_wind_resistance( const bodypart_id &bp ) const;
+        std::map<bodypart_id, int> get_wind_resistance( const
+                std::map<bodypart_id, std::vector<const item *>> &clothing_map ) const;
 
         /** Returns true if the player isn't able to see */
         bool is_blind() const;
@@ -712,6 +835,8 @@ class Character : public Creature, public visitable
         bool is_running() const;
         bool is_walking() const;
         bool is_crouching() const;
+        bool is_prone() const;
+
 
         bool can_switch_to( const move_mode_id &mode ) const;
         steed_type get_steed_type() const;
@@ -869,8 +994,8 @@ class Character : public Creature, public visitable
                                   std::vector<Creature *> &targets );
     public:
 
-        /** This handles giving xp for a skill */
-        void practice( const skill_id &id, int amount, int cap = 99, bool suppress_warning = false );
+        /** This handles giving xp for a skill. Returns true on level-up. */
+        bool practice( const skill_id &id, int amount, int cap = 99, bool suppress_warning = false );
         /** This handles warning the player that there current activity will not give them xp */
         void handle_skill_warning( const skill_id &id, bool force_warning = false );
 
@@ -923,8 +1048,9 @@ class Character : public Creature, public visitable
         float bionic_armor_bonus( const bodypart_id &bp, damage_type dt ) const;
         /** Returns the armor bonus against given type from martial arts buffs */
         int mabuff_armor_bonus( damage_type type ) const;
-        /** Returns overall fire resistance for the body part */
-        int get_armor_fire( const bodypart_id &bp ) const;
+        /** Returns overall fire resistance */
+        std::map<bodypart_id, int> get_armor_fire( const std::map<bodypart_id, std::vector<const item *>>
+                &clothing_map ) const;
         // --------------- Mutation Stuff ---------------
         // In newcharacter.cpp
         /** Returns the id of a random starting trait that costs >= 0 points */
@@ -940,12 +1066,20 @@ class Character : public Creature, public visitable
          *  Uses has_opposite_trait(), has_lower_trait(), and has_higher_trait() to determine conflicts.
          */
         bool has_conflicting_trait( const trait_id &flag ) const;
+        /** Returns all player's traits conflicting with the entered trait */
+        std::unordered_set<trait_id> get_conflicting_traits( const trait_id &flag ) const;
         /** Returns true if the player has a trait which upgrades into the entered trait */
         bool has_lower_trait( const trait_id &flag ) const;
+        /** Returns player's traits which upgrade into the entered trait */
+        std::unordered_set<trait_id> get_lower_traits( const trait_id &flag ) const;
         /** Returns true if the player has a trait which is an upgrade of the entered trait */
         bool has_higher_trait( const trait_id &flag ) const;
+        /** Returns player's traits which are an upgrade of the entered trait */
+        std::unordered_set<trait_id> get_higher_traits( const trait_id &flag ) const;
         /** Returns true if the player has a trait that shares a type with the entered trait */
         bool has_same_type_trait( const trait_id &flag ) const;
+        /** Returns player's traits that share a type with the entered trait */
+        std::unordered_set<trait_id> get_same_type_traits( const trait_id &flag ) const;
         /** Returns true if the entered trait may be purified away
          *  Defaults to true
          */
@@ -1011,12 +1145,21 @@ class Character : public Creature, public visitable
 
         bool is_deaf() const;
         bool is_mute() const;
-        /** Returns true if the player has two functioning arms */
-        bool has_two_arms() const;
-        /** Returns the number of functioning arms */
-        int get_working_arm_count() const;
+        // the total of the manipulator score in the best limb group
+        float manipulator_score() const;
+        float blocking_score( const body_part_type::type &bp ) const;
+        float lifting_score( const body_part_type::type &bp ) const;
+        float breathing_score() const;
+        float swim_score() const;
+        float vision_score() const;
+        float movement_speed_score() const;
+        float balance_score() const;
+        bool has_min_manipulators() const;
+        // technically this is "has more than one arm"
+        bool has_two_arms_lifting() const;
         /** Returns the number of functioning legs */
         int get_working_leg_count() const;
+        bool has_limb( const bodypart_id &limb ) const;
         /** Returns true if the limb is disabled(12.5% or less hp)*/
         bool is_limb_disabled( const bodypart_id &limb ) const;
         /** Returns true if the limb is broken */
@@ -1059,50 +1202,21 @@ class Character : public Creature, public visitable
                                  int normal_bonus, int head_bonus, int torso_bonus,
                                  int bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const;
 
-        // Returns color which this limb would have in healing menus
-        nc_color limb_color( const bodypart_id &bp, bool bleed, bool bite, bool infect ) const;
 
         static const std::vector<material_id> fleshy;
         bool made_of( const material_id &m ) const override;
         bool made_of_any( const std::set<material_id> &ms ) const override;
 
-        inline int posx() const override {
-            return position.x;
-        }
-        inline int posy() const override {
-            return position.y;
-        }
-        inline int posz() const override {
-            return position.z;
-        }
         inline void setx( int x ) {
-            setpos( tripoint( x, position.y, position.z ) );
+            setpos( tripoint( x, posy(), posz() ) );
         }
         inline void sety( int y ) {
-            setpos( tripoint( position.x, y, position.z ) );
+            setpos( tripoint( posx(), y, posz() ) );
         }
         inline void setz( int z ) {
-            setpos( tripoint( position.xy(), z ) );
+            setpos( tripoint( pos().xy(), z ) );
         }
-        inline void setpos( const tripoint &p ) override {
-            position = p;
-            // In case we've moved out of range of lifting assist.
-            invalidate_weight_carried_cache();
-        }
-
-        /**
-         * Global position, expressed in map square coordinate system
-         * (the most detailed coordinate system), used by the @ref map.
-         */
-        virtual tripoint global_square_location() const;
-        /**
-        * Returns the location of the player in global submap coordinates.
-        */
-        tripoint global_sm_location() const;
-        /**
-        * Returns the location of the player in global overmap terrain coordinates.
-        */
-        tripoint_abs_omt global_omt_location() const;
+        void setpos( const tripoint &p ) override;
 
     private:
         /** Retrieves a stat mod of a mutation. */
@@ -1139,7 +1253,8 @@ class Character : public Creature, public visitable
         void calc_encumbrance();
         /** Recalculate encumbrance for all body parts as if `new_item` was also worn. */
         void calc_encumbrance( const item &new_item );
-
+        // recalculates bodyparts based on enchantments modifying them and the default anatomy.
+        void recalculate_bodyparts();
         // recalculates enchantment cache by iterating through all held, worn, and wielded items
         void recalculate_enchantment_cache();
         // gets add and mult value from enchantment cache
@@ -1234,7 +1349,8 @@ class Character : public Creature, public visitable
         /** Handles bionic activation effects of the entered bionic, returns if anything activated */
         bool activate_bionic( int b, bool eff_only = false, bool *close_bionics_ui = nullptr );
         std::vector<bionic_id> get_bionics() const;
-        std::vector<item> get_pseudo_items() const;
+        std::vector<const item *> get_pseudo_items() const;
+        void invalidate_pseudo_items();
         /** Returns amount of Storage CBMs in the corpse **/
         std::pair<int, int> amount_of_storage_bionics() const;
         /** Returns true if the player has the entered bionic id */
@@ -1289,14 +1405,14 @@ class Character : public Creature, public visitable
         int get_free_bionics_slots( const bodypart_id &bp ) const;
 
         /**Has enough anesthetic for surgery*/
-        bool has_enough_anesth( const itype &cbm, player &patient );
+        bool has_enough_anesth( const itype &cbm, Character &patient );
         bool has_enough_anesth( const itype &cbm );
-        void consume_anesth_requirement( const itype &cbm, player &patient );
+        void consume_anesth_requirement( const itype &cbm, Character &patient );
         /**Has the required equipment for manual installation*/
         bool has_installation_requirement( const bionic_id &bid );
         void consume_installation_requirement( const bionic_id &bid );
         /** Handles process of introducing patient into anesthesia during Autodoc operations. Requires anesthesia kits or NOPAIN mutation */
-        void introduce_into_anesthesia( const time_duration &duration, player &installer,
+        void introduce_into_anesthesia( const time_duration &duration, Character &installer,
                                         bool needs_anesthesia );
         /** Removes a bionic from my_bionics[] */
         void remove_bionic( const bionic_id &b );
@@ -1316,7 +1432,7 @@ class Character : public Creature, public visitable
         ret_val<bool> is_installable( const item_location &loc, bool by_autodoc ) const;
         std::map<bodypart_id, int> bionic_installation_issues( const bionic_id &bioid ) const;
         /** Initialize all the values needed to start the operation player_activity */
-        bool install_bionics( const itype &type, player &installer, bool autodoc = false,
+        bool install_bionics( const itype &type, Character &installer, bool autodoc = false,
                               int skill_level = -1 );
         /**Success or failure of installation happens here*/
         void perform_install( const bionic_id &bid, const bionic_id &upbid, int difficulty, int success,
@@ -1324,12 +1440,57 @@ class Character : public Creature, public visitable
                               const std::vector<trait_id> &trait_to_rem, const tripoint &patient_pos );
         void bionics_install_failure( const bionic_id &bid, const std::string &installer, int difficulty,
                                       int success, float adjusted_skill, const tripoint &patient_pos );
+        /**
+         * Try to wield a contained item consuming moves proportional to weapon skill and volume.
+         * @param container Container containing the item to be wielded
+         * @param internal_item reference to contained item to wield.
+         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
+         * @param base_cost Cost due to storage type.
+         */
+        bool wield_contents( item &container, item *internal_item = nullptr, bool penalties = true,
+                             int base_cost = INVENTORY_HANDLING_PENALTY );
+        /** Uses a tool */
+        void use( int inventory_position );
+        /** Uses a tool at location */
+        void use( item_location loc, int pre_obtain_moves = -1 );
+        /** Uses the current wielded weapon */
+        void use_wielded();
+        /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
+        cata::optional<std::list<item>::iterator>
+        wear( int pos, bool interactive = true );
 
+        /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion.
+        * @param item_wear item_location of item to be worn.
+        * @param interactive Alert player and drain moves if true.
+        */
+        cata::optional<std::list<item>::iterator>
+        wear( item_location item_wear, bool interactive = true );
+
+        /** Used for eating object at a location. Removes item if all of it was consumed.
+        *   @returns trinary enum NONE, SOME or ALL amount consumed.
+        */
+        trinary consume( item_location loc, bool force = false, bool refuel = false );
+
+        /** Used for eating a particular item that doesn't need to be in inventory.
+         *  @returns trinary enum NONE, SOME or ALL (doesn't remove).
+         */
+        trinary consume( item &target, bool force = false, bool refuel = false );
+
+        /**
+         * Stores an item inside another consuming moves proportional to weapon skill and volume
+         * @param container Container in which to store the item
+         * @param put Item to add to the container
+         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
+         * @param base_cost Cost due to storage type.
+         */
+        void store( item &container, item &put, bool penalties = true,
+                    int base_cost = INVENTORY_HANDLING_PENALTY,
+                    item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER );
         /**Is The uninstallation possible*/
-        bool can_uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
+        bool can_uninstall_bionic( const bionic_id &b_id, Character &installer, bool autodoc = false,
                                    int skill_level = -1 );
         /** Initialize all the values needed to start the operation player_activity */
-        bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
+        bool uninstall_bionic( const bionic_id &b_id, Character &installer, bool autodoc = false,
                                int skill_level = -1 );
         /**Success or failure of removal happens here*/
         void perform_uninstall( const bionic_id &bid, int difficulty, int success,
@@ -1341,12 +1502,49 @@ class Character : public Creature, public visitable
         void roll_critical_bionics_failure( const bodypart_id &bp );
 
         /**Used by monster to perform surgery*/
-        bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
+        bool uninstall_bionic( const bionic &target_cbm, monster &installer, Character &patient,
                                float adjusted_skill );
         /**When a monster fails the surgery*/
-        void bionics_uninstall_failure( monster &installer, player &patient, int difficulty, int success,
+        void bionics_uninstall_failure( monster &installer, Character &patient, int difficulty, int success,
                                         float adjusted_skill );
+        void on_worn_item_transform( const item &old_it, const item &new_it );
 
+        /**
+         * Starts activity to remove gunmod after unloading any contained ammo.
+         * Returns true on success (activity has been started)
+         */
+        bool gunmod_remove( item &gun, item &mod );
+
+        /** Starts activity to install gunmod having warned user about any risk of failure or irremovable mods s*/
+        void gunmod_add( item &gun, item &mod );
+
+        /** Starts activity to install toolmod */
+        void toolmod_add( item_location tool, item_location mod );
+
+        /**
+         * Attempt to mend an item (fix any current faults)
+         * @param obj Object to mend
+         * @param interactive if true prompts player when multiple faults, otherwise mends the first
+         */
+        void mend_item( item_location &&obj, bool interactive = true );
+
+        bool list_ammo( const item &base, std::vector<item::reload_option> &ammo_list,
+                        bool empty = true ) const;
+        /**
+         * Select suitable ammo with which to reload the item
+         * @param base Item to select ammo for
+         * @param prompt force display of the menu even if only one choice
+         * @param empty allow selection of empty magazines
+         */
+        item::reload_option select_ammo( const item &base, bool prompt = false,
+                                         bool empty = true ) const;
+
+        /** Select ammo from the provided options */
+        item::reload_option select_ammo( const item &base, std::vector<item::reload_option> opts ) const;
+
+        void process_items();
+        /** Search surrounding squares for traps (and maybe other things in the future). */
+        void search_surroundings();
         /**Passively produce power from PERPETUAL fuel*/
         void passive_power_gen( int b );
         /**Find fuel used by remote powered bionic*/
@@ -1369,7 +1567,8 @@ class Character : public Creature, public visitable
         bool has_power() const;
         bool has_max_power() const;
         bool enough_power_for( const bionic_id &bid ) const;
-
+        /** Handles and displays detailed character info for the '@' screen */
+        void disp_info( bool customize_character = false );
         void conduct_blood_analysis();
         // --------------- Generic Item Stuff ---------------
 
@@ -1526,12 +1725,15 @@ class Character : public Creature, public visitable
 
         /**
          * Adds the item to the character's worn items or wields it, or prompts if the Character cannot pick it up.
+         * @original_inventory_item set if the item was already in the characters inventory (wielded, worn, in different pocket) and is being moved.
          * @avoid is the item to not put @it into
          */
-        item &i_add( item it, bool should_stack = true, const item *avoid = nullptr, bool allow_drop = true,
+        item &i_add( item it, bool should_stack = true, const item *avoid = nullptr,
+                     const item *original_inventory_item = nullptr, bool allow_drop = true,
                      bool allow_wield = true );
         /** tries to add to the character's inventory without a popup. returns nullptr if it fails. */
-        item *try_add( item it, const item *avoid = nullptr, bool allow_wield = true );
+        item *try_add( item it, const item *avoid = nullptr, const item *original_inventory_item = nullptr,
+                       bool allow_wield = true );
 
         /**
          * Try to pour the given liquid into the given container/vehicle. The transferred charges are
@@ -1556,8 +1758,11 @@ class Character : public Creature, public visitable
         item i_rem( const item *it );
         void i_rem_keep_contents( const item *it );
         /** Sets invlet and adds to inventory if possible, drops otherwise, returns true if either succeeded.
-         *  An optional qty can be provided (and will perform better than separate calls). */
-        bool i_add_or_drop( item &it, int qty = 1, const item *avoid = nullptr );
+         *  An optional qty can be provided (and will perform better than separate calls).
+         *  @original_inventory_item set if the item was already in the characters inventory (wielded, worn, in different pocket) and is being moved.
+         */
+        bool i_add_or_drop( item &it, int qty = 1, const item *avoid = nullptr,
+                            const item *original_inventory_item = nullptr );
 
         /**
          * Check any already unsealed pockets in items pointed to by `containers`
@@ -1625,8 +1830,10 @@ class Character : public Creature, public visitable
         /**
           * So far only called by unload() from game.cpp
           * @avoid - do not put @it into @avoid
+         * @original_inventory_item set if the item was already in the characters inventory (wielded, worn, in different pocket) and is being moved.
           */
-        bool add_or_drop_with_msg( item &it, bool unloading = false, const item *avoid = nullptr );
+        bool add_or_drop_with_msg( item &it, bool unloading = false, const item *avoid = nullptr,
+                                   const item *original_inventory_item = nullptr );
         /**
          * Unload item.
          * @param bypass_activity If item requires an activity for its unloading, unload item immediately instead.
@@ -1662,7 +1869,7 @@ class Character : public Creature, public visitable
         /// used for operations on distant objects (e.g. vehicle installation/uninstallation)
         units::mass best_nearby_lifting_assist( const tripoint &world_pos ) const;
 
-        // Inventory + weapon + worn (for death, etc)
+        // weapon + worn (for death, etc)
         std::vector<item *> inv_dump();
 
         units::mass weight_carried() const;
@@ -1796,6 +2003,8 @@ class Character : public Creature, public visitable
         // --------------- Skill Stuff ---------------
         int get_skill_level( const skill_id &ident ) const;
         int get_skill_level( const skill_id &ident, const item &context ) const;
+        int get_knowledge_level( const skill_id &ident ) const;
+        int get_knowledge_level( const skill_id &ident, const item &context ) const;
 
         const SkillLevelMap &get_all_skills() const;
         SkillLevel &get_skill_level_object( const skill_id &ident );
@@ -1803,6 +2012,8 @@ class Character : public Creature, public visitable
 
         void set_skill_level( const skill_id &ident, int level );
         void mod_skill_level( const skill_id &ident, int delta );
+        void set_knowledge_level( const skill_id &ident, int level );
+        void mod_knowledge_level( const skill_id &ident, int delta );
         /** Checks whether the character's skills meet the required */
         bool meets_skill_requirements( const std::map<skill_id, int> &req,
                                        const item &context = item() ) const;
@@ -1814,9 +2025,6 @@ class Character : public Creature, public visitable
         bool meets_requirements( const item &it, const item &context = item() ) const;
         /** Returns a string of missed requirements (both stats and skills) */
         std::string enumerate_unmet_requirements( const item &it, const item &context = item() ) const;
-
-        /** Returns the player's skill rust rate */
-        int rust_rate() const;
 
         // Mental skills and stats
         /** Returns the player's reading speed */
@@ -1832,7 +2040,7 @@ class Character : public Creature, public visitable
         bool has_prof_prereqs( const proficiency_id &prof ) const;
         void add_proficiency( const proficiency_id &prof, bool ignore_requirements = false );
         void lose_proficiency( const proficiency_id &prof, bool ignore_requirements = false );
-        void practice_proficiency( const proficiency_id &prof, const time_duration &amount,
+        bool practice_proficiency( const proficiency_id &prof, const time_duration &amount,
                                    const cata::optional<time_duration> &max = cata::nullopt );
         time_duration proficiency_training_needed( const proficiency_id &prof ) const;
         std::vector<display_proficiency> display_proficiencies() const;
@@ -1866,6 +2074,35 @@ class Character : public Creature, public visitable
         void make_bleed( const effect_source &source, const bodypart_id &bp, time_duration duration,
                          int intensity = 1, bool permanent = false, bool force = false, bool defferred = false ) override;
 
+        /** Called when a player triggers a trap, returns true if they don't set it off */
+        bool avoid_trap( const tripoint &pos, const trap &tr ) const override;
+
+        //returns true if the warning is now beyond final and results in hostility.
+        bool add_faction_warning( const faction_id &id );
+        int current_warnings_fac( const faction_id &id );
+        bool beyond_final_warning( const faction_id &id );
+
+        /**
+         * Helper function for player::read.
+         *
+         * @param book Book to read
+         * @param reasons Starting with g->u, for each player/NPC who cannot read, a message will be pushed back here.
+         * @returns nullptr, if neither the player nor his followers can read to the player, otherwise the player/NPC
+         * who can read and can read the fastest
+         */
+        const Character *get_book_reader( const item &book, std::vector<std::string> &reasons ) const;
+
+        /**
+         * Helper function for get_book_reader
+         * @warning This function assumes that the everyone is able to read
+         *
+         * @param book The book being read
+         * @param reader the player/NPC who's reading to the caller
+         * @param learner if not nullptr, assume that the caller and reader read at a pace that isn't too fast for him
+         */
+        int time_to_read( const item &book, const Character &reader,
+                          const Character *learner = nullptr ) const;
+
         /** Calls Creature::normalize()
          *  nulls out the player's weapon
          *  Should only be called through player::normalize(), not on it's own!
@@ -1898,8 +2135,43 @@ class Character : public Creature, public visitable
         /** Returns true if the player is immune to throws */
         bool is_throw_immune() const;
 
+        /**
+         * Check if a given body part is immune to a given damage type
+         *
+         * This function checks whether a given body part cannot be damaged by a given
+         * damage_unit.  Note that this refers only to reduction of hp on that part. It
+         * does not account for clothing damage, pain, status effects, etc.
+         *
+         * @param bp: Body part to perform the check on
+         * @param dam: Type of damage to check for
+         * @returns true if given damage can not reduce hp of given body part
+         */
+        bool immune_to( const bodypart_id &bp, damage_unit dam ) const;
+
+        /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
+        void mod_pain( int npain ) override;
+        /** Sets new intensity of pain an reacts to it */
+        void set_pain( int npain ) override;
+        /** Returns perceived pain (reduced with painkillers)*/
+        int get_perceived_pain() const override;
+        /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
+        float fall_damage_mod() const override;
+        /** Deals falling/collision damage with terrain/creature at pos */
+        int impact( int force, const tripoint &pos ) override;
+        /** Knocks the player to a specified tile */
+        void knock_back_to( const tripoint &to ) override;
+        /** Siphons fuel (if available) from the specified vehicle into container or
+         * similar via @ref game::handle_liquid. May start a player activity.
+         */
+        void siphon( vehicle &veh, const itype_id &desired_liquid );
+
+        /** Returns overall % of HP remaining */
+        int hp_percentage() const override;
+
         /** Returns true if the player has some form of night vision */
         bool has_nv();
+
+        int get_lift_assist() const;
 
         /**
          * Returns >0 if character is sitting/lying and relatively inactive.
@@ -1950,14 +2222,29 @@ class Character : public Creature, public visitable
          * And if you do already have them, refunds the points for the trait
          */
         void add_traits();
-        void add_traits( points_left &points );
         /** Returns true if the player has crossed a mutation threshold
          *  Player can only cross one mutation threshold.
          */
         bool crossed_threshold() const;
 
+        void environmental_revert_effect();
+
+        /**
+         * Checks both the neighborhoods of from and to for climbable surfaces,
+         * returns move cost of climbing from `from` to `to`.
+         * 0 means climbing is not possible.
+         * Return value can depend on the orientation of the terrain.
+         */
+        int climbing_cost( const tripoint &from, const tripoint &to ) const;
+
+        void pause(); // '.' command; pauses & resets recoil
+
+        /** Check player strong enough to lift an object unaided by equipment (jacks, levers etc) */
+        template <typename T> bool can_lift( const T &obj ) const;
         // --------------- Values ---------------
-        std::string name;
+        std::string name; // Save file name, pre-cataclysm name, invariable
+        // In-game name which you give to npcs or whoever asks, variable
+        cata::optional<std::string> play_name;
         bool male = false;
 
         bool is_dead = false;
@@ -1967,6 +2254,8 @@ class Character : public Creature, public visitable
         // Means player sit inside vehicle on the tile he is now
         bool in_vehicle = false;
         bool hauling = false;
+
+        tripoint view_offset;
 
         player_activity stashed_outbounds_activity;
         player_activity stashed_outbounds_backlog;
@@ -2121,10 +2410,6 @@ class Character : public Creature, public visitable
         float metabolic_rate() const;
         // gets the max value healthy you can be, related to your weight
         int get_max_healthy() const;
-        // gets the string that describes your weight
-        std::string get_weight_string() const;
-        // gets the description, printed in player_display, related to your current bmi
-        std::string get_weight_long_description() const;
         // calculates the BMI
         float get_bmi() const;
         // returns amount of calories burned in a day given various metabolic factors
@@ -2186,6 +2471,8 @@ class Character : public Creature, public visitable
         int get_armor_acid( bodypart_id bp ) const;
         /** Returns overall resistance to given type on the bod part */
         int get_armor_type( damage_type dt, bodypart_id bp ) const override;
+        std::map<bodypart_id, int> get_all_armor_type( damage_type dt,
+                const std::map<bodypart_id, std::vector<const item *>> &clothing_map ) const;
 
         int get_stim() const;
         void set_stim( int new_stim );
@@ -2203,6 +2490,38 @@ class Character : public Creature, public visitable
         float stamina_move_cost_modifier() const;
         /** Regenerates stamina */
         void update_stamina( int turns );
+
+        /** Returns true if a gun misfires, jams, or has other problems, else returns false */
+        bool handle_gun_damage( item &it );
+
+        /** Get maximum recoil penalty due to vehicle motion */
+        double recoil_vehicle() const;
+
+        /** Current total maximum recoil penalty from all sources */
+        double recoil_total() const;
+
+        /** How many moves does it take to aim gun to the target accuracy. */
+        int gun_engagement_moves( const item &gun, int target = 0, int start = MAX_RECOIL ) const;
+
+        /**
+         *  Fires a gun or auxiliary gunmod (ignoring any current mode)
+         *  @param target where the first shot is aimed at (may vary for later shots)
+         *  @param shots maximum number of shots to fire (less may be fired in some circumstances)
+         *  @return number of shots actually fired
+         */
+
+        int fire_gun( const tripoint &target, int shots = 1 );
+        /**
+         *  Fires a gun or auxiliary gunmod (ignoring any current mode)
+         *  @param target where the first shot is aimed at (may vary for later shots)
+         *  @param shots maximum number of shots to fire (less may be fired in some circumstances)
+         *  @param gun item to fire (which does not necessary have to be in the players possession)
+         *  @return number of shots actually fired
+         */
+        int fire_gun( const tripoint &target, int shots, item &gun );
+        /** Execute a throw */
+        dealt_projectile_attack throw_item( const tripoint &target, const item &to_throw,
+                                            const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
 
     protected:
         void on_damage_of_type( int adjusted_damage, damage_type type, const bodypart_id &bp ) override;
@@ -2226,14 +2545,20 @@ class Character : public Creature, public visitable
         tripoint adjacent_tile() const;
         /** Returns true if the player has a trait which cancels the entered trait */
         bool has_opposite_trait( const trait_id &flag ) const;
+        /** Returns traits that cancel the entered trait */
+        std::unordered_set<trait_id> get_opposite_traits( const trait_id &flag ) const;
         /** Removes "sleep" and "lying_down" */
-        void wake_up();
+        virtual void wake_up();
         // how loud a character can shout. based on mutations and clothing
         int get_shout_volume() const;
         // shouts a message
         void shout( std::string msg = "", bool order = false );
+        //signals player location to nemesis for "Hunted" trait
+        void signal_nemesis();
         /** Handles Character vomiting effects */
         void vomit();
+
+        void customize_appearance( customize_appearance_choice choice );
 
         std::map<mutation_category_id, int> mutation_category_level;
 
@@ -2313,9 +2638,10 @@ class Character : public Creature, public visitable
         void set_destination_activity( const player_activity &new_destination_activity );
         void clear_destination_activity();
         /** Returns warmth provided by armor, etc. */
-        int warmth( const bodypart_id &bp ) const;
+        std::map<bodypart_id, int> warmth( const std::map<bodypart_id, std::vector<const item *>>
+                                           &clothing_map ) const;
         /** Returns warmth provided by an armor's bonus, like hoods, pockets, etc. */
-        int bonus_item_warmth( const bodypart_id &bp ) const;
+        std::map<bodypart_id, int> bonus_item_warmth() const;
         /** Can the player lie down and cover self with blankets etc. **/
         bool can_use_floor_warmth() const;
         /**
@@ -2454,7 +2780,13 @@ class Character : public Creature, public visitable
          *  and 0 if on neither */
         double footwear_factor() const;
         /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
-        bool is_wearing_shoes( const side &which_side = side::BOTH ) const;
+        bool is_wearing_shoes( const side &check_side = side::BOTH ) const;
+
+        /** Returns true if the worn item is visible (based on layering and coverage) */
+        bool is_worn_item_visible( std::list<item>::const_iterator ) const;
+
+        /** Returns all worn items visible to an outside observer */
+        std::list<item> get_visible_worn_items() const;
 
         /** Swap side on which item is worn; returns false on fail. If interactive is false, don't alert player or drain moves */
         bool change_side( item &it, bool interactive = true );
@@ -2513,11 +2845,10 @@ class Character : public Creature, public visitable
         int last_batch;
         itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
 
-        // Checks crafting inventory for books providing the requested recipe.
-        // Then checks nearby NPCs who could provide it too.
-        // Returns -1 to indicate recipe not found, otherwise difficulty to learn.
-        int has_recipe( const recipe *r, const inventory &crafting_inv,
-                        const std::vector<npc *> &helpers ) const;
+        // Returns true if the character knows the recipe, is near a book or device
+        // providing the recipe or a nearby NPC knows it.
+        bool has_recipe( const recipe *r, const inventory &crafting_inv,
+                         const std::vector<npc *> &helpers ) const;
         bool knows_recipe( const recipe *rec ) const;
         void learn_recipe( const recipe *rec );
         int exceeds_recipe_requirements( const recipe &rec ) const;
@@ -2605,18 +2936,20 @@ class Character : public Creature, public visitable
         std::vector<npc *> get_crafting_helpers() const;
         int get_num_crafting_helpers( int max ) const;
         /**
-         * Handle skill gain for player and followers during crafting
+         * Handle skill gain for player and followers during crafting.
+         * Returns true if character leveled up.
          * @param craft the currently in progress craft
          * @param num_practice_ticks to trigger.  This is used to apply
          * multiple steps of incremental skill gain simultaneously if needed.
          */
-        void craft_skill_gain( const item &craft, const int &num_practice_ticks );
+        bool craft_skill_gain( const item &craft, const int &num_practice_ticks );
         /**
-         * Handle proficiency practice for player and followers while crafting
+         * Handle proficiency practice for player and followers while crafting. Returns
+         * true if a proficiency is acquired.
          * @param craft - the in progress craft
          * @param time - the amount of time since the last practice tick
          */
-        void craft_proficiency_gain( const item &craft, const time_duration &time );
+        bool craft_proficiency_gain( const item &craft, const time_duration &time );
         /**
          * Check if the player can disassemble an item using the current crafting inventory
          * @param obj Object to check for disassembly
@@ -2637,7 +2970,8 @@ class Character : public Creature, public visitable
         comp_selection<item_comp>
         select_item_component( const std::vector<item_comp> &components,
                                int batch, read_only_visitable &map_inv, bool can_cancel = false,
-                               const std::function<bool( const item & )> &filter = return_true<item>, bool player_inv = true );
+                               const std::function<bool( const item & )> &filter = return_true<item>, bool player_inv = true,
+                               const recipe *rec = nullptr );
         std::list<item> consume_items( const comp_selection<item_comp> &is, int batch,
                                        const std::function<bool( const item & )> &filter = return_true<item> );
         std::list<item> consume_items( map &m, const comp_selection<item_comp> &is, int batch,
@@ -2696,8 +3030,6 @@ class Character : public Creature, public visitable
         // specific trap - it will consider visibile and known traps.
         bool knows_trap( const tripoint &pos ) const;
         void add_known_trap( const tripoint &pos, const trap &t );
-        /** Define color for displaying the body temperature */
-        nc_color bodytemp_color( const bodypart_id &bp ) const;
 
         // see Creature::sees
         bool sees( const tripoint &t, bool is_avatar = false, int range_mod = 0 ) const override;
@@ -2776,6 +3108,9 @@ class Character : public Creature, public visitable
                        int limit = INT_MAX,
                        const std::function<bool( const item & )> &filter = return_true<item> ) const override;
 
+        std::pair<int, int> kcal_range( const itype_id &id,
+                                        const std::function<bool( const item & )> &filter, Character &player_character );
+
     protected:
         Character();
         Character( Character && ) noexcept( map_is_noexcept );
@@ -2796,14 +3131,16 @@ class Character : public Creature, public visitable
             void deserialize( JsonIn &jsin );
         };
 
-        // The player's position on the local map.
-        tripoint position;
-
         /** Bonuses to stats, calculated each turn */
         int str_bonus = 0;
         int dex_bonus = 0;
         int per_bonus = 0;
         int int_bonus = 0;
+        /** Hardcoded stats bonus */
+        int str_bonus_hardcoded = 0;
+        int dex_bonus_hardcoded = 0;
+        int per_bonus_hardcoded = 0;
+        int int_bonus_hardcoded = 0;
         // cached so the display knows how much your bonus is
         int enchantment_speed_bonus = 0;
 
@@ -2820,6 +3157,16 @@ class Character : public Creature, public visitable
         int init_height = 175;
         /** Size class of character. */
         creature_size size_class = creature_size::medium;
+
+        /**
+        * Min, max and default heights for each size category of a character in centimeters.
+        * minimum is 2 std. deviations below average female height
+        */
+        /**@{*/
+        static int min_height( creature_size size_category = creature_size::medium );
+        static int default_height( creature_size size_category = creature_size::medium );
+        static int max_height( creature_size size_category = creature_size::medium );
+        /**@}*/
 
         // the player's activity level for metabolism calculations
         activity_tracker activity_history;
@@ -2985,6 +3332,9 @@ class Character : public Creature, public visitable
         mutable crafting_cache_type crafting_cache;
 
         time_point melee_warning_turn = calendar::turn_zero;
+
+        mutable bool pseudo_items_valid = false;
+        mutable std::vector<const item *> pseudo_items;
     protected:
         /** Subset of learned recipes. Needs to be mutable for lazy initialization. */
         mutable pimpl<recipe_subset> learned_recipes;
@@ -3012,4 +3362,7 @@ struct enum_traits<character_stat> {
 };
 /// Get translated name of a stat
 std::string get_stat_name( character_stat Stat );
+
+extern template bool Character::can_lift<item>( const item &obj ) const;
+extern template bool Character::can_lift<vehicle>( const vehicle &obj ) const;
 #endif // CATA_SRC_CHARACTER_H
