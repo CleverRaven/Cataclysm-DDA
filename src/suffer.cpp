@@ -167,6 +167,7 @@ void from_chemimbalance( Character &you );
 void from_schizophrenia( Character &you );
 void from_asthma( Character &you, const int current_stim );
 void from_item_dropping( Character &you );
+void from_other_mutations( Character &you );
 } // namespace suffer
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
@@ -983,88 +984,89 @@ void suffer::from_item_dropping( Character &you )
     }
 }
 
-void Character::suffer_from_other_mutations()
+void suffer::from_other_mutations( Character &you )
 {
     map &here = get_map();
-    if( has_trait( trait_SHARKTEETH ) && one_turn_in( 24_hours ) ) {
-        add_msg_if_player( m_neutral, _( "You shed a tooth!" ) );
-        here.spawn_item( pos(), "bone", 1 );
+    const tripoint position = you.pos();
+    if( you.has_trait( trait_SHARKTEETH ) && one_turn_in( 24_hours ) ) {
+        you.add_msg_if_player( m_neutral, _( "You shed a tooth!" ) );
+        here.spawn_item( position, "bone", 1 );
     }
 
-    if( has_active_mutation( trait_WINGS_INSECT ) ) {
+    if( you.has_active_mutation( trait_WINGS_INSECT ) ) {
         //~Sound of buzzing Insect Wings
-        sounds::sound( pos(), 10, sounds::sound_t::movement, _( "BZZZZZ" ), false, "misc",
+        sounds::sound( position, 10, sounds::sound_t::movement, _( "BZZZZZ" ), false, "misc",
                        "insect_wings" );
     }
 
-    if( has_trait( trait_SORES ) ) {
-        for( const bodypart_id &bp : get_all_body_parts() ) {
+    if( you.has_trait( trait_SORES ) ) {
+        for( const bodypart_id &bp : you.get_all_body_parts() ) {
             if( bp == bodypart_id( "head" ) ) {
                 continue;
             }
-            int sores_pain = 5 + 0.4 * std::abs( encumb( bp ) );
-            if( get_pain() < sores_pain ) {
-                set_pain( sores_pain );
+            int sores_pain = 5 + 0.4 * std::abs( you.encumb( bp ) );
+            if( you.get_pain() < sores_pain ) {
+                you.set_pain( sores_pain );
             }
         }
     }
     //Web Weavers...weave web
-    if( has_active_mutation( trait_WEB_WEAVER ) && !in_vehicle ) {
+    if( you.has_active_mutation( trait_WEB_WEAVER ) && !you.in_vehicle ) {
         // this adds intensity to if its not already there.
-        here.add_field( pos(), fd_web, 1 );
+        here.add_field( position, fd_web, 1 );
 
     }
 
     // Blind/Deaf for brief periods about once an hour,
     // and visuals about once every 30 min.
-    if( has_trait( trait_PER_SLIME ) ) {
-        if( one_turn_in( 1_hours ) && !has_effect( effect_deaf ) ) {
-            add_msg_if_player( m_bad, _( "Suddenly, you can't hear anything!" ) );
-            add_effect( effect_deaf, rng( 20_minutes, 60_minutes ) );
+    if( you.has_trait( trait_PER_SLIME ) ) {
+        if( one_turn_in( 1_hours ) && !you.has_effect( effect_deaf ) ) {
+            you.add_msg_if_player( m_bad, _( "Suddenly, you can't hear anything!" ) );
+            you.add_effect( effect_deaf, rng( 20_minutes, 60_minutes ) );
         }
-        if( one_turn_in( 1_hours ) && !( has_effect( effect_blind ) ) ) {
-            add_msg_if_player( m_bad, _( "Suddenly, your eyes stop working!" ) );
-            add_effect( effect_blind, rng( 2_minutes, 6_minutes ) );
+        if( one_turn_in( 1_hours ) && !( you.has_effect( effect_blind ) ) ) {
+            you.add_msg_if_player( m_bad, _( "Suddenly, your eyes stop working!" ) );
+            you.add_effect( effect_blind, rng( 2_minutes, 6_minutes ) );
         }
         // Yes, you can be blind and hallucinate at the same time.
         // Your post-human biology is truly remarkable.
-        if( one_turn_in( 30_minutes ) && !( has_effect( effect_visuals ) ) ) {
-            add_msg_if_player( m_bad, _( "Your visual centers must be acting up…" ) );
-            add_effect( effect_visuals, rng( 36_minutes, 72_minutes ) );
+        if( one_turn_in( 30_minutes ) && !( you.has_effect( effect_visuals ) ) ) {
+            you.add_msg_if_player( m_bad, _( "Your visual centers must be acting up…" ) );
+            you.add_effect( effect_visuals, rng( 36_minutes, 72_minutes ) );
         }
     }
 
-    if( has_trait( trait_WEB_SPINNER ) && !in_vehicle && one_in( 3 ) ) {
+    if( you.has_trait( trait_WEB_SPINNER ) && !you.in_vehicle && one_in( 3 ) ) {
         // this adds intensity to if its not already there.
-        here.add_field( pos(), fd_web, 1 );
+        here.add_field( position, fd_web, 1 );
     }
 
-    bool should_mutate = has_trait( trait_UNSTABLE ) && !has_trait( trait_CHAOTIC_BAD ) &&
+    bool should_mutate = you.has_trait( trait_UNSTABLE ) && !you.has_trait( trait_CHAOTIC_BAD ) &&
                          one_turn_in( 48_hours );
-    should_mutate |= ( has_trait( trait_CHAOTIC ) || has_trait( trait_CHAOTIC_BAD ) ) &&
+    should_mutate |= ( you.has_trait( trait_CHAOTIC ) || you.has_trait( trait_CHAOTIC_BAD ) ) &&
                      one_turn_in( 12_hours );
     if( should_mutate ) {
-        mutate();
+        you.mutate();
     }
 
-    const bool needs_fire = !has_morale( MORALE_PYROMANIA_NEARFIRE ) &&
-                            !has_morale( MORALE_PYROMANIA_STARTFIRE );
-    if( has_trait( trait_PYROMANIA ) && needs_fire && !in_sleep_state() &&
+    const bool needs_fire = !you.has_morale( MORALE_PYROMANIA_NEARFIRE ) &&
+                            !you.has_morale( MORALE_PYROMANIA_STARTFIRE );
+    if( you.has_trait( trait_PYROMANIA ) && needs_fire && !you.in_sleep_state() &&
         calendar::once_every( 2_hours ) ) {
-        add_morale( MORALE_PYROMANIA_NOFIRE, -1, -30, 24_hours, 24_hours, true );
+        you.add_morale( MORALE_PYROMANIA_NOFIRE, -1, -30, 24_hours, 24_hours, true );
         if( calendar::once_every( 4_hours ) ) {
             const translation smokin_hot_fiyah =
                 SNIPPET.random_from_category( "pyromania_withdrawal" ).value_or( translation() );
-            add_msg_if_player( m_bad, "%s", smokin_hot_fiyah );
+            you.add_msg_if_player( m_bad, "%s", smokin_hot_fiyah );
         }
     }
-    if( has_trait( trait_KILLER ) && !has_morale( MORALE_KILLER_HAS_KILLED ) &&
+    if( you.has_trait( trait_KILLER ) && !you.has_morale( MORALE_KILLER_HAS_KILLED ) &&
         calendar::once_every( 2_hours ) ) {
-        add_morale( MORALE_KILLER_NEED_TO_KILL, -1, -30, 24_hours, 24_hours );
+        you.add_morale( MORALE_KILLER_NEED_TO_KILL, -1, -30, 24_hours, 24_hours );
         if( calendar::once_every( 4_hours ) ) {
             const translation snip = SNIPPET.random_from_category( "killer_withdrawal" ).value_or(
                                          translation() );
-            add_msg_if_player( m_bad, "%s", snip );
+            you.add_msg_if_player( m_bad, "%s", snip );
         }
     }
 }
@@ -1515,7 +1517,7 @@ void Character::suffer()
     suffer::in_sunlight( *this );
     suffer_from_exertion();
     suffer::from_item_dropping( *this );
-    suffer_from_other_mutations();
+    suffer::from_other_mutations( *this );
     suffer_from_radiation();
     suffer_from_bad_bionics();
     suffer_from_stimulants( current_stim );
