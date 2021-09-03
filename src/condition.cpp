@@ -1142,11 +1142,11 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_fatigue();
             };
-        } else if (checked_value == "stamina") {
-            return [is_npc](const T& d) {
-                return d.actor(is_npc)->get_stamina();
+        } else if( checked_value == "stamina" ) {
+            return [is_npc]( const T & d ) {
+                return d.actor( is_npc )->get_stamina();
             };
-        } else if (checked_value == "sleep_deprivation") {
+        } else if( checked_value == "sleep_deprivation" ) {
             return [is_npc]( const T & d ) {
                 return d.actor( is_npc )->get_sleep_deprivation();
             };

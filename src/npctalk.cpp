@@ -2598,11 +2598,11 @@ std::function<void( const dialogue &, int )> talk_effect_fun_t::get_set_int( con
             return [is_npc]( const dialogue & d, int input ) {
                 d.actor( is_npc )->set_fatigue( input );
             };
-        } else if (checked_value == "stamina") {
-            return [is_npc](const dialogue& d, int input) {
-                d.actor(is_npc)->set_stamina(input);
+        } else if( checked_value == "stamina" ) {
+            return [is_npc]( const dialogue & d, int input ) {
+                d.actor( is_npc )->set_stamina( input );
             };
-        } else if (checked_value == "sleep_deprivation") {
+        } else if( checked_value == "sleep_deprivation" ) {
             return [is_npc]( const dialogue & d, int input ) {
                 d.actor( is_npc )->set_sleep_deprivation( input );
             };

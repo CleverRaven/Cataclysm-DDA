@@ -68,11 +68,11 @@ class talker_monster: public talker
 
         std::string short_description() const override;
         int get_anger() const override;
-        void set_anger(int) override;
+        void set_anger( int ) override;
         int morale_cur() const override;
-        void set_morale(int) override;
+        void set_morale( int ) override;
         int get_friendly() const override;
-        void set_friendly(int) override;
+        void set_friendly( int ) override;
     protected:
         talker_monster() = default;
         monster *me_mon;
