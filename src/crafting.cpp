@@ -2523,7 +2523,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             if( this->is_avatar() ) {
                 add_msg( m_bad, _( "You fail to recover %s." ), newit.tname() );
             } else {
-                add_msg_if_player_sees( *this, m_bad, _( "%1s fails to recover %2s." ), this->disp_name( false,
+                add_msg_if_player_sees( *this, m_bad, _( "%1$s fails to recover %2$s." ), this->disp_name( false,
                                         true ), newit.tname() );
             }
             continue;
@@ -2534,7 +2534,7 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             if( this->is_avatar() ) {
                 add_msg( m_bad, _( "You fail to recover %1$s from the %2$s." ), newit.tname(), dis_item.tname() );
             } else {
-                add_msg_if_player_sees( *this, m_bad, _( "%1s fails to recover %2$s from the %3$s." ),
+                add_msg_if_player_sees( *this, m_bad, _( "%1$s fails to recover %2$s from the %3$s." ),
                                         this->disp_name( false, true ), newit.tname(), dis_item.tname() );
             }
             continue;
@@ -2565,7 +2565,8 @@ void Character::complete_disassemble( item_location &target, const recipe &dis )
             }
         }
 
-        if( act_item.made_of( phase_id::LIQUID ) ) {
+        //NPCs are too dumb to be able to handle liquid (for now)
+        if( act_item.made_of( phase_id::LIQUID ) && !is_npc() ) {
             liquid_handler::handle_all_liquid( act_item, PICKUP_RANGE );
         } else {
             drop_items.push_back( act_item );
