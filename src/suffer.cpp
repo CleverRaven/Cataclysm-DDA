@@ -154,6 +154,11 @@ static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 static const json_character_flag json_flag_GILLS( "GILLS" );
 static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 
+namespace suffer
+{
+void from_sunburn( Character &you );
+} // namespace suffer
+
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
 {
     // Not addicted
@@ -745,7 +750,7 @@ void Character::suffer_in_sunlight()
     }
 
     if( has_trait( trait_ALBINO ) || has_effect( effect_datura ) || has_trait( trait_SUNBURN ) ) {
-        suffer_from_sunburn();
+        suffer::from_sunburn( *this );
     }
 
     if( ( has_trait( trait_TROGLO ) || has_trait( trait_TROGLO2 ) ) &&
@@ -799,18 +804,19 @@ std::map<bodypart_id, float> Character::bodypart_exposure()
     return bp_exposure;
 }
 
-void Character::suffer_from_sunburn()
+void suffer::from_sunburn( Character &you )
 {
-    if( !has_trait( trait_ALBINO ) && !has_effect( effect_datura ) && !has_trait( trait_SUNBURN ) ) {
+    if( !you.has_trait( trait_ALBINO ) && !you.has_effect( effect_datura ) &&
+        !you.has_trait( trait_SUNBURN ) ) {
         return;
     }
 
-    if( has_trait( trait_ALBINO ) || has_effect( effect_datura ) ) {
+    if( you.has_trait( trait_ALBINO ) || you.has_effect( effect_datura ) ) {
         // Albinism and datura have the same effects, once per minute on average
         if( !one_turn_in( 1_minutes ) ) {
             return;
         }
-    } else if( has_trait( trait_SUNBURN ) ) {
+    } else if( you.has_trait( trait_SUNBURN ) ) {
         // Sunburn effects occur about 3 times per minute
         if( !one_turn_in( 20_seconds ) ) {
             return;
@@ -818,23 +824,24 @@ void Character::suffer_from_sunburn()
     }
 
     // Sunglasses can keep the sun off the eyes.
-    if( !has_flag( json_flag_GLARE_RESIST ) &&
-        !( wearing_something_on( bodypart_id( "eyes" ) ) &&
-           ( worn_with_flag( flag_SUN_GLASSES ) || worn_with_flag( flag_BLIND ) ) ) ) {
-        add_msg_if_player( m_bad, _( "The sunlight is really irritating your eyes." ) );
+    if( !you.has_flag( json_flag_GLARE_RESIST ) &&
+        !( you.wearing_something_on( bodypart_id( "eyes" ) ) &&
+           ( you.worn_with_flag( flag_SUN_GLASSES ) || you.worn_with_flag( flag_BLIND ) ) ) ) {
+        you.add_msg_if_player( m_bad, _( "The sunlight is really irritating your eyes." ) );
         // Pain (1/60) or loss of focus (59/60)
         if( one_turn_in( 1_minutes ) ) {
-            mod_pain( 1 );
+            you.mod_pain( 1 );
         } else {
-            mod_focus( -1 );
+            you.mod_focus( -1 );
         }
     }
     // Umbrellas can keep the sun off the skin
-    if( weapon.has_flag( flag_RAIN_PROTECT ) ) {
+    if( you.weapon.has_flag( flag_RAIN_PROTECT ) ) {
         return;
     }
 
-    std::map<bodypart_id, float> bp_exposure = bodypart_exposure();
+    // TODO: Could factor bodypart_exposure out of Character too
+    std::map<bodypart_id, float> bp_exposure = you.bodypart_exposure();
 
     // Minimum exposure threshold for pain
     const float MIN_EXPOSURE = 0.01f;
@@ -887,29 +894,29 @@ void Character::suffer_from_sunburn()
     std::string all_parts_list = enumerate_as_string( affected_part_names );
 
     std::string message;
-    if( has_trait( trait_ALBINO ) || has_effect( effect_datura ) ) {
+    if( you.has_trait( trait_ALBINO ) || you.has_effect( effect_datura ) ) {
         //~ %s is a list of body parts.  The plurality integer is the total
         //~ number of body parts
         message = ngettext( "The sunlight is really irritating your %s.",
                             "The sunlight is really irritating your %s.",
                             affected_bodyparts.size() );
-    } else if( has_trait( trait_SUNBURN ) ) {
+    } else if( you.has_trait( trait_SUNBURN ) ) {
         //~ %s is a list of body parts.  The plurality integer is the total
         //~ number of body parts
         message = ngettext( "The sunlight burns your %s.",
                             "The sunlight burns your %s.",
                             affected_bodyparts.size() );
     }
-    add_msg_if_player( m_bad, message, all_parts_list );
+    you.add_msg_if_player( m_bad, message, all_parts_list );
 
     // Wake up from skin irritation/burning
-    if( has_effect( effect_sleep ) ) {
-        wake_up();
+    if( you.has_effect( effect_sleep ) ) {
+        you.wake_up();
     }
 
     // Solar Sensitivity (SUNBURN) trait causes injury to exposed parts
-    if( has_trait( trait_SUNBURN ) ) {
-        mod_pain( 1 );
+    if( you.has_trait( trait_SUNBURN ) ) {
+        you.mod_pain( 1 );
         // Check exposure of all body parts
         for( const std::pair<const bodypart_id, float> &bp_exp : bp_exposure ) {
             const bodypart_id &this_part = bp_exp.first;
@@ -930,18 +937,18 @@ void Character::suffer_from_sunburn()
                 // an HP pool with the head, those parts take an unfair share of damage in relation
                 // to the torso, which only has one part.  Increase torso damage to balance this.
                 if( this_part == bodypart_id( "torso" ) ) {
-                    apply_damage( nullptr, this_part, 2 );
+                    you.apply_damage( nullptr, this_part, 2 );
                 } else {
-                    apply_damage( nullptr, this_part, 1 );
+                    you.apply_damage( nullptr, this_part, 1 );
                 }
             }
         }
     } else {
         // Albinism/datura causes pain (1/60) or focus loss (59/60)
         if( one_turn_in( 1_minutes ) ) {
-            mod_pain( 1 );
+            you.mod_pain( 1 );
         } else {
-            mod_focus( -1 );
+            you.mod_focus( -1 );
         }
     }
 }
