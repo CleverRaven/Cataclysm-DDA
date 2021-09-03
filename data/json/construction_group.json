@@ -676,6 +676,11 @@
   },
   {
     "type": "construction_group",
+    "id": "build_spinwheel",
+    "name": "Build Spinwheel"
+  },
+  {
+    "type": "construction_group",
     "id": "build_split_rail_fence",
     "name": "Build Split Rail Fence"
   },
