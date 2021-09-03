@@ -61,6 +61,10 @@ const weakpoint *weakpoints::select_weakpoint( Creature *source ) const
     return &default_weakpoint;
 }
 
+void weakpoints::clear() {
+    weakpoint_list.clear();
+}
+
 void weakpoints::load( const JsonArray &ja )
 {
     for( const JsonObject &jo : ja ) {

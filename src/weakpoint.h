@@ -42,6 +42,7 @@ struct weakpoints {
     const weakpoint *select_weakpoint( Creature *source ) const;
 
     weakpoints();
+    void clear();
     void load( const JsonArray &ja );
 };
 
