@@ -311,7 +311,7 @@
     "name": "smoking rack",
     "looks_like": "f_rack",
     "description": "A special rack designed to smoke food for better preservation and taste.  Works as a charcoal smoker in crafting recipes.",
-    "symbol": "#",
+    "symbol": "=",
     "bgcolor": "brown",
     "move_cost_mod": 2,
     "required_str": -1,
