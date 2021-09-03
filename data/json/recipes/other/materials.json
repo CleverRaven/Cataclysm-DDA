@@ -194,12 +194,28 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "fabrication",
+	"batch_time_factors": [ 99, 1 ],
     "//": "primitive recipe used for thousands of years before modern era.  Folk craft teachers refer to this as the clumping method that is not appropriate for beginners.",
     "skills_required": [ "survival", 3 ],
     "difficulty": 1,
     "time": "15 m",
     "autolearn": true,
     "components": [ [ [ "soap", 5 ] ], [ [ "water_clean", 3 ] ], [ [ "wool_staple", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "fake",
+    "result": "thread",
+	"id_suffix":"spinningwheel",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+	"batch_time_factors": [ 70, 1 ],
+    "time": "15 s",
+	"charges": 50,
+    "autolearn": true,
+	   "tools":[[["spinwheelitem",-1]]],
+    "components": [ [ [ "felt_patch",1 ] ] ]
   },
   {
     "type": "recipe",
@@ -265,6 +281,21 @@
   },
   {
     "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "cotton_ball",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+	"batch_time_factors": [ 70, 1 ],
+	"id_suffix":"spinningwheel",
+    "time": "27 s",
+    "autolearn": true,
+    "byproducts": [ [ "seed_cotton_boll", 2 ] ],
+    "tools":[[["spinwheelitem",-1]]],
+    "components": [ [ [ "cotton_boll", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "fake",
     "result": "thread",
     "category": "CC_OTHER",
@@ -276,6 +307,21 @@
     "autolearn": true,
     "proficiencies": [ { "proficiency": "prof_spinning", "fail_multiplier": 1.5 } ],
     "tools": [ [ [ "distaff_spindle", -1 ] ] ],
+    "components": [ [ [ "cotton_ball", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "thread",
+	"id_suffix":"spinningwheel",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+	"batch_time_factors": [ 70, 1 ],
+    "skill_used": "tailor",
+    "time": "30 s",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_spinning", "fail_multiplier": 1.5 } ],
+       "tools":[[["spinwheelitem",-1]]],
     "components": [ [ [ "cotton_ball", 3 ] ] ]
   },
   {
@@ -294,6 +340,22 @@
     "components": [ [ [ "straw_pile", 5 ], [ "withered", 5 ] ] ]
   },
   {
+    "result": "grass_yarn",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+	"id_suffix":"spinningwheel",
+	"batch_time_factors":[70,1],
+    "time": "90 s",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_spinning" }, { "proficiency": "prof_fibers" } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "tools":[[["spinwheelitem",-1]]],
+    "components": [ [ [ "straw_pile", 5 ], [ "withered", 5 ] ] ]
+  },
+  {
     "result": "yarn",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -309,6 +371,22 @@
     "components": [ [ [ "wool_staple", 1 ] ] ]
   },
   {
+    "result": "yarn",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+	"id_suffix":"spinningwheel",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+	"batch_time_factors": [ 70, 1 ],
+    "time": "90 s",
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_spinning" }, { "proficiency": "prof_fibers" } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "tools":[[["spinwheelitem",-1]]],
+    "components": [ [ [ "wool_staple", 1 ] ] ]
+  },
+  {
     "type": "recipe",
     "activity_level": "NO_EXERCISE",
     "result": "rag",
@@ -321,6 +399,21 @@
     "autolearn": true,
     "using": [ [ "filament", 80 ] ],
     "qualities": [ { "id": "KNIT", "level": 1 } ],
+    "proficiencies": [ { "proficiency": "prof_knitting" }, { "proficiency": "prof_knitting_speed" } ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "result": "rag",
+    "id_suffix": "spinningwheel",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+   "batch_time_factors": [ 70, 1 ],
+    "time": "18 s",
+    "autolearn": true,
+	"tools":[[["spinwheelitem",-1]]],
+    "using": [ [ "filament", 80 ] ],
     "proficiencies": [ { "proficiency": "prof_knitting" }, { "proficiency": "prof_knitting_speed" } ]
   },
   {
@@ -377,6 +470,23 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "thread", 5 ] ] ]
   },
+  {
+    "result": "sheet_cotton",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_OTHER",
+	  "id_suffix": "spinningwheel",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "tailor",
+    "batch_time_factors": [ 70, 1 ],
+    "time": "30 s",
+    "charges": 1,
+    "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_weaving" } ],
+     "tools":[[["spinwheelitem",-1]]],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "thread", 5 ] ] ]},
+ 
   {
     "result": "sheet_cotton_patchwork",
     "type": "recipe",
