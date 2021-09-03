@@ -3132,6 +3132,9 @@ class Character : public Creature, public visitable
         // the player's activity level for metabolism calculations
         activity_tracker activity_history;
 
+        // Our weariness level last turn, so we know when we transition
+        int old_weary_level = 0;
+
         trap_map known_traps;
         mutable std::map<std::string, double> cached_info;
         bool bio_soporific_powered_at_last_sleep_check = false;
@@ -3208,7 +3211,6 @@ class Character : public Creature, public visitable
         std::map<bodypart_id, float> bodypart_exposure();
     private:
         /** suffer() subcalls */
-        void suffer_from_exertion();
         void suffer_without_sleep( int sleep_deprivation );
         void suffer_from_tourniquet();
         /**
@@ -3237,9 +3239,6 @@ class Character : public Creature, public visitable
 
         units::energy power_level;
         units::energy max_power_level;
-
-        // Our weariness level last turn, so we know when we transition
-        int old_weary_level = 0;
 
         /// @brief Needs (hunger, starvation, thirst, fatigue, etc.)
         // Stored calories is a value in 'calories' - 1/1000s of kcals (or Calories)

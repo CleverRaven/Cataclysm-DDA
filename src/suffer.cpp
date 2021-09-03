@@ -171,6 +171,7 @@ void from_other_mutations( Character &you );
 void from_radiation( Character &you );
 void from_bad_bionics( Character &you );
 void from_stimulants( Character &you, const int current_stim );
+void from_exertion( Character &you );
 } // namespace suffer
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
@@ -1359,25 +1360,25 @@ static void apply_weariness( Character &you, int level, int old )
     apply_weary_message( you, level, old );
 }
 
-void Character::suffer_from_exertion()
+void suffer::from_exertion( Character &you )
 {
-    int new_weary_level = weariness_level();
-    float max_activity = maximum_exertion_level();
+    int new_weary_level = you.weariness_level();
+    float max_activity = you.maximum_exertion_level();
 
     // Only if there are changes (duh)
-    if( new_weary_level != old_weary_level ) {
-        apply_weariness( *this, new_weary_level, old_weary_level );
+    if( new_weary_level != you.old_weary_level ) {
+        apply_weariness( you, new_weary_level, you.old_weary_level );
     }
 
     // Significantly slow the rate of messaging when in an activity
-    const int chance = activity ? to_turns<int>( 48_minutes ) : to_turns<int>( 5_minutes );
-    if( activity_history.activity() > max_activity && one_in( chance ) && !in_sleep_state() ) {
-        add_msg_if_player( m_bad,
-                           _( "You're tiring out; continuing to work at this rate will be slower." ) );
+    const int chance = you.activity ? to_turns<int>( 48_minutes ) : to_turns<int>( 5_minutes );
+    if( you.activity_history.activity() > max_activity && one_in( chance ) && !you.in_sleep_state() ) {
+        you.add_msg_if_player( m_bad,
+                               _( "You're tiring out; continuing to work at this rate will be slower." ) );
     }
 
     // This must happen at the end, for hopefully obvious reasons
-    old_weary_level = new_weary_level;
+    you.old_weary_level = new_weary_level;
 }
 
 void Character::suffer_without_sleep( const int sleep_deprivation )
@@ -1518,7 +1519,7 @@ void Character::suffer()
     }
 
     suffer::in_sunlight( *this );
-    suffer_from_exertion();
+    suffer::from_exertion( *this );
     suffer::from_item_dropping( *this );
     suffer::from_other_mutations( *this );
     suffer::from_radiation( *this );
