@@ -5260,7 +5260,7 @@ void game::examine( const tripoint &examp )
             xfurn_t.examine( u, examp );
         }
     } else {
-        if( u.is_mounted() && xter_t.can_examine() ) {
+        if( u.is_mounted() && xter_t.can_examine( examp ) ) {
             add_msg( m_warning, _( "You cannot do that while mounted." ) );
         } else {
             xter_t.examine( u, examp );
@@ -5274,7 +5274,7 @@ void game::examine( const tripoint &examp )
     }
 
     bool none = true;
-    if( xter_t.can_examine() || xfurn_t.can_examine() ) {
+    if( xter_t.can_examine( examp ) || xfurn_t.can_examine( examp ) ) {
         none = false;
     }
 
@@ -9331,7 +9331,7 @@ point game::place_player( const tripoint &dest_loc )
                 const bool forage_everything = forage_type == "both";
                 const bool forage_bushes = forage_everything || forage_type == "bushes";
                 const bool forage_trees = forage_everything || forage_type == "trees";
-                if( !xter_t.can_examine() ) {
+                if( !xter_t.can_examine( pos ) ) {
                     return;
                 } else if( ( forage_bushes && xter_t.has_examine( iexamine::shrub_marloss ) ) ||
                            ( forage_bushes && xter_t.has_examine( iexamine::shrub_wildveggies ) ) ||
