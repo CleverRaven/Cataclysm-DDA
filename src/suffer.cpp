@@ -158,6 +158,7 @@ namespace suffer
 {
 void from_sunburn( Character &you );
 void in_sunlight( Character &you );
+void water_damage( Character &you, const trait_id &mut_id );
 } // namespace suffer
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
@@ -170,21 +171,21 @@ static float addiction_scaling( float at_min, float at_max, float add_lvl )
     return lerp( at_min, at_max, ( add_lvl - MIN_ADDICTION_LEVEL ) / MAX_ADDICTION_LEVEL );
 }
 
-void Character::suffer_water_damage( const trait_id &mut_id )
+void suffer::water_damage( Character &you, const trait_id &mut_id )
 {
-    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : you.get_body() ) {
         const float wetness_percentage = elem.second.get_wetness_percentage();
         const int dmg = mut_id->weakness_to_water * wetness_percentage;
         if( dmg > 0 ) {
-            apply_damage( nullptr, elem.first, dmg );
-            add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the water." ),
-                                   _( "<npcname>'s %s is damaged by the water." ),
-                                   body_part_name( elem.first ) );
+            you.apply_damage( nullptr, elem.first, dmg );
+            you.add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the water." ),
+                                       _( "<npcname>'s %s is damaged by the water." ),
+                                       body_part_name( elem.first ) );
         } else if( dmg < 0 && elem.second.is_at_max_hp() ) {
-            heal( elem.first, std::abs( dmg ) );
-            add_msg_player_or_npc( m_good, _( "Your %s is healed by the water." ),
-                                   _( "<npcname>'s %s is healed by the water." ),
-                                   body_part_name( elem.first ) );
+            you.heal( elem.first, std::abs( dmg ) );
+            you.add_msg_player_or_npc( m_good, _( "Your %s is healed by the water." ),
+                                       _( "<npcname>'s %s is healed by the water." ),
+                                       body_part_name( elem.first ) );
         }
     }
 }
@@ -1485,7 +1486,7 @@ void Character::suffer()
 
     for( const trait_id &mut_id : get_mutations() ) {
         if( calendar::once_every( 1_minutes ) ) {
-            suffer_water_damage( mut_id );
+            suffer::water_damage( *this, mut_id );
         }
         if( has_active_mutation( mut_id ) ) {
             suffer_mutation_power( mut_id );

@@ -3208,7 +3208,6 @@ class Character : public Creature, public visitable
         std::map<bodypart_id, float> bodypart_exposure();
     private:
         /** suffer() subcalls */
-        void suffer_water_damage( const trait_id &mut_id );
         void suffer_mutation_power( const trait_id &mut_id );
         void suffer_while_underwater();
         void suffer_from_addictions();
