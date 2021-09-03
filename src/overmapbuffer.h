@@ -497,8 +497,8 @@ class overmapbuffer
          * @returns If the special was placed, a vector of the points used, else nullopt.
          */
         cata::optional<std::vector<tripoint_abs_omt>> place_special(
-                    const overmap_special &special, const tripoint_abs_omt &p, om_direction::type dir,
-                    bool must_be_unexplored, bool force );
+                    const overmap_special &special, const tripoint_abs_omt &origin,
+                    om_direction::type dir, bool must_be_unexplored, bool force );
         /**
          * Place the specified overmap special using the overmap's placement algorithm. Intended to be used
          * when you have a special that you want placed but it should be placed similarly to as if it were

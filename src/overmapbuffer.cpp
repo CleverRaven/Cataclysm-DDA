@@ -1611,10 +1611,10 @@ bool overmapbuffer::is_safe( const tripoint_abs_omt &p )
 }
 
 cata::optional<std::vector<tripoint_abs_omt>> overmapbuffer::place_special(
-            const overmap_special &special, const tripoint_abs_omt &p, om_direction::type dir,
+            const overmap_special &special, const tripoint_abs_omt &origin, om_direction::type dir,
             const bool must_be_unexplored, const bool force )
 {
-    const overmap_with_local_coords om_loc = get_om_global( p );
+    const overmap_with_local_coords om_loc = get_om_global( origin );
 
     // Only place this special if we can actually place it per its criteria, or we're forcing
     // the placement, which is mostly a debug behavior, since a forced placement may not function

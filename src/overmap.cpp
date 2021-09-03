@@ -1511,7 +1511,7 @@ struct mutable_overmap_special_data {
         return { tripoint_zero, root_om.terrain, root_om.locations, {} };
     }
 
-    std::vector<tripoint_om_omt> place( overmap &om, const tripoint_om_omt &p ) const {
+    std::vector<tripoint_om_omt> place( overmap &om, const tripoint_om_omt &origin ) const {
         std::vector<tripoint_om_omt> result;
 
         auto it = overmaps.find( root );
@@ -1520,10 +1520,10 @@ struct mutable_overmap_special_data {
             return result;
         }
         const mutable_overmap_terrain &root_omt = it->second;
-        om.ter_set( p, root_omt.terrain );
+        om.ter_set( origin, root_omt.terrain );
 
         joins_tracker unresolved( joins );
-        unresolved.add_joins_for( root_omt, p, om_direction::type::none );
+        unresolved.add_joins_for( root_omt, origin, om_direction::type::none );
 
         auto current_phase = phases.begin();
         mutable_overmap_phase phase_remaining = *current_phase;
@@ -1566,8 +1566,9 @@ struct mutable_overmap_special_data {
 
             const oter_id &current_terrain = om.ter( p );
             std::string joins = enumerate_as_string( next.joins,
-            []( const std::pair<cube_direction, std::string> &p ) {
-                return string_format( "%s: %s", io::enum_to_string( p.first ), p.second );
+            []( const std::pair<cube_direction, std::string> &dir_join ) {
+                return string_format( "%s: %s", io::enum_to_string( dir_join.first ),
+                                      dir_join.second );
             } );
 
             debugmsg( "Spawn of mutable special %s had unresolved joins.  Existing terrain "
