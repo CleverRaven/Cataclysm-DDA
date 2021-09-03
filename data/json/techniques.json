@@ -206,7 +206,8 @@
     "crit_ok": true,
     "disarms": true,
     "down_dur": 1,
-    "knockback_dist": 1
+    "knockback_dist": 1,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.33 } ]
   },
   {
     "type": "technique",
@@ -219,7 +220,8 @@
     "block_counter": true,
     "crit_ok": true,
     "down_dur": 1,
-    "knockback_dist": 1
+    "knockback_dist": 1,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.33 } ]
   },
   {
     "type": "technique",
@@ -233,7 +235,8 @@
     "dodge_counter": true,
     "crit_ok": true,
     "down_dur": 1,
-    "knockback_dist": 1
+    "knockback_dist": 1,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.33 } ]
   },
   {
     "type": "technique",
@@ -248,7 +251,8 @@
     "crit_ok": true,
     "disarms": true,
     "down_dur": 1,
-    "knockback_dist": 1
+    "knockback_dist": 1,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.33 } ]
   },
   {
     "type": "technique",
@@ -494,7 +498,8 @@
     "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
     "unarmed_allowed": true,
     "dodge_counter": true,
-    "down_dur": 1
+    "down_dur": 1,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.66 } ]
   },
   {
     "type": "technique",
@@ -529,6 +534,7 @@
     "block_counter": true,
     "down_dur": 1,
     "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.5 },
       { "stat": "damage", "type": "bash", "scale": 0.5 },
       { "stat": "damage", "type": "cut", "scale": 0.5 },
       { "stat": "damage", "type": "stab", "scale": 0.5 }
@@ -545,6 +551,7 @@
     "dodge_counter": true,
     "stun_dur": 1,
     "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.5 },
       { "stat": "damage", "type": "bash", "scale": 0.5 },
       { "stat": "damage", "type": "cut", "scale": 0.5 },
       { "stat": "damage", "type": "stab", "scale": 0.5 }
@@ -690,6 +697,7 @@
     "crit_ok": true,
     "stun_dur": 1,
     "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.66 },
       { "stat": "damage", "type": "bash", "scale": 1.2 },
       { "stat": "damage", "type": "cut", "scale": 1.2 },
       { "stat": "damage", "type": "stab", "scale": 1.2 }
@@ -706,7 +714,7 @@
     "crit_ok": true,
     "down_dur": 2,
     "mult_bonuses": [
-      { "stat": "movecost", "scale": 0.0 },
+      { "stat": "movecost", "scale": 0.5 },
       { "stat": "damage", "type": "bash", "scale": 0.5 },
       { "stat": "damage", "type": "cut", "scale": 0.5 },
       { "stat": "damage", "type": "stab", "scale": 0.5 }
@@ -852,7 +860,8 @@
     "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
     "unarmed_allowed": true,
     "block_counter": true,
-    "crit_ok": true
+    "crit_ok": true,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
   },
   {
     "type": "technique",
@@ -960,7 +969,8 @@
     "melee_allowed": true,
     "unarmed_allowed": true,
     "crit_ok": true,
-    "block_counter": true
+    "block_counter": true,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
   },
   {
     "type": "technique",
@@ -1006,7 +1016,8 @@
     "crit_ok": true,
     "dodge_counter": true,
     "knockback_dist": 1,
-    "knockback_spread": 1
+    "knockback_spread": 1,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.66 } ]
   },
   {
     "type": "technique",
@@ -1392,6 +1403,7 @@
     "crit_ok": true,
     "knockback_dist": 1,
     "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.5 },
       { "stat": "damage", "type": "bash", "scale": 0.5 },
       { "stat": "damage", "type": "cut", "scale": 0.5 },
       { "stat": "damage", "type": "stab", "scale": 0.5 }
@@ -1637,7 +1649,7 @@
     "unarmed_allowed": true,
     "dodge_counter": true,
     "crit_ok": true,
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.33 }, { "stat": "damage", "type": "bash", "scale": 1.25 } ]
   },
   {
     "type": "technique",
