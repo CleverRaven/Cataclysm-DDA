@@ -171,7 +171,7 @@ const
     debugmsg( "Uh-oh!  Requested proficiency that character does not know"
               " - expect crash or undefined behavior" );
     return learning[0];
-};
+}
 
 std::vector<display_proficiency> proficiency_set::display() const
 {
