@@ -160,6 +160,7 @@ void from_sunburn( Character &you );
 void in_sunlight( Character &you );
 void water_damage( Character &you, const trait_id &mut_id );
 void mutation_power( Character &you, const trait_id &mut_id );
+void while_underwater( Character &you );
 } // namespace suffer
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
@@ -237,27 +238,27 @@ void suffer::mutation_power( Character &you, const trait_id &mut_id )
     }
 }
 
-void Character::suffer_while_underwater()
+void suffer::while_underwater( Character &you )
 {
-    if( !has_flag( json_flag_GILLS ) ) {
-        oxygen--;
+    if( !you.has_flag( json_flag_GILLS ) ) {
+        you.oxygen--;
     }
-    if( oxygen < 12 && worn_with_flag( flag_REBREATHER ) ) {
-        oxygen += 12;
+    if( you.oxygen < 12 && you.worn_with_flag( flag_REBREATHER ) ) {
+        you.oxygen += 12;
     }
-    if( oxygen <= 5 ) {
-        if( has_bionic( bio_gills ) && get_power_level() >= bio_gills->power_trigger ) {
-            oxygen += 5;
-            mod_power_level( -bio_gills->power_trigger );
+    if( you.oxygen <= 5 ) {
+        if( you.has_bionic( bio_gills ) && you.get_power_level() >= bio_gills->power_trigger ) {
+            you.oxygen += 5;
+            you.mod_power_level( -bio_gills->power_trigger );
         } else {
-            add_msg_if_player( m_bad, _( "You're drowning!" ) );
-            apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
+            you.add_msg_if_player( m_bad, _( "You're drowning!" ) );
+            you.apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
         }
     }
-    if( has_trait( trait_FRESHWATEROSMOSIS ) &&
-        !get_map().has_flag_ter( ter_furn_flag::TFLAG_SALT_WATER, pos() ) &&
-        get_thirst() > -60 ) {
-        mod_thirst( -1 );
+    if( you.has_trait( trait_FRESHWATEROSMOSIS ) &&
+        !get_map().has_flag_ter( ter_furn_flag::TFLAG_SALT_WATER, you.pos() ) &&
+        you.get_thirst() > -60 ) {
+        you.mod_thirst( -1 );
     }
 }
 
@@ -1495,7 +1496,7 @@ void Character::suffer()
     }
 
     if( underwater ) {
-        suffer_while_underwater();
+        suffer::while_underwater( *this );
     }
 
     suffer_from_addictions();
