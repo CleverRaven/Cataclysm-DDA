@@ -705,7 +705,7 @@ static effect_data load_effect_data( const JsonObject &e )
 {
     time_duration time;
     if( e.has_string( "duration" ) ) {
-        time = read_from_json_string<time_duration>( *e.get_raw( "duration" ), time_duration::units );
+        time = read_from_json_string<time_duration>( e.get_member( "duration" ), time_duration::units );
     } else {
         time = time_duration::from_turns( e.get_int( "duration", 0 ) );
     }

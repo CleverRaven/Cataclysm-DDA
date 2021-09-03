@@ -449,7 +449,7 @@ void conditional_t<T>::set_compare_time_since_var( const JsonObject &jo, const s
 {
     const std::string var_name = get_talk_varname( jo, member, false );
     const std::string &op = jo.get_string( "op" );
-    const int value = to_turns<int>( read_from_json_string<time_duration>( *jo.get_raw( "time" ),
+    const int value = to_turns<int>( read_from_json_string<time_duration>( jo.get_member( "time" ),
                                      time_duration::units ) );
     condition = [var_name, op, value, is_npc]( const T & d ) {
         int stored_value = 0;
@@ -938,7 +938,7 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
             return const_value;
         };
     } else if( jo.has_member( "time" ) ) {
-        const int value = to_turns<int>( read_from_json_string<time_duration>( *jo.get_raw( "time" ),
+        const int value = to_turns<int>( read_from_json_string<time_duration>( jo.get_member( "time" ),
                                          time_duration::units ) );
         return [value]( const T & ) {
             return value;
