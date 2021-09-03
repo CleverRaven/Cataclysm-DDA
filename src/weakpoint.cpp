@@ -23,7 +23,7 @@ void weakpoint::load( const JsonObject &jo )
 {
     assign( jo, "id", id );
     assign( jo, "name", name );
-    assign( jo, "coverage", coverage, false, 0.0f, 1.0f );
+    assign( jo, "coverage", coverage, false, 0.0f, 100.0f );
     if( jo.has_object( "armor_mult" ) ) {
         armor_mult = load_damage_array( jo.get_object( "armor_mult" ), 1.0f );
     }
@@ -51,7 +51,7 @@ float weakpoint::hit_chance() const
 
 const weakpoint *weakpoints::select_weakpoint() const
 {
-    float idx = rng_float( 0.0f, 1.0f );
+    float idx = rng_float( 0.0f, 100.0f );
     for( const weakpoint &weakpoint : weakpoint_list ) {
         float hit_chance = weakpoint.hit_chance( );
         if( hit_chance <= idx ) {

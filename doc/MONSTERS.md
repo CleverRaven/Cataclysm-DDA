@@ -324,9 +324,9 @@ Weakpoints in the monster's protection.
 | field               | description
 | ---                 | ---
 | `name`              | Name of the weakpoint.
-| `coverage`          | Base probability of hitting the weakpoint. May be increased by skill level.
+| `coverage`          | Base percentage chance of hitting the weakpoint. May be increased by skill level. (e.g. A coverage of 5 means a 5% base chance of hitting the weakpoint)
 | `armor_multiplier`  | multipler on the monster's base protection when hitting the weakpoint.
-| `armor_offset`      | offset on the monster's protection, after applying the multiplier.
+| `armor_offset`      | a flat value added to the monster's protection, after applying the multiplier.
 
 ## "vision_day", "vision_night"
 (integer, optional)

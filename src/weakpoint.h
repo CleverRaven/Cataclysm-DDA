@@ -17,8 +17,8 @@ struct weakpoint {
     std::string id;
     // Name of the weakpoint. Can be empty.
     std::string name;
-    // Base probability of hitting the weakpoint. Can be increased by skill.
-    float coverage = 1.0f;
+    // Percent chance of hitting the weakpoint. Can be increased by skill.
+    float coverage = 100.0f;
     // Multiplier for existing armor values. Defaults to 1.
     std::array<float, static_cast<int>( damage_type::NUM )> armor_mult;
     // Constant offset for multiplied armor values. Defaults to 0.
