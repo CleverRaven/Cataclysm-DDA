@@ -4137,20 +4137,7 @@ void avatar::character_to_template( const std::string &name )
 
 void avatar::save_template( const std::string &name, pool_type pool )
 {
-    std::string native = utf8_to_native( name );
-#if defined(_WIN32)
-    if( native.find_first_of( "\"*/:<>?\\|"
-                              "\x01\x02\x03\x04\x05\x06\x07\x08\x09" // NOLINT(cata-text-style)
-                              "\x0A\x0B\x0C\x0D\x0E\x0F\x10\x11\x12" // NOLINT(cata-text-style)
-                              "\x13\x14\x15\x16\x17\x18\x19\x1A\x1B"
-                              "\x1C\x1D\x1E\x1F"
-                            ) != std::string::npos ) {
-        popup( _( "Conversion of your filename to your native character set resulted in some unsafe characters, please try an alphanumeric filename instead." ) );
-        return;
-    }
-#endif
-
-    write_to_file( PATH_INFO::templatedir() + native + ".template", [&]( std::ostream & fout ) {
+    write_to_file( PATH_INFO::templatedir() + name + ".template", [&]( std::ostream & fout ) {
         JsonOut jsout( fout, true );
 
         jsout.start_array();
@@ -4171,7 +4158,7 @@ void avatar::save_template( const std::string &name, pool_type pool )
 
 bool avatar::load_template( const std::string &template_name, pool_type &pool )
 {
-    return read_from_file_json( PATH_INFO::templatedir() + utf8_to_native( template_name ) +
+    return read_from_file_json( PATH_INFO::templatedir() + template_name +
     ".template", [&]( JsonIn & jsin ) {
 
         if( jsin.test_array() ) {
