@@ -468,7 +468,7 @@
     "weight": "20 g",
     "volume": "250 ml",
     "price": 100,
-    "to_hit": 10,
+    "to_hit": -1,
     "cutting": 1,
     "material": [ "paper" ],
     "qualities": [ [ "FILTER", 2 ] ]
@@ -484,7 +484,7 @@
     "weight": "20 g",
     "volume": "250 ml",
     "price": 100,
-    "to_hit": 10,
+    "to_hit": -1,
     "cutting": 1,
     "material": [ "paper" ],
     "qualities": [ [ "FILTER", 1 ] ]
