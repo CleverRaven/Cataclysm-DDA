@@ -311,7 +311,7 @@
     "name": "smoking rack",
     "looks_like": "f_rack",
     "description": "A special rack designed to smoke food for better preservation and taste.  Works as a charcoal smoker in crafting recipes.",
-    "symbol": "=",
+    "symbol": "#",
     "bgcolor": "brown",
     "move_cost_mod": 2,
     "required_str": -1,
@@ -325,6 +325,28 @@
       "sound": "crunch!",
       "sound_fail": "whump!",
       "items": [ { "item": "rock", "count": 8 }, { "item": "stick", "count": [ 8, 12 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_spinwheel",
+    "name": "spinning wheel",
+    "looks_like": "f_table",
+    "description": "One of the consequences of the industrial revolution, but this time a good one.",
+    "symbol": "=",
+    "bgcolor": "brown",
+    "move_cost_mod": 2,
+    "required_str": 11,
+	 "coverage": 40,
+    "flags": [ "TRANSPARENT", "NOITEM"],
+    "crafting_pseudo_item": "spinwheelitem",
+    "deconstruct": { "items": [ { "item": "string_36", "count": 15 }, { "item": "2x4", "count":  20  },{"item":"nail","charges":25} ] },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "items": [ { "item": "string_36", "count": [12,15] }, { "item": "2x4", "count": [ 10, 20 ] },{ "item": "nail", "charges": [ 15, 25 ] } ]
     }
   },
   {
