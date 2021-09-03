@@ -158,19 +158,34 @@ learning_proficiency &proficiency_set::fetch_learning( const proficiency_id &tar
     return learning[0];
 }
 
+const learning_proficiency &proficiency_set::fetch_learning_const( const proficiency_id &target )
+const
+{
+    for( const learning_proficiency &cursor : learning ) {
+        if( cursor.id == target ) {
+            return cursor;
+        }
+    }
+
+    // This should _never_ happen
+    debugmsg( "Uh-oh!  Requested proficiency that character does not know"
+              " - expect crash or undefined behavior" );
+    return learning[0];
+};
+
 std::vector<display_proficiency> proficiency_set::display() const
 {
     // The proficiencies are sorted by whether or not you know them
     // and then alphabetically
     std::vector<std::pair<std::string, proficiency_id>> sorted_known;
-    std::vector<std::pair<std::string, proficiency_id>> sorted_learning;
+    std::vector<std::tuple<std::string, proficiency_id, bool>> sorted_learning;
 
     for( const proficiency_id &cur : known ) {
         sorted_known.emplace_back( cur->name(), cur );
     }
 
     for( const learning_proficiency &cur : learning ) {
-        sorted_learning.emplace_back( cur.id->name(), cur.id );
+        sorted_learning.emplace_back( cur.id->name(), cur.id, cur.can_train );
     }
 
     std::sort( sorted_known.begin(), sorted_known.end(), localized_compare );
@@ -189,19 +204,19 @@ std::vector<display_proficiency> proficiency_set::display() const
         ret.insert( ret.end(), disp );
     }
 
-    for( const std::pair<std::string, proficiency_id> &cur : sorted_learning ) {
+    for( const std::tuple<std::string, proficiency_id, bool> &cur : sorted_learning ) {
         display_proficiency disp;
-        disp.id = cur.second;
-        disp.color = c_light_gray;
+        disp.id = std::get<1>( cur );
+        disp.color = std::get<2>( cur ) ? c_light_gray : c_red;
         time_duration practiced;
         for( const learning_proficiency &cursor : learning ) {
-            if( cursor.id == cur.second ) {
+            if( cursor.id == std::get<1>( cur ) ) {
                 practiced = cursor.practiced;
                 break;
             }
         }
         disp.spent = practiced;
-        disp.practice = practiced / cur.second->time_to_learn();
+        disp.practice = practiced / std::get<1>( cur )->time_to_learn();
         disp.known = false;
         ret.insert( ret.end(), disp );
     }
@@ -227,7 +242,8 @@ void proficiency_set::toggle_training( const proficiency_id &toggled )
 bool proficiency_set::practice( const proficiency_id &practicing, const time_duration &amount,
                                 const cata::optional<time_duration> &max )
 {
-    if( has_learned( practicing ) || !practicing->can_learn() || !has_prereqs( practicing ) ) {
+    if( has_learned( practicing ) ||
+        !practicing->can_learn() || !has_prereqs( practicing ) ) {
         return false;
     }
     if( !has_practiced( practicing ) ) {
@@ -235,6 +251,9 @@ bool proficiency_set::practice( const proficiency_id &practicing, const time_dur
     }
 
     learning_proficiency &current = fetch_learning( practicing );
+    if( !current.can_train ) {
+        return false;
+    }
 
     if( max && current.practiced > *max ) {
         return false;

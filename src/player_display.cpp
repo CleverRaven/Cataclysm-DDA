@@ -1101,6 +1101,12 @@ static bool handle_player_display_action( Character &you, unsigned int &line,
                 invalidate_tab( curtab );
                 break;
             }
+            case player_display_tab::proficiencies:
+                const proficiency_id prof_id = you.display_proficiencies()[line].id;
+                if( you.toggle_training( prof_id ) ) {
+                    invalidate_tab( curtab );
+                }
+                break;
         }
     } else if( action == "CHANGE_PROFESSION_NAME" ) {
         string_input_popup popup;
