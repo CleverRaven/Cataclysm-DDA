@@ -149,6 +149,7 @@ static const efftype_id effect_bloodworms( "bloodworms" );
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_bouldering( "bouldering" );
 static const efftype_id effect_brainworms( "brainworms" );
+static const efftype_id effect_blood_spiders( "blood_spiders" );
 static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_corroding( "corroding" );
@@ -336,6 +337,7 @@ static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
 static const trait_id trait_TOLERANCE( "TOLERANCE" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
+static const trait_id trait_NUMB( "NUMB" );
 
 static const quality_id qual_AXE( "AXE" );
 static const quality_id qual_DIG( "DIG" );
@@ -362,14 +364,6 @@ static const bionic_id bio_shock( "bio_shock" );
 static const bionic_id bio_tools( "bio_tools" );
 
 static const json_character_flag json_flag_ENHANCED_VISION( "ENHANCED_VISION" );
-
-// terrain/furn flags
-static const std::string flag_CURRENT( "CURRENT" );
-static const std::string flag_DIGGABLE( "DIGGABLE" );
-static const std::string flag_FISHABLE( "FISHABLE" );
-static const std::string flag_LIQUIDCONT( "LIQUIDCONT" );
-static const std::string flag_PLANT( "PLANT" );
-static const std::string flag_PLOWABLE( "PLOWABLE" );
 
 // how many characters per turn of radio
 static constexpr int RADIO_PER_TURN = 25;
@@ -407,7 +401,7 @@ static item get_top_item_at_point( const tripoint &point,
                                    const units::volume &min_visible_volume );
 
 static std::string effects_description_for_creature( Creature *creature, std::string &pose,
-        const std::string &pronoun_sex );
+        const std::string &pronoun_gender );
 
 static object_names_collection enumerate_objects_around_point( const tripoint &point,
         int radius, const tripoint &bounds_center_point, int bounds_radius,
@@ -767,6 +761,10 @@ cata::optional<int> iuse::antiparasitic( Character *p, item *it, bool, const tri
     if( p->has_effect( effect_bloodworms ) ) {
         p->remove_effect( effect_bloodworms );
         p->add_msg_if_player( _( "Your skin prickles and your veins itch for a few moments." ) );
+    }
+    if( p->has_effect( effect_blood_spiders ) ) {
+        p->remove_effect( effect_blood_spiders );
+        p->add_msg_if_player( _( "Your veins relax in a soothing wave through your body." ) );
     }
     if( p->has_effect( effect_brainworms ) ) {
         p->remove_effect( effect_brainworms );
@@ -1284,7 +1282,7 @@ static void spawn_spores( const Character &p )
 {
     int spores_spawned = 0;
     map &here = get_map();
-    fungal_effects fe( *g, here );
+    fungal_effects fe;
     creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &dest : closest_points_first( p.pos(), 4 ) ) {
         if( here.impassable( dest ) ) {
@@ -1555,10 +1553,11 @@ cata::optional<int> iuse::mycus( Character *p, item *it, bool t, const tripoint 
         p->add_msg_if_player( m_good,
                               _( "As, in time, shall we adapt to better welcome those who have not received us." ) );*/
         map &here = get_map();
-        fungal_effects fe( *g, here );
+        fungal_effects fe;
         for( const tripoint &nearby_pos : here.points_in_radius( p->pos(), 3 ) ) {
             if( here.move_cost( nearby_pos ) != 0 && !here.has_furn( nearby_pos ) &&
-                !here.has_flag( TFLAG_DEEP_WATER, nearby_pos ) && !here.has_flag( TFLAG_NO_FLOOR, nearby_pos ) ) {
+                !here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, nearby_pos ) &&
+                !here.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, nearby_pos ) ) {
                 fe.marlossify( nearby_pos );
             }
         }
@@ -1631,14 +1630,14 @@ static cata::optional<int> petfood( Character &p, item &it, Petfood animal_food_
             npc &person = *person_;
             if( query_yn( _( "Are you sure you want to feed a person the dog food?" ) ) ) {
                 p.add_msg_if_player( _( "You put your %1$s into %2$s's mouth!" ), it.tname(),
-                                     person.name );
+                                     person.get_name() );
                 if( person.is_ally( p ) || x_in_y( 9, 10 ) ) {
                     person.say(
                         _( "Okay, but please, don't give me this again.  I don't want to eat dog food in the cataclysm all day." ) );
                     p.consume_charges( it, 1 );
                     return 0;
                 } else {
-                    p.add_msg_if_player( _( "%s knocks it from your hand!" ), person.name );
+                    p.add_msg_if_player( _( "%s knocks it from your hand!" ), person.get_name() );
                     person.make_angry();
                     p.consume_charges( it, 1 );
                     return 0;
@@ -1822,7 +1821,7 @@ static bool good_fishing_spot( const tripoint &pos, Character *p )
     const oter_id &cur_omt =
         overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( pos ) ) ) );
     std::string om_id = cur_omt.id().c_str();
-    if( fishables.empty() && !here.has_flag( "CURRENT", pos ) &&
+    if( fishables.empty() && !here.has_flag( ter_furn_flag::TFLAG_CURRENT, pos ) &&
         om_id.find( "river_" ) == std::string::npos && !cur_omt->is_lake() && !cur_omt->is_lake_shore() ) {
         p->add_msg_if_player( m_info, _( "You doubt you will have much luck catching fish here." ) );
         return false;
@@ -1843,7 +1842,7 @@ cata::optional<int> iuse::fishing_rod( Character *p, item *it, bool, const tripo
     map &here = get_map();
     cata::optional<tripoint> found;
     for( const tripoint &pnt : here.points_in_radius( p->pos(), 1 ) ) {
-        if( here.has_flag( flag_FISHABLE, pnt ) && good_fishing_spot( pnt, p ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_FISHABLE, pnt ) && good_fishing_spot( pnt, p ) ) {
             found = pnt;
             break;
         }
@@ -1889,7 +1888,7 @@ cata::optional<int> iuse::fish_trap( Character *p, item *it, bool t, const tripo
         }
         const tripoint pnt = *pnt_;
 
-        if( !here.has_flag( "FISHABLE", pnt ) ) {
+        if( !here.has_flag( ter_furn_flag::TFLAG_FISHABLE, pnt ) ) {
             p->add_msg_if_player( m_info, _( "You can't fish there!" ) );
             return cata::nullopt;
         }
@@ -1914,7 +1913,7 @@ cata::optional<int> iuse::fish_trap( Character *p, item *it, bool t, const tripo
         if( it->age() > 3_hours ) {
             it->active = false;
 
-            if( !here.has_flag( "FISHABLE", pos ) ) {
+            if( !here.has_flag( ter_furn_flag::TFLAG_FISHABLE, pos ) ) {
                 return 0;
             }
 
@@ -2659,7 +2658,8 @@ cata::optional<int> iuse::makemound( Character *p, item *it, bool t, const tripo
     }
 
     map &here = get_map();
-    if( here.has_flag( flag_PLOWABLE, pnt ) && !here.has_flag( flag_PLANT, pnt ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_PLOWABLE, pnt ) &&
+        !here.has_flag( ter_furn_flag::TFLAG_PLANT, pnt ) ) {
         p->add_msg_if_player( _( "You start churning up the earth here." ) );
         p->assign_activity( ACT_CHURN, 18000, -1, p->get_item_position( it ) );
         p->activity.placement = here.getabs( pnt );
@@ -2813,7 +2813,7 @@ cata::optional<int> iuse::dig( Character *p, item *it, bool t, const tripoint & 
     const tripoint dig_point = p->pos();
 
     map &here = get_map();
-    const bool can_dig_here = here.has_flag( "DIGGABLE", dig_point ) &&
+    const bool can_dig_here = here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, dig_point ) &&
                               !here.has_furn( dig_point ) &&
                               !here.can_see_trap_at( dig_point, *p ) &&
                               ( here.ter( dig_point ) == t_grave_new || here.i_at( dig_point ).empty() ) &&
@@ -2828,7 +2828,7 @@ cata::optional<int> iuse::dig( Character *p, item *it, bool t, const tripoint & 
             _( "You can't dig a pit in this location.  Ensure it is clear diggable ground with no items or obstacles." ) );
         return cata::nullopt;
     }
-    const bool can_deepen = here.has_flag( "DIGGABLE_CAN_DEEPEN", dig_point );
+    const bool can_deepen = here.has_flag( ter_furn_flag::TFLAG_DIGGABLE_CAN_DEEPEN, dig_point );
     const bool grave = here.ter( dig_point ) == t_grave;
 
     if( !p->crafting_inventory().has_quality( qual_DIG, 2 ) ) {
@@ -2871,6 +2871,9 @@ cata::optional<int> iuse::dig( Character *p, item *it, bool t, const tripoint & 
             p->add_msg_if_player( m_good,
                                   _( "Exhuming a grave is fun now, when there is no one to object." ) );
             p->add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
+        } else if( p->has_trait( trait_NUMB ) ) {
+            p->add_msg_if_player( m_bad, _( "You wonder if you dig up anything usefull." ) );
+            p->add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
         } else if( !p->has_trait( trait_EATDEAD ) &&
                    !p->has_trait( trait_SAPROVORE ) ) {
             p->add_msg_if_player( m_bad, _( "Exhuming this grave is utterly disgusting!" ) );
@@ -2883,7 +2886,7 @@ cata::optional<int> iuse::dig( Character *p, item *it, bool t, const tripoint & 
 
     const std::vector<npc *> helpers = p->get_crafting_helpers();
     for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
-        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
 
     digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it,
@@ -2918,12 +2921,14 @@ cata::optional<int> iuse::dig_channel( Character *p, item *it, bool t, const tri
     tripoint east = dig_point + point_east;
 
     map &here = get_map();
-    const bool can_dig_here = here.has_flag( flag_DIGGABLE, dig_point ) &&
+    const bool can_dig_here = here.has_flag( ter_furn_flag::TFLAG_DIGGABLE, dig_point ) &&
                               !here.has_furn( dig_point ) &&
                               !here.can_see_trap_at( dig_point, *p ) && here.i_at( dig_point ).empty() &&
                               !here.veh_at( dig_point ) &&
-                              ( here.has_flag( flag_CURRENT, north ) ||  here.has_flag( flag_CURRENT, south ) ||
-                                here.has_flag( flag_CURRENT, east ) ||  here.has_flag( flag_CURRENT, west ) );
+                              ( here.has_flag( ter_furn_flag::TFLAG_CURRENT, north ) ||
+                                here.has_flag( ter_furn_flag::TFLAG_CURRENT, south ) ||
+                                here.has_flag( ter_furn_flag::TFLAG_CURRENT, east ) ||
+                                here.has_flag( ter_furn_flag::TFLAG_CURRENT, west ) );
 
     if( !can_dig_here ) {
         p->add_msg_if_player(
@@ -2951,7 +2956,7 @@ cata::optional<int> iuse::dig_channel( Character *p, item *it, bool t, const tri
 
     const std::vector<npc *> helpers = p->get_crafting_helpers();
     for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
-        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
 
     digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts( p, it, false,
@@ -3027,7 +3032,7 @@ cata::optional<int> iuse::fill_pit( Character *p, item *it, bool t, const tripoi
     const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
     moves *= ( 1.0f - ( helpersize / 10.0f ) );
     for( std::size_t i = 0; i < helpersize; i++ ) {
-        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
     p->assign_activity( ACT_FILL_PIT, moves, -1, p->get_item_position( it ) );
     p->activity.placement = pnt;
@@ -3049,7 +3054,7 @@ cata::optional<int> iuse::clear_rubble( Character *p, item *it, bool, const trip
         return cata::nullopt;
     }
     const std::function<bool( const tripoint & )> f = []( const tripoint & pnt ) {
-        return get_map().has_flag( "RUBBLE", pnt );
+        return get_map().has_flag( ter_furn_flag::TFLAG_RUBBLE, pnt );
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
@@ -3068,7 +3073,7 @@ cata::optional<int> iuse::clear_rubble( Character *p, item *it, bool, const trip
     const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
     const int moves = to_moves<int>( 30_seconds ) * ( 1.0f - ( helpersize / 10.0f ) );
     for( std::size_t i = 0; i < helpersize; i++ ) {
-        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
     player_activity act( ACT_CLEAR_RUBBLE, moves / bonus, bonus );
     p->assign_activity( act );
@@ -3329,6 +3334,22 @@ cata::optional<int> iuse::circsaw_on( Character *p, item *it, bool t, const trip
                           15, 7, _( "Your circular saw buzzes." ) );
 }
 
+cata::optional<int> iuse::change_eyes( Character *p, item *, bool, const tripoint & )
+{
+    if( p->is_avatar() ) {
+        p->customize_appearance( customize_appearance_choice::EYES );
+    }
+    return cata::nullopt;
+}
+
+cata::optional<int> iuse::change_skin( Character *p, item *, bool, const tripoint & )
+{
+    if( p->is_avatar() ) {
+        p->customize_appearance( customize_appearance_choice::SKIN );
+    }
+    return cata::nullopt;
+}
+
 cata::optional<int> iuse::jackhammer( Character *p, item *it, bool, const tripoint &pos )
 {
     // use has_enough_charges to check for UPS availability
@@ -3355,8 +3376,8 @@ cata::optional<int> iuse::jackhammer( Character *p, item *it, bool, const tripoi
     }
 
     map &here = get_map();
-    bool mineable_furn = here.has_flag_furn( "MINEABLE", pnt );
-    bool mineable_ter = here.has_flag_ter( "MINEABLE", pnt );
+    bool mineable_furn = here.has_flag_furn( ter_furn_flag::TFLAG_MINEABLE, pnt );
+    bool mineable_ter = here.has_flag_ter( ter_furn_flag::TFLAG_MINEABLE, pnt );
     if( !mineable_furn && !mineable_ter ) {
         p->add_msg_if_player( m_info, _( "You can't drill there." ) );
         return cata::nullopt;
@@ -3376,7 +3397,7 @@ cata::optional<int> iuse::jackhammer( Character *p, item *it, bool, const tripoi
     const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
     moves *= ( 1.0f - ( helpersize / 10.0f ) );
     for( std::size_t i = 0; i < helpersize; i++ ) {
-        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
 
     p->assign_activity( ACT_JACKHAMMER, moves );
@@ -3466,8 +3487,8 @@ cata::optional<int> iuse::pickaxe( Character *p, item *it, bool, const tripoint 
     }
 
     map &here = get_map();
-    bool mineable_furn = here.has_flag_furn( "MINEABLE", pnt );
-    bool mineable_ter = here.has_flag_ter( "MINEABLE", pnt );
+    bool mineable_furn = here.has_flag_furn( ter_furn_flag::TFLAG_MINEABLE, pnt );
+    bool mineable_ter = here.has_flag_ter( ter_furn_flag::TFLAG_MINEABLE, pnt );
     if( !mineable_furn && !mineable_ter ) {
         p->add_msg_if_player( m_info, _( "You can't mine there." ) );
         return cata::nullopt;
@@ -3488,7 +3509,7 @@ cata::optional<int> iuse::pickaxe( Character *p, item *it, bool, const tripoint 
     const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
     moves *= ( 1.0f - ( helpersize / 10.0f ) );
     for( std::size_t i = 0; i < helpersize; i++ ) {
-        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
 
     p->assign_activity( ACT_PICKAXE, moves, -1 );
@@ -3570,7 +3591,7 @@ cata::optional<int> iuse::geiger( Character *p, item *it, bool t, const tripoint
             if( npc *const person_ = creatures.creature_at<npc>( pnt ) ) {
                 npc &person = *person_;
                 p->add_msg_if_player( m_info, _( "%s's radiation level: %d mSv (%d mSv from items)" ),
-                                      person.name, person.get_rad(),
+                                      person.get_name(), person.get_rad(),
                                       person.leak_level( flag_RADIOACTIVE ) );
             }
             break;
@@ -4276,6 +4297,7 @@ cata::optional<int> iuse::mp3_on( Character *p, item *it, bool t, const tripoint
             it->convert( itype_afs_wraitheon_smartphone ).active = false;
         }
         p->mod_moves( -200 );
+        return 0;
     }
     return it->type->charges_to_use();
 }
@@ -4902,7 +4924,7 @@ cata::optional<int> iuse::chop_tree( Character *p, item *it, bool t, const tripo
         if( pnt == p->pos() ) {
             return false;
         }
-        return here.has_flag( "TREE", pnt );
+        return here.has_flag( ter_furn_flag::TFLAG_TREE, pnt );
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
@@ -4922,7 +4944,7 @@ cata::optional<int> iuse::chop_tree( Character *p, item *it, bool t, const tripo
     int moves = chop_moves( p, it );
     const std::vector<npc *> helpers = p->get_crafting_helpers();
     for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
-        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
     p->assign_activity( ACT_CHOP_TREE, moves, -1, p->get_item_position( it ) );
     p->activity.placement = here.getabs( pnt );
@@ -4965,7 +4987,7 @@ cata::optional<int> iuse::chop_logs( Character *p, item *it, bool t, const tripo
     int moves = chop_moves( p, it );
     const std::vector<npc *> helpers = p->get_crafting_helpers();
     for( std::size_t i = 0; i < helpers.size() && i < 3; i++ ) {
-        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
     p->assign_activity( ACT_CHOP_LOGS, moves, -1, p->get_item_position( it ) );
     p->activity.placement = here.getabs( pnt );
@@ -5122,20 +5144,18 @@ cata::optional<int> iuse::boltcutters( Character *p, item *it, bool, const tripo
         p->add_msg_if_player( m_info, _( "You can't do that while mounted." ) );
         return cata::nullopt;
     }
-    const std::set<ter_id> allowed_ter_id {
-        t_chaingate_l,
-        t_chainfence,
-        t_fence_barbed
-    };
+
     map &here = get_map();
     const std::function<bool( const tripoint & )> f =
-    [&allowed_ter_id, &here, p]( const tripoint & pnt ) {
+    [&here, p]( const tripoint & pnt ) {
         if( pnt == p->pos() ) {
             return false;
+        } else if( here.has_furn( pnt ) ) {
+            return here.furn( pnt )->boltcut->valid();
+        } else if( !here.ter( pnt )->is_null() ) {
+            return here.ter( pnt )->boltcut->valid();
         }
-        const ter_id ter = here.ter( pnt );
-        const bool is_allowed = allowed_ter_id.find( ter ) != allowed_ter_id.end();
-        return is_allowed;
+        return false;
     };
 
     const cata::optional<tripoint> pnt_ = choose_adjacent_highlight(
@@ -5166,7 +5186,7 @@ cata::optional<int> iuse::mop( Character *p, item *it, bool, const tripoint & )
     }
     map &here = get_map();
     const std::function<bool( const tripoint & )> f = [&here]( const tripoint & pnt ) {
-        if( !here.has_flag( flag_LIQUIDCONT, pnt ) ) {
+        if( !here.has_flag( ter_furn_flag::TFLAG_LIQUIDCONT, pnt ) ) {
             map_stack items = here.i_at( pnt );
             auto found = std::find_if( items.begin(), items.end(), []( const item & it ) {
                 return it.made_of( phase_id::LIQUID );
@@ -5294,7 +5314,7 @@ static bool heat_item( Character &p )
         return food && !food->has_own_flag( flag_HOT ) &&
                ( !itm->made_of_from_type( phase_id::LIQUID ) ||
                  itm.where() == item_location::type::container ||
-                 get_map().has_flag_furn( flag_LIQUIDCONT, itm.position() ) );
+                 get_map().has_flag_furn( ter_furn_flag::TFLAG_LIQUIDCONT, itm.position() ) );
     }, _( "Heat up what?" ), 1, _( "You don't have any appropriate food to heat up." ) );
 
     item *heat = loc.get_item();
@@ -5471,7 +5491,7 @@ cata::optional<int> iuse::unfold_generic( Character *p, item *it, bool, const tr
     const bool can_float = size( veh->get_avail_parts( "FLOATS" ) ) > 2;
 
     const auto invalid_pos = [&here]( const tripoint & pp, bool can_float ) {
-        return ( here.has_flag_ter( TFLAG_DEEP_WATER, pp ) && !can_float ) ||
+        return ( here.has_flag_ter( ter_furn_flag::TFLAG_DEEP_WATER, pp ) && !can_float ) ||
                here.veh_at( pp ) || here.impassable( pp );
     };
     for( const vpart_reference &vp : veh->get_all_parts() ) {
@@ -6655,7 +6675,8 @@ static std::string colorized_feature_description_at( const tripoint &center_poin
         if( !sign_message.empty() ) {
             furn_str += string_format( _( " with message \"%s\"" ), sign_message );
         }
-        if( !furn->has_flag( "CONTAINER" ) && !furn->has_flag( "SEALED" ) ) {
+        if( !furn->has_flag( ter_furn_flag::TFLAG_CONTAINER ) &&
+            !furn->has_flag( ter_furn_flag::TFLAG_SEALED ) ) {
             const item item = get_top_item_at_point( center_point, min_visible_volume );
             if( !item.is_null() ) {
                 furn_str += string_format( _( " with %s on it" ), colorized_item_name( item ) );
@@ -6688,7 +6709,7 @@ static std::string format_object_pair_no_article( const std::pair<std::string, i
 }
 
 static std::string effects_description_for_creature( Creature *const creature, std::string &pose,
-        const std::string &pronoun_sex )
+        const std::string &pronoun_gender )
 {
     struct ef_con { // effect constraint
         translation status;
@@ -6742,7 +6763,7 @@ static std::string effects_description_for_creature( Creature *const creature, s
         for( const auto &pair : vec_effect_status ) {
             if( creature->get_effect_int( pair.first ) > pair.second.intensity_lower_limit ) {
                 if( !pair.second.status.empty() ) {
-                    figure_effects += pronoun_sex + pair.second.status;
+                    figure_effects += pronoun_gender + pair.second.status;
                 }
                 if( !pair.second.pose.empty() ) {
                     pose = pair.second.pose.translated();
@@ -6752,19 +6773,20 @@ static std::string effects_description_for_creature( Creature *const creature, s
         if( creature->has_effect( effect_sad ) ) {
             int intensity = creature->get_effect_int( effect_sad );
             if( intensity > 500 && intensity <= 950 ) {
-                figure_effects += pronoun_sex + pgettext( "Someone", " looks <color_blue>sad</color>.  " );
+                figure_effects += pronoun_gender + pgettext( "Someone", " looks <color_blue>sad</color>.  " );
             } else if( intensity > 950 ) {
-                figure_effects += pronoun_sex + pgettext( "Someone", " looks <color_blue>depressed</color>.  " );
+                figure_effects += pronoun_gender + pgettext( "Someone", " looks <color_blue>depressed</color>.  " );
             }
         }
         float pain = creature->get_pain() / 10.f;
         if( pain > 3 ) {
-            figure_effects += pronoun_sex + pgettext( "Someone", " is writhing in <color_red>pain</color>.  " );
+            figure_effects += pronoun_gender + pgettext( "Someone",
+                              " is writhing in <color_red>pain</color>.  " );
         }
         if( creature->has_effect( effect_riding ) ) {
             pose = _( "rides" );
             monster *const mon = get_creature_tracker().creature_at<monster>( creature->pos(), false );
-            figure_effects += pronoun_sex + string_format( _( " is riding %s.  " ),
+            figure_effects += pronoun_gender + string_format( _( " is riding %s.  " ),
                               colorize( mon->name(), c_light_blue ) );
         }
         if( creature->has_effect( effect_glowy_led ) ) {
@@ -6988,7 +7010,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
             std::string figure_appearance;
             std::string figure_name;
             std::string pose;
-            std::string pronoun_sex;
+            std::string pronoun_gender;
             std::string figure_effects;
             Creature *creature;
             if( mon && mon->has_effect( effect_ridden ) ) {
@@ -7008,8 +7030,8 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
                 }
                 const std::vector<std::string> vec = guy->short_description_parts();
                 figure_appearance = join( vec, "\n\n" );
-                figure_name = guy->name;
-                pronoun_sex = guy->male ? _( "He" ) : _( "She" );
+                figure_name = guy->get_name();
+                pronoun_gender = guy->male ? _( "He" ) : _( "She" );
                 creature = guy;
                 character_vec.push_back( guy );
             } else {
@@ -7019,12 +7041,12 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
                 pose = _( "stands" );
                 figure_appearance = "\"" + mon->type->get_description() + "\"";
                 figure_name = mon->name();
-                pronoun_sex = pgettext( "Pronoun", "It" );
+                pronoun_gender = pgettext( "Pronoun", "It" );
                 creature = mon;
                 monster_vec.push_back( mon );
             }
 
-            figure_effects = effects_description_for_creature( creature, pose, pronoun_sex );
+            figure_effects = effects_description_for_creature( creature, pose, pronoun_gender );
             description_figures_appearance[ figure_name ] = figure_appearance;
 
             object_names_collection obj_collection = enumerate_objects_around_point( current, 1, aim_point, 2,
@@ -7446,10 +7468,10 @@ cata::optional<int> iuse::camera( Character *p, item *it, bool, const tripoint &
                     }
                 } else if( guy ) {
                     if( trajectory_point == aim_point && guy->is_hallucination() ) {
-                        p->add_msg_if_player( _( "Strange… %s isn't visible on the picture?" ), guy->name );
+                        p->add_msg_if_player( _( "Strange… %s isn't visible on the picture?" ), guy->get_name() );
                     } else if( !aim_bounds.is_point_inside( trajectory_point ) ) {
                         // take a photo of the monster that's in the way
-                        p->add_msg_if_player( m_warning, _( "%s got in the way of your photo." ), guy->name );
+                        p->add_msg_if_player( m_warning, _( "%s got in the way of your photo." ), guy->get_name() );
                         incorrect_focus = true;
                     } else if( trajectory_point != aim_point ) {  // shoot past guy that will be in photo anyway
                         continue;
@@ -7497,7 +7519,7 @@ cata::optional<int> iuse::camera( Character *p, item *it, bool, const tripoint &
                     for( Character * const &character_p : character_vec ) {
                         if( dist < 4 && one_in( dist + 2 ) && !character_p->is_blind() ) {
                             character_p->add_effect( effect_blind, rng( 5_turns, 10_turns ) );
-                            blinded_names.push_back( character_p->name );
+                            blinded_names.push_back( character_p->get_name() );
                         }
                     }
                     if( !blinded_names.empty() ) {
@@ -7635,7 +7657,7 @@ cata::optional<int> iuse::ehandcuffs( Character *p, item *it, bool t, const trip
 
     if( t ) {
 
-        if( get_map().has_flag( "SWIMMABLE", pos.xy() ) ) {
+        if( get_map().has_flag( ter_furn_flag::TFLAG_SWIMMABLE, pos.xy() ) ) {
             it->unset_flag( flag_NO_UNWIELD );
             it->ammo_unset();
             it->active = false;
@@ -9449,12 +9471,12 @@ cata::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_i
         return location->has_flag( flag_FILTHY ) && ( ( soft_items && location->is_soft() ) ||
                 ( hard_items && !location->is_soft() ) );
     } );
-    auto make_raw_stats = [available_water, available_cleanser](
-                              const std::map<const item_location *, int> &locs
+    auto make_raw_stats = [available_water,
+                           available_cleanser]( const std::vector<std::pair<item_location, int>> &locs
     ) {
         units::volume total_volume = 0_ml;
         for( const auto &pair : locs ) {
-            total_volume += ( *pair.first )->volume( false, true );
+            total_volume += pair.first->volume( false, true );
         }
         washing_requirements required = washing_requirements_for_volume( total_volume );
         auto to_string = []( int val ) -> std::string {
@@ -9510,7 +9532,7 @@ cata::optional<int> iuse::wash_items( Character *p, bool soft_items, bool hard_i
     const std::size_t helpersize = p->get_num_crafting_helpers( 3 );
     required.time *= ( 1.0f - ( helpersize / 10.0f ) );
     for( std::size_t i = 0; i < helpersize; i++ ) {
-        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->name );
+        add_msg( m_info, _( "%s helps with this task…" ), helpers[i]->get_name() );
     }
     // Assign the activity values.
     p->assign_activity( ACT_WASH, required.time );
@@ -9621,7 +9643,7 @@ cata::optional<int> iuse::craft( Character *p, item *it, bool, const tripoint & 
     }
     const recipe &rec = it->get_making();
     const inventory &inv = p->crafting_inventory();
-    if( p->has_recipe( &rec, inv, p->get_crafting_helpers() ) == -1 ) {
+    if( !p->has_recipe( &rec, inv, p->get_crafting_helpers() ) ) {
         p->add_msg_player_or_npc(
             _( "You don't know the recipe for the %s and can't continue crafting." ),
             _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),

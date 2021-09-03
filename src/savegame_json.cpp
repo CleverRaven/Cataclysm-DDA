@@ -33,6 +33,7 @@
 
 #include "active_item_cache.h"
 #include "activity_actor.h"
+#include "activity_actor_definitions.h"
 #include "activity_type.h"
 #include "assign.h"
 #include "auto_pickup.h"
@@ -334,13 +335,15 @@ void player_activity::deserialize( JsonIn &jsin )
     // this may cause inconvenience but should avoid any lasting damage to npcs
     if( is_obsolete || ( has_actor && ( data.has_null( "actor" ) || !data.has_member( "actor" ) ) ) ) {
         type = activity_id( "ACT_MIGRATION_CANCEL" );
+        actor = std::make_unique<migration_cancel_activity_actor>();
+    } else {
+        data.read( "actor", actor );
     }
 
     if( !data.read( "position", tmppos ) ) {
         tmppos = INT_MIN;  // If loading a save before position existed, hope.
     }
 
-    data.read( "actor", actor );
     data.read( "moves_total", moves_total );
     data.read( "moves_left", moves_left );
     data.read( "interruptable", interruptable );
@@ -580,6 +583,7 @@ void Character::load( const JsonObject &data )
     data.read( "int_bonus", int_bonus );
     data.read( "omt_path", omt_path );
 
+    data.read( "play_name", play_name );
     data.read( "base_age", init_age );
     data.read( "base_height", init_height );
     if( !data.read( "blood_type", my_blood_type ) ||
@@ -682,7 +686,7 @@ void Character::load( const JsonObject &data )
             it = my_traits.erase( it );
             add_proficiency( proficiency_id( "prof_parkour" ) );
         } else {
-            debugmsg( "character %s has invalid trait %s, it will be ignored", name, tid.c_str() );
+            debugmsg( "character %s has invalid trait %s, it will be ignored", get_name(), tid.c_str() );
             my_traits.erase( it++ );
         }
     }
@@ -700,7 +704,7 @@ void Character::load( const JsonObject &data )
             it = my_mutations.erase( it );
             add_proficiency( proficiency_id( "prof_parkour" ) );
         } else {
-            debugmsg( "character %s has invalid mutation %s, it will be ignored", name, mid.c_str() );
+            debugmsg( "character %s has invalid mutation %s, it will be ignored", get_name(), mid.c_str() );
             it = my_mutations.erase( it );
         }
     }
@@ -1041,6 +1045,8 @@ void Character::store( JsonOut &json ) const
     json.member( "dex_bonus", dex_bonus );
     json.member( "per_bonus", per_bonus );
     json.member( "int_bonus", int_bonus );
+
+    json.member( "play_name", play_name );
 
     json.member( "base_age", init_age );
     json.member( "base_height", init_height );
@@ -1784,10 +1790,6 @@ void npc::load( const JsonObject &data )
         submap_coords = old_coords + point( posx() / SEEX, posy() / SEEY );
     }
 
-    if( !data.read( "mapz", position.z ) ) {
-        data.read( "omz", position.z ); // omz/mapz got moved to position.z
-    }
-
     if( data.has_member( "plx" ) ) {
         last_player_seen_pos.emplace();
         data.read( "plx", last_player_seen_pos->x );
@@ -2120,7 +2122,7 @@ void monster::load( const JsonObject &data )
     data.read( "wandx", wander_pos.x );
     data.read( "wandy", wander_pos.y );
     if( data.read( "wandz", wander_pos.z ) ) {
-        wander_pos.z = position.z;
+        wander_pos.z = posz();
     }
     if( data.has_int( "next_patrol_point" ) ) {
         data.read( "next_patrol_point", next_patrol_point );
@@ -3371,9 +3373,9 @@ void faction::serialize( JsonOut &json ) const
 
 void Creature::store( JsonOut &jsout ) const
 {
-    jsout.member( "posx", position.x );
-    jsout.member( "posy", position.y );
-    jsout.member( "posz", position.z );
+    jsout.member( "posx", posx() );
+    jsout.member( "posy", posy() );
+    jsout.member( "posz", posz() );
 
     jsout.member( "moves", moves );
     jsout.member( "pain", pain );
@@ -3422,13 +3424,15 @@ void Creature::store( JsonOut &jsout ) const
 void Creature::load( const JsonObject &jsin )
 {
     jsin.allow_omitted_members();
-    if( !jsin.read( "posx", position.x ) ) {  // uh-oh.
+    tripoint pos;
+    if( !jsin.read( "posx", pos.x ) ) {  // uh-oh.
         debugmsg( "Bad Creature JSON: no 'posx'?" );
     }
-    jsin.read( "posy", position.y );
-    if( !jsin.read( "posz", position.z ) && g != nullptr ) {
-        position.z = get_map().get_abs_sub().z;
+    jsin.read( "posy", pos.y );
+    if( !jsin.read( "posz", pos.z ) && g != nullptr ) {
+        pos.z = get_map().get_abs_sub().z;
     }
+    set_pos_only( pos );
     jsin.read( "moves", moves );
     jsin.read( "pain", pain );
 

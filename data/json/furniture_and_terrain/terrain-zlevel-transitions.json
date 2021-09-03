@@ -80,7 +80,7 @@
     "symbol": "<",
     "color": "light_red",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "GOES_UP", "PLACE_ITEM" ],
+    "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "FLAMMABLE_ASH", "GOES_UP", "PLACE_ITEM" ],
     "deconstruct": {
       "deconstruct_above": true,
       "ter_set": "t_floor",
@@ -123,7 +123,7 @@
     "symbol": "<",
     "color": "yellow",
     "move_cost": 2,
-    "flags": [ "TRANSPARENT", "GOES_UP", "INDOORS", "PLACE_ITEM" ]
+    "flags": [ "SUPPORTS_ROOF", "TRANSPARENT", "GOES_UP", "INDOORS", "PLACE_ITEM" ]
   },
   {
     "type": "terrain",
@@ -334,7 +334,7 @@
     "symbol": "<",
     "color": "dark_gray_white",
     "move_cost": 4,
-    "flags": [ "TRANSPARENT", "BASHABLE", "FLAMMABLE", "PLACE_ITEM", "RAMP", "SEEN_FROM_ABOVE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM", "RAMP", "SEEN_FROM_ABOVE" ],
     "bash": {
       "str_min": 12,
       "str_max": 50,
@@ -356,7 +356,7 @@
     "symbol": "<",
     "color": "black_white",
     "move_cost": 0,
-    "flags": [ "BASHABLE", "FLAMMABLE", "PLACE_ITEM", "RAMP", "RAMP_END", "SEEN_FROM_ABOVE" ],
+    "flags": [ "FLAMMABLE", "PLACE_ITEM", "RAMP", "RAMP_END", "SEEN_FROM_ABOVE" ],
     "bash": {
       "str_min": 20,
       "str_max": 50,

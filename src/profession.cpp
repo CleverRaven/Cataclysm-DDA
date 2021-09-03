@@ -93,13 +93,13 @@ void profession::load_profession( const JsonObject &jo, const std::string &src )
 class skilllevel_reader : public generic_typed_reader<skilllevel_reader>
 {
     public:
-        std::pair<skill_id, int> get_next( JsonIn &jin ) const {
-            JsonObject jo = jin.get_object();
+        std::pair<skill_id, int> get_next( JsonValue &jv ) const {
+            JsonObject jo = jv.get_object();
             return std::pair<skill_id, int>( skill_id( jo.get_string( "name" ) ), jo.get_int( "level" ) );
         }
         template<typename C>
-        void erase_next( JsonIn &jin, C &container ) const {
-            const skill_id id = skill_id( jin.get_string() );
+        void erase_next( std::string &&id_str, C &container ) const {
+            const skill_id id = skill_id( std::move( id_str ) );
             reader_detail::handler<C>().erase_if( container, [&id]( const std::pair<skill_id, int> &e ) {
                 return e.first == id;
             } );
@@ -109,13 +109,13 @@ class skilllevel_reader : public generic_typed_reader<skilllevel_reader>
 class addiction_reader : public generic_typed_reader<addiction_reader>
 {
     public:
-        addiction get_next( JsonIn &jin ) const {
-            JsonObject jo = jin.get_object();
+        addiction get_next( JsonValue &jv ) const {
+            JsonObject jo = jv.get_object();
             return addiction( addiction_type( jo.get_string( "type" ) ), jo.get_int( "intensity" ) );
         }
         template<typename C>
-        void erase_next( JsonIn &jin, C &container ) const {
-            const add_type type = addiction_type( jin.get_string() );
+        void erase_next( std::string &&type_str, C &container ) const {
+            const add_type type = addiction_type( type_str );
             reader_detail::handler<C>().erase_if( container, [&type]( const addiction & e ) {
                 return e.type == type;
             } );
@@ -125,20 +125,19 @@ class addiction_reader : public generic_typed_reader<addiction_reader>
 class item_reader : public generic_typed_reader<item_reader>
 {
     public:
-        profession::itypedec get_next( JsonIn &jin ) const {
+        profession::itypedec get_next( JsonValue &jv ) const {
             // either a plain item type id string, or an array with item type id
             // and as second entry the item description.
-            if( jin.test_string() ) {
-                return profession::itypedec( jin.get_string() );
+            if( jv.test_string() ) {
+                return profession::itypedec( jv.get_string() );
             }
-            JsonArray jarr = jin.get_array();
+            JsonArray jarr = jv.get_array();
             const auto id = jarr.get_string( 0 );
             const snippet_id snippet( jarr.get_string( 1 ) );
             return profession::itypedec( id, snippet );
         }
         template<typename C>
-        void erase_next( JsonIn &jin, C &container ) const {
-            const std::string id = jin.get_string();
+        void erase_next( std::string &&id, C &container ) const {
             reader_detail::handler<C>().erase_if( container, [&id]( const profession::itypedec & e ) {
                 return e.type_id.str() == id;
             } );
@@ -226,11 +225,12 @@ void profession::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "skills", _starting_skills, skilllevel_reader {} );
     optional( jo, was_loaded, "addictions", _starting_addictions, addiction_reader {} );
     // TODO: use string_id<bionic_type> or so
-    optional( jo, was_loaded, "CBMs", _starting_CBMs, auto_flags_reader<bionic_id> {} );
+    optional( jo, was_loaded, "CBMs", _starting_CBMs, string_id_reader<::bionic_data> {} );
     optional( jo, was_loaded, "proficiencies", _starting_proficiencies );
     // TODO: use string_id<mutation_branch> or so
-    optional( jo, was_loaded, "traits", _starting_traits, auto_flags_reader<trait_id> {} );
-    optional( jo, was_loaded, "forbidden_traits", _forbidden_traits, auto_flags_reader<trait_id> {} );
+    optional( jo, was_loaded, "traits", _starting_traits, string_id_reader<::mutation_branch> {} );
+    optional( jo, was_loaded, "forbidden_traits", _forbidden_traits,
+              string_id_reader<::mutation_branch> {} );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
 
     // Flag which denotes if a profession is a hobby

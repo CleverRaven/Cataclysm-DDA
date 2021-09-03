@@ -104,6 +104,7 @@ static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
 static const activity_id ACT_WAIT( "ACT_WAIT" );
 static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
+static const activity_id ACT_MULTIPLE_DIS( "ACT_MULTIPLE_DIS" );
 
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_incorporeal( "incorporeal" );
@@ -126,8 +127,6 @@ static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
 
 static const proficiency_id proficiency_prof_helicopter_pilot( "prof_helicopter_pilot" );
-
-static const std::string flag_LOCKED( "LOCKED" );
 
 static const json_character_flag json_flag_ALARMCLOCK( "ALARMCLOCK" );
 
@@ -555,7 +554,7 @@ static void open()
     } else {
         const ter_str_id tid = here.ter( openp ).id();
 
-        if( here.has_flag( flag_LOCKED, openp ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_LOCKED, openp ) ) {
             add_msg( m_info, _( "The door is locked!" ) );
             return;
         } else if( tid.obj().close ) {
@@ -639,7 +638,7 @@ static void haul()
     } else {
         if( here.veh_at( player_character.pos() ) ) {
             add_msg( m_info, _( "You cannot haul inside vehicles." ) );
-        } else if( here.has_flag( TFLAG_DEEP_WATER, player_character.pos() ) ) {
+        } else if( here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, player_character.pos() ) ) {
             add_msg( m_info, _( "You cannot haul while in deep water." ) );
         } else if( !here.can_put_items( player_character.pos() ) ) {
             add_msg( m_info, _( "You cannot haul items here." ) );
@@ -1137,7 +1136,8 @@ static void loot()
         Multideconvehicle = 1024,
         Multirepairvehicle = 2048,
         MultiButchery = 4096,
-        MultiMining = 8192
+        MultiMining = 8192,
+        MultiDis = 16384
     };
 
     Character &player_character = get_player_character();
@@ -1170,6 +1170,8 @@ static void loot()
     flags |= g->check_near_zone( zone_type_id( "LOOT_CORPSE" ),
                                  player_character.pos() ) ? MultiButchery : 0;
     flags |= g->check_near_zone( zone_type_id( "MINING" ), player_character.pos() ) ? MultiMining : 0;
+    flags |= g->check_near_zone( zone_type_id( "zone_disassemble" ),
+                                 player_character.pos() ) ? MultiDis : 0;
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
         add_msg( m_info, _( "Compatible zones are %s and %s" ),
@@ -1225,6 +1227,11 @@ static void loot()
         menu.addentry_desc( MultiMining, true, 'M', _( "Mine Area" ),
                             _( "Auto-mine anything in mining zone - auto-fetch tools." ) );
     }
+    if( flags & MultiDis ) {
+        menu.addentry_desc( MultiDis, true, 'D', _( "Disassemble items" ),
+                            _( "Auto-disassemble anything in disassembly zone - auto-fetch tools." ) );
+
+    }
 
     menu.query();
     flags = ( menu.ret >= 0 ) ? menu.ret : None;
@@ -1262,6 +1269,9 @@ static void loot()
             break;
         case MultiMining:
             player_character.assign_activity( ACT_MULTIPLE_MINE );
+            break;
+        case MultiDis:
+            player_character.assign_activity( ACT_MULTIPLE_DIS );
             break;
         default:
             debugmsg( "Unsupported flag" );
@@ -2350,7 +2360,7 @@ bool game::do_regular_action( action_id &act, avatar &player_character,
             return false;
 
         case ACTION_PL_INFO:
-            player_character.disp_info();
+            player_character.disp_info( true );
             break;
 
         case ACTION_MAP:

@@ -44,14 +44,6 @@ class viewer;
 
 static constexpr int DEFAULT_TILESET_ZOOM = 16;
 
-static const std::string SAVE_MASTER( "master.gsav" );
-static const std::string SAVE_ARTIFACTS( "artifacts.gsav" );
-static const std::string SAVE_EXTENSION( ".sav" );
-static const std::string SAVE_EXTENSION_MAP_MEMORY( ".mm" );
-static const std::string SAVE_EXTENSION_LOG( ".log" );
-static const std::string SAVE_EXTENSION_WEATHER( ".weather" );
-static const std::string SAVE_EXTENSION_SHORTCUTS( ".shortcuts" );
-
 // The reference to the one and only game instance.
 class game;
 
@@ -163,7 +155,6 @@ class game
         friend creature_tracker &get_creature_tracker();
         friend Character &get_player_character();
         friend avatar &get_avatar();
-        friend location &get_player_location();
         friend viewer &get_player_view();
         friend weather_manager &get_weather();
         friend const scenario *get_scenario();

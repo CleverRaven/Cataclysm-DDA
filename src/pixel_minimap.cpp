@@ -22,7 +22,6 @@
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
-#include "game.h"
 #include "game_constants.h"
 #include "int_id.h"
 #include "lightmap.h"
@@ -35,6 +34,10 @@
 #include "sdl_utils.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+
+class game;
+// NOLINTNEXTLINE(cata-static-declarations)
+extern std::unique_ptr<game> g;
 
 namespace
 {

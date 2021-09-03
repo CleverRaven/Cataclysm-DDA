@@ -10,7 +10,6 @@
 #include "creature_tracker.h"
 #include "damage.h"
 #include "dispersion.h"
-#include "game.h"
 #include "item.h"
 #include "item_pocket.h"
 #include "itype.h"

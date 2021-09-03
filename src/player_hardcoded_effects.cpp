@@ -203,7 +203,7 @@ static void eff_fun_fungus( Character &u, effect &it )
 
                 u.moves = -500;
                 map &here = get_map();
-                fungal_effects fe( *g, here );
+                fungal_effects fe;
                 for( const tripoint &sporep : here.points_in_radius( u.pos(), 1 ) ) {
                     if( sporep == u.pos() ) {
                         continue;
@@ -962,7 +962,7 @@ static void eff_fun_sleep( Character &u, effect &it )
         }
         if( u.has_trait( trait_M_SKIN3 ) ) {
             // Spores happen!
-            if( here.has_flag_ter_or_furn( "FUNGUS", u.pos() ) ) {
+            if( here.has_flag_ter_or_furn( ter_furn_flag::TFLAG_FUNGUS, u.pos() ) ) {
                 if( u.get_fatigue() >= 0 ) {
                     u.mod_fatigue( -5 ); // Local guides need less sleep on fungal soil
                 }
@@ -1096,7 +1096,7 @@ static void eff_fun_sleep( Character &u, effect &it )
                     if( mp == u.pos() ) {
                         continue;
                     }
-                    if( here.has_flag( "FLAT", mp ) &&
+                    if( here.has_flag( ter_furn_flag::TFLAG_FLAT, mp ) &&
                         here.pl_sees( mp, 2 ) ) {
                         g->spawn_hallucination( mp );
                         if( ++count > max_count ) {
@@ -1211,7 +1211,7 @@ void Character::hardcoded_effects( effect &it )
                 player_character.cancel_activity();
             } else {
                 //~ 1$s is NPC name, 2$s is bodypart in accusative.
-                add_msg_if_player_sees( pos(), _( "%1$s starts scratching their %2$s!" ), name,
+                add_msg_if_player_sees( pos(), _( "%1$s starts scratching their %2$s!" ), get_name(),
                                         body_part_name_accusative( bp ) );
             }
             moves -= 150;

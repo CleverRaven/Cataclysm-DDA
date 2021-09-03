@@ -1343,7 +1343,7 @@ void spell_effect::emit( const spell &sp, Creature &caster, const tripoint &targ
 void spell_effect::fungalize( const spell &sp, Creature &caster, const tripoint &target )
 {
     const std::set<tripoint> area = spell_effect_area( sp, target, caster );
-    fungal_effects fe( *g, get_map() );
+    fungal_effects fe;
     for( const tripoint &aoe : area ) {
         fe.fungalize( aoe, &caster, sp.damage() / 10000.0 );
     }

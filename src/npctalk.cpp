@@ -259,7 +259,7 @@ static void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
     while( !done ) {
         int override_count = 0;
         std::string output_string = string_format( _( "%s currently has these temporary orders:" ),
-                                    guy->name );
+                                    guy->get_name() );
         for( const auto &rule : ally_rule_strs ) {
             if( guy->rules.has_override_enable( rule.second.rule ) ) {
                 override_count++;
@@ -476,13 +476,13 @@ void game::chat()
     }
     if( !guards.empty() ) {
         nmenu.addentry( NPC_CHAT_FOLLOW, true, 'f', guard_count == 1 ?
-                        string_format( _( "Tell %s to follow" ), guards.front()->name ) :
+                        string_format( _( "Tell %s to follow" ), guards.front()->get_name() ) :
                         _( "Tell someone to follow…" )
                       );
     }
     if( !followers.empty() ) {
         nmenu.addentry( NPC_CHAT_GUARD, true, 'g', follower_count == 1 ?
-                        string_format( _( "Tell %s to guard" ), followers.front()->name ) :
+                        string_format( _( "Tell %s to guard" ), followers.front()->get_name() ) :
                         _( "Tell someone to guard…" )
                       );
         nmenu.addentry( NPC_CHAT_AWAKE, true, 'w', _( "Tell everyone on your team to wake up" ) );
@@ -541,7 +541,7 @@ void game::chat()
                 yell_msg = _( "Everyone guard here!" );
             } else {
                 talk_function::assign_guard( *followers[npcselect] );
-                yell_msg = string_format( _( "Guard here, %s!" ), followers[npcselect]->name );
+                yell_msg = string_format( _( "Guard here, %s!" ), followers[npcselect]->get_name() );
             }
             break;
         }
@@ -557,7 +557,7 @@ void game::chat()
                 yell_msg = _( "Everyone follow me!" );
             } else {
                 talk_function::stop_guard( *guards[npcselect] );
-                yell_msg = string_format( _( "Follow me, %s!" ), guards[npcselect]->name );
+                yell_msg = string_format( _( "Follow me, %s!" ), guards[npcselect]->get_name() );
             }
             break;
         }
@@ -656,11 +656,11 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
     // but only for bantering purposes, not for investigating.
     if( spriority < sounds::sound_t::alarm ) {
         if( player_ally ) {
-            add_msg_debug( debugmode::DF_NPC, "Allied NPC ignored same faction %s", name );
+            add_msg_debug( debugmode::DF_NPC, "Allied NPC ignored same faction %s", get_name() );
             return;
         }
         if( npc_ally ) {
-            add_msg_debug( debugmode::DF_NPC, "NPC ignored same faction %s", name );
+            add_msg_debug( debugmode::DF_NPC, "NPC ignored same faction %s", get_name() );
             return;
         }
     }
@@ -668,7 +668,8 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
     // and listener is friendly and sound source is combat or alert only.
     if( spriority < sounds::sound_t::alarm && player_character.sees( spos ) ) {
         if( is_player_ally() ) {
-            add_msg_debug( debugmode::DF_NPC, "NPC %s ignored low priority noise that player can see", name );
+            add_msg_debug( debugmode::DF_NPC, "NPC %s ignored low priority noise that player can see",
+                           get_name() );
             return;
             // discount if sound source is player, or seen by player,
             // listener is neutral and sound type is worth investigating.
@@ -708,7 +709,8 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
                 }
             }
             if( should_check ) {
-                add_msg_debug( debugmode::DF_NPC, "%s added noise at pos %d:%d", name, s_abs_pos.x, s_abs_pos.y );
+                add_msg_debug( debugmode::DF_NPC, "%s added noise at pos %d:%d", get_name(), s_abs_pos.x,
+                               s_abs_pos.y );
                 dangerous_sound temp_sound;
                 temp_sound.abs_pos = s_abs_pos;
                 temp_sound.volume = heard_volume;
@@ -751,7 +753,7 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool text_only, bool ra
     // Main dialogue loop
     do {
         d.actor( true )->update_missions( d.missions_assigned );
-        const talk_topic next = d.opt( d_win, name, d.topic_stack.back() );
+        const talk_topic next = d.opt( d_win, get_name(), d.topic_stack.back() );
         if( next.id == "TALK_NONE" ) {
             int cat = topic_category( d.topic_stack.back() );
             do {
@@ -774,7 +776,7 @@ void avatar::talk_to( std::unique_ptr<talker> talk_with, bool text_only, bool ra
         return;
     }
 
-    if( !d.actor( true )->has_effect( effect_under_operation ) ) {
+    if( !d.actor( true )->has_effect( effect_under_operation, bodypart_str_id::NULL_ID() ) ) {
         g->cancel_activity_or_ignore_query( distraction_type::talked_to,
                                             string_format( _( "%s talked to you." ),
                                                     d.actor( true )->disp_name() ) );
@@ -1684,29 +1686,28 @@ void talk_effect_fun_t::set_add_effect( const JsonObject &jo, const std::string 
     std::string new_effect = jo.get_string( member );
     bool permanent = false;
     bool force = false;
-    time_duration duration = 1000_turns;
+    duration_or_var dov_duration;
     int_or_var iov_intensity;
     if( jo.has_string( "duration" ) ) {
         const std::string dur_string = jo.get_string( "duration" );
         if( dur_string == "PERMANENT" ) {
             permanent = true;
-        } else if( !dur_string.empty() && std::stoi( dur_string ) > 0 &&
-                   dur_string.find_first_not_of( "0123456789" ) == std::string::npos ) {
-            duration = time_duration::from_turns( std::stoi( dur_string ) );
+            dov_duration = get_duration_or_var( jo, "", false, 0_turns );
         } else {
-            mandatory( jo, false, "duration", duration );
+            dov_duration = get_duration_or_var( jo, "duration", false, 1000_turns );
         }
     } else {
-        duration = time_duration::from_turns( jo.get_int( "duration" ) );
+        dov_duration = get_duration_or_var( jo, "duration", true );
     }
-    iov_intensity = get_variable_or_int( jo, "intensity", false, 0 );
+    iov_intensity = get_int_or_var( jo, "intensity", false, 0 );
     if( jo.has_bool( "force" ) ) {
         force = jo.get_bool( "force" );
     }
     std::string target = jo.get_string( "target_part", "bp_null" );
-    function = [is_npc, new_effect, duration, target, permanent, force,
+    function = [is_npc, new_effect, dov_duration, target, permanent, force,
             iov_intensity]( const dialogue & d ) {
-        d.actor( is_npc )->add_effect( efftype_id( new_effect ), duration, target, permanent, force,
+        d.actor( is_npc )->add_effect( efftype_id( new_effect ), dov_duration.evaluate( d.actor( is_npc ) ),
+                                       target, permanent, force,
                                        iov_intensity.evaluate( d.actor( is_npc ) ) );
     };
 }
@@ -1772,7 +1773,7 @@ void talk_effect_fun_t::set_adjust_var( const JsonObject &jo, const std::string 
                                         bool is_npc )
 {
     const std::string var_name = get_talk_varname( jo, member, false );
-    int_or_var iov = get_variable_or_int( jo, "adjustment" );
+    int_or_var iov = get_int_or_var( jo, "adjustment" );
     function = [is_npc, var_name, iov]( const dialogue & d ) {
         int adjusted_value = iov.evaluate( d.actor( is_npc ) );
 
@@ -2004,10 +2005,12 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
 
     function = [target_params, update_ids]( const dialogue & d ) {
         mission_target_params update_params = target_params;
-        update_params.guy = d.actor( true )->get_npc();
+        if( d.has_beta ) {
+            update_params.guy = d.actor( true )->get_npc();
+        }
         const tripoint_abs_omt omt_pos = mission_util::get_om_terrain_pos( update_params );
         for( const std::string &mapgen_update_id : update_ids ) {
-            run_mapgen_update_func( mapgen_update_id, omt_pos, d.actor( true )->selected_mission() );
+            run_mapgen_update_func( mapgen_update_id, omt_pos, d.actor( d.has_beta )->selected_mission() );
         }
     };
 }
@@ -2192,7 +2195,7 @@ void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &me
 void talk_effect_fun_t::set_mod_pain( const JsonObject &jo, const std::string &member,
                                       bool is_npc )
 {
-    int_or_var iov = get_variable_or_int( jo, member );
+    int_or_var iov = get_int_or_var( jo, member );
     function = [is_npc, iov]( const dialogue & d ) {
         d.actor( is_npc )->mod_pain( iov.evaluate( d.actor( is_npc ) ) );
     };
@@ -2201,7 +2204,7 @@ void talk_effect_fun_t::set_mod_pain( const JsonObject &jo, const std::string &m
 void talk_effect_fun_t::set_add_wet( const JsonObject &jo, const std::string &member,
                                      bool is_npc )
 {
-    int_or_var iov = get_variable_or_int( jo, member );
+    int_or_var iov = get_int_or_var( jo, member );
     function = [is_npc, iov]( const dialogue & d ) {
         Character *target = d.actor( is_npc )->get_character();
         if( target ) {
@@ -2253,8 +2256,8 @@ void talk_effect_fun_t::set_add_power( const JsonObject &jo, const std::string &
 void talk_effect_fun_t::set_mod_healthy( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    int_or_var iov_amount = get_variable_or_int( jo, member );
-    int_or_var iov_cap = get_variable_or_int( jo, "cap" );
+    int_or_var iov_amount = get_int_or_var( jo, member );
+    int_or_var iov_cap = get_int_or_var( jo, "cap" );
 
     function = [is_npc, iov_amount, iov_cap]( const dialogue & d ) {
         d.actor( is_npc )->mod_healthy_mod( iov_amount.evaluate( d.actor( is_npc ) ),
@@ -2626,7 +2629,7 @@ void talk_effect_fun_t::set_assign_mission( const JsonObject &jo, const std::str
 void talk_effect_fun_t::set_mod_fatigue( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    int_or_var iov = get_variable_or_int( jo, member );
+    int_or_var iov = get_int_or_var( jo, member );
     function = [is_npc, iov]( const dialogue & d ) {
         d.actor( is_npc )->mod_fatigue( iov.evaluate( d.actor( is_npc ) ) );
     };
@@ -2683,16 +2686,14 @@ void talk_effect_fun_t::set_queue_effect_on_condition( const JsonObject &jo,
     for( JsonValue jv : jo.get_array( member ) ) {
         eocs.push_back( effect_on_conditions::load_inline_eoc( jv, "" ) );
     }
-    time_duration time_in_future_min;
-    time_duration time_in_future_max;
-    optional( jo, false, "time_in_future_min", time_in_future_min, 0_seconds );
-    optional( jo, false, "time_in_future_max", time_in_future_max, 0_seconds );
-    if( time_in_future_max < time_in_future_min ) {
-        jo.throw_error( "time_in_future_max cannot be smaller than time_in_future_min." );
-    }
-    function = [time_in_future_min, time_in_future_max, eocs]( const dialogue & d ) {
-        if( time_in_future_max > 0_seconds ) {
-            time_duration time_in_future = rng( time_in_future_min, time_in_future_max );
+    duration_or_var dov_time_in_future_min = get_duration_or_var( jo, "time_in_future_min", false,
+            0_seconds );
+    duration_or_var dov_time_in_future_max = get_duration_or_var( jo, "time_in_future_max", false,
+            0_seconds );
+    function = [dov_time_in_future_min, dov_time_in_future_max, eocs]( const dialogue & d ) {
+        time_duration max = dov_time_in_future_max.evaluate( d.actor( false ) );
+        if( max > 0_seconds ) {
+            time_duration time_in_future = rng( dov_time_in_future_min.evaluate( d.actor( false ) ), max );
             for( const effect_on_condition_id &eoc : eocs ) {
                 if( eoc->activate_only ) {
                     effect_on_conditions::queue_effect_on_condition( time_in_future, eoc );
@@ -2746,17 +2747,16 @@ void talk_effect_fun_t::set_add_morale( const JsonObject &jo, const std::string 
                                         bool is_npc )
 {
     std::string new_type = jo.get_string( member );
-    int_or_var iov_bonus = get_variable_or_int( jo, "bonus" );
-    int_or_var iov_max_bonus = get_variable_or_int( jo, "max_bonus" );
-    time_duration duration;
-    time_duration decay_start;
-    optional( jo, "false", "duration", duration, 1_hours );
-    optional( jo, "false", "decay_start", decay_start, 30_minutes );
+    int_or_var iov_bonus = get_int_or_var( jo, "bonus" );
+    int_or_var iov_max_bonus = get_int_or_var( jo, "max_bonus" );
+    duration_or_var dov_duration = get_duration_or_var( jo, "duration", false, 1_hours );
+    duration_or_var dov_decay_start = get_duration_or_var( jo, "decay_start", false, 30_minutes );
     const bool capped = jo.get_bool( "capped", false );
-    function = [is_npc, new_type, iov_bonus, iov_max_bonus, duration, decay_start,
+    function = [is_npc, new_type, iov_bonus, iov_max_bonus, dov_duration, dov_decay_start,
             capped]( const dialogue & d ) {
         d.actor( is_npc )->add_morale( morale_type( new_type ), iov_bonus.evaluate( d.actor( is_npc ) ),
-                                       iov_max_bonus.evaluate( d.actor( is_npc ) ), duration, decay_start,
+                                       iov_max_bonus.evaluate( d.actor( is_npc ) ), dov_duration.evaluate( d.actor( is_npc ) ),
+                                       dov_decay_start.evaluate( d.actor( is_npc ) ),
                                        capped );
     };
 }
@@ -2773,7 +2773,7 @@ void talk_effect_fun_t::set_lose_morale( const JsonObject &jo, const std::string
 void talk_effect_fun_t::set_mod_focus( const JsonObject &jo, const std::string &member,
                                        bool is_npc )
 {
-    int_or_var iov = get_variable_or_int( jo, member );
+    int_or_var iov = get_int_or_var( jo, member );
     function = [is_npc, iov]( const dialogue & d ) {
         d.actor( is_npc )->mod_focus( iov.evaluate( d.actor( is_npc ) ) );
     };
@@ -2781,14 +2781,13 @@ void talk_effect_fun_t::set_mod_focus( const JsonObject &jo, const std::string &
 
 void talk_effect_fun_t::set_custom_light_level( const JsonObject &jo, const std::string &member )
 {
-    int_or_var iov = get_variable_or_int( jo, member, true );
-    time_duration length_min;
-    time_duration length_max;
-    optional( jo, false, "length_min", length_min, 0_seconds );
-    optional( jo, false, "length_max", length_max, 0_seconds );
-    function = [length_min, length_max, iov]( const dialogue & d ) {
-        get_timed_events().add( timed_event_type::CUSTOM_LIGHT_LEVEL, calendar::turn + rng( length_min,
-                                length_max ) +
+    int_or_var iov = get_int_or_var( jo, member, true );
+    duration_or_var dov_length_min = get_duration_or_var( jo, "length_min", false, 0_seconds );
+    duration_or_var dov_length_max = get_duration_or_var( jo, "length_max", false, 0_seconds );
+    function = [dov_length_min, dov_length_max, iov]( const dialogue & d ) {
+        get_timed_events().add( timed_event_type::CUSTOM_LIGHT_LEVEL,
+                                calendar::turn + rng( dov_length_min.evaluate( d.actor( false ) ),
+                                        dov_length_max.evaluate( d.actor( false ) ) ) +
                                 1_seconds/*We add a second here because this will get ticked on the turn its applied before it has an effect*/,
                                 -1, iov.evaluate( d.actor( false ) ) );
     };
@@ -2805,23 +2804,19 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
     } else {
         new_monster = mtype_id( jo.get_string( member ) );
     }
-    int_or_var iov_target_range = get_variable_or_int( jo, "target_range", false, 0 );
-    int_or_var iov_hallucination_count = get_variable_or_int( jo, "hallucination_count", false, 0 );
-    int_or_var iov_real_count = get_variable_or_int( jo, "real_count", false, 0 );
-    int_or_var iov_min_radius = get_variable_or_int( jo, "min_radius", false, 1 );
-    int_or_var iov_max_radius = get_variable_or_int( jo, "max_radius", false, 10 );
+    int_or_var iov_target_range = get_int_or_var( jo, "target_range", false, 0 );
+    int_or_var iov_hallucination_count = get_int_or_var( jo, "hallucination_count", false, 0 );
+    int_or_var iov_real_count = get_int_or_var( jo, "real_count", false, 0 );
+    int_or_var iov_min_radius = get_int_or_var( jo, "min_radius", false, 1 );
+    int_or_var iov_max_radius = get_int_or_var( jo, "max_radius", false, 10 );
 
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
-    cata::optional<time_duration> lifespan_min;
-    cata::optional<time_duration> lifespan_max;
-    optional( jo, false, "lifespan_min", lifespan_min );
-    optional( jo, false, "lifespan_max", lifespan_max );
-    if( lifespan_min.has_value() != lifespan_max.has_value() ) {
-        jo.throw_error( "Cannot provide only lifespan_min or lifespan_max either both or neither must be present." );
-    }
+
+    duration_or_var dov_lifespan_min = get_duration_or_var( jo, "lifespan_min", false, 0_seconds );
+    duration_or_var dov_lifespan_max = get_duration_or_var( jo, "lifespan_max", false, 0_seconds );
     function = [is_npc, new_monster, iov_target_range, iov_hallucination_count, iov_real_count,
-                        iov_min_radius, iov_max_radius, outdoor_only, group_id, lifespan_min,
-            lifespan_max]( const dialogue & d ) {
+                        iov_min_radius, iov_max_radius, outdoor_only, group_id, dov_lifespan_min,
+            dov_lifespan_max]( const dialogue & d ) {
         monster target_monster;
 
         if( group_id.is_valid() ) {
@@ -2851,8 +2846,9 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
             tripoint spawn_point;
             if( g->find_nearby_spawn_point( d.actor( is_npc )->pos(), target_monster.type->id, min_radius,
                                             max_radius, spawn_point, outdoor_only ) ) {
-                if( lifespan_min.has_value() ) {
-                    lifespan = rng( lifespan_min.value(), lifespan_max.value() );
+                time_duration min = dov_lifespan_min.evaluate( d.actor( is_npc ) );
+                if( min > 0_seconds ) {
+                    lifespan = rng( min, dov_lifespan_max.evaluate( d.actor( is_npc ) ) );
                 }
                 g->spawn_hallucination( spawn_point, target_monster.type->id, lifespan );
             }
@@ -2862,8 +2858,9 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
             if( g->find_nearby_spawn_point( d.actor( is_npc )->pos(), target_monster.type->id, min_radius,
                                             max_radius, spawn_point, outdoor_only ) ) {
                 monster *spawned = g->place_critter_at( target_monster.type->id, spawn_point );
-                if( lifespan_min.has_value() ) {
-                    lifespan = rng( lifespan_min.value(), lifespan_max.value() );
+                time_duration min = dov_lifespan_min.evaluate( d.actor( is_npc ) );
+                if( min > 0_seconds ) {
+                    lifespan = rng( min, dov_lifespan_max.evaluate( d.actor( is_npc ) ) );
                     spawned->set_summon_time( lifespan.value() );
                 }
             }
@@ -2874,7 +2871,7 @@ void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::stri
 void talk_effect_fun_t::set_mod_radiation( const JsonObject &jo, const std::string &member,
         bool is_npc )
 {
-    int_or_var iov = get_variable_or_int( jo, member, true );
+    int_or_var iov = get_int_or_var( jo, member, true );
     function = [is_npc, iov]( const dialogue & d ) {
         d.actor( is_npc )->mod_rad( iov.evaluate( d.actor( is_npc ) ) );
     };
@@ -2883,19 +2880,20 @@ void talk_effect_fun_t::set_mod_radiation( const JsonObject &jo, const std::stri
 void talk_effect_fun_t::set_field( const JsonObject &jo, const std::string &member, bool is_npc )
 {
     field_type_str_id new_field = field_type_str_id( jo.get_string( member ) );
-    int_or_var iov_intensity = get_variable_or_int( jo, "intensity", false, 1 );
-    time_duration age = time_duration::from_turns( jo.get_int( "age", 1 ) );
-    int_or_var iov_radius = get_variable_or_int( jo, "radius", false, 10000000 );
+    int_or_var iov_intensity = get_int_or_var( jo, "intensity", false, 1 );
+    duration_or_var dov_age = get_duration_or_var( jo, "age", false, 1_turns );;
+    int_or_var iov_radius = get_int_or_var( jo, "radius", false, 10000000 );
 
     const bool outdoor_only = jo.get_bool( "outdoor_only", false );
     const bool hit_player = jo.get_bool( "hit_player", true );
-    function = [is_npc, new_field, iov_intensity, age, iov_radius, outdoor_only,
+    function = [is_npc, new_field, iov_intensity, dov_age, iov_radius, outdoor_only,
             hit_player]( const dialogue & d ) {
         int radius = iov_radius.evaluate( d.actor( is_npc ) );
         int intensity = iov_intensity.evaluate( d.actor( is_npc ) );
         for( const tripoint &dest : get_map().points_in_radius( d.actor( is_npc )->pos(), radius ) ) {
             if( !outdoor_only || get_map().is_outside( dest ) ) {
-                get_map().add_field( dest, new_field, intensity, age, hit_player );
+                get_map().add_field( dest, new_field, intensity, dov_age.evaluate( d.actor( is_npc ) ),
+                                     hit_player );
             }
         }
     };
@@ -3271,6 +3269,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( buy_100_logs ),
             WRAP( bionic_install ),
             WRAP( bionic_remove ),
+            WRAP( drop_items_in_place ),
             WRAP( follow ),
             WRAP( follow_only ),
             WRAP( deny_follow ),
@@ -3300,6 +3299,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( npc_thankful ),
             WRAP( clear_overrides ),
             WRAP( lightning ),
+            WRAP( do_disassembly ),
             WRAP( nothing )
 #undef WRAP
         }

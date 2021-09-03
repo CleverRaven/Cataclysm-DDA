@@ -91,7 +91,8 @@ class talker_character: public talker
         bool knows_proficiency( const proficiency_id &proficiency ) const override;
 
         // effects and values
-        bool has_effect( const efftype_id &effect_id ) const override;
+        bool has_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;
+        effect get_effect( const efftype_id &effect_id, const bodypart_id &bp ) const override;
         bool is_deaf() const override;
         bool is_mute() const override;
         void add_effect( const efftype_id &new_effect, const time_duration &dur,

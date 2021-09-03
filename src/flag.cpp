@@ -190,6 +190,7 @@ const flag_id flag_NPC_SAFE( "NPC_SAFE" );
 const flag_id flag_NPC_THROWN( "NPC_THROWN" );
 const flag_id flag_NPC_THROW_NOW( "NPC_THROW_NOW" );
 const flag_id flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
+const flag_id flag_OLD_CURRENCY( "OLD_CURRENCY" );
 const flag_id flag_ONLY_ONE( "ONLY_ONE" );
 const flag_id flag_ORGANIC( "ORGANIC" );
 const flag_id flag_OUTER( "OUTER" );
@@ -261,6 +262,7 @@ const flag_id flag_SMOKABLE( "SMOKABLE" );
 const flag_id flag_SMOKED( "SMOKED" );
 const flag_id flag_SOLARPACK( "SOLARPACK" );
 const flag_id flag_SOLARPACK_ON( "SOLARPACK_ON" );
+const flag_id flag_SPAWN_ACTIVE( "SPAWN_ACTIVE" );
 const flag_id flag_SPEAR( "SPEAR" );
 const flag_id flag_SPEEDLOADER( "SPEEDLOADER" );
 const flag_id flag_SPLINT( "SPLINT" );
@@ -277,7 +279,6 @@ const flag_id flag_TACK( "TACK" );
 const flag_id flag_TANGLE( "TANGLE" );
 const flag_id flag_TARDIS( "TARDIS" );
 const flag_id flag_THERMOMETER( "THERMOMETER" );
-const flag_id flag_THIN_OBSTACLE( "THIN_OBSTACLE" );
 const flag_id flag_TIE_UP( "TIE_UP" );
 const flag_id flag_TINDER( "TINDER" );
 const flag_id flag_TOBACCO( "TOBACCO" );
@@ -286,7 +287,6 @@ const flag_id flag_TOW_CABLE( "TOW_CABLE" );
 const flag_id flag_TRADER_AVOID( "TRADER_AVOID" );
 const flag_id flag_TRADER_KEEP( "TRADER_KEEP" );
 const flag_id flag_TRADER_KEEP_EQUIPPED( "TRADER_KEEP_EQUIPPED" );
-const flag_id flag_TRANSPARENT( "TRANSPARENT" );
 const flag_id flag_TWO_WAY_RADIO( "TWO_WAY_RADIO" );
 const flag_id flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
 const flag_id flag_UNBREAKABLE_MELEE( "UNBREAKABLE_MELEE" );
@@ -362,6 +362,7 @@ void json_flag::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "requires_flag", requires_flag_ );
     optional( jo, was_loaded, "taste_mod", taste_mod_ );
     optional( jo, was_loaded, "restriction", restriction_ );
+    optional( jo, was_loaded, "name", name_ );
 }
 
 void json_flag::check_consistency()

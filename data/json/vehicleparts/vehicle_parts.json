@@ -518,6 +518,30 @@
   },
   {
     "type": "vehicle_part",
+    "id": "handheld_battery_mount",
+    "name": { "str": "tool battery mount" },
+    "symbol": "O",
+    "categories": [ "energy" ],
+    "color": "light_gray",
+    "broken_symbol": "#",
+    "broken_color": "red",
+    "damage_modifier": 80,
+    "durability": 100,
+    "folded_volume": "300 ml",
+    "description": "A mount for batteries usually used in handheld tools.  Allows quick removal or addition of such batteries into vehicular power grid.",
+    "item": "it_handheld_battery_mount",
+    "location": "fuel_source",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "10 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "5 m", "qualities": [ { "id": "WRENCH", "level": 1 } ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "5 m", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "flags": [ "FOLDABLE", "HANDHELD_BATTERY_MOUNT" ],
+    "breaks_into": [ { "item": "power_supply", "prob": 50 }, { "item": "scrap", "count": [ 1, 4 ] } ],
+    "damage_reduction": { "all": 4, "bash": 5 }
+  },
+  {
+    "type": "vehicle_part",
     "id": "black_box",
     "name": { "str": "military black box" },
     "item": "black_box",

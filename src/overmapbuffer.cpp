@@ -208,7 +208,7 @@ void overmapbuffer::fix_npcs( overmap &new_overmap )
             // Just move the NPC back into the bounds of new_overmap, as close
             // as possible to where they were supposed to be.
             debugmsg( "NPC %s is out of bounds at %s, on non-generated overmap %s",
-                      np.name, npc_omt_pos.to_string(), loc.to_string() );
+                      np.get_name(), npc_omt_pos.to_string(), loc.to_string() );
             // bounding box for new_overmap in omt coords
             const half_open_rectangle<point_abs_omt> om_bounds( project_to<coords::omt>( loc ),
                     project_to<coords::omt>( loc + point( 1, 1 ) ) ); // NOLINT(cata-use-named-point-constants)
@@ -1545,20 +1545,16 @@ void overmapbuffer::spawn_monster( const tripoint_abs_sm &p )
 
 void overmapbuffer::despawn_monster( const monster &critter )
 {
-    // Get absolute coordinates of the monster in map squares, translate to submap position
-    // TODO: fix point types
-    tripoint_abs_sm abs_sm( ms_to_sm_copy( get_map().getabs( critter.pos() ) ) );
     // Get the overmap coordinates and get the overmap, sm is now local to that overmap
     point_abs_om omp;
     tripoint_om_sm sm;
-    std::tie( omp, sm ) = project_remain<coords::om>( abs_sm );
+    std::tie( omp, sm ) = project_remain<coords::om>( critter.global_sm_location() );
     overmap &om = get( omp );
     // Store the monster using coordinates local to the overmap
 
     if( critter.is_nemesis() ) {
         //if the monster is the 'hunted' trait's nemesis, it becomes an overmap horde
-        tripoint_abs_omt abs_omt( ms_to_omt_copy( get_map().getabs( critter.pos() ) ) );
-        om.place_nemesis( abs_omt );
+        om.place_nemesis( critter.global_omt_location() );
     } else {
         om.monster_map.insert( std::make_pair( sm, critter ) );
     }

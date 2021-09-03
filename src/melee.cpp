@@ -254,7 +254,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
     // Preserve item temporarily for component breakdown
     item temp = shield;
 
-    shield.spill_contents( pos() );
+    shield.get_contents().spill_contents( pos() );
 
     remove_item( shield );
 
@@ -614,11 +614,11 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             if( miss_recovery.id != tec_none ) {
                 add_msg( miss_recovery.npc_message.translated(), t.disp_name() );
             } else if( stumble_pen >= 60 ) {
-                add_msg( _( "%s misses and stumbles with the momentum." ), name );
+                add_msg( _( "%s misses and stumbles with the momentum." ), get_name() );
             } else if( stumble_pen >= 10 ) {
-                add_msg( _( "%s swings wildly and misses." ), name );
+                add_msg( _( "%s swings wildly and misses." ), get_name() );
             } else {
-                add_msg( _( "%s misses." ), name );
+                add_msg( _( "%s misses." ), get_name() );
             }
         }
 
@@ -862,7 +862,7 @@ void Character::reach_attack( const tripoint &p )
         } else if( here.impassable( path_point ) &&
                    // Fences etc. Spears can stab through those
                    !( weapon.has_flag( flag_SPEAR ) &&
-                      here.has_flag( "THIN_OBSTACLE", path_point ) &&
+                      here.has_flag( ter_furn_flag::TFLAG_THIN_OBSTACLE, path_point ) &&
                       x_in_y( skill, 10 ) ) ) {
             /** @EFFECT_STR increases bash effects when reach attacking past something */
             here.bash( path_point, str_cur + weapon.damage_melee( damage_type::BASH ) );
@@ -1690,8 +1690,8 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         if( technique.knockback_follow ) {
             const optional_vpart_position vp0 = here.veh_at( pos() );
             vehicle *const veh0 = veh_pointer_or_null( vp0 );
-            bool to_swimmable = here.has_flag( "SWIMMABLE", prev_pos );
-            bool to_deepwater = here.has_flag( TFLAG_DEEP_WATER, prev_pos );
+            bool to_swimmable = here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, prev_pos );
+            bool to_deepwater = here.has_flag( ter_furn_flag::TFLAG_DEEP_WATER, prev_pos );
 
             // Check if it's possible to move to the new tile
             bool move_issue =
@@ -1719,7 +1719,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         } else {
             add_msg_player_or_npc( _( "You disarm %s and take their weapon!" ),
                                    _( "<npcname> disarms %s and takes their weapon!" ),
-                                   you->name );
+                                   you->get_name() );
         }
         item it = you->remove_weapon();
         wield( it );
@@ -1733,7 +1733,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         } else {
             add_msg_player_or_npc( _( "You disarm %s!" ),
                                    _( "<npcname> disarms %s!" ),
-                                   you->name );
+                                   you->get_name() );
         }
     }
 
@@ -2237,7 +2237,7 @@ std::vector<special_attack> Character::mutation_attacks( Creature &t ) const
             if( is_avatar() ) {
                 tmp.text = string_format( mut_atk.attack_text_u.translated(), target );
             } else {
-                tmp.text = string_format( mut_atk.attack_text_npc.translated(), name, target );
+                tmp.text = string_format( mut_atk.attack_text_npc.translated(), get_name(), target );
             }
 
             // Attack starts here
@@ -2578,7 +2578,7 @@ void avatar::disarm( npc &target )
             //~ %s: weapon name
             add_msg( _( "You grab at %s and pull with all your force!" ), it.tname() );
             //~ %1$s: weapon name, %2$s: NPC name
-            add_msg( _( "You forcefully take %1$s from %2$s!" ), it.tname(), target.name );
+            add_msg( _( "You forcefully take %1$s from %2$s!" ), it.tname(), target.get_name() );
             // wield() will deduce our moves, consider to deduce more/less moves for balance
             item rem_it = target.i_rem( &it );
             wield( rem_it );
@@ -2601,12 +2601,12 @@ void avatar::disarm( npc &target )
     mod_moves( -100 - attack_speed( weapon ) );
     if( my_roll >= their_roll ) {
         add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ),
-                 target.name, it.tname() );
+                 target.get_name(), it.tname() );
         const tripoint tp = target.pos() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
         here.add_item_or_charges( tp, target.i_rem( &it ) );
     } else {
         add_msg( _( "You smash %s with all your might but %s remains in their hands!" ),
-                 target.name, it.tname() );
+                 target.get_name(), it.tname() );
     }
 
     target.on_attacked( *this );
@@ -2615,7 +2615,7 @@ void avatar::disarm( npc &target )
 void avatar::steal( npc &target )
 {
     if( target.is_enemy() ) {
-        add_msg( _( "%s is hostile!" ), target.name );
+        add_msg( _( "%s is hostile!" ), target.get_name() );
         return;
     }
 
@@ -2643,14 +2643,14 @@ void avatar::steal( npc &target )
     const item *it = loc.get_item();
     if( my_roll >= their_roll ) {
         add_msg( _( "You sneakily steal %1$s from %2$s!" ),
-                 it->tname(), target.name );
+                 it->tname(), target.get_name() );
         i_add( target.i_rem( it ) );
     } else if( my_roll >= their_roll / 2 ) {
         add_msg( _( "You failed to steal %1$s from %2$s, but did not attract attention." ),
-                 it->tname(), target.name );
+                 it->tname(), target.get_name() );
     } else  {
         add_msg( _( "You failed to steal %1$s from %2$s." ),
-                 it->tname(), target.name );
+                 it->tname(), target.get_name() );
         target.on_attacked( *this );
     }
 

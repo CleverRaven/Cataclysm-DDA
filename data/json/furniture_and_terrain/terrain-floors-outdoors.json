@@ -388,5 +388,17 @@
     "move_cost": 5,
     "flags": [ "TRANSPARENT", "FLAT" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100, "bash_below": true }
+  },
+  {
+    "type": "terrain",
+    "id": "t_orifice",
+    "name": "orifice",
+    "description": "A large round orifice with trails of fresh and dried up strange green liquid with a strong acid odor covering its inner sides.",
+    "symbol": "O",
+    "color": "green",
+    "looks_like": "t_pit",
+    "move_cost": 0,
+    "roof": "t_rock_floor",
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL" ]
   }
 ]

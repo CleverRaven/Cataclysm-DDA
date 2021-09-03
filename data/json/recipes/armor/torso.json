@@ -351,6 +351,34 @@
     "components": [ [ [ "scrap", 120 ] ] ]
   },
   {
+    "result": "cuirass_tire",
+    "type": "recipe",
+    "activity_level": "MODERATE_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "45 m",
+    "reversible": true,
+    "autolearn": true,
+    "book_learn": [ [ "dieselpunk_tailor", 2 ] ],
+    "using": [ [ "cordage", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW_CURVED", "level": 1 } ],
+    "components": [ [ [ "rubber_tire_chunk", 8 ] ] ]
+  },
+  {
+    "result": "xl_cuirass_tire",
+    "type": "recipe",
+    "copy-from": "cuirass_tire",
+    "time": "55 m",
+    "book_learn": [ [ "dieselpunk_tailor", 2 ] ],
+    "using": [ [ "cordage", 3 ] ],
+    "proficiencies": [ { "proficiency": "prof_closures" }, { "proficiency": "prof_leatherworking_basic" } ],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "LEATHER_AWL", "level": 1 }, { "id": "SEW_CURVED", "level": 1 } ],
+    "components": [ [ [ "rubber_tire_chunk", 10 ] ] ]
+  },
+  {
     "result": "duster",
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
@@ -633,6 +661,33 @@
     "using": [ [ "sewing_standard", 30 ], [ "fastener_large", 1 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "jacket_leather", 1 ], [ "jacket_leather_red", 1 ] ], [ [ "scrap", 9 ] ] ],
+    "proficiencies": [
+      { "proficiency": "prof_leatherworking_basic" },
+      { "proficiency": "prof_leatherworking" },
+      { "proficiency": "prof_closures" }
+    ]
+  },
+  {
+    "result": "jacket_leather_tire",
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "skills_required": [ "fabrication", 3 ],
+    "time": "7 h",
+    "autolearn": true,
+    "reversible": true,
+    "book_learn": [ [ "dieselpunk_tailor", 2 ] ],
+    "using": [ [ "sewing_standard", 30 ], [ "fastener_large", 1 ], [ "cordage", 4 ] ],
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "CUT", "level": 1 },
+      { "id": "LEATHER_AWL", "level": 1 },
+      { "id": "SEW_CURVED", "level": 1 }
+    ],
+    "components": [ [ [ "jacket_leather", 1 ], [ "jacket_leather_red", 1 ] ], [ [ "rubber_tire_chunk", 8 ] ] ],
     "proficiencies": [
       { "proficiency": "prof_leatherworking_basic" },
       { "proficiency": "prof_leatherworking" },
@@ -1394,6 +1449,19 @@
     "reversible": true,
     "using": [ [ "sewing_standard", 4 ] ],
     "components": [ [ [ "rag", 4 ] ] ]
+  },
+  {
+    "result": "tireplate",
+    "type": "recipe",
+    "activity_level": "NO_EXERCISE",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "2 h",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rubber_tire_chunk", 16 ] ], [ [ "duct_tape", 16 ] ] ]
   },
   {
     "result": "thermal_shirt",

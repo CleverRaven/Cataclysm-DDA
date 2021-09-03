@@ -18,7 +18,6 @@
 #include "debug.h"
 #include "effect_source.h"
 #include "enums.h"
-#include "location.h"
 #include "pimpl.h"
 #include "string_formatter.h"
 #include "talker.h"
@@ -220,7 +219,7 @@ struct enum_traits<get_body_part_flags> {
     static constexpr bool is_flag_enum = true;
 };
 
-class Creature : public location, public viewer
+class Creature : public viewer
 {
     public:
         ~Creature() override;
@@ -274,19 +273,19 @@ class Creature : public location, public viewer
         virtual bool is_fake() const;
         /** Sets a Creature's fake boolean. */
         virtual void set_fake( bool fake_value );
-        inline const tripoint &pos() const override {
+        inline const tripoint &pos() const {
             return position;
         }
-        inline int posx() const override {
-            return position.x;
+        inline int posx() const {
+            return pos().x;
         }
-        inline int posy() const override {
-            return position.y;
+        inline int posy() const {
+            return pos().y;
         }
-        inline int posz() const override {
-            return position.z;
+        inline int posz() const {
+            return pos().z;
         }
-        void setpos( const tripoint &p ) override;
+        virtual void setpos( const tripoint &p );
 
         /** Recreates the Creature from scratch. */
         virtual void normalize();
@@ -474,6 +473,7 @@ class Creature : public location, public viewer
         virtual bool digging() const;
         virtual bool is_on_ground() const = 0;
         virtual bool is_underwater() const;
+        bool is_likely_underwater() const; // Should eventually be virtual, although not pure
         virtual bool is_warm() const; // is this creature warm, for IR vision, heat drain, etc
         virtual bool in_species( const species_id & ) const;
 
@@ -597,7 +597,6 @@ class Creature : public location, public viewer
         virtual void set_pain( int npain );
         virtual int get_pain() const;
         virtual int get_perceived_pain() const;
-        virtual std::pair<std::string, nc_color> get_pain_description() const;
 
         int get_moves() const;
         void mod_moves( int nmoves );
@@ -664,9 +663,12 @@ class Creature : public location, public viewer
             return false;
         }
 
-    protected:
+    private:
         /** The creature's position on the local map */
         tripoint position;
+    protected:
+        // Sets the creature's position without any side-effects.
+        void set_pos_only( const tripoint &p );
         /**anatomy is the plan of the creature's body*/
         anatomy_id creature_anatomy = anatomy_id( "default_anatomy" );
         /**this is the actual body of the creature*/
@@ -1115,6 +1117,8 @@ class Creature : public location, public viewer
         /** Creature symbol */
         virtual const std::string &symbol() const = 0;
         virtual bool is_symbol_highlighted() const;
+
+        std::unordered_map<std::string, std::string> &get_values();
 
     protected:
         Creature *killer; // whoever killed us. this should be NULL unless we are dead

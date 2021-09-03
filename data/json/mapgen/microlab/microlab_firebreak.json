@@ -103,10 +103,10 @@
         "|###||            |####|",
         "|###|N            |####|",
         "|#||||    M       ||||#|",
-        "|#|XX=      ü     =XX|#|",
+        "|#|XX=            =XX|#|",
         "|#|XX=            =XX|#|",
         "|#|XX=dddd    dddd=XX|#|",
-        "|#||||  hd  M dh  ||||#|",
+        "|#||||  hd    dh  ||||#|",
         "|####|            |####|",
         "|####|---6-55-----|####|",
         "|#######---  -#########|",
@@ -122,10 +122,11 @@
         "|###|N PP  PP  PP |####|",
         "|||||| PP  PP  PP ||||||"
       ],
-      "set": [ { "point": "bash", "x": [ 6, 18 ], "y": [ 6, 18 ], "repeat": [ 30, 100 ] } ],
+      "set": [ { "point": "bash", "x": [ 5, 18 ], "y": [ 0, 11 ], "repeat": [ 30, 100 ] } ],
       "palettes": [ "microlab" ],
       "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red" },
-      "monster": { "M": { "monster": "mon_mutant_experimental" }, "ü": { "monster": "mon_mutant_evolved" } },
+      "monster": { "M": { "monster": "mon_mutant_alpha", "chance": 50 } },
+      "place_monster": [ { "group": "GROUP_MUTANT_EVOLVED", "x": [ 6, 17 ], "y": [ 1, 10 ], "repeat": [ 2, 4 ] } ],
       "computers": {
         "6": {
           "name": "Security Terminal",

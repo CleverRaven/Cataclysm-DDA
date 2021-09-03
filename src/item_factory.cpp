@@ -178,6 +178,10 @@ void Item_factory::finalize_pre( itype &obj )
         for( const auto &u : q.first.obj().usages ) {
             if( q.second >= u.first ) {
                 emplace_usage( obj.use_methods, u.second );
+                // As far as I know all the actions provided by quality level do not consume ammo
+                // So it is safe to set all to 0
+                // To do: read the json file of this item agian and get for each quality a scale number
+                obj.ammo_scale.emplace( u.second, 0 );
             }
         }
     }
@@ -185,9 +189,11 @@ void Item_factory::finalize_pre( itype &obj )
     if( obj.mod ) {
         std::string func = obj.gunmod ? "GUNMOD_ATTACH" : "TOOLMOD_ATTACH";
         emplace_usage( obj.use_methods, func );
+        obj.ammo_scale.emplace( func, 0 );
     } else if( obj.gun ) {
         const std::string func = "detach_gunmods";
         emplace_usage( obj.use_methods, func );
+        obj.ammo_scale.emplace( func, 0 );
     }
 
     if( get_option<bool>( "NO_FAULTS" ) ) {
@@ -969,6 +975,8 @@ void Item_factory::init()
     add_iuse( "CHEW", &iuse::chew );
     add_iuse( "RPGDIE", &iuse::rpgdie );
     add_iuse( "BIRDFOOD", &iuse::feedbird );
+    add_iuse( "CHANGE_EYES", &iuse::change_eyes );
+    add_iuse( "CHANGE_SKIN", &iuse::change_skin );
     add_iuse( "CHOP_TREE", &iuse::chop_tree );
     add_iuse( "CHOP_LOGS", &iuse::chop_logs );
     add_iuse( "CIRCSAW_ON", &iuse::circsaw_on );
@@ -2153,7 +2161,7 @@ void islot_book::load( const JsonObject &jo )
     if( jo.has_int( "time" ) ) {
         time = jo.get_int( "time" );
     } else if( jo.has_string( "time" ) ) {
-        time = to_minutes<int>( read_from_json_string<time_duration>( *jo.get_raw( "time" ),
+        time = to_minutes<int>( read_from_json_string<time_duration>( jo.get_member( "time" ),
                                 time_duration::units ) );
     }
 
@@ -2377,7 +2385,7 @@ void Item_factory::load( islot_gunmod &slot, const JsonObject &jo, const std::st
         slot.install_time = jo.get_int( "install_time" );
     } else if( jo.has_string( "install_time" ) ) {
         slot.install_time = to_moves<int>( read_from_json_string<time_duration>
-                                           ( *jo.get_raw( "install_time" ),
+                                           ( jo.get_member( "install_time" ),
                                              time_duration::units ) );
     }
 
@@ -2905,6 +2913,8 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         jo.read( "repairs_like", def.repairs_like );
     }
 
+    optional( jo, true, "weapon_category", def.weapon_category, auto_flags_reader<std::string> {} );
+
     if( jo.has_member( "damage_states" ) ) {
         JsonArray arr = jo.get_array( "damage_states" );
         def.damage_min_ = arr.get_int( 0 ) * itype::damage_scale;
@@ -3033,7 +3043,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         def.techniques.insert( matec_id( s ) );
     }
 
-    set_use_methods_from_json( jo, "use_action", def.use_methods );
+    set_use_methods_from_json( jo, "use_action", def.use_methods, def.ammo_scale );
 
     assign( jo, "countdown_interval", def.countdown_interval );
     assign( jo, "countdown_destroy", def.countdown_destroy );
@@ -3689,13 +3699,14 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const item_group_id
 }
 
 void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::string &member,
-        std::map<std::string, use_function> &use_methods )
+        std::map<std::string, use_function> &use_methods, std::map<std::string, float> &ammo_scale )
 {
     if( !jo.has_member( member ) ) {
         return;
     }
 
     use_methods.clear();
+    ammo_scale.clear();
     if( jo.has_array( member ) ) {
         for( const JsonValue entry : jo.get_array( member ) ) {
             if( entry.test_string() ) {
@@ -3706,6 +3717,16 @@ void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::s
                 std::pair<std::string, use_function> fun = usage_from_object( obj );
                 if( fun.second ) {
                     use_methods.insert( fun );
+                    if( obj.has_float( "ammo_scale" ) ) {
+                        ammo_scale.emplace( fun.first, obj.get_float( "ammo_scale" ) );
+                    }
+                }
+            } else if( entry.test_array() ) {
+                JsonArray curr = entry.get_array();
+                std::string type = curr.get_string( 0 );
+                emplace_usage( use_methods, type );
+                if( curr.has_float( 1 ) ) {
+                    ammo_scale.emplace( type, curr.get_float( 1 ) );
                 }
             } else {
                 entry.throw_error( "array element is neither string nor object." );
@@ -3720,6 +3741,9 @@ void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::s
             std::pair<std::string, use_function> fun = usage_from_object( obj );
             if( fun.second ) {
                 use_methods.insert( fun );
+                if( obj.has_float( "ammo_scale" ) ) {
+                    ammo_scale.emplace( fun.first, obj.get_float( "ammo_scale" ) );
+                }
             }
         } else {
             jo.throw_error( "member 'use_action' is neither string nor object." );

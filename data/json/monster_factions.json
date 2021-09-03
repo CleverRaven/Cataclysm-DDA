@@ -450,6 +450,12 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "robofac_spy",
+    "base_faction": "robofac",
+    "friendly": [ "human", "player" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "exodii",
     "base_faction": "human",
     "neutral": [ "fish", "small_animal", "herbivore" ],
@@ -493,5 +499,11 @@
     "name": "sewer_snake",
     "base_faction": "mutant_piscivores",
     "neutral": "sewer_snake"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "dark_wyrm",
+    "base_faction": "mutant",
+    "neutral": "dark_wyrm"
   }
 ]

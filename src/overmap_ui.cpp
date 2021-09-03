@@ -918,7 +918,7 @@ static void draw_ascii(
     if( has_debug_vision || overmap_buffer.seen( center ) ) {
         for( const auto &npc : npcs_near_player ) {
             if( !npc->marked_for_death && npc->global_omt_location() == center ) {
-                corner_text.emplace_back( npc->basic_symbol_color(), npc->name );
+                corner_text.emplace_back( npc->basic_symbol_color(), npc->get_name() );
             }
         }
     }
@@ -1628,7 +1628,8 @@ static std::vector<tripoint_abs_omt> get_overmap_path_to( const tripoint_abs_omt
         params = overmap_path_params::for_player();
         const oter_id dest_ter = overmap_buffer.ter_existing( dest );
         // already in water or going to a water tile
-        if( here.has_flag( "SWIMMABLE", player_character.pos() ) || is_river_or_lake( dest_ter ) ) {
+        if( here.has_flag( ter_furn_flag::TFLAG_SWIMMABLE, player_character.pos() ) ||
+            is_river_or_lake( dest_ter ) ) {
             params.water_cost = 100;
         }
     }

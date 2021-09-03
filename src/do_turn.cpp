@@ -243,7 +243,7 @@ bool cleanup_at_end()
                    c_light_gray,
                    sTemp );
 
-        sTemp = u.name;
+        sTemp = u.get_name();
         mvwprintz( w_rip, point( FULL_SCREEN_WIDTH / 2 - utf8_width( sTemp ) / 2, iNameLine++ ), c_white,
                    sTemp );
 
@@ -377,8 +377,8 @@ void update_stair_monsters()
 
     avatar &u = get_avatar();
     for( const tripoint &dest : m.points_on_zlevel( u.posz() ) ) {
-        if( ( from_below && m.has_flag( "GOES_DOWN", dest ) ) ||
-            ( !from_below && m.has_flag( "GOES_UP", dest ) ) ) {
+        if( ( from_below && m.has_flag( ter_furn_flag::TFLAG_GOES_DOWN, dest ) ) ||
+            ( !from_below && m.has_flag( ter_furn_flag::TFLAG_GOES_UP, dest ) ) ) {
             stairx.push_back( dest.x );
             stairy.push_back( dest.y );
             stairdist.push_back( rl_dist( dest, u.pos() ) );
@@ -587,7 +587,7 @@ void handle_key_blocking_activity()
                 g->cancel_activity_query( _( "Confirm:" ) );
             }
         } else if( action == "player_data" ) {
-            u.disp_info();
+            u.disp_info( true );
         } else if( action == "messages" ) {
             Messages::display_messages();
         } else if( action == "help" ) {
@@ -718,7 +718,7 @@ void monmove()
             // there will be no meaningful debug output.
             if( turns == 9 ) {
                 debugmsg( "NPC %s entered infinite loop.  Turning on debug mode",
-                          guy.name );
+                          guy.get_name() );
                 debug_mode = true;
                 // make sure the filter is active
                 if( std::find(
@@ -732,7 +732,7 @@ void monmove()
         // If we spun too long trying to decide what to do (without spending moves),
         // Invoke cognitive suspension to prevent an infinite loop.
         if( turns == 10 ) {
-            add_msg( _( "%s faints!" ), guy.name );
+            add_msg( _( "%s faints!" ), guy.get_name() );
             guy.reboot();
         }
 

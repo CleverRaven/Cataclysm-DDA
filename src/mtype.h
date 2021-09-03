@@ -182,6 +182,7 @@ enum m_flag : int {
     MF_INSECTICIDEPROOF,    // This monster is immune to insecticide, even though it's made of bug flesh
     MF_RANGED_ATTACKER,     // This monster has any sort of ranged attack
     MF_CAMOUFLAGE,          // This monster is hard to spot, even in broad daylight
+    MF_WATER_CAMOUFLAGE,    // This monster is hard to spot if it is underwater, especially if you aren't
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -253,6 +254,13 @@ struct mtype {
         void add_special_attack( JsonArray inner, const std::string &src );
         void add_special_attack( const JsonObject &obj, const std::string &src );
 
+        void add_regeneration_modifiers( const JsonObject &jo, const std::string &member_name,
+                                         const std::string &src );
+        void remove_regeneration_modifiers( const JsonObject &jo, const std::string &member_name,
+                                            const std::string &src );
+
+        void add_regeneration_modifier( JsonArray inner, const std::string &src );
+
     public:
         mtype_id id;
 
@@ -262,6 +270,9 @@ struct mtype {
 
         /** Stores effect data for effects placed on attack */
         std::vector<mon_effect_data> atk_effs;
+
+        /** Mod origin */
+        std::vector<std::pair<mtype_id, mod_id>> src;
 
         std::set<species_id> species;
         std::set<std::string> categories;
@@ -291,6 +302,8 @@ struct mtype {
 
         // Number of hitpoints regenerated per turn.
         int regenerates = 0;
+        // Effects that can modify regeneration
+        std::map<efftype_id, int> regeneration_modifiers;
         // Monster regenerates very quickly in poorly lit tiles.
         bool regenerates_in_dark = false;
         // Will stop fleeing if at max hp, and regen anger and morale.
