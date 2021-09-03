@@ -16,7 +16,7 @@ weakpoint::weakpoint()
 {
     // arrays must be filled manually to avoid UB.
     armor_mult.fill( 1.0f );
-    armor_offset.fill( 0.0f );
+    armor_penalty.fill( 0.0f );
 }
 
 void weakpoint::load( const JsonObject &jo )
@@ -27,8 +27,8 @@ void weakpoint::load( const JsonObject &jo )
     if( jo.has_object( "armor_mult" ) ) {
         armor_mult = load_damage_array( jo.get_object( "armor_mult" ), 1.0f );
     }
-    if( jo.has_object( "armor_offset" ) ) {
-        armor_offset = load_damage_array( jo.get_object( "armor_offset" ), 0.0f );
+    if( jo.has_object( "armor_penalty" ) ) {
+        armor_penalty = load_damage_array( jo.get_object( "armor_penalty" ), 0.0f );
     }
     // Set the ID to the name, if not provided.
     if( id.empty() ) {
@@ -40,7 +40,7 @@ void weakpoint::apply_to( resistances &resistances ) const
 {
     for( int i = 0; i < static_cast<int>( damage_type::NUM ); ++i ) {
         resistances.resist_vals[i] *= armor_mult[i];
-        resistances.resist_vals[i] += armor_offset[i];
+        resistances.resist_vals[i] -= armor_penalty[i];
     }
 }
 

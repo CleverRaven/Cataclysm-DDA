@@ -21,8 +21,8 @@ struct weakpoint {
     float coverage = 100.0f;
     // Multiplier for existing armor values. Defaults to 1.
     std::array<float, static_cast<int>( damage_type::NUM )> armor_mult;
-    // Constant offset for multiplied armor values. Defaults to 0.
-    std::array<float, static_cast<int>( damage_type::NUM )> armor_offset;
+    // Flat penalty to armor values. Applied after the multiplier.
+    std::array<float, static_cast<int>( damage_type::NUM )> armor_penalty;
 
     weakpoint();
     // Apply the armor multipliers and offsets to a set of resistances.
