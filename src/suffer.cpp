@@ -157,6 +157,7 @@ static const json_character_flag json_flag_GLARE_RESIST( "GLARE_RESIST" );
 namespace suffer
 {
 void from_sunburn( Character &you );
+void in_sunlight( Character &you );
 } // namespace suffer
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
@@ -714,21 +715,22 @@ void Character::suffer_from_asthma( const int current_stim )
     }
 }
 
-void Character::suffer_in_sunlight()
+void suffer::in_sunlight( Character &you )
 {
     int sunlight_nutrition = 0;
-    if( get_map().is_outside( pos() ) && ( g->light_level( pos().z ) >= 40 ) ) {
-        const bool leafy = has_trait( trait_LEAVES ) ||
-                           has_trait( trait_LEAVES2 ) ||
-                           has_trait( trait_LEAVES3 );
+    const tripoint position = you.pos();
+    if( get_map().is_outside( position ) && ( g->light_level( position.z ) >= 40 ) ) {
+        const bool leafy = you.has_trait( trait_LEAVES ) ||
+                           you.has_trait( trait_LEAVES2 ) ||
+                           you.has_trait( trait_LEAVES3 );
         if( leafy ) {
-            const bool leafier = has_trait( trait_LEAVES2 );
-            const bool leafiest = has_trait( trait_LEAVES3 );
-            const double sleeve_factor = armwear_factor();
-            const bool has_hat = wearing_something_on( bodypart_id( "head" ) );
+            const bool leafier = you.has_trait( trait_LEAVES2 );
+            const bool leafiest = you.has_trait( trait_LEAVES3 );
+            const double sleeve_factor = you.armwear_factor();
+            const bool has_hat = you.wearing_something_on( bodypart_id( "head" ) );
             const float weather_factor = ( get_weather().weather_id->sun_intensity >=
                                            sun_intensity_type::normal ) ? 1.0 : 0.5;
-            const int player_local_temp = get_weather().get_temperature( pos() );
+            const int player_local_temp = get_weather().get_temperature( position );
             const int flux = ( player_local_temp - 65 ) / 2;
             if( !has_hat ) {
                 sunlight_nutrition += ( 100 + flux ) * weather_factor;
@@ -741,39 +743,40 @@ void Character::suffer_in_sunlight()
     }
 
     if( x_in_y( sunlight_nutrition, 18000 ) ) {
-        vitamin_mod( vitamin_id( "vitA" ), 1, true );
-        vitamin_mod( vitamin_id( "vitC" ), 1, true );
+        you.vitamin_mod( vitamin_id( "vitA" ), 1, true );
+        you.vitamin_mod( vitamin_id( "vitC" ), 1, true );
     }
 
-    if( !g->is_in_sunlight( pos() ) ) {
+    if( !g->is_in_sunlight( position ) ) {
         return;
     }
 
-    if( has_trait( trait_ALBINO ) || has_effect( effect_datura ) || has_trait( trait_SUNBURN ) ) {
-        suffer::from_sunburn( *this );
+    if( you.has_trait( trait_ALBINO ) || you.has_effect( effect_datura ) ||
+        you.has_trait( trait_SUNBURN ) ) {
+        suffer::from_sunburn( you );
     }
 
-    if( ( has_trait( trait_TROGLO ) || has_trait( trait_TROGLO2 ) ) &&
+    if( ( you.has_trait( trait_TROGLO ) || you.has_trait( trait_TROGLO2 ) ) &&
         get_weather().weather_id->sun_intensity >= sun_intensity_type::high ) {
-        mod_str_bonus( -1 );
-        mod_dex_bonus( -1 );
-        add_miss_reason( _( "The sunlight distracts you." ), 1 );
-        mod_int_bonus( -1 );
-        mod_per_bonus( -1 );
+        you.mod_str_bonus( -1 );
+        you.mod_dex_bonus( -1 );
+        you.add_miss_reason( _( "The sunlight distracts you." ), 1 );
+        you.mod_int_bonus( -1 );
+        you.mod_per_bonus( -1 );
     }
-    if( has_trait( trait_TROGLO2 ) ) {
-        mod_str_bonus( -1 );
-        mod_dex_bonus( -1 );
-        add_miss_reason( _( "The sunlight distracts you." ), 1 );
-        mod_int_bonus( -1 );
-        mod_per_bonus( -1 );
+    if( you.has_trait( trait_TROGLO2 ) ) {
+        you.mod_str_bonus( -1 );
+        you.mod_dex_bonus( -1 );
+        you.add_miss_reason( _( "The sunlight distracts you." ), 1 );
+        you.mod_int_bonus( -1 );
+        you.mod_per_bonus( -1 );
     }
-    if( has_trait( trait_TROGLO3 ) ) {
-        mod_str_bonus( -4 );
-        mod_dex_bonus( -4 );
-        add_miss_reason( _( "You can't stand the sunlight!" ), 4 );
-        mod_int_bonus( -4 );
-        mod_per_bonus( -4 );
+    if( you.has_trait( trait_TROGLO3 ) ) {
+        you.mod_str_bonus( -4 );
+        you.mod_dex_bonus( -4 );
+        you.add_miss_reason( _( "You can't stand the sunlight!" ), 4 );
+        you.mod_int_bonus( -4 );
+        you.mod_per_bonus( -4 );
     }
 }
 
@@ -1503,7 +1506,7 @@ void Character::suffer()
         suffer_from_asthma( current_stim );
     }
 
-    suffer_in_sunlight();
+    suffer::in_sunlight( *this );
     suffer_from_exertion();
     suffer_from_item_dropping();
     suffer_from_other_mutations();
