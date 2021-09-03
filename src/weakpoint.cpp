@@ -52,7 +52,7 @@ const weakpoint *weakpoints::select_weakpoint( ) const
 {
     float idx = rng_float( 0.0f, 1.0f );
     for( const weakpoint &weakpoint : weakpoint_list ) {
-        float hit_chance = weakpoint.hit_chance(  );
+        float hit_chance = weakpoint.hit_chance( );
         if( hit_chance <= idx ) {
             return &weakpoint;
         }
@@ -61,7 +61,8 @@ const weakpoint *weakpoints::select_weakpoint( ) const
     return &default_weakpoint;
 }
 
-void weakpoints::clear() {
+void weakpoints::clear()
+{
     weakpoint_list.clear();
 }
 

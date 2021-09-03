@@ -22,7 +22,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h" // IWYU pragma: keep
-#include "weakpoints.h"
+#include "weakpoint.h"
 
 class Creature;
 class monster;
