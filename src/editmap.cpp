@@ -662,7 +662,7 @@ void editmap::draw_main_ui_overlay()
                                                 point_zero );
                     }
                     g->draw_below_override( map_p, here.has_zlevels() &&
-                                            tmpmap.ter( tmp_p ).obj().has_flag( TFLAG_NO_FLOOR ) );
+                                            tmpmap.ter( tmp_p ).obj().has_flag( ter_furn_flag::TFLAG_NO_FLOOR ) );
                 }
             }
             // int: count, bool: more than 1 spawn data
@@ -773,10 +773,10 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     if( vp ) {
         extras += _( " [vehicle]" );
     }
-    if( here.has_flag( TFLAG_INDOORS, target ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_INDOORS, target ) ) {
         extras += _( " [indoors]" );
     }
-    if( here.has_flag( TFLAG_SUPPORTS_ROOF, target ) ) {
+    if( here.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF, target ) ) {
         extras += _( " [roof]" );
     }
 
@@ -813,7 +813,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     }
     map_stack target_stack = here.i_at( target );
     const int target_stack_size = target_stack.size();
-    if( !here.has_flag( "CONTAINER", target ) && target_stack_size > 0 ) {
+    if( !here.has_flag( ter_furn_flag::TFLAG_CONTAINER, target ) && target_stack_size > 0 ) {
         trim_and_print( w_info, point( 1, off ), getmaxx( w_info ), c_light_gray,
                         _( "There is a %s there." ),
                         target_stack.begin()->tname() );
@@ -963,16 +963,16 @@ template<>
 std::string describe( const ter_t &type )
 {
     return string_format( _( "Move cost: %d\nIndoors: %s\nRoof: %s" ), type.movecost,
-                          type.has_flag( TFLAG_INDOORS ) ? _( "Yes" ) : _( "No" ),
-                          type.has_flag( TFLAG_SUPPORTS_ROOF ) ? _( "Yes" ) : _( "No" ) );
+                          type.has_flag( ter_furn_flag::TFLAG_INDOORS ) ? _( "Yes" ) : _( "No" ),
+                          type.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF ) ? _( "Yes" ) : _( "No" ) );
 }
 
 template<>
 std::string describe( const furn_t &type )
 {
     return string_format( _( "Move cost: %d\nIndoors: %s\nRoof: %s" ), type.movecost,
-                          type.has_flag( TFLAG_INDOORS ) ? _( "Yes" ) : _( "No" ),
-                          type.has_flag( TFLAG_SUPPORTS_ROOF ) ? _( "Yes" ) : _( "No" ) );
+                          type.has_flag( ter_furn_flag::TFLAG_INDOORS ) ? _( "Yes" ) : _( "No" ),
+                          type.has_flag( ter_furn_flag::TFLAG_SUPPORTS_ROOF ) ? _( "Yes" ) : _( "No" ) );
 }
 
 template<>

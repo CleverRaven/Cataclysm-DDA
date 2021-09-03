@@ -177,7 +177,7 @@
   {
     "id": "bot_sentinel_lx",
     "type": "TOOL",
-    "name": { "str": "inactive sentinel-lx" },
+    "name": { "str": "inactive sentinel-lx", "str_pl": "inactive sentinels-lx" },
     "description": "Crouched and dead still, this armored luxurious robot resembles an ancient knight immersed in deep prayer.  If reprogrammed and rewired successfully the robot will identify you as a friendly, and will protect you from nearby foes.",
     "weight": "40750 g",
     "volume": "30 L",

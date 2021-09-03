@@ -244,7 +244,7 @@ static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
         m.impassable( p ) ||
         m.is_divable( p ) ||
         checked[p.x][p.y] > 0 ||
-        m.has_flag( TFLAG_NO_FLOOR, p ) ) {
+        m.has_flag( ter_furn_flag::TFLAG_NO_FLOOR, p ) ) {
         return 0;
     }
 
@@ -277,7 +277,7 @@ static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
         checked[cur.x][cur.y] = attempt;
         if( cur.x == 0 || cur.x == MAPSIZE_X - 1 ||
             cur.y == 0 || cur.y == MAPSIZE_Y - 1 ||
-            m.has_flag( TFLAG_GOES_UP, cur ) ) {
+            m.has_flag( ter_furn_flag::TFLAG_GOES_UP, cur ) ) {
             return INT_MAX;
         }
 
@@ -369,11 +369,12 @@ void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
     const point u( player_pos.x % HALF_MAPSIZE_X, player_pos.y % HALF_MAPSIZE_Y );
     std::vector<tripoint> valid;
     for( const tripoint &p : m.points_on_zlevel() ) {
-        if( !( m.has_flag_ter( "DOOR", p ) ||
-               m.has_flag_ter( "OPENCLOSE_INSIDE", p ) ||
+        if( !( m.has_flag_ter( ter_furn_flag::TFLAG_DOOR, p ) ||
+               m.has_flag_ter( ter_furn_flag::TFLAG_OPENCLOSE_INSIDE, p ) ||
                m.is_outside( p ) ||
                ( p.x >= u.x - rad && p.x <= u.x + rad && p.y >= u.y - rad && p.y <= u.y + rad ) ) ) {
-            if( m.has_flag( TFLAG_FLAMMABLE, p ) || m.has_flag( TFLAG_FLAMMABLE_ASH, p ) ) {
+            if( m.has_flag( ter_furn_flag::TFLAG_FLAMMABLE, p ) ||
+                m.has_flag( ter_furn_flag::TFLAG_FLAMMABLE_ASH, p ) ) {
                 valid.push_back( p );
             }
         }

@@ -57,6 +57,7 @@ void cardreader_robofac( Character &you, const tripoint &examp );
 void cardreader_foodplace( Character &you, const tripoint &examp );
 void intercom( Character &you, const tripoint &examp );
 void cvdmachine( Character &you, const tripoint &examp );
+void change_appearance( Character &you, const tripoint &examp );
 void rubble( Character &you, const tripoint &examp );
 void chainfence( Character &you, const tripoint &examp );
 void bars( Character &you, const tripoint &examp );
