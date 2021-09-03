@@ -1118,6 +1118,8 @@ class Creature : public viewer
         virtual const std::string &symbol() const = 0;
         virtual bool is_symbol_highlighted() const;
 
+        std::unordered_map<std::string, std::string> &get_values();
+
     protected:
         Creature *killer; // whoever killed us. this should be NULL unless we are dead
         void set_killer( Creature *killer );
