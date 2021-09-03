@@ -1757,13 +1757,37 @@ void npc::load( const JsonObject &data )
 {
     Character::load( data );
 
-    // TEMPORARY until 0.G
+    // TEMPORARY Remove if branch after 0.G (keep else branch)
     if( !data.has_member( "location" ) ) {
         point submap_coords;
         data.read( "submap_coords", submap_coords );
         const tripoint pos = read_legacy_creature_pos( data );
         set_location( tripoint_abs_ms( project_to<coords::ms>( point_abs_sm( submap_coords ) ),
                                        0 ) + tripoint( pos.x % SEEX, pos.y % SEEY, pos.z ) );
+        cata::optional<tripoint> opt;
+        if( data.read( "last_player_seen_pos", opt ) && opt ) {
+            last_player_seen_pos = get_location() + *opt - pos;
+        }
+        if( data.read( "pulp_location", opt ) && opt ) {
+            pulp_location = get_location() + *opt - pos;
+        }
+        tripoint tmp;
+        if( data.read( "guardx", tmp.x ) && data.read( "guardy", tmp.y ) && data.read( "guardz", tmp.z ) &&
+            tmp != tripoint_min ) {
+            guard_pos = tripoint_abs_ms( tmp );
+        }
+        if( data.read( "chair_pos", tmp ) && tmp != tripoint_min ) {
+            chair_pos = tripoint_abs_ms( tmp );
+        }
+        if( data.read( "wander_pos", tmp ) && tmp != tripoint_min ) {
+            wander_pos = tripoint_abs_ms( tmp );
+        }
+    } else {
+        data.read( "last_player_seen_pos", last_player_seen_pos );
+        data.read( "guard_pos", guard_pos );
+        data.read( "pulp_location", pulp_location );
+        data.read( "chair_pos", chair_pos );
+        data.read( "wander_pos", wander_pos );
     }
 
     int misstmp = 0;
@@ -1802,49 +1826,17 @@ void npc::load( const JsonObject &data )
     data.read( "known_to_u", known_to_u );
     data.read( "personality", personality );
 
-    if( data.has_member( "plx" ) ) {
-        last_player_seen_pos.emplace();
-        data.read( "plx", last_player_seen_pos->x );
-        data.read( "ply", last_player_seen_pos->y );
-        if( !data.read( "plz", last_player_seen_pos->z ) ) {
-            last_player_seen_pos->z = posz();
-        }
-        // old code used tripoint_min to indicate "not a valid point"
-        if( *last_player_seen_pos == tripoint_min ) {
-            last_player_seen_pos.reset();
-        }
-    } else {
-        data.read( "last_player_seen_pos", last_player_seen_pos );
-    }
-
     data.read( "goalx", goal.x() );
     data.read( "goaly", goal.y() );
     data.read( "goalz", goal.z() );
 
-    data.read( "guardx", guard_pos.x );
-    data.read( "guardy", guard_pos.y );
-    data.read( "guardz", guard_pos.z );
     if( data.read( "current_activity_id", act_id ) ) {
         current_activity_id = activity_id( act_id );
     } else if( activity ) {
         current_activity_id = activity.id();
     }
 
-    if( data.has_member( "pulp_locationx" ) ) {
-        pulp_location.emplace();
-        data.read( "pulp_locationx", pulp_location->x );
-        data.read( "pulp_locationy", pulp_location->y );
-        data.read( "pulp_locationz", pulp_location->z );
-        // old code used tripoint_min to indicate "not a valid point"
-        if( *pulp_location == tripoint_min ) {
-            pulp_location.reset();
-        }
-    } else {
-        data.read( "pulp_location", pulp_location );
-    }
     data.read( "assigned_camp", assigned_camp );
-    data.read( "chair_pos", chair_pos );
-    data.read( "wander_pos", wander_pos );
     data.read( "job", job );
     if( data.read( "mission", misstmp ) ) {
         mission = static_cast<npc_mission>( misstmp );
@@ -1998,9 +1990,7 @@ void npc::store( JsonOut &json ) const
     json.member( "goaly", goal.y() );
     json.member( "goalz", goal.z() );
 
-    json.member( "guardx", guard_pos.x );
-    json.member( "guardy", guard_pos.y );
-    json.member( "guardz", guard_pos.z );
+    json.member( "guard_pos", guard_pos );
     json.member( "current_activity_id", current_activity_id.str() );
     json.member( "pulp_location", pulp_location );
     json.member( "assigned_camp", assigned_camp );

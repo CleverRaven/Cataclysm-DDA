@@ -1285,24 +1285,25 @@ class npc : public Character
             return ai_cache.current_attack_evaluation;
         }
 
-        cata::optional<tripoint> last_player_seen_pos; // Where we last saw the player
+        // Where we last saw the player
+        cata::optional<tripoint_abs_ms> last_player_seen_pos;
         int last_seen_player_turn = 0; // Timeout to forgetting
         tripoint wanted_item_pos; // The square containing an item we want
-        tripoint guard_pos;  // These are the local coordinates that a guard will return to inside of their goal tripoint
-        tripoint chair_pos = tripoint_min; // This is the spot the NPC wants to move to to sit and relax.
+        // These are the coordinates that a guard will return to inside of their goal tripoint
+        cata::optional<tripoint_abs_ms> guard_pos;
+        // This is the spot the NPC wants to move to to sit and relax.
+        cata::optional<tripoint_abs_ms> chair_pos;
         cata::optional<tripoint_abs_omt> base_location; // our faction base location in OMT coords.
         /**
          * Global overmap terrain coordinate, where we want to get to
          * if no goal exist, this is no_goal_point.
          */
         tripoint_abs_omt goal;
-        tripoint wander_pos = tripoint_min;
-        int wander_time = 0;
+        // Spot to wander off to when idle.
+        cata::optional<tripoint_abs_ms> wander_pos;
         item *known_stolen_item = nullptr; // the item that the NPC wants the player to drop or barter for.
-        /**
-         * Location and index of the corpse we'd like to pulp (if any).
-         */
-        cata::optional<tripoint> pulp_location;
+        // Location of the corpse we'd like to pulp (if any).
+        cata::optional<tripoint_abs_ms> pulp_location;
         time_point restock;
         bool fetching_item = false;
         bool has_new_items = false; // If true, we have something new and should re-equip

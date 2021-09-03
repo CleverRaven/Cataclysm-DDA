@@ -136,7 +136,7 @@ npc::npc()
     last_player_seen_pos = cata::nullopt;
     last_seen_player_turn = 999;
     wanted_item_pos = tripoint_min;
-    guard_pos = tripoint_min;
+    guard_pos = cata::nullopt;
     goal = tripoint_abs_omt( tripoint_min );
     fetching_item = false;
     has_new_items = true;
@@ -2429,13 +2429,6 @@ std::string npc::opinion_text() const
     return ret;
 }
 
-static void maybe_shift( cata::optional<tripoint> &pos, const point &d )
-{
-    if( pos ) {
-        *pos += d;
-    }
-}
-
 static void maybe_shift( tripoint &pos, const point &d )
 {
     if( pos != tripoint_min ) {
@@ -2448,8 +2441,6 @@ void npc::shift( const point &s )
     const point shift = sm_to_ms_copy( s );
     // TODO: convert these to absolute coords and get rid of shift()
     maybe_shift( wanted_item_pos, point( -shift.x, -shift.y ) );
-    maybe_shift( last_player_seen_pos, point( -shift.x, -shift.y ) );
-    maybe_shift( pulp_location, point( -shift.x, -shift.y ) );
     path.clear();
 }
 
@@ -2470,7 +2461,7 @@ void npc::reboot()
     last_player_seen_pos = cata::nullopt;
     last_seen_player_turn = 999;
     wanted_item_pos = tripoint_min;
-    guard_pos = tripoint_min;
+    guard_pos = cata::nullopt;
     goal = no_goal_point;
     fetching_item = false;
     has_new_items = true;
