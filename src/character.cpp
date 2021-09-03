@@ -141,6 +141,7 @@ static const efftype_id effect_blisters( "blisters" );
 static const efftype_id effect_bloodworms( "bloodworms" );
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_brainworms( "brainworms" );
+static const efftype_id effect_blood_spiders( "blood_spiders" );
 static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_common_cold( "common_cold" );
@@ -1539,7 +1540,7 @@ bool Character::uncanny_dodge()
     }
 
     map &here = get_map();
-    const optional_vpart_position veh_part = here.veh_at( position );
+    const optional_vpart_position veh_part = here.veh_at( pos() );
     if( in_vehicle && veh_part && veh_part.avail_part_with_feature( "SEATBELT" ) ) {
         return false;
     }
@@ -1549,11 +1550,10 @@ bool Character::uncanny_dodge()
         here.unboard_vehicle( pos() );
     }
     if( adjacent.x != posx() || adjacent.y != posy() ) {
-        position.x = adjacent.x;
-        position.y = adjacent.y;
+        set_pos_only( adjacent );
 
         //landed in a vehicle tile
-        if( here.veh_at( position ) ) {
+        if( here.veh_at( pos() ) ) {
             here.board_vehicle( pos(), this );
         }
 
@@ -4089,28 +4089,6 @@ std::string Character::enumerate_unmet_requirements( const item &it, const item 
     }
 
     return enumerate_as_string( unmet_reqs );
-}
-
-int Character::rust_rate() const
-{
-    const std::string &rate_option = get_option<std::string>( "SKILL_RUST" );
-    if( rate_option == "off" ) {
-        return 0;
-    }
-
-    // Stat window shows stat effects on based on current stat
-    int intel = get_int();
-    /** @EFFECT_INT increases skill rust delay by 10% per level above 8 */
-    int ret = ( ( rate_option == "vanilla" || rate_option == "capped" ) ?
-                100 : 100 + 10 * ( intel - 8 ) );
-
-    ret *= mutation_value( "skill_rust_multiplier" );
-
-    if( ret < 0 ) {
-        ret = 0;
-    }
-
-    return ret;
 }
 
 int Character::read_speed( bool return_stat_effect ) const
@@ -12026,20 +12004,24 @@ void Character::process_effects()
     }
     if( has_trait( trait_PARAIMMUNE ) && ( has_effect( effect_dermatik ) ||
                                            has_effect( effect_tapeworm ) ||
+                                           has_effect( effect_blood_spiders ) ||
                                            has_effect( effect_bloodworms ) || has_effect( effect_brainworms ) ||
                                            has_effect( effect_paincysts ) ) ) {
         remove_effect( effect_dermatik );
         remove_effect( effect_tapeworm );
         remove_effect( effect_bloodworms );
+        remove_effect( effect_blood_spiders );
         remove_effect( effect_brainworms );
         remove_effect( effect_paincysts );
         add_msg_if_player( m_good, _( "Something writhes inside of you as it dies." ) );
     }
     if( has_trait( trait_ACIDBLOOD ) && ( has_effect( effect_dermatik ) ||
                                           has_effect( effect_bloodworms ) ||
+                                          has_effect( effect_blood_spiders ) ||
                                           has_effect( effect_brainworms ) ) ) {
         remove_effect( effect_dermatik );
         remove_effect( effect_bloodworms );
+        remove_effect( effect_blood_spiders );
         remove_effect( effect_brainworms );
     }
     if( has_trait( trait_EATHEALTH ) && has_effect( effect_tapeworm ) ) {
@@ -12304,7 +12286,7 @@ bool Character::has_destination() const
 bool Character::has_destination_activity() const
 {
     return !get_destination_activity().is_null() && destination_point &&
-           position == get_map().getlocal( *destination_point );
+           pos() == get_map().getlocal( *destination_point );
 }
 
 void Character::start_destination_activity()

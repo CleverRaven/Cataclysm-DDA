@@ -271,6 +271,9 @@ struct mtype {
         /** Stores effect data for effects placed on attack */
         std::vector<mon_effect_data> atk_effs;
 
+        /** Mod origin */
+        std::vector<std::pair<mtype_id, mod_id>> src;
+
         std::set<species_id> species;
         std::set<std::string> categories;
         std::vector<material_id> mat;
