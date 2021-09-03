@@ -12,6 +12,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "clone_ptr.h"
+#include "contents_change_handler.h"
 #include "handle_liquid.h"
 #include "item.h"
 #include "itype.h"

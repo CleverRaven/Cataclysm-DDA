@@ -21,6 +21,7 @@
 #include "clzones.h"
 #include "colony.h"
 #include "construction.h"
+#include "contents_change_handler.h"
 #include "creature.h"
 #include "creature_tracker.h"
 #include "debug.h"
