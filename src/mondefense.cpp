@@ -178,7 +178,7 @@ void mdefense::return_fire( monster &m, Creature *source, const dealt_projectile
     const int distance_to_source = rl_dist( m.pos(), source->pos() );
 
     // TODO: implement different rule, dependent on sound and probably some other things
-    // Add some innacuracy since it is blind fire
+    // Add some inaccuracy since it is blind fire (at a tile, not the player directly)
     const int dispersion = 150;
 
     for( const std::pair<const std::string, mtype_special_attack> &attack : m.type->special_attacks ) {
