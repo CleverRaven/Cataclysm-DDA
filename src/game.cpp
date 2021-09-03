@@ -104,7 +104,6 @@
 #include "line.h"
 #include "live_view.h"
 #include "loading_ui.h"
-#include "location.h"
 #include "magic.h"
 #include "make_static.h"
 #include "map.h"
@@ -11629,11 +11628,6 @@ achievements_tracker &get_achievements()
 }
 
 Character &get_player_character()
-{
-    return g->u;
-}
-
-location &get_player_location()
 {
     return g->u;
 }

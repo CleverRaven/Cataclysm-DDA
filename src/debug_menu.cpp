@@ -59,7 +59,6 @@
 #include "item_group.h"
 #include "item_location.h"
 #include "itype.h"
-#include "location.h"
 #include "magic.h"
 #include "map.h"
 #include "map_extras.h"
@@ -1020,12 +1019,12 @@ void change_spells( Character &character )
 void teleport_short()
 {
     const cata::optional<tripoint> where = g->look_around();
-    location &player_location = get_player_location();
-    if( !where || *where == player_location.pos() ) {
+    const Character &player_character = get_player_character();
+    if( !where || *where == player_character.pos() ) {
         return;
     }
     g->place_player( *where );
-    const tripoint new_pos( player_location.pos() );
+    const tripoint new_pos( player_character.pos() );
     add_msg( _( "You teleport to point %s." ), new_pos.to_string() );
 }
 

@@ -3653,7 +3653,7 @@ void cata_tiles::draw_weather_frame()
 void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_strings )
 {
     const bool use_font = get_option<bool>( "ANIMATION_SCT_USE_FONT" );
-    tripoint player_pos = get_player_location().pos();
+    tripoint player_pos = get_player_character().pos();
 
     for( auto iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter ) {
         const point iD( iter->getPosX(), iter->getPosY() );
@@ -3698,7 +3698,7 @@ void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_s
 
 void cata_tiles::draw_zones_frame()
 {
-    tripoint player_pos = get_player_location().pos();
+    tripoint player_pos = get_player_character().pos();
     for( int iY = zone_start.y; iY <= zone_end.y; ++ iY ) {
         for( int iX = zone_start.x; iX <= zone_end.x; ++iX ) {
             draw_from_id_string( "highlight", C_NONE, empty_string,
