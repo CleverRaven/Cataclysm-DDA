@@ -69,7 +69,7 @@ void weakpoints::clear()
 
 void weakpoints::load( const JsonArray &ja )
 {
-    for( const JsonObject &jo : ja ) {
+    for( const JsonObject jo : ja ) {
         weakpoint tmp;
         tmp.load( jo );
         weakpoint_list.push_back( std::move( tmp ) );
