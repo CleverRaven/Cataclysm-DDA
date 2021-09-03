@@ -104,7 +104,6 @@
 #include "line.h"
 #include "live_view.h"
 #include "loading_ui.h"
-#include "location.h"
 #include "magic.h"
 #include "make_static.h"
 #include "map.h"
@@ -125,6 +124,7 @@
 #include "move_mode.h"
 #include "mtype.h"
 #include "npc.h"
+#include "npctrade.h"
 #include "npc_class.h"
 #include "omdata.h"
 #include "options.h"
@@ -2655,8 +2655,8 @@ std::vector<std::string> game::list_active_characters()
 void game::write_memorial_file( std::string sLastWords )
 {
     const std::string &memorial_dir = PATH_INFO::memorialdir();
-    const std::string &memorial_active_world_dir = memorial_dir + utf8_to_native(
-                world_generator->active_world->world_name ) + "/";
+    const std::string &memorial_active_world_dir = memorial_dir +
+            world_generator->active_world->world_name + "/";
 
     //Check if both dirs exist. Nested assure_dir_exist fails if the first dir of the nested dir does not exist.
     if( !assure_dir_exist( memorial_dir ) ) {
@@ -2693,7 +2693,7 @@ void game::write_memorial_file( std::string sLastWords )
             return !std::isgraph( c, locale );
         }, '_' );
     } else {
-        memorial_file_path << utf8_to_native( u.name );
+        memorial_file_path << u.name;
     }
 
     // Add a ~ if the player name was actually truncated.
@@ -4992,7 +4992,8 @@ bool game::npc_menu( npc &who )
         sort_armor,
         attack,
         disarm,
-        steal
+        steal,
+        trade
     };
 
     const bool obeys = debug_mode || ( who.is_player_ally() && !who.in_sleep_state() );
@@ -5011,6 +5012,8 @@ bool game::npc_menu( npc &who )
     if( !who.is_player_ally() ) {
         amenu.addentry( disarm, who.is_armed(), 'd', _( "Disarm" ) );
         amenu.addentry( steal, !who.is_enemy(), 'S', _( "Steal" ) );
+    } else {
+        amenu.addentry( trade, true, 'b', _( "Trade" ) );
     }
 
     amenu.query();
@@ -5093,6 +5096,8 @@ bool game::npc_menu( npc &who )
         }
     } else if( choice == steal && query_yn( _( "You may be attacked!  Proceed?" ) ) ) {
         u.steal( who );
+    } else if( choice == trade ) {
+        npc_trading::trade( who, 0, _( "Trade" ) );
     }
 
     return true;
@@ -5255,7 +5260,7 @@ void game::examine( const tripoint &examp )
             xfurn_t.examine( u, examp );
         }
     } else {
-        if( u.is_mounted() && xter_t.can_examine() ) {
+        if( u.is_mounted() && xter_t.can_examine( examp ) ) {
             add_msg( m_warning, _( "You cannot do that while mounted." ) );
         } else {
             xter_t.examine( u, examp );
@@ -5269,7 +5274,7 @@ void game::examine( const tripoint &examp )
     }
 
     bool none = true;
-    if( xter_t.can_examine() || xfurn_t.can_examine() ) {
+    if( xter_t.can_examine( examp ) || xfurn_t.can_examine( examp ) ) {
         none = false;
     }
 
@@ -9326,7 +9331,7 @@ point game::place_player( const tripoint &dest_loc )
                 const bool forage_everything = forage_type == "both";
                 const bool forage_bushes = forage_everything || forage_type == "bushes";
                 const bool forage_trees = forage_everything || forage_type == "trees";
-                if( !xter_t.can_examine() ) {
+                if( !xter_t.can_examine( pos ) ) {
                     return;
                 } else if( ( forage_bushes && xter_t.has_examine( iexamine::shrub_marloss ) ) ||
                            ( forage_bushes && xter_t.has_examine( iexamine::shrub_wildveggies ) ) ||
@@ -11623,11 +11628,6 @@ achievements_tracker &get_achievements()
 }
 
 Character &get_player_character()
-{
-    return g->u;
-}
-
-location &get_player_location()
 {
     return g->u;
 }

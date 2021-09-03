@@ -72,10 +72,34 @@ struct int_or_var {
     }
 };
 
+struct duration_or_var {
+    cata::optional<time_duration> dur_val;
+    cata::optional<std::string> var_val;
+    cata::optional<time_duration> default_val;
+    time_duration evaluate( talker *talk ) const {
+        if( dur_val.has_value() ) {
+            return dur_val.value();
+        } else if( var_val.has_value() ) {
+            std::string val = talk->get_value( var_val.value() );
+            if( !val.empty() ) {
+                time_duration ret_val;
+                ret_val = time_duration::from_turns( std::stoi( val ) );
+                return ret_val;
+            }
+            return default_val.value();
+        } else {
+            debugmsg( "No valid value." );
+            return 0_seconds;
+        }
+    }
+};
+
 std::string get_talk_varname( const JsonObject &jo, const std::string &member,
                               bool check_value = true );
-int_or_var get_variable_or_int( const JsonObject &jo, std::string member, bool required = true,
-                                int default_val = 0 );
+int_or_var get_int_or_var( const JsonObject &jo, std::string member, bool required = true,
+                           int default_val = 0 );
+duration_or_var get_duration_or_var( const JsonObject &jo, std::string member, bool required,
+                                     time_duration default_val = 0_seconds );
 // the truly awful declaration for the conditional_t loading helper_function
 template<class T>
 void read_condition( const JsonObject &jo, const std::string &member_name,

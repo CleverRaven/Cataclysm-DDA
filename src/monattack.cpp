@@ -49,7 +49,6 @@
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
-#include "location.h"
 #include "make_static.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -330,7 +329,7 @@ bool mattack::eat_food( monster *z )
             continue;
         }
         // Don't snap up food RIGHT under the player's nose.
-        if( z->friendly && rl_dist( get_player_location().pos(), p ) <= 2 ) {
+        if( z->friendly && rl_dist( get_player_character().pos(), p ) <= 2 ) {
             continue;
         }
         map_stack items = here.i_at( p );
@@ -1489,7 +1488,7 @@ bool mattack::growplants( monster *z )
 bool mattack::grow_vine( monster *z )
 {
     if( z->friendly ) {
-        if( rl_dist( get_player_location().pos(), z->pos() ) <= 3 ) {
+        if( rl_dist( get_player_character().pos(), z->pos() ) <= 3 ) {
             // Friendly vines keep the area around you free, so you can move.
             return false;
         }
@@ -2391,7 +2390,7 @@ bool mattack::callblobs( monster *z )
     // if we want to deal with NPCS and friendly monsters as well.
     // The strategy is to send about 1/3 of the available blobs after the player,
     // and keep the rest near the brain blob for protection.
-    tripoint enemy = get_player_location().pos();
+    const tripoint enemy = get_player_character().pos();
     std::list<monster *> allies;
     std::vector<tripoint> nearby_points = closest_points_first( z->pos(), 3 );
     for( monster &candidate : g->all_monsters() ) {
@@ -5763,8 +5762,12 @@ bool mattack::zombie_fuse( monster *z )
     add_msg_if_player_sees( *z, _( "The %1$s fuses with the %2$s." ),
                             critter->name(), z->name() );
     z->moves -= 200;
-    z->add_effect( effect_grown_of_fuse, 10_days, true,
-                   critter->get_hp_max() + z->get_effect( effect_grown_of_fuse ).get_intensity() );
+    if( z->get_size() < creature_size::huge ) {
+        z->add_effect( effect_grown_of_fuse, 10_days, true,
+                       std::min( critter->get_hp_max(),
+                                 ( 80 * ( critter->get_volume() / 62500_ml ) ) )
+                       + z->get_effect( effect_grown_of_fuse ).get_intensity() );
+    }
     z->heal( critter->get_hp(), true );
     if( mission::on_creature_fusion( *z, *critter ) ) {
         z->mission_fused.emplace_back( critter->name() );

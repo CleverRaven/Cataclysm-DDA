@@ -45,6 +45,10 @@ void egg_sack_generic( Character &you, const tripoint &examp, const mtype_id &mo
 
 void none( Character &you, const tripoint &examp );
 
+bool always_false( const tripoint &examp );
+bool always_true( const tripoint &examp );
+bool harvestable_now( const tripoint &examp );
+
 void gaspump( Character &you, const tripoint &examp );
 void atm( Character &you, const tripoint &examp );
 void vending( Character &you, const tripoint &examp );
@@ -162,7 +166,13 @@ bool drink_nectar( Character &you );
 void handle_harvest( Character &you, const std::string &itemid, bool force_drop );
 } // namespace iexamine_helper
 
-using iexamine_function = void ( * )( Character &, const tripoint & );
-iexamine_function iexamine_function_from_string( const std::string &function_name );
+using iexamine_examine_function = void ( * )( Character &, const tripoint & );
+using iexamine_can_examine_function = bool ( * )( const tripoint & );
+struct iexamine_functions {
+    iexamine_can_examine_function can_examine;
+    iexamine_examine_function examine;
+};
+
+iexamine_functions iexamine_functions_from_string( const std::string &function_name );
 
 #endif // CATA_SRC_IEXAMINE_H

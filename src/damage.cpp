@@ -469,7 +469,8 @@ void damage_over_time_data::load( const JsonObject &obj )
     mandatory( obj, was_loaded, "bodyparts", bps );
 
     if( obj.has_string( "duration" ) ) {
-        duration = read_from_json_string<time_duration>( *obj.get_raw( "duration" ), time_duration::units );
+        duration = read_from_json_string<time_duration>( obj.get_member( "duration" ),
+                   time_duration::units );
     } else {
         duration = time_duration::from_turns( obj.get_int( "duration", 0 ) );
     }

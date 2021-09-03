@@ -12,7 +12,6 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
-#include <fstream>
 #include <iomanip>
 #include <iterator>
 #include <map>
@@ -522,8 +521,8 @@ void DebugFile::init( DebugOutput output_mode, const std::string &filename )
                     rename_failed = !rename_file( filename, oldfile );
                 }
             }
-            file = std::make_shared<std::ofstream>(
-                       filename.c_str(), std::ios::out | std::ios::app );
+            file = std::make_shared<cata::ofstream>(
+                       fs::u8path( filename ), std::ios::out | std::ios::app );
             *file << "\n\n-----------------------------------------\n";
             *file << get_time() << " : Starting log.";
             DebugLog( D_INFO, D_MAIN ) << "Cataclysm DDA version " << getVersionString();

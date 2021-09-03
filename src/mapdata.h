@@ -14,6 +14,7 @@
 #include "clone_ptr.h"
 #include "color.h"
 #include "enum_bitset.h"
+#include "iexamine.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
@@ -417,7 +418,8 @@ struct map_data_common_t {
         translation name_;
 
         // Hardcoded examination function
-        iexamine_function examine_func; // What happens when the terrain/furniture is examined
+        iexamine_functions examine_func; // What happens when the terrain/furniture is examined
+
         // Data-driven examine actor
         cata::clone_ptr<iexamine_actor> examine_actor;
 
@@ -443,10 +445,10 @@ struct map_data_common_t {
         */
         std::array<int, NUM_SEASONS> symbol_;
 
-        bool can_examine() const;
-        bool has_examine( iexamine_function_ref func ) const;
+        bool can_examine( const tripoint &examp ) const;
+        bool has_examine( iexamine_examine_function func ) const;
         bool has_examine( const std::string &action ) const;
-        void set_examine( iexamine_function_ref func );
+        void set_examine( iexamine_functions func );
         void examine( Character &, const tripoint & ) const;
 
         int light_emitted = 0;
@@ -526,7 +528,7 @@ struct map_data_common_t {
         }
 
         virtual void load( const JsonObject &jo, const std::string & );
-        virtual void check() const;
+        virtual void check() const {};
 };
 
 /*
