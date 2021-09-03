@@ -1208,13 +1208,13 @@ class Character : public Creature, public visitable
         bool made_of_any( const std::set<material_id> &ms ) const override;
 
         inline void setx( int x ) {
-            setpos( tripoint( x, position.y, position.z ) );
+            setpos( tripoint( x, posy(), posz() ) );
         }
         inline void sety( int y ) {
-            setpos( tripoint( position.x, y, position.z ) );
+            setpos( tripoint( posx(), y, posz() ) );
         }
         inline void setz( int z ) {
-            setpos( tripoint( position.xy(), z ) );
+            setpos( tripoint( pos().xy(), z ) );
         }
         void setpos( const tripoint &p ) override;
 

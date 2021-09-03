@@ -278,13 +278,13 @@ class Creature : public location, public viewer
             return position;
         }
         inline int posx() const override {
-            return position.x;
+            return pos().x;
         }
         inline int posy() const override {
-            return position.y;
+            return pos().y;
         }
         inline int posz() const override {
-            return position.z;
+            return pos().z;
         }
         void setpos( const tripoint &p ) override;
 
@@ -664,9 +664,12 @@ class Creature : public location, public viewer
             return false;
         }
 
-    protected:
+    private:
         /** The creature's position on the local map */
         tripoint position;
+    protected:
+        // Sets the creature's position without any side-effects.
+        void set_pos_only( const tripoint &p );
         /**anatomy is the plan of the creature's body*/
         anatomy_id creature_anatomy = anatomy_id( "default_anatomy" );
         /**this is the actual body of the creature*/

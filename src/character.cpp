@@ -1539,7 +1539,7 @@ bool Character::uncanny_dodge()
     }
 
     map &here = get_map();
-    const optional_vpart_position veh_part = here.veh_at( position );
+    const optional_vpart_position veh_part = here.veh_at( pos() );
     if( in_vehicle && veh_part && veh_part.avail_part_with_feature( "SEATBELT" ) ) {
         return false;
     }
@@ -1549,11 +1549,10 @@ bool Character::uncanny_dodge()
         here.unboard_vehicle( pos() );
     }
     if( adjacent.x != posx() || adjacent.y != posy() ) {
-        position.x = adjacent.x;
-        position.y = adjacent.y;
+        set_pos_only( adjacent );
 
         //landed in a vehicle tile
-        if( here.veh_at( position ) ) {
+        if( here.veh_at( pos() ) ) {
             here.board_vehicle( pos(), this );
         }
 
@@ -12304,7 +12303,7 @@ bool Character::has_destination() const
 bool Character::has_destination_activity() const
 {
     return !get_destination_activity().is_null() && destination_point &&
-           position == get_map().getlocal( *destination_point );
+           pos() == get_map().getlocal( *destination_point );
 }
 
 void Character::start_destination_activity()
