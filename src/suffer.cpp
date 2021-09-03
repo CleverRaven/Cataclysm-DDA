@@ -161,6 +161,7 @@ void in_sunlight( Character &you );
 void water_damage( Character &you, const trait_id &mut_id );
 void mutation_power( Character &you, const trait_id &mut_id );
 void while_underwater( Character &you );
+void from_addictions( Character &you );
 } // namespace suffer
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
@@ -262,24 +263,24 @@ void suffer::while_underwater( Character &you )
     }
 }
 
-void Character::suffer_from_addictions()
+void suffer::from_addictions( Character &you )
 {
     time_duration timer = -6_hours;
-    if( has_trait( trait_ADDICTIVE ) ) {
+    if( you.has_trait( trait_ADDICTIVE ) ) {
         timer = -10_hours;
-    } else if( has_trait( trait_NONADDICTIVE ) ) {
+    } else if( you.has_trait( trait_NONADDICTIVE ) ) {
         timer = -3_hours;
     }
-    for( addiction &cur_addiction : addictions ) {
+    for( addiction &cur_addiction : you.addictions ) {
         if( cur_addiction.sated <= 0_turns &&
             cur_addiction.intensity >= MIN_ADDICTION_LEVEL ) {
-            addict_effect( *this, cur_addiction );
+            addict_effect( you, cur_addiction );
         }
         cur_addiction.sated -= 1_turns;
         // Higher intensity addictions heal faster
         if( cur_addiction.sated - 10_minutes * cur_addiction.intensity < timer ) {
             if( cur_addiction.intensity <= 2 ) {
-                rem_addiction( cur_addiction.type );
+                you.rem_addiction( cur_addiction.type );
                 break;
             } else {
                 cur_addiction.intensity--;
@@ -1499,7 +1500,7 @@ void Character::suffer()
         suffer::while_underwater( *this );
     }
 
-    suffer_from_addictions();
+    suffer::from_addictions( *this );
 
     if( !in_sleep_state() ) {
         suffer_while_awake( current_stim );
