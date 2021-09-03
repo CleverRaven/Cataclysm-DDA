@@ -32,7 +32,7 @@
       "durability": 8,
       "loudness": 8,
       "ammo_effects": [ "INCENDIARY" ],
-      "ups_charges": 50,
+      "ups_charges": 75,
       "reload": 200
     }
   },
@@ -57,7 +57,7 @@
       "durability": 8,
       "ammo_effects": [ "PLASMA", "INCENDIARY"  ],
       "loudness": 15,
-      "ups_charges": 200,
+      "ups_charges": 100,
       "reload": 200
     },
     "location": "emitter",
