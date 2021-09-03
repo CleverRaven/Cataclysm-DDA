@@ -44,7 +44,8 @@
       { "item": "platinum_watch", "prob": 1 },
       { "item": "ring_signet", "prob": 1 },
       { "item": "magic_8_ball", "prob": 1 },
-      { "item": "coin_quarter", "prob": 1 }
+      { "item": "coin_silver", "prob": 1 },
+      { "item": "coin_gold", "prob": 1 }
     ]
   },
   {
@@ -111,6 +112,9 @@
       { "item": "helmet_conical", "prob": 1 },
       { "item": "helmet_galea", "prob": 1 },
       { "item": "helmet_nasal", "prob": 1 },
+      { "item": "helmet_kettle", "prob": 1 },
+      { "item": "helmet_sallet", "prob": 1 },
+      { "item": "helmet_armet", "prob": 1 },
       { "item": "chainmail_suit", "prob": 1 },
       { "item": "chainmail_hood", "prob": 3 },
       { "item": "chainmail_vest", "prob": 3 },
@@ -145,6 +149,7 @@
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
+      { "group": "coins", "prob": 1, "count": [ 1, 10 ] },
       { "item": "oxylamp", "prob": 50 },
       { "item": "cow_bell", "prob": 15 },
       { "item": "sickle", "prob": 2 },
@@ -191,7 +196,8 @@
       { "item": "straw_sandals", "prob": 1 },
       { "item": "holy_symbol", "prob": 10 },
       { "item": "magic_8_ball", "prob": 1 },
-      { "item": "coin_quarter", "prob": 1 },
+      { "item": "coin_silver", "prob": 1 },
+      { "item": "coin_gold", "prob": 1 },
       { "item": "bronze_medal", "prob": 1 },
       { "item": "silver_medal", "prob": 1 },
       { "item": "gold_medal", "prob": 1 },

@@ -7386,6 +7386,7 @@
       { "point": [ 1, 0, 0 ], "overmap": "lake_surface" },
       { "point": [ 2, 0, 0 ], "overmap": "lake_surface" },
       { "point": [ 0, 1, 0 ], "overmap": "lake_surface" },
+      { "point": [ 1, 1, 1 ], "overmap": "sealab_small_roof_north" },
       { "point": [ 1, 1, 0 ], "overmap": "sealab_small_surface_north" },
       { "point": [ 1, 1, -1 ], "overmap": "sealab_small_-1_north", "locations": [ "lake_water_cube" ] },
       { "point": [ 1, 1, -2 ], "overmap": "sealab_small_-2_north", "locations": [ "lake_water_cube" ] },

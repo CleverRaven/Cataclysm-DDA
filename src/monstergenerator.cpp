@@ -209,6 +209,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_INSECTICIDEPROOF: return "INSECTICIDEPROOF";
         case MF_RANGED_ATTACKER: return "RANGED_ATTACKER";
         case MF_CAMOUFLAGE: return "CAMOUFLAGE";
+        case MF_WATER_CAMOUFLAGE: return "WATER_CAMOUFLAGE";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;
@@ -538,6 +539,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "FUNGAL_TRAIL", mattack::fungal_trail );
     add_hardcoded_attack( "PLANT", mattack::plant );
     add_hardcoded_attack( "DISAPPEAR", mattack::disappear );
+    add_hardcoded_attack( "DEPART", mattack::depart );
     add_hardcoded_attack( "FORMBLOB", mattack::formblob );
     add_hardcoded_attack( "CALLBLOBS", mattack::callblobs );
     add_hardcoded_attack( "JACKSON", mattack::jackson );
@@ -634,13 +636,13 @@ mon_effect_data load_mon_effect_data( const JsonObject &e )
 class mon_attack_effect_reader : public generic_typed_reader<mon_attack_effect_reader>
 {
     public:
-        mon_effect_data get_next( JsonIn &jin ) const {
-            JsonObject e = jin.get_object();
+        mon_effect_data get_next( JsonValue &jv ) const {
+            JsonObject e = jv.get_object();
             return load_mon_effect_data( e );
         }
         template<typename C>
-        void erase_next( JsonIn &jin, C &container ) const {
-            const efftype_id id = efftype_id( jin.get_string() );
+        void erase_next( std::string &&eff_str, C &container ) const {
+            const efftype_id id = efftype_id( std::move( eff_str ) );
             reader_detail::handler<C>().erase_if( container, [&id]( const mon_effect_data & e ) {
                 return e.id == id;
             } );
@@ -697,7 +699,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "aggression", agro, strict, -100, 100 );
     assign( jo, "morale", morale, strict );
 
-    assign( jo, "tracking_distance", tracking_distance, strict, 8 );
+    assign( jo, "tracking_distance", tracking_distance, strict, 3 );
 
     assign( jo, "mountable_weight_ratio", mountable_weight_ratio, strict );
 
@@ -811,7 +813,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
             while( jar.has_more() ) {
                 JsonObject obj = jar.next_object();
                 emit_fields.emplace( emit_id( obj.get_string( "emit_id" ) ),
-                                     read_from_json_string<time_duration>( *obj.get_raw( "delay" ), time_duration::units ) );
+                                     read_from_json_string<time_duration>( obj.get_member( "delay" ), time_duration::units ) );
             }
         }
     }
@@ -871,7 +873,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         if( repro.has_int( "baby_timer" ) ) {
             baby_timer = time_duration::from_days( repro.get_int( "baby_timer" ) );
         } else if( repro.has_string( "baby_timer" ) ) {
-            baby_timer = read_from_json_string<time_duration>( *repro.get_raw( "baby_timer" ),
+            baby_timer = read_from_json_string<time_duration>( repro.get_member( "baby_timer" ),
                          time_duration::units );
         }
         optional( repro, was_loaded, "baby_monster", baby_monster, string_id_reader<::mtype> {},
@@ -894,7 +896,7 @@ void mtype::load( const JsonObject &jo, const std::string &src )
         if( biosig.has_int( "biosig_timer" ) ) {
             biosig_timer = time_duration::from_days( biosig.get_int( "biosig_timer" ) );
         } else if( biosig.has_string( "biosig_timer" ) ) {
-            biosig_timer = read_from_json_string<time_duration>( *biosig.get_raw( "biosig_timer" ),
+            biosig_timer = read_from_json_string<time_duration>( biosig.get_member( "biosig_timer" ),
                            time_duration::units );
         }
 
@@ -1200,7 +1202,7 @@ void mtype::remove_regeneration_modifiers( const JsonObject &jo, const std::stri
 
 void MonsterGenerator::check_monster_definitions() const
 {
-    for( const auto &mon : mon_templates->get_all() ) {
+    for( const mtype &mon : mon_templates->get_all() ) {
         if( mon.harvest.is_null() && !mon.has_flag( MF_ELECTRONIC ) && !mon.id.is_null() ) {
             debugmsg( "monster %s has no harvest entry", mon.id.c_str(), mon.harvest.c_str() );
         }
@@ -1256,6 +1258,9 @@ void MonsterGenerator::check_monster_definitions() const
         }
         if( !mon.harvest.is_valid() ) {
             debugmsg( "monster %s has invalid harvest_entry: %s", mon.id.c_str(), mon.harvest.c_str() );
+        }
+        if( mon.has_flag( MF_WATER_CAMOUFLAGE ) && !monster( mon.id ).can_submerge() ) {
+            debugmsg( "monster %s has WATER_CAMOUFLAGE but cannot submerge", mon.id.c_str() );
         }
         for( const scenttype_id &s_id : mon.scents_tracked ) {
             if( !s_id.is_empty() && !s_id.is_valid() ) {

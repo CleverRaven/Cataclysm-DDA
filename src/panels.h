@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 
+#include "bodypart.h"
 #include "color.h"
 #include "coordinates.h"
 #include "translations.h"
@@ -37,8 +38,12 @@ namespace display
 std::string get_moon();
 // Current moon phase as ascii-art, ex. "(   )", "(  ))"
 std::string get_moon_graphic();
+// Current date, in terms of day within season, ex. "Summer, day 17"
+std::string date_string();
 // Current approximate time of day, ex. "Early morning", "Around dusk"
 std::string time_approx();
+// Exact time if character has a watch, approx time if aboveground, "???" if unknown/underground
+std::string time_string( const Character &u );
 
 // Temperature at character location, if they have a thermometer
 std::string get_temp( const Character &u );
@@ -47,12 +52,16 @@ std::string temp_delta_string( const Character &u );
 
 // Text descriptor for given activity level, ex. "Light", "Brisk", "Extreme"
 std::string activity_level_str( float level );
+// gets the malus string for character's current activity level, like "+ 25%"
+std::string activity_malus_str( const Character &u );
 // gets the description, printed in player_display, related to your current bmi
 std::string weight_long_description( const Character &u );
 
 // Functions returning (text, color) pairs
 std::pair<translation, nc_color> weariness_text_color( size_t weariness );
 std::pair<std::string, nc_color> weariness_text_color( const Character &u );
+std::pair<std::string, nc_color> weary_malus_text_color( const Character &u );
+std::pair<std::string, nc_color> activity_text_color( const Character &u );
 std::pair<std::string, nc_color> thirst_text_color( const Character &u );
 std::pair<std::string, nc_color> hunger_text_color( const Character &u );
 std::pair<std::string, nc_color> weight_text_color( const Character &u );
@@ -79,6 +88,16 @@ std::pair<std::string, nc_color> str_text_color( const Character &p );
 std::pair<std::string, nc_color> dex_text_color( const Character &p );
 std::pair<std::string, nc_color> int_text_color( const Character &p );
 std::pair<std::string, nc_color> per_text_color( const Character &p );
+std::pair<std::string, nc_color> safe_mode_text_color( const bool classic_mode );
+std::pair<std::string, nc_color> wind_text_color( const Character &u );
+
+// Define color for displaying the body temperature
+nc_color bodytemp_color( const Character &u, const bodypart_id &bp );
+// Returns color which this limb would have in healing menus
+nc_color limb_color( const Character &u, const bodypart_id &bp, bool bleed, bool bite,
+                     bool infect );
+// Color for displaying the given encumbrance level
+nc_color encumb_color( const int level );
 
 // Functions returning colorized string
 // gets the string that describes your weight

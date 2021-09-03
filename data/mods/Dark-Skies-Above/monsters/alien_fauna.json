@@ -75,7 +75,7 @@
       }
     ],
     "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC", "POISON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "SWIMS", "AQUATIC", "WATER_CAMOUFLAGE", "POISON" ]
   },
   {
     "//": "not really a 'lizard' as we would understand them, rather an invasive alien, likely a prehistoric creature from another world, like a dinosaur. 'lizard' a survivor colloquialism for their shape and general behavior",
