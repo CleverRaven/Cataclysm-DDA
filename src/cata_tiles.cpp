@@ -3742,6 +3742,7 @@ void cata_tiles::tile_loading_report_dups()
     std::vector<std::string> dups_list;
     const std::unordered_set<std::string> &dups_set = tileset_ptr->get_duplicate_ids();
     std::copy( dups_set.begin(), dups_set.end(), std::back_inserter( dups_list ) );
+    // NOLINTNEXTLINE(cata-use-localized-sorting)
     std::sort( dups_list.begin(), dups_list.end() );
 
     std::string res;
