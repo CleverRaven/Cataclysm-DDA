@@ -159,6 +159,7 @@ namespace suffer
 void from_sunburn( Character &you );
 void in_sunlight( Character &you );
 void water_damage( Character &you, const trait_id &mut_id );
+void mutation_power( Character &you, const trait_id &mut_id );
 } // namespace suffer
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
@@ -190,47 +191,47 @@ void suffer::water_damage( Character &you, const trait_id &mut_id )
     }
 }
 
-void Character::suffer_mutation_power( const trait_id &mut_id )
+void suffer::mutation_power( Character &you, const trait_id &mut_id )
 {
-    if( get_cost_timer( mut_id ) > 0 ) {
+    if( you.get_cost_timer( mut_id ) > 0 ) {
         // Not ready to consume cost yet, the timer ticks on
-        mod_cost_timer( mut_id, -1 );
+        you.mod_cost_timer( mut_id, -1 );
     } else {
         // Ready to consume cost: pay the power cost and reset timer
         if( mut_id->cooldown > 0 ) {
-            set_cost_timer( mut_id, mut_id->cooldown - 1 );
+            you.set_cost_timer( mut_id, mut_id->cooldown - 1 );
         }
         if( mut_id->hunger ) {
-            if( get_bmi() < character_weight_category::underweight ) {
-                add_msg_if_player( m_warning,
-                                   _( "You're too malnourished to keep your %s going." ),
-                                   mut_id->name() );
-                deactivate_mutation( mut_id );
+            if( you.get_bmi() < character_weight_category::underweight ) {
+                you.add_msg_if_player( m_warning,
+                                       _( "You're too malnourished to keep your %s going." ),
+                                       mut_id->name() );
+                you.deactivate_mutation( mut_id );
             } else {
                 // does not directly modify hunger, but burns kcal
-                mod_stored_nutr( mut_id->cost );
+                you.mod_stored_nutr( mut_id->cost );
             }
         }
         if( mut_id->thirst ) {
             // Well into Dehydrated
-            if( get_thirst() >= 260 ) {
-                add_msg_if_player( m_warning,
-                                   _( "You're too dehydrated to keep your %s going." ),
-                                   mut_id->name() );
-                deactivate_mutation( mut_id );
+            if( you.get_thirst() >= 260 ) {
+                you.add_msg_if_player( m_warning,
+                                       _( "You're too dehydrated to keep your %s going." ),
+                                       mut_id->name() );
+                you.deactivate_mutation( mut_id );
             } else {
-                mod_thirst( mut_id->cost );
+                you.mod_thirst( mut_id->cost );
             }
         }
         if( mut_id->fatigue ) {
             // Exhausted
-            if( get_fatigue() >= fatigue_levels::EXHAUSTED ) {
-                add_msg_if_player( m_warning,
-                                   _( "You're too exhausted to keep your %s going." ),
-                                   mut_id->name() );
-                deactivate_mutation( mut_id );
+            if( you.get_fatigue() >= fatigue_levels::EXHAUSTED ) {
+                you.add_msg_if_player( m_warning,
+                                       _( "You're too exhausted to keep your %s going." ),
+                                       mut_id->name() );
+                you.deactivate_mutation( mut_id );
             } else {
-                mod_fatigue( mut_id->cost );
+                you.mod_fatigue( mut_id->cost );
             }
         }
     }
@@ -1489,7 +1490,7 @@ void Character::suffer()
             suffer::water_damage( *this, mut_id );
         }
         if( has_active_mutation( mut_id ) ) {
-            suffer_mutation_power( mut_id );
+            suffer::mutation_power( *this, mut_id );
         }
     }
 
