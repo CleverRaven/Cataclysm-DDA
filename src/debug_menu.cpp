@@ -1234,7 +1234,7 @@ void character_edit_menu()
             wishskill( &you );
             break;
         case D_THEORY:
-            wishtheory( &you );
+            wishskill( &you, true );
             break;
         case D_STATS: {
             uilist smenu;
@@ -2313,7 +2313,7 @@ void debug()
         break;
 
         case debug_menu_index::CHANGE_THEORY: {
-            debug_menu::wishtheory( &player_character );
+            debug_menu::wishskill( &player_character, true );
         }
         break;
 
