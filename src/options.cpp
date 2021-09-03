@@ -2277,7 +2277,7 @@ void options_manager::add_options_debug()
         { "capped", to_translation( "Capped" ) },
         { "off", to_translation( "Off" ) }
     },
-    "off" );
+    "vanilla" );
 
     add_empty_line();
 
