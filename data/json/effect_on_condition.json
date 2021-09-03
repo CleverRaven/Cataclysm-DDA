@@ -223,8 +223,8 @@
       { "u_message": "Your malfunctioning bionic causes you to spasm and fall to the floor!", "type": "bad" },
       { "sound_effect": "elec_crackle_high", "id": "bionics", "volume": 100 },
       { "u_mod_pain": 1 },
-      { "u_add_effect": "stunned", "duration": "1" },
-      { "u_add_effect": "downed", "duration": "1", "force": true }
+      { "u_add_effect": "stunned", "duration": 1 },
+      { "u_add_effect": "downed", "duration": 1, "force": true }
     ]
   },
   {
