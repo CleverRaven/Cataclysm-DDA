@@ -3210,7 +3210,6 @@ class Character : public Creature, public visitable
         /** suffer() subcalls */
         void suffer_from_pain();
         void suffer_from_other_mutations();
-        void suffer_from_item_dropping();
         void suffer_from_radiation();
         void suffer_from_bad_bionics();
         void suffer_from_stimulants( int current_stim );

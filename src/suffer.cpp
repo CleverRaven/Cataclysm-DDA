@@ -166,6 +166,7 @@ void while_awake( Character &you, const int current_stim );
 void from_chemimbalance( Character &you );
 void from_schizophrenia( Character &you );
 void from_asthma( Character &you, const int current_stim );
+void from_item_dropping( Character &you );
 } // namespace suffer
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
@@ -965,19 +966,19 @@ void suffer::from_sunburn( Character &you )
     }
 }
 
-void Character::suffer_from_item_dropping()
+void suffer::from_item_dropping( Character &you )
 {
-    if( has_effect( effect_incorporeal ) ) {
-        std::vector<item *> dump = inv_dump();
+    if( you.has_effect( effect_incorporeal ) ) {
+        std::vector<item *> dump = you.inv_dump();
         std::list<item> tumble_items;
         for( item *dump_item : dump ) {
             if( !dump_item->has_flag( flag_NO_UNWIELD ) && !dump_item->has_flag( flag_NO_TAKEOFF ) ) {
                 tumble_items.push_back( *dump_item );
             }
         }
-        put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, tumble_items );
+        put_into_vehicle_or_drop( you, item_drop_reason::tumbling, tumble_items );
         for( item *i : dump ) {
-            i_rem( i );
+            you.i_rem( i );
         }
     }
 }
@@ -1517,7 +1518,7 @@ void Character::suffer()
 
     suffer::in_sunlight( *this );
     suffer_from_exertion();
-    suffer_from_item_dropping();
+    suffer::from_item_dropping( *this );
     suffer_from_other_mutations();
     suffer_from_radiation();
     suffer_from_bad_bionics();
