@@ -168,6 +168,7 @@ void from_schizophrenia( Character &you );
 void from_asthma( Character &you, const int current_stim );
 void from_item_dropping( Character &you );
 void from_other_mutations( Character &you );
+void from_radiation( Character &you );
 } // namespace suffer
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
@@ -1071,34 +1072,34 @@ void suffer::from_other_mutations( Character &you )
     }
 }
 
-void Character::suffer_from_radiation()
+void suffer::from_radiation( Character &you )
 {
     map &here = get_map();
     // checking for radioactive items in inventory
-    const int item_radiation = leak_level( flag_RADIOACTIVE );
-    const int map_radiation = here.get_radiation( pos() );
+    const int item_radiation = you.leak_level( flag_RADIOACTIVE );
+    const int map_radiation = here.get_radiation( you.pos() );
     float rads = map_radiation / 100.0f + item_radiation / 10.0f;
 
     int rad_mut = 0;
-    if( has_trait( trait_RADIOACTIVE3 ) ) {
+    if( you.has_trait( trait_RADIOACTIVE3 ) ) {
         rad_mut = 3;
-    } else if( has_trait( trait_RADIOACTIVE2 ) ) {
+    } else if( you.has_trait( trait_RADIOACTIVE2 ) ) {
         rad_mut = 2;
-    } else if( has_trait( trait_RADIOACTIVE1 ) ) {
+    } else if( you.has_trait( trait_RADIOACTIVE1 ) ) {
         rad_mut = 1;
     }
 
     // Spread less radiation when sleeping (slower metabolism etc.)
     // Otherwise it can quickly get to the point where you simply can't sleep at all
-    const bool rad_mut_proc = rad_mut > 0 && x_in_y( rad_mut, to_turns<int>( in_sleep_state() ?
+    const bool rad_mut_proc = rad_mut > 0 && x_in_y( rad_mut, to_turns<int>( you.in_sleep_state() ?
                               3_hours : 30_minutes ) );
 
     bool has_helmet = false;
-    const bool power_armored = is_wearing_power_armor( &has_helmet );
-    const bool rad_resist = power_armored || worn_with_flag( flag_RAD_RESIST );
+    const bool power_armored = you.is_wearing_power_armor( &has_helmet );
+    const bool rad_resist = power_armored || you.worn_with_flag( flag_RAD_RESIST );
 
     if( rad_mut > 0 ) {
-        const bool kept_in = is_rad_immune() || ( rad_resist && !one_in( 4 ) );
+        const bool kept_in = you.is_rad_immune() || ( rad_resist && !one_in( 4 ) );
         if( kept_in ) {
             // As if standing on a map tile with radiation level equal to rad_mut
             rads += rad_mut / 100.0f;
@@ -1107,7 +1108,7 @@ void Character::suffer_from_radiation()
         if( rad_mut_proc && !kept_in ) {
             // Irradiate a random nearby point
             // If you can't, irradiate the player instead
-            tripoint rad_point = pos() + point( rng( -3, 3 ), rng( -3, 3 ) );
+            tripoint rad_point = you.pos() + point( rng( -3, 3 ), rng( -3, 3 ) );
             // TODO: Radioactive vehicles?
             if( here.get_radiation( rad_point ) < rad_mut ) {
                 here.adjust_radiation( rad_point, 1 );
@@ -1118,19 +1119,19 @@ void Character::suffer_from_radiation()
     }
 
     // Used to control vomiting from radiation to make it not-annoying
-    bool radiation_increasing = irradiate( rads );
+    bool radiation_increasing = you.irradiate( rads );
 
-    if( radiation_increasing && calendar::once_every( 3_minutes ) && has_bionic( bio_geiger ) ) {
-        add_msg_if_player( m_warning,
-                           _( "You feel an anomalous sensation coming from "
-                              "your radiation sensors." ) );
+    if( radiation_increasing && calendar::once_every( 3_minutes ) && you.has_bionic( bio_geiger ) ) {
+        you.add_msg_if_player( m_warning,
+                               _( "You feel an anomalous sensation coming from "
+                                  "your radiation sensors." ) );
     }
 
     if( calendar::once_every( 15_minutes ) ) {
-        if( get_rad() < 0 ) {
-            set_rad( 0 );
-        } else if( get_rad() > 2000 ) {
-            set_rad( 2000 );
+        if( you.get_rad() < 0 ) {
+            you.set_rad( 0 );
+        } else if( you.get_rad() > 2000 ) {
+            you.set_rad( 2000 );
         }
         // Linear increase in chance to mutate with irriadation level.
         // 100 rads = 1 / 10000
@@ -1138,46 +1139,46 @@ void Character::suffer_from_radiation()
         // 200 rads = 100 / 10000 = 1 / 100
         // 1000 rads = 900 / 10000 = 9 / 100 = 10% !!!
         // 2000 rads = 2000 / 10000 = 1 / 5 = 20% !!!
-        if( get_option<bool>( "RAD_MUTATION" ) && rng( 100, 10000 ) < get_rad() ) {
-            mutate();
+        if( get_option<bool>( "RAD_MUTATION" ) && rng( 100, 10000 ) < you.get_rad() ) {
+            you.mutate();
         }
-        if( get_rad() > 50 && rng( 1, 3000 ) < get_rad() &&
-            ( stomach.contains() > 0_ml || radiation_increasing || !in_sleep_state() ) ) {
-            vomit();
-            mod_rad( -1 );
+        if( you.get_rad() > 50 && rng( 1, 3000 ) < you.get_rad() &&
+            ( you.stomach.contains() > 0_ml || radiation_increasing || !you.in_sleep_state() ) ) {
+            you.vomit();
+            you.mod_rad( -1 );
         }
     }
 
-    const bool radiogenic = has_trait( trait_RADIOGENIC );
-    if( radiogenic && calendar::once_every( 30_minutes ) && get_rad() > 0 ) {
+    const bool radiogenic = you.has_trait( trait_RADIOGENIC );
+    if( radiogenic && calendar::once_every( 30_minutes ) && you.get_rad() > 0 ) {
         // At 200 irradiation, twice as fast as REGEN
-        if( x_in_y( get_rad(), 200 ) ) {
-            healall( 1 );
+        if( x_in_y( you.get_rad(), 200 ) ) {
+            you.healall( 1 );
             if( rad_mut == 0 ) {
                 // Don't heal radiation if we're generating it naturally
                 // That would counter the main downside of radioactivity
-                mod_rad( -5 );
+                you.mod_rad( -5 );
             }
         }
     }
 
-    if( !radiogenic && get_rad() > 0 ) {
+    if( !radiogenic && you.get_rad() > 0 ) {
         // Even if you heal the radiation itself, the damage is done.
-        const int hmod = get_healthy_mod();
-        const int health_mod_cap = std::max( -200, 200 - get_rad() );
+        const int hmod = you.get_healthy_mod();
+        const int health_mod_cap = std::max( -200, 200 - you.get_rad() );
         if( hmod > health_mod_cap ) {
-            set_healthy_mod( health_mod_cap );
+            you.set_healthy_mod( health_mod_cap );
         }
     }
 
-    if( get_rad() > 200 && calendar::once_every( 10_minutes ) && x_in_y( get_rad(), 1000 ) ) {
-        hurtall( 1, nullptr );
-        mod_rad( -5 );
+    if( you.get_rad() > 200 && calendar::once_every( 10_minutes ) && x_in_y( you.get_rad(), 1000 ) ) {
+        you.hurtall( 1, nullptr );
+        you.mod_rad( -5 );
     }
 
-    while( slow_rad >= 1000 ) {
-        mod_rad( 1 );
-        slow_rad -= 1000;
+    while( you.slow_rad >= 1000 ) {
+        you.mod_rad( 1 );
+        you.slow_rad -= 1000;
     }
 }
 
@@ -1518,7 +1519,7 @@ void Character::suffer()
     suffer_from_exertion();
     suffer::from_item_dropping( *this );
     suffer::from_other_mutations( *this );
-    suffer_from_radiation();
+    suffer::from_radiation( *this );
     suffer_from_bad_bionics();
     suffer_from_stimulants( current_stim );
     int sleep_deprivation = in_sleep_state() ? 0 : get_sleep_deprivation();
