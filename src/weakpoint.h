@@ -28,7 +28,7 @@ struct weakpoint {
     // Apply the armor multipliers and offsets to a set of resistances.
     void apply_to( resistances &resistances ) const;
     // Return the change of the creature hitting the weakpoint.
-    float hit_chance( Creature */*source*/ ) const;
+    float hit_chance( ) const;
     void load( const JsonObject &jo );
 };
 
@@ -39,7 +39,7 @@ struct weakpoints {
     weakpoint default_weakpoint;
 
     // Selects a weakpoint to hit.
-    const weakpoint *select_weakpoint( Creature *source ) const;
+    const weakpoint *select_weakpoint( ) const;
 
     weakpoints();
     void clear();
