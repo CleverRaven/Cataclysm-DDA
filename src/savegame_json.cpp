@@ -2100,7 +2100,7 @@ void inventory::json_load_items( JsonIn &jsin )
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// monster.h
 
-// Remove after 0.G
+// TEMPORARY until 0.G
 void monster::deserialize( JsonIn &jsin, const tripoint_abs_sm &submap_loc )
 {
     JsonObject data = jsin.get_object();
@@ -2115,7 +2115,7 @@ void monster::deserialize( JsonIn &jsin )
     load( data );
 }
 
-// Remove after 0.G
+// TEMPORARY until 0.G
 void monster::load( const JsonObject &data, const tripoint_abs_sm &submap_loc )
 {
     load( data );
@@ -2123,10 +2123,16 @@ void monster::load( const JsonObject &data, const tripoint_abs_sm &submap_loc )
         // When loading an older save in which the monster's absolute location is not serialized
         // and the monster is not in the current map, the submap location inferred by load()
         // will be wrong. Use the supplied argument to fix it.
+        const tripoint_abs_ms old_loc = get_location();
         point_abs_sm wrong_submap;
         tripoint_sm_ms local_pos;
         std::tie( wrong_submap, local_pos ) = project_remain<coords::sm>( get_location() );
         set_location( project_combine( submap_loc.xy(), local_pos ) );
+        // adjust other relative coordinates that would be subject to the same error
+        wander_pos = wander_pos - old_loc + get_location();
+        if( goal ) {
+            *goal = *goal - old_loc + get_location();
+        }
     }
 }
 
@@ -2136,7 +2142,17 @@ void monster::load( const JsonObject &data )
 
     // TEMPORARY until 0.G
     if( !data.has_member( "location" ) ) {
-        set_location( tripoint_abs_ms( get_map().getabs( read_legacy_creature_pos( data ) ) ) );
+        set_location( get_map().getglobal( read_legacy_creature_pos( data ) ) );
+        tripoint wand;
+        data.read( "wandx", wand.x );
+        data.read( "wandy", wand.y );
+        data.read( "wandz", wand.z );
+        wander_pos = get_map().getglobal( wand );
+        tripoint destination;
+        data.read( "destination", destination );
+        if( destination != tripoint_zero ) {
+            goal = get_location() + destination;
+        }
     }
 
     std::string sidtmp;
@@ -2145,16 +2161,13 @@ void monster::load( const JsonObject &data )
     type = &mtype_id( sidtmp ).obj();
 
     data.read( "unique_name", unique_name );
+    data.read( "goal", goal );
     data.read( "provocative_sound", provocative_sound );
     data.read( "wandf", wandf );
-    data.read( "wandx", wander_pos.x );
-    data.read( "wandy", wander_pos.y );
-    if( data.read( "wandz", wander_pos.z ) ) {
-        wander_pos.z = posz();
-    }
+    data.read( "wander_pos", wander_pos );
     if( data.has_int( "next_patrol_point" ) ) {
         data.read( "next_patrol_point", next_patrol_point );
-        data.read( "patrol_route", patrol_route_abs_ms );
+        data.read( "patrol_route", patrol_route );
     }
     if( data.has_object( "tied_item" ) ) {
         JsonIn *tied_item_json = data.get_raw( "tied_item" );
@@ -2249,11 +2262,6 @@ void monster::load( const JsonObject &data )
     data.read( "fish_population", fish_population );
     data.read( "summon_time_limit", summon_time_limit );
 
-    // This is relative to the monster so it isn't invalidated by map shifting.
-    tripoint destination;
-    data.read( "destination", destination );
-    goal = pos() + destination;
-
     upgrades = data.get_bool( "upgrades", type->upgrades );
     upgrade_time = data.get_int( "upgrade_time", -1 );
 
@@ -2300,13 +2308,12 @@ void monster::store( JsonOut &json ) const
     Creature::store( json );
     json.member( "typeid", type->id );
     json.member( "unique_name", unique_name );
-    json.member( "wandx", wander_pos.x );
-    json.member( "wandy", wander_pos.y );
-    json.member( "wandz", wander_pos.z );
-    json.member( "provocative_sound", provocative_sound );
+    json.member( "goal", goal );
+    json.member( "wander_pos", wander_pos );
     json.member( "wandf", wandf );
-    if( !patrol_route_abs_ms.empty() ) {
-        json.member( "patrol_route", patrol_route_abs_ms );
+    json.member( "provocative_sound", provocative_sound );
+    if( !patrol_route.empty() ) {
+        json.member( "patrol_route", patrol_route );
         json.member( "next_patrol_point", next_patrol_point );
     }
     json.member( "hp", hp );
@@ -2337,8 +2344,6 @@ void monster::store( JsonOut &json ) const
     if( battery_item ) {
         json.member( "battery_item", *battery_item );
     }
-    // Store the relative position of the goal so it loads correctly after a map shift.
-    json.member( "destination", goal - pos() );
     json.member( "ammo", ammo );
     json.member( "underwater", underwater );
     json.member( "upgrades", upgrades );
@@ -2359,7 +2364,6 @@ void monster::store( JsonOut &json ) const
     json.member( "dragged_foe_id", dragged_foe_id );
     // storing the rider
     json.member( "mounted_player_id", mounted_player_id );
-    json.member( "path", path );
 }
 
 void mon_special_attack::serialize( JsonOut &json ) const

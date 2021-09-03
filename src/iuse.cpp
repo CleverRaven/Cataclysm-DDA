@@ -9179,27 +9179,25 @@ cata::optional<int> iuse::lux_meter( Character *p, item *, bool, const tripoint 
     return 0;
 }
 
-cata::optional<int> iuse::directional_hologram( Character *p, item *it, bool, const tripoint &pos )
+cata::optional<int> iuse::directional_hologram( Character *p, item *it, bool, const tripoint & )
 {
     if( it->is_armor() &&  !( p->is_worn( *it ) ) ) {
         p->add_msg_if_player( m_neutral, _( "You need to wear the %1$s before activating it." ),
                               it->tname() );
         return cata::nullopt;
     }
-    const cata::optional<tripoint> posp_ = choose_adjacent( _( "Choose hologram direction." ) );
-    if( !posp_ ) {
+    const cata::optional<tripoint> posp = choose_adjacent( _( "Choose hologram direction." ) );
+    if( !posp ) {
         return cata::nullopt;
     }
-    const tripoint posp = *posp_;
+    const tripoint delta = *posp - get_player_character().pos();
 
-    monster *const hologram = g->place_critter_at( mon_hologram, posp );
+    monster *const hologram = g->place_critter_at( mon_hologram, *posp );
     if( !hologram ) {
         p->add_msg_if_player( m_info, _( "Can't create a hologram there." ) );
         return cata::nullopt;
     }
-    tripoint target = pos;
-    target.x = p->posx() + 4 * SEEX * ( posp.x - p->posx() );
-    target.y = p->posy() + 4 * SEEY * ( posp.y - p->posy() );
+    tripoint_abs_ms target = p->get_location() + delta * ( 4 * SEEX );
     hologram->friendly = -1;
     hologram->add_effect( effect_docile, 1_hours );
     hologram->wandf = -30;

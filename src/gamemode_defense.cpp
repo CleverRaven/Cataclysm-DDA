@@ -1361,7 +1361,7 @@ std::vector<mtype_id> defense_game::pick_monster_wave()
 
 void defense_game::spawn_wave_monster( const mtype_id &type )
 {
-    tripoint player_pos = get_player_character().pos();
+    const tripoint_abs_ms player_pos = get_player_character().get_location();
     map &here = get_map();
     for( int tries = 0; tries < 1000; tries++ ) {
         point pnt;
