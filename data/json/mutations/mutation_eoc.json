@@ -1,0 +1,159 @@
+[
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_null"
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_vision_hallu",
+    "condition": "u_can_see",
+    "effect": [
+      { "u_message": "You start seeing things that weren't there a moment ago.", "type": "bad" },
+      { "u_add_effect": "hallu", "duration": "1 minutes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_vision_glare",
+    "condition": "u_can_see",
+    "effect": [
+      { "u_message": "The lights grow uncomfortably bright.", "type": "bad" },
+      { "u_add_effect": "glare", "duration": "3 minutes" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_vision_blind",
+    "condition": "u_can_see",
+    "effect": [
+      { "u_message": "Your eyes fail you, and everything turns dark.", "type": "bad" },
+      { "u_add_effect": "blind", "duration": "3 s" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_vision_stun",
+    "condition": "u_can_see",
+    "effect": [
+      { "u_message": "The world starts turning wildly, and you stumble.", "type": "bad" },
+      { "u_add_effect": "stunned", "duration": "8 s" }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eoc_vision_down",
+    "condition": "u_can_see",
+    "effect": [
+      { "u_message": "Your vision flickers, and you fall to the ground!", "type": "bad" },
+      { "u_add_effect": "downed", "duration": "3 s " }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eyes_ceph_check",
+    "//": "Active if you have the intermediary cephalopod eyes",
+    "recurrence_min": "10 s",
+    "recurrence_max": "10 s",
+    "condition": { "and": [ "u_can_see", { "u_has_trait": "CEPH_EYES" }, { "not": { "u_has_trait": "CEPH_VISION" } } ] },
+    "deactivate_condition": { "not": { "u_has_trait": "CEPH_EYES" } },
+    "effect": [
+      {
+        "set_queue_effect_on_condition": [
+          {
+            "id": "eyes_ceph_counter",
+            "//": "Progresses a counter regardless of threshold/value etc",
+            "effect": [
+              {
+                "arithmetic": [ { "u_val": "var", "var_name": "ceph_vision", "type": "progress", "context": "mutation" }, "+=", { "const": 1 } ]
+              }
+            ]
+          },
+          {
+            "id": "eyes_ceph_progress",
+            "//": "If you're postthresh and ticked counter progress 7 times you get shiny new eyes (and lose your counter), otherwise have some fun adjusting",
+            "condition": {
+              "and": [
+                { "u_has_trait": "CEPH_EYES" },
+                { "u_compare_var": "ceph_vision", "type": "progress", "context": "mutation", "op": ">", "value": 7 },
+                { "u_has_trait": "THRESH_CEPHALOPOD" }
+              ]
+            },
+            "false_effect": [
+              { "u_message": "<eyes_ceph>", "snippet": true, "type": "bad" },
+              { "arithmetic": [ { "u_val": "stored_kcal" }, "-=", { "const": 10 } ] },
+              { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 10 } ] },
+              {
+                "set_weighted_list_eocs": [ [ "eoc_null", 13 ], [ "eoc_vision_glare", 10 ], [ "eoc_vision_blind", 1 ], [ "eoc_vision_stun", 2 ] ]
+              }
+            ],
+            "effect": [
+              { "u_message": "Your vision fades for a moment, only to return…better!", "type": "mixed" },
+              { "u_add_effect": "blind", "duration": "5 s" },
+              { "u_lose_trait": "CEPH_EYES" },
+              { "u_add_trait": "CEPH_VISION" },
+              { "u_lose_var": "ceph_vision", "type": "progress", "context": "mutation" },
+              { "arithmetic": [ { "u_val": "stored_kcal" }, "-=", { "const": 250 } ] }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "effect_on_condition",
+    "id": "eyes_compound_check",
+    "//": "Active if you have the intermediary compund eyes",
+    "recurrence_min": "10 s",
+    "recurrence_max": "10 s",
+    "condition": { "and": [ "u_can_see", { "u_has_trait": "COMPOUND_EYES" }, { "not": { "u_has_trait": "COMPOUND_VISION" } } ] },
+    "deactivate_condition": { "not": { "u_has_trait": "COMPOUND_EYES" } },
+    "effect": [
+      {
+        "set_queue_effect_on_condition": [
+          {
+            "id": "eyes_compound_counter",
+            "//": "Progresses a counter regardless of threshold/value etc",
+            "effect": [
+              {
+                "arithmetic": [ { "u_val": "var", "var_name": "compound_vision", "type": "progress", "context": "mutation" }, "+=", { "const": 1 } ]
+              }
+            ]
+          },
+          {
+            "id": "eyes_compound_progress",
+            "//": "If you're postthresh and ticked counter progress 7 times you get shiny new eyes (and lose your counter), otherwise have some fun adjusting",
+            "condition": {
+              "and": [
+                { "u_has_trait": "COMPOUND_EYES" },
+                {
+                  "u_compare_var": "compound_vision",
+                  "type": "progress",
+                  "context": "mutation",
+                  "op": ">",
+                  "value": 7
+                },
+                { "u_has_trait": "THRESH_INSECT" }
+              ]
+            },
+            "false_effect": [
+              { "u_message": "<eyes_compound>", "snippet": true, "type": "bad" },
+              { "arithmetic": [ { "u_val": "stored_kcal" }, "-=", { "const": 10 } ] },
+              { "arithmetic": [ { "u_val": "pain" }, "+=", { "const": 10 } ] },
+              {
+                "set_weighted_list_eocs": [ [ "eoc_null", 11 ], [ "eoc_vision_blind", 1 ], [ "eoc_vision_stun", 10 ] ]
+              }
+            ],
+            "effect": [
+              { "u_message": "Your vision fades for a moment, only to return…better!", "type": "mixed" },
+              { "u_add_effect": "blind", "duration": "5 s" },
+              { "u_lose_trait": "COMPOUND_EYES" },
+              { "u_add_trait": "COMPOUND_VISION" },
+              { "u_lose_var": "compund_vision", "type": "progress", "context": "mutation" },
+              { "arithmetic": [ { "u_val": "stored_kcal" }, "-=", { "const": 500 } ] }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
