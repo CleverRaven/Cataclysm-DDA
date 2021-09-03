@@ -29,18 +29,20 @@ struct weakpoint {
     void apply_to( resistances &resistances ) const;
     // Return the change of the creature hitting the weakpoint.
     float hit_chance( Creature */*source*/ ) const;
-    void load( const JsonObject &obj );
+    void load( const JsonObject &jo );
 };
 
 struct weakpoints {
     // List of weakpoints. Each weakpoint should have a unique id.
-    std::vector<weakpoint> weakpoints;
+    std::vector<weakpoint> weakpoint_list;
     // Default weakpoint to return.
     weakpoint default_weakpoint;
 
     // Selects a weakpoint to hit.
-    weakpoint *select_weakpoint( Creature *source ) const;
+    const weakpoint *select_weakpoint( Creature *source ) const;
 
     weakpoints();
     void load( const JsonArray &ja );
 };
+
+#endif // CATA_SRC_WEAKPOINT_H

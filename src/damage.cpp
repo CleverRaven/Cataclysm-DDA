@@ -431,10 +431,10 @@ damage_instance load_damage_instance_inherit( const JsonArray &jarr, const damag
 }
 
 std::array<float, static_cast<int>( damage_type::NUM )> load_damage_array( const JsonObject &jo,
-        float default )
+        float default_value )
 {
     std::array<float, static_cast<int>( damage_type::NUM )> ret;
-    float init_val = jo.get_float( "all", default );
+    float init_val = jo.get_float( "all", default_value );
 
     float phys = jo.get_float( "physical", init_val );
     ret[ static_cast<int>( damage_type::BASH ) ] = jo.get_float( "bash", phys );

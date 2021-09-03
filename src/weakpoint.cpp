@@ -18,11 +18,11 @@ weakpoint::weakpoint()
     armor_offset.fill( 0.0f );
 }
 
-void weakpoint::load( const JsonObject &obj )
+void weakpoint::load( const JsonObject &jo )
 {
     assign( jo, "id", id );
     assign( jo, "name", name );
-    assign( jo, "coverage", 0.0f, 1.0f );
+    assign( jo, "coverage", coverage, 0.0f, 1.0f );
     if( jo.has_object( "armor_mult" ) ) {
         armor_mult = load_damage_array( jo.get_object( "armor_mult" ), 1.0f );
     }
@@ -35,24 +35,23 @@ void weakpoint::load( const JsonObject &obj )
     }
 }
 
-void weakpoint::apply_to( resistances &resistances )
+void weakpoint::apply_to( resistances &resistances ) const
 {
-    for( damage_type d = damage_type::None; d < damage_type::NUM; ++d ) {
-        int idx = static_cast<int>( d );
-        float r = resistances.get_resist( d );
-        resistances.set_resist( armor_mult[idx] * r + armor_offset[idx] );
+    for( int i = 0; i < static_cast<int>( damage_type::NUM ); ++i ) {
+        resistances.resist_vals[i] *= armor_mult[i];
+        resistances.resist_vals[i] *= armor_offset[i];
     }
 }
 
-float hit_chance( Creature */*source*/ ) const
+float weakpoint::hit_chance( Creature */*source*/ ) const
 {
     return coverage;
 }
 
-weakpoint *weakpoints::select_weakpoint( Creature *source ) const
+const weakpoint *weakpoints::select_weakpoint( Creature *source ) const
 {
     float idx = rng_float( 0.0f, 1.0f );
-    for( const weakpoint &weakpoint : weakpoints ) {
+    for( const weakpoint &weakpoint : weakpoint_list ) {
         float hit_chance = weakpoint.hit_chance( source );
         if( hit_chance <= idx ) {
             return &weakpoint;
@@ -64,9 +63,9 @@ weakpoint *weakpoints::select_weakpoint( Creature *source ) const
 
 void weakpoints::load( const JsonArray &ja )
 {
-    while( ja.has_more() ) {
+    for( const JsonObject &jo : ja ) {
         weakpoint tmp;
-        tmp.load( ja.next_object );
-        weakpoints.push_back( std::move( tmp ) );
+        tmp.load( jo );
+        weakpoint_list.push_back( std::move( tmp ) );
     }
 }
