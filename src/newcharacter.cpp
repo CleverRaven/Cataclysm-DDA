@@ -1112,8 +1112,6 @@ tab_direction set_stats( avatar &u, pool_type pool )
                                                         ( read_spd < 100 ? COL_STAT_BONUS : COL_STAT_PENALTY ) ),
                            _( "Read times: %d%%" ), read_spd );
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
-                mvwprintz( w_description, point( 0, 1 ), COL_STAT_PENALTY, _( "Skill rust delay: %d%%" ),
-                           u.rust_rate() );
                 mvwprintz( w_description, point( 0, 2 ), COL_STAT_BONUS, _( "Crafting bonus: %2d%%" ),
                            u.get_int() );
                 fold_and_print( w_description, point( 0, 4 ), getmaxx( w_description ) - 1, c_green,
