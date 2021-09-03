@@ -468,7 +468,7 @@ static std::vector<const item *> get_eligible_containers_recursive( const item &
 std::vector<const item *> Character::get_eligible_containers_for_crafting() const
 {
     std::vector<const item *> conts;
-    const item weapon = get_wielded_item();
+    const item &weapon = get_wielded_item();
     conts = get_eligible_containers_recursive( weapon, true );
 
     for( const auto &it : worn ) {

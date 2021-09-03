@@ -1214,7 +1214,7 @@ bool Character::deactivate_bionic( int b, bool eff_only )
         bio.powered = false;
         add_msg_if_player( m_neutral, _( "You deactivate your %s." ), bio.info().name );
     }
-    item w_weapon = *get_wielded_item();
+    const item &w_weapon = *get_wielded_item();
     // Deactivation effects go here
     if( bio.info().has_flag( json_flag_BIONIC_WEAPON ) && !bio.info().fake_weapon.is_empty() ) {
         if( w_weapon.typeId() == bio.info().fake_weapon ) {
@@ -1226,7 +1226,7 @@ bool Character::deactivate_bionic( int b, bool eff_only )
                     add_msg_if_npc( m_info, _( "<npcname> withdraws her %s." ), w_weapon.tname() );
                 }
             }
-            bio.set_weapon( w_weapon );
+            bio.set_weapon( *get_wielded_item() );
             set_wielded_item( item() );
         }
     } else if( bio.id == bio_cqb ) {
