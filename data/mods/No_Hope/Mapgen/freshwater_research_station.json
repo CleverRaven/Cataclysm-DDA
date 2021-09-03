@@ -52,6 +52,42 @@
   {
     "type": "mapgen",
     "method": "json",
+    "om_terrain": "sealab_small_roof",
+    "weight": 25000,
+    "object": {
+      "fill_ter": "t_open_air",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "         #___X          ",
+        "         >___&          ",
+        "         #___=          ",
+        "         #:__N          ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "underwater_structure_roof" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "om_terrain": "sealab_small_-1",
     "weight": 25000,
     "object": {
