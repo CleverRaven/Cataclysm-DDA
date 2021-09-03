@@ -209,6 +209,7 @@ std::string enum_to_string<m_flag>( m_flag data )
         case MF_INSECTICIDEPROOF: return "INSECTICIDEPROOF";
         case MF_RANGED_ATTACKER: return "RANGED_ATTACKER";
         case MF_CAMOUFLAGE: return "CAMOUFLAGE";
+        case MF_WATER_CAMOUFLAGE: return "WATER_CAMOUFLAGE";
         // *INDENT-ON*
         case m_flag::MF_MAX:
             break;
@@ -1201,7 +1202,7 @@ void mtype::remove_regeneration_modifiers( const JsonObject &jo, const std::stri
 
 void MonsterGenerator::check_monster_definitions() const
 {
-    for( const auto &mon : mon_templates->get_all() ) {
+    for( const mtype &mon : mon_templates->get_all() ) {
         if( mon.harvest.is_null() && !mon.has_flag( MF_ELECTRONIC ) && !mon.id.is_null() ) {
             debugmsg( "monster %s has no harvest entry", mon.id.c_str(), mon.harvest.c_str() );
         }
@@ -1257,6 +1258,9 @@ void MonsterGenerator::check_monster_definitions() const
         }
         if( !mon.harvest.is_valid() ) {
             debugmsg( "monster %s has invalid harvest_entry: %s", mon.id.c_str(), mon.harvest.c_str() );
+        }
+        if( mon.has_flag( MF_WATER_CAMOUFLAGE ) && !monster( mon.id ).can_submerge() ) {
+            debugmsg( "monster %s has WATER_CAMOUFLAGE but cannot submerge", mon.id.c_str() );
         }
         for( const scenttype_id &s_id : mon.scents_tracked ) {
             if( !s_id.is_empty() && !s_id.is_valid() ) {
