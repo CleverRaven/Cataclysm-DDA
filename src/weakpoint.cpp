@@ -6,6 +6,7 @@
 #include "assign.h"
 #include "creature.h"
 #include "damage.h"
+#include "item.h"
 #include "rng.h"
 
 class JsonArray;
@@ -22,12 +23,12 @@ void weakpoint::load( const JsonObject &jo )
 {
     assign( jo, "id", id );
     assign( jo, "name", name );
-    assign( jo, "coverage", coverage, 0.0f, 1.0f );
+    assign( jo, "coverage", coverage, false, 0.0f, 1.0f );
     if( jo.has_object( "armor_mult" ) ) {
         armor_mult = load_damage_array( jo.get_object( "armor_mult" ), 1.0f );
     }
     if( jo.has_object( "armor_offset" ) ) {
-        armor_mult = load_damage_array( jo.get_object( "armor_offset" ), 0.0f );
+        armor_offset = load_damage_array( jo.get_object( "armor_offset" ), 0.0f );
     }
     // Set the ID to the name, if not provided.
     if( id.empty() ) {
@@ -39,16 +40,18 @@ void weakpoint::apply_to( resistances &resistances ) const
 {
     for( int i = 0; i < static_cast<int>( damage_type::NUM ); ++i ) {
         resistances.resist_vals[i] *= armor_mult[i];
-        resistances.resist_vals[i] *= armor_offset[i];
+        resistances.resist_vals[i] += armor_offset[i];
     }
 }
 
-float weakpoint::hit_chance( ) const
+float weakpoint::hit_chance() const
 {
     return coverage;
 }
 
-const weakpoint *weakpoints::select_weakpoint( ) const
+weakpoints::weakpoints() {}
+
+const weakpoint *weakpoints::select_weakpoint() const
 {
     float idx = rng_float( 0.0f, 1.0f );
     for( const weakpoint &weakpoint : weakpoint_list ) {

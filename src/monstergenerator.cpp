@@ -34,7 +34,7 @@
 #include "rng.h"
 #include "translations.h"
 #include "units.h"
-#include "weakpoints.h"
+#include "weakpoint.h"
 
 namespace behavior
 {
