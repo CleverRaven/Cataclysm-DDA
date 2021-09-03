@@ -169,6 +169,7 @@ void from_asthma( Character &you, const int current_stim );
 void from_item_dropping( Character &you );
 void from_other_mutations( Character &you );
 void from_radiation( Character &you );
+void from_bad_bionics( Character &you );
 } // namespace suffer
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
@@ -1182,45 +1183,45 @@ void suffer::from_radiation( Character &you )
     }
 }
 
-void Character::suffer_from_bad_bionics()
+void suffer::from_bad_bionics( Character &you )
 {
     // Negative bionics effects
-    if( has_bionic( bio_dis_shock ) && get_power_level() > bio_dis_shock->power_trigger &&
+    if( you.has_bionic( bio_dis_shock ) && you.get_power_level() > bio_dis_shock->power_trigger &&
         one_turn_in( 2_hours ) &&
-        !has_effect( effect_narcosis ) ) {
-        if( !has_trait( trait_NOPAIN ) ) {
-            add_msg_if_player( m_bad, _( "You suffer a painful electrical discharge!" ) );
-            mod_pain( 1 );
+        !you.has_effect( effect_narcosis ) ) {
+        if( !you.has_trait( trait_NOPAIN ) ) {
+            you.add_msg_if_player( m_bad, _( "You suffer a painful electrical discharge!" ) );
+            you.mod_pain( 1 );
         } else {
-            add_msg_if_player( m_bad, _( "You experience an electrical discharge!" ) );
+            you.add_msg_if_player( m_bad, _( "You experience an electrical discharge!" ) );
         }
-        moves -= 150;
-        mod_power_level( -bio_dis_shock->power_trigger );
+        you.moves -= 150;
+        you.mod_power_level( -bio_dis_shock->power_trigger );
 
-        if( weapon.typeId() == itype_e_handcuffs && weapon.charges > 0 ) {
-            weapon.charges -= rng( 1, 3 ) * 50;
-            if( weapon.charges < 1 ) {
-                weapon.charges = 1;
+        if( you.weapon.typeId() == itype_e_handcuffs && you.weapon.charges > 0 ) {
+            you.weapon.charges -= rng( 1, 3 ) * 50;
+            if( you.weapon.charges < 1 ) {
+                you.weapon.charges = 1;
             }
 
-            add_msg_if_player( m_good, _( "The %s seems to be affected by the discharge." ),
-                               weapon.tname() );
+            you.add_msg_if_player( m_good, _( "The %s seems to be affected by the discharge." ),
+                                   you.weapon.tname() );
         }
         sfx::play_variant_sound( "bionics", "elec_discharge", 100 );
     }
-    if( has_bionic( bio_dis_acid ) && one_turn_in( 150_minutes ) ) {
-        if( !has_trait( trait_NOPAIN ) ) {
-            add_msg_if_player( m_bad, _( "You suffer a burning acidic discharge!" ) );
+    if( you.has_bionic( bio_dis_acid ) && one_turn_in( 150_minutes ) ) {
+        if( !you.has_trait( trait_NOPAIN ) ) {
+            you.add_msg_if_player( m_bad, _( "You suffer a burning acidic discharge!" ) );
         } else {
-            add_msg_if_player( m_bad, _( "You experience an acidic discharge!" ) );
+            you.add_msg_if_player( m_bad, _( "You experience an acidic discharge!" ) );
         }
-        hurtall( 1, nullptr );
+        you.hurtall( 1, nullptr );
         sfx::play_variant_sound( "bionics", "acid_discharge", 100 );
         sfx::do_player_death_hurt( get_player_character(), false );
     }
-    if( has_bionic( bio_power_weakness ) && has_max_power() &&
-        get_power_level() >= get_max_power_level() * .75 ) {
-        mod_str_bonus( -3 );
+    if( you.has_bionic( bio_power_weakness ) && you.has_max_power() &&
+        you.get_power_level() >= you.get_max_power_level() * .75 ) {
+        you.mod_str_bonus( -3 );
     }
 }
 
@@ -1520,7 +1521,7 @@ void Character::suffer()
     suffer::from_item_dropping( *this );
     suffer::from_other_mutations( *this );
     suffer::from_radiation( *this );
-    suffer_from_bad_bionics();
+    suffer::from_bad_bionics( *this );
     suffer_from_stimulants( current_stim );
     int sleep_deprivation = in_sleep_state() ? 0 : get_sleep_deprivation();
     // Stimulants can lessen the PERCEIVED effects of sleep deprivation, but
