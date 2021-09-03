@@ -3210,8 +3210,6 @@ class Character : public Creature, public visitable
          */
         std::map<bodypart_id, float> bodypart_exposure();
     private:
-        /** suffer() subcalls */
-        void suffer_from_tourniquet();
         /**
          * Check whether the other creature is in range and can be seen by this creature.
          * @param critter Creature to check for visibility

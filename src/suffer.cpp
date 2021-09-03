@@ -173,6 +173,7 @@ void from_bad_bionics( Character &you );
 void from_stimulants( Character &you, const int current_stim );
 void from_exertion( Character &you );
 void without_sleep( Character &you, const int sleep_deprivation );
+void from_tourniquet( Character &you );
 } // namespace suffer
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
@@ -1466,18 +1467,18 @@ void suffer::without_sleep( Character &you, const int sleep_deprivation )
     }
 }
 
-void Character::suffer_from_tourniquet()
+void suffer::from_tourniquet( Character &you )
 {
     // shortcut for the most common scenario.
-    if( !worn_with_flag( flag_TOURNIQUET ) ) {
+    if( !you.worn_with_flag( flag_TOURNIQUET ) ) {
         return;
     }
-    for( const bodypart_id &bp : get_all_body_parts( get_body_part_flags::only_main ) ) {
-        if( worn_with_flag( flag_TOURNIQUET, bp ) && one_turn_in( 30_seconds ) ) {
-            mod_pain( 1 );
-            apply_damage( nullptr, bp, 1, true );
-            add_msg_player_or_npc( m_bad, _( "Your tourniquet hurts you." ),
-                                   _( "<npcname> is hurting from the tourniquet." ) );
+    for( const bodypart_id &bp : you.get_all_body_parts( get_body_part_flags::only_main ) ) {
+        if( you.worn_with_flag( flag_TOURNIQUET, bp ) && one_turn_in( 30_seconds ) ) {
+            you.mod_pain( 1 );
+            you.apply_damage( nullptr, bp, 1, true );
+            you.add_msg_player_or_npc( m_bad, _( "Your tourniquet hurts you." ),
+                                       _( "<npcname> is hurting from the tourniquet." ) );
         }
     }
 }
@@ -1537,7 +1538,7 @@ void Character::suffer()
     }
 
     suffer::without_sleep( *this, sleep_deprivation );
-    suffer_from_tourniquet();
+    suffer::from_tourniquet( *this );
     //Suffer from enchantments
     enchantment_cache->activate_passive( *this );
 }
