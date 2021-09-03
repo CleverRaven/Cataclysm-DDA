@@ -172,6 +172,7 @@ void from_radiation( Character &you );
 void from_bad_bionics( Character &you );
 void from_stimulants( Character &you, const int current_stim );
 void from_exertion( Character &you );
+void without_sleep( Character &you, const int sleep_deprivation );
 } // namespace suffer
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
@@ -1381,7 +1382,7 @@ void suffer::from_exertion( Character &you )
     you.old_weary_level = new_weary_level;
 }
 
-void Character::suffer_without_sleep( const int sleep_deprivation )
+void suffer::without_sleep( Character &you, const int sleep_deprivation )
 {
     // redo as a snippet?
     if( sleep_deprivation >= SLEEP_DEPRIVATION_HARMLESS ) {
@@ -1389,20 +1390,20 @@ void Character::suffer_without_sleep( const int sleep_deprivation )
             switch( dice( 1, 4 ) ) {
                 default:
                 case 1:
-                    add_msg_player_or_npc( m_warning, _( "You tiredly rub your eyes." ),
-                                           _( "<npcname> tiredly rubs their eyes." ) );
+                    you.add_msg_player_or_npc( m_warning, _( "You tiredly rub your eyes." ),
+                                               _( "<npcname> tiredly rubs their eyes." ) );
                     break;
                 case 2:
-                    add_msg_player_or_npc( m_warning, _( "You let out a small yawn." ),
-                                           _( "<npcname> lets out a small yawn." ) );
+                    you.add_msg_player_or_npc( m_warning, _( "You let out a small yawn." ),
+                                               _( "<npcname> lets out a small yawn." ) );
                     break;
                 case 3:
-                    add_msg_player_or_npc( m_warning, _( "You stretch your back." ),
-                                           _( "<npcname> stretches their back." ) );
+                    you.add_msg_player_or_npc( m_warning, _( "You stretch your back." ),
+                                               _( "<npcname> stretches their back." ) );
                     break;
                 case 4:
-                    add_msg_player_or_npc( m_warning, _( "You feel mentally tired." ),
-                                           _( "<npcname> lets out a huge yawn." ) );
+                    you.add_msg_player_or_npc( m_warning, _( "You feel mentally tired." ),
+                                               _( "<npcname> lets out a huge yawn." ) );
                     break;
             }
         }
@@ -1410,56 +1411,56 @@ void Character::suffer_without_sleep( const int sleep_deprivation )
     // Minor discomfort
     if( sleep_deprivation >= SLEEP_DEPRIVATION_MINOR ) {
         if( one_turn_in( 75_minutes ) ) {
-            add_msg_if_player( m_warning, _( "You feel lightheaded for a moment." ) );
-            moves -= 10;
+            you.add_msg_if_player( m_warning, _( "You feel lightheaded for a moment." ) );
+            you.moves -= 10;
         }
         if( one_turn_in( 100_minutes ) ) {
-            add_msg_if_player( m_warning, _( "Your muscles spasm uncomfortably." ) );
-            mod_pain( 2 );
+            you.add_msg_if_player( m_warning, _( "Your muscles spasm uncomfortably." ) );
+            you.mod_pain( 2 );
         }
-        if( !has_effect( effect_visuals ) && one_turn_in( 150_minutes ) ) {
-            add_msg_if_player( m_warning, _( "Your vision blurs a little." ) );
-            add_effect( effect_visuals, rng( 1_minutes, 5_minutes ) );
+        if( !you.has_effect( effect_visuals ) && one_turn_in( 150_minutes ) ) {
+            you.add_msg_if_player( m_warning, _( "Your vision blurs a little." ) );
+            you.add_effect( effect_visuals, rng( 1_minutes, 5_minutes ) );
         }
     }
     // Slight disability
     if( sleep_deprivation >= SLEEP_DEPRIVATION_SERIOUS ) {
         if( one_turn_in( 75_minutes ) ) {
-            add_msg_if_player( m_bad, _( "Your mind lapses into unawareness briefly." ) );
-            moves -= rng( 20, 80 );
+            you.add_msg_if_player( m_bad, _( "Your mind lapses into unawareness briefly." ) );
+            you.moves -= rng( 20, 80 );
         }
         if( one_turn_in( 125_minutes ) ) {
-            add_msg_if_player( m_bad, _( "Your muscles ache in stressfully unpredictable ways." ) );
-            mod_pain( rng( 2, 10 ) );
+            you.add_msg_if_player( m_bad, _( "Your muscles ache in stressfully unpredictable ways." ) );
+            you.mod_pain( rng( 2, 10 ) );
         }
         if( one_turn_in( 5_hours ) ) {
-            add_msg_if_player( m_bad, _( "You have a distractingly painful headache." ) );
-            mod_pain( rng( 10, 25 ) );
+            you.add_msg_if_player( m_bad, _( "You have a distractingly painful headache." ) );
+            you.mod_pain( rng( 10, 25 ) );
         }
     }
     // Major disability, high chance of passing out also relevant
     if( sleep_deprivation >= SLEEP_DEPRIVATION_MAJOR ) {
-        if( !has_effect( effect_nausea ) && one_turn_in( 500_minutes ) ) {
-            add_msg_if_player( m_bad, _( "You feel heartburn and an acid taste in your mouth." ) );
-            mod_pain( 5 );
-            add_effect( effect_nausea, rng( 5_minutes, 30_minutes ) );
+        if( !you.has_effect( effect_nausea ) && one_turn_in( 500_minutes ) ) {
+            you.add_msg_if_player( m_bad, _( "You feel heartburn and an acid taste in your mouth." ) );
+            you.mod_pain( 5 );
+            you.add_effect( effect_nausea, rng( 5_minutes, 30_minutes ) );
         }
         if( one_turn_in( 5_hours ) ) {
-            add_msg_if_player( m_bad, _( "Your mind is so tired that you feel you can't trust "
-                                         "your eyes anymore." ) );
-            add_effect( effect_hallu, rng( 5_minutes, 60_minutes ) );
+            you.add_msg_if_player( m_bad, _( "Your mind is so tired that you feel you can't trust "
+                                             "your eyes anymore." ) );
+            you.add_effect( effect_hallu, rng( 5_minutes, 60_minutes ) );
         }
-        if( !has_effect( effect_shakes ) && one_turn_in( 425_minutes ) ) {
-            add_msg_if_player( m_bad, _( "Your muscles spasm uncontrollably, and you have "
-                                         "trouble keeping your balance." ) );
-            add_effect( effect_shakes, 15_minutes );
-        } else if( has_effect( effect_shakes ) && one_turn_in( 75_seconds ) ) {
-            moves -= 10;
-            add_msg_player_or_npc( m_warning, _( "Your shaking legs make you stumble." ),
-                                   _( "<npcname> stumbles." ) );
-            if( !has_effect( effect_downed ) && one_in( 10 ) ) {
-                add_msg_player_or_npc( m_bad, _( "You fall over!" ), _( "<npcname> falls over!" ) );
-                add_effect( effect_downed, rng( 3_turns, 10_turns ) );
+        if( !you.has_effect( effect_shakes ) && one_turn_in( 425_minutes ) ) {
+            you.add_msg_if_player( m_bad, _( "Your muscles spasm uncontrollably, and you have "
+                                             "trouble keeping your balance." ) );
+            you.add_effect( effect_shakes, 15_minutes );
+        } else if( you.has_effect( effect_shakes ) && one_turn_in( 75_seconds ) ) {
+            you.moves -= 10;
+            you.add_msg_player_or_npc( m_warning, _( "Your shaking legs make you stumble." ),
+                                       _( "<npcname> stumbles." ) );
+            if( !you.has_effect( effect_downed ) && one_in( 10 ) ) {
+                you.add_msg_player_or_npc( m_bad, _( "You fall over!" ), _( "<npcname> falls over!" ) );
+                you.add_effect( effect_downed, rng( 3_turns, 10_turns ) );
             }
         }
     }
@@ -1535,7 +1536,7 @@ void Character::suffer()
         sleep_deprivation -= current_stim * 50;
     }
 
-    suffer_without_sleep( sleep_deprivation );
+    suffer::without_sleep( *this, sleep_deprivation );
     suffer_from_tourniquet();
     //Suffer from enchantments
     enchantment_cache->activate_passive( *this );
