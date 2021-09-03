@@ -815,7 +815,7 @@ Example | Description
 `"u_val": "item_count"` | Number of a given item in the character's inventory. `"item"` must also be specified. Can be read but not written to.
 `"u_val": "exp"` | Total experience earned. Not supported for NPCs. Can be read but not written to.
 `"u_val": "stim"` | Current stim level.
-`"u_val": "pkill"` | Current painkiller level level.
+`"u_val": "pkill"` | Current painkiller level.
 `"u_val": "rad"` | Current radiation level.
 `"u_val": "focus"` | Current focus level.
 `"u_val": "fatigue"` | Current fatigue level.
