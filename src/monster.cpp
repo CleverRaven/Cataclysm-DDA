@@ -1502,7 +1502,7 @@ bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
     return false;
 }
 
-void monster::absorb_hit( const bodypart_id &, damage_instance &dam )
+void monster::absorb_hit( Creature *source, const bodypart_id &, damage_instance &dam )
 {
     resistances r = resistances( *this );
     const weakpoint *weakpoint = type->weakpoints.select_weakpoint();

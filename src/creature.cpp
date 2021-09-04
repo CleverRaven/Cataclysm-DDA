@@ -1050,7 +1050,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
     damage_instance d = dam; // copy, since we will mutate in absorb_hit
 
     dealt_damage_instance dealt_dams;
-    absorb_hit( bp, d );
+    absorb_hit( source, bp, d );
 
     // Add up all the damage units dealt
     for( const auto &it : d.damage_units ) {
