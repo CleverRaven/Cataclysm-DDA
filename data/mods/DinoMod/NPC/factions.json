@@ -77,8 +77,8 @@
       "marloss": { "kill on sight": true }
     },
     "epilogues": [
-      { "power_min": 20, "id": "epilogue_faction_swampers_20" },
-      { "power_max": 150, "id": "epilogue_faction_swampers_150" }
+      { "power_max": 20, "id": "epilogue_faction_swampers_20" },
+      { "power_min": 150, "id": "epilogue_faction_swampers_150" }
     ],
     "description": "A prosperous but secretive group of churchgoers and entertainment moguls with an affection for dinosaurs.  They welcome all untainted humans."
   }
