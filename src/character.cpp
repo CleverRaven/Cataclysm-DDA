@@ -2296,17 +2296,6 @@ int Character::get_standard_stamina_cost( const item *thrown_item ) const
     return ( weight_cost + 50 ) * -1 * melee_stamina_cost_modifier();
 }
 
-int Character::amount_worn( const itype_id &id ) const
-{
-    int amount = 0;
-    for( const item &elem : worn ) {
-        if( elem.typeId() == id ) {
-            ++amount;
-        }
-    }
-    return amount;
-}
-
 int Character::count_softwares( const itype_id &id )
 {
     int count = 0;

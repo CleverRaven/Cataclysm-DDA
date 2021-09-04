@@ -353,6 +353,16 @@ cata::optional<std::list<item>::iterator> Character::wear_item( const item &to_w
     return new_item_it;
 }
 
+int Character::amount_worn( const itype_id &id ) const
+{
+    int amount = 0;
+    for( const item &elem : worn ) {
+        if( elem.typeId() == id ) {
+            ++amount;
+        }
+    }
+    return amount;
+}
 
 ret_val<bool> Character::can_takeoff( const item &it, const std::list<item> *res )
 {
