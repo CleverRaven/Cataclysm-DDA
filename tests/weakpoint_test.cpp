@@ -7,18 +7,18 @@
 #include "point.h"
 #include "type_id.h"
 
-static void damage_monster( const std::string &target_type, const damage_instance &dam, float ave)
+static void damage_monster( const std::string &target_type, const damage_instance &dam, float ave )
 {
     CAPTURE( target_type );
     int total = 0;
-    for (int i = 0; i < 100; i++) {
+    for( int i = 0; i < 100; i++ ) {
         monster target{ mtype_id( target_type ), tripoint_zero };
         target.deal_damage( NULL, bodypart_id( "torso" ), dam );
         int damage_dealt = target.get_hp_max() - target.get_hp();
         total += damage_dealt;
         CAPTURE( damage_dealt );
     }
-    CHECK( (float)total/100.0f == Approx( ave ).epsilon( 0.15f ) );
+    CHECK( ( float )total / 100.0f == Approx( ave ).epsilon( 0.15f ) );
 }
 
 TEST_CASE( "monster_weakpoint", "[monster]" )
