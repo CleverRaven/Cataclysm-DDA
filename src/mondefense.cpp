@@ -32,9 +32,6 @@
 #include "type_id.h"
 #include "viewer.h"
 
-static const skill_id skill_gun( "gun" );
-static const skill_id skill_rifle( "rifle" );
-
 void mdefense::none( monster &, Creature *, const dealt_projectile_attack * )
 {
 }
