@@ -139,15 +139,15 @@ TEST_CASE( "recipe_permutations", "[recipe]" )
             }
             // Make the range of acceptable average calories of permutations, using result's calories
             const float lower_bound = std::min( default_calories - mystats.calories.stddev() * 2,
-                                                default_calories * 0.8 );
+                                                default_calories * 0.75 );
             const float upper_bound = std::max( default_calories + mystats.calories.stddev() * 2,
-                                                default_calories * 1.2 );
+                                                default_calories * 1.25 );
             CHECK( mystats.calories.min() >= 0 );
             CHECK( lower_bound <= mystats.calories.avg() );
             CHECK( mystats.calories.avg() <= upper_bound );
             if( mystats.calories.min() < 0 || lower_bound > mystats.calories.avg() ||
                 mystats.calories.avg() > upper_bound ) {
-                printf( "\n\nRecipeID: %s, default is %d Calories,\nCurrent recipe range: %d-%d, Average %.0f, Stddev %.0f"
+                printf( "\n\nRecipeID: %s, default is %d Calories,\nCurrent recipe range: %d-%d, Average %.1f, Stddev %.1f"
                         "\nAverage recipe Calories must fall within this range, derived from default Calories: %.0f-%.0f\n\n",
                         recipe_pair.first.c_str(), default_calories,
                         mystats.calories.min(), mystats.calories.max(), mystats.calories.avg(), mystats.calories.stddev(),
