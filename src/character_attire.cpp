@@ -373,6 +373,20 @@ bool Character::is_wearing_on_bp( const itype_id &it, const bodypart_id &bp ) co
     return false;
 }
 
+bool Character::worn_with_flag( const flag_id &f, const bodypart_id &bp ) const
+{
+    return std::any_of( worn.begin(), worn.end(), [&f, bp]( const item & it ) {
+        return it.has_flag( f ) && ( bp == bodypart_str_id::NULL_ID() || it.covers( bp ) );
+    } );
+}
+
+bool Character::worn_with_flag( const flag_id &f ) const
+{
+    return std::any_of( worn.begin(), worn.end(), [&f]( const item & it ) {
+        return it.has_flag( f ) ;
+    } );
+}
+
 bool Character::wearing_something_on( const bodypart_id &bp ) const
 {
     for( const item &i : worn ) {

@@ -3229,20 +3229,6 @@ bool Character::is_wielding( const item &target ) const
     return &weapon == &target;
 }
 
-bool Character::worn_with_flag( const flag_id &f, const bodypart_id &bp ) const
-{
-    return std::any_of( worn.begin(), worn.end(), [&f, bp]( const item & it ) {
-        return it.has_flag( f ) && ( bp == bodypart_str_id::NULL_ID() || it.covers( bp ) );
-    } );
-}
-
-bool Character::worn_with_flag( const flag_id &f ) const
-{
-    return std::any_of( worn.begin(), worn.end(), [&f]( const item & it ) {
-        return it.has_flag( f ) ;
-    } );
-}
-
 item Character::item_worn_with_flag( const flag_id &f, const bodypart_id &bp ) const
 {
     item it_with_flag;
