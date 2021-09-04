@@ -1,5 +1,8 @@
 #include "character.h"
+#include "event.h"
+#include "event_bus.h"
 #include "flag.h"
+#include "game.h"
 #include "mutation.h"
 
 static const efftype_id effect_bleed( "bleed" );
@@ -209,6 +212,79 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
     }
 
     return ret_val<bool>::make_success();
+}
+
+cata::optional<std::list<item>::iterator>
+Character::wear( int pos, bool interactive )
+{
+    return wear( item_location( *this, &i_at( pos ) ), interactive );
+}
+
+cata::optional<std::list<item>::iterator>
+Character::wear( item_location item_wear, bool interactive )
+{
+    item to_wear = *item_wear;
+    if( is_worn( to_wear ) ) {
+        if( interactive ) {
+            add_msg_player_or_npc( m_info,
+                                   _( "You are already wearing that." ),
+                                   _( "<npcname> is already wearing that." )
+                                 );
+        }
+        return cata::nullopt;
+    }
+    if( to_wear.is_null() ) {
+        if( interactive ) {
+            add_msg_player_or_npc( m_info,
+                                   _( "You don't have that item." ),
+                                   _( "<npcname> doesn't have that item." ) );
+        }
+        return cata::nullopt;
+    }
+
+    bool was_weapon;
+    item to_wear_copy( to_wear );
+    if( &to_wear == &weapon ) {
+        weapon = item();
+        was_weapon = true;
+    } else if( has_item( to_wear ) ) {
+        remove_item( to_wear );
+        was_weapon = false;
+    } else {
+        // item is on the map if this point is reached.
+        item_wear.remove_item();
+        was_weapon = false;
+    }
+
+    const bool item_one_per_layer = to_wear_copy.has_flag( flag_id( "ONE_PER_LAYER" ) );
+    for( const item &worn_item : worn ) {
+        const cata::optional<side> sidedness_conflict = to_wear_copy.covers_overlaps( worn_item );
+        if( sidedness_conflict && ( item_one_per_layer ||
+                                    worn_item.has_flag( flag_id( "ONE_PER_LAYER" ) ) ) ) {
+            // we can assume both isn't an option because it'll be caught in can_wear
+            if( *sidedness_conflict == side::LEFT ) {
+                to_wear_copy.set_side( side::RIGHT );
+            } else {
+                to_wear_copy.set_side( side::LEFT );
+            }
+        }
+    }
+
+    auto result = wear_item( to_wear_copy, interactive );
+    if( !result ) {
+        if( was_weapon ) {
+            weapon = to_wear_copy;
+        } else {
+            i_add( to_wear_copy );
+        }
+        return cata::nullopt;
+    }
+
+    if( was_weapon ) {
+        get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
+    }
+
+    return result;
 }
 
 bool Character::wearing_something_on( const bodypart_id &bp ) const
