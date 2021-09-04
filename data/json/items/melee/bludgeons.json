@@ -485,7 +485,7 @@
     "material": [ "wood", "steel" ],
     "looks_like": "hammer_sledge",
     "flags": [ "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
-    "techniques": [ "BRUTAL", "WIDE" ],
+    "techniques": [ "WBLOCK_1", "BRUTAL", "WIDE" ],
     "volume": "1700 ml",
     "longest_side": "100 cm",
     "bashing": 80,
