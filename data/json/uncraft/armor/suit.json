@@ -18,37 +18,6 @@
     "time": "5 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 23 ] ], [ [ "leather", 25 ] ], [ [ "scrap", 12 ] ], [ [ "sheet_kevlar_layered", 24 ] ] ]
-  },
-  {
-    "result": "aep_suit",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "time": "10 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "cleansuit", 1 ] ],
-      [ [ "duct_tape", 600 ] ],
-      [ [ "sheet_kevlar_layered", 24 ] ],
-      [ [ "plastic_sheet", 1 ] ]
-    ]
-  },
-  {
-    "result": "anbc_suit",
-    "type": "uncraft",
-    "activity_level": "LIGHT_EXERCISE",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "time": "10 m",
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "hazmat_suit", 1 ] ],
-      [ [ "duct_tape", 800 ] ],
-      [ [ "sheet_kevlar_layered", 48 ] ],
-      [ [ "plastic_sheet", 1 ] ]
-    ]
-  },
   {
     "result": "entry_suit",
     "type": "uncraft",
