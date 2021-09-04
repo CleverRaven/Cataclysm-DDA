@@ -544,13 +544,13 @@ bool gun_actor::call( monster &z ) const
 bool gun_actor::try_target( monster &z, Creature &target ) const
 {
     if( require_sunlight && !g->is_in_sunlight( z.pos() ) ) {
-        if( one_in( 3 ) && get_player_character().sees( z ) ) {
+        if( one_in( 3 ) ) {
             add_msg_if_player_sees( z, failure_msg.translated(), z.name() );
         }
         return false;
     }
 
-    const bool require_targeting = ( require_targeting_player && target.as_avatar() ) ||
+    const bool require_targeting = ( require_targeting_player && target.is_avatar() ) ||
                                    ( require_targeting_npc && target.is_npc() ) ||
                                    ( require_targeting_monster && target.is_monster() );
     const bool not_targeted = require_targeting && !z.has_effect( effect_targeted );
