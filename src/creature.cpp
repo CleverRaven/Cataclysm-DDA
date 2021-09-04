@@ -929,24 +929,24 @@ void Creature::messaging_projectile_attack( const Creature *source,
                 } else {
                     SCT.removeCreatureHP();
                 }
-                if (hit_selection.wp_hit.empty()) {
+                if( hit_selection.wp_hit.empty() ) {
                     //~ %1$s: creature name, %2$d: damage value
                     add_msg( m_good, _( "You hit %1$s for %2$d damage." ),
-                            disp_name(), total_damage );
+                             disp_name(), total_damage );
                 } else {
                     //~ %1$s: creature name, %2$s: weakpoint hit, %3$d: damage value
                     add_msg( m_good, _( "You hit %1$s in %2$s for %3$d damage." ),
-                            disp_name(), hit_selection.wp_hit, total_damage );
+                             disp_name(), hit_selection.wp_hit, total_damage );
                 }
             } else if( u_see_this ) {
-                if (hit_selection.wp_hit.empty()) {
+                if( hit_selection.wp_hit.empty() ) {
                     //~ 1$ - shooter, 2$ - target
                     add_msg( _( "%1$s shoots %2$s." ),
-                            source->disp_name(), disp_name() );
+                             source->disp_name(), disp_name() );
                 } else {
                     //~ 1$ - shooter, 2$ - target, 3$ - weakpoint
                     add_msg( _( "%1$s shoots %2$s in %3$s." ),
-                            source->disp_name(), disp_name(), hit_selection.wp_hit );
+                             source->disp_name(), disp_name(), hit_selection.wp_hit );
                 }
             }
         }
