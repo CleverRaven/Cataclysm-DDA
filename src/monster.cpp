@@ -63,6 +63,7 @@
 #include "trap.h"
 #include "units.h"
 #include "viewer.h"
+#include "weakpoint.h"
 #include "weather.h"
 
 static const efftype_id effect_badpoison( "badpoison" );
@@ -1503,10 +1504,18 @@ bool monster::block_hit( Creature *, bodypart_id &, damage_instance & )
 
 void monster::absorb_hit( const bodypart_id &, damage_instance &dam )
 {
+    resistances r = resistances( *this );
+    const weakpoint *weakpoint = type->weakpoints.select_weakpoint();
+    weakpoint->apply_to( r );
     for( auto &elem : dam.damage_units ) {
         add_msg_debug( debugmode::DF_MONSTER, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
                        name_by_dt( elem.type ), elem.res_pen, elem.res_mult );
-        elem.amount -= std::min( resistances( *this ).get_effective_resist( elem ) +
+        add_msg_debug( debugmode::DF_MONSTER,
+                       "Weakpoint: %s :: Armor Mult: %.1f :: Armor Penalty: %.1f :: Resist: %.1f",
+                       weakpoint->id, weakpoint->armor_mult[static_cast<int>( elem.type )],
+                       weakpoint->armor_penalty[static_cast<int>( elem.type )],
+                       r.get_effective_resist( elem ) );
+        elem.amount -= std::min( r.get_effective_resist( elem ) +
                                  get_worn_armor_val( elem.type ), elem.amount );
     }
 }
