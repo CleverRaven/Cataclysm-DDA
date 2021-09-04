@@ -689,9 +689,7 @@
         "||    |       "
       ],
       "palettes": [ "lab_common_palette", "lab_security_palette" ],
-      "monster": {
-        "ɜ": { "monster": "mon_turret_riot" }
-      },
+      "monster": { "ɜ": { "monster": "mon_turret_riot" } },
       "place_nested": [
         {
           "chunks": [ [ "null", 30 ], [ "lab_security_sandbag_EW_1", 50 ], [ "lab_security_sandbag_EW_2", 50 ] ],
@@ -733,9 +731,7 @@
         "    ||        "
       ],
       "palettes": [ "lab_common_palette", "lab_security_palette" ],
-      "monster": {
-        "ɜ": { "monster": "mon_turret_riot" }
-      },
+      "monster": { "ɜ": { "monster": "mon_turret_riot" } },
       "place_nested": [
         {
           "chunks": [ [ "null", 30 ], [ "lab_security_sandbag_EW_1", 50 ], [ "lab_security_sandbag_EW_2", 50 ] ],
