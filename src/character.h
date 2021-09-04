@@ -996,7 +996,7 @@ class Character : public Creature, public visitable
          */
         void passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) const;
         /** Runs through all bionics and armor on a part and reduces damage through their armor_absorb */
-        void absorb_hit( Creature *source, const bodypart_id &bp, damage_instance &dam ) override;
+        std::string absorb_hit( Creature *source, const bodypart_id &bp, damage_instance &dam ) override;
         /**
          * Reduces and mutates du, prints messages about armor taking damage.
          * @return true if the armor was completely destroyed (and the item must be deleted).
