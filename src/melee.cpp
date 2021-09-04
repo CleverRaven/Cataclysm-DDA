@@ -129,7 +129,7 @@ static const efftype_id effect_amigara( "amigara" );
 static const species_id species_HUMAN( "HUMAN" );
 
 static void player_hit_message( Character *attacker, const std::string &message,
-                                Creature &t, int dam, bool crit = false );
+                                Creature &t, int dam, bool crit = false, bool technique = false, std::string wp_hit = {} );
 static int  stumble( Character &u, const item &weap );
 static std::string melee_message( const ma_technique &tec, Character &p,
                                   const dealt_damage_instance &ddi );
@@ -763,7 +763,8 @@ bool Character::melee_attack_abstract( Creature &t, bool allow_special,
             // Treat monster as seen if we see it before or after the attack
             if( seen || player_character.sees( t ) ) {
                 std::string message = melee_message( technique, *this, dealt_dam );
-                player_hit_message( this, message, t, dam, critical_hit );
+                player_hit_message( this, message, t, dam, critical_hit, technique.id != tec_none,
+                                    dealt_dam.wp_hit );
             } else {
                 add_msg_player_or_npc( m_good, _( "You hit something." ),
                                        _( "<npcname> hits something." ) );
@@ -2348,11 +2349,6 @@ std::string melee_message( const ma_technique &tec, Character &p, const dealt_da
         }
     }
 
-    std::string weakpoint_message;
-    if( !ddi.wp_hit.empty() ) {
-        weakpoint_message = string_format( _( "in %s" ), ddi.wp_hit );
-    }
-
     damage_type dominant_type = damage_type::BASH;
     if( cut_dam + stab_dam > bash_dam ) {
         dominant_type = cut_dam >= stab_dam ? damage_type::CUT : damage_type::STAB;
@@ -2382,10 +2378,10 @@ std::string melee_message( const ma_technique &tec, Character &p, const dealt_da
     } else if( dominant_type == damage_type::BASH ) {
         message = npc ? _( npc_bash[index] ) : _( player_bash[index] );
     }
-    if( weakpoint_message.empty() ) {
+    if( ddi.wp_hit.empty() ) {
         return message;
     } else {
-        return string_format( "%s %s", message, weakpoint_message );
+        return string_format( "%s in %s", message, ddi.wp_hit );
     }
 
     return _( "The bugs attack %s" );
@@ -2393,7 +2389,7 @@ std::string melee_message( const ma_technique &tec, Character &p, const dealt_da
 
 // display the hit message for an attack
 void player_hit_message( Character *attacker, const std::string &message,
-                         Creature &t, int dam, bool crit )
+                         Creature &t, int dam, bool crit, bool technique, std::string wp_hit )
 {
     std::string msg;
     game_message_type msgtype = m_good;
@@ -2415,6 +2411,8 @@ void player_hit_message( Character *attacker, const std::string &message,
         if( attacker->is_npc() && !player_character.has_trait( trait_DEBUG_NIGHTVISION ) ) {
             //~ NPC hits something (critical)
             msg = string_format( _( "%s. Critical!" ), message );
+        } else if( technique && !wp_hit.empty() ) {
+            msg = string_format( _( "%s for %d damage to %s.  Critical!" ), message, dam, wp_hit );
         } else {
             //~ someone hits something for %d damage (critical)
             msg = string_format( _( "%s for %d damage.  Critical!" ), message, dam );
@@ -2425,6 +2423,8 @@ void player_hit_message( Character *attacker, const std::string &message,
         if( attacker->is_npc() && !player_character.has_trait( trait_DEBUG_NIGHTVISION ) ) {
             //~ NPC hits something
             msg = string_format( _( "%s." ), message );
+        } else if( technique && !wp_hit.empty() ) {
+            msg = string_format( _( "%s for %d damage to %s." ), message, dam, wp_hit );
         } else {
             //~ someone hits something for %d damage
             msg = string_format( _( "%s for %d damage." ), message, dam );
