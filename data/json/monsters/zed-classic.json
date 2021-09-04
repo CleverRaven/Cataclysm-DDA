@@ -23,6 +23,7 @@
     "armor_bash": 6,
     "armor_cut": 8,
     "armor_bullet": 6,
+    "weakpoints": [ { "name": "the eye", "armor_mult": { "bullet": 0, "cut": 0, "stab": 0, "bash": 0 }, "coverage": 1 } ],
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
     "death_drops": {
@@ -116,6 +117,28 @@
     "armor_cut": 6,
     "armor_bullet": 6,
     "armor_stab": 6,
+    "weakpoints": [
+      {
+        "name": "an unarmored part of the leg",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "coverage": 8
+      },
+      { "name": "the arm", "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 }, "coverage": 8 },
+      { "name": "the armpit", "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 }, "coverage": 1 },
+      {
+        "name": "the weak armor on the side",
+        "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 },
+        "coverage": 4
+      },
+      {
+        "name": "a gap in the stomach armor",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "coverage": 4
+      },
+      { "name": "the face", "armor_mult": { "bullet": 0, "cut": 0, "stab": 0, "bash": 0 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "bullet": 0, "cut": 0, "stab": 0, "bash": 0 }, "coverage": 1 },
+      { "name": "the neck", "armor_mult": { "bullet": 0, "cut": 0, "stab": 0, "bash": 0 }, "coverage": 1 }
+    ],
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "zombie",
@@ -227,6 +250,11 @@
     "armor_bash": 5,
     "armor_cut": 3,
     "armor_bullet": 2,
+    "weakpoints": [
+      { "name": "the leg", "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.5, "bash": 0.5 }, "coverage": 18 },
+      { "name": "the head", "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.5, "bash": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "bullet": 0, "cut": 0, "stab": 0, "bash": 0 }, "coverage": 1 }
+    ],
     "vision_night": 3,
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.75, "//": "Fat zombies have stronger jaws" }, [ "scratch", 20 ] ],
@@ -276,6 +304,13 @@
     "armor_bullet": 5,
     "armor_acid": 3,
     "armor_fire": 10,
+    "weakpoints": [
+      {
+        "name": "a tear in its turnout gear",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.5, "bash": 0.5, "acid": 0.5, "fire": 0.5 },
+        "coverage": 10
+      }
+    ],
     "vision_night": 3,
     "harvest": "zombie",
     "special_attacks": [ [ "GRAB", 7 ] ],
@@ -322,6 +357,13 @@
     "armor_bash": 5,
     "armor_cut": 4,
     "armor_bullet": 3,
+    "weakpoints": [
+      {
+        "name": "a tear in its hazmat suit",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.5, "bash": 0.5 },
+        "coverage": 10
+      }
+    ],
     "vision_night": 3,
     "harvest": "zombie",
     "special_attacks": [ [ "GRAB", 7 ] ],
@@ -412,6 +454,28 @@
     "melee_cut": 0,
     "armor_bash": 10,
     "armor_cut": 16,
+    "weakpoints": [
+      {
+        "name": "an unarmored part of the leg",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "coverage": 8
+      },
+      { "name": "the arm", "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 }, "coverage": 8 },
+      { "name": "the armpit", "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 }, "coverage": 1 },
+      {
+        "name": "the weak armor on the side",
+        "armor_mult": { "bullet": 0.3, "cut": 0.3, "stab": 0.15, "bash": 0.15 },
+        "coverage": 4
+      },
+      {
+        "name": "a gap in the stomach armor",
+        "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.25, "bash": 0.25 },
+        "coverage": 4
+      },
+      { "name": "the face", "armor_mult": { "bullet": 0, "cut": 0, "stab": 0, "bash": 0 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "bullet": 0, "cut": 0, "stab": 0, "bash": 0 }, "coverage": 1 },
+      { "name": "the neck", "armor_mult": { "bullet": 0, "cut": 0, "stab": 0, "bash": 0 }, "coverage": 1 }
+    ],
     "vision_day": 30,
     "vision_night": 3,
     "harvest": "zombie",
@@ -461,6 +525,10 @@
     "armor_bash": 2,
     "armor_cut": 1,
     "armor_bullet": 1,
+    "weakpoints": [
+      { "name": "the head", "armor_mult": { "bullet": 0.5, "cut": 0.5, "stab": 0.5, "bash": 0.5 }, "coverage": 3 },
+      { "name": "the eye", "armor_mult": { "bullet": 0, "cut": 0, "stab": 0, "bash": 0 }, "coverage": 1 }
+    ],
     "vision_night": 3,
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5, "min_mul": 0.7 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
