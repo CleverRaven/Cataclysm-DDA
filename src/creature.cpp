@@ -826,6 +826,7 @@ struct projectile_attack_results {
     game_message_type gmtSCTcolor = m_neutral;
     double damage_mult = 1.0;
     bodypart_id bp_hit;
+    std::string wp_hit;
 
     explicit projectile_attack_results( const projectile &proj ) {
         max_damage = proj.impact.total_damage();
@@ -928,14 +929,25 @@ void Creature::messaging_projectile_attack( const Creature *source,
                 } else {
                     SCT.removeCreatureHP();
                 }
-
-                //~ %1$s: creature name, %2$d: damage value
-                add_msg( m_good, _( "You hit %1$s for %2$d damage." ),
-                         disp_name(), total_damage );
+                if (hit_selection.wp_hit.empty()) {
+                    //~ %1$s: creature name, %2$d: damage value
+                    add_msg( m_good, _( "You hit %1$s for %2$d damage." ),
+                            disp_name(), total_damage );
+                } else {
+                    //~ %1$s: creature name, %2$s: weakpoint hit, %3$d: damage value
+                    add_msg( m_good, _( "You hit %1$s in %2$s for %3$d damage." ),
+                            disp_name(), hit_selection.wp_hit, total_damage );
+                }
             } else if( u_see_this ) {
-                //~ 1$ - shooter, 2$ - target
-                add_msg( _( "%1$s shoots %2$s." ),
-                         source->disp_name(), disp_name() );
+                if (hit_selection.wp_hit.empty()) {
+                    //~ 1$ - shooter, 2$ - target
+                    add_msg( _( "%1$s shoots %2$s." ),
+                            source->disp_name(), disp_name() );
+                } else {
+                    //~ 1$ - shooter, 2$ - target, 3$ - weakpoint
+                    add_msg( _( "%1$s shoots %2$s in %3$s." ),
+                            source->disp_name(), disp_name(), hit_selection.wp_hit );
+                }
             }
         }
     }
@@ -1026,7 +1038,10 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
 
     dealt_dam = deal_damage( source, hit_selection.bp_hit, impact );
+    // Force damage instance to match the selected body point
     dealt_dam.bp_hit = hit_selection.bp_hit;
+    // Retrieve the selected weakpoint from the damage instance.
+    hit_selection.wp_hit = dealt_dam.wp_hit;
 
     proj.apply_effects_damage( *this, source, dealt_dam, goodhit < accuracy_critical );
 
@@ -1050,7 +1065,7 @@ dealt_damage_instance Creature::deal_damage( Creature *source, bodypart_id bp,
     damage_instance d = dam; // copy, since we will mutate in absorb_hit
 
     dealt_damage_instance dealt_dams;
-    absorb_hit( source, bp, d );
+    dealt_dams.wp_hit = absorb_hit( source, bp, d );
 
     // Add up all the damage units dealt
     for( const auto &it : d.damage_units ) {
