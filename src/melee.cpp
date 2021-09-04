@@ -2335,7 +2335,7 @@ std::string melee_message( const ma_technique &tec, Character &p, const dealt_da
     const int bash_dam = ddi.type_damage( damage_type::BASH );
     const int cut_dam  = ddi.type_damage( damage_type::CUT );
     const int stab_dam = ddi.type_damage( damage_type::STAB );
-
+    
     if( tec.id != tec_none ) {
         std::string message;
         if( p.is_npc() ) {
@@ -2346,6 +2346,11 @@ std::string melee_message( const ma_technique &tec, Character &p, const dealt_da
         if( !message.empty() ) {
             return message;
         }
+    }
+
+    std::string weakpoint_message;
+    if (!ddi.wp_hit.empty()) {
+        weakpoint_message = string_format(_("in %s"), ddi.wp_hit);
     }
 
     damage_type dominant_type = damage_type::BASH;
@@ -2369,12 +2374,18 @@ std::string melee_message( const ma_technique &tec, Character &p, const dealt_da
         index = cutting ? 8 : 5;
     }
 
+    std::string message;
     if( dominant_type == damage_type::STAB ) {
-        return npc ? _( npc_stab[index] ) : _( player_stab[index] );
+        message = npc ? _( npc_stab[index] ) : _( player_stab[index] );
     } else if( dominant_type == damage_type::CUT ) {
-        return npc ? _( npc_cut[index] ) : _( player_cut[index] );
+        message = npc ? _( npc_cut[index] ) : _( player_cut[index] );
     } else if( dominant_type == damage_type::BASH ) {
-        return npc ? _( npc_bash[index] ) : _( player_bash[index] );
+        message = npc ? _( npc_bash[index] ) : _( player_bash[index] );
+    }
+    if (weakpoint_message.empty()) {
+        return message;
+    } else {
+        return string_format("%s %s", message, weakpoint_message);
     }
 
     return _( "The bugs attack %s" );
