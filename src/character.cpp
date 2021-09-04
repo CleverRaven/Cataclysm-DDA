@@ -11772,47 +11772,6 @@ void Character::siphon( vehicle &veh, const itype_id &desired_liquid )
     }
 }
 
-bool Character::takeoff( item_location loc, std::list<item> *res )
-{
-    item &it = *loc;
-
-
-    const auto ret = can_takeoff( it, res );
-    if( !ret.success() ) {
-        add_msg( m_info, "%s", ret.c_str() );
-        return false;
-    }
-
-    auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item & wit ) {
-        return &it == &wit;
-    } );
-
-    item takeoff_copy( it );
-    worn.erase( iter );
-    takeoff_copy.on_takeoff( *this );
-    if( res == nullptr ) {
-        i_add( takeoff_copy, true, &it, &it, true, !has_weapon() );
-    } else {
-        res->push_back( takeoff_copy );
-    }
-
-    add_msg_player_or_npc( _( "You take off your %s." ),
-                           _( "<npcname> takes off their %s." ),
-                           takeoff_copy.tname() );
-
-
-    recalc_sight_limits();
-    calc_encumbrance();
-
-    return true;
-}
-
-bool Character::takeoff( int pos )
-{
-    item_location loc = item_location( *this, &i_at( pos ) );
-    return takeoff( loc );
-}
-
 void Character::on_worn_item_transform( const item &old_it, const item &new_it )
 {
     morale->on_worn_item_transform( old_it, new_it );
