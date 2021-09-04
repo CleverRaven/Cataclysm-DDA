@@ -227,7 +227,10 @@
           { "item": "SUS_cookware", "chance": 40 },
           { "item": "SUS_knife_drawer", "chance": 30 }
         ],
-        "l": [ { "item": "SUS_dresser_mens", "chance": 30, "repeat": [ 1, 2 ] }, { "item": "SUS_dresser_womens", "chance": 30, "repeat": [ 1, 2 ] } ]
+        "l": [
+          { "item": "SUS_dresser_mens", "chance": 30, "repeat": [ 1, 2 ] },
+          { "item": "SUS_dresser_womens", "chance": 30, "repeat": [ 1, 2 ] }
+        ]
       }
     }
   },
