@@ -268,14 +268,28 @@
   {
     "type": "technique",
     "id": "tec_barbaran_impale",
-    "name": "Impaling Revesas",
-    "messages": [ "You thrust your weapon cleanly through %s", "<npcname> thrusts their weapon cleanly through %s" ],
-    "skill_requirements": [ { "name": "melee", "level": 4 } ],
-    "req_buffs": [ "buff_barbaran_onhit", "buff_barbaran_onmove" ],
+    "name": "Thrusting Revesas",
+    "messages": [ "You thrust your weapon through %s", "<npcname> thrusts their weapon through %s" ],
+    "skill_requirements": [ { "name": "melee", "level": 2 } ],
+    "req_buffs": [ "buff_barbaran_onmove" ],
     "weighting": 2,
     "melee_allowed": true,
     "aoe": "impale",
-    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.3 }, { "stat": "damage", "type": "stab", "scale": 1.4 } ]
+    "mult_bonuses": [
+      { "stat": "damage", "type": "cut", "scale": 1.1 },
+      { "stat": "damage", "type": "stab", "scale": 1.1 },
+      { "stat": "movecost", "scale": 1.2 }
+    ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_barbaran_shove",
+    "name": "Advancing Empuje",
+    "messages": [ "You steady and shove %s with their weapon", "<npcname> steadies and shoves %s with their weapon" ],
+    "skill_requirements": [ { "name": "melee", "level": 4 } ],
+    "req_buffs": [ "buff_barbaran_onpause" ],
+    "knockback_dist": 2,
+    "mult_bonuses": [ { "stat": "movecost", "scale": 1.35 } ]
   },
   {
     "type": "technique",
@@ -283,14 +297,15 @@
     "name": "Saragossa Final",
     "messages": [ "You sweep a bone-crushing blow into %s", "<npcname> sweeps a bone-crushing blow into %s" ],
     "skill_requirements": [ { "name": "melee", "level": 5 } ],
-    "req_buffs": [ "buff_barbaran_onblock", "buff_barbaran_onmove" ],
-    "weighting": 2,
+    "req_buffs": [ "buff_barbaran_onpause", "buff_barbaran_onhit", "buff_barbaran_onmove" ],
     "melee_allowed": true,
-    "crit_tec": true,
+    "crit_ok": true,
     "mult_bonuses": [
-      { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.2 },
-      { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 0.2 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 0.2 }
+      { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.15 },
+      { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 0.15 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 0.15 },
+      { "stat": "damage", "type": "cut", "scale": 1.3 },
+      { "stat": "movecost", "scale": 1.35 }
     ]
   },
   {
@@ -299,47 +314,17 @@
     "name": "Saragossa Impale",
     "messages": [ "You sweep a bone-crushing blow through %s", "<npcname> sweeps a bone-crushing blow through %s" ],
     "skill_requirements": [ { "name": "melee", "level": 5 } ],
-    "req_buffs": [ "buff_barbaran_onblock", "buff_barbaran_onmove" ],
+    "req_buffs": [ "buff_barbaran_onpause", "buff_barbaran_onhit", "buff_barbaran_onmove" ],
     "weighting": 4,
     "melee_allowed": true,
-    "crit_tec": true,
+    "crit_ok": true,
     "aoe": "impale",
     "mult_bonuses": [
-      { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.2 },
-      { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 0.2 },
-      { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 0.2 }
-    ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_barbaran_dodgecounter",
-    "name": "Montante Retorta",
-    "messages": [ "You counter %s with a swift blow", "<npcname> counters %s with a swift blow" ],
-    "skill_requirements": [ { "name": "melee", "level": 3 } ],
-    "req_buffs": [ "buff_barbaran_onblock" ],
-    "melee_allowed": true,
-    "dodge_counter": true,
-    "mult_bonuses": [
-      { "stat": "damage", "type": "bash", "scale": 0.5 },
-      { "stat": "damage", "type": "cut", "scale": 0.5 },
-      { "stat": "damage", "type": "stab", "scale": 0.5 },
-      { "stat": "movecost", "scale": 0.5 }
-    ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_barbaran_blockcounter",
-    "name": "Montante Cuadra",
-    "messages": [ "You catch %s's blow with your weapon", "<npcname> catches %s's blow with their weapon" ],
-    "skill_requirements": [ { "name": "melee", "level": 3 } ],
-    "req_buffs": [ "buff_barbaran_onhit" ],
-    "melee_allowed": true,
-    "block_counter": true,
-    "mult_bonuses": [
-      { "stat": "damage", "type": "bash", "scale": 0.4 },
-      { "stat": "damage", "type": "cut", "scale": 0.4 },
-      { "stat": "damage", "type": "stab", "scale": 0.4 },
-      { "stat": "movecost", "scale": 0.33 }
+      { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.15 },
+      { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 0.15 },
+      { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 0.15 },
+      { "stat": "damage", "type": "cut", "scale": 1.3 },
+      { "stat": "movecost", "scale": 1.5 }
     ]
   },
   {
