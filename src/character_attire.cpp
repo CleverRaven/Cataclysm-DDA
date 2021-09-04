@@ -387,6 +387,30 @@ bool Character::worn_with_flag( const flag_id &f ) const
     } );
 }
 
+item Character::item_worn_with_flag( const flag_id &f, const bodypart_id &bp ) const
+{
+    item it_with_flag;
+    for( const item &it : worn ) {
+        if( it.has_flag( f ) && ( bp == bodypart_str_id::NULL_ID() || it.covers( bp ) ) ) {
+            it_with_flag = it;
+            break;
+        }
+    }
+    return it_with_flag;
+}
+
+item Character::item_worn_with_flag( const flag_id &f ) const
+{
+    item it_with_flag;
+    for( const item &it : worn ) {
+        if( it.has_flag( f ) ) {
+            it_with_flag = it;
+            break;
+        }
+    }
+    return it_with_flag;
+}
+
 bool Character::wearing_something_on( const bodypart_id &bp ) const
 {
     for( const item &i : worn ) {
