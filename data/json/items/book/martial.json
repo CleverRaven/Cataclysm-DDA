@@ -13,7 +13,7 @@
     "copy-from": "book_martial",
     "type": "BOOK",
     "name": {
-      "str_sp": "Las Nueve Reglas de la Montante",
+      "str": "Las Nueve Reglas de la Montante",
       "str_pl": "copies of Las Nueve Reglas de la Montante",
       "//~": "Don't translate name, this book is in archaic Spanish with translations in the margins."
     },
