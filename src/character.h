@@ -320,45 +320,6 @@ enum class character_stat : char {
     DUMMY_STAT
 };
 
-/**
- * Records a batch of unsealed containers and handles spilling at once. This
- * is preferred over handling containers right after unsealing because the latter
- * can cause items to be invalidated when later code still needs to access them.
- * See @ref `Character::handle_contents_changed` for more detail.
- */
-class contents_change_handler
-{
-    public:
-        contents_change_handler() = default;
-        /**
-         * Add an already unsealed container to the list. This item location
-         * should remain valid when `handle_by` is called.
-         */
-        void add_unsealed( const item_location &loc );
-        /**
-         * Unseal the pocket containing `loc` and add `loc`'s parent to the list.
-         * Does nothing if `loc` does not have a parent container. The parent of
-         * `loc` should remain valid when `handle_by` is called, but `loc` only
-         * needs to be valid here (for example, the item may be consumed afterwards).
-         */
-        void unseal_pocket_containing( const item_location &loc );
-        /**
-         * Let the guy handle any container that needs spilling. This may invalidate
-         * items in and out of the list of containers. The list is cleared after handling.
-         */
-        void handle_by( Character &guy );
-        /**
-         * Serialization for activities
-         */
-        void serialize( JsonOut &jsout ) const;
-        /**
-         * Deserialization for activities
-         */
-        void deserialize( JsonIn &jsin );
-    private:
-        std::vector<item_location> unsealed;
-};
-
 enum class customize_appearance_choice : int {
     EYES, // customize eye colour
     HAIR, // customize hair
@@ -3171,6 +3132,9 @@ class Character : public Creature, public visitable
         // the player's activity level for metabolism calculations
         activity_tracker activity_history;
 
+        // Our weariness level last turn, so we know when we transition
+        int old_weary_level = 0;
+
         trap_map known_traps;
         mutable std::map<std::string, double> cached_info;
         bool bio_soporific_powered_at_last_sleep_check = false;
@@ -3246,26 +3210,6 @@ class Character : public Creature, public visitable
          */
         std::map<bodypart_id, float> bodypart_exposure();
     private:
-        /** suffer() subcalls */
-        void suffer_water_damage( const trait_id &mut_id );
-        void suffer_mutation_power( const trait_id &mut_id );
-        void suffer_while_underwater();
-        void suffer_from_addictions();
-        void suffer_while_awake( int current_stim );
-        void suffer_from_chemimbalance();
-        void suffer_from_schizophrenia();
-        void suffer_from_asthma( int current_stim );
-        void suffer_from_pain();
-        void suffer_in_sunlight();
-        void suffer_from_sunburn();
-        void suffer_from_other_mutations();
-        void suffer_from_item_dropping();
-        void suffer_from_radiation();
-        void suffer_from_bad_bionics();
-        void suffer_from_stimulants( int current_stim );
-        void suffer_from_exertion();
-        void suffer_without_sleep( int sleep_deprivation );
-        void suffer_from_tourniquet();
         /**
          * Check whether the other creature is in range and can be seen by this creature.
          * @param critter Creature to check for visibility
@@ -3292,9 +3236,6 @@ class Character : public Creature, public visitable
 
         units::energy power_level;
         units::energy max_power_level;
-
-        // Our weariness level last turn, so we know when we transition
-        int old_weary_level = 0;
 
         /// @brief Needs (hunger, starvation, thirst, fatigue, etc.)
         // Stored calories is a value in 'calories' - 1/1000s of kcals (or Calories)

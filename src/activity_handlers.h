@@ -86,7 +86,7 @@ struct activity_reason_info {
         can_do( can_do_ ),
         con_idx( con_idx_ )
     { }
-    activity_reason_info( do_activity_reason reason_, bool can_do_, const requirement_data req ):
+    activity_reason_info( do_activity_reason reason_, bool can_do_, const requirement_data &req ):
         reason( reason_ ),
         can_do( can_do_ ),
         req( req )
