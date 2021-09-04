@@ -132,7 +132,7 @@ class effect_type
     protected:
         int max_intensity = 0;
         int max_effective_intensity = 0;
-        time_duration max_duration = 0_turns;
+        time_duration max_duration = 365_days;
 
         int dur_add_perc = 0;
         int int_add_val = 0;

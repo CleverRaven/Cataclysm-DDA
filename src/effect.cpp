@@ -818,12 +818,15 @@ std::string effect::disp_short_desc( bool reduced ) const
 void effect::decay( std::vector<efftype_id> &rem_ids, std::vector<bodypart_id> &rem_bps,
                     const time_point &time, const bool player )
 {
-    // Decay intensity if supposed to do so
-    // TODO: Remove effects that would decay to 0 intensity?
-    if( intensity > 1 && eff_type->int_decay_tick != 0 &&
+    // Decay intensity if supposed to do so, removing effects at zero intensity
+    if( intensity > 0 && eff_type->int_decay_tick != 0 &&
         to_turn<int>( time ) % eff_type->int_decay_tick == 0 &&
         get_max_duration() > get_duration() ) {
         set_intensity( intensity + eff_type->int_decay_step, player );
+        if( intensity <= 0 ) {
+            rem_ids.push_back( get_id() );
+            rem_bps.push_back( bp.id() );
+        }
     }
 
     // Add to removal list if duration is <= 0
