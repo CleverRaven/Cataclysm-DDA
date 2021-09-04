@@ -526,6 +526,7 @@
       { "item": "winemaking_beginner", "prob": 60 },
       { "item": "manual_canning", "prob": 80 },
       { "item": "manual_sealing", "prob": 190 },
+      { "item": "manual_barbaran", "prob": 10 },
       { "item": "baking_book", "prob": 190 }
     ]
   },
@@ -577,6 +578,7 @@
       { "item": "manual_wingchun", "prob": 3 },
       { "item": "manual_medievalpole", "prob": 3 },
       { "item": "manual_swordsmanship", "prob": 3 },
+      { "item": "manual_barbaran", "prob": 1 },
       { "item": "book_lockpick", "prob": 1 },
       { "group": "rare_martial_arts_books", "prob": 6 },
       { "item": "scots_tailor", "prob": 30 }

@@ -72,6 +72,112 @@
   },
   {
     "type": "martial_art",
+    "id": "style_barbaran",
+    "name": { "str": "Barbaran Montante" },
+    "description": "The Barbaran Montante originated in 16th century Spain and focuses on overcoming thick armor with heavy weaponry and sweeping blows, transferring kinetic energy through armor and into vulnerable organs and bones.",
+    "initiate": [
+      "You heft your weapon, stretch your shoulders, and slide into the Represa.",
+      "%s rolls their shoulders and prepares to duel."
+    ],
+    "learn_difficulty": 8,
+    "primary_skill": "bashing",
+    "strictly_melee": true,
+    "static_buffs": [
+      {
+        "id": "buff_barbaran_represa1",
+        "name": "Beginner's Represa",
+        "description": "Sliding footwork enhances the crushing strength of your blows, though the awkward forward stance compromises swift dodging.\n\n-2.0 Dodge skill, armor penetration increased by 50% of Strength.",
+        "melee_allowed": true,
+        "flat_bonuses": [
+          { "stat": "dodge", "scale": -2.0 },
+          { "stat": "arpen", "type": "bash", "scaling-stat": "str", "scale": 0.5 },
+          { "stat": "arpen", "type": "cut", "scaling-stat": "str", "scale": 0.5 },
+          { "stat": "arpen", "type": "stab", "scaling-stat": "str", "scale": 0.5 }
+        ]
+      },
+      {
+        "id": "buff_barbaran_represa2",
+        "name": "Duelist's Represa",
+        "description": "A master of Barbaran's surprisingly elegant feints and footwork easily disrupts their opponent's guard.\n\n+1.0 Dodge skill, armor penetration increased by 25% of Dexterity.",
+        "skill_requirements": [ { "name": "melee", "level": 6 }, { "name": "dodge", "level": 4 } ],
+        "melee_allowed": true,
+        "flat_bonuses": [
+          { "stat": "dodge", "scale": 1.0 },
+          { "stat": "arpen", "type": "bash", "scaling-stat": "dex", "scale": 0.25 },
+          { "stat": "arpen", "type": "cut", "scaling-stat": "dex", "scale": 0.25 },
+          { "stat": "arpen", "type": "stab", "scaling-stat": "dex", "scale": 0.25 }
+        ]
+      }
+    ],
+    "onblock_buffs": [
+      {
+        "id": "buff_barbaran_onblock",
+        "name": "Advancing Destreza",
+        "description": "After blocking, you slide into an advancing stance.\n\n+50% Dexterity to movement speed.\nPartially enables \"Saragossa Final\" technique, enables \"Montante Retorta\" technique.\nLasts 5 turns.",
+        "skill_requirements": [ { "name": "melee", "level": 3 } ],
+        "melee_allowed": true,
+        "mult_bonuses": [ { "stat": "speed", "scaling-stat": "dex", "scale": 0.5 } ],
+        "buff_duration": 5
+      }
+    ],
+    "onhit_buffs": [
+      {
+        "id": "buff_barbaran_onhit",
+        "name": "Descending Tajos",
+        "description": "While landing a strike, you chop through into a defensive stance.\n\nBlocked damge reduced by 100% of Strength.\nPartially enables \"Impaling Revesas\" technique, enables \"Montante Cuadra\" technique.\nLasts 5 turns.",
+        "skill_requirements": [ { "name": "melee", "level": 3 } ],
+        "melee_allowed": true,
+        "flat_bonuses": [ { "stat": "block", "scaling-stat": "str", "scale": 1.0 } ],
+        "buff_duration": 5
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "buff_barbaran_onmove",
+        "name": "Ricasso Flourish",
+        "description": "You flourish and switch your grip mid-step to prevent opponents from reading your stance.\n\nDodge skill increased by 10% of Strength.\nPartially enables \"Impaling Revesas\" and \"Saragossa Final\" techniques.\nLasts 5 turns.",
+        "skill_requirements": [ { "name": "melee", "level": 3 } ],
+        "melee_allowed": true,
+        "flat_bonuses": [ { "stat": "dodge", "scaling-stat": "str", "scale": 0.1 } ],
+        "buff_duration": 5
+      }
+    ],
+    "techniques": [
+      "tec_barbaran_impale",
+      "tec_barbaran_crit",
+      "tec_barbaran_crit2",
+      "tec_barbaran_blockcounter",
+      "tec_barbaran_dodgecounter"
+    ],
+    "weapons": [
+      "2h_flail_steel",
+      "2h_flail_wood",
+      "battleaxe",
+      "battleaxe_inferior",
+      "battleaxe_fake",
+      "broadsword",
+      "broadsword_inferior",
+      "broadsword_fake",
+      "dao",
+      "hammer_sledge",
+      "hammer_sledge_heavy",
+      "longsword",
+      "longsword_inferior",
+      "longsword_fake",
+      "mace",
+      "mace_inferior",
+      "mace_fake",
+      "morningstar",
+      "morningstar_inferior",
+      "morningstar_fake",
+      "warhammer",
+      "zweihander",
+      "zweihander_inferior",
+      "zweihander_fake"
+    ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_boxing",
     "name": { "str": "Boxing" },
     "description": "Sport of the true gentleman, modern boxing has evolved from the prizefights of the Victorian era.  Strength reduces blocked damage and moving increase dodge skill.",
