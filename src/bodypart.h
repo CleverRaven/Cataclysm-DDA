@@ -433,7 +433,7 @@ class body_part_set
         void serialize( Stream &s ) const {
             s.write( parts );
         }
-        template<typename Stream>
+        template<typename Stream = JsonIn, std::enable_if_t<std::is_same<std::decay_t<Stream>, JsonIn>::value>* = nullptr>
         void deserialize( Stream &s ) {
             s.read( parts );
         }

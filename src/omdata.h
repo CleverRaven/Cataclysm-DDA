@@ -31,6 +31,7 @@ struct city;
 template <typename E> struct enum_traits;
 
 using overmap_land_use_code_id = string_id<overmap_land_use_code>;
+class JsonIn;
 class JsonObject;
 class overmap_connection;
 class overmap_special;
@@ -147,7 +148,7 @@ struct overmap_static_spawns : public overmap_spawns {
         return overmap_spawns::operator==( rhs ) && chance == rhs.chance;
     }
 
-    template<typename JsonStream>
+    template<typename JsonStream = JsonIn, std::enable_if_t<std::is_same<std::decay_t<JsonStream>, JsonIn>::value>* = nullptr>
     void deserialize( JsonStream &jsin ) {
         auto jo = jsin.get_object();
         overmap_spawns::load( jo );
@@ -408,7 +409,7 @@ struct overmap_special_spawns : public overmap_spawns {
         return overmap_spawns::operator==( rhs ) && radius == rhs.radius;
     }
 
-    template<typename JsonStream>
+    template<typename JsonStream = JsonIn, std::enable_if_t<std::is_same<std::decay_t<JsonStream>, JsonIn>::value>* = nullptr>
     void deserialize( JsonStream &jsin ) {
         auto jo = jsin.get_object();
         overmap_spawns::load( jo );
@@ -423,7 +424,7 @@ struct overmap_special_terrain {
     std::set<std::string> flags;
     std::set<string_id<overmap_location>> locations;
 
-    template<typename JsonStream>
+    template<typename JsonStream = JsonIn, std::enable_if_t<std::is_same<std::decay_t<JsonStream>, JsonIn>::value>* = nullptr>
     void deserialize( JsonStream &jsin ) {
         auto om = jsin.get_object();
         om.read( "point", p );
@@ -448,7 +449,7 @@ struct overmap_special_connection {
     string_id<overmap_connection> connection;
     bool existing = false;
 
-    template<typename JsonStream>
+    template<typename JsonStream = JsonIn, std::enable_if_t<std::is_same<std::decay_t<JsonStream>, JsonIn>::value>* = nullptr>
     void deserialize( JsonStream &jsin ) {
         auto jo = jsin.get_object();
         jo.read( "point", p );

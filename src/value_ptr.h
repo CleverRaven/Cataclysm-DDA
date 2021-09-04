@@ -38,7 +38,7 @@ class value_ptr : public std::unique_ptr<T>
                 jsout.write_null();
             }
         }
-        template<typename Stream = JsonIn>
+        template<typename Stream = JsonIn, std::enable_if_t<std::is_same<std::decay_t<Stream>, JsonIn>::value>* = nullptr>
         void deserialize( Stream &jsin ) {
             if( jsin.test_null() ) {
                 this->reset();
