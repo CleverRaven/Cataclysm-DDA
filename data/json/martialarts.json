@@ -123,7 +123,7 @@
       {
         "id": "buff_barbaran_onhit",
         "name": "Represa Momentum",
-        "description": "After landing a strike, you conserve your momentum and sweep into the next.\n\n-10% movecost.\nPartially enables \"Impaling Revesas\" technique, enables \"Montante Cuadra\" technique.\nLasts 3 turns.  Stacks 3 times.",
+        "description": "After landing a strike, you conserve your momentum and sweep into the next.\n\n-10% movecost.\nPartially enables \"Impaling Revesas\" technique.\nLasts 3 turns.  Stacks 3 times.",
         "skill_requirements": [ { "name": "melee", "level": 1 } ],
         "melee_allowed": true,
         "max_stacks": 3,
@@ -147,7 +147,7 @@
       {
         "id": "buff_barbaran_onpause",
         "name": "Vulgar Preparation",
-        "description": "A killing blow requires preparation and a clear centerline.\n\n-5% movecost.\nPartially enables \"Saragossa Final\" technique.\nLasts 1 turns, stacks 3 times.",
+        "description": "A killing blow requires preparation and a clear centerline.\n\n-5% movecost.\nPartially enables \"Saragossa Final\" technique, enables \"Advancing Empuje\" technique.\nLasts 1 turn, stacks 3 times.",
         "skill_requirements": [ { "name": "melee", "level": 3 } ],
         "melee_allowed": true,
 		"max_stacks": 3,
