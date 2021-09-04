@@ -3229,16 +3229,6 @@ bool Character::is_wielding( const item &target ) const
     return &weapon == &target;
 }
 
-bool Character::is_wearing( const itype_id &it ) const
-{
-    for( const item &i : worn ) {
-        if( i.typeId() == it ) {
-            return true;
-        }
-    }
-    return false;
-}
-
 bool Character::is_wearing_on_bp( const itype_id &it, const bodypart_id &bp ) const
 {
     for( const item &i : worn ) {

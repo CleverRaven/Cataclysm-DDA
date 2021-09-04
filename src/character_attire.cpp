@@ -353,6 +353,16 @@ bool Character::takeoff( int pos )
     return takeoff( loc );
 }
 
+bool Character::is_wearing( const itype_id &it ) const
+{
+    for( const item &i : worn ) {
+        if( i.typeId() == it ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool Character::wearing_something_on( const bodypart_id &bp ) const
 {
     for( const item &i : worn ) {
