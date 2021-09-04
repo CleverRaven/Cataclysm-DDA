@@ -209,6 +209,11 @@
   },
   {
     "type": "tool_quality",
+    "id": "BELLOW",
+    "name": { "str": "Bellowing" }
+  },
+  {
+    "type": "tool_quality",
     "id": "CHISEL_WOOD",
     "name": { "str": "wood chiseling" }
   },
