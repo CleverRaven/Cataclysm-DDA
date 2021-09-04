@@ -132,7 +132,6 @@
     "difficulty": 2,
     "time": "2 h",
     "autolearn": true,
-    "reversible": true,
     "using": [ [ "sewing_standard", 15 ], [ "fastener_small", 3 ] ],
     "components": [ [ [ "rag", 2 ] ], [ [ "wire", 1 ] ] ],
     "proficiencies": [ { "proficiency": "prof_closures" } ]
