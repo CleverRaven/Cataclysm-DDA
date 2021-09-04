@@ -245,11 +245,11 @@ class effect
         time_duration get_duration() const;
         /** Returns the maximum duration of an effect. */
         time_duration get_max_duration() const;
-        /** Sets the duration, capping at max_duration if it exists. */
+        /** Sets the duration, capping at max duration. */
         void set_duration( const time_duration &dur, bool alert = false );
-        /** Mods the duration, capping at max_duration if it exists. */
+        /** Mods the duration, capping at max_duration. */
         void mod_duration( const time_duration &dur, bool alert = false );
-        /** Multiplies the duration, capping at max_duration if it exists. */
+        /** Multiplies the duration, capping at max_duration. */
         void mult_duration( double dur, bool alert = false );
 
         std::vector<vitamin_applied_effect> vit_effects( bool reduced ) const;

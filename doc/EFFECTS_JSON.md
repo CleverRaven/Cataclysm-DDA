@@ -217,7 +217,7 @@ in "removes_effects" are automatically added to "blocks_effects", no need for ma
 
 ### Effect limiters
 ```C++
-    "max_duration": 100,
+    "max_duration": 100,    - Defaults to 365 days
     "dur_add_perc": 150     - Defaults to 100%
 ```
 These are utilized when adding to currently existing effects. "max_duration" limits the overall duration of the effect.

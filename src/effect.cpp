@@ -855,8 +855,8 @@ time_duration effect::get_max_duration() const
 void effect::set_duration( const time_duration &dur, bool alert )
 {
     duration = dur;
-    // Cap to max_duration if it exists
-    if( eff_type->max_duration > 0_turns && duration > eff_type->max_duration ) {
+    // Cap to max_duration
+    if( duration > eff_type->max_duration ) {
         duration = eff_type->max_duration;
     }
 
@@ -992,13 +992,15 @@ int effect::set_intensity( int val, bool alert )
         intensity = 1;
     }
 
-    val = std::max( std::min( val, eff_type->max_intensity ), 1 );
+    val = std::max( std::min( val, eff_type->max_intensity ), 0 );
     if( val == intensity ) {
         // Nothing to change
         return intensity;
     }
 
-    if( alert && val < intensity && val - 1 < static_cast<int>( eff_type->decay_msgs.size() ) ) {
+    // Filter out intensity falling to zero (the effect will be removed later)
+    if( alert && val < intensity &&  val != 0 &&
+        val - 1 < static_cast<int>( eff_type->decay_msgs.size() ) ) {
         add_msg( eff_type->decay_msgs[ val - 1 ].second,
                  eff_type->decay_msgs[ val - 1 ].first.translated() );
     }
@@ -1452,13 +1454,7 @@ void load_effect_type( const JsonObject &jo )
     for( auto &&f : jo.get_string_array( "blocks_effects" ) ) { // *NOPAD*
         new_etype.blocks_effects.emplace_back( f );
     }
-
-    if( jo.has_string( "max_duration" ) ) {
-        new_etype.max_duration = read_from_json_string<time_duration>( *jo.get_raw( "max_duration" ),
-                                 time_duration::units );
-    } else {
-        new_etype.max_duration = time_duration::from_turns( jo.get_int( "max_duration", 0 ) );
-    }
+    optional( jo, false, "max_duration", new_etype.max_duration, 365_days );
 
     if( jo.has_string( "int_dur_factor" ) ) {
         new_etype.int_dur_factor = read_from_json_string<time_duration>( *jo.get_raw( "int_dur_factor" ),
