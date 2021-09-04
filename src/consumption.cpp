@@ -14,6 +14,7 @@
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
+#include "contents_change_handler.h"
 #include "craft_command.h"
 #include "debug.h"
 #include "effect.h"

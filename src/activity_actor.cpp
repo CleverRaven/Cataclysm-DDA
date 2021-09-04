@@ -24,6 +24,7 @@
 #include "calendar.h"
 #include "character.h"
 #include "coordinates.h"
+#include "contents_change_handler.h"
 #include "craft_command.h"
 #include "creature_tracker.h"
 #include "debug.h"

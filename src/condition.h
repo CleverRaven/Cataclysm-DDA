@@ -137,19 +137,12 @@ struct conditional_t {
         void set_has_dexterity( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_intelligence( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_has_perception( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_has_pain( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_has_power( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_is_deaf( bool is_npc = false );
         void set_is_on_terrain( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_is_in_field( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_one_in_chance( const JsonObject &jo, const std::string &member );
         void set_x_in_y_chance( const JsonObject &jo, const std::string &member );
-        void set_is_temperature( const JsonObject &jo, const std::string &member );
-        void set_is_height( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_is_windpower( const JsonObject &jo, const std::string &member );
         void set_has_worn_with_flag( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_is_humidity( const JsonObject &jo, const std::string &member );
-        void set_is_pressure( const JsonObject &jo, const std::string &member );
         void set_has_wielded_with_flag( const JsonObject &jo, const std::string &member,
                                         bool is_npc = false );
         void set_is_wearing( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -205,8 +198,6 @@ struct conditional_t {
         void set_u_know_recipe( const JsonObject &jo, const std::string &member );
         void set_mission_has_generic_rewards();
         void set_can_see( bool is_npc = false );
-        void set_has_morale( const JsonObject &jo, const std::string &member, bool is_npc = false );
-        void set_has_focus( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_compare_int( const JsonObject &jo, const std::string &member );
         static std::function<int( const T & )> get_get_int( const JsonObject &jo );
 

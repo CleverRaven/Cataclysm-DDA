@@ -58,6 +58,7 @@
 #include "computer_session.h"
 #include "construction.h"
 #include "construction_group.h"
+#include "contents_change_handler.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
