@@ -342,7 +342,6 @@
     "bashing": 14,
     "material": [ "concentrated_mana", "crystallized_mana" ],
     "symbol": "*",
-    "looks_like": "fragment_bomb_act",
     "color": "red",
     "explode_in_fire": true,
     "explosion": { "power": 200 },
