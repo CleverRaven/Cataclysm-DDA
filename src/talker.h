@@ -145,7 +145,7 @@ class talker
         }
         virtual void set_mutation( const trait_id & ) {}
         virtual void unset_mutation( const trait_id & ) {}
-        virtual void mod_fatigue( int ) {};
+        virtual void set_fatigue( int ) {};
         virtual bool has_trait_flag( const json_character_flag & ) const {
             return false;
         }
@@ -356,7 +356,11 @@ class talker
         virtual int get_stored_kcal() const {
             return 0;
         }
+        virtual int get_stim() const {
+            return 0;
+        }
         virtual void set_stored_kcal( int ) {}
+        virtual void set_stim( int ) {}
         virtual void set_thirst( int ) {}
         virtual bool is_in_control_of( const vehicle & ) const {
             return false;
@@ -411,7 +415,31 @@ class talker
             return 0;
         }
         virtual void mod_focus( int ) {}
-        virtual void mod_rad( int ) {}
+        virtual int get_pkill() const {
+            return 0;
+        }
+        virtual void set_pkill( int ) {}
+        virtual int get_stamina() const {
+            return 0;
+        }
+        virtual void set_stamina( int ) {}
+        virtual int get_sleep_deprivation() const {
+            return 0;
+        }
+        virtual void set_sleep_deprivation( int ) {}
+        virtual int get_rad() const {
+            return 0;
+        }
+        virtual void set_rad( int ) {}
+        virtual int get_anger() const {
+            return 0;
+        }
+        virtual void set_anger( int ) {}
+        virtual void set_morale( int ) {}
+        virtual int get_friendly() const {
+            return 0;
+        }
+        virtual void set_friendly( int ) {}
         virtual void add_morale( const morale_type &, int, int, time_duration, time_duration, bool ) {}
         virtual void remove_morale( const morale_type & ) {}
 };

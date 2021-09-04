@@ -430,9 +430,9 @@ bool talker_character::can_see() const
     return !me_chr->is_blind() && ( !me_chr->in_sleep_state() || me_chr->has_trait( trait_SEESLEEP ) );
 }
 
-void talker_character::mod_fatigue( int amount )
+void talker_character::set_fatigue( int amount )
 {
-    me_chr->mod_fatigue( amount );
+    me_chr->set_fatigue( amount );
 }
 
 void talker_character::mod_healthy_mod( int amount, int cap )
@@ -466,7 +466,52 @@ void talker_character::mod_focus( int amount )
     me_chr->mod_focus( amount );
 }
 
-void talker_character::mod_rad( int amount )
+void talker_character::set_rad( int amount )
 {
-    me_chr->mod_rad( amount );
+    me_chr->set_rad( amount );
+}
+
+int talker_character::get_rad() const
+{
+    return me_chr->get_rad();
+}
+
+int talker_character::get_stim() const
+{
+    return me_chr->get_stim();
+}
+
+void talker_character::set_stim( int amount )
+{
+    me_chr->set_stim( amount );
+}
+
+int talker_character::get_pkill() const
+{
+    return me_chr->get_painkiller();
+}
+
+void talker_character::set_pkill( int amount )
+{
+    me_chr->set_painkiller( amount );
+}
+
+int talker_character::get_stamina() const
+{
+    return me_chr->get_stamina();
+}
+
+void talker_character::set_stamina( int amount )
+{
+    me_chr->set_stamina( amount );
+}
+
+int talker_character::get_sleep_deprivation() const
+{
+    return me_chr->get_sleep_deprivation();
+}
+
+void talker_character::set_sleep_deprivation( int amount )
+{
+    me_chr->set_sleep_deprivation( amount );
 }
