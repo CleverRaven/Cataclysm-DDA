@@ -6781,7 +6781,7 @@ static void armor_enchantment_adjust( Character &guy, damage_unit &du )
     du.amount = std::max( 0.0f, du.amount );
 }
 
-void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
+std::string Character::absorb_hit( Creature *, const bodypart_id &bp, damage_instance &dam )
 {
     std::list<item> worn_remains;
     bool armor_destroyed = false;
@@ -6886,6 +6886,7 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
     if( armor_destroyed ) {
         drop_invalid_inventory();
     }
+    return {};
 }
 
 bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp )
