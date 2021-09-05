@@ -34,6 +34,7 @@ void effect_on_conditions::check_consistency()
 
 void effect_on_condition::load( const JsonObject &jo, const std::string & )
 {
+    mandatory( jo, was_loaded, "id", id );
     activate_only = true;
     if( jo.has_member( "recurrence_min" ) || jo.has_member( "recurrence_max" ) ) {
         activate_only = false;
@@ -59,6 +60,21 @@ void effect_on_condition::load( const JsonObject &jo, const std::string & )
     }
 }
 
+effect_on_condition_id effect_on_conditions::load_inline_eoc( const JsonValue &jv,
+        const std::string &src )
+{
+    if( jv.test_string() ) {
+        return effect_on_condition_id( jv.get_string() );
+    } else if( jv.test_object() ) {
+        effect_on_condition inline_eoc;
+        inline_eoc.load( jv.get_object(), src );
+        effect_on_condition_factory.insert( inline_eoc );
+        return inline_eoc.id;
+    } else {
+        jv.throw_error( "effect_on_condition needs to be either a string or an effect_on_condition object." );
+    }
+}
+
 static time_duration next_recurrence( const effect_on_condition_id &eoc )
 {
     return rng( eoc->recurrence_min, eoc->recurrence_max );
@@ -74,6 +90,40 @@ void effect_on_conditions::load_new_character()
     }
 }
 
+void effect_on_conditions::load_existing_character()
+{
+    std::map<effect_on_condition_id, bool> new_eocs;
+    for( const effect_on_condition &eoc : effect_on_conditions::get_all() ) {
+        if( !eoc.activate_only ) {
+            new_eocs[eoc.id] = true;
+        }
+    }
+
+    std::priority_queue<queued_eoc, std::vector<queued_eoc>, eoc_compare>
+    temp_queued_effect_on_conditions;
+    while( !g->queued_effect_on_conditions.empty() ) {
+        if( g->queued_effect_on_conditions.top().eoc.is_valid() ) {
+            temp_queued_effect_on_conditions.push( g->queued_effect_on_conditions.top() );
+        }
+        new_eocs[g->queued_effect_on_conditions.top().eoc] = false;
+        g->queued_effect_on_conditions.pop();
+    }
+    g->queued_effect_on_conditions = temp_queued_effect_on_conditions;
+    for( auto eoc = g->inactive_effect_on_condition_vector.begin();
+         eoc != g->inactive_effect_on_condition_vector.end(); eoc++ ) {
+        if( !eoc->is_valid() ) {
+            eoc = g->inactive_effect_on_condition_vector.erase( eoc );
+        } else {
+            new_eocs[*eoc] = false;
+        }
+    }
+    for( const std::pair<const effect_on_condition_id, bool> &eoc_pair : new_eocs ) {
+        if( eoc_pair.second ) {
+            queue_effect_on_condition( next_recurrence( eoc_pair.first ), eoc_pair.first );
+        }
+    }
+}
+
 void effect_on_conditions::queue_effect_on_condition( time_duration duration,
         effect_on_condition_id eoc )
 {
@@ -83,10 +133,7 @@ void effect_on_conditions::queue_effect_on_condition( time_duration duration,
 
 void effect_on_conditions::process_effect_on_conditions()
 {
-    dialogue d;
-    standard_npc default_npc( "Default" );
-    d.alpha = get_talker_for( get_avatar() );
-    d.beta = get_talker_for( default_npc );
+    dialogue d( get_talker_for( get_avatar() ), nullptr );
     std::vector<queued_eoc> eocs_to_queue;
     while( !g->queued_effect_on_conditions.empty() &&
            g->queued_effect_on_conditions.top().time <= calendar::turn ) {
@@ -114,11 +161,6 @@ void effect_on_conditions::process_effect_on_conditions()
 
 void effect_on_conditions::process_reactivate()
 {
-    dialogue d;
-    standard_npc default_npc( "Default" );
-    d.alpha = get_talker_for( get_avatar() );
-    d.beta = get_talker_for( default_npc );
-
     std::vector<effect_on_condition_id> ids_to_reactivate;
     for( const effect_on_condition_id &eoc : g->inactive_effect_on_condition_vector ) {
         if( !eoc->check_deactivate() ) {
@@ -151,10 +193,7 @@ bool effect_on_condition::check_deactivate() const
     if( !has_deactivate_condition || has_false_effect ) {
         return false;
     }
-    dialogue d;
-    standard_npc default_npc( "Default" );
-    d.alpha = get_talker_for( get_avatar() );
-    d.beta = get_talker_for( default_npc );
+    dialogue d( get_talker_for( get_avatar() ), nullptr );
     return deactivate_condition( d );
 }
 

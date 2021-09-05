@@ -31,6 +31,7 @@
       "//": "cloth as any other zombie (always), additional items from group hive (sometimes)"
     },
     "burn_into": "mon_zombie_scorched",
+    "fungalize_into": "mon_zombie_fungus",
     "flags": [
       "HEARS",
       "SMELLS",
@@ -42,7 +43,6 @@
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
-      "NO_FUNG_DMG",
       "FILTHY"
     ]
   },
@@ -165,6 +165,7 @@
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
+    "fungalize_into": "mon_zombie_fungus",
     "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_CRAWLER_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GRABS", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
@@ -366,7 +367,7 @@
     "melee_cut": 0,
     "vision_night": 3,
     "harvest": "zombie",
-    "special_attacks": [ { "type": "bite", "cooldown": 2, "accuracy": 3, "no_infection_chance": 10 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
+    "special_attacks": [ { "type": "bite", "cooldown": 2, "accuracy": 3, "infection_chance": 10 }, [ "GRAB", 7 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_death_drops",
     "burn_into": "mon_zombie_scorched",
     "fungalize_into": "mon_zombie_fungus",
@@ -417,6 +418,7 @@
     "special_attacks": [ [ "GRAB", 7 ], [ "scratch", 15 ] ],
     "death_drops": "mon_zombie_swat_death_drops",
     "upgrades": { "half_life": 28, "into": "mon_zombie_kevlar_1" },
+    "fungalize_into": "mon_zombie_fungus",
     "burn_into": "mon_zombie_scorched",
     "flags": [
       "SEES",

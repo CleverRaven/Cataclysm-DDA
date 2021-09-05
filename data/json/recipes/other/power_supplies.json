@@ -62,6 +62,29 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "it_handheld_battery_mount",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_OTHER",
+    "skill_used": "electronics",
+    "skills_required": [ [ "mechanics", 2 ] ],
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "using": [ [ "soldering_standard", 10 ] ],
+    "proficiencies": [ { "proficiency": "prof_elec_soldering" } ],
+    "components": [
+      [ [ "power_supply", 1 ] ],
+      [ [ "scrap", 4 ] ],
+      [ [ "cable", 10 ] ],
+      [ [ "circuit", 1 ] ],
+      [ [ "rope_6", 1 ], [ "rope_makeshift_6", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "UPS_off",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
@@ -75,23 +98,6 @@
     "using": [ [ "soldering_standard", 24 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "power_supply", 4 ] ], [ [ "amplifier", 3 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 10 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "activity_level": "LIGHT_EXERCISE",
-    "result": "adv_UPS_off",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
-    "skill_used": "electronics",
-    "skills_required": [ "mechanics", 1 ],
-    "difficulty": 9,
-    "time": "1 h 25 m",
-    "reversible": true,
-    "decomp_learn": 4,
-    "book_learn": [ [ "recipe_lab_elec", 7 ] ],
-    "using": [ [ "soldering_standard", 24 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 6 ] ], [ [ "amplifier", 5 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 14 ] ], [ [ "plut_cell", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -272,6 +278,22 @@
   },
   {
     "type": "recipe",
+    "copy-from": "water_wheel",
+    "id_suffix": "with_power_saw",
+    "time": "30 m",
+    "using": [ [ "soldering_standard", 35 ], [ "power_saw_short", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [
+      [ [ "motor_small", 1 ], [ "alternator_bicycle", 1 ], [ "alternator_motorbike", 1 ] ],
+      [ [ "2x4", 20 ], [ "frame_wood", 3 ] ],
+      [ [ "sheet_metal_small", 6 ] ],
+      [ [ "nail", 80 ] ],
+      [ [ "pipe", 8 ] ],
+      [ [ "wheel_wood_b", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
     "result": "xl_water_wheel",
     "category": "CC_ELECTRONIC",
@@ -296,6 +318,30 @@
       { "id": "SAW_M", "level": 2 },
       { "id": "SAW_W", "level": 2 }
     ],
+    "components": [
+      [ [ "2x4", 50 ], [ "frame_wood", 9 ] ],
+      [ [ "sheet_metal_small", 18 ] ],
+      [
+        [ "motor_small", 3 ],
+        [ "alternator_bicycle", 3 ],
+        [ "alternator_motorbike", 3 ],
+        [ "alternator_car", 2 ],
+        [ "alternator_truck", 1 ],
+        [ "motor", 2 ],
+        [ "motor_large", 1 ]
+      ],
+      [ [ "nail", 240 ] ],
+      [ [ "pipe", 24 ] ],
+      [ [ "wheel_wood_b", 6 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "copy-from": "xl_water_wheel",
+    "id_suffix": "with_power_saw",
+    "time": "2 h",
+    "using": [ [ "soldering_standard", 85 ], [ "power_saw_short", 50 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [
       [ [ "2x4", 50 ], [ "frame_wood", 9 ] ],
       [ [ "sheet_metal_small", 18 ] ],

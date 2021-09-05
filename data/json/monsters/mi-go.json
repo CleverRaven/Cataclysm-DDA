@@ -237,8 +237,9 @@
     "scents_ignored": [ "sc_fetid" ],
     "special_attacks": [
       [ "PARROT", 800 ],
-      [ "LONGSWIPE", 12 ],
-      [ "STRETCH_ATTACK", 20 ],
+      { "id": "stretch_attack" },
+      { "id": "longswipe", "cooldown": 12 },
+      { "id": "cut_throat", "cooldown": 12 },
       { "id": "scratch", "damage_max_instance": [ { "damage_type": "cut", "amount": 30, "armor_multiplier": 0.7 } ] },
       { "type": "spell", "spell_data": { "id": "mi-go_slaver_beam", "min_level": 2 }, "cooldown": 100 }
     ],

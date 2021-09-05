@@ -8,11 +8,13 @@
 #include "units_fwd.h"
 
 class Character;
+class character_id;
 class JsonIn;
 class JsonOut;
 class item;
 class map_cursor;
 class vehicle_cursor;
+class talker;
 struct tripoint;
 
 /**
@@ -119,6 +121,11 @@ class item_location
         */
         units::mass weight_capacity() const;
 
+        /**
+        * true if the item is inside a not open watertight container
+        **/
+        bool protected_from_liquids() const;
+
         bool parents_can_contain_recursive( item *it ) const;
         int max_charges_by_parent_recursive( const item &it ) const;
 
@@ -132,5 +139,6 @@ class item_location
 
         std::shared_ptr<impl> ptr;
 };
-
+std::unique_ptr<talker> get_talker_for( item_location &it );
+std::unique_ptr<talker> get_talker_for( item_location *it );
 #endif // CATA_SRC_ITEM_LOCATION_H

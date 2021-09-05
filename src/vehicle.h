@@ -45,7 +45,6 @@ class map;
 class monster;
 class nc_color;
 class npc;
-class player;
 class vehicle;
 class vehicle_part_range;
 class vpart_info;
@@ -57,7 +56,7 @@ struct uilist_entry;
 template <typename E> struct enum_traits;
 
 enum vpart_bitflags : int;
-enum ter_bitflags : int;
+enum class ter_furn_flag : int;
 template<typename feature_type>
 class vehicle_part_with_feature_range;
 
@@ -430,13 +429,13 @@ struct vehicle_part {
          * if tile provides cover.
          * WARNING: do not read it directly, use vpart_position::is_inside() instead
          */
-        bool inside = false;
+        bool inside = false; // NOLINT(cata-serialize)
 
         /**
          * true if this part is removed. The part won't disappear until the end of the turn
          * so our indices can remain consistent.
          */
-        bool removed = false;
+        bool removed = false; // NOLINT(cata-serialize)
         bool enabled = true;
         int flags = 0;
 
@@ -465,7 +464,7 @@ struct vehicle_part {
 
     private:
         /** As a performance optimization we cache the part information here on first lookup */
-        mutable const vpart_info *info_cache = nullptr;
+        mutable const vpart_info *info_cache = nullptr; // NOLINT(cata-serialize)
 
         item base;
         cata::colony<item> items; // inventory
@@ -558,14 +557,14 @@ class turret_data
          * and performs any other actions that must be done before firing a turret.
          * @param p the player that is firing the gun, subject to recoil adjustment.
          */
-        void prepare_fire( player &p );
+        void prepare_fire( Character &you );
 
         /**
          * Reset state after firing a prepared turret, called by the firing function.
          * @param p the player that just fired (or attempted to fire) the turret.
          * @param shots the number of shots fired by the most recent call to turret::fire.
          */
-        void post_fire( player &p, int shots );
+        void post_fire( Character &you, int shots );
 
         /**
          * Fire the turret's gun at a given target.
@@ -610,6 +609,17 @@ struct label : public point {
 
     void deserialize( JsonIn &jsin );
     void serialize( JsonOut &json ) const;
+};
+
+enum class autodrive_result : int {
+    // the driver successfully performed course correction or simply did nothing
+    // in order to keep going forward
+    ok,
+    // something bad happened (navigation error, crash, loss of visibility, or just
+    // couldn't find a way around obstacles) and autodrive cannot continue
+    abort,
+    // arrived at the destination
+    finished
 };
 
 class RemovePartHandler;
@@ -773,8 +783,14 @@ class vehicle
     public:
         explicit vehicle( const vproto_id &type_id, int init_veh_fuel = -1, int init_veh_status = -1 );
         vehicle();
+        vehicle( const vehicle & ) = delete;
         ~vehicle();
+        vehicle &operator=( vehicle && ) = default;
 
+    private:
+        vehicle &operator=( const vehicle & ) = default;
+
+    public:
         /** Disable or enable refresh() ; used to speed up performance when creating a vehicle */
         void suspend_refresh();
         void enable_refresh();
@@ -857,18 +873,20 @@ class vehicle
         bool has_old_owner() const {
             return !old_owner.is_null();
         }
-        bool handle_potential_theft( player &p, bool check_only = false, bool prompt = true );
+        bool handle_potential_theft( Character &you, bool check_only = false, bool prompt = true );
         // project a tileray forward to predict obstacles
         std::set<point> immediate_path( const units::angle &rotate = 0_degrees );
-        std::set<point> collision_check_points;
+        std::set<point> collision_check_points; // NOLINT(cata-serialize)
         void autopilot_patrol();
         units::angle get_angle_from_targ( const tripoint &targ );
         void drive_to_local_target( const tripoint &target, bool follow_protocol );
         tripoint get_autodrive_target() {
             return autodrive_local_target;
         }
-        void do_autodrive();
-        void stop_autodriving();
+        // Drive automatically towards some destination for one turn.
+        autodrive_result do_autodrive( Character &driver );
+        // Stop any kind of automatic vehicle control and apply the brakes.
+        void stop_autodriving( bool apply_brakes = true );
         /**
          *  Operate vehicle controls
          *  @param pos location of physical controls to operate (ignored during remote operation)
@@ -937,7 +955,7 @@ class vehicle
         // than the structure part at exclude
         bool find_and_split_vehicles( int exclude );
         // relocate passengers to the same part on a new vehicle
-        void relocate_passengers( const std::vector<player *> &passengers );
+        void relocate_passengers( const std::vector<Character *> &passengers );
         // remove a bunch of parts, specified by a vector indices, and move them to a new vehicle at
         // the same global position
         // optionally specify the new vehicle position and the mount points on the new vehicle
@@ -1071,7 +1089,7 @@ class vehicle
         // returns indices of all parts in the given location slot
         std::vector<int> all_parts_at_location( const std::string &location ) const;
         // shifts an index to next available of that type for NPC activities
-        int get_next_shifted_index( int original_index, player &p );
+        int get_next_shifted_index( int original_index, Character &you );
         // Given a part and a flag, returns the indices of all contiguously adjacent parts
         // with the same flag on the X and Y Axis
         std::vector<std::vector<int>> find_lines_of_parts( int part, const std::string &flag );
@@ -1089,10 +1107,6 @@ class vehicle
         // Translate mount coordinates "p" into tile coordinates "q" using given tileray and anchor
         // should be faster than previous call for repeated translations
         void coord_translate( tileray tdir, const point &pivot, const point &p, tripoint &q ) const;
-
-        // Rotates mount coordinates "p" from old_dir to new_dir along pivot
-        point rotate_mount( units::angle old_dir, units::angle new_dir, const point &pivot,
-                            const point &p ) const;
 
         tripoint mount_to_tripoint( const point &mount ) const;
         tripoint mount_to_tripoint( const point &mount, const point &offset ) const;
@@ -1140,18 +1154,16 @@ class vehicle
         std::vector<rider_data> get_riders() const;
 
         // get passenger at part p
-        player *get_passenger( int p ) const;
+        Character *get_passenger( int you ) const;
         // get monster on a boardable part at p
         monster *get_monster( int p ) const;
 
         bool enclosed_at( const tripoint &pos ); // not const because it calls refresh_insides
-        /**
-         * Get the coordinates (in map squares) of this vehicle, it's the same
-         * coordinate system that player::posx uses.
-         * Global apparently means relative to the currently loaded map (game::m).
-         * This implies:
-         * <code>g->m.veh_at(this->global_pos3()) == this;</code>
-         */
+        // Returns the location of the vehicle in global map square coordinates.
+        tripoint_abs_ms global_square_location() const;
+        // Returns the location of the vehicle in global overmap terrain coordinates.
+        tripoint_abs_omt global_omt_location() const;
+        // Returns the coordinates (in map squares) of the vehicle relative to the local map.
         tripoint global_pos3() const;
         /**
          * Get the coordinates of the studied part of the vehicle
@@ -1166,7 +1178,9 @@ class vehicle
         std::map<itype_id, int> fuels_left() const;
 
         // Checks how much certain fuel left in tanks.
-        int fuel_left( const itype_id &ftype, bool recurse = false ) const;
+        int fuel_left( const itype_id &ftype, bool recurse = false,
+                       const std::function<bool( const vehicle_part & )> &filter = return_true<const vehicle_part &> )
+        const;
         // Checks how much of the part p's current fuel is left
         int fuel_left( int p, bool recurse = false ) const;
         // Checks how much of an engine's current fuel is left in the tanks.
@@ -1178,7 +1192,8 @@ class vehicle
 
         // drains a fuel type (e.g. for the kitchen unit)
         // returns amount actually drained, does not engage reactor
-        int drain( const itype_id &ftype, int amount );
+        int drain( const itype_id &ftype, int amount,
+                   const std::function<bool( vehicle_part & )> &filter = return_true< vehicle_part &> );
         int drain( int index, int amount );
         /**
          * Consumes enough fuel by energy content. Does not support cable draining.
@@ -1487,7 +1502,7 @@ class vehicle
         /**
          * vehicle is driving itself
          */
-        void autodrive( const point & );
+        void selfdrive( const point & );
         /**
          * can the helicopter descend/ascend here?
          */
@@ -1499,7 +1514,7 @@ class vehicle
          * @param p direction player is steering
          * @param z for vertical movement - e.g helicopters
          */
-        void pldrive( const point &p, int z = 0 );
+        void pldrive( Character &driver, const point &p, int z = 0 );
 
         // stub for per-vpart limit
         units::volume max_volume( int part ) const;
@@ -1768,7 +1783,7 @@ class vehicle
          * &turning_wheels_that_are_one_axis_counter - number of wheels that are on one axis and will land on rail
          */
         void precalculate_vehicle_turning( units::angle new_turn_dir, bool check_rail_direction,
-                                           ter_bitflags ter_flag_to_check, int &wheels_on_rail,
+                                           ter_furn_flag ter_flag_to_check, int &wheels_on_rail,
                                            int &turning_wheels_that_are_one_axis_counter ) const;
         bool allow_auto_turn_on_rails( units::angle &corrected_turn_dir ) const;
         bool allow_manual_turn_on_rails( units::angle &corrected_turn_dir ) const;
@@ -1810,18 +1825,18 @@ class vehicle
         faction_id old_owner = faction_id::NULL_ID();
 
     private:
-        mutable double coefficient_air_resistance = 1;
-        mutable double coefficient_rolling_resistance = 1;
-        mutable double coefficient_water_resistance = 1;
-        mutable double draft_m = 1;
-        mutable double hull_height = 0.3;
+        mutable double coefficient_air_resistance = 1; // NOLINT(cata-serialize)
+        mutable double coefficient_rolling_resistance = 1; // NOLINT(cata-serialize)
+        mutable double coefficient_water_resistance = 1; // NOLINT(cata-serialize)
+        mutable double draft_m = 1; // NOLINT(cata-serialize)
+        mutable double hull_height = 0.3; // NOLINT(cata-serialize)
 
         // Global location when cache was last refreshed.
-        mutable tripoint occupied_cache_pos = { -1, -1, -1 };
+        mutable tripoint occupied_cache_pos = { -1, -1, -1 }; // NOLINT(cata-serialize)
         // Vehicle facing when cache was last refreshed.
-        mutable units::angle occupied_cache_direction = 0_degrees;
+        mutable units::angle occupied_cache_direction = 0_degrees; // NOLINT(cata-serialize)
         // Cached points occupied by the vehicle
-        mutable std::set<tripoint> occupied_points;
+        mutable std::set<tripoint> occupied_points; // NOLINT(cata-serialize)
 
         std::vector<vehicle_part> parts;   // Parts which occupy different tiles
         /**
@@ -1849,30 +1864,29 @@ class vehicle
         // make sure the vehicle is supported across z-levels or on the same z-level
         bool level_vehicle();
 
-        std::vector<tripoint_abs_omt> omt_path; // route for overmap-scale auto-driving
-        std::vector<int> alternators;      // List of alternator indices
-        std::vector<int> engines;          // List of engine indices
-        std::vector<int> reactors;         // List of reactor indices
-        std::vector<int> solar_panels;     // List of solar panel indices
-        std::vector<int> wind_turbines;     // List of wind turbine indices
-        std::vector<int> water_wheels;     // List of water wheel indices
-        std::vector<int> sails;            // List of sail indices
-        std::vector<int> funnels;          // List of funnel indices
-        std::vector<int> emitters;         // List of emitter parts
-        std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
-        std::vector<int> wheelcache;       // List of wheels
-        std::vector<int> rotors;           // List of rotors
-        std::vector<int> rail_wheelcache;  // List of rail wheels
-        std::vector<int> steering;         // List of STEERABLE parts
+        std::vector<int> alternators;      // List of alternator indices NOLINT(cata-serialize)
+        std::vector<int> engines;          // List of engine indices NOLINT(cata-serialize)
+        std::vector<int> reactors;         // List of reactor indices NOLINT(cata-serialize)
+        std::vector<int> solar_panels;     // List of solar panel indices NOLINT(cata-serialize)
+        std::vector<int> wind_turbines;    // List of wind turbine indices NOLINT(cata-serialize)
+        std::vector<int> water_wheels;     // List of water wheel indices NOLINT(cata-serialize)
+        std::vector<int> sails;            // List of sail indices NOLINT(cata-serialize)
+        std::vector<int> funnels;          // List of funnel indices NOLINT(cata-serialize)
+        std::vector<int> emitters;         // List of emitter parts NOLINT(cata-serialize)
+        std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts NOLINT(cata-serialize)
+        std::vector<int> wheelcache;       // List of wheels NOLINT(cata-serialize)
+        std::vector<int> rotors;           // List of rotors NOLINT(cata-serialize)
+        std::vector<int> rail_wheelcache;  // List of rail wheels NOLINT(cata-serialize)
+        std::vector<int> steering;         // List of STEERABLE parts NOLINT(cata-serialize)
         // List of parts that will not be on a vehicle very often, or which only one will be present
-        std::vector<int> speciality;
-        std::vector<int> floating;         // List of parts that provide buoyancy to boats
-        std::vector<int> batteries;        // List of batteries
-        std::vector<int> fuel_containers;  // List parts with non-null ammo_type
-        std::vector<int> turret_locations; // List of turret parts
-        std::vector<int> mufflers; // List of muffler parts
-        std::vector<int> planters; // List of planter parts
-        std::vector<int> accessories; // List of accessory (power consuming) parts
+        std::vector<int> speciality;       // NOLINT(cata-serialize)
+        std::vector<int> floating;         // List of parts with buoyancy NOLINT(cata-serialize)
+        std::vector<int> batteries;        // List of batteries NOLINT(cata-serialize)
+        std::vector<int> fuel_containers;  // Parts with non-null ammo_type NOLINT(cata-serialize)
+        std::vector<int> turret_locations; // List of turret parts NOLINT(cata-serialize)
+        std::vector<int> mufflers; // List of muffler parts NOLINT(cata-serialize)
+        std::vector<int> planters; // List of planter parts NOLINT(cata-serialize)
+        std::vector<int> accessories; // List of power consuming parts NOLINT(cata-serialize)
 
         // config values
         std::string name;   // vehicle name
@@ -1883,40 +1897,43 @@ class vehicle
          */
         vproto_id type;
         // parts_at_relative(dp) is used a lot (to put it mildly)
-        std::map<point, std::vector<int>> relative_parts;
+        std::map<point, std::vector<int>> relative_parts; // NOLINT(cata-serialize)
         std::set<label> labels;            // stores labels
         std::set<std::string> tags;        // Properties of the vehicle
         // After fuel consumption, this tracks the remainder of fuel < 1, and applies it the next time.
         std::map<itype_id, float> fuel_remainder;
         std::map<itype_id, float> fuel_used_last_turn;
         std::unordered_multimap<point, zone_data> loot_zones;
-        active_item_cache active_items;
+        active_item_cache active_items; // NOLINT(cata-serialize)
         // a magic vehicle, powered by magic.gif
         bool magic = false;
         // when does the magic vehicle disappear?
         cata::optional<time_duration> summon_time_limit = cata::nullopt;
         // cached values of the factors that determined last chosen engine state
+        // NOLINTNEXTLINE(cata-serialize)
         cata::optional<smart_controller_cache> smart_controller_state = cata::nullopt;
         // SC config. optional, as majority of vehicles don't have SC installed
         cata::optional<smart_controller_config> smart_controller_cfg = cata::nullopt;
-        bool has_enabled_smart_controller = false;
+        bool has_enabled_smart_controller = false; // NOLINT(cata-serialize)
 
     private:
-        mutable units::mass mass_cache;
+        mutable units::mass mass_cache; // NOLINT(cata-serialize)
         // cached pivot point
-        mutable point pivot_cache;
+        mutable point pivot_cache; // NOLINT(cata-serialize)
         /*
          * The co-ordinates of the bounding box of the vehicle's mount points
          */
-        mutable point mount_max;
-        mutable point mount_min;
-        mutable point mass_center_precalc;
-        mutable point mass_center_no_precalc;
+        mutable point mount_max; // NOLINT(cata-serialize)
+        mutable point mount_min; // NOLINT(cata-serialize)
+        mutable point mass_center_precalc; // NOLINT(cata-serialize)
+        mutable point mass_center_no_precalc; // NOLINT(cata-serialize)
         tripoint autodrive_local_target = tripoint_zero; // current node the autopilot is aiming for
+        class autodrive_controller;
+        std::shared_ptr<autodrive_controller> active_autodrive_controller; // NOLINT(cata-serialize)
 
     public:
         // Subtract from parts.size() to get the real part count.
-        int removed_part_count = 0;
+        int removed_part_count = 0; // NOLINT(cata-serialize)
 
         /**
          * Submap coordinates of the currently loaded submap (see game::m)
@@ -1930,10 +1947,10 @@ class vehicle
          * is loaded into the map the values are directly set. The vehicles position does
          * not change therefore no call to set_submap_moved is required.
          */
-        tripoint sm_pos;
+        tripoint sm_pos; // NOLINT(cata-serialize)
 
         // alternator load as a percentage of engine power, in units of 0.1% so 1000 is 100.0%
-        int alternator_load = 0;
+        int alternator_load = 0; // NOLINT(cata-serialize)
         // Turn the vehicle was last processed
         time_point last_update = calendar::before_time_starts;
         // save values
@@ -1964,20 +1981,19 @@ class vehicle
         // amount of last turning (for calculate skidding due to handbrake)
         units::angle last_turn = 0_degrees;
         // goes from ~1 to ~0 while proceeding every turn
-        float of_turn = 0.0f;
+        float of_turn = 0.0f; // NOLINT(cata-serialize)
         // leftover from previous turn
         float of_turn_carry = 0.0f;
-        int extra_drag = 0;
-        // last time point the fluid was inside tanks was checked for processing
-        time_point last_fluid_check = calendar::turn_zero;
+        int extra_drag = 0; // NOLINT(cata-serialize)
         // the time point when it was successfully stolen
         cata::optional<time_point> theft_time;
         // rotation used for mount precalc values
+        // NOLINTNEXTLINE(cata-serialize)
         std::array<units::angle, 2> pivot_rotation = { { 0_degrees, 0_degrees } };
 
-        bounding_box rail_wheel_bounding_box;
-        point front_left;
-        point front_right;
+        bounding_box rail_wheel_bounding_box; // NOLINT(cata-serialize)
+        point front_left; // NOLINT(cata-serialize)
+        point front_right; // NOLINT(cata-serialize)
         towing_data tow_data;
         // points used for rotation of mount precalc values
         std::array<point, 2> pivot_anchor;
@@ -1987,22 +2003,22 @@ class vehicle
         tileray move;
 
     private:
-        bool no_refresh = false;
+        bool no_refresh = false; // NOLINT(cata-serialize)
 
         // if true, pivot_cache needs to be recalculated
-        mutable bool pivot_dirty = true;
-        mutable bool mass_dirty = true;
-        mutable bool mass_center_precalc_dirty = true;
-        mutable bool mass_center_no_precalc_dirty = true;
+        mutable bool pivot_dirty = true; // NOLINT(cata-serialize)
+        mutable bool mass_dirty = true; // NOLINT(cata-serialize)
+        mutable bool mass_center_precalc_dirty = true; // NOLINT(cata-serialize)
+        mutable bool mass_center_no_precalc_dirty = true; // NOLINT(cata-serialize)
         // cached values for air, water, and  rolling resistance;
-        mutable bool coeff_rolling_dirty = true;
-        mutable bool coeff_air_dirty = true;
-        mutable bool coeff_water_dirty = true;
+        mutable bool coeff_rolling_dirty = true; // NOLINT(cata-serialize)
+        mutable bool coeff_air_dirty = true; // NOLINT(cata-serialize)
+        mutable bool coeff_water_dirty = true; // NOLINT(cata-serialize)
         // air uses a two stage dirty check: one dirty bit gets set on part install,
         // removal, or breakage. The other dirty bit only gets set during part_removal_cleanup,
         // and that's the bit that controls recalculation.  The intent is to only recalculate
         // the coeffs once per turn, even if multiple parts are destroyed in a collision
-        mutable bool coeff_air_changed = true;
+        mutable bool coeff_air_changed = true; // NOLINT(cata-serialize)
         // is the vehicle currently mostly in deep water
         mutable bool is_floating = false;
         // is the vehicle currently mostly in water
@@ -2014,10 +2030,11 @@ class vehicle
 
     public:
         bool is_on_ramp = false;
+        // vehicle being driven by player/npc automatically
         bool is_autodriving = false;
         bool is_following = false;
         bool is_patrolling = false;
-        bool all_wheels_on_one_axis = false;
+        bool all_wheels_on_one_axis = false; // NOLINT(cata-serialize)
         // TODO: change these to a bitset + enum?
         // cruise control on/off
         bool cruise_on = true;
@@ -2034,13 +2051,13 @@ class vehicle
         // skidding mode
         bool skidding = false;
         // has bloody or smoking parts
-        bool check_environmental_effects = false;
+        bool check_environmental_effects = false; // NOLINT(cata-serialize)
         // "inside" flags are outdated and need refreshing
-        bool insides_dirty = true;
+        bool insides_dirty = true; // NOLINT(cata-serialize)
         // Is the vehicle hanging in the air and expected to fall down in the next turn?
         bool is_falling = false;
         // zone_data positions are outdated and need refreshing
-        bool zones_dirty = true;
+        bool zones_dirty = true; // NOLINT(cata-serialize)
 
         // current noise of vehicle (engine working, etc.)
         unsigned char vehicle_noise = 0;
@@ -2050,6 +2067,10 @@ class vehicle
 
         // destination for exhaust emissions
         tripoint exhaust_dest( int part ) const;
+
+        // Returns debug data to overlay on the screen, a vector of {map tile position
+        // relative to vehicle pos, color and text}.
+        std::vector<std::tuple<point, int, std::string>> get_debug_overlay_data() const;
 };
 
 #endif // CATA_SRC_VEHICLE_H

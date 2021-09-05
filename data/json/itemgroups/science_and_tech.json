@@ -78,8 +78,7 @@
       [ "flux_comp_gen", 3 ],
       [ "portal", 2 ],
       [ "bot_manhack", 1 ],
-      { "item": "UPS_off", "prob": 5, "charges": [ 0, 1000 ] },
-      [ "adv_UPS_off", 3 ],
+      { "item": "UPS_off", "prob": 8, "charges": [ 0, 1000 ] },
       { "item": "tazer", "prob": 3, "charges": [ 0, 500 ] },
       { "item": "plasma", "prob": 8, "charges": [ 1, 25 ] },
       [ "usb_drive", 5 ],
@@ -126,6 +125,7 @@
       { "item": "textbook_extraction", "prob": 10 },
       { "item": "recovery_pump", "prob": 5 },
       { "item": "vac_pump", "prob": 5 },
+      { "item": "polycarbonate_sheet", "prob": 30 },
       { "item": "closed_loop_extractor_large", "prob": 2 },
       { "item": "closed_loop_extractor_small", "prob": 2 },
       { "item": "filter_paper_qualitative", "prob": 10 },
@@ -220,7 +220,10 @@
       { "item": "chem_zinc_powder", "prob": 10, "charges-min": 100 },
       { "item": "chem_manganese_dioxide", "prob": 5, "charges-min": 100 },
       { "item": "chem_citric_acid", "prob": 16, "charges-min": 100 },
-      { "item": "denat_alcohol", "prob": 10, "charges-min": 250 }
+      { "item": "denat_alcohol", "prob": 10, "charges-min": 250 },
+      { "item": "red_phosphorous", "prob": 10 },
+      { "item": "acetic_anhydride", "prob": 8 },
+      { "item": "iodine_crystal", "prob": 12 }
     ]
   },
   {

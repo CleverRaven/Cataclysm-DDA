@@ -203,7 +203,7 @@ static computer_action computer_action_from_legacy_enum( const int val )
     switch( val ) {
         // Used to migrate old saves. Do not change the numbers!
         // *INDENT-OFF*
-        default: return COMPACT_NULL;
+        default:
         case 0: return COMPACT_NULL;
         case 1: return COMPACT_OPEN;
         case 2: return COMPACT_LOCK;
@@ -263,7 +263,7 @@ static computer_failure_type computer_failure_type_from_legacy_enum( const int v
     switch( val ) {
         // Used to migrate old saves. Do not change the numbers!
         // *INDENT-OFF*
-        default: return COMPFAIL_NULL;
+        default:
         case 0: return COMPFAIL_NULL;
         case 1: return COMPFAIL_SHUTDOWN;
         case 2: return COMPFAIL_ALARM;

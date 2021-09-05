@@ -15,6 +15,7 @@
 #include "character.h"
 #include "color.h"
 #include "creature.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
@@ -24,7 +25,6 @@
 #include "event_bus.h"
 #include "field.h"
 #include "flat_set.h"
-#include "game.h"
 #include "generic_factory.h"
 #include "input.h"
 #include "inventory.h"
@@ -128,6 +128,7 @@ std::string enum_to_string<spell_flag>( spell_flag data )
         case spell_flag::NO_HANDS: return "NO_HANDS";
         case spell_flag::NO_LEGS: return "NO_LEGS";
         case spell_flag::UNSAFE_TELEPORT: return "UNSAFE_TELEPORT";
+        case spell_flag::TARGET_TELEPORT: return "TARGET_TELEPORT";
         case spell_flag::SWAP_POS: return "SWAP_POS";
         case spell_flag::CONCENTRATE: return "CONCENTRATE";
         case spell_flag::RANDOM_AOE: return "RANDOM_AOE";
@@ -253,7 +254,6 @@ static std::string moves_to_string( const int moves )
 
 void spell_type::load( const JsonObject &jo, const std::string & )
 {
-    mandatory( jo, was_loaded, "id", id );
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "skill", skill, skill_default );
@@ -275,7 +275,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "shape", spell_area );
     spell_area_function = spell_effect::shape_map.at( spell_area );
 
-    const auto targeted_monster_ids_reader = auto_flags_reader<mtype_id> {};
+    const auto targeted_monster_ids_reader = string_id_reader<::mtype> {};
     optional( jo, was_loaded, "targeted_monster_ids", targeted_monster_ids,
               targeted_monster_ids_reader );
 
@@ -291,7 +291,10 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "effect_str", effect_str, effect_str_default );
 
     std::string field_input;
-    optional( jo, was_loaded, "field_id", field_input, "none" );
+    // Because the field this is loading into is not part of this type,
+    // the default value will not be supplied when using copy-from if we pass was_loaded
+    // So just pass false instead
+    optional( jo, false, "field_id", field_input, "none" );
     if( field_input != "none" ) {
         field = field_type_id( field_input );
     }
@@ -416,6 +419,7 @@ void spell_type::serialize( JsonOut &json ) const
     json.member( "base_casting_time", base_casting_time, base_casting_time_default );
     json.member( "final_casting_time", final_casting_time, base_casting_time );
     json.member( "casting_time_increment", casting_time_increment, casting_time_increment_default );
+
     if( !learn_spells.empty() ) {
         json.member( "learn_spells" );
         json.start_object();
@@ -820,7 +824,7 @@ int spell::energy_cost( const Character &guy ) const
     if( !has_flag( spell_flag::NO_HANDS ) ) {
         // the first 10 points of combined encumbrance is ignored, but quickly adds up
         const int hands_encumb = std::max( 0,
-                                           guy.encumb( bodypart_id( "hand_l" ) ) + guy.encumb( bodypart_id( "hand_r" ) ) - 10 );
+                                           guy.avg_encumb_of_limb_type( body_part_type::type::hand ) - 5 );
         switch( type->energy_source ) {
             default:
                 cost += 10 * hands_encumb;
@@ -925,13 +929,13 @@ int spell::casting_time( const Character &guy, bool ignore_encumb ) const
         if( !has_flag( spell_flag::NO_LEGS ) ) {
             // the first 20 points of encumbrance combined is ignored
             const int legs_encumb = std::max( 0,
-                                              guy.encumb( bodypart_id( "leg_l" ) ) + guy.encumb( bodypart_id( "leg_r" ) ) - 20 );
+                                              guy.avg_encumb_of_limb_type( body_part_type::type::leg ) - 10 );
             casting_time += legs_encumb * 3;
         }
         if( has_flag( spell_flag::SOMATIC ) ) {
             // the first 20 points of encumbrance combined is ignored
             const int arms_encumb = std::max( 0,
-                                              guy.encumb( bodypart_id( "arm_l" ) ) + guy.encumb( bodypart_id( "arm_r" ) ) - 20 );
+                                              guy.avg_encumb_of_limb_type( body_part_type::type::arm ) - 10 );
             casting_time += arms_encumb * 2;
         }
     }
@@ -984,14 +988,15 @@ float spell::spell_fail( const Character &guy ) const
         !guy.has_trait_flag( STATIC( json_character_flag( "SUBTLE_SPELL" ) ) ) ) {
         // the first 20 points of encumbrance combined is ignored
         const int arms_encumb = std::max( 0,
-                                          guy.encumb( bodypart_id( "arm_l" ) ) + guy.encumb( bodypart_id( "arm_r" ) ) - 20 );
+                                          guy.avg_encumb_of_limb_type( body_part_type::type::arm ) - 10 );
         // each encumbrance point beyond the "gray" color counts as half an additional fail %
         fail_chance += arms_encumb / 200.0f;
     }
     if( has_flag( spell_flag::VERBAL ) &&
         !guy.has_trait_flag( STATIC( json_character_flag( "SILENT_SPELL" ) ) ) ) {
         // a little bit of mouth encumbrance is allowed, but not much
-        const int mouth_encumb = std::max( 0, guy.encumb( bodypart_id( "mouth" ) ) - 5 );
+        const int mouth_encumb = std::max( 0,
+                                           guy.avg_encumb_of_limb_type( body_part_type::type::mouth ) - 5 );
         fail_chance += mouth_encumb / 100.0f;
     }
     // concentration spells work better than you'd expect with a higher focus pool
@@ -1191,7 +1196,7 @@ bool spell::is_valid_target( spell_target t ) const
 bool spell::is_valid_target( const Creature &caster, const tripoint &p ) const
 {
     bool valid = false;
-    if( Creature *const cr = g->critter_at<Creature>( p ) ) {
+    if( Creature *const cr = get_creature_tracker().creature_at<Creature>( p ) ) {
         Creature::Attitude cr_att = cr->attitude_to( caster );
         valid = valid || ( cr_att != Creature::Attitude::FRIENDLY &&
                            is_valid_target( spell_target::hostile ) );
@@ -1212,7 +1217,7 @@ bool spell::target_by_monster_id( const tripoint &p ) const
         return true;
     }
     bool valid = false;
-    if( monster *const target = g->critter_at<monster>( p ) ) {
+    if( monster *const target = get_creature_tracker().creature_at<monster>( p ) ) {
         if( type->targeted_monster_ids.find( target->type->id ) != type->targeted_monster_ids.end() ) {
             valid = true;
         }
@@ -1411,11 +1416,12 @@ vproto_id spell::summon_vehicle_id() const
 
 int spell::heal( const tripoint &target ) const
 {
-    monster *const mon = g->critter_at<monster>( target );
+    creature_tracker &creatures = get_creature_tracker();
+    monster *const mon = creatures.creature_at<monster>( target );
     if( mon ) {
         return mon->heal( -damage() );
     }
-    Character *const p = g->critter_at<Character>( target );
+    Character *const p = creatures.creature_at<Character>( target );
     if( p ) {
         p->healall( -damage() );
         return -damage();
@@ -1487,10 +1493,11 @@ cata::optional<tripoint> spell::random_valid_target( const Creature &caster,
     spell_effect::override_parameters blast_params( *this );
     // we want to pick a random target within range, not aoe
     blast_params.aoe_radius = range();
+    creature_tracker &creatures = get_creature_tracker();
     for( const tripoint &target : spell_effect::spell_effect_blast(
              blast_params, caster_pos, caster_pos ) ) {
         if( target != caster_pos && is_valid_target( caster, target ) &&
-            ( !ignore_ground || g->critter_at<Creature>( target ) ) ) {
+            ( !ignore_ground || creatures.creature_at<Creature>( target ) ) ) {
             valid_area.emplace( target );
         }
     }
@@ -1848,13 +1855,11 @@ bool spell_desc::casting_time_encumbered( const spell &sp, const Character &guy 
     int encumb = 0;
     if( !sp.has_flag( spell_flag::NO_LEGS ) ) {
         // the first 20 points of encumbrance combined is ignored
-        encumb += std::max( 0, guy.encumb( bodypart_id( "leg_l" ) ) + guy.encumb(
-                                bodypart_id( "leg_r" ) ) - 20 );
+        encumb += std::max( 0, guy.avg_encumb_of_limb_type( body_part_type::type::leg ) - 10 );
     }
     if( sp.has_flag( spell_flag::SOMATIC ) ) {
         // the first 20 points of encumbrance combined is ignored
-        encumb += std::max( 0, guy.encumb( bodypart_id( "arm_l" ) ) + guy.encumb(
-                                bodypart_id( "arm_r" ) ) - 20 );
+        encumb += std::max( 0, guy.avg_encumb_of_limb_type( body_part_type::type::arm ) - 10 );
     }
     return encumb > 0;
 }
@@ -1862,8 +1867,7 @@ bool spell_desc::casting_time_encumbered( const spell &sp, const Character &guy 
 bool spell_desc::energy_cost_encumbered( const spell &sp, const Character &guy )
 {
     if( !sp.has_flag( spell_flag::NO_HANDS ) ) {
-        return std::max( 0, guy.encumb( bodypart_id( "hand_l" ) ) + guy.encumb(
-                             bodypart_id( "hand_r" ) ) - 10 ) >
+        return std::max( 0, guy.avg_encumb_of_limb_type( body_part_type::type:: hand ) - 5 ) >
                0;
     }
     return false;
@@ -2019,7 +2023,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
             }
             aoe_string = string_format( "%s: %d %s", aoe_string_temp, sp.aoe(), degree_string );
         }
-    } else if( fx == "teleport_random" ) {
+    } else if( fx == "short_range_teleport" ) {
         if( sp.aoe() > 0 ) {
             aoe_string = string_format( "%s: %d", _( "Variance" ), sp.aoe() );
         }
@@ -2278,7 +2282,7 @@ static void draw_spellbook_info( const spell_type &sp, uilist *menu )
         damage_string = _( "Threshold" );
     } else if( fx == "recover_energy" ) {
         damage_string = _( "Recover" );
-    } else if( fx == "teleport_random" ) {
+    } else if( fx == "short_range_teleport" ) {
         aoe_string = _( "Variance" );
     } else if( fx == "area_pull" || fx == "area_push" ||  fx == "ter_transform" ) {
         aoe_string = _( "AoE" );

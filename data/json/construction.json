@@ -1529,7 +1529,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "pipe", 6 ] ], [ [ "scrap", 8 ] ] ],
+    "components": [ [ [ "pipe", 6 ] ], [ [ "pipe_fittings", 3 ] ], [ [ "scrap", 8 ] ] ],
     "pre_flags": "DIGGABLE",
     "post_terrain": "t_chainfence_posts"
   },
@@ -2234,6 +2234,18 @@
     "components": [ [ [ "frame", 4 ] ], [ [ "sheet_metal", 16 ] ], [ [ "steel_lump", 2 ], [ "steel_chunk", 8 ], [ "scrap", 40 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_dumpster"
+  },
+  {
+    "type": "construction",
+    "id": "constr_metal_trashcan",
+    "group": "build_metal_trashcan",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 2 } ] ],
+    "components": [ [ [ "sheet_metal", 2 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_metal_trashcan"
   },
   {
     "type": "construction",
@@ -3423,7 +3435,7 @@
     "time": "15 m",
     "pre_special": "check_empty",
     "components": [
-      [ [ "pillow", 19 ], [ "down_pillow", 19 ], [ "mattress", 4 ] ],
+      [ [ "pillow", 19 ], [ "down_pillow", 19 ], [ "makeshift_pillow", 19 ], [ "mattress", 4 ] ],
       [ [ "down_blanket", 3 ], [ "blanket", 3 ], [ "fur_blanket", 3 ] ]
     ],
     "pre_terrain": "t_floor",
@@ -3438,7 +3450,7 @@
     "time": "15 m",
     "pre_special": "check_empty",
     "components": [
-      [ [ "pillow", 4 ], [ "down_pillow", 4 ] ],
+      [ [ "pillow", 4 ], [ "down_pillow", 4 ], [ "makeshift_pillow", 4 ] ],
       [ [ "down_blanket", 2 ], [ "blanket", 2 ], [ "fur_blanket", 2 ] ],
       [ [ "box_large", 1 ] ],
       [ [ "plastic_sheet", 1 ] ],

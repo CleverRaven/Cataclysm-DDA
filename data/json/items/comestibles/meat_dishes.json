@@ -1097,7 +1097,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "calories": 380,
-    "description": "A sandwich of minced meat and cheese with condiments.  The apex of pre-Cataclysm culinary achievement.",
+    "description": "A sandwich of minced meat and cheese with condiments.  A simple favorite of the people before the cataclysm.",
     "price": 1000,
     "price_postapoc": 250,
     "material": [ "flesh", "wheat", "milk" ],
@@ -1106,6 +1106,21 @@
     "flags": [ "EATEN_HOT", "ALLERGEN_MILK" ],
     "fun": 5,
     "vitamins": [ [ "vitA", 17 ], [ "vitC", 1 ], [ "calcium", 57 ], [ "iron", 65 ], [ "vitB", 213 ] ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "deluxe_cheeseburger",
+    "copy-from": "cheeseburger",
+    "name": { "str": "deluxe cheeseburger" },
+    "weight": "380 g",
+    "calories": 500,
+    "description": "A cheeseburger with more vegetables and condiments.  This is the apex of pre-Cataclysm culinary achievement.",
+    "price_postapoc": 300,
+    "material": [ "flesh", "wheat", "milk", "veggy", "tomato" ],
+    "primary_material": "processed_food",
+    "volume": "350 ml",
+    "fun": 7,
+    "vitamins": [ [ "vitA", 35 ], [ "vitC", 30 ], [ "calcium", 60 ], [ "iron", 65 ], [ "vitB", 230 ] ]
   },
   {
     "type": "COMESTIBLE",

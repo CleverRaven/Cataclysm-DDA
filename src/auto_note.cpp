@@ -482,7 +482,7 @@ void auto_note_manager_gui::show()
             .query_string();
 
             if( !custom_symbol_popup.canceled() ) {
-                std::string custom_symbol_str = custom_symbol_popup.text();
+                const std::string &custom_symbol_str = custom_symbol_popup.text();
                 if( custom_symbol_str.empty() ) {
                     custom_symbol_cache.erase( currentItem );
                 } else {

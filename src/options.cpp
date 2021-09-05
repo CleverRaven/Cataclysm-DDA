@@ -54,6 +54,19 @@
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
 
+// Map from old option name to pair of <new option name and map of old option value to new option value>
+// Options and values not listed here will not be changed.
+static const std::map<std::string, std::pair<std::string, std::map<std::string, std::string>>>
+&get_migrated_options()
+{
+    static const std::map<std::string, std::pair<std::string, std::map<std::string, std::string>>> opt
+    = {
+        {"DELETE_WORLD", { "WORLD_END", { {"no", "keep" }, {"yes", "delete"} } } },
+        {"SKILL_RUST", { "SKILL_RUST", { {"int", "vanilla" }, {"intcap", "capped"} } } }
+    };
+    return opt;
+}
+
 options_manager &get_options()
 {
     static options_manager single_instance;
@@ -80,8 +93,6 @@ options_manager::options_manager() :
 #if defined(__ANDROID__)
     pages_.emplace_back( android_page_ );
 #endif
-
-    mMigrateOption = { {"DELETE_WORLD", { "WORLD_END", { {"no", "keep" }, {"yes", "delete"} } } } };
 
     enable_json( "DEFAULT_REGION" );
     // to allow class based init_data functions to add values to a 'string' type option, add:
@@ -479,8 +490,8 @@ bool options_manager::cOpt::is_hidden() const
             return false;
 #endif
 
-        case COPT_CURSES_HIDE:
-#if !defined(TILES) // If not defined.  it's curses interface.
+        case COPT_CURSES_HIDE: // NOLINT(bugprone-branch-clone)
+#if !defined(TILES) // If not defined, it's the curses interface.
             return true;
 #else
             return false;
@@ -924,10 +935,8 @@ static std::vector<options_manager::id_and_option> build_resource_list(
                 std::string sOption;
                 fin >> sOption;
 
-                if( sOption.empty() ) {
-                    getline( fin, sOption );    // Empty line, chomp it
-                } else if( sOption[0] == '#' ) { // # indicates a comment
-                    getline( fin, sOption );
+                if( sOption.empty() || sOption[0] == '#' ) {
+                    getline( fin, sOption );    // Empty line or comment, chomp it
                 } else {
                     if( sOption.find( "NAME" ) != std::string::npos ) {
                         resource_name.clear();
@@ -1019,12 +1028,10 @@ std::unordered_set<std::string> options_manager::get_langs_with_translation_file
     const std::string start_str = locale_dir();
     std::vector<std::string> lang_dirs =
         get_directories_with( PATH_INFO::lang_file(), start_str, true );
-    const std::size_t start_len = start_str.length();
-    const std::string end_str = "/LC_MESSAGES";
     std::for_each( lang_dirs.begin(), lang_dirs.end(), [&]( std::string & dir ) {
-        const std::size_t start = dir.find( start_str ) + start_len + 1;
-        const std::size_t len = dir.rfind( end_str ) - start;
-        dir = dir.substr( start, len );
+        const std::size_t end = dir.rfind( "/LC_MESSAGES" );
+        const std::size_t begin = dir.rfind( '/', end - 1 ) + 1;
+        dir = dir.substr( begin, end - begin );
     } );
     return std::unordered_set<std::string>( lang_dirs.begin(), lang_dirs.end() );
 #else // !LOCALIZE
@@ -1493,6 +1500,12 @@ void options_manager::add_options_interface()
         { "disable", to_translation( "Disable" ) }
     },
     "symbol"
+       );
+
+    add( "HIGHLIGHT_UNREAD_RECIPES", "interface",
+         to_translation( "Highlight unread recipes" ),
+         to_translation( "Highlight unread recipes to allow tracking of newly learned recipes." ),
+         true
        );
 
     add_empty_line();
@@ -2257,18 +2270,14 @@ void options_manager::add_options_debug()
     add_empty_line();
 
     add( "SKILL_RUST", "debug", to_translation( "Skill rust" ),
-         to_translation( "Set the level of skill rust.  Vanilla: Vanilla Cataclysm - Capped: Capped at skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence dependent, capped - Off: None at all." ),
+         to_translation( "Set the type of skill rust.  Vanilla: Skill rust can decrease levels - Capped: Skill rust cannot decrease levels - Off: None at all." ),
          //~ plain, default, normal
     {   { "vanilla", to_translation( "Vanilla" ) },
         //~ capped at a value
         { "capped", to_translation( "Capped" ) },
-        //~ based on intelligence
-        { "int", to_translation( "Int" ) },
-        //~ based on intelligence and capped
-        { "intcap", to_translation( "IntCap" ) },
         { "off", to_translation( "Off" ) }
     },
-    "off" );
+    "vanilla" );
 
     add_empty_line();
 
@@ -2283,11 +2292,6 @@ void options_manager::add_options_debug()
        );
 
     get_option( "FOV_3D_Z_RANGE" ).setPrerequisite( "FOV_3D" );
-
-    add( "ENCODING_CONV", "debug", to_translation( "Experimental path name encoding conversion" ),
-         to_translation( "If true, file path names are going to be transcoded from system encoding to UTF-8 when reading and will be transcoded back when writing.  Mainly for CJK Windows users." ),
-         true
-       );
 }
 
 void options_manager::add_options_android()
@@ -2550,12 +2554,17 @@ void options_manager::add_options_android()
 static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_changed, bool ingame )
 {
     if( used_tiles_changed ) {
+        // Disable UIs below to avoid accessing the tile context during loading.
+        ui_adaptor dummy( ui_adaptor::disable_uis_below {} );
         //try and keep SDL calls limited to source files that deal specifically with them
         try {
             tilecontext->reinit();
-            tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
+            tilecontext->load_tileset( get_option<std::string>( "TILES" ),
+                                       /*precheck=*/false, /*force=*/false,
+                                       /*pump_events=*/true );
             //game_ui::init_ui is called when zoom is changed
             g->reset_zoom();
+            g->mark_main_ui_adaptor_resize();
             tilecontext->do_tile_loading_report();
         } catch( const std::exception &err ) {
             popup( _( "Loading the tileset failed: %s" ), err.what() );
@@ -3112,15 +3121,15 @@ void options_manager::deserialize( JsonIn &jsin )
 
 std::string options_manager::migrateOptionName( const std::string &name ) const
 {
-    const auto iter = mMigrateOption.find( name );
-    return iter != mMigrateOption.end() ? iter->second.first : name;
+    const auto iter = get_migrated_options().find( name );
+    return iter != get_migrated_options().end() ? iter->second.first : name;
 }
 
 std::string options_manager::migrateOptionValue( const std::string &name,
         const std::string &val ) const
 {
-    const auto iter = mMigrateOption.find( name );
-    if( iter == mMigrateOption.end() ) {
+    const auto iter = get_migrated_options().find( name );
+    if( iter == get_migrated_options().end() ) {
         return val;
     }
 

@@ -6,7 +6,6 @@
 #include <array>
 #include <cstddef>
 #include <exception>
-#include <fstream>
 #include <iterator>
 #include <memory>
 #include <new>
@@ -263,7 +262,7 @@ static constexpr int current_keybinding_version = 1;
 
 void input_manager::load( const std::string &file_name, bool is_user_preferences )
 {
-    std::ifstream data_file( file_name.c_str(), std::ifstream::in | std::ifstream::binary );
+    cata::ifstream data_file( fs::u8path( file_name ), std::ifstream::in | std::ifstream::binary );
 
     if( !data_file.good() ) {
         // Only throw if this is the first file to load, that file _must_ exist,
@@ -1128,16 +1127,12 @@ const std::string &input_context::handle_input( const int timeout )
             break;
         }
 
-        if( next_action.type == input_event_t::mouse ) {
-            if( !handling_coordinate_input && action == CATA_ERROR ) {
-                continue; // Ignore this mouse input.
-            }
-
-            coordinate_input_received = true;
-            coordinate = next_action.mouse_pos;
-        } else {
-            coordinate_input_received = false;
+        if( next_action.type == input_event_t::mouse
+            && !handling_coordinate_input && action == CATA_ERROR ) {
+            continue; // Ignore mouse movement.
         }
+        coordinate_input_received = true;
+        coordinate = next_action.mouse_pos;
 
         if( action != CATA_ERROR ) {
             result = &action;
@@ -1354,9 +1349,7 @@ action_id input_context::display_menu( const bool permit_execute_action )
                 // We're trying to add a global, but this action has a local
                 // defined, so gray out the invlet.
                 mvwprintz( w_help, point( 2, i + 10 ), c_dark_gray, "%c ", invlet );
-            } else if( status == s_add || status == s_add_global ) {
-                mvwprintz( w_help, point( 2, i + 10 ), c_light_blue, "%c ", invlet );
-            } else if( status == s_remove ) {
+            } else if( status == s_add || status == s_add_global || status == s_remove ) {
                 mvwprintz( w_help, point( 2, i + 10 ), c_light_blue, "%c ", invlet );
             } else if( status == s_execute ) {
                 mvwprintz( w_help, point( 2, i + 10 ), c_white, "%c ", invlet );
@@ -1565,7 +1558,6 @@ void input_manager::wait_for_any_key()
                 }
                 break;
             case input_event_t::keyboard_code:
-                return;
             // errors are accepted as well to avoid an infinite loop
             case input_event_t::error:
                 return;

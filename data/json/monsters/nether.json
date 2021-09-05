@@ -443,7 +443,7 @@
     "melee_cut": 0,
     "dodge": 4,
     "harvest": "exempt",
-    "special_attacks": [ [ "TENTACLE", 5 ] ],
+    "special_attacks": [ { "id": "tentacle" } ],
     "death_function": { "effect": { "id": "death_thing", "hit_self": true }, "corpse_type": "NO_CORPSE", "message": "The %s emerges!" },
     "flags": [ "SEES", "SMELLS", "HEARS", "BASHES" ]
   },
@@ -796,7 +796,7 @@
     "armor_bash": 8,
     "bleed_rate": 20,
     "harvest": "exempt",
-    "special_attacks": [ [ "TENTACLE", 5 ] ],
+    "special_attacks": [ { "id": "tentacle" } ],
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "flags": [ "SMELLS", "HEARS", "NOHEAD", "BASHES", "GROUP_BASH", "SWIMS", "ATTACKMON", "PLASTIC", "ACIDPROOF", "NOGIB", "CLIMBS" ]
   },

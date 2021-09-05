@@ -209,9 +209,8 @@ void memorial_logger::write_text_memorial( std::ostream &file,
         profession_name = string_format( _( "a %s" ), u.prof->gender_appropriate_name( u.male ) );
     }
 
-    // TODO: fix point types
     const std::string locdesc =
-        overmap_buffer.get_description_at( tripoint_abs_sm( u.global_sm_location() ) );
+        overmap_buffer.get_description_at( u.global_sm_location() );
     //~ First parameter is a pronoun ("He"/"She"), second parameter is a description
     //~ that designates the location relative to its surroundings.
     const std::string kill_place = string_format( _( "%1$s was killed in a %2$s." ),
@@ -221,7 +220,7 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     file << string_format( _( "Cataclysm - Dark Days Ahead version %s memorial file" ),
                            getVersionString() ) << eol;
     file << eol;
-    file << string_format( _( "In memory of: %s" ), u.name ) << eol;
+    file << string_format( _( "In memory of: %s" ), u.get_name() ) << eol;
     if( !epitaph.empty() ) {  //Don't record empty epitaphs
         //~ The "%s" will be replaced by an epitaph as displayed in the memorial files. Replace the quotation marks as appropriate for your language.
         file << string_format( pgettext( "epitaph", "\"%s\"" ), epitaph ) << eol << eol;

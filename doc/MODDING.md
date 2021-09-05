@@ -233,6 +233,23 @@ You can't edit existing dialog, but you can add new dialogue by adding a new res
     ]
   }
 ```
+## Adjusting monster stats
+Monster stats can be adjusted using the `monster_adjustment` JSON element.
+```json
+  {
+    "type": "monster_adjustment",
+    "species": "ZOMBIE",
+    "flag": { "name": "REVIVES", "value": false },
+	"stat": { "name": "speed", "modifier": 0.9 }
+  }
+```
+Using this syntax allows modification of the following things:
+**stat**: `speed` and `hp` are supported.  Modifier is a multiplier of the base speed or HP stat.
+**flag**: add or remove a monster flag.
+**special**: currently only supports `nightvision` which makes the specified monster species gain nightvision equal to its dayvision.
+
+Currently, adjusting multiple stats or flags requires separate `monster_adjustment` entries.
+
 
 ## Important note on json files
 
@@ -254,27 +271,3 @@ Many editors have features that let you track `{ [` and `] }` to see if they're 
 Almost everything in this game can be modded. Almost. This section is intended to chart those areas not supported for modding to save time and headaches.
 
 The Names folder and contents (EN etcetera) confirmed 5/23/20
-
-## Addendum
-<!-- I really don't know if this should be here or not. Please let me know. -->
-### No Zombie Revival
-This mod is very simple, but it's worth a special section because it does things a little differently than other mods, and documentation on it is tricky to find.
-
-The entire mod can fit into fifteen lines of JSON, and it's presented below. Just copy/paste that into a modinfo.json file, and put it in a new folder in your mods directory.
-````json
-[
-  {
-    "type": "MOD_INFO",
-    "id": "no_reviving_zombies",
-    "name": "Prevent Zombie Revivication",
-    "description": "Disables zombie revival.",
-    "category": "rebalance",
-    "dependencies": [ "dda" ]
-  },
-  {
-    "type": "monster_adjustment",
-    "species": "ZOMBIE",
-    "flag": { "name": "REVIVES", "value": false }
-  }
-]
-````

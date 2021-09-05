@@ -70,16 +70,11 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
     "charges_per_use": 100,
     "use_action": [ "TAZER" ],
     "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      }
+      { "pocket_type": "MAGAZINE_WELL", "flag_restriction": [ "BATTERY_MEDIUM" ], "default_magazine": "medium_battery_cell" }
     ]
   }
 ]

@@ -1047,6 +1047,15 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_natures_commune",
+    "//": "Druid spell",
+    "name": { "str": "Scroll of Nature's Commune", "str_pl": "Scrolls of Nature's Commune" },
+    "description": "Your connection with nature allows you to become one with it; you revitalize your body while in communion with the flora and fauna around you.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_natures_commune" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_seed_of_growth",
     "//": "Druid spell",
     "name": { "str": "Scroll of seed of growth", "str_pl": "Scrolls of seed of growth" },

@@ -22,6 +22,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h" // IWYU pragma: keep
+#include "weakpoint.h"
 
 class Creature;
 class monster;
@@ -73,6 +74,7 @@ enum m_flag : int {
     MF_KEENNOSE,            // Keen sense of smell
     MF_STUMBLES,            // Stumbles in its movement
     MF_WARM,                // Warm blooded
+    MF_NEMESIS,             // Is a nemesis monster
     MF_NOHEAD,              // Headshots not allowed!
     MF_HARDTOSHOOT,         // It's one size smaller for ranged attacks, no less then creature_size::tiny
     MF_GRABS,               // Its attacks may grab us!
@@ -100,6 +102,7 @@ enum m_flag : int {
     MF_FIREPROOF,           // Immune to fire
     MF_SLUDGEPROOF,         // Ignores the effect of sludge trails
     MF_SLUDGETRAIL,         // Causes monster to leave a sludge trap trail when moving
+    MF_SMALLSLUDGETRAIL,    // Causes monster to leave a low intensity, 1 tile sludge pool approximately every other tile when moving
     MF_COLDPROOF,           // Immune to cold damage
     MF_FIREY,               // Burns stuff and is immune to fire
     MF_QUEEN,               // When it dies, local populations start to die off too
@@ -180,6 +183,7 @@ enum m_flag : int {
     MF_INSECTICIDEPROOF,    // This monster is immune to insecticide, even though it's made of bug flesh
     MF_RANGED_ATTACKER,     // This monster has any sort of ranged attack
     MF_CAMOUFLAGE,          // This monster is hard to spot, even in broad daylight
+    MF_WATER_CAMOUFLAGE,    // This monster is hard to spot if it is underwater, especially if you aren't
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
@@ -251,6 +255,13 @@ struct mtype {
         void add_special_attack( JsonArray inner, const std::string &src );
         void add_special_attack( const JsonObject &obj, const std::string &src );
 
+        void add_regeneration_modifiers( const JsonObject &jo, const std::string &member_name,
+                                         const std::string &src );
+        void remove_regeneration_modifiers( const JsonObject &jo, const std::string &member_name,
+                                            const std::string &src );
+
+        void add_regeneration_modifier( JsonArray inner, const std::string &src );
+
     public:
         mtype_id id;
 
@@ -260,6 +271,9 @@ struct mtype {
 
         /** Stores effect data for effects placed on attack */
         std::vector<mon_effect_data> atk_effs;
+
+        /** Mod origin */
+        std::vector<std::pair<mtype_id, mod_id>> src;
 
         std::set<species_id> species;
         std::set<std::string> categories;
@@ -289,6 +303,8 @@ struct mtype {
 
         // Number of hitpoints regenerated per turn.
         int regenerates = 0;
+        // Effects that can modify regeneration
+        std::map<efftype_id, int> regeneration_modifiers;
         // Monster regenerates very quickly in poorly lit tiles.
         bool regenerates_in_dark = false;
         // Will stop fleeing if at max hp, and regen anger and morale.
@@ -316,6 +332,7 @@ struct mtype {
         int armor_bullet = -1;  /** innate armor vs. bullet */
         int armor_acid = -1;    /** innate armor vs. acid */
         int armor_fire = -1;    /** innate armor vs. fire */
+        ::weakpoints weakpoints;
 
         // Bleed rate in percent, 0 makes the monster immune to bleeding
         int bleed_rate = 100;

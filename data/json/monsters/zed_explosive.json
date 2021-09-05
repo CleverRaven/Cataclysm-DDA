@@ -26,7 +26,7 @@
     "special_attacks": [ [ "BOOMER", 20 ], [ "scratch", 20 ] ],
     "death_drops": "default_zombie_items",
     "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "A %s explode!", "corpse_type": "NO_CORPSE" },
-    "upgrades": { "half_life": 14, "into": "mon_boomer_huge" },
+    "upgrades": { "half_life": 14, "into_group": "GROUP_ZOMBIE_BOOMER_UPGRADE" },
     "fungalize_into": "mon_boomer_fungus",
     "flags": [
       "SEES",
@@ -171,5 +171,63 @@
     "death_function": { "message": "A %s explodes!", "effect": { "id": "death_gas", "hit_self": true }, "corpse_type": "NO_CORPSE" },
     "fungalize_into": "mon_zombie_gasbag_fungus",
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
+  },
+  {
+    "id": "mon_boomer_glutton",
+    "type": "MONSTER",
+    "name": "boomer glutton",
+    "description": "A large, grotesque ball of flesh and fat.  Seemingly vestigial limbs flop around haphazardly as it rolls across the ground.  You occasionally catch a glimpse of bulging eyes and a distended gaping maw oozing some sort of black sludge.",
+    "default_faction": "zombie",
+    "bodytype": "blob",
+    "species": [ "ZOMBIE", "HUMAN" ],
+    "diff": 8,
+    "volume": "102500ml",
+    "weight": "180kg",
+    "hp": 200,
+    "speed": 75,
+    "material": [ "flesh" ],
+    "symbol": "Z",
+    "color": "pink",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 4,
+    "armor_bash": 20,
+    "armor_cut": 5,
+    "armor_bullet": 5,
+    "vision_night": 5,
+    "harvest": "zombie_meatslug",
+    "emit_fields": [ { "emit_id": "emit_sludge_puddle", "delay": "1 s" } ],
+    "special_attacks": [
+      [ "BOOMER", 21 ],
+      {
+        "type": "bite",
+        "cooldown": 1,
+        "min_mul": 0.75,
+        "max_mul": 1.25,
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 15, "armor_multiplier": 0.8 } ]
+      },
+      {
+        "type": "spell",
+        "spell_data": { "id": "spread_sludge", "min_level": 1 },
+        "cooldown": 28,
+        "monster_message": "The glutton vomits sludge!"
+      }
+    ],
+    "death_drops": "default_zombie_items",
+    "death_function": { "effect": { "id": "death_boomer", "hit_self": true }, "message": "A %s explode!", "corpse_type": "NO_CORPSE" },
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "POISON",
+      "NO_BREATHE",
+      "FILTHY",
+      "BASHES",
+      "BILE_BLOOD",
+      "PUSH_MON",
+      "PACIFIST",
+      "SLUDGEPROOF"
+    ]
   }
 ]

@@ -9,7 +9,6 @@
 #include "cata_catch.h"
 #include "flag.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_group.h"
 #include "type_id.h"
 

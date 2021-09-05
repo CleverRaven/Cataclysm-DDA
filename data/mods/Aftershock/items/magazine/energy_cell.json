@@ -44,5 +44,21 @@
     "reload_time": 5,
     "flags": [ "NO_UNLOAD" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 600 } } ]
+  },
+  {
+    "id": "afs_archeotech_cartridge",
+    "copy-from": "afs_cartridge",
+    "type": "MAGAZINE",
+    "name": { "str": "chromoelectric cartridge" },
+    "description": "A thin strip of transuranic metal, glowing a somber blue from within its shielded glass prison.  A rare and sought-after relic, it could be used to momentarily power all sorts of technology from the late Hyperspace Era.",
+    "weight": "100 g",
+    "price": "100 kUSD",
+    "price_postapoc": "100 kUSD",
+    "capacity": 15000,
+    "count": 15000,
+    "reload_time": 5,
+    "flags": [ "NO_UNLOAD" ],
+    "default_ammo": "afs_battery_plus",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 15000 } } ]
   }
 ]

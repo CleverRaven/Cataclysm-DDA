@@ -5,5 +5,12 @@
     "field": "fd_vault_atmosphere",
     "intensity": 1,
     "chance": 30
+  },
+  {
+    "id": "emit_safe_shoppers",
+    "type": "emit",
+    "field": "fd_safe_shoppers",
+    "intensity": 1,
+    "chance": 100
   }
 ]

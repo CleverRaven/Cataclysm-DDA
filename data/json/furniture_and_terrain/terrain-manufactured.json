@@ -265,11 +265,17 @@
     "bash": {
       "str_min": 40,
       "str_max": 210,
-      "explosive": 5,
-      "sound": "Critical failure imminent, self destruct activated.  Have a nice day!",
+      "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_floor",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 3 ] }, { "item": "scrap", "count": [ 4, 8 ] } ]
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 3 ] },
+        { "item": "scrap", "count": [ 4, 8 ] },
+        { "item": "money_strap_twenty", "count": [ 1, 59 ] },
+        { "item": "money_strap_fifty", "count": [ 1, 39 ] },
+        { "item": "money_twenty", "count": [ 1, 99 ] },
+        { "item": "money_fifty", "count": [ 1, 99 ] }
+      ]
     }
   },
   {
@@ -624,7 +630,8 @@
       "sound_fail_vol": 12,
       "ter_set": "t_floor",
       "items": [ { "item": "glass_shard", "count": [ 42, 84 ] }, { "item": "scrap", "count": [ 0, 2 ] } ]
-    }
+    },
+    "shoot": { "chance_to_hit": 50, "reduce_damage": [ 50, 70 ], "reduce_damage_laser": [ 2, 12 ], "destroy_damage": [ 5, 30 ] }
   },
   {
     "type": "terrain",
@@ -654,7 +661,8 @@
         { "item": "power_supply", "prob": 25 },
         { "item": "amplifier", "prob": 25 },
         { "item": "plastic_chunk", "count": [ 4, 10 ], "prob": 50 },
-        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 }
+        { "item": "scrap", "count": [ 2, 6 ], "prob": 50 },
+        { "item": "coin_quarter", "count": [ 1, 1500 ] }
       ]
     }
   },
@@ -1093,7 +1101,7 @@
     "symbol": "=",
     "color": "brown",
     "move_cost": 6,
-    "flags": [ "TRANSPARENT", "BASHABLE", "PLACE_ITEM", "INDOORS" ],
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "INDOORS" ],
     "coverage": 30,
     "deconstruct": {
       "ter_set": "t_rock_floor",
@@ -1180,7 +1188,7 @@
         { "item": "steel_chunk", "count": [ 1, 10 ] }
       ]
     },
-    "flags": [ "BASHABLE", "CONTAINER", "SEALED", "PLACE_ITEM", "WALL", "MINEABLE" ]
+    "flags": [ "CONTAINER", "SEALED", "PLACE_ITEM", "WALL", "MINEABLE" ]
   },
   {
     "type": "terrain",
@@ -1191,7 +1199,7 @@
     "color": "green",
     "looks_like": "t_pit",
     "move_cost": 0,
-    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "INDOORS", "DECONSTRUCT" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "INDOORS" ],
     "deconstruct": { "ter_set": "t_pit", "items": [ { "item": "rock", "count": 40 }, { "item": "stick", "count": [ 16, 16 ] } ] },
     "bash": {
       "str_min": 18,

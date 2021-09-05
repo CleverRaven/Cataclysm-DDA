@@ -8,12 +8,31 @@
 #include "point.h"
 #include "regional_settings.h"
 
+void mapgen_arguments::merge( const mapgen_arguments &other )
+{
+    for( const std::pair<const std::string, cata_variant> &p : other.map ) {
+        map[p.first] = p.second;
+    }
+}
+
+void mapgen_arguments::serialize( JsonOut &jo ) const
+{
+    jo.write( map );
+}
+
+void mapgen_arguments::deserialize( JsonIn &ji )
+{
+    ji.read( map, true );
+}
+
 mapgendata::mapgendata( oter_id north, oter_id east, oter_id south, oter_id west,
                         oter_id northeast, oter_id southeast, oter_id southwest, oter_id northwest,
-                        oter_id up, oter_id down, int z, const regional_settings &rsettings, map &mp,
-                        const oter_id &terrain_type, const float density, const time_point &when,
+                        oter_id up, oter_id down, int z, const regional_settings &rsettings,
+                        map &mp, const oter_id &terrain_type, const mapgen_arguments &args,
+                        const float density, const time_point &when,
                         ::mission *const miss )
-    : terrain_type_( terrain_type ), density_( density ), when_( when ), mission_( miss ), zlevel_( z )
+    : terrain_type_( terrain_type ), density_( density ), when_( when ), mission_( miss )
+    , zlevel_( z ), mapgen_args_( args )
     , t_nesw{ north, east, south, west, northeast, southeast, southwest, northwest }
     , t_above( up )
     , t_below( down )
@@ -37,8 +56,25 @@ mapgendata::mapgendata( const tripoint_abs_omt &over, map &m, const float densit
                   overmap_buffer.ter( over + tripoint_above ),
                   overmap_buffer.ter( over + tripoint_below ),
                   over.z(), overmap_buffer.get_settings( over ), m,
-                  overmap_buffer.ter( over ), density, when, miss )
+                  overmap_buffer.ter( over ), mapgen_arguments(), density,
+                  when, miss )
 {
+    if( cata::optional<mapgen_arguments> *maybe_args = overmap_buffer.mapgen_args( over ) ) {
+        if( *maybe_args ) {
+            mapgen_args_ = **maybe_args;
+        } else {
+            // We are the first omt from this overmap_special to be generated,
+            // so now is the time to generate the arguments
+            if( cata::optional<overmap_special_id> s = overmap_buffer.overmap_special_at( over ) ) {
+                const overmap_special &special = **s;
+                *maybe_args = special.get_args( *this );
+                mapgen_args_ = **maybe_args;
+            } else {
+                debugmsg( "mapgen params expected but no overmap special found for terrain %s",
+                          terrain_type_.id().str() );
+            }
+        }
+    }
 }
 
 mapgendata::mapgendata( const mapgendata &other, const oter_id &other_id ) : mapgendata( other )
@@ -47,10 +83,10 @@ mapgendata::mapgendata( const mapgendata &other, const oter_id &other_id ) : map
 }
 
 mapgendata::mapgendata( const mapgendata &other,
-                        const std::unordered_map<std::string, cata_variant> &mapgen_params ) :
+                        const mapgen_arguments &mapgen_args ) :
     mapgendata( other )
 {
-    mapgen_params_ = mapgen_params;
+    mapgen_args_.merge( mapgen_args );
 }
 
 void mapgendata::set_dir( int dir_in, int val )
