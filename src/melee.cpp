@@ -2413,9 +2413,9 @@ void player_hit_message( Character *attacker, const std::string &message,
             //~ NPC hits something (critical)
             msg = string_format( _( "%s. Critical!" ), message );
         } else if( technique && !wp_hit.empty() ) {
-            //~ %1$s: "someone hits something", %2$s: the weakpoint hit, %3$d: damage dealt
-            msg = string_format( _( "%1$s, hitting it in %2$s for %3$d damage.  Critical!" ), message, wp_hit,
-                                 dam );
+            //~ %1$s: "someone hits something", %2$d: damage dealt, %3$s: the weakpoint hit
+            msg = string_format( _( "%1$s for %2$d damage, and hit it in %3$s.  Critical!" ), message, dam,
+                                 wp_hit );
         } else {
             //~ someone hits something for %d damage (critical)
             msg = string_format( _( "%s for %d damage.  Critical!" ), message, dam );
@@ -2427,8 +2427,8 @@ void player_hit_message( Character *attacker, const std::string &message,
             //~ NPC hits something
             msg = string_format( _( "%s." ), message );
         } else if( technique && !wp_hit.empty() ) {
-            //~ %1$s: "someone hits something", %2$d: damage dealt, $3$s: the weakpoint hit
-            msg = string_format( _( "%1$s for %2$d damage to %3$s." ), message, dam, wp_hit );
+            //~ %1$s: "someone hits something", %2$d: damage dealt, %3$s: the weakpoint hit
+            msg = string_format( _( "%1$s for %2$d damage, and hit it in %3$s." ), message, dam, wp_hit );
         } else {
             //~ someone hits something for %d damage
             msg = string_format( _( "%s for %d damage." ), message, dam );
