@@ -1508,13 +1508,15 @@ std::string monster::absorb_hit( Creature *source, const bodypart_id &, damage_i
     const weakpoint *wp = type->weakpoints.select_weakpoint( source );
     wp->apply_to( r );
     for( auto &elem : dam.damage_units ) {
-        add_msg_debug( debugmode::DF_MONSTER, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
-                       name_by_dt( elem.type ), elem.res_pen, elem.res_mult );
-        add_msg_debug( debugmode::DF_MONSTER,
-                       "Weakpoint: %s :: Armor Mult: %.1f :: Armor Penalty: %.1f :: Resist: %.1f",
-                       wp->id, wp->armor_mult[static_cast<int>( elem.type )],
-                       wp->armor_penalty[static_cast<int>( elem.type )],
-                       r.get_effective_resist( elem ) );
+        if (debug_mode) {
+            add_msg_debug(debugmode::DF_MONSTER, "Dam Type: %s :: Ar Pen: %.1f :: Armor Mult: %.1f",
+                name_by_dt(elem.type), elem.res_pen, elem.res_mult);
+            add_msg_debug(debugmode::DF_MONSTER,
+                "Weakpoint: %s :: Armor Mult: %.1f :: Armor Penalty: %.1f :: Resist: %.1f",
+                wp->id, wp->armor_mult[static_cast<int>(elem.type)],
+                wp->armor_penalty[static_cast<int>(elem.type)],
+                r.get_effective_resist(elem));
+        }
         elem.amount -= std::min( r.get_effective_resist( elem ) +
                                  get_worn_armor_val( elem.type ), elem.amount );
     }
