@@ -1678,9 +1678,9 @@ double item::effective_dps( const Character &guy, Creature &mon ) const
                 dmg_unit.damage_multiplier *= 0.66;
             }
             // TODO: Modify DPS calculation to consider weakpoints.
-            resistances r = resistances( *static_cast<monster *>( temp_mon ) );
-            for( damage_unit &dmg_unit : dealt_damage.damage_units ) {
-                dmg_unit.amount -= std::min( r.get_effective_resist( dmg_unit ), dmg_unit.amount );
+            resistances rs_r = resistances( *static_cast<monster *>( temp_rs_mon ) );
+            for( damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
+                dmg_unit.amount -= std::min( rs_r.get_effective_resist( dmg_unit ), dmg_unit.amount );
             }
             dealt_damage_instance rs_dealt_dams;
             for( const damage_unit &dmg_unit : dealt_rs_damage.damage_units ) {
