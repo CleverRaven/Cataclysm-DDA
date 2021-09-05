@@ -1084,6 +1084,14 @@ std::function<int( const T & )> conditional_t<T>::get_get_int( const JsonObject 
                     return d.actor( true )->debt();
                 };
             }
+        } else if( checked_value == "sold" ) {
+            if( is_npc ) {
+                jo.throw_error( "owed ammount not supported for NPCs.  In " + jo.str() );
+            } else {
+                return []( const T & d ) {
+                    return d.actor( true )->sold();
+                };
+            }
         } else if( checked_value == "skill_level" ) {
             const skill_id skill( jo.get_string( "skill" ) );
             return [is_npc, skill]( const T & d ) {

@@ -1672,6 +1672,7 @@ void npc_opinion::deserialize( JsonIn &jsin )
     data.read( "value", value );
     data.read( "anger", anger );
     data.read( "owed", owed );
+    data.read( "sold", sold );
 }
 
 void npc_opinion::serialize( JsonOut &json ) const
@@ -1682,6 +1683,7 @@ void npc_opinion::serialize( JsonOut &json ) const
     json.member( "value", value );
     json.member( "anger", anger );
     json.member( "owed", owed );
+    json.member( "sold", sold );
     json.end_object();
 }
 

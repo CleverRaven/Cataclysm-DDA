@@ -14,6 +14,7 @@ class item_location;
 class mission;
 class monster;
 class npc;
+struct npc_opinion;
 class Character;
 class recipe;
 struct tripoint;
@@ -252,6 +253,10 @@ class talker
             return 0;
         }
         virtual void add_debt( int ) {}
+        virtual int sold() const {
+            return 0;
+        }
+        virtual void add_sold( int ) {}
         virtual std::vector<item *> items_with( const std::function<bool( const item & )> & ) const {
             return {};
         }
@@ -373,8 +378,7 @@ class talker
         virtual std::string opinion_text() const {
             return "";
         }
-        virtual void add_opinion( int /*trust*/, int /*fear*/, int /*value*/, int /*anger*/,
-                                  int /*debt*/ ) {}
+        virtual void add_opinion( const npc_opinion & ) {}
         virtual void set_first_topic( const std::string & ) {}
         virtual bool is_safe() const {
             return true;
