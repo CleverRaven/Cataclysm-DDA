@@ -2381,7 +2381,8 @@ std::string melee_message( const ma_technique &tec, Character &p, const dealt_da
     if( ddi.wp_hit.empty() ) {
         return message;
     } else {
-        return string_format( "%s in %s", message, ddi.wp_hit );
+        //~ someone hits something in a weakpoint
+        return string_format( _( "%s in %s" ), message, ddi.wp_hit );
     }
 
     return _( "The bugs attack %s" );
@@ -2412,6 +2413,7 @@ void player_hit_message( Character *attacker, const std::string &message,
             //~ NPC hits something (critical)
             msg = string_format( _( "%s. Critical!" ), message );
         } else if( technique && !wp_hit.empty() ) {
+            //~ someone hits something for %d damage to a weakpoint (critical)
             msg = string_format( _( "%s for %d damage to %s.  Critical!" ), message, dam, wp_hit );
         } else {
             //~ someone hits something for %d damage (critical)
@@ -2424,6 +2426,7 @@ void player_hit_message( Character *attacker, const std::string &message,
             //~ NPC hits something
             msg = string_format( _( "%s." ), message );
         } else if( technique && !wp_hit.empty() ) {
+            //~ someone hits something for %d damage to a weakpoint
             msg = string_format( _( "%s for %d damage to %s." ), message, dam, wp_hit );
         } else {
             //~ someone hits something for %d damage
