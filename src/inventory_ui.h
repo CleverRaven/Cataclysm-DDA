@@ -635,10 +635,8 @@ class inventory_selector
          * Called from on_input() after user input of EXAMINE action.
          * Also called from on_input() on action EXAMINE_CONTENTS if sitem has no contents
          *
-         * @param sitem the item to examine
-        * TODO: Convert to item_location
-               */
-        void action_examine( const item *sitem );
+         * @param sitem the item to examine **/
+        void action_examine( const item_location sitem );
 
         virtual void reassign_custom_invlets();
         std::vector<inventory_column *> columns;

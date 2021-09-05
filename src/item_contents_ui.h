@@ -12,6 +12,11 @@
 class item;
 class string_input_popup;
 
+enum class contents_ui_sort_mode : int {
+    NAME     = 0,
+    CATEGORY = 1
+};
+
 class item_contents_ui
 {
         /**The input context for navigation of the menu **/
@@ -45,8 +50,8 @@ class item_contents_ui
         //General ui variables
         int ui_width;
 
-        //Variables relating to w_data window.  NOTE: data_width is the usable width for the item list
-        //NOT the width of w_data
+        /* Variables relating to w_data window.  NOTE: data_width is the usable width for the item list,
+        NOT the width of w_data */
         int data_lines;
         int data_height;
         int data_width;
@@ -72,6 +77,8 @@ class item_contents_ui
         //Reference to the ui object.  TODO: This probably shouldn't be a class member variable
         ui_adaptor ui;
 
+        contents_ui_sort_mode sort_mode;
+
         cata::optional<point> cursor_pos;
 
         /** Draws the display name of the containing item to act as the header **/
@@ -87,6 +94,9 @@ class item_contents_ui
         /** Provides a popup for entering filter_string, then creates a fresh vFilteredItemList based on
         * the display_name() of each item in vItemList **/
         void set_filter();
+
+        /** Sorts vFilteredItemList based on sort_mode **/
+        void sort_item_list();
 
         /** Used to handle input of filter_string **/
         std::unique_ptr<string_input_popup> spopup;

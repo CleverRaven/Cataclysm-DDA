@@ -2190,20 +2190,18 @@ void inventory_selector::on_input( const inventory_input &input )
                 item_contents_ui contents_window( sitem );
                 contents_window.execute();
             } else {
-                action_examine( sitem );
+                const item_location sitemL = selected.any_item();
+                action_examine( sitemL );
             }
         }
-    } else if( input.action == "EXAMINE_CONTENTS" ) {
+    } else if( input.action == "EXAMINE" ) {
         const inventory_entry &selected = get_active_column().get_selected();
         if( selected ) {
-            const item *sitem = selected.any_item().get_item();
-            if( !sitem->is_container_empty() ) {
-                item_contents_ui contents_window( sitem );
-                contents_window.execute();
-            } else {
-                action_examine( sitem );
-            }
+            const item_location sitem = selected.any_item();
+            action_examine( sitem );
         }
+    } else if( input.action == "INVENTORY_FILTER" ) {
+        set_filter();
     } else {
         if( has_available_choices() ) {
             for( inventory_column *elem : columns ) {
@@ -2436,21 +2434,13 @@ item_location inventory_pick_selector::execute()
             if( selected ) {
                 return selected.any_item();
             }
-        } else if( input.action == "INVENTORY_FILTER" ) {
-            query_set_filter();
-        } else if( input.action == "EXAMINE" ) {
-            const inventory_entry &selected = get_active_column().get_selected();
-            if( selected ) {
-                const item *sitem = selected.any_item().get_item();
-                action_examine( sitem );
-            }
         } else {
             on_input( input );
         }
     }
 }
 
-void inventory_selector::action_examine( const item *sitem )
+void inventory_selector::action_examine( const item_location sitem )
 {
     // Code below pulled from the action_examine function in advanced_inv.cpp
     std::vector<iteminfo> vThisItem;
@@ -2688,12 +2678,6 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
         } else if( input.action == "CONFIRM" ) {
             popup_getkey( _( "You need two items for comparison.  Use %s to select them." ),
                           ctxt.get_desc( "TOGGLE_ENTRY" ) );
-        } else if( input.action == "EXAMINE" ) {
-            const inventory_entry &selected = get_active_column().get_selected();
-            if( selected ) {
-                const item *sitem = selected.any_item().get_item();
-                action_examine( sitem );
-            }
         } else if( input.action == "QUIT" ) {
             return std::make_pair( nullptr, nullptr );
         } else if( input.action == "INVENTORY_FILTER" ) {
@@ -2789,16 +2773,8 @@ drop_locations inventory_iuse_selector::execute()
                 continue;
             }
             break;
-        } else if( input.action == "EXAMINE" ) {
-            const inventory_entry &selected = get_active_column().get_selected();
-            if( selected ) {
-                const item *sitem = selected.any_item().get_item();
-                action_examine( sitem );
-            }
         } else if( input.action == "QUIT" ) {
             return drop_locations();
-        } else if( input.action == "INVENTORY_FILTER" ) {
-            query_set_filter();
         } else {
             on_input( input );
         }
@@ -2905,16 +2881,8 @@ drop_locations inventory_drop_selector::execute()
                 continue;
             }
             break;
-        } else if( input.action == "EXAMINE" ) {
-            const inventory_entry &selected = get_active_column().get_selected();
-            if( selected ) {
-                const item *sitem = selected.any_item().get_item();
-                action_examine( sitem );
-            }
         } else if( input.action == "QUIT" ) {
             return drop_locations();
-        } else if( input.action == "INVENTORY_FILTER" ) {
-            query_set_filter();
         } else if( input.action == "TOGGLE_FAVORITE" ) {
             // TODO: implement favoriting in multi selection menus while maintaining selection
         } else {

@@ -1,6 +1,7 @@
 #include "item_contents_ui.h"
 
 #include "item.h"
+#include "item_category.h"
 #include "output.h"
 #include "string_input_popup.h"
 
@@ -12,7 +13,9 @@ item_contents_ui::item_contents_ui( const item *containing_item )
         vItemList.push_back( content );
     }
 
+    sort_mode = contents_ui_sort_mode::CATEGORY;
     vFilteredItemList = vItemList;
+    sort_item_list();
 
     ctxt = input_context( "INVENTORY", keyboard_mode::keychar );
 
@@ -28,6 +31,7 @@ item_contents_ui::item_contents_ui( const item *containing_item )
     ctxt.register_action( "EXAMINE_CONTENTS" );
     ctxt.register_action( "SCROLL_ITEM_INFO_UP" );
     ctxt.register_action( "SCROLL_ITEM_INFO_DOWN" );
+    ctxt.register_action( "SORT" );
 }
 
 void item_contents_ui::draw_details()
@@ -78,6 +82,17 @@ void item_contents_ui::draw_footer()
             wprintz( w_data, c_white, filter_string );
             wprintz( w_data, c_light_gray, " >" );
         }
+    }
+
+    //Draw sort mode information
+    wprintz( w_data, c_light_gray, "     " );
+    wprintz( w_data, c_light_gray, string_format( _( "[%s] Sort mode: " ), ctxt.get_desc( "SORT" ) ) );
+    if( sort_mode == contents_ui_sort_mode::CATEGORY ) {
+        wprintz( w_data, c_light_gray, _( "Category" ) );
+    } else if( sort_mode == contents_ui_sort_mode::NAME ) {
+        wprintz( w_data, c_light_gray, _( "Name" ) );
+    } else {
+        wprintz( w_data, c_light_gray, _( "ERROR" ) );
     }
 }
 
@@ -187,7 +202,7 @@ void item_contents_ui::execute()
                                           item_info );
 
         if( spopup ) {
-            spopup->window( w_data, point( 4, catacurses::getmaxy( w_data ) - 2 ),
+            spopup->window( w_data, point( 4, catacurses::getmaxy( w_data ) - 1 ),
                             ( catacurses::getmaxx( w_data ) / 2 ) - 4 );
         }
 
@@ -205,7 +220,6 @@ void item_contents_ui::execute()
 
         borders.draw_border( w_data );
         borders.draw_border( w_head );
-        //draw_borders();
         draw_header();
         draw_item_list();
 
@@ -263,10 +277,19 @@ void item_contents_ui::execute()
         } else if( action == "INVENTORY_FILTER" ) {
             set_filter();
         } else if( action == "QUIT" ) {
-            //chosen = nullptr;
             done = true;
         } else if( action == "RESET_FILTER" ) {
             filter_string.clear();
+        } else if( action == "SORT" ) {
+            switch( sort_mode ) {
+                case contents_ui_sort_mode::NAME:
+                    sort_mode = contents_ui_sort_mode::CATEGORY;
+                    break;
+                case contents_ui_sort_mode::CATEGORY:
+                    sort_mode = contents_ui_sort_mode::NAME;
+                    break;
+            }
+            sort_item_list();
         } else if( action == "TOGGLE_FAVORITE" ) {
             //TODO
         } else if( action == "HELP_KEYBINDINGS" ) {
@@ -303,7 +326,28 @@ void item_contents_ui::set_filter()
                 vFilteredItemList.emplace_back( containedItem );
             }
         }
+        sort_item_list();
         ui.mark_resize();
     }
     spopup.reset();
+}
+
+void item_contents_ui::sort_item_list()
+{
+    switch( sort_mode ) {
+        case contents_ui_sort_mode::NAME:
+            //Sort item list alphabetically.  Uses tname() rather than display_name() to avoid quirks caused by item condition
+            std::sort( vFilteredItemList.begin(), vFilteredItemList.end(), []( const item * a,
+            const item * b ) {
+                return localized_compare( a->tname( 1, false, 0, true ), b->tname( 1, false, 0, true ) );
+            } );
+            break;
+        case contents_ui_sort_mode::CATEGORY:
+            //Category is sorted by getting the item -> then the item category object -> then the translated name of the item category
+            std::sort( vFilteredItemList.begin(), vFilteredItemList.end(), []( const item * a,
+            const item * b ) {
+                return localized_compare( a->get_category_shallow().name(), b->get_category_shallow().name() );
+            } );
+            break;
+    }
 }
