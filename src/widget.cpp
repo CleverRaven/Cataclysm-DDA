@@ -329,6 +329,51 @@ std::string widget::show( const avatar &ava )
     }
 }
 
+window_panel widget::get_window_panel( const int width, const int req_height )
+{
+    // Width is fixed, but height may vary depending on child widgets
+    int height = req_height;
+
+    // For layout with rows, height will be number of rows
+    // (assuming each row is only 1 line)
+    if( _style == "layout" && _arrange == "rows" ) {
+        height = _widgets.size();
+    }
+    // Minimap and log do not have a predetermined height
+    // (or they should allow caller to customize height)
+
+    // If this widget is not a layout, use its label for the window panel id and name
+    // FIXME: Support label for layout widgets too!
+    auto draw_func = [this, width]( const avatar & u, const catacurses::window & w ) {
+        werase( w );
+        if( _style == "layout" ) {
+            if( _arrange == "rows" ) {
+                // Layout widgets in rows
+                // FIXME: Be able to handle rows that are themselves more than one line!
+                // Could this be done in the layout() function somehow (by returning newlines?)
+                int row_num = 0;
+                for( const widget_id &row_wid : _widgets ) {
+                    widget row_widget = row_wid.obj();
+                    trim_and_print( w, point( 1, row_num ), width - 1, c_light_gray, _( row_widget.layout( u,
+                                    width - 1 ) ) );
+                    row_num++;
+                }
+            } else {
+                // Layout widgets in columns
+                // For now, this is the default when calling layout()
+                // So, just layout self
+                trim_and_print( w, point( 1, 1 ), width - 1, c_light_gray, _( layout( u, width - 1 ) ) );
+            }
+        } else {
+            // Just layout self
+            trim_and_print( w, point( 1, 1 ), width - 1, c_light_gray, _( layout( u, width - 1 ) ) );
+        }
+        wnoutrefresh( w );
+    };
+
+    return window_panel( draw_func, _label.translated(), _label, height, width, false );
+}
+
 bool widget::uses_text_function()
 {
     switch( _var ) {

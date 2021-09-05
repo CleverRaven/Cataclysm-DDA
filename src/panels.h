@@ -129,6 +129,9 @@ void draw_overmap_chunk( const catacurses::window &w_minimap, const avatar &you,
 
 bool default_render();
 
+// A window_panel is a rectangular region or panel within the sidebar window.
+// It is associated with a draw function (taking avatar and window), along with id and name.
+// The height, width, and default toggle state must be provided to the constructor as well.
 class window_panel
 {
     public:
@@ -153,6 +156,8 @@ class window_panel
         translation name;
 };
 
+// A panel_layout is a collection of window_panels drawn in order from top to bottom.
+// It is associated with the user-selectable layouts named "classic", "compact", "labels", etc.
 class panel_layout
 {
     public:
@@ -167,6 +172,9 @@ class panel_layout
         std::vector<window_panel> _panels;
 };
 
+// The panel_manager allows the player choose their current panel layout and window panels.
+// The player's selected panel_layout, and which window_panels are toggled on or off, are
+// saved to the PATH_INFO::panel_options() file, typically config/panel_options.json.
 class panel_manager
 {
     public:

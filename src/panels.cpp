@@ -2990,6 +2990,21 @@ static std::vector<window_panel> initialize_default_label_panels()
     return ret;
 }
 
+static std::vector<window_panel> initialize_default_custom_panels()
+{
+    const int panel_width = 44;
+
+    std::vector<window_panel> ret;
+
+    widget root = widget_id( "root_layout" ).obj();
+    for( const widget_id &row_wid : root._widgets ) {
+        widget row_widget = row_wid.obj();
+        ret.emplace_back( row_widget.get_window_panel( panel_width ) );
+    }
+
+    return ret;
+}
+
 static std::map<std::string, panel_layout> initialize_default_panel_layouts()
 {
     std::map<std::string, panel_layout> ret;
@@ -3002,6 +3017,8 @@ static std::map<std::string, panel_layout> initialize_default_panel_layouts()
                  initialize_default_label_narrow_panels() ) );
     ret.emplace( "labels", panel_layout( to_translation( "labels" ),
                                          initialize_default_label_panels() ) );
+    ret.emplace( "custom", panel_layout( to_translation( "custom" ),
+                                         initialize_default_custom_panels() ) );
 
     return ret;
 }

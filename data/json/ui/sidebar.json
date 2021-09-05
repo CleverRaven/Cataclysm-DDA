@@ -424,6 +424,7 @@
   {
     "id": "hitpoint_graphs_top_layout",
     "type": "widget",
+    "label": "HP Top",
     "style": "layout",
     "arrange": "columns",
     "widgets": [ "hp_left_arm_graph", "hp_head_graph", "hp_right_arm_graph" ]
@@ -431,9 +432,18 @@
   {
     "id": "hitpoint_graphs_bottom_layout",
     "type": "widget",
+    "label": "HP Bottom",
     "style": "layout",
     "arrange": "columns",
     "widgets": [ "hp_left_leg_graph", "hp_torso_graph", "hp_right_leg_graph" ]
+  },
+  {
+    "id": "hitpoints_all_graphs_layout",
+    "type": "widget",
+    "label": "Hit Points",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "hitpoints_top_layout", "hitpoints_bottom_layout" ]
   },
   {
     "id": "hitpoints_head_torso",
@@ -559,6 +569,7 @@
   {
     "id": "sound_fatigue_focus_layout",
     "type": "widget",
+    "label": "Sound Fatigue Focus",
     "style": "layout",
     "arrange": "columns",
     "widgets": [ "sound_num", "fatigue_graph", "focus_num" ]
@@ -566,6 +577,7 @@
   {
     "id": "stamina_speed_move_layout",
     "type": "widget",
+    "label": "Stamina Speed Move",
     "style": "layout",
     "arrange": "columns",
     "widgets": [ "stamina_graph_classic", "speed_num", "move_num" ]
@@ -580,6 +592,7 @@
   {
     "id": "stats_layout",
     "type": "widget",
+    "label": "Stats",
     "style": "layout",
     "arrange": "columns",
     "widgets": [ "str_num", "dex_num", "int_num", "per_num" ]
@@ -792,5 +805,12 @@
       "str_dex_layout",
       "int_per_layout"
     ]
+  },
+  {
+    "id": "root_layout",
+    "type": "widget",
+    "style": "layout",
+    "arrange": "rows",
+    "widgets": [ "hitpoints_all_graphs_layout", "sound_fatigue_focus_layout", "stamina_speed_move_layout", "stats_layout" ]
   }
 ]

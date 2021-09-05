@@ -9,6 +9,7 @@
 //#include "cata_variant.h"
 #include "enum_traits.h"
 #include "generic_factory.h"
+#include "panels.h"
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
@@ -134,6 +135,8 @@ class widget
         std::string layout( const avatar &ava, unsigned int max_width = 0 );
         // Display labeled widget, with value (number, graph, or string) from an avatar
         std::string show( const avatar &ava );
+        // Return a window_panel for rendering this widget at given width (and possibly height)
+        window_panel get_window_panel( const int width, const int req_height = 1 );
         // Return a colorized string for a _var associated with a description function
         std::string color_text_function_string( const avatar &ava );
         // Return true if the current _var is one which uses a description function
