@@ -4,7 +4,7 @@
     "id": "Occult",
     "name": "[WIP] Occult - No Zombies",
     "authors": [ "Occulti" ],
-    "description": "Removes all the zombies from the game - a very work-in-progress start to a more Lovecraftian-focussed version of Cataclysm set in the 1920s, with 99.9% of the population mysteriously dissapearing at midnight of day 0.  Players will take on the roles of investigators in a variety of professions battling the denizens of the shadows to recover and rebuild society.",
+    "description": "Removes all the zombies from the game - a very work-in-progress start to a more Lovecraftian-focused version of Cataclysm set in the 1920s, with 99.9% of the population mysteriously disappearing at midnight of day 0.  Players will take on the roles of investigators in a variety of professions battling the denizens of the shadows to recover and rebuild society.",
     "category": "content",
     "dependencies": [ "dda" ],
     "version": "0.1"
