@@ -103,6 +103,9 @@ constexpr int freezer = 23; // -5 Celsius
 
 // Temperature in which water freezes in Fahrenheit.
 constexpr int freezing = 32; // 0 Celsius
+
+// Temperature in which water boils in Fahrenheit.
+constexpr int boiling = 212; // 100 Celsius
 } // namespace temperatures
 
 // Slowest speed at which a gun can be aimed.
@@ -154,6 +157,10 @@ static constexpr int SPRING_TEMPERATURE = 65;
  * Windows has a rand limit of 32768, other operating systems can have higher limits.
 */
 constexpr int SIMPLEX_NOISE_RANDOM_SEED_LIMIT = 32768;
+
+constexpr float MIN_MANIPULATOR_SCORE = 0.1f;
+// the maximum penalty to movecost from a limb value
+constexpr float MAX_MOVECOST_MODIFIER = 100.0f;
 
 /**
  * activity levels, used for BMR.

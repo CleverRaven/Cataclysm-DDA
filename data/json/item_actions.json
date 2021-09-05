@@ -186,6 +186,16 @@
   },
   {
     "type": "item_action",
+    "id": "CHANGE_EYES",
+    "name": { "str": "Change the eye colour" }
+  },
+  {
+    "type": "item_action",
+    "id": "CHANGE_SKIN",
+    "name": { "str": "Change skin colour" }
+  },
+  {
+    "type": "item_action",
     "id": "transform",
     "name": { "str": "Turn on" }
   },
@@ -351,6 +361,11 @@
   },
   {
     "type": "item_action",
+    "id": "BINDER_ADD_RECIPE",
+    "name": { "str": "Copy a recipe" }
+  },
+  {
+    "type": "item_action",
     "id": "COKE",
     "name": { "str": "Snort coke" }
   },
@@ -448,6 +463,16 @@
     "type": "item_action",
     "id": "EINKTABLETPC",
     "name": { "str": "Use SD-Card apps" }
+  },
+  {
+    "type": "item_action",
+    "id": "EBOOKSAVE",
+    "name": { "str": "Store a book" }
+  },
+  {
+    "type": "item_action",
+    "id": "EBOOKREAD",
+    "name": { "str": "Read stored books" }
   },
   {
     "type": "item_action",
@@ -1073,5 +1098,15 @@
     "type": "item_action",
     "id": "effect_on_conditions",
     "name": { "str": "Activate item" }
+  },
+  {
+    "type": "item_action",
+    "id": "SEXTANT",
+    "name": { "str": "Measure Sun altitude" }
+  },
+  {
+    "type": "item_action",
+    "id": "LUX_METER",
+    "name": { "str": "Measure light level" }
   }
 ]

@@ -59,7 +59,6 @@ class item_location;
 class mapgendata;
 class monster;
 class optional_vpart_position;
-class player;
 class relic_procgen_data;
 class submap;
 class vehicle;
@@ -89,7 +88,7 @@ struct wrapped_vehicle {
 using VehicleList = std::vector<wrapped_vehicle>;
 class map;
 
-enum ter_bitflags : int;
+enum class ter_furn_flag : int;
 struct pathfinding_cache;
 struct pathfinding_settings;
 template<typename T>
@@ -318,7 +317,9 @@ class map
         explicit map( bool zlev ) : map( MAPSIZE, zlev ) { }
         virtual ~map();
 
-        map &operator=( map && ) = default;
+        map &operator=( const map & ) = delete;
+        // NOLINTNEXTLINE(performance-noexcept-move-constructor)
+        map &operator=( map && );
 
         /**
          * Tinymaps will ocassionally need to skip npc rotation in map::rotate
@@ -525,8 +526,13 @@ class map
          * @param w global coordinates of the submap at grid[0]. This
          * is in submap coordinates.
          * @param update_vehicles If true, add vehicles to the vehicle cache.
+         * @param pump_events If true, handle window events during loading. If
+         * you set this to true, do ensure that the map is not accessed before
+         * this function returns (for example, UIs that draw the map should be
+         * disabled).
          */
-        void load( const tripoint_abs_sm &w, bool update_vehicles );
+        void load( const tripoint_abs_sm &w, bool update_vehicles,
+                   bool pump_events = false );
         /**
          * Shift the map along the vector s.
          * This is like loading the map with coordinates derived from the current
@@ -559,7 +565,7 @@ class map
         void create_hot_air( const tripoint &p, int intensity );
         bool gas_can_spread_to( field_entry &cur, const maptile &dst );
         void gas_spread_to( field_entry &cur, maptile &dst, const tripoint &p );
-        int burn_body_part( player &u, field_entry &cur, const bodypart_id &bp, int scale );
+        int burn_body_part( Character &you, field_entry &cur, const bodypart_id &bp, int scale );
     public:
 
         // Movement and LOS
@@ -816,7 +822,7 @@ class map
         std::string furnname( const point &p ) {
             return furnname( tripoint( p, abs_sub.z ) );
         }
-        bool can_move_furniture( const tripoint &pos, player *p = nullptr );
+        bool can_move_furniture( const tripoint &pos, Character *you = nullptr );
 
         // Terrain
         ter_id ter( const tripoint &p ) const;
@@ -899,7 +905,7 @@ class map
          * Calls the examine function of furniture or terrain at given tile, for given character.
          * Will only examine terrain if furniture had @ref iexamine::none as the examine function.
          */
-        void examine( Character &p, const tripoint &pos );
+        void examine( Character &you, const tripoint &pos );
 
         /**
          * Returns true if point at pos is harvestable right now, with no extra tools.
@@ -944,23 +950,23 @@ class map
         }
         // Fast "oh hai it's update_scent/lightmap/draw/monmove/self/etc again, what about this one" flag checking
         // Checks terrain, furniture and vehicles
-        bool has_flag( ter_bitflags flag, const tripoint &p ) const;
-        bool has_flag( ter_bitflags flag, const point &p ) const {
+        bool has_flag( ter_furn_flag flag, const tripoint &p ) const;
+        bool has_flag( ter_furn_flag flag, const point &p ) const {
             return has_flag( flag, tripoint( p, abs_sub.z ) );
         }
         // Checks terrain
-        bool has_flag_ter( ter_bitflags flag, const tripoint &p ) const;
-        bool has_flag_ter( ter_bitflags flag, const point &p ) const {
+        bool has_flag_ter( ter_furn_flag flag, const tripoint &p ) const;
+        bool has_flag_ter( ter_furn_flag flag, const point &p ) const {
             return has_flag_ter( flag, tripoint( p, abs_sub.z ) );
         }
         // Checks furniture
-        bool has_flag_furn( ter_bitflags flag, const tripoint &p ) const;
-        bool has_flag_furn( ter_bitflags flag, const point &p ) const {
+        bool has_flag_furn( ter_furn_flag flag, const tripoint &p ) const;
+        bool has_flag_furn( ter_furn_flag flag, const point &p ) const {
             return has_flag_furn( flag, tripoint( p, abs_sub.z ) );
         }
         // Checks terrain or furniture
-        bool has_flag_ter_or_furn( ter_bitflags flag, const tripoint &p ) const;
-        bool has_flag_ter_or_furn( ter_bitflags flag, const point &p ) const {
+        bool has_flag_ter_or_furn( ter_furn_flag flag, const tripoint &p ) const;
+        bool has_flag_ter_or_furn( ter_furn_flag flag, const point &p ) const {
             return has_flag_ter_or_furn( flag, tripoint( p, abs_sub.z ) );
         }
 
@@ -1283,6 +1289,15 @@ class map
         std::list<item> use_charges( const tripoint &origin, int range, const itype_id &type,
                                      int &quantity, const std::function<bool( const item & )> &filter = return_true<item>,
                                      basecamp *bcp = nullptr );
+
+        /**
+        * Consume UPS from UPS sources from area centered at origin.
+        * @param origin the position of player
+        * @param range how far the UPS can be used from
+        * @return Amount of UPS used which will be between 0 and qty
+        */
+        int consume_ups( const tripoint &origin, int range, int qty );
+
         /*@}*/
         std::list<std::pair<tripoint, item *> > get_rc_items( const tripoint &p = { -1, -1, -1 } );
 
@@ -1517,7 +1532,7 @@ class map
         void support_dirty( const tripoint &p );
     public:
 
-        // Returns true if terrain at p has NO flag TFLAG_NO_FLOOR,
+        // Returns true if terrain at p has NO flag ter_furn_flag::TFLAG_NO_FLOOR,
         // if we're not in z-levels mode or if we're at lowest level
         bool has_floor( const tripoint &p ) const;
         /** Does this tile support vehicles and furniture above it */
@@ -1549,10 +1564,8 @@ class map
                            const point &p1, const point &p2, float density,
                            bool individual = false, bool friendly = false, const std::string &name = "NONE",
                            int mission_id = -1 );
-        void place_gas_pump( const point &p, int charges, const std::string &fuel_type );
-        void place_gas_pump( const point &p, int charges ) {
-            place_gas_pump( p, charges, one_in( 4 ) ? "diesel" : "gasoline" );
-        }
+        void place_gas_pump( const point &p, int charges, const itype_id &fuel_type );
+        void place_gas_pump( const point &p, int charges );
         // 6 liters at 250 ml per charge
         void place_toilet( const point &p, int charges = 6 * 4 );
         void place_vending( const point &p, const item_group_id &type, bool reinforced = false,
@@ -1741,7 +1754,7 @@ class map
         void rad_scorch( const tripoint &p, const time_duration &time_since_last_actualize );
         void decay_cosmetic_fields( const tripoint &p, const time_duration &time_since_last_actualize );
 
-        void player_in_field( player &u );
+        void player_in_field( Character &you );
         void monster_in_field( monster &z );
         /**
          * As part of the map shifting, this shifts the trap locations stored in @ref traplocs.
@@ -2042,6 +2055,10 @@ class map
         std::list<tripoint> find_furnitures_with_flag_in_radius( const tripoint &center, size_t radius,
                 const std::string &flag,
                 size_t radiusz = 0 );
+        /**returns positions of furnitures with matching flag in the specified radius*/
+        std::list<tripoint> find_furnitures_with_flag_in_radius( const tripoint &center, size_t radius,
+                const ter_furn_flag flag,
+                size_t radiusz = 0 );
         /**returns creatures in specified radius*/
         std::list<Creature *> get_creatures_in_radius( const tripoint &center, size_t radius,
                 size_t radiusz = 0 );
@@ -2059,7 +2076,7 @@ map &get_map();
 template<int SIZE, int MULTIPLIER>
 void shift_bitset_cache( std::bitset<SIZE *SIZE> &cache, const point &s );
 
-bool ter_furn_has_flag( const ter_t &ter, const furn_t &furn, ter_bitflags flag );
+bool ter_furn_has_flag( const ter_t &ter, const furn_t &furn, ter_furn_flag flag );
 class tinymap : public map
 {
         friend class editmap;

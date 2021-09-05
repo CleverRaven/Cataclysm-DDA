@@ -1,0 +1,64 @@
+[
+  {
+    "name": "GROUP_NECROPOLIS_ROBOT",
+    "type": "monstergroup",
+    "default": "mon_chickenbot",
+    "monsters": [ { "monster": "mon_tankbot", "freq": 20, "cost_multiplier": 0 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_CENTRAL_LAB",
+    "monsters": [ { "monster": "mon_chickenbot", "freq": 1, "cost_multiplier": 50 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ROBOT",
+    "monsters": [
+      { "monster": "mon_tripod", "freq": 110, "cost_multiplier": 0 },
+      { "monster": "mon_chickenbot", "freq": 60, "cost_multiplier": 0 },
+      { "monster": "mon_tankbot", "freq": 20, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MIL_BASE",
+    "monsters": [
+      { "monster": "mon_tripod", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_chickenbot", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_tankbot", "freq": 5, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MAYBE_MIL",
+    "monsters": [
+      { "monster": "mon_tripod", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_chickenbot", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_tankbot", "freq": 5, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_MIL_STRONG",
+    "monsters": [
+      { "monster": "mon_tripod", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_chickenbot", "freq": 5, "cost_multiplier": 0 },
+      { "monster": "mon_tankbot", "freq": 5, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_NETHER_FATIGUE_FIELD",
+    "monsters": [ { "monster": "mon_staring_eye", "freq": 100, "cost_multiplier": 0 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_NETHER",
+    "monsters": [ { "monster": "mon_staring_eye", "freq": 120, "cost_multiplier": 0 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_NETHER_PORTAL",
+    "monsters": [ { "monster": "mon_staring_eye", "freq": 200, "cost_multiplier": 0 } ]
+  }
+]

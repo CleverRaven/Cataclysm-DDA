@@ -30,7 +30,7 @@
     "tec_debug_arpen"
 ]
 "weapons": [ "tonfa" ]      // List of weapons usable with this art
-
+"weapon_category": [ "WEAPON_CAT1" ], // Weapons that have one of the categories in here are usable with this art.
 ```
 
 ### Techniques

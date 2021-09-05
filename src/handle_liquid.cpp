@@ -23,7 +23,6 @@
 #include "game_inventory.h"
 #include "iexamine.h"
 #include "item.h"
-#include "item_contents.h"
 #include "itype.h"
 #include "line.h"
 #include "map.h"
@@ -100,7 +99,7 @@ namespace liquid_handler
 {
 void handle_all_liquid( item liquid, const int radius, const item *const avoid )
 {
-    while( liquid.charges > 0 ) {
+    while( liquid.charges > 0 && can_handle_liquid( liquid ) ) {
         // handle_liquid allows to pour onto the ground, which will handle all the liquid and
         // set charges to 0. This allows terminating the loop.
         // The result of handle_liquid is ignored, the player *has* to handle all the liquid.
@@ -337,7 +336,7 @@ static bool get_liquid_target( item &liquid, const item *const source, const int
 
 static bool perform_liquid_transfer( item &liquid, const tripoint *const source_pos,
                                      const vehicle *const source_veh, const int part_num,
-                                     const monster *const source_mon, liquid_dest_opt &target )
+                                     const monster *const /*source_mon*/, liquid_dest_opt &target )
 {
     if( !liquid.made_of_from_type( phase_id::LIQUID ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
@@ -356,8 +355,6 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
             player_character.assign_activity( activity_id( "ACT_FILL_LIQUID" ) );
             serialize_liquid_source( player_character.activity, *source_pos, liquid );
             return true;
-        } else if( source_mon != nullptr ) {
-            return false;
         } else {
             return false;
         }
@@ -448,10 +445,7 @@ static bool perform_liquid_transfer( item &liquid, const tripoint *const source_
     }
 }
 
-bool handle_liquid( item &liquid, const item *const source, const int radius,
-                    const tripoint *const source_pos,
-                    const vehicle *const source_veh, const int part_num,
-                    const monster *const source_mon )
+bool can_handle_liquid( const item &liquid )
 {
     if( liquid.made_of_from_type( phase_id::SOLID ) ) {
         dbg( D_ERROR ) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
@@ -461,6 +455,17 @@ bool handle_liquid( item &liquid, const item *const source, const int radius,
     }
     if( !liquid.made_of( phase_id::LIQUID ) ) {
         add_msg( _( "The %s froze solid before you could finish." ), liquid.tname() );
+        return false;
+    }
+    return true;
+}
+
+bool handle_liquid( item &liquid, const item *const source, const int radius,
+                    const tripoint *const source_pos,
+                    const vehicle *const source_veh, const int part_num,
+                    const monster *const source_mon )
+{
+    if( !can_handle_liquid( liquid ) ) {
         return false;
     }
     struct liquid_dest_opt liquid_target;

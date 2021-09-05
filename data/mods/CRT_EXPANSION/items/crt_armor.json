@@ -31,7 +31,7 @@
     "warmth": 40,
     "material_thickness": 5,
     "environmental_protection": 5,
-    "armor": [ { "encumbrance": 17 } ]
+    "armor": [ { "encumbrance": 17, "coverage": 100, "covers": [ "foot_l", "foot_r" ] } ]
   },
   {
     "id": "crt_la_boots",

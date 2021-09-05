@@ -145,12 +145,22 @@ static inline local_translation_cache<std::string> get_local_translation_cache(
 
 } // namespace detail
 
+// For code analysis purposes in our clang-tidy plugin we need to be able to
+// detect when something is the argument to a translation function.  The _
+// macro makes this really tricky, so we add an otherwise unnecessary call to
+// this no-op function just so that there's something to detect.
+template<typename T>
+inline const T &translation_argument_identity( const T &t )
+{
+    return t;
+}
+
 // Note: in case of std::string argument, the result is copied, this is intended (for safety)
 #define _( msg ) \
     ( ( []( const auto & arg ) { \
         static auto cache = detail::get_local_translation_cache( arg ); \
         return cache( arg ); \
-    } )( msg ) )
+    } )( translation_argument_identity( msg ) ) )
 
 // ngettext overload taking an unsigned long long so that people don't need
 // to cast at call sites.  This is particularly relevant on 64-bit Windows where
@@ -192,7 +202,7 @@ inline std::string _translate_internal( const std::string &msg )
 }
 } // namespace detail
 
-#define ngettext(STRING1, STRING2, COUNT) (COUNT < 2 ? _(STRING1) : _(STRING2))
+#define ngettext(STRING1, STRING2, COUNT) ((COUNT) < 2 ? _(STRING1) : _(STRING2))
 #define pgettext(STRING1, STRING2) _(STRING2)
 #define npgettext(STRING0, STRING1, STRING2, COUNT) ngettext(STRING1, STRING2, COUNT)
 
@@ -330,7 +340,8 @@ class translation
         bool needs_translation = false;
         // translation cache. For "plural" translation only latest `num` is optimistically cached
         mutable int cached_language_version = INVALID_LANGUAGE_VERSION;
-        mutable int cached_num = 0; // `num`, which `cached_translation` corresponds to
+        // `num`, which `cached_translation` corresponds to
+        mutable int cached_num = 0;
         mutable cata::value_ptr<std::string> cached_translation;
 };
 

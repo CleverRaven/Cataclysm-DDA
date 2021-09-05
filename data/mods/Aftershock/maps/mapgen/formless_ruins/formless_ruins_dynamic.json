@@ -74,7 +74,8 @@
             [ "formless_ruins_empty4", 10 ],
             [ "formless_ruins_cryoroom", 10 ],
             [ "formless_ruins_armory", 10 ],
-            [ "formless_ruins_sleeping_room", 10 ]
+            [ "formless_ruins_sleeping_room", 10 ],
+            [ "formless_ruins_telepad", 5 ]
           ]
         }
       },
@@ -142,7 +143,8 @@
             [ "formless_ruins_empty4", 10 ],
             [ "formless_ruins_cryoroom", 10 ],
             [ "formless_ruins_armory", 10 ],
-            [ "formless_ruins_sleeping_room", 10 ]
+            [ "formless_ruins_sleeping_room", 10 ],
+            [ "formless_ruins_telepad", 5 ]
           ]
         }
       },
@@ -744,6 +746,41 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "formless_ruins_telepad",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "/     ..////",
+        "/. ......../",
+        "/.///3////C/",
+        "///.........",
+        "/C.    ooo#/",
+        "/ ..  ....--",
+        "/W .......1-",
+        "/W  ......T-",
+        "/W. ......1-",
+        "//C.......--",
+        "##/ooooo///.",
+        "///..  //   "
+      ],
+      "terrain": { "C": "t_metal_floor", "W": "t_metal_floor", "T": "t_metal_floor", "1": "t_machinery_heavy" },
+      "furniture": { "C": "f_counter", "W": "f_rack", "T": "f_afs_telepad" },
+      "items": {
+        "W": [
+          { "item": "afs_experimental_combat_gear", "chance": 10, "repeat": [ 1, 2 ] },
+          { "item": "afs_general_armory", "chance": 50, "repeat": [ 1, 2 ] }
+        ],
+        "C": [
+          { "item": "afs_robotics_scrapgroup", "chance": 20, "repeat": [ 1, 2 ] },
+          { "item": "afs_machinery_maintenance_scrapgroup", "chance": 10, "repeat": [ 1, 2 ] }
+        ]
+      },
+      "palettes": [ "afs_formless_ruins" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "formless_ruins_armory",
     "object": {
       "mapgensize": [ 12, 12 ],
@@ -754,11 +791,11 @@
         "// ///...../",
         "/C. / .CC.#/",
         "/ ../M...../",
-        "/  .//33ooo/",
-        "/   /...  M/",
+        ".  .//33ooo/",
+        ". ......  M/",
         "/.. /WWWWWW/",
-        "//..////////",
-        "##/...  /.. ",
+        "//..///..../",
+        "##/...  ... ",
         "///..  //   "
       ],
       "terrain": { "C": "t_metal_floor", "W": "t_metal_floor" },

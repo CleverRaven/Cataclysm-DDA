@@ -16,7 +16,6 @@
 #include "flag.h"
 #include "generic_factory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_factory.h"
 #include "item_pocket.h"
 #include "itype.h"
@@ -119,7 +118,7 @@ static void put_into_container(
     item ctr( *container_type, birthday );
     Item_spawn_data::ItemList excess;
     for( const item &it : items ) {
-        if( ctr.can_contain( it ) ) {
+        if( ctr.can_contain( it ).success() ) {
             const item_pocket::pocket_type pk_type = guess_pocket_for( ctr, it );
             ctr.put_in( it, pk_type );
         } else {

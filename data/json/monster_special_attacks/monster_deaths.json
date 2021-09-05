@@ -59,6 +59,21 @@
     "max_range": 5
   },
   {
+    "id": "death_portal",
+    "type": "SPELL",
+    "name": { "str": "Death Portal" },
+    "description": "Spawns a tear in reality, field intensity depends on spell level",
+    "valid_targets": [ "ground" ],
+    "shape": "blast",
+    "effect": "attack",
+    "max_level": 2,
+    "field_id": "fd_fatigue",
+    "field_chance": 1,
+    "min_field_intensity": 1,
+    "field_intensity_increment": 1,
+    "max_field_intensity": 3
+  },
+  {
     "id": "death_acid",
     "type": "SPELL",
     "name": { "str": "Acid Death" },
@@ -80,12 +95,12 @@
     "valid_targets": [ "ground", "self" ],
     "min_damage": 2,
     "max_damage": 2,
-    "flags": [ "SILENT" ],
+    "flags": [ "SILENT", "HOSTILE_SUMMON", "PERMANENT" ],
     "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_halfworm",
-    "min_aoe": 1,
-    "max_aoe": 1
+    "min_aoe": 2,
+    "max_aoe": 2
   },
   {
     "id": "death_blobsplit_large",
@@ -95,12 +110,12 @@
     "valid_targets": [ "ground", "self" ],
     "min_damage": 2,
     "max_damage": 2,
-    "flags": [ "SILENT" ],
+    "flags": [ "SILENT", "HOSTILE_SUMMON", "PERMANENT" ],
     "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_blob",
-    "min_aoe": 1,
-    "max_aoe": 1
+    "min_aoe": 2,
+    "max_aoe": 2
   },
   {
     "id": "death_blobsplit",
@@ -110,12 +125,12 @@
     "valid_targets": [ "ground", "self" ],
     "min_damage": 2,
     "max_damage": 2,
-    "flags": [ "SILENT" ],
+    "flags": [ "SILENT", "HOSTILE_SUMMON", "PERMANENT" ],
     "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_blob_small",
-    "min_aoe": 1,
-    "max_aoe": 1
+    "min_aoe": 2,
+    "max_aoe": 2
   },
   {
     "id": "death_blobsplit_brain",
@@ -125,12 +140,12 @@
     "valid_targets": [ "ground", "self" ],
     "min_damage": 3,
     "max_damage": 3,
-    "flags": [ "SILENT" ],
+    "flags": [ "SILENT", "HOSTILE_SUMMON", "PERMANENT" ],
     "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_blob_large",
-    "min_aoe": 1,
-    "max_aoe": 1
+    "min_aoe": 2,
+    "max_aoe": 2
   },
   {
     "id": "death_blob_brain",
@@ -377,7 +392,7 @@
     "valid_targets": [ "ground", "self" ],
     "min_damage": 1,
     "max_damage": 1,
-    "flags": [ "SILENT" ],
+    "flags": [ "SILENT", "HOSTILE_SUMMON", "PERMANENT" ],
     "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_thing",
@@ -392,12 +407,12 @@
     "valid_targets": [ "ground", "self" ],
     "min_damage": 1,
     "max_damage": 3,
-    "flags": [ "RANDOM_DAMAGE" ],
+    "flags": [ "RANDOM_DAMAGE", "HOSTILE_SUMMON", "PERMANENT" ],
     "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_giant_cockroach_nymph",
-    "min_aoe": 1,
-    "max_aoe": 1
+    "min_aoe": 2,
+    "max_aoe": 2
   },
   {
     "id": "death_boomer",
@@ -445,10 +460,11 @@
     "shape": "blast",
     "effect": "summon",
     "effect_str": "mon_sewer_rat",
+    "flags": [ "HOSTILE_SUMMON", "PERMANENT" ],
     "min_damage": 7,
     "max_damage": 7,
-    "min_aoe": 1,
-    "max_aoe": 1
+    "min_aoe": 3,
+    "max_aoe": 3
   },
   {
     "id": "death_ratking",

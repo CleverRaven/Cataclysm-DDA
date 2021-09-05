@@ -7,6 +7,7 @@
 
 #include "bodypart.h"
 #include "color.h"
+#include "character.h"
 #include "debug.h"
 #include "effect_source.h"
 #include "enums.h"
@@ -16,7 +17,6 @@
 #include "messages.h"
 #include "optional.h"
 #include "output.h"
-#include "player.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
@@ -34,9 +34,10 @@ static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
+static const efftype_id effect_worked_on( "worked_on" );
 
 static const itype_id itype_holybook_bible( "holybook_bible" );
-static const itype_id itype_money_bundle( "money_bundle" );
+static const itype_id itype_money_one( "money_one" );
 
 static const trait_id trait_LACTOSE( "LACTOSE" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
@@ -85,7 +86,7 @@ bool string_id<effect_type>::is_valid() const
     return effect_types.count( *this ) > 0;
 }
 
-void weed_msg( player &p )
+void weed_msg( Character &p )
 {
     const time_duration howhigh = p.get_effect_dur( effect_weed_high );
     ///\EFFECT_INT changes messages when smoking weed
@@ -125,7 +126,7 @@ void weed_msg( player &p )
                 }
                 return;
             case 4:
-                if( p.has_amount( itype_money_bundle, 1 ) ) { // Half Baked
+                if( p.has_amount( itype_money_one, 1 ) ) { // Half Baked
                     p.add_msg_if_player( "%s", SNIPPET.random_from_category( "weed_Half_Baked_1" ).value_or(
                                              translation() ) );
                     if( one_in( 2 ) ) {
@@ -556,7 +557,10 @@ bool effect_type::load_decay_msgs( const JsonObject &jo, const std::string &memb
             } else if( r == "mixed" ) {
                 rate = m_mixed;
             } else {
-                rate = m_neutral;
+                inner.throw_error(
+                    string_format( "Unexpected message type \"%s\"; expected \"good\", "
+                                   "\"neutral\", " "\"bad\", or \"mixed\"", r ),
+                    1 );
             }
             decay_msgs.emplace_back( msg, rate );
         }
@@ -622,6 +626,24 @@ struct desc_freq {
 std::string effect::disp_desc( bool reduced ) const
 {
     std::string ret;
+
+    std::string timestr;
+    time_duration effect_dur_elapsed = ( calendar::turn - start_time );
+    if( to_turns<int>( effect_dur_elapsed ) == 0 ) {
+        timestr = _( "just now" );
+    } else {
+        timestr = string_format( _( "%s ago" ),
+                                 debug_mode ? to_string( effect_dur_elapsed ) : to_string_clipped( effect_dur_elapsed ) );
+    }
+    ret += string_format( _( "Effect started: <color_white>%s</color>    " ), timestr );
+    if( debug_mode ) {
+        ret += string_format( _( "Effect ends in <color_white>%s</color>" ), to_string( duration ) );
+    }
+    //Newline if necessary
+    if( !ret.empty() && ret.back() != '\n' ) {
+        ret += "\n";
+    }
+
     // First print stat changes, adding + if value is positive
     int tmp = get_avg_mod( "STR", reduced );
     if( tmp > 0 ) {
@@ -767,6 +789,12 @@ std::string effect::disp_desc( bool reduced ) const
         }
     }
 
+    if( debug_mode ) {
+        ret += string_format(
+                   _( "\nDEBUG: ID: <color_white>%s</color> Intensity: <color_white>%d</color>" ),
+                   eff_type->id.c_str(), intensity );
+    }
+
     return ret;
 }
 
@@ -836,7 +864,7 @@ void effect::set_duration( const time_duration &dur, bool alert )
     }
 
     add_msg_debug( debugmode::DF_EFFECT, "ID: %s, Duration %s", get_id().c_str(),
-                   to_string( duration ) );
+                   to_string_writable( duration ) );
 }
 void effect::mod_duration( const time_duration &dur, bool alert )
 {
@@ -972,12 +1000,7 @@ int effect::set_intensity( int val, bool alert )
                  eff_type->decay_msgs[ val - 1 ].first.translated() );
     }
 
-    int old_intensity = intensity;
     intensity = val;
-    if( old_intensity != intensity ) {
-        add_msg_debug( debugmode::DF_EFFECT, "%s intensity %d->%d", get_id().c_str(), old_intensity,
-                       intensity );
-    }
 
     return intensity;
 }
@@ -1351,6 +1374,7 @@ static const std::unordered_set<efftype_id> hardcoded_movement_impairing = {{
         effect_lightsnare,
         effect_tied,
         effect_webbed,
+        effect_worked_on,
     }
 };
 
@@ -1396,7 +1420,10 @@ void load_effect_type( const JsonObject &jo )
         } else if( r == "mixed" ) {
             new_etype.rating = e_mixed;
         } else {
-            new_etype.rating = e_neutral;
+            jo.throw_error(
+                string_format( "Unexpected rating \"%s\"; expected \"good\", \"neutral\", "
+                               "\"bad\", or \"mixed\"", r ),
+                "rating" );
         }
     } else {
         new_etype.rating = e_neutral;
@@ -1424,14 +1451,14 @@ void load_effect_type( const JsonObject &jo )
     }
 
     if( jo.has_string( "max_duration" ) ) {
-        new_etype.max_duration = read_from_json_string<time_duration>( *jo.get_raw( "max_duration" ),
+        new_etype.max_duration = read_from_json_string<time_duration>( jo.get_member( "max_duration" ),
                                  time_duration::units );
     } else {
         new_etype.max_duration = time_duration::from_turns( jo.get_int( "max_duration", 0 ) );
     }
 
     if( jo.has_string( "int_dur_factor" ) ) {
-        new_etype.int_dur_factor = read_from_json_string<time_duration>( *jo.get_raw( "int_dur_factor" ),
+        new_etype.int_dur_factor = read_from_json_string<time_duration>( jo.get_member( "int_dur_factor" ),
                                    time_duration::units );
     } else {
         new_etype.int_dur_factor = time_duration::from_turns( jo.get_int( "int_dur_factor", 0 ) );
@@ -1510,6 +1537,11 @@ event_type effect::death_event() const
 void reset_effect_types()
 {
     effect_types.clear();
+}
+
+const std::map<efftype_id, effect_type> &get_effect_types()
+{
+    return effect_types;
 }
 
 void effect_type::register_ma_buff_effect( const effect_type &eff )
@@ -1637,4 +1669,3 @@ nc_color colorize_bleeding_intensity( const int intensity )
         return c_red_red;
     }
 }
-

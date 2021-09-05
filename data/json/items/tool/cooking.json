@@ -86,15 +86,13 @@
     "ammo": [ "battery" ],
     "charges_per_use": 5,
     "use_action": [ "CARVER_OFF" ],
-    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
+    "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE", "WATER_BREAK_ACTIVE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -125,15 +123,34 @@
     "price_postapoc": 2000,
     "to_hit": -3,
     "bashing": 3,
-    "material": [ "wood", "plastic" ],
+    "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 150 } } ],
-    "initial_charges": 150,
-    "max_charges": 150,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 75 } } ],
     "charges_per_use": 1,
     "use_action": [ "WATER_PURIFIER" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE", "NO_UNLOAD", "NO_RELOAD" ]
+  },
+  {
+    "id": "char_purifier_clay",
+    "type": "TOOL",
+    "name": { "str": "large charcoal water purifier" },
+    "looks_like": "clay_hydria",
+    "description": "Using this item on a container full of water will purify the water using layered charcoal.  Once the charcoal has purified enough water, it will become unusable and can be disassembled and recycled.  Water taken from uncertain sources like a river may be dirty.",
+    "weight": "2300 g",
+    "volume": "15004 ml",
+    "longest_side": "45 cm",
+    "price": 4000,
+    "price_postapoc": 2000,
+    "to_hit": -1,
+    "bashing": 1,
+    "material": [ "clay" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 300 } } ],
+    "charges_per_use": 1,
+    "use_action": [ "WATER_PURIFIER" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "char_smoker",
@@ -152,7 +169,6 @@
     "color": "light_gray",
     "ammo": [ "charcoal" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "charcoal": 375 } } ],
-    "max_charges": 375,
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -173,8 +189,6 @@
     "ammo": [ "charcoal" ],
     "sub": "hotplate",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 50 } } ],
-    "initial_charges": 50,
-    "max_charges": 50,
     "charges_per_use": 1,
     "use_action": [ "HOTPLATE" ]
   },
@@ -245,6 +259,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
     "charges_per_use": 10,
     "qualities": [ [ "BOIL", 1 ] ],
     "use_action": [ "HOTPLATE" ],
@@ -252,10 +267,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -274,15 +287,13 @@
     "symbol": ";",
     "color": "blue",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -328,8 +339,6 @@
     "ammo": [ "esbit" ],
     "sub": "hotplate",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "esbit": 50 } } ],
-    "initial_charges": 50,
-    "max_charges": 50,
     "charges_per_use": 1,
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
   },
@@ -377,15 +386,13 @@
     "symbol": "%",
     "color": "white",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -406,8 +413,6 @@
     "ammo": [ "gasoline" ],
     "sub": "hotplate",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasoline": 500 }, "watertight": true, "rigid": true } ],
-    "initial_charges": 500,
-    "max_charges": 500,
     "charges_per_use": 1,
     "use_action": [ "HOTPLATE" ]
   },
@@ -446,26 +451,6 @@
     "color": "light_gray"
   },
   {
-    "id": "hobo_stove",
-    "type": "TOOL",
-    "name": { "str": "hobo stove" },
-    "description": "This is a small improvised wood stove, made from a metal can or similar container of the right size.  Useful for defrosting and reheating food, uses simple tinder.",
-    "weight": "500 g",
-    "volume": "250 ml",
-    "price": 0,
-    "price_postapoc": 0,
-    "to_hit": -1,
-    "bashing": 2,
-    "material": [ "steel" ],
-    "symbol": ",",
-    "color": "light_gray",
-    "ammo": [ "tinder" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "tinder": 100 } } ],
-    "max_charges": 100,
-    "charges_per_use": 25,
-    "use_action": [ "HOTPLATE" ]
-  },
-  {
     "id": "hotplate",
     "type": "TOOL",
     "name": { "str": "hotplate" },
@@ -480,6 +465,7 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "green",
+    "flags": [ "WATER_BREAK" ],
     "ammo": [ "battery" ],
     "charges_per_use": 5,
     "use_action": [ "HOTPLATE" ],
@@ -487,10 +473,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -510,15 +494,13 @@
     "symbol": ";",
     "color": "white",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -538,6 +520,7 @@
     "symbol": ";",
     "color": "green",
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
     "sub": "hotplate",
     "charges_per_use": 5,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
@@ -546,10 +529,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -636,10 +617,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_plus_battery_cell"
       }
     ]
   },
@@ -674,6 +653,7 @@
     "symbol": ";",
     "color": "red",
     "ammo": [ "battery" ],
+    "flags": [ "WATER_BREAK" ],
     "power_draw": 1500000,
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": [ "MULTICOOKER" ],
@@ -681,10 +661,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       },
       {
         "pocket_type": "CONTAINER",
@@ -722,8 +700,6 @@
     "ammo": [ "lamp_oil" ],
     "sub": "hotplate",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 }, "watertight": true, "rigid": true } ],
-    "initial_charges": 800,
-    "max_charges": 800,
     "charges_per_use": 1,
     "use_action": [ "HOTPLATE" ]
   },
@@ -786,8 +762,6 @@
     "ammo": [ "conc_alcohol" ],
     "sub": "hotplate",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "conc_alcohol": 500 }, "watertight": true, "rigid": true } ],
-    "initial_charges": 500,
-    "max_charges": 500,
     "charges_per_use": 1,
     "use_action": [ "HOTPLATE" ]
   },
@@ -917,7 +891,6 @@
     "ammo": [ "lamp_oil" ],
     "sub": "hotplate",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 }, "watertight": true, "rigid": true } ],
-    "max_charges": 800,
     "charges_per_use": 1,
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
@@ -956,15 +929,13 @@
     "symbol": ";",
     "color": "white",
     "ammo": [ "battery" ],
-    "flags": [ "ALLOWS_REMOTE_USE" ],
+    "flags": [ "ALLOWS_REMOTE_USE", "WATER_BREAK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+        "flag_restriction": [ "BATTERY_MEDIUM" ],
+        "default_magazine": "medium_battery_cell"
       }
     ]
   },
@@ -1007,18 +978,8 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "rigid": true,
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
-        ]
+        "flag_restriction": [ "BATTERY_LIGHT", "BATTERY_ULTRA_LIGHT" ],
+        "default_magazine": "light_battery_cell"
       }
     ]
   }

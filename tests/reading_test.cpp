@@ -5,6 +5,8 @@
 #include <vector>
 
 #include "avatar.h"
+#include "activity_actor_definitions.h"
+#include "activity_actor_definitions.h"
 #include "calendar.h"
 #include "cata_catch.h"
 #include "character.h"
@@ -12,10 +14,11 @@
 #include "itype.h"
 #include "morale_types.h"
 #include "player_helpers.h"
+#include "skill.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
-class player;
+static const activity_id ACT_READ( "ACT_READ" );
 
 static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
@@ -329,7 +332,7 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
         }
 
         THEN( "you cannot read without enough skill to understand the book" ) {
-            dummy.set_skill_level( skill_id( "chemistry" ), 5 );
+            dummy.set_knowledge_level( skill_id( "chemistry" ), 5 );
 
             CHECK( dummy.get_book_reader( alpha, reasons ) == nullptr );
             expect_reasons = { "applied science 6 needed to understand.  You have 5" };
@@ -385,8 +388,8 @@ TEST_CASE( "determining book mastery", "[reading][book][mastery]" )
         CHECK( dummy.get_book_mastery( child ) == book_mastery::CANT_DETERMINE );
     }
     GIVEN( "some identified books" ) {
-        dummy.do_read( child );
-        dummy.do_read( alpha );
+        dummy.identify( child );
+        dummy.identify( alpha );
         REQUIRE( dummy.has_identified( child.typeId() ) );
         REQUIRE( dummy.has_identified( alpha.typeId() ) );
 
@@ -400,16 +403,106 @@ TEST_CASE( "determining book mastery", "[reading][book][mastery]" )
             REQUIRE( book_has_skill( alpha ) );
 
             THEN( "you won't understand it if your skills are too low" ) {
-                dummy.set_skill_level( skill_id( "chemistry" ), 5 );
+                dummy.set_knowledge_level( skill_id( "chemistry" ), 5 );
                 CHECK( dummy.get_book_mastery( alpha ) == book_mastery::CANT_UNDERSTAND );
             }
             THEN( "you can learn from it with enough skill" ) {
-                dummy.set_skill_level( skill_id( "chemistry" ), 6 );
+                dummy.set_knowledge_level( skill_id( "chemistry" ), 6 );
                 CHECK( dummy.get_book_mastery( alpha ) == book_mastery::LEARNING );
             }
             THEN( "you already mastered it if you have too much skill" ) {
-                dummy.set_skill_level( skill_id( "chemistry" ), 7 );
+                dummy.set_knowledge_level( skill_id( "chemistry" ), 7 );
                 CHECK( dummy.get_book_mastery( alpha ) == book_mastery::MASTERED );
+            }
+        }
+    }
+}
+
+TEST_CASE( "reading a book for skill", "[reading][book][skill]" )
+{
+    clear_avatar();
+    Character &dummy = get_avatar();
+    dummy.set_body();
+    dummy.worn.emplace_back( "backpack" );
+
+    item &alpha = dummy.i_add( item( "recipe_alpha" ) );
+    REQUIRE( alpha.is_book() );
+
+    dummy.identify( alpha );
+    REQUIRE( dummy.has_identified( alpha.typeId() ) );
+
+    GIVEN( "a book you can learn from" ) {
+        dummy.set_knowledge_level( skill_id( "chemistry" ), 6 );
+        REQUIRE( dummy.get_book_mastery( alpha ) == book_mastery::LEARNING );
+
+        dummy.set_focus( 100 );
+        WHEN( "reading the book 100 times" ) {
+            const cata::value_ptr<islot_book> bkalpha_islot = alpha.type->book;
+            SkillLevel &avatarskill = dummy.get_skill_level_object( bkalpha_islot->skill );
+
+            for( int i = 0; i < 100; ++i ) {
+                read_activity_actor::read_book(
+                    *dummy.as_character(),
+                    bkalpha_islot,
+                    avatarskill,
+                    1.0 );
+            }
+
+            THEN( "gained a skill level" ) {
+                CHECK( dummy.get_knowledge_level( skill_id( "chemistry" ) ) > 6 );
+                CHECK( dummy.get_skill_level( skill_id( "chemistry" ) ) < 6 );
+                CHECK( dummy.get_book_mastery( alpha ) == book_mastery::MASTERED );
+            }
+        }
+    }
+}
+
+TEST_CASE( "reading a book with an ebook reader", "[reading][book][ereader]" )
+{
+    avatar &dummy = get_avatar();
+    clear_avatar();
+
+    WHEN( "reading a book" ) {
+
+        dummy.worn.emplace_back( item( "backpack" ) );
+        dummy.i_add( item( "atomic_lamp" ) );
+        REQUIRE( dummy.fine_detail_vision_mod() == 1 );
+
+        item &ereader = dummy.i_add( item( "test_ebook_reader" ) );
+
+        item book{"test_textbook_fabrication"};
+        ereader.put_in( book, item_pocket::pocket_type::EBOOK );
+
+        item battery( "test_battery_disposable" );
+        battery.ammo_set( battery.ammo_default(), 100 );
+        ereader.put_in( battery, item_pocket::pocket_type::MAGAZINE_WELL );
+
+        THEN( "player can read the book" ) {
+
+            item_location booklc{dummy, &book};
+            item_location ereaderlc{dummy, &ereader};
+
+            dummy.activity = player_activity(
+                                 read_activity_actor(
+                                     dummy.time_to_read( *booklc, dummy ),
+                                     booklc,
+                                     ereaderlc,
+                                     true
+                                 ) );
+
+            dummy.activity.start_or_resume( dummy, false );
+            REQUIRE( dummy.activity.id() == ACT_READ );
+            dummy.activity.do_turn( dummy );
+
+            CHECK( dummy.activity.id() == ACT_READ );
+
+            AND_THEN( "ereader runs out of battery" ) {
+                ereader.ammo_consume( 100, dummy.pos(), &dummy );
+                dummy.activity.do_turn( dummy );
+
+                THEN( "reading stops" ) {
+                    CHECK( dummy.activity.id() != ACT_READ );
+                }
             }
         }
     }

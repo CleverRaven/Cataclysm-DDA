@@ -1948,8 +1948,7 @@
       [ "optical_cloak", 1 ],
       [ "holo_cloak", 1 ],
       [ "backpack", 38 ],
-      { "item": "UPS_off", "prob": 5, "charges": [ 0, 1000 ] },
-      [ "adv_UPS_off", 3 ],
+      { "item": "UPS_off", "prob": 8, "charges": [ 0, 1000 ] },
       [ "tacvest", 10 ],
       [ "molle_pack", 8 ],
       [ "duffelbag", 15 ],
@@ -1989,8 +1988,7 @@
       { "item": "mil_mess_kit", "prob": 1, "charges": [ 0, 500 ] },
       [ "backpack", 38 ],
       [ "briefcase", 10 ],
-      { "item": "UPS_off", "prob": 5, "charges": [ 0, 1000 ] },
-      [ "adv_UPS_off", 3 ],
+      { "item": "UPS_off", "prob": 8, "charges": [ 0, 1000 ] },
       [ "chestguard_hard", 20 ],
       [ "armguard_hard", 20 ],
       [ "legguard_hard", 15 ],
@@ -2111,8 +2109,7 @@
       [ "legpouch_large", 6 ],
       [ "chestpouch", 9 ],
       [ "ammo_satchel", 4 ],
-      { "item": "UPS_off", "prob": 5, "charges": [ 0, 1000 ] },
-      [ "adv_UPS_off", 3 ],
+      { "item": "UPS_off", "prob": 8, "charges": [ 0, 1000 ] },
       [ "tacvest", 10 ],
       [ "molle_pack", 8 ],
       [ "legrig", 10 ],
@@ -2270,6 +2267,7 @@
       [ "armor_riot", 10 ],
       [ "swat_armor", 6 ],
       [ "armor_scrapsuit", 12 ],
+      [ "armor_tiresuit", 12 ],
       [ "armor_chitin", 2 ],
       [ "armor_lightplate", 1 ],
       [ "cuirass_lightplate", 2 ],
@@ -2304,6 +2302,7 @@
       [ "vest_leather", 22 ],
       [ "bunker_coat", 6 ],
       [ "bookplate", 10 ],
+      [ "tireplate", 10 ],
       [ "ballistic_vest_empty", 2 ],
       [ "ballistic_vest_esapi", 4 ],
       [ "dragonskin", 1 ],
@@ -2312,7 +2311,8 @@
       [ "jacket_leather", 12 ],
       [ "jacket_jean", 8 ],
       [ "jacket_flannel", 6 ],
-      [ "cuirass_scrap", 12 ]
+      [ "cuirass_scrap", 12 ],
+      [ "cuirass_tire", 12 ]
     ]
   },
   {
@@ -2327,7 +2327,8 @@
       [ "bunker_pants", 14 ],
       [ "pants_leather", 18 ],
       [ "chaps_leather", 10 ],
-      [ "legguard_scrap", 12 ]
+      [ "legguard_scrap", 12 ],
+      [ "legguard_tire", 12 ]
     ]
   },
   {
@@ -2349,6 +2350,7 @@
       [ "vambrace_larmor", 6 ],
       [ "armguard_chitin", 1 ],
       [ "armguard_scrap", 12 ],
+      [ "armguard_tire", 12 ],
       [ "gloves_fur", 4 ],
       [ "gloves_leather", 22 ],
       [ "gloves_work", 22 ],

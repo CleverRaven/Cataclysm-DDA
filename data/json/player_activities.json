@@ -27,6 +27,15 @@
     "auto_needs": true
   },
   {
+    "type": "activity_type",
+    "id": "ACT_EBOOKSAVE",
+    "activity_level": "NO_EXERCISE",
+    "verb": "taking pictures of the book",
+    "rooted": true,
+    "based_on": "speed",
+    "auto_needs": true
+  },
+  {
     "id": "ACT_MULTIPLE_CONSTRUCTION",
     "type": "activity_type",
     "activity_level": "BRISK_EXERCISE",
@@ -108,6 +117,17 @@
     "auto_needs": true
   },
   {
+    "id": "ACT_MULTIPLE_DIS",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "disassembling things",
+    "based_on": "neither",
+    "suspendable": false,
+    "no_resume": true,
+    "multi_activity": true,
+    "auto_needs": true
+  },
+  {
     "id": "ACT_MULTIPLE_BUTCHER",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
@@ -136,6 +156,13 @@
     "verb": "fishing",
     "based_on": "neither",
     "auto_needs": true
+  },
+  {
+    "type": "activity_type",
+    "id": "ACT_HARVEST",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": "harvesting",
+    "based_on": "speed"
   },
   {
     "id": "ACT_GENERIC_GAME",
@@ -180,7 +207,7 @@
     "verb": "disassembly",
     "suspendable": false,
     "rooted": true,
-    "based_on": "speed",
+    "based_on": "neither",
     "refuel_fires": true,
     "auto_needs": true
   },
@@ -666,6 +693,13 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_BOLTCUTTING",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": "cutting the wire",
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_PRY_NAILS",
     "type": "activity_type",
     "activity_level": "MODERATE_EXERCISE",
@@ -900,6 +934,14 @@
     "no_resume": true
   },
   {
+    "id": "ACT_BINDER_COPY_RECIPE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "writing",
+    "rooted": true,
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_MIGRATION_CANCEL",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -942,6 +984,14 @@
     "activity_level": "LIGHT_EXERCISE",
     "verb": { "ctxt": "training", "str": "working out" },
     "based_on": "time"
+  },
+  {
+    "id": "ACT_DISABLE",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "verb": "disabling",
+    "suspendable": false,
+    "based_on": "speed"
   },
   {
     "id": "ACT_FURNITURE_MOVE",

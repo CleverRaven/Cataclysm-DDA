@@ -217,6 +217,7 @@ rotation for the referenced overmap terrains (e.g. the `_north` version for all)
 | `sym`             | Symbol used when drawing the location, like `"F"` (or you may use an ASCII value like `70`).     |
 | `color`           | Color to draw the symbol in. See [COLOR.md](COLOR.md).                                           |
 | `looks_like`      | Id of another overmap terrain to be used for the graphical tile, if this doesn't have one.       |
+| `connect_group`   | Specify that this overmap terrain might be graphically connected to its neighbours, should a tileset wish to.  It will connect to any other `overmap_terrain` with the same `connect_group`. |
 | `see_cost`        | Affects player vision on overmap. Higher values obstruct vision more.                            |
 | `travel_cost`     | Affects pathfinding cost. Higher values are harder to travel through (reference: Forest = 10 )   |
 | `extras`          | Reference to a named `map_extras` in region_settings, defines which map extras can be applied.   |

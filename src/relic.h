@@ -169,7 +169,7 @@ struct relic_charge_info {
 
     // Because multiple different charge types can overlap, cache the power
     // level from the charge type we were generated from here to avoid confusion
-    int power = 0;
+    int power = 0; // NOLINT(cata-serialize)
 
     // accumulates time for charge, and increases charge if it has enough accumulated.
     // assumes exactly one second has passed.
@@ -187,7 +187,7 @@ class relic
         std::vector<enchantment> passive_effects;
 
         // the item's name will be replaced with this if the string is not empty
-        translation item_name_override;
+        translation item_name_override; // NOLINT(cata-serialize)
 
         relic_charge_info charge;
 

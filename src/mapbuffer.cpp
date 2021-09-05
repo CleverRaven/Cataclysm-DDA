@@ -14,7 +14,6 @@
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "filesystem.h"
-#include "game.h"
 #include "game_constants.h"
 #include "json.h"
 #include "map.h"
@@ -27,6 +26,12 @@
 #include "ui_manager.h"
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
+
+class game;
+// NOLINTNEXTLINE(cata-static-declarations)
+extern std::unique_ptr<game> g;
+// NOLINTNEXTLINE(cata-static-declarations)
+extern const int savegame_version;
 
 static std::string find_quad_path( const std::string &dirname, const tripoint &om_addr )
 {
@@ -126,6 +131,7 @@ void mapbuffer::save( bool delete_after_save )
                            num_saved_submaps, num_total_submaps );
             ui_manager::redraw();
             refresh_display();
+            inp_mngr.pump_events();
             last_update = now;
         }
         // Whatever the coordinates of the current submap are,

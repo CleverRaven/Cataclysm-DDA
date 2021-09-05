@@ -48,6 +48,7 @@ enum class iteminfo_parts : size_t {
     FOOD_HALLUCINOGENIC,
     FOOD_ROT,
     FOOD_CONSUME_TIME,
+    FOOD_HEALTH,
 
     MAGAZINE_CAPACITY,
     MAGAZINE_RELOAD,
@@ -92,6 +93,7 @@ enum class iteminfo_parts : size_t {
     GUN_DISPERSION_LOADEDAMMO,
     GUN_DISPERSION_TOTAL,
     GUN_DISPERSION_SIGHT,
+    GUN_CURRENT_LOUDNESS,
 
     GUN_RECOIL,
     GUN_RECOIL_BIPOD,

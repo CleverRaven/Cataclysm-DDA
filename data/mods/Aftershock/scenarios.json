@@ -92,7 +92,7 @@
     "points": 1,
     "description": "What was to be a routine cargo transfer ended in tragedy when, in a brief moment of chaos, your space ship was intercepted and destroyed by a StO missile.  As soon as the MAW alarm flared to life, you scrambled to the nearest escape pod and barely managed to reach the uncertain safety of the planet below.",
     "allowed_locs": [ "sloc_escape_pod" ],
-    "professions": [ "afs_espatier", "afs_rating", "afs_captain_bearman" ],
+    "professions": [ "afs_espatier", "afs_rating" ],
     "flags": [ "LONE_START" ],
     "start_name": "Escape Pod"
   },
@@ -103,7 +103,7 @@
     "start_name": "Augmentation Clinic",
     "flags": [ "LONE_START", "CHALLENGE" ],
     "traits": [
-      "MARTIAL_ARTS_CF",
+      "MARTIAL_ARTS",
       "URSINE_EYE",
       "MIGO_BREATHE",
       "FANGS",
@@ -146,7 +146,6 @@
       "HEAVYSLEEPER2",
       "FLEET",
       "OUTDOORSMAN",
-      "PARKOUR",
       "GOODCARDIO",
       "QUICK",
       "DEFT",

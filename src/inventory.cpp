@@ -17,7 +17,6 @@
 #include "flag.h"
 #include "iexamine.h"
 #include "inventory_ui.h" // auto inventory blocking
-#include "item_contents.h"
 #include "item_pocket.h"
 #include "item_stack.h"
 #include "map.h"
@@ -483,7 +482,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
 
     for( const tripoint &p : pts ) {
         // a temporary hack while trees are terrain
-        if( m.ter( p )->has_flag( "TREE" ) ) {
+        if( m.ter( p )->has_flag( ter_furn_flag::TFLAG_TREE ) ) {
             provide_pseudo_item( itype_id( "butchery_tree_pseudo" ), 0 );
         }
         const furn_t &f = m.furn( p ).obj();
@@ -1031,17 +1030,18 @@ void inventory::reassign_item( item &it, char invlet, bool remove_old )
     update_cache_with_item( it );
 }
 
-void inventory::update_invlet( item &newit, bool assign_invlet )
+void inventory::update_invlet( item &newit, bool assign_invlet,
+                               const item *ignore_invlet_collision_with )
 {
-    // Avoid letters that have been manually assigned to other things.
-    if( newit.invlet && assigned_invlet.find( newit.invlet ) != assigned_invlet.end() &&
-        assigned_invlet[newit.invlet] != newit.typeId() ) {
-        newit.invlet = '\0';
-    }
-
-    // Remove letters that are not in the favorites cache
     if( newit.invlet ) {
-        if( !invlet_cache.contains( newit.invlet, newit.typeId() ) ) {
+        // Avoid letters that have been manually assigned to other things.
+        if( assigned_invlet.find( newit.invlet ) != assigned_invlet.end() ) {
+            if( assigned_invlet[newit.invlet] != newit.typeId() ) {
+                newit.invlet = '\0';
+            }
+
+            // Remove letters that are not in the favorites cache
+        } else if( !invlet_cache.contains( newit.invlet, newit.typeId() ) ) {
             newit.invlet = '\0';
         }
     }
@@ -1051,7 +1051,9 @@ void inventory::update_invlet( item &newit, bool assign_invlet )
     if( newit.invlet ) {
         char tmp_invlet = newit.invlet;
         newit.invlet = '\0';
-        if( player_character.invlet_to_item( tmp_invlet ) == nullptr ) {
+        item *collidingItem = player_character.invlet_to_item( tmp_invlet );
+
+        if( collidingItem == nullptr || collidingItem == ignore_invlet_collision_with ) {
             newit.invlet = tmp_invlet;
         }
     }

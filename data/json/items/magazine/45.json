@@ -174,8 +174,8 @@
     "id": "ppq45mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": { "str": "PPQ .45 12-round amgazine" },
-    "description": "A 12 round steel box magazine for the PPQ pistol",
+    "name": { "str": "PPQ .45 12-round magazine" },
+    "description": "A 12 round steel box magazine for the PPQ pistol.",
     "variants": [
       {
         "id": "ppq45mag",

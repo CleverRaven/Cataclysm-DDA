@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <fstream>
 #include <functional>
 #include <map>
 #include <string>
@@ -832,13 +831,13 @@ void safemode::load( const bool is_character_in )
 {
     is_character = is_character_in;
 
-    std::ifstream fin;
+    cata::ifstream fin;
     std::string file = PATH_INFO::safemode();
     if( is_character ) {
         file = PATH_INFO::player_base_save_path() + ".sfm.json";
     }
 
-    fin.open( file.c_str(), std::ifstream::in | std::ifstream::binary );
+    fin.open( fs::u8path( file ), std::ifstream::in | std::ifstream::binary );
 
     if( fin.good() ) {
         try {

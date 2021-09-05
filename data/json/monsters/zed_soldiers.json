@@ -135,7 +135,7 @@
           "fake_dex": 8,
           "fake_per": 8,
           "require_targeting_player": false,
-          "description": "The acid-sniper zombie launches a corrosive dart!",
+          "description": "The %s launches a corrosive dart!",
           "ranges": [ [ 2, 20, "DEFAULT" ] ]
         }
       ],
@@ -171,7 +171,7 @@
           "fake_dex": 8,
           "fake_per": 8,
           "require_targeting_player": false,
-          "description": "The acid-support zombie launches a hail of corrosive darts!",
+          "description": "The %s launches a hail of corrosive darts!",
           "ranges": [ [ 2, 8, "DEFAULT" ] ]
         }
       ],
@@ -215,7 +215,7 @@
     "harvest": "zombie_kevlar",
     "special_attacks": [
       { "id": "slam", "cooldown": 10, "damage_max_instance": [ { "damage_type": "bash", "amount": 12 } ] },
-      [ "SMASH", 30 ]
+      { "id": "smash", "throw_strength": 36, "cooldown": 30 }
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",
     "upgrades": { "half_life": 42, "into": "mon_zombie_kevlar_2" },
@@ -256,7 +256,7 @@
       { "id": "slam", "cooldown": 12, "damage_max_instance": [ { "damage_type": "bash", "amount": 35 } ] },
       { "id": "longswipe" },
       { "id": "cut_throat" },
-      [ "SMASH", 20 ]
+      { "id": "smash", "throw_strength": 72 }
     ],
     "death_drops": "mon_zombie_kevlar_death_drops",
     "burn_into": "mon_zombie_scorched",
@@ -409,7 +409,7 @@
     "id": "mon_zombie_bio_op",
     "type": "MONSTER",
     "name": { "str": "zombie bio-operator" },
-    "description": "This armored and augmented soldier's bionics crackle with energy.  Worse, it appears to remember its training.",
+    "description": "This armored soldier appears to have been some sort of special forces agent.  Its malfunctioning equipment sends out occasional series of sparks.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
@@ -435,7 +435,7 @@
     "vision_day": 50,
     "vision_night": 3,
     "luminance": 4,
-    "harvest": "CBM_OP",
+    "harvest": "zombie",
     "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
     "special_when_hit": [ "ZAPBACK", 75 ],
     "death_drops": "mon_zombie_bio_op_death_drops",
@@ -459,7 +459,7 @@
     "id": "mon_zombie_bio_op2",
     "type": "MONSTER",
     "name": { "str": "elite zombie bio-operator" },
-    "description": "Once a highly trained soldier, various bionics cover this zombie's broken body.  Strangely, it maintains a vague martial arts stance.",
+    "description": "Once a highly trained soldier, this zombie is still in heavy military gear and dangerous physical condition.  Its malfunctioning equipment sends out occasional series of sparks.",
     "copy-from": "mon_zombie_bio_op",
     "looks_like": "mon_zombie_bio_op",
     "diff": 10,
@@ -468,7 +468,7 @@
     "dodge": 4,
     "armor_bash": 15,
     "armor_cut": 27,
-    "harvest": "CBM_OP2",
+    "harvest": "zombie",
     "special_attacks": [ [ "BIO_OP_BIOJUTSU", 15 ] ]
   }
 ]

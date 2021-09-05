@@ -34,9 +34,9 @@
       ],
       "terrain": {
         ".": [ [ "t_region_groundcover_forest", 4 ], [ "t_region_tree", 1 ] ],
-        "|": "t_soil",
-        ",": "t_dirt_underground",
-        "%": [ "t_soil", "t_region_groundcover_forest" ],
+        "|": "t_rock",
+        ",": "t_rock_roof",
+        "%": [ "t_rock", "t_region_groundcover_forest" ],
         ";": "t_dirt",
         "<": "t_slope_down"
       },
@@ -85,10 +85,10 @@
       ],
       "terrain": {
         ".": [ [ "t_region_groundcover_forest", 4 ], [ "t_region_tree", 1 ] ],
-        "|": "t_soil",
-        "%": [ "t_soil", "t_region_groundcover_forest" ],
+        "|": "t_rock",
+        "%": [ "t_rock", "t_region_groundcover_forest" ],
         ";": "t_dirt",
-        ",": "t_dirt_underground",
+        ",": "t_rock_roof",
         "<": "t_slope_down"
       },
       "furniture": {  }
@@ -129,11 +129,11 @@
       ],
       "terrain": {
         ".": [ [ "t_region_groundcover_forest", 4 ], [ "t_region_tree", 1 ] ],
-        "|": "t_soil",
-        "%": [ "t_soil", "t_region_groundcover_forest" ],
+        "|": "t_rock",
+        "%": [ "t_rock", "t_region_groundcover_forest" ],
         ";": "t_dirt",
-        ",": "t_dirt_underground",
-        "W": "t_dirt_underground",
+        ",": "t_rock_roof",
+        "W": "t_rock_roof",
         "<": "t_slope_down"
       },
       "furniture": {  },
@@ -176,11 +176,11 @@
       ],
       "terrain": {
         ".": [ [ "t_region_groundcover_forest", 4 ], [ "t_region_tree", 1 ] ],
-        "|": "t_soil",
-        "%": [ "t_soil", "t_region_groundcover_forest" ],
+        "|": "t_rock",
+        "%": [ "t_rock", "t_region_groundcover_forest" ],
         ";": "t_dirt",
-        ",": "t_dirt_underground",
-        "W": "t_dirt_underground",
+        ",": "t_rock_roof",
+        "W": "t_rock_roof",
         "<": "t_slope_down"
       },
       "fields": { "W": { "field": "fd_web", "intensity": 1, "age": 10 } },
@@ -222,11 +222,11 @@
       ],
       "terrain": {
         ".": [ [ "t_region_groundcover_forest", 4 ], [ "t_region_tree", 1 ] ],
-        "|": "t_soil",
-        "%": [ "t_soil", "t_region_groundcover_forest" ],
+        "|": "t_rock",
+        "%": [ "t_rock", "t_region_groundcover_forest" ],
         ";": "t_dirt",
-        ",": "t_dirt_underground",
-        "B": "t_dirt_underground",
+        ",": "t_rock_roof",
+        "B": "t_rock_roof",
         "<": "t_slope_down"
       },
       "furniture": {  },
@@ -268,12 +268,12 @@
       ],
       "terrain": {
         ".": [ [ "t_region_groundcover_forest", 4 ], [ "t_region_tree", 1 ] ],
-        "|": "t_soil",
-        "%": [ "t_soil", "t_region_groundcover_forest" ],
+        "|": "t_rock",
+        "%": [ "t_rock", "t_region_groundcover_forest" ],
         ";": "t_dirt",
-        ",": "t_dirt_underground",
-        "B": "t_dirt_underground",
-        "W": "t_dirt_underground",
+        ",": "t_rock_roof",
+        "B": "t_rock_roof",
+        "W": "t_rock_roof",
         "<": "t_slope_down"
       },
       "furniture": {  },
@@ -316,12 +316,12 @@
       ],
       "terrain": {
         ".": [ [ "t_region_groundcover_forest", 4 ], [ "t_region_tree", 1 ] ],
-        "|": "t_soil",
-        "%": [ "t_soil", "t_region_groundcover_forest" ],
+        "|": "t_rock",
+        "%": [ "t_rock", "t_region_groundcover_forest" ],
         ";": "t_dirt",
-        ",": "t_dirt_underground",
-        "B": "t_dirt_underground",
-        "W": "t_dirt_underground",
+        ",": "t_rock_roof",
+        "B": "t_rock_roof",
+        "W": "t_rock_roof",
         "<": "t_slope_down"
       },
       "fields": { "W": { "field": "fd_web", "intensity": 1, "age": 10 } },
@@ -363,12 +363,12 @@
       ],
       "terrain": {
         ".": [ [ "t_region_groundcover_forest", 4 ], [ "t_region_tree", 1 ] ],
-        "|": "t_soil",
-        "%": [ "t_soil", "t_region_groundcover_forest" ],
+        "|": "t_rock",
+        "%": [ "t_rock", "t_region_groundcover_forest" ],
         ";": "t_dirt",
-        ",": "t_dirt_underground",
-        "B": "t_dirt_underground",
-        "W": "t_dirt_underground",
+        ",": "t_rock_roof",
+        "B": "t_rock_roof",
+        "W": "t_rock_roof",
         "<": "t_slope_down"
       },
       "furniture": {  },
@@ -411,17 +411,17 @@
       ],
       "terrain": {
         ".": [ [ "t_region_groundcover_forest", 4 ], [ "t_region_tree", 1 ] ],
-        "|": "t_soil",
-        "%": [ "t_soil", "t_region_groundcover_forest" ],
-        ";": "t_dirt",
-        "!": "t_dirt",
-        "?": "t_dirt",
-        "#": "t_dirt",
-        "~": "t_dirt",
-        "@": "t_dirt_underground",
-        ",": "t_dirt_underground",
-        "q": "t_dirt_underground",
-        "R": "t_dirt"
+        "|": "t_rock",
+        "%": [ "t_rock", "t_region_groundcover_forest" ],
+        ";": "t_rock_floor_no_roof",
+        "!": "t_rock_floor_no_roof",
+        "?": "t_rock_floor_no_roof",
+        "#": "t_rock_floor_no_roof",
+        "~": "t_rock_floor_no_roof",
+        "@": "t_rock_roof",
+        ",": "t_rock_roof",
+        "q": "t_rock_roof",
+        "R": "t_rock_floor_no_roof"
       },
       "furniture": { "R": [ [ "f_boulder_small", 1 ], [ "f_null", 10 ] ] },
       "item": {
@@ -479,7 +479,7 @@
         "............,...........",
         "............>..........."
       ],
-      "terrain": { ".": "t_soil", ",": "t_dirt", "W": "t_dirt", ">": "t_slope_up", "~": "t_water_dp" },
+      "terrain": { ".": "t_soil", ",": "t_dirt_underground", "W": "t_dirt_underground", ">": "t_slope_up", "~": "t_water_dp" },
       "furniture": { "W": "f_boulder_small" },
       "item": { "W": { "item": "longsword", "chance": 100 } },
       "monster": {
@@ -497,7 +497,7 @@
     "om_terrain": [ "cave_underground" ],
     "weight": 1000,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_dirt_underground",
       "rotation": [ 0, 3 ],
       "rows": [
         "........................",
@@ -525,7 +525,7 @@
         "............,...........",
         "............>..........."
       ],
-      "terrain": { ".": "t_soil", ",": "t_dirt", ">": "t_slope_up" },
+      "terrain": { ".": "t_soil", ",": "t_dirt_underground", ">": "t_slope_up" },
       "furniture": {  },
       "items": { "~": [ { "item": "monparts", "chance": 2 }, { "item": "trash_forest", "chance": 2 } ] }
     }
@@ -536,7 +536,7 @@
     "om_terrain": [ "cave_underground" ],
     "weight": 800,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_dirt_underground",
       "rotation": [ 0, 3 ],
       "rows": [
         "........................",
@@ -564,7 +564,7 @@
         "............ ...........",
         "............>..........."
       ],
-      "terrain": { ".": "t_soil", " ": "t_dirt", ">": "t_slope_up" },
+      "terrain": { ".": "t_soil", " ": "t_dirt_underground", ">": "t_slope_up" },
       "furniture": {  },
       "monster": { "M": { "monster": "mon_nakedmolerat_giant" }, " ": { "monster": "mon_nakedmolerat_giant", "chance": 2 } }
     }
@@ -575,7 +575,7 @@
     "om_terrain": [ "cave_underground" ],
     "weight": 500,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_dirt_underground",
       "rotation": [ 0, 3 ],
       "rows": [
         "........................",
@@ -603,7 +603,7 @@
         "...........,,,..........",
         "............>..........."
       ],
-      "terrain": { ".": "t_soil", ",": "t_dirt", "!": "t_dirt", ">": "t_slope_up" },
+      "terrain": { ".": "t_soil", ",": "t_dirt_underground", "!": "t_dirt_underground", ">": "t_slope_up" },
       "furniture": { "C": "f_crate_c", "S": "f_utility_shelf", "G": [ "f_grave_stone_old", "f_grave_head", "f_grave_monument" ] },
       "item": {
         "!": { "item": "material_soil", "chance": 40, "amount": [ 5, 10 ] },
@@ -618,7 +618,7 @@
     "om_terrain": [ "cave_underground" ],
     "weight": 250,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_dirt_underground",
       "rotation": [ 0, 3 ],
       "rows": [
         "........................",
@@ -646,7 +646,7 @@
         "............ ....F.7J G.",
         "............>..........."
       ],
-      "terrain": { ".": "t_soil", " ": "t_dirt", ">": "t_slope_up" },
+      "terrain": { ".": "t_soil", " ": "t_dirt_underground", ">": "t_slope_up" },
       "furniture": {
         "f": "f_firering",
         "c": "f_camp_chair",
@@ -688,7 +688,7 @@
     "om_terrain": [ "cave_underground" ],
     "weight": 700,
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_dirt_underground",
       "rotation": [ 0, 3 ],
       "rows": [
         "........................",
@@ -716,7 +716,7 @@
         "........... 2 ..........",
         "............>..........."
       ],
-      "terrain": { ".": "t_soil", " ": "t_dirt", ">": "t_slope_up", "2": "t_railroad_track_small" },
+      "terrain": { ".": "t_soil", " ": "t_dirt_underground", ">": "t_slope_up", "2": "t_railroad_track_small" },
       "furniture": {  },
       "item": { "1": { "item": "broken_molebot", "chance": 2 } },
       "items": { "1": { "item": "cave_minerals", "chance": 40, "repeat": [ 1, 3 ] } },
@@ -728,7 +728,7 @@
     "method": "json",
     "om_terrain": [ "cave_rat_underground" ],
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_dirt_underground",
       "rotation": [ 0, 3 ],
       "rows": [
         "1...........2...........",
@@ -756,7 +756,7 @@
         "......................  ",
         "...................... <"
       ],
-      "terrain": { ".": "t_soil", " ": "t_dirt", ">": "t_slope_up", "<": "t_slope_down" },
+      "terrain": { ".": "t_soil", " ": "t_dirt_underground", ">": "t_slope_up", "<": "t_slope_down" },
       "furniture": {  },
       "nested": {
         "1": { "chunks": [ "cave_nw" ] },
@@ -771,7 +771,7 @@
     "method": "json",
     "om_terrain": [ "cave_rat" ],
     "object": {
-      "fill_ter": "t_dirt",
+      "fill_ter": "t_rock_floor",
       "rotation": [ 0, 3 ],
       "rows": [
         "........................",
@@ -800,10 +800,10 @@
         "........................"
       ],
       "terrain": {
-        " ": "t_dirt",
-        ".": "t_soil",
-        "|": [ [ "t_soil", 20 ], [ "t_dirt", 80 ] ],
-        "%": [ "t_soil", "t_dirt" ],
+        " ": "t_rock_floor",
+        ".": "t_rock",
+        "|": [ [ "t_rock", 20 ], [ "t_rock_floor", 80 ] ],
+        "%": [ "t_rock", "t_rock_floor" ],
         "<": "t_slope_up"
       },
       "furniture": {  },

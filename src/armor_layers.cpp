@@ -1,5 +1,3 @@
-#include "player.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <climits>
 #include <cstddef>
@@ -424,7 +422,7 @@ static void draw_grid( const catacurses::window &w, int left_pane_w, int mid_pan
     wnoutrefresh( w );
 }
 
-void player::sort_armor()
+void Character::sort_armor()
 {
     /* Define required height of the right pane:
     * + 3 - horizontal lines;
@@ -710,7 +708,7 @@ void player::sort_armor()
 
     bool exit = false;
     while( !exit ) {
-        if( is_player() ) {
+        if( is_avatar() ) {
             // Totally hoisted this from advanced_inv
             if( player_character.moves < 0 ) {
                 do_return_entry();
@@ -719,11 +717,11 @@ void player::sort_armor()
         } else {
             // Player is sorting NPC's armor here
             if( rl_dist( player_character.pos(), pos() ) > 1 ) {
-                add_msg_if_npc( m_bad, _( "%s is too far to sort armor." ), name );
+                add_msg_if_npc( m_bad, _( "%s is too far to sort armor." ), get_name() );
                 return;
             }
             if( attitude_to( player_character ) != Creature::Attitude::FRIENDLY ) {
-                add_msg_if_npc( m_bad, _( "%s is not friendly!" ), name );
+                add_msg_if_npc( m_bad, _( "%s is not friendly!" ), get_name() );
                 return;
             }
         }
