@@ -17,6 +17,8 @@
     "morale": 100,
     "melee_cut": 0,
     "vision_day": 1,
+    "armor_bullet": 100,
+    "weakpoints": [ { "name": "knee", "armor_mult": { "bullet": 0.5 }, "armor_penalty": { "bullet": 25 }, "coverage": 50 } ],
     "harvest": "exempt",
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "regenerates": 50,
