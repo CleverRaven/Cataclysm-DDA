@@ -61,11 +61,21 @@
   },
   {
     "//": "table of contents: common response strings appearing in this list of topics",
-    "id": [ "TALK_EXODII_MERCHANT_New", "TALK_EXODII_MERCHANT_Dialect" ],
+    "id": [
+      "TALK_EXODII_MERCHANT_New",
+      "TALK_EXODII_MERCHANT_Base",
+      "TALK_EXODII_MERCHANT_Dialect",
+      "TALK_EXODII_MERCHANT_DoneTrade",
+      "TALK_EXODII_MERCHANT_Exodus",
+      "TALK_EXODII_MERCHANT_Purpose",
+      "TALK_EXODII_MERCHANT_Talk",
+      "TALK_EXODII_MERCHANT_Tech"
+    ],
     "type": "talk_topic",
     "responses": [
       { "text": "I don't understand a word you're saying.", "topic": "TALK_EXODII_MERCHANT_Dialect" },
       { "//": "--- the following require you to have done merchant_new first ---" },
+      { "text": "What've you got for trade?", "effect": "start_trade", "topic": "TALK_EXODII_MERCHANT_DoneTrade" },
       {
         "text": "[int 9] You're called exodii?  Does that mean you were driven out of your home?",
         "topic": "TALK_EXODII_MERCHANT_Exodus"
@@ -147,6 +157,11 @@
     "dynamic_line": "Us call us the exodii, eh?  An' other things, but that'n's good."
   },
   {
+    "id": "TALK_EXODII_MERCHANT_DoneTrade",
+    "type": "talk_topic",
+    "dynamic_line": [ "Good an' fine, then.", "Have it as ye'll see.", "For a card an' a wink, eh?" ]
+  },
+  {
     "id": "TALK_EXODII_MERCHANT_Talk",
     "type": "talk_topic",
     "dynamic_line": "Sure as you c'n try.  Us're not the greatest yapper, nor do it all for gratis, kennit."
@@ -184,6 +199,7 @@
     "id": "TALK_EXODII_MERCHANT_Purpose_Dialect",
     "type": "talk_topic",
     "dynamic_line": "Us're here to live and breathe, kennit?  After our last otherland got a li'l too dead an' all.  So, us'n came to a new place.  This'n.  An I'm ken, it's not so long dead round here jus' yet.",
+    "//~": "English: We're just here to survive, you understand?  Our last world got too overrun with undead.  So, we came to a new world.  This one.  If I'm not mistaken, it's not so long dead around here just yet.",
     "responses": [
       { "text": "[int or per 7] Otherland?  Are you aliens or something?", "topic": "TALK_EXODII_MERCHANT_Aliens" },
       { "text": "Is there anything else you want from this place?", "topic": "TALK_EXODII_MERCHANT_Purpose2" }
@@ -193,6 +209,7 @@
     "id": "TALK_EXODII_MERCHANT_Purpose2",
     "type": "talk_topic",
     "dynamic_line": "Aside from jus' livin' in such a cozy nook?  Us be minin', ye kennit.  Pickin' the scraps, seein' if for your otherland has any tech worth an upside-down.  No sense lettin' good scraps go to waste.  If we’re lucky, pickin' a few new exodii afore we wobble out.  Pickin' up the pieces of our sweet, shattered dreams, suchlike.",
+    "//~": "English: Aside from just having a safe place to live?  We're here to mine, you understand.  Picking the scraps, seeing if this world has any tech worth reverse engineering.  No sense letting good scraps go to waste.  If we're lucky, maybe we'll get some new Exodii before we teleport out.  Pickin' up the pieces of our sweet, shattered dreams, such as they are.",
     "responses": [
       {
         "text": "What do you mean 'go to waste'?  The zombies aren't using the scrap, and there's plenty to go around.",
@@ -204,6 +221,7 @@
     "id": "TALK_EXODII_MERCHANT_Purpose3",
     "type": "talk_topic",
     "dynamic_line": "This'n be a deadland, an I'm ken.  You gots you a case o' the willies ain't gonna sing along.  No cure for these rats and fleas.",
+    "//~": "English: This is a deadland, don't you see?  You've already got an infestation and it's not going away.  There's no cure for the zombies.",
     "responses": [
       { "text": "What the hell does that mean?", "topic": "TALK_EXODII_MERCHANT_Purpose4" },
       {
@@ -216,6 +234,7 @@
     "id": "TALK_EXODII_MERCHANT_Purpose4",
     "type": "talk_topic",
     "dynamic_line": "Means what it means.  Your land's a deadun', still kickin' is all.",
+    "//~": "English: It means what it means.  Your land's dead already, it's just still kicking is all.",
     "responses": [
       {
         "text": "Are you saying you think we're doomed?  Why would you have come here if there wasn’t some way to survive?",
@@ -227,7 +246,28 @@
     "id": "TALK_EXODII_MERCHANT_Survival",
     "type": "talk_topic",
     "dynamic_line": "Oh, us can wobble along as needs.  Sends the scrap back, brings in the foods, and shakes off a willie or three, kennit.  No good for you, won’t take too much flesh an' bone.",
+    "//~": "English: Oh, we can teleport along as we need to.  We send the scrap along, then the food, and shake off some baddies, you understand.  It's no good for you though, it won't take too much flesh and bone.",
     "responses": [ { "text": "Well… could you help me fix that?", "topic": "TALK_EXODII_MERCHANT_Exodize" } ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_Exodize",
+    "type": "talk_topic",
+    "dynamic_line": "Oh HO!  Well, well.  Now you're yarkin' the King's Anglic.  Aye, us'n can fix ye good, if'n ye're tassed to repay it in kind.  Us'll speak it as clear-like as this Rubik can.  If ye'n use it to put the dead back in the ground, us'n can fix ye with some goods like this, aye.  Stuck in the flesh and to the bone, wired into the brain.  Ye kennit?  If no, us'll speak to the Great Grey for a pint o' the ol' clarity-draught.",
+    "//~": "English: Oh, well.  Now you're speaking my language.  We can fix you up good, if you're willing to pay us back.  I'll say it as clearly as I can.  If you help us kill the undead, we can help you get fixed up like us, yeah.  Stuck right into your flesh and bone and wired into your brain.  You understand?  If not, we'll ask the Great Grey to help clear it up.",
+    "responses": [ { "text": "Maybe try that clarity-draught?", "topic": "TALK_EXODII_MERCHANT_ExodizeTranslate" } ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_ExodizeTranslate",
+    "type": "talk_topic",
+    "dynamic_line": "Hmm.\n\n*Rubik's voice becomes mechanical and distant for a moment, as if a computer takes over speaking.*  \n\nIn exchange for the guarantee that you will use these gifts to combat the Great Enemy, this Exodii Node is willing to provide you with a bionic module command plexus, a power supply, and all the necessary infrastructure to obtain further upgrades with standardized CBMs - compact cybernetic modules.  We will require only a token fee for this service.  We will provide further upgrades as purchased.  Your personal improvement serves our mutual benefit.\n\n*Rubik's voice takes over again.*\n\nClear as a draught?",
+    "responses": [ { "text": "Why can't you talk that clearly all the time?", "topic": "TALK_EXODII_MERCHANT_ExodizeDialect" } ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_ExodizeDialect",
+    "type": "talk_topic",
+    "dynamic_line": "Great Grey has a bit o' work on it, kennit?  This'n has to keep usselves useful, an' keep Great Grey doin' what it's tassed.  Asides, yarkin' to the local brights keeps us young an' shines our chrome, an I'm ken.",
+    "//~": "English: Great Grey has more important work to do, get it?  I have to keep myself useful and keep Gret Grey doing what it's supposed to.  Besides, talking to the locals keeps me young and shines my chrome, as I see it.",
+    "responses": [ { "text": "Why can't you talk that clearly all the time?", "topic": "TALK_EXODII_MERCHANT_ExodizeDialect" } ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_Tech",
