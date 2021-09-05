@@ -135,7 +135,7 @@
       {
         "id": "buff_barbaran_onmove",
         "name": "Ricasso Step",
-        "description": "You switch or sturdy your grip mid-step to aid your blocking.\n\nBlocked damge reduced by 40% of Strength.\nPartially enables \"Saragossa Final\" technique, enables \"Impaling Revesas\" technique.\nLasts 3 turns.  Stacks 3 times.",
+        "description": "You switch or sturdy your grip mid-step to aid your blocking.\n\nBlocked damage reduced by 40% of Strength.\nPartially enables \"Saragossa Final\" technique, enables \"Impaling Revesas\" technique.  Lasts 3 turns.  Stacks 3 times.",
         "skill_requirements": [ { "name": "melee", "level": 2 } ],
         "melee_allowed": true,
         "max_stacks": 3,
