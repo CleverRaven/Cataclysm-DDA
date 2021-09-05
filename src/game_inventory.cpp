@@ -78,6 +78,47 @@ using item_location_filter = std::function<bool ( const item_location & )>;
 namespace
 {
 
+/**
+ * Return digits in base 10 ignoring minus sign.
+ *
+ * It exists as faster alternative to *_justify for justifiing integers.
+ * source: https://stackoverflow.com/a/4143288/5057078
+ */
+int n_digits( int i )
+{
+    if( i < 0 ) {
+        i = -i;
+    }
+    if( i <         10 ) {
+        return 1;
+    }
+    if( i <        100 ) {
+        return 2;
+    }
+    if( i <       1000 ) {
+        return 3;
+    }
+    if( i <      10000 ) {
+        return 4;
+    }
+    if( i <     100000 ) {
+        return 5;
+    }
+    if( i <    1000000 ) {
+        return 6;
+    }
+    if( i <   10000000 ) {
+        return 7;
+    }
+    if( i <  100000000 ) {
+        return 8;
+    }
+    if( i < 1000000000 ) {
+        return 9;
+    }
+    return 10;
+}
+
 std::string good_bad_none( int value )
 {
     if( value > 0 ) {
@@ -565,13 +606,26 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "QUENCH" ) );
 
             append_cell( [&you]( const item_location & loc ) {
-                const item &it = *loc;
-                if( it.has_flag( flag_MUSHY ) ) {
-                    return highlight_good_bad_none( you.fun_for( *loc ).first );
+                int joy = you.fun_for( *loc ).first;
+                std::string joy_str;
+                if( loc->has_flag( flag_MUSHY ) ) {
+                    joy_str = highlight_good_bad_none( joy );
                 } else {
-                    return good_bad_none( you.fun_for( *loc ).first );
+                    joy_str = good_bad_none( joy );
                 }
-            }, _( "JOY" ) );
+
+                int max_joy = you.fun_for( *loc, true ).first;
+                // max_joy should be 3 wide for aligment of '/'
+                if( max_joy == 0 ) {
+                    // this rarely will not be empty string
+                    return joy_str;
+                } else if( max_joy == joy ) {
+                    return joy_str + std::string( joy > 0 ? "<good>/  =</good>" : "<bad>/  =</bad>" );
+                } else {
+                    // max_joy has a sign, so up to two spaces have to be right_justified for max_joy to be 3 wide
+                    return joy_str + "/" + std::string( 2 - n_digits( max_joy ), ' ' ) + good_bad_none( max_joy );
+                }
+            }, _( "JOY/MAX" ) );
 
             append_cell( []( const item_location & loc ) {
                 const int healthy = loc->is_comestible() ? loc->get_comestible()->healthy : 0;

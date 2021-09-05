@@ -2968,8 +2968,13 @@ class Character : public Creature, public visitable
         /** Checks permanent morale for consistency and recovers it when an inconsistency is found. */
         void check_and_recover_morale();
 
-        /** Handles the enjoyability value for a comestible. First value is enjoyability, second is cap. **/
-        std::pair<int, int> fun_for( const item &comest ) const;
+        /**
+         * Handles the enjoyability value for a comestible.
+         *
+         * If `ignore_already_ate`, fun isn't affected by eating the food in past.
+         * Return First value is enjoyability, second is cap.
+         */
+        std::pair<int, int> fun_for( const item &comest, bool ignore_already_ate = false ) const;
 
         /** Handles a large number of timers decrementing and other randomized effects */
         void suffer();
