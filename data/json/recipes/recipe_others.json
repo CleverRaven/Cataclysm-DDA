@@ -56,6 +56,19 @@
   {
     "type": "recipe",
     "activity_level": "LIGHT_EXERCISE",
+    "result": "makeshift_pillow",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "tailor",
+    "time": "10 m",
+    "reversible": true,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 12 ] ],
+    "components": [ [ [ "rag", 4 ] ], [ [ "straw_pile", 3 ], [ "withered", 15 ], [ "pine_bough", 10 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "activity_level": "LIGHT_EXERCISE",
     "result": "bodypillow_makeshift",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",

@@ -34,6 +34,7 @@
 #include "rng.h"
 #include "translations.h"
 #include "units.h"
+#include "weakpoint.h"
 
 namespace behavior
 {
@@ -717,6 +718,11 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     assign( jo, "armor_stab", armor_stab, strict, 0 );
     assign( jo, "armor_acid", armor_acid, strict, 0 );
     assign( jo, "armor_fire", armor_fire, strict, 0 );
+
+    if( jo.has_array( "weakpoints" ) ) {
+        weakpoints.clear();
+        weakpoints.load( jo.get_array( "weakpoints" ) );
+    }
 
     optional( jo, was_loaded, "bleed_rate", bleed_rate, 100 );
 

@@ -84,7 +84,7 @@ void add_if_exists( const JsonObject &jo, Container &cont, bool was_loaded,
 class ma_skill_reader : public generic_typed_reader<ma_skill_reader>
 {
     public:
-        std::pair<skill_id, int> get_next( JsonObject jo ) const {
+        std::pair<skill_id, int> get_next( const JsonObject &jo ) const {
             return std::pair<skill_id, int>( skill_id( jo.get_string( "name" ) ), jo.get_int( "level" ) );
         }
         template<typename C>
@@ -101,7 +101,7 @@ class ma_weapon_damage_reader : public generic_typed_reader<ma_weapon_damage_rea
     public:
         std::map<std::string, damage_type> dt_map = get_dt_map();
 
-        std::pair<damage_type, int> get_next( JsonObject jo ) const {
+        std::pair<damage_type, int> get_next( const JsonObject &jo ) const {
             std::string type = jo.get_string( "type" );
             const auto iter = get_dt_map().find( type );
             if( iter == get_dt_map().end() ) {
@@ -111,7 +111,7 @@ class ma_weapon_damage_reader : public generic_typed_reader<ma_weapon_damage_rea
             return std::pair<damage_type, int>( dt, jo.get_int( "min" ) );
         }
         template<typename C>
-        void erase_next( JsonObject jo, C &container ) const {
+        void erase_next( const JsonObject &jo, C &container ) const {
             std::string type = jo.get_string( "type" );
             const auto iter = get_dt_map().find( type );
             if( iter == get_dt_map().end() ) {

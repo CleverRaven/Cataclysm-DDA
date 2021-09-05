@@ -327,14 +327,10 @@ static void check_two_handed_axes( const std::function<Approx( const std::string
         CHECK( calc_expected_dps( "e_combatsaw_on" ) == 28.0 );
         CHECK( calc_expected_dps( "combatsaw_on" ) == 28.0 );
         CHECK( calc_expected_dps( "chainsaw_on" ) == 16.0 );
-        CHECK( calc_expected_dps( "cs_lajatang_on" ) == 17.0 );
-        CHECK( calc_expected_dps( "ecs_lajatang_on" ) == 17.0 );
         CHECK( calc_expected_dps( "circsaw_on" ) == 18.0 );
         CHECK( calc_expected_dps( "e_combatsaw_off" ) == 3.0 );
-        CHECK( calc_expected_dps( "ecs_lajatang_off" ) == 3.0 );
         CHECK( calc_expected_dps( "combatsaw_off" ) == 3.0 );
         CHECK( calc_expected_dps( "chainsaw_off" ) == 2.0 );
-        CHECK( calc_expected_dps( "cs_lajatang_off" ) == 2.5 );
         CHECK( calc_expected_dps( "circsaw_off" ) == 1.25 );
     }
 }

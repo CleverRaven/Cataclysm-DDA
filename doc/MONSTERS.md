@@ -63,6 +63,7 @@ Monsters may also have any of these optional properties:
 | `armor_stab`             | (integer) Monster's protection from stab damage
 | `armor_acid`             | (integer) Monster's protection from acid damage
 | `armor_fire`             | (integer) Monster's protection from fire damage
+| `weakpoints`             | (array of objects) Weakpoints in the monster's protection
 | `vision_day`             | (integer) Vision range in full daylight, with `50` being the typical maximum
 | `vision_night`           | (integer) Vision range in total darkness, ex. coyote `5`, bear `10`, sewer rat `30`, flaming eye `40`
 | `tracking_distance`      | (integer) Amount of tiles the monster will keep between itself and its current tracked enemy or followed leader. Defaults to `3`.
@@ -314,6 +315,18 @@ Amount of cutting damage added to die roll on monster melee attack.
 (integer, optional)
 
 Monster protection from bashing, cutting, stabbing, acid and fire damage.
+
+## "weakpoints"
+(array of objects, optional)
+
+Weakpoints in the monster's protection.
+
+| field               | description
+| ---                 | ---
+| `name`              | Name of the weakpoint.
+| `coverage`          | Base percentage chance of hitting the weakpoint. May be increased by skill level. (e.g. A coverage of 5 means a 5% base chance of hitting the weakpoint)
+| `armor_multiplier`  | multipler on the monster's base protection when hitting the weakpoint.
+| `armor_penalty`     | a flat penalty to the monster's protection, applied after the multiplier.
 
 ## "vision_day", "vision_night"
 (integer, optional)

@@ -3252,6 +3252,14 @@
     "components": [ [ [ "rag", 4 ] ], [ [ "cotton_ball", 8 ] ] ]
   },
   {
+    "result": "makeshift_pillow",
+    "type": "uncraft",
+    "activity_level": "NO_EXERCISE",
+    "time": "1 m",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rag", 4 ] ], [ [ "withered", 12 ] ] ]
+  },
+  {
     "result": "pipe",
     "type": "uncraft",
     "activity_level": "BRISK_EXERCISE",
