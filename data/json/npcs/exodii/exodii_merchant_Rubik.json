@@ -164,7 +164,7 @@
   {
     "id": "TALK_EXODII_MERCHANT_Talk",
     "type": "talk_topic",
-    "dynamic_line": "Sure as you c'n try.  Us're not the greatest yapper, nor do it all for gratis, kennit."
+    "dynamic_line": "Sure as you c'n try.  Us're not the greatest yarker, nor do it all for gratis, kennit."
   },
   {
     "id": "TALK_EXODII_MERCHANT_Exodus",
@@ -254,20 +254,71 @@
     "type": "talk_topic",
     "dynamic_line": "Oh HO!  Well, well.  Now you're yarkin' the King's Anglic.  Aye, us'n can fix ye good, if'n ye're tassed to repay it in kind.  Us'll speak it as clear-like as this Rubik can.  If ye'n use it to put the dead back in the ground, us'n can fix ye with some goods like this, aye.  Stuck in the flesh and to the bone, wired into the brain.  Ye kennit?  If no, us'll speak to the Great Grey for a pint o' the ol' clarity-draught.",
     "//~": "English: Oh, well.  Now you're speaking my language.  We can fix you up good, if you're willing to pay us back.  I'll say it as clearly as I can.  If you help us kill the undead, we can help you get fixed up like us, yeah.  Stuck right into your flesh and bone and wired into your brain.  You understand?  If not, we'll ask the Great Grey to help clear it up.",
-    "responses": [ { "text": "Maybe try that clarity-draught?", "topic": "TALK_EXODII_MERCHANT_ExodizeTranslate" } ]
+    "responses": [
+      {
+        "text": "If I just keep on killing zombies, you'll help turn me into a cyborg?  Why are we still yarkin', then?  Sign me the heck up.",
+        "topic": "TALK_EXODII_MERCHANT_ExodizeMe1"
+      },
+      {
+        "text": "On second thought, I'm not sure I want to let a bunch of unfamiliar alien robots do brain surgery on me.",
+        "topic": "TALK_EXODII_MERCHANT_ExodizeNope"
+      },
+      { "text": "Maybe try that clarity-draught?", "topic": "TALK_EXODII_MERCHANT_ExodizeTranslate" }
+    ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_ExodizeTranslate",
     "type": "talk_topic",
-    "dynamic_line": "Hmm.\n\n*Rubik's voice becomes mechanical and distant for a moment, as if a computer takes over speaking.*  \n\nIn exchange for the guarantee that you will use these gifts to combat the Great Enemy, this Exodii Node is willing to provide you with a bionic module command plexus, a power supply, and all the necessary infrastructure to obtain further upgrades with standardized CBMs - compact cybernetic modules.  We will require only a token fee for this service.  We will provide further upgrades as purchased.  Your personal improvement serves our mutual benefit.\n\n*Rubik's voice takes over again.*\n\nClear as a draught?",
-    "responses": [ { "text": "Why can't you talk that clearly all the time?", "topic": "TALK_EXODII_MERCHANT_ExodizeDialect" } ]
+    "dynamic_line": "Hmm.\n\n*Rubik's voice becomes mechanical and distant for a moment, as if a computer takes over speaking.*  \n\nIn exchange for the guarantee that you will use these gifts to combat the Great Enemy, this Exodii Node is willing to provide you with a bionic module command plexus, a power supply, and all the necessary infrastructure to obtain further upgrades with standardized CBMs - compact bionic modules.  We will require only a token fee for this service.  We will provide further upgrades as purchased.  Your personal improvement serves our mutual benefit.\n\n*Rubik's voice takes over again.*\n\nClear as a draught?",
+    "responses": [
+      {
+        "text": "If I just keep on killing zombies, you'll help turn me into a cyborg?  Why are we still yarkin', then?  Sign me the heck up.",
+        "topic": "TALK_EXODII_MERCHANT_ExodizeMe1"
+      },
+      {
+        "text": "On second thought, I'm not sure I want to let a bunch of unfamiliar alien robots do brain surgery on me.",
+        "topic": "TALK_EXODII_MERCHANT_ExodizeNope"
+      },
+      {
+        "text": "Why can't you talk that clearly all the time?  You have no idea how hard it is to understand your accent, let alone your words.",
+        "topic": "TALK_EXODII_MERCHANT_ExodizeDialect"
+      }
+    ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_ExodizeDialect",
     "type": "talk_topic",
-    "dynamic_line": "Great Grey has a bit o' work on it, kennit?  This'n has to keep usselves useful, an' keep Great Grey doin' what it's tassed.  Asides, yarkin' to the local brights keeps us young an' shines our chrome, an I'm ken.",
-    "//~": "English: Great Grey has more important work to do, get it?  I have to keep myself useful and keep Gret Grey doing what it's supposed to.  Besides, talking to the locals keeps me young and shines my chrome, as I see it.",
-    "responses": [ { "text": "Why can't you talk that clearly all the time?", "topic": "TALK_EXODII_MERCHANT_ExodizeDialect" } ]
+    "dynamic_line": "*This'n's* accent?  Ye've never egged y'r own yark, an' that's a fine fiddle.  Great Grey has a bit o' work on it, kennit?  This'n has to keep usselves useful, an' keep Great Grey doin' what it's tassed.  Asides, yarkin' to the local brights keeps us young an' shines our chrome, an I'm ken.",
+    "//~": "English: MY accent?  You've obviously never had to listen to yourself talk.  Great Grey has more important work to do, get it?  I have to keep myself useful and keep Gret Grey doing what it's supposed to.  Besides, talking to the locals keeps me young and shines my chrome, as I see it.",
+    "responses": [
+      {
+        "text": "Fine, whatever.  It doesn't matter, if you're gonna turn me into a horrifying fusion of machine and human, sign me the heck up.",
+        "topic": "TALK_EXODII_MERCHANT_ExodizeMe1"
+      },
+      {
+        "text": "The more I talk to you, the more I'm not sure I want to let a bunch of unfamiliar alien robots do brain surgery on me.",
+        "topic": "TALK_EXODII_MERCHANT_ExodizeNope"
+      },
+      { "text": "OK, OK.  What was it you said?  I was distracted by the voice change.", "topic": "TALK_NONE" }
+    ]
+  },
+  {
+    "id": "TALK_EXODII_MERCHANT_ExodizeMe1",
+    "type": "talk_topic",
+    "dynamic_line": "Fine an' fine, an' fine an' fine!  Ha!  Us'll rubber up the ol' gristle mill.  Yer tassed wi' bringin' us a nip o' good tea.  Not 'tea', o'course.  I'm yarkin dockside Anglic here.  Us means the stuff what puts y'to sleep f'r a chirurgery.  The Great Grey says y'r nightie for it is 'anus fetick'.  You bring us two 'anus fetick' kits, us'll fix'n ye up wi' a wire an' a tiff.",
+    "//~": "Great, great, great!!  Ha!  We'll fire up the old meat grinder.  Your job is to bring us a bit of good tea.  Not literally 'tea' of course.  That's my Anglic street slang.  I mean the stuff that puts you to sleep for surgery.  The Great Grey says your word for it is 'anesthetic'.  You bring us two anesthetic kits, we'll fix you up with a wire and everything.",
+    "responses": [
+      {
+        "text": "Two, uh, anesthetic kits, coming up.  Can we talk a bit more though?",
+        "effect": { "assign_mission": "EXODIZE_1_ANUS_FETICK" },
+        "topic": "TALK_EXODII_MERCHANT_Talk"
+      },
+      {
+        "text": "Two, uh, anesthetic kits, coming up.  See you later.",
+        "effect": { "assign_mission": "EXODIZE_1_ANUS_FETICK" },
+        "topic": "TALK_DONE"
+      }
+    ]
   },
   {
     "id": "TALK_EXODII_MERCHANT_Tech",
