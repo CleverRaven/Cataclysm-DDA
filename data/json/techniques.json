@@ -287,7 +287,7 @@
     "name": "Advancing Empuje",
     "messages": [ "You steady and shove %s with their weapon", "<npcname> steadies and shoves %s with their weapon" ],
     "skill_requirements": [ { "name": "melee", "level": 4 } ],
-	"melee_allowed": true,
+    "melee_allowed": true,
     "req_buffs": [ "buff_barbaran_onpause" ],
     "knockback_dist": 2,
     "mult_bonuses": [ { "stat": "movecost", "scale": 1.35 } ]
