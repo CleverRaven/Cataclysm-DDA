@@ -18,7 +18,10 @@
     "melee_cut": 0,
     "vision_day": 1,
     "armor_bullet": 100,
-    "weakpoints": [ { "name": "knee", "armor_mult": { "bullet": 0.5 }, "armor_penalty": { "bullet": 25 }, "coverage": 25 } ],
+    "weakpoints": [
+      { "name": "the knee", "armor_mult": { "bullet": 0.5 }, "armor_penalty": { "bullet": 25 }, "coverage": 25 },
+      { "name": "the bugs", "armor_mult": { "bullet": 0.0 }, "armor_penalty": { "bullet": 0 }, "coverage": 25 }
+    ],
     "harvest": "exempt",
     "death_function": { "corpse_type": "NO_CORPSE", "message": "The %s melts away." },
     "regenerates": 50,

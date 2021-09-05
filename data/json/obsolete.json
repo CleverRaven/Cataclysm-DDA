@@ -74,7 +74,7 @@
     "volume": "1250 ml",
     "price": 3000,
     "price_postapoc": 3000,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "!",
     "color": "red",
     "use_action": "DISASSEMBLE",

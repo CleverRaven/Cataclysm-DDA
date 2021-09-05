@@ -391,8 +391,8 @@ class Creature : public viewer
                                 damage_instance &dam ) = 0;
 
         // handles armor absorption (including clothing damage etc)
-        // of damage instance. mutates &dam
-        virtual void absorb_hit( const bodypart_id &bp, damage_instance &dam ) = 0;
+        // of damage instance. returns name of weakpoint hit, if any. mutates &dam.
+        virtual std::string absorb_hit( Creature *source, const bodypart_id &bp, damage_instance &dam ) = 0;
 
         // TODO: this is just a shim so knockbacks work
         void knock_back_from( const tripoint &p );
